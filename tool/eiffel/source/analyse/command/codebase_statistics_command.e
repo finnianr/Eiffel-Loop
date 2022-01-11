@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-06 12:57:04 GMT (Thursday 6th January 2022)"
-	revision: "14"
+	date: "2022-01-11 18:04:45 GMT (Tuesday 11th January 2022)"
+	revision: "15"
 
 class
 	CODEBASE_STATISTICS_COMMAND
@@ -77,7 +77,7 @@ feature -- Basic operations
 			lio.put_new_line
 		end
 
-	process_file (source_path: FILE_PATH)
+	do_with_file (source_path: FILE_PATH)
 		do
 			add_class_stats (create {CLASS_STATISTICS}.make_from_file (source_path))
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 9:55:50 GMT (Wednesday 1st September 2021)"
-	revision: "6"
+	date: "2022-01-11 17:16:52 GMT (Tuesday 11th January 2022)"
+	revision: "7"
 
 deferred class
 	EL_JPEG_FILE_INFO_COMMAND_I
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	date_time: DATE_TIME
+	date_time: EL_DATE_TIME
 
 feature -- Status query
 
@@ -67,7 +67,7 @@ feature {NONE} -- Implementation
 				lines.start
 				tail := lines.item.tail (19)
 				if tail.occurrences (':') = 4 then
-					create date_time.make_from_string (tail, Format_string)
+					create date_time.make_with_format (tail, Format_string)
 				end
 			end
 		end
@@ -80,7 +80,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Default_date_time: DATE_TIME
+	Default_date_time: EL_DATE_TIME
 		once
 			create Result.make_from_epoch (0)
 		end

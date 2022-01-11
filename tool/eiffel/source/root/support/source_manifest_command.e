@@ -9,28 +9,29 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-04 15:39:28 GMT (Tuesday 4th January 2022)"
-	revision: "10"
+	date: "2022-01-11 18:06:47 GMT (Tuesday 11th January 2022)"
+	revision: "11"
 
 deferred class
 	SOURCE_MANIFEST_COMMAND
 
 inherit
-	EL_COMMAND
-
-	EL_MODULE_LIO
-
-	EL_MODULE_TRACK
+	EL_FILE_LIST_COMMAND
+		redefine
+			execute, make_default
+		end
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (source_manifest_path: FILE_PATH)
 		do
+			make_default
 			create manifest.make_from_file (source_manifest_path)
 		end
 
 	make_default
 		do
+			Precursor
 			create manifest.make_default
 		end
 
@@ -44,39 +45,22 @@ feature -- Basic operations
 				lio.put_line (location.item.dir_path)
 			end
 			lio.put_new_line
-			if is_ordered then
-				file_list := manifest.sorted_file_list
-			else
-				file_list := manifest.file_list
-			end
-			lio.put_labeled_substitution ("Processsing", "%S files", [file_list.count])
-			lio.put_new_line
-			Track.progress (Console_display, file_list.count, agent iterate_files (file_list))
-			lio.put_new_line
+			Precursor
 		end
 
 feature {NONE} -- Implementation
 
-	iterate_files (file_list: ITERABLE [FILE_PATH])
-		do
-			across file_list as file_path loop
-				process_file (file_path.item)
-				Track.progress_listener.notify_tick
-			end
+	do_with_file (source_path: FILE_PATH)
+		deferred
 		end
 
-	process_file (source_path: FILE_PATH)
-		deferred
+	new_file_list: EL_FILE_PATH_LIST
+		do
+			Result := manifest.file_list
 		end
 
 feature -- Access
 
 	manifest: SOURCE_MANIFEST
-
-feature -- Status query
-
-	is_ordered: BOOLEAN
-		do
-		end
 
 end

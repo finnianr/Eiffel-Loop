@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-01-11 18:25:32 GMT (Tuesday 11th January 2022)"
+	revision: "10"
 
 class
 	UNDATED_PHOTO_FINDER
@@ -19,13 +19,13 @@ inherit
 		rename
 			make as make_command,
 			tree_dir as jpeg_tree_dir
-		undefine
-			new_lio
 		redefine
-			execute, extension_list
+			execute, file_extensions
 		end
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
+
+	EL_MODULE_COMMAND
 
 create
 	make
@@ -36,27 +36,19 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			make_command (a_jpeg_tree_dir)
 			create output.make_with_path (output_file_path)
-			create {EL_JPEG_FILE_INFO_COMMAND_IMP} jpeg_info.make_default
+			jpeg_info := Command.new_jpeg_info ("")
 		end
 
 feature -- Basic operations
 
 	execute
 		do
-			log.enter ("execute")
 			output.open_write
 			Precursor
 			output.close
-			log.exit
 		end
 
 feature {NONE} -- Implementation
-
-	extension_list: ARRAYED_LIST [READABLE_STRING_GENERAL]
-		do
-			Result := Precursor
-			Result.extend ("jpg")
-		end
 
 	do_with_file (file_path: FILE_PATH)
 		do
@@ -69,12 +61,12 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	jpeg_info: EL_JPEG_FILE_INFO_COMMAND_I
+	jpeg_info: like command.new_jpeg_info
 
 	output: EL_PLAIN_TEXT_FILE
 
 feature {NONE} -- Constants
 
-	Default_extension: STRING = "jpeg"
+	File_extensions: STRING = "jpeg, jpg"
 
 end

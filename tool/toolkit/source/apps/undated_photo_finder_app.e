@@ -1,8 +1,7 @@
 note
 	description: "[
-		Lists JPEG photos that lack the EXIF field `Exif.Photo.DateTimeOriginal'.
-		
-		See class [$source UNDATED_PHOTO_FINDER] for details.
+		Command line interface to [$source UNDATED_PHOTO_FINDER] which compiles a
+		list of JPEG photos that lack the EXIF field `Exif.Photo.DateTimeOriginal'.
 	]"
 
 	author: "Finnian Reilly"
@@ -10,42 +9,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "13"
+	date: "2022-01-11 19:42:25 GMT (Tuesday 11th January 2022)"
+	revision: "14"
 
 class
 	UNDATED_PHOTO_FINDER_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [UNDATED_PHOTO_FINDER]
-		rename
-			extra_log_filter_set as empty_log_filter_set
+	EL_COMMAND_LINE_SUB_APPLICATION [UNDATED_PHOTO_FINDER]
 		redefine
-			Option_name, normal_initialize, Test_data_dir
+			Option_name, visible_types
 		end
-
-	EL_MODULE_EXECUTION_ENVIRONMENT
 
 create
 	make
-
-feature -- Testing
-
-	test_run
-			--
-		do
-			Console.show ({UNDATED_PHOTO_FINDER})
-
-			Test.set_binary_file_extensions (<< "jpg" >>)
-			Test.do_file_tree_test ("images", agent test_scan, 2439913648)
-		end
-
-	test_scan (source_tree_path: DIR_PATH)
-			--
-		do
-			create command.make (source_tree_path, source_tree_path.parent + "undated-photos.txt")
-			command.execute
-		end
 
 feature {NONE} -- Implementation
 
@@ -62,10 +39,9 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make (".", "undated-photos.txt")
 		end
 
-	normal_initialize
+	visible_types: TUPLE [UNDATED_PHOTO_FINDER]
 		do
-			Console.show ({UNDATED_PHOTO_FINDER})
-			Precursor
+			create Result
 		end
 
 feature {NONE} -- Constants
@@ -75,13 +51,5 @@ feature {NONE} -- Constants
 	Description: STRING = "[
 		Make list of jpeg photos lacking a "Date time taken" EXIF info
 	]"
-
-	Test_data_dir: DIR_PATH
-			--
-		once
-			Result := Execution_environment.variable_dir_path ("ISE_EIFFEL").joined_dir_path (
-				"contrib/library/network/server/nino/example/SimpleWebServer/webroot/html"
-			)
-		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-04 21:30:42 GMT (Tuesday 4th January 2022)"
-	revision: "16"
+	date: "2022-01-11 18:04:45 GMT (Tuesday 11th January 2022)"
+	revision: "17"
 
 class
 	CLASS_RENAMING_COMMAND
@@ -68,7 +68,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	process_file (source_path: FILE_PATH)
+	do_with_file (source_path: FILE_PATH)
 		local
 			line: STRING; file: PLAIN_TEXT_FILE
 		do

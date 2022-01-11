@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "14"
+	date: "2022-01-11 18:01:44 GMT (Tuesday 11th January 2022)"
+	revision: "15"
 
 class
 	CHECK_LOCALE_STRINGS_COMMAND
@@ -17,10 +17,10 @@ class
 inherit
 	EL_FILE_TREE_COMMAND
 		rename
-			make as make_command,
-			tree_dir as source_dir
+			tree_dir as source_dir,
+			make as make_tree_command
 		redefine
-			new_file_list, execute
+			new_file_list, execute, make_default
 		end
 
 	EL_BUILDABLE_FROM_PYXIS
@@ -34,6 +34,8 @@ inherit
 		end
 
 	EL_MODULE_LOCALE
+
+	EL_MODULE_LIO
 
 	EL_LOCALE_CONSTANTS
 
@@ -63,9 +65,9 @@ feature {EL_SUB_APPLICATION} -- Initialization
 			create source_path
 			create localized_file_name_list.make_empty
 			create localized_www_body_path_list.make_empty
-			is_print_progress_disabled := True
 
-			Precursor
+			Precursor {EL_BUILDABLE_FROM_PYXIS}
+			Precursor {EL_FILE_TREE_COMMAND}
 		end
 
 feature -- Status query
@@ -249,7 +251,7 @@ feature {NONE} -- Factory
 			create Result.make_empty
 		end
 
-	new_file_list: EL_SORTABLE_ARRAYED_LIST [FILE_PATH]
+	new_file_list: EL_FILE_PATH_LIST
 		do
 			Result := Precursor
 			Result.append (included_files)
@@ -290,7 +292,7 @@ feature {NONE} -- Build from Pyxis
 		do
 			create Result.make (<<
 				["localized-file-names/@extension",			agent do last_localized_file_name_extension := node end],
-				["source-dir/text()",							agent do make_command (node.to_expanded_dir_path) end],
+				["source-dir/text()",							agent do source_dir := node.to_expanded_dir_path end],
 				["include/@name",									agent do additional_keys_table.put (new_empty_list, node) end],
 
 				["include-class/text()",						agent extend_file_list (included_files)],
@@ -379,7 +381,7 @@ feature {NONE} -- Constants
 			Result := "body"
 		end
 
-	Default_extension: STRING = "e"
+	File_extensions: STRING = "e"
 
 	English_prefixes: ARRAY [EL_READABLE_ZSTRING]
 		local

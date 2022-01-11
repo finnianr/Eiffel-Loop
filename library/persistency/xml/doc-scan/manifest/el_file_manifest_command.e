@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "4"
+	date: "2022-01-11 17:34:25 GMT (Tuesday 11th January 2022)"
+	revision: "5"
 
 class
 	EL_FILE_MANIFEST_COMMAND
@@ -19,6 +19,8 @@ inherit
 	EL_COMMAND
 
 	EL_MODULE_FILE_SYSTEM
+
+	EL_MODULE_TRACK
 
 	EL_MODULE_LIO
 

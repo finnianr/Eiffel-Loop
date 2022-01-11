@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-04 15:50:22 GMT (Tuesday 4th January 2022)"
-	revision: "12"
+	date: "2022-01-11 18:04:45 GMT (Tuesday 11th January 2022)"
+	revision: "13"
 
 class
 	UNDEFINE_PATTERN_COUNTER_COMMAND
@@ -93,7 +93,7 @@ feature -- Basic operations
 			lio.put_new_line
 		end
 
-	process_file (source_path: FILE_PATH)
+	do_with_file (source_path: FILE_PATH)
 		do
 			total_class_count := total_class_count + 1
 			pattern_count := 0

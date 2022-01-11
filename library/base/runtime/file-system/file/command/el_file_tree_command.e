@@ -6,73 +6,50 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "5"
+	date: "2022-01-11 18:11:39 GMT (Tuesday 11th January 2022)"
+	revision: "6"
 
 deferred class
 	EL_FILE_TREE_COMMAND
 
 inherit
-	EL_COMMAND
+	EL_FILE_LIST_COMMAND
 
 	EL_MODULE_FILE_SYSTEM
-
-	EL_ITERATION_OUTPUT
 
 feature {NONE} -- Initialization
 
 	make (a_tree_dir: like tree_dir)
 		do
 			tree_dir := a_tree_dir
-		end
-
-feature -- Basic operations
-
-	execute
-		local
-			i: NATURAL; file_list: like new_file_list
-		do
-			file_list := new_file_list
-			file_list.sort
-			across file_list as path loop
-				do_with_file (path.item)
-				print_progress (i)
-				i := i + 1
-			end
+			make_default
 		end
 
 feature {NONE} -- Implementation
 
-	do_with_file (file_path: FILE_PATH)
+	file_extensions: READABLE_STRING_GENERAL
+		-- comma separated list of file extensions
 		deferred
 		end
 
-	extension_list: ARRAYED_LIST [READABLE_STRING_GENERAL]
+	new_file_list: EL_FILE_PATH_LIST
 		do
-			create Result.make_from_array (<< default_extension >>)
-		end
-
-	default_extension: READABLE_STRING_GENERAL
-		deferred
-		end
-
-	new_file_list: EL_SORTABLE_ARRAYED_LIST [FILE_PATH]
-		do
-			create Result.make (0)
-			across extension_list as extension loop
-				Result.append (File_system.files_with_extension (tree_dir, extension.item.to_string_32, True))
+			create Result.make_with_count (0)
+			across new_extensions_split as extension loop
+				Result.append (File_system.files_with_extension (tree_dir, extension.item, True))
 			end
+		end
+
+	new_extensions_split: EL_SPLIT_ZSTRING_ON_CHARACTER
+		local
+			extension_list: ZSTRING
+		do
+			create extension_list.make_from_general (file_extensions)
+			create Result.make_adjusted (extension_list, ',', {EL_STRING_ADJUST}.Left)
 		end
 
 feature {NONE} -- Internal attributes
 
 	tree_dir: DIR_PATH
-
-feature {NONE} -- Constants
-
-	Iterations_per_dot: NATURAL_32
-		once
-			Result := 60
-		end
 
 end

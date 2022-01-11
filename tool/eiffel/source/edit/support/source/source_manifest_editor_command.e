@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-06 17:05:45 GMT (Thursday 6th January 2022)"
-	revision: "7"
+	date: "2022-01-11 18:04:45 GMT (Tuesday 11th January 2022)"
+	revision: "8"
 
 deferred class
 	SOURCE_MANIFEST_EDITOR_COMMAND
@@ -28,7 +28,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 feature {NONE} -- Implementation
 
-	process_file (source_path: FILE_PATH)
+	do_with_file (source_path: FILE_PATH)
 		do
 			editor.set_file_path (source_path)
 			editor.edit

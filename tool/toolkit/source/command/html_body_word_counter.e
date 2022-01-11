@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 16:48:01 GMT (Sunday 9th January 2022)"
-	revision: "11"
+	date: "2022-01-11 17:41:40 GMT (Tuesday 11th January 2022)"
+	revision: "12"
 
 class
 	HTML_BODY_WORD_COUNTER
@@ -49,13 +49,11 @@ feature {NONE} -- Implementation
 			create counter
 			create node_event_generator.make_with_handler (counter)
 			node_event_generator.scan (xhtml.source)
-			lio.put_integer_field (body_path.base + " words", counter.count)
-			lio.put_new_line
 			word_count := word_count + counter.count
 		end
 
 feature {NONE} -- Constants
 
-	Default_extension: STRING = "body"
+	File_extensions: STRING = "body"
 
 end
