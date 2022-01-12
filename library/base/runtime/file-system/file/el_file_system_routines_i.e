@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-10 10:23:00 GMT (Monday 10th January 2022)"
-	revision: "42"
+	date: "2022-01-12 15:25:45 GMT (Wednesday 12th January 2022)"
+	revision: "43"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -125,7 +125,16 @@ feature -- Access
 		end
 
 	plain_text (a_file_path: FILE_PATH): STRING
-		-- plain text excluding Windows carriage return characters '%R'
+		-- plain text excluding any Windows carriage return characters '%R'
+		do
+			Result := raw_plain_text (a_file_path)
+			if {PLATFORM}.is_unix and then has_windows_line_break (Result) then
+				Result.replace_substring_all ("%R%N", "%N")
+			end
+		end
+
+	raw_plain_text (a_file_path: FILE_PATH): STRING
+		-- plain text possibly containing '%R' on Unix platforms
 		require
 			file_exists: a_file_path.exists
 		local
@@ -162,7 +171,7 @@ feature -- Access
 		require
 			file_exists: a_file_path.exists
 		do
-			if attached plain_text (a_file_path) as content then
+			if attached raw_plain_text (a_file_path) as content then
 				if {PLATFORM}.is_unix and then has_windows_line_break (content) then
 					-- Check if content has Windows carriage return
 					create {EL_SPLIT_ON_STRING [STRING]} Result.make (content, "%R%N")

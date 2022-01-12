@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-02 12:43:33 GMT (Thursday 2nd September 2021)"
-	revision: "8"
+	date: "2022-01-12 20:08:45 GMT (Wednesday 12th January 2022)"
+	revision: "9"
 
 class
 	EL_NAME_VALUE_PAIR [G -> STRING_GENERAL create make, make_empty end]
@@ -46,6 +46,9 @@ feature -- Element change
 				name := str.substring (1, index - 1)
 				value := str.substring (index + 1, str.count)
 				value.adjust
+			else
+				create name.make_empty
+				create value.make_empty
 			end
 		end
 

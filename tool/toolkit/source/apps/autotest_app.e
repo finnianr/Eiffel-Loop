@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-11 19:25:01 GMT (Tuesday 11th January 2022)"
-	revision: "17"
+	date: "2022-01-12 14:50:55 GMT (Wednesday 12th January 2022)"
+	revision: "18"
 
 class
 	AUTOTEST_APP
@@ -23,7 +23,8 @@ inherit
 		PYXIS_TREE_TO_XML_COMPILER_TEST_SET,
 		PYXIS_ENCRYPTER_TEST_SET,
 		THUNDERBIRD_ACCOUNT_READER_TEST_SET,
-		UNDATED_PHOTO_FINDER_TEST_SET
+		UNDATED_PHOTO_FINDER_TEST_SET,
+		VCF_CONTACT_TEST_SET
 	]
 		redefine
 			Visible_types, log_filter_set

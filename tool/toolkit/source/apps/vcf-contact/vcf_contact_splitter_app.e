@@ -1,43 +1,25 @@
 note
-	description: "Vcf contact splitter app"
+	description: "Command line interface to [$source VCF_CONTACT_SPLITTER]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "14"
+	date: "2022-01-12 15:57:04 GMT (Wednesday 12th January 2022)"
+	revision: "15"
 
 class
 	VCF_CONTACT_SPLITTER_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [VCF_CONTACT_SPLITTER]
-		rename
-			extra_log_filter_set as empty_log_filter_set
+	EL_COMMAND_LINE_SUB_APPLICATION [VCF_CONTACT_SPLITTER]
 		redefine
 			Option_name
 		end
 
 create
 	make
-
-feature -- Test
-
-	test_run
-			--
-		do
-			Test.do_file_test ("contacts.vcf", agent test_split, 4176544362)
-		end
-
-	test_split (vcf_path: FILE_PATH)
-			--
-		local
-		do
-			create command.make (vcf_path)
-			normal_run
-		end
 
 feature {NONE} -- Implementation
 
@@ -57,6 +39,6 @@ feature {NONE} -- Constants
 
 	Option_name: STRING = "split_vcf"
 
-	Description: STRING = "Split vcf contacts file into separate files"
+	Description: STRING = "Split VCF contacts file into separate files"
 
 end
