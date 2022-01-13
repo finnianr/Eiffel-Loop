@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "31"
+	date: "2022-01-13 13:24:54 GMT (Thursday 13th January 2022)"
+	revision: "32"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -18,6 +18,8 @@ inherit
 	EL_COMMAND_SHELL_COMMAND
 		export
 			{ANY} make
+		redefine
+			description
 		end
 
 	EL_FILE_OPEN_ROUTINES
@@ -38,6 +40,10 @@ inherit
 
 create
 	make
+
+feature -- Constants
+
+	Description: STRING = "Menu driven cryptographic tool"
 
 feature -- Basic operations
 
@@ -174,12 +180,6 @@ feature {NONE} -- Implementation
 			Result.add_extension (Extension.aes)
 		end
 
-	to_crt_path (key_file_path: FILE_PATH): FILE_PATH
-		do
-			Result := key_file_path.without_extension -- remove .dat
-			Result.replace_extension (Extension.crt)
-		end
-
 	display_cipher_text (encrypter: like new_encrypter; text: ZSTRING; print_base_64: BOOLEAN)
 		local
 			s: EL_ZSTRING_ROUTINES
@@ -255,6 +255,12 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	to_crt_path (key_file_path: FILE_PATH): FILE_PATH
+		do
+			Result := key_file_path.without_extension -- remove .dat
+			Result.replace_extension (Extension.crt)
+		end
+
 	write_plain_text (encrypted_lines: EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE)
 		local
 			out_file: EL_PLAIN_TEXT_FILE
@@ -269,6 +275,11 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Factory
 
+	new_bit_count: INTEGER
+		do
+			Result := User_input.integer_from_values ("AES encryption bit count", AES_types)
+		end
+
 	new_command_table: like command_table
 		do
 			create Result.make (<<
@@ -281,6 +292,12 @@ feature {NONE} -- Factory
 				["Write crt public key as Eiffel asssignment",			agent write_x509_public_key_code_assignment],
 				["Write CSV list as RSA signed Eiffel assignments",	agent write_signed_CSV_list_with_x509_private_key]
 			>>)
+		end
+
+	new_credential: EL_AES_CREDENTIAL
+		do
+			create Result.make_default
+			Result.ask_user
 		end
 
 	new_eiffel_source_name: FILE_PATH
@@ -297,11 +314,6 @@ feature {NONE} -- Factory
 			lio.put_new_line
 		end
 
-	new_bit_count: INTEGER
-		do
-			Result := User_input.integer_from_values ("AES encryption bit count", AES_types)
-		end
-
 	new_file_path (name: ZSTRING): FILE_PATH
 		local
 			prompt: ZSTRING
@@ -309,12 +321,6 @@ feature {NONE} -- Factory
 			prompt := "Drag and drop %S file"
 			Result := User_input.file_path (prompt #$ [name])
 			lio.put_new_line
-		end
-
-	new_credential: EL_AES_CREDENTIAL
-		do
-			create Result.make_default
-			Result.ask_user
 		end
 
 	new_key_file_path: FILE_PATH
@@ -350,15 +356,15 @@ feature {NONE} -- Constants
 			Result := << 128, 256 >>
 		end
 
+	Escaped_new_line: ZSTRING
+		once
+			Result := "%%N"
+		end
+
 	Extension: TUPLE [aes, crt, dat, e, key: IMMUTABLE_STRING_8]
 		once
 			create Result
 			Tuple.fill_immutable (Result, "aes, crt, dat, e, key")
-		end
-
-	Escaped_new_line: ZSTRING
-		once
-			Result := "%%N"
 		end
 
 end

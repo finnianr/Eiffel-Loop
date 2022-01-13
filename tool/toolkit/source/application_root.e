@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-07 16:11:34 GMT (Friday 7th January 2022)"
-	revision: "34"
+	date: "2022-01-13 12:51:43 GMT (Thursday 13th January 2022)"
+	revision: "35"
 
 class
 	APPLICATION_ROOT
@@ -18,7 +18,6 @@ inherit
 		BINARY_DECODE_APP,
 
 		CAD_MODEL_SLICER_APP,
-		CAD_MODEL_AUTOTEST_APP,
 		CRYPTO_COMMAND_SHELL_APP,
 
 		EL_DEBIAN_PACKAGER_APP,
@@ -41,6 +40,8 @@ inherit
 		LOCALIZATION_COMMAND_SHELL_APP,
 		LOCALIZED_THUNDERBIRD_BOOK_EXPORTER_APP,
 		LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER_APP,
+
+		STOCK_CONSUMPTION_CALCULATOR_APP,
 
 		THUNDERBIRD_BOOK_EXPORTER_APP,
 		THUNDERBIRD_WWW_EXPORTER_APP,

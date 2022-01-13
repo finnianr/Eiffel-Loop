@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-06 14:50:47 GMT (Thursday 6th January 2022)"
-	revision: "15"
+	date: "2022-01-13 12:19:36 GMT (Thursday 13th January 2022)"
+	revision: "16"
 
 class
 	FIND_AND_REPLACE_APP
@@ -39,7 +39,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "find_replace"
-
-	Description: STRING = "Finds and replaces text in Eiffel source files"
 
 end

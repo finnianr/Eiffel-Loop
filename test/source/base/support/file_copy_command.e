@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 10:42:08 GMT (Sunday 5th April 2020)"
-	revision: "2"
+	date: "2022-01-13 13:20:10 GMT (Thursday 13th January 2022)"
+	revision: "3"
 
 class
 	FILE_COPY_COMMAND
@@ -15,7 +15,8 @@ class
 inherit
 	EL_FILE_INPUT_OUTPUT_COMMAND
 		rename
-			make_default as make
+			make_default as make,
+			default_description as description
 		end
 
 	EL_MODULE_FILE_SYSTEM

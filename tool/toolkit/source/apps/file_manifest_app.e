@@ -10,14 +10,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-07 17:22:41 GMT (Friday 7th January 2022)"
-	revision: "10"
+	date: "2022-01-13 12:12:32 GMT (Thursday 13th January 2022)"
+	revision: "11"
 
 class
 	FILE_MANIFEST_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [EL_FILE_MANIFEST_COMMAND]
+	EL_COMMAND_LINE_SUB_APPLICATION [EL_FILE_MANIFEST_GENERATOR]
 		redefine
 			Option_name
 		end
@@ -44,7 +44,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "file_manifest"
-
-	Description: STRING = "Generate an XML manifest of a directory for files matching a wildcard"
 
 end

@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-06 18:10:47 GMT (Thursday 6th January 2022)"
-	revision: "2"
+	date: "2022-01-13 12:21:29 GMT (Thursday 13th January 2022)"
+	revision: "3"
 
 class
 	UPGRADE_DEFAULT_POINTER_SYNTAX_COMMAND
@@ -29,6 +29,15 @@ inherit
 
 create
 	make
+
+feature -- Constants
+
+	Description: STRING = "[
+		Change syntax of default_pointer references:
+
+			ptr /= default_pointer TO is_attached (ptr)
+			ptr = default_pointer TO not is_attached (ptr)
+	]"
 
 feature {NONE} -- Implementation
 

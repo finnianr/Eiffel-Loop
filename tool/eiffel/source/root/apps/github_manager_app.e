@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "4"
+	date: "2022-01-13 12:23:07 GMT (Thursday 13th January 2022)"
+	revision: "5"
 
 class
 	GITHUB_MANAGER_APP
@@ -43,9 +43,5 @@ feature {NONE} -- Implementation
 		do
 			create Result
 		end
-
-feature {NONE} -- Constants
-
-	Description: STRING = "Command shell for updating github repository"
 
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-13 13:03:12 GMT (Wednesday 13th October 2021)"
-	revision: "15"
+	date: "2022-01-13 12:10:32 GMT (Thursday 13th January 2022)"
+	revision: "16"
 
 class
 	DUPLICITY_BACKUP
@@ -22,6 +22,9 @@ inherit
 		end
 
 	EL_COMMAND
+		redefine
+			description
+		end
 
 create
 	make
@@ -36,6 +39,8 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	Description: STRING = "Create an incremental backup with duplicity command"
 
 	type: ZSTRING
 

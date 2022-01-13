@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-23 11:31:10 GMT (Thursday 23rd December 2021)"
-	revision: "19"
+	date: "2022-01-13 16:06:26 GMT (Thursday 13th January 2022)"
+	revision: "20"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -23,23 +23,20 @@ inherit
 
 	EL_MODULE_TUPLE
 
-	EL_MODULE_NAMING
-
 feature -- Basic operations
 
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("fill_tuple", agent test_fill_tuple)
-			eval.call ("naming_to_title", agent test_naming_to_title)
 			eval.call ("occurrence_intervals", agent test_occurrence_intervals)
 			eval.call ("path_split", agent test_path_split)
+			eval.call ("set_encoding_from_name", agent test_set_encoding_from_name)
 			eval.call ("skip_empty_split", agent test_skip_empty_split)
 			eval.call ("split_and_join_1", agent test_split_and_join_1)
 			eval.call ("split_and_join_2", agent test_split_and_join_2)
 			eval.call ("split_and_join_3", agent test_split_and_join_3)
 			eval.call ("split_iterator", agent test_split_iterator)
-			eval.call ("set_encoding_from_name", agent test_set_encoding_from_name)
 			eval.call ("split_sort", agent test_split_sort)
 			eval.call ("split_string_8", agent test_split_string_8)
 		end
@@ -64,16 +61,6 @@ feature -- Tests
 			lio.put_string_field ("SYMBOL " + t2.symbol.generator, t2.symbol)
 			lio.put_new_line
 			assert ("same symbol", t2.symbol ~ {STRING_32} "€")
-		end
-
-	test_naming_to_title
-		local
-			eif_name, title: STRING
-		do
-			eif_name := "hex_11_software"
-			create title.make (eif_name.count)
-			Naming.to_title (eif_name, title, ' ')
-			assert ("is title", title ~ "Hex 11 Software")
 		end
 
 	test_occurrence_intervals
@@ -288,11 +275,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Comma_separated_variations: ARRAY [STRING]
-		once
-			Result := << ",a,b,c,", "a,b,c", " a, b , c ", "" >>
-		end
-
 	Api_string: STRING = "[
 		DTA1-HMAC-SHA256 SignedHeaders=content-length;content-type;host;x-amz-date
 		Credential=PUBLIC/20200124
@@ -302,6 +284,11 @@ feature {NONE} -- Constants
 	Api_string_list: EL_STRING_8_LIST
 		once
 			create Result.make_with_lines (Api_string)
+		end
+
+	Comma_separated_variations: ARRAY [STRING]
+		once
+			Result := << ",a,b,c,", "a,b,c", " a, b , c ", "" >>
 		end
 
 	Comma_space: STRING = ", "

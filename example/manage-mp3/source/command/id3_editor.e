@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "13"
+	date: "2022-01-13 14:07:01 GMT (Thursday 13th January 2022)"
+	revision: "14"
 
 class
 	ID3_EDITOR
@@ -32,6 +32,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create file_paths.make (OS.file_list (a_media_dir, "*.mp3"))
 			editions_table := new_editions_table
 		end
+
+feature -- Constants
+
+	Description: STRING = "Edit ID3 tags from MP3 files"
 
 feature -- Basic operations
 
@@ -65,11 +69,10 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	editions_table: EL_ZSTRING_HASH_TABLE [PROCEDURE [TL_MPEG_FILE, FILE_PATH]]
-
 	edition_name: ZSTRING
+
+	editions_table: EL_ZSTRING_HASH_TABLE [PROCEDURE [TL_MPEG_FILE, FILE_PATH]]
 
 	file_paths: EL_FILE_PATH_LIST
 
 end
-

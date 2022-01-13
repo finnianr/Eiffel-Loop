@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 12:00:08 GMT (Sunday 9th January 2022)"
-	revision: "22"
+	date: "2022-01-13 11:42:17 GMT (Thursday 13th January 2022)"
+	revision: "23"
 
 class
 	FTP_BACKUP_APP
@@ -51,8 +51,6 @@ feature {NONE} -- Internal attributes
 	ftp_command: FTP_BACKUP_COMMAND
 
 feature {NONE} -- Constants
-
-	Description: STRING = "Create tar.gz backups and upload them with FTP protocol"
 
 	Desktop: EL_DESKTOP_ENVIRONMENT_I
 		once

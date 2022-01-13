@@ -7,14 +7,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-10 10:35:32 GMT (Monday 10th January 2022)"
-	revision: "10"
+	date: "2022-01-13 12:07:07 GMT (Thursday 13th January 2022)"
+	revision: "11"
 
 class
 	PYXIS_ENCRYPTER
 
 inherit
 	EL_COMMAND
+		redefine
+			description
+		end
 
 	EL_MODULE_LIO
 
@@ -36,9 +39,11 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 feature -- Access
 
-	source_path: FILE_PATH
+	Description: STRING = "Encrypt content of pyxis file"
 
 	output_path: FILE_PATH
+
+	source_path: FILE_PATH
 
 feature -- Basic operations
 

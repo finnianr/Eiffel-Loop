@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-22 10:50:14 GMT (Wednesday 22nd January 2020)"
-	revision: "2"
+	date: "2022-01-13 13:59:15 GMT (Thursday 13th January 2022)"
+	revision: "3"
 
 class
 	EROS_SERVER_COMMAND
@@ -23,6 +23,13 @@ feature {NONE} -- Initialization
 		do
 			create socket.make_server_by_port (port)
 			create handler.make
+		end
+
+feature -- Access
+
+	description: READABLE_STRING_GENERAL
+		do
+			Result := default_description
 		end
 
 feature -- Basic operations
@@ -55,11 +62,11 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	socket: EL_NETWORK_STREAM_SOCKET
-		-- connecting socket
+	done: BOOLEAN
 
 	handler: EROS_CALL_REQUEST_HANDLER
 
-	done: BOOLEAN
+	socket: EL_NETWORK_STREAM_SOCKET
+		-- connecting socket
 
 end

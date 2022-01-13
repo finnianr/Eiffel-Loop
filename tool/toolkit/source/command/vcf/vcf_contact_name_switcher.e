@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-12 21:04:51 GMT (Wednesday 12th January 2022)"
-	revision: "9"
+	date: "2022-01-13 12:42:10 GMT (Thursday 13th January 2022)"
+	revision: "10"
 
 class
 	VCF_CONTACT_NAME_SWITCHER
@@ -29,6 +29,10 @@ feature {EL_SUB_APPLICATION} -- Initialization
 			create vcf_out.make_with_name (vcf_path.with_new_extension ("2.vcf"))
 			create names.make (2)
 		end
+
+feature -- Constants
+
+	Description: STRING = "Switch first and second names in vCard contacts file"
 
 feature -- Basic operations
 

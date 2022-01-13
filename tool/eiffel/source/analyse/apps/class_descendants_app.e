@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
-	revision: "11"
+	date: "2022-01-13 12:28:19 GMT (Thursday 13th January 2022)"
+	revision: "12"
 
 class
 	CLASS_DESCENDANTS_APP
@@ -54,7 +54,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "descendants"
-
-	Description: STRING = "Output descendants of class to a file with wiki-markup"
 
 end

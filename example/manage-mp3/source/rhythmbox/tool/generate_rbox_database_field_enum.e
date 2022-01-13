@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "7"
+	date: "2022-01-13 14:06:34 GMT (Thursday 13th January 2022)"
+	revision: "8"
 
 class
 	GENERATE_RBOX_DATABASE_FIELD_ENUM
@@ -46,6 +46,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			Precursor {EL_PLAIN_TEXT_LINE_STATE_MACHINE}
 			Precursor {EVOLICITY_SERIALIZEABLE}
 		end
+
+feature -- Constants
+
+	Description: STRING = "Generate class RBOX_DATABASE_FIELDS from C source file `rhythmdb.c'"
 
 feature -- Basic operations
 

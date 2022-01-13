@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-12 21:12:57 GMT (Wednesday 12th January 2022)"
-	revision: "13"
+	date: "2022-01-13 12:41:42 GMT (Thursday 13th January 2022)"
+	revision: "14"
 
 class
 	VCF_CONTACT_SPLITTER
@@ -36,6 +36,10 @@ feature {EL_SUB_APPLICATION} -- Initialization
 			create first_name.make_empty
 			create last_name.make_empty
 		end
+
+feature -- Constants
+
+	Description: STRING = "Split VCF contacts file into separate files"
 
 feature -- Basic operations
 
@@ -104,15 +108,15 @@ feature {NONE} -- State handlers
 
 feature {NONE} -- Internal attributes
 
+	first_name: STRING
+
+	last_name: STRING
+
 	output_dir: DIR_PATH
 
 	record_id: STRING
 
 	record_lines: EL_STRING_8_LIST
-
-	first_name: STRING
-
-	last_name: STRING
 
 feature {NONE} -- Constants
 

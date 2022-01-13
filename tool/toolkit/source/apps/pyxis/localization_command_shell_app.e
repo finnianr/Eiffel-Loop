@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:17:05 GMT (Tuesday 10th November 2020)"
-	revision: "14"
+	date: "2022-01-13 11:57:11 GMT (Thursday 13th January 2022)"
+	revision: "15"
 
 class
 	LOCALIZATION_COMMAND_SHELL_APP
@@ -57,7 +57,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "localization_shell"
-
-	Description: STRING = "Command shell to perform queries and edits on tree of Pyxis localization files"
 
 end

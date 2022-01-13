@@ -40,8 +40,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "13"
+	date: "2022-01-13 12:24:43 GMT (Thursday 13th January 2022)"
+	revision: "14"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -107,6 +107,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create language_list.make (2)
 			create project_py_swapper.make (Project_py, "py32")
 		end
+
+feature -- Constants
+
+	Description: STRING = "Build a software package as a self-extracting WinZip exe"
 
 feature -- Basic operations
 
@@ -184,33 +188,6 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	check_validity (is_valid: BOOLEAN_REF)
-		do
-			if not valid_architectures then
-				lio.put_labeled_string ("Invalid architecture in list", architecture_list.comma_separated_string)
-				lio.put_new_line
-				lio.put_line ("Must be one of: 32 | 64")
-
-			elseif not valid_languages then
-				lio.put_labeled_string ("Invalid language in list", languages)
-				lio.put_new_line
-
-			elseif not output_dir.exists then
-				lio.put_labeled_string ("Directory does not exist", output_dir.to_string)
-				lio.put_new_line
-
-			elseif has_alternative_root_class and then not root_class_path.exists then
-				lio.put_labeled_string ("Root class does not exist", root_class_path.to_string)
-				lio.put_new_line
-
-			elseif not valid_name_template then
-				lio.put_labeled_string ("Invalid name template", name_template)
-				lio.put_new_line
-			else
-				is_valid.set_item (True)
-			end
-		end
-
 	build_executable
 		require
 			has_32_bit_project: bit_count = 32 implies project_py_32_exists
@@ -271,9 +248,31 @@ feature {NONE} -- Implementation
 			has_build_error := zip_cmd.has_error
 		end
 
-	languages: STRING
+	check_validity (is_valid: BOOLEAN_REF)
 		do
-			Result := language_list.comma_separated_string
+			if not valid_architectures then
+				lio.put_labeled_string ("Invalid architecture in list", architecture_list.comma_separated_string)
+				lio.put_new_line
+				lio.put_line ("Must be one of: 32 | 64")
+
+			elseif not valid_languages then
+				lio.put_labeled_string ("Invalid language in list", languages)
+				lio.put_new_line
+
+			elseif not output_dir.exists then
+				lio.put_labeled_string ("Directory does not exist", output_dir.to_string)
+				lio.put_new_line
+
+			elseif has_alternative_root_class and then not root_class_path.exists then
+				lio.put_labeled_string ("Root class does not exist", root_class_path.to_string)
+				lio.put_new_line
+
+			elseif not valid_name_template then
+				lio.put_labeled_string ("Invalid name template", name_template)
+				lio.put_new_line
+			else
+				is_valid.set_item (True)
+			end
 		end
 
 	installer_exe_path (language: STRING): FILE_PATH
@@ -293,6 +292,11 @@ feature {NONE} -- Implementation
 	ise_platform: STRING
 		do
 			Result := ISE_platform_table [bit_count]
+		end
+
+	languages: STRING
+		do
+			Result := language_list.comma_separated_string
 		end
 
 	scons_cmd: STRING

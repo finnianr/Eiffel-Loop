@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 17:55:41 GMT (Sunday 5th April 2020)"
-	revision: "5"
+	date: "2022-01-13 13:01:47 GMT (Thursday 13th January 2022)"
+	revision: "6"
 
 class
 	IMP_CLASS_LOCATION_NORMALIZER
@@ -19,13 +19,15 @@ class
 inherit
 	REPOSITORY_PUBLISHER
 		redefine
-			execute, ecf_list
+			description, execute, ecf_list
 		end
 
 create
 	make
 
 feature -- Access
+
+	Description: STRING = "Normalizes location of implementation classes in relation to respective interfaces"
 
 	ecf_list: EIFFEL_CONFIGURATION_LIST [CROSS_PLATFORM_EIFFEL_CONFIGURATION_FILE]
 

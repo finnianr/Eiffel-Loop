@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-01-13 11:48:01 GMT (Thursday 13th January 2022)"
+	revision: "10"
 
 class
 	EL_DEBIAN_PACKAGER_APP
@@ -62,8 +62,6 @@ feature {NONE} -- Constants
 		once
 			Result := "build/linux-x86-64/package"
 		end
-
-	Description: STRING = "Create a Debian package in output directory for this application"
 
 	Option_name: STRING = "debian_packager"
 

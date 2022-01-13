@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:16:22 GMT (Tuesday 10th November 2020)"
-	revision: "6"
+	date: "2022-01-13 14:03:19 GMT (Thursday 13th January 2022)"
+	revision: "7"
 
 class
 	FRACTAL_APP
@@ -47,11 +47,6 @@ feature {NONE} -- Constants
 	Option_name: STRING
 		once
 			Result := "fractal"
-		end
-
-	Description: STRING
-		once
-			Result := "Simple geometric fractal defined by Pyxis configuration file"
 		end
 
 end

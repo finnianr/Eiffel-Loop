@@ -1,6 +1,6 @@
 note
 	description: "[
-		Caculate monthly stock consumption based on an import_list import_list of stock orders represented by
+		Calculate monthly stock consumption based on an import_list import_list of stock orders represented by
 		class [$source STOCK_ORDER]
 	]"
 
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "4"
+	date: "2022-01-13 12:38:13 GMT (Thursday 13th January 2022)"
+	revision: "5"
 
 class
 	STOCK_CONSUMPTION_CALCULATOR
@@ -40,6 +40,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		end
 
 feature -- Access
+
+	Description: STRING = "[
+		Calculate monthly stock consumption based on an import_list import_list of stock orders
+	]"
 
 	input_path: FILE_PATH
 

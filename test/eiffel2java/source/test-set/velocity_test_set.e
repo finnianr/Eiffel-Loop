@@ -18,7 +18,7 @@ inherit
 			on_prepare, on_clean
 		end
 
-	EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_ROUTINES
 
 	EL_MODULE_JAVA
 

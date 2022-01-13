@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 16:43:55 GMT (Sunday 9th January 2022)"
-	revision: "18"
+	date: "2022-01-13 11:40:08 GMT (Thursday 13th January 2022)"
+	revision: "19"
 
 class
 	HTML_BODY_WORD_COUNTER_APP
@@ -40,7 +40,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "body_word_counts"
-
-	Description: STRING = "Count words in directory of html body files (*.body)"
 
 end

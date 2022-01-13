@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-11 18:01:44 GMT (Tuesday 11th January 2022)"
-	revision: "15"
+	date: "2022-01-13 12:23:54 GMT (Thursday 13th January 2022)"
+	revision: "16"
 
 class
 	CHECK_LOCALE_STRINGS_COMMAND
@@ -69,6 +69,10 @@ feature {EL_SUB_APPLICATION} -- Initialization
 			Precursor {EL_BUILDABLE_FROM_PYXIS}
 			Precursor {EL_FILE_TREE_COMMAND}
 		end
+
+feature -- Constants
+
+	Description: STRING = "Check that every localized string can be found in resources/locales"
 
 feature -- Status query
 
@@ -371,17 +375,10 @@ feature {NONE} -- Build from Pyxis
 
 feature {NONE} -- Constants
 
-	Web_menu: ZSTRING
-		once
-			Result := "Web menu"
-		end
-
 	Body_extension: ZSTRING
 		once
 			Result := "body"
 		end
-
-	File_extensions: STRING = "e"
 
 	English_prefixes: ARRAY [EL_READABLE_ZSTRING]
 		local
@@ -389,6 +386,13 @@ feature {NONE} -- Constants
 		once
 			prefix_1 := "English_"; prefix_2 := "Eng_"
 			Result := << prefix_1, prefix_2 >>
+		end
+
+	File_extensions: STRING = "e"
+
+	Web_menu: ZSTRING
+		once
+			Result := "Web menu"
 		end
 
 	Workarea_pyx_template: ZSTRING

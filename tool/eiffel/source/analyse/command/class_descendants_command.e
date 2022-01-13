@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "18"
+	date: "2022-01-13 12:28:32 GMT (Thursday 13th January 2022)"
+	revision: "19"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -60,6 +60,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			set_ecf_path_from_target
 		end
 
+feature -- Constants
+
+	Description: STRING = "Output descendants of class to a file with wiki-markup"
+
 feature -- Basic operations
 
 	execute
@@ -103,37 +107,23 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Implementation
 
-	output_lines
+	expand_constraint_list (start_index, end_index: INTEGER; substring: ZSTRING)
 		local
-			tab_count, count: INTEGER; line: ZSTRING
+			constraint_list: EL_ZSTRING_LIST; expanded_string, word: ZSTRING
+			eif: EL_EIFFEL_SOURCE_ROUTINES
 		do
-			if not output_dir.exists then
-				File_system.make_directory (output_dir)
-			end
-			if attached open (output_path, Write) as file_out then
-				file_out.put_lines (<<
-					"note",
-					"%Tdescendants: %"See end of class%"",
-					"%Tdescendants: %"["
-				>>)
-				file_out.put_new_line
-				across File_system.plain_text_lines (output_path) as text loop
-					line := text.item
-					tab_count := line.leading_occurrences ('%T')
-					if line.count > tab_count then
-						line.prune_all_trailing ('.')
-						count := count + 1
-						if count > 1 then
-							expand_links (line, tab_count)
-						end
-						file_out.put_string_8 ("%T%T")
-						file_out.put_string (line)
-						file_out.put_new_line
-					end
+			create expanded_string.make (end_index - start_index + 1)
+			create constraint_list.make_comma_split (substring.substring (start_index, end_index))
+			across constraint_list as c_list loop
+				word := c_list.item
+				if not c_list.is_first then
+					expanded_string.append_string_general (", ")
 				end
-				file_out.put_string_8 ("%T]%"")
-				file_out.close
+				if eif.is_class_name (word) then
+					expanded_string.append (Source_link_template #$ [word])
+				end
 			end
+			substring.replace_substring (expanded_string, start_index, end_index)
 		end
 
 	expand_links (line: ZSTRING; tab_count: INTEGER)
@@ -179,23 +169,37 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	expand_constraint_list (start_index, end_index: INTEGER; substring: ZSTRING)
+	output_lines
 		local
-			constraint_list: EL_ZSTRING_LIST; expanded_string, word: ZSTRING
-			eif: EL_EIFFEL_SOURCE_ROUTINES
+			tab_count, count: INTEGER; line: ZSTRING
 		do
-			create expanded_string.make (end_index - start_index + 1)
-			create constraint_list.make_comma_split (substring.substring (start_index, end_index))
-			across constraint_list as c_list loop
-				word := c_list.item
-				if not c_list.is_first then
-					expanded_string.append_string_general (", ")
-				end
-				if eif.is_class_name (word) then
-					expanded_string.append (Source_link_template #$ [word])
-				end
+			if not output_dir.exists then
+				File_system.make_directory (output_dir)
 			end
-			substring.replace_substring (expanded_string, start_index, end_index)
+			if attached open (output_path, Write) as file_out then
+				file_out.put_lines (<<
+					"note",
+					"%Tdescendants: %"See end of class%"",
+					"%Tdescendants: %"["
+				>>)
+				file_out.put_new_line
+				across File_system.plain_text_lines (output_path) as text loop
+					line := text.item
+					tab_count := line.leading_occurrences ('%T')
+					if line.count > tab_count then
+						line.prune_all_trailing ('.')
+						count := count + 1
+						if count > 1 then
+							expand_links (line, tab_count)
+						end
+						file_out.put_string_8 ("%T%T")
+						file_out.put_string (line)
+						file_out.put_new_line
+					end
+				end
+				file_out.put_string_8 ("%T]%"")
+				file_out.close
+			end
 		end
 
 	set_ecf_path_from_target
@@ -231,6 +235,14 @@ feature {NONE} -- Constants
 			Result := "->"
 		end
 
+	Descendants_command: EL_OS_COMMAND
+		once
+			create Result.make_with_name (
+				"descendants",
+				"ec -descendants $class_name -project_path $build_dir -config $ecf_path -file $output_path"
+			)
+		end
+
 	Element_target_name: ZSTRING
 		once
 			Result := "<target name"
@@ -239,14 +251,6 @@ feature {NONE} -- Constants
 	Source_link_template: ZSTRING
 		once
 			Result := "[$source %S]"
-		end
-
-	Descendants_command: EL_OS_COMMAND
-		once
-			create Result.make_with_name (
-				"descendants",
-				"ec -descendants $class_name -project_path $build_dir -config $ecf_path -file $output_path"
-			)
 		end
 
 end

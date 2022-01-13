@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-11 18:25:32 GMT (Tuesday 11th January 2022)"
-	revision: "10"
+	date: "2022-01-13 12:54:16 GMT (Thursday 13th January 2022)"
+	revision: "11"
 
 class
 	UNDATED_PHOTO_FINDER
@@ -68,5 +68,9 @@ feature {NONE} -- Internal attributes
 feature {NONE} -- Constants
 
 	File_extensions: STRING = "jpeg, jpg"
+
+	Description: STRING = "[
+		Make list of jpeg photos lacking a "Date time taken" EXIF info
+	]"
 
 end

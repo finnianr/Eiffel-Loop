@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "5"
+	date: "2022-01-13 12:27:54 GMT (Thursday 13th January 2022)"
+	revision: "6"
 
 class
 	LIBRARY_OVERRIDE_GENERATOR
@@ -40,6 +40,10 @@ feature -- Initialization
 			ise_library_dir := ise_eiffel_dir.joined_dir_path ("library")
 			output_dir := a_output_dir
 		end
+
+feature -- Constants
+
+	Description: STRING = "Generates override of standard libaries to work with Eiffel-Loop"
 
 feature -- Basic operations
 
@@ -125,4 +129,3 @@ feature {NONE} -- Constants
 
 
 end
-

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-04 15:34:00 GMT (Sunday 4th April 2021)"
-	revision: "17"
+	date: "2022-01-13 14:25:55 GMT (Thursday 13th January 2022)"
+	revision: "18"
 
 class
 	BENCHMARK_APP
@@ -43,9 +43,5 @@ feature {NONE} -- Implementation
 				optional_argument ("trial_duration", "Routine trial duration in milliseconds")
 			>>
 		end
-
-feature {NONE} -- Constants
-
-	Description: STRING = "Menu driven benchmark tests"
 
 end

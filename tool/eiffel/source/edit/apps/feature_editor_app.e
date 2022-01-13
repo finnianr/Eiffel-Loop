@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-01 9:19:27 GMT (Wednesday 1st July 2020)"
-	revision: "15"
+	date: "2022-01-13 12:22:02 GMT (Thursday 13th January 2022)"
+	revision: "16"
 
 class
 	FEATURE_EDITOR_APP
@@ -38,10 +38,6 @@ feature {NONE} -- Implementation
 		do
 			Result := agent {like command}.make ("")
 		end
-
-feature {NONE} -- Constants
-
-	Description: STRING = "Performs a series of edits and shorthand expansions on an Eiffel class"
 
 note
 	instructions: "[

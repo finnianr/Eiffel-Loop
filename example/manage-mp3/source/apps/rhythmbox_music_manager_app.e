@@ -30,8 +30,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "30"
+	date: "2022-01-13 14:08:07 GMT (Thursday 13th January 2022)"
+	revision: "31"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
@@ -111,11 +111,6 @@ feature {NONE} -- Installer constants
 		end
 
 feature {NONE} -- Constants
-
-	Description: STRING
-		once
-			Result := "Manage Rhythmbox Music Collection"
-		end
 
 	Option_name: STRING
 		once

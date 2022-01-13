@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "8"
+	date: "2022-01-13 12:43:16 GMT (Thursday 13th January 2022)"
+	revision: "9"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR
@@ -62,6 +62,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 				converter_table ["NUM2.c"] := create {FILE_NUM2_C_GCC_TO_MSVC_CONVERTER}.make
 			end
 		end
+
+feature -- Constants
+
+	Description: STRING = "Convert Praat C source file directory and make file to compile with MS Visual C++"
 
 feature -- Basic operations
 

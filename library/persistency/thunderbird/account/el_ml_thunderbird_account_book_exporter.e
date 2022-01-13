@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-04-04 14:11:14 GMT (Thursday 4th April 2019)"
-	revision: "5"
+	date: "2022-01-13 13:36:43 GMT (Thursday 13th January 2022)"
+	revision: "6"
 
 class
 	EL_ML_THUNDERBIRD_ACCOUNT_BOOK_EXPORTER
@@ -36,6 +36,10 @@ feature {NONE} -- Initialization
 			Precursor
 			create book.make_default
 		end
+
+feature -- Constants
+
+	Description: STRING = "Export merged email chapters from Thunderbird folders as HTML book"
 
 feature -- Access
 

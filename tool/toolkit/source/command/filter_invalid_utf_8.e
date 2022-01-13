@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "8"
+	date: "2022-01-13 12:42:25 GMT (Thursday 13th January 2022)"
+	revision: "9"
 
 class
 	FILTER_INVALID_UTF_8
@@ -29,6 +29,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			output_path.add_extension ("fixed")
 			output_path.add_extension (source_path.extension)
 		end
+
+feature -- Constants
+
+	Description: STRING = "Filter out all invalid UTF-8 lines from file"
 
 feature -- Basic operations
 
@@ -64,8 +68,8 @@ feature -- Basic operations
 
 feature {NONE} -- Internal attributes
 
-	source_path: FILE_PATH
-
 	output_path: FILE_PATH
+
+	source_path: FILE_PATH
 
 end

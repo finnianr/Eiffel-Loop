@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-09 10:28:37 GMT (Tuesday 9th March 2021)"
-	revision: "10"
+	date: "2022-01-13 12:00:37 GMT (Thursday 13th January 2022)"
+	revision: "11"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP
@@ -53,7 +53,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "praat_to_msvc"
-
-	Description: STRING = "Convert Praat C source file directory and make file to compile with MS Visual C++"
 
 end

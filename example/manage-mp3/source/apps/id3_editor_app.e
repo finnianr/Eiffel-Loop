@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-25 9:19:57 GMT (Saturday 25th April 2020)"
-	revision: "14"
+	date: "2022-01-13 14:06:49 GMT (Thursday 13th January 2022)"
+	revision: "15"
 
 class
 	ID3_EDITOR_APP
@@ -36,8 +36,6 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "id3_edit"
-
-	Description: STRING = "Edit ID3 tags from MP3 files"
 
 	Ask_user_to_quit: BOOLEAN = False
 

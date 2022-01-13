@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-06 17:10:44 GMT (Thursday 6th January 2022)"
-	revision: "12"
+	date: "2022-01-13 12:21:15 GMT (Thursday 13th January 2022)"
+	revision: "13"
 
 class
 	UPGRADE_DEFAULT_POINTER_SYNTAX_APP
@@ -40,12 +40,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "upgrade_default_pointer_syntax"
-
-	Description: STRING = "[
-		Change syntax of default_pointer references: 
-		
-			ptr /= default_pointer TO is_attached (ptr)
-			ptr = default_pointer TO not is_attached (ptr)
-	]"
 
 end

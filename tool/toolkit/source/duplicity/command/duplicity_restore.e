@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "22"
+	date: "2022-01-13 12:10:15 GMT (Thursday 13th January 2022)"
+	revision: "23"
 
 class
 	DUPLICITY_RESTORE
@@ -24,6 +24,9 @@ inherit
 		end
 
 	EL_COMMAND
+		redefine
+			description
+		end
 
 	EL_MODULE_FORMAT
 		rename
@@ -42,6 +45,10 @@ feature {NONE} -- Initialization
 			Precursor
 			create backup_dir
 		end
+
+feature -- Constants
+
+	Description: STRING = "Restore files from a duplicity backup"
 
 feature -- Basic operations
 

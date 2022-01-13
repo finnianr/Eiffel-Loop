@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-18 11:50:02 GMT (Sunday 18th October 2020)"
-	revision: "8"
+	date: "2022-01-13 12:23:37 GMT (Thursday 13th January 2022)"
+	revision: "9"
 
 class
 	CHECK_LOCALE_STRINGS_APP
@@ -46,7 +46,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "check_locale_strings"
-
-	Description: STRING = "Check that every localized string can be found in resources/locales"
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-19 11:24:46 GMT (Friday 19th October 2018)"
-	revision: "4"
+	date: "2022-01-13 13:35:24 GMT (Thursday 13th January 2022)"
+	revision: "5"
 
 class
 	EL_ML_THUNDERBIRD_ACCOUNT_XHTML_BODY_EXPORTER
@@ -17,6 +17,12 @@ inherit
 
 create
 	make_from_file
+
+feature -- Constants
+
+	Description: STRING = "[
+		Export multi-lingual HTML body content from Thunderbird as files with .body extension
+	]"
 
 feature {NONE} -- Implementation
 

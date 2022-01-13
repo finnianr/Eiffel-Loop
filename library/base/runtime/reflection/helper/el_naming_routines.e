@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-26 15:24:53 GMT (Sunday 26th December 2021)"
-	revision: "25"
+	date: "2022-01-13 16:30:53 GMT (Thursday 13th January 2022)"
+	revision: "26"
 
 class
 	EL_NAMING_ROUTINES
@@ -98,6 +98,49 @@ feature -- Class name derivations
 		do
 			Result := class_with_separator (object_or_type, separator, head_count, tail_count)
 			Result.to_lower
+		end
+
+	class_description (object_or_type: ANY; excluded_words: EL_STRING_8_LIST): STRING
+		-- derive English description from object or object type
+		-- Words <= 3 are left capitalized
+		-- Class parameters result in suffix " for type X"
+		local
+			word_split: EL_SPLIT_ON_CHARACTER [STRING]
+			word, name, name_full: STRING; s: EL_STRING_8_ROUTINES
+		do
+			if attached {TYPE [ANY]} object_or_type as type then
+				name_full := type.name
+			else
+				name_full := object_or_type.generator
+			end
+			name := s.substring_to (name_full, '[', default_pointer)
+			name.right_adjust
+
+			create word_split.make (name, '_')
+			create Result.make (word_split.target.count)
+			across word_split as split loop
+				word := split.item
+				if Result.count > 0 then
+					Result.extend (' ')
+				end
+				if excluded_words.has (word) then
+					if Result.count > 1 then
+						Result.remove_tail (1)
+					end
+				else
+					if word.count > 3 then
+						word.to_lower
+					end
+					Result.append (word)
+				end
+			end
+			Result [1] := Result [1].as_upper
+			if name.count < name_full.count then
+				name := s.substring_to_reversed (name_full, '[', default_pointer)
+				name.remove_tail (1)
+				Result.append (" for type ")
+				Result.append (name)
+			end
 		end
 
 feature -- Import names

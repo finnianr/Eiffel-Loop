@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-11 18:04:45 GMT (Tuesday 11th January 2022)"
-	revision: "13"
+	date: "2022-01-13 12:26:52 GMT (Thursday 13th January 2022)"
+	revision: "14"
 
 class
 	UNDEFINE_PATTERN_COUNTER_COMMAND
@@ -62,6 +62,11 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		end
 
 feature -- Access
+
+	Description: STRING = "[
+		Count the number of classes in the source tree manifest that exhibit multiple inheritance of classes
+		with an identical pattern of feature undefining.
+	]"
 
 	greater_than_0_list: EL_ARRAYED_MAP_LIST [ZSTRING, INTEGER]
 		-- List of pattern counts > 0

@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "3"
+	date: "2022-01-13 12:39:07 GMT (Thursday 13th January 2022)"
+	revision: "4"
 
 class
 	EL_YOUTUBE_STREAM_DOWNLOAD
 
 inherit
 	EL_COMMAND
+		rename
+			default_description as description
+		end
 
 	EL_MODULE_FILE_SYSTEM
 
@@ -100,4 +103,3 @@ feature {NONE} -- Constants
 		end
 
 end
-

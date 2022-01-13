@@ -26,14 +26,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-08 11:21:16 GMT (Thursday 8th October 2020)"
-	revision: "3"
+	date: "2022-01-13 12:39:47 GMT (Thursday 13th January 2022)"
+	revision: "4"
 
 class
 	EL_DEBIAN_MAKE_SCRIPT
 
 inherit
 	EL_COMMAND
+		rename
+			default_description as description
+		end
 
 	EVOLICITY_SERIALIZEABLE
 		export

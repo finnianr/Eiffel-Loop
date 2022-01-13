@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-01-13 14:09:30 GMT (Thursday 13th January 2022)"
+	revision: "10"
 
 class
 	EL_MP3_AUDIO_SIGNATURE_READER
@@ -29,6 +29,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create mp3_path_table.make_equal (111)
 			is_clean_up := clean_up
 		end
+
+feature -- Constants
+
+	Description: STRING = "Read MP3 audio signatures"
 
 feature -- Basic operations
 
@@ -80,4 +84,3 @@ feature {NONE} -- Implementation
 		end
 
 end
-

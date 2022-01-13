@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 10:47:16 GMT (Saturday 11th January 2020)"
-	revision: "12"
+	date: "2022-01-13 11:51:08 GMT (Thursday 13th January 2022)"
+	revision: "13"
 
 class
 	XML_TO_PYXIS_APP
@@ -51,7 +51,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "xml_to_pyxis"
-
-	Description: STRING = "Convert XML file to Pyxis format"
 
 end

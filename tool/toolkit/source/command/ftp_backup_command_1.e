@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "11"
+	date: "2022-01-13 12:42:45 GMT (Thursday 13th January 2022)"
+	revision: "12"
 
 class
 	FTP_BACKUP_COMMAND_1
 
 inherit
 	EL_COMMAND
+		rename
+			default_description as description
+		end
 
 	EL_MODULE_EVOLICITY_TEMPLATES
 
@@ -205,4 +208,3 @@ feature {NONE} -- Constants
 	Max_mega_bytes_to_send: REAL = 20.0
 
 end
-

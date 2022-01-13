@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-10 10:56:31 GMT (Monday 10th January 2022)"
-	revision: "15"
+	date: "2022-01-13 11:38:56 GMT (Thursday 13th January 2022)"
+	revision: "16"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER_APP
@@ -48,7 +48,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "pyxis_compile"
-
-	Description: STRING = "Compile tree of Pyxis source files into single XML file"
 
 end

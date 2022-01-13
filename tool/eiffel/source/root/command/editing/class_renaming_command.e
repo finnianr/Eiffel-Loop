@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-11 18:04:45 GMT (Tuesday 11th January 2022)"
-	revision: "17"
+	date: "2022-01-13 12:25:18 GMT (Thursday 13th January 2022)"
+	revision: "18"
 
 class
 	CLASS_RENAMING_COMMAND
@@ -34,7 +34,40 @@ feature {EL_SUB_APPLICATION} -- Initialization
 			make_command (source_manifest_path)
 		end
 
+feature -- Constants
+
+	Description: STRING = "Rename classes defined by a source manifest file"
+
 feature {NONE} -- Implementation
+
+	do_with_file (source_path: FILE_PATH)
+		local
+			line: STRING; file: PLAIN_TEXT_FILE
+		do
+			if attached File_system.plain_text_lines (source_path) as source_lines
+				and then source_lines.target.has_substring (old_name)
+				and then across source_lines as list some has_old_name_identifier (list.item) end
+			then
+				-- Check if `source_path' is class definition file
+				if source_path.dot_index - 1 = old_name.count and then
+					source_path.base.same_caseless_characters_general (old_name, 1, old_name.count, 1)
+				then
+					File_system.remove_path (source_path)
+					source_path.set_base (new_name.as_lower + Eiffel_extention)
+				end
+				create file.make_open_write (source_path)
+				across source_lines as list loop
+					line := list.item
+					if line.has_substring (old_name) then
+						put_substituted (file, line)
+					else
+						file.put_string (line)
+					end
+					file.put_new_line
+				end
+				file.close
+			end
+		end
 
 	has_old_name_identifier (line: STRING): BOOLEAN
 		local
@@ -65,35 +98,6 @@ feature {NONE} -- Implementation
 			if Result and then lower - 1 >= 1 then
 				c := line [lower - 1]
 				Result := not (c.is_alpha_numeric or c = '_')
-			end
-		end
-
-	do_with_file (source_path: FILE_PATH)
-		local
-			line: STRING; file: PLAIN_TEXT_FILE
-		do
-			if attached File_system.plain_text_lines (source_path) as source_lines
-				and then source_lines.target.has_substring (old_name)
-				and then across source_lines as list some has_old_name_identifier (list.item) end
-			then
-				-- Check if `source_path' is class definition file
-				if source_path.dot_index - 1 = old_name.count and then
-					source_path.base.same_caseless_characters_general (old_name, 1, old_name.count, 1)
-				then
-					File_system.remove_path (source_path)
-					source_path.set_base (new_name.as_lower + Eiffel_extention)
-				end
-				create file.make_open_write (source_path)
-				across source_lines as list loop
-					line := list.item
-					if line.has_substring (old_name) then
-						put_substituted (file, line)
-					else
-						file.put_string (line)
-					end
-					file.put_new_line
-				end
-				file.close
 			end
 		end
 

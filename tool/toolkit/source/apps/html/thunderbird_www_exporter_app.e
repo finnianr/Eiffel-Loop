@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-10 15:32:11 GMT (Monday 10th January 2022)"
-	revision: "20"
+	date: "2022-01-13 12:00:37 GMT (Thursday 13th January 2022)"
+	revision: "21"
 
 class
 	THUNDERBIRD_WWW_EXPORTER_APP
@@ -31,7 +31,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "export_www"
-
-	Description: STRING = "Export HTML content from www directory under Thunderbird account"
 
 end

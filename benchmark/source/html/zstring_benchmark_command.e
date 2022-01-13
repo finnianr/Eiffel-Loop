@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
-	revision: "5"
+	date: "2022-01-13 14:25:40 GMT (Thursday 13th January 2022)"
+	revision: "6"
 
 class
 	ZSTRING_BENCHMARK_COMMAND
@@ -31,6 +31,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			h := Hexagram
 			create benchmark_html.make ("doc/benchmark/ZSTRING-benchmarks.evol", output_dir + Output_name #$ [codec.id])
 		end
+
+feature -- Constants
+
+	Description: STRING = "Benchmark ZSTRING in relation to STRING_32"
 
 feature -- Basic operations
 

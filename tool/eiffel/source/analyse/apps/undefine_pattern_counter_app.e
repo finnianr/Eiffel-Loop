@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 12:45:48 GMT (Tuesday 18th February 2020)"
-	revision: "8"
+	date: "2022-01-13 12:26:45 GMT (Thursday 13th January 2022)"
+	revision: "9"
 
 class
 	UNDEFINE_PATTERN_COUNTER_APP
@@ -34,11 +34,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Description: STRING = "[
-		Count the number of classes in the source tree manifest that exhibit multiple inheritance of classes
-		with an identical pattern of feature undefining.
-	]"
 
 	Option_name: STRING = "undefine_counter"
 

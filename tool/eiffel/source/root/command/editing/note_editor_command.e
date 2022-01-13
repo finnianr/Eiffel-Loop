@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-04 17:40:05 GMT (Tuesday 4th January 2022)"
-	revision: "13"
+	date: "2022-01-13 12:27:26 GMT (Thursday 13th January 2022)"
+	revision: "14"
 
 class
 	NOTE_EDITOR_COMMAND
@@ -41,12 +41,21 @@ feature {EL_SUB_APPLICATION} -- Initialization
 			make_editor (source_manifest_path)
 		end
 
+feature -- Constants
+
+	Description: STRING = "[
+		Edit the note fields of all classes defined by the source tree manifest argument.
+		If the modification date/time has changed, fill in the note fields.
+		If changed, sets the date field to be same as time stamp and increments
+		revision number.
+	]"
+
 feature -- Basic operations
 
 	execute
 		do
 			operations_list.wipe_out
-			
+
 			Precursor
 			if attached operations_list as list then
 				from list.start until list.after loop

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "4"
+	date: "2022-01-13 12:54:10 GMT (Thursday 13th January 2022)"
+	revision: "5"
 
 class
 	USER_AGENT_COMMAND
@@ -33,6 +33,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			Precursor (a_log_path)
 			create user_agent_set.make (100)
 		end
+
+feature -- Constants
+
+	Description: STRING = "List all user agents in web server log file"
 
 feature -- Basic operations
 

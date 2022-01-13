@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "13"
+	date: "2022-01-13 12:06:35 GMT (Thursday 13th January 2022)"
+	revision: "14"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER
@@ -18,6 +18,8 @@ inherit
 	EL_PYXIS_TREE_COMPILER
 		rename
 			make as make_compiler
+		redefine
+			description
 		end
 
 	EL_FILE_OPEN_ROUTINES
@@ -32,6 +34,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			make_compiler (a_manifest_path, a_source_tree_path)
 			output_file_path := a_output_file_path
 		end
+
+feature -- Constants
+
+	Description: STRING = "Compile tree of Pyxis source files into single XML file"
 
 feature {NONE} -- Implementation
 

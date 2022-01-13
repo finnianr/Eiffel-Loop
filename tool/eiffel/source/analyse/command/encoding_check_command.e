@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-11 18:04:45 GMT (Tuesday 11th January 2022)"
-	revision: "14"
+	date: "2022-01-13 12:22:48 GMT (Thursday 13th January 2022)"
+	revision: "15"
 
 class
 	ENCODING_CHECK_COMMAND
@@ -34,6 +34,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			Precursor (source_manifest_path)
 			create file_encoding_table.make (manifest.file_count)
 		end
+
+feature -- Constants
+
+	Description: STRING = "Checks for UTF-8 files that could be encoded as Latin-1"
 
 feature -- Basic operations
 

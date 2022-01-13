@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:29:09 GMT (Tuesday 10th November 2020)"
-	revision: "11"
+	date: "2022-01-13 13:59:40 GMT (Thursday 13th January 2022)"
+	revision: "12"
 
 class
 	BEXT_SERVER_TEST_APP

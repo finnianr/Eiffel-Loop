@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:11:12 GMT (Tuesday 10th November 2020)"
-	revision: "16"
+	date: "2022-01-13 12:27:42 GMT (Thursday 13th January 2022)"
+	revision: "17"
 
 class
 	LIBRARY_OVERRIDE_APP
@@ -41,7 +41,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "library_override"
-
-	Description: STRING = "Generates override of standard libaries to work with Eiffel-Loop"
 
 end

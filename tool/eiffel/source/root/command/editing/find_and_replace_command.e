@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-06 15:58:32 GMT (Thursday 6th January 2022)"
-	revision: "10"
+	date: "2022-01-13 12:19:50 GMT (Thursday 13th January 2022)"
+	revision: "11"
 
 class
 	FIND_AND_REPLACE_COMMAND
@@ -30,6 +30,10 @@ feature {EL_SUB_APPLICATION} -- Initialization
 			find_text := a_find_text; replacement_text := a_replacement_text
 			make_editor (source_manifest_path)
 		end
+
+feature -- Constants
+
+	Description: STRING = "Finds and replaces text in Eiffel source files"
 
 feature {NONE} -- Implementation
 

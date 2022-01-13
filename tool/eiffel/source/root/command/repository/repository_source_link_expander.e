@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "15"
+	date: "2022-01-13 13:02:36 GMT (Thursday 13th January 2022)"
+	revision: "16"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -24,7 +24,7 @@ inherit
 		rename
 			make as make_publisher
 		redefine
-			execute
+			description, execute
 		end
 
 	SHARED_CLASS_PATH_TABLE
@@ -45,6 +45,8 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		end
 
 feature -- Access
+
+	Description: STRING = "Expand [$source MY_CLASS] links in text file using repository configuration"
 
 	expanded_file_path: FILE_PATH
 		do

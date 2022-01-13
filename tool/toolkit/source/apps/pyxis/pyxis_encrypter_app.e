@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-10 10:38:13 GMT (Monday 10th January 2022)"
-	revision: "15"
+	date: "2022-01-13 11:39:40 GMT (Thursday 13th January 2022)"
+	revision: "16"
 
 class
 	PYXIS_ENCRYPTER_APP
@@ -56,8 +56,6 @@ feature {NONE} -- Internal attributes
 		end
 
 feature {NONE} -- Constants
-
-	Description: STRING = "Encrypt content of pyxis file"
 
 	Option_name: STRING = "pyxis_encrypt"
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:11:24 GMT (Tuesday 10th November 2020)"
-	revision: "8"
+	date: "2022-01-13 12:30:08 GMT (Thursday 13th January 2022)"
+	revision: "9"
 
 class
 	REPOSITORY_NOTE_LINK_CHECKER_APP
@@ -35,7 +35,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "check_note_links"
-
-	Description: STRING = "Checks for invalid class references in repository note links"
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "31"
+	date: "2022-01-13 14:08:24 GMT (Thursday 13th January 2022)"
+	revision: "32"
 
 class
 	RBOX_MUSIC_MANAGER
@@ -40,6 +40,8 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		end
 
 feature -- Access
+
+	Description: STRING = "Manage Rhythmbox Music Collection"
 
 	task: RBOX_MANAGEMENT_TASK
 

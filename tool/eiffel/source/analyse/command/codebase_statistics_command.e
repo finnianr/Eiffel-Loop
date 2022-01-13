@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-11 18:04:45 GMT (Tuesday 11th January 2022)"
-	revision: "15"
+	date: "2022-01-13 12:20:48 GMT (Thursday 13th January 2022)"
+	revision: "16"
 
 class
 	CODEBASE_STATISTICS_COMMAND
@@ -47,6 +47,11 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		end
 
 feature -- Access
+
+	Description: STRING = "[
+		Count lines of eiffel code for combined source trees defined by a source tree manifest.
+		Lines are counted starting from the class keyword and exclude comments and blank lines.
+	]"
 
 	byte_count: INTEGER
 

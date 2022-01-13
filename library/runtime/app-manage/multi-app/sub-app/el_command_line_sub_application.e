@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-06 12:56:13 GMT (Thursday 6th January 2022)"
-	revision: "30"
+	date: "2022-01-13 11:41:30 GMT (Thursday 13th January 2022)"
+	revision: "31"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
@@ -30,7 +30,18 @@ inherit
 
 	EL_COMMAND_CLIENT
 
+	EL_MODULE_EIFFEL
+
 feature {NONE} -- Initialization
+
+	initialize
+			--
+		do
+			if attached new_command as cmd then
+				make_command (cmd)
+				command := cmd
+			end
+		end
 
 	read_command_options
 		do
@@ -38,13 +49,11 @@ feature {NONE} -- Initialization
 			set_closed_operands
 		end
 
-	initialize
-			--
+feature -- Access
+
+	description: READABLE_STRING_GENERAL
 		do
-			if attached {like command} factory.new_item_from_type ({like command}) as new_item then
-				make_command (new_item)
-				command := new_item
-			end
+			Result := new_command.description
 		end
 
 feature -- Basic operations
@@ -147,19 +156,21 @@ feature {NONE} -- Implementation
 			target_is_open: Result.target /= Current implies not Result.is_target_closed
 		end
 
-	factory: EL_OBJECT_FACTORY [like command]
+	new_command: like command
 		do
-			create Result
+			if attached {like command} Eiffel.new_object ({like command}) as cmd then
+				Result := cmd
+			end
 		end
 
 feature {EL_COMMAND_ARGUMENT, EL_MAKE_OPERAND_SETTER} -- Internal attributes
 
 	command: C
 
+	make_command: PROCEDURE [like command]
+
 	operands: TUPLE
 		-- make procedure operands
-
-	make_command: PROCEDURE [like command]
 
 	specs: ARRAYED_LIST [EL_COMMAND_ARGUMENT];
 

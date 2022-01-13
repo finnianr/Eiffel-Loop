@@ -33,8 +33,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "7"
+	date: "2022-01-13 12:08:17 GMT (Thursday 13th January 2022)"
+	revision: "8"
 
 class
 	FILE_TREE_TRANSFORMER_SCRIPT
@@ -53,6 +53,9 @@ inherit
 		end
 
 	EL_COMMAND
+		redefine
+			description
+		end
 
 	EL_MODULE_USER_INPUT
 
@@ -73,6 +76,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			Precursor {EL_FILE_TREE_TRANSFORMER}
 			Precursor {EL_BUILDABLE_FROM_PYXIS}
 		end
+
+feature -- Constants
+
+	Description: STRING = "Transforms a tree of files using command parameters in a Pyxis script"
 
 feature -- Basic operations
 

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "10"
+	date: "2022-01-13 12:24:29 GMT (Thursday 13th January 2022)"
+	revision: "11"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER_APP
@@ -66,8 +66,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Description: STRING = "Build a software package as a self-extracting WinZip exe"
 
 	Locale_dir: DIR_PATH
 		once

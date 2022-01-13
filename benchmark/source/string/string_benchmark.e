@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-17 11:42:44 GMT (Wednesday 17th February 2021)"
-	revision: "15"
+	date: "2022-01-13 14:27:45 GMT (Thursday 13th January 2022)"
+	revision: "16"
 
 deferred class
 	STRING_BENCHMARK
@@ -43,6 +43,11 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	description: READABLE_STRING_GENERAL
+		do
+			Result := default_description
+		end
 
 	memory_tests: EL_ARRAYED_LIST [TUPLE [description: STRING; input_format: STRING; storage_size: INTEGER]]
 
@@ -486,14 +491,14 @@ feature {NONE} -- Implementation
 		require
 			valid_input_format: across input_arguments (a_input_format) as c all c.item.is_alpha implies c.item.is_upper end
 		local
-			i: INTEGER; description: STRING
+			i: INTEGER; l_description: STRING
 		do
 			if rows = 1 then
-				description := "First line only"
+				l_description := "First line only"
 			else
-				description := "Lines 1 to " + rows.out
+				l_description := "Lines 1 to " + rows.out
 			end
-			lio.put_labeled_string (generator, description); lio.put_labeled_string (" input", a_input_format)
+			lio.put_labeled_string (generator, l_description); lio.put_labeled_string (" input", a_input_format)
 			lio.put_new_line
 			input_format := a_input_format
 			fill_input_strings ("append_string")
@@ -503,7 +508,7 @@ feature {NONE} -- Implementation
 				append (output_string, input_string_list [i])
 				i := i + 1
 			end
-			memory_tests.extend ([description, displayed_input_format, storage_bytes (output_string)])
+			memory_tests.extend ([l_description, displayed_input_format, storage_bytes (output_string)])
 		end
 
 	do_performance_test (routines: STRING_32; a_input_format: STRING; procedure: PROCEDURE)

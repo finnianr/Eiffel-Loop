@@ -9,14 +9,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-11 17:34:25 GMT (Tuesday 11th January 2022)"
-	revision: "5"
+	date: "2022-01-13 12:12:32 GMT (Thursday 13th January 2022)"
+	revision: "6"
 
 class
-	EL_FILE_MANIFEST_COMMAND
+	EL_FILE_MANIFEST_GENERATOR
 
 inherit
 	EL_COMMAND
+		redefine
+			description
+		end
 
 	EL_MODULE_FILE_SYSTEM
 
@@ -50,6 +53,12 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			manifest.append_files (sorted_path_list)
 		end
 
+feature -- Access
+
+	Description: STRING = "Generate an XML manifest of a directory for files matching a wildcard"
+
+	manifest: EL_FILE_MANIFEST_LIST
+
 feature -- Basic operations
 
 	execute
@@ -63,9 +72,5 @@ feature -- Basic operations
 				lio.put_new_line
 			end
 		end
-
-feature -- Access
-
-	manifest: EL_FILE_MANIFEST_LIST
 
 end

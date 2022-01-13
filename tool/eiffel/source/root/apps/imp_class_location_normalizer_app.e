@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:14:32 GMT (Tuesday 10th November 2020)"
-	revision: "4"
+	date: "2022-01-13 12:28:51 GMT (Thursday 13th January 2022)"
+	revision: "5"
 
 class
 	IMP_CLASS_LOCATION_NORMALIZER_APP
@@ -35,7 +35,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "normalize_imp_location"
-
-	Description: STRING = "Normalizes location of implementation classes in relation to respective interfaces"
 
 end

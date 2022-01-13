@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:56:52 GMT (Sunday 19th December 2021)"
-	revision: "10"
+	date: "2022-01-13 12:22:15 GMT (Thursday 13th January 2022)"
+	revision: "11"
 
 class
 	FEATURE_EDITOR_COMMAND
@@ -26,6 +26,10 @@ inherit
 
 create
 	make
+
+feature -- Constants
+
+	Description: STRING = "Performs a series of edits and shorthand expansions on an Eiffel class"
 
 feature -- Basic operations
 

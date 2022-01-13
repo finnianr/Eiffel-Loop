@@ -31,7 +31,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 0; release = 0; build = 50
+			major = 1; minor = 0; release = 0; build = 51
 			company = "Eiffel-Loop"; product = "eiffel2java"
 			copyright = "Finnian Reilly"
 

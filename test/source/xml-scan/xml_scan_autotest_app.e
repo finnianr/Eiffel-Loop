@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-06 17:16:11 GMT (Wednesday 6th January 2021)"
-	revision: "18"
+	date: "2022-01-13 13:15:33 GMT (Thursday 13th January 2022)"
+	revision: "19"
 
 class
 	XML_SCAN_AUTOTEST_APP
@@ -44,7 +44,6 @@ feature {NONE} -- Implementation
 		EL_DOCUMENT_NODE_LOGGER,
 		EL_DOCUMENT_CRC_32_HANDLER,
 		EL_EIF_OBJ_TEXT_TABLE_CONTEXT,
-		EL_FILE_MANIFEST_COMMAND,
 		EL_PYXIS_RESOURCE_SET,
 		EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS,
 		EL_XHTML_WORD_COUNTER,

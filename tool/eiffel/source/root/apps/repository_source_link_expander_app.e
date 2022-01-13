@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:11:30 GMT (Tuesday 10th November 2020)"
-	revision: "9"
+	date: "2022-01-13 12:30:40 GMT (Thursday 13th January 2022)"
+	revision: "10"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_APP
@@ -50,7 +50,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "expand_links"
-
-	Description: STRING = "Expand [$source MY_CLASS] links in text file using repository configuration"
 
 end

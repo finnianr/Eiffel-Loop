@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 12:46:04 GMT (Tuesday 18th February 2020)"
-	revision: "12"
+	date: "2022-01-13 12:22:35 GMT (Thursday 13th January 2022)"
+	revision: "13"
 
 class
 	ENCODING_CHECK_APP
@@ -35,10 +35,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Description: STRING = "[
-		Checks for UTF-8 files that could be encoded as Latin-1
-	]"
 
 	Option_name: STRING = "check_encoding"
 

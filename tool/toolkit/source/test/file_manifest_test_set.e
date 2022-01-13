@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-11 20:06:47 GMT (Tuesday 11th January 2022)"
-	revision: "2"
+	date: "2022-01-13 12:12:32 GMT (Thursday 13th January 2022)"
+	revision: "3"
 
 class
 	FILE_MANIFEST_TEST_SET
@@ -38,7 +38,7 @@ feature {NONE} -- Implementation
 	test_with_template (dir_path: DIR_PATH; template_name: ZSTRING)
 		local
 			template_path, output_path: FILE_PATH; manifest: EL_FILE_MANIFEST_LIST
-			command: EL_FILE_MANIFEST_COMMAND
+			command: EL_FILE_MANIFEST_GENERATOR
 		do
 			if template_name.is_empty then
 				create template_path

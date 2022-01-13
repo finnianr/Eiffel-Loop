@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-01-13 12:58:21 GMT (Thursday 13th January 2022)"
+	revision: "10"
 
 class
 	EL_PYXIS_TO_XML_CONVERTER
@@ -39,6 +39,11 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		end
 
 feature -- Access
+
+	description: STRING
+		do
+			Result := "Convert Pyxis format file to XML"
+		end
 
 	output_path: FILE_PATH
 

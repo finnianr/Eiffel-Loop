@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "17"
+	date: "2022-01-13 12:43:01 GMT (Thursday 13th January 2022)"
+	revision: "18"
 
 class
 	LOCALIZATION_COMMAND_SHELL
@@ -42,6 +42,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			file_list := OS.file_list (tree_dir, "*.pyx")
 		end
 
+feature -- Constants
+
+	Description: STRING = "Command shell to perform queries and edits on tree of Pyxis localization files"
+
 feature -- Basic operations
 
 	add_check_attribute
@@ -70,16 +74,6 @@ feature -- Basic operations
 
 feature {EQA_TEST_SET} -- Implementation
 
-	add_unchecked (language: STRING; file_path: FILE_PATH)
-		local
-			list: UNCHECKED_TRANSLATIONS_LIST
-		do
-			create list.make (language, file_path)
-			if not list.is_empty then
-				unchecked_translations.extend (list)
-			end
-		end
-
 	add_file_check_attribute (file_path: FILE_PATH)
 		--  adds a check attribute after every field `lang = <language>', for example
 		-- `lang = de; check = false'
@@ -107,6 +101,16 @@ feature {EQA_TEST_SET} -- Implementation
 				file_out.set_encoding (encoding)
 				file_out.put_lines (line_list)
 				file_out.close
+			end
+		end
+
+	add_unchecked (language: STRING; file_path: FILE_PATH)
+		local
+			list: UNCHECKED_TRANSLATIONS_LIST
+		do
+			create list.make (language, file_path)
+			if not list.is_empty then
+				unchecked_translations.extend (list)
 			end
 		end
 

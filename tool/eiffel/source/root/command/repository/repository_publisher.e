@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "46"
+	date: "2022-01-13 13:01:15 GMT (Thursday 13th January 2022)"
+	revision: "47"
 
 class
 	REPOSITORY_PUBLISHER
@@ -57,7 +57,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create parser.make (Current)
 			make_from_file (a_file_path)
 			parser.update (True)
-			
+
 			-- Add alias names like `ZSTRING' to `Class_path_table'
 			across ecf_list as ecf loop
 				across ecf.item.alias_table as table loop
@@ -91,6 +91,13 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		end
 
 feature -- Access
+
+	description: STRING
+		do
+			Result := "[
+				Publishes source code and descriptions of Eiffel projects to a website as static html
+			]"
+		end
 
 	config_path: FILE_PATH
 		-- config file path

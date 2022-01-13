@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-25 20:37:54 GMT (Thursday 25th November 2021)"
-	revision: "15"
+	date: "2022-01-13 16:20:03 GMT (Thursday 13th January 2022)"
+	revision: "16"
 
 class
 	GENERAL_TEST_SET
@@ -18,6 +18,8 @@ inherit
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
 	EL_MODULE_BASE_64
+
+	EL_MODULE_NAMING
 
 	EL_MODULE_REUSABLE
 
@@ -32,6 +34,7 @@ feature -- Basic operations
 			eval.call ("environment_put", agent test_environment_put)
 			eval.call ("math_precision", agent test_math_precision)
 			eval.call ("named_thread", agent test_named_thread)
+			eval.call ("naming", agent test_naming)
 			eval.call ("numeric_code", agent test_numeric_code)
 			eval.call ("reusable_strings", agent test_reusable_strings)
 			eval.call ("reverse_managed_pointer", agent test_reverse_managed_pointer)
@@ -108,6 +111,27 @@ feature -- Tests
 		do
 			create t
 			assert ("same string", t.name.same_string ("Named Thread"))
+		end
+
+	test_naming
+		note
+			testing:
+				"covers/{EL_NAMING_ROUTINES}.to_title", "covers/{EL_NAMING_ROUTINES}.class_description"
+		local
+			eif_name, title, description: STRING
+			excluded_words: EL_STRING_8_LIST
+		do
+			eif_name := "hex_11_software"
+			create title.make (eif_name.count)
+			Naming.to_title (eif_name, title, ' ')
+			assert ("is title", title ~ "Hex 11 Software")
+
+			excluded_words := "EL"
+			description := Naming.class_description ({EL_OCCURRENCE_INTERVALS [STRING]}, excluded_words)
+			assert ("expected description", description ~ "Occurrence intervals for type STRING_8")
+
+			description := Naming.class_description (Current, excluded_words)
+			assert ("expected description", description ~ "General test SET")
 		end
 
 	test_numeric_code

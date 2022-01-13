@@ -17,14 +17,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-16 13:41:06 GMT (Monday 16th August 2021)"
-	revision: "12"
+	date: "2022-01-13 12:03:01 GMT (Thursday 13th January 2022)"
+	revision: "13"
 
 class
 	EL_YOUTUBE_VIDEO_DOWNLOADER
 
 inherit
 	EL_COMMAND
+		redefine
+			description
+		end
 
 	EL_MODULE_LIO
 
@@ -81,5 +84,11 @@ feature -- Basic operations
 feature {NONE} -- Internal attributes
 
 	video: EL_YOUTUBE_VIDEO
+
+feature {NONE} -- Constants
+
+	Description: STRING = "[
+		Download selected video and audio stream from youtube video and merge to container
+	]"
 
 end

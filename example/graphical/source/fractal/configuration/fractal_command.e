@@ -1,13 +1,13 @@
 note
-	description: "Fractal command"
+	description: "Launch GUI of type [$source EL_VISION_2_USER_INTERFACE [FRACTAL_MAIN_WINDOW]]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-21 15:26:58 GMT (Friday 21st August 2020)"
-	revision: "2"
+	date: "2022-01-13 14:05:15 GMT (Thursday 13th January 2022)"
+	revision: "3"
 
 class
 	FRACTAL_COMMAND
@@ -21,6 +21,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			create gui.make (True)
 		end
+
+feature -- Constants
+
+	Description: STRING = "Simple geometric fractal defined by Pyxis configuration file"
 
 feature -- Basic operations
 

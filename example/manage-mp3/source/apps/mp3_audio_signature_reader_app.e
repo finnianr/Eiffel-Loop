@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:16:36 GMT (Tuesday 10th November 2020)"
-	revision: "14"
+	date: "2022-01-13 14:08:40 GMT (Thursday 13th January 2022)"
+	revision: "15"
 
 class
 	MP3_AUDIO_SIGNATURE_READER_APP
@@ -44,7 +44,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "read_signatures"
-
-	Description: STRING = "Read MP3 audio signatures"
 
 end

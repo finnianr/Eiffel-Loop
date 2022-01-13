@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "4"
+	date: "2022-01-13 14:06:23 GMT (Thursday 13th January 2022)"
+	revision: "5"
 
 class
 	GENERATE_RBOX_DATABASE_FIELD_ENUM_APP
@@ -40,8 +40,4 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make (create {FILE_PATH})
 		end
 
-
-feature {NONE} -- Constants
-
-	Description: STRING = "Generate class RBOX_DATABASE_FIELDS from C source file `rhythmdb.c'"
 end

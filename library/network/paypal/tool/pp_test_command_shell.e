@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "20"
+	date: "2022-01-13 13:25:32 GMT (Thursday 13th January 2022)"
+	revision: "21"
 
 class
 	PP_TEST_COMMAND_SHELL
@@ -45,6 +45,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			paypal.open
 			currency_code := Currency_enum.HUF
 		end
+
+feature -- Constants
+
+	Description: STRING = "Menu driven Paypal test tool"
 
 feature -- Basic operations
 

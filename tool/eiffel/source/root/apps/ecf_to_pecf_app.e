@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-06 17:37:07 GMT (Thursday 6th January 2022)"
-	revision: "21"
+	date: "2022-01-13 13:06:30 GMT (Thursday 13th January 2022)"
+	revision: "22"
 
 class
 	ECF_TO_PECF_APP
@@ -43,7 +43,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "ecf_to_pecf"
-
-	Description: STRING = "Convert Eiffel configuration files to Pyxis format"
 
 end

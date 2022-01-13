@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "5"
+	date: "2022-01-13 12:03:10 GMT (Thursday 13th January 2022)"
+	revision: "6"
 
 class
 	CAD_MODEL_SLICER
 
 inherit
 	EL_COMMAND
+		redefine
+			description
+		end
 
 	EL_MODULE_LOG
 
@@ -30,6 +33,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			log.put_elapsed_time
 			log.exit
 		end
+
+feature -- Constants
+
+	Description: STRING = "Slice CAD model across water plane into dry part and wet part and save as 2 files"
 
 feature -- Basic operations
 

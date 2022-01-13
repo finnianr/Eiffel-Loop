@@ -6,39 +6,27 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-12 21:19:27 GMT (Wednesday 12th January 2022)"
-	revision: "15"
+	date: "2022-01-13 11:53:05 GMT (Thursday 13th January 2022)"
+	revision: "16"
 
 class
 	VCF_CONTACT_NAME_SWITCHER_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [VCF_CONTACT_NAME_SWITCHER]
+	VCF_CONTACT_NAME_SUB_APPLICATION
 		redefine
-			Option_name
+			command, Option_name
 		end
 
 create
 	make
 
-feature {NONE} -- Implementation
+feature {NONE} -- Internal attributes
 
-	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
-		do
-			Result := <<
-				valid_required_argument ("in", "Path to vcf contacts file", << file_must_exist >>)
-			>>
-		end
-
-	default_make: PROCEDURE [like command]
-		do
-			Result := agent {like command}.make ("")
-		end
+	command: VCF_CONTACT_NAME_SWITCHER
 
 feature {NONE} -- Constants
 
 	Option_name: STRING = "vcf_switch"
-
-	Description: STRING = "Switch first and second names in vCard contacts file"
 
 end

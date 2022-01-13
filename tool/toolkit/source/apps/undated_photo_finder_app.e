@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-11 19:42:25 GMT (Tuesday 11th January 2022)"
-	revision: "14"
+	date: "2022-01-13 11:37:36 GMT (Thursday 13th January 2022)"
+	revision: "15"
 
 class
 	UNDATED_PHOTO_FINDER_APP
@@ -47,9 +47,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "undated_photos"
-
-	Description: STRING = "[
-		Make list of jpeg photos lacking a "Date time taken" EXIF info
-	]"
 
 end

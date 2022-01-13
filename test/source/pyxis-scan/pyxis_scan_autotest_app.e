@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-25 14:04:46 GMT (Thursday 25th March 2021)"
-	revision: "18"
+	date: "2022-01-13 13:15:21 GMT (Thursday 13th January 2022)"
+	revision: "19"
 
 class
 	PYXIS_SCAN_AUTOTEST_APP
@@ -33,7 +33,7 @@ feature {NONE} -- Implementation
 	compiled: TUPLE [
 		EL_BINARY_ENCODED_DOCUMENT_SCANNER,
 		EL_BINARY_ENCODED_PARSE_EVENT_TYPE,
-		EL_FILE_MANIFEST_COMMAND,
+		EL_FILE_MANIFEST_GENERATOR,
 		EL_PYXIS_RESOURCE_SET,
 		EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS,
 		EL_DOCUMENT_NODE_LOGGER,

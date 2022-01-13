@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 16:02:36 GMT (Monday 3rd January 2022)"
-	revision: "22"
+	date: "2022-01-13 12:25:03 GMT (Thursday 13th January 2022)"
+	revision: "23"
 
 class
 	CLASS_RENAMING_APP
@@ -128,8 +128,6 @@ feature {NONE} -- Internal attributes
 	user_quit: BOOLEAN
 
 feature {NONE} -- Constants
-
-	Description: STRING = "Rename classes defined by a source manifest file"
 
 	Desktop: EL_DESKTOP_ENVIRONMENT_I
 		once

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "15"
+	date: "2022-01-13 14:07:40 GMT (Thursday 13th January 2022)"
+	revision: "16"
 
 class
 	TANGO_MP3_FILE_COLLATOR
@@ -34,6 +34,12 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			dir_path := a_dir_path
 			create song_title_counts.make_equal (100)
 		end
+
+feature -- Constants
+
+	Description: STRING = "[
+		Collates mp3 files using the path form: <genre>/<artist>/<title>.<id>.mp3
+	]"
 
 feature -- Basic operations
 

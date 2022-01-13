@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-01 10:15:56 GMT (Thursday 1st April 2021)"
-	revision: "3"
+	date: "2022-01-13 14:27:12 GMT (Thursday 13th January 2022)"
+	revision: "4"
 
 deferred class
 	PRIME_NUMBER_COMMAND
@@ -23,6 +23,11 @@ inherit
 	EL_MODULE_LIO
 
 feature -- Access
+
+	description: READABLE_STRING_GENERAL
+		do
+			Result := default_description
+		end
 
 	prime_count: INTEGER
 		deferred

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-18 11:18:06 GMT (Saturday 18th April 2020)"
-	revision: "15"
+	date: "2022-01-13 14:07:21 GMT (Thursday 13th January 2022)"
+	revision: "16"
 
 class
 	TANGO_MP3_FILE_COLLATOR_APP
@@ -42,9 +42,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "mp3_collate"
-
-	Description: STRING = "[
-		Collates mp3 files using the path form: <genre>/<artist>/<title>.<id>.mp3
-	]"
 
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-10 15:31:05 GMT (Monday 10th January 2022)"
-	revision: "7"
+	date: "2022-01-13 11:55:55 GMT (Thursday 13th January 2022)"
+	revision: "8"
 
 class
 	LOCALIZED_THUNDERBIRD_BOOK_EXPORTER_APP
@@ -32,8 +32,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Description: STRING = "Export merged email chapters from Thunderbird folders as HTML book"
 
 	Option_name: STRING = "export_thunderbird_book"
 end

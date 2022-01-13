@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-29 16:02:36 GMT (Wednesday 29th December 2021)"
-	revision: "19"
+	date: "2022-01-13 14:26:06 GMT (Thursday 13th January 2022)"
+	revision: "20"
 
 class
 	BENCHMARK_COMMAND_SHELL
@@ -20,6 +20,10 @@ inherit
 
 create
 	make
+
+feature -- Constants
+
+	Description: STRING = "Menu driven benchmark tests"
 
 feature {NONE} -- Constants
 

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-19 8:31:22 GMT (Friday 19th March 2021)"
-	revision: "18"
+	date: "2022-01-13 12:29:13 GMT (Thursday 13th January 2022)"
+	revision: "19"
 
 class
 	EIFFEL_VIEW_APP
@@ -49,7 +49,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "eiffel_view"
-
-	Description: STRING = "Publishes source code and descriptions of Eiffel projects to a website as static html"
 
 end

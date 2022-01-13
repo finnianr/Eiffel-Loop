@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
-	revision: "4"
+	date: "2022-01-13 12:19:00 GMT (Thursday 13th January 2022)"
+	revision: "5"
 
 class
 	ID3_FRAME_CODE_CLASS_GENERATOR_APP
@@ -45,7 +45,5 @@ feature {NONE} -- Constants
 		once
 			Result := Eiffel_loop_dir.joined_dir_path ("contrib/C++/taglib/include/mpeg/id3v2")
 		end
-
-	Description: STRING = "Generate ID3 frame code constant classes for ID3 versions 2.2, 2.3 and 2.4"
 
 end

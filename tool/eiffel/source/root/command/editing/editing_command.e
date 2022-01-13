@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "5"
+	date: "2022-01-13 12:56:41 GMT (Thursday 13th January 2022)"
+	revision: "6"
 
 class
 	EDITING_COMMAND
 
 inherit
 	EL_FILE_PROCESSING_COMMAND
+		rename
+			default_description as description
+		end
 
 create
 	make

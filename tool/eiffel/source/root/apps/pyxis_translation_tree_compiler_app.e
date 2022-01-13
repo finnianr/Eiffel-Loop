@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-25 11:48:36 GMT (Friday 25th June 2021)"
-	revision: "15"
+	date: "2022-01-13 12:26:21 GMT (Thursday 13th January 2022)"
+	revision: "16"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER_APP
@@ -53,7 +53,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "compile_translations"
-
-	Description: STRING = "Compile tree of Pyxis translation files into multiple locale files"
 
 end

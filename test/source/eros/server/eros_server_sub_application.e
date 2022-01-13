@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-22 10:51:07 GMT (Wednesday 22nd January 2020)"
-	revision: "13"
+	date: "2022-01-13 13:59:52 GMT (Thursday 13th January 2022)"
+	revision: "14"
 
 deferred class
 	EROS_SERVER_SUB_APPLICATION
@@ -25,6 +25,8 @@ inherit
 			execute as run,
 			done as exit_signal_received,
 			make as make_server
+		undefine
+			description
 		end
 
 feature {NONE} -- Initialization

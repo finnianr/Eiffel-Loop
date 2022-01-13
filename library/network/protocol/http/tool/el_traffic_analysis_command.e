@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "12"
+	date: "2022-01-13 13:22:49 GMT (Thursday 13th January 2022)"
+	revision: "13"
 
 class
 	EL_TRAFFIC_ANALYSIS_COMMAND
@@ -41,6 +41,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 				page_table.extend (create {ARRAYED_LIST [NATURAL]}.make (50), page.item)
 			end
 		end
+
+feature -- Constants
+
+	Description: STRING = "Analyse web traffic in from cherokee log file"
 
 feature -- Basic operations
 

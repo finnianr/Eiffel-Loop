@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "13"
+	date: "2022-01-13 12:20:21 GMT (Thursday 13th January 2022)"
+	revision: "14"
 
 class
 	CODEC_GENERATOR
@@ -37,6 +37,10 @@ feature {EL_SUB_APPLICATION} -- Initialization
 			Evolicity_templates.put_file (template_path, Utf_8_encoding)
 			create codec_list.make (20)
 		end
+
+feature -- Constants
+
+	Description: STRING = "Generate Eiffel codecs from VTD-XML C source"
 
 feature -- Basic operations
 
@@ -91,9 +95,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Keyword_void: ZSTRING
+	Chars_ready_equals_true: ZSTRING
 		once
-			Result := "void"
+			Result := "_chars_ready = TRUE;"
 		end
 
 	Chars_suffix: ZSTRING
@@ -101,9 +105,9 @@ feature {NONE} -- Constants
 			Result := "_chars"
 		end
 
-	Chars_ready_equals_true: ZSTRING
+	Keyword_void: ZSTRING
 		once
-			Result := "_chars_ready = TRUE;"
+			Result := "void"
 		end
 
 	Utf_8_encoding: EL_ENCODEABLE_AS_TEXT

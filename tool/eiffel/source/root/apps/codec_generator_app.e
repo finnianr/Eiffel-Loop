@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-06 14:18:21 GMT (Thursday 6th January 2022)"
-	revision: "16"
+	date: "2022-01-13 12:20:06 GMT (Thursday 13th January 2022)"
+	revision: "17"
 
 class
 	CODEC_GENERATOR_APP
@@ -39,7 +39,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "generate_codecs"
-
-	Description: STRING = "Generate Eiffel codecs from VTD-XML C source"
 
 end

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-04 17:19:14 GMT (Tuesday 4th January 2022)"
-	revision: "25"
+	date: "2022-01-13 12:27:09 GMT (Thursday 13th January 2022)"
+	revision: "26"
 
 class
 	NOTE_EDITOR_APP
@@ -48,13 +48,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Description: STRING = "[
-		Edit the note fields of all classes defined by the source tree manifest argument.
-		If the modification date/time has changed, fill in the note fields.
-		If changed, sets the date field to be same as time stamp and increments
-		revision number.
-	]"
 
 	Desktop: EL_DESKTOP_ENVIRONMENT_I
 		once

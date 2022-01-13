@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-10 12:27:32 GMT (Thursday 10th September 2020)"
-	revision: "11"
+	date: "2022-01-13 11:49:47 GMT (Thursday 13th January 2022)"
+	revision: "12"
 
 class
 	YOUTUBE_VIDEO_DOWNLOADER_APP
@@ -47,8 +47,6 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "youtube_dl"
-
-	Description: STRING = "Download selected video and audio stream from youtube video and merge to container"
 
 note
 	notes: "[

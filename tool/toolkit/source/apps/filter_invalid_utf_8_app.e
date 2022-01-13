@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:14:51 GMT (Tuesday 10th November 2020)"
-	revision: "9"
+	date: "2022-01-13 11:58:42 GMT (Thursday 13th January 2022)"
+	revision: "10"
 
 class
 	FILTER_INVALID_UTF_8_APP
@@ -47,7 +47,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Option_name: STRING = "filter_utf_8"
-
-	Description: STRING = "Filter out all invalid UTF-8 lines from file"
 
 end

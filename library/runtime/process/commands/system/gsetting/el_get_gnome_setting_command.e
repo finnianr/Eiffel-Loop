@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "7"
+	date: "2022-01-13 13:51:46 GMT (Thursday 13th January 2022)"
+	revision: "8"
 
 class
 	EL_GET_GNOME_SETTING_COMMAND

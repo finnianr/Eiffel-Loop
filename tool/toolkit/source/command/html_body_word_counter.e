@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-11 17:41:40 GMT (Tuesday 11th January 2022)"
-	revision: "12"
+	date: "2022-01-13 12:42:55 GMT (Thursday 13th January 2022)"
+	revision: "13"
 
 class
 	HTML_BODY_WORD_COUNTER
@@ -27,6 +27,8 @@ create
 	make
 
 feature -- Access
+
+	Description: STRING = "Count words in directory of html body files (*.body)"
 
 	word_count: INTEGER
 
