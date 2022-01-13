@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "6"
+	date: "2022-01-13 19:50:18 GMT (Thursday 13th January 2022)"
+	revision: "7"
 
 class
 	CLASS_NOTES
@@ -19,6 +19,8 @@ inherit
 		end
 
 	NOTE_CONSTANTS
+
+	EL_MODULE_NAMING
 
 create
 	make_with_line_source, make_with_lines
@@ -102,19 +104,8 @@ feature {NONE} -- Implementation
 		end
 
 	default_description: ZSTRING
-		local
-			words: EL_ZSTRING_LIST
 		do
-			create words.make_split (class_name.as_lower, '_')
-			words.start
-			if words.item ~ EL then
-				words.remove
-			end
-			words.start
-			if not words.off then
-				words.replace (words.item.as_proper_case)
-			end
-			Result := words.joined_words
+			Result := Naming.class_description (class_name, excluded_words)
 		end
 
 	is_field (line: ZSTRING): BOOLEAN
@@ -135,14 +126,15 @@ feature {NONE} -- Constants
 			Result := << "Summary description for", "Objects that" >>
 		end
 
-	EL: ZSTRING
-		once
-			Result := "el"
-		end
-
 	Tab: ZSTRING
 		once
 			Result := "%T"
 		end
 
+feature {NONE} -- Constants
+
+	Excluded_words: EL_STRING_8_LIST
+		once
+			Result := "EL, IMP, I"
+		end
 end

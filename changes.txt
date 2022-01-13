@@ -442,3 +442,6 @@ Improved JSON parsing split list
 Tue 4th Jan 2022, 17:47:17
 Created alias for file and directory path classes
 
+Thu 13th Jan 2022, 16:48:22
+Moved EL_COMMAND_LINE_SUB_APPLICATION.description into EL_COMMAND descendant
+

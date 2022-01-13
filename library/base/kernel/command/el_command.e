@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 15:51:02 GMT (Thursday 13th January 2022)"
-	revision: "6"
+	date: "2022-01-13 19:45:51 GMT (Thursday 13th January 2022)"
+	revision: "7"
 
 deferred class
 	EL_COMMAND
@@ -33,7 +33,7 @@ feature {NONE} -- Implementation
 
 	default_description: STRING
 		do
-			Result := Naming.class_description (Current, excluded_words)
+			Result := Naming.class_description_from (Current, excluded_words)
 		end
 
 feature {NONE} -- Constants

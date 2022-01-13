@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
-	revision: "26"
+	date: "2022-01-13 19:52:57 GMT (Thursday 13th January 2022)"
+	revision: "27"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -78,7 +78,6 @@ feature -- Tests
 			encoding, encoding_after: STRING; crc: NATURAL
 			old_revision, new_revision: INTEGER_REF
 		do
-			log.enter ("test_editor")
 			across file_list as path loop
 				restore_default_fields (path.item)
 
@@ -108,7 +107,6 @@ feature -- Tests
 			end
 			test_encoding_samples
 --			n := User_input.integer ("Return to finish")
-			log.exit
 		end
 
 feature {NONE} -- Line states
