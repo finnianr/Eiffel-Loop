@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "8"
+	date: "2022-01-14 11:33:48 GMT (Friday 14th January 2022)"
+	revision: "9"
 
 class
 	EL_THUNDERBIRD_XHTML_BODY_EXPORTER
@@ -27,8 +27,6 @@ inherit
 		end
 
 	EL_MODULE_HTML
-
-	EL_ZSTRING_CONSTANTS
 
 create
 	make

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-10 16:16:04 GMT (Monday 10th January 2022)"
-	revision: "12"
+	date: "2022-01-14 11:27:27 GMT (Friday 14th January 2022)"
+	revision: "13"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -291,14 +291,14 @@ feature {NONE} -- Constants
 			Result := "://localhost"
 		end
 
-	Surplus_image_attributes: ARRAYED_LIST [ZSTRING]
+	Surplus_image_attributes: EL_ZSTRING_LIST
 		once
-			create Result.make_from_array (<< "moz-do-not-send", "height", "width", "border" >>)
+			Result := "moz-do-not-send, height, width, border"
 		end
 
-	Surplus_hyperlink_attributes: ARRAYED_LIST [ZSTRING]
+	Surplus_hyperlink_attributes: EL_ZSTRING_LIST
 		once
-			create Result.make_from_array (<< Surplus_image_attributes [1], "class" >>)
+			Result := Surplus_image_attributes [1] + ", class"
 		end
 
 end

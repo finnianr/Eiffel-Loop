@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Test classes
 
@@ -12,20 +12,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-10 17:06:48 GMT (Monday 10th January 2022)"
-	revision: "1"
+	date: "2022-01-14 16:36:42 GMT (Friday 14th January 2022)"
+	revision: "2"
 
 class
-	THUNDERBIRD_ACCOUNT_READER_TEST_SET
+	THUNDERBIRD_EXPORT_TEST_SET
 
 inherit
-	EL_COPIED_DIRECTORY_DATA_TEST_SET
-
-	EIFFEL_LOOP_TEST_ROUTINES
-
-	EL_FILE_OPEN_ROUTINES
-
-	EL_SHARED_DIGESTS
+	THUNDERBIRD_EQA_TEST_SET
 
 feature -- Basic operations
 
@@ -80,8 +74,8 @@ feature -- Tests
 			create command.make_from_file (config_path)
 			command.execute
 
-			create file_set.make (Www_manifest.occurrences ('%N') + 1)
-			across Www_manifest.split ('%N') as line loop
+			create file_set.make (Www_manifest.count)
+			across Www_manifest as line loop
 				file_set.put (line.item)
 			end
 			create dir_set.make_from_array (<<
@@ -97,9 +91,9 @@ feature -- Tests
 	test_xhtml_exporter
 		local
 			command: EL_ML_THUNDERBIRD_ACCOUNT_XHTML_BODY_EXPORTER
-			config_path: FILE_PATH; folder_names: EL_ZSTRING_LIST
-			folder_path: DIR_PATH; md5: like Md5_128;
-			modification_table: EL_HASH_TABLE [INTEGER, FILE_PATH]
+			config_path, body_path, h2_path: FILE_PATH; folder_names: EL_ZSTRING_LIST
+			folder_path: DIR_PATH; modification_table: EL_HASH_TABLE [INTEGER, FILE_PATH]
+			name: ZSTRING; count: INTEGER
 		do
 			create modification_table.make_size (50)
 			folder_names := "Purchase, manual, Product Tour, Screenshots"
@@ -107,54 +101,44 @@ feature -- Tests
 			write_config (config_path, new_config_text("pop.myching.co", "", folder_names))
 			create command.make_from_file (config_path)
 			command.execute
-			md5 := Md5_128
-			md5.reset
-			across << "en", "de" >> as lang loop
-				across folder_names as name loop
-					folder_path := work_area_data_dir.joined_dir_tuple (["export", lang.item, name.item])
-					assert ("folder exists", folder_path.exists)
-					across OS.sorted_file_list (folder_path, "*") as path loop
-						modification_table.extend (path.item.modification_time, path.item)
-						across File_system.plain_text_lines (path.item) as line loop
-							md5.sink_string_8 (line.item)
-						end
+
+			-- check parseable as XML document
+			across Pop_myching_co_manifest as list loop
+				body_path := Export_dir + list.item; h2_path := body_path.with_new_extension ("h2")
+				modification_table.put (body_path.modification_time, body_path)
+				assert (body_path.base + " exists", body_path.exists)
+				assert (h2_path.base + " exists", h2_path.exists)
+				name := body_path.base_sans_extension
+				if attached new_root_node (body_path) as xdoc then
+					if name.has_substring ({STRING_32} "Ÿœ€") then
+						assert ("expected h2 text", xdoc.string_32_at_xpath ({STRING_32}"/body/a[@id='Ÿœ']/h2") ~ {STRING_32}"Ÿœ")
+						count := count + 1
+					elseif name.has_substring ("Engine Screenshot") then
+						assert ("expected img src", xdoc.string_8_at_xpath ("/body/img[1]/@src").ends_with_general ("search-engine.png"))
+						count := count + 1
+					else
+						assert ("at least one paragraph", xdoc.context_list ("//p").count > 0)
+						count := count + 1
 					end
 				end
 			end
-			assert_same_digest_string ("combined export", "4oDcXJh78JgHoaoEXLZ+bQ==", md5.digest_base_64)
+			assert ("all items covered", count = Pop_myching_co_manifest.count)
 
 			command.execute
-			across OS.file_list (work_area_data_dir #+ "export", "*") as path loop
-				if modification_table.has_key (path.item) then
-					assert ("unchanged after 2nd execution", path.item.modification_time = modification_table.found_item)
-				else
-					assert (path.item.base + " present", False)
+			if attached OS.file_list (Export_dir, "*.body") as file_list then
+				assert ("manifest complete", file_list.count = Pop_myching_co_manifest.count)
+				across file_list as path loop
+					if modification_table.has_key (path.item) then
+						assert ("unchanged after 2nd execution", path.item.modification_time = modification_table.found_item)
+					else
+						assert (path.item.base + " present", False)
+					end
 				end
 			end
 			test_page_rename (command)
 		end
 
 feature {NONE} -- Implementation
-
-	new_config_text (account, language: STRING; folders: EL_ZSTRING_LIST): ZSTRING
-		local
-			lines: EL_ZSTRING_LIST
-		do
-			create lines.make_with_lines (Pyxis_template #$ [account])
-			if not language.is_empty then
-				lines.finish
-				lines.put_left (Language_template #$ [language])
-			end
-			if folders.is_empty then
-				lines.extend ("%Tcharset = %"ISO-8859-15%"")
-			else
-				lines.extend ("%Tfolders:")
-				across folders as folder loop
-					lines.extend (Folder_template #$ [folder.item])
-				end
-			end
-			Result := lines.joined_lines
-		end
 
 	source_dir: DIR_PATH
 		do
@@ -194,49 +178,50 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	write_config (config_path: FILE_PATH; config_text: ZSTRING)
-		do
-			if attached open (config_path, Write) as pyxis_out then
-				pyxis_out.put_string (config_text)
-				pyxis_out.close
-			end
-		end
+feature {NONE} -- Constants
 
-feature {NONE} -- Test Constants
-
-	Folder_template: ZSTRING
+	Export_dir: DIR_PATH
 		once
-			Result := "%T%T%"%S%""
+			Result := work_area_data_dir #+ "export"
 		end
 
-	Language_template: ZSTRING
+	WWW_manifest: EL_STRING_8_LIST
 		once
-			Result := "%Tlanguage = %S"
+			create Result.make_with_lines ("[
+				Audio management
+				Client-server network
+				Digital Signal Processing
+				Development Tools
+				External Language integration
+				Graphical user interface
+				Installing Eiffel Loop
+				Miscellaneous
+				Multi-threading
+				Text processing
+				Toolkit functions
+				XML processing
+			]")
 		end
 
-	Pyxis_template: ZSTRING
+	Pop_myching_co_manifest: EL_ZSTRING_LIST
 		once
-			Result := "[
-				pyxis-doc:
-					version = 1.0; encoding = "ISO-8859-1"
-				
-				thunderbird:
-					account = "#"; export_dir = "workarea/.thunderbird/export"; home_dir = workarea
-			]"
+			create Result.make_with_lines ({STRING_32} "[
+				de/manual/Tagebuch-Einträge.body
+				de/manual/Tagebücher-Ÿœ€.body
+				de/manual/Tastenkombinationen.body
+				de/Product Tour/Startseite.body
+				de/Product Tour/Suchmaschine.body
+				de/Purchase/2-Jahres-Abonnement.body
+				en/manual/1.Hexagrams.body
+				en/manual/2.Journals.body
+				en/manual/3.Journal Entries.body
+				en/manual/4.Keyboard Shortcuts.body
+				en/manual/5.Quick Guide.body
+				en/Product Tour/5.Data Privacy.body
+				en/Product Tour/Home.body
+				en/Product Tour/Search Engine.body
+				en/Purchase/6 Month Subscription.body
+				en/Screenshots/Search Engine Screenshot.body
+			]")
 		end
-
-	WWW_manifest: STRING = "[
-		Audio management
-		Client-server network
-		Digital Signal Processing
-		Development Tools
-		External Language integration
-		Graphical user interface
-		Installing Eiffel Loop
-		Miscellaneous
-		Multi-threading
-		Text processing
-		Toolkit functions
-		XML processing
-	]"
 end
