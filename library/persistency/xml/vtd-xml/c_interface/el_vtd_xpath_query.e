@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-26 9:59:18 GMT (Saturday 26th October 2019)"
-	revision: "9"
+	date: "2022-01-15 10:34:31 GMT (Saturday 15th January 2022)"
+	revision: "10"
 
 class
 	EL_VTD_XPATH_QUERY
@@ -157,6 +157,6 @@ feature {NONE} -- Internal attributes
 
 	nodeset_index: INTEGER
 
-	xpath: EL_VTD_NATIVE_XPATH_I
+	xpath: EL_VTD_NATIVE_XPATH_I [ANY]
 
 end

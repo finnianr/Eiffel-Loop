@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-14 16:36:42 GMT (Friday 14th January 2022)"
-	revision: "2"
+	date: "2022-01-15 10:03:28 GMT (Saturday 15th January 2022)"
+	revision: "3"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -92,7 +92,7 @@ feature -- Tests
 		local
 			command: EL_ML_THUNDERBIRD_ACCOUNT_XHTML_BODY_EXPORTER
 			config_path, body_path, h2_path: FILE_PATH; folder_names: EL_ZSTRING_LIST
-			folder_path: DIR_PATH; modification_table: EL_HASH_TABLE [INTEGER, FILE_PATH]
+			modification_table: EL_HASH_TABLE [INTEGER, FILE_PATH]
 			name: ZSTRING; count: INTEGER
 		do
 			create modification_table.make_size (50)

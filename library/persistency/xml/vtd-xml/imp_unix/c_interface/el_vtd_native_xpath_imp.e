@@ -6,37 +6,28 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-18 17:06:55 GMT (Tuesday 18th April 2017)"
-	revision: "3"
+	date: "2022-01-15 10:52:01 GMT (Saturday 15th January 2022)"
+	revision: "4"
 
 class
 	EL_VTD_NATIVE_XPATH_IMP
 
 inherit
-	EL_VTD_NATIVE_XPATH_I
-
-	TO_SPECIAL [CHARACTER_32]
-		export
-			{NONE} area
-		end
+	EL_VTD_NATIVE_XPATH_I [CHARACTER_32]
 
 create
-	make
+	make, make_empty
 
 feature {NONE} -- Implementation
 
-	base_address: POINTER
+	share_area (a_xpath: STRING_32)
 		do
-			Result := area.base_address
-		end
-		
-	share_area (a_xpath: READABLE_STRING_GENERAL)
-		local
-			str_32: STRING_32
-		do
-			str_32 := a_xpath.to_string_32
-			area := str_32.area
-			area.put ('%U', str_32.count)
+			if attached a_xpath.to_c then
+				area := a_xpath.area
+			end
 		end
 
+feature {NONE} -- Constants
+
+	Null_terminator: CHARACTER_32 = '%U'
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2022-01-15 10:06:44 GMT (Saturday 15th January 2022)"
+	revision: "4"
 
 class
 	EL_XPATH_NODE_CONTEXT_LIST
@@ -44,8 +44,6 @@ feature -- Access
 
 	index: INTEGER
 
-	xpath: READABLE_STRING_GENERAL
-
 	new_cursor: EL_XPATH_NODE_CONTEXT_LIST_ITERATION_CURSOR
 			--
 		do
@@ -53,7 +51,16 @@ feature -- Access
 			Result.start
 		end
 
+	xpath: READABLE_STRING_GENERAL
+
 feature -- Cursor movement
+
+	forth
+			-- Move to next position if any.
+		do
+			context.query_forth
+			index := index + 1
+		end
 
 	start
 			-- Move to first position if any.
@@ -63,19 +70,14 @@ feature -- Cursor movement
 			index := index + 1
 		end
 
-	forth
-			-- Move to next position if any.
-		do
-			context.query_forth
-			index := index + 1
-		end
-
 feature -- Measurement
 
 	count: INTEGER
 			--
 		do
-			Result := parent_context.integer_at_xpath (once "count (" + xpath + once ")")
+			Count_xpath [2].wipe_out
+			Count_xpath [2].append_string_general (xpath)
+			Result := parent_context.integer_at_xpath (Count_xpath.joined_strings)
 		end
 
 feature -- Status report
@@ -101,6 +103,13 @@ feature {NONE} -- Unused
 	finish
 			-- Move to last position.
 		do
+		end
+
+feature {NONE} -- Constants
+
+	Count_xpath: EL_ZSTRING_LIST
+		once
+			Result := "count (,,)"
 		end
 
 end
