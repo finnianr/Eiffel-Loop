@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-14 11:33:48 GMT (Friday 14th January 2022)"
-	revision: "9"
+	date: "2022-01-15 15:07:57 GMT (Saturday 15th January 2022)"
+	revision: "10"
 
 class
 	EL_THUNDERBIRD_XHTML_BODY_EXPORTER
@@ -134,9 +134,9 @@ feature {NONE} -- Constants
 			Result := Tag.body.close
 		end
 
-	Related_file_extensions: ARRAY [ZSTRING]
+	Related_file_extensions: EL_ZSTRING_LIST
 		once
-			Result := << "body", "h2", "evc" >>
+			Result := "body, h2, evc"
 		end
 
 end

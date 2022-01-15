@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-14 11:27:27 GMT (Friday 14th January 2022)"
-	revision: "13"
+	date: "2022-01-15 15:07:27 GMT (Saturday 15th January 2022)"
+	revision: "14"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -31,7 +31,7 @@ inherit
 	EL_MODULE_TIME
 	EL_MODULE_LIO
 	EL_MODULE_DIRECTORY
-
+	EL_MODULE_REUSABLE
 
 feature {NONE} -- Initialization
 
@@ -84,6 +84,11 @@ feature {NONE} -- Implementation
 			Result := related_file_extensions [1]
 		end
 
+	is_tag_start (start_index, end_index: INTEGER; substring: ZSTRING): BOOLEAN
+		do
+			Result := substring [start_index] /= '>' implies substring.is_space_item (start_index)
+		end
+
 	on_email_collected
 		do
 			File_system.make_directory (output_file_path.parent)
@@ -130,11 +135,6 @@ feature {NONE} -- Implementation
 			File_system.write_plain_text (output_file_path, html_doc.to_utf_8 (False))
 		end
 
-	is_tag_start (start_index, end_index: INTEGER; substring: ZSTRING): BOOLEAN
-		do
-			Result := substring [start_index] /= '>' implies substring.is_space_item (start_index)
-		end
-
 feature {NONE} -- Editing
 
 	close_empty_tag (start_index, end_index: INTEGER; substring: ZSTRING)
@@ -143,30 +143,18 @@ feature {NONE} -- Editing
 		end
 
 	edit_anchor_tag (start_index, end_index: INTEGER; substring: ZSTRING)
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
 			if is_tag_start (start_index, end_index, substring) then
-				remove_attributes (Surplus_hyperlink_attributes, substring, start_index)
-				substring.edit (Attribute_start.href, s.character_string ('"'), agent remove_localhost_ref)
+				do_with_attributes (substring, Edit_attributes_anchor_tag)
 			end
 		end
 
 	edit_image_tag (start_index, end_index: INTEGER; substring: ZSTRING)
 		-- remove surplus attributes: moz-do-not-send, height, width
-		local
-			pos_src: INTEGER; s: EL_ZSTRING_ROUTINES
 		do
 			if is_tag_start (start_index, end_index, substring) then
-				remove_attributes (Surplus_image_attributes, substring, start_index)
-				-- make sure src attribute is indented
-				pos_src := substring.substring_index (Attribute_start.src, start_index)
-				if pos_src > 0 and then substring.item (pos_src - 1) = '%N' then
-					substring.insert_string (s.n_character_string (' ', 8), pos_src)
-				end
+				do_with_attributes (substring, Edit_attributes_image_tag)
 				close_empty_tag (start_index, end_index, substring)
-
-				substring.edit (Attribute_start.src, s.character_string ('"'), agent remove_localhost_ref)
 			end
 		end
 
@@ -236,16 +224,6 @@ feature {NONE} -- Editing
  			end
  		end
 
-	remove_localhost_ref (start_index, end_index: INTEGER; substring: ZSTRING)
-		local
-			localhost_index: INTEGER
-		do
-			localhost_index := substring.substring_index (Localhost_domain, start_index)
-			if localhost_index > 0 then
-				substring.remove_substring (start_index, localhost_index + Localhost_domain.count - 1)
-			end
-		end
-
 	substitute_html_entities (start_index, end_index: INTEGER; substring: ZSTRING)
 		local
 			entity_name: ZSTRING
@@ -260,9 +238,93 @@ feature {NONE} -- Editing
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	append_attribute (name, value, element: ZSTRING)
+		do
+			if value.count > 0 then
+				element.append_character (' ')
+				element.append (name)
+				element.append_character ('=')
+				element.append_character ('"')
+				element.append (value)
+				element.append_character ('"')
+			end
+		end
+
+	attribute_name_index (element: ZSTRING): INTEGER
+		local
+			i: INTEGER
+		do
+			from i := 2 until element.is_space_item (i) loop
+				i := i + 1
+			end
+			from until element.is_alpha_item (i) or else i = element.count loop
+				i := i + 1
+			end
+			Result := i
+		end
+
+	do_with_attributes (element: ZSTRING; action_table: EL_ATTRIBUTE_EDIT_TABLE)
+		-- edit attributes in `element' using edit procedure in `action_table'
+		require
+			is_element: element.enclosed_with ("<>")
+		local
+			start_index, end_index: INTEGER
+			name, ending: ZSTRING; quote_splitter: EL_SPLIT_ON_CHARACTER [ZSTRING]
+		do
+			start_index := element.index_of ('=', 1)
+			if start_index > 0 then
+				start_index := attribute_name_index (element)
+				from end_index := element.count - 1 until element [end_index] = '"' or else end_index = 0 loop
+					end_index := end_index - 1
+				end
+				if start_index < end_index then
+					across Reuseable.string as reuse loop
+						reuse.item.append_substring (element, start_index, end_index)
+						create quote_splitter.make_adjusted (reuse.item, '"', {EL_STRING_ADJUST}.Both)
+						ending := element.substring_end (end_index + 1)
+						element.keep_head (start_index - 1)
+						element.right_adjust
+						across quote_splitter as split loop
+							if split.cursor_index \\ 2 = 1 then
+								name := split.item_copy
+								name.remove_tail (1)
+								name.right_adjust
+								action_table.search (name)
+							elseif action_table.found then
+								action_table.found_item.set_target (Current)
+								action_table.found_item (name, split.item, element)
+							else
+								append_attribute (name, split.item, element)
+							end
+						end
+						element.append (ending)
+					end
+				end
+			end
+		end
+
+	omit (name, value, element: ZSTRING)
+		-- omit attribute from list
+		do
+		end
+
+	prune_localhost (name, value, element: ZSTRING)
+		-- omit attribute from list
+		local
+			localhost_index: INTEGER
+		do
+			localhost_index := value.substring_index (Localhost_domain, 1)
+			if localhost_index > 0 then
+				value.remove_substring (1, localhost_index + Localhost_domain.count - 1)
+			end
+			append_attribute (name, value, element)
+		end
+
 feature {NONE} -- Deferred
 
-	related_file_extensions: ARRAY [ZSTRING]
+	related_file_extensions: EL_ZSTRING_LIST
 		deferred
 		ensure
 			at_least_one: Result.count >= 1
@@ -276,11 +338,6 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Unclosed_tags: ARRAY [ZSTRING]
-		once
-			Result := << "<br" >>
-		end
-
 	Line_feed_entity: ZSTRING
 		once
 			Result := "&#xA;"
@@ -291,14 +348,29 @@ feature {NONE} -- Constants
 			Result := "://localhost"
 		end
 
-	Surplus_image_attributes: EL_ZSTRING_LIST
+	Edit_attributes_anchor_tag: EL_ATTRIBUTE_EDIT_TABLE
 		once
-			Result := "moz-do-not-send, height, width, border"
+			create Result.make (<<
+				["moz-do-not-send", 	agent omit],
+				["class",				agent omit],
+				["href", 				agent prune_localhost]
+			>>)
 		end
 
-	Surplus_hyperlink_attributes: EL_ZSTRING_LIST
+	Edit_attributes_image_tag: EL_ATTRIBUTE_EDIT_TABLE
 		once
-			Result := Surplus_image_attributes [1] + ", class"
+			create Result.make (<<
+				["moz-do-not-send", 	agent omit],
+				["height",				agent omit],
+				["width",				agent omit],
+				["border", 				agent omit],
+				["src",					agent prune_localhost]
+			>>)
+		end
+
+	Unclosed_tags: EL_ZSTRING_LIST
+		once
+			Result := "<br"
 		end
 
 end

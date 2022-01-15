@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:28:29 GMT (Sunday 19th December 2021)"
-	revision: "20"
+	date: "2022-01-15 17:15:13 GMT (Saturday 15th January 2022)"
+	revision: "21"
 
 class
 	EL_XPATH_NODE_CONTEXT
@@ -32,6 +32,8 @@ inherit
 			make_from_other as make_from_namespace,
 			make_from_file as make_namespace_from_file
 		end
+
+	EL_STRING_8_CONSTANTS
 
 	EL_VTD_CONSTANTS
 
@@ -215,6 +217,36 @@ feature -- External field setters
 			end
 		end
 
+	set_real (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [REAL])
+			-- call `set_value' with REAL value at `a_xpath'
+		do
+			Setter_real.set_from_node (Current, a_xpath, set_value)
+		end
+
+	set_string (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ZSTRING])
+			-- call `set_value' with ZSTRING value at `a_xpath'
+		do
+			Setter_string.set_from_node (Current, a_xpath, set_value)
+		end
+
+	set_string_32 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [STRING_32])
+			-- call `set_value' with STRING_32 value at `a_xpath'
+		do
+			Setter_string_32.set_from_node (Current, a_xpath, set_value)
+		end
+
+	set_string_8 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [STRING])
+			-- call `set_value' with STRING_8 value at `a_xpath'
+		do
+			Setter_string_8.set_from_node (Current, a_xpath, set_value)
+		end
+
+	set_string_general (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [READABLE_STRING_GENERAL])
+			-- call `set_value' with ZSTRING value at `a_xpath'
+		do
+			Setter_string_general.set_from_node (Current, a_xpath, set_value)
+		end
+
 	set_tuple (tuple: TUPLE; a_xpath_list: STRING)
 		require
 			same_field_count: tuple.count = a_xpath_list.occurrences (',') + 1
@@ -261,36 +293,6 @@ feature -- External field setters
 				else
 				end
 			end
-		end
-
-	set_real (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [REAL])
-			-- call `set_value' with REAL value at `a_xpath'
-		do
-			Setter_real.set_from_node (Current, a_xpath, set_value)
-		end
-
-	set_string (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ZSTRING])
-			-- call `set_value' with ZSTRING value at `a_xpath'
-		do
-			Setter_string.set_from_node (Current, a_xpath, set_value)
-		end
-
-	set_string_general (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [READABLE_STRING_GENERAL])
-			-- call `set_value' with ZSTRING value at `a_xpath'
-		do
-			Setter_string_general.set_from_node (Current, a_xpath, set_value)
-		end
-
-	set_string_32 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [STRING_32])
-			-- call `set_value' with STRING_32 value at `a_xpath'
-		do
-			Setter_string_32.set_from_node (Current, a_xpath, set_value)
-		end
-
-	set_string_8 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [STRING])
-			-- call `set_value' with STRING_8 value at `a_xpath'
-		do
-			Setter_string_8.set_from_node (Current, a_xpath, set_value)
 		end
 
 feature -- Status query
@@ -476,8 +478,6 @@ feature {EL_XPATH_NODE_CONTEXT, EL_XPATH_NODE_CONTEXT_LIST, EL_XPATH_NODE_CONTEX
 			xpath_query.start
 		end
 
-	xpath_query: EL_VTD_XPATH_QUERY
-
 feature {EL_XPATH_NODE_CONTEXT} -- Implementation
 
 	context_image: EL_VTD_CONTEXT_IMAGE
@@ -513,6 +513,8 @@ feature {EL_XPATH_NODE_CONTEXT} -- Implementation
 		end
 
 feature {EL_XPATH_NODE_CONTEXT} -- Internal attributes
+
+	xpath_query: EL_VTD_XPATH_QUERY
 
 	actual_found_node: EL_XPATH_NODE_CONTEXT
 

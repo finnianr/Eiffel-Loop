@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-15 10:03:28 GMT (Saturday 15th January 2022)"
-	revision: "3"
+	date: "2022-01-15 11:37:18 GMT (Saturday 15th January 2022)"
+	revision: "4"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -91,9 +91,9 @@ feature -- Tests
 	test_xhtml_exporter
 		local
 			command: EL_ML_THUNDERBIRD_ACCOUNT_XHTML_BODY_EXPORTER
-			config_path, body_path, h2_path: FILE_PATH; folder_names: EL_ZSTRING_LIST
+			config_path, body_path: FILE_PATH; folder_names: EL_ZSTRING_LIST
 			modification_table: EL_HASH_TABLE [INTEGER, FILE_PATH]
-			name: ZSTRING; count: INTEGER
+			name: ZSTRING; count: INTEGER; xdoc: like new_root_node
 		do
 			create modification_table.make_size (50)
 			folder_names := "Purchase, manual, Product Tour, Screenshots"
@@ -104,22 +104,22 @@ feature -- Tests
 
 			-- check parseable as XML document
 			across Pop_myching_co_manifest as list loop
-				body_path := Export_dir + list.item; h2_path := body_path.with_new_extension ("h2")
+				body_path := Export_dir + list.item
 				modification_table.put (body_path.modification_time, body_path)
 				assert (body_path.base + " exists", body_path.exists)
-				assert (h2_path.base + " exists", h2_path.exists)
 				name := body_path.base_sans_extension
-				if attached new_root_node (body_path) as xdoc then
-					if name.has_substring ({STRING_32} "Ÿœ€") then
-						assert ("expected h2 text", xdoc.string_32_at_xpath ({STRING_32}"/body/a[@id='Ÿœ']/h2") ~ {STRING_32}"Ÿœ")
-						count := count + 1
-					elseif name.has_substring ("Engine Screenshot") then
-						assert ("expected img src", xdoc.string_8_at_xpath ("/body/img[1]/@src").ends_with_general ("search-engine.png"))
-						count := count + 1
-					else
-						assert ("at least one paragraph", xdoc.context_list ("//p").count > 0)
-						count := count + 1
-					end
+				xdoc := new_root_node (body_path)
+
+				assert_valid_h2_file (xdoc, body_path)
+				if name.has_substring ({STRING_32} "Ÿœ€") then
+					assert ("expected h2 text", xdoc.string_32_at_xpath ({STRING_32}"/body/a[@id='Ÿœ']/h2") ~ {STRING_32}"Ÿœ")
+					count := count + 1
+				elseif name.has_substring ("Engine Screenshot") then
+					assert ("expected img src", xdoc.string_8_at_xpath ("/body/img[1]/@src").ends_with_general ("search-engine.png"))
+					count := count + 1
+				else
+					assert ("at least one paragraph", xdoc.context_list ("//p").count > 0)
+					count := count + 1
 				end
 			end
 			assert ("all items covered", count = Pop_myching_co_manifest.count)
@@ -139,11 +139,6 @@ feature -- Tests
 		end
 
 feature {NONE} -- Implementation
-
-	source_dir: DIR_PATH
-		do
-			Result := "test-data/.thunderbird"
-		end
 
 	test_page_rename (command: EL_ML_THUNDERBIRD_ACCOUNT_XHTML_BODY_EXPORTER)
 		local
@@ -179,11 +174,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Export_dir: DIR_PATH
-		once
-			Result := work_area_data_dir #+ "export"
-		end
 
 	WWW_manifest: EL_STRING_8_LIST
 		once

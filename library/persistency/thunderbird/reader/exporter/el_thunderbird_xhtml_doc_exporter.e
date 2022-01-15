@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 18:10:45 GMT (Friday 8th January 2021)"
-	revision: "7"
+	date: "2022-01-15 15:07:56 GMT (Saturday 15th January 2022)"
+	revision: "8"
 
 class
 	EL_THUNDERBIRD_XHTML_DOC_EXPORTER
@@ -33,13 +33,13 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Related_file_extensions: ARRAY [ZSTRING]
+	Related_file_extensions: EL_ZSTRING_LIST
 		once
-			Result := << "xhtml" >>
+			Result := "xhtml"
 		end
 
-	Unclosed_tags: ARRAY [ZSTRING]
+	Unclosed_tags: EL_ZSTRING_LIST
 		once
-			Result := << "<br", "<meta" >>
+			Result := "<br, <meta"
 		end
 end
