@@ -5,6 +5,7 @@ note
 		
 		**Test Sets**
 		
+			[$source JOBSERVE_SEARCHER_TEST_SET]
 			[$source VTD_XML_TEST_SET]
 			[$source XML_TO_PYXIS_CONVERTER_TEST_SET]
 	]"
@@ -14,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-07 16:12:12 GMT (Friday 7th January 2022)"
-	revision: "10"
+	date: "2022-01-16 10:23:38 GMT (Sunday 16th January 2022)"
+	revision: "11"
 
 class
 	VTD_XML_AUTOTEST_APP

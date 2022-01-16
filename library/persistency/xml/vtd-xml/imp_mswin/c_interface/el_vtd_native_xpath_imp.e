@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-15 10:52:18 GMT (Saturday 15th January 2022)"
-	revision: "4"
+	date: "2022-01-16 10:19:13 GMT (Sunday 16th January 2022)"
+	revision: "5"
 
 class
 	EL_VTD_NATIVE_XPATH_IMP
@@ -34,7 +34,7 @@ feature {NONE} -- Implementation
 	share_area (a_xpath: STRING_32)
 		local
 			l_area: like area; i, count: INTEGER
-			xp_area: SPECIAL [CHARACTER]
+			xp_area: SPECIAL [CHARACTER_32]
 		do
 			count := a_xpath.count
 			if count + 1 > area.capacity then

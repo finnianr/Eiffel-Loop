@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-12 15:25:45 GMT (Wednesday 12th January 2022)"
-	revision: "43"
+	date: "2022-01-16 11:00:32 GMT (Sunday 16th January 2022)"
+	revision: "44"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -148,7 +148,7 @@ feature -- Access
 			if {PLATFORM}.is_windows then
 				-- which condition applies probably depends on whether the file has Unix or Windows line endings
 				check
-					complete_file_read: read_count = count or else read_count + Result.occurrences ('%N') = count
+					complete_file_read: count = read_count or else (count - (read_count + Result.occurrences ('%N'))) <= 2
 				end
 			else
 				check

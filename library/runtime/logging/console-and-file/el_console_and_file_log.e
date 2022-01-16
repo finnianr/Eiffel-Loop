@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-14 9:45:47 GMT (Saturday 14th November 2020)"
-	revision: "14"
+	date: "2022-01-16 10:52:04 GMT (Sunday 16th January 2022)"
+	revision: "15"
 
 class
 	EL_CONSOLE_AND_FILE_LOG
@@ -73,8 +73,8 @@ feature {EL_CONSOLE_ONLY_LOG, EL_MODULE_LOG} -- Element change
 feature -- Status
 
 	current_routine_is_active: BOOLEAN
-			-- For use in routines that did not call enter to
-			-- push routine on to call stack
+		-- For use in routines that did not call enter to
+		-- push routine on to call stack
 		do
 			Result := log_sink.current_routine_is_active
 		end
@@ -207,6 +207,5 @@ feature {NONE} -- Constants
 		end
 
 end
-
 
 

@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:02:06 GMT (Thursday 13th January 2022)"
-	revision: "3"
+	date: "2022-01-16 15:10:08 GMT (Sunday 16th January 2022)"
+	revision: "4"
 
 class
 	EL_DEBIAN_PACKAGER_IMP
 
 inherit
 	EL_DEBIAN_PACKAGER_I
-		redefine
-			description
-		end
 
 	EL_XDG_CONSTANTS
 		rename
@@ -25,10 +22,6 @@ inherit
 
 create
 	make
-
-feature -- Constants
-
-	Description: STRING = "Create a Debian package in output directory for this application"
 
 feature {NONE} -- Implementation
 

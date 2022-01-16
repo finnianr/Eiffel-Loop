@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-15 15:07:27 GMT (Saturday 15th January 2022)"
-	revision: "14"
+	date: "2022-01-15 19:59:29 GMT (Saturday 15th January 2022)"
+	revision: "15"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -31,7 +31,6 @@ inherit
 	EL_MODULE_TIME
 	EL_MODULE_LIO
 	EL_MODULE_DIRECTORY
-	EL_MODULE_REUSABLE
 
 feature {NONE} -- Initialization
 
@@ -145,7 +144,7 @@ feature {NONE} -- Editing
 	edit_anchor_tag (start_index, end_index: INTEGER; substring: ZSTRING)
 		do
 			if is_tag_start (start_index, end_index, substring) then
-				do_with_attributes (substring, Edit_attributes_anchor_tag)
+				Edit_attributes_anchor_tag.do_with_attributes (Current, substring)
 			end
 		end
 
@@ -153,7 +152,7 @@ feature {NONE} -- Editing
 		-- remove surplus attributes: moz-do-not-send, height, width
 		do
 			if is_tag_start (start_index, end_index, substring) then
-				do_with_attributes (substring, Edit_attributes_image_tag)
+				Edit_attributes_image_tag.do_with_attributes (Current, substring)
 				close_empty_tag (start_index, end_index, substring)
 			end
 		end
@@ -198,18 +197,6 @@ feature {NONE} -- Editing
 			end
 		end
 
-	remove_attributes (list: LIST [ZSTRING]; substring: ZSTRING; start_index: INTEGER)
-		local
-			name_pos: INTEGER
-		do
-			across list as name loop
-				name_pos := substring.substring_index (name.item, start_index)
-				if name_pos > 0 then
-					substring.remove_substring (name_pos, substring.index_of ('"', name_pos + name.item.count + 2))
-				end
-			end
-		end
-
  	remove_trailing_breaks (start_index, end_index: INTEGER; substring: ZSTRING)
  		local
  			pos_trailing: INTEGER; trailing: ZSTRING; s: EL_ZSTRING_ROUTINES
@@ -240,73 +227,8 @@ feature {NONE} -- Editing
 
 feature {NONE} -- Implementation
 
-	append_attribute (name, value, element: ZSTRING)
-		do
-			if value.count > 0 then
-				element.append_character (' ')
-				element.append (name)
-				element.append_character ('=')
-				element.append_character ('"')
-				element.append (value)
-				element.append_character ('"')
-			end
-		end
-
-	attribute_name_index (element: ZSTRING): INTEGER
-		local
-			i: INTEGER
-		do
-			from i := 2 until element.is_space_item (i) loop
-				i := i + 1
-			end
-			from until element.is_alpha_item (i) or else i = element.count loop
-				i := i + 1
-			end
-			Result := i
-		end
-
-	do_with_attributes (element: ZSTRING; action_table: EL_ATTRIBUTE_EDIT_TABLE)
-		-- edit attributes in `element' using edit procedure in `action_table'
-		require
-			is_element: element.enclosed_with ("<>")
-		local
-			start_index, end_index: INTEGER
-			name, ending: ZSTRING; quote_splitter: EL_SPLIT_ON_CHARACTER [ZSTRING]
-		do
-			start_index := element.index_of ('=', 1)
-			if start_index > 0 then
-				start_index := attribute_name_index (element)
-				from end_index := element.count - 1 until element [end_index] = '"' or else end_index = 0 loop
-					end_index := end_index - 1
-				end
-				if start_index < end_index then
-					across Reuseable.string as reuse loop
-						reuse.item.append_substring (element, start_index, end_index)
-						create quote_splitter.make_adjusted (reuse.item, '"', {EL_STRING_ADJUST}.Both)
-						ending := element.substring_end (end_index + 1)
-						element.keep_head (start_index - 1)
-						element.right_adjust
-						across quote_splitter as split loop
-							if split.cursor_index \\ 2 = 1 then
-								name := split.item_copy
-								name.remove_tail (1)
-								name.right_adjust
-								action_table.search (name)
-							elseif action_table.found then
-								action_table.found_item.set_target (Current)
-								action_table.found_item (name, split.item, element)
-							else
-								append_attribute (name, split.item, element)
-							end
-						end
-						element.append (ending)
-					end
-				end
-			end
-		end
-
 	omit (name, value, element: ZSTRING)
-		-- omit attribute from list
+		-- do nothing with `name' and `value'
 		do
 		end
 
@@ -319,7 +241,7 @@ feature {NONE} -- Implementation
 			if localhost_index > 0 then
 				value.remove_substring (1, localhost_index + Localhost_domain.count - 1)
 			end
-			append_attribute (name, value, element)
+			XML.append_attribute (name, value, element)
 		end
 
 feature {NONE} -- Deferred

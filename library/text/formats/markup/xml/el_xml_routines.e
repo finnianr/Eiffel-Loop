@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "14"
+	date: "2022-01-15 19:46:58 GMT (Saturday 15th January 2022)"
+	revision: "15"
 
 class
 	EL_XML_ROUTINES
@@ -112,6 +112,21 @@ feature -- Conversion
 			-- Escapes attribute value characters and double quotes and all codes > 128
 		do
 			Result := value.escaped (Attribute_128_plus_escaper)
+		end
+
+feature -- Basic operations
+
+	append_attribute (name, value, element: ZSTRING)
+		-- append `name' and `value' to element string as XML attribute
+		do
+			if value.count > 0 then
+				element.append_character (' ')
+				element.append (name)
+				element.append_character ('=')
+				element.append_character ('"')
+				element.append (value)
+				element.append_character ('"')
+			end
 		end
 
 feature {NONE} -- Implementation

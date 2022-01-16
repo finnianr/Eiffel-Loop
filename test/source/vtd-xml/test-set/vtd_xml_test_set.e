@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "17"
+	date: "2022-01-16 19:14:21 GMT (Sunday 16th January 2022)"
+	revision: "18"
 
 class
 	VTD_XML_TEST_SET
@@ -48,56 +48,33 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("query_processing_instruction",	agent test_query_processing_instruction)
-			eval.call ("cd_catalog_xpath_query",			agent test_cd_catalog_xpath_query)
-			eval.call ("svg_xpath_query",						agent test_svg_xpath_query)
-			eval.call ("bioinfo_xpath_query_1",				agent test_bioinfo_xpath_query)
+			eval.call ("bioinfo_xpath_query", agent test_bioinfo_xpath_query)
+			eval.call ("cd_catalog_xpath_query", agent test_cd_catalog_xpath_query)
+			eval.call ("query_processing_instruction", agent test_query_processing_instruction)
+			eval.call ("svg_xpath_query", agent test_svg_xpath_query)
 		end
 
 feature -- Tests
 
 	test_bioinfo_xpath_query
-		local
-			name: STRING
 		do
 			create root_node.make_from_file (EL_test_data_dir + "vtd-xml/bioinfo.xml")
-			do_test ("bioinfo_encoding", 4159057012, agent encoding, [])
-			name := "bioinfo_query_1"
-			do_test (name, 2720094262, agent bioinfo_query_1, ["//par/label[count (following-sibling::value) = 2]"])
-			do_test (
-				name, 2095404682,
-				agent bioinfo_query_1, ["//par/label[count (following-sibling::value [@type = 'intRange']) = 2]"]
-			)
-
-			name := "bioinfo_query_2"
-			do_test (name, 817474564, agent bioinfo_query_2, ["//label[contains (text(), 'branches')]"])
-			do_test (name, 3115874359, agent bioinfo_query_2, ["//value[@type='url' and contains (text(), 'http://')]"])
-			do_test (name, 3290729442, agent bioinfo_query_2, ["//value[@type='url']/text()"])
-
-			name := "bioinfo_query_3"
-			do_test (name, 1100944812, agent bioinfo_query_3, ["//value[@type='integer']"])
-			do_test (name, 113201598, agent bioinfo_query_3, ["//value[@type='integer' and number (text ()) > 100]"])
-
-			name := "bioinfo_query_4"
-			do_test (name, 78172724, agent bioinfo_query_4, ["Element count", "//*"])
-			do_test (name, 3787589092, agent bioinfo_query_4, ["Package count", "//package"])
-			do_test (name, 11659765, agent bioinfo_query_4, ["Command count", "//command"])
-			do_test (name, 2610705622, agent bioinfo_query_4, ["Title count", "//value[@type='title']"])
-			name := "bioinfo_query_5"
-			do_test (
-				name, 1831613446,
-				agent bioinfo_query_5, [
-					"URL (strasbg.fr)",
-					"//value[@type='url' and starts-with (text(), 'http://') and contains (text(), 'strasbg.fr')]/text()"
-				]
-			)
-			do_test (
-				name, 4187769338,
-				agent bioinfo_query_5, [
-					"URL (indiana.edu)",
-					"//value[@type='url' and starts-with (text(), 'http://') and contains (text(), 'indiana.edu')]/text()"
-				]
-			)
+			assert ("encoding latin-1", root_node.encoding_name ~ "ISO-8859-1")
+			across bioinfo_results_1 as xpath loop
+				assert_same_result (xpath.key, xpath.item, bioinfo_query_1 (xpath.key))
+			end
+			across bioinfo_results_2 as xpath loop
+				assert_same_result (xpath.key, xpath.item, bioinfo_query_2 (xpath.key))
+			end
+			across bioinfo_results_3 as xpath loop
+				assert_same_result (xpath.key, xpath.item, bioinfo_query_3 (xpath.key))
+			end
+			across bioinfo_results_4 as xpath loop
+				assert ("same count for " + xpath.key, xpath.item = bioinfo_query_4 (xpath.key))
+			end
+			across bioinfo_results_5 as xpath loop
+				assert_same_result (xpath.key, xpath.item, bioinfo_query_5 (xpath.key))
+			end
 		end
 
 	test_cd_catalog_xpath_query
@@ -119,14 +96,9 @@ feature -- Tests
 		end
 
 	test_query_processing_instruction
-		local
-			file_path: FILE_PATH
 		do
-			file_path := "vtd-xml/request-matrix-average.xml"
-			do_test ("query_processing_instruction", 1660076206, agent query_processing_instruction, [file_path])
-
-			file_path := "vtd-xml/request-matrix-sum.xml"
-			do_test ("query_processing_instruction", 1798316178, agent query_processing_instruction, [file_path])
+			assert_processing_instruction ("vtd-xml/request-matrix-average.xml", "average")
+			assert_processing_instruction ("vtd-xml/request-matrix-sum.xml", "sum")
 		end
 
 	test_svg_xpath_query
@@ -208,65 +180,78 @@ feature {NONE} -- aircraft_power_price.svg
 
 feature {NONE} -- bioinfo.xml
 
-	bioinfo_query_1 (xpath: STRING)
-			-- Demonstrates nested queries
+	bioinfo_query_1 (xpath: STRING): EL_STRING_8_LIST
+		-- Demonstrates nested queries
 		local
-			par_value_list, label_node_list: EL_XPATH_NODE_CONTEXT_LIST
+			value: STRING
 		do
-			label_node_list := root_node.context_list (xpath)
-			from label_node_list.start until label_node_list.after loop
-				log.put_string_field (
-					label_node_list.context.name, label_node_list.context.normalized_string_value
-				)
-				log.put_new_line
-				par_value_list := label_node_list.context.context_list ("following-sibling::value")
-				from par_value_list.start until par_value_list.after loop
-					log.put_string_field ("@type", par_value_list.context.attributes ["type"])
-					log.put_string (" ")
-					log.put_string (par_value_list.context.normalized_string_value)
-					log.put_new_line
-					par_value_list.forth
+			create Result.make (20)
+			across root_node.context_list (xpath) as context loop
+				value := context.node.normalized_string_value
+				Result.extend (Template_string_value #$ [context.node.name, value])
+				across context.node.context_list ("following-sibling::value") as following loop
+					value := following.node.normalized_string_value
+					Result.extend (Template_bioninfo_query_type #$ [following.node.attributes ["type"], value])
 				end
-				log.put_new_line
-				label_node_list.forth
 			end
 		end
 
-	bioinfo_query_2 (xpath: STRING)
-			-- list all url values
+	bioinfo_query_2 (xpath: STRING): EL_STRING_8_LIST
+		-- list all url values
+		local
+			value: ZSTRING
 		do
+			create Result.make (20)
 			across root_node.context_list (xpath) as label loop
-				log.put_line (label.node.normalized_string_value)
+				Result.extend (label.node.normalized_string_value)
 			end
 		end
 
-	bioinfo_query_3 (xpath: STRING)
-			-- list all integer values
+	bioinfo_query_3 (xpath: STRING): EL_STRING_8_LIST
+		-- list all integer values
+		local
+			result_lines: EL_STRING_8_LIST; id: STRING
+		do
+			create Result.make (20)
+			across root_node.context_list (xpath) as value loop
+				id := value.node.string_at_xpath ("parent::node()/id")
+				Result.extend (Template_integer_value #$ [id, value.node.integer_value])
+			end
+		end
+
+	bioinfo_query_4 (xpath: STRING): INTEGER
+		-- element count
+		do
+			Result := root_node.context_list (xpath).count
+		end
+
+	bioinfo_query_5 (xpath: STRING): EL_STRING_8_LIST
+		-- element count
 		local
 			id: STRING
 		do
-			across root_node.context_list (xpath) as value loop
-				id := value.node.string_at_xpath ("parent::node()/id")
-				log.put_integer_field (id, value.node.integer_value)
-				log.put_new_line
-			end
-		end
-
-	bioinfo_query_4 (label, xpath: STRING)
-			-- element count
-		do
-			log.put_integer_field (label, root_node.context_list (xpath).count)
-			log.put_new_line
-		end
-
-	bioinfo_query_5 (label, xpath: STRING)
-			-- element count
-		do
-			log.put_string_field (label, root_node.string_at_xpath (xpath))
-			log.put_new_line
+			create Result.make (2)
+			Result.extend (root_node.string_at_xpath (xpath))
 		end
 
 feature {NONE} -- Implementation
+
+	assert_processing_instruction (file_path: FILE_PATH; instruction: STRING)
+			--
+		do
+			create root_node.make_from_file (file_path)
+			assert ("Encoding latin-1", root_node.encoding_name ~ "ISO-8859-1")
+			root_node.find_instruction ("call")
+			assert ("expected instruction", root_node.instruction_found and then root_node.found_instruction ~ instruction)
+		end
+
+	assert_same_result (xpath, expected_result: STRING; result_lines: EL_STRING_8_LIST)
+		local
+			expected_result_lines: EL_STRING_8_LIST
+		do
+			create expected_result_lines.make_with_lines (expected_result)
+			assert ("expected results for " + xpath, expected_result_lines ~ result_lines)
+		end
 
 	encoding
 		do
@@ -274,24 +259,132 @@ feature {NONE} -- Implementation
 			log.put_new_line
 		end
 
-	query_processing_instruction (file_path: FILE_PATH)
-			--
-		do
-			create root_node.make_from_file (file_path)
-			log.put_string_field ("Encoding", root_node.encoding_name)
-			log.put_new_line
-
-			root_node.find_instruction ("call")
-			if root_node.instruction_found then
-				log.put_string_field ("call", root_node.found_instruction)
-			else
-				log.put_string_field ("No such instruction", "call")
-			end
-			log.put_new_line
-		end
-
 feature {NONE} -- Internal attributes
 
 	root_node: EL_XPATH_ROOT_NODE_CONTEXT
 
+feature {NONE} -- Query results
+
+	bioinfo_results_1: HASH_TABLE [STRING, STRING]
+		do
+			create Result.make (2)
+			Result ["//par/label[count (following-sibling::value) = 2]"] := "[
+				label: "Gap penalty"
+				@type: "intRange" 3,1,500,1
+				@type: "intRange" 5,1,50,1
+				label: "Wordsize (ktuple)"
+				@type: "intRange" 1,1,2,1
+				@type: "intRange" 2,1,4,1
+				label: "Number of best diagonals"
+				@type: "intRange" 5,1,50,1
+				@type: "intRange" 4,1,50,1
+				label: "Window size"
+				@type: "intRange" 5,1,50,1
+				@type: "intRange" 4,1,50,1
+				label: "Window Gap extension"
+				@type: "floatRange" 0.1,0,10,0.1
+				@type: "floatRange" 5.0,0,10,0.1
+				label: "Gap extension penalty"
+				@type: "floatRange" 0.05,0,10,0.1
+				@type: "floatRange" 5.0,0,10,0.1
+			]"
+			Result ["//par/label[count (following-sibling::value [@type = 'intRange']) = 2]"] := "[
+				label: "Gap penalty"
+				@type: "intRange" 3,1,500,1
+				@type: "intRange" 5,1,50,1
+				label: "Wordsize (ktuple)"
+				@type: "intRange" 1,1,2,1
+				@type: "intRange" 2,1,4,1
+				label: "Number of best diagonals"
+				@type: "intRange" 5,1,50,1
+				@type: "intRange" 4,1,50,1
+				label: "Window size"
+				@type: "intRange" 5,1,50,1
+				@type: "intRange" 4,1,50,1
+			]"
+		end
+
+	bioinfo_results_2: HASH_TABLE [STRING, STRING]
+		do
+			create Result.make (3)
+			Result ["//label[contains (text(), 'branches')]"] := "[
+				Global1: the number of branches to cross in rearrangements of the completed tree
+				Global2: the number of branches to cross in testing rearrangements
+			]"
+			Result ["//value[@type='url' and contains (text(), 'http://')]"] := "[
+				http://iubio.bio.indiana.edu/grid/runner/
+				http://iubio.bio.indiana.edu/grid/runner/docs/bix.dtd
+				http://www-igbmc.u-strasbg.fr/BioInfo/ClustalW/
+				http://geta.life.uiuc.edu/~gary/programs/fastDNAml.html
+			]"
+			Result ["//value[@type='url']/text()"] := "[
+				http://iubio.bio.indiana.edu/grid/runner/
+				http://iubio.bio.indiana.edu/grid/runner/docs/bix.dtd
+				http://www-igbmc.u-strasbg.fr/BioInfo/ClustalW/
+				http://geta.life.uiuc.edu/~gary/programs/fastDNAml.html
+				file:${docpath}tacg3.main.html
+			]"
+		end
+
+	bioinfo_results_3: HASH_TABLE [STRING, STRING]
+		do
+			create Result.make (2)
+			Result ["//value[@type='integer']"] := "[
+				BOOTVAL: 1000
+				MIN_OVERLAP: 20
+				bootseed: 987
+				catnum: 1
+				jumbleseed: 987
+				outval: 1
+			]"
+			Result ["//value[@type='integer' and number (text ()) > 100]"] := "[
+				BOOTVAL: 1000
+				bootseed: 987
+				jumbleseed: 987
+ 			]"
+		end
+
+	bioinfo_results_4: HASH_TABLE [INTEGER, STRING]
+		do
+			create Result.make (4)
+			Result ["//*"] := 756
+			Result ["//package"] := 1
+			Result ["//command"] := 6
+			Result ["//value[@type='title']"] := 13
+		end
+
+	bioinfo_results_5: HASH_TABLE [STRING, STRING]
+		local
+			xpath: STRING
+		do
+			create Result.make (2)
+			xpath := "//value[@type='url' and starts-with (text(), 'http://') and contains (text(), 'strasbg.fr')]/text()"
+			Result [xpath] := "http://www-igbmc.u-strasbg.fr/BioInfo/ClustalW/"
+
+			xpath := "//value[@type='url' and starts-with (text(), 'http://') and contains (text(), 'indiana.edu')]/text()"
+			Result [xpath] := "http://iubio.bio.indiana.edu/grid/runner/"
+		end
+
+feature {NONE} -- Constants
+
+	Template_string_value: ZSTRING
+		once
+			Result := "[
+				#: "#"
+			]"
+		end
+
+	Template_integer_value: ZSTRING
+		once
+			Result := "[
+				#: #
+			]"
+		end
+
+	Template_bioninfo_query_type: ZSTRING
+		once
+			Result := "[
+				@type: "#" #
+			]"
+		end
 end

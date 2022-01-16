@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
-	revision: "12"
+	date: "2022-01-16 10:19:13 GMT (Sunday 16th January 2022)"
+	revision: "13"
 
 deferred class
 	EL_FIND_COMMAND_IMP
@@ -46,7 +46,7 @@ feature {NONE} -- Implementation
 	adjusted_lines (output_lines: like new_output_lines): like new_output_lines
 		local
 			start_index, dir_path_occurrences, depth: INTEGER
-			line, line_substring, dir_path_string: ZSTRING
+			line, dir_path_string: ZSTRING
 		do
 			prepend_directory (output_lines)
 

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "17"
+	date: "2022-01-16 10:17:55 GMT (Sunday 16th January 2022)"
+	revision: "18"
 
 deferred class
 	EL_DEBIAN_PACKAGER_I
@@ -58,6 +58,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			versioned_package := package_name_parts.joined ('-')
 			versioned_package_dir := Directory.temporary.joined_dir_tuple ([versioned_package])
 		end
+
+feature -- Constants
+
+	Description: STRING = "Create a Debian package in output directory for this application"
 
 feature -- Basic operations
 
