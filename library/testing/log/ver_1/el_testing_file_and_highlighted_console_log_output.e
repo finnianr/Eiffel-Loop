@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-19 14:00:08 GMT (Wednesday 19th February 2020)"
-	revision: "6"
+	date: "2022-01-18 12:24:51 GMT (Tuesday 18th January 2022)"
+	revision: "7"
 
 class
 	EL_TESTING_FILE_AND_HIGHLIGHTED_CONSOLE_LOG_OUTPUT
+
+obsolete
+	"Use EL_CRC_32_FILE_AND_HIGHLIGHTED_CONSOLE_LOG_OUTPUT"
 
 inherit
 	EL_FILE_AND_HIGHLIGHTED_CONSOLE_LOG_OUTPUT

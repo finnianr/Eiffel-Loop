@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Test classes from library `vtd-xml.ecf'
 		
@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-16 19:14:21 GMT (Sunday 16th January 2022)"
-	revision: "18"
+	date: "2022-01-18 21:56:07 GMT (Tuesday 18th January 2022)"
+	revision: "19"
 
 class
 	VTD_XML_TEST_SET
@@ -28,7 +28,7 @@ inherit
 			on_prepare
 		end
 
-	EL_EQA_REGRESSION_TEST_SET
+	EL_CRC_32_EQA_TEST_SET
 		undefine
 			on_prepare, on_clean
 		end
@@ -59,21 +59,21 @@ feature -- Tests
 	test_bioinfo_xpath_query
 		do
 			create root_node.make_from_file (EL_test_data_dir + "vtd-xml/bioinfo.xml")
-			assert ("encoding latin-1", root_node.encoding_name ~ "ISO-8859-1")
+			assert ("encoding is latin-1", root_node.encoding_name ~ "ISO-8859-1")
 			across bioinfo_results_1 as xpath loop
-				assert_same_result (xpath.key, xpath.item, bioinfo_query_1 (xpath.key))
+				assert_same_string_8_list (xpath.key, xpath.item, bioinfo_query_1 (xpath.key))
 			end
 			across bioinfo_results_2 as xpath loop
-				assert_same_result (xpath.key, xpath.item, bioinfo_query_2 (xpath.key))
+				assert_same_string_8_list (xpath.key, xpath.item, bioinfo_query_2 (xpath.key))
 			end
 			across bioinfo_results_3 as xpath loop
-				assert_same_result (xpath.key, xpath.item, bioinfo_query_3 (xpath.key))
+				assert_same_string_8_list (xpath.key, xpath.item, bioinfo_query_3 (xpath.key))
 			end
 			across bioinfo_results_4 as xpath loop
 				assert ("same count for " + xpath.key, xpath.item = bioinfo_query_4 (xpath.key))
 			end
 			across bioinfo_results_5 as xpath loop
-				assert_same_result (xpath.key, xpath.item, bioinfo_query_5 (xpath.key))
+				assert_same_string_8_list (xpath.key, xpath.item, bioinfo_query_5 (xpath.key))
 			end
 		end
 
@@ -83,16 +83,10 @@ feature -- Tests
 		do
 			create root_node.make_from_file ("vtd-xml/CD-catalog.xml")
 
-			do_test ("cd_catalog_encoding", 3672545284, agent encoding, [])
-
-			name := "cd_catalog_query"
-			do_test (
-				name, 1668501835,
-				agent cd_catalog_query, ["count (CONTENTS/TRACK[contains (lower-case (text()),'blues')]) > 0"]
-			)
-			do_test (name, 1009490940, agent cd_catalog_query, ["ARTIST [text() = 'Bob Dylan']"])
-			do_test (name, 3219963938, agent cd_catalog_query, ["number (substring (PRICE, 2)) < 10"])
-			do_test (name, 3197753, agent cd_catalog_query, ["number (substring (PRICE, 2)) > 10"])
+			assert ("encoding is UTF-8", root_node.encoding_name ~ "UTF-8")
+			across cd_catalog_results as xpath loop
+				assert_same_string_list (xpath.key, xpath.item, cd_catalog_query (xpath.key))
+			end
 		end
 
 	test_query_processing_instruction
@@ -107,75 +101,62 @@ feature -- Tests
 		do
 			create root_node.make_from_file ("vtd-xml/aircraft_power_price.svg")
 
-			do_test ("svg_encoding", 781775463, agent encoding, [])
-			name := "svg_query_1"
-			do_test (name, 3303566290, agent svg_query_1, ["//svg/g[starts-with (@style, 'stroke:blue')]/line"])
-			name := "svg_query_2"
-			do_test (name, 3058580805, agent svg_query_2, ["//svg/g[starts-with (@style, 'stroke:black')]/line"])
+			assert ("encoding is latin-1", root_node.encoding_name ~ "ISO-8859-1")
 
-			name := "svg_query_3"
-			do_test (name, 1226289817, agent svg_query_3, ["sum (//svg/g/line/@x1)"])
-			do_test (name, 4097543096, agent svg_query_3, ["sum (//svg/g/line/@y1)"])
+			across svg_query_results as xpath loop
+				assert ("same result for " + xpath.key, xpath.item ~ svg_query (xpath.key).to_array)
+			end
+
+			assert ("same result", svg_sum_query ("//svg/g/line/@x1") = 4522)
+			assert ("same result", svg_sum_query ("//svg/g/line/@y1") = 13134)
 		end
 
 feature {NONE} -- CD-catalog.xml
 
-	cd_catalog_query (criteria: STRING)
+	cd_catalog_query (criteria: STRING): EL_ZSTRING_LIST
 		local
-			xpath: STRING; template: ZSTRING
+			xpath: STRING; template: ZSTRING; md5: like Md5_128
 		do
+			create Result.make (50)
 			template := once "/CATALOG/CD[%S]"
 			xpath := template #$ [criteria]
 
+			md5 := Md5_128
+
 			across root_node.context_list (xpath) as cd loop
-				log.put_string_field ("ALBUM", cd.node.string_at_xpath ("TITLE"))
-				log.put_new_line
-				log.put_string_field ("ARTIST", cd.node.string_at_xpath ("ARTIST"))
-				log.put_new_line
-				log.put_string_field ("PRICE", cd.node.string_at_xpath ("PRICE"))
-				log.put_new_line
+				Result.extend (Template_string_value #$ ["ALBUM", cd.node.string_at_xpath ("TITLE")])
+				Result.extend (Template_string_value #$ ["ARTIST", cd.node.string_at_xpath ("ARTIST")])
+				Result.extend (Template_string_value #$ ["PRICE", cd.node.string_at_xpath ("PRICE")])
+				md5.reset
 				across cd.node.context_list ("CONTENTS/TRACK") as track loop
-					log.put_string ("    " + track.cursor_index.out + ". ")
-					log.put_line (track.node.string_value)
+					md5.sink_string (track.node.string_value)
 				end
-				log.put_new_line
+				Result.extend (Template_string_value #$ ["TRACK DIGEST", md5.digest_base_64])
 			end
 		end
 
 feature {NONE} -- aircraft_power_price.svg
 
-	svg_query_1 (xpath: STRING)
-			-- distance double coords
+	svg_query (xpath: STRING): ARRAYED_LIST [INTEGER]
+		-- distance double coords
 		local
 			p1, p2: SVG_POINT
 		do
+			create Result.make (20)
 			across root_node.context_list (xpath) as line loop
 				create p1.make (line.node.attributes, 1)
 				create p2.make (line.node.attributes, 2)
-				log.put_double_field ("line length", p1.distance (p2))
-				log.put_new_line
+				Result.extend (p1.distance (p2).rounded)
 			end
 		end
 
-	svg_query_2 (xpath: STRING)
-			-- distance integer coords
-		local
-			line_node_list: EL_XPATH_NODE_CONTEXT_LIST
-			p1, p2: SVG_INTEGER_POINT
-		do
-			across root_node.context_list (xpath) as line loop
-				create p1.make (line.node.attributes, 1)
-				create p2.make (line.node.attributes, 2)
-				log.put_double_field ("line length", p1.distance (p2))
-				log.put_new_line
-			end
-		end
-
-	svg_query_3 (xpath: STRING)
+	svg_sum_query (xpath: STRING): INTEGER
 			--
+		local
+			sum: ZSTRING
 		do
-			log.put_double_field (xpath, root_node.double_at_xpath (xpath))
-			log.put_new_line
+			sum := "sum (%S)"
+			Result := root_node.double_at_xpath (sum #$ [xpath]).rounded
 		end
 
 feature {NONE} -- bioinfo.xml
@@ -245,12 +226,20 @@ feature {NONE} -- Implementation
 			assert ("expected instruction", root_node.instruction_found and then root_node.found_instruction ~ instruction)
 		end
 
-	assert_same_result (xpath, expected_result: STRING; result_lines: EL_STRING_8_LIST)
+	assert_same_string_8_list (xpath, expected: STRING; actual: EL_STRING_8_LIST)
 		local
-			expected_result_lines: EL_STRING_8_LIST
+			expected_lines: EL_STRING_8_LIST
 		do
-			create expected_result_lines.make_with_lines (expected_result)
-			assert ("expected results for " + xpath, expected_result_lines ~ result_lines)
+			create expected_lines.make_with_lines (expected)
+			assert ("same lines for " + xpath, expected_lines ~ actual)
+		end
+
+	assert_same_string_list (xpath: STRING; expected: ZSTRING; actual: EL_ZSTRING_LIST)
+		local
+			expected_lines: EL_ZSTRING_LIST
+		do
+			create expected_lines.make_with_lines (expected)
+			assert ("same lines for " + xpath, expected_lines ~ actual)
 		end
 
 	encoding
@@ -363,6 +352,63 @@ feature {NONE} -- Query results
 
 			xpath := "//value[@type='url' and starts-with (text(), 'http://') and contains (text(), 'indiana.edu')]/text()"
 			Result [xpath] := "http://iubio.bio.indiana.edu/grid/runner/"
+		end
+
+	cd_catalog_results: HASH_TABLE [ZSTRING, STRING]
+		do
+			create Result.make (2)
+			Result ["count (CONTENTS/TRACK[contains (lower-case (text()),'blues')]) > 0"] := {STRING_32} "[
+				ALBUM: "Still got the blues"
+				ARTIST: "Gary More"
+				PRICE: "€10.20"
+				TRACK DIGEST: "jV2z+F82vcYTRFYx3ykb9A=="
+				ALBUM: "Hide your heart"
+				ARTIST: "Bonnie Tyler"
+				PRICE: "€9.90"
+				TRACK DIGEST: "cfLSfV7bzozXrE7dfwVCRg=="
+			]"
+			Result ["ARTIST [text() = 'Bob Dylan']"] := {STRING_32} "[
+				ALBUM: "Empire Burlesque"
+				ARTIST: "Bob Dylan"
+				PRICE: "€10.90"
+				TRACK DIGEST: "kM+gGMDNqjhFjs+jpFGL6g=="
+  			]"
+			Result ["number (substring (PRICE, 2)) < 10"] := {STRING_32} "[
+				ALBUM: "Michael Raucheisen Vol. 12"
+				ARTIST: "Michael Raucheisen"
+				PRICE: "€7.98"
+				TRACK DIGEST: "mkavx41kNphVG29xjEE30g=="
+				ALBUM: "Hide your heart"
+				ARTIST: "Bonnie Tyler"
+				PRICE: "€9.90"
+				TRACK DIGEST: "cfLSfV7bzozXrE7dfwVCRg=="
+				ALBUM: "Greatest Hits"
+				ARTIST: "Dolly Parton"
+				PRICE: "€9.90"
+				TRACK DIGEST: "d9llgJuZn6O7D2adU5lblA=="
+			]"
+			Result ["number (substring (PRICE, 2)) > 10"] := {STRING_32} "[
+				ALBUM: "Empire Burlesque"
+				ARTIST: "Bob Dylan"
+				PRICE: "€10.90"
+				TRACK DIGEST: "kM+gGMDNqjhFjs+jpFGL6g=="
+				ALBUM: "Still got the blues"
+				ARTIST: "Gary More"
+				PRICE: "€10.20"
+				TRACK DIGEST: "jV2z+F82vcYTRFYx3ykb9A=="
+			]"
+		end
+
+	svg_query_results: HASH_TABLE [ARRAY [INTEGER], STRING]
+		local
+			xpath: STRING
+		do
+			create Result.make (2)
+			xpath := "//svg/g[starts-with (@style, 'stroke:blue')]/line"
+			Result [xpath] := << 6, 4, 6, 4, 6, 4 >>
+
+			xpath := "//svg/g[starts-with (@style, 'stroke:black')]/line"
+			Result [xpath] := << 100, 100, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 >>
 		end
 
 feature {NONE} -- Constants

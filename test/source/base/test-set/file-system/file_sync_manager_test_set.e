@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "20"
+	date: "2022-01-18 21:56:07 GMT (Tuesday 18th January 2022)"
+	revision: "21"
 
 class
 	FILE_SYNC_MANAGER_TEST_SET
@@ -20,7 +20,7 @@ inherit
 			on_prepare
 		end
 
-	EL_EQA_REGRESSION_TEST_SET
+	EL_CRC_32_EQA_TEST_SET
 		undefine
 			on_prepare, on_clean
 		end

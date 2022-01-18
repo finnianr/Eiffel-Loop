@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-14 14:24:01 GMT (Sunday 14th March 2021)"
-	revision: "16"
+	date: "2022-01-18 21:52:18 GMT (Tuesday 18th January 2022)"
+	revision: "17"
 
 class
 	EVOLICITY_AUTOTEST_APP
 
 inherit
-	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [EVOLICITY_TEST_SET]
+	EL_CRC_32_AUTOTEST_SUB_APPLICATION [EVOLICITY_TEST_SET]
 		redefine
 			description
 		end

@@ -15,14 +15,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-18 13:00:14 GMT (Sunday 18th October 2020)"
-	revision: "15"
+	date: "2022-01-18 21:52:18 GMT (Tuesday 18th January 2022)"
+	revision: "16"
 
 class
 	OPEN_OFFICE_AUTOTEST_APP
 
 inherit
-	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [OPEN_OFFICE_TEST_SET]
+	EL_CRC_32_AUTOTEST_SUB_APPLICATION [OPEN_OFFICE_TEST_SET]
 		redefine
 			visible_types
 		end

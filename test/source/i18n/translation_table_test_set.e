@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "12"
+	date: "2022-01-18 21:56:07 GMT (Tuesday 18th January 2022)"
+	revision: "13"
 
 class
 	TRANSLATION_TABLE_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EIFFEL_LOOP_TEST_SET
 
-	EL_EQA_REGRESSION_TEST_SET
+	EL_CRC_32_EQA_TEST_SET
 		undefine
 			on_prepare, on_clean
 		end

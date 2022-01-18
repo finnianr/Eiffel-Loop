@@ -1,8 +1,11 @@
 note
-	description: "Regression test set using CRC32 checksum algorithm on logged output"
+	description: "[
+		Test set with support for regression testing based on computing CRC-32 checksum
+		for logged output on a selected routine. See **do_test* routine.
+	]"
 	notes: "[
-		The type of `log' must be set to [$source EL_TESTING_CONSOLE_ONLY_LOG] by running the test
-		from a sub-application conforming to [$source EL_REGRESSION_AUTOTEST_SUB_APPLICATION]
+		The type of `log' must be set to [$source EL_CRC_32_CONSOLE_ONLY_LOG] by running the test
+		from a sub-application conforming to [$source EL_CRC_32_AUTOTEST_SUB_APPLICATION]
 	]"
 
 	author: "Finnian Reilly"
@@ -10,11 +13,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-05 13:38:46 GMT (Wednesday 5th January 2022)"
-	revision: "8"
+	date: "2022-01-18 21:58:07 GMT (Tuesday 18th January 2022)"
+	revision: "9"
 
 deferred class
-	EL_EQA_REGRESSION_TEST_SET
+	EL_CRC_32_EQA_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
@@ -31,8 +34,8 @@ feature {NONE} -- Implementation
 
 	do_test (name: STRING; target: NATURAL test: PROCEDURE; operands: TUPLE)
 		require
-			valid_lio: attached {EL_TESTING_CONSOLE_AND_FILE_LOG} lio
-			valid_log_manager: attached {EL_TESTING_LOG_MANAGER} Log_manager
+			valid_lio: attached {EL_TESTING_CONSOLE_AND_FILE_LOG} lio or attached {EL_CRC_32_CONSOLE_AND_FILE_LOG} lio
+			valid_log_manager: attached {EL_TESTING_LOG_MANAGER} Log_manager or attached {EL_CRC_32_LOG_MANAGER} Log_manager
 			valid_operands: test.valid_operands (operands)
 		local
 			actual: NATURAL

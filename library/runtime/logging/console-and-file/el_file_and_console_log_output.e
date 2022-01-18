@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "13"
+	date: "2022-01-18 10:23:36 GMT (Tuesday 18th January 2022)"
+	revision: "14"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -110,7 +110,7 @@ feature {NONE} -- Implementation
 		local
 			l_utf_8: STRING
 		do
-			l_utf_8 := Utf_8_codec.as_utf_8 (str, True)
+			l_utf_8 := Utf_8_codec.as_utf_8 (str, False)
 			put_file_string (l_utf_8)
 
 			if is_directed_to_console then

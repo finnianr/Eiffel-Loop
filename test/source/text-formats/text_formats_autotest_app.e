@@ -15,14 +15,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 10:31:35 GMT (Wednesday 24th November 2021)"
-	revision: "11"
+	date: "2022-01-18 21:52:18 GMT (Tuesday 18th January 2022)"
+	revision: "12"
 
 class
 	TEXT_FORMATS_AUTOTEST_APP
 
 inherit
-	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [
+	EL_CRC_32_AUTOTEST_SUB_APPLICATION [
 		COMMA_SEPARATED_IMPORT_TEST_SET,
 		JSON_PARSING_TEST_SET,
 		XML_ESCAPER_TEST_SET

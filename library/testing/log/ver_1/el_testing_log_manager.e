@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "7"
+	date: "2022-01-18 12:24:10 GMT (Tuesday 18th January 2022)"
+	revision: "8"
 
 class
 	EL_TESTING_LOG_MANAGER
+
+obsolete
+	"Use EL_CRC_32_LOG_MANAGER"
 
 inherit
 	EL_LOG_MANAGER

@@ -13,14 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 13:15:21 GMT (Thursday 13th January 2022)"
-	revision: "19"
+	date: "2022-01-18 21:52:18 GMT (Tuesday 18th January 2022)"
+	revision: "20"
 
 class
 	PYXIS_SCAN_AUTOTEST_APP
 
 inherit
-	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [PYXIS_TO_XML_TEST_SET]
+	EL_CRC_32_AUTOTEST_SUB_APPLICATION [PYXIS_TO_XML_TEST_SET]
 		redefine
 			log_filter_set
 		end

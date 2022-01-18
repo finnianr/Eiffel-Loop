@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
-	revision: "6"
+	date: "2022-01-18 21:56:07 GMT (Tuesday 18th January 2022)"
+	revision: "7"
 
 deferred class
 	COPIED_SVG_DIRECTORY_DATA_TEST_SET
@@ -23,7 +23,7 @@ inherit
 			on_prepare
 		end
 
-	EL_EQA_REGRESSION_TEST_SET
+	EL_CRC_32_EQA_TEST_SET
 		undefine
 			on_prepare, on_clean
 		end
