@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-18 21:56:08 GMT (Tuesday 18th January 2022)"
-	revision: "13"
+	date: "2022-01-19 14:13:28 GMT (Wednesday 19th January 2022)"
+	revision: "15"
 
 class
 	COMMA_SEPARATED_IMPORT_TEST_SET
 
 inherit
-	EL_CRC_32_EQA_TEST_SET
+	EL_EQA_TEST_SET
+
+	EL_CRC_32_TEST_ROUTINES
 
 	EL_MODULE_LOG
 
@@ -37,7 +39,7 @@ feature -- Test
 		do
 			if attached new_job_list as job_list then
 				do_import_test (job_list)
-				do_test ("do_export_test", 978561297, agent do_export_test, [job_list])
+				do_test ("do_export_test", 1772416557, agent do_export_test, [job_list])
 			end
 		end
 

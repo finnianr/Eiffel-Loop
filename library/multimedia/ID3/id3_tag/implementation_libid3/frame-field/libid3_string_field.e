@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:45:48 GMT (Tuesday 5th January 2021)"
-	revision: "9"
+	date: "2022-01-19 10:04:51 GMT (Wednesday 19th January 2022)"
+	revision: "10"
 
 class
 	LIBID3_STRING_FIELD
@@ -25,10 +25,6 @@ inherit
 		redefine
 			Libid3_types
 		end
-
-	EL_MODULE_UTF
-
-	EL_SHARED_ONCE_STRING_32
 
 create
 	make
@@ -93,7 +89,7 @@ feature -- Element change
 				set_text_unicode (str.to_string_32)
 
 			elseif code = Encoding_enum.UTF_8 then
-				set_latin_1_string (str.to_utf_8)
+				set_latin_1_string (str.to_utf_8 (False))
 
 			end
 		end
@@ -102,12 +98,13 @@ feature {NONE} -- Implementation
 
 	text_32: STRING_32
 		local
-			data: like Unicode_buffer
+			data: like Unicode_buffer; buffer: EL_STRING_32_BUFFER_ROUTINES
+			conv: EL_UTF_CONVERTER
 		do
-			Result := once_empty_string_32
+			Result := buffer.empty
 			data := Unicode_buffer
 			data.set_from_pointer (cpp_unicode_text (self_ptr), count * 2 + 2)
-			UTF.utf_16_be_0_pointer_into_string_32 (data, Result)
+			conv.utf_16_be_0_pointer_into_string_32 (data, Result)
 		end
 
 	set_text_unicode (str: STRING_32)

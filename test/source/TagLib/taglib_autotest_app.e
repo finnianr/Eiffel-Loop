@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-18 21:52:18 GMT (Tuesday 18th January 2022)"
-	revision: "66"
+	date: "2022-01-19 14:29:55 GMT (Wednesday 19th January 2022)"
+	revision: "67"
 
 class
 	TAGLIB_AUTOTEST_APP
@@ -24,5 +24,4 @@ inherit
 
 create
 	make
-
 end

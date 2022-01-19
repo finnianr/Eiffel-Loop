@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-18 21:56:07 GMT (Tuesday 18th January 2022)"
-	revision: "7"
+	date: "2022-01-19 9:44:22 GMT (Wednesday 19th January 2022)"
+	revision: "8"
 
 deferred class
 	COPIED_SVG_DIRECTORY_DATA_TEST_SET
@@ -23,10 +23,7 @@ inherit
 			on_prepare
 		end
 
-	EL_CRC_32_EQA_TEST_SET
-		undefine
-			on_prepare, on_clean
-		end
+	EL_CRC_32_TEST_ROUTINES
 
 	EL_MODULE_DIRECTORY EL_MODULE_EVOLICITY_TEMPLATES EL_MODULE_TUPLE
 

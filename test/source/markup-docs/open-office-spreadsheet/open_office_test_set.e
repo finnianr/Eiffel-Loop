@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-18 21:56:07 GMT (Tuesday 18th January 2022)"
-	revision: "19"
+	date: "2022-01-19 9:45:15 GMT (Wednesday 19th January 2022)"
+	revision: "20"
 
 class
 	OPEN_OFFICE_TEST_SET
@@ -25,10 +25,7 @@ class
 inherit
 	EIFFEL_LOOP_TEST_SET
 
-	EL_CRC_32_EQA_TEST_SET
-		undefine
-			on_prepare, on_clean
-		end
+	EL_CRC_32_TEST_ROUTINES
 
 feature -- Basic operations
 

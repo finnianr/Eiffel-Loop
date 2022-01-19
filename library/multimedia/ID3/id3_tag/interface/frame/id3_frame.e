@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:06:12 GMT (Tuesday 28th April 2020)"
-	revision: "10"
+	date: "2022-01-19 10:05:35 GMT (Wednesday 19th January 2022)"
+	revision: "11"
 
 deferred class
 	ID3_FRAME
@@ -133,7 +133,7 @@ feature -- Access
 	encoding_name: STRING
 			--
 		do
-			Result := Encoding_enum.name_exported (encoding, True)
+			Result := Encoding_enum.name (encoding)
 		end
 
 	field_count: INTEGER

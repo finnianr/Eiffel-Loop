@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-10 11:09:48 GMT (Tuesday 10th March 2020)"
-	revision: "7"
+	date: "2022-01-19 10:10:41 GMT (Wednesday 19th January 2022)"
+	revision: "8"
 
 class
 	UNDERBIT_ID3_TAG_INFO
@@ -113,7 +113,7 @@ feature -- Element change
 		local
 			utf_8_path: STRING; to_c: ANY
 		do
-			utf_8_path := mp3_path.to_string.to_utf_8
+			utf_8_path := mp3_path.to_string.to_utf_8 (False)
 			to_c := utf_8_path.to_c
 			make_from_pointer (c_id3_file_open ($to_c, File_mode_read_and_write))
 		end
@@ -182,10 +182,10 @@ feature {NONE} -- Implementation
 		require
 			valid_mode: file_mode = File_mode_read_and_write or file_mode = File_mode_read_only
 		local
-			l_file_path: STRING
+			to_c: ANY
 		do
-			l_file_path := mp3_path.to_string.to_utf_8
-			Result := c_id3_file_open (l_file_path.area.base_address, file_mode)
+			to_c := mp3_path.to_string.to_utf_8 (False).to_c
+			Result := c_id3_file_open ($to_c, file_mode)
 		ensure
 			file_open: is_attached (Result)
 		end
@@ -205,7 +205,7 @@ feature {NONE} -- Constants
 
 	Factory: EL_OBJECT_FACTORY [UNDERBIT_ID3_FRAME]
 		once
-			create Result.make_from_table (<<
+			create Result.make (<<
 				["default",				{UNDERBIT_ID3_FRAME}],
 				[Tag.Unique_file_id,	{UNDERBIT_ID3_UNIQUE_FILE_ID_FRAME}],
 				[Tag.Album_picture,	{UNDERBIT_ID3_ALBUM_PICTURE_FRAME}],

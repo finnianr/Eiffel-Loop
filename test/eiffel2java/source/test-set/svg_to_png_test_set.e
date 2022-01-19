@@ -8,9 +8,13 @@ note
 		PNG file after it has finished rendering it as part of the SVG image.
 	]"
 
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2021-03-27 10:03:53 GMT (Saturday 27th March 2021)"
+	revision: "1"
 
 class
 	SVG_TO_PNG_TEST_SET

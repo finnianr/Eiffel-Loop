@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:45:54 GMT (Tuesday 5th January 2021)"
-	revision: "2"
+	date: "2022-01-19 10:01:53 GMT (Wednesday 19th January 2022)"
+	revision: "3"
 
 class
 	UNDERBIT_ID3_STRING_FIELD
@@ -46,11 +46,9 @@ feature -- Element change
 
 	set_string (str: ZSTRING)
 		local
-			str_32: STRING_32; to_c: ANY
+			to_c: ANY; buffer: EL_STRING_32_BUFFER_ROUTINES
 		do
-			str_32 := once_empty_string_32
-			str.append_to_string_32 (str_32)
-			to_c := str_32.to_c
+			to_c := buffer.copied_general (str).to_c
 			set_underbit_string ($to_c)
 		end
 

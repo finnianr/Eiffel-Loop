@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-18 21:52:18 GMT (Tuesday 18th January 2022)"
-	revision: "18"
+	date: "2022-01-19 14:30:38 GMT (Wednesday 19th January 2022)"
+	revision: "19"
 
 class
 	NETWORK_AUTOTEST_APP
@@ -22,7 +22,7 @@ class
 inherit
 	EL_CRC_32_AUTOTEST_SUB_APPLICATION [SIMPLE_CLIENT_SERVER_TEST_SET, NETWORK_TEST_SET]
 		redefine
-			description, visible_types, log_filter_set
+			log_filter_set, visible_types
 		end
 
 create
@@ -41,9 +41,5 @@ feature {NONE} -- Implementation
 		do
 			create Result
 		end
-
-feature {NONE} -- Constants
-
-	Description: STRING = "Tests for library network.ecf"
 
 end

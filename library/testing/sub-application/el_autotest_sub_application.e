@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 12:37:40 GMT (Wednesday 24th November 2021)"
-	revision: "14"
+	date: "2022-01-19 13:58:18 GMT (Wednesday 19th January 2022)"
+	revision: "15"
 
 deferred class
 	EL_AUTOTEST_SUB_APPLICATION [EQA_TYPES -> TUPLE create default_create end]
@@ -29,9 +29,7 @@ inherit
 			Application_option, is_logging_active, init_console_and_logging
 		end
 
-	EL_MODULE_EIFFEL
-
-	EL_MODULE_ARGS
+	EL_MODULE_ARGS; EL_MODULE_EIFFEL; EL_MODULE_NAMING
 
 feature {NONE} -- Initialization
 
@@ -55,7 +53,7 @@ feature {NONE} -- Initialization
 			else
 				create test_name.make_empty
 			end
-			create test_type_list.make_from_tuple (create {EQA_TYPES})
+			test_type_list := new_test_type_list
 			if Application_option.test_set.count > 0 then
 				create test_type_list.make_from_array (test_type_list.query_if (agent test_set_matches).to_array)
 			end
@@ -102,6 +100,22 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
+	description: STRING
+		local
+			name: STRING
+		do
+			Result := "Call EQA test sets for:%N"
+			across new_test_type_list as type loop
+				name := type.item.name
+				if name.ends_with (Test_set_suffix) then
+					name.remove_tail (Test_set_suffix.count)
+				end
+				Result.append ("%N   ")
+				Result.append (Naming.class_description (name, ""))
+				Result.append (" classes")
+			end
+		end
+
 	test_set_matches (type: TYPE [EL_EQA_TEST_SET]): BOOLEAN
 		do
 			Result := type.name.same_string (test_set_name)
@@ -127,13 +141,18 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	new_test_type_list: EL_TUPLE_TYPE_LIST [EL_EQA_TEST_SET]
+		do
+			create Result.make_from_tuple (create {EQA_TYPES})
+		end
+
 feature {NONE} -- Internal attributes
 
 	test_set_name: STRING
 
 	test_name: STRING
 
-	test_type_list: EL_TUPLE_TYPE_LIST [EL_EQA_TEST_SET]
+	test_type_list: like new_test_type_list
 
 feature {NONE} -- Constants
 
@@ -142,12 +161,9 @@ feature {NONE} -- Constants
 			create Result.make
 		end
 
-	Description: STRING
-		once
-			Result := "Call manual and automatic sets during development"
-		end
-
 	Test_prefix: STRING = "test_"
+
+	Test_set_suffix: STRING = "_TEST_SET"
 
 note
 	descendants: "[

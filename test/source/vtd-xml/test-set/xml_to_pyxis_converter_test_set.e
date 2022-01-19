@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-18 21:56:07 GMT (Tuesday 18th January 2022)"
-	revision: "12"
+	date: "2022-01-19 9:46:10 GMT (Wednesday 19th January 2022)"
+	revision: "13"
 
 class
 	XML_TO_PYXIS_CONVERTER_TEST_SET
@@ -24,10 +24,7 @@ inherit
 			new_lio
 		end
 
-	EL_CRC_32_EQA_TEST_SET
-		undefine
-			on_prepare, on_clean
-		end
+	EL_CRC_32_TEST_ROUTINES
 
 	EIFFEL_LOOP_TEST_ROUTINES
 

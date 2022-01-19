@@ -1,7 +1,7 @@
 note
 	description: "[
 		[$source EL_AUTOTEST_SUB_APPLICATION] object with support for test sets conforming
-		to [$source EL_CRC_32_EQA_TEST_SET]
+		to [$source EL_CRC_32_TEST_ROUTINES]
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-18 22:01:02 GMT (Tuesday 18th January 2022)"
-	revision: "5"
+	date: "2022-01-19 14:29:23 GMT (Wednesday 19th January 2022)"
+	revision: "7"
 
 deferred class
 	EL_CRC_32_AUTOTEST_SUB_APPLICATION [EQA_TYPES -> TUPLE create default_create end]
@@ -28,32 +28,14 @@ feature {NONE} -- Implementation
 			Result := Once_log
 		end
 
-	new_log: EL_LOGGABLE
+	new_log: EL_CRC_32_CONSOLE_AND_FILE_LOG
 		do
-			if version = 1 then
-				-- legacy version
-				create {EL_TESTING_CONSOLE_AND_FILE_LOG} Result.make -- Normal logging object
-			else
-				-- recommmended version
-				create {EL_CRC_32_CONSOLE_AND_FILE_LOG} Result.make -- Normal logging object
-			end
+			create Result.make -- Normal logging object
 		end
 
-	new_log_manager: EL_LOG_MANAGER
+	new_log_manager: EL_CRC_32_LOG_MANAGER
 		do
-			if version = 1 then
-				-- legacy version
-				create {EL_TESTING_LOG_MANAGER} Result.make (is_logging_active, Log_output_directory)
-			else
-				-- recommmended version
-				create {EL_CRC_32_LOG_MANAGER} Result.make (is_logging_active, Log_output_directory)
-			end
+			create Result.make (is_logging_active, Log_output_directory)
 		end
 
-	version: INTEGER
-		do
-			Result := 1
-		ensure
-			valid_result: Result = 1 or Result = 2
-		end
 end

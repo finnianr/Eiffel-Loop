@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:25:03 GMT (Thursday 13th January 2022)"
-	revision: "23"
+	date: "2022-01-19 9:39:20 GMT (Wednesday 19th January 2022)"
+	revision: "24"
 
 class
 	CLASS_RENAMING_APP
@@ -50,7 +50,9 @@ feature -- Basic operations
 			else
 				-- run in a loop
 				from until user_quit loop
-					command.execute
+					if new_name.count > 0 then
+						command.execute
+					end
 					set_class_names
 				end
 			end

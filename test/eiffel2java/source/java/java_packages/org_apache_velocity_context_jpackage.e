@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2021-03-10 16:14:50 GMT (Wednesday 10th March 2021)"
+	revision: "5"
 
 deferred class
 	ORG_APACHE_VELOCITY_CONTEXT_JPACKAGE

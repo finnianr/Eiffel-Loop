@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:09:16 GMT (Tuesday 10th November 2020)"
-	revision: "14"
+	date: "2022-01-19 14:33:31 GMT (Wednesday 19th January 2022)"
+	revision: "15"
 
 deferred class
 	EL_REGRESSION_TESTABLE_SUB_APPLICATION
@@ -63,11 +63,11 @@ feature {NONE} -- Factory
 			if logging.is_active then
 				Result := Once_log
 			else
-				create {EL_TESTING_CONSOLE_ONLY_LOG} Result.make
+				create {EL_CRC_32_CONSOLE_ONLY_LOG} Result.make
 			end
 		end
 
-	new_log_manager: EL_TESTING_LOG_MANAGER
+	new_log_manager: EL_CRC_32_LOG_MANAGER
 		do
 			create Result.make (is_logging_active, Log_output_directory)
 		end

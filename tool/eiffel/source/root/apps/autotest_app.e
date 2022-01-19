@@ -23,14 +23,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-06 17:19:47 GMT (Thursday 6th January 2022)"
-	revision: "46"
+	date: "2022-01-19 14:27:28 GMT (Wednesday 19th January 2022)"
+	revision: "48"
 
 class
 	AUTOTEST_APP
 
 inherit
-	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [
+	EL_CRC_32_AUTOTEST_SUB_APPLICATION [
 		CLASS_RENAMING_TEST_SET,
 		CODEC_GENERATOR_TEST_SET,
 		EIFFEL_SOURCE_COMMAND_TEST_SET,

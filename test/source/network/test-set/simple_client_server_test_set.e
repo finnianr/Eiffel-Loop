@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-18 21:56:07 GMT (Tuesday 18th January 2022)"
-	revision: "4"
+	date: "2022-01-19 9:45:35 GMT (Wednesday 19th January 2022)"
+	revision: "5"
 
 class
 	SIMPLE_CLIENT_SERVER_TEST_SET
@@ -20,10 +20,7 @@ inherit
 			new_lio
 		end
 
-	EL_CRC_32_EQA_TEST_SET
-		undefine
-			on_prepare, on_clean
-		end
+	EL_CRC_32_TEST_ROUTINES
 
 	EL_MODULE_LOG
 

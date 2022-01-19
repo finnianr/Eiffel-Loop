@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-18 21:52:18 GMT (Tuesday 18th January 2022)"
-	revision: "12"
+	date: "2022-01-19 14:29:35 GMT (Wednesday 19th January 2022)"
+	revision: "13"
 
 class
 	VTD_XML_AUTOTEST_APP
@@ -27,14 +27,8 @@ inherit
 		VTD_XML_TEST_SET,
 		XML_TO_PYXIS_CONVERTER_TEST_SET
 	]
-		redefine
-			version
-		end
 
 create
 	make
 
-feature {NONE} -- Constants
-
-	Version: INTEGER = 2
 end

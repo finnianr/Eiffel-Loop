@@ -1,22 +1,19 @@
 note
 	description: "Test [$source J_VELOCITY] and related classes to wrap Java Apache Velocity package"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2022-01-18 22:10:31 GMT (Tuesday 18th January 2022)"
+	revision: "1"
 
 class
 	VELOCITY_TEST_SET
 
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
-		undefine
-			new_lio
-		end
-
-	EL_EQA_REGRESSION_TEST_SET
-		undefine
-			on_prepare, on_clean
-		end
 
 	EIFFEL_LOOP_TEST_ROUTINES
 

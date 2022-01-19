@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
-	revision: "10"
+	date: "2022-01-19 9:47:20 GMT (Wednesday 19th January 2022)"
+	revision: "11"
 
 class
 	TRANSLATION_TREE_COMPILER_TEST_SET
@@ -18,10 +18,7 @@ inherit
 			new_lio
 		end
 
-	EL_EQA_REGRESSION_TEST_SET
-		undefine
-			on_prepare, on_clean
-		end
+	EL_CRC_32_TEST_ROUTINES
 
 	EIFFEL_LOOP_TEST_ROUTINES
 

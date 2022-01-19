@@ -16,8 +16,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-18 21:56:07 GMT (Tuesday 18th January 2022)"
-	revision: "19"
+	date: "2022-01-19 9:45:55 GMT (Wednesday 19th January 2022)"
+	revision: "20"
 
 class
 	VTD_XML_TEST_SET
@@ -28,10 +28,7 @@ inherit
 			on_prepare
 		end
 
-	EL_CRC_32_EQA_TEST_SET
-		undefine
-			on_prepare, on_clean
-		end
+	EL_CRC_32_TEST_ROUTINES
 
 	EL_MODULE_OS
 

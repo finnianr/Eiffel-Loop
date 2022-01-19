@@ -166,6 +166,10 @@ publish-repository:
 			ignore = test_common
 			"benchmark/benchmark.ecf"
 
+		# Test obsolete ID3 tag libraries
+		ecf:
+			"test/ID3-tags/id3-test.ecf"
+
 		# Test
 		ecf:
 			"test/test.ecf#amazon_ia"
@@ -179,7 +183,6 @@ publish-repository:
 			"test/test.ecf#evolicity"
 			"test/test.ecf#http_client"
 			"test/test.ecf#i18n"
-			"test/ID3-tags/id3-test.ecf"
 			"test/test.ecf#image_utils"
 			"test/test.ecf#markup_docs"
 			"test/test.ecf#multimedia"

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-06 11:34:01 GMT (Thursday 6th January 2022)"
-	revision: "14"
+	date: "2022-01-19 9:47:24 GMT (Wednesday 19th January 2022)"
+	revision: "15"
 
 class
 	FEATURE_EDITOR_COMMAND_TEST_SET
@@ -18,10 +18,7 @@ inherit
 			new_lio
 		end
 
-	EL_EQA_REGRESSION_TEST_SET
-		undefine
-			on_prepare, on_clean
-		end
+	EL_CRC_32_TEST_ROUTINES
 
 	EL_ENCODING_CONSTANTS
 

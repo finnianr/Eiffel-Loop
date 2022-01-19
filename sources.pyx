@@ -14,6 +14,7 @@ manifest:
 	# testing and benchmarks
 	location:
 		"benchmark/source"
+		"test/eiffel2java/source"
 		"test/source"
 		"test/ID3-tags/source"
 

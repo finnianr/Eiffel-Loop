@@ -24,14 +24,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-18 12:20:53 GMT (Monday 18th January 2021)"
-	revision: "19"
+	date: "2022-01-19 14:28:02 GMT (Wednesday 19th January 2022)"
+	revision: "21"
 
 class
 	AUTOTEST_APP
 
 inherit
-	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [
+	EL_CRC_32_AUTOTEST_SUB_APPLICATION [
 		ADD_ALBUM_ART_TASK_TEST_SET,
 		COLLATE_SONGS_TASK_TEST_SET,
 		EXPORT_MUSIC_TO_DEVICE_TASK_TEST_SET,

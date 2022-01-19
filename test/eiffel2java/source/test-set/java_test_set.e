@@ -3,15 +3,22 @@ note
 	notes: "[
 		Because the JVM can only be loaded once we are limited to only one Java test routine
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2022-01-19 9:49:51 GMT (Wednesday 19th January 2022)"
+	revision: "1"
 
 class
 	JAVA_TEST_SET
 
 inherit
-	EL_EQA_REGRESSION_TEST_SET
+	EL_EQA_TEST_SET
+
+	EL_CRC_32_TEST_ROUTINES
 
 	EL_MODULE_JAVA
 
@@ -124,7 +131,7 @@ feature {NONE} -- Implementation
 
 			create j2e_test.make_from_string (hello_msg)
 			str := j2e_test.my_string
-			
+
 			assert ("same string with Eiffel comparison", str.value.same_string (hello) )
 			assert ("same string with Java comparison", str.equals (hello_msg) )
 		end

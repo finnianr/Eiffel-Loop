@@ -6,19 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "11"
+	date: "2022-01-19 9:59:02 GMT (Wednesday 19th January 2022)"
+	revision: "12"
 
 class
 	ID3_TAG_INFO_TEST_SET
 
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
-
-	EL_EQA_REGRESSION_TEST_SET
 		undefine
-			on_prepare, on_clean
+			new_lio
 		end
+
+	EL_CRC_32_TEST_ROUTINES
 
 	EL_STRING_8_CONSTANTS
 
@@ -177,4 +177,3 @@ feature {NONE} -- Constants
 			Result := " (%S)"
 		end
 end
-

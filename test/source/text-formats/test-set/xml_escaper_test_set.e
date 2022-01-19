@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-18 21:56:08 GMT (Tuesday 18th January 2022)"
-	revision: "6"
+	date: "2022-01-19 9:46:03 GMT (Wednesday 19th January 2022)"
+	revision: "7"
 
 class
 	XML_ESCAPER_TEST_SET
 
 inherit
-	EL_CRC_32_EQA_TEST_SET
+	EL_EQA_TEST_SET
+
+	EL_CRC_32_TEST_ROUTINES
 
 	EL_TEST_STRINGS
 
