@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 11:54:27 GMT (Thursday 13th January 2022)"
-	revision: "12"
+	date: "2022-01-20 16:20:30 GMT (Thursday 20th January 2022)"
+	revision: "13"
 
 class
-	THUNDERBIRD_WWW_EXPORTER
+	EL_THUNDERBIRD_WWW_EXPORTER
 
 inherit
 	EL_THUNDERBIRD_ACCOUNT_READER

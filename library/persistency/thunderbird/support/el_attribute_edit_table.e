@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-15 19:55:34 GMT (Saturday 15th January 2022)"
-	revision: "2"
+	date: "2022-01-20 17:14:25 GMT (Thursday 20th January 2022)"
+	revision: "3"
 
 class
 	EL_ATTRIBUTE_EDIT_TABLE
@@ -30,11 +30,10 @@ create
 
 feature -- Basic operations
 
-	do_with_attributes (target: ANY; element: ZSTRING)
+	do_with_attributes (element: ZSTRING)
 		-- edit attributes in `element' using edit procedure
 		require
 			is_element: element.enclosed_with ("<>")
-			valid_targets: across Current as action all action.item.target.same_type (target) end
 		local
 			start_index, end_index: INTEGER
 			name, ending: ZSTRING; quote_splitter: EL_SPLIT_ON_CHARACTER [ZSTRING]
@@ -59,7 +58,6 @@ feature -- Basic operations
 								name.right_adjust
 								search (name)
 							elseif found then
-								found_item.set_target (target)
 								found_item (name, split.item, element)
 							else
 								XML.append_attribute (name, split.item, element)

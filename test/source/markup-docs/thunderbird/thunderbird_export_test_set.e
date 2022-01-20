@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-15 11:37:18 GMT (Saturday 15th January 2022)"
-	revision: "4"
+	date: "2022-01-20 16:53:05 GMT (Thursday 20th January 2022)"
+	revision: "5"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -26,9 +26,12 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("decode_iso_8859_15_subject_line", agent test_decode_iso_8859_15_subject_line)
+			eval.call ("decode_utf_8_subject_line", agent test_decode_utf_8_subject_line)
 			eval.call ("book_exporter", agent test_book_exporter)
-			eval.call ("xhtml_exporter", agent test_xhtml_exporter)
 			eval.call ("www_exporter", agent test_www_exporter)
+			eval.call ("xhtml_exporter", agent test_xhtml_exporter)
+			eval.call ("xhtml_doc_exporter", agent test_xhtml_doc_exporter)
 		end
 
 feature -- Tests
@@ -62,9 +65,30 @@ feature -- Tests
 			assert ("5 chapters", chapter_count = 5)
 		end
 
+	test_decode_iso_8859_15_subject_line
+		local
+			subject: EL_SUBJECT_LINE_DECODER
+		do
+			create subject.make
+			subject.set_line ("=?ISO-8859-15?Q?=DCber_My_Ching?=")
+			assert ("same string", subject.decoded_line.to_latin_1 ~ "Über My Ching")
+		end
+
+	test_decode_utf_8_subject_line
+		local
+			subject: EL_SUBJECT_LINE_DECODER
+		do
+			create subject.make
+			subject.set_line ("=?UTF-8?B?w5xiZXLigqwgTXkgQ2hpbmc=?=")
+			assert ("same string", subject.decoded_line.same_string ({STRING_32} "Über€ My Ching"))
+
+			subject.set_line ("=?UTF-8?Q?Journaleintr=c3=a4ge_bearbeiten?=")
+			assert ("same string", subject.decoded_line.same_string ("Journaleinträge bearbeiten"))
+		end
+
 	test_www_exporter
 		local
-			command: THUNDERBIRD_WWW_EXPORTER
+			command: EL_THUNDERBIRD_WWW_EXPORTER
 			config_path: FILE_PATH; folder_names: EL_ZSTRING_LIST
 			file_set, dir_set: EL_HASH_SET [ZSTRING]
 		do
@@ -78,14 +102,19 @@ feature -- Tests
 			across Www_manifest as line loop
 				file_set.put (line.item)
 			end
-			create dir_set.make_from_array (<<
-				"Home", "Libraries", "Tools"
-			>>)
+			create dir_set.make_from_array (<< "Home", "Libraries", "Tools" >>)
 			across OS.file_list (work_area_data_dir #+ "export", "*.body") as path loop
 				assert ("in directory set", dir_set.has (path.item.parent.base))
 				assert ("in file set", file_set.has (path.item.base_sans_extension))
 				assert ("h2 file present", path.item.with_new_extension ("h2").exists)
 			end
+		end
+
+	test_xhtml_doc_exporter
+		local
+--			command: EL_ML_THUNDERBIRD_ACCOUNT_XHTML_DOC_EXPORTER
+		do
+--			command.execute
 		end
 
 	test_xhtml_exporter

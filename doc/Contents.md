@@ -1755,6 +1755,10 @@ Command switch: `-duplicity_restore`
 Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releases/latest) for *Ubuntu 14.04* or *Linux Mint 17.x*.
 ## Eiffel-Loop Performance Benchmarks
 
+## ID3-tags.ecf
+See class [ID3_TAGS_AUTOTEST_APP](http://www.eiffel-loop.com/test/ID3-tags/source/id3_tags_autotest_app.html)
+
+Due to C name space clashes with `TagLib.ecf` these tests have been separated from `test.ecf`
 ## amazon-instant-access.ecf
 Tests for Eiffel interface to Amazon Instant Access API. See class [AMAZON_INSTANT_ACCESS_TEST_APP]($source)
 ## base.ecf (Eiffel-Loop)
@@ -1801,10 +1805,6 @@ Test of Evolicity text substitution engine. See class [EVOLICITY_TEST_APP]($sour
 See class [HTTP_CLIENT_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/http-client/http_client_autotest_app.html)
 ## i18n.ecf
 Test localization library. See class [I18N_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/i18n/i18n_autotest_app.html)
-## ID3-tags.ecf
-See class [ID3_TAGS_AUTOTEST_APP](http://www.eiffel-loop.com/test/ID3-tags/source/id3_tags_autotest_app.html)
-
-Due to C name space clashes with `TagLib.ecf` these tests have been separated from `test.ecf`
 ## image-utils.ecf
 See class [SVG_TO_PNG_CONVERSION_TEST_APP]($source)
 ## markup-docs.ecf

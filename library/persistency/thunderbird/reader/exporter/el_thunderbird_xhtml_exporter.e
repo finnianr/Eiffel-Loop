@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-15 19:59:29 GMT (Saturday 15th January 2022)"
-	revision: "15"
+	date: "2022-01-20 17:15:48 GMT (Thursday 20th January 2022)"
+	revision: "16"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -38,6 +38,19 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			create output_file_path
+			-- cannot be once routines because of complications setting routine target
+			create edit_attributes_image_tag.make (<<
+				["moz-do-not-send", 	agent omit],
+				["height",				agent omit],
+				["width",				agent omit],
+				["border", 				agent omit],
+				["src",					agent prune_localhost]
+			>>)
+			create edit_attributes_anchor_tag.make (<<
+				["moz-do-not-send", 	agent omit],
+				["class",				agent omit],
+				["href", 				agent prune_localhost]
+			>>)
 		end
 
 feature -- Basic operations
@@ -144,7 +157,7 @@ feature {NONE} -- Editing
 	edit_anchor_tag (start_index, end_index: INTEGER; substring: ZSTRING)
 		do
 			if is_tag_start (start_index, end_index, substring) then
-				Edit_attributes_anchor_tag.do_with_attributes (Current, substring)
+				edit_attributes_anchor_tag.do_with_attributes (substring)
 			end
 		end
 
@@ -152,7 +165,7 @@ feature {NONE} -- Editing
 		-- remove surplus attributes: moz-do-not-send, height, width
 		do
 			if is_tag_start (start_index, end_index, substring) then
-				Edit_attributes_image_tag.do_with_attributes (Current, substring)
+				edit_attributes_image_tag.do_with_attributes (substring)
 				close_empty_tag (start_index, end_index, substring)
 			end
 		end
@@ -254,6 +267,11 @@ feature {NONE} -- Deferred
 
 feature {NONE} -- Internal attributes
 
+	edit_attributes_anchor_tag: EL_ATTRIBUTE_EDIT_TABLE
+		-- cannot be once routines because of complications setting routine target
+
+	edit_attributes_image_tag: EL_ATTRIBUTE_EDIT_TABLE
+
 	is_html_updated: BOOLEAN
 
 	output_file_path: FILE_PATH
@@ -268,26 +286,6 @@ feature {NONE} -- Constants
 	Localhost_domain: ZSTRING
 		once
 			Result := "://localhost"
-		end
-
-	Edit_attributes_anchor_tag: EL_ATTRIBUTE_EDIT_TABLE
-		once
-			create Result.make (<<
-				["moz-do-not-send", 	agent omit],
-				["class",				agent omit],
-				["href", 				agent prune_localhost]
-			>>)
-		end
-
-	Edit_attributes_image_tag: EL_ATTRIBUTE_EDIT_TABLE
-		once
-			create Result.make (<<
-				["moz-do-not-send", 	agent omit],
-				["height",				agent omit],
-				["width",				agent omit],
-				["border", 				agent omit],
-				["src",					agent prune_localhost]
-			>>)
 		end
 
 	Unclosed_tags: EL_ZSTRING_LIST

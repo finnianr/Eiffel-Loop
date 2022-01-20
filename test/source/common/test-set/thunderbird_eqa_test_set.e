@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-15 17:20:03 GMT (Saturday 15th January 2022)"
-	revision: "2"
+	date: "2022-01-20 16:47:30 GMT (Thursday 20th January 2022)"
+	revision: "3"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
@@ -81,7 +81,7 @@ feature {NONE} -- Implementation
 
 	source_dir: DIR_PATH
 		do
-			Result := "test-data/.thunderbird"
+			Result := EL_test_data_dir #+ ".thunderbird"
 		end
 
 	write_config (config_path: FILE_PATH; config_text: ZSTRING)
