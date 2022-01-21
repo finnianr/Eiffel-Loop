@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-21 13:37:10 GMT (Friday 21st January 2022)"
-	revision: "4"
+	date: "2022-01-21 15:33:24 GMT (Friday 21st January 2022)"
+	revision: "5"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
@@ -20,6 +20,8 @@ inherit
 	EL_FILE_OPEN_ROUTINES
 
 	EL_SHARED_DIGESTS
+
+	EL_MODULE_XML
 
 feature -- Tests
 
@@ -103,12 +105,8 @@ feature {NONE} -- Implementation
 		end
 
 	new_root_node (body_path: EL_FILE_PATH): EL_XPATH_ROOT_NODE_CONTEXT
-		local
-			xml: STRING
 		do
-			xml := Xml_template.twin
-			xml.replace_substring_all ("$BODY_TEXT", File_system.plain_text (body_path))
-			create Result.make_from_string (xml)
+			create Result.make_from_string (XML.document_text ("body", "UTF-8", File_system.plain_text (body_path)))
 		end
 
 	new_xdoc_path (xdoc: EL_XPATH_ROOT_NODE_CONTEXT; xpath: STRING): FILE_PATH
@@ -162,10 +160,4 @@ feature {NONE} -- Constants
 			]"
 		end
 
-	Xml_template: STRING = "[
-		<?xml version="1.0" encoding="UTF-8"?>
-		<body>
-			$BODY_TEXT
-		</body>
-	]"
 end

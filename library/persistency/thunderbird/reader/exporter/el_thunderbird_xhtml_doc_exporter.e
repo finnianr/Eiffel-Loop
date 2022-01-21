@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-21 13:04:16 GMT (Friday 21st January 2022)"
-	revision: "9"
+	date: "2022-01-21 15:21:12 GMT (Friday 21st January 2022)"
+	revision: "10"
 
 class
 	EL_THUNDERBIRD_XHTML_DOC_EXPORTER
@@ -28,7 +28,7 @@ feature {NONE} -- Implementation
 			s: EL_ZSTRING_ROUTINES
 		do
 			Precursor (html_doc)
-			html_doc.prepend (XML.header (1.0, "UTF-8") + s.character_string ('%N'))
+			html_doc.prepend_string_general (XML.header (1.0, "UTF-8") + s.character_string ('%N'))
 			html_doc.edit ("content=%"text/html;", "%"", agent edit_content_type)
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-15 19:46:58 GMT (Saturday 15th January 2022)"
-	revision: "15"
+	date: "2022-01-21 15:31:07 GMT (Friday 21st January 2022)"
+	revision: "16"
 
 class
 	EL_XML_ROUTINES
@@ -48,6 +48,22 @@ feature -- Measurement
 
 feature -- Access
 
+	document_text (enclosing_elements: EL_STRING_8_LIST; encoding_name, text: STRING): STRING
+		local
+			lines: EL_STRING_8_LIST
+		do
+			create lines.make (3 + enclosing_elements.count * 2)
+			lines.extend (header (1.0, encoding_name))
+			across enclosing_elements as element loop
+				lines.extend (open_tag (element.item))
+			end
+			lines.extend (text)
+			across enclosing_elements.new_cursor.reversed as element loop
+				lines.extend (closed_tag (element.item))
+			end
+			Result := lines.joined_lines
+		end
+
 	encoding (file_path: FILE_PATH): EL_MARKUP_ENCODING
 		do
 			create Result.make_from_file (file_path)
@@ -58,12 +74,12 @@ feature -- Access
 			Result := xml_escaper.escape_sequence (unicode)
 		end
 
-	header (a_version: REAL; a_encoding: STRING): ZSTRING
+	header (a_version: REAL; encoding_name: STRING): STRING
 		local
 			f: FORMAT_DOUBLE
 		do
 			create f.make (3, 1)
-			Result := Header_template #$ [f.formatted (a_version), a_encoding]
+			Result := Header_template #$ [f.formatted (a_version), encoding_name]
 			Result.left_adjust
 		end
 
