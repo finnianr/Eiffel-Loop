@@ -1,3 +1,6 @@
+1.4.10
+* Fixed bug in CLASS_DESCENDANTS_COMMAND to reformat output of ec -descendants command
+
 1.4.6
 Substitute aliases like ZSTRING based on /system/target/mapping
 

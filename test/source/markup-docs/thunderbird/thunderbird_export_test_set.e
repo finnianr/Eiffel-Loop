@@ -12,14 +12,17 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-20 16:53:05 GMT (Thursday 20th January 2022)"
-	revision: "5"
+	date: "2022-01-21 13:30:12 GMT (Friday 21st January 2022)"
+	revision: "6"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
 
 inherit
 	THUNDERBIRD_EQA_TEST_SET
+		redefine
+			test_book_exporter
+		end
 
 feature -- Basic operations
 
@@ -37,32 +40,8 @@ feature -- Basic operations
 feature -- Tests
 
 	test_book_exporter
-		local
-			command: EL_ML_THUNDERBIRD_ACCOUNT_BOOK_EXPORTER; folder_names: EL_ZSTRING_LIST
-			config_path, package_path, item_path: FILE_PATH; package_root, chapter_root: EL_XPATH_ROOT_NODE_CONTEXT
-			chapter_count: INTEGER
 		do
-			folder_names := "manual"
-			config_path := work_area_data_dir + "config.pyx"
-			write_config (config_path, new_config_text("pop.myching.co", "en", folder_names))
-			create command.make_from_file (config_path)
-			command.execute
-
-			package_path := work_area_data_dir + "export/manual/book-package.opf"
-			assert ("book-package.opf exists", package_path.exists)
-			create package_root.make_from_file (package_path)
-			across package_root.context_list ("/package/manifest/item") as manifest loop
-				item_path := package_path.parent + manifest.node.attributes ["href"]
-				if not item_path.has_extension ("png") then
-					assert ("item exists", item_path.exists)
-					if item_path.base.starts_with_general ("chapter") then
-						create chapter_root.make_from_file (item_path)
-						assert ("at least one paragraph", chapter_root.context_list ("/html/body/p").count > 0)
-						chapter_count := chapter_count + 1
-					end
-				end
-			end
-			assert ("5 chapters", chapter_count = 5)
+			Precursor
 		end
 
 	test_decode_iso_8859_15_subject_line
@@ -89,13 +68,10 @@ feature -- Tests
 	test_www_exporter
 		local
 			command: EL_THUNDERBIRD_WWW_EXPORTER
-			config_path: FILE_PATH; folder_names: EL_ZSTRING_LIST
 			file_set, dir_set: EL_HASH_SET [ZSTRING]
 		do
-			create folder_names.make_empty
-			config_path := work_area_data_dir + "config.pyx"
-			write_config (config_path, new_config_text("pop.eiffel-loop.com", "", folder_names))
-			create command.make_from_file (config_path)
+			write_config ("pop.eiffel-loop.com", "", "")
+			create command.make_from_file (Config_path)
 			command.execute
 
 			create file_set.make (Www_manifest.count)
@@ -112,23 +88,33 @@ feature -- Tests
 
 	test_xhtml_doc_exporter
 		local
---			command: EL_ML_THUNDERBIRD_ACCOUNT_XHTML_DOC_EXPORTER
+			command: EL_ML_THUNDERBIRD_ACCOUNT_XHTML_DOC_EXPORTER
+			count: INTEGER; xhtml_path: FILE_PATH; xdoc: like new_root_node
 		do
---			command.execute
+			write_config ("pop.myching.software", "", "1.About")
+			create command.make_from_file (config_path)
+			command.execute
+			-- check parseable as XML document
+			across About_myching_manifest as list loop
+				xhtml_path := Export_dir + list.item
+				assert (xhtml_path.base + " exists", xhtml_path.exists)
+				create xdoc.make_from_file (xhtml_path)
+
+				assert ("at least one paragraph", xdoc.context_list ("//p").count > 0)
+				count := count + 1
+			end
+			assert ("all items found", count = About_myching_manifest.count)
 		end
 
 	test_xhtml_exporter
 		local
 			command: EL_ML_THUNDERBIRD_ACCOUNT_XHTML_BODY_EXPORTER
-			config_path, body_path: FILE_PATH; folder_names: EL_ZSTRING_LIST
-			modification_table: EL_HASH_TABLE [INTEGER, FILE_PATH]
+			body_path: FILE_PATH; modification_table: EL_HASH_TABLE [INTEGER, FILE_PATH]
 			name: ZSTRING; count: INTEGER; xdoc: like new_root_node
 		do
 			create modification_table.make_size (50)
-			folder_names := "Purchase, manual, Product Tour, Screenshots"
-			config_path := work_area_data_dir + "config.pyx"
-			write_config (config_path, new_config_text("pop.myching.co", "", folder_names))
-			create command.make_from_file (config_path)
+			write_config ("pop.myching.co", "", "Purchase, manual, Product Tour, Screenshots")
+			create command.make_from_file (Config_path)
 			command.execute
 
 			-- check parseable as XML document
@@ -219,6 +205,18 @@ feature {NONE} -- Constants
 				Text processing
 				Toolkit functions
 				XML processing
+			]")
+		end
+
+	About_myching_manifest: EL_STRING_8_LIST
+		once
+			create Result.make_with_lines ("[
+				de/1.About/1.Hex 11 Software.xhtml
+				de/1.About/2.Der Entwickler.xhtml
+				de/1.About/3.Technologie.xhtml
+				en/1.About/1.Hex 11 Software.xhtml
+				en/1.About/2.The Developer.xhtml
+				en/1.About/3.Technology.xhtml
 			]")
 		end
 

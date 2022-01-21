@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-20 16:47:30 GMT (Thursday 20th January 2022)"
-	revision: "3"
+	date: "2022-01-21 13:37:10 GMT (Friday 21st January 2022)"
+	revision: "4"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
@@ -20,6 +20,33 @@ inherit
 	EL_FILE_OPEN_ROUTINES
 
 	EL_SHARED_DIGESTS
+
+feature -- Tests
+
+	test_book_exporter
+		local
+			exporter: like new_book_exporter; package_path, item_path: FILE_PATH
+			package_root: EL_XPATH_ROOT_NODE_CONTEXT; chapter_count: INTEGER
+		do
+			write_config ("pop.myching.co", "en", "manual")
+			exporter := new_book_exporter
+			exporter.execute
+
+			package_path := work_area_data_dir + "export/manual/book-package.opf"
+			assert ("book-package.opf exists", package_path.exists)
+			create package_root.make_from_file (package_path)
+			across package_root.context_list ("/package/manifest/item") as manifest loop
+				item_path := package_path.parent + manifest.node.attributes ["href"]
+				if not item_path.has_extension ("png") then
+					assert ("item exists", item_path.exists)
+					if item_path.base.starts_with_general ("chapter") then
+						check_book_chapter (create {EL_XPATH_ROOT_NODE_CONTEXT}.make_from_file (item_path))
+						chapter_count := chapter_count + 1
+					end
+				end
+			end
+			assert ("5 chapters", chapter_count = 5)
+		end
 
 feature {NONE} -- Implementation
 
@@ -43,6 +70,16 @@ feature {NONE} -- Implementation
 				count := count + 1
 			end
 			assert ("same h2 set count", h2_set.count = count)
+		end
+
+	check_book_chapter (chapter_root: EL_XPATH_ROOT_NODE_CONTEXT)
+		do
+			assert ("at least one paragraph", chapter_root.context_list ("/html/body/p").count > 0)
+		end
+
+	new_book_exporter: EL_ML_THUNDERBIRD_ACCOUNT_BOOK_EXPORTER
+		do
+			create Result.make_from_file (Config_path)
 		end
 
 	new_config_text (account, language: STRING; folders: EL_ZSTRING_LIST): ZSTRING
@@ -84,15 +121,20 @@ feature {NONE} -- Implementation
 			Result := EL_test_data_dir #+ ".thunderbird"
 		end
 
-	write_config (config_path: FILE_PATH; config_text: ZSTRING)
+	write_config (account, language, folders: STRING)
 		do
-			if attached open (config_path, Write) as pyxis_out then
-				pyxis_out.put_string (config_text)
+			if attached open (Config_path, Write) as pyxis_out then
+				pyxis_out.put_string (new_config_text (account, language, folders))
 				pyxis_out.close
 			end
 		end
 
 feature {NONE} -- Constants
+
+	Config_path: FILE_PATH
+		once
+			Result := work_area_data_dir + "config.pyx"
+		end
 
 	Export_dir: DIR_PATH
 		once

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-20 17:15:48 GMT (Thursday 20th January 2022)"
-	revision: "16"
+	date: "2022-01-21 12:50:57 GMT (Friday 21st January 2022)"
+	revision: "17"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -96,9 +96,9 @@ feature {NONE} -- Implementation
 			Result := related_file_extensions [1]
 		end
 
-	is_tag_start (start_index, end_index: INTEGER; substring: ZSTRING): BOOLEAN
+	is_tag_start (start_index, end_index: INTEGER; target: ZSTRING): BOOLEAN
 		do
-			Result := substring [start_index] /= '>' implies substring.is_space_item (start_index)
+			Result := target [start_index] /= '>' implies target.is_space_item (start_index)
 		end
 
 	on_email_collected
@@ -149,91 +149,91 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Editing
 
-	close_empty_tag (start_index, end_index: INTEGER; substring: ZSTRING)
+	close_empty_tag (start_index, end_index: INTEGER; target: ZSTRING)
 		do
-			substring.insert_character ('/', substring.count)
+			target.insert_character ('/', target.count)
 		end
 
-	edit_anchor_tag (start_index, end_index: INTEGER; substring: ZSTRING)
+	edit_anchor_tag (start_index, end_index: INTEGER; target: ZSTRING)
 		do
-			if is_tag_start (start_index, end_index, substring) then
-				edit_attributes_anchor_tag.do_with_attributes (substring)
+			if is_tag_start (start_index, end_index, target) then
+				edit_attributes_anchor_tag.do_with_attributes (target)
 			end
 		end
 
-	edit_image_tag (start_index, end_index: INTEGER; substring: ZSTRING)
+	edit_image_tag (start_index, end_index: INTEGER; target: ZSTRING)
 		-- remove surplus attributes: moz-do-not-send, height, width
 		do
-			if is_tag_start (start_index, end_index, substring) then
-				edit_attributes_image_tag.do_with_attributes (substring)
-				close_empty_tag (start_index, end_index, substring)
+			if is_tag_start (start_index, end_index, target) then
+				edit_attributes_image_tag.do_with_attributes (target)
+				close_empty_tag (start_index, end_index, target)
 			end
 		end
 
-	edit_list_tag (start_index, end_index: INTEGER; substring: ZSTRING)
+	edit_list_tag (start_index, end_index: INTEGER; target: ZSTRING)
 		do
-			if substring.is_substring_whitespace (start_index, end_index) then
-				substring.wipe_out
+			if target.is_substring_whitespace (start_index, end_index) then
+				target.wipe_out
 			end
 		end
 
-	edit_text_tags (start_index, end_index: INTEGER; substring: ZSTRING)
+	edit_text_tags (start_index, end_index: INTEGER; target: ZSTRING)
 		-- remove surplus breaks before closing tag eg: "<h1>Title<br>%N  </h1>"
 		-- and remove empty
 		local
 			break_intervals: like intervals
 		do
-			if substring.is_substring_whitespace (start_index, end_index) then
-				substring.wipe_out
+			if target.is_substring_whitespace (start_index, end_index) then
+				target.wipe_out
 			else
-				break_intervals := intervals (substring, Tag.break.open)
+				break_intervals := intervals (target, Tag.break.open)
 				if not break_intervals.is_empty
-					and then substring.is_substring_whitespace (break_intervals.last_upper + 1, end_index)
+					and then target.is_substring_whitespace (break_intervals.last_upper + 1, end_index)
 				then
-					if substring [substring.count - 1] = 'p' then
-						substring.remove_substring (break_intervals.last_lower, break_intervals.last_upper)
+					if target [target.count - 1] = 'p' then
+						target.remove_substring (break_intervals.last_lower, break_intervals.last_upper)
 					else
 						-- remove new line for headings
-						substring.remove_substring (break_intervals.last_lower, end_index)
+						target.remove_substring (break_intervals.last_lower, end_index)
 					end
 				end
 			end
 		end
 
-	normalize_attribute_text (start_index, end_index: INTEGER; substring: ZSTRING)
+	normalize_attribute_text (start_index, end_index: INTEGER; target: ZSTRING)
 		local
 			list: EL_SPLIT_ZSTRING_LIST
 		do
-			create list.make_adjusted_by_string (substring, Line_feed_entity, {EL_STRING_ADJUST}.Both)
+			create list.make_adjusted_by_string (target, Line_feed_entity, {EL_STRING_ADJUST}.Both)
 			if list.count > 1 then
-				substring.share (list.joined_words)
+				target.share (list.joined_words)
 			end
 		end
 
- 	remove_trailing_breaks (start_index, end_index: INTEGER; substring: ZSTRING)
+ 	remove_trailing_breaks (start_index, end_index: INTEGER; target: ZSTRING)
  		local
  			pos_trailing: INTEGER; trailing: ZSTRING; s: EL_ZSTRING_ROUTINES
  		do
- 			if is_tag_start (start_index, end_index, substring) then
-	 			pos_trailing := substring.substring_index (s.character_string ('>'), start_index) + 1
-	 			if substring.substring_index (Tag.break.open, pos_trailing) > 0 then
-		 			trailing := substring.substring (pos_trailing, end_index)
+ 			if is_tag_start (start_index, end_index, target) then
+	 			pos_trailing := target.substring_index (s.character_string ('>'), start_index) + 1
+	 			if target.substring_index (Tag.break.open, pos_trailing) > 0 then
+		 			trailing := target.substring (pos_trailing, end_index)
 		 			trailing.replace_substring_all (Tag.break.open, Empty_string)
-		 			substring.replace_substring (trailing, pos_trailing, end_index)
+		 			target.replace_substring (trailing, pos_trailing, end_index)
 	 			end
  			end
  		end
 
-	substitute_html_entities (start_index, end_index: INTEGER; substring: ZSTRING)
+	substitute_html_entities (start_index, end_index: INTEGER; target: ZSTRING)
 		local
 			entity_name: ZSTRING
 		do
-			entity_name := substring.substring (start_index, end_index)
+			entity_name := target.substring (start_index, end_index)
 			if Entity_numbers.has_key (entity_name) then
 				if Entity_numbers.found_item <= 62 then
-					substring.share (xml_entity (Entity_numbers.found_item.to_character_8, False))
+					target.share (xml_entity (Entity_numbers.found_item.to_character_8, False))
 				else
-					substring.share (hexadecimal_entity (Entity_numbers.found_item, False))
+					target.share (hexadecimal_entity (Entity_numbers.found_item, False))
 				end
 			end
 		end

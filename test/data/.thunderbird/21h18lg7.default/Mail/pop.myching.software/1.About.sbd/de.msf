@@ -1,0 +1,80 @@
+// <!-- <mdb:mork:z v="1.4"/> -->
+< <(a=c)> // (f=iso-8859-1)
+  (B8=origURIs)(B9=charSetOverride)(BA=charSet)(BB=useServerRetention)
+  (BC=MRUTime)(BD=sortType)(BE=sortOrder)(BF=viewFlags)(C0=viewType)
+  (C1=sortColumns)(C2=columnStates)(C3=MRMTime)(C4=folderName)
+  (80=ns:msg:db:row:scope:msgs:all)(81=subject)(82=sender)(83=message-id)
+  (84=references)(85=recipients)(86=date)(87=size)(88=flags)(89=priority)
+  (8A=label)(8B=statusOfset)(8C=numLines)(8D=ccList)(8E=bccList)
+  (8F=msgThreadId)(90=threadId)(91=threadFlags)(92=threadNewestMsgDate)
+  (93=children)(94=unreadChildren)(95=threadSubject)(96=msgCharSet)
+  (97=ns:msg:db:table:kind:msgs)(98=ns:msg:db:table:kind:thread)
+  (99=ns:msg:db:table:kind:allthreads)
+  (9A=ns:msg:db:row:scope:threads:all)(9B=threadParent)(9C=threadRoot)
+  (9D=msgOffset)(9E=offlineMsgSize)
+  (9F=ns:msg:db:row:scope:dbfolderinfo:all)
+  (A0=ns:msg:db:table:kind:dbfolderinfo)(A1=numMsgs)(A2=numNewMsgs)
+  (A3=folderSize)(A4=expungedBytes)(A5=folderDate)(A6=highWaterKey)
+  (A7=mailboxName)(A8=UIDValidity)(A9=totPendingMsgs)
+  (AA=unreadPendingMsgs)(AB=expiredMark)(AC=version)(AD=forceReparse)
+  (AE=fixedBadRefThreading)(AF=storeToken)(B0=account)(B1=dateReceived)
+  (B2=ProtoThreadFlags)(B3=X-Identity-Key)(B4=recipient_names)
+  (B5=sender_name)(B6=gloda-dirty)(B7=gloda-id)>
+<(8D=2)(89=6166cc6c)(81=0)(80=1)>
+[1:m(^9C=2)(^90=2)(^92^89)(^91=0)(^93=1)]
+<(9A=5)(97=6166cf86)>[2:m(^9C=5)(^90=5)(^92^97)(^91=0)(^93=1)]
+<(A3=6)(A1=6166cfcb)>[3:m(^9C=6)(^90=6)(^92^A1)(^91=0)(^93=1)]
+
+<(84=21)(85=Finnian Reilly <finnian@myching.software>)(86
+    =1.Hex 11 Software)(87
+    =9371a903-a53d-45ff-0da6-5e023a466c1e@myching.software)(88=account6)
+  (8A=iso-8859-15)(82=5d1)(8B=11)(8C=ffffffff)(8E=id4)(8F=4701|)(90
+    =4701|Finnian Reilly)(91=10bce)(83=1489)(94
+    =Finnian Reilly <finnian@myching.co>)(95=2.Der Entwickler)(96
+    =545B94A5.9030307@myching.co)(98=5bf)(99=12)(9B
+    =mailbox-message://finnian@pop.myching.co/Tour/de#0)(9C=1041c)(A7=b90)
+  (A6=2960)(9F=3.Technologie)(A0
+    =bd4f7260-9071-aa9d-172e-f3b3b6abc949@myching.software)(A2=5d6)
+  (A4=mailbox-message://finnian@pop.myching.co/1.About/de#3)>
+{1:^80 {(k^97:c)(s=9)} 
+  [2(^9D=0)(^AF=0)(^88=1)(^8A=0)(^8B=21)(^82^85)(^81^86)(^83^87)(^B0^88)
+    (^B1^89)(^86^89)(^89=1)(^96^8A)(^87^82)(^8C=11)(^9B^8C)(^8F=2)(^B2=0)
+    (^B3^8E)(^B4^8F)(^B5^90)(^B6=0)(^B7^91)]
+  [5(^9D^82)(^AF^83)(^88=1)(^8A=0)(^8B=21)(^82^94)(^81^95)(^83^96)(^B0^88)
+    (^B1^97)(^86^97)(^89=1)(^96^8A)(^87^98)(^8C=12)(^9B^8C)(^8F=5)(^B2=0)
+    (^B8^9B)(^B3^8E)(^B4^8F)(^B6=1)(^B7^9C)(^B5^90)]
+  [6(^9D^A7)(^AF^A6)(^88=1)(^8A=0)(^8B=21)(^82^94)(^81^9F)(^83^A0)(^B0^88)
+    (^B1^A1)(^86^A1)(^89=1)(^96^8A)(^87^A2)(^8C=12)(^9B^8C)(^8F=6)(^B2=0)
+    (^B8^A4)(^B3^8E)(^B4^8F)(^B5^90)]}
+{2:^80 {(k^98:c)(s=9)1:m } 2 }
+{5:^80 {(k^98:c)(s=9)2:m } 5 }
+{6:^80 {(k^98:c)(s=9)3:m } 6 }
+{FFFFFFFD:^9A {(k^99:c)(s=9)} [2(^95^86)]
+  [5(^95^95)]
+  [6(^95^9F)]}
+
+<(A5=3)(AA=5a5)(A8=1166)(A9=6166cff7)(AD=4)(AE=de)(AF=1634127852)(B0=)
+  (B1
+    ={"threadCol":{"visible":true,"ordinal":"1"},"flaggedCol":{"visible":true,\
+"ordinal":"3"},"attachmentCol":{"visible":true,"ordinal":"5"},"subjectCol":{"v\
+isible":true,"ordinal":"7"},"unreadButtonColHeader":{"visible":true,"ordinal":\
+"9"},"senderCol":{"visible":true,"ordinal":"11"},"recipientCol":{"visible":fal\
+se,"ordinal":"13"},"correspondentCol":{"visible":false,"ordinal":"15"},"junkSt\
+atusCol":{"visible":true,"ordinal":"15"},"receivedCol":{"visible":false,"ordin\
+al":"17"},"dateCol":{"visible":true,"ordinal":"19"},"statusCol":{"visible":fal\
+se,"ordinal":"21"},"sizeCol":{"visible":false,"ordinal":"23"},"tagsCol":{"visi\
+ble":false,"ordinal":"25"},"accountCol":{"visible":false,"ordinal":"27"},"prio\
+rityCol":{"visible":false,"ordinal":"29"},"unreadCol":{"visible":false,"ordina\
+l":"31"},"totalCol":{"visible":false,"ordinal":"33"},"locationCol":{"visible":\
+false,"ordinal":"35"},"idCol":{"visible":false,"ordinal":"37"}})>
+{1:^9F {(k^A0:c)(s=9u)} 
+  [1(^AC=1)(^AD=0)(^AE=1)(^A1=3)(^A6^AA)(^A3^A8)(^A5^A9)(^88=4)(^A7=de)
+    (^BB=1)(^BC^AF)(^BD=12)(^BE=1)(^BF=0)(^C0=0)(^C1=)(^C2^B1)(^C3^AF)
+    (^A4=0)(^C4=de)(^A2=0)]}
+
+@$${3{@
+@$$}3}@
+
+@$${7{@
+<(B2=10bd0)>[6:^80(^B7^B2)]
+@$$}7}@

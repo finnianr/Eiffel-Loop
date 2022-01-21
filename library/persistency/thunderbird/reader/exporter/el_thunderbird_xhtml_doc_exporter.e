@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-15 15:07:56 GMT (Saturday 15th January 2022)"
-	revision: "8"
+	date: "2022-01-21 13:04:16 GMT (Friday 21st January 2022)"
+	revision: "9"
 
 class
 	EL_THUNDERBIRD_XHTML_DOC_EXPORTER
@@ -29,6 +29,21 @@ feature {NONE} -- Implementation
 		do
 			Precursor (html_doc)
 			html_doc.prepend (XML.header (1.0, "UTF-8") + s.character_string ('%N'))
+			html_doc.edit ("content=%"text/html;", "%"", agent edit_content_type)
+		end
+
+	edit_content_type (start_index, end_index: INTEGER; target: ZSTRING)
+		local
+			type: ZSTRING; index: INTEGER
+		do
+			type := target.substring (start_index, end_index)
+			type.left_adjust
+			type.prepend_character (' ')
+			index := type.index_of ('=', 1)
+			if index > 0 then
+				type.replace_substring_general ("UTF-8", index + 1, type.count)
+			end
+			target.replace_substring (type, start_index, end_index)
 		end
 
 feature {NONE} -- Constants

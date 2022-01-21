@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:28:32 GMT (Thursday 13th January 2022)"
-	revision: "19"
+	date: "2022-01-20 19:03:39 GMT (Thursday 20th January 2022)"
+	revision: "20"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -77,9 +77,12 @@ feature -- Basic operations
 			else
 				lio.put_path_field ("Writing", output_path)
 				lio.put_new_line
+				if not output_dir.exists then
+					File_system.make_directory (output_dir)
+				end
 				Descendants_command.put_object (Current)
 				Descendants_command.execute
-				output_lines
+				reformat_output
 				lio.put_line ("DONE")
 
 				create gedit_cmd.make ("gedit $path")
@@ -94,10 +97,10 @@ feature {NONE} -- Line states
 
 	find_target_name (line: ZSTRING; a_ecf_path: FILE_PATH)
 		local
-			l_target_name: ZSTRING; s: EL_ZSTRING_ROUTINES
+			l_target_name: ZSTRING
 		do
 			if line.begins_with (Element_target_name) then
-				l_target_name := line.substring_between (s.character_string ('"'), s.character_string ('"'), 1).as_lower
+				l_target_name := line.substring_between (Quote, Quote, 1).as_lower
 				if l_target_name ~ target_name then
 					ecf_path := a_ecf_path
 				end
@@ -169,13 +172,12 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	output_lines
+	reformat_output
 		local
 			tab_count, count: INTEGER; line: ZSTRING
+			text_lines: EL_ITERABLE_SPLIT [STRING, ANY]
 		do
-			if not output_dir.exists then
-				File_system.make_directory (output_dir)
-			end
+			text_lines := File_system.plain_text_lines (output_path)
 			if attached open (output_path, Write) as file_out then
 				file_out.put_lines (<<
 					"note",
@@ -183,7 +185,7 @@ feature {NONE} -- Implementation
 					"%Tdescendants: %"["
 				>>)
 				file_out.put_new_line
-				across File_system.plain_text_lines (output_path) as text loop
+				across text_lines as text loop
 					line := text.item
 					tab_count := line.leading_occurrences ('%T')
 					if line.count > tab_count then
@@ -253,4 +255,10 @@ feature {NONE} -- Constants
 			Result := "[$source %S]"
 		end
 
+	Quote: ZSTRING
+		local
+			s: EL_ZSTRING_ROUTINES
+		once
+			Result := s.character_string ('"')
+		end
 end
