@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-10 9:53:02 GMT (Monday 10th January 2022)"
-	revision: "13"
+	date: "2022-01-22 10:14:57 GMT (Saturday 22nd January 2022)"
+	revision: "14"
 
 class
 	EL_ENCRYPTION_ROUTINES
@@ -22,7 +22,7 @@ inherit
 
 	EL_MODULE_BASE_64
 
-	EL_MODULE_REUSABLE
+	EL_MODULE_REUSEABLE
 
 feature -- Conversion
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-05 16:37:59 GMT (Wednesday 5th January 2022)"
-	revision: "23"
+	date: "2022-01-22 10:14:56 GMT (Saturday 22nd January 2022)"
+	revision: "24"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -23,7 +23,7 @@ inherit
 
 	EL_SHARED_CONSOLE_COLORS
 
-	EL_MODULE_REUSABLE
+	EL_MODULE_REUSEABLE
 
 create
 	make

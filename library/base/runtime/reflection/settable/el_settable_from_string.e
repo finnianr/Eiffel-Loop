@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-21 15:02:59 GMT (Sunday 21st November 2021)"
-	revision: "21"
+	date: "2022-01-22 10:14:56 GMT (Saturday 22nd January 2022)"
+	revision: "22"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
@@ -27,7 +27,7 @@ inherit
 			is_equal
 		end
 
-	EL_MODULE_REUSABLE
+	EL_MODULE_REUSEABLE
 
 feature {NONE} -- Initialization
 

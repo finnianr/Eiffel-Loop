@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-18 10:33:41 GMT (Thursday 18th November 2021)"
-	revision: "8"
+	date: "2022-01-22 10:14:56 GMT (Saturday 22nd January 2022)"
+	revision: "9"
 
 class
 	EL_DATE_TIME_TOOLS
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_TUPLE
 
-	EL_MODULE_REUSABLE
+	EL_MODULE_REUSEABLE
 
 feature -- Access
 

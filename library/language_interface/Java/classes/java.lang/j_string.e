@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-08 16:26:10 GMT (Saturday 8th January 2022)"
-	revision: "6"
+	date: "2022-01-22 10:14:57 GMT (Saturday 22nd January 2022)"
+	revision: "7"
 
 class
 	J_STRING
@@ -22,7 +22,7 @@ inherit
 
 	JAVA_LANG_JPACKAGE
 
-	EL_MODULE_REUSABLE
+	EL_MODULE_REUSEABLE
 
 create
 	default_create,

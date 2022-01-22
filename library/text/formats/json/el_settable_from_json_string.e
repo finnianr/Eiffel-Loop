@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-17 18:04:45 GMT (Wednesday 17th November 2021)"
-	revision: "24"
+	date: "2022-01-22 10:14:57 GMT (Saturday 22nd January 2022)"
+	revision: "25"
 
 deferred class
 	EL_SETTABLE_FROM_JSON_STRING
@@ -38,7 +38,7 @@ inherit
 			is_equal
 		end
 
-	EL_MODULE_REUSABLE
+	EL_MODULE_REUSEABLE
 
 	EL_MODULE_NAMING
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:03:51 GMT (Thursday 13th January 2022)"
-	revision: "17"
+	date: "2022-01-22 11:29:10 GMT (Saturday 22nd January 2022)"
+	revision: "18"
 
 class
 	EL_XML_TO_PYXIS_CONVERTER
@@ -104,12 +104,12 @@ feature -- Basic operations
 			out_file.set_encoding_from_other (source_encoding)
 			last_node_type := 0; next_node_type := 0; node_depth := 0; attribute_node_depth := 0
 			last_attribute_name.wipe_out
-			token_count := xdoc.token_count
+			token_count := xdoc.token_index_upper
 			next_node_action := agent put_pyxis_doc
 			from i := 1 until i > token_count loop
 				node_depth := xdoc.token_depth (i).max (0)
-				l_type := xdoc.token_type (i); node_text := xdoc.node_text_at_index (i)
-				next_node_action.call ([i, l_type, node_text])
+				l_type := xdoc.token_type (i); node_text := xdoc.token_string_8 (i)
+				next_node_action (i, l_type, node_text)
 				i := i + 1
 			end
 			out_file.close
@@ -125,7 +125,7 @@ feature -- Status query
 
 	is_last_node_an_attribute_value: BOOLEAN
 		do
-			Result := last_node_type = Token.attr_val or last_node_type = Token.dec_attr_val
+			Result := last_node_type = Token.attribute_value or last_node_type = Token.declaration_attribute_value
 		end
 
 feature {NONE} -- Parser state actions
@@ -398,12 +398,12 @@ feature {NONE} -- Constants
 
 	Attribute_name_types: ARRAY [INTEGER]
 		once
-			Result := << Token.attribute_name, Token.dec_attr_name, Token.attr_ns >>
+			Result := << Token.attribute_name, Token.declaration_attribute_name, Token.attribute_name_space >>
 		end
 
 	Attribute_value_types: ARRAY [INTEGER]
 		once
-			Result := << Token.attr_val, Token.dec_attr_val >>
+			Result := << Token.attribute_value, Token.declaration_attribute_value >>
 		end
 
 	Back_slash_quote: ZSTRING

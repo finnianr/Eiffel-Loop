@@ -182,5 +182,9 @@ system:
 					Test sets for Eiffel utitlities
 				"""
 		cluster:
-			name = test_common; location = "$EIFFEL_LOOP/test/source/common"; recursive = true
+			name = Test_common; location = "$EIFFEL_LOOP/test/source/common"
+			cluster:
+				name = ftp; location = "$|ftp"
+			cluster:
+				name = support; location = "$|support"
 

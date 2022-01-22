@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "34"
+	date: "2022-01-22 15:42:38 GMT (Saturday 22nd January 2022)"
+	revision: "35"
 
 class
 	EIFFEL_CLASS
@@ -27,7 +27,8 @@ inherit
 
 	EVOLICITY_SERIALIZEABLE
 		rename
-			output_path as html_output_path
+			output_path as html_output_path,
+			word_count as zstring_word_count
 		undefine
 			is_equal
 		redefine

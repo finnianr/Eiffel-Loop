@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-17 18:01:55 GMT (Wednesday 17th November 2021)"
-	revision: "15"
+	date: "2022-01-22 10:14:56 GMT (Saturday 22nd January 2022)"
+	revision: "16"
 
 class
 	EL_REFLECTED_TUPLE
@@ -25,7 +25,7 @@ inherit
 
 	EL_MODULE_CONVERT_STRING
 
-	EL_MODULE_REUSABLE
+	EL_MODULE_REUSEABLE
 
 	EL_STRING_8_CONSTANTS
 

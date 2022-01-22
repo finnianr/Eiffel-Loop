@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-18 12:08:20 GMT (Tuesday 18th January 2022)"
-	revision: "1"
+	date: "2022-01-22 10:14:57 GMT (Saturday 22nd January 2022)"
+	revision: "2"
 
 deferred class
 	EL_CRC_32_LOG_OUTPUT
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_SHARED_TEST_CRC
 
-	EL_MODULE_REUSABLE
+	EL_MODULE_REUSEABLE
 
 feature {NONE} -- Implementation
 

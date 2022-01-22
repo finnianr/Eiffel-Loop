@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 10:11:53 GMT (Wednesday 19th January 2022)"
-	revision: "3"
+	date: "2022-01-22 10:14:57 GMT (Saturday 22nd January 2022)"
+	revision: "4"
 
 class
 	UNDERBIT_ID3_STRING_LIST_FIELD
@@ -26,7 +26,7 @@ inherit
 
 	EL_MODULE_ITERABLE
 
-	EL_MODULE_REUSABLE
+	EL_MODULE_REUSEABLE
 
 create
 	make

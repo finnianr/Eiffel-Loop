@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-20 17:14:25 GMT (Thursday 20th January 2022)"
-	revision: "3"
+	date: "2022-01-22 10:14:57 GMT (Saturday 22nd January 2022)"
+	revision: "4"
 
 class
 	EL_ATTRIBUTE_EDIT_TABLE
@@ -22,7 +22,7 @@ inherit
 			{ANY} force, put, extend, force_key
 		end
 
-	EL_MODULE_REUSABLE
+	EL_MODULE_REUSEABLE
 	EL_MODULE_XML
 
 create

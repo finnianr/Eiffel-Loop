@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 9:46:33 GMT (Wednesday 19th January 2022)"
-	revision: "7"
+	date: "2022-01-22 15:09:55 GMT (Saturday 22nd January 2022)"
+	revision: "8"
 
 class
 	EVOLICITY_TEST_SET
@@ -136,7 +136,7 @@ feature {NONE} -- Implementation
 
 	source_dir: DIR_PATH
 		do
-			Result := EL_test_data_dir.joined_dir_path ("evol")
+			Result := EL_test_data_dir #+ "evol"
 		end
 
 feature {NONE} -- Constants

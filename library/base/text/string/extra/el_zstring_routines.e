@@ -6,14 +6,40 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-26 15:38:56 GMT (Sunday 26th December 2021)"
-	revision: "25"
+	date: "2022-01-22 10:16:45 GMT (Saturday 22nd January 2022)"
+	revision: "26"
 
 expanded class
 	EL_ZSTRING_ROUTINES
 
 inherit
 	EL_EXPANDED_ROUTINES
+
+	EL_MODULE_REUSEABLE
+
+feature -- Measurement
+
+	word_count (a_str: ZSTRING; exclude_variable_references: BOOLEAN): INTEGER
+		-- count of all words in canonically spaced `a_str', but excluding words that
+		-- are substitution references if `exclude_variable_references' is `True'
+		local
+			str: ZSTRING
+		do
+			across Reuseable.string as reuse loop
+				if a_str.is_canonically_spaced then
+					str := a_str
+				else
+					str := reuse.item
+					str.append (a_str)
+					str.to_canonically_spaced
+				end
+				across str.split (' ') as word loop
+					if exclude_variable_references implies not is_variable_reference (word.item) then
+						Result := Result + 1
+					end
+				end
+			end
+		end
 
 feature -- Character string
 
@@ -130,6 +156,11 @@ feature -- Status query
 			end
 		end
 
+	is_punctuation (c: CHARACTER_32): BOOLEAN
+		do
+			Result := not (c = '$' or c = '_') and then c.is_punctuation
+		end
+
 	is_variable_name (str: ZSTRING): BOOLEAN
 		local
 			i: INTEGER
@@ -145,6 +176,30 @@ feature -- Status query
 					Result := str.is_alpha_numeric_item (i) or else str [i] = '_'
 				end
 				i := i + 1
+			end
+		end
+
+	is_variable_reference (str: ZSTRING): BOOLEAN
+		-- `True' if str is one of two variable reference forms
+
+		-- 1. $<C identifier>
+		-- 2. ${<C identifier>}
+		local
+			character_range: detachable INTEGER_INTERVAL
+		do
+			if str.count >= 2 and then str [1] = '$' then
+				if str.is_alpha_item (2) then
+					character_range := 3 |..| str.count
+
+				elseif str.count > 3 and then str [2] = '{' and str [str.count] = '}' then
+					-- variable like: ${name}
+					character_range := 3 |..| str.count
+				end
+				if attached character_range as range then
+					Result := across range as index all
+						str.is_alpha_numeric_item (index.item) or else str [index.item] = '_'
+					end
+				end
 			end
 		end
 

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-31 16:58:10 GMT (Friday 31st December 2021)"
-	revision: "86"
+	date: "2022-01-22 13:14:24 GMT (Saturday 22nd January 2022)"
+	revision: "87"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -408,7 +408,7 @@ feature -- Status query
 			from i := 0 until not Result or else i = l_count loop
 				c_i := l_area [i]
 				if c_i = Unencoded_character then
-					is_space := c.is_space (unencoded_item (i)) -- Work around for finalization bug
+					is_space := c.is_space (unencoded_item (i + 1)) -- Work around for finalization bug
 				else
 					is_space := c_i.is_space
 				end

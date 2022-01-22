@@ -6,16 +6,30 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "11"
+	date: "2022-01-22 12:06:58 GMT (Saturday 22nd January 2022)"
+	revision: "12"
 
 class
 	EL_XPATH_ROOT_NODE_CONTEXT
 
 inherit
 	EL_XPATH_NODE_CONTEXT
+		rename
+			Token as Token_enum
 		redefine
 			default_create
+		end
+
+	READABLE_INDEXABLE [INTEGER]
+		rename
+			item as token_type,
+			lower as token_index_lower,
+			upper as token_index_upper,
+			valid_index as valid_token_index
+		undefine
+			default_create
+		redefine
+			new_cursor
 		end
 
 	EL_ENCODEABLE_AS_TEXT
@@ -89,45 +103,89 @@ feature {NONE} -- Initaliazation
 			retry
 		end
 
-feature -- Access
+feature -- Token access
 
-	node_text_at_index (index: INTEGER): STRING
+	token_string_8 (index: INTEGER): STRING
 			--
-		require
-			valid_index: index >= 1 and index <= token_count
 		do
-			Result := wide_string (c_node_text_at_index (self_ptr, index - 1))
+			Result := wide_string_at_index (index)
 		end
 
-	token_count: INTEGER
+	token_string_32 (index: INTEGER): STRING_32
+			--
+		do
+			Result := wide_string_at_index (index)
+		end
+
+	token_string (index: INTEGER): ZSTRING
+			--
+		do
+			Result := wide_string_at_index (index)
+		end
+
+	new_cursor: EL_DOCUMENT_TOKEN_ITERATOR
+		do
+			create Result.make (Current)
+			Result.start
+		end
+
+	token_type (index: INTEGER): INTEGER
+		-- alias []
+		do
+			Result := c_evx_get_token_type (self_ptr, index - 1)
+		end
+
+feature -- Access
+
+	document_xml: EL_C_STRING_8
+
+	error_message: ZSTRING
+
+	found_instruction: STRING
+
+feature -- Measurement
+
+	token_index_lower: INTEGER
+		do
+			Result := 1
+		end
+
+	token_index_upper: INTEGER
 			--
 		do
 			Result := c_evx_get_token_count (self_ptr)
 		end
 
-	token_type (index: INTEGER): INTEGER
-			--
-		require
-			valid_index: index >= 1 and index <= token_count
-		do
-			Result := c_evx_get_token_type (self_ptr, index - 1)
-		end
-
 	token_depth (index: INTEGER): INTEGER
 			--
 		require
-			valid_index: index >= 1 and index <= token_count
+			valid_index: index >= 1 and index <= token_index_upper
 		do
 			Result := c_evx_get_token_depth (self_ptr, index - 1)
 		end
 
-	document_xml: EL_C_STRING_8
+	word_count (exclude_variable_reference: BOOLEAN; included_attributes: EL_STRING_8_LIST): INTEGER
+		-- count of text words in document and in any `included_attributes'
+		local
+			s: EL_ZSTRING_ROUTINES; value, l_name: ZSTRING
+		do
+			create l_name.make_empty
+			across Current as token loop
+				if token.is_character_data_item then
+					Result := Result + s.word_count (token.item_string, True)
 
-	found_instruction: STRING
+				elseif token.is_attribute_name_item then
+					l_name := token.item_string_8
 
-	error_message: ZSTRING
+				elseif token.is_attribute_value_item and then included_attributes.has (l_name) then
+					Result := Result + s.word_count (token.item_string, True)
+				end
+			end
+		end
 
 feature -- Status query
+
+	instruction_found: BOOLEAN
 
 	namespaces_defined: BOOLEAN
 			-- Are any namespaces defined in document
@@ -135,35 +193,35 @@ feature -- Status query
 			Result := not namespace_urls.is_empty
 		end
 
-	instruction_found: BOOLEAN
-
 	parse_failed: BOOLEAN
+
+	valid_token_index (index: INTEGER): BOOLEAN
+		do
+			Result := token_index_lower <= index and index <= token_index_upper
+		end
 
 feature -- Basic operations
 
 	find_instruction (a_name: STRING)
 			-- find processing instruction with name
 		local
-			i, upper, pi_name_index, type: INTEGER
+			pi_name_index: INTEGER
 		do
-			upper := token_count
-			instruction_found := false
+			instruction_found := False
 			found_instruction.wipe_out
-			from i := 1 until i > upper or instruction_found loop
-				type := token_type (i)
-				if type = Token.PI_name and then node_text_at_index (i) ~ a_name then
-					pi_name_index := i
+			across Current as token until instruction_found loop
+				if token.is_processing_instruction_name_item and then token.item_string_8 ~ a_name then
+					pi_name_index := token.cursor_index
 
-				elseif type = Token.PI_value and then pi_name_index = (i - 1) then
-					found_instruction.append (node_text_at_index (i))
+				elseif token.is_processing_instruction_value_item and then pi_name_index = (token.cursor_index - 1) then
+					found_instruction.append (token.item_string_8)
 					instruction_found := true
 
 				end
-				i := i + 1
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {EL_DOCUMENT_TOKEN_ITERATOR} -- Implementation
 
 	default_xml: STRING
 		local
@@ -173,19 +231,27 @@ feature {NONE} -- Implementation
 			Result := default_doc.to_xml
 		end
 
-feature {NONE} -- Constants
-
-	Parser: EL_VTD_XML_PARSER
+	wide_string_at_index (index: INTEGER): EL_C_WIDE_CHARACTER_STRING
 			--
-		once
-			create Result.make
+		require
+			valid_index: valid_token_index (index)
+		do
+			Result := wide_string (c_node_text_at_index (self_ptr, index - 1))
 		end
+
+feature {NONE} -- Constants
 
 	Header_template: ZSTRING
 		once
 			Result := "[
 				<?xml version="1.0" encoding="#"?>
 			]"
+		end
+
+	Parser: EL_VTD_XML_PARSER
+			--
+		once
+			create Result.make
 		end
 
 end

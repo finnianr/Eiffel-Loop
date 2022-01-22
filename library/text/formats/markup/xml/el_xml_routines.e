@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-21 15:31:07 GMT (Friday 21st January 2022)"
-	revision: "16"
+	date: "2022-01-22 9:48:18 GMT (Saturday 22nd January 2022)"
+	revision: "17"
 
 class
 	EL_XML_ROUTINES
@@ -103,6 +103,10 @@ feature -- Access
 				create Result.make_empty
 			end
 		end
+
+feature -- Constants
+
+	Non_breaking_space: STRING = "&#xA0;"
 
 feature -- Conversion
 

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-18 10:43:03 GMT (Thursday 18th November 2021)"
-	revision: "4"
+	date: "2022-01-22 10:14:56 GMT (Saturday 22nd January 2022)"
+	revision: "5"
 
 deferred class
 	EL_DATE_TIME_UTILITY
@@ -24,7 +24,7 @@ deferred class
 inherit
 	EL_MODULE_DATE_TIME
 
-	EL_MODULE_REUSABLE
+	EL_MODULE_REUSEABLE
 
 feature {NONE} -- Initialization
 

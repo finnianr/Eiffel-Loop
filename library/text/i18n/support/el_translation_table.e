@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "19"
+	date: "2022-01-22 10:08:10 GMT (Saturday 22nd January 2022)"
+	revision: "20"
 
 class
 	EL_TRANSLATION_TABLE
@@ -92,6 +92,19 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	language: STRING
+
+feature -- Measurement
+
+	word_count: INTEGER
+		-- count of all translation words except for variable references
+		local
+			s: EL_ZSTRING_ROUTINES
+		do
+			from start until after loop
+				Result := Result + s.word_count (item_for_iteration, True)
+				forth
+			end
+		end
 
 feature -- Basic operations
 

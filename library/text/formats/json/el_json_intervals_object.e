@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-17 17:52:24 GMT (Wednesday 17th November 2021)"
-	revision: "4"
+	date: "2022-01-22 10:14:57 GMT (Saturday 22nd January 2022)"
+	revision: "5"
 
 class
 	EL_JSON_INTERVALS_OBJECT [FIELD_ENUM -> EL_ENUMERATION [NATURAL_16] create make end]
@@ -24,7 +24,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_REUSABLE
+	EL_MODULE_REUSEABLE
 
 	EL_MODULE_EIFFEL
 

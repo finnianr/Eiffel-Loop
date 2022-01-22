@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 19:46:19 GMT (Thursday 13th January 2022)"
-	revision: "17"
+	date: "2022-01-22 10:14:56 GMT (Saturday 22nd January 2022)"
+	revision: "18"
 
 class
 	GENERAL_TEST_SET
@@ -21,7 +21,7 @@ inherit
 
 	EL_MODULE_NAMING
 
-	EL_MODULE_REUSABLE
+	EL_MODULE_REUSEABLE
 
 feature -- Basic operations
 

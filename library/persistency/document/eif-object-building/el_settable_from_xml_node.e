@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "32"
+	date: "2022-01-22 10:14:57 GMT (Saturday 22nd January 2022)"
+	revision: "33"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -34,7 +34,7 @@ inherit
 
 	EL_EIF_OBJ_BUILDER_CONTEXT_TYPE_CONSTANTS
 
-	EL_MODULE_REUSABLE
+	EL_MODULE_REUSEABLE
 
 	EL_XML_ZSTRING_CONSTANTS
 
