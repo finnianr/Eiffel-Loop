@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:19:00 GMT (Thursday 13th January 2022)"
-	revision: "5"
+	date: "2022-01-23 11:51:11 GMT (Sunday 23rd January 2022)"
+	revision: "6"
 
 class
 	ID3_FRAME_CODE_CLASS_GENERATOR_APP
@@ -30,7 +30,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_optional_argument ("id3v2", "Path to id3v2 specifications directory", << file_must_exist >>)
+				optional_argument ("id3v2", "Path to id3v2 specifications directory", << file_must_exist >>)
 			>>
 		end
 

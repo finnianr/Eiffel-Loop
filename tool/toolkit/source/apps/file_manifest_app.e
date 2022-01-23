@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:12:32 GMT (Thursday 13th January 2022)"
-	revision: "11"
+	date: "2022-01-23 12:00:21 GMT (Sunday 23rd January 2022)"
+	revision: "12"
 
 class
 	FILE_MANIFEST_APP
@@ -29,10 +29,10 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				optional_argument ("template", "Path to Evolicity template"),
-				required_argument ("manifest", "Path to manifest file"),
-				optional_argument ("dir", "Path to directory to list in manifest"),
-				required_argument ("ext", "File extension")
+				optional_argument ("template", "Path to Evolicity template", No_checks),
+				required_argument ("manifest", "Path to manifest file", No_checks),
+				optional_argument ("dir", "Path to directory to list in manifest", No_checks),
+				required_argument ("ext", "File extension", No_checks)
 			>>
 		end
 

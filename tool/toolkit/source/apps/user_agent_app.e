@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 11:48:51 GMT (Thursday 13th January 2022)"
-	revision: "5"
+	date: "2022-01-23 12:00:24 GMT (Sunday 23rd January 2022)"
+	revision: "6"
 
 class
 	USER_AGENT_APP
@@ -23,7 +23,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_required_argument ("in", "Logfile path", << file_must_exist >>)
+				required_argument ("in", "Logfile path", << file_must_exist >>)
 			>>
 		end
 

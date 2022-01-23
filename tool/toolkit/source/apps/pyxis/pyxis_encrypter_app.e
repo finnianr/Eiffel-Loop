@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 11:39:40 GMT (Thursday 13th January 2022)"
-	revision: "16"
+	date: "2022-01-23 12:00:21 GMT (Sunday 23rd January 2022)"
+	revision: "17"
 
 class
 	PYXIS_ENCRYPTER_APP
@@ -37,8 +37,8 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_required_argument ("in", "Input file path", << file_must_exist >>),
-				optional_argument ("out", "Output file path")
+				required_argument ("in", "Input file path", << file_must_exist >>),
+				optional_argument ("out", "Output file path", No_checks)
 			>>
 		end
 

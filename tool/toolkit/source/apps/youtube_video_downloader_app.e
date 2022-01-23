@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 11:49:47 GMT (Thursday 13th January 2022)"
-	revision: "12"
+	date: "2022-01-23 12:00:23 GMT (Sunday 23rd January 2022)"
+	revision: "13"
 
 class
 	YOUTUBE_VIDEO_DOWNLOADER_APP
@@ -36,7 +36,7 @@ feature {NONE} -- Implementation
 
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
-			Result := << optional_argument ("url", "youtube url") >>
+			Result := << optional_argument ("url", "youtube url", No_checks) >>
 		end
 
 	default_make: PROCEDURE [like command]

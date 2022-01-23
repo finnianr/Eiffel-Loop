@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 14:03:19 GMT (Thursday 13th January 2022)"
-	revision: "7"
+	date: "2022-01-23 13:02:33 GMT (Sunday 23rd January 2022)"
+	revision: "8"
 
 class
 	FRACTAL_APP
@@ -28,7 +28,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_required_argument ("config", "Configuration file path", << file_must_exist >>)
+				required_argument ("config", "Configuration file path", << file_must_exist >>)
 			>>
 		end
 

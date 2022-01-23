@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-22 12:06:58 GMT (Saturday 22nd January 2022)"
-	revision: "12"
+	date: "2022-01-23 11:50:44 GMT (Sunday 23rd January 2022)"
+	revision: "13"
 
 class
 	EL_XPATH_ROOT_NODE_CONTEXT
@@ -167,7 +167,7 @@ feature -- Measurement
 	word_count (exclude_variable_reference: BOOLEAN; included_attributes: EL_STRING_8_LIST): INTEGER
 		-- count of text words in document and in any `included_attributes'
 		local
-			s: EL_ZSTRING_ROUTINES; value, l_name: ZSTRING
+			s: EL_ZSTRING_ROUTINES; l_name: ZSTRING
 		do
 			create l_name.make_empty
 			across Current as token loop

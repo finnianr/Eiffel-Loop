@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:22:02 GMT (Thursday 13th January 2022)"
-	revision: "16"
+	date: "2022-01-23 11:56:02 GMT (Sunday 23rd January 2022)"
+	revision: "17"
 
 class
 	FEATURE_EDITOR_APP
@@ -30,7 +30,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_required_argument ("source", "Source file path", << file_must_exist >>)
+				required_argument ("source", "Source file path", << file_must_exist >>)
 			>>
 		end
 

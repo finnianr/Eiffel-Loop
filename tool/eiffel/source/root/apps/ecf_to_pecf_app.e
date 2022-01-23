@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 13:06:30 GMT (Thursday 13th January 2022)"
-	revision: "22"
+	date: "2022-01-23 11:56:03 GMT (Sunday 23rd January 2022)"
+	revision: "23"
 
 class
 	ECF_TO_PECF_APP
@@ -29,7 +29,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_required_argument (
+				required_argument (
 					"location", "Path to Eiffel library/projects directory tree", << directory_must_exist >>
 				)
 			>>

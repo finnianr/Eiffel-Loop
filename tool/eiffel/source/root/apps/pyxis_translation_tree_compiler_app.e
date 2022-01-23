@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:26:21 GMT (Thursday 13th January 2022)"
-	revision: "16"
+	date: "2022-01-23 11:56:05 GMT (Sunday 23rd January 2022)"
+	revision: "17"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER_APP
@@ -34,9 +34,9 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_optional_argument ("manifest", "Path to manifest of directories and files", << file_must_exist >>),
-				valid_optional_argument ("source", "Source tree directory", << directory_must_exist >>),
-				optional_argument ("output", "Output directory path")
+				optional_argument ("manifest", "Path to manifest of directories and files", << file_must_exist >>),
+				optional_argument ("source", "Source tree directory", << directory_must_exist >>),
+				optional_argument ("output", "Output directory path", No_checks)
 			>>
 		end
 

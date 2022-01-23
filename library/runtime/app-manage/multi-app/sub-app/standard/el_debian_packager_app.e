@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 11:48:01 GMT (Thursday 13th January 2022)"
-	revision: "10"
+	date: "2022-01-23 12:00:19 GMT (Sunday 23rd January 2022)"
+	revision: "11"
 
 class
 	EL_DEBIAN_PACKAGER_APP
@@ -30,9 +30,9 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_optional_argument ("debian", "DEBIAN directory", << control_template_must_exist >>),
-				optional_argument ("output", "Debian output directory"),
-				valid_optional_argument ("package", "Build package directory", << directory_must_exist >>)
+				optional_argument ("debian", "DEBIAN directory", << control_template_must_exist >>),
+				optional_argument ("output", "Debian output directory", No_checks),
+				optional_argument ("package", "Build package directory", << directory_must_exist >>)
 			>>
 		end
 
@@ -46,7 +46,7 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make ("DEBIAN", Default_package_dir.parent, Default_package_dir)
 		end
 
-	control_template_must_exist: like always_valid
+	control_template_must_exist: like No_checks.item
 		do
 			Result := ["A Debian control template file must exist", agent control_exists]
 		end

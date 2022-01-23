@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 11:57:11 GMT (Thursday 13th January 2022)"
-	revision: "15"
+	date: "2022-01-23 12:00:25 GMT (Sunday 23rd January 2022)"
+	revision: "16"
 
 class
 	LOCALIZATION_COMMAND_SHELL_APP
@@ -32,7 +32,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_required_argument ("source", "Localization directory tree path", << directory_must_exist >>)
+				required_argument ("source", "Localization directory tree path", << directory_must_exist >>)
 			>>
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:20:06 GMT (Thursday 13th January 2022)"
-	revision: "17"
+	date: "2022-01-23 11:56:04 GMT (Sunday 23rd January 2022)"
+	revision: "18"
 
 class
 	CODEC_GENERATOR_APP
@@ -26,8 +26,8 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				required_argument ("c_source", "C source code path"),
-				required_argument ("template", "Eiffel codec template")
+				required_argument ("c_source", "C source code path", No_checks),
+				required_argument ("template", "Eiffel codec template", No_checks)
 			>>
 		end
 

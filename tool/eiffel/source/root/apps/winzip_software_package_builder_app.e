@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:24:29 GMT (Thursday 13th January 2022)"
-	revision: "11"
+	date: "2022-01-23 11:56:05 GMT (Sunday 23rd January 2022)"
+	revision: "12"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER_APP
@@ -38,8 +38,8 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_required_argument ("config", "Path to build configuration file", << file_must_exist >>),
-				valid_optional_argument ("pecf", "Path to Pyxis configuration file", << file_must_exist >>)
+				required_argument ("config", "Path to build configuration file", << file_must_exist >>),
+				optional_argument ("pecf", "Path to Pyxis configuration file", << file_must_exist >>)
 			>>
 		end
 

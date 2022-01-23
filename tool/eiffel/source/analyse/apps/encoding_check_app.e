@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:22:35 GMT (Thursday 13th January 2022)"
-	revision: "13"
+	date: "2022-01-23 11:56:03 GMT (Sunday 23rd January 2022)"
+	revision: "14"
 
 class
 	ENCODING_CHECK_APP
@@ -25,7 +25,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_required_argument ("sources", "Path to sources manifest file", << file_must_exist >>)
+				required_argument ("sources", "Path to sources manifest file", << file_must_exist >>)
 			>>
 		end
 

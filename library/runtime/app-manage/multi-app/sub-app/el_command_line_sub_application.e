@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 11:41:30 GMT (Thursday 13th January 2022)"
-	revision: "31"
+	date: "2022-01-23 13:01:35 GMT (Sunday 23rd January 2022)"
+	revision: "32"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
@@ -66,15 +66,25 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	optional_argument (word_option, help_description: READABLE_STRING_GENERAL): EL_COMMAND_ARGUMENT
+	optional_argument (
+		word_option, help_description: READABLE_STRING_GENERAL; validations: like No_checks
+	): EL_COMMAND_ARGUMENT
 		do
 			create Result.make (Current, word_option, help_description)
+			if validations /= No_checks then
+				Result.validation_table.merge_array (validations)
+			end
 		end
 
-	required_argument (word_option, help_description: READABLE_STRING_GENERAL): EL_COMMAND_ARGUMENT
+	required_argument (
+		word_option, help_description: READABLE_STRING_GENERAL; validations: like No_checks
+	): EL_COMMAND_ARGUMENT
 		do
 			create Result.make (Current, word_option, help_description)
 			Result.set_required
+			if validations /= No_checks then
+				Result.validation_table.merge_array (validations)
+			end
 		end
 
 	set_closed_operands
@@ -96,47 +106,24 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	valid_optional_argument (
-		word_option, help_description: READABLE_STRING_GENERAL; validations: ARRAY [like always_valid]
-	): EL_COMMAND_ARGUMENT
-		do
-			create Result.make (Current, word_option, help_description)
-			Result.validation.merge_array (validations)
-		end
-
-	valid_required_argument (
-		word_option, help_description: READABLE_STRING_GENERAL; validations: ARRAY [like always_valid]
-	): EL_COMMAND_ARGUMENT
-		do
-			Result := required_argument (word_option, help_description)
-			Result.validation.merge_array (validations)
-		end
-
 feature {NONE} -- Validations
 
-	always_valid: TUPLE [key: READABLE_STRING_GENERAL; value: PREDICATE]
+	directory_must_exist: like No_checks.item
 		do
-			Result := ["Always true", agent: BOOLEAN do Result := True end]
+			Result := ["The directory must exist", agent is_valid_path]
 		end
 
-	directory_must_exist: like always_valid
+	file_must_exist: like No_checks.item
 		do
-			Result := [
-				"The directory must exist", agent (path: DIR_PATH): BOOLEAN
-				do
-					Result := not path.is_empty implies path.exists
-				end
-			]
+			Result := ["The file must exist", agent is_valid_path]
 		end
 
-	file_must_exist: like always_valid
+	within_range (a_range: INTEGER_INTERVAL): like No_checks.item
+		local
+			template: ZSTRING
 		do
-			Result := [
-				"The file must exist", agent (path: FILE_PATH): BOOLEAN
-				do
-					Result := not path.is_empty implies path.exists
-				end
-			]
+			template := "number must be within range %S to %S"
+			Result := ["The %S " + template #$ [a_range.lower, a_range.upper], agent integer_in_range (?, a_range)]
 		end
 
 feature {NONE} -- Implementation
@@ -148,12 +135,33 @@ feature {NONE} -- Implementation
 			valid_specs_count: Result.count <= operands.count
 		end
 
+	specs_list (array: ARRAY [like specs.item]): EL_ARRAYED_LIST [like specs.item]
+		-- for use with `Precursor' when redefining `argument_specs'
+		-- As in `specs_list (Precursor)'
+		do
+			create Result.make_from_array (array)
+		end
+
 	default_make: PROCEDURE [like command]
 		-- make procedure with open target and default operands
 		deferred
 		ensure
 			closed_except_for_target: Result.open_count = 1
 			target_is_open: Result.target /= Current implies not Result.is_target_closed
+		end
+
+	is_valid_path (path: EL_PATH; is_optional: BOOLEAN): BOOLEAN
+		do
+			if is_optional then
+				Result := not path.is_empty implies path.exists
+			else
+				Result := path.exists
+			end
+		end
+
+	integer_in_range (n: INTEGER; range: INTEGER_INTERVAL): BOOLEAN
+		do
+			Result := range.has (n)
 		end
 
 	new_command: like command
@@ -173,6 +181,13 @@ feature {EL_COMMAND_ARGUMENT, EL_MAKE_OPERAND_SETTER} -- Internal attributes
 		-- make procedure operands
 
 	specs: ARRAYED_LIST [EL_COMMAND_ARGUMENT];
+
+feature {NONE} -- Constants
+
+	No_checks: ARRAY [TUPLE [key: READABLE_STRING_GENERAL; value: PREDICATE]]
+		once
+			create Result.make_empty
+		end
 
 note
 	notes: "[

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-30 10:01:04 GMT (Friday 30th October 2020)"
-	revision: "12"
+	date: "2022-01-23 10:49:44 GMT (Sunday 23rd January 2022)"
+	revision: "13"
 
 deferred class
 	EL_PATH_OPERAND_SETTER [G -> EL_PATH create make end]
@@ -15,12 +15,21 @@ deferred class
 inherit
 	EL_MAKE_OPERAND_SETTER [EL_PATH]
 		redefine
-			set_error, new_list
+			default_argument_setter, new_list
 		end
 
 	EL_COMMAND_ARGUMENT_CONSTANTS
 
 feature {NONE} -- Implementation
+
+	default_argument_setter (a_value: like value; a_description: ZSTRING): PROCEDURE [EL_COMMAND_ARGUMENT_ERROR]
+		do
+			if a_description.has_substring ("must exist") then
+				Result := agent {EL_COMMAND_ARGUMENT_ERROR}.set_path_error (english_name, a_value)
+			else
+				Result := agent {EL_COMMAND_ARGUMENT_ERROR}.set_invalid_argument (a_description)
+			end
+		end
 
 	english_name: ZSTRING
 		deferred
@@ -32,19 +41,6 @@ feature {NONE} -- Implementation
 				Result := Args.remaining_items (argument.word_option)
 			else
 				Result := Precursor (string_value)
-			end
-		end
-
-	set_error (a_value: like value; valid_description: ZSTRING)
-		local
-			error: EL_COMMAND_ARGUMENT_ERROR
-		do
-			if valid_description.has_substring ("must exist") then
-				create error.make (argument.word_option)
-				error.set_path_error (english_name, a_value)
-				make_routine.extend_errors (error)
-			else
-				Precursor (a_value, valid_description)
 			end
 		end
 

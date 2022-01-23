@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 14:06:49 GMT (Thursday 13th January 2022)"
-	revision: "15"
+	date: "2022-01-23 12:01:31 GMT (Sunday 23rd January 2022)"
+	revision: "16"
 
 class
 	ID3_EDITOR_APP
@@ -23,8 +23,8 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_required_argument ("mp3_dir", "Path to root directory of MP3 files",  << directory_must_exist >>),
-				required_argument ("task", "Edition task name")
+				required_argument ("mp3_dir", "Path to root directory of MP3 files",  << directory_must_exist >>),
+				required_argument ("task", "Edition task name", No_checks)
 			>>
 		end
 

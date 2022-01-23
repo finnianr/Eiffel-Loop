@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:00:37 GMT (Thursday 13th January 2022)"
-	revision: "11"
+	date: "2022-01-23 12:00:25 GMT (Sunday 23rd January 2022)"
+	revision: "12"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP
@@ -28,8 +28,8 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_required_argument ("source_tree", "Praat C source tree", << directory_must_exist >>),
-				optional_argument ("output_dir", "Output directory for MS VC compatible code")
+				required_argument ("source_tree", "Praat C source tree", << directory_must_exist >>),
+				optional_argument ("output_dir", "Output directory for MS VC compatible code", No_checks)
 			>>
 		end
 

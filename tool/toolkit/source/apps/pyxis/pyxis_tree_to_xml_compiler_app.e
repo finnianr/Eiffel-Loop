@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 11:38:56 GMT (Thursday 13th January 2022)"
-	revision: "16"
+	date: "2022-01-23 12:00:20 GMT (Sunday 23rd January 2022)"
+	revision: "17"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER_APP
@@ -29,9 +29,9 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_optional_argument ("manifest", "Path to manifest of directories and files", << file_must_exist >>),
-				valid_optional_argument ("source", "Source tree directory", << directory_must_exist >>),
-				required_argument ("output", "Output file path")
+				optional_argument ("manifest", "Path to manifest of directories and files", << file_must_exist >>),
+				optional_argument ("source", "Source tree directory", << directory_must_exist >>),
+				required_argument ("output", "Output file path", No_checks)
 			>>
 		end
 

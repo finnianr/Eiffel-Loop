@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:36:28 GMT (Sunday 19th December 2021)"
-	revision: "13"
+	date: "2022-01-23 13:12:20 GMT (Sunday 23rd January 2022)"
+	revision: "14"
 
 deferred class
 	EL_MAKE_OPERAND_SETTER [G]
@@ -38,27 +38,27 @@ feature -- Basic operations
 
 	set_operand (i: INTEGER)
 		local
-			string_value: ZSTRING; error: EL_COMMAND_ARGUMENT_ERROR
-			has_argument: BOOLEAN; ref_argument: ANY
+			string_value: ZSTRING; ref_argument: ANY
+			has_argument, has_default_argument: BOOLEAN
 		do
 			if Args.has_value (argument.word_option) then
 				string_value := Args.value (argument.word_option)
 				has_argument := True
 			else
 				create string_value.make_empty
-				if make_routine.operands.is_reference_item (i)
-					and then attached make_routine.operands.reference_item (i) as ref_item
-				then
-					ref_argument := ref_item
-					has_argument := True
+				if make_routine.operands.is_reference_item (i) then
+					if attached make_routine.operands.reference_item (i) as ref_item then
+						ref_argument := ref_item
+						has_default_argument := True
+					end
+				else
+					has_default_argument := True
 				end
 			end
 			if argument.is_required and not has_argument then
-				create error.make (argument.word_option)
-				error.set_missing_argument
-				make_routine.extend_errors (error)
+				extend_errors (agent {EL_COMMAND_ARGUMENT_ERROR}.set_required_error)
 
-			elseif has_argument then
+			elseif has_argument or has_default_argument then
 				if string_value.is_empty then
 					if attached {G} ref_argument as l_value then
 						try_put_value (l_value, i)
@@ -68,16 +68,21 @@ feature -- Basic operations
 						if is_convertible (str.item) then
 							try_put_value (value (str.item), i)
 						else
-							create error.make (argument.word_option)
-							error.set_type_error (type_description)
-							make_routine.extend_errors (error)
+							extend_errors (agent {EL_COMMAND_ARGUMENT_ERROR}.set_type_error (type_description))
 						end
 					end
 				end
+			else
+				extend_errors (agent {EL_COMMAND_ARGUMENT_ERROR}.set_no_default_argument)
 			end
 		end
 
 feature {NONE} -- Implementation
+
+	default_argument_setter (a_value: like value; a_description: ZSTRING): PROCEDURE [EL_COMMAND_ARGUMENT_ERROR]
+		do
+			Result := agent {EL_COMMAND_ARGUMENT_ERROR}.set_invalid_argument (a_description)
+		end
 
 	is_convertible (string_value: ZSTRING): BOOLEAN
 		do
@@ -116,13 +121,19 @@ feature {NONE} -- Implementation
 			make_routine.operands.put_reference (a_value, i)
 		end
 
-	set_error (a_value: like value; valid_description: ZSTRING)
-		local
-			error: EL_COMMAND_ARGUMENT_ERROR
+	extend_errors (set_error_type: PROCEDURE [EL_COMMAND_ARGUMENT_ERROR])
+		require
+			valid_operands: set_error_type.valid_operands ([new_error])
 		do
-			create error.make (argument.word_option)
-			error.set_invalid_argument (valid_description)
-			make_routine.extend_errors (error)
+			if attached new_error as error then
+				set_error_type (error)
+				make_routine.extend_errors (error)
+			end
+		end
+
+	new_error: EL_COMMAND_ARGUMENT_ERROR
+		do
+			create Result.make (argument.word_option)
 		end
 
 	value (str: ZSTRING): G
@@ -130,10 +141,36 @@ feature {NONE} -- Implementation
 		end
 
 	validate (a_value: like value)
+		local
+			operands: TUPLE; description: ZSTRING; is_valid_value: PREDICATE
 		do
-			across argument.validation as is_valid loop
-				if is_valid.item.valid_operands ([a_value]) and then not is_valid.item (a_value) then
-					set_error (a_value, is_valid.key)
+			across argument.validation_table as table loop
+				description := table.key; is_valid_value := table.item
+
+				inspect is_valid_value.open_count
+					when 1 then
+						operands := [a_value]
+					when 2 then
+						-- Example: is_valid_path (path: EL_PATH; is_optional: BOOLEAN): BOOLEAN
+						operands := [a_value, not argument.is_required]
+				else
+					operands := []
+				end
+				if is_valid_value.valid_operands (operands) then
+					is_valid_value.set_operands (operands)
+					is_valid_value.apply
+
+					if not is_valid_value.last_result then
+						if description.has ('%S') then
+							-- Example: "The %S number must be within range 1 to 65535"
+							description := description #$ [argument.word_option]
+						end
+						extend_errors (default_argument_setter (a_value, description))
+					end
+				else
+					check
+						validation_operands_valid: False
+					end
 				end
 			end
 		end

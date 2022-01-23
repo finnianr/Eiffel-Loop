@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 14:25:25 GMT (Thursday 13th January 2022)"
-	revision: "15"
+	date: "2022-01-23 11:50:44 GMT (Sunday 23rd January 2022)"
+	revision: "16"
 
 class
 	ZSTRING_BENCHMARK_APP
@@ -33,9 +33,9 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				optional_argument ("output", "HTML output directory"),
-				optional_argument ("runs", "The number of test runs to average over"),
-				optional_argument ("filter", "Routine filter")
+				optional_argument ("output", "HTML output directory", No_checks),
+				optional_argument ("runs", "The number of test runs to average over", No_checks),
+				optional_argument ("filter", "Routine filter", No_checks)
 			>>
 		end
 

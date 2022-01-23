@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 9:39:20 GMT (Wednesday 19th January 2022)"
-	revision: "24"
+	date: "2022-01-23 11:56:02 GMT (Sunday 23rd January 2022)"
+	revision: "25"
 
 class
 	CLASS_RENAMING_APP
@@ -63,9 +63,9 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_required_argument ("sources", "Path to sources manifest file", << file_must_exist >>),
-				optional_argument ("old", "Old class name"),
-				optional_argument ("new", "New class name")
+				required_argument ("sources", "Path to sources manifest file", << file_must_exist >>),
+				optional_argument ("old", "Old class name", No_checks),
+				optional_argument ("new", "New class name", No_checks)
 			>>
 		end
 

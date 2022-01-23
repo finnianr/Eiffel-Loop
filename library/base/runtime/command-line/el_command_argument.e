@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "18"
+	date: "2022-01-23 11:33:03 GMT (Sunday 23rd January 2022)"
+	revision: "19"
 
 class
 	EL_COMMAND_ARGUMENT
@@ -27,14 +27,15 @@ feature {NONE} -- Initialization
 			make_routine := a_make_routine;
 			word_option := a_word_option
 			create help_description.make_from_general (a_help_description)
-			create validation.make_equal (0)
+			create validation_table.make_equal (0)
 		end
 
 feature -- Access
 
 	help_description: ZSTRING
 
-	validation: EL_ZSTRING_HASH_TABLE [PREDICATE]
+	validation_table: EL_ZSTRING_HASH_TABLE [PREDICATE]
+		-- table of argument validation checks by description
 
 	word_option: READABLE_STRING_GENERAL
 
@@ -126,8 +127,8 @@ feature {NONE} -- Constants
 				[{STRING_8},								{EL_STRING_8_OPERAND_SETTER}],
 				[{STRING_32},								{EL_STRING_32_OPERAND_SETTER}],
 
-				[{FILE_PATH},							{EL_FILE_PATH_OPERAND_SETTER}],
-				[{DIR_PATH},							{EL_DIR_PATH_OPERAND_SETTER}],
+				[{FILE_PATH},								{EL_FILE_PATH_OPERAND_SETTER}],
+				[{DIR_PATH},								{EL_DIR_PATH_OPERAND_SETTER}],
 
 				[{EL_ZSTRING_HASH_TABLE [ZSTRING]}, {EL_ZSTRING_TABLE_OPERAND_SETTER}],
 
@@ -138,4 +139,3 @@ feature {NONE} -- Constants
 		end
 
 end
-

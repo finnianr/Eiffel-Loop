@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 14:07:21 GMT (Thursday 13th January 2022)"
-	revision: "16"
+	date: "2022-01-23 12:01:31 GMT (Sunday 23rd January 2022)"
+	revision: "17"
 
 class
 	TANGO_MP3_FILE_COLLATOR_APP
@@ -29,8 +29,8 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_required_argument ("directory", "MP3 location", << directory_must_exist >>),
-				optional_argument ("dry_run", "Show output without moving any files")
+				required_argument ("directory", "MP3 location", << directory_must_exist >>),
+				optional_argument ("dry_run", "Show output without moving any files", No_checks)
 			>>
 		end
 

@@ -30,8 +30,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 14:08:07 GMT (Thursday 13th January 2022)"
-	revision: "31"
+	date: "2022-01-23 12:01:31 GMT (Sunday 23rd January 2022)"
+	revision: "32"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
@@ -61,7 +61,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_required_argument ("config", "Task configuration file",  << file_must_exist >>)
+				required_argument ("config", "Task configuration file",  << file_must_exist >>)
 			>>
 		end
 

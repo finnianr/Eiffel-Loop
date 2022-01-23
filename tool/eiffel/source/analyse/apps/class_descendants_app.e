@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-20 19:04:19 GMT (Thursday 20th January 2022)"
-	revision: "13"
+	date: "2022-01-23 11:53:42 GMT (Sunday 23rd January 2022)"
+	revision: "14"
 
 class
 	CLASS_DESCENDANTS_APP
@@ -28,10 +28,10 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_optional_argument ("build_dir", "Parent directory of EIFGENs", << file_must_exist >>),
-				optional_argument ("out_dir", "Output directory path"),
-				valid_required_argument ("class", "Path to Eiffel class", << file_must_exist >>),
-				optional_argument ("target", "Target name used to identify ecf file")
+				optional_argument ("build_dir", "Parent directory of EIFGENs", << file_must_exist >>),
+				optional_argument ("out_dir", "Output directory path", No_checks),
+				required_argument ("class", "Path to Eiffel class", << file_must_exist >>),
+				optional_argument ("target", "Target name used to identify ecf file", No_checks)
 			>>
 		end
 

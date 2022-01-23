@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 11:59:14 GMT (Thursday 13th January 2022)"
-	revision: "8"
+	date: "2022-01-23 12:00:26 GMT (Sunday 23rd January 2022)"
+	revision: "9"
 
 class
 	THUNDERBIRD_BOOK_EXPORTER_APP
@@ -37,7 +37,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_required_argument ("config", "Thunderbird export configuration file", << file_must_exist >>)
+				required_argument ("config", "Thunderbird export configuration file", << file_must_exist >>)
 			>>
 		end
 

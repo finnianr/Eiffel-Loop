@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-10 15:31:05 GMT (Monday 10th January 2022)"
-	revision: "5"
+	date: "2022-01-23 12:00:25 GMT (Sunday 23rd January 2022)"
+	revision: "6"
 
 deferred class
 	THUNDERBIRD_ACCOUNT_READER_APP [C -> EL_THUNDERBIRD_ACCOUNT_READER create make_from_file end]
@@ -20,7 +20,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_required_argument ("config", "Thunderbird export configuration file", << file_must_exist >>)
+				required_argument ("config", "Thunderbird export configuration file", << file_must_exist >>)
 			>>
 		end
 

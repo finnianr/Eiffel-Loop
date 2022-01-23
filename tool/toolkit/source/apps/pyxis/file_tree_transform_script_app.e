@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 11:45:09 GMT (Thursday 13th January 2022)"
-	revision: "8"
+	date: "2022-01-23 12:00:22 GMT (Sunday 23rd January 2022)"
+	revision: "9"
 
 class
 	FILE_TREE_TRANSFORM_SCRIPT_APP
@@ -35,7 +35,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				optional_argument ("script", "Path to Pyxis transform script")
+				optional_argument ("script", "Path to Pyxis transform script", No_checks)
 			>>
 		end
 

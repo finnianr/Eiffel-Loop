@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 14:25:55 GMT (Thursday 13th January 2022)"
-	revision: "18"
+	date: "2022-01-23 11:50:50 GMT (Sunday 23rd January 2022)"
+	revision: "19"
 
 class
 	BENCHMARK_APP
@@ -40,7 +40,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				optional_argument ("trial_duration", "Routine trial duration in milliseconds")
+				optional_argument ("trial_duration", "Routine trial duration in milliseconds", No_checks)
 			>>
 		end
 

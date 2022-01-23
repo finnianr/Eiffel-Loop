@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 11:37:36 GMT (Thursday 13th January 2022)"
-	revision: "15"
+	date: "2022-01-23 12:00:24 GMT (Sunday 23rd January 2022)"
+	revision: "16"
 
 class
 	UNDATED_PHOTO_FINDER_APP
@@ -29,8 +29,8 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_required_argument ("source", "Source tree directory", << directory_must_exist >>),
-				required_argument ("output", "Output directory path")
+				required_argument ("source", "Source tree directory", << directory_must_exist >>),
+				required_argument ("output", "Output directory path", No_checks)
 			>>
 		end
 

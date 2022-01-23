@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:30:40 GMT (Thursday 13th January 2022)"
-	revision: "10"
+	date: "2022-01-23 11:56:07 GMT (Sunday 23rd January 2022)"
+	revision: "11"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_APP
@@ -35,7 +35,7 @@ feature {NONE} -- Implementation
 		do
 			create list.make_from_array (Precursor)
 			list.put_front (
-				valid_required_argument ("in", "Path to text file to be expanded", << file_must_exist >>)
+				required_argument ("in", "Path to text file to be expanded", << file_must_exist >>)
 			)
 			Result := list.to_array
 		end

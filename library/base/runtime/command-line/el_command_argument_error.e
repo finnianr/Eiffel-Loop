@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:37:28 GMT (Monday 5th August 2019)"
-	revision: "7"
+	date: "2022-01-23 12:50:51 GMT (Sunday 23rd January 2022)"
+	revision: "8"
 
 class
 	EL_COMMAND_ARGUMENT_ERROR
 
 inherit
 	ANY
-	
+
 	EL_ZSTRING_CONSTANTS
 
 	EL_MODULE_LIO
@@ -69,9 +69,14 @@ feature -- Element change
 			set_lines (Template.missing_argument #$ [word_option])
 		end
 
+	set_no_default_argument
+		do
+			set_lines (Template.missing_argument #$ [word_option])
+		end
+
 	set_path_error (path_type: ZSTRING; a_path: EL_PATH)
 		do
-			set_lines (Template.path_error #$ [path_type, word_option, path_type, a_path])
+			set_lines (Template.path_error #$ [word_option, path_type, path_type, a_path])
 		end
 
 	set_required_error
@@ -86,25 +91,31 @@ feature -- Element change
 
 feature {NONE} -- Constants
 
-	Template: TUPLE [invalid_argument, missing_argument, path_error, required_argument, type_error: ZSTRING]
+	Template: TUPLE [
+		invalid_argument, missing_argument, no_default_argument, path_error,
+		required_argument, type_error: ZSTRING
+	]
 		once
 			create Result
-			Result.missing_argument:= "[
-				The word option "-#" is not followed by an argument.
-			]"
 			Result.invalid_argument := "[
-				ERROR: Invalid value for "-#"
+				ERROR: Invalid value for '-#' argument
 				#
 			]"
+			Result.missing_argument:= "[
+				The word option `-#' is not followed by an argument.
+			]"
+			Result.no_default_argument:= "[
+				The word option `-#' does not have a default.
+			]"
 			Result.path_error := "[
-				ERROR in # argument: "-#"
+				ERROR in `-#' # path argument
 				The #: "#" does not exist.
 			]"
 			Result.required_argument := "[
-				A required argument "-#" is not specified.
+				A required argument `-#' is not specified.
 			]"
 			Result.type_error := "[
-				ERROR: option "-#" is not followed by a #
+				ERROR: option `-#' is not followed by a #
 			]"
 		end
 
