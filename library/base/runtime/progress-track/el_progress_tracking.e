@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "11"
+	date: "2022-01-23 13:37:34 GMT (Sunday 23rd January 2022)"
+	revision: "13"
 
 class
 	EL_PROGRESS_TRACKING
@@ -59,9 +59,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	track_action_progress (
-		a_listener: EL_PROGRESS_LISTENER; cell: CELL [EL_PROGRESS_LISTENER]; action: PROCEDURE
-	)
+	track_action_progress (a_listener: EL_PROGRESS_LISTENER; cell: CELL [EL_PROGRESS_LISTENER]; action: PROCEDURE)
 		local
 			l_default: EL_PROGRESS_LISTENER
 		do

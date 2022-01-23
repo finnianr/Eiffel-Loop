@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 13:01:35 GMT (Sunday 23rd January 2022)"
-	revision: "32"
+	date: "2022-01-23 19:03:06 GMT (Sunday 23rd January 2022)"
+	revision: "34"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
@@ -118,6 +118,11 @@ feature {NONE} -- Validations
 			Result := ["The file must exist", agent is_valid_path]
 		end
 
+	at_least_one_file_must_exist: like No_checks.item
+		do
+			Result := ["At least one matching file must exist", agent is_valid_path_or_wild_card]
+		end
+
 	within_range (a_range: INTEGER_INTERVAL): like No_checks.item
 		local
 			template: ZSTRING
@@ -133,13 +138,6 @@ feature {NONE} -- Implementation
 		deferred
 		ensure
 			valid_specs_count: Result.count <= operands.count
-		end
-
-	specs_list (array: ARRAY [like specs.item]): EL_ARRAYED_LIST [like specs.item]
-		-- for use with `Precursor' when redefining `argument_specs'
-		-- As in `specs_list (Precursor)'
-		do
-			create Result.make_from_array (array)
 		end
 
 	default_make: PROCEDURE [like command]
@@ -159,6 +157,22 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	is_valid_path_or_wild_card (path: FILE_PATH; is_optional: BOOLEAN): BOOLEAN
+		do
+			if is_wild_card (path) then
+				if attached path.parent as parent_dir and then parent_dir.exists then
+					Result := across OS.file_list (parent_dir, path.base) as file some file.item.exists end
+				end
+			else
+				Result := is_valid_path (path, is_optional)
+			end
+		end
+
+	is_wild_card (path: FILE_PATH): BOOLEAN
+		do
+			Result := path.base.starts_with_general ("*.") and path.base.count <= 6
+		end
+
 	integer_in_range (n: INTEGER; range: INTEGER_INTERVAL): BOOLEAN
 		do
 			Result := range.has (n)
@@ -169,6 +183,13 @@ feature {NONE} -- Implementation
 			if attached {like command} Eiffel.new_object ({like command}) as cmd then
 				Result := cmd
 			end
+		end
+
+	specs_list (array: ARRAY [like specs.item]): EL_ARRAYED_LIST [like specs.item]
+		-- for use with `Precursor' when redefining `argument_specs'
+		-- As in `specs_list (Precursor)'
+		do
+			create Result.make_from_array (array)
 		end
 
 feature {EL_COMMAND_ARGUMENT, EL_MAKE_OPERAND_SETTER} -- Internal attributes

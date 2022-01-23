@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-21 12:50:57 GMT (Friday 21st January 2022)"
-	revision: "17"
+	date: "2022-01-23 17:16:52 GMT (Sunday 23rd January 2022)"
+	revision: "18"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -31,6 +31,7 @@ inherit
 	EL_MODULE_TIME
 	EL_MODULE_LIO
 	EL_MODULE_DIRECTORY
+	EL_MODULE_EXCEPTION
 
 feature {NONE} -- Initialization
 
@@ -62,6 +63,18 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	check_paragraph_count (xhtml: STRING)
+		-- check that there is at least one paragraph
+		local
+			xdoc: EL_XPATH_ROOT_NODE_CONTEXT
+		do
+			create xdoc.make_from_string (xhtml)
+			if xdoc.context_list ("//p").count = 0 then
+				lio.put_path_field ("ERROR, no paragraphs found for", output_file_path)
+				lio.put_new_line
+			end
+		end
 
 	edit (html_doc: ZSTRING)
 		local
@@ -112,6 +125,7 @@ feature {NONE} -- Implementation
 				lio.put_new_line
 				write_html
 			end
+			check_paragraph_count (File_system.plain_text (output_file_path))
 		end
 
 	remove_old_files
@@ -140,11 +154,12 @@ feature {NONE} -- Implementation
 
 	write_html
 		local
-			html_doc: ZSTRING
+			html_doc: ZSTRING; xhtml: STRING
 		do
 			html_doc := html_lines.joined_lines
 			edit (html_doc)
-			File_system.write_plain_text (output_file_path, html_doc.to_utf_8 (False))
+			xhtml := html_doc.to_utf_8 (False)
+			File_system.write_plain_text (output_file_path, xhtml)
 		end
 
 feature {NONE} -- Editing

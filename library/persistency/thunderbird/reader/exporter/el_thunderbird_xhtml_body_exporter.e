@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-21 12:52:58 GMT (Friday 21st January 2022)"
-	revision: "11"
+	date: "2022-01-23 17:12:46 GMT (Sunday 23rd January 2022)"
+	revision: "12"
 
 class
 	EL_THUNDERBIRD_XHTML_BODY_EXPORTER
@@ -21,7 +21,7 @@ class
 inherit
 	EL_THUNDERBIRD_XHTML_EXPORTER
 		redefine
-			make, edit, write_html,
+			make, check_paragraph_count, edit, write_html,
 			on_first_tag, on_last_tag,
 			First_doc_tag, Last_doc_tag
 		end
@@ -62,6 +62,11 @@ feature {NONE} -- State handlers
 		end
 
 feature {NONE} -- Implementation
+
+	check_paragraph_count (body_text: STRING)
+		do
+			Precursor (XML.document_text ("html", "UTF-8", body_text))
+		end
 
 	edit (html_doc: ZSTRING)
 		do
