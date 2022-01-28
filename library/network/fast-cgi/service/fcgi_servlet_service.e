@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 13:45:13 GMT (Thursday 13th January 2022)"
-	revision: "23"
+	date: "2022-01-25 15:01:00 GMT (Tuesday 25th January 2022)"
+	revision: "24"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -112,7 +112,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	config: FCGI_SERVICE_CONFIG
-			-- Configuration for servlets
+		-- Configuration for servlets
 
 	description: READABLE_STRING_GENERAL
 		do
@@ -364,15 +364,6 @@ feature {NONE} -- Constants
 		-- The maximum number of times application will retry
 		once
 			Result := 3
-		end
-
-	Valid_peer_addresses: EL_ZSTRING_LIST
-		-- Peer addresses that are allowed to connect to this server as defined
-		-- in environment variable FCGI_WEB_SERVER_ADDRS.
-		-- (not currently used)
-		once
-			create Result.make_adjusted_split (Execution_environment.item (Fcgi_web_server_addrs), ';', {EL_STRING_ADJUST}.Left)
-			Result.right_adjust
 		end
 
 note

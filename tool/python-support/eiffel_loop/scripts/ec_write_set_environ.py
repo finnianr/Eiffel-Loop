@@ -42,7 +42,9 @@ print "Writing", sh
 f = open (sh, 'w')
 env = config.eiffel_environ ()
 for key in sorted (env):
-	f.write ("export %s=%s\n" % (key, env [key]))
+	line = "export %s=%s\n" % (key, env [key])
+	print line
+	f.write (line)
 f.close ()
 
 

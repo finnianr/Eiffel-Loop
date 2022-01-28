@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-01-26 16:35:15 GMT (Wednesday 26th January 2022)"
+	revision: "10"
 
 class
 	EL_GENERATED_SVG_BUTTON_PIXMAP_SET
@@ -54,7 +54,7 @@ feature {NONE} -- State procedures
 		do
 			if line.has_substring ("#radialGradient933") then
 				put_line (file_highlighted, line)
-				create list.make_with_separator (line, ';', False)
+				create list.make_split (line, ';')
 				from list.start until list.after loop
 					if list.item.starts_with_general (once "stroke-width:") then
 						list.item.put (Clicked_border_width, list.item.count)
@@ -117,7 +117,7 @@ feature {NONE} -- State procedures
 		local
 			list: EL_ZSTRING_LIST
 		do
-			create list.make_with_separator (line, ';', False)
+			create list.make_split (line, ';')
 			list.first.remove_tail (6)
 			list.first.append_string_general (Highlighted_stop_color)
 			add_to_output_files (list.joined (';'))
@@ -182,4 +182,3 @@ feature {NONE} -- Implementation
 		end
 
 end
-

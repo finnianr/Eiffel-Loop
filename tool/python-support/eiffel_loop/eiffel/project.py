@@ -98,12 +98,12 @@ def convert_pecf_to_xml (pecf_path):
 		print "Error converting %s to XML" % (pecf_path)
 	return result
 
-def set_build_environment (config, print_environ=False):
+def set_build_environment (config, set_MSC=True):
 	# set build environment from `project.py' config
 
 	ise.update () # update ISE_* variables
 
-	if sys.platform == 'win32' and config.MSC_options:
+	if sys.platform == 'win32' and set_MSC and config.MSC_options:
 		print 'Configuring environment for MSC_options: ' + ' '.join (config.MSC_options)
 		print "ise.msvc_version", ise.msvc_version
 
@@ -134,28 +134,14 @@ def set_build_environment (config, print_environ=False):
 	
 	path_parts.extend (config.path_extra)
 	path_parts.append (environ.user_path ())
-	
 	os.environ [Path_key] = path.expandvars (os.pathsep.join (path_parts))
-	if print_environ:
-		for key in ['INCLUDE', 'LIB', 'LIBPATH', 'PATH', 'PYTHONPATH']:
-			if key in os.environ:
-				print
-				print key + ':'
-				for p in os.environ [key].split (os.pathsep):
-					if p:
-						print '  ', p
-		print
-		for name in sorted (config.eiffel_environ ()):
-			print name + " =", os.environ [name]
-
+	
 def update_ecf (ecf_path):
 	# update 'ecf' file from 'pecf' file if it exists
 	pecf_path = path.as_pecf (ecf_path)
 	if path.exists (pecf_path):
 		if os.stat (pecf_path)[stat.ST_MTIME] > os.stat (ecf_path)[stat.ST_MTIME]:
 			convert_pecf_to_xml (pecf_path)
-		
-
 	
 # XML format ECF project file
 class ECF_PROJECT_FILE (object):

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 12:38:53 GMT (Wednesday 24th November 2021)"
-	revision: "6"
+	date: "2022-01-28 12:46:49 GMT (Friday 28th January 2022)"
+	revision: "7"
 
 class
 	EL_FILE_SYNC_COMMAND_IMP
@@ -16,6 +16,9 @@ inherit
 	EL_FILE_SYNC_COMMAND_I
 
 	EL_OS_COMMAND_IMP
+		undefine
+			execute
+		end
 
 create
 	make
@@ -42,8 +45,8 @@ feature -- Access
 		#if $verbose_enabled then
 			--verbose
 		#end
-		#across $exclude_list as $list loop
-			--exclude '$list.item'
+		#if $has_exclusions then
+			--exclude-from=$exclusions_path
 		#end
 		#if $user_domain.count > 0 then
 			-e ssh $source_path "$user_domain:$destination_path"

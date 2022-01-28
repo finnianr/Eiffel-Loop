@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "4"
+	date: "2022-01-28 13:54:02 GMT (Friday 28th January 2022)"
+	revision: "5"
 
 class
 	EL_UPDATEABLE_RESOURCE_SET
@@ -74,6 +74,13 @@ feature -- Access
 	updated_dir: DIR_PATH
 		-- directory for updated items
 
+feature -- Element change
+
+	set_installed_dir (a_installed_dir: like installed_dir)
+		do
+			installed_dir := a_installed_dir
+		end
+
 feature {EL_RESOURCE_INSTALL_MANAGER} -- Constants
 
 	Manifest_name: ZSTRING
@@ -82,4 +89,3 @@ feature {EL_RESOURCE_INSTALL_MANAGER} -- Constants
 		end
 
 end
-

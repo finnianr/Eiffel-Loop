@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 import os
 
 from eiffel_loop.eiffel import project
@@ -7,7 +9,8 @@ from eiffel_loop.eiffel.ecf import FREEZE_BUILD
 
 config = project.read_project_py ()
 
-project.set_build_environment (config)
+# False means do not configure MSC
+project.set_build_environment (config, False)
 
 ecf = EIFFEL_CONFIG_FILE (config.ecf)
 

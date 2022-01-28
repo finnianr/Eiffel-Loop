@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-19 12:43:20 GMT (Sunday 19th September 2021)"
-	revision: "6"
+	date: "2022-01-28 12:49:06 GMT (Friday 28th January 2022)"
+	revision: "7"
 
 deferred class
 	EL_FILE_SYNC_COMMAND_I
@@ -19,13 +19,15 @@ deferred class
 inherit
 	EL_COPY_TREE_COMMAND_I
 		redefine
-			getter_function_table, make_default
+			execute, getter_function_table, make_default
 		end
 
 	EL_SECURE_SHELL_COMMAND
 		redefine
 			escaped_remote
 		end
+
+	EL_FILE_OPEN_ROUTINES
 
 feature {NONE} -- Initialization
 
@@ -41,6 +43,19 @@ feature -- Access
 	exclude_list: EL_ZSTRING_LIST
 		-- file patterns for exclusion from transfer
 		-- see --exclude option in rsync man
+
+feature -- Basic operations
+
+	execute
+		do
+			exclusions_path := new_temporary_file_path ("exclude")
+			if attached open (exclusions_path, Write) as file then
+				file.put_lines (exclude_list)
+				file.close
+			end
+			Precursor
+			File_system.remove_file (exclusions_path)
+		end
 
 feature -- Options
 
@@ -70,7 +85,7 @@ feature {NONE} -- Evolicity reflection
 		do
 			Result := Precursor +
 				["destination_path",	agent: ZSTRING do Result := escaped_remote (destination_path) end] +
-				["exclude_list",		agent: ITERABLE [ZSTRING] do Result := exclude_list end] +
+				["has_exclusions",	agent: BOOLEAN_REF do Result := (not exclude_list.is_empty).to_reference end] +
 				["user_domain",		agent: ZSTRING do Result := user_domain end]
 		end
 
@@ -85,4 +100,9 @@ feature {NONE} -- Implementation
 				Result := a_path.escaped
 			end
 		end
+
+feature {NONE} -- Internal attributes
+
+	exclusions_path: FILE_PATH
+
 end

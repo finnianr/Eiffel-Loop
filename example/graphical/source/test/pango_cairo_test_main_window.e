@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "18"
+	date: "2022-01-26 16:13:36 GMT (Wednesday 26th January 2022)"
+	revision: "19"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -87,7 +87,7 @@ feature {NONE} -- Initialization
 						Vision_2.new_label ("Font:"), font_list_drop_down,
 						Vision_2.new_label ("Size:"), size_drop_down,
 						Vision_2.new_label ("Angle:"), text_angle_drop_down,
-						create {EL_EXPANDED_CELL}
+						Vision_2.new_button ("TEST", agent on_test)
 					>>)
 				>>)
 			)
@@ -175,6 +175,20 @@ feature {NONE} -- Factory
 			Result.set_minimum_size (a_pixmap.width, a_pixmap.height)
 		end
 
+feature {NONE} -- Event handling
+
+	on_test
+		local
+			dialog: UNTITLED_DIALOG
+			close_button: EV_BUTTON
+		do
+			create dialog
+			create close_button.make_with_text_and_action ("Close", agent dialog.destroy)
+			dialog.extend (close_button)
+			dialog.set_default_cancel_button (close_button)
+			dialog.show_modal_to_window (Current)
+		end
+
 feature {NONE} -- Implementation
 
 	check_pixel_color
@@ -198,9 +212,9 @@ feature {NONE} -- Internal attributes
 
 	font_size: REAL
 
-	text_angle: INTEGER
-
 	picture_box: EL_HORIZONTAL_BOX
+
+	text_angle: INTEGER
 
 feature {NONE} -- Constants
 

@@ -3,7 +3,7 @@
 # Build and autotest all projects
 
 # Get sudo permission in advance for installing resources
-sudo cat /etc/fstab > nul
+sudo cat /etc/fstab > /dev/null
 
 for dir_path in \
 	test \

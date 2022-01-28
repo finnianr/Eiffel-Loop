@@ -22,7 +22,8 @@ else:
 	print "USAGE: launch_estudio <project name>.(pecf|ecf)"
 	sys.exit (1)
 
-project.set_build_environment (config, True)
+project.set_build_environment (config)
+config.print_environ ()
 
 project.update_ecf (ecf_path)
 		

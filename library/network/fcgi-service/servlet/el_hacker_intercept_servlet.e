@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-12 18:37:11 GMT (Tuesday 12th October 2021)"
-	revision: "10"
+	date: "2022-01-26 14:56:32 GMT (Wednesday 26th January 2022)"
+	revision: "11"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -87,9 +87,7 @@ feature {NONE} -- Implementation
 				-- but allow: "GET /images/favicon/196x196.png HTTP/1.1"
 				Result := True
 			else
-				Result := across service.config.filter_list as match some
-					match.item (path_lower)
-				end
+				Result := service.config.is_hacker_probe (path_lower)
 			end
 		end
 

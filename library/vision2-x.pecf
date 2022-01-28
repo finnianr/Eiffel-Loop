@@ -232,6 +232,10 @@ system:
 
 					See doc/vision2-x.container.txt for details
 				"""
+			class_option:
+				class = EL_VIEW_DIALOG
+				assertions:
+					precondition = true; postcondition = true
 			file_rule:
 				exclude:
 					"/imp_mswin$"

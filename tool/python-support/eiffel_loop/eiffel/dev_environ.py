@@ -68,6 +68,18 @@ def set_environ_from_directory (a_dir):
 		if path.isdir (file_path):
 			environ_extra [library_environ_name (name)] = file_path
 
+def print_environ ():
+	for key in ['INCLUDE', 'LIB', 'LIBPATH', 'PATH', 'PYTHONPATH']:
+		if key in os.environ:
+			print
+			print key + ':'
+			for p in os.environ [key].split (os.pathsep):
+				if p:
+					print '  ', p
+	print
+	for name in sorted (eiffel_environ ()):
+		print name + " =", os.environ [name]
+
 # routines to call from project.py
 
 def append_to_path (search_dir):

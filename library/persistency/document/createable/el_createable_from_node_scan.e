@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "15"
+	date: "2022-01-24 14:39:45 GMT (Monday 24th January 2022)"
+	revision: "16"
 
 deferred class
 	EL_CREATEABLE_FROM_NODE_SCAN
@@ -20,6 +20,8 @@ inherit
 			item as node_source,
 			new_item as new_node_source
 		end
+
+	EL_CREATEABLE_FROM_FILE
 
 feature {NONE} -- Initialization
 

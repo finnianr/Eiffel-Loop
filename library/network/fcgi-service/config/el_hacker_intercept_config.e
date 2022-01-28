@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "4"
+	date: "2022-01-25 23:49:48 GMT (Tuesday 25th January 2022)"
+	revision: "5"
 
 class
 	EL_HACKER_INTERCEPT_CONFIG
@@ -19,6 +19,7 @@ inherit
 		end
 
 	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_TUPLE
 
 create
 	make_default, make_from_file
@@ -29,12 +30,31 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor
-			create filter_list.make (20)
+			create filter_table.make (5)
 		end
 
-feature -- Access
+feature -- Status report
 
-	filter_list: EL_ARRAYED_LIST [PREDICATE [ZSTRING]]
+	is_hacker_probe (path_lower: ZSTRING): BOOLEAN
+		local
+			key: STRING
+		do
+			across filter_table as table until Result loop
+				key := table.key
+				if key = Predicate.starts_with then
+					Result := across table.item as string some path_lower.starts_with (string.item) end
+
+				elseif key = Predicate.ends_with then
+					Result := across table.item as string some path_lower.ends_with (string.item) end
+
+				elseif key = Predicate.is_equal_ then
+					Result := across table.item as string some path_lower.is_equal (string.item) end
+
+				elseif key = Predicate.has_substring then
+					Result := across table.item as string some path_lower.has_substring (string.item) end
+				end
+			end
+		end
 
 feature -- Basic operations
 
@@ -52,35 +72,39 @@ feature -- Constants
 
 feature {NONE} -- Build from XML
 
-	append_filter (type: INTEGER)
+	append_filter (a_predicate: STRING)
 		do
 			across node.to_string.lines as line loop
-				inspect type
-					when 1 then
-						filter_list.extend (agent {ZSTRING}.starts_with (line.item))
-					when 2 then
-						filter_list.extend (agent {ZSTRING}.has_substring (line.item))
-					when 3 then
-						filter_list.extend (agent {ZSTRING}.ends_with (line.item))
-					when 4 then
-						filter_list.extend (agent {ZSTRING}.is_equal (line.item))
-				else end
+				across line.item.split (';') as split loop
+					filter_table.extend (a_predicate, split.item_copy)
+				end
 			end
 		end
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		local
-			l_xpath: STRING
+			l_xpath: STRING; predicate_list: EL_STRING_8_LIST
 		do
 			Result := Precursor
-			across << "starts_with", "has_substring", "ends_with", "is_equal" >> as predicate loop
-				l_xpath := Xpath_match_list #$ [predicate.item]
-				Result [l_xpath] := agent append_filter (predicate.cursor_index)
+			create predicate_list.make_from_tuple (Predicate)
+			across predicate_list as list loop
+				l_xpath := Xpath_match_list #$ [list.item]
+				Result [l_xpath] := agent append_filter (list.item)
 			end
 		end
 
+feature {NONE} -- Internal attributes
+
+	filter_table: EL_GROUP_TABLE [ZSTRING, STRING]
+
 feature {NONE} -- Constants
+
+	Predicate: TUPLE [starts_with, has_substring, ends_with, is_equal_: STRING]
+		once
+			create Result
+			Tuple.fill (Result, "starts_with, has_substring, ends_with, is_equal")
+		end
 
 	Xpath_match_list: ZSTRING
 		once
