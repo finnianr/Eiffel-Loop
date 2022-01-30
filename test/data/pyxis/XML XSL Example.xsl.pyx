@@ -12,25 +12,22 @@ xsl.stylesheet:
 				style:
 					type = "text/css"
 					"""
-						body
-						{
-						margin:10px;
-						background-color:#ccff00;
-						font-family:verdana,helvetica,sans-serif;
+						body {
+							margin:10px;
+							background-color:#ccff00;
+							font-family:verdana,helvetica,sans-serif;
 						}
 						
-						.tutorial-name
-						{
-						display:block;
-						font-weight:bold;
+						.tutorial-name {
+							display:block;
+							font-weight:bold;
 						}
 						
-						.tutorial-url
-						{
-						display:block;
-						color:#636363;
-						font-size:small;
-						font-style:italic;
+						.tutorial-url {
+							display:block;
+							color:#636363;
+							font-size:small;
+							font-style:italic;
 						}
 					"""
 			body:

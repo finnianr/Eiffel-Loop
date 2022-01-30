@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-27 19:19:14 GMT (Saturday 27th November 2021)"
-	revision: "34"
+	date: "2022-01-30 16:53:38 GMT (Sunday 30th January 2022)"
+	revision: "35"
 
 class
 	EL_PYXIS_PARSER
@@ -140,7 +140,7 @@ feature {NONE} -- State procedures
 			count: INTEGER
 		do
 			count := end_index - start_index + 1
-			if count = 3 and then line.same_characters (Triple_quote, 1, 3, start_index) then
+			if line.ends_with (Triple_quote) then
 				restore_previous
 			else
 				if last_node.count > 0 then
@@ -327,8 +327,13 @@ feature {NONE} -- Implementation
 		do
 			end_index := line.count - s_8.trailing_white_count (line)
 			if end_index.to_boolean then
-				tab_count := s_8.leading_occurences (line, '%T')
-				start_index := tab_count + 1
+				if state = State_gather_verbatim_lines and not line.ends_with (Triple_quote) then
+					-- preserve indentation of verbatim string
+					start_index := tab_count + 2
+				else
+					tab_count := s_8.leading_occurences (line, '%T')
+					start_index := tab_count + 1
+				end
 			else
 				start_index := 1
 			end
