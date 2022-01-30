@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-30 16:52:39 GMT (Sunday 30th January 2022)"
-	revision: "37"
+	date: "2022-01-30 17:13:12 GMT (Sunday 30th January 2022)"
+	revision: "38"
 
 class
 	PYXIS_TO_XML_TEST_SET
@@ -86,7 +86,8 @@ feature -- Tests
 	test_conversion_to_xml
 			--
 		local
-			name, file_name: STRING; checksum: NATURAL
+			name, file_name, style_text, style_xpath: STRING; checksum: NATURAL; xsl_doc: EL_XPATH_ROOT_NODE_CONTEXT
+			count: INTEGER
 		do
 			name := "convert_pyxis_to_xml"
 			-- 3 Feb 2020
@@ -94,8 +95,17 @@ feature -- Tests
 				file_name := file_path.item.base
 				if Checksum_table.has_key (file_name) then
 					do_test (name, Checksum_table.found_item, agent convert_pyxis_to_xml, [file_path.item])
+					count := count + 1
+					if file_name.same_string_general (XSL_example) then
+						create xsl_doc.make_from_file (file_path.item.without_extension)
+						style_xpath := "//style[@type='text/css']/text()"
+						style_text := xsl_doc.string_8_at_xpath (style_xpath)
+						style_text.adjust
+						assert ("verbatim text indentations preserved", style_text.occurrences ('%T') = 9)
+					end
 				end
 			end
+			assert ("All file founds", count = Checksum_table.count)
 		end
 
 feature {NONE} -- Implementation
@@ -129,7 +139,9 @@ feature {NONE} -- Constants
 			Result ["credits.pyx"] := 4160036727
 			Result ["phrases.pyx"] := 1148746218
 			Result ["words.pyx"] := 3995591377
-			Result ["XML XSL Example.xsl.pyx"] := 2233023973
+			Result [XSL_example] := 2233023973
 		end
+
+	XSL_example: STRING = "XML XSL Example.xsl.pyx"
 
 end

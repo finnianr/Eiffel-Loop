@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 13:11:28 GMT (Thursday 13th January 2022)"
-	revision: "29"
+	date: "2022-01-30 20:03:38 GMT (Sunday 30th January 2022)"
+	revision: "30"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -62,6 +62,10 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	success_code: INTEGER
+		-- exit code that indicates command ran without error
+		-- default is 0
+
 	description: READABLE_STRING_GENERAL
 		do
 			Result := default_description
@@ -72,6 +76,11 @@ feature -- Access
 	working_directory: DIR_PATH
 
 feature -- Element change
+
+	set_success_code (code: INTEGER)
+		do
+			success_code := code
+		end
 
 	set_working_directory (a_working_directory: like working_directory)
 			--
@@ -283,7 +292,7 @@ feature {NONE} -- Implementation
 
 	set_has_error (return_code: INTEGER)
 		do
-			has_error := return_code /= 0
+			has_error := return_code /= success_code
 		end
 
 	system_command: ZSTRING
