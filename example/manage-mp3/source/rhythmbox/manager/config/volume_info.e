@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
-	revision: "6"
+	date: "2022-01-30 11:19:50 GMT (Sunday 30th January 2022)"
+	revision: "7"
 
 class
 	VOLUME_INFO
@@ -16,7 +16,7 @@ inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
 		rename
 			make_default as make,
-			element_node_type as	Attribute_node,
+			element_node_fields as Empty_set,
 			xml_names as export_default
 		redefine
 			make

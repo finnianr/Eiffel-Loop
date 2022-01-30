@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-22 10:14:57 GMT (Saturday 22nd January 2022)"
-	revision: "33"
+	date: "2022-01-30 11:40:01 GMT (Sunday 30th January 2022)"
+	revision: "34"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -162,12 +162,12 @@ feature {EL_SETTABLE_FROM_XML_NODE} -- Basic operations
 
 feature {NONE} -- Implementation
 
-	building_actions_for_each_type (types: ARRAY [TYPE [ANY]]; node_type: INTEGER_32): EL_PROCEDURE_TABLE [STRING]
+	building_actions_for_each_type (types: ARRAY [TYPE [ANY]]; element_set: EL_FIELD_INDICES_SET): EL_PROCEDURE_TABLE [STRING]
 		local
 			i: INTEGER_32; table: EL_PROCEDURE_TABLE [STRING]
 		do
 			from i := 1 until i > types.count loop
-				table := building_actions_for_type (types [i], node_type)
+				table := building_actions_for_type (types [i], element_set)
 				if i = 1 then
 					Result := table
 				else
@@ -177,23 +177,31 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	building_actions_for_type (type: TYPE [ANY]; node_type: INTEGER_32): EL_PROCEDURE_TABLE [STRING]
-		require
-			valid_node_type: Node_types.has (node_type)
+	building_actions_for_type (type: TYPE [ANY]; element_set: EL_FIELD_INDICES_SET): EL_PROCEDURE_TABLE [STRING]
+		-- table of build actions for fields matching `type' indexed by a relative xpath
+		-- by default xpaths select an element attribute except for field in `element_set' which
+		-- select the text within an element.
 		local
 			table: EL_REFLECTED_FIELD_TABLE; field_list: LIST [EL_REFLECTED_FIELD]; xpath: STRING_8
+			node_type: INTEGER; field: EL_REFLECTED_FIELD
 		do
 			table := field_table
 			table.query_by_type (type)
 			field_list := table.last_query
 			create Result.make_equal (field_list.count)
-			from field_list.start until field_list.after loop
-				if attached {EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT} field_list.item as context_field_collection
+			across field_list as list loop
+				field := list.item
+				if element_set.has (field.index) then
+					node_type := Text_element_node
+				else
+					node_type := Attribute_node
+				end
+				if attached {EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT} field as context_field_collection
 				then
 					if New_instance_table.has_key (context_field_collection.item_type_id)
 						and then attached {FUNCTION [EL_EIF_OBJ_BUILDER_CONTEXT]} New_instance_table.found_item as new_instance
 					then
-						xpath := new_xpath (field_list.item, Element_node) + Item_xpath
+						xpath := new_xpath (field, Element_node) + Item_xpath
 						Result [xpath] := agent extend_context_collection (context_field_collection, new_instance)
 					else
 						check
@@ -202,24 +210,23 @@ feature {NONE} -- Implementation
 						end
 					end
 
-				elseif attached {EL_REFLECTED_COLLECTION [ANY]} field_list.item as collection_field then
-					xpath := new_xpath (field_list.item, Element_node) + Item_text_xpath
+				elseif attached {EL_REFLECTED_COLLECTION [ANY]} field as collection_field then
+					xpath := new_xpath (field, Element_node) + Item_text_xpath
 					Result [xpath] := agent extend_collection (collection_field)
 
-				elseif attached {EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT} field_list.item as context_field then
-					Result [new_xpath (field_list.item, Element_node)] := agent change_context (context_field)
+				elseif attached {EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT} field as context_field then
+					Result [new_xpath (field, Element_node)] := agent change_context (context_field)
 
-				elseif attached {EL_REFLECTED_PATH} field_list.item as path_field then
-					Result [new_xpath (field_list.item, node_type)] := agent set_path_field_from_node (path_field)
+				elseif attached {EL_REFLECTED_PATH} field as path_field then
+					Result [new_xpath (field, node_type)] := agent set_path_field_from_node (path_field)
 
-				elseif attached {EL_REFLECTED_MEMBER_STRING [STRING_GENERAL]} field_list.item as field then
+				elseif attached {EL_REFLECTED_MEMBER_STRING [STRING_GENERAL]} field as member_field then
 					-- Field value caching
-					xpath := new_xpath (field_list.item, node_type)
-					Result [xpath] := agent set_cached_field_from_node (field)
+					xpath := new_xpath (member_field, node_type)
+					Result [xpath] := agent set_cached_field_from_node (member_field)
 				else
-					Result [new_xpath (field_list.item, node_type)] := agent set_field_from_node (field_list.item)
+					Result [new_xpath (field, node_type)] := agent set_field_from_node (field)
 				end
-				field_list.forth
 			end
 		end
 
@@ -324,6 +331,12 @@ feature {NONE} -- Node types
 
 feature {NONE} -- Constants
 
+	All_fields: STRING
+		-- rename `element_node_fields' as this to include all
+		once ("PROCESS")
+			create Result.make_empty
+		end
+
 	Item_name: STRING
 		-- list item name
 		once
@@ -342,6 +355,14 @@ feature {NONE} -- Constants
 		end
 
 	New_line: CHARACTER = '%N'
+
+	Empty_set: STRING = ""
+		-- rename `element_node_fields' as this to exclude all
+
+	Empty_element_set: EL_FIELD_INDICES_SET
+		do
+			create Result.make_empty
+		end
 
 	Null: CHARACTER = '%/0/'
 end

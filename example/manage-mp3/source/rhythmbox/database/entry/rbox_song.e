@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "49"
+	date: "2022-01-30 11:08:35 GMT (Sunday 30th January 2022)"
+	revision: "50"
 
 class
 	RBOX_SONG
@@ -265,7 +265,6 @@ feature -- Element change
 		local
 			old_mp3_path: like mp3_path
 		do
-			log.enter ("move_mp3_to_genre_and_artist_directory")
 			old_mp3_path := mp3_path
 			set_mp3_uri (unique_normalized_mp3_path)
 
@@ -274,7 +273,6 @@ feature -- Element change
 			if old_mp3_path.parent.exists then
 				File_system.delete_empty_branch (old_mp3_path.parent)
 			end
-			log.exit
 		end
 
 	set_album_artists (text: ZSTRING)

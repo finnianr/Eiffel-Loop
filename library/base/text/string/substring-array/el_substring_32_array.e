@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 17:53:59 GMT (Tuesday 2nd March 2021)"
-	revision: "19"
+	date: "2022-01-28 18:23:22 GMT (Friday 28th January 2022)"
+	revision: "20"
 
 class
 	EL_SUBSTRING_32_ARRAY

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 12:53:04 GMT (Wednesday 24th November 2021)"
-	revision: "16"
+	date: "2022-01-30 10:40:39 GMT (Sunday 30th January 2022)"
+	revision: "17"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -59,15 +59,25 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
-			Result := building_actions_for_type (({ANY}), element_node_type)
+			Result := building_actions_for_type (({ANY}), element_node_field_set)
 		end
 
-	element_node_type: INTEGER
-		-- type of XML node mapped to attribute value
-		-- Possible values `Text_element_node' or `Attribute_node'
+	element_node_field_set: EL_FIELD_INDICES_SET
+		do
+			if element_node_fields = All_fields then
+				create Result.make_for_any (field_table)
+			else
+				create Result.make_from_reflective (Current, element_node_fields)
+			end
+		end
+
+	element_node_fields: STRING
+		-- list of fields that will be treated as XML elements
+		-- (default is element attributes)
 		deferred
 		ensure
-			valid_node_type: Node_types.has (Result)
+			renamed_to_once_fields: Result.is_empty implies Result = Empty_set or Result = All_fields
+			valid_field_names: valid_field_names (Result)
 		end
 
 note

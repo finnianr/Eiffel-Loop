@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 11:24:09 GMT (Sunday 9th January 2022)"
-	revision: "7"
+	date: "2022-01-30 11:44:54 GMT (Sunday 30th January 2022)"
+	revision: "8"
 
 class
 	FTP_BACKUP
@@ -16,7 +16,7 @@ inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
 		rename
 			xml_names as export_default,
-			element_node_type as	Attribute_node
+			element_node_fields as Empty_set
 		redefine
 			on_context_exit, Transient_fields
 		end

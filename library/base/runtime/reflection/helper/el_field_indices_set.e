@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 12:27:11 GMT (Sunday 19th December 2021)"
-	revision: "11"
+	date: "2022-01-30 10:05:50 GMT (Sunday 30th January 2022)"
+	revision: "12"
 
 class
 	EL_FIELD_INDICES_SET
@@ -21,9 +21,17 @@ inherit
 	EL_STRING_8_CONSTANTS
 
 create
-	make, make_empty, make_from_reflective
+	make, make_empty, make_from_reflective, make_for_any
 
 feature {NONE} -- Initialization
+
+	make_for_any (field_table: EL_REFLECTED_FIELD_TABLE)
+		do
+			make_filled (0, 1, field_table.count)
+			across field_table as table loop
+				put (table.item.index, table.cursor_index)
+			end
+		end
 
 	make_from_reflective (object: EL_REFLECTIVE; field_names: STRING)
 		do

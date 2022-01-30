@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-06 10:17:28 GMT (Wednesday 6th January 2021)"
-	revision: "5"
+	date: "2022-01-30 11:20:04 GMT (Sunday 30th January 2022)"
+	revision: "6"
 
 class
 	PLAYLIST_EXPORT_INFO
@@ -17,7 +17,7 @@ inherit
 		rename
 			make_default as make,
 			xml_names as export_default,
-			element_node_type as	Attribute_node
+			element_node_fields as Empty_set
 		redefine
 			make, on_context_exit
 		end

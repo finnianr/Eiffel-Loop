@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "11"
+	date: "2022-01-30 11:35:55 GMT (Sunday 30th January 2022)"
+	revision: "12"
 
 class
 	PP_CONFIGURATION
@@ -16,7 +16,7 @@ class
 inherit
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
 		rename
-			element_node_type as	Attribute_node
+			element_node_fields as Empty_set
 		end
 
 	EL_SOLITARY

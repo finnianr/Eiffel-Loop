@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
-	revision: "49"
+	date: "2022-01-30 11:21:12 GMT (Sunday 30th January 2022)"
+	revision: "50"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -17,7 +17,7 @@ inherit
 		rename
 			make_default as make,
 			xml_names as to_kebab_case,
-			element_node_type as	Text_element_node,
+			element_node_fields as All_fields,
 			New_line as New_line_character
 		redefine
 			make, building_action_table, Transient_fields, new_representations
@@ -36,7 +36,7 @@ inherit
 
 	EL_XML_ZSTRING_CONSTANTS
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 	EL_MODULE_XML
 
@@ -160,7 +160,7 @@ feature {NONE} -- Build from XML
 		do
 			create Result.make_equal (field_table.count)
 			across Build_types as l_type loop
-				Result.merge (building_actions_for_type (l_type.item, Text_element_node))
+				Result.merge (building_actions_for_type (l_type.item, element_node_field_set))
 			end
 			across DB_field.sorted as enum loop
 				if DB_field.is_string_type (enum.item) then
