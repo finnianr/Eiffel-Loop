@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-30 11:44:23 GMT (Sunday 30th January 2022)"
-	revision: "5"
+	date: "2022-02-01 10:23:50 GMT (Tuesday 1st February 2022)"
+	revision: "6"
 
 class
 	GITHUB_CONFIGURATION
@@ -51,9 +51,6 @@ feature -- Access
 		end
 
 	github_dir: DIR_PATH
-
-	license_path: ZSTRING
-		-- relative to `source_dir'
 
 	rsync_template: STRING
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-04 21:33:19 GMT (Tuesday 4th January 2022)"
-	revision: "16"
+	date: "2022-02-01 11:53:07 GMT (Tuesday 1st February 2022)"
+	revision: "17"
 
 class
 	SOURCE_MANIFEST
@@ -32,6 +32,7 @@ feature {NONE} -- Initialization
 		do
 			create source_tree_list.make (10)
 			create last_name.make_empty
+			create notes.make
 			Precursor
 		end
 
@@ -56,6 +57,9 @@ feature -- Access
 			end
 		end
 
+	notes: LICENSE_NOTES
+		-- default Eiffel sources notes
+
 	source_tree_list: EL_ARRAYED_LIST [SOURCE_TREE]
 
 	sorted_file_list: like file_list
@@ -77,7 +81,8 @@ feature {NONE} -- Build from Pyxis
 			create Result.make (<<
 				["import/text()", agent import_manifest],
 				["location/@name", agent do last_name := node.to_string end],
-				["location/text()", agent extend_locations]
+				["location/text()", agent extend_locations],
+				["notes", agent do set_next_context (notes) end]
 			>>)
 		end
 
@@ -89,6 +94,10 @@ feature {NONE} -- Build from Pyxis
 			if file_path.exists then
 				create other.make_from_file (file_path)
 				source_tree_list.append_sequence (other.source_tree_list)
+			end
+			-- Import notes if no notes specified in top level
+			if notes.is_empty and then not other.notes.is_empty then
+				notes := other.notes
 			end
 		end
 

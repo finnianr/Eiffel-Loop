@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:27:26 GMT (Thursday 13th January 2022)"
-	revision: "14"
+	date: "2022-02-01 10:26:31 GMT (Tuesday 1st February 2022)"
+	revision: "15"
 
 class
 	NOTE_EDITOR_COMMAND
@@ -31,12 +31,10 @@ create
 
 feature {EL_SUB_APPLICATION} -- Initialization
 
-	make (source_manifest_path, license_notes_path: FILE_PATH)
+	make (source_manifest_path: FILE_PATH)
 		require
 			source_manifest_exists: source_manifest_path.exists
-			license_exists: license_notes_path.exists
 		do
-			create license_notes.make_from_file (license_notes_path)
 			create operations_list.make (100)
 			make_editor (source_manifest_path)
 		end
@@ -70,12 +68,10 @@ feature {NONE} -- Implementation
 
 	new_editor: NOTE_EDITOR
 		do
-			create Result.make (license_notes, operations_list)
+			create Result.make (manifest.notes, operations_list)
 		end
 
 feature {NONE} -- Internal attributes
-
-	license_notes: LICENSE_NOTES
 
 	operations_list: like editor.operations_list
 

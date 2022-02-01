@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 8:30:55 GMT (Wednesday 1st September 2021)"
-	revision: "15"
+	date: "2022-02-01 9:50:46 GMT (Tuesday 1st February 2022)"
+	revision: "16"
 
 deferred class
 	EL_COMMAND_SHELL_SUB_APPLICATION [C -> EL_COMMAND_SHELL_COMMAND]
@@ -21,12 +21,15 @@ feature {NONE} -- Implementation
 
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
-			create Result.make_empty
+			Result := <<
+				optional_argument ("title", "Menu title", No_checks),
+				optional_argument ("rows", "Number of menu rows", No_checks)
+			>>
 		end
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent make_shell (?, menu_name, menu_rows)
+			Result := agent make_shell (?, default_menu_name, default_menu_rows)
 		end
 
 	make_shell (cmd: like command; name: READABLE_STRING_GENERAL; a_row_count: INTEGER)
@@ -34,12 +37,12 @@ feature {NONE} -- Implementation
 			cmd.make (name, a_row_count)
 		end
 
-	menu_name: READABLE_STRING_GENERAL
+	default_menu_name: READABLE_STRING_GENERAL
 		do
 			Result := Naming.class_with_separator (Current, ' ', 0, 1) + " MENU"
 		end
 
-	menu_rows: INTEGER
+	default_menu_rows: INTEGER
 		do
 			Result := 10
 		end

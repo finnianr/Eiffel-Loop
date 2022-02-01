@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "11"
+	date: "2022-02-01 18:24:51 GMT (Tuesday 1st February 2022)"
+	revision: "12"
 
 class
 	EL_SPREAD_SHEET
@@ -69,10 +69,10 @@ feature {NONE} -- Initaliazation
 				lio.put_new_line
 			end
 			create root_node.make_from_file (file_path)
-			root_node.set_namespace ("office")
+			root_node.set_namespace_key ("office")
 
 			if attached root_node.find_node ("/office:document") as document_ctx then
-				document_ctx.set_namespace ("office")
+				document_ctx.set_namespace_key ("office")
 				office_version := document_ctx.real_at_xpath ("@office:version")
 				mimetype := document_ctx.string_at_xpath ("@office:mimetype")
 				check
@@ -80,7 +80,7 @@ feature {NONE} -- Initaliazation
 					valid_office_version: office_version >= 1.1
 				end
 				if attached document_ctx.find_node ("office:body/office:spreadsheet") as spreadsheet_ctx then
-					spreadsheet_ctx.set_namespace ("table")
+					spreadsheet_ctx.set_namespace_key ("table")
 					across spreadsheet_ctx.context_list ("table:named-expressions/table:named-range") as named_range loop
 						cell_range_address := named_range.node.attributes ["table:cell-range-address"]
 						cell_range_address.prune_all ('$')
@@ -117,11 +117,11 @@ feature -- Contract support
 
 	is_valid_file_type (file_path: FILE_PATH): BOOLEAN
 		local
-			xml: EL_XML_NAMESPACES
+			ns_table: EL_XML_NAME_SPACE_TABLE
 		do
-			create xml.make_from_file (file_path)
-			if xml.namespace_urls.has_key ("office") then
-				Result := xml.namespace_urls.found_item ~ Office_namespace_url
+			create ns_table.make_from_file (file_path)
+			if ns_table.has_key ("office") then
+				Result := ns_table.found_item ~ Office_namespace_url
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-22 11:40:21 GMT (Saturday 22nd January 2022)"
-	revision: "1"
+	date: "2022-02-01 15:32:11 GMT (Tuesday 1st February 2022)"
+	revision: "2"
 
 class
 	EL_DOCUMENT_TOKEN_ITERATOR
@@ -40,16 +40,30 @@ feature -- Access
 			Result := target.wide_string_at_index (cursor_index)
 		end
 
+	name: STRING
+		do
+			if Name_table.has_key (item) then
+				Result := Name_table.found_item
+			else
+				create Result.make_empty
+			end
+		end
+
 feature -- Status query
 
-	is_attribute_name_item: BOOLEAN
+	is_attribute: BOOLEAN
+		do
+			Result := item = Token.attribute_value
+		end
+
+	is_attribute_name: BOOLEAN
 		do
 			Result := item = Token.attribute_name
 		end
 
-	is_attribute_value_item: BOOLEAN
+	is_attribute_name_space: BOOLEAN
 		do
-			Result := item = Token.attribute_value
+			Result := item = Token.attribute_name_space
 		end
 
 	is_character_data_item: BOOLEAN
@@ -62,17 +76,69 @@ feature -- Status query
 			Result := item = Token.comment
 		end
 
-	is_processing_instruction_name_item: BOOLEAN
+	is_declaration_attribute: BOOLEAN
 		do
-			Result := item = Token.PI_name
+			Result := item = Token.declaration_attribute_value
 		end
 
-	is_processing_instruction_value_item: BOOLEAN
+	is_declaration_attribute_name: BOOLEAN
+		do
+			Result := item = Token.declaration_attribute_name
+		end
+
+	is_document_type_definition: BOOLEAN
+		do
+			Result := item = Token.dtd_value
+		end
+
+	is_element_close: BOOLEAN
+		do
+			Result := item = Token.ending_tag
+		end
+
+	is_element_open: BOOLEAN
+		do
+			Result := item = Token.starting_tag
+		end
+
+	is_name_space: BOOLEAN
+		do
+			Result := item = Token.attribute_name_space
+		end
+
+	is_processing_instruction: BOOLEAN
 		do
 			Result := item = Token.PI_value
+		end
+
+	is_processing_instruction_name: BOOLEAN
+		do
+			Result := item = Token.PI_name
 		end
 
 feature {NONE} -- Internal attributes
 
 	target: EL_XPATH_ROOT_NODE_CONTEXT
+
+feature {NONE} -- Constants
+
+	Name_table: EL_HASH_TABLE [STRING, INTEGER]
+		once
+			create Result.make (<<
+				[Token.attribute_name, "attribute_name"],
+				[Token.attribute_name_space, "attribute_name_space"],
+				[Token.attribute_value, "attribute_value"],
+				[Token.character_data, "character_data"],
+				[Token.character_data_value, "character_data_value"],
+				[Token.comment, "comment"],
+				[Token.declaration_attribute_name, "declaration_attribute_name"],
+				[Token.declaration_attribute_value, "declaration_attribute_value"],
+				[Token.document, "document"],
+				[Token.dtd_value, "dtd_value"],
+				[Token.ending_tag, "ending_tag"],
+				[Token.pi_name, "pi_name"],
+				[Token.pi_value, "pi_value"],
+				[Token.starting_tag, "starting_tag"]
+			>>)
+		end
 end

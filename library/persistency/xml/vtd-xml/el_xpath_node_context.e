@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-15 17:15:13 GMT (Saturday 15th January 2022)"
-	revision: "21"
+	date: "2022-02-01 18:26:00 GMT (Tuesday 1st February 2022)"
+	revision: "22"
 
 class
 	EL_XPATH_NODE_CONTEXT
@@ -24,13 +24,6 @@ inherit
 		export
 			{NONE} all
 			{EL_VTD_XML_ATTRIBUTE_API} exception_callbacks_c_struct
-		end
-
-	EL_XML_NAMESPACES
-		rename
-			make as parse_namespace_declarations,
-			make_from_other as make_from_namespace,
-			make_from_file as make_namespace_from_file
 		end
 
 	EL_STRING_8_CONSTANTS
@@ -50,17 +43,17 @@ create
 
 feature {NONE} -- Initaliazation
 
-	make (a_context: POINTER; parent: EL_XPATH_NODE_CONTEXT)
+	make (a_context: POINTER; a_parent: EL_XPATH_NODE_CONTEXT)
 			--
 		require
 			context_attached: is_attached (a_context)
 		do
+			parent := a_parent
 			make_from_pointer (a_context)
-			make_from_namespace (parent)
 			actual_context_image := Empty_context_image -- Order of initialization important
+			namespace_key := Empty_string_8
 
-			namespace :=  parent.namespace
-			create parent_context_image.make_from_other (parent.context_image)
+			create parent_context_image.make_from_other (a_parent.context_image)
 			create attributes.make (Current)
 			create xpath_query.make (Current)
 		end
@@ -69,6 +62,7 @@ feature {NONE} -- Initaliazation
 			--
 		do
 			make (c_create_context_copy (other.self_ptr), other)
+			namespace_key := other.namespace_key
 		end
 
 feature -- Access
@@ -113,6 +107,14 @@ feature -- Access
 			Result := wide_string (c_node_context_name (self_ptr))
 		end
 
+	namespace_table: HASH_TABLE [STRING, STRING]
+		do
+			Result := parent.namespace_table
+		end
+
+	namespace_key: STRING
+		-- value in `namespace_table'
+
 	natural_64_at_xpath (a_xpath: READABLE_STRING_GENERAL): NATURAL_64
 			--
 		do
@@ -151,12 +153,14 @@ feature -- Access
 
 feature -- Element change
 
-	set_namespace (a_namespace: STRING)
+	set_namespace_key (a_namespace_key: STRING)
 			--
 		require
-			namespace_exists: namespace_urls.has (a_namespace)
+			valid_namespace: namespace_table.has_key (a_namespace_key)
 		do
-			namespace := a_namespace
+			namespace_key := a_namespace_key
+		ensure
+			name_space_set: is_namespace_set
 		end
 
 feature -- Basic operations
@@ -316,7 +320,7 @@ feature -- Status query
 	is_namespace_set: BOOLEAN
 			--
 		do
-			Result := not namespace.is_empty
+			Result := not namespace_key.is_empty
 		end
 
 	is_xpath (a_xpath: READABLE_STRING_GENERAL): BOOLEAN
@@ -471,7 +475,7 @@ feature {EL_XPATH_NODE_CONTEXT, EL_XPATH_NODE_CONTEXT_LIST, EL_XPATH_NODE_CONTEX
 		do
 			reset
 			if is_namespace_set then
-				xpath_query.set_xpath_for_namespace (a_xpath, namespace)
+				xpath_query.set_xpath_for_namespace (a_xpath, namespace_key)
 			else
 				xpath_query.set_xpath (a_xpath)
 			end
@@ -500,7 +504,7 @@ feature {EL_XPATH_NODE_CONTEXT} -- Implementation
 			--
 		do
 			if is_namespace_set then
-				create Result.make_xpath_for_namespace (Current, a_xpath, namespace)
+				create Result.make_xpath_for_namespace (Current, a_xpath, namespace_key)
 			else
 				create Result.make_xpath (Current, a_xpath)
 			end
@@ -514,12 +518,12 @@ feature {EL_XPATH_NODE_CONTEXT} -- Implementation
 
 feature {EL_XPATH_NODE_CONTEXT} -- Internal attributes
 
-	xpath_query: EL_VTD_XPATH_QUERY
-
 	actual_found_node: EL_XPATH_NODE_CONTEXT
 
-	namespace: STRING
+	parent: EL_XPATH_NODE_CONTEXT
 
 	parent_context_image, actual_context_image: EL_VTD_CONTEXT_IMAGE
+
+	xpath_query: EL_VTD_XPATH_QUERY
 
 end

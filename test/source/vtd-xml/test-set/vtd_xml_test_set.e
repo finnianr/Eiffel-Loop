@@ -16,8 +16,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 9:45:55 GMT (Wednesday 19th January 2022)"
-	revision: "20"
+	date: "2022-02-01 13:09:09 GMT (Tuesday 1st February 2022)"
+	revision: "21"
 
 class
 	VTD_XML_TEST_SET
@@ -219,8 +219,12 @@ feature {NONE} -- Implementation
 		do
 			create root_node.make_from_file (file_path)
 			assert ("Encoding latin-1", root_node.encoding_name ~ "ISO-8859-1")
-			root_node.find_instruction ("call")
-			assert ("expected instruction", root_node.instruction_found and then root_node.found_instruction ~ instruction)
+
+			if attached root_node.processing_instruction ("call") as pi_call then
+				assert ("expected instruction", pi_call ~ instruction)
+			else
+				assert ("instruction found", False)
+			end
 		end
 
 	assert_same_string_8_list (xpath, expected: STRING; actual: EL_STRING_8_LIST)

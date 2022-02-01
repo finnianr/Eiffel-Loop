@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2022-02-01 18:24:51 GMT (Tuesday 1st February 2022)"
+	revision: "5"
 
 class
 	EL_SPREAD_SHEET_DATA_CELL
@@ -53,7 +53,7 @@ feature {NONE} -- Initialization
 		do
 			make_empty
 
-			cell_context.set_namespace (NS_text)
+			cell_context.set_namespace_key (NS_text)
 			paragraph_nodes := cell_context.context_list (Xpath_text_paragraph)
 			paragraphs.grow (paragraph_nodes.count)
 			across paragraph_nodes as paragraph loop

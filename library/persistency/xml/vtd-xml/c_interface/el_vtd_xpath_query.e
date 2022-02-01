@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-15 10:34:31 GMT (Saturday 15th January 2022)"
-	revision: "10"
+	date: "2022-02-01 18:23:46 GMT (Tuesday 1st February 2022)"
+	revision: "11"
 
 class
 	EL_VTD_XPATH_QUERY
@@ -38,11 +38,11 @@ feature {NONE} -- Initialization
 			set_xpath (a_xpath)
 		end
 
-	make_xpath_for_namespace (a_context: EL_XPATH_NODE_CONTEXT; a_xpath: READABLE_STRING_GENERAL; namespace: STRING)
+	make_xpath_for_namespace (a_context: EL_XPATH_NODE_CONTEXT; a_xpath: READABLE_STRING_GENERAL; namespace_key: STRING)
 			--
 		do
 			make (a_context)
-			set_xpath_for_namespace (a_xpath, namespace)
+			set_xpath_for_namespace (a_xpath, namespace_key)
 		end
 
 feature -- Element change
@@ -55,22 +55,22 @@ feature -- Element change
 			make_from_pointer (c_create_xpath_query (xpath.base_address))
 		end
 
-	set_xpath_for_namespace (a_xpath: READABLE_STRING_GENERAL; namespace: STRING)
+	set_xpath_for_namespace (a_xpath: READABLE_STRING_GENERAL; namespace_key: STRING)
 			--
 		require
-			not_namespace_empty: not namespace.is_empty
+			not_namespace_empty: not namespace_key.is_empty
 		local
 			c_ns_prefix, c_ns_url: EL_C_WIDE_CHARACTER_STRING
 		do
 			dispose
 			create {EL_VTD_NATIVE_XPATH_IMP} xpath.make (a_xpath)
-			if C_namespaces.has_key (namespace) then
+			if C_namespaces.has_key (namespace_key) then
 				c_ns_prefix := C_namespaces.found_item [1]
 				c_ns_url := C_namespaces.found_item [2]
 			else
-				create c_ns_prefix.make_from_string (namespace)
-				create c_ns_url.make_from_string (context.namespace_urls [namespace])
-				C_namespaces.extend (<< c_ns_prefix, c_ns_url >>, namespace)
+				create c_ns_prefix.make_from_string (namespace_key)
+				create c_ns_url.make_from_string (context.namespace_table [namespace_key])
+				C_namespaces.extend (<< c_ns_prefix, c_ns_url >>, namespace_key)
 			end
 			make_from_pointer (
 				c_create_xpath_query_for_namespace (xpath.base_address, c_ns_prefix.base_address, c_ns_url.base_address)

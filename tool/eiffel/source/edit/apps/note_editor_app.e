@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 11:56:06 GMT (Sunday 23rd January 2022)"
-	revision: "27"
+	date: "2022-02-01 20:14:47 GMT (Tuesday 1st February 2022)"
+	revision: "28"
 
 class
 	NOTE_EDITOR_APP
@@ -37,14 +37,13 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				required_argument ("sources", "Path to sources manifest file", << file_must_exist >>),
-				required_argument ("license", "Path to license notes file", << file_must_exist >>)
+				required_argument ("sources", "Path to sources manifest file", << file_must_exist >>)
 			>>
 		end
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make ("", "")
+			Result := agent {like command}.make ("")
 		end
 
 feature {NONE} -- Constants
@@ -52,12 +51,6 @@ feature {NONE} -- Constants
 	Desktop: EL_DESKTOP_ENVIRONMENT_I
 		once
 			Result := new_context_menu_desktop ("Eiffel Loop/Development/Set note field defaults")
-		end
-
-	License_notes_path: FILE_PATH
-		once
-			Result := "$EIFFEL_LOOP/license.pyx"
-			Result.expand
 		end
 
 end

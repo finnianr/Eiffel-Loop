@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 11:50:44 GMT (Sunday 23rd January 2022)"
-	revision: "13"
+	date: "2022-02-01 18:21:06 GMT (Tuesday 1st February 2022)"
+	revision: "14"
 
 class
 	EL_XPATH_ROOT_NODE_CONTEXT
@@ -16,7 +16,17 @@ inherit
 	EL_XPATH_NODE_CONTEXT
 		rename
 			Token as Token_enum
+		undefine
+			namespace_table
 		redefine
+			default_create
+		end
+
+	EL_LAZY_ATTRIBUTE
+		rename
+			item as namespace_table,
+			new_item as new_namespace_table
+		undefine
 			default_create
 		end
 
@@ -75,21 +85,31 @@ feature {NONE} -- Initaliazation
 	make_from_string (a_xml: STRING)
 			--
 		local
-			l_context_pointer: POINTER; l_encoding_name: STRING
+			l_context_pointer: POINTER; l_encoding_name: STRING; tag_splitter: EL_SPLIT_ON_CHARACTER [STRING]
+			section: STRING; end_index, index_xml_ns: INTEGER; is_namespace_aware: BOOLEAN
 		do
 			make_default
-			create found_instruction.make_empty; create namespace.make_empty
 			if parse_failed then
-				parse_namespace_declarations (default_xml)
 				document_xml := default_xml
 				create error_message.make_from_general (last_exception.description)
 			else
-				parse_namespace_declarations (a_xml)
 				document_xml := a_xml
 				create error_message.make_empty
+				create tag_splitter.make (a_xml, '<')
+				-- look for xmlns name in document root element
+				across tag_splitter as tag until end_index.to_boolean loop
+					section := tag.item
+					if section.count > 0 and section [1].is_alpha then
+						end_index := section.index_of ('>', 1) - 1
+						index_xml_ns := section.substring_index (XMLNS, 1)
+						if index_xml_ns > 0 and then section.valid_index (index_xml_ns + XMLNS.count) then
+							is_namespace_aware := (" =:").has (section [index_xml_ns + XMLNS.count])
+						end
+					end
+				end
 			end
 
-			l_context_pointer := Parser.root_context_pointer (document_xml, namespaces_defined)
+			l_context_pointer := Parser.root_context_pointer (document_xml, is_namespace_aware)
 
 			if is_attached (l_context_pointer) then
 				make (l_context_pointer, Current)
@@ -141,7 +161,20 @@ feature -- Access
 
 	error_message: ZSTRING
 
-	found_instruction: STRING
+	processing_instruction (a_name: STRING): detachable STRING
+		-- processing instruction with `a_name' or `Void' if not found
+		local
+			pi_name_index: INTEGER
+		do
+			across Current as token until attached Result loop
+				if token.is_processing_instruction_name and then token.item_string_8 ~ a_name then
+					pi_name_index := token.cursor_index
+
+				elseif token.is_processing_instruction and then pi_name_index = (token.cursor_index - 1) then
+					Result := token.item_string_8
+				end
+			end
+		end
 
 feature -- Measurement
 
@@ -167,17 +200,17 @@ feature -- Measurement
 	word_count (exclude_variable_reference: BOOLEAN; included_attributes: EL_STRING_8_LIST): INTEGER
 		-- count of text words in document and in any `included_attributes'
 		local
-			s: EL_ZSTRING_ROUTINES; l_name: ZSTRING
+			s: EL_ZSTRING_ROUTINES; l_result: ZSTRING
 		do
-			create l_name.make_empty
+			create l_result.make_empty
 			across Current as token loop
 				if token.is_character_data_item then
 					Result := Result + s.word_count (token.item_string, True)
 
-				elseif token.is_attribute_name_item then
-					l_name := token.item_string_8
+				elseif token.is_attribute_name then
+					l_result := token.item_string_8
 
-				elseif token.is_attribute_value_item and then included_attributes.has (l_name) then
+				elseif token.is_attribute and then included_attributes.has (l_result) then
 					Result := Result + s.word_count (token.item_string, True)
 				end
 			end
@@ -185,12 +218,10 @@ feature -- Measurement
 
 feature -- Status query
 
-	instruction_found: BOOLEAN
-
 	namespaces_defined: BOOLEAN
 			-- Are any namespaces defined in document
 		do
-			Result := not namespace_urls.is_empty
+			Result := namespace_table.count > 0
 		end
 
 	parse_failed: BOOLEAN
@@ -198,27 +229,6 @@ feature -- Status query
 	valid_token_index (index: INTEGER): BOOLEAN
 		do
 			Result := token_index_lower <= index and index <= token_index_upper
-		end
-
-feature -- Basic operations
-
-	find_instruction (a_name: STRING)
-			-- find processing instruction with name
-		local
-			pi_name_index: INTEGER
-		do
-			instruction_found := False
-			found_instruction.wipe_out
-			across Current as token until instruction_found loop
-				if token.is_processing_instruction_name_item and then token.item_string_8 ~ a_name then
-					pi_name_index := token.cursor_index
-
-				elseif token.is_processing_instruction_value_item and then pi_name_index = (token.cursor_index - 1) then
-					found_instruction.append (token.item_string_8)
-					instruction_found := true
-
-				end
-			end
 		end
 
 feature {EL_DOCUMENT_TOKEN_ITERATOR} -- Implementation
@@ -229,6 +239,37 @@ feature {EL_DOCUMENT_TOKEN_ITERATOR} -- Implementation
 		do
 			create default_doc
 			Result := default_doc.to_xml
+		end
+
+	new_namespace_table: HASH_TABLE [STRING, STRING]
+		local
+			stage, last_token: INTEGER; s: EL_STRING_8_ROUTINES
+		do
+			create Result.make_equal (3)
+			stage := 1
+			across Current as token until stage = 3 loop
+				inspect stage
+					when 1 then -- start element
+						stage := stage + token.is_element_open.to_integer
+
+					when 2 then -- root element attributes
+						if token.is_attribute_name_space then
+							if attached token.item_string_8 as ns_name then
+								if ns_name ~ xmlns then
+									Result.put (create {STRING}.make_empty, Default_name)
+								else
+									Result.put (create {STRING}.make_empty, s.substring_to_reversed (ns_name, ':', default_pointer))
+								end
+							end
+
+						elseif token.is_attribute and last_token = Token_enum.attribute_name_space then
+							Result.found_item.share (token.item_string_8)
+						end
+						stage := stage + token.is_element_close.to_integer
+				else
+				end
+				last_token := token.item
+			end
 		end
 
 	wide_string_at_index (index: INTEGER): EL_C_WIDE_CHARACTER_STRING
@@ -253,5 +294,9 @@ feature {NONE} -- Constants
 		once
 			create Result.make
 		end
+
+	XMLNS: STRING = "xmlns"
+
+	Default_name: STRING = "default"
 
 end

@@ -1,3 +1,6 @@
+1.4.11
+* Put license notes into source manifest
+
 1.4.10
 * Fixed bug in CLASS_DESCENDANTS_COMMAND to reformat output of ec -descendants command
 

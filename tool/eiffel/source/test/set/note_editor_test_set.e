@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 19:52:57 GMT (Thursday 13th January 2022)"
-	revision: "27"
+	date: "2022-02-01 11:21:36 GMT (Tuesday 1st February 2022)"
+	revision: "28"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -41,11 +41,7 @@ inherit
 			default_create
 		end
 
-	EL_MODULE_USER_INPUT
-
-	EL_MODULE_TIME
-
-	EL_MODULE_LOG
+	EL_MODULE_USER_INPUT; EL_MODULE_TIME; EL_MODULE_LOG
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
@@ -58,9 +54,9 @@ feature {NONE} -- Initialization
 			Precursor
 			make_machine
 			create file_out.make_with_name (file_list.first_path)
-			create license_notes.make_from_file (Eiffel_loop_dir + "license.pyx")
+			create manifest.make_from_file (Manifest_path)
 			create operations_list.make (20)
-			create editor.make (license_notes, operations_list)
+			create editor.make (manifest.notes, operations_list)
 		end
 
 feature -- Basic operations
@@ -74,10 +70,17 @@ feature -- Basic operations
 feature -- Tests
 
 	test_editor_with_new_class
+		note
+			testing:	"covers/{SOURCE_MANIFEST}.make_file, covers/{NOTE_EDITOR}.edit"
 		local
 			encoding, encoding_after: STRING; crc: NATURAL
 			old_revision, new_revision: INTEGER_REF
 		do
+			assert ("valid author", manifest.notes.author.starts_with_general ("Finnian"))
+			assert ("valid copyright", manifest.notes.copyright.starts_with_general ("Copyright"))
+			assert ("valid contact", manifest.notes.contact.starts_with_general ("finnian"))
+			assert ("valid license", manifest.notes.license.starts_with_general ("MIT"))
+
 			across file_list as path loop
 				restore_default_fields (path.item)
 
@@ -105,8 +108,7 @@ feature -- Tests
 				assert ("revision incremented", new_revision ~ old_revision + 1)
 
 			end
-			test_encoding_samples
---			n := User_input.integer ("Return to finish")
+			assert_valid_encodings
 		end
 
 feature {NONE} -- Line states
@@ -200,7 +202,7 @@ feature {NONE} -- Internal attributes
 
 	file_out: EL_PLAIN_TEXT_FILE
 
-	license_notes: LICENSE_NOTES
+	manifest: SOURCE_MANIFEST
 
 	editor: NOTE_EDITOR
 

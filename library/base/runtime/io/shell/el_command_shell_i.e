@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 8:24:24 GMT (Wednesday 1st September 2021)"
-	revision: "13"
+	date: "2022-01-31 16:16:16 GMT (Monday 31st January 2022)"
+	revision: "14"
 
 deferred class
 	EL_COMMAND_SHELL_I
@@ -48,7 +48,7 @@ feature -- Basic operations
 			n: INTEGER; invalid: BOOLEAN
 		do
 			from until user_exit loop
-				menu.display
+				display_menu
 				n := User_input.integer ("Enter option number")
 				if menu.valid_option (n) then
 					lio.put_new_line
@@ -79,6 +79,11 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	display_menu
+		do
+			menu.display
+		end
 
 	set_standard_options (table: like new_command_table)
 		do

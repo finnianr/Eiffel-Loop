@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-06 16:16:21 GMT (Thursday 6th January 2022)"
-	revision: "1"
+	date: "2022-02-01 10:46:32 GMT (Tuesday 1st February 2022)"
+	revision: "2"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
@@ -56,7 +56,7 @@ feature -- Tests
 				end
 			end
 			assert ("24 replacements", replace_count = 24)
-			test_encoding_samples
+			assert_valid_encodings
 		end
 
 feature {NONE} -- Constants

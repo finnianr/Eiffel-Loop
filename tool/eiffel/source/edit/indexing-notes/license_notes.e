@@ -1,62 +1,43 @@
 note
-	description: "License notes"
+	description: "Default license notes for Eiffel source. See class [$source SOURCE_MANIFEST]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:36:09 GMT (Friday 18th January 2019)"
-	revision: "4"
+	date: "2022-02-01 11:51:14 GMT (Tuesday 1st February 2022)"
+	revision: "5"
 
 class
 	LICENSE_NOTES
 
 inherit
-	EL_BUILDABLE_FROM_PYXIS
-		redefine
-			make_default, building_action_table
+	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
+		rename
+			xml_names as export_default,
+			make_default as make,
+			element_node_fields as Empty_set
 		end
 
-	EL_MODULE_LOG
-
 create
-	make_default, make_from_file, make_from_string
+	make
 
-feature {NONE} -- Initialization
+feature -- Status query
 
-	make_default
+	is_empty: BOOLEAN
 		do
-			create author.make_empty
-			create copyright.make_empty
-			create contact.make_empty
-			create license.make_empty
-			Precursor
+			Result := across << author, contact, copyright, license >> as field all field.item.is_empty end
 		end
 
 feature -- Access
 
 	author: ZSTRING
 
-	copyright: ZSTRING
-
 	contact: ZSTRING
 
+	copyright: ZSTRING
+
 	license: ZSTRING
-
-feature {NONE} -- Build from XML
-
-	building_action_table: EL_PROCEDURE_TABLE [STRING]
-			-- Nodes relative to root element: bix
-		do
-			create Result.make (<<
-				["@author", 	agent do author := node.to_string end],
-				["@copyright", agent do copyright := node.to_string end],
-				["@contact",	agent do contact := node.to_string end],
-				["@license", 	agent do license := node.to_string end]
-			>>)
-		end
-
-	Root_node_name: STRING = "notes"
 
 end

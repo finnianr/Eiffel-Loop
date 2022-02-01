@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-06 14:39:57 GMT (Thursday 6th January 2022)"
-	revision: "1"
+	date: "2022-02-01 11:34:52 GMT (Tuesday 1st February 2022)"
+	revision: "2"
 
 deferred class
 	COPIED_SOURCES_TEST_SET
@@ -41,24 +41,7 @@ feature {NONE} -- Events
 
 feature {NONE} -- Implementation
 
-	source_file_list: EL_FILE_PATH_LIST
-		local
-			files: like selected_files
-		do
-			files := selected_files
-			if files.is_empty then
-				Result := OS.file_list (Data_dir, "*.e")
-			else
-				Result := OS.filtered_file_list (Data_dir, "*.e", Filter.base_name_in (files))
-			end
-		end
-
-	selected_files: ARRAY [STRING]
-		do
-			create Result.make_empty
-		end
-
-	test_encoding_samples
+	assert_valid_encodings
 		-- Make sure encoding samples are written correctly
 		do
 			across file_list as path loop
@@ -76,6 +59,23 @@ feature {NONE} -- Implementation
 					)
 				end
 			end
+		end
+
+	source_file_list: EL_FILE_PATH_LIST
+		local
+			files: like selected_files
+		do
+			files := selected_files
+			if files.is_empty then
+				Result := OS.file_list (Data_dir, "*.e")
+			else
+				Result := OS.filtered_file_list (Data_dir, "*.e", Filter.base_name_in (files))
+			end
+		end
+
+	selected_files: ARRAY [STRING]
+		do
+			create Result.make_empty
 		end
 
 	has_utf_8_for_0xA1 (line: STRING): BOOLEAN
@@ -115,8 +115,12 @@ feature {NONE} -- Constants
 			Result := "[
 				pyxis-doc:
 					version = 1.0; encoding = "ISO-8859-15"
-
 				manifest:
+					notes:
+						author = "Finnian Reilly"
+						copyright = "Copyright (c) 2001-2017 Finnian Reilly"
+						contact = "finnian at eiffel hyphen loop dot com"
+						license = "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 					location:
 						"$PWD/workarea"
 			]"

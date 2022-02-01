@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 19:03:06 GMT (Sunday 23rd January 2022)"
-	revision: "34"
+	date: "2022-02-01 10:00:27 GMT (Tuesday 1st February 2022)"
+	revision: "35"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
@@ -133,6 +133,12 @@ feature {NONE} -- Validations
 
 feature {NONE} -- Implementation
 
+	argument_list: ARRAYED_LIST [EL_COMMAND_ARGUMENT]
+		-- for use with when modifiying `argument_specs' in descendant
+		do
+			create Result.make_from_array (argument_specs)
+		end
+
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 			-- argument specifications
 		deferred
@@ -183,13 +189,6 @@ feature {NONE} -- Implementation
 			if attached {like command} Eiffel.new_object ({like command}) as cmd then
 				Result := cmd
 			end
-		end
-
-	specs_list (array: ARRAY [like specs.item]): EL_ARRAYED_LIST [like specs.item]
-		-- for use with `Precursor' when redefining `argument_specs'
-		-- As in `specs_list (Precursor)'
-		do
-			create Result.make_from_array (array)
 		end
 
 feature {EL_COMMAND_ARGUMENT, EL_MAKE_OPERAND_SETTER} -- Internal attributes

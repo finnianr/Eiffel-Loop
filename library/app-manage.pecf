@@ -59,6 +59,9 @@ system:
 					value = windows
 
 		library:
+			name = EL_doc_scan; location = "document-scan.ecf"
+
+		library:
 			name = EL_evolicity; location = "evolicity.ecf"
 
 		library:
@@ -69,6 +72,9 @@ system:
 
 		library:
 			name = EL_os_command; location = "os-command.ecf"
+
+		library:
+			name = EL_pyxis_scan; location = "pyxis-scan.ecf"
 
 		library:
 			name = EL_text_process; location = "text-process.ecf"
