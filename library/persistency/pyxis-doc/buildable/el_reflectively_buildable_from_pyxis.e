@@ -43,7 +43,11 @@ feature {NONE} -- Implementation
 	root_node_name: STRING
 			--
 		do
-			Result := Naming.class_as_snake_lower (Current, 0, 0)
+			Result := Naming.class_as_snake_lower (Current, prune_root_words_count, 0)
+		end
+
+	prune_root_words_count: INTEGER
+		do
 		end
 
 note

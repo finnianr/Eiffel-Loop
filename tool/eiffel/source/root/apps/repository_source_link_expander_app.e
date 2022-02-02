@@ -15,7 +15,7 @@ class
 inherit
 	REPOSITORY_PUBLISHER_SUB_APPLICATION [REPOSITORY_SOURCE_LINK_EXPANDER]
 		redefine
-			Option_name, argument_specs
+			Option_name, argument_list
 		end
 
 	EL_ZSTRING_CONSTANTS
@@ -29,15 +29,12 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make (Empty_string, Empty_string, Empty_string_8, 0)
 		end
 
-	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
-		local
-			list: ARRAYED_LIST [EL_COMMAND_ARGUMENT]
+	argument_list: ARRAYED_LIST [EL_COMMAND_ARGUMENT]
 		do
-			create list.make_from_array (Precursor)
-			list.put_front (
+			Result := Precursor
+			Result.put_front (
 				required_argument ("in", "Path to text file to be expanded", << file_must_exist >>)
 			)
-			Result := list.to_array
 		end
 
 	log_filter_set: EL_LOG_FILTER_SET [

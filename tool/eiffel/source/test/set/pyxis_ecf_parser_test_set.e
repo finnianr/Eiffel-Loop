@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-01 18:34:01 GMT (Tuesday 1st February 2022)"
-	revision: "15"
+	date: "2022-02-02 11:16:05 GMT (Wednesday 2nd February 2022)"
+	revision: "16"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -33,16 +33,14 @@ feature -- Tests
 	test_conversion_to_pecf
 			--
 		local
-			converter: PYXIS_ECF_CONVERTER; source: EL_PLAIN_TEXT_LINE_SOURCE
-			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; schema_location: STRING
+			converter: PYXIS_ECF_CONVERTER; ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT
+			schema_location: STRING
 		do
 			create converter.make (file_list.first_path, create {FILE_PATH})
 			converter.execute
-			create source.make (converter.source_encoding.encoding, converter.output_path)
-			source.print_first (lio, 50)
-			source.close
 			create ecf_xdoc.make_from_file (converter.output_path)
 			assert ("file rule count", ecf_xdoc.context_list ("//file_rule").count = 16)
+
 			assert ("valid default namespace", ecf_xdoc.namespace_table ["default"].ends_with ("xml/configuration-1-4-0"))
 			assert ("valid xsi namespace", ecf_xdoc.namespace_table ["xsi"].ends_with ("XMLSchema-instance"))
 
@@ -52,7 +50,6 @@ feature -- Tests
 		end
 
 feature {NONE} -- Implementation
-
 
 	source_file_list: EL_FILE_PATH_LIST
 		do

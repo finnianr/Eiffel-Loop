@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-30 16:53:38 GMT (Sunday 30th January 2022)"
-	revision: "35"
+	date: "2022-02-02 12:49:24 GMT (Wednesday 2nd February 2022)"
+	revision: "36"
 
 class
 	EL_PYXIS_PARSER
@@ -136,11 +136,8 @@ feature {NONE} -- State procedures
 		end
 
 	gather_verbatim_lines (line: STRING; start_index, end_index: INTEGER)
-		local
-			count: INTEGER
 		do
-			count := end_index - start_index + 1
-			if line.ends_with (Triple_quote) then
+			if has_triple_quote (line, start_index, end_index) then
 				restore_previous
 			else
 				if last_node.count > 0 then
@@ -195,7 +192,7 @@ feature {NONE} -- State procedures
 				push_element (line, start_index, end_index - 1)
 
 			-- if verbatim string delimiter
-			elseif count = 3 and then line.same_characters (Triple_quote, 1, 3, start_index) then
+			elseif count = 3 and then has_triple_quote (line, start_index, end_index) then
 				change_state (State_gather_verbatim_lines)
 				last_node.wipe_out
 
@@ -253,7 +250,7 @@ feature {NONE} -- Parse events
 	on_declaration
 			--
 		local
-			attribute_name: EL_UTF_8_STRING
+			attribute_name: EL_UTF_8_STRING; s_8: EL_STRING_8_ROUTINES
 		do
 			across attribute_list as list loop
 				attribute_name := list.item.raw_name
@@ -316,6 +313,8 @@ feature {NONE} -- Implementation
 		end
 
 	buffer_name (line: STRING; start_index, end_index: INTEGER): STRING
+		local
+			s_8: EL_STRING_8_ROUTINES
 		do
 			Result := buffer_8.copied_substring (line, start_index, end_index)
 			s_8.replace_character (Result, '.', ':')
@@ -323,11 +322,11 @@ feature {NONE} -- Implementation
 
 	call_state_procedure (line: STRING)
 		local
-			start_index, end_index: INTEGER
+			start_index, end_index: INTEGER; s_8: EL_STRING_8_ROUTINES
 		do
 			end_index := line.count - s_8.trailing_white_count (line)
 			if end_index.to_boolean then
-				if state = State_gather_verbatim_lines and not line.ends_with (Triple_quote) then
+				if state = State_gather_verbatim_lines and not has_triple_quote (line, 0, end_index) then
 					-- preserve indentation of verbatim string
 					start_index := tab_count + 2
 				else
@@ -366,6 +365,20 @@ feature {NONE} -- Implementation
 		do
 			if end_index > start_index then
 				Result := line [start_index] = quote and then line [end_index] = quote
+			end
+		end
+
+	has_triple_quote (line: STRING; start_index, end_index: INTEGER): BOOLEAN
+		local
+			index_start: INTEGER; s_8: EL_STRING_8_ROUTINES
+		do
+			if start_index.to_boolean then
+				index_start := start_index
+			else
+				index_start := s_8.leading_occurences (line, '%T') + 1
+			end
+			if end_index - index_start = 2 then
+				Result := line.same_characters (Triple_quote, 1, 3, index_start)
 			end
 		end
 
@@ -439,10 +452,6 @@ feature {NONE} -- Implementation
 		-- restore previous state
 		do
 			state := previous_state
-		end
-
-	s_8: EL_STRING_8_ROUTINES
-		do
 		end
 
 	set_last_node_name (name: STRING)

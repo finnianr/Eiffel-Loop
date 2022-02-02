@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-01 16:55:17 GMT (Tuesday 1st February 2022)"
-	revision: "8"
+	date: "2022-02-02 12:46:28 GMT (Wednesday 2nd February 2022)"
+	revision: "9"
 
 class
 	PYXIS_ECF_PARSER
@@ -25,27 +25,22 @@ feature {NONE} -- State procedures
 
 	parse_line (line: STRING; start_index, end_index: INTEGER)
 		local
-			ns_section: STRING; last_quote_pos, first_quote_pos, nvp_start, nvp_end: INTEGER
-			eiffel_url, xml_ns, configuration_name_value, value: STRING
+			nvp_start, nvp_end: INTEGER; assignment: EL_ASSIGNMENT_ROUTINES
+			xml_ns: STRING; eiffel_url, configuration_name_value: ZSTRING
 		do
 			nvp_start := line.substring_index (Configuration_ns, 1)
 			if nvp_start > 0 then
 				-- expand line
 				nvp_end := line.index_of (';', nvp_start)
 				if nvp_end = 0 then
-					nvp_end := line.count
+					nvp_end := end_index
+				else
+					nvp_end := nvp_end - 1
 				end
 				configuration_name_value := line.substring (nvp_start, nvp_end)
 
-				last_quote_pos := configuration_name_value.last_index_of ('"', configuration_name_value.count)
-				first_quote_pos := configuration_name_value.index_of ('"', Configuration_ns.count)
-				value := configuration_name_value.substring (first_quote_pos + 1, last_quote_pos - 1)
-
-				eiffel_url := Eiffel_configuration + value
+				eiffel_url := Eiffel_configuration + assignment.value (configuration_name_value)
 				xml_ns := XMS_NS_template #$ [eiffel_url, eiffel_url, eiffel_url]
-				if nvp_end < line.count then
-					xml_ns.append_character (';')
-				end
 				line.replace_substring (xml_ns, nvp_start, nvp_end)
 
 				Precursor (line, start_index, end_index + (xml_ns.count - configuration_name_value.count))
@@ -58,7 +53,10 @@ feature {NONE} -- Constants
 
 	Configuration_ns: STRING = "configuration_ns"
 
-	Eiffel_configuration: STRING = "http://www.eiffel.com/developers/xml/configuration-"
+	Eiffel_configuration: ZSTRING
+		once
+			Result := "http://www.eiffel.com/developers/xml/configuration-"
+		end
 
 	XMS_NS_template: ZSTRING
 		once

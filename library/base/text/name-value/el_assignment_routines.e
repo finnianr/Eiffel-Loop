@@ -1,12 +1,12 @@
 note
 	description: "[
 		Parse name value pair with syntax
-		
-			<name>: <value>
-			
+
+			<name> = <value>
+
 		**OR**
-		
-			<name>: "<value>"
+
+			<name> = "<value>"
 	]"
 
 	author: "Finnian Reilly"
@@ -14,11 +14,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-02 10:52:45 GMT (Wednesday 2nd February 2022)"
-	revision: "9"
+	date: "2022-02-02 11:01:33 GMT (Wednesday 2nd February 2022)"
+	revision: "1"
 
 expanded class
-	EL_COLON_FIELD_ROUTINES
+	EL_ASSIGNMENT_ROUTINES
 
 inherit
 	EL_NAME_VALUE_PAIR_ROUTINES
@@ -27,5 +27,5 @@ inherit
 
 feature {NONE} -- Constants
 
-	Delimiter: CHARACTER_32 = ':'
+	Delimiter: CHARACTER_32 = '='
 end

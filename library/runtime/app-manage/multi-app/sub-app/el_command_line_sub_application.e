@@ -100,9 +100,8 @@ feature {NONE} -- Implementation
 			then
 				offset := 1
 			end
-			create specs.make_from_array (argument_specs)
-			across specs as argument_spec loop
-				argument_spec.item.set_operand (argument_spec.cursor_index + offset)
+			across argument_list as list loop
+				list.item.set_operand (list.cursor_index + offset)
 			end
 		end
 
@@ -199,8 +198,6 @@ feature {EL_COMMAND_ARGUMENT, EL_MAKE_OPERAND_SETTER} -- Internal attributes
 
 	operands: TUPLE
 		-- make procedure operands
-
-	specs: ARRAYED_LIST [EL_COMMAND_ARGUMENT];
 
 feature {NONE} -- Constants
 

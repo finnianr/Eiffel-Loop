@@ -81,7 +81,7 @@ Single connection test server for fourier math. Ctrl-c shuts down the server.
 
 **Installer Mode**
 
-`-install` Sub-application [EL_STANDARD_INSTALLER_APP](http://www.eiffel-loop.com/library/runtime/app-manage/multi-app/sub-app/standard/el_standard_installer_app.html)
+`-install` Sub-application [EL_STANDARD_INSTALLER_APP](http://www.eiffel-loop.com/library/runtime/app-manage/standard-app/el_standard_installer_app.html)
 
 Installs application with desktop menu options for each mode.
 ## Signal Math EROS Server with GUI

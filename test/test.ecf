@@ -107,16 +107,16 @@ to verify understanding of ISE base classes.
 See doc/test.root.txt for details
 			</description>
 			<file_rule>
-				<exclude>imp_unix$</exclude>
 				<condition>
 					<platform value = "windows"/>
 				</condition>
+				<exclude>imp_unix$</exclude>
 			</file_rule>
 			<file_rule>
-				<exclude>imp_mswin$</exclude>
 				<condition>
 					<platform value = "unix"/>
 				</condition>
+				<exclude>imp_mswin$</exclude>
 			</file_rule>
 		</cluster>
 		<cluster name = "amazon_ia" location = "source/amazon-ia" recursive = "true">

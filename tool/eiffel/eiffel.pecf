@@ -9,8 +9,7 @@ pyxis-doc:
 # cosmetics, trinkets or jewellery. 
 
 system:
-	configuration_ns = "1-16-0"
-	name = el_eiffel; uuid = "EEA36E90-5A49-11E7-8290-A34D58BF65CD"
+	configuration_ns = "1-16-0"; name = el_eiffel; uuid = "EEA36E90-5A49-11E7-8290-A34D58BF65CD"
 	description:
 		"""
 			Eiffel Development Utilities
@@ -24,14 +23,13 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 4; release = 11; build = 428
+			major = 1; minor = 4; release = 11; build = 431
 			company = "Eiffel-Loop"; product = "eiffel"
 			copyright = "Finnian Reilly"
 
 		option: 
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true
-
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = false
 
@@ -177,7 +175,6 @@ system:
 			description:
 				"""
 					Eiffel Utility Tests
-
 
 					Test sets for Eiffel utitlities
 				"""

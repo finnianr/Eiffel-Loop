@@ -230,18 +230,18 @@ system:
 					See doc/test.root.txt for details
 				"""
 			file_rule:
-				exclude:
-					"imp_unix$"
 				condition:
 					platform:
 						value = windows
+				exclude:
+					"imp_unix$"
 
 			file_rule:
-				exclude:
-					"imp_mswin$"
 				condition:
 					platform:
 						value = unix
+				exclude:
+					"imp_mswin$"
 	
 		cluster:
 			name = amazon_ia; location = "source/amazon-ia"; recursive = true

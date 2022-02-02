@@ -18,7 +18,7 @@ inherit
 			element_node_fields as Empty_set,
 			make_from_file as make
 		redefine
-			initialize_fields, new_instance_functions, on_context_exit
+			initialize_fields, new_instance_functions, on_context_exit, prune_root_words_count
 		end
 
 	EL_MODULE_NAMING
@@ -127,6 +127,8 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Prune_root_words_count: INTEGER = 1
 
 	Var_email: ZSTRING
 		once

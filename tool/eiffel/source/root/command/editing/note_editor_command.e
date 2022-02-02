@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-01 10:26:31 GMT (Tuesday 1st February 2022)"
-	revision: "15"
+	date: "2022-02-02 11:53:36 GMT (Wednesday 2nd February 2022)"
+	revision: "16"
 
 class
 	NOTE_EDITOR_COMMAND
@@ -54,12 +54,17 @@ feature -- Basic operations
 		do
 			operations_list.wipe_out
 
-			Precursor
-			if attached operations_list as list then
-				from list.start until list.after loop
-					lio.put_labeled_string (list.item_key, list.item_value)
-					lio.put_new_line
-					list.forth
+			if manifest.notes.is_empty then
+				lio.put_labeled_string ("ERROR", "No note fields specified")
+				lio.put_new_line
+			else
+				Precursor
+				if attached operations_list as list then
+					from list.start until list.after loop
+						lio.put_labeled_string (list.item_key, list.item_value)
+						lio.put_new_line
+						list.forth
+					end
 				end
 			end
 		end

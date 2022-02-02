@@ -29,6 +29,7 @@ feature {NONE} -- Initialization
 		do
 			set_from_other (other, Empty_string_8)
 			id := a_id
+			sort_name := Sort_prefix + name
 		end
 
 feature -- Access

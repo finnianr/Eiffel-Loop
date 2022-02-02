@@ -79,7 +79,10 @@ feature {NONE} -- Implementation
 			if is_script then
 				Result.extend (command_args)
 			else
-				Result.append (<< Executable.name, command_args >>)
+				if command_args.count > 1 and then command_args [1] = '-' then
+					Result.extend (Executable.name)
+				end
+				Result.extend (command_args)
 			end
 		end
 
@@ -100,7 +103,6 @@ feature {NONE} -- Event handler
 			if sudo then
 				command_args.prepend_string_general ("sudo ")
 			end
-
 			sort_name := Sort_prefix + name
 		end
 
