@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
-	revision: "45"
+	date: "2022-02-03 13:56:35 GMT (Thursday 3rd February 2022)"
+	revision: "46"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -272,8 +272,8 @@ feature -- Tests
 		local
 			url: STRING; s: EL_STRING_8_ROUTINES
 		do
-			across << "über-my-ching.html", "%%C3%%BCber-my-ching.html" >> as name loop
-				url := "http://myching.software/de/about/" + name.item
+			across << "einführung.html", "einf%%C3%%BChrung.html" >> as name loop
+				url := "http://myching.software/de/manual/" + name.item
 				web.open (url)
 				web.read_string_head
 				assert ("Response 200", web.last_headers.response_code = 200)

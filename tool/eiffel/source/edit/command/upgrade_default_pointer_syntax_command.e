@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:21:29 GMT (Thursday 13th January 2022)"
-	revision: "3"
+	date: "2022-02-03 12:53:04 GMT (Thursday 3rd February 2022)"
+	revision: "4"
 
 class
 	UPGRADE_DEFAULT_POINTER_SYNTAX_COMMAND

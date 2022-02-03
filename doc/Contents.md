@@ -1108,7 +1108,7 @@ Classes augmenting the classic [EiffelThread library](https://www.eiffel.org/doc
 
 **Work Distribution**
 
-Classes [EL_PROCEDURE_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_procedure_distributer.html) and [EL_FUNCTION_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_function_distributer.html) offer a convenient way to distribute the work of executing routines using a specific number of cores. See routine `read_source_files` in class [EIFFEL_CONFIGURATION_FILE](http://www.eiffel-loop.com/tool/eiffel/source/root/library/publish/config/file/eiffel_configuration_file.html) for an example.
+Classes [EL_PROCEDURE_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_procedure_distributer.html) and [EL_FUNCTION_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_function_distributer.html) offer a convenient way to distribute the work of executing routines using a specific number of cores. See routine `read_source_files` in class [EIFFEL_CONFIGURATION_FILE](http://www.eiffel-loop.com/tool/eiffel/source/root/eiffel/library/publish/config/file/eiffel_configuration_file.html) for an example.
 
 **Producer-Consumer Framework**
 
@@ -1600,7 +1600,7 @@ Command switch: `-class_descendants`
 
 Command switch: `-eiffel_view`
 
-[CODEC_GENERATOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/codec_generator_app.html) generates Eiffel classes conforming to [EL_ZCODEC](http://www.eiffel-loop.com/library/base/text/zstring/codec/el_zcodec.html) from VTD-XML C code
+[CODEC_GENERATOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/generate/codec_generator_app.html) generates Eiffel classes conforming to [EL_ZCODEC](http://www.eiffel-loop.com/library/base/text/zstring/codec/el_zcodec.html) from VTD-XML C code
 
 Command switch: `-generate_codecs`
 
@@ -1608,7 +1608,7 @@ Command switch: `-generate_codecs`
 
 Command switch: `-ecf_to_pecf`
 
-[LIBRARY_OVERRIDE_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/library_override_app.html) generates override of standard libaries to work with Eiffel-Loop
+[LIBRARY_OVERRIDE_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/generate/library_override_app.html) generates override of standard libaries to work with Eiffel-Loop
 
 Command switch: `-library_override`: 
 
@@ -1622,7 +1622,7 @@ An incidental function is to expand all tabs in the markup as 3 spaces.
 
 Command switch: `-expand_links`
 
-[SOURCE_FILE_NAME_NORMALIZER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/source_file_name_normalizer_app.html) normalize class filenames as lowercase classnames within a source directory
+[SOURCE_FILE_NAME_NORMALIZER_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/source_file_name_normalizer_app.html) normalize class filenames as lowercase classnames within a source directory
 
 Command switch: `-normalize_class_file_name` 
 

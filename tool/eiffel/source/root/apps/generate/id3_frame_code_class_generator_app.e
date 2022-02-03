@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 11:51:11 GMT (Sunday 23rd January 2022)"
-	revision: "6"
+	date: "2022-02-03 13:05:33 GMT (Thursday 3rd February 2022)"
+	revision: "7"
 
 class
 	ID3_FRAME_CODE_CLASS_GENERATOR_APP

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "2"
+	date: "2022-02-03 12:57:07 GMT (Thursday 3rd February 2022)"
+	revision: "3"
 
 class
 	ID3_CODE_CLASS
@@ -74,4 +74,3 @@ feature {NONE} -- Constants
 
 	Tuple_fields: STRING = "code, description"
 end
-

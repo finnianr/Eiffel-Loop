@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-08 19:24:23 GMT (Saturday 8th January 2022)"
-	revision: "2"
+	date: "2022-02-03 13:21:39 GMT (Thursday 3rd February 2022)"
+	revision: "3"
 
 class
 	EL_BATCH_AUTOTEST_APP
@@ -41,7 +41,6 @@ feature -- Basic operations
 
 	run
 		do
-			Execution_environment.set_library_path
 			across Application_list as app until execution.return_code.to_boolean loop
 				if not Omission_list.has (app.item.generating_type) then
 					test (app.item)

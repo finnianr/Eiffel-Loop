@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-08 11:16:11 GMT (Saturday 8th January 2022)"
-	revision: "66"
+	date: "2022-02-03 13:22:44 GMT (Thursday 3rd February 2022)"
+	revision: "67"
 
 class
 	APPLICATION_ROOT
@@ -103,24 +103,23 @@ inherit
 	-- Test eros.ecf (Run last to give time for socket address to be released from `SIMPLE_CLIENT_SERVER_TEST_APP')
 		EROS_AUTOTEST_APP
 	]
+		redefine
+			create_singletons
+		end
 
 create
 	make
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	Compile_various: TUPLE [
-		MY_WET_CLASS, MY_DRY_CLASS, EL_TEST_SET_BRIDGE, LIBGCC1,
-		ECD_REFLECTIVE_INDEX_TABLE [EL_REFLECTIVELY_SETTABLE_STORABLE, HASHABLE],
-		ECD_INDEX_TABLE_REPRESENTATION [EL_REFLECTIVELY_SETTABLE_STORABLE, HASHABLE],
-		EL_LOGGED_FUNCTION_DISTRIBUTER [ANY],
-		EL_LOGGED_PROCEDURE_DISTRIBUTER [ANY],
-		EL_LOGGED_WORK_DISTRIBUTER [ROUTINE],
-		EL_VIDEO_TO_MP3_COMMAND_I
-	]
-		once
-			create Result
+	create_singletons
+		do
+			Precursor
+			-- Ensure LD_LIBRARY_PATH set for Unix
+			Execution_environment.set_library_path
 		end
+
+feature {NONE} -- Include classes
 
 	Compile_consumer: TUPLE [
 		EL_BATCH_FILE_PROCESSING_THREAD, EL_LOGGED_BATCH_FILE_PROCESSING_THREAD,
@@ -162,6 +161,19 @@ feature {NONE} -- Constants
 		EL_WORKER_THREAD,
 		EL_THREAD_PROXY [ANY],
 		EL_XML_NETWORK_MESSENGER
+	]
+		once
+			create Result
+		end
+
+	Compile_various: TUPLE [
+		MY_WET_CLASS, MY_DRY_CLASS, EL_TEST_SET_BRIDGE, LIBGCC1,
+		ECD_REFLECTIVE_INDEX_TABLE [EL_REFLECTIVELY_SETTABLE_STORABLE, HASHABLE],
+		ECD_INDEX_TABLE_REPRESENTATION [EL_REFLECTIVELY_SETTABLE_STORABLE, HASHABLE],
+		EL_LOGGED_FUNCTION_DISTRIBUTER [ANY],
+		EL_LOGGED_PROCEDURE_DISTRIBUTER [ANY],
+		EL_LOGGED_WORK_DISTRIBUTER [ROUTINE],
+		EL_VIDEO_TO_MP3_COMMAND_I
 	]
 		once
 			create Result
