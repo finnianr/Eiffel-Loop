@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-01 10:00:27 GMT (Tuesday 1st February 2022)"
-	revision: "35"
+	date: "2022-02-02 14:15:22 GMT (Wednesday 2nd February 2022)"
+	revision: "36"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]

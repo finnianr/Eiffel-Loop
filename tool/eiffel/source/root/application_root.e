@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-04 17:20:43 GMT (Tuesday 4th January 2022)"
-	revision: "36"
+	date: "2022-02-03 11:17:35 GMT (Thursday 3rd February 2022)"
+	revision: "37"
 
 class
 	APPLICATION_ROOT
@@ -28,7 +28,6 @@ inherit
 		CLASS_PREFIX_REMOVAL_APP,
 		CLASS_RENAMING_APP,
 		CODEC_GENERATOR_APP,
-		CODE_HIGHLIGHTING_TEST_APP,
 		CODEBASE_STATISTICS_APP,
 
 		GITHUB_MANAGER_APP,

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-23 14:11:51 GMT (Thursday 23rd September 2021)"
-	revision: "7"
+	date: "2022-02-03 12:04:20 GMT (Thursday 3rd February 2022)"
+	revision: "8"
 
 class
 	EL_EIFFEL_SOURCE_LINE_STATE_MACHINE
@@ -36,14 +36,14 @@ feature {NONE} -- Initialization
 feature {NONE} -- Implementation
 
 	call (line: ZSTRING)
-		local
-			cl: ZSTRING
 		do
-			cl := code_line; cl.wipe_out
-			cl.append (line); cl.prune_all_leading ('%T')
-			tab_count := line.count - cl.count
-			if cl.count > 0 then
-				cl.right_adjust
+			if attached code_line as cl then
+				cl.wipe_out
+				cl.append (line); cl.prune_all_leading ('%T')
+				tab_count := line.count - cl.count
+				if cl.count > 0 then
+					cl.right_adjust
+				end
 			end
 			Precursor (line)
 		end

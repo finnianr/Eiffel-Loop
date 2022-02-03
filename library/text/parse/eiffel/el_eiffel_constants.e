@@ -6,41 +6,37 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-26 12:41:29 GMT (Friday 26th November 2021)"
-	revision: "5"
+	date: "2022-02-03 11:30:30 GMT (Thursday 3rd February 2022)"
+	revision: "6"
 
 class
 	EL_EIFFEL_CONSTANTS
 
 feature {NONE} -- Constants
 
-	Reserved_word_list: LIST [ZSTRING]
+	Reserved_word_list: EL_ZSTRING_LIST
 			--
 		local
-			words, l_word: ZSTRING; case_variations: ARRAYED_LIST [ZSTRING]
+			manifest_text, word: ZSTRING
 		once
-			words := Reserved_words
-			words.replace_character ('%N', ' ')
-			create case_variations.make (20)
-			Result := words.split_list (' ')
-			across Result as word loop
-				l_word := Result.item
-				if l_word.item (1).is_upper then
-					case_variations.extend (l_word.as_lower)
+			manifest_text := Reserved_words
+			create Result.make (Reserved_words.occurrences (' ') + Reserved_words.occurrences ('%N') + 10)
+			across manifest_text.split ('%N') as line loop
+				across line.item.split (' ') as split loop
+					word := split.item
+					Result.extend (word)
+					if word.item (1).is_upper then
+						Result.extend (word.as_lower)
+					end
 				end
 			end
-			Result.append (case_variations)
 		end
 
 	Reserved_word_set: EL_HASH_SET [ZSTRING]
 			--
 		once
 			create Result.make (Reserved_word_list.count)
-			Result.compare_objects
-			from Reserved_word_list.start until Reserved_word_list.after loop
-				Result.put (Reserved_word_list.item)
-				Reserved_word_list.forth
-			end
+			Reserved_word_list.do_all (agent Result.put)
 		end
 
 	Reserved_words: STRING =
