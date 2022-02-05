@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-25 16:04:35 GMT (Monday 25th October 2021)"
-	revision: "2"
+	date: "2022-02-05 16:38:53 GMT (Saturday 5th February 2022)"
+	revision: "3"
 
 deferred class
 	EL_INSTALLER_MAIN_WINDOW
@@ -27,7 +27,7 @@ inherit
 
 	EL_MODULE_DESKTOP_MENU_ICON
 
-	EL_INSTALLER_CONSTANTS
+	EL_APPLICATION_CONSTANTS
 
 	EL_SHARED_INSTALL_TEXTS
 

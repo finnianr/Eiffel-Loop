@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:29:32 GMT (Tuesday 10th November 2020)"
-	revision: "13"
+	date: "2022-02-05 17:27:56 GMT (Saturday 5th February 2022)"
+	revision: "14"
 
 class
 	FOURIER_MATH_SERVER_TEST_APP
@@ -38,7 +38,10 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	tuple: TUPLE [FFT_COMPLEX_64, SIGNAL_MATH]
+	compile: TUPLE [FFT_COMPLEX_64, SIGNAL_MATH]
+		do
+			create Result
+		end
 
 feature {NONE} -- Constants
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-04 14:40:02 GMT (Friday 4th February 2022)"
-	revision: "2"
+	date: "2022-02-05 14:46:06 GMT (Saturday 5th February 2022)"
+	revision: "3"
 
 class
 	CLASS_PREFIX_REMOVAL_COMMAND
@@ -23,7 +23,7 @@ inherit
 create
 	make
 
-feature {EL_SUB_APPLICATION} -- Initialization
+feature {EL_APPLICATION} -- Initialization
 
 	make (source_manifest_path: FILE_PATH; a_prefix_letters: ZSTRING)
 		do

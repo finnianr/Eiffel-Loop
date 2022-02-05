@@ -13,14 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-03 10:39:51 GMT (Thursday 3rd December 2020)"
-	revision: "64"
+	date: "2022-02-05 14:49:49 GMT (Saturday 5th February 2022)"
+	revision: "65"
 
 class
 	HTTP_CLIENT_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_SUB_APPLICATION [HTTP_CONNECTION_TEST_SET]
+	EL_AUTOTEST_APPLICATION [HTTP_CONNECTION_TEST_SET]
 
 create
 	make

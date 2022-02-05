@@ -10,14 +10,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 12:00:22 GMT (Sunday 23rd January 2022)"
-	revision: "9"
+	date: "2022-02-05 14:46:40 GMT (Saturday 5th February 2022)"
+	revision: "10"
 
 class
 	FILE_TREE_TRANSFORM_SCRIPT_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [FILE_TREE_TRANSFORMER_SCRIPT]
+	EL_COMMAND_LINE_APPLICATION [FILE_TREE_TRANSFORMER_SCRIPT]
 		redefine
 			initialize, Option_name
 		end

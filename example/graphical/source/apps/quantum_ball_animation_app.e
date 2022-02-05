@@ -10,19 +10,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:16:32 GMT (Tuesday 10th November 2020)"
-	revision: "6"
+	date: "2022-02-05 14:51:17 GMT (Saturday 5th February 2022)"
+	revision: "7"
 
 class
 	QUANTUM_BALL_ANIMATION_APP
 
 inherit
-	EL_LOGGED_SUB_APPLICATION
+	EL_LOGGED_APPLICATION
 		redefine
 			Option_name
 		end
 
-	EL_INSTALLABLE_SUB_APPLICATION
+	EL_INSTALLABLE_APPLICATION
 		redefine
 			name
 		end

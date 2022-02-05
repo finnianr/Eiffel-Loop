@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 12:00:24 GMT (Sunday 23rd January 2022)"
-	revision: "6"
+	date: "2022-02-05 14:46:40 GMT (Saturday 5th February 2022)"
+	revision: "7"
 
 class
 	USER_AGENT_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [USER_AGENT_COMMAND]
+	EL_COMMAND_LINE_APPLICATION [USER_AGENT_COMMAND]
 
 create
 	make

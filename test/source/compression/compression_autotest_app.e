@@ -11,14 +11,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 10:50:47 GMT (Wednesday 1st September 2021)"
-	revision: "4"
+	date: "2022-02-05 14:49:49 GMT (Saturday 5th February 2022)"
+	revision: "5"
 
 class
 	COMPRESSION_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_SUB_APPLICATION [COMPRESSION_TEST_SET]
+	EL_AUTOTEST_APPLICATION [COMPRESSION_TEST_SET]
 		redefine
 			visible_types
 		end

@@ -3,7 +3,7 @@ note
 		EQA test set evaluator that makes it possible to run inherited test procedures
 		as finalized executables.
 
-		Can be used in conjunction with class [$source EL_AUTOTEST_SUB_APPLICATION] to
+		Can be used in conjunction with class [$source EL_AUTOTEST_APPLICATION] to
 		create unit testing sub-applications.
 	]"
 
@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:39:21 GMT (Thursday 13th January 2022)"
-	revision: "4"
+	date: "2022-02-05 14:49:50 GMT (Saturday 5th February 2022)"
+	revision: "5"
 
 class
 	EL_EQA_TEST_EVALUATOR

@@ -12,14 +12,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 12:00:25 GMT (Sunday 23rd January 2022)"
-	revision: "16"
+	date: "2022-02-05 14:48:22 GMT (Saturday 5th February 2022)"
+	revision: "17"
 
 class
 	LOCALIZATION_COMMAND_SHELL_APP
 
 inherit
-	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [LOCALIZATION_COMMAND_SHELL]
+	EL_LOGGED_COMMAND_LINE_APPLICATION [LOCALIZATION_COMMAND_SHELL]
 		redefine
 			Option_name, visible_types
 		end

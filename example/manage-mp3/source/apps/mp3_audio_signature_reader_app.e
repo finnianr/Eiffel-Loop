@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 12:01:31 GMT (Sunday 23rd January 2022)"
-	revision: "16"
+	date: "2022-02-05 14:48:22 GMT (Saturday 5th February 2022)"
+	revision: "17"
 
 class
 	MP3_AUDIO_SIGNATURE_READER_APP
 
 inherit
-	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [EL_MP3_AUDIO_SIGNATURE_READER]
+	EL_LOGGED_COMMAND_LINE_APPLICATION [EL_MP3_AUDIO_SIGNATURE_READER]
 		redefine
 			Option_name
 		end

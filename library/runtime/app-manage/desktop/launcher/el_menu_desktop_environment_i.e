@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-24 17:45:08 GMT (Sunday 24th November 2019)"
-	revision: "6"
+	date: "2022-02-05 14:51:18 GMT (Saturday 5th February 2022)"
+	revision: "7"
 
 deferred class
 	EL_MENU_DESKTOP_ENVIRONMENT_I
@@ -20,7 +20,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (installable: EL_INSTALLABLE_SUB_APPLICATION)
+	make (installable: EL_INSTALLABLE_APPLICATION)
 			--
 		do
 			Precursor (installable)

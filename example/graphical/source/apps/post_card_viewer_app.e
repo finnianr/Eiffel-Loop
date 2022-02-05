@@ -11,14 +11,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:16:29 GMT (Tuesday 10th November 2020)"
-	revision: "8"
+	date: "2022-02-05 14:48:53 GMT (Saturday 5th February 2022)"
+	revision: "9"
 
 class
 	POST_CARD_VIEWER_APP
 
 inherit
-	EL_LOGGED_SUB_APPLICATION
+	EL_LOGGED_APPLICATION
 
 create
 	make

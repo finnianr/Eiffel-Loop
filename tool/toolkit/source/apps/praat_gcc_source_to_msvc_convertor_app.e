@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 12:00:25 GMT (Sunday 23rd January 2022)"
-	revision: "12"
+	date: "2022-02-05 14:48:22 GMT (Saturday 5th February 2022)"
+	revision: "13"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP
 
 inherit
-	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR]
+	EL_LOGGED_COMMAND_LINE_APPLICATION [PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR]
 		redefine
 			Option_name
 		end

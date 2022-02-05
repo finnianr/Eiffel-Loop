@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:29:04 GMT (Tuesday 10th November 2020)"
-	revision: "12"
+	date: "2022-02-05 14:48:53 GMT (Saturday 5th February 2022)"
+	revision: "13"
 
 class
 	BEXT_CLIENT_TEST_APP
 
 inherit
-	EL_LOGGED_SUB_APPLICATION
+	EL_LOGGED_APPLICATION
 		redefine
 			Ask_user_to_quit
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-10 12:03:48 GMT (Monday 10th January 2022)"
-	revision: "15"
+	date: "2022-02-05 14:46:07 GMT (Saturday 5th February 2022)"
+	revision: "16"
 
 deferred class
 	EL_FILE_DATA_TEST_SET
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_EQA_TEST_SET
 		export
-			{EL_SUB_APPLICATION} clean
+			{EL_APPLICATION} clean
 		redefine
 			on_prepare, on_clean
 		end

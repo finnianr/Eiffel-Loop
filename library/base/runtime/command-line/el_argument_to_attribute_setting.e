@@ -1,7 +1,7 @@
 note
 	description: "[
-		Support class for [$source EL_SUB_APPLICATION] to set attributes from command line arguments.
-		This class has been superceded by the facilities of [$source EL_COMMAND_LINE_SUB_APPLICATION]
+		Support class for [$source EL_APPLICATION] to set attributes from command line arguments.
+		This class has been superceded by the facilities of [$source EL_COMMAND_LINE_APPLICATION]
 	]"
 
 	author: "Finnian Reilly"
@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "6"
+	date: "2022-02-05 14:46:40 GMT (Saturday 5th February 2022)"
+	revision: "7"
 
 deferred class
 	EL_ARGUMENT_TO_ATTRIBUTE_SETTING
 
 obsolete
-	"Use EL_COMMAND_LINE_SUB_APPLICATION"
+	"Use EL_COMMAND_LINE_APPLICATION"
 
 inherit
 	EL_MODULE_ARGS
@@ -108,3 +108,4 @@ feature {NONE} -- Implementation
 		deferred
 		end
 end
+

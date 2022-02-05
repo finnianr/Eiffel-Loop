@@ -16,11 +16,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "49"
+	date: "2022-02-05 15:15:05 GMT (Saturday 5th February 2022)"
+	revision: "50"
 
 deferred class
-	EL_SUB_APPLICATION
+	EL_APPLICATION
 
 inherit
 	ANY
@@ -72,7 +72,7 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 				end
 			end
 			init_console
-			if not (Application_option.no_app_header or Base_option.silent) then
+			if not (App_option.no_app_header or Base_option.silent) then
 				io_put_header
 			end
 			do_application
@@ -104,7 +104,7 @@ feature -- Access
 			Result := default_option_name
 		end
 
-	options_help: EL_SUB_APPLICATION_HELP_LIST
+	options_help: EL_APPLICATION_HELP_LIST
 
 	unwrapped_description: ZSTRING
 	 -- description unwrapped as a single line
@@ -132,7 +132,7 @@ feature -- Status query
 	ask_user_to_quit: BOOLEAN
 			--
 		do
-			Result := Application_option.ask_user_to_quit
+			Result := App_option.ask_user_to_quit
 		end
 
 	has_argument_errors: BOOLEAN
@@ -181,6 +181,11 @@ feature {NONE} -- Factory routines
 			create Result.make (option)
 		end
 
+	new_command_options: EL_APPLICATION_COMMAND_OPTIONS
+		do
+			create Result.make
+		end
+
 	new_option_name: ZSTRING
 		do
 			create Result.make_from_general (option_name)
@@ -227,7 +232,7 @@ feature {NONE} -- Implementation
 					lio.put_labeled_string ("This option is not designed to run on", OS_release.description)
 					lio.put_new_line
 
-				elseif Application_option.help then
+				elseif App_option.help then
 					options_help.print_to_lio
 
 				elseif has_argument_errors then
@@ -267,7 +272,7 @@ feature {NONE} -- Implementation
 		do
 			lio.put_new_line
 			test := "test"
-			if Application_option.test then
+			if App_option.test then
 				build_version := test
 			else
 				build_version := Build_info.version.out
@@ -306,7 +311,7 @@ feature {NONE} -- Implementation
 	standard_options: EL_DEFAULT_COMMAND_OPTION_LIST
 		-- Standard command line options
 		do
-			create Result.make (<< Base_option, Application_option >>)
+			create Result.make (<< Base_option, new_command_options >>)
 		end
 
 	visible_types: TUPLE
@@ -333,8 +338,8 @@ feature {EL_DESKTOP_ENVIRONMENT_I} -- Constants
 note
 	descendants: "[
 		**eiffel.ecf**
-			EL_SUB_APPLICATION*
-				[$source EL_COMMAND_LINE_SUB_APPLICATION]* [C -> [$source EL_COMMAND]]
+			EL_APPLICATION*
+				[$source EL_COMMAND_LINE_APPLICATION]* [C -> [$source EL_COMMAND]]
 					[$source UNDEFINE_PATTERN_COUNTER_APP]
 					[$source PYXIS_TRANSLATION_TREE_COMPILER_APP]
 					[$source PYXIS_ECF_CONVERTER_APP]
@@ -344,7 +349,7 @@ note
 					[$source ENCODING_CHECK_APP]
 					[$source FEATURE_EDITOR_APP]
 					[$source ID3_FRAME_CODE_CLASS_GENERATOR_APP]
-					[$source EL_LOGGED_COMMAND_LINE_SUB_APPLICATION]* [C -> [$source EL_COMMAND]]
+					[$source EL_LOGGED_COMMAND_LINE_APPLICATION]* [C -> [$source EL_COMMAND]]
 						[$source CLASS_DESCENDANTS_APP]
 						[$source LIBRARY_OVERRIDE_APP]
 						[$source REPOSITORY_PUBLISHER_SUB_APPLICATION]* [C -> [$source REPOSITORY_PUBLISHER]]
@@ -352,7 +357,7 @@ note
 							[$source REPOSITORY_NOTE_LINK_CHECKER_APP]
 							[$source EIFFEL_VIEW_APP]
 							[$source IMP_CLASS_LOCATION_NORMALIZER_APP]
-						[$source EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION]* [C -> [$source EL_COMMAND]]
+						[$source EL_REGRESSION_TESTABLE_COMMAND_LINE_APPLICATION]* [C -> [$source EL_COMMAND]]
 							[$source SOURCE_TREE_CLASS_RENAME_APP]
 							[$source CODEC_GENERATOR_APP]
 							[$source CODEBASE_STATISTICS_APP]
@@ -363,26 +368,26 @@ note
 							[$source SOURCE_TREE_EDIT_COMMAND_LINE_SUB_APP]*
 								[$source UPGRADE_DEFAULT_POINTER_SYNTAX_APP]
 				[$source EL_VERSION_APP]
-				[$source EL_LOGGED_SUB_APPLICATION]*
-					[$source EL_LOGGED_COMMAND_LINE_SUB_APPLICATION]* [C -> [$source EL_COMMAND]]
-					[$source EL_REGRESSION_TESTABLE_SUB_APPLICATION]*
+				[$source EL_LOGGED_APPLICATION]*
+					[$source EL_LOGGED_COMMAND_LINE_APPLICATION]* [C -> [$source EL_COMMAND]]
+					[$source EL_REGRESSION_TESTABLE_APPLICATION]*
 						[$source CODE_HIGHLIGHTING_TEST_APP]
 						[$source SOURCE_TREE_EDITING_SUB_APPLICATION]*
 							[$source UPGRADE_LOG_FILTERS_APP]
 							[$source SOURCE_FILE_NAME_NORMALIZER_APP]
 							[$source SOURCE_LOG_LINE_REMOVER_APP]
 							[$source CLASS_PREFIX_REMOVAL_APP]
-						[$source EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION]* [C -> [$source EL_COMMAND]]
-					[$source EL_AUTOTEST_SUB_APPLICATION]* [EQA_TYPES -> [$source TUPLE] create default_create end]
+						[$source EL_REGRESSION_TESTABLE_COMMAND_LINE_APPLICATION]* [C -> [$source EL_COMMAND]]
+					[$source EL_AUTOTEST_APPLICATION]* [EQA_TYPES -> [$source TUPLE] create default_create end]
 						[$source EL_REGRESSION_AUTOTEST_SUB_APPLICATION]* [EQA_TYPES -> [$source TUPLE] create default_create end]
 							[$source AUTOTEST_APP]
 							[$source EDITOR_AUTOTEST_APP]
 				[$source EL_STANDARD_UNINSTALL_APP]
 								
 		**toolkit.ecf**
-			EL_SUB_APPLICATION*
+			EL_APPLICATION*
 				[$source BINARY_DECODE_APP]
-				[$source EL_COMMAND_LINE_SUB_APPLICATION]* [C -> [$source EL_COMMAND]]
+				[$source EL_COMMAND_LINE_APPLICATION]* [C -> [$source EL_COMMAND]]
 					[$source USER_AGENT_APP]
 					[$source XML_TO_PYXIS_APP]
 					[$source YOUTUBE_VIDEO_DOWNLOADER_APP]
@@ -391,14 +396,14 @@ note
 					[$source DUPLICITY_RESTORE_APP]
 					[$source FILE_TREE_TRANSFORM_SCRIPT_APP]
 					[$source PYXIS_TO_XML_APP]
-					[$source EL_LOGGED_COMMAND_LINE_SUB_APPLICATION]* [C -> [$source EL_COMMAND]]
+					[$source EL_LOGGED_COMMAND_LINE_APPLICATION]* [C -> [$source EL_COMMAND]]
 						[$source THUNDERBIRD_BOOK_EXPORTER_APP]
 						[$source CAD_MODEL_SLICER_APP]
 						[$source FILTER_INVALID_UTF_8_APP]
 						[$source JOBSERVE_SEARCH_APP]
 						[$source PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP]
 						[$source LOCALIZATION_COMMAND_SHELL_APP]
-						[$source EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION]* [C -> [$source EL_COMMAND]]
+						[$source EL_REGRESSION_TESTABLE_COMMAND_LINE_APPLICATION]* [C -> [$source EL_COMMAND]]
 							[$source THUNDERBIRD_WWW_EXPORTER_APP]
 							[$source UNDATED_PHOTO_FINDER_APP]
 							[$source VCF_CONTACT_SPLITTER_APP]
@@ -411,36 +416,43 @@ note
 							[$source TESTABLE_LOCALIZED_THUNDERBIRD_SUB_APPLICATION]* [READER -> [$source EL_ML_THUNDERBIRD_ACCOUNT_READER] create make_from_file end]
 								[$source LOCALIZED_THUNDERBIRD_BOOK_EXPORTER_APP]
 								[$source LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER_APP]
-					[$source EL_COMMAND_SHELL_SUB_APPLICATION]* [C -> [$source EL_COMMAND_SHELL_COMMAND]]
+					[$source EL_COMMAND_SHELL_APPLICATION]* [C -> [$source EL_COMMAND_SHELL_COMMAND]]
 						[$source CRYPTO_COMMAND_SHELL_APP]
 				[$source EL_VERSION_APP]
-				[$source EL_LOGGED_SUB_APPLICATION]*
-					[$source EL_LOGGED_COMMAND_LINE_SUB_APPLICATION]* [C -> [$source EL_COMMAND]]
-					[$source EL_AUTOTEST_SUB_APPLICATION]* [EQA_TYPES -> [$source TUPLE] create default_create end]
+				[$source EL_LOGGED_APPLICATION]*
+					[$source EL_LOGGED_COMMAND_LINE_APPLICATION]* [C -> [$source EL_COMMAND]]
+					[$source EL_AUTOTEST_APPLICATION]* [EQA_TYPES -> [$source TUPLE] create default_create end]
 						[$source AUTOTEST_APP]
 						[$source CAD_MODEL_AUTOTEST_APP]
-					[$source EL_REGRESSION_TESTABLE_SUB_APPLICATION]*
+					[$source EL_REGRESSION_TESTABLE_APPLICATION]*
 						[$source FTP_TEST_APP]
-						[$source EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION]* [C -> [$source EL_COMMAND]]
+						[$source EL_REGRESSION_TESTABLE_COMMAND_LINE_APPLICATION]* [C -> [$source EL_COMMAND]]
 				[$source EL_STANDARD_UNINSTALL_APP]
 						
 		**manage-mp3.ecf**
-			EL_SUB_APPLICATION*
-				[$source EL_COMMAND_LINE_SUB_APPLICATION]* [C -> [$source EL_COMMAND]]
+			EL_APPLICATION*
+				[$source EL_COMMAND_LINE_APPLICATION]* [C -> [$source EL_COMMAND]]
 					[$source TANGO_MP3_FILE_COLLATOR_APP]
 					[$source EL_DEBIAN_PACKAGER_APP]
 					[$source GENERATE_RBOX_DATABASE_FIELD_ENUM_APP]
 					[$source ID3_EDITOR_APP]
-					[$source EL_LOGGED_COMMAND_LINE_SUB_APPLICATION]* [C -> [$source EL_COMMAND]]
+					[$source EL_LOGGED_COMMAND_LINE_APPLICATION]* [C -> [$source EL_COMMAND]]
 						[$source MP3_AUDIO_SIGNATURE_READER_APP]
 						[$source RHYTHMBOX_MUSIC_MANAGER_APP]
 				[$source EL_VERSION_APP]
-				[$source EL_LOGGED_SUB_APPLICATION]*
-					[$source EL_LOGGED_COMMAND_LINE_SUB_APPLICATION]* [C -> [$source EL_COMMAND]]
-					[$source EL_AUTOTEST_SUB_APPLICATION]* [EQA_TYPES -> [$source TUPLE] create default_create end]
+				[$source EL_LOGGED_APPLICATION]*
+					[$source EL_LOGGED_COMMAND_LINE_APPLICATION]* [C -> [$source EL_COMMAND]]
+					[$source EL_AUTOTEST_APPLICATION]* [EQA_TYPES -> [$source TUPLE] create default_create end]
 						[$source EL_REGRESSION_AUTOTEST_SUB_APPLICATION]* [EQA_TYPES -> [$source TUPLE] create default_create end]
 							[$source AUTOTEST_APP]
 				[$source EL_STANDARD_UNINSTALL_APP]
 
 	]"
 end
+
+
+
+
+
+
+

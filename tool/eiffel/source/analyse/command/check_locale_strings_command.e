@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 9:46:30 GMT (Saturday 5th February 2022)"
-	revision: "17"
+	date: "2022-02-05 14:46:06 GMT (Saturday 5th February 2022)"
+	revision: "18"
 
 class
 	CHECK_LOCALE_STRINGS_COMMAND
@@ -42,7 +42,7 @@ inherit
 create
 	make
 
-feature {EL_SUB_APPLICATION} -- Initialization
+feature {EL_APPLICATION} -- Initialization
 
 	make (config_path: FILE_PATH; language: STRING)
 		do

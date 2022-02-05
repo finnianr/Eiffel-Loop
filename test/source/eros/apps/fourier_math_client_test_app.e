@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-24 9:20:20 GMT (Tuesday 24th November 2020)"
-	revision: "19"
+	date: "2022-02-05 16:00:19 GMT (Saturday 5th February 2022)"
+	revision: "20"
 
 class
 	FOURIER_MATH_CLIENT_TEST_APP
 
 inherit
-	EL_LOGGED_SUB_APPLICATION
+	EL_LOGGED_APPLICATION
 		redefine
-			Ask_user_to_quit, Application_option
+			Ask_user_to_quit, new_command_options
 		end
 
 	EL_MODULE_EVOLICITY_TEMPLATES
@@ -41,8 +41,8 @@ feature {NONE} -- Initiliazation
 			create signal_math.make (connection)
 			create fft.make (connection)
 
-			connection.set_inbound_type (Application_option.protocol)
-			connection.set_outbound_type (Application_option.protocol)
+			connection.set_inbound_type (option.protocol)
+			connection.set_outbound_type (option.protocol)
 
 			create random.make
 			create time.make_now
@@ -125,7 +125,7 @@ feature -- Basic operations
 		do
 			create timer.make
 			timer.start
-			from until timer.elapsed_time.seconds_count > Application_option.running_time_secs loop
+			from until timer.elapsed_time.seconds_count > option.running_time_secs loop
 				random_test
 				timer.update
 			end
@@ -156,6 +156,11 @@ feature {NONE} -- Implementation
 	]
 		do
 			create Result.make
+		end
+
+	new_command_options: like option
+		do
+			Result := Option
 		end
 
 	print_vector (vector: VECTOR_COMPLEX_64)
@@ -190,13 +195,13 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Application_option: EROS_APPLICATION_COMMAND_OPTIONS
-		once
-			create Result.make
-		end
-
 	Ask_user_to_quit: BOOLEAN = true
 
 	Description: STRING = "Test client to generate random wave forms and do fourier transforms for 25 seconds"
+
+	Option: EROS_APPLICATION_COMMAND_OPTIONS
+		once
+			create Result.make
+		end
 
 end

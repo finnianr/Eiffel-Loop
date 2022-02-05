@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 13:48:03 GMT (Thursday 14th May 2020)"
-	revision: "5"
+	date: "2022-02-05 17:08:32 GMT (Saturday 5th February 2022)"
+	revision: "6"
 
 class
 	EL_BASE_COMMAND_OPTIONS
@@ -28,13 +28,6 @@ feature -- Options
 
 	zstring_codec: STRING
 		-- defaults to ISO-8859-15
-
-feature -- Constants
-
-	Opt_silent: STRING
-		once
-			Result := "silent"
-		end
 
 feature {NONE} -- Constants
 

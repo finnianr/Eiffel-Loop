@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 12:00:22 GMT (Sunday 23rd January 2022)"
-	revision: "17"
+	date: "2022-02-05 14:46:40 GMT (Saturday 5th February 2022)"
+	revision: "18"
 
 class
 	DUPLICITY_RESTORE_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [DUPLICITY_RESTORE]
+	EL_COMMAND_LINE_APPLICATION [DUPLICITY_RESTORE]
 		redefine
 			Option_name, visible_types
 		end

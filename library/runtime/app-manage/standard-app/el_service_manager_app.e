@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 12:02:45 GMT (Saturday 5th February 2022)"
-	revision: "2"
+	date: "2022-02-05 14:47:23 GMT (Saturday 5th February 2022)"
+	revision: "3"
 
 class
 	EL_SERVICE_MANAGER_APP
 
 inherit
-	EL_COMMAND_SHELL_SUB_APPLICATION [EL_SERVICE_MANAGER_SHELL]
+	EL_COMMAND_SHELL_APPLICATION [EL_SERVICE_MANAGER_SHELL]
 		redefine
 			argument_list, command, default_make
 		end

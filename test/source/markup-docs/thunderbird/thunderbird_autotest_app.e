@@ -18,14 +18,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-20 17:19:21 GMT (Thursday 20th January 2022)"
-	revision: "67"
+	date: "2022-02-05 14:49:49 GMT (Saturday 5th February 2022)"
+	revision: "68"
 
 class
 	THUNDERBIRD_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_SUB_APPLICATION [THUNDERBIRD_EXPORT_TEST_SET]
+	EL_AUTOTEST_APPLICATION [THUNDERBIRD_EXPORT_TEST_SET]
 		redefine
 			visible_types
 		end

@@ -8,23 +8,39 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-29 9:34:57 GMT (Sunday 29th August 2021)"
-	revision: "6"
+	date: "2022-02-05 16:40:00 GMT (Saturday 5th February 2022)"
+	revision: "7"
 
 class
 	EL_APPLICATION_COMMAND_OPTIONS
 
 inherit
 	EL_COMMAND_LINE_OPTIONS
+		redefine
+			make_default
+		end
+
+	EL_SOLITARY
+		rename
+			make as make_solitary
+		end
 
 create
 	make, make_default
+
+feature {NONE} -- Initialization
+
+	make_default
+		do
+			make_solitary
+			Precursor
+		end
 
 feature -- Access
 
 	ask_user_to_quit: BOOLEAN
 		-- `True' if command line option of same name exists
-		-- Prompt user to quit when sub-application finishes (EL_SUB_APPLICATION)
+		-- Prompt user to quit when sub-application finishes (EL_APPLICATION)
 
 	help: BOOLEAN
 		-- `True' if command line option of same name exists
@@ -36,14 +52,8 @@ feature -- Access
 
 	test: BOOLEAN
 
-feature -- Constants
-
-	Sub_app: TUPLE [install, remove_data, uninstall: IMMUTABLE_STRING_8]
-		-- Installer sub-application constants
-		once
-			create Result
-			Tuple.fill_immutable (Result, "install, remove_data, uninstall")
-		end
+	test_set: STRING
+		-- test to run from EL_AUTOTEST_APPLICATION
 
 feature {NONE} -- Constants
 
@@ -58,6 +68,9 @@ feature {NONE} -- Constants
 					Suppress output of application information
 				test:
 					Put application in test mode (if testable)
+				test_set:
+					Name of EQA test set to evaluate. Optionally execute a single test by appending
+					'.' and name of test: Eg. MY_TESTS.test_something. The "test_" prefix is optional.
 			]"
 		end
 

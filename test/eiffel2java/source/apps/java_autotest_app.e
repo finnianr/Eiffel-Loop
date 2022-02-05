@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-18 22:09:34 GMT (Tuesday 18th January 2022)"
-	revision: "1"
+	date: "2022-02-05 14:52:15 GMT (Saturday 5th February 2022)"
+	revision: "2"
 
 class
 	JAVA_AUTOTEST_APP
 
 inherit
-	EL_CRC_32_AUTOTEST_SUB_APPLICATION [JAVA_TEST_SET]
+	EL_CRC_32_AUTOTEST_APPLICATION [JAVA_TEST_SET]
 		redefine
 			visible_types
 		end

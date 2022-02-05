@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 14:33:31 GMT (Wednesday 19th January 2022)"
-	revision: "15"
+	date: "2022-02-05 15:07:52 GMT (Saturday 5th February 2022)"
+	revision: "16"
 
 deferred class
-	EL_REGRESSION_TESTABLE_SUB_APPLICATION
+	EL_REGRESSION_TESTABLE_APPLICATION
 
 inherit
-	EL_LOGGED_SUB_APPLICATION
+	EL_LOGGED_APPLICATION
 		rename
 			log_filter_set as extra_log_filter_set
 		redefine
@@ -53,7 +53,7 @@ feature -- Status query
 	Is_test_mode: BOOLEAN
 			--
 		once
-			Result := Application_option.test
+			Result := App_option.test
 		end
 
 feature {NONE} -- Factory

@@ -1,13 +1,13 @@
 note
-	description: "Shared application option"
+	description: "Shared instance of object conforming to [$source EL_APPLICATION_COMMAND_OPTIONS]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 8:48:57 GMT (Tuesday 31st December 2019)"
-	revision: "1"
+	date: "2022-02-05 15:15:59 GMT (Saturday 5th February 2022)"
+	revision: "2"
 
 deferred class
 	EL_SHARED_APPLICATION_OPTION
@@ -17,8 +17,8 @@ inherit
 
 feature {NONE} -- Constants
 
-	Application_option: EL_APPLICATION_COMMAND_OPTIONS
-		once
-			create Result.make
+	frozen App_option: EL_APPLICATION_COMMAND_OPTIONS
+		once ("PROCESS")
+			Result := create {EL_CONFORMING_SINGLETON [EL_APPLICATION_COMMAND_OPTIONS]}
 		end
 end

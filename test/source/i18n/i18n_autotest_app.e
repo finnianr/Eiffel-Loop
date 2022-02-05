@@ -13,14 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 14:30:29 GMT (Wednesday 19th January 2022)"
-	revision: "66"
+	date: "2022-02-05 14:52:16 GMT (Saturday 5th February 2022)"
+	revision: "67"
 
 class
 	I18N_AUTOTEST_APP
 
 inherit
-	EL_CRC_32_AUTOTEST_SUB_APPLICATION [TRANSLATION_TABLE_TEST_SET]
+	EL_CRC_32_AUTOTEST_APPLICATION [TRANSLATION_TABLE_TEST_SET]
 
 create
 	make

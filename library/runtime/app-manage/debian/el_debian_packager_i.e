@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-16 10:17:55 GMT (Sunday 16th January 2022)"
-	revision: "18"
+	date: "2022-02-05 14:51:18 GMT (Saturday 5th February 2022)"
+	revision: "19"
 
 deferred class
 	EL_DEBIAN_PACKAGER_I
@@ -239,7 +239,7 @@ note
 
 		By including [$source EL_DEBIAN_PACKAGER_APP] in the list of sub-application types listed in the root
 		class implementing [$source EL_MULTI_APPLICATION_ROOT], the application becomes capable of generating
-		it's own install package. At least one sub-application must conform to [$source EL_INSTALLABLE_SUB_APPLICATION].
+		it's own install package. At least one sub-application must conform to [$source EL_INSTALLABLE_APPLICATION].
 
 		A script to set permissions and ownership is generated and executed. It will prompt for the sudo password.
 

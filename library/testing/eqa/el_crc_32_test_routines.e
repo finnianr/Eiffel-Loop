@@ -5,7 +5,7 @@ note
 	]"
 	notes: "[
 		The type of `log' must be set to [$source EL_CRC_32_CONSOLE_ONLY_LOG] by running the test
-		from a sub-application conforming to [$source EL_CRC_32_AUTOTEST_SUB_APPLICATION]
+		from a sub-application conforming to [$source EL_CRC_32_AUTOTEST_APPLICATION]
 	]"
 
 	author: "Finnian Reilly"
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 14:32:41 GMT (Wednesday 19th January 2022)"
-	revision: "11"
+	date: "2022-02-05 14:52:17 GMT (Saturday 5th February 2022)"
+	revision: "12"
 
 deferred class
 	EL_CRC_32_TEST_ROUTINES

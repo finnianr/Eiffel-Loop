@@ -11,14 +11,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 11:50:44 GMT (Sunday 23rd January 2022)"
-	revision: "16"
+	date: "2022-02-05 14:46:40 GMT (Saturday 5th February 2022)"
+	revision: "17"
 
 class
 	ZSTRING_BENCHMARK_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [ZSTRING_BENCHMARK_COMMAND]
+	EL_COMMAND_LINE_APPLICATION [ZSTRING_BENCHMARK_COMMAND]
 
 create
 	make

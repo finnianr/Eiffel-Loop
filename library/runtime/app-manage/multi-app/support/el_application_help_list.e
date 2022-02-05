@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:43:43 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2022-02-05 14:51:49 GMT (Saturday 5th February 2022)"
+	revision: "7"
 
 class
-	EL_SUB_APPLICATION_HELP_LIST
+	EL_APPLICATION_HELP_LIST
 
 inherit
 	ARRAYED_LIST [TUPLE [name, description: READABLE_STRING_GENERAL; default_value: ANY]]

@@ -13,14 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-18 21:45:12 GMT (Tuesday 18th January 2022)"
-	revision: "17"
+	date: "2022-02-05 14:49:49 GMT (Saturday 5th February 2022)"
+	revision: "18"
 
 class
 	ECO_DB_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_SUB_APPLICATION [ECD_READER_WRITER_TEST_SET]
+	EL_AUTOTEST_APPLICATION [ECD_READER_WRITER_TEST_SET]
 		redefine
 			log_filter_set
 		end

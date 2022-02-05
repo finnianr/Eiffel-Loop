@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:12:08 GMT (Sunday 19th December 2021)"
-	revision: "5"
+	date: "2022-02-05 14:51:17 GMT (Saturday 5th February 2022)"
+	revision: "6"
 
 class
 	TYPE_EXPERIMENTS
@@ -22,7 +22,7 @@ feature -- Basic operations
 	conforming_types
 		do
 			if {ISE_RUNTIME}.type_conforms_to (
-				({EL_STANDARD_UNINSTALL_APP}).type_id, ({EL_INSTALLABLE_SUB_APPLICATION}).type_id
+				({EL_STANDARD_UNINSTALL_APP}).type_id, ({EL_INSTALLABLE_APPLICATION}).type_id
 				) then
 				lio.put_line ("Conforms")
 			end

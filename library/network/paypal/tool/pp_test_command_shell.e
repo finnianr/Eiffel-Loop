@@ -1,6 +1,6 @@
 note
 	description: "[
-		Command shell that can be used for testing purposes. Use the class [$source EL_COMMAND_SHELL_SUB_APPLICATION]
+		Command shell that can be used for testing purposes. Use the class [$source EL_COMMAND_SHELL_APPLICATION]
 		in conjunction with this class to make a sub-application. The source page has some links to examples that
 		demonstrates how it's done.
 	]"
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 13:25:32 GMT (Thursday 13th January 2022)"
-	revision: "21"
+	date: "2022-02-05 14:47:23 GMT (Saturday 5th February 2022)"
+	revision: "22"
 
 class
 	PP_TEST_COMMAND_SHELL

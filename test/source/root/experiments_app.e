@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-08 23:30:47 GMT (Saturday 8th January 2022)"
-	revision: "75"
+	date: "2022-02-05 14:48:53 GMT (Saturday 5th February 2022)"
+	revision: "76"
 
 class
 	EXPERIMENTS_APP
 
 inherit
-	EL_LOGGED_SUB_APPLICATION
+	EL_LOGGED_APPLICATION
 
 create
 	make

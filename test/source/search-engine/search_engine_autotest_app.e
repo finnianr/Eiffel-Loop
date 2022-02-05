@@ -14,14 +14,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 12:02:10 GMT (Sunday 3rd January 2021)"
-	revision: "5"
+	date: "2022-02-05 14:49:49 GMT (Saturday 5th February 2022)"
+	revision: "6"
 
 class
 	SEARCH_ENGINE_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_SUB_APPLICATION [
+	EL_AUTOTEST_APPLICATION [
 		ENCRYPTED_SEARCH_ENGINE_TEST_SET,
 		SEARCH_ENGINE_TEST_SET
 	]

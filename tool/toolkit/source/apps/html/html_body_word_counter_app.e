@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 12:00:21 GMT (Sunday 23rd January 2022)"
-	revision: "20"
+	date: "2022-02-05 14:46:40 GMT (Saturday 5th February 2022)"
+	revision: "21"
 
 class
 	HTML_BODY_WORD_COUNTER_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [HTML_BODY_WORD_COUNTER]
+	EL_COMMAND_LINE_APPLICATION [HTML_BODY_WORD_COUNTER]
 		redefine
 			Option_name
 		end

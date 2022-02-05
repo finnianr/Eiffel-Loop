@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "10"
+	date: "2022-02-05 14:51:18 GMT (Saturday 5th February 2022)"
+	revision: "11"
 
 class
 	EL_MENU_DESKTOP_ENVIRONMENT_IMP
@@ -39,13 +39,13 @@ create
 
 feature {NONE} -- Initialization
 
-	make (installable: EL_INSTALLABLE_SUB_APPLICATION)
+	make (installable: EL_INSTALLABLE_APPLICATION)
 		do
 			make_desktop (installable)
 			create entry_steps.make (Current, Applications_desktop_dir, Directories_desktop_dir)
 		end
 
-	make_relocated (installable: EL_INSTALLABLE_SUB_APPLICATION; relocated: FUNCTION [DIR_PATH, DIR_PATH])
+	make_relocated (installable: EL_INSTALLABLE_APPLICATION; relocated: FUNCTION [DIR_PATH, DIR_PATH])
 		do
 			make_desktop (installable)
 			create entry_steps.make (Current, relocated (Applications_desktop_dir), relocated (directories_desktop_dir))

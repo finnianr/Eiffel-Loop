@@ -6,21 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 12:00:22 GMT (Sunday 23rd January 2022)"
-	revision: "24"
+	date: "2022-02-05 14:51:17 GMT (Saturday 5th February 2022)"
+	revision: "25"
 
 class
 	FTP_BACKUP_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [FTP_BACKUP_COMMAND]
+	EL_COMMAND_LINE_APPLICATION [FTP_BACKUP_COMMAND]
 		rename
 			command as ftp_command
 		redefine
 			Option_name, ftp_command
 		end
 
-	EL_INSTALLABLE_SUB_APPLICATION
+	EL_INSTALLABLE_APPLICATION
 		rename
 			desktop_menu_path as Default_desktop_menu_path,
 			desktop_launcher as Default_desktop_launcher

@@ -11,14 +11,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 9:08:22 GMT (Friday 10th January 2020)"
-	revision: "6"
+	date: "2022-02-05 14:51:17 GMT (Saturday 5th February 2022)"
+	revision: "7"
 
 deferred class
 	INSTALLABLE_EROS_SUB_APPLICATION
 
 inherit
-	EL_INSTALLABLE_SUB_APPLICATION
+	EL_INSTALLABLE_APPLICATION
 
 feature -- Desktop menu entries
 

@@ -10,14 +10,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 12:00:21 GMT (Sunday 23rd January 2022)"
-	revision: "12"
+	date: "2022-02-05 14:46:40 GMT (Saturday 5th February 2022)"
+	revision: "13"
 
 class
 	FILE_MANIFEST_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [EL_FILE_MANIFEST_GENERATOR]
+	EL_COMMAND_LINE_APPLICATION [EL_FILE_MANIFEST_GENERATOR]
 		redefine
 			Option_name
 		end

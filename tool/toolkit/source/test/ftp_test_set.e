@@ -1,54 +1,56 @@
 note
-	description: "FTP test application"
+	description: "Test set for class [$source EL_FTP_PROTOCOL] with command line options [$source FTP_LOGIN_OPTIONS]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
-	revision: "8"
+	date: "2022-02-05 15:49:39 GMT (Saturday 5th February 2022)"
+	revision: "1"
 
 class
-	FTP_TEST_APP
+	FTP_TEST_SET
 
 inherit
-	EL_REGRESSION_TESTABLE_SUB_APPLICATION
-		rename
-			extra_log_filter_set as empty_log_filter_set
+	EL_COPIED_FILE_DATA_TEST_SET
 		undefine
-			test_data_dir
-		redefine
-			Is_test_mode, Is_logging_active, Application_option
+			new_lio
 		end
+
+	EL_CRC_32_TEST_ROUTINES
 
 	EIFFEL_LOOP_TEST_ROUTINES
-		rename
-			EL_test_data_dir as test_data_dir
-		end
 
-create
-	make
+	EL_SHARED_APPLICATION_OPTION
 
 feature -- Basic operations
 
-	test_run
-			--
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
 		do
-			log.enter ("run")
-			Test.do_file_test ("txt/file.txt", agent send_file, 4252695631)
-			log.exit
+			eval.call ("upload", agent test_upload)
 		end
 
-feature {NONE} -- Tests
+feature -- Tests
+
+	test_upload
+		do
+			do_test ("send_file", 0, agent send_file, [file_list.first_path])
+		end
+
+feature {NONE} -- Implementation
 
 	send_file (file_path: FILE_PATH)
 		local
 			ftp: EL_FTP_WEBSITE; item: EL_FTP_UPLOAD_ITEM
 			destination_dir: DIR_PATH; remote_file_path: FILE_PATH
 		do
-			log.enter ("send_file")
-			create ftp.make ([Application_option.url, Application_option.user_home])
+			if attached {FTP_LOGIN_OPTIONS} App_option as option then
+				create ftp.make ([option.url, option.user_home])
+			else
+				assert ("redefined new_command_options: FTP_LOGIN_OPTIONS", False)
+			end
 			ftp.login
 			ftp.change_home_dir
 			if ftp.is_logged_in then
@@ -80,43 +82,18 @@ feature {NONE} -- Tests
 				log.put_line ("Login failed")
 			end
 			ftp.close
-			log.exit
 		end
 
-feature {NONE} -- Implementation
-
-	log_filter_set: EL_LOG_FILTER_SET [like Current]
+	source_file_list: EL_FILE_PATH_LIST
 		do
-			create Result.make
+			create Result.make_from_array (<< Data_dir + "txt/file.txt" >>)
 		end
-
-	normal_initialize
-		do
-		end
-
-	normal_run
-		do
-		end
-
-feature {NONE} -- Internal attributes
-
-	url: STRING
-
-	user_home: STRING
 
 feature {NONE} -- Constants
 
-	Application_option: FTP_LOGIN_OPTIONS
+	Data_dir: DIR_PATH
 		once
-			create Result.make
+			Result := El_test_data_dir
 		end
-
-	Description: STRING = "Test for class EL_FTP_PROTOCOL"
-
-	Quit_cmd: STRING = "quit"
-
-	Is_test_mode: BOOLEAN = True
-
-	Is_logging_active: BOOLEAN = True
 
 end

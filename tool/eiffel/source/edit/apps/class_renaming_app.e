@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 12:07:31 GMT (Saturday 5th February 2022)"
-	revision: "26"
+	date: "2022-02-05 14:51:17 GMT (Saturday 5th February 2022)"
+	revision: "27"
 
 class
 	CLASS_RENAMING_APP
@@ -18,7 +18,7 @@ inherit
 			Option_name, initialize, set_closed_operands, run, argument_list
 		end
 
-	EL_INSTALLABLE_SUB_APPLICATION
+	EL_INSTALLABLE_APPLICATION
 		rename
 			desktop_menu_path as Default_desktop_menu_path,
 			desktop_launcher as Default_desktop_launcher

@@ -17,14 +17,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-08 11:49:31 GMT (Monday 8th March 2021)"
-	revision: "2"
+	date: "2022-02-05 14:46:05 GMT (Saturday 5th February 2022)"
+	revision: "3"
 
 class
 	HORSE_RACE_APP
 
 inherit
-	EL_SUB_APPLICATION
+	EL_APPLICATION
 
 	EL_SINGLE_THREAD_ACCESS
 		rename

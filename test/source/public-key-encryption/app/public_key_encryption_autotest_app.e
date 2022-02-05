@@ -15,14 +15,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 19:01:41 GMT (Monday 8th February 2021)"
-	revision: "1"
+	date: "2022-02-05 14:49:49 GMT (Saturday 5th February 2022)"
+	revision: "2"
 
 class
 	PUBLIC_KEY_ENCRYPTION_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_SUB_APPLICATION [RSA_PUBLIC_KEY_ENCRYPTION_TEST_SET]
+	EL_AUTOTEST_APPLICATION [RSA_PUBLIC_KEY_ENCRYPTION_TEST_SET]
 
 create
 	make

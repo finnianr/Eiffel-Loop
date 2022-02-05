@@ -7,14 +7,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "4"
+	date: "2022-02-05 14:46:06 GMT (Saturday 5th February 2022)"
+	revision: "5"
 
 class
 	BINARY_DECODE_APP
 
 inherit
-	EL_SUB_APPLICATION
+	EL_APPLICATION
 
 	EL_MODULE_ARGS
 

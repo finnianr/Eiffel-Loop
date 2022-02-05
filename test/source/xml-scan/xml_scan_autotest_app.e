@@ -16,14 +16,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 14:28:21 GMT (Wednesday 19th January 2022)"
-	revision: "21"
+	date: "2022-02-05 14:52:16 GMT (Saturday 5th February 2022)"
+	revision: "22"
 
 class
 	XML_SCAN_AUTOTEST_APP
 
 inherit
-	EL_CRC_32_AUTOTEST_SUB_APPLICATION [
+	EL_CRC_32_AUTOTEST_APPLICATION [
 		CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET,
 		DOCUMENT_NODE_STRING_TEST_SET,
 		OBJECT_BUILDER_TEST_SET,

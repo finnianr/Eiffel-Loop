@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "15"
+	date: "2022-02-05 16:38:53 GMT (Saturday 5th February 2022)"
+	revision: "16"
 
 class
 	EL_FILE_COPY_INSTALLER_BOX
@@ -36,7 +36,7 @@ inherit
 
 	EL_MODULE_TRACK
 
-	EL_INSTALLER_CONSTANTS
+	EL_APPLICATION_CONSTANTS
 
 	EL_STRING_8_CONSTANTS
 
@@ -162,7 +162,7 @@ feature {NONE} -- Implementation
 
 	install_menus
 		do
-			if not (Application_option.test or {PLATFORM}.is_unix) then
+			if not (App_option.test or {PLATFORM}.is_unix) then
 				lio.put_line ("Installing menus")
 				Application_list.install_menus
 			end

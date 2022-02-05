@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 12:00:20 GMT (Sunday 23rd January 2022)"
-	revision: "17"
+	date: "2022-02-05 14:46:40 GMT (Saturday 5th February 2022)"
+	revision: "18"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [PYXIS_TREE_TO_XML_COMPILER]
+	EL_COMMAND_LINE_APPLICATION [PYXIS_TREE_TO_XML_COMPILER]
 		redefine
 			Option_name, visible_types
 		end

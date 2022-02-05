@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 12:00:19 GMT (Sunday 23rd January 2022)"
-	revision: "11"
+	date: "2022-02-05 14:46:41 GMT (Saturday 5th February 2022)"
+	revision: "12"
 
 class
 	EL_DEBIAN_PACKAGER_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [EL_DEBIAN_PACKAGER_IMP]
+	EL_COMMAND_LINE_APPLICATION [EL_DEBIAN_PACKAGER_IMP]
 		redefine
 			Option_name, visible_types
 		end

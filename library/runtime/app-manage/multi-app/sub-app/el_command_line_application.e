@@ -12,14 +12,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 11:59:12 GMT (Saturday 5th February 2022)"
-	revision: "37"
+	date: "2022-02-05 14:52:47 GMT (Saturday 5th February 2022)"
+	revision: "38"
 
 deferred class
-	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
+	EL_COMMAND_LINE_APPLICATION [C -> EL_COMMAND]
 
 inherit
-	EL_SUB_APPLICATION
+	EL_APPLICATION
 		export
 			{EL_COMMAND_ARGUMENT} new_argument_error
 		redefine
@@ -218,7 +218,7 @@ note
 	]"
 	descendants: "[
 		**eiffel.ecf**
-			EL_COMMAND_LINE_SUB_APPLICATION* [C -> EL_COMMAND]
+			EL_COMMAND_LINE_APPLICATION* [C -> EL_COMMAND]
 				[$source UNDEFINE_PATTERN_COUNTER_APP]
 				[$source PYXIS_TRANSLATION_TREE_COMPILER_APP]
 				[$source PYXIS_ECF_CONVERTER_APP]
@@ -228,7 +228,7 @@ note
 				[$source ENCODING_CHECK_APP]
 				[$source FEATURE_EDITOR_APP]
 				[$source ID3_FRAME_CODE_CLASS_GENERATOR_APP]
-				[$source EL_LOGGED_COMMAND_LINE_SUB_APPLICATION]* [C -> [$source EL_COMMAND]]
+				[$source EL_LOGGED_COMMAND_LINE_APPLICATION]* [C -> [$source EL_COMMAND]]
 					[$source CLASS_DESCENDANTS_APP]
 					[$source LIBRARY_OVERRIDE_APP]
 					[$source REPOSITORY_PUBLISHER_SUB_APPLICATION]* [C -> [$source REPOSITORY_PUBLISHER]]
@@ -236,7 +236,7 @@ note
 						[$source REPOSITORY_NOTE_LINK_CHECKER_APP]
 						[$source EIFFEL_VIEW_APP]
 						[$source IMP_CLASS_LOCATION_NORMALIZER_APP]
-					[$source EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION]* [C -> [$source EL_COMMAND]]
+					[$source EL_REGRESSION_TESTABLE_COMMAND_LINE_APPLICATION]* [C -> [$source EL_COMMAND]]
 						[$source SOURCE_TREE_CLASS_RENAME_APP]
 						[$source CODEC_GENERATOR_APP]
 						[$source CODEBASE_STATISTICS_APP]
@@ -248,7 +248,7 @@ note
 							[$source UPGRADE_DEFAULT_POINTER_SYNTAX_APP]
 				
 		**toolkit.ecf**
-			EL_COMMAND_LINE_SUB_APPLICATION* [C -> EL_COMMAND]
+			EL_COMMAND_LINE_APPLICATION* [C -> EL_COMMAND]
 				[$source USER_AGENT_APP]
 				[$source XML_TO_PYXIS_APP]
 				[$source YOUTUBE_VIDEO_DOWNLOADER_APP]
@@ -257,14 +257,14 @@ note
 				[$source DUPLICITY_RESTORE_APP]
 				[$source FILE_TREE_TRANSFORM_SCRIPT_APP]
 				[$source PYXIS_TO_XML_APP]
-				[$source EL_LOGGED_COMMAND_LINE_SUB_APPLICATION]* [C -> [$source EL_COMMAND]]
+				[$source EL_LOGGED_COMMAND_LINE_APPLICATION]* [C -> [$source EL_COMMAND]]
 					[$source THUNDERBIRD_BOOK_EXPORTER_APP]
 					[$source CAD_MODEL_SLICER_APP]
 					[$source FILTER_INVALID_UTF_8_APP]
 					[$source JOBSERVE_SEARCH_APP]
 					[$source PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP]
 					[$source LOCALIZATION_COMMAND_SHELL_APP]
-					[$source EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION]* [C -> [$source EL_COMMAND]]
+					[$source EL_REGRESSION_TESTABLE_COMMAND_LINE_APPLICATION]* [C -> [$source EL_COMMAND]]
 						[$source THUNDERBIRD_WWW_EXPORTER_APP]
 						[$source UNDATED_PHOTO_FINDER_APP]
 						[$source VCF_CONTACT_SPLITTER_APP]
@@ -277,7 +277,10 @@ note
 						[$source TESTABLE_LOCALIZED_THUNDERBIRD_SUB_APPLICATION]* [READER -> [$source EL_ML_THUNDERBIRD_ACCOUNT_READER]]
 							[$source LOCALIZED_THUNDERBIRD_BOOK_EXPORTER_APP]
 							[$source LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER_APP]
-				[$source EL_COMMAND_SHELL_SUB_APPLICATION]* [C -> [$source EL_COMMAND_SHELL_COMMAND]]
+				[$source EL_COMMAND_SHELL_APPLICATION]* [C -> [$source EL_COMMAND_SHELL_COMMAND]]
 					[$source CRYPTO_COMMAND_SHELL_APP]
 	]"
 end
+
+
+

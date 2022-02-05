@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "8"
+	date: "2022-02-05 16:44:43 GMT (Saturday 5th February 2022)"
+	revision: "9"
 
 class
 	EL_STANDARD_REMOVE_DATA_APP
 
 inherit
-	EL_SUB_APPLICATION
+	EL_APPLICATION
 		redefine
 			option_name
 		end
@@ -38,6 +38,8 @@ inherit
 	EL_SHARED_WORD
 
 	EL_SHARED_UNINSTALL_TEXTS
+
+	EL_APPLICATION_CONSTANTS
 
 create
 	make
@@ -97,9 +99,9 @@ feature {NONE} -- Application constants
 			Result.right_adjust
 		end
 
-	Option_name: STRING
+	Option_name: IMMUTABLE_STRING_8
 		once
-			Result := Application_option.Sub_app.remove_data
+			Result := Standard_option.remove_data
 		end
 
 end

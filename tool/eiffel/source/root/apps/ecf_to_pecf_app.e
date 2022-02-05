@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 11:56:03 GMT (Sunday 23rd January 2022)"
-	revision: "23"
+	date: "2022-02-05 14:46:40 GMT (Saturday 5th February 2022)"
+	revision: "24"
 
 class
 	ECF_TO_PECF_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [ECF_TO_PECF_COMMAND]
+	EL_COMMAND_LINE_APPLICATION [ECF_TO_PECF_COMMAND]
 		redefine
 			Option_name
 		end

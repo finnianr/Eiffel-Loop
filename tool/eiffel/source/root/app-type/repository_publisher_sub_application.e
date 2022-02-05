@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 12:53:52 GMT (Saturday 5th February 2022)"
-	revision: "8"
+	date: "2022-02-05 14:46:40 GMT (Saturday 5th February 2022)"
+	revision: "9"
 
 deferred class
 	REPOSITORY_PUBLISHER_SUB_APPLICATION [C -> REPOSITORY_PUBLISHER]
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [C]
+	EL_COMMAND_LINE_APPLICATION [C]
 
 feature {NONE} -- Implementation
 

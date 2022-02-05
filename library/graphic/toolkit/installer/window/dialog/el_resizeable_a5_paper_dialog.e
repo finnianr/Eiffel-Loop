@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-23 11:56:05 GMT (Saturday 23rd October 2021)"
-	revision: "11"
+	date: "2022-02-05 16:38:53 GMT (Saturday 5th February 2022)"
+	revision: "12"
 
 class
 	EL_RESIZEABLE_A5_PAPER_DIALOG
@@ -24,7 +24,7 @@ inherit
 
 	EL_MODULE_DESKTOP_MENU_ICON
 
-	EL_INSTALLER_CONSTANTS
+	EL_APPLICATION_CONSTANTS
 
 	EL_SHARED_INSTALL_TEXTS
 

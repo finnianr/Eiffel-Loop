@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:32:08 GMT (Tuesday 10th November 2020)"
-	revision: "12"
+	date: "2022-02-05 17:33:17 GMT (Saturday 5th February 2022)"
+	revision: "13"
 
 class
 	FOURIER_MATH_SERVER_APP
@@ -53,7 +53,7 @@ feature {NONE} -- Installer constants
 			--
 		once
 			Result := new_menu_desktop_environment
-			Result.set_command_line_options (<< Base_option.Opt_silent, "max_threads 3" >>)
+			Result.set_command_line_options (<< Standard_option.silent.to_string_8, "max_threads 3" >>)
 		end
 
 	desktop_launcher: EL_DESKTOP_MENU_ITEM

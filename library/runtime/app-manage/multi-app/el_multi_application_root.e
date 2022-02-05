@@ -1,13 +1,13 @@
 note
 	description: "[
-		Selects a sub-application to launch from a shared list of uninitialized instances conforming to [$source EL_SUB_APPLICATION].
+		Selects a sub-application to launch from a shared list of uninitialized instances conforming to [$source EL_APPLICATION].
 		The list is created using types defined by the `APPLICATION_TYPES' tuple parameter. A command line option matching the string
-		value `{EL_SUB_APPLICATION}.option_name' selects that instance. Calling `make' on the selected instance executes the sub-application.
+		value `{EL_APPLICATION}.option_name' selects that instance. Calling `make' on the selected instance executes the sub-application.
 	]"
 	notes: "[
 		The [$source EL_VERSION_APP] application is automatically added to list of instances defined by `APPLICATION_TYPES' tuple.
 
-		Can also install/uninstall any sub-application conforming to [$source EL_INSTALLABLE_SUB_APPLICATION].
+		Can also install/uninstall any sub-application conforming to [$source EL_INSTALLABLE_APPLICATION].
 		(System file context menu or system application launch menu) See sub-applications:
 
 			[$source EL_STANDARD_INSTALLER_APP]
@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-04 15:51:26 GMT (Wednesday 4th August 2021)"
-	revision: "21"
+	date: "2022-02-05 16:15:54 GMT (Saturday 5th February 2022)"
+	revision: "22"
 
 deferred class
 	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO create make end, APPLICATION_TYPES -> TUPLE create default_create end]
@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 	make
 			--
 		local
-			list: EL_SUB_APPLICATION_LIST; lio: EL_LOGGABLE; exit_code: INTEGER
+			list: EL_APPLICATION_LIST; lio: EL_LOGGABLE; exit_code: INTEGER
 		do
 			create_singletons
 			if not Base_option.silent then
@@ -59,7 +59,7 @@ feature {NONE} -- Initialization
 			-- Must be called before current_working_directory changes
 			if Executable.path.is_file then
 			end
-			lio := new_temporary_lio -- until the logging is initialized in `EL_SUB_APPLICATION'
+			lio := new_temporary_lio -- until the logging is initialized in `EL_APPLICATION'
 
 --			Environment.Execution.restore_last_code_page
 --			FOR WINDOWS
@@ -99,3 +99,4 @@ feature {NONE} -- Implementation
 			create shared_build_info.make
 		end
 end
+

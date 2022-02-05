@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-02-05 16:41:34 GMT (Saturday 5th February 2022)"
+	revision: "10"
 
 deferred class
-	EL_INSTALLABLE_SUB_APPLICATION
+	EL_INSTALLABLE_APPLICATION
 
 inherit
 	EL_ZSTRING_CONSTANTS
@@ -21,6 +21,8 @@ inherit
 		export
 			{EL_DESKTOP_ENVIRONMENT_I} input_path_option_name
 		end
+
+	EL_APPLICATION_CONSTANTS
 
 feature -- Access
 

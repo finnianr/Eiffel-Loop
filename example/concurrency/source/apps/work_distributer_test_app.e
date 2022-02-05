@@ -14,16 +14,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-08 11:49:54 GMT (Monday 8th March 2021)"
-	revision: "17"
+	date: "2022-02-05 17:44:54 GMT (Saturday 5th February 2022)"
+	revision: "18"
 
 class
 	WORK_DISTRIBUTER_TEST_APP
 
 inherit
-	EL_LOGGED_SUB_APPLICATION
+	EL_LOGGED_APPLICATION
 		redefine
-			Option_name, initialize, Application_option
+			Option_name, initialize, new_command_options
 		end
 
 	EL_ARGUMENT_TO_ATTRIBUTE_SETTING
@@ -47,12 +47,12 @@ feature {NONE} -- Initiliazation
 			create wave
 
 			lio.put_line ("COMMAND LINE OPTIONS")
-			Application_option.print_fields (log)
+			Option.print_fields (log)
 
-			create function_integral.make (delta_count, task_count, thread_count, Application_option.max_priority)
-			create procedure_integral.make (delta_count, task_count, thread_count, Application_option.max_priority)
+			create function_integral.make (Option)
+			create procedure_integral.make (Option)
 
-			log.put_labeled_string ("Thread priority", Application_option.priority_name)
+			log.put_labeled_string ("Thread priority", Option.priority_name)
 			log.put_new_line
 
 			log.exit
@@ -69,23 +69,23 @@ feature -- Basic operations
 			do_calculation (
 				"single thread integral",
 				agent: DOUBLE do
-					Result := integral (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi, delta_count)
+					Result := integral (agent wave.complex_sine_wave (?, Option.term_count), 0, 2 * Pi, Option.delta_count)
 				end
 			)
-			from i := 1 until i > repetition_count or is_canceled loop
+			from i := 1 until i > Option.repetition_count or is_canceled loop
 				do_calculation (
 					"distributed integral using class EL_FUNCTION_DISTRIBUTER",
 					agent: DOUBLE do
-						Result := function_integral.integral_sum (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi)
+						Result := function_integral.integral_sum (agent wave.complex_sine_wave (?, Option.term_count), 0, 2 * Pi)
 					end
 				)
 				i := i + 1
 			end
-			from i := 1 until i > repetition_count or is_canceled loop
+			from i := 1 until i > Option.repetition_count or is_canceled loop
 				do_calculation (
 					"distributed integral using class EL_PROCEDURE_DISTRIBUTER",
 					agent: DOUBLE do
-						Result := procedure_integral.integral_sum (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi)
+						Result := procedure_integral.integral_sum (agent wave.complex_sine_wave (?, Option.term_count), 0, 2 * Pi)
 					end
 				)
 				i := i + 1
@@ -95,9 +95,13 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	delta_count: INTEGER
+	compile: TUPLE [
+		EL_LOGGED_FUNCTION_DISTRIBUTER [ANY],
+		EL_LOGGED_PROCEDURE_DISTRIBUTER [ANY],
+		EL_LOGGED_WORK_DISTRIBUTER [ROUTINE]
+	]
 		do
-			Result := Application_option.delta_count
+			create Result
 		end
 
 	do_calculation (a_description: STRING; calculation: FUNCTION [DOUBLE])
@@ -125,24 +129,9 @@ feature {NONE} -- Implementation
 			create Result.make
 		end
 
-	repetition_count: INTEGER
+	new_command_options: like Option
 		do
-			Result := Application_option.repetition_count
-		end
-
-	task_count: INTEGER
-		do
-			Result := Application_option.task_count
-		end
-
-	term_count: INTEGER
-		do
-			Result := Application_option.term_count
-		end
-
-	thread_count: INTEGER
-		do
-			Result := Application_option.thread_count
+			Result := Option
 		end
 
 feature {NONE} -- Internal attributes
@@ -157,22 +146,14 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Application_option: TEST_WORK_DISTRIBUTER_COMMAND_OPTIONS
+	Description: STRING = "Test distributed calculation of integrals"
+
+	Option_name: STRING = "work_distributer"
+
+	Option: TEST_WORK_DISTRIBUTER_COMMAND_OPTIONS
 		once
 			create Result.make
 		end
 
-	Compile_also: TUPLE [
-		EL_LOGGED_FUNCTION_DISTRIBUTER [ANY],
-		EL_LOGGED_PROCEDURE_DISTRIBUTER [ANY],
-		EL_LOGGED_WORK_DISTRIBUTER [ROUTINE]
-	]
-		once
-			create Result
-		end
-
-	Description: STRING = "Test distributed calculation of integrals"
-
-	Option_name: STRING = "work_distributer"
 
 end

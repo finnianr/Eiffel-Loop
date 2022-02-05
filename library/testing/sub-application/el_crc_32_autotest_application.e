@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_AUTOTEST_SUB_APPLICATION] object with support for test sets conforming
+		[$source EL_AUTOTEST_APPLICATION] object with support for test sets conforming
 		to [$source EL_CRC_32_TEST_ROUTINES]
 	]"
 
@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 14:29:23 GMT (Wednesday 19th January 2022)"
-	revision: "7"
+	date: "2022-02-05 14:52:17 GMT (Saturday 5th February 2022)"
+	revision: "8"
 
 deferred class
-	EL_CRC_32_AUTOTEST_SUB_APPLICATION [EQA_TYPES -> TUPLE create default_create end]
+	EL_CRC_32_AUTOTEST_APPLICATION [EQA_TYPES -> TUPLE create default_create end]
 
 inherit
-	EL_AUTOTEST_SUB_APPLICATION [EQA_TYPES]
+	EL_AUTOTEST_APPLICATION [EQA_TYPES]
 		redefine
 			new_log, new_lio, new_log_manager
 		end

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 13:59:52 GMT (Thursday 13th January 2022)"
-	revision: "14"
+	date: "2022-02-05 14:48:53 GMT (Saturday 5th February 2022)"
+	revision: "15"
 
 deferred class
 	EROS_SERVER_SUB_APPLICATION
 
 inherit
-	EL_LOGGED_SUB_APPLICATION
+	EL_LOGGED_APPLICATION
 		rename
 			on_operating_system_signal as on_ctrl_c
 		redefine

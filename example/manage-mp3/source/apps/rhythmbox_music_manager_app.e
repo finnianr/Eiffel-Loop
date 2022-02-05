@@ -30,16 +30,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 12:01:31 GMT (Sunday 23rd January 2022)"
-	revision: "32"
+	date: "2022-02-05 17:21:46 GMT (Saturday 5th February 2022)"
+	revision: "33"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
 
 inherit
-	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [RBOX_MUSIC_MANAGER]
-		rename
-			Application_option as Sub_application_option
+	EL_LOGGED_COMMAND_LINE_APPLICATION [RBOX_MUSIC_MANAGER]
 		redefine
 			Option_name, Visible_types
 		end
@@ -49,12 +47,10 @@ inherit
 			User_config_dir as Rhythmbox_user_config_dir
 		end
 
-	EL_INSTALLABLE_SUB_APPLICATION
+	EL_INSTALLABLE_APPLICATION
 		redefine
 			is_main
 		end
-
-	SHARED_APPLICATION_OPTION
 
 feature {NONE} -- Implementation
 
@@ -79,6 +75,11 @@ feature {NONE} -- Implementation
 			create Result.make
 		end
 
+	options_list: ARRAY [STRING]
+		do
+			Result := << Standard_option.silent, Standard_option.config, File_placeholder >>
+		end
+
 	visible_types: TUPLE [M3U_PLAYLIST_READER]
 		do
 			create Result
@@ -90,7 +91,7 @@ feature {NONE} -- Installer constants
 		once
 			create {EL_MENU_DESKTOP_ENVIRONMENT_IMP} Result.make (Current)
 			Result.enable_desktop_launcher
-			Result.set_command_line_options (Application_option.Options_list)
+			Result.set_command_line_options (options_list)
 		end
 
 	Desktop_launcher: EL_DESKTOP_MENU_ITEM

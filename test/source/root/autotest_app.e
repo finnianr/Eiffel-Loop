@@ -1,6 +1,6 @@
 note
 	description: "[
-		Run all sub-application tests conforming to [$source EL_AUTOTEST_SUB_APPLICATION]
+		Run all sub-application tests conforming to [$source EL_AUTOTEST_APPLICATION]
 		and call [$source ZSTRING_TEST_SET] a second time using codec [$source EL_ISO_8859_1_ZCODEC].
 		
 			el_test -autotest -test_set ZSTRING_TEST_SET -zstring_codec ISO-8859-1
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-08 13:32:16 GMT (Saturday 8th January 2022)"
-	revision: "7"
+	date: "2022-02-05 14:49:49 GMT (Saturday 5th February 2022)"
+	revision: "8"
 
 class
 	AUTOTEST_APP
@@ -30,11 +30,11 @@ create
 
 feature {NONE} -- Implementation
 
-	test (application: EL_SUB_APPLICATION)
+	test (application: EL_APPLICATION)
 		local
 			ecf_name: ZSTRING; cmd_list: EL_ZSTRING_LIST
 		do
-			if attached {EL_AUTOTEST_SUB_APPLICATION} application as test_app then
+			if attached {EL_AUTOTEST_APPLICATION} application as test_app then
 				ecf_name := Naming.class_as_kebab_upper (test_app, 0, 2) + Dot_ecf
 				ecf_name.to_lower
 				lio.put_labeled_string ("Library", ecf_name)

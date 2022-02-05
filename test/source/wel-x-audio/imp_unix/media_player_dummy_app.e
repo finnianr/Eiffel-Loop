@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-12 13:39:16 GMT (Saturday 12th September 2020)"
-	revision: "8"
+	date: "2022-02-05 14:46:06 GMT (Saturday 5th February 2022)"
+	revision: "9"
 
 class
 	MEDIA_PLAYER_DUMMY_APP
 
 inherit
-	EL_SUB_APPLICATION
+	EL_APPLICATION
 
 create
 	make

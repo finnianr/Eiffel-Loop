@@ -11,14 +11,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-07 9:48:35 GMT (Wednesday 7th April 2021)"
-	revision: "10"
+	date: "2022-02-05 14:46:05 GMT (Saturday 5th February 2022)"
+	revision: "11"
 
 class
 	PRIMES_BENCHMARK_APP
 
 inherit
-	EL_SUB_APPLICATION
+	EL_APPLICATION
 
 	MEMORY
 		export

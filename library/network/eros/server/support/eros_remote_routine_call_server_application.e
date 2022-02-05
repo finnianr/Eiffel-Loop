@@ -6,26 +6,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 9:34:29 GMT (Monday 20th January 2020)"
-	revision: "9"
+	date: "2022-02-05 17:37:14 GMT (Saturday 5th February 2022)"
+	revision: "10"
 
 deferred class
 	EROS_REMOTE_ROUTINE_CALL_SERVER_APPLICATION
 
 inherit
-	EL_LOGGED_SUB_APPLICATION
+	EL_LOGGED_APPLICATION
 		undefine
-			Application_option
+			new_command_options
 		end
-
-	EROS_SHARED_APPLICATION_OPTIONS
 
 feature {NONE} -- Initialization
 
 	initialize
 			--
 		do
-			create gui.make (name, Application_option.port, Application_option.max_threads)
+			create gui.make (name, Option.port, Option.max_threads)
 		end
 
 feature -- Basic operations
@@ -35,15 +33,32 @@ feature -- Basic operations
 			gui.launch
 		end
 
+feature {NONE} -- Implementation
+
 	name: ZSTRING
 			--
 
 		deferred
 		end
 
+	new_command_options: like Option
+		do
+			Result := Option
+		end
+
+feature {NONE} -- Internal attributes
+
 	gui: EROS_REMOTE_ROUTINE_CALL_SERVER_UI
 
 feature {NONE} -- Remotely callable types
+
+	all_remotely_accessible (tuple: TUPLE): BOOLEAN
+		local
+			list: EL_TUPLE_TYPE_LIST [EROS_REMOTELY_ACCESSIBLE]
+		do
+			create list.make_from_tuple (tuple)
+			Result := list.count = tuple.count
+		end
 
 	callable_classes: TUPLE
 			-- remotely callable types tuple
@@ -52,12 +67,11 @@ feature {NONE} -- Remotely callable types
 			all_remotely_accessible: all_remotely_accessible (Result)
 		end
 
-	all_remotely_accessible (tuple: TUPLE): BOOLEAN
-		local
-			list: EL_TUPLE_TYPE_LIST [EROS_REMOTELY_ACCESSIBLE]
-		do
-			create list.make_from_tuple (tuple)
-			Result := list.count = tuple.count
+feature {NONE} -- Constants
+
+	Option: EROS_APPLICATION_OPTIONS
+		once
+			create Result.make
 		end
 
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 13:10:44 GMT (Thursday 13th January 2022)"
-	revision: "10"
+	date: "2022-02-05 14:46:06 GMT (Saturday 5th February 2022)"
+	revision: "11"
 
 class
 	ID3_FRAME_CODE_CLASS_GENERATOR
@@ -30,7 +30,7 @@ inherit
 create
 	make
 
-feature {EL_SUB_APPLICATION} -- Initialization
+feature {EL_APPLICATION} -- Initialization
 
 	make (a_id3v2_include_dir: DIR_PATH)
 		do

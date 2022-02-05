@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 13:29:37 GMT (Wednesday 8th January 2020)"
-	revision: "4"
+	date: "2022-02-05 17:43:37 GMT (Saturday 5th February 2022)"
+	revision: "5"
 
 deferred class
 	ROUTINE_INTEGRAL [G]
@@ -21,12 +21,12 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (a_delta_count, a_task_count, thread_count: INTEGER; is_max_priority: BOOLEAN)
+	make (option: TEST_WORK_DISTRIBUTER_COMMAND_OPTIONS)
 		do
-			delta_count := a_delta_count; task_count := a_task_count
+			delta_count := option.delta_count; task_count := option.task_count
 			create result_list.make (task_count)
-			create distributer.make (thread_count)
-			if is_max_priority then
+			create distributer.make (Option.thread_count)
+			if option.max_priority then
 				distributer.set_max_priority
 			end
 		end

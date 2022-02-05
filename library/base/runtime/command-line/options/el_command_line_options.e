@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 11:26:43 GMT (Thursday 4th March 2021)"
-	revision: "21"
+	date: "2022-02-05 14:46:06 GMT (Saturday 5th February 2022)"
+	revision: "22"
 
 deferred class
 	EL_COMMAND_LINE_OPTIONS
@@ -104,7 +104,7 @@ note
 
 		The `help_table' function converts the text from `help_text' into a table of tuples each
 		containing a description and the default value. A usage example can be seen in
-		command line help system found in class [$source EL_SUB_APPLICATION].
+		command line help system found in class [$source EL_APPLICATION].
 
 		If the help text is not implemented as an empty string, then it should be formatted as
 		a series of option names ending with `:', and the description indented by 1 tab on the next

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Sub application allowing execution of multiple EQA unit tests. A summary of any failed tests is
+		Sub-application allowing execution of multiple EQA unit tests. A summary of any failed tests is
 		printed when all tests have finished executing.
 
 		See [$source BASE_AUTOTEST_APP] as an example.
@@ -17,16 +17,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-21 12:16:42 GMT (Friday 21st January 2022)"
-	revision: "16"
+	date: "2022-02-05 15:07:52 GMT (Saturday 5th February 2022)"
+	revision: "17"
 
 deferred class
-	EL_AUTOTEST_SUB_APPLICATION [EQA_TYPES -> TUPLE create default_create end]
+	EL_AUTOTEST_APPLICATION [EQA_TYPES -> TUPLE create default_create end]
 
 inherit
-	EL_LOGGED_SUB_APPLICATION
+	EL_LOGGED_APPLICATION
 		redefine
-			Application_option, is_logging_active, init_console_and_logging
+			is_logging_active, init_console_and_logging
 		end
 
 	EL_MODULE_ARGS; EL_MODULE_EIFFEL; EL_MODULE_NAMING
@@ -43,10 +43,10 @@ feature {NONE} -- Initialization
 		local
 			s: EL_STRING_8_ROUTINES; start_index, count: INTEGER
 		do
-			start_index := 1; count := Application_option.test_set.count
-			test_set_name := s.substring_to (Application_option.test_set, '.', $start_index)
+			start_index := 1; count := App_option.test_set.count
+			test_set_name := s.substring_to (App_option.test_set, '.', $start_index)
 			if start_index < count then
-				test_name := Application_option.test_set.substring (start_index, count)
+				test_name := App_option.test_set.substring (start_index, count)
 				if test_name.starts_with (Test_prefix) then
 					test_name.remove_head (Test_prefix.count)
 				end
@@ -54,7 +54,7 @@ feature {NONE} -- Initialization
 				create test_name.make_empty
 			end
 			test_type_list := new_test_type_list
-			if Application_option.test_set.count > 0 then
+			if App_option.test_set.count > 0 then
 				create test_type_list.make_from_array (test_type_list.query_if (agent test_set_matches).to_array)
 			end
 			Precursor
@@ -67,8 +67,8 @@ feature -- Basic operations
 			failed_list: EL_ARRAYED_LIST [EL_EQA_TEST_EVALUATOR]
 			evaluator: EL_EQA_TEST_EVALUATOR
 		do
-			if test_type_list.is_empty and then Application_option.test_set.count > 0 then
-				lio.put_labeled_string ("No such test set", Application_option.test_set)
+			if test_type_list.is_empty and then App_option.test_set.count > 0 then
+				lio.put_labeled_string ("No such test set", App_option.test_set)
 				lio.put_new_line
 
 			elseif test_type_list.all_conform then
@@ -156,18 +156,13 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Application_option: EL_AUTOTEST_COMMAND_OPTIONS
-		once
-			create Result.make
-		end
-
 	Test_prefix: STRING = "test_"
 
 	Test_set_suffix: STRING = "_TEST_SET"
 
 note
 	descendants: "[
-			EL_AUTOTEST_SUB_APPLICATION* [EQA_TYPES -> TUPLE create default_create end]
+			EL_AUTOTEST_APPLICATION* [EQA_TYPES -> TUPLE create default_create end]
 				[$source AMAZON_INSTANT_ACCESS_AUTOTEST_APP]
 				[$source COMPRESSION_AUTOTEST_APP]
 				[$source CURRENCY_AUTOTEST_APP]
@@ -182,7 +177,7 @@ note
 				[$source BASE_AUTOTEST_APP]
 				[$source MULTIMEDIA_AUTOTEST_APP]
 				[$source ECO_DB_AUTOTEST_APP]
-				[$source EL_CRC_32_AUTOTEST_SUB_APPLICATION]* [EQA_TYPES -> [$source TUPLE] create default_create end]
+				[$source EL_CRC_32_AUTOTEST_APPLICATION]* [EQA_TYPES -> [$source TUPLE] create default_create end]
 					[$source NETWORK_AUTOTEST_APP]
 					[$source EVOLICITY_AUTOTEST_APP]
 					[$source I18N_AUTOTEST_APP]
@@ -196,3 +191,4 @@ note
 				[$source THUNDERBIRD_AUTOTEST_APP]
 	]"
 end
+

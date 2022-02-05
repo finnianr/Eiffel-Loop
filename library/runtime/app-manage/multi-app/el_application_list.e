@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:16:13 GMT (Tuesday 5th January 2021)"
-	revision: "20"
+	date: "2022-02-05 16:23:53 GMT (Saturday 5th February 2022)"
+	revision: "21"
 
 class
-	EL_SUB_APPLICATION_LIST
+	EL_APPLICATION_LIST
 
 inherit
-	EL_ARRAYED_LIST [EL_SUB_APPLICATION]
+	EL_ARRAYED_LIST [EL_APPLICATION]
 		rename
 			make as make_list
 		redefine
@@ -47,9 +47,9 @@ feature {NONE} -- Initialization
 			make_list (type_list.count)
 			create installable_list.make (5)
 			across type_list as type loop
-				if attached {EL_SUB_APPLICATION} Eiffel.new_instance_of (type.item.type_id) as app then
+				if attached {EL_APPLICATION} Eiffel.new_instance_of (type.item.type_id) as app then
 					extend (app)
-					if attached {EL_INSTALLABLE_SUB_APPLICATION} app as installable_app then
+					if attached {EL_INSTALLABLE_APPLICATION} app as installable_app then
 						installable_list.extend (installable_app)
 					end
 				end
@@ -61,14 +61,23 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	installable_list: EL_ARRAYED_LIST [EL_INSTALLABLE_SUB_APPLICATION]
+	application (type: TYPE [EL_APPLICATION]): detachable EL_APPLICATION
+		do
+			across Current as app until attached Result loop
+				if app.item.generating_type ~ type then
+					Result := app.item
+				end
+			end
+		end
 
-	main: detachable EL_INSTALLABLE_SUB_APPLICATION
+	installable_list: EL_ARRAYED_LIST [EL_INSTALLABLE_APPLICATION]
+
+	main: detachable EL_INSTALLABLE_APPLICATION
 		-- main installable application
 		do
 			push_cursor
 			find_first_true (agent is_main)
-			if attached {EL_INSTALLABLE_SUB_APPLICATION} item as main_app then
+			if attached {EL_INSTALLABLE_APPLICATION} item as main_app then
 				Result := main_app
 			end
 			pop_cursor
@@ -136,7 +145,7 @@ feature -- Basic operations
 			if count = 1 then
 				go_i_th (1)
 			else
-				find_first_true (agent {EL_SUB_APPLICATION}.is_same_option (name))
+				find_first_true (agent {EL_APPLICATION}.is_same_option (name))
 				if after then
 					find_first_true (agent is_main)
 
@@ -189,14 +198,14 @@ feature -- Removal
 
 feature {NONE} -- Implementation
 
-	is_main (app: EL_SUB_APPLICATION): BOOLEAN
+	is_main (app: EL_APPLICATION): BOOLEAN
 		do
-			if attached {EL_INSTALLABLE_SUB_APPLICATION} app as installable then
+			if attached {EL_INSTALLABLE_APPLICATION} app as installable then
 				Result := installable.is_main
 			end
 		end
 
-	new_type_list (type_tuple: TUPLE): EL_TUPLE_TYPE_LIST [EL_SUB_APPLICATION]
+	new_type_list (type_tuple: TUPLE): EL_TUPLE_TYPE_LIST [EL_APPLICATION]
 		do
 			create Result.make_from_tuple (type_tuple)
 		end
@@ -216,3 +225,4 @@ feature -- Constants
 	Tab_width: INTEGER = 3
 
 end
+

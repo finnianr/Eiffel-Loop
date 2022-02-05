@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
-	revision: "18"
+	date: "2022-02-05 14:48:54 GMT (Saturday 5th February 2022)"
+	revision: "19"
 
 deferred class
-	EL_LOGGED_SUB_APPLICATION
+	EL_LOGGED_APPLICATION
 
 inherit
-	EL_SUB_APPLICATION
+	EL_APPLICATION
 		rename
 			init_console as init_console_and_logging
 		undefine
@@ -122,7 +122,7 @@ feature {NONE} -- Implementation
 			Result := Precursor + Log_option
 		end
 
-feature {EL_LOGGED_SUB_APPLICATION} -- Factory
+feature {EL_LOGGED_APPLICATION} -- Factory
 
 	new_identified_main_thread: EL_IDENTIFIED_MAIN_THREAD
 		do
@@ -147,10 +147,10 @@ feature {EL_LOGGED_SUB_APPLICATION} -- Factory
 
 feature {NONE} -- Constants
 
-	Log_filter_list_table: EL_FUNCTION_RESULT_TABLE [EL_LOGGED_SUB_APPLICATION, LIST [EL_LOG_FILTER]]
+	Log_filter_list_table: EL_FUNCTION_RESULT_TABLE [EL_LOGGED_APPLICATION, LIST [EL_LOG_FILTER]]
 		-- table of filter lists by sub-application type
 		once
-			create Result.make (11, agent {EL_LOGGED_SUB_APPLICATION}.new_log_filter_list)
+			create Result.make (11, agent {EL_LOGGED_APPLICATION}.new_log_filter_list)
 		end
 
 	Log_output_directory: DIR_PATH

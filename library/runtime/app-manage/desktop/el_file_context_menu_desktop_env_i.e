@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-02-05 14:51:18 GMT (Saturday 5th February 2022)"
+	revision: "10"
 
 deferred class
 	EL_FILE_CONTEXT_MENU_DESKTOP_ENV_I
@@ -29,7 +29,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (installable: EL_INSTALLABLE_SUB_APPLICATION; a_menu_path: READABLE_STRING_GENERAL)
+	make (installable: EL_INSTALLABLE_APPLICATION; a_menu_path: READABLE_STRING_GENERAL)
 			--
 		do
 			make_installer (installable)

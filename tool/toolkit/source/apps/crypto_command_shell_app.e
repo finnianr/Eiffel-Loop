@@ -12,14 +12,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 11:52:31 GMT (Thursday 13th January 2022)"
-	revision: "16"
+	date: "2022-02-05 14:47:22 GMT (Saturday 5th February 2022)"
+	revision: "17"
 
 class
 	CRYPTO_COMMAND_SHELL_APP
 
 inherit
-	EL_COMMAND_SHELL_SUB_APPLICATION [EL_CRYPTO_COMMAND_SHELL]
+	EL_COMMAND_SHELL_APPLICATION [EL_CRYPTO_COMMAND_SHELL]
 		redefine
 			Option_name, visible_types
 		end

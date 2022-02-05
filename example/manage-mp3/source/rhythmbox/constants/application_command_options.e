@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 12:18:51 GMT (Tuesday 31st December 2019)"
-	revision: "4"
+	date: "2022-02-05 17:16:51 GMT (Saturday 5th February 2022)"
+	revision: "5"
 
 class
 	APPLICATION_COMMAND_OPTIONS
@@ -18,12 +18,6 @@ inherit
 create
 	make
 
-feature -- Constants
-
-	options_list: ARRAY [STRING]
-		do
-			Result := << Opt_silent, "config", File_placeholder >>
-		end
 
 feature {NONE} -- Constants
 

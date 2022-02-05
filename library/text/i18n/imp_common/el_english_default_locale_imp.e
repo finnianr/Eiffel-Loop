@@ -4,7 +4,7 @@ note
 	]"
 	notes: "[
 		If you are using the `app-manage' framework, your can "internationalize" your application
-		by redefining `{EL_SUB_APPLICATION}.new_locale' as follows:
+		by redefining `{EL_APPLICATION}.new_locale' as follows:
 
 			new_locale: EL_ENGLISH_DEFAULT_LOCALE_IMP
 				do
@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-17 11:08:36 GMT (Saturday 17th October 2020)"
-	revision: "6"
+	date: "2022-02-05 14:46:07 GMT (Saturday 5th February 2022)"
+	revision: "7"
 
 class
 	EL_ENGLISH_DEFAULT_LOCALE_IMP

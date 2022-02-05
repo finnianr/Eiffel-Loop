@@ -1,6 +1,6 @@
 note
 	description: "[
-		Run all sub-applications conforming to [$source EL_AUTOTEST_SUB_APPLICATION] except for
+		Run all sub-applications conforming to [$source EL_AUTOTEST_APPLICATION] except for
 		those listed in `Omissions' tuple.
 	]"
 
@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 13:21:39 GMT (Thursday 3rd February 2022)"
-	revision: "3"
+	date: "2022-02-05 14:49:50 GMT (Saturday 5th February 2022)"
+	revision: "4"
 
 class
 	EL_BATCH_AUTOTEST_APP
 
 inherit
-	EL_SUB_APPLICATION
+	EL_APPLICATION
 
 	EL_SHARED_APPLICATION_LIST
 
@@ -63,11 +63,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	test (application: EL_SUB_APPLICATION)
+	test (application: EL_APPLICATION)
 		local
 			cmd_list: EL_ZSTRING_LIST
 		do
-			if attached {EL_AUTOTEST_SUB_APPLICATION} application as test_app then
+			if attached {EL_AUTOTEST_APPLICATION} application as test_app then
 				create cmd_list.make_from_general (<< Hypen + application.option_name >>)
 				call_command (cmd_list)
 			end
@@ -75,13 +75,13 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	omission_list: EL_TUPLE_TYPE_LIST [EL_SUB_APPLICATION]
+	omission_list: EL_TUPLE_TYPE_LIST [EL_APPLICATION]
 
 feature {NONE} -- Constants
 
 	Description: STRING
 		once
-			Result := "Run all sub-application tests conforming to " + ({EL_AUTOTEST_SUB_APPLICATION}).name
+			Result := "Run all sub-application tests conforming to " + ({EL_AUTOTEST_APPLICATION}).name
 		end
 
 	Dot_ecf: ZSTRING

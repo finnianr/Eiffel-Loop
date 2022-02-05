@@ -12,19 +12,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "25"
+	date: "2022-02-05 16:40:56 GMT (Saturday 5th February 2022)"
+	revision: "26"
 
 class
 	EL_STANDARD_UNINSTALL_APP
 
 inherit
-	EL_SUB_APPLICATION
+	EL_APPLICATION
 		redefine
 			option_name, App_directory_list
 		end
 
-	EL_INSTALLABLE_SUB_APPLICATION
+	EL_INSTALLABLE_APPLICATION
 		redefine
 			name
 		end
@@ -88,7 +88,7 @@ feature -- Access
 
 	Option_name: IMMUTABLE_STRING_8
 		once
-			Result := Application_option.sub_app.uninstall
+			Result := Standard_option.uninstall
 		end
 
 feature -- Installer constants
@@ -148,7 +148,7 @@ note
 			end
 
 		**2.** Designate one application to be the "main application" by over-riding
-		`{[$source EL_INSTALLABLE_SUB_APPLICATION]}.is_main' with value `True'.
+		`{[$source EL_INSTALLABLE_APPLICATION]}.is_main' with value `True'.
 
 		**3.** By default the launcher menu is put in the System submenu. Over-ride `Desktop_menu_path' to put
 		it somewhere else.

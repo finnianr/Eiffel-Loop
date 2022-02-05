@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "13"
+	date: "2022-02-05 14:51:18 GMT (Saturday 5th February 2022)"
+	revision: "14"
 
 deferred class
 	EL_DESKTOP_ENVIRONMENT_I
@@ -39,7 +39,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (installable: EL_INSTALLABLE_SUB_APPLICATION)
+	make (installable: EL_INSTALLABLE_APPLICATION)
 		do
 			make_default
 			description := installable.unwrapped_description

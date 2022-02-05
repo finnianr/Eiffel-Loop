@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-26 20:05:09 GMT (Tuesday 26th October 2021)"
-	revision: "1"
+	date: "2022-02-05 17:11:30 GMT (Saturday 5th February 2022)"
+	revision: "2"
 
 deferred class
 	EL_UNINSTALL_APP
@@ -22,7 +22,7 @@ inherit
 			initialize, run, Desktop
 		end
 
-	EL_INSTALLABLE_SUB_APPLICATION
+	EL_INSTALLABLE_APPLICATION
 		undefine
 			name
 		end
@@ -66,7 +66,7 @@ feature {NONE} -- Installer constants
 	Desktop: EL_DESKTOP_ENVIRONMENT_I
 		once
 			create {EL_UNINSTALL_APP_MENU_DESKTOP_ENV_IMP} Result.make (Current)
-			Result.set_command_line_options (<< Base_option.Opt_silent >>)
+			Result.set_command_line_options (<< Standard_option.silent >>)
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 12:49:38 GMT (Saturday 5th February 2022)"
-	revision: "1"
+	date: "2022-02-05 14:46:06 GMT (Saturday 5th February 2022)"
+	revision: "2"
 
 class
 	UPGRADE_LOG_FILTERS_COMMAND
@@ -18,7 +18,7 @@ inherit
 feature -- Constants
 
 	Description: STRING = "[
-		Change class names in {EL_SUB_APPLICATION}.Log_filter from strings to class types
+		Change class names in {EL_APPLICATION}.Log_filter from strings to class types
 	]"
 
 feature {NONE} -- Implementation

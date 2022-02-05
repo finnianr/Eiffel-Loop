@@ -1,6 +1,6 @@
 note
 	description: "[
-		Sets the command operands for the generic `command` in class `[$source EL_COMMAND_LINE_SUB_APPLICATION]`
+		Sets the command operands for the generic `command` in class `[$source EL_COMMAND_LINE_APPLICATION]`
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 13:12:20 GMT (Sunday 23rd January 2022)"
-	revision: "14"
+	date: "2022-02-05 14:46:40 GMT (Saturday 5th February 2022)"
+	revision: "15"
 
 deferred class
 	EL_MAKE_OPERAND_SETTER [G]

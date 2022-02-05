@@ -11,14 +11,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "17"
+	date: "2022-02-05 16:44:37 GMT (Saturday 5th February 2022)"
+	revision: "18"
 
 class
 	EL_STANDARD_INSTALLER_APP
 
 inherit
-	EL_SUB_APPLICATION
+	EL_APPLICATION
 		rename
 			App_directory_list as Root_owned_app_directory_list
 		redefine
@@ -27,7 +27,7 @@ inherit
 
 	EL_SHARED_APPLICATION_LIST
 
-	EL_INSTALLER_CONSTANTS
+	EL_APPLICATION_CONSTANTS
 
 	EL_MODULE_OS
 
@@ -131,9 +131,9 @@ feature {NONE} -- Constants
 			Result := "Installs the application"
 		end
 
-	Option_name: STRING
+	Option_name: IMMUTABLE_STRING_8
 		once
-			Result := Application_option.sub_app.install
+			Result := Standard_option.install
 		end
 
 end
