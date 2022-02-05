@@ -17,40 +17,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-01 20:14:47 GMT (Tuesday 1st February 2022)"
-	revision: "28"
+	date: "2022-02-05 12:10:22 GMT (Saturday 5th February 2022)"
+	revision: "29"
 
 class
 	NOTE_EDITOR_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [NOTE_EDITOR_COMMAND]
-
-	EL_INSTALLABLE_SUB_APPLICATION
-		rename
-			desktop_menu_path as Default_desktop_menu_path,
-			desktop_launcher as Default_desktop_launcher
-		end
+	SOURCE_MANIFEST_SUB_APPLICATION [NOTE_EDITOR_COMMAND]
 
 feature {NONE} -- Implementation
 
-	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
-		do
-			Result := <<
-				required_argument ("sources", "Path to sources manifest file", << file_must_exist >>)
-			>>
-		end
-
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make ("")
-		end
-
-feature {NONE} -- Constants
-
-	Desktop: EL_DESKTOP_ENVIRONMENT_I
-		once
-			Result := new_context_menu_desktop ("Eiffel Loop/Development/Set note field defaults")
+			Result := agent {like command}.make (create {FILE_PATH})
 		end
 
 end

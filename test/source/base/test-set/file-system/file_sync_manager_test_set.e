@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 9:44:43 GMT (Wednesday 19th January 2022)"
-	revision: "22"
+	date: "2022-02-04 10:13:57 GMT (Friday 4th February 2022)"
+	revision: "23"
 
 class
 	FILE_SYNC_MANAGER_TEST_SET
@@ -36,7 +36,7 @@ feature -- Tests
 
 	test_file_transfer
 		note
-			testing: "covers/{EL_FILE_SYNC_ITEM_SET}.update"
+			testing: "covers/{EL_MEMBER_SET}.same_keys, covers/{EL_FILE_SYNC_MANAGER}.update"
 		local
 			manager: EL_FILE_SYNC_MANAGER; medium: EL_LOCAL_FILE_SYNC_MEDIUM
 			destination_list: ARRAY [LIST [FILE_PATH]]

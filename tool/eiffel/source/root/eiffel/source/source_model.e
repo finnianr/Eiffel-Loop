@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "10"
+	date: "2022-02-05 9:48:27 GMT (Saturday 5th February 2022)"
+	revision: "11"
 
 class
 	SOURCE_MODEL
@@ -77,7 +77,7 @@ feature {NONE} -- State handlers
 
 	find_first_feature_block (line: ZSTRING)
 		do
-			if code_line_starts_with (0, Keyword_feature) then
+			if code_line_starts_with (0, Keyword.feature_) then
 				group_header.extend (line)
 				state := agent find_first_feature
 			else
@@ -92,7 +92,7 @@ feature {NONE} -- State handlers
 				fill_class_footer (line)
 				state := agent fill_class_footer
 
-			elseif code_line_starts_with (0, Keyword_feature) then
+			elseif code_line_starts_with (0, Keyword.feature_) then
 				group_header.extend (line)
 				state := agent find_first_feature
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-07 14:46:05 GMT (Saturday 7th March 2020)"
-	revision: "2"
+	date: "2022-02-05 9:45:02 GMT (Saturday 5th February 2022)"
+	revision: "3"
 
 class
 	ROUTINE_FEATURE
@@ -114,7 +114,7 @@ feature {NONE} -- Implementation
 		do
 			from lines.start until found_do or else lines.after loop
 				line := lines.item
-				pos_do := line.substring_index (Keyword_do, 1)
+				pos_do := line.substring_index (Keyword.do_, 1)
 				if pos_do > 0 and then line.leading_occurrences ('%T') = pos_do - 1
 					and then (pos_do + 1 = line.count or else line.is_space_item (pos_do + 1))
 				then

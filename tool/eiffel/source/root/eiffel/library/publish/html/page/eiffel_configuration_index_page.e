@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 12:41:33 GMT (Thursday 3rd February 2022)"
-	revision: "22"
+	date: "2022-02-05 12:56:01 GMT (Saturday 5th February 2022)"
+	revision: "23"
 
 class
 	EIFFEL_CONFIGURATION_INDEX_PAGE
@@ -24,7 +24,7 @@ inherit
 
 	COMPARABLE
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 

@@ -6,14 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 9:47:20 GMT (Wednesday 19th January 2022)"
-	revision: "11"
+	date: "2022-02-05 8:00:53 GMT (Saturday 5th February 2022)"
+	revision: "12"
 
 class
 	TRANSLATION_TREE_COMPILER_TEST_SET
 
 inherit
-	EL_COPIED_DIRECTORY_DATA_TEST_SET
+	EL_COPIED_FILE_DATA_TEST_SET
+		undefine
+			new_lio
+		end
+
+	EL_LOCALIZATION_TEST
+		rename
+			check_reflective_locale_texts as test_reflective_locale_texts
 		undefine
 			new_lio
 		end
@@ -29,38 +36,22 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("compile", agent test_compile)
+			eval.call ("compile_tree", agent test_compile_tree)
 		end
 
 feature -- Tests
 
-	test_compile
-		do
-			do_test ("compile_tree", os_checksum (3296152875, 936424869), agent compile_tree, [])
-		end
-
-feature {NONE} -- Implementation
-
-	compile_tree
-			--
+	test_compile_tree
 		local
-			command: PYXIS_TRANSLATION_TREE_COMPILER
 			restored_list: EL_TRANSLATION_ITEMS_LIST
 			translations_table: EL_HASH_TABLE [EL_TRANSLATION_ITEMS_LIST, STRING]
 			restored_table, filled_table: EL_TRANSLATION_TABLE
-			translation, years: ZSTRING; locale: EL_ENGLISH_DEFAULT_LOCALE_IMP
-			locale_table: EL_LOCALE_TABLE
+			translation, years: ZSTRING; locale_en: EL_ENGLISH_DEFAULT_LOCALE_IMP
+			locale_table: EL_LOCALE_TABLE; texts: EL_UNINSTALL_TEXTS
 		do
-			across 1 |..| 2 as n loop
-				lio.put_integer_field ("Run", n.item)
-				lio.put_new_line
-				create command.make ("", work_area_data_dir, Locales_dir)
-				command.execute
-				if n.item = 1 then
-					translations_table := command.translations_table
-				end
-				lio.put_new_line
-			end
+			create translations_table.make_size (20)
+			do_test ("compile_twice", 2969954864, agent compile_twice, [translations_table])
+
 			lio.put_line ("Checking restore")
 			create locale_table.make (Locales_dir)
 			across locale_table as language loop
@@ -74,44 +65,67 @@ feature {NONE} -- Implementation
 
 				assert ("same count", restored_table.count = filled_table.count)
 				across restored_table as table loop
-					translation := table.item
-					if translation.has ('%N') then
-						lio.put_string_field_to_max_length (table.key, translation, 60)
-					else
-						lio.put_labeled_string (table.key, translation)
-					end
-					lio.put_new_line
-					assert ("same value", translation ~ filled_table [table.key])
+					assert ("same value", table.item ~ filled_table [table.key])
 				end
 			end
+			test_reflective_locale_texts
 
 			Singleton_table.remove (locale_table)
 
-			create locale.make (Work_area_dir)
+			create texts.make
+			assert ("has 1 place holder", texts.uninstall_application.occurrences ('%S') = 1)
+
+			create locale_en.make (Work_area_dir)
+			assert ("same string", texts.uninstall_application ~ locale_en * "{uninstall-application}")
+		end
+
+feature {NONE} -- Implementation
+
+	compile_twice (translations_table: EL_HASH_TABLE [EL_TRANSLATION_ITEMS_LIST, STRING])
+		local
+			command: PYXIS_TRANSLATION_TREE_COMPILER
+		do
 			across 1 |..| 2 as n loop
-				years := Years_template #$ [n.item]
-				if n.item = 2 then
-					years.append_character ('s')
+				lio.put_integer_field ("Run", n.item)
+				lio.put_new_line
+				create command.make ("", work_area_dir, Locales_dir)
+				command.execute
+				if n.item = 1 then
+					translations_table.merge (command.translations_table)
 				end
-				assert ("same string", locale.quantity_translation ("{for-n-years}", n.item) ~ years)
+				lio.put_new_line
 			end
+		end
+
+	locale_texts_types: TUPLE [
+		EL_DAY_OF_WEEK_TEXTS,
+		EL_MONTH_TEXTS,
+		EL_PASSPHRASE_TEXTS,
+		EL_UNINSTALL_TEXTS
+	]
+		do
+			create Result
+		end
+
+	source_file_list: EL_FILE_PATH_LIST
+		do
+			create Result.make_from_array (<<
+				Data_dir + "app-manage/el_uninstall_texts.pyx",
+				Data_dir + "base/el_month_texts.pyx",
+				Data_dir + "base/el_day_of_week_texts.pyx"
+			>>)
 		end
 
 feature {NONE} -- Constants
 
 	Locales_dir: DIR_PATH
 		once
-			Result := Work_area_dir.joined_dir_tuple (["locales"])
+			Result := Work_area_dir #+ "locales"
 		end
 
-	Source_dir: DIR_PATH
+	Data_dir: DIR_PATH
 		once
-			Result := EL_test_data_dir.joined_dir_path ("pyxis/localization")
-		end
-
-	Years_template: ZSTRING
-		once
-			Result := "for %S year"
+			Result := Eiffel_loop_dir #+ "library/localization"
 		end
 
 end

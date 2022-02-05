@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 10:33:33 GMT (Wednesday 24th November 2021)"
-	revision: "17"
+	date: "2022-02-04 10:21:37 GMT (Friday 4th February 2022)"
+	revision: "18"
 
 class
 	CHAIN_TEST_SET
@@ -173,10 +173,8 @@ feature -- Test
 	test_weight_summation_3
 		-- using method 2
 		note
-			testing: "[
-				covers/{EL_CHAIN}.query_is_equal, covers/{EL_CHAIN}.query_if,
-				covers/{EL_CHAIN}.query, covers/{EL_FUNCTION_VALUE_QUERY_CONDITION}.met
-			]"
+			testing: "covers/{EL_CHAIN}.query_is_equal, covers/{EL_CHAIN}.query_if",
+						"covers/{EL_CHAIN}.query, covers/{EL_FUNCTION_VALUE_QUERY_CONDITION}.met"
 		do
 			assert (
 				"sum red is 14",

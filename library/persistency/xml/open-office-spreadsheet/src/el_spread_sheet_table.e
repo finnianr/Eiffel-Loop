@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:34:23 GMT (Sunday 19th December 2021)"
-	revision: "6"
+	date: "2022-02-03 16:14:44 GMT (Thursday 3rd February 2022)"
+	revision: "7"
 
 class
 	EL_SPREAD_SHEET_TABLE
@@ -119,8 +119,7 @@ feature {NONE} -- Implementation
 	column_table (defined_ranges: EL_ZSTRING_HASH_TABLE [ZSTRING]): EL_ZSTRING_HASH_TABLE [INTEGER]
 
 		local
-			cell_range_address: EL_ZSTRING_LIST
-			column_interval: INTEGER_INTERVAL
+			cell_range_address: EL_ZSTRING_LIST; column_interval: INTEGER_INTERVAL
 		do
 			create Result.make_equal (11)
 			create columns.make_empty

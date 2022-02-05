@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 12:25:07 GMT (Thursday 3rd February 2022)"
-	revision: "8"
+	date: "2022-02-05 9:11:53 GMT (Saturday 5th February 2022)"
+	revision: "9"
 
 class
 	CLASS_PREFIX_REMOVER
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_editor
 		redefine
-			on_class_reference, on_class_name
+			edit, on_class_reference, on_class_name, set_source_path
 		end
 
 create
@@ -25,17 +25,33 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_prefix_letters: STRING; file_path_list: LIST [FILE_PATH])
+	make (a_prefix_letters: STRING)
 			--
 		do
 			make_editor
 			prefix_characters := a_prefix_letters + "_"
+			prefix_characters_lower := prefix_characters.as_lower
 			create class_name.make_empty
-			create class_set.make (file_path_list.count)
-			across file_path_list as path loop
-				class_set.put (path.item.base_sans_extension.as_upper)
+			create class_set.make (0)
+		end
+
+feature -- Element Change
+
+  	set_source_path (a_source_path: FILE_PATH)
+  		do
+  			class_set.put (a_source_path.base_sans_extension.as_upper)
+  			Precursor (a_source_path)
+  		end
+
+feature -- Basic operations
+
+	edit
+		do
+			if source_path.base.starts_with (prefix_characters_lower) then
+				Precursor
 			end
 		end
+
 feature {NONE} -- Events
 
 	on_class_name (text: EL_STRING_VIEW)
@@ -71,5 +87,7 @@ feature {NONE} -- Internal attributes
 	class_set: EL_HASH_SET [ZSTRING]
 
 	prefix_characters: ZSTRING
+
+	prefix_characters_lower: ZSTRING
 
 end

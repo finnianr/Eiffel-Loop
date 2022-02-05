@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-02 14:15:22 GMT (Wednesday 2nd February 2022)"
-	revision: "36"
+	date: "2022-02-05 11:59:12 GMT (Saturday 5th February 2022)"
+	revision: "37"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
@@ -132,7 +132,7 @@ feature {NONE} -- Validations
 
 feature {NONE} -- Implementation
 
-	argument_list: ARRAYED_LIST [EL_COMMAND_ARGUMENT]
+	argument_list: EL_ARRAYED_LIST [EL_COMMAND_ARGUMENT]
 		-- for use with when modifiying `argument_specs' in descendant
 		do
 			create Result.make_from_array (argument_specs)

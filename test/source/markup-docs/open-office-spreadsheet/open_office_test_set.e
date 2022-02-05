@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 9:45:15 GMT (Wednesday 19th January 2022)"
-	revision: "20"
+	date: "2022-02-04 10:48:55 GMT (Friday 4th February 2022)"
+	revision: "21"
 
 class
 	OPEN_OFFICE_TEST_SET
@@ -32,23 +32,36 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("read_row_cells",	agent test_read_row_cells)
+			eval.call ("open_office_spreadsheet", agent test_open_office_spreadsheet)
 		end
 
 feature -- Tests
 
-	test_read_row_cells
+	test_open_office_spreadsheet
+		note
+			testing: "covers/{EL_SPREAD_SHEET}.make", "covers/{EL_XPATH_NODE_CONTEXT}.do_query",
+						"covers/{EL_XPATH_ROOT_NODE_CONTEXT}.new_namespace_table",
+						"covers/{EL_XPATH_NODE_CONTEXT}.context_list, covers/{EL_XPATH_NODE_CONTEXT}.find_node",
+						"covers/{EL_XPATH_NODE_CONTEXT}.real_at_xpath, covers/{EL_XPATH_NODE_CONTEXT}.string_at_xpath",
+						"covers/{EL_XPATH_NODE_CONTEXT}.integer_at_xpath"
+		local
+			xdoc: EL_XPATH_ROOT_NODE_CONTEXT; file_path: FILE_PATH
 		do
-			do_test ("read_spreadsheet", 3625570737, agent read_spreadsheet, ["XML/Jobs-spreadsheet.fods"])
+			file_path := "XML/Jobs-spreadsheet.fods"
+			create xdoc.make_from_file (file_path)
+			across Namespace_list.split ('%N') as name loop
+				assert ("has namespace " + name.item, xdoc.namespace_table.has (name.item))
+			end
+			do_test ("print_spreadsheet", 2607162124, agent print_spreadsheet, [xdoc, file_path.base_sans_extension])
 		end
 
 feature {NONE} -- Implementation
 
-	read_spreadsheet (file_path: STRING)
+	print_spreadsheet (root_node: EL_XPATH_ROOT_NODE_CONTEXT; name: ZSTRING)
 		local
 			spread_sheet: EL_SPREAD_SHEET
 		do
-			create spread_sheet.make (file_path)
+			create spread_sheet.make_with_root_node (root_node, name, "")
 			across spread_sheet as table loop
 				across table.item as row loop
 					log.put_integer_field ("Row", row.cursor_index)
@@ -61,5 +74,44 @@ feature {NONE} -- Implementation
 				end
 			end
 		end
+
+feature {NONE} -- Constants
+
+	Namespace_list: STRING = "[
+		office
+		style
+		text
+		table
+		draw
+		fo
+		xlink
+		dc
+		meta
+		number
+		presentation
+		svg
+		chart
+		dr3d
+		math
+		form
+		script
+		config
+		ooo
+		ooow
+		oooc
+		dom
+		xforms
+		xsd
+		xsi
+		rpt
+		of
+		xhtml
+		grddl
+		tableooo
+		calcext
+		field
+		formx
+		css3t
+	]"
 
 end

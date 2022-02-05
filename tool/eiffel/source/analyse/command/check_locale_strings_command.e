@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:23:54 GMT (Thursday 13th January 2022)"
-	revision: "16"
+	date: "2022-02-05 9:46:30 GMT (Saturday 5th February 2022)"
+	revision: "17"
 
 class
 	CHECK_LOCALE_STRINGS_COMMAND
@@ -126,7 +126,7 @@ feature {NONE} -- State handlers
 		local
 			pos_quote: INTEGER
 		do
-			if code_line_starts_with (0, Keyword_end) then
+			if code_line_starts_with (0, Keyword.end_) then
 				state := final
 			elseif code_line_starts_with_one_of (2, Routine_start_keywords) then
 				routine_lines.wipe_out
@@ -148,7 +148,7 @@ feature {NONE} -- State handlers
 		local
 			l_parser: like parser
 		do
-			if code_line_starts_with (2, Keyword_end) then
+			if code_line_starts_with (2, Keyword.end_) then
 				if routine_has_english_prefix then
 					create {EL_ROUTINE_RESULT_LOCALE_STRING_PARSER} l_parser.make
 				else

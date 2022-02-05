@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
-	revision: "11"
+	date: "2022-02-05 6:57:49 GMT (Saturday 5th February 2022)"
+	revision: "12"
 
 deferred class
 	EL_DEFAULT_LOCALE_I
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
  		local
  			table: EL_LOCALE_TABLE
  		do
- 			create table.make (locales_parent_dir.joined_dir_path (Locales))
+ 			create table.make (locales_parent_dir #+ Locales)
 
  			make_with_language (key_language, key_language)
  			create other_locales.make_equal (3, agent new_locale)

@@ -6,109 +6,50 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 11:40:16 GMT (Wednesday 3rd March 2021)"
-	revision: "4"
+	date: "2022-02-05 9:59:49 GMT (Saturday 5th February 2022)"
+	revision: "5"
 
-class
+deferred class
 	EL_EIFFEL_KEYWORDS
+
+inherit
+	EL_ANY_SHARED
+
+	EL_MODULE_TUPLE
 
 feature {NONE} -- Keywords
 
-	Keyword_class: EL_ZSTRING
+	Keyword: TUPLE [
+		class_, deferred_, do_, end_, expanded_, feature_, frozen_, invariant_, indexing_,
+		inherit_, note_, once_, undefine_, redefine_, rename_: ZSTRING]
 		once
-			Result := "class"
-		end
-
-	Keyword_deferred: EL_ZSTRING
-		once
-			Result := "deferred"
-		end
-
-	Keyword_do: EL_ZSTRING
-		once
-			Result := "do"
-		end
-
-	Keyword_end: ZSTRING
-		once
-			Result := "end"
-		end
-
-	Keyword_expanded: ZSTRING
-		once
-			Result := "expanded"
-		end
-
-	Keyword_feature: ZSTRING
-		once
-			Result := "feature"
-		end
-
-	Keyword_frozen: EL_ZSTRING
-		once
-			Result := "frozen"
-		end
-
-	Keyword_invariant: ZSTRING
-		once
-			Result := "invariant"
-		end
-
-	Keyword_indexing: ZSTRING
-		once
-			Result := "indexing"
-		end
-
-	Keyword_inherit: ZSTRING
-		once
-			Result := "inherit"
-		end
-
-	Keyword_note: ZSTRING
-		once
-			Result := "note"
-		end
-
-	Keyword_once: EL_ZSTRING
-		once
-			Result := "once"
-		end
-
-	Keyword_undefine: EL_ZSTRING
-		once
-			Result := "undefine"
-		end
-
-	Keyword_redefine: EL_ZSTRING
-		once
-			Result := "redefine"
-		end
-
-	Keyword_rename: EL_ZSTRING
-		once
-			Result := "rename"
+			create Result
+			Tuple.fill (Result,
+				"class, deferred, do, end, expanded, feature, frozen, invariant, indexing,%
+				%inherit, note, once, undefine, redefine, rename"
+			)
 		end
 
 feature {NONE} -- Keyword lists
 
 	Footer_start_keywords: EL_ZSTRING_LIST
 		once
-			Result := << Keyword_invariant, Keyword_end, Keyword_note >>
+			Result := << Keyword.invariant_, Keyword.end_, Keyword.note_ >>
 		end
 
 	Indexing_keywords: EL_ZSTRING_LIST
 		once
-			Result := << Keyword_note, Keyword_indexing >>
+			Result := << Keyword.note_, Keyword.indexing_ >>
 		end
 
 	Class_declaration_keywords: EL_ZSTRING_LIST
 		once
-			Result := << Keyword_expanded, Keyword_frozen, Keyword_deferred, Keyword_class >>
+			Result := << Keyword.expanded_, Keyword.frozen_, Keyword.deferred_, Keyword.class_ >>
 		end
 
 	Routine_start_keywords: EL_ZSTRING_LIST
 		once
-			Result := << Keyword_do, Keyword_once >>
+			Result := << Keyword.do_, Keyword.once_ >>
 		end
 
 end

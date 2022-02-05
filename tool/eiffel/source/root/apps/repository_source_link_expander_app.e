@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-02 14:23:22 GMT (Wednesday 2nd February 2022)"
-	revision: "12"
+	date: "2022-02-05 11:59:27 GMT (Saturday 5th February 2022)"
+	revision: "13"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_APP
@@ -29,7 +29,7 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make (Empty_string, Empty_string, Empty_string_8, 0)
 		end
 
-	argument_list: ARRAYED_LIST [EL_COMMAND_ARGUMENT]
+	argument_list: EL_ARRAYED_LIST [EL_COMMAND_ARGUMENT]
 		do
 			Result := Precursor
 			Result.put_front (

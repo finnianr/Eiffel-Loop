@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 12:38:27 GMT (Thursday 3rd February 2022)"
-	revision: "24"
+	date: "2022-02-05 9:40:11 GMT (Saturday 5th February 2022)"
+	revision: "25"
 
 class
 	EIFFEL_NOTES
@@ -187,7 +187,7 @@ feature {NONE} -- Line states
 
 	find_note_section (line: ZSTRING)
 		do
-			if across Indexing_keywords as keyword some line.starts_with (keyword.item) end then
+			if across Indexing_keywords as word some line.starts_with (word.item) end then
 				state := agent find_note_section_end
 			end
 		end

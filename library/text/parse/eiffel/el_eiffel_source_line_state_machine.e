@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 12:04:20 GMT (Thursday 3rd February 2022)"
-	revision: "8"
+	date: "2022-02-05 11:10:04 GMT (Saturday 5th February 2022)"
+	revision: "9"
 
 class
 	EL_EIFFEL_SOURCE_LINE_STATE_MACHINE
@@ -46,6 +46,20 @@ feature {NONE} -- Implementation
 				end
 			end
 			Precursor (line)
+		end
+
+	code_line_class_name: ZSTRING
+		do
+			create Result.make_empty
+			across code_line.split (' ') as word until not Result.is_empty loop
+				if word.item.count > 0 and then not Class_declaration_keywords.has (word.item) then
+					Result.append (word.item)
+					if Result.has ('[') then
+						Result.keep_head (Result.index_of ('[', 1))
+						Result.right_adjust
+					end
+				end
+			end
 		end
 
 	code_line_is_class_declaration: BOOLEAN
@@ -89,14 +103,14 @@ feature {NONE} -- Implementation
 			Result := keywords.there_exists (agent code_line_starts_with (indent_count, ?))
 		end
 
-	code_line_starts_with (indent_count: INTEGER; keyword: ZSTRING): BOOLEAN
+	code_line_starts_with (indent_count: INTEGER; a_keyword: ZSTRING): BOOLEAN
 		local
 			cl: like code_line
 		do
 			if tab_count = indent_count then
 				cl := code_line
-				if cl.starts_with (keyword) then
-					Result := cl.count > keyword.count implies cl [keyword.count + 1].is_space
+				if cl.starts_with (a_keyword) then
+					Result := cl.count > a_keyword.count implies cl [a_keyword.count + 1].is_space
 				end
 			end
 		end

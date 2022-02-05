@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-16 11:00:32 GMT (Sunday 16th January 2022)"
-	revision: "44"
+	date: "2022-02-05 11:49:15 GMT (Saturday 5th February 2022)"
+	revision: "45"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -415,6 +415,15 @@ feature -- Status query
 		do
 			index := content.index_of ('%N', 1)
 			Result := index > 1 and then content [index - 1] = '%R'
+		end
+
+	is_directory (a_path: EL_PATH): BOOLEAN
+		-- True if file not empty
+		local
+			file: RAW_FILE
+		do
+			create file.make_with_name (a_path.as_string_32)
+			Result := file.exists and then file.is_directory
 		end
 
 	is_file_newer (path_1, path_2: FILE_PATH): BOOLEAN

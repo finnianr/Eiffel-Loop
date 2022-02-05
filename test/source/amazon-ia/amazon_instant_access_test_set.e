@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
-	revision: "32"
+	date: "2022-02-04 10:20:58 GMT (Friday 4th February 2022)"
+	revision: "33"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -62,8 +62,8 @@ feature -- Account Linking
 
 	test_get_user_id
 		note
-			testing: "covers/{AIA_REQUEST_MANAGER}.response, covers/{EL_SETTABLE_FROM_JSON_STRING}.as_json"
-				, "covers/{AIA_SIGNER}.sign"
+			testing: "covers/{AIA_REQUEST_MANAGER}.response, covers/{EL_SETTABLE_FROM_JSON_STRING}.as_json",
+						"covers/{AIA_SIGNER}.sign"
 		local
 			request: like new_amazon_request
 		do
@@ -189,10 +189,8 @@ feature -- Purchase
 
 	test_purchase_fullfill
 		note
-			testing: "[
-				covers/{AIA_REQUEST_MANAGER}.response, covers/{EL_SETTABLE_FROM_JSON_STRING}.as_json,
-				covers/{AIA_PURCHASE_REQUEST}.response
-			]"
+			testing: "covers/{AIA_REQUEST_MANAGER}.response, covers/{EL_SETTABLE_FROM_JSON_STRING}.as_json",
+					"covers/{AIA_PURCHASE_REQUEST}.response"
 		local
 			request: like new_amazon_request; json_response: STRING
 			response: AIA_RESPONSE
@@ -225,10 +223,8 @@ feature -- Purchase
 
 	test_purchase_revoke
 		note
-			testing: "[
-				covers/{AIA_REQUEST_MANAGER}.response, covers/{EL_SETTABLE_FROM_JSON_STRING}.as_json,
-				covers/{AIA_PURCHASE_REQUEST}.response
-			]"
+			testing: "covers/{AIA_REQUEST_MANAGER}.response, covers/{EL_SETTABLE_FROM_JSON_STRING}.as_json",
+						"covers/{AIA_PURCHASE_REQUEST}.response"
 		local
 			request: like new_amazon_request; json_response: STRING
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-29 10:09:52 GMT (Sunday 29th August 2021)"
-	revision: "3"
+	date: "2022-02-04 10:08:05 GMT (Friday 4th February 2022)"
+	revision: "4"
 
 class
 	HASH_TABLE_TEST_SET
@@ -57,7 +57,7 @@ feature -- Test
 
 	test_readable_string_8_table
 		note
-			testing: "covers/{EL_TUPLE_ROUTINES}.fill_immutable", "covers/{EL_READABLE_STRING_8_TABLE}.same_key"
+			testing: "covers/{EL_TUPLE_ROUTINES}.fill_immutable", "covers/{EL_STRING_8_TABLE}.same_keys"
 		local
 			value_table: EL_STRING_8_TABLE [INTEGER]
 			name: TUPLE [one, two, three: IMMUTABLE_STRING_8]

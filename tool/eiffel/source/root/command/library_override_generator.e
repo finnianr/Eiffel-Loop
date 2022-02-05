@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:27:54 GMT (Thursday 13th January 2022)"
-	revision: "6"
+	date: "2022-02-05 12:57:01 GMT (Saturday 5th February 2022)"
+	revision: "7"
 
 class
 	LIBRARY_OVERRIDE_GENERATOR
@@ -27,7 +27,7 @@ class
 inherit
 	EL_COMMAND
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 	EL_MODULE_FILE_SYSTEM
 
@@ -49,12 +49,10 @@ feature -- Basic operations
 
 	execute
 		do
-			log.enter ("execute")
 			File_system.make_directory (output_dir)
 			across Editor_factory.alias_names as relative_path loop
 				override (relative_path.item)
 			end
-			log.exit
 		end
 
 feature {NONE} -- Implementation

@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:26:52 GMT (Thursday 13th January 2022)"
-	revision: "14"
+	date: "2022-02-05 9:58:25 GMT (Saturday 5th February 2022)"
+	revision: "15"
 
 class
 	UNDEFINE_PATTERN_COUNTER_COMMAND
@@ -115,9 +115,9 @@ feature {NONE} -- Line state handlers
 
 	expect_end (line: ZSTRING)
 		do
-			if code_line ~ Keyword_end then
+			if code_line ~ Keyword.end_ then
 				state := agent find_class_name
-			elseif code_line ~ Keyword_redefine then
+			elseif code_line ~ Keyword.redefine_ then
 				state := agent find_class_name
 				pattern_count := pattern_count - 1
 			end
@@ -143,7 +143,7 @@ feature {NONE} -- Line state handlers
 
 	find_class_name (line: ZSTRING)
 		do
-			if code_line.starts_with (Keyword_feature) then
+			if code_line.starts_with (Keyword.feature_) then
 				state := final
 
 			elseif code_line_is_type_identifier then
@@ -153,7 +153,7 @@ feature {NONE} -- Line state handlers
 
 	find_inherit (line: ZSTRING)
 		do
-			if code_line_starts_with (0, Keyword_inherit) then
+			if code_line_starts_with (0, Keyword.inherit_) then
 				state := agent find_class_name
 			end
 		end
@@ -162,7 +162,7 @@ feature {NONE} -- Line state handlers
 		do
 			if Excluded_keywords.has (code_line) then
 				state := agent find_class_name
-			elseif code_line ~ Keyword_undefine then
+			elseif code_line ~ Keyword.undefine_ then
 				state := agent expect_feature_list
 			else
 				state := agent find_class_name

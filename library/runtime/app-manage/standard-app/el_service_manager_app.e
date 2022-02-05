@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-01 10:00:11 GMT (Tuesday 1st February 2022)"
-	revision: "1"
+	date: "2022-02-05 12:02:45 GMT (Saturday 5th February 2022)"
+	revision: "2"
 
 class
 	EL_SERVICE_MANAGER_APP
@@ -23,7 +23,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	argument_list: ARRAYED_LIST [EL_COMMAND_ARGUMENT]
+	argument_list: EL_ARRAYED_LIST [EL_COMMAND_ARGUMENT]
 		do
 			Result := Precursor
 			Result.extend (required_argument ("config", "Configuration file path", << file_must_exist >>))

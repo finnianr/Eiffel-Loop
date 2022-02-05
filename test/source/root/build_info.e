@@ -4,7 +4,7 @@ note
 
 	author: "Python module: eiffel_loop.eiffel.ecf.py"
 
-	date: "2022-02-03 13:57:11 GMT (Thursday 3rd February 2022)"
+	date: "2022-02-04 14:09:02 GMT (Friday 4th February 2022)"
 	revision: "1"
 
 class

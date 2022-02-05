@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 11:56:02 GMT (Sunday 23rd January 2022)"
-	revision: "25"
+	date: "2022-02-05 12:07:31 GMT (Saturday 5th February 2022)"
+	revision: "26"
 
 class
 	CLASS_RENAMING_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [CLASS_RENAMING_COMMAND]
+	SOURCE_MANIFEST_SUB_APPLICATION [CLASS_RENAMING_COMMAND]
 		redefine
-			Option_name, initialize, set_closed_operands, run
+			Option_name, initialize, set_closed_operands, run, argument_list
 		end
 
 	EL_INSTALLABLE_SUB_APPLICATION
@@ -60,13 +60,11 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
+	argument_list: EL_ARRAYED_LIST [EL_COMMAND_ARGUMENT]
 		do
-			Result := <<
-				required_argument ("sources", "Path to sources manifest file", << file_must_exist >>),
-				optional_argument ("old", "Old class name", No_checks),
+			Result := Precursor +
+				optional_argument ("old", "Old class name", No_checks) +
 				optional_argument ("new", "New class name", No_checks)
-			>>
 		end
 
 	default_make: PROCEDURE [like command]

@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-07 9:35:14 GMT (Saturday 7th March 2020)"
-	revision: "2"
+	date: "2022-02-05 9:45:02 GMT (Saturday 5th February 2022)"
+	revision: "3"
 
 class
 	EQA_TEST_EVALUATION_CALLBACK_FEATURE
@@ -67,7 +67,7 @@ feature -- Element change
 				do_end_list.extend ("end")
 				do_end_list.indent (2)
 
-				from lines.start until lines.item.ends_with (Keyword_do) or else lines.after loop
+				from lines.start until lines.item.ends_with (Keyword.do_) or else lines.after loop
 					lines.forth
 				end
 				if not lines.after then

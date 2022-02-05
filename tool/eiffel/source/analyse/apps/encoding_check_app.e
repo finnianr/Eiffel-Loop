@@ -8,30 +8,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 11:56:03 GMT (Sunday 23rd January 2022)"
-	revision: "14"
+	date: "2022-02-05 12:09:41 GMT (Saturday 5th February 2022)"
+	revision: "15"
 
 class
 	ENCODING_CHECK_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [ENCODING_CHECK_COMMAND]
+	SOURCE_MANIFEST_SUB_APPLICATION [ENCODING_CHECK_COMMAND]
 		redefine
 			Option_name
 		end
 
 feature {NONE} -- Implementation
 
-	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
-		do
-			Result := <<
-				required_argument ("sources", "Path to sources manifest file", << file_must_exist >>)
-			>>
-		end
-
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make ("")
+			Result := agent {like command}.make (create {FILE_PATH})
 		end
 
 feature {NONE} -- Constants

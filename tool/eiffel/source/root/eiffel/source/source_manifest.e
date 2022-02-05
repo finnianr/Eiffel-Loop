@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 12:34:18 GMT (Thursday 3rd February 2022)"
-	revision: "18"
+	date: "2022-02-05 11:42:47 GMT (Saturday 5th February 2022)"
+	revision: "19"
 
 class
 	SOURCE_MANIFEST
@@ -23,7 +23,7 @@ inherit
 	EL_ZSTRING_CONSTANTS
 
 create
-	make_default, make_from_file, make_from_string
+	make_default, make_from_file, make_from_string, make_from_directory
 
 feature {NONE} -- Initialization
 
@@ -36,10 +36,16 @@ feature {NONE} -- Initialization
 			Precursor
 		end
 
-	make_from_file (a_file_path: FILE_PATH)
+	make_from_file (manifest_path: FILE_PATH)
 		do
-			parent_dir := a_file_path.parent
-			Precursor (a_file_path)
+			parent_dir := manifest_path.parent
+			Precursor (manifest_path)
+		end
+
+	make_from_directory (a_dir_path: DIR_PATH)
+		do
+			make_default
+			source_tree_list.extend (create {SOURCE_TREE}.make (a_dir_path))
 		end
 
 feature -- Access

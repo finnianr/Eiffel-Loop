@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 16:06:26 GMT (Thursday 13th January 2022)"
-	revision: "20"
+	date: "2022-02-04 10:16:20 GMT (Friday 4th February 2022)"
+	revision: "21"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -134,7 +134,7 @@ feature -- Tests
 
 	test_skip_empty_split
 		note
-			testing: "covers/{EL_ITERABLE_SPLIT}.set_skip_empty"
+			testing: "covers/{EL_SPLIT_ON_CHARACTER}.new_cursor"
 		local
 			character_split: EL_SPLIT_ON_CHARACTER [STRING]
 			split_list: EL_STRING_8_LIST

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 12:52:58 GMT (Thursday 3rd February 2022)"
-	revision: "12"
+	date: "2022-02-05 9:48:27 GMT (Saturday 5th February 2022)"
+	revision: "13"
 
 class
 	FEATURE_EDITOR_COMMAND
@@ -64,7 +64,7 @@ feature {NONE} -- Implementation
 				old_line := line.twin
 				line.wipe_out
 				line.grow (50)
-				line.append_string (Keyword_feature)
+				line.append_string (Keyword.feature_)
 				line.append_character (' ')
 				code := parts.i_th (2)
 				if code [1] = '{' then

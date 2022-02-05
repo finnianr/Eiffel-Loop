@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 13:05:29 GMT (Thursday 3rd February 2022)"
-	revision: "19"
+	date: "2022-02-05 12:53:39 GMT (Saturday 5th February 2022)"
+	revision: "20"
 
 class
 	LIBRARY_OVERRIDE_APP
 
 inherit
-	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [LIBRARY_OVERRIDE_GENERATOR]
+	EL_COMMAND_LINE_SUB_APPLICATION [LIBRARY_OVERRIDE_GENERATOR]
 		redefine
 			Option_name
 		end

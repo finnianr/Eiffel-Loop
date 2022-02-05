@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 12:25:21 GMT (Thursday 3rd February 2022)"
-	revision: "6"
+	date: "2022-02-05 12:58:16 GMT (Saturday 5th February 2022)"
+	revision: "7"
 
 class
 	LOG_LINE_COMMENTING_OUT_SOURCE_EDITOR
@@ -17,7 +17,7 @@ class
 inherit
 	EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 create
 	make
@@ -82,7 +82,6 @@ feature {NONE} -- Parsing actions
 	on_logging_statement (text: EL_STRING_VIEW)
 			--
 		do
-			log.enter_with_args ("on_logging_statement", [text.to_string])
 			string_tokenizer_by_new_line.set_from_string (text)
 			from
 				string_tokenizer_by_new_line.start
@@ -96,7 +95,6 @@ feature {NONE} -- Parsing actions
 					put_new_line
 				end
 			end
-			log.exit
 		end
 
 feature {NONE} -- Implementation

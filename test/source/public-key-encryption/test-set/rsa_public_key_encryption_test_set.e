@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
-	revision: "7"
+	date: "2022-02-04 0:09:56 GMT (Friday 4th February 2022)"
+	revision: "8"
 
 class
 	RSA_PUBLIC_KEY_ENCRYPTION_TEST_SET
@@ -35,7 +35,7 @@ feature -- Tests
 	test_write_x509_key_file_to_aes_binary
 		note
 			testing:
-				"covers/{EL_X509_KEY_READER_COMMAND_I}.make, covers/{EL_X509_KEY_READER_COMMAND_I}.execute",
+				"covers/{EL_X509_PUBLIC_READER_COMMAND_I}.make, covers/{EL_X509_PRIVATE_READER_COMMAND_I}.execute",
 				"covers/{EL_RSA_PRIVATE_KEY}.make_from_stored, covers/{EL_RSA_PRIVATE_KEY}.store",
 				"covers/{EL_RSA_PRIVATE_KEY}.is_equal"
 		local

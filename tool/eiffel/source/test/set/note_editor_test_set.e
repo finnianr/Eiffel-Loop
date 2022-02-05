@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-01 11:21:36 GMT (Tuesday 1st February 2022)"
-	revision: "28"
+	date: "2022-02-05 12:57:34 GMT (Saturday 5th February 2022)"
+	revision: "29"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -37,11 +37,8 @@ inherit
 		end
 
 	EL_EIFFEL_KEYWORDS
-		undefine
-			default_create
-		end
 
-	EL_MODULE_USER_INPUT; EL_MODULE_TIME; EL_MODULE_LOG
+	EL_MODULE_USER_INPUT; EL_MODULE_TIME; EL_MODULE_LIO
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
@@ -132,7 +129,7 @@ feature {NONE} -- Line states
 
 	find_class (line: ZSTRING)
 		do
-			if line.starts_with (Keyword_class) then
+			if line.starts_with (Keyword.class_) then
 				state := agent find_end
 				find_end (line)
 			end

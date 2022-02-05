@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-01 18:24:51 GMT (Tuesday 1st February 2022)"
-	revision: "12"
+	date: "2022-02-03 14:43:00 GMT (Thursday 3rd February 2022)"
+	revision: "13"
 
 class
 	EL_SPREAD_SHEET
@@ -42,33 +42,35 @@ inherit
 	EL_MODULE_LIO
 
 create
-	make, make_with_tables
+	make, make_with_root_node
 
 feature {NONE} -- Initaliazation
 
 	make (file_path: FILE_PATH)
 			--
-		do
-			make_with_tables (file_path, << Wildcard_all >>)
-		end
-
-	make_with_tables (file_path: FILE_PATH; table_names: ARRAY [ZSTRING])
-			-- make with selected table names
 		require
 			valid_file_type: is_valid_file_type (file_path)
 		local
+			root_node: EL_XPATH_ROOT_NODE_CONTEXT
+		do
+			create root_node.make_from_file (file_path)
+			make_with_root_node (root_node, file_path.base_sans_extension, Empty_list)
+		end
+
+	make_with_root_node (root_node: EL_XPATH_ROOT_NODE_CONTEXT; a_name: ZSTRING; table_names: EL_ZSTRING_LIST)
+		-- make with selected table names
+		local
 			xpath, cell_range_address, l_name: ZSTRING
-			root_node: EL_XPATH_ROOT_NODE_CONTEXT; table_nodes: EL_XPATH_NODE_CONTEXT_LIST
+			table_nodes: EL_XPATH_NODE_CONTEXT_LIST
 			defined_ranges: EL_ZSTRING_HASH_TABLE [ZSTRING]
 		do
-			name := file_path.base
+			name := a_name
 			create tables.make_equal (5)
 			create defined_ranges.make_equal (11)
 			if is_lio_enabled then
-				lio.put_labeled_substitution (generator, "make (%"%S%")", [file_path.base])
+				lio.put_labeled_substitution (generator, "make (%"%S%")", [a_name])
 				lio.put_new_line
 			end
-			create root_node.make_from_file (file_path)
 			root_node.set_namespace_key ("office")
 
 			if attached root_node.find_node ("/office:document") as document_ctx then
@@ -127,27 +129,22 @@ feature -- Contract support
 
 feature {NONE} -- Implementation
 
-	selected_tables_xpath (table_names: ARRAY [ZSTRING]): ZSTRING
-		local
-			name_predicate: ZSTRING
-			i: INTEGER
+	selected_tables_xpath (table_names: EL_ZSTRING_LIST): ZSTRING
 		do
-			create name_predicate.make_empty
-			if not (table_names.count = 1 and then table_names.item (1) ~ Wildcard_all) then
-				name_predicate.append_character ('[')
-				from i := 1 until  i > table_names.count loop
-					if i > 1 then
-						name_predicate.append_string (Or_operator)
+			Result := "table:table"
+			if table_names.count > 0 then
+				Result.append_character ('[')
+				across table_names as list loop
+					if not list.is_first then
+						Result.append_string (Or_operator)
 					end
-					name_predicate.append_string_general ("@table:name='")
-					name_predicate.append (table_names [i])
-					name_predicate.append_character ('%'')
-					i := i + 1
+					Result.append (Table_name_test #$ [list.item])
 				end
-				name_predicate.append_character (']')
+				Result.append_character (']')
 			end
-			Result := "table:table" + name_predicate
 		end
+
+feature {NONE} -- Internal attributes
 
 	tables: EL_ZSTRING_HASH_TABLE [EL_SPREAD_SHEET_TABLE]
 
@@ -157,9 +154,15 @@ feature {NONE} -- Constants
 		once
 			Result := " or "
 		end
-	Wildcard_all: ZSTRING
+
+	Table_name_test: ZSTRING
 		once
-			Result := "*"
+			Result := "@table:name='%S'"
+		end
+
+	Empty_list: EL_ZSTRING_LIST
+		once
+			create Result.make_empty
 		end
 
 end

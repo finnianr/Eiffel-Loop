@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 12:59:55 GMT (Sunday 10th January 2021)"
-	revision: "7"
+	date: "2022-02-05 12:54:55 GMT (Saturday 5th February 2022)"
+	revision: "8"
 
 class
 	CODEC_INFO
@@ -27,7 +27,7 @@ inherit
 
 	EL_TEXT_PATTERN_FACTORY
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 	EL_MODULE_HEXADECIMAL
 

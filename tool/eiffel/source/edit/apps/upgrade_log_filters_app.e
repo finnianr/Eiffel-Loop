@@ -1,53 +1,29 @@
 note
-	description: "Upgrade syntax of Eiffel Loop logging filter arrays"
+	description: "[
+		Upgrade syntax of Eiffel Loop logging filter arrays with commend [$source UPGRADE_LOG_FILTERS_COMMAND]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-08 16:55:58 GMT (Saturday 8th January 2022)"
-	revision: "12"
+	date: "2022-02-05 12:51:26 GMT (Saturday 5th February 2022)"
+	revision: "13"
 
 class
 	UPGRADE_LOG_FILTERS_APP
 
 inherit
-	SOURCE_TREE_EDITING_SUB_APPLICATION
-		rename
-			extra_log_filter_set as empty_log_filter_set
-		redefine
-			Option_name, test_run
-		end
+	SOURCE_MANIFEST_SUB_APPLICATION [UPGRADE_LOG_FILTERS_COMMAND]
 
 create
 	make
 
 feature {NONE} -- Implementation
 
-	new_editor (file_path_list: LIST [FILE_PATH]): LOG_FILTER_ARRAY_SOURCE_EDITOR
+	default_make: PROCEDURE [like command]
 		do
-			create Result.make
+			Result := agent {like command}.make (create {FILE_PATH})
 		end
-
-feature -- Testing	
-
-	test_run
-			--
-		do
-			Test.do_file_tree_test ("Eiffel/sources/latin-1/sub_applications", agent test_source_tree, checksum [1])
-		end
-
-feature {NONE} -- Constants
-
-	Checksum: ARRAY [NATURAL]
-			-- 4 Aug 2016
-		once
-			Result := << 1767075359, 0 >>
-		end
-
-	Option_name: STRING = "log_upgrade"
-
-	Description: STRING = "Change class names in {EL_SUB_APPLICATION}.Log_filter from strings to class types"
-
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 12:43:05 GMT (Thursday 3rd February 2022)"
-	revision: "39"
+	date: "2022-02-05 12:55:39 GMT (Saturday 5th February 2022)"
+	revision: "40"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -23,7 +23,7 @@ inherit
 
 	EL_FILE_OPEN_ROUTINES
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 	EL_MODULE_DIRECTORY
 

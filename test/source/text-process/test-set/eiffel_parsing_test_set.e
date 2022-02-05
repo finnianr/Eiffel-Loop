@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 12:14:00 GMT (Thursday 3rd February 2022)"
-	revision: "7"
+	date: "2022-02-04 10:28:08 GMT (Friday 4th February 2022)"
+	revision: "8"
 
 class
 	EIFFEL_PARSING_TEST_SET
@@ -31,15 +31,13 @@ feature -- Tests
 
 	test_code_highlighting
 		note
-			testing: "[
-				covers/{EL_FILE_PARSER_TEXT_EDITOR}.edit,
-				covers/{EL_XML_ROUTINES}.escaped_128_plus,
-				covers/{EL_EIFFEL_TEXT_PATTERN_FACTORY}.comment,
-				covers/{EL_EIFFEL_TEXT_PATTERN_FACTORY}.unescaped_manifest_string,
-				covers/{EL_EIFFEL_TEXT_PATTERN_FACTORY}.character_manifest,
-				covers/{EL_EIFFEL_TEXT_PATTERN_FACTORY}.identifier,
-				covers/{EL_EIFFEL_TEXT_PATTERN_FACTORY}.quoted_manifest_string
-			]"
+			testing: "covers/{EL_FILE_PARSER_TEXT_EDITOR}.edit",
+				"covers/{EL_XML_ROUTINES}.escaped_128_plus",
+				"covers/{EL_EIFFEL_TEXT_PATTERN_FACTORY}.comment",
+				"covers/{EL_EIFFEL_TEXT_PATTERN_FACTORY}.unescaped_manifest_string",
+				"covers/{EL_EIFFEL_TEXT_PATTERN_FACTORY}.character_manifest",
+				"covers/{EL_EIFFEL_TEXT_PATTERN_FACTORY}.identifier",
+				"covers/{EL_EIFFEL_TEXT_PATTERN_FACTORY}.quoted_manifest_string"
 		local
 			writer: CODE_HIGHLIGHTING_WRITER; html_path: FILE_PATH
 			xdoc: EL_XPATH_ROOT_NODE_CONTEXT; xpath: STRING

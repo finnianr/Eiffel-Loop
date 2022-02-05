@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-20 19:03:39 GMT (Thursday 20th January 2022)"
-	revision: "20"
+	date: "2022-02-05 12:54:41 GMT (Saturday 5th February 2022)"
+	revision: "21"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -31,7 +31,7 @@ inherit
 
 	EL_COMMAND
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 	EL_MODULE_OS
 
@@ -70,7 +70,6 @@ feature -- Basic operations
 		local
 			gedit_cmd: EL_OS_COMMAND
 		do
-			log.enter ("execute")
 			if ecf_path.is_empty then
 				lio.put_string_field ("ERROR: Cannot find ECF file with target", target_name)
 				lio.put_new_line
@@ -90,7 +89,6 @@ feature -- Basic operations
 				gedit_cmd.set_forking_mode (True)
 				gedit_cmd.execute
 			end
-			log.exit
 		end
 
 feature {NONE} -- Line states

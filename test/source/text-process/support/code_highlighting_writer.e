@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 12:09:22 GMT (Thursday 3rd February 2022)"
-	revision: "12"
+	date: "2022-02-05 12:03:36 GMT (Saturday 5th February 2022)"
+	revision: "13"
 
 class
 	CODE_HIGHLIGHTING_WRITER
@@ -110,7 +110,7 @@ feature {NONE} -- Parsing actions
 				end
 
 			elseif word.count > 1 and word /~ "NONE" then
-				put_emphasis (text, Keyword_class)
+				put_emphasis (text, Keyword.class_)
 
 			else
 				put_escaped (text)
@@ -139,7 +139,7 @@ feature {NONE} -- Line procedure transitions for whole class
 	find_class_declaration (line: ZSTRING)
 			--
 		do
-			if line.starts_with (Keyword_class) or else line.starts_with (Keyword_deferred) then
+			if line.starts_with (Keyword.class_) or else line.starts_with (Keyword.deferred_) then
 				append_to_selected_text (line)
 				state := agent append_to_selected_text
 			end
@@ -150,7 +150,7 @@ feature {NONE} -- Line procedure transitions for selected features
 	find_feature_block (line: ZSTRING)
 			--
 		do
-			if line.starts_with (Keyword_feature) then
+			if line.starts_with (Keyword.feature_) then
 				last_feature_block_line := line
 				state := agent find_selected_feature
 			end
@@ -178,7 +178,7 @@ feature {NONE} -- Line procedure transitions for selected features
 		local
 			trimmed_line: ZSTRING; tab_count: INTEGER; found: BOOLEAN
 		do
-			if line.starts_with (Keyword_feature) then
+			if line.starts_with (Keyword.feature_) then
 				last_feature_block_line := line
 			else
 				create trimmed_line.make_from_other (line)
