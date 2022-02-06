@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:12:32 GMT (Thursday 13th January 2022)"
-	revision: "6"
+	date: "2022-02-06 18:31:11 GMT (Sunday 6th February 2022)"
+	revision: "7"
 
 class
 	EL_FILE_MANIFEST_GENERATOR
@@ -21,11 +21,7 @@ inherit
 			description
 		end
 
-	EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_TRACK
-
-	EL_MODULE_LIO
+	EL_MODULE_DIRECTORY; EL_MODULE_FILE_SYSTEM; EL_MODULE_TRACK; EL_MODULE_LIO
 
 create
 	make
@@ -41,6 +37,9 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			if a_target_dir.is_empty then
 				target_dir := manifest_output_path.parent
+				if target_dir.is_empty then
+					target_dir := Directory.current_working
+				end
 			else
 				target_dir := a_target_dir
 			end

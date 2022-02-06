@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 17:21:02 GMT (Saturday 5th February 2022)"
-	revision: "11"
+	date: "2022-02-06 16:58:34 GMT (Sunday 6th February 2022)"
+	revision: "12"
 
 deferred class
 	EL_APPLICATION_CONSTANTS
 
 inherit
 	EL_MODULE_EXECUTABLE
-
-	EL_MODULE_TUPLE
 
 feature {NONE} -- Constants
 
@@ -31,12 +29,5 @@ feature {NONE} -- Constants
 		end
 
 	File_placeholder: STRING = "%%f"
-
-	Standard_option: TUPLE [config, install, main, remove_data, silent, uninstall: IMMUTABLE_STRING_8]
-		-- standard sub-application and command line option names
-		once
-			create Result
-			Tuple.fill_immutable (Result, "config, install, main, remove_data, silent, uninstall")
-		end
 
 end

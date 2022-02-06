@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:52:47 GMT (Saturday 5th February 2022)"
-	revision: "38"
+	date: "2022-02-06 17:50:40 GMT (Sunday 6th February 2022)"
+	revision: "39"
 
 deferred class
 	EL_COMMAND_LINE_APPLICATION [C -> EL_COMMAND]
@@ -65,6 +65,18 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	config_argument (help_description: detachable READABLE_STRING_GENERAL): EL_COMMAND_ARGUMENT
+		local
+			l_description: READABLE_STRING_GENERAL
+		do
+			if attached help_description as text then
+				l_description := text
+			else
+				l_description := "Configuration file path"
+			end
+			Result := required_argument (Standard_option.config, l_description, << file_must_exist >>)
+		end
 
 	optional_argument (
 		word_option, help_description: READABLE_STRING_GENERAL; validations: like No_checks
@@ -164,18 +176,13 @@ feature {NONE} -- Implementation
 
 	is_valid_path_or_wild_card (path: FILE_PATH; is_optional: BOOLEAN): BOOLEAN
 		do
-			if is_wild_card (path) then
+			if path.is_pattern then
 				if attached path.parent as parent_dir and then parent_dir.exists then
 					Result := across OS.file_list (parent_dir, path.base) as file some file.item.exists end
 				end
 			else
 				Result := is_valid_path (path, is_optional)
 			end
-		end
-
-	is_wild_card (path: FILE_PATH): BOOLEAN
-		do
-			Result := path.base.starts_with_general ("*.") and path.base.count <= 6
 		end
 
 	integer_in_range (n: INTEGER; range: INTEGER_INTERVAL): BOOLEAN
@@ -281,6 +288,5 @@ note
 					[$source CRYPTO_COMMAND_SHELL_APP]
 	]"
 end
-
 
 

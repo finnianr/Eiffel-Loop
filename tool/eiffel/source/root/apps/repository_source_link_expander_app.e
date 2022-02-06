@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 11:59:27 GMT (Saturday 5th February 2022)"
-	revision: "13"
+	date: "2022-02-06 16:40:43 GMT (Sunday 6th February 2022)"
+	revision: "14"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_APP
 
 inherit
-	REPOSITORY_PUBLISHER_SUB_APPLICATION [REPOSITORY_SOURCE_LINK_EXPANDER]
+	REPOSITORY_PUBLISHER_APPLICATION [REPOSITORY_SOURCE_LINK_EXPANDER]
 		redefine
 			Option_name, argument_list
 		end

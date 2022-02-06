@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 12:06:11 GMT (Saturday 5th February 2022)"
-	revision: "16"
+	date: "2022-02-06 16:41:41 GMT (Sunday 6th February 2022)"
+	revision: "17"
 
 class
 	CLASS_PREFIX_REMOVAL_APP
 
 inherit
-	SOURCE_MANIFEST_SUB_APPLICATION [CLASS_PREFIX_REMOVAL_COMMAND]
+	SOURCE_MANIFEST_APPLICATION [CLASS_PREFIX_REMOVAL_COMMAND]
 		redefine
 			option_name, argument_list
 		end

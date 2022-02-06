@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 15:15:05 GMT (Saturday 5th February 2022)"
-	revision: "50"
+	date: "2022-02-06 16:59:10 GMT (Sunday 6th February 2022)"
+	revision: "51"
 
 deferred class
 	EL_APPLICATION
@@ -38,6 +38,7 @@ inherit
 	EL_MODULE_LIO
 	EL_MODULE_OS_RELEASE
 	EL_MODULE_OS
+	EL_MODULE_TUPLE
 
 	EL_SHARED_BASE_OPTION
 	EL_SHARED_APPLICATION_OPTION
@@ -335,6 +336,13 @@ feature {EL_DESKTOP_ENVIRONMENT_I} -- Constants
 			Result := Directory.app_list
 		end
 
+	Standard_option: TUPLE [config, install, main, remove_data, silent, uninstall: IMMUTABLE_STRING_8]
+		-- standard sub-application and command line option names
+		once
+			create Result
+			Tuple.fill_immutable (Result, "config, install, main, remove_data, silent, uninstall")
+		end
+
 note
 	descendants: "[
 		**eiffel.ecf**
@@ -449,7 +457,6 @@ note
 
 	]"
 end
-
 
 
 

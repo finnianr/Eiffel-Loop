@@ -30,8 +30,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 17:21:46 GMT (Saturday 5th February 2022)"
-	revision: "33"
+	date: "2022-02-06 17:06:24 GMT (Sunday 6th February 2022)"
+	revision: "34"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
@@ -56,9 +56,7 @@ feature {NONE} -- Implementation
 
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
-			Result := <<
-				required_argument ("config", "Task configuration file",  << file_must_exist >>)
-			>>
+			Result := << config_argument ("Task configuration file") >>
 		end
 
 	default_make: PROCEDURE [like command]

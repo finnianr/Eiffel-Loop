@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:28:51 GMT (Thursday 13th January 2022)"
-	revision: "5"
+	date: "2022-02-06 16:40:43 GMT (Sunday 6th February 2022)"
+	revision: "6"
 
 class
 	IMP_CLASS_LOCATION_NORMALIZER_APP
 
 inherit
-	REPOSITORY_PUBLISHER_SUB_APPLICATION [IMP_CLASS_LOCATION_NORMALIZER]
+	REPOSITORY_PUBLISHER_APPLICATION [IMP_CLASS_LOCATION_NORMALIZER]
 		redefine
 			Option_name
 		end

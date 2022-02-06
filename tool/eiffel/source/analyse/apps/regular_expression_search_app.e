@@ -1,7 +1,5 @@
 note
-	description: "[
-		A command line interface to the command [$source ENCODING_CHECK_COMMAND].
-	]"
+	description: "Command line interface to [$source REGULAR_EXPRESSION_SEARCH_COMMAND]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -9,15 +7,15 @@ note
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2022-02-06 16:41:41 GMT (Sunday 6th February 2022)"
-	revision: "16"
+	revision: "1"
 
 class
-	ENCODING_CHECK_APP
+	REGULAR_EXPRESSION_SEARCH_APP
 
 inherit
-	SOURCE_MANIFEST_APPLICATION [ENCODING_CHECK_COMMAND]
+	SOURCE_MANIFEST_APPLICATION [REGULAR_EXPRESSION_SEARCH_COMMAND]
 		redefine
-			Option_name
+			option_name
 		end
 
 feature {NONE} -- Implementation
@@ -29,6 +27,5 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Option_name: STRING = "check_encoding"
-
+	Option_name: STRING = "grep_search"
 end

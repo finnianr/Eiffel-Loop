@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 12:46:44 GMT (Saturday 5th February 2022)"
-	revision: "15"
+	date: "2022-02-06 16:41:41 GMT (Sunday 6th February 2022)"
+	revision: "16"
 
 class
 	SOURCE_LOG_LINE_REMOVER_APP
 
 inherit
-	SOURCE_MANIFEST_SUB_APPLICATION [SOURCE_LOG_LINE_REMOVER_COMMAND]
+	SOURCE_MANIFEST_APPLICATION [SOURCE_LOG_LINE_REMOVER_COMMAND]
 		redefine
 			Option_name
 		end

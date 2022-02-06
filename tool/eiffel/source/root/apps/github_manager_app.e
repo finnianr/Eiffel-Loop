@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:40 GMT (Saturday 5th February 2022)"
-	revision: "8"
+	date: "2022-02-06 17:08:50 GMT (Sunday 6th February 2022)"
+	revision: "9"
 
 class
 	GITHUB_MANAGER_APP
@@ -27,7 +27,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				required_argument ("config", "Configuration file path", << file_must_exist >>),
+				config_argument (Void),
 				optional_argument ("define", "Define an environment variable: name=<value>", No_checks)
 			>>
 		end

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:30:08 GMT (Thursday 13th January 2022)"
-	revision: "9"
+	date: "2022-02-06 16:40:43 GMT (Sunday 6th February 2022)"
+	revision: "10"
 
 class
 	REPOSITORY_NOTE_LINK_CHECKER_APP
 
 inherit
-	REPOSITORY_PUBLISHER_SUB_APPLICATION [REPOSITORY_NOTE_LINK_CHECKER]
+	REPOSITORY_PUBLISHER_APPLICATION [REPOSITORY_NOTE_LINK_CHECKER]
 		redefine
 			Option_name
 		end

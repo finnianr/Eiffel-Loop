@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:40 GMT (Saturday 5th February 2022)"
-	revision: "3"
+	date: "2022-02-06 16:44:01 GMT (Sunday 6th February 2022)"
+	revision: "4"
 
 deferred class
-	VCF_CONTACT_NAME_SUB_APPLICATION
+	VCF_CONTACT_NAME_APPLICATION
 
 inherit
 	EL_COMMAND_LINE_APPLICATION [VCF_CONTACT_COMMAND]

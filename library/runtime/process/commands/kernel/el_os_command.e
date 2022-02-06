@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "17"
+	date: "2022-02-06 12:48:21 GMT (Sunday 6th February 2022)"
+	revision: "18"
 
 class
 	EL_OS_COMMAND
@@ -111,7 +111,7 @@ feature -- Contract Support
 
 	valid_tuple (var_names: TUPLE): BOOLEAN
 		do
-			if template.variables.count = var_names.count and then all_string_8_types (var_names) then
+			if template.variables.count = var_names.count then
 				Result := template.variables.for_all (agent {ZSTRING}.is_valid_as_string_8)
 			end
 		end
@@ -127,6 +127,7 @@ feature -- Basic operations
 		-- fill a tuple `TUPLE [x, y, z: ZSTRING]' with variable names in the order
 		-- in which they occurr in template
 		require
+			all_string_8_types: all_string_8_types (var_names)
 			valid_variable_tuple: valid_tuple (var_names)
 		do
 			across template.variables as name loop

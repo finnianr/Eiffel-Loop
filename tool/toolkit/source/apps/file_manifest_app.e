@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:40 GMT (Saturday 5th February 2022)"
-	revision: "13"
+	date: "2022-02-06 18:23:58 GMT (Sunday 6th February 2022)"
+	revision: "14"
 
 class
 	FILE_MANIFEST_APP
@@ -19,7 +19,7 @@ class
 inherit
 	EL_COMMAND_LINE_APPLICATION [EL_FILE_MANIFEST_GENERATOR]
 		redefine
-			Option_name
+			Option_name, visible_types
 		end
 
 	EL_ZSTRING_CONSTANTS
@@ -39,6 +39,13 @@ feature {NONE} -- Implementation
 	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make (Empty_string, Empty_string, Empty_string, "*")
+		end
+
+	visible_types: TUPLE [EL_FILE_MANIFEST_GENERATOR]
+		-- types with lio output visible in console
+		-- See: {EL_CONSOLE_MANAGER_I}.show_all
+		do
+			create Result
 		end
 
 feature {NONE} -- Constants

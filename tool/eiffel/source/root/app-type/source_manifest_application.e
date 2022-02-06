@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:40 GMT (Saturday 5th February 2022)"
-	revision: "2"
+	date: "2022-02-06 16:41:41 GMT (Sunday 6th February 2022)"
+	revision: "3"
 
 deferred class
-	SOURCE_MANIFEST_SUB_APPLICATION [COMMAND -> SOURCE_MANIFEST_COMMAND]
+	SOURCE_MANIFEST_APPLICATION [COMMAND -> SOURCE_MANIFEST_COMMAND]
 
 inherit
 	EL_COMMAND_LINE_APPLICATION [COMMAND]

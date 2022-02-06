@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 14:04:08 GMT (Wednesday 24th November 2021)"
-	revision: "1"
+	date: "2022-02-06 12:30:41 GMT (Sunday 6th February 2022)"
+	revision: "2"
 
 class
 	EL_GROUP_TABLE [G, K -> HASHABLE]
@@ -21,10 +21,6 @@ inherit
 			item as item_list,
 			extend as table_extend,
 			found_item as found_list
-		export
-			{NONE} all
-			{ANY} found_list, item_list, count, item_for_iteration, key_for_iteration,
-					start, after, forth, linear_representation
 		redefine
 			make, has_key, search
 		end

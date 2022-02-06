@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:51:17 GMT (Saturday 5th February 2022)"
-	revision: "25"
+	date: "2022-02-06 17:10:22 GMT (Sunday 6th February 2022)"
+	revision: "26"
 
 class
 	FTP_BACKUP_APP
@@ -34,7 +34,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				required_argument ("config", "Path to configuration file", << file_must_exist >>),
+				config_argument (Void),
 				optional_argument ("upload", "Upload the archive after creation", No_checks)
 			>>
 		end

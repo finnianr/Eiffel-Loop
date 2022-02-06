@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:48:53 GMT (Saturday 5th February 2022)"
-	revision: "15"
+	date: "2022-02-06 16:43:09 GMT (Sunday 6th February 2022)"
+	revision: "16"
 
 deferred class
-	EROS_SERVER_SUB_APPLICATION
+	EROS_SERVER_APPLICATION
 
 inherit
 	EL_LOGGED_APPLICATION

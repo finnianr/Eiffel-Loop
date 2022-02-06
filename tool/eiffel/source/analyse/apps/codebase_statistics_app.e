@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 12:14:50 GMT (Saturday 5th February 2022)"
-	revision: "22"
+	date: "2022-02-06 16:41:41 GMT (Sunday 6th February 2022)"
+	revision: "23"
 
 class
 	CODEBASE_STATISTICS_APP
 
 inherit
-	SOURCE_MANIFEST_SUB_APPLICATION [CODEBASE_STATISTICS_COMMAND]
+	SOURCE_MANIFEST_APPLICATION [CODEBASE_STATISTICS_COMMAND]
 		redefine
 			argument_list, option_name
 		end

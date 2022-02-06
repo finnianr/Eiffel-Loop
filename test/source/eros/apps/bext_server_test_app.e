@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 13:59:40 GMT (Thursday 13th January 2022)"
-	revision: "12"
+	date: "2022-02-06 16:43:09 GMT (Sunday 6th February 2022)"
+	revision: "13"
 
 class
 	BEXT_SERVER_TEST_APP
 
 inherit
-	EROS_SERVER_SUB_APPLICATION
+	EROS_SERVER_APPLICATION
 		redefine
 			serve
 		end

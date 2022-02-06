@@ -17,14 +17,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:48:22 GMT (Saturday 5th February 2022)"
-	revision: "10"
+	date: "2022-02-06 17:13:35 GMT (Sunday 6th February 2022)"
+	revision: "11"
 
 class
 	THUNDERBIRD_BOOK_EXPORTER_APP
 
 inherit
-	EL_LOGGED_COMMAND_LINE_APPLICATION [EL_ML_THUNDERBIRD_ACCOUNT_BOOK_EXPORTER]
+	THUNDERBIRD_ACCOUNT_READER_APP [EL_ML_THUNDERBIRD_ACCOUNT_BOOK_EXPORTER]
 		redefine
 			option_name
 		end
@@ -34,25 +34,13 @@ create
 
 feature {NONE} -- Implementation
 
-	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
-		do
-			Result := <<
-				required_argument ("config", "Thunderbird export configuration file", << file_must_exist >>)
-			>>
-		end
-
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make_from_file ("")
-		end
-
-	log_filter_set: EL_LOG_FILTER_SET [like Current]
-			--
-		do
-			create Result.make
+			Result := agent {like command}.make_from_file (create {FILE_PATH})
 		end
 
 feature {NONE} -- Constants
 
 	Option_name: STRING = "export_book"
+	
 end

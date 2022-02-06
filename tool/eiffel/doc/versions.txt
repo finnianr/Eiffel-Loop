@@ -1,3 +1,6 @@
+1.4.12
+* Shell to search for regular expressions in source manifest files
+
 1.4.11
 * Put license notes into source manifest
 

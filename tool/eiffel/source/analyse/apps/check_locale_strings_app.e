@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:40 GMT (Saturday 5th February 2022)"
-	revision: "11"
+	date: "2022-02-06 17:07:15 GMT (Sunday 6th February 2022)"
+	revision: "12"
 
 class
 	CHECK_LOCALE_STRINGS_APP
@@ -28,7 +28,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				required_argument ("config", "Configuration file path", << file_must_exist >>),
+				config_argument (Void),
 				optional_argument ("language", "Language code to check", No_checks)
 			>>
 		end

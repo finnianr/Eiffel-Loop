@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:22:48 GMT (Thursday 13th January 2022)"
-	revision: "15"
+	date: "2022-02-06 12:06:05 GMT (Sunday 6th February 2022)"
+	revision: "16"
 
 class
 	ENCODING_CHECK_COMMAND
@@ -29,9 +29,9 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (source_manifest_path: FILE_PATH)
+	make (manifest_path: FILE_PATH)
 		do
-			Precursor (source_manifest_path)
+			Precursor (manifest_path)
 			create file_encoding_table.make (manifest.file_count)
 		end
 

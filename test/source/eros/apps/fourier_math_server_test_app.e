@@ -10,14 +10,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 17:27:56 GMT (Saturday 5th February 2022)"
-	revision: "14"
+	date: "2022-02-06 16:43:09 GMT (Sunday 6th February 2022)"
+	revision: "15"
 
 class
 	FOURIER_MATH_SERVER_TEST_APP
 
 inherit
-	EROS_SERVER_SUB_APPLICATION
+	EROS_SERVER_APPLICATION
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 

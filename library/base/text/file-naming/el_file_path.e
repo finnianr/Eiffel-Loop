@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 17:42:33 GMT (Monday 3rd January 2022)"
-	revision: "24"
+	date: "2022-02-06 17:51:43 GMT (Sunday 6th February 2022)"
+	revision: "25"
 
 class
 	EL_FILE_PATH
@@ -73,5 +73,11 @@ feature -- Access
 feature -- Status report
 
 	Is_directory: BOOLEAN = False
+
+	is_pattern: BOOLEAN
+		-- `True' if base is a wildcard pattern
+		do
+			Result := base.starts_with_general ("*.") and base.count > 2
+		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 11:33:03 GMT (Sunday 23rd January 2022)"
-	revision: "19"
+	date: "2022-02-06 17:20:36 GMT (Sunday 6th February 2022)"
+	revision: "20"
 
 class
 	EL_COMMAND_ARGUMENT
@@ -52,6 +52,11 @@ feature -- Status change
 	set_required
 		do
 			is_required := True
+		end
+
+	set_optional
+		do
+			is_required := False
 		end
 
 feature -- Basic operations

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 12:02:14 GMT (Saturday 5th February 2022)"
-	revision: "18"
+	date: "2022-02-06 16:41:41 GMT (Sunday 6th February 2022)"
+	revision: "19"
 
 class
 	FIND_AND_REPLACE_APP
 
 inherit
-	SOURCE_MANIFEST_SUB_APPLICATION [FIND_AND_REPLACE_COMMAND]
+	SOURCE_MANIFEST_APPLICATION [FIND_AND_REPLACE_COMMAND]
 		redefine
 			argument_list, Option_name
 		end

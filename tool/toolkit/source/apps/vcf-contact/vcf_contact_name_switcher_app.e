@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 11:53:05 GMT (Thursday 13th January 2022)"
-	revision: "16"
+	date: "2022-02-06 16:44:01 GMT (Sunday 6th February 2022)"
+	revision: "17"
 
 class
 	VCF_CONTACT_NAME_SWITCHER_APP
 
 inherit
-	VCF_CONTACT_NAME_SUB_APPLICATION
+	VCF_CONTACT_NAME_APPLICATION
 		redefine
 			command, Option_name
 		end
