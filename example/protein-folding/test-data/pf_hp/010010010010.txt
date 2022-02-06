@@ -1,0 +1,6 @@
+Optimal fold(s) for ◎ ● ◎ ◎ ● ◎ ◎ ● ◎ ◎ ● ◎ :
+#1 NENWNWSWSES
+#2 NWNENESESWS
+
+
+Minimal losses: 0

@@ -1,0 +1,100 @@
+Benchmarks for default sequence: ◎ ◎ ● ◎ ◎ ● ◎ ◎ ● ◎ ◎ ● ◎ 
+
+TIME: 0 hrs 0 mins 50 secs 489 ms
+TIME: 0 hrs 0 mins 50 secs 350 ms
+
+With "inspect when N_N" loss calc
+TIME: 0 hrs 0 mins 51 secs 341 ms
+
+With "if a_fold [i - 1] = N and then a_fold [i] = N then" loss calc
+TIME: 0 hrs 0 mins 50 secs 771 ms
+
+
+With previous_direction := direction
+TIME: 0 hrs 0 mins 51 secs 440 ms
+
+PF_HP_2_2 and {GRID_2_4}
+TIME: 0 hrs 0 mins 37 secs 615 ms
+
+PF_HP_2_2 and {GRID_2_4} but wrong answer
+TIME: 0 hrs 0 mins 37 secs 331 ms
+
+PF_HP_2_2 and {GRID_2_3} 
+TIME: 0 hrs 0 mins 37 secs 396 ms
+
+
+PF_HP_2_2 and {GRID_2_2} 
+TIME: 0 hrs 0 mins 37 secs 386 ms
+
+PF_HP_2_2 and {GRID_2_5}
+TIME: 0 hrs 0 mins 37 secs 61 ms
+TIME: 0 hrs 0 mins 37 secs 125 ms  
+TIME: 0 hrs 0 mins 37 secs 435 ms
+
+
+PF_HP_2_2 and {GRID_2_6} conditional lookup of `used'
+TIME: 0 hrs 0 mins 37 secs 523 ms
+TIME: 0 hrs 0 mins 37 secs 674 ms
+
+Strangely this does not seem to be faster then GRID_2_5
+
+PF_HP_2_2 and {GRID_2_5}
+TIME: 0 hrs 0 mins 22 secs 182 ms
+TIME: 0 hrs 0 mins 21 secs 876 ms
+TIME: 0 hrs 0 mins 21 secs 826 ms
+TIME: 0 hrs 0 mins 22 secs 34 ms (with caching of a_fold.count + 1 in calc_losses)
+
+PF_HP_2_2 and {GRID_2_7}
+TIME: 0 hrs 0 mins 21 secs 947 ms
+
+PF_HP_2_2 and {GRID_2_8}
+TIME: 0 hrs 0 mins 21 secs 947 ms
+
+class ONE_CORE_PF_HP_2_1 [GRID_2_5]
+TIME: 0 hrs 0 mins 21 secs 845 ms
+TIME: 0 hrs 0 mins 21 secs 773 ms
+TIME: 0 hrs 0 mins 21 secs 920 ms
+TIME: 0 hrs 0 mins 21 secs 773 ms
+
+calc_losses (a_fold: SPECIAL [NATURAL_8]): INTEGER
+TIME: 0 hrs 0 mins 21 secs 364 ms
+TIME: 0 hrs 0 mins 21 secs 745 ms
+TIME: 0 hrs 0 mins 21 secs 792 ms
+
+TIME: 0 hrs 0 mins 21 secs 716 ms
+TIME: 0 hrs 0 mins 21 secs 494 ms
+
+ONE_CORE_PF_HP_2_0 [GRID_2_5] 
+after moving print_progress into FOLD_ARRAY and changing to 
+
+	print_progress (iteration_count: INTEGER)
+
+TIME: 0 hrs 0 mins 21 secs 395 ms
+TIME: 0 hrs 0 mins 21 secs 606 ms
+
+
+After l_area optimization change to {FOLD_BATCH_LIST}.calculate
+TIME: 0 hrs 0 mins 5 secs 464 ms
+TIME: 0 hrs 0 mins 5 secs 479 ms
+
+ONE_CORE_PF_HP_2_0 [GRID_2_5]
+After adjusting permutation loop to eliminate temporary variable `c'
+TIME: 0 hrs 0 mins 7 secs 953 ms
+After putting entire losses calculation to BOOLEAN_GRID
+TIME: 7 secs 742 ms
+
+
+MULTI_CORE_PF_HP_2_0 [GRID_2_5]
+TIME: 0 hrs 0 mins 5 secs 835 ms
+TIME: 0 hrs 0 mins 5 secs 836 ms
+
+MULTI_CORE_PF_HP_2_0 [GRID_2_5] With inlining
+TIME: 0 hrs 0 mins 2 secs 455 ms
+TIME: 0 hrs 0 mins 2 secs 535 ms
+TIME: 0 hrs 0 mins 2 secs 430 ms
+TIME: 0 hrs 0 mins 2 secs 461 ms
+
+MULTI_CORE_PF_HP_2_1 [GRID_2_5]
+TIME: 0 hrs 0 mins 2 secs 270 ms
+TIME: 0 hrs 0 mins 2 secs 349 ms
+TIME: 0 hrs 0 mins 2 secs 383 ms

@@ -9,6 +9,8 @@ Demonstration of classes that make the classic multi-threading ISE library `thre
 
 1. `el_concurrency -horse_race` An [animated version](https://www.youtube.com/watch?v=s2-7pzmVjao) of the classic concurrency horse-racing exercise.
 2. `el_concurrency -work_distributer` demonstrates the calculation of integrals for arbitrary functions distributed across a specified number of threads
+## Vision-2 Extensions Demo
+Test application for selected components from Eiffel-Loop [extension libraries for Vision-2 and Docking](http://www.eiffel-loop.com/library/vision2-x.html).
 ## Rhythmbox MP3 Collection Manager
 This is a full-blown MP3 collection manager that is designed to work in conjunction with the [Rhythmbox media player](https://wiki.gnome.org/Apps/Rhythmbox) and has a number of features of particular interest to Tango DJs.
 
@@ -97,8 +99,14 @@ A multi-threaded EROS server demonstrating the [EROS remote object protocol](htt
 **Screenshot**
 
 [Server GUI and terminal window displaying logging output](http://www.eiffel-loop.com/images/screenshot/console-thread-switch.png)
-## Vision-2 Extensions Demo
-Test application for selected components from Eiffel-Loop [extension libraries for Vision-2 and Docking](http://www.eiffel-loop.com/library/vision2-x.html).
+## Protein Folding using 2D HP model
+Various implementations of an optimal protein folding algorithm using the 2D HP model Includes both a single and multi-core implementation.
+
+This project was a joint collaboration between Gerrit Leder and Finnian Reilly. Gerrit developed the implemented the 2D HP algorithm in Eiffel and Finnian optimized it's performance and created a multi-core parallel computation version.
+
+The multi-core version showcases the Eiffel-Loop class [EL_PROCEDURE_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_procedure_distributer.html).
+
+See: [Sourceforge repository PF_HP-mt](https://sourceforge.net/p/pfhp/PF_HP-mt)
 ## Audio Processing
 Classes for processing audio files and sample data.
 ## Video Processing
@@ -1076,14 +1084,14 @@ This library has two main purposes:
 
 **"Swiss-army-knife applications"**
 
-Creating a new project application in Eiffel is expensive both in terms of time to create a new ECF and project directory structure, and in terms of diskspace. If all you want to do is create a small utility to do some relatively minor task, it makes sense to include it with a other such utilities in a single application. But you need some framework to manage all these sub-applications. In this package, the two classes [EL_MULTI_APPLICATION_ROOT](http://www.eiffel-loop.com/library/runtime/app-manage/multi-app/el_multi_application_root.html) and [EL_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/app-manage/multi-app/sub-app/el_sub_application.html) provide this capability.
+Creating a new project application in Eiffel is expensive both in terms of time to create a new ECF and project directory structure, and in terms of diskspace. If all you want to do is create a small utility to do some relatively minor task, it makes sense to include it with a other such utilities in a single application. But you need some framework to manage all these sub-applications. In this package, the two classes [EL_MULTI_APPLICATION_ROOT](http://www.eiffel-loop.com/library/runtime/app-manage/multi-app/el_multi_application_root.html) and [EL_SUB_APPLICATION]($source) provide this capability.
 
 **Command line sub-applications**
 
 The following features exist for creating command line applications:
 
 
-* The class [EL_COMMAND_LINE_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/app-manage/multi-app/sub-app/el_command_line_sub_application.html) provides a smart way of mapping command line arguments to the arguments of a creation procedure with automatic string conversion according to type.
+* The class [EL_COMMAND_LINE_SUB_APPLICATION]($source) provides a smart way of mapping command line arguments to the arguments of a creation procedure with automatic string conversion according to type.
 * Built-in help system with usage help.
 * Create menu driven command line shells.
 
@@ -1358,9 +1366,9 @@ my_routine is
 ````
 **Including logging in your application**
 
-There are a number of ways to include logging in your application. The first is to inherit [EL_LOGGED_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/logging/el_logged_sub_application.html) in your root class and implement the function `Log_filter` (see below). You must then make sure that init_logging is the first routine called in the application entry make procedure. A slightly simpler way is to inherit from class [EL_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/app-manage/multi-app/sub-app/el_sub_application.html) in your root class. This class has a make procedure already defined which calls init_logging, you only have to implement the procedures initialize and run. The routine make must be listed as a creation procedure.
+There are a number of ways to include logging in your application. The first is to inherit [EL_LOGGED_SUB_APPLICATION]($source) in your root class and implement the function `Log_filter` (see below). You must then make sure that init_logging is the first routine called in the application entry make procedure. A slightly simpler way is to inherit from class [EL_SUB_APPLICATION]($source) in your root class. This class has a make procedure already defined which calls init_logging, you only have to implement the procedures initialize and run. The routine make must be listed as a creation procedure.
 
-Inheriting from class [EL_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/app-manage/multi-app/sub-app/el_sub_application.html) has some incidental benefits including:
+Inheriting from class [EL_SUB_APPLICATION]($source) has some incidental benefits including:
 
 
 * Graceful handling of the ctrl-c program interrupt with the possibility of putting application cleanup into a redefinition of procedure `on_operating_system_signal`.
@@ -1374,7 +1382,7 @@ By default logging is not active in the application. It must be turned on using 
 
 **Log output filtering**
 
-The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/logging/el_logged_sub_application.html) and implement the routine `log_filter_set` as function with generic parameters itemizing the types for which logging is enabled.  To only show output only for specific routines, use the `show_selected` procedure as shown in the example below. You can disable logging for any particular routine by prefixing the name with a hyphen. The `log_filter_set` routine for class [FOURIER_MATH_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/fourier_math_client_test_app.html) illustrates:
+The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_SUB_APPLICATION]($source) and implement the routine `log_filter_set` as function with generic parameters itemizing the types for which logging is enabled.  To only show output only for specific routines, use the `show_selected` procedure as shown in the example below. You can disable logging for any particular routine by prefixing the name with a hyphen. The `log_filter_set` routine for class [FOURIER_MATH_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/fourier_math_client_test_app.html) illustrates:
 
 
 ````
@@ -1467,7 +1475,7 @@ Class [EL_MODULE_LOG](http://www.eiffel-loop.com/library/runtime/logging/el_modu
 
 **Log files**
 
-All log files are put in a sub directory logs of the current working directory. If you are making your application loggable using [EL_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/app-manage/multi-app/sub-app/el_sub_application.html) then these log files are automatically deleted when the application exits. If you want a chance to inspect the log files in an editor before they disappear there are a number of ways to do this:
+All log files are put in a sub directory logs of the current working directory. If you are making your application loggable using [EL_SUB_APPLICATION]($source) then these log files are automatically deleted when the application exits. If you want a chance to inspect the log files in an editor before they disappear there are a number of ways to do this:
 
 Use the command line switch `-keep_logs`. The log files will not be deleted and will not be overwritten during subsequent application runs. It is recommended to delete them manually.
 

@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source EL_CYCLIC_REDUNDANCY_CHECK_32]"
+	description: "Shared instance of [$source EL_CYCLIC_REDUNDANCY_CHECK_32] for regression testing screen output"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

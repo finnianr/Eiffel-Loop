@@ -1,0 +1,27 @@
+Tue 31st Dec 2019, 12:33:36
+Initial full backup
+
+Fri 14th Feb 2020, 14:59:43
+Removed need for test set evaluator class
+
+Sun 3rd May 2020, 7:41:03
+Added recent changes already applied to github version
+
+Fri 8th May 2020, 12:42:37
+Added EL_FILE_OPEN_ROUTINES
+
+Mon 28th Jun 2021, 11:32:28
+Application root
+
+Tue 4th Jan 2022, 17:50:37
+Created alias for file and directory path classes
+
+Thu 13th Jan 2022, 16:47:38
+Moved EL_COMMAND_LINE_SUB_APPLICATION.description into EL_COMMAND descendant
+
+Wed 2nd Feb 2022, 20:01:05
+arguments_list redefine
+
+Sat 5th Feb 2022, 17:52:23
+Revised application management
+

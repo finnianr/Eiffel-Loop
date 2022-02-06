@@ -36,10 +36,11 @@ publish-repository:
 		ecf:
 			"example/99-bottles/ninety-nine-bottles.ecf"
 			"example/concurrency/concurrency-demo.ecf"
+			"example/graphical/graphical.ecf"
 			"example/manage-mp3/manage-mp3.ecf"
 			"example/net/EROS/signal-math/signal-math.ecf#project"
 			"example/net/EROS/server/signal-math-server.ecf#project"
-			"example/graphical/graphical.ecf"
+			"example/protein-folding/protein-folding.ecf"
 
 		# Library Multimedia
 		ecf:
