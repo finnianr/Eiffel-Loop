@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-06 15:42:37 GMT (Thursday 6th January 2022)"
-	revision: "18"
+	date: "2022-02-07 7:53:41 GMT (Monday 7th February 2022)"
+	revision: "19"
 
 class
 	NOTE_EDITOR
@@ -25,7 +25,7 @@ inherit
 
 	NOTE_CONSTANTS
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE
 
 create
 	make
@@ -76,7 +76,7 @@ feature -- Basic operations
 					output_lines := revised_lines
 					Precursor
 					if notes.is_revision then
-						File_system.set_file_stamp (source_path, notes.last_time_stamp + 1)
+						File.set_stamp (source_path, notes.last_time_stamp + 1)
 					end
 				else
 					input_lines.close

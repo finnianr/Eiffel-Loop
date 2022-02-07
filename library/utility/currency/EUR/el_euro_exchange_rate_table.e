@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "12"
+	date: "2022-02-07 6:20:19 GMT (Monday 7th February 2022)"
+	revision: "13"
 
 class
 	EL_EURO_EXCHANGE_RATE_TABLE
@@ -18,7 +18,7 @@ inherit
 			fill
 		end
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE_SYSTEM; EL_MODULE_FILE
 
 create
 	make
@@ -93,7 +93,7 @@ feature {NONE} -- Implementation
 		do
 			lio.put_path_field ("Reading", file_path.relative_path (Directory.App_cache))
 			lio.put_new_line
-			Result := File_system.plain_text (file_path)
+			Result := File.plain_text (file_path)
 		end
 
 	rates_file_path (a_date: DATE): FILE_PATH

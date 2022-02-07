@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 12:55:19 GMT (Saturday 5th February 2022)"
-	revision: "37"
+	date: "2022-02-07 7:33:47 GMT (Monday 7th February 2022)"
+	revision: "38"
 
 class
 	EIFFEL_CLASS
@@ -45,9 +45,7 @@ inherit
 
 	PUBLISHER_CONSTANTS
 
-	EL_MODULE_DIRECTORY
-
-	EL_MODULE_XML
+	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_XML
 
 	SHARED_CLASS_PATH_TABLE
 
@@ -67,14 +65,14 @@ feature {NONE} -- Initialization
 			)
 			library_ecf := a_library_ecf; repository := a_repository; source_path := a_source_path
 			name := source_path.base_sans_extension.as_upper
-			code_text := new_code_text (File_system.plain_text (source_path))
+			code_text := new_code_text (File.plain_text (source_path))
 			make_sync_item (
 				repository.output_dir, repository.ftp_url, html_output_path.relative_path (repository.output_dir)
 			)
 			create notes.make (relative_source_path.parent, a_repository.note_fields)
 
 			if is_modified or else word_count = 0 then
-				create stats.make_from_source (code_text, File_system.file_byte_count (source_path))
+				create stats.make_from_source (code_text, File.byte_count (source_path))
 				word_count := stats.word_count; file_size := stats.file_size
 			end
 		end

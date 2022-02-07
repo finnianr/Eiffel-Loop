@@ -13,14 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:52:17 GMT (Saturday 5th February 2022)"
-	revision: "12"
+	date: "2022-02-07 5:22:05 GMT (Monday 7th February 2022)"
+	revision: "13"
 
 deferred class
 	EL_CRC_32_TEST_ROUTINES
 
 inherit
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE
 
 	EL_MODULE_LOG
 
@@ -78,7 +78,7 @@ feature {NONE} -- Implementation
 
 	raw_file_digest (file_path: FILE_PATH): EL_DIGEST_ARRAY
 		do
-			create Result.make_from_memory (MD5_128, File_system.file_data (file_path))
+			create Result.make_from_memory (MD5_128, File.data (file_path))
 		end
 
 end

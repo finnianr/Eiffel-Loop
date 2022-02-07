@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-18 22:10:31 GMT (Tuesday 18th January 2022)"
-	revision: "1"
+	date: "2022-02-07 6:39:17 GMT (Monday 7th February 2022)"
+	revision: "2"
 
 class
 	VELOCITY_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 	EIFFEL_LOOP_TEST_ROUTINES
 
-	EL_MODULE_JAVA
+	EL_MODULE_FILE; EL_MODULE_JAVA
 
 	SHARED_JNI_ENVIRONMENT undefine default_create end
 
@@ -79,7 +79,7 @@ feature {NONE} -- Implementation
 			create file_writer.make_from_string (output_path.to_string)
 			write_merged_template (dir_name_map_list, "test-data/manifest-xml.vel", file_writer)
 			file_writer.close
-			assert_valid_manifest (directory_list, File_system.plain_text (output_path))
+			assert_valid_manifest (directory_list, File.plain_text (output_path))
 
 		end
 

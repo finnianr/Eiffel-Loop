@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-07 13:06:04 GMT (Friday 7th January 2022)"
-	revision: "19"
+	date: "2022-02-07 7:14:19 GMT (Monday 7th February 2022)"
+	revision: "20"
 
 class
 	EL_FILE_PATH_LIST
@@ -23,7 +23,7 @@ inherit
 			make_from_tuple
 		end
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE
 
 create
 	make, make_empty, make_with_count, make_from_array, make_from_tuple
@@ -77,7 +77,7 @@ feature -- Basic operations
 
 	sort_by_size (in_ascending_order: BOOLEAN)
 		do
-			make_from_array (ordered_by (agent File_system.file_byte_count, in_ascending_order).to_array)
+			make_from_array (ordered_by (agent File.byte_count, in_ascending_order).to_array)
 		end
 
 feature -- Cursor movement

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 12:54:41 GMT (Saturday 5th February 2022)"
-	revision: "21"
+	date: "2022-02-07 6:29:01 GMT (Monday 7th February 2022)"
+	revision: "22"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -29,15 +29,9 @@ inherit
 
 	EL_FILE_OPEN_ROUTINES
 
-	EL_COMMAND
+	EL_COMMAND; EL_MODULE_LIO; EL_MODULE_OS; EL_MODULE_DIRECTORY
 
-	EL_MODULE_LIO
-
-	EL_MODULE_OS
-
-	EL_MODULE_DIRECTORY
-
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM
 
 create
 	make
@@ -175,7 +169,7 @@ feature {NONE} -- Implementation
 			tab_count, count: INTEGER; line: ZSTRING
 			text_lines: EL_ITERABLE_SPLIT [STRING, ANY]
 		do
-			text_lines := File_system.plain_text_lines (output_path)
+			text_lines := File.plain_text_lines (output_path)
 			if attached open (output_path, Write) as file_out then
 				file_out.put_lines (<<
 					"note",

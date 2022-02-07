@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 9:48:34 GMT (Wednesday 19th January 2022)"
-	revision: "11"
+	date: "2022-02-07 6:44:31 GMT (Monday 7th February 2022)"
+	revision: "12"
 
 deferred class
 	RBOX_MANAGEMENT_TASK_TEST_SET [T -> RBOX_MANAGEMENT_TASK create make end]
@@ -75,7 +75,7 @@ feature {NONE} -- Implementation
 
 	new_task (pyxis_code: STRING): like task
 		do
-			File_system.write_plain_text (Task_file_path, Pyxis_doc + pyxis_code)
+			File.write_text (Task_file_path, Pyxis_doc + pyxis_code)
 			create Result.make (Task_file_path)
 			Result.set_absolute_music_dir
 		end

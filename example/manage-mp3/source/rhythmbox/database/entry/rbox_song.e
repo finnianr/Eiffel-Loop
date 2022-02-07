@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-30 11:08:35 GMT (Sunday 30th January 2022)"
-	revision: "50"
+	date: "2022-02-07 7:26:48 GMT (Monday 7th February 2022)"
+	revision: "51"
 
 class
 	RBOX_SONG
@@ -41,7 +41,7 @@ inherit
 
 	EL_ZSTRING_CONSTANTS
 
-	EL_MODULE_OS
+	EL_MODULE_FILE; EL_MODULE_OS
 
 create
 	make
@@ -103,7 +103,7 @@ feature -- Access
 
 	file_size_mb: DOUBLE
 		do
-			Result := File_system.file_megabyte_count (mp3_path)
+			Result := File.megabyte_count (mp3_path)
 		end
 
 	mp3_info: TL_MUSICBRAINZ_MPEG_FILE
@@ -347,8 +347,8 @@ feature -- Element change
 
 	update_file_info
 		do
-			mtime := File_system.file_modification_time (mp3_path)
-			file_size := File_system.file_byte_count (mp3_path)
+			mtime := File.modification_time (mp3_path)
+			file_size := File.byte_count (mp3_path)
 		end
 
 feature -- Basic operations

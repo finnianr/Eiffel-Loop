@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:51:18 GMT (Saturday 5th February 2022)"
-	revision: "19"
+	date: "2022-02-07 5:47:49 GMT (Monday 7th February 2022)"
+	revision: "20"
 
 deferred class
 	EL_DEBIAN_PACKAGER_I
@@ -28,15 +28,10 @@ inherit
 
 	EL_SHARED_APPLICATION_LIST
 
-	EL_FILE_OPEN_ROUTINES
-
 	EL_DEBIAN_CONSTANTS
 
-	EL_MODULE_BUILD_INFO
-	EL_MODULE_DIRECTORY
-	EL_MODULE_EXECUTABLE
-	EL_MODULE_LIO
-	EL_MODULE_OS
+	EL_MODULE_BUILD_INFO; EL_MODULE_DIRECTORY; EL_MODULE_EXECUTABLE; EL_MODULE_LIO
+	EL_MODULE_OS; EL_MODULE_FILE
 
 	EL_SHARED_DIRECTORY
 		rename
@@ -71,10 +66,11 @@ feature -- Basic operations
 		do
 			put_opt_contents; put_xdg_entries; put_debian_files
 
-			configuration_file_list.extend (Empty_string) -- needed to prevent erroneous error message "line too long in conffiles"
-			if attached open (versioned_package_dir.joined_file_tuple ([Debian, Conffiles]), Write) as file then
-				file.put_lines (configuration_file_list)
-				file.close
+			-- needed to prevent erroneous error message "line too long in conffiles"
+			configuration_file_list.extend (Empty_string)
+			if attached open (versioned_package_dir.joined_file_tuple ([Debian, Conffiles]), Write) as l_file then
+				l_file.put_lines (configuration_file_list)
+				l_file.close
 			end
 			create script.make (Current)
 			script.execute
@@ -108,7 +104,7 @@ feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
 			dir_name := path.parent.base
 			if dir_name ~ Bin and then (path.has_extension (Bash_extension) or else path.base ~ Executable.name) then
 				Result := True
-			elseif dir_name ~ Debian and then OS.File_system.line_one (path).starts_with (once "#!/bin") then
+			elseif dir_name ~ Debian and then File.line_one (path).starts_with (once "#!/bin") then
 				Result := True
 			end
 		end

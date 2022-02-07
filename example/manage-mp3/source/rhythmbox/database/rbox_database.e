@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-05 13:41:45 GMT (Wednesday 5th January 2022)"
-	revision: "42"
+	date: "2022-02-07 6:09:28 GMT (Monday 7th February 2022)"
+	revision: "43"
 
 class
 	RBOX_DATABASE
@@ -49,19 +49,9 @@ inherit
 
 	SONG_QUERY_CONDITIONS
 
-	EL_MODULE_ARGS
+	EL_MODULE_ARGS; EL_MODULE_LOG; EL_MODULE_DIRECTORY; EL_MODULE_FILE_SYSTEM; EL_MODULE_FILE
 
-	EL_MODULE_LOG
-
-	EL_MODULE_DIRECTORY
-
-	EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_OS
-
-	EL_MODULE_BUILD_INFO
-
-	EL_MODULE_ITERABLE
+	EL_MODULE_OS; EL_MODULE_BUILD_INFO; EL_MODULE_ITERABLE
 
 	RBOX_SHARED_DATABASE_FIELD_ENUM
 
@@ -88,7 +78,7 @@ feature {NONE} -- Initialization
 			lio.put_new_line
 
 			if a_xml_database_path.exists then
-				xml_text := File_system.plain_text (a_xml_database_path)
+				xml_text := File.plain_text (a_xml_database_path)
 			else
 				xml_text := Default_xml
 			end

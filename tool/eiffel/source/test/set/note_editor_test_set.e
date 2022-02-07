@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 12:57:34 GMT (Saturday 5th February 2022)"
-	revision: "29"
+	date: "2022-02-07 6:26:46 GMT (Monday 7th February 2022)"
+	revision: "30"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -96,8 +96,8 @@ feature -- Tests
 				across << old_revision, new_revision >> as revision loop
 					do_once_with_file_lines (agent get_revision (?, revision.item), open_lines (path.item, Latin_1))
 					if revision.cursor_index = 1 then
-						if attached open (path.item, Closed) as file then
-							file.stamp (Time.unix_date_time (create {DATE_TIME}.make_now_utc) + 5)
+						if attached open (path.item, Closed) as l_file then
+							l_file.stamp (Time.unix_date_time (create {DATE_TIME}.make_now_utc) + 5)
 							editor.edit
 						end
 					end
@@ -159,7 +159,7 @@ feature {NONE} -- Implementation
 			source: STRING; crc: like crc_generator
 		do
 			crc := crc_generator
-			source := OS.File_system.plain_text (file_path)
+			source := File.plain_text (file_path)
 			source.remove_head (source.substring_index ("%Nclass", 1))
 			crc.add_string_8 (source)
 			Result := crc.checksum

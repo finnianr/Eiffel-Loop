@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "6"
+	date: "2022-02-07 7:49:52 GMT (Monday 7th February 2022)"
+	revision: "7"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -58,14 +58,14 @@ feature {NONE} -- Implementation
 
 			object.print_fields (lio)
 
-			if attached open_raw (File_path, Write) as file then
-				reader_writer.write (object, file)
-				file.close
+			if attached open_raw (File_path, Write) as l_file then
+				reader_writer.write (object, l_file)
+				l_file.close
 			end
 
-			if attached open_raw (File_path, Read) as file then
-				restored_object := reader_writer.read_item (file)
-				file.close
+			if attached open_raw (File_path, Read) as l_file then
+				restored_object := reader_writer.read_item (l_file)
+				l_file.close
 			end
 
 			assert ("restored OK", object ~ restored_object)

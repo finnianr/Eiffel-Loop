@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-21 15:33:24 GMT (Friday 21st January 2022)"
-	revision: "5"
+	date: "2022-02-07 5:56:37 GMT (Monday 7th February 2022)"
+	revision: "6"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
@@ -21,7 +21,7 @@ inherit
 
 	EL_SHARED_DIGESTS
 
-	EL_MODULE_XML
+	EL_MODULE_FILE; EL_MODULE_XML
 
 feature -- Tests
 
@@ -106,7 +106,7 @@ feature {NONE} -- Implementation
 
 	new_root_node (body_path: EL_FILE_PATH): EL_XPATH_ROOT_NODE_CONTEXT
 		do
-			create Result.make_from_string (XML.document_text ("body", "UTF-8", File_system.plain_text (body_path)))
+			create Result.make_from_string (XML.document_text ("body", "UTF-8", File.plain_text (body_path)))
 		end
 
 	new_xdoc_path (xdoc: EL_XPATH_ROOT_NODE_CONTEXT; xpath: STRING): FILE_PATH

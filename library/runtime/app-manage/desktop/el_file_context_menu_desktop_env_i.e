@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:51:18 GMT (Saturday 5th February 2022)"
-	revision: "10"
+	date: "2022-02-07 8:13:58 GMT (Monday 7th February 2022)"
+	revision: "11"
 
 deferred class
 	EL_FILE_CONTEXT_MENU_DESKTOP_ENV_I
@@ -25,7 +25,7 @@ inherit
 			getter_function_table, make_default
 		end
 
-	EL_MODULE_LIO
+	EL_MODULE_FILE; EL_MODULE_LIO
 
 feature {NONE} -- Initialization
 
@@ -54,7 +54,7 @@ feature -- Basic operations
 			File_system.make_directory (launch_script_path.parent)
 			lio.put_line (launch_script_path.to_string)
 			write_script (launch_script_path)
-			File_system.add_permission (launch_script_path, "uog", "x")
+			File.add_permission (launch_script_path, "uog", "x")
 		end
 
 	uninstall
@@ -110,4 +110,3 @@ feature {NONE} -- Evolicity implementation
 		end
 
 end
-

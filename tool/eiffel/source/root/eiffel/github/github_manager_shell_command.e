@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-01 10:24:01 GMT (Tuesday 1st February 2022)"
-	revision: "10"
+	date: "2022-02-07 6:58:11 GMT (Monday 7th February 2022)"
+	revision: "11"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -20,7 +20,7 @@ inherit
 
 	EL_MODULE_DIRECTORY
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE
 
 	EL_MODULE_LIO
 
@@ -67,9 +67,9 @@ feature {NONE} -- Implementation
 		do
 			if Credentials_path.exists then
 				decrypter := config.new_credential_decrypter
-				cipher_text := File_system.plain_text (Credentials_path)
+				cipher_text := File.plain_text (Credentials_path)
 				plain_text := decrypter.decrypted_base_64 (cipher_text)
-				File_system.write_plain_text (Credentials_path, plain_text)
+				File.write_text (Credentials_path, plain_text)
 
 				create push_cmd.make ("git push -u origin master")
 				push_cmd.set_working_directory (config.github_dir)
@@ -81,7 +81,7 @@ feature {NONE} -- Implementation
 					lio.put_new_line
 				end
 				-- re-encrypt
-				File_system.write_plain_text (Credentials_path, cipher_text)
+				File.write_text (Credentials_path, cipher_text)
 			else
 				lio.put_path_field ("Cannot find", Credentials_path)
 				lio.put_new_line

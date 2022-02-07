@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-25 23:49:48 GMT (Tuesday 25th January 2022)"
-	revision: "5"
+	date: "2022-02-07 6:45:55 GMT (Monday 7th February 2022)"
+	revision: "6"
 
 class
 	EL_HACKER_INTERCEPT_CONFIG
@@ -18,8 +18,7 @@ inherit
 			building_action_table, make_default
 		end
 
-	EL_MODULE_FILE_SYSTEM
-	EL_MODULE_TUPLE
+	EL_MODULE_FILE; EL_MODULE_TUPLE
 
 create
 	make_default, make_from_file
@@ -60,7 +59,7 @@ feature -- Basic operations
 
 	block (ip_address: STRING)
 		do
-			File_system.write_plain_text (Block_ip_path, ip_address)
+			File.write_text (Block_ip_path, ip_address)
 		end
 
 feature -- Constants

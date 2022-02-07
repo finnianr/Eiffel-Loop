@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 9:45:01 GMT (Wednesday 19th January 2022)"
-	revision: "13"
+	date: "2022-02-07 7:19:59 GMT (Monday 7th February 2022)"
+	revision: "14"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -83,16 +83,16 @@ feature {NONE} -- Implementation
 
 	build (type: BUILDER_FACTORY)
 		local
-			name: STRING
+			l_name: STRING
 		do
 			log.enter_with_args ("build", [type])
-			name := Routine_name
-			do_test (name, 561488628,
-				agent build_and_serialize_file, [File.smil_presentation, agent type.new_smil_presentation]
+			l_name := Routine_name
+			do_test (l_name, 561488628,
+				agent build_and_serialize_file, [Name.smil_presentation, agent type.new_smil_presentation]
 			)
-			do_test (name, 3086032535, agent build_and_serialize_file, [File.web_form, agent type.new_web_form] )
-			do_test (name, 1024683824, agent build_and_serialize_file, [File.matrix_average, agent type.new_matrix])
-			do_test (name, 2770913439, agent build_and_serialize_file, [File.matrix_sum, agent type.new_matrix])
+			do_test (l_name, 3086032535, agent build_and_serialize_file, [Name.web_form, agent type.new_web_form] )
+			do_test (l_name, 1024683824, agent build_and_serialize_file, [Name.matrix_average, agent type.new_matrix])
+			do_test (l_name, 2770913439, agent build_and_serialize_file, [Name.matrix_sum, agent type.new_matrix])
 			log.exit
 		end
 
@@ -122,14 +122,14 @@ feature {NONE} -- Implementation
 	smart_build (type: BUILDER_FACTORY)
 			-- 10 Feb 2020
 		local
-			name: STRING;
+			l_name: STRING
 		do
 			log.enter_with_args ("smart_build", [type])
-			name := Routine_name
-			do_test (name, 944788983, agent build_and_serialize_file, [File.smil_presentation, agent type.new_serializeable])
-			do_test (name, 540764938, agent build_and_serialize_file, [File.web_form, agent type.new_serializeable])
-			do_test (name, 4129507502, agent build_and_serialize_file, [File.matrix_average, agent type.new_serializeable])
-			do_test (name, 345614884, agent build_and_serialize_file, [File.matrix_sum, agent type.new_serializeable])
+			l_name := Routine_name
+			do_test (l_name, 944788983, agent build_and_serialize_file, [Name.smil_presentation, agent type.new_serializeable])
+			do_test (l_name, 540764938, agent build_and_serialize_file, [Name.web_form, agent type.new_serializeable])
+			do_test (l_name, 4129507502, agent build_and_serialize_file, [Name.matrix_average, agent type.new_serializeable])
+			do_test (l_name, 345614884, agent build_and_serialize_file, [Name.matrix_sum, agent type.new_serializeable])
 			log.exit
 		end
 
@@ -139,7 +139,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	File: TUPLE [web_form, smil_presentation, matrix_average, matrix_sum: STRING]
+	Name: TUPLE [web_form, smil_presentation, matrix_average, matrix_sum: STRING]
 		once
 			create Result
 			Tuple.fill (Result,

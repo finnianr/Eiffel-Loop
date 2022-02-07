@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:06 GMT (Saturday 5th February 2022)"
-	revision: "20"
+	date: "2022-02-07 6:30:40 GMT (Monday 7th February 2022)"
+	revision: "21"
 
 class
 	CLASS_RENAMING_COMMAND
@@ -18,7 +18,7 @@ inherit
 			make as make_command
 		end
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE_SYSTEM; EL_MODULE_FILE
 
 create
 	make
@@ -42,9 +42,9 @@ feature {NONE} -- Implementation
 
 	do_with_file (source_path: FILE_PATH)
 		local
-			line: STRING; file: PLAIN_TEXT_FILE
+			line: STRING; l_file: PLAIN_TEXT_FILE
 		do
-			if attached File_system.plain_text_lines (source_path) as source_lines
+			if attached File.plain_text_lines (source_path) as source_lines
 				and then source_lines.target.has_substring (old_name)
 				and then across source_lines as list some has_old_name_identifier (list.item) end
 			then
@@ -55,17 +55,17 @@ feature {NONE} -- Implementation
 					File_system.remove_path (source_path)
 					source_path.set_base (new_name.as_lower + Eiffel_extention)
 				end
-				create file.make_open_write (source_path)
+				create l_file.make_open_write (source_path)
 				across source_lines as list loop
 					line := list.item
 					if line.has_substring (old_name) then
-						put_substituted (file, line)
+						put_substituted (l_file, line)
 					else
-						file.put_string (line)
+						l_file.put_string (line)
 					end
-					file.put_new_line
+					l_file.put_new_line
 				end
-				file.close
+				l_file.close
 			end
 		end
 
@@ -101,22 +101,22 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	put_substituted (file: PLAIN_TEXT_FILE; line: STRING)
+	put_substituted (a_file: PLAIN_TEXT_FILE; line: STRING)
 		local
 			name_split: EL_SPLIT_STRING_8_LIST
 			lower, upper: INTEGER
 		do
 			create name_split.make_by_string (line, old_name)
 			from name_split.start until name_split.after loop
-				file.put_string (name_split.item)
+				a_file.put_string (name_split.item)
 				name_split.forth
 				if not name_split.after then
 					lower := name_split.i_th_upper (name_split.index - 1) + 1
 					upper := name_split.item_start_index - 1
 					if is_whole_identifier (line, lower, upper) then
-						file.put_string (new_name)
+						a_file.put_string (new_name)
 					else
-						file.put_string (old_name)
+						a_file.put_string (old_name)
 					end
 				end
 			end

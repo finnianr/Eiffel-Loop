@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-01 11:34:52 GMT (Tuesday 1st February 2022)"
-	revision: "2"
+	date: "2022-02-07 6:23:13 GMT (Monday 7th February 2022)"
+	revision: "3"
 
 deferred class
 	COPIED_SOURCES_TEST_SET
@@ -18,9 +18,7 @@ inherit
 			on_prepare
 		end
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
-
-	EL_MODULE_TUPLE
+	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE; EL_MODULE_TUPLE
 
 	EL_SHARED_FIND_FILE_FILTER_FACTORY
 
@@ -28,15 +26,15 @@ feature {NONE} -- Events
 
 	on_prepare
 		local
-			file: PLAIN_TEXT_FILE
+			l_file: PLAIN_TEXT_FILE
 		do
 			Precursor
 			if not attached Execution_environment.item (Var_working_directory) then
 				Execution_environment.put (Directory.current_working.as_string_32, Var_working_directory)
 			end
-			create file.make_open_write (Manifest_path)
-			file.put_string (Source_manifest)
-			file.close
+			create l_file.make_open_write (Manifest_path)
+			l_file.put_string (Source_manifest)
+			l_file.close
 		end
 
 feature {NONE} -- Implementation
@@ -47,13 +45,13 @@ feature {NONE} -- Implementation
 			across file_list as path loop
 				if path.item.base ~ Encoding_sample.utf_8 then
 					assert ("correct utf-8 for 0xA1",
-						across File_system.plain_text_lines (path.item) as line some
+						across File.plain_text_lines (path.item) as line some
 							has_utf_8_for_0xA1 (line.item)
 						end
 					)
 				elseif path.item.base ~ Encoding_sample.latin_1 then
 					assert ("correct latin-1 for año",
-						across File_system.plain_text_lines (path.item) as line some
+						across File.plain_text_lines (path.item) as line some
 							has_latin_1_for_ano (line.item)
 						end
 					)

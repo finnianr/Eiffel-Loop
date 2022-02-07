@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "4"
+	date: "2022-02-07 6:53:31 GMT (Monday 7th February 2022)"
+	revision: "5"
 
 deferred class
 	EL_RESOURCE_UPDATE_MANAGER
@@ -23,7 +23,7 @@ inherit
 			target_dir, existing_modification_time, download
 		end
 
-	EL_MODULE_NAMING
+	EL_MODULE_FILE; EL_MODULE_NAMING
 
 feature {NONE} -- Initialization
 
@@ -47,7 +47,7 @@ feature -- Basic operations
 		do
 			Precursor
 			File_system.make_directory (date_file_path.parent)
-			File_system.write_plain_text (date_file_path, server_manifest_date.out)
+			File.write_text (date_file_path, server_manifest_date.out)
 		end
 
 feature -- Status query
@@ -76,7 +76,7 @@ feature {NONE} -- Implementation
 	local_manifest_date: INTEGER
 		do
 			if date_file_path.exists then
-				Result := File_system.plain_text (date_file_path).to_integer
+				Result := File.plain_text (date_file_path).to_integer
 			end
 		end
 
@@ -91,4 +91,3 @@ feature {NONE} -- Internal attributes
 	server_manifest_date: INTEGER
 
 end
-

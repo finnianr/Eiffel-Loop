@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "13"
+	date: "2022-02-07 5:21:33 GMT (Monday 7th February 2022)"
+	revision: "14"
 
 class
 	EL_COMPRESSED_ARCHIVE_FILE
@@ -30,11 +30,7 @@ inherit
 			Append as Append_to
 		end
 
-	EL_MODULE_CHECKSUM
-
-	EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_LIO
+	EL_MODULE_CHECKSUM; EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM; EL_MODULE_LIO
 
 	EL_MODULE_ZLIB
 
@@ -137,11 +133,11 @@ feature -- Basic operations
 			valid_expected_compression_ratio: expected_compression_ratio > 0.0
 			valid_level: level > 0
 		do
-			across list as file loop
-				progress_listener.increase_file_data_estimate (file.item)
+			across list as l_path loop
+				progress_listener.increase_file_data_estimate (l_path.item)
 			end
-			across list as file loop
-				append_file (file.item)
+			across list as l_path loop
+				append_file (l_path.item)
 			end
 			progress_listener.finish
 		end
@@ -189,7 +185,7 @@ feature {NONE} -- Implementation
 			file_data: MANAGED_POINTER; compressed_data: SPECIAL [NATURAL_8]
 			utf8_path: STRING; l_checksum: NATURAL
 		do
-			file_data := File_system.file_data (a_file_path)
+			file_data := File.data (a_file_path)
 			if is_checksum_enabled then
 				l_checksum := Checksum.data (file_data)
 			end

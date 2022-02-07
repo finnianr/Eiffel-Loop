@@ -26,8 +26,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:39:47 GMT (Thursday 13th January 2022)"
-	revision: "4"
+	date: "2022-02-07 8:15:31 GMT (Monday 7th February 2022)"
+	revision: "5"
 
 class
 	EL_DEBIAN_MAKE_SCRIPT
@@ -43,11 +43,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_DIRECTORY
-
-	EL_MODULE_OS
-
-	EL_MODULE_ENVIRONMENT
+	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_OS; EL_MODULE_ENVIRONMENT
 
 create
 	make
@@ -67,7 +63,7 @@ feature -- Basic operations
 			command: EL_OS_COMMAND
 		do
 			serialize
-			File_system.add_permission (output_path, "u", "x")
+			File.add_permission (output_path, "u", "x")
 			create command.make (Dot_slash + output_path.base)
 			command.set_working_directory (output_path.parent)
 			command.execute

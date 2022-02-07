@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-18 12:02:52 GMT (Monday 18th June 2018)"
-	revision: "4"
+	date: "2022-02-07 7:26:27 GMT (Monday 7th February 2022)"
+	revision: "5"
 
 class
 	RBOX_TEST_SONG
@@ -25,7 +25,7 @@ feature -- Element change
 
 	update_file_info
 		do
-			file_size := File_system.file_byte_count (mp3_path)
+			file_size := File.byte_count (mp3_path)
 		end
 
 end

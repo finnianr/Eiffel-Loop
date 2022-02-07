@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "7"
+	date: "2022-02-07 6:40:33 GMT (Monday 7th February 2022)"
+	revision: "8"
 
 class
 	EL_CACHED_XML_HTTP_CONNECTION
@@ -21,7 +21,7 @@ inherit
 			on_not_xml_read, on_xml_read
 		end
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE
 
 create
 	make, make_with_default
@@ -44,7 +44,7 @@ feature {NONE} -- Event handling
 	on_not_xml_read
 		do
 			if cache_file_path.exists then
-				last_string := File_system.plain_text (cache_file_path)
+				last_string := File.plain_text (cache_file_path)
 				if is_lio_enabled then
 					lio.put_path_field ("Read", cache_file_path)
 					lio.put_new_line

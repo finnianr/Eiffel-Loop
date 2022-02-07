@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 17:16:52 GMT (Sunday 23rd January 2022)"
-	revision: "18"
+	date: "2022-02-07 6:43:28 GMT (Monday 7th February 2022)"
+	revision: "19"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -27,11 +27,8 @@ inherit
 
 	EL_HTML_CONSTANTS
 
-	EL_MODULE_BUFFER
-	EL_MODULE_TIME
-	EL_MODULE_LIO
-	EL_MODULE_DIRECTORY
-	EL_MODULE_EXCEPTION
+	EL_MODULE_BUFFER; EL_MODULE_FILE; EL_MODULE_TIME
+	EL_MODULE_LIO; EL_MODULE_DIRECTORY; EL_MODULE_EXCEPTION
 
 feature {NONE} -- Initialization
 
@@ -125,7 +122,7 @@ feature {NONE} -- Implementation
 				lio.put_new_line
 				write_html
 			end
-			check_paragraph_count (File_system.plain_text (output_file_path))
+			check_paragraph_count (File.plain_text (output_file_path))
 		end
 
 	remove_old_files
@@ -159,7 +156,7 @@ feature {NONE} -- Implementation
 			html_doc := html_lines.joined_lines
 			edit (html_doc)
 			xhtml := html_doc.to_utf_8 (False)
-			File_system.write_plain_text (output_file_path, xhtml)
+			File.write_text (output_file_path, xhtml)
 		end
 
 feature {NONE} -- Editing

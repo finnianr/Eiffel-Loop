@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-30 11:44:14 GMT (Sunday 30th January 2022)"
-	revision: "12"
+	date: "2022-02-07 6:56:53 GMT (Monday 7th February 2022)"
+	revision: "13"
 
 class
 	SOFTWARE_INFO
@@ -21,11 +21,7 @@ inherit
 			element_node_fields as Empty_set
 		end
 
-	EL_MODULE_DIRECTORY
-
-	EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_LIO
+	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_LIO
 
 	EL_FILE_OPEN_ROUTINES
 
@@ -78,7 +74,7 @@ feature -- Basic operations
 			list: EL_SPLIT_STRING_8_LIST; source_text, line: STRING
 			found: BOOLEAN; i, line_start, line_end: INTEGER
 		do
-			source_text := File_system.plain_text (pecf_path)
+			source_text := File.plain_text (pecf_path)
 			create list.make (source_text, '%N')
 			from list.start until list.after or found loop
 				line := list.item
@@ -101,7 +97,7 @@ feature -- Basic operations
 				source_text.replace_substring (line, line_start, line_end)
 				lio.put_natural_field (pecf_path.base + " build", build)
 				lio.put_new_line
-				File_system.write_plain_text (pecf_path, source_text)
+				File.write_text (pecf_path, source_text)
 				write_ecf (source_text)
 			end
 		end

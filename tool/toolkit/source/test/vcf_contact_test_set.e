@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 15:32:29 GMT (Thursday 13th January 2022)"
-	revision: "2"
+	date: "2022-02-07 6:04:48 GMT (Monday 7th February 2022)"
+	revision: "3"
 
 class
 	VCF_CONTACT_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
-	EL_MODULE_COMMAND
+	EL_MODULE_COMMAND; EL_MODULE_FILE
 
 feature -- Basic operations
 
@@ -36,11 +36,11 @@ feature -- Tests
 			id, source_text, split_text: STRING
 		do
 			if attached file_list.first_path as contacts_path then
-				source_text := File_system.plain_text (contacts_path)
+				source_text := File.plain_text (contacts_path)
 				create splitter.make (contacts_path)
 				splitter.execute
 				across OS.file_list (Work_area_dir #+ "contacts", "*.vcf") as path loop
-					split_text := File_system.plain_text (path.item)
+					split_text := File.plain_text (path.item)
 					id := path.item.base_sans_extension
 					index := split_text.substring_index (id, 1)
 					assert ("id", index > 0)
@@ -66,7 +66,7 @@ feature -- Tests
 				switcher.execute
 				contacts_2_path := contacts_path.with_new_extension ("2.vcf")
 				assert ("output generated", contacts_2_path.exists)
-				across File_system.plain_text_lines (contacts_2_path) as line loop
+				across File.plain_text_lines (contacts_2_path) as line loop
 					if line.item.starts_with ("N:") then
 						last_name := s.substring_to (line.item, ';', default_pointer)
 						last_name.remove_head (2)

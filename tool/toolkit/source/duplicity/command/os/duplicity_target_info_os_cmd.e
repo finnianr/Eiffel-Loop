@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "5"
+	date: "2022-02-07 7:23:58 GMT (Monday 7th February 2022)"
+	revision: "6"
 
 class
 	DUPLICITY_TARGET_INFO_OS_CMD
@@ -30,9 +30,7 @@ inherit
 
 	DUPLICITY_CONSTANTS
 
-	EL_MODULE_OS
-
-	EL_MODULE_TUPLE
+	EL_MODULE_FILE; EL_MODULE_OS; EL_MODULE_TUPLE
 
 create
 	make
@@ -68,7 +66,7 @@ feature -- Basic operations
 			if not backup_contents.is_empty then
 				backup_contents.sort_by_size (True)
 				from backup_contents.start until backup_contents.after loop
-					mega_bytes := OS.File_system.file_byte_count (backup_contents.path) / 10 ^ 6
+					mega_bytes := File.byte_count (backup_contents.path) / 10 ^ 6
 					lio.put_labeled_string (Double.formatted (mega_bytes) + " MB", backup_contents.path.relative_path (target_dir))
 					lio.put_new_line
 					backup_contents.forth

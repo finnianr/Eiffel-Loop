@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:51:18 GMT (Saturday 5th February 2022)"
-	revision: "11"
+	date: "2022-02-07 7:38:07 GMT (Monday 7th February 2022)"
+	revision: "12"
 
 class
 	EL_UNINSTALL_APP_MENU_DESKTOP_ENV_IMP
@@ -27,9 +27,7 @@ inherit
 
 	EL_MS_WINDOWS_DIRECTORIES
 
-	EL_MODULE_WIN_REGISTRY
-
-	EL_MODULE_REG_KEY
+	EL_MODULE_FILE; EL_MODULE_WIN_REGISTRY; EL_MODULE_REG_KEY
 
 	EL_SHARED_APPLICATION_LIST
 
@@ -114,7 +112,7 @@ feature {NONE} -- Implementation
 		do
 			list := File_system.files (Directory.Application_installation, True)
 			from list.start until list.after loop
-				byte_count := byte_count + File_system.file_byte_count (list.item)
+				byte_count := byte_count + File.byte_count (list.item)
 				list.forth
 			end
 			Result := (byte_count / 1024.0).rounded

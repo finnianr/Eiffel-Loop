@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:06 GMT (Saturday 5th February 2022)"
-	revision: "11"
+	date: "2022-02-07 6:07:15 GMT (Monday 7th February 2022)"
+	revision: "12"
 
 class
 	VCF_CONTACT_NAME_SWITCHER
@@ -17,6 +17,8 @@ inherit
 		redefine
 			make
 		end
+
+	EL_MODULE_FILE
 
 create
 	make
@@ -39,15 +41,13 @@ feature -- Basic operations
 	execute
 		do
 			vcf_out.open_write
-			do_with_split (agent find_name, File_system.plain_text_lines (vcf_path), False)
+			do_with_split (agent find_name, File.plain_text_lines (vcf_path), False)
 			vcf_out.close
 		end
 
 feature {NONE} -- State handlers
 
 	find_name (line: STRING)
-		local
-			name: STRING
 		do
 			pair.set_from_string (line, ':')
 			if pair.name ~ Field.name then

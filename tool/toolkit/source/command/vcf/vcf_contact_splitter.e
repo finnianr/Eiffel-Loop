@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:06 GMT (Saturday 5th February 2022)"
-	revision: "15"
+	date: "2022-02-07 6:08:18 GMT (Monday 7th February 2022)"
+	revision: "16"
 
 class
 	VCF_CONTACT_SPLITTER
@@ -18,7 +18,7 @@ inherit
 			make
 		end
 
-	EL_MODULE_LIO
+	EL_MODULE_LIO; EL_MODULE_FILE
 
 create
 	make
@@ -45,7 +45,7 @@ feature -- Basic operations
 
 	execute
 		do
-			do_with_split (agent find_begin_record, File_system.plain_text_lines (vcf_path), True)
+			do_with_split (agent find_begin_record, File.plain_text_lines (vcf_path), True)
 		end
 
 feature {NONE} -- State handlers
@@ -61,7 +61,7 @@ feature {NONE} -- State handlers
 
 	find_end_record (line: STRING)
 		local
-			output_path: FILE_PATH; file: PLAIN_TEXT_FILE
+			output_path: FILE_PATH; file_out: PLAIN_TEXT_FILE
 		do
 			pair.set_from_string (line, ':')
 
@@ -72,15 +72,15 @@ feature {NONE} -- State handlers
 					output_path.add_extension ("vcf")
 					lio.put_path_field ("Writing", output_path)
 					lio.put_new_line
-					create file.make_open_write (output_path)
+					create file_out.make_open_write (output_path)
 					across record_lines as record loop
-						file.put_string (record.item)
+						file_out.put_string (record.item)
 						if {PLATFORM}.is_unix then
-							file.put_character ('%R')
+							file_out.put_character ('%R')
 						end
-						file.put_new_line -- Windows new line
+						file_out.put_new_line -- Windows new line
 					end
-					file.close
+					file_out.close
 				end
 				record_id.wipe_out
 				record_lines.wipe_out

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-01 18:21:06 GMT (Tuesday 1st February 2022)"
-	revision: "14"
+	date: "2022-02-07 5:59:19 GMT (Monday 7th February 2022)"
+	revision: "15"
 
 class
 	EL_XPATH_ROOT_NODE_CONTEXT
@@ -56,7 +56,7 @@ inherit
 			default_create
 		end
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE
 
 create
 	default_create, make_from_file, make_from_string, make_from_fragment
@@ -74,7 +74,7 @@ feature {NONE} -- Initaliazation
 	make_from_file (a_file_path: FILE_PATH)
 			--
 		do
-			make_from_string (File_system.plain_text (a_file_path))
+			make_from_string (File.plain_text (a_file_path))
 		end
 
 	make_from_fragment (xml_fragment: STRING; a_encoding: STRING)

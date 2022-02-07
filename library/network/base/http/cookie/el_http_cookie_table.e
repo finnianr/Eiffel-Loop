@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "12"
+	date: "2022-02-07 5:55:25 GMT (Monday 7th February 2022)"
+	revision: "13"
 
 class
 	EL_HTTP_COOKIE_TABLE
@@ -27,7 +27,7 @@ inherit
 			default_create, is_equal, copy
 		end
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE
 
 create
 	make_from_file, default_create
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 	make_from_file (a_file_path: FILE_PATH)
 		do
 			make_machine
-			if attached File_system.plain_text_lines (a_file_path) as lines then
+			if attached File.plain_text_lines (a_file_path) as lines then
 				make (lines.count)
 				do_with_split (agent find_first_cookie, lines, False)
 			end

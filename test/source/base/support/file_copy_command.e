@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 13:20:10 GMT (Thursday 13th January 2022)"
-	revision: "3"
+	date: "2022-02-07 8:01:27 GMT (Monday 7th February 2022)"
+	revision: "4"
 
 class
 	FILE_COPY_COMMAND
@@ -19,7 +19,7 @@ inherit
 			default_description as description
 		end
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE
 
 create
 	make
@@ -34,6 +34,6 @@ feature -- Basic operations
 			input_file: RAW_FILE
 		do
 			create input_file.make_with_name (input_path)
-			File_system.copy_file_contents (input_file, output_path)
+			File.copy_contents (input_file, output_path)
 		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 8:00:53 GMT (Saturday 5th February 2022)"
-	revision: "12"
+	date: "2022-02-07 7:33:37 GMT (Monday 7th February 2022)"
+	revision: "13"
 
 class
 	TRANSLATION_TREE_COMPILER_TEST_SET
@@ -46,7 +46,7 @@ feature -- Tests
 			restored_list: EL_TRANSLATION_ITEMS_LIST
 			translations_table: EL_HASH_TABLE [EL_TRANSLATION_ITEMS_LIST, STRING]
 			restored_table, filled_table: EL_TRANSLATION_TABLE
-			translation, years: ZSTRING; locale_en: EL_ENGLISH_DEFAULT_LOCALE_IMP
+			locale_en: EL_ENGLISH_DEFAULT_LOCALE_IMP
 			locale_table: EL_LOCALE_TABLE; texts: EL_UNINSTALL_TEXTS
 		do
 			create translations_table.make_size (20)

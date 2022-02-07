@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:07:07 GMT (Thursday 13th January 2022)"
-	revision: "11"
+	date: "2022-02-07 6:06:33 GMT (Monday 7th February 2022)"
+	revision: "12"
 
 class
 	PYXIS_ENCRYPTER
@@ -21,7 +21,7 @@ inherit
 
 	EL_MODULE_LIO
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE
 
 create
 	make
@@ -55,7 +55,7 @@ feature -- Basic operations
 			lio.put_new_line
 			create out_file.make_open_write (output_path)
 
-			across File_system.plain_text_lines (source_path) as line loop
+			across File.plain_text_lines (source_path) as line loop
 				if line.cursor_index <= 2 then
 					out_file.put_string (line.item)
 				elseif not line.item.is_empty then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 16:38:53 GMT (Saturday 5th February 2022)"
-	revision: "16"
+	date: "2022-02-07 8:17:22 GMT (Monday 7th February 2022)"
+	revision: "17"
 
 class
 	EL_FILE_COPY_INSTALLER_BOX
@@ -28,13 +28,7 @@ inherit
 			default_create, copy, is_equal
 		end
 
-	EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_LIO
-
-	EL_MODULE_IMAGE
-
-	EL_MODULE_TRACK
+	EL_MODULE_FILE_SYSTEM; EL_MODULE_FILE; EL_MODULE_LIO; EL_MODULE_IMAGE; EL_MODULE_TRACK
 
 	EL_APPLICATION_CONSTANTS
 
@@ -79,7 +73,7 @@ feature -- Basic operations
 		require
 			not_unix: not {PLATFORM}.is_unix
 		local
-			file_list: like File_system.files; file: EL_NOTIFYING_RAW_FILE
+			file_list: like File_system.files; l_file: EL_NOTIFYING_RAW_FILE
 			relative_path, destination_path: FILE_PATH;
 		do
 			file_list := File_system.files (Package_dir, True)
@@ -88,7 +82,7 @@ feature -- Basic operations
 				Track.increase_file_data_estimate (file_path.item) -- Write bytes
 			end
 			across file_list as file_path loop
-				create file.make_with_name (file_path.item)
+				create l_file.make_with_name (file_path.item)
 				relative_path := file_path.item.relative_path (Package_dir)
 				set_label (file_path_label, relative_path)
 				destination_path := Directory.Application_installation + relative_path
@@ -96,9 +90,9 @@ feature -- Basic operations
 --				lio.put_new_line
 --				lio.put_path_field ("%Tto", destination_path)
 --				lio.put_new_line
-				File_system.copy_file_contents (file, destination_path)
+				File.copy_contents (l_file, destination_path)
 				if destination_path.parent.base ~ Bin_dir then
-					File_system.add_permission (destination_path, "uog", "x")
+					File.add_permission (destination_path, "uog", "x")
 				end
 			end
 		end

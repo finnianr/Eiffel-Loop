@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:06 GMT (Saturday 5th February 2022)"
-	revision: "14"
+	date: "2022-02-07 6:06:50 GMT (Monday 7th February 2022)"
+	revision: "15"
 
 class
 	HTML_BODY_WORD_COUNTER
@@ -23,6 +23,8 @@ inherit
 			execute
 		end
 
+	EL_MODULE_FILE
+	
 create
 	make
 
@@ -47,7 +49,7 @@ feature {NONE} -- Implementation
 			xhtml: EL_XHTML_UTF_8_SOURCE; node_event_generator: EL_XML_NODE_EVENT_GENERATOR
 			counter: EL_XHTML_WORD_COUNTER
 		do
-			create xhtml.make (File_system.plain_text (body_path))
+			create xhtml.make (File.plain_text (body_path))
 			create counter
 			create node_event_generator.make_with_handler (counter)
 			node_event_generator.scan (xhtml.source)

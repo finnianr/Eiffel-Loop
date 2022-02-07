@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-01 16:20:22 GMT (Tuesday 1st February 2022)"
-	revision: "10"
+	date: "2022-02-07 5:55:03 GMT (Monday 7th February 2022)"
+	revision: "11"
 
 class
 	EL_XML_NAME_SPACE_TABLE
@@ -21,7 +21,7 @@ inherit
 			{ANY} has_key, found_item, item, count
 		end
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE
 
 create
 	make, make_from_other, make_from_file
@@ -31,7 +31,7 @@ feature {NONE} -- Initaliazation
 	make_from_file (file_name: FILE_PATH)
 			--
 		do
-			make (File_system.plain_text (file_name))
+			make (File.plain_text (file_name))
 		end
 
 	make_from_other (other: EL_XML_NAME_SPACE_TABLE)

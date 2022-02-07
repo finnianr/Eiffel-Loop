@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-30 9:33:47 GMT (Sunday 30th January 2022)"
-	revision: "8"
+	date: "2022-02-07 7:13:49 GMT (Monday 7th February 2022)"
+	revision: "9"
 
 class
 	EL_FILE_MANIFEST_ITEM
@@ -40,7 +40,7 @@ inherit
 			is_equal
 		end
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE
 
 create
 	make, make_default, make_named
@@ -55,7 +55,7 @@ feature {NONE} -- Initialization
 			make_default
 			name := file_path.base
 			if file_path.exists then
-				byte_count := File_system.file_byte_count (file_path)
+				byte_count := File.byte_count (file_path)
 				modification_time := file_path.modification_time
 			end
 		end

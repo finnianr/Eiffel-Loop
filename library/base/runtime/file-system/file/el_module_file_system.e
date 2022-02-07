@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 14:15:39 GMT (Thursday 6th February 2020)"
-	revision: "8"
+	date: "2022-02-07 7:08:01 GMT (Monday 7th February 2022)"
+	revision: "9"
 
 deferred class
 	EL_MODULE_FILE_SYSTEM
@@ -20,7 +20,7 @@ feature {NONE} -- Constants
 	File_system: EL_FILE_SYSTEM_ROUTINES_I
 			-- File system routines using utf-8 encoded file paths
 		once
-			create {EL_FILE_SYSTEM_ROUTINES_IMP} Result.make
+			create {EL_FILE_SYSTEM_ROUTINES_IMP} Result
 		end
 
 end

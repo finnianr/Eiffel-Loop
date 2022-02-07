@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-06 14:53:22 GMT (Friday 6th August 2021)"
-	revision: "5"
+	date: "2022-02-07 6:57:36 GMT (Monday 7th February 2022)"
+	revision: "6"
 
 class
 	WINZIP_CREATE_SELF_EXTRACT_COMMAND
@@ -25,6 +25,8 @@ inherit
 		redefine
 			execute
 		end
+
+	EL_MODULE_FILE
 
 create
 	make
@@ -57,7 +59,7 @@ feature -- Basic operations
 				then
 					path_list.extend (Directory.temporary + File_name #$ [field.name])
 					put_path (field.name + "_path", path_list.last_path)
-					File_system.write_plain_text (path_list.last_path, field.value (package))
+					File.write_text (path_list.last_path, field.value (package))
 				end
 			end
 			Precursor -- execute

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "15"
+	date: "2022-02-07 7:22:00 GMT (Monday 7th February 2022)"
+	revision: "16"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -15,7 +15,7 @@ class
 inherit
 	ANY
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE
 
 	EL_FILE_OPEN_ROUTINES
 
@@ -23,7 +23,7 @@ feature -- Status query
 
 	is_pyxis_file (a_pyxis_file_path: FILE_PATH): BOOLEAN
 		do
-			Result := File_system.line_one (a_pyxis_file_path).starts_with ("pyxis-doc:")
+			Result := File.line_one (a_pyxis_file_path).starts_with ("pyxis-doc:")
 		end
 
 feature -- Basic operations
@@ -102,7 +102,7 @@ feature -- Access
 		local
 			xml_out: EL_STRING_8_IO_MEDIUM
 		do
-			create xml_out.make_open_write (File_system.file_byte_count (a_pyxis_file_path))
+			create xml_out.make_open_write (File.byte_count (a_pyxis_file_path))
 			convert_to_xml (a_pyxis_file_path, xml_out)
 			xml_out.close
 			Result := xml_out.text
@@ -112,7 +112,7 @@ feature -- Access
 		local
 			xml_out: EL_ZSTRING_IO_MEDIUM
 		do
-			create xml_out.make_open_write (File_system.file_byte_count (a_pyxis_file_path))
+			create xml_out.make_open_write (File.byte_count (a_pyxis_file_path))
 			convert_to_xml (a_pyxis_file_path, xml_out)
 			xml_out.close
 			Result := xml_out.text

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "6"
+	date: "2022-02-07 6:17:27 GMT (Monday 7th February 2022)"
+	revision: "7"
 
 class
 	EL_ADJUSTED_DISPLAY_SIZE
@@ -21,7 +21,13 @@ inherit
 
 	EL_MODULE_DIRECTORY
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE
+
+	EL_FILE_OPEN_ROUTINES
+		rename
+			read as read_mode,
+			write as write_mode
+		end
 
 	EL_MODULE_SCREEN
 
@@ -90,7 +96,7 @@ feature -- Basic operations
 		do
 			if file_path.exists then
 				-- Use config provided by user during installation
-				across File_system.plain_text (file_path).split (':') as size loop
+				across File.plain_text (file_path).split (':') as size loop
 					inspect size.cursor_index
 						when 1 then
 							width_cms := size.item.to_real
@@ -105,15 +111,12 @@ feature -- Basic operations
 
 	write
 		local
-			file: PLAIN_TEXT_FILE; dir: DIRECTORY
+			dir: DIRECTORY
 		do
 			create dir.make_with_name (file_path.parent)
-			if dir.is_writable then
-				create file.make_open_write (file_path)
-				file.put_real (width_cms)
-				file.put_character (':')
-				file.put_real (height_cms)
-				file.close
+			if dir.is_writable and then attached open (file_path, Write_mode) as f then
+				f.put_real (width_cms); f.put_character_8 (':'); f.put_real (height_cms)
+				f.close
 			end
 		end
 

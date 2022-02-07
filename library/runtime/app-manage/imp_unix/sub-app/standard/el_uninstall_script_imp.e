@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-30 9:04:48 GMT (Wednesday 30th September 2020)"
-	revision: "7"
+	date: "2022-02-07 8:13:49 GMT (Monday 7th February 2022)"
+	revision: "8"
 
 class
 	EL_UNINSTALL_SCRIPT_IMP
@@ -18,6 +18,8 @@ inherit
 			serialize
 		end
 
+	EL_MODULE_FILE
+
 create
 	make
 
@@ -26,7 +28,7 @@ feature -- Basic operations
 	serialize
 		do
 			Precursor
-			File_system.add_permission (output_path, "uog", "x")
+			File.add_permission (output_path, "uog", "x")
 		end
 
 feature {NONE} -- Implementation

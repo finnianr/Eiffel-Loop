@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "8"
+	date: "2022-02-07 6:00:04 GMT (Monday 7th February 2022)"
+	revision: "9"
 
 class
 	EL_CRC_32_CHECKSUM_ROUTINES
@@ -15,7 +15,7 @@ class
 inherit
 	ANY
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE
 
 	EL_FILE_OPEN_ROUTINES
 
@@ -36,7 +36,7 @@ feature -- Status query
 	has_changed (crc_path: FILE_PATH; checksum: NATURAL): BOOLEAN
 		do
 			if crc_path.exists then
-				Result := File_system.plain_text (crc_path).to_natural /= checksum
+				Result := File.plain_text (crc_path).to_natural /= checksum
 			else
 				Result := True
 			end

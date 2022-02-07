@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "10"
+	date: "2022-02-07 8:11:10 GMT (Monday 7th February 2022)"
+	revision: "11"
 
 class
 	EL_WEL_SYSTEM_FONTS
@@ -25,15 +25,9 @@ inherit
 	 		{NONE} all
 	 	end
 
-	EL_MODULE_WIN_REGISTRY
+	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM; EL_MODULE_EXECUTION_ENVIRONMENT
 
-	EL_MODULE_REG_KEY
-
-	EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_EXECUTION_ENVIRONMENT
-
-	EL_MODULE_WINDOWS_VERSION
+	EL_MODULE_WIN_REGISTRY; EL_MODULE_REG_KEY; EL_MODULE_WINDOWS_VERSION
 
 create
 	default_create
@@ -52,7 +46,7 @@ feature -- Element change
 				font_name := package_path.item.base_sans_extension
 				if not has_true_type_font (font_name) then
 					create package_file.make_with_name (package_path.item)
-					File_system.copy_file_contents_to_dir (package_file, System_fonts_dir)
+					File.copy_contents_to_dir (package_file, System_fonts_dir)
 					create font_path.make ((System_fonts_dir + package_path.item.base).to_string.to_unicode)
 					if {EL_WEL_API}.add_font_resource (font_path.item) > 0 then
 						{WEL_API}.send_message (Hwnd_broadcast, Wm_fontchange, Default_pointer, Default_pointer)

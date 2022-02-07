@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-05 13:38:01 GMT (Wednesday 5th January 2022)"
-	revision: "14"
+	date: "2022-02-07 5:55:42 GMT (Monday 7th February 2022)"
+	revision: "15"
 
 class
 	EL_DIGEST_ARRAY
@@ -19,7 +19,7 @@ inherit
 
 	EL_MODULE_BASE_64
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE
 
 create
 	make_final, make_reflective, make_from_base64, make_sink, make_from_integer_x, make_from_memory,
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 		do
 			digest.reset
 			if file_path.exists then
-				digest.sink_string_8 (File_system.plain_text (file_path))
+				digest.sink_string_8 (File.plain_text (file_path))
 			end
 			make_final (digest)
 		end

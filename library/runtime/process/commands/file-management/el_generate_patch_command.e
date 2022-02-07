@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "4"
+	date: "2022-02-07 7:27:57 GMT (Monday 7th February 2022)"
+	revision: "5"
 
 class
 	EL_GENERATE_PATCH_COMMAND
@@ -19,6 +19,8 @@ inherit
 		redefine
 			execute
 		end
+
+	EL_MODULE_FILE
 
 create
 	make
@@ -39,8 +41,8 @@ feature -- Basic operations
 		do
 			Precursor
 			if not has_error and then patch_path.exists then
-				size_patch_path := File_system.file_byte_count (patch_path)
-				proportion := size_patch_path / File_system.file_byte_count (to_path)
+				size_patch_path := File.byte_count (patch_path)
+				proportion := size_patch_path / File.byte_count (to_path)
 			else
 				proportion := 0
 			end

@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-10 11:14:30 GMT (Monday 10th January 2022)"
-	revision: "13"
+	date: "2022-02-07 7:23:07 GMT (Monday 7th February 2022)"
+	revision: "14"
 
 deferred class
 	EL_PYXIS_TREE_COMPILER
@@ -30,9 +30,7 @@ deferred class
 inherit
 	EL_COMMAND
 
-	EL_MODULE_LIO
-
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE_SYSTEM; EL_MODULE_FILE; EL_MODULE_LIO
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
@@ -150,7 +148,7 @@ feature {NONE} -- Implementation
 		do
 			path_list := pyxis_file_path_list
 			across path_list as source_path loop
-				count := count + File_system.file_byte_count (source_path.item)
+				count := count + File.byte_count (source_path.item)
 			end
 			create Result.make (count // 60)
 			file_count := 0

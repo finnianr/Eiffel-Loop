@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 9:45:47 GMT (Wednesday 19th January 2022)"
-	revision: "14"
+	date: "2022-02-07 5:57:07 GMT (Monday 7th February 2022)"
+	revision: "15"
 
 class
 	TRANSLATION_TABLE_TEST_SET
@@ -49,7 +49,7 @@ feature {NONE} -- Implementation
 
 	new_table_from_source (language: STRING; file_path: FILE_PATH): EL_TRANSLATION_TABLE
 		do
-			create Result.make_from_pyxis_source (language, File_system.plain_text (file_path))
+			create Result.make_from_pyxis_source (language, File.plain_text (file_path))
 		end
 
 	test_reading (new_table: FUNCTION [STRING, FILE_PATH, EL_TRANSLATION_TABLE])

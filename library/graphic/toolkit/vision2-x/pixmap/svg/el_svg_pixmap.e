@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "14"
+	date: "2022-02-07 6:10:14 GMT (Monday 7th February 2022)"
+	revision: "15"
 
 class
 	EL_SVG_PIXMAP
@@ -23,7 +23,7 @@ inherit
 
 	EV_BUILDER
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE_SYSTEM; EL_MODULE_FILE
 
 	EL_MODULE_SCREEN
 
@@ -274,7 +274,7 @@ feature {EL_SVG_PIXMAP} -- Implementation
 
 	svg_xml (a_svg_path: FILE_PATH): STRING
 		do
-			Result := File_system.plain_text (a_svg_path)
+			Result := File.plain_text (a_svg_path)
 		end
 
 	text_origin: EV_COORDINATE

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-11 17:16:52 GMT (Tuesday 11th January 2022)"
-	revision: "7"
+	date: "2022-02-07 7:21:08 GMT (Monday 7th February 2022)"
+	revision: "8"
 
 deferred class
 	EL_JPEG_FILE_INFO_COMMAND_I
@@ -26,6 +26,8 @@ inherit
 		undefine
 			getter_function_table, make_default, set_has_error, Transient_fields
 		end
+
+	EL_MODULE_FILE
 
 feature {NONE} -- Initialization
 
@@ -75,7 +77,7 @@ feature {NONE} -- Implementation
 	set_has_error (return_code: INTEGER)
 		-- exiv2 has a non-standard way of indicating an error
 		do
-			has_error := File_system.file_byte_count (temporary_error_file_path) > 0
+			has_error := File.byte_count (temporary_error_file_path) > 0
 		end
 
 feature {NONE} -- Constants

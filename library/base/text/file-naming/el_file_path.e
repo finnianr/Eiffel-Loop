@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-06 17:51:43 GMT (Sunday 6th February 2022)"
-	revision: "25"
+	date: "2022-02-07 7:14:56 GMT (Monday 7th February 2022)"
+	revision: "26"
 
 class
 	EL_FILE_PATH
@@ -16,7 +16,7 @@ class
 inherit
 	EL_PATH
 
-	EL_MODULE_DATE_TIME
+	EL_MODULE_DATE_TIME; EL_MODULE_FILE
 
 create
 	default_create, make, make_from_path, make_from_other, make_from_steps
@@ -41,7 +41,7 @@ feature -- Access
 
 	modification_time: INTEGER
 		do
-			Result := File_system.file_modification_time (Current)
+			Result := File.modification_time (Current)
 		end
 
 	relative_dot_path (other: FILE_PATH): FILE_PATH

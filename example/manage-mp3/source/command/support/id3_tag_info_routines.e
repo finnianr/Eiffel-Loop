@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "12"
+	date: "2022-02-07 7:36:38 GMT (Monday 7th February 2022)"
+	revision: "13"
 
 deferred class
 	ID3_TAG_INFO_ROUTINES
@@ -132,7 +132,7 @@ feature -- Basic operations
 		do
 			print_id3 (id3_info, relative_song_path)
 			mtime := Time.unix_date_time (id3_info.path.modification_date_time)
---			mtime := mtime & File_system.file_byte_count (id3_info.mp3_path)
+--			mtime := mtime & File.byte_count (id3_info.mp3_path)
 			lio.put_integer_field ("File time", mtime)
 			lio.put_new_line
 
@@ -169,4 +169,3 @@ feature {NONE} -- Constants
 			Result := "Artists, Singers"
 		end
 end
-

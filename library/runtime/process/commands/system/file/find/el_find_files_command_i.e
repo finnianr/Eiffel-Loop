@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "12"
+	date: "2022-02-07 7:21:25 GMT (Monday 7th February 2022)"
+	revision: "13"
 
 deferred class
 	EL_FIND_FILES_COMMAND_I
@@ -20,6 +20,8 @@ inherit
 		redefine
 			path_list
 		end
+
+	EL_MODULE_FILE
 
 feature {NONE} -- Initialization
 
@@ -40,7 +42,7 @@ feature -- Measurement
 		do
 			execute
 			across path_list as path loop
-				Result := Result + File_system.file_byte_count (path.item).to_natural_32
+				Result := Result + File.byte_count (path.item).to_natural_32
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-06 16:38:31 GMT (Sunday 6th February 2022)"
-	revision: "1"
+	date: "2022-02-07 7:33:48 GMT (Monday 7th February 2022)"
+	revision: "2"
 
 class
 	REGULAR_EXPRESSION_SEARCH_COMMAND
@@ -42,8 +42,7 @@ feature -- Basic operations
 
 	execute
 		local
-			source_path: FILE_PATH; grep_options: ZSTRING; user_quit: BOOLEAN
-			count: INTEGER
+			grep_options: ZSTRING; user_quit: BOOLEAN; count: INTEGER
 		do
 			create grep_options.make_empty
 			from until user_quit loop

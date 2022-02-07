@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "10"
+	date: "2022-02-07 7:54:59 GMT (Monday 7th February 2022)"
+	revision: "11"
 
 deferred class
 	EL_RESOURCE_INSTALL_MANAGER
@@ -23,11 +23,9 @@ deferred class
 inherit
 	EL_DOWNLOADEABLE_RESOURCE
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM; EL_MODULE_LIO
 
 	EL_SHARED_DATA_TRANSFER_PROGRESS_LISTENER
-
-	EL_MODULE_LIO
 
 	EL_SHARED_DIRECTORY
 		rename
@@ -68,11 +66,11 @@ feature -- Basic operations
 		do
 			File_system.make_directory (target_dir)
 			web := new_connection
-			across manifest.query_if (agent is_updated) as file loop
-				progress_listener.display.set_text (progress_template #$ [file.item.name])
-				file_path := target_dir + file.item.name
+			across manifest.query_if (agent is_updated) as l_file loop
+				progress_listener.display.set_text (progress_template #$ [l_file.item.name])
+				file_path := target_dir + l_file.item.name
 				from i := 1; done := false until done or i > Maximum_tries loop
-					web.open (url_file_item (file.item.name))
+					web.open (url_file_item (l_file.item.name))
 					if is_lio_enabled then
 						lio.put_path_field ("Downloading", file_path)
 						lio.put_new_line
@@ -80,12 +78,12 @@ feature -- Basic operations
 					web.download (file_path)
 					web.close
 					if download_succeeded (file_path) then
-						File_system.set_file_modification_time (file_path, file.item.modification_time)
+						File.set_modification_time (file_path, l_file.item.modification_time)
 						done := True
 					end
 					i := i + 1
 				end
-				download_complete_action (file.item.name)
+				download_complete_action (l_file.item.name)
 			end
 			-- Update shared resource set
 			resource_set.wipe_out
@@ -103,7 +101,7 @@ feature -- Basic operations
 			else
 				File_system.make_directory (target_dir)
 				if Shared_directory.named (target_dir).is_writable then
-					File_system.write_plain_text (target_dir + resource_set.manifest_name, xml)
+					File.write_text (target_dir + resource_set.manifest_name, xml)
 				end
 				create manifest.make_from_string (xml)
 			end
@@ -119,12 +117,12 @@ feature -- Basic operations
 			if updated_list.is_empty then
 				lio.put_line ("none")
 			else
-				across updated_list as file loop
-					lio.put_path_field ("", target_dir + file.item.name)
+				across updated_list as l_file loop
+					lio.put_path_field ("", target_dir + l_file.item.name)
 					lio.put_new_line
-					print_date ("new modification_time", file.item.modification_time)
-					print_date ("existing modification_time", existing_modification_time (file.item))
-					lio.put_integer_field ("Size", file.item.byte_count)
+					print_date ("new modification_time", l_file.item.modification_time)
+					print_date ("existing modification_time", existing_modification_time (l_file.item))
+					lio.put_integer_field ("Size", l_file.item.byte_count)
 					lio.put_new_line
 					lio.put_new_line
 				end
@@ -155,7 +153,7 @@ feature {NONE} -- Implementation
 
 	download_succeeded (file_path: FILE_PATH): BOOLEAN
 		do
-			Result := file_path.exists and then File_system.file_byte_count (file_path) > 0
+			Result := file_path.exists and then File.byte_count (file_path) > 0
 		end
 
 	existing_modification_time (item: EL_FILE_MANIFEST_ITEM): INTEGER

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 16:40:56 GMT (Saturday 5th February 2022)"
-	revision: "26"
+	date: "2022-02-07 7:31:34 GMT (Monday 7th February 2022)"
+	revision: "27"
 
 class
 	EL_STANDARD_UNINSTALL_APP
@@ -31,11 +31,7 @@ inherit
 
 	EL_MODULE_ENVIRONMENT
 
-	EL_MODULE_OS
-
-	EL_MODULE_USER_INPUT
-
-	EL_MODULE_DEFERRED_LOCALE
+	EL_MODULE_OS; EL_MODULE_USER_INPUT; EL_MODULE_DEFERRED_LOCALE
 
 	EL_SHARED_APPLICATION_LIST
 		export

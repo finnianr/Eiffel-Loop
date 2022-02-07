@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-11 19:57:04 GMT (Tuesday 11th January 2022)"
-	revision: "1"
+	date: "2022-02-07 6:06:22 GMT (Monday 7th February 2022)"
+	revision: "2"
 
 class
 	UNDATED_PHOTO_FINDER_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
-	EL_MODULE_COMMAND
+	EL_MODULE_COMMAND; EL_MODULE_FILE
 
 feature -- Basic operations
 
@@ -42,7 +42,7 @@ feature -- Tests
 			create finder.make (work_area_dir, output_path)
 			finder.execute
 			create undated_set.make (20)
-			across File_system.plain_text_lines (output_path) as line loop
+			across File.plain_text_lines (output_path) as line loop
 				undated_set.put (line.item)
 			end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "23"
+	date: "2022-02-07 7:51:47 GMT (Monday 7th February 2022)"
+	revision: "24"
 
 class
 	RBOX_TEST_DATABASE
@@ -140,7 +140,7 @@ feature {EQA_TEST_SET} -- Access
 			mp3_info.dispose
 
 			song.set_modification_time (modification_time)
-			File_system.set_file_modification_time (mp3_path, song.mtime)
+			File.set_modification_time (mp3_path, song.mtime)
 			song.set_mp3_path (temp_path)
 		ensure
 			file_exists: mp3_path.exists

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "11"
+	date: "2022-02-07 5:43:33 GMT (Monday 7th February 2022)"
+	revision: "12"
 
 class
 	EL_X509_CERTIFICATE_ROUTINES
@@ -15,7 +15,7 @@ class
 inherit
 	ANY
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE
 
 feature -- Access
 
@@ -42,7 +42,7 @@ feature -- Status query
 	is_valid_pkcs1_file (key_file_path: FILE_PATH): BOOLEAN
 		do
 			if key_file_path.exists then
-				Result := File_system.line_one (key_file_path).has_substring ("BEGIN ENCRYPTED PRIVATE KEY")
+				Result := File.line_one (key_file_path).has_substring ("BEGIN ENCRYPTED PRIVATE KEY")
 			end
 		end
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "17"
+	date: "2022-02-07 7:19:22 GMT (Monday 7th February 2022)"
+	revision: "18"
 
 deferred class
 	EL_GENERATED_FILE_DATA_TEST_SET
@@ -78,15 +78,15 @@ feature {NONE} -- Implementation
 	total_file_size: INTEGER
 		do
 			across file_set as path loop
-				Result := Result + File_system.file_byte_count (path.item)
+				Result := Result + File.byte_count (path.item)
 			end
 		end
 
 	write_file (path: FILE_PATH)
 		do
-			if attached open (path, Write) as file then
-				file.put_string (path.base)
-				file.close
+			if attached open (path, Write) as l_file then
+				l_file.put_string (path.base)
+				l_file.close
 			end
 		end
 

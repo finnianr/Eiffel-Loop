@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 9:06:21 GMT (Saturday 5th February 2022)"
-	revision: "1"
+	date: "2022-02-07 5:35:53 GMT (Monday 7th February 2022)"
+	revision: "2"
 
 class
 	CLASS_PREFIX_REMOVAL_TEST_SET
@@ -63,18 +63,18 @@ feature {NONE} -- Constants
 	Checksum_table: EL_HASH_TABLE [NATURAL, ZSTRING]
 		once
 			create Result.make_equal (11)
-			Result [File.copy_file_impl] := 857785050
-			Result [File.mp3_convert_command] := 301119923
+			Result [Name.copy_file_impl] := 857785050
+			Result [Name.mp3_convert_command] := 301119923
 
 --			Test insertions for: do_all (eval: EL_EQA_TEST_EVALUATOR)
 --			and test correct BOM marker for UTF-8 encoding
-			Result [File.subject_line_decoder_test_set] := 2574402360
+			Result [Name.subject_line_decoder_test_set] := 2574402360
 
-			Result [File.job_duration_parser] := 1765686916
-			Result [File.subscription_delivery_email] := 2452859251
+			Result [Name.job_duration_parser] := 1765686916
+			Result [Name.subscription_delivery_email] := 2452859251
 
 --			test frozen feature name sort
-			Result [File.id3_tag_frame_cpp_api] := 808972193
+			Result [Name.id3_tag_frame_cpp_api] := 808972193
 		end
 
 end

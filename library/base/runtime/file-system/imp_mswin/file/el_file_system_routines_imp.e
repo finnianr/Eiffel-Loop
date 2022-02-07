@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "12"
+	date: "2022-02-07 7:45:16 GMT (Monday 7th February 2022)"
+	revision: "13"
 
 class
 	EL_FILE_SYSTEM_ROUTINES_IMP
@@ -19,9 +19,6 @@ inherit
 		rename
 			copy as copy_object
 		end
-
-create
-	make
 
 feature {NONE} -- Implementation
 
@@ -35,36 +32,6 @@ feature {NONE} -- Implementation
 			else
 				Result := l_path
 			end
-		end
-
-	set_file_stamp (file_path: FILE_PATH; date_time: INTEGER)
-			-- Stamp file with `time' (for both access and modification).
-		local
-			info: like File_info
-		do
-			info := File_info
-			info.open_write (file_path)
-			info.set_unix_last_access_time (date_time)
-			info.set_unix_last_write_time (date_time)
-			info.close
-		end
-
-	set_file_modification_time (file_path: FILE_PATH; date_time: INTEGER)
-			-- set modification time with date_time as secs since Unix epoch
-		local
-			info: like File_info
-		do
-			info := File_info
-			info.open_write (file_path)
-			info.set_unix_last_write_time (date_time)
-			info.close
-		end
-
-feature {NONE} -- Constants
-
-	File_info: EL_WIN_FILE_INFO
-		once
-			create Result.make
 		end
 
 end

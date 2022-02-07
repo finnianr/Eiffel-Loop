@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "11"
+	date: "2022-02-07 6:08:32 GMT (Monday 7th February 2022)"
+	revision: "12"
 
 class
 	CAD_MODEL
@@ -27,7 +27,7 @@ class
 inherit
 	ANY
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE
 
 	EL_MODULE_TUPLE
 
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 
 	make_from_file (json_path: FILE_PATH)
 		do
-			make_from_json (File_system.plain_text (json_path))
+			make_from_json (File.plain_text (json_path))
 		end
 
 	make_from_json (json: STRING)

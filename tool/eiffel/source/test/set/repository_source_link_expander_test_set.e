@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "11"
+	date: "2022-02-07 6:21:45 GMT (Monday 7th February 2022)"
+	revision: "12"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET
@@ -22,7 +22,7 @@ inherit
 
 	SHARED_ISE_CLASS_TABLE
 
-	EL_MODULE_EXECUTABLE
+	EL_MODULE_EXECUTABLE; EL_MODULE_FILE
 
 feature -- Basic operations
 
@@ -51,9 +51,9 @@ feature {NONE} -- Events
 	on_prepare
 		do
 			Precursor
-			if attached open (File_path, Write) as file then
-				file.put_string (Inherits_template #$ [Type_descendant.name, Type_base.name])
-				file.close
+			if attached open (File_path, Write) as f then
+				f.put_string (Inherits_template #$ [Type_descendant.name, Type_base.name])
+				f.close
 			end
 		end
 
@@ -65,7 +65,7 @@ feature {NONE} -- Implementation
 			blog_text, name: ZSTRING
 		do
 			web_url := publisher.web_address + "/"
-			blog_text := OS.File_system.plain_text (publisher.expanded_file_path)
+			blog_text := File.plain_text (publisher.expanded_file_path)
 			across << Type_base, Type_descendant >> as type loop
 				name := type.item.name
 				if Class_path_table.has_class (name) then

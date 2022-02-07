@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 13:01:15 GMT (Thursday 13th January 2022)"
-	revision: "47"
+	date: "2022-02-07 6:31:01 GMT (Monday 7th February 2022)"
+	revision: "48"
 
 class
 	REPOSITORY_PUBLISHER
@@ -31,7 +31,7 @@ inherit
 
 	EL_MODULE_USER_INPUT
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE
 
 	EL_MODULE_LOG_MANAGER
 
@@ -251,7 +251,7 @@ feature {NONE} -- Implementation
 	previous_version: STRING
 		do
 			if version_path.exists then
-				Result := File_system.plain_text (version_path)
+				Result := File.plain_text (version_path)
 			else
 				create Result.make_empty
 			end

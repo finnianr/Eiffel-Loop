@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-06 12:06:05 GMT (Sunday 6th February 2022)"
-	revision: "16"
+	date: "2022-02-07 6:29:24 GMT (Monday 7th February 2022)"
+	revision: "17"
 
 class
 	ENCODING_CHECK_COMMAND
@@ -20,7 +20,7 @@ inherit
 
 	EL_FILE_OPEN_ROUTINES
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE
 
 	EL_MODULE_DIRECTORY
 
@@ -67,7 +67,7 @@ feature {NONE} -- Implementation
 		do
 			if attached open_lines (source_path, Latin_1) as source_lines then
 				if source_lines.encoded_as_utf (8) then
-					source_utf_8 := File_system.plain_text_bomless (source_path)
+					source_utf_8 := File.plain_text_bomless (source_path)
 					if c.is_valid_utf_8_string_8 (source_utf_8) then
 						file_encoding_table.extend (source_path, once "UTF-8")
 						source_32 := c.utf_8_string_8_to_string_32 (source_utf_8)

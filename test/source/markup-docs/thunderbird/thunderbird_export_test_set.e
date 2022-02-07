@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-21 13:30:12 GMT (Friday 21st January 2022)"
-	revision: "6"
+	date: "2022-02-07 5:57:26 GMT (Monday 7th February 2022)"
+	revision: "7"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -23,6 +23,8 @@ inherit
 		redefine
 			test_book_exporter
 		end
+
+	EL_MODULE_FILE
 
 feature -- Basic operations
 
@@ -163,7 +165,7 @@ feature {NONE} -- Implementation
 		do
 			-- Change name of "Home" to "Home Page"
 			en_file_path := work_area_data_dir + "21h18lg7.default/Mail/pop.myching.co/Product Tour.sbd/en"
-			en_text := File_system.plain_text (en_file_path)
+			en_text := File.plain_text (en_file_path)
 			subject_line := "Subject: Home"
 			pos_subject := en_text.substring_index (subject_line, 1)
 			if pos_subject > 0 then

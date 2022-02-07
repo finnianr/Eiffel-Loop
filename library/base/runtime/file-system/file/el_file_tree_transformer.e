@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "8"
+	date: "2022-02-07 8:23:33 GMT (Monday 7th February 2022)"
+	revision: "9"
 
 class
 	EL_FILE_TREE_TRANSFORMER
@@ -19,9 +19,7 @@ class
 inherit
 	ANY
 
-	EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_LIO
+	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM; EL_MODULE_LIO
 
 create
 	make
@@ -70,7 +68,7 @@ feature -- Basic operations
 						if not output_extension.is_empty then
 							output_path.replace_extension (output_extension)
 						end
-						if File_system.is_file_newer (input_path, output_path) then
+						if File.is_newer_than (input_path, output_path) then
 							File_system.make_directory (output_path.parent)
 							if is_lio_enabled then
 								lio.put_path_field ("Writing", output_path)

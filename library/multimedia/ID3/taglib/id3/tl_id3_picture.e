@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "14"
+	date: "2022-02-07 5:16:29 GMT (Monday 7th February 2022)"
+	revision: "15"
 
 class
 	TL_ID3_PICTURE
@@ -35,6 +35,8 @@ inherit
 		rename
 			checksum as Mod_checksum
 		end
+
+	EL_MODULE_FILE
 
 create
 	make, make_default, make_from_frame
@@ -83,7 +85,7 @@ feature -- Access
 		-- picture data
 		do
 			if file_path.exists then
-				Result := File_system.file_data (file_path)
+				Result := File.data (file_path)
 			else
 				create Result.make (0)
 			end

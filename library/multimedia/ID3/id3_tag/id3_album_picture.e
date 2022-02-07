@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "10"
+	date: "2022-02-07 5:50:54 GMT (Monday 7th February 2022)"
+	revision: "11"
 
 class
 	ID3_ALBUM_PICTURE
@@ -23,7 +23,7 @@ inherit
 			checksum as Mod_checksum
 		end
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE
 
 create
 	default_create, make, make_from_file
@@ -50,7 +50,7 @@ feature {NONE} -- Initialization
 				mime_type := "jpeg"
 			end
 			mime_type.prepend_string_general ("image/")
-			make (File_system.file_data (a_file_path), a_description, mime_type)
+			make (File.data (a_file_path), a_description, mime_type)
 		end
 
 feature -- Access

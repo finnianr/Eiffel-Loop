@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:06 GMT (Saturday 5th February 2022)"
-	revision: "5"
+	date: "2022-02-07 6:06:07 GMT (Monday 7th February 2022)"
+	revision: "6"
 
 class
 	BINARY_DECODE_APP
@@ -16,7 +16,7 @@ class
 inherit
 	EL_APPLICATION
 
-	EL_MODULE_ARGS
+	EL_MODULE_ARGS; EL_MODULE_FILE
 
 feature {NONE} -- Initialization
 
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 			-- Get location of file
 			if file_path.exists then
 				-- Assign the text of the file to a STRING if the file exists
-				file_text := File_system.plain_text (file_path)
+				file_text := File.plain_text (file_path)
 
 				-- replace all new line characters with a space which
 				-- has the effect of joining all lines together as one long line

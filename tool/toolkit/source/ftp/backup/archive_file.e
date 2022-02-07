@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 16:07:12 GMT (Sunday 9th January 2022)"
-	revision: "10"
+	date: "2022-02-07 7:24:56 GMT (Monday 7th February 2022)"
+	revision: "11"
 
 class
 	ARCHIVE_FILE
@@ -15,11 +15,7 @@ class
 inherit
 	ANY
 
-	EL_MODULE_FORMAT
-
-	EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_LOG
+	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM; EL_MODULE_FORMAT; EL_MODULE_LOG
 
 	EL_MODULE_ENVIRONMENT
 
@@ -66,7 +62,7 @@ feature {NONE} -- Initialization
 			Archive_command.execute
 
 			if file_path.exists then
-				byte_count := File_system.file_byte_count (file_path).to_natural_32
+				byte_count := File.byte_count (file_path).to_natural_32
 				if not backup.gpg_key.is_empty then
 					gpg_file_path := file_path.twin
 					gpg_file_path.add_extension ("gpg")
@@ -102,19 +98,19 @@ feature {NONE} -- Implementation
 			log.enter ("save_version_no")
 			version_data_file_path := archive_dir + "version.txt"
 
-			if version_data_file_path.exists and then attached open (version_data_file_path, Read) as file then
-				file.read_integer
-				version_no := file.last_integer + 1
+			if version_data_file_path.exists and then attached open (version_data_file_path, Read) as l_file then
+				l_file.read_integer
+				version_no := l_file.last_integer + 1
 				if version_no = max_version_no then
 					version_no := 0
 				end
-				file.close
+				l_file.close
 			else
 				version_no := 0
 			end
-			if attached open (version_data_file_path, Write) as file then
-				file.put_integer (version_no)
-				file.close
+			if attached open (version_data_file_path, Write) as l_file then
+				l_file.put_integer (version_no)
+				l_file.close
 			end
 			log.put_integer_field ("version_no", version_no)
 			log.put_new_line

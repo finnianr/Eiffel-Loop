@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
-	revision: "16"
+	date: "2022-02-07 5:56:36 GMT (Monday 7th February 2022)"
+	revision: "17"
 
 deferred class
 	HELP_PAGES_TEST_SET
@@ -20,12 +20,14 @@ inherit
 
 	EIFFEL_LOOP_TEST_ROUTINES
 
+	EL_MODULE_FILE
+
 feature {NONE} -- Implementation
 
 	file_path_list: ZSTRING
 		-- Manifest of files to be created relative to `work_area_dir' separated by newline character
 		do
-			create Result.make_from_utf_8 (File_system.plain_text (EL_test_data_dir + "txt/help-files.txt"))
+			create Result.make_from_utf_8 (File.plain_text (EL_test_data_dir + "txt/help-files.txt"))
 		end
 
 feature {NONE} -- Help directories

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-06 15:57:24 GMT (Thursday 6th January 2022)"
-	revision: "8"
+	date: "2022-02-07 6:28:15 GMT (Monday 7th February 2022)"
+	revision: "9"
 
 deferred class
 	EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR
@@ -35,7 +35,7 @@ inherit
 
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE
 
 feature {NONE} -- Initialization
 
@@ -55,7 +55,7 @@ feature -- Element Change
   	set_source_path (a_source_path: FILE_PATH)
 		do
 			source_path := a_source_path
-			set_source_text (File_system.plain_text (a_source_path))
+			set_source_text (File.plain_text (a_source_path))
 		end
 
 	set_source_text (a_source_text: STRING)

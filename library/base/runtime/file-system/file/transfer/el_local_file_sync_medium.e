@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "5"
+	date: "2022-02-07 8:02:00 GMT (Monday 7th February 2022)"
+	revision: "6"
 
 class
 	EL_LOCAL_FILE_SYNC_MEDIUM
@@ -15,7 +15,7 @@ class
 inherit
 	EL_FILE_SYNC_MEDIUM
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE_SYSTEM; EL_MODULE_FILE
 
 create
 	make
@@ -57,7 +57,7 @@ feature -- Basic operations
 			source_file: RAW_FILE
 		do
 			create source_file.make_with_name (item.source_path)
-			File_system.copy_file_contents (source_file, home_dir + item.file_path)
+			File.copy_contents (source_file, home_dir + item.file_path)
 		end
 
 	make_directory (dir_path: DIR_PATH)

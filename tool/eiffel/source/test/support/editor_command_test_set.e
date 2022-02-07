@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 8:47:16 GMT (Saturday 5th February 2022)"
-	revision: "1"
+	date: "2022-02-07 5:35:23 GMT (Monday 7th February 2022)"
+	revision: "2"
 
 deferred class
 	EDITOR_COMMAND_TEST_SET
@@ -84,7 +84,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	File: TUPLE [
+	Name: TUPLE [
 		copy_file_impl, mp3_convert_command, subject_line_decoder_test_set,
 		job_duration_parser, subscription_delivery_email, id3_tag_frame_cpp_api: ZSTRING
 	]

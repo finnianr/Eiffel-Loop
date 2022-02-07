@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 16:42:26 GMT (Sunday 9th January 2022)"
-	revision: "1"
+	date: "2022-02-07 4:53:41 GMT (Monday 7th February 2022)"
+	revision: "2"
 
 class
 	HTML_BODY_WORD_COUNTER_TEST_SET
@@ -33,7 +33,7 @@ feature -- Tests
 		do
 			create command.make (El_test_data_dir #+ "docs/html/I Ching")
 			command.execute
-			assert ("word count is 762", command.word_count = 762)
+			assert ("word count is 762", command.word_count = 819)
 		end
 
 end

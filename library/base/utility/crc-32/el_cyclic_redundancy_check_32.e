@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "19"
+	date: "2022-02-07 5:17:41 GMT (Monday 7th February 2022)"
+	revision: "20"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -23,7 +23,7 @@ inherit
 
 	STRING_HANDLER undefine copy, is_equal end
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM
 
 create
 	make
@@ -69,7 +69,7 @@ feature -- Add file content
 		require
 			path_exists: file_path.exists
 		do
-			add_data (File_system.file_data (file_path))
+			add_data (File.data (file_path))
 		end
 
 feature -- Add basic types

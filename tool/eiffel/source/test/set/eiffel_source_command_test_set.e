@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-01 10:46:32 GMT (Tuesday 1st February 2022)"
-	revision: "2"
+	date: "2022-02-07 6:24:02 GMT (Monday 7th February 2022)"
+	revision: "3"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
@@ -40,19 +40,19 @@ feature -- Tests
 	test_find_and_replace
 		local
 			command: FIND_AND_REPLACE_COMMAND; replace_count: INTEGER
-			plain_text_lines: like File_system.plain_text_lines
+			plain_text_lines: like File.plain_text_lines
 		do
 			create command.make (Manifest_path, "INTEGER =", Integer_32_type)
 			command.execute
 			across file_list as list loop
-				plain_text_lines := File_system.plain_text_lines (list.item)
+				plain_text_lines := File.plain_text_lines (list.item)
 				if plain_text_lines.target.has_substring (Integer_32_type) then
 					across plain_text_lines as line loop
 						replace_count := replace_count + line.item.has_substring (Integer_32_type).to_integer
 					end
 				end
 				if list.item.base ~ Encoding_sample.utf_8 or list.item.base ~ Encoding_sample.latin_1 then
-					assert ("has replacement", File_system.plain_text (list.item).has_substring (Integer_32_type))
+					assert ("has replacement", File.plain_text (list.item).has_substring (Integer_32_type))
 				end
 			end
 			assert ("24 replacements", replace_count = 24)

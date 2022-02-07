@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "13"
+	date: "2022-02-07 7:15:27 GMT (Monday 7th February 2022)"
+	revision: "14"
 
 class
 	EL_DATA_TRANSFER_PROGRESS_LISTENER
@@ -23,9 +23,7 @@ inherit
 			finish, reset
 		end
 
-	EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_LIO
+	EL_MODULE_FILE; EL_MODULE_LIO
 
 create
 	make
@@ -65,7 +63,7 @@ feature -- Element change
 	increase_file_data_estimate (a_file_path: FILE_PATH)
 		do
 			if a_file_path.exists then
-				increase_data_estimate (File_system.file_byte_count (a_file_path))
+				increase_data_estimate (File.byte_count (a_file_path))
 			end
 		end
 

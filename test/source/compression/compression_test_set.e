@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
-	revision: "8"
+	date: "2022-02-07 5:57:26 GMT (Monday 7th February 2022)"
+	revision: "9"
 
 class
 	COMPRESSION_TEST_SET
@@ -17,9 +17,7 @@ inherit
 
 	EIFFEL_LOOP_TEST_ROUTINES
 
-	EL_MODULE_ZLIB
-
-	EL_MODULE_LIO
+	EL_MODULE_FILE; EL_MODULE_ZLIB; EL_MODULE_LIO
 
 feature -- Basic operations
 
@@ -59,7 +57,7 @@ feature -- Tests
 				create decompressed_data.share_from_pointer (
 					decompressed_list.item_data.base_address, decompressed_list.item_data.count
 				)
-				assert ("same data", decompressed_data ~ File_system.file_data (decompressed_list.item_path))
+				assert ("same data", decompressed_data ~ File.data (decompressed_list.item_path))
 				decompressed_list.forth
 			end
 		end
@@ -85,7 +83,7 @@ feature {NONE} -- Implementation
 			file_text: STRING; s: EL_STRING_8_ROUTINES
 		do
 			lio.put_path_field ("XML", a_file_path)
-			file_text := File_system.plain_text (a_file_path)
+			file_text := File.plain_text (a_file_path)
 
 			compressed_data := Zlib.compressed_string (file_text, 9, 0.3)
 			lio.put_integer_field (" compressed by", (Zlib.last_compression_ratio * 100).rounded)

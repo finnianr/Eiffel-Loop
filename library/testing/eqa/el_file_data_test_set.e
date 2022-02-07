@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:07 GMT (Saturday 5th February 2022)"
-	revision: "16"
+	date: "2022-02-07 7:18:49 GMT (Monday 7th February 2022)"
+	revision: "17"
 
 deferred class
 	EL_FILE_DATA_TEST_SET
@@ -20,13 +20,7 @@ inherit
 			on_prepare, on_clean
 		end
 
-	EL_MODULE_DIRECTORY
-
-	EL_MODULE_OS
-
-	EL_MODULE_DIGEST
-
-	EL_MODULE_LIO
+	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_OS; EL_MODULE_DIGEST; EL_MODULE_LIO
 
 	EL_FILE_OPEN_ROUTINES
 
@@ -95,12 +89,12 @@ feature {NONE} -- Implementation
 		require
 			file_checksums.has (file_path)
 		do
-			Result := file_checksums [file_path] /= OS.File_system.file_checksum (file_path)
+			Result := file_checksums [file_path] /= File.checksum (file_path)
 		end
 
 	store_checksum (file_path: FILE_PATH)
 		do
-			file_checksums [file_path] := OS.File_system.file_checksum (file_path)
+			file_checksums [file_path] := File.checksum (file_path)
 		end
 
 feature {NONE} -- Constants

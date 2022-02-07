@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 13:56:35 GMT (Thursday 3rd February 2022)"
-	revision: "46"
+	date: "2022-02-07 7:19:11 GMT (Monday 7th February 2022)"
+	revision: "47"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -154,7 +154,7 @@ feature -- Tests
 				headers := web.last_headers
 				assert_valid_headers (headers)
 				assert ("valid content_type", headers.mime_type.starts_with ("image/" + image.item))
-				assert ("valid content_length", headers.content_length = OS.File_system.file_byte_count (image_path))
+				assert ("valid content_length", headers.content_length = File.byte_count (image_path))
 				assert ("valid encoding_name", headers.encoding_name.is_empty)
 
 				web.close
