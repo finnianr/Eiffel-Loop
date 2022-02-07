@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 16:41:34 GMT (Saturday 5th February 2022)"
-	revision: "10"
+	date: "2022-02-07 11:51:35 GMT (Monday 7th February 2022)"
+	revision: "11"
 
 deferred class
 	EL_INSTALLABLE_APPLICATION
@@ -77,15 +77,6 @@ feature -- Basic operations
 		do
 			l_desktop := desktop
 			l_desktop.uninstall
-		end
-
-feature -- Status query
-
-	is_main: BOOLEAN
-			-- True if this the main (or principle) sub application in the whole set
-			-- In Windows this will be the app listed in the Control Panel/Programs List
-		do
-			Result := False
 		end
 
 feature -- Factory routines

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:50:50 GMT (Saturday 5th February 2022)"
-	revision: "5"
+	date: "2022-02-07 10:12:33 GMT (Monday 7th February 2022)"
+	revision: "6"
 
 deferred class
 	EL_SHARED_APPLICATION
@@ -17,7 +17,8 @@ inherit
 
 feature {NONE} -- Constants
 
-	Sub_application: EL_APPLICATION
+	Application: EL_APPLICATION
+		-- Currently running application
 		once ("PROCESS")
 			Result := create {EL_CONFORMING_SINGLETON [EL_APPLICATION]}
 		end

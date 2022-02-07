@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 5:10:43 GMT (Monday 7th February 2022)"
-	revision: "52"
+	date: "2022-02-07 11:28:13 GMT (Monday 7th February 2022)"
+	revision: "53"
 
 deferred class
 	EL_APPLICATION
@@ -30,14 +30,8 @@ inherit
 			make as make_solitary
 		end
 
-	EL_MODULE_BUILD_INFO
-	EL_MODULE_EXCEPTION
-	EL_MODULE_EXECUTABLE
-	EL_MODULE_DIRECTORY
-	EL_MODULE_FILE_SYSTEM
-	EL_MODULE_LIO
-	EL_MODULE_OS_RELEASE
-	EL_MODULE_OS
+	EL_MODULE_BUILD_INFO; EL_MODULE_EXCEPTION; EL_MODULE_EXECUTABLE; EL_MODULE_DIRECTORY
+	EL_MODULE_FILE_SYSTEM; EL_MODULE_LIO; EL_MODULE_OS_RELEASE; EL_MODULE_OS
 
 	EL_SHARED_BASE_OPTION
 	EL_SHARED_APPLICATION_OPTION
@@ -186,6 +180,11 @@ feature {NONE} -- Factory routines
 			create Result.make
 		end
 
+	new_configuration: detachable EL_APPLICATION_CONFIGURATION
+		-- redefine to create configuration singleton just before `initialization' routine is called
+		do
+		end
+
 	new_option_name: ZSTRING
 		do
 			create Result.make_from_general (option_name)
@@ -238,6 +237,7 @@ feature {NONE} -- Implementation
 				elseif has_argument_errors then
 					argument_errors.do_all (agent {EL_COMMAND_ARGUMENT_ERROR}.print_to_lio)
 				else
+					check attached new_configuration end
 					initialize; run
 
 					if Ask_user_to_quit then
@@ -449,7 +449,6 @@ note
 
 	]"
 end
-
 
 
 

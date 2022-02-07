@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 7:14:19 GMT (Monday 7th February 2022)"
-	revision: "20"
+	date: "2022-02-07 10:35:48 GMT (Monday 7th February 2022)"
+	revision: "21"
 
 class
 	EL_FILE_PATH_LIST
@@ -27,6 +27,9 @@ inherit
 
 create
 	make, make_empty, make_with_count, make_from_array, make_from_tuple
+
+convert
+	make_from_array ({ARRAY [FILE_PATH]})
 
 feature {NONE} -- Initialization
 

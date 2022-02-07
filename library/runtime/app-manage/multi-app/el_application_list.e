@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 16:23:53 GMT (Saturday 5th February 2022)"
-	revision: "21"
+	date: "2022-02-07 11:52:11 GMT (Monday 7th February 2022)"
+	revision: "22"
 
 class
 	EL_APPLICATION_LIST
@@ -200,9 +200,7 @@ feature {NONE} -- Implementation
 
 	is_main (app: EL_APPLICATION): BOOLEAN
 		do
-			if attached {EL_INSTALLABLE_APPLICATION} app as installable then
-				Result := installable.is_main
-			end
+			Result := attached {EL_MAIN_INSTALLABLE_APPLICATION} app
 		end
 
 	new_type_list (type_tuple: TUPLE): EL_TUPLE_TYPE_LIST [EL_APPLICATION]
@@ -225,4 +223,3 @@ feature -- Constants
 	Tab_width: INTEGER = 3
 
 end
-

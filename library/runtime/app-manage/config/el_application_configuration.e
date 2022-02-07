@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:50:50 GMT (Saturday 5th February 2022)"
-	revision: "7"
+	date: "2022-02-07 10:38:49 GMT (Monday 7th February 2022)"
+	revision: "8"
 
 deferred class
 	EL_APPLICATION_CONFIGURATION
@@ -19,29 +19,36 @@ inherit
 
 	EL_MODULE_DIRECTORY
 
+	EL_APPLICATION_CONSTANTS
+
+	EL_SOLITARY
+		redefine
+			make
+		end
+
 feature {NONE} -- Initialization
 
 	make
 		-- if local config file does not exist, use master copy in installation
 		-- or else just build the default
 		local
-			config_path: FILE_PATH; found: BOOLEAN
+			path_list: EL_FILE_PATH_LIST; config_path: FILE_PATH
 		do
-			across location_list as dir until found loop
-				config_path := dir.item + base_name
-				found := config_path.exists
-			end
-			if found then
-				make_from_file (config_path)
+			Precursor
+			config_path := Application.user_config_dir + base_name
+			path_list := << config_path, Installation_config_dir + base_name >>
+			path_list.find_first_true (agent {FILE_PATH}.exists)
+			if path_list.found then
+				make_from_file (path_list.path)
 			else
 				make_default
 			end
-			set_file_path (User_dir + base_name)
+			set_file_path (config_path)
 			if not file_path.exists then
-				File_system.make_directory (User_dir)
+				File_system.make_directory (Application.user_config_dir)
 				store
 			end
-		ensure
+		ensure then
 			user_file_exists: file_path.exists
 		end
 
@@ -62,26 +69,9 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	location_list: ARRAY [DIR_PATH]
+	installation_config_dir: DIR_PATH
 		do
-			Result := << User_dir, User_dir.twin, Installation_config_dir >>
-			Result.item (2).set_base ("main")
-		end
-
-feature {NONE} -- Constants
-
-	Installation_config_dir: DIR_PATH
-		once
-			Result := Directory.Application_installation.twin
-			Result.append_step ("config")
-		end
-
-	User_dir: DIR_PATH
-		once
-			Result := Directory.App_configuration.twin
-			if not Sub_application.option_name.is_empty then
-				Result.append_step (Sub_application.option_name)
-			end
+			Result := Directory.Application_installation.joined_dir_tuple ([Standard_option.config, Application.option_name])
 		end
 
 end
