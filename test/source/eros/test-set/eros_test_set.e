@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-05 16:02:35 GMT (Tuesday 5th October 2021)"
-	revision: "6"
+	date: "2022-02-08 11:33:58 GMT (Tuesday 8th February 2022)"
+	revision: "7"
 
 class
 	EROS_TEST_SET
@@ -117,7 +117,7 @@ feature {NONE} -- Internal attributes
 
 	connection: EROS_CLIENT_CONNECTION
 
-	server: EROS_SERVER_THREAD
+	server: EROS_SERVER_THREAD [SIGNAL_MATH, FFT_COMPLEX_64]
 
 	signal_array: ARRAY [SIGNAL_MATH_I]
 

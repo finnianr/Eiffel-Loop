@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "20"
+	date: "2022-02-08 13:19:03 GMT (Tuesday 8th February 2022)"
+	revision: "21"
 
 class
 	EL_PLAIN_TEXT_LINE_SOURCE
@@ -27,6 +27,11 @@ inherit
 		end
 
 	EL_SHARED_ZCODEC_FACTORY
+
+	EL_MODULE_FILE
+		rename
+			File as Mod_file
+		end
 
 create
 	make_default, make, make_from_file, make_utf_8
@@ -133,12 +138,9 @@ feature {NONE} -- Implementation
 		do
 			is_open_read := file.is_open_read
 			open_at_start
-			if file.count >= 3 then
-				file.read_stream (3)
-				has_utf_8_bom := file.last_string ~ {UTF_CONVERTER}.Utf_8_bom_to_string_8
-				if has_utf_8_bom then
-					set_utf_encoding (8)
-				end
+			has_utf_8_bom := Mod_file.has_utf_8_bom_marker (file)
+			if has_utf_8_bom then
+				set_utf_encoding (8)
 			end
 			if not is_open_read then
 				file.close

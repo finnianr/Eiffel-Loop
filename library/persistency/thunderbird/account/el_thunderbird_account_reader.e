@@ -19,19 +19,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:39:32 GMT (Thursday 13th January 2022)"
-	revision: "18"
+	date: "2022-02-08 10:33:28 GMT (Tuesday 8th February 2022)"
+	revision: "19"
 
 deferred class
 	EL_THUNDERBIRD_ACCOUNT_READER
 
 inherit
+	EL_APPLICATION_COMMAND
+
 	EL_BUILDABLE_FROM_PYXIS
 		redefine
 			make_default, make_from_file, building_action_table
 		end
-
-	EL_COMMAND
 
 	EL_FILE_OPEN_ROUTINES
 

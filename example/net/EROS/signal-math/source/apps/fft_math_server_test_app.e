@@ -1,8 +1,13 @@
 note
 	description: "Installable version of [$source FOURIER_MATH_SERVER_TEST_APP]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2022-02-08 11:11:42 GMT (Tuesday 8th February 2022)"
+	revision: "1"
 
 class
 	FFT_MATH_SERVER_TEST_APP
@@ -14,9 +19,6 @@ inherit
 		redefine
 			Name
 		end
-
-create
-	make
 
 feature {NONE} -- Installer constants
 

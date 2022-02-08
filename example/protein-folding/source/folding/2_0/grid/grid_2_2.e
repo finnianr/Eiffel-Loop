@@ -1,17 +1,13 @@
 note
 	description: "Two-dimensional [$source BOOLEAN_GRID]"
+	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
 
-	copyright: "[
-		Copyright (C) 2016-2017  Gerrit Leder, Finnian Reilly
-
-		Gerrit Leder, Overather Str. 10, 51429 Bergisch-Gladbach, GERMANY
-		gerrit.leder@gmail.com
-
-		Finnian Reilly, Dunboyne, Co Meath, Ireland.
-		finnian@eiffel-loop.com
-	]"
+	author: "Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
+	date: "2022-02-08 15:51:23 GMT (Tuesday 8th February 2022)"
+	revision: "3"
 
 class
 	GRID_2_2

@@ -1,8 +1,13 @@
 note
 	description: "Installable version of [$source FOURIER_MATH_CLIENT_TEST_APP]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2020-01-10 9:14:59 GMT (Friday 10th January 2020)"
+	revision: "1"
 
 class
 	FFT_MATH_CLIENT_TEST_APP

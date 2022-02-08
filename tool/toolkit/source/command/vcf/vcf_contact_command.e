@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:06 GMT (Saturday 5th February 2022)"
-	revision: "2"
+	date: "2022-02-08 10:33:11 GMT (Tuesday 8th February 2022)"
+	revision: "3"
 
 deferred class
 	VCF_CONTACT_COMMAND
 
 inherit
-	EL_COMMAND
+	EL_APPLICATION_COMMAND
 
 	EL_STRING_STATE_MACHINE [STRING]
 		rename

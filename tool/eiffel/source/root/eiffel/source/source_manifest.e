@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 11:42:47 GMT (Saturday 5th February 2022)"
-	revision: "19"
+	date: "2022-02-08 15:40:53 GMT (Tuesday 8th February 2022)"
+	revision: "22"
 
 class
 	SOURCE_MANIFEST
@@ -33,6 +33,8 @@ feature {NONE} -- Initialization
 			create source_tree_list.make (10)
 			create last_name.make_empty
 			create notes.make
+			create notes_table.make (23)
+			create name.make_empty
 			Precursor
 		end
 
@@ -40,11 +42,13 @@ feature {NONE} -- Initialization
 		do
 			parent_dir := manifest_path.parent
 			Precursor (manifest_path)
+			name.share (manifest_path.base)
 		end
 
 	make_from_directory (a_dir_path: DIR_PATH)
 		do
 			make_default
+			name.share (a_dir_path.to_string)
 			source_tree_list.extend (create {SOURCE_TREE}.make (a_dir_path))
 		end
 
@@ -63,8 +67,13 @@ feature -- Access
 			end
 		end
 
+	name: ZSTRING
+
 	notes: LICENSE_NOTES
-		-- default Eiffel sources notes
+		-- default Eiffel source notes
+
+	notes_table: HASH_TABLE [LICENSE_NOTES, DIR_PATH]
+		-- Eiffel source notes associated with `source_tree_list.item.dir_path'
 
 	source_tree_list: EL_ARRAYED_LIST [SOURCE_TREE]
 
@@ -97,14 +106,19 @@ feature {NONE} -- Build from Pyxis
 			file_path: FILE_PATH; other: SOURCE_MANIFEST
 		do
 			file_path := node.to_expanded_file_path
+			if not file_path.is_absolute then
+				file_path := parent_dir + file_path
+			end
 			if file_path.exists then
 				create other.make_from_file (file_path)
 				source_tree_list.append_sequence (other.source_tree_list)
 			end
 			-- Import notes if no notes specified in top level
+
 			if notes.is_empty and then not other.notes.is_empty then
 				notes := other.notes
 			end
+			notes_table.merge (other.notes_table)
 		end
 
 	extend_locations
@@ -116,10 +130,13 @@ feature {NONE} -- Build from Pyxis
 			if l_path.is_absolute then
 				create tree.make (l_path)
 			else
-				create tree.make (parent_dir.joined_dir_path (l_path))
+				create tree.make (parent_dir #+ l_path)
 			end
 			tree.set_name (last_name)
 			source_tree_list.extend (tree)
+			if not notes.is_empty then
+				notes_table.extend (notes, tree.dir_path)
+			end
 		end
 
 feature {NONE} -- Internal attributes

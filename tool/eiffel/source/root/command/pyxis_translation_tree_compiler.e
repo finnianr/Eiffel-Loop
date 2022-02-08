@@ -25,13 +25,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:26:28 GMT (Thursday 13th January 2022)"
-	revision: "15"
+	date: "2022-02-08 10:30:47 GMT (Tuesday 8th February 2022)"
+	revision: "16"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER
 
 inherit
+	EL_APPLICATION_COMMAND
+	
 	EL_PYXIS_TREE_COMPILER
 		rename
 			make as make_compiler

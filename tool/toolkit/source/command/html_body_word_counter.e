@@ -7,13 +7,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 6:06:50 GMT (Monday 7th February 2022)"
-	revision: "15"
+	date: "2022-02-08 10:32:28 GMT (Tuesday 8th February 2022)"
+	revision: "16"
 
 class
 	HTML_BODY_WORD_COUNTER
 
 inherit
+	EL_APPLICATION_COMMAND
+	
 	EL_FILE_TREE_COMMAND
 		rename
 			do_with_file as count_words
@@ -24,7 +26,7 @@ inherit
 		end
 
 	EL_MODULE_FILE
-	
+
 create
 	make
 

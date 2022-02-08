@@ -2,18 +2,14 @@ note
 	description: "[
 		Implementation of [$source MULTI_CORE_PF_COMMAND] with a grid conforming to [$source GRID_2_X]
 	]"
+
 	author: "Finnian Reilly"
+	copyright: "Copyright (C) 2016-2017  Gerrit Leder, Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
-	copyright: "[
-		Copyright (C) 2016-2017  Gerrit Leder, Finnian Reilly
-
-		Gerrit Leder, Overather Str. 10, 51429 Bergisch-Gladbach, GERMANY
-		gerrit.leder@gmail.com
-
-		Finnian Reilly, Dunboyne, Co Meath, Ireland.
-		finnian@eiffel-loop.com
-	]"
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
+	date: "2022-02-08 15:51:10 GMT (Tuesday 8th February 2022)"
+	revision: "3"
 
 class
 	MULTI_CORE_PF_COMMAND_2_1 [G -> GRID_2_X create make end]
@@ -105,10 +101,6 @@ feature {NONE} -- Factory
 		end
 
 end
-
-
-
-
 
 
 

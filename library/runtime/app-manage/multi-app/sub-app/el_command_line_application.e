@@ -12,11 +12,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 5:11:35 GMT (Monday 7th February 2022)"
-	revision: "40"
+	date: "2022-02-08 12:12:38 GMT (Tuesday 8th February 2022)"
+	revision: "41"
 
 deferred class
-	EL_COMMAND_LINE_APPLICATION [C -> EL_COMMAND]
+	EL_COMMAND_LINE_APPLICATION [C -> EL_APPLICATION_COMMAND]
 
 inherit
 	EL_APPLICATION
@@ -39,16 +39,18 @@ feature {NONE} -- Initialization
 	initialize
 			--
 		do
-			if attached new_command as cmd then
-				make_command (cmd)
-				command := cmd
-			end
 		end
 
 	read_command_options
 		do
 			make_command := default_make
 			set_closed_operands
+
+			if not has_argument_errors and then attached new_command as cmd then
+				make_command (cmd)
+				cmd.error_check (error_list)
+				command := cmd
+			end
 		end
 
 feature -- Access
@@ -286,7 +288,7 @@ note
 						[$source TESTABLE_LOCALIZED_THUNDERBIRD_SUB_APPLICATION]* [READER -> [$source EL_ML_THUNDERBIRD_ACCOUNT_READER]]
 							[$source LOCALIZED_THUNDERBIRD_BOOK_EXPORTER_APP]
 							[$source LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER_APP]
-				[$source EL_COMMAND_SHELL_APPLICATION]* [C -> [$source EL_COMMAND_SHELL_COMMAND]]
+				[$source EL_COMMAND_SHELL_APPLICATION]* [C -> [$source EL_APPLICATION_COMMAND_SHELL]]
 					[$source CRYPTO_COMMAND_SHELL_APP]
 	]"
 end

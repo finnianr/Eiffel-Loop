@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:42:25 GMT (Thursday 13th January 2022)"
-	revision: "9"
+	date: "2022-02-08 10:34:13 GMT (Tuesday 8th February 2022)"
+	revision: "10"
 
 class
 	FILTER_INVALID_UTF_8
 
 inherit
-	EL_COMMAND
+	EL_APPLICATION_COMMAND
 
 	EL_MODULE_LOG
 

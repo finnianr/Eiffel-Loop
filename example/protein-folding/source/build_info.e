@@ -1,9 +1,11 @@
 note
 	description: "Build specification"
-
 	notes: "GENERATED FILE. Do not edit"
 
 	author: "Python module: eiffel_loop.eiffel.ecf.py"
+
+	date: "2022-02-06 10:29:23 GMT (Sunday 6th February 2022)"
+	revision: "1"
 
 class
 	BUILD_INFO

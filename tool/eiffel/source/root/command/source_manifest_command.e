@@ -9,13 +9,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 11:51:12 GMT (Saturday 5th February 2022)"
-	revision: "14"
+	date: "2022-02-08 12:37:16 GMT (Tuesday 8th February 2022)"
+	revision: "15"
 
 deferred class
 	SOURCE_MANIFEST_COMMAND
 
 inherit
+	EL_APPLICATION_COMMAND
+		redefine
+			error_check
+		end
+
 	EL_FILE_LIST_COMMAND
 		redefine
 			execute, make_default
@@ -43,10 +48,37 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 feature -- Basic operations
 
+	error_check (error_list: ARRAYED_LIST [EL_COMMAND_ARGUMENT_ERROR])
+		-- check for errors before execution
+		local
+			error: EL_COMMAND_ARGUMENT_ERROR; missing_list, error_msg: EL_ZSTRING_LIST
+			s: EL_ZSTRING_ROUTINES
+		do
+			create missing_list.make (5)
+			across manifest.source_tree_list as list loop
+				if not list.item.dir_path.exists then
+					missing_list.extend (list.item.dir_path)
+					missing_list.last.prepend (s.n_character_string (' ', 2))
+				end
+			end
+			if missing_list.count > 0 then
+				create error_msg.make_with_lines (Manifest_error #$ [manifest.name])
+				error_msg.append (missing_list)
+				create error.make ("sources")
+				error.set_description (error_msg)
+				error_list.extend (error)
+			end
+		end
+
 	execute
 		do
 			across manifest.source_tree_list as location loop
-				lio.put_line (location.item.dir_path)
+				if location.item.dir_path.exists then
+					lio.put_line (location.item.dir_path)
+				else
+					lio.put_labeled_string ("Not found", location.item.dir_path)
+					lio.put_new_line
+				end
 			end
 			lio.put_new_line
 			Precursor
@@ -66,5 +98,15 @@ feature {NONE} -- Implementation
 feature -- Access
 
 	manifest: SOURCE_MANIFEST
+
+feature {NONE} -- Constants
+
+	Manifest_error: ZSTRING
+		once
+			Result := "[
+				Error in sources manifest: #
+				Directories not found:
+			]"
+		end
 
 end

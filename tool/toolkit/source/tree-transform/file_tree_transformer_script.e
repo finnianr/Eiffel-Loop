@@ -33,13 +33,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:08:17 GMT (Thursday 13th January 2022)"
-	revision: "8"
+	date: "2022-02-08 9:58:19 GMT (Tuesday 8th February 2022)"
+	revision: "9"
 
 class
 	FILE_TREE_TRANSFORMER_SCRIPT
 
 inherit
+	EL_APPLICATION_COMMAND
+		redefine
+			description
+		end
+
 	EL_FILE_TREE_TRANSFORMER
 		rename
 			make as make_transformer
@@ -50,11 +55,6 @@ inherit
 	EL_BUILDABLE_FROM_PYXIS
 		redefine
 			make_default, building_action_table
-		end
-
-	EL_COMMAND
-		redefine
-			description
 		end
 
 	EL_MODULE_USER_INPUT

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 7:33:48 GMT (Monday 7th February 2022)"
-	revision: "2"
+	date: "2022-02-08 13:24:26 GMT (Tuesday 8th February 2022)"
+	revision: "3"
 
 class
 	REGULAR_EXPRESSION_SEARCH_COMMAND
@@ -20,6 +20,8 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM; EL_MODULE_DIRECTORY; EL_MODULE_USER_INPUT
 
+	EL_ENCODING_CONSTANTS
+
 create
 	make
 
@@ -30,6 +32,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			Precursor
 			create results_table.make_size (0)
 			create grep_command.make ("grep $OPTIONS $FILE_PATH")
+			grep_command.set_output_encoding (Latin_1)
 			create var
 			grep_command.fill_variables (var)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 13:08:58 GMT (Thursday 13th January 2022)"
-	revision: "10"
+	date: "2022-02-08 9:50:25 GMT (Tuesday 8th February 2022)"
+	revision: "11"
 
 class
 	EL_DIRECTORY_TREE_FILE_PROCESSOR
@@ -36,13 +36,6 @@ feature -- Initialization
 				find_cmd.execute
 				file_path_list := find_cmd.path_list
 			end
-		end
-
-feature -- Access
-
-	description: READABLE_STRING_GENERAL
-		do
-			Result := default_description
 		end
 
 feature -- Basic operations

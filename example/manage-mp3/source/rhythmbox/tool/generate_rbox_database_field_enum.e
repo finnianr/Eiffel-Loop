@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 14:06:34 GMT (Thursday 13th January 2022)"
-	revision: "8"
+	date: "2022-02-08 10:35:08 GMT (Tuesday 8th February 2022)"
+	revision: "9"
 
 class
 	GENERATE_RBOX_DATABASE_FIELD_ENUM
 
 inherit
-	EL_COMMAND
+	EL_APPLICATION_COMMAND
 
 	EVOLICITY_SERIALIZEABLE
 		redefine

@@ -30,8 +30,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-06 17:06:24 GMT (Sunday 6th February 2022)"
-	revision: "34"
+	date: "2022-02-08 10:09:15 GMT (Tuesday 8th February 2022)"
+	revision: "35"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
@@ -47,9 +47,9 @@ inherit
 			User_config_dir as Rhythmbox_user_config_dir
 		end
 
-	EL_INSTALLABLE_APPLICATION
+	EL_MAIN_INSTALLABLE_APPLICATION
 		redefine
-			is_main
+			Option_name
 		end
 
 feature {NONE} -- Implementation
@@ -115,10 +115,6 @@ feature {NONE} -- Constants
 		once
 			Result := "manager"
 		end
-
-	is_main: BOOLEAN = True
-			-- Is this the master sub application in the whole set
-			-- In Windows this will be the app listed in the Control Panel/Programs List
 
 note
 	instructions: "[

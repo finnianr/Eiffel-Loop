@@ -7,14 +7,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 6:06:33 GMT (Monday 7th February 2022)"
-	revision: "12"
+	date: "2022-02-08 9:54:34 GMT (Tuesday 8th February 2022)"
+	revision: "13"
 
 class
 	PYXIS_ENCRYPTER
 
 inherit
-	EL_COMMAND
+	EL_APPLICATION_COMMAND
 		redefine
 			description
 		end

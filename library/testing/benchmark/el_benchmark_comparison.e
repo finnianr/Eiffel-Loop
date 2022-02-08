@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 13:42:04 GMT (Thursday 13th January 2022)"
-	revision: "6"
+	date: "2022-02-08 10:06:00 GMT (Tuesday 8th February 2022)"
+	revision: "7"
 
 deferred class
 	EL_BENCHMARK_COMPARISON
@@ -24,13 +24,6 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 	make (a_trial_duration: INTEGER_REF)
 		do
 			trial_duration := a_trial_duration
-		end
-
-feature -- Access
-
-	description: READABLE_STRING_GENERAL
-		do
-			Result := default_description
 		end
 
 feature -- Basic operations

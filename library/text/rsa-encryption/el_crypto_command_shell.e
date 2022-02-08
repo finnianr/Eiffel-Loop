@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 13:24:54 GMT (Thursday 13th January 2022)"
-	revision: "32"
+	date: "2022-02-08 9:33:17 GMT (Tuesday 8th February 2022)"
+	revision: "33"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
 
 inherit
-	EL_COMMAND_SHELL_COMMAND
+	EL_APPLICATION_COMMAND_SHELL
 		export
 			{ANY} make
 		redefine

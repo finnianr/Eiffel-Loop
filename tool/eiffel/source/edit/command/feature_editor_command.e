@@ -8,21 +8,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 9:48:27 GMT (Saturday 5th February 2022)"
-	revision: "13"
+	date: "2022-02-08 10:25:31 GMT (Tuesday 8th February 2022)"
+	revision: "14"
 
 class
 	FEATURE_EDITOR_COMMAND
 
 inherit
+	EL_APPLICATION_COMMAND
+
 	FEATURE_EDITOR
 		export
 			{EL_COMMAND_CLIENT} make
 		redefine
 			call
 		end
-
-	EL_COMMAND
 
 create
 	make

@@ -1,7 +1,7 @@
 note
 	description: "Refactored utility methods from class PF_HP"
-	author: "Gerrit Leder"
 
+	author: "Gerrit Leder"
 	copyright: "[
 		Copyright (C) 2016-2017  Gerrit Leder, Finnian Reilly
 
@@ -13,6 +13,8 @@ note
 	]"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
+	date: "2022-02-06 11:10:36 GMT (Sunday 6th February 2022)"
+	revision: "1"
 
 class
 	TOOL_1_0

@@ -8,13 +8,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:54:16 GMT (Thursday 13th January 2022)"
-	revision: "11"
+	date: "2022-02-08 10:32:09 GMT (Tuesday 8th February 2022)"
+	revision: "12"
 
 class
 	UNDATED_PHOTO_FINDER
 
 inherit
+	EL_APPLICATION_COMMAND
+	
 	EL_FILE_TREE_COMMAND
 		rename
 			make as make_command,

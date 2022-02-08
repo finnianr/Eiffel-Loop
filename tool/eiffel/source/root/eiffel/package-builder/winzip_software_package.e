@@ -1,52 +1,26 @@
 note
 	description: "Winzip self-extracting package builder implementing [$source EL_COMMAND]"
-	notes: "[
-		**Configured by Pyxis file**
-
-			pyxis-doc:
-				version = 1.0; encoding = "UTF-8"
-
-			winzip_software_package:
-				# wzipse32 arguments
-				install_command = "package\\bin\\myching.exe -install -silent"
-				package_ico = "resources/desktop-icons/package.ico"
-
-				# signtool arguments
-				signing_certificate_path = "$USERPROFILE/Documents/My-signing-cert.pfx"
-				signtool_dir = "$MSDK/v8.1/signtool"
-				time_stamp_url = "http://timestamp.comodoca.com"
-
-				# build parameters
-				output_dir = build; 	name_template = "MyChing-%S-win%S-%S.exe"
-				root_class_path = "source/application_root.windows"
-				build_exe = true; build_installers = true
-
-				architecture_list:
-					item:
-						32
-					item:
-						64
-
-				language_list:
-					item:
-						"en"
-					item:
-						"de"
-
-	]"
+	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-30 11:44:23 GMT (Sunday 30th January 2022)"
-	revision: "15"
+	date: "2022-02-08 10:27:09 GMT (Tuesday 8th February 2022)"
+	revision: "16"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
 
 inherit
+	EL_APPLICATION_COMMAND
+		rename
+			execute as build
+		undefine
+			is_equal
+		end
+
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
 		rename
 			element_node_fields as Empty_set
@@ -54,13 +28,6 @@ inherit
 			{WINZIP_CREATE_SELF_EXTRACT_COMMAND} field_table
 		redefine
 			make_default
-		end
-
-	EL_COMMAND
-		rename
-			execute as build
-		undefine
-			is_equal
 		end
 
 	SIGN_TOOL_ARGUMENTS undefine is_equal end
@@ -354,6 +321,42 @@ feature {NONE} -- Implementation: attributes
 
 	project_py_swapper: EL_FILE_SWAPPER
 
-	software: SOFTWARE_INFO
+	software: SOFTWARE_INFO;
+
+note
+	notes: "[
+		**Configured by Pyxis file**
+
+			pyxis-doc:
+				version = 1.0; encoding = "UTF-8"
+
+			winzip_software_package:
+				# wzipse32 arguments
+				install_command = "package\\bin\\myching.exe -install -silent"
+				package_ico = "resources/desktop-icons/package.ico"
+
+				# signtool arguments
+				signing_certificate_path = "$USERPROFILE/Documents/My-signing-cert.pfx"
+				signtool_dir = "$MSDK/v8.1/signtool"
+				time_stamp_url = "http://timestamp.comodoca.com"
+
+				# build parameters
+				output_dir = build; 	name_template = "MyChing-%S-win%S-%S.exe"
+				root_class_path = "source/application_root.windows"
+				build_exe = true; build_installers = true
+
+				architecture_list:
+					item:
+						32
+					item:
+						64
+
+				language_list:
+					item:
+						"en"
+					item:
+						"de"
+
+	]"
 
 end

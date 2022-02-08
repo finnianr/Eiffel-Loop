@@ -1,13 +1,13 @@
 note
-	description: "File content and measurement routines"
+	description: "File related routines accessible via [$source EL_MODULE_FILE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 8:38:51 GMT (Monday 7th February 2022)"
-	revision: "1"
+	date: "2022-02-08 13:21:49 GMT (Tuesday 8th February 2022)"
+	revision: "2"
 
 deferred class
 	EL_FILE_ROUTINES_I
@@ -62,22 +62,22 @@ feature -- Measurement
 			Result := info (file_path, False).access_date
 		end
 
-	byte_count (a_file_path: FILE_PATH): INTEGER
+	byte_count (file_path: FILE_PATH): INTEGER
 			--
 		do
-			Result := info (a_file_path, False).count
+			Result := info (file_path, False).count
 		end
 
-	checksum (a_file_path: FILE_PATH): NATURAL
+	checksum (file_path: FILE_PATH): NATURAL
 		-- CRC-32 checksum
 		do
-			Result := Mod_checksum.file_content (a_file_path)
+			Result := Mod_checksum.file_content (file_path)
 		end
 
-	megabyte_count (a_file_path: FILE_PATH): DOUBLE
+	megabyte_count (file_path: FILE_PATH): DOUBLE
 			--
 		do
-			Result := byte_count (a_file_path) / 1000000
+			Result := byte_count (file_path) / 1000000
 		end
 
 	modification_time (file_path: FILE_PATH): INTEGER
@@ -87,23 +87,23 @@ feature -- Measurement
 
 feature -- File content
 
-	data (a_file_path: FILE_PATH): MANAGED_POINTER
+	data (file_path: FILE_PATH): MANAGED_POINTER
 		require
-			file_exists: a_file_path.exists
+			file_exists: file_path.exists
 		do
-			if attached open_raw (a_file_path, Read) as l_file then
+			if attached open_raw (file_path, Read) as l_file then
 				create Result.make (l_file.count)
 				l_file.read_to_managed_pointer (Result, 0, l_file.count)
 				l_file.close
 			end
 		end
 
-	line_one (a_file_path: FILE_PATH): STRING
-			--
+	line_one (file_path: FILE_PATH): STRING
+		-- First line of file
 		require
-			file_exists: a_file_path.exists
+			file_exists: file_path.exists
 		do
-			if attached open (a_file_path, Read) as file then
+			if attached open (file_path, Read) as file then
 				if file.is_empty then
 					create Result.make_empty
 				else
@@ -117,29 +117,29 @@ feature -- File content
 			end
 		end
 
-	plain_text (a_file_path: FILE_PATH): STRING
+	plain_text (file_path: FILE_PATH): STRING
 		-- plain text excluding any Windows carriage return characters '%R'
 		do
-			Result := raw_plain_text (a_file_path)
+			Result := raw_plain_text (file_path)
 			if {PLATFORM}.is_unix and then has_windows_line_break (Result) then
 				Result.replace_substring_all ("%R%N", "%N")
 			end
 		end
 
-	plain_text_bomless (a_file_path: FILE_PATH): STRING
+	plain_text_bomless (file_path: FILE_PATH): STRING
 		-- file text without any byte-order mark
 		do
-			Result := plain_text (a_file_path)
+			Result := plain_text (file_path)
 			if Result.starts_with ({UTF_CONVERTER}.Utf_8_bom_to_string_8) then
 				Result.remove_head (3)
 			end
 		end
 
-	plain_text_lines (a_file_path: FILE_PATH): EL_ITERABLE_SPLIT [STRING, ANY]
+	plain_text_lines (file_path: FILE_PATH): EL_ITERABLE_SPLIT [STRING, ANY]
 		require
-			file_exists: a_file_path.exists
+			file_exists: file_path.exists
 		do
-			if attached raw_plain_text (a_file_path) as content then
+			if attached raw_plain_text (file_path) as content then
 				if {PLATFORM}.is_unix and then has_windows_line_break (content) then
 					-- Check if content has Windows carriage return
 					create {EL_SPLIT_ON_STRING [STRING]} Result.make (content, "%R%N")
@@ -152,14 +152,14 @@ feature -- File content
 			end
 		end
 
-	raw_plain_text (a_file_path: FILE_PATH): STRING
+	raw_plain_text (file_path: FILE_PATH): STRING
 		-- plain text possibly containing '%R' on Unix platforms
 		require
-			file_exists: a_file_path.exists
+			file_exists: file_path.exists
 		local
 			file: PLAIN_TEXT_FILE; read_count, count: INTEGER
 		do
-			create file.make_open_read (a_file_path)
+			create file.make_open_read (file_path)
 			count := file.count
 			create Result.make_filled ('%U', count)
 			read_count := file.read_to_string (Result, 1, count)
@@ -177,19 +177,42 @@ feature -- File content
 			file.close
 		end
 
-feature -- Status query
+feature -- Status report
 
 	exists (a_path: FILE_PATH): BOOLEAN
 		do
 			Result := info (a_path, False).exists
 		end
 
-	has_content (a_file_path: FILE_PATH): BOOLEAN
+	has_content (file_path: FILE_PATH): BOOLEAN
 			-- True if file not empty
 		do
-			if attached open_raw (a_file_path, Read) as l_file then
+			if attached open_raw (file_path, Read) as l_file then
 				Result := not l_file.is_empty
 				l_file.close
+			end
+		end
+
+	has_utf_8_bom (file_path: FILE_PATH): BOOLEAN
+		do
+			if attached new_plain_text (file_path) as text then
+				text.open_read
+				Result := has_utf_8_bom_marker (text)
+				text.close
+			end
+		end
+
+	has_utf_8_bom_marker (file: PLAIN_TEXT_FILE): BOOLEAN
+		require
+			file_open: file.is_open_read
+			at_start_position: file.position = 0
+		local
+			bom: STRING
+		do
+			bom := {UTF_CONVERTER}.Utf_8_bom_to_string_8
+			file.read_stream (bom.count)
+			if not file.end_of_file then
+				Result := file.last_string ~ bom
 			end
 		end
 
@@ -285,12 +308,12 @@ feature -- Basic operations
 			copy_contents (source_file, destination_path)
 		end
 
-	write_text (a_file_path: FILE_PATH; text: STRING)
+	write_text (file_path: FILE_PATH; text: STRING)
 		-- write plain text
 		local
 			file: PLAIN_TEXT_FILE
 		do
-			create file.make_open_write (a_file_path)
+			create file.make_open_write (file_path)
 			file.put_string (text)
 			file.close
 		end

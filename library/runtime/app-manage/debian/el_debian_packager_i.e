@@ -10,14 +10,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 5:47:49 GMT (Monday 7th February 2022)"
-	revision: "20"
+	date: "2022-02-08 10:33:00 GMT (Tuesday 8th February 2022)"
+	revision: "21"
 
 deferred class
 	EL_DEBIAN_PACKAGER_I
 
 inherit
-	EL_COMMAND
+	EL_APPLICATION_COMMAND
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename

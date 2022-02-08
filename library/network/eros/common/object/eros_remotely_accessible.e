@@ -1,13 +1,13 @@
 note
-	description: "Remotely accessible"
+	description: "Object that is remotely accessible via EROS protocol"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:17:20 GMT (Tuesday 5th January 2021)"
-	revision: "13"
+	date: "2022-02-08 11:33:08 GMT (Tuesday 8th February 2022)"
+	revision: "14"
 
 deferred class
 	EROS_REMOTELY_ACCESSIBLE

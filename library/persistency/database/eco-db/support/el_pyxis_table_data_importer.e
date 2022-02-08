@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 13:18:43 GMT (Thursday 13th January 2022)"
-	revision: "14"
+	date: "2022-02-08 9:58:52 GMT (Tuesday 8th February 2022)"
+	revision: "15"
 
 class
 	EL_PYXIS_TABLE_DATA_IMPORTER [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -21,9 +21,6 @@ inherit
 	EL_PYXIS_PARSE_EVENT_TYPE
 
 	EL_COMMAND
-		rename
-			default_description as description
-		end
 
 	EL_REFLECTION_HANDLER
 

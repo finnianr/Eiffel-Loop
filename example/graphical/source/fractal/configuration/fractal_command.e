@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 14:05:15 GMT (Thursday 13th January 2022)"
-	revision: "3"
+	date: "2022-02-08 10:41:52 GMT (Tuesday 8th February 2022)"
+	revision: "4"
 
 class
 	FRACTAL_COMMAND
 
 inherit
-	EL_COMMAND
+	EL_APPLICATION_COMMAND
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 

@@ -1,18 +1,13 @@
 note
 	description: "Sequence of fold directions"
+
 	author: "Finnian Reilly"
-
-	copyright: "[
-		Copyright (C) 2016-2017  Gerrit Leder, Finnian Reilly
-
-		Gerrit Leder, Overather Str. 10, 51429 Bergisch-Gladbach, GERMANY
-		gerrit.leder@gmail.com
-
-		Finnian Reilly, Dunboyne, Co Meath, Ireland.
-		finnian@eiffel-loop.com
-	]"
+	copyright: "Copyright (C) 2016-2017  Gerrit Leder, Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
+	date: "2022-02-08 15:50:06 GMT (Tuesday 8th February 2022)"
+	revision: "3"
 
 class
 	FOLD_ARRAY
@@ -145,4 +140,3 @@ feature {NONE} -- Implementation
 		end
 
 end
-

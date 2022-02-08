@@ -11,14 +11,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-25 15:01:00 GMT (Tuesday 25th January 2022)"
-	revision: "24"
+	date: "2022-02-08 10:07:32 GMT (Tuesday 8th February 2022)"
+	revision: "25"
 
 deferred class
 	FCGI_SERVLET_SERVICE
 
 inherit
-	EL_COMMAND
+	EL_APPLICATION_COMMAND
 
 	EL_SHARED_HTTP_STATUS
 

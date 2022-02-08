@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:10:32 GMT (Thursday 13th January 2022)"
-	revision: "16"
+	date: "2022-02-08 9:57:12 GMT (Tuesday 8th February 2022)"
+	revision: "17"
 
 class
 	DUPLICITY_BACKUP
@@ -21,7 +21,7 @@ inherit
 			make_default
 		end
 
-	EL_COMMAND
+	EL_APPLICATION_COMMAND
 		redefine
 			description
 		end

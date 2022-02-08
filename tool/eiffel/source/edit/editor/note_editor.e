@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 7:53:41 GMT (Monday 7th February 2022)"
-	revision: "19"
+	date: "2022-02-08 13:59:56 GMT (Tuesday 8th February 2022)"
+	revision: "20"
 
 class
 	NOTE_EDITOR
@@ -36,12 +36,8 @@ feature {NONE} -- Initialization
 			--
 		do
 			author_name	:= license_notes.author; operations_list := a_operations_list
-			create default_values.make (<<
-				[Field.author, license_notes.author],
-				[Field.copyright, license_notes.copyright],
-				[Field.contact, license_notes.contact],
-				[Field.license, license_notes.license]
-			>>)
+			create default_values.make_equal (5)
+			set_default_values (license_notes)
 			make_default
 		end
 
@@ -89,6 +85,17 @@ feature -- Basic operations
 feature -- Status query
 
 	has_revision: BOOLEAN
+
+feature -- Element change
+
+	set_default_values (license_notes: LICENSE_NOTES)
+		do
+			author_name	:= license_notes.author
+			default_values [Field.author] := license_notes.author
+			default_values [Field.copyright] := license_notes.copyright
+			default_values [Field.contact] := license_notes.contact
+			default_values [Field.license] := license_notes.license
+		end
 
 feature {NONE} -- Line states
 

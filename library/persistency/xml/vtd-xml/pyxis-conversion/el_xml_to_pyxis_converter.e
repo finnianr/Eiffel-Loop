@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-22 11:29:10 GMT (Saturday 22nd January 2022)"
-	revision: "18"
+	date: "2022-02-08 9:48:56 GMT (Tuesday 8th February 2022)"
+	revision: "19"
 
 class
 	EL_XML_TO_PYXIS_CONVERTER
@@ -24,7 +24,7 @@ inherit
 
 	EL_MODULE_LIO
 
-	EL_COMMAND
+	EL_APPLICATION_COMMAND
 		redefine
 			description
 		end

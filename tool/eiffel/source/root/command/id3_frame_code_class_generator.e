@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:06 GMT (Saturday 5th February 2022)"
-	revision: "11"
+	date: "2022-02-08 10:25:09 GMT (Tuesday 8th February 2022)"
+	revision: "12"
 
 class
 	ID3_FRAME_CODE_CLASS_GENERATOR
 
 inherit
-	EL_COMMAND
+	EL_APPLICATION_COMMAND
 
 	EL_MODULE_LIO
 

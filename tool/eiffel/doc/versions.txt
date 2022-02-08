@@ -1,3 +1,6 @@
+1.4.13
+Handle multiple license from imported manifests in note editor
+
 1.4.12
 * Shell to search for regular expressions in source manifest files
 

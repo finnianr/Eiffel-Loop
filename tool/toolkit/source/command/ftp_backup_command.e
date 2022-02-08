@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:42:28 GMT (Thursday 13th January 2022)"
-	revision: "5"
+	date: "2022-02-08 10:32:34 GMT (Tuesday 8th February 2022)"
+	revision: "6"
 
 class
 	FTP_BACKUP_COMMAND
 
 inherit
-	EL_COMMAND
+	EL_APPLICATION_COMMAND
 
 	EL_MODULE_LIO
 

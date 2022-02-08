@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 11:58:02 GMT (Tuesday 31st December 2019)"
-	revision: "7"
+	date: "2022-02-08 10:19:07 GMT (Tuesday 8th February 2022)"
+	revision: "8"
 
 class
 	CONSOLE_LOGGING_FOURIER_MATH_SERVER_APP
@@ -15,7 +15,14 @@ class
 inherit
 	FOURIER_MATH_SERVER_APP
 		redefine
-			Option_name, Description, name_qualifier, Desktop, is_main
+			Option_name, Description, name_qualifier, Desktop
+		end
+
+	EL_MAIN_INSTALLABLE_APPLICATION
+		undefine
+			name
+		redefine
+			Option_name
 		end
 
 feature {NONE} -- Installer constants
@@ -33,8 +40,6 @@ feature {NONE} -- Installer constants
 				Log_option.Name.logging, Log_option.Name.thread_toolbar, "max_threads 3"
 			>>)
 		end
-
-	Is_main: BOOLEAN = True
 
 feature {NONE} -- Constants
 

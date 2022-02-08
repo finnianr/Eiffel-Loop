@@ -8,13 +8,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 6:29:01 GMT (Monday 7th February 2022)"
-	revision: "22"
+	date: "2022-02-08 9:34:33 GMT (Tuesday 8th February 2022)"
+	revision: "23"
 
 class
 	CLASS_DESCENDANTS_COMMAND
 
 inherit
+	EL_APPLICATION_COMMAND
+
 	EL_REFLECTIVE
 		rename
 			field_included as is_any_field,
@@ -29,7 +31,7 @@ inherit
 
 	EL_FILE_OPEN_ROUTINES
 
-	EL_COMMAND; EL_MODULE_LIO; EL_MODULE_OS; EL_MODULE_DIRECTORY
+	EL_MODULE_LIO; EL_MODULE_OS; EL_MODULE_DIRECTORY
 
 	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM
 

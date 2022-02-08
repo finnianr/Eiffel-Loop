@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 12:50:51 GMT (Sunday 23rd January 2022)"
-	revision: "8"
+	date: "2022-02-08 12:24:26 GMT (Tuesday 8th February 2022)"
+	revision: "9"
 
 class
 	EL_COMMAND_ARGUMENT_ERROR
@@ -53,6 +53,11 @@ feature -- Basic operations
 		end
 
 feature -- Element change
+
+	set_description (a_description: EL_ZSTRING_LIST)
+		do
+			description := a_description
+		end
 
 	set_invalid_argument (a_message: ZSTRING)
 		do

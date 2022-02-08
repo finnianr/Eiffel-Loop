@@ -7,13 +7,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 13:22:49 GMT (Thursday 13th January 2022)"
-	revision: "13"
+	date: "2022-02-08 10:37:42 GMT (Tuesday 8th February 2022)"
+	revision: "14"
 
 class
 	EL_TRAFFIC_ANALYSIS_COMMAND
 
 inherit
+	EL_APPLICATION_COMMAND
+	
 	EL_WEB_LOG_PARSER_COMMAND
 		rename
 			make as make_parser

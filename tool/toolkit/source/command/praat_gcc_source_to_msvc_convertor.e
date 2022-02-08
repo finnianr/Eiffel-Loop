@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:43:16 GMT (Thursday 13th January 2022)"
-	revision: "9"
+	date: "2022-02-08 10:34:00 GMT (Tuesday 8th February 2022)"
+	revision: "10"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR
 
 inherit
+	EL_APPLICATION_COMMAND
+
 	EVOLICITY_SERIALIZEABLE
 		rename
 			template as build_batch_file_template
@@ -24,8 +26,6 @@ inherit
 		export
 			{NONE} all
 		end
-
-	EL_COMMAND
 
 	EL_MODULE_LOG
 

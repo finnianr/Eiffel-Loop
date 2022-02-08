@@ -11,11 +11,14 @@ manifest:
 	# examples
 	location:
 		"example/concurrency/source"
-		"example/eiffel2java/source"
 		"example/graphical/source"
 		"example/manage-mp3/source"
 		"example/net/EROS/server/source"
-		"example/net/EROS/test-clients/source"
+		"example/net/EROS/signal-math/source"
+	
+	# separate GNU license with Gerrit Leder
+	import:
+		"example/protein-folding/source-manifest.pyx"
 
 	# testing and benchmarks
 	location:

@@ -8,13 +8,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:06 GMT (Saturday 5th February 2022)"
-	revision: "18"
+	date: "2022-02-08 10:25:58 GMT (Tuesday 8th February 2022)"
+	revision: "19"
 
 class
 	CHECK_LOCALE_STRINGS_COMMAND
 
 inherit
+	EL_APPLICATION_COMMAND
+
 	EL_FILE_TREE_COMMAND
 		rename
 			tree_dir as source_dir,

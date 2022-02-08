@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:06 GMT (Saturday 5th February 2022)"
-	revision: "15"
+	date: "2022-02-08 10:25:47 GMT (Tuesday 8th February 2022)"
+	revision: "16"
 
 class
 	CODEC_GENERATOR
 
 inherit
-	EL_COMMAND
+	EL_APPLICATION_COMMAND
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename

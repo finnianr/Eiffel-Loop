@@ -6,22 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-12 10:54:22 GMT (Saturday 12th September 2020)"
-	revision: "10"
+	date: "2022-02-08 10:43:25 GMT (Tuesday 8th February 2022)"
+	revision: "11"
 
 class
 	APPLICATION_ROOT
 
 inherit
-	EL_MULTI_APPLICATION_ROOT [
-		BUILD_INFO, TUPLE [
-			FOURIER_MATH_SERVER_APP,
-			CONSOLE_LOGGING_FOURIER_MATH_SERVER_APP,
+	EL_MULTI_APPLICATION_ROOT [BUILD_INFO,
+		FOURIER_MATH_SERVER_APP,
+		CONSOLE_LOGGING_FOURIER_MATH_SERVER_APP,
 
-		-- Installation
-			EL_STANDARD_INSTALLER_APP,
-			UNINSTALL_APP
-		]
+	-- Installation
+		EL_STANDARD_INSTALLER_APP,
+		UNINSTALL_APP
 	]
 
 create

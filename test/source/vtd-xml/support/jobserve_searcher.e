@@ -35,17 +35,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:06 GMT (Saturday 5th February 2022)"
-	revision: "5"
+	date: "2022-02-08 9:59:31 GMT (Tuesday 8th February 2022)"
+	revision: "6"
 
 class
 	JOBSERVE_SEARCHER
 
 inherit
 	EL_COMMAND
-		rename
-			default_description as description
-		end
 
 	EL_MODULE_LIO
 

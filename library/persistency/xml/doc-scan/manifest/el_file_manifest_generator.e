@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-06 18:31:11 GMT (Sunday 6th February 2022)"
-	revision: "7"
+	date: "2022-02-08 9:54:44 GMT (Tuesday 8th February 2022)"
+	revision: "8"
 
 class
 	EL_FILE_MANIFEST_GENERATOR
 
 inherit
-	EL_COMMAND
+	EL_APPLICATION_COMMAND
 		redefine
 			description
 		end

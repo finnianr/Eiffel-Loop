@@ -12,17 +12,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:49:50 GMT (Saturday 5th February 2022)"
-	revision: "5"
+	date: "2022-02-08 9:48:05 GMT (Tuesday 8th February 2022)"
+	revision: "6"
 
 class
 	EL_EQA_TEST_EVALUATOR
 
 inherit
 	EL_COMMAND
-		rename
-			default_description as description
-		end
 
 	EL_MODULE_LIO
 

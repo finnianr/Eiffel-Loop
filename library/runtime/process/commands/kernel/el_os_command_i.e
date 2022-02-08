@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-30 20:03:38 GMT (Sunday 30th January 2022)"
-	revision: "30"
+	date: "2022-02-08 13:05:30 GMT (Tuesday 8th February 2022)"
+	revision: "31"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -58,6 +58,7 @@ feature {NONE} -- Initialization
 			errors := Empty_list
 			Precursor {EL_REFLECTIVELY_SETTABLE}
 			Precursor {EVOLICITY_SERIALIZEABLE_AS_ZSTRING}
+			output_encoding := Utf_8
 		end
 
 feature -- Access
@@ -66,14 +67,11 @@ feature -- Access
 		-- exit code that indicates command ran without error
 		-- default is 0
 
-	description: READABLE_STRING_GENERAL
-		do
-			Result := default_description
-		end
-
 	errors: EL_ZSTRING_LIST
 
 	working_directory: DIR_PATH
+
+	output_encoding: NATURAL
 
 feature -- Element change
 
@@ -86,6 +84,11 @@ feature -- Element change
 			--
 		do
 			working_directory := a_working_directory
+		end
+
+	set_output_encoding (a_output_encoding: NATURAL)
+		do
+			output_encoding := a_output_encoding
 		end
 
 feature -- Status query

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-29 16:16:35 GMT (Wednesday 29th December 2021)"
-	revision: "17"
+	date: "2022-02-08 9:33:17 GMT (Tuesday 8th February 2022)"
+	revision: "18"
 
 deferred class
 	EL_BENCHMARK_COMMAND_SHELL
 
 inherit
-	EL_COMMAND_SHELL_COMMAND
+	EL_APPLICATION_COMMAND_SHELL
 		rename
 			make as make_shell
 		redefine

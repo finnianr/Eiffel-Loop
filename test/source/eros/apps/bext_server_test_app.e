@@ -6,40 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-06 16:43:09 GMT (Sunday 6th February 2022)"
-	revision: "13"
+	date: "2022-02-08 11:02:53 GMT (Tuesday 8th February 2022)"
+	revision: "14"
 
 class
 	BEXT_SERVER_TEST_APP
 
 inherit
-	EROS_SERVER_APPLICATION
-		redefine
-			serve
-		end
-
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EROS_SERVER_APPLICATION [BEXT_EROS_SERVER_COMMAND]
 
 create
 	make
-
-feature -- Basic operations
-
-	serve (client_socket: EL_NETWORK_STREAM_SOCKET)
-			--
-		local
-			wave_form: COLUMN_VECTOR_COMPLEX_64 i: INTEGER
-		do
-			log.enter ("serve")
-			from i := 1 until i > 2 loop
-				create wave_form.make_from_binary_stream (client_socket)
-				wave_form.set_output_path ("vector." + i.out + ".xml")
-				wave_form.store
-				i := i + 1
-			end
-			client_socket.close
-			log.exit
-		end
 
 feature {NONE} -- Implementation
 
@@ -47,9 +24,5 @@ feature {NONE} -- Implementation
 		do
 			create Result.make
 		end
-
-feature {NONE} -- Constants
-
-	Description: STRING = "Test server for BEXT (Binary Encoded XML Transfer) (Ctrl-c to shutdown)"
 
 end

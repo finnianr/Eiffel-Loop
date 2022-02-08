@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 11:28:13 GMT (Monday 7th February 2022)"
-	revision: "53"
+	date: "2022-02-08 11:47:39 GMT (Tuesday 8th February 2022)"
+	revision: "54"
 
 deferred class
 	EL_APPLICATION
@@ -52,7 +52,7 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 			call (Build_info)
 
 			create options_help.make (11)
-			create argument_errors.make (0)
+			create error_list.make (0)
 			Exception.catch ({EXCEP_CONST}.Signal_exception)
 
 			across standard_options as options loop
@@ -74,8 +74,6 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 
 feature -- Access
 
-	argument_errors: ARRAYED_LIST [EL_COMMAND_ARGUMENT_ERROR]
-
 	default_option_name: STRING
 		-- lower case generator with `_app' removed from tail
 		do
@@ -89,6 +87,8 @@ feature -- Access
 	description: READABLE_STRING_GENERAL
 		deferred
 		end
+
+	error_list: ARRAYED_LIST [EL_COMMAND_ARGUMENT_ERROR]
 
 	exit_code: INTEGER
 
@@ -131,7 +131,7 @@ feature -- Status query
 
 	has_argument_errors: BOOLEAN
 		do
-			Result := not argument_errors.is_empty
+			Result := not error_list.is_empty
 		end
 
 	is_same_option (name: ZSTRING): BOOLEAN
@@ -148,7 +148,7 @@ feature -- Element change
 
 	extend_errors (error: EL_COMMAND_ARGUMENT_ERROR)
 		do
-			argument_errors.extend (error)
+			error_list.extend (error)
 		end
 
 	extend_help (word_option, a_description: READABLE_STRING_GENERAL; default_value: ANY)
@@ -235,9 +235,9 @@ feature {NONE} -- Implementation
 					options_help.print_to_lio
 
 				elseif has_argument_errors then
-					argument_errors.do_all (agent {EL_COMMAND_ARGUMENT_ERROR}.print_to_lio)
+					error_list.do_all (agent {EL_COMMAND_ARGUMENT_ERROR}.print_to_lio)
 				else
-					check attached new_configuration end
+					call (new_configuration)
 					initialize; run
 
 					if Ask_user_to_quit then
@@ -416,7 +416,7 @@ note
 							[$source TESTABLE_LOCALIZED_THUNDERBIRD_SUB_APPLICATION]* [READER -> [$source EL_ML_THUNDERBIRD_ACCOUNT_READER] create make_from_file end]
 								[$source LOCALIZED_THUNDERBIRD_BOOK_EXPORTER_APP]
 								[$source LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER_APP]
-					[$source EL_COMMAND_SHELL_APPLICATION]* [C -> [$source EL_COMMAND_SHELL_COMMAND]]
+					[$source EL_COMMAND_SHELL_APPLICATION]* [C -> [$source EL_APPLICATION_COMMAND_SHELL]]
 						[$source CRYPTO_COMMAND_SHELL_APP]
 				[$source EL_VERSION_APP]
 				[$source EL_LOGGED_APPLICATION]*

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:43:01 GMT (Thursday 13th January 2022)"
-	revision: "18"
+	date: "2022-02-08 9:33:16 GMT (Tuesday 8th February 2022)"
+	revision: "19"
 
 class
 	LOCALIZATION_COMMAND_SHELL
 
 inherit
-	EL_COMMAND_SHELL_COMMAND
+	EL_APPLICATION_COMMAND_SHELL
 		rename
 			make as make_shell
 		undefine

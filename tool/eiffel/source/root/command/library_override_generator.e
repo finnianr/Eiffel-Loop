@@ -18,14 +18,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 12:57:01 GMT (Saturday 5th February 2022)"
-	revision: "7"
+	date: "2022-02-08 10:24:54 GMT (Tuesday 8th February 2022)"
+	revision: "8"
 
 class
 	LIBRARY_OVERRIDE_GENERATOR
 
 inherit
-	EL_COMMAND
+	EL_APPLICATION_COMMAND
 
 	EL_MODULE_LIO
 

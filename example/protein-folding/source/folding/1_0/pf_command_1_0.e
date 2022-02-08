@@ -1,17 +1,16 @@
 note
 	description: "Prediction of protein-folding in the 2D HP Model version 1.0"
+	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
 
+	author: "Finnian Reilly"
 	copyright: "[
-		Copyright (C) 2016-2017  Gerrit Leder, Finnian Reilly
-
-		Gerrit Leder, Overather Str. 10, 51429 Bergisch-Gladbach, GERMANY
-		gerrit.leder@gmail.com
-
-		Finnian Reilly, Dunboyne, Co Meath, Ireland.
-		finnian@eiffel-loop.com
+	Copyright (C) 2016-2017  Gerrit Leder, Finnian Reilly
 	]"
+	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
+	date: "2022-02-08 15:50:42 GMT (Tuesday 8th February 2022)"
+	revision: "3"
 
 class
 	PF_COMMAND_1_0
@@ -223,5 +222,3 @@ feature {NONE} -- Internal attributes
 	zero, one: BOOLEAN
 
 end
-
-

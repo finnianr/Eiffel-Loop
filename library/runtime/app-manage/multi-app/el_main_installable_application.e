@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 11:44:09 GMT (Monday 7th February 2022)"
-	revision: "1"
+	date: "2022-02-08 10:10:39 GMT (Tuesday 8th February 2022)"
+	revision: "2"
 
 deferred class
 	EL_MAIN_INSTALLABLE_APPLICATION
@@ -19,10 +19,10 @@ deferred class
 inherit
 	EL_INSTALLABLE_APPLICATION
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	Option_name: IMMUTABLE_STRING_8
-		once
+	option_name: READABLE_STRING_GENERAL
+		do
 			Result := Standard_option.main
 		end
 
