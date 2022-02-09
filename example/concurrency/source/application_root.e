@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 17:14:19 GMT (Saturday 20th March 2021)"
-	revision: "59"
+	date: "2022-02-09 0:03:28 GMT (Wednesday 9th February 2022)"
+	revision: "60"
 
 class
 	APPLICATION_ROOT
@@ -20,7 +20,7 @@ class
 inherit
 	EL_MULTI_APPLICATION_ROOT [BUILD_INFO,
 		HORSE_RACE_APP,
-		WORK_DISTRIBUTER_TEST_APP
+		SINE_WAVE_INTEGRATION_APP
 	]
 
 create

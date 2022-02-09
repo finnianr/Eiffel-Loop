@@ -436,7 +436,7 @@ Classes providing the following:
 * Abstractions for objects createable from strings
 * String occurrence interval lists
 ## Class ZSTRING
-An implementation of a memory compact string with the same unicode character range as the base class [$source STRING_32] and conforming to [$source STRING_GENERAL]. ZSTRING is an alias for the actual class name [$source EL_ZSTRING]. [$source EL_ZSTRING] has many additional routines not found in STRING_32, as for example: Python like tuple substitution.
+An implementation of a memory compact string with the same unicode character range as the ''base.ecf'' class [$source STRING_32] and conforming to [$source STRING_GENERAL]. The [$source ZSTRING] class (alias for [$source EL_ZSTRING]) has many additional routines not found in [$source STRING_32], as for example: Python like tuple substitution.
 
 **See Articles**
 
@@ -445,7 +445,7 @@ An implementation of a memory compact string with the same unicode character ran
 * [https://www.eiffel.org/blog/finnianr/introducing_class_zstring Introducing class ZSTRING]
 * [https://www.eiffel.org/article/iso8859_is_dead_long_live_iso8859 ISO-8859 is dead, long live ISO-8859]
 
-**Benchmarks ZSTRING vs STRING_32**
+**Benchmarks [$source ZSTRING] vs [$source STRING_32]**
 
 
 * [./benchmark/ZSTRING-benchmarks-latin-1.html Base character-set Latin-1]

@@ -5,11 +5,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
+	copyright: "Copyright (C) 2016-2017  Gerrit Leder, Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
-	date: "2022-02-08 15:51:16 GMT (Tuesday 8th February 2022)"
-	revision: "3"
+	date: "2022-02-08 15:53:04 GMT (Tuesday 8th February 2022)"
+	revision: "4"
 
 deferred class
 	PROTEIN_FOLDING_COMMAND_2_0 [G -> GRID_2_X create make end]

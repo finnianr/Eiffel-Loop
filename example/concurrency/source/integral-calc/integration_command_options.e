@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 9:38:16 GMT (Monday 20th January 2020)"
-	revision: "5"
+	date: "2022-02-08 23:36:26 GMT (Tuesday 8th February 2022)"
+	revision: "6"
 
 class
-	TEST_WORK_DISTRIBUTER_COMMAND_OPTIONS
+	INTEGRATION_COMMAND_OPTIONS
 
 inherit
 	EL_APPLICATION_COMMAND_OPTIONS
@@ -30,9 +30,15 @@ feature {NONE} -- Initialization
 			task_count := 4
 			term_count := 4
 			thread_count := 4
+			create multiplicands.make_from_array (<< 1.0 >>)
+			integral_range := [0.0, 2.0]
+			command_type := "single_thread"
 		end
 
 feature -- Access
+
+	command_type: STRING
+		-- command alias
 
 	delta_count: INTEGER
 
@@ -41,6 +47,10 @@ feature -- Access
 	task_count: INTEGER
 
 	term_count: INTEGER
+
+	multiplicands: ARRAYED_LIST [DOUBLE]
+
+	integral_range: TUPLE [radians_lower, radians_upper: DOUBLE]
 
 	thread_count: INTEGER
 
@@ -60,12 +70,20 @@ feature {NONE} -- Constants
 	Help_text: STRING
 		once
 			Result := joined (Precursor, "[
+				command_type:
+					Type of integral calculation command to use
+					Valid values:
+						single_thread; distributed_function; distributed_procedure
 				delta_count:
 					Number of integral range "split intervals" to calculate
+				integral_range:
+					Range lower to upper expressed as multiples of PI
 				max_priority:
 					Use maximum priority threads
 				repetition_count:
 					Number of repetitions of each calculation to do
+				multiplicands:
+					Multiplicands for `x' in complex sine function
 				task_count:
 					Number of discreet tasks to divide integral calculation into for thread assignation
 				term_count:

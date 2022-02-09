@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 14:40:31 GMT (Tuesday 8th February 2022)"
-	revision: "20"
+	date: "2022-02-08 16:32:52 GMT (Tuesday 8th February 2022)"
+	revision: "21"
 
 class
 	NOTE_EDITOR_COMMAND
@@ -37,21 +37,6 @@ feature {EL_APPLICATION} -- Initialization
 		do
 			create operations_list.make (100)
 			make_editor (source_manifest_path)
-		end
-
-feature {NONE} -- Implementation
-
-	iterate_files (file_list: ITERABLE [FILE_PATH])
-		do
-			across manifest.source_tree_list as tree loop
-				if manifest.notes_table.has_key (tree.item.dir_path) then
-					editor.set_default_values (manifest.notes_table.found_item)
-					across tree.item.path_list as list loop
-						do_with_file (list.item)
-						Track.progress_listener.notify_tick
-					end
-				end
-			end
 		end
 
 feature -- Constants
@@ -85,6 +70,19 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	iterate_files (file_list: ITERABLE [FILE_PATH])
+		do
+			across manifest.source_tree_list as tree loop
+				if manifest.notes_table.has_key (tree.item.dir_path) then
+					editor.set_default_values (manifest.notes_table.found_item)
+					across tree.item.path_list as list loop
+						do_with_file (list.item)
+						Track.progress_listener.notify_tick
+					end
+				end
+			end
+		end
 
 	new_editor: NOTE_EDITOR
 		do

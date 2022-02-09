@@ -1,19 +1,19 @@
 note
-	description: "Function integral"
+	description: "Distributed integration using class [$source EL_FUNCTION_DISTRIBUTER]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 13:27:53 GMT (Wednesday 8th January 2020)"
-	revision: "3"
+	date: "2022-02-09 0:02:22 GMT (Wednesday 9th February 2022)"
+	revision: "1"
 
 class
-	FUNCTION_INTEGRAL
+	DISTRIBUTED_FUNCTION_INTEGRATION
 
 inherit
-	ROUTINE_INTEGRAL [DOUBLE]
+	DISTRIBUTED_INTEGRATION_COMMAND [DOUBLE]
 		redefine
 			distributer
 		end
@@ -21,11 +21,15 @@ inherit
 create
 	make
 
+feature -- Constants
+
+	Description: STRING = "Distributed integration using class EL_FUNCTION_DISTRIBUTER"
+
 feature {NONE} -- Implementation
 
-	collect_integral (f: FUNCTION [DOUBLE, DOUBLE]; lower, upper: DOUBLE; a_delta_count: INTEGER)
+	collect_integral (lower, upper: DOUBLE; a_delta_count: INTEGER)
 		do
-			distributer.wait_apply (agent integral (f, lower, upper, a_delta_count))
+			distributer.wait_apply (agent integral (function, lower, upper, a_delta_count))
 			-- collect results
 			distributer.collect (result_list)
 		end

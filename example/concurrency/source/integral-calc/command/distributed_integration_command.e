@@ -1,28 +1,30 @@
 note
-	description: "Routine integral"
+	description: "Integration distributed over multiple threads"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 17:43:37 GMT (Saturday 5th February 2022)"
-	revision: "5"
+	date: "2022-02-09 0:23:31 GMT (Wednesday 9th February 2022)"
+	revision: "1"
 
 deferred class
-	ROUTINE_INTEGRAL [G]
+	DISTRIBUTED_INTEGRATION_COMMAND [G]
 
 inherit
-	EL_DOUBLE_MATH
-
-	EL_MODULE_LOG
+	INTEGRATION_COMMAND
+		redefine
+			make, is_canceled
+		end
 
 	EL_MODULE_EXCEPTION
 
 feature {NONE} -- Initialization
 
-	make (option: TEST_WORK_DISTRIBUTER_COMMAND_OPTIONS)
+	make (a_option: like option; a_function: like function)
 		do
+			Precursor (a_option, a_function)
 			delta_count := option.delta_count; task_count := option.task_count
 			create result_list.make (task_count)
 			create distributer.make (Option.thread_count)
@@ -31,18 +33,24 @@ feature {NONE} -- Initialization
 			end
 		end
 
-feature -- Basic operations
+feature -- Status query
 
-	integral_sum (f: FUNCTION [DOUBLE, DOUBLE]; lower, upper: DOUBLE): DOUBLE
+	is_canceled: BOOLEAN
+
+feature {NONE} -- Implementation
+
+	integral_sum (lower, upper: DOUBLE): DOUBLE
 		do
 			if is_canceled then
 				log.put_line (" integration canceled")
 			else
 				log.enter ("integral_sum")
+				log.put_labeled_string ("Thread priority", Option.priority_name)
+				log.put_new_line
 
 				-- Splitting bounds into sub-bounds
 				across split_bounds (lower, upper, task_count) as bound loop
-					collect_integral (f, bound.item.lower_bound, bound.item.upper_bound, (delta_count / task_count).rounded)
+					collect_integral (bound.item.lower_bound, bound.item.upper_bound, (delta_count / task_count).rounded)
 				end
 				lio.put_line ("Waiting to complete ..")
 				distributer.do_final
@@ -69,17 +77,11 @@ feature -- Basic operations
 			end
 		end
 
-feature -- Status query
-
-	is_canceled: BOOLEAN
-
-feature {NONE} -- Implementation
-
 	collect_final
 		deferred
 		end
 
-	collect_integral (function: FUNCTION [DOUBLE, DOUBLE]; lower, upper: DOUBLE; a_delta_count: INTEGER)
+	collect_integral (lower, upper: DOUBLE; a_delta_count: INTEGER)
 		deferred
 		end
 

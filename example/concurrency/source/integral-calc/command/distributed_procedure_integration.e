@@ -1,19 +1,19 @@
 note
-	description: "Procedure integral"
+	description: "Distributed integration using class [$source EL_PROCEDURE_DISTRIBUTER]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 13:27:50 GMT (Wednesday 8th January 2020)"
-	revision: "3"
+	date: "2022-02-09 0:02:32 GMT (Wednesday 9th February 2022)"
+	revision: "1"
 
 class
-	PROCEDURE_INTEGRAL
+	DISTRIBUTED_PROCEDURE_INTEGRATION
 
 inherit
-	ROUTINE_INTEGRAL [INTEGRAL_MATH]
+	DISTRIBUTED_INTEGRATION_COMMAND [INTEGRAL_MATH]
 		redefine
 			distributer
 		end
@@ -21,13 +21,17 @@ inherit
 create
 	make
 
+feature -- Constants
+
+	Description: STRING = "Distributed integration using class EL_PROCEDURE_DISTRIBUTER"
+
 feature {NONE} -- Implementation
 
-	collect_integral (f: FUNCTION [DOUBLE, DOUBLE]; lower, upper: DOUBLE; a_delta_count: INTEGER)
+	collect_integral (lower, upper: DOUBLE; a_delta_count: INTEGER)
 		local
 			integral_math: INTEGRAL_MATH
 		do
-			create integral_math.make (f, lower, upper, a_delta_count)
+			create integral_math.make (function, lower, upper, a_delta_count)
 			distributer.wait_apply (agent integral_math.calculate)
 
 			-- collect results

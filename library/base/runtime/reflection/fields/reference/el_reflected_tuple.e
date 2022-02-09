@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-22 10:14:56 GMT (Saturday 22nd January 2022)"
-	revision: "16"
+	date: "2022-02-08 22:57:09 GMT (Tuesday 8th February 2022)"
+	revision: "17"
 
 class
 	EL_REFLECTED_TUPLE
@@ -90,7 +90,7 @@ feature -- Basic operations
 				Convert_string.fill_tuple (l_tuple, csv_list, True)
 			end
 		ensure then
-			set: csv_list.same_string (to_string (a_object))
+			set: lists_match (csv_list, to_string (a_object))
 		end
 
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
@@ -126,6 +126,38 @@ feature -- Conversion
 		end
 
 feature {NONE} -- Implementation
+
+	lists_match (csv_list_1, csv_list_2: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if lists match and taking account of DOUBLE approximations
+		-- Example: 1.3 same as 1.3000000000002
+		local
+			list_1, list_2: EL_ZSTRING_LIST
+			item_1, item_2: ZSTRING
+		do
+			create list_1.make_comma_split (csv_list_1)
+			create list_2.make_comma_split (csv_list_2)
+			Result := list_1.count = list_2.count
+			if Result then
+				across list_1 as list until not Result loop
+					item_1 := list.item; item_2 := list_2 [list.cursor_index]
+					if item_1.count = item_2.count then
+						Result := item_1.same_string (item_2)
+
+					elseif item_1.is_double and then item_2.is_double then
+						if item_1.count < item_2.count then
+							item_2.remove_tail (1)
+							item_2.prune_all_trailing ('0')
+						else
+							item_1.remove_tail (1)
+							item_1.prune_all_trailing ('0')
+						end
+						Result := item_1.same_string (item_2)
+					else
+						Result := False
+					end
+				end
+			end
+		end
 
 	new_instance: TUPLE
 		local
