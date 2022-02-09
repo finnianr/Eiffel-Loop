@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 5:57:26 GMT (Monday 7th February 2022)"
-	revision: "7"
+	date: "2022-02-09 20:12:50 GMT (Wednesday 9th February 2022)"
+	revision: "8"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -84,7 +84,7 @@ feature -- Tests
 			across OS.file_list (work_area_data_dir #+ "export", "*.body") as path loop
 				assert ("in directory set", dir_set.has (path.item.parent.base))
 				assert ("in file set", file_set.has (path.item.base_sans_extension))
-				assert ("h2 file present", path.item.with_new_extension ("h2").exists)
+				assert_valid_h2_file (new_root_node (path.item), path.item)
 			end
 		end
 
@@ -178,14 +178,12 @@ feature {NONE} -- Implementation
 
 			product_tour_dir := work_area_data_dir #+ "export/en/Product Tour"
 			across << "Home", "Home Page" >> as name loop
-				across << "h2", "body" >> as extention loop
-					output_path := product_tour_dir + name.item
-					output_path.add_extension (extention.item)
-					if output_path.base.has_substring ("Page") then
-						assert ("file exists", output_path.exists)
-					else
-						assert ("file deleted", not output_path.exists)
-					end
+				output_path := product_tour_dir + name.item
+				output_path.add_extension ("body")
+				if output_path.base.has_substring ("Page") then
+					assert ("file exists", output_path.exists)
+				else
+					assert ("file deleted", not output_path.exists)
 				end
 			end
 		end

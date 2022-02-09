@@ -6,20 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-26 9:23:10 GMT (Tuesday 26th October 2021)"
-	revision: "2"
+	date: "2022-02-09 11:26:03 GMT (Wednesday 9th February 2022)"
+	revision: "3"
 
 deferred class
-	EL_MODULE_ENCODINGS
+	EL_MODULE_ENCODING
 
 inherit
 	EL_MODULE
 
 feature {NONE} -- Constants
 
-	Encodings: EL_SYSTEM_ENCODINGS
-		once ("PROCESS")
-			create Result
+	Encoding: ENCODING_I
+		once
+			create {ENCODING_IMP} Result
 		end
 
 end

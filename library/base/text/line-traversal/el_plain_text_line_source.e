@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 13:19:03 GMT (Tuesday 8th February 2022)"
-	revision: "21"
+	date: "2022-02-09 19:03:47 GMT (Wednesday 9th February 2022)"
+	revision: "22"
 
 class
 	EL_PLAIN_TEXT_LINE_SOURCE
@@ -23,14 +23,17 @@ inherit
 		export
 			{ANY} file
 		redefine
-			make_default, open_at_start, make_from_file
+			open_at_start, make_from_file
 		end
-
-	EL_SHARED_ZCODEC_FACTORY
 
 	EL_MODULE_FILE
 		rename
 			File as Mod_file
+		end
+
+	EL_ZCODE_CONVERSION
+		export
+			{NONE} all
 		end
 
 create
@@ -59,14 +62,6 @@ feature {NONE} -- Initialization
 				set_encoding (a_encoding)
 			end
 			is_file_external := False -- Causes file to close automatically when after position is reached
-		end
-
-	make_default
-			--
-		do
-			Precursor
-			update_codec
-			on_encoding_change.add_action (agent update_codec)
 		end
 
 feature -- Access
@@ -158,27 +153,16 @@ feature {NONE} -- Implementation
 		do
 			raw_line := file.last_string
 			raw_line.prune_all_trailing ('%R')
+			if raw_line.has (Unencoded_character) then
+				raw_line.prune_all (Unencoded_character) -- Reserved by `EL_ZSTRING' as Unicode placeholder
+			end
 			if is_shared_item then
 				item.wipe_out
 			else
 				create item.make (raw_line.count)
 			end
-			if item.encoded_with (codec) then
-				raw_line.prune_all ('%/026/') -- Reserved by `EL_ZSTRING' as Unicode placeholder
-				item.append_raw_string_8 (raw_line)
-			else
-				item.append_string_general (codec.as_unicode (raw_line, False))
-			end
+			item.append_encoded (raw_line, encoding_code)
 		end
-
-	update_codec
-		do
-			codec := Codec_factory.codec (Current)
-		end
-
-feature {NONE} -- Internal attributes
-
-	codec: EL_ZCODEC
 
 feature {NONE} -- Constants
 

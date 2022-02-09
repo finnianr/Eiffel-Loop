@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-28 16:02:34 GMT (Sunday 28th November 2021)"
-	revision: "14"
+	date: "2022-02-09 11:37:47 GMT (Wednesday 9th February 2022)"
+	revision: "15"
 
 deferred class
 	EL_ENCODING_BASE
@@ -177,6 +177,12 @@ feature -- Element change
 		end
 
 feature -- Conversion
+
+	as_encoding: ENCODING
+		-- convert to ISE encoding type
+		do
+			create Result.make (name)
+		end
 
 	name_to_encoding (a_name: READABLE_STRING_GENERAL): NATURAL
 		local

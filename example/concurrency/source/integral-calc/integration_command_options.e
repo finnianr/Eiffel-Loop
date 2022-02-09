@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 23:36:26 GMT (Tuesday 8th February 2022)"
-	revision: "6"
+	date: "2022-02-09 8:37:40 GMT (Wednesday 9th February 2022)"
+	revision: "7"
 
 class
 	INTEGRATION_COMMAND_OPTIONS
@@ -32,13 +32,10 @@ feature {NONE} -- Initialization
 			thread_count := 4
 			create multiplicands.make_from_array (<< 1.0 >>)
 			integral_range := [0.0, 2.0]
-			command_type := "single_thread"
+			method := "single_thread"
 		end
 
 feature -- Access
-
-	command_type: STRING
-		-- command alias
 
 	delta_count: INTEGER
 
@@ -47,6 +44,9 @@ feature -- Access
 	task_count: INTEGER
 
 	term_count: INTEGER
+
+	method: STRING
+		-- calculation method
 
 	multiplicands: ARRAYED_LIST [DOUBLE]
 
@@ -70,10 +70,6 @@ feature {NONE} -- Constants
 	Help_text: STRING
 		once
 			Result := joined (Precursor, "[
-				command_type:
-					Type of integral calculation command to use
-					Valid values:
-						single_thread; distributed_function; distributed_procedure
 				delta_count:
 					Number of integral range "split intervals" to calculate
 				integral_range:
@@ -82,6 +78,10 @@ feature {NONE} -- Constants
 					Use maximum priority threads
 				repetition_count:
 					Number of repetitions of each calculation to do
+				method:
+					Type of integral calculation command to use
+					Valid values:
+						single_thread; distributed_function; distributed_procedure
 				multiplicands:
 					Multiplicands for `x' in complex sine function
 				task_count:

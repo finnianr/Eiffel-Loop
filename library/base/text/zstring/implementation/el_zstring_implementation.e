@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-31 16:58:36 GMT (Friday 31st December 2021)"
-	revision: "29"
+	date: "2022-02-09 10:42:28 GMT (Wednesday 9th February 2022)"
+	revision: "30"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -334,11 +334,9 @@ feature {NONE} -- Implementation
 			inspect respective_encoding (buffer)
 				when Both_have_mixed_encoding then
 					append_unencoded (buffer, 0)
---					buffer.set_in_use (False)
 				when Only_other then
 					set_unencoded_from_buffer (buffer)
 			else
---				buffer.set_in_use (False)
 			end
 		end
 

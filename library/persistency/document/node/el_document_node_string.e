@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "20"
+	date: "2022-02-09 18:49:36 GMT (Wednesday 9th February 2022)"
+	revision: "21"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -80,8 +80,6 @@ inherit
 		undefine
 			copy, is_equal, out
 		end
-
-	EL_SHARED_ZSTRING_CODEC
 
 create
 	make, make_default
@@ -184,21 +182,12 @@ feature -- String conversion
 
 	adjusted (keep_ref: BOOLEAN): ZSTRING
 		-- string with adjusted whitespace
-		local
-			str: STRING_8
 		do
 			if encoded_as_utf (8) then
 				Result := Precursor (keep_ref)
 			else
 				Result := buffer.empty
-				str := buffer_8.adjusted (Current)
-				if encoding = Codec.encoding or else is_ascii then
-					Result.grow (str.count)
-					Result.area.copy_data (str.area, 0, 0, str.count)
-					Result.set_count (str.count)
-				else
-					Codec.append_encoded_to (str, Result)
-				end
+				Result.append_encoded (buffer_8.adjusted (Current), encoding)
 				if keep_ref then
 					Result := Result.twin
 				end

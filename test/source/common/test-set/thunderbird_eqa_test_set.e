@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 5:56:37 GMT (Monday 7th February 2022)"
-	revision: "6"
+	date: "2022-02-09 19:29:23 GMT (Wednesday 9th February 2022)"
+	revision: "7"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
@@ -55,23 +55,26 @@ feature {NONE} -- Implementation
 	assert_valid_h2_file (xdoc: EL_XPATH_ROOT_NODE_CONTEXT; body_path: FILE_PATH)
 		local
 			h2_path: FILE_PATH; h2_set: EL_HASH_SET [ZSTRING]
-			count: INTEGER
+			count: INTEGER; h2_list: EL_XPATH_NODE_CONTEXT_LIST
 		do
 			h2_path := body_path.with_new_extension ("h2")
-			assert (h2_path.base + " exists", h2_path.exists)
-			create h2_set.make (11)
-			if attached open_lines (h2_path, Utf_8) as h2_lines then
-				across h2_lines as line loop
-					h2_set.put (line.item)
+			h2_list := xdoc.context_list ("//h2")
+			if h2_list.count > 0 then
+				assert ("h2 heading file exists", h2_path.exists)
+				create h2_set.make (11)
+				if attached open_lines (h2_path, Utf_8) as h2_lines then
+					across h2_lines as line loop
+						h2_set.put (line.item)
+					end
 				end
-			end
-			across xdoc.context_list ("//h2") as h2 loop
-				if attached h2.node.string_value as title then
-					assert ("has title " + title, h2_set.has (title))
+				across h2_list as h2 loop
+					if attached h2.node.string_value as title then
+						assert ("has title " + title, h2_set.has (title))
+					end
+					count := count + 1
 				end
-				count := count + 1
+				assert ("same h2 set count", h2_set.count = count)
 			end
-			assert ("same h2 set count", h2_set.count = count)
 		end
 
 	check_book_chapter (chapter_root: EL_XPATH_ROOT_NODE_CONTEXT)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-06 16:40:43 GMT (Sunday 6th February 2022)"
-	revision: "14"
+	date: "2022-02-09 8:49:49 GMT (Wednesday 9th February 2022)"
+	revision: "15"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_APP
@@ -26,7 +26,7 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make (Empty_string, Empty_string, Empty_string_8, 0)
+			Result := agent {like command}.make (create {FILE_PATH}, create {FILE_PATH}, Empty_string_8, 0)
 		end
 
 	argument_list: EL_ARRAYED_LIST [EL_COMMAND_ARGUMENT]

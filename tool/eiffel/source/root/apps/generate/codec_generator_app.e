@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:40 GMT (Saturday 5th February 2022)"
-	revision: "20"
+	date: "2022-02-09 17:53:44 GMT (Wednesday 9th February 2022)"
+	revision: "21"
 
 class
 	CODEC_GENERATOR_APP
@@ -18,6 +18,8 @@ inherit
 			Option_name
 		end
 
+	EIFFEL_LOOP_TEST_ROUTINES
+
 create
 	make
 
@@ -26,14 +28,19 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				required_argument ("c_source", "C source code path", No_checks),
-				required_argument ("template", "Eiffel codec template", No_checks)
+				optional_argument ("c_source", "C source code path", << file_must_exist >>),
+				optional_argument ("template", "Eiffel codec template", << file_must_exist >>)
 			>>
 		end
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make ("", "")
+			Result := agent {like command}.make (default_decoder_c_path, "doc/zcodec_template.evol")
+		end
+
+	default_decoder_c_path: FILE_PATH
+		do
+			Result := Eiffel_loop_dir + "contrib/C/VTD-XML.2.7/source/decoder.c"
 		end
 
 feature {NONE} -- Constants

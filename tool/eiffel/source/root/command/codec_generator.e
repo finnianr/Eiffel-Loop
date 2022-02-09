@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:25:47 GMT (Tuesday 8th February 2022)"
-	revision: "16"
+	date: "2022-02-09 17:56:46 GMT (Wednesday 9th February 2022)"
+	revision: "17"
 
 class
 	CODEC_GENERATOR
@@ -54,7 +54,7 @@ feature {NONE} -- State handlers
 	find_chars_ready_assignment (line: ZSTRING)
 			-- Eg. iso_8859_11_chars_ready = TRUE;
 		local
-			eiffel_source_path: FILE_PATH; source_file: SOURCE_FILE
+			source_out_path: FILE_PATH; source_file: SOURCE_FILE
 		do
 			if line.has_substring (codec_list.last.codec_name + "_chars[0x") then
 				codec_list.last.add_assignment (line)
@@ -62,10 +62,8 @@ feature {NONE} -- State handlers
 				codec_list.last.set_case_change_offsets
 				codec_list.last.set_unicode_intervals
 
-				eiffel_source_path := template_path.twin
-				eiffel_source_path.set_base ("el_%S_zcodec.e")
-				eiffel_source_path.base.substitute_tuple ([codec_list.last.codec_name])
-				create source_file.make_open_write (eiffel_source_path)
+				source_out_path := Output_path_template #$ [codec_list.last.codec_name]
+				create source_file.make_open_write (source_out_path)
 				Evolicity_templates.merge_to_file (template_path, codec_list.last, source_file)
 				state := agent find_void_function
 			end
@@ -108,6 +106,11 @@ feature {NONE} -- Constants
 	Keyword_void: ZSTRING
 		once
 			Result := "void"
+		end
+
+	Output_path_template: ZSTRING
+		once
+			Result := "workarea/el_%S_zcodec.e"
 		end
 
 	Utf_8_encoding: EL_ENCODEABLE_AS_TEXT

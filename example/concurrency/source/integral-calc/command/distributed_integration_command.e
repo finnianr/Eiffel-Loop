@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 0:23:31 GMT (Wednesday 9th February 2022)"
-	revision: "1"
+	date: "2022-02-09 8:38:17 GMT (Wednesday 9th February 2022)"
+	revision: "2"
 
 deferred class
 	DISTRIBUTED_INTEGRATION_COMMAND [G]
@@ -33,11 +33,29 @@ feature {NONE} -- Initialization
 			end
 		end
 
+feature -- Access
+
+	description: STRING
+		local
+			type: TYPE [like distributer]
+		do
+			type := {like distributer}
+			Result :=  "Distributed integration using type " + type.out
+		end
+
 feature -- Status query
 
 	is_canceled: BOOLEAN
 
 feature {NONE} -- Implementation
+
+	collect_final
+		deferred
+		end
+
+	collect_integral (lower, upper: DOUBLE; a_delta_count: INTEGER)
+		deferred
+		end
 
 	integral_sum (lower, upper: DOUBLE): DOUBLE
 		do
@@ -75,14 +93,6 @@ feature {NONE} -- Implementation
 				Exception.last.no_message_on_failure
 				retry
 			end
-		end
-
-	collect_final
-		deferred
-		end
-
-	collect_integral (lower, upper: DOUBLE; a_delta_count: INTEGER)
-		deferred
 		end
 
 	result_sum: DOUBLE

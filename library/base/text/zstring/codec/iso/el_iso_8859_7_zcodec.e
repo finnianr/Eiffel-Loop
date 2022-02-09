@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-28 19:15:55 GMT (Saturday 28th September 2019)"
-	revision: "5"
+	date: "2022-02-09 18:08:48 GMT (Wednesday 9th February 2022)"
+	revision: "3"
 
 class
 	EL_ISO_8859_7_ZCODEC
@@ -183,6 +183,10 @@ feature -- Conversion
 					Result := latin_set_4 [unicode - 900]
 				when 'ʼ'..'ʽ' then
 					Result := latin_set_5 [unicode - 700]
+				when '€' then
+					Result := '%/164/'
+				when '₯' then
+					Result := '%/165/'
 				when '―' then
 					Result := '%/175/'
 				when 'Ό' then
@@ -234,6 +238,8 @@ feature {NONE} -- Implementation
 			Result [0xA1] := 'ʽ' --
 			Result [0xA2] := 'ʼ' --
 			Result [0xA3] := '£' --
+			Result [0xA4] := '€' -- EURO SIGN
+			Result [0xA5] := '₯' -- DRACHMA SIGN
 			Result [0xA6] := '¦' --
 			Result [0xA7] := '§' --
 			Result [0xA8] := '¨' --

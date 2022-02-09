@@ -547,6 +547,10 @@ void iso_8859_7_chars_init(){
 		iso_8859_7_chars[0xA1] = (char) (0x02BD);
 		iso_8859_7_chars[0xA2] = (char) (0x02BC);
 		iso_8859_7_chars[0xA3] = (char) (0x00A3);
+		/* Inserted FJR */
+		iso_8859_7_chars[0xA4] = (char) (0x20AC); // EURO SIGN
+		iso_8859_7_chars[0xA5] = (char) (0x20AF); // DRACHMA SIGN
+
 		iso_8859_7_chars[0xA6] = (char) (0x00A6);
 		iso_8859_7_chars[0xA7] = (char) (0x00A7);
 		iso_8859_7_chars[0xA8] = (char) (0x00A8);

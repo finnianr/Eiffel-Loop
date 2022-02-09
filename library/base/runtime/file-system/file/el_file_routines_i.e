@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 13:21:49 GMT (Tuesday 8th February 2022)"
-	revision: "2"
+	date: "2022-02-09 19:17:16 GMT (Wednesday 9th February 2022)"
+	revision: "3"
 
 deferred class
 	EL_FILE_ROUTINES_I
@@ -210,8 +210,8 @@ feature -- Status report
 			bom: STRING
 		do
 			bom := {UTF_CONVERTER}.Utf_8_bom_to_string_8
-			file.read_stream (bom.count)
-			if not file.end_of_file then
+			if file.count >= bom.count then
+				file.read_stream (bom.count)
 				Result := file.last_string ~ bom
 			end
 		end

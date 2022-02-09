@@ -33,6 +33,7 @@ script_path = path.normpath ('tool/python-support/eiffel_loop/scripts/%s.py')
 
 script_names = [
 	'launch_estudio',
+	'build_c_library',
 	'ec_autotest_build',
 	'ec_build_finalized',
 	'ec_clean_build',

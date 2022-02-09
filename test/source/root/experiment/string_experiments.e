@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-20 11:54:04 GMT (Monday 20th December 2021)"
-	revision: "15"
+	date: "2022-02-09 11:08:24 GMT (Wednesday 9th February 2022)"
+	revision: "16"
 
 class
 	STRING_EXPERIMENTS
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_HEXADECIMAL
 
-	EL_MODULE_ENCODINGS
+	EL_SHARED_ENCODINGS
 
 	EL_MODULE_EIFFEL
 

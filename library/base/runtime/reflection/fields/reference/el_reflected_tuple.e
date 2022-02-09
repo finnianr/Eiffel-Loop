@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 22:57:09 GMT (Tuesday 8th February 2022)"
-	revision: "17"
+	date: "2022-02-09 8:24:31 GMT (Wednesday 9th February 2022)"
+	revision: "18"
 
 class
 	EL_REFLECTED_TUPLE
@@ -28,6 +28,8 @@ inherit
 	EL_MODULE_REUSEABLE
 
 	EL_STRING_8_CONSTANTS
+
+	EL_DOUBLE_MATH undefine is_equal end
 
 create
 	make
@@ -144,14 +146,7 @@ feature {NONE} -- Implementation
 						Result := item_1.same_string (item_2)
 
 					elseif item_1.is_double and then item_2.is_double then
-						if item_1.count < item_2.count then
-							item_2.remove_tail (1)
-							item_2.prune_all_trailing ('0')
-						else
-							item_1.remove_tail (1)
-							item_1.prune_all_trailing ('0')
-						end
-						Result := item_1.same_string (item_2)
+						Result := approximately_equal (item_1.to_double, item_2.to_double, 0.00000000001)
 					else
 						Result := False
 					end

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 14:58:23 GMT (Monday 3rd January 2022)"
-	revision: "50"
+	date: "2022-02-09 18:24:41 GMT (Wednesday 9th February 2022)"
+	revision: "51"
 
 class
 	EL_ZSTRING
@@ -33,8 +33,10 @@ inherit
 			append_integer_8, append_integer_16, append_integer_32, append_integer_64,
 			append_natural_8, append_natural_16, append_natural_32, append_natural_64,
 
-			append_replaced, append_raw_string_8, append_string, append, append_string_general, append_substring,
-			append_unicode, append_tuple_item, append_utf_8, append_utf_16_le,
+			append_replaced, append_raw_string_8,
+			append_string, append, append_string_general, append_substring,
+			append_utf_8, append_utf_16_le, append_encoded, append_unicode,
+			append_tuple_item,
 			extend, enclose, fill_character, multiply,
 
 			prepend_boolean, prepend_character, prepend_integer, prepend_integer_32,
@@ -49,7 +51,9 @@ inherit
 			to_canonically_spaced, to_lower, to_proper_case, to_upper, translate_deleting_null_characters,
 			unescape,
 --			Removal
-			keep_head, keep_tail, left_adjust, remove_head, remove_tail, right_adjust
+			keep_head, keep_tail, left_adjust, remove_head, remove_tail, right_adjust,
+--			Contract support
+			valid_encoding
 		end
 
 	EL_WRITEABLE

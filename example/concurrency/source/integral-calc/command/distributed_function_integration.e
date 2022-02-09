@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 0:02:22 GMT (Wednesday 9th February 2022)"
-	revision: "1"
+	date: "2022-02-09 8:34:53 GMT (Wednesday 9th February 2022)"
+	revision: "2"
 
 class
 	DISTRIBUTED_FUNCTION_INTEGRATION
@@ -20,10 +20,6 @@ inherit
 
 create
 	make
-
-feature -- Constants
-
-	Description: STRING = "Distributed integration using class EL_FUNCTION_DISTRIBUTER"
 
 feature {NONE} -- Implementation
 

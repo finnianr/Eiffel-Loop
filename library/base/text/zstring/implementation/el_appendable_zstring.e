@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-31 16:57:52 GMT (Friday 31st December 2021)"
-	revision: "25"
+	date: "2022-02-09 19:39:21 GMT (Wednesday 9th February 2022)"
+	revision: "26"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -20,6 +20,16 @@ inherit
 
 	EL_SHARED_UTF_8_ZCODEC
 
+	EL_ENCODING_CONSTANTS
+		rename
+			Utf_8 as Utf_8_encoding,
+			Utf_16 as Utf_16_encoding,
+			Latin as Latin_class,
+			Utf as Utf_class
+		export
+			{EL_READABLE_ZSTRING, STRING_HANDLER} valid_encoding
+		end
+
 feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
 	append_ascii (str: READABLE_STRING_8)
@@ -27,6 +37,43 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 			is_ascii: is_ascii_string (str)
 		do
 			append_string_8 (str)
+		end
+
+	append_encoded (encoded: READABLE_STRING_8; encoding: NATURAL)
+		require
+			valid_encoding: valid_encoding (encoding)
+		local
+			offset: INTEGER; s: EL_STRING_8_ROUTINES; buffer: like empty_unencoded_buffer
+			l_codec: EL_ZCODEC
+		do
+			if s.is_ascii (encoded) then
+				append_ascii (encoded)
+			elseif codec.encoding = encoding then
+				append_string_8 (encoded)
+
+			elseif encoding & Encoding_type_mask = Utf_class then
+				inspect encoding & Encoding_id_mask
+					when 8 then
+						append_utf_8 (encoded)
+					when 16 then
+						append_utf_16_le (encoded)
+				else
+				end
+			else
+				l_codec := Codec_factory.codec_by (encoding)
+				buffer := empty_unencoded_buffer
+				offset := count; accommodate (encoded.count)
+				if attached s.cursor (encoded) as cursor then
+					codec.re_encode (l_codec, cursor.area, area, encoded.count, cursor.area_first_index, offset, buffer)
+					inspect respective_encoding (buffer)
+						when Both_have_mixed_encoding then
+							append_unencoded (buffer, 0)
+						when Only_other then
+							set_unencoded_from_buffer (buffer)
+					else
+					end
+				end
+			end
 		end
 
 	append_replaced (str, old_substring, new_substring: EL_READABLE_ZSTRING)
@@ -100,7 +147,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
 	append_string_general (general: READABLE_STRING_GENERAL)
 		local
-			old_count: INTEGER
+			offset: INTEGER
 		do
 			if attached {EL_ZSTRING} general as str_z then
 				append_string (str_z)
@@ -108,10 +155,9 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 			elseif attached {READABLE_STRING_8} general as str_8 and then string_8.is_ascii (str_8) then
 				append_ascii (str_8)
 			else
-				old_count := count
-				grow (old_count + general.count)
-				set_count (old_count + general.count)
-				encode (general, old_count)
+				offset := count
+				accommodate (general.count)
+				encode (general, offset)
 			end
 		ensure then
 			unencoded_valid: is_valid
@@ -455,6 +501,15 @@ feature {STRING_HANDLER} -- Contract support
 
 feature {NONE} -- Implementation
 
+	accommodate (extra_count: INTEGER)
+		local
+			new_count: INTEGER
+		do
+			new_count := count + extra_count
+			grow (count + extra_count)
+			set_count (new_count)
+		end
+
 	internal_append (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION)
 			-- Append characters of `s' at end.
 		local
@@ -531,16 +586,14 @@ feature {NONE} -- Implementation
 			valid_utf_type: utf_type = 8 or utf_type = 16
 			valid_utf_16_input: utf_type = 16 implies utf_encoded_string.count \\ 2 = 0
 		local
-			old_count: INTEGER; buffer: like empty_unencoded_buffer
+			offset: INTEGER; buffer: like empty_unencoded_buffer
 		do
 			if utf_type = 8 and then unicode_count = utf_encoded_string.count then
 				append_ascii (utf_encoded_string)
 			else
-				old_count := count
-				grow (old_count + unicode_count)
+				offset := count; accommodate (unicode_count)
 				buffer := empty_unencoded_buffer
-				codec.encode_utf (utf_encoded_string, area, utf_type, unicode_count, old_count, buffer)
-				set_count (old_count + unicode_count)
+				codec.encode_utf (utf_encoded_string, area, utf_type, unicode_count, offset, buffer)
 				if buffer.not_empty then
 					append_unencoded (buffer, 0)
 				end

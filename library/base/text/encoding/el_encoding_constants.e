@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-28 12:38:05 GMT (Tuesday 28th December 2021)"
-	revision: "4"
+	date: "2022-02-09 11:51:16 GMT (Wednesday 9th February 2022)"
+	revision: "5"
 
 deferred class
 	EL_ENCODING_CONSTANTS
@@ -32,6 +32,8 @@ feature {NONE} -- Contract Support
 
 	frozen valid_latin (id: NATURAL): BOOLEAN
 		do
+			-- ISO 8859-12 was originally proposed to support the Celtic languages.[1] ISO 8859-12 was later
+			-- slated for Latin/Devanagari, but this was abandoned in 1997
 			inspect id
 				when 1 .. 11, 13 .. 15 then
 					Result := True

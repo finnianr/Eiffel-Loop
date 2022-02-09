@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 0:02:32 GMT (Wednesday 9th February 2022)"
-	revision: "1"
+	date: "2022-02-09 8:34:50 GMT (Wednesday 9th February 2022)"
+	revision: "2"
 
 class
 	DISTRIBUTED_PROCEDURE_INTEGRATION
@@ -20,10 +20,6 @@ inherit
 
 create
 	make
-
-feature -- Constants
-
-	Description: STRING = "Distributed integration using class EL_PROCEDURE_DISTRIBUTER"
 
 feature {NONE} -- Implementation
 

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 17:12:46 GMT (Sunday 23rd January 2022)"
-	revision: "12"
+	date: "2022-02-09 21:00:08 GMT (Wednesday 9th February 2022)"
+	revision: "13"
 
 class
 	EL_THUNDERBIRD_XHTML_BODY_EXPORTER
@@ -94,12 +94,16 @@ feature {NONE} -- Implementation
 		do
 			Precursor
 			if is_html_updated then
-				lio.put_path_field ("Write H2", h2_list_file_path)
-				lio.put_new_line
-				create h2_file.make_open_write (h2_list_file_path)
-				h2_file.byte_order_mark.enable
-				h2_file.put_lines (h2_list)
-				h2_file.close
+				if h2_list.count > 0 then
+					lio.put_path_field ("Write H2", h2_list_file_path)
+					lio.put_new_line
+					create h2_file.make_open_write (h2_list_file_path)
+					h2_file.byte_order_mark.enable
+					h2_file.put_lines (h2_list)
+					h2_file.close
+				elseif h2_list_file_path.exists then
+					File_system.remove_file (h2_list_file_path)
+				end
 			end
 		end
 
@@ -107,14 +111,18 @@ feature {NONE} -- Editing routines
 
 	check_h2_tag (start_index, end_index: INTEGER; target: ZSTRING)
 		local
-			s: EL_ZSTRING_ROUTINES
+			s: EL_ZSTRING_ROUTINES; h2_content: ZSTRING
 		do
-			h2_list.extend (target.substring (start_index, target.count - 5))
-			if h2_list.last.has ('<') then
+			h2_content := target.substring (start_index, target.count - 5)
+			h2_content.replace_character ('%N', ' ')
+			if h2_content.has ('<') then
 --				Remove formatting markup from headers like: <h2>Introduction to <i>My Ching</i></h2>
-				h2_list.last.edit (s.character_string ('<'), s.character_string ('>'), agent remove_markup)
+				h2_content.edit (s.character_string ('<'), s.character_string ('>'), agent remove_markup)
 			end
-			target.share (Anchor_template #$ [Html.anchor_name (h2_list.last), target])
+			target.replace_substring (h2_content, start_index, target.count - 5)
+			target.share (Anchor_template #$ [Html.anchor_name (h2_content), target])
+
+			h2_list.extend (h2_content)
 		end
 
 	remove_markup (start_index, end_index: INTEGER; target: ZSTRING)
@@ -144,4 +152,9 @@ feature {NONE} -- Constants
 			Result := "body, h2, evc"
 		end
 
+	Anchor: TUPLE [left, right: ZSTRING]
+		once
+			create Result
+			Tuple.fill (Result, "<a, </a>")
+		end
 end

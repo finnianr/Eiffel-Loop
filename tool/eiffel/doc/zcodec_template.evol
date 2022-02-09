@@ -13,7 +13,7 @@ class
 	EL_${codec_name}_ZCODEC
 
 inherit
-	EL_${codec_base_name}_ZCODEC
+	EL_ZCODEC
 
 create
 	make
@@ -36,10 +36,6 @@ feature {NONE} -- Initialization
 		#end
 	#end
 		end
-
-feature -- Access
-
-	id: INTEGER = $codec_id
 
 feature -- Conversion
 

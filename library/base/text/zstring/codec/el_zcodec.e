@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-31 14:50:12 GMT (Friday 31st December 2021)"
-	revision: "28"
+	date: "2022-02-09 11:36:52 GMT (Wednesday 9th February 2022)"
+	revision: "29"
 
 deferred class
 	EL_ZCODEC
@@ -81,10 +81,10 @@ feature -- Character query
 
 feature -- Contract Support
 
-	valid_offset_and_count (source_count: INTEGER; latin_out: SPECIAL [CHARACTER]; out_offset: INTEGER;): BOOLEAN
+	valid_offset_and_count (source_count: INTEGER; encoded_out: SPECIAL [CHARACTER]; out_offset: INTEGER;): BOOLEAN
 		do
-			if latin_out.count >= source_count then
-				Result := source_count > 0 implies latin_out.valid_index (source_count + out_offset - 1)
+			if encoded_out.count >= source_count then
+				Result := source_count > 0 implies encoded_out.valid_index (source_count + out_offset - 1)
 			end
 		end
 
@@ -147,13 +147,13 @@ feature -- Basic operations
 		end
 
 	encode (
-		unicode_in: READABLE_STRING_GENERAL; latin_out: SPECIAL [CHARACTER]; out_offset: INTEGER;
+		unicode_in: READABLE_STRING_GENERAL; encoded_out: SPECIAL [CHARACTER]; out_offset: INTEGER;
 		unencoded_characters: EL_UNENCODED_CHARACTERS_BUFFER
 	)
 		-- encode unicode characters as latin
 		-- Set unencodeable characters as the Substitute character (26) and record location in unencoded_intervals
 		require
-			valid_offset_and_count: valid_offset_and_count (unicode_in.count, latin_out, out_offset)
+			valid_offset_and_count: valid_offset_and_count (unicode_in.count, encoded_out, out_offset)
 		local
 			i, count, unicode: INTEGER; uc: CHARACTER_32; c: CHARACTER; l_unicodes: like unicode_table
 		do
@@ -161,14 +161,14 @@ feature -- Basic operations
 			from i := 1 until i > count loop
 				uc := unicode_in [i]; unicode := uc.code
 				if unicode <= 255 and then l_unicodes [unicode] = uc then
-					latin_out [i + out_offset - 1] := uc.to_character_8
+					encoded_out [i + out_offset - 1] := uc.to_character_8
 				else
 					c := latin_character (uc, unicode)
 					if c.code = 0 then
-						latin_out [i + out_offset - 1] := Unencoded_character
+						encoded_out [i + out_offset - 1] := Unencoded_character
 						unencoded_characters.extend (unicode.to_natural_32, i + out_offset)
 					else
-						latin_out [i + out_offset - 1] := c
+						encoded_out [i + out_offset - 1] := c
 					end
 				end
 				i := i + 1
@@ -176,7 +176,7 @@ feature -- Basic operations
 		end
 
 	encode_utf (
-		utf_in: READABLE_STRING_8; latin_out: SPECIAL [CHARACTER]; utf_type, unicode_count, out_offset: INTEGER
+		utf_in: READABLE_STRING_8; encoded_out: SPECIAL [CHARACTER]; utf_type, unicode_count, out_offset: INTEGER
 		unencoded_characters: EL_UNENCODED_CHARACTERS_BUFFER
 	)
 		-- encode unicode characters as latin
@@ -184,7 +184,7 @@ feature -- Basic operations
 		require
 			valid_utf_type: utf_type = 8 or utf_type = 16
 			valid_utf_16_input: utf_type = 16 implies utf_in.count \\ 2 = 0
-			valid_offset_and_count: valid_offset_and_count (unicode_count, latin_out, out_offset)
+			valid_offset_and_count: valid_offset_and_count (unicode_count, encoded_out, out_offset)
 		local
 			i, j, byte_count, end_index: INTEGER; leading_byte, unicode, code_1: NATURAL
 			uc: CHARACTER_32; c: CHARACTER; area: SPECIAL [CHARACTER]
@@ -206,14 +206,14 @@ feature -- Basic operations
 					end
 					uc := unicode.to_character_32
 					if unicode <= 255 and then l_unicodes [uc.code] = uc then
-						latin_out [j] := uc.to_character_8
+						encoded_out [j] := uc.to_character_8
 					else
 						c := latin_character (uc, uc.code)
 						if c.code = 0 then
-							latin_out [j] := Unencoded_character
+							encoded_out [j] := Unencoded_character
 							unencoded_characters.extend (unicode, j + 1)
 						else
-							latin_out [j] := c
+							encoded_out [j] := c
 						end
 					end
 					i := i + byte_count
@@ -240,6 +240,39 @@ feature -- Basic operations
 			change_case (characters, start_index, end_index, True, unencoded_characters)
 		end
 
+	re_encode (
+		other: EL_ZCODEC; encoded_in, encoded_out: SPECIAL [CHARACTER]; count, in_offset, out_offset: INTEGER
+		unencoded_characters: EL_UNENCODED_CHARACTERS_BUFFER
+	)
+		-- re-encode `count' characters of `encoded_in' encoded with `other' to `Current' encoding
+		-- content of  `encoded_in' starts at `in_offset'
+		local
+			i, unicode, code: INTEGER; uc: CHARACTER_32; c: CHARACTER
+			l_unicodes, l_other_unicodes: like unicode_table
+		do
+			l_unicodes := unicode_table; l_other_unicodes := other.unicode_table
+			from i := 0 until i = count loop
+				c := encoded_in [i + in_offset]; code := c.code
+				if c = Unencoded_character then
+					encoded_out [i + out_offset] := c
+				else
+					uc := l_other_unicodes [code]; unicode := uc.code
+					if unicode <= 255 and then l_unicodes [unicode] = uc then
+						encoded_out [i + out_offset] := uc.to_character_8
+					else
+						c := latin_character (uc, unicode)
+						if c.code = 0 then
+							encoded_out [i + out_offset] := Unencoded_character
+							unencoded_characters.extend (unicode.to_natural_32, i + out_offset + 1)
+						else
+							encoded_out [i + out_offset] := c
+						end
+					end
+				end
+				i := i + 1
+			end
+		end
+
 	write_encoded (unicode_in: READABLE_STRING_GENERAL; writeable: EL_WRITEABLE)
 		local
 			l_area: SPECIAL [CHARACTER]; i, count: INTEGER
@@ -257,7 +290,7 @@ feature -- Basic operations
 			writeable.write_raw_character_8 (encoded_character (uc.natural_32_code))
 		end
 
-feature -- Conversion
+feature -- Text conversion
 
 	as_unicode (encoded: READABLE_STRING_8; keeping_ref: BOOLEAN): READABLE_STRING_GENERAL
 		-- returns `encoded' string as unicode assuming the encoding matches `Current' codec

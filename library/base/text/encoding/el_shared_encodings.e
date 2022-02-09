@@ -1,5 +1,5 @@
 note
-	description: "System encodings accessible via [$source EL_SHARED_ENCODINGS]"
+	description: "Shared instance of class [$source EL_SYSTEM_ENCODINGS]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -7,18 +7,19 @@ note
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2022-02-09 11:08:25 GMT (Wednesday 9th February 2022)"
-	revision: "2"
+	revision: "3"
 
-class
-	EL_SYSTEM_ENCODINGS
+deferred class
+	EL_SHARED_ENCODINGS
 
 inherit
-	SYSTEM_ENCODINGS
-		rename
-			Console_encoding as Console,
-			System_encoding as System,
-			Utf8 as Utf_8,
-			Utf16 as Utf_16,
-			Utf32 as Unicode
+	EL_MODULE
+
+feature {NONE} -- Constants
+
+	Encodings: EL_SYSTEM_ENCODINGS
+		once ("PROCESS")
+			create Result
 		end
+
 end

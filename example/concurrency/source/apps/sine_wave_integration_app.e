@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 0:09:33 GMT (Wednesday 9th February 2022)"
-	revision: "1"
+	date: "2022-02-09 8:56:19 GMT (Wednesday 9th February 2022)"
+	revision: "2"
 
 class
 	SINE_WAVE_INTEGRATION_APP
@@ -48,7 +48,7 @@ feature {NONE} -- Implementation
 
 	new_command: INTEGRATION_COMMAND
 		do
-			if attached Command_factory.new_item_from_alias (Option.command_type) as new then
+			if attached Command_factory.new_item_from_alias (Option.method) as new then
 				Result := new
 			end
 		end
@@ -89,4 +89,9 @@ feature {NONE} -- Constants
 			create Result.make
 		end
 
+note
+	to_do: "[
+		https://superuser.com/questions/226552/how-to-tell-how-many-cpus-cores-you-have-on-windows-7
+		WMIC CPU Get /Format:List
+	]"
 end

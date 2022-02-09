@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:27:22 GMT (Sunday 19th December 2021)"
-	revision: "59"
+	date: "2022-02-09 18:40:48 GMT (Wednesday 9th February 2022)"
+	revision: "60"
 
 class
 	ZSTRING_TEST_SET
@@ -28,6 +28,8 @@ inherit
 
 	EL_SHARED_UTF_8_ZCODEC
 
+	EL_SHARED_ENCODINGS
+
 feature -- Basic operations
 
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
@@ -37,6 +39,7 @@ feature -- Basic operations
 			eval.call ("split", agent test_split)
 			eval.call ("substring_split", agent test_substring_split)
 			eval.call ("append", agent test_append)
+			eval.call ("append_encoded", agent test_append_encoded)
 			eval.call ("append_string_general", agent test_append_string_general)
 			eval.call ("append_substring", agent test_append_substring)
 			eval.call ("append_to_string_32", agent test_append_to_string_32)
@@ -191,6 +194,43 @@ feature -- Element change tests
 	test_append
 		do
 			test_concatenation ("append")
+		end
+
+	test_append_encoded
+		local
+			str_32: STRING_32; zstr: ZSTRING; encoded: STRING; encoding_id, encoding: NATURAL
+			encodeable: EL_ENCODEABLE_AS_TEXT; uncovertable_count: INTEGER
+			unicode: ENCODING
+		do
+			create encodeable.make_default
+			create zstr.make_empty
+			unicode := Encodings.Unicode
+		 	across text_lines as line loop
+		 		str_32 := line.item
+				across << 1 |..| 15, 1250 |..| 1258 >> as range loop
+					across range.item as n loop
+						encoding_id := n.item.to_natural_32
+						zstr.wipe_out
+						if encoding_id <= 15 and then encodeable.valid_latin (encoding_id) then
+							encodeable.set_latin_encoding (encoding_id)
+						elseif encodeable.valid_windows (encoding_id) then
+							encodeable.set_windows_encoding (encoding_id)
+						end
+						encoding := encodeable.encoding
+						if encodeable.valid_encoding (encoding) then
+							unicode.convert_to (encodeable.as_encoding, str_32)
+							if unicode.last_conversion_lost_data then
+								uncovertable_count := uncovertable_count + 1
+							else
+								encoded := unicode.last_converted_string_8
+								zstr.append_encoded (unicode.last_converted_string_8, encoding)
+								assert ("same string", zstr.same_string (str_32))
+							end
+						end
+					end
+				end
+		 	end
+		 	assert ("76 not convertable", uncovertable_count = 76)
 		end
 
 	test_append_string_general

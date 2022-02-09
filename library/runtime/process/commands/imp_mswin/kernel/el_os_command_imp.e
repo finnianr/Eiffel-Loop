@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "13"
+	date: "2022-02-09 11:08:26 GMT (Wednesday 9th February 2022)"
+	revision: "14"
 
 deferred class
 	EL_OS_COMMAND_IMP
@@ -20,7 +20,7 @@ inherit
 
 	EL_OS_IMPLEMENTATION
 
-	EL_MODULE_ENCODINGS
+	EL_SHARED_ENCODINGS
 
 	EL_FILE_OPEN_ROUTINES
 
