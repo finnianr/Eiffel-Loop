@@ -6,14 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "5"
+	date: "2022-02-10 8:14:53 GMT (Thursday 10th February 2022)"
+	revision: "6"
 
 deferred class
 	EL_FILE_OPEN_ROUTINES
 
 inherit
 	EL_ENCODING_CONSTANTS
+		rename
+			Other as Other_class,
+			Latin as Latin_class,
+			Utf as Utf_class,
+			Windows as Windows_class
+		end
 
 feature {NONE} -- Basic operations
 

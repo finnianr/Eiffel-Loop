@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:12:08 GMT (Sunday 19th December 2021)"
-	revision: "9"
+	date: "2022-02-10 17:33:40 GMT (Thursday 10th February 2022)"
+	revision: "10"
 
 class
 	EL_CAPTURED_OS_COMMAND
@@ -53,7 +53,7 @@ feature {NONE} -- Implementation
 			Precursor {EL_CAPTURED_OS_COMMAND_I} (a_system_command)
 		end
 
-	do_with_lines (a_lines: like adjusted_lines)
+	do_with_lines (a_lines: like new_output_lines)
 		do
 			from a_lines.start until a_lines.after loop
 				lines.extend (a_lines.item)

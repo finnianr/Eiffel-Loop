@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 15:40:28 GMT (Thursday 9th September 2021)"
-	revision: "6"
+	date: "2022-02-10 17:33:38 GMT (Thursday 10th February 2022)"
+	revision: "7"
 
 deferred class
 	EL_CPU_INFO_COMMAND_I
@@ -35,7 +35,7 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	do_with_lines (lines: like adjusted_lines)
+	do_with_lines (lines: like new_output_lines)
 			--
 		do
 			lines.compare_objects

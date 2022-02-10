@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "13"
+	date: "2022-02-10 17:56:16 GMT (Thursday 10th February 2022)"
+	revision: "14"
 
 deferred class
 	EL_CAPTURED_OS_COMMAND_I
@@ -30,12 +30,6 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Implementation
 
-	adjusted_lines (output_lines: like new_output_lines): like new_output_lines
-			-- command output lines adjusted for OS platform
-		do
-			Result := output_lines
-		end
-
 	do_command (a_system_command: ZSTRING)
 			--
 		local
@@ -47,12 +41,10 @@ feature {NONE} -- Implementation
 			File_system_mutex.unlock
 			Precursor (a_system_command)
 			if not has_error then
-				if attached new_output_lines (l_output_path) as lines then
-					do_with_lines (adjusted_lines (lines))
-					if attached {EL_PLAIN_TEXT_LINE_SOURCE} lines as source then
-						-- Failure to close file will result on an error on deletion with Windows
-						source.close
-					end
+				if l_output_path.exists and then attached new_output_lines (l_output_path) as lines then
+					do_with_lines (lines)
+					-- Failure to close file will result on an error on deletion with Windows
+					lines.close
 				end
 			end
 			File_system_mutex.lock
@@ -62,7 +54,7 @@ feature {NONE} -- Implementation
 			File_system_mutex.unlock
 		end
 
-	do_with_lines (lines: like adjusted_lines)
+	do_with_lines (lines: like new_output_lines)
 			--
 		deferred
 		end

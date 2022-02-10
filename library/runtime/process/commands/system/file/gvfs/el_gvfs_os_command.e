@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-10 9:09:17 GMT (Friday 10th September 2021)"
-	revision: "10"
+	date: "2022-02-10 17:34:18 GMT (Thursday 10th February 2022)"
+	revision: "11"
 
 class
 	EL_GVFS_OS_COMMAND
@@ -71,7 +71,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	do_with_lines (a_lines: like adjusted_lines)
+	do_with_lines (a_lines: like new_output_lines)
 		do
 			parse_lines (initial_state, a_lines)
 		end

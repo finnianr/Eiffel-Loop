@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-02-10 17:56:42 GMT (Thursday 10th February 2022)"
+	revision: "10"
 
 class
 	EL_FIND_DIRECTORIES_COMMAND_IMP
@@ -17,7 +17,7 @@ inherit
 		export
 			{NONE} all
 		undefine
-			adjusted_lines, new_command_parts, get_escaped_path
+			new_command_parts, get_escaped_path
 		end
 
 	EL_FIND_COMMAND_IMP
@@ -26,7 +26,7 @@ inherit
 		undefine
 			make_default, do_command, do_with_lines
 		redefine
-			prepend_directory
+			new_output_lines
 		end
 
 	EL_MODULE_DIRECTORY
@@ -36,22 +36,9 @@ create
 
 feature {NONE} -- Implementation
 
-	prepend_directory (output_lines: EL_ZSTRING_LIST)
-		local
-			l_path: DIR_PATH
+	new_output_lines (file_path: FILE_PATH): EL_WINDOWS_DIR_PATH_LINE_SOURCE
 		do
-			if min_depth = 0 then
-				if max_depth > 1 then
-					if dir_path.is_absolute then
-						l_path := dir_path
-					else
-						l_path := Directory.current_working.joined_dir_path (dir_path)
-					end
-				else
-					create l_path
-				end
-				output_lines.put_front (l_path)
-			end
+			create Result.make (Current, file_path)
 		end
 
 feature {NONE} -- Constants

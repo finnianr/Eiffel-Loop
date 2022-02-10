@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "8"
+	date: "2022-02-10 18:00:21 GMT (Thursday 10th February 2022)"
+	revision: "9"
 
 deferred class
 	EL_EXTRACT_MP3_INFO_COMMAND_I
@@ -44,7 +44,7 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	do_with_lines (lines: like adjusted_lines)
+	do_with_lines (lines: like new_output_lines)
 			--
 		local
 			last_character_is_T_or_U_count, pos_field_delimiter: INTEGER

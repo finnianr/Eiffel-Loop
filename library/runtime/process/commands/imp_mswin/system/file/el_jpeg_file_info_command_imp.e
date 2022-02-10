@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 11:29:47 GMT (Wednesday 1st September 2021)"
-	revision: "5"
+	date: "2022-02-10 18:02:06 GMT (Thursday 10th February 2022)"
+	revision: "6"
 
 class
 	EL_JPEG_FILE_INFO_COMMAND_IMP
@@ -39,6 +39,6 @@ feature {NONE} -- Status query
 
 feature {NONE} -- Implementation
 
-	Template: STRING = "exiv2 -g Exif.Photo.DateTimeOriginal $path"
+	Template: STRING = "exiv2 -g Exif.Photo.DateTimeOriginal $file_path"
 
 end

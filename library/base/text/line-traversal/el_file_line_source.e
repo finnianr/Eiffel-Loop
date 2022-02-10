@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-05 14:08:44 GMT (Friday 5th March 2021)"
-	revision: "13"
+	date: "2022-02-10 18:33:19 GMT (Thursday 10th February 2022)"
+	revision: "14"
 
 deferred class
 	EL_FILE_LINE_SOURCE
@@ -159,7 +159,7 @@ feature -- Cursor movement
 		end
 
 	start
-			-- Move to first position if any.
+		-- Move to first position if any.
 		do
 			if file = default_file then
 				index := 1

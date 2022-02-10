@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-11 9:07:31 GMT (Saturday 11th September 2021)"
-	revision: "14"
+	date: "2022-02-10 18:13:41 GMT (Thursday 10th February 2022)"
+	revision: "15"
 
 class
 	EL_NETWORK_DEVICE_LIST_IMP
@@ -61,7 +61,7 @@ feature {NONE} -- Status query
 
 feature {NONE} -- Implementation
 
-	do_with_lines (lines: like adjusted_lines)
+	do_with_lines (lines: like new_output_lines)
 			--
 		local
 			name: STRING; field: EL_COLON_FIELD_ROUTINES

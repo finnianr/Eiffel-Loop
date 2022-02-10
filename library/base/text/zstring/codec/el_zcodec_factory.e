@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-31 16:32:31 GMT (Friday 31st December 2021)"
-	revision: "15"
+	date: "2022-02-10 8:18:04 GMT (Thursday 10th February 2022)"
+	revision: "16"
 
 frozen class
 	EL_ZCODEC_FACTORY
@@ -64,7 +64,7 @@ feature -- Access
 			if valid_name (codec_name) then
 				Result := codec_by (name_to_encoding (codec_name))
 			else
-				Result := codec_by (Latin | 15)
+				Result := codec_by (Latin_class | 15)
 			end
 		end
 
@@ -101,31 +101,31 @@ feature {NONE} -- Constants
 	Codec_type_table: EL_HASH_TABLE [TYPE [EL_ZCODEC], NATURAL]
 		once
 			create Result.make (<<
-				[Latin | 1, {EL_ISO_8859_1_ZCODEC}],
-				[Latin | 2, {EL_ISO_8859_2_ZCODEC}],
-				[Latin | 3, {EL_ISO_8859_3_ZCODEC}],
-				[Latin | 4, {EL_ISO_8859_4_ZCODEC}],
-				[Latin | 5, {EL_ISO_8859_5_ZCODEC}],
-				[Latin | 6, {EL_ISO_8859_6_ZCODEC}],
-				[Latin | 7, {EL_ISO_8859_7_ZCODEC}],
-				[Latin | 8, {EL_ISO_8859_8_ZCODEC}],
-				[Latin | 9, {EL_ISO_8859_9_ZCODEC}],
-				[Latin | 10, {EL_ISO_8859_10_ZCODEC}],
-				[Latin | 11, {EL_ISO_8859_11_ZCODEC}],
+				[Latin_class | 1, {EL_ISO_8859_1_ZCODEC}],
+				[Latin_class | 2, {EL_ISO_8859_2_ZCODEC}],
+				[Latin_class | 3, {EL_ISO_8859_3_ZCODEC}],
+				[Latin_class | 4, {EL_ISO_8859_4_ZCODEC}],
+				[Latin_class | 5, {EL_ISO_8859_5_ZCODEC}],
+				[Latin_class | 6, {EL_ISO_8859_6_ZCODEC}],
+				[Latin_class | 7, {EL_ISO_8859_7_ZCODEC}],
+				[Latin_class | 8, {EL_ISO_8859_8_ZCODEC}],
+				[Latin_class | 9, {EL_ISO_8859_9_ZCODEC}],
+				[Latin_class | 10, {EL_ISO_8859_10_ZCODEC}],
+				[Latin_class | 11, {EL_ISO_8859_11_ZCODEC}],
 --				ISO-8859-12 for Celtic languages was abandoned in 1997
-				[Latin | 13, {EL_ISO_8859_13_ZCODEC}],
-				[Latin | 14, {EL_ISO_8859_14_ZCODEC}],
-				[Latin | 15, {EL_ISO_8859_15_ZCODEC}],
+				[Latin_class | 13, {EL_ISO_8859_13_ZCODEC}],
+				[Latin_class | 14, {EL_ISO_8859_14_ZCODEC}],
+				[Latin_class | 15, {EL_ISO_8859_15_ZCODEC}],
 
-				[Windows | 1250, {EL_WINDOWS_1250_ZCODEC}],
-				[Windows | 1251, {EL_WINDOWS_1251_ZCODEC}],
-				[Windows | 1252, {EL_WINDOWS_1252_ZCODEC}],
-				[Windows | 1253, {EL_WINDOWS_1253_ZCODEC}],
-				[Windows | 1254, {EL_WINDOWS_1254_ZCODEC}],
-				[Windows | 1255, {EL_WINDOWS_1255_ZCODEC}],
-				[Windows | 1256, {EL_WINDOWS_1256_ZCODEC}],
-				[Windows | 1257, {EL_WINDOWS_1257_ZCODEC}],
-				[Windows | 1258, {EL_WINDOWS_1258_ZCODEC}]
+				[Windows_class | 1250, {EL_WINDOWS_1250_ZCODEC}],
+				[Windows_class | 1251, {EL_WINDOWS_1251_ZCODEC}],
+				[Windows_class | 1252, {EL_WINDOWS_1252_ZCODEC}],
+				[Windows_class | 1253, {EL_WINDOWS_1253_ZCODEC}],
+				[Windows_class | 1254, {EL_WINDOWS_1254_ZCODEC}],
+				[Windows_class | 1255, {EL_WINDOWS_1255_ZCODEC}],
+				[Windows_class | 1256, {EL_WINDOWS_1256_ZCODEC}],
+				[Windows_class | 1257, {EL_WINDOWS_1257_ZCODEC}],
+				[Windows_class | 1258, {EL_WINDOWS_1258_ZCODEC}]
 			>>)
 		end
 

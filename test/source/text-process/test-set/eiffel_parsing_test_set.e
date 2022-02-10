@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-04 10:28:08 GMT (Friday 4th February 2022)"
-	revision: "8"
+	date: "2022-02-10 8:08:11 GMT (Thursday 10th February 2022)"
+	revision: "9"
 
 class
 	EIFFEL_PARSING_TEST_SET
@@ -16,8 +16,6 @@ inherit
 	EL_COPIED_FILE_DATA_TEST_SET
 
 	EIFFEL_LOOP_TEST_ROUTINES
-
-	EL_ENCODING_CONSTANTS
 
 feature -- Basic operations
 

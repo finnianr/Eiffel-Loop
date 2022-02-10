@@ -6,14 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 9:58:00 GMT (Thursday 7th May 2020)"
-	revision: "9"
+	date: "2022-02-10 18:40:19 GMT (Thursday 10th February 2022)"
+	revision: "10"
 
 deferred class
 	EL_SHARED_DOCUMENT_TYPES
 
 inherit
 	EL_ENCODING_CONSTANTS
+		rename
+			Other as Other_class,
+			Latin as Latin_class,
+			Utf as Utf_class,
+			Windows as Windows_class
+		end
 
 feature {NONE} -- Constants
 

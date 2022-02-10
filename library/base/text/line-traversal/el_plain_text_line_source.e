@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 19:03:47 GMT (Wednesday 9th February 2022)"
-	revision: "22"
+	date: "2022-02-10 18:33:41 GMT (Thursday 10th February 2022)"
+	revision: "23"
 
 class
 	EL_PLAIN_TEXT_LINE_SOURCE
@@ -37,34 +37,47 @@ inherit
 		end
 
 create
-	make_default, make, make_from_file, make_utf_8
+	make_default, make, make_from_file, make_utf_8, make_encoded
 
 feature {NONE} -- Initialization
 
-	make_utf_8 (a_path: READABLE_STRING_GENERAL)
+	make_encoded (a_encoding: ENCODING; a_path: READABLE_STRING_GENERAL)
+		-- UTF-8 by default
 		do
-			make (Utf_8, a_path)
-		end
-
-	make_from_file (a_file: like file)
-		do
-			Precursor (a_file)
-			if a_file.exists then
-				check_for_bom
+			make_from_file (new_file (Other_class, a_path))
+			if not encoding_detected then
+				set_other_encoding (a_encoding)
 			end
+			is_file_external := False -- Causes file to close automatically when after position is reached
 		end
 
 	make (a_encoding: NATURAL; a_path: READABLE_STRING_GENERAL)
 		-- UTF-8 by default
 		do
 			make_from_file (new_file (a_encoding, a_path))
-			if not has_utf_8_bom then
+			if not encoding_detected then
 				set_encoding (a_encoding)
 			end
 			is_file_external := False -- Causes file to close automatically when after position is reached
 		end
 
+	make_from_file (a_file: like file)
+		do
+			Precursor (a_file)
+			if a_file.exists then
+				check_encoding
+			end
+		end
+
+	make_utf_8 (a_path: READABLE_STRING_GENERAL)
+		do
+			make (Utf_8, a_path)
+		end
+
 feature -- Access
+
+	bom_count: INTEGER
+		-- byte order mark count
 
 	byte_count: INTEGER
 		do
@@ -81,11 +94,6 @@ feature -- Access
 			Result := file.path
 		end
 
-feature -- Status query
-
-	has_utf_8_bom: BOOLEAN
-		-- True if file has UTF-8 byte order mark		
-
 feature -- Status setting
 
 	delete_file
@@ -100,8 +108,8 @@ feature -- Status setting
 	open_at_start
 		do
 			Precursor
-			if has_utf_8_bom then
-				file.go (3)
+			if bom_count.to_boolean then
+				file.go (bom_count)
 			end
 		end
 
@@ -127,15 +135,28 @@ feature -- Output
 
 feature {NONE} -- Implementation
 
-	check_for_bom
+	check_encoding
 		local
-			is_open_read: BOOLEAN
+			is_open_read: BOOLEAN; c: UTF_CONVERTER
+			line_one: STRING
 		do
 			is_open_read := file.is_open_read
 			open_at_start
-			has_utf_8_bom := Mod_file.has_utf_8_bom_marker (file)
-			if has_utf_8_bom then
-				set_utf_encoding (8)
+			if file.count > 0 then
+				file.read_line
+				line_one := file.last_string
+				if line_one.starts_with (c.Utf_8_bom_to_string_8) then
+					bom_count := c.Utf_8_bom_to_string_8.count
+					encoding_detected := True
+					set_utf_encoding (8)
+				elseif line_one.starts_with (c.utf_16le_bom_to_string_8) then
+					bom_count := c.utf_16le_bom_to_string_8.count
+					encoding_detected := True
+					set_utf_encoding (16)
+				elseif line_one.has_substring (Little_endian_carriage_return) then
+					encoding_detected := True
+					set_utf_encoding (16)
+				end
 			end
 			if not is_open_read then
 				file.close
@@ -152,17 +173,30 @@ feature {NONE} -- Implementation
 			raw_line: STRING
 		do
 			raw_line := file.last_string
-			raw_line.prune_all_trailing ('%R')
-			if raw_line.has (Unencoded_character) then
-				raw_line.prune_all (Unencoded_character) -- Reserved by `EL_ZSTRING' as Unicode placeholder
+			if encoded_as_utf (16) then
+				file.read_character -- skip '%U' after '%N'
+				raw_line.prune_all_trailing ('%U')
+				raw_line.prune_all_trailing ('%R')
+
+			else
+				raw_line.prune_all_trailing ('%R')
+				if raw_line.has (Unencoded_character) then
+					raw_line.prune_all (Unencoded_character) -- Reserved by `EL_ZSTRING' as Unicode placeholder
+				end
 			end
 			if is_shared_item then
 				item.wipe_out
+			elseif encoded_as_utf (16) then
+				create item.make (raw_line.count // 2)
 			else
 				create item.make (raw_line.count)
 			end
 			item.append_encoded (raw_line, encoding_code)
 		end
+
+feature {NONE} -- Internal attributes
+
+	encoding_detected: BOOLEAN
 
 feature {NONE} -- Constants
 
@@ -170,5 +204,7 @@ feature {NONE} -- Constants
 		once
 			create Result.make_with_name ("default.txt")
 		end
+
+	Little_endian_carriage_return: STRING = "%R%U"
 
 end

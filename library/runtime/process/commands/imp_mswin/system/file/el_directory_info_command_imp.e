@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-28 15:06:22 GMT (Tuesday 28th December 2021)"
-	revision: "9"
+	date: "2022-02-10 17:33:39 GMT (Thursday 10th February 2022)"
+	revision: "10"
 
 class
 	EL_DIRECTORY_INFO_COMMAND_IMP
@@ -28,7 +28,7 @@ create
 
 feature {EL_DIRECTORY_INFO_COMMAND_I} -- Implementation
 
-	do_with_lines (a_lines: like adjusted_lines)
+	do_with_lines (a_lines: like new_output_lines)
 		-- Parse output like the following to obtain file count and total bytes
 		-- Total Files Listed:
 		--          17 File(s)         65,246 bytes

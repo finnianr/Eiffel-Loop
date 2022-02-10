@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-10 9:09:54 GMT (Friday 10th September 2021)"
-	revision: "10"
+	date: "2022-02-10 17:33:38 GMT (Thursday 10th February 2022)"
+	revision: "11"
 
 deferred class
 	EL_SEND_MAIL_COMMAND_I
@@ -49,7 +49,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	do_with_lines (lines: like adjusted_lines)
+	do_with_lines (lines: like new_output_lines)
 		do
 			do_with_machine_lines (agent find_message_accepted, lines)
 			if has_error then

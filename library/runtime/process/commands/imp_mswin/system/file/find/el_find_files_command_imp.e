@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-12 12:08:22 GMT (Monday 12th July 2021)"
-	revision: "8"
+	date: "2022-02-10 17:34:09 GMT (Thursday 10th February 2022)"
+	revision: "9"
 
 class
 	EL_FIND_FILES_COMMAND_IMP
@@ -17,7 +17,7 @@ inherit
 		export
 			{NONE} all
 		undefine
-			make_default, adjusted_lines, get_escaped_path,  new_command_parts
+			make_default, get_escaped_path,  new_command_parts
 		redefine
 			path_list
 		end

@@ -10,16 +10,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "10"
+	date: "2022-02-10 18:41:36 GMT (Thursday 10th February 2022)"
+	revision: "11"
 
 deferred class
 	ECD_REFLECTIVE_RECOVERABLE_CHAIN [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
 
 inherit
 	ECD_RECOVERABLE_CHAIN [G]
-
-	EL_ENCODING_CONSTANTS
 		export
 			{ANY} valid_encoding
 		end

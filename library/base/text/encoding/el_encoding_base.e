@@ -6,17 +6,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 11:37:47 GMT (Wednesday 9th February 2022)"
-	revision: "15"
+	date: "2022-02-10 13:28:54 GMT (Thursday 10th February 2022)"
+	revision: "16"
 
 deferred class
 	EL_ENCODING_BASE
 
 inherit
 	EL_ENCODING_CONSTANTS
+		rename
+			Other as Other_class,
+			Latin as Latin_class,
+			Utf as Utf_class,
+			Windows as Windows_class
 		export
 			{ANY} valid_encoding, valid_windows, valid_latin, valid_utf
 		end
+
+	EL_SHARED_ENCODING_TABLE
 
 feature {NONE} -- Initialization
 
@@ -32,6 +39,7 @@ feature {NONE} -- Initialization
 		-- make UTF-8
 		do
 			set_default
+			other_encoding := Encoding_table.item (Name_unknown)
 		end
 
 feature -- Access
@@ -51,23 +59,33 @@ feature -- Access
 	name: STRING
 			--
 		do
-			create Result.make (12)
-			across Type_code_table as table until Result.count > 0 loop
-				if table.item = type then
-					Result.append (table.key)
+			if encoding = Other_class then
+				if attached other_encoding as other then
+					Result := other.code_page
+				else
+					Result.append (Name_unknown)
 				end
-			end
-			if Result.count > 0 then
-				if type = Latin then
-					Result.append_character ('-')
-					Result.append_integer (8859)
-				end
-				Result.append_character ('-')
-				Result.append_natural_32 (id)
 			else
-				Result.append ("Unknown")
+				create Result.make (12)
+				across Class_table as table until Result.count > 0 loop
+					if table.item = type then
+						Result.append (table.key)
+					end
+				end
+				if Result.count > 0 then
+					if type = Latin_class then
+						Result.append_character ('-')
+						Result.append_integer (8859)
+					end
+					Result.append_character ('-')
+					Result.append_natural_32 (id)
+				else
+					Result.append (Name_unknown)
+				end
 			end
 		end
+
+	other_encoding: ENCODING
 
 	type: NATURAL
 		-- a 4-bit code left-shifted by 12 representing the encoding type: UTF, WINDOWS or ISO-8859
@@ -81,41 +99,49 @@ feature -- Status query
 		require
 			valid_id: valid_latin (a_id)
 		do
-			Result := encoding = Latin | a_id
+			Result := encoding = Latin_class | a_id
 		end
 
 	encoded_as_utf (a_id: NATURAL): BOOLEAN
 		require
 			valid_id: valid_utf (a_id)
 		do
-			Result := encoding = Utf | a_id
+			Result := encoding = Utf_class | a_id
 		end
 
 	encoded_as_windows (a_id: NATURAL): BOOLEAN
 		require
 			valid_id: valid_windows (a_id)
 		do
-			Result := encoding = Windows | a_id
+			Result := encoding = Windows_class | a_id
 		end
 
 	is_latin_encoded: BOOLEAN
 		do
-			Result := type = Latin
+			Result := type = Latin_class
+		end
+
+	is_other_encoded: BOOLEAN
+		do
+			Result := type = Other_class
 		end
 
 	is_utf_encoded: BOOLEAN
 		do
-			Result := type = Utf
+			Result := type = Utf_class
 		end
 
 	is_windows_encoded: BOOLEAN
 		do
-			Result := type = Windows
+			Result := type = Windows_class
 		end
 
 	same_as (other: EL_ENCODING_BASE): BOOLEAN
 		do
 			Result := encoding = other.encoding
+			if encoding = Other_class then
+				Result := Result and other_encoding ~ other.other_encoding
+			end
 		end
 
 feature -- Element change
@@ -131,6 +157,9 @@ feature -- Element change
 			valid_encoding: valid_encoding (a_encoding)
 		do
 			encoding := a_encoding
+			if a_encoding = Other_class then
+				set_other_encoding (Encoding_table.item (Name_unknown))
+			end
 		end
 
 	set_from_name (a_name: READABLE_STRING_GENERAL)
@@ -139,7 +168,10 @@ feature -- Element change
 			l_encoding: NATURAL
 		do
 			l_encoding := name_to_encoding (a_name)
-			if valid_encoding (l_encoding) then
+			if encoding = Other_class then
+				set_other_encoding (Encoding_table.item (a_name.as_string_8))
+
+			elseif valid_encoding (l_encoding) then
 				set_encoding (l_encoding)
 			else
 				encoding := 0
@@ -159,21 +191,27 @@ feature -- Element change
 		require
 			valid_latin (a_id)
 		do
-			set_encoding (Latin | a_id)
+			set_encoding (Latin_class | a_id)
+		end
+
+	set_other_encoding (a_encoding: ENCODING)
+		do
+			other_encoding := a_encoding
+			encoding := Other_class
 		end
 
 	set_utf (a_id: NATURAL)
 		require
 			valid_utf (a_id)
 		do
-			set_encoding (Utf | a_id)
+			set_encoding (Utf_class | a_id)
 		end
 
 	set_windows (a_id: NATURAL)
 		require
 			valid_windows (a_id)
 		do
-			set_encoding (Windows | a_id)
+			set_encoding (Windows_class | a_id)
 		end
 
 feature -- Conversion
@@ -194,13 +232,13 @@ feature -- Conversion
 				part := split.item; part.to_upper
 				inspect split.cursor_index
 					when 1 then
-						if Type_code_table.has_key (part) then
-							l_type := Type_code_table.found_item
+						if Class_table.has_key (part) then
+							l_type := Class_table.found_item
 						else
 							mismatch := True
 						end
 					when 2 then
-						if l_type = Latin then
+						if l_type = Latin_class then
 							mismatch := part.to_integer /= 8859
 						else
 							l_id := part.to_natural
@@ -210,7 +248,9 @@ feature -- Conversion
 				else
 				end
 			end
-			if not mismatch then
+			if mismatch then
+				Result := Other_class
+			else
 				Result := l_type | l_id
 			end
 		end
@@ -228,17 +268,20 @@ feature {NONE} -- Strings
 
 	Name_utf: STRING = "UTF"
 
+	Name_unknown: STRING = "Unknown"
+
 	Name_windows: STRING = "WINDOWS"
 
 feature {NONE} -- Constants
 
-	Type_code_table: EL_STRING_8_TABLE [NATURAL]
+	Class_table: EL_STRING_8_TABLE [NATURAL]
 		-- `EL_STRING_8_TABLE' needed in case key is of type "EL_STRING_8"
 		once
 			create Result.make (<<
-				[Name_iso, Latin],
-				[Name_windows, Windows],
-				[Name_utf, Utf]
+				[Name_iso, Latin_class],
+				[Name_windows, Windows_class],
+				[Name_utf, Utf_class]
 			>>)
 		end
+
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-16 10:19:13 GMT (Sunday 16th January 2022)"
-	revision: "13"
+	date: "2022-02-10 17:57:07 GMT (Thursday 10th February 2022)"
+	revision: "14"
 
 deferred class
 	EL_FIND_COMMAND_IMP
@@ -17,7 +17,7 @@ inherit
 		export
 			{NONE} all
 		redefine
-			adjusted_lines, get_escaped_path
+			get_escaped_path
 		end
 
 	EL_OS_COMMAND_IMP
@@ -25,6 +25,8 @@ inherit
 			{NONE} all
 		undefine
 			do_command, get_escaped_path, new_command_parts, reset
+		redefine
+			new_output_lines
 		end
 
 	EL_MODULE_DIRECTORY
@@ -43,48 +45,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	adjusted_lines (output_lines: like new_output_lines): like new_output_lines
-		local
-			start_index, dir_path_occurrences, depth: INTEGER
-			line, dir_path_string: ZSTRING
+	new_output_lines (file_path: FILE_PATH): EL_WINDOWS_FILE_PATH_LINE_SOURCE
 		do
-			prepend_directory (output_lines)
-
-			create Result.make (output_lines.count)
-			dir_path_occurrences := dir_path.step_count - 1
-			if not dir_path.is_absolute then
-				start_index := Directory.working.count + 2
-			end
-			if max_depth > 1 then
-				across output_lines as list loop
-					line := list.item
-					if start_index.to_boolean then
---						Change absolute paths to be relative to current working directory for Linux compatibility
-						if start_index > line.count then
-							line.wipe_out
-						else
-							line.keep_tail (line.count - start_index + 1)
-						end
-						line.trim
-					end
-					depth := line.occurrences ('\') - dir_path_occurrences
-					if min_depth <= depth and then depth <= max_depth then
-						Result.extend (line)
-					end
-				end
-			else
-				dir_path_string := dir_path
-				dir_path_string.append_character ('\')
-				across output_lines as list loop
-					line := dir_path_string + list.item
-					line.prune_all_trailing ('\')
-					Result.extend (line)
-				end
-			end
-		end
-
-	prepend_directory (output_lines: EL_ZSTRING_LIST)
-		do
+			create Result.make (Current, file_path)
 		end
 
 feature {NONE} -- Constants

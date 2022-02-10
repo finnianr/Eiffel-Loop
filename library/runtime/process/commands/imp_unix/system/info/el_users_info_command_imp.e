@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 9:24:22 GMT (Wednesday 1st September 2021)"
-	revision: "9"
+	date: "2022-02-10 18:08:13 GMT (Thursday 10th February 2022)"
+	revision: "10"
 
 class
 	EL_USERS_INFO_COMMAND_IMP
@@ -25,6 +25,13 @@ inherit
 
 create
 	make
+
+feature {NONE} -- Implementation
+
+	is_user (name: ZSTRING): BOOLEAN
+		do
+			Result := name.count > 0
+		end
 
 feature {NONE} -- Constants
 

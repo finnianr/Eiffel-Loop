@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 9:53:58 GMT (Thursday 7th May 2020)"
-	revision: "7"
+	date: "2022-02-10 14:55:10 GMT (Thursday 10th February 2022)"
+	revision: "8"
 
 class
 	EL_DOC_TYPE
@@ -16,6 +16,12 @@ inherit
 	ANY
 
 	EL_ENCODING_CONSTANTS
+		rename
+			Other as Other_class,
+			Latin as Latin_class,
+			Utf as Utf_class,
+			Windows as Windows_class
+		end
 
 create
 	make

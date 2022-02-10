@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 9:23:58 GMT (Wednesday 1st September 2021)"
-	revision: "6"
+	date: "2022-02-10 18:07:16 GMT (Thursday 10th February 2022)"
+	revision: "7"
 
 class
 	EL_DIRECTORY_INFO_COMMAND_IMP
@@ -28,7 +28,7 @@ create
 
 feature {NONE} -- Implementation
 
-	do_with_lines (a_lines: like adjusted_lines)
+	do_with_lines (a_lines: like new_output_lines)
 			--
 		do
 			from a_lines.start until a_lines.after loop

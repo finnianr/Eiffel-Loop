@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 15:35:13 GMT (Thursday 9th September 2021)"
-	revision: "4"
+	date: "2022-02-10 17:33:39 GMT (Thursday 10th February 2022)"
+	revision: "5"
 
 deferred class
 	EL_X509_PUBLIC_READER_COMMAND_I
@@ -29,7 +29,7 @@ feature -- Access
 
 feature {NONE} -- State handlers
 
-	do_with_lines (a_lines: like adjusted_lines)
+	do_with_lines (a_lines: like new_output_lines)
 			--
 		do
 			parse_lines (agent find_serial_number, a_lines)

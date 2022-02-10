@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 19:39:21 GMT (Wednesday 9th February 2022)"
-	revision: "26"
+	date: "2022-02-10 14:19:41 GMT (Thursday 10th February 2022)"
+	revision: "27"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -25,6 +25,7 @@ inherit
 			Utf_8 as Utf_8_encoding,
 			Utf_16 as Utf_16_encoding,
 			Latin as Latin_class,
+			Other as Other_class,
 			Utf as Utf_class
 		export
 			{EL_READABLE_ZSTRING, STRING_HANDLER} valid_encoding
@@ -46,19 +47,18 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 			offset: INTEGER; s: EL_STRING_8_ROUTINES; buffer: like empty_unencoded_buffer
 			l_codec: EL_ZCODEC
 		do
-			if s.is_ascii (encoded) then
+			if encoding = Utf_16_encoding then
+				append_utf_16_le (encoded)
+
+			elseif s.is_ascii (encoded) then
 				append_ascii (encoded)
+
+			elseif encoding = Utf_8_encoding then
+				append_utf_8 (encoded)
+
 			elseif codec.encoding = encoding then
 				append_string_8 (encoded)
 
-			elseif encoding & Encoding_type_mask = Utf_class then
-				inspect encoding & Encoding_id_mask
-					when 8 then
-						append_utf_8 (encoded)
-					when 16 then
-						append_utf_16_le (encoded)
-				else
-				end
 			else
 				l_codec := Codec_factory.codec_by (encoding)
 				buffer := empty_unencoded_buffer

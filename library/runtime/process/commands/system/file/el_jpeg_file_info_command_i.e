@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 7:21:08 GMT (Monday 7th February 2022)"
-	revision: "8"
+	date: "2022-02-10 17:33:39 GMT (Thursday 10th February 2022)"
+	revision: "9"
 
 deferred class
 	EL_JPEG_FILE_INFO_COMMAND_I
@@ -60,7 +60,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	do_with_lines (lines: like adjusted_lines)
+	do_with_lines (lines: like new_output_lines)
 			--
 		local
 			tail: ZSTRING

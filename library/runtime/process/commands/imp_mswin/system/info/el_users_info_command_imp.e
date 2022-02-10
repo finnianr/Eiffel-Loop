@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 11:29:47 GMT (Wednesday 1st September 2021)"
-	revision: "10"
+	date: "2022-02-10 17:42:10 GMT (Thursday 10th February 2022)"
+	revision: "11"
 
 class
 	EL_USERS_INFO_COMMAND_IMP
@@ -16,8 +16,6 @@ inherit
 	EL_USERS_INFO_COMMAND_I
 		export
 			{NONE} all
-		redefine
-			adjusted_lines
 		end
 
 	EL_OS_COMMAND_IMP
@@ -32,23 +30,19 @@ create
 
 feature {NONE} -- Implementation
 
-	adjusted_lines (lines: EL_ZSTRING_LIST): EL_ZSTRING_LIST
-		do
-			create Result.make (lines.count)
-			lines.do_if (agent Result.extend, agent is_user)
-		end
-
 	is_user (name: ZSTRING): BOOLEAN
 		-- True if name is a user recognised by "net user" command
 		do
-			Net_user_cmd.put_string (Var_name, name)
-			Net_user_cmd.execute
-			Result := not Net_user_cmd.lines.is_empty
+			if name.count > 0 then
+				Net_user_cmd.put_string (Var_name, name)
+				Net_user_cmd.execute
+				Result := not Net_user_cmd.lines.is_empty
+			end
 		end
 
 feature {NONE} -- Constants
 
-	Template: STRING = "dir /B /AD-S-H $dir_path"
+	Template: STRING = "dir /B /AD-S-H $users_dir"
 		-- Directories that do not have the hidden or system attribute set
 
 	Net_user_cmd: EL_CAPTURED_OS_COMMAND

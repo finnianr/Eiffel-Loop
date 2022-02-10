@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 13:05:30 GMT (Tuesday 8th February 2022)"
-	revision: "31"
+	date: "2022-02-10 17:55:28 GMT (Thursday 10th February 2022)"
+	revision: "32"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -271,7 +271,9 @@ feature {NONE} -- Implementation
 				end
 				if has_error then
 					create errors.make (5)
-					new_output_lines (error_path).do_all (agent errors.extend)
+					if error_path.exists then
+						new_output_lines (error_path).do_all (agent errors.extend)
+					end
 					on_error
 				end
 				File_system_mutex.lock
@@ -347,7 +349,9 @@ feature {NONE} -- Deferred implementation
 		deferred
 		end
 
-	new_output_lines (file_path: FILE_PATH): EL_LINEAR [ZSTRING]
+	new_output_lines (file_path: FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
+		require
+			path_exists: file_path.exists
 		deferred
 		end
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
-	revision: "11"
+	date: "2022-02-10 17:33:38 GMT (Thursday 10th February 2022)"
+	revision: "12"
 
 deferred class
 	EL_USERS_INFO_COMMAND_I
@@ -79,16 +79,15 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	do_with_lines (lines: like adjusted_lines)
+	do_with_lines (lines: like new_output_lines)
 			--
 		do
 			user_list.wipe_out
-			from lines.start until lines.after loop
-				if not lines.item.is_empty then
-					user_list.extend (lines.item)
-				end
-				lines.forth
-			end
+			lines.do_if (agent user_list.extend, agent is_user)
+		end
+
+	is_user (name: ZSTRING): BOOLEAN
+		deferred
 		end
 
 	new_dir_list (dir: DIR_PATH): EL_ARRAYED_LIST [DIR_PATH]

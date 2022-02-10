@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 15:35:45 GMT (Thursday 9th September 2021)"
-	revision: "12"
+	date: "2022-02-10 17:33:39 GMT (Thursday 10th February 2022)"
+	revision: "13"
 
 deferred class
 	EL_X509_PRIVATE_READER_COMMAND_I
@@ -57,7 +57,7 @@ feature {NONE} -- Implementation
 			Execution.put (Empty_string, Var_pass_phrase)
 		end
 
-	do_with_lines (a_lines: like adjusted_lines)
+	do_with_lines (a_lines: like new_output_lines)
 			--
 		do
 			parse_lines (agent find_private_key, a_lines)
