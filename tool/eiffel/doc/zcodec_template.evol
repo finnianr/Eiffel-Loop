@@ -83,7 +83,7 @@ feature -- Conversion
 		end
 
 #if not $unicode_intervals.is_empty then
-	latin_character (uc: CHARACTER_32; unicode: INTEGER): CHARACTER
+	latin_character (uc: CHARACTER_32): CHARACTER
 			-- unicode to latin translation
 			-- Returns '%U' if translation is the same as ISO-8859-1 or else not in ${codec_name}
 		do
@@ -91,7 +91,7 @@ feature -- Conversion
 		#across $unicode_intervals as $interval loop
 			#if $interval.item.count > 1 then
 				when '$interval.item.lower_character'..'$interval.item.upper_character' then
-					Result := latin_set_$interval.cursor_index [unicode - $interval.item.lower]
+					Result := latin_set_$interval.cursor_index [uc.code - $interval.item.lower]
 			#else
 				when '$interval.item.lower_character' then
 					Result := '%/$interval.item.first_latin_character.code/'

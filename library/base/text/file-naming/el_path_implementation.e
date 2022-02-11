@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "22"
+	date: "2022-02-11 16:44:00 GMT (Friday 11th February 2022)"
+	revision: "23"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -219,7 +219,7 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 				l_path := temporary_path
 				i := l_path.count
 				if i > 0 and then not is_separator (l_path, i) then
-					l_path.append_z_code (Separator_z_code)
+					l_path.append_character (Separator)
 				end
 				back_step_count := leading_back_step_count (a_path.parent_path)
 				if back_step_count > 0 then
@@ -305,7 +305,7 @@ feature {EL_PATH} -- Implementation
 	is_separator (str: ZSTRING; i: INTEGER): BOOLEAN
 		-- `True' if `str [i] = Separator'
 		do
-			Result := str.z_code (i) = Separator_z_code
+			Result := str [i] = Separator
 		end
 
 	has_expansion_variable (a_path: ZSTRING): BOOLEAN

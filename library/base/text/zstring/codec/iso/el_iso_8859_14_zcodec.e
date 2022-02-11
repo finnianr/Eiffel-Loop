@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-28 19:13:35 GMT (Saturday 28th September 2019)"
-	revision: "5"
+	date: "2022-02-11 19:22:04 GMT (Friday 11th February 2022)"
+	revision: "6"
 
 class
 	EL_ISO_8859_14_ZCODEC
@@ -135,35 +135,35 @@ feature -- Conversion
 		do
 		end
 
-	latin_character (uc: CHARACTER_32; unicode: INTEGER): CHARACTER
+	latin_character (uc: CHARACTER_32): CHARACTER
 			-- unicode to latin translation
 			-- Returns '%U' if translation is the same as ISO-8859-1 or else not in ISO_8859_14
 		do
 			inspect uc
 				when 'Ẁ'..'ẅ' then
-					Result := latin_set_1 [unicode - 7808]
+					Result := latin_set_1 [uc.code - 7808]
 				when 'Ŵ'..'Ÿ' then
-					Result := latin_set_2 [unicode - 372]
+					Result := latin_set_2 [uc.code - 372]
 				when 'Ṡ'..'ṡ' then
-					Result := latin_set_3 [unicode - 7776]
+					Result := latin_set_3 [uc.code - 7776]
 				when 'Ṫ'..'ṫ' then
-					Result := latin_set_4 [unicode - 7786]
+					Result := latin_set_4 [uc.code - 7786]
 				when 'Ṗ'..'ṗ' then
-					Result := latin_set_5 [unicode - 7766]
+					Result := latin_set_5 [uc.code - 7766]
 				when 'Ỳ'..'ỳ' then
-					Result := latin_set_6 [unicode - 7922]
+					Result := latin_set_6 [uc.code - 7922]
 				when 'Ḃ'..'ḃ' then
-					Result := latin_set_7 [unicode - 7682]
+					Result := latin_set_7 [uc.code - 7682]
 				when 'Ṁ'..'ṁ' then
-					Result := latin_set_8 [unicode - 7744]
+					Result := latin_set_8 [uc.code - 7744]
 				when 'Ġ'..'ġ' then
-					Result := latin_set_9 [unicode - 288]
+					Result := latin_set_9 [uc.code - 288]
 				when 'Ċ'..'ċ' then
-					Result := latin_set_10 [unicode - 266]
+					Result := latin_set_10 [uc.code - 266]
 				when 'Ḋ'..'ḋ' then
-					Result := latin_set_11 [unicode - 7690]
+					Result := latin_set_11 [uc.code - 7690]
 				when 'Ḟ'..'ḟ' then
-					Result := latin_set_12 [unicode - 7710]
+					Result := latin_set_12 [uc.code - 7710]
 			else end
 		end
 

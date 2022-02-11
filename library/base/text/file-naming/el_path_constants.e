@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 12:18:45 GMT (Wednesday 24th November 2021)"
-	revision: "10"
+	date: "2022-02-11 16:42:08 GMT (Friday 11th February 2022)"
+	revision: "11"
 
 deferred class
 	EL_PATH_CONSTANTS
@@ -25,11 +25,6 @@ feature -- Constants
 	Separator: CHARACTER_32
 		once
 			Result := Operating_environment.Directory_separator
-		end
-
-	Separator_z_code: NATURAL
-		once
-			Result := codec.as_z_code (Separator)
 		end
 
 	Unix_separator: CHARACTER_32 = '/'

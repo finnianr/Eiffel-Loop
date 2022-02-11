@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-22 13:14:24 GMT (Saturday 22nd January 2022)"
-	revision: "87"
+	date: "2022-02-11 19:33:47 GMT (Friday 11th February 2022)"
+	revision: "88"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -145,7 +145,7 @@ feature {NONE} -- Initialization
 			from i := 0 until i = l_count loop
 				z_code_i := zcode_area [i]
 				if z_code_i > 0xFF then
-					l_area [i] := Unencoded_character
+					l_area [i] := Substitute
 					buffer.extend_z_code (z_code_i, i + 1)
 				else
 					l_area [i] := z_code_i.to_character_8
@@ -260,10 +260,10 @@ feature -- Character status query
 			c: CHARACTER
 		do
 			c := area [i - 1]
-			if c = Unencoded_character then
+			if c = Substitute then
 				Result := unencoded_item (i).is_alpha_numeric
 			else
-				Result := codec.is_alphanumeric (c.natural_32_code)
+				Result := Codec.is_alphanumeric (c.natural_32_code)
 			end
 		end
 
@@ -274,10 +274,10 @@ feature -- Character status query
 			c_i: CHARACTER; c: EL_CHARACTER_32_ROUTINES
 		do
 			c_i := area [i - 1]
-			if c_i = Unencoded_character then
+			if c_i = Substitute then
 				Result := c.is_digit (unencoded_item (i))
 			else
-				Result := codec.is_numeric (c_i.natural_32_code)
+				Result := Codec.is_numeric (c_i.natural_32_code)
 			end
 		end
 
@@ -288,7 +288,7 @@ feature -- Character status query
 			c: CHARACTER
 		do
 			c := area [i - 1]
-			if c = Unencoded_character then
+			if c = Substitute then
 				-- Because of a compiler bug we need `is_space_32'
 				Result := is_space_32 (unencoded_item (i))
 			else
@@ -324,7 +324,7 @@ feature -- Status query
 
 	encoded_with (a_codec: EL_ZCODEC): BOOLEAN
 		do
-			Result := a_codec.same_type (codec)
+			Result := a_Codec.same_type (codec)
 		end
 
 	ends_with (str: EL_READABLE_ZSTRING): BOOLEAN
@@ -358,16 +358,18 @@ feature -- Status query
 			end_index_small_enough: end_index <= count
 			consistent_indexes: start_index - 1 <= end_index
 		local
-			c_i: CHARACTER; i: INTEGER; l_area: like area
+			code_i, i: INTEGER; l_area: like area
 		do
 			l_area := area
 			Result := True
 			from i := start_index until not Result or else i > end_index loop
-				c_i := l_area [i - 1]
-				if c_i = Unencoded_character then
+				code_i := l_area [i - 1].code
+				if code_i = Substitute_code then
 					Result := Result and condition (unencoded_item (i))
+				elseif code_i <= Max_7_bit_code then
+					Result := Result and condition (code_i.to_character_32)
 				else
-					Result := Result and condition (codec.as_unicode_character (c_i))
+					Result := Result and condition (Unicode_table [code_i])
 				end
 				i := i + 1
 			end
@@ -407,7 +409,7 @@ feature -- Status query
 			Result := True
 			from i := 0 until not Result or else i = l_count loop
 				c_i := l_area [i]
-				if c_i = Unencoded_character then
+				if c_i = Substitute then
 					is_space := c.is_space (unencoded_item (i + 1)) -- Work around for finalization bug
 				else
 					is_space := c_i.is_space
@@ -496,7 +498,7 @@ feature -- Status query
 				Result := True
 				from i := start_index - 1 until i = end_index or not Result loop
 					c_i := l_area [i]
-					if c_i = Unencoded_character then
+					if c_i = Substitute then
 						Result := Result and c.is_space (unencoded_item (i + 1)) -- Work around for finalization bug
 					else
 						Result := Result and c_i.is_space
@@ -513,7 +515,7 @@ feature -- Status query
 			elseif Codec.id = 1 and not has_mixed_encoding then
 				Result := True
 			else
-				Result := not as_encoded_8 (Latin_1_codec).has (Unencoded_character)
+				Result := not as_encoded_8 (Latin_1_codec).has (Substitute)
 			end
 		end
 
@@ -677,7 +679,7 @@ feature -- Comparison
 					l_count := end_pos - start_pos + 1
 					i_final := index_pos + l_count - 1
 					from i := index_pos - 1; j := start_pos - 1 until not Result or else i = i_final loop
-						if l_area [i] = Unencoded_character then
+						if l_area [i] = Substitute then
 							Result := unencoded.code (i + 1) = o_unencoded.code (j + 1)
 						end
 						i := i + 1; j := j + 1
@@ -749,7 +751,7 @@ feature -- Append to output
 			output.grow (old_count + count)
 			area_out := output.area
 
-			codec.decode (count, area, area_out, old_count)
+			Codec.decode (count, area, area_out, old_count)
 			write_unencoded (area_out, old_count)
 
 			area_out [old_count + count] := '%U'
@@ -767,7 +769,7 @@ feature -- Append to output
 
 	append_to_utf_8 (utf_8_out: STRING_8)
 		do
-			Utf_8_codec.append_general_to_utf_8 (Current, utf_8_out)
+			Utf_8_Codec.append_general_to_utf_8 (Current, utf_8_out)
 		end
 
 feature {NONE} -- Implementation
@@ -845,8 +847,8 @@ feature {NONE} -- Implementation
 			end
 			if found then
 				-- Comparison must be done as unicode and never Latin-15
-				l_code := codec.z_code_as_unicode (l_z_code).to_integer_32
-				Result := codec.z_code_as_unicode (o_z_code).to_integer_32 - l_code
+				l_code := Codec.z_code_as_unicode (l_z_code).to_integer_32
+				Result := Codec.z_code_as_unicode (o_z_code).to_integer_32 - l_code
 			end
 		end
 

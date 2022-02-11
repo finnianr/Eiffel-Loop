@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 10:42:28 GMT (Wednesday 9th February 2022)"
-	revision: "30"
+	date: "2022-02-11 19:33:48 GMT (Friday 11th February 2022)"
+	revision: "31"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -112,25 +112,29 @@ feature -- Access
 	item alias "[]", at alias "@" (i: INTEGER): CHARACTER_32 assign put
 		-- Unicode character at position `i'
 		local
-			c: CHARACTER
+			code: INTEGER
 		do
-			c := area [i - 1]
-			if c = Unencoded_character then
+			code := area [i - 1].code
+			if code = Substitute_code then
 				Result := unencoded_code (i).to_character_32
+			elseif code <= Max_7_bit_code then
+				Result := code.to_character_32
 			else
-				Result := Codec.as_unicode_character (c)
+				Result := Unicode_table [code]
 			end
 		end
 
 	unicode (i: INTEGER): NATURAL
 		local
-			c: CHARACTER
+			code: INTEGER
 		do
-			c := area [i - 1]
-			if c = Unencoded_character then
+			code := area [i - 1].code
+			if code = Substitute_code then
 				Result := unencoded_code (i)
+			elseif code <= Max_7_bit_code then
+				Result := code.to_natural_32
 			else
-				Result := Codec.as_unicode_character (c).natural_32_code
+				Result := Unicode_table [code].to_character_32.natural_32_code
 			end
 		end
 
@@ -147,17 +151,21 @@ feature -- Element change
 		end
 
 	put_z_code (a_z_code: like z_code; i: INTEGER)
+
+		-- Passes over 3000 millisecs (in descending order)
+		-- append_zcode     :  7979.3 times (100%)
+		-- append_character :  7924.4 times (-0.7%)
 		local
 			c_i: CHARACTER
 		do
 			if a_z_code <= 0xFF then
 				c_i := area [i - 1]
 				area [i - 1] := a_z_code.to_character_8
-				if c_i = Unencoded_character then
+				if c_i = Substitute then
 					remove_unencoded (i + 1)
 				end
 			else
-				area [i - 1] := Unencoded_character
+				area [i - 1] := Substitute
 				put_unencoded_code (z_code_to_unicode (a_z_code), i)
 			end
 		end
@@ -169,8 +177,12 @@ feature -- Status query
 		local
 			c: CHARACTER
 		do
-			c := Codec.encoded_character (uc.natural_32_code)
-			if c = Unencoded_character then
+			if uc.code <= Max_7_bit_code then
+				c := uc.to_character_8
+			else
+				c := Codec.encoded_character (uc)
+			end
+			if c = Substitute then
 				Result := unencoded_has (uc.natural_32_code)
 			else
 				Result := internal_has (c)
@@ -209,7 +221,7 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
 			if (end_index - start_index) < (unencoded_area.count // 7) * 3 then
 				l_area := area; i_final := end_index.min (count)
 				from i := start_index - 1 until Result or else i = i_final loop
-					Result := l_area [i] = Unencoded_character
+					Result := l_area [i] = Substitute
 					i := i + 1
 				end
 			else
@@ -222,7 +234,7 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
 			c: CHARACTER
 		do
 			c := a_area [i]
-			if c = Unencoded_character then
+			if c = Substitute then
 				Result := unencoded_item (i + 1).is_alpha
 			else
 				Result := Codec.is_alpha (c.natural_32_code)
@@ -261,9 +273,9 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
 			from i := 0 until i = i_final or else not Result loop
 				c_i := l_area [i + start_index - 1]
 				check
-					same_unencoded_positions: c_i = Unencoded_character implies c_i = other.area [i]
+					same_unencoded_positions: c_i = Substitute implies c_i = other.area [i]
 				end
-				if c_i = Unencoded_character then
+				if c_i = Substitute then
 					Result := Result and unencoded.code (start_index + i) = unencoded_other.code (i + 1)
 				end
 				i := i + 1
@@ -287,7 +299,7 @@ feature -- Contract Support
 					interval_count := upper - lower + 1
 					if upper <= l_count then
 						from j := lower until not Result or else j > upper loop
-							Result := Result and l_area [j - 1] = Unencoded_character
+							Result := Result and l_area [j - 1] = Substitute
 							j := j + 1
 						end
 					else
@@ -296,9 +308,9 @@ feature -- Contract Support
 					sum_count := sum_count + interval_count
 					i := i + interval_count + 2
 				end
-				Result := Result and internal_occurrences (Unencoded_character) = sum_count
+				Result := Result and internal_occurrences (Substitute) = sum_count
 			else
-				Result := internal_occurrences (Unencoded_character) = 0
+				Result := internal_occurrences (Substitute) = 0
 			end
 		end
 
@@ -342,10 +354,10 @@ feature {NONE} -- Implementation
 
 	encoded_character (uc: CHARACTER_32): CHARACTER
 		do
-			if uc.natural_32_code <= Tilde_code then
+			if uc.code <= Max_7_bit_code then
 				Result := uc.to_character_8
 			else
-				Result := codec.encoded_character (uc.natural_32_code)
+				Result := codec.encoded_character (uc)
 			end
 		end
 
@@ -357,11 +369,11 @@ feature {NONE} -- Implementation
 			c, old_c: CHARACTER
 		do
 			old_c := area [i - 1]
-			c := codec.encoded_character (a_code)
+			c := Codec.encoded_character (a_code.to_character_32)
 			area [i - 1] := c
-			if c = Unencoded_character then
+			if c = Substitute then
 				put_unencoded_code (a_code, i)
-			elseif old_c = Unencoded_character then
+			elseif old_c = Substitute then
 				remove_unencoded (i)
 			end
 			reset_hash
@@ -398,13 +410,13 @@ feature {NONE} -- Implementation
 			c: CHARACTER
 		do
 			c := area [i - 1]
-			if c = Unencoded_character then
+			if c = Substitute then
 				Result := unencoded_z_code (i)
 			else
 				Result := c.natural_32_code
 			end
 		ensure then
-			first_byte_is_reserved_for_latin: area [i - 1] = Unencoded_character implies Result > 0xFF
+			first_byte_is_reserved_for_latin: area [i - 1] = Substitute implies Result > 0xFF
 		end
 
 feature {EL_READABLE_ZSTRING} -- Deferred Implementation
@@ -492,9 +504,5 @@ feature {NONE} -- Constants
 		do
 			create Result.make (5)
 		end
-
-	Tilde_code: NATURAL = 0x7E
-		-- Point at which different Latin and Window character sets start to diverge
-		-- (Apart from some control characters)
 
 end

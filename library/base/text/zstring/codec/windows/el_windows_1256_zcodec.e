@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-28 19:15:51 GMT (Saturday 28th September 2019)"
-	revision: "5"
+	date: "2022-02-11 19:21:05 GMT (Friday 11th February 2022)"
+	revision: "6"
 
 class
 	EL_WINDOWS_1256_ZCODEC
@@ -189,29 +189,29 @@ feature -- Conversion
 			else end
 		end
 
-	latin_character (uc: CHARACTER_32; unicode: INTEGER): CHARACTER
+	latin_character (uc: CHARACTER_32): CHARACTER
 			-- unicode to latin translation
 			-- Returns '%U' if translation is the same as ISO-8859-1 or else not in WINDOWS_1256
 		do
 			inspect uc
 				when 'ء'..'غ' then
-					Result := latin_set_1 [unicode - 1569]
+					Result := latin_set_1 [uc.code - 1569]
 				when 'ـ'..'ْ' then
-					Result := latin_set_2 [unicode - 1600]
+					Result := latin_set_2 [uc.code - 1600]
 				when '‌'..'‏' then
-					Result := latin_set_3 [unicode - 8204]
+					Result := latin_set_3 [uc.code - 8204]
 				when '“'..'„' then
-					Result := latin_set_4 [unicode - 8220]
+					Result := latin_set_4 [uc.code - 8220]
 				when '†'..'•' then
-					Result := latin_set_5 [unicode - 8224]
+					Result := latin_set_5 [uc.code - 8224]
 				when '‘'..'‚' then
-					Result := latin_set_6 [unicode - 8216]
+					Result := latin_set_6 [uc.code - 8216]
 				when 'Œ'..'œ' then
-					Result := latin_set_7 [unicode - 338]
+					Result := latin_set_7 [uc.code - 338]
 				when '‹'..'›' then
-					Result := latin_set_8 [unicode - 8249]
+					Result := latin_set_8 [uc.code - 8249]
 				when '–'..'—' then
-					Result := latin_set_9 [unicode - 8211]
+					Result := latin_set_9 [uc.code - 8211]
 				when 'ہ' then
 					Result := '%/192/'
 				when 'ے' then

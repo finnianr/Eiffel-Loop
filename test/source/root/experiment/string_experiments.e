@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 10:15:09 GMT (Friday 11th February 2022)"
-	revision: "17"
+	date: "2022-02-11 19:11:00 GMT (Friday 11th February 2022)"
+	revision: "18"
 
 class
 	STRING_EXPERIMENTS
@@ -28,6 +28,8 @@ inherit
 	EL_SHARED_ZCODEC_FACTORY
 
 	EL_ENCODING_CONSTANTS
+
+	STRING_HANDLER
 
 feature -- Basic operations
 
@@ -338,7 +340,7 @@ feature {NONE} -- Implementation
 					else
 						codec := Codec_factory.codec_by (Latin | i)
 					end
-					if codec.as_unicode_character (c) /= uc then
+					if codec.unicode_table [c.code] /= uc then
 						Result := False
 					end
 					i := i + 1

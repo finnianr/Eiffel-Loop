@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 9:46:56 GMT (Friday 11th February 2022)"
-	revision: "52"
+	date: "2022-02-11 19:32:37 GMT (Friday 11th February 2022)"
+	revision: "53"
 
 class
 	EL_ZSTRING
@@ -237,7 +237,7 @@ feature -- Element change
 			c := encoded_character (uc)
 			internal_insert_character (c, i)
 			shift_unencoded_from (i, 1)
-			if c = Unencoded_character then
+			if c = Substitute then
 				put_unencoded_code (uc.natural_32_code, i)
 			end
 		ensure
@@ -345,12 +345,12 @@ feature -- Removal
 			l_area := area; i_final := count
 			from i := 0 until i = i_final loop
 				c_i := l_area.item (i)
-				if c_i = Unencoded_character then
+				if c_i = Substitute then
 					i_code := unencoded.code (i + 1)
 					if i_code = uc_code then
 						pruned_count := pruned_count + 1
 					else
-						l_area [i - pruned_count] := Unencoded_character
+						l_area [i - pruned_count] := Substitute
 						buffer.extend (i_code, i + 1 - pruned_count)
 					end
 				elseif c_i = c then

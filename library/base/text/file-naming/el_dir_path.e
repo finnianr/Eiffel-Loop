@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 17:43:59 GMT (Monday 3rd January 2022)"
-	revision: "22"
+	date: "2022-02-11 16:45:17 GMT (Friday 11th February 2022)"
+	revision: "23"
 
 class
 	EL_DIR_PATH
@@ -140,7 +140,7 @@ feature {NONE} -- Implementation
 			list := a_steps.linear_representation
 			from list.start until list.after loop
 				if not Result.is_empty then
-					Result.append_z_code (Separator_z_code)
+					Result.append_character (Separator)
 				end
 				Result.append_string_general (list.item)
 				list.forth
@@ -154,7 +154,7 @@ feature {NONE} -- Implementation
 			Result := temporary_path
 			from i := 1 until i > tuple.count loop
 				if not Result.is_empty then
-					Result.append_z_code (Separator_z_code)
+					Result.append_character (Separator)
 				end
 				if tuple.is_reference_item (i) then
 					if attached {ZSTRING} tuple.reference_item (i) as zstr then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:03:42 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2022-02-11 14:33:40 GMT (Friday 11th February 2022)"
+	revision: "6"
 
 class
 	QUANTUM_BALL_ANIMATION
@@ -226,14 +226,9 @@ feature {NONE} -- Constants
 			create Result
 		end
 
---	Frames_per_sec: INTEGER = 24
 	Frames_per_sec: INTEGER
-		local
-			frames_arg: INTEGER_REF
 		do
-			create frames_arg
-			Args.set_integer_from_word_option ("frames", agent frames_arg.set_item, 8)
-			Result := frames_arg.item
+			Result := Args.value ("frames").to_integer
 		end
 
 	Colors: EV_STOCK_COLORS

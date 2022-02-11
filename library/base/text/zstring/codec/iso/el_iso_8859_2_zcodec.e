@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-28 19:15:57 GMT (Saturday 28th September 2019)"
-	revision: "5"
+	date: "2022-02-11 19:23:48 GMT (Friday 11th February 2022)"
+	revision: "6"
 
 class
 	EL_ISO_8859_2_ZCODEC
@@ -142,39 +142,39 @@ feature -- Conversion
 		do
 		end
 
-	latin_character (uc: CHARACTER_32; unicode: INTEGER): CHARACTER
+	latin_character (uc: CHARACTER_32): CHARACTER
 			-- unicode to latin translation
 			-- Returns '%U' if translation is the same as ISO-8859-1 or else not in ISO_8859_2
 		do
 			inspect uc
 				when 'Ş'..'ť' then
-					Result := latin_set_1 [unicode - 350]
+					Result := latin_set_1 [uc.code - 350]
 				when 'Ź'..'ž' then
-					Result := latin_set_2 [unicode - 377]
+					Result := latin_set_2 [uc.code - 377]
 				when 'Ă'..'ć' then
-					Result := latin_set_3 [unicode - 258]
+					Result := latin_set_3 [uc.code - 258]
 				when 'Č'..'đ' then
-					Result := latin_set_4 [unicode - 268]
+					Result := latin_set_4 [uc.code - 268]
 				when 'Ů'..'ű' then
-					Result := latin_set_5 [unicode - 366]
+					Result := latin_set_5 [uc.code - 366]
 				when 'Ř'..'ś' then
-					Result := latin_set_6 [unicode - 344]
+					Result := latin_set_6 [uc.code - 344]
 				when 'Ł'..'ń' then
-					Result := latin_set_7 [unicode - 321]
+					Result := latin_set_7 [uc.code - 321]
 				when 'Ę'..'ě' then
-					Result := latin_set_8 [unicode - 280]
+					Result := latin_set_8 [uc.code - 280]
 				when '˘'..'˙' then
-					Result := latin_set_9 [unicode - 728]
+					Result := latin_set_9 [uc.code - 728]
 				when 'Ľ'..'ľ' then
-					Result := latin_set_10 [unicode - 317]
+					Result := latin_set_10 [uc.code - 317]
 				when 'Ŕ'..'ŕ' then
-					Result := latin_set_11 [unicode - 340]
+					Result := latin_set_11 [uc.code - 340]
 				when 'Ĺ'..'ĺ' then
-					Result := latin_set_12 [unicode - 313]
+					Result := latin_set_12 [uc.code - 313]
 				when 'Ň'..'ň' then
-					Result := latin_set_13 [unicode - 327]
+					Result := latin_set_13 [uc.code - 327]
 				when 'Ő'..'ő' then
-					Result := latin_set_14 [unicode - 336]
+					Result := latin_set_14 [uc.code - 336]
 				when '˝' then
 					Result := '%/189/'
 				when '˛' then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "54"
+	date: "2022-02-11 16:45:17 GMT (Friday 11th February 2022)"
+	revision: "55"
 
 deferred class
 	EL_PATH
@@ -57,7 +57,7 @@ feature {NONE} -- Initialization
 			l_path := Temp_path; l_path.wipe_out
 			across a_steps as step loop
 				if not_first then
-					l_path.append_z_code (Separator_z_code)
+					l_path.append_character (Separator)
 				else
 					not_first := True
 				end
@@ -441,7 +441,7 @@ feature -- Element change
 			l_parent_path.append (parent_path)
 			if not base.is_empty then
 				l_parent_path.append (base)
-				l_parent_path.append_z_code (Separator_z_code)
+				l_parent_path.append_character (Separator)
 			end
 			set_parent_path (l_parent_path)
 			base.wipe_out
@@ -502,7 +502,7 @@ feature -- Element change
 			else
 				l_path := temporary_copy (a_parent)
 				if a_parent [a_parent.count] /= Separator then
-					l_path.append_z_code (Separator_z_code)
+					l_path.append_character (Separator)
 				end
 				set := Parent_set
 				if set.has_key (l_path) then

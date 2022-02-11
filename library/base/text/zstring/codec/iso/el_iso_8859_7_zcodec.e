@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 18:08:48 GMT (Wednesday 9th February 2022)"
-	revision: "3"
+	date: "2022-02-11 19:20:31 GMT (Friday 11th February 2022)"
+	revision: "4"
 
 class
 	EL_ISO_8859_7_ZCODEC
@@ -168,21 +168,21 @@ feature -- Conversion
 			else end
 		end
 
-	latin_character (uc: CHARACTER_32; unicode: INTEGER): CHARACTER
+	latin_character (uc: CHARACTER_32): CHARACTER
 			-- unicode to latin translation
 			-- Returns '%U' if translation is the same as ISO-8859-1 or else not in ISO_8859_7
 		do
 			inspect uc
 				when 'Σ'..'ώ' then
-					Result := latin_set_1 [unicode - 931]
+					Result := latin_set_1 [uc.code - 931]
 				when 'Ύ'..'Ρ' then
-					Result := latin_set_2 [unicode - 910]
+					Result := latin_set_2 [uc.code - 910]
 				when 'Έ'..'Ί' then
-					Result := latin_set_3 [unicode - 904]
+					Result := latin_set_3 [uc.code - 904]
 				when '΄'..'Ά' then
-					Result := latin_set_4 [unicode - 900]
+					Result := latin_set_4 [uc.code - 900]
 				when 'ʼ'..'ʽ' then
-					Result := latin_set_5 [unicode - 700]
+					Result := latin_set_5 [uc.code - 700]
 				when '€' then
 					Result := '%/164/'
 				when '₯' then

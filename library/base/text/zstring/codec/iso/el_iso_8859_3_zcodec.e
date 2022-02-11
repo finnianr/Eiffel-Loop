@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-28 19:15:57 GMT (Saturday 28th September 2019)"
-	revision: "5"
+	date: "2022-02-11 19:23:39 GMT (Friday 11th February 2022)"
+	revision: "6"
 
 class
 	EL_ISO_8859_3_ZCODEC
@@ -115,29 +115,29 @@ feature -- Conversion
 			else end
 		end
 
-	latin_character (uc: CHARACTER_32; unicode: INTEGER): CHARACTER
+	latin_character (uc: CHARACTER_32): CHARACTER
 			-- unicode to latin translation
 			-- Returns '%U' if translation is the same as ISO-8859-1 or else not in ISO_8859_3
 		do
 			inspect uc
 				when 'Ĝ'..'ġ' then
-					Result := latin_set_1 [unicode - 284]
+					Result := latin_set_1 [uc.code - 284]
 				when 'Ŝ'..'ş' then
-					Result := latin_set_2 [unicode - 348]
+					Result := latin_set_2 [uc.code - 348]
 				when 'Ĥ'..'ħ' then
-					Result := latin_set_3 [unicode - 292]
+					Result := latin_set_3 [uc.code - 292]
 				when 'Ĉ'..'ċ' then
-					Result := latin_set_4 [unicode - 264]
+					Result := latin_set_4 [uc.code - 264]
 				when 'Ż'..'ż' then
-					Result := latin_set_5 [unicode - 379]
+					Result := latin_set_5 [uc.code - 379]
 				when '˘'..'˙' then
-					Result := latin_set_6 [unicode - 728]
+					Result := latin_set_6 [uc.code - 728]
 				when 'Ŭ'..'ŭ' then
-					Result := latin_set_7 [unicode - 364]
+					Result := latin_set_7 [uc.code - 364]
 				when 'İ'..'ı' then
-					Result := latin_set_8 [unicode - 304]
+					Result := latin_set_8 [uc.code - 304]
 				when 'Ĵ'..'ĵ' then
-					Result := latin_set_9 [unicode - 308]
+					Result := latin_set_9 [uc.code - 308]
 			else end
 		end
 

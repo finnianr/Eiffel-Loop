@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:40 GMT (Saturday 5th February 2022)"
-	revision: "17"
+	date: "2022-02-11 17:23:35 GMT (Friday 11th February 2022)"
+	revision: "18"
 
 class
 	ZSTRING_BENCHMARK_APP
@@ -34,6 +34,7 @@ feature {NONE} -- Implementation
 		do
 			Result := <<
 				optional_argument ("output", "HTML output directory", No_checks),
+				optional_argument ("template", "HTML page Evolicity template", << file_must_exist >>),
 				optional_argument ("runs", "The number of test runs to average over", No_checks),
 				optional_argument ("filter", "Routine filter", No_checks)
 			>>
@@ -48,7 +49,7 @@ feature {NONE} -- Implementation
 			else
 				number_of_runs := 100
 			end
-			Result := agent {like command}.make ("doc/benchmark", number_of_runs, "")
+			Result := agent {like command}.make ("doc/benchmark", "doc/ZSTRING-benchmarks.evol", number_of_runs, "")
 		end
 
 end

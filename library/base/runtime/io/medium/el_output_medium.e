@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 11:27:55 GMT (Thursday 4th March 2021)"
-	revision: "23"
+	date: "2022-02-11 19:32:36 GMT (Friday 11th February 2022)"
+	revision: "24"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -76,7 +76,7 @@ feature -- Output
 				if c.is_character_8 then
 					put_raw_character_8 (c.to_character_8)
 				else
-					put_raw_character_8 ({EL_ZCODE_CONVERSION}.Unencoded_character)
+					put_raw_character_8 ({EL_ZCODE_CONVERSION}.Substitute)
 				end
 			else
 				codec.write_encoded_character (c, Current)

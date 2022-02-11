@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-31 16:58:57 GMT (Friday 31st December 2021)"
-	revision: "3"
+	date: "2022-02-11 19:33:49 GMT (Friday 11th February 2022)"
+	revision: "4"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -38,14 +38,16 @@ feature -- Access
 
 	item: CHARACTER_32
 		local
-			c: CHARACTER; i: INTEGER
+			code: INTEGER; i: INTEGER
 		do
 			i := target_index
-			c := area [i - 1]
-			if c = Unencoded_character then
+			code := area [i - 1].code
+			if code = Substitute_code then
 				Result := unencoded.item (i)
+			elseif code <= Max_7_bit_code then
+				Result := code.to_character_32
 			else
-				Result := codec.as_unicode_character (c)
+				Result := Unicode_table [code]
 			end
 		end
 
@@ -55,7 +57,7 @@ feature -- Access
 		do
 			i := target_index
 			c := area [i - 1]
-			if c = Unencoded_character then
+			if c = Substitute then
 				Result := unencoded.z_code (i)
 			else
 				Result := c.natural_32_code

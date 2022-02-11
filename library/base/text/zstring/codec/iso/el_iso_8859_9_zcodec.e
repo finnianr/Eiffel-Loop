@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-28 19:15:51 GMT (Saturday 28th September 2019)"
-	revision: "5"
+	date: "2022-02-11 19:22:29 GMT (Friday 11th February 2022)"
+	revision: "6"
 
 class
 	EL_ISO_8859_9_ZCODEC
@@ -80,17 +80,17 @@ feature -- Conversion
 			else end
 		end
 
-	latin_character (uc: CHARACTER_32; unicode: INTEGER): CHARACTER
+	latin_character (uc: CHARACTER_32): CHARACTER
 			-- unicode to latin translation
 			-- Returns '%U' if translation is the same as ISO-8859-1 or else not in ISO_8859_9
 		do
 			inspect uc
 				when 'Ş'..'ş' then
-					Result := latin_set_1 [unicode - 350]
+					Result := latin_set_1 [uc.code - 350]
 				when 'İ'..'ı' then
-					Result := latin_set_2 [unicode - 304]
+					Result := latin_set_2 [uc.code - 304]
 				when 'Ğ'..'ğ' then
-					Result := latin_set_3 [unicode - 286]
+					Result := latin_set_3 [uc.code - 286]
 			else end
 		end
 

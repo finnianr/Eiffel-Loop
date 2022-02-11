@@ -13,8 +13,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
-	revision: "10"
+	date: "2022-02-11 16:14:29 GMT (Friday 11th February 2022)"
+	revision: "11"
 
 class
 	HEXAGRAM_STRINGS
@@ -67,7 +67,7 @@ feature -- Access
 
 feature -- Constants
 
-	chinese_names: ARRAY [TUPLE [pinyin, characters: STRING_32]]
+	Chinese_names: ARRAY [TUPLE [pinyin, characters: STRING_32]]
 			--
 		once
 			Result := <<

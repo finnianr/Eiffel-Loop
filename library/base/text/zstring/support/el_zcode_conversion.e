@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-31 16:58:44 GMT (Friday 31st December 2021)"
-	revision: "9"
+	date: "2022-02-11 19:33:49 GMT (Friday 11th February 2022)"
+	revision: "10"
 
 class
 	EL_ZCODE_CONVERSION
@@ -48,7 +48,7 @@ feature {EL_ZCODEC} -- Implementation
 			c_i: CHARACTER
 		do
 			c_i := a_string_area [i]
-			if c_i = Unencoded_character then
+			if c_i = Substitute then
 				Result := unencoded.z_code (i + 1)
 			else
 				Result := c_i.natural_32_code
@@ -57,11 +57,17 @@ feature {EL_ZCODEC} -- Implementation
 
 feature {EL_OUTPUT_MEDIUM} -- Constants
 
+	Max_7_bit_code: INTEGER = 127
+		-- After this point different Latin and Window character sets start to diverge
+		-- (Apart from some control characters)
+
 	Sign_bit: NATURAL = 0x8000_0000
 
 	Sign_bit_mask: NATURAL = 0x7FFF_FFFF
 
-	Unencoded_character: CHARACTER = '%/026/'
+	Substitute_code: INTEGER = 26
+
+	Substitute: CHARACTER = '%/026/'
 		-- The substitute character SUB
 		-- A substitute character (SUB) is a control character that is used in the place of a character that is
 		-- recognized to be invalid or in error or that cannot be represented on a given device.

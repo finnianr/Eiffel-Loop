@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-28 19:15:54 GMT (Saturday 28th September 2019)"
-	revision: "5"
+	date: "2022-02-11 19:24:13 GMT (Friday 11th February 2022)"
+	revision: "6"
 
 class
 	EL_ISO_8859_10_ZCODEC
@@ -138,41 +138,41 @@ feature -- Conversion
 			else end
 		end
 
-	latin_character (uc: CHARACTER_32; unicode: INTEGER): CHARACTER
+	latin_character (uc: CHARACTER_32): CHARACTER
 			-- unicode to latin translation
 			-- Returns '%U' if translation is the same as ISO-8859-1 or else not in ISO_8859_10
 		do
 			inspect uc
 				when 'Ŧ'..'ū' then
-					Result := latin_set_1 [unicode - 358]
+					Result := latin_set_1 [uc.code - 358]
 				when 'Ĩ'..'ī' then
-					Result := latin_set_2 [unicode - 296]
+					Result := latin_set_2 [uc.code - 296]
 				when 'Ŋ'..'ō' then
-					Result := latin_set_3 [unicode - 330]
+					Result := latin_set_3 [uc.code - 330]
 				when 'Ė'..'ę' then
-					Result := latin_set_4 [unicode - 278]
+					Result := latin_set_4 [uc.code - 278]
 				when 'Đ'..'ē' then
-					Result := latin_set_5 [unicode - 272]
+					Result := latin_set_5 [uc.code - 272]
 				when 'Ķ'..'ĸ' then
-					Result := latin_set_6 [unicode - 310]
+					Result := latin_set_6 [uc.code - 310]
 				when 'Š'..'š' then
-					Result := latin_set_7 [unicode - 352]
+					Result := latin_set_7 [uc.code - 352]
 				when 'Č'..'č' then
-					Result := latin_set_8 [unicode - 268]
+					Result := latin_set_8 [uc.code - 268]
 				when 'Ą'..'ą' then
-					Result := latin_set_9 [unicode - 260]
+					Result := latin_set_9 [uc.code - 260]
 				when 'Ž'..'ž' then
-					Result := latin_set_10 [unicode - 381]
+					Result := latin_set_10 [uc.code - 381]
 				when 'Ā'..'ā' then
-					Result := latin_set_11 [unicode - 256]
+					Result := latin_set_11 [uc.code - 256]
 				when 'Ų'..'ų' then
-					Result := latin_set_12 [unicode - 370]
+					Result := latin_set_12 [uc.code - 370]
 				when 'Į'..'į' then
-					Result := latin_set_13 [unicode - 302]
+					Result := latin_set_13 [uc.code - 302]
 				when 'Ģ'..'ģ' then
-					Result := latin_set_14 [unicode - 290]
+					Result := latin_set_14 [uc.code - 290]
 				when 'Ņ'..'ņ' then
-					Result := latin_set_15 [unicode - 325]
+					Result := latin_set_15 [uc.code - 325]
 				when 'Ļ' then
 					Result := '%/168/'
 				when '―' then

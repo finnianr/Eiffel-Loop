@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-31 16:58:14 GMT (Friday 31st December 2021)"
-	revision: "11"
+	date: "2022-02-11 19:32:40 GMT (Friday 11th February 2022)"
+	revision: "12"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -21,8 +21,12 @@ feature -- Access
 		local
 			c: CHARACTER
 		do
-			c := encoded_character (uc)
-			if c = Unencoded_character then
+			if uc.code <= Max_7_bit_code then
+				c := uc.to_character_8
+			else
+				c := Codec.encoded_character (uc)
+			end
+			if c = Substitute then
 				Result := unencoded_index_of (uc.natural_32_code, start_index)
 			else
 				Result := internal_index_of (c, start_index)
@@ -56,8 +60,12 @@ feature -- Access
 		local
 			c: CHARACTER
 		do
-			c := encoded_character (uc)
-			if c = Unencoded_character then
+			if uc.code <= Max_7_bit_code then
+				c := uc.to_character_8
+			else
+				c := Codec.encoded_character (uc)
+			end
+			if c = Substitute then
 				Result := unencoded_last_index_of (uc.natural_32_code, start_index_from_end)
 			else
 				Result := internal_last_index_of (c, start_index_from_end)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-31 16:58:05 GMT (Friday 31st December 2021)"
-	revision: "8"
+	date: "2022-02-11 19:32:39 GMT (Friday 11th February 2022)"
+	revision: "9"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
@@ -25,9 +25,14 @@ feature -- Measurement
 			i, l_count: INTEGER; l_area: like area; c: CHARACTER; uc_code: NATURAL
 			unencoded: like unencoded_indexable
 		do
-			c := encoded_character (uc); uc_code := uc.natural_32_code
+			if uc.code <= Max_7_bit_code then
+				c := uc.to_character_8
+			else
+				c := Codec.encoded_character (uc)
+			end
+			uc_code := uc.natural_32_code
 			l_area := area; l_count := count
-			if c /= Unencoded_character then
+			if c /= Substitute then
 				from i := 0 until i = l_count loop
 					-- `Unencoded_character' is space
 					if l_area [i] = c then
@@ -40,7 +45,7 @@ feature -- Measurement
 			elseif has_mixed_encoding then
 				unencoded := unencoded_indexable
 				from i := 0 until i = l_count loop
-					if l_area [i] = Unencoded_character and then unencoded.code (i + 1) = uc_code then
+					if l_area [i] = Substitute and then unencoded.code (i + 1) = uc_code then
 						Result := Result + 1
 					else
 						i := l_count - 1 -- break out of loop
@@ -63,7 +68,7 @@ feature -- Measurement
 				from i := 0 until i = l_count loop
 					c_i := l_area [i]
 					-- `Unencoded_character' is space
-					if c_i = Unencoded_character then
+					if c_i = Substitute then
 						if c.is_space (unencoded.item (i + 1)) then
 							Result := Result + 1
 						else
@@ -94,8 +99,12 @@ feature -- Measurement
 		local
 			c: like area.item
 		do
-			c := encoded_character (uc)
-			if c = Unencoded_character then
+			if uc.code <= Max_7_bit_code then
+				c := uc.to_character_8
+			else
+				c := Codec.encoded_character (uc)
+			end
+			if c = Substitute then
 				Result := unencoded_occurrences (uc.natural_32_code)
 			else
 				Result := internal_occurrences (c)
@@ -127,13 +136,18 @@ feature -- Measurement
 			i: INTEGER; l_area: like area; c, c_i: CHARACTER
 			unencoded: like unencoded_indexable; uc_code: NATURAL
 		do
-			c := encoded_character (uc); uc_code := uc.natural_32_code
+			if uc.code <= Max_7_bit_code then
+				c := uc.to_character_8
+			else
+				c := Codec.encoded_character (uc)
+			end
+			uc_code := uc.natural_32_code
 			l_area := area; unencoded := unencoded_indexable
-			if c = Unencoded_character then
+			if c = Substitute then
 				if has_mixed_encoding then
 					from i := count - 1 until i < 0 loop
 						c_i := l_area [i]
-						if c_i = Unencoded_character and then unencoded.code (i + 1) = uc_code then
+						if c_i = Substitute and then unencoded.code (i + 1) = uc_code then
 							Result := Result + 1
 						else
 							i := 0 -- break out of loop
@@ -168,7 +182,7 @@ feature -- Measurement
 				from i := count - 1 until i < 0 loop
 					c_i := l_area [i]
 					-- `Unencoded_character' is space
-					if c_i = Unencoded_character then
+					if c_i = Substitute then
 						if c.is_space (unencoded.item (i + 1)) then
 							Result := Result + 1
 						else
@@ -202,7 +216,7 @@ feature -- Measurement
 		do
 			l_count := count; l_area := area
 			from i := 0 until i = l_count loop
-				if l_area [i] = Unencoded_character then
+				if l_area [i] = Substitute then
 					unencoded_found := True
 				else
 					Result := Result + 1

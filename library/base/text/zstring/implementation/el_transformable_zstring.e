@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-31 16:58:21 GMT (Friday 31st December 2021)"
-	revision: "24"
+	date: "2022-02-11 19:32:39 GMT (Friday 11th February 2022)"
+	revision: "25"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -31,7 +31,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 		do
 			c := encoded_character (uc)
 			internal_fill_character (c)
-			if c = Unencoded_character then
+			if c = Substitute then
 				make_unencoded_filled (uc, count)
 			end
 		end
@@ -50,7 +50,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 					l_area := area; unencoded := unencoded_indexable
 					from i := l_count - 1 until i < 0 loop
 						c_i := l_area.item (i)
-						if c_i = Unencoded_character then
+						if c_i = Substitute then
 							buffer.extend (unencoded.code (i + 1), l_count - i)
 						end
 						i := i - 1
@@ -95,7 +95,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 				create z_code_array.make (l_count)
 				from i := 0 until i = l_count loop
 					c_i := l_area [i]
-					if c_i = Unencoded_character then
+					if c_i = Substitute then
 						is_space := c.is_space (unencoded_item (i + 1)) -- Work around for finalization bug
 						l_z_code := unencoded.z_code (i + 1)
 					else
@@ -210,7 +210,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 				if delete_null implies new_z_code > 0 then
 					if new_z_code > 0xFF then
 						l_new_unencoded.extend_z_code (new_z_code, j + 1)
-						l_area.put (Unencoded_character, j)
+						l_area.put (Substitute, j)
 					else
 						l_area.put (new_z_code.to_character_8, j)
 					end
@@ -244,12 +244,12 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 			code_old, code_new: NATURAL; c_old, c_new: CHARACTER; i, l_count: INTEGER; l_area: like area
 			unencoded: like unencoded_indexable
 		do
-			c_old := codec.encoded_character (uc_old.natural_32_code)
-			if c_old = Unencoded_character then
+			c_old := encoded_character (uc_old)
+			if c_old = Substitute then
 				code_old := uc_old.natural_32_code
 			end
-			c_new := codec.encoded_character (uc_new.natural_32_code)
-			if c_new = Unencoded_character then
+			c_new := encoded_character (uc_new)
+			if c_new = Substitute then
 				code_new := uc_new.natural_32_code
 			end
 			l_area := area; l_count := count
@@ -257,7 +257,7 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 				if has_mixed_encoding then
 					unencoded := unencoded_indexable
 					from i := 0 until i = l_count loop
-						if l_area [i] = Unencoded_character and then code_old = unencoded.code (i + 1) then
+						if l_area [i] = Substitute and then code_old = unencoded.code (i + 1) then
 							l_area [i] := c_new
 						end
 						i := i + 1
@@ -268,7 +268,7 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 				from i := 0 until i = l_count loop
 					if l_area [i] = c_old then
 						l_area [i] := c_new
-						if c_new = Unencoded_character then
+						if c_new = Substitute then
 							put_unencoded_code (code_new, i + 1)
 						end
 					end

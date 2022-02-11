@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-31 16:57:58 GMT (Friday 31st December 2021)"
-	revision: "26"
+	date: "2022-02-11 19:33:49 GMT (Friday 11th February 2022)"
+	revision: "27"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -76,22 +76,24 @@ feature -- To Strings
 				Result.set_count (count)
 			end
 		ensure
-			all_encoded: not Result.has (Unencoded_character)
+			all_encoded: not Result.has (Substitute)
 		end
 
 	out: STRING
 			-- Printable representation
 		local
-			c: CHARACTER; i: INTEGER; l_area: like area
+			code, i: INTEGER; l_area: like area
 		do
 			create Result.make (count)
 			l_area := area
 			from i := 1 until i > count loop
-				c := l_area [i - 1]
-				if c = Unencoded_character then
+				code := l_area [i - 1].code
+				if code = Substitute_code then
 					Result.extend ('?')
+				elseif code <= Max_7_bit_code then
+					Result.extend (code.to_character_8)
 				else
-					Result.extend (codec.as_unicode_character (c).to_character_8)
+					Result.extend (Unicode_table [code].to_character_8)
 				end
 				i := i + 1
 			end
@@ -144,13 +146,13 @@ feature -- To Strings
 				l_codec := codec; unencoded := unencoded_indexable
 				from i := area_lower until i > i_upper loop
 					c_i := l_area [i]
-					if c_i = Unencoded_character then
+					if c_i = Substitute then
 						sequence.set (unencoded.item (i + 1))
 						sequence.append_to_string (Result)
 					elseif c_i <= '%/127/' then
 						Result.extend (c_i)
 					else
-						sequence.set (l_codec.as_unicode_character (c_i))
+						sequence.set (l_codec.unicode_table [c_i.code])
 						sequence.append_to_string (Result)
 					end
 					i := i + 1
@@ -167,7 +169,7 @@ feature -- To Strings
 					if c_i <= '%/127/' then
 						Result.extend (c_i)
 					else
-						sequence.set (l_codec.as_unicode_character (c_i))
+						sequence.set (l_codec.unicode_table [c_i.code])
 						sequence.append_to_string (Result)
 					end
 					i := i + 1
@@ -212,7 +214,7 @@ feature -- To list
 			separator := encoded_character (a_separator)
 			l_count := count
 				-- Worse case allocation: every character is a separator
-			if separator = Unencoded_character then
+			if separator = Substitute then
 				separator_code := a_separator.natural_32_code
 				result_count := unencoded_occurrences (separator_code) + 1
 			else

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-15 12:41:37 GMT (Monday 15th March 2021)"
-	revision: "5"
+	date: "2022-02-11 19:32:39 GMT (Friday 11th February 2022)"
+	revision: "6"
 
 class
 	L1_UC_STRING
@@ -52,7 +52,7 @@ feature -- Access
 			c_i: CHARACTER
 		do
 			c_i := area.item (i - 1)
-			if c_i = Unencoded_character then
+			if c_i = Substitute then
 				Result := code_item (i)
 			else
 				Result := c_i.code.to_natural_32
@@ -89,7 +89,7 @@ feature {NONE} -- Implementation
 				uc := a_unicode [i]
 				if uc.natural_32_code > 0xFF then
 					buffer.append_character (uc, i)
-					l_area.put (Unencoded_character, i - 1)
+					l_area.put (Substitute, i - 1)
 				else
 					l_area.put (uc.to_character_8, i - 1)
 				end

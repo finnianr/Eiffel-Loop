@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 13:52:09 GMT (Thursday 14th May 2020)"
-	revision: "8"
+	date: "2022-02-11 19:23:56 GMT (Friday 11th February 2022)"
+	revision: "9"
 
 class
 	EL_ISO_8859_1_ZCODEC
@@ -53,7 +53,7 @@ feature -- Conversion
 			Result := code + offset
 		end
 
-	latin_character (uc: CHARACTER_32; unicode: INTEGER): CHARACTER
+	latin_character (uc: CHARACTER_32): CHARACTER
 			--
 		do
 		end

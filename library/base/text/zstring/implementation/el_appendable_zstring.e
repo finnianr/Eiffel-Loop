@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 13:28:58 GMT (Friday 11th February 2022)"
-	revision: "28"
+	date: "2022-02-11 19:32:40 GMT (Friday 11th February 2022)"
+	revision: "29"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_ZSTRING_IMPLEMENTATION
 		export
-			{EL_READABLE_ZSTRING, STRING_HANDLER} Unencoded_character
+			{EL_READABLE_ZSTRING, STRING_HANDLER} Substitute
 		end
 
 	EL_SHARED_UTF_8_ZCODEC
@@ -148,7 +148,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
 	append_string_8 (str: READABLE_STRING_8)
 		require else
-			not_has_reserved_substitute_character: not str.has (Unencoded_character)
+			not_has_reserved_substitute_character: not str.has (Substitute)
 		do
 			if attached current_string_8 as l_current then
 				l_current.append (str)
@@ -302,7 +302,7 @@ feature {NONE} -- Append character
 		do
 			l_count := count + 1
 			if l_count > capacity then
-				resize (l_count)
+				resize (l_count + additional_space)
 			end
 			set_count (l_count)
 			put_unicode (uc, l_count)
@@ -475,10 +475,14 @@ feature {EL_READABLE_ZSTRING} -- Prepending
 		local
 			c: CHARACTER
 		do
-			c := encoded_character (uc)
+			if uc.code <= Max_7_bit_code then
+				c := uc.to_character_8
+			else
+				c := Codec.encoded_character (uc)
+			end
 			internal_prepend_character (c)
 			shift_unencoded (1)
-			if c = Unencoded_character then
+			if c = Substitute then
 				put_unencoded_code (uc.natural_32_code, 1)
 			end
 		end

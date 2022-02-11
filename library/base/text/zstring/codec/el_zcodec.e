@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 11:36:52 GMT (Wednesday 9th February 2022)"
-	revision: "29"
+	date: "2022-02-11 19:32:36 GMT (Friday 11th February 2022)"
+	revision: "30"
 
 deferred class
 	EL_ZCODEC
@@ -88,7 +88,7 @@ feature -- Contract Support
 			end
 		end
 
-feature {EL_SHARED_ZSTRING_CODEC, EL_ENCODING_BASE} -- Access
+feature {EL_SHARED_ZSTRING_CODEC, EL_ENCODING_BASE, STRING_HANDLER} -- Access
 
 	encoded_string_8 (unicode_in: READABLE_STRING_GENERAL; count: INTEGER; keep_ref: BOOLEAN): STRING
 		local
@@ -139,7 +139,7 @@ feature -- Basic operations
 			l_unicodes := unicode_table
 			from i := 0 until i = a_count loop
 				c := latin_in [i]; code := c.code
-				if c /= Unencoded_character then
+				if c /= Substitute then
 					unicode_out [i + out_offset] := l_unicodes [code]
 				end
 				i := i + 1
@@ -155,18 +155,18 @@ feature -- Basic operations
 		require
 			valid_offset_and_count: valid_offset_and_count (unicode_in.count, encoded_out, out_offset)
 		local
-			i, count, unicode: INTEGER; uc: CHARACTER_32; c: CHARACTER; l_unicodes: like unicode_table
+			i, count: INTEGER; uc: CHARACTER_32; c: CHARACTER; l_unicodes: like unicode_table
 		do
 			l_unicodes := unicode_table; count := unicode_in.count
 			from i := 1 until i > count loop
-				uc := unicode_in [i]; unicode := uc.code
-				if unicode <= 255 and then l_unicodes [unicode] = uc then
+				uc := unicode_in [i]
+				if uc.code <= 255 and then l_unicodes [uc.code] = uc then
 					encoded_out [i + out_offset - 1] := uc.to_character_8
 				else
-					c := latin_character (uc, unicode)
+					c := latin_character (uc)
 					if c.code = 0 then
-						encoded_out [i + out_offset - 1] := Unencoded_character
-						unencoded_characters.extend (unicode.to_natural_32, i + out_offset)
+						encoded_out [i + out_offset - 1] := Substitute
+						unencoded_characters.extend (uc.natural_32_code, i + out_offset)
 					else
 						encoded_out [i + out_offset - 1] := c
 					end
@@ -208,9 +208,9 @@ feature -- Basic operations
 					if unicode <= 255 and then l_unicodes [uc.code] = uc then
 						encoded_out [j] := uc.to_character_8
 					else
-						c := latin_character (uc, uc.code)
+						c := latin_character (uc)
 						if c.code = 0 then
-							encoded_out [j] := Unencoded_character
+							encoded_out [j] := Substitute
 							unencoded_characters.extend (unicode, j + 1)
 						else
 							encoded_out [j] := c
@@ -253,16 +253,16 @@ feature -- Basic operations
 			l_unicodes := unicode_table; l_other_unicodes := other.unicode_table
 			from i := 0 until i = count loop
 				c := encoded_in [i + in_offset]; code := c.code
-				if c = Unencoded_character then
+				if c = Substitute then
 					encoded_out [i + out_offset] := c
 				else
 					uc := l_other_unicodes [code]; unicode := uc.code
 					if unicode <= 255 and then l_unicodes [unicode] = uc then
 						encoded_out [i + out_offset] := uc.to_character_8
 					else
-						c := latin_character (uc, unicode)
+						c := latin_character (uc)
 						if c.code = 0 then
-							encoded_out [i + out_offset] := Unencoded_character
+							encoded_out [i + out_offset] := Substitute
 							unencoded_characters.extend (unicode.to_natural_32, i + out_offset + 1)
 						else
 							encoded_out [i + out_offset] := c
@@ -287,7 +287,7 @@ feature -- Basic operations
 
 	write_encoded_character (uc: CHARACTER_32; writeable: EL_WRITEABLE)
 		do
-			writeable.write_raw_character_8 (encoded_character (uc.natural_32_code))
+			writeable.write_raw_character_8 (encoded_character (uc))
 		end
 
 feature -- Text conversion
@@ -309,48 +309,42 @@ feature -- Text conversion
 			end
 		end
 
-	as_unicode_character (c: CHARACTER): CHARACTER_32
-		do
-			Result := unicode_table [c.code]
-		end
-
 	as_z_code (uc: CHARACTER_32): NATURAL
 			-- Returns hybrid code of latin and unicode
 			-- Single byte codes are reserved for latin encoding.
 			-- Unicode characters below 0xFF are shifted into the private use range: 0xE000 .. 0xF8FF
 			-- See https://en.wikipedia.org/wiki/Private_Use_Areas
 		local
-			c: CHARACTER; unicode: NATURAL
+			c: CHARACTER
 		do
-			unicode := uc.natural_32_code
-			if unicode <= 255 and then unicode_table [unicode.to_integer_32] = uc then
-				Result := unicode
+			if uc.code <= 255 and then unicode_table [uc.code] = uc then
+				Result := uc.natural_32_code
 			else
-				c := latin_character (uc, unicode.to_integer_32)
+				c := latin_character (uc)
 				if c.code = 0 then
-					Result := unicode_to_z_code (unicode)
+					Result := unicode_to_z_code (uc.natural_32_code)
 				else
 					Result := c.natural_32_code
 				end
 			end
 		end
 
-	encoded_character (unicode: NATURAL_32): CHARACTER
+	encoded_character (uc: CHARACTER_32): CHARACTER
 		local
-			uc: CHARACTER_32; index: INTEGER
+			unicode: INTEGER
 		do
-			uc := unicode.to_character_32; index := unicode.to_integer_32
-			if unicode <= 255 and then unicode_table [index] = uc then
+			unicode := uc.code
+			if unicode <= 255 and then unicode_table [unicode] = uc then
 				Result := uc.to_character_8
 			else
-				Result := latin_character (uc, index)
+				Result := latin_character (uc)
 				if Result.code = 0 then
-					Result := Unencoded_character
+					Result := Substitute
 				end
 			end
 		end
 
-	latin_character (uc: CHARACTER_32; unicode: INTEGER): CHARACTER
+	latin_character (uc: CHARACTER_32): CHARACTER
 			-- unicode to latin translation
 			-- Returns '%U' if translation is the same as ISO-8859-1 or else not in current set
 		deferred
@@ -391,7 +385,7 @@ feature {EL_ZSTRING} -- Implementation
 
 			from i := start_index until i > end_index loop
 				c := latin_array [i]
-				if c /= Unencoded_character then
+				if c /= Substitute then
 					if change_to_upper then
 						new_c := as_upper (c.natural_32_code).to_character_8
 					else
@@ -400,7 +394,7 @@ feature {EL_ZSTRING} -- Implementation
 					if c >= '~' and then new_c = c then
 						unicode_substitute := unicode_case_change_substitute (c.natural_32_code)
 						if unicode_substitute.natural_32_code > 0 then
-							new_c := Unencoded_character
+							new_c := Substitute
 							unencoded_characters.put_code (unicode_substitute.natural_32_code, i + 1)
 						end
 					end

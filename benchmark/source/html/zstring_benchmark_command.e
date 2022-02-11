@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:11:40 GMT (Tuesday 8th February 2022)"
-	revision: "7"
+	date: "2022-02-11 17:28:51 GMT (Friday 11th February 2022)"
+	revision: "8"
 
 class
 	ZSTRING_BENCHMARK_COMMAND
@@ -23,13 +23,15 @@ inherit
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (output_dir: DIR_PATH; a_number_of_runs: INTEGER; filter: ZSTRING)
+	make (output_dir: DIR_PATH; template_path: FILE_PATH; a_number_of_runs: INTEGER; filter: ZSTRING)
 		local
-			h: like Hexagram
+			h: like Hexagram; date: EL_DATE_TIME; output_name: ZSTRING
 		do
 			number_of_runs := a_number_of_runs; routine_filter := filter
 			h := Hexagram
-			create benchmark_html.make ("doc/benchmark/ZSTRING-benchmarks.evol", output_dir + Output_name #$ [codec.id])
+			create date.make_now
+			output_name := Output_name_template #$ [codec.id, date.formatted_out ("yyyy-[0]mm-[0]dd")]
+			create benchmark_html.make (template_path, output_dir + output_name)
 		end
 
 feature -- Constants
@@ -80,9 +82,9 @@ feature {STRING_BENCHMARK} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Output_name: ZSTRING
+	Output_name_template: ZSTRING
 		once
-			Result := "ZSTRING-benchmarks-latin-%S.html"
+			Result := "ZSTRING-benchmarks-latin-%S (%S).html"
 		end
 
 end

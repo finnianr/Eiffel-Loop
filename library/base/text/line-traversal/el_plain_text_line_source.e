@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-10 20:50:06 GMT (Thursday 10th February 2022)"
-	revision: "24"
+	date: "2022-02-11 19:32:38 GMT (Friday 11th February 2022)"
+	revision: "25"
 
 class
 	EL_PLAIN_TEXT_LINE_SOURCE
@@ -180,8 +180,8 @@ feature {NONE} -- Implementation
 
 			else
 				raw_line.prune_all_trailing ('%R')
-				if raw_line.has (Unencoded_character) then
-					raw_line.prune_all (Unencoded_character) -- Reserved by `EL_ZSTRING' as Unicode placeholder
+				if raw_line.has (Substitute) then
+					raw_line.prune_all (Substitute) -- Reserved by `EL_ZSTRING' as Unicode placeholder
 				end
 			end
 			if is_shared_item then

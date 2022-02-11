@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-09 9:37:10 GMT (Wednesday 9th June 2021)"
-	revision: "4"
+	date: "2022-02-11 19:32:40 GMT (Friday 11th February 2022)"
+	revision: "5"
 
 deferred class
 	EL_MEMORY_STRING_READER_WRITER
@@ -159,7 +159,7 @@ feature {NONE} -- Implementation
 						c := buf.read_character (pos)
 						pos := pos + Character_8_bytes
 						area [i] := c
-						if c = Unencoded_character then
+						if c = Substitute then
 							if pos + Natural_32_bytes < buffer_count then
 								code := buf.read_natural_32 (pos)
 								pos := pos + Natural_32_bytes
@@ -227,7 +227,7 @@ feature -- Write operations
 					buf.put_character (c, pos)
 					pos := pos + Character_8_bytes
 
-					if c = Unencoded_character then
+					if c = Substitute then
 						buf.put_natural_32 (unencoded.code (i + 1), pos)
 						pos := pos + Natural_32_bytes
 					end

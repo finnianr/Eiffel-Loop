@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-31 17:00:05 GMT (Friday 31st December 2021)"
-	revision: "17"
+	date: "2022-02-11 19:33:50 GMT (Friday 11th February 2022)"
+	revision: "18"
 
 class
 	EL_ZSTRING_VIEW
@@ -46,13 +46,17 @@ feature -- Access
 	unicode (i: INTEGER): NATURAL_32
 			-- Character at position `i'
 		local
-			c: CHARACTER_8
+			code: INTEGER
 		do
-			c := area [offset + i - 1]
-			if c = Unencoded_character and then attached unencoded_indexable as unencoded then
+			code := area [offset + i - 1].code
+			if code = Substitute_code and then attached unencoded_indexable as unencoded then
 				Result := unencoded.code (offset + i)
+
+			elseif code <= Max_7_bit_code then
+				Result := code.to_natural_32
+
 			else
-				Result := Codec.as_unicode_character (c).natural_32_code
+				Result := Unicode_table [code].natural_32_code
 			end
 		end
 
@@ -68,7 +72,7 @@ feature -- Access
 			c_i: CHARACTER
 		do
 			c_i := area [i - 1]
-			if c_i = Unencoded_character and then attached unencoded_indexable as unencoded then
+			if c_i = Substitute and then attached unencoded_indexable as unencoded then
 				Result := unencoded.z_code (i)
 			else
 				Result := c_i.natural_32_code
@@ -86,7 +90,7 @@ feature -- Measurement
 			if attached unencoded_indexable as unencoded then
 				from i := offset until i = i_final loop
 					c_i := l_area [i]
-					if c_i = Unencoded_character and then unencoded.z_code (i + 1) = a_code then
+					if c_i = Substitute and then unencoded.z_code (i + 1) = a_code then
 						Result := Result + 1
 					elseif c_i = c then
 						Result := Result + 1
@@ -118,7 +122,7 @@ feature -- Conversion
 			then
 				i_final := offset + count
 				from i := offset until i = i_final loop
-					if l_area [i] = Unencoded_character then
+					if l_area [i] = Substitute then
 						buffer.extend (unencoded.code (i + 1), i + 1)
 					end
 					i := i + 1
@@ -157,7 +161,7 @@ feature -- Basic operations
 					area_lower := start_index + offset - 1
 					area_upper := end_index.min (count) + offset - 1
 					from i := area_lower until i > area_upper loop
-						if l_area [i] = Unencoded_character then
+						if l_area [i] = Substitute then
 							index := i - start_index + 2
 							buffer.extend (unencoded.code (index), index)
 						end
@@ -182,13 +186,13 @@ feature -- Status query
 			l_area: like area; i, i_final: INTEGER; c, c_i: CHARACTER
 			l_code: NATURAL
 		do
-			c := Codec.encoded_character (uc.natural_32_code)
+			c := Codec.encoded_character (uc)
 			l_area := area; i_final := offset + count
-			if c = Unencoded_character and then attached unencoded_indexable as unencoded then
+			if c = Substitute and then attached unencoded_indexable as unencoded then
 				l_code := Codec.as_z_code (uc)
 				from i := offset until Result or else i = i_final loop
 					c_i := l_area [i]
-					if c_i = Unencoded_character and then unencoded.z_code (i + 1) = l_code then
+					if c_i = Substitute and then unencoded.z_code (i + 1) = l_code then
 						Result := True
 					end
 					i := i + 1

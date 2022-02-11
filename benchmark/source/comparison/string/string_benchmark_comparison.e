@@ -6,14 +6,16 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-04 13:31:54 GMT (Friday 4th December 2020)"
-	revision: "3"
+	date: "2022-02-11 16:35:53 GMT (Friday 11th February 2022)"
+	revision: "4"
 
 deferred class
 	STRING_BENCHMARK_COMPARISON
 
 inherit
 	EL_BENCHMARK_COMPARISON
+
+	SHARED_HEXAGRAM_STRINGS
 
 	EL_ZSTRING_ROUTINES
 		export
@@ -27,6 +29,8 @@ feature {NONE} -- Constants
 			Result := << {STRING_32} "(屯)", {STRING_32} "(乾)" >>
 		end
 
-	Hexagram_1_description: STRING_32 = "Hex. #1 - Qián (屯) - The Creative, Creating, Pure Yang, Inspiring Force, Dragon"
+	Hexagram_1_description: STRING_32 = "[
+		Hex. #1 - Qián (屯) - The Creative, Creating, Pure Yang, Inspiring Force, Dragon
+	]"
 
 end

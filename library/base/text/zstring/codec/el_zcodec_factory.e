@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 13:39:59 GMT (Friday 11th February 2022)"
-	revision: "17"
+	date: "2022-02-11 15:55:30 GMT (Friday 11th February 2022)"
+	revision: "18"
 
 frozen class
 	EL_ZCODEC_FACTORY
@@ -80,7 +80,7 @@ feature {NONE} -- Factory
 			valid_windows_index: Codec_type_array [14] ~ {EL_ISO_8859_15_ZCODEC}
 			valid_windows_index: Codec_type_array [Windows_1250_index] ~ {EL_WINDOWS_1250_ZCODEC}
 		local
-			id, index: INTEGER; type: TYPE [EL_ZCODEC]
+			id, index: INTEGER
 		do
 			if a_encoding = Utf_8 then
 				Result := Utf_8_codec
@@ -97,17 +97,15 @@ feature {NONE} -- Factory
 					when Windows then
 						index := id - 1250 + Windows_1250_index
 				end
-				Result := new_codec_with_type (Codec_type_array [index])
+				if Codec_type_array.valid_index (index)
+					and then attached {EL_ZCODEC} Eiffel.new_object (Codec_type_array [index]) as new
+				then
+					Result := new; Result.make
+				else
+					Result := Utf_8_codec
+				end
 			else
 				Result := Utf_8_codec
-			end
-		end
-
-	new_codec_with_type (type: TYPE [EL_ZCODEC]): EL_ZCODEC
-		do
-			if attached {EL_ZCODEC} Eiffel.new_object (type) as new then
-				Result := new
-				Result.make
 			end
 		end
 
@@ -137,17 +135,32 @@ feature {NONE} -- Implementation
 
 	new_codec_types: TUPLE [
 --		Latin
-		EL_ISO_8859_1_ZCODEC, EL_ISO_8859_2_ZCODEC, EL_ISO_8859_3_ZCODEC,
-		EL_ISO_8859_4_ZCODEC, EL_ISO_8859_5_ZCODEC, EL_ISO_8859_6_ZCODEC,
-		EL_ISO_8859_7_ZCODEC, EL_ISO_8859_8_ZCODEC, EL_ISO_8859_9_ZCODEC,
-		EL_ISO_8859_10_ZCODEC, EL_ISO_8859_11_ZCODEC,
+		EL_ISO_8859_1_ZCODEC,
+		EL_ISO_8859_2_ZCODEC,
+		EL_ISO_8859_3_ZCODEC,
+		EL_ISO_8859_4_ZCODEC,
+		EL_ISO_8859_5_ZCODEC,
+		EL_ISO_8859_6_ZCODEC,
+		EL_ISO_8859_7_ZCODEC,
+		EL_ISO_8859_8_ZCODEC,
+		EL_ISO_8859_9_ZCODEC,
+		EL_ISO_8859_10_ZCODEC,
+		EL_ISO_8859_11_ZCODEC,
 --		ISO-8859-12 for Celtic languages was abandoned in 1997
-		EL_ISO_8859_13_ZCODEC, EL_ISO_8859_14_ZCODEC, EL_ISO_8859_15_ZCODEC,
+		EL_ISO_8859_13_ZCODEC,
+		EL_ISO_8859_14_ZCODEC,
+		EL_ISO_8859_15_ZCODEC,
 
 --		Windows
-		EL_WINDOWS_1250_ZCODEC, EL_WINDOWS_1251_ZCODEC, EL_WINDOWS_1252_ZCODEC,
-		EL_WINDOWS_1253_ZCODEC, EL_WINDOWS_1254_ZCODEC, EL_WINDOWS_1255_ZCODEC,
-		EL_WINDOWS_1256_ZCODEC, EL_WINDOWS_1257_ZCODEC, EL_WINDOWS_1258_ZCODEC
+		EL_WINDOWS_1250_ZCODEC,
+		EL_WINDOWS_1251_ZCODEC,
+		EL_WINDOWS_1252_ZCODEC,
+		EL_WINDOWS_1253_ZCODEC,
+		EL_WINDOWS_1254_ZCODEC,
+		EL_WINDOWS_1255_ZCODEC,
+		EL_WINDOWS_1256_ZCODEC,
+		EL_WINDOWS_1257_ZCODEC,
+		EL_WINDOWS_1258_ZCODEC
 	]
 		do
 			create Result
