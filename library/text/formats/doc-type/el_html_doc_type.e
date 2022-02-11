@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "12"
+	date: "2022-02-11 9:32:51 GMT (Friday 11th February 2022)"
+	revision: "13"
 
 class
 	EL_HTML_DOC_TYPE
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 
 	make (a_encoding: NATURAL)
 		require
-			valid_encoding: valid_encoding (a_encoding)
+			valid_encoding: Mod_encoding.is_valid (a_encoding)
 		do
 			make_machine
 			make_doc_type ("html", a_encoding)

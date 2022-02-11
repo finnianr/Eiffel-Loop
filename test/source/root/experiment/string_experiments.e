@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 11:08:24 GMT (Wednesday 9th February 2022)"
-	revision: "16"
+	date: "2022-02-11 10:15:09 GMT (Friday 11th February 2022)"
+	revision: "17"
 
 class
 	STRING_EXPERIMENTS
@@ -78,7 +78,7 @@ feature -- Basic operations
 	encode_string_for_console
 		do
 			across <<
-				Encodings.System, Encodings.Console, Encodings.Utf_8, Encodings.Iso_8859_1
+				Encodings.System, Encodings.Console, Encodings.Utf_8, Encodings.Latin_1
 			>> as encoding loop
 				lio.put_line (encoding.item.code_page)
 			end

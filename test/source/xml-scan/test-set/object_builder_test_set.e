@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 7:19:59 GMT (Monday 7th February 2022)"
-	revision: "14"
+	date: "2022-02-11 10:32:12 GMT (Friday 11th February 2022)"
+	revision: "15"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -58,6 +58,7 @@ feature -- Tests
 
 	test_buildable_from_node_scan
 		-- 10 Feb 2020
+		-- OBJECT_BUILDER_TEST_SET.test_buildable_from_node_scan
 		do
 			across factory_types as type loop
 				build (type.item)

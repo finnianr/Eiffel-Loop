@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-10 13:28:54 GMT (Thursday 10th February 2022)"
-	revision: "16"
+	date: "2022-02-11 11:16:48 GMT (Friday 11th February 2022)"
+	revision: "17"
 
 deferred class
 	EL_ENCODING_BASE
@@ -20,7 +20,7 @@ inherit
 			Utf as Utf_class,
 			Windows as Windows_class
 		export
-			{ANY} valid_encoding, valid_windows, valid_latin, valid_utf
+			{NONE} all
 		end
 
 	EL_SHARED_ENCODING_TABLE
@@ -53,18 +53,14 @@ feature -- Access
 		-- For `Latin' these are: 1..15
 		-- For `Windows' these are: 1250..1258
 		do
-			Result := encoding & Encoding_id_mask
+			Result := encoding & ID_mask
 		end
 
 	name: STRING
 			--
 		do
 			if encoding = Other_class then
-				if attached other_encoding as other then
-					Result := other.code_page
-				else
-					Result.append (Name_unknown)
-				end
+				Result := other_encoding.code_page
 			else
 				create Result.make (12)
 				across Class_table as table until Result.count > 0 loop
@@ -90,7 +86,7 @@ feature -- Access
 	type: NATURAL
 		-- a 4-bit code left-shifted by 12 representing the encoding type: UTF, WINDOWS or ISO-8859
 		do
-			Result := encoding & Encoding_type_mask
+			Result := encoding & Class_mask
 		end
 
 feature -- Status query
@@ -258,8 +254,52 @@ feature -- Conversion
 feature -- Contract Support
 
 	valid_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if valid Windows, UTF or Latin encoding name
 		do
-			Result := valid_encoding (name_to_encoding (a_name))
+			Result := a_name.count > 0 and then valid_encoding (name_to_encoding (a_name))
+		end
+
+	frozen valid_encoding (a_encoding: NATURAL): BOOLEAN
+		-- `True' if `a_encoding' is valid Windows, UTF or Latin encoding
+		do
+			inspect a_encoding & Class_mask
+				when Utf_class then
+					Result := valid_utf (a_encoding & ID_mask)
+				when Latin_class then
+					Result := valid_latin (a_encoding & ID_mask)
+				when Windows_class then
+					Result := valid_windows (a_encoding & ID_mask)
+			else
+			end
+		end
+
+	frozen valid_latin (a_id: NATURAL): BOOLEAN
+		do
+			-- ISO 8859-12 was originally proposed to support the Celtic languages.[1] ISO 8859-12 was later
+			-- slated for Latin/Devanagari, but this was abandoned in 1997
+			inspect a_id
+				when 1 .. 11, 13 .. 15 then
+					Result := True
+			else
+			end
+		end
+
+	frozen valid_utf (a_id: NATURAL): BOOLEAN
+		do
+			inspect a_id
+				when 8, 16, 32 then
+					Result := True
+			else
+			end
+		end
+
+	frozen valid_windows (a_id: NATURAL): BOOLEAN
+		do
+			inspect a_id
+				when 1250 .. 1258 then
+					Result := True
+			else
+			end
 		end
 
 feature {NONE} -- Strings

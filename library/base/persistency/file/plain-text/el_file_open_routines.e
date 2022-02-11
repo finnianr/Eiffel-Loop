@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-10 8:14:53 GMT (Thursday 10th February 2022)"
-	revision: "6"
+	date: "2022-02-11 9:26:33 GMT (Friday 11th February 2022)"
+	revision: "7"
 
 deferred class
 	EL_FILE_OPEN_ROUTINES
@@ -19,6 +19,13 @@ inherit
 			Latin as Latin_class,
 			Utf as Utf_class,
 			Windows as Windows_class
+		export
+			{NONE} all
+		end
+
+	EL_MODULE_ENCODING
+		rename
+			Encoding as Mod_encoding
 		end
 
 feature {NONE} -- Basic operations
@@ -35,16 +42,16 @@ feature {NONE} -- Basic operations
 			open_file (Result, mode)
 		end
 
-	frozen open_lines (path: READABLE_STRING_GENERAL; encoding: NATURAL): EL_PLAIN_TEXT_LINE_SOURCE
+	frozen open_lines (path: READABLE_STRING_GENERAL; a_encoding: NATURAL): EL_PLAIN_TEXT_LINE_SOURCE
 		-- open file for reading using LINEAR iterator
 		require
-			valid_encoding: valid_encoding (encoding)
+			valid_encoding: Mod_encoding.is_valid (a_encoding)
 		local
 			file_path: FILE_PATH
 		do
 			create file_path.make (path)
 			if file_path.exists then
-				create Result.make (encoding, path)
+				create Result.make (a_encoding, path)
 			else
 				create Result.make_default
 			end

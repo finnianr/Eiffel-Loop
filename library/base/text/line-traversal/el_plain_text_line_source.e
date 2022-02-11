@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-10 18:33:41 GMT (Thursday 10th February 2022)"
-	revision: "23"
+	date: "2022-02-10 20:50:06 GMT (Thursday 10th February 2022)"
+	revision: "24"
 
 class
 	EL_PLAIN_TEXT_LINE_SOURCE
@@ -173,7 +173,7 @@ feature {NONE} -- Implementation
 			raw_line: STRING
 		do
 			raw_line := file.last_string
-			if encoded_as_utf (16) then
+			if encoded_as_utf (16) then -- little endian
 				file.read_character -- skip '%U' after '%N'
 				raw_line.prune_all_trailing ('%U')
 				raw_line.prune_all_trailing ('%R')

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-10 18:41:36 GMT (Thursday 10th February 2022)"
-	revision: "11"
+	date: "2022-02-11 9:30:58 GMT (Friday 11th February 2022)"
+	revision: "12"
 
 deferred class
 	ECD_REFLECTIVE_RECOVERABLE_CHAIN [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -19,7 +19,7 @@ deferred class
 inherit
 	ECD_RECOVERABLE_CHAIN [G]
 		export
-			{ANY} valid_encoding
+			{ANY} Mod_encoding
 		end
 
 feature -- Access
@@ -47,7 +47,7 @@ feature -- Basic operations
 
 	export_csv (a_file_path: FILE_PATH; encoding: NATURAL)
 		require
-			valid_encoding: valid_encoding (encoding)
+			valid_encoding: Mod_encoding.is_valid (encoding)
 		local
 			file: EL_PLAIN_TEXT_FILE; line: ZSTRING
 		do
@@ -87,7 +87,7 @@ feature -- Basic operations
 
 	export_pyxis (a_file_path: FILE_PATH; encoding: NATURAL)
 		require
-			valid_encoding: valid_encoding (encoding)
+			valid_encoding: Mod_encoding.is_valid (encoding)
 		local
 			file: EL_PLAIN_TEXT_FILE
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-10 14:19:41 GMT (Thursday 10th February 2022)"
-	revision: "27"
+	date: "2022-02-11 13:28:58 GMT (Friday 11th February 2022)"
+	revision: "28"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -20,15 +20,9 @@ inherit
 
 	EL_SHARED_UTF_8_ZCODEC
 
-	EL_ENCODING_CONSTANTS
-		rename
-			Utf_8 as Utf_8_encoding,
-			Utf_16 as Utf_16_encoding,
-			Latin as Latin_class,
-			Other as Other_class,
-			Utf as Utf_class
+	EL_MODULE_ENCODING
 		export
-			{EL_READABLE_ZSTRING, STRING_HANDLER} valid_encoding
+			{ANY} Encoding
 		end
 
 feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
@@ -40,31 +34,60 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 			append_string_8 (str)
 		end
 
-	append_encoded (encoded: READABLE_STRING_8; encoding: NATURAL)
+	append_encodeable (str: READABLE_STRING_8; str_encoding: EL_ENCODING_BASE)
+		do
+			if str_encoding.encoding = {EL_ENCODING_CONSTANTS}.Other then
+				append_encoded_any (str, str_encoding.as_encoding)
+
+			elseif valid_encoding (str_encoding.encoding) then
+				append_encoded (str, str_encoding.encoding)
+			else
+				append_string_8 (str)
+			end
+		end
+
+	append_encoded_any (str: READABLE_STRING_8; str_encoding: ENCODING)
+		-- append any `str' encoded with `str_encoding'
+		do
+			str_encoding.convert_to (codec.as_encoding, str)
+			if str_encoding.last_conversion_successful then
+				check
+					no_lost_data: not str_encoding.last_conversion_lost_data
+				end
+				append_string_general (str_encoding.last_converted_string)
+			else
+				append_string_8 (str)
+			end
+		end
+
+	append_encoded (str: READABLE_STRING_8; str_encoding: NATURAL)
+		-- append UTF, Latin, or Windows encoded `str'
 		require
-			valid_encoding: valid_encoding (encoding)
+			valid_encoding: valid_encoding (str_encoding)
 		local
 			offset: INTEGER; s: EL_STRING_8_ROUTINES; buffer: like empty_unencoded_buffer
 			l_codec: EL_ZCODEC
 		do
-			if encoding = Utf_16_encoding then
-				append_utf_16_le (encoded)
+			-- UTF-16 must be first to test as it can look like ascii
+			if str_encoding = {EL_ENCODING_CONSTANTS}.Utf_16 then
+				append_utf_16_le (str)
 
-			elseif s.is_ascii (encoded) then
-				append_ascii (encoded)
+			elseif s.is_ascii (str) then
+				-- <= 127 is all the same no matter which encoding
+				append_ascii (str)
 
-			elseif encoding = Utf_8_encoding then
-				append_utf_8 (encoded)
+			elseif str_encoding = {EL_ENCODING_CONSTANTS}.Utf_8 then
+				append_utf_8 (str)
 
-			elseif codec.encoding = encoding then
-				append_string_8 (encoded)
+			elseif codec.encoding = str_encoding then
+				append_string_8 (str)
 
-			else
-				l_codec := Codec_factory.codec_by (encoding)
+			elseif Codec_factory.valid_encoding (str_encoding) then
+				l_codec := Codec_factory.codec_by (str_encoding)
 				buffer := empty_unencoded_buffer
-				offset := count; accommodate (encoded.count)
-				if attached s.cursor (encoded) as cursor then
-					codec.re_encode (l_codec, cursor.area, area, encoded.count, cursor.area_first_index, offset, buffer)
+				offset := count; accommodate (str.count)
+				if attached s.cursor (str) as cursor then
+					codec.re_encode (l_codec, cursor.area, area, str.count, cursor.area_first_index, offset, buffer)
 					inspect respective_encoding (buffer)
 						when Both_have_mixed_encoding then
 							append_unencoded (buffer, 0)
@@ -73,6 +96,8 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 					else
 					end
 				end
+			else
+				append_string_8 (str)
 			end
 		end
 
@@ -497,6 +522,12 @@ feature {STRING_HANDLER} -- Contract support
 	is_ascii_string (str: READABLE_STRING_8): BOOLEAN
 		do
 			Result := string_8.is_ascii (str)
+		end
+
+	valid_encoding (a_encoding: NATURAL): BOOLEAN
+		-- `True' when `a_encoding' is UTF-8/16, Latin, or Windows
+		do
+			Result := a_encoding = {EL_ENCODING_CONSTANTS}.Utf_16 or Codec_factory.valid_encoding (a_encoding)
 		end
 
 feature {NONE} -- Implementation

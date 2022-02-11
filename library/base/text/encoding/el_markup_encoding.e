@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "13"
+	date: "2022-02-11 9:12:14 GMT (Friday 11th February 2022)"
+	revision: "14"
 
 class
 	EL_MARKUP_ENCODING
@@ -27,7 +27,7 @@ inherit
 			make as make_machine
 		end
 
-	EL_ENCODING
+	EL_ENCODING_BASE
 		rename
 			make as make_encoding
 		end

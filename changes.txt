@@ -451,3 +451,6 @@ Migration of regression tests to test sets
 Sat 5th Feb 2022, 17:53:24
 Revised application management
 
+Thu 10th Feb 2022, 18:49:01
+UTF-16 le capable file line source class
+

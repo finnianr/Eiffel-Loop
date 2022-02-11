@@ -1,13 +1,13 @@
 note
-	description: "Document node string"
+	description: "Document node string with specific encoding `encoding_name'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 18:49:36 GMT (Wednesday 9th February 2022)"
-	revision: "21"
+	date: "2022-02-11 10:24:40 GMT (Friday 11th February 2022)"
+	revision: "22"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -68,7 +68,8 @@ inherit
 	EL_ENCODEABLE_AS_TEXT
 		rename
 			make as make_with_encoding,
-			make_default as make_encodeable
+			make_default as make_encodeable,
+			encoding as encoding_code
 		export
 			{NONE} all
 			{EL_DOCUMENT_CLIENT} set_encoding_from_other
@@ -80,6 +81,8 @@ inherit
 		undefine
 			copy, is_equal, out
 		end
+
+	EL_SHARED_ENCODINGS
 
 create
 	make, make_default
@@ -187,7 +190,7 @@ feature -- String conversion
 				Result := Precursor (keep_ref)
 			else
 				Result := buffer.empty
-				Result.append_encoded (buffer_8.adjusted (Current), encoding)
+				Result.append_encodeable (buffer_8.adjusted (Current), Current)
 				if keep_ref then
 					Result := Result.twin
 				end
@@ -200,7 +203,22 @@ feature -- String conversion
 				Result := Precursor (keep_ref)
 			else
 				Result := buffer_32.empty
-				Result.append_string_general (buffer_8.adjusted (Current))
+				if attached buffer_8.adjusted (Current) as str_8 then
+					if encoded_as_latin (1) then
+						Result.append_string_general (str_8)
+
+					elseif attached as_encoding as encoding then
+						encoding.convert_to (Encodings.Unicode, str_8)
+						if encoding.last_conversion_successful then
+							check
+								no_lost_data: not encoding.last_conversion_lost_data
+							end
+							Result.append_string_general (encoding.last_converted_string)
+						else
+							Result.append_string_general (str_8)
+						end
+					end
+				end
 				if keep_ref then
 					Result := Result.twin
 				end
@@ -215,7 +233,22 @@ feature -- String conversion
 			if encoded_as_utf (8) then
 				Result := Precursor (keep_ref)
 			else
-				Result := l_buffer.adjusted (Current)
+				if attached l_buffer.adjusted (Current) as str_8 then
+					if encoded_as_latin (1) then
+						Result := str_8
+
+					elseif attached as_encoding as encoding then
+						encoding.convert_to (Encodings.Latin_1, str_8)
+						if encoding.last_conversion_successful then
+							check
+								no_lost_data: not encoding.last_conversion_lost_data
+							end
+							Result.append (encoding.last_converted_string_8)
+						else
+							Result := str_8
+						end
+					end
+				end
 				if keep_ref then
 					Result := Result.twin
 				end

@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:33:28 GMT (Tuesday 8th February 2022)"
-	revision: "19"
+	date: "2022-02-11 9:26:52 GMT (Friday 11th February 2022)"
+	revision: "20"
 
 deferred class
 	EL_THUNDERBIRD_ACCOUNT_READER

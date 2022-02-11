@@ -10,24 +10,28 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-10 8:18:04 GMT (Thursday 10th February 2022)"
-	revision: "16"
+	date: "2022-02-11 13:39:59 GMT (Friday 11th February 2022)"
+	revision: "17"
 
 frozen class
 	EL_ZCODEC_FACTORY
 
 inherit
-	ANY
+	ARGUMENTS_32
+		export
+			{NONE} all
+		end
 
 	EL_SHARED_UTF_8_ZCODEC
 
-	EL_MODULE_EIFFEL
+	EL_MODULE_EIFFEL; EL_MODULE_ENCODING
 
-	EL_ENCODING_BASE
+	EL_ENCODING_CONSTANTS
 		export
 			{NONE} all
-			{ANY} valid_encoding
 		end
+
+	EL_STRING_8_CONSTANTS
 
 feature -- Access
 
@@ -47,24 +51,24 @@ feature -- Access
 		end
 
 	zstring_codec: EL_ZCODEC
-		-- codec defined by command line option `-zstring_codec' or else
-		-- instance of `EL_ISO_8859_15_ZCODEC' if command option not present
+		-- user specified code for use with `ZSTRING' defined by command line option `-zstring_codec' or else
+		-- instance of `EL_ISO_8859_15_ZCODEC' by default
 		local
-			args: ARGUMENTS_32; i: INTEGER
-			codec_name: STRING
+			i: INTEGER; codec_name: READABLE_STRING_GENERAL; l_encoding: NATURAL
 		do
-			create args
-			create codec_name.make_empty
-			from i := 1 until codec_name.count > 0 or else i > args.argument_count loop
-				if args.argument (i) ~ Codec_option_name and then i < args.argument_count then
-					codec_name := args.argument (i + 1).to_string_8
+			codec_name := Empty_string_8
+			from i := 1 until codec_name.count > 0 or else i > argument_count loop
+				if argument (i).same_string_general (Codec_option_name) and then i < argument_count then
+					codec_name := argument (i + 1)
 				end
 				i := i + 1
 			end
-			if valid_name (codec_name) then
-				Result := codec_by (name_to_encoding (codec_name))
+			l_encoding := Encoding.name_to_encoding (codec_name)
+			inspect l_encoding & Class_mask
+				when Latin, Windows then
+					Result := codec_by (l_encoding)
 			else
-				Result := codec_by (Latin_class | 15)
+				Result := codec_by (Latin | 15)
 			end
 		end
 
@@ -73,14 +77,37 @@ feature {NONE} -- Factory
 	new_codec (a_encoding: NATURAL): EL_ZCODEC
 		require
 			valid_encoding: valid_encoding (a_encoding)
+			valid_windows_index: Codec_type_array [14] ~ {EL_ISO_8859_15_ZCODEC}
+			valid_windows_index: Codec_type_array [Windows_1250_index] ~ {EL_WINDOWS_1250_ZCODEC}
+		local
+			id, index: INTEGER; type: TYPE [EL_ZCODEC]
 		do
-			if Codec_type_table.has_key (a_encoding)
-				and then attached {EL_ZCODEC} Eiffel.new_object (Codec_type_table.found_item) as new
-			then
-				Result := new
-				Result.make
+			if a_encoding = Utf_8 then
+				Result := Utf_8_codec
+
+			elseif valid_encoding (a_encoding) then
+				id := (a_encoding & Id_mask).to_integer_32
+				inspect a_encoding & Class_mask
+					when Latin then
+						if id > 12 then
+							index := id - 1
+						else
+							index := id
+						end
+					when Windows then
+						index := id - 1250 + Windows_1250_index
+				end
+				Result := new_codec_with_type (Codec_type_array [index])
 			else
 				Result := Utf_8_codec
+			end
+		end
+
+	new_codec_with_type (type: TYPE [EL_ZCODEC]): EL_ZCODEC
+		do
+			if attached {EL_ZCODEC} Eiffel.new_object (type) as new then
+				Result := new
+				Result.make
 			end
 		end
 
@@ -91,47 +118,58 @@ feature -- Status query
 			Result := valid_encoding (a_encoding.encoding)
 		end
 
+	valid_encoding (a_encoding: NATURAL): BOOLEAN
+		do
+			if a_encoding = Utf_8 then
+				Result := True
+			else
+				inspect a_encoding & Class_mask
+					when Latin then
+						Result := Encoding.valid_latin (a_encoding & Id_mask)
+					when Windows then
+						Result := Encoding.valid_windows (a_encoding & Id_mask)
+				else
+				end
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	new_codec_types: TUPLE [
+--		Latin
+		EL_ISO_8859_1_ZCODEC, EL_ISO_8859_2_ZCODEC, EL_ISO_8859_3_ZCODEC,
+		EL_ISO_8859_4_ZCODEC, EL_ISO_8859_5_ZCODEC, EL_ISO_8859_6_ZCODEC,
+		EL_ISO_8859_7_ZCODEC, EL_ISO_8859_8_ZCODEC, EL_ISO_8859_9_ZCODEC,
+		EL_ISO_8859_10_ZCODEC, EL_ISO_8859_11_ZCODEC,
+--		ISO-8859-12 for Celtic languages was abandoned in 1997
+		EL_ISO_8859_13_ZCODEC, EL_ISO_8859_14_ZCODEC, EL_ISO_8859_15_ZCODEC,
+
+--		Windows
+		EL_WINDOWS_1250_ZCODEC, EL_WINDOWS_1251_ZCODEC, EL_WINDOWS_1252_ZCODEC,
+		EL_WINDOWS_1253_ZCODEC, EL_WINDOWS_1254_ZCODEC, EL_WINDOWS_1255_ZCODEC,
+		EL_WINDOWS_1256_ZCODEC, EL_WINDOWS_1257_ZCODEC, EL_WINDOWS_1258_ZCODEC
+	]
+		do
+			create Result
+		end
+
 feature {NONE} -- Constants
+
+	Codec_type_array: EL_TUPLE_TYPE_LIST [EL_ZCODEC]
+		once
+			create Result.make_from_tuple (new_codec_types)
+		end
+
+	Codec_option_name: STRING = "-zstring_codec"
 
 	Codec_table: EL_CACHE_TABLE [EL_ZCODEC, NATURAL]
 		once
 			create Result.make_equal (30, agent new_codec)
 		end
 
-	Codec_type_table: EL_HASH_TABLE [TYPE [EL_ZCODEC], NATURAL]
+	Windows_1250_index: INTEGER
 		once
-			create Result.make (<<
-				[Latin_class | 1, {EL_ISO_8859_1_ZCODEC}],
-				[Latin_class | 2, {EL_ISO_8859_2_ZCODEC}],
-				[Latin_class | 3, {EL_ISO_8859_3_ZCODEC}],
-				[Latin_class | 4, {EL_ISO_8859_4_ZCODEC}],
-				[Latin_class | 5, {EL_ISO_8859_5_ZCODEC}],
-				[Latin_class | 6, {EL_ISO_8859_6_ZCODEC}],
-				[Latin_class | 7, {EL_ISO_8859_7_ZCODEC}],
-				[Latin_class | 8, {EL_ISO_8859_8_ZCODEC}],
-				[Latin_class | 9, {EL_ISO_8859_9_ZCODEC}],
-				[Latin_class | 10, {EL_ISO_8859_10_ZCODEC}],
-				[Latin_class | 11, {EL_ISO_8859_11_ZCODEC}],
---				ISO-8859-12 for Celtic languages was abandoned in 1997
-				[Latin_class | 13, {EL_ISO_8859_13_ZCODEC}],
-				[Latin_class | 14, {EL_ISO_8859_14_ZCODEC}],
-				[Latin_class | 15, {EL_ISO_8859_15_ZCODEC}],
-
-				[Windows_class | 1250, {EL_WINDOWS_1250_ZCODEC}],
-				[Windows_class | 1251, {EL_WINDOWS_1251_ZCODEC}],
-				[Windows_class | 1252, {EL_WINDOWS_1252_ZCODEC}],
-				[Windows_class | 1253, {EL_WINDOWS_1253_ZCODEC}],
-				[Windows_class | 1254, {EL_WINDOWS_1254_ZCODEC}],
-				[Windows_class | 1255, {EL_WINDOWS_1255_ZCODEC}],
-				[Windows_class | 1256, {EL_WINDOWS_1256_ZCODEC}],
-				[Windows_class | 1257, {EL_WINDOWS_1257_ZCODEC}],
-				[Windows_class | 1258, {EL_WINDOWS_1258_ZCODEC}]
-			>>)
-		end
-
-	Codec_option_name: IMMUTABLE_STRING_32
-		once
-			Result := "-zstring_codec"
+			Result := Codec_type_array.index_of ({EL_WINDOWS_1250_ZCODEC}, 1)
 		end
 
 end

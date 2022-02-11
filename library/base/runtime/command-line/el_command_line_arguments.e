@@ -6,11 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "12"
+	date: "2022-02-11 11:54:21 GMT (Friday 11th February 2022)"
+	revision: "13"
 
 class
 	EL_COMMAND_LINE_ARGUMENTS
+
+inherit
+	ARGUMENTS_32
+		rename
+			index_of_word_option as internal_index_of_word_option,
+			option_sign as option_sign_cell
+		export
+			{NONE} all
+			{ANY} argument_count, new_cursor
+		end
 
 create
 	make
@@ -19,16 +29,14 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			i: INTEGER; item: ZSTRING; args: ARGUMENTS_32
+			i: INTEGER; item: ZSTRING
 		do
-			create args
-			argument_count := args.argument_count
-			option_sign := args.option_sign.item
+			option_sign := option_sign_cell.item
 
 			create internal_option_key.make_empty
 			create list.make (argument_count + 1)
 			from i := 0 until i > argument_count loop
-				create item.make_from_general (args.argument (i))
+				create item.make_from_general (argument (i))
 				if i = 0 then
 					command_path := item
 				else
@@ -51,8 +59,6 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
-
-	argument_count: INTEGER
 
 	command_path: FILE_PATH
 
@@ -128,46 +134,6 @@ feature -- Access
 				Result := table.found_item
 			else
 				create Result.make_empty
-			end
-		end
-
-feature -- Basic operations
-
-	set_boolean_from_word_option (name: READABLE_STRING_GENERAL; set_boolean: PROCEDURE)
-			--
-		do
-			if table.has (option_key (name))  then
-				set_boolean.apply
-			end
-		end
-
-	set_integer_from_word_option (name: READABLE_STRING_GENERAL; set_integer: PROCEDURE [INTEGER]; default_value: INTEGER)
-			--
-		do
-			if table.has_key (option_key (name)) and then table.found_item.is_integer then
-				set_integer (table.found_item.to_integer)
-			else
-				set_integer (default_value)
-			end
-		end
-
-	set_real_from_word_option (name: READABLE_STRING_GENERAL; set_real: PROCEDURE [REAL]; default_value: REAL)
-			--
-		do
-			if table.has_key (option_key (name)) and then table.found_item.is_real then
-				set_real (table.found_item.to_real)
-			else
-				set_real (default_value)
-			end
-		end
-
-	set_string_from_word_option (name: READABLE_STRING_GENERAL; set_string: PROCEDURE [ZSTRING]; default_value: ZSTRING)
-			--
-		do
-			if table.has_key (option_key (name)) and then not table.found_item.is_empty then
-				set_string (table.found_item)
-			else
-				set_string (default_value)
 			end
 		end
 

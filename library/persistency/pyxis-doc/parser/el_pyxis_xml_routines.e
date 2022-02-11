@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 7:22:00 GMT (Monday 7th February 2022)"
-	revision: "16"
+	date: "2022-02-11 9:17:56 GMT (Friday 11th February 2022)"
+	revision: "17"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -59,7 +59,7 @@ feature -- Access
 			done: BOOLEAN; s: EL_ZSTRING_ROUTINES
 		do
 			create Result.make_empty
-			if attached open_lines (file_path, Latin_1) as lines then
+			if attached open_lines (file_path, {EL_ENCODING_CONSTANTS}.Latin_1) as lines then
 				from lines.start until done or lines.after loop
 					lines.item.right_adjust
 					if lines.index = 1 then

@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 12:58:21 GMT (Thursday 14th May 2020)"
-	revision: "6"
+	date: "2022-02-11 9:20:37 GMT (Friday 11th February 2022)"
+	revision: "7"
 
 class
 	EL_ENCODING
 
 inherit
 	EL_ENCODING_BASE
+		rename
+			valid_encoding as is_valid
+		end
 
 	EL_MAKEABLE_FROM_STRING [STRING_8]
 		rename
