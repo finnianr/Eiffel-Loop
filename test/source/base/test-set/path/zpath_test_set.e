@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-13 12:42:56 GMT (Sunday 13th February 2022)"
-	revision: "1"
+	date: "2022-02-13 16:45:10 GMT (Sunday 13th February 2022)"
+	revision: "2"
 
 class
 	ZPATH_TEST_SET
@@ -28,17 +28,35 @@ feature -- Basic operations
 	do_all (evaluator: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			evaluator.call ("first_step", agent test_first_step)
 			evaluator.call ("joined_steps", agent test_joined_steps)
 			evaluator.call ("make_from_steps", agent test_make_from_steps)
 			evaluator.call ("ntfs_translation", agent test_ntfs_translation)
+			evaluator.call ("parent", agent test_parent)
 			evaluator.call ("parent_of", agent test_parent_of)
 			evaluator.call ("relative_joins", agent test_relative_joins)
 			evaluator.call ("universal_relative_path", agent test_universal_relative_path)
 			evaluator.call ("version_number", agent test_version_number)
-			evaluator.call ("first_step", agent test_first_step)
+			evaluator.call ("extension", agent test_extension)
 		end
 
 feature -- Tests
+
+	test_extension
+		note
+			testing:
+				"covers/{EL_ZPATH}.with_new_extension, covers/{EL_ZPATH}.without_extension,, covers/{EL_ZPATH}.has_dot_extension",
+				"covers/{EL_ZPATH}.replace_extension, covers/{EL_ZPATH}.remove_extension, covers/{EL_ZPATH}.add_extension",
+				"covers/{EL_ZPATH}.base_matches, covers/{EL_ZPATH}.same_extension"
+		local
+			eiffel_pdf: EL_FILE_ZPATH
+		do
+			eiffel_pdf := Documents_eiffel_pdf
+			assert ("same string", eiffel_pdf.same_extension ("PDF", True))
+			assert ("base matches", eiffel_pdf.base_matches ("Eiffel-spec"))
+			assert ("same string", eiffel_pdf.with_new_extension ("doc").base.same_string ("Eiffel-spec.doc"))
+			assert ("same string", eiffel_pdf.without_extension.base.same_string ("Eiffel-spec"))
+		end
 
 	test_first_step
 		note
@@ -85,7 +103,7 @@ feature -- Tests
 		local
 			path_name: ZSTRING; path: EL_FILE_ZPATH; index_dot: INTEGER
 		do
-			path_name := "C:/Boot/memtest.exe"
+			path_name := Mem_test_exe
 			path := path_name
 			assert ("valid path", path.is_valid_ntfs)
 			index_dot := path_name.index_of ('.', 1)
@@ -95,6 +113,24 @@ feature -- Tests
 
 			path_name [index_dot] := '-'
 			assert ("same path", path.to_ntfs_compatible ('-').to_string ~ path_name)
+		end
+
+	test_parent
+		note
+			testing: "covers/{EL_ZPATH}.has_parent, covers/{EL_ZPATH}.parent, covers/{EL_ZPATH}.parent_string"
+		local
+			dir_path: EL_DIR_ZPATH; root_name: ZSTRING
+		do
+			assert ("2 parents", parent_count (Home_finnian) = 2)
+			assert ("1 parents", parent_count (Documents_eiffel_pdf) = 1)
+
+			if {PLATFORM}.is_windows then
+				dir_path := Mem_test_exe; root_name := "C:"
+			else
+				dir_path := Home_finnian; root_name := "/"
+			end
+			assert ("same as " + root_name, dir_path.parent.parent.to_string ~ root_name)
+			assert ("same string", dir_path.parent.to_string ~ dir_path.parent_string (True))
 		end
 
 	test_parent_of
@@ -184,6 +220,18 @@ feature -- Tests
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	parent_count (a_path: EL_DIR_ZPATH): INTEGER
+		local
+			path: EL_ZPATH
+		do
+			from path := a_path until not path.has_parent loop
+				path := path.parent
+				Result := Result + 1
+			end
+		end
+
 feature {NONE} -- Constants
 
 	Dev_eiffel: ZSTRING
@@ -208,6 +256,8 @@ feature {NONE} -- Constants
 		once
 			Result := "/home/finnian"
 		end
+
+	Mem_test_exe: STRING = "C:/Boot/memtest.exe"
 
 	Parent_dots: ZSTRING
 		once

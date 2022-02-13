@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-13 12:33:34 GMT (Sunday 13th February 2022)"
-	revision: "1"
+	date: "2022-02-13 16:51:12 GMT (Sunday 13th February 2022)"
+	revision: "2"
 
 deferred class
 	EL_ZPATH
@@ -18,16 +18,22 @@ inherit
 	ARRAYED_LIST [INTEGER]
 		rename
 			make as make_tokens,
-			count as step_count
+			count as step_count,
+			last as base_token
 		export
 			{NONE} all
-			{ANY} append, is_equal, step_count, is_empty
+			{ANY} append, is_equal, step_count, is_empty, prunable
 			{EL_ZPATH} area, i_th, occurrences, put_front, put_i_th
 		redefine
-			default_create
+			default_create, wipe_out
 		end
 
-	EL_ZPATH_IMPLEMENTATION
+	HASHABLE
+		undefine
+			copy, default_create, is_equal
+		end
+
+	EL_ZPATH_BASE_NAME
 
 	DEBUG_OUTPUT
 		rename
@@ -61,19 +67,18 @@ feature -- Initialization
 			reversible: filled_list ~ create {like filled_list}.make_from_general (a_steps)
 		end
 
+	make_parent (other: EL_ZPATH)
+		require
+			has_parent: other.has_parent
+		local
+			count: INTEGER
+		do
+			count := other.step_count - 1
+			make_tokens (count)
+			area.copy_data (other.area, 0, 0, count)
+		end
+
 feature -- Access
-
-	base: ZSTRING
-		do
-			Result := Shared_base
-			Result.wipe_out
-			Result.append (internal_base)
-		end
-
-	base_sans_extension: ZSTRING
-		do
-			Result := base_part (1)
-		end
 
 	expanded_path: like Current
 		do
@@ -81,14 +86,7 @@ feature -- Access
 			Result.expand
 		end
 
-	extension: ZSTRING
-		do
-			Result := base_part (2)
-		end
-
 	first_step: ZSTRING
-		local
-			pos_first_separator, pos_second_separator: INTEGER
 		do
 			if is_absolute then
 				if step_count > 1 then
@@ -101,6 +99,45 @@ feature -- Access
 				Result := Step_table.to_step (i_th (1)).twin
 			else
 				create Result.make_empty
+			end
+		end
+
+	next_version_path: like Current
+			-- Next non existing path with version number before extension
+		require
+			has_version_number: has_version_number
+		do
+			Result := twin
+			from until not Result.exists loop
+				Result.set_version_number (Result.version_number + 1)
+			end
+		end
+
+	parent: like Type_parent
+		do
+			if has_parent then
+				create Result.make_parent (Current)
+			else
+				create Result
+			end
+		end
+
+	parent_string (keep_ref: BOOLEAN): ZSTRING
+		require
+			has_parent: has_parent
+		local
+			l_token: INTEGER
+		do
+			if step_count > 1 then
+				l_token := base_token
+				remove_tail (1)
+				Result := to_string
+				extend (l_token)
+			else
+				create Result.make_empty
+			end
+			if keep_ref then
+				Result := Result.twin
 			end
 		end
 
@@ -136,35 +173,37 @@ feature -- Access
 			end
 		end
 
-	version_interval: EL_SPLIT_ZSTRING_LIST
-		-- `Result.item' is last natural number between two dots
-		-- if `Result.off' then there is no interval
+	with_new_extension (a_new_ext: READABLE_STRING_GENERAL): like Current
 		do
-			create Result.make (base, '.')
-			from Result.finish until Result.before or else Result.item.is_natural loop
-				Result.back
+			Result := twin
+			if has_dot_extension then
+				Result.replace_extension (a_new_ext)
+			else
+				Result.add_extension (a_new_ext)
 			end
 		end
 
-	version_number: INTEGER
-			-- value of numeric value immediately before extension and separated by dots
-			-- `-1' if no version number found
-
-			-- Example: "myfile.02.mp3" returns 2
+	without_extension: like Current
 		do
-			if attached version_interval as interval then
-				if interval.off then
-					Result := -1
-				elseif attached base.substring (interval.item_start_index, interval.item_end_index) as number then
-					number.prune_all_leading ('0')
-					if number.is_empty then
-						Result := 0
-					elseif number.is_integer then
-						Result := number.to_integer
-					else
-						Result := -1
-					end
+			Result := twin
+			Result.remove_extension
+		end
+
+feature -- Measurement
+
+	hash_code: INTEGER
+		-- Hash code value
+		local
+			i: INTEGER
+		do
+			Result := internal_hash_code
+			if Result = 0 then
+				from i := 1 until i > step_count loop
+					Result := ((Result \\ 8388593) |<< 8) + i_th (i)
+					i := i + 1
 				end
+				Result := Result.abs
+				internal_hash_code := Result
 			end
 		end
 
@@ -175,14 +214,28 @@ feature -- Status query
 			Result := not is_empty and then File_system.path_exists (to_obsolete)
 		end
 
-	has_version_number: BOOLEAN
+	has_parent: BOOLEAN
 		do
-			Result := not version_interval.off
+			Result := step_count > 1
 		end
 
-	is_absolute: BOOLEAN
+	has_step (a_step: READABLE_STRING_GENERAL): BOOLEAN
+			-- true if path has directory step
 		do
-			Result := step_count > 0 and then i_th (1) <= Step_table.last_drive_token
+			Result := across filled_list as list some list.item.same_string (a_step) end
+		end
+
+	is_directory: BOOLEAN
+		deferred
+		end
+
+	is_file: BOOLEAN
+		do
+			Result := not is_directory
+		end
+
+	is_uri: BOOLEAN
+		do
 		end
 
 	is_valid_ntfs: BOOLEAN
@@ -283,24 +336,12 @@ feature -- Element change
 			internal_hash_code := other.internal_hash_code
 		end
 
-	set_version_number (number: like version_number)
-		require
-			has_version_number: has_version_number
-		do
-			if step_count > 0 and then attached version_interval as interval and then not interval.off
-				and then attached base as l_base
-			then
-				l_base.replace_substring_general (
-					Format.integer_zero (number, interval.item_count), interval.item_start_index, interval.item_end_index
-				)
-				put_i_th (Step_table.to_token (l_base), step_count)
-				internal_hash_code := 0
-			end
-		ensure
-			is_set: version_number = number
-		end
-
 feature {EL_ZPATH} -- Implementation
+
+	reset_hash
+		do
+			internal_hash_code := 0
+		end
 
 	remove_tail (n: INTEGER)
 		do
@@ -308,8 +349,24 @@ feature {EL_ZPATH} -- Implementation
 			internal_hash_code := 0
 		end
 
+feature -- Removal
+
+	wipe_out
+		do
+			Precursor
+			internal_hash_code := 0
+		end
+
 feature {EL_ZPATH} -- Internal attributes
 
 	internal_hash_code: INTEGER
 
+feature {NONE} -- Type definitions
+
+	Type_parent: EL_DIR_ZPATH
+		require
+			never_called: False
+		once
+			create Result
+		end
 end

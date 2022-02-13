@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-13 11:30:56 GMT (Sunday 13th February 2022)"
-	revision: "1"
+	date: "2022-02-13 16:50:12 GMT (Sunday 13th February 2022)"
+	revision: "2"
 
 class
 	EL_FILE_ZPATH
@@ -37,6 +37,10 @@ feature -- Access
 				create Result
 			end
 		end
+
+feature -- Status report
+
+	Is_directory: BOOLEAN = False
 
 feature -- Conversion
 

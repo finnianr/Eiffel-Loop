@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-13 12:21:27 GMT (Sunday 13th February 2022)"
-	revision: "1"
+	date: "2022-02-13 16:01:29 GMT (Sunday 13th February 2022)"
+	revision: "2"
 
 deferred class
 	EL_ZPATH_IMPLEMENTATION
@@ -43,14 +43,6 @@ feature -- Conversion
 
 feature -- Measurement
 
-	dot_index: INTEGER
-		-- index of last dot, 0 if none
-		do
-			if attached internal_base as str then
-				Result := str.last_index_of ('.', str.count)
-			end
-		end
-
 	leading_backstep_count: INTEGER
 		local
 			i: INTEGER
@@ -65,8 +57,11 @@ feature -- Measurement
 			end
 		end
 
-	step_count: INTEGER
-		deferred
+feature -- Status query
+
+	is_absolute: BOOLEAN
+		do
+			Result := step_count > 0 and then i_th (1) <= Step_table.last_drive_token
 		end
 
 feature {NONE} -- Deferred implementation
@@ -87,6 +82,10 @@ feature {NONE} -- Deferred implementation
 		deferred
 		end
 
+	step_count: INTEGER
+		deferred
+		end
+
 feature {EL_ZPATH} -- Implementation
 
 	base_part (i: INTEGER): ZSTRING
@@ -94,7 +93,7 @@ feature {EL_ZPATH} -- Implementation
 			pos_dot: INTEGER
 		do
 			if attached internal_base as str then
-				pos_dot := str.last_index_of ('.', str.count)
+				pos_dot := dot_index (str)
 				if pos_dot > 0 then
 					inspect i
 						when 1 then
@@ -110,12 +109,21 @@ feature {EL_ZPATH} -- Implementation
 			end
 		end
 
+	dot_index (str: ZSTRING): INTEGER
+		-- index of last dot, 0 if none
+		do
+			Result := str.last_index_of ('.', str.count)
+		end
+
 	filled_list: EL_ZSTRING_LIST
 		do
 			Result := Step_list
 			Result.wipe_out
 			Result.grow (step_count)
 			Step_table.fill_array (Result.area, area, step_count)
+			if {PLATFORM}.is_unix and then Result.count = 1 and then Result.first.is_empty then
+				Result [1] := Forward_slash
+			end
 		end
 
 	has_expansion_variable (a_path: ZSTRING): BOOLEAN
@@ -143,6 +151,11 @@ feature {EL_ZPATH} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Forward_slash: ZSTRING
+		once
+			Result := "/"
+		end
 
 	Shared_base: ZSTRING
 		once

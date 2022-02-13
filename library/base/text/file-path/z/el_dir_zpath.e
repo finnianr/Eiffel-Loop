@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-13 11:30:56 GMT (Sunday 13th February 2022)"
-	revision: "1"
+	date: "2022-02-13 16:49:51 GMT (Sunday 13th February 2022)"
+	revision: "2"
 
 class
 	EL_DIR_ZPATH
@@ -16,7 +16,7 @@ inherit
 	EL_ZPATH
 
 create
-	default_create, make, make_from_steps
+	default_create, make, make_from_steps, make_parent
 
 create {EL_ZPATH} make_tokens
 
@@ -60,6 +60,8 @@ feature -- Status report
 				end
 			end
 		end
+
+	Is_directory: BOOLEAN = True
 
 feature -- Aliased joins
 

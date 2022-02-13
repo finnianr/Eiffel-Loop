@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "18"
+	date: "2022-02-13 15:15:40 GMT (Sunday 13th February 2022)"
+	revision: "19"
 
 class
 	PATH_TEST_SET
@@ -31,6 +31,7 @@ feature -- Basic operations
 			evaluator.call ("joined_steps", agent test_joined_steps)
 			evaluator.call ("make_from_steps", agent test_make_from_steps)
 			evaluator.call ("ntfs_translation", agent test_ntfs_translation)
+			evaluator.call ("parent", agent test_parent)
 			evaluator.call ("parent_of", agent test_parent_of)
 			evaluator.call ("relative_joins", agent test_relative_joins)
 			evaluator.call ("universal_relative_path", agent test_universal_relative_path)
@@ -69,7 +70,7 @@ feature -- Tests
 			ntfs: EL_NT_FILE_SYSTEM_ROUTINES
 			path_name: ZSTRING; path: FILE_PATH; index_dot: INTEGER
 		do
-			path_name := "C:/Boot/memtest.exe"
+			path_name := Mem_test_exe
 			path := path_name
 			assert ("valid path", ntfs.is_valid (path))
 			index_dot := path_name.index_of ('.', 1)
@@ -79,6 +80,20 @@ feature -- Tests
 
 			path_name [index_dot] := '-'
 			assert ("same path", ntfs.translated (path, '-').to_string ~ path_name)
+		end
+
+	test_parent
+		local
+			dir_path: DIR_PATH; root_name: ZSTRING
+		do
+			assert ("2 parents", parent_count (Home_finnian) = 2)
+			assert ("1 parents", parent_count (Documents_eiffel_pdf) = 1)
+			if {PLATFORM}.is_windows then
+				dir_path := Mem_test_exe; root_name := "C:"
+			else
+				dir_path := Home_finnian; root_name := "/"
+			end
+			assert ("same as " + root_name, dir_path.parent.parent.to_string ~ root_name)
 		end
 
 	test_parent_of
@@ -153,6 +168,18 @@ feature -- Tests
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	parent_count (a_path: DIR_PATH): INTEGER
+		local
+			path: EL_PATH
+		do
+			from path := a_path until not path.has_parent loop
+				path := path.parent
+				Result := Result + 1
+			end
+		end
+
 feature {NONE} -- Constants
 
 	Dev_eiffel: ZSTRING
@@ -175,6 +202,8 @@ feature {NONE} -- Constants
 		once
 			Result := "/home/finnian"
 		end
+
+	Mem_test_exe: STRING = "C:/Boot/memtest.exe"
 
 	Parent_dots: ZSTRING
 		once

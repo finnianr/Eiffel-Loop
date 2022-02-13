@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-13 12:20:40 GMT (Sunday 13th February 2022)"
-	revision: "24"
+	date: "2022-02-13 15:59:42 GMT (Sunday 13th February 2022)"
+	revision: "25"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -260,7 +260,7 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 
 	part_string (index: INTEGER): READABLE_STRING_GENERAL
 		require
-			valid_index:  1 <= index and index <= part_count
+			valid_index: 1 <= index and index <= part_count
 		do
 			inspect index
 				when 1 then
