@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-10 17:36:33 GMT (Thursday 10th February 2022)"
-	revision: "78"
+	date: "2022-02-13 12:15:04 GMT (Sunday 13th February 2022)"
+	revision: "79"
 
 class
 	EXPERIMENTS_APP
@@ -28,8 +28,8 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("file.print_os_user_list")
-			file.print_os_user_list
+			log.enter ("general.path_size_comparison")
+			string.index_of_empty
 			log.exit
 		end
 

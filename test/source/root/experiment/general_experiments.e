@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
-	revision: "16"
+	date: "2022-02-12 8:12:03 GMT (Saturday 12th February 2022)"
+	revision: "17"
 
 class
 	GENERAL_EXPERIMENTS
@@ -15,7 +15,7 @@ class
 inherit
 	EXPERIMENTAL
 
-	EL_MODULE_HEXADECIMAL
+	EL_MODULE_EIFFEL; EL_MODULE_HEXADECIMAL; EL_MODULE_DIRECTORY
 
 feature -- Access
 
@@ -179,6 +179,14 @@ feature -- Basic operations
 			bool: BOOLEAN
 		do
 			bool := is_true or is_false
+		end
+
+	path_size_comparison
+		do
+			lio.put_integer_field ("DIR_PATH", Eiffel.deep_physical_size (Directory.current_working))
+			lio.put_new_line
+			lio.put_integer_field ("EL_PATH_STEPS", Eiffel.deep_physical_size (Directory.current_working.steps))
+			lio.put_new_line
 		end
 
 	pointer_width

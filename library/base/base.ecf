@@ -249,7 +249,7 @@ Classes providing the following:
 			</cluster>
 			<cluster name = "character" location = "$|character" recursive = "true"/>
 			<cluster name = "text_encoding" location = "$|encoding" recursive = "true"/>
-			<cluster name = "file_naming" location = "$|file-naming" recursive = "true"/>
+			<cluster name = "file_path" location = "$|file-path" recursive = "true"/>
 			<cluster name = "general" location = "$|general" recursive = "true"/>
 			<cluster name = "i18n" location = "$|i18n" recursive = "true"/>
 			<cluster name = "line_traversal" location = "$|line-traversal" recursive = "true"/>

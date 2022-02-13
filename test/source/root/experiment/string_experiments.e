@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 19:11:00 GMT (Friday 11th February 2022)"
-	revision: "18"
+	date: "2022-02-13 12:14:23 GMT (Sunday 13th February 2022)"
+	revision: "19"
 
 class
 	STRING_EXPERIMENTS
@@ -151,6 +151,14 @@ feature -- Basic operations
 				lio.put_integer_field ("str.count", str.count)
 				lio.put_new_line
 			end
+		end
+
+	index_of_empty
+		local
+			line: ZSTRING
+		do
+			create line.make_empty
+			assert ("is 0", line.index_of (' ', 1) = 0)
 		end
 
 	input_capital_a_umlaut

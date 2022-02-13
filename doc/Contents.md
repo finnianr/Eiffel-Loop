@@ -1512,7 +1512,7 @@ Classes for creating cross platform wrappers of OS commands with about 30 "out o
 * Support for command output capture, and error output capture.
 
 
-* Automatic escaping of path arguments conforming to [EL_PATH](http://www.eiffel-loop.com/library/base/text/file-naming/el_path.html), namely [EL_FILE_PATH](http://www.eiffel-loop.com/library/base/text/file-naming/el_file_path.html) and [EL_DIR_PATH](http://www.eiffel-loop.com/library/base/text/file-naming/el_dir_path.html). All Windows paths are automatically put in quotes. Unix paths are automatically escaped with \ for reserved characters. This has some advantages over putting them in quotes.
+* Automatic escaping of path arguments conforming to [EL_PATH](http://www.eiffel-loop.com/library/base/text/file-path/el_path.html), namely [EL_FILE_PATH](http://www.eiffel-loop.com/library/base/text/file-path/el_file_path.html) and [EL_DIR_PATH](http://www.eiffel-loop.com/library/base/text/file-path/el_dir_path.html). All Windows paths are automatically put in quotes. Unix paths are automatically escaped with \ for reserved characters. This has some advantages over putting them in quotes.
 
 
 * Designed for cross platform use, with special features for post-capture processing of output lines so they are consistent across platforms. See classes [EL_FIND_DIRECTORIES_COMMAND_I](http://www.eiffel-loop.com/library/runtime/process/commands/system/file/find/el_find_directories_command_i.html) and [EL_FIND_FILES_COMMAND_I](http://www.eiffel-loop.com/library/runtime/process/commands/system/file/find/el_find_files_command_i.html) as an example. Here the Unix `find` command and the Windows `dir` command are made to appear exactly the same for specific tasks.

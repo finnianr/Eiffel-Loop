@@ -313,7 +313,7 @@ system:
 			cluster:
 				name = text_encoding; location = "$|encoding"; recursive = true
 			cluster:
-				name = file_naming; location = "$|file-naming"; recursive = true
+				name = file_path; location = "$|file-path"; recursive = true
 			cluster:
 				name = general; location = "$|general"; recursive = true
 			cluster:
