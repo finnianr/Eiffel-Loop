@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:24:54 GMT (Tuesday 8th February 2022)"
-	revision: "8"
+	date: "2022-02-14 12:27:43 GMT (Monday 14th February 2022)"
+	revision: "9"
 
 class
 	LIBRARY_OVERRIDE_GENERATOR
@@ -37,7 +37,7 @@ feature -- Initialization
 
 	make (ise_eiffel_dir, a_output_dir: like output_dir)
 		do
-			ise_library_dir := ise_eiffel_dir.joined_dir_path ("library")
+			ise_library_dir := ise_eiffel_dir #+ "library"
 			output_dir := a_output_dir
 		end
 

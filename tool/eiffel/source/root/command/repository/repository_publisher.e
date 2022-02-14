@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:30:09 GMT (Tuesday 8th February 2022)"
-	revision: "49"
+	date: "2022-02-14 12:29:06 GMT (Monday 14th February 2022)"
+	revision: "50"
 
 class
 	REPOSITORY_PUBLISHER
@@ -243,7 +243,7 @@ feature {NONE} -- Implementation
 				first_step := relative_path.first_step
 				set.put (first_step)
 				if set.inserted then
-					Result.extend (output_dir.joined_dir_path (first_step))
+					Result.extend (output_dir #+ first_step)
 				end
 			end
 		end

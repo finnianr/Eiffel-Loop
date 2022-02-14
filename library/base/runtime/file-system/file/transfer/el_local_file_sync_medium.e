@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 8:02:00 GMT (Monday 7th February 2022)"
-	revision: "6"
+	date: "2022-02-14 12:19:42 GMT (Monday 14th February 2022)"
+	revision: "7"
 
 class
 	EL_LOCAL_FILE_SYNC_MEDIUM
@@ -63,7 +63,7 @@ feature -- Basic operations
 	make_directory (dir_path: DIR_PATH)
 		-- make directory `dir_path' relative to home directory
 		do
-			File_system.make_directory (home_dir.joined_dir_path (dir_path))
+			File_system.make_directory (home_dir #+ dir_path)
 		end
 
 	open
@@ -74,7 +74,7 @@ feature -- Basic operations
 	remove_directory (dir_path: DIR_PATH)
 		-- remove directory `dir_path' relative to home directory
 		do
-			File_system.remove_directory (home_dir.joined_dir_path (dir_path))
+			File_system.remove_directory (home_dir #+ dir_path)
 		end
 
 	remove_item (item: EL_FILE_SYNC_ITEM)

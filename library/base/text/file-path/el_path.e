@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-13 16:02:27 GMT (Sunday 13th February 2022)"
-	revision: "57"
+	date: "2022-02-14 13:59:23 GMT (Monday 14th February 2022)"
+	revision: "58"
 
 deferred class
 	EL_PATH
@@ -40,7 +40,6 @@ feature {NONE} -- Initialization
 			base := other.base.twin
 			parent_path := other.parent_path
 			internal_hash_code := other.internal_hash_code
-			out_abbreviated := other.out_abbreviated
 		ensure
 			same_string: to_string ~ other.to_string
 		end
@@ -105,6 +104,24 @@ feature -- Access
 			else
 				Result := base
 			end
+		end
+
+	debug_output_32: STRING_32
+		do
+			Result := debug_output
+		end
+
+	debug_output: ZSTRING
+		local
+			l_parent: ZSTRING
+		do
+			if Directory.current_working.is_parent_of (Current) then
+				l_parent := Variable_cwd; l_parent.append_character (Separator)
+				relative_path (Directory.current_working).append_to (l_parent)
+			else
+				l_parent := parent_path
+			end
+			Result := Debug_template #$ [base, l_parent]
 		end
 
 	expanded_path: like Current
@@ -330,9 +347,9 @@ feature -- Status Query
 			-- true if path has directory step
 		local
 			pos_left_separator, pos_right_separator: INTEGER
-			step: ZSTRING
+			step: ZSTRING; s: EL_ZSTRING_ROUTINES
 		do
-			step := zstring.as_zstring (a_step)
+			step := s.as_zstring (a_step)
 			pos_left_separator := parent_path.substring_index (step, 1) - 1
 			pos_right_separator := pos_left_separator + step.count + 1
 			if 0 <= pos_left_separator and pos_right_separator <= parent_path.count then
@@ -349,11 +366,11 @@ feature -- Status Query
 
 	is_absolute: BOOLEAN
 		local
-			str: ZSTRING
+			str: ZSTRING; s: EL_ZSTRING_ROUTINES
 		do
 			str := parent_path
 			if {PLATFORM}.is_windows then
-				Result := zstring.starts_with_drive (str)
+				Result := s.starts_with_drive (str)
 			else
 				Result := not str.is_empty and then is_separator (str, 1)
 			end
@@ -383,9 +400,6 @@ feature -- Status Query
 		do
 		end
 
-	out_abbreviated: BOOLEAN
-		-- is the current directory in 'out string' abbreviated to $CWD
-
 	same_extension (a_extension: READABLE_STRING_GENERAL; case_insensitive: BOOLEAN): BOOLEAN
 		local
 			index: INTEGER
@@ -398,13 +412,6 @@ feature -- Status Query
 					Result := base.same_characters (a_extension, 1, a_extension.count, index + 1)
 				end
 			end
-		end
-
-feature -- Status change
-
-	enable_out_abbreviation
-		do
-			out_abbreviated := True
 		end
 
 feature -- Element change
@@ -488,8 +495,10 @@ feature -- Element change
 		end
 
 	set_base (a_base: READABLE_STRING_GENERAL)
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
-			base := zstring.as_zstring (a_base)
+			base := s.as_zstring (a_base)
 			internal_hash_code := 0
 		end
 
@@ -576,15 +585,8 @@ feature -- Conversion
 		end
 
 	out: STRING
-		local
-			l_out: like to_string
 		do
-			l_out := to_string
-			if out_abbreviated then
-				-- Replaces String.abbreviate_working_directory
-				l_out.replace_substring_all (Directory.current_working.to_string, Variable_cwd)
-			end
-			Result := l_out
+			Result := debug_output
 		end
 
 	steps: EL_PATH_STEPS

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-04 0:09:56 GMT (Friday 4th February 2022)"
-	revision: "8"
+	date: "2022-02-14 12:21:04 GMT (Monday 14th February 2022)"
+	revision: "9"
 
 class
 	RSA_PUBLIC_KEY_ENCRYPTION_TEST_SET
@@ -91,7 +91,7 @@ feature {NONE} -- Implementation
 
 	source_file_list: EL_FILE_PATH_LIST
 		do
-			Result := OS.file_list (EL_test_data_dir.joined_dir_path ("rsa_keys"), "*.key")
+			Result := OS.file_list (EL_test_data_dir #+ "rsa_keys", "*.key")
 		end
 
 feature {NONE} -- Constants

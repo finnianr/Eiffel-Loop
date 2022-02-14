@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-08 8:56:40 GMT (Thursday 8th October 2020)"
-	revision: "7"
+	date: "2022-02-14 17:11:56 GMT (Monday 14th February 2022)"
+	revision: "8"
 
 class
 	EL_THREAD_MANAGER
@@ -145,7 +145,7 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	on_wait (thread_name: STRING)
+	on_wait (thread_name: READABLE_STRING_GENERAL)
 		do
 		end
 

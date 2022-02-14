@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-13 11:51:48 GMT (Sunday 13th February 2022)"
-	revision: "1"
+	date: "2022-02-14 19:33:47 GMT (Monday 14th February 2022)"
+	revision: "2"
 
 class
 	EL_PATH_STEP_TABLE
@@ -41,10 +41,13 @@ feature {NONE} -- Initialization
 			drive: ZSTRING
 		do
 			make_default
-			create buffer
 			create index_table.make (1000)
 			make_list (index_table.count)
 			create drive.make_empty
+			-- Unix empty path
+			extend (drive)
+			token_empty_string := last_token
+
 			if {PLATFORM}.is_windows then
 				-- populate with all upper and lower case volume designations
 				across ('A').code |..| ('Z').code as code loop
@@ -55,19 +58,18 @@ feature {NONE} -- Initialization
 					drive.to_lower
 					extend (drive)
 				end
-			else
-				-- Unix empty path
-				extend (drive)
 			end
 			last_drive_token := last_token
 
 			extend (Back_dir_step)
-			back_dir_token := last_token
+			token_back_dir := last_token
 		end
 
 feature -- Access
 
-	back_dir_token: INTEGER
+	token_back_dir: INTEGER
+
+	token_empty_string: INTEGER
 
 	last_drive_token: INTEGER
 
@@ -101,6 +103,13 @@ feature -- Status query
 			end_restriction
 		end
 
+	is_less (a, b: INTEGER): BOOLEAN
+		do
+			restrict_access
+				Result := i_th (a).is_less (i_th (b))
+			end_restriction
+		end
+
 feature -- Basic operations
 
 	fill_array (step_array: SPECIAL [ZSTRING]; tokens: SPECIAL [INTEGER]; a_count: INTEGER)
@@ -116,15 +125,17 @@ feature -- Basic operations
 		end
 
 	put_tokens (list: ITERABLE [READABLE_STRING_GENERAL]; tokens: SPECIAL [INTEGER])
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
 			restrict_access
-				if attached {EL_SPLIT_ON_CHARACTER [READABLE_STRING_GENERAL]} list as splitter then
+				if attached {EL_SPLIT_ZSTRING_ON_CHARACTER} list as splitter then
 					across splitter as split loop
 						extend_tokens (split.item, tokens)
 					end
 				else
 					across list as str loop
-						extend_tokens (str.item, tokens)
+						extend_tokens (s.as_zstring (str.item), tokens)
 					end
 				end
 			end_restriction
@@ -149,21 +160,17 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	extend_tokens (str: READABLE_STRING_GENERAL; tokens: SPECIAL [INTEGER])
+	extend_tokens (path_step: ZSTRING; tokens: SPECIAL [INTEGER])
 		do
-			if attached Buffer.copied_general (str) as path_step then
-				if index_table.has_key (path_step) then
-					tokens.extend (index_table.found_item)
-				else
-					extend (path_step)
-					tokens.extend (last_token)
-				end
+			if index_table.has_key (path_step) then
+				tokens.extend (index_table.found_item)
+			else
+				extend (path_step)
+				tokens.extend (last_token)
 			end
 		end
 
 feature {NONE} -- Internal attributes
-
-	buffer: EL_ZSTRING_BUFFER
 
 	index_table: HASH_TABLE [INTEGER, ZSTRING]
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 15:57:03 GMT (Sunday 9th January 2022)"
-	revision: "10"
+	date: "2022-02-14 12:25:23 GMT (Monday 14th February 2022)"
+	revision: "11"
 
 class
 	INCLUSION_LIST_FILE
@@ -35,7 +35,7 @@ feature {NONE} -- Implementation
 		do
 			target_parent := backup.target_dir.parent
 			if is_wild_card (file_specifier) then
-				specifier_path := Directory.new (Short_directory_current).joined_dir_path (file_specifier)
+				specifier_path := Directory.new (Short_directory_current) #+ file_specifier
 				if attached OS.find_files_command (specifier_path.parent, specifier_path.base) as cmd then
 					cmd.set_depth (1 |..| 1)
 					cmd.set_follow_symbolic_links (True)

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-30 11:20:14 GMT (Sunday 30th January 2022)"
-	revision: "19"
+	date: "2022-02-14 12:31:14 GMT (Monday 14th February 2022)"
+	revision: "20"
 
 deferred class
 	RBOX_MANAGEMENT_TASK
@@ -82,7 +82,7 @@ feature -- Element change
 	set_absolute_music_dir
 		do
 			if not music_dir.is_absolute then
-				music_dir := Directory.current_working.joined_dir_path (music_dir)
+				music_dir := Directory.current_working #+ music_dir
 			end
 		end
 

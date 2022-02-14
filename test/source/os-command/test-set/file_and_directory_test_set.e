@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "23"
+	date: "2022-02-14 12:15:11 GMT (Monday 14th February 2022)"
+	revision: "24"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -349,7 +349,7 @@ feature {NONE} -- Implementation
 		do
 			a_file_set.put (dir_path + Wireless_notes_path_copy)
 			mint_copy_dir := Help_pages_mint_dir #+ "copy"
-			a_file_set.put (dir_path + mint_copy_dir.joined_file_path (Help_pages_wireless_notes_path.base))
+			a_file_set.put (dir_path + mint_copy_dir.plus (Help_pages_wireless_notes_path.base))
 
 			a_file_set.prune (dir_path + Help_pages_wireless_notes_path)
 			a_file_set.put (dir_path + (Help_pages_mint_docs_dir + Help_pages_wireless_notes_path.base))

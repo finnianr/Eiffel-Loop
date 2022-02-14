@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 10:14:47 GMT (Friday 11th February 2022)"
-	revision: "3"
+	date: "2022-02-14 12:42:16 GMT (Monday 14th February 2022)"
+	revision: "4"
 
 class
 	EL_SYSTEM_ENCODINGS
@@ -21,5 +21,12 @@ inherit
 			Utf16 as Utf_16,
 			Utf32 as Unicode,
 			Iso_8859_1 as Latin_1
+		end
+
+feature -- Access
+
+	standard: ARRAY [ENCODING]
+		do
+			Result := << Latin_1, Utf_8, Utf_16, Unicode >>
 		end
 end

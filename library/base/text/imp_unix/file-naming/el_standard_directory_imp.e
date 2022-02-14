@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "10"
+	date: "2022-02-14 12:19:12 GMT (Monday 14th February 2022)"
+	revision: "11"
 
 class
 	EL_STANDARD_DIRECTORY_IMP
@@ -31,7 +31,7 @@ feature -- Access
 
 	Desktop, Desktop_common: DIR_PATH
 		once
-			Result := Home.joined_dir_path ("Desktop")
+			Result := Home #+ "Desktop"
 		end
 
 	Home: DIR_PATH

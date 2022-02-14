@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 6:10:14 GMT (Monday 7th February 2022)"
-	revision: "15"
+	date: "2022-02-14 12:35:02 GMT (Monday 14th February 2022)"
+	revision: "16"
 
 class
 	EL_SVG_PIXMAP
@@ -237,7 +237,7 @@ feature {EL_SVG_PIXMAP} -- Implementation
 				base_path := svg_path.parent
 				pixmap_base_path := base_path
 			end
-			Result := pixmap_base_path.joined_dir_path (svg_path.relative_path (base_path).parent)
+			Result := pixmap_base_path #+ svg_path.relative_path (base_path).parent
 		end
 
 	render_svg: PROCEDURE [EL_PNG_IMAGE_FILE, EL_FILE_URI_PATH, STRING, INTEGER, INTEGER]

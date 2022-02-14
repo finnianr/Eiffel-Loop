@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "23"
+	date: "2022-02-14 12:31:14 GMT (Monday 14th February 2022)"
+	revision: "24"
 
 class
 	STORAGE_DEVICE
@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 			task := a_task
 			set_volume (task.volume.to_gvfs)
 			create sync_table.make_default
-			temporary_dir := Operating_environ.Temp_directory_path.joined_dir_path (generator)
+			temporary_dir := Operating_environ.Temp_directory_path #+ generator
 			temporary_dir.append_dir_path (task.volume.destination_dir)
 			if temporary_dir.exists then
 				OS.delete_tree (temporary_dir)

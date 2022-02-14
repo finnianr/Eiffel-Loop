@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:07 GMT (Saturday 5th February 2022)"
-	revision: "6"
+	date: "2022-02-14 12:21:19 GMT (Monday 14th February 2022)"
+	revision: "7"
 
 deferred class
 	EL_TEST_DATA_TEST_SET
@@ -39,8 +39,8 @@ feature {NONE} -- Events
 		do
 			Precursor
 			reset_work_area
-			OS.copy_tree (test_data_root_dir.joined_dir_path (relative_dir), workarea_root_dir)
-			work_dir := workarea_root_dir.joined_dir_path (relative_dir.base)
+			OS.copy_tree (test_data_root_dir #+ relative_dir, workarea_root_dir)
+			work_dir := workarea_root_dir #+ relative_dir.base
 		end
 
 feature {NONE} -- Implementation

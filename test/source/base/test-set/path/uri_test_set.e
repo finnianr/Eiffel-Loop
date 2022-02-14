@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
-	revision: "12"
+	date: "2022-02-14 19:07:54 GMT (Monday 14th February 2022)"
+	revision: "13"
 
 class
 	URI_TEST_SET
@@ -36,14 +36,27 @@ feature -- Basic operations
 feature -- Tests
 
 	test_uri_assignments
+		note
+			testing:
+				"covers/{EL_ZPATH}.make, covers/{EL_URI_ZPATH}.authority, covers/{EL_URI_ZPATH}.scheme",
+				"covers/{EL_URI_ZPATH}.make_file, covers/{EL_URI_ZPATH}.make_scheme, covers/{EL_URI_ZPATH}.is_absolute"
 		local
-			uri: EL_DIR_URI_PATH; str_32: STRING_32
+			uri: EL_DIR_URI_ZPATH; str_32: STRING_32
+			parts: EL_STRING_8_LIST; scheme: STRING
 		do
 			across URI_list as line loop
+				create parts.make_split (line.item, '/')
+				scheme := parts [1]
+				scheme.remove_tail (1)
 				str_32 := line.item.to_string_32
 				create uri.make (str_32)
+				assert ("same scheme", uri.scheme ~ scheme)
+				assert ("same authority", uri.authority.same_string (parts [3]))
 				assert ("str_32 same as uri.to_string", str_32 ~ uri.to_string.to_string_32)
+				assert ("is absolute", uri.is_absolute)
 			end
+			create uri.make_file ("/home/finnian/Desktop")
+			assert ("same string", uri.to_string.same_string (URI_list.last))
 		end
 
 	test_uri_directory_join
@@ -53,7 +66,7 @@ feature -- Tests
 		do
 			joined := URI_list [1]
 			root := joined
-			joined_dir := root.joined_dir_path (sd_card)
+			joined_dir := root #+ sd_card
 			joined.append (SD_card)
 			assert ("", joined_dir.to_string ~ joined)
 		end

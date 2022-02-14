@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-13 16:50:12 GMT (Sunday 13th February 2022)"
-	revision: "2"
+	date: "2022-02-14 11:40:40 GMT (Monday 14th February 2022)"
+	revision: "3"
 
 class
 	EL_FILE_ZPATH
@@ -16,7 +16,7 @@ inherit
 	EL_ZPATH
 
 create
-	default_create, make, make_from_steps
+	default_create, make, make_from_steps, make_parent, make_from_tuple
 
 create {EL_ZPATH} make_tokens
 

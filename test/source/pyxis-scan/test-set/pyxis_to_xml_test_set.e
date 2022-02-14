@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-30 17:13:12 GMT (Sunday 30th January 2022)"
-	revision: "38"
+	date: "2022-02-14 12:21:52 GMT (Monday 14th February 2022)"
+	revision: "39"
 
 class
 	PYXIS_TO_XML_TEST_SET
@@ -124,7 +124,7 @@ feature {NONE} -- Implementation
 
 	source_file_list: EL_FILE_PATH_LIST
 		do
-			Result := OS.file_list (EL_test_data_dir.joined_dir_path ("pyxis"), "*.pyx")
+			Result := OS.file_list (EL_test_data_dir #+ "pyxis", "*.pyx")
 		end
 
 feature {NONE} -- Constants

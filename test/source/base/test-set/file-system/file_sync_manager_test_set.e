@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-04 10:13:57 GMT (Friday 4th February 2022)"
-	revision: "23"
+	date: "2022-02-14 12:21:59 GMT (Monday 14th February 2022)"
+	revision: "24"
 
 class
 	FILE_SYNC_MANAGER_TEST_SET
@@ -128,7 +128,7 @@ feature {NONE} -- Constants
 
 	Copied_dir: DIR_PATH
 		once
-			Result := Work_area_dir.joined_dir_path ("copied")
+			Result := Work_area_dir #+ "copied"
 		end
 
 	Ftp_name: STRING = "ftp"

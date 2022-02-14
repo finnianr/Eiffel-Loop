@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 6:44:31 GMT (Monday 7th February 2022)"
-	revision: "12"
+	date: "2022-02-14 12:30:33 GMT (Monday 14th February 2022)"
+	revision: "13"
 
 deferred class
 	RBOX_MANAGEMENT_TASK_TEST_SET [T -> RBOX_MANAGEMENT_TASK create make end]
@@ -193,7 +193,7 @@ feature {NONE} -- Constants
 
 	Playlists_dir: DIR_PATH
 		once
-			Result := work_area_data_dir.joined_dir_path ("Music/Playlists")
+			Result := work_area_data_dir #+ "Music/Playlists"
 		end
 
 	Pyxis_doc: STRING

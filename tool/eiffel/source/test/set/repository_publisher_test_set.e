@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
-	revision: "42"
+	date: "2022-02-14 12:28:54 GMT (Monday 14th February 2022)"
+	revision: "43"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -141,7 +141,7 @@ feature {NONE} -- Events
 			lib_dir: DIR_PATH; list: EL_STRING_8_LIST; steps: EL_PATH_STEPS
 		do
 			Precursor
-			OS.copy_tree (Eiffel_loop_dir.joined_dir_path ("doc-config"), Work_area_dir)
+			OS.copy_tree (Eiffel_loop_dir #+ "doc-config", Work_area_dir)
 			OS.copy_file ("test-data/publish/config-1.pyx", Doc_config_dir)
 			list := "dummy, images, css, js"
 			across << Doc_dir, Ftp_dir >> as destination_dir loop
@@ -153,14 +153,14 @@ feature {NONE} -- Events
 								%, library/text/rsa-encryption"
 			across list as dir loop
 				from steps := dir.item until steps.count = 0 loop
-					lib_dir := Work_area_dir.joined_dir_path (steps.as_directory_path)
+					lib_dir := Work_area_dir #+ steps.as_directory_path
 					File_system.make_directory (lib_dir)
 					steps.remove_tail (1)
 				end
 			end
 			across list as dir loop
 				lib_dir := dir.item
-				OS.copy_tree (Eiffel_loop_dir.joined_dir_path (lib_dir), Work_area_dir.joined_dir_path (lib_dir.parent))
+				OS.copy_tree (Eiffel_loop_dir #+ lib_dir, Work_area_dir #+ lib_dir.parent)
 			end
 			list := "library/base/base.ecf, library/Eco-DB.ecf, library/public-key-encryption.ecf"
 			across list as path loop
@@ -260,7 +260,7 @@ feature {NONE} -- Constants
 			l_dir: DIR_PATH
 		once
 			l_dir := "library/base/kernel/event"
-			Result := [Work_area_dir #+ l_dir, Work_area_dir.joined_dir_path ("doc") #+ l_dir]
+			Result := [Work_area_dir #+ l_dir, Work_area_dir #+ "doc" #+ l_dir]
 		end
 
 end

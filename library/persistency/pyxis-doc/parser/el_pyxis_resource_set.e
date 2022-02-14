@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-02-14 12:20:00 GMT (Monday 14th February 2022)"
+	revision: "10"
 
 class
 	EL_PYXIS_RESOURCE_SET
@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 			pyxis_file_paths := File_system.files_with_extension (pyxis_source_dir, "pyx", True)
 			create xml_file_paths.make (pyxis_file_paths.count)
 			across pyxis_file_paths as pyxis_file_path loop
-				xml_file_path := xml_destination_dir.joined_file_path (pyxis_file_path.item.base).with_new_extension ("xml")
+				xml_file_path := xml_destination_dir.plus (pyxis_file_path.item.base).with_new_extension ("xml")
 				if pyxis_file_path.item.modification_time > xml_file_path.modification_time then
 					File_system.make_directory (xml_file_path.parent)
 					create xml_out.make_open_write (xml_file_path)
@@ -120,12 +120,12 @@ feature {NONE} -- Implementation
 
 	pyxis_source_dir: DIR_PATH
 		do
-			Result := Directory.Application_installation.joined_dir_path (directory_name)
+			Result := Directory.Application_installation #+ directory_name
 		end
 
 	xml_destination_dir: DIR_PATH
 		do
-			Result := Directory.app_configuration.joined_dir_path (directory_name)
+			Result := Directory.app_configuration #+ directory_name
 		end
 
 feature {NONE} -- Constants

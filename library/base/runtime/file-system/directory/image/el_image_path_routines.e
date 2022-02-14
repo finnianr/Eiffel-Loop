@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "11"
+	date: "2022-02-14 12:15:12 GMT (Monday 14th February 2022)"
+	revision: "12"
 
 class
 	EL_IMAGE_PATH_ROUTINES
@@ -42,19 +42,19 @@ feature -- Access
 	desktop_menu_icon (relative_path_steps: EL_PATH_STEPS): FILE_PATH
 		-- Icons for setting up desktop menu launchers
 		do
-			Result := Desktop_menu_icons_path.joined_file_path (relative_path_steps)
+			Result := Desktop_menu_icons_path.plus (relative_path_steps)
 		end
 
 	icon (relative_path_steps: EL_PATH_STEPS): FILE_PATH
 		-- application icon
 		do
-			Result := Icons_path.joined_file_path (relative_path_steps)
+			Result := Icons_path.plus (relative_path_steps)
 		end
 
 	image (relative_path_steps: EL_PATH_STEPS): FILE_PATH
 		-- application image
 		do
-			Result := Images_path.joined_file_path (relative_path_steps)
+			Result := Images_path.plus (relative_path_steps)
 		end
 
 feature -- Element change

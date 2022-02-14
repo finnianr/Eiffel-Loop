@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
-	revision: "11"
+	date: "2022-02-14 12:26:27 GMT (Monday 14th February 2022)"
+	revision: "12"
 
 class
 	LOCALIZATION_COMMAND_SHELL_TEST_SET
@@ -46,7 +46,7 @@ feature {NONE} -- Constants
 
 	Source_dir: DIR_PATH
 		once
-			Result := EL_test_data_dir.joined_dir_path ("pyxis/localization")
+			Result := EL_test_data_dir #+ "pyxis/localization"
 		end
 
 	Unchecked_de_list: EL_ZSTRING_LIST

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:34:00 GMT (Tuesday 8th February 2022)"
-	revision: "10"
+	date: "2022-02-14 12:26:27 GMT (Monday 14th February 2022)"
+	revision: "11"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR
@@ -41,7 +41,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create praat_version_no.make_empty
 			create directory_content_processor.make
 
-			directory_content_processor.set_output_dir (output_dir.joined_dir_path (directory_content_processor.input_dir.base))
+			directory_content_processor.set_output_dir (output_dir #+ directory_content_processor.input_dir.base)
 			directory_content_processor.set_input_dir (input_dir)
 
 			directory_content_processor.do_all (agent set_version_from_path, Praat_source)

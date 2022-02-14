@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:27:09 GMT (Tuesday 8th February 2022)"
-	revision: "16"
+	date: "2022-02-14 12:27:43 GMT (Monday 14th February 2022)"
+	revision: "17"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -63,7 +63,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create software.make (a_pecf_path)
 			bit_count := 64
 			if not output_dir.is_absolute then
-				output_dir := Directory.current_working.joined_dir_path (output_dir)
+				output_dir := Directory.current_working #+ output_dir
 			end
 		end
 

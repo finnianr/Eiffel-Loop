@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "15"
+	date: "2022-02-14 17:11:32 GMT (Monday 14th February 2022)"
+	revision: "16"
 
 class
 	EL_LOG_MANAGER
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			make_solitary; make_default
-			
+
 			is_logging_active := logging_active
 			output_directory := a_output_directory
 			create log_file_by_thread_id_table.make (11)
@@ -302,27 +302,27 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_highlighted_output (log_path: FILE_PATH; a_thread_name: STRING; a_index: INTEGER): like new_log_file
+	new_highlighted_output (log_path: FILE_PATH; a_thread_name: READABLE_STRING_GENERAL; a_index: INTEGER): like new_log_file
 		do
 			create {EL_FILE_AND_HIGHLIGHTED_CONSOLE_LOG_OUTPUT} Result.make (log_path, a_thread_name, a_index)
 		end
 
-	new_output (log_path: FILE_PATH; a_thread_name: STRING; a_index: INTEGER): like new_log_file
+	new_output (log_path: FILE_PATH; a_thread_name: READABLE_STRING_GENERAL; a_index: INTEGER): like new_log_file
 		do
 			create Result.make (log_path, a_thread_name, a_index)
 		end
 
 feature {NONE} -- Implementation
 
-	log_file_path (name: ZSTRING): FILE_PATH
+	log_file_path (name: READABLE_STRING_GENERAL): FILE_PATH
 			--
 		local
-			version_path: FILE_PATH
+			version_path: FILE_PATH; s: EL_ZSTRING_ROUTINES
 		do
 			if not output_directory.exists then
 				File_system.make_directory (output_directory)
 			end
-			version_path := output_directory + (name + ".001." + Default_log_file_extension)
+			version_path := output_directory + (s.as_zstring (name) + ".001." + Default_log_file_extension)
 			Result := version_path.next_version_path
 		end
 
@@ -332,7 +332,7 @@ feature {NONE} -- Implementation
 			Result := log_file_by_thread_id_table [thread_id]
 		end
 
-	thread_name (thread_id: POINTER): STRING
+	thread_name (thread_id: POINTER): ZSTRING
 		--	
 		do
 			Result := thread_log_file (thread_id).thread_name

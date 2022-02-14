@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 16:38:53 GMT (Saturday 5th February 2022)"
-	revision: "3"
+	date: "2022-02-14 12:36:19 GMT (Monday 14th February 2022)"
+	revision: "4"
 
 class
 	EL_INSTALLER_APP [W -> EL_INSTALLER_MAIN_WINDOW create make end]
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 	initialize
 		do
 			if App_option.test then
-				Directory.Application_installation.set_path (Directory.current_working.joined_dir_path ("workarea/install"))
+				Directory.Application_installation.set_path (Directory.current_working #+ "workarea/install")
 			end
 			create gui.make (True)
 		end

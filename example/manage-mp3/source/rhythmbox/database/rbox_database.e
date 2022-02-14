@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 6:09:28 GMT (Monday 7th February 2022)"
-	revision: "43"
+	date: "2022-02-14 12:31:15 GMT (Monday 14th February 2022)"
+	revision: "44"
 
 class
 	RBOX_DATABASE
@@ -194,7 +194,7 @@ feature -- Access
 
 	dj_playlist_dir: DIR_PATH
 		do
-			Result := music_dir.joined_dir_path ("Playlists")
+			Result := music_dir #+ "Playlists"
 		end
 
 	dj_playlists: EL_ARRAYED_LIST [DJ_EVENT_PLAYLIST]

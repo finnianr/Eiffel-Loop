@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-18 10:23:36 GMT (Tuesday 18th January 2022)"
-	revision: "14"
+	date: "2022-02-14 17:07:43 GMT (Monday 14th February 2022)"
+	revision: "15"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -47,15 +47,17 @@ create
 
 feature -- Initialization
 
-	make (log_path: FILE_PATH; a_thread_name: STRING; a_index: INTEGER)
+	make (log_path: FILE_PATH; a_thread_name: READABLE_STRING_GENERAL; a_index: INTEGER)
 			-- Create file object with `fn' as file name.
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
 			make_default
 			make_output
 			index := a_index
 			make_open_write (log_path)
 
-			thread_name := a_thread_name
+			thread_name := s.as_zstring (a_thread_name)
 			create new_line_prompt.make_from_string ("%N " + index.out + "> ")
 			is_directed_to_console := index = 1
 		end
@@ -66,7 +68,7 @@ feature -- Access
 
 	is_directed_to_console: BOOLEAN
 
-	thread_name: STRING
+	thread_name: ZSTRING
 
 feature -- Basic operations
 

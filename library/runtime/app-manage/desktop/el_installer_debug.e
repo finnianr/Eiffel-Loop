@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "5"
+	date: "2022-02-14 12:20:27 GMT (Monday 14th February 2022)"
+	revision: "6"
 
 deferred class
 	EL_INSTALLER_DEBUG
@@ -27,7 +27,7 @@ feature {NONE} -- Implementations
 				across Parent_dir_map as dir loop
 					parent := dir.key
 					if parent.is_parent_of (path) then
-						path.set_parent_path (dir.item.joined_dir_path (path.parent.relative_path (parent)))
+						path.set_parent_path (dir.item #+ path.parent.relative_path (parent))
 					end
 				end
 			end
@@ -39,8 +39,8 @@ feature {NONE} -- Constants
 		once
 			create Result.make (<<
 				[Directory.new ("/opt"), Directory.Desktop],
-				[Directory.new ("/usr"), Directory.Home.joined_dir_path (".local")],
-				[Directory.new ("/etc/xdg"),Directory.Home.joined_dir_path (".config")]
+				[Directory.new ("/usr"), Directory.Home #+ ".local"],
+				[Directory.new ("/etc/xdg"),Directory.Home #+ ".config"]
 			>>)
 		end
 end

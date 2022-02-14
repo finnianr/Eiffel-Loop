@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
-	revision: "14"
+	date: "2022-02-14 12:30:02 GMT (Monday 14th February 2022)"
+	revision: "15"
 
 deferred class
 	RHYTHMBOX_CONSTANTS
@@ -119,9 +119,9 @@ feature {NONE} -- Constants
 
 	User_config_dir: DIR_PATH
 		once
-			 Result := Directory.home.joined_dir_path (".gnome2/rhythmbox")
+			 Result := Directory.home #+ ".gnome2/rhythmbox"
 			 if not Result.exists then
-				 Result := Directory.home.joined_dir_path (".local/share/rhythmbox")
+				 Result := Directory.home #+ ".local/share/rhythmbox"
 			 end
 		end
 

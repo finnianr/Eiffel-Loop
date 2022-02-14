@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-30 11:40:01 GMT (Sunday 30th January 2022)"
-	revision: "34"
+	date: "2022-02-14 12:15:12 GMT (Monday 14th February 2022)"
+	revision: "35"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -302,7 +302,7 @@ feature {NONE} -- Implementation
 				and then not file_path.is_absolute
 				and then not node.document_dir.is_empty
 			then
-				field.set (current_reflective, node.document_dir.joined_file_path (file_path))
+				field.set (current_reflective, node.document_dir.plus (file_path))
 			end
 		end
 

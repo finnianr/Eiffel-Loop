@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "10"
+	date: "2022-02-14 12:31:14 GMT (Monday 14th February 2022)"
+	revision: "11"
 
 class
 	COLLATE_SONGS_TASK
@@ -49,7 +49,7 @@ feature -- Basic operations
 					song.set_mp3_path (new_mp3_path)
 				end
 				Database.store_all
-				File_system.make_directory (Database.music_dir.joined_dir_path ("Additions"))
+				File_system.make_directory (Database.music_dir #+ "Additions")
 			end
 		end
 

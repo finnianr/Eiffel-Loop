@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 9:45:41 GMT (Wednesday 19th January 2022)"
-	revision: "38"
+	date: "2022-02-14 12:21:38 GMT (Monday 14th February 2022)"
+	revision: "39"
 
 class
 	TAGLIB_TEST_SET
@@ -430,7 +430,7 @@ feature {NONE} -- Constants
 
 	Data_dir: DIR_PATH
 		once
-			Result := EL_test_data_dir.joined_dir_path ("id3$")
+			Result := EL_test_data_dir #+ "id3$"
 		end
 
 	Get_set_routines: ARRAY [ROUTINE]

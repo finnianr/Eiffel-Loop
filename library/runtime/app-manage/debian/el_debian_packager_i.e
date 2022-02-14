@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:33:00 GMT (Tuesday 8th February 2022)"
-	revision: "21"
+	date: "2022-02-14 12:25:50 GMT (Monday 14th February 2022)"
+	revision: "22"
 
 deferred class
 	EL_DEBIAN_PACKAGER_I
@@ -124,7 +124,7 @@ feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
 		require
 			is_absolute: absolute_dir.is_absolute
 		do
-			Result := versioned_package_dir.joined_dir_path (absolute_dir.relative_path (Root_dir))
+			Result := versioned_package_dir #+ absolute_dir.relative_path (Root_dir)
 		end
 
 	put_debian_files

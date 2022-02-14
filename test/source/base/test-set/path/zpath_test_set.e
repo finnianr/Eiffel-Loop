@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-13 16:45:10 GMT (Sunday 13th February 2022)"
-	revision: "2"
+	date: "2022-02-14 10:37:06 GMT (Monday 14th February 2022)"
+	revision: "3"
 
 class
 	ZPATH_TEST_SET
@@ -28,6 +28,7 @@ feature -- Basic operations
 	do_all (evaluator: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			evaluator.call ("extension", agent test_extension)
 			evaluator.call ("first_step", agent test_first_step)
 			evaluator.call ("joined_steps", agent test_joined_steps)
 			evaluator.call ("make_from_steps", agent test_make_from_steps)
@@ -35,9 +36,9 @@ feature -- Basic operations
 			evaluator.call ("parent", agent test_parent)
 			evaluator.call ("parent_of", agent test_parent_of)
 			evaluator.call ("relative_joins", agent test_relative_joins)
+			evaluator.call ("set_parent", agent test_set_parent)
 			evaluator.call ("universal_relative_path", agent test_universal_relative_path)
 			evaluator.call ("version_number", agent test_version_number)
-			evaluator.call ("extension", agent test_extension)
 		end
 
 feature -- Tests
@@ -130,7 +131,7 @@ feature -- Tests
 				dir_path := Home_finnian; root_name := "/"
 			end
 			assert ("same as " + root_name, dir_path.parent.parent.to_string ~ root_name)
-			assert ("same string", dir_path.parent.to_string ~ dir_path.parent_string (True))
+			assert ("same string", dir_path.parent.to_string ~ dir_path.parent_string)
 		end
 
 	test_parent_of
@@ -164,6 +165,22 @@ feature -- Tests
 			abs_eiffel_pdf_path := eif_dir_path.plus (Parent_dots + Parent_dots + Documents_eiffel_pdf)
 
 			assert ("same string", abs_eiffel_pdf_path.to_string ~ Home_finnian + "/" + Documents_eiffel_pdf)
+		end
+
+	test_set_parent
+		note
+			testing: "covers/{EL_DIR_ZPATH}.set_parent, covers/{EL_DIR_ZPATH}.set_parent_path"
+		local
+			eiffel_pdf: EL_FILE_ZPATH; dir_path: EL_DIR_ZPATH
+		do
+			eiffel_pdf := Documents_eiffel_pdf
+			eiffel_pdf.set_parent_path (Dev_eiffel)
+			assert ("same string", eiffel_pdf.to_string.same_string (Dev_eiffel + "/Eiffel-spec.pdf"))
+
+			eiffel_pdf := Documents_eiffel_pdf
+			dir_path := Dev_eiffel
+			eiffel_pdf.set_parent (dir_path)
+			assert ("same string", eiffel_pdf.to_string.same_string (Dev_eiffel + "/Eiffel-spec.pdf"))
 		end
 
 	test_universal_relative_path

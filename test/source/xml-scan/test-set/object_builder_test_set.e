@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 10:32:12 GMT (Friday 11th February 2022)"
-	revision: "15"
+	date: "2022-02-14 12:21:31 GMT (Monday 14th February 2022)"
+	revision: "16"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -152,7 +152,7 @@ feature {NONE} -- Constants
 
 	XML_dir: DIR_PATH
 		once
-			Result := EL_test_data_dir.joined_dir_path ("XML")
+			Result := EL_test_data_dir #+ "XML"
 		end
 
 end

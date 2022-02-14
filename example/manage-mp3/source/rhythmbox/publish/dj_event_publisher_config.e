@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-30 11:20:09 GMT (Sunday 30th January 2022)"
-	revision: "10"
+	date: "2022-02-14 12:30:01 GMT (Monday 14th February 2022)"
+	revision: "11"
 
 class
 	DJ_EVENT_PUBLISHER_CONFIG
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			Precursor
-			www_dir := Directory.home.joined_dir_path ("www")
+			www_dir := Directory.home #+ "www"
 			upload := True
 		end
 

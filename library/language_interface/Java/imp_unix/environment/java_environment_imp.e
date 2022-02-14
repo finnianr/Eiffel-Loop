@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "6"
+	date: "2022-02-14 12:54:50 GMT (Monday 14th February 2022)"
+	revision: "7"
 
 class
 	JAVA_ENVIRONMENT_IMP
@@ -52,7 +52,7 @@ feature {NONE} -- Constants
 		once
 			create Result
 			across Java_links as link until found loop
-				java_dir := JVM_home_dir.joined_dir_path (link.item)
+				java_dir := JVM_home_dir #+ link.item
 				found := java_dir.exists
 			end
 			if found and then attached OS.find_files_command (java_dir, JVM_library_name) as cmd then

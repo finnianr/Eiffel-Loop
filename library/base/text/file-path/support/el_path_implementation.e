@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-13 15:59:42 GMT (Sunday 13th February 2022)"
-	revision: "25"
+	date: "2022-02-14 18:05:26 GMT (Monday 14th February 2022)"
+	revision: "26"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -21,7 +21,7 @@ inherit
 
 	DEBUG_OUTPUT
 		rename
-			debug_output as as_string_32
+			debug_output as debug_output_32
 		end
 
 	STRING_HANDLER
@@ -279,10 +279,6 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 			set_parent_path (l_path)
 		end
 
-	zstring: EL_ZSTRING_ROUTINES
-		do
-		end
-
 feature {EL_PATH} -- Implementation
 
 	leading_back_step_count (a_path: ZSTRING): INTEGER
@@ -373,11 +369,6 @@ feature {NONE} -- Constants
 		-- Greatest prime lower than 2^23
 		-- so that this magic number shifted to the left does not exceed 2^31.
 
-	Forward_slash: ZSTRING
-		once
-			Result := "/"
-		end
-
 	Magic_number: INTEGER = 8388593
 
 	Parent_set: EL_HASH_SET [ZSTRING]
@@ -394,11 +385,6 @@ feature {NONE} -- Constants
 	URI_path_string: EL_URI_PATH_STRING_8
 		once
 			create Result.make_empty
-		end
-
-	Variable_cwd: ZSTRING
-		once
-			Result := "$CWD"
 		end
 
 end

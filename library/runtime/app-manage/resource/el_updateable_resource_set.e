@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-28 13:54:02 GMT (Friday 28th January 2022)"
-	revision: "5"
+	date: "2022-02-14 12:36:00 GMT (Monday 14th February 2022)"
+	revision: "6"
 
 class
 	EL_UPDATEABLE_RESOURCE_SET
@@ -29,8 +29,8 @@ feature {NONE} -- Initialization
 		local
 			manifest_path: FILE_PATH
 		do
-			installed_dir := installed_base_dir.joined_dir_path (relative_path)
-			updated_dir := updated_base_dir.joined_dir_path (relative_path)
+			installed_dir := installed_base_dir #+ relative_path
+			updated_dir := updated_base_dir #+ relative_path
 			manifest_path := new_item_path (Manifest_name)
 			if manifest_path.exists then
 				make_from_file (manifest_path)

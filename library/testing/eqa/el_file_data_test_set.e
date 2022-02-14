@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 7:18:49 GMT (Monday 7th February 2022)"
-	revision: "17"
+	date: "2022-02-14 12:20:52 GMT (Monday 14th February 2022)"
+	revision: "18"
 
 deferred class
 	EL_FILE_DATA_TEST_SET
@@ -82,7 +82,7 @@ feature {NONE} -- Implementation
 
 	work_area_path (a_path: DIR_PATH): DIR_PATH
 		do
-			Result := Work_area_dir.joined_dir_path (a_path)
+			Result := Work_area_dir #+ a_path
 		end
 
 	has_changed (file_path: FILE_PATH): BOOLEAN

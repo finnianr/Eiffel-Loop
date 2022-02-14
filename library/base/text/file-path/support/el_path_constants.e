@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-13 6:38:18 GMT (Sunday 13th February 2022)"
-	revision: "12"
+	date: "2022-02-14 18:05:36 GMT (Monday 14th February 2022)"
+	revision: "13"
 
 deferred class
 	EL_PATH_CONSTANTS
@@ -22,6 +22,16 @@ feature -- Constants
 			Result := "../"
 		end
 
+	Debug_template: ZSTRING
+		once
+			Result := "[%S] %S"
+		end
+
+	Forward_slash: ZSTRING
+		once
+			Result := "/"
+		end
+
 	Invalid_NTFS_characters: ZSTRING
 		-- path characters that are invalid for a Windows NT file system
 		once
@@ -34,6 +44,11 @@ feature -- Constants
 		end
 
 	Unix_separator: CHARACTER_32 = '/'
+
+	Variable_cwd: ZSTRING
+		once
+			Result := "$CWD"
+		end
 
 	Windows_separator: CHARACTER_32 = '\'
 

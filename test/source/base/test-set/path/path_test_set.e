@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-13 15:15:40 GMT (Sunday 13th February 2022)"
-	revision: "19"
+	date: "2022-02-14 12:15:12 GMT (Monday 14th February 2022)"
+	revision: "20"
 
 class
 	PATH_TEST_SET
@@ -120,7 +120,7 @@ feature -- Tests
 			eif_dir_path: DIR_PATH; abs_eiffel_pdf_path: FILE_PATH
 		do
 			eif_dir_path := Dev_eiffel
-			abs_eiffel_pdf_path := eif_dir_path.joined_file_path (Parent_dots + Parent_dots + Documents_eiffel_pdf)
+			abs_eiffel_pdf_path := eif_dir_path.plus (Parent_dots + Parent_dots + Documents_eiffel_pdf)
 
 			assert ("same string", abs_eiffel_pdf_path.to_string ~ Home_finnian + "/" + Documents_eiffel_pdf)
 		end

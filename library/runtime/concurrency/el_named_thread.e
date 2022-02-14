@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-16 10:47:02 GMT (Wednesday 16th June 2021)"
-	revision: "8"
+	date: "2022-02-14 17:05:15 GMT (Monday 14th February 2022)"
+	revision: "9"
 
 class
 	EL_NAMED_THREAD
@@ -39,7 +39,7 @@ feature {NONE} -- Factory
  			Result.to_proper_case
 		end
 
-	new_name: ZSTRING
+	new_name: READABLE_STRING_GENERAL
 		do
 			Result := new_english_name (generator)
 		end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 9:44:22 GMT (Wednesday 19th January 2022)"
-	revision: "8"
+	date: "2022-02-14 12:22:07 GMT (Monday 14th February 2022)"
+	revision: "9"
 
 deferred class
 	COPIED_SVG_DIRECTORY_DATA_TEST_SET
@@ -75,7 +75,7 @@ feature {NONE} -- Implementation
 
 	source_dir: DIR_PATH
 		do
-			Result := EL_test_data_dir.joined_dir_path ("svg")
+			Result := EL_test_data_dir #+ "svg"
 		end
 
 feature {NONE} -- Internal attributes

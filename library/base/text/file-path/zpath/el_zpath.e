@@ -8,25 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-13 16:51:12 GMT (Sunday 13th February 2022)"
-	revision: "2"
+	date: "2022-02-14 18:51:48 GMT (Monday 14th February 2022)"
+	revision: "3"
 
 deferred class
 	EL_ZPATH
 
 inherit
-	ARRAYED_LIST [INTEGER]
-		rename
-			make as make_tokens,
-			count as step_count,
-			last as base_token
-		export
-			{NONE} all
-			{ANY} append, is_equal, step_count, is_empty, prunable
-			{EL_ZPATH} area, i_th, occurrences, put_front, put_i_th
-		redefine
-			default_create, wipe_out
-		end
+	EL_ZPATH_STEPS
 
 	HASHABLE
 		undefine
@@ -37,45 +26,9 @@ inherit
 
 	DEBUG_OUTPUT
 		rename
-			debug_output as as_string_32
+			debug_output as debug_output_32
 		undefine
 			copy, default_create, is_equal
-		end
-
-feature -- Initialization
-
-	default_create
-		do
-			make_tokens (0)
-		end
-
-	make, set_path (a_path: READABLE_STRING_GENERAL)
-		local
-			factory: EL_ITERABLE_SPLIT_FACTORY_ROUTINES
-		do
-			make_tokens (a_path.occurrences (Separator) + 1)
-			Step_table.put_tokens (factory.new_split_on_character (a_path, Separator), area)
-		ensure
-			reversible: to_string.same_string (a_path)
-		end
-
-	make_from_steps (a_steps: ITERABLE [READABLE_STRING_GENERAL])
-		do
-			make_tokens (Iterable.count (a_steps))
-			Step_table.put_tokens (a_steps, area)
-		ensure
-			reversible: filled_list ~ create {like filled_list}.make_from_general (a_steps)
-		end
-
-	make_parent (other: EL_ZPATH)
-		require
-			has_parent: other.has_parent
-		local
-			count: INTEGER
-		do
-			count := other.step_count - 1
-			make_tokens (count)
-			area.copy_data (other.area, 0, 0, count)
 		end
 
 feature -- Access
@@ -122,7 +75,7 @@ feature -- Access
 			end
 		end
 
-	parent_string (keep_ref: BOOLEAN): ZSTRING
+	parent_string: ZSTRING
 		require
 			has_parent: has_parent
 		local
@@ -135,9 +88,6 @@ feature -- Access
 				extend (l_token)
 			else
 				create Result.make_empty
-			end
-			if keep_ref then
-				Result := Result.twin
 			end
 		end
 
@@ -166,7 +116,7 @@ feature -- Access
 				end
 				if back_step_count > 0 then
 					from i := 1 until i > back_step_count loop
-						Result.put_front (Step_table.back_dir_token)
+						Result.put_front (Step_table.token_back_dir)
 						i := i + 1
 					end
 				end
@@ -284,6 +234,18 @@ feature -- Path joining
 
 feature -- Element change
 
+	append_dir_path (a_dir_path: EL_DIR_ZPATH)
+		do
+			append_path (a_dir_path)
+		end
+
+	append_file_path (a_file_path: EL_FILE_ZPATH)
+		require
+			current_not_a_file: not is_file
+		do
+			append_path (a_file_path)
+		end
+
 	append_path (path: EL_ZPATH)
 		require
 			enough_steps: step_count >= path.leading_backstep_count
@@ -291,21 +253,19 @@ feature -- Element change
 			backstep_count: INTEGER
 		do
 			backstep_count := path.leading_backstep_count
-			area_v2.remove_tail (backstep_count.min (step_count))
-			append_subpath (path, backstep_count + 1)
+			if backstep_count > 0 then
+				area_v2.remove_tail (backstep_count.min (step_count))
+				append_subpath (path, backstep_count + 1)
+			else
+				append (path)
+			end
 		end
 
-	append_subpath (path: EL_ZPATH; from_index: INTEGER)
-		require
-			valid_index: 1 <= from_index and then from_index <= path.step_count
+	append_step (a_step: READABLE_STRING_GENERAL)
 		local
-			i: INTEGER
+			s: EL_ZSTRING_BUFFER_ROUTINES
 		do
-			grow (step_count + path.step_count - from_index + 1)
-			from i := from_index until i > path.step_count loop
-				extend (path [i])
-				i := i + 1
-			end
+			extend (Step_table.to_token (s.copied_general (a_step)))
 			internal_hash_code := 0
 		end
 
@@ -336,7 +296,81 @@ feature -- Element change
 			internal_hash_code := other.internal_hash_code
 		end
 
+	share (other: like Current)
+		do
+			area_v2 := other.area
+			internal_hash_code := other.internal_hash_code
+		end
+
+	set_parent (dir_path: EL_DIR_ZPATH)
+		local
+			step: INTEGER
+		do
+			step := base_token
+			wipe_out
+			grow (dir_path.step_count + 1)
+			append (dir_path)
+			if step > 0 then
+				extend (step)
+			end
+			internal_hash_code := 0
+		end
+
+	set_parent_path (a_path: READABLE_STRING_GENERAL)
+		local
+			step: INTEGER
+		do
+			step := base_token
+			wipe_out
+			grow (a_path.occurrences (Separator) + 2)
+			Step_table.put_tokens (temporary_copy (a_path).split (Separator), area)
+			if step > 0 then
+				extend (step)
+			end
+			internal_hash_code := 0
+		end
+
 feature {EL_ZPATH} -- Implementation
+
+	append_subpath (path: EL_ZPATH; from_index: INTEGER)
+		require
+			valid_index: 1 <= from_index and then from_index <= path.step_count
+		local
+			i: INTEGER
+		do
+			grow (step_count + path.step_count - from_index + 1)
+			from i := from_index until i > path.step_count loop
+				extend (path [i])
+				i := i + 1
+			end
+			internal_hash_code := 0
+		end
+
+	base_token: INTEGER
+		do
+			if step_count > 0 then
+				Result := last
+			end
+		end
+
+	debug_output_32: STRING_32
+		do
+			Result := debug_output
+		end
+
+	debug_output: ZSTRING
+		local
+			l_parent: ZSTRING; cwd: EL_DIR_ZPATH
+		do
+			cwd := Directory.current_working.to_string
+			if cwd.is_parent_of (Current) then
+				l_parent := Variable_cwd; l_parent.append_character (Separator)
+				relative_path (cwd).append_to (l_parent)
+			else
+				l_parent := parent_string
+			end
+			Result := Debug_template #$ [base, l_parent]
+		end
 
 	reset_hash
 		do
@@ -348,18 +382,6 @@ feature {EL_ZPATH} -- Implementation
 			area.remove_tail (n.min (step_count))
 			internal_hash_code := 0
 		end
-
-feature -- Removal
-
-	wipe_out
-		do
-			Precursor
-			internal_hash_code := 0
-		end
-
-feature {EL_ZPATH} -- Internal attributes
-
-	internal_hash_code: INTEGER
 
 feature {NONE} -- Type definitions
 

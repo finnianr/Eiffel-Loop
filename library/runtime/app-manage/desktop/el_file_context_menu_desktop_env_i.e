@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 8:13:58 GMT (Monday 7th February 2022)"
-	revision: "11"
+	date: "2022-02-14 12:23:14 GMT (Monday 14th February 2022)"
+	revision: "12"
 
 deferred class
 	EL_FILE_CONTEXT_MENU_DESKTOP_ENV_I
@@ -92,7 +92,7 @@ feature {NONE} -- Implementation
 	set_launch_script_path
 			--
 		do
-			launch_script_path := Directory.home.joined_dir_path (launch_script_location) + menu_path
+			launch_script_path := Directory.home + (launch_script_location + menu_path)
 		end
 
 feature {NONE} -- Internal attributes

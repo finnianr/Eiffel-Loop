@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 14:18:39 GMT (Wednesday 19th January 2022)"
-	revision: "11"
+	date: "2022-02-14 12:30:34 GMT (Monday 14th February 2022)"
+	revision: "12"
 
 class
 	EXPORT_MUSIC_TO_DEVICE_TASK_TEST_SET
@@ -93,13 +93,13 @@ feature {NONE} -- Constants
 
 	Export_dir: DIR_PATH
 		once
-			Result := Work_area_data_dir.joined_dir_path ("TABLET/Card/Music")
+			Result := Work_area_data_dir #+ "TABLET/Card/Music"
 		end
 
 
 	Export_playlists_dir: DIR_PATH
 		once
-			Result := Export_dir.joined_dir_path ("playlists")
+			Result := Export_dir #+ "playlists"
 		end
 
 	Export_all_code: STRING = "[

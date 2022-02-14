@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 12:55:39 GMT (Saturday 5th February 2022)"
-	revision: "40"
+	date: "2022-02-14 12:27:43 GMT (Monday 14th February 2022)"
+	revision: "41"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -252,12 +252,12 @@ feature -- Factory
 					is_recursive := cluster.node.attributes.boolean (Attribute_recursive)
 				end
 				if location.starts_with (Symbol.parent_dir) then
-					source_dir := parent_dir.parent.joined_dir_path (location.substring_end (4))
+					source_dir := parent_dir.parent #+ location.substring_end (4)
 				elseif location.starts_with (Symbol.relative_location) then
 					location.remove_head (Symbol.relative_location.count)
-					source_dir := parent_dir.joined_dir_path (location)
+					source_dir := parent_dir #+ location
 				else
-					source_dir := parent_dir.joined_dir_path (location)
+					source_dir := parent_dir #+ location
 				end
 				if is_recursive then
 					Result.extend (source_dir)

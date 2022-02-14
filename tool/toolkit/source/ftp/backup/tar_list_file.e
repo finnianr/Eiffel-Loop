@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 11:56:34 GMT (Sunday 9th January 2022)"
-	revision: "4"
+	date: "2022-02-14 9:32:00 GMT (Monday 14th February 2022)"
+	revision: "5"
 
 deferred class
 	TAR_LIST_FILE
@@ -31,7 +31,6 @@ feature {NONE} -- Initialization
 		do
 			backup := a_backup
 			l_file_path := backup.archive_dir + File_name
-			l_file_path.enable_out_abbreviation
 
 			make_open_write (l_file_path)
 
