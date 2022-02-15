@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:06:56 GMT (Monday 14th February 2022)"
-	revision: "3"
+	date: "2022-02-15 8:55:49 GMT (Tuesday 15th February 2022)"
+	revision: "4"
 
 class
 	EL_DIR_ZPATH
@@ -21,9 +21,9 @@ inherit
 		end
 
 create
-	default_create, make, make_from_steps, make_parent, make_from_tuple
+	default_create, make, make_from_steps, make_parent, make_from_tuple, make_sub_path
 
-create {EL_ZPATH} make_tokens
+create {EL_ZPATH_STEPS} make_tokens
 
 convert
 	make ({IMMUTABLE_STRING_8, ZSTRING, STRING, STRING_32}),
@@ -110,10 +110,10 @@ feature -- Aliased joins
 			Result.append (Current); Result.append_path (path)
 		end
 
-	plus_dir alias "#+" (a_dir_path: EL_DIR_ZPATH): like Current
+	plus_dir alias "#+" (path: EL_DIR_ZPATH): like Current
 		do
-			Result := twin
-			Result.append_path (a_dir_path)
+			create Result.make_tokens (step_count + path.step_count - path.leading_backstep_count)
+			Result.append (Current); Result.append_path (path)
 		end
 
 feature {NONE} -- Implementation
@@ -138,32 +138,21 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	temporary_joined_tuple (tuple: TUPLE): ZSTRING
+	temporary_joined_tuple (a_tuple: TUPLE): ZSTRING
+		require
+			no_absolute_paths:
+				across a_tuple as list all
+					attached {EL_PATH} list.item as path implies not path.is_absolute
+				end
 		local
 			i: INTEGER
 		do
 			Result := temporary_path
-			from i := 1 until i > tuple.count loop
+			from i := 1 until i > a_tuple.count loop
 				if not Result.is_empty then
 					Result.append_character (Separator)
 				end
-				if tuple.is_reference_item (i) then
-					if attached {ZSTRING} tuple.reference_item (i) as zstr then
-						Result.append (zstr)
-					elseif attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as general then
-						Result.append_string_general (general)
-					elseif attached {EL_PATH} tuple.reference_item (i) as path
-						and then not path.is_absolute
-					then
-						path.append_to (Result)
-					elseif attached {PATH} tuple.reference_item (i) as path
-						and then not path.is_absolute
-					then
-						Result.append_string_general (path.name)
-					end
-				else
-					Result.append_string_general (tuple.item (i).out)
-				end
+				Result.append_tuple_item (a_tuple, i)
 				i := i + 1
 			end
 		end

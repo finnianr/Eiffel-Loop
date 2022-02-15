@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 18:51:48 GMT (Monday 14th February 2022)"
-	revision: "3"
+	date: "2022-02-15 6:14:57 GMT (Tuesday 15th February 2022)"
+	revision: "4"
 
 deferred class
 	EL_ZPATH
@@ -224,70 +224,21 @@ feature -- Path joining
 
 	joined_dir_steps (a_steps: ITERABLE [READABLE_STRING_GENERAL]): like Current
 		local
-			count: INTEGER
+			l_count: INTEGER
 		do
-			count := Iterable.count (a_steps)
-			Result := new_path (step_count + count)
+			l_count := Iterable.count (a_steps)
+			Result := new_path (step_count + l_count)
 			Result.append (Current)
 			Step_table.put_tokens (a_steps, Result.area)
 		end
 
 feature -- Element change
 
-	append_dir_path (a_dir_path: EL_DIR_ZPATH)
-		do
-			append_path (a_dir_path)
-		end
-
 	append_file_path (a_file_path: EL_FILE_ZPATH)
 		require
 			current_not_a_file: not is_file
 		do
 			append_path (a_file_path)
-		end
-
-	append_path (path: EL_ZPATH)
-		require
-			enough_steps: step_count >= path.leading_backstep_count
-		local
-			backstep_count: INTEGER
-		do
-			backstep_count := path.leading_backstep_count
-			if backstep_count > 0 then
-				area_v2.remove_tail (backstep_count.min (step_count))
-				append_subpath (path, backstep_count + 1)
-			else
-				append (path)
-			end
-		end
-
-	append_step (a_step: READABLE_STRING_GENERAL)
-		local
-			s: EL_ZSTRING_BUFFER_ROUTINES
-		do
-			extend (Step_table.to_token (s.copied_general (a_step)))
-			internal_hash_code := 0
-		end
-
-	expand
-		-- expand environment variables in each step
-		local
-			factory: EL_ITERABLE_SPLIT_FACTORY_ROUTINES; new_tokens: ARRAYED_LIST [INTEGER]
-		do
-			if attached filled_list as filled and then filled.there_exists (agent has_expansion_variable) then
-				create new_tokens.make (step_count)
-				across filled as list loop
-					if has_expansion_variable (list.item)
-						and then attached Execution_environment.item (variable_name (list.item)) as value
-					then
-						new_tokens.grow (new_tokens.count + value.occurrences (Separator) + 1)
-						Step_table.put_tokens (factory.new_split_on_character (value, Separator), new_tokens.area)
-					else
-						new_tokens.extend (i_th (list.cursor_index))
-					end
-				end
-				area_v2 := new_tokens.area
-			end
 		end
 
 	set_from_other (other: like Current)
@@ -331,20 +282,6 @@ feature -- Element change
 		end
 
 feature {EL_ZPATH} -- Implementation
-
-	append_subpath (path: EL_ZPATH; from_index: INTEGER)
-		require
-			valid_index: 1 <= from_index and then from_index <= path.step_count
-		local
-			i: INTEGER
-		do
-			grow (step_count + path.step_count - from_index + 1)
-			from i := from_index until i > path.step_count loop
-				extend (path [i])
-				i := i + 1
-			end
-			internal_hash_code := 0
-		end
 
 	base_token: INTEGER
 		do

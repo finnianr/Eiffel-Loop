@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 19:07:54 GMT (Monday 14th February 2022)"
-	revision: "13"
+	date: "2022-02-15 9:12:54 GMT (Tuesday 15th February 2022)"
+	revision: "14"
 
 class
 	URI_TEST_SET
@@ -25,7 +25,7 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			eval.call ("uri_assignments", agent test_uri_assignments)
-			eval.call ("uri_directory_join", agent test_uri_directory_join)
+			eval.call ("uri_path_plus_joins", agent test_uri_path_plus_joins)
 			eval.call ("url", agent test_url)
 			eval.call ("url_parts", agent test_url_parts)
 			eval.call ("url_query_hash_table", agent test_url_query_hash_table)
@@ -36,39 +36,59 @@ feature -- Basic operations
 feature -- Tests
 
 	test_uri_assignments
+		-- URI_TEST_SET.test_uri_assignments
 		note
 			testing:
 				"covers/{EL_ZPATH}.make, covers/{EL_URI_ZPATH}.authority, covers/{EL_URI_ZPATH}.scheme",
 				"covers/{EL_URI_ZPATH}.make_file, covers/{EL_URI_ZPATH}.make_scheme, covers/{EL_URI_ZPATH}.is_absolute"
 		local
-			uri: EL_DIR_URI_ZPATH; str_32: STRING_32
-			parts: EL_STRING_8_LIST; scheme: STRING
+			uri: EL_DIR_URI_ZPATH; str_32: STRING_32; dir_path: EL_DIR_ZPATH
+			parts: EL_STRING_8_LIST; scheme, line: STRING; index_3rd_slash: INTEGER
 		do
-			across URI_list as line loop
-				create parts.make_split (line.item, '/')
+			across URI_list as list loop
+				line := list.item
+				create parts.make_split (line, '/')
 				scheme := parts [1]
 				scheme.remove_tail (1)
-				str_32 := line.item.to_string_32
+				str_32 := line.to_string_32
 				create uri.make (str_32)
 				assert ("same scheme", uri.scheme ~ scheme)
 				assert ("same authority", uri.authority.same_string (parts [3]))
 				assert ("str_32 same as uri.to_string", str_32 ~ uri.to_string.to_string_32)
 				assert ("is absolute", uri.is_absolute)
+				index_3rd_slash := line.linear_representation.index_of ('/', 3)
+				create dir_path.make (line.substring (index_3rd_slash, line.count))
+				assert ("same path", dir_path ~ uri.to_dir_path)
 			end
 			create uri.make_file ("/home/finnian/Desktop")
 			assert ("same string", uri.to_string.same_string (URI_list.last))
 		end
 
-	test_uri_directory_join
+	test_uri_path_plus_joins
+		note
+			testing:
+				"covers/{EL_ZPATH}.append_path, covers/{EL_DIR_URI_ZPATH}.hash_plus",
+				"covers/{EL_URI_ZPATH}.to_file_path"
 		local
-			joined_dir: DIR_PATH; root: EL_DIR_URI_PATH
-			joined: ZSTRING
+			uri: EL_DIR_URI_ZPATH; dir_path: EL_DIR_ZPATH; file_path: EL_FILE_ZPATH
+			file_uri: EL_FILE_URI_ZPATH; index_3rd_slash: INTEGER; line: ZSTRING
 		do
-			joined := URI_list [1]
-			root := joined
-			joined_dir := root #+ sd_card
-			joined.append (SD_card)
-			assert ("", joined_dir.to_string ~ joined)
+			across URI_list as list loop
+				line := list.item
+				index_3rd_slash := line.linear_representation.index_of ('/', 3)
+				create uri.make (line.substring (1, index_3rd_slash - 1))
+				create dir_path.make (line.substring (index_3rd_slash, line.count))
+				if dir_path.has_extension ("html") then
+					create file_path.make (line.substring (index_3rd_slash, line.count))
+					file_uri := uri + file_path
+					assert ("same string", file_uri.to_string.same_string (line))
+					assert ("same path", file_uri.to_file_path ~ file_path)
+				else
+					uri := uri #+ dir_path
+					assert ("same string", uri.to_string.same_string (line))
+					assert ("same path", uri.to_dir_path ~ dir_path)
+				end
+			end
 		end
 
 	test_url

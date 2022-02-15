@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 11:40:40 GMT (Monday 14th February 2022)"
-	revision: "3"
+	date: "2022-02-15 8:56:04 GMT (Tuesday 15th February 2022)"
+	revision: "4"
 
 class
 	EL_FILE_ZPATH
@@ -16,9 +16,9 @@ inherit
 	EL_ZPATH
 
 create
-	default_create, make, make_from_steps, make_parent, make_from_tuple
+	default_create, make, make_from_steps, make_parent, make_from_tuple, make_sub_path
 
-create {EL_ZPATH} make_tokens
+create {EL_ZPATH_STEPS} make_tokens
 
 convert
 	make ({IMMUTABLE_STRING_8, ZSTRING, STRING, STRING_32}),

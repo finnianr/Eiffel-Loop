@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 19:33:32 GMT (Monday 14th February 2022)"
-	revision: "1"
+	date: "2022-02-15 9:49:16 GMT (Tuesday 15th February 2022)"
+	revision: "2"
 
 class
 	EL_ZPATH_STEPS
@@ -22,26 +22,18 @@ inherit
 			count as step_count
 		export
 			{NONE} all
-			{ANY} append, is_equal, step_count, is_empty, prunable
-			{EL_ZPATH_STEPS} area, i_th, occurrences, put_front, put_i_th
+			{ANY} append, is_equal, step_count, is_empty, prunable, valid_index
+			{EL_ZPATH_STEPS} area, i_th, occurrences, put_front, put_i_th, first
 		redefine
 			default_create, wipe_out
 		end
+
+	EL_ZPATH_STEPS_IMPLEMENTATION
 
 	COMPARABLE
 		undefine
 			copy, default_create, is_equal
 		end
-
-	EL_MODULE_FILE_SYSTEM; EL_MODULE_ITERABLE
-
-	EL_PATH_CONSTANTS
-		export
-			{NONE} all
-			{ANY} Separator
-		end
-
-	EL_ZSTRING_CONSTANTS
 
 feature -- Initialization
 
@@ -62,14 +54,6 @@ feature -- Initialization
 			reversible: to_string.same_string (a_path)
 		end
 
-	make_from_other (other: EL_ZPATH_STEPS)
-		do
-			area_v2 := other.area.twin
-			internal_hash_code := other.internal_hash_code
-		ensure
-			same_string: to_string ~ other.to_string
-		end
-
 	make_from_steps (a_steps: ITERABLE [READABLE_STRING_GENERAL])
 		do
 			make_tokens (Iterable.count (a_steps))
@@ -78,23 +62,43 @@ feature -- Initialization
 			reversible: filled_list ~ create {like filled_list}.make_from_general (a_steps)
 		end
 
-	make_from_tuple (tuple: TUPLE)
+	make_from_tuple (a_tuple: TUPLE)
 		do
-			make_from_steps (create {EL_ZSTRING_LIST}.make_from_tuple (tuple))
+			make_from_steps (create {EL_ZSTRING_LIST}.make_from_tuple (a_tuple))
 		end
 
 	make_parent (other: EL_ZPATH)
 		require
 			has_parent: other.has_parent
 		local
-			count: INTEGER
+			l_count: INTEGER
 		do
-			count := other.step_count - 1
-			make_tokens (count)
-			area.copy_data (other.area, 0, 0, count)
+			l_count := other.step_count - 1
+			make_tokens (l_count)
+			area.copy_data (other.area, 0, 0, l_count)
+		end
+
+	make_sub_path (other: EL_ZPATH; start_index: INTEGER)
+		require
+			valid_start_index: other.valid_index (start_index) or start_index = other.step_count + 1
+		local
+			l_count: INTEGER
+		do
+			l_count := other.step_count - start_index + 1
+			make_tokens (l_count)
+			if l_count.to_boolean then
+				area.copy_data (other.area, start_index - 1, 0, l_count)
+			end
 		end
 
 feature -- Measurement
+
+	count: INTEGER
+		-- character count
+		-- (works for uri paths too)
+		do
+			Result := Step_table.character_count (area, step_count)
+		end
 
 	index_of (step: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
 		local
@@ -157,9 +161,50 @@ feature -- Conversion
 			Result := File_system.escaped_path (temporary_path)
 		end
 
+	to_path: PATH
+		local
+			str: STRING_32; buffer: EL_STRING_32_BUFFER_ROUTINES
+		do
+			str := buffer.empty
+			append_to_32 (str)
+			create Result.make_from_string (str)
+		end
+
 	to_string: ZSTRING
 		do
 			Result := filled_list.joined (Separator)
+		end
+
+	to_unix, as_unix: ZSTRING
+		do
+			Result := filled_list.joined (Unix_separator)
+		end
+
+	to_uri: EL_URI
+		local
+			uri: like empty_uri_path
+		do
+			uri := empty_uri_path
+			append_to_uri (uri)
+			create Result.make (uri)
+		end
+
+	to_utf_8: STRING
+		do
+			across Reuseable.string_8 as reuse loop
+				across filled_list as step loop
+					if step.cursor_index > 1 then
+						reuse.item.append_character (Separator.to_character_8)
+					end
+					step.item.append_to_utf_8 (reuse.item)
+				end
+				Result := reuse.item.twin
+			end
+		end
+
+	to_windows, as_windows: ZSTRING
+		do
+			Result := filled_list.joined (Windows_separator)
 		end
 
 feature -- Basic operations
@@ -168,21 +213,114 @@ feature -- Basic operations
 		-- append path to string `str'
 		do
 			if attached filled_list as filled then
-				if {PLATFORM}.is_unix and then filled.count = 1 and then filled.first.is_empty then
-					str.append_character_8 ('.')
-				else
-					str.grow (str.count + filled.character_count + (filled.count - 1))
-					across filled as step loop
-						if step.cursor_index > 1 then
-							str.append_character (Separator)
-						end
-						str.append (step.item)
+				str.grow (str.count + filled.joined_character_count)
+				across filled as step loop
+					if step.cursor_index > 1 then
+						str.append_character (Separator)
 					end
+					str.append (step.item)
+				end
+			end
+		end
+
+	append_to_32 (str: STRING_32)
+		-- append path to string `str'
+		do
+			if attached filled_list as filled then
+				str.grow (str.count + filled.joined_character_count)
+				across filled as step loop
+					if step.cursor_index > 1 then
+						str.append_character (Separator)
+					end
+					step.item.append_to (str)
+				end
+			end
+		end
+
+	append_to_uri (uri: EL_URI_STRING_8)
+		do
+			if is_absolute then
+				uri.append_raw_8 (Protocol.file)
+				uri.append_raw_8 (Colon_slash_x2)
+
+				if {PLATFORM}.is_windows then
+					uri.append_character ('/')
+				end
+			end
+			if attached filled_list as filled then
+				uri.grow (uri.count + filled.joined_character_count)
+				across filled as step loop
+					if step.cursor_index > 1 then
+						uri.append_character (Unix_separator.to_character_8)
+					end
+					uri.append_general (step.item)
 				end
 			end
 		end
 
 feature -- Element change
+
+	append_dir_path (a_dir_path: EL_DIR_ZPATH)
+		do
+			append_path (a_dir_path)
+		end
+
+	append_path (path: EL_ZPATH)
+		require
+			enough_steps: valid_back_step_count >= path.leading_backstep_count
+		local
+			backstep_count: INTEGER
+		do
+			backstep_count := path.leading_backstep_count
+			if backstep_count > 0 then
+				area_v2.remove_tail (backstep_count.min (step_count))
+				if path.step_count - backstep_count > 0 then
+					if last_is_empty then
+						area.remove_tail (1)
+					end
+					append_subpath (path, backstep_count + 1)
+				end
+			elseif not path.is_empty then
+				if last_is_empty then
+					area.remove_tail (1)
+				end
+				if path.first = Step_table.token_empty_string then
+					append_subpath (path, 2)
+				else
+					append (path)
+				end
+			end
+			internal_hash_code := 0
+		end
+
+	append_step (a_step: READABLE_STRING_GENERAL)
+		local
+			s: EL_ZSTRING_BUFFER_ROUTINES
+		do
+			extend (Step_table.to_token (s.copied_general (a_step)))
+			internal_hash_code := 0
+		end
+
+	expand
+		-- expand environment variables in each step
+		local
+			factory: EL_ITERABLE_SPLIT_FACTORY_ROUTINES; new_tokens: ARRAYED_LIST [INTEGER]
+		do
+			if attached filled_list as filled and then filled.there_exists (agent has_expansion_variable) then
+				create new_tokens.make (step_count)
+				across filled as list loop
+					if has_expansion_variable (list.item)
+						and then attached Execution_environment.item (variable_name (list.item)) as value
+					then
+						new_tokens.grow (new_tokens.count + value.occurrences (Separator) + 1)
+						Step_table.put_tokens (factory.new_split_on_character (value, Separator), new_tokens.area)
+					else
+						new_tokens.extend (i_th (list.cursor_index))
+					end
+				end
+				area_v2 := new_tokens.area
+			end
+		end
 
 	put_base (a_step: ZSTRING)
 		require
@@ -222,26 +360,44 @@ feature -- Comparison
 			end
 		end
 
+feature -- Contract Support
+
+	valid_back_step_count: INTEGER
+		local
+			i: INTEGER
+		do
+			from i := step_count until i = 0 or else i_th (i) = Step_table.token_empty_string loop
+				Result := Result + 1
+				i := i - 1
+			end
+		end
+
 feature {EL_ZPATH_STEPS} -- Implementation
+
+	append_subpath (path: EL_ZPATH; from_index: INTEGER)
+		require
+			valid_index: 1 <= from_index and then from_index <= path.step_count
+		local
+			i: INTEGER
+		do
+			grow (step_count + path.step_count - from_index + 1)
+			from i := from_index until i > path.step_count loop
+				extend (path [i])
+				i := i + 1
+			end
+			internal_hash_code := 0
+		end
 
 	filled_list: EL_ZSTRING_LIST
 		do
 			Result := Step_list
 			Result.wipe_out
 			Result.grow (step_count)
-			Step_table.fill_array (Result.area, area, step_count)
-			if {PLATFORM}.is_unix and then Result.count = 1 and then Result.first.is_empty then
-				Result [1] := Forward_slash
+			if step_count = 1 and then first = Step_table.token_empty_string then
+				Result.extend (Forward_slash)
+			else
+				Step_table.fill_array (Result.area, area, step_count)
 			end
-		end
-
-	has_expansion_variable (a_path: ZSTRING): BOOLEAN
-		-- a step contains what might be an expandable variable
-		local
-			pos_dollor: INTEGER
-		do
-			pos_dollor := a_path.index_of ('$', 1)
-			Result := pos_dollor > 0 and then (pos_dollor = 1 or else a_path [pos_dollor - 1] = Separator)
 		end
 
 	i_th_step (a_index: INTEGER): ZSTRING
@@ -262,6 +418,11 @@ feature {EL_ZPATH_STEPS} -- Implementation
 			end
 		end
 
+	last_is_empty: BOOLEAN
+		do
+			Result := step_count > 0 and then last = Step_table.token_empty_string
+		end
+
 	put_i_th_step (step: READABLE_STRING_GENERAL; a_index: INTEGER)
 		local
 			s: EL_ZSTRING_ROUTINES
@@ -271,57 +432,9 @@ feature {EL_ZPATH_STEPS} -- Implementation
 			end
 		end
 
-	temporary_copy (path: READABLE_STRING_GENERAL): ZSTRING
-		do
-			Result := Temp_path
-			if Result /= path then
-				Result.wipe_out
-				Result.append_string_general (path)
-			end
-		end
-
-	temporary_path: ZSTRING
-		-- temporary shared copy of current path
-		do
-			Result := Temp_path
-			Result.wipe_out
-			append_to (Result)
-		end
-
-	variable_name (step: ZSTRING): STRING_32
-		do
-			Result := step
-			Result.remove_head (1)
-		end
-
 feature {EL_ZPATH_STEPS} -- Internal attributes
 
 	internal_hash_code: INTEGER
 
-feature {NONE} -- Constants
 
-	Shared_base: ZSTRING
-		once
-			create Result.make_empty
-		end
-
-	Step_list: EL_ZSTRING_LIST
-		once
-			create Result.make (0)
-		end
-
-	Step_table: EL_PATH_STEP_TABLE
-		once ("PROCESS")
-			create Result.make
-		end
-
-	Temp_path: ZSTRING
-		once
-			create Result.make_empty
-		end
-
-	Temporary_dir: EL_DIR_ZPATH
-		once
-			create Result
-		end
 end

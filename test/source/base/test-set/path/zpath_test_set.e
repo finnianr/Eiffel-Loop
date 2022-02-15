@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 10:37:06 GMT (Monday 14th February 2022)"
-	revision: "3"
+	date: "2022-02-15 7:59:37 GMT (Tuesday 15th February 2022)"
+	revision: "4"
 
 class
 	ZPATH_TEST_SET

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 19:33:47 GMT (Monday 14th February 2022)"
-	revision: "2"
+	date: "2022-02-14 22:03:35 GMT (Monday 14th February 2022)"
+	revision: "3"
 
 class
 	EL_PATH_STEP_TABLE
@@ -110,15 +110,32 @@ feature -- Status query
 			end_restriction
 		end
 
+feature -- Measurement
+
+	character_count (tokens: SPECIAL [INTEGER]; a_count: INTEGER): INTEGER
+		-- character count
+		local
+			i: INTEGER; l_area: like area
+		do
+			restrict_access
+				Result := a_count - 1
+				from i := 0 until i = a_count loop
+					Result := Result + l_area [tokens [i] - 1].count
+					i := i + 1
+				end
+			end_restriction
+		end
+
 feature -- Basic operations
 
 	fill_array (step_array: SPECIAL [ZSTRING]; tokens: SPECIAL [INTEGER]; a_count: INTEGER)
 		local
-			i: INTEGER
+			i: INTEGER; l_area: like area
 		do
 			restrict_access
+				l_area := area
 				from i := 0 until i = a_count loop
-					step_array.extend (i_th (tokens [i]))
+					step_array.extend (l_area [tokens [i] - 1])
 					i := i + 1
 				end
 			end_restriction

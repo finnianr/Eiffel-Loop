@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 11:31:28 GMT (Monday 14th February 2022)"
-	revision: "2"
+	date: "2022-02-15 9:15:23 GMT (Tuesday 15th February 2022)"
+	revision: "3"
 
 deferred class
 	EL_ZPATH_BASE_NAME
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_PATH_CONSTANTS
 
-	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_DIRECTORY
 	EL_MODULE_FORMAT
 
 feature -- Access
@@ -226,7 +226,9 @@ feature {NONE} -- Implementation
 	dot_index (str: ZSTRING): INTEGER
 		-- index of last dot, 0 if none
 		do
-			Result := str.last_index_of ('.', str.count)
+			if str.count > 0 then
+				Result := str.last_index_of ('.', str.count)
+			end
 		end
 
 	replace_part (a_replacement: READABLE_STRING_GENERAL; index: INTEGER)

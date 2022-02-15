@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-11 9:41:50 GMT (Saturday 11th September 2021)"
-	revision: "14"
+	date: "2022-02-15 5:37:12 GMT (Tuesday 15th February 2022)"
+	revision: "15"
 
 deferred class
 	EL_ENCODED_STRING_8
@@ -27,7 +27,7 @@ inherit
 			{ANY} append_character, append_substring, is_empty, wipe_out, share, set_encoded, count, area,
 					capacity, same_string, to_c, to_string_8, Is_string_8
 
-			{STRING_HANDLER} set_count, append_raw_8, item, put
+			{STRING_HANDLER} set_count, append_raw_8, item, put, grow
 		end
 
 	EL_MODULE_HEXADECIMAL

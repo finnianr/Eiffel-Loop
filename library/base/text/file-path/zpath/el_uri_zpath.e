@@ -14,29 +14,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 19:06:53 GMT (Monday 14th February 2022)"
-	revision: "1"
+	date: "2022-02-15 9:56:08 GMT (Tuesday 15th February 2022)"
+	revision: "2"
 
 deferred class
-	EL_URI_ZPATH
+	EL_URI_ZPATH [TO_TYPE -> EL_ZPATH create default_create, make_sub_path end]
 
 inherit
 	EL_ZPATH
 		redefine
-			make, Separator, is_absolute, is_uri
+			append_path, make, Separator, is_absolute, is_uri, last_is_empty
 		end
 
 	EL_MODULE_URI
-
-	EL_PROTOCOL_CONSTANTS
-		rename
-			Protocol as Protocol_name
-		end
-
-	STRING_HANDLER
-		undefine
-			copy, default_create, is_equal
-		end
 
 feature -- Initialization
 
@@ -53,19 +43,7 @@ feature -- Initialization
 		require
 			is_absolute: a_path.starts_with (Forward_slash)
 		do
-			make_scheme (Protocol_name.file, create {EL_FILE_ZPATH}.make (a_path))
-		end
-
-	make_from_file_path (a_path: EL_ZPATH)
-			-- make from file or directory path
-		require
-			absolute: a_path.is_absolute
-		do
-			if attached {EL_URI_ZPATH} a_path as l_uri_path then
-				make_from_other (l_uri_path)
-			else
-				make_scheme (Protocol_name.file, a_path)
-			end
+			make_scheme (Protocol.file, create {EL_FILE_ZPATH}.make (a_path))
 		end
 
 	make_from_encoded (a_uri: STRING)
@@ -82,16 +60,29 @@ feature -- Initialization
 			make (l_path.decoded_32 (False))
 		end
 
+	make_from_file_path (a_path: EL_ZPATH)
+			-- make from file or directory path
+		require
+			absolute: a_path.is_absolute
+		do
+			if attached {like Current} a_path as l_uri_path then
+				copy (l_uri_path)
+			else
+				make_scheme (Protocol.file, a_path)
+			end
+		end
+
 	make_scheme (a_scheme: STRING; a_path: EL_ZPATH)
 		require
 			path_absolute_for_file_scheme: is_file_scheme (a_scheme) implies a_path.is_absolute
 			path_relative_for_other_schemes:
-				(not is_file_scheme (a_scheme) and not attached {EL_URI_ZPATH} a_path) implies not a_path.is_absolute
+				(not is_file_scheme (a_scheme) and not attached {EL_URI_ZPATH [EL_ZPATH]} a_path)
+					implies not a_path.is_absolute
 		local
 			l_path: ZSTRING
 		do
-			if attached {EL_URI_ZPATH} a_path as l_uri_path then
-				make_from_other (l_uri_path)
+			if attached {like Current} a_path as l_uri_path then
+				copy (l_uri_path)
 				set_scheme (a_scheme)
 			else
 				l_path := temporary_copy (a_scheme)
@@ -120,9 +111,16 @@ feature -- Access
 
 feature -- Status query
 
+	has_scheme (a_scheme: STRING): BOOLEAN
+		do
+			if step_count > 0 and then attached Step_table.to_step (i_th (1)) as l_scheme then
+				Result := l_scheme.count - 1 = a_scheme.count and then l_scheme.starts_with_general (a_scheme)
+			end
+		end
+
 	is_absolute: BOOLEAN
 		do
-			if has_scheme (Protocol_name.file) and then step_count >= Index_authority then
+			if has_scheme (Protocol.file) and then step_count >= Index_authority then
 				Result := i_th (Index_authority)	= Step_table.token_empty_string
 			else
 				Result := True
@@ -134,14 +132,19 @@ feature -- Status query
 			Result := True
 		end
 
-	has_scheme (a_scheme: STRING): BOOLEAN
+	last_is_empty: BOOLEAN
 		do
-			if step_count > 0 and then attached Step_table.to_step (i_th (1)) as l_scheme then
-				Result := l_scheme.count - 1 = a_scheme.count and then l_scheme.starts_with_general (a_scheme)
-			end
+			Result := step_count > Index_authority and then Precursor
 		end
 
 feature -- Element change
+
+	append_path (path: EL_ZPATH)
+		require else
+			valid_step_count: path.is_absolute implies step_count = Index_authority
+		do
+			Precursor (path)
+		end
 
 	set_authority (a_authority: READABLE_STRING_GENERAL)
 		do
@@ -153,11 +156,27 @@ feature -- Element change
 			put_i_th_step (a_scheme, Index_scheme)
 		end
 
+feature -- Conversion
+
+	to_file_path: TO_TYPE
+		local
+			token: INTEGER
+		do
+			if valid_index (Index_authority) then
+				token := i_th (Index_authority)
+				put_i_th (Step_table.token_empty_string, Index_authority)
+				create Result.make_sub_path (Current, Index_authority)
+				put_i_th (token, Index_authority)
+			else
+				create Result
+			end
+		end
+
 feature -- Contract Support
 
 	is_file_scheme (a_scheme: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := a_scheme.same_string (Protocol_name.file)
+			Result := a_scheme.same_string (Protocol.file)
 		end
 
 	is_uri_absolute (a_uri: READABLE_STRING_GENERAL): BOOLEAN
@@ -172,27 +191,13 @@ feature -- Contract Support
 
 feature -- Constants
 
-	Separator: CHARACTER_32
-		once
-			Result := Unix_separator
-		end
-
-feature {NONE} -- Implementation
-
-	empty_uri_path: like URI_path_string
-		do
-			Result := URI_path_string; Result.wipe_out
-		end
-
-feature {NONE} -- Constants
+	Index_scheme: INTEGER = 1
 
 	Index_authority: INTEGER = 3
 
-	Index_scheme: INTEGER = 1
-
-	URI_path_string: EL_URI_PATH_STRING_8
+	Separator: CHARACTER_32
 		once
-			create Result.make_empty
+			Result := Unix_separator
 		end
 
 end
