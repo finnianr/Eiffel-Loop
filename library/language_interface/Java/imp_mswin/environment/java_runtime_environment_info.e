@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "5"
+	date: "2022-02-15 18:39:54 GMT (Tuesday 15th February 2022)"
+	revision: "6"
 
 class
 	JAVA_RUNTIME_ENVIRONMENT_INFO
@@ -24,16 +24,16 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			steps: EL_PATH_STEPS; client_pos: INTEGER
+			steps: FILE_PATH; client_pos: INTEGER
 		do
 			jvm_dll_path := Win_registry.string (Current_version_reg_path, "RuntimeLib")
 			if not jvm_dll_path.exists then
-				steps := jvm_dll_path
+				steps := jvm_dll_path.twin
 				client_pos := steps.index_of ("client", 1)
 				if client_pos > 0 then
-					steps.put ("server", client_pos)
+					steps.put_i_th_step ("server", client_pos)
+					jvm_dll_path := steps
 				end
-				jvm_dll_path := steps
 			end
 			java_home := Win_registry.string (Current_version_reg_path, "JavaHome")
 		ensure
@@ -50,7 +50,7 @@ feature {NONE} -- Constants
 
 	Current_version_reg_path: DIR_PATH
 		once
-			Result := JRE_reg_path.joined_dir_path (Win_registry.string (JRE_reg_path, "CurrentVersion"))
+			Result := JRE_reg_path #+ Win_registry.string (JRE_reg_path, "CurrentVersion")
 		end
 
 	JRE_reg_path: DIR_PATH
@@ -59,4 +59,3 @@ feature {NONE} -- Constants
 		end
 
 end
-

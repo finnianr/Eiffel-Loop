@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 16:10:03 GMT (Sunday 9th January 2022)"
-	revision: "1"
+	date: "2022-02-15 15:46:25 GMT (Tuesday 15th February 2022)"
+	revision: "2"
 
 class
 	FTP_BACKUP_TEST_SET
@@ -99,7 +99,7 @@ feature {NONE} -- Implementation
 			command: FTP_BACKUP_COMMAND
 		do
 			set_eiffel_loop_env
-			file_list.find_first_true (agent {FILE_PATH}.base_matches (name))
+			file_list.find_first_true (agent {FILE_PATH}.base_matches (name, False))
 			if file_list.found then
 				create command.make (file_list.path, False)
 				if attached command.config as config then

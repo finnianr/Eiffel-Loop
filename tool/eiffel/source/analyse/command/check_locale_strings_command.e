@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:25:58 GMT (Tuesday 8th February 2022)"
-	revision: "19"
+	date: "2022-02-15 15:39:30 GMT (Tuesday 15th February 2022)"
+	revision: "20"
 
 class
 	CHECK_LOCALE_STRINGS_COMMAND
@@ -204,7 +204,7 @@ feature {NONE} -- Implementation
 
 	do_with_localizeable_file (file_path: FILE_PATH; index_of_lang_id_from_end: INTEGER)
 		local
-			name: ZSTRING; steps: EL_PATH_STEPS
+			name: ZSTRING; steps: FILE_PATH
 		do
 			name := file_path.without_extension.base
 
@@ -214,8 +214,8 @@ feature {NONE} -- Implementation
 			translations.search (name)
 			if translations.found then
 				steps := file_path.without_extension
-				steps [steps.count - index_of_lang_id_from_end + 1] := translations.language
-				steps [steps.count] := translations.found_item + "." + file_path.extension
+				steps.put_i_th_step (translations.language, steps.count - index_of_lang_id_from_end + 1)
+				steps.set_base (translations.found_item + "." + file_path.extension)
 				check_file_path_exists (steps)
 			end
 		end

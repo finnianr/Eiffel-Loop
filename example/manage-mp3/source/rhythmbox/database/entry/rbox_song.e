@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 7:26:48 GMT (Monday 7th February 2022)"
-	revision: "51"
+	date: "2022-02-15 17:18:08 GMT (Tuesday 15th February 2022)"
+	revision: "52"
 
 class
 	RBOX_SONG
@@ -245,13 +245,13 @@ feature -- Status query
 		require
 			not_hidden: not is_hidden
 		local
-			l_extension, l_actual_path, l_normalized_path: ZSTRING
+			l_normalized_path, l_actual_path: FILE_PATH; l_extension: ZSTRING
 		do
 			l_actual_path := mp3_path.relative_path (music_dir).without_extension
-			l_normalized_path := normalized_path_steps.as_file_path
+			l_normalized_path := normalized_path_steps
 			if l_actual_path.starts_with (l_normalized_path) then
-				l_extension := l_actual_path.substring_end (l_normalized_path.count + 1) -- .00
-				Result := l_extension.count = 3 and then l_extension.substring (2, 3).is_integer
+				l_extension := l_actual_path.extension
+				Result := l_extension.count = 3 and then l_extension.is_natural_32
 			end
 		end
 
@@ -432,13 +432,15 @@ feature {NONE} -- Implementation
 	normalized_mp3_base_path: FILE_PATH
 			-- normalized path <mp3_root_location>/<genre>/<artist>/<title>[<- vocalists>]
 		do
-			Result := music_dir.joined_file_steps (normalized_path_steps)
+			Result := music_dir + normalized_path_steps
 		end
 
-	normalized_path_steps: EL_PATH_STEPS
+	normalized_path_steps: FILE_PATH
 			-- normalized path steps <genre>,<artist>,<title>
 		do
-			Result := << genre, artist, title.translated (Problem_file_name_characters, Problem_file_name_substitutes) >>
+			create Result.make_from_steps (
+				<< genre, artist, title.translated (Problem_file_name_characters, Problem_file_name_substitutes)
+			>>)
 			-- Remove problematic characters from last step of name
 		end
 

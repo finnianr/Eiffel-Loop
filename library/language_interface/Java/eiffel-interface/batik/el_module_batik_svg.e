@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 12:20:56 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2022-02-15 19:04:05 GMT (Tuesday 15th February 2022)"
+	revision: "8"
 
 deferred class
 	EL_MODULE_BATIK_SVG
@@ -22,7 +22,7 @@ feature {NONE} -- Initialization
 	open_batik_package (error_action: PROCEDURE [STRING])
 		do
 			if Java_packages.is_java_installed then
-				Java_packages.append_jar_locations (<< Directory.Application_installation.joined_dir_path ("batik-1.7") >>)
+				Java_packages.append_jar_locations (<< Directory.Application_installation #+ "batik-1.7" >>)
 				Java_packages.append_class_locations (<< Directory.Application_installation >>)
 				Java_packages.open (<< "batik-rasterizer" >>)
 				if Java_packages.is_open then

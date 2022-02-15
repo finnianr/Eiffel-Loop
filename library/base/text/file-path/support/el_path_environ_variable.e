@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-15 14:51:13 GMT (Sunday 15th October 2017)"
-	revision: "1"
+	date: "2022-02-15 14:00:14 GMT (Tuesday 15th February 2022)"
+	revision: "2"
 
 class
 	EL_PATH_ENVIRON_VARIABLE [P -> EL_PATH create make end]

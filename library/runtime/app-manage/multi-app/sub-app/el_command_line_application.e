@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 12:12:38 GMT (Tuesday 8th February 2022)"
-	revision: "41"
+	date: "2022-02-15 14:00:14 GMT (Tuesday 15th February 2022)"
+	revision: "42"
 
 deferred class
 	EL_COMMAND_LINE_APPLICATION [C -> EL_APPLICATION_COMMAND]
@@ -292,4 +292,3 @@ note
 					[$source CRYPTO_COMMAND_SHELL_APP]
 	]"
 end
-

@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:28:54 GMT (Monday 14th February 2022)"
-	revision: "43"
+	date: "2022-02-15 15:20:49 GMT (Tuesday 15th February 2022)"
+	revision: "44"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -138,7 +138,7 @@ feature {NONE} -- Events
 
 	on_prepare
 		local
-			lib_dir: DIR_PATH; list: EL_STRING_8_LIST; steps: EL_PATH_STEPS
+			lib_dir: DIR_PATH; list: EL_STRING_8_LIST; steps: DIR_PATH
 		do
 			Precursor
 			OS.copy_tree (Eiffel_loop_dir #+ "doc-config", Work_area_dir)
@@ -152,8 +152,8 @@ feature {NONE} -- Events
 			list := "library/base/kernel, library/base/math, library/base/persistency, library/persistency/database/eco-db%
 								%, library/text/rsa-encryption"
 			across list as dir loop
-				from steps := dir.item until steps.count = 0 loop
-					lib_dir := Work_area_dir #+ steps.as_directory_path
+				from steps := dir.item.twin until steps.is_empty loop
+					lib_dir := Work_area_dir #+ steps
 					File_system.make_directory (lib_dir)
 					steps.remove_tail (1)
 				end

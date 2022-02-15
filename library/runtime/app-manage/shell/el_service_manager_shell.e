@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 9:33:17 GMT (Tuesday 8th February 2022)"
-	revision: "4"
+	date: "2022-02-15 13:45:11 GMT (Tuesday 15th February 2022)"
+	revision: "5"
 
 class
 	EL_SERVICE_MANAGER_SHELL
@@ -30,7 +30,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (name: READABLE_STRING_GENERAL; a_row_count: INTEGER; a_config_path: EL_FILE_PATH)
+	make (name: READABLE_STRING_GENERAL; a_row_count: INTEGER; a_config_path: FILE_PATH)
 		do
 			config_path := a_config_path
 			make_shell (name, a_row_count)
@@ -71,6 +71,6 @@ feature {NONE} -- Internal attributes
 
 	config: EL_SERVICE_CONFIGURATION
 
-	config_path: EL_FILE_PATH
+	config_path: FILE_PATH
 
 end

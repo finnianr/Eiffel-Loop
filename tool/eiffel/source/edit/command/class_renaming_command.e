@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 6:30:40 GMT (Monday 7th February 2022)"
-	revision: "21"
+	date: "2022-02-15 15:19:42 GMT (Tuesday 15th February 2022)"
+	revision: "22"
 
 class
 	CLASS_RENAMING_COMMAND
@@ -49,9 +49,7 @@ feature {NONE} -- Implementation
 				and then across source_lines as list some has_old_name_identifier (list.item) end
 			then
 				-- Check if `source_path' is class definition file
-				if source_path.dot_index - 1 = old_name.count and then
-					source_path.base.same_caseless_characters_general (old_name, 1, old_name.count, 1)
-				then
+				if source_path.base_matches (old_name, True) then
 					File_system.remove_path (source_path)
 					source_path.set_base (new_name.as_lower + Eiffel_extention)
 				end

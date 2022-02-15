@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "6"
+	date: "2022-02-15 18:47:01 GMT (Tuesday 15th February 2022)"
+	revision: "7"
 
 class
 	EL_DIRECTORY_USER_SELECT
@@ -58,13 +58,10 @@ feature {NONE} -- Handlers
 	on_browse_selected
 			--
 		local
-			l_path: EL_PATH_STEPS
-			path_exists: BOOLEAN
-			l_directory: DIRECTORY
-			start_directory: DIR_PATH
+			l_path, start_directory: DIR_PATH; path_exists: BOOLEAN; l_directory: DIRECTORY
 		do
 			from
-				l_path := directory_path.steps
+				l_path := directory_path.twin
 			until
 				path_exists or l_path.is_empty
 			loop

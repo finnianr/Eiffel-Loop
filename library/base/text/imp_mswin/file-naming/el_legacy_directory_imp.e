@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "2"
+	date: "2022-02-15 18:35:54 GMT (Tuesday 15th February 2022)"
+	revision: "3"
 
 class
 	EL_LEGACY_DIRECTORY_IMP
@@ -34,7 +34,7 @@ feature -- Access
 
 	App_data: DIR_PATH
 		once
-			Result := User_local.joined_dir_path (Relative_app_data)
+			Result := User_local #+ Relative_app_data
 		end
 
 	App_configuration: DIR_PATH

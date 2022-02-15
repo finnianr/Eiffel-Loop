@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 19:33:49 GMT (Friday 11th February 2022)"
-	revision: "27"
+	date: "2022-02-15 14:00:12 GMT (Tuesday 15th February 2022)"
+	revision: "28"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -581,7 +581,7 @@ feature {NONE} -- Implementation
 						if attached {READABLE_STRING_GENERAL} l_reference as str then
 							l_count := str.count
 						elseif attached {EL_PATH} l_reference as path then
-							l_count := path.parent_string (False).count + path.base.count + 1
+							l_count := path.count
 						end
 
 				else -- Double or real or something else

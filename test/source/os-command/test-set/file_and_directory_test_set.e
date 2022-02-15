@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:15:11 GMT (Monday 14th February 2022)"
-	revision: "24"
+	date: "2022-02-15 14:00:14 GMT (Tuesday 15th February 2022)"
+	revision: "25"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -213,13 +213,13 @@ feature {NONE} -- Filters
 			if dir_path ~ path then
 				Result := interval.has (0)
 			else
-				Result := interval.has (path.relative_path (dir_path).steps.count)
+				Result := interval.has (path.relative_path (dir_path).step_count)
 			end
 		end
 
 	file_within_depth (dir_path: DIR_PATH; path: FILE_PATH; interval: INTEGER_INTERVAL): BOOLEAN
 		do
-			Result := interval.has (path.relative_path (dir_path).steps.count)
+			Result := interval.has (path.relative_path (dir_path).step_count)
 		end
 
 	path_contains (path: FILE_PATH; str: ZSTRING): BOOLEAN

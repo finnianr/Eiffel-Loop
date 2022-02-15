@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "5"
+	date: "2022-02-15 18:35:05 GMT (Tuesday 15th February 2022)"
+	revision: "6"
 
 class
 	EL_SOFTWARE_MICROSOFT_WINDOWS_REG_KEYS
@@ -31,14 +31,14 @@ feature {NONE} -- Initialization
 	make_nt
 		do
 			make
-			path.base.append_string_general (" NT")
+			path.set_base (path.base + " NT")
 		end
 
 feature -- Access
 
 	current_version (name: STRING): DIR_PATH
 		do
-			Result := current_version_path.joined_dir_path (name)
+			Result := current_version_path #+ name
 		end
 
 	current_version_path: DIR_PATH

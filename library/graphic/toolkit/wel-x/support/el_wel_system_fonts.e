@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 8:11:10 GMT (Monday 7th February 2022)"
-	revision: "11"
+	date: "2022-02-15 18:35:54 GMT (Tuesday 15th February 2022)"
+	revision: "12"
 
 class
 	EL_WEL_SYSTEM_FONTS
@@ -91,7 +91,7 @@ feature {NONE} -- Constants
 
 	System_fonts_dir: DIR_PATH
 		once
-			Result := Execution.variable_dir_path ("SystemRoot").joined_dir_path ("Fonts")
+			Result := Execution.variable_dir_path ("SystemRoot") #+ "Fonts"
 		end
 
 	HKLM_fonts: DIR_PATH

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 16:38:53 GMT (Saturday 5th February 2022)"
-	revision: "3"
+	date: "2022-02-15 17:50:14 GMT (Tuesday 15th February 2022)"
+	revision: "4"
 
 deferred class
 	EL_INSTALLER_MAIN_WINDOW
@@ -49,12 +49,12 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	png_logo_icon: EL_PATH_STEPS
+	png_logo_icon: FILE_PATH
 		-- Icon relative to `Package_dir' directory
 		deferred
 		end
 
-	png_title_background: EL_PATH_STEPS
+	png_title_background: FILE_PATH
 		-- Icon relative to `Package_dir' directory
 		deferred
 		end

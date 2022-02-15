@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 19:32:40 GMT (Friday 11th February 2022)"
-	revision: "29"
+	date: "2022-02-15 14:00:13 GMT (Tuesday 15th February 2022)"
+	revision: "30"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -285,7 +285,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 			internal_append_utf (utf_16_le_string, 16, utf_16_le.unicode_count (utf_16_le_string))
 		end
 
-feature {NONE} -- Append character
+feature {STRING_HANDLER} -- Append character
 
 	append_character, extend (uc: CHARACTER_32)
 		do
@@ -312,7 +312,7 @@ feature {NONE} -- Append character
 			stable_before: elks_checking implies substring (1, count - 1) ~ (old current_readable)
 		end
 
-feature {NONE} -- Append integers
+feature {STRING_HANDLER} -- Append integers
 
 	append_integer, append_integer_32 (n: INTEGER)
 		do
@@ -346,7 +346,7 @@ feature {NONE} -- Append integers
 			end
 		end
 
-feature {NONE} -- Append naturals
+feature {STRING_HANDLER} -- Append naturals
 
 	append_natural, append_natural_32 (n: NATURAL)
 		do
@@ -380,7 +380,7 @@ feature {NONE} -- Append naturals
 			end
 		end
 
-feature {NONE} -- Append general
+feature {STRING_HANDLER} -- Append general
 
 	append_boolean (b: BOOLEAN)
 		do
@@ -390,7 +390,7 @@ feature {NONE} -- Append general
 			end
 		end
 
-feature {NONE} -- Append REAL
+feature {STRING_HANDLER} -- Append REAL
 
 	append_real_32, append_real (n: REAL_32)
 		do
@@ -408,7 +408,7 @@ feature {NONE} -- Append REAL
 			end
 		end
 
-feature {NONE} -- Prepend numeric
+feature {STRING_HANDLER} -- Prepend numeric
 
 	prepend_boolean (b: BOOLEAN)
 		do
@@ -442,7 +442,7 @@ feature {NONE} -- Prepend numeric
 			end
 		end
 
-feature {NONE} -- Prepend general
+feature {STRING_HANDLER} -- Prepend general
 
 	prepend, prepend_string (s: EL_READABLE_ZSTRING)
 		do
@@ -469,7 +469,7 @@ feature {NONE} -- Prepend general
 			unencoded_valid: is_valid
 		end
 
-feature {EL_READABLE_ZSTRING} -- Prepending
+feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Prepending
 
 	precede, prepend_character (uc: CHARACTER_32)
 		local

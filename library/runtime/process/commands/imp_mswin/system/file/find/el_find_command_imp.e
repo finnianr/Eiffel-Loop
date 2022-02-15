@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-10 17:57:07 GMT (Thursday 10th February 2022)"
-	revision: "14"
+	date: "2022-02-15 18:36:57 GMT (Tuesday 15th February 2022)"
+	revision: "15"
 
 deferred class
 	EL_FIND_COMMAND_IMP
@@ -39,7 +39,7 @@ feature {NONE} -- Implementation
 				Result := Precursor (field)
 
 			elseif attached {DIR_PATH} field.value (Current) as l_path and then l_path = dir_path then
-				Result := l_path.joined_dir_path (name_pattern).escaped
+				Result := (l_path #+ name_pattern).escaped
 			else
 				Result := Precursor (field)
 			end

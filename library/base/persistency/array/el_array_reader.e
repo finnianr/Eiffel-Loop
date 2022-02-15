@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "7"
+	date: "2022-02-15 18:46:02 GMT (Tuesday 15th February 2022)"
+	revision: "8"
 
 class
 	EL_ARRAY_READER
@@ -29,12 +29,9 @@ feature {NONE} -- File input
 				file_in.last_string.count = 0
 			loop
 				csv_list := file_in.last_string.split (',')
-				create csv_values.make (
-					csv_list.i_th (1).to_integer, csv_list.i_th (2).to_integer
-				)
+				create csv_values.make (csv_list.i_th (1).to_integer, csv_list.i_th (2).to_integer)
 				from
-					i := csv_values.lower
-					csv_list.go_i_th (3)
+					i := csv_values.lower; csv_list.go_i_th (3)
 				until
 					i > csv_values.upper
 				loop

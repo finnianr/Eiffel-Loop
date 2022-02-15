@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
-	revision: "5"
+	date: "2022-02-15 19:05:16 GMT (Tuesday 15th February 2022)"
+	revision: "6"
 
 class
 	EL_APPLICATION_INSTALLER_WINDOW [INSTALLER_TYPE -> EL_APPLICATION_INSTALLER create make end]
@@ -73,7 +73,7 @@ feature {NONE} -- Create UI
 			v_box.extend (install_dir_selector)
 
 			create menu_shortcut_dir_selector.make (
-				program_menu_directory_path.joined_dir_path (installer.Default_menu_folder_name), Current
+				program_menu_directory_path #+ installer.Default_menu_folder_name, Current
 			)
 			v_box.extend (label ("Select menu shortcut location"))
 			v_box.extend (menu_shortcut_dir_selector)
@@ -170,7 +170,7 @@ feature {NONE} -- Implementation
 			user_dir: DIR_PATH
 		once
 			user_dir := Execution_environment.variable_dir_path ("USERPROFILE").parent
-			Result := user_dir.joined_dir_path ("All Users/Start Menu/Programs")
+			Result := user_dir #+ "All Users/Start Menu/Programs"
 		end
 
 	installer: INSTALLER_TYPE

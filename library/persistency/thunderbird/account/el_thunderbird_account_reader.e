@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 9:26:52 GMT (Friday 11th February 2022)"
-	revision: "20"
+	date: "2022-02-15 17:23:17 GMT (Tuesday 15th February 2022)"
+	revision: "21"
 
 deferred class
 	EL_THUNDERBIRD_ACCOUNT_READER
@@ -57,7 +57,7 @@ feature {NONE} -- Initialization
 
 	make_from_file (a_file_path: FILE_PATH)
 		local
-			mail_dir_path_steps: EL_PATH_STEPS
+			mail_dir_path: DIR_PATH
 		do
 			Precursor (a_file_path)
 			lio.put_labeled_string ("Account", account)
@@ -65,42 +65,45 @@ feature {NONE} -- Initialization
 			lio.put_path_field ("export", export_dir)
 			lio.put_new_line
 
-			mail_dir_path_steps := home_dir
-			mail_dir_path_steps.extend (".thunderbird")
-			if attached open_lines (mail_dir_path_steps.as_directory_path + "profiles.ini", Utf_8) as profile_lines then
+			mail_dir_path := home_dir
+			mail_dir_path.append_step (".thunderbird")
+			if attached open_lines (mail_dir_path + "profiles.ini", Utf_8) as profile_lines then
 				profile_lines.enable_shared_item
 
 				across profile_lines as line loop
 					if line.item.starts_with (Path_equals) then
-						mail_dir_path_steps.extend (line.item.split_list ('=').last)
+						mail_dir_path.append_step (line.item.split_list ('=').last)
 					end
 				end
 				profile_lines.close
 			end
-			mail_dir_path_steps.extend ("Mail")
-			mail_dir_path_steps.extend (account)
-			mail_dir := mail_dir_path_steps
+			mail_dir_path.append_step ("Mail")
+			mail_dir_path.append_step (account)
+			mail_dir := mail_dir_path
 			lio.put_path_field ("Mail", mail_dir)
 			lio.put_new_line_x2
 		end
 
 feature -- Access
 
-	export_steps (mails_path: FILE_PATH): EL_PATH_STEPS
+	export_steps (mails_path: FILE_PATH): DIR_PATH
 		local
-			account_index: INTEGER; dot_sbd_step: ZSTRING
+			account_index, i: INTEGER; dot_sbd_step: ZSTRING; found: BOOLEAN
 		do
-			Result := mails_path.steps
-			account_index := Result.index_of (account, 1)
+			account_index := mails_path.index_of (account, 1)
 			if account_index > 0 then
-				Result.remove_head (account_index)
+				create Result.make_sub_path (mails_path, account_index + 1)
+			else
+				create Result.make_sub_path (mails_path, 1)
 			end
-			across Result as step loop
-				if step.item.ends_with (Dot_sbd_extension) then
-					dot_sbd_step := step.item.twin
+			from i := 1 until found or else i > Result.step_count loop
+				dot_sbd_step := Result.i_th_step (i)
+				if dot_sbd_step.ends_with (Dot_sbd_extension) then
 					dot_sbd_step.remove_tail (Dot_sbd_extension.count)
-					Result [step.cursor_index] := dot_sbd_step
+					Result.put_i_th_step (dot_sbd_step, i)
+					found := True
 				end
+				i := i + 1
 			end
 			if language.is_empty then
 				if not language_code_last then

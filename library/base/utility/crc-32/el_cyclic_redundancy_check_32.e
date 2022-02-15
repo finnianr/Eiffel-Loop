@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 5:17:41 GMT (Monday 7th February 2022)"
-	revision: "20"
+	date: "2022-02-15 14:00:14 GMT (Tuesday 15th February 2022)"
+	revision: "21"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -244,7 +244,7 @@ feature -- Add strings
 	add_path (path: EL_PATH)
 			--
 		do
-			add_string (path.parent_string (False))
+			add_string (path.parent_string)
 			add_string (path.base)
 		end
 

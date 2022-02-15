@@ -37,10 +37,9 @@ feature {JNI_ENVIRONMENT} -- Element change
 			make
 			class_path.append (a_class_path)
 
-			create jvm_options.make (1, 1)
 			create l_option.make
 			l_option.set_option_string ("-Djava.class.path=" + class_path)
-			jvm_options.put (l_option, 1)
+			create jvm_options.make_filled (l_option, 1, 1)
 
 			load_jvm (libjvm_path, jvm_options)
 		end

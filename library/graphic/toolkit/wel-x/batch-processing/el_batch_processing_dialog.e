@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "7"
+	date: "2022-02-15 18:57:04 GMT (Tuesday 15th February 2022)"
+	revision: "8"
 
 deferred class
 	EL_BATCH_PROCESSING_DIALOG [G]
@@ -64,7 +64,7 @@ feature {NONE} -- Initialization
 			system_color_window_cell.put (white_brush.color)
 
 			create timer.make
-			create directory_content_processor.make
+			create directory_content_processor.make_default
 
 			create file_processed_event_proxy.make (Current)
 			make_processing_thread
@@ -444,4 +444,3 @@ feature {NONE} -- Constants
 		end
 
 end
-

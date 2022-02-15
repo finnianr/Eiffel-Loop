@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-02-15 14:00:12 GMT (Tuesday 15th February 2022)"
+	revision: "10"
 
 deferred class
 	EL_XDG_DESKTOP_MENU_ITEM
@@ -129,4 +129,3 @@ feature {NONE} -- Constants
 
 	English_key: STRING = "en"
 end
-

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-27 11:20:30 GMT (Friday 27th December 2019)"
-	revision: "1"
+	date: "2022-02-15 14:00:13 GMT (Tuesday 15th February 2022)"
+	revision: "2"
 
 class
 	EL_DIRECTORY_DELETE_MANAGER

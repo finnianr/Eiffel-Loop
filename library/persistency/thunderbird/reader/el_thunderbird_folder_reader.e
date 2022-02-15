@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 9:18:07 GMT (Friday 11th February 2022)"
-	revision: "14"
+	date: "2022-02-15 13:16:55 GMT (Tuesday 15th February 2022)"
+	revision: "15"
 
 deferred class
 	EL_THUNDERBIRD_FOLDER_READER
@@ -63,7 +63,7 @@ feature -- Basic operations
 			create line_source.make ({EL_ENCODING_CONSTANTS}.Latin_1, mails_path)
 			subject_list.wipe_out
 
-			output_dir := config.export_dir.joined_dir_steps (export_steps (mails_path))
+			output_dir := config.export_dir #+ export_steps (mails_path)
 
 			File_system.make_directory (output_dir)
 
@@ -172,7 +172,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation
 
-	export_steps (mails_path: FILE_PATH): EL_PATH_STEPS
+	export_steps (mails_path: FILE_PATH): DIR_PATH
 		do
 			Result := config.export_steps (mails_path)
 		end

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 9:56:00 GMT (Tuesday 8th February 2022)"
-	revision: "14"
+	date: "2022-02-15 14:02:30 GMT (Tuesday 15th February 2022)"
+	revision: "15"
 
 class
 	EL_YOUTUBE_VIDEO_DOWNLOADER

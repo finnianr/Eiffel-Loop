@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 10:49:44 GMT (Sunday 23rd January 2022)"
-	revision: "13"
+	date: "2022-02-15 14:00:13 GMT (Tuesday 15th February 2022)"
+	revision: "14"
 
 deferred class
 	EL_PATH_OPERAND_SETTER [G -> EL_PATH create make end]

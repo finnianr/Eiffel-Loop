@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 9:32:00 GMT (Monday 14th February 2022)"
-	revision: "5"
+	date: "2022-02-15 15:43:54 GMT (Tuesday 15th February 2022)"
+	revision: "6"
 
 deferred class
 	TAR_LIST_FILE
@@ -54,12 +54,12 @@ feature {NONE} -- Implementation
 
 	is_wild_card (file_specifier: ZSTRING): BOOLEAN
 		local
-			steps: EL_PATH_STEPS
+			steps: DIR_PATH
 		do
 			steps := file_specifier
-			Result := steps.last.starts_with (Star_dot)
-							or else steps.first.starts_with (Star)
-							or else steps.last.ends_with (Star)
+			Result := steps.base.starts_with (Star_dot)
+							or else steps.first_step.starts_with (Star)
+							or else steps.base.ends_with (Star)
 		end
 
 	put_file_specifier (file_specifier: ZSTRING)

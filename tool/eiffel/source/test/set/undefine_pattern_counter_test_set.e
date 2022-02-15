@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 9:47:14 GMT (Wednesday 19th January 2022)"
-	revision: "14"
+	date: "2022-02-15 14:26:11 GMT (Tuesday 15th February 2022)"
+	revision: "15"
 
 class
 	UNDEFINE_PATTERN_COUNTER_TEST_SET
@@ -49,7 +49,7 @@ feature -- Tests
 				from list.start until list.after loop
 					assert ("2 patterns found", list.item_value = 2)
 					assert ("matches type",
-						some_type_matches (<< {EL_SETTABLE_FROM_STRING}, {EL_PATH}, {EL_PATH_STEPS} >>, list.item_key)
+						some_type_matches (<< {EL_SETTABLE_FROM_STRING}, {EL_PATH} >>, list.item_key)
 					)
 					list.forth
 				end

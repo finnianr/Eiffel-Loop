@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 8:22:10 GMT (Monday 7th February 2022)"
-	revision: "46"
+	date: "2022-02-15 14:00:13 GMT (Tuesday 15th February 2022)"
+	revision: "47"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -116,14 +116,13 @@ feature -- Basic operations
 		require
 			path_exists: dir_path.exists
 		local
-			dir_steps: EL_PATH_STEPS
-			dir: like Directory.named
+			l_dir_path: DIR_PATH; dir: like Directory.named
 		do
-			dir_steps := dir_path
-			from dir := Directory.named (dir_path) until dir_steps.is_empty or else not dir.is_empty loop
+			l_dir_path := dir_path.twin
+			from dir := Directory.named (dir_path) until l_dir_path.is_empty or else not dir.is_empty loop
 				dir.delete
-				dir_steps.remove_tail (1)
-				dir.make_with_name (dir_steps.to_string_32)
+				l_dir_path.remove_tail (1)
+				dir.make_with_name (l_dir_path.to_string_32)
 			end
 		end
 

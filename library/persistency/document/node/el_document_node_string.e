@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:15:11 GMT (Monday 14th February 2022)"
-	revision: "23"
+	date: "2022-02-15 19:04:34 GMT (Tuesday 15th February 2022)"
+	revision: "24"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -353,7 +353,7 @@ feature -- Conversion
 			Result.expand
 -- 		There are many cases where we may want to have a non-absolute path			
 --			if not Result.is_absolute and then not document_dir.is_empty then
---				Result := document_dir.joined_dir_path (Result)
+--				Result := document_dir #+ Result
 --			end
 		end
 

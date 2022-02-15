@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 17:36:17 GMT (Monday 14th February 2022)"
-	revision: "130"
+	date: "2022-02-15 13:20:14 GMT (Tuesday 15th February 2022)"
+	revision: "131"
 
 class
 	BASE_AUTOTEST_APP
@@ -27,9 +27,6 @@ inherit
 		GENERAL_TEST_SET,
 		HASH_TABLE_TEST_SET,
 		L1_UC_STRING_TEST,
-
-		PATH_TEST_SET,
-		PATH_STEPS_TEST_SET,
 
 		REFLECTION_TEST_SET,
 
@@ -50,7 +47,7 @@ inherit
 		ZSTRING_EDITOR_TEST_SET,
 		ZSTRING_TEST_SET,
 		ZSTRING_TOKEN_TABLE_TEST_SET,
-		ZPATH_TEST_SET
+		PATH_TEST_SET
 	]
 		redefine
 			visible_types

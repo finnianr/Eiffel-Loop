@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 7:38:07 GMT (Monday 7th February 2022)"
-	revision: "12"
+	date: "2022-02-15 18:36:57 GMT (Tuesday 15th February 2022)"
+	revision: "13"
 
 class
 	EL_UNINSTALL_APP_MENU_DESKTOP_ENV_IMP
@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 			main_exists: Application_list.has_main
 		do
 			Precursor {EL_MENU_DESKTOP_ENVIRONMENT_IMP} (installable)
-			uninstall_reg_path := HKLM_uninstall_path.joined_dir_path (main_launcher.name)
+			uninstall_reg_path := HKLM_uninstall_path #+ main_launcher.name
 		end
 
 feature -- Status query
@@ -65,7 +65,7 @@ feature -- Basic operations
 			set_uninstall_registry_entry ("Comments", launcher.comment)
 			set_uninstall_registry_entry ("DisplayVersion", Build_info.version.string)
 			set_uninstall_registry_entry ("InstallLocation", Directory.Application_installation)
-			set_uninstall_registry_entry ("Publisher", Build_info.installation_sub_directory.steps.first)
+			set_uninstall_registry_entry ("Publisher", Build_info.installation_sub_directory.first_step)
 			set_uninstall_registry_entry ("UninstallString", command_path.escaped)
 
 			set_uninstall_registry_integer_entry ("EstimatedSize", estimated_size)

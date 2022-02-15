@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 9:12:54 GMT (Tuesday 15th February 2022)"
-	revision: "14"
+	date: "2022-02-15 14:15:14 GMT (Tuesday 15th February 2022)"
+	revision: "15"
 
 class
 	URI_TEST_SET
@@ -42,7 +42,7 @@ feature -- Tests
 				"covers/{EL_ZPATH}.make, covers/{EL_URI_ZPATH}.authority, covers/{EL_URI_ZPATH}.scheme",
 				"covers/{EL_URI_ZPATH}.make_file, covers/{EL_URI_ZPATH}.make_scheme, covers/{EL_URI_ZPATH}.is_absolute"
 		local
-			uri: EL_DIR_URI_ZPATH; str_32: STRING_32; dir_path: EL_DIR_ZPATH
+			uri: EL_DIR_URI_PATH; str_32: STRING_32; dir_path: DIR_PATH
 			parts: EL_STRING_8_LIST; scheme, line: STRING; index_3rd_slash: INTEGER
 		do
 			across URI_list as list loop
@@ -70,8 +70,8 @@ feature -- Tests
 				"covers/{EL_ZPATH}.append_path, covers/{EL_DIR_URI_ZPATH}.hash_plus",
 				"covers/{EL_URI_ZPATH}.to_file_path"
 		local
-			uri: EL_DIR_URI_ZPATH; dir_path: EL_DIR_ZPATH; file_path: EL_FILE_ZPATH
-			file_uri: EL_FILE_URI_ZPATH; index_3rd_slash: INTEGER; line: ZSTRING
+			uri: EL_DIR_URI_PATH; dir_path: DIR_PATH; file_path: FILE_PATH
+			file_uri: EL_FILE_URI_PATH; index_3rd_slash: INTEGER; line: ZSTRING
 		do
 			across URI_list as list loop
 				line := list.item

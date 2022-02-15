@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-02-15 18:51:22 GMT (Tuesday 15th February 2022)"
+	revision: "10"
 
 class
 	EL_SVG_BUTTON_PIXMAP_SET
@@ -40,12 +40,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_icon_path_steps: like icon_path_steps; width_cms: REAL; a_background_color: EL_COLOR)
+	make (a_icon_path_steps: FILE_PATH; width_cms: REAL; a_background_color: EL_COLOR)
 			--
 		do
 			make_default
-			icon_path_steps.grow (a_icon_path_steps.count + 1)
-			icon_path_steps.append (a_icon_path_steps)
+			icon_path_steps.append_path (a_icon_path_steps)
 			background_color := a_background_color
 
 			fill_pixmaps (width_cms)
@@ -139,7 +138,7 @@ feature {NONE} -- Implementation
 
 	svg_icon (a_state: NATURAL_8; width_cms: REAL): like new_svg_image
 		do
-			icon_path_steps.extend (svg_name (a_state))
+			icon_path_steps.append_step (svg_name (a_state))
 			Result := new_svg_image (Image_path.icon (icon_path_steps), width_cms)
 			icon_path_steps.remove_tail (1)
 		end
@@ -156,7 +155,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	icon_path_steps: EL_PATH_STEPS
+	icon_path_steps: FILE_PATH
 
 feature {NONE} -- Constants
 

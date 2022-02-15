@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2022-02-15 18:28:00 GMT (Tuesday 15th February 2022)"
+	revision: "4"
 
 class
 	EL_TITLED_WINDOW_IMP
@@ -47,10 +47,10 @@ feature -- Status query
 	has_wide_theme_border: BOOLEAN
 
 		local
-			theme_path: EL_PATH_STEPS
+			theme_path: DIR_PATH
 		do
 			theme_path := current_theme_name
-			Result := theme_path.has (Aero)
+			Result := theme_path.has_step (Aero)
 		end
 
 feature {EV_ANY, EV_ANY_I} -- Implementation

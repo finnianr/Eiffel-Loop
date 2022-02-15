@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-08 12:08:26 GMT (Saturday 8th January 2022)"
-	revision: "23"
+	date: "2022-02-15 14:03:04 GMT (Tuesday 15th February 2022)"
+	revision: "24"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -120,7 +120,7 @@ feature -- Basic operations
 		require
 			valid_directory_stack_empty: not is_directory_stack_empty
 		do
-			change_working_path (directory_stack.item)
+			change_working_path (Directory_stack.item)
 			directory_stack.remove
 		end
 
@@ -195,7 +195,7 @@ feature {NONE} -- Implementation
 
 feature -- Constants
 
-	Directory_stack: ARRAYED_STACK [DIR_PATH]
+	Directory_stack: ARRAYED_STACK [PATH]
 		once
 			create Result.make (1)
 		end

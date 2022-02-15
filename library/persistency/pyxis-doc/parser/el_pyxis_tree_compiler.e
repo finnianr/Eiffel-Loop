@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 7:23:07 GMT (Monday 7th February 2022)"
-	revision: "14"
+	date: "2022-02-15 14:01:14 GMT (Tuesday 15th February 2022)"
+	revision: "15"
 
 deferred class
 	EL_PYXIS_TREE_COMPILER

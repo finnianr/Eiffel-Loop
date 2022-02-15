@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 9:15:23 GMT (Tuesday 15th February 2022)"
-	revision: "3"
+	date: "2022-02-15 17:18:43 GMT (Tuesday 15th February 2022)"
+	revision: "4"
 
 deferred class
-	EL_ZPATH_BASE_NAME
+	EL_PATH_BASE_NAME
 
 inherit
 	EL_PATH_CONSTANTS
@@ -71,7 +71,7 @@ feature -- Access
 
 feature -- Status query
 
-	base_matches (name: READABLE_STRING_GENERAL): BOOLEAN
+	base_matches (name: READABLE_STRING_GENERAL; case_insensitive: BOOLEAN): BOOLEAN
 		-- `True' if `name' is same string as `base_sans_extension'
 		local
 			pos_dot: INTEGER
@@ -79,12 +79,10 @@ feature -- Status query
 			if step_count > 0 and then attached internal_base as l_base then
 				pos_dot := dot_index (l_base)
 				if pos_dot > 0 then
-					Result := pos_dot - 1 = name.count and then l_base.starts_with_general (name)
+					Result := pos_dot - 1 = name.count and then l_base.same_substring (name, 1, case_insensitive)
 				else
-					Result := l_base.same_string (name)
+					Result := l_base.count = name.count and then l_base.same_substring (name, 1, case_insensitive)
 				end
-			else
-				Result := name.is_empty
 			end
 		ensure
 			valid_result: Result implies base_sans_extension.same_string (name)
@@ -119,11 +117,9 @@ feature -- Status query
 			if step_count > 0 and then attached internal_base as l_base then
 				pos_dot := dot_index (l_base)
 				if pos_dot > 0 then
-					if case_insensitive then
-						Result := l_base.same_caseless_characters_general (a_extension, 1, a_extension.count, pos_dot + 1)
-					else
-						Result := l_base.same_characters (a_extension, 1, a_extension.count, pos_dot + 1)
-					end
+					Result := l_base.same_substring (a_extension, pos_dot + 1, case_insensitive)
+				else
+					Result := a_extension.is_empty
 				end
 			end
 		end

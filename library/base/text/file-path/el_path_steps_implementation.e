@@ -1,16 +1,16 @@
 note
-	description: "Implementation routines for [$source EL_ZPATH_STEPS]"
+	description: "Implementation routines for [$source EL_PATH_STEPS]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 6:35:42 GMT (Tuesday 15th February 2022)"
-	revision: "1"
+	date: "2022-02-15 17:20:01 GMT (Tuesday 15th February 2022)"
+	revision: "2"
 
 deferred class
-	EL_ZPATH_STEPS_IMPLEMENTATION
+	EL_PATH_STEPS_IMPLEMENTATION
 
 inherit
 	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE_SYSTEM; EL_MODULE_ITERABLE
@@ -33,7 +33,7 @@ inherit
 
 feature {NONE} -- Deferred
 
-	append_to (str: EL_ZSTRING)
+	append_to (str: EL_APPENDABLE_ZSTRING)
 		deferred
 		end
 
@@ -98,7 +98,7 @@ feature {NONE} -- Constants
 			create Result.make_empty
 		end
 
-	Temporary_dir: EL_DIR_ZPATH
+	Temporary_dir: DIR_PATH
 		once
 			create Result
 		end

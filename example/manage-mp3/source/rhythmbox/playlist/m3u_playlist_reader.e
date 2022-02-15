@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "15"
+	date: "2022-02-15 17:06:58 GMT (Tuesday 15th February 2022)"
+	revision: "16"
 
 class
 	M3U_PLAYLIST_READER
@@ -60,14 +60,14 @@ feature {NONE} -- State line procedures
 	find_path_entry (line: ZSTRING)
 			--
 		local
-			steps: EL_PATH_STEPS; index: INTEGER
-			song_uri: EL_URI; relative_path, song_path: FILE_PATH
+			song_uri: EL_URI; steps, relative_path, song_path: FILE_PATH
+			index: INTEGER
 		do
 			if not line.is_empty then
 				steps := line
 				index := steps.index_of (Music, 1)
 				if index > 0 then
-					steps := steps.sub_steps (index + 1, steps.count)
+					steps := steps.sub_path (index + 1, steps.count)
 				end
 				song_path := Database.music_dir + steps
 				relative_path := song_path.relative_path (Database.music_dir)

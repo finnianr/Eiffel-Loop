@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "13"
+	date: "2022-02-15 14:00:12 GMT (Tuesday 15th February 2022)"
+	revision: "14"
 
 class
 	EL_GVFS_VOLUME
@@ -110,11 +110,11 @@ feature -- File operations
 		require
 			is_relative_to_root: not dir_path.is_absolute
 		local
-			dir_steps: EL_PATH_STEPS
+			l_dir_path: DIR_PATH
 		do
-			from dir_steps := dir_path until dir_steps.is_empty or else not is_directory_empty (dir_steps) loop
-				delete_directory (dir_steps)
-				dir_steps.remove_tail (1)
+			from l_dir_path := dir_path.twin until l_dir_path.is_empty or else not is_directory_empty (l_dir_path) loop
+				delete_directory (l_dir_path)
+				l_dir_path.remove_tail (1)
 			end
 		end
 
@@ -358,4 +358,3 @@ feature {NONE} -- Constants
 		end
 
 end
-

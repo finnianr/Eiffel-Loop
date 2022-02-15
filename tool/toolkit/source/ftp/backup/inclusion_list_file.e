@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:25:23 GMT (Monday 14th February 2022)"
-	revision: "11"
+	date: "2022-02-15 15:44:58 GMT (Tuesday 15th February 2022)"
+	revision: "12"
 
 class
 	INCLUSION_LIST_FILE
@@ -30,8 +30,7 @@ feature {NONE} -- Implementation
 	put_file_specifier (file_specifier: ZSTRING)
 			--
 		local
-			path_steps: EL_PATH_STEPS
-			target_parent, specifier_path: DIR_PATH
+			dir_path, target_parent, specifier_path: DIR_PATH
 		do
 			target_parent := backup.target_dir.parent
 			if is_wild_card (file_specifier) then
@@ -44,13 +43,13 @@ feature {NONE} -- Implementation
 					cmd.execute
 
 					across cmd.path_list as found_path loop
-						create path_steps
-						path_steps.append (found_path.item.parent.steps)
-						path_steps.extend (found_path.item.base)
-						if path_steps.first ~ Short_directory_current then
-							path_steps.remove_head (1)
+						create dir_path
+						dir_path.append_path (found_path.item.parent)
+						dir_path.append_step (found_path.item.base)
+						if dir_path.first ~ Short_directory_current then
+							dir_path.remove_head (1)
 						end
-						Precursor (path_steps.as_directory_path.to_string)
+						Precursor (dir_path.to_string)
 					end
 				end
 			else

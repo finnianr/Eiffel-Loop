@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 9:57:21 GMT (Tuesday 8th February 2022)"
-	revision: "13"
+	date: "2022-02-15 19:03:33 GMT (Tuesday 15th February 2022)"
+	revision: "14"
 
 class
 	FTP_BACKUP_COMMAND_1
@@ -62,7 +62,7 @@ feature -- Basic operations
 					target_directory_path := l_directory.node.string_32_at_xpath ("path")
 
 					if not target_directory_path.is_absolute then
-						target_directory_path := script_file_path.parent.joined_dir_path (target_directory_path)
+						target_directory_path := script_file_path.parent #+ target_directory_path
 					end
 
 					if target_directory_path.exists then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 9:17:55 GMT (Friday 11th February 2022)"
-	revision: "8"
+	date: "2022-02-15 13:45:42 GMT (Tuesday 15th February 2022)"
+	revision: "9"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
@@ -107,7 +107,7 @@ feature {NONE} -- Implementation
 			Result := lines.joined_lines
 		end
 
-	new_root_node (body_path: EL_FILE_PATH): EL_XPATH_ROOT_NODE_CONTEXT
+	new_root_node (body_path: FILE_PATH): EL_XPATH_ROOT_NODE_CONTEXT
 		do
 			create Result.make_from_string (XML.document_text ("body", "UTF-8", File.plain_text (body_path)))
 		end

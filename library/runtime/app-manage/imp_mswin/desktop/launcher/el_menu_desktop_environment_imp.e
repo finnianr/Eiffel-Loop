@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:51:18 GMT (Saturday 5th February 2022)"
-	revision: "10"
+	date: "2022-02-15 18:25:28 GMT (Tuesday 15th February 2022)"
+	revision: "11"
 
 class
 	EL_MENU_DESKTOP_ENVIRONMENT_IMP
@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor {EL_MENU_DESKTOP_ENVIRONMENT_I} (installable)
-			application_menu_dir := Start_menu_programs_dir.joined_dir_steps (submenu_path_steps)
+			application_menu_dir := Start_menu_programs_dir #+ submenu_path_steps
 			shortcut_path := application_menu_dir + shortcut_name
 		end
 
@@ -111,11 +111,11 @@ feature {NONE} -- Implementation
 			Result := launcher.name + ".lnk"
 		end
 
-	submenu_path_steps: EL_PATH_STEPS
+	submenu_path_steps: DIR_PATH
 		do
-			create Result.make_with_count (submenu_path.count)
+			create Result.make_steps (submenu_path.count)
 			across submenu_path as submenu loop
-				Result.extend (submenu.item.name)
+				Result.append_step (submenu.item.name)
 			end
 		end
 
@@ -126,4 +126,3 @@ feature {NONE} -- Internal attributes
 	application_menu_dir: DIR_PATH
 
 end
-

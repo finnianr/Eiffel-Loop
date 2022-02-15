@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-28 9:50:10 GMT (Saturday 28th November 2020)"
-	revision: "12"
+	date: "2022-02-15 14:00:13 GMT (Tuesday 15th February 2022)"
+	revision: "13"
 
 class
 	EL_CONSOLE_AND_FILE_ROUTINE_LOG
@@ -196,4 +196,3 @@ feature {NONE} -- Implementation
 		end
 
 end
-

@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "5"
+	date: "2022-02-15 18:39:54 GMT (Tuesday 15th February 2022)"
+	revision: "6"
 
 class
 	JAVA_ENVIRONMENT_IMP
@@ -39,7 +39,7 @@ feature {NONE} -- Constants
 
 	Default_java_jar_dir: DIR_PATH
 		once
-			Result := Java_home_dir.joined_dir_path ("lib")
+			Result := Java_home_dir #+ "lib"
 		end
 
 	Java_home_dir: DIR_PATH

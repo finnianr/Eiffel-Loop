@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 19:33:47 GMT (Friday 11th February 2022)"
-	revision: "88"
+	date: "2022-02-15 12:20:52 GMT (Tuesday 15th February 2022)"
+	revision: "89"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -687,6 +687,16 @@ feature -- Comparison
 				end
 			else
 				Result := Precursor (other, start_pos, end_pos, index_pos)
+			end
+		end
+
+	same_substring (str: READABLE_STRING_GENERAL; i: INTEGER; case_insensitive: BOOLEAN): BOOLEAN
+		-- `True' if `str' occurs at position `i'
+		do
+			if case_insensitive then
+				Result := same_caseless_characters_general (str, 1, str.count, i)
+			else
+				Result := same_characters (str, 1, str.count, i)
 			end
 		end
 

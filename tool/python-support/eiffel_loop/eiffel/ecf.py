@@ -813,7 +813,7 @@ feature -- Constants
 
 	Build_number: NATURAL = ${build_number}
 
-	Installation_sub_directory: EL_DIR_PATH
+	Installation_sub_directory: DIR_PATH
 		once
 			Result := "${installation_sub_directory}"
 		end

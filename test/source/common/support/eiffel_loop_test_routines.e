@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 12:13:19 GMT (Sunday 9th January 2022)"
-	revision: "17"
+	date: "2022-02-15 10:49:51 GMT (Tuesday 15th February 2022)"
+	revision: "18"
 
 deferred class
 	EIFFEL_LOOP_TEST_ROUTINES
@@ -28,16 +28,11 @@ feature {NONE} -- Implementation
 
 	new_eiffel_loop_dir: DIR_PATH
 		local
-			steps: EL_PATH_STEPS
+			l_working: DIR_PATH
 		do
-			from
-				steps := Directory.working
-			until
-				steps.is_empty or else steps.last ~ Eiffel_loop
-			loop
-				steps.remove_tail (1)
-			end
-			Result := steps
+			l_working := Directory.working.twin
+			l_working.prune_until (Eiffel_loop)
+			Result := l_working
 		end
 
 feature {NONE} -- Constants

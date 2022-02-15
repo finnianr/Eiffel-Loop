@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "6"
+	date: "2022-02-15 17:24:09 GMT (Tuesday 15th February 2022)"
+	revision: "7"
 
 class
 	IMPORT_NEW_MP3_TASK
@@ -62,10 +62,10 @@ feature {NONE} -- Implementation
 		require
 			not_already_present: not Database.songs_by_location.has (mp3_path)
 		local
-			relative_path_steps: EL_PATH_STEPS; id3_info: TL_MUSICBRAINZ_MPEG_FILE
+			relative_path: FILE_PATH; id3_info: TL_MUSICBRAINZ_MPEG_FILE
 		do
-			relative_path_steps := mp3_path.relative_path (music_dir).steps
-			if relative_path_steps.count = 3 then
+			relative_path := mp3_path.relative_path (music_dir)
+			if relative_path.step_count = 3 then
 				create id3_info.make (mp3_path)
 				if id3_info.tag.title.is_empty then
 					song.set_title (mp3_path.base_sans_extension)
@@ -77,8 +77,8 @@ feature {NONE} -- Implementation
 				song.set_track_number (id3_info.tag.track)
 				song.set_recording_year (id3_info.tag.year)
 
-				song.set_genre (relative_path_steps.item (1))
-				song.set_artist (relative_path_steps.item (2))
+				song.set_genre (relative_path.i_th_step (1))
+				song.set_artist (relative_path.i_th_step (2))
 				song.set_mp3_path (mp3_path)
 
 				song.write_id3_info (id3_info)

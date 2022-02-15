@@ -1,13 +1,13 @@
 note
-	description: "Path test set"
+	description: "Test classes conforming to [$source EL_PATH]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:15:12 GMT (Monday 14th February 2022)"
-	revision: "20"
+	date: "2022-02-15 14:00:14 GMT (Tuesday 15th February 2022)"
+	revision: "5"
 
 class
 	PATH_TEST_SET
@@ -28,32 +28,69 @@ feature -- Basic operations
 	do_all (evaluator: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			evaluator.call ("path_steps", agent test_path_steps)
+			evaluator.call ("extension", agent test_extension)
+			evaluator.call ("first_step", agent test_first_step)
 			evaluator.call ("joined_steps", agent test_joined_steps)
 			evaluator.call ("make_from_steps", agent test_make_from_steps)
 			evaluator.call ("ntfs_translation", agent test_ntfs_translation)
 			evaluator.call ("parent", agent test_parent)
 			evaluator.call ("parent_of", agent test_parent_of)
 			evaluator.call ("relative_joins", agent test_relative_joins)
+			evaluator.call ("set_parent", agent test_set_parent)
 			evaluator.call ("universal_relative_path", agent test_universal_relative_path)
 			evaluator.call ("version_number", agent test_version_number)
 		end
 
 feature -- Tests
 
+	test_extension
+		note
+			testing:
+				"covers/{EL_ZPATH}.with_new_extension, covers/{EL_ZPATH}.without_extension,, covers/{EL_ZPATH}.has_dot_extension",
+				"covers/{EL_ZPATH}.replace_extension, covers/{EL_ZPATH}.remove_extension, covers/{EL_ZPATH}.add_extension",
+				"covers/{EL_ZPATH}.base_matches, covers/{EL_ZPATH}.same_extension"
+		local
+			eiffel_pdf: FILE_PATH
+		do
+			eiffel_pdf := Documents_eiffel_pdf
+			assert ("same string", eiffel_pdf.same_extension ("PDF", True))
+			assert ("base matches", eiffel_pdf.base_matches ("Eiffel-spec", False))
+			assert ("same string", eiffel_pdf.with_new_extension ("doc").base.same_string ("Eiffel-spec.doc"))
+			assert ("same string", eiffel_pdf.without_extension.base.same_string ("Eiffel-spec"))
+		end
+
+	test_first_step
+		note
+			testing:
+				"covers/{EL_ZPATH}.first_step, covers/{EL_ZPATH}.is_absolute"
+		local
+			dir_path: DIR_PATH
+		do
+			dir_path := Dev_eiffel
+			assert ("is home", dir_path.first_step.same_string ("home"))
+			dir_path := Documents_eiffel_pdf
+			assert ("is Documents", dir_path.first_step.same_string ("Documents"))
+		end
+
 	test_joined_steps
 		note
-			testing: "covers/{EL_PATH}.make_from_path"
+			testing: "covers/{EL_ZPATH}.make_from_steps, covers/{EL_ZPATH}.make, covers/{EL_ZPATH}.to_string"
 		local
 			p1, p2: DIR_PATH
 		do
 			p1 := Dev_eiffel
+			assert ("reversible to string", p1.to_string ~ Dev_eiffel)
+
 			create p2.make_from_steps (Dev_eiffel.split_list ('/'))
 			assert ("same path", p1 ~ p2)
 		end
 
 	test_make_from_steps
 		note
-			testing: "covers/{EL_PATH}.make_from_steps"
+			testing:
+				"covers/{EL_ZPATH}.make_from_steps, covers/{EL_ZPATH}.make, covers/{EL_ZPATH}.to_string",
+				"covers/{EL_ZPATH}.joined_dir_steps"
 		local
 			home_path, config_path: DIR_PATH
 		do
@@ -64,39 +101,43 @@ feature -- Tests
 
 	test_ntfs_translation
 		note
-			testing: "covers/{EL_NT_FILE_SYSTEM_ROUTINES}.is_valid",
-						"covers/{EL_NT_FILE_SYSTEM_ROUTINES}.translated"
+			testing: "covers/{EL_ZPATH}.is_valid_ntfs, covers/{EL_ZPATH}.to_ntfs_compatible"
 		local
-			ntfs: EL_NT_FILE_SYSTEM_ROUTINES
 			path_name: ZSTRING; path: FILE_PATH; index_dot: INTEGER
 		do
 			path_name := Mem_test_exe
 			path := path_name
-			assert ("valid path", ntfs.is_valid (path))
+			assert ("valid path", path.is_valid_ntfs)
 			index_dot := path_name.index_of ('.', 1)
 			path_name [index_dot] := ':'
 			path := path_name
-			assert ("invalid path", not ntfs.is_valid (path))
+			assert ("invalid path", not path.is_valid_ntfs)
 
 			path_name [index_dot] := '-'
-			assert ("same path", ntfs.translated (path, '-').to_string ~ path_name)
+			assert ("same path", path.to_ntfs_compatible ('-').to_string ~ path_name)
 		end
 
 	test_parent
+		note
+			testing: "covers/{EL_ZPATH}.has_parent, covers/{EL_ZPATH}.parent, covers/{EL_ZPATH}.parent_string"
 		local
 			dir_path: DIR_PATH; root_name: ZSTRING
 		do
 			assert ("2 parents", parent_count (Home_finnian) = 2)
 			assert ("1 parents", parent_count (Documents_eiffel_pdf) = 1)
+
 			if {PLATFORM}.is_windows then
 				dir_path := Mem_test_exe; root_name := "C:"
 			else
 				dir_path := Home_finnian; root_name := "/"
 			end
 			assert ("same as " + root_name, dir_path.parent.parent.to_string ~ root_name)
+			assert ("same string", dir_path.parent.to_string ~ dir_path.parent_string)
 		end
 
 	test_parent_of
+		note
+			testing: "covers/{EL_ZPATH}.is_parent_of"
 		local
 			dir_home, dir: DIR_PATH; dir_string, dir_string_home: ZSTRING
 			is_parent: BOOLEAN
@@ -115,7 +156,21 @@ feature -- Tests
 			end
 		end
 
+	test_path_steps
+		note
+			testing: "covers/{DIR_PATH}.same_i_th_step"
+		local
+			dir_path: DIR_PATH
+		do
+			dir_path := Dev_eiffel
+			across dir_path.to_string.split ('/') as step loop
+				assert ("same step", dir_path.same_i_th_step (step.item, step.cursor_index))
+			end
+		end
+
 	test_relative_joins
+		note
+			testing: "covers/{DIR_PATH}.plus, covers/{DIR_PATH}.leading_backstep_count, covers/{DIR_PATH}.append_path"
 		local
 			eif_dir_path: DIR_PATH; abs_eiffel_pdf_path: FILE_PATH
 		do
@@ -125,21 +180,44 @@ feature -- Tests
 			assert ("same string", abs_eiffel_pdf_path.to_string ~ Home_finnian + "/" + Documents_eiffel_pdf)
 		end
 
-	test_universal_relative_path
+	test_set_parent
+		note
+			testing: "covers/{DIR_PATH}.set_parent, covers/{DIR_PATH}.set_parent_path"
 		local
-			path_1, relative_path: FILE_PATH; path_2: DIR_PATH
+			eiffel_pdf: FILE_PATH; dir_path: DIR_PATH
+		do
+			eiffel_pdf := Documents_eiffel_pdf
+			eiffel_pdf.set_parent_path (Dev_eiffel)
+			assert ("same string", eiffel_pdf.to_string.same_string (Dev_eiffel + "/Eiffel-spec.pdf"))
+
+			eiffel_pdf := Documents_eiffel_pdf
+			dir_path := Dev_eiffel
+			eiffel_pdf.set_parent (dir_path)
+			assert ("same string", eiffel_pdf.to_string.same_string (Dev_eiffel + "/Eiffel-spec.pdf"))
+		end
+
+	test_universal_relative_path
+		note
+			testing:
+				"covers/{DIR_PATH}.relative_path, covers/{FILE_PATH}.relative_path",
+				"covers/{EL_ZPATH}.universal_relative_path, covers/{EL_ZPATH}.exists, covers/{EL_ZPATH}.expand"
+
+		local
+			path_1, p1, relative_path: FILE_PATH; path_2, p2: DIR_PATH
 		do
 			log.enter ("test_universal_relative_path")
-			across OS.file_list (Eiffel_dir, "*.e") as p1 loop
-				path_1 := p1.item.relative_path (Eiffel_dir)
-				log.put_path_field ("class", path_1)
+			across OS.file_list (Eiffel_dir.to_string, "*.e") as list loop
+				p1 := list.item.to_string
+				path_1 := p1.relative_path (Eiffel_dir)
+				log.put_labeled_string ("class", path_1.to_string)
 				log.put_new_line
-				across OS.directory_list (Eiffel_dir) as p2 loop
-					if Eiffel_dir.is_parent_of (p2.item) then
-						path_2 := p2.item.relative_path (Eiffel_dir)
+				across OS.directory_list (Eiffel_dir.to_string) as dir loop
+					p2 := dir.item.to_string
+					if Eiffel_dir.is_parent_of (p2) then
+						path_2 := p2.relative_path (Eiffel_dir)
 						relative_path := path_1.universal_relative_path (path_2)
 
-						Execution_environment.push_current_working (p2.item)
+						Execution_environment.push_current_working (p2)
 						assert ("Path exists", relative_path.exists)
 						Execution_environment.pop_current_working
 					end
@@ -149,6 +227,10 @@ feature -- Tests
 		end
 
 	test_version_number
+		note
+			testing:
+				"covers/{EL_ZPATH}.version_number, covers/{EL_ZPATH}.has_version_number",
+				"covers/{EL_ZPATH}.version_interval"
 		local
 			path: FILE_PATH
 		do
@@ -196,6 +278,8 @@ feature {NONE} -- Constants
 		once
 			Result := "$EIFFEL_LOOP/tool/eiffel/test-data"
 			Result.expand
+		ensure
+			valid_expansion: Result.exists
 		end
 
 	Home_finnian: ZSTRING

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "10"
+	date: "2022-02-15 18:43:13 GMT (Tuesday 15th February 2022)"
+	revision: "11"
 
 class
 	EL_DIRECTORY_CONTENT_PROCESSOR
@@ -20,51 +20,47 @@ inherit
 	EL_MODULE_LIO
 
 create
-	make
+	make, make_default
 
 feature {NONE} -- Initialization
 
-	make
+	make_default
+		do
+			make (create {DIR_PATH}, create {DIR_PATH})
+		end
+
+	make (a_input_dir, a_output_dir: DIR_PATH)
 			--
 		do
-			create input_file_relative_path_steps_list.make
+			input_dir := a_input_dir; output_dir := a_output_dir
 		end
 
 feature -- Access
 
-	output_dir: DIR_PATH
-
 	input_dir: DIR_PATH
+
+	output_dir: DIR_PATH
 
 feature -- Measurement
 
 	count: INTEGER
 			-- Total file to process
 
-	remaining: INTEGER
-			-- Files remaining to process
-		do
-			Result := input_file_relative_path_steps_list.count
-		end
+	remaining_count: INTEGER
+			-- Files remaining_count to process
 
 feature -- Element change
-
-	set_output_dir (a_output_dir: like output_dir)
-			-- Set `output_dir' to `an_output_dir'.
-		do
-			output_dir := a_output_dir
-			output_dir_path_steps := a_output_dir
-		ensure
-			output_dir_assigned: output_dir = a_output_dir
-		end
 
 	set_input_dir (a_input_dir: like input_dir)
 			-- Set `input_dir' to `an_input_dir'.
 		do
 			input_dir := a_input_dir
-			input_dir_path_steps := a_input_dir
-		ensure
-			input_dir_assigned: input_dir ~ a_input_dir
+		end
+
+	set_output_dir (a_output_dir: like output_dir)
+			-- Set `output_dir' to `an_output_dir'.
+		do
+			output_dir := a_output_dir
 		end
 
 feature -- Basic operations
@@ -76,26 +72,28 @@ feature -- Basic operations
 			-- Apply file processing action to every file from input dir
 		local
 			output_file_unqualified_name, output_file_extension: ZSTRING
-			destination_dir_path: DIR_PATH; input_file_path: FILE_PATH
-			input_file_path_steps, output_file_dir_path_steps: EL_PATH_STEPS
-			dot_pos: INTEGER
+			destination_dir_path, output_dir_path: DIR_PATH
+			input_file_path: FILE_PATH
+			path_list: like find_files; dot_pos: INTEGER
 		do
-			create input_file_path_steps.make_with_count (20)
-			create output_file_dir_path_steps.make_with_count (20)
-			find_files (wild_card)
-			from input_file_relative_path_steps_list.start until input_file_relative_path_steps_list.after loop
-				input_file_path_steps.wipe_out
-				output_file_dir_path_steps.wipe_out
-				create input_file_path
+			create input_file_path.make_steps (20)
+			create output_dir_path.make_steps (20)
+
+			path_list := find_files (wild_card)
+			count := path_list.count; remaining_count := count
+
+			across path_list as list loop
+				input_file_path.wipe_out
+				output_dir_path.wipe_out
 				create destination_dir_path
 
-				input_file_path_steps.append (input_dir_path_steps)
-				input_file_path_steps.append (input_file_relative_path_steps_list.item)
+				input_file_path.append (input_dir)
+				input_file_path.append (list.item)
 
-				output_file_dir_path_steps.append (output_dir_path_steps)
-				output_file_dir_path_steps.append (input_file_relative_path_steps_list.item)
+				output_dir_path.append (output_dir)
+				output_dir_path.append (list.item)
 
-				create output_file_unqualified_name.make_from_other (output_file_dir_path_steps.last)
+				output_file_unqualified_name := output_dir_path.base.twin
 				dot_pos := output_file_unqualified_name.last_index_of ('.', output_file_unqualified_name.count)
 				if dot_pos > 0 then
 					output_file_extension := output_file_unqualified_name.substring_end (dot_pos + 1)
@@ -103,49 +101,40 @@ feature -- Basic operations
 				else
 					output_file_extension := ""
 				end
-				output_file_dir_path_steps.remove_tail (1)
+				output_dir_path.remove_tail (1)
 
-				input_file_path := input_file_path_steps.as_file_path
-				OS.File_system.make_directory (output_file_dir_path_steps)
-				destination_dir_path := output_file_dir_path_steps.as_directory_path
+				OS.File_system.make_directory (output_dir_path)
+				destination_dir_path := output_dir_path
 
 				file_processing_action.call (
 					[input_file_path, destination_dir_path, output_file_unqualified_name, output_file_extension]
 				)
-				input_file_relative_path_steps_list.remove
+				remaining_count := remaining_count - 1
 			end
 		end
 
 
 feature {NONE} -- Implementation
 
-	find_files (wild_card: STRING)
+	find_files (wild_card: STRING): EL_FILE_PATH_LIST
 			--
 		local
-			file_path_list: EL_FILE_PATH_LIST; file_path_steps: EL_PATH_STEPS
+			file_path_list: EL_FILE_PATH_LIST; file_path: FILE_PATH
 			i: INTEGER
 		do
 			create file_path_list.make (OS.file_list (input_dir, wild_card))
+			create Result.make_with_count (file_path_list.count)
 
-			input_file_relative_path_steps_list.wipe_out
-			across file_path_list as file_path loop
-				file_path_steps := file_path.item.steps
+			across file_path_list as list loop
+				file_path := list.item.twin
 
 				-- Make path relative to input dir
-				from i := 1 until i > input_dir_path_steps.count loop
-					file_path_steps.remove_head (1)
+				from i := 1 until i > input_dir.count loop
+					file_path.remove_head (1)
 					i := i + 1
 				end
-				input_file_relative_path_steps_list.extend (file_path_steps)
+				Result.extend (file_path)
 			end
-			count := input_file_relative_path_steps_list.count
 		end
-
-	input_file_relative_path_steps_list: LINKED_LIST [EL_PATH_STEPS]
-			-- List of path's relative to input dir split by dir separator
-
-	output_dir_path_steps: EL_PATH_STEPS
-
-	input_dir_path_steps: EL_PATH_STEPS
 
 end

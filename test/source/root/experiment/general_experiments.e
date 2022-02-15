@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-12 8:12:03 GMT (Saturday 12th February 2022)"
-	revision: "17"
+	date: "2022-02-15 13:17:49 GMT (Tuesday 15th February 2022)"
+	revision: "18"
 
 class
 	GENERAL_EXPERIMENTS
@@ -179,14 +179,6 @@ feature -- Basic operations
 			bool: BOOLEAN
 		do
 			bool := is_true or is_false
-		end
-
-	path_size_comparison
-		do
-			lio.put_integer_field ("DIR_PATH", Eiffel.deep_physical_size (Directory.current_working))
-			lio.put_new_line
-			lio.put_integer_field ("EL_PATH_STEPS", Eiffel.deep_physical_size (Directory.current_working.steps))
-			lio.put_new_line
 		end
 
 	pointer_width
