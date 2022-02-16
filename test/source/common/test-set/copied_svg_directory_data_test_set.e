@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:22:07 GMT (Monday 14th February 2022)"
-	revision: "9"
+	date: "2022-02-16 13:43:44 GMT (Wednesday 16th February 2022)"
+	revision: "10"
 
 deferred class
 	COPIED_SVG_DIRECTORY_DATA_TEST_SET
@@ -56,7 +56,7 @@ feature {NONE} -- Implementation
 			size := 64
 			across Color_code_table as table loop
 				output_path := svg_path.without_extension
-				output_path.base.append (Png_name_template #$ [table.key, size, size])
+				output_path.set_base (output_path.base + Png_name_template #$ [table.key, size, size])
 
 				do_test (name, Check_sums [table.cursor_index], write_png, [size, table.item, output_path])
 				size := size * 2

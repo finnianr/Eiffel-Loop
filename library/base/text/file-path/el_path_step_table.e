@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 22:03:35 GMT (Monday 14th February 2022)"
-	revision: "3"
+	date: "2022-02-16 13:13:12 GMT (Wednesday 16th February 2022)"
+	revision: "4"
 
 class
 	EL_PATH_STEP_TABLE
@@ -118,7 +118,8 @@ feature -- Measurement
 			i: INTEGER; l_area: like area
 		do
 			restrict_access
-				Result := a_count - 1
+				l_area := area
+				Result := a_count - 1 -- Separators
 				from i := 0 until i = a_count loop
 					Result := Result + l_area [tokens [i] - 1].count
 					i := i + 1

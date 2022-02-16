@@ -1,29 +1,56 @@
 ﻿note
-	description: "Test text escaping"
+	description: "Test string escaping and other text related tests"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-09 12:12:03 GMT (Tuesday 9th February 2021)"
-	revision: "4"
+	date: "2022-02-16 12:59:09 GMT (Wednesday 16th February 2022)"
+	revision: "5"
 
 class
-	ESCAPED_TEXT_TEST_SET
+	TEXT_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
 
 	EL_TEST_STRINGS
 
+	EL_MODULE_FORMAT
+
 feature -- Basic operations
 
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		do
---			eval.call ("bash_escape", agent test_bash_escape)
---			eval.call ("substitution_marker_unescape", agent test_substitution_marker_unescape)
+			eval.call ("integer_format", agent test_integer_format)
+			eval.call ("bash_escape", agent test_bash_escape)
+			eval.call ("substitution_marker_unescape", agent test_substitution_marker_unescape)
 			eval.call ("unescape", agent test_unescape)
+		end
+
+feature -- Tests
+
+	test_integer_format
+		local
+			padding, formatted: STRING; width: INTEGER
+			zero_padded: BOOLEAN; padding_character: CHARACTER
+		do
+			across << True, False >> as bool loop
+				zero_padded := bool.item
+				across 1 |..| 10 as n loop
+					width := n.item
+					if zero_padded then
+						padding_character := '0'
+						formatted := Format.integer_zero (1, width)
+					else
+						padding_character := ' '
+						formatted := Format.integer (1, width)
+					end
+					create padding.make_filled (padding_character, width - 1)
+					assert ("same string", formatted ~ padding + "1")
+				end
+			end
 		end
 
 feature -- Escape tests

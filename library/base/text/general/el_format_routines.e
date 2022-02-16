@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-16 12:27:59 GMT (Sunday 16th August 2020)"
-	revision: "2"
+	date: "2022-02-16 12:53:41 GMT (Wednesday 16th February 2022)"
+	revision: "3"
 
 class
 	EL_FORMAT_ROUTINES
@@ -19,7 +19,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			create integer_formats.make (3)
+			create format_table.make_equal (5, agent new_format)
 		end
 
 feature -- Access
@@ -48,34 +48,30 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	internal_integer (n, width: INTEGER; zero_padded: BOOLEAN): STRING
-		local
-			f: FORMAT_INTEGER; key: NATURAL
 		do
-			key := width.to_natural_32
-			if zero_padded then
-				key := Zero_padded_bit | key
+			Result := format_table.item ((width |<< 1) | zero_padded.to_integer).formatted (n)
+		end
+
+	new_format (key: INTEGER): FORMAT_INTEGER
+		local
+			width: INTEGER
+		do
+			width := key |>> 1
+			create Result.make (width)
+			if (key & Zero_padded_mask).to_boolean then
+				Result.zero_fill
 			end
-			if integer_formats.has_key (key) then
-				f := integer_formats.found_item
-			else
-				create f.make (width)
-				if zero_padded then
-					f.zero_fill
-				end
-				integer_formats.extend (f, key)
-			end
-			Result := f.formatted (n)
 		end
 
 feature {NONE} -- Internal attributes
 
-	integer_formats: HASH_TABLE [FORMAT_INTEGER, NATURAL]
+	format_table: EL_CACHE_TABLE [FORMAT_INTEGER, INTEGER]
 
 feature {NONE} -- Constants
 
-	Zero_padded_bit: NATURAL
+	Zero_padded_mask: INTEGER
 		once
-			Result := Result.one |<< 32
+			Result := 1
 		end
 
 	Percent_string: STRING = "%%"

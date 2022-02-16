@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-10 15:28:59 GMT (Monday 10th January 2022)"
-	revision: "14"
+	date: "2022-02-16 14:24:58 GMT (Wednesday 16th February 2022)"
+	revision: "15"
 
 deferred class
 	EL_ML_THUNDERBIRD_ACCOUNT_READER
@@ -63,7 +63,7 @@ feature -- Basic operations
 					across dir_list as subdir_path loop
 						across OS.file_list (subdir_path.item, "*.msf") as path loop
 							mails_path := path.item.without_extension
-							if not language.is_empty implies mails_path.base.same_string (language) then
+							if not language.is_empty implies mails_path.same_base (language) then
 								lio.put_path_field ("Reading", mails_path)
 								lio.put_new_line
 								new_reader.read_mails (mails_path)

@@ -8,14 +8,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 17:39:27 GMT (Tuesday 15th February 2022)"
-	revision: "5"
+	date: "2022-02-16 17:32:08 GMT (Wednesday 16th February 2022)"
+	revision: "6"
 
 deferred class
 	EL_PATH
 
 inherit
-	EL_ZPATH_STEPS
+	EL_PATH_STEPS
+		export
+			{STRING_HANDLER} internal_base
+		end
 
 	HASHABLE
 		undefine
@@ -31,6 +34,9 @@ inherit
 			copy, default_create, is_equal
 		end
 
+convert
+ 	to_string: {ZSTRING}, to_path: {PATH}, as_string_32: {STRING_32, READABLE_STRING_GENERAL}
+	
 feature -- Access
 
 	expanded_path: like Current
@@ -50,6 +56,7 @@ feature -- Access
 
 			elseif step_count > 0 then
 				Result := Step_table.to_step (i_th (1)).twin
+
 			else
 				create Result.make_empty
 			end
@@ -76,8 +83,7 @@ feature -- Access
 		end
 
 	parent_string: ZSTRING
-		require
-			has_parent: has_parent
+		-- path of parent + Separator
 		do
 			if step_count > 1 then
 				Result := to_string
@@ -174,10 +180,6 @@ feature -- Status query
 			Result := not is_directory
 		end
 
-	is_uri: BOOLEAN
-		do
-		end
-
 	is_valid_ntfs: BOOLEAN
 		local
 			nt: EL_NT_FILE_SYSTEM_ROUTINES
@@ -186,6 +188,73 @@ feature -- Status query
 		end
 
 feature -- Conversion
+
+	escaped: ZSTRING
+		-- escaped for use as command line argument
+		-- On Unix characters like colon, space etc are prefixed with a backslash
+		-- On Windows this results in a quoted string
+		do
+			Result := File_system.escaped_path (temporary_path)
+		end
+
+	to_path: PATH
+		local
+			str: STRING_32; buffer: EL_STRING_32_BUFFER_ROUTINES
+		do
+			str := buffer.empty
+			append_to_32 (str)
+			create Result.make_from_string (str)
+		end
+
+	to_string: ZSTRING
+		do
+			Result := filled_list.joined (Separator)
+		end
+
+	to_string_32, as_string_32: STRING_32
+		do
+			if attached filled_list as filled then
+				create Result.make (step_count - 1 + filled.character_count)
+				across filled as list loop
+					if not list.is_first then
+						Result.append_character (Separator)
+					end
+					list.item.append_to_string_32 (Result)
+				end
+			end
+		end
+
+	to_unix, as_unix: ZSTRING
+		do
+			Result := filled_list.joined (Unix_separator)
+		end
+
+	to_uri: EL_URI
+		local
+			uri: like empty_uri_path
+		do
+			uri := empty_uri_path
+			append_to_uri (uri)
+			create Result.make (uri)
+		end
+
+	to_utf_8: STRING
+		do
+			across Reuseable.string_8 as reuse loop
+				across filled_list as step loop
+					if step.cursor_index > 1 then
+						reuse.item.append_character (Separator.to_character_8)
+					end
+					step.item.append_to_utf_8 (reuse.item)
+				end
+				Result := reuse.item.twin
+			end
+		end
+
+	to_windows, as_windows: ZSTRING
+		do
+			Result := filled_list.joined (Windows_separator)
+		end
 
 	to_ntfs_compatible (c: CHARACTER): like Current
 		-- NT file system compatible path string using `c' to substitue invalid characters
@@ -306,7 +375,7 @@ feature {EL_PATH} -- Implementation
 			else
 				l_parent := parent_string
 			end
-			Result := Debug_template #$ [base, l_parent]
+			Result := Debug_template #$ [internal_base, l_parent]
 		end
 
 	reset_hash

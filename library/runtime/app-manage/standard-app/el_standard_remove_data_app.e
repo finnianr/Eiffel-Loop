@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 16:44:43 GMT (Saturday 5th February 2022)"
-	revision: "9"
+	date: "2022-02-16 15:56:51 GMT (Wednesday 16th February 2022)"
+	revision: "10"
 
 class
 	EL_STANDARD_REMOVE_DATA_APP
@@ -75,12 +75,14 @@ feature {NONE} -- Implementation
 		-- 	.config/<company name>
 		-- 	.<company name>
 		local
-			parent: DIR_PATH; parent_base: ZSTRING
+			parent_base: ZSTRING
 		do
-			OS.delete_tree (path); parent := path.parent
-			parent_base := parent.base.twin; parent_base.prune_all_leading ('.')
-			if parent_base ~ Build_info.company and then OS_directory.named (parent).is_empty then
-				OS.delete_tree (parent)
+			OS.delete_tree (path)
+			if attached path.parent as parent then
+				parent_base := parent.base; parent_base.prune_all_leading ('.')
+				if parent_base ~ Build_info.company and then OS_directory.named (parent).is_empty then
+					OS.delete_tree (parent)
+				end
 			end
 		end
 

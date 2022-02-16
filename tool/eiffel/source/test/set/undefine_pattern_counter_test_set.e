@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:26:11 GMT (Tuesday 15th February 2022)"
-	revision: "15"
+	date: "2022-02-16 18:18:14 GMT (Wednesday 16th February 2022)"
+	revision: "16"
 
 class
 	UNDEFINE_PATTERN_COUNTER_TEST_SET
@@ -45,7 +45,7 @@ feature -- Tests
 			create command.make (Manifest_path, create {EL_DIR_PATH_ENVIRON_VARIABLE})
 			command.execute
 			if attached command.greater_than_0_list as list then
-				assert ("3 in list", list.count = 3)
+				assert ("1 in list", list.count = 1)
 				from list.start until list.after loop
 					assert ("2 patterns found", list.item_value = 2)
 					assert ("matches type",

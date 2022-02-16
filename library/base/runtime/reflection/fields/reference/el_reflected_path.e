@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:14 GMT (Tuesday 15th February 2022)"
-	revision: "12"
+	date: "2022-02-16 14:20:37 GMT (Wednesday 16th February 2022)"
+	revision: "13"
 
 class
 	EL_REFLECTED_PATH
@@ -53,29 +53,28 @@ feature -- Basic operations
 	reset (a_object: EL_REFLECTIVE)
 		do
 			if attached {EL_PATH} value (a_object) as path then
-				path.set_parent_path (Empty_string)
-				path.base.wipe_out
+				path.wipe_out
 			end
 		end
 
 	set_from_readable (a_object: EL_REFLECTIVE; a_value: EL_READABLE)
 		do
 			if attached {EL_PATH} value (a_object) as path then
-				path.make (a_value.read_string)
+				path.set_path (a_value.read_string)
 			end
 		end
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
 			if attached {EL_PATH} value (a_object) as path then
-				path.make (new_zstring (string))
+				path.set_path (string)
 			end
 		end
 
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
 		do
 			if attached {EL_PATH} value (a_object) as path then
-				writeable.write_string (path.to_string)
+				path.write_to (writeable)
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 10:35:48 GMT (Monday 7th February 2022)"
-	revision: "21"
+	date: "2022-02-16 16:54:42 GMT (Wednesday 16th February 2022)"
+	revision: "22"
 
 class
 	EL_FILE_PATH_LIST
@@ -87,13 +87,7 @@ feature -- Cursor movement
 
 	find_first_base (base: READABLE_STRING_GENERAL)
 		do
-			find_first_true (agent base_matches (?, base))
+			find_first_true (agent {FILE_PATH}.same_base (base))
 		end
 
-feature {NONE} -- Implementation
-
-	base_matches (a_path: FILE_PATH; base: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := a_path.base.same_string (base)
-		end
 end

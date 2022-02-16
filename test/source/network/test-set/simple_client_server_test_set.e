@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 9:45:35 GMT (Wednesday 19th January 2022)"
-	revision: "5"
+	date: "2022-02-16 18:10:44 GMT (Wednesday 16th February 2022)"
+	revision: "6"
 
 class
 	SIMPLE_CLIENT_SERVER_TEST_SET
@@ -37,12 +37,16 @@ feature -- Basic operations
 feature -- Tests
 
 	test_client_server
+		-- SIMPLE_CLIENT_SERVER_TEST_SET.test_client_server
 		local
 			server: SIMPLE_SERVER_THREAD
 		do
 			create server.make
 			server.launch
 			Execution_environment.sleep (100)
+
+			lio.put_path_field ("data", (new_eiffel_loop_dir #+ "test/data") + "txt/file.txt")
+			lio.put_new_line
 
 			do_test ("send_file", 2627758098, agent send_file, [source_file_list.first_path])
 

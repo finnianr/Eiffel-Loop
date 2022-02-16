@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-06 16:41:41 GMT (Sunday 6th February 2022)"
-	revision: "1"
+	date: "2022-02-16 19:26:42 GMT (Wednesday 16th February 2022)"
+	revision: "2"
 
 class
 	REGULAR_EXPRESSION_SEARCH_APP
@@ -15,7 +15,7 @@ class
 inherit
 	SOURCE_MANIFEST_APPLICATION [REGULAR_EXPRESSION_SEARCH_COMMAND]
 		redefine
-			option_name
+			option_name, visible_types
 		end
 
 feature {NONE} -- Implementation
@@ -23,6 +23,16 @@ feature {NONE} -- Implementation
 	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make (create {FILE_PATH})
+		end
+
+	compile: TUPLE [DISTRIBUTED_REGULAR_EXPRESSION_SEARCH_COMMAND]
+		do
+			create Result
+		end
+
+	visible_types: TUPLE [REGULAR_EXPRESSION_SEARCH_COMMAND]
+		do
+			create Result
 		end
 
 feature {NONE} -- Constants

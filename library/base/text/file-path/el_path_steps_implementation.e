@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 17:20:01 GMT (Tuesday 15th February 2022)"
-	revision: "2"
+	date: "2022-02-16 13:52:51 GMT (Wednesday 16th February 2022)"
+	revision: "3"
 
 deferred class
 	EL_PATH_STEPS_IMPLEMENTATION
@@ -77,11 +77,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Shared_base: ZSTRING
-		once
-			create Result.make_empty
-		end
 
 	Step_list: EL_ZSTRING_LIST
 		once

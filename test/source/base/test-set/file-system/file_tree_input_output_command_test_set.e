@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
-	revision: "6"
+	date: "2022-02-16 13:41:21 GMT (Wednesday 16th February 2022)"
+	revision: "7"
 
 class
 	FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET
@@ -33,7 +33,7 @@ feature -- Tests
 			create copy_cmd.make
 			input_dir := Workarea_help_pages_dir
 			output_dir := input_dir.twin
-			output_dir.base.append_string_general (" (copy)")
+			output_dir.set_base (output_dir.base + " (copy)")
 
 			create transformer.make (input_dir, output_dir, "txt")
 			transformer.apply (copy_cmd)

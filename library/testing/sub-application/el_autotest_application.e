@@ -6,7 +6,7 @@ note
 		See [$source BASE_AUTOTEST_APP] as an example.
 	]"
 	notes: "[
-		Add command option `-single' to only test `test_type' with single test.
+		Add command option `-test_set' <name> to test with named test
 		
 		Logging is active by default
 	]"
@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 15:07:52 GMT (Saturday 5th February 2022)"
-	revision: "17"
+	date: "2022-02-16 13:09:04 GMT (Wednesday 16th February 2022)"
+	revision: "18"
 
 deferred class
 	EL_AUTOTEST_APPLICATION [EQA_TYPES -> TUPLE create default_create end]
@@ -191,4 +191,3 @@ note
 				[$source THUNDERBIRD_AUTOTEST_APP]
 	]"
 end
-

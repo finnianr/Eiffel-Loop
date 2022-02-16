@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 17:18:43 GMT (Tuesday 15th February 2022)"
-	revision: "4"
+	date: "2022-02-16 16:28:37 GMT (Wednesday 16th February 2022)"
+	revision: "5"
 
 deferred class
 	EL_PATH_BASE_NAME
@@ -21,10 +21,10 @@ inherit
 feature -- Access
 
 	base: ZSTRING
+		-- last step value
+		-- WARNING: shared instance do not modify, use `set_base' to change
 		do
-			Result := shared_base
-			Result.wipe_out
-			Result.append (internal_base)
+			Result := internal_base.twin
 		end
 
 	base_sans_extension: ZSTRING
@@ -56,7 +56,7 @@ feature -- Access
 			if attached version_interval as interval then
 				if interval.off then
 					Result := -1
-				elseif attached base.substring (interval.item_start_index, interval.item_end_index) as number then
+				elseif attached internal_base.substring (interval.item_start_index, interval.item_end_index) as number then
 					number.prune_all_leading ('0')
 					if number.is_empty then
 						Result := 0
@@ -110,6 +110,15 @@ feature -- Status query
 			Result := not version_interval.off
 		end
 
+	same_base (a_base: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			if step_count > 0 then
+				Result := internal_base.same_string (a_base)
+			else
+				Result := a_base.is_empty
+			end
+		end
+
 	same_extension (a_extension: READABLE_STRING_GENERAL; case_insensitive: BOOLEAN): BOOLEAN
 		local
 			pos_dot: INTEGER
@@ -134,6 +143,16 @@ feature -- Element change
 				str := base
 				str.append_character ('.'); str.append_string_general (a_extension)
 				put_base (str)
+				reset_hash
+			end
+		end
+
+	modify_base (modify: PROCEDURE [ZSTRING])
+		require
+			valid_procedure: modify.open_count = 1
+		do
+			if step_count > 0 and then attached base as new then
+				modify (new); set_base (new)
 				reset_hash
 			end
 		end
@@ -266,7 +285,7 @@ feature {NONE} -- Deferred implementation
 			is_step: not a_step.has (Separator)
 		deferred
 		ensure
-			base_set: base.same_string (a_step)
+			base_set: internal_base.same_string (a_step)
 		end
 
 	internal_base: ZSTRING
@@ -285,10 +304,6 @@ feature {NONE} -- Deferred implementation
 		deferred
 		end
 
-	shared_base: ZSTRING
-		deferred
-		end
-
 	step_count: INTEGER
 		deferred
 		end
@@ -297,7 +312,7 @@ feature {NONE} -- Constants
 
 	Base_parts_list: EL_ZSTRING_LIST
 		once
-			create Result.make_from_array (<< shared_base, create {ZSTRING}.make_empty >>)
+			create Result.make_from_array (<< internal_base, create {ZSTRING}.make_empty >>)
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:13 GMT (Tuesday 15th February 2022)"
-	revision: "47"
+	date: "2022-02-16 17:32:17 GMT (Wednesday 16th February 2022)"
+	revision: "48"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -189,7 +189,7 @@ feature -- Status query
 		local
 			l_file: RAW_FILE
 		do
-			create l_file.make_with_name (a_path.as_string_32)
+			create l_file.make_with_name (a_path)
 			Result := l_file.exists and then l_file.is_directory
 		end
 

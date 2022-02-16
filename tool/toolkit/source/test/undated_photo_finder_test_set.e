@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 6:06:22 GMT (Monday 7th February 2022)"
-	revision: "2"
+	date: "2022-02-16 14:11:12 GMT (Wednesday 16th February 2022)"
+	revision: "3"
 
 class
 	UNDATED_PHOTO_FINDER_TEST_SET
@@ -50,7 +50,7 @@ feature -- Tests
 			across file_list as path loop
 				if not undated_set.has (path.item) then
 					jpeg_info.set_file_path (path.item)
-					assert ("is pulpit.jpg", jpeg_info.has_date_time and then path.item.base.same_string ("pulpit.jpg"))
+					assert ("is pulpit.jpg", jpeg_info.has_date_time and then path.item.same_base ("pulpit.jpg"))
 					dated_count := dated_count + 1
 				end
 			end

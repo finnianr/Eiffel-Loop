@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 18:00:51 GMT (Tuesday 15th February 2022)"
-	revision: "5"
+	date: "2022-02-16 17:31:31 GMT (Wednesday 16th February 2022)"
+	revision: "6"
 
 class
 	EL_DIR_PATH
@@ -29,8 +29,8 @@ convert
 
 	make ({IMMUTABLE_STRING_8, ZSTRING, STRING, STRING_32}), make_from_path ({PATH}),
 
-	to_string: {ZSTRING}, as_string_32: {STRING_32, READABLE_STRING_GENERAL}, to_path: {PATH},
-	to_uri: {EL_URI}
+	to_string: {ZSTRING}, as_string_32: {STRING_32, READABLE_STRING_GENERAL},
+	to_path: {PATH}, to_uri: {EL_URI}
 
 feature -- Access
 

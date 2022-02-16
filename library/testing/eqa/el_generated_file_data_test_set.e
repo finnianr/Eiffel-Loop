@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 7:19:22 GMT (Monday 7th February 2022)"
-	revision: "18"
+	date: "2022-02-16 16:24:08 GMT (Wednesday 16th February 2022)"
+	revision: "19"
 
 deferred class
 	EL_GENERATED_FILE_DATA_TEST_SET
@@ -22,8 +22,6 @@ inherit
 		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
-
-	EL_FILE_OPEN_ROUTINES
 
 feature {NONE} -- Event handling
 

@@ -1,3 +1,9 @@
+1.4.15
+* Multi-threaded version of grep tool
+
+1.4.14
+* rebuild with new tokenized paths
+
 1.4.13
 Handle multiple license from imported manifests in note editor
 

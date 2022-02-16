@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 18:43:13 GMT (Tuesday 15th February 2022)"
-	revision: "11"
+	date: "2022-02-16 16:25:29 GMT (Wednesday 16th February 2022)"
+	revision: "12"
 
 class
 	EL_DIRECTORY_CONTENT_PROCESSOR
@@ -87,13 +87,13 @@ feature -- Basic operations
 				output_dir_path.wipe_out
 				create destination_dir_path
 
-				input_file_path.append (input_dir)
-				input_file_path.append (list.item)
+				input_file_path.append_path (input_dir)
+				input_file_path.append_path (list.item)
 
-				output_dir_path.append (output_dir)
-				output_dir_path.append (list.item)
+				output_dir_path.append_path (output_dir)
+				output_dir_path.append_path (list.item)
 
-				output_file_unqualified_name := output_dir_path.base.twin
+				output_file_unqualified_name := output_dir_path.base
 				dot_pos := output_file_unqualified_name.last_index_of ('.', output_file_unqualified_name.count)
 				if dot_pos > 0 then
 					output_file_extension := output_file_unqualified_name.substring_end (dot_pos + 1)

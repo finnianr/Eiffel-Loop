@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:14 GMT (Tuesday 15th February 2022)"
-	revision: "25"
+	date: "2022-02-16 13:44:53 GMT (Wednesday 16th February 2022)"
+	revision: "26"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -437,7 +437,6 @@ feature {NONE} -- Constants
 	Wireless_notes_path_copy: FILE_PATH
 		once
 			Result := Help_pages_wireless_notes_path.without_extension
-			Result.base.append_string_general (" (copy)")
-			Result.add_extension ("txt")
+			Result.set_base (Result.base + " (copy).txt")
 		end
 end

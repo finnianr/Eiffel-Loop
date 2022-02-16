@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 17:18:08 GMT (Tuesday 15th February 2022)"
-	revision: "52"
+	date: "2022-02-16 11:30:41 GMT (Wednesday 16th February 2022)"
+	revision: "53"
 
 class
 	RBOX_SONG
@@ -245,13 +245,12 @@ feature -- Status query
 		require
 			not_hidden: not is_hidden
 		local
-			l_normalized_path, l_actual_path: FILE_PATH; l_extension: ZSTRING
+			norm_path, actual_path: FILE_PATH
 		do
-			l_actual_path := mp3_path.relative_path (music_dir).without_extension
-			l_normalized_path := normalized_path_steps
-			if l_actual_path.starts_with (l_normalized_path) then
-				l_extension := l_actual_path.extension
-				Result := l_extension.count = 3 and then l_extension.is_natural_32
+			actual_path := mp3_path.relative_path (music_dir).without_extension
+			norm_path := normalized_path_steps
+			if actual_path.parent ~ norm_path.parent then
+				Result := actual_path.base_matches (norm_path.base, False)
 			end
 		end
 

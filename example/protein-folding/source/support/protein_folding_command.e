@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
-	date: "2022-02-08 15:47:36 GMT (Tuesday 8th February 2022)"
-	revision: "2"
+	date: "2022-02-16 16:37:54 GMT (Wednesday 16th February 2022)"
+	revision: "3"
 
 deferred class
 	PROTEIN_FOLDING_COMMAND
@@ -28,7 +28,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			strseq := a_strseq
 			strseq.compare_objects
 			output_path := a_output_path.twin
-			if not output_path.base.ends_with_general ("txt") then
+			if not output_path.has_extension ("txt") then
 				output_path.append_step ("folds-" + strseq + ".txt")
 			end
 			File_system.make_directory (output_path.parent)

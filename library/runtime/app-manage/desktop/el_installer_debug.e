@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:15 GMT (Tuesday 15th February 2022)"
-	revision: "7"
+	date: "2022-02-16 17:26:03 GMT (Wednesday 16th February 2022)"
+	revision: "8"
 
 deferred class
 	EL_INSTALLER_DEBUG
@@ -27,7 +27,7 @@ feature {NONE} -- Implementations
 				across Parent_dir_map as dir loop
 					parent := dir.key
 					if parent.is_parent_of (path) then
-						path.set_parent_path (dir.item #+ path.parent.relative_path (parent))
+						path.set_parent (dir.item #+ path.parent.relative_path (parent))
 					end
 				end
 			end

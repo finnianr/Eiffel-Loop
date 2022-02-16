@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 5:35:53 GMT (Monday 7th February 2022)"
-	revision: "2"
+	date: "2022-02-16 14:06:03 GMT (Wednesday 16th February 2022)"
+	revision: "3"
 
 class
 	CLASS_PREFIX_REMOVAL_TEST_SET
@@ -34,7 +34,7 @@ feature {NONE} -- Implementation
 		do
 			if file_path.base.starts_with (class_prefix.as_lower) then
 				Result := file_path.twin
-				Result.base.remove_head (class_prefix.count + 1)
+				Result.set_base (Result.base.substring_end (class_prefix.count + 2))
 			else
 				Result := file_path
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "10"
+	date: "2022-02-16 14:11:54 GMT (Wednesday 16th February 2022)"
+	revision: "11"
 
 deferred class
 	EL_EXECUTABLE_I
@@ -181,7 +181,7 @@ feature -- Status report
 	Is_work_bench: BOOLEAN
 			-- True if application is called from within EiffelStudio
 		once
-			Result := parent_dir.base.same_string ("W_code")
+			Result := parent_dir.same_base ("W_code")
 		end
 
 	is_finalized: BOOLEAN

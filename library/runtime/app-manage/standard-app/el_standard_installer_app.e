@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 16:44:37 GMT (Saturday 5th February 2022)"
-	revision: "18"
+	date: "2022-02-16 16:01:01 GMT (Wednesday 16th February 2022)"
+	revision: "19"
 
 class
 	EL_STANDARD_INSTALLER_APP
@@ -84,8 +84,8 @@ feature {NONE} -- Implementation
 			-- Example: "$HOME/.config/Hex 11 Software/My Ching" becomes "$HOME/.config/Hex 11 Software-installer/My Ching"
 			across Root_owned_app_directory_list as path loop
 				parent := path.item.parent
-				parent.base.append_string_general ("-installer")
-				path.item.set_parent_path (parent.to_string)
+				parent.set_base (parent.base + "-installer")
+				path.item.set_parent (parent)
 			end
 			Precursor
 			-- delete root owned directories, for example:

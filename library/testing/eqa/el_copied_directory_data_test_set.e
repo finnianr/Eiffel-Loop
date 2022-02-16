@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "2"
+	date: "2022-02-16 16:23:45 GMT (Wednesday 16th February 2022)"
+	revision: "3"
 
 deferred class
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
@@ -17,8 +17,6 @@ inherit
 		redefine
 			on_prepare
 		end
-
-	EL_MODULE_OS
 
 feature {NONE} -- Events
 
@@ -47,4 +45,3 @@ feature {NONE} -- Internal attributes
 
 	work_area_data_dir: DIR_PATH
 end
-

@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "24"
+	date: "2022-02-16 14:24:10 GMT (Wednesday 16th February 2022)"
+	revision: "25"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -99,7 +99,7 @@ feature -- Element change
 				editions.set_path (editions_file_path)
 			end
 		ensure then
-			editions_renamed: editions_file_path.base.same_string (editions.path.components.last.name)
+			editions_renamed: editions_file_path.same_base (editions.path.components.last.name)
 		end
 
 feature -- Basic operations

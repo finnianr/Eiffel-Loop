@@ -4,7 +4,7 @@ note
 
 	author: "Python module: eiffel_loop.eiffel.ecf.py"
 
-	date: "2022-01-20 12:25:03 GMT (Thursday 20th January 2022)"
+	date: "2022-02-16 17:54:37 GMT (Wednesday 16th February 2022)"
 	revision: "1"
 
 class
@@ -18,11 +18,11 @@ create
 
 feature -- Constants
 
-	Version_number: NATURAL = 02_03_02
+	Version_number: NATURAL = 02_03_03
 
-	Build_number: NATURAL = 87
+	Build_number: NATURAL = 88
 
-	Installation_sub_directory: EL_DIR_PATH
+	Installation_sub_directory: DIR_PATH
 		once
 			Result := "Eiffel-Loop/manage-mp3"
 		end

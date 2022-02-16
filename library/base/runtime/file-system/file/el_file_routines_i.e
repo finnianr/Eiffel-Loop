@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:13 GMT (Tuesday 15th February 2022)"
-	revision: "4"
+	date: "2022-02-16 17:24:44 GMT (Wednesday 16th February 2022)"
+	revision: "5"
 
 deferred class
 	EL_FILE_ROUTINES_I
@@ -304,7 +304,7 @@ feature -- Basic operations
 			destination_path: FILE_PATH
 		do
 			destination_path := source_file.path
-			destination_path.set_parent_path (destination_dir)
+			destination_path.set_parent (destination_dir)
 			copy_contents (source_file, destination_path)
 		end
 

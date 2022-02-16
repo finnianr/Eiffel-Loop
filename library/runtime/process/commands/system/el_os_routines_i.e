@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:13 GMT (Tuesday 15th February 2022)"
-	revision: "18"
+	date: "2022-02-16 16:09:34 GMT (Wednesday 16th February 2022)"
+	revision: "19"
 
 deferred class
 	EL_OS_ROUTINES_I
@@ -40,6 +40,11 @@ feature -- Access
 	user_list: EL_ZSTRING_LIST
 		do
 			Result := Command.new_user_info.user_list
+		end
+
+	separator: CHARACTER
+		do
+			Result := Operating_environment.Directory_separator
 		end
 
 feature -- OS commands

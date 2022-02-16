@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:32:17 GMT (Tuesday 8th February 2022)"
-	revision: "6"
+	date: "2022-02-16 14:09:13 GMT (Wednesday 16th February 2022)"
+	revision: "7"
 
 class
 	STOCK_CONSUMPTION_CALCULATOR
@@ -34,7 +34,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			input_path := a_input_path; output_path := a_output_path
 			if output_path.is_empty then
 				output_path := input_path.without_extension
-				output_path.base.append_string_general ("-monthly-use")
+				output_path.set_base (output_path.base + "-monthly-use")
 				output_path.add_extension ("csv")
 			end
 		end

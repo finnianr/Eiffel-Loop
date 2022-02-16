@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 15:44:58 GMT (Tuesday 15th February 2022)"
-	revision: "12"
+	date: "2022-02-16 14:08:09 GMT (Wednesday 16th February 2022)"
+	revision: "13"
 
 class
 	INCLUSION_LIST_FILE
@@ -46,7 +46,7 @@ feature {NONE} -- Implementation
 						create dir_path
 						dir_path.append_path (found_path.item.parent)
 						dir_path.append_step (found_path.item.base)
-						if dir_path.first ~ Short_directory_current then
+						if dir_path.first_step ~ Short_directory_current then
 							dir_path.remove_head (1)
 						end
 						Precursor (dir_path.to_string)

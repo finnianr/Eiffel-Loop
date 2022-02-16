@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 9:34:33 GMT (Tuesday 8th February 2022)"
-	revision: "23"
+	date: "2022-02-16 13:47:38 GMT (Wednesday 16th February 2022)"
+	revision: "24"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -41,6 +41,8 @@ create
 feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (a_build_dir, a_output_dir: DIR_PATH; a_class_name: STRING; a_target_name: ZSTRING)
+		local
+			descendats: ZSTRING
 		do
 			make_machine
 
@@ -48,7 +50,8 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			target_name := a_target_name
 			create ecf_path
 			output_path := output_dir + (a_class_name + ".txt")
-			output_path.base.prepend_string_general ("Descendants-")
+			descendats := "Descendants-"
+			output_path.set_base (descendats + output_path.base)
 
 			if output_path.exists then
 				File_system.remove_file (output_path)
