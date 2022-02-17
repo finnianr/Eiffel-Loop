@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 12:02:42 GMT (Tuesday 15th February 2022)"
-	revision: "6"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	CROSS_PLATFORM_CLUSTER
@@ -145,7 +145,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	is_implementation (imp_steps: DIR_PATH; source_steps: FILE_PATH): BOOLEAN
+	is_implementation (imp_steps: EL_PATH_STEPS; source_steps: EL_PATH_STEPS): BOOLEAN
 		do
 			if source_steps.starts_with (imp_steps) or else source_steps.has_sub_steps (Spec_table [imp_steps]) then
 				Result := True
@@ -171,7 +171,7 @@ feature {NONE} -- Implementation
 	target_implementation (imp_dir: DIR_PATH; interface_path: FILE_PATH): FILE_PATH
 		do
 			Result := imp_dir + interface_path.twin
-			Result.rename_base (Result.base + MP_ending, True)
+			Result.base.insert_string (MP_ending, Result.dot_index)
 		end
 
 feature {NONE} -- Internal attributes
@@ -186,12 +186,12 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Unix_and_windows_imp: ARRAY [DIR_PATH]
+	Unix_and_windows_imp: ARRAY [EL_PATH_STEPS]
 		once
 			Result := << "imp_unix", "imp_mswin" >>
 		end
 
-	Common_imp: DIR_PATH
+	Common_imp: EL_PATH_STEPS
 		once
 			Result := "imp_common"
 		end
@@ -201,7 +201,7 @@ feature {NONE} -- Constants
 			Result := "mp"
 		end
 
-	Spec_table: HASH_TABLE [DIR_PATH, DIR_PATH]
+	Spec_table: HASH_TABLE [EL_PATH_STEPS, EL_PATH_STEPS]
 		-- platform specification table
 		once
 			create Result.make_equal (3)
@@ -212,3 +212,4 @@ feature {NONE} -- Constants
 		end
 
 end
+

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 19:23:50 GMT (Wednesday 16th February 2022)"
-	revision: "4"
+	date: "2022-02-17 15:48:57 GMT (Thursday 17th February 2022)"
+	revision: "5"
 
 class
 	DISTRIBUTED_REGULAR_EXPRESSION_SEARCH_COMMAND
@@ -32,9 +32,9 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			Precursor
 			create grep_options.make_empty
 			create results_table.make_size (0)
-			create grep_pool.make (1, agent new_grep_command)
+			create grep_pool.make (0, agent new_grep_command)
 			create recycle_list.make (8)
-			create distributer.make (8)
+			create distributer.make (0)
 		end
 
 feature -- Constants

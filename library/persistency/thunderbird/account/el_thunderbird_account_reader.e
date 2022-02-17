@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 17:23:17 GMT (Tuesday 15th February 2022)"
-	revision: "21"
+	date: "2022-02-17 10:41:53 GMT (Thursday 17th February 2022)"
+	revision: "22"
 
 deferred class
 	EL_THUNDERBIRD_ACCOUNT_READER
@@ -86,29 +86,27 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	export_steps (mails_path: FILE_PATH): DIR_PATH
+	export_steps (mails_path: FILE_PATH): EL_PATH_STEPS
 		local
-			account_index, i: INTEGER; dot_sbd_step: ZSTRING; found: BOOLEAN
+			account_index, i: INTEGER; dot_sbd_step: ZSTRING
 		do
-			account_index := mails_path.index_of (account, 1)
+			Result := mails_path.steps
+			account_index := Result.index_of (account, 1)
 			if account_index > 0 then
-				create Result.make_sub_path (mails_path, account_index + 1)
-			else
-				create Result.make_sub_path (mails_path, 1)
+				Result.remove_head (account_index)
 			end
-			from i := 1 until found or else i > Result.step_count loop
-				dot_sbd_step := Result.i_th_step (i)
-				if dot_sbd_step.ends_with (Dot_sbd_extension) then
+			from i := 1 until i > Result.count loop
+				if Result [i].ends_with (Dot_sbd_extension) then
+					dot_sbd_step := Result [i]
 					dot_sbd_step.remove_tail (Dot_sbd_extension.count)
-					Result.put_i_th_step (dot_sbd_step, i)
-					found := True
+					Result [i] := dot_sbd_step
 				end
 				i := i + 1
 			end
 			if language.is_empty then
 				if not language_code_last then
 					-- Put the language code at beginning, for example: help/en -> en/help
-					Result.put_front (Result.last)
+					Result.put_token_front (Result.last_token)
 					Result.remove_tail (1)
 				end
 			else

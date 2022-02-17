@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 13:24:26 GMT (Tuesday 8th February 2022)"
-	revision: "3"
+	date: "2022-02-17 16:02:06 GMT (Thursday 17th February 2022)"
+	revision: "4"
 
 class
 	REGULAR_EXPRESSION_SEARCH_COMMAND
@@ -31,10 +31,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			Precursor
 			create results_table.make_size (0)
-			create grep_command.make ("grep $OPTIONS $FILE_PATH")
-			grep_command.set_output_encoding (Latin_1)
-			create var
-			grep_command.fill_variables (var)
+			create grep_command.make
 		end
 
 feature -- Constants
@@ -56,7 +53,7 @@ feature -- Basic operations
 				user_quit := grep_options.same_string ("quit")
 				if not user_quit then
 					lio.put_new_line
-					grep_command.put_string (var.options, grep_options)
+					grep_command.set_options (grep_options)
 					results_table.wipe_out
 					Precursor
 					lio.put_new_line
@@ -82,16 +79,10 @@ feature -- Basic operations
 feature {NONE} -- Implementation
 
 	do_with_file (source_path: FILE_PATH)
-		local
-			lines: EL_ZSTRING_LIST
 		do
-			grep_command.put_path (var.file_path, source_path)
+			grep_command.set_source_path (source_path)
 			grep_command.execute
-			if grep_command.lines.count > 0 then
-				lines := grep_command.lines.twin
-				lines.left_adjust
-				results_table.extend (lines, source_path)
-			end
+			grep_command.collect (results_table)
 		end
 
 	matching_line_count: INTEGER
@@ -103,10 +94,8 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	var: TUPLE [options, file_path: STRING]
-
 	results_table: EL_HASH_TABLE [EL_ZSTRING_LIST, FILE_PATH]
 
-	grep_command: EL_CAPTURED_OS_COMMAND
+	grep_command: GREP_COMMAND
 
 end

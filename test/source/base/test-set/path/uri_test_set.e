@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 11:57:54 GMT (Wednesday 16th February 2022)"
-	revision: "16"
+	date: "2022-02-17 15:33:18 GMT (Thursday 17th February 2022)"
+	revision: "17"
 
 class
 	URI_TEST_SET
@@ -39,11 +39,11 @@ feature -- Tests
 		-- URI_TEST_SET.test_uri_assignments
 		note
 			testing:
-				"covers/{EL_ZPATH}.make, covers/{EL_URI_ZPATH}.authority, covers/{EL_URI_ZPATH}.scheme",
-				"covers/{EL_URI_ZPATH}.make_file, covers/{EL_URI_ZPATH}.make_scheme, covers/{EL_URI_ZPATH}.is_absolute"
+				"covers/{EL_PATH}.make, covers/{EL_URI_PATH}.authority, covers/{EL_URI_PATH}.scheme",
+				"covers/{EL_URI_PATH}.make_file, covers/{EL_URI_PATH}.make_scheme, covers/{EL_URI_PATH}.is_absolute"
 		local
 			uri: EL_DIR_URI_PATH; str_32: STRING_32; dir_path: DIR_PATH
-			parts: EL_STRING_8_LIST; scheme, line: STRING; index_3rd_slash: INTEGER
+			parts: EL_STRING_8_LIST; scheme, line: STRING; index_slash: INTEGER
 		do
 			across URI_list as list loop
 				line := list.item
@@ -56,37 +56,55 @@ feature -- Tests
 				assert ("same authority", uri.authority.same_string (parts [3]))
 				assert ("str_32 same as uri.to_string", str_32 ~ uri.to_string.to_string_32)
 				assert ("is absolute", uri.is_absolute)
-				index_3rd_slash := line.linear_representation.index_of ('/', 3)
-				create dir_path.make (line.substring (index_3rd_slash, line.count))
+				index_slash := line.linear_representation.index_of ('/', 3)
+				create dir_path.make (line.substring (index_slash, line.count))
 				assert ("same path", dir_path ~ uri.to_dir_path)
 			end
 			create uri.make_file ("/home/finnian/Desktop")
-			assert ("same string", uri.to_string.same_string (URI_list.last))
+			assert_same_string (uri.to_string, URI_list.first)
 		end
 
 	test_uri_path_plus_joins
 		note
 			testing:
-				"covers/{EL_ZPATH}.append_path, covers/{EL_DIR_URI_ZPATH}.hash_plus",
-				"covers/{EL_URI_ZPATH}.to_file_path"
+				"covers/{EL_PATH}.append_path, covers/{EL_DIR_URI_PATH}.hash_plus",
+				"covers/{EL_URI_PATH}.to_file_path"
 		local
 			uri: EL_DIR_URI_PATH; dir_path: DIR_PATH; file_path: FILE_PATH
-			file_uri: EL_FILE_URI_PATH; index_3rd_slash: INTEGER; line: ZSTRING
+			file_uri: EL_FILE_URI_PATH; index_slash: INTEGER; line: ZSTRING
 		do
+			-- test absolute joins
 			across URI_list as list loop
 				line := list.item
-				index_3rd_slash := line.linear_representation.index_of ('/', 3)
-				create uri.make (line.substring (1, index_3rd_slash - 1))
-				create dir_path.make (line.substring (index_3rd_slash, line.count))
+				index_slash := line.linear_representation.index_of ('/', 3)
+				create uri.make (line.substring (1, index_slash - 1))
+				create dir_path.make (line.substring (index_slash, line.count))
 				if dir_path.has_extension ("html") then
-					create file_path.make (line.substring (index_3rd_slash, line.count))
+					create file_path.make (line.substring (index_slash, line.count))
 					file_uri := uri + file_path
-					assert ("same string", file_uri.to_string.same_string (line))
+					assert_same_string (file_uri.to_string, line)
 					assert ("same path", file_uri.to_file_path ~ file_path)
 				else
 					uri := uri #+ dir_path
-					assert ("same string", uri.to_string.same_string (line))
+					assert_same_string (uri.to_string, line)
 					assert ("same path", uri.to_dir_path ~ dir_path)
+				end
+			end
+			-- test relative joins
+			across URI_list as list loop
+				line := list.item
+				if line.occurrences ('/') > 3 then
+					index_slash := line.linear_representation.index_of ('/', 4)
+					create uri.make (line.substring (1, index_slash - 1))
+					create dir_path.make (line.substring (index_slash + 1, line.count))
+					if dir_path.has_extension ("html") then
+						create file_path.make (line.substring (index_slash + 1, line.count))
+						file_uri := uri + file_path
+						assert_same_string (file_uri.to_string, line)
+					else
+						uri := uri #+ dir_path
+						assert_same_string (uri.to_string, line)
+					end
 				end
 			end
 		end
@@ -329,10 +347,10 @@ feature {NONE} -- Constants
 	URI_list: EL_STRING_8_LIST
 		once
 			create Result.make_with_lines ("[
-				mtp://[usb:003,006]/
+				file:///home/finnian/Desktop
 				http://myching.software/
 				http://myching.software/en/home/my-ching.html
-				file:///home/finnian/Desktop
+				mtp://[usb:003,006]/
 			]")
 		end
 

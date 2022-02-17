@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-10 17:55:28 GMT (Thursday 10th February 2022)"
-	revision: "32"
+	date: "2022-02-17 15:53:28 GMT (Thursday 17th February 2022)"
+	revision: "33"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -325,7 +325,7 @@ feature {EL_OS_COMMAND_I} -- Factory
 		do
 			Result := Temporary_path_format #$ [
 				Operating_environ.temp_directory_name, Executable.user_qualified_name,
-				new_temporary_name, once "00." + a_extension
+				new_temporary_name, a_extension
 			]
 			-- check if directory already exists with root ownership (perhaps created by installer program)
 			-- (Using sudo command does not mean that the user name changes to root)

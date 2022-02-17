@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 18:16:10 GMT (Wednesday 16th February 2022)"
-	revision: "6"
+	date: "2022-02-17 11:26:46 GMT (Thursday 17th February 2022)"
+	revision: "7"
 
 class
 	PATH_TEST_SET
@@ -152,7 +152,7 @@ feature -- Tests
 					root_name := "/"
 				end
 				assert ("same string" + root_name, dir_path.parent.parent.to_string ~ root_name)
-				assert_same_string (dir_path.parent + OS.separator.out, dir_path.parent_string)
+				assert_same_string (dir_path.parent.to_string + OS.separator.out, dir_path.parent_string (False))
 			end
 
 			file_path := Documents_eiffel_pdf
@@ -185,9 +185,9 @@ feature -- Tests
 
 	test_path_steps
 		note
-			testing: "covers/{DIR_PATH}.same_i_th_step"
+			testing: "covers/{EL_PATH_STEPS}.same_i_th_step"
 		local
-			dir_path: DIR_PATH
+			dir_path: EL_PATH_STEPS
 		do
 			dir_path := Dev_eiffel
 			across dir_path.to_string.split ('/') as step loop

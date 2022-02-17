@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 14:30:24 GMT (Wednesday 16th February 2022)"
-	revision: "16"
+	date: "2022-02-17 6:49:06 GMT (Thursday 17th February 2022)"
+	revision: "17"
 
 deferred class
 	EL_UNINSTALL_SCRIPT_I
@@ -67,7 +67,7 @@ feature {NONE} -- Initialization
 
 			l_template := "remove_%S_user_files." + dot_extension
 			remove_files_script_path := output_path.parent + l_template #$ [menu_name]
-			remove_files_script_path.modify_base (agent {ZSTRING}.translate_general (" ", "_"))
+			remove_files_script_path.base.translate_general (" ", "_")
 		end
 
 feature -- Access

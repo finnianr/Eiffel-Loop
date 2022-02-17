@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 20:46:13 GMT (Tuesday 8th February 2022)"
-	revision: "39"
+	date: "2022-02-17 15:59:41 GMT (Thursday 17th February 2022)"
+	revision: "40"
 
 class
 	APPLICATION_ROOT
@@ -47,7 +47,6 @@ inherit
 		LIBRARY_OVERRIDE_APP,
 
 	--	Utilities
-
 		GITHUB_MANAGER_APP,
 
 		ECF_TO_PECF_APP,

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:12 GMT (Tuesday 15th February 2022)"
-	revision: "14"
+	date: "2022-02-17 8:04:19 GMT (Thursday 17th February 2022)"
+	revision: "15"
 
 class
 	EL_GVFS_VOLUME
@@ -109,12 +109,12 @@ feature -- File operations
 	delete_empty_branch (dir_path: DIR_PATH)
 		require
 			is_relative_to_root: not dir_path.is_absolute
-		local
-			l_dir_path: DIR_PATH
 		do
-			from l_dir_path := dir_path.twin until l_dir_path.is_empty or else not is_directory_empty (l_dir_path) loop
-				delete_directory (l_dir_path)
-				l_dir_path.remove_tail (1)
+			if attached dir_path.steps as steps then
+				from until steps.is_empty or else not is_directory_empty (steps) loop
+					delete_directory (steps)
+					steps.remove_tail (1)
+				end
 			end
 		end
 

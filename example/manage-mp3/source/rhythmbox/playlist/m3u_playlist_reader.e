@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 13:25:43 GMT (Wednesday 16th February 2022)"
-	revision: "17"
+	date: "2022-02-17 7:42:01 GMT (Thursday 17th February 2022)"
+	revision: "18"
 
 class
 	M3U_PLAYLIST_READER
@@ -64,7 +64,10 @@ feature {NONE} -- State line procedures
 		do
 			if not line.is_empty then
 				relative_path := line
-				relative_path.remove_head (relative_path.index_of (Music, 1))
+				if attached relative_path.steps as steps then
+					steps.remove_head (steps.index_of (Music, 1))
+					relative_path := steps
+				end
 				song_path := Database.music_dir + relative_path
 				song_uri := song_path
 				if Database.has_song (song_uri) then

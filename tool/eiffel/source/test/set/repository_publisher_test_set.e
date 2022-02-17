@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 15:20:49 GMT (Tuesday 15th February 2022)"
-	revision: "44"
+	date: "2022-02-17 8:46:07 GMT (Thursday 17th February 2022)"
+	revision: "45"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -138,7 +138,7 @@ feature {NONE} -- Events
 
 	on_prepare
 		local
-			lib_dir: DIR_PATH; list: EL_STRING_8_LIST; steps: DIR_PATH
+			lib_dir: DIR_PATH; list: EL_STRING_8_LIST; steps: EL_PATH_STEPS
 		do
 			Precursor
 			OS.copy_tree (Eiffel_loop_dir #+ "doc-config", Work_area_dir)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 17:24:17 GMT (Tuesday 15th February 2022)"
-	revision: "25"
+	date: "2022-02-17 10:45:48 GMT (Thursday 17th February 2022)"
+	revision: "26"
 
 class
 	RBOX_TEST_DATABASE
@@ -89,12 +89,11 @@ feature {RBOX_IRADIO_ENTRY} -- Implementation
 feature {EQA_TEST_SET} -- Access
 
 	cached_song_file_path (song: RBOX_SONG): FILE_PATH
-		local
-			relative_path: FILE_PATH
 		do
-			relative_path := song.mp3_path.relative_path (music_dir)
-			relative_path.put_step_front ("test-mp3")
-			Result := File_system.cached (relative_path, agent generate_mp3_file (song, ?))
+			if attached song.mp3_path.relative_path (music_dir).steps as steps then
+				steps.put_front ("test-mp3")
+				Result := File_system.cached (steps, agent generate_mp3_file (song, ?))
+			end
 		end
 
 	generate_mp3_file (song: RBOX_SONG; mp3_path: FILE_PATH)

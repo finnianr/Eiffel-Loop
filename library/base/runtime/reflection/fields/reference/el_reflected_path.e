@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 14:20:37 GMT (Wednesday 16th February 2022)"
-	revision: "13"
+	date: "2022-02-17 6:48:43 GMT (Thursday 17th February 2022)"
+	revision: "14"
 
 class
 	EL_REFLECTED_PATH
@@ -74,7 +74,8 @@ feature -- Basic operations
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
 		do
 			if attached {EL_PATH} value (a_object) as path then
-				path.write_to (writeable)
+				writeable.write_string (path.parent_string (False))
+				writeable.write_string (path.base)
 			end
 		end
 

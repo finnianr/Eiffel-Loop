@@ -1,42 +1,99 @@
 note
-	description: "[
-		Compressed filesystem path implemented as an [$source ARRAYED_LIST] of shared path-step tokens
-	]"
+	description: "Path name"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 17:32:08 GMT (Wednesday 16th February 2022)"
-	revision: "6"
+	date: "2022-02-17 15:30:16 GMT (Thursday 17th February 2022)"
+	revision: "59"
 
 deferred class
 	EL_PATH
 
 inherit
-	EL_PATH_STEPS
-		export
-			{STRING_HANDLER} internal_base
+	HASHABLE
+		redefine
+			is_equal, default_create, out, copy
 		end
 
-	HASHABLE
+	COMPARABLE
 		undefine
-			copy, default_create, is_equal
+			is_equal, default_create, out, copy
 		end
 
 	EL_PATH_BASE_NAME
 
-	DEBUG_OUTPUT
-		rename
-			debug_output as debug_output_32
+	EL_PATH_IMPLEMENTATION
 		undefine
-			copy, default_create, is_equal
+			is_equal, default_create, out, copy
 		end
 
 convert
- 	to_string: {ZSTRING}, to_path: {PATH}, as_string_32: {STRING_32, READABLE_STRING_GENERAL}
-	
+ 	to_string: {EL_ZSTRING}, as_string_32: {STRING_32, READABLE_STRING_GENERAL},
+ 	steps: {EL_PATH_STEPS}, to_path: {PATH}, to_uri: {EL_URI}
+
+feature {NONE} -- Initialization
+
+	default_create
+		do
+			parent_path := Empty_path; base := Empty_path
+		end
+
+	make_from_path (a_path: PATH)
+		do
+			make (a_path.name)
+		end
+
+	make_from_steps (a_steps: ITERABLE [READABLE_STRING_GENERAL])
+		local
+			l_path: ZSTRING; not_first: BOOLEAN
+		do
+			l_path := Temp_path; l_path.wipe_out
+			across a_steps as step loop
+				if not_first then
+					l_path.append_character (Separator)
+				else
+					not_first := True
+				end
+				l_path.append_string_general (step.item)
+			end
+			set_path (l_path)
+		end
+
+	make_from_other (other: EL_PATH)
+		do
+			base := other.base.twin
+			parent_path := other.parent_path
+			internal_hash_code := other.internal_hash_code
+		ensure
+			same_string: to_string ~ other.to_string
+		end
+
+	make (a_path: READABLE_STRING_GENERAL)
+			--
+		local
+			pos_last_separator: INTEGER l_path: ZSTRING
+		do
+			l_path := temporary_copy (a_path)
+			-- Normalize path
+			if not is_uri and then {PLATFORM}.is_windows and then a_path.has (Unix_separator) then
+				l_path.replace_character (Unix_separator, Separator)
+			end
+			if not l_path.is_empty then
+				pos_last_separator := l_path.last_index_of (Separator, l_path.count)
+				if pos_last_separator = 0 then
+					if not is_uri and then {PLATFORM}.is_windows then
+						pos_last_separator := l_path.last_index_of (':', l_path.count)
+					end
+				end
+			end
+			base := l_path.substring_end (pos_last_separator + 1)
+			l_path.keep_head (pos_last_separator)
+			set_parent_path (l_path)
+		end
+
 feature -- Access
 
 	expanded_path: like Current
@@ -46,19 +103,23 @@ feature -- Access
 		end
 
 	first_step: ZSTRING
+		local
+			pos_first_separator, pos_second_separator: INTEGER
 		do
-			if is_absolute then
-				if step_count > 1 then
-					Result := Step_table.to_step (i_th (2)).twin
-				else
-					create Result.make_empty
-				end
-
-			elseif step_count > 0 then
-				Result := Step_table.to_step (i_th (1)).twin
-
+			if parent_path.is_empty then
+				Result := base
 			else
-				create Result.make_empty
+				if is_absolute then
+					pos_first_separator := parent_path.index_of (Separator, 1)
+					if pos_first_separator = parent_path.count then
+						Result := base
+					else
+						pos_second_separator := parent_path.index_of (Separator, pos_first_separator + 1)
+						Result := parent_path.substring (pos_first_separator + 1, pos_second_separator - 1)
+					end
+				else
+					Result := parent_path.substring (1, parent_path.index_of (Separator, 1) - 1)
+				end
 			end
 		end
 
@@ -76,51 +137,49 @@ feature -- Access
 	parent: like Type_parent
 		do
 			if has_parent then
-				create Result.make_parent (Current)
+				create Result.make_from_other (Current)
+				Result.prune_tail
 			else
 				create Result
 			end
 		end
 
-	parent_string: ZSTRING
-		-- path of parent + Separator
+	parent_string (keep_ref: BOOLEAN): ZSTRING
 		do
-			if step_count > 1 then
-				Result := to_string
-				Result.remove_tail (internal_base.count)
-			else
-				create Result.make_empty
+			Result := parent_path
+			if keep_ref then
+				Result := Result.twin
 			end
 		end
 
-	relative_path (a_parent: DIR_PATH): EL_PATH
+	relative_path (a_parent: EL_DIR_PATH): EL_PATH
 		require
 			parent_is_parent: a_parent.is_parent_of (Current)
 		deferred
 		end
 
-	universal_relative_path (dir_path: DIR_PATH): like Current
+	translated (originals, substitutions: ZSTRING): like Current
+		do
+			Result := twin
+			Result.translate (originals, substitutions)
+		end
+
+	universal_relative_path (dir_path: EL_DIR_PATH): like Current
 		-- path steps of `Current' relative to directory `dir_path' using parent notation `..'
 		-- if `dir_path' is not a parent of `Current'
 		local
-			back_step_count, i: INTEGER
+			back_step_count: INTEGER; common_path: EL_DIR_PATH
 		do
 			if dir_path.is_empty then
 				Result := Current
 			else
-				if attached Temporary_dir as common_path then
-					common_path.set_from_other (dir_path)
-					from until common_path.is_empty or else common_path.is_parent_of (Current) loop
-						common_path.remove_tail (1)
-						back_step_count := back_step_count + 1
-					end
-					Result := relative_path (common_path)
+				from common_path := dir_path.twin until common_path.is_parent_of (Current) loop
+					common_path.prune_tail
+					back_step_count := back_step_count + 1
 				end
+				Result := relative_path (common_path)
 				if back_step_count > 0 then
-					from i := 1 until i > back_step_count loop
-						Result.put_front (Step_table.token_back_dir)
-						i := i + 1
-					end
+					Result.set_parent_path (Back_dir_step.multiplied (back_step_count) + Result.parent_path)
 				end
 			end
 		end
@@ -144,14 +203,14 @@ feature -- Access
 feature -- Measurement
 
 	hash_code: INTEGER
-		-- Hash code value
+			-- Hash code value
 		local
 			i: INTEGER
 		do
 			Result := internal_hash_code
 			if Result = 0 then
-				from i := 1 until i > step_count loop
-					Result := ((Result \\ 8388593) |<< 8) + i_th (i)
+				from i := 1 until i > part_count loop
+					Result := Result + part_string (i).hash_code
 					i := i + 1
 				end
 				Result := Result.abs
@@ -159,7 +218,7 @@ feature -- Measurement
 			end
 		end
 
-feature -- Status query
+feature -- Status Query
 
 	exists: BOOLEAN
 		do
@@ -167,12 +226,58 @@ feature -- Status query
 		end
 
 	has_parent: BOOLEAN
+		local
+			l_count: INTEGER
 		do
-			Result := step_count > 1
+			l_count := parent_path.count
+			if is_absolute then
+				Result := not base.is_empty and then l_count >= 1 and then is_separator (parent_path, l_count)
+			else
+				Result := not parent_path.is_empty and then is_separator (parent_path, l_count)
+			end
+		end
+
+	has_step (a_step: READABLE_STRING_GENERAL): BOOLEAN
+			-- true if path has directory step
+		local
+			pos_left_separator, pos_right_separator: INTEGER
+			step: ZSTRING; s: EL_ZSTRING_ROUTINES
+		do
+			step := s.as_zstring (a_step)
+			pos_left_separator := parent_path.substring_index (step, 1) - 1
+			pos_right_separator := pos_left_separator + step.count + 1
+			if 0 <= pos_left_separator and pos_right_separator <= parent_path.count then
+				if is_separator (parent_path, pos_right_separator) then
+					Result := pos_left_separator > 0 implies is_separator (parent_path, pos_left_separator)
+				end
+			end
+		end
+
+	is_absolute: BOOLEAN
+		local
+			str: ZSTRING; s: EL_ZSTRING_ROUTINES
+		do
+			str := parent_path
+			if {PLATFORM}.is_windows then
+				Result := s.starts_with_drive (str)
+			else
+				Result := not str.is_empty and then is_separator (str, 1)
+			end
 		end
 
 	is_directory: BOOLEAN
 		deferred
+		end
+
+	is_empty: BOOLEAN
+		do
+			Result := parent_path.is_empty and base.is_empty
+		end
+
+	is_expandable: BOOLEAN
+		-- `True' if `base' or `parent' contain what maybe expandable variables
+		do
+			Result := has_expansion_variable (parent) or else has_expansion_variable (base)
 		end
 
 	is_file: BOOLEAN
@@ -180,11 +285,17 @@ feature -- Status query
 			Result := not is_directory
 		end
 
+	is_uri: BOOLEAN
+		do
+		end
+
 	is_valid_ntfs: BOOLEAN
 		local
 			nt: EL_NT_FILE_SYSTEM_ROUTINES
 		do
-			Result := across filled_list as list all nt.is_valid_step_at (list.item, list.cursor_index) end
+			Result :=	across to_string.split (Separator) as list all
+								nt.is_valid_step_at (list.item, list.cursor_index)
+							end
 		end
 
 feature -- Conversion
@@ -197,198 +308,205 @@ feature -- Conversion
 			Result := File_system.escaped_path (temporary_path)
 		end
 
-	to_path: PATH
-		local
-			str: STRING_32; buffer: EL_STRING_32_BUFFER_ROUTINES
+	out: STRING
 		do
-			str := buffer.empty
-			append_to_32 (str)
-			create Result.make_from_string (str)
+			Result := debug_output
 		end
 
-	to_string: ZSTRING
+	steps: EL_PATH_STEPS
 		do
-			Result := filled_list.joined (Separator)
-		end
-
-	to_string_32, as_string_32: STRING_32
-		do
-			if attached filled_list as filled then
-				create Result.make (step_count - 1 + filled.character_count)
-				across filled as list loop
-					if not list.is_first then
-						Result.append_character (Separator)
-					end
-					list.item.append_to_string_32 (Result)
-				end
-			end
-		end
-
-	to_unix, as_unix: ZSTRING
-		do
-			Result := filled_list.joined (Unix_separator)
-		end
-
-	to_uri: EL_URI
-		local
-			uri: like empty_uri_path
-		do
-			uri := empty_uri_path
-			append_to_uri (uri)
-			create Result.make (uri)
-		end
-
-	to_utf_8: STRING
-		do
-			across Reuseable.string_8 as reuse loop
-				across filled_list as step loop
-					if step.cursor_index > 1 then
-						reuse.item.append_character (Separator.to_character_8)
-					end
-					step.item.append_to_utf_8 (reuse.item)
-				end
-				Result := reuse.item.twin
-			end
-		end
-
-	to_windows, as_windows: ZSTRING
-		do
-			Result := filled_list.joined (Windows_separator)
+			create Result.make_from_path (Current)
 		end
 
 	to_ntfs_compatible (c: CHARACTER): like Current
 		-- NT file system compatible path string using `c' to substitue invalid characters
 		local
 			nt: EL_NT_FILE_SYSTEM_ROUTINES; s: EL_ZSTRING_ROUTINES; substitutes: ZSTRING
-			token: INTEGER
+			step_list: EL_ZSTRING_LIST
 		do
 			substitutes := s.n_character_string (c, Invalid_NTFS_characters.count)
-			Result := twin
-			if attached filled_list as filled then
-				across filled as list loop
-					if not nt.is_valid_step_at (list.item, list.cursor_index) then
-						token := Step_table.to_token (list.item.translated (Invalid_NTFS_characters, substitutes))
-						Result.put_i_th (token, list.cursor_index)
-					end
+			create step_list.make_split (to_string, Separator)
+			across step_list as list loop
+				if not nt.is_valid_step_at (list.item, list.cursor_index) then
+					step_list [list.cursor_index] := list.item.translated (Invalid_NTFS_characters, substitutes)
 				end
 			end
-		end
-
-	sub_path (index_from, index_to: INTEGER): like Current
-		require
-			valid_indices: (1 <= index_from) and (index_from <= index_to) and (index_to <= step_count)
-		local
-			l_count: INTEGER
-		do
-			l_count := index_to - index_from + 1
-			if l_count > 0 then
-				Result := new_path (l_count)
-				Result.area.copy_data (area, index_from - 1, 0, l_count)
-			else
-				Result := new_path (0)
-			end
-		end
-
-feature -- Path joining
-
-	joined_dir_steps (a_steps: ITERABLE [READABLE_STRING_GENERAL]): like Current
-		local
-			l_count: INTEGER
-		do
-			l_count := Iterable.count (a_steps)
-			Result := new_path (step_count + l_count)
-			Result.append (Current)
-			Step_table.put_tokens (a_steps, Result.area)
+			Result := new_path (step_list.joined (Separator))
 		end
 
 feature -- Element change
+
+	append_dir_path (a_dir_path: EL_DIR_PATH)
+		do
+			append (a_dir_path)
+		end
 
 	append_file_path (a_file_path: EL_FILE_PATH)
 		require
 			current_not_a_file: not is_file
 		do
-			append_path (a_file_path)
+			append (a_file_path)
 		end
 
-	set_from_other (other: like Current)
+	append_step (a_step: READABLE_STRING_GENERAL)
+		require
+			is_step: not a_step.has (Separator)
+		local
+			l_parent_path: like parent_path
 		do
-			wipe_out; append (other)
-			internal_hash_code := other.internal_hash_code
+			create l_parent_path.make (parent_path.count + base.count + 1)
+			l_parent_path.append (parent_path)
+			if not base.is_empty then
+				l_parent_path.append (base)
+				l_parent_path.append_character (Separator)
+			end
+			set_parent_path (l_parent_path)
+			base.wipe_out
+			base.append_string_general (a_step)
+		end
+
+	expand
+		-- expand environment variables in each step
+		do
+			if is_expandable and then attached steps as l_steps then
+				l_steps.expand
+				base := l_steps.base
+				l_steps.remove_tail (1)
+				set_parent_path (l_steps.to_string)
+			end
+		end
+
+	prune_until (last_step: READABLE_STRING_GENERAL)
+		do
+			if attached steps as l_steps then
+				l_steps.prune_until (last_step)
+				set_path (l_steps.to_string)
+			end
+		end
+
+	prune_tail
+		local
+			l_path: ZSTRING; index: INTEGER
+		do
+			l_path := temporary_path
+			index := l_path.last_index_of (Separator, l_path.count)
+			if index = 1 then
+				-- Eg. /etc
+				base := parent_path.twin
+				set_parent_path (Empty_path)
+			elseif index > 0 then
+				l_path.keep_head (index - 1)
+				set_path (l_path)
+			else
+				base.wipe_out
+			end
+		end
+
+	set_parent_path (a_parent: READABLE_STRING_GENERAL)
+		local
+			set: like Parent_set; l_path: ZSTRING
+		do
+			if a_parent.is_empty then
+				parent_path := Empty_path
+			else
+				l_path := temporary_copy (a_parent)
+				if a_parent [a_parent.count] /= Separator then
+					l_path.append_character (Separator)
+				end
+				set := Parent_set
+				if set.has_key (l_path) then
+					parent_path := set.found_item
+				else
+					parent_path := l_path.twin
+					set.extend (parent_path)
+				end
+			end
+			internal_hash_code := 0
+		end
+
+	set_parent (dir_path: EL_DIR_PATH)
+		do
+			set_parent_path (dir_path.temporary_path)
+		end
+
+	set_path (a_path: READABLE_STRING_GENERAL)
+		do
+			make (a_path)
 		end
 
 	share (other: like Current)
 		do
-			area_v2 := other.area
+			base := other.base
+			parent_path := other.parent_path
 			internal_hash_code := other.internal_hash_code
 		end
 
-	set_parent (dir_path: DIR_PATH)
-		local
-			step: INTEGER
+	translate (originals, substitutions: ZSTRING)
 		do
-			step := base_token
-			wipe_out
-			grow (dir_path.step_count + 1)
-			append (dir_path)
-			if step > 0 then
-				extend (step)
-			end
+			base.translate (originals, substitutions)
+			parent_path.translate (originals, substitutions)
 			internal_hash_code := 0
 		end
 
-	set_parent_path (a_path: READABLE_STRING_GENERAL)
-		local
-			step: INTEGER
+feature -- Removal
+
+	wipe_out
 		do
-			step := base_token
-			wipe_out
-			grow (a_path.occurrences (Separator) + 2)
-			Step_table.put_tokens (temporary_copy (a_path).split (Separator), area)
-			if step > 0 then
-				extend (step)
+			default_create
+		ensure
+			is_empty: is_empty
+		end
+
+feature -- Comparison
+
+	is_equal (other: like Current): BOOLEAN
+			--
+		do
+			Result := base.is_equal (other.base) and parent_path.is_equal (other.parent_path)
+		end
+
+	is_less alias "<" (other: like Current): BOOLEAN
+			-- Is current object less than `other'?
+		do
+			if parent_path ~ other.parent_path then
+				Result := base < other.base
+			else
+				Result := parent_path < other.parent_path
 			end
-			internal_hash_code := 0
+		end
+
+feature -- Duplication
+
+	copy (other: like Current)
+		do
+			make_from_other (other)
 		end
 
 feature {EL_PATH} -- Implementation
-
-	base_token: INTEGER
-		do
-			if step_count > 0 then
-				Result := last
-			end
-		end
-
-	debug_output_32: STRING_32
-		do
-			Result := debug_output
-		end
-
-	debug_output: ZSTRING
-		local
-			l_parent: ZSTRING; cwd: DIR_PATH
-		do
-			cwd := Directory.current_working.to_string
-			if cwd.is_parent_of (Current) then
-				l_parent := Variable_cwd; l_parent.append_character (Separator)
-				relative_path (cwd).append_to (l_parent)
-			else
-				l_parent := parent_string
-			end
-			Result := Debug_template #$ [internal_base, l_parent]
-		end
 
 	reset_hash
 		do
 			internal_hash_code := 0
 		end
 
+	new_path (a_path: ZSTRING): like Current
+		deferred
+		end
+
+feature {EL_PATH_IMPLEMENTATION} -- Internal attributes
+
+	internal_hash_code: INTEGER
+
+	parent_path: ZSTRING
+
 feature {NONE} -- Type definitions
 
-	Type_parent: DIR_PATH
+	Type_parent: EL_DIR_PATH
 		require
 			never_called: False
 		once
-			create Result
 		end
+
+invariant
+	parent_set_has_parent_path: parent_path /= Empty_path implies Parent_set.has (parent_path)
 end

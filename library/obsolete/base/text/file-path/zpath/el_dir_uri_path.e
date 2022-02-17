@@ -14,34 +14,31 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 14:34:04 GMT (Thursday 17th February 2022)"
-	revision: "22"
+	date: "2022-02-15 15:36:28 GMT (Tuesday 15th February 2022)"
+	revision: "3"
 
 class
 	EL_DIR_URI_PATH
 
 inherit
-	EL_DIR_PATH
-		undefine
-			append, append_file_prefix, default_create, make, make_from_other, escaped,
-			is_absolute, is_equal, is_less, is_uri, first_index,
-			Type_parent, Separator, set_path, part_count, part_string
-		redefine
-			Type_file_path
-		end
-
-	EL_URI_PATH
+	EL_URI_PATH [EL_DIR_PATH]
 		rename
 			make_from_file_path as make_from_dir_path,
 			to_file_path as to_dir_path
-		undefine
-			has_step
 		redefine
 			make_from_dir_path
 		end
 
+	EL_DIR_PATH
+		undefine
+			append_path, make, is_absolute, is_uri, last_is_empty, Separator
+		redefine
+			Type_file_path
+		end
+
 create
-	default_create, make, make_file, make_scheme, make_from_path, make_from_dir_path, make_from_encoded
+	default_create, make, make_file, make_from_encoded, make_scheme, make_from_dir_path,
+	make_from_path
 
 convert
 	make ({ZSTRING, STRING_32}),
@@ -49,7 +46,7 @@ convert
 	make_from_dir_path ({EL_DIR_PATH}),
 	make_from_encoded ({STRING}),
 
- 	to_string: {ZSTRING}, as_string_32: {STRING_32, READABLE_STRING_GENERAL}, steps: {EL_PATH_STEPS}, to_path: {PATH}
+ 	to_string: {ZSTRING}, as_string_32: {STRING_32, READABLE_STRING_GENERAL}, to_path: {PATH}
 
 feature {NONE} -- Initialization
 
@@ -58,17 +55,11 @@ feature {NONE} -- Initialization
 			Precursor (a_path)
 		end
 
-feature -- Conversion
-
-	to_dir_path: EL_DIR_PATH
-		do
-			Result := parent_path + base
-		end
-
 feature {NONE} -- Type definitions
 
 	Type_file_path: EL_FILE_URI_PATH
 		once
+			create Result
 		end
 
 end

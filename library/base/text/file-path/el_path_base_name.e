@@ -6,35 +6,42 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 16:28:37 GMT (Wednesday 16th February 2022)"
-	revision: "5"
+	date: "2022-02-17 12:28:36 GMT (Thursday 17th February 2022)"
+	revision: "1"
 
 deferred class
 	EL_PATH_BASE_NAME
 
 inherit
-	EL_PATH_CONSTANTS
-
-	EL_MODULE_DIRECTORY
 	EL_MODULE_FORMAT
 
 feature -- Access
 
 	base: ZSTRING
-		-- last step value
-		-- WARNING: shared instance do not modify, use `set_base' to change
-		do
-			Result := internal_base.twin
-		end
 
 	base_sans_extension: ZSTRING
+		local
+			index: INTEGER
 		do
-			Result := base_parts [1].twin
+			index := dot_index
+			if index > 0 then
+				Result := base.substring (1, index - 1)
+			else
+				Result := base
+			end
 		end
 
 	extension: ZSTRING
+			--
+		local
+			index: INTEGER
 		do
-			Result := base_parts [2].twin
+			index := dot_index
+			if index > 0 then
+				Result := base.substring_end (index + 1)
+			else
+				create Result.make_empty
+			end
 		end
 
 	version_interval: EL_SPLIT_ZSTRING_LIST
@@ -56,7 +63,7 @@ feature -- Access
 			if attached version_interval as interval then
 				if interval.off then
 					Result := -1
-				elseif attached internal_base.substring (interval.item_start_index, interval.item_end_index) as number then
+				elseif attached base.substring (interval.item_start_index, interval.item_end_index) as number then
 					number.prune_all_leading ('0')
 					if number.is_empty then
 						Result := 0
@@ -69,28 +76,42 @@ feature -- Access
 			end
 		end
 
-feature -- Status query
+feature -- Measurement
+
+	dot_index: INTEGER
+		-- index of last dot, 0 if none
+		do
+			if not base.is_empty then
+				Result := base.last_index_of ('.', base.count)
+			end
+		end
+
+feature -- Status Query
 
 	base_matches (name: READABLE_STRING_GENERAL; case_insensitive: BOOLEAN): BOOLEAN
 		-- `True' if `name' is same string as `base_sans_extension'
 		local
 			pos_dot: INTEGER
 		do
-			if step_count > 0 and then attached internal_base as l_base then
-				pos_dot := dot_index (l_base)
+			if base.is_empty then
+				Result := name.is_empty
+			else
+				pos_dot := dot_index
 				if pos_dot > 0 then
-					Result := pos_dot - 1 = name.count and then l_base.same_substring (name, 1, case_insensitive)
+					Result := pos_dot - 1 = name.count and then base.same_substring (name, 1, case_insensitive)
 				else
-					Result := l_base.count = name.count and then l_base.same_substring (name, 1, case_insensitive)
+					Result := base.count = name.count and then base.same_substring (name, 1, case_insensitive)
 				end
 			end
 		ensure
-			valid_result: Result implies base_sans_extension.same_string (name)
+			valid_result: Result and not case_insensitive implies base_sans_extension.same_string (name)
+			valid_result: Result and case_insensitive implies base_sans_extension.same_caseless_characters_general (name, 1, name.count, 1)
+
 		end
 
 	has_dot_extension: BOOLEAN
 		do
-			Result := dot_index (internal_base) > 0
+			Result := dot_index > 0
 		end
 
 	has_extension (a_extension: READABLE_STRING_GENERAL): BOOLEAN
@@ -112,23 +133,19 @@ feature -- Status query
 
 	same_base (a_base: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			if step_count > 0 then
-				Result := internal_base.same_string (a_base)
-			else
-				Result := a_base.is_empty
-			end
+			Result := base.same_string (a_base)
 		end
 
 	same_extension (a_extension: READABLE_STRING_GENERAL; case_insensitive: BOOLEAN): BOOLEAN
 		local
-			pos_dot: INTEGER
+			index: INTEGER
 		do
-			if step_count > 0 and then attached internal_base as l_base then
-				pos_dot := dot_index (l_base)
-				if pos_dot > 0 then
-					Result := l_base.same_substring (a_extension, pos_dot + 1, case_insensitive)
+			index := dot_index
+			if index > 0 then
+				if case_insensitive then
+					Result := base.same_caseless_characters_general (a_extension, 1, a_extension.count, index + 1)
 				else
-					Result := a_extension.is_empty
+					Result := base.same_characters (a_extension, 1, a_extension.count, index + 1)
 				end
 			end
 		end
@@ -139,180 +156,71 @@ feature -- Element change
 		local
 			str: ZSTRING
 		do
-			if step_count > 0 then
-				str := base
-				str.append_character ('.'); str.append_string_general (a_extension)
-				put_base (str)
-				reset_hash
-			end
+			create str.make (base.count + a_extension.count + 1)
+			str.append (base); str.append_character ('.'); str.append_string_general (a_extension)
+			base := str
+			reset_hash
 		end
 
-	modify_base (modify: PROCEDURE [ZSTRING])
-		require
-			valid_procedure: modify.open_count = 1
+	remove_extension
+		local
+			index: INTEGER
 		do
-			if step_count > 0 and then attached base as new then
-				modify (new); set_base (new)
-				reset_hash
+			index := dot_index
+			if index > 0 then
+				base.remove_tail (base.count - index + 1)
 			end
 		end
 
 	rename_base (new_name: READABLE_STRING_GENERAL; preserve_extension: BOOLEAN)
 			-- set new base to new_name, preserving extension if preserve_extension is True
 		local
-			parts: like base_parts; l_base: ZSTRING
+			l_extension: like extension
 		do
-			parts := base_parts
-			l_base := parts [1]
-			l_base.wipe_out; l_base.append_string_general (new_name)
-			if preserve_extension then
-				l_base.append_character_8 ('.')
-				l_base.append_string_general (parts [2])
-				put_base (l_base)
+			l_extension := extension
+			base.wipe_out
+			base.append_string_general (new_name)
+			if preserve_extension and then not has_extension (l_extension) then
+				add_extension (l_extension)
 			end
 			reset_hash
 		end
 
 	replace_extension (a_replacement: READABLE_STRING_GENERAL)
+		local
+			index: INTEGER
 		do
-			if step_count > 0 and then attached base_parts [1] as l_base then
-				l_base.append_character_8 ('.')
-				l_base.append_string_general (a_replacement)
-				put_base (l_base)
-				reset_hash
+			index := dot_index
+			if index > 0 then
+				base.replace_substring_general (a_replacement, index + 1, base.count)
 			end
+			reset_hash
 		end
 
 	set_base (a_base: READABLE_STRING_GENERAL)
 		local
 			s: EL_ZSTRING_ROUTINES
 		do
-			if step_count = 0 then
-				append_step (a_base)
-			else
-				put_base (s.as_zstring (a_base))
-				reset_hash
-			end
-		ensure
-			base_set: internal_base.same_string (a_base)
+			base := s.as_zstring (a_base)
+			reset_hash
 		end
 
 	set_version_number (number: like version_number)
 		require
 			has_version_number: has_version_number
 		do
-			if step_count > 0 and then attached version_interval as interval and then not interval.off
-				and then attached base as l_base
-			then
-				l_base.replace_substring_general (
+			if attached version_interval as interval and then not interval.off then
+				base.replace_substring_general (
 					Format.integer_zero (number, interval.item_count), interval.item_start_index, interval.item_end_index
 				)
-				put_base (l_base)
-				reset_hash
 			end
-		ensure
-			is_set: version_number = number
-		end
-
-feature -- Removal
-
-	remove_extension
-		do
-			put_base (base_parts [1])
 			reset_hash
-		end
-
-feature {NONE} -- Implementation
-
-	base_parts: EL_ZSTRING_LIST
-		local
-			pos_dot: INTEGER; l_base: like base
-		do
-			l_base := base
-			Result := Base_parts_list
-			Result [1] := l_base; Result [2].wipe_out
-			pos_dot := dot_index (l_base)
-			if pos_dot > 0 then
-				Result [2].append_substring (l_base, pos_dot + 1, l_base.count)
-				l_base.keep_head (pos_dot - 1)
-			end
-		end
-
-	dot_index (str: ZSTRING): INTEGER
-		-- index of last dot, 0 if none
-		do
-			if str.count > 0 then
-				Result := str.last_index_of ('.', str.count)
-			end
-		end
-
-	replace_part (a_replacement: READABLE_STRING_GENERAL; index: INTEGER)
-		-- replace name before extension or extension
-		require
-			valid_index: index = 1 or index = 2
-		local
-			pos_dot, start_index, end_index: INTEGER
-		do
-			if step_count > 0 and then attached base as l_base then
-				start_index := 1
-				pos_dot := dot_index (l_base)
-				if pos_dot > 0 then
-					if index = 1 then
-						end_index := pos_dot - 1
-					else
-						start_index := pos_dot + 1; end_index := l_base.count
-					end
-				else
-					if index = 1 then
-						end_index := l_base.count
-					else
-						end_index := 0
-					end
-				end
-				if end_index > start_index then
-					-- base
-					l_base.replace_substring_general (a_replacement, start_index, end_index)
-					put_base (l_base)
-					reset_hash
-				end
-			end
 		end
 
 feature {NONE} -- Deferred implementation
 
-	append_step (a_step: READABLE_STRING_GENERAL)
-		require
-			is_step: not a_step.has (Separator)
-		deferred
-		ensure
-			base_set: internal_base.same_string (a_step)
-		end
-
-	internal_base: ZSTRING
-		deferred
-		end
-
-	put_base (a_step: READABLE_STRING_GENERAL)
-		deferred
-		end
-
-	new_path (a_step_count: INTEGER): like Current
-		deferred
-		end
-
 	reset_hash
 		deferred
-		end
-
-	step_count: INTEGER
-		deferred
-		end
-
-feature {NONE} -- Constants
-
-	Base_parts_list: EL_ZSTRING_LIST
-		once
-			create Result.make_from_array (<< internal_base, create {ZSTRING}.make_empty >>)
 		end
 
 end

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 13:16:55 GMT (Tuesday 15th February 2022)"
-	revision: "15"
+	date: "2022-02-17 8:38:58 GMT (Thursday 17th February 2022)"
+	revision: "16"
 
 deferred class
 	EL_THUNDERBIRD_FOLDER_READER
@@ -172,7 +172,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation
 
-	export_steps (mails_path: FILE_PATH): DIR_PATH
+	export_steps (mails_path: FILE_PATH): EL_PATH_STEPS
 		do
 			Result := config.export_steps (mails_path)
 		end

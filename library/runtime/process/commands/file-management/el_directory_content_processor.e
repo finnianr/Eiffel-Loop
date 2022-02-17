@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 16:25:29 GMT (Wednesday 16th February 2022)"
-	revision: "12"
+	date: "2022-02-17 10:37:40 GMT (Thursday 17th February 2022)"
+	revision: "13"
 
 class
 	EL_DIRECTORY_CONTENT_PROCESSOR
@@ -37,9 +37,9 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	input_dir: DIR_PATH
+	input_dir: EL_PATH_STEPS
 
-	output_dir: DIR_PATH
+	output_dir: EL_PATH_STEPS
 
 feature -- Measurement
 
@@ -65,15 +65,11 @@ feature -- Element change
 
 feature -- Basic operations
 
-	do_all (
-		file_processing_action: PROCEDURE [FILE_PATH, DIR_PATH, ZSTRING, ZSTRING]
-		wild_card: STRING
-	)
-			-- Apply file processing action to every file from input dir
+	do_all (do_with_file: PROCEDURE [FILE_PATH, DIR_PATH, ZSTRING, ZSTRING]; wild_card: STRING)
+			-- call `do_with_file' with every file matching `wild_card' from input dir
 		local
 			output_file_unqualified_name, output_file_extension: ZSTRING
-			destination_dir_path, output_dir_path: DIR_PATH
-			input_file_path: FILE_PATH
+			destination_dir_path, output_dir_path, input_file_path: EL_PATH_STEPS
 			path_list: like find_files; dot_pos: INTEGER
 		do
 			create input_file_path.make_steps (20)
@@ -106,34 +102,34 @@ feature -- Basic operations
 				OS.File_system.make_directory (output_dir_path)
 				destination_dir_path := output_dir_path
 
-				file_processing_action.call (
-					[input_file_path, destination_dir_path, output_file_unqualified_name, output_file_extension]
+				do_with_file (
+					input_file_path.to_file_path, destination_dir_path.to_dir_path,
+					output_file_unqualified_name, output_file_extension
 				)
 				remaining_count := remaining_count - 1
 			end
 		end
-
 
 feature {NONE} -- Implementation
 
 	find_files (wild_card: STRING): EL_FILE_PATH_LIST
 			--
 		local
-			file_path_list: EL_FILE_PATH_LIST; file_path: FILE_PATH
+			file_path_list: EL_FILE_PATH_LIST; steps: EL_PATH_STEPS
 			i: INTEGER
 		do
 			create file_path_list.make (OS.file_list (input_dir, wild_card))
 			create Result.make_with_count (file_path_list.count)
 
 			across file_path_list as list loop
-				file_path := list.item.twin
+				steps := list.item
 
 				-- Make path relative to input dir
-				from i := 1 until i > input_dir.count loop
-					file_path.remove_head (1)
+				from i := 1 until i > input_dir.character_count loop
+					steps.remove_head (1)
 					i := i + 1
 				end
-				Result.extend (file_path)
+				Result.extend (steps)
 			end
 		end
 

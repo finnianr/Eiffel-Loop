@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 13:16:23 GMT (Tuesday 15th February 2022)"
-	revision: "3"
+	date: "2022-02-17 8:37:00 GMT (Thursday 17th February 2022)"
+	revision: "4"
 
 class
 	EL_THUNDERBIRD_WWW_XHTML_BODY_EXPORTER
@@ -26,7 +26,7 @@ create
 
 feature {NONE} -- Implementation
 
-	export_steps (mails_path: FILE_PATH): DIR_PATH
+	export_steps (mails_path: FILE_PATH): EL_PATH_STEPS
 		do
 			Result := config.export_steps (mails_path)
 			Result.remove_tail (1)

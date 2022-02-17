@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 11:13:55 GMT (Tuesday 15th February 2022)"
-	revision: "13"
+	date: "2022-02-17 10:32:35 GMT (Thursday 17th February 2022)"
+	revision: "14"
 
 deferred class
 	EL_USERS_INFO_COMMAND_I
@@ -90,16 +90,19 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	new_dir_list (dir: DIR_PATH): EL_ARRAYED_LIST [DIR_PATH]
+	new_dir_list (dir_path: DIR_PATH): EL_ARRAYED_LIST [DIR_PATH]
 		local
 			index: INTEGER
 		do
-			index := users_dir.step_count
-			create Result.make (user_list.count)
-			across user_list as user loop
-				Result.extend (dir.twin)
-				Result.last.put_i_th_step (user.item, index + 1)
+			if attached dir_path.steps as steps then
+				index := users_dir.step_count
+				create Result.make (user_list.count)
+				across user_list as user loop
+					steps [index + 1] := user.item
+					Result.extend (steps)
+				end
 			end
 		end
+
 
 end

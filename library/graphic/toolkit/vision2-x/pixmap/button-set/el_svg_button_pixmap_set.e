@@ -6,7 +6,7 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 18:51:22 GMT (Tuesday 15th February 2022)"
+	date: "2022-02-17 10:46:58 GMT (Thursday 17th February 2022)"
 	revision: "10"
 
 class
@@ -40,7 +40,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_icon_path_steps: FILE_PATH; width_cms: REAL; a_background_color: EL_COLOR)
+	make (a_icon_path_steps: like icon_path_steps; width_cms: REAL; a_background_color: EL_COLOR)
 			--
 		do
 			make_default
@@ -138,7 +138,7 @@ feature {NONE} -- Implementation
 
 	svg_icon (a_state: NATURAL_8; width_cms: REAL): like new_svg_image
 		do
-			icon_path_steps.append_step (svg_name (a_state))
+			icon_path_steps.extend (svg_name (a_state))
 			Result := new_svg_image (Image_path.icon (icon_path_steps), width_cms)
 			icon_path_steps.remove_tail (1)
 		end
@@ -155,7 +155,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	icon_path_steps: FILE_PATH
+	icon_path_steps: EL_PATH_STEPS
 
 feature {NONE} -- Constants
 

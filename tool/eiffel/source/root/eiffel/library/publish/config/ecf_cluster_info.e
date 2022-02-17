@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 17:23:14 GMT (Wednesday 16th February 2022)"
-	revision: "10"
+	date: "2022-02-17 12:37:18 GMT (Thursday 17th February 2022)"
+	revision: "11"
 
 class
 	ECF_CLUSTER_INFO
@@ -39,8 +39,8 @@ feature {NONE} -- Initialization
 					has_wildcard := True
 					name.remove_tail (1)
 				end
-				path.set_parent (ecf.path.parent)
-				path.append_step (parts.first)
+				path.set_parent_path (ecf.path.parent)
+				path.set_base (parts.first)
 			end
 		end
 

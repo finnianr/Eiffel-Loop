@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 16:55:41 GMT (Tuesday 15th February 2022)"
-	revision: "12"
+	date: "2022-02-17 7:54:11 GMT (Thursday 17th February 2022)"
+	revision: "13"
 
 class
 	IMPORT_VIDEOS_TASK
@@ -123,11 +123,11 @@ feature {NONE} -- Factory
 			video_to_mp3_command: like Video_command.new_video_to_mp3
 			genre, artist: ZSTRING; l_info: like SONG_INFO
 			duration_time: TIME_DURATION; mp3: EL_MP3_IDENTIFIER
-			video_dir: DIR_PATH
 		do
-			video_dir := video_path.parent
-			artist := video_dir.base
-			video_dir.remove_tail (1); genre := video_dir.base
+			if attached video_path.steps as steps then
+				steps.remove_tail (1); artist := steps.base
+				steps.remove_tail (1); genre := steps.base
+			end
 
 			video_properties := Audio_command.new_audio_properties (video_path)
 			l_info := new_song_info_input (video_properties.duration, video_path.base_sans_extension, artist)

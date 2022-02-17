@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 6:12:50 GMT (Tuesday 15th February 2022)"
-	revision: "27"
+	date: "2022-02-17 14:58:44 GMT (Thursday 17th February 2022)"
+	revision: "28"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -20,9 +20,6 @@ inherit
 		end
 
 	DEBUG_OUTPUT
-		rename
-			debug_output as debug_output_32
-		end
 
 	STRING_HANDLER
 
@@ -46,14 +43,6 @@ feature -- Measurement
 			end
 		end
 
-	dot_index: INTEGER
-		-- index of last dot, 0 if none
-		do
-			if not base.is_empty then
-				Result := base.last_index_of ('.', base.count)
-			end
-		end
-
 	parent_count: INTEGER
 		do
 			Result := parent_path.count
@@ -74,6 +63,15 @@ feature -- Conversion
 			same_as_to_string: to_string.as_string_32 ~ Result
 		end
 
+	to_path: PATH
+		local
+			str: STRING_32; buffer: EL_STRING_32_BUFFER_ROUTINES
+		do
+			str := buffer.empty
+			append_to_32 (str)
+			create Result.make_from_string (str)
+		end
+
 	to_string: ZSTRING
 			--
 		local
@@ -84,6 +82,23 @@ feature -- Conversion
 				Result.append_string_general (part_string (i))
 				i := i + 1
 			end
+		end
+
+	to_unix, as_unix: ZSTRING
+		do
+			Result := to_string
+			if {PLATFORM}.is_windows then
+				Result.replace_character (Windows_separator, Unix_separator)
+			end
+		end
+
+	to_uri: EL_URI
+		local
+			uri: like empty_uri_path
+		do
+			uri := empty_uri_path
+			append_to_uri (uri)
+			create Result.make (uri)
 		end
 
 	to_utf_8: STRING
@@ -102,32 +117,6 @@ feature -- Conversion
 				i := i + 1
 			end
 			Result := Result.twin
-		end
-
-	to_uri: EL_URI
-		local
-			uri: like empty_uri_path
-		do
-			uri := empty_uri_path
-			append_to_uri (uri)
-			create Result.make (uri)
-		end
-
-	to_path: PATH
-		local
-			str: STRING_32; buffer: EL_STRING_32_BUFFER_ROUTINES
-		do
-			str := buffer.empty
-			append_to_32 (str)
-			create Result.make_from_string (str)
-		end
-
-	to_unix, as_unix: ZSTRING
-		do
-			Result := to_string
-			if {PLATFORM}.is_windows then
-				Result.replace_character (Windows_separator, Unix_separator)
-			end
 		end
 
 	to_windows, as_windows: ZSTRING
@@ -189,9 +178,19 @@ feature -- Basic operations
 			end
 		end
 
+feature -- Status query
+
+	is_empty: BOOLEAN
+		deferred
+		end
+
 feature {NONE} -- Deferred implementation
 
 	base: ZSTRING
+		deferred
+		end
+
+	is_absolute: BOOLEAN
 		deferred
 		end
 
@@ -199,11 +198,11 @@ feature {NONE} -- Deferred implementation
 		deferred
 		end
 
-	set_path (a_path: READABLE_STRING_GENERAL)
+	set_parent_path (a_parent: READABLE_STRING_GENERAL)
 		deferred
 		end
 
-	set_parent_path (a_parent: READABLE_STRING_GENERAL)
+	set_path (a_path: READABLE_STRING_GENERAL)
 		deferred
 		end
 
@@ -211,7 +210,7 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 
 	append (a_path: EL_PATH)
 		require
-			relative_path: not a_path.is_absolute
+			relative_path: not is_empty implies not a_path.is_absolute
 		local
 			l_path: ZSTRING; i, back_step_count: INTEGER
 		do
@@ -251,6 +250,11 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 			Result := URI_path_string; Result.wipe_out
 		end
 
+	first_index: INTEGER
+		do
+			Result := 1
+		end
+
 	part_count: INTEGER
 		-- count of string components
 		-- (5 in the case of URI paths)
@@ -281,6 +285,39 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 
 feature {EL_PATH} -- Implementation
 
+	debug_output: STRING_32
+		local
+			index: INTEGER; l_base: STRING_32
+		do
+			-- Cannot use any path routines here because of possible corruption of `Temp_path'
+			create Result.make (count + Square_brackets.count)
+			Result.append (Square_brackets)
+			append_to_32 (Result)
+			index := Result.last_index_of (Separator, Result.count)
+			if first_index <= index and index < Result.count then
+				l_base := Result.substring (index + 1, Result.count)
+				Result.keep_head (index - 1)
+				Result.insert_string (l_base, 2)
+			else
+				Result.remove_head (Square_brackets.count)
+			end
+		end
+
+	has_expansion_variable (a_path: ZSTRING): BOOLEAN
+		-- a step contains what might be an expandable variable
+		local
+			pos_dollor: INTEGER
+		do
+			pos_dollor := a_path.index_of ('$', 1)
+			Result := pos_dollor > 0 and then (pos_dollor = 1 or else is_separator (a_path, pos_dollor - 1))
+		end
+
+	is_separator (str: ZSTRING; i: INTEGER): BOOLEAN
+		-- `True' if `str [i] = Separator'
+		do
+			Result := str [i] = Separator
+		end
+
 	leading_back_step_count (a_path: ZSTRING): INTEGER
 		local
 			i: INTEGER; occurs: BOOLEAN
@@ -292,25 +329,6 @@ feature {EL_PATH} -- Implementation
 				end
 				i := i + 3
 			end
-		end
-
-	is_absolute: BOOLEAN
-		deferred
-		end
-
-	is_separator (str: ZSTRING; i: INTEGER): BOOLEAN
-		-- `True' if `str [i] = Separator'
-		do
-			Result := str [i] = Separator
-		end
-
-	has_expansion_variable (a_path: ZSTRING): BOOLEAN
-		-- a step contains what might be an expandable variable
-		local
-			pos_dollor: INTEGER
-		do
-			pos_dollor := a_path.index_of ('$', 1)
-			Result := pos_dollor > 0 and then (pos_dollor = 1 or else is_separator (a_path, pos_dollor - 1))
 		end
 
 	relative_temporary_path (a_parent: DIR_PATH): ZSTRING
@@ -375,6 +393,11 @@ feature {NONE} -- Constants
 			--
 		once
 			create Result.make (100)
+		end
+
+	Square_brackets: STRING_32
+		once
+			Result := "[] "
 		end
 
 	Temp_path: ZSTRING

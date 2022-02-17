@@ -11,32 +11,46 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 18:13:16 GMT (Wednesday 16th February 2022)"
-	revision: "4"
+	date: "2022-02-17 12:21:44 GMT (Thursday 17th February 2022)"
+	revision: "5"
 
 class
 	EL_PATH_STEPS
 
 inherit
-	ARRAYED_LIST [INTEGER]
-		rename
-			make as make_steps,
-			index_of as index_of_token,
-			count as step_count
-		export
-			{NONE} all
-			{ANY} extendible, occurrences, put_i_th, i_th, is_equal, step_count, is_empty, prunable, valid_index, put_front, last, first
-			{EL_PATH_STEPS} append, area, extend
+	EL_PATH_STEPS_IMPLEMENTATION
+		undefine
+			is_equal
 		redefine
-			default_create, wipe_out, put_front
+			default_create
 		end
 
-	EL_PATH_STEPS_IMPLEMENTATION
+	READABLE_INDEXABLE [ZSTRING]
+		rename
+			upper as count
+		undefine
+			default_create, is_equal
+		end
 
 	COMPARABLE
 		undefine
-			copy, default_create, is_equal
+			default_create
 		end
+
+	HASHABLE
+		undefine
+			default_create, is_equal
+		end
+
+create
+	default_create, make, make_from_path, make_from_steps, make_from_tuple, make_steps
+
+convert
+	make_from_steps ({ARRAY [ZSTRING], ARRAY [STRING], ARRAY [STRING_32]}),
+	make ({STRING, STRING_32, IMMUTABLE_STRING_32, IMMUTABLE_STRING_8, ZSTRING}),
+
+ 	as_string_32: {STRING_32, READABLE_STRING_GENERAL}, to_string: {ZSTRING},
+ 	to_dir_path: {DIR_PATH}, to_file_path: {FILE_PATH}
 
 feature -- Initialization
 
@@ -61,7 +75,7 @@ feature -- Initialization
 				make_steps (separator_count + 1)
 
 				if separator_count = 0 then
-					append_step (a_path)
+					extend (a_path)
 				else
 					Step_table.put_tokens (temporary_copy (a_path).split (l_separator), area)
 				end
@@ -88,24 +102,29 @@ feature -- Initialization
 			make_from_steps (create {EL_ZSTRING_LIST}.make_from_tuple (a_tuple))
 		end
 
-	make_parent (other: EL_PATH)
+	make_parent (other: EL_PATH_STEPS)
 		require
 			has_parent: other.has_parent
 		local
 			l_count: INTEGER
 		do
-			l_count := other.step_count - 1
+			l_count := other.count - 1
 			make_steps (l_count)
 			area.copy_data (other.area, 0, 0, l_count)
 		end
 
-	make_sub_path (other: EL_PATH; start_index: INTEGER)
+	make_steps (n: INTEGER)
+		do
+			create area.make_empty (n)
+		end
+
+	make_sub_path (other: EL_PATH_STEPS; start_index: INTEGER)
 		require
-			valid_start_index: other.valid_index (start_index) or start_index = other.step_count + 1
+			valid_start_index: other.valid_index (start_index) or start_index = other.count + 1
 		local
 			l_count: INTEGER
 		do
-			l_count := other.step_count - start_index + 1
+			l_count := other.count - start_index + 1
 			make_steps (l_count)
 			if l_count.to_boolean then
 				area.copy_data (other.area, start_index - 1, 0, l_count)
@@ -114,32 +133,107 @@ feature -- Initialization
 
 feature -- Access
 
-	i_th_step (a_index: INTEGER): ZSTRING
+	base: ZSTRING
+		-- last step value
+		-- WARNING: shared instance do not modify, use `set_base' to change
+		do
+			Result := internal_base.twin
+		end
+
+	first_step: ZSTRING
+		do
+			if is_absolute then
+				if count > 1 then
+					Result := Step_table.to_step (i_th_token (2)).twin
+				else
+					create Result.make_empty
+				end
+
+			elseif count > 0 then
+				Result := Step_table.to_step (i_th_token (1)).twin
+
+			else
+				create Result.make_empty
+			end
+		end
+
+	item alias "[]" (a_index: INTEGER): ZSTRING assign put
 		do
 			Result := internal_i_th_step (a_index).twin
 		end
 
 feature -- Conversion
 
+	to_dir_path: DIR_PATH
+		do
+			create Result.make (filled_list.joined (Separator))
+		end
+
+	to_file_path: FILE_PATH
+		do
+			create Result.make (filled_list.joined (Separator))
+		end
+
 	to_list: EL_ZSTRING_LIST
 		do
 			Result := filled_list.twin
 		end
 
+	to_string: ZSTRING
+		do
+			Result := filled_list.joined (Separator)
+		end
+
+	to_string_32, as_string_32: STRING_32
+		do
+			if attached filled_list as filled then
+				create Result.make (count - 1 + filled.character_count)
+				across filled as list loop
+					if not list.is_first then
+						Result.append_character (Separator)
+					end
+					list.item.append_to_string_32 (Result)
+				end
+			end
+		end
+
 feature -- Measurement
 
-	count: INTEGER
+	character_count: INTEGER
 		-- character count
 		-- (works for uri paths too)
 		do
-			Result := Step_table.character_count (area, step_count)
+			Result := Step_table.character_count (area, count)
+		end
+
+	frozen lower: INTEGER
+		do
+			Result := 1
+		end
+
+	hash_code: INTEGER
+		-- Hash code value
+		local
+			i: INTEGER
+		do
+			Result := internal_hash_code
+			if Result = 0 then
+				from i := 1 until i > count loop
+					Result := ((Result \\ 8388593) |<< 8) + i_th_token (i)
+					i := i + 1
+				end
+				Result := Result.abs
+				internal_hash_code := Result
+			end
 		end
 
 	index_of (step: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
 		local
 			s: EL_ZSTRING_ROUTINES
 		do
-			Result := index_of_token (Step_table.to_token (s.as_zstring (step)), start_index)
+			if attached token_list as list then
+				Result := list.sequential_index_of (Step_table.to_token (s.as_zstring (step)), start_index)
+			end
 		end
 
 	index_of_true (is_step: PREDICATE [EL_ZSTRING]; start_index: INTEGER): INTEGER
@@ -156,17 +250,22 @@ feature -- Measurement
 		local
 			i: INTEGER
 		do
-			from i := 1 until i > step_count loop
-				if i_th (i) = Step_table.token_back_dir then
+			from i := 1 until i > count loop
+				if i_th_token (i) = Step_table.token_back_dir then
 					Result := Result + 1
 				else
-					i := step_count
+					i := count
 				end
 				i := i + 1
 			end
 		end
 
 feature -- Status query
+
+	has_parent: BOOLEAN
+		do
+			Result := count > 1
+		end
 
 	has_step (step: READABLE_STRING_GENERAL): BOOLEAN
 		local
@@ -190,13 +289,18 @@ feature -- Status query
 
 	is_absolute: BOOLEAN
 		do
-			Result := step_count > 0 and then i_th (1) <= Step_table.last_drive_token
+			Result := count > 0 and then i_th_token (1) <= Step_table.last_drive_token
+		end
+
+	is_empty: BOOLEAN
+		do
+			Result := area.count = 0
 		end
 
 	is_uri: BOOLEAN
 		do
-			if step_count >= 3 and then i_th (2) = Step_table.token_empty_string
-				and then attached i_th_step (1) as l_first
+			if count >= 3 and then i_th_token (2) = Step_table.token_empty_string
+				and then attached item (1) as l_first
 			then
 				Result := l_first.is_ascii and then l_first [l_first.count] = ':'
 			end
@@ -213,10 +317,10 @@ feature -- Status query
 		local
 			i: INTEGER
 		do
-			if other.step_count <= step_count then
+			if other.count <= count then
 				Result := True
-				from i := 1 until not Result or i > other.step_count loop
-					Result := i_th (i) = other.i_th (i)
+				from i := 1 until not Result or i > other.count loop
+					Result := i_th_token (i) = other.i_th_token (i)
 					i := i + 1
 				end
 			end
@@ -294,7 +398,7 @@ feature -- Element change
 			append_path (a_dir_path)
 		end
 
-	append_path (path: EL_PATH)
+	append_path (path: EL_PATH_STEPS)
 		require
 			enough_steps: valid_back_step_count >= path.leading_backstep_count
 		local
@@ -302,8 +406,8 @@ feature -- Element change
 		do
 			backstep_count := path.leading_backstep_count
 			if backstep_count > 0 then
-				area_v2.remove_tail (backstep_count.min (step_count))
-				if path.step_count - backstep_count > 0 then
+				area.remove_tail (backstep_count.min (count))
+				if path.count - backstep_count > 0 then
 					if last_is_empty then
 						area.remove_tail (1)
 					end
@@ -313,7 +417,7 @@ feature -- Element change
 				if last_is_empty then
 					area.remove_tail (1)
 				end
-				if path.first = Step_table.token_empty_string then
+				if path.first_token = Step_table.token_empty_string then
 					append_subpath (path, 2)
 				else
 					append (path)
@@ -322,17 +426,11 @@ feature -- Element change
 			internal_hash_code := 0
 		end
 
-	append_step (a_step: READABLE_STRING_GENERAL)
+	extend (a_step: READABLE_STRING_GENERAL)
 		local
 			s: EL_ZSTRING_BUFFER_ROUTINES
 		do
-			extend (Step_table.to_token (s.copied_general (a_step)))
-			internal_hash_code := 0
-		end
-
-	append_token (step_token: INTEGER)
-		do
-			extend (step_token)
+			extend_token (Step_table.to_token (s.copied_general (a_step)))
 			internal_hash_code := 0
 		end
 
@@ -342,7 +440,7 @@ feature -- Element change
 			factory: EL_ITERABLE_SPLIT_FACTORY_ROUTINES; new_tokens: ARRAYED_LIST [INTEGER]
 		do
 			if attached filled_list as filled and then filled.there_exists (agent has_expansion_variable) then
-				create new_tokens.make (step_count)
+				create new_tokens.make (count)
 				across filled as list loop
 					if has_expansion_variable (list.item)
 						and then attached Execution_environment.item (variable_name (list.item)) as value
@@ -350,44 +448,57 @@ feature -- Element change
 						new_tokens.grow (new_tokens.count + value.occurrences (Separator) + 1)
 						Step_table.put_tokens (factory.new_split_on_character (value, Separator), new_tokens.area)
 					else
-						new_tokens.extend (i_th (list.cursor_index))
+						new_tokens.extend (i_th_token (list.cursor_index))
 					end
 				end
-				area_v2 := new_tokens.area
+				area := new_tokens.area
 				internal_hash_code := 0
 			end
 		end
 
 	put_base (a_step: ZSTRING)
 		require
-			not_empty: step_count > 0
+			not_empty: count > 0
 		do
-			put_i_th_step (a_step, step_count)
+			put (a_step, count)
 		end
 
-	put_front (step_token: INTEGER)
-		do
-			Precursor (step_token)
-			internal_hash_code := 0
-		end
-
-	put_i_th_step (step: READABLE_STRING_GENERAL; a_index: INTEGER)
+	put_general (step: READABLE_STRING_GENERAL; a_index: INTEGER)
 		local
 			s: EL_ZSTRING_ROUTINES
 		do
+			put (s.as_zstring (step), a_index)
+		end
+
+	put (step: ZSTRING; a_index: INTEGER)
+		do
 			if valid_index (a_index) then
-				put_i_th (Step_table.to_token (s.as_zstring (step)), a_index)
+				put_i_th_token (Step_table.to_token (step), a_index)
 				internal_hash_code := 0
 			end
 		end
 
-	put_step_front (step: READABLE_STRING_GENERAL)
+	put_front (step: READABLE_STRING_GENERAL)
 		local
 			s: EL_ZSTRING_ROUTINES
 		do
-			put_front (Step_table.to_token (s.as_zstring (step)))
+			put_token_front (Step_table.to_token (s.as_zstring (step)))
 		ensure
 			is_set: internal_i_th_step (1).same_string (step)
+		end
+
+	set_base (a_base: READABLE_STRING_GENERAL)
+		local
+			s: EL_ZSTRING_ROUTINES
+		do
+			if count = 0 then
+				extend (a_base)
+			else
+				put_base (s.as_zstring (a_base))
+				internal_hash_code := 0
+			end
+		ensure
+			base_set: internal_base.same_string (a_base)
 		end
 
 feature -- Removal
@@ -398,29 +509,29 @@ feature -- Removal
 			s: EL_ZSTRING_ROUTINES; token: INTEGER
 		do
 			token := Step_table.to_token (s.as_zstring (last_step))
-			from until is_empty or else last = token loop
+			from until is_empty or else last_token = token loop
 				area.remove_tail (1)
 			end
 			internal_hash_code := 0
 		ensure
-			same_last_step: not is_empty implies internal_i_th_step (step_count).same_string (last_step)
+			same_last_step: not is_empty implies internal_i_th_step (count).same_string (last_step)
 		end
 
 	remove_head (n: INTEGER)
 		do
-			area.remove_head (n.min (step_count))
+			area.remove_head (n.min (count))
 			internal_hash_code := 0
 		end
 
 	remove_tail (n: INTEGER)
 		do
-			area.remove_tail (n.min (step_count))
+			area.remove_tail (n.min (count))
 			internal_hash_code := 0
 		end
 
 	wipe_out
 		do
-			Precursor
+			area.wipe_out
 			internal_hash_code := 0
 		end
 
@@ -432,8 +543,8 @@ feature -- Comparison
 			i: INTEGER; step_differs: BOOLEAN
 			token, other_token: INTEGER
 		do
-			from i := 1 until i > step_count or i > other.step_count or step_differs loop
-				token := i_th (i); other_token := other.i_th (i)
+			from i := 1 until i > count or i > other.count or step_differs loop
+				token := i_th_token (i); other_token := other.i_th_token (i)
 				if token /= other_token then
 					step_differs := True
 				else
@@ -443,7 +554,7 @@ feature -- Comparison
 			if step_differs then
 				Result := Step_table.is_less (token, other_token)
 			else
-				Result := step_count < other.step_count
+				Result := count < other.count
 			end
 		end
 
@@ -463,7 +574,7 @@ feature -- Contract Support
 		local
 			i: INTEGER
 		do
-			from i := step_count until i = 0 or else i_th (i) = Step_table.token_empty_string loop
+			from i := count until i = 0 or else i_th_token (i) = Step_table.token_empty_string loop
 				Result := Result + 1
 				i := i - 1
 			end
@@ -471,15 +582,18 @@ feature -- Contract Support
 
 feature {EL_PATH_STEPS} -- Implementation
 
-	append_subpath (path: EL_PATH; from_index: INTEGER)
+	append_subpath (path: EL_PATH_STEPS; from_index: INTEGER)
 		require
-			valid_index: 1 <= from_index and then from_index <= path.step_count
+			valid_index: 1 <= from_index and then from_index <= path.count
 		local
 			i: INTEGER
 		do
-			grow (step_count + path.step_count - from_index + 1)
-			from i := from_index until i > path.step_count loop
-				extend (path [i])
+			if attached token_list as list then
+				list.grow (count + path.count - from_index + 1)
+				area := list.area
+			end
+			from i := from_index until i > path.count loop
+				area.extend (path.i_th_token (i))
 				i := i + 1
 			end
 			internal_hash_code := 0
@@ -489,8 +603,8 @@ feature {EL_PATH_STEPS} -- Implementation
 		local
 			i: INTEGER
 		do
-			from i := 1 until i > step_count loop
-				str.append_code (i_th (i).to_natural_32)
+			from i := 1 until i > count loop
+				str.append_code (i_th_token (i).to_natural_32)
 				i := i + 1
 			end
 		end
@@ -499,11 +613,11 @@ feature {EL_PATH_STEPS} -- Implementation
 		do
 			Result := Step_list
 			Result.wipe_out
-			Result.grow (step_count)
-			if step_count = 1 and then first = Step_table.token_empty_string then
+			Result.grow (count)
+			if count = 1 and then first_token = Step_table.token_empty_string then
 				Result.extend (Forward_slash)
 			else
-				Step_table.fill_array (Result.area, area, step_count)
+				Step_table.fill_array (Result.area, area, count)
 			end
 		end
 
@@ -513,14 +627,14 @@ feature {EL_PATH_STEPS} -- Implementation
 			if is_empty then
 				Result := Empty_string
 			else
-				Result := Step_table.to_step (i_th (step_count))
+				Result := Step_table.to_step (i_th_token (count))
 			end
 		end
 
 	internal_i_th_step (a_index: INTEGER): ZSTRING
 		do
 			if valid_index (a_index) then
-				Result := Step_table.to_step (i_th (a_index))
+				Result := Step_table.to_step (i_th_token (a_index))
 			else
 				Result := Empty_string
 			end
@@ -528,12 +642,7 @@ feature {EL_PATH_STEPS} -- Implementation
 
 	last_is_empty: BOOLEAN
 		do
-			Result := step_count > 0 and then last = Step_table.token_empty_string
+			Result := count > 0 and then last_token = Step_table.token_empty_string
 		end
-
-feature {EL_PATH_STEPS} -- Internal attributes
-
-	internal_hash_code: INTEGER
-
 
 end

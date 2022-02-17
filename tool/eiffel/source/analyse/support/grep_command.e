@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 19:05:55 GMT (Wednesday 16th February 2022)"
-	revision: "1"
+	date: "2022-02-17 16:05:51 GMT (Thursday 17th February 2022)"
+	revision: "2"
 
 class
 	GREP_COMMAND
@@ -39,7 +39,7 @@ feature -- Basic operations
 		do
 			if lines.count > 0 then
 				lines.left_adjust
-				results_table.extend (lines, source_path)
+				results_table.extend (lines.twin, source_path)
 				lines.wipe_out
 			end
 		end

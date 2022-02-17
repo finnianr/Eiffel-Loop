@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 17:24:42 GMT (Tuesday 15th February 2022)"
-	revision: "6"
+	date: "2022-02-17 10:36:59 GMT (Thursday 17th February 2022)"
+	revision: "7"
 
 class
 	EIFFEL_LIBRARY_CONFIGURATION_FILE
@@ -50,14 +50,14 @@ feature {EIFFEL_CLASS_PARSER} -- Factory
 
 	new_sub_category: ZSTRING
 		local
-			words: EL_ZSTRING_LIST; relative_dir: DIR_PATH
+			words: EL_ZSTRING_LIST; relative_steps: EL_PATH_STEPS
 		do
 			if dir_path.is_empty then
 				create Result.make_empty
 			else
-				relative_dir := dir_path.relative_path (repository.root_dir)
-				if relative_dir.count >= 2 then
-					create words.make_split (relative_dir.i_th_step (2), '_')
+				relative_steps := dir_path.relative_path (repository.root_dir)
+				if relative_steps.count >= 2 then
+					create words.make_split (relative_steps [2], '_')
 					Result := words.joined_propercase_words
 				else
 					create Result.make_empty
