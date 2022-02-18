@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 12:21:44 GMT (Thursday 17th February 2022)"
-	revision: "5"
+	date: "2022-02-17 23:19:46 GMT (Thursday 17th February 2022)"
+	revision: "6"
 
 class
 	EL_PATH_STEPS
@@ -140,7 +140,7 @@ feature -- Access
 			Result := internal_base.twin
 		end
 
-	first_step: ZSTRING
+	first: ZSTRING
 		do
 			if is_absolute then
 				if count > 1 then

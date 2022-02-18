@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 15:30:16 GMT (Thursday 17th February 2022)"
-	revision: "59"
+	date: "2022-02-17 23:22:46 GMT (Thursday 17th February 2022)"
+	revision: "60"
 
 deferred class
 	EL_PATH
@@ -277,7 +277,7 @@ feature -- Status Query
 	is_expandable: BOOLEAN
 		-- `True' if `base' or `parent' contain what maybe expandable variables
 		do
-			Result := has_expansion_variable (parent) or else has_expansion_variable (base)
+			Result := has_expansion_variable (parent_path) or else has_expansion_variable (base)
 		end
 
 	is_file: BOOLEAN

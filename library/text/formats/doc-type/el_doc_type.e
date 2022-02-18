@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 9:35:27 GMT (Friday 11th February 2022)"
-	revision: "9"
+	date: "2022-02-18 7:58:22 GMT (Friday 18th February 2022)"
+	revision: "10"
 
 class
 	EL_DOC_TYPE
@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 
 	make (a_type: STRING; a_encoding: NATURAL)
 		require
-			valid_encoding: Encoding.is_valid (a_encoding)
+			valid_encoding: Mod_encoding.is_valid (a_encoding)
 		do
 			create encoding.make (a_encoding)
 			type := a_type; specification := new_specification
