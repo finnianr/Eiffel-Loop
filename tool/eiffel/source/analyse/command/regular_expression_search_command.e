@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-18 15:35:13 GMT (Friday 18th February 2022)"
-	revision: "5"
+	date: "2022-02-19 9:11:53 GMT (Saturday 19th February 2022)"
+	revision: "6"
 
 class
 	REGULAR_EXPRESSION_SEARCH_COMMAND
@@ -85,14 +85,14 @@ feature -- Basic operations
 					else
 						if output_file = Default_output_file then
 							results_list.do_all (agent write_result (?, Void))
+							lio.put_integer_field ("Matches found", count)
 						else
+							lio.put_path_field (Count_template #$ [count], output_file.path)
 							output_file.open_write
 							results_list.do_all (agent write_result (?, output_file))
 							output_file.close
 						end
-
-						lio.put_integer_field ("Matches found", count)
-						lio.put_new_line
+							lio.put_new_line
 					end
 				end
 			end
@@ -192,6 +192,11 @@ feature {NONE} -- Constants
 	Comment_line: ZSTRING
 		once
 			Result := "-- "
+		end
+
+	Count_template: ZSTRING
+		once
+			Result := "Writing %S results to"
 		end
 
 	Class_line: ZSTRING

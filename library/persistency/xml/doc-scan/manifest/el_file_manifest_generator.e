@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 9:54:44 GMT (Tuesday 8th February 2022)"
-	revision: "8"
+	date: "2022-02-19 9:29:37 GMT (Saturday 19th February 2022)"
+	revision: "9"
 
 class
 	EL_FILE_MANIFEST_GENERATOR
@@ -63,11 +63,11 @@ feature -- Basic operations
 	execute
 		do
 			if manifest.is_modified then
-				lio.put_path_field ("Writing", manifest.output_path)
+				lio.put_path_field ("Writing to", manifest.output_path)
 				lio.put_new_line
 				manifest.serialize
 			else
-				lio.put_path_field ("No change for", manifest.output_path)
+				lio.put_path_field ("No changes in", manifest.output_path)
 				lio.put_new_line
 			end
 		end

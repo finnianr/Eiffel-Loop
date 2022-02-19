@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 7:42:01 GMT (Thursday 17th February 2022)"
-	revision: "18"
+	date: "2022-02-19 9:17:13 GMT (Saturday 19th February 2022)"
+	revision: "19"
 
 class
 	M3U_PLAYLIST_READER
@@ -72,9 +72,9 @@ feature {NONE} -- State line procedures
 				song_uri := song_path
 				if Database.has_song (song_uri) then
 					playlist.add_song_from_path (song_uri)
-					lio.put_path_field ("Found", relative_path)
+					lio.put_path_field ("Found %S", relative_path)
 				else
-					lio.put_path_field ("Not found", relative_path)
+					lio.put_path_field ("%S not found", relative_path)
 					missing_count := missing_count + 1
 				end
 				lio.put_new_line

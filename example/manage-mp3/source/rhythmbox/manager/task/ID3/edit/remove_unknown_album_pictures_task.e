@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "11"
+	date: "2022-02-19 12:04:34 GMT (Saturday 19th February 2022)"
+	revision: "12"
 
 class
 	REMOVE_UNKNOWN_ALBUM_PICTURES_TASK
@@ -41,7 +41,7 @@ feature {NONE} -- Implementation
 				id3_info.remove_mb_field (Musicbrainz.album_id)
 				id3_info.save
 				song.set_album_picture_checksum (0)
-				lio.put_path_field ("Removed album picture", relative_song_path)
+				lio.put_path_field ("Removed album picture %S", relative_song_path)
 				lio.put_new_line
 			end
 		end

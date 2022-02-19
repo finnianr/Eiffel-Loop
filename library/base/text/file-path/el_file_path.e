@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 11:07:30 GMT (Thursday 17th February 2022)"
-	revision: "27"
+	date: "2022-02-19 11:38:35 GMT (Saturday 19th February 2022)"
+	revision: "28"
 
 class
 	EL_FILE_PATH
@@ -68,6 +68,12 @@ feature -- Access
 	relative_path (a_parent: EL_DIR_PATH): EL_FILE_PATH
 		do
 			create Result.make (relative_temporary_path (a_parent))
+		end
+
+	type_alias: ZSTRING
+		-- localized description
+		do
+			Result := Word.file
 		end
 
 feature -- Status report

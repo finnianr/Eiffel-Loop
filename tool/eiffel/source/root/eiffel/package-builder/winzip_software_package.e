@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:27:43 GMT (Monday 14th February 2022)"
-	revision: "17"
+	date: "2022-02-19 9:22:40 GMT (Saturday 19th February 2022)"
+	revision: "18"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -88,7 +88,7 @@ feature -- Basic operations
 			create is_valid
 			check_validity (is_valid)
 			if is_valid.item then
-				lio.put_path_field ("Output", output_dir)
+				lio.put_path_field ("Output %S", output_dir)
 				lio.put_new_line
 				lio.put_path_field ("Project", software.pecf_path)
 				lio.put_new_line

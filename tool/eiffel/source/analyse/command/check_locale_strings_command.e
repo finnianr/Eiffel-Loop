@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 10:36:59 GMT (Thursday 17th February 2022)"
-	revision: "21"
+	date: "2022-02-19 9:20:04 GMT (Saturday 19th February 2022)"
+	revision: "22"
 
 class
 	CHECK_LOCALE_STRINGS_COMMAND
@@ -172,7 +172,7 @@ feature {NONE} -- Implementation
 		do
 			if not file_path.exists then
 				lio.put_line ("FILE DOES NOT EXIST")
-				lio.put_path_field ("Cannot find", file_path)
+				lio.put_path_field ("Cannot find %S", file_path)
 				lio.put_new_line
 			end
 		end
@@ -184,7 +184,7 @@ feature {NONE} -- Implementation
 					referenced_keys.put (key.item)
 				else
 					if missing_keys.is_empty then
-						lio.put_path_field ("Source", source_path)
+						lio.put_path_field ("Source %S", source_path)
 						lio.put_new_line
 					end
 					missing_keys.extend (key.item)
@@ -224,7 +224,7 @@ feature {NONE} -- Implementation
 		do
 			lio.put_string_field ("DIRECTORY NODE", node_name)
 			lio.put_new_line
-			lio.put_path_field ("Cannot find", dir_path)
+			lio.put_path_field ("Cannot find %S", dir_path)
 			lio.put_new_line
 		end
 

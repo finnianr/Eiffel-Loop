@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-06 16:41:41 GMT (Sunday 6th February 2022)"
-	revision: "28"
+	date: "2022-02-19 11:36:07 GMT (Saturday 19th February 2022)"
+	revision: "29"
 
 class
 	CLASS_RENAMING_APP
@@ -23,8 +23,6 @@ inherit
 			desktop_menu_path as Default_desktop_menu_path,
 			desktop_launcher as Default_desktop_launcher
 		end
-
-	EL_COMMAND_ARGUMENT_CONSTANTS
 
 	EL_MODULE_USER_INPUT
 

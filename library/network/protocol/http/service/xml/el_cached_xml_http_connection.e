@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 6:40:33 GMT (Monday 7th February 2022)"
-	revision: "8"
+	date: "2022-02-19 9:25:26 GMT (Saturday 19th February 2022)"
+	revision: "9"
 
 class
 	EL_CACHED_XML_HTTP_CONNECTION
@@ -46,7 +46,7 @@ feature {NONE} -- Event handling
 			if cache_file_path.exists then
 				last_string := File.plain_text (cache_file_path)
 				if is_lio_enabled then
-					lio.put_path_field ("Read", cache_file_path)
+					lio.put_path_field ("Read %S", cache_file_path)
 					lio.put_new_line
 				end
 			else

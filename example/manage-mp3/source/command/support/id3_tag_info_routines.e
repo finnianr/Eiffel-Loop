@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 7:36:38 GMT (Monday 7th February 2022)"
-	revision: "13"
+	date: "2022-02-19 12:03:18 GMT (Saturday 19th February 2022)"
+	revision: "14"
 
 deferred class
 	ID3_TAG_INFO_ROUTINES
@@ -33,7 +33,7 @@ feature -- Basic operations
 		do
 			artist_dir := relative_song_path.parent
 			genre_dir := artist_dir.parent
-			lio.put_path_field ("MP3", relative_song_path)
+			lio.put_path_field ("MP3 %S", relative_song_path)
 			lio.put_new_line
 			id3_info.tag.set_genre (genre_dir.base)
 			if artist_dir.base /~ id3_info.tag.artist then
@@ -143,7 +143,7 @@ feature -- Basic operations
 
 	print_id3 (id3_info: TL_MPEG_FILE; relative_song_path: FILE_PATH)
 		do
-			lio.put_path_field ("Song", relative_song_path)
+			lio.put_path_field ("Song %S", relative_song_path)
 			lio.put_labeled_string (" Version", id3_info.formatted_version)
 			lio.put_new_line
 		end

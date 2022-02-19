@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:23:14 GMT (Monday 14th February 2022)"
-	revision: "12"
+	date: "2022-02-19 11:35:17 GMT (Saturday 19th February 2022)"
+	revision: "13"
 
 deferred class
 	EL_FILE_CONTEXT_MENU_DESKTOP_ENV_I
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 			make_installer (installable)
 			create menu_path.make (a_menu_path)
 			menu_name := menu_path.base
-			input_path_option_name := installable.input_path_option_name
+			input_path_option_name := installable.input_path_option
 		end
 
 	make_default

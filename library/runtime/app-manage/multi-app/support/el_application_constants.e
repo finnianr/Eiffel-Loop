@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 5:10:43 GMT (Monday 7th February 2022)"
-	revision: "13"
+	date: "2022-02-19 11:34:48 GMT (Saturday 19th February 2022)"
+	revision: "14"
 
 deferred class
 	EL_APPLICATION_CONSTANTS
@@ -30,11 +30,11 @@ feature {NONE} -- Constants
 
 	File_placeholder: STRING = "%%f"
 
-	Standard_option: TUPLE [config, install, main, remove_data, silent, uninstall: IMMUTABLE_STRING_8]
+	Standard_option: TUPLE [config, file, install, main, remove_data, silent, uninstall: IMMUTABLE_STRING_8]
 		-- standard sub-application and command line option names
 		once
 			create Result
-			Tuple.fill_immutable (Result, "config, install, main, remove_data, silent, uninstall")
+			Tuple.fill_immutable (Result, "config, file, install, main, remove_data, silent, uninstall")
 		end
 
 end

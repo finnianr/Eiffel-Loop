@@ -6,19 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2022-02-19 12:28:42 GMT (Saturday 19th February 2022)"
+	revision: "5"
 
 class
 	EL_APPLY_CHANGES_CONFIRMATION_DIALOG
 
 inherit
 	EL_CONFIRMATION_DIALOG
-		rename
-			ev_cancel as Eng_discard,
-			ev_ok as Eng_apply
 		redefine
-			Eng_apply, Eng_discard
+			ev_ok, ev_cancel
 		end
 
 create
@@ -26,15 +23,8 @@ create
 
 feature -- Access
 
-	Eng_apply: STRING
-			--
-		once
-			Result := "Apply"
-		end
+	ev_ok: STRING = "Apply"
 
-	Eng_discard: STRING
-			--
-		once
-			Result := "Discard"
-		end
+	ev_cancel: STRING = "Discard"
+
 end

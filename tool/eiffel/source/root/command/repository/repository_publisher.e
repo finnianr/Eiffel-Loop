@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:29:06 GMT (Monday 14th February 2022)"
-	revision: "50"
+	date: "2022-02-19 9:21:41 GMT (Saturday 19th February 2022)"
+	revision: "51"
 
 class
 	REPOSITORY_PUBLISHER
@@ -308,7 +308,7 @@ feature {NONE} -- Build from Pyxis
 						has_error := True
 
 					elseif ecf.cluster_count (root_node) = 0 then
-						lio.put_path_field ("Configuration", ecf_path)
+						lio.put_path_field ("Configuration %S", ecf_path)
 						lio.put_new_line
 						lio.put_labeled_string ("Zero nodes found for xpath", ecf.cluster_xpath)
 						has_error := True
@@ -319,7 +319,7 @@ feature {NONE} -- Build from Pyxis
 						ecf_list.extend (create {EIFFEL_CONFIGURATION_FILE}.make (Current, ecf, root_node))
 					end
 				else
-					lio.put_path_field ("Cannot find", ecf_path)
+					lio.put_path_field ("Cannot find %S", ecf_path)
 					has_error := True
 				end
 				if has_error then

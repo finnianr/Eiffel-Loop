@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:35:08 GMT (Tuesday 8th February 2022)"
-	revision: "9"
+	date: "2022-02-19 9:17:32 GMT (Saturday 19th February 2022)"
+	revision: "10"
 
 class
 	GENERATE_RBOX_DATABASE_FIELD_ENUM
@@ -56,7 +56,7 @@ feature -- Basic operations
 	execute
 		do
 			do_once_with_file_lines (agent find_rhythmdb_properties, open_lines (c_source_path, Utf_8))
-			lio.put_path_field ("Writing", output_path)
+			lio.put_path_field ("Writing %S", output_path)
 			serialize
 		end
 

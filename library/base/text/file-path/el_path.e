@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 23:22:46 GMT (Thursday 17th February 2022)"
-	revision: "60"
+	date: "2022-02-19 11:27:42 GMT (Saturday 19th February 2022)"
+	revision: "61"
 
 deferred class
 	EL_PATH
@@ -29,6 +29,8 @@ inherit
 		undefine
 			is_equal, default_create, out, copy
 		end
+
+	EL_SHARED_WORD
 
 convert
  	to_string: {EL_ZSTRING}, as_string_32: {STRING_32, READABLE_STRING_GENERAL},
@@ -95,6 +97,11 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	type_alias: ZSTRING
+		-- localized description "file", "directory" or "URI"
+		deferred
+		end
 
 	expanded_path: like Current
 		do

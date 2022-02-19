@@ -25,15 +25,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:30:47 GMT (Tuesday 8th February 2022)"
-	revision: "16"
+	date: "2022-02-19 9:36:03 GMT (Saturday 19th February 2022)"
+	revision: "17"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER
 
 inherit
 	EL_APPLICATION_COMMAND
-	
+
 	EL_PYXIS_TREE_COMPILER
 		rename
 			make as make_compiler
@@ -103,7 +103,7 @@ feature {NONE} -- Implementation
 	new_translations_list (lang_id: STRING): like translations_list
 		do
 			create Result.make_from_file (locales.new_locale_path (lang_id))
-			lio.put_path_field ("Creating", Result.file_path)
+			lio.put_path_field ("Creating %S", Result.file_path)
 			lio.put_new_line
 		end
 

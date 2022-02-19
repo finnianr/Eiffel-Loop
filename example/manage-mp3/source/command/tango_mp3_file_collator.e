@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:35:15 GMT (Tuesday 8th February 2022)"
-	revision: "17"
+	date: "2022-02-19 12:04:50 GMT (Saturday 19th February 2022)"
+	revision: "18"
 
 class
 	TANGO_MP3_FILE_COLLATOR
@@ -163,10 +163,10 @@ feature {NONE} -- Implementation
 				File_system.delete_empty_branch (mp3_path.parent)
 			end
 
-			lio.put_path_field ("NEW", destination_mp3_path.relative_path (dir_path))
+			lio.put_path_field ("NEW %S", destination_mp3_path.relative_path (dir_path))
 			lio.put_new_line
 			if title ~ Unknown or else artist ~ Unknown then
-				lio.put_path_field ("ORIGINAL", mp3_path.relative_path (dir_path))
+				lio.put_path_field ("ORIGINAL %S", mp3_path.relative_path (dir_path))
 				lio.put_new_line
 			end
 			id3_info.dispose

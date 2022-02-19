@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 17:14:07 GMT (Monday 25th May 2020)"
-	revision: "3"
+	date: "2022-02-19 12:50:49 GMT (Saturday 19th February 2022)"
+	revision: "4"
 
 class
 	IMPORT_M3U_PLAYLISTS_TASK_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Constants
 
-	Checksum: NATURAL = 2381803920
+	Checksum: NATURAL = 54524071
 
 	Task_config: STRING = "[
 		import_m3u_playlists:

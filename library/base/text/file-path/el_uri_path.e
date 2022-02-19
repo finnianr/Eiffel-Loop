@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 14:43:02 GMT (Thursday 17th February 2022)"
-	revision: "32"
+	date: "2022-02-19 11:38:35 GMT (Saturday 19th February 2022)"
+	revision: "33"
 
 deferred class
 	EL_URI_PATH
@@ -316,6 +316,12 @@ feature -- Constants
 	Separator: CHARACTER_32
 		once
 			Result := Unix_separator
+		end
+
+	Type_alias: ZSTRING
+		-- localized description
+		once
+			Result := "URI"
 		end
 
 feature {NONE} -- Constants

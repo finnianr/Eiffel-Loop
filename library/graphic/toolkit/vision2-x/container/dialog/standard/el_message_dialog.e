@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-22 11:26:01 GMT (Friday 22nd October 2021)"
-	revision: "9"
+	date: "2022-02-19 12:38:23 GMT (Saturday 19th February 2022)"
+	revision: "10"
 
 class
 	EL_MESSAGE_DIALOG
@@ -83,6 +83,9 @@ feature {NONE} -- Constants
 	Button_text_table: EL_HASH_TABLE [ZSTRING, STRING]
 		once
 			create Result.make (<<
+				["Apply", Word.apply],
+				["Discard", Word.discard],
+
 				[ev_abort, Word.abort],
 				[ev_cancel, Word.cancel],
 				[ev_ignore, Word.ignore],
@@ -94,6 +97,15 @@ feature {NONE} -- Constants
 				[ev_save, Word.save],
 				[ev_yes, Word.yes]
 			>>)
+		ensure
+			all_present: across Name_list as name all Result.has (name.item) end
+		end
+
+	Name_list: ARRAY [STRING]
+		once
+			Result := <<
+				ev_abort, ev_cancel, ev_ignore, ev_no, ev_ok, ev_open, ev_print, ev_retry, ev_save, ev_yes
+			>>
 		end
 
 	Title_text_table: EL_HASH_TABLE [ZSTRING, STRING]

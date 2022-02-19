@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:35:34 GMT (Tuesday 8th February 2022)"
-	revision: "11"
+	date: "2022-02-19 12:02:38 GMT (Saturday 19th February 2022)"
+	revision: "12"
 
 class
 	EL_MP3_AUDIO_SIGNATURE_READER
@@ -75,7 +75,7 @@ feature {NONE} -- Implementation
 				l_file_1 := file_1.without_extension; l_file_1.remove_extension
 				l_file_2 := file_2.without_extension; l_file_2.remove_extension
 				if l_file_1 ~ l_file_2 then
-					lio.put_path_field ("Removed", file_2)
+					lio.put_path_field ("Removed %S", file_2)
 					lio.put_new_line
 					OS.File_system.remove_file (file_2)
 				end

@@ -6,16 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-02-19 11:29:10 GMT (Saturday 19th February 2022)"
+	revision: "10"
 
 class
 	EL_DIR_PATH_OPERAND_SETTER
 
 inherit
 	EL_PATH_OPERAND_SETTER [DIR_PATH]
-		rename
-			english_name as Eng_directory
-		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
-	revision: "4"
+	date: "2022-02-19 9:18:54 GMT (Saturday 19th February 2022)"
+	revision: "5"
 
 class
 	TAYLOR_SERIES_AS_XML
@@ -88,7 +88,7 @@ feature {NONE} -- Implementation
 		do
 			output_path := output_path.next_version_path
 			path_list.extend (output_path)
-			lio.put_path_field ("Serializing", output_path)
+			lio.put_path_field ("Serializing to %S", output_path)
 			lio.put_new_line
 			Precursor
 			term_list.wipe_out

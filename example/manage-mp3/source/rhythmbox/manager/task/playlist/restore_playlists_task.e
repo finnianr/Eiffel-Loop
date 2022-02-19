@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "5"
+	date: "2022-02-19 9:15:26 GMT (Saturday 19th February 2022)"
+	revision: "6"
 
 class
 	RESTORE_PLAYLISTS_TASK
@@ -40,7 +40,7 @@ feature -- Basic operations
 					Database.playlists.restore_from (create {RBOX_PLAYLIST_ARRAY}.make (backup_path))
 				end
   			else
-				lio.put_path_field ("File not found", backup_path)
+				lio.put_path_field ("%S not found", backup_path)
 				lio.put_new_line
 			end
 		end

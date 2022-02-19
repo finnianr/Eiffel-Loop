@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-05 13:41:45 GMT (Wednesday 5th January 2022)"
-	revision: "6"
+	date: "2022-02-19 9:17:56 GMT (Saturday 19th February 2022)"
+	revision: "7"
 
 class
 	UPDATE_DJ_PLAYLISTS_TASK_TEST_SET
@@ -27,7 +27,7 @@ feature {NONE} -- Implementation
 				log.put_labeled_string ("Title", playlist.item.title)
 				log.put_new_line
 				across playlist.item as song loop
-					log.put_path_field ("MP3", song.item.mp3_relative_path)
+					log.put_path_field ("MP3 %S", song.item.mp3_relative_path)
 					log.put_new_line
 				end
 				log.put_new_line

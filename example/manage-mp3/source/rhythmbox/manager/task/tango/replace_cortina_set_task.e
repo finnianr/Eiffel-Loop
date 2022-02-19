@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "6"
+	date: "2022-02-19 9:16:22 GMT (Saturday 19th February 2022)"
+	revision: "7"
 
 class
 	REPLACE_CORTINA_SET_TASK
@@ -51,7 +51,7 @@ feature -- Basic operations
 				Database.replace_cortinas (new_set)
 				Database.store_all
 			else
-				lio.put_path_field ("ERROR file not found", cortina_path)
+				lio.put_path_field ("ERROR %S not found", cortina_path)
 				lio.put_new_line
 			end
 		end

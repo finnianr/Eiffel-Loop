@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 9:57:12 GMT (Tuesday 8th February 2022)"
-	revision: "17"
+	date: "2022-02-19 9:23:22 GMT (Saturday 19th February 2022)"
+	revision: "18"
 
 class
 	DUPLICITY_BACKUP
@@ -67,7 +67,7 @@ feature -- Basic operations
 					end
 					mirror_list.do_all (agent {EL_MIRROR_BACKUP}.set_passphrase)
 
-					lio.put_path_field ("Creating", destination_uri)
+					lio.put_path_field ("Creating %S", destination_uri)
 					lio.put_new_line
 					verbosity_level := Verbosity.notice
 					create arguments.make (Current, destination_uri, False)

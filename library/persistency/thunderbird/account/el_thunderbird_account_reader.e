@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 10:41:53 GMT (Thursday 17th February 2022)"
-	revision: "22"
+	date: "2022-02-19 9:26:07 GMT (Saturday 19th February 2022)"
+	revision: "23"
 
 deferred class
 	EL_THUNDERBIRD_ACCOUNT_READER
@@ -62,7 +62,7 @@ feature {NONE} -- Initialization
 			Precursor (a_file_path)
 			lio.put_labeled_string ("Account", account)
 			lio.put_new_line
-			lio.put_path_field ("export", export_dir)
+			lio.put_path_field ("export %S", export_dir)
 			lio.put_new_line
 
 			mail_dir_path := home_dir
@@ -80,7 +80,7 @@ feature {NONE} -- Initialization
 			mail_dir_path.append_step ("Mail")
 			mail_dir_path.append_step (account)
 			mail_dir := mail_dir_path
-			lio.put_path_field ("Mail", mail_dir)
+			lio.put_path_field ("Mail %S", mail_dir)
 			lio.put_new_line_x2
 		end
 

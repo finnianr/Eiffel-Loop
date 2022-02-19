@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-22 10:14:56 GMT (Saturday 22nd January 2022)"
-	revision: "24"
+	date: "2022-02-19 9:09:56 GMT (Saturday 19th February 2022)"
+	revision: "25"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -145,6 +145,12 @@ feature -- Output
 				buffer.extend (Tab_string)
 				i := i + 1
 			end
+		end
+
+	put_path (a_path: EL_PATH)
+			--
+		do
+			buffer.extend (a_path.to_string)
 		end
 
 	put_quoted_string (a_str: READABLE_STRING_GENERAL; quote_mark: STRING)

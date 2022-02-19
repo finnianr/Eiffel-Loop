@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-08 11:04:13 GMT (Friday 8th May 2020)"
-	revision: "6"
+	date: "2022-02-19 8:25:54 GMT (Saturday 19th February 2022)"
+	revision: "7"
 
 class
 	EL_PLAIN_TEXT_FILE
@@ -19,7 +19,8 @@ inherit
 	PLAIN_TEXT_FILE
 		rename
 			put_string as put_raw_string_8,
-			put_character as put_raw_character_8
+			put_character as put_raw_character_8,
+			path as ise_path
 		redefine
 			make_with_name, make_with_path
 		end
@@ -52,4 +53,10 @@ feature {NONE} -- Initialization
 			make_default
 		end
 
+feature -- Access
+
+	path: EL_FILE_PATH
+		do
+			create Result.make (internal_name)
+		end
 end

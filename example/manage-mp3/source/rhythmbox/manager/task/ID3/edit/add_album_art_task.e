@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:31:14 GMT (Monday 14th February 2022)"
-	revision: "19"
+	date: "2022-02-19 12:02:18 GMT (Saturday 19th February 2022)"
+	revision: "20"
 
 class
 	ADD_ALBUM_ART_TASK
@@ -109,7 +109,7 @@ feature {EQA_TEST_SET} -- Implementation
 				lio.put_new_line
 				lio.put_string_field ("Setting " + a_picture.type_name, a_picture.description)
 				lio.put_new_line
-				lio.put_path_field ("Song", song.mp3_relative_path)
+				lio.put_path_field ("Song %S", song.mp3_relative_path)
 				lio.put_new_line
 
 				mpeg.tag.set_picture (a_picture)

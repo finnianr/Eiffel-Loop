@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-20 16:20:30 GMT (Thursday 20th January 2022)"
-	revision: "13"
+	date: "2022-02-19 9:26:42 GMT (Saturday 19th February 2022)"
+	revision: "14"
 
 class
 	EL_THUNDERBIRD_WWW_EXPORTER
@@ -36,7 +36,7 @@ feature -- Basic operations
 		do
 			across OS.file_list (mail_dir #+ WWW_dir_name, "*.msf") as path loop
 				file_path := path.item.without_extension
-				lio.put_path_field ("Content", file_path)
+				lio.put_path_field ("Content %S", file_path)
 				lio.put_new_line
 				l_output_dir := export_dir #+ file_path.base
 				create exporter.make (Current)

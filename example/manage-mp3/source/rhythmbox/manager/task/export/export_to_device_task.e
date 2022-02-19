@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "7"
+	date: "2022-02-19 12:02:48 GMT (Saturday 19th February 2022)"
+	revision: "8"
 
 deferred class
 	EXPORT_TO_DEVICE_TASK
@@ -75,7 +75,7 @@ feature {NONE} -- Implementation
 				lio.put_line ("CASE INSENSITIVE NAME CLASHES FOUND")
 				lio.put_new_line
 				across name_clashes as path loop
-					lio.put_path_field ("MP3", path.item)
+					lio.put_path_field ("MP3 %S", path.item)
 					lio.put_new_line
 				end
 				lio.put_new_line

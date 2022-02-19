@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 11:51:35 GMT (Monday 7th February 2022)"
-	revision: "11"
+	date: "2022-02-19 11:36:31 GMT (Saturday 19th February 2022)"
+	revision: "12"
 
 deferred class
 	EL_INSTALLABLE_APPLICATION
@@ -16,11 +16,6 @@ inherit
 	EL_ZSTRING_CONSTANTS
 
 	EL_MODULE_IMAGE_PATH
-
-	EL_COMMAND_ARGUMENT_CONSTANTS
-		export
-			{EL_DESKTOP_ENVIRONMENT_I} input_path_option_name
-		end
 
 	EL_APPLICATION_CONSTANTS
 
@@ -50,6 +45,12 @@ feature -- Access
 				words.remove
 			end
 			Result := words.joined_propercase_words
+		end
+
+	input_path_option: STRING
+		-- default input path option -file
+		do
+			Result := Standard_option.file
 		end
 
 	option_name: READABLE_STRING_GENERAL

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 10:45:48 GMT (Thursday 17th February 2022)"
-	revision: "8"
+	date: "2022-02-19 12:04:00 GMT (Saturday 19th February 2022)"
+	revision: "9"
 
 class
 	IMPORT_NEW_MP3_TASK
@@ -47,7 +47,7 @@ feature -- Basic operations
 					set_fields (song, mp3_path.item)
 					song.move_mp3_to_normalized_file_path
 					Database.extend (song)
-					lio.put_path_field ("Imported", song.mp3_relative_path)
+					lio.put_path_field ("Imported %S", song.mp3_relative_path)
 					lio.put_new_line
 				end
 				Database.store_all

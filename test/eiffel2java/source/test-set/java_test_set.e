@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 9:49:51 GMT (Wednesday 19th January 2022)"
-	revision: "1"
+	date: "2022-02-19 11:45:57 GMT (Saturday 19th February 2022)"
+	revision: "2"
 
 class
 	JAVA_TEST_SET
@@ -40,7 +40,7 @@ feature -- Tests
 			properties_path: EL_FILE_PATH
 		do
 			properties_path := "test-data/java_source/deployment.properties"
-			do_test ("print_properties", 1842240027, agent print_properties, [properties_path])
+			do_test ("print_properties", 1392094261, agent print_properties, [properties_path])
 		end
 
 	test_java

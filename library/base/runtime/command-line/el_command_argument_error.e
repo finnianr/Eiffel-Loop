@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:13 GMT (Tuesday 15th February 2022)"
-	revision: "10"
+	date: "2022-02-19 11:33:31 GMT (Saturday 19th February 2022)"
+	revision: "11"
 
 class
 	EL_COMMAND_ARGUMENT_ERROR
@@ -79,9 +79,9 @@ feature -- Element change
 			set_lines (Template.missing_argument #$ [word_option])
 		end
 
-	set_path_error (path_type: ZSTRING; a_path: EL_PATH)
+	set_path_error (a_path: EL_PATH)
 		do
-			set_lines (Template.path_error #$ [word_option, path_type, path_type, a_path])
+			set_lines (Template.path_error #$ [word_option, a_path.type_alias, a_path.type_alias, a_path])
 		end
 
 	set_required_error

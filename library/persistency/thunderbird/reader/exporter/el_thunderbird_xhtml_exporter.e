@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 20:47:31 GMT (Wednesday 9th February 2022)"
-	revision: "20"
+	date: "2022-02-19 9:28:52 GMT (Saturday 19th February 2022)"
+	revision: "21"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -68,7 +68,7 @@ feature {NONE} -- Implementation
 		do
 			create xdoc.make_from_string (xhtml)
 			if xdoc.context_list ("//p").count = 0 then
-				lio.put_path_field ("ERROR, no paragraphs found for", output_file_path)
+				lio.put_path_field ("ERROR, no paragraphs found in", output_file_path)
 				lio.put_new_line
 			end
 		end
@@ -116,7 +116,7 @@ feature {NONE} -- Implementation
 			File_system.make_directory (output_file_path.parent)
 			is_html_updated := not output_file_path.exists or else last_header.date > output_file_path.modification_date_time
 			if is_html_updated then
-				lio.put_path_field (file_out_extension, output_file_path)
+				lio.put_path_field (file_out_extension + " %S", output_file_path)
 				lio.put_new_line
 				lio.put_string_field ("Character set", line_source.encoding_name)
 				lio.put_new_line
@@ -134,7 +134,7 @@ feature {NONE} -- Implementation
 			across related_file_extensions as extension loop
 				across l_dir.files_with_extension (extension.item) as file_path loop
 					if not subject_list.has (file_path.item.base_sans_extension) then
-						lio.put_path_field ("Removing", file_path.item)
+						lio.put_path_field ("Removing %S", file_path.item)
 						lio.put_new_line
 						File_system.remove_file (file_path.item)
 					end

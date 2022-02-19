@@ -77,6 +77,14 @@ translations:
 			"$id"
 
 	item:
+		id = "Directory"
+		translation:
+			lang = de; check = true
+			"Verzeichnis"
+		translation:
+			lang = en
+			"$id"
+	item:
 		id = "Discard"
 		translation:
 			lang = de; check = true
@@ -90,6 +98,15 @@ translations:
 		translation:
 			lang = de; check = true
 			"Fehler"
+		translation:
+			lang = en
+			"$id"
+
+	item:
+		id = "File"
+		translation:
+			lang = de; check = true
+			"Datei"
 		translation:
 			lang = en
 			"$id"

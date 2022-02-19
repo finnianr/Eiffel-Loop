@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:14 GMT (Tuesday 15th February 2022)"
-	revision: "20"
+	date: "2022-02-19 8:58:21 GMT (Saturday 19th February 2022)"
+	revision: "21"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -229,7 +229,13 @@ feature -- Output
 
 	put_path_field (label: READABLE_STRING_GENERAL; a_path: EL_PATH)
 			--
+		local
+			l_out: like output
 		do
+			l_out := output
+			l_out.put_label (label)
+			l_out.put_path (a_path)
+			l_out.flush
 		end
 
 	put_string (s: READABLE_STRING_GENERAL)

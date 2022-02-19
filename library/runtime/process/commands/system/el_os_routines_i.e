@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 16:09:34 GMT (Wednesday 16th February 2022)"
-	revision: "19"
+	date: "2022-02-19 14:35:54 GMT (Saturday 19th February 2022)"
+	revision: "20"
 
 deferred class
 	EL_OS_ROUTINES_I
@@ -179,6 +179,18 @@ feature -- File query
 				cmd.set_filter (condition)
 				cmd.execute
 				Result := cmd.path_list
+			end
+		end
+
+	one_or_many_file_list (file_path_or_wildcard: FILE_PATH): EL_FILE_PATH_LIST
+		do
+			if file_path_or_wildcard.is_pattern then
+				Result := file_list (file_path_or_wildcard.parent, file_path_or_wildcard.base)
+
+			elseif file_path_or_wildcard.exists then
+				create Result.make_from_array (<< file_path_or_wildcard  >>)
+			else
+				create Result.make_empty
 			end
 		end
 

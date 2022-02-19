@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:13 GMT (Tuesday 15th February 2022)"
-	revision: "18"
+	date: "2022-02-19 8:53:32 GMT (Saturday 19th February 2022)"
+	revision: "19"
 
 deferred class
 	EL_LOGGABLE
@@ -200,7 +200,7 @@ feature -- Output
 		end
 
 	put_path_field (label: READABLE_STRING_GENERAL; a_path: EL_PATH)
-			--
+		-- output `a_path' substituting '%S' character for word "file" or "directory"
 		deferred
 		end
 

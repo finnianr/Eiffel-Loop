@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:14 GMT (Tuesday 15th February 2022)"
-	revision: "18"
+	date: "2022-02-19 13:08:24 GMT (Saturday 19th February 2022)"
+	revision: "19"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -172,25 +172,21 @@ feature -- Output
 		end
 
 	put_path_field (label: READABLE_STRING_GENERAL; a_path: EL_PATH)
-			--
+		--
 		local
-			l_name: ZSTRING; empty_label: BOOLEAN
+			l_label: ZSTRING; s: EL_ZSTRING_ROUTINES; index: INTEGER
 		do
-			create l_name.make_from_general (label)
-			if l_name.is_empty then
-				empty_label := True
+			if label.has ('%S') then
+				l_label := s.as_zstring (label) #$ [a_path.type_alias]
+				index := l_label.substring_index (a_path.type_alias, 1)
+				-- Lower-case it if not not at start
+				if index > 1 then
+					l_label.put (l_label [index].as_lower, index)
+				end
+				log_sink.put_string_field (l_label, a_path)
 			else
-				l_name.append_character (' ')
+				log_sink.put_string_field (label, a_path)
 			end
-			if attached {FILE_PATH} a_path then
-				l_name.append (Eng_word_file)
-			else
-				l_name.append (Eng_word_directory)
-			end
-			if empty_label then
-				l_name.to_proper_case
-			end
-			put_string_field (l_name, a_path.to_string)
 		end
 
 	put_string (s: READABLE_STRING_GENERAL)
@@ -292,8 +288,6 @@ feature {EL_CONSOLE_ONLY_LOG, EL_MODULE_LIO} -- Element change
 
 feature {NONE} -- Implementation
 
-	log_sink: EL_LOGGABLE
-
 	new_output: EL_CONSOLE_LOG_OUTPUT
 		do
 			if Console.is_highlighting_enabled then
@@ -303,16 +297,8 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Internal attributes
 
-	Eng_word_directory: ZSTRING
-		once
-			Result := "directory"
-		end
-
-	Eng_word_file: ZSTRING
-		once
-			Result := "file"
-		end
+	log_sink: EL_LOGGABLE
 
 end

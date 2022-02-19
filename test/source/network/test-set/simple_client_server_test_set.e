@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 18:10:44 GMT (Wednesday 16th February 2022)"
-	revision: "6"
+	date: "2022-02-19 11:41:44 GMT (Saturday 19th February 2022)"
+	revision: "7"
 
 class
 	SIMPLE_CLIENT_SERVER_TEST_SET
@@ -45,7 +45,7 @@ feature -- Tests
 			server.launch
 			Execution_environment.sleep (100)
 
-			lio.put_path_field ("data", (new_eiffel_loop_dir #+ "test/data") + "txt/file.txt")
+			lio.put_path_field ("data %S", (new_eiffel_loop_dir #+ "test/data") + "txt/file.txt")
 			lio.put_new_line
 
 			do_test ("send_file", 2627758098, agent send_file, [source_file_list.first_path])

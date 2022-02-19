@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 7:54:59 GMT (Monday 7th February 2022)"
-	revision: "11"
+	date: "2022-02-19 12:55:51 GMT (Saturday 19th February 2022)"
+	revision: "12"
 
 deferred class
 	EL_RESOURCE_INSTALL_MANAGER
@@ -72,7 +72,7 @@ feature -- Basic operations
 				from i := 1; done := false until done or i > Maximum_tries loop
 					web.open (url_file_item (l_file.item.name))
 					if is_lio_enabled then
-						lio.put_path_field ("Downloading", file_path)
+						lio.put_path_field ("Downloading %S", file_path)
 						lio.put_new_line
 					end
 					web.download (file_path)
@@ -118,7 +118,7 @@ feature -- Basic operations
 				lio.put_line ("none")
 			else
 				across updated_list as l_file loop
-					lio.put_path_field ("", target_dir + l_file.item.name)
+					lio.put_path_field ("%S", target_dir + l_file.item.name)
 					lio.put_new_line
 					print_date ("new modification_time", l_file.item.modification_time)
 					print_date ("existing modification_time", existing_modification_time (l_file.item))

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:13 GMT (Tuesday 15th February 2022)"
-	revision: "13"
+	date: "2022-02-19 12:14:24 GMT (Saturday 19th February 2022)"
+	revision: "14"
 
 class
 	EL_CONSOLE_AND_FILE_ROUTINE_LOG
@@ -65,15 +65,6 @@ feature -- Basic operations
 			l_out.flush
 		end
 
-	move_cursor_up (n: INTEGER)
-		-- move cursor up `n' lines (Linux only)
-		local
-			l_out: like output
-		do
-			l_out := output; l_out.move_cursor_up (n)
-			l_out.flush
-		end
-
 	enter_with_args  (routine_name: STRING; arg_objects: TUPLE)
 			--
 		do
@@ -102,6 +93,15 @@ feature -- Basic operations
 			l_out.flush
 		end
 
+	move_cursor_up (n: INTEGER)
+		-- move cursor up `n' lines (Linux only)
+		local
+			l_out: like output
+		do
+			l_out := output; l_out.move_cursor_up (n)
+			l_out.flush
+		end
+
 	pause_for_enter_key
 			--
 		local
@@ -119,16 +119,14 @@ feature {NONE} -- Implementation
 	out_put_argument (arg_pos, arg_count: INTEGER; arg_object: ANY)
 			--
 		local
-			l_out: like output; arg_label: STRING
+			l_out: like output; arg_label: ZSTRING
 		do
 			l_out := output
 
 			if arg_count > 1 then
 				l_out.tab_right; l_out.tab_right; l_out.put_new_line
 
-				arg_label := "arg_"
-				arg_label.append_integer (arg_pos)
-				l_out.put_label (arg_label)
+				l_out.put_label (Label_template #$ [arg_pos])
 			end
 			if attached {NUMERIC} arg_object as numeric_arg then
 				l_out.put_string (arg_object.out)
@@ -195,4 +193,10 @@ feature {NONE} -- Implementation
 			l_out.flush
 		end
 
+feature {NONE} -- Constants
+
+	Label_template: ZSTRING
+		once
+			Result := "arg_%S"
+		end
 end

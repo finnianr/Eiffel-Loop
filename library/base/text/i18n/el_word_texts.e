@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-28 11:00:58 GMT (Thursday 28th October 2021)"
-	revision: "5"
+	date: "2022-02-19 13:05:20 GMT (Saturday 19th February 2022)"
+	revision: "6"
 
 class
 	EL_WORD_TEXTS
@@ -56,7 +56,11 @@ feature -- Button Texts
 
 	discard: ZSTRING
 
+	directory: ZSTRING
+
 	error: ZSTRING
+
+	file: ZSTRING
 
 	ignore: ZSTRING
 

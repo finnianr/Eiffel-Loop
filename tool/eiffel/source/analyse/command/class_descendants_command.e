@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 13:47:38 GMT (Wednesday 16th February 2022)"
-	revision: "24"
+	date: "2022-02-19 9:20:56 GMT (Saturday 19th February 2022)"
+	revision: "25"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -73,7 +73,7 @@ feature -- Basic operations
 				lio.put_string_field ("ERROR: Cannot find ECF file with target", target_name)
 				lio.put_new_line
 			else
-				lio.put_path_field ("Writing", output_path)
+				lio.put_path_field ("Writing %S", output_path)
 				lio.put_new_line
 				if not output_dir.exists then
 					File_system.make_directory (output_dir)

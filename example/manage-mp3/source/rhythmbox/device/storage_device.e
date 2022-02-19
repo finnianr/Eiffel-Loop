@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:31:14 GMT (Monday 14th February 2022)"
-	revision: "24"
+	date: "2022-02-19 12:22:01 GMT (Saturday 19th February 2022)"
+	revision: "25"
 
 class
 	STORAGE_DEVICE
@@ -168,7 +168,7 @@ feature {NONE} -- Volume file operations
 	delete_file (file_path: FILE_PATH)
 			-- delete file on volume
 	 	do
-			lio.put_path_field ("Deleting", file_path)
+			lio.put_path_field ("Deleting %S", file_path)
 			lio.put_new_line
 			volume.delete_file (file_path)
 		rescue
@@ -258,7 +258,7 @@ feature {NONE} -- Implementation
 				across list as media loop
 					progress_info.increment (media.item.file_size_mb)
 					lio.put_string (progress_info.last_string)
-					lio.put_path_field (" Copying", media.item.relative_path)
+					lio.put_path_field (" Copying %S", media.item.relative_path)
 					lio.put_new_line
 
 					export_item (media.item)
@@ -269,7 +269,7 @@ feature {NONE} -- Implementation
 	export_temporary_dir
 		do
 			across OS.file_list (temporary_dir, "*") as file_path loop
-				lio.put_path_field ("Moving", file_path.item)
+				lio.put_path_field ("Moving %S", file_path.item)
 				lio.put_new_line
 				move_file_to_volume (file_path.item, Empty_dir)
 			end

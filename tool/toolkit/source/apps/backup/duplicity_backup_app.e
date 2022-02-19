@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:40 GMT (Saturday 5th February 2022)"
-	revision: "14"
+	date: "2022-02-19 14:44:09 GMT (Saturday 19th February 2022)"
+	revision: "15"
 
 class
 	DUPLICITY_BACKUP_APP
@@ -26,7 +26,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				required_argument ("in", "Input file path", << file_must_exist >>)
+				required_argument ("in", "Input file path or wildcard `<dir-name>/*.pyx'", << at_least_one_file_must_exist >>)
 			>>
 		end
 

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 8:23:33 GMT (Monday 7th February 2022)"
-	revision: "9"
+	date: "2022-02-19 9:24:58 GMT (Saturday 19th February 2022)"
+	revision: "10"
 
 class
 	EL_FILE_TREE_TRANSFORMER
@@ -57,7 +57,7 @@ feature -- Basic operations
 				file_list := File_system.files_with_extension (input_dir, extension.item, True)
 				if file_list.is_empty then
 					if is_lio_enabled then
-						lio.put_path_field ("No files *." + extension.item + " in", input_dir)
+						lio.put_path_field ("No files *." + extension.item + " in %S", input_dir)
 						lio.put_new_line
 					end
 				else
@@ -71,7 +71,7 @@ feature -- Basic operations
 						if File.is_newer_than (input_path, output_path) then
 							File_system.make_directory (output_path.parent)
 							if is_lio_enabled then
-								lio.put_path_field ("Writing", output_path)
+								lio.put_path_field ("Writing %S", output_path)
 								lio.put_new_line
 							end
 							file_updated := True

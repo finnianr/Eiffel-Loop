@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 7:54:11 GMT (Thursday 17th February 2022)"
-	revision: "13"
+	date: "2022-02-19 9:14:20 GMT (Saturday 19th February 2022)"
+	revision: "14"
 
 class
 	IMPORT_VIDEOS_TASK
@@ -45,7 +45,7 @@ feature -- Basic operations
 			lio.put_new_line
 			across Video_extensions as extension loop
 				across OS.file_list (Database.music_dir, "*." + extension.item) as video_path loop
-					lio.put_path_field ("Found", video_path.item.relative_path (Database.music_dir))
+					lio.put_path_field ("Found %S", video_path.item.relative_path (Database.music_dir))
 					lio.put_new_line
 					from done := False until done loop
 						Database.extend (new_video_song (video_path.item))

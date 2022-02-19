@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:31:15 GMT (Monday 14th February 2022)"
-	revision: "44"
+	date: "2022-02-19 12:18:44 GMT (Saturday 19th February 2022)"
+	revision: "45"
 
 class
 	RBOX_DATABASE
@@ -74,7 +74,7 @@ feature {NONE} -- Initialization
 
 			music_dir := a_music_dir; music_uri := a_music_dir
 
-			lio.put_path_field ("Reading", a_xml_database_path)
+			lio.put_path_field ("Reading %S", a_xml_database_path)
 			lio.put_new_line
 
 			if a_xml_database_path.exists then
