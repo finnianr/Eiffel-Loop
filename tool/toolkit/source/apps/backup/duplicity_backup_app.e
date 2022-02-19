@@ -1,19 +1,19 @@
 note
-	description: "A command line interface to the class [$source DUPLICITY_BACKUP]"
+	description: "A command line interface to the class [$source REPEATED_DUPLICITY_BACKUP]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 14:44:09 GMT (Saturday 19th February 2022)"
-	revision: "15"
+	date: "2022-02-19 15:09:17 GMT (Saturday 19th February 2022)"
+	revision: "16"
 
 class
 	DUPLICITY_BACKUP_APP
 
 inherit
-	EL_COMMAND_LINE_APPLICATION [DUPLICITY_BACKUP]
+	EL_COMMAND_LINE_APPLICATION [REPEATED_DUPLICITY_BACKUP]
 		redefine
 			Visible_types
 		end

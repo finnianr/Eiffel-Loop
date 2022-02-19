@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-30 11:35:22 GMT (Sunday 30th January 2022)"
-	revision: "4"
+	date: "2022-02-19 15:30:59 GMT (Saturday 19th February 2022)"
+	revision: "5"
 
 class
 	EL_MIRROR_BACKUP
@@ -43,6 +43,9 @@ feature -- Access
 	host_name: STRING
 
 	passphrase: ZSTRING
+		do
+			Result := Passphrase_table [host_name]
+		end
 
 	protocol: STRING
 
@@ -81,9 +84,9 @@ feature -- Basic operations
 		local
 			prompt_template: ZSTRING
 		do
-			if passphrase.is_empty and then protocol ~ Protocols.ftp then
+			if not Passphrase_table.has (host_name) and then protocol ~ Protocols.ftp then
 				prompt_template := "Enter %S ftp password"
-				passphrase := User_input.line (prompt_template #$ [host_name])
+				Passphrase_table [host_name] := User_input.line (prompt_template #$ [host_name])
 				lio.put_new_line
 			end
 		end
@@ -91,12 +94,12 @@ feature -- Basic operations
 	transfer (backup_target_dir: DIR_PATH)
 		do
 			if protocol ~ Protocols.ftp and then attached Ftp_command as cmd then
-				cmd.put_string (Var_ftp.host, host_name)
-				cmd.put_string (Var_ftp.user, user)
-				cmd.put_string (Var_ftp.passphrase, passphrase.escaped (Bash_escaper))
-				-- Directories not escaped because they are single quoted in template
-				cmd.put_string (Var_ftp.source_dir, backup_target_dir)
-				cmd.put_string (Var_ftp.target_dir, backup_dir #+ backup_target_dir.base)
+				cmd.set_host_name (host_name)
+				cmd.set_user (user)
+				cmd.set_passphrase (passphrase)
+--				-- Directories not escaped because they are single quoted in template
+				cmd.set_source_dir (backup_target_dir)
+				cmd.set_target_dir (backup_dir #+ backup_target_dir.base)
 				execute (cmd)
 
 			elseif protocol ~ Protocols.file and then attached Rsync_file_command as cmd then
@@ -128,17 +131,14 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Bash_escaper: EL_BASH_PATH_ZSTRING_ESCAPER
+	Passphrase_table: HASH_TABLE [ZSTRING, STRING]
 		once
-			create Result.make
+			create Result.make (3)
 		end
 
-	Ftp_command: EL_OS_COMMAND
+	Ftp_command: EL_FTP_MIRROR
 		once
-			create Result.make ("[
-				lftp -c
-				"open $HOST; user '$USER' '$PASS'; mirror --reverse --verbose '$SOURCE_DIR' '$TARGET_DIR'; bye"
-			]")
+			create Result.make
 		end
 
 	Rsync_file_command: EL_OS_COMMAND
@@ -149,12 +149,6 @@ feature {NONE} -- Constants
 	Rsync_ssh_command: EL_OS_COMMAND
 		once
 			create Result.make ("rsync -avz -e ssh $SOURCE_DIR $USER@$HOST:$TARGET_DIR")
-		end
-
-	Var_ftp: TUPLE [host, user, passphrase, source_dir, target_dir: STRING]
-		once
-			create Result
-			Ftp_command.fill_variables (Result)
 		end
 
 	Var_ssh: TUPLE [source_dir, user, host, target_dir: STRING]
