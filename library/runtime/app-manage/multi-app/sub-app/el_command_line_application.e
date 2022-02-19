@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:14 GMT (Tuesday 15th February 2022)"
-	revision: "42"
+	date: "2022-02-19 15:47:59 GMT (Saturday 19th February 2022)"
+	revision: "43"
 
 deferred class
 	EL_COMMAND_LINE_APPLICATION [C -> EL_APPLICATION_COMMAND]
@@ -179,9 +179,15 @@ feature {NONE} -- Implementation
 		end
 
 	is_valid_path_or_wild_card (path: FILE_PATH; is_optional: BOOLEAN): BOOLEAN
+		local
+			parent_dir: DIR_PATH
 		do
 			if path.is_pattern then
-				if attached path.parent as parent_dir and then parent_dir.exists then
+				parent_dir := path.parent
+				if parent_dir.is_empty then
+					parent_dir := Directory.current_working
+				end
+				if parent_dir.exists then
 					Result := across OS.file_list (parent_dir, path.base) as file some file.item.exists end
 				end
 			else

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 14:35:54 GMT (Saturday 19th February 2022)"
-	revision: "20"
+	date: "2022-02-19 15:45:11 GMT (Saturday 19th February 2022)"
+	revision: "21"
 
 deferred class
 	EL_OS_ROUTINES_I
@@ -26,12 +26,7 @@ inherit
 			{ANY} File_system
 		end
 
-	EL_MODULE_COMMAND
-		export
-			{NONE} all
-		end
-
-	EL_MODULE_EXECUTABLE
+	EL_MODULE_COMMAND; EL_MODULE_DIRECTORY; EL_MODULE_EXECUTABLE
 
 	EL_STRING_8_CONSTANTS
 
@@ -60,7 +55,11 @@ feature -- OS commands
 		do
 			Result := Find_files_cmd
 			Result.set_defaults
-			Result.set_dir_path (a_dir_path)
+			if a_dir_path.is_empty then
+				Result.set_dir_path (Directory.current_working)
+			else
+				Result.set_dir_path (a_dir_path)
+			end
 			Result.set_name_pattern (a_file_pattern)
 		end
 
