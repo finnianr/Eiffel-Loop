@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 15:30:59 GMT (Saturday 19th February 2022)"
-	revision: "5"
+	date: "2022-02-19 16:49:51 GMT (Saturday 19th February 2022)"
+	revision: "6"
 
 class
 	EL_MIRROR_BACKUP
@@ -103,15 +103,15 @@ feature -- Basic operations
 				execute (cmd)
 
 			elseif protocol ~ Protocols.file and then attached Rsync_file_command as cmd then
-				cmd.put_path (Var_file.source_dir, backup_target_dir)
-				cmd.put_path (Var_file.target_dir, backup_dir)
+				cmd.put_path (Var.source_dir, backup_target_dir)
+				cmd.put_path (Var.target_dir, backup_dir)
 				execute (cmd)
 
 			elseif protocol ~ Protocols.ssh and then attached Rsync_ssh_command as cmd then
-				cmd.put_string (Var_ssh.user, user)
-				cmd.put_string (Var_ssh.host, host_name)
-				cmd.put_path (Var_ssh.source_dir, backup_target_dir)
-				cmd.put_path (Var_ssh.target_dir, backup_dir)
+				cmd.set_user (user)
+				cmd.set_host (host_name)
+				cmd.set_source_dir (backup_target_dir)
+				cmd.set_target_dir (backup_dir)
 				execute (cmd)
 
 			else
@@ -136,7 +136,7 @@ feature {NONE} -- Constants
 			create Result.make (3)
 		end
 
-	Ftp_command: EL_FTP_MIRROR
+	Ftp_command: EL_FTP_MIRROR_COMMAND
 		once
 			create Result.make
 		end
@@ -146,18 +146,12 @@ feature {NONE} -- Constants
 			create Result.make ("rsync -av $SOURCE_DIR $TARGET_DIR")
 		end
 
-	Rsync_ssh_command: EL_OS_COMMAND
+	Rsync_ssh_command: EL_RSYNC_SSH_COMMAND
 		once
-			create Result.make ("rsync -avz -e ssh $SOURCE_DIR $USER@$HOST:$TARGET_DIR")
+			create Result.make
 		end
 
-	Var_ssh: TUPLE [source_dir, user, host, target_dir: STRING]
-		once
-			create Result
-			Rsync_ssh_command.fill_variables (Result)
-		end
-
-	Var_file: TUPLE [source_dir, target_dir: STRING]
+	Var: TUPLE [source_dir, target_dir: STRING]
 		once
 			create Result
 			Rsync_file_command.fill_variables (Result)

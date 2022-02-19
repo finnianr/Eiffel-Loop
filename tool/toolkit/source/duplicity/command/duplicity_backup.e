@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 9:23:22 GMT (Saturday 19th February 2022)"
-	revision: "18"
+	date: "2022-02-19 15:53:32 GMT (Saturday 19th February 2022)"
+	revision: "19"
 
 class
 	DUPLICITY_BACKUP
@@ -105,7 +105,7 @@ feature -- Basic operations
 				end
 			end
 			lio.put_labeled_string ("Mirroring", "DONE!")
-			lio.put_new_line
+			lio.put_new_line_x2
 		end
 
 	get_backup_type

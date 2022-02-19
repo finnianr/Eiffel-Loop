@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:12:08 GMT (Sunday 19th December 2021)"
-	revision: "4"
+	date: "2022-02-19 16:39:43 GMT (Saturday 19th February 2022)"
+	revision: "5"
 
 deferred class
 	EL_PARSED_OS_COMMAND [VARIABLES -> TUPLE create default_create end]
@@ -52,6 +52,10 @@ feature {NONE} -- Initialization
 			valid_types: valid_tuple (create {VARIABLES})
 		end
 
+feature -- Access
+
+	var: VARIABLES
+
 feature -- Basic operations
 
 	execute
@@ -81,10 +85,6 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	template: READABLE_STRING_GENERAL
-		deferred
-		end
-
 	name_list: EL_STRING_8_LIST
 		local
 			i: INTEGER
@@ -98,6 +98,10 @@ feature {NONE} -- Implementation
 			end
 		ensure
 			list_is_full: Result.count = var.count
+		end
+
+	template: READABLE_STRING_GENERAL
+		deferred
 		end
 
 	valid_variable_names: BOOLEAN
@@ -119,9 +123,5 @@ feature {NONE} -- Implementation
 				end
 			end
 		end
-
-feature {NONE} -- Internal attributes
-
-	var: VARIABLES
 
 end

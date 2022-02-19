@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 13:08:24 GMT (Saturday 19th February 2022)"
-	revision: "19"
+	date: "2022-02-19 16:35:13 GMT (Saturday 19th February 2022)"
+	revision: "20"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -178,10 +178,12 @@ feature -- Output
 		do
 			if label.has ('%S') then
 				l_label := s.as_zstring (label) #$ [a_path.type_alias]
-				index := l_label.substring_index (a_path.type_alias, 1)
-				-- Lower-case it if not not at start
-				if index > 1 then
-					l_label.put (l_label [index].as_lower, index)
+				if not attached {EL_URI_PATH} a_path then
+					index := l_label.substring_index (a_path.type_alias, 1)
+					-- Lower-case it if not not at start
+					if index > 1 then
+						l_label.put (l_label [index].as_lower, index)
+					end
 				end
 				log_sink.put_string_field (l_label, a_path)
 			else

@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 15:26:05 GMT (Saturday 19th February 2022)"
-	revision: "1"
+	date: "2022-02-19 16:44:31 GMT (Saturday 19th February 2022)"
+	revision: "2"
 
 class
-	EL_FTP_MIRROR
+	EL_FTP_MIRROR_COMMAND
 
 inherit
 	EL_PARSED_OS_COMMAND [TUPLE [host, user, passphrase, source_dir, target_dir: STRING]]

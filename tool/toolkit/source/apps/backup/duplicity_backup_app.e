@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 15:09:17 GMT (Saturday 19th February 2022)"
-	revision: "16"
+	date: "2022-02-19 16:51:28 GMT (Saturday 19th February 2022)"
+	revision: "17"
 
 class
 	DUPLICITY_BACKUP_APP
@@ -35,7 +35,13 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make (create {FILE_PATH})
 		end
 
-	visible_types: TUPLE [EL_OS_COMMAND, EL_CAPTURED_OS_COMMAND, DUPLICITY_TARGET_INFO_OS_CMD]
+	visible_types: TUPLE [
+		EL_OS_COMMAND,
+		EL_CAPTURED_OS_COMMAND,
+		DUPLICITY_TARGET_INFO_OS_CMD,
+		EL_RSYNC_SSH_COMMAND,
+		EL_FTP_MIRROR_COMMAND
+	]
 		do
 			create Result
 		end
