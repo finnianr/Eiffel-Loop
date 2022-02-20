@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 9:25:54 GMT (Wednesday 1st September 2021)"
-	revision: "6"
+	date: "2022-02-20 11:36:28 GMT (Sunday 20th February 2022)"
+	revision: "7"
 
 class
 	EL_CPU_INFO_COMMAND_IMP
@@ -39,8 +39,6 @@ feature {NONE} -- Status query
 
 feature {NONE} -- Implementation
 
-	Template: STRING = "[
-		cat /proc/cpuinfo | grep "model name" --max-count 1
-	]"
+	Template: STRING = "cat /proc/cpuinfo"
 
 end

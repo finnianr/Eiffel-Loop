@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
-	revision: "17"
+	date: "2022-02-20 12:20:16 GMT (Sunday 20th February 2022)"
+	revision: "18"
 
 class
 	OS_COMMAND_TEST_SET
@@ -31,15 +31,26 @@ feature -- Basic operations
 feature -- Tests
 
 	test_cpu_info
+		-- OS_COMMAND_TEST_SET.test_cpu_info
 		local
 			cpu_info_cmd: like Command.new_cpu_info; info_cmd: EL_CAPTURED_OS_COMMAND
+			count: INTEGER; line: ZSTRING
 		do
 			if {PLATFORM}.is_unix then
 				cpu_info_cmd := Command.new_cpu_info
-				create info_cmd.make_with_name ("cat_cpuinfo", "cat /proc/cpuinfo | grep %"$model_name%" --max-count 1")
-				info_cmd.put_string ("model_name", cpu_info_cmd.model_name)
+				create info_cmd.make_with_name ("cat_cpuinfo", "cat /proc/cpuinfo")
 				info_cmd.execute
-				assert ("begins with model name", info_cmd.lines.first.starts_with_general ("model name"))
+				across info_cmd.lines as list until count = 2 loop
+					line := list.item
+					if line.starts_with_general ("model name") then
+						assert ("has model name", line.has_substring (cpu_info_cmd.model_name))
+						count := count + 1
+					elseif line.starts_with_general ("siblings") then
+						assert ("has siblings", line.ends_with_general (cpu_info_cmd.siblings.out))
+						count := count + 1
+					end
+				end
+				assert ("two fields", count = 2)
 			end
 		end
 
