@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
-	revision: "4"
+	date: "2022-02-20 10:27:53 GMT (Sunday 20th February 2022)"
+	revision: "5"
 
 class
-	EL_SECURE_SHELL_MAKE_DIRECTORY_COMMAND
+	EL_SSH_MAKE_DIRECTORY_COMMAND
 
 inherit
 	EL_PARSED_OS_COMMAND [TUPLE [user_domain, target_dir: STRING]]
@@ -19,8 +19,9 @@ inherit
 		end
 
 	EL_SECURE_SHELL_COMMAND
-		redefine
-			set_user_domain
+		rename
+			set_destination_dir as set_target_dir,
+			destination_dir as target_dir
 		end
 
 create
@@ -33,23 +34,17 @@ feature {NONE} -- Initialization
 			Precursor
 		end
 
-feature -- Element change
+feature {NONE} -- Implementation
 
-	set_target_dir (target_dir: DIR_PATH)
+	var_index: TUPLE [source_path, user_domain, target_dir: INTEGER]
 		do
-			command_template.set_variable (var.target_dir, escaped_remote (target_dir))
-		end
-
-	set_user_domain (a_user_domain: ZSTRING)
-		do
-			Precursor (a_user_domain)
-			put_string (var.user_domain, a_user_domain)
+			Result := [0, 1, 2]
 		end
 
 feature {NONE} -- Constants
 
 	Template: STRING = "[
-		ssh $user_domain "mkdir -p $target_dir"
+		ssh $USER_DOMAIN "mkdir -p $TARGET_DIR"
 	]"
 
 end

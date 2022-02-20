@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 12:14:24 GMT (Saturday 19th February 2022)"
-	revision: "14"
+	date: "2022-02-20 8:03:30 GMT (Sunday 20th February 2022)"
+	revision: "15"
 
 class
 	EL_CONSOLE_AND_FILE_ROUTINE_LOG
@@ -119,7 +119,7 @@ feature {NONE} -- Implementation
 	out_put_argument (arg_pos, arg_count: INTEGER; arg_object: ANY)
 			--
 		local
-			l_out: like output; arg_label: ZSTRING
+			l_out: like output
 		do
 			l_out := output
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "2"
+	date: "2022-02-20 8:38:05 GMT (Sunday 20th February 2022)"
+	revision: "3"
 
 class
 	EL_CREATE_TAR_COMMAND

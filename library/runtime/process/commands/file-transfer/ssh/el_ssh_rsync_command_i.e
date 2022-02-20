@@ -10,19 +10,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:59 GMT (Tuesday 15th February 2022)"
-	revision: "8"
+	date: "2022-02-20 10:29:14 GMT (Sunday 20th February 2022)"
+	revision: "9"
 
 deferred class
-	EL_FILE_SYNC_COMMAND_I
+	EL_SSH_RSYNC_COMMAND_I
 
 inherit
 	EL_COPY_TREE_COMMAND_I
+		rename
+			set_destination_path as set_destination_dir
 		redefine
 			execute, getter_function_table, make_default
 		end
 
 	EL_SECURE_SHELL_COMMAND
+		undefine
+			set_source_path, set_destination_dir
 		redefine
 			escaped_remote
 		end
@@ -91,6 +95,11 @@ feature {NONE} -- Evolicity reflection
 
 feature {NONE} -- Implementation
 
+	var_index: TUPLE [source_path, user_domain, destination_dir: INTEGER]
+		do
+			Result := [0, 0, 0]
+		end
+
 	escaped_remote (a_path: EL_PATH): ZSTRING
 		-- double escape backslash
 		do
@@ -99,6 +108,16 @@ feature {NONE} -- Implementation
 			else
 				Result := a_path.escaped
 			end
+		end
+
+	put_path_variable (index: INTEGER; a_path: EL_PATH)
+		-- Not applicable
+		do
+		end
+
+	put_string_variable (index: INTEGER; value: READABLE_STRING_GENERAL)
+		-- Not applicable
+		do
 		end
 
 feature {NONE} -- Internal attributes

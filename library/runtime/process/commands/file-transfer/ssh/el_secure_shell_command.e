@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:01:00 GMT (Tuesday 15th February 2022)"
-	revision: "5"
+	date: "2022-02-20 10:29:56 GMT (Sunday 20th February 2022)"
+	revision: "6"
 
 deferred class
 	EL_SECURE_SHELL_COMMAND
@@ -24,11 +24,25 @@ feature -- Access
 			Result := user_domain.substring_to ('@', Default_pointer)
 		end
 
+	destination_dir: DIR_PATH
+
 feature -- Element change
+
+	set_destination_dir (a_destination_dir: DIR_PATH)
+		do
+			destination_dir := a_destination_dir
+			put_string_variable (var_index.destination_dir, escaped_remote (a_destination_dir))
+		end
 
 	set_user_domain (a_user_domain: ZSTRING)
 		do
 			user_domain := a_user_domain
+			put_string_variable (var_index.user_domain, a_user_domain)
+		end
+
+	set_source_path (source_path: EL_PATH)
+		do
+			put_path_variable (var_index.source_path, source_path)
 		end
 
 feature -- Basic operations
@@ -61,6 +75,20 @@ feature {NONE} -- Implementation
 			if {PLATFORM}.is_unix and then Result.has ('\') then
 				Result.replace_substring_all (s.character_string ('\'), s.n_character_string ('\', 2))
 			end
+		end
+
+feature {NONE} -- Deferred
+
+	put_path_variable (index: INTEGER; a_path: EL_PATH)
+		deferred
+		end
+
+	put_string_variable (index: INTEGER; value: READABLE_STRING_GENERAL)
+		deferred
+		end
+
+	var_index: TUPLE [source_path, user_domain, destination_dir: INTEGER]
+		deferred
 		end
 
 end

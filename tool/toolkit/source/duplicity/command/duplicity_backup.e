@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 15:53:32 GMT (Saturday 19th February 2022)"
-	revision: "19"
+	date: "2022-02-20 10:41:59 GMT (Sunday 20th February 2022)"
+	revision: "21"
 
 class
 	DUPLICITY_BACKUP
@@ -97,12 +97,18 @@ feature -- Basic operations
 		do
 			across mirror_list as mirror loop
 				mirror.item.transfer (backup_dir #+ target_dir_base)
+				lio.put_new_line
 			end
 			across mirror_list as mirror loop
 				if mirror.item.has_error then
 					lio.put_labeled_string ("MIRROR ERROR", mirror.item.to_string)
 					lio.put_new_line
+					across mirror.item.errors as error loop
+						lio.put_line (error.item)
+					end
+					User_input.press_enter
 				end
+				lio.put_new_line
 			end
 			lio.put_labeled_string ("Mirroring", "DONE!")
 			lio.put_new_line_x2

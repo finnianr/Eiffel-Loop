@@ -1,19 +1,19 @@
 note
-	description: "Common implementation of [$source EL_FILE_SYNC_COMMAND_I]"
+	description: "Common implementation of [$source EL_SSH_RSYNC_COMMAND_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-28 12:46:49 GMT (Friday 28th January 2022)"
-	revision: "7"
+	date: "2022-02-20 8:35:10 GMT (Sunday 20th February 2022)"
+	revision: "8"
 
 class
-	EL_FILE_SYNC_COMMAND_IMP
+	EL_SSH_RSYNC_COMMAND_IMP
 
 inherit
-	EL_FILE_SYNC_COMMAND_I
+	EL_SSH_RSYNC_COMMAND_I
 
 	EL_OS_COMMAND_IMP
 		undefine

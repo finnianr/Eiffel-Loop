@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 16:39:43 GMT (Saturday 19th February 2022)"
-	revision: "5"
+	date: "2022-02-20 10:14:09 GMT (Sunday 20th February 2022)"
+	revision: "6"
 
 deferred class
 	EL_PARSED_OS_COMMAND [VARIABLES -> TUPLE create default_create end]
@@ -32,7 +32,7 @@ inherit
 			make as make_command
 		export
 			{NONE} all
-			{ANY} set_working_directory, execute, is_valid_platform, has_error
+			{ANY} set_working_directory, execute, is_valid_platform, has_error, errors
 		redefine
 			execute, make_command
 		end
@@ -100,8 +100,18 @@ feature {NONE} -- Implementation
 			list_is_full: Result.count = var.count
 		end
 
-	template: READABLE_STRING_GENERAL
-		deferred
+	put_path_variable (index: INTEGER; a_path: EL_PATH)
+		do
+			if index.to_boolean then
+				put_path (variable (index), a_path)
+			end
+		end
+
+	put_string_variable (index: INTEGER; value: READABLE_STRING_GENERAL)
+		do
+			if index.to_boolean then
+				put_string (variable (index), value)
+			end
 		end
 
 	valid_variable_names: BOOLEAN
@@ -122,6 +132,23 @@ feature {NONE} -- Implementation
 					Result := False
 				end
 			end
+		end
+
+	variable (index: INTEGER): STRING
+		do
+			if index > 0 and then var.valid_index (index)
+				and then attached {STRING} var.reference_item (index) as name
+			then
+				Result := name
+			else
+				create Result.make_empty
+			end
+		end
+
+feature {NONE} -- Deferred
+
+	template: READABLE_STRING_GENERAL
+		deferred
 		end
 
 end

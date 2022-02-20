@@ -1,13 +1,17 @@
 note
 	description: "Class renaming command for set of classes defined by source manifest"
+	notes: "[
+		When renaming an interface class ending with "_I", the corresponding implementation class ending
+		with "_IMP" will be also renamed accordingly.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 15:19:42 GMT (Tuesday 15th February 2022)"
-	revision: "22"
+	date: "2022-02-20 11:19:23 GMT (Sunday 20th February 2022)"
+	revision: "23"
 
 class
 	CLASS_RENAMING_COMMAND
@@ -16,6 +20,8 @@ inherit
 	SOURCE_MANIFEST_COMMAND
 		rename
 			make as make_command
+		redefine
+			execute
 		end
 
 	EL_MODULE_FILE_SYSTEM; EL_MODULE_FILE
@@ -38,6 +44,25 @@ feature -- Constants
 
 	Description: STRING = "Rename classes defined by a source manifest file"
 
+feature -- Basic operations
+
+	execute
+		local
+			old_imp_base_name: ZSTRING
+		do
+			Precursor
+			-- Check for _IMP file if class ends with "_I"
+			if old_name.ends_with ("_I") and new_name.ends_with ("_I") then
+				old_imp_base_name := old_name.as_lower + "mp.e"
+				if across manifest.file_list as list some list.item.same_base (old_imp_base_name) end then
+					new_name.append_string_general ("MP")
+					old_name.append_string_general ("MP")
+				end
+				lio.put_new_line
+				Precursor
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	do_with_file (source_path: FILE_PATH)
@@ -51,7 +76,7 @@ feature {NONE} -- Implementation
 				-- Check if `source_path' is class definition file
 				if source_path.base_matches (old_name, True) then
 					File_system.remove_path (source_path)
-					source_path.set_base (new_name.as_lower + Eiffel_extention)
+					source_path.set_base (new_name.as_lower + Eiffel_extension)
 				end
 				create l_file.make_open_write (source_path)
 				across source_lines as list loop
@@ -128,6 +153,6 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Eiffel_extention: STRING = ".e"
+	Eiffel_extension: STRING = ".e"
 
 end
