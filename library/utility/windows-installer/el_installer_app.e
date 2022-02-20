@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 16:46:03 GMT (Monday 1st July 2019)"
-	revision: "4"
+	date: "2022-02-20 13:32:12 GMT (Sunday 20th February 2022)"
+	revision: "5"
 
 deferred class
 	EL_INSTALLER_APP [INSTALLER_TYPE -> EL_APPLICATION_INSTALLER create make end]
 
 inherit
-	EL_VISION2_USER_INTERFACE [EL_APPLICATION_INSTALLER_WINDOW [INSTALLER_TYPE]]
+	EL_VISION_2_USER_INTERFACE [EL_APPLICATION_INSTALLER_WINDOW [INSTALLER_TYPE]]
 		rename
 			make as make_ui
 		end

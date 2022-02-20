@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 12:20:16 GMT (Sunday 20th February 2022)"
-	revision: "18"
+	date: "2022-02-20 13:25:25 GMT (Sunday 20th February 2022)"
+	revision: "19"
 
 class
 	OS_COMMAND_TEST_SET
@@ -34,24 +34,24 @@ feature -- Tests
 		-- OS_COMMAND_TEST_SET.test_cpu_info
 		local
 			cpu_info_cmd: like Command.new_cpu_info; info_cmd: EL_CAPTURED_OS_COMMAND
-			count: INTEGER; line: ZSTRING
+			count: INTEGER; line: ZSTRING; field: TUPLE [model_name, processors: ZSTRING]
 		do
-			if {PLATFORM}.is_unix then
-				cpu_info_cmd := Command.new_cpu_info
-				create info_cmd.make_with_name ("cat_cpuinfo", "cat /proc/cpuinfo")
-				info_cmd.execute
-				across info_cmd.lines as list until count = 2 loop
-					line := list.item
-					if line.starts_with_general ("model name") then
-						assert ("has model name", line.has_substring (cpu_info_cmd.model_name))
-						count := count + 1
-					elseif line.starts_with_general ("siblings") then
-						assert ("has siblings", line.ends_with_general (cpu_info_cmd.siblings.out))
-						count := count + 1
-					end
+			cpu_info_cmd := Command.new_cpu_info
+			field := cpu_info_cmd.field
+			create info_cmd.make_with_name ("info_cmd", cpu_info_cmd.template)
+			info_cmd.execute
+
+			across info_cmd.lines as list until count = 2 loop
+				line := list.item
+				if line.starts_with_general (field.model_name) then
+					assert ("has model name", line.has_substring (cpu_info_cmd.model_name))
+					count := count + 1
+				elseif line.starts_with_general (field.processors) then
+					assert ("has processor_count", line.ends_with_general (cpu_info_cmd.processor_count.out))
+					count := count + 1
 				end
-				assert ("two fields", count = 2)
 			end
+			assert ("two fields", count = 2)
 		end
 
 	test_create_tar_command

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 12:40:34 GMT (Wednesday 24th November 2021)"
-	revision: "4"
+	date: "2022-02-20 15:30:15 GMT (Sunday 20th February 2022)"
+	revision: "5"
 
 class
 	EL_PROCEDURE_DISTRIBUTER [G]
@@ -24,7 +24,7 @@ inherit
 		end
 
 create
-	make
+	make, make_threads
 
 feature -- Basic operations
 

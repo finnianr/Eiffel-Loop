@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
-	date: "2022-02-08 15:47:36 GMT (Tuesday 8th February 2022)"
-	revision: "2"
+	date: "2022-02-20 15:31:29 GMT (Sunday 20th February 2022)"
+	revision: "3"
 
 class
 	PROTEIN_FOLDING_TEST_SET
@@ -105,7 +105,7 @@ feature {NONE} -- Implementation
 				result_path := list.item
 				if attached {PROTEIN_FOLDING_COMMAND} Eiffel.new_object (command_type) as command then
 					if attached {MULTI_CORE_PF_COMMAND [ANY]} command as multicore then
-						multicore.make (input_sequence (result_path), output_path (result_path), 4)
+						multicore.make (input_sequence (result_path), output_path (result_path), 50)
 					else
 						command.make (input_sequence (result_path), output_path (result_path))
 					end
@@ -134,5 +134,4 @@ feature {NONE} -- Constants
 		end
 
 end
-
 

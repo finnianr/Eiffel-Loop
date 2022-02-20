@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 18:35:55 GMT (Tuesday 15th February 2022)"
-	revision: "9"
+	date: "2022-02-20 13:27:44 GMT (Sunday 20th February 2022)"
+	revision: "10"
 
 class
 	EL_WEL_DISPLAY_MONITOR_INFO
@@ -83,11 +83,11 @@ feature -- Access
 			-- Monitor model
 			-- Example: IVM5601
 		local
-			path_steps: DIR_PATH
+			path_steps: EL_PATH_STEPS
 		do
 			-- Example device_id: "MONITOR\IVM5601\{4d36e96e-e325-11ce-bfc1-08002be10318}\0000"
 			path_steps := primary_device.device_id
-			Result := path_steps.i_th_step (2)
+			Result := path_steps [2]
 		end
 
 	primary_device: EL_WEL_DISPLAY_DEVICE

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 18:47:01 GMT (Tuesday 15th February 2022)"
-	revision: "7"
+	date: "2022-02-20 13:29:25 GMT (Sunday 20th February 2022)"
+	revision: "8"
 
 class
 	EL_DIRECTORY_USER_SELECT
@@ -58,17 +58,18 @@ feature {NONE} -- Handlers
 	on_browse_selected
 			--
 		local
-			l_path, start_directory: DIR_PATH; path_exists: BOOLEAN; l_directory: DIRECTORY
+			path_steps: EL_PATH_STEPS; start_directory: DIR_PATH
+			path_exists: BOOLEAN; l_directory: DIRECTORY
 		do
 			from
-				l_path := directory_path.twin
+				path_steps := directory_path.twin
 			until
-				path_exists or l_path.is_empty
+				path_exists or path_steps.is_empty
 			loop
-				start_directory := l_path
+				start_directory := path_steps
 				create l_directory.make (start_directory)
 				path_exists := l_directory.exists
-				l_path.remove_tail (1)
+				path_steps.remove_tail (1)
 			end
 			directory_dialog.set_start_directory (start_directory)
 			directory_dialog.show_modal_to_window (first_window)

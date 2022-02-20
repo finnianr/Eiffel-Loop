@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 9:21:41 GMT (Saturday 19th February 2022)"
-	revision: "51"
+	date: "2022-02-20 17:28:39 GMT (Sunday 20th February 2022)"
+	revision: "52"
 
 class
 	REPOSITORY_PUBLISHER
@@ -50,10 +50,10 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_file_path: FILE_PATH; a_version: STRING; a_thread_count: INTEGER)
+	make (a_file_path: FILE_PATH; a_version: STRING; a_cpu_percentage: INTEGER)
 		do
-			config_path := a_file_path; version := a_version; thread_count := a_thread_count
-			log_thread_count
+			config_path := a_file_path; version := a_version; cpu_percentage := a_cpu_percentage
+			log_cpu_percentage
 			create parser.make (Current)
 			make_from_file (a_file_path)
 			parser.update (True)
@@ -125,7 +125,7 @@ feature -- Access
 
 	templates: REPOSITORY_HTML_TEMPLATES
 
-	thread_count: INTEGER
+	cpu_percentage: INTEGER
 
 	version: STRING
 
@@ -220,9 +220,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	log_thread_count
+	log_cpu_percentage
 		do
-			lio.put_integer_field ("Thread count", thread_count)
+			lio.put_labeled_substitution ("CPU resource usage", "%S%% of available processors", [cpu_percentage])
 			lio.put_new_line
 		end
 

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-19 13:52:40 GMT (Wednesday 19th February 2020)"
-	revision: "6"
+	date: "2022-02-20 15:47:32 GMT (Sunday 20th February 2022)"
+	revision: "7"
 
 class
 	EL_WORK_DISTRIBUTER [R -> ROUTINE]
@@ -24,14 +24,20 @@ class
 inherit
 	EL_SINGLE_THREAD_ACCESS
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_COMMAND; EL_MODULE_EXECUTION_ENVIRONMENT
 
 create
-	make
+	make, make_threads
 
 feature {NONE} -- Initialization
 
-	make (maximum_thread_count: INTEGER)
+	make (cpu_percentage: INTEGER)
+		-- make with percentage of available CPU processors to use
+		do
+			make_threads (Command.new_cpu_info.scaled_processor_count (cpu_percentage))
+		end
+
+	make_threads (maximum_thread_count: INTEGER)
 		do
 			make_default
 			create available.make (maximum_thread_count)

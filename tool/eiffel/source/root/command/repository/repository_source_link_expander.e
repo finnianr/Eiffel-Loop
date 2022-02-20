@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 13:02:36 GMT (Thursday 13th January 2022)"
-	revision: "16"
+	date: "2022-02-20 15:02:13 GMT (Sunday 20th February 2022)"
+	revision: "17"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -57,7 +57,7 @@ feature -- Basic operations
 
 	execute
 		do
-			log_thread_count
+			log_cpu_percentage
 			ecf_list.do_all (agent {EIFFEL_CONFIGURATION_FILE}.read_source_files (parser))
 			if attached open (expanded_file_path, Write) as file_out then
 				open_lines (file_path, Utf_8).do_all (agent expand_links (?, file_out))

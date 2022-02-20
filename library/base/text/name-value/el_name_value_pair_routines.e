@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-02 11:09:31 GMT (Wednesday 2nd February 2022)"
-	revision: "1"
+	date: "2022-02-20 13:14:30 GMT (Sunday 20th February 2022)"
+	revision: "2"
 
 deferred class
 	EL_NAME_VALUE_PAIR_ROUTINES
@@ -17,11 +17,11 @@ feature -- Access
 	has (text, a_name: ZSTRING): BOOLEAN
 		-- `True' if `text' has `a_name' as "<name> $delimiter"
 		local
-			pos_colon, end_index: INTEGER
+			index, end_index: INTEGER
 		do
-			pos_colon := text.index_of (delimiter, 1)
-			if pos_colon > a_name.count then
-				from end_index := pos_colon - 1 until text.is_alpha_numeric_item (end_index) or end_index = 0 loop
+			index := text.index_of (delimiter, 1)
+			if index > a_name.count then
+				from end_index := index - 1 until text.is_alpha_numeric_item (end_index) or end_index = 0 loop
 					end_index := end_index - 1
 				end
 				Result := text.same_characters (a_name, 1, a_name.count, end_index - a_name.count + 1)
@@ -41,11 +41,11 @@ feature -- Access
 
 	name (text: ZSTRING): ZSTRING
 		local
-			pos_colon: INTEGER
+			index: INTEGER
 		do
-			pos_colon := text.index_of (delimiter, 1)
-			if pos_colon > 0 then
-				Result := text.substring (1, pos_colon - 1)
+			index := text.index_of (delimiter, 1)
+			if index > 0 then
+				Result := text.substring (1, index - 1)
 				Result.adjust
 			else
 				create Result.make_empty
@@ -54,11 +54,11 @@ feature -- Access
 
 	value (text: ZSTRING): ZSTRING
 		local
-			pos_colon: INTEGER
+			index: INTEGER
 		do
-			pos_colon := text.index_of (delimiter, 1)
-			if pos_colon > 0 and then pos_colon + 2 <= text.count then
-				Result := text.substring_end (pos_colon + 1)
+			index := text.index_of (delimiter, 1)
+			if index > 0 and then index + 1 <= text.count then
+				Result := text.substring_end (index + 1)
 				Result.adjust
 				if Result.has_quotes (2) then
 					Result.remove_quotes

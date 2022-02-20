@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 12:17:20 GMT (Sunday 20th February 2022)"
-	revision: "8"
+	date: "2022-02-20 15:47:32 GMT (Sunday 20th February 2022)"
+	revision: "9"
 
 deferred class
 	EL_CPU_INFO_COMMAND_I
@@ -18,6 +18,7 @@ inherit
 			do_with_lines as do_with_output_lines
 		export
 			{NONE} all
+			{EL_MODULE_COMMAND} template -- for testing
 		redefine
 			do_with_output_lines
 		end
@@ -25,8 +26,15 @@ inherit
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
 			make as make_machine
-		redefine
-			call
+		end
+
+	EL_NAME_VALUE_PAIR_ROUTINES
+		rename
+			name as field_name,
+			integer as field_integer,
+			value as field_value
+		export
+			{NONE} all
 		end
 
 	EL_MODULE_TUPLE
@@ -46,43 +54,33 @@ feature -- Access
 
 	model_name: STRING
 
-	siblings: INTEGER
+	processor_count: INTEGER
 		-- number of CPU threads
+
+	scaled_processor_count (cpu_percentage: INTEGER): INTEGER
+		do
+			Result := (processor_count * cpu_percentage / 100).rounded
+		end
 
 feature {NONE} -- Implementation
 
 	find_model_name (line: ZSTRING)
-		local
-			colon: EL_COLON_FIELD_ROUTINES
 		do
-			if colon.name (line) ~ Field.model_name then
-				model_name := colon.value (line)
-				state := agent find_siblings
+			if field_name (line) ~ Field.model_name then
+				model_name := field_value (line)
+				state := agent find_processors
 			end
 		end
 
-	find_siblings (line: ZSTRING)
-		local
-			colon: EL_COLON_FIELD_ROUTINES
+	find_processors (line: ZSTRING)
 		do
-			if colon.name (line) ~ Field.siblings and then attached colon.integer (line) as number then
-				siblings := number.item
+			if field_name (line) ~ Field.processors and then attached field_integer (line) as number then
+				processor_count := number.item
 				state := final
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	call (line: ZSTRING)
-		-- call state procedure with item
-		do
-			if attached line.substring_to (':', default_pointer) as name then
-				line.remove_head (name.count)
-				name.right_adjust
-				line.prepend (name)
-			end
-			state (line)
-		end
+feature {EL_MODULE_COMMAND} -- Implementation
 
 	do_with_output_lines (lines: like new_output_lines)
 			--
@@ -90,14 +88,11 @@ feature {NONE} -- Implementation
 			do_once_with_file_lines (agent find_model_name, lines)
 		ensure then
 			model_name_set: not model_name.is_empty
-			sibling_set: siblings > 0
+			sibling_set: processor_count > 0
 		end
 
-feature {NONE} -- Constants
-
-	Field: TUPLE [model_name, siblings: ZSTRING]
-		once
-			create Result
-			Tuple.fill (Result, "model name, siblings")
+	field: TUPLE [model_name, processors: ZSTRING]
+		deferred
 		end
+
 end

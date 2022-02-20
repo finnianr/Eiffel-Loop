@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 18:25:28 GMT (Tuesday 15th February 2022)"
-	revision: "11"
+	date: "2022-02-20 12:27:54 GMT (Sunday 20th February 2022)"
+	revision: "12"
 
 class
 	EL_MENU_DESKTOP_ENVIRONMENT_IMP
@@ -111,11 +111,11 @@ feature {NONE} -- Implementation
 			Result := launcher.name + ".lnk"
 		end
 
-	submenu_path_steps: DIR_PATH
+	submenu_path_steps: EL_PATH_STEPS
 		do
 			create Result.make_steps (submenu_path.count)
 			across submenu_path as submenu loop
-				Result.append_step (submenu.item.name)
+				Result.extend (submenu.item.name)
 			end
 		end
 

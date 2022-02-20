@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-08 14:41:46 GMT (Monday 8th March 2021)"
-	revision: "6"
+	date: "2022-02-20 15:30:09 GMT (Sunday 20th February 2022)"
+	revision: "7"
 
 class
 	EL_LOGGED_WORK_DISTRIBUTER [R -> ROUTINE]
@@ -19,7 +19,7 @@ inherit
 		end
 
 create
-	make
+	make, make_threads
 
 feature {NONE} -- Internal attributes
 

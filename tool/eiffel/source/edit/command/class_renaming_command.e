@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 11:19:23 GMT (Sunday 20th February 2022)"
-	revision: "23"
+	date: "2022-02-20 15:18:55 GMT (Sunday 20th February 2022)"
+	revision: "24"
 
 class
 	CLASS_RENAMING_COMMAND
@@ -50,7 +50,7 @@ feature -- Basic operations
 		local
 			old_imp_base_name: ZSTRING
 		do
-			Precursor
+			log_rename; Precursor
 			-- Check for _IMP file if class ends with "_I"
 			if old_name.ends_with ("_I") and new_name.ends_with ("_I") then
 				old_imp_base_name := old_name.as_lower + "mp.e"
@@ -59,7 +59,7 @@ feature -- Basic operations
 					old_name.append_string_general ("MP")
 				end
 				lio.put_new_line
-				Precursor
+				log_rename; Precursor
 			end
 		end
 
@@ -122,6 +122,12 @@ feature {NONE} -- Implementation
 				c := line [lower - 1]
 				Result := not (c.is_alpha_numeric or c = '_')
 			end
+		end
+
+	log_rename
+		do
+			lio.put_labeled_substitution ("Renaming class", "%S as %S", [old_name, new_name])
+			lio.put_new_line
 		end
 
 	put_substituted (a_file: PLAIN_TEXT_FILE; line: STRING)

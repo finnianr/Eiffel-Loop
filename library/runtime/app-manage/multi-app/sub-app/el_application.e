@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 11:47:39 GMT (Tuesday 8th February 2022)"
-	revision: "54"
+	date: "2022-02-20 17:33:48 GMT (Sunday 20th February 2022)"
+	revision: "55"
 
 deferred class
 	EL_APPLICATION
@@ -252,6 +252,12 @@ feature {NONE} -- Implementation
 			if Exception.is_termination_signal then
 				ctrl_c_pressed := True
 				retry
+				
+			elseif attached Exception.last_exception.cause as cause then
+				lio.put_labeled_substitution (
+					cause.generator, "{%S}.%S Line %S", [cause.type_name, cause.recipient_name, cause.line_number]
+				)
+				lio.put_new_line
 			end
 		end
 
@@ -449,7 +455,6 @@ note
 
 	]"
 end
-
 
 
 

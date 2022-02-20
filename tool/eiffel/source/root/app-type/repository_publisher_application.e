@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-06 17:08:18 GMT (Sunday 6th February 2022)"
-	revision: "10"
+	date: "2022-02-20 15:06:52 GMT (Sunday 20th February 2022)"
+	revision: "11"
 
 deferred class
 	REPOSITORY_PUBLISHER_APPLICATION [C -> REPOSITORY_PUBLISHER]
@@ -22,7 +22,9 @@ feature {NONE} -- Implementation
 			Result := <<
 				config_argument ("Path to publisher configuration file"),
 				required_argument ("version", "Repository version number", No_checks),
-				optional_argument ("threads", "Number of threads to use for reading files", No_checks)
+				optional_argument (
+					"cpu_percent", "Percentage of CPU processors to use for reading files", << within_range (0 |..| 100) >>
+				)
 			>>
 		end
 

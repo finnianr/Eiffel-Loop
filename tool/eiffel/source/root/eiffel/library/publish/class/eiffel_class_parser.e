@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 12:38:19 GMT (Thursday 3rd February 2022)"
-	revision: "7"
+	date: "2022-02-20 17:35:38 GMT (Sunday 20th February 2022)"
+	revision: "8"
 
 class
 	EIFFEL_CLASS_PARSER
@@ -15,7 +15,7 @@ class
 inherit
 	EL_FUNCTION_DISTRIBUTER [TUPLE [directory: SOURCE_DIRECTORY; e_class: EIFFEL_CLASS]]
 		rename
-			make as make_distributer
+			make as make_cpu_percentage
 		export
 			{NONE} all
 		end
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 
 	make (a_repository: like repository)
 		do
-			make_distributer (a_repository.thread_count)
+			make_cpu_percentage (a_repository.cpu_percentage)
 			repository := a_repository
 			create result_list.make (100)
 		end

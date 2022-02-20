@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
-	date: "2022-02-08 15:49:40 GMT (Tuesday 8th February 2022)"
-	revision: "3"
+	date: "2022-02-20 15:47:52 GMT (Sunday 20th February 2022)"
+	revision: "4"
 
 deferred class
 	MULTI_CORE_PF_COMMAND [G]
@@ -20,14 +20,16 @@ inherit
 			Description, Iterations_per_dot
 		end
 
+	EL_MODULE_COMMAND
+
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_strseq: like strseq; a_output_path: FILE_PATH; a_max_thread_count: INTEGER)
+	make (a_strseq: like strseq; a_output_path: FILE_PATH; a_cpu_percent: INTEGER)
 		do
-			max_thread_count := a_max_thread_count
+			cpu_percent := a_cpu_percent
 			make_one_core (a_strseq, a_output_path)
 
-			create pool.make (max_thread_count)
+			create pool.make (Command.new_cpu_info.scaled_processor_count (a_cpu_percent))
 		end
 
 feature -- Constants
@@ -39,15 +41,15 @@ feature {NONE} -- Factory
 	new_distributer: EL_PROCEDURE_DISTRIBUTER [like pool.item]
 		do
 --			if Logging.is_active then
---				create {EL_LOGGED_PROCEDURE_DISTRIBUTER [like new_folder]} Result.make (max_thread_count)
+--				create {EL_LOGGED_PROCEDURE_DISTRIBUTER [like new_folder]} Result.make (cpu_percent)
 --			else
-				create Result.make (max_thread_count)
+				create Result.make (cpu_percent)
 --			end
 		end
 
 feature {NONE} -- Internal attributes
 
-	max_thread_count: INTEGER;
+	cpu_percent: INTEGER
 
 	pool: ARRAYED_STACK [G]
 

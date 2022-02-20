@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
-	date: "2022-02-08 15:47:36 GMT (Tuesday 8th February 2022)"
-	revision: "2"
+	date: "2022-02-20 15:43:10 GMT (Sunday 20th February 2022)"
+	revision: "3"
 
 class
 	MULTI_CORE_PF_HP_2_1_APP
@@ -37,12 +37,13 @@ feature {NONE} -- Implementation
 
 	argument_list: EL_ARRAYED_LIST [EL_COMMAND_ARGUMENT]
 		do
-			Result := Precursor + optional_argument ("threads", "Maximum number of threads to use", No_checks)
+			Result := Precursor +
+				optional_argument ("cpu_percent", "Percentage of CPU processors to use", << within_range (0 |..| 100)  >>)
 		end
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make (Default_sequence, default_output_path, 4)
+			Result := agent {like command}.make (Default_sequence, default_output_path, 50)
 		end
 
 	new_command (sequence: STRING; output_path: FILE_PATH): like command

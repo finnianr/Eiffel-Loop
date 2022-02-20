@@ -36,6 +36,9 @@ system:
 		library:
 			name = EL_base; location = "base/base.ecf"
 
+		library:
+			name = EL_os_command; readonly = false; location = "os-command.ecf"
+
 		# Source code
 		cluster:
 			name = concurrency; location = "runtime/concurrency"; recursive = true

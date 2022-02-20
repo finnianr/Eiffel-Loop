@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:05 GMT (Saturday 5th February 2022)"
-	revision: "3"
+	date: "2022-02-20 14:50:07 GMT (Sunday 20th February 2022)"
+	revision: "4"
 
 class
 	HORSE_RACE_APP
@@ -50,7 +50,7 @@ feature {NONE} -- Initialization
 				horse_list.extend (create {HORSE}.make (l_color.item, horse_moved))
 			end
 			-- create a thread pool with `horse_list.count' number of threads
-			create distributer.make (horse_list.count)
+			create distributer.make_threads (horse_list.count)
 		end
 
 feature -- Basic operations

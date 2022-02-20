@@ -1,3 +1,6 @@
+1.4.16
+* EIFFEL_VIEW_APP now accepts option -cpu_percent
+
 1.4.15
 * Multi-threaded version of grep tool
 

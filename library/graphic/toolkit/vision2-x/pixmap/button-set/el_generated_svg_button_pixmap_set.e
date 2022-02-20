@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 18:55:51 GMT (Tuesday 15th February 2022)"
-	revision: "11"
+	date: "2022-02-20 13:31:14 GMT (Sunday 20th February 2022)"
+	revision: "12"
 
 class
 	EL_GENERATED_SVG_BUTTON_PIXMAP_SET
@@ -132,20 +132,20 @@ feature {NONE} -- Implementation
 
 	fill_pixmaps (width_cms: REAL)
 		local
-			generated_svg_highlighted_file_path, final_relative_path_steps, image_dir_path: FILE_PATH
-			generated_svg_relative_path_steps: DIR_PATH
+			generated_svg_highlighted_file_path, image_dir_path: FILE_PATH
+			final_relative_path_steps, generated_svg_relative_path_steps: EL_PATH_STEPS
 			generated_svg_image_dir: DIR_PATH
 			svg_image: like new_svg_image
 		do
 			put (svg_icon (Button_state.normal, width_cms), Button_state.normal)
 
 			final_relative_path_steps := icon_path_steps.to_string
-			final_relative_path_steps.put_step_front (Image_path.Step.icons)
+			final_relative_path_steps.put_front (Image_path.Step.icons)
 			image_dir_path := Directory.Application_installation + final_relative_path_steps
 
 			create generated_svg_relative_path_steps.make_steps (icon_path_steps.count + 1)
-			generated_svg_relative_path_steps.append_step (Image_path.Step.icons)
-			generated_svg_relative_path_steps.append (icon_path_steps)
+			generated_svg_relative_path_steps.extend (Image_path.Step.icons)
+			generated_svg_relative_path_steps.append_path (icon_path_steps)
 			generated_svg_image_dir := Directory.App_configuration #+ generated_svg_relative_path_steps
 			File_system.make_directory (generated_svg_image_dir)
 			generated_svg_highlighted_file_path := generated_svg_image_dir + svg_name (Button_state.highlighted)
@@ -162,7 +162,7 @@ feature {NONE} -- Implementation
 				file_highlighted.close; file_clicked.close
 
 			end
-			final_relative_path_steps.append_step (svg_name (Button_state.highlighted))
+			final_relative_path_steps.extend (svg_name (Button_state.highlighted))
 			create svg_image.make_with_width_cms (
 				Directory.App_configuration + final_relative_path_steps, width_cms, background_color
 			)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 8:38:17 GMT (Wednesday 9th February 2022)"
-	revision: "2"
+	date: "2022-02-20 14:57:02 GMT (Sunday 20th February 2022)"
+	revision: "3"
 
 deferred class
 	DISTRIBUTED_INTEGRATION_COMMAND [G]
@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 			Precursor (a_option, a_function)
 			delta_count := option.delta_count; task_count := option.task_count
 			create result_list.make (task_count)
-			create distributer.make (Option.thread_count)
+			create distributer.make (Option.cpu_percent)
 			if option.max_priority then
 				distributer.set_max_priority
 			end

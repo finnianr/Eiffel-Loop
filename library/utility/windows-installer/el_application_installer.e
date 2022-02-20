@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "4"
+	date: "2022-02-20 13:33:18 GMT (Sunday 20th February 2022)"
+	revision: "5"
 
 deferred class
 	EL_APPLICATION_INSTALLER
@@ -124,8 +124,8 @@ feature {NONE} -- Implementation
 				l_command := (Copy_directory_command)
 				destination_path.append_step (directory)
 			end
-			l_command.put_directory_path ("source", source_path)
-			l_command.put_directory_path ("application_home", destination_path)
+			l_command.put_path ("source", source_path)
+			l_command.put_path ("application_home", destination_path)
 			l_command.execute
 			log.exit
 		end
@@ -239,4 +239,3 @@ feature -- Window  constants
 		end
 
 end
-

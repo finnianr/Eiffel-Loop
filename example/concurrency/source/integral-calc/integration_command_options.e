@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 8:37:40 GMT (Wednesday 9th February 2022)"
-	revision: "7"
+	date: "2022-02-20 14:56:13 GMT (Sunday 20th February 2022)"
+	revision: "8"
 
 class
 	INTEGRATION_COMMAND_OPTIONS
@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 			repetition_count := 1
 			task_count := 4
 			term_count := 4
-			thread_count := 4
+			cpu_percent := 4
 			create multiplicands.make_from_array (<< 1.0 >>)
 			integral_range := [0.0, 2.0]
 			method := "single_thread"
@@ -52,7 +52,7 @@ feature -- Access
 
 	integral_range: TUPLE [radians_lower, radians_upper: DOUBLE]
 
-	thread_count: INTEGER
+	cpu_percent: INTEGER
 
 	max_priority: BOOLEAN
 
@@ -88,8 +88,8 @@ feature {NONE} -- Constants
 					Number of discreet tasks to divide integral calculation into for thread assignation
 				term_count:
 					Number of sine functions to add together for test function
-				thread_count:
-					Number of threads to use to calculate integral of test sine function
+				cpu_percent:
+					Percentage of CPU threads to use to calculate integral of test sine function
 			]")
 		end
 
