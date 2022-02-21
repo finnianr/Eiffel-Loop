@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "13"
+	date: "2022-02-21 8:38:50 GMT (Monday 21st February 2022)"
+	revision: "14"
 
 class
 	FILE_EXPERIMENTS
@@ -15,9 +15,7 @@ class
 inherit
 	EXPERIMENTAL
 
-	EL_MODULE_OS
-
-	EL_MODULE_DIRECTORY
+	EL_MODULE_DIRECTORY; EL_MODULE_OS; EL_MODULE_SYSTEM
 
 feature -- Basic operations
 
@@ -92,19 +90,6 @@ feature -- Basic operations
 		do
 			lio.put_path_field ("Directory.app_data", Directory.app_data)
 			lio.put_new_line
-		end
-
-	print_os_user_list
-		local
-			dir_path: DIR_PATH; user_info: like command.new_user_info
-		do
-			user_info := command.new_user_info
-			across << user_info.configuration_dir_list, user_info.data_dir_list >> as dir_list loop
-				across dir_list.item as dir loop
-					lio.put_path_field ("", dir.item)
-					lio.put_new_line
-				end
-			end
 		end
 
 	self_deletion_from_batch

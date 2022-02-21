@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 18:39:54 GMT (Tuesday 15th February 2022)"
-	revision: "6"
+	date: "2022-02-21 6:26:27 GMT (Monday 21st February 2022)"
+	revision: "7"
 
 class
 	JAVA_RUNTIME_ENVIRONMENT_INFO
@@ -24,14 +24,14 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			steps: FILE_PATH; client_pos: INTEGER
+			steps: EL_PATH_STEPS; client_pos: INTEGER
 		do
 			jvm_dll_path := Win_registry.string (Current_version_reg_path, "RuntimeLib")
 			if not jvm_dll_path.exists then
 				steps := jvm_dll_path.twin
 				client_pos := steps.index_of ("client", 1)
 				if client_pos > 0 then
-					steps.put_i_th_step ("server", client_pos)
+					steps [client_pos] := "server"
 					jvm_dll_path := steps
 				end
 			end

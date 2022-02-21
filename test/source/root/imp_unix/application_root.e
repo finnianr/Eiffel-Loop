@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 13:22:44 GMT (Thursday 3rd February 2022)"
-	revision: "67"
+	date: "2022-02-21 8:10:43 GMT (Monday 21st February 2022)"
+	revision: "68"
 
 class
 	APPLICATION_ROOT
@@ -173,7 +173,9 @@ feature {NONE} -- Include classes
 		EL_LOGGED_FUNCTION_DISTRIBUTER [ANY],
 		EL_LOGGED_PROCEDURE_DISTRIBUTER [ANY],
 		EL_LOGGED_WORK_DISTRIBUTER [ROUTINE],
-		EL_VIDEO_TO_MP3_COMMAND_I
+		EL_VIDEO_TO_MP3_COMMAND_I,
+		EL_MODULE_SYSTEM,
+		EL_STANDARD_REMOVE_DATA_APP
 	]
 		once
 			create Result

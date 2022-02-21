@@ -33,6 +33,12 @@ system:
 				platform:
 					value = unix
 
+		external_cflag:
+			value = "-Wno-write-strings"
+			condition:
+				platform:
+					value = unix
+
 		external_include: 
 			location = "$(JDK_HOME)/include/win32"
 			condition:

@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-12 8:22:50 GMT (Saturday 12th February 2022)"
-	revision: "23"
+	date: "2022-02-21 13:35:45 GMT (Monday 21st February 2022)"
+	revision: "24"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I
@@ -158,6 +158,13 @@ feature -- User
 
 feature -- Application
 
+	app_all_list: EL_ARRAYED_LIST [DIR_PATH]
+		-- list of all application directories
+		do
+			create Result.make_from_array (<< App_cache, App_configuration, App_data >>)
+			Result.compare_objects
+		end
+
 	App_cache: DIR_PATH
 		once
 			Result := cache #+ App_install_sub
@@ -198,6 +205,13 @@ feature -- Constants
 	Parent: ZSTRING
 		once
 			Result := "/.."
+		end
+
+	Relative_app_data: DIR_PATH
+		-- .share/local for Unix
+		-- AppData\Local for Windows
+		once
+			Result := user_local.relative_path (home)
 		end
 
 	Legacy_table: EL_HASH_TABLE [DIR_PATH, DIR_PATH]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-10 17:42:10 GMT (Thursday 10th February 2022)"
-	revision: "11"
+	date: "2022-02-21 13:32:10 GMT (Monday 21st February 2022)"
+	revision: "12"
 
 class
 	EL_USERS_INFO_COMMAND_IMP
@@ -16,6 +16,8 @@ inherit
 	EL_USERS_INFO_COMMAND_I
 		export
 			{NONE} all
+		redefine
+			make, do_with_lines
 		end
 
 	EL_OS_COMMAND_IMP
@@ -23,33 +25,91 @@ inherit
 			do_command, new_command_parts
 		end
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
-
+	EL_PLAIN_TEXT_LINE_STATE_MACHINE
+		rename
+			do_with_lines as do_with_text_lines
+		redefine
+			make
+		end
 create
 	make
 
+feature {NONE} -- Initialization
+
+	make
+		do
+			Precursor {EL_PLAIN_TEXT_LINE_STATE_MACHINE}
+			Precursor {EL_USERS_INFO_COMMAND_I}
+		end
+
+feature {NONE} -- State handlers
+
+	find_command_completed (line: ZSTRING)
+		do
+			if line.has_substring (Command_completed) then
+				state := final
+			else
+				across line.as_canonically_spaced.split (' ') as split loop
+					if split.item_count > 0 then
+						user_list.extend (split.item_copy)
+					end
+				end
+			end
+		end
+
+	find_dashed_line (line: ZSTRING)
+		local
+			s: EL_ZSTRING_ROUTINES
+		do
+			if line.starts_with (s.n_character_string ('-', 3)) then
+				state := agent find_command_completed
+			end
+		end
+
 feature {NONE} -- Implementation
 
-	is_user (name: ZSTRING): BOOLEAN
-		-- True if name is a user recognised by "net user" command
+	do_with_lines (lines: like new_output_lines)
+			--
+		local
+			home_list: EL_ZSTRING_LIST
+
 		do
-			if name.count > 0 then
-				Net_user_cmd.put_string (Var_name, name)
-				Net_user_cmd.execute
-				Result := not Net_user_cmd.lines.is_empty
+			-- fill `user_list'
+			do_with_text_lines (agent find_dashed_line, new_net_user_list)
+			create home_list.make (10)
+			across lines as line loop
+				if line.item.count > 0 then
+					home_list.extend (line.item)
+				end
 			end
+			-- prune users that do not have a matching directory in C:\Users
+			create user_list.make_from_list (user_list.query_if (agent home_list.has))
+		end
+
+	new_net_user_list: EL_ZSTRING_LIST
+		--  get list of users using output of `net user' command, as for example:
+
+		--		User accounts for \\MACMINI
+		--		-------------------------------------------------------------------------------
+		--		Administrator            finnian                  Guest
+		--		mäder
+		--		The command completed successfully.
+		local
+			net_user: EL_CAPTURED_OS_COMMAND
+		do
+			create net_user.make_with_name ("net-user", "net user")
+			net_user.execute
+			Result := net_user.lines
 		end
 
 feature {NONE} -- Constants
 
-	Template: STRING = "dir /B /AD-S-H $users_dir"
-		-- Directories that do not have the hidden or system attribute set
-
-	Net_user_cmd: EL_CAPTURED_OS_COMMAND
+	Command_completed: ZSTRING
 		once
-			create Result.make_with_name ("net-user", "net user $name")
+			Result := "command completed"
 		end
 
-	Var_name: STRING = "name"
+	Template: STRING = "dir /B /AD-S-H $users_dir"
+		-- Directories that do not have the hidden or system attribute set
 
 end

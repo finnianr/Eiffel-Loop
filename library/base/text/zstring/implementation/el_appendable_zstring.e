@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:13 GMT (Tuesday 15th February 2022)"
-	revision: "30"
+	date: "2022-02-21 13:47:51 GMT (Monday 21st February 2022)"
+	revision: "32"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -24,6 +24,8 @@ inherit
 		export
 			{ANY} Encoding
 		end
+
+	EL_SHARED_ENCODINGS
 
 feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
@@ -49,7 +51,8 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 	append_encoded_any (str: READABLE_STRING_8; str_encoding: ENCODING)
 		-- append any `str' encoded with `str_encoding'
 		do
-			str_encoding.convert_to (codec.as_encoding, str)
+			-- seems to be not possible to convert to `Codec.as_encoding' so using Unicode instead
+			str_encoding.convert_to (Encodings.Unicode, str)
 			if str_encoding.last_conversion_successful then
 				check
 					no_lost_data: not str_encoding.last_conversion_lost_data

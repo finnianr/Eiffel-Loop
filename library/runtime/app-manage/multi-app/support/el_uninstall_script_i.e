@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 6:49:06 GMT (Thursday 17th February 2022)"
-	revision: "17"
+	date: "2022-02-21 16:48:27 GMT (Monday 21st February 2022)"
+	revision: "19"
 
 deferred class
 	EL_UNINSTALL_SCRIPT_I
@@ -30,15 +30,10 @@ deferred class
 inherit
 	EVOLICITY_SERIALIZEABLE
 
-	EL_MODULE_FILE_SYSTEM
 
-	EL_MODULE_CONSOLE
+	EL_MODULE_CONSOLE; EL_MODULE_EXECUTABLE; EL_MODULE_FILE_SYSTEM
 
-	EL_MODULE_COMMAND
-
-	EL_MODULE_EXECUTABLE
-
-	EL_INSTALLER_DEBUG
+	EL_INSTALLER_DEBUG; EL_MODULE_SYSTEM
 
 	EL_SHARED_APPLICATION_LIST
 
@@ -82,7 +77,9 @@ feature -- Basic operations
 			File_system.make_directory (remove_files_script_path.parent)
 			script.make_open_write (remove_files_script_path)
 
-			command.new_user_info.do_for_existing_directories (agent write_remove_directory)
+			across System.user_permutation_list (Directory.app_all_list) as list loop
+				write_remove_directory (list.item)
+			end
 			write_remove_directory (Directory.Application_installation)
 			script.close
 		end

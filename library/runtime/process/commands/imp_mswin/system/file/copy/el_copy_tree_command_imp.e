@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
-	revision: "7"
+	date: "2022-02-21 13:19:47 GMT (Monday 21st February 2022)"
+	revision: "8"
 
 class
 	EL_COPY_TREE_COMMAND_IMP
@@ -47,6 +47,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Template: STRING = "xcopy /I /E /Y $source_path $xcopy_destination_path"
+	Template: STRING = "xcopy /Q /I /E /Y $source_path $xcopy_destination_path"
 
 end

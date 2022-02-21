@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 8:39:51 GMT (Sunday 20th February 2022)"
-	revision: "17"
+	date: "2022-02-21 7:55:33 GMT (Monday 21st February 2022)"
+	revision: "18"
 
 class
 	EL_COMMAND_FACTORY
@@ -21,21 +21,9 @@ feature -- Internet
 
 feature -- Informational
 
-	new_cpu_info: EL_CPU_INFO_COMMAND_I
-		do
-			create {EL_CPU_INFO_COMMAND_IMP} Result.make
-			-- make calls execute
-		end
-
 	new_jpeg_info (file_path: FILE_PATH): EL_JPEG_FILE_INFO_COMMAND_I
 		do
 			create {EL_JPEG_FILE_INFO_COMMAND_IMP} Result.make (file_path)
-		end
-
-	new_user_info: EL_USERS_INFO_COMMAND_I
-		do
-			create {EL_USERS_INFO_COMMAND_IMP} Result.make
-			-- make calls execute
 		end
 
 	new_directory_info (a_dir_path: DIR_PATH): EL_DIRECTORY_INFO_COMMAND_I
@@ -100,4 +88,5 @@ feature -- File management
 		do
 			create {EL_MAKE_DIRECTORY_COMMAND_IMP} Result.make (a_path)
 		end
+
 end

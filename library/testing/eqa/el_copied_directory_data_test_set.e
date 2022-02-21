@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 16:23:45 GMT (Wednesday 16th February 2022)"
-	revision: "3"
+	date: "2022-02-21 13:20:20 GMT (Monday 21st February 2022)"
+	revision: "4"
 
 deferred class
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
@@ -24,6 +24,7 @@ feature {NONE} -- Events
 		do
 			Precursor
 			OS.copy_tree (source_dir, work_area_dir)
+			lio.put_new_line
 			work_area_data_dir := work_area_dir.joined_dir_tuple ([source_dir.base])
 		end
 

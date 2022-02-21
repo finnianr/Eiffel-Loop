@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 15:47:32 GMT (Sunday 20th February 2022)"
-	revision: "7"
+	date: "2022-02-20 21:18:22 GMT (Sunday 20th February 2022)"
+	revision: "8"
 
 class
 	EL_WORK_DISTRIBUTER [R -> ROUTINE]
@@ -24,17 +24,22 @@ class
 inherit
 	EL_SINGLE_THREAD_ACCESS
 
-	EL_MODULE_COMMAND; EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_EXECUTION_ENVIRONMENT
+
+	EL_MODULE_SYSTEM
 
 create
 	make, make_threads
 
 feature {NONE} -- Initialization
 
-	make (cpu_percentage: INTEGER)
-		-- make with percentage of available CPU processors to use
+	make (maximum_cpu_percentage: INTEGER)
+		-- make with maximum percentage of available CPU processors to use
+		-- 0 % indicate a single threaded implementation of `wait_apply'
+		require
+			valid_percentage: 0 <= maximum_cpu_percentage and maximum_cpu_percentage <= 100
 		do
-			make_threads (Command.new_cpu_info.scaled_processor_count (cpu_percentage))
+			make_threads (System.scaled_processor_count (maximum_cpu_percentage))
 		end
 
 	make_threads (maximum_thread_count: INTEGER)

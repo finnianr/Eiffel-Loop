@@ -1,7 +1,9 @@
 note
 	description: "[
-		Gathers info on all system users determined by listing directories in `C:\Users' (Windows) or `/home' (Linux)
-		For Windows, hidden or system directories are ignored, also the Public folder
+		Creates a list of system users that have a directory in `Directory.home'.		
+		For Windows this is usually `C:\Users' and for Linux `/home'
+
+		The user list is best accessed via {[$source EL_MODULE_SYSTEM]}.user_list
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 10:32:35 GMT (Thursday 17th February 2022)"
-	revision: "14"
+	date: "2022-02-21 17:00:20 GMT (Monday 21st February 2022)"
+	revision: "16"
 
 deferred class
 	EL_USERS_INFO_COMMAND_I
@@ -36,7 +38,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			make_with_path (Directory.users)
+			make_with_path (Directory.Users)
 			execute
 		end
 
@@ -44,65 +46,11 @@ feature {NONE} -- Initialization
 			--
 		do
 			create user_list.make (3)
-			user_list.compare_objects
 			Precursor {EL_CAPTURED_OS_COMMAND_I}
 		end
 
 feature -- Access
 
-	configuration_dir_list: like new_dir_list
-		do
-			Result := new_dir_list (Directory.App_configuration)
-		end
-
-	data_dir_list: like new_dir_list
-		do
-			Result := new_dir_list (Directory.app_data)
-		end
-
 	user_list: EL_ZSTRING_LIST
 		-- list of user names
-
-feature -- Basic operations
-
-	do_for_existing_directories (do_with: PROCEDURE [DIR_PATH])
-		-- apply `do_with' action to every configuration and data directory for all users
-		do
-			across << configuration_dir_list, data_dir_list >> as dir_list loop
-				across dir_list.item as dir loop
-					if dir.item.exists then
-						do_with (dir.item)
-					end
-				end
-			end
-		end
-
-feature {NONE} -- Implementation
-
-	do_with_lines (lines: like new_output_lines)
-			--
-		do
-			user_list.wipe_out
-			lines.do_if (agent user_list.extend, agent is_user)
-		end
-
-	is_user (name: ZSTRING): BOOLEAN
-		deferred
-		end
-
-	new_dir_list (dir_path: DIR_PATH): EL_ARRAYED_LIST [DIR_PATH]
-		local
-			index: INTEGER
-		do
-			if attached dir_path.steps as steps then
-				index := users_dir.step_count
-				create Result.make (user_list.count)
-				across user_list as user loop
-					steps [index + 1] := user.item
-					Result.extend (steps)
-				end
-			end
-		end
-
-
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:14 GMT (Tuesday 15th February 2022)"
-	revision: "3"
+	date: "2022-02-21 9:53:30 GMT (Monday 21st February 2022)"
+	revision: "4"
 
 class
 	EL_INFO_RAW_FILE
@@ -22,7 +22,10 @@ inherit
 			internal_detachable_name_pointer as file_info_pointer
 		export
 			{NONE} all
-			{ANY} access_date, count, delete, date, exists, rename_file, set_date, stamp
+			{ANY} access_date, count, delete, date, exists, rename_file, set_date, stamp,
+			is_symlink, is_access_executable, is_access_owner, is_access_readable, is_access_writable,
+			is_block, is_creatable, is_fifo, is_socket, is_sticky, is_device, is_directory, is_setuid,
+			is_setgid, is_owner
 		redefine
 			internal_path, set_path_name
 		end

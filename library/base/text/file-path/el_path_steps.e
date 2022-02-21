@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 23:19:46 GMT (Thursday 17th February 2022)"
-	revision: "6"
+	date: "2022-02-21 8:57:39 GMT (Monday 21st February 2022)"
+	revision: "7"
 
 class
 	EL_PATH_STEPS
@@ -454,6 +454,14 @@ feature -- Element change
 				area := new_tokens.area
 				internal_hash_code := 0
 			end
+		end
+
+	keep_head (n: INTEGER)
+		-- keep first `n' steps
+		require
+			small_enough: n <= count
+		do
+			remove_tail (count - n.min (count))
 		end
 
 	put_base (a_step: ZSTRING)

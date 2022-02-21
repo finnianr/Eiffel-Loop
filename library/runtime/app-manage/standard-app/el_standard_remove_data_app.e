@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 15:56:51 GMT (Wednesday 16th February 2022)"
-	revision: "10"
+	date: "2022-02-21 8:32:19 GMT (Monday 21st February 2022)"
+	revision: "11"
 
 class
 	EL_STANDARD_REMOVE_DATA_APP
@@ -21,9 +21,7 @@ inherit
 			option_name
 		end
 
-	EL_MODULE_COMMAND
-	EL_MODULE_OS
-	EL_MODULE_USER_INPUT
+	EL_MODULE_SYSTEM;	EL_MODULE_OS; EL_MODULE_USER_INPUT
 
 	EL_SHARED_APPLICATION_LIST
 		export
@@ -64,7 +62,9 @@ feature -- Basic operations
 			user_agreed := User_input.entered_letter (Word.first_letter_yes)
 			lio.put_new_line
 			if user_agreed then
-				command.new_user_info.do_for_existing_directories (agent remove_directory)
+				across System.user_permutation_list (Directory.app_all_list) as list loop
+					remove_directory (list.item)
+				end
 			end
 		end
 

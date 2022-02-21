@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-10 18:08:13 GMT (Thursday 10th February 2022)"
-	revision: "10"
+	date: "2022-02-21 12:03:50 GMT (Monday 21st February 2022)"
+	revision: "11"
 
 class
 	EL_USERS_INFO_COMMAND_IMP
@@ -28,13 +28,17 @@ create
 
 feature {NONE} -- Implementation
 
-	is_user (name: ZSTRING): BOOLEAN
+	do_with_lines (lines: like new_output_lines)
 		do
-			Result := name.count > 0
+			across lines as line loop
+				if line.item.count > 0 then
+					user_list.extend (line.item)
+				end
+			end
 		end
 
 feature {NONE} -- Constants
 
-	Template: STRING = "ls $dir_path"
+	Template: STRING = "ls $users_dir"
 
 end

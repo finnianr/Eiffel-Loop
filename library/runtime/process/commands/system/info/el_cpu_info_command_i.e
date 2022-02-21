@@ -1,13 +1,13 @@
 note
-	description: "Unix only command to obtain CPU model name"
+	description: "Cross-platform command to obtain CPU model name"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 15:47:32 GMT (Sunday 20th February 2022)"
-	revision: "9"
+	date: "2022-02-20 21:32:46 GMT (Sunday 20th February 2022)"
+	revision: "10"
 
 deferred class
 	EL_CPU_INFO_COMMAND_I
@@ -18,7 +18,7 @@ inherit
 			do_with_lines as do_with_output_lines
 		export
 			{NONE} all
-			{EL_MODULE_COMMAND} template -- for testing
+			{EL_MODULE_SYSTEM} template -- for testing
 		redefine
 			do_with_output_lines
 		end
@@ -57,11 +57,6 @@ feature -- Access
 	processor_count: INTEGER
 		-- number of CPU threads
 
-	scaled_processor_count (cpu_percentage: INTEGER): INTEGER
-		do
-			Result := (processor_count * cpu_percentage / 100).rounded
-		end
-
 feature {NONE} -- Implementation
 
 	find_model_name (line: ZSTRING)
@@ -80,7 +75,13 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {EL_MODULE_COMMAND} -- Implementation
+feature {EL_MODULE_SYSTEM} -- Implementation
+
+	field: TUPLE [model_name, processors: ZSTRING]
+		deferred
+		end
+
+feature {NONE} -- Implementation
 
 	do_with_output_lines (lines: like new_output_lines)
 			--
@@ -89,10 +90,6 @@ feature {EL_MODULE_COMMAND} -- Implementation
 		ensure then
 			model_name_set: not model_name.is_empty
 			sibling_set: processor_count > 0
-		end
-
-	field: TUPLE [model_name, processors: ZSTRING]
-		deferred
 		end
 
 end

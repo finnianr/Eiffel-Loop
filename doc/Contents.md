@@ -1521,7 +1521,7 @@ Classes for creating cross platform wrappers of OS commands with about 30 "out o
 * Support for making "convenience wrappers" without any need to create a new class. These are classes: [EL_OS_COMMAND](http://www.eiffel-loop.com/library/runtime/process/commands/kernel/el_os_command.html) and [EL_CAPTURED_OS_COMMAND](http://www.eiffel-loop.com/library/runtime/process/commands/kernel/el_captured_os_command.html).
 
 
-* Has factory class [EL_OS_ROUTINES_IMP](http://www.eiffel-loop.com/library/runtime/process/commands/imp_mswin/system/el_os_routines_imp.html) (accessible via [EL_MODULE_OS](http://www.eiffel-loop.com/library/runtime/process/commands/system/el_module_os.html)) which contains factory functions for common OS system commands.
+* Has factory class [EL_OS_ROUTINES_IMP]($source) (accessible via [EL_MODULE_OS](http://www.eiffel-loop.com/library/runtime/process/commands/system/el_module_os.html)) which contains factory functions for common OS system commands.
 
 **Information Commands**
 
@@ -1750,11 +1750,11 @@ Command switch: `-file_manifest`
 
 Command switch: `-undated_photos`
 
-[DUPLICITY_BACKUP_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/duplicity_backup_app.html) creates incremental duplicity backups using a configuration file in Pyxis format.
+[DUPLICITY_BACKUP_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/backup/duplicity_backup_app.html) creates incremental duplicity backups using a configuration file in Pyxis format.
 
 Command switch: `-duplicity`
 
-[DUPLICITY_RESTORE_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/duplicity_restore_app.html) restores either an entire duplicity backup or a selected file or directory.  Restoration output directory is defined in same configuration file as backup.
+[DUPLICITY_RESTORE_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/backup/duplicity_restore_app.html) restores either an entire duplicity backup or a selected file or directory.  Restoration output directory is defined in same configuration file as backup.
 
 Command switch: `-duplicity_restore`
 

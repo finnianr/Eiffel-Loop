@@ -26,8 +26,12 @@ See doc/os-command.txt for details.
 		</library>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
 		<library name = "EL_text_process" location = "text-process.ecf"/>
-		<library name = "EL_thread" location = "thread.ecf"/>
-		<!--Source code-->
+		<!--
+			library:
+			name = EL_thread; location = &quot;thread.ecf&quot;
+			
+			Source code
+		-->
 		<cluster name = "os_command" location = "runtime/process/commands" recursive = "true">
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>

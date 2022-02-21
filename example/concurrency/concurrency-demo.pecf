@@ -103,6 +103,9 @@ system:
 			name = EL_logging; readonly = false; location = "$EIFFEL_LOOP/library/logging.ecf"
 
 		library:
+			name = EL_os_command; readonly = false; location = "$EIFFEL_LOOP/library/os-command.ecf"
+
+		library:
 			name = EL_thread; readonly = false; location = "$EIFFEL_LOOP/library/thread.ecf"
 
 		cluster:

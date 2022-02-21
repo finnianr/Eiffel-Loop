@@ -1,19 +1,19 @@
 note
-	description: "Windows implementation of [$source EL_OS_ROUTINES_I] interface"
+	description: "Windows implementation of [$source EL_SYSTEM_ROUTINES_I] interface"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2022-02-21 9:18:16 GMT (Monday 21st February 2022)"
+	revision: "5"
 
 class
-	EL_OS_ROUTINES_IMP
+	EL_SYSTEM_ROUTINES_IMP
 
 inherit
-	EL_OS_ROUTINES_I
+	EL_SYSTEM_ROUTINES_I
 		export
 			{NONE} all
 		end
@@ -23,13 +23,13 @@ inherit
 feature {NONE} -- Factory
 
 	new_CPU_model_name: STRING
-			--
+		--
 		local
 			i: INTEGER
 		do
 			create Result.make (50)
 			from i := 2 until i > 4 loop
-				Result.append (cpu_info (Extended_function_CPUID_Information + i).string)
+				Result.append (new_cpu_id_info (Extended_function_CPUID_Information + i).string)
 				i := i + 1
 			end
 			Result.left_adjust
@@ -37,7 +37,7 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Implementation
 
-	cpu_info (info_type: INTEGER): C_STRING
+	new_cpu_id_info (info_type: INTEGER): C_STRING
 		local
 			buffer: MANAGED_POINTER
 		do
@@ -52,13 +52,12 @@ feature {NONE} -- Constants
 
 feature {NONE} -- C Externals
 
-		cwin_cpu_id (info_array: POINTER; info_type: INTEGER)
-			-- void __cpuid(int CPUInfo[4], int InfoType);
-		external
-			"C [macro <intrin.h>] (int*, int)"
-		alias
-			"__cpuid"
-		end
-
+	cwin_cpu_id (info_array: POINTER; info_type: INTEGER)
+		-- void __cpuid(int CPUInfo[4], int InfoType);
+	external
+		"C [macro <intrin.h>] (int*, int)"
+	alias
+		"__cpuid"
+	end
 
 end

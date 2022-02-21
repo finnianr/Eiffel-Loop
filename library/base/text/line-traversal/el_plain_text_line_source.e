@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 19:32:38 GMT (Friday 11th February 2022)"
-	revision: "25"
+	date: "2022-02-21 12:55:44 GMT (Monday 21st February 2022)"
+	revision: "26"
 
 class
 	EL_PLAIN_TEXT_LINE_SOURCE
@@ -35,6 +35,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_STRING_8_CONSTANTS
 
 create
 	make_default, make, make_from_file, make_utf_8, make_encoded
@@ -143,8 +145,11 @@ feature {NONE} -- Implementation
 			is_open_read := file.is_open_read
 			open_at_start
 			if file.count > 0 then
-				file.read_line
-				line_one := file.last_string
+				-- Find first non-empty line
+				from line_one := Empty_string_8 until line_one.count > 0 or else file.end_of_file loop
+					file.read_line
+					line_one := file.last_string
+				end
 				if line_one.starts_with (c.Utf_8_bom_to_string_8) then
 					bom_count := c.Utf_8_bom_to_string_8.count
 					encoding_detected := True
@@ -191,7 +196,11 @@ feature {NONE} -- Implementation
 			else
 				create item.make (raw_line.count)
 			end
-			item.append_encoded (raw_line, encoding_code)
+			if encoding_type = Other_class then
+				item.append_encoded_any (raw_line, other_encoding)
+			else
+				item.append_encoded (raw_line, encoding_code)
+			end
 		end
 
 feature {NONE} -- Internal attributes

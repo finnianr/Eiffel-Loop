@@ -14,13 +14,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 15:45:11 GMT (Saturday 19th February 2022)"
-	revision: "21"
+	date: "2022-02-21 7:55:33 GMT (Monday 21st February 2022)"
+	revision: "22"
 
-deferred class
-	EL_OS_ROUTINES_I
+class
+	EL_OS_ROUTINES
 
 inherit
+	ANY
+
 	EL_MODULE_FILE_SYSTEM
 		export
 			{ANY} File_system
@@ -31,11 +33,6 @@ inherit
 	EL_STRING_8_CONSTANTS
 
 feature -- Access
-
-	user_list: EL_ZSTRING_LIST
-		do
-			Result := Command.new_user_info.user_list
-		end
 
 	separator: CHARACTER
 		do
@@ -206,21 +203,6 @@ feature -- Contract Support
 		-- `True' if md5sum command is in search path
 		do
 			Result := Executable.search_path_has ("md5sum")
-		end
-
-feature -- Constants
-
-	CPU_model_name: STRING
-			--
-		once
-			Result := new_cpu_model_name
-			Result.replace_substring_all (once "(R)", Empty_string_8)
-		end
-
-feature {NONE} -- Factory
-
-	new_cpu_model_name: STRING
-		deferred
 		end
 
 feature {NONE} -- Constants

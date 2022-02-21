@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 13:25:25 GMT (Sunday 20th February 2022)"
-	revision: "19"
+	date: "2022-02-21 13:35:45 GMT (Monday 21st February 2022)"
+	revision: "20"
 
 class
 	OS_COMMAND_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 	EIFFEL_LOOP_TEST_ROUTINES
 
-	EL_MODULE_COMMAND
+	EL_MODULE_SYSTEM
 
 feature -- Basic operations
 
@@ -26,6 +26,7 @@ feature -- Basic operations
 		do
 			eval.call ("cpu_info", agent test_cpu_info)
 			eval.call ("create_tar_command", agent test_create_tar_command)
+			eval.call ("user_list", agent test_user_list)
 		end
 
 feature -- Tests
@@ -33,21 +34,21 @@ feature -- Tests
 	test_cpu_info
 		-- OS_COMMAND_TEST_SET.test_cpu_info
 		local
-			cpu_info_cmd: like Command.new_cpu_info; info_cmd: EL_CAPTURED_OS_COMMAND
+			cpu_info: EL_CPU_INFO_COMMAND_I; info_cmd: EL_CAPTURED_OS_COMMAND
 			count: INTEGER; line: ZSTRING; field: TUPLE [model_name, processors: ZSTRING]
 		do
-			cpu_info_cmd := Command.new_cpu_info
-			field := cpu_info_cmd.field
-			create info_cmd.make_with_name ("info_cmd", cpu_info_cmd.template)
+			create {EL_CPU_INFO_COMMAND_IMP} cpu_info.make
+			field := cpu_info.field
+			create info_cmd.make_with_name ("info_cmd", cpu_info.template)
 			info_cmd.execute
 
 			across info_cmd.lines as list until count = 2 loop
 				line := list.item
 				if line.starts_with_general (field.model_name) then
-					assert ("has model name", line.has_substring (cpu_info_cmd.model_name))
+					assert ("has model name", line.has_substring (cpu_info.model_name))
 					count := count + 1
 				elseif line.starts_with_general (field.processors) then
-					assert ("has processor_count", line.ends_with_general (cpu_info_cmd.processor_count.out))
+					assert ("has processor_count", line.ends_with_general (cpu_info.processor_count.out))
 					count := count + 1
 				end
 			end
@@ -69,7 +70,46 @@ feature -- Tests
 			assert ("created", tar_path.exists)
 		end
 
+	test_user_list
+		note
+			testing: "covers/{EL_USERS_INFO_COMMAND_IMP}.make, covers/{EL_SYSTEM_ROUTINES_I}.user_permutation_list"
+		local
+			dir_path: DIR_PATH; steps: EL_PATH_STEPS; index: INTEGER
+		do
+			if attached OS.find_directories_command (Directory.home.parent) as cmd then
+				cmd.set_depth (1 |..| 1)
+				cmd.set_predicate_filter (agent is_user_directory)
+				cmd.execute
+				across cmd.path_list as list loop
+					lio.put_path_field ("%S", list.item)
+					lio.put_new_line
+					assert ("path exists", list.item.exists)
+				end
+			end
+			lio.put_new_line
+
+			if attached System.user_permutation_list (Directory.app_all_list) as permutation_list then
+				assert ("valid count", permutation_list.count = Directory.app_all_list.count * System.user_list.count)
+				index := Directory.Users.step_count
+				across permutation_list as list loop
+					lio.put_path_field ("%S", list.item)
+					lio.put_new_line
+					steps := list.item.steps
+					steps.keep_head (index)
+					assert ("directory exists", steps.to_dir_path.exists)
+				end
+			end
+		end
+
 feature {NONE} -- Implementation
+
+	is_user_directory (path: ZSTRING): BOOLEAN
+		local
+			dir_path: DIR_PATH
+		do
+			dir_path := path
+			Result := System.user_list.has (dir_path.base)
+		end
 
 	source_dir: DIR_PATH
 		do

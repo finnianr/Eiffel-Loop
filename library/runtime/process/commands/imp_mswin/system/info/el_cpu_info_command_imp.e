@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 13:38:56 GMT (Sunday 20th February 2022)"
-	revision: "8"
+	date: "2022-02-21 9:18:43 GMT (Monday 21st February 2022)"
+	revision: "9"
 
 class
 	EL_CPU_INFO_COMMAND_IMP
@@ -22,8 +22,6 @@ inherit
 	EL_CPU_INFO_COMMAND_I
 		export
 			{NONE} all
-		redefine
-			is_valid_platform
 		end
 
 	EL_OS_COMMAND_IMP

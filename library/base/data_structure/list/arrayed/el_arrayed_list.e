@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-26 17:53:57 GMT (Sunday 26th December 2021)"
-	revision: "36"
+	date: "2022-02-21 8:55:53 GMT (Monday 21st February 2022)"
+	revision: "37"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -164,6 +164,13 @@ feature -- Access
 		end
 
 feature -- Removal
+
+	keep_head (n: INTEGER)
+		require
+			small_enough: n <= count
+		do
+			remove_tail (count - n.min (count))
+		end
 
 	remove_head (n: INTEGER)
 			--

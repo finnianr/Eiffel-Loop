@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 17:24:44 GMT (Wednesday 16th February 2022)"
-	revision: "5"
+	date: "2022-02-21 13:39:59 GMT (Monday 21st February 2022)"
+	revision: "6"
 
 deferred class
 	EL_FILE_ROUTINES_I
@@ -233,6 +233,15 @@ feature -- Status report
 			path_1_exists: path_1.exists
 		do
 			Result := not path_2.exists or else modification_time (path_1) > modification_time (path_2)
+		end
+
+	is_symlink (path: EL_PATH): BOOLEAN
+		-- `True' if file is a symbolic link
+		-- (Does not seem to work for "C:\Users\Default User" on 16.05)
+		do
+			if attached info (path, False) as l_info then
+				Result := l_info.is_symlink
+			end
 		end
 
 feature -- Property change

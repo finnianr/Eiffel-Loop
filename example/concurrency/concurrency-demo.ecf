@@ -51,6 +51,7 @@ distributed across a specified number of threads
 		</library>
 		<!--; use_application_options = true-->
 		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
+		<library name = "EL_os_command" readonly = "false" location = "$EIFFEL_LOOP/library/os-command.ecf"/>
 		<library name = "EL_thread" readonly = "false" location = "$EIFFEL_LOOP/library/thread.ecf"/>
 		<cluster name = "project" location = "source" recursive = "true"/>
 	</target>

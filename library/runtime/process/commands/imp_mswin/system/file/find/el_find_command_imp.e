@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 18:36:57 GMT (Tuesday 15th February 2022)"
-	revision: "15"
+	date: "2022-02-21 10:41:15 GMT (Monday 21st February 2022)"
+	revision: "16"
 
 deferred class
 	EL_FIND_COMMAND_IMP
@@ -54,11 +54,9 @@ feature {NONE} -- Constants
 
 	Template: STRING = "[
 		dir /B
-		
 		#if $max_depth > 1 then
 			/S
 		#end
-		
 		/A$type $dir_path
 	]"
 
