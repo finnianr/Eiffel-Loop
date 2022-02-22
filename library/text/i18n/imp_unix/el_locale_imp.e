@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:31:41 GMT (Wednesday 21st February 2018)"
-	revision: "5"
+	date: "2022-02-22 17:35:42 GMT (Tuesday 22nd February 2022)"
+	revision: "6"
 
 class
 	EL_LOCALE_IMP
@@ -27,8 +27,14 @@ feature -- Access
 	user_language_code: STRING
 			-- By example: if LANG = "en_UK.utf-8"
 			-- then result = "en"
+		local
+			s: EL_STRING_32_ROUTINES
 		do
-			Result := Execution.item ("LANG").split ('_').first
+			if attached Execution.item ("LANG") as lang then
+				Result := s.substring_to (lang, '_', default_pointer)
+			else
+				Result := default_language
+			end
 		end
 
 end

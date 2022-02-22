@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:24:01 GMT (Sunday 19th December 2021)"
-	revision: "17"
+	date: "2022-02-22 9:01:17 GMT (Tuesday 22nd February 2022)"
+	revision: "18"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -51,6 +51,14 @@ feature {EL_MODULE_EIFFEL} -- Initialization
 		do
 			locale := a_locale
 			make_default
+		end
+
+	make_english
+		local
+			locale_en: EL_DEFERRED_LOCALE_IMP
+		do
+			create locale_en.make
+			make_with_locale (locale_en)
 		end
 
 feature {NONE} -- Initialization

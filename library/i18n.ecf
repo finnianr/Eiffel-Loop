@@ -14,7 +14,7 @@ There are a number of tools in `el_toolkit&apos; to support the use of this libr
 		<root all_classes = "true"/>
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
-		<library name = "i18n" location = "$ISE_LIBRARY/library/i18n/i18n.ecf">
+		<library name = "ise_i18n" location = "$ISE_LIBRARY/library/i18n/i18n.ecf">
 			<condition>
 				<platform value = "windows"/>
 			</condition>

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:52:16 GMT (Saturday 5th February 2022)"
-	revision: "20"
+	date: "2022-02-22 16:09:59 GMT (Tuesday 22nd February 2022)"
+	revision: "21"
 
 class
 	NETWORK_AUTOTEST_APP
@@ -29,6 +29,11 @@ create
 	make
 
 feature {NONE} -- Implementation
+
+	compile: TUPLE [EL_XML_NETWORK_MESSENGER]
+		do
+			create Result
+		end
 
 	log_filter_set: EL_LOG_FILTER_SET [
 		like Current, SIMPLE_SERVER_THREAD, SIMPLE_CLIENT_SERVER_TEST_SET

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:49:49 GMT (Saturday 5th February 2022)"
-	revision: "18"
+	date: "2022-02-22 15:48:50 GMT (Tuesday 22nd February 2022)"
+	revision: "19"
 
 class
 	ECO_DB_AUTOTEST_APP
@@ -29,6 +29,14 @@ create
 	make
 
 feature {NONE} -- Implementation
+
+	compile: TUPLE [
+		ECD_REFLECTIVE_INDEX_TABLE [EL_REFLECTIVELY_SETTABLE_STORABLE, HASHABLE],
+		ECD_INDEX_TABLE_REPRESENTATION [EL_REFLECTIVELY_SETTABLE_STORABLE, HASHABLE]
+	]
+		do
+			create Result
+		end
 
 	log_filter_set: EL_LOG_FILTER_SET [like Current, ECD_READER_WRITER_TEST_SET]
 		do

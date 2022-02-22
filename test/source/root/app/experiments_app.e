@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-21 8:40:04 GMT (Monday 21st February 2022)"
-	revision: "80"
+	date: "2022-02-22 15:51:39 GMT (Tuesday 22nd February 2022)"
+	revision: "81"
 
 class
 	EXPERIMENTS_APP
@@ -85,6 +85,13 @@ feature {NONE} -- Experiments
 		end
 
 feature {NONE} -- Implementation
+
+	compile_various: TUPLE [
+		EL_TEST_SET_BRIDGE, LIBGCC1, MY_WET_CLASS, MY_DRY_CLASS
+	]
+		do
+			create Result
+		end
 
 	log_filter_set: EL_LOG_FILTER_SET [like Current]
 		do

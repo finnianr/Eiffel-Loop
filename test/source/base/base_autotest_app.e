@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 11:59:59 GMT (Wednesday 16th February 2022)"
-	revision: "132"
+	date: "2022-02-22 15:46:06 GMT (Tuesday 22nd February 2022)"
+	revision: "133"
 
 class
 	BASE_AUTOTEST_APP
@@ -59,12 +59,13 @@ create
 feature {NONE} -- Implementation
 
 	compile: TUPLE [
-		EL_DATE_TIME_REPRESENTATION, EL_DATE,
-		EL_EXTERNAL_LIBRARY [EL_INITIALIZEABLE],
+		EL_ARRAY_READER,
+		EL_DATE_TIME_REPRESENTATION, EL_DATE, EL_DOCUMENT_NODE_STRING,
 
 		EL_ESCAPED_STRING_8_FIELD_VALUE_TABLE,
 		EL_ESCAPED_STRING_32_FIELD_VALUE_TABLE,
 		EL_ESCAPED_ZSTRING_FIELD_VALUE_TABLE,
+		EL_EXTERNAL_LIBRARY [EL_INITIALIZEABLE],
 
 		EL_MAKEABLE_FROM_STRING [STRING_GENERAL],
 		EL_MAKEABLE_FROM_ZSTRING_OPERAND_SETTER,
@@ -83,7 +84,7 @@ feature {NONE} -- Implementation
 
 		EL_URI_QUERY_STRING_8_HASH_TABLE, EL_URI_QUERY_STRING_32_HASH_TABLE,
 
-		EL_XML_STRING_8_ESCAPER, EL_DOCUMENT_NODE_STRING
+		EL_XML_STRING_8_ESCAPER
 	]
 		-- classes compiled for maintenance
 		do

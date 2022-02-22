@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:49:49 GMT (Saturday 5th February 2022)"
-	revision: "68"
+	date: "2022-02-22 16:16:46 GMT (Tuesday 22nd February 2022)"
+	revision: "69"
 
 class
 	OS_COMMAND_AUTOTEST_APP
@@ -26,4 +26,12 @@ inherit
 create
 	make
 
+feature {NONE} -- Implementation
+
+	compile: TUPLE [
+		EL_VIDEO_TO_MP3_COMMAND_IMP
+	]
+		do
+			create Result
+		end
 end
