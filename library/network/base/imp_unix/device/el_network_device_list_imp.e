@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-10 18:13:41 GMT (Thursday 10th February 2022)"
-	revision: "15"
+	date: "2022-02-23 10:31:44 GMT (Wednesday 23rd February 2022)"
+	revision: "16"
 
 class
 	EL_NETWORK_DEVICE_LIST_IMP
@@ -68,7 +68,7 @@ feature {NONE} -- Implementation
 		do
 			from lines.start until lines.after loop
 				if lines.item.starts_with (General_dot) then
-					name := field_name (lines.item)
+					name := new_field_name (lines.item)
 					if name ~ Field_device then
 						extend (create {EL_NETWORK_DEVICE_IMP}.make)
 					end
@@ -81,7 +81,7 @@ feature {NONE} -- Implementation
 			do_all (agent {EL_NETWORK_DEVICE_I}.set_type_enum_id)
 		end
 
-	field_name (line: ZSTRING): STRING
+	new_field_name (line: ZSTRING): STRING
 		require
 			starts_with_general: line.starts_with (General_dot)
 		local

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-22 9:01:17 GMT (Tuesday 22nd February 2022)"
-	revision: "18"
+	date: "2022-02-23 10:23:58 GMT (Wednesday 23rd February 2022)"
+	revision: "19"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS

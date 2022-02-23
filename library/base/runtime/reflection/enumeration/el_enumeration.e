@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-23 19:06:46 GMT (Tuesday 23rd November 2021)"
-	revision: "43"
+	date: "2022-02-23 10:52:08 GMT (Wednesday 23rd February 2022)"
+	revision: "44"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]

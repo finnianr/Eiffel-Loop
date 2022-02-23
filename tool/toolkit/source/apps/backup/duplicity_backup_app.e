@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 16:51:28 GMT (Saturday 19th February 2022)"
-	revision: "17"
+	date: "2022-02-22 18:14:38 GMT (Tuesday 22nd February 2022)"
+	revision: "18"
 
 class
 	DUPLICITY_BACKUP_APP
@@ -39,6 +39,7 @@ feature {NONE} -- Implementation
 		EL_OS_COMMAND,
 		EL_CAPTURED_OS_COMMAND,
 		DUPLICITY_TARGET_INFO_OS_CMD,
+		EL_RSYNC_COMMAND,
 		EL_RSYNC_SSH_COMMAND,
 		EL_FTP_MIRROR_COMMAND
 	]

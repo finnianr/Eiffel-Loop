@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-01 9:18:41 GMT (Monday 1st November 2021)"
-	revision: "22"
+	date: "2022-02-23 15:33:20 GMT (Wednesday 23rd February 2022)"
+	revision: "23"
 
 class
 	EL_REFLECTED_FIELD_TABLE
@@ -31,6 +31,8 @@ inherit
 
 	EL_SHARED_CLASS_ID
 
+	EL_STRING_8_CONSTANTS
+
 create
 	make
 
@@ -46,6 +48,31 @@ feature -- Access
 
 	last_query: EL_ARRAYED_LIST [like item]
 		-- results of last query
+
+	value_name (object: EL_REFLECTIVE; value: ANY): STRING
+		-- field name of reference field identical to object `value'
+		require
+			is_reference_value: not value.generating_type.is_expanded
+		local
+			type_id, i, l_count: INTEGER; value_found: BOOLEAN
+			l_content: like content
+		do
+			l_count := count; l_content := content
+			type_id := {ISE_RUNTIME}.dynamic_type (value)
+			from i := 0 until value_found or i = count loop
+				if attached l_content [i] as field
+					and then field.type_id = type_id
+					and then field.value (object) = value
+				then
+					Result := keys [i]
+					value_found := True
+				end
+				i := i + 1
+			end
+			if not value_found then
+				Result := Empty_string_8
+			end
+		end
 
 	type_set: ARRAY [like type_table.item]
 		-- set of types use in table

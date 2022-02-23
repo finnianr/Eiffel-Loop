@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 8:42:52 GMT (Friday 11th February 2022)"
-	revision: "28"
+	date: "2022-02-23 11:15:46 GMT (Wednesday 23rd February 2022)"
+	revision: "29"
 
 expanded class
 	EL_STRING_8_ROUTINES
@@ -40,20 +40,14 @@ feature -- Basic operations
 
 feature -- Status query
 
-	is_eiffel_identifier (s: STRING_8): BOOLEAN
-		local
-			i: INTEGER
+	is_eiffel_identifier_lower (s: STRING_8): BOOLEAN
 		do
-			Result := True
-			from i := 1 until i > s.count or not Result loop
-				inspect s [i]
-					when 'a' .. 'z', 'A' .. 'Z', '0' .. '9', '_' then
-						Result := i = 1 implies s.item (1).is_alpha
-				else
-					Result := False
-				end
-				i := i + 1
-			end
+			Result := is_area_eiffel_identifier (s.area, s.count, True)
+		end
+
+	is_eiffel_identifier (s: STRING_8): BOOLEAN
+		do
+			Result := is_area_eiffel_identifier (s.area, s.count, False)
 		end
 
 	is_ascii (str: READABLE_STRING_8): BOOLEAN
@@ -260,6 +254,29 @@ feature {NONE} -- Implementation
 	last_index_of (str: STRING_8; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
 		do
 			Result := str.last_index_of (c.to_character_8, start_index_from_end)
+		end
+
+	is_area_eiffel_identifier (area: SPECIAL [CHARACTER]; count: INTEGER; lower_case: BOOLEAN): BOOLEAN
+		local
+			i: INTEGER
+		do
+			Result := True
+			from i := 0 until i = count or not Result loop
+				inspect area [i]
+					when 'A' .. 'Z' then
+						if lower_case then
+							Result := False
+						else
+							Result := i = 0 implies area [0].is_alpha
+						end
+
+					when 'a' .. 'z', '0' .. '9', '_' then
+						Result := i = 0 implies area [0].is_alpha
+				else
+					Result := False
+				end
+				i := i + 1
+			end
 		end
 
 feature {NONE} -- Constants

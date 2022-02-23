@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-31 11:37:36 GMT (Sunday 31st October 2021)"
-	revision: "39"
+	date: "2022-02-23 14:07:26 GMT (Wednesday 23rd February 2022)"
+	revision: "40"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -41,7 +41,13 @@ feature {EL_CLASS_META_DATA} -- Initialization
 		do
 			make_reflected (a_object)
 			index := a_index; name := a_name
-			export_name := a_object.export_name (a_name, True)
+			if attached a_object.export_name (a_name, False) as l_name then
+				if l_name ~ a_name then
+					export_name := a_name
+				else
+					export_name := l_name.twin
+				end
+			end
 			type_id := field_static_type (index)
 			type := Eiffel.type_of_type (type_id)
 		end
