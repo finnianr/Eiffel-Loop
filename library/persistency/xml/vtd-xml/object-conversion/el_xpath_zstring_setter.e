@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2022-02-24 18:15:08 GMT (Thursday 24th February 2022)"
+	revision: "5"
 
 class
 	EL_XPATH_ZSTRING_SETTER
@@ -24,6 +24,6 @@ feature {NONE} -- Implementation
 
 	node_value (node: EL_XPATH_NODE_CONTEXT): ZSTRING
 		do
-			Result := node.normalized_string_value
+			Result := node.as_string
 		end
 end

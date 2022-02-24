@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 12:11:42 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2022-02-24 18:38:43 GMT (Thursday 24th February 2022)"
+	revision: "8"
 
 deferred class
 	EL_STORABLE_RSA_KEY
@@ -23,7 +23,7 @@ feature {NONE} -- Implementation
 			if not id.is_empty then
 				Value_xpath.set_variable ("id", id)
 			end
-			Result := Rsa.integer_x_from_base_64 (root_node.string_at_xpath (Value_xpath.substituted))
+			Result := Rsa.integer_x_from_base_64 (root_node.query (Value_xpath.substituted))
 		end
 
 	value_xpath: EL_STRING_8_TEMPLATE

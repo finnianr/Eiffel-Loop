@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:49 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2022-02-24 18:09:39 GMT (Thursday 24th February 2022)"
+	revision: "6"
 
 class
 	EL_XPATH_INTEGER_64_SETTER
@@ -24,6 +24,6 @@ feature {NONE} -- Implementation
 
 	node_value (node: EL_XPATH_NODE_CONTEXT): INTEGER_64
 		do
-			Result := node.integer_64_value
+			Result := node.as_integer_64
 		end
 end

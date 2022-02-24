@@ -16,8 +16,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-04 9:57:03 GMT (Friday 4th February 2022)"
-	revision: "22"
+	date: "2022-02-24 18:30:47 GMT (Thursday 24th February 2022)"
+	revision: "23"
 
 class
 	VTD_XML_TEST_SET
@@ -58,9 +58,7 @@ feature -- Tests
 			testing: "covers/{EL_XPATH_NODE_CONTEXT}.do_query",
 				"covers/{EL_XPATH_NODE_CONTEXT}.context_list",
 				"covers/{EL_XPATH_NODE_CONTEXT}.find_node",
-				"covers/{EL_XPATH_NODE_CONTEXT}.real_at_xpath",
-				"covers/{EL_XPATH_NODE_CONTEXT}.string_at_xpath",
-				"covers/{EL_XPATH_NODE_CONTEXT}.integer_at_xpath"
+				"covers/{EL_XPATH_NODE_CONTEXT}.query"
 		do
 			create root_node.make_from_file (EL_test_data_dir + "vtd-xml/bioinfo.xml")
 			assert ("encoding is latin-1", root_node.encoding_name ~ "ISO-8859-1")
@@ -128,12 +126,12 @@ feature {NONE} -- CD-catalog.xml
 			md5 := Md5_128
 
 			across root_node.context_list (xpath) as cd loop
-				Result.extend (Template_string_value #$ ["ALBUM", cd.node.string_at_xpath ("TITLE")])
-				Result.extend (Template_string_value #$ ["ARTIST", cd.node.string_at_xpath ("ARTIST")])
-				Result.extend (Template_string_value #$ ["PRICE", cd.node.string_at_xpath ("PRICE")])
+				Result.extend (Template_string_value #$ ["ALBUM", cd.node.query ("TITLE").as_string])
+				Result.extend (Template_string_value #$ ["ARTIST", cd.node.query ("ARTIST").as_string])
+				Result.extend (Template_string_value #$ ["PRICE", cd.node.query ("PRICE").as_string])
 				md5.reset
 				across cd.node.context_list ("CONTENTS/TRACK") as track loop
-					md5.sink_string (track.node.string_value)
+					md5.sink_string (track.node.as_full_string)
 				end
 				Result.extend (Template_string_value #$ ["TRACK DIGEST", md5.digest_base_64])
 			end
@@ -160,7 +158,7 @@ feature {NONE} -- aircraft_power_price.svg
 			sum: ZSTRING
 		do
 			sum := "sum (%S)"
-			Result := root_node.double_at_xpath (sum #$ [xpath]).rounded
+			Result := root_node.query (sum #$ [xpath]).as_double.rounded
 		end
 
 feature {NONE} -- bioinfo.xml
@@ -172,10 +170,10 @@ feature {NONE} -- bioinfo.xml
 		do
 			create Result.make (20)
 			across root_node.context_list (xpath) as context loop
-				value := context.node.normalized_string_value
+				value := context.node
 				Result.extend (Template_string_value #$ [context.node.name, value])
 				across context.node.context_list ("following-sibling::value") as following loop
-					value := following.node.normalized_string_value
+					value := following.node
 					Result.extend (Template_bioninfo_query_type #$ [following.node.attributes ["type"], value])
 				end
 			end
@@ -188,7 +186,7 @@ feature {NONE} -- bioinfo.xml
 		do
 			create Result.make (20)
 			across root_node.context_list (xpath) as label loop
-				Result.extend (label.node.normalized_string_value)
+				Result.extend (label.node)
 			end
 		end
 
@@ -199,8 +197,8 @@ feature {NONE} -- bioinfo.xml
 		do
 			create Result.make (20)
 			across root_node.context_list (xpath) as value loop
-				id := value.node.string_at_xpath ("parent::node()/id")
-				Result.extend (Template_integer_value #$ [id, value.node.integer_value])
+				id := value.node.query ("parent::node()/id")
+				Result.extend (Template_integer_value #$ [id, value.node.as_integer])
 			end
 		end
 
@@ -216,7 +214,7 @@ feature {NONE} -- bioinfo.xml
 			id: STRING
 		do
 			create Result.make (2)
-			Result.extend (root_node.string_at_xpath (xpath))
+			Result.extend (root_node.query (xpath))
 		end
 
 feature {NONE} -- Implementation

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "8"
+	date: "2022-02-24 18:38:08 GMT (Thursday 24th February 2022)"
+	revision: "9"
 
 class
 	EL_APP_ACTIVATION_KEY
@@ -38,8 +38,8 @@ feature {NONE} -- Initialization
 		do
 			Precursor (file_path)
 			create root_node.make_from_file (file_path)
-			name := root_node.string_at_xpath ("/application/registered-name")
-			value := root_node.string_at_xpath ("/application/activation-key")
+			name := root_node.query ("/application/registered-name")
+			value := root_node.query ("/application/activation-key")
 		end
 
 	make (a_name, a_value: STRING)

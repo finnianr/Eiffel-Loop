@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-12 16:34:17 GMT (Wednesday 12th August 2020)"
-	revision: "5"
+	date: "2022-02-24 14:11:51 GMT (Thursday 24th February 2022)"
+	revision: "6"
 
 deferred class
 	EL_TAB_CONTENT [W -> EV_POSITIONABLE]
@@ -38,12 +38,6 @@ feature -- Access
 		end
 
 	display_name: ZSTRING
-		do
-			Result := Locale * eng_name
-		end
-
-	eng_name: READABLE_STRING_GENERAL
-		-- English name
 		deferred
 		end
 

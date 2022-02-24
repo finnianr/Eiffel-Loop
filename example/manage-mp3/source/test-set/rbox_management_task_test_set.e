@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:30:33 GMT (Monday 14th February 2022)"
-	revision: "13"
+	date: "2022-02-24 18:21:26 GMT (Thursday 24th February 2022)"
+	revision: "14"
 
 deferred class
 	RBOX_MANAGEMENT_TASK_TEST_SET [T -> RBOX_MANAGEMENT_TASK create make end]
@@ -84,7 +84,7 @@ feature {NONE} -- Implementation
 		local
 			text: ZSTRING
 		do
-			text := entry_node.string_at_xpath (name)
+			text := entry_node.query (name).as_string
 			if not text.is_empty then
 				if character_count.item + name.count + text.count + 4 > 100 then
 					character_count.set_item (0)
@@ -107,7 +107,7 @@ feature {NONE} -- Implementation
 			log.enter ("print_playlist_xml")
 			create root_node.make_from_file (Database.playlists_xml_path)
 			xpath := "count (/rhythmdb-playlists/playlist/location)"
-			log.put_integer_field (xpath, root_node.integer_at_xpath (xpath))
+			log.put_integer_field (xpath, root_node.query (xpath).as_integer)
 			log.put_new_line_x2
 
 			across root_node.context_list ("/rhythmdb-playlists/playlist") as playlist loop
@@ -119,7 +119,7 @@ feature {NONE} -- Implementation
 				end
 				log.put_new_line
 				across playlist.node.context_list (Tag.location) as location loop
-					Encoded_location.share (location.node.string_8_value)
+					Encoded_location.share (location.node)
 					log.put_line (Encoded_location.decoded)
 				end
 				log.put_new_line
@@ -136,12 +136,12 @@ feature {NONE} -- Implementation
 			create character_count
 			create root_node.make_from_file (Database.xml_database_path)
 			xpath := "count (/rhythmdb/entry)"
-			log.put_integer_field (xpath, root_node.integer_at_xpath (xpath))
+			log.put_integer_field (xpath, root_node.query (xpath).as_integer)
 			log.put_new_line_x2
 			across root_node.context_list ("/rhythmdb/entry") as entry loop
-				Encoded_location.share (entry.node.string_8_at_xpath (Tag.location))
+				Encoded_location.share (entry.node.query (Tag.location).as_string_8)
 				log.put_line (Encoded_location.decoded)
-				log.put_labeled_string (entry.node.attributes [Attribute_type], entry.node.string_at_xpath (Tag.media_type))
+				log.put_labeled_string (entry.node.attributes [Attribute_type], entry.node.query (Tag.media_type).as_string)
 				print_field (Tag.mb_trackid, entry.node, 1)
 				log.put_new_line
 				across Db_field.type_group_table as group loop

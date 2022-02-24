@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 8:34:49 GMT (Tuesday 10th September 2019)"
-	revision: "5"
+	date: "2022-02-24 17:56:07 GMT (Thursday 24th February 2022)"
+	revision: "6"
 
 class
 	JOB_INFO
@@ -33,18 +33,19 @@ feature {NONE} -- Initialization
 		do
 			make_default
 
-			duration_text := row_node.string_at_xpath ("duration/@value").as_lower
+			duration_text := row_node.query ("duration/@value")
+			duration_text.to_lower
 			duration_text.left_adjust
 			if duration_text.is_empty then
 				duration_text := "Unknown"
 			end
 			Duration_parser.set_duration_interval (duration_text)
 			duration_interval := Duration_parser.duration_interval
-			location := row_node.string_at_xpath ("location/@value")
-			position := row_node.string_at_xpath ("position/@value")
-			job_url := row_node.string_at_xpath ("job_url/@value")
-			details := row_node.string_at_xpath ("details/@value")
-			contact := row_node.string_at_xpath ("contact/@value")
+			location := row_node.query ("location/@value")
+			position := row_node.query ("position/@value")
+			job_url := row_node.query ("job_url/@value")
+			details := row_node.query ("details/@value")
+			contact := row_node.query ("contact/@value")
 		end
 
 feature -- Access

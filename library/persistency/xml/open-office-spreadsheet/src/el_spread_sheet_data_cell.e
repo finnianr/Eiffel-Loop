@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-01 18:24:51 GMT (Tuesday 1st February 2022)"
-	revision: "5"
+	date: "2022-02-24 18:19:46 GMT (Thursday 24th February 2022)"
+	revision: "6"
 
 class
 	EL_SPREAD_SHEET_DATA_CELL
@@ -57,9 +57,9 @@ feature {NONE} -- Initialization
 			paragraph_nodes := cell_context.context_list (Xpath_text_paragraph)
 			paragraphs.grow (paragraph_nodes.count)
 			across paragraph_nodes as paragraph loop
-				str := paragraph.node.string_value
+				str := paragraph.node.as_full_string
 				if str.is_empty then
-					str := paragraph.node.string_at_xpath (Xpath_text_node)
+					str := paragraph.node.query (Xpath_text_node).as_string
 				end
 				if not str.is_empty then
 					paragraphs.extend (str)
@@ -99,10 +99,10 @@ feature {NONE} -- Implementation
 
 	append_paragraph (paragraph_node: EL_XPATH_NODE_CONTEXT)
 		do
-			paragraphs.extend (paragraph_node.string_value)
+			paragraphs.extend (paragraph_node.as_full_string)
 			if paragraphs.last.is_empty then
 				across paragraph_node.context_list (Xpath_text_node) as l_text loop
-					paragraphs.last.append (l_text.node.string_value)
+					paragraphs.last.append (l_text.node.as_full_string)
 				end
 			end
 		end

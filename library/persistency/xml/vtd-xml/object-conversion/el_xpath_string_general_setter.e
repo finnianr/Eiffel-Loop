@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 18:41:32 GMT (Wednesday 11th September 2019)"
-	revision: "1"
+	date: "2022-02-24 18:14:25 GMT (Thursday 24th February 2022)"
+	revision: "2"
 
 class
 	EL_XPATH_STRING_GENERAL_SETTER
@@ -24,6 +24,6 @@ feature {NONE} -- Implementation
 
 	node_value (node: EL_XPATH_NODE_CONTEXT): READABLE_STRING_GENERAL
 		do
-			Result := node.normalized_string_32_value
+			Result := node.as_string_32
 		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
-	date: "2022-02-20 15:47:52 GMT (Sunday 20th February 2022)"
-	revision: "4"
+	date: "2022-02-24 18:35:07 GMT (Thursday 24th February 2022)"
+	revision: "5"
 
 deferred class
 	MULTI_CORE_PF_COMMAND [G]
@@ -20,7 +20,7 @@ inherit
 			Description, Iterations_per_dot
 		end
 
-	EL_MODULE_COMMAND
+	EL_MODULE_SYSTEM
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
@@ -29,7 +29,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			cpu_percent := a_cpu_percent
 			make_one_core (a_strseq, a_output_path)
 
-			create pool.make (Command.new_cpu_info.scaled_processor_count (a_cpu_percent))
+			create pool.make (System.scaled_processor_count (a_cpu_percent))
 		end
 
 feature -- Constants

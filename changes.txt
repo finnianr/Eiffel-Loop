@@ -475,3 +475,6 @@ Refactor of file transfer commands
 Mon 21st Feb 2022, 13:42:28
 Added user_permutation_list and user_list to EL_SYSTEM_ROUTINES_I
 
+Wed 23rd Feb 2022, 19:54:36
+EL_REFLECTED_FIELD.name and exported_name may refer to same instance
+

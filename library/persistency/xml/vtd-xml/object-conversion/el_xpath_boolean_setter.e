@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2022-02-24 18:08:57 GMT (Thursday 24th February 2022)"
+	revision: "6"
 
 class
 	EL_XPATH_BOOLEAN_SETTER
@@ -24,7 +24,7 @@ feature {NONE} -- Implementation
 
 	node_value (node: EL_XPATH_NODE_CONTEXT): BOOLEAN
 		do
-			Result := node.boolean_value
+			Result := node.as_boolean
 		end
 
 end

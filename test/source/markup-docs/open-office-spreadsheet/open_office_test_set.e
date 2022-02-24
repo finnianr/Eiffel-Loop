@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-04 10:48:55 GMT (Friday 4th February 2022)"
-	revision: "21"
+	date: "2022-02-24 17:29:54 GMT (Thursday 24th February 2022)"
+	revision: "22"
 
 class
 	OPEN_OFFICE_TEST_SET
@@ -42,8 +42,7 @@ feature -- Tests
 			testing: "covers/{EL_SPREAD_SHEET}.make", "covers/{EL_XPATH_NODE_CONTEXT}.do_query",
 						"covers/{EL_XPATH_ROOT_NODE_CONTEXT}.new_namespace_table",
 						"covers/{EL_XPATH_NODE_CONTEXT}.context_list, covers/{EL_XPATH_NODE_CONTEXT}.find_node",
-						"covers/{EL_XPATH_NODE_CONTEXT}.real_at_xpath, covers/{EL_XPATH_NODE_CONTEXT}.string_at_xpath",
-						"covers/{EL_XPATH_NODE_CONTEXT}.integer_at_xpath"
+						"covers/{EL_XPATH_NODE_CONTEXT}.query"
 		local
 			xdoc: EL_XPATH_ROOT_NODE_CONTEXT; file_path: FILE_PATH
 		do

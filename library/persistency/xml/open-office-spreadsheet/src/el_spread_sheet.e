@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 14:43:00 GMT (Thursday 3rd February 2022)"
-	revision: "13"
+	date: "2022-02-24 17:44:46 GMT (Thursday 24th February 2022)"
+	revision: "14"
 
 class
 	EL_SPREAD_SHEET
@@ -75,8 +75,8 @@ feature {NONE} -- Initaliazation
 
 			if attached root_node.find_node ("/office:document") as document_ctx then
 				document_ctx.set_namespace_key ("office")
-				office_version := document_ctx.real_at_xpath ("@office:version")
-				mimetype := document_ctx.string_at_xpath ("@office:mimetype")
+				office_version := document_ctx.query ("@office:version")
+				mimetype := document_ctx.query ("@office:mimetype").as_string
 				check
 					valid_mimetype: mimetype ~ Open_document_spreadsheet
 					valid_office_version: office_version >= 1.1

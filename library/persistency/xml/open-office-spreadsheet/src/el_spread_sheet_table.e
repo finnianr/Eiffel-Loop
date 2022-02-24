@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 16:14:44 GMT (Thursday 3rd February 2022)"
-	revision: "7"
+	date: "2022-02-24 17:24:13 GMT (Thursday 24th February 2022)"
+	revision: "8"
 
 class
 	EL_SPREAD_SHEET_TABLE
@@ -47,7 +47,7 @@ feature {NONE} -- Initialization
 			if not l_column_table.is_empty then
 				columns := l_column_table.current_keys
 			end
-			make_rows (table_node.integer_at_xpath ("count (table:table-row)"))
+			make_rows (table_node.query ("count (table:table-row)").as_integer)
 			if capacity > 0 then
 				append_rows (table_node.context_list ("table:table-row"), l_column_table)
 			end
@@ -91,7 +91,7 @@ feature {NONE} -- Implementation
 		do
 			row_list.start
 			if not row_list.after then
-				col_count := row_list.context.integer_at_xpath ("count (table:table-cell)")
+				col_count := row_list.context.query ("count (table:table-cell)").as_integer
 				from until row_list.after loop
 					if row_list.context.attributes.has (Attribute_number_rows_repeated) then
 						count_repeated := row_list.context.attributes.integer (Attribute_number_rows_repeated)

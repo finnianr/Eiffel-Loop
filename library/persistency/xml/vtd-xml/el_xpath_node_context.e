@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-01 18:26:00 GMT (Tuesday 1st February 2022)"
-	revision: "22"
+	date: "2022-02-24 18:20:54 GMT (Thursday 24th February 2022)"
+	revision: "23"
 
 class
 	EL_XPATH_NODE_CONTEXT
@@ -40,6 +40,12 @@ inherit
 
 create
 	make_from_other
+
+convert
+	as_string: {ZSTRING}, as_string_8: {STRING}, as_string_32: {STRING_32},
+	as_real: {REAL}, as_double: {DOUBLE}, as_natural: {NATURAL}, as_natural_64: {NATURAL_64},
+	as_integer: {INTEGER}, as_integer_64: {INTEGER_64}, as_file_path: {FILE_PATH}, as_dir_path: {DIR_PATH},
+	as_boolean: {BOOLEAN}
 
 feature {NONE} -- Initaliazation
 
@@ -75,80 +81,28 @@ feature -- Access
 			create Result.make (Current, a_xpath)
 		end
 
-	date_at_xpath (a_xpath: READABLE_STRING_GENERAL): DATE
-			--
-		require
-			days_format: string_at_xpath (a_xpath).is_natural
-		do
-			create Result.make_by_days (integer_at_xpath (a_xpath))
-		end
-
-	double_at_xpath (a_xpath: READABLE_STRING_GENERAL): DOUBLE
-			--
-		do
-			Result := new_query (a_xpath).evaluate_number
-		end
-
-	integer_64_at_xpath (a_xpath: READABLE_STRING_GENERAL): INTEGER_64
-			--
-		do
-			Result := new_query (a_xpath).evaluate_number.rounded_real_64.truncated_to_integer_64
-		end
-
-	integer_at_xpath (a_xpath: READABLE_STRING_GENERAL): INTEGER
-			--
-		do
-			Result := new_query (a_xpath).evaluate_number.rounded
-		end
-
 	name: STRING
 			--
 		do
 			Result := wide_string (c_node_context_name (self_ptr))
 		end
 
+	namespace_key: STRING
+		-- value in `namespace_table'
+
 	namespace_table: HASH_TABLE [STRING, STRING]
 		do
 			Result := parent.namespace_table
 		end
 
-	namespace_key: STRING
-		-- value in `namespace_table'
-
-	natural_64_at_xpath (a_xpath: READABLE_STRING_GENERAL): NATURAL_64
+	query (a_xpath: READABLE_STRING_GENERAL): EL_VTD_XPATH_QUERY
 			--
 		do
-			Result := new_query (a_xpath).evaluate_number.rounded_real_64.truncated_to_integer_64.to_natural_64
-		end
-
-	natural_at_xpath (a_xpath: READABLE_STRING_GENERAL): NATURAL
-			--
-		do
-			Result := new_query (a_xpath).evaluate_number.rounded_real_64.truncated_to_integer_64.to_natural_32
-		end
-
-	real_at_xpath (a_xpath: READABLE_STRING_GENERAL): REAL
-			--
-		do
-			Result := new_query (a_xpath).evaluate_number.truncated_to_real
-		end
-
-	string_32_at_xpath (a_xpath: READABLE_STRING_GENERAL): STRING_32
-			--
-		do
-			Result := new_query (a_xpath).evaluate_string_32
-		end
-
-	string_8_at_xpath (a_xpath: READABLE_STRING_GENERAL): STRING
-			--
-		do
-			Result := new_query (a_xpath).evaluate_string_8
-		end
-
-	string_at_xpath (a_xpath: READABLE_STRING_GENERAL): ZSTRING
-			--
-		do
-			Result := new_query (a_xpath).evaluate_string
+			if is_namespace_set then
+				create Result.make_xpath_for_namespace (Current, a_xpath, namespace_key)
+			else
+				create Result.make_xpath (Current, a_xpath)
+			end
 		end
 
 feature -- Element change
@@ -265,34 +219,34 @@ feature -- External field setters
 				xpath := l_xpath.item
 				inspect tuple.item_code (index)
 					when {TUPLE}.Integer_32_code then
-						tuple.put_integer (integer_at_xpath (xpath), index)
+						tuple.put_integer (query (xpath), index)
 
 					when {TUPLE}.Integer_64_code then
-						tuple.put_integer_64 (integer_64_at_xpath (xpath), index)
+						tuple.put_integer_64 (query (xpath), index)
 
 					when {TUPLE}.Natural_32_code then
-						tuple.put_natural_32 (natural_at_xpath (xpath), index)
+						tuple.put_natural_32 (query (xpath), index)
 
 					when {TUPLE}.Natural_64_code then
-						tuple.put_natural_64 (natural_64_at_xpath (xpath), index)
+						tuple.put_natural_64 (query (xpath), index)
 
 					when {TUPLE}.Real_32_code then
-						tuple.put_real_32 (real_at_xpath (xpath), index)
+						tuple.put_real_32 (query (xpath), index)
 
 					when {TUPLE}.Real_64_code then
-						tuple.put_real_64 (double_at_xpath (xpath), index)
+						tuple.put_real_64 (query (xpath), index)
 
 					when {TUPLE}.Boolean_code then
-						tuple.put_boolean (is_xpath (xpath), index)
+						tuple.put_boolean (query (xpath), index)
 
 					when {TUPLE}.Reference_code then
 						type_id := tuple_type.generic_parameter_type (index).type_id
 						if type_id = Class_id.ZSTRING then
-							tuple.put_reference (string_at_xpath (xpath), index)
+							tuple.put_reference (query (xpath).as_string, index)
 						elseif type_id = Class_id.STRING_8 then
-							tuple.put_reference (string_8_at_xpath (xpath), index)
+							tuple.put_reference (query (xpath).as_string_8, index)
 						elseif type_id = Class_id.STRING_32 then
-							tuple.put_reference (string_32_at_xpath (xpath), index)
+							tuple.put_reference (query (xpath).as_string_32, index)
 						end
 				else
 				end
@@ -326,102 +280,103 @@ feature -- Status query
 	is_xpath (a_xpath: READABLE_STRING_GENERAL): BOOLEAN
 			--
 		do
-			Result := new_query (a_xpath).evaluate_boolean
+			Result := query (a_xpath).as_boolean
 		end
 
 feature -- Element values
 
-	boolean_value: BOOLEAN
+	as_boolean: BOOLEAN
 		local
 			value: STRING_32
 		do
-			value := raw_string_32_value
+			value := as_raw_string_32
 			if value.is_boolean then
 				Result := value.to_boolean
 			end
 		end
 
-	date_value: DATE
+	as_date: DATE
 			-- element content as a DOUBLE
 		require
-			days_format: normalized_string_value.is_natural
+			days_format: as_string.is_natural
 		do
-			create Result.make_by_days (integer_value)
+			create Result.make_by_days (as_integer)
 		end
 
-	double_value: DOUBLE
+	as_dir_path: DIR_PATH
+			--
+		do
+			Result := as_string
+		end
+
+	as_double: DOUBLE
 			-- element content as a DOUBLE
 		require
-			value_is_double: normalized_string_value.is_double
+			value_is_double: as_string.is_double
 		do
 			Result := c_node_context_double (self_ptr)
 		end
 
-	integer_64_value: INTEGER_64
-			-- element content as an INTEGER_64
-		require
-			value_is_integer_64: normalized_string_value.is_integer_64
+	as_file_path: FILE_PATH
+			--
 		do
-			Result := c_node_context_integer_64 (self_ptr)
+			Result := as_string
 		end
 
-	integer_value: INTEGER
+	as_full_string: ZSTRING
+			-- The entity and character references will be resolved
+			-- whitespace not trimmed
+		do
+			Result := wide_string (c_node_context_string (self_ptr))
+		end
+
+	as_full_string_32: STRING_32
+			-- The entity and character references will be resolved
+			-- whitespace not trimmed
+		do
+			Result := wide_string (c_node_context_string (self_ptr))
+		end
+
+	as_full_string_8: STRING
+			-- The entity and character references will be resolved
+			-- whitespace not trimmed
+		do
+			Result := wide_string (c_node_context_string (self_ptr))
+		end
+
+	as_integer: INTEGER
 			-- element content as an INTEGER
 		require
-			value_is_integer: normalized_string_value.is_integer
+			value_is_integer: as_string.is_integer
 		do
 			Result := c_node_context_integer (self_ptr)
 		end
 
-	natural_64_value: NATURAL_64
-			-- element content as a NATURAL_64
+	as_integer_64: INTEGER_64
+			-- element content as an INTEGER_64
 		require
-			value_is_natural_64: normalized_string_value.is_natural_64
+			value_is_integer_64: as_string.is_integer_64
 		do
-			Result := normalized_string_value.to_natural_64
+			Result := c_node_context_integer_64 (self_ptr)
 		end
 
-	natural_value: NATURAL
+	as_natural: NATURAL
 			-- element content as a NATURAL
 		require
-			value_is_natural: normalized_string_value.is_natural
+			value_is_natural: as_string.is_natural
 		do
-			Result := normalized_string_value.to_natural
+			Result := as_string.to_natural
 		end
 
-	normalized_string_32_value: STRING_32
-			-- The leading and trailing white space characters will be stripped.
-			-- The entity and character references will be resolved
-			-- Multiple whitespaces char will be collapsed into one
+	as_natural_64: NATURAL_64
+			-- element content as a NATURAL_64
+		require
+			value_is_natural_64: as_string.is_natural_64
 		do
-			Result := wide_string (c_node_context_normalized_string (self_ptr))
+			Result := as_string.to_natural_64
 		end
 
-	normalized_string_8_value: STRING
-			-- The leading and trailing white space characters will be stripped.
-			-- The entity and character references will be resolved
-			-- Multiple whitespaces char will be collapsed into one
-		do
-			Result := wide_string (c_node_context_normalized_string (self_ptr))
-		end
-
-	normalized_string_value: ZSTRING
-			-- The leading and trailing white space characters will be stripped.
-			-- The entity and character references will be resolved
-			-- Multiple whitespaces char will be collapsed into one
-		do
-			Result := wide_string (c_node_context_normalized_string (self_ptr))
-		end
-
-	raw_string_32_value: STRING_32
-			-- element content as wide string with entities and char references not expanded
-			-- built-in entity and char references not resolved
-			-- entities and char references not expanded
-		do
-			Result := wide_string (c_node_context_raw_string (self_ptr))
-		end
-
-	raw_string_value: ZSTRING
+	as_raw_string: ZSTRING
 			-- element content as string with entities and char references not expanded
 			-- built-in entity and char references not resolved
 			-- entities and char references not expanded
@@ -429,30 +384,44 @@ feature -- Element values
 			Result := wide_string (c_node_context_raw_string (self_ptr))
 		end
 
-	real_value: REAL
+	as_raw_string_32: STRING_32
+			-- element content as wide string with entities and char references not expanded
+			-- built-in entity and char references not resolved
+			-- entities and char references not expanded
+		do
+			Result := wide_string (c_node_context_raw_string (self_ptr))
+		end
+
+	as_real: REAL
 			-- element content as a REAL
 		require
-			value_is_real: normalized_string_value.is_real
+			value_is_real: as_string.is_real
 		do
 			Result := c_node_context_real (self_ptr)
 		end
 
-	string_32_value: STRING_32
+	as_string: ZSTRING
+			-- The leading and trailing white space characters will be stripped.
 			-- The entity and character references will be resolved
+			-- Multiple whitespaces char will be collapsed into one
 		do
-			Result := wide_string (c_node_context_string (self_ptr))
+			Result := wide_string (c_node_context_normalized_string (self_ptr))
 		end
 
-	string_8_value: STRING
+	as_string_32: STRING_32
+			-- The leading and trailing white space characters will be stripped.
 			-- The entity and character references will be resolved
+			-- Multiple whitespaces char will be collapsed into one
 		do
-			Result := wide_string (c_node_context_string (self_ptr))
+			Result := wide_string (c_node_context_normalized_string (self_ptr))
 		end
 
-	string_value: ZSTRING
+	as_string_8: STRING
+			-- The leading and trailing white space characters will be stripped.
 			-- The entity and character references will be resolved
+			-- Multiple whitespaces char will be collapsed into one
 		do
-			Result := wide_string (c_node_context_string (self_ptr))
+			Result := wide_string (c_node_context_normalized_string (self_ptr))
 		end
 
 feature {EL_XPATH_NODE_CONTEXT, EL_XPATH_NODE_CONTEXT_LIST, EL_XPATH_NODE_CONTEXT_LIST_ITERATION_CURSOR}
@@ -498,16 +467,6 @@ feature {EL_XPATH_NODE_CONTEXT} -- Implementation
 			end
 			Result := actual_context_image
 			c_evx_read_node_context (self_ptr, actual_context_image.area.base_address )
-		end
-
-	new_query (a_xpath: READABLE_STRING_GENERAL): EL_VTD_XPATH_QUERY
-			--
-		do
-			if is_namespace_set then
-				create Result.make_xpath_for_namespace (Current, a_xpath, namespace_key)
-			else
-				create Result.make_xpath (Current, a_xpath)
-			end
 		end
 
 	reset

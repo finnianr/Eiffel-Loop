@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:21:52 GMT (Monday 14th February 2022)"
-	revision: "39"
+	date: "2022-02-24 17:16:46 GMT (Thursday 24th February 2022)"
+	revision: "40"
 
 class
 	PYXIS_TO_XML_TEST_SET
@@ -99,7 +99,7 @@ feature -- Tests
 					if file_name.same_string_general (XSL_example) then
 						create xsl_doc.make_from_file (file_path.item.without_extension)
 						style_xpath := "//style[@type='text/css']/text()"
-						style_text := xsl_doc.string_8_at_xpath (style_xpath)
+						style_text := xsl_doc.query (style_xpath).as_string_8
 						style_text.adjust
 						assert ("verbatim text indentations preserved", style_text.occurrences ('%T') = 9)
 					end

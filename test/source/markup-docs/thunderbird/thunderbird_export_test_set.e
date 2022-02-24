@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 20:12:50 GMT (Wednesday 9th February 2022)"
-	revision: "8"
+	date: "2022-02-24 17:57:28 GMT (Thursday 24th February 2022)"
+	revision: "9"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -129,10 +129,10 @@ feature -- Tests
 
 				assert_valid_h2_file (xdoc, body_path)
 				if name.has_substring ({STRING_32} "Ÿœ€") then
-					assert ("expected h2 text", xdoc.string_32_at_xpath ({STRING_32}"/body/a[@id='Ÿœ']/h2") ~ {STRING_32}"Ÿœ")
+					assert ("expected h2 text", xdoc.query ({STRING_32}"/body/a[@id='Ÿœ']/h2").as_string_32 ~ {STRING_32}"Ÿœ")
 					count := count + 1
 				elseif name.has_substring ("Engine Screenshot") then
-					assert ("expected img src", xdoc.string_8_at_xpath ("/body/img[1]/@src").ends_with_general ("search-engine.png"))
+					assert ("expected img src", xdoc.query ("/body/img[1]/@src").as_string_8.ends_with_general ("search-engine.png"))
 					count := count + 1
 				else
 					assert ("at least one paragraph", xdoc.context_list ("//p").count > 0)

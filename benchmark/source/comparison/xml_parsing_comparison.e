@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
-	revision: "4"
+	date: "2022-02-24 17:28:28 GMT (Thursday 24th February 2022)"
+	revision: "5"
 
 class
 	XML_PARSING_COMPARISON
@@ -42,8 +42,8 @@ feature {NONE} -- Implementation
 			across xml_path_list as path loop
 				create root_node.make_from_file (path.item)
 				across root_node.context_list (Xpath_pi_series_term) as doc_term loop
-					numerator := doc_term.node.integer_at_xpath (Xpath_numerator)
-					divisor := doc_term.node.integer_at_xpath (Xpath_divisor)
+					numerator := doc_term.node.query (Xpath_numerator).as_integer
+					divisor := doc_term.node.query (Xpath_divisor).as_integer
 					pi := pi + numerator / divisor
 				end
 			end

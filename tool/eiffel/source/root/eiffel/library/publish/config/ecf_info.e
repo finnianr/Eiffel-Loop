@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 12:40:28 GMT (Thursday 3rd February 2022)"
-	revision: "10"
+	date: "2022-02-24 17:59:44 GMT (Thursday 24th February 2022)"
+	revision: "11"
 
 class
 	ECF_INFO
@@ -39,7 +39,7 @@ feature -- Access
 
 	cluster_count (root: EL_XPATH_ROOT_NODE_CONTEXT): INTEGER
 		do
-			Result := root.integer_at_xpath (once "count (" + cluster_xpath + once ")")
+			Result := root.query (once "count (" + cluster_xpath + once ")")
 		end
 
 	cluster_xpath: STRING
@@ -64,7 +64,7 @@ feature -- Access
 
 	description (root: EL_XPATH_ROOT_NODE_CONTEXT): ZSTRING
 		do
-			Result := root.string_at_xpath (description_xpath).stripped
+			Result := root.query (description_xpath).as_string.stripped
 		end
 
 	description_xpath: STRING

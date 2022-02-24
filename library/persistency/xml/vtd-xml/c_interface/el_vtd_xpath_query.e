@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-01 18:23:46 GMT (Tuesday 1st February 2022)"
-	revision: "11"
+	date: "2022-02-24 18:03:14 GMT (Thursday 24th February 2022)"
+	revision: "12"
 
 class
 	EL_VTD_XPATH_QUERY
@@ -22,6 +22,12 @@ inherit
 
 create
 	make, make_xpath, make_xpath_for_namespace
+
+convert
+	as_string: {ZSTRING}, as_string_8: {STRING}, as_string_32: {STRING_32},
+	as_real: {REAL}, as_double: {DOUBLE}, as_natural: {NATURAL}, as_natural_64: {NATURAL_64},
+	as_integer: {INTEGER}, as_integer_64: {INTEGER_64}, as_file_path: {FILE_PATH}, as_dir_path: {DIR_PATH},
+	as_boolean: {BOOLEAN}
 
 feature {NONE} -- Initialization
 
@@ -79,31 +85,79 @@ feature -- Element change
 
 feature -- Access
 
-	evaluate_boolean: BOOLEAN
+	as_boolean: BOOLEAN
 			--
 		do
 			Result := c_evaluate_xpath_to_boolean (context.self_ptr, self_ptr)
 		end
 
-	evaluate_number: DOUBLE
+	as_date: DATE
+			--
+		require
+			days_format: as_string_8.is_integer
+		do
+			create Result.make_by_days (as_integer)
+		end
+
+	as_dir_path: DIR_PATH
+			--
+		do
+			Result := as_string
+		end
+
+	as_double, as_real_64: DOUBLE
 			--
 		do
 			Result := c_evaluate_xpath_to_number (context.self_ptr, self_ptr)
 		end
 
-	evaluate_string: ZSTRING
+	as_file_path: FILE_PATH
+			--
+		do
+			Result := as_string
+		end
+
+	as_integer, as_integer_32: INTEGER
+		do
+			Result := as_double.rounded
+		end
+
+	as_integer_64: INTEGER_64
+		do
+			Result := as_double.rounded_real_64.truncated_to_integer_64
+		end
+
+	as_natural, as_natural_32: NATURAL
+			--
+		do
+			Result := as_double.rounded_real_64.truncated_to_integer_64.to_natural_32
+		end
+
+	as_natural_64: NATURAL_64
+			--
+		do
+			Result := as_double.rounded_real_64.truncated_to_integer_64.to_natural_64
+		end
+
+	as_real, as_real_32: REAL
+			--
+		do
+			Result := as_double.truncated_to_real
+		end
+
+	as_string: ZSTRING
 			--
 		do
 			Result := wide_string (c_evaluate_xpath_to_string (context.self_ptr, self_ptr))
 		end
 
-	evaluate_string_8: STRING_8
+	as_string_8: STRING_8
 			--
 		do
 			Result := wide_string (c_evaluate_xpath_to_string (context.self_ptr, self_ptr))
 		end
 
-	evaluate_string_32: STRING_32
+	as_string_32: STRING_32
 			--
 		do
 			Result := wide_string (c_evaluate_xpath_to_string (context.self_ptr, self_ptr))

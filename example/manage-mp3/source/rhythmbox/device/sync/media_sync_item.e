@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "6"
+	date: "2022-02-24 17:53:55 GMT (Thursday 24th February 2022)"
+	revision: "7"
 
 class
 	MEDIA_SYNC_ITEM
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 	make_from_xpath_context (a_id: like id; item_node: EL_XPATH_NODE_CONTEXT)
 			--
 		do
-			make (a_id, item_node.natural_at_xpath (Xpath_checksum), item_node.string_32_at_xpath (Xpath_location))
+			make (a_id, item_node.query (Xpath_checksum).as_natural, item_node.query (Xpath_location))
 		end
 
 feature -- Access

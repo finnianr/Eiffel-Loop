@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 13:45:42 GMT (Tuesday 15th February 2022)"
-	revision: "9"
+	date: "2022-02-24 18:24:53 GMT (Thursday 24th February 2022)"
+	revision: "10"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
@@ -68,8 +68,8 @@ feature {NONE} -- Implementation
 					end
 				end
 				across h2_list as h2 loop
-					if attached h2.node.string_value as title then
-						assert ("has title " + title, h2_set.has (title))
+					if attached h2.node.as_string as title then
+						assert ("has title " + title, h2_set.has (h2.node))
 					end
 					count := count + 1
 				end
@@ -114,7 +114,7 @@ feature {NONE} -- Implementation
 
 	new_xdoc_path (xdoc: EL_XPATH_ROOT_NODE_CONTEXT; xpath: STRING): FILE_PATH
 		do
-			Result := xdoc.string_32_at_xpath (xpath)
+			Result := xdoc.query (xpath).as_string
 		end
 
 	source_dir: DIR_PATH

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 19:03:33 GMT (Tuesday 15th February 2022)"
-	revision: "14"
+	date: "2022-02-24 18:37:32 GMT (Thursday 24th February 2022)"
+	revision: "15"
 
 class
 	FTP_BACKUP_COMMAND_1
@@ -59,7 +59,7 @@ feature -- Basic operations
 			log.enter ("backup_all")
 			across root_node.context_list ("/backup-script/directory") as l_directory loop
 				if l_directory.node.has ("path")  then
-					target_directory_path := l_directory.node.string_32_at_xpath ("path")
+					target_directory_path := l_directory.node.query ("path")
 
 					if not target_directory_path.is_absolute then
 						target_directory_path := script_file_path.parent #+ target_directory_path
@@ -92,7 +92,7 @@ feature -- Basic operations
 			lio.put_path_field ("Backup", target_directory_path)
 			lio.put_new_line
 
-			backup_name := directory_node.string_at_xpath ("name")
+			backup_name := directory_node.query ("name")
 			if backup_name.is_empty then
 				backup_name := target_directory_path.base
 			end
@@ -106,7 +106,7 @@ feature -- Basic operations
 			lio.put_path_field ("Creating archive", archive_file_path); lio.put_new_line
 
 			if archive_file_path.exists then
-				 ftp_destination_directory := directory_node.string_32_at_xpath ("ftp-destination-path")
+				 ftp_destination_directory := directory_node.query ("ftp-destination-path")
 
 				if not ftp_destination_directory.is_empty then
 					log.put_new_line

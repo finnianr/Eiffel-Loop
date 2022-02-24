@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-02 11:16:05 GMT (Wednesday 2nd February 2022)"
-	revision: "16"
+	date: "2022-02-24 17:59:12 GMT (Thursday 24th February 2022)"
+	revision: "17"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -45,7 +45,7 @@ feature -- Tests
 			assert ("valid xsi namespace", ecf_xdoc.namespace_table ["xsi"].ends_with ("XMLSchema-instance"))
 
 			ecf_xdoc.set_namespace_key ("xsi")
-			schema_location := ecf_xdoc.string_8_at_xpath ("@xsi:schemaLocation")
+			schema_location := ecf_xdoc.query ("@xsi:schemaLocation")
 			assert ("valid xsi:schemaLocation", schema_location.ends_with ("configuration-1-4-0.xsd"))
 		end
 

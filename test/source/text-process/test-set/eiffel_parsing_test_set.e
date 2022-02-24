@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 9:17:55 GMT (Friday 11th February 2022)"
-	revision: "10"
+	date: "2022-02-24 17:27:39 GMT (Thursday 24th February 2022)"
+	revision: "11"
 
 class
 	EIFFEL_PARSING_TEST_SET
@@ -54,7 +54,7 @@ feature -- Tests
 				xpath := Xpath_count_template #$ [count.key]
 				lio.put_labeled_string ("check xpath", xpath)
 				lio.put_new_line
-				assert ("same count " + count.key, xdoc.integer_at_xpath (xpath) = count.item)
+				assert ("same count " + count.key, xdoc.query (xpath).as_integer = count.item)
 			end
 		end
 
