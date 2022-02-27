@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 6:20:19 GMT (Monday 7th February 2022)"
-	revision: "13"
+	date: "2022-02-25 10:37:51 GMT (Friday 25th February 2022)"
+	revision: "14"
 
 class
 	EL_EURO_EXCHANGE_RATE_TABLE
@@ -80,9 +80,9 @@ feature {NONE} -- Implementation
 			if xml.has_substring (Closing_tag) then
 				create root_node.make_from_string (xml)
 				across root_node.context_list ("//Cube[boolean(@currency)]") as rate loop
-					code_name := rate.node.attributes.string_8 (Name_currency)
+					code_name := rate.node [Name_currency]
 					if Currency_enum.is_valid_name (code_name) then
-						extend (rate.node.attributes.real (Name_rate), Currency_enum.value (code_name))
+						extend (rate.node [Name_rate], Currency_enum.value (code_name))
 					end
 				end
 			end

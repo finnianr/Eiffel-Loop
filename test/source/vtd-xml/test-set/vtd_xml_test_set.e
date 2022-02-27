@@ -16,8 +16,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-24 18:30:47 GMT (Thursday 24th February 2022)"
-	revision: "23"
+	date: "2022-02-25 10:31:55 GMT (Friday 25th February 2022)"
+	revision: "24"
 
 class
 	VTD_XML_TEST_SET
@@ -146,8 +146,8 @@ feature {NONE} -- aircraft_power_price.svg
 		do
 			create Result.make (20)
 			across root_node.context_list (xpath) as line loop
-				create p1.make (line.node.attributes, 1)
-				create p2.make (line.node.attributes, 2)
+				create p1.make (line.node, 1)
+				create p2.make (line.node, 2)
 				Result.extend (p1.distance (p2).rounded)
 			end
 		end
@@ -174,7 +174,7 @@ feature {NONE} -- bioinfo.xml
 				Result.extend (Template_string_value #$ [context.node.name, value])
 				across context.node.context_list ("following-sibling::value") as following loop
 					value := following.node
-					Result.extend (Template_bioninfo_query_type #$ [following.node.attributes ["type"], value])
+					Result.extend (Template_bioninfo_query_type #$ [following.node ["type"].as_string_8, value])
 				end
 			end
 		end

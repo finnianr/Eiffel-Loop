@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-24 18:19:46 GMT (Thursday 24th February 2022)"
-	revision: "21"
+	date: "2022-02-25 8:44:12 GMT (Friday 25th February 2022)"
+	revision: "22"
 
 class
 	EL_TRANSLATION_TABLE
@@ -85,7 +85,7 @@ feature {NONE} -- Initialization
 			translations := root_node.context_list (Xpath_translations.substituted_tuple ([language]).to_unicode)
 			accommodate (translations.count)
 			across translations as translation loop
-				put (translation.node.as_full_string, translation.node.query (Xpath_parent_id).as_string)
+				put (translation.node.as_full_string, translation.node @ Xpath_parent_id)
 			end
 		end
 

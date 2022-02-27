@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2022-02-25 8:02:44 GMT (Friday 25th February 2022)"
+	revision: "5"
 
 class
 	EL_SPREAD_SHEET_ROW
@@ -42,8 +42,8 @@ feature {NONE} -- Initialization
 			make_array (number_of_columns)
 			columns := a_columns
 			from table_row_node_list.start until full or table_row_node_list.after loop
-				if table_row_node_list.context.attributes.has (Attribute_number_columns_repeated) then
-					number_columns_repeated := table_row_node_list.context.attributes.integer (Attribute_number_columns_repeated)
+				if table_row_node_list.context.has_attribute (Attribute_number_columns_repeated) then
+					number_columns_repeated := table_row_node_list.context [Attribute_number_columns_repeated]
 				else
 					number_columns_repeated := 1
 				end

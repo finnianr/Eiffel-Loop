@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:15 GMT (Tuesday 15th February 2022)"
-	revision: "23"
+	date: "2022-02-27 11:45:38 GMT (Sunday 27th February 2022)"
+	revision: "24"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -88,6 +88,17 @@ feature -- Access
 				end
 				i := i + 1
 			end
+		end
+
+	longest_count: INTEGER
+		-- count of longest string
+		do
+			push_cursor
+			from start until after loop
+				Result := Result.max (item.count)
+				forth
+			end
+			pop_cursor
 		end
 
 feature -- Status query

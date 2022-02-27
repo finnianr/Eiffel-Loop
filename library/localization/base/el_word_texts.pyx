@@ -77,6 +77,24 @@ translations:
 			"$id"
 
 	item:
+		id = "Copy"
+		translation:
+			lang = de; check = true
+			"Kopieren"
+		translation:
+			lang = en
+			"$id"
+
+	item:
+		id = "Cut"
+		translation:
+			lang = de; check = true
+			"Ausschneiden"
+		translation:
+			lang = en
+			"$id"
+
+	item:
 		id = "Directory"
 		translation:
 			lang = de; check = true
@@ -161,6 +179,15 @@ translations:
 		translation:
 			lang = de; check = true
 			"Öffnen"
+		translation:
+			lang = en
+			"$id"
+
+	item:
+		id = "Paste"
+		translation:
+			lang = de; check = true
+			"Einfügen"
 		translation:
 			lang = en
 			"$id"

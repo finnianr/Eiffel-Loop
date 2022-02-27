@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-24 17:24:13 GMT (Thursday 24th February 2022)"
-	revision: "8"
+	date: "2022-02-26 9:50:14 GMT (Saturday 26th February 2022)"
+	revision: "10"
 
 class
 	EL_SPREAD_SHEET_TABLE
@@ -39,10 +39,10 @@ feature {NONE} -- Initialization
 			l_column_table: like column_table
 		do
 			if is_lio_enabled then
-				lio.put_labeled_substitution (generator, "make (%"%S%")", [table_node.attributes ["table:name"]])
+				lio.put_labeled_substitution (generator, "make (%"%S%")", [table_node ["table:name"].as_string])
 				lio.put_new_line
 			end
-			name := table_node.attributes ["table:name"]
+			name := table_node ["table:name"]
 			l_column_table := column_table (defined_ranges)
 			if not l_column_table.is_empty then
 				columns := l_column_table.current_keys
@@ -91,10 +91,10 @@ feature {NONE} -- Implementation
 		do
 			row_list.start
 			if not row_list.after then
-				col_count := row_list.context.query ("count (table:table-cell)").as_integer
+				col_count := row_list.context @ "count (table:table-cell)"
 				from until row_list.after loop
-					if row_list.context.attributes.has (Attribute_number_rows_repeated) then
-						count_repeated := row_list.context.attributes.integer (Attribute_number_rows_repeated)
+					if row_list.context.has_attribute (Attribute_number_rows_repeated) then
+						count_repeated := row_list.context [Attribute_number_rows_repeated]
 						-- Ignore large repeat count occurring at end of every table
 						if count_repeated > Maximum_repeat_count then
 							count_repeated := 1

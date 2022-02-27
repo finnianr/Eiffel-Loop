@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2022-02-25 10:29:07 GMT (Friday 25th February 2022)"
+	revision: "5"
 
 class
 	SVG_INTEGER_POINT
@@ -20,19 +20,19 @@ create
 
 feature {NONE} -- Initialization
 
-	make (attributes: EL_ELEMENT_ATTRIBUTE_TABLE; subscript: INTEGER)
+	make (node: EL_XPATH_NODE_CONTEXT; subscript: INTEGER)
 			--
 		local
 			x_name, y_name: STRING
 		do
-			create x_name.make_from_string ("x")
+			x_name := "x"
 			x_name.append_integer (subscript)
 
-			create y_name.make_from_string ("y")
+			y_name := "y"
 			y_name.append_integer (subscript)
 
-			x := attributes.integer (x_name)
-			y := attributes.integer (y_name)
+			x := node [x_name]
+			y := node [y_name]
 		end
 
 feature -- Access

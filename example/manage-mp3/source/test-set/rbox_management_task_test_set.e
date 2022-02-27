@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-24 18:21:26 GMT (Thursday 24th February 2022)"
-	revision: "14"
+	date: "2022-02-25 10:36:20 GMT (Friday 25th February 2022)"
+	revision: "15"
 
 deferred class
 	RBOX_MANAGEMENT_TASK_TEST_SET [T -> RBOX_MANAGEMENT_TASK create make end]
@@ -107,7 +107,7 @@ feature {NONE} -- Implementation
 			log.enter ("print_playlist_xml")
 			create root_node.make_from_file (Database.playlists_xml_path)
 			xpath := "count (/rhythmdb-playlists/playlist/location)"
-			log.put_integer_field (xpath, root_node.query (xpath).as_integer)
+			log.put_integer_field (xpath, root_node.query (xpath))
 			log.put_new_line_x2
 
 			across root_node.context_list ("/rhythmdb-playlists/playlist") as playlist loop
@@ -115,7 +115,7 @@ feature {NONE} -- Implementation
 					if name.cursor_index > 1 then
 						log.put_string ("; ")
 					end
-					log.put_labeled_string (name.item, playlist.node.attributes [name.item])
+					log.put_labeled_string (name.item, (playlist.node [name.item]).as_string)
 				end
 				log.put_new_line
 				across playlist.node.context_list (Tag.location) as location loop
@@ -141,7 +141,7 @@ feature {NONE} -- Implementation
 			across root_node.context_list ("/rhythmdb/entry") as entry loop
 				Encoded_location.share (entry.node.query (Tag.location).as_string_8)
 				log.put_line (Encoded_location.decoded)
-				log.put_labeled_string (entry.node.attributes [Attribute_type], entry.node.query (Tag.media_type).as_string)
+				log.put_labeled_string (entry.node [Attribute_type].as_string, (entry.node @ Tag.media_type).as_string)
 				print_field (Tag.mb_trackid, entry.node, 1)
 				log.put_new_line
 				across Db_field.type_group_table as group loop

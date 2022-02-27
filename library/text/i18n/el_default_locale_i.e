@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-22 9:48:06 GMT (Tuesday 22nd February 2022)"
-	revision: "13"
+	date: "2022-02-27 15:11:21 GMT (Sunday 27th February 2022)"
+	revision: "14"
 
 deferred class
 	EL_DEFAULT_LOCALE_I
@@ -25,18 +25,18 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_default
+	make
 		do
-			make (Directory.Application_installation)
+			make_from_location (Directory.Application_installation)
 		end
 
 	make_resources
 		-- make using locale files in "resources/locales" directory
 		do
-			make (Resources_dir)
+			make_from_location (Resources_dir)
 		end
 
- 	make (locales_parent_dir: DIR_PATH)
+ 	make_from_location (locales_parent_dir: DIR_PATH)
  		local
  			table: EL_LOCALE_TABLE
  		do

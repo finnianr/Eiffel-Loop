@@ -6,13 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-21 10:49:22 GMT (Wednesday 21st April 2021)"
-	revision: "8"
+	date: "2022-02-25 9:44:24 GMT (Friday 25th February 2022)"
+	revision: "9"
 
-class
+deferred class
 	EL_VTD_CONSTANTS
 
+inherit
+	EL_ANY_SHARED
+
 feature {NONE} -- Constants
+
+	Boolean_values: ARRAY [STRING]
+		once
+			Result := << "true", "false" >>
+			Result.compare_objects
+		end
 
 	Empty_context_image: EL_VTD_CONTEXT_IMAGE
 		once
@@ -27,6 +36,11 @@ feature {NONE} -- Constants
 	Token: EL_VTD_TOKEN_ENUM
 		once
 			create Result
+		end
+
+	Shared_attribute: EL_ELEMENT_ATTRIBUTE
+		once
+			create Result.make
 		end
 
 end

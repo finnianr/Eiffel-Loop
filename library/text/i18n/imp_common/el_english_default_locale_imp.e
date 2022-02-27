@@ -18,31 +18,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:07 GMT (Saturday 5th February 2022)"
-	revision: "7"
+	date: "2022-02-27 15:17:24 GMT (Sunday 27th February 2022)"
+	revision: "8"
 
 class
 	EL_ENGLISH_DEFAULT_LOCALE_IMP
 
 inherit
-	EL_DEFAULT_LOCALE_I
-
-	EL_LOCALE_IMP
-		rename
-			make as make_with_language
-		undefine
-			in
-		end
+	EL_DEFAULT_LOCALE_IMP
 
 create
-	make_default, make, make_resources
+	make, make_from_location, make_resources
 
 feature {NONE} -- Constants
 
-	Key_language: STRING
-			-- language of translation keys
-		once
-			Result := "en"
-		end
+	Key_language: STRING = "en"
+		-- language of translation keys
 
 end

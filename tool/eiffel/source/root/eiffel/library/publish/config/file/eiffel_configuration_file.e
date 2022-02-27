@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:27:43 GMT (Monday 14th February 2022)"
-	revision: "41"
+	date: "2022-02-25 10:34:13 GMT (Friday 25th February 2022)"
+	revision: "42"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 			html_index_path := ecf.html_index_path
 			ecf_dir := ecf_path.parent
 			across root.context_list (Xpath_mapping) as map loop
-				extend_alias_table (map.node.attributes)
+				extend_alias_table (map.node)
 			end
 			source_dir_list := new_source_dir_list (root.context_list (ecf.cluster_xpath), ecf_dir)
 			across source_dir_list as path loop
@@ -247,9 +247,9 @@ feature -- Factory
 		do
 			create Result.make (cluster_nodes.count)
 			across cluster_nodes as cluster loop
-				location := cluster.node.attributes [Attribute_location]
-				if cluster.node.attributes.has (Attribute_recursive) then
-					is_recursive := cluster.node.attributes.boolean (Attribute_recursive)
+				location := cluster.node [Attribute_location]
+				if cluster.node.has_attribute (Attribute_recursive) then
+					is_recursive := cluster.node [Attribute_recursive]
 				end
 				if location.starts_with (Symbol.parent_dir) then
 					source_dir := parent_dir.parent #+ location.substring_end (4)
@@ -280,12 +280,12 @@ feature -- Factory
 
 feature {NONE} -- Implementation
 
-	extend_alias_table (map: EL_ELEMENT_ATTRIBUTE_TABLE)
+	extend_alias_table (map_node: EL_XPATH_NODE_CONTEXT)
 		do
 			if alias_table = Default_alias_table then
 				create alias_table.make_equal (2)
 			end
-			alias_table [map [Mapping.old_name]] := map [Mapping.new_name]
+			alias_table [map_node [Mapping.old_name]] := map_node [Mapping.new_name]
 		end
 
 	set_directory_list (parser: EIFFEL_CLASS_PARSER)

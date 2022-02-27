@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 11:45:57 GMT (Saturday 19th February 2022)"
-	revision: "2"
+	date: "2022-02-26 9:42:44 GMT (Saturday 26th February 2022)"
+	revision: "3"
 
 class
 	JAVA_TEST_SET
@@ -40,16 +40,14 @@ feature -- Tests
 			properties_path: EL_FILE_PATH
 		do
 			properties_path := "test-data/java_source/deployment.properties"
-			do_test ("print_properties", 1392094261, agent print_properties, [properties_path])
+			do_test ("print_properties", 1842240027, agent print_properties, [properties_path])
 		end
 
 	test_java
 		-- test basic Java calls
 		note
 			testing: "covers/{J_OBJECT_ARRAY}.count, covers/{J_OBJECT_ARRAY}.make, covers/{J_OBJECT_ARRAY}.put",
-						"covers/{J_OBJECT_ARRAY}.item",
-						"covers/{J_OBJECT}.equals",
-						"covers/{J_LINKED_LIST}.add_last"
+						"covers/{J_OBJECT_ARRAY}.item, covers/{J_OBJECT}.equals, covers/{J_LINKED_LIST}.add_last"
 		do
 			Java.append_class_locations (<< "test-data/java_classes" >>)
 			Java.open (<< >>)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-12 15:15:43 GMT (Monday 12th October 2020)"
-	revision: "12"
+	date: "2022-02-27 12:09:15 GMT (Sunday 27th February 2022)"
+	revision: "13"
 
 class
 	EL_SCREEN
@@ -77,7 +77,6 @@ feature -- Measurement
 
 	width_cms: REAL
 		-- screen width in centimeters
-
 
 	width_mm: INTEGER
 		do

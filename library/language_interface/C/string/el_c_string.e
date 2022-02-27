@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-15 20:07:16 GMT (Wednesday 15th September 2021)"
-	revision: "10"
+	date: "2022-02-26 16:01:18 GMT (Saturday 26th February 2022)"
+	revision: "11"
 
 deferred class
 	EL_C_STRING
@@ -35,18 +35,6 @@ inherit
 
 feature -- Initialization
 
-	set_shared_from_c, make_shared (c_ptr: POINTER)
-			-- make shared
-		do
-			make_with_ownership (c_ptr, False)
-		end
-
-	set_shared_from_c_of_size, make_shared_of_size (c_ptr: POINTER; size: INTEGER)
-			-- make shared
-		do
-			make_with_size_and_ownership (c_ptr, size, False)
-		end
-
 	set_owned_from_c, make_owned (c_ptr: POINTER)
 			--
 		do
@@ -57,6 +45,18 @@ feature -- Initialization
 			--
 		do
 			make_with_size_and_ownership (c_ptr, size, True)
+		end
+
+	set_shared_from_c, make_shared (c_ptr: POINTER)
+			-- make shared
+		do
+			make_with_ownership (c_ptr, False)
+		end
+
+	set_shared_from_c_of_size, make_shared_of_size (c_ptr: POINTER; size: INTEGER)
+			-- make shared
+		do
+			make_with_size_and_ownership (c_ptr, size, False)
 		end
 
 feature {NONE} -- Initialization
@@ -127,11 +127,11 @@ feature {NONE} -- Initialization
 			correct_sized_buffer: byte_count // width = capacity
 		end
 
-feature -- Access
-
-	count: INTEGER
+feature -- Measurement
 
 	capacity: INTEGER
+
+	count: INTEGER
 
 feature -- Access
 
@@ -142,15 +142,16 @@ feature -- Access
 		deferred
 		end
 
-feature -- Element change	
+feature -- Conversion
 
-	put_item (value: NATURAL_32; index: INTEGER)
-			--
-		require
-			valid_index: index >= 1 and index <= count + 1
-			value_small_enough: is_value_small_enough (value)
-		deferred
+	to_boolean: BOOLEAN
+		do
+			if count = 4 then
+				Result := item (1).to_character_32.as_upper = 'T'
+			end
 		end
+
+feature -- Element change	
 
 	append (string: READABLE_STRING_GENERAL)
 			--
@@ -167,6 +168,14 @@ feature -- Element change
 				dispose
 				make_from_string (new_string)
 			end
+		end
+
+	put_item (value: NATURAL_32; index: INTEGER)
+			--
+		require
+			valid_index: index >= 1 and index <= count + 1
+			value_small_enough: is_value_small_enough (value)
+		deferred
 		end
 
 	set_count (new_count: INTEGER)
@@ -229,16 +238,16 @@ feature -- Conversion
 			create Result.make_from_general (filled_string_32)
 		end
 
-	as_string_8: STRING
-			--
-		do
-			Result := filled_string_32.to_string_8
-		end
-
 	as_string_32: STRING_32
 			--
 		do
 			Result := filled_string_32.twin
+		end
+
+	as_string_8: STRING
+			--
+		do
+			Result := filled_string_32.to_string_8
 		end
 
 feature {NONE} -- Implementation

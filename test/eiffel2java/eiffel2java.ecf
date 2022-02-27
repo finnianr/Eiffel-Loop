@@ -22,7 +22,7 @@ This library provides a useful layer of abstraction over the Eiffel Software JNI
 	<!--classic means C code as an intermediate language-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
-		<version major = "1" minor = "0" release = "0" build = "55" company = "Eiffel-Loop" product = "eiffel2java" copyright = "Finnian Reilly"/>
+		<version major = "1" minor = "0" release = "0" build = "56" company = "Eiffel-Loop" product = "eiffel2java" copyright = "Finnian Reilly"/>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<debug name = "jni" enabled = "true"/>
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>

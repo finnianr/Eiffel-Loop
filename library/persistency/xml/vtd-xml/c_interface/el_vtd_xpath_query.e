@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-24 18:03:14 GMT (Thursday 24th February 2022)"
-	revision: "12"
+	date: "2022-02-26 16:04:00 GMT (Saturday 26th February 2022)"
+	revision: "13"
 
 class
 	EL_VTD_XPATH_QUERY
@@ -88,7 +88,10 @@ feature -- Access
 	as_boolean: BOOLEAN
 			--
 		do
-			Result := c_evaluate_xpath_to_boolean (context.self_ptr, self_ptr)
+			Result := as_wide_string.to_boolean
+
+--			For some reason `c_evaluate_xpath_to_boolean' does not work
+--			Result := c_evaluate_xpath_to_boolean (context.self_ptr, self_ptr)
 		end
 
 	as_date: DATE
@@ -148,17 +151,22 @@ feature -- Access
 	as_string: ZSTRING
 			--
 		do
-			Result := wide_string (c_evaluate_xpath_to_string (context.self_ptr, self_ptr))
+			Result := as_wide_string
 		end
 
 	as_string_8: STRING_8
 			--
 		do
-			Result := wide_string (c_evaluate_xpath_to_string (context.self_ptr, self_ptr))
+			Result := as_wide_string
 		end
 
 	as_string_32: STRING_32
 			--
+		do
+			Result := as_wide_string
+		end
+
+	as_wide_string: like wide_string
 		do
 			Result := wide_string (c_evaluate_xpath_to_string (context.self_ptr, self_ptr))
 		end

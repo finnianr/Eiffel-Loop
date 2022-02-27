@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 13:05:20 GMT (Saturday 19th February 2022)"
-	revision: "6"
+	date: "2022-02-26 11:38:03 GMT (Saturday 26th February 2022)"
+	revision: "7"
 
 class
 	EL_WORD_TEXTS
@@ -18,6 +18,7 @@ inherit
 	EL_REFLECTIVE_LOCALE_TEXTS
 		rename
 			english_table as Empty_table,
+			copy as copy_object,
 			print as io_print
 		redefine
 			upper_case_texts
@@ -54,6 +55,10 @@ feature -- Button Texts
 
 	continue: ZSTRING
 
+	copy: ZSTRING
+
+	cut: ZSTRING
+
 	discard: ZSTRING
 
 	directory: ZSTRING
@@ -73,6 +78,8 @@ feature -- Button Texts
 	ok: ZSTRING
 
 	open: ZSTRING
+
+	paste: ZSTRING
 
 	previous: ZSTRING
 

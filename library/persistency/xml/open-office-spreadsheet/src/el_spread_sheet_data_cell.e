@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-24 18:19:46 GMT (Thursday 24th February 2022)"
-	revision: "6"
+	date: "2022-02-25 8:43:44 GMT (Friday 25th February 2022)"
+	revision: "7"
 
 class
 	EL_SPREAD_SHEET_DATA_CELL
@@ -59,7 +59,7 @@ feature {NONE} -- Initialization
 			across paragraph_nodes as paragraph loop
 				str := paragraph.node.as_full_string
 				if str.is_empty then
-					str := paragraph.node.query (Xpath_text_node).as_string
+					str := paragraph.node @ Xpath_text_node
 				end
 				if not str.is_empty then
 					paragraphs.extend (str)

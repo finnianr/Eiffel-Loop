@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-24 17:44:46 GMT (Thursday 24th February 2022)"
-	revision: "14"
+	date: "2022-02-25 8:42:38 GMT (Friday 25th February 2022)"
+	revision: "15"
 
 class
 	EL_SPREAD_SHEET
@@ -75,8 +75,8 @@ feature {NONE} -- Initaliazation
 
 			if attached root_node.find_node ("/office:document") as document_ctx then
 				document_ctx.set_namespace_key ("office")
-				office_version := document_ctx.query ("@office:version")
-				mimetype := document_ctx.query ("@office:mimetype").as_string
+				office_version := document_ctx @ "@office:version"
+				mimetype := document_ctx @ "@office:mimetype"
 				check
 					valid_mimetype: mimetype ~ Open_document_spreadsheet
 					valid_office_version: office_version >= 1.1
@@ -84,9 +84,9 @@ feature {NONE} -- Initaliazation
 				if attached document_ctx.find_node ("office:body/office:spreadsheet") as spreadsheet_ctx then
 					spreadsheet_ctx.set_namespace_key ("table")
 					across spreadsheet_ctx.context_list ("table:named-expressions/table:named-range") as named_range loop
-						cell_range_address := named_range.node.attributes ["table:cell-range-address"]
+						cell_range_address := named_range.node ["table:cell-range-address"]
 						cell_range_address.prune_all ('$')
-						l_name := named_range.node.attributes ["table:name"]
+						l_name := named_range.node ["table:name"]
 						defined_ranges [cell_range_address] := l_name
 					end
 					xpath := selected_tables_xpath (table_names)

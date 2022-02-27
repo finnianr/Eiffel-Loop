@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-24 18:24:53 GMT (Thursday 24th February 2022)"
-	revision: "10"
+	date: "2022-02-25 18:02:24 GMT (Friday 25th February 2022)"
+	revision: "11"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
@@ -38,7 +38,7 @@ feature -- Tests
 			assert ("book-package.opf exists", package_path.exists)
 			create package_root.make_from_file (package_path)
 			across package_root.context_list ("/package/manifest/item") as manifest loop
-				item_path := package_path.parent + manifest.node.attributes ["href"]
+				item_path := package_path.parent + manifest.node ["href"]
 				if not item_path.has_extension ("png") then
 					assert ("item exists", item_path.exists)
 					if item_path.base.starts_with_general ("chapter") then
@@ -54,7 +54,7 @@ feature {NONE} -- Implementation
 
 	assert_valid_h2_file (xdoc: EL_XPATH_ROOT_NODE_CONTEXT; body_path: FILE_PATH)
 		local
-			h2_path: FILE_PATH; h2_set: EL_HASH_SET [ZSTRING]
+			h2_path: FILE_PATH; h2_set: EL_HASH_SET [ZSTRING]; title: ZSTRING
 			count: INTEGER; h2_list: EL_XPATH_NODE_CONTEXT_LIST
 		do
 			h2_path := body_path.with_new_extension ("h2")
@@ -68,9 +68,8 @@ feature {NONE} -- Implementation
 					end
 				end
 				across h2_list as h2 loop
-					if attached h2.node.as_string as title then
-						assert ("has title " + title, h2_set.has (h2.node))
-					end
+					title := h2.node.as_full_string
+					assert ("has title " + title, h2_set.has (title))
 					count := count + 1
 				end
 				assert ("same h2 set count", h2_set.count = count)
@@ -114,7 +113,7 @@ feature {NONE} -- Implementation
 
 	new_xdoc_path (xdoc: EL_XPATH_ROOT_NODE_CONTEXT; xpath: STRING): FILE_PATH
 		do
-			Result := xdoc.query (xpath).as_string
+			Result := xdoc.query (xpath)
 		end
 
 	source_dir: DIR_PATH

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-21 8:57:39 GMT (Monday 21st February 2022)"
-	revision: "7"
+	date: "2022-02-27 16:48:16 GMT (Sunday 27th February 2022)"
+	revision: "9"
 
 class
 	EL_PATH_STEPS
@@ -68,7 +68,7 @@ feature -- Initialization
 			else
 				l_separator := Separator
 				separator_count := a_path.occurrences (l_separator)
-				if separator_count = 0 and then {PLATFORM}.is_windows and not is_uri then
+				if separator_count = 0 and then {PLATFORM}.is_windows and a_path.substring_index (Colon_slash_x2, 1) = 0 then
 					l_separator := Unix_separator
 					separator_count := a_path.occurrences (l_separator)
 				end
@@ -511,6 +511,18 @@ feature -- Element change
 
 feature -- Removal
 
+	keep_tail (n: INTEGER)
+			-- Keep the last `n' entries.
+		require
+			non_negative_argument: n >= 0
+			less_than_count: n <= count
+		do
+			area.overlapping_move (count - n, 0, n)
+			area.keep_head (n)
+		ensure
+			count_updated: count = n
+		end
+
 	prune_until (last_step: READABLE_STRING_GENERAL)
 		-- prune until last step value is `last_step' or else is empty
 		local
@@ -527,13 +539,13 @@ feature -- Removal
 
 	remove_head (n: INTEGER)
 		do
-			area.remove_head (n.min (count))
+			keep_tail (count - n)
 			internal_hash_code := 0
 		end
 
 	remove_tail (n: INTEGER)
 		do
-			area.remove_tail (n.min (count))
+			area.keep_head (count - n)
 			internal_hash_code := 0
 		end
 

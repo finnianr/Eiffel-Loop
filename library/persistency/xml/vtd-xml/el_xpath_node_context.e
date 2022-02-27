@@ -6,37 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-24 18:20:54 GMT (Thursday 24th February 2022)"
-	revision: "23"
+	date: "2022-02-25 10:48:11 GMT (Friday 25th February 2022)"
+	revision: "24"
 
 class
 	EL_XPATH_NODE_CONTEXT
 
 inherit
-	EL_OWNED_C_OBJECT -- VTDNav
-		rename
-			c_free as c_evx_free_node_context
-		export
-			{EL_XPATH_NODE_CONTEXT, EL_VTD_XPATH_QUERY, EL_VTD_XML_ATTRIBUTE_API} self_ptr
-		end
-
-	EL_VTD_XML_API
-		export
-			{NONE} all
-			{EL_VTD_XML_ATTRIBUTE_API} exception_callbacks_c_struct
-		end
-
-	EL_STRING_8_CONSTANTS
-
-	EL_VTD_CONSTANTS
-
-	EL_XPATH_FIELD_SETTERS
-
-	EL_MODULE_LIO
-
-	EL_MODULE_EIFFEL
-
-	EL_SHARED_CLASS_ID
+	EL_XPATH_NODE_CONTEXT_IMPLEMENTATION
 
 create
 	make_from_other
@@ -60,7 +37,6 @@ feature {NONE} -- Initaliazation
 			namespace_key := Empty_string_8
 
 			create parent_context_image.make_from_other (a_parent.context_image)
-			create attributes.make (Current)
 			create xpath_query.make (Current)
 		end
 
@@ -73,12 +49,20 @@ feature {NONE} -- Initaliazation
 
 feature -- Access
 
-	attributes: EL_ELEMENT_ATTRIBUTE_TABLE
-
 	context_list (a_xpath: READABLE_STRING_GENERAL): EL_XPATH_NODE_CONTEXT_LIST
 			--
 		do
 			create Result.make (Current, a_xpath)
+		end
+
+	item alias "[]" (a_name: READABLE_STRING_GENERAL): EL_ELEMENT_ATTRIBUTE
+			-- shared element attribute named `a_name'
+			-- (WARNING: do not keep as reference without twinning)
+		require
+			exists: has_attribute (a_name)
+		do
+			Result := Shared_attribute
+			Result.set_context (Current, a_name)
 		end
 
 	name: STRING
@@ -95,8 +79,8 @@ feature -- Access
 			Result := parent.namespace_table
 		end
 
-	query (a_xpath: READABLE_STRING_GENERAL): EL_VTD_XPATH_QUERY
-			--
+	query alias "@" (a_xpath: READABLE_STRING_GENERAL): EL_VTD_XPATH_QUERY
+		--
 		do
 			if is_namespace_set then
 				create Result.make_xpath_for_namespace (Current, a_xpath, namespace_key)
@@ -119,55 +103,7 @@ feature -- Element change
 
 feature -- Basic operations
 
-	find_node (a_xpath: READABLE_STRING_GENERAL): detachable EL_XPATH_NODE_CONTEXT
-			--
-		do
-			create actual_found_node.make_from_other (Current)
-			actual_found_node.do_query (a_xpath)
-			if actual_found_node.match_found then
-				Result := actual_found_node
-			end
-		end
-
-feature -- External field setters
-
-	set_boolean (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [BOOLEAN])
-			-- call `set_value' with BOOLEAN value at `a_xpath'
-		do
-			Setter_boolean.set_from_node (Current, a_xpath, set_value)
-		end
-
-	set_double (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [DOUBLE])
-			-- call `set_value' with DOUBLE value at `a_xpath'
-		do
-			Setter_double.set_from_node (Current, a_xpath, set_value)
-		end
-
-	set_integer (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [INTEGER])
-			-- call `set_value' with INTEGER value at `a_xpath'
-		do
-			Setter_integer.set_from_node (Current, a_xpath, set_value)
-		end
-
-	set_integer_64 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [INTEGER_64])
-			-- call `set_value' with INTEGER_64 value at `a_xpath'
-		do
-			Setter_integer_64.set_from_node (Current, a_xpath, set_value)
-		end
-
-	set_natural (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [NATURAL])
-			-- call `set_value' with NATURAL value at `a_xpath'
-		do
-			Setter_natural.set_from_node (Current, a_xpath, set_value)
-		end
-
-	set_natural_64 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [NATURAL_64])
-			-- call `set_value' with NATURAL_64 value at `a_xpath'
-		do
-			Setter_natural_64.set_from_node (Current, a_xpath, set_value)
-		end
-
-	set_node_values (a_xpath: READABLE_STRING_GENERAL; set_values: PROCEDURE [EL_XPATH_NODE_CONTEXT])
+	apply_node (a_xpath: READABLE_STRING_GENERAL; set_values: PROCEDURE [EL_XPATH_NODE_CONTEXT])
 			-- call `set_values' with node at `a_xpath' if found
 		do
 			if attached find_node (a_xpath) as node then
@@ -175,48 +111,18 @@ feature -- External field setters
 			end
 		end
 
-	set_real (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [REAL])
-			-- call `set_value' with REAL value at `a_xpath'
-		do
-			Setter_real.set_from_node (Current, a_xpath, set_value)
-		end
-
-	set_string (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ZSTRING])
-			-- call `set_value' with ZSTRING value at `a_xpath'
-		do
-			Setter_string.set_from_node (Current, a_xpath, set_value)
-		end
-
-	set_string_32 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [STRING_32])
-			-- call `set_value' with STRING_32 value at `a_xpath'
-		do
-			Setter_string_32.set_from_node (Current, a_xpath, set_value)
-		end
-
-	set_string_8 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [STRING])
-			-- call `set_value' with STRING_8 value at `a_xpath'
-		do
-			Setter_string_8.set_from_node (Current, a_xpath, set_value)
-		end
-
-	set_string_general (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [READABLE_STRING_GENERAL])
-			-- call `set_value' with ZSTRING value at `a_xpath'
-		do
-			Setter_string_general.set_from_node (Current, a_xpath, set_value)
-		end
-
-	set_tuple (tuple: TUPLE; a_xpath_list: STRING)
+	fill_tuple (tuple: TUPLE; a_xpath_list: STRING)
 		require
 			same_field_count: tuple.count = a_xpath_list.occurrences (',') + 1
 		local
-			xpath_list: EL_STRING_8_LIST; index, type_id: INTEGER
+			xpath_splitter: EL_SPLIT_ON_CHARACTER [STRING]; index, type_id: INTEGER
 			tuple_type: TYPE [TUPLE]; xpath: STRING
 		do
 			tuple_type := tuple.generating_type
-			create xpath_list.make_comma_split (a_xpath_list)
-			across xpath_list as l_xpath loop
-				index := l_xpath.cursor_index
-				xpath := l_xpath.item
+			create xpath_splitter.make_adjusted (a_xpath_list, ',', {EL_STRING_ADJUST}.Left)
+			across xpath_splitter as split loop
+				index := split.cursor_index
+				xpath := split.item
 				inspect tuple.item_code (index)
 					when {TUPLE}.Integer_32_code then
 						tuple.put_integer (query (xpath), index)
@@ -253,12 +159,31 @@ feature -- External field setters
 			end
 		end
 
+	find_node (a_xpath: READABLE_STRING_GENERAL): detachable EL_XPATH_NODE_CONTEXT
+			--
+		do
+			create actual_found_node.make_from_other (Current)
+			actual_found_node.do_query (a_xpath)
+			if actual_found_node.match_found then
+				Result := actual_found_node
+			end
+		end
+
 feature -- Status query
 
 	has (xpath: STRING): BOOLEAN
 			--
 		do
 			Result := not is_empty_result_set (xpath)
+		end
+
+	has_attribute (a_name: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if node element has attribute with `a_name'
+		do
+			if attached Shared_attribute as l_attribute then
+				l_attribute.set_context (Current, a_name)
+				Result := l_attribute.is_valid_name
+			end
 		end
 
 	is_empty_result_set (xpath: READABLE_STRING_GENERAL): BOOLEAN
@@ -281,147 +206,6 @@ feature -- Status query
 			--
 		do
 			Result := query (a_xpath).as_boolean
-		end
-
-feature -- Element values
-
-	as_boolean: BOOLEAN
-		local
-			value: STRING_32
-		do
-			value := as_raw_string_32
-			if value.is_boolean then
-				Result := value.to_boolean
-			end
-		end
-
-	as_date: DATE
-			-- element content as a DOUBLE
-		require
-			days_format: as_string.is_natural
-		do
-			create Result.make_by_days (as_integer)
-		end
-
-	as_dir_path: DIR_PATH
-			--
-		do
-			Result := as_string
-		end
-
-	as_double: DOUBLE
-			-- element content as a DOUBLE
-		require
-			value_is_double: as_string.is_double
-		do
-			Result := c_node_context_double (self_ptr)
-		end
-
-	as_file_path: FILE_PATH
-			--
-		do
-			Result := as_string
-		end
-
-	as_full_string: ZSTRING
-			-- The entity and character references will be resolved
-			-- whitespace not trimmed
-		do
-			Result := wide_string (c_node_context_string (self_ptr))
-		end
-
-	as_full_string_32: STRING_32
-			-- The entity and character references will be resolved
-			-- whitespace not trimmed
-		do
-			Result := wide_string (c_node_context_string (self_ptr))
-		end
-
-	as_full_string_8: STRING
-			-- The entity and character references will be resolved
-			-- whitespace not trimmed
-		do
-			Result := wide_string (c_node_context_string (self_ptr))
-		end
-
-	as_integer: INTEGER
-			-- element content as an INTEGER
-		require
-			value_is_integer: as_string.is_integer
-		do
-			Result := c_node_context_integer (self_ptr)
-		end
-
-	as_integer_64: INTEGER_64
-			-- element content as an INTEGER_64
-		require
-			value_is_integer_64: as_string.is_integer_64
-		do
-			Result := c_node_context_integer_64 (self_ptr)
-		end
-
-	as_natural: NATURAL
-			-- element content as a NATURAL
-		require
-			value_is_natural: as_string.is_natural
-		do
-			Result := as_string.to_natural
-		end
-
-	as_natural_64: NATURAL_64
-			-- element content as a NATURAL_64
-		require
-			value_is_natural_64: as_string.is_natural_64
-		do
-			Result := as_string.to_natural_64
-		end
-
-	as_raw_string: ZSTRING
-			-- element content as string with entities and char references not expanded
-			-- built-in entity and char references not resolved
-			-- entities and char references not expanded
-		do
-			Result := wide_string (c_node_context_raw_string (self_ptr))
-		end
-
-	as_raw_string_32: STRING_32
-			-- element content as wide string with entities and char references not expanded
-			-- built-in entity and char references not resolved
-			-- entities and char references not expanded
-		do
-			Result := wide_string (c_node_context_raw_string (self_ptr))
-		end
-
-	as_real: REAL
-			-- element content as a REAL
-		require
-			value_is_real: as_string.is_real
-		do
-			Result := c_node_context_real (self_ptr)
-		end
-
-	as_string: ZSTRING
-			-- The leading and trailing white space characters will be stripped.
-			-- The entity and character references will be resolved
-			-- Multiple whitespaces char will be collapsed into one
-		do
-			Result := wide_string (c_node_context_normalized_string (self_ptr))
-		end
-
-	as_string_32: STRING_32
-			-- The leading and trailing white space characters will be stripped.
-			-- The entity and character references will be resolved
-			-- Multiple whitespaces char will be collapsed into one
-		do
-			Result := wide_string (c_node_context_normalized_string (self_ptr))
-		end
-
-	as_string_8: STRING
-			-- The leading and trailing white space characters will be stripped.
-			-- The entity and character references will be resolved
-			-- Multiple whitespaces char will be collapsed into one
-		do
-			Result := wide_string (c_node_context_normalized_string (self_ptr))
 		end
 
 feature {EL_XPATH_NODE_CONTEXT, EL_XPATH_NODE_CONTEXT_LIST, EL_XPATH_NODE_CONTEXT_LIST_ITERATION_CURSOR}

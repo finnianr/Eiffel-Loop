@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-21 8:37:11 GMT (Sunday 21st July 2019)"
-	revision: "7"
+	date: "2022-02-27 18:24:21 GMT (Sunday 27th February 2022)"
+	revision: "8"
 
 deferred class
 	EL_DOCKED_TAB
@@ -161,7 +161,7 @@ feature {SD_WIDGET_FACTORY} -- Factory
 			create Result
 		end
 
-feature {EL_DOCKING_CONTENT} -- Implementation
+feature {EL_DOCKING_CONTENT, EV_WINDOW} -- Implementation
 
 	content_border_box: EL_HORIZONTAL_BOX
 
