@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 6:26:46 GMT (Monday 7th February 2022)"
-	revision: "30"
+	date: "2022-02-28 11:35:14 GMT (Monday 28th February 2022)"
+	revision: "31"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -68,7 +68,7 @@ feature -- Tests
 
 	test_editor_with_new_class
 		note
-			testing:	"covers/{SOURCE_MANIFEST}.make_file, covers/{NOTE_EDITOR}.edit"
+			testing:	"covers/{SOURCE_MANIFEST}.make_from_file, covers/{NOTE_EDITOR}.edit"
 		local
 			encoding, encoding_after: STRING; crc: NATURAL
 			old_revision, new_revision: INTEGER_REF

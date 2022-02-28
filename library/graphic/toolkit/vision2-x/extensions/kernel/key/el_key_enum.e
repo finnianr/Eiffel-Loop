@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-21 12:41:37 GMT (Tuesday 21st September 2021)"
-	revision: "2"
+	date: "2022-02-28 14:10:25 GMT (Monday 28th February 2022)"
+	revision: "3"
 
 class
 	EL_KEY_ENUM
@@ -15,7 +15,7 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
-			export_name as to_kebab_case_lower,
+			export_name as to_snake_case_lower,
 			import_name as from_snake_case_lower
 		redefine
 			initialize_fields
@@ -90,15 +90,8 @@ feature -- Access
 feature -- Contract Support
 
 	valid_locale_keys: BOOLEAN
---		local
---			key: ZSTRING
 		do
 			Result := across list as n all Locale.has_key (locale_key (n.item)) end
---			Result := True
---			across list as n until not Result loop
---				key := locale_key (n.item)
---				Result := Locale.has_key (key)
---			end
 		end
 
 feature -- Values

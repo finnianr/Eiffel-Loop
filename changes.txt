@@ -484,3 +484,6 @@ Simplified type conversions in vtd-xml.ecf
 Fri 25th Feb 2022, 18:32:39
 Refactor of vtd-xml.ecf Xpath node and attributes
 
+Sun 27th Feb 2022, 20:30:29
+Removal of agent setters from vtd-xml.ecf
+

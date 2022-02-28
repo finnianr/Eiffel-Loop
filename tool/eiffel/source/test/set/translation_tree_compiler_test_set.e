@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 7:33:37 GMT (Monday 7th February 2022)"
-	revision: "13"
+	date: "2022-02-28 11:33:59 GMT (Monday 28th February 2022)"
+	revision: "14"
 
 class
 	TRANSLATION_TREE_COMPILER_TEST_SET
@@ -42,6 +42,8 @@ feature -- Basic operations
 feature -- Tests
 
 	test_compile_tree
+		note
+			testing: "covers/{PYXIS_TRANSLATION_TREE_COMPILER}.set_item_id"
 		local
 			restored_list: EL_TRANSLATION_ITEMS_LIST
 			translations_table: EL_HASH_TABLE [EL_TRANSLATION_ITEMS_LIST, STRING]
@@ -75,8 +77,8 @@ feature -- Tests
 			create texts.make
 			assert ("has 1 place holder", texts.uninstall_application.occurrences ('%S') = 1)
 
-			create locale_en.make (Work_area_dir)
-			assert ("same string", texts.uninstall_application ~ locale_en * "{uninstall-application}")
+			create locale_en.make_from_location (Work_area_dir)
+			assert ("same string", texts.uninstall_application ~ locale_en * "{uninstall_application}")
 		end
 
 feature {NONE} -- Implementation

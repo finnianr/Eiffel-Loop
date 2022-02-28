@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-21 13:47:51 GMT (Monday 21st February 2022)"
-	revision: "32"
+	date: "2022-02-28 9:36:23 GMT (Monday 28th February 2022)"
+	revision: "33"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -28,6 +28,24 @@ inherit
 	EL_SHARED_ENCODINGS
 
 feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
+
+	append_any (object: ANY)
+		do
+			if attached {READABLE_STRING_GENERAL} object as string then
+				append_string_general (string)
+
+			elseif attached {EL_PATH} object as l_path then
+				l_path.append_to (Current)
+
+			elseif attached {EL_PATH_STEPS} object as l_path then
+				l_path.append_to (Current)
+
+			elseif attached {PATH} object as path then
+				append_string_general (path.name)
+			else
+				append_string_general (object.out)
+			end
+		end
 
 	append_ascii (str: READABLE_STRING_8)
 		require
@@ -239,17 +257,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 					append_string_general (tuple.pointer_item (i).out)
 
 				when {TUPLE}.Reference_code then
-					if attached tuple.reference_item (i) as ref_any then
-						if attached {READABLE_STRING_GENERAL} ref_any as string then
-							append_string_general (string)
-						elseif attached {EL_PATH} ref_any as l_path then
-							l_path.append_to (Current)
-						elseif attached {PATH} ref_any as path then
-							append_string_general (path.name)
-						else
-							append_string_general (ref_any.out)
-						end
-					end
+					append_any (tuple.reference_item (i))
 			else
 				internal_append_tuple_item (tuple, i)
 			end

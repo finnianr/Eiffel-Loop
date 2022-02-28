@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-23 10:23:58 GMT (Wednesday 23rd February 2022)"
-	revision: "19"
+	date: "2022-02-28 12:44:30 GMT (Monday 28th February 2022)"
+	revision: "20"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -103,7 +103,7 @@ feature -- Access
 
 	language: STRING
 		do
-			Result := Locale.language
+			Result := locale.language
 		end
 
 	missing_keys_list: detachable ARRAYED_LIST [ZSTRING] note option: transient attribute end
@@ -255,7 +255,6 @@ feature {NONE} -- Implementation
 			Result.prune_all_trailing ('_') -- in case of keyword differentiation
 			if text_differs then
 				-- Text differs from key
-				Result.replace_character ('_', '-')
 				Result.enclose ('{', '}')
 			else
 				-- Text is identical to the key

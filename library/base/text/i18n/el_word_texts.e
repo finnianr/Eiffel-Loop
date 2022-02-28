@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-26 11:38:03 GMT (Saturday 26th February 2022)"
-	revision: "7"
+	date: "2022-02-28 9:07:37 GMT (Monday 28th February 2022)"
+	revision: "8"
 
 class
 	EL_WORD_TEXTS
@@ -88,6 +88,8 @@ feature -- Button Texts
 	progress: ZSTRING
 
 	question: ZSTRING
+
+	refresh: ZSTRING
 
 	rename_: ZSTRING
 

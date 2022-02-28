@@ -229,6 +229,15 @@ translations:
 			"$id"
 
 	item:
+		id = "Refresh"
+		translation:
+			lang = de; check = true
+			"Erneuern"
+		translation:
+			lang = en
+			"$id"
+
+	item:
 		id = "Rename"
 		translation:
 			lang = de; check = true

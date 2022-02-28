@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-28 12:16:20 GMT (Thursday 28th October 2021)"
-	revision: "27"
+	date: "2022-02-28 13:04:02 GMT (Monday 28th February 2022)"
+	revision: "28"
 
 deferred class
 	EL_LOCALE_I
@@ -42,24 +42,15 @@ inherit
 
 feature {NONE} -- Initialization
 
- 	make (a_language: STRING; a_default_language: like default_language)
+ 	make (a_language, a_default_language: STRING)
  		require
  			locale_table_created: Singleton_table.has_type ({EL_LOCALE_TABLE}, False)
 		do
  			make_solitary; make_access
-
-			restrict_access
-				create converter.make
-
-				default_language := a_default_language
-				if Locale_table.has (a_language) then
-					language := a_language
-				else
-					language := default_language
-				end
-				translation_table := new_translation_table (language)
-				create date_text.make (Current)
-			end_restriction
+ 			default_language := a_default_language
+			translation_table := new_translation_table (a_language)
+			create converter.make
+			create date_text.make (Current)
 		end
 
 feature -- Access
@@ -79,6 +70,9 @@ feature -- Access
 		-- selected language code with translation, defaults to English if no
 		-- translation available
 		-- Possible values: en, de, fr..
+		do
+			Result := translation_table.language
+		end
 
   	substituted (template_key: READABLE_STRING_GENERAL; inserts: TUPLE): ZSTRING
   		do
@@ -216,11 +210,18 @@ feature {EL_LOCALE_CONSTANTS} -- Factory
 
 	new_translation_table (a_language: STRING): EL_TRANSLATION_TABLE
 		local
-			items_list: EL_TRANSLATION_ITEMS_LIST
+			items_list: EL_TRANSLATION_ITEMS_LIST; l_language: STRING
 		do
-			create items_list.make_from_file (Locale_table [a_language])
-			items_list.retrieve
-			Result := items_list.to_table (a_language)
+			restrict_access
+				if Locale_table.has (a_language) then
+					l_language := a_language
+				else
+					l_language := default_language
+				end
+				create items_list.make_from_file (Locale_table [l_language])
+				items_list.retrieve
+				Result := items_list.to_table (l_language)
+			end_restriction
 		end
 
 feature {NONE} -- Implementation
