@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-28 12:18:50 GMT (Monday 28th February 2022)"
-	revision: "7"
+	date: "2022-03-01 16:22:37 GMT (Tuesday 1st March 2022)"
+	revision: "8"
 
 class
 	EL_LOCALE_TABLE
@@ -54,7 +54,7 @@ feature {NONE} -- Initialization
 			create locale_dir
 		end
 
-feature {NONE} -- Implementation
+feature -- Factory
 
 	new_locale_path (language_id: STRING): FILE_PATH
 		do

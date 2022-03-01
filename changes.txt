@@ -487,3 +487,6 @@ Refactor of vtd-xml.ecf Xpath node and attributes
 Sun 27th Feb 2022, 20:30:29
 Removal of agent setters from vtd-xml.ecf
 
+Mon 28th Feb 2022, 14:56:45
+Changed translation keys to use underscore for templates
+

@@ -17,11 +17,11 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-28 13:04:02 GMT (Monday 28th February 2022)"
-	revision: "28"
+	date: "2022-03-01 15:54:41 GMT (Tuesday 1st March 2022)"
+	revision: "29"
 
-deferred class
-	EL_LOCALE_I
+class
+	EL_LOCALE
 
 inherit
 	EL_DEFERRED_LOCALE_I
@@ -34,11 +34,12 @@ inherit
 			make_default as make_access
 		end
 
-	EL_MODULE_DIRECTORY
-
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE_SYSTEM
 
 	EL_SHARED_SINGLETONS
+
+create
+	make
 
 feature {NONE} -- Initialization
 
@@ -95,8 +96,13 @@ feature -- Access
 		end
 
 	user_language_code: STRING
-			--
-		deferred
+			-- By example: if LANG = "en_UK.utf-8"
+			-- then result = "en"
+		do
+			Result := Execution_environment.language_code
+			if Result.is_empty then
+				Result := default_language
+			end
 		end
 
 feature -- Status query
@@ -182,7 +188,9 @@ feature -- Contract Support
 	is_valid_quantity_key (key: READABLE_STRING_GENERAL; quantity: INTEGER): BOOLEAN
 		do
 			restrict_access
-				Result := translation_table.has (z_key_for (key, quantity)) or else translation_table.has (z_key_plural (key))
+				if attached translation_table as table then
+					Result := table.has (z_key_for (key, quantity)) or else table.has (z_key_plural (key))
+				end
 			end_restriction
 		end
 
@@ -232,7 +240,7 @@ feature {NONE} -- Implementation
 			Result := translation_table.has (z_key (key))
 		end
 
-	in (a_language: STRING): EL_LOCALE_I
+	in (a_language: STRING): EL_LOCALE
 		do
 			Result := Current
 		end

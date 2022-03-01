@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-28 10:11:42 GMT (Sunday 28th November 2021)"
-	revision: "9"
+	date: "2022-03-01 17:27:10 GMT (Tuesday 1st March 2022)"
+	revision: "10"
 
 class
 	EL_ZSTRING_TABLE
@@ -48,23 +48,28 @@ feature {NONE} -- Implementation
 
 	add_line (line: ZSTRING)
 		local
-			text: ZSTRING
+			text: ZSTRING; l_count: INTEGER; first, last: CHARACTER_32
 		do
 			line.right_adjust
-			if line.count > 0 then
-				if line [1] = '%T' then
+			l_count := line.count
+			if l_count > 0 then
+				first := line [1]
+				last := line [l_count]
+			end
+			if l_count > 1 and then first /= '%T' and last = ':' then
+				line.remove_tail (1)
+				put (create {ZSTRING}.make_empty, line.twin)
+			else
+				if first = '%T' then
 					line.remove_head (1)
-					if inserted then
-						text := found_item
-						text.grow (text.count + line.count + 1)
-						if text.count > 0 then
-							text.append_character ('%N')
-						end
-						text.append (line)
+				end
+				if inserted then
+					text := found_item
+					text.grow (text.count + l_count + 1)
+					if text.count > 0 then
+						text.append_character ('%N')
 					end
-				elseif line [line.count] = ':' then
-					line.remove_tail (1)
-					put (create {ZSTRING}.make_empty, line.twin)
+					text.append (line)
 				end
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-28 9:36:23 GMT (Monday 28th February 2022)"
-	revision: "33"
+	date: "2022-02-28 14:28:30 GMT (Monday 28th February 2022)"
+	revision: "34"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -29,21 +29,24 @@ inherit
 
 feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
-	append_any (object: ANY)
+	append_any (object: detachable ANY)
+		require
+			is_attached: attached object
 		do
 			if attached {READABLE_STRING_GENERAL} object as string then
 				append_string_general (string)
 
-			elseif attached {EL_PATH} object as l_path then
-				l_path.append_to (Current)
+			elseif attached {EL_PATH} object as path then
+				path.append_to (Current)
 
-			elseif attached {EL_PATH_STEPS} object as l_path then
-				l_path.append_to (Current)
+			elseif attached {EL_PATH_STEPS} object as steps then
+				steps.append_to (Current)
 
 			elseif attached {PATH} object as path then
 				append_string_general (path.name)
-			else
-				append_string_general (object.out)
+
+			elseif attached object as obj then
+				append_string_general (obj.out)
 			end
 		end
 

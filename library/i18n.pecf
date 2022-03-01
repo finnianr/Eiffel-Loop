@@ -27,13 +27,10 @@ system:
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
 		library:
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
+			name = base_ext; location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"
 
 		library:
-			name = ise_i18n; location = "$ISE_LIBRARY/library/i18n/i18n.ecf"
-			condition:
-				platform:
-					value = windows
+			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
 
 		# Eiffel-Loop
 		library:

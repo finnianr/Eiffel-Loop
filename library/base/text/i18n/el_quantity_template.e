@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-25 8:55:12 GMT (Saturday 25th September 2021)"
-	revision: "1"
+	date: "2022-03-01 9:18:04 GMT (Tuesday 1st March 2022)"
+	revision: "2"
 
 class
 	EL_QUANTITY_TEMPLATE
@@ -15,11 +15,10 @@ class
 inherit
 	ARRAY [EL_TEMPLATE [ZSTRING]]
 		rename
-			make as make_array,
-			item as template_item
+			make as make_array
 		export
 			{NONE} all
-			{ANY} valid_index
+			{ANY} valid_index, item
 		end
 
 	EL_LOCALE_CONSTANTS
@@ -44,11 +43,11 @@ feature -- Access
 	substituted_extra (quantity: INTEGER; substitutions: like Empty_substitutions): ZSTRING
 			-- translation with adjustments according to value of `quantity'
 		local
-			template: like template_item; name: READABLE_STRING_8
+			template: like item; name: READABLE_STRING_8
 		do
-			template := template_item (quantity.min (upper))
+			template := item (quantity.min (upper))
 			if template = Default_template then
-				template := template_item (1)
+				template := item (1)
 			end
 			across substitutions as list loop
 				name := list.item.name

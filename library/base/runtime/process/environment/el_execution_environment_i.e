@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:03:04 GMT (Tuesday 15th February 2022)"
-	revision: "24"
+	date: "2022-03-01 15:46:27 GMT (Tuesday 1st March 2022)"
+	revision: "25"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -72,6 +72,14 @@ feature -- Access
 				Result := value
 			end
 			-- returns void if value is empty in order to satisfy postcondition on `put'
+		end
+
+	language_code: STRING
+		-- Two letter code representing user language
+		-- Example: "en" is English
+		deferred
+		ensure
+			valid_code: Result.count = 2
 		end
 
 	user_configuration_directory_name: ZSTRING

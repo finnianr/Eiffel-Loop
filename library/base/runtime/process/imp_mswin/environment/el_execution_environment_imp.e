@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-08 11:57:52 GMT (Saturday 8th January 2022)"
-	revision: "10"
+	date: "2022-03-01 15:58:55 GMT (Tuesday 1st March 2022)"
+	revision: "11"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -57,6 +57,17 @@ feature {NONE} -- Implementation
 			Result := c_console_output_code_page
 		end
 
+	language_code: STRING
+			-- Two letter code representing user language
+			-- Example: "en" is English
+		do
+			if Executable.Is_work_bench and then attached Execution_environment.item ("LANG") as lang then
+				Result := lang
+			else
+				Result := I18n.language
+			end
+		end
+
 	open_url (url: EL_FILE_URI_PATH)
 		local
 			l_url: NATIVE_STRING; succeeded: BOOLEAN
@@ -92,6 +103,11 @@ feature {NONE} -- Constants
 	Data_dir_name_prefix: ZSTRING
 		once
 			create Result.make_empty
+		end
+
+	I18n: EL_I18N_ROUTINES
+		once
+			create Result
 		end
 
 	User_configuration_directory_name: ZSTRING

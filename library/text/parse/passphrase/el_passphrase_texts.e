@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-22 13:15:32 GMT (Friday 22nd October 2021)"
-	revision: "3"
+	date: "2022-03-01 17:53:20 GMT (Tuesday 1st March 2022)"
+	revision: "4"
 
 class
 	EL_PASSPHRASE_TEXTS
@@ -45,8 +45,10 @@ feature {NONE} -- Implementation
 	english_table: STRING
 		do
 			Result := "[
+				incorrect_passphrase:
+					Incorrect passphrase, try again.
 				minimum_score:
-					(Minimum is %S)
+					(Minimum to continue is %S)
 				passphrase_strength:
 					Passphrase strength (%S / 6)
 			]"

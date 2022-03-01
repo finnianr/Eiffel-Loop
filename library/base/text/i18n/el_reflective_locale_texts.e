@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-28 12:44:30 GMT (Monday 28th February 2022)"
-	revision: "20"
+	date: "2022-03-01 8:29:56 GMT (Tuesday 1st March 2022)"
+	revision: "21"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -25,6 +25,7 @@ inherit
 		export
 			{NONE} all
 			{ANY} print_fields
+			{EL_REFLECTION_HANDLER} field_table
 		redefine
 			initialize_fields
 		end
@@ -164,7 +165,9 @@ feature {NONE} -- Factory
 			create Result.make (english_table)
 			across Result as table loop
 				if table.item.has ('%%') then
-					table.item.replace_substring_all (Substitution.string, Substitution.character)
+					across Substitution_table as substitution loop
+						table.item.replace_substring_all (substitution.key, Substitution.item)
+					end
 				end
 			end
 		ensure
@@ -322,10 +325,11 @@ feature {NONE} -- Constants
 			create Result.make_empty
 		end
 
-	Substitution: TUPLE [string, character: ZSTRING]
+	Substitution_table: EL_HASH_TABLE [ZSTRING, ZSTRING]
 		once
-			create Result
-			Tuple.fill (Result, "%%S, %S")
+			create Result.make_size (2)
+			Result ["%%S"] := "%S"
+			Result ["%%T"] := "%T"
 		end
 
 note

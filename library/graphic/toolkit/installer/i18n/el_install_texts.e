@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-25 15:18:16 GMT (Monday 25th October 2021)"
-	revision: "3"
+	date: "2022-03-01 17:45:13 GMT (Tuesday 1st March 2022)"
+	revision: "4"
 
 class
 	EL_INSTALL_TEXTS
@@ -110,7 +110,7 @@ feature {NONE} -- Implementation
 				setup_title_template:
 					%S Setup
 				unable_to_connect_template:
-					Unable to connect to %S
+					Unable to connect to http://%S
 					The site may be down. Please try again later.
 					
 					If you think we have failed to notice, please

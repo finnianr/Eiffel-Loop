@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:22:58 GMT (Sunday 19th December 2021)"
-	revision: "9"
+	date: "2022-03-01 9:09:10 GMT (Tuesday 1st March 2022)"
+	revision: "10"
 
 class
 	EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -80,6 +80,9 @@ feature -- Access
 			Result := part_list.joined_strings
 		end
 
+	variable_values: EL_STRING_8_TABLE [S]
+		-- variable name list
+
 feature -- Basic operations
 
 	append_to (str: S)
@@ -128,8 +131,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	part_list: EL_STRING_LIST [S]
-
-	variable_values: EL_STRING_8_TABLE [S]
-		-- variable name list
 
 end

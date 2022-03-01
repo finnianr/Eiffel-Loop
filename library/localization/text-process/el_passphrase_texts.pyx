@@ -23,13 +23,13 @@ translations:
 			"$id"
 
 	item:
-		id = "Incorrect passphrase"
+		id = "{incorrect_passphrase}"
 		translation:
 			lang = de; check = true
 			"Falsche Passphrase, versuchen Sie es erneut."
 		translation:
 			lang = en
-			"Incorrect password, try again."
+			"Incorrect passphrase, try again."
 
 	item:
 		id = "Make visible"

@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-27 15:11:21 GMT (Sunday 27th February 2022)"
-	revision: "14"
+	date: "2022-03-01 18:27:23 GMT (Tuesday 1st March 2022)"
+	revision: "15"
 
 deferred class
 	EL_DEFAULT_LOCALE_I
 
 inherit
-	EL_LOCALE_I
+	EL_LOCALE
 		rename
 			make as make_with_language
 		redefine
@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	in (a_language: STRING): EL_LOCALE_I
+	in (a_language: STRING): EL_LOCALE
 		-- translation in another available language
 		require else
 			language_has_translation: has_translation (a_language)
@@ -69,14 +69,14 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	new_locale (a_language: STRING): like in
+	new_locale (a_language: STRING): EL_LOCALE
 		do
-			create {EL_LOCALE_IMP} Result.make (a_language, Key_language)
+			create Result.make (a_language, Key_language)
 		end
 
 feature {NONE} -- Internal attributes
 
-	other_locales: EL_CACHE_TABLE [EL_LOCALE_I, STRING]
+	other_locales: EL_CACHE_TABLE [EL_LOCALE, STRING]
 
 feature {NONE} -- Constants
 

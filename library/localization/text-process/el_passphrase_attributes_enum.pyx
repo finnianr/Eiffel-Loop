@@ -35,10 +35,10 @@ translations:
 		id = "{has-symbolic}"
 		translation:
 			lang = de; check = false
-			"Enthält ein symbolisches Zeichen (^ % # usw.)"
+			"Enthält ein symbolisches Zeichen ([]:&*^%# usw.)"
 		translation:
 			lang = en
-			"Contains a symbolic character (^ % # etc)"
+			"Contains a symbolic character ([]:&*^%# etc)"
 	item:
 		id = "{has-at-least-8}"
 		translation:

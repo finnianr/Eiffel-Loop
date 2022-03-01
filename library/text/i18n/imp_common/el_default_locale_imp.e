@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-27 15:25:28 GMT (Sunday 27th February 2022)"
-	revision: "1"
+	date: "2022-03-01 15:52:56 GMT (Tuesday 1st March 2022)"
+	revision: "2"
 
 deferred class
 	EL_DEFAULT_LOCALE_IMP
@@ -18,7 +18,7 @@ deferred class
 inherit
 	EL_DEFAULT_LOCALE_I
 
-	EL_LOCALE_IMP
+	EL_LOCALE
 		rename
 			make as make_with_language
 		undefine
