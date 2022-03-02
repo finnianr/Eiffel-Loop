@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-28 11:46:27 GMT (Sunday 28th November 2021)"
-	revision: "24"
+	date: "2022-03-02 13:34:09 GMT (Wednesday 2nd March 2022)"
+	revision: "25"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -89,19 +89,6 @@ feature -- Access
 			end
 		end
 
-	method_parameters: EL_URI_QUERY_ZSTRING_HASH_TABLE
-		-- non-duplicate http parameters from either the GET-data (URI query string)
-		-- or POST-data (`raw_stdin_content')
-		do
-			if is_get_request then
-				create Result.make_url (query_string)
-			elseif is_post_request and headers.content_length > 0 then
-				create Result.make_url (content)
-			else
-				create Result.make_default
-			end
-		end
-
 	protocol: STRING
 		do
 			Result := server_protocol.substring (1, server_protocol.index_of ('/', 1) - 1)
@@ -129,21 +116,38 @@ feature -- Access
 			end
 		end
 
+feature -- Factory
+
+	new_method_parameters: EL_URI_QUERY_ZSTRING_HASH_TABLE
+		-- non-duplicate http parameters from either the GET-data (URI query string)
+		-- or POST-data (`raw_stdin_content')
+		do
+			if is_post_request and headers.content_length > 0 then
+				create Result.make_url (content)
+
+			elseif (is_get_request or is_head_request) and query_string.count > 0 then
+				create Result.make_url (query_string)
+
+			else
+				create Result.make_default
+			end
+		end
+
 feature -- Status query
 
 	is_get_request: BOOLEAN
 		do
-			Result := Method_get ~ request_method
+			Result := Method.get ~ request_method
 		end
 
 	is_head_request: BOOLEAN
 		do
-			Result := Method_head ~ request_method
+			Result := Method.head ~ request_method
 		end
 
 	is_post_request: BOOLEAN
 		do
-			Result := Method_post ~ request_method
+			Result := Method.post ~ request_method
 		end
 
 feature -- Numeric parameters
@@ -239,19 +243,10 @@ feature {NONE} -- Constants
 			Tuple.fill (Result, "CONTENT_, HTTP_")
 		end
 
-	Method_get: ZSTRING
+	Method: TUPLE [get, head, post: ZSTRING]
 		once
-			Result := "GET"
-		end
-
-	Method_head: ZSTRING
-		once
-			Result := "HEAD"
-		end
-
-	Method_post: ZSTRING
-		once
-			Result := "POST"
+			create Result
+			Tuple.fill (Result, "GET, HEAD, POST")
 		end
 
 	Request_url_template: ZSTRING

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-12 11:52:02 GMT (Sunday 12th September 2021)"
-	revision: "1"
+	date: "2022-03-02 11:37:35 GMT (Wednesday 2nd March 2022)"
+	revision: "2"
 
 deferred class
 	EL_URI_IMPLEMENTATION
@@ -18,6 +18,8 @@ inherit
 	EL_STRING_8_CONSTANTS
 
 	EL_STRING_32_CONSTANTS
+
+	EL_MODULE_REUSEABLE
 
 feature {NONE} -- Part index
 
@@ -131,7 +133,6 @@ feature {NONE} -- Implementation
 	new_encoded_parts (str: READABLE_STRING_GENERAL): SPECIAL [STRING]
 		local
 			index_qmark, index_hash: INTEGER
-			s: EL_STRING_32_BUFFER_ROUTINES
 		do
 			create Result.make_filled (Empty_string_8, 3)
 			index_hash := str.last_index_of ('#', str.count)
@@ -148,12 +149,14 @@ feature {NONE} -- Implementation
 			if index_qmark = 0 then
 				index_qmark := str.count + 1
 
-			elseif attached Uri_query as l_query and then attached s.empty as query_string then
+			elseif attached Uri_query as l_query then
 				Result [1] := l_query
 				l_query.wipe_out
 				l_query.append_character ('?')
-				query_string.append_substring_general (str, index_qmark + 1, index_hash - 1)
-				l_query.append_query_string_32 (query_string)
+				across Reuseable.string_32 as reuse loop
+					reuse.item.append_substring_general (str, index_qmark + 1, index_hash - 1)
+					l_query.append_query_string_32 (reuse.item)
+				end
 			end
 			Result [0] := once_encoded_substring (Uri_path, str, 1, index_qmark - 1)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 8:03:28 GMT (Thursday 28th May 2020)"
-	revision: "15"
+	date: "2022-03-02 13:39:40 GMT (Wednesday 2nd March 2022)"
+	revision: "16"
 
 class
 	EL_URI_QUERY_ZSTRING_HASH_TABLE
@@ -17,6 +17,48 @@ inherit
 
 create
 	make_equal, make_uri, make_url, make_default
+
+convert
+	found_string: {ZSTRING}, found_string_8: {STRING_8},
+	found_integer: {INTEGER},
+	found_natural: {NATURAL}, found_natural_8: {NATURAL_8}
+
+feature -- Access
+
+	found_string: ZSTRING
+		do
+			if found then
+				Result := found_item
+			else
+				create Result.make_empty
+			end
+		end
+
+	found_string_8: STRING
+		do
+			Result := found_string
+		end
+
+	found_integer: INTEGER
+		do
+			if found then
+				Result := found_item.to_integer
+			end
+		end
+
+	found_natural: NATURAL
+		do
+			if found then
+				Result := found_item.to_natural_32
+			end
+		end
+
+	found_natural_8: NATURAL_8
+		do
+			if found then
+				Result := found_item.to_natural_8
+			end
+		end
 
 feature {NONE} -- Implementation
 

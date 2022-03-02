@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-28 11:33:59 GMT (Monday 28th February 2022)"
-	revision: "14"
+	date: "2022-03-02 10:03:18 GMT (Wednesday 2nd March 2022)"
+	revision: "15"
 
 class
 	TRANSLATION_TREE_COMPILER_TEST_SET
@@ -48,11 +48,11 @@ feature -- Tests
 			restored_list: EL_TRANSLATION_ITEMS_LIST
 			translations_table: EL_HASH_TABLE [EL_TRANSLATION_ITEMS_LIST, STRING]
 			restored_table, filled_table: EL_TRANSLATION_TABLE
-			locale_en: EL_ENGLISH_DEFAULT_LOCALE_IMP
+			locale_en: EL_ENGLISH_DEFAULT_LOCALE
 			locale_table: EL_LOCALE_TABLE; texts: EL_UNINSTALL_TEXTS
 		do
 			create translations_table.make_size (20)
-			do_test ("compile_twice", 2969954864, agent compile_twice, [translations_table])
+			do_test ("compile_twice", 3114837072, agent compile_twice, [translations_table])
 
 			lio.put_line ("Checking restore")
 			create locale_table.make (Locales_dir)
@@ -70,8 +70,6 @@ feature -- Tests
 					assert ("same value", table.item ~ filled_table [table.key])
 				end
 			end
-			test_reflective_locale_texts
-
 			Singleton_table.remove (locale_table)
 
 			create texts.make
@@ -79,6 +77,8 @@ feature -- Tests
 
 			create locale_en.make_from_location (Work_area_dir)
 			assert ("same string", texts.uninstall_application ~ locale_en * "{uninstall_application}")
+
+			test_reflective_locale_texts
 		end
 
 feature {NONE} -- Implementation
@@ -110,12 +110,17 @@ feature {NONE} -- Implementation
 		end
 
 	source_file_list: EL_FILE_PATH_LIST
+		local
+			type_list: EL_TUPLE_TYPE_LIST [EL_REFLECTIVE_LOCALE_TEXTS]
+			selected_files: EL_STRING_8_LIST
 		do
-			create Result.make_from_array (<<
-				Data_dir + "app-manage/el_uninstall_texts.pyx",
-				Data_dir + "base/el_month_texts.pyx",
-				Data_dir + "base/el_day_of_week_texts.pyx"
-			>>)
+			create type_list.make_from_tuple (locale_texts_types)
+			create selected_files.make (type_list.count)
+			across type_list as list loop
+				selected_files.extend (list.item.name.as_lower + ".pyx")
+			end
+
+			Result := OS.filtered_file_list (Data_dir, "*.pyx", Filter.base_name_in (selected_files))
 		end
 
 feature {NONE} -- Constants

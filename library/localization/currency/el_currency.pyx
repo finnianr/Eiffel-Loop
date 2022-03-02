@@ -12,7 +12,7 @@ pyxis-doc:
 
 translations:
 	item:
-		id = "{currency-AUD}"
+		id = "{currency_AUD}"
 		translation:
 			lang = de; check = true
 			"Australische Dollar (# ###,## $)"
@@ -20,7 +20,7 @@ translations:
 			lang = en
 			"Australian Dollars ($ # ###.##)"
 	item:
-		id = "{currency-BGN}"
+		id = "{currency_BGN}"
 		translation:
 			lang = de; check = true
 			"Bulgarischer Lev (#.###,## Лв)"
@@ -28,7 +28,7 @@ translations:
 			lang = en
 			"Bulgarian Lev (#.###,## Лв)"
 	item:
-		id = "{currency-BRL}"
+		id = "{currency_BRL}"
 		translation:
 			lang = de; check = true
 			"Brasilianischer Real (R$ #.###,##)"
@@ -36,7 +36,7 @@ translations:
 			lang = en
 			"Brazilian Real (R$ #.###,##)"
 	item:
-		id = "{currency-CAD}"
+		id = "{currency_CAD}"
 		translation:
 			lang = de; check = true
 			"Kanadische Dollar (#.###,## $)"
@@ -44,7 +44,7 @@ translations:
 			lang = en
 			"Canadian Dollars ($ #,###.##)"
 	item:
-		id = "{currency-CHF}"
+		id = "{currency_CHF}"
 		translation:
 			lang = de; check = true
 			"Schweizer Franken (#.###,## CHF)"
@@ -52,7 +52,7 @@ translations:
 			lang = en
 			"Swiss Francs (#'###.## CHF)"
 	item:
-		id = "{currency-CNY}"
+		id = "{currency_CNY}"
 		translation:
 			lang = de; check = true
 			"Yuan Renminbi (¥ #.###,##)"
@@ -60,7 +60,7 @@ translations:
 			lang = en
 			"Yuan Renminbi (¥ #,###.##)"
 	item:
-		id = "{currency-CZK}"
+		id = "{currency_CZK}"
 		translation:
 			lang = de; check = true
 			"Tschechische Krone (#.###,## Kč)"
@@ -68,7 +68,7 @@ translations:
 			lang = en
 			"Czech Koruna (#.###,## Kč)"
 	item:
-		id = "{currency-DKK}"
+		id = "{currency_DKK}"
 		translation:
 			lang = de; check = true
 			"Danish Krones (#.###,## kr)"
@@ -76,7 +76,7 @@ translations:
 			lang = en
 			"Danish Krones (kr #.###,##)"
 	item:
-		id = "{currency-EUR}"
+		id = "{currency_EUR}"
 		translation:
 			lang = de; check = true
 			"Euro (#.###,## €)"
@@ -84,7 +84,7 @@ translations:
 			lang = en
 			"Euros (€ #,###.##)"
 	item:
-		id = "{currency-GBP}"
+		id = "{currency_GBP}"
 		translation:
 			lang = de; check = true
 			"Britisches Pfund (#.###,## £)"
@@ -92,7 +92,7 @@ translations:
 			lang = en
 			"British Pounds (£ #,###.##)"
 	item:
-		id = "{currency-HKD}"
+		id = "{currency_HKD}"
 		translation:
 			lang = de; check = true
 			"Hongkong-Dollar (#.###,## HK$)"
@@ -100,7 +100,7 @@ translations:
 			lang = en
 			"Hong Kong Dollars (HK$ #,###.##)"
 	item:
-		id = "{currency-HRK}"
+		id = "{currency_HRK}"
 		translation:
 			lang = de; check = true
 			"Kroatische Kuna (#.###,## Kn)"
@@ -108,7 +108,7 @@ translations:
 			lang = en
 			"Croatian kuna (#.###,## Kn)"
 	item:
-		id = "{currency-HUF}"
+		id = "{currency_HUF}"
 		translation:
 			lang = de; check = true
 			"Ungarische Forints (#.### Ft)"
@@ -116,7 +116,7 @@ translations:
 			lang = en
 			"Hungarian Forints (#.### Ft)"
 	item:
-		id = "{currency-IDR}"
+		id = "{currency_IDR}"
 		translation:
 			lang = de; check = true
 			"Indonesien Rupiah (Rp #.###,##)"
@@ -124,7 +124,7 @@ translations:
 			lang = en
 			"Indonesian Rupiah (Rp #.###,##)"
 	item:
-		id = "{currency-ILS}"
+		id = "{currency_ILS}"
 		translation:
 			lang = de; check = true
 			"Israelischer Sheqels (#.###,## ₪)"
@@ -132,7 +132,7 @@ translations:
 			lang = en
 			"Israeli New Sheqels (#,###.## ₪)"
 	item:
-		id = "{currency-INR}"
+		id = "{currency_INR}"
 		translation:
 			lang = de; check = true
 			"Indische Rupie (#,##,###.## ₹)"
@@ -140,7 +140,7 @@ translations:
 			lang = en
 			"Indian Rupee (₹ #,##,###.##)"
 	item:
-		id = "{currency-JPY}"
+		id = "{currency_JPY}"
 		translation:
 			lang = de; check = true
 			"Japanischer Yen (#.### ¥)"
@@ -148,7 +148,7 @@ translations:
 			lang = en
 			"Japanese Yen (¥ #,###)"
 	item:
-		id = "{currency-KRW}"
+		id = "{currency_KRW}"
 		translation:
 			lang = de; check = true
 			"Südkorea hat gewonnen (#,### ₩)"
@@ -156,7 +156,7 @@ translations:
 			lang = en
 			"South Korea Won (₩ #,###)"
 	item:
-		id = "{currency-MXN}"
+		id = "{currency_MXN}"
 		translation:
 			lang = de; check = true
 			"Mexikanischer Peso (#.###,## $)"
@@ -164,7 +164,7 @@ translations:
 			lang = en
 			"Mexican Pesos ($ #,###.##)"
 	item:
-		id = "{currency-MYR}"
+		id = "{currency_MYR}"
 		translation:
 			lang = de; check = true
 			"Malaysische Ringgit (#,###.## RM)"
@@ -172,7 +172,7 @@ translations:
 			lang = en
 			"Malaysian Ringgit (RM #,###.##)"
 	item:
-		id = "{currency-NOK}"
+		id = "{currency_NOK}"
 		translation:
 			lang = de; check = true
 			"Norwegische Kronen (#.###,## kr)"
@@ -180,7 +180,7 @@ translations:
 			lang = en
 			"Norwegian Krones (kr #.###,##)"
 	item:
-		id = "{currency-NZD}"
+		id = "{currency_NZD}"
 		translation:
 			lang = de; check = true
 			"Neuseeland-Dollar (#.###,## $)"
@@ -188,7 +188,7 @@ translations:
 			lang = en
 			"New Zealand Dollars ($ #,###.##)"
 	item:
-		id = "{currency-PHP}"
+		id = "{currency_PHP}"
 		translation:
 			lang = de; check = true
 			"Philippinische Peso (#.###,## ₱)"
@@ -196,7 +196,7 @@ translations:
 			lang = en
 			"Philippine Pesos (₱ #,###.##)"
 	item:
-		id = "{currency-PLN}"
+		id = "{currency_PLN}"
 		translation:
 			lang = de; check = true
 			"Polnischen Zloty (#.###,## zł)"
@@ -204,7 +204,7 @@ translations:
 			lang = en
 			"Polish Zlotys (# ###,## zł)"
 	item:
-		id = "{currency-RON}"
+		id = "{currency_RON}"
 		translation:
 			lang = de; check = true
 			"Rumänischer Neuer Leu (#.###,## leu)"
@@ -212,7 +212,7 @@ translations:
 			lang = en
 			"Romanian New Leu (leu #.###,##)"
 	item:
-		id = "{currency-RUB}"
+		id = "{currency_RUB}"
 		translation:
 			lang = de; check = true
 			"Russische Rubel (#.###,## руб)"
@@ -220,7 +220,7 @@ translations:
 			lang = en
 			"Russian Rubles (#.###,## руб)"
 	item:
-		id = "{currency-SEK}"
+		id = "{currency_SEK}"
 		translation:
 			lang = de; check = true
 			"Schwedische Kronen (#.###,## kr)"
@@ -228,7 +228,7 @@ translations:
 			lang = en
 			"Swedish Kronas (# ###,## kr)"
 	item:
-		id = "{currency-SGD}"
+		id = "{currency_SGD}"
 		translation:
 			lang = de; check = true
 			"Singapur-Dollar (#.###,## $)"
@@ -236,7 +236,7 @@ translations:
 			lang = en
 			"Singapore Dollar ($ #,###.##)"
 	item:
-		id = "{currency-THB}"
+		id = "{currency_THB}"
 		translation:
 			lang = de; check = true
 			"Thai Baht (#.###,## ฿)"
@@ -244,7 +244,7 @@ translations:
 			lang = en
 			"Thai Bahts (฿ #,###.##)"
 	item:
-		id = "{currency-TRY}"
+		id = "{currency_TRY}"
 		translation:
 			lang = de; check = true
 			"Neue türkische Lira (#,###.## YTL)"
@@ -252,7 +252,7 @@ translations:
 			lang = en
 			"New Turkish Lira (YTL #,###.##)"
 	item:
-		id = "{currency-TWD}"
+		id = "{currency_TWD}"
 		translation:
 			lang = de; check = true
 			"Taiwan neuer Dollar (#.### NT$)"
@@ -260,7 +260,7 @@ translations:
 			lang = en
 			"Taiwan New Dollar (NT$ #,###)"
 	item:
-		id = "{currency-USD}"
+		id = "{currency_USD}"
 		translation:
 			lang = de; check = true
 			"US Dollar (#.###,## $)"
@@ -268,7 +268,7 @@ translations:
 			lang = en
 			"US Dollars ($ #,###.##)"
 	item:
-		id = "{currency-ZAR}"
+		id = "{currency_ZAR}"
 		translation:
 			lang = de; check = true
 			"Südafrikanischer Rand (# ###.## R)"

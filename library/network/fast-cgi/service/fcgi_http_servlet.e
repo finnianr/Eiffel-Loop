@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-22 20:24:26 GMT (Sunday 22nd November 2020)"
-	revision: "17"
+	date: "2022-03-02 13:09:50 GMT (Wednesday 2nd March 2022)"
+	revision: "18"
 
 deferred class
 	FCGI_HTTP_SERVLET
@@ -66,7 +66,10 @@ feature -- Basic operations
 		do
 			log.enter_no_header (once "serve_request")
 
-			response.reset; serve
+			response.reset; request.reset
+
+--			Serve request
+			serve
 
 			if is_caching_disabled then
 				response.set_header (Header.cache_control, once "no-cache, no-store, must-revalidate"); -- HTTP 1.1.

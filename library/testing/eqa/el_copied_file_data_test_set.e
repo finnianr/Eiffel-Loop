@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 16:23:55 GMT (Wednesday 16th February 2022)"
-	revision: "5"
+	date: "2022-03-02 9:53:40 GMT (Wednesday 2nd March 2022)"
+	revision: "6"
 
 deferred class
 	EL_COPIED_FILE_DATA_TEST_SET
@@ -17,6 +17,8 @@ inherit
 		redefine
 			on_prepare
 		end
+
+	EL_SHARED_FIND_FILE_FILTER_FACTORY
 
 feature {NONE} -- Events
 

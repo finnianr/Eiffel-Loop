@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-06 17:09:18 GMT (Sunday 6th February 2022)"
-	revision: "14"
+	date: "2022-03-02 8:50:17 GMT (Wednesday 2nd March 2022)"
+	revision: "15"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER_APP
@@ -54,7 +54,7 @@ feature {NONE} -- Implementation
 	new_locale: EL_DEFERRED_LOCALE_I
 		do
 			if Locale_dir.exists then
-				create {EL_ENGLISH_DEFAULT_LOCALE_IMP} Result.make_resources
+				create {EL_ENGLISH_DEFAULT_LOCALE} Result.make_resources
 			else
 				Result := Precursor
 			end

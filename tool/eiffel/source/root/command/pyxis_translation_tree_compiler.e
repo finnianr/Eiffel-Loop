@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-28 11:24:00 GMT (Monday 28th February 2022)"
-	revision: "18"
+	date: "2022-03-02 8:37:10 GMT (Wednesday 2nd March 2022)"
+	revision: "19"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER
@@ -126,6 +126,7 @@ feature {NONE} -- Build from XML
 			-- Normalize identifier for reflective localization attribute
 			if item_id.enclosed_with (Brackets) and then item_id.has ('-') then
 				item_id.replace_character ('-', '_')
+				item_id.to_lower
 			end
 		end
 

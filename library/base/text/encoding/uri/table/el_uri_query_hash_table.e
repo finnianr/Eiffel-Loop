@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-11 13:13:50 GMT (Saturday 11th September 2021)"
-	revision: "5"
+	date: "2022-03-02 12:28:50 GMT (Wednesday 2nd March 2022)"
+	revision: "6"
 
 deferred class
 	EL_URI_QUERY_HASH_TABLE [S -> STRING_GENERAL create make end]

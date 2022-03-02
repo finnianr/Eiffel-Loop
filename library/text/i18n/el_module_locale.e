@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-23 9:25:07 GMT (Saturday 23rd November 2019)"
-	revision: "7"
+	date: "2022-03-02 8:48:12 GMT (Wednesday 2nd March 2022)"
+	revision: "8"
 
 deferred class
 	EL_MODULE_LOCALE
@@ -21,10 +21,10 @@ inherit
 
 feature {NONE} -- Constants
 
-	Locale: EL_DEFAULT_LOCALE_I
+	Locale: EL_DEFAULT_LOCALE
 			--
 		once ("PROCESS")
-			Result := create {EL_CONFORMING_SINGLETON [EL_DEFAULT_LOCALE_I]}
+			Result := create {EL_CONFORMING_SINGLETON [EL_DEFAULT_LOCALE]}
 		end
 
 end

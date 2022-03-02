@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-17 11:08:43 GMT (Saturday 17th October 2020)"
-	revision: "4"
+	date: "2022-03-02 8:50:37 GMT (Wednesday 2nd March 2022)"
+	revision: "5"
 
 class
 	EL_LOCALIZED_DEBIAN_PACKAGER_APP
@@ -20,7 +20,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	new_locale: EL_ENGLISH_DEFAULT_LOCALE_IMP
+	new_locale: EL_ENGLISH_DEFAULT_LOCALE
 		do
 			create Result.make_resources
 		end

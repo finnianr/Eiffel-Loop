@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-01 8:29:56 GMT (Tuesday 1st March 2022)"
-	revision: "21"
+	date: "2022-03-02 10:29:47 GMT (Wednesday 2nd March 2022)"
+	revision: "22"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -252,7 +252,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	translation_key (name: IMMUTABLE_STRING_8; text_case: INTEGER; text_differs: BOOLEAN): ZSTRING
+	translation_key (name: STRING; text_case: INTEGER; text_differs: BOOLEAN): ZSTRING
 		do
 			Result := Key_buffer.copied_general (name)
 			Result.prune_all_trailing ('_') -- in case of keyword differentiation

@@ -69,7 +69,7 @@ translations:
 
 # Templates
 	item:
-		id = "{passphrase-strength}"
+		id = "{passphrase_strength}"
 		translation:
 			lang = de; check = true
 			"Passphrasenstärke (%S / 6)"
@@ -78,7 +78,7 @@ translations:
 			"Passphrase strength (%S / 6)"
 
 	item:
-		id = "{minimum-score}"
+		id = "{minimum_score}"
 		translation:
 			lang = de; check = false
 			"(Das Minimum, um fortzufahren, ist %S)"

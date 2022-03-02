@@ -6,7 +6,7 @@ note
 		If you are using the `app-manage' framework, your can "internationalize" your application
 		by redefining `{EL_APPLICATION}.new_locale' as follows:
 
-			new_locale: EL_ENGLISH_DEFAULT_LOCALE_IMP
+			new_locale: EL_ENGLISH_DEFAULT_LOCALE
 				do
 					create Result.make
 				end
@@ -18,14 +18,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-28 13:04:10 GMT (Monday 28th February 2022)"
-	revision: "9"
+	date: "2022-03-02 8:51:54 GMT (Wednesday 2nd March 2022)"
+	revision: "10"
 
 class
-	EL_ENGLISH_DEFAULT_LOCALE_IMP
+	EL_ENGLISH_DEFAULT_LOCALE
 
 inherit
-	EL_DEFAULT_LOCALE_IMP
+	EL_DEFAULT_LOCALE
 
 create
 	make, make_from_location, make_resources

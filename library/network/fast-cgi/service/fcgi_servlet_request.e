@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "13"
+	date: "2022-03-02 13:11:08 GMT (Wednesday 2nd March 2022)"
+	revision: "14"
 
 class
 	FCGI_SERVLET_REQUEST
@@ -16,6 +16,13 @@ inherit
 	EL_EVENT_LISTENER
 		rename
 			notify as on_end_request
+		end
+
+	EL_LAZY_ATTRIBUTE
+		rename
+			item as method_parameters,
+			new_item as new_method_parameters,
+			actual_item as actual_method_parameters
 		end
 
 create
@@ -41,11 +48,12 @@ feature -- Access
 
 	headers: FCGI_HTTP_HEADERS
 
-	method_parameters: EL_URI_QUERY_ZSTRING_HASH_TABLE
-		-- non-duplicate http parameters from either the GET-data (URI query string)
-		-- or POST-data (`raw_stdin_content')
+	item alias "[]" (name: READABLE_STRING_GENERAL): EL_URI_QUERY_ZSTRING_HASH_TABLE
+		require
+			has_parameter: has_parameter (name)
 		do
-			Result := parameters.method_parameters
+			Result := method_parameters
+			Result.search (General.to_zstring (name))
 		end
 
 	parameters: like broker.parameters
@@ -76,39 +84,6 @@ feature -- Access
 			Result := parameters.script_name
 		end
 
-	value_integer (name: READABLE_STRING_GENERAL): INTEGER
-		do
-			Result := value_string (name).to_integer_32
-		end
-
-	value_natural (name: READABLE_STRING_GENERAL): NATURAL
-		do
-			Result := value_string (name).to_natural_32
-		end
-
-	value_natural_8 (name: READABLE_STRING_GENERAL): NATURAL_8
-		do
-			Result := value_string (name).to_natural_8
-		end
-
-	value_string (name: READABLE_STRING_GENERAL): ZSTRING
-		local
-			table: like method_parameters
-		do
-			table := method_parameters
-			table.search (General.to_zstring (name))
-			if table.found then
-				Result := table.found_item
-			else
-				create Result.make_empty
-			end
-		end
-
-	value_string_8 (name: READABLE_STRING_GENERAL): STRING
-		do
-			Result := value_string (name)
-		end
-
 feature -- Status query
 
 	has_parameter (name: READABLE_STRING_GENERAL): BOOLEAN
@@ -126,11 +101,27 @@ feature -- Measurement
 			Result := headers.content_length
 		end
 
+feature -- Element change
+
+	reset
+		do
+			actual_method_parameters := Void
+		end
+
 feature {NONE} -- Event handling
 
 	on_end_request
 		do
 			servlet.on_serve_done
+		end
+
+feature {NONE} -- Implementation
+
+	new_method_parameters: EL_URI_QUERY_ZSTRING_HASH_TABLE
+		-- non-duplicate http parameters from either the GET-data (URI query string)
+		-- or POST-data (`raw_stdin_content')
+		do
+			Result := parameters.new_method_parameters
 		end
 
 feature {NONE} -- Internal attributes
