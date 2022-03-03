@@ -490,3 +490,6 @@ Removal of agent setters from vtd-xml.ecf
 Mon 28th Feb 2022, 14:56:45
 Changed translation keys to use underscore for templates
 
+Wed 2nd Mar 2022, 17:06:18
+Removed *LOCAL_IMP classes and improved FastCGI access to request params
+

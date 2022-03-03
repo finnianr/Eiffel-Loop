@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-02 10:29:47 GMT (Wednesday 2nd March 2022)"
-	revision: "22"
+	date: "2022-03-03 10:09:38 GMT (Thursday 3rd March 2022)"
+	revision: "23"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -126,6 +126,13 @@ feature -- Contract Support
 	valid_english_table: BOOLEAN
 		do
 			Result := across new_english_table as table all field_table.has (table.key) end
+		end
+
+	valid_special_keys: BOOLEAN
+		-- check that all computed translation keys are valid
+		-- used for special cases where translated fields are not used
+		do
+			Result := True
 		end
 
 feature {NONE} -- Deferred

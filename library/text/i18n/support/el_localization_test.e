@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-01 18:45:00 GMT (Tuesday 1st March 2022)"
-	revision: "2"
+	date: "2022-03-03 10:08:00 GMT (Thursday 3rd March 2022)"
+	revision: "3"
 
 deferred class
 	EL_LOCALIZATION_TEST
@@ -65,6 +65,7 @@ feature {NONE} -- Implementation
 				lio.put_new_line
 			end
 			assert ("Valid English table", texts.valid_english_table)
+			assert ("Valid special keys", texts.valid_special_keys)
 		end
 
 	assert_consistent_translation (texts, translated_texts: EL_REFLECTIVE_LOCALE_TEXTS)
