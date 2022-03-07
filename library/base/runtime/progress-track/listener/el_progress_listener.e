@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-23 13:18:17 GMT (Sunday 23rd January 2022)"
-	revision: "2"
+	date: "2022-03-07 17:50:09 GMT (Monday 7th March 2022)"
+	revision: "3"
 
 class
 	EL_PROGRESS_LISTENER
@@ -38,6 +38,9 @@ feature -- Basic operations
 
 	notify_tick
 		do
+			if tick_count = 0 then
+				display.on_start (final_tick_count)
+			end
 			tick_count := tick_count + 1
 			display.set_progress (tick_count / final_tick_count)
 		end

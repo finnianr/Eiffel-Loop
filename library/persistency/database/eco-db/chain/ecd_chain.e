@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "27"
+	date: "2022-03-07 18:56:53 GMT (Monday 7th March 2022)"
+	revision: "28"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -78,7 +78,7 @@ inherit
 			Append as Append_to
 		end
 
-	EL_SHARED_DATA_TRANSFER_PROGRESS_LISTENER
+	EL_SHARED_PROGRESS_LISTENER
 
 feature {NONE} -- Initialization
 
@@ -99,22 +99,17 @@ feature {NONE} -- Initialization
 			if file_path.exists then
 				l_file := new_file (file_path)
 				l_file.open_read
-				-- Check version
-				l_file.read_natural_32
-				if l_file.last_natural_32 /= software_version then
-					on_version_mismatch (l_file.last_natural_32)
+				create header.make (l_file)
+
+				if header.version /= software_version then
+					on_version_mismatch (header.version)
 				end
-
-				l_file.read_integer
-				stored_count := l_file.last_integer
-				stored_byte_count := l_file.count
-
-				make_chain_implementation (stored_count)
+				make_chain_implementation (header.stored_count)
 			else
 				make_chain_implementation (0)
 				create l_file.make_open_write (file_path)
 				put_header (l_file)
-				stored_byte_count := l_file.position
+				create header.make_default (software_version)
 			end
 			l_file.close
 		end
@@ -126,29 +121,21 @@ feature {NONE} -- Initialization
 			make_from_file (a_file_path)
 		end
 
-feature -- Access
+feature -- Measurement
 
 	deleted_count: INTEGER
-
-	file_version: NATURAL
-		do
-			if attached open_raw (file_path, Read) as file then
-				if file.count >= {PLATFORM}.Natural_32_bits then
-					file.read_natural
-					Result := file.last_natural
-				end
-				file.close
-			end
-		end
-
-	stored_byte_count: INTEGER
-
-	stored_count: INTEGER
 
 	undeleted_count: INTEGER
 		do
 			Result := count - deleted_count
 		end
+
+	store_tick_count: INTEGER
+		do
+			Result := undeleted_count
+		end
+
+feature -- Access
 
 	software_version: NATURAL
 		-- Format of application version.
@@ -169,11 +156,8 @@ feature -- Basic operations
 
 	retrieve
 		local
-			l_file: like new_file
-			l_reader: like reader_writer
-			i: INTEGER
+			l_file: like new_file; l_reader: like reader_writer; i, item_count: INTEGER
 		do
-			on_retrieve
 			encrypter.reset
 			l_file := new_file (file_path)
 			l_file.open_read
@@ -181,14 +165,17 @@ feature -- Basic operations
 			l_reader.set_for_reading
 
 			-- Skip header
-			l_file.move ({PLATFORM}.real_32_bytes + {PLATFORM}.integer_32_bytes)
-			from i := 1 until i > stored_count or l_file.end_of_file loop
+			l_file.move (header.size_of)
+
+			item_count := header.stored_count
+			from i := 1 until i > item_count or l_file.end_of_file loop
 				extend (l_reader.read_item (l_file))
+				progress_listener.notify_tick
 				i := i + 1
 			end
 			l_file.close
 		ensure
-			correct_stored_count: count = stored_count
+			correct_stored_count: count = header.stored_count
 		end
 
 	store_as (a_file_path: like file_path)
@@ -209,6 +196,7 @@ feature -- Basic operations
 --				log.put_integer_field ("Writing item", index); log.put_new_line
 				if not item.is_deleted then
 					l_writer.write (item, l_file)
+					progress_listener.notify_tick
 				end
 				forth
 			end
@@ -265,7 +253,7 @@ feature -- Status query
 			if attached reader_writer then
 				Result := not reader_writer.is_default_data_version
 			elseif file_path.exists then
-				Result := file_version /= software_version
+				Result := header.version /= software_version
 			end
 		end
 
@@ -273,12 +261,6 @@ feature {NONE} -- Event handler
 
 	on_delete
 		deferred
-		end
-
-	on_retrieve
-		-- called just before `retrieve'
-		do
-			progress_listener.increase_file_data_estimate (file_path)
 		end
 
 	on_version_mismatch (actual_version: NATURAL)
@@ -290,11 +272,7 @@ feature {NONE} -- Factory
 
 	new_file (a_file_path: like file_path): RAW_FILE
 		do
-			if is_progress_tracking then
-				create {EL_NOTIFYING_RAW_FILE} Result.make_with_name (a_file_path)
-			else
-				create Result.make_with_name (a_file_path)
-			end
+			create Result.make_with_name (a_file_path)
 		end
 
 	new_reader_writer: ECD_READER_WRITER [G]
@@ -341,14 +319,11 @@ feature {ECD_EDITIONS_FILE} -- Implementation
 
 feature {ECD_EDITIONS_FILE} -- Implementation atttributes
 
+	header: ECD_CHAIN_HEADER
+
 	reader_writer: like new_reader_writer
 
 feature {NONE} -- Constants
-
-	Header_size: INTEGER
-		once
-			Result := {PLATFORM}.integer_32_bytes * 2
-		end
 
 	Descendants: ARRAY [TYPE [G]]
 		do

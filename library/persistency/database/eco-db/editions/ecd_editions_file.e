@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "14"
+	date: "2022-03-07 15:59:57 GMT (Monday 7th March 2022)"
+	revision: "15"
 
 class
 	ECD_EDITIONS_FILE [G -> EL_STORABLE create make_default end]
@@ -22,6 +22,8 @@ inherit
 		redefine
 			delete
 		end
+
+	EL_SHARED_PROGRESS_LISTENER
 
 create
 	make
@@ -128,7 +130,7 @@ feature -- Removal
 			crc.reset
 		end
 
-feature {ECD_CHAIN_EDITIONS} -- Basic operations
+feature {ECD_RECOVERABLE_CHAIN} -- Basic operations
 
 	apply
 		local
@@ -188,14 +190,6 @@ feature -- Status change
 
 feature {NONE} -- Implementation
 
-	notify
-		do
-		end
-
-	notify_final
-		do
-		end
-
 	put_header
 		do
 			put_integer (count)
@@ -241,7 +235,7 @@ feature {NONE} -- Implementation
 			else
 				has_checksum_mismatch := True
 			end
-			notify
+			progress_listener.notify_tick
 		end
 
 	read_edition_code
@@ -251,10 +245,10 @@ feature {NONE} -- Implementation
 		end
 
 	read_header
+		-- read expected count
 		do
 			read_integer_32
 			count := last_integer_32
-			notify
 		end
 
 	skip_edition (edition_code: CHARACTER)

@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 14:24:10 GMT (Wednesday 16th February 2022)"
-	revision: "25"
+	date: "2022-03-07 16:45:31 GMT (Monday 7th March 2022)"
+	revision: "26"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -29,19 +29,12 @@ inherit
 		rename
 			delete as chain_delete
 		redefine
-			make_from_file, delete_file, on_retrieve, rename_base, safe_store, is_closed
+			header, make_from_file, delete_file, rename_base, safe_store, is_closed
 		end
 
-	ECD_CHAIN_EDITIONS [G]
-		rename
-			make as make_editions
-		end
+	EL_MODULE_DIRECTORY; EL_MODULE_LIO; EL_MODULE_NAMING
 
-	EL_MODULE_NAMING
-
-	EL_MODULE_DIRECTORY
-
-	EL_MODULE_LIO
+	ECD_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -65,7 +58,11 @@ feature {NONE} -- Initialization
 	make_from_file (a_file_path: FILE_PATH)
 		do
 			Precursor (a_file_path)
-			make_editions (Current)
+			if is_encrypted then
+				create {ECD_ENCRYPTABLE_EDITIONS_FILE [G]} editions.make (editions_file_path, Current)
+			else
+				create editions.make (editions_file_path, Current)
+			end
 			retrieve
 			apply_editions
 		end
@@ -87,22 +84,53 @@ feature -- Status query
 			Result := editions.is_closed
 		end
 
+	is_integration_pending: BOOLEAN
+			-- True when it becomes necessary to integrate editions into main list (chain) by calling `store'
+		do
+			Result := editions.kilo_byte_count > Minimum_editions_to_integrate
+							or else has_version_mismatch or else editions.has_checksum_mismatch
+																						-- A checksum mismatch indicates that the editions
+																						-- have become corrupted somewhere, so save
+																						-- what's good and start a clean editions.
+		end
+
+
 feature -- Element change
 
-	rename_base (new_name: READABLE_STRING_GENERAL; preserve_extension: BOOLEAN)
-		-- rename basename of files preserving the extension if `preserve_extension' is true
+	extend (a_item: like item)
+			--
 		do
-			Precursor (new_name, preserve_extension)
-			if editions.exists then
-				editions.rename_file (editions_file_path)
-			else
-				editions.set_path (editions_file_path)
+			chain_extend (a_item)
+			if editions.is_open_write then
+				editions.put_edition (editions.Edition_code_extend, a_item)
 			end
-		ensure then
-			editions_renamed: editions_file_path.same_base (editions.path.components.last.name)
+		end
+
+	replace (a_item: like item)
+			--
+		do
+			chain_replace (a_item)
+			if editions.is_open_write then
+				editions.put_edition (editions.Edition_code_replace, a_item)
+			end
+		end
+
+feature -- Status change
+
+	reopen
+		do
+			editions.reopen
 		end
 
 feature -- Basic operations
+
+	apply_editions
+		do
+			if editions.exists and then not editions.is_empty then
+				editions.apply
+			end
+			editions.reopen
+		end
 
 	close
 			--
@@ -148,6 +176,19 @@ feature -- Basic operations
 			end
 		end
 
+	rename_base (new_name: READABLE_STRING_GENERAL; preserve_extension: BOOLEAN)
+		-- rename basename of files preserving the extension if `preserve_extension' is true
+		do
+			Precursor (new_name, preserve_extension)
+			if editions.exists then
+				editions.rename_file (editions_file_path)
+			else
+				editions.set_path (editions_file_path)
+			end
+		ensure then
+			editions_renamed: editions_file_path.same_base (editions.path.components.last.name)
+		end
+
 	safe_store
 		do
 			reader_writer.set_default_data_version
@@ -163,6 +204,14 @@ feature -- Basic operations
 
 feature -- Removal
 
+	delete
+		do
+			if editions.is_open_write then
+				editions.put_edition (editions.Edition_code_delete, item)
+			end
+			chain_delete
+		end
+
 	delete_file
 		do
 			if editions.exists then
@@ -171,7 +220,24 @@ feature -- Removal
 			Precursor
 		end
 
+	remove
+		obsolete
+			"Better to use `delete' as `remove' will interfere with the proper working of field indexing tables"
+			--
+		do
+			if editions.is_open_write then
+				editions.put_edition (editions.Edition_code_remove, item)
+			end
+			chain_remove
+		end
+
+
 feature {NONE} -- Implementation
+
+	editions_file_path: FILE_PATH
+		do
+			Result := header.editions_path (file_path)
+		end
 
 	new_file_path: FILE_PATH
 		local
@@ -184,25 +250,36 @@ feature {NONE} -- Implementation
 			Result.add_extension (Default_file_extension)
 		end
 
-	on_retrieve
-		do
-			Precursor
-			progress_listener.increase_file_data_estimate (editions_file_path)
+feature {NONE} -- Deferred
+
+	chain_extend (a_item: like item)
+			--
+		deferred
 		end
+
+	chain_remove
+			--
+		deferred
+		end
+
+	chain_replace (a_item: like item)
+			--
+		deferred
+		end
+
+feature {ECD_EDITIONS_FILE} -- Implementation atttributes
+
+	editions: ECD_EDITIONS_FILE [G]
+		-- editions file
+
+	header: ECD_RECOVERABLE_CHAIN_HEADER
 
 feature {NONE} -- Constants
 
-	Closed_editions: INTEGER_8 = 3
-
-	Closed_no_editions: INTEGER_8 = 4
-
-	Closed_safe_store: INTEGER_8 = 1
-
-	Closed_safe_store_failed: INTEGER_8 = 2
-
-	Default_file_extension: ZSTRING
+	Minimum_editions_to_integrate: REAL
+			-- Minimum file size in kb of editions to integrate with main XML body.
 		once
-			Result := "dat"
+			Result := 50 -- Kb
 		end
 
 	Trailing_word_count: INTEGER
