@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 9:41:07 GMT (Tuesday 8th February 2022)"
-	revision: "9"
+	date: "2022-03-08 10:55:59 GMT (Tuesday 8th March 2022)"
+	revision: "10"
 
 deferred class
 	EL_APPLICATION_COMMAND_SHELL
@@ -19,8 +19,13 @@ inherit
 		end
 
 	EL_APPLICATION_COMMAND
-		rename
-			execute as run_command_loop
+
+feature -- Basic operations
+
+	execute
+		do
+			-- DO NOT rename `execute' as `run_command_loop'
+			run_command_loop
 		end
 
 end

@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-07 18:56:53 GMT (Monday 7th March 2022)"
-	revision: "28"
+	date: "2022-03-07 20:57:48 GMT (Monday 7th March 2022)"
+	revision: "29"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -43,7 +43,6 @@ inherit
 		export
 			{ANY} remove
 		undefine
-			-- * This section mirrors ECD_CHAIN_EDITIONS *
 			-- Status query
 			is_equal, isfirst, islast, valid_index, is_inserted, readable, there_exists, has,
 			-- Element change
@@ -283,12 +282,10 @@ feature {NONE} -- Factory
 				else
 					create {ECD_ENCRYPTABLE_MULTI_TYPE_READER_WRITER [G]} Result.make (descendants, encrypter)
 				end
+			elseif descendants.is_empty then
+				create Result.make
 			else
-				if descendants.is_empty then
-					create Result.make
-				else
-					create {ECD_MULTI_TYPE_READER_WRITER [G]} Result.make (descendants)
-				end
+				create {ECD_MULTI_TYPE_READER_WRITER [G]} Result.make (descendants)
 			end
 		end
 

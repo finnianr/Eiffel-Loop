@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-07 16:45:31 GMT (Monday 7th March 2022)"
-	revision: "26"
+	date: "2022-03-08 18:14:36 GMT (Tuesday 8th March 2022)"
+	revision: "27"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -63,8 +63,7 @@ feature {NONE} -- Initialization
 			else
 				create editions.make (editions_file_path, Current)
 			end
-			retrieve
-			apply_editions
+			retrieve; apply_editions
 		end
 
 feature -- Access
@@ -87,11 +86,12 @@ feature -- Status query
 	is_integration_pending: BOOLEAN
 			-- True when it becomes necessary to integrate editions into main list (chain) by calling `store'
 		do
-			Result := editions.kilo_byte_count > Minimum_editions_to_integrate
-							or else has_version_mismatch or else editions.has_checksum_mismatch
-																						-- A checksum mismatch indicates that the editions
-																						-- have become corrupted somewhere, so save
-																						-- what's good and start a clean editions.
+			Result := editions.kilo_byte_count > Compaction_threshold
+						or else has_version_mismatch
+						or else editions.has_checksum_mismatch
+							-- A checksum mismatch indicates that the editions
+							-- have become corrupted somewhere, so save
+							-- what's good and start a clean editions.
 		end
 
 
@@ -123,14 +123,6 @@ feature -- Status change
 		end
 
 feature -- Basic operations
-
-	apply_editions
-		do
-			if editions.exists and then not editions.is_empty then
-				editions.apply
-			end
-			editions.reopen
-		end
 
 	close
 			--
@@ -234,6 +226,11 @@ feature -- Removal
 
 feature {NONE} -- Implementation
 
+	apply_editions
+		do
+			editions.apply
+		end
+
 	editions_file_path: FILE_PATH
 		do
 			Result := header.editions_path (file_path)
@@ -276,8 +273,8 @@ feature {ECD_EDITIONS_FILE} -- Implementation atttributes
 
 feature {NONE} -- Constants
 
-	Minimum_editions_to_integrate: REAL
-			-- Minimum file size in kb of editions to integrate with main XML body.
+	Compaction_threshold: REAL
+			-- Minimum file size of editions in kb to trigger compaction
 		once
 			Result := 50 -- Kb
 		end

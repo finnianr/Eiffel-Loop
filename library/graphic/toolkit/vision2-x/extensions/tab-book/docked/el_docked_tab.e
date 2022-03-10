@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-27 18:24:21 GMT (Sunday 27th February 2022)"
-	revision: "8"
+	date: "2022-03-09 14:26:32 GMT (Wednesday 9th March 2022)"
+	revision: "9"
 
 deferred class
 	EL_DOCKED_TAB
@@ -135,13 +135,13 @@ feature {EL_DOCKED_TAB_BOOK} -- Element change
 feature {EL_DOCKED_TAB_BOOK, EL_DOCKING_CONTENT} -- Event handler
 
 	on_close
-		do
+		deferred
 		end
 
 	on_selected
 		require
 			current_tab_set: is_current_tab_set
-		do
+		deferred
 		end
 
 	on_focus_in

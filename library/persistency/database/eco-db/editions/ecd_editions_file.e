@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-07 15:59:57 GMT (Monday 7th March 2022)"
-	revision: "15"
+	date: "2022-03-07 21:13:19 GMT (Monday 7th March 2022)"
+	revision: "16"
 
 class
 	ECD_EDITIONS_FILE [G -> EL_STORABLE create make_default end]
@@ -136,14 +136,17 @@ feature {ECD_RECOVERABLE_CHAIN} -- Basic operations
 		local
 			i: INTEGER
 		do
-			open_read
-			read_header
-			from i := 1 until i > actual_count or has_checksum_mismatch or end_of_file loop
-				read_edition
-				i := i + 1
+			if exists and then not is_empty then
+				open_read
+				read_header
+				from i := 1 until i > actual_count or has_checksum_mismatch or end_of_file loop
+					read_edition
+					i := i + 1
+				end
+				close
+				read_count := i - 1
 			end
-			close
-			read_count := i - 1
+			reopen
 		end
 
 	put_edition (edition_code: CHARACTER; a_item: G)
@@ -296,5 +299,13 @@ feature -- Constants
 	Edition_code_remove: CHARACTER = '3'
 
 	Edition_code_replace: CHARACTER = '1'
+
+feature {NONE} -- Constants
+
+	Minimum_editions_to_integrate: REAL
+			-- Minimum file size in kb of editions to integrate with main XML body.
+		once
+			Result := 50 -- Kb
+		end
 
 end

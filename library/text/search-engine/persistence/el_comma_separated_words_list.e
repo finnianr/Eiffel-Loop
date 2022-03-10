@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-07 15:23:51 GMT (Monday 7th March 2022)"
-	revision: "13"
+	date: "2022-03-07 20:56:21 GMT (Monday 7th March 2022)"
+	revision: "14"
 
 class
 	EL_COMMA_SEPARATED_WORDS_LIST
@@ -95,14 +95,6 @@ feature -- Status query
 	is_restored: BOOLEAN
 
 feature -- Measurement
-
-	estimated_byte_count: INTEGER
-		local
-			sum_header_count: INTEGER
-		do
-			sum_header_count := count * {PLATFORM}.Integer_32_bytes
-			Result := sum_header_count + sum_integer (agent {like item}.byte_count (reader_writer))
-		end
 
 	set_table (a_table: like table)
 		do

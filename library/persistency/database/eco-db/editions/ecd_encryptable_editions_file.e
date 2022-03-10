@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-20 21:09:39 GMT (Wednesday 20th February 2019)"
-	revision: "8"
+	date: "2022-03-09 10:36:12 GMT (Wednesday 9th March 2022)"
+	revision: "9"
 
 class
 	ECD_ENCRYPTABLE_EDITIONS_FILE [G -> EL_STORABLE create make_default end]
@@ -29,7 +29,7 @@ feature -- Removal
 			encrypter.reset
 		end
 
-feature {ECD_CHAIN_EDITIONS} -- Basic operations
+feature {ECD_RECOVERABLE_CHAIN} -- Basic operations
 
 	apply
 		do
