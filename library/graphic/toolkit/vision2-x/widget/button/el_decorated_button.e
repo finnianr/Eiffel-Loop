@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-11 10:23:35 GMT (Friday 11th September 2020)"
-	revision: "11"
+	date: "2022-03-11 18:22:04 GMT (Friday 11th March 2022)"
+	revision: "12"
 
 class
 	EL_DECORATED_BUTTON
@@ -157,7 +157,7 @@ feature {NONE} -- Event handlers
 
 	on_focus_in
 		do
-			if not is_highlighted then
+			if not is_highlighted and is_sensitive then
 				set_state (button_state.highlighted)
 			end
 		end
