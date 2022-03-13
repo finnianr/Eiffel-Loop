@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-30 16:57:06 GMT (Tuesday 30th October 2018)"
-	revision: "6"
+	date: "2022-03-13 16:23:07 GMT (Sunday 13th March 2022)"
+	revision: "7"
 
 class
 	EVOLICITY_FOREACH_DIRECTIVE
@@ -73,18 +73,6 @@ feature {NONE} -- Implementation
 				from l_cursor := iterable.new_cursor; i := 1 until l_cursor.after loop
 					loop_index.set_item (i)
 					if attached {ANY} l_cursor.item as cursor_item then
---						if attached {EVOLICITY_CONTEXT} cursor_item as container_context then
---							put_iteration_object (a_context, l_cursor, container_context)
-
---						elseif attached {STRING} cursor_item as string_item then
---							put_iteration_object (a_context, l_cursor, string_item)
-
---						elseif attached {ITERABLE [ANY]} cursor_item as nested_iterable then
---							put_iteration_object (a_context, l_cursor, nested_iterable)
-
---						else
---							put_iteration_object (a_context, l_cursor, cursor_item.out)
---						end
 						if a_context.is_valid_type (cursor_item) then
 							put_iteration_object (a_context, l_cursor, cursor_item)
 						else

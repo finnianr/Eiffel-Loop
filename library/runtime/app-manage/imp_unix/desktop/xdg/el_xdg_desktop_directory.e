@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-23 10:21:55 GMT (Saturday 23rd November 2019)"
-	revision: "8"
+	date: "2022-03-13 16:58:24 GMT (Sunday 13th March 2022)"
+	revision: "9"
 
 class
 	EL_XDG_DESKTOP_DIRECTORY
@@ -24,19 +24,19 @@ feature {NONE} -- Evolicity reflection
 		[Desktop Entry]
 		Encoding=UTF-8
 		Type=Directory
-		#across $localized_names as $name loop
-			#if $name.key = $en then
-		Name=$name.item
+		#across $locale_table as $table loop
+			#if $table.key = $en then
+		Name=$table.item.name
 			#else
-		Name[$name.key]=$name.item
+		Name[$table.key]=$table.item.name
 			#end
 		#end
 		Type=Application
-		#across $localized_comments as $comment loop
-			#if $comment.key = $en then
-		Comment=$comment.item
+		#across $locale_table as $table loop
+			#if $table.key = $en then
+		Comment=$table.item.comment
 			#else
-		Comment[$comment.key]=$comment.item
+		Comment[$table.key]=$table.item.comment
 			#end
 		#end
 		Icon=$icon_path

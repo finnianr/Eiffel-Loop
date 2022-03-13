@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-03-13 16:59:46 GMT (Sunday 13th March 2022)"
+	revision: "10"
 
 class
 	EL_XDG_DESKTOP_LAUNCHER
@@ -43,19 +43,19 @@ feature {NONE} -- Evolicity reflection
 		[Desktop Entry]
 		Version=1.0
 		Encoding=UTF-8
-		#across $localized_names as $name loop
-			#if $name.key = $en then
-		Name=$name.item
+		#across $locale_table as $table loop
+			#if $table.key = $en then
+		Name=$table.item.name
 			#else
-		Name[$name.key]=$name.item
+		Name[$table.key]=$table.item.name
 			#end
 		#end
 		Type=Application
-		#across $localized_comments as $comment loop
-			#if $comment.key = $en then
-		Comment=$comment.item
+		#across $locale_table as $table loop
+			#if $table.key = $en then
+		Comment=$table.item.comment
 			#else
-		Comment[$comment.key]=$comment.item
+		Comment[$table.key]=$table.item.comment
 			#end
 		#end
 		Exec=$app.launch_command $app.command_args

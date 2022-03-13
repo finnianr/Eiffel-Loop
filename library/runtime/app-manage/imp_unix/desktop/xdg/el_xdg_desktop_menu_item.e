@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:12 GMT (Tuesday 15th February 2022)"
-	revision: "10"
+	date: "2022-03-13 18:03:27 GMT (Sunday 13th March 2022)"
+	revision: "11"
 
 deferred class
 	EL_XDG_DESKTOP_MENU_ITEM
@@ -18,9 +18,7 @@ inherit
 			getter_function_table
 		end
 
-	EL_MODULE_DEFERRED_LOCALE
-
-	EL_MODULE_LIO
+	EL_MODULE_DEFERRED_LOCALE; EL_MODULE_LIO; EL_MODULE_TUPLE
 
 feature {NONE} -- Initialization
 
@@ -88,17 +86,6 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	new_locale_table (english: STRING): HASH_TABLE [ZSTRING, STRING]
-		local
-			languages: LIST [STRING]
-		do
-			languages := Locale.all_languages
-			create Result.make_equal (languages.count)
-			across languages as lang loop
-				Result [lang.item] := Locale.in (lang.item) * english
-			end
-		end
-
 feature -- Access
 
 	new_file_path: FILE_PATH
@@ -114,18 +101,40 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Evolicity reflection
 
+	get_locale_table: HASH_TABLE [EVOLICITY_CONTEXT_IMP, STRING]
+		local
+			context: EVOLICITY_CONTEXT_IMP
+		do
+			create Result.make_equal (Locale.all_languages.count)
+			across Locale.all_languages as lang loop
+				create context.make
+				context.put_string (Var.name, Locale.in (lang.item) * item.name)
+				if item.comment.is_empty then
+					context.put_string (Var.comment, Empty_string)
+				else
+					context.put_string (Var.comment, Locale.in (lang.item) * item.comment)
+				end
+				Result.extend (context, lang.item)
+			end
+		end
+
 	getter_function_table: like getter_functions
 			--
 		do
 			create Result.make (<<
 				["icon_path", agent: EL_PATH do Result := item.icon_path end],
-				["en", agent: STRING do Result := English_key end],
-				["localized_comments", agent: like new_locale_table do Result := new_locale_table (item.comment) end],
-				["localized_names", agent: like new_locale_table do Result := new_locale_table (item.name) end]
+				[Eng_code, agent: STRING do Result := Eng_code end],
+				["locale_table", agent get_locale_table]
 			>>)
 		end
 
 feature {NONE} -- Constants
 
-	English_key: STRING = "en"
+	Var: TUPLE [name, comment: STRING]
+		once
+			create Result
+			Tuple.fill (Result, "name, comment")
+		end
+
+	Eng_code: STRING = "en"
 end

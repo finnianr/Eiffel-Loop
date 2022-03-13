@@ -6,14 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-24 14:11:51 GMT (Thursday 24th February 2022)"
-	revision: "6"
+	date: "2022-03-13 12:43:00 GMT (Sunday 13th March 2022)"
+	revision: "7"
 
 deferred class
 	EL_TAB_CONTENT [W -> EV_POSITIONABLE]
-
-inherit
-	EL_MODULE_DEFERRED_LOCALE
 
 feature {EL_FIXED_TAB_BOOK} -- Initialization
 

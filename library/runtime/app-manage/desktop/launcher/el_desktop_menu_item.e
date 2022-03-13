@@ -6,19 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "11"
+	date: "2022-03-13 16:42:38 GMT (Sunday 13th March 2022)"
+	revision: "12"
 
 class
 	EL_DESKTOP_MENU_ITEM
-
-inherit
-	EL_ZSTRING_CONSTANTS
-
-	EL_ZSTRING_ROUTINES
-		export
-			{NONE} all
-		end
 
 create
 	make, make_standard, make_default
@@ -28,21 +20,23 @@ feature {NONE} -- Initialization
 	make (a_name, a_comment: READABLE_STRING_GENERAL; a_icon_path: FILE_PATH)
 			--
 		do
-			name := new_zstring (a_name); comment := new_zstring (a_comment)
+			make_default
+			name.append_string_general (a_name); comment.append_string_general (a_comment)
 			icon_path := a_icon_path
 		end
 
 	make_default
 		do
 			create icon_path
-			comment := Empty_string
+			create comment.make_empty
+			create name.make_empty
 		end
 
 	make_standard (a_name: READABLE_STRING_GENERAL)
 			--
 		do
 			make_default
-			create name.make_from_general (a_name)
+			name.append_string_general (a_name)
 			is_standard := True
 		end
 
@@ -65,9 +59,10 @@ feature -- Status query
 
 feature -- Element change
 
-	set_name (a_name: like name)
+	set_name (a_name: READABLE_STRING_GENERAL)
 		do
-			name := a_name
+			name.wipe_out
+			name.append_string_general (a_name)
 		end
 
 end
