@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 9:46:10 GMT (Wednesday 19th January 2022)"
-	revision: "13"
+	date: "2022-03-12 17:10:12 GMT (Saturday 12th March 2022)"
+	revision: "14"
 
 class
 	XML_TO_PYXIS_CONVERTER_TEST_SET
@@ -66,14 +66,14 @@ feature {NONE} -- Implementation
 
 	source_file_list: EL_FILE_PATH_LIST
 		local
-			list: EL_FILE_PATH_LIST; filter: STRING
+			list: EL_FILE_PATH_LIST; ext_filter: STRING
 		do
 			across << "bkup", "ecf", "xsl", "xsd", "xace" >> as extension loop
-				filter := "*." + extension.item
+				ext_filter := "*." + extension.item
 				if extension.cursor_index = 1 then
-					Result := OS.file_list (XML_dir, filter)
+					Result := OS.file_list (XML_dir, ext_filter)
 				else
-					Result.append (OS.file_list (XML_dir, filter))
+					Result.append (OS.file_list (XML_dir, ext_filter))
 				end
 			end
 		end

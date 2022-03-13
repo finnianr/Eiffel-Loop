@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-02 8:48:12 GMT (Wednesday 2nd March 2022)"
-	revision: "16"
+	date: "2022-03-12 15:46:08 GMT (Saturday 12th March 2022)"
+	revision: "17"
 
 deferred class
 	EL_DEFAULT_LOCALE
@@ -18,9 +18,10 @@ deferred class
 inherit
 	EL_LOCALE
 		rename
-			make as make_with_language
+			make as make_with_language,
+			make_with_table as make_locale_with_table
 		redefine
-			in
+			in, make_default
 		end
 
 feature {NONE} -- Initialization
@@ -43,8 +44,18 @@ feature {NONE} -- Initialization
  			create table.make (locales_parent_dir #+ Locales)
 
  			make_with_language (user_language_code, key_language)
- 			create other_locales.make_equal (3, agent new_locale)
  		end
+
+ 	make_with_table (a_language: STRING; a_translation_table: detachable EL_TRANSLATION_TABLE)
+ 		do
+ 			make_locale_with_table (a_language, key_language, a_translation_table)
+ 		end
+
+	make_default
+		do
+			Precursor
+ 			create other_locales.make_equal (3, agent new_locale)
+		end
 
 feature -- Access
 
@@ -65,6 +76,13 @@ feature -- Access
 	key_language: STRING
 			-- language of translation keys
 		deferred
+		end
+
+feature -- Element change
+
+	set_new_other_locale (a_new_locale: FUNCTION [STRING, EL_LOCALE])
+		do
+			other_locales.set_new_item (a_new_locale)
 		end
 
 feature {NONE} -- Implementation

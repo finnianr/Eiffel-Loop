@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-01 15:54:41 GMT (Tuesday 1st March 2022)"
-	revision: "29"
+	date: "2022-03-12 15:45:25 GMT (Saturday 12th March 2022)"
+	revision: "30"
 
 class
 	EL_LOCALE
@@ -30,8 +30,15 @@ inherit
 		end
 
 	EL_SINGLE_THREAD_ACCESS
+		redefine
+			make_default
+		end
+
+	EL_LAZY_ATTRIBUTE
 		rename
-			make_default as make_access
+			item as date_text,
+			new_item as new_date_text,
+			actual_item as actual_date_text
 		end
 
 	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE_SYSTEM
@@ -39,19 +46,33 @@ inherit
 	EL_SHARED_SINGLETONS
 
 create
-	make
+	make, make_with_table
 
 feature {NONE} -- Initialization
 
  	make (a_language, a_default_language: STRING)
+ 		do
+ 			make_with_table (a_language, a_default_language, Void)
+ 		end
+
+ 	make_with_table (a_language, a_default_language: STRING; a_translation_table: detachable EL_TRANSLATION_TABLE)
  		require
  			locale_table_created: Singleton_table.has_type ({EL_LOCALE_TABLE}, False)
 		do
- 			make_solitary; make_access
+ 			make_default
  			default_language := a_default_language
-			translation_table := new_translation_table (a_language)
+			if attached a_translation_table as table then
+				translation_table := table
+			else
+				translation_table := new_translation_table (a_language)
+			end
+		end
+
+	make_default
+		do
+			Precursor
+			make_solitary
 			create converter.make
-			create date_text.make (Current)
 		end
 
 feature -- Access
@@ -62,8 +83,6 @@ feature -- Access
 				create Result.make_from_array (Locale_table.current_keys)
 			end_restriction
 		end
-
-	date_text: EL_DATE_TEXT
 
 	default_language: STRING
 
@@ -215,6 +234,12 @@ feature -- Contract Support
 		end
 
 feature {EL_LOCALE_CONSTANTS} -- Factory
+
+	new_date_text: EL_DATE_TEXT
+		-- this is a lazy attribute because some ad-hoc locales may not have date translations
+		do
+			create Result.make (Current)
+		end
 
 	new_translation_table (a_language: STRING): EL_TRANSLATION_TABLE
 		local

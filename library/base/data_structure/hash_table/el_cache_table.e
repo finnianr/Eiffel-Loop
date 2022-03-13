@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-06 10:30:40 GMT (Wednesday 6th October 2021)"
-	revision: "6"
+	date: "2022-03-12 15:02:42 GMT (Saturday 12th March 2022)"
+	revision: "7"
 
 class
 	EL_CACHE_TABLE [G, K -> HASHABLE]
@@ -52,6 +52,11 @@ feature -- Access
 
 feature -- Element change
 
+	set_new_item (a_new_item: like new_item)
+		do
+			new_item := a_new_item
+		end
+	
 	set_new_item_target (target: ANY)
 		do
 			new_item.set_target (target)

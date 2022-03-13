@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-22 17:35:33 GMT (Tuesday 22nd February 2022)"
-	revision: "68"
+	date: "2022-03-12 17:09:29 GMT (Saturday 12th March 2022)"
+	revision: "69"
 
 class
 	I18N_AUTOTEST_APP
@@ -27,7 +27,7 @@ create
 
 feature {NONE} -- Implementation
 
-	compile: TUPLE [EL_LOCALE_IMP]
+	compile: TUPLE [EL_LOCALE]
 		do
 			create Result
 		end

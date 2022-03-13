@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-21 8:55:53 GMT (Monday 21st February 2022)"
-	revision: "37"
+	date: "2022-03-13 12:21:47 GMT (Sunday 13th March 2022)"
+	revision: "38"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -37,11 +37,11 @@ inherit
 		end
 
 create
-	make, make_empty, make_default_filled, make_filled,
+	make, make_empty, make_default_filled, make_filled, make_joined,
 	make_from_array, make_from_list, make_from_sub_list, make_from_tuple
 
 convert
-	make_from_array ({ARRAY [G]})
+	make_from_array ({ARRAY [G]}), to_array: {ARRAY [G]}
 
 feature {NONE} -- Initialization
 
@@ -56,6 +56,12 @@ feature {NONE} -- Initialization
 			from until full loop
 				extend (new_item (count + 1))
 			end
+		end
+
+	make_joined (array_1, array_2: ARRAY [G])
+		do
+			make (array_1.count + array_2.count)
+			append (array_1); append (array_2)
 		end
 
 	make_from_list (list: ITERABLE [G])
