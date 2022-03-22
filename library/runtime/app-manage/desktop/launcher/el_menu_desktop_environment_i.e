@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:51:18 GMT (Saturday 5th February 2022)"
-	revision: "7"
+	date: "2022-03-21 11:22:08 GMT (Monday 21st March 2022)"
+	revision: "8"
 
 deferred class
 	EL_MENU_DESKTOP_ENVIRONMENT_I
@@ -58,6 +58,11 @@ feature -- Basic operations
 		end
 
 feature -- Status change
+
+	disable_desktop_launcher
+		do
+			has_desktop_launcher := False
+		end
 
 	enable_desktop_launcher
 		do

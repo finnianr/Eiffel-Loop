@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-01 15:58:55 GMT (Tuesday 1st March 2022)"
-	revision: "11"
+	date: "2022-03-21 10:04:18 GMT (Monday 21st March 2022)"
+	revision: "12"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -57,11 +57,11 @@ feature {NONE} -- Implementation
 			Result := c_console_output_code_page
 		end
 
-	language_code: STRING
+	new_language_code: STRING
 			-- Two letter code representing user language
 			-- Example: "en" is English
 		do
-			if Executable.Is_work_bench and then attached Execution_environment.item ("LANG") as lang then
+			if Executable.Is_work_bench and then attached item ("LANG") as lang then
 				Result := lang
 			else
 				Result := I18n.language

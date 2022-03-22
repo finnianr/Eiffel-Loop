@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 13:27:44 GMT (Sunday 20th February 2022)"
-	revision: "10"
+	date: "2022-03-21 12:44:43 GMT (Monday 21st March 2022)"
+	revision: "11"
 
 class
 	EL_WEL_DISPLAY_MONITOR_INFO
@@ -188,7 +188,7 @@ feature {NONE} -- Implementation
 			manufacturer_id [3] := (byte2 & 0x1F) + 64
 			manufacturer_id [4] := 0
 
-			Result := string16_to_string8 (manufacturer_id.area.base_address) + product_code
+			Result := string_16_to_string_8 (manufacturer_id.area.base_address) + product_code
 			if is_lio_enabled then
 				lio.put_string_field ("EDID_model", Result)
 				lio.put_new_line

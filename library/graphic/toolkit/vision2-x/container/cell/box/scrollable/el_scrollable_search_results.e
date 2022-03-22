@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-13 10:50:02 GMT (Sunday 13th March 2022)"
-	revision: "21"
+	date: "2022-03-15 10:26:15 GMT (Tuesday 15th March 2022)"
+	revision: "22"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G]
@@ -60,14 +60,15 @@ feature {NONE} -- Initialization
 			if attached style.background_color as color then
 				set_background_color (color)
 			end
-			select_result := a_select_result
 			make_default
+			select_result := a_select_result
 		end
 
 	make_default
 		do
 			comparator := Default_comparator
 			disabled_page_link := Default_disabled_page_link
+			create {LINKED_LIST [G]} result_set.make
 		end
 
 feature -- Access
@@ -146,7 +147,8 @@ feature -- Basic operations
 	position_pointer_near_disabled_link
 		do
 			Screen.set_pointer_position (
-				disabled_page_link.screen_x + disabled_page_link.width, disabled_page_link.screen_y + disabled_page_link.height // 2
+				disabled_page_link.screen_x + disabled_page_link.width,
+				disabled_page_link.screen_y + disabled_page_link.height // 2
 			)
 		end
 
@@ -280,18 +282,18 @@ feature {NONE} -- Factory
 			l_upper := result_set.count.min (l_lower + style.links_per_page - 1)
 			create Result.make (l_upper - l_lower + 1)
 			from i := l_lower until i > l_upper loop
-				Result.extend (new_result_link_box (result_set.i_th (i), i))
+				Result.extend (new_result_link_box (i))
 				i := i + 1
 			end
 		end
 
-	new_result_link_box (result_item: G; i: INTEGER): EL_BOX
+	new_result_link_box (i: INTEGER): EL_BOX
 		do
 			create {EL_VERTICAL_BOX} Result
 			Result.set_background_color (background_color)
-			add_navigable_heading (Result, result_item, i)
-			add_details (Result, result_item, i)
-			add_supplementary (Result, result_item, i)
+			add_navigable_heading (Result, i)
+			add_details (Result, i)
+			add_supplementary (Result, i)
 		end
 
 	new_styled (a_text: READABLE_STRING_GENERAL): EL_STYLED_ZSTRING_LIST
@@ -324,32 +326,32 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Implementation
 
-	add_details (result_link_box: EL_BOX; result_item: G; i: INTEGER)
+	add_details (result_link_box: EL_BOX; i: INTEGER)
 		-- add details for `i' th `result_item' to `result_link_box'
 		local
 			style_labels: EL_MIXED_STYLE_FIXED_LABELS; detail_lines: like new_detail_lines
 		do
-			detail_lines := new_detail_lines (result_item)
+			detail_lines := new_detail_lines (result_set [i])
 			if detail_lines.count > 0 then
 				create style_labels.make_with_styles (detail_lines, style.details_indent, style.font_table, background_color)
 				result_link_box.extend_unexpanded (style_labels)
 			end
 		end
 
-	add_navigable_heading (result_link_box: EL_BOX; result_item: G; i: INTEGER)
+	add_navigable_heading (result_link_box: EL_BOX; i: INTEGER)
 		-- add hyperlink for `i' th `result_item' to `result_link_box'
 		local
 			result_link: EL_HYPERLINK_AREA
 		do
 			create result_link.make_with_styles (
-				new_styled_description (result_item), style.font_table,
-				agent call_select_result (result_set, i, result_item), background_color
+				new_styled_description (result_set [i]), style.font_table,
+				agent call_select_result (result_set, i), background_color
 			)
 			result_link.set_link_text_color (style.link_text_color)
 			result_link_box.extend_unexpanded (result_link)
 		end
 
-	add_supplementary (result_link_box: EL_BOX; result_item: G; i: INTEGER)
+	add_supplementary (result_link_box: EL_BOX; i: INTEGER)
 		-- add supplementary details for `i' th `result_item' to `result_link_box'
 		do
 		end
@@ -361,10 +363,10 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Hyperlink actions
 
-	call_select_result (a_result_set: DYNAMIC_CHAIN [G]; a_index: INTEGER; result_item: G)
+	call_select_result (a_result_set: DYNAMIC_CHAIN [G]; a_index: INTEGER)
 			--
 		do
-			select_result (a_result_set, a_index, result_item)
+			select_result (a_result_set, a_index)
 		end
 
 	goto_next_page
@@ -387,7 +389,7 @@ feature {NONE} -- Implementation: attributes
 
 	page_count: INTEGER
 
-	select_result: PROCEDURE [CHAIN [G], INTEGER, G]
+	select_result: PROCEDURE [CHAIN [G], INTEGER]
 
 	result_set: DYNAMIC_CHAIN [G]
 

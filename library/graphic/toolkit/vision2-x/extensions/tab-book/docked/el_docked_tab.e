@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-09 14:26:32 GMT (Wednesday 9th March 2022)"
-	revision: "9"
+	date: "2022-03-14 13:32:28 GMT (Monday 14th March 2022)"
+	revision: "10"
 
 deferred class
 	EL_DOCKED_TAB
@@ -26,8 +26,8 @@ feature {NONE} -- Initialization
 			create content_border_box.make (Border_width_cms, 0.0)
 			content_border_box.extend (create {EV_CELL})
 
-			create properties.make_with_tab (Current)
-			properties.set_type ({SD_ENUMERATION}.editor)
+			create content.make_with_tab (Current)
+			content.set_type ({SD_ENUMERATION}.editor)
 		end
 
 feature -- Access
@@ -67,7 +67,7 @@ feature -- Status Query
 
 	is_selected: BOOLEAN
 		do
-			Result := properties.has_focus
+			Result := content.has_focus
 		end
 
 	is_current_tab_set: BOOLEAN
@@ -81,26 +81,26 @@ feature -- Basic operations
 		do
 			if is_closeable then
 				on_close
-				properties.close
+				content.close
 			end
 		end
 
 	update_properties
 		do
-			properties.set_unique_title (unique_title.to_string_32)
-			properties.set_short_title (title.to_string_32)
-			properties.set_long_title (long_title.to_string_32)
-			properties.set_description (description)
-			properties.set_detail (detail)
-			properties.set_pixmap (icon)
-			properties.set_tab_tooltip (long_title)
+			content.set_unique_title (unique_title.to_string_32)
+			content.set_short_title (title.to_string_32)
+			content.set_long_title (long_title.to_string_32)
+			content.set_description (description)
+			content.set_detail (detail)
+			content.set_pixmap (icon)
+			content.set_tab_tooltip (long_title)
 		end
 
 feature -- Status change
 
 	set_selected
 		do
-			properties.set_focus
+			content.set_focus
 		end
 
 feature -- Comparison
@@ -113,8 +113,8 @@ feature -- Comparison
 
 feature {EL_DOCKED_TAB_BOOK, SD_WIDGET_FACTORY, SD_TAB_ZONE} -- Access
 
-	properties: EL_DOCKING_CONTENT
-		-- tab properties
+	content: EL_DOCKING_CONTENT
+		-- tab properties and content
 
 	tab_book: EL_DOCKED_TAB_BOOK
 

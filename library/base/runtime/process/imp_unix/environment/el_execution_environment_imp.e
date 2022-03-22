@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-01 15:45:27 GMT (Tuesday 1st March 2022)"
-	revision: "9"
+	date: "2022-03-14 11:29:18 GMT (Monday 14th March 2022)"
+	revision: "10"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -34,7 +34,7 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	language_code: STRING
+	new_language_code: STRING
 			-- By example: if LANG = "en_UK.utf-8"
 			-- then result = "en"
 		local
@@ -46,6 +46,7 @@ feature {NONE} -- Implementation
 				create Result.make_empty
 			end
 		end
+
 	open_url (url: EL_FILE_URI_PATH)
 		do
 			system (Open_url_command + url.escaped)

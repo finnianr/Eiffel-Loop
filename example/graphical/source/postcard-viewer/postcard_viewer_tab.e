@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "7"
+	date: "2022-03-15 16:14:12 GMT (Tuesday 15th March 2022)"
+	revision: "8"
 
 class
 	POSTCARD_VIEWER_TAB
@@ -42,21 +42,6 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	unique_title: ZSTRING
-		do
-			Result := location.base
-		end
-
-	title: ZSTRING
-		do
-			Result := unique_title
-		end
-
-	long_title: ZSTRING
-		do
-			Result := title
-		end
-
 	description: ZSTRING
 		do
 			Result := "Photo in directory"
@@ -68,6 +53,21 @@ feature -- Access
 		end
 
 	location: DIR_PATH
+
+	long_title: ZSTRING
+		do
+			Result := title
+		end
+
+	title: ZSTRING
+		do
+			Result := unique_title
+		end
+
+	unique_title: ZSTRING
+		do
+			Result := location.base
+		end
 
 feature {NONE} -- Factory
 
@@ -93,6 +93,16 @@ feature {NONE} -- Factory
 			end
 		end
 
+feature {NONE} -- Event handling
+
+	on_close
+		do
+		end
+
+	on_selected
+		do
+		end
+
 feature {NONE} -- Implementation
 
 	icon: EV_PIXMAP
@@ -106,4 +116,3 @@ feature {NONE} -- Implementation
 		end
 
 end
-

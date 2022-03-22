@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 18:36:57 GMT (Tuesday 15th February 2022)"
-	revision: "13"
+	date: "2022-03-22 11:22:51 GMT (Tuesday 22nd March 2022)"
+	revision: "14"
 
 class
 	EL_UNINSTALL_APP_MENU_DESKTOP_ENV_IMP
@@ -22,7 +22,7 @@ inherit
 		undefine
 			launch_command, command_path
 		redefine
-			make, add_menu_entry, save_as, launcher_exists, remove_menu_entry, Command_args_template
+			make, add_menu_entry, has_elevated, launcher_exists, remove_menu_entry, Command_args_template
 		end
 
 	EL_MS_WINDOWS_DIRECTORIES
@@ -59,7 +59,6 @@ feature -- Basic operations
 			-- Add program to list in Control Panel/Programs and features
 		do
 			Precursor
-
 			set_uninstall_registry_entry ("DisplayIcon", main_launcher.windows_icon_path)
 			set_uninstall_registry_entry ("DisplayName", main_launcher.name)
 			set_uninstall_registry_entry ("Comments", launcher.comment)
@@ -77,7 +76,6 @@ feature -- Basic operations
 			-- Remove program from list in Control Panel/Programs and features
 		do
 			Precursor
-
 			if launcher_exists then
 				Win_registry.remove_key (HKLM_uninstall_path, main_launcher.name)
 			end
@@ -88,11 +86,6 @@ feature {NONE} -- Implementation
 	main_launcher: EL_DESKTOP_MENU_ITEM
 		do
 			Result := Application_list.Main_launcher
-		end
-
-	save_as (shortcut: EL_SHELL_LINK; file_path: FILE_PATH)
-		do
-			shortcut.save_elevated (file_path)
 		end
 
 	set_uninstall_registry_entry (name, value: ZSTRING)
@@ -129,6 +122,9 @@ feature {NONE} -- Constants
 			-- If left empty you get a "template not found" exception
 			Result := "$command_options"
 		end
+
+	Has_elevated: BOOLEAN = True
+		-- `True' if saved shortcut has ability to launch with elevated privileges
 
 	HKLM_uninstall_path: DIR_PATH
 		once

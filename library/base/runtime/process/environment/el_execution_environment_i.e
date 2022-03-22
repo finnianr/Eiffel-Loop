@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-01 15:46:27 GMT (Tuesday 1st March 2022)"
-	revision: "25"
+	date: "2022-03-14 11:27:33 GMT (Monday 14th March 2022)"
+	revision: "26"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -77,9 +77,11 @@ feature -- Access
 	language_code: STRING
 		-- Two letter code representing user language
 		-- Example: "en" is English
-		deferred
-		ensure
-			valid_code: Result.count = 2
+		do
+			Result := new_language_code
+			if not (Result.count = 2 and across Result as letter all letter.item.is_lower end) then
+				Result := "en"
+			end
 		end
 
 	user_configuration_directory_name: ZSTRING
@@ -195,6 +197,10 @@ feature -- Status setting
 		end
 
 feature {NONE} -- Implementation
+
+	new_language_code: STRING
+		deferred
+		end
 
 	set_console_code_page (code_page_id: NATURAL)
 			-- For windows commands. Does nothing in Unix

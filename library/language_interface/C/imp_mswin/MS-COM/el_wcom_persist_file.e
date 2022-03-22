@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "7"
+	date: "2022-03-22 14:51:10 GMT (Tuesday 22nd March 2022)"
+	revision: "8"
 
 class
 	EL_WCOM_PERSIST_FILE
@@ -18,24 +18,18 @@ inherit
 			make as make_default
 		end
 
-	EL_SHELL_LINK_API
+	EL_COM_OBJECT_BASE_API
 
 create
-	make, default_create
+	make, make_default
 
 feature {NONE}  -- Initialization
 
-	make (shell_link: EL_SHELL_LINK)
+	make (a_self_ptr: POINTER)
 			-- Creation
-		local
-			this: POINTER
 		do
 			make_default
-			if is_attached (shell_link.self_ptr)
-				and then call_succeeded (cpp_create_IPersistFile (shell_link.self_ptr, $this))
-			then
-				make_from_pointer (this)
-			end
+			make_from_pointer (a_self_ptr)
 		end
 
 feature -- Basic operations
@@ -43,13 +37,13 @@ feature -- Basic operations
 	save (file_path: FILE_PATH)
 			--
 		do
-			last_call_result := cpp_save (self_ptr, wide_string (file_path).base_address, True)
+			set_string (agent cpp_save (?, ?, True), file_path)
 		end
 
 	load (file_path: FILE_PATH)
 			--
 		do
-			last_call_result := cpp_load (self_ptr, wide_string (file_path).base_address, 1)
+			set_string (agent cpp_load (?, ?, 1), file_path)
 		end
 
 end

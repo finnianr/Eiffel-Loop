@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-27 13:36:36 GMT (Monday 27th July 2020)"
-	revision: "6"
+	date: "2022-03-21 12:44:15 GMT (Monday 21st March 2022)"
+	revision: "7"
 
 deferred class
 	EL_WEL_CONVERSION
@@ -17,7 +17,7 @@ inherit
 
 feature -- Conversion
 
-	string16_to_string8 (a_windows_str: POINTER): STRING
+	string_16_to_string_8 (a_windows_str: POINTER): STRING
 		local
 			l_str: WEL_STRING
 		do

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-27 13:42:27 GMT (Monday 27th July 2020)"
-	revision: "4"
+	date: "2022-03-21 12:44:34 GMT (Monday 21st March 2022)"
+	revision: "5"
 
 class
 	EL_WEL_DISPLAY_DEVICE
@@ -46,8 +46,8 @@ feature {NONE} -- Initialization
 			is_valid := cwin_enum_display_devices (wel_string_from_string (adapter_name).item, device_number, self_ptr, 0)
 
 			if is_valid then
-				device_id := string16_to_string8 (cwin_device_id (self_ptr))
-				description := string16_to_string8 (cwin_device_string (self_ptr))
+				device_id := string_16_to_string_8 (cwin_device_id (self_ptr))
+				description := string_16_to_string_8 (cwin_device_string (self_ptr))
 			end
 		end
 

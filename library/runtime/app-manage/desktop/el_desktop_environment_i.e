@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:51:18 GMT (Saturday 5th February 2022)"
-	revision: "14"
+	date: "2022-03-21 12:01:35 GMT (Monday 21st March 2022)"
+	revision: "15"
 
 deferred class
 	EL_DESKTOP_ENVIRONMENT_I
@@ -19,6 +19,8 @@ inherit
 			as_text as command_args,
 			template as command_args_template,
 			stripped_template as new_command_args_template
+		export
+			{NONE} all
 		redefine
 			make_default, new_command_args_template
 		end

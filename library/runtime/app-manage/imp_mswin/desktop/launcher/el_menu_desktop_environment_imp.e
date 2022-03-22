@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 12:27:54 GMT (Sunday 20th February 2022)"
-	revision: "12"
+	date: "2022-03-22 11:36:41 GMT (Tuesday 22nd March 2022)"
+	revision: "13"
 
 class
 	EL_MENU_DESKTOP_ENVIRONMENT_IMP
@@ -52,6 +52,10 @@ feature {NONE} -- Initialization
 			shortcut_path := application_menu_dir + shortcut_name
 		end
 
+feature -- Access
+
+	shortcut_path: FILE_PATH
+
 feature -- Status query
 
 	launcher_exists: BOOLEAN
@@ -71,14 +75,15 @@ feature -- Basic operations
 				File_system.make_directory (application_menu_dir)
 			end
 			create shortcut.make
-			shortcut.set_command_arguments (command_args)
+			shortcut.set_elevated (Has_elevated)
+			shortcut.set_arguments (command_args)
 			shortcut.set_target_path (command_path)
-			shortcut.set_icon_location (launcher.windows_icon_path, 1)
+			shortcut.set_icon ([launcher.windows_icon_path, 1])
 			shortcut.set_description (Locale * launcher.comment)
 
-			save_as (shortcut, shortcut_path)
+			shortcut.save (shortcut_path)
 			if has_desktop_launcher then
-				save_as (shortcut, desktop_shortcut_path)
+				shortcut.save (desktop_shortcut_path)
 			end
 		end
 
@@ -93,17 +98,18 @@ feature -- Basic operations
 			File_system.delete_empty_branch (application_menu_dir)
 		end
 
+feature -- Element change
+
+	set_shortcut_path (a_shortcut_path: FILE_PATH)
+		do
+			shortcut_path := a_shortcut_path
+		end
+
 feature {NONE} -- Implementation
 
 	desktop_shortcut_path: FILE_PATH
-
 		do
 			Result := Desktop_common + shortcut_name
-		end
-
-	save_as (shortcut: EL_SHELL_LINK; file_path: FILE_PATH)
-		do
-			shortcut.save (file_path)
 		end
 
 	shortcut_name: ZSTRING
@@ -121,8 +127,14 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	shortcut_path: FILE_PATH
-
 	application_menu_dir: DIR_PATH
+
+feature {NONE} -- Constants
+
+	Has_elevated: BOOLEAN
+		-- `True' if saved shortcut has ability to launch with elevated privileges
+		once
+			Result := False
+		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "8"
+	date: "2022-03-21 13:45:34 GMT (Monday 21st March 2022)"
+	revision: "9"
 
 class
 	EL_MS_WINDOWS_DIRECTORIES
@@ -68,7 +68,7 @@ feature -- Access
 feature -- Constants
 
 	max_path: INTEGER
-			-- Maximum number of characters in path
+		-- Maximum number of characters in path
 		external
 			"C [macro <limits.h>]"
 		alias

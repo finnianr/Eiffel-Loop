@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-03 17:44:11 GMT (Monday 3rd February 2020)"
-	revision: "6"
+	date: "2022-03-14 11:37:00 GMT (Monday 14th March 2022)"
+	revision: "7"
 
 class
 	EL_DOCKED_TAB_BOOK
@@ -146,14 +146,14 @@ feature -- Element change
 			l_tabs: like tabs
 		do
 			a_tab.set_tab_book (Current)
-			manager.contents.extend (a_tab.properties)
+			manager.contents.extend (a_tab.content)
 			if count = 1 then
 				set_delivery_zone
 			else
 				l_tabs := tabs
-				a_tab.properties.set_tab_with (l_tabs.i_th (l_tabs.count - 1).properties, False)
+				a_tab.content.set_tab_with (l_tabs.i_th (l_tabs.count - 1).content, False)
 			end
-			a_tab.properties.set_focus
+			a_tab.content.set_focus
 		end
 
 	select_left_tab
@@ -180,7 +180,7 @@ feature -- Status query
 
 	has (a_tab: like selected): BOOLEAN
 		do
-			Result := manager.contents.has (a_tab.properties)
+			Result := manager.contents.has (a_tab.content)
 		end
 
 	is_empty: BOOLEAN

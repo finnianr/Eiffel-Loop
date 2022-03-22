@@ -55,6 +55,8 @@ class ISE_ENVIRON (object):
 
 	def update (self):
 		environ = os.environ
+		print "updating for", environ [self.Key_platform]
+
 		self.platform = environ [self.Key_platform]
 		self.version = environ [self.Key_version]
 		self.set_c_compiler ()

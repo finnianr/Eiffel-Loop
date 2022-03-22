@@ -101,8 +101,6 @@ def convert_pecf_to_xml (pecf_path):
 def set_build_environment (config, set_MSC=True):
 	# set build environment from `project.py' config
 
-	ise.update () # update ISE_* variables
-
 	if sys.platform == 'win32' and set_MSC and config.MSC_options:
 		print 'Configuring environment for MSC_options: ' + ' '.join (config.MSC_options)
 		print "ise.msvc_version", ise.msvc_version
@@ -124,6 +122,8 @@ def set_build_environment (config, set_MSC=True):
 
 	else:
 		ms_sdk_search_paths = None
+
+	ise.update () # update ISE_* variables
 
 	for key, value in config.environ_extra.items ():
 		os.environ [key] = path.expandvars (value)
@@ -244,7 +244,11 @@ class EIFFEL_PROJECT (object):
 		# call -autotest option on finalized exe
 		# returns 0 if no error
 		exe_path = self.package_exe_path ()
-		result = call ([exe_path, '-autotest'])
+		if path.exists (exe_path):
+			result = call ([exe_path, '-autotest'])
+		else:
+			print 'EXE not found', exe_path
+			result = 1
 		return result
 
 	def build (self, cpu_target, options_extra = None):
