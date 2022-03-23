@@ -628,8 +628,14 @@ EV_PRIMITIVE*
 		[$source EL_COLOR_BUTTON]
 ## Windows Eiffel Library Extensions
 Extensions for [https://www.eiffel.org/doc/solutions/WEL WEL GUI library].
-## C/C++ and MS COM objects
-Create Eiffel interfaces to C/C++ API's
+## Interface to C and C++
+Create Eiffel interfaces to C and C++ API's
+## MS Component Object Model
+Eiffel interfaces to some basic Microsoft Component Object Model classes including:
+
+
+* IPersistFile
+* IShellLinkW
 ## Java
 A high-level framework for wrapping Java classes that adds a useful layer of abstraction to Eiffel Software's interface to the JNI ([https://en.wikipedia.org/wiki/Java_Native_Interface Java Native Interface]) called [https://www.eiffel.org/doc/solutions/Eiffel2Java eiffel2java].
 

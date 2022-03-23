@@ -1,24 +1,26 @@
 note
-	description: "Wcom persist file"
+	description: "[
+		Wraps [https://docs.microsoft.com/en-us/windows/win32/api/objidl/nn-objidl-ipersistfile IPersistFile COM interface]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-22 14:51:10 GMT (Tuesday 22nd March 2022)"
-	revision: "8"
+	date: "2022-03-23 10:20:44 GMT (Wednesday 23rd March 2022)"
+	revision: "9"
 
 class
-	EL_WCOM_PERSIST_FILE
+	COM_PERSIST_FILE
 
 inherit
-	EL_WCOM_OBJECT
+	COM_OBJECT
 		rename
 			make as make_default
 		end
 
-	EL_COM_OBJECT_BASE_API
+	COM_OBJECT_BASE_API
 
 create
 	make, make_default

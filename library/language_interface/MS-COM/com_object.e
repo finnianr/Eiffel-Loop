@@ -1,19 +1,21 @@
 note
-	description: "[https://docs.microsoft.com/en-us/windows/win32/com/the-component-object-model Windows COM object]"
+	description: "[
+		[https://docs.microsoft.com/en-us/windows/win32/com/the-component-object-model Windows Component Object Model object]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-22 15:04:44 GMT (Tuesday 22nd March 2022)"
-	revision: "9"
+	date: "2022-03-23 10:17:44 GMT (Wednesday 23rd March 2022)"
+	revision: "10"
 
 class
-	EL_WCOM_OBJECT
+	COM_OBJECT
 
 inherit
-	EL_EXTERNAL_LIBRARY [EL_WCOM_INITIALIZER]
+	EL_EXTERNAL_LIBRARY [COM_INITIALIZER]
 
 	EL_OWNED_CPP_OBJECT
 

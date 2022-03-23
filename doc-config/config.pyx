@@ -86,7 +86,8 @@ publish-repository:
 
 		# Library (Language Interface)
 		ecf:
-			"library/C-language-interface.ecf"
+			"library/C-language-interface.ecf#C_API"
+			"library/C-language-interface.ecf#MS_COM"
 			"library/eiffel2java.ecf"
 			"library/eiffel2python.ecf"
 			"library/doc/eiffel2matlab.ecf"

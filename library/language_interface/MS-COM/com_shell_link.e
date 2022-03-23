@@ -1,26 +1,30 @@
 note
-	description: "Shell link"
+	description: "[
+		Wraps
+		[https://docs.microsoft.com/en-us/windows/win32/api/shobjidl_core/nn-shobjidl_core-ishelllinkw
+			IShellLinkW COM interface]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-22 15:09:27 GMT (Tuesday 22nd March 2022)"
-	revision: "10"
+	date: "2022-03-23 10:22:54 GMT (Wednesday 23rd March 2022)"
+	revision: "11"
 
 class
-	EL_SHELL_LINK
+	COM_SHELL_LINK
 
 inherit
-	EL_WCOM_OBJECT
+	COM_OBJECT
 		export
-			{EL_WCOM_PERSIST_FILE} self_ptr
+			{COM_PERSIST_FILE} self_ptr
 		redefine
 			make
 		end
 
-	EL_WINDOWS_SHELL_COM_API
+	COM_WINDOWS_SHELL_API
 
 create
 	make, make_from_path
@@ -160,7 +164,7 @@ feature {NONE} -- Implementation
 			file.close
 		end
 
-	new_persist_file: EL_WCOM_PERSIST_FILE
+	new_persist_file: COM_PERSIST_FILE
 		local
 			file_ptr: POINTER
 		do

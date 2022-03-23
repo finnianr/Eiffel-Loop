@@ -1,6 +1,6 @@
 note
 	description: "[
-		Initializes the COM library on the current thread and identifies the concurrency model as
+		Initializes the Component Object Model library on the current thread and identifies the concurrency model as
 		single-thread apartment (STA).
 		See: [https://docs.microsoft.com/en-us/windows/win32/api/objbase/nf-objbase-coinitialize CoInitialize function]
 	]"
@@ -10,11 +10,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-09 10:09:20 GMT (Monday 9th March 2020)"
-	revision: "7"
+	date: "2022-03-23 10:17:10 GMT (Wednesday 23rd March 2022)"
+	revision: "8"
 
 class
-	EL_WCOM_INITIALIZER
+	COM_INITIALIZER
 
 inherit
 	EL_INITIALIZEABLE

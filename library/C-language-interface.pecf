@@ -12,7 +12,7 @@ system:
 			Create Eiffel interfaces to C/C++ API's
 		"""
 	target:
-		name = EL_c_api
+		name = EL_C_API
 		root:
 			all_classes = true
 
@@ -32,7 +32,13 @@ system:
 			name = api_wrapper; location = "$ISE_LIBRARY/library/api_wrapper/api_wrapper.ecf"
 
 		cluster:
-			name = c_api; location = "language_interface/C"; recursive = true
+			name = C_API; location = "language_interface/C"; recursive = true
+			description: 
+				"""
+					C and C++
+
+					Support creation of Eiffel interfaces to C and C++ API's
+				"""
 			file_rule:
 				exclude:
 					"/imp_mswin$"
@@ -47,5 +53,19 @@ system:
 					platform:
 						value = windows
 
+		cluster:
+			name = MS_COM; location = "language_interface/MS-COM"; recursive = true
+			description: 
+				"""
+					MS Component Object Model
 
+					Eiffel interfaces to some basic Microsoft Component Object Model classes including:
+	
+					* IPersistFile
+					* IShellLinkW
+				"""
+			file_rule:
+				condition:
+					platform:
+						value = windows
 

@@ -123,7 +123,7 @@ def set_build_environment (config, set_MSC=True):
 	else:
 		ms_sdk_search_paths = None
 
-	ise.update () # update ISE_* variables
+	ise.update () # update ISE_* variables to match C compiler
 
 	for key, value in config.environ_extra.items ():
 		os.environ [key] = path.expandvars (value)

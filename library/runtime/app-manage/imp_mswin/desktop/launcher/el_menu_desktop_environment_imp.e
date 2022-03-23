@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-22 11:36:41 GMT (Tuesday 22nd March 2022)"
-	revision: "13"
+	date: "2022-03-23 10:10:09 GMT (Wednesday 23rd March 2022)"
+	revision: "14"
 
 class
 	EL_MENU_DESKTOP_ENVIRONMENT_IMP
@@ -69,7 +69,7 @@ feature -- Basic operations
 	add_menu_entry
 			--
 		local
-			shortcut: EL_SHELL_LINK
+			shortcut: COM_SHELL_LINK
 		do
 			if not application_menu_dir.exists then
 				File_system.make_directory (application_menu_dir)

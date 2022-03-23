@@ -1,7 +1,6 @@
 note
 	description: "[
-		Wrapper for Component Object Model routines from
-		[https://docs.microsoft.com/en-us/windows/win32/api/shobjidl/ ShObjIdl.h]
+		Component Object Model routines from [https://docs.microsoft.com/en-us/windows/win32/api/shobjidl/ ShObjIdl.h]
 	]"
 
 	author: "Finnian Reilly"
@@ -9,11 +8,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-22 15:11:15 GMT (Tuesday 22nd March 2022)"
-	revision: "7"
+	date: "2022-03-23 10:16:47 GMT (Wednesday 23rd March 2022)"
+	revision: "8"
 
 deferred class
-	EL_WINDOWS_SHELL_COM_API
+	COM_WINDOWS_SHELL_API
 
 inherit
 	EL_C_API_ROUTINES
