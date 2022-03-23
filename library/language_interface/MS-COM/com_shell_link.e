@@ -1,8 +1,8 @@
 note
 	description: "[
 		Wraps
-		[https://docs.microsoft.com/en-us/windows/win32/api/shobjidl_core/nn-shobjidl_core-ishelllinkw
-			IShellLinkW COM interface]
+		[https://docs.microsoft.com/en-us/windows/win32/api/shobjidl_core/nn-shobjidl_core-ishelllinkw IShellLinkW]
+		COM interface
 	]"
 
 	author: "Finnian Reilly"
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-23 10:22:54 GMT (Wednesday 23rd March 2022)"
-	revision: "11"
+	date: "2022-03-23 10:48:05 GMT (Wednesday 23rd March 2022)"
+	revision: "12"
 
 class
 	COM_SHELL_LINK

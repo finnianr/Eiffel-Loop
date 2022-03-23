@@ -1,6 +1,8 @@
 note
 	description: "[
-		[https://docs.microsoft.com/en-us/windows/win32/com/the-component-object-model Windows Component Object Model object]
+		Base class for Windows
+		[https://docs.microsoft.com/en-us/windows/win32/com/the-component-object-model Component Object Model]
+		object
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-23 10:17:44 GMT (Wednesday 23rd March 2022)"
-	revision: "10"
+	date: "2022-03-23 10:48:54 GMT (Wednesday 23rd March 2022)"
+	revision: "11"
 
 class
 	COM_OBJECT

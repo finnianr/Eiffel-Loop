@@ -64,8 +64,7 @@ system:
 					* IPersistFile
 					* IShellLinkW
 				"""
-			file_rule:
-				condition:
-					platform:
-						value = windows
+			condition:
+				platform:
+					value = windows
 

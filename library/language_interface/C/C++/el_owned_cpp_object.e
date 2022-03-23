@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-26 9:55:22 GMT (Saturday 26th October 2019)"
-	revision: "1"
+	date: "2022-03-23 11:06:45 GMT (Wednesday 23rd March 2022)"
+	revision: "2"
 
 deferred class
 	EL_OWNED_CPP_OBJECT

@@ -42,11 +42,9 @@ Eiffel interfaces to some basic Microsoft Component Object Model classes includi
 * IPersistFile
 * IShellLinkW
 			</description>
-			<file_rule>
-				<condition>
-					<platform value = "windows"/>
-				</condition>
-			</file_rule>
+			<condition>
+				<platform value = "windows"/>
+			</condition>
 		</cluster>
 	</target>
 </system>

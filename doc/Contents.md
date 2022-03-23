@@ -628,8 +628,8 @@ EV_PRIMITIVE*
 		[$source EL_COLOR_BUTTON]
 ## Windows Eiffel Library Extensions
 Extensions for [https://www.eiffel.org/doc/solutions/WEL WEL GUI library].
-## Interface to C and C++
-Create Eiffel interfaces to C and C++ API's
+## C and C++
+Support creation of Eiffel interfaces to C and C++ API's
 ## MS Component Object Model
 Eiffel interfaces to some basic Microsoft Component Object Model classes including:
 

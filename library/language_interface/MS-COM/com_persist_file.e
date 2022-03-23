@@ -1,6 +1,8 @@
 note
 	description: "[
-		Wraps [https://docs.microsoft.com/en-us/windows/win32/api/objidl/nn-objidl-ipersistfile IPersistFile COM interface]
+		Wraps
+		[https://docs.microsoft.com/en-us/windows/win32/api/objidl/nn-objidl-ipersistfile IPersistFile]
+		COM interface
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-23 10:20:44 GMT (Wednesday 23rd March 2022)"
-	revision: "9"
+	date: "2022-03-23 10:47:43 GMT (Wednesday 23rd March 2022)"
+	revision: "10"
 
 class
 	COM_PERSIST_FILE
