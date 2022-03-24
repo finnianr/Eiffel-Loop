@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-10 9:32:28 GMT (Wednesday 10th March 2021)"
-	revision: "8"
+	date: "2022-03-24 11:01:38 GMT (Thursday 24th March 2022)"
+	revision: "9"
 
 deferred class
 	EL_MODULE_JAVA
@@ -17,10 +17,10 @@ inherit
 
 feature {NONE} -- Constants
 
-	Java: JAVA_ENVIRONMENT_I
+	Java: JAVA_ENVIRONMENT
 			--
 		once ("PROCESS")
-			create {JAVA_ENVIRONMENT_IMP} Result.make
+			create Result.make
 		end
 
 end

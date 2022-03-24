@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:49:49 GMT (Saturday 5th February 2022)"
-	revision: "2"
+	date: "2022-03-24 11:27:22 GMT (Thursday 24th March 2022)"
+	revision: "3"
 
 class
 	VELOCITY_AUTOTEST_APP
@@ -23,7 +23,7 @@ create
 
 feature {NONE} -- Implementation
 
-	visible_types: TUPLE [JAVA_ENVIRONMENT_IMP]
+	visible_types: TUPLE [JAVA_ENVIRONMENT]
 		-- types with lio output visible in console
 		-- See: {EL_CONSOLE_MANAGER_I}.show_all
 		do

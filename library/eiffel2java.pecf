@@ -70,7 +70,7 @@ system:
 		
 		# Source code
 		cluster:
-			name = EL_java; location = "language_interface/Java"; recursive = true
+			name = Java; location = "language_interface/Java"; recursive = true
 			file_rule:
 				exclude:
 					"/imp_mswin$"

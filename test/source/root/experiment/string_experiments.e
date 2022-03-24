@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-13 12:14:23 GMT (Sunday 13th February 2022)"
-	revision: "19"
+	date: "2022-03-24 11:53:44 GMT (Thursday 24th March 2022)"
+	revision: "20"
 
 class
 	STRING_EXPERIMENTS
@@ -214,6 +214,12 @@ feature -- Basic operations
 				lio.put_string (" -> "); lio.put_string (email)
 				lio.put_new_line
 			end
+		end
+
+	split_empty_count
+		do
+			lio.put_integer_field ("count", ("").split (',').count)
+			lio.put_new_line
 		end
 
 	string_to_integer_conversion

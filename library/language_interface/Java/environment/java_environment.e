@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-08 16:28:26 GMT (Saturday 8th January 2022)"
-	revision: "10"
+	date: "2022-03-24 11:55:05 GMT (Thursday 24th March 2022)"
+	revision: "11"
 
-deferred class
-	JAVA_ENVIRONMENT_I
+class
+	JAVA_ENVIRONMENT
 
 inherit
 	JAVA_SHARED_ORB
@@ -27,30 +27,24 @@ inherit
 
 	MEMORY
 
+	EL_STRING_8_CONSTANTS
+
+create
+	make
+
 feature {NONE} -- Initialization
 
 	make
 			--
 		do
-			if attached {STRING_32} Execution.item ("CLASSPATH") as environment_class_path then
-				create class_path_list.make_split (environment_class_path, class_path_separator)
-			else
-				create class_path_list.make_empty
-			end
-			class_path_list.compare_objects
-			create jar_dir_list.make_from_array (<< default_java_jar_dir >>)
-			if (not JVM_library_path.is_empty) and then JVM_library_path.exists then
-				is_java_installed := True
-			end
+			create {JAVA_PLATFORM_IMP} platform.make
+			create class_path_list.make_split (new_class_path, platform.class_path_separator)
+			class_path_list.prune_all_empty
+			
+			create jar_dir_list.make_from_array (<< platform.default_jar_dir >>)
 		end
 
 feature -- Element change
-
-	append_jar_locations (locations: ARRAY [DIR_PATH])
-			--
-		do
-			locations.do_all (agent jar_dir_list.extend)
-		end
 
 	append_class_locations (locations: ARRAY [DIR_PATH])
 		do
@@ -59,6 +53,12 @@ feature -- Element change
 					extend_class_path_list (location.item)
 				end
 			end
+		end
+
+	append_jar_locations (locations: ARRAY [DIR_PATH])
+			--
+		do
+			locations.do_all (agent jar_dir_list.extend)
 		end
 
 feature -- Status change
@@ -85,7 +85,7 @@ feature -- Status change
 				end
 			end
 			if all_packages_found then
-				jorb.open (JVM_library_path.to_string.to_latin_1, class_path_list.joined (class_path_separator))
+				jorb.open (platform.JVM_library_string_path, class_path_list.joined (platform.class_path_separator))
 				is_open := jorb.is_open
 			end
 		ensure
@@ -94,10 +94,13 @@ feature -- Status change
 
 feature -- Status query
 
-	is_open: BOOLEAN
-
 	is_java_installed: BOOLEAN
 		-- is Java installed
+		do
+			Result := platform.JVM_library_path.exists
+		end
+
+	is_open: BOOLEAN
 
 	last_package_found: BOOLEAN
 
@@ -140,20 +143,6 @@ feature -- Clean up
 			all_references_deleted: jorb.object_count = 0
 		end
 
-feature {NONE} -- Platform implementation
-
-	default_java_jar_dir: DIR_PATH
-		deferred
-		end
-
-	JVM_library_path: FILE_PATH
-		deferred
-		end
-
-	class_path_separator: CHARACTER
-		deferred
-		end
-
 feature {NONE} -- Implementation
 
 	add_package_to_classpath (package_name: STRING)
@@ -176,8 +165,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	extend_class_path_list (location: ZSTRING)
+	extend_class_path_list (a_location: ZSTRING)
+		local
+			location: STRING
 		do
+			location := a_location
 			class_path_list.start
 			class_path_list.search (location)
 			if class_path_list.exhausted then
@@ -185,10 +177,23 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	required_java_packages: ARRAY [STRING]
+	new_class_path: STRING
+		do
+			if attached Execution.item ("CLASSPATH") as cp then
+				Result := cp
+			else
+				Result := Empty_string_8
+			end
+		end
+
+feature {NONE} -- Internal attributes
+
+	class_path_list: EL_STRING_8_LIST
 
 	jar_dir_list: ARRAYED_LIST [DIR_PATH]
 
-	class_path_list: EL_ZSTRING_LIST
+	platform: JAVA_PLATFORM_I
+
+	required_java_packages: ARRAY [STRING]
 
 end

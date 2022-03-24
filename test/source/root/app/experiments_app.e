@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-22 15:51:39 GMT (Tuesday 22nd February 2022)"
-	revision: "81"
+	date: "2022-03-24 11:54:06 GMT (Thursday 24th March 2022)"
+	revision: "82"
 
 class
 	EXPERIMENTS_APP
@@ -28,7 +28,8 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("")
+			log.enter ("string.split_empty_count")
+			string.split_empty_count
 			log.exit
 		end
 
