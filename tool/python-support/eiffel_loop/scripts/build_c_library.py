@@ -13,16 +13,13 @@
 
 # Dir: Scripts
 
-import codecs, os, subprocess, sys
+import codecs, importlib, os, subprocess, sys
 
 from os import path
-
 from optparse import OptionParser
 
+from eiffel_loop.eiffel import project
 from eiffel_loop.scons.util import scons_command
-from eiffel_loop.eiffel.dev_environ import *
-
-target_cpu = 'x64'
 
 if os.name == "nt":
 	codecs.register (lambda name: codecs.lookup ('utf-8') if name == 'cp65001' else None)
@@ -41,10 +38,13 @@ parser.add_option (
 )
 (options, args) = parser.parse_args()
 
-if is_windows_platform and options.build_x86:
-	target_cpu = 'x86'
+config = importlib.import_module ("eiffel_loop.eiffel.dev_environ")
 
-set_build_environment (target_cpu)
+if is_windows_platform and options.build_x86:
+	config.MSC_options [0] = '/x86'
+
+project.set_build_environment (config)
+# config.print_environ ()
 
 if subprocess.call (scons_command ()) == 0:
 	if options.clean_up:

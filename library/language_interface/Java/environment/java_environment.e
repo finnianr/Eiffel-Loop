@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-24 11:55:05 GMT (Thursday 24th March 2022)"
-	revision: "11"
+	date: "2022-03-24 17:03:54 GMT (Thursday 24th March 2022)"
+	revision: "12"
 
 class
 	JAVA_ENVIRONMENT
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 			create {JAVA_PLATFORM_IMP} platform.make
 			create class_path_list.make_split (new_class_path, platform.class_path_separator)
 			class_path_list.prune_all_empty
-			
+
 			create jar_dir_list.make_from_array (<< platform.default_jar_dir >>)
 		end
 
@@ -63,7 +63,7 @@ feature -- Element change
 
 feature -- Status change
 
-	open (java_packages: like required_java_packages)
+	open (java_packages: like required_packages)
 			--
 		require
 			java_installed: is_java_installed
@@ -71,9 +71,9 @@ feature -- Status change
 			i: INTEGER
 			all_packages_found: BOOLEAN
 		do
-			required_java_packages := java_packages
+			required_packages := java_packages
 			all_packages_found := true
-			across required_java_packages as package until not all_packages_found loop
+			across required_packages as package until not all_packages_found loop
 				add_package_to_classpath (package.item)
 				all_packages_found := all_packages_found and last_package_found
 				i := i + 1
@@ -170,9 +170,7 @@ feature {NONE} -- Implementation
 			location: STRING
 		do
 			location := a_location
-			class_path_list.start
-			class_path_list.search (location)
-			if class_path_list.exhausted then
+			if not class_path_list.has (location) then
 				class_path_list.extend (location)
 			end
 		end
@@ -194,6 +192,6 @@ feature {NONE} -- Internal attributes
 
 	platform: JAVA_PLATFORM_I
 
-	required_java_packages: ARRAY [STRING]
+	required_packages: ARRAY [STRING]
 
 end

@@ -1,7 +1,5 @@
 note
-	description: "[
-		Windows implementation of [$source JAVA_PLATFORM_I] interface
-	]"
+	description: "Windows implementation of [$source JAVA_PLATFORM_I] interface"
 	notes: "[
 		`deployment.properties' file location
 
@@ -16,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-24 11:16:00 GMT (Thursday 24th March 2022)"
-	revision: "7"
+	date: "2022-03-24 13:24:16 GMT (Thursday 24th March 2022)"
+	revision: "8"
 
 class
 	JAVA_PLATFORM_IMP
@@ -28,7 +26,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_WIN_REGISTRY
+	EL_MODULE_TUPLE; EL_MODULE_WIN_REGISTRY
 
 	EL_OS_IMPLEMENTATION
 
@@ -44,7 +42,7 @@ feature {NONE} -- Initialization
 		do
 			class_path_separator := ';'
 			default_jar_dir := java_home_dir #+ "lib"
-			JVM_library_path := Win_registry.string (Current_version_reg_path, "RuntimeLib")
+			JVM_library_path := Win_registry.string (Current_version_reg_path, Reg_key.runtime_lib)
 			if not JVM_library_path.exists then
 				steps := JVM_library_path.twin
 				client_pos := steps.index_of ("client", 1)
@@ -59,14 +57,20 @@ feature {NONE} -- Implementation
 
 	java_home_dir: DIR_PATH
 		do
-			Result := Win_registry.string (Current_version_reg_path, "JavaHome")
+			Result := Win_registry.string (Current_version_reg_path, Reg_key.java_home)
 		end
 
 feature {NONE} -- Constants
 
 	Current_version_reg_path: DIR_PATH
 		once
-			Result := JRE_reg_path #+ Win_registry.string (JRE_reg_path, "CurrentVersion")
+			Result := JRE_reg_path #+ Win_registry.string (JRE_reg_path, Reg_key.current_version)
+		end
+
+	Reg_key: TUPLE [current_version, java_home, runtime_lib: ZSTRING]
+		once
+			create Result
+			Tuple.fill (Result, "CurrentVersion, JavaHome, RuntimeLib")
 		end
 
 	JRE_reg_path: DIR_PATH
