@@ -68,6 +68,15 @@ translations:
 			"$id"
 
 	item:
+		id = "Connecting"
+		translation:
+			lang = de; check = true
+			"Verbinde"
+		translation:
+			lang = en
+			"$id"
+
+	item:
 		id = "Continue"
 		translation:
 			lang = de; check = true

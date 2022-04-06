@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 10:29:14 GMT (Sunday 20th February 2022)"
-	revision: "9"
+	date: "2022-04-05 10:03:07 GMT (Tuesday 5th April 2022)"
+	revision: "10"
 
 deferred class
 	EL_SSH_RSYNC_COMMAND_I
@@ -52,13 +52,17 @@ feature -- Basic operations
 
 	execute
 		do
-			exclusions_path := new_temporary_file_path ("exclude")
-			if attached open (exclusions_path, Write) as file then
-				file.put_lines (exclude_list)
-				file.close
+			if exclude_list.count > 0 then
+				exclusions_path := new_temporary_file_path ("exclude")
+				if attached open (exclusions_path, Write) as file then
+					file.put_lines (exclude_list)
+					file.close
+				end
+				Precursor
+				File_system.remove_file (exclusions_path)
+			else
+				Precursor
 			end
-			Precursor
-			File_system.remove_file (exclusions_path)
 		end
 
 feature -- Options

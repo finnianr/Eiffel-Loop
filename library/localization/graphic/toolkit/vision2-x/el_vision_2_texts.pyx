@@ -6,7 +6,7 @@ pyxis-doc:
 translations:
 	# class EL_KEY
 	item:
-		id = "{numeric-pad-template}"
+		id = "{numeric_pad_template}"
 		translation:
 			lang = de; check = false
 			"Numerisches Pad %S"
@@ -15,7 +15,7 @@ translations:
 			"Numeric Pad %S"
 
 	item:
-		id = "{something-bad-happened}"
+		id = "{something_bad_happened}"
 		translation:
 			lang = de; check = true
 			"Etwas Schlimmes ist passiert, dass diesen Vorgang verhindert!"

@@ -60,7 +60,7 @@ translations:
 
 	# Extended texts with ID: {id}
 	item:
-		id = "{are-you-sure}"
+		id = "{are_you_sure}"
 		translation:
 			lang = de; check = true
 			"Sind sie sicher?"
@@ -69,7 +69,7 @@ translations:
 			"Are you sure?"
 
 	item:
-		id = "{mkdir-permission-denied}"
+		id = "{mkdir_permission_denied}"
 		translation:
 			lang = de; check = true
 			"Sie haben keine Berechtigung, dieses Verzeichnis hier zu erstellen."
@@ -78,7 +78,7 @@ translations:
 			"You don't have permission to create this directory here."
 
 	item:
-		id = "{file-open-permission-denied}"
+		id = "{file_open_permission_denied}"
 		translation:
 			lang = de; check = true
 			"Es gab ein Problem, diese Datei im angegebenen Verzeichnis zu legen."

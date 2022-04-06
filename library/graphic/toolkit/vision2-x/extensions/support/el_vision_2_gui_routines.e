@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-27 18:16:26 GMT (Sunday 27th February 2022)"
-	revision: "34"
+	date: "2022-04-05 11:10:54 GMT (Tuesday 5th April 2022)"
+	revision: "35"
 
 class
 	EL_VISION_2_GUI_ROUTINES
@@ -29,9 +29,9 @@ inherit
 
 	EV_FRAME_CONSTANTS
 
-	EL_MODULE_COLOR; EL_MODULE_HEXADECIMAL; EL_MODULE_PIXMAP
+	EL_MODULE_COLOR; EL_MODULE_HEXADECIMAL; EL_MODULE_PIXMAP; EL_MODULE_REUSEABLE
 
-	EL_MODULE_BUFFER_8; EL_MODULE_BUFFER_32
+	EL_MODULE_BUFFER_32
 
 create
 	make
@@ -219,10 +219,17 @@ feature -- Contract support
 
 	is_word_wrappable (a_text: READABLE_STRING_GENERAL; a_font: EV_FONT; a_width: INTEGER): BOOLEAN
 		local
-			text: ZSTRING; buffer: EL_ZSTRING_BUFFER_ROUTINES; s: EL_ZSTRING_ROUTINES
+			text: ZSTRING
 		do
-			text := buffer.copied_general (a_text)
-			Result := text.for_all_split (s.character_string ('%N'),  agent all_words_fit_width (?, a_font, a_width))
+			across Reuseable.string as reuse loop
+				if attached {ZSTRING} a_text as zstr then
+					text := zstr
+				else
+					text := reuse.item
+					text.append_string_general (a_text)
+				end
+				Result := across text.split ('%N') as line all all_words_fit_width (line.item, a_font, a_width) end
+			end
 		end
 
 	same_fonts (a, b: EV_FONT): BOOLEAN
@@ -279,10 +286,8 @@ feature -- Color code
 feature {NONE} -- Implementation
 
 	all_words_fit_width (line: ZSTRING; a_font: EV_FONT; a_width: INTEGER): BOOLEAN
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
-			Result := line.for_all_split (s.character_string (' '), agent word_fits_width (?, a_font, a_width))
+			Result := across line.split (' ') as word all word_fits_width (word.item, a_font, a_width) end
 		end
 
 	do_once_action (timer: EV_TIMEOUT; action: PROCEDURE)

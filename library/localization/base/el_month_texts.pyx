@@ -6,7 +6,7 @@ pyxis-doc:
 translations:
 	# Day of month ordinal indicators (default is last)
 	item:
-		id = "{ordinal-indicators}"
+		id = "{ordinal_indicators}"
 		translation:
 			lang = de; check = true
 			".,.,.,."
@@ -161,7 +161,7 @@ translations:
 			"$id"
 
 	item:
-		id = "{may-short}"
+		id = "{may_short}"
 		translation:
 			lang = de; check = true
 			"Mai"

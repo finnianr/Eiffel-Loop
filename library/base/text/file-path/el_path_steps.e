@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-27 16:48:16 GMT (Sunday 27th February 2022)"
-	revision: "9"
+	date: "2022-03-27 10:34:33 GMT (Sunday 27th March 2022)"
+	revision: "10"
 
 class
 	EL_PATH_STEPS
@@ -535,6 +535,15 @@ feature -- Removal
 			internal_hash_code := 0
 		ensure
 			same_last_step: not is_empty implies internal_i_th_step (count).same_string (last_step)
+		end
+
+	remove (a_index: INTEGER)
+		do
+			if attached token_list as list and then list.valid_index (a_index) then
+				list.go_i_th (a_index)
+				list.remove
+			end
+			internal_hash_code := 0
 		end
 
 	remove_head (n: INTEGER)

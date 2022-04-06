@@ -5,7 +5,7 @@ pyxis-doc:
 
 translations:
 	item:
-		id = "{key-alt}"
+		id = "{key_alt}"
 		translation:
 			lang = de; check = false
 			"Alt"
@@ -13,7 +13,7 @@ translations:
 			lang = en
 			"Alt"
 	item:
-		id = "{key-backquote}"
+		id = "{key_backquote}"
 		translation:
 			lang = de; check = false
 			"Rückquote"
@@ -21,7 +21,7 @@ translations:
 			lang = en
 			"Backquote"
 	item:
-		id = "{key-backslash}"
+		id = "{key_backslash}"
 		translation:
 			lang = de; check = false
 			"Backslash"
@@ -29,7 +29,7 @@ translations:
 			lang = en
 			"Backslash"
 	item:
-		id = "{key-back-space}"
+		id = "{key_back_space}"
 		translation:
 			lang = de; check = false
 			"Rücktaste"
@@ -37,7 +37,7 @@ translations:
 			lang = en
 			"Backspace"
 	item:
-		id = "{key-caps-lock}"
+		id = "{key_caps_lock}"
 		translation:
 			lang = de; check = false
 			"Capitals Lock"
@@ -45,7 +45,7 @@ translations:
 			lang = en
 			"Capitals Lock"
 	item:
-		id = "{key-comma}"
+		id = "{key_comma}"
 		translation:
 			lang = de; check = false
 			"Komma"
@@ -53,7 +53,7 @@ translations:
 			lang = en
 			"Comma"
 	item:
-		id = "{key-close-bracket}"
+		id = "{key_close_bracket}"
 		translation:
 			lang = de; check = false
 			"Klammer-schließen"
@@ -61,7 +61,7 @@ translations:
 			lang = en
 			"Close bracket"
 	item:
-		id = "{key-ctrl}"
+		id = "{key_ctrl}"
 		translation:
 			lang = de; check = true
 			"Strg"
@@ -69,7 +69,7 @@ translations:
 			lang = en
 			"Ctrl"
 	item:
-		id = "{key-dash}"
+		id = "{key_dash}"
 		translation:
 			lang = de; check = false
 			"Strichtaste"
@@ -77,7 +77,7 @@ translations:
 			lang = en
 			"Dash"
 	item:
-		id = "{key-delete}"
+		id = "{key_delete}"
 		translation:
 			lang = de; check = true
 			"Löschen"
@@ -85,7 +85,7 @@ translations:
 			lang = en
 			"Delete"
 	item:
-		id = "{key-down}"
+		id = "{key_down}"
 		translation:
 			lang = de; check = false
 			"Abwärtspfeiltaste"
@@ -93,7 +93,7 @@ translations:
 			lang = en
 			"Down-arrow"
 	item:
-		id = "{key-enter}"
+		id = "{key_enter}"
 		translation:
 			lang = de; check = false
 			"Enter-Taste"
@@ -101,7 +101,7 @@ translations:
 			lang = en
 			"Enter"
 	item:
-		id = "{key-end}"
+		id = "{key_end}"
 		translation:
 			lang = de; check = false
 			"Endtaste"
@@ -109,7 +109,7 @@ translations:
 			lang = en
 			"End"
 	item:
-		id = "{key-equal}"
+		id = "{key_equal}"
 		translation:
 			lang = de; check = false
 			"Gleich-Taste"
@@ -117,7 +117,7 @@ translations:
 			lang = en
 			"Equal"
 	item:
-		id = "{key-escape}"
+		id = "{key_escape}"
 		translation:
 			lang = de; check = false
 			"Esc-Taste"
@@ -125,7 +125,7 @@ translations:
 			lang = en
 			"Escape"
 	item:
-		id = "{key-home}"
+		id = "{key_home}"
 		translation:
 			lang = de; check = false
 			"Home-Taste"
@@ -133,7 +133,7 @@ translations:
 			lang = en
 			"Home"
 	item:
-		id = "{key-insert}"
+		id = "{key_insert}"
 		translation:
 			lang = de; check = false
 			"Eingabetaste"
@@ -141,7 +141,7 @@ translations:
 			lang = en
 			"Insert"
 	item:
-		id = "{key-left}"
+		id = "{key_left}"
 		translation:
 			lang = de; check = true
 			"Linke Pfeiltaste"
@@ -149,7 +149,7 @@ translations:
 			lang = en
 			"Left Arrow"
 	item:
-		id = "{key-left-meta}"
+		id = "{key_left_meta}"
 		translation:
 			lang = de; check = false
 			"Linke-Meta-Taste"
@@ -157,7 +157,7 @@ translations:
 			lang = en
 			"Left Meta"
 	item:
-		id = "{key-menu}"
+		id = "{key_menu}"
 		translation:
 			lang = de; check = false
 			"Menütaste"
@@ -165,7 +165,7 @@ translations:
 			lang = en
 			"Menu"
 	item:
-		id = "{key-num-lock}"
+		id = "{key_num_lock}"
 		translation:
 			lang = de; check = false
 			"Numerische Sperrtaste"
@@ -173,7 +173,7 @@ translations:
 			lang = en
 			"Numeric Lock"
 	item:
-		id = "{key-open-bracket}"
+		id = "{key_open_bracket}"
 		translation:
 			lang = de; check = false
 			"Klammer-öffnen"
@@ -181,7 +181,7 @@ translations:
 			lang = en
 			"Open bracket"
 	item:
-		id = "{key-page-up}"
+		id = "{key_page_up}"
 		translation:
 			lang = de; check = false
 			"Aufwärts"
@@ -189,7 +189,7 @@ translations:
 			lang = en
 			"Page Up"
 	item:
-		id = "{key-page-down}"
+		id = "{key_page_down}"
 		translation:
 			lang = de; check = false
 			"Page Down"
@@ -197,7 +197,7 @@ translations:
 			lang = en
 			"Page Down"
 	item:
-		id = "{key-pause}"
+		id = "{key_pause}"
 		translation:
 			lang = de; check = false
 			"Pause-Taste"
@@ -205,7 +205,7 @@ translations:
 			lang = en
 			"Pause"
 	item:
-		id = "{key-period}"
+		id = "{key_period}"
 		translation:
 			lang = de; check = false
 			"Perioden-Taste"
@@ -213,7 +213,7 @@ translations:
 			lang = en
 			"Period"
 	item:
-		id = "{key-quote}"
+		id = "{key_quote}"
 		translation:
 			lang = de; check = false
 			"Zitat-Taste"
@@ -221,7 +221,7 @@ translations:
 			lang = en
 			"Quote"
 	item:
-		id = "{key-right-meta}"
+		id = "{key_right_meta}"
 		translation:
 			lang = de; check = false
 			"Rechts-Meta-Taste"
@@ -229,7 +229,7 @@ translations:
 			lang = en
 			"Right Meta"
 	item:
-		id = "{key-right}"
+		id = "{key_right}"
 		translation:
 			lang = de; check = true
 			"Rechte Pfeiltaste"
@@ -237,7 +237,7 @@ translations:
 			lang = en
 			"Right Arrow"
 	item:
-		id = "{key-semicolon}"
+		id = "{key_semicolon}"
 		translation:
 			lang = de; check = false
 			"Semikolon-Taste"
@@ -245,7 +245,7 @@ translations:
 			lang = en
 			"Semicolon"
 	item:
-		id = "{key-shift}"
+		id = "{key_shift}"
 		translation:
 			lang = de; check = false
 			"Umschalttaste"
@@ -253,7 +253,7 @@ translations:
 			lang = en
 			"Shift"
 	item:
-		id = "{key-slash}"
+		id = "{key_slash}"
 		translation:
 			lang = de; check = false
 			"Schrägstrich-Taste"
@@ -261,7 +261,7 @@ translations:
 			lang = en
 			"Slash"
 	item:
-		id = "{key-space}"
+		id = "{key_space}"
 		translation:
 			lang = de; check = false
 			"Leertaste"
@@ -269,7 +269,7 @@ translations:
 			lang = en
 			"Space"
 	item:
-		id = "{key-scroll-lock}"
+		id = "{key_scroll_lock}"
 		translation:
 			lang = de; check = false
 			"Scroll Lock"
@@ -277,7 +277,7 @@ translations:
 			lang = en
 			"Scroll Lock"
 	item:
-		id = "{key-tab}"
+		id = "{key_tab}"
 		translation:
 			lang = de; check = false
 			"Tabulatortaste"
@@ -285,7 +285,7 @@ translations:
 			lang = en
 			"Tab"
 	item:
-		id = "{key-up}"
+		id = "{key_up}"
 		translation:
 			lang = de; check = false
 			"Pfeiltaste nach oben"

@@ -6,7 +6,7 @@ pyxis-doc:
 translations:
 	# Templates
 	item:
-		id = "{a5-instructions-template}"
+		id = "{a5_instructions_template}"
 		translation:
 			lang = de; check = true
 			"""
@@ -42,7 +42,7 @@ translations:
 			"""
 
 	item:
-		id = "{newer-version-template}"
+		id = "{newer_version_template}"
 		translation:
 			lang = de; check = true
 			"""
@@ -57,7 +57,7 @@ translations:
 			"""
 
 	item:
-		id = "{setup-title-template}"
+		id = "{setup_title_template}"
 		translation:
 			lang = de; check = true
 			"%S Setup"
@@ -66,7 +66,7 @@ translations:
 			"%S Setup"
 
 	item:
-		id = "{unable-to-connect-template}"
+		id = "{unable_to_connect_template}"
 		translation:
 			lang = de; check = true
 			"""
@@ -87,7 +87,7 @@ translations:
 				send an email to %S
 			"""	
 	item:
-		id = "{version-template}"
+		id = "{version_template}"
 		translation:
 			lang = de; check = true
 			"%S Version %S"
@@ -97,7 +97,7 @@ translations:
 
 	# Installing
 	item:
-		id = "{a5-dimensions}"
+		id = "{a5_dimensions}"
 		translation:
 			lang = de; check = true
 			"(21 cm x 14.8 cm)"
@@ -126,14 +126,14 @@ translations:
 		id = "Web Connection Error"
 		translation:
 			lang = de; check = true
-			"Web-Verbindungsfehler"
+			"Web_Verbindungsfehler"
 		translation:
 			lang = en
 			"$id"
 
 	# Uninstalling
 	item:
-		id = "{uninstall-proceed}"
+		id = "{uninstall_proceed}"
 		translation:
 			lang = de; check = False
 			"Sind Sie sicher, dass Sie mit der Deinstallation fortfahren möchten?"
@@ -142,7 +142,7 @@ translations:
 			"Are you sure you wish to proceed with uninstall?"
 
 	item:
-		id = "{close-uninstall}"
+		id = "{close_uninstall}"
 		translation:
 			lang = de; check = False
 			"Schließen, um die Deinstallation abzuschließen"

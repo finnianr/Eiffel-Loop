@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-24 17:03:54 GMT (Thursday 24th March 2022)"
-	revision: "12"
+	date: "2022-03-25 8:18:54 GMT (Friday 25th March 2022)"
+	revision: "13"
 
 class
 	JAVA_ENVIRONMENT
@@ -50,7 +50,7 @@ feature -- Element change
 		do
 			across locations as location loop
 				if location.item.exists then
-					extend_class_path_list (location.item)
+					put_class_path (location.item)
 				end
 			end
 		end
@@ -58,7 +58,7 @@ feature -- Element change
 	append_jar_locations (locations: ARRAY [DIR_PATH])
 			--
 		do
-			locations.do_all (agent jar_dir_list.extend)
+			jar_dir_list.append (locations)
 		end
 
 feature -- Status change
@@ -68,15 +68,17 @@ feature -- Status change
 		require
 			java_installed: is_java_installed
 		local
-			i: INTEGER
-			all_packages_found: BOOLEAN
+			all_packages_found: BOOLEAN; jar_pattern: STRING
 		do
 			required_packages := java_packages
 			all_packages_found := true
 			across required_packages as package until not all_packages_found loop
-				add_package_to_classpath (package.item)
-				all_packages_found := all_packages_found and last_package_found
-				i := i + 1
+				jar_pattern := package.item + "*.jar"
+				if attached jar_path (jar_pattern) as path then
+					put_class_path (path)
+				else
+					all_packages_found := False
+				end
 			end
 			if is_lio_enabled then
 				lio.put_line ("CLASSPATH:")
@@ -87,6 +89,9 @@ feature -- Status change
 			if all_packages_found then
 				jorb.open (platform.JVM_library_string_path, class_path_list.joined (platform.class_path_separator))
 				is_open := jorb.is_open
+			else
+				lio.put_string_field ("Could not find jars:", jar_pattern)
+				lio.put_new_line
 			end
 		ensure
 			is_open: is_open
@@ -145,27 +150,17 @@ feature -- Clean up
 
 feature {NONE} -- Implementation
 
-	add_package_to_classpath (package_name: STRING)
+	jar_path (jar_pattern: STRING): detachable ZSTRING
 			--
-		local
-			package_list: EL_FILE_PATH_LIST; jar_file_name: STRING
 		do
-			create jar_file_name.make_from_string (package_name + "*.jar")
-			last_package_found := False
-			across jar_dir_list as jar_dir until last_package_found loop
-				package_list := OS.file_list (jar_dir.item, jar_file_name)
-				if not package_list.is_empty then
-					last_package_found := True
-					extend_class_path_list (package_list.first_path)
+			across jar_dir_list as jar_dir until attached Result loop
+				if attached OS.file_list (jar_dir.item, jar_pattern) as list and then list.count > 0 then
+					Result := list.first_path
 				end
-			end
-			if not last_package_found then
-				lio.put_string_field ("Could not find jars:", jar_file_name)
-				lio.put_new_line
 			end
 		end
 
-	extend_class_path_list (a_location: ZSTRING)
+	put_class_path (a_location: ZSTRING)
 		local
 			location: STRING
 		do
@@ -188,7 +183,7 @@ feature {NONE} -- Internal attributes
 
 	class_path_list: EL_STRING_8_LIST
 
-	jar_dir_list: ARRAYED_LIST [DIR_PATH]
+	jar_dir_list: EL_ARRAYED_LIST [DIR_PATH]
 
 	platform: JAVA_PLATFORM_I
 
