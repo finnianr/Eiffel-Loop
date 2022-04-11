@@ -21,11 +21,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-08 9:05:59 GMT (Thursday 8th April 2021)"
-	revision: "4"
+	date: "2022-04-11 9:14:24 GMT (Monday 11th April 2022)"
+	revision: "5"
 
 class
-	HASH_TABLE_VS_NAMEABLES_LIST_COMPARISON
+	HASH_TABLE_VS_NAMEABLES_LIST_SEARCH
 
 inherit
 	EL_BENCHMARK_COMPARISON

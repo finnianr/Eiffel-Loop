@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
-	revision: "4"
+	date: "2022-04-11 9:11:12 GMT (Monday 11th April 2022)"
+	revision: "5"
 
 class
-	FINDING_FILES_WITH_EXTENSION_COMPARISON
+	DIRECTORY_WALK_VS_FIND_COMMAND
 
 inherit
 	EL_BENCHMARK_COMPARISON

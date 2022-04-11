@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-08 9:05:59 GMT (Thursday 8th April 2021)"
-	revision: "5"
+	date: "2022-04-11 9:30:09 GMT (Monday 11th April 2022)"
+	revision: "6"
 
 class
-	STRING_CONCATENATION_COMPARISON
+	THREE_WAYS_TO_CONCATENATE_STRINGS
 
 inherit
 	EL_BENCHMARK_COMPARISON

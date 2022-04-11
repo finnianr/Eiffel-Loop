@@ -10,11 +10,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-08 10:26:43 GMT (Thursday 8th April 2021)"
-	revision: "6"
+	date: "2022-04-11 9:13:03 GMT (Monday 11th April 2022)"
+	revision: "7"
 
 class
-	HASH_SET_VERSUS_LINEAR_COMPARISON
+	ARRAYED_VS_HASH_SET_SEARCH
 
 inherit
 	EL_BENCHMARK_COMPARISON

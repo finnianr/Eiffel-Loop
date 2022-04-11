@@ -6,11 +6,11 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-08 9:06:01 GMT (Thursday 8th April 2021)"
-	revision: "6"
+	date: "2022-04-11 9:28:39 GMT (Monday 11th April 2022)"
+	revision: "7"
 
 class
-	REPLACE_SUBSTRING_COMPARISON
+	REPLACE_SUBSTRING_ALL_VS_GENERAL
 
 inherit
 	STRING_BENCHMARK_COMPARISON

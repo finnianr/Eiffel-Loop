@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 6:38:21 GMT (Monday 7th February 2022)"
-	revision: "4"
+	date: "2022-04-11 9:27:23 GMT (Monday 11th April 2022)"
+	revision: "5"
 
 class
-	CSV_PARSING_COMPARISON
+	THREE_LINE_STATE_COMPARISON_METHODS
 
 inherit
 	EL_BENCHMARK_COMPARISON
