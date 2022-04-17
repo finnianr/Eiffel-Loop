@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 9:13:53 GMT (Friday 11th February 2022)"
-	revision: "12"
+	date: "2022-04-12 9:46:31 GMT (Tuesday 12th April 2022)"
+	revision: "13"
 
 deferred class
 	EL_EMAIL
@@ -26,12 +26,12 @@ feature {NONE} -- Initialization
 
 	make_default
 		local
-			boundary: INTEGER
+			boundary: INTEGER; s: EL_STRING_8_ROUTINES
 		do
 			Precursor
 			create date_time.make_now_utc
 			boundary := date_time.time.compact_time + ($Current).to_integer_32
-			multipart_boundary := create {STRING}.make_filled ('-', 12) + boundary.to_hex_string
+			multipart_boundary := s.n_character_string ('-', 12) + boundary.to_hex_string
 		end
 
 feature -- Basic operations

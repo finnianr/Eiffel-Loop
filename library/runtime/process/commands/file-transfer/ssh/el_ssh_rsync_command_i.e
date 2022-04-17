@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-04-05 10:03:07 GMT (Tuesday 5th April 2022)"
-	revision: "10"
+	date: "2022-04-17 11:28:20 GMT (Sunday 17th April 2022)"
+	revision: "11"
 
 deferred class
 	EL_SSH_RSYNC_COMMAND_I
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	exclude_list: EL_ZSTRING_LIST
+	exclude_list: EL_ARRAYED_LIST [READABLE_STRING_GENERAL]
 		-- file patterns for exclusion from transfer
 		-- see --exclude option in rsync man
 
@@ -54,6 +54,7 @@ feature -- Basic operations
 		do
 			if exclude_list.count > 0 then
 				exclusions_path := new_temporary_file_path ("exclude")
+				File_system.make_directory (exclusions_path.parent)
 				if attached open (exclusions_path, Write) as file then
 					file.put_lines (exclude_list)
 					file.close

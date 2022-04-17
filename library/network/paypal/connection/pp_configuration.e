@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-30 11:35:55 GMT (Sunday 30th January 2022)"
-	revision: "12"
+	date: "2022-04-17 14:53:40 GMT (Sunday 17th April 2022)"
+	revision: "13"
 
 class
 	PP_CONFIGURATION
@@ -23,6 +23,8 @@ inherit
 		rename
 			make as make_solitary
 		end
+
+	EL_MODULE_EXCEPTION
 
 create
 	make
@@ -72,7 +74,11 @@ feature -- Factory
 
 	new_credentials: PP_CREDENTIALS
 		do
-			create Result.make (credentials_path, decrypter)
+			if credentials_path.exists then
+				create Result.make (credentials_path, decrypter)
+			else
+				Exception.raise_developer ("Cannot find credential: %S", [credentials_path])
+			end
 		end
 
 note
