@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-21 12:59:55 GMT (Tuesday 21st September 2021)"
-	revision: "1"
+	date: "2022-04-20 5:37:50 GMT (Wednesday 20th April 2022)"
+	revision: "2"
 
 class
 	EL_KEY
@@ -21,8 +21,6 @@ inherit
 			text as to_text_32
 		end
 
-	EL_SHARED_KEY_ENUM
-
 	EL_KEY_MODIFIER_CONSTANTS
 		export
 			{NONE} all
@@ -31,6 +29,8 @@ inherit
 		end
 
 	EL_SHARED_VISION_2_TEXTS
+
+	EL_SHARED_KEY_TEXTS
 
 create
 	default_create, make_with_code
@@ -69,7 +69,11 @@ feature -- Access
 					Result.append_integer (1 + code - Key_f1)
 
 			else
-				Result := Key_enum.locale_name (code)
+				if Key_text.table.valid_index (code) then
+					Result := Key_text.table [code]
+				else
+					create Result.make_empty
+				end
 			end
 		end
 
@@ -97,9 +101,9 @@ feature {NONE} -- Constants
 	Modifier_list: ARRAY [TUPLE [code: NATURAL; name: ZSTRING]]
 		once
 			Result := <<
-				[Modifier_ctrl, Key_enum.locale_name (Key_ctrl)],
-				[Modifier_alt, Key_enum.locale_name (Key_alt)],
-				[Modifier_shift, Key_enum.locale_name (Key_shift)]
+				[Modifier_ctrl, Key_text.table [Key_ctrl]],
+				[Modifier_alt, Key_text.table [Key_alt]],
+				[Modifier_shift, Key_text.table [Key_shift]]
 			>>
 		end
 

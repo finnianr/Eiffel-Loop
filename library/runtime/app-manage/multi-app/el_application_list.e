@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 11:52:11 GMT (Monday 7th February 2022)"
-	revision: "22"
+	date: "2022-04-19 14:35:42 GMT (Tuesday 19th April 2022)"
+	revision: "23"
 
 class
 	EL_APPLICATION_LIST
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 
 	make (type_tuple: TUPLE)
 		require
-			all_conform_to_EL_SUB_APPLICATION: new_type_list (type_tuple).all_conform
+			all_conform_to_EL_APPLICATION: new_type_list (type_tuple).all_conform
 		local
 			type_list: like new_type_list
 		do
