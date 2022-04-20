@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-03 16:58:09 GMT (Tuesday 3rd August 2021)"
-	revision: "19"
+	date: "2022-04-20 6:56:25 GMT (Wednesday 20th April 2022)"
+	revision: "20"
 
 deferred class
 	EL_VIEW_DIALOG
@@ -67,6 +67,10 @@ feature {NONE} -- Initialization
 				shortcuts.add_unmodified_key_action (Key.Key_escape, agent on_cancel)
 			end
 			internal_dialog.show_actions.extend (agent on_show)
+			if {PLATFORM}.is_windows then
+				-- Word around for obscured close button
+				internal_dialog.enable_user_resize
+			end
 		end
 
 	make_info (a_model: like model)
@@ -207,6 +211,11 @@ feature {NONE} -- Event handling
 
 	on_show
 		do
+			-- make sure to call `Precursor' in redefinition
+			if {PLATFORM}.is_windows then
+				-- Word around for obscured close button
+				internal_dialog.disable_user_resize
+			end
 		end
 
 feature {NONE} -- Factory

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-04-20 6:23:04 GMT (Wednesday 20th April 2022)"
-	revision: "1"
+	date: "2022-04-20 6:36:52 GMT (Wednesday 20th April 2022)"
+	revision: "2"
 
 class
 	EL_KEY_TEXTS
@@ -80,7 +80,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	table: ARRAY [ZSTRING] note option: transient attribute end
-		-- name table indexed by `EV_KEY_CONSTANTS' value
+		-- name table indexed by `EV_KEY_CONSTANTS' values 1 .. 99
 
 feature -- Keys
 
