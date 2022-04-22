@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 14:33:40 GMT (Friday 11th February 2022)"
-	revision: "6"
+	date: "2022-04-22 9:17:11 GMT (Friday 22nd April 2022)"
+	revision: "7"
 
 class
 	QUANTUM_BALL_ANIMATION
@@ -197,13 +197,13 @@ feature {NONE} -- Implementation
 	Background_tile: EV_PIXMAP
 			--
 		once
-			Result := Image.pixmap (<< "floral.png" >>)
+			Result := Image.pixmap ("floral.png")
 		end
 
 	Soccer_ball_image: EV_PIXMAP
 			--
 		once
-			Result := Image.pixmap (<< "soccer-ball.png" >>)
+			Result := Image.pixmap ("soccer-ball.png")
 		end
 
 	millisecs_per_cycle: DOUBLE

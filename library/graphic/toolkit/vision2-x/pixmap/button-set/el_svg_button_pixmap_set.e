@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 10:46:58 GMT (Thursday 17th February 2022)"
-	revision: "10"
+	date: "2022-04-22 8:38:23 GMT (Friday 22nd April 2022)"
+	revision: "11"
 
 class
 	EL_SVG_BUTTON_PIXMAP_SET
@@ -33,7 +33,7 @@ inherit
 
 	EL_MODULE_SCREEN
 
-	EL_MODULE_IMAGE_PATH
+	EL_SHARED_IMAGE_LOCATIONS
 
 create
 	make_default, make, make_transparent
@@ -139,7 +139,7 @@ feature {NONE} -- Implementation
 	svg_icon (a_state: NATURAL_8; width_cms: REAL): like new_svg_image
 		do
 			icon_path_steps.extend (svg_name (a_state))
-			Result := new_svg_image (Image_path.icon (icon_path_steps), width_cms)
+			Result := new_svg_image (Image.icon (icon_path_steps), width_cms)
 			icon_path_steps.remove_tail (1)
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:01:56 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2022-04-22 9:17:11 GMT (Friday 22nd April 2022)"
+	revision: "6"
 
 class
 	MODEL_ELECTRON
@@ -54,7 +54,7 @@ feature {NONE} -- Constants
 	Tennis_ball_image: EV_PIXMAP
 			--
 		once
-			Result := Image.pixmap (<< "tennis-ball.png" >>)
+			Result := Image.pixmap ("tennis-ball.png")
 		end
 
 end

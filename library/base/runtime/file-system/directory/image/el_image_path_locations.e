@@ -14,11 +14,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 9:02:01 GMT (Thursday 17th February 2022)"
-	revision: "12"
+	date: "2022-04-22 9:37:01 GMT (Friday 22nd April 2022)"
+	revision: "13"
 
 class
-	EL_IMAGE_PATH_ROUTINES
+	EL_IMAGE_PATH_LOCATIONS
 
 inherit
 	ANY
@@ -28,59 +28,53 @@ inherit
 	EL_MODULE_TUPLE
 
 create
-	make
+	make, make_default
 
 feature {NONE} -- Initialization
 
-	make
+	make (installation_dir: DIR_PATH)
 		do
-			installation_dir := Directory.Application_installation
+			desktop_icons_dir := installation_dir #+ Step.desktop_icons
+			icons_dir := installation_dir #+ Step.icons
+			images_dir := installation_dir #+ Step.images
+		end
+
+	make_default
+		do
+			create desktop_icons_dir
+			create icons_dir
+			create images_dir
 		end
 
 feature -- Access
 
-	desktop_menu_icon (relative_path_steps: EL_PATH_STEPS): FILE_PATH
+	desktop_menu_icon (relative_path: FILE_PATH): FILE_PATH
 		-- Icons for setting up desktop menu launchers
 		do
-			Result := Desktop_menu_icons_path + relative_path_steps
+			Result := desktop_icons_dir + relative_path
 		end
 
-	icon (relative_path_steps: EL_PATH_STEPS): FILE_PATH
+	icon (relative_path: FILE_PATH): FILE_PATH
 		-- application icon
 		do
-			Result := Icons_path + relative_path_steps
+			Result := icons_dir + relative_path
 		end
 
-	image (relative_path_steps: EL_PATH_STEPS): FILE_PATH
+	image (relative_path: FILE_PATH): FILE_PATH
 		-- application image
 		do
-			Result := Images_path + relative_path_steps
+			Result := images_dir + relative_path
 		end
 
-feature -- Element change
+feature -- Base directories
 
-	set_installation_dir (a_installation_dir: DIR_PATH)
-		-- used for installers when images are taken from unzipped package
-		do
-			installation_dir := a_installation_dir
-		end
+	desktop_icons_dir: DIR_PATH
+
+	icons_dir: DIR_PATH
+
+	images_dir: DIR_PATH
 
 feature -- Constants
-
-	Desktop_menu_icons_path: DIR_PATH
-		once
-			Result := installation_dir #+ Step.desktop_icons
-		end
-
-	Icons_path: DIR_PATH
-		once
-			Result := installation_dir #+ Step.icons
-		end
-
-	Images_path: DIR_PATH
-		once
-			Result := installation_dir #+ Step.images
-		end
 
 	Step: TUPLE [icons, desktop_icons, images: IMMUTABLE_STRING_8]
 		once
@@ -102,9 +96,5 @@ feature -- Constants
 		once
 			Result := Directory.App_cache #+ Step.images
 		end
-
-feature {NONE} -- Internal attributes
-
-	installation_dir: DIR_PATH
 
 end

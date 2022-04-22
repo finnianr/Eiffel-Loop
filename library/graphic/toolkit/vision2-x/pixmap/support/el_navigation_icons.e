@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-20 10:36:01 GMT (Sunday 20th September 2020)"
-	revision: "8"
+	date: "2022-04-22 9:07:42 GMT (Friday 22nd April 2022)"
+	revision: "9"
 
 deferred class
 	EL_NAVIGATION_ICONS
@@ -39,8 +39,11 @@ feature {NONE} -- Implementation
 
 	new_navigation_pixmap (name: STRING): EL_PIXMAP
 			--
+		local
+			dir_path: EL_DIR_PATH
 		do
-			Result := Icon.pixmap (<< Default_location, name + ".png" >>)
+			dir_path := Default_location
+			Result := Icon.pixmap (dir_path + (name + ".png"))
 		end
 
 end

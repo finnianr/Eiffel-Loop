@@ -6,22 +6,30 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:36:19 GMT (Monday 14th February 2022)"
-	revision: "4"
+	date: "2022-04-21 10:08:03 GMT (Thursday 21st April 2022)"
+	revision: "5"
 
-class
+deferred class
 	EL_INSTALLER_APP [W -> EL_INSTALLER_MAIN_WINDOW create make end]
 
 inherit
 	EL_STANDARD_INSTALLER_APP
+		rename
+			init_console as init_console_and_logging
+		undefine
+			do_application, init_console_and_logging, io_put_header, new_lio, standard_options
 		redefine
 			Description, initialize, install_package
 		end
 
-	EL_APPLICATION_CONSTANTS
+	EL_LOGGED_APPLICATION
+		rename
+			App_directory_list as Root_owned_app_directory_list
+		undefine
+			option_name, visible_types
+		end
 
-create
-	make
+	EL_APPLICATION_CONSTANTS
 
 feature {NONE} -- Initialization
 

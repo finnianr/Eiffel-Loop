@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 11:36:31 GMT (Saturday 19th February 2022)"
-	revision: "12"
+	date: "2022-04-22 8:38:40 GMT (Friday 22nd April 2022)"
+	revision: "13"
 
 deferred class
 	EL_INSTALLABLE_APPLICATION
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_ZSTRING_CONSTANTS
 
-	EL_MODULE_IMAGE_PATH
+	EL_SHARED_IMAGE_LOCATIONS
 
 	EL_APPLICATION_CONSTANTS
 
@@ -114,7 +114,7 @@ feature {NONE} -- Factory
 			if icon_path.is_absolute then
 				create Result.make (a_name, a_comment, icon_path)
 			else
-				create Result.make (a_name, a_comment, Image_path.desktop_menu_icon (icon_path))
+				create Result.make (a_name, a_comment, Image.desktop_menu_icon (icon_path))
 			end
 		end
 
@@ -124,7 +124,7 @@ feature {NONE} -- Factory
 			if icon_path.is_absolute then
 				create Result.make (name, unwrapped_description, icon_path)
 			else
-				create Result.make (name, unwrapped_description, Image_path.desktop_menu_icon (icon_path))
+				create Result.make (name, unwrapped_description, Image.desktop_menu_icon (icon_path))
 			end
 		end
 

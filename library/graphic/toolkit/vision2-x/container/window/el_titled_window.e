@@ -1,13 +1,18 @@
 note
 	description: "Titled window"
+	notes: "[
+		*MAKE PRECONDITION*
+		
+		The launcher application must conform to [$source EL_LOGGED_APPLICATION]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-23 11:37:36 GMT (Sunday 23rd August 2020)"
-	revision: "9"
+	date: "2022-04-21 10:14:25 GMT (Thursday 21st April 2022)"
+	revision: "10"
 
 class
 	EL_TITLED_WINDOW
@@ -40,6 +45,8 @@ feature {EL_VISION_2_USER_INTERFACE} -- Initialization
 		end
 
 	make
+		require
+			logged_application: is_logged_application
 		do
 			default_create
 			create thread_check_timer

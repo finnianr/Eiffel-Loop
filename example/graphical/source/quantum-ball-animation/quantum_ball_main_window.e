@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:22:06 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2022-04-22 9:17:20 GMT (Friday 22nd April 2022)"
+	revision: "7"
 
 class
 	QUANTUM_BALL_MAIN_WINDOW
@@ -102,7 +102,7 @@ feature {NONE} -- Constants
 	Icon_window: EV_PIXMAP
 			--
 		once
-			Result := Icon.pixmap (<< "hydrogen.png" >>)
+			Result := Icon.pixmap ("hydrogen.png")
 		end
 
 	Border_width: INTEGER

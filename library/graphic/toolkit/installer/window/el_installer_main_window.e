@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 17:50:14 GMT (Tuesday 15th February 2022)"
-	revision: "4"
+	date: "2022-04-22 13:17:05 GMT (Friday 22nd April 2022)"
+	revision: "5"
 
 deferred class
 	EL_INSTALLER_MAIN_WINDOW
@@ -23,11 +23,9 @@ inherit
 			default_create, copy
 		end
 
-	EL_MODULE_IMAGE_PATH
-
 	EL_MODULE_DESKTOP_MENU_ICON
 
-	EL_APPLICATION_CONSTANTS
+	EL_PACKAGE_IMAGE_LOCATIONS
 
 	EL_SHARED_INSTALL_TEXTS
 
@@ -41,10 +39,11 @@ feature {NONE} -- Initialization
 	make
 		do
 			make_solitary
-			Image_path.set_installation_dir (Package_dir)
-			Precursor
-			set_icon_pixmap (Desktop_menu_icon.pixmap (png_logo_icon))
-			updates_info := new_updates_info
+			use_package_images
+				Precursor
+				set_icon_pixmap (Desktop_menu_icon.pixmap (png_logo_icon))
+				updates_info := new_updates_info
+			use_installed_images
 		end
 
 feature -- Access

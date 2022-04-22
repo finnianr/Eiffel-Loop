@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-17 9:29:13 GMT (Sunday 17th May 2020)"
-	revision: "9"
+	date: "2022-04-21 9:49:08 GMT (Thursday 21st April 2022)"
+	revision: "10"
 
 deferred class
 	EL_MODULE_LOG_MANAGER
@@ -15,12 +15,21 @@ deferred class
 inherit
 	EL_MODULE
 
+	EL_SHARED_SINGLETONS
+
+feature -- Contract Support
+
+	is_logged_application: BOOLEAN
+		do
+			Result := Singleton_table.has_type ({EL_LOG_MANAGER}, False)
+		end
+
 feature {NONE} -- Implementation
 
 	Log_manager: EL_LOG_MANAGER
 		--	
 		once ("PROCESS")
-			Result := create {EL_CONFORMING_SINGLETON [EL_LOG_MANAGER]}
+			Result := create {EL_SINGLETON [EL_LOG_MANAGER]}
 		end
 
 	current_thread_log_file: EL_FILE_AND_CONSOLE_LOG_OUTPUT
