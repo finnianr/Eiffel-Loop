@@ -47,6 +47,8 @@ script_names = [
 ]
 script_list = [script_path % name for name in script_names]
 
+print script_list
+
 setup (
 	name = 'Eiffel_Loop',
 	version = '1.1',

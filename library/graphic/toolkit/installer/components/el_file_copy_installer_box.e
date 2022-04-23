@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-04-22 10:03:22 GMT (Friday 22nd April 2022)"
-	revision: "18"
+	date: "2022-04-23 14:29:26 GMT (Saturday 23rd April 2022)"
+	revision: "19"
 
 class
 	EL_FILE_COPY_INSTALLER_BOX
@@ -30,7 +30,7 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM; EL_MODULE_FILE; EL_MODULE_LIO; EL_MODULE_IMAGE; EL_MODULE_TRACK
 
-	EL_STRING_8_CONSTANTS
+	EL_APPLICATION_CONSTANTS; EL_STRING_8_CONSTANTS
 
 	EL_SHARED_APPLICATION_OPTION
 
@@ -40,10 +40,7 @@ inherit
 
 	EL_SHARED_INSTALLER_MAIN_WINDOW
 
-	EL_PACKAGE_IMAGE_LOCATIONS
-		rename
-			image as image_locations
-		end
+	EL_SHARED_PACKAGE_IMAGES_SCOPE
 
 create
 	make
@@ -118,9 +115,9 @@ feature {NONE} -- Factory
 		do
 			create Result.make_with_text_and_font (Text.setup_title, new_font (Size.medium))
 			Result.align_text_center
-			use_package_images
+			across Use_package_images as package loop
 				Result.set_tile_pixmap (Image.of_height_cms (Main.png_title_background, 1.5))
-			use_installed_images
+			end
 		end
 
 feature {NONE} -- Event handling

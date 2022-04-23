@@ -12,14 +12,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "20"
+	date: "2022-04-23 13:33:13 GMT (Saturday 23rd April 2022)"
+	revision: "21"
 
 class
 	EVOLICITY_TEMPLATES
 
 inherit
-	EL_THREAD_ACCESS
+	EL_THREAD_ACCESS [HASH_TABLE [EVOLICITY_COMPILER, FILE_PATH]]
 
 	EL_MODULE_EXCEPTION
 
@@ -62,7 +62,7 @@ feature -- Basic operations
 				stack_table.extend (stack, a_name)
 			end
 			if stack.is_empty then
-				if attached restricted_compiler_table as table then
+				if attached restricted_access (Mutex_compiler_table) as table then
 					if table.has_key (a_name) then
 						-- Changed 23 Nov 2013
 						-- Before it used to make a deep_twin of an existing compiled template
@@ -74,7 +74,7 @@ feature -- Basic operations
 					else
 						Exception.raise_developer ("Template [%S] not found", [a_name])
 					end
-					end_restriction (Compiler_table)
+					end_restriction
 				end
 			else
 				template := stack_table.found_stack.item
@@ -134,10 +134,10 @@ feature -- Status query
 
 	has (a_name: FILE_PATH): BOOLEAN
  		do
- 			if attached restricted_compiler_table as table then
+ 			if attached restricted_access (Mutex_compiler_table) as table then
 				Result := table.has (a_name)
 
-				end_restriction (Compiler_table)
+				end_restriction
  			end
 		end
 
@@ -180,18 +180,18 @@ feature -- Removal
 	clear_all
 			-- Clear all parsed templates
 		do
- 			if attached restricted_compiler_table as table then
+ 			if attached restricted_access (Mutex_compiler_table) as table then
 				table.wipe_out
-				end_restriction (Compiler_table)
+				end_restriction
  			end
 		end
 
 	remove (a_name: FILE_PATH)
 			-- remove template
 		do
- 			if attached restricted_compiler_table as table then
+ 			if attached restricted_access (Mutex_compiler_table) as table then
 				table.remove (a_name)
-				end_restriction (Compiler_table)
+				end_restriction
  			end
 		end
 
@@ -223,7 +223,7 @@ feature -- Contract Support
 feature {NONE} -- Implementation
 
 	put (key_path: FILE_PATH; template_source: ZSTRING; file_encoding: detachable EL_ENCODING_BASE)
-		-- put compiled template into the thread safe global `Compiler_table' template table
+		-- put compiled template into the thread safe global `Mutex_compiler_table' template table
 
 		-- if `file_encoding' attached then compile template stored in file path `key_path'
 		-- or else recompile existing template if file modified date is newer
@@ -235,7 +235,7 @@ feature {NONE} -- Implementation
 		local
 			compiler: EVOLICITY_COMPILER; source_is_new_or_updated: BOOLEAN
  		do
-			if attached restricted_compiler_table as table then
+			if attached restricted_access (Mutex_compiler_table) as table then
 				if table.has_key (key_path) then
 					if attached file_encoding then
 						source_is_new_or_updated := key_path.modification_date_time > table.found_item.modification_time
@@ -258,16 +258,7 @@ feature {NONE} -- Implementation
 						Exception.raise_developer ("Evolicity compilation failed %S", [key_path])
 					end
 				end
-				end_restriction (Compiler_table)
-			end
-		end
-
-	restricted_compiler_table: like Compiler_table.item
-		do
-			if attached {like Compiler_table.item} restricted_access (Compiler_table) as table then
-				Result := table
-			else
-				create Result.make (0)
+				end_restriction
 			end
 		end
 
@@ -279,10 +270,10 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Global attributes
 
-	Compiler_table: EL_MUTEX_REFERENCE [HASH_TABLE [EVOLICITY_COMPILER, FILE_PATH]]
+	Mutex_compiler_table: EL_MUTEX_REFERENCE [HASH_TABLE [EVOLICITY_COMPILER, FILE_PATH]]
 			-- Global template compilers table
 		once ("PROCESS")
-			create Result.make (create {like Compiler_table.item}.make (11))
+			create Result.make (create {like Mutex_compiler_table.item}.make (11))
 		end
 
 feature {NONE} -- Constants

@@ -1,13 +1,17 @@
 note
 	description: "Log manager"
+	descendants: "[
+			EL_LOG_MANAGER
+				[$source EL_CRC_32_LOG_MANAGER]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 17:11:32 GMT (Monday 14th February 2022)"
-	revision: "16"
+	date: "2022-04-23 9:50:08 GMT (Saturday 23rd April 2022)"
+	revision: "17"
 
 class
 	EL_LOG_MANAGER

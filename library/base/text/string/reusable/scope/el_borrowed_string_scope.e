@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-23 11:15:46 GMT (Tuesday 23rd November 2021)"
-	revision: "5"
+	date: "2022-04-23 12:24:32 GMT (Saturday 23rd April 2022)"
+	revision: "6"
 
 class
 	EL_BORROWED_STRING_SCOPE [S -> STRING_GENERAL create make end]
@@ -35,11 +35,12 @@ feature -- Access
 
 	new_cursor: EL_BORROWED_STRING_CURSOR [S]
 		do
-			create Result.make (pool)
+			create Result.make (Current)
 		end
 
 	new_pool_scope: EL_STRING_POOL_SCOPE [S]
 		do
 			create Result.make (pool)
 		end
+
 end

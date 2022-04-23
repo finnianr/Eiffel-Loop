@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-23 10:48:31 GMT (Tuesday 23rd November 2021)"
-	revision: "2"
+	date: "2022-04-23 12:11:37 GMT (Saturday 23rd April 2022)"
+	revision: "3"
 
 class
 	EL_BORROWED_OBJECT_SCOPE [G]
 
 inherit
-	ITERABLE [G]
+	EL_ITERABLE_SCOPE [G]
 
 create
 	make, make_with_agent
@@ -28,16 +28,22 @@ feature {NONE} -- Initialization
 			pool := a_pool
 		end
 
-	make_with_agent (new_item: FUNCTION [G])
+	make_with_agent (a_new_item: FUNCTION [G])
 		do
-			create {EL_AGENT_FACTORY_POOL [G]} pool.make (5, new_item)
+			create {EL_AGENT_FACTORY_POOL [G]} pool.make (5, a_new_item)
 		end
 
-feature -- Access
+feature {NONE} -- Implementation
 
-	new_cursor: EL_BORROWED_OBJECT_CURSOR [G]
+	new_item: G
 		do
-			create Result.make (pool)
+			Result := pool.borrowed_item
+		end
+
+	on_exit (item: G)
+		-- revert back to installed images on scope exit
+		do
+			pool.recycle (item)
 		end
 
 feature {NONE} -- Internal attributes

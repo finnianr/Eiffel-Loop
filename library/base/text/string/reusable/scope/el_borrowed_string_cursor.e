@@ -14,14 +14,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-22 19:58:42 GMT (Monday 22nd November 2021)"
-	revision: "4"
+	date: "2022-04-23 12:15:01 GMT (Saturday 23rd April 2022)"
+	revision: "5"
 
 class
 	EL_BORROWED_STRING_CURSOR [S -> STRING_GENERAL create make end]
 
 inherit
-	EL_BORROWED_OBJECT_CURSOR [S]
+	EL_SCOPE_CURSOR [S]
 		redefine
 			make
 		end
@@ -31,9 +31,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_pool: like pool)
+	make (a_scope: like scope)
 		do
-			Precursor (a_pool)
+			Precursor (a_scope)
 		ensure then
 			empty_item: item.is_empty
 		end

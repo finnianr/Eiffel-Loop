@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-12 15:45:25 GMT (Saturday 12th March 2022)"
-	revision: "30"
+	date: "2022-04-23 10:09:45 GMT (Saturday 23rd April 2022)"
+	revision: "31"
 
 class
 	EL_LOCALE
@@ -57,7 +57,7 @@ feature {NONE} -- Initialization
 
  	make_with_table (a_language, a_default_language: STRING; a_translation_table: detachable EL_TRANSLATION_TABLE)
  		require
- 			locale_table_created: Singleton_table.has_type ({EL_LOCALE_TABLE}, False)
+ 			locale_table_created: Singleton_table.has_type ({EL_LOCALE_TABLE})
 		do
  			make_default
  			default_language := a_default_language

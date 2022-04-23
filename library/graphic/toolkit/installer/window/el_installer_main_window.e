@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-04-22 13:17:05 GMT (Friday 22nd April 2022)"
-	revision: "5"
+	date: "2022-04-23 8:29:00 GMT (Saturday 23rd April 2022)"
+	revision: "6"
 
 deferred class
 	EL_INSTALLER_MAIN_WINDOW
@@ -25,7 +25,7 @@ inherit
 
 	EL_MODULE_DESKTOP_MENU_ICON
 
-	EL_PACKAGE_IMAGE_LOCATIONS
+	EL_SHARED_PACKAGE_IMAGES_SCOPE
 
 	EL_SHARED_INSTALL_TEXTS
 
@@ -39,11 +39,11 @@ feature {NONE} -- Initialization
 	make
 		do
 			make_solitary
-			use_package_images
+			across Use_package_images as image loop
 				Precursor
 				set_icon_pixmap (Desktop_menu_icon.pixmap (png_logo_icon))
 				updates_info := new_updates_info
-			use_installed_images
+			end
 		end
 
 feature -- Access

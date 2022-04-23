@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-08 11:01:08 GMT (Monday 8th March 2021)"
-	revision: "6"
+	date: "2022-04-23 10:08:07 GMT (Saturday 23rd April 2022)"
+	revision: "7"
 
 class
 	EL_SINGLETON_TABLE
@@ -74,12 +74,21 @@ feature -- Status query
 			end_restriction
 		end
 
-	has_type (type: TYPE [ANY]; conforming: BOOLEAN): BOOLEAN
-		-- `True' if table has `type' or else if `conforming' then `True' if a conforming type exists
+	has_type (type: TYPE [ANY]): BOOLEAN
+		-- `True' if `has_type_id (type.type_id)' is true
 		do
 			restrict_access
 				Result := has_type_id (type.type_id)
-				if not Result and conforming then
+			end_restriction
+		end
+
+	has_conforming_type (type: TYPE [ANY]): BOOLEAN
+		-- `True' is either an exact type or a type that conforms to `type' is present
+		do
+			restrict_access
+				if has_type_id (type.type_id) then
+					Result := True
+				else
 					Result := across current_keys as type_id some
 						{ISE_RUNTIME}.type_conforms_to (type_id.item, type.type_id)
 					end

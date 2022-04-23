@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-22 13:01:51 GMT (Saturday 22nd February 2020)"
-	revision: "3"
+	date: "2022-04-23 13:36:41 GMT (Saturday 23rd April 2022)"
+	revision: "4"
 
 class
 	HORSE
 
 inherit
-	EL_THREAD_ACCESS
+	EL_THREAD_ACCESS [RANDOM]
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
@@ -36,9 +36,10 @@ feature -- Access
 	get_race_lane (lane_out: STRING)
 		do
 			lane_out.wipe_out
-			restrict_access (race_lane)
-				lane_out.append (race_lane.item)
-			end_restriction (race_lane)
+			if attached race_lane.locked as lane then
+				lane_out.append (lane)
+				race_lane.unlock
+			end
 		end
 
 feature -- Basic operations
@@ -50,11 +51,11 @@ feature -- Basic operations
 			from until step_count = Maximum_steps loop
 				wait_time_ms := Minimum_wait_time_ms
 				-- add some variability
-				if attached {RANDOM} restricted_access (Once_random) as random then
+				if attached restricted_access (Once_random) as random then
 					random.forth
 					wait_time_ms := wait_time_ms + random.item \\ Variable_wait_time_ms
 
-					end_restriction (Once_random)
+					end_restriction
 				end
 				Execution_environment.sleep (wait_time_ms)
 
@@ -68,7 +69,7 @@ feature {NONE} -- Implementation
 	advance
 		 -- advance horse one character
 		do
-			if attached {STRING} restricted_access (race_lane) as lane then
+			if attached race_lane.locked as lane then
 				if step_count >= 1 then
 					lane [step_count] := ' ' -- blank out tail of horse
 				end
@@ -76,7 +77,7 @@ feature {NONE} -- Implementation
 --				advance horse in race lane string
 				lane.replace_substring (horse_representation, step_count, step_count + 2)
 
-				end_restriction (race_lane)
+				race_lane.unlock
 			end
 		end
 

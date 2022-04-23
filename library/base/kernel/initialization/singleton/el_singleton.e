@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-08 11:01:21 GMT (Monday 8th March 2021)"
-	revision: "7"
+	date: "2022-04-23 10:09:45 GMT (Saturday 23rd April 2022)"
+	revision: "8"
 
 class
 	EL_SINGLETON [G]
@@ -32,7 +32,11 @@ feature -- Status query
 	is_created: BOOLEAN
 		-- True if `item' has been created
 		do
-			Result := Singleton_table.has_type (base_type, match_conforming)
+			if match_conforming then
+				Result := Singleton_table.has_conforming_type (base_type)
+			else
+				Result := Singleton_table.has_type (base_type)
+			end
 		end
 
 feature -- Access

@@ -4,14 +4,20 @@ note
 		For debugging it is recommended to use [$source EL_LOGGED_MUTEX_REFERENCE] to detect deadlock.
 		Any time a thread is forced to wait for a lock it is reported to the thread's log.
 	]"
+	notes: "[
+		23 April 2022
+		
+		As an experiment tried to inherit class [$source EL_ITERABLE_SCOPE] as way to define locked scope
+		but this was unsuccessful. The test class [$source HORSE_RACE_APP] just froze.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-06 11:32:36 GMT (Tuesday 6th April 2021)"
-	revision: "7"
+	date: "2022-04-23 13:15:36 GMT (Saturday 23rd April 2022)"
+	revision: "8"
 
 class
 	EL_MUTEX_REFERENCE [G]
@@ -102,5 +108,4 @@ feature {NONE} -- Implementation
 	actual_item: G
 
 end
-
 

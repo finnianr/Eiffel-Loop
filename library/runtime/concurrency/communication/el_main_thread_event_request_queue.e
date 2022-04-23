@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-11 8:09:05 GMT (Sunday 11th April 2021)"
-	revision: "9"
+	date: "2022-04-23 13:31:29 GMT (Saturday 23rd April 2022)"
+	revision: "10"
 
 deferred class
 	EL_MAIN_THREAD_EVENT_REQUEST_QUEUE
 
 inherit
-	EL_THREAD_ACCESS
+	EL_THREAD_ACCESS [ARRAYED_LIST [EL_EVENT_LISTENER]]
 
 feature -- Element change
 
@@ -25,11 +25,11 @@ feature -- Element change
 		local
 			event_listener: EL_EVENT_LISTENER
 		do
-			if attached {like Listener_pool.item} restricted_access (Listener_pool) as pool then
+			if attached restricted_access (Listener_pool) as pool then
 				event_listener := pool [index]
 				pool [index] := Default_event_listener
 
-				end_restriction (Listener_pool)
+				end_restriction
 			end
 
 			event_listener.notify
@@ -39,7 +39,7 @@ feature -- Element change
 			-- Queue request to notify listener from main (GUI) thread
 			-- but we can't assume OS will return them in the same order
 		do
-			if attached {like Listener_pool.item} restricted_access (Listener_pool) as pool then
+			if attached restricted_access (Listener_pool) as pool then
 				pool.start
 				pool.search (Default_event_listener)
 				if pool.exhausted then
@@ -48,7 +48,7 @@ feature -- Element change
 					pool.replace (event_listener)
 				end
 				generate_event (pool.index)
-				end_restriction (Listener_pool)
+				end_restriction
 			end
 		end
 
@@ -67,7 +67,7 @@ feature -- Element change
 					generate_event (a_event_indexes.item)
 					a_event_indexes.remove
 				end
-			end_restriction (Listener_pool)
+			end_restriction
 		end
 
 feature {NONE} -- Implementation
