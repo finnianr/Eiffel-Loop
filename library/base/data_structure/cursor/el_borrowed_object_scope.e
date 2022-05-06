@@ -1,6 +1,6 @@
 note
 	description: "[
-		Defines an **across** loop scope in which a resource can be borrowed from a factory pool and then
+		Defines an across-loop scope in which a resource can be borrowed from a factory pool and then
 		automatically returned after the first and only iteration of the cursor.
 	]"
 
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-04-23 12:11:37 GMT (Saturday 23rd April 2022)"
-	revision: "3"
+	date: "2022-04-24 8:36:49 GMT (Sunday 24th April 2022)"
+	revision: "4"
 
 class
 	EL_BORROWED_OBJECT_SCOPE [G]
@@ -41,7 +41,6 @@ feature {NONE} -- Implementation
 		end
 
 	on_exit (item: G)
-		-- revert back to installed images on scope exit
 		do
 			pool.recycle (item)
 		end

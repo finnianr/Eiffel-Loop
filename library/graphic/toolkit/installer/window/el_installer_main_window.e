@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-04-23 8:29:00 GMT (Saturday 23rd April 2022)"
-	revision: "6"
+	date: "2022-04-23 15:45:09 GMT (Saturday 23rd April 2022)"
+	revision: "7"
 
 deferred class
 	EL_INSTALLER_MAIN_WINDOW
@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			make_solitary
-			across Use_package_images as image loop
+			across Use_package_images as package loop
 				Precursor
 				set_icon_pixmap (Desktop_menu_icon.pixmap (png_logo_icon))
 				updates_info := new_updates_info

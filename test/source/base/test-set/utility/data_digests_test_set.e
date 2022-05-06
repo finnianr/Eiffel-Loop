@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-05 12:35:52 GMT (Wednesday 5th January 2022)"
-	revision: "19"
+	date: "2022-05-06 10:05:38 GMT (Friday 6th May 2022)"
+	revision: "20"
 
 class
 	DATA_DIGESTS_TEST_SET
@@ -22,6 +22,10 @@ inherit
 	EL_FILE_OPEN_ROUTINES
 
 	EL_TEST_STRINGS
+
+	EL_ZSTRING_CONSTANTS
+
+	EL_STRING_8_CONSTANTS
 
 feature -- Basic operations
 
@@ -54,6 +58,7 @@ feature -- Tests
 		end
 
 	test_md5_128
+		-- DATA_DIGESTS_TEST_SET.test_md5_128
 		note
 			testing: "covers/{EL_DATA_SINKABLE}.sink_string_8",
 						"covers/{EL_DATA_SINKABLE}.sink_string",
@@ -63,14 +68,18 @@ feature -- Tests
 		do
 			zstr := Text_russian_and_english
 			create md5.make
-			md5.sink_string (zstr)
-			assert ("correct SHA-256", md5.digest_base_64 ~ "tGC3tVpZNZJKAxI/WFqDAg==")
+			across << zstr, Empty_string >> as str loop
+				md5.sink_string (str.item)
+				assert ("correct SHA-256", md5.digest_base_64 ~ "tGC3tVpZNZJKAxI/WFqDAg==")
+			end
 
 			str_8 := text_lines [2]
 			assert ("correct line", str_8.starts_with ("Wanting"))
 			md5.reset
-			md5.sink_string_8 (str_8)
-			assert ("correct SHA-256", md5.digest_base_64 ~ "KgHgTIwmLrcVEKchvY+zRg==")
+			across << str_8, Empty_string_8 >> as str loop
+				md5.sink_string_8 (str.item)
+				assert ("correct SHA-256", md5.digest_base_64 ~ "KgHgTIwmLrcVEKchvY+zRg==")
+			end
 		end
 
 feature {NONE} -- Constants

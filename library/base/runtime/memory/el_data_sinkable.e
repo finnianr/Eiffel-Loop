@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-10 12:06:47 GMT (Monday 10th January 2022)"
-	revision: "18"
+	date: "2022-05-06 10:03:37 GMT (Friday 6th May 2022)"
+	revision: "19"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -77,8 +77,8 @@ feature -- General sinks
 
 	sink_character_array (in: SPECIAL [CHARACTER]; in_lower: INTEGER_32; in_upper: INTEGER_32)
 		require
-			in.valid_index (in_lower)
-			in.valid_index (in_upper)
+			valid_lower: in.valid_index (in_lower)
+			valid_upper: in_upper = in_lower - 1 or else in.valid_index (in_upper)
 		local
 			i: INTEGER
 		do
@@ -297,7 +297,7 @@ feature -- String sinks
 		do
 			if utf_8_mode_enabled then
 				s32.write_utf_8 (in, Current)
-				
+
 			elseif in.count > 0 and then attached s8.cursor (in) as cursor then
 				sink_character_array (cursor.area, cursor.area_first_index, cursor.area_last_index)
 			end

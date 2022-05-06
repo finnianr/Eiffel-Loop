@@ -5,7 +5,8 @@ note
 	]"
 	descendants: "[
 			EL_ITERABLE_SCOPE* [G]
-				[$source EL_MUTEX_REFERENCE] [G]
+				[$source EL_BORROWED_OBJECT_SCOPE] [G]
+					[$source EL_BORROWED_STRING_SCOPE] [S -> [$source STRING_GENERAL] create make end]
 				[$source EL_PACKAGE_IMAGES_SCOPE]
 	]"
 
@@ -14,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-04-23 12:41:45 GMT (Saturday 23rd April 2022)"
-	revision: "1"
+	date: "2022-04-24 7:47:11 GMT (Sunday 24th April 2022)"
+	revision: "2"
 
 deferred class
 	EL_ITERABLE_SCOPE [G]

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-04-22 13:26:41 GMT (Friday 22nd April 2022)"
-	revision: "10"
+	date: "2022-04-23 18:40:36 GMT (Saturday 23rd April 2022)"
+	revision: "11"
 
 deferred class
 	EL_SHARED_IMAGE_LOCATIONS
@@ -23,7 +23,7 @@ inherit
 
 feature {NONE} -- Constants
 
-	Installation_image: EL_IMAGE_PATH_LOCATIONS
+	Installation_images: EL_IMAGE_PATH_LOCATIONS
 		-- installed location
 		once
 			create Result.make (Directory.Application_installation)
@@ -33,7 +33,7 @@ feature {NONE} -- Constants
 		-- image locations to be used by descendants of `EL_APPLICATION_PIXMAP'
 		once
 			create Result.make_default
-			Result.copy (Installation_image)
+			Result.copy (Installation_images)
 		end
 
 end

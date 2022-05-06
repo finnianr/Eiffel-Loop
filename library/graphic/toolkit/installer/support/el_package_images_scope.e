@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-04-23 14:32:01 GMT (Saturday 23rd April 2022)"
-	revision: "1"
+	date: "2022-04-23 18:40:53 GMT (Saturday 23rd April 2022)"
+	revision: "2"
 
 class
 	EL_PACKAGE_IMAGES_SCOPE
@@ -34,19 +34,19 @@ feature {NONE} -- Implementation
 
 	new_item: EL_IMAGE_PATH_LOCATIONS
 		do
-			Result := Package_image
+			Result := Package_images
 			Image.copy (Result) -- Make globally available
 		end
 
 	on_exit (item: EL_IMAGE_PATH_LOCATIONS)
 		-- revert back to installed images on scope exit
 		do
-			Image.copy (Installation_image)
+			Image.copy (Installation_images)
 		end
 
 feature {NONE} -- Constants
 
-	Package_image: EL_IMAGE_PATH_LOCATIONS
+	Package_images: EL_IMAGE_PATH_LOCATIONS
 		-- installed location
 		once
 			create Result.make (Package_dir)

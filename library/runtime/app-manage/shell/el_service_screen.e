@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-02 13:56:59 GMT (Wednesday 2nd February 2022)"
-	revision: "3"
+	date: "2022-04-26 6:37:13 GMT (Tuesday 26th April 2022)"
+	revision: "4"
 
 class
 	EL_SERVICE_SCREEN
@@ -46,6 +46,18 @@ feature -- Access
 		do
 			left_adjust := s.n_character_string (' ', longest_name_count - name.count)
 			Result := Name_template #$ [name, left_adjust, transition_name]
+		end
+
+	script_name: ZSTRING
+		require
+			is_script: is_script
+		do
+			if is_script then
+				Result := "run_service_" + name.as_lower + ".sh"
+				Result.replace_character (' ', '_')
+			else
+				create Result.make_empty
+			end
 		end
 
 	sort_name: ZSTRING
@@ -97,8 +109,7 @@ feature {NONE} -- Event handler
 			-- Called when the parser leaves the current context
 		do
 			if is_script then
-				command_args := "run_service_" + name.as_lower + ".sh"
-				command_args.replace_character (' ', '_')
+				command_args := script_name
 			end
 			if sudo then
 				command_args.prepend_string_general ("sudo ")

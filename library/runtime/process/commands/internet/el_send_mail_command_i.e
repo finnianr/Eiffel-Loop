@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 9:12:14 GMT (Friday 11th February 2022)"
-	revision: "12"
+	date: "2022-05-06 12:45:11 GMT (Friday 6th May 2022)"
+	revision: "13"
 
 deferred class
 	EL_SEND_MAIL_COMMAND_I
@@ -28,14 +28,14 @@ feature {NONE} -- Initialization
 
 	make (a_email: like email)
 		do
+			email := a_email -- Cannot reflectively create a deferred type
 			make_default; make_machine
-			email := a_email
 			create log_lines.make_empty
 		end
 
 feature -- Access
 
-	email: EL_EMAIL
+	email: EL_EMAIL note option: transient attribute end
 
 	log_lines: EL_ZSTRING_LIST
 
