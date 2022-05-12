@@ -8,7 +8,7 @@ translations:
 		id = "{uninstall_application}"
 		translation:
 			lang = de; check = false
-			"Anwendung deinstallieren"
+			"%S-Anwendung zu deinstallieren"
 		translation:
 			lang = en
 			"Uninstall %S application"

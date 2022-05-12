@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-13 12:32:52 GMT (Sunday 13th March 2022)"
-	revision: "4"
+	date: "2022-05-12 8:14:03 GMT (Thursday 12th May 2022)"
+	revision: "5"
 
 deferred class
 	EL_LOCALIZATION_TEST
@@ -95,8 +95,12 @@ feature {NONE} -- Implementation
 					field := translated_texts.field_table [table.key]
 					if attached {EL_REFLECTED_ZSTRING} field as translated_zstring_field then
 						place_count := zstring_field.value (texts).occurrences ('%S')
-						translated_place_count := translated_zstring_field.value (texts).occurrences ('%S')
-						assert ("same %S occurrences", place_count = translated_place_count)
+						translated_place_count := translated_zstring_field.value (translated_texts).occurrences ('%S')
+						if place_count /= translated_place_count then
+							lio.put_labeled_string (table.key, "Inconsistent # place holder count")
+							lio.put_new_line
+							assert ("same %S occurrences", False)
+						end
 					end
 				end
 			end

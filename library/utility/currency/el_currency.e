@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-02 15:48:18 GMT (Saturday 2nd October 2021)"
-	revision: "19"
+	date: "2022-05-10 12:57:16 GMT (Tuesday 10th May 2022)"
+	revision: "20"
 
 class
 	EL_CURRENCY
@@ -64,6 +64,9 @@ feature -- Access
 			create Result.make (digit_count + separator_count + symbol.count + 1)
 			Result.append_integer (amount_x100)
 			if has_decimal then
+				from until Result.count >= 3 loop
+					Result.prepend_character ('0')
+				end
 				i := Result.count - 1
 				Result.insert_character (separator.decimal, i)
 			else

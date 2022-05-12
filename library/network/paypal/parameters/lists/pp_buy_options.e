@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-02 12:33:20 GMT (Saturday 2nd October 2021)"
-	revision: "18"
+	date: "2022-05-10 9:58:33 GMT (Tuesday 10th May 2022)"
+	revision: "19"
 
 class
 	PP_BUY_OPTIONS
@@ -66,18 +66,15 @@ feature {NONE} -- Implementation
 	price_parameters: PP_OPTION_PRICE_PARAMETER_LIST
 
 	price_string (price_x100: INTEGER): ZSTRING
-		local
-			l_price_x100: INTEGER
 		do
 			create Result.make (5)
 			if Currency_enum.has_decimal (currency_code) then
-				l_price_x100 := price_x100
-			else
-				l_price_x100 := (price_x100 / 100).rounded
-			end
-			Result.append_integer (l_price_x100)
-			if Result.count >= 3 and Currency_enum.has_decimal (currency_code) then
+				from Result.append_integer (price_x100) until Result.count >= 3 loop
+					Result.prepend_character ('0')
+				end
 				Result.insert_character ('.', Result.count - 1)
+			else
+				Result.append_integer ((price_x100 / 100).rounded)
 			end
 		end
 

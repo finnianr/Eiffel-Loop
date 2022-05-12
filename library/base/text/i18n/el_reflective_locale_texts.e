@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-03 10:09:38 GMT (Thursday 3rd March 2022)"
-	revision: "23"
+	date: "2022-05-12 12:39:37 GMT (Thursday 12th May 2022)"
+	revision: "24"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -68,11 +68,12 @@ feature {NONE} -- Initialization
 		require else
 			valid_english_table: valid_english_table
 		local
-			value: ANY; lower_case, upper_case, title_case: like None
+			value: ANY; lower_case, upper_case, title_case, paragraph: like None
 			text_case: INTEGER
 		do
 			Precursor
 			lower_case := lower_case_texts; title_case := title_case_texts; upper_case := upper_case_texts
+			paragraph := paragraph_texts
 			if attached new_english_table as eng_table then
 				across field_table as field loop
 					if attached {EL_REFLECTED_REFERENCE [ANY]} field.item as ref_field then
@@ -90,6 +91,9 @@ feature {NONE} -- Initialization
 							fill_quantity_template (ref_field, eng_table)
 						else
 							set_field (ref_field, text_case, eng_table)
+						end
+						if value_in_set (value, paragraph) and then attached {EL_REFLECTED_ZSTRING} ref_field as zstr then
+							set_as_paragraph (zstr.value (Current))
 						end
 					else
 						set_field (field.item, Case_lower, eng_table)
@@ -151,6 +155,14 @@ feature {NONE} -- Case group sets
 		-- English key texts that are entirely lower case
 		do
 			Result := None
+		end
+
+	paragraph_texts: like None
+		-- English key texts of type `ZSTRING' that should be canonically spaced
+		do
+			Result := None
+		ensure
+			zstring_types: across Result as str all attached {ZSTRING} str.item end
 		end
 
 	title_case_texts: like None
@@ -241,6 +253,23 @@ feature {NONE} -- Implementation
 			s: EL_STRING_8_ROUTINES
 		do
 			Result := precursor_lines + s.character_string ('%N') + lines
+		end
+
+	set_as_paragraph (str: ZSTRING)
+		do
+			if attached str.lines as lines then
+				str.wipe_out
+				across lines as line loop
+					if line.item.is_empty then
+						str.append_character ('%N')
+					else
+						if str.count > 0 then
+							str.append_character (' ')
+						end
+						str.append (line.item)
+					end
+				end
+			end
 		end
 
 	set_field (field: EL_REFLECTED_FIELD; text_case: INTEGER; eng_table: like new_english_table)
@@ -357,6 +386,9 @@ note
 			lower_case_texts
 			upper_case_texts
 			title_case_texts
+			
+		Texts that span multiple lines can be coalesced into one paragraph by redefining the function
+		`paragraph_texts' and listing the field in the result array.
 
 		If the default English text differs from the translation key it can be entered in the text table
 		**english_table** formatted as in the following example:
