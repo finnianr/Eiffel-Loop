@@ -17,14 +17,16 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-04-23 10:09:45 GMT (Saturday 23rd April 2022)"
-	revision: "31"
+	date: "2022-05-13 8:09:56 GMT (Friday 13th May 2022)"
+	revision: "32"
 
 class
 	EL_LOCALE
 
 inherit
 	EL_DEFERRED_LOCALE_I
+		rename
+			make as make_solitary
 		redefine
 			english_only, has_key, has_keys, fill_tuple, translation
 		end

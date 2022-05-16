@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-08 11:01:35 GMT (Monday 8th March 2021)"
-	revision: "3"
+	date: "2022-05-12 14:21:57 GMT (Thursday 12th May 2022)"
+	revision: "4"
 
 class
 	EL_CONFORMING_SINGLETON [G]

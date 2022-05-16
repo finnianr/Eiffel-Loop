@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-15 10:26:15 GMT (Tuesday 15th March 2022)"
-	revision: "22"
+	date: "2022-05-14 10:58:13 GMT (Saturday 14th May 2022)"
+	revision: "23"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G]
@@ -96,7 +96,7 @@ feature -- Element change
 		local
 			quick: QUICK_SORTER [G]
 		do
-			if comparator = default_comparator then
+			if comparator.same_type (default_comparator) then
 				if reverse_sorting_enabled then
 					create {ARRAYED_LIST [G]} result_set.make (a_result_set.count)
 					from a_result_set.finish until a_result_set.before loop
@@ -357,7 +357,7 @@ feature {NONE} -- Implementation
 		end
 
 	less_than (u, v: G): BOOLEAN
-			-- do nothing comparator
+		-- do nothing comparator
 		do
 		end
 

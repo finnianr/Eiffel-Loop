@@ -1,3 +1,6 @@
+1.5.3
+Addition of pre_backup_command for duplicity backup
+
 1.5.2
 Option to disable change.txt in duplicity backup
 

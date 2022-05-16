@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 13:58:04 GMT (Sunday 19th December 2021)"
-	revision: "11"
+	date: "2022-05-13 11:24:46 GMT (Friday 13th May 2022)"
+	revision: "12"
 
 class
 	EL_DIALOG_MODEL
@@ -36,8 +36,8 @@ feature {NONE} -- Initialization
 		do
 			title := a_title
 			icon := Default_icon
-			layout := Default_layout
-			style := Default_style
+			layout := default_layout
+			style := default_style
 
 			create progress_meter
 			progress_meter.completion_text := Word.complete
@@ -224,6 +224,16 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
+	default_layout: EL_DIALOG_LAYOUT
+		do
+			create Result.make
+		end
+
+	default_style: EL_DIALOG_STYLE
+		once
+			create Result.make
+		end
+
 	new_paragraph_list (list_general: ITERABLE [READABLE_STRING_GENERAL]): like paragraph_list
 		local
 			lines: EL_ZSTRING_LIST; l_text: ZSTRING; s: EL_ZSTRING_ROUTINES
@@ -249,21 +259,6 @@ feature {NONE} -- Constants
 	Default_icon: EV_PIXMAP
 		once
 			Result := Pixmap.Information_pixmap
-		end
-
-	Default_layout: EL_DIALOG_LAYOUT
-		once
-			create Result.make
-		end
-
-	Default_paragraph_list: EL_ZSTRING_LIST
-		once
-			create Result.make_empty
-		end
-
-	Default_style: EL_DIALOG_STYLE
-		once
-			create Result.make
 		end
 
 	Paragraph_separator: ZSTRING

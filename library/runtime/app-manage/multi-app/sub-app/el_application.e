@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 17:33:48 GMT (Sunday 20th February 2022)"
-	revision: "55"
+	date: "2022-05-13 8:17:57 GMT (Friday 13th May 2022)"
+	revision: "56"
 
 deferred class
 	EL_APPLICATION
@@ -46,20 +46,7 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 	make
 			--
 		do
-			make_solitary
-			call (new_locale)
-			-- Necessary to redefine `Build_info' as type `BUILD_INFO' if the project root class is `Current'
-			call (Build_info)
-
-			create options_help.make (11)
-			create error_list.make (0)
-			Exception.catch ({EXCEP_CONST}.Signal_exception)
-
-			across standard_options as options loop
-				across options.item.help_table as help loop
-					options_help.extend (help.key, help.item.description, help.item.default_value)
-				end
-			end
+			make_default
 			across App_directory_list as list loop
 				if not list.item.exists then
 					create_app_directory (list.item)
@@ -70,6 +57,23 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 				io_put_header
 			end
 			do_application
+		end
+
+	make_default
+		do
+			make_solitary
+			-- Necessary to redefine `Build_info' as type `BUILD_INFO' if the project root class is `Current'
+			call (Build_info)
+
+			create error_list.make (0)
+			Exception.catch ({EXCEP_CONST}.Signal_exception)
+
+			create options_help.make (11)
+			across standard_options as options loop
+				across options.item.help_table as help loop
+					options_help.extend (help.key, help.item.description, help.item.default_value)
+				end
+			end
 		end
 
 feature -- Access
@@ -190,11 +194,6 @@ feature {NONE} -- Factory routines
 			create Result.make_from_general (option_name)
 		end
 
-	new_locale: EL_DEFERRED_LOCALE_I
-		do
-			create {EL_DEFERRED_LOCALE_IMP} Result.make
-		end
-
 feature {NONE} -- Implementation
 
 	call (object: ANY)
@@ -252,7 +251,7 @@ feature {NONE} -- Implementation
 			if Exception.is_termination_signal then
 				ctrl_c_pressed := True
 				retry
-				
+
 			elseif attached Exception.last_exception.cause as cause then
 				lio.put_labeled_substitution (
 					cause.generator, "{%S}.%S Line %S", [cause.type_name, cause.recipient_name, cause.line_number]
@@ -455,6 +454,5 @@ note
 
 	]"
 end
-
 
 

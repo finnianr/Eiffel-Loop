@@ -8,16 +8,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-02 8:50:17 GMT (Wednesday 2nd March 2022)"
-	revision: "13"
+	date: "2022-05-15 12:15:24 GMT (Sunday 15th May 2022)"
+	revision: "14"
 
 class
 	CHECK_LOCALE_STRINGS_APP
 
 inherit
 	EL_COMMAND_LINE_APPLICATION [CHECK_LOCALE_STRINGS_COMMAND]
+		undefine
+			make_solitary
 		redefine
-			Option_name, new_locale
+			Option_name
+		end
+
+	EL_LOCALIZED_APPLICATION
+		redefine
+			new_locale
 		end
 
 create

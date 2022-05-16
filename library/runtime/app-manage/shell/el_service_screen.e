@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-04-26 6:37:13 GMT (Tuesday 26th April 2022)"
-	revision: "4"
+	date: "2022-05-16 8:23:52 GMT (Monday 16th May 2022)"
+	revision: "5"
 
 class
 	EL_SERVICE_SCREEN
@@ -86,7 +86,8 @@ feature {NONE} -- Implementation
 			if history_count.to_boolean then
 				Result.extend ("-h " + history_count.out)
 			end
-			Result.extend ("-S")
+			Result.extend ("-U") -- Run screen in UTF-8 mode
+			Result.extend ("-S") -- this option can be used to specify a meaningful name for the  session
 			Result.extend (name.quoted (2))
 			if is_script then
 				Result.extend (command_args)

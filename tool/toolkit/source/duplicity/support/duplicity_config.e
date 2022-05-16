@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "13"
+	date: "2022-05-16 9:14:05 GMT (Monday 16th May 2022)"
+	revision: "14"
 
 deferred class
 	DUPLICITY_CONFIG
@@ -51,6 +51,7 @@ feature {NONE} -- Initialization
 			change_text := True
 			create name.make_empty
 			create mirror_list.make (5)
+			create pre_backup_command.make_empty
 			create restore_dir
 			create target_dir
 			create exclude_any_list.make_empty
@@ -72,6 +73,8 @@ feature -- Access
 
 	name: ZSTRING
 		-- possible alias for `target_dir.base' used as backup destination
+
+	pre_backup_command: ZSTRING
 
 	restore_dir: DIR_PATH
 
@@ -122,12 +125,13 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
-				["@encryption_key",			agent do encryption_key := node end],
-				["@name",						agent do name := node end],
-				["@target_dir",				agent do target_dir := node.to_expanded_dir_path end],
-				["@restore_dir",				agent do restore_dir := node.to_expanded_dir_path end],
 				["@backup_dir",				agent do backup_dir := node.to_expanded_dir_path end],
 				["@change_text_enabled",	agent do change_text := node.adjusted_8 (False).as_lower ~ "true" end],
+				["@encryption_key",			agent do encryption_key := node end],
+				["@name",						agent do name := node end],
+				["@pre_backup_command",		agent do pre_backup_command := node end],
+				["@restore_dir",				agent do restore_dir := node.to_expanded_dir_path end],
+				["@target_dir",				agent do target_dir := node.to_expanded_dir_path end],
 
 				["mirror",						agent append_mirror],
 				["exclude-any/text()",		agent append_exclude_any],
@@ -138,6 +142,8 @@ feature {NONE} -- Build from XML
 feature {NONE} -- Constants
 
 	Root_node_name: STRING = "duplicity"
+
+	Var_target_dir: STRING = "target_dir"
 
 note
 	notes: "[

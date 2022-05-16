@@ -16,17 +16,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-23 11:20:46 GMT (Thursday 23rd December 2021)"
-	revision: "21"
+	date: "2022-05-13 8:06:11 GMT (Friday 13th May 2022)"
+	revision: "22"
 
 deferred class
 	EL_DEFERRED_LOCALE_I
 
 inherit
 	EL_SOLITARY
-		rename
-			make as make_solitary
-		end
 
 	EL_ZSTRING_CONSTANTS
 

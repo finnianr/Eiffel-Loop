@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:28:30 GMT (Sunday 19th December 2021)"
-	revision: "18"
+	date: "2022-05-13 8:06:11 GMT (Friday 13th May 2022)"
+	revision: "19"
 
 class
 	EL_DEFERRED_LOCALE_IMP
@@ -16,6 +16,9 @@ inherit
 	ANY
 
 	EL_DEFERRED_LOCALE_I
+		redefine
+			make
+		end
 
 create
 	make
@@ -24,7 +27,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			make_solitary
+			Precursor
 			create next_translations.make_empty (3)
 			from until next_translations.count = 3 loop
 				next_translations.extend (create {ZSTRING}.make_empty)

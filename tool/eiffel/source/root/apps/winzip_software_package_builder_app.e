@@ -11,16 +11,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-02 8:50:17 GMT (Wednesday 2nd March 2022)"
-	revision: "15"
+	date: "2022-05-15 12:16:35 GMT (Sunday 15th May 2022)"
+	revision: "16"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER_APP
 
 inherit
 	EL_COMMAND_LINE_APPLICATION [WINZIP_SOFTWARE_PACKAGE]
+		undefine
+			make_solitary
 		redefine
-			is_valid_platform, new_locale, Option_name, visible_types
+			is_valid_platform, Option_name, visible_types
+		end
+
+	EL_LOCALIZED_APPLICATION
+		redefine
+			new_locale
 		end
 
 create
@@ -51,12 +58,10 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make ("", project.pecf_path)
 		end
 
-	new_locale: EL_DEFERRED_LOCALE_I
+	new_locale: EL_DEFAULT_LOCALE
 		do
 			if Locale_dir.exists then
 				create {EL_ENGLISH_DEFAULT_LOCALE} Result.make_resources
-			else
-				Result := Precursor
 			end
 		end
 

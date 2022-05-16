@@ -574,7 +574,7 @@ class FREEZE_BUILD (object):
 		if path.exists (resource_root_dir):
 			excluded_dirs = ["workarea"]
 			resource_list = [
-				path.join (resource_root_dir, name) for name in os.listdir (resource_root_dir ) if not name in excluded_dirs
+				path.join (resource_root_dir, name) for name in os.listdir (resource_root_dir) if not name in excluded_dirs
 			]
 			for resource_path in resource_list:
 				basename = path.basename (resource_path)

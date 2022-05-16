@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 10:41:59 GMT (Sunday 20th February 2022)"
-	revision: "21"
+	date: "2022-05-16 9:13:28 GMT (Monday 16th May 2022)"
+	revision: "22"
 
 class
 	DUPLICITY_BACKUP
@@ -51,7 +51,7 @@ feature -- Basic operations
 	 execute
 		local
 			destination_uri: EL_DIR_URI_PATH; backup_command: DUPLICITY_BACKUP_OS_CMD
-			arguments: DUPLICITY_ARGUMENTS
+			arguments: DUPLICITY_ARGUMENTS; cmd: EL_OS_COMMAND
 		do
 			lio.put_labeled_string ("Backup", target_dir_base)
 			lio.put_new_line
@@ -66,6 +66,15 @@ feature -- Basic operations
 						write_change_comment
 					end
 					mirror_list.do_all (agent {EL_MIRROR_BACKUP}.set_passphrase)
+
+					if pre_backup_command.count > 0 then
+						create cmd.make (pre_backup_command)
+						if cmd.has_variable (Var_target_dir) then
+							-- This will work on Unix but not on Windows because of possible quoted path
+							cmd.put_path (Var_target_dir, target_dir)
+						end
+						cmd.execute
+					end
 
 					lio.put_path_field ("Creating %S", destination_uri)
 					lio.put_new_line
