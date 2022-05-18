@@ -16,6 +16,8 @@ from eiffel_loop.eiffel import ise_environ
 
 from eiffel_loop import osprocess
 from eiffel_loop.distutils import dir_util, file_util
+from eiffel_loop.distutils.dir_util import FILE_SYSTEM
+
 from eiffel_loop.xml.xpath import XPATH_ROOT_CONTEXT
 from eiffel_loop.xml.xpath import XPATH_CONTEXT
 from eiffel_loop.tar import ARCHIVE
@@ -403,6 +405,9 @@ class FREEZE_BUILD (object):
 		self.ecf_path = ecf.location
 		self.pecf_path = None
 		self.build_info_path = project_py.build_info_path
+		self.preserve_resources = project_py.preserve_resources
+		self.file_system = FILE_SYSTEM ()
+		self.file_system.sudo = True
 
 		ecf_path_parts = path.splitext (self.ecf_path)
 		if ecf_path_parts [1] == '.pecf':
@@ -508,9 +513,34 @@ class FREEZE_BUILD (object):
 	
 
 # Basic operations
-
 	def install_resources (self):
-		self.install_resources_to (self.system.installation_dir ())
+		installation_dir = self.system.installation_dir ()
+		preserve_list = list ()
+		if self.preserve_resources:
+			for resource_path in self.preserve_resources:
+				resource_path_abs = path.join (installation_dir, resource_path)
+				if path.exists (resource_path_abs):
+					preserve_list.append (resource_path_abs)
+
+		if preserve_list:
+			# Preserving directories listed in 'preserve_resources' in project.py
+			temp_dir = path.join (installation_dir, 'temporary')
+			self.file_system.make_path (temp_dir)
+			for resource_path_abs in preserve_list:
+				print 'Preserving:', resource_path_abs
+				self.file_system.move_tree (resource_path_abs, temp_dir)
+			
+			self.install_resources_to (installation_dir)
+
+			# Restore preserved directories
+			for resource_path_abs in preserve_list:
+				name = path.basename (resource_path_abs)
+				temp_path = path.join (temp_dir, name)
+				self.file_system.move_tree (temp_path, path.dirname (resource_path_abs))
+
+			self.file_system.remove_tree (temp_dir)
+		else:
+			self.install_resources_to (installation_dir)
 
 	def pre_compilation (self):
 		self.__write_build_info ()
@@ -534,28 +564,25 @@ class FREEZE_BUILD (object):
 		sys.stdout.write (str)
 
 # Implementation
-	def _file_command_set (self, destination_dir):
-		self.write_io ("using root copy permissions\n")
-		result = (dir_util.sudo_copy_tree, file_util.sudo_copy_file, dir_util.sudo_remove_tree, dir_util.sudo_mkpath)
-	
-		return result
+	def __print_permission (self):
+		self.write_io ("Using %s permissions\n" % ['normal', 'sudo'][int (self.file_system.sudo)])
 
 	def install_executables (self, destination_dir):
 		self.write_io ('Installing executables in: %s\n' % destination_dir)
-		copy_tree, copy_file, remove_tree, mkpath = self._file_command_set (destination_dir)
+		self.__print_permission ()
 
 		bin_dir = path.join (destination_dir, 'bin')
 		if not path.exists (bin_dir):
-			mkpath (bin_dir)
+			self.file_system.make_path (bin_dir)
 		
 		# Copy executable including possible Windows 7 manifest file
 		for exe_path in glob (path.join (self.code_dir (), self.exe_name + '*')):
-			copy_file (exe_path, bin_dir)
+			self.file_system.copy_file (exe_path, bin_dir)
 
 		self.write_io ('Copying shared object libraries\n')
 		shared_objects = self.__shared_object_libraries ()
 		for so in shared_objects:
-			copy_file (so, bin_dir)
+			self.file_system.copy_file (so, bin_dir)
 
 		if shared_objects and is_platform_unix ():
 			install_bin_dir = path.join (self.system.installation_dir (), 'bin')
@@ -566,26 +593,23 @@ class FREEZE_BUILD (object):
 
 	def install_resources_to (self, destination_dir):
 		self.write_io ('Installing resources in: %s\n' % destination_dir)
-		copy_tree, copy_file, remove_tree, mkpath = self._file_command_set (destination_dir)
+		self.__print_permission ()
 
 		if not path.exists (destination_dir):
-			mkpath (destination_dir)
+			self.file_system.make_path (destination_dir)
 		resource_root_dir = "resources"
 		if path.exists (resource_root_dir):
-			excluded_dirs = ["workarea"]
-			resource_list = [
-				path.join (resource_root_dir, name) for name in os.listdir (resource_root_dir) if not name in excluded_dirs
-			]
+			resource_list = [path.join (resource_root_dir, name) for name in os.listdir (resource_root_dir)]
 			for resource_path in resource_list:
 				basename = path.basename (resource_path)
 				self.write_io ('Installing %s\n' % basename)
 				if path.isdir (resource_path):
 					resource_dest_dir = path.join (destination_dir, basename)
 					if path.exists (resource_dest_dir):
-						remove_tree (resource_dest_dir)	
-					copy_tree (resource_path, resource_dest_dir)	
+						self.file_system.remove_tree (resource_dest_dir)	
+					self.file_system.copy_tree (resource_path, resource_dest_dir)	
 				else:
-					copy_file (resource_path, destination_dir)
+					self.file_system.copy_file (resource_path, destination_dir)
 
 	def __shared_object_libraries (self):
 		result = []
@@ -645,6 +669,9 @@ class FINALIZED_BUILD (FREEZE_BUILD):
 	def __init__ (self, ecf, project_py):
 		FREEZE_BUILD.__init__ (self, ecf, project_py)
 		self.system_root_class_path = self.system.root_class_path ()
+		self.preserve_resources = project_py.preserve_resources
+		self.file_system.sudo = False
+
 		if ecf.root_class_path:
 			self.root_class_path = ecf.root_class_path
 		else:
@@ -691,18 +718,15 @@ class FINALIZED_BUILD (FREEZE_BUILD):
 		self.install_resources_to (destination)
 		self.install_executables (destination)
 
+	def install_resources (self):
+		self.install_resources_to (self.system.installation_dir ())
+
 # Implementation
 
 	def _wipe_out_f_code (self):
 		code_dir = self.code_dir ()
 		dir_util.remove_tree (code_dir)
 		dir_util.mkpath (code_dir) # Leave an empty F_code directory otherwise EiffelStudio complains
-		
-
-	def _file_command_set (self, destination_dir):
-		self.write_io ("using normal copy permissions\n")
-		result = (dir_util.copy_tree, file_util.copy_file, dir_util.remove_tree, dir_util.mkpath)
-		return result
 
 	def __swap_root_class (self, reverse_swap = None):
 		# temporarily swap `self.system_root_class_path' with `self.root_class_path'

@@ -108,6 +108,11 @@ MSC_options = ['/x64', '/win7', '/Release']
 
 path_extra = []
 
+# list of resource names relative to install directory that should be preserved after call to
+# eiffel_loop.scripts.ec_install_resources
+
+preserve_resources = []
+
 environ_extra = { 
 	# Java
 	'JDK_HOME' 						: environ.jdk_home (),
