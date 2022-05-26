@@ -16,7 +16,8 @@ from eiffel_loop.eiffel import ise_environ
 
 from eiffel_loop import osprocess
 from eiffel_loop.distutils import dir_util, file_util
-from eiffel_loop.distutils.dir_util import FILE_SYSTEM
+
+from eiffel_loop.os.system import new_file_system
 
 from eiffel_loop.xml.xpath import XPATH_ROOT_CONTEXT
 from eiffel_loop.xml.xpath import XPATH_CONTEXT
@@ -406,8 +407,7 @@ class FREEZE_BUILD (object):
 		self.pecf_path = None
 		self.build_info_path = project_py.build_info_path
 		self.preserve_resources = project_py.preserve_resources
-		self.file_system = FILE_SYSTEM ()
-		self.file_system.sudo = True
+		self.file_system = new_file_system (True)
 
 		ecf_path_parts = path.splitext (self.ecf_path)
 		if ecf_path_parts [1] == '.pecf':
@@ -536,6 +536,7 @@ class FREEZE_BUILD (object):
 			for resource_path_abs in preserve_list:
 				name = path.basename (resource_path_abs)
 				temp_path = path.join (temp_dir, name)
+				print 'Restoring:', resource_path_abs
 				self.file_system.move_tree (temp_path, path.dirname (resource_path_abs))
 
 			self.file_system.remove_tree (temp_dir)

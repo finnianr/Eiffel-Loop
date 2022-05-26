@@ -10,6 +10,7 @@
 import sys, os, platform
 
 from os import path
+from eiffel_loop import osprocess
 
 def launch_program (command_table, a_path):
 	if path.exists (a_path):
@@ -36,3 +37,94 @@ def open_directory (dir_path):
 	}
 	launch_program (command_table, dir_path)
 
+def new_file_system (sudo = False):
+	if platform.system () == 'Windows':
+		result = WINDOWS_FILE_SYSTEM (sudo)
+	else:
+		result = UNIX_FILE_SYSTEM (sudo)
+
+	return result
+
+class FILE_SYSTEM (object):
+
+# Initialization
+	def __init__ (self, sudo = False):
+		self.sudo = sudo
+
+# Basic operations
+
+	def copy_tree (self, src_path, dest_path):
+		pass
+
+	def move_tree (self, src_path, dest_path):
+		pass
+
+	def copy_file (self, src_path, dest_path):
+		pass
+
+	def remove_tree (self, dir_path):
+		pass
+
+	def make_path (self, dir_path):
+		parent_path = path.dirname (dir_path)
+		if not path.exists (parent_path):
+			self.make_path (parent_path)
+
+		self.execute (['mkdir', dir_path])
+
+# Implementation
+
+	def execute (self, cmd):
+		pass
+
+# end class
+		
+class WINDOWS_FILE_SYSTEM (FILE_SYSTEM):
+
+# Basic operations
+
+	def copy_tree (self, src_path, dest_path):
+		# /Q Does not display file names while copying.
+		self.execute (['xcopy', '/Q', '/S', '/I', src_path, dest_path])
+
+	def move_tree (self, src_path, dest_path):
+		self.execute (['move', src_path, dest_path])
+
+	def copy_file (self, src_path, dest_path):
+		self.execute (['copy', src_path, dest_path])
+
+	def remove_tree (self, dir_path):
+		self.execute (['rmdir', '/S', '/Q', dir_path])
+
+# Implementation
+
+	def execute (self, cmd):
+		osprocess.call (cmd, shell = True)
+
+# end class
+
+class UNIX_FILE_SYSTEM (FILE_SYSTEM):
+
+# Basic operations
+
+	def copy_tree (self, src_path, dest_path):
+		self.execute (['cp', '-r', src_path, dest_path])
+
+	def move_tree (self, src_path, dest_path):
+		self.execute (['mv', src_path, dest_path])
+
+	def copy_file (self, src_path, dest_path):
+		self.execute (['cp', src_path, dest_path])
+
+	def remove_tree (self, dir_path):
+		self.execute (['rm', '-r', dir_path])
+
+# Implementation
+
+	def execute (self, cmd):
+		if self.sudo:
+			osprocess.sudo_call (cmd)		
+		else:
+			osprocess.call (cmd)
+
+# end class

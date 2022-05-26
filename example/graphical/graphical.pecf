@@ -31,7 +31,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 0; release = 0; build = 42
+			major = 1; minor = 0; release = 0; build = 45
 			company = "Eiffel-Loop"; product = "graphical"
 			copyright = "Finnian Reilly"
 
@@ -142,6 +142,9 @@ system:
 
 		library:
 			name = EL_logging; readonly = false; location = "$EIFFEL_LOOP/library/logging.ecf"
+
+		library:
+			name = EL_os_command; readonly = false; location = "$EIFFEL_LOOP/library/os-command.ecf"
 
 		library:
 			name = EL_pyxis_scan; readonly = false; location = "$EIFFEL_LOOP/library/pyxis-scan.ecf"

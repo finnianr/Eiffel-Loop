@@ -22,7 +22,7 @@ Test application for selected components from Eiffel-Loop
 	<!--classic means C code as an intermediate language-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
-		<version major = "1" minor = "0" release = "0" build = "42" company = "Eiffel-Loop" product = "graphical" copyright = "Finnian Reilly"/>
+		<version major = "1" minor = "0" release = "0" build = "45" company = "Eiffel-Loop" product = "graphical" copyright = "Finnian Reilly"/>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "false" invariant = "false"/>
 			<debug name = "__unnamed_debug__" enabled = "false"/>
@@ -71,6 +71,7 @@ Test application for selected components from Eiffel-Loop
 		<library name = "EL_c_api" readonly = "false" location = "$EIFFEL_LOOP/library/C-language-interface.ecf"/>
 		<library name = "EL_doc_scan" location = "$EIFFEL_LOOP/library/document-scan.ecf"/>
 		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
+		<library name = "EL_os_command" readonly = "false" location = "$EIFFEL_LOOP/library/os-command.ecf"/>
 		<library name = "EL_pyxis_scan" readonly = "false" location = "$EIFFEL_LOOP/library/pyxis-scan.ecf"/>
 		<library name = "EL_thread" readonly = "false" location = "$EIFFEL_LOOP/library/thread.ecf"/>
 		<library name = "EL_wel_x" readonly = "false" location = "$EIFFEL_LOOP/library/wel-x.ecf">

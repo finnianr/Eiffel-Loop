@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "8"
+	date: "2022-05-26 11:02:18 GMT (Thursday 26th May 2022)"
+	revision: "9"
 
 class
 	CAIRO_DRAWING_AREA
@@ -254,6 +254,30 @@ feature -- Transform
 		end
 
 feature -- Drawing operations
+
+	draw_centered_pixmap (pixmap: EL_PIXMAP)
+		local
+			rect, this_rect: EL_RECTANGLE
+		do
+			rect := pixmap.dimensions; this_rect := dimensions
+			if rect.same_size (this_rect) then
+				draw_pixmap (0, 0, pixmap)
+
+			elseif rect.same_aspect (this_rect) then
+				draw_scaled_pixmap ({EL_DIRECTION}.By_width, 0, 0, width, pixmap)
+
+			elseif rect.aspect_ratio < this_rect.aspect_ratio then
+				-- adjust height and center horizontally
+				rect.scale_to_height (height)
+				rect.move_center (this_rect)
+				draw_scaled_pixmap ({EL_DIRECTION}.By_height, rect.x, rect.y, height, pixmap)
+			else
+				-- adjust width and center vertically
+				rect.scale_to_width (width)
+				rect.move_center (this_rect)
+				draw_scaled_pixmap ({EL_DIRECTION}.By_width, rect.x, rect.y, width, pixmap)
+			end
+		end
 
 	draw_line (x1, y1, x2, y2: INTEGER)
 		do

@@ -21,6 +21,7 @@ is_windows = sys.platform == 'win32'
 # Directory operations requiring root or administrator permissions
 
 def sudo_copy_file (src_path, dest_path):
+	# obsolete: use eiffel_loop.os.system.new_file_system ()
 	print 'from', src_path
 	print 'to', dest_path
 	if is_windows:

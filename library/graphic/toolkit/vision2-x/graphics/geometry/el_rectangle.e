@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:43:41 GMT (Sunday 19th December 2021)"
-	revision: "21"
+	date: "2022-05-26 11:02:41 GMT (Thursday 26th May 2022)"
+	revision: "22"
 
 class
 	EL_RECTANGLE
@@ -137,11 +137,28 @@ feature -- Measurement
 			Result := width * height
 		end
 
+	aspect_ratio: DOUBLE
+		do
+			Result := width / height
+		end
+
 feature -- Status query
 
 	is_default: BOOLEAN
 		do
 			Result := not (x.to_boolean or y.to_boolean or width.to_boolean or height.to_boolean)
+		end
+
+feature -- Comparison
+
+	same_aspect (other: EL_RECTANGLE): BOOLEAN
+		do
+			Result := approximately_equal (aspect_ratio, other.aspect_ratio, 0.01)
+		end
+
+	same_size (other: EL_RECTANGLE): BOOLEAN
+		do
+			Result := width = other.width and height = other.height
 		end
 
 feature -- Basic operations

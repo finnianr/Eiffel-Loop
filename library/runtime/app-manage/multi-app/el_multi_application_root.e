@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 16:15:54 GMT (Saturday 5th February 2022)"
-	revision: "22"
+	date: "2022-05-26 7:17:36 GMT (Thursday 26th May 2022)"
+	revision: "23"
 
 deferred class
 	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO create make end, APPLICATION_TYPES -> TUPLE create default_create end]
@@ -92,11 +92,10 @@ feature {NONE} -- Initialization
 feature {NONE} -- Implementation
 
 	create_singletons
-		-- create shared objects conforming to `EL_SOLITORY'
+		-- create shared objects conforming to `EL_SOLITARY'
 		local
 			shared_build_info: B
 		do
 			create shared_build_info.make
 		end
 end
-

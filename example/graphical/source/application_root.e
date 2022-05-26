@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-27 18:32:45 GMT (Thursday 27th January 2022)"
-	revision: "11"
+	date: "2022-05-26 15:53:13 GMT (Thursday 26th May 2022)"
+	revision: "12"
 
 class
 	APPLICATION_ROOT
@@ -17,7 +17,8 @@ inherit
 		FRACTAL_APP,
 		POST_CARD_VIEWER_APP,
 		PANGO_CAIRO_TEST_APP,
-		QUANTUM_BALL_ANIMATION_APP
+		QUANTUM_BALL_ANIMATION_APP,
+		SLIDE_SHOW_APP
 	]
 
 create
@@ -25,37 +26,37 @@ create
 
 feature {NONE} -- Compile also
 
-	Compile_also: TUPLE [EL_SEPARATE_PROGRESS_DISPLAY]
-		once
+	compile: TUPLE [EL_SEPARATE_PROGRESS_DISPLAY]
+		do
 			create Result
 		end
 
-	Dialogs: TUPLE [
+	dialogs: TUPLE [
 		EL_APPLY_CHANGES_CONFIRMATION_DIALOG, EL_SAVE_CHANGES_CONFIRMATION_DIALOG,
 		EL_FILE_OPEN_DIALOG, EL_FILE_SAVE_DIALOG, EL_PROGRESS_DIALOG
 	]
-		once
+		do
 			create Result
 		end
 
-	Containers: TUPLE [
+	containers: TUPLE [
 		EL_AUTO_CELL_HIDING_HORIZONTAL_BOX,
 		EL_BUTTON_PROGRESS_BOX [EV_BUTTON],
 		EL_CENTERED_VIEWPORT,
 		EL_TAB_BOOK [EL_BOX],
 		EL_WIDGET_PROGRESS_BOX [EV_WIDGET]
 	]
-		once
+		do
 			create Result
 		end
 
-	Primitives: TUPLE [EL_RED_GREEN_STATUS_LIGHTS_DRAWING_AREA, EL_TIMED_PROGRESS_BAR]
-		once
+	primitives: TUPLE [EL_RED_GREEN_STATUS_LIGHTS_DRAWING_AREA, EL_TIMED_PROGRESS_BAR]
+		do
 			create Result
 		end
 
-	Widgets: TUPLE [EL_SCALE_SLIDER, EL_MIXED_FONT_LABEL_AREA, EL_MIXED_STYLE_FIXED_LABELS]
-		once
+	widgets: TUPLE [EL_SCALE_SLIDER, EL_MIXED_FONT_LABEL_AREA, EL_MIXED_STYLE_FIXED_LABELS]
+		do
 			create Result
 		end
 end

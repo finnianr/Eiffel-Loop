@@ -18,6 +18,7 @@ is_windows = platform.system () == 'Windows'
 # Directory operations requiring root or administrator permissions
 
 def sudo_mkpath (dir_path):
+	# obsolete: use eiffel_loop.os.system.new_file_system ()
 	parent_path = path.dirname (dir_path)
 	if not path.exists (parent_path):
 		sudo_mkpath (parent_path)
@@ -28,12 +29,14 @@ def sudo_mkpath (dir_path):
 		osprocess.sudo_call (['mkdir', dir_path])
 
 def sudo_copy_tree (src_path, dest_path):
+	# obsolete: use eiffel_loop.os.system.new_file_system ()
 	if is_windows:
 		osprocess.call (['xcopy', '/S', '/I', src_path, dest_path], shell = True)
 	else:
 		osprocess.sudo_call (['cp', '-r', src_path, dest_path])
 
 def sudo_remove_tree (dir_path):
+	# obsolete: use eiffel_loop.os.system.new_file_system ()
 	if is_windows:
 		osprocess.call (['rmdir', '/S', '/Q', dir_path], shell = True)
 	else:
@@ -67,51 +70,3 @@ def extract_archive (archive_path, dir_path, env):
 		osprocess.call (command, env = env)
 
 
-class FILE_SYSTEM (object):
-
-# Initialization
-	def __init__ (self):
-		self.make_path_cmd = ['mkdir']
-		self.sudo = False
-		if is_windows:
-			self.copy_tree_cmd = ['xcopy', '/S', '/I']
-			self.copy_file_cmd = ['copy']
-			self.move_tree_cmd = ['move']
-			self.remove_tree_cmd = ['rmdir', '/S', '/Q']
-		else:
-			self.copy_tree_cmd = ['cp', '-r']
-			self.copy_file_cmd = ['cp']
-			self.move_tree_cmd = ['mv']
-			self.remove_tree_cmd = ['rm', '-r']
-
-# Basic operations
-
-	def copy_tree (self, src_path, dest_path):
-		self.__call (self.copy_tree_cmd + [src_path, dest_path])
-
-	def move_tree (self, src_path, dest_path):
-		self.__call (self.move_tree_cmd + [src_path, dest_path])
-
-	def copy_file (self, src_path, dest_path):
-		self.__call (self.copy_file_cmd + [src_path, dest_path])
-
-	def remove_tree (self, dir_path):
-		self.__call (self.remove_tree_cmd + [dir_path])
-
-	def make_path (self, dir_path):
-		parent_path = path.dirname (dir_path)
-		if not path.exists (parent_path):
-			self.make_path (parent_path)
-
-		self.__call (self.make_path_cmd + [dir_path])
-
-# Implementation
-
-	def __call (self, cmd):
-		if is_windows:
-			osprocess.call (cmd, shell = True)
-		elif self.sudo:
-			osprocess.sudo_call (cmd)		
-		else:
-			osprocess.call (cmd)		
-		
