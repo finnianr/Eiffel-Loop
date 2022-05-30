@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-23 11:54:01 GMT (Saturday 23rd October 2021)"
-	revision: "7"
+	date: "2022-05-29 12:38:43 GMT (Sunday 29th May 2022)"
+	revision: "8"
 
 class
 	EL_A5_PAPER_INSTALLER_BOX
@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 
 	make (a_dialog: like dialog)
 		local
-			l_font: EV_FONT; w: INTEGER
+			w: INTEGER
 		do
 			make_installer_box (a_dialog, 0.7, 0)
 			next_button := new_button (Word.next, agent dialog.on_next)
@@ -38,8 +38,9 @@ feature {NONE} -- Initialization
 			extend (text_area)
 			append_unexpanded (<< new_button_box >>)
 
-			l_font := Vision_2.new_font_regular ("Courier 10 Pitch", 0.5)
-			w := l_font.string_width ("0")
+			if attached Vision_2.new_font_regular ("Courier 10 Pitch", 0.5) as l_font then
+				w := l_font.string_width ("0")
+			end
 		end
 
 feature -- Access

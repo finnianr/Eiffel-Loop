@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-07 9:47:34 GMT (Monday 7th September 2020)"
-	revision: "12"
+	date: "2022-05-29 15:52:16 GMT (Sunday 29th May 2022)"
+	revision: "13"
 
 deferred class
 	CAIRO_DRAWABLE_CONTEXT_I
@@ -184,7 +184,7 @@ feature -- Status change
 
 feature -- Drawing operations
 
-	draw_drawing_area (x, y: DOUBLE; drawing: CAIRO_DRAWING_AREA)
+	draw_area (x, y: DOUBLE; drawing: CAIRO_DRAWING_AREA)
 		do
 			if attached drawing.implementation as drawing_imp then
 				draw_surface (x, y, drawing_imp.surface)
@@ -240,10 +240,10 @@ feature -- Drawing operations
 			restore
 		end
 
-	draw_rounded_drawing_area (x, y, radius: DOUBLE; corners_bitmap: INTEGER; drawing: CAIRO_DRAWING_AREA)
+	draw_rounded_area (x, y, radius: DOUBLE; corners_bitmap: INTEGER; drawing: CAIRO_DRAWING_AREA)
 		do
 			set_clip_rounded_rectangle (x, y, drawing.width, drawing.height, radius, corners_bitmap)
-			draw_drawing_area (x, y, drawing)
+			draw_area (x, y, drawing)
 			reset_clip
 		end
 
@@ -254,7 +254,7 @@ feature -- Drawing operations
 			reset_clip
 		end
 
-	draw_scaled_drawing_area (dimension: NATURAL_8; x, y, size: DOUBLE; drawing: CAIRO_DRAWING_AREA)
+	draw_scaled_area (dimension: NATURAL_8; x, y, size: DOUBLE; drawing: CAIRO_DRAWING_AREA)
 		do
 			draw_scaled_surface (dimension, x, y, size, drawing.implementation.surface)
 		end
@@ -400,7 +400,7 @@ feature {NONE} -- Alternative methods
 				factor := a_size / a_buffer.height
 			end
 			scale_by (factor)
-			draw_drawing_area (x / factor, y / factor, a_buffer)
+			draw_area (x / factor, y / factor, a_buffer)
 			restore
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "7"
+	date: "2022-05-29 15:52:42 GMT (Sunday 29th May 2022)"
+	revision: "8"
 
 deferred class
 	CAIRO_DRAWING_AREA_I
@@ -151,7 +151,7 @@ feature -- Basic operations
 
 feature -- Drawing operations
 
-	draw_drawing_area (x, y: DOUBLE; drawing: CAIRO_DRAWING_AREA)
+	draw_area (x, y: DOUBLE; drawing: CAIRO_DRAWING_AREA)
 		deferred
 		end
 
@@ -179,7 +179,7 @@ feature -- Drawing operations
 		deferred
 		end
 
-	draw_rounded_drawing_area (x, y, radius: DOUBLE; corners_bitmap: INTEGER; drawing: CAIRO_DRAWING_AREA)
+	draw_rounded_area (x, y, radius: DOUBLE; corners_bitmap: INTEGER; drawing: CAIRO_DRAWING_AREA)
 		deferred
 		end
 
@@ -187,7 +187,7 @@ feature -- Drawing operations
 		deferred
 		end
 
-	draw_scaled_drawing_area (dimension: NATURAL_8; x, y, size: DOUBLE; drawing: CAIRO_DRAWING_AREA)
+	draw_scaled_area (dimension: NATURAL_8; x, y, size: DOUBLE; other: CAIRO_DRAWING_AREA)
 		deferred
 		end
 

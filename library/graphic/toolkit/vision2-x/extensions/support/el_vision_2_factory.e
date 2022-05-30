@@ -1,13 +1,13 @@
 note
-	description: "Vision 2 component factory factory"
+	description: "Vision 2 component factory"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-20 10:34:02 GMT (Wednesday 20th January 2021)"
-	revision: "18"
+	date: "2022-05-29 12:35:14 GMT (Sunday 29th May 2022)"
+	revision: "19"
 
 class
 	EL_VISION_2_FACTORY

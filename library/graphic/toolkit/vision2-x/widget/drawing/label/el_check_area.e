@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "2"
+	date: "2022-05-29 15:56:03 GMT (Sunday 29th May 2022)"
+	revision: "3"
 
 class
 	EL_CHECK_AREA
@@ -64,7 +64,7 @@ feature {NONE} -- Event handlers
 			fill_rectangle (0, 0, width, height)
 			canvas.set_color (background_color)
 			canvas.fill
-			canvas.draw_scaled_drawing_area (Orientation.By_width, 0, 0, width, image)
+			canvas.draw_scaled_area (Orientation.By_width, 0, 0, width, image)
 			draw_pixel_buffer (0, 0, canvas.to_buffer)
 		end
 

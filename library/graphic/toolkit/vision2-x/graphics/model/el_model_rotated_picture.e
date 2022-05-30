@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-21 10:24:27 GMT (Friday 21st August 2020)"
-	revision: "22"
+	date: "2022-05-29 15:46:18 GMT (Sunday 29th May 2022)"
+	revision: "23"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -125,7 +125,7 @@ feature -- Basic operations
 			drawing.flip (width, height, mirror_state)
 			Scaled_drawing_cache.set_new_item_target (Current) -- Ensure `new_scaled_pixel_buffer' refers to `pixel_buffer'
 			scaled_drawing := Scaled_drawing_cache.item ((drawing_area.id.to_natural_32 |<< 16) | width.to_natural_32)
-			drawing.draw_drawing_area (0, 0, scaled_drawing)
+			drawing.draw_area (0, 0, scaled_drawing)
 			drawing.restore
 			progress_listener.notify_tick
 		end

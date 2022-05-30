@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-26 11:02:41 GMT (Thursday 26th May 2022)"
-	revision: "22"
+	date: "2022-05-29 9:28:19 GMT (Sunday 29th May 2022)"
+	revision: "23"
 
 class
 	EL_RECTANGLE
@@ -142,6 +142,12 @@ feature -- Measurement
 			Result := width / height
 		end
 
+	aspect_ratio_formatted: ZSTRING
+		do
+			create Result.make (5)
+			Result.append_rounded_double (aspect_ratio, 2)
+		end
+
 feature -- Status query
 
 	is_default: BOOLEAN
@@ -212,6 +218,20 @@ feature -- Basic operations
 	move_by (delta_x, delta_y: INTEGER)
 		do
 			x := x + delta_x; y := y + delta_y
+		end
+
+	print_info (log: EL_LOGGABLE; name: READABLE_STRING_GENERAL)
+		local
+			l_name: READABLE_STRING_GENERAL
+		do
+			l_name := name
+			if l_name.is_empty then
+				l_name := generator
+			end
+			log.put_labeled_substitution (
+				l_name, "position = (%S, %S); dimensions = %Sx%S; aspect ratio = %S", [x, y, width, height, aspect_ratio_formatted]
+			)
+			log.put_new_line
 		end
 
 feature -- Element change

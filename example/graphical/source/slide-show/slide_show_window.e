@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-26 17:06:59 GMT (Thursday 26th May 2022)"
-	revision: "1"
+	date: "2022-05-29 13:13:54 GMT (Sunday 29th May 2022)"
+	revision: "2"
 
 class
 	SLIDE_SHOW_WINDOW
@@ -20,9 +20,7 @@ inherit
 			 make, prepare_to_show
 		end
 
-	EL_MODULE_COLOR; EL_MODULE_TRACK; EL_MODULE_FILE_SYSTEM;  EL_MODULE_VISION_2
-
-	EL_SHARED_PROGRESS_LISTENER
+	EL_MODULE_COLOR; EL_MODULE_TRACK; EL_MODULE_OS;  EL_MODULE_VISION_2
 
 create
 	make
@@ -44,43 +42,10 @@ feature {NONE} -- Event handler
 
 	on_generate
 		do
-			Track.progress (progress_bar, Config.total_image_count, agent generate_all)
+			Track.progress (progress_bar, Slide_show.total_image_count, agent Slide_show.generate_all (label))
 		end
 
 feature {NONE} -- Implementation
-
-	generate_all
-		local
-			pixmap: EL_PIXMAP
-		do
-			log.enter ("generate_all")
-			File_system.make_directory (Config.output_dir)
-
-			Config.reset_sequence
-			label.remove_text
-			lio.put_labeled_string ("Configured aspect", config.Double.formatted (Config.dimensions.aspect_ratio))
-			lio.put_new_line
-
-			if attached Config.new_area as area then
-				create pixmap
-				pixmap.set_with_named_file (config.cover_image)
-				area.draw_centered_pixmap (pixmap)
-				across 1 |..| Config.title_duration_ratio as n loop
-					Config.bump_sequence
-					-- Generate cover image
-					area.save_as_jpeg (Config.sequence_path, 90)
-					progress_listener.notify_tick
-				end
-			end
-			across Config.group_list as list loop
-				list.item.generate
-			end
-			if attached ("DONE !") as str then
-				label.set_text (str)
-				log.put_line (str)
-			end
-			log.exit
-		end
 
 	new_border_box: EL_VERTICAL_BOX
 		do
@@ -88,7 +53,10 @@ feature {NONE} -- Implementation
 				Vision_2.new_horizontal_box (0, 0.2, <<
 					Vision_2.new_label ("Generate slides"), Vision_2.new_button ("GO", agent on_generate), label
 				>>),
-				progress_bar
+				progress_bar,
+				Vision_2.new_horizontal_box (0, 0.2, <<
+					create {EL_EXPANDED_CELL}, Vision_2.new_button ("EXIT", agent on_close_request)
+				>>)
 			>>)
 		end
 
@@ -109,9 +77,9 @@ feature {NONE} -- Constants
 
 	Border_width_cms: REAL = 0.5
 
-	Config: SLIDE_SHOW_CONFIG
-		once
-			Result := create {EL_SINGLETON [SLIDE_SHOW_CONFIG]}
+	Slide_show: SLIDE_SHOW
+		once ("PROCESS")
+			Result := create {EL_SINGLETON [SLIDE_SHOW]}
 		end
 
 end

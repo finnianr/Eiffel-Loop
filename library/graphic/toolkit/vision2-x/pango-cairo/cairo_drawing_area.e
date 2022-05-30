@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-26 11:02:18 GMT (Thursday 26th May 2022)"
-	revision: "9"
+	date: "2022-05-29 18:41:45 GMT (Sunday 29th May 2022)"
+	revision: "10"
 
 class
 	CAIRO_DRAWING_AREA
@@ -61,7 +61,7 @@ feature {NONE} -- Initialization
 			valid_dimension: Orientation.is_valid_dimension (dimension)
 		do
 			make_with_rectangle (other.scaled_dimensions (dimension, size))
-			draw_scaled_drawing_area (dimension, 0, 0, size, other)
+			draw_scaled_area (dimension, 0, 0, size, other)
 		end
 
 	make_scaled_to_height (other: CAIRO_DRAWING_AREA; a_height: INTEGER)
@@ -255,6 +255,30 @@ feature -- Transform
 
 feature -- Drawing operations
 
+	draw_centered_area (drawing: CAIRO_DRAWING_AREA)
+		local
+			rect, this_rect: EL_RECTANGLE
+		do
+			rect := drawing.dimensions; this_rect := dimensions
+			if rect.same_size (this_rect) then
+				draw_area (0, 0, drawing)
+
+			elseif rect.same_aspect (this_rect) then
+				draw_scaled_area ({EL_DIRECTION}.By_width, 0, 0, width, drawing)
+
+			elseif rect.aspect_ratio < this_rect.aspect_ratio then
+				-- adjust height and center horizontally
+				rect.scale_to_height (height)
+				rect.move_center (this_rect)
+				draw_scaled_area ({EL_DIRECTION}.By_height, rect.x, rect.y, height, drawing)
+			else
+				-- adjust width and center vertically
+				rect.scale_to_width (width)
+				rect.move_center (this_rect)
+				draw_scaled_area ({EL_DIRECTION}.By_width, rect.x, rect.y, width, drawing)
+			end
+		end
+
 	draw_centered_pixmap (pixmap: EL_PIXMAP)
 		local
 			rect, this_rect: EL_RECTANGLE
@@ -284,9 +308,9 @@ feature -- Drawing operations
 			implementation.draw_line (x1, y1, x2, y2)
 		end
 
-	draw_drawing_area (x, y: INTEGER; drawing: CAIRO_DRAWING_AREA)
+	draw_area (x, y: INTEGER; drawing: CAIRO_DRAWING_AREA)
 		do
-			implementation.draw_drawing_area (x, y, drawing)
+			implementation.draw_area (x, y, drawing)
 		end
 
 	draw_pixmap (x, y: INTEGER; a_pixmap: EV_PIXMAP)
@@ -314,10 +338,10 @@ feature -- Drawing operations
 			implementation.draw_rotated_text_top_left (x, y, angle, a_text)
 		end
 
-	draw_rounded_drawing_area (x, y, radius, corners_bitmap: INTEGER; drawing: CAIRO_DRAWING_AREA)
+	draw_rounded_area (x, y, radius, corners_bitmap: INTEGER; drawing: CAIRO_DRAWING_AREA)
 		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. `Top_left | Top_right'
 		do
-			implementation.draw_rounded_drawing_area (x, y, radius, corners_bitmap, drawing)
+			implementation.draw_rounded_area (x, y, radius, corners_bitmap, drawing)
 		end
 
 	draw_rounded_pixmap (x, y, radius, corners_bitmap: INTEGER; a_pixmap: EV_PIXMAP)
@@ -326,11 +350,11 @@ feature -- Drawing operations
 			implementation.draw_rounded_pixmap (x, y, radius, corners_bitmap, a_pixmap)
 		end
 
-	draw_scaled_drawing_area (dimension: NATURAL_8; x, y, a_size: INTEGER; drawing: CAIRO_DRAWING_AREA)
+	draw_scaled_area (dimension: NATURAL_8; x, y, a_size: INTEGER; drawing: CAIRO_DRAWING_AREA)
 		require
 			valid_dimension: Orientation.is_valid_dimension (dimension)
 		do
-			implementation.draw_scaled_drawing_area (dimension, x, y, a_size, drawing)
+			implementation.draw_scaled_area (dimension, x, y, a_size, drawing)
 		end
 
 	draw_scaled_pixmap (dimension: NATURAL_8; x, y, a_size: INTEGER; a_pixmap: EV_PIXMAP)

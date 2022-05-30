@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-26 7:13:42 GMT (Thursday 26th May 2022)"
-	revision: "1"
+	date: "2022-05-29 12:25:45 GMT (Sunday 29th May 2022)"
+	revision: "2"
 
 class
 	SLIDE_SHOW_COMMAND
@@ -19,7 +19,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (config_path: FILE_PATH)
 		local
-			config: SLIDE_SHOW_CONFIG
+			config: SLIDE_SHOW
 		do
 			create config.make (config_path)
 		end

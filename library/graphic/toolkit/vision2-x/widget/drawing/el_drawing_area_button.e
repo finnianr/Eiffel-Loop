@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-21 11:06:45 GMT (Friday 21st August 2020)"
-	revision: "11"
+	date: "2022-05-29 15:48:13 GMT (Sunday 29th May 2022)"
+	revision: "12"
 
 class
 	EL_DRAWING_AREA_BUTTON
@@ -94,7 +94,7 @@ feature -- Basic operations
 	draw (drawing: CAIRO_DRAWING_AREA)
 		do
 			if is_displayed then
-				drawing.draw_drawing_area (x, y, image_set.drawing_area (state))
+				drawing.draw_area (x, y, image_set.drawing_area (state))
 				if is_tooltip_displayed and then not tool_tip.is_empty then
 					draw_tooltip (drawing)
 				end

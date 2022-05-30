@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-26 9:11:48 GMT (Thursday 26th May 2022)"
-	revision: "1"
+	date: "2022-05-29 12:44:01 GMT (Sunday 29th May 2022)"
+	revision: "2"
 
 class
 	SLIDE_SHOW_APP
@@ -22,9 +22,7 @@ feature {NONE} -- Implementation
 
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
-			Result := <<
-				required_argument ("config", "Pyxis configuration path", << file_must_exist >>)
-			>>
+			Result := << config_argument ("Pyxis slide_show configuration path") >>
 		end
 
 	default_make: PROCEDURE [like command]
@@ -32,7 +30,7 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make ("")
 		end
 
-	log_filter_set: EL_LOG_FILTER_SET [like Current, SLIDE_SHOW_WINDOW]
+	log_filter_set: EL_LOG_FILTER_SET [like Current, SLIDE_SHOW_WINDOW, SLIDE_SHOW]
 		do
 			create Result.make
 		end

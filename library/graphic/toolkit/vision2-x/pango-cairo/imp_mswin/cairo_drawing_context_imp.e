@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-03 12:17:23 GMT (Monday 3rd August 2020)"
-	revision: "9"
+	date: "2022-05-29 15:59:28 GMT (Sunday 29th May 2022)"
+	revision: "10"
 
 class
 	CAIRO_DRAWING_CONTEXT_IMP
@@ -27,7 +27,7 @@ create
 
 feature {NONE} -- Implementation
 
-	draw_scaled_drawing_area (dimension: NATURAL_8; x, y, size: DOUBLE; drawing: CAIRO_DRAWING_AREA)
+	draw_scaled_area (dimension: NATURAL_8; x, y, size: DOUBLE; drawing: CAIRO_DRAWING_AREA)
 		local
 			l_surface: CAIRO_PIXEL_SURFACE_I
 		do

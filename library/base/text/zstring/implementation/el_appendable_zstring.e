@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-28 14:28:30 GMT (Monday 28th February 2022)"
-	revision: "34"
+	date: "2022-05-29 10:15:24 GMT (Sunday 29th May 2022)"
+	revision: "35"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -420,6 +420,22 @@ feature {STRING_HANDLER} -- Append REAL
 				l_current.append_double (n)
 				set_from_string_8 (l_current)
 			end
+		end
+
+	append_rounded_double (n: REAL_64; place_count: INTEGER)
+		-- append `n' rounded to `place_count' decimal places
+		do
+			if attached current_string_8 as l_current then
+				l_current.append_integer_64 ((n * 10 ^ place_count).rounded_real_64.truncated_to_integer_64)
+				l_current.insert_character ('.', l_current.count - place_count + 1)
+				set_from_string_8 (l_current)
+			end
+		end
+
+	append_rounded_real (n: REAL_32; place_count: INTEGER)
+		-- append `n' rounded to `place_count' decimal places
+		do
+			append_rounded_double (n.to_double, place_count)
 		end
 
 feature {STRING_HANDLER} -- Prepend numeric
