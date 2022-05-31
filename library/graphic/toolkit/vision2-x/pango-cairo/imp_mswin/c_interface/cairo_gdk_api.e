@@ -1,5 +1,6 @@
 note
-	description: "[
+	description: "Windows implementation of [$source CAIRO_GDK_I]"
+	notes: "[
 		GDK wrapped to find physical dimensions of monitor, but not returning correct values
 		on Windows.
 	]"
@@ -9,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 12:33:55 GMT (Thursday 30th July 2020)"
-	revision: "4"
+	date: "2022-05-30 15:16:49 GMT (Monday 30th May 2022)"
+	revision: "5"
 
 class
 	CAIRO_GDK_API
@@ -20,6 +21,8 @@ inherit
 		rename
 			initialize as initialize_api
 		end
+
+	CAIRO_GDK_I
 
 	CAIRO_GDK_C_API
 		undefine
@@ -38,8 +41,6 @@ feature -- Access
 		end
 
 	default_screen (display: POINTER): POINTER
-		require
-			display_attached: is_attached (display)
 		do
 			Result := gdk_display_get_default_screen (api.display_get_default_screen,  display)
 		end
@@ -62,16 +63,12 @@ feature -- Access
 feature -- Measurement
 
 	monitor_height_mm (screen: POINTER; monitor_num: INTEGER): INTEGER
-		require
-			screen_attached: is_attached (screen)
 		do
 			Result := gdk_screen_get_monitor_height_mm (api.screen_get_monitor_height_mm, screen, monitor_num)
 		end
 
 	monitor_width_mm (screen: POINTER; monitor_num: INTEGER): INTEGER
 			-- value returned is too big
-		require
-			screen_attached: is_attached (screen)
 		do
 			Result := gdk_screen_get_monitor_width_mm (api.screen_get_monitor_width_mm, screen, monitor_num)
 		end

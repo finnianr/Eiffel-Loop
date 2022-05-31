@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-29 15:52:16 GMT (Sunday 29th May 2022)"
-	revision: "13"
+	date: "2022-05-31 16:12:03 GMT (Tuesday 31st May 2022)"
+	revision: "14"
 
 deferred class
 	CAIRO_DRAWABLE_CONTEXT_I
@@ -34,6 +34,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	CAIRO_SHARED_GDK_API
 
 feature -- Measurement
 
@@ -182,6 +184,11 @@ feature -- Status change
 			Cairo.set_source_surface (context, a_surface.self_ptr, x, y)
 		end
 
+	set_source_pixels (buffer: CAIRO_PIXEL_BUFFER; x, y: DOUBLE)
+		do
+			Gdk.set_cairo_source_pixbuf (context, buffer.self_ptr, x, y)
+		end
+
 feature -- Drawing operations
 
 	draw_area (x, y: DOUBLE; drawing: CAIRO_DRAWING_AREA)
@@ -298,6 +305,21 @@ feature -- Drawing operations
 		do
 			set_source_surface (source, x, y)
 			Cairo.set_antialias (context, Cairo.Antialias_best)
+			paint
+			restore_color -- Need to restore color after set_source_surface
+		end
+
+	draw_pixel_surface (x, y: DOUBLE; source: CAIRO_PIXEL_SURFACE_I)
+		do
+			set_source_surface (source, x, y)
+			Cairo.set_antialias (context, Cairo.Antialias_best)
+			paint
+			restore_color -- Need to restore color after set_source_surface
+		end
+
+	draw_pixel_buffer (x, y: DOUBLE; buffer: CAIRO_PIXEL_BUFFER)
+		do
+			set_source_pixels (buffer, x, y)
 			paint
 			restore_color -- Need to restore color after set_source_surface
 		end

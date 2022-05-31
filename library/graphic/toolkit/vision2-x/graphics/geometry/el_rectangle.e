@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-29 9:28:19 GMT (Sunday 29th May 2022)"
-	revision: "23"
+	date: "2022-05-31 16:26:55 GMT (Tuesday 31st May 2022)"
+	revision: "24"
 
 class
 	EL_RECTANGLE
@@ -146,6 +146,16 @@ feature -- Measurement
 		do
 			create Result.make (5)
 			Result.append_rounded_double (aspect_ratio, 2)
+		end
+
+feature -- Duplication
+
+	centered_text (rectangle: EL_RECTANGLE; a_text: READABLE_STRING_GENERAL; font: EV_FONT): EL_RECTANGLE
+		-- rectangle containing `a_text' centered in `Current'
+		do
+			create Result.make_for_text (a_text, font)
+			Result.move_center (Current)
+			Result.set_y (Result.y - font.descent // 2)
 		end
 
 feature -- Status query

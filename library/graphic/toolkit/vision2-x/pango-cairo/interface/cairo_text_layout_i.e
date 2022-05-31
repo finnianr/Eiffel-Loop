@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 16:14:17 GMT (Friday 8th January 2021)"
-	revision: "4"
+	date: "2022-05-30 14:43:58 GMT (Monday 30th May 2022)"
+	revision: "5"
 
 deferred class
 	CAIRO_TEXT_LAYOUT_I
@@ -22,7 +22,7 @@ inherit
 
 	CAIRO_SHARED_GOBJECT_API
 
-	CAIRO_SHARED_PANGO_CAIRO_API
+	CAIRO_SHARED_PANGO_LAYOUT_API
 
 	CAIRO_SHARED_PANGO_API
 
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 	make (drawable: CAIRO_DRAWABLE_CONTEXT_I)
 		do
 			create font
-			make_from_pointer (Pango_cairo.new_layout (drawable.context))
+			make_from_pointer (Pango_layout.new (drawable.context))
 		end
 
 feature -- Access

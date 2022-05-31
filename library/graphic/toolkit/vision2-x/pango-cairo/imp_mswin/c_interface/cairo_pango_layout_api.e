@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-31 13:43:42 GMT (Friday 31st July 2020)"
-	revision: "8"
+	date: "2022-05-30 14:47:52 GMT (Monday 30th May 2022)"
+	revision: "9"
 
 class
 	CAIRO_PANGO_LAYOUT_API
@@ -24,19 +24,19 @@ create
 
 feature -- Factory
 
-	new_layout (context_ptr: POINTER): POINTER
+	new (context_ptr: POINTER): POINTER
 		do
 			Result := pango_cairo_create_layout (api.create_layout, context_ptr)
 		end
 
 feature -- Basic operations
 
-	show_layout (context_ptr, layout: POINTER)
+	show (context_ptr, layout: POINTER)
 		do
 			pango_cairo_show_layout (api.show_layout, context_ptr, layout)
 		end
 
-	update_layout (context_ptr, layout: POINTER)
+	update (context_ptr, layout: POINTER)
 		do
 			pango_cairo_update_layout (api.update_layout, context_ptr, layout)
 		end

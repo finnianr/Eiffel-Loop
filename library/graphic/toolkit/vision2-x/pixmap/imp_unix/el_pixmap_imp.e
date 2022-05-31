@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-29 19:43:04 GMT (Sunday 29th May 2022)"
-	revision: "9"
+	date: "2022-05-30 10:22:04 GMT (Monday 30th May 2022)"
+	revision: "10"
 
 class
 	EL_PIXMAP_IMP
@@ -17,7 +17,7 @@ inherit
 		export
 			{EV_ANY_HANDLER} pixbuf_from_drawable
 		redefine
-			interface
+			interface, read_from_named_path
 		end
 
 	EL_PIXMAP_I
@@ -57,6 +57,31 @@ feature {NONE} -- Initialization
 				end
 				set_is_initialized (True)
 			end
+		end
+
+feature -- Element change
+
+	read_from_named_path (file_path: PATH)
+			-- Attempt to load pixmap data from a file specified by `file_name'.
+		local
+			a_cs: EV_GTK_C_STRING
+			g_error: POINTER
+			filepixbuf: POINTER
+		do
+			create a_cs.make_from_path (file_path)
+			filepixbuf := {GTK}.gdk_pixbuf_new_from_file (a_cs.item, $g_error)
+			if g_error /= default_pointer then
+				-- We could not load the image so raise an exception
+				(create {EXCEPTIONS}).raise ("Could not load image file.")
+			else
+				if gc /= NULL then
+					gdk_gc_unref (gc)
+					gc := NULL
+				end
+				set_pixmap_from_pixbuf (filepixbuf)
+				gc := {GTK}.gdk_gc_new (drawable)
+			end
+			{GTK2}.object_unref (filepixbuf)
 		end
 
 feature {NONE} -- Element change

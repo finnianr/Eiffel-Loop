@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-29 15:53:18 GMT (Sunday 29th May 2022)"
-	revision: "13"
+	date: "2022-05-30 14:45:17 GMT (Monday 30th May 2022)"
+	revision: "14"
 
 deferred class
 	CAIRO_DRAWING_CONTEXT_I
@@ -15,7 +15,7 @@ deferred class
 inherit
 	CAIRO_DRAWABLE_CONTEXT_I
 
-	CAIRO_SHARED_PANGO_CAIRO_API
+	CAIRO_SHARED_PANGO_LAYOUT_API
 
 	EL_LAZY_ATTRIBUTE
 		rename
@@ -93,8 +93,8 @@ feature -- Basic operations
 	show_text (a_text: READABLE_STRING_GENERAL)
 		do
 			text_layout.set_text (a_text)
-			Pango_cairo.update_layout (context, text_layout.self_ptr)
-			Pango_cairo.show_layout (context, text_layout.self_ptr)
+			Pango_layout.update (context, text_layout.self_ptr)
+			Pango_layout.show (context, text_layout.self_ptr)
 		end
 
 feature -- Text drawing

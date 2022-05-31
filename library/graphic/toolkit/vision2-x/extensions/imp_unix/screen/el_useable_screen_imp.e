@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-23 16:02:46 GMT (Wednesday 23rd September 2020)"
-	revision: "6"
+	date: "2022-05-31 8:34:33 GMT (Tuesday 31st May 2022)"
+	revision: "7"
 
 class
 	EL_USEABLE_SCREEN_IMP
@@ -17,8 +17,6 @@ inherit
 		redefine
 			make
 		end
-
-	CAIRO_GTK_INIT_API
 
 	EL_OS_IMPLEMENTATION
 
@@ -33,7 +31,7 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			create values.make_filled (0, 4)
-			c_gtk_get_useable_screen_area (values.base_address)
+			{EL_GTK_2_C_API}.gtk_get_useable_screen_area (values.base_address)
 			create area.make (values [0], values [1], values [2], values [3])
 		end
 

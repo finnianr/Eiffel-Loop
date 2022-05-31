@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-05 9:25:45 GMT (Saturday 5th September 2020)"
-	revision: "14"
+	date: "2022-05-31 16:31:06 GMT (Tuesday 31st May 2022)"
+	revision: "15"
 
 deferred class
 	EL_DRAWABLE
@@ -30,17 +30,16 @@ inherit
 			copy, default_create
 		end
 
+	EL_RECTANGULAR
+
 feature -- Drawing operations
 
-	draw_centered_text (a_text: READABLE_STRING_GENERAL; rect: EL_RECTANGLE)
-		local
-			centered_rect: EL_RECTANGLE
+	draw_centered_text (a_text: READABLE_STRING_GENERAL; rectangle: EL_RECTANGLE)
+		-- draw `a_text' centered in `rectangle'
 		do
-			create centered_rect.make_for_text (a_text, font)
-			centered_rect.move_center (rect)
-			centered_rect.set_y (centered_rect.y - font.descent // 2)
-
-			draw_text_top_left (centered_rect.x, centered_rect.y, to_unicode_general (a_text))
+			if attached rectangle.centered_text (rectangle, a_text, font) as rect then
+				draw_text_top_left (rect.x, rect.y, a_text)
+			end
 		end
 
 	draw_pixel_buffer (x, y: INTEGER; a_pixels: EV_PIXEL_BUFFER)

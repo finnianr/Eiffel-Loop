@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-15 20:41:50 GMT (Wednesday 15th September 2021)"
-	revision: "11"
+	date: "2022-05-31 15:18:48 GMT (Tuesday 31st May 2022)"
+	revision: "12"
 
 deferred class
 	CAIRO_I
@@ -191,7 +191,7 @@ feature -- Element change
 	set_pattern_filter (pattern: POINTER; filter: INTEGER)
 		-- void cairo_pattern_set_filter (cairo_pattern_t *pattern, cairo_filter_t filter);
 		require
-			is_attached: is_attached (pattern)
+			pattern_attached: is_attached (pattern)
 			valid_filter: is_valid_filter (filter)
 		deferred
 		end
@@ -200,7 +200,7 @@ feature -- Element change
 		-- Sets the pattern's transformation matrix to matrix
 		-- void cairo_pattern_set_matrix (cairo_pattern_t *pattern, const cairo_matrix_t *matrix);
 		require
-			is_attached: is_attached (pattern) and is_attached (matrix)
+			args_attached: is_attached (pattern) and is_attached (matrix)
 		deferred
 		end
 
@@ -214,7 +214,7 @@ feature -- Element change
 	set_source_rgb (context: POINTER; red, green, blue: DOUBLE)
 			-- void cairo_set_source_rgb (cairo_t *cr, double red, double green, double blue);
 		require
-			is_attached: is_attached (context)
+			context_attached: is_attached (context)
 		deferred
 		end
 
@@ -227,8 +227,8 @@ feature -- Element change
 
 	set_source_surface (context, surface: POINTER; x, y: DOUBLE)
 		require
-			is_context_attached: is_attached (context)
-			is_surface_attached: is_attached (surface)
+			context_attached: is_attached (context)
+			surface_attached: is_attached (surface)
 		deferred
 		end
 
@@ -250,7 +250,7 @@ feature -- Transformations
 
 	translate (context: POINTER; tx, ty: DOUBLE)
 		require
-			is_attached: is_attached (context)
+			context_attached: is_attached (context)
 		deferred
 		end
 

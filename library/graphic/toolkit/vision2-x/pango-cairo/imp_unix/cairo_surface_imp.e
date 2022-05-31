@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-03 1:19:38 GMT (Monday 3rd August 2020)"
-	revision: "6"
+	date: "2022-05-31 15:23:46 GMT (Tuesday 31st May 2022)"
+	revision: "7"
 
 class
 	CAIRO_SURFACE_IMP
@@ -20,6 +20,6 @@ inherit
 	EL_OS_IMPLEMENTATION
 
 create
-	make_argb_32, make_rgb_24, make_with_argb_32_data, make_with_rgb_24_data, make_from_file
+	make_argb_32, make_rgb_24, make_with_argb_32_data, make_with_rgb_24_data, make_from_png
 
 end

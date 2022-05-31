@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 12:41:15 GMT (Thursday 30th July 2020)"
-	revision: "7"
+	date: "2022-05-30 16:35:29 GMT (Monday 30th May 2022)"
+	revision: "8"
 
 class
 	CAIRO_PANGO_LAYOUT_API
@@ -18,17 +18,12 @@ inherit
 			default_create as make
 		end
 
-	CAIRO_GTK2_API
-		rename
-			default_create as make
-		end
-
 create
 	make
 
 feature -- Factory
 
-	frozen new_layout (context_ptr: POINTER): POINTER
+	frozen new (context_ptr: POINTER): POINTER
 			-- PangoLayout * pango_cairo_create_layout (cairo_t *cr);
 		external
 			"C signature (cairo_t *): EIF_POINTER use <pango/pangocairo.h>"
@@ -38,7 +33,7 @@ feature -- Factory
 
 feature -- Element change
 
-	frozen update_layout (context_ptr, layout: POINTER)
+	frozen update (context_ptr, layout: POINTER)
 			-- void pango_cairo_update_layout (cairo_t *cr, PangoLayout *layout);
 		external
 			"C signature (cairo_t *, PangoLayout *) use <pango/pangocairo.h>"
@@ -48,7 +43,7 @@ feature -- Element change
 
 feature -- Basic operations
 
-	frozen show_layout (context_ptr, layout: POINTER)
+	frozen show (context_ptr, layout: POINTER)
 			-- void pango_cairo_show_layout (cairo_t *cr, PangoLayout *layout);
 		external
 			"C signature (cairo_t *, PangoLayout *) use <pango/pangocairo.h>"

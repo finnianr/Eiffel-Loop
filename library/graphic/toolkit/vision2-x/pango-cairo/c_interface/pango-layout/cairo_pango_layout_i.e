@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-15 20:41:59 GMT (Wednesday 15th September 2021)"
-	revision: "8"
+	date: "2022-05-30 14:44:56 GMT (Monday 30th May 2022)"
+	revision: "9"
 
 deferred class
 	CAIRO_PANGO_LAYOUT_I
@@ -17,7 +17,7 @@ inherit
 
 feature -- Factory
 
-	new_layout (context_ptr: POINTER): POINTER
+	new (context_ptr: POINTER): POINTER
 		require
 			is_attached: is_attached (context_ptr)
 		deferred
@@ -25,13 +25,13 @@ feature -- Factory
 
 feature -- Basic operations
 
-	show_layout (context_ptr, layout: POINTER)
+	show (context_ptr, layout: POINTER)
 		require
 			is_attached: is_attached (context_ptr)
 		deferred
 		end
 
-	update_layout (context_ptr, layout: POINTER)
+	update (context_ptr, layout: POINTER)
 		require
 			is_attached: is_attached (context_ptr)
 		deferred

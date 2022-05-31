@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-31 13:46:32 GMT (Friday 31st July 2020)"
-	revision: "8"
+	date: "2022-05-30 14:55:19 GMT (Monday 30th May 2022)"
+	revision: "9"
 
 deferred class
 	CAIRO_SHARED_GDK_API
@@ -17,8 +17,8 @@ inherit
 
 feature -- Access
 
-	CAIRO_GDK: CAIRO_GDK_API
+	Gdk: CAIRO_GDK_I
 		once
-			create Result.make
+			create {CAIRO_GDK_API} Result.make
 		end
 end

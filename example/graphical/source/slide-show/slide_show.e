@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-30 10:15:48 GMT (Monday 30th May 2022)"
-	revision: "2"
+	date: "2022-05-31 16:43:32 GMT (Tuesday 31st May 2022)"
+	revision: "3"
 
 class
 	SLIDE_SHOW
@@ -24,6 +24,8 @@ inherit
 		rename
 			make as make_solitary
 		end
+
+	EL_RECTANGULAR
 
 	EL_MODULE_COLOR; EL_MODULE_LOG; EL_MODULE_OS; EL_MODULE_GUI
 
@@ -54,7 +56,6 @@ feature {NONE} -- Initialization
 			end
 			directory_list.remove_last
 			group_list := new_group_list
-			create dimensions.make_size (width, height)
 			create drawing_area.make_with_size (width, height)
 			drawing_area.set_color (Color.black)
 			drawing_area.fill
@@ -93,9 +94,8 @@ feature -- Basic operations
 			lio.put_new_line
 
 			across 1 |..| title_duration_ratio as n loop
-				if attached new_pixmap (cover_image) as pixmap then
-					add_pixmap (pixmap)
-					pixmap.destroy
+				if attached new_image (cover_image) as image then
+					add_image (image)
 				end
 			end
 			across group_list as list loop
@@ -108,29 +108,26 @@ feature -- Basic operations
 			log.exit
 		end
 
-	add_pixmap (a_pixmap: EL_PIXMAP)
+	add_image (image: CAIRO_DRAWING_AREA)
 		do
 			drawing_area.fill
-			drawing_area.draw_centered_pixmap (a_pixmap)
+			drawing_area.draw_fitted_area (image)
 			save_next_jpeg
 		end
 
-	add_named_pixmap (file_path: FILE_PATH; print_info: BOOLEAN)
+	add_named_image (file_path: FILE_PATH; print_info: BOOLEAN)
 		do
-			if attached new_pixmap (file_path) as pixmap then
+			if attached new_image (file_path) as image then
 				if print_info then
-					pixmap.dimensions.print_info (lio, group_name (file_path))
+					image.dimensions.print_info (lio, group_name (file_path))
 				end
-				add_pixmap (pixmap)
-				pixmap.destroy
+				add_image (image)
 			end
 		end
 
 feature -- Measurement
 
 	digit_count: INTEGER
-
-	dimensions: EL_RECTANGLE
 
 	font_height: INTEGER
 
@@ -173,10 +170,9 @@ feature {SLIDE_GROUP} -- Factory
 			Result.preferred_families.extend (title_font)
 		end
 
-	new_pixmap (file_path: FILE_PATH): EL_PIXMAP
+	new_image (file_path: FILE_PATH): CAIRO_DRAWING_AREA
 		do
-			create Result
-			Result.set_with_named_file (file_path)
+			create Result.make_with_path (file_path)
 		end
 
 	new_theme_font: EV_FONT

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "26"
+	date: "2022-05-31 10:39:32 GMT (Tuesday 31st May 2022)"
+	revision: "27"
 
 class
 	EL_PIXMAP
@@ -113,11 +113,6 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
-
-	dimensions: EL_RECTANGLE
-		do
-			create Result.make_size (width, height)
-		end
 
 	file_path: FILE_PATH
 		do

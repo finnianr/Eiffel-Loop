@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-29 14:44:16 GMT (Sunday 29th May 2022)"
-	revision: "2"
+	date: "2022-05-31 16:43:58 GMT (Tuesday 31st May 2022)"
+	revision: "3"
 
 class
 	SLIDE_GROUP
@@ -49,29 +49,29 @@ feature -- Basic operations
 
 	generate
 		do
-			if attached title_pixmap as pixmap then
+			if attached title_area as area then
 				across 1 |..| parent.title_duration_ratio as n loop
 					-- Generate title image
-					parent.add_pixmap (pixmap)
+					parent.add_image (area)
 				end
-				pixmap.destroy
 			end
 			across file_list as list loop
-				parent.add_named_pixmap (list.item, list.is_first)
+				parent.add_named_image (list.item, list.is_first)
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	title_pixmap: EL_PIXMAP
+	title_area: CAIRO_DRAWING_AREA
 		local
 			rect: EL_RECTANGLE; height: INTEGER
 		do
-			rect := parent.dimensions.twin
-			Result := rect
-			Result.set_background_color (Color.Black)
-			Result.clear
-			Result.set_foreground_color (Color.White)
+			rect := parent.dimensions
+			create Result.make_with_size (rect.width, rect.height)
+
+			Result.set_color (Color.Black); Result.fill
+
+			Result.set_color (Color.White)
 
 			height := (rect.height / 5).rounded
 			rect.set_height (height)

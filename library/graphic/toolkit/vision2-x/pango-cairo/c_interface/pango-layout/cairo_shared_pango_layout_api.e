@@ -6,18 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 13:11:40 GMT (Thursday 30th July 2020)"
-	revision: "8"
+	date: "2022-05-30 14:41:36 GMT (Monday 30th May 2022)"
+	revision: "9"
 
 deferred class
-	CAIRO_SHARED_PANGO_CAIRO_API
+	CAIRO_SHARED_PANGO_LAYOUT_API
 
 inherit
 	EL_ANY_SHARED
 
 feature {NONE} -- Implementation
 
-	Pango_cairo: CAIRO_PANGO_LAYOUT_I
+	Pango_layout: CAIRO_PANGO_LAYOUT_I
 		once
 			create {CAIRO_PANGO_LAYOUT_API} Result.make
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "7"
+	date: "2022-05-31 16:52:33 GMT (Tuesday 31st May 2022)"
+	revision: "8"
 
 deferred class
 	CAIRO_SURFACE_I
@@ -18,6 +18,8 @@ inherit
 			{CAIRO_SHARED_API} self_ptr, dispose
 		end
 
+	EL_RECTANGULAR
+
 	CAIRO_SHARED_API
 
 feature {NONE} -- Initialization
@@ -27,14 +29,14 @@ feature {NONE} -- Initialization
 			make_from_pointer (Cairo.new_image_surface (Cairo.Format_ARGB_32, a_width, a_height))
 		end
 
-	make_from_file (image_path: FILE_PATH)
+	make_from_png (png_path: FILE_PATH)
 		require
-			image_exists: image_path.exists
+			image_exists: png_path.exists
 		local
 			cairo_file: EL_PNG_IMAGE_FILE
 		do
-			if image_path.exists then
-				create cairo_file.make_open_read (image_path)
+			if png_path.exists then
+				create cairo_file.make_open_read (png_path)
 				make_from_pointer (cairo_file.read_cairo_surface)
 				cairo_file.close
 			end
@@ -111,13 +113,6 @@ feature -- Basic operations
 			create file_out.make_open_write (file_path)
 			file_out.put_image (self_ptr)
 			file_out.close
-		end
-
-feature -- Status query
-
-	is_initialized: BOOLEAN
-		do
-			Result := is_attached (self_ptr)
 		end
 
 feature -- Factory

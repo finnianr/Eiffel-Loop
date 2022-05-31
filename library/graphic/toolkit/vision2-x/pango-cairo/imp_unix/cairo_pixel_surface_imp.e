@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-29 15:53:02 GMT (Sunday 29th May 2022)"
-	revision: "12"
+	date: "2022-05-31 13:59:48 GMT (Tuesday 31st May 2022)"
+	revision: "13"
 
 class
 	CAIRO_PIXEL_SURFACE_IMP
@@ -32,7 +32,8 @@ inherit
 	EL_SHARED_IMAGE_ACCESS
 
 create
-	make_with_pixmap, make_with_scaled_pixmap, make_with_scaled_drawing, make_with_size, make_with_buffer
+	make_with_pixmap, make_with_scaled_pixmap, make_with_scaled_drawing, make_with_size, make_with_buffer,
+	make_with_path
 
 feature {NONE} -- Initialization
 
@@ -104,7 +105,7 @@ feature -- Basic operations
 			if is_attached (gdk_pixel_buffer) then
 				quality_parameter := quality.out; type := Type_jpeg
 				create handle.make_from_path (file_path)
-				{EL_GTK2}.gdk_pixbuf_save_jpeg (gdk_pixel_buffer, handle.item, type.item, quality_parameter.item, $gerror)
+				{EL_GTK_2_C_API}.gdk_pixbuf_save_jpeg (gdk_pixel_buffer, handle.item, type.item, quality_parameter.item, $gerror)
 				if gerror /= default_pointer then
 					on_fail (file_path.base)
 				end

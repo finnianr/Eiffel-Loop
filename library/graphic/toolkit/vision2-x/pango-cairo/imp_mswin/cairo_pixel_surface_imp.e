@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "10"
+	date: "2022-05-30 13:32:39 GMT (Monday 30th May 2022)"
+	revision: "11"
 
 class
 	CAIRO_PIXEL_SURFACE_IMP
@@ -15,7 +15,8 @@ class
 inherit
 	CAIRO_PIXEL_SURFACE_I
 		rename
-			adjust_colors as do_nothing
+			adjust_colors as do_nothing,
+			make_with_scaled_drawing as make_with_scaled_area
 		end
 
 	CAIRO_SURFACE_IMP
@@ -30,7 +31,7 @@ inherit
 		end
 
 create
-	make_with_pixmap, make_with_scaled_pixmap, make_with_scaled_drawing, make_with_size, make_with_buffer
+	make_with_pixmap, make_with_scaled_pixmap, make_with_scaled_area, make_with_size, make_with_buffer
 
 feature {NONE} -- Initialization
 
@@ -55,7 +56,7 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_with_scaled_drawing (dimension: NATURAL_8; drawing: CAIRO_DRAWING_AREA; size: DOUBLE)
+	make_with_scaled_area (dimension: NATURAL_8; drawing: CAIRO_DRAWING_AREA; size: DOUBLE)
 		local
 			l_bitmap: WEL_GDIP_BITMAP
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-29 15:59:28 GMT (Sunday 29th May 2022)"
-	revision: "10"
+	date: "2022-05-30 13:32:39 GMT (Monday 30th May 2022)"
+	revision: "11"
 
 class
 	CAIRO_DRAWING_CONTEXT_IMP
@@ -15,7 +15,7 @@ class
 inherit
 	CAIRO_DRAWING_CONTEXT_I
 		redefine
-			draw_scaled_drawing_area
+			draw_scaled_area
 		end
 
 	EL_OS_IMPLEMENTATION
@@ -31,7 +31,7 @@ feature {NONE} -- Implementation
 		local
 			l_surface: CAIRO_PIXEL_SURFACE_I
 		do
-			create {CAIRO_PIXEL_SURFACE_IMP} l_surface.make_with_scaled_drawing (dimension, drawing, size.rounded)
+			create {CAIRO_PIXEL_SURFACE_IMP} l_surface.make_with_scaled_area (dimension, drawing, size.rounded)
 			draw_surface (x, y, l_surface)
 			l_surface.destroy
 		end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-05-31 16:12:59 GMT (Tuesday 31st May 2022)"
+	revision: "10"
 
 deferred class
 	CAIRO_PIXEL_SURFACE_I
@@ -23,6 +23,21 @@ inherit
 	EL_MODULE_EXCEPTION
 
 feature {NONE} -- Initialization
+
+	make_with_path (image_path: FILE_PATH)
+		local
+			buffer: CAIRO_PIXEL_BUFFER
+		do
+			create buffer.make (image_path)
+			if buffer.self_ptr = default_pointer then
+				make_rgb_24 (1, 1)
+			else
+				make_with_size (buffer.width, buffer.height)
+				if attached new_context as context then
+					context.draw_pixel_buffer (0, 0, buffer)
+				end
+			end
+		end
 
 	make_with_pixmap (a_pixmap: EV_PIXMAP)
 		deferred

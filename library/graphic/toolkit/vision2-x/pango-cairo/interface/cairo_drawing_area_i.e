@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-29 15:52:42 GMT (Sunday 29th May 2022)"
-	revision: "8"
+	date: "2022-05-31 16:54:26 GMT (Tuesday 31st May 2022)"
+	revision: "9"
 
 deferred class
 	CAIRO_DRAWING_AREA_I
@@ -32,6 +32,24 @@ feature {CAIRO_DRAWING_AREA} -- Initialization
 
 	make_cairo_context (a_surface: CAIRO_SURFACE_I)
 		deferred
+		end
+
+	make_with_path (image_path: FILE_PATH)
+		-- make from an image file
+		require
+			path_exists: image_path.exists
+		local
+			buffer: CAIRO_PIXEL_BUFFER
+		do
+			create buffer.make (image_path)
+			if buffer.is_initialized then
+				make_with_size (buffer.width, buffer.height)
+				if attached surface.new_context as context then
+					context.draw_pixel_buffer (0, 0, buffer)
+				end
+			else
+				make_with_size (1, 1)
+			end
 		end
 
 	make_with_pixmap (a_pixmap: EV_PIXMAP)
@@ -135,11 +153,11 @@ feature -- Element change
 		deferred
 		end
 
-	set_with_path (image_path: FILE_PATH)
+	set_with_png (png_path: FILE_PATH)
 		require
-			image_exists: image_path.exists
+			image_exists: png_path.exists
 		do
-			make_cairo_context (create {CAIRO_SURFACE_IMP}.make_from_file (image_path))
+			make_cairo_context (create {CAIRO_SURFACE_IMP}.make_from_png (png_path))
 		end
 
 feature -- Basic operations
@@ -192,6 +210,14 @@ feature -- Drawing operations
 		end
 
 	draw_scaled_pixmap (dimension: NATURAL_8; x, y, a_size: DOUBLE; a_pixmap: EV_PIXMAP)
+		deferred
+		end
+
+	draw_scaled_surface (dimension: NATURAL_8; x, y, size: DOUBLE; a_surface: CAIRO_SURFACE_I)
+		deferred
+		end
+
+	draw_surface (x, y: DOUBLE; source: CAIRO_SURFACE_I)
 		deferred
 		end
 

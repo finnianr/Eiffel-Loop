@@ -502,3 +502,6 @@ Abstraction for across scope
 Mon 16th May 2022, 9:27:08
 Added pre_backup_command
 
+Tue 31st May 2022, 17:16:29
+Cairo drawing area initialializeable from JPEG
+
