@@ -6,19 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 12:29:38 GMT (Thursday 30th July 2020)"
-	revision: "6"
+	date: "2022-06-02 9:43:37 GMT (Thursday 2nd June 2022)"
+	revision: "7"
 
 deferred class
 	CAIRO_GOBJECT_I
 
 feature -- Access
 
---	widget_get_snapshot (a_widget, a_rectangle: POINTER): POINTER
---		deferred
---		end
+	clear (a_c_object: TYPED_POINTER [POINTER])
+		deferred
+		end
 
-	object_unref (a_c_object: POINTER)
+	unref (a_c_object: POINTER)
 		deferred
 		end
 

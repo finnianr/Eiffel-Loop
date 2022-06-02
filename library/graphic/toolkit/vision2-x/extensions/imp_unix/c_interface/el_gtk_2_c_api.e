@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-31 15:38:04 GMT (Tuesday 31st May 2022)"
-	revision: "7"
+	date: "2022-06-02 9:36:10 GMT (Thursday 2nd June 2022)"
+	revision: "8"
 
 class
 	EL_GTK_2_C_API
@@ -112,5 +112,23 @@ feature -- Basic operations
 			"C signature (cairo_t *, GdkPixbuf *, double, double) use %"ev_gtk.h%""
 		alias
 			"gdk_cairo_set_source_pixbuf"
+		end
+
+feature -- Disposal
+
+	frozen gdk_pixbuf_unref (pixbuf: POINTER)
+		-- void gdk_pixbuf_unref (GdkPixbuf *pixbuf)
+		external
+			"C signature (GdkPixbuf *) use %"ev_gtk.h%""
+		alias
+			"gdk_pixbuf_unref"
+		end
+
+	frozen g_clear_object (pixbuf: TYPED_POINTER [POINTER])
+		-- void g_clear_object (volatile GObject **object_ptr);
+		external
+			"C signature (GObject **) use %"ev_gtk.h%""
+		alias
+			"g_clear_object"
 		end
 end

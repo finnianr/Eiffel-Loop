@@ -1,16 +1,16 @@
 note
-	description: "API pointers into libgdk_pixbuf"
+	description: "API pointers for glib-2.0"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-01 15:50:22 GMT (Wednesday 1st June 2022)"
-	revision: "2"
+	date: "2022-06-01 14:46:57 GMT (Wednesday 1st June 2022)"
+	revision: "6"
 
 class
-	CAIRO_GDK_PIXBUF_API_POINTERS
+	CAIRO_GLIB_API_POINTERS
 
 inherit
 	EL_DYNAMIC_MODULE_POINTERS
@@ -20,10 +20,10 @@ create
 
 feature {EL_DYNAMIC_MODULE} -- Access
 
-	get_height: POINTER
+	free: POINTER
 
-	get_width: POINTER
+	malloc: POINTER
 
-	new_from_file_utf8: POINTER
+	realloc: POINTER
 
 end

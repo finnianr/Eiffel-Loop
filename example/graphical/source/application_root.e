@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-30 15:11:57 GMT (Monday 30th May 2022)"
-	revision: "13"
+	date: "2022-06-02 16:22:34 GMT (Thursday 2nd June 2022)"
+	revision: "14"
 
 class
 	APPLICATION_ROOT
@@ -26,7 +26,7 @@ create
 
 feature {NONE} -- Compile also
 
-	cairo: TUPLE [CAIRO_SHARED_GDK_API, CAIRO_SHARED_GDK_PIXBUF]
+	cairo: TUPLE [CAIRO_SHARED_GDK_API, CAIRO_SHARED_GDK_PIXBUF_API]
 		do
 			create Result
 		end

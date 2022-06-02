@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-04 8:56:44 GMT (Tuesday 4th August 2020)"
-	revision: "4"
+	date: "2022-06-01 9:39:45 GMT (Wednesday 1st June 2022)"
+	revision: "5"
 
 class
 	CAIRO_DRAWING_AREA_IMP
@@ -17,6 +17,8 @@ inherit
 		rename
 			remove_clip as reset_clip,
 			set_angle as rotate
+		undefine
+			is_initialized
 		end
 
 	CAIRO_DRAWING_CONTEXT_IMP

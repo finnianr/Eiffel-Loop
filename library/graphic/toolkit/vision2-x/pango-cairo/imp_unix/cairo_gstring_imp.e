@@ -1,13 +1,13 @@
 note
-	description: "Cairo gstring"
+	description: "Cairo GDK string"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-31 10:00:13 GMT (Tuesday 31st May 2022)"
-	revision: "1"
+	date: "2022-06-01 17:29:17 GMT (Wednesday 1st June 2022)"
+	revision: "2"
 
 class
 	CAIRO_GSTRING_IMP
@@ -21,6 +21,21 @@ inherit
 		end
 
 create
-	make_from_path, share_from_pointer
+	make_from_path, make_from_file_path, share_from_pointer
+
+feature {NONE} -- Initialization
+
+	make_from_file_path (file_path: FILE_PATH)
+			-- Set `item' to the content of `a_path'.
+		local
+			utf_8: STRING; c_str: ANY
+		do
+			utf_8 := file_path.to_utf_8
+			string_length := utf_8.count
+			c_str := utf_8.to_c
+			item := {GTK}.g_malloc (utf_8.count + 1)
+			item.memory_copy ($c_str, utf_8.count + 1)
+			is_shared := False
+		end
 
 end

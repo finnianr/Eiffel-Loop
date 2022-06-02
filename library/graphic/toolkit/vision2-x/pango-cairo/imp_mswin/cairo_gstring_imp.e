@@ -11,13 +11,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-30 16:52:31 GMT (Monday 30th May 2022)"
-	revision: "1"
+	date: "2022-06-01 15:35:58 GMT (Wednesday 1st June 2022)"
+	revision: "2"
 
 class
-	EV_GTK_C_STRING
+	CAIRO_GSTRING_IMP
 
 inherit
+	CAIRO_GSTRING_I
+
 	DISPOSABLE
 
 	STRING_HANDLER
@@ -25,12 +27,29 @@ inherit
 	NATIVE_STRING_HANDLER
 
 create
-	set_with_eiffel_string, share_from_pointer, make_from_pointer, make_from_path
+	set_with_eiffel_string, share_from_pointer, make_from_pointer, make_from_file_path, make_from_path
 
 convert
 	set_with_eiffel_string ({READABLE_STRING_GENERAL, STRING, STRING_32})
 
 feature {NONE} -- Initialization
+
+	make_from_file_path (file_path: FILE_PATH)
+			-- Set `item' to the content of `a_path'.
+		local
+			utf_8: STRING; c_str: ANY
+		do
+			utf_8 := file_path.to_utf_8
+			string_length := utf_8.count
+			c_str := utf_8.to_c
+			item := Glib.malloc (utf_8.count + 1)
+			item.memory_copy ($c_str, utf_8.count + 1)
+			is_shared := False
+		end
+
+	make_from_path (a_path: PATH)
+		do
+		end
 
 	make_from_pointer (a_utf8_ptr: POINTER)
 			-- Set `item' to `a_utf8_ptr' and gain ownership of memory.
@@ -40,20 +59,6 @@ feature {NONE} -- Initialization
 			set_from_pointer (a_utf8_ptr, c_strlen (a_utf8_ptr) + 1,  False)
 		end
 
-	make_from_path (a_path: PATH)
-			-- Set `item' to the content of `a_path'.
-		require
-			a_path_not_void: a_path /= Void
-		local
-			l_ptr: MANAGED_POINTER
-		do
-			l_ptr := a_path.to_pointer
-			string_length := l_ptr.count - 1
---			item := {GTK}.g_malloc (l_ptr.count)
-			item.memory_copy (l_ptr.item, l_ptr.count)
-			is_shared := False
-		end
-
 feature -- Access
 
 	is_shared: BOOLEAN
@@ -61,6 +66,35 @@ feature -- Access
 
 	item: POINTER
 			-- Pointer to the UTF8 string.
+
+	set_with_eiffel_string (a_string: READABLE_STRING_GENERAL)
+			-- Create `item' and retain ownership.
+		require
+			a_string_not_void: a_string /= Void
+		do
+			internal_set_with_eiffel_string (a_string, False)
+		ensure
+			string_set: string.same_string_general (a_string)
+		end
+
+	share_from_pointer (a_utf8_ptr: POINTER)
+			-- Set `Current' to use `a_utf8_ptr'.
+			-- `a_utf8_ptr' is not owned by `Current' as it isn't copied so do not free from outside.
+		require else
+			a_utf8_ptr_not_null: a_utf8_ptr /= default_pointer
+		do
+			set_from_pointer (a_utf8_ptr, c_strlen (a_utf8_ptr) + 1, True)
+		end
+
+	share_with_eiffel_string (a_string: READABLE_STRING_GENERAL)
+			-- Create `item' but do not take ownership.
+		require
+			a_string_not_void: a_string /= Void
+		do
+			internal_set_with_eiffel_string (a_string, True)
+		ensure
+			string_set: string.same_string_general (a_string)
+		end
 
 	string: STRING_32
 			-- Locale string representation of the UTF8 string
@@ -143,41 +177,16 @@ feature -- Access
 	string_length: INTEGER
 			-- Length of string data held in `managed_data'
 
-	set_with_eiffel_string (a_string: READABLE_STRING_GENERAL)
-			-- Create `item' and retain ownership.
-		require
-			a_string_not_void: a_string /= Void
-		do
-			internal_set_with_eiffel_string (a_string, False)
-		ensure
-			string_set: string.same_string_general (a_string)
-		end
-
-	share_with_eiffel_string (a_string: READABLE_STRING_GENERAL)
-			-- Create `item' but do not take ownership.
-		require
-			a_string_not_void: a_string /= Void
-		do
-			internal_set_with_eiffel_string (a_string, True)
-		ensure
-			string_set: string.same_string_general (a_string)
-		end
-
-	share_from_pointer (a_utf8_ptr: POINTER)
-			-- Set `Current' to use `a_utf8_ptr'.
-			-- `a_utf8_ptr' is not owned by `Current' as it isn't copied so do not free from outside.
-		require
-			a_utf8_ptr_not_null: a_utf8_ptr /= default_pointer
-		do
-			set_from_pointer (a_utf8_ptr, c_strlen (a_utf8_ptr) + 1, True)
-		end
-
 feature {NONE} -- Implementation
 
-	shared_pointer_helper: MANAGED_POINTER
-			-- Reusable Managed Pointer for UTF8 pointer manipulations.
-		once
-			create Result.share_from_pointer (default_pointer, 0)
+	dispose
+			-- Dispose `Current'.
+		do
+				-- This routine is also called from `set_from_pointer'.
+			if item /= default_pointer and then not is_shared then
+				Glib.free (item)
+				item := default_pointer
+			end
 		end
 
 	internal_set_with_eiffel_string (a_string: READABLE_STRING_GENERAL; a_shared: BOOLEAN)
@@ -218,11 +227,11 @@ feature {NONE} -- Implementation
 				i := 1
 				if item /= default_pointer and then not is_shared then
 						-- Reuse memory pointed to by `item' instead of freeing it.
---					utf8_ptr := {GTK}.g_realloc (item, bytes_written + 1)
+					utf8_ptr := Glib.realloc (item, bytes_written + 1)
 						-- Set `item' to `default_pointer' so that it won't be GC'd.
 					item := default_pointer
 				else
---					utf8_ptr := {GTK}.g_malloc (bytes_written + 1)
+					utf8_ptr := Glib.malloc (bytes_written + 1)
 				end
 				l_ptr := shared_pointer_helper
 				l_ptr.set_from_pointer (utf8_ptr, bytes_written + 1)
@@ -282,23 +291,26 @@ feature {NONE} -- Implementation
 			is_shared := a_shared
 		end
 
-	dispose
-			-- Dispose `Current'.
-		do
-				-- This routine is also called from `set_from_pointer'.
-			if item /= default_pointer and then not is_shared then
---				{GTK}.g_free (item)
-				item := default_pointer
-			end
+	shared_pointer_helper: MANAGED_POINTER
+			-- Reusable Managed Pointer for UTF8 pointer manipulations.
+		once
+			create Result.share_from_pointer (default_pointer, 0)
 		end
 
 feature {NONE} -- Externals
 
-	c_strlen (ptr: POINTER): INTEGER
+	frozen c_strlen (ptr: POINTER): INTEGER
 		external
 			"C macro signature (char *): EIF_INTEGER use <string.h>"
 		alias
 			"strlen"
+		end
+
+feature {NONE} -- Constants
+
+	Glib: CAIRO_GLIB_API
+		once
+			create Result.make
 		end
 
 note
@@ -313,8 +325,6 @@ note
 		]"
 
 end
-
-
 
 
 

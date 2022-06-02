@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-31 15:38:27 GMT (Tuesday 31st May 2022)"
-	revision: "5"
+	date: "2022-06-02 9:07:53 GMT (Thursday 2nd June 2022)"
+	revision: "6"
 
 class
 	CAIRO_GDK_API
@@ -92,5 +92,10 @@ feature -- Basic operations
 	set_cairo_source_pixbuf (a_context, a_pixbuf: POINTER; a_pixbuf_x, a_pixbuf_y: REAL_64)
 		do
 			gdk_cairo_set_source_pixbuf (a_context, a_pixbuf, a_pixbuf_x, a_pixbuf_y)
+		end
+
+	pixbuf_unref (pixbuf: POINTER)
+		do
+			gdk_pixbuf_unref (pixbuf)
 		end
 end

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-30 15:16:49 GMT (Monday 30th May 2022)"
-	revision: "5"
+	date: "2022-06-02 13:14:13 GMT (Thursday 2nd June 2022)"
+	revision: "6"
 
 class
 	CAIRO_GDK_API
@@ -25,9 +25,6 @@ inherit
 	CAIRO_GDK_I
 
 	CAIRO_GDK_C_API
-		undefine
-			dispose
-		end
 
 create
 	make
@@ -40,14 +37,14 @@ feature -- Access
 			Result := gdk_display_get_default (api.display_get_default)
 		end
 
-	default_screen (display: POINTER): POINTER
-		do
-			Result := gdk_display_get_default_screen (api.display_get_default_screen,  display)
-		end
-
 	default_root_window: POINTER
 		do
 			Result := gdk_get_default_root_window (api.get_default_root_window)
+		end
+
+	default_screen (display: POINTER): POINTER
+		do
+			Result := gdk_display_get_default_screen (api.display_get_default_screen,  display)
 		end
 
 	window_display (window: POINTER): POINTER
@@ -84,6 +81,16 @@ feature -- Basic operations
 	initialize (argc, argv: POINTER)
 		do
 			gdk_init (api.init, argc, argv)
+		end
+
+	set_cairo_source_pixbuf (context, pixbuf: POINTER; x, y: REAL_64)
+		do
+			gdk_cairo_set_source_pixbuf (api.cairo_set_source_pixbuf, context, pixbuf, x, y)
+		end
+
+	pixbuf_unref (pixbuf: POINTER)
+		do
+			gdk_pixbuf_unref (api.pixbuf_unref, pixbuf)
 		end
 
 feature {NONE} -- Constants

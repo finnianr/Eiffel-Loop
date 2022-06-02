@@ -6,21 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-30 14:43:58 GMT (Monday 30th May 2022)"
-	revision: "5"
+	date: "2022-06-02 10:50:28 GMT (Thursday 2nd June 2022)"
+	revision: "6"
 
 deferred class
 	CAIRO_TEXT_LAYOUT_I
 
 inherit
-	EL_OWNED_C_OBJECT
-		export
-			{CAIRO_DRAWABLE_CONTEXT_I} self_ptr
-		end
+	CAIRO_OWNED_G_OBJECT
 
 	EL_MODULE_BUFFER_32
-
-	CAIRO_SHARED_GOBJECT_API
 
 	CAIRO_SHARED_PANGO_LAYOUT_API
 
@@ -102,12 +97,6 @@ feature {NONE} -- Implementation
 					adjustment := adjustment // 2
 				end
 			end
-		end
-
-	c_free (this: POINTER)
-		--
-		do
-			Gobject.object_unref (this)
 		end
 
 	update_preferred_families

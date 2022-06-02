@@ -1,28 +1,34 @@
 note
 	description: "GDK pixel buffer initialized from a file"
+	notes: "[
+		**Memory Leak **
+		
+		The GC dispose routine `Gobject.unref (this)' is not working in GTK2 version 2.12.10-5.
+		Image data is not being released.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-31 16:50:22 GMT (Tuesday 31st May 2022)"
-	revision: "1"
+	date: "2022-06-02 12:32:53 GMT (Thursday 2nd June 2022)"
+	revision: "2"
 
 class
 	CAIRO_PIXEL_BUFFER
 
 inherit
-	EL_OWNED_C_OBJECT
-		export
-			{CAIRO_SHARED_API, CAIRO_DRAWING_AREA_I} self_ptr
+	CAIRO_OWNED_G_OBJECT
+		redefine
+			c_free
 		end
 
 	EL_RECTANGULAR
 
-	CAIRO_SHARED_GDK_PIXBUF
+	CAIRO_SHARED_GDK_PIXBUF_API
 
-	CAIRO_SHARED_GOBJECT_API
+	CAIRO_SHARED_GDK_API
 
 create
 	make
@@ -46,11 +52,17 @@ feature -- Measurement
 			Result := Gdk_pixbuf.width (self_ptr)
 		end
 
-feature {CAIRO_DRAWABLE_CONTEXT_I} -- Implementation
+feature {NONE} -- Implementation
 
 	c_free (this: POINTER)
 		do
-			Gobject.object_unref (this)
+			if not is_in_final_collect then
+--				Nothing works to free image memory !!! This is a widely reported bug.
+--				Gdk.pixbuf_unref (this) -- (Deprecated function)
+--				Gobject.clear ($this)
+
+				Gobject.unref (this)
+			end
 		end
 
 end

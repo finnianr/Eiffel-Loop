@@ -78,6 +78,12 @@ system:
 					value = windows
 
 		external_include:
+			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/glib-2.0"
+			condition:
+				platform:
+					value = windows
+
+		external_include:
 			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/gtk-3.0"
 			condition:
 				platform:

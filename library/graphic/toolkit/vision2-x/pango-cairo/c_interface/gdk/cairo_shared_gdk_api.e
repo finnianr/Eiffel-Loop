@@ -1,13 +1,13 @@
 note
-	description: "Shared access to instance of [$source CAIRO_GDK_API]"
+	description: "Shared instance of class conforming to [$source CAIRO_GDK_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-30 14:55:19 GMT (Monday 30th May 2022)"
-	revision: "9"
+	date: "2022-06-02 9:13:51 GMT (Thursday 2nd June 2022)"
+	revision: "10"
 
 deferred class
 	CAIRO_SHARED_GDK_API

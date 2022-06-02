@@ -140,6 +140,9 @@ system:
 			name = EL_logging; readonly = false; location = "$EIFFEL_LOOP/library/logging.ecf"
 
 		library:
+			name = EL_image_utils; readonly = false; location="$EIFFEL_LOOP/library/image-utils.ecf"
+
+		library:
 			name = EL_multimedia; readonly = false; location = "$EIFFEL_LOOP/library/multi-media.ecf"
 
 		library:

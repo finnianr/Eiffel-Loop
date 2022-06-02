@@ -12,18 +12,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-03 11:26:04 GMT (Monday 3rd August 2020)"
-	revision: "13"
+	date: "2022-06-02 9:56:12 GMT (Thursday 2nd June 2022)"
+	revision: "14"
 
 class
 	EL_SVG_IMAGE
 
 inherit
-	EL_OWNED_C_OBJECT
+	CAIRO_OWNED_G_OBJECT
 
 	EL_SHARED_IMAGE_UTILS_API
-
-	CAIRO_SHARED_GOBJECT_API
 
 create
 	make
@@ -109,16 +107,6 @@ feature -- Basic operations
 feature {NONE} -- Internal attributes
 
 	dimension_data: MANAGED_POINTER
-
-feature {NONE} -- Disposal
-
-	c_free (this: POINTER)
-			--
-		do
-			if not is_in_final_collect then
-				Gobject.object_unref (self_ptr)
-			end
-		end
 
 feature {NONE} -- C Externals
 

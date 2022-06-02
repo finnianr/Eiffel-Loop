@@ -1,13 +1,16 @@
 note
 	description: "Windows implementation of [$source CAIRO_PIXEL_SURFACE_I]"
+	notes: "[
+		Might be desirable to use gdk_cairo_surface_create_from_pixbuf
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-30 13:32:39 GMT (Monday 30th May 2022)"
-	revision: "11"
+	date: "2022-06-01 10:05:07 GMT (Wednesday 1st June 2022)"
+	revision: "12"
 
 class
 	CAIRO_PIXEL_SURFACE_IMP

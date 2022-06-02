@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 15:45:30 GMT (Saturday 5th February 2022)"
-	revision: "37"
+	date: "2022-06-02 14:58:03 GMT (Thursday 2nd June 2022)"
+	revision: "38"
 
 class
 	APPLICATION_ROOT
@@ -41,6 +41,7 @@ inherit
 		LOCALIZED_THUNDERBIRD_BOOK_EXPORTER_APP,
 		LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER_APP,
 
+		SLIDE_SHOW_APP,
 		STOCK_CONSUMPTION_CALCULATOR_APP,
 
 		THUNDERBIRD_BOOK_EXPORTER_APP,

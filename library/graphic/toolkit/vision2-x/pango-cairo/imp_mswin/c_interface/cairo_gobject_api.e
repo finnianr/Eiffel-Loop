@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 10:07:41 GMT (Sunday 2nd August 2020)"
-	revision: "8"
+	date: "2022-06-02 13:11:56 GMT (Thursday 2nd June 2022)"
+	revision: "9"
 
 class
-	CAIRO_GOBJECT_IMP
+	CAIRO_GOBJECT_API
 
 inherit
 	EL_DYNAMIC_MODULE [CAIRO_GOBJECT_API_POINTERS]
@@ -26,9 +26,14 @@ create
 
 feature -- Disposal
 
-	object_unref (a_object: POINTER)
+	clear (object: TYPED_POINTER [POINTER])
 		do
-			g_object_unref (api.object_unref, a_object)
+			g_clear_object (api.clear_object, object)
+		end
+
+	unref (object: POINTER)
+		do
+			g_object_unref (api.object_unref, object)
 		end
 
 feature {NONE} -- Constants

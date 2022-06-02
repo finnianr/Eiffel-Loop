@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-31 10:12:27 GMT (Tuesday 31st May 2022)"
-	revision: "1"
+	date: "2022-06-01 15:58:09 GMT (Wednesday 1st June 2022)"
+	revision: "2"
 
 deferred class
 	CAIRO_GDK_PIXBUF_I
@@ -18,7 +18,16 @@ inherit
 feature -- Access
 
 	new_from_file (file_path: FILE_PATH): POINTER
-		deferred
+		local
+			error_ptr: POINTER; path_str: CAIRO_GSTRING_I
+			exception: CAIRO_EXCEPTION
+		do
+			create {CAIRO_GSTRING_IMP} path_str.make_from_file_path (file_path)
+			Result := new_pixbuf_from_file (path_str.item, $error_ptr)
+			if is_attached (error_ptr) then
+				create exception.make ({STRING_32} "Error loading " + file_path.base, error_ptr)
+				exception.raise
+			end
 		end
 
 feature -- Measurement
@@ -28,6 +37,12 @@ feature -- Measurement
 		end
 
 	width (a_pixbuf: POINTER): INTEGER_32
+		deferred
+		end
+
+feature {NONE} -- Implementation
+
+	new_pixbuf_from_file (filename: POINTER; error: TYPED_POINTER [POINTER]): POINTER
 		deferred
 		end
 end

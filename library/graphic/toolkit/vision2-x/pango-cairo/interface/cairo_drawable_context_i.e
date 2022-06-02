@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-31 16:12:03 GMT (Tuesday 31st May 2022)"
-	revision: "14"
+	date: "2022-06-02 9:54:42 GMT (Thursday 2nd June 2022)"
+	revision: "15"
 
 deferred class
 	CAIRO_DRAWABLE_CONTEXT_I
@@ -22,7 +22,7 @@ inherit
 
 	CAIRO_COMMAND_CONTEXT
 
-	EV_ANY_HANDLER
+	EV_ANY_HANDLER; CAIRO_G_OBJECT_HANDLER
 
 	EL_GEOMETRY_MATH
 		export

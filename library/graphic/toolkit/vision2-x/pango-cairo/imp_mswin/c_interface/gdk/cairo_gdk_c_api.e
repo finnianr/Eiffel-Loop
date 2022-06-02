@@ -6,18 +6,27 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 10:43:52 GMT (Sunday 2nd August 2020)"
-	revision: "7"
+	date: "2022-06-02 13:09:01 GMT (Thursday 2nd June 2022)"
+	revision: "8"
 
 class
 	CAIRO_GDK_C_API
 
 inherit
-	EL_MEMORY
+	EL_C_API_ROUTINES
 
 	EL_OS_IMPLEMENTATION
 
 feature -- Access
+
+	frozen g_error_message (error: POINTER): POINTER
+		require
+			error_attached: is_attached (error)
+		external
+			"C [struct <gdk/gdk.h>] (GError): EIF_POINTER"
+		alias
+			"message"
+		end
 
 	frozen gdk_display_get_default (function: POINTER): POINTER
 			-- GdkDisplay * gdk_display_get_default (void);
@@ -163,4 +172,31 @@ feature -- Basic operations
 			]"
 		end
 
+	frozen gdk_cairo_set_source_pixbuf (function, context, pixbuf: POINTER; x, y: REAL_64)
+		-- C signature (cairo_t *, GdkPixbuf *, double, double)
+		external
+			"C inline use <gdk/gdk.h>"
+		alias
+			"[
+				return (
+					FUNCTION_CAST(void, (cairo_t *, GdkPixbuf *, double, double))$function
+				) (
+					(cairo_t *)$context, (GdkPixbuf *)$pixbuf, (double)$x, (double)$y
+				)
+			]"
+		end
+
+	frozen gdk_pixbuf_unref (fn_ptr, object: POINTER)
+			-- void gdk_pixbuf_unref (GdkPixbuf* pixbuf)
+		external
+			"C inline use <gtk/gtk.h>"
+		alias
+			"[
+				return (
+					FUNCTION_CAST(void, (GdkPixbuf*))$fn_ptr
+				) (
+					(GdkPixbuf*)$object
+				)
+			]"
+		end
 end

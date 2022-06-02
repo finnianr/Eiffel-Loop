@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-31 16:12:59 GMT (Tuesday 31st May 2022)"
-	revision: "10"
+	date: "2022-06-02 9:54:51 GMT (Thursday 2nd June 2022)"
+	revision: "11"
 
 deferred class
 	CAIRO_PIXEL_SURFACE_I
@@ -21,6 +21,8 @@ inherit
 	EL_MODULE_ORIENTATION
 
 	EL_MODULE_EXCEPTION
+
+	CAIRO_G_OBJECT_HANDLER
 
 feature {NONE} -- Initialization
 

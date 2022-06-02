@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-31 13:36:37 GMT (Friday 31st July 2020)"
-	revision: "4"
+	date: "2022-06-02 13:11:17 GMT (Thursday 2nd June 2022)"
+	revision: "5"
 
 class
 	CAIRO_GOBJECT_API_POINTERS
@@ -19,6 +19,8 @@ create
 	make
 
 feature {EL_DYNAMIC_MODULE} -- Access
+
+	clear_object: POINTER
 
 	object_unref: POINTER
 
