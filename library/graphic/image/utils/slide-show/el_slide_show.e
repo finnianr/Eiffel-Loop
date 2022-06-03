@@ -69,7 +69,7 @@ feature {NONE} -- Initialization
 			end
 			directory_list.remove_last
 			group_table := new_group_table
-			create done_event.make
+			create generation_done.make
 		end
 
 feature -- Access
@@ -84,7 +84,7 @@ feature -- Access
 
 	config_name: ZSTRING
 
-	done_event: EL_EVENT_BROADCASTER
+	generation_done: EL_EVENT_BROADCASTER
 		-- generation done event broadcaster
 
 	image_extension: STRING
@@ -139,10 +139,10 @@ feature -- Basic operations
 			end
 			across group_table as table loop
 				if table.item.count > 0 then
-					generate_group (table.item.first, table.key, table.item)
+					generate_group (table.item.first.parent.base, table.key, table.item)
 				end
 			end
-			done_event.notify
+			generation_done.notify
 			lio.put_line ("DONE")
 		end
 

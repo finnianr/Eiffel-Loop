@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 			progress_bar.set_background_color (Color.White)
 			progress_bar.set_foreground_color (Color.Green)
 			create label
-			Slide_show.done_event.add_action (agent label.set_text ("DONE"))
+			Slide_show.generation_done.add_action (agent label.set_text ("DONE"))
 		end
 
 feature {NONE} -- Event handler

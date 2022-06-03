@@ -1,11 +1,9 @@
 note
 	description: "Build specification"
+
 	notes: "GENERATED FILE. Do not edit"
 
 	author: "Python module: eiffel_loop.eiffel.ecf.py"
-
-	date: "2022-06-03 12:17:38 GMT (Friday 3rd June 2022)"
-	revision: "1"
 
 class
 	BUILD_INFO
@@ -20,7 +18,7 @@ feature -- Constants
 
 	Version_number: NATURAL = 01_05_03
 
-	Build_number: NATURAL = 592
+	Build_number: NATURAL = 593
 
 	Installation_sub_directory: DIR_PATH
 		once
