@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-02 15:10:49 GMT (Thursday 2nd June 2022)"
-	revision: "3"
+	date: "2022-06-03 12:14:45 GMT (Friday 3rd June 2022)"
+	revision: "4"
 
 class
 	SLIDE_SHOW_APP
 
 inherit
-	EL_COMMAND_LINE_APPLICATION [SLIDE_SHOW_COMMAND]
+	EL_COMMAND_LINE_APPLICATION [EL_IMAGE_MAGICK_SLIDE_SHOW_COMMAND]
+		redefine
+			visible_types
+		end
 
 create
 	make
@@ -28,6 +31,13 @@ feature {NONE} -- Implementation
 	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make ("")
+		end
+
+	visible_types: TUPLE -- [EL_OS_COMMAND]
+		-- types with lio output visible in console
+		-- See: {EL_CONSOLE_MANAGER_I}.show_all
+		do
+			create Result
 		end
 
 end

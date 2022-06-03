@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-29 13:13:54 GMT (Sunday 29th May 2022)"
-	revision: "2"
+	date: "2022-06-03 11:48:05 GMT (Friday 3rd June 2022)"
+	revision: "3"
 
 class
 	SLIDE_SHOW_WINDOW
@@ -36,13 +36,15 @@ feature {NONE} -- Initialization
 			progress_bar.set_background_color (Color.White)
 			progress_bar.set_foreground_color (Color.Green)
 			create label
+			Slide_show.done_event.add_action (agent label.set_text ("DONE"))
 		end
 
 feature {NONE} -- Event handler
 
 	on_generate
 		do
-			Track.progress (progress_bar, Slide_show.total_image_count, agent Slide_show.generate_all (label))
+			label.remove_text
+			Track.progress (progress_bar, Slide_show.count, agent Slide_show.generate)
 		end
 
 feature {NONE} -- Implementation

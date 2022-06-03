@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-02 16:34:48 GMT (Thursday 2nd June 2022)"
-	revision: "4"
+	date: "2022-06-03 6:01:10 GMT (Friday 3rd June 2022)"
+	revision: "5"
 
 class
 	SLIDE_SHOW
@@ -17,7 +17,7 @@ inherit
 		undefine
 			new_lio
 		redefine
-			make, new_group
+			make, generate
 		end
 
 	EL_SOLITARY
@@ -47,55 +47,28 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	generate_all (label: EV_TEXTABLE)
+	generate
 		do
 			log.enter ("generate_all")
-			OS.File_system.make_directory (output_dir)
-
-			counter.reset
-			label.remove_text
-			lio.put_labeled_string ("Configured aspect", dimensions.aspect_ratio_formatted)
-			lio.put_new_line
-
-			across 1 |..| title_duration_ratio as n loop
-				if attached new_image (cover_image) as image then
-					add_image (image)
-				end
-			end
-			across group_list as list loop
-				list.item.generate
-			end
-			if attached ("DONE !") as str then
-				label.set_text (str)
-				log.put_line (str)
-			end
+			Precursor
 			log.exit
 		end
 
-	add_image (image: CAIRO_DRAWING_AREA)
+	print_info (slide: like new_slide; name: ZSTRING)
+		do
+			slide.dimensions.print_info (lio, name)
+		end
 
+feature -- Element change
+
+	extend (slide: like new_slide)
 		do
 			drawing_area.fill
-			drawing_area.draw_fitted_area (image)
+			drawing_area.draw_fitted_area (slide)
 			save_next_jpeg
 		end
 
-	add_named_image (file_path: FILE_PATH; print_info: BOOLEAN)
-		do
-			if attached new_image (file_path) as image then
-				if print_info then
-					image.dimensions.print_info (lio, group_name (file_path))
-				end
-				add_image (image)
-			end
-		end
-
-feature {SLIDE_GROUP} -- Factory
-
-	new_group (name: ZSTRING; file_list: EL_ARRAYED_LIST [FILE_PATH]): SLIDE_GROUP
-		do
-			create Result.make (name, file_list, Current)
-		end
+feature {NONE} -- Factory
 
 	new_name_font: EV_FONT
 		do
@@ -103,7 +76,7 @@ feature {SLIDE_GROUP} -- Factory
 			Result.preferred_families.extend (title_font)
 		end
 
-	new_image (file_path: FILE_PATH): CAIRO_DRAWING_AREA
+	new_slide (file_path: FILE_PATH): CAIRO_DRAWING_AREA
 		do
 			create Result.make_with_path (file_path)
 		end
@@ -112,6 +85,30 @@ feature {SLIDE_GROUP} -- Factory
 		do
 			create Result.make_with_values (Gui.Family_sans, Gui.Weight_bold, Gui.Shape_regular, font_height)
 			Result.preferred_families.extend (title_font)
+		end
+
+	new_title_slide (title, sub_title: ZSTRING): like new_slide
+		local
+			rect: EL_RECTANGLE; l_height: INTEGER
+		do
+			rect := dimensions
+			create Result.make_with_size (rect.width, rect.height)
+
+			Result.set_color (Color.Black); Result.fill
+
+			Result.set_color (Color.White)
+
+			l_height := (rect.height / 5).rounded
+			rect.set_height (l_height)
+			across << title, sub_title >> as str loop
+				rect.move_by (0, rect.height)
+				if str.is_first then
+					Result.set_font (new_theme_font)
+				else
+					Result.set_font (new_name_font)
+				end
+				Result.draw_centered_text (str.item, rect)
+			end
 		end
 
 feature {NONE} -- Implementation
