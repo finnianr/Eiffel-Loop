@@ -4,7 +4,8 @@
 	<description>
 HTTP Client Services
 
-Classes for remotely interacting with a HTTP server. Supports the HTTP commands: POST, GET and HEAD.
+Classes for remotely interacting with a HTTP server.
+Supports the HTTP commands: POST, GET and HEAD.
 	</description>
 	<target name = "EL_http_client">
 		<root all_classes = "true"/>
@@ -38,7 +39,7 @@ Classes for remotely interacting with a HTTP server. Supports the HTTP commands:
 		<library name = "EL_vtd_xml" location = "vtd-xml.ecf"/>
 		<library name = "EL_xml_scan" location = "xml-scan.ecf"/>
 		<!--Source code-->
-		<cluster name = "http" location = "network/protocol/http" recursive = "true">
+		<cluster name = "http" location = "network/http" recursive = "true">
 			<option namespace = "Eiffel-Loop.http"/>
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 13:03:44 GMT (Thursday 13th January 2022)"
-	revision: "5"
+	date: "2022-06-04 12:47:07 GMT (Saturday 4th June 2022)"
+	revision: "6"
 
 class
 	REPOSITORY_TEST_SOURCE_LINK_EXPANDER
@@ -22,7 +22,7 @@ inherit
 		rename
 			make as make_publisher
 		undefine
-			description, execute, ok_to_synchronize
+			execute, ok_to_synchronize
 		end
 
 create

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 7:33:47 GMT (Monday 7th February 2022)"
-	revision: "38"
+	date: "2022-06-04 16:12:23 GMT (Saturday 4th June 2022)"
+	revision: "39"
 
 class
 	EIFFEL_CLASS
@@ -18,7 +18,7 @@ inherit
 	EL_FILE_SYNC_ITEM
 		rename
 			make as make_sync_item,
-			source_path as html_sourc_path
+			source_path as html_source_path
 		undefine
 			is_equal, copy
 		redefine
@@ -144,6 +144,20 @@ feature -- Status report
 			Result := not is_library
 		end
 
+	is_source_modified: BOOLEAN
+		-- `True' if file was modified since creation of `Current'
+		do
+			if attached crc_generator as crc then
+				crc.add_string (new_code_text (File.plain_text (source_path)))
+				crc.add_string (relative_source_path)
+				if initial_current_digest.to_boolean then
+					Result := initial_current_digest /= crc.checksum
+				else
+					Result := current_digest /= crc.checksum
+				end
+			end
+		end
+
 	is_library: BOOLEAN
 		do
 		end
@@ -172,12 +186,17 @@ feature -- Basic operations
 			Precursor
 		end
 
-	sink_source_subsitutions
+	sink_source_substitutions
 		-- sink the values of $source occurrences `code_text'. Eg. [$source CLASS_NAME]
 		local
 			crc: like crc_generator
 		do
 			crc := crc_generator
+			if initial_current_digest.to_boolean then
+				current_digest := initial_current_digest
+			else
+				initial_current_digest := current_digest
+			end
 			crc.set_checksum (current_digest)
 			Editor.set_target (code_text)
 			Editor.for_each_balanced ('[', ']', Source_variable, agent sink_source_path (?, ?, ?, crc))
@@ -278,6 +297,9 @@ feature {NONE} -- Internal attributes
 	library_ecf: EIFFEL_CONFIGURATION_FILE
 
 	repository: REPOSITORY_PUBLISHER
+
+	initial_current_digest: NATURAL
+		-- `current_digest' before modification by `sink_source_substitutions'
 
 feature {NONE} -- Evolicity fields
 

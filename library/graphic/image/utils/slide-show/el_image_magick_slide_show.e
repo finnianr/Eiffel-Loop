@@ -1,22 +1,39 @@
 note
-	description: "Slide show generated with [https://www.imagemagick.org ImageMagick] convert command"
+	description: "[
+		Implements [$source EL_SLIDE_SHOW] using [https://www.imagemagick.org ImageMagick] convert command
+		to fit images into specified geometry and generate title pages.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-03 12:12:03 GMT (Friday 3rd June 2022)"
-	revision: "2"
+	date: "2022-06-04 8:33:37 GMT (Saturday 4th June 2022)"
+	revision: "3"
 
 class
 	EL_IMAGE_MAGICK_SLIDE_SHOW
 
 inherit
 	EL_SLIDE_SHOW
+		rename
+			generate as execute
+		export
+			{EL_COMMAND_CLIENT} make
+		end
+
+	EL_APPLICATION_COMMAND
+		undefine
+			is_equal
+		end
 
 create
 	make
+
+feature -- Constants
+
+	Description: STRING = "Generate slides for video"
 
 feature -- Basic operations
 

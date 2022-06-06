@@ -8,11 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 9:20:04 GMT (Saturday 19th February 2022)"
-	revision: "22"
+	date: "2022-06-04 9:14:32 GMT (Saturday 4th June 2022)"
+	revision: "23"
 
 class
 	CHECK_LOCALE_STRINGS_COMMAND
+
+obsolete
+	"Use EL_LOCALIZATION_TEST with EL_REFLECTIVE_LOCALE_TEXTS"
 
 inherit
 	EL_APPLICATION_COMMAND

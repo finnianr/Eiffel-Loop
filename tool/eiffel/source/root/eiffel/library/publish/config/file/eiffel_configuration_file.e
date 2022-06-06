@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-25 10:34:13 GMT (Friday 25th February 2022)"
-	revision: "42"
+	date: "2022-06-05 16:08:46 GMT (Sunday 5th June 2022)"
+	revision: "45"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -31,6 +31,8 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
+	SHARED_CLASS_PATH_TABLE
+
 create
 	make
 
@@ -52,7 +54,7 @@ feature {NONE} -- Initialization
 			end
 			source_dir_list := new_source_dir_list (root.context_list (ecf.cluster_xpath), ecf_dir)
 			across source_dir_list as path loop
-				if path.cursor_index = 1 then
+				if path.is_first then
 					dir_path := path.item
 				elseif not dir_path.is_parent_of (path.item) then
 					dir_path := path.item.parent
@@ -60,8 +62,7 @@ feature {NONE} -- Initialization
 			end
 			path_list := new_path_list; sub_category := new_sub_category
 			set_name_and_description (ecf.description (root))
-			set_directory_list (a_repository.parser)
-			a_repository.parser.update (False)
+			read_class_source
 		end
 
 	make_default
@@ -185,33 +186,55 @@ feature -- Element change
 
 feature -- Basic operations
 
-	read_source_files (parser: EIFFEL_CLASS_PARSER)
+	update_source_files (update_checker: EIFFEL_CLASS_UPDATE_CHECKER)
+		-- Fast check of files that have been modified
 		local
-			parent_dir: DIR_PATH; directory_group: SOURCE_DIRECTORY
-			source_path: FILE_PATH
+			group_table: like new_directory_group_table
+			source_dir: DIR_PATH; new_source_list: EL_ARRAYED_LIST [FILE_PATH]
+			e_class: EIFFEL_CLASS; file_count: INTEGER
 		do
-			lio.put_labeled_string ("Reading classes", html_index_path)
+			path_list := new_path_list; group_table := new_directory_group_table
+			lio.put_labeled_string ("Checking classes", html_index_path)
 			lio.put_new_line
-			create parent_dir; create source_path
 
-			directory_list.wipe_out
-			across sorted_path_list as path loop
-				if source_path ~ path.item then
-					lio.put_labeled_string ("Duplicate", source_path.base)
-					lio.put_new_line
+			-- remove existing classes from `group_table'
+			across directory_list as list loop
+				if attached list.item.class_list as class_list and then class_list.count > 0 then
+					source_dir := list.item.dir_path
+					group_table.search (source_dir)
+					if group_table.found then
+						new_source_list := group_table.found_list
+					else
+						create new_source_list.make_empty
+					end
+					new_source_list.compare_objects
+
+					from class_list.start until class_list.after loop
+						file_count := file_count + 1
+						e_class := class_list.item
+						new_source_list.start; new_source_list.search (e_class.source_path)
+						if new_source_list.found then
+							update_checker.queue (agent update_class (class_list, class_list.item))
+							new_source_list.remove
+							class_list.forth
+						else
+							Class_path_table.remove (e_class.name)
+							repository.example_classes.prune (e_class)
+							class_list.remove
+						end
+						if file_count \\ 80 = 0 or (list.is_last and class_list.islast) then
+							lio.put_new_line
+						end
+					end
+					if group_table.found and then new_source_list.is_empty then
+						group_table.remove (source_dir)
+					end
+					update_checker.apply
 				end
-				source_path := path.item
-				if source_path.parent /~ parent_dir then
-					create directory_group.make (Current, directory_list.count + 1)
-					directory_list.extend (directory_group)
-					parent_dir := source_path.parent
-				end
-				lio.put_character ('.')
-				if path.cursor_index \\ 80 = 0 or path.is_last then
-					lio.put_new_line
-				end
-				parser.queue (Current, directory_group, source_path)
 			end
+			directory_list.remove_those (agent {SOURCE_DIRECTORY}.is_empty)
+
+			add_new_classes (group_table)
 		end
 
 feature -- Factory
@@ -219,6 +242,11 @@ feature -- Factory
 	new_class (source_path: FILE_PATH): EIFFEL_CLASS
 		do
 			create Result.make (source_path, Current, repository)
+		end
+
+	new_directory_group_table: EL_FUNCTION_GROUP_TABLE [FILE_PATH, DIR_PATH]
+		do
+			create Result.make_from_list (agent {FILE_PATH}.parent, sorted_path_list)
 		end
 
 	new_path_list: EL_FILE_PATH_LIST
@@ -280,6 +308,34 @@ feature -- Factory
 
 feature {NONE} -- Implementation
 
+	add_class (source_directory: SOURCE_DIRECTORY; e_class: EIFFEL_CLASS)
+		do
+			Class_path_table.put_class (e_class)
+			source_directory.class_list.extend (e_class)
+			if e_class.is_example then
+				repository.example_classes.extend (e_class)
+			end
+		end
+
+	add_new_classes (group_table: like new_directory_group_table)
+		local
+			source_directory: SOURCE_DIRECTORY
+		do
+			across group_table as table loop
+				directory_list.find_first_equal (table.key, agent {SOURCE_DIRECTORY}.dir_path)
+				if directory_list.found then
+					source_directory := directory_list.item
+				else
+					create source_directory.make (Current, directory_list.count + 1)
+					directory_list.extend (source_directory)
+				end
+				across table.item as path loop
+					lio.put_character ('.')
+					add_class (source_directory, new_class (path.item))
+				end
+			end
+		end
+
 	extend_alias_table (map_node: EL_XPATH_NODE_CONTEXT)
 		do
 			if alias_table = Default_alias_table then
@@ -288,10 +344,10 @@ feature {NONE} -- Implementation
 			alias_table [map_node [Mapping.old_name]] := map_node [Mapping.new_name]
 		end
 
-	set_directory_list (parser: EIFFEL_CLASS_PARSER)
+	read_class_source
 		local
 			group_table: EL_FUNCTION_GROUP_TABLE [FILE_PATH, DIR_PATH]
-			directory_group: SOURCE_DIRECTORY; file_count: INTEGER
+			source_directory: SOURCE_DIRECTORY; file_count: INTEGER
 		do
 			lio.put_labeled_string ("Reading classes", html_index_path)
 			lio.put_new_line
@@ -299,16 +355,25 @@ feature {NONE} -- Implementation
 			create directory_list.make (group_table.count)
 
 			across group_table as group loop
-				create directory_group.make (Current, group.item.count)
-				directory_list.extend (directory_group)
+				create source_directory.make (Current, group.item.count)
+				directory_list.extend (source_directory)
 				file_count := file_count + 1
 				across group.item as path loop
 					lio.put_character ('.')
 					if file_count \\ 80 = 0 or (directory_list.full and then path.is_last) then
 						lio.put_new_line
 					end
-					parser.queue (Current, directory_group, path.item)
+					repository.parser.queue (agent add_class (source_directory, ?), path.item)
 				end
+				repository.parser.apply
+			end
+		end
+
+	update_class (class_list: EL_ARRAYED_LIST [EIFFEL_CLASS]; e_class: EIFFEL_CLASS)
+		do
+			class_list.start; class_list.search (e_class)
+			if class_list.found then
+				class_list.replace (new_class (e_class.source_path))
 			end
 		end
 

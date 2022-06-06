@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "10"
+	date: "2022-06-04 14:44:38 GMT (Saturday 4th June 2022)"
+	revision: "11"
 
 class
 	EL_FILE_SYNC_ITEM
@@ -70,9 +70,9 @@ feature -- Access
 
 	current_digest: NATURAL
 
-	digest_path: FILE_PATH
-
 	destination_name: READABLE_STRING_GENERAL
+
+	digest_path: FILE_PATH
 
 	file_path: FILE_PATH
 		-- relative path
@@ -147,6 +147,10 @@ feature -- Element change
 	set_current_digest (a_current_digest: NATURAL)
 		do
 			current_digest := a_current_digest
+		end
+
+	update
+		do
 		end
 
 feature {NONE} -- Implementation

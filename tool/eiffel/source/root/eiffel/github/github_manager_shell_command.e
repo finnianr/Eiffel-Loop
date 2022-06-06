@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 9:33:16 GMT (Tuesday 8th February 2022)"
-	revision: "12"
+	date: "2022-06-06 8:16:34 GMT (Monday 6th June 2022)"
+	revision: "13"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -108,7 +108,7 @@ feature {NONE} -- Implementation
 		local
 			editor: NOTE_EDITOR_COMMAND
 		do
-			create editor.make (config.source_dir + config.source_manifest_path)
+			create editor.make (config.source_dir + config.source_manifest_path, 100)
 			editor.execute
 			lio.put_new_line
 		end

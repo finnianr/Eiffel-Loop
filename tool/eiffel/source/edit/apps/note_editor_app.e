@@ -17,20 +17,30 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-06 16:41:41 GMT (Sunday 6th February 2022)"
-	revision: "30"
+	date: "2022-06-06 8:19:04 GMT (Monday 6th June 2022)"
+	revision: "31"
 
 class
 	NOTE_EDITOR_APP
 
 inherit
 	SOURCE_MANIFEST_APPLICATION [NOTE_EDITOR_COMMAND]
+		redefine
+			argument_list
+		end
 
 feature {NONE} -- Implementation
 
+	argument_list: EL_ARRAYED_LIST [EL_COMMAND_ARGUMENT]
+		-- for use with when modifiying `argument_specs' in descendant
+		do
+			Result := Precursor +
+				optional_argument ("cpu_percentage", "Percentage of CPU resources to use", No_checks)
+		end
+
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make (create {FILE_PATH})
+			Result := agent {like command}.make (create {FILE_PATH}, 100)
 		end
 
 end

@@ -12,14 +12,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-06 16:40:43 GMT (Sunday 6th February 2022)"
-	revision: "20"
+	date: "2022-06-05 8:39:11 GMT (Sunday 5th June 2022)"
+	revision: "21"
 
 class
 	EIFFEL_VIEW_APP
 
 inherit
-	REPOSITORY_PUBLISHER_APPLICATION [REPOSITORY_PUBLISHER]
+	REPOSITORY_PUBLISHER_APPLICATION [EIFFEL_VIEW_COMMAND]
 		redefine
 			Option_name
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 12:38:29 GMT (Thursday 3rd February 2022)"
-	revision: "11"
+	date: "2022-06-04 15:03:44 GMT (Saturday 4th June 2022)"
+	revision: "12"
 
 class
 	LIBRARY_CLASS
@@ -15,7 +15,7 @@ class
 inherit
 	EIFFEL_CLASS
 		redefine
-			make_default, is_library, getter_function_table, sink_source_subsitutions, further_information_fields
+			make_default, is_library, getter_function_table, sink_source_substitutions, further_information_fields
 		end
 
 create
@@ -42,7 +42,7 @@ feature -- Access
 
 feature -- Element change
 
-	sink_source_subsitutions
+	sink_source_substitutions
 		-- sink the values of $source occurrences `code_text'. Eg. [$source CLASS_NAME]
 		-- and populate `client_examples' while adding the client paths to `current_digest'
 		-- in alphabetical order of class name.

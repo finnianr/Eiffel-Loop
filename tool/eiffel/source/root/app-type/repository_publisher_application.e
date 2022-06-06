@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 15:06:52 GMT (Sunday 20th February 2022)"
-	revision: "11"
+	date: "2022-06-04 12:48:05 GMT (Saturday 4th June 2022)"
+	revision: "12"
 
 deferred class
-	REPOSITORY_PUBLISHER_APPLICATION [C -> REPOSITORY_PUBLISHER]
+	REPOSITORY_PUBLISHER_APPLICATION [C -> EL_APPLICATION_COMMAND]
 
 inherit
 	EL_COMMAND_LINE_APPLICATION [C]

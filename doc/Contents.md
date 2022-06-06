@@ -1,16 +1,16 @@
 # Eiffel-Loop Contents
 ## Submission for 99-bottles-of-beer.net
-Eiffel submission for [www.99-bottles-of-beer.net](http://www.99-bottles-of-beer.net/).
+Eiffel submission for [http://www.99-bottles-of-beer.net/ www.99-bottles-of-beer.net].
 
 This website contains sample programs for over 1500 languages and variations, all of which print the lyrics of the song "99 Bottles of Beer".
 ## Concurrency Demonstration
-Demonstration of classes that make the classic multi-threading ISE library `thread.ecf` easier to use.
+Demonstration of classes that make the classic multi-threading ISE library `thread.ecf' easier to use.
 
 
-1. `el_concurrency -horse_race` An [animated version](https://www.youtube.com/watch?v=s2-7pzmVjao) of the classic concurrency horse-racing exercise.
-2. `el_concurrency -work_distributer` demonstrates the calculation of integrals for arbitrary functions distributed across a specified number of threads
+1. `el_concurrency -horse_race' An [https://www.youtube.com/watch?v=s2-7pzmVjao animated version] of the classic concurrency horse-racing exercise.
+2. `el_concurrency -work_distributer' demonstrates the calculation of integrals for arbitrary functions distributed across a specified number of threads
 ## Vision-2 Extensions Demo
-Test application for selected components from Eiffel-Loop [extension libraries for Vision-2 and Docking](http://www.eiffel-loop.com/library/vision2-x.html).
+Test application for selected components from Eiffel-Loop [./library/vision2-x.html extension libraries for Vision-2 and Docking].
 ## Rhythmbox MP3 Collection Manager
 This is a full-blown MP3 collection manager that is designed to work in conjunction with the [Rhythmbox media player](https://wiki.gnome.org/Apps/Rhythmbox) and has a number of features of particular interest to Tango DJs.
 
@@ -693,10 +693,14 @@ Two demo applications are provided that do signal math including Fourier transfo
 
 1. [./example/net/EROS/signal-math/signal-math.html signal-math.ecf] is a multi-mode command-line application with 2 client modes and 2 server-test modes.
 2. [./example/net/EROS/server/signal-math-server.html signal-math-server.ecf] performs the same calculations as the server mode of demo 1 but is multi-threaded and has a graphical user interface to control the thread logging context visible in terminal console.
-## Basic Networking Classes
+## Networking Common
+Common networking classes
+
+
 * Extensions for ISE network sockets.
 * Class to obtain the MAC address of network devices on both Windows and Linux.
 * Classes for managing HTTP cookies, query parameters, headers and status codes.
+* FTP upload and download
 ## Adobe Flash to Laabhair
 **Status:** No longer maintained
 
@@ -707,13 +711,6 @@ Developed on Windows XP SP2 with Flash Professional 8 IDE, EiffelStudio 6.1, VC+
 Laabhair was developed at the [https://arrow.dit.ie/dmc/ Digital Media Centre at the Dublin Institute of Technology]
 ## Amazon Instant Access API
 An Eiffel interface to the [https://s3-us-west-2.amazonaws.com/dtg-docs/index.html Amazon Instant Access API]. This API enables third party vendors to fulfil orders for digital goods on the Amazon store. It enables One-time purchases but not subscriptions. It passes a basic test suite but has not yet been tested in production.
-## FTP Client Services
-Classes providing
-
-
-* uploading of files to a server
-* managing server directory structure.
-* file synchronization using the [$source EL_CRC_32_SYNC_ITEM] abstraction
 ## PayPal Payments Standard Button Manager API
 An Eiffel interface to the [http://web.archive.org/web/20171124085630/https://developer.paypal.com/docs/classic/button-manager/integration-guide/ PayPal Payments Standard Button Manager NVP HTTP API]. (Now deprecated by Paypal)
 ## HTTP Client Services
@@ -1122,7 +1119,7 @@ Classes augmenting the classic [EiffelThread library](https://www.eiffel.org/doc
 
 **Work Distribution**
 
-Classes [EL_PROCEDURE_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_procedure_distributer.html) and [EL_FUNCTION_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_function_distributer.html) offer a convenient way to distribute the work of executing routines using a specific number of cores. See routine `read_source_files` in class [EIFFEL_CONFIGURATION_FILE]($source) for an example.
+Classes [EL_PROCEDURE_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_procedure_distributer.html) and [EL_FUNCTION_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_function_distributer.html) offer a convenient way to distribute the work of executing routines using a specific number of cores. See routine `read_source_files` in class [EIFFEL_CONFIGURATION_FILE](http://www.eiffel-loop.com/tool/eiffel/source/root/eiffel/library/publish/config/file/eiffel_configuration_file.html) for an example.
 
 **Producer-Consumer Framework**
 
@@ -1606,27 +1603,27 @@ A "Swiss-army knife" of Eiffel development utilities invokeable by a command-lin
 
 **Sub-applications**
 
-[CLASS_DESCENDANTS_APP]($source) outputs class descendants for selected class as a text file and is designed to be used as an external tool from within EiffelStudio.
+[CLASS_DESCENDANTS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/class_descendants_app.html) outputs class descendants for selected class as a text file and is designed to be used as an external tool from within EiffelStudio.
 
 Command switch: `-class_descendants`
 
-[EIFFEL_VIEW_APP]($source) publishes source code and descriptions of Eiffel projects to a website as static html and generate a `Contents.md` file in Github markdown. See [eiffel.org article](https://www.eiffel.org/blog/Finnian%20Reilly/2018/10/eiffel-view-repository-publisher-version-1-0-18)
+[EIFFEL_VIEW_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/eiffel_view_app.html) publishes source code and descriptions of Eiffel projects to a website as static html and generate a `Contents.md` file in Github markdown. See [eiffel.org article](https://www.eiffel.org/blog/Finnian%20Reilly/2018/10/eiffel-view-repository-publisher-version-1-0-18)
 
 Command switch: `-eiffel_view`
 
-[CODEC_GENERATOR_APP]($source) generates Eiffel classes conforming to [EL_ZCODEC](http://www.eiffel-loop.com/library/base/text/zstring/codec/el_zcodec.html) from VTD-XML C code
+[CODEC_GENERATOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/generate/codec_generator_app.html) generates Eiffel classes conforming to [EL_ZCODEC](http://www.eiffel-loop.com/library/base/text/zstring/codec/el_zcodec.html) from VTD-XML C code
 
 Command switch: `-generate_codecs`
 
-[ECF_TO_PECF_APP]($source) converts Eiffel configuration files to Pyxis format
+[ECF_TO_PECF_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/ecf_to_pecf_app.html) converts Eiffel configuration files to Pyxis format
 
 Command switch: `-ecf_to_pecf`
 
-[LIBRARY_OVERRIDE_APP]($source) generates override of standard libaries to work with Eiffel-Loop
+[LIBRARY_OVERRIDE_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/generate/library_override_app.html) generates override of standard libaries to work with Eiffel-Loop
 
 Command switch: `-library_override`: 
 
-[REPOSITORY_NOTE_LINK_CHECKER_APP]($source) expands `$source` variable path in wiki-links contained in a wiki-markup text file. The app use a [EIFFEL_VIEW_APP]($source) publishing configuration. Write the expanded output to file named as follows:
+[REPOSITORY_NOTE_LINK_CHECKER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/repository_note_link_checker_app.html) expands `$source` variable path in wiki-links contained in a wiki-markup text file. The app use a [EIFFEL_VIEW_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/eiffel_view_app.html) publishing configuration. Write the expanded output to file named as follows:
 
 
 ````
@@ -1636,15 +1633,15 @@ An incidental function is to expand all tabs in the markup as 3 spaces.
 
 Command switch: `-expand_links`
 
-[SOURCE_FILE_NAME_NORMALIZER_APP]($source) normalize class filenames as lowercase classnames within a source directory
+[SOURCE_FILE_NAME_NORMALIZER_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/source_file_name_normalizer_app.html) normalize class filenames as lowercase classnames within a source directory
 
 Command switch: `-normalize_class_file_name` 
 
-[IMP_CLASS_LOCATION_NORMALIZER_APP]($source) normalizes location of implementation classes in relation to respective interfaces for all projects listed in publisher configuration.
+[IMP_CLASS_LOCATION_NORMALIZER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/imp_class_location_normalizer_app.html) normalizes location of implementation classes in relation to respective interfaces for all projects listed in publisher configuration.
 
 Command switch: `normalize_imp_location`
 
-[WINZIP_SOFTWARE_PACKAGE_BUILDER_APP]($source) builds a signed self-extracting software installer for Windows OS using signtool and WinZip tools.
+[WINZIP_SOFTWARE_PACKAGE_BUILDER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/winzip_software_package_builder_app.html) builds a signed self-extracting software installer for Windows OS using signtool and WinZip tools.
 
 Command switch: `-winzip_exe_builder`
 
@@ -1656,21 +1653,21 @@ A "Swiss-army knife" of Eiffel class editing utilities invokeable by a command-l
 
 **Sub-applications**
 
-[CLASS_PREFIX_REMOVAL_APP]($source) removes all classname prefixes over a source directory
+[CLASS_PREFIX_REMOVAL_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/class_prefix_removal_app.html) removes all classname prefixes over a source directory
 
 Command switch: `-remove_prefix`
 
-[NOTE_EDITOR_APP]($source) add default values to note fields using a source tree manifest.
+[NOTE_EDITOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/note_editor_app.html) add default values to note fields using a source tree manifest.
 
 Command switch: `-edit_notes`
 
-[FEATURE_EDITOR_APP]($source) expands Eiffel shorthand code in source file and reorders feature blocks alphabetically.
+[FEATURE_EDITOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/feature_editor_app.html) expands Eiffel shorthand code in source file and reorders feature blocks alphabetically.
 
 Command switch: `-feature_edit`
 
-[FIND_AND_REPLACE_APP]($source) finds and replaces text in Eiffel source files specified by a source tree manifest Command switch: `-find_replace`
+[FIND_AND_REPLACE_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/find_and_replace_app.html) finds and replaces text in Eiffel source files specified by a source tree manifest Command switch: `-find_replace`
 
-[SOURCE_LOG_LINE_REMOVER_APP]($source) comments out logging lines from Eiffel source code tree
+[SOURCE_LOG_LINE_REMOVER_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/source_log_line_remover_app.html) comments out logging lines from Eiffel source code tree
 
 Command switch: `-elog_remover`
 
@@ -1686,27 +1683,27 @@ A "Swiss-army knife" of Eiffel class analysis utilities invokeable by a command-
 
 **Sub-applications**
 
-[CHECK_LOCALE_STRINGS_APP]($source) verifies localization translation identifiers against various kinds of source texts.
+[CHECK_LOCALE_STRINGS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/check_locale_strings_app.html) verifies localization translation identifiers against various kinds of source texts.
 
 Command switch: `-check_locale_strings`
 
-[CLASS_DESCENDANTS_APP]($source) outputs a list of descendants for a class as an Eiffel note field that can be copy/pasted into Eiffel source code.
+[CLASS_DESCENDANTS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/class_descendants_app.html) outputs a list of descendants for a class as an Eiffel note field that can be copy/pasted into Eiffel source code.
 
 Command switch: `-descendants`
 
-[CODEBASE_STATISTICS_APP]($source) counts classes, code words and combined source file size for Eiffel source trees specified in manifest
+[CODEBASE_STATISTICS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/codebase_statistics_app.html) counts classes, code words and combined source file size for Eiffel source trees specified in manifest
 
 Command switch: `-codebase_stats`
 
-[ENCODING_CHECK_APP]($source) checks for UTF-8 files that could be encoded as Latin-1
+[ENCODING_CHECK_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/encoding_check_app.html) checks for UTF-8 files that could be encoded as Latin-1
 
 Command switch: `-check_encoding`
 
-[REPOSITORY_NOTE_LINK_CHECKER_APP]($source) checks for invalid class references in repository note links
+[REPOSITORY_NOTE_LINK_CHECKER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/repository_note_link_checker_app.html) checks for invalid class references in repository note links
 
 Command switch: `-check_note_links`
 
-[UNDEFINE_PATTERN_COUNTER_APP]($source) counts the number of classes in the source tree manifest that exhibit multiple inheritance of classes with an identical pattern of feature undefining.
+[UNDEFINE_PATTERN_COUNTER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/undefine_pattern_counter_app.html) counts the number of classes in the source tree manifest that exhibit multiple inheritance of classes with an identical pattern of feature undefining.
 
 Command switch: `-undefine_counter`
 
@@ -1736,7 +1733,7 @@ Command switch: `-export_book`
 
 Command switch: `-export_www`
 
-[PYXIS_TRANSLATION_TREE_COMPILER_APP]($source) compiles tree of Pyxis translation files into multiple locale files named `locale.x` where `x` is a 2 letter country code. Does nothing if source files are all older than locale files. See class [EL_LOCALE_I]($source).
+[PYXIS_TRANSLATION_TREE_COMPILER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/pyxis_translation_tree_compiler_app.html) compiles tree of Pyxis translation files into multiple locale files named `locale.x` where `x` is a 2 letter country code. Does nothing if source files are all older than locale files. See class [EL_LOCALE_I]($source).
 
 Command switch: `-compile_translations`
 

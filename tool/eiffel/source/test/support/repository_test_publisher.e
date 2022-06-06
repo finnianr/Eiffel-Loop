@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "5"
+	date: "2022-06-04 12:34:49 GMT (Saturday 4th June 2022)"
+	revision: "6"
 
 class
 	REPOSITORY_TEST_PUBLISHER
@@ -15,7 +15,7 @@ class
 inherit
 	REPOSITORY_PUBLISHER
 		redefine
-			make_default, new_medium, ok_to_synchronize
+			execute, make_default, new_medium, ok_to_synchronize
 		end
 
 create
@@ -32,6 +32,14 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	uploaded_path_list: ARRAYED_LIST [FILE_PATH]
+
+feature -- Basic operations
+
+	execute
+		do
+			uploaded_path_list.wipe_out
+			Precursor
+		end
 
 feature -- Status query
 

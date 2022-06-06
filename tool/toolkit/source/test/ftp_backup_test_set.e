@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 15:46:25 GMT (Tuesday 15th February 2022)"
-	revision: "2"
+	date: "2022-06-04 8:45:42 GMT (Saturday 4th June 2022)"
+	revision: "3"
 
 class
 	FTP_BACKUP_TEST_SET
@@ -102,14 +102,12 @@ feature {NONE} -- Implementation
 			file_list.find_first_true (agent {FILE_PATH}.base_matches (name, False))
 			if file_list.found then
 				create command.make (file_list.path, False)
-				if attached command.config as config then
-					assert ("is set", config.ftp_url ~ "eiffel-loop.com")
-					assert ("is set", config.ftp_home_dir.to_string.same_string ("/public/www"))
-					assert ("has 1 backup", config.backup_list.count = 1)
-					if attached config.backup_list.first as backup then
-						assert ("max 5 versions", backup.max_versions = 5)
-						assert ("is myfiles/test", backup.ftp_destination_path.to_latin_1 ~ "myfiles/test")
-					end
+				assert ("is set", command.ftp_url ~ "eiffel-loop.com")
+				assert ("is set", command.ftp_home_dir.to_string.same_string ("/public/www"))
+				assert ("has 1 backup", command.backup_list.count = 1)
+				if attached command.backup_list.first as backup then
+					assert ("max 5 versions", backup.max_versions = 5)
+					assert ("is myfiles/test", backup.ftp_destination_path.to_latin_1 ~ "myfiles/test")
 				end
 				command.execute
 				assert ("1 upload", command.archive_upload_list.count = 1)

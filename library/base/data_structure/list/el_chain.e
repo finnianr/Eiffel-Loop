@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:13 GMT (Tuesday 15th February 2022)"
-	revision: "43"
+	date: "2022-06-04 10:50:47 GMT (Saturday 4th June 2022)"
+	revision: "44"
 
 deferred class EL_CHAIN [G]
 
@@ -442,6 +442,17 @@ feature -- Element change
 		end
 
 feature -- Removal
+
+	remove_those (condition: PREDICATE [G])
+		do
+			from start until after loop
+				if condition (item) then
+					remove
+				else
+					forth
+				end
+			end
+		end
 
 	remove_last
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "26"
+	date: "2022-06-05 15:24:58 GMT (Sunday 5th June 2022)"
+	revision: "28"
 
 class
 	EL_FTP_PROTOCOL
@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 	initialize
 		do
 			Precursor
-			create authenticator.make (Current)
+			create authenticator.make
 			create current_directory
 			set_binary_mode
 			create reply_parser.make
@@ -70,14 +70,9 @@ feature -- Access
 
 	authenticator: EL_FTP_AUTHENTICATOR
 
-	current_directory: DIR_PATH
-
 	config: EL_FTP_CONFIGURATION
 
-	user_home_dir: DIR_PATH
-		do
-			Result := config.user_home_dir
-		end
+	current_directory: DIR_PATH
 
 	last_reply: ZSTRING
 		do
@@ -85,7 +80,17 @@ feature -- Access
 			Result.right_adjust
 		end
 
+	user_home_dir: DIR_PATH
+		do
+			Result := config.user_home_dir
+		end
+
 feature -- Element change
+
+	set_authenticator (a_authenticator: like authenticator)
+		do
+			authenticator := a_authenticator
+		end
 
 	set_current_directory (a_current_directory: DIR_PATH)
 		do
@@ -235,7 +240,7 @@ feature -- Status change
 			from attempts := 1 until is_logged_in or attempts > Max_login_attempts loop
 				reset_error
 				if is_open then
-					authenticator.try_login
+					authenticator.try_login (Current)
 					if is_logged_in then
 						if send_transfer_mode_command then
 							bytes_transferred := 0

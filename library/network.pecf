@@ -3,19 +3,22 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_net_base; uuid = "229b763c-09aa-11df-87c1-9fd182a2a60d" 
-	library_target = EL_net_base
+	name = EL_network; uuid = "229b763c-09aa-11df-87c1-9fd182a2a60d" 
+	library_target = EL_network
 	description:
 		"""
-			Basic Networking Classes
+			Networking Common
+
+			Common networking classes
 
 			* Extensions for ISE network sockets.
 			* Class to obtain the MAC address of network devices on both Windows and Linux.
 			* Classes for managing HTTP cookies, query parameters, headers and status codes.
+			* FTP upload and download
 		"""
 	
 	target:
-		name = EL_net_base
+		name = EL_network
 		root:
 			all_classes = true
 
@@ -43,12 +46,15 @@ system:
 				platform:
 					value = windows
 		
-		# Import libraries
+		# ISE libraries
 		library: 
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
 		library: 
 			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
+
+		library:
+			name = time; location = "$ISE_EIFFEL/library/time/time.ecf"
 
 		library: 
 			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
@@ -59,6 +65,9 @@ system:
 
 		library:
 			name = EL_c_api; location = "C-language-interface.ecf"
+
+		library:
+			name = EL_doc_scan; location = "document-scan.ecf"
 
 		library:
 			name = EL_os_command; location = "os-command.ecf"
@@ -73,11 +82,11 @@ system:
 			name = EL_thread; location = "thread.ecf"
 
 		library:
-			name = time; location = "$ISE_EIFFEL/library/time/time.ecf"
+			name = EL_xml_scan; location = "xml-scan.ecf"
 
 		# Source code
 		cluster:
-			name = EL_net_base; location = "network/base"; recursive = true
+			name = network; location = "network/base"; recursive = true
 			option:
 				namespace = "Eiffel-Loop-net"
 			file_rule:

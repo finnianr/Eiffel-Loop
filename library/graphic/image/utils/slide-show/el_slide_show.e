@@ -1,27 +1,10 @@
 note
 	description: "Abstract slide-show generated from Pyxis configuration"
-	notes: "[
-		Configuration Example
-		
-			pyxis-doc:
-				version = 1.0; encoding = "UTF-8"
-
-			# Configuration file for SLIDE_SHOW_APP
-
-			slide_show:
-				output_dir = "Slides"; cover_image = "Matryoshka-Cover.jpeg"
-				image_extension = jpeg; jpeg_quality = 90
-				title_duration_ratio = 2; title_font = "Ubuntu-Medium"; font_height = 100
-				width = 1920; height = 1080; digit_count = 3
-
-				directory_list:
-					item:
-						"Artifacts"
-						"Matryoshka Dolls"
-
-				exclusion_list:
-					item:
-						"cathedral"
+	notes: "See end of class"
+	descendants: "[
+			EL_SLIDE_SHOW*
+				[$source EL_IMAGE_MAGICK_SLIDE_SHOW]
+				[$source SLIDE_SHOW]
 	]"
 
 	author: "Finnian Reilly"
@@ -29,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-03 12:12:05 GMT (Friday 3rd June 2022)"
-	revision: "5"
+	date: "2022-06-04 8:32:33 GMT (Saturday 4th June 2022)"
+	revision: "6"
 
 deferred class
 	EL_SLIDE_SHOW
@@ -72,6 +55,33 @@ feature {NONE} -- Initialization
 			create generation_done.make
 		end
 
+feature -- Pyxis Configured
+
+	cover_image: FILE_PATH
+
+	digit_count: INTEGER
+
+	directory_list: EL_ARRAYED_LIST [DIR_PATH]
+
+	exclusion_list: EL_ARRAYED_LIST [ZSTRING]
+
+	font_height: INTEGER
+
+	height: INTEGER
+
+	image_extension: STRING
+
+	jpeg_quality: NATURAL
+
+	output_dir: DIR_PATH
+
+	title_duration_ratio: INTEGER
+		-- duration to display cover and titles relative to slides
+
+	title_font: STRING
+
+	width: INTEGER
+
 feature -- Access
 
 	aspect_ratio_formatted: ZSTRING
@@ -80,18 +90,7 @@ feature -- Access
 			Result.append_rounded_double (width / height, 2)
 		end
 
-	cover_image: FILE_PATH
-
 	config_name: ZSTRING
-
-	generation_done: EL_EVENT_BROADCASTER
-		-- generation done event broadcaster
-
-	image_extension: STRING
-
-	output_dir: DIR_PATH
-
-	title_font: STRING
 
 	count: INTEGER
 		-- total number of slides
@@ -102,20 +101,8 @@ feature -- Access
 			end
 		end
 
-feature -- Measurement
-
-	digit_count: INTEGER
-
-	font_height: INTEGER
-
-	height: INTEGER
-
-	jpeg_quality: NATURAL
-
-	title_duration_ratio: INTEGER
-		-- duration to display cover and titles relative to slides
-
-	width: INTEGER
+	generation_done: EL_EVENT_BROADCASTER
+		-- generation done event broadcaster
 
 feature -- Basic operations
 
@@ -216,16 +203,12 @@ feature {NONE} -- Implementation
 			Result.add_extension (image_extension)
 		end
 
-feature {EL_SLIDE_GROUP} -- Internal attributes
+feature {NONE} -- Internal attributes
 
 	counter: EL_NATURAL_32_COUNTER
 		-- image counter
 
-	directory_list: EL_ARRAYED_LIST [DIR_PATH]
-
 	group_table: like new_group_table
-
-	exclusion_list: EL_ARRAYED_LIST [ZSTRING]
 
 feature {NONE} -- Constants
 
@@ -239,5 +222,30 @@ feature {NONE} -- Constants
 		end
 
 	Transient_fields: STRING = "config_name, dimensions, integer, group_list, pixmap, counter"
+
+note
+	notes: "[
+		Configuration Example
+
+			pyxis-doc:
+				version = 1.0; encoding = "UTF-8"
+
+			# Configuration file for SLIDE_SHOW_APP
+
+			slide_show:
+				output_dir = "Slides"; cover_image = "Matryoshka-Cover.jpeg"
+				image_extension = jpeg; jpeg_quality = 90
+				title_duration_ratio = 2; title_font = "Ubuntu-Medium"; font_height = 100
+				width = 1920; height = 1080; digit_count = 3
+
+				directory_list:
+					item:
+						"Artifacts"
+						"Matryoshka Dolls"
+
+				exclusion_list:
+					item:
+						"cathedral"
+	]"
 
 end

@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-04-23 13:15:36 GMT (Saturday 23rd April 2022)"
-	revision: "8"
+	date: "2022-06-06 8:43:28 GMT (Monday 6th June 2022)"
+	revision: "9"
 
 class
 	EL_MUTEX_REFERENCE [G]
@@ -29,7 +29,7 @@ inherit
 		end
 
 create
-	make
+	make, make_from
 
 feature {NONE} -- Initialization
 
@@ -38,6 +38,12 @@ feature {NONE} -- Initialization
 		do
 			make_mutex
 			actual_item := an_item
+		end
+
+	make_from (new_item: FUNCTION [like item])
+		do
+			new_item.apply
+			make (new_item.last_result)
 		end
 
 feature -- Element change
@@ -108,4 +114,3 @@ feature {NONE} -- Implementation
 	actual_item: G
 
 end
-

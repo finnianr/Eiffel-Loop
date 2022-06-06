@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 12:38:24 GMT (Thursday 3rd February 2022)"
-	revision: "7"
+	date: "2022-06-04 15:03:44 GMT (Saturday 4th June 2022)"
+	revision: "8"
 
 class
 	EIFFEL_CONFIGURATION_LIST [G -> EIFFEL_CONFIGURATION_FILE create make end]
@@ -79,7 +79,7 @@ feature -- Basic operations
 				lio.put_new_line
 				across tree.item.directory_list as directory loop
 					across directory.item.class_list as e_class loop
-						e_class.item.sink_source_subsitutions
+						e_class.item.sink_source_substitutions
 					end
 				end
 			end

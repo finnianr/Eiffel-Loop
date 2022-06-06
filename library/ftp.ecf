@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!---->
+<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_ftp" uuid = "229B75D8-09AA-11DF-87C0-A7BAD3074FF0" library_target = "EL_ftp">
+	<description>
+FTP Client Services
+
+Classes providing
+
+* uploading of files to a server
+* managing server directory structure.
+* file synchronization using the [$source EL_CRC_32_SYNC_ITEM] abstraction
+	</description>
+	<target name = "EL_ftp">
+		<root all_classes = "true"/>
+		<option namespace = "Eiffel-Loop.Library.FTP" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
+			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
+		</option>
+		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
+		<library name = "net" location = "$ISE_LIBRARY/library/net/net.ecf"/>
+		<!--Eiffel Loop-->
+		<library name = "EL_base" location = "base/base.ecf"/>
+		<library name = "EL_doc_scan" location = "document-scan.ecf"/>
+		<library name = "EL_network" location = "network.ecf"/>
+		<library name = "EL_text_process" location = "text-process.ecf"/>
+		<library name = "EL_xml_scan" location = "xml-scan.ecf"/>
+		<!--Source code-->
+		<cluster name = "ftp" location = "network/protocol/ftp" recursive = "true"/>
+	</target>
+</system>

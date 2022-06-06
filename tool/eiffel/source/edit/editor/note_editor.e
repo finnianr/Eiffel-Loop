@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 13:59:56 GMT (Tuesday 8th February 2022)"
-	revision: "20"
+	date: "2022-06-06 8:24:32 GMT (Monday 6th June 2022)"
+	revision: "21"
 
 class
 	NOTE_EDITOR
@@ -32,10 +32,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (license_notes: LICENSE_NOTES; a_operations_list: like operations_list)
+	make (license_notes: LICENSE_NOTES; a_command: like command)
 			--
 		do
-			author_name	:= license_notes.author; operations_list := a_operations_list
+			author_name	:= license_notes.author; command := a_command
 			create default_values.make_equal (5)
 			set_default_values (license_notes)
 			make_default
@@ -47,10 +47,6 @@ feature -- Element change
 		do
 			output_lines.wipe_out
 		end
-
-feature -- Access
-
-	operations_list: EL_ARRAYED_MAP_LIST [STRING, ZSTRING]
 
 feature -- Basic operations
 
@@ -65,9 +61,9 @@ feature -- Basic operations
 
 				revised_lines := notes.revised_lines
 				if revised_lines /~ notes.original_lines then
-					operations_list.extend ("Revised", source_path)
+					command.report ("Revised", source_path)
 					if not notes.updated_fields.is_empty then
-						operations_list.extend ("Updated", notes.updated_fields.joined_with_string (", "))
+						command.report ("Updated", notes.updated_fields.joined_with_string (", "))
 					end
 					output_lines := revised_lines
 					Precursor
@@ -131,6 +127,8 @@ feature {NONE} -- Internal attributes
 	author_name: ZSTRING
 
 	default_values: EL_HASH_TABLE [ZSTRING, STRING]
+
+	command: NOTE_EDITOR_COMMAND
 
 feature {NONE} -- Fields
 

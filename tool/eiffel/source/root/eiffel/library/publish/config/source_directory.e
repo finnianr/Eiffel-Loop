@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 12:40:01 GMT (Thursday 3rd February 2022)"
-	revision: "13"
+	date: "2022-06-04 11:44:24 GMT (Saturday 4th June 2022)"
+	revision: "14"
 
 class
 	SOURCE_DIRECTORY
@@ -61,6 +61,17 @@ feature -- Access
 			end
 		end
 
+	dir_path: DIR_PATH
+		require
+			has_classes: class_list.count > 0
+		do
+			if class_list.count > 0 then
+				Result := class_list.first.source_path.parent
+			else
+				create Result
+			end
+		end
+
 	index: INTEGER
 
 	relative_dir: DIR_PATH
@@ -83,6 +94,11 @@ feature -- Status query
 	is_modified: BOOLEAN
 		do
 			Result := across class_list as l_class some l_class.item.is_modified end
+		end
+
+	is_empty: BOOLEAN
+		do
+			Result := class_list.is_empty
 		end
 
 feature -- Basic operations

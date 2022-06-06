@@ -99,7 +99,6 @@ publish-repository:
 			"library/network.ecf"
 			"library/doc/flash-network.ecf"
 			"library/amazon-instant-access.ecf"
-			"library/ftp.ecf"
 			"library/paypal-SBM.ecf"
 			"library/http-client.ecf"
 			"library/fast-cgi.ecf#protocol"

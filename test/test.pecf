@@ -148,9 +148,6 @@ system:
 			name = EL_fast_cgi; readonly = false; location = "$EIFFEL_LOOP/library/fast-cgi.ecf"
 
 		library:
-			name = EL_ftp; readonly = false; location = "$EIFFEL_LOOP/library/ftp.ecf"
-
-		library:
 			name = EL_http_client; readonly = false; location = "$EIFFEL_LOOP/library/http-client.ecf"
 
 		library:

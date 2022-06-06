@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:15 GMT (Tuesday 15th February 2022)"
-	revision: "25"
+	date: "2022-06-05 9:15:20 GMT (Sunday 5th June 2022)"
+	revision: "26"
 
 class
 	EL_TUPLE_ROUTINES
@@ -32,9 +32,16 @@ feature {NONE} -- Initialization
 	make
 		do
 			create types_table.make (17, agent new_type_array)
+			create procedure
 		end
 
 feature -- Access
+
+	closed_operands (a_procedure: PROCEDURE): TUPLE
+		do
+			procedure.set_from_other (a_procedure)
+			Result := procedure.closed_operands
+		end
 
 	type_array (tuple: TUPLE): EL_TUPLE_TYPE_ARRAY
 		-- Caches results in `types_table'
@@ -328,6 +335,8 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Internal attributes
+
+	procedure: EL_PROCEDURE
 
 	types_table: EL_CACHE_TABLE [EL_TUPLE_TYPE_ARRAY, INTEGER]
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:25:50 GMT (Monday 14th February 2022)"
-	revision: "9"
+	date: "2022-06-04 8:53:02 GMT (Saturday 4th June 2022)"
+	revision: "10"
 
 class
 	FTP_BACKUP
@@ -30,7 +30,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_config: BACKUP_CONFIG)
+	make (a_config: FTP_BACKUP_COMMAND)
 		do
 			config := a_config
 			make_default
@@ -101,7 +101,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	config: BACKUP_CONFIG
+	config: FTP_BACKUP_COMMAND
 
 feature {NONE} -- Constants
 

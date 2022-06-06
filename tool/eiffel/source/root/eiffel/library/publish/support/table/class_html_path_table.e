@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "6"
+	date: "2022-06-04 11:09:50 GMT (Saturday 4th June 2022)"
+	revision: "7"
 
 class
 	CLASS_HTML_PATH_TABLE
@@ -18,7 +18,7 @@ inherit
 			make as table_make
 		export
 			{NONE} all
-			{ANY} found_item, has_key, extend
+			{ANY} found_item, has_key, extend, remove
 		end
 
 	PUBLISHER_CONSTANTS

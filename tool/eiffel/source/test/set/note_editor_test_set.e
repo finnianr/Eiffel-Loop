@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-28 11:35:14 GMT (Monday 28th February 2022)"
-	revision: "31"
+	date: "2022-06-06 8:38:39 GMT (Monday 6th June 2022)"
+	revision: "32"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -47,13 +47,15 @@ inherit
 feature {NONE} -- Initialization
 
 	on_prepare
+		local
+			dummy: NOTE_EDITOR_COMMAND
 		do
 			Precursor
 			make_machine
 			create file_out.make_with_name (file_list.first_path)
 			create manifest.make_from_file (Manifest_path)
-			create operations_list.make (20)
-			create editor.make (manifest.notes, operations_list)
+			create dummy.make (Manifest_path, 0)
+			create editor.make (manifest.notes, dummy)
 		end
 
 feature -- Basic operations
@@ -203,8 +205,6 @@ feature {NONE} -- Internal attributes
 
 	editor: NOTE_EDITOR
 
-	operations_list: like editor.operations_list
-
 feature {NONE} -- Constants
 
 	Data_dir: DIR_PATH
@@ -220,6 +220,15 @@ feature {NONE} -- Constants
 				revision: "$Revision$"
 			]")
 			Result.indent (1)
+		end
+
+	Empty_manifest: ZSTRING
+		once
+			Result := "[
+				pyxis-doc:
+					version = 1.0; encoding = "ISO-8859-15"
+				manifest:
+			]"
 		end
 
 end

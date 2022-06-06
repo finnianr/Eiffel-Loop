@@ -125,9 +125,6 @@ system:
 					precondition = true; postcondition = true; check = true
 
 		library:
-			name = EL_ftp; readonly = false; location = "$EIFFEL_LOOP/library/ftp.ecf"
-
-		library:
 			name = EL_encryption; readonly = false; location = "$EIFFEL_LOOP/library/encryption.ecf"
 
 		library:
@@ -179,7 +176,7 @@ system:
 			name = project; location = source; recursive = true
 
 		cluster:
-			name = Test_common; location = "$EIFFEL_LOOP/test/source/common"
+			name = test_common; location = "$EIFFEL_LOOP/test/source/common"
 			cluster:
 				name = support; location = "$|support"
 

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 13:01:47 GMT (Thursday 13th January 2022)"
-	revision: "6"
+	date: "2022-06-04 12:45:19 GMT (Saturday 4th June 2022)"
+	revision: "7"
 
 class
 	IMP_CLASS_LOCATION_NORMALIZER
@@ -19,8 +19,10 @@ class
 inherit
 	REPOSITORY_PUBLISHER
 		redefine
-			description, execute, ecf_list
+			execute, ecf_list
 		end
+
+	EL_APPLICATION_COMMAND
 
 create
 	make

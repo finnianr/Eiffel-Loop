@@ -9,15 +9,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 17:28:39 GMT (Sunday 20th February 2022)"
-	revision: "52"
+	date: "2022-06-05 12:35:25 GMT (Sunday 5th June 2022)"
+	revision: "55"
 
 class
 	REPOSITORY_PUBLISHER
 
 inherit
-	EL_APPLICATION_COMMAND
-
 	EL_BUILDABLE_FROM_PYXIS
 		redefine
 			make_default, on_context_return
@@ -54,9 +52,8 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			config_path := a_file_path; version := a_version; cpu_percentage := a_cpu_percentage
 			log_cpu_percentage
-			create parser.make (Current)
 			make_from_file (a_file_path)
-			parser.update (True)
+			parser.apply_final
 
 			-- Add alias names like `ZSTRING' to `Class_path_table'
 			across ecf_list as ecf loop
@@ -87,17 +84,12 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create ftp_configuration.make_default
 			create web_address.make_empty
 			create ise_template
+			create update_checker.make (cpu_percentage)
+			create parser.make (cpu_percentage)
 			Precursor
 		end
 
 feature -- Access
-
-	description: STRING
-		do
-			Result := "[
-				Publishes source code and descriptions of Eiffel projects to a website as static html
-			]"
-		end
 
 	config_path: FILE_PATH
 		-- config file path
@@ -138,6 +130,12 @@ feature -- Basic operations
 			github_contents: GITHUB_REPOSITORY_CONTENTS_MARKDOWN
 			sync_manager: EL_FILE_SYNC_MANAGER; current_set: EL_MEMBER_SET [EL_FILE_SYNC_ITEM]
 		do
+			if execution_count > 0 then
+				across ecf_list as list loop
+					list.item.update_source_files (update_checker)
+				end
+				update_checker.apply_final
+			end
 			create current_set.make (3000)
 			if version /~ previous_version then
 				output_sub_directories.do_if (agent OS.delete_tree, agent {DIR_PATH}.exists)
@@ -175,6 +173,7 @@ feature -- Basic operations
 			else
 				lio.put_line ("No changes")
 			end
+			execution_count := execution_count + 1
 		end
 
 	set_output_dir (a_output_dir: like output_dir)
@@ -213,7 +212,13 @@ feature {NONE} -- Implementation
 	login (medium: EL_FILE_SYNC_MEDIUM)
 		do
 			if attached {EL_FTP_FILE_SYNC_MEDIUM} medium as ftp then
-				ftp.login
+				if attached authenticator as previous then
+					ftp.set_authenticator (previous)
+					ftp.login
+				else
+					ftp.login
+					authenticator := ftp.authenticator
+				end
 				is_logged_in := ftp.is_logged_in
 			else
 				is_logged_in := True
@@ -343,11 +348,17 @@ feature {NONE} -- Build from Pyxis
 
 feature {EIFFEL_CONFIGURATION_FILE} -- Internal attributes
 
+	authenticator: detachable EL_FTP_AUTHENTICATOR
+
 	parser: EIFFEL_CLASS_PARSER
+
+	update_checker: EIFFEL_CLASS_UPDATE_CHECKER
 
 	ise_template: TUPLE [library, contrib: ZSTRING]
 
 	ftp_configuration: EL_FTP_CONFIGURATION
+
+	execution_count: INTEGER
 
 feature {NONE} -- Constants
 

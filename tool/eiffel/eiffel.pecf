@@ -23,7 +23,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 4; release = 16; build = 473
+			major = 1; minor = 4; release = 18; build = 481
 			company = "Eiffel-Loop"; product = "eiffel"
 			copyright = "Finnian Reilly"
 
@@ -94,9 +94,6 @@ system:
 
 		library:
 			name = EL_doc_scan; readonly = false; location = "$EIFFEL_LOOP/library/document-scan.ecf"
-
-		library:
-			name = EL_ftp; readonly = false; location = "$EIFFEL_LOOP/library/ftp.ecf"
 
 		library:
 			name = EL_encryption; readonly = false; location = "$EIFFEL_LOOP/library/encryption.ecf"

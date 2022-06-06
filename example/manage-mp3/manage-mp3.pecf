@@ -120,10 +120,10 @@ system:
 			name = EL_logging; readonly = false; location = "$EIFFEL_LOOP/library/logging.ecf"
 
 		library:
-			name = EL_ftp; readonly = false; location = "$EIFFEL_LOOP/library/ftp.ecf"
+			name = EL_multimedia; readonly = false; location = "$EIFFEL_LOOP/library/multi-media.ecf"
 
 		library:
-			name = EL_multimedia; readonly = false; location = "$EIFFEL_LOOP/library/multi-media.ecf"
+			name = EL_network; readonly = false; location = "$EIFFEL_LOOP/library/network.ecf"
 
 		library:
 			name = EL_os_command; readonly = false; location = "$EIFFEL_LOOP/library/os-command.ecf"

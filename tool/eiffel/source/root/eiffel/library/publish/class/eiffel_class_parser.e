@@ -6,78 +6,35 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 17:35:38 GMT (Sunday 20th February 2022)"
-	revision: "8"
+	date: "2022-06-05 16:09:49 GMT (Sunday 5th June 2022)"
+	revision: "10"
 
 class
 	EIFFEL_CLASS_PARSER
 
 inherit
-	EL_FUNCTION_DISTRIBUTER [TUPLE [directory: SOURCE_DIRECTORY; e_class: EIFFEL_CLASS]]
-		rename
-			make as make_cpu_percentage
-		export
-			{NONE} all
-		end
-
-	EL_MODULE_LIO
-
-	SHARED_CLASS_PATH_TABLE
-
-	PUBLISHER_CONSTANTS
+	EL_DISTRIBUTED_PROCEDURE_CALLBACK
 
 create
 	make
 
-feature {NONE} -- Initialization
-
-	make (a_repository: like repository)
-		do
-			make_cpu_percentage (a_repository.cpu_percentage)
-			repository := a_repository
-			create result_list.make (100)
-		end
-
 feature -- Basic operations
 
-	queue (ecf: EIFFEL_CONFIGURATION_FILE; directory: SOURCE_DIRECTORY; source_path: FILE_PATH)
+	queue (add_class: PROCEDURE [EIFFEL_CLASS]; source_path: FILE_PATH)
+		require
+			target_is_ecf: attached {EIFFEL_CONFIGURATION_FILE} add_class.target
 		do
-			wait_apply (agent new_class (ecf, directory, source_path))
-		end
-
-	update (final: BOOLEAN)
-		local
-			e_class: EIFFEL_CLASS
-		do
-			if final then
-				do_final; collect_final (result_list)
-			else
-				collect (result_list)
-			end
-			across result_list as l_result loop
-				e_class := l_result.item.e_class
-				Class_path_table.put_class (e_class)
-
-				l_result.item.directory.class_list.extend (e_class)
-				if e_class.is_example then
-					repository.example_classes.extend (e_class)
-				end
-			end
-			result_list.wipe_out
+			queue_modifier (agent filled_procedure (add_class, source_path))
 		end
 
 feature {NONE} -- Separate function
 
-	new_class (ecf: EIFFEL_CONFIGURATION_FILE; directory: SOURCE_DIRECTORY; source_path: FILE_PATH): like Result_type
+	filled_procedure (add_class: PROCEDURE [EIFFEL_CLASS]; source_path: FILE_PATH): PROCEDURE
 		-- create new class and bind to directory in separate thread
 		do
-			Result := [directory, ecf.new_class (source_path)]
+			if attached {EIFFEL_CONFIGURATION_FILE} add_class.target as ecf then
+				add_class.set_operands ([ecf.new_class (source_path)])
+			end
+			Result := add_class
 		end
-
-feature {NONE} -- Internal attributes
-
-	repository: REPOSITORY_PUBLISHER
-
-	result_list: ARRAYED_LIST [like Result_type]
-
 end

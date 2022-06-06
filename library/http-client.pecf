@@ -9,7 +9,8 @@ system:
 		"""
 			HTTP Client Services
 
-			Classes for remotely interacting with a HTTP server. Supports the HTTP commands: POST, GET and HEAD.
+			Classes for remotely interacting with a HTTP server. 
+			Supports the HTTP commands: POST, GET and HEAD.
 		"""
 	
 	target:
@@ -81,7 +82,7 @@ system:
 
 		# Source code
 		cluster:
-			name = http; location = "network/protocol/http"; recursive = true
+			name = http; location = "network/http"; recursive = true
 			option:
 				namespace = "Eiffel-Loop.http"
 			file_rule:

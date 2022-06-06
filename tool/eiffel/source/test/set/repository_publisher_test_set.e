@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 8:46:07 GMT (Thursday 17th February 2022)"
-	revision: "45"
+	date: "2022-06-04 19:01:57 GMT (Saturday 4th June 2022)"
+	revision: "46"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -121,7 +121,7 @@ feature -- Tests
 				if Executable.Is_work_bench then
 					line := User_input.line ("Enter to continue")
 				end
-				publisher := new_publisher
+--				publisher := new_publisher
 				publisher.execute
 
 				across cmd.path_list as path loop

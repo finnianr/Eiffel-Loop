@@ -1,19 +1,19 @@
 note
-	description: "Command line interface to [$source SLIDE_SHOW_COMMAND]"
+	description: "Command line interface to [$source EL_IMAGE_MAGICK_SLIDE_SHOW_COMMAND]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-03 12:14:45 GMT (Friday 3rd June 2022)"
-	revision: "4"
+	date: "2022-06-04 8:33:00 GMT (Saturday 4th June 2022)"
+	revision: "5"
 
 class
 	SLIDE_SHOW_APP
 
 inherit
-	EL_COMMAND_LINE_APPLICATION [EL_IMAGE_MAGICK_SLIDE_SHOW_COMMAND]
+	EL_COMMAND_LINE_APPLICATION [EL_IMAGE_MAGICK_SLIDE_SHOW]
 		redefine
 			visible_types
 		end
