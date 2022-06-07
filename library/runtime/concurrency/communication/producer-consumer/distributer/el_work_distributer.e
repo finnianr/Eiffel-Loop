@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-07 10:03:50 GMT (Tuesday 7th June 2022)"
-	revision: "9"
+	date: "2022-06-07 18:57:43 GMT (Tuesday 7th June 2022)"
+	revision: "10"
 
 deferred class
 	EL_WORK_DISTRIBUTER [G, R -> ROUTINE]
@@ -47,7 +47,7 @@ feature {NONE} -- Initialization
 			make_default
 			create available.make (maximum_thread_count)
 			create thread_available.make
-			create threads.make (maximum_thread_count)
+			create pool.make (maximum_thread_count)
 			create applied.make (20)
 			create final_applied.make (0)
 			create thread_attributes.make
@@ -58,13 +58,19 @@ feature -- Access
 	launched_count: INTEGER
 		-- number of threads launched
 		do
-			Result := threads.count
+			Result := pool.count
 		end
 
 feature -- Status query
 
 	is_finalized: BOOLEAN
 		-- `True' if `do_final' has been called
+
+feature -- Contract Support
+
+	valid_routine (routine: R): BOOLEAN
+		deferred
+		end
 
 feature -- Status change
 
@@ -95,29 +101,29 @@ feature -- Basic operations
 			end
 		end
 
+	do_final
+		-- wait until all threads are available before stopping and joining all threads.
+		-- Wipeout the thread pool and make the applied routines available in `final_applied'
+		do
+			restrict_access
+				from until available.count = pool.count loop
+					wait_until_signaled (thread_available)
+				end
+				applied.do_all (agent final_applied.extend)
+			end_restriction
+
+			pool.do_all (agent {like pool.item}.wait_to_stop)
+			is_finalized := True
+			pool.wipe_out
+			available.wipe_out
+		end
+
 	do_with_completed (action: PROCEDURE [G])
 		do
 			if attached collection_list as list then
 				collect (list)
 				list.do_all (action); list.wipe_out
 			end
-		end
-
-	do_final
-		-- wait until all threads are available before stopping and joining all threads.
-		-- Wipeout the thread pool and make the applied routines available in `final_applied'
-		do
-			restrict_access
-				from until available.count = threads.count loop
-					wait_until_signaled (thread_available)
-				end
-				applied.do_all (agent final_applied.extend)
-			end_restriction
-
-			threads.do_all (agent {like threads.item}.wait_to_stop)
-			is_finalized := True
-			threads.wipe_out
-			available.wipe_out
 		end
 
 	wait_apply (routine: R)
@@ -129,12 +135,13 @@ feature -- Basic operations
 		-- to become available. If there is no suspended thread available and the `threads' pool is not yet full,
 		-- then add a new thread and launch it.
 		require
+			valid_routine: valid_routine (routine)
 			routine_has_no_open_arguments: routine.open_count = 0
 			not_finalized: not is_finalized
 		local
-			thread: like threads.item; index: INTEGER
+			thread: like pool.item; index: INTEGER
 		do
-			if threads.capacity = 0 then
+			if pool.capacity = 0 then
 				-- SYNCHRONOUS execution
 				routine.apply
 				applied.extend (routine)
@@ -144,7 +151,7 @@ feature -- Basic operations
 						index := available.item
 						available.remove
 
-					elseif threads.full then
+					elseif pool.full then
 						wait_until_signaled (thread_available)
 						index := available.item
 						available.remove
@@ -152,11 +159,11 @@ feature -- Basic operations
 				end_restriction
 				if index = 0 then
 					-- launch a new worker thread
-					create thread.make (Current, routine, threads.count + 1)
+					create thread.make (Current, routine, pool.count + 1)
 					thread.launch_with_attributes (thread_attributes)
-					threads.extend (thread)
+					pool.extend (thread)
 				else
-					thread := threads [index]
+					thread := pool [index]
 					thread.set_routine (routine)
 					thread.resume
 				end
@@ -165,7 +172,7 @@ feature -- Basic operations
 
 feature {EL_WORK_DISTRIBUTION_THREAD} -- Event handling
 
-	on_applied (thread: like threads.item)
+	on_applied (thread: like pool.item)
 		do
 			restrict_access
 				if attached {R} thread.routine as r then
@@ -213,7 +220,7 @@ feature {NONE} -- Internal attributes
 
 	thread_attributes: THREAD_ATTRIBUTES
 
-	threads: ARRAYED_LIST [EL_WORK_DISTRIBUTION_THREAD];
+	pool: ARRAYED_LIST [EL_WORK_DISTRIBUTION_THREAD];
 		-- pool of worker threads
 
 note

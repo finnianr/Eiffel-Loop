@@ -10,17 +10,27 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-07 9:59:30 GMT (Tuesday 7th June 2022)"
-	revision: "7"
+	date: "2022-06-07 18:54:23 GMT (Tuesday 7th June 2022)"
+	revision: "8"
 
 class
 	EL_FUNCTION_DISTRIBUTER [G]
 
 inherit
 	EL_WORK_DISTRIBUTER [G, FUNCTION [G]]
+		rename
+			valid_routine as valid_function
+		end
 
 create
 	make, make_threads
+
+feature -- Contract Support
+
+	valid_function (function: FUNCTION [G]): BOOLEAN
+		do
+			Result := True
+		end
 
 feature {NONE} -- Implementation
 
