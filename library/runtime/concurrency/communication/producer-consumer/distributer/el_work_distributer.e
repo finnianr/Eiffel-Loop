@@ -3,11 +3,7 @@ note
 		Object to distribute work of evaulating routines over a maximum number of threads.
 		It can be used directly, or with one of it's two descendants.
 	]"
-	descendants: "[
-			EL_WORK_DISTRIBUTER [R -> ROUTINE]
-				[$source EL_FUNCTION_DISTRIBUTER]
-				[$source EL_PROCEDURE_DISTRIBUTER]
-	]"
+	descendants: "See end of class"
 	instructions: "See end of class"
 
 	author: "Finnian Reilly"
@@ -15,11 +11,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 21:18:22 GMT (Sunday 20th February 2022)"
-	revision: "8"
+	date: "2022-06-07 10:03:50 GMT (Tuesday 7th June 2022)"
+	revision: "9"
 
-class
-	EL_WORK_DISTRIBUTER [R -> ROUTINE]
+deferred class
+	EL_WORK_DISTRIBUTER [G, R -> ROUTINE]
 
 inherit
 	EL_SINGLE_THREAD_ACCESS
@@ -28,8 +24,12 @@ inherit
 
 	EL_MODULE_SYSTEM
 
-create
-	make, make_threads
+	EL_LAZY_ATTRIBUTE
+		rename
+			item as collection_list,
+			new_item as new_collection_list,
+			actual_item as actual_collection_list
+		end
 
 feature {NONE} -- Initialization
 
@@ -61,13 +61,12 @@ feature -- Access
 			Result := threads.count
 		end
 
-feature -- Status change
+feature -- Status query
 
-	set_normal_priority
-		-- set thread priority to maximum
-		do
-			thread_attributes.set_priority (thread_attributes.default_priority)
-		end
+	is_finalized: BOOLEAN
+		-- `True' if `do_final' has been called
+
+feature -- Status change
 
 	set_max_priority
 		-- set thread priority to maximum
@@ -75,38 +74,33 @@ feature -- Status change
 			thread_attributes.set_priority (thread_attributes.max_priority)
 		end
 
+	set_normal_priority
+		-- set thread priority to maximum
+		do
+			thread_attributes.set_priority (thread_attributes.default_priority)
+		end
+
 feature -- Basic operations
 
-	discard_applied
+	collect (completed_list: LIST [G])
+		--  collect the list of completed function results of type G from `applied' function list
 		do
-			restrict_access
-				applied.wipe_out
-			end_restriction
+			if is_finalized then
+				move (final_applied, completed_list)
+				is_finalized := False
+			else
+				restrict_access
+					move (applied, completed_list)
+				end_restriction
+			end
 		end
 
-	discard_final_applied
+	do_with_completed (action: PROCEDURE [G])
 		do
-			final_applied.wipe_out
-		end
-
-	collect (list: LIST [R])
-		-- fill the `list' argument with already applied routines and wipe out `applied'
-		-- does nothing if `applied' is empty
-		do
-			restrict_access
-				if not applied.is_empty then
-					applied.do_all (agent list.extend)
-					applied.wipe_out
-				end
-			end_restriction
-		end
-
-	collect_final (list: LIST [R])
-		-- fill the `list' argument with already applied routines and wipe out `final_applied'
-		-- does nothing if `final_applied' is empty
-		do
-			final_applied.do_all (agent list.extend)
-			final_applied.wipe_out
+			if attached collection_list as list then
+				collect (list)
+				list.do_all (action); list.wipe_out
+			end
 		end
 
 	do_final
@@ -117,10 +111,11 @@ feature -- Basic operations
 				from until available.count = threads.count loop
 					wait_until_signaled (thread_available)
 				end
+				applied.do_all (agent final_applied.extend)
 			end_restriction
-			collect (final_applied)
 
 			threads.do_all (agent {like threads.item}.wait_to_stop)
+			is_finalized := True
 			threads.wipe_out
 			available.wipe_out
 		end
@@ -135,6 +130,7 @@ feature -- Basic operations
 		-- then add a new thread and launch it.
 		require
 			routine_has_no_open_arguments: routine.open_count = 0
+			not_finalized: not is_finalized
 		local
 			thread: like threads.item; index: INTEGER
 		do
@@ -180,6 +176,25 @@ feature {EL_WORK_DISTRIBUTION_THREAD} -- Event handling
 			thread_available.signal
 		end
 
+feature {NONE} -- Implementation
+
+	move (routines: like applied; completed_list: LIST [G])
+		do
+			from routines.start until routines.after loop
+				completed_list.extend (new_completed (routines.item))
+				routines.remove
+			end
+		end
+
+	new_collection_list: ARRAYED_LIST [G]
+		do
+			create Result.make (10)
+		end
+
+	new_completed (routine: R): G
+		deferred
+		end
+
 feature {NONE} -- Thread shared attributes
 
 	applied: ARRAYED_LIST [R]
@@ -202,10 +217,18 @@ feature {NONE} -- Internal attributes
 		-- pool of worker threads
 
 note
+	descendants: "[
+			EL_WORK_DISTRIBUTER* [G, R -> ROUTINE]
+				[$source EL_FUNCTION_DISTRIBUTER] [G]
+					[$source EL_DISTRIBUTED_PROCEDURE_CALLBACK]
+						[$source EIFFEL_CLASS_UPDATE_CHECKER]
+						[$source EIFFEL_CLASS_PARSER]
+				[$source EL_PROCEDURE_DISTRIBUTER] [G]
+	]"
 	instructions: "[
-		Use the class in the following way:
+		**USAGE:**
 
-		**1.** Declare an instance of [$source EL_WORK_DISTRIBUTER]
+		**1.** Declare an instance of a descendant [$source EL_PROCEDURE_DISTRIBUTER] or [$source EL_FUNCTION_DISTRIBUTER].
 
 		**2.** Repeatedly call `wait_apply' with the routines you want to execute in parallel.
 			distributer.wait_apply (agent my_routine)
@@ -216,7 +239,9 @@ note
 		**4.** Call the `do_final' routine to wait for any remaining routines to finish executing and
 		then wipe out all the threads.
 
-		**5.** Collect any remaining results with a call to `collect_final'
+		**5.** Collect any remaining results with a call to `collect'
+
+		Alternatively steps 3 and 5 can be replaced with a call to `do_with_completed'.
 	]"
 
 end

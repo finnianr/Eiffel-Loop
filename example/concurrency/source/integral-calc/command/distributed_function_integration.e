@@ -6,44 +6,39 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 8:34:53 GMT (Wednesday 9th February 2022)"
-	revision: "2"
+	date: "2022-06-07 11:02:38 GMT (Tuesday 7th June 2022)"
+	revision: "3"
 
 class
 	DISTRIBUTED_FUNCTION_INTEGRATION
 
 inherit
 	DISTRIBUTED_INTEGRATION_COMMAND [DOUBLE]
-		redefine
-			distributer
-		end
 
 create
 	make
 
 feature {NONE} -- Implementation
 
-	collect_integral (lower, upper: DOUBLE; a_delta_count: INTEGER)
+	add_to_sum
 		do
-			distributer.wait_apply (agent integral (function, lower, upper, a_delta_count))
-			-- collect results
-			distributer.collect (result_list)
+			distributer.do_with_completed (agent add_partial_to_sum)
 		end
 
-	collect_final
+	add_partial_to_sum (partial_integral: DOUBLE)
 		do
-			distributer.collect_final (result_list)
+			integral_sum := integral_sum + partial_integral
+			addition_count := addition_count + 1
 		end
 
-	result_sum: DOUBLE
+	calculate_bound (bound: like split_bounds.item; a_delta_count: INTEGER)
 		do
-			across result_list as a_integral loop
-				Result := Result + a_integral.item
-			end
+			distributer.wait_apply (agent integral (function, bound.lower_, bound.upper_, a_delta_count))
 		end
 
-feature {NONE} -- Internal attributes
-
-	distributer: EL_FUNCTION_DISTRIBUTER [DOUBLE]
+	new_distributer (cpu_percent: INTEGER): EL_FUNCTION_DISTRIBUTER [DOUBLE]
+		do
+			create Result.make (cpu_percent)
+		end
 
 end

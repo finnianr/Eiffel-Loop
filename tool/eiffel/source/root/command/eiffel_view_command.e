@@ -24,9 +24,9 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_file_path: FILE_PATH; a_version: STRING; a_cpu_percentage: INTEGER)
+	make (config_path: FILE_PATH; a_version: STRING; a_cpu_percentage: INTEGER)
 		do
-			create publisher.make (a_file_path, a_version, a_cpu_percentage)
+			create publisher.make (config_path, a_version, a_cpu_percentage)
 			create line.make_empty
 		end
 

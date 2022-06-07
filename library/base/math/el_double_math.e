@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-09 16:36:48 GMT (Sunday 9th May 2021)"
-	revision: "8"
+	date: "2022-06-07 10:37:30 GMT (Tuesday 7th June 2022)"
+	revision: "9"
 
 class
 	EL_DOUBLE_MATH
@@ -32,7 +32,7 @@ feature -- Basic operations
 			end
 		end
 
-	split_bounds (lower, upper: DOUBLE; count: INTEGER): ARRAYED_LIST [TUPLE [lower_bound, upper_bound: DOUBLE]]
+	split_bounds (lower, upper: DOUBLE; count: INTEGER): ARRAYED_LIST [TUPLE [lower_, upper_: DOUBLE]]
 			-- bounds split into `count' sub-bounds
 		local
 			full_x_distance: DOUBLE; i: INTEGER

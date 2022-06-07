@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 0:03:28 GMT (Wednesday 9th February 2022)"
-	revision: "60"
+	date: "2022-06-07 9:07:15 GMT (Tuesday 7th June 2022)"
+	revision: "61"
 
 class
 	APPLICATION_ROOT
@@ -25,5 +25,12 @@ inherit
 
 create
 	make
+
+feature {NONE} -- Implementation
+
+	compile: TUPLE [EL_LOGGED_FUNCTION_DISTRIBUTER [ANY], EL_LOGGED_PROCEDURE_DISTRIBUTER [ANY]]
+		do
+			create Result
+		end
 
 end

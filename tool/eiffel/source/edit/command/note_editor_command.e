@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-06 9:10:32 GMT (Monday 6th June 2022)"
-	revision: "22"
+	date: "2022-06-07 10:07:47 GMT (Tuesday 7th June 2022)"
+	revision: "23"
 
 class
 	NOTE_EDITOR_COMMAND
@@ -36,7 +36,6 @@ feature {EL_APPLICATION} -- Initialization
 			source_manifest_exists: source_manifest_path.exists
 		do
 			create operations_list.make_from (agent new_operations_list)
-			create collection_list.make (10)
 			create distributer.make (cpu_percentage)
 			create editor_pool.make (8, agent new_editor)
 			make_editor (source_manifest_path)
@@ -95,24 +94,17 @@ feature {NONE} -- Implementation
 
 						distributer.wait_apply (agent l_editor.edit)
 					end
-					collect_work (False)
+					distributer.do_with_completed (agent on_edited)
 				end
 			end
-			collect_work (True)
+			distributer.do_final
+			distributer.do_with_completed (agent on_edited)
 		end
 
-	collect_work (final: BOOLEAN)
+	on_edited (a_editor: NOTE_EDITOR)
 		do
-			if final then
-				distributer.collect_final (collection_list)
-			else
-				distributer.collect (collection_list)
-			end
-			across collection_list as list loop
-				editor_pool.recycle (list.item)
-				Track.progress_listener.notify_tick
-			end
-			collection_list.wipe_out
+			editor_pool.recycle (a_editor)
+			Track.progress_listener.notify_tick
 		end
 
 	new_editor: NOTE_EDITOR
@@ -128,8 +120,6 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	distributer: EL_PROCEDURE_DISTRIBUTER [NOTE_EDITOR]
-
-	collection_list: ARRAYED_LIST [NOTE_EDITOR]
 
 	editor_pool: EL_AGENT_FACTORY_POOL [NOTE_EDITOR]
 

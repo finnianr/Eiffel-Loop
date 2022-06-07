@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-06 11:56:48 GMT (Friday 6th October 2017)"
-	revision: "2"
+	date: "2022-06-07 9:37:23 GMT (Tuesday 7th June 2022)"
+	revision: "3"
 
 class
 	EL_WORK_DISTRIBUTION_THREAD
@@ -82,6 +82,6 @@ feature {NONE} -- Event handling
 
 feature {NONE} -- Internal attributes
 
-	distributer: EL_WORK_DISTRIBUTER [ROUTINE]
+	distributer: EL_WORK_DISTRIBUTER [ANY, ROUTINE]
 
 end

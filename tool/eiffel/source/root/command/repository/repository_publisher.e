@@ -160,7 +160,7 @@ feature -- Basic operations
 			else
 				create sync_manager.make (current_set)
 			end
-			if sync_manager.has_changes and then ok_to_synchronize then
+			if sync_manager.has_changes and then (ok_to_synchronize or attached authenticator) then
 				if attached new_medium as medium then
 					login (medium)
 					if is_logged_in then

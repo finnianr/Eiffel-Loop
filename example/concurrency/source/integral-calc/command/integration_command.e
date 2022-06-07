@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 0:25:38 GMT (Wednesday 9th February 2022)"
-	revision: "1"
+	date: "2022-06-07 10:50:00 GMT (Tuesday 7th June 2022)"
+	revision: "2"
 
 deferred class
 	INTEGRATION_COMMAND
@@ -53,9 +53,9 @@ feature -- Basic operations
 			lower := option.integral_range.radians_lower * PI
 			upper := option.integral_range.radians_upper * PI
 			lio.put_line (Calculating_integral #$ [lower, upper])
-			answer := integral_sum (lower, upper)
+			calculate (lower, upper)
 			if not is_canceled then
-				lio.put_double_field ("integral is", answer)
+				lio.put_double_field ("integral is", integral_sum)
 				lio.put_new_line
 				lio.put_elapsed_time
 				lio.put_new_line
@@ -65,7 +65,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	integral_sum (lower, upper: DOUBLE): DOUBLE
+	calculate (lower, upper: DOUBLE)
 		deferred
 		end
 
@@ -79,6 +79,8 @@ feature {NONE} -- Internal attributes
 		-- function to be integrated
 
 	option: INTEGRATION_COMMAND_OPTIONS
+
+	integral_sum: DOUBLE
 
 feature {NONE} -- Constants
 

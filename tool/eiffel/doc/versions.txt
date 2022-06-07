@@ -1,3 +1,6 @@
+1.4.19
+* Simplified EL_WORK_DISTRIBUTER descendants
+
 1.4.18
 * Distributed NOTE_EDITOR_COMMAND
 

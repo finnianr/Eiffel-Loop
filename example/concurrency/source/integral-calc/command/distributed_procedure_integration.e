@@ -6,48 +6,42 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 8:34:50 GMT (Wednesday 9th February 2022)"
-	revision: "2"
+	date: "2022-06-07 11:02:38 GMT (Tuesday 7th June 2022)"
+	revision: "3"
 
 class
 	DISTRIBUTED_PROCEDURE_INTEGRATION
 
 inherit
 	DISTRIBUTED_INTEGRATION_COMMAND [INTEGRAL_MATH]
-		redefine
-			distributer
-		end
 
 create
 	make
 
 feature {NONE} -- Implementation
 
-	collect_integral (lower, upper: DOUBLE; a_delta_count: INTEGER)
+	add_to_sum
+		do
+			distributer.do_with_completed (agent add_partial_to_sum)
+		end
+
+	add_partial_to_sum (math: INTEGRAL_MATH)
+		do
+			integral_sum := integral_sum + math.integral
+			addition_count := addition_count + 1
+		end
+
+	calculate_bound (bound: like split_bounds.item; a_delta_count: INTEGER)
 		local
 			integral_math: INTEGRAL_MATH
 		do
-			create integral_math.make (function, lower, upper, a_delta_count)
+			create integral_math.make (function, bound.lower_, bound.upper_, a_delta_count)
 			distributer.wait_apply (agent integral_math.calculate)
-
-			-- collect results
-			distributer.collect (result_list)
 		end
 
-	collect_final
+	new_distributer (cpu_percent: INTEGER): EL_PROCEDURE_DISTRIBUTER [INTEGRAL_MATH]
 		do
-			distributer.collect_final (result_list)
+			create Result.make (cpu_percent)
 		end
-
-	result_sum: DOUBLE
-		do
-			across result_list as value loop
-				Result := Result + value.item.integral
-			end
-		end
-
-feature {NONE} -- Internal attributes
-
-	distributer: EL_PROCEDURE_DISTRIBUTER [INTEGRAL_MATH]
 
 end

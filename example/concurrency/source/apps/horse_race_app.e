@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 14:50:07 GMT (Sunday 20th February 2022)"
-	revision: "4"
+	date: "2022-06-07 9:41:49 GMT (Tuesday 7th June 2022)"
+	revision: "5"
 
 class
 	HORSE_RACE_APP
@@ -68,7 +68,7 @@ feature -- Basic operations
 			-- technically we don't need these 2 lines since we already know the `finish_list' is full
 			-- but is useful when we need to wait until everything is finished
 			distributer.do_final -- Wait for everthing to finish
-			distributer.collect_final (finish_list) -- Collect remaining targets in finish list
+			distributer.collect (finish_list) -- Collect remaining targets in finish list
 
 			lio.put_new_line
 			lio.put_line ("RACE RESULTS"); lio.put_new_line

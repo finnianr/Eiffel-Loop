@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
-	date: "2022-02-08 15:49:49 GMT (Tuesday 8th February 2022)"
-	revision: "3"
+	date: "2022-06-07 9:09:16 GMT (Tuesday 7th June 2022)"
+	revision: "4"
 
 deferred class
 	PROTEIN_FOLDING_APPLICATION [C -> PROTEIN_FOLDING_COMMAND create make end]
@@ -16,7 +16,8 @@ inherit
 	EL_LOGGED_COMMAND_LINE_APPLICATION [C]
 		rename
 			log_filter_set as empty_log_filter_set,
-			new_command as new_pf_hp_command
+			new_command as new_pf_hp_command,
+			make_default as make_application
 		redefine
 			run
 		end

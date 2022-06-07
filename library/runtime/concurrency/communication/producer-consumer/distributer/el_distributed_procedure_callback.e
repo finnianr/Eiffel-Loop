@@ -18,16 +18,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-06 7:56:29 GMT (Monday 6th June 2022)"
-	revision: "2"
+	date: "2022-06-07 10:11:07 GMT (Tuesday 7th June 2022)"
+	revision: "3"
 
 class
 	EL_DISTRIBUTED_PROCEDURE_CALLBACK
 
 inherit
 	EL_FUNCTION_DISTRIBUTER [PROCEDURE]
-		rename
-			make as make_cpu_percentage
 		export
 			{NONE} all
 		end
@@ -35,47 +33,23 @@ inherit
 create
 	make
 
-feature {NONE} -- Initialization
-
-	make (cpu_percentage: INTEGER)
-		do
-			make_cpu_percentage (cpu_percentage)
-			create procedure_list.make (20)
-		end
-
 feature -- Basic operations
 
 	apply
 		-- apply procedures that have been completed
 		do
-			collect (procedure_list)
-			apply_each
+			do_with_completed (agent {PROCEDURE}.apply)
 		end
 
 	apply_final
 		-- wait for thread pool to finish and apply remaining procedures
 		do
-			do_final; collect_final (procedure_list)
-			apply_each
+			do_final; apply
 		end
 
 	queue_modifier (modifier: FUNCTION [PROCEDURE])
 		do
 			wait_apply (modifier)
 		end
-
-feature {NONE} -- Implementation
-
-	apply_each
-		do
-			across procedure_list as list loop
-				list.item.apply
-			end
-			procedure_list.wipe_out
-		end
-
-feature {NONE} -- Internal attributes
-
-	procedure_list: ARRAYED_LIST [PROCEDURE]
 
 end

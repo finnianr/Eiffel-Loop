@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
-	date: "2022-02-08 15:51:10 GMT (Tuesday 8th February 2022)"
-	revision: "3"
+	date: "2022-06-07 11:13:04 GMT (Tuesday 7th June 2022)"
+	revision: "4"
 
 class
 	MULTI_CORE_PF_COMMAND_2_1 [G -> GRID_2_X create make end]
@@ -36,14 +36,11 @@ feature {NONE} -- Implementation
 
 	gen_folds
 		local
-			done_list: ARRAYED_LIST [like new_folder]
 			distributer: like new_distributer
 			iteration_count: NATURAL_32; folder: like new_folder
 		do
 			log.enter ("gen_folds")
 			distributer := new_distributer
-			create done_list.make (11)
-
 			from until fold.is_last_north loop
 				if pool.is_empty then
 					folder := new_folder
@@ -53,27 +50,22 @@ feature {NONE} -- Implementation
 				end
 				folder.fold.set_data (fold)
 				distributer.wait_apply (agent folder.gen_folds)
-				distributer.collect (done_list)
-				merge_minimum_losses (done_list)
+				distributer.do_with_completed (agent merge_minimum_losses)
 
 				fold.partial_permute
 				iteration_count := iteration_count + 1
 				print_progress (iteration_count)
 			end
 			distributer.do_final
-			distributer.collect_final (done_list)
-			merge_minimum_losses (done_list)
+			distributer.do_with_completed (agent merge_minimum_losses)
 			log.exit
 		end
 
-	merge_minimum_losses (list: ARRAYED_LIST [like new_folder])
-		local
-			l_fold_list: like fold_list
+	merge_minimum_losses (folder: like new_folder)
 		do
-			from list.start until list.after loop
-				l_fold_list := list.item.fold_list
-				from l_fold_list.start until l_fold_list.after loop
-					if attached {LIMITED_FOLD_ARRAY} l_fold_list.item as l_fold then
+			if attached folder.fold_list as list then
+				from list.start until list.after loop
+					if attached {LIMITED_FOLD_ARRAY} list.item as l_fold then
 						if l_fold.grid_used_has_zero and then l_fold.losses <= minimum_loss and then not fold_list.has (l_fold) then
 							update_minimum_loss (l_fold)
 						end
@@ -81,10 +73,7 @@ feature {NONE} -- Implementation
 --							log_losses (fold_string (l_fold), l_fold.grid_used_has_zero, l_fold.losses, minimum_loss, fold_list.count)
 --						end
 					end
-					l_fold_list.forth
 				end
-				pool.put (list.item)
-				list.remove
 			end
 		end
 
@@ -101,7 +90,6 @@ feature {NONE} -- Factory
 		end
 
 end
-
 
 
 

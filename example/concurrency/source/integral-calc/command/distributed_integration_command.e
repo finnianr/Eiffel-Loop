@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 14:57:02 GMT (Sunday 20th February 2022)"
-	revision: "3"
+	date: "2022-06-07 11:03:41 GMT (Tuesday 7th June 2022)"
+	revision: "4"
 
 deferred class
 	DISTRIBUTED_INTEGRATION_COMMAND [G]
@@ -26,8 +26,7 @@ feature {NONE} -- Initialization
 		do
 			Precursor (a_option, a_function)
 			delta_count := option.delta_count; task_count := option.task_count
-			create result_list.make (task_count)
-			create distributer.make (Option.cpu_percent)
+			distributer := new_distributer (Option.cpu_percent)
 			if option.max_priority then
 				distributer.set_max_priority
 			end
@@ -49,15 +48,15 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	collect_final
+	add_to_sum
 		deferred
 		end
 
-	collect_integral (lower, upper: DOUBLE; a_delta_count: INTEGER)
+	calculate_bound (interval: like split_bounds.item; a_delta_count: INTEGER)
 		deferred
 		end
 
-	integral_sum (lower, upper: DOUBLE): DOUBLE
+	calculate (lower, upper: DOUBLE)
 		do
 			if is_canceled then
 				log.put_line (" integration canceled")
@@ -68,22 +67,20 @@ feature {NONE} -- Implementation
 
 				-- Splitting bounds into sub-bounds
 				across split_bounds (lower, upper, task_count) as bound loop
-					collect_integral (bound.item.lower_bound, bound.item.upper_bound, (delta_count / task_count).rounded)
+					calculate_bound (bound.item, (delta_count / task_count).rounded)
+					add_to_sum
 				end
 				lio.put_line ("Waiting to complete ..")
-				distributer.do_final
-				collect_final
+				distributer.do_final; add_to_sum
 
 				lio.put_integer_field ("distributer.launched_count", distributer.launched_count)
 				lio.put_new_line
 
-				if not result_list.full then
+				if addition_count /= task_count then
 					lio.put_line ("ERROR: missing result")
-					lio.put_integer_field ("result_list.count", result_list.count); lio.put_integer_field (" task_count", task_count)
+					lio.put_integer_field ("addition_count", addition_count); lio.put_integer_field (" task_count", task_count)
 					lio.put_new_line
 				end
-				Result := result_sum
-				result_list.wipe_out
 			end
 			log.exit
 		rescue
@@ -95,18 +92,18 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	result_sum: DOUBLE
-		-- sum of results of all sub-bounds
+	new_distributer (cpu_percent: INTEGER): EL_WORK_DISTRIBUTER [ANY, ROUTINE]
 		deferred
 		end
 
 feature {NONE} -- Internal attributes
 
+	addition_count: INTEGER
+		-- partial addition count
+
 	delta_count: INTEGER
 
-	distributer: EL_WORK_DISTRIBUTER [ROUTINE]
-
-	result_list: ARRAYED_LIST [G]
+	distributer: like new_distributer
 
 	task_count: INTEGER
 

@@ -10,54 +10,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 15:29:55 GMT (Sunday 20th February 2022)"
-	revision: "6"
+	date: "2022-06-07 9:59:30 GMT (Tuesday 7th June 2022)"
+	revision: "7"
 
 class
 	EL_FUNCTION_DISTRIBUTER [G]
 
 inherit
-	EL_WORK_DISTRIBUTER [FUNCTION [G]]
-		rename
-			collect as collect_functions,
-			collect_final as collect_final_functions
-		end
+	EL_WORK_DISTRIBUTER [G, FUNCTION [G]]
 
 create
 	make, make_threads
 
-feature -- Basic operations
-
-	collect (result_list: LIST [G])
-		--  collect the list of function results of type G from `applied' function list
-		do
-			restrict_access
-				move (applied, result_list)
-			end_restriction
-		end
-
-	collect_final (result_list: LIST [G])
-		--  collect the final list of function results of type G from `applied' function list
-		-- (following call to `do_final')
-		do
-			move (final_applied, result_list)
-		end
-
-feature -- Type definitions
-
-	Result_type: G
-		require
-			never_called: False
-		do
-		end
-
 feature {NONE} -- Implementation
 
-	move (functions: like applied; result_list: LIST [G])
+	new_completed (function: FUNCTION [G]): G
 		do
-			from functions.start until functions.after loop
-				result_list.extend (functions.item.last_result)
-				functions.remove
-			end
+			Result := function.last_result
 		end
 end
