@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-14 13:02:05 GMT (Friday 14th August 2020)"
-	revision: "1"
+	date: "2022-06-09 16:17:33 GMT (Thursday 9th June 2022)"
+	revision: "2"
 
 class
-	EL_CONFIRMATION_VIEW_DIALOG
+	EL_MODELED_CONFIRMATION_DIALOG
 
 inherit
-	EL_INFORMATION_VIEW_DIALOG
+	EL_MODELED_INFORMATION_DIALOG
 		redefine
 			on_default
 		end

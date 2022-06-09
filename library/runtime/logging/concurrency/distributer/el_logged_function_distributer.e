@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 15:30:01 GMT (Sunday 20th February 2022)"
-	revision: "7"
+	date: "2022-06-08 7:40:22 GMT (Wednesday 8th June 2022)"
+	revision: "8"
 
 class
 	EL_LOGGED_FUNCTION_DISTRIBUTER [G]
@@ -15,7 +15,7 @@ class
 inherit
 	EL_FUNCTION_DISTRIBUTER [G]
 		redefine
-			threads
+			pool
 		end
 
 create
@@ -23,7 +23,7 @@ create
 
 feature {NONE} -- Internal attributes
 
-	threads: EL_ARRAYED_LIST [EL_LOGGED_WORK_DISTRIBUTION_THREAD]
-		-- threads of worker threads
+	pool: EL_ARRAYED_LIST [EL_LOGGED_WORK_DISTRIBUTION_THREAD]
+		-- pool of worker pool
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 17:11:30 GMT (Saturday 5th February 2022)"
-	revision: "2"
+	date: "2022-06-09 16:04:53 GMT (Thursday 9th June 2022)"
+	revision: "3"
 
 deferred class
 	EL_UNINSTALL_APP
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_STANDARD_UNINSTALL_APP
 		export
-			{EL_VIEW_DIALOG} Text
+			{EL_MODELED_DIALOG} Text
 		undefine
 			Desktop_menu_path
 		redefine
@@ -44,7 +44,7 @@ feature -- Basic operations
 			gui.launch
 		end
 
-feature {EL_VIEW_DIALOG} -- Implementation
+feature {EL_MODELED_DIALOG} -- Implementation
 
 	do_uninstall
 		do

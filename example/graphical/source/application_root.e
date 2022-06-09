@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-02 16:22:34 GMT (Thursday 2nd June 2022)"
-	revision: "14"
+	date: "2022-06-09 16:17:22 GMT (Thursday 9th June 2022)"
+	revision: "15"
 
 class
 	APPLICATION_ROOT
@@ -38,7 +38,9 @@ feature {NONE} -- Compile also
 
 	dialogs: TUPLE [
 		EL_APPLY_CHANGES_CONFIRMATION_DIALOG, EL_SAVE_CHANGES_CONFIRMATION_DIALOG,
-		EL_FILE_OPEN_DIALOG, EL_FILE_SAVE_DIALOG, EL_PROGRESS_DIALOG
+		EL_FILE_OPEN_DIALOG, EL_FILE_SAVE_DIALOG, EL_PROGRESS_DIALOG,
+		EL_MODELED_DIALOG, EL_MODELED_INFORMATION_DIALOG, EL_MODELED_COLUMNS_DIALOG,
+		EL_HYPERLINK_MENU [EL_NAMEABLE [ZSTRING]]
 	]
 		do
 			create Result

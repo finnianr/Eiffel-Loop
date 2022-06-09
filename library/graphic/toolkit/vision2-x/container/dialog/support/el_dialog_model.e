@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-13 11:24:46 GMT (Friday 13th May 2022)"
-	revision: "12"
+	date: "2022-06-09 16:07:04 GMT (Thursday 9th June 2022)"
+	revision: "13"
 
 class
 	EL_DIALOG_MODEL
@@ -204,7 +204,7 @@ feature -- Basic operations
 
 	show_centered_confirmation (parent: EV_WINDOW; action: PROCEDURE)
 		local
-			dialog: EL_CONFIRMATION_VIEW_DIALOG
+			dialog: EL_MODELED_CONFIRMATION_DIALOG
 		do
 			create dialog.make (Current, action)
 			dialog.position_center (parent)
@@ -215,7 +215,7 @@ feature -- Basic operations
 		require
 			no_default_button: not has_default_button_text
 		local
-			dialog: EL_INFORMATION_VIEW_DIALOG
+			dialog: EL_MODELED_INFORMATION_DIALOG
 		do
 			create dialog.make_info (Current)
 			dialog.position_center (parent)

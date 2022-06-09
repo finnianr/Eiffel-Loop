@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-26 15:47:56 GMT (Tuesday 26th October 2021)"
-	revision: "1"
+	date: "2022-06-09 16:02:09 GMT (Thursday 9th June 2022)"
+	revision: "2"
 
 class
 	EL_UNINSTALL_DIALOG
 
 inherit
-	EL_INFORMATION_VIEW_DIALOG
+	EL_MODELED_INFORMATION_DIALOG
 		rename
 			make as make_dialog
 		redefine
@@ -32,7 +32,7 @@ inherit
 
 create
 	make
-	
+
 feature {NONE} -- Initialization
 
 	make (app: EL_UNINSTALL_APP)

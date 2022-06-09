@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-12 16:33:38 GMT (Wednesday 12th August 2020)"
-	revision: "11"
+	date: "2022-06-09 16:13:04 GMT (Thursday 9th June 2022)"
+	revision: "12"
 
 deferred class
-	EL_FIXED_TAB_BOOK [W -> EV_POSITIONABLE]
+	EL_FIXED_TAB_BOOK [W -> EV_WINDOW]
 
 inherit
 	EV_NOTEBOOK

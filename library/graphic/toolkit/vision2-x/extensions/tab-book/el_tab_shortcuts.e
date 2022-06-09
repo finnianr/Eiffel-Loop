@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-12 16:34:35 GMT (Wednesday 12th August 2020)"
-	revision: "5"
+	date: "2022-06-09 16:12:32 GMT (Thursday 9th June 2022)"
+	revision: "6"
 
 deferred class
 	EL_TAB_SHORTCUTS
@@ -28,15 +28,11 @@ inherit
 
 feature {NONE} -- Initialization
 
-	init_keyboard_shortcuts (a_window: EV_POSITIONABLE)
+	init_keyboard_shortcuts (a_window: EV_WINDOW)
 		local
 			shortcuts: EL_KEYBOARD_SHORTCUTS
 		do
-			if attached {EV_WINDOW} a_window as w then
-				create shortcuts.make (w)
-			elseif attached {EL_VIEW_DIALOG} a_window as view then
-				create shortcuts.make (view.internal_dialog)
-			end
+			create shortcuts.make (a_window)
 			if attached shortcuts as s then
 				s.create_accelerator (Key.Key_page_up, Modifier_ctrl).actions.extend (agent select_left_tab)
 				s.create_accelerator (Key.Key_page_down, Modifier_ctrl).actions.extend (agent select_right_tab)

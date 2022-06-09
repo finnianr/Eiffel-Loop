@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-28 15:30:45 GMT (Saturday 28th November 2020)"
-	revision: "11"
+	date: "2022-06-09 16:18:05 GMT (Thursday 9th June 2022)"
+	revision: "12"
 
 deferred class
 	EL_HYPERLINK_MENU [G -> EL_NAMEABLE [ZSTRING]]
 
 inherit
-	EL_HORIZONTAL_VIEW_DIALOG
+	EL_MODELED_COLUMNS_DIALOG
 		rename
 			make as make_dialog
 		redefine
@@ -43,19 +43,19 @@ feature {NONE} -- Initialization
 				item_list.forth
 			end
 			make_info (a_model)
-			internal_dialog.focus_out_actions.extend (agent on_cancel)
+			window.focus_out_actions.extend (agent on_cancel)
 		end
 
 feature {NONE} -- Events
 
 	on_show
 		do
-			internal_dialog.set_focus
+			window.set_focus
 		end
 
 	on_cancel
 		do
-			internal_dialog.focus_out_actions.block
+			window.focus_out_actions.block
 			Precursor
 		end
 
