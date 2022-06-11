@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-07 11:37:58 GMT (Tuesday 7th June 2022)"
-	revision: "56"
+	date: "2022-06-11 9:55:53 GMT (Saturday 11th June 2022)"
+	revision: "57"
 
 class
 	REPOSITORY_PUBLISHER
@@ -21,27 +21,11 @@ inherit
 			make_default, on_context_return
 		end
 
-	EL_MODULE_TRACK
+	EL_MODULE_CONSOLE; EL_MODULE_EXCEPTION; EL_MODULE_FILE; EL_MODULE_LIO; EL_MODULE_LOG_MANAGER
 
-	EL_MODULE_CONSOLE
-
-	EL_MODULE_LIO
-
-	EL_MODULE_USER_INPUT
-
-	EL_MODULE_FILE
-
-	EL_MODULE_LOG_MANAGER
-
-	EL_MODULE_OS
-
-	EL_MODULE_EXCEPTION
-
-	SHARED_CLASS_PATH_TABLE
+	EL_MODULE_OS; EL_MODULE_TRACK; EL_MODULE_USER_INPUT
 
 	PUBLISHER_CONSTANTS
-
-	EL_ZSTRING_CONSTANTS
 
 create
 	make
@@ -49,20 +33,18 @@ create
 feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (a_file_path: FILE_PATH; a_version: STRING; a_cpu_percentage: INTEGER)
+		local
+			parser: EIFFEL_CLASS_PARSER
 		do
 			config_path := a_file_path; version := a_version; cpu_percentage := a_cpu_percentage
 			log_cpu_percentage
 			make_from_file (a_file_path)
-			parser.apply_final
 
-			-- Add alias names like `ZSTRING' to `Class_path_table'
+			create parser.make (cpu_percentage)
 			across ecf_list as ecf loop
-				across ecf.item.alias_table as table loop
-					if Class_path_table.has_key (table.item) then
-						Class_path_table.extend (Class_path_table.found_item, table.key)
-					end
-				end
+				ecf.item.read_class_source (parser)
 			end
+			parser.apply_final
 
 			-- Necessary to sort examples to ensure routine `{LIBRARY_CLASS}.sink_source_subsitutions'
 			-- makes a consistent value for make `current_digest'
@@ -84,8 +66,6 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create ftp_configuration.make_default
 			create web_address.make_empty
 			create ise_template
-			create update_checker.make (cpu_percentage)
-			create parser.make (cpu_percentage)
 			Precursor
 		end
 
@@ -129,8 +109,10 @@ feature -- Basic operations
 		local
 			github_contents: GITHUB_REPOSITORY_CONTENTS_MARKDOWN
 			sync_manager: EL_FILE_SYNC_MANAGER; current_set: EL_MEMBER_SET [EL_FILE_SYNC_ITEM]
+			update_checker: EIFFEL_CLASS_UPDATE_CHECKER
 		do
 			if execution_count > 0 then
+				create update_checker.make (cpu_percentage)
 				across ecf_list as list loop
 					list.item.update_source_files (update_checker)
 				end
@@ -349,10 +331,6 @@ feature {NONE} -- Build from Pyxis
 feature {EIFFEL_CONFIGURATION_FILE} -- Internal attributes
 
 	authenticator: detachable EL_FTP_AUTHENTICATOR
-
-	parser: EIFFEL_CLASS_PARSER
-
-	update_checker: EIFFEL_CLASS_UPDATE_CHECKER
 
 	ise_template: TUPLE [library, contrib: ZSTRING]
 

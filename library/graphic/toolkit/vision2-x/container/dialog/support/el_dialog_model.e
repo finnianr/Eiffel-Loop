@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-09 16:07:04 GMT (Thursday 9th June 2022)"
-	revision: "13"
+	date: "2022-06-11 8:36:01 GMT (Saturday 11th June 2022)"
+	revision: "14"
 
 class
 	EL_DIALOG_MODEL
@@ -34,7 +34,13 @@ feature {NONE} -- Initialization
 
 	make (a_title: like title)
 		do
+			make_default
 			title := a_title
+		end
+
+	make_default
+		do
+			title := Empty_string_8; text := Empty_string_8
 			icon := Default_icon
 			layout := default_layout
 			style := default_style
@@ -46,12 +52,6 @@ feature {NONE} -- Initialization
 			default_button_text := Empty_string_8
 			cancel_button_text := Empty_string_8
 			escape_key_enabled := True
-			text := Empty_string_8
-		end
-
-	make_default
-		do
-			make (Empty_string_8)
 		end
 
 feature -- Text
@@ -141,7 +141,7 @@ feature -- Status query
 
 	has_title: BOOLEAN
 		do
-			Result := not title.is_empty
+			Result := title.count > 0
 		end
 
 feature -- Set text
@@ -230,7 +230,7 @@ feature {NONE} -- Implementation
 		end
 
 	default_style: EL_DIALOG_STYLE
-		once
+		do
 			create Result.make
 		end
 

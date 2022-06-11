@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-05 16:10:00 GMT (Sunday 5th June 2022)"
-	revision: "11"
+	date: "2022-06-11 9:44:09 GMT (Saturday 11th June 2022)"
+	revision: "12"
 
 class
 	EIFFEL_CLASS_UPDATE_CHECKER
@@ -26,7 +26,7 @@ feature -- Basic operations
 		require
 			valid_operand: valid_operands (update_class)
 		do
-			queue_modifier (agent filled_procedure (update_class))
+			wait_apply (agent do_nothing_or_update_class (update_class))
 		end
 
 feature -- Contract Support
@@ -40,15 +40,15 @@ feature -- Contract Support
 
 feature {NONE} -- Separate function
 
-	filled_procedure (update_class: PROCEDURE): PROCEDURE
+	do_nothing_or_update_class (update_class: PROCEDURE): PROCEDURE
 		-- check if source for `e_class' has been modified
 		do
-			if attached {EIFFEL_CLASS} Tuple.closed_operands (update_class).reference_item (3) as e_class
-				and then e_class.is_source_modified
-			then
-				Result := update_class
-			else
-				Result := agent do_nothing
+			if attached {EIFFEL_CLASS} Tuple.closed_operands (update_class).reference_item (3) as e_class then
+				if e_class.is_source_modified then
+					Result := update_class
+				else
+					Result := agent do_nothing
+				end
 			end
 		end
 

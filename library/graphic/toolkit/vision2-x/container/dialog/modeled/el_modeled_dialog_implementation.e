@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-09 16:22:21 GMT (Thursday 9th June 2022)"
-	revision: "4"
+	date: "2022-06-11 8:17:50 GMT (Saturday 11th June 2022)"
+	revision: "5"
 
 deferred class
 	EL_MODELED_DIALOG_IMPLEMENTATION
@@ -168,7 +168,7 @@ feature {NONE} -- Implementation
 
 	create_implementation
 		do
-			if style.has_title_background_pixmap or model.title.is_empty then
+			if model.title.is_empty or else style.has_title_background_pixmap then
 				create {EL_CUSTOM_TITLED_DIALOG} window.make (model)
 			else
 				create window.make (model)

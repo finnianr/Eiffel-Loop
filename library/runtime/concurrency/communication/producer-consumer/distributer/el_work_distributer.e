@@ -1,7 +1,6 @@
 note
 	description: "[
-		Object to distribute work of evaulating routines over a maximum number of threads.
-		It can be used directly, or with one of it's two descendants.
+		Object to distribute work of applying routine-agents over a fixed number of CPU processors (threads)
 	]"
 	descendants: "See end of class"
 	instructions: "See end of class"
@@ -11,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-07 18:57:43 GMT (Tuesday 7th June 2022)"
-	revision: "10"
+	date: "2022-06-11 8:54:05 GMT (Saturday 11th June 2022)"
+	revision: "11"
 
 deferred class
 	EL_WORK_DISTRIBUTER [G, R -> ROUTINE]

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-09 16:26:30 GMT (Thursday 9th June 2022)"
-	revision: "1"
+	date: "2022-06-11 8:33:45 GMT (Saturday 11th June 2022)"
+	revision: "2"
 
 deferred class
 	EL_MODELED_DIALOG
@@ -212,8 +212,8 @@ feature {NONE} -- Factory
 	new_dialog_box: EL_VERTICAL_BOX
 		do
 			create Result.make_unexpanded (layout.dialog_border_width_cms, 0, << >>)
-			if attached {EL_CUSTOM_TITLED_DIALOG} window as titled
-				and then attached titled.title_label as title_label
+			if attached {EL_CUSTOM_TITLED_DIALOG} window as custom
+				and then attached custom.title_label as title_label
 			then
 				Result.extend_unexpanded (title_label)
 			end
@@ -248,8 +248,6 @@ feature {NONE} -- Event handling
 feature {NONE} -- Implementation
 
 	create_interface_objects
-		require
-			valid_implementation: valid_implementation
 		do
 			if model.has_default_button_text then
 				default_button := new_default_button
@@ -276,15 +274,6 @@ feature {NONE} -- Implementation
 			end
 			if model.has_cancel_button_text then
 				window.set_default_cancel_button (cancel_button)
-			end
-		end
-
-	valid_implementation: BOOLEAN
-		do
-			if style.has_title_background_pixmap or model.title.is_empty then
-				Result := attached {EL_CUSTOM_TITLED_DIALOG} window
-			else
-				Result := attached {EL_DIALOG} window
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-05 16:08:46 GMT (Sunday 5th June 2022)"
-	revision: "45"
+	date: "2022-06-11 10:07:08 GMT (Saturday 11th June 2022)"
+	revision: "46"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -27,11 +27,7 @@ inherit
 
 	EL_MODULE_DIRECTORY
 
-	EL_MODULE_TUPLE
-
-	EL_STRING_8_CONSTANTS
-
-	SHARED_CLASS_PATH_TABLE
+	ECF_CONSTANTS
 
 create
 	make
@@ -62,7 +58,6 @@ feature {NONE} -- Initialization
 			end
 			path_list := new_path_list; sub_category := new_sub_category
 			set_name_and_description (ecf.description (root))
-			read_class_source
 		end
 
 	make_default
@@ -156,6 +151,25 @@ feature -- Access
 
 feature -- Element change
 
+	add_new_classes (group_table: like new_directory_group_table)
+		local
+			source_directory: SOURCE_DIRECTORY
+		do
+			across group_table as table loop
+				directory_list.find_first_equal (table.key, agent {SOURCE_DIRECTORY}.dir_path)
+				if directory_list.found then
+					source_directory := directory_list.item
+				else
+					create source_directory.make (Current, directory_list.count + 1)
+					directory_list.extend (source_directory)
+				end
+				across table.item as path loop
+					lio.put_character ('.')
+					add_class (source_directory, new_class (path.item))
+				end
+			end
+		end
+
 	set_name_and_description (a_description: ZSTRING)
 		-- set `name' from first line of `a_description' and `description_lines' from the remainder
 		-- if `a_description' contains some text "See <file_path> for details", then set `description_lines'
@@ -185,6 +199,37 @@ feature -- Element change
 		end
 
 feature -- Basic operations
+
+	read_class_source (parser: EIFFEL_CLASS_PARSER)
+		local
+			group_table: EL_FUNCTION_GROUP_TABLE [FILE_PATH, DIR_PATH]
+			source_directory: SOURCE_DIRECTORY; file_count: INTEGER
+		do
+			lio.put_labeled_string ("Reading classes", html_index_path)
+			lio.put_new_line
+			create group_table.make_from_list (agent {FILE_PATH}.parent, sorted_path_list)
+			create directory_list.make (group_table.count)
+
+			across group_table as group loop
+				create source_directory.make (Current, group.item.count)
+				directory_list.extend (source_directory)
+				file_count := file_count + 1
+				across group.item as path loop
+					lio.put_character ('.')
+					if file_count \\ 80 = 0 or (directory_list.full and then path.is_last) then
+						lio.put_new_line
+					end
+					parser.queue (agent add_class (source_directory, ?), path.item)
+				end
+				parser.apply
+			end
+			-- Add alias names like `ZSTRING' to `Class_path_table'
+			across alias_table as table loop
+				if Class_path_table.has_key (table.item) then
+					Class_path_table.extend (Class_path_table.found_item, table.key)
+				end
+			end
+		end
 
 	update_source_files (update_checker: EIFFEL_CLASS_UPDATE_CHECKER)
 		-- Fast check of files that have been modified
@@ -317,56 +362,12 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	add_new_classes (group_table: like new_directory_group_table)
-		local
-			source_directory: SOURCE_DIRECTORY
-		do
-			across group_table as table loop
-				directory_list.find_first_equal (table.key, agent {SOURCE_DIRECTORY}.dir_path)
-				if directory_list.found then
-					source_directory := directory_list.item
-				else
-					create source_directory.make (Current, directory_list.count + 1)
-					directory_list.extend (source_directory)
-				end
-				across table.item as path loop
-					lio.put_character ('.')
-					add_class (source_directory, new_class (path.item))
-				end
-			end
-		end
-
 	extend_alias_table (map_node: EL_XPATH_NODE_CONTEXT)
 		do
 			if alias_table = Default_alias_table then
 				create alias_table.make_equal (2)
 			end
 			alias_table [map_node [Mapping.old_name]] := map_node [Mapping.new_name]
-		end
-
-	read_class_source
-		local
-			group_table: EL_FUNCTION_GROUP_TABLE [FILE_PATH, DIR_PATH]
-			source_directory: SOURCE_DIRECTORY; file_count: INTEGER
-		do
-			lio.put_labeled_string ("Reading classes", html_index_path)
-			lio.put_new_line
-			create group_table.make_from_list (agent {FILE_PATH}.parent, sorted_path_list)
-			create directory_list.make (group_table.count)
-
-			across group_table as group loop
-				create source_directory.make (Current, group.item.count)
-				directory_list.extend (source_directory)
-				file_count := file_count + 1
-				across group.item as path loop
-					lio.put_character ('.')
-					if file_count \\ 80 = 0 or (directory_list.full and then path.is_last) then
-						lio.put_new_line
-					end
-					repository.parser.queue (agent add_class (source_directory, ?), path.item)
-				end
-				repository.parser.apply
-			end
 		end
 
 	update_class (class_list: EL_ARRAYED_LIST [EIFFEL_CLASS]; e_class: EIFFEL_CLASS)
@@ -392,55 +393,11 @@ feature {NONE} -- Evolicity fields
 				["github_description",	agent: ZSTRING do Result := Translater.to_github_markdown (description_lines) end]
 		end
 
-feature {NONE} -- Xpath constants
-
-	Attribute_location: STRING = "location"
-
-	Attribute_recursive: STRING = "recursive"
-
-	Element_cluster: STRING = "cluster"
-
 feature {NONE} -- Constants
-
-	Default_alias_table: EL_ZSTRING_HASH_TABLE [ZSTRING]
-		once
-			create Result.make_equal (0)
-		end
-
-	Symbol: TUPLE [dot, star_dot_e, parent_dir, relative_location: ZSTRING]
-		once
-			create Result
-			Tuple.fill (Result, "., *.e, ../, $|")
-		end
-
-	Library: ZSTRING
-		once
-			Result := "library"
-		end
-
-	Mapping: TUPLE [old_name, new_name: STRING]
-		once
-			create Result
-			Tuple.fill (Result, "old_name, new_name")
-		end
-
-	See_details: TUPLE [begins, ends: ZSTRING]
-		once
-			create Result
-			Result.begins := "See "
-			Result.ends := " for details"
-		end
 
 	Translater: MARKDOWN_TRANSLATER
 		once
 			create Result.make (repository.web_address)
 		end
-
-	Y_plural: ZSTRING
-		once
-			Result := "ies"
-		end
-
-	Xpath_mapping: STRING = "/system/target/mapping"
 
 end

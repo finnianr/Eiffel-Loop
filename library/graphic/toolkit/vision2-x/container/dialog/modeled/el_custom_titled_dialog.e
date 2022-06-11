@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-09 15:21:19 GMT (Thursday 9th June 2022)"
-	revision: "1"
+	date: "2022-06-11 8:32:07 GMT (Saturday 11th June 2022)"
+	revision: "2"
 
 class
 	EL_CUSTOM_TITLED_DIALOG
@@ -17,37 +17,33 @@ inherit
 		undefine
 			show_modal_to_window
 		redefine
-			create_interface_objects, set_title
+			set_title
 		end
 
 	EL_DIALOG
 		undefine
-			set_title, create_implementation, create_interface_objects
+			set_title, create_implementation
 		end
 
 create
 	make
 
-feature {NONE} -- Initialization
-
-	create_interface_objects
-		do
-			Precursor
-			title_label := new_title_label
-			create title_bar_drag.make (Current, title_label)
-		end
-
 feature -- Access
 
-	title_label: EL_LABEL_PIXMAP
+	title_label: detachable EL_LABEL_PIXMAP
 
 feature -- Element change
 
 	set_title (a_title: separate READABLE_STRING_GENERAL)
 		do
 			Precursor (a_title)
-			if not title_label.text.same_string (a_title) then
-				title_label.set_text (a_title)
+			if attached title_label as label then
+				if not label.text.same_string (a_title) then
+					label.set_text (a_title)
+				end
+			elseif a_title.count > 0 then
+				title_label := new_title_label
+				create title_bar_drag.make (Current, title_label)
 			end
 		end
 
@@ -65,6 +61,6 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Internal attributes
 
-	title_bar_drag: EL_WINDOW_DRAG
+	title_bar_drag: detachable EL_WINDOW_DRAG
 
 end
