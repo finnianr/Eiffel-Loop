@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-24 18:30:49 GMT (Wednesday 24th February 2021)"
-	revision: "5"
+	date: "2022-06-11 13:56:34 GMT (Saturday 11th June 2022)"
+	revision: "6"
 
 frozen class
 	EL_WIDGET_ROUTINES
@@ -18,13 +18,9 @@ inherit
 			default_create
 		end
 
-	EL_MODULE_GUI
+	EL_MODULE_GUI; EL_MODULE_ORIENTATION; EL_MODULE_SCREEN
 
-	EL_MODULE_ORIENTATION
-
-	EL_MODULE_PIXMAP
-
-	EL_MODULE_SCREEN
+	EL_SHARED_DEFAULT_PIXMAPS
 
 feature {NONE} -- Initialization
 
@@ -223,7 +219,7 @@ feature -- Mouse pointer setting
 	restore_standard_pointer
 		do
 			if busy_widget /= Default_busy_widget then
-				busy_widget.set_pointer_style (Pixmap.Standard_cursor)
+				busy_widget.set_pointer_style (Pixmaps.Standard_cursor)
 				busy_widget := Default_busy_widget
 			end
 		end
@@ -248,9 +244,9 @@ feature -- Mouse pointer setting
 
 	set_busy_pointer_at_position (widget: EV_WIDGET; position_x, position_y: INTEGER)
 		local
-			x, y: INTEGER; cursor: like Pixmap.Busy_cursor
+			x, y: INTEGER; cursor: like Pixmaps.Busy_cursor
 		do
-			cursor := Pixmap.Busy_cursor
+			cursor := Pixmaps.Busy_cursor
 			x := position_x; y := position_y
 			if x = 0 then
 				x := cursor.x_hotspot - cursor.width

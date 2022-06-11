@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-07 18:06:59 GMT (Tuesday 7th December 2021)"
-	revision: "12"
+	date: "2022-06-11 15:03:38 GMT (Saturday 11th June 2022)"
+	revision: "13"
 
 class
-	EL_VISION_2_USER_INTERFACE [W -> EL_TITLED_WINDOW create make end]
+	EL_VISION_2_USER_INTERFACE [W -> EL_TITLED_WINDOW create make end, P -> {EL_STOCK_PIXMAPS} create make end]
 
 inherit
-	EL_VISION_2_APPLICATION
+	EL_VISION_2_APPLICATION [P]
 		redefine
 			on_creation
 		end

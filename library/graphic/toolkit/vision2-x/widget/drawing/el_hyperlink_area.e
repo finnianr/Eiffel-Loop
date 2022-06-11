@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-26 12:47:16 GMT (Friday 26th February 2021)"
-	revision: "15"
+	date: "2022-06-11 14:53:13 GMT (Saturday 11th June 2022)"
+	revision: "16"
 
 class
 	EL_HYPERLINK_AREA
@@ -27,11 +27,9 @@ inherit
 			copy, default_create
 		end
 
-	EL_MODULE_COLOR
+	EL_MODULE_COLOR; EL_MODULE_SCREEN
 
-	EL_MODULE_PIXMAP
-
-	EL_MODULE_SCREEN
+	EL_SHARED_DEFAULT_PIXMAPS
 
 create
 	make, make_with_styles, make_default
@@ -157,7 +155,7 @@ feature {NONE} -- Event handling
 	on_pointer_leave
 			--
 		do
-			set_pointer_style (Pixmap.Standard_cursor)
+			set_pointer_style (Pixmaps.Standard_cursor)
 			is_selected := False
 			redraw
 		end
@@ -171,13 +169,13 @@ feature {NONE} -- Event handling
 			is_selected := is_enabled and then has_pointer
 			if old_is_selected /= is_selected then
 				if is_selected then
-					set_pointer_style (Pixmap.Hyperlink_cursor)
+					set_pointer_style (Pixmaps.Hyperlink_cursor)
 
 					-- Link exit not always detected by pointer motion event,
 					-- so check a little later if pointer is still over this link
 					GUI.do_later (150, agent check_pointer_still_here)
 				else
-					set_pointer_style (Pixmap.Standard_cursor)
+					set_pointer_style (Pixmaps.Standard_cursor)
 				end
 				redraw
 			end

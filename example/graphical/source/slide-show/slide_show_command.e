@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-02 12:09:00 GMT (Thursday 2nd June 2022)"
-	revision: "3"
+	date: "2022-06-11 14:56:07 GMT (Saturday 11th June 2022)"
+	revision: "4"
 
 class
 	SLIDE_SHOW_COMMAND
@@ -36,7 +36,7 @@ feature -- Basic operations
 
 	execute
 		local
-			gui: EL_VISION_2_USER_INTERFACE [SLIDE_SHOW_WINDOW]
+			gui: EL_VISION_2_USER_INTERFACE [SLIDE_SHOW_WINDOW, EL_STOCK_PIXMAPS]
 		do
 			create gui.make (False)
 			gui.launch

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-11 8:36:01 GMT (Saturday 11th June 2022)"
-	revision: "14"
+	date: "2022-06-11 13:56:52 GMT (Saturday 11th June 2022)"
+	revision: "15"
 
 class
 	EL_DIALOG_MODEL
@@ -15,17 +15,11 @@ class
 inherit
 	ANY
 
-	EL_MODULE_GUI
-
-	EL_MODULE_PIXMAP
-
-	EL_MODULE_SCREEN
-
-	EL_MODULE_ITERABLE
+	EL_MODULE_GUI; EL_MODULE_ITERABLE; EL_MODULE_SCREEN
 
 	EL_STRING_8_CONSTANTS
 
-	EL_SHARED_WORD
+	EL_SHARED_DEFAULT_PIXMAPS; EL_SHARED_WORD
 
 create
 	make, make_default
@@ -258,7 +252,7 @@ feature {NONE} -- Constants
 
 	Default_icon: EV_PIXMAP
 		once
-			Result := Pixmap.Information_pixmap
+			Result := Pixmaps.Information_pixmap
 		end
 
 	Paragraph_separator: ZSTRING

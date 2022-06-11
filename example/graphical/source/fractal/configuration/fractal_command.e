@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:41:52 GMT (Tuesday 8th February 2022)"
-	revision: "4"
+	date: "2022-06-11 14:55:54 GMT (Saturday 11th June 2022)"
+	revision: "5"
 
 class
 	FRACTAL_COMMAND
@@ -35,6 +35,6 @@ feature -- Basic operations
 
 feature {NONE} -- Internal attributes
 
-	gui: EL_VISION_2_USER_INTERFACE [FRACTAL_MAIN_WINDOW]
+	gui: EL_VISION_2_USER_INTERFACE [FRACTAL_MAIN_WINDOW, EL_STOCK_PIXMAPS]
 
 end

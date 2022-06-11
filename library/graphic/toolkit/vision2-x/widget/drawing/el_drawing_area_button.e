@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-29 15:48:13 GMT (Sunday 29th May 2022)"
-	revision: "12"
+	date: "2022-06-11 14:53:12 GMT (Saturday 11th June 2022)"
+	revision: "13"
 
 class
 	EL_DRAWING_AREA_BUTTON
@@ -18,8 +18,6 @@ inherit
 			make as make_rectangle
 		end
 
-	EL_SHARED_BUTTON_STATE
-
 	SD_COLOR_HELPER
 		export
 			{NONE} all
@@ -27,13 +25,9 @@ inherit
 			out
 		end
 
-	EL_MODULE_COLOR
+	EL_MODULE_COLOR; EL_MODULE_GUI; EL_MODULE_VISION_2
 
-	EL_MODULE_PIXMAP
-
-	EL_MODULE_VISION_2
-
-	EL_MODULE_GUI
+	EL_SHARED_BUTTON_STATE; EL_SHARED_DEFAULT_PIXMAPS
 
 create
 	make
@@ -172,11 +166,11 @@ feature {NONE} -- Implementation
 						end
 				)
 				timer.set_interval (1200)
-				drawing_area.set_pointer_style (Pixmap.Hyperlink_cursor)
+				drawing_area.set_pointer_style (Pixmaps.Hyperlink_cursor)
 			else
 				is_tooltip_displayed := False
 				timer.set_interval (0)
-				drawing_area.set_pointer_style (Pixmap.Standard_cursor)
+				drawing_area.set_pointer_style (Pixmaps.Standard_cursor)
 			end
 			drawing_area.redraw
 		end

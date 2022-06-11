@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-31 16:59:20 GMT (Friday 31st December 2021)"
-	revision: "10"
+	date: "2022-06-11 13:48:25 GMT (Saturday 11th June 2022)"
+	revision: "11"
 
 class
 	EL_BUTTON
@@ -17,7 +17,7 @@ class
 inherit
 	EV_BUTTON
 		undefine
-			set_text
+			Default_pixmaps, set_text
 		redefine
 			initialize, implementation, set_text
 		end

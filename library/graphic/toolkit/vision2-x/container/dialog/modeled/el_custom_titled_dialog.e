@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-11 8:32:07 GMT (Saturday 11th June 2022)"
-	revision: "2"
+	date: "2022-06-11 14:08:29 GMT (Saturday 11th June 2022)"
+	revision: "3"
 
 class
 	EL_CUSTOM_TITLED_DIALOG
@@ -15,12 +15,12 @@ class
 inherit
 	EV_UNTITLED_DIALOG
 		undefine
-			show_modal_to_window
+			Default_pixmaps, show_modal_to_window
 		redefine
 			set_title
 		end
 
-	EL_DIALOG
+	EL_STANDARD_DIALOG
 		undefine
 			set_title, create_implementation
 		end

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-14 10:58:13 GMT (Saturday 14th May 2022)"
-	revision: "23"
+	date: "2022-06-11 14:53:30 GMT (Saturday 11th June 2022)"
+	revision: "24"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G]
@@ -35,17 +35,9 @@ inherit
 			is_equal, copy, default_create
 		end
 
-	EL_MODULE_DEFERRED_LOCALE
+	EL_MODULE_DEFERRED_LOCALE; EL_MODULE_GUI; EL_MODULE_LOG; EL_MODULE_SCREEN
 
-	EL_MODULE_GUI
-
-	EL_MODULE_LOG
-
-	EL_MODULE_PIXMAP
-
-	EL_MODULE_SCREEN
-
-	EL_SHARED_WORD
+	EL_SHARED_DEFAULT_PIXMAPS; EL_SHARED_WORD
 
 create
 	make, default_create
@@ -187,13 +179,13 @@ feature -- Status setting
 
 	set_busy_pointer
 		do
-			set_pointer_style (Pixmap.Busy_cursor)
+			set_pointer_style (Pixmaps.Busy_cursor)
 			position_pointer_on_first_line
 		end
 
 	set_standard_pointer
 		do
-			set_pointer_style (Pixmap.Standard_cursor)
+			set_pointer_style (Pixmaps.Standard_cursor)
 		end
 
 feature {NONE} -- Event handling

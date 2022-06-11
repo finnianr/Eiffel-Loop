@@ -6,16 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-03 10:42:51 GMT (Saturday 3rd October 2020)"
-	revision: "12"
+	date: "2022-06-11 13:49:58 GMT (Saturday 11th June 2022)"
+	revision: "13"
 
 deferred class
 	EL_BOX
 
 inherit
 	EV_BOX
+		undefine
+			Default_pixmaps
+		end
 
 	EL_MODULE_SCREEN
+
+	EL_SHARED_DEFAULT_PIXMAPS
 
 feature {NONE} -- Initialization
 

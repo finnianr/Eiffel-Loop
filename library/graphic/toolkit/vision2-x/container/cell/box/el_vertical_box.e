@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-30 12:38:59 GMT (Wednesday 30th September 2020)"
-	revision: "7"
+	date: "2022-06-11 13:50:29 GMT (Saturday 11th June 2022)"
+	revision: "8"
 
 class
 	EL_VERTICAL_BOX
@@ -21,6 +21,8 @@ inherit
 		end
 
 	EV_VERTICAL_BOX
+		undefine
+			Default_pixmaps
 		redefine
 			implementation
 		end

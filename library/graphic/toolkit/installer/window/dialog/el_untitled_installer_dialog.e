@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-23 11:56:03 GMT (Saturday 23rd October 2021)"
-	revision: "8"
+	date: "2022-06-11 13:52:49 GMT (Saturday 11th June 2022)"
+	revision: "9"
 
 deferred class
 	EL_UNTITLED_INSTALLER_DIALOG
 
 inherit
 	EV_UNTITLED_DIALOG
+		undefine
+			Default_pixmaps
+		end
 
 	EL_UI_COMPONENT_FACTORY
 		undefine

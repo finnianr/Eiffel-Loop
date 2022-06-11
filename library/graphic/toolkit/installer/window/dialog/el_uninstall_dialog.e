@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-09 16:02:09 GMT (Thursday 9th June 2022)"
-	revision: "2"
+	date: "2022-06-11 13:56:20 GMT (Saturday 11th June 2022)"
+	revision: "3"
 
 class
 	EL_UNINSTALL_DIALOG
@@ -20,15 +20,11 @@ inherit
 			destroy, on_default
 		end
 
-	EL_MODULE_PIXMAP
-
 	EL_MODULE_SCREEN
 
 	EL_MODULE_WIDGET
 
-	EL_SHARED_INSTALL_TEXTS
-
-	EL_SHARED_WORD
+	EL_SHARED_DEFAULT_PIXMAPS; EL_SHARED_INSTALL_TEXTS; EL_SHARED_WORD
 
 create
 	make
@@ -67,6 +63,6 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (a_title)
 			Result.set_buttons (Word.yes, Word.no)
-			Result.set_icon (Pixmap.Question_pixmap)
+			Result.set_icon (Pixmaps.Question_pixmap)
 		end
 end

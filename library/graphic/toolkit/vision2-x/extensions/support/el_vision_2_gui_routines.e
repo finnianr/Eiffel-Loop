@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-04-05 11:10:54 GMT (Tuesday 5th April 2022)"
-	revision: "35"
+	date: "2022-06-11 13:43:59 GMT (Saturday 11th June 2022)"
+	revision: "36"
 
 class
 	EL_VISION_2_GUI_ROUTINES
@@ -29,9 +29,11 @@ inherit
 
 	EV_FRAME_CONSTANTS
 
-	EL_MODULE_COLOR; EL_MODULE_HEXADECIMAL; EL_MODULE_PIXMAP; EL_MODULE_REUSEABLE
+	EL_MODULE_COLOR; EL_MODULE_HEXADECIMAL; EL_MODULE_REUSEABLE
 
 	EL_MODULE_BUFFER_32
+
+	EL_SHARED_DEFAULT_PIXMAPS
 
 create
 	make

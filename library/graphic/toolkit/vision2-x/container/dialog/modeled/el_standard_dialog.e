@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-11 8:09:05 GMT (Saturday 11th June 2022)"
-	revision: "2"
+	date: "2022-06-11 14:10:49 GMT (Saturday 11th June 2022)"
+	revision: "3"
 
 class
-	EL_DIALOG
+	EL_STANDARD_DIALOG
 
 inherit
-	EV_DIALOG
+	EL_DIALOG
 		redefine
 			show_modal_to_window
 		end

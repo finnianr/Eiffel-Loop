@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-16 9:15:17 GMT (Thursday 16th July 2020)"
-	revision: "2"
+	date: "2022-06-11 14:40:17 GMT (Saturday 11th June 2022)"
+	revision: "3"
 
 deferred class
 	EL_HAND_STYLE_POINTER_ACTION
@@ -15,10 +15,7 @@ deferred class
 inherit
 	EV_WIDGET_ACTION_SEQUENCES
 
-	EL_MODULE_PIXMAP
-		rename
-			Pixmap as Style
-		end
+	EL_SHARED_DEFAULT_PIXMAPS
 
 feature {NONE} -- Initialization
 
@@ -52,6 +49,11 @@ feature {NONE} -- Implementation
 
 	set_pointer_style (a_cursor: EV_POINTER_STYLE)
 		deferred
+		end
+
+	style: EL_STOCK_PIXMAPS
+		do
+			Result := Default_pixmaps
 		end
 
 end

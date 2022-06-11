@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-09 16:04:53 GMT (Thursday 9th June 2022)"
-	revision: "3"
+	date: "2022-06-11 15:04:41 GMT (Saturday 11th June 2022)"
+	revision: "4"
 
 deferred class
 	EL_UNINSTALL_APP
@@ -59,7 +59,7 @@ feature {EL_MODELED_DIALOG} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	gui: EL_VISION_2_APPLICATION
+	gui: EL_VISION_2_APPLICATION [EL_STOCK_PIXMAPS]
 
 feature {NONE} -- Installer constants
 

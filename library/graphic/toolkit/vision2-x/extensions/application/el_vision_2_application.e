@@ -12,11 +12,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-08 8:56:06 GMT (Thursday 8th October 2020)"
-	revision: "2"
+	date: "2022-06-11 15:08:09 GMT (Saturday 11th June 2022)"
+	revision: "3"
 
 class
-	EL_VISION_2_APPLICATION
+	EL_VISION_2_APPLICATION [PIXMAPS -> {EL_STOCK_PIXMAPS} create make end]
 
 inherit
 	EV_APPLICATION
@@ -26,9 +26,7 @@ inherit
 
 	EL_MODULE_SCREEN
 
-	EL_MODULE_PIXMAP
-
-	EL_SHARED_MAIN_THREAD_EVENT_REQUEST_QUEUE
+	EL_SHARED_DEFAULT_PIXMAPS; EL_SHARED_MAIN_THREAD_EVENT_REQUEST_QUEUE
 
 create
 	make
@@ -38,9 +36,10 @@ feature {NONE} -- Initialization
 	initialize
 			--
 		local
-			display_size: EL_ADJUSTED_DISPLAY_SIZE
+			display_size: EL_ADJUSTED_DISPLAY_SIZE; stock: PIXMAPS
 		do
 			Precursor
+			create stock.make -- shared singleton
 			create display_size.make
 			display_size.read
 			Screen.set_dimensions (display_size.width_cms, display_size.height_cms)
@@ -68,8 +67,8 @@ feature {NONE} -- Initialization
 				-- Error dialog
 				create dialog.make_with_text_and_actions (error_message , << agent destroy >>)
 				dialog.set_title ("Application Initialization Error")
-				dialog.set_pixmap (Pixmap.Error_pixmap)
-				dialog.set_icon_pixmap (Pixmap.Error_pixmap)
+				dialog.set_pixmap (Pixmaps.Error_pixmap)
+				dialog.set_icon_pixmap (Pixmaps.Error_pixmap)
 				dialog.show
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-16 9:29:35 GMT (Thursday 16th July 2020)"
-	revision: "3"
+	date: "2022-06-11 14:39:55 GMT (Saturday 11th June 2022)"
+	revision: "4"
 
 class
 	EL_TOGGLE_BUTTON
@@ -18,7 +18,7 @@ inherit
 			make_with_text as make_button_with_text,
 			pixmap as button_pixmap
 		undefine
-			set_text
+			Default_pixmaps, set_text
 		redefine
 			implementation, initialize
 		end

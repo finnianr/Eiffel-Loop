@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-22 9:01:40 GMT (Wednesday 22nd July 2020)"
-	revision: "8"
+	date: "2022-06-11 14:30:14 GMT (Saturday 11th June 2022)"
+	revision: "9"
 
 deferred class
 	EL_DRAWING_AREA_BASE
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EV_DRAWING_AREA
 		undefine
-			draw_text, draw_text_top_left, draw_ellipsed_text, draw_ellipsed_text_top_left, draw_sub_pixel_buffer
+			Default_pixmaps, draw_text, draw_text_top_left, draw_ellipsed_text, draw_ellipsed_text_top_left, draw_sub_pixel_buffer
 		redefine
 			implementation
 		end
@@ -26,6 +26,8 @@ inherit
 		redefine
 			implementation
 		end
+
+	EL_SHARED_DEFAULT_PIXMAPS
 
 feature -- Access
 

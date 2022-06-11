@@ -11,27 +11,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-04-21 10:14:25 GMT (Thursday 21st April 2022)"
-	revision: "10"
+	date: "2022-06-11 13:53:44 GMT (Saturday 11th June 2022)"
+	revision: "11"
 
 class
 	EL_TITLED_WINDOW
 
 inherit
 	EV_TITLED_WINDOW
+		undefine
+			Default_pixmaps
 		redefine
 			implementation, create_implementation, initialize
 		end
 
-	EL_MODULE_SCREEN
+	EL_MODULE_GUI; EL_MODULE_LOG; EL_MODULE_LOG_MANAGER; EL_MODULE_SCREEN
 
-	EL_MODULE_GUI
-
-	EL_MODULE_LOG
-
-	EL_MODULE_LOG_MANAGER
-
-	EL_SHARED_THREAD_MANAGER
+	EL_SHARED_DEFAULT_PIXMAPS; EL_SHARED_THREAD_MANAGER
 
 create
 	make

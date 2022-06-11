@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:51:17 GMT (Saturday 5th February 2022)"
-	revision: "7"
+	date: "2022-06-11 14:55:54 GMT (Saturday 11th June 2022)"
+	revision: "8"
 
 class
 	QUANTUM_BALL_ANIMATION_APP
@@ -47,7 +47,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	gui: EL_VISION_2_USER_INTERFACE [QUANTUM_BALL_MAIN_WINDOW]
+	gui: EL_VISION_2_USER_INTERFACE [QUANTUM_BALL_MAIN_WINDOW, EL_STOCK_PIXMAPS]
 
 feature {NONE} -- Install constants
 

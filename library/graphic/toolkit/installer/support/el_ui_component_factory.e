@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-23 10:43:58 GMT (Saturday 23rd October 2021)"
-	revision: "7"
+	date: "2022-06-11 13:56:42 GMT (Saturday 11th June 2022)"
+	revision: "8"
 
 class
 	EL_UI_COMPONENT_FACTORY
@@ -15,11 +15,9 @@ class
 inherit
 	ANY
 
-	EL_MODULE_GUI
+	EL_MODULE_DIRECTORY; EL_MODULE_GUI
 
-	EL_MODULE_DIRECTORY
-
-	EL_MODULE_PIXMAP
+	EL_SHARED_DEFAULT_PIXMAPS
 
 feature {NONE} -- Factory
 
@@ -46,7 +44,7 @@ feature {NONE} -- Factory
 			create Result.make_with_text (message)
 			Result.set_title (title)
 			if is_error then
-				Result.set_pixmap (Pixmap.Error_pixmap)
+				Result.set_pixmap (Pixmaps.Error_pixmap)
 			end
 			Result.set_label_font (new_dialog_label_font)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-11 8:17:50 GMT (Saturday 11th June 2022)"
-	revision: "5"
+	date: "2022-06-11 14:08:29 GMT (Saturday 11th June 2022)"
+	revision: "6"
 
 deferred class
 	EL_MODELED_DIALOG_IMPLEMENTATION
@@ -88,7 +88,7 @@ feature {NONE} -- Box Factory
 			end
 		end
 
-feature {EL_DIALOG} -- Factory
+feature {EL_STANDARD_DIALOG} -- Factory
 
 	new_button (a_text: READABLE_STRING_GENERAL): EL_BUTTON
 		do
@@ -219,7 +219,7 @@ feature {NONE} -- Unimplementated
 
 feature {EV_ANY_HANDLER} -- Implementation: attributes
 
-	window: EL_DIALOG
+	window: EL_STANDARD_DIALOG
 
 feature {NONE} -- Implementation: attributes
 
