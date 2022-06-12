@@ -9,6 +9,8 @@ note
 			[$source CODEC_GENERATOR_TEST_SET]
 			[$source EIFFEL_SOURCE_COMMAND_TEST_SET]
 			[$source FEATURE_EDITOR_COMMAND_TEST_SET]
+			[$source LIBRARY_MIGRATION_COMMAND_TEST_SET]
+			[$source LIBRARY_MIGRATION_CIRCULAR_COMMAND_TEST_SET]
 			[$source NOTE_EDITOR_TEST_SET]
 			[$source PYXIS_ECF_PARSER_TEST_SET]
 			[$source REPOSITORY_PUBLISHER_TEST_SET]
@@ -23,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:52:16 GMT (Saturday 5th February 2022)"
-	revision: "50"
+	date: "2022-06-12 13:08:13 GMT (Sunday 12th June 2022)"
+	revision: "51"
 
 class
 	AUTOTEST_APP
@@ -37,6 +39,8 @@ inherit
 		CODEC_GENERATOR_TEST_SET,
 		EIFFEL_SOURCE_COMMAND_TEST_SET,
 		FEATURE_EDITOR_COMMAND_TEST_SET,
+		LIBRARY_MIGRATION_COMMAND_TEST_SET,
+		LIBRARY_MIGRATION_CIRCULAR_COMMAND_TEST_SET,
 		NOTE_EDITOR_TEST_SET,
 		PYXIS_ECF_PARSER_TEST_SET,
 		REPOSITORY_PUBLISHER_TEST_SET,

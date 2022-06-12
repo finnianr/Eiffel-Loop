@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 15:47:59 GMT (Saturday 19th February 2022)"
-	revision: "43"
+	date: "2022-06-12 9:19:43 GMT (Sunday 12th June 2022)"
+	revision: "44"
 
 deferred class
 	EL_COMMAND_LINE_APPLICATION [C -> EL_APPLICATION_COMMAND]
@@ -138,6 +138,14 @@ feature {NONE} -- Validations
 			Result := ["At least one matching file must exist", agent is_valid_path_or_wild_card]
 		end
 
+	at_least_n_characters (n: INTEGER): like No_checks.item
+		local
+			template: ZSTRING
+		do
+			template := "Must have at least %S characters"
+			Result := [template #$ [n], agent is_valid_string (?, n)]
+		end
+
 	within_range (a_range: INTEGER_INTERVAL): like No_checks.item
 		local
 			template: ZSTRING
@@ -193,6 +201,11 @@ feature {NONE} -- Implementation
 			else
 				Result := is_valid_path (path, is_optional)
 			end
+		end
+
+	is_valid_string (str: READABLE_STRING_GENERAL; minimum_count: INTEGER): BOOLEAN
+		do
+			Result := str.count >= minimum_count
 		end
 
 	integer_in_range (n: INTEGER; range: INTEGER_INTERVAL): BOOLEAN

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-11 10:07:08 GMT (Saturday 11th June 2022)"
-	revision: "46"
+	date: "2022-06-12 11:28:57 GMT (Sunday 12th June 2022)"
+	revision: "47"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -277,7 +277,7 @@ feature -- Basic operations
 					update_checker.apply
 				end
 			end
-			directory_list.remove_those (agent {SOURCE_DIRECTORY}.is_empty)
+			directory_list.prune_those (agent {SOURCE_DIRECTORY}.is_empty)
 
 			add_new_classes (group_table)
 		end

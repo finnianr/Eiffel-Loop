@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-04 15:03:44 GMT (Saturday 4th June 2022)"
-	revision: "12"
+	date: "2022-06-12 8:18:57 GMT (Sunday 12th June 2022)"
+	revision: "13"
 
 class
-	LIBRARY_CLASS
+	EIFFEL_LIBRARY_CLASS
 
 inherit
 	EIFFEL_CLASS

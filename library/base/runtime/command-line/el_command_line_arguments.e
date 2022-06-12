@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 11:54:21 GMT (Friday 11th February 2022)"
-	revision: "13"
+	date: "2022-06-12 16:39:24 GMT (Sunday 12th June 2022)"
+	revision: "14"
 
 class
 	EL_COMMAND_LINE_ARGUMENTS
@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			i: INTEGER; item: ZSTRING
+			i, equals_index: INTEGER; item: ZSTRING
 		do
 			option_sign := option_sign_cell.item
 
@@ -48,8 +48,12 @@ feature {NONE} -- Initialization
 			from list.start until list.after loop
 				item := list.item
 				if is_option (item) then
-					if list.index + 1 > list.count then
-						table.put (create {EL_ZSTRING}.make_empty, item)
+					equals_index := item.index_of ('=', 1)
+					if equals_index > 2 then
+						table.put (item.substring_end (equals_index + 1), item.substring (1, equals_index - 1))
+
+					elseif list.index + 1 > list.count or else is_option (list [list.index + 1]) then
+						table.put (Default_value, item)
 					else
 						table.put (list.i_th (list.index + 1), item)
 					end
@@ -130,7 +134,7 @@ feature -- Access
 		require
 			has_value: has_value (name)
 		do
-			if table.has_key (option_key (name)) and then not is_option (table.found_item) then
+			if table.has_key (option_key (name)) and then table.found_item /= Default_value then
 				Result := table.found_item
 			else
 				create Result.make_empty
@@ -147,12 +151,12 @@ feature -- Status query
 
 	has_integer (name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := table.has_key (option_key (name)) and then table.found_item.is_integer
+			Result := has_value (name) and then table.found_item.is_integer
 		end
 
 	has_value (name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := table.has_key (option_key (name)) and then not is_option (table.found_item)
+			Result := table.has_key (option_key (name)) and then table.found_item /= Default_value
 		end
 
 	word_option_exists (name: READABLE_STRING_GENERAL): BOOLEAN
@@ -170,6 +174,29 @@ feature -- Measurement
 
 feature {NONE} -- Implementation
 
+	is_option (str: ZSTRING): BOOLEAN
+		-- `True' if `str' appears to be a command line option or has form: -name=value
+		local
+			c: CHARACTER_32; found_equals: BOOLEAN
+		do
+			Result := str.count >= 2
+			across str as char until not Result or found_equals loop
+				c := char.item
+				inspect char.cursor_index
+					when 1 then
+						Result := c = option_sign
+					when 2 then
+						Result := c.is_alpha
+				else
+					if c = '=' then
+						found_equals := True
+					else
+						Result := c.is_alpha_numeric or else c = '_'
+					end
+				end
+			end
+		end
+
 	option_key (opt: READABLE_STRING_GENERAL): ZSTRING
 		do
 			Result := internal_option_key
@@ -178,30 +205,21 @@ feature {NONE} -- Implementation
 			Result.append_string_general (opt)
 		end
 
-	is_option (str: ZSTRING): BOOLEAN
-		-- true if `str' appears to be a command line option
-		do
-			Result := str.count >= 2
-			across str as chr until not Result loop
-				inspect chr.cursor_index
-					when 1 then
-						Result := chr.item = option_sign
-					when 2 then
-						Result := chr.item.is_alpha
-				else
-					Result := chr.item.is_alpha_numeric or else chr.item = '_'
-				end
-			end
-		end
-
 feature {NONE} -- Internal attributes
 
-	option_sign: CHARACTER_32
+	internal_option_key: ZSTRING
 
 	list: EL_ZSTRING_LIST
 
+	option_sign: CHARACTER_32
+
 	table: EL_ZSTRING_HASH_TABLE [ZSTRING]
 
-	internal_option_key: ZSTRING
+feature {NONE} -- Constants
+
+	Default_value: ZSTRING
+		once ("PROCESS")
+			create Result.make_empty
+		end
 
 end

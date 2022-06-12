@@ -23,7 +23,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 4; release = 19; build = 483
+			major = 1; minor = 5; release = 0; build = 488
 			company = "Eiffel-Loop"; product = "eiffel"
 			copyright = "Finnian Reilly"
 

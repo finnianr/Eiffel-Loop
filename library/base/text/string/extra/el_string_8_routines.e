@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-23 11:15:46 GMT (Wednesday 23rd February 2022)"
-	revision: "29"
+	date: "2022-06-12 7:49:46 GMT (Sunday 12th June 2022)"
+	revision: "30"
 
 expanded class
 	EL_STRING_8_ROUTINES
@@ -40,14 +40,19 @@ feature -- Basic operations
 
 feature -- Status query
 
-	is_eiffel_identifier_lower (s: STRING_8): BOOLEAN
+	is_lower_eiffel_identifier (s: STRING_8): BOOLEAN
 		do
-			Result := is_area_eiffel_identifier (s.area, s.count, True)
+			Result := is_area_eiffel_identifier (s.area, s.count, Case_lower)
+		end
+
+	is_upper_eiffel_identifier (s: STRING_8): BOOLEAN
+		do
+			Result := is_area_eiffel_identifier (s.area, s.count, Case_upper)
 		end
 
 	is_eiffel_identifier (s: STRING_8): BOOLEAN
 		do
-			Result := is_area_eiffel_identifier (s.area, s.count, False)
+			Result := is_area_eiffel_identifier (s.area, s.count, Case_lower | Case_upper)
 		end
 
 	is_ascii (str: READABLE_STRING_8): BOOLEAN
@@ -256,22 +261,26 @@ feature {NONE} -- Implementation
 			Result := str.last_index_of (c.to_character_8, start_index_from_end)
 		end
 
-	is_area_eiffel_identifier (area: SPECIAL [CHARACTER]; count: INTEGER; lower_case: BOOLEAN): BOOLEAN
+	is_area_eiffel_identifier (area: SPECIAL [CHARACTER]; count, case_code: INTEGER): BOOLEAN
 		local
-			i: INTEGER
+			i: INTEGER; c: CHARACTER
 		do
 			Result := True
 			from i := 0 until i = count or not Result loop
-				inspect area [i]
-					when 'A' .. 'Z' then
-						if lower_case then
-							Result := False
-						else
-							Result := i = 0 implies area [0].is_alpha
-						end
+				c := area [i]
+				if i = 0 implies c.is_alpha then
+					inspect c
+						when 'a' .. 'z' then
+							Result := (case_code & Case_lower).to_boolean
 
-					when 'a' .. 'z', '0' .. '9', '_' then
-						Result := i = 0 implies area [0].is_alpha
+						when 'A' .. 'Z' then
+							Result := (case_code & Case_upper).to_boolean
+
+						when '0' .. '9', '_' then
+							Result := True
+					else
+						Result := False
+					end
 				else
 					Result := False
 				end
@@ -280,6 +289,10 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Case_lower: INTEGER = 1
+
+	Case_upper: INTEGER = 2
 
 	Character_string_table: EL_FILLED_STRING_8_TABLE
 		once

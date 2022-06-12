@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 6:24:02 GMT (Monday 7th February 2022)"
-	revision: "3"
+	date: "2022-06-12 15:35:17 GMT (Sunday 12th June 2022)"
+	revision: "4"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
@@ -32,9 +32,9 @@ feature -- Tests
 		do
 			create command.make (Manifest_path, create {EL_DIR_PATH_ENVIRON_VARIABLE})
 			command.execute
-			assert ("28 classes", command.class_count = 28)
-			assert ("10202 words", command.word_count = 10202)
-			assert ("Total size 96665 bytes", command.byte_count = 96665)
+			assert ("28 classes", command.class_count = 30)
+			assert ("10202 words", command.word_count = 10226)
+			assert ("Total size 96665 bytes", command.byte_count = 96943)
 		end
 
 	test_find_and_replace
