@@ -1,13 +1,18 @@
 note
 	description: "Object to query command line arguments. Accessible via [$source EL_MODULE_ARGS]"
+	notes: "[
+		As of June 2022 it can now parse options with the form `-name=value' as an alternative to `-name value'.
+		This is useful in the case of a value being mistaken for an option if it starts with '-'. In that case you 
+		would put: `-name="-not_an_option"'
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-12 16:39:24 GMT (Sunday 12th June 2022)"
-	revision: "14"
+	date: "2022-06-12 17:44:54 GMT (Sunday 12th June 2022)"
+	revision: "15"
 
 class
 	EL_COMMAND_LINE_ARGUMENTS
@@ -48,6 +53,7 @@ feature {NONE} -- Initialization
 			from list.start until list.after loop
 				item := list.item
 				if is_option (item) then
+--					handle case of -name=value
 					equals_index := item.index_of ('=', 1)
 					if equals_index > 2 then
 						table.put (item.substring_end (equals_index + 1), item.substring (1, equals_index - 1))

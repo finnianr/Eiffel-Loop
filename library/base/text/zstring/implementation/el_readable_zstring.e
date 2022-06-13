@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 12:20:52 GMT (Tuesday 15th February 2022)"
-	revision: "89"
+	date: "2022-06-13 7:44:11 GMT (Monday 13th June 2022)"
+	revision: "90"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -175,6 +175,23 @@ feature {NONE} -- Initialization
 		do
 			make_unencoded
 			Precursor (str)
+		end
+
+	make_from_substring (s: READABLE_STRING_GENERAL; start_index, end_index: INTEGER)
+		local
+			l_count: INTEGER
+		do
+			l_count := end_index - start_index + 1
+			if l_count < 1 then
+				make_empty
+
+			elseif attached {EL_ZSTRING} s as other then
+				make (l_count)
+				append_substring (other, start_index, end_index)
+			else
+				make_filled ('%U', l_count)
+				encode (s, start_index - 1)
+			end
 		end
 
 	make_from_utf_8 (utf_8_string: READABLE_STRING_8)
