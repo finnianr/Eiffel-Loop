@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-12 17:44:54 GMT (Sunday 12th June 2022)"
-	revision: "15"
+	date: "2022-06-13 11:02:06 GMT (Monday 13th June 2022)"
+	revision: "16"
 
 class
 	EL_COMMAND_LINE_ARGUMENTS
@@ -34,31 +34,36 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			i, equals_index: INTEGER; item: ZSTRING
+			i, equals_index: INTEGER; item: ZSTRING; item_32: STRING_32
+			is_i_th_option: ARRAY [BOOLEAN]
 		do
 			option_sign := option_sign_cell.item
 
-			create internal_option_key.make_empty
-			create list.make (argument_count + 1)
+			create is_i_th_option.make_filled (False, 1, argument_count)
+			create list.make (argument_count)
 			from i := 0 until i > argument_count loop
-				create item.make_from_general (argument (i))
+				item_32 := i_th_argument_string (i)
 				if i = 0 then
-					command_path := item
+					command_path := item_32
+
+				elseif is_option (item_32) then
+					list.extend (create {ZSTRING}.make_from_substring (item_32, 2, item_32.count))
+					is_i_th_option [i] := True
 				else
-					list.extend (item)
+					list.extend (item_32)
 				end
 				i := i + 1
 			end
 			create table.make_equal (list.count)
 			from list.start until list.after loop
 				item := list.item
-				if is_option (item) then
+				if is_i_th_option [list.index] then
 --					handle case of -name=value
 					equals_index := item.index_of ('=', 1)
 					if equals_index > 2 then
 						table.put (item.substring_end (equals_index + 1), item.substring (1, equals_index - 1))
 
-					elseif list.index + 1 > list.count or else is_option (list [list.index + 1]) then
+					elseif list.index + 1 > list.count or else is_i_th_option [list.index + 1] then
 						table.put (Default_value, item)
 					else
 						table.put (list.i_th (list.index + 1), item)
@@ -180,7 +185,7 @@ feature -- Measurement
 
 feature {NONE} -- Implementation
 
-	is_option (str: ZSTRING): BOOLEAN
+	is_option (str: STRING_32): BOOLEAN
 		-- `True' if `str' appears to be a command line option or has form: -name=value
 		local
 			c: CHARACTER_32; found_equals: BOOLEAN
@@ -205,15 +210,14 @@ feature {NONE} -- Implementation
 
 	option_key (opt: READABLE_STRING_GENERAL): ZSTRING
 		do
-			Result := internal_option_key
-			Result.wipe_out
-			Result.append_character (option_sign)
-			Result.append_string_general (opt)
+			if attached {ZSTRING} opt as zstr then
+				Result := zstr
+			else
+				Result := Buffer.copied_general (opt)
+			end
 		end
 
 feature {NONE} -- Internal attributes
-
-	internal_option_key: ZSTRING
 
 	list: EL_ZSTRING_LIST
 
@@ -222,6 +226,11 @@ feature {NONE} -- Internal attributes
 	table: EL_ZSTRING_HASH_TABLE [ZSTRING]
 
 feature {NONE} -- Constants
+
+	Buffer: EL_ZSTRING_BUFFER
+		once
+			create Result
+		end
 
 	Default_value: ZSTRING
 		once ("PROCESS")

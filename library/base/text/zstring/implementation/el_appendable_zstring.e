@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-29 10:15:24 GMT (Sunday 29th May 2022)"
-	revision: "35"
+	date: "2022-06-13 10:22:09 GMT (Monday 13th June 2022)"
+	revision: "36"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -55,6 +55,13 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 			is_ascii: is_ascii_string (str)
 		do
 			append_string_8 (str)
+		end
+
+	append_ascii_substring (str: READABLE_STRING_8; start_index, end_index: INTEGER)
+		require
+			is_ascii: is_ascii_substring (str, start_index, end_index)
+		do
+			append_substring_8 (str, start_index, end_index)
 		end
 
 	append_encodeable (str: READABLE_STRING_8; str_encoding: EL_ENCODING_BASE)
@@ -208,8 +215,9 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 				accommodate (general.count)
 				encode (general, offset)
 			end
-		ensure then
+		ensure
 			unencoded_valid: is_valid
+			appended: substring (old count + 1, count).same_string (general)
 		end
 
 	append_tuple_item (tuple: TUPLE; i: INTEGER)
@@ -283,6 +291,39 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 		ensure
 			new_count: count = old count + (end_index - start_index + 1)
 			appended: elks_checking implies same_string (old (current_readable + s.substring (start_index, end_index)))
+		end
+
+	append_substring_8 (str: READABLE_STRING_8; start_index, end_index: INTEGER)
+		require else
+			not_has_reserved_substitute_character: not str.substring (start_index, end_index).has (Substitute)
+		do
+			if attached current_string_8 as l_current then
+				l_current.append_substring (str, start_index, end_index)
+				set_from_string_8 (l_current)
+			end
+		end
+
+	append_substring_general (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER)
+		require
+			valid_end_index: end_index <= general.count
+		local
+			offset: INTEGER
+		do
+			if attached {EL_ZSTRING} general as str_z then
+				append_substring (str_z, start_index, end_index)
+
+			elseif attached {READABLE_STRING_8} general as str_8
+				and then string_8.is_ascii_substring (str_8, start_index, end_index)
+			then
+				append_ascii_substring (str_8, start_index, end_index)
+			else
+				offset := count
+				accommodate (end_index - start_index + 1)
+				encode_substring (general, start_index, end_index, offset)
+			end
+		ensure
+			unencoded_valid: is_valid
+			appended: substring (old count + 1, count).same_string (general.substring (start_index, end_index))
 		end
 
 	append_utf_8 (utf_8_string: READABLE_STRING_8)
@@ -556,6 +597,11 @@ feature {STRING_HANDLER} -- Contract support
 	is_ascii_string (str: READABLE_STRING_8): BOOLEAN
 		do
 			Result := string_8.is_ascii (str)
+		end
+
+	is_ascii_substring (str: READABLE_STRING_8; start_index, end_index: INTEGER): BOOLEAN
+		do
+			Result := string_8.is_ascii_substring (str, start_index, end_index)
 		end
 
 	valid_encoding (a_encoding: NATURAL): BOOLEAN

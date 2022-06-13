@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-22 16:59:41 GMT (Tuesday 22nd February 2022)"
-	revision: "1"
+	date: "2022-06-13 9:57:16 GMT (Monday 13th June 2022)"
+	revision: "2"
 
 class
 	INCLUDE_CLASSES
@@ -31,8 +31,7 @@ feature {NONE} -- Compiled
 		EL_LOGGED_MANY_TO_ONE_CONSUMER_THREAD [ANY],
 		EL_LOGGED_PROCEDURE_DISTRIBUTER [ANY],
 		EL_LOGGED_REGULAR_INTERVAL_EVENT_PRODUCER,
-		EL_LOGGED_TIMEOUT,
-		EL_LOGGED_WORK_DISTRIBUTER [ROUTINE]
+		EL_LOGGED_TIMEOUT
 	]
 		-- logging.ecf
 		do

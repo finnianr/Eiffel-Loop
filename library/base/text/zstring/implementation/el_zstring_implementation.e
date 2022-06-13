@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 19:33:48 GMT (Friday 11th February 2022)"
-	revision: "31"
+	date: "2022-06-13 10:51:11 GMT (Monday 13th June 2022)"
+	revision: "32"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -314,6 +314,14 @@ feature -- Contract Support
 			end
 		end
 
+	valid_area_offset (a_unicode: READABLE_STRING_GENERAL; start_index, end_index, area_offset: INTEGER): BOOLEAN
+		local
+			l_count: INTEGER
+		do
+			l_count := end_index - start_index + 1
+			Result := l_count > 0 implies area.valid_index (l_count + area_offset - 1)
+		end
+
 feature {NONE} -- Implementation
 
 	adapted_argument (a_general: READABLE_STRING_GENERAL; index: INTEGER): EL_ZSTRING
@@ -335,13 +343,18 @@ feature {NONE} -- Implementation
 		end
 
 	encode (a_unicode: READABLE_STRING_GENERAL; area_offset: INTEGER)
+		do
+			encode_substring (a_unicode, 1, a_unicode.count, area_offset)
+		end
+
+	encode_substring (a_unicode: READABLE_STRING_GENERAL; start_index, end_index, area_offset: INTEGER)
 		require
-			valid_area_offset: a_unicode.count > 0 implies area.valid_index (a_unicode.count + area_offset - 1)
+			valid_area_offset: valid_area_offset (a_unicode, start_index, end_index, area_offset)
 		local
 			buffer: like empty_unencoded_buffer
 		do
 			buffer := empty_unencoded_buffer
-			codec.encode (a_unicode, area, area_offset, buffer)
+			codec.encode_substring (a_unicode, area, start_index, end_index, area_offset, buffer)
 
 			inspect respective_encoding (buffer)
 				when Both_have_mixed_encoding then

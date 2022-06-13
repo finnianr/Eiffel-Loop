@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-12 8:30:51 GMT (Saturday 12th February 2022)"
-	revision: "31"
+	date: "2022-06-13 11:27:49 GMT (Monday 13th June 2022)"
+	revision: "32"
 
 deferred class
 	EL_ZCODEC
@@ -151,25 +151,34 @@ feature -- Basic operations
 		unicode_in: READABLE_STRING_GENERAL; encoded_out: SPECIAL [CHARACTER]; out_offset: INTEGER;
 		unencoded_characters: EL_UNENCODED_CHARACTERS_BUFFER
 	)
+		do
+			encode_substring (unicode_in, encoded_out, 1, unicode_in.count, out_offset, unencoded_characters)
+		end
+
+	encode_substring (
+		unicode_in: READABLE_STRING_GENERAL; encoded_out: SPECIAL [CHARACTER]
+		start_index, end_index, out_offset: INTEGER
+		unencoded_characters: EL_UNENCODED_CHARACTERS_BUFFER
+	)
 		-- encode unicode characters as latin
 		-- Set unencodeable characters as the Substitute character (26) and record location in unencoded_intervals
 		require
-			valid_offset_and_count: valid_offset_and_count (unicode_in.count, encoded_out, out_offset)
+			valid_offset_and_count: valid_offset_and_count (end_index - start_index + 1, encoded_out, out_offset)
 		local
-			i, count: INTEGER; uc: CHARACTER_32; c: CHARACTER; l_unicodes: like unicode_table
+			i, out_i: INTEGER; uc: CHARACTER_32; c: CHARACTER; l_unicodes: like unicode_table
 		do
-			l_unicodes := unicode_table; count := unicode_in.count
-			from i := 1 until i > count loop
-				uc := unicode_in [i]
+			l_unicodes := unicode_table
+			from i := start_index until i > end_index loop
+				uc := unicode_in [i]; out_i := i + out_offset - start_index
 				if uc.code <= 255 and then l_unicodes [uc.code] = uc then
-					encoded_out [i + out_offset - 1] := uc.to_character_8
+					encoded_out [out_i] := uc.to_character_8
 				else
 					c := latin_character (uc)
 					if c.code = 0 then
-						encoded_out [i + out_offset - 1] := Substitute
-						unencoded_characters.extend (uc.natural_32_code, i + out_offset)
+						encoded_out [out_i] := Substitute
+						unencoded_characters.extend (uc.natural_32_code, out_i + 1)
 					else
-						encoded_out [i + out_offset - 1] := c
+						encoded_out [out_i] := c
 					end
 				end
 				i := i + 1

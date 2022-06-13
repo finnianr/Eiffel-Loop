@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-13 7:44:11 GMT (Monday 13th June 2022)"
-	revision: "90"
+	date: "2022-06-13 13:05:08 GMT (Monday 13th June 2022)"
+	revision: "91"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -177,20 +177,22 @@ feature {NONE} -- Initialization
 			Precursor (str)
 		end
 
-	make_from_substring (s: READABLE_STRING_GENERAL; start_index, end_index: INTEGER)
+	make_from_substring (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER)
+		require
+			valid_end_index: end_index <= general.count
 		local
 			l_count: INTEGER
 		do
 			l_count := end_index - start_index + 1
 			if l_count < 1 then
 				make_empty
-
-			elseif attached {EL_ZSTRING} s as other then
-				make (l_count)
-				append_substring (other, start_index, end_index)
 			else
-				make_filled ('%U', l_count)
-				encode (s, start_index - 1)
+				make (l_count)
+				if attached {EL_ZSTRING} general as other then
+					append_substring (other, start_index, end_index)
+				else
+					append_substring_general (general, start_index, end_index)
+				end
 			end
 		end
 

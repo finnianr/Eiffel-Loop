@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-12 7:49:46 GMT (Sunday 12th June 2022)"
-	revision: "30"
+	date: "2022-06-13 9:38:32 GMT (Monday 13th June 2022)"
+	revision: "31"
 
 expanded class
 	EL_STRING_8_ROUTINES
@@ -57,11 +57,20 @@ feature -- Status query
 
 	is_ascii (str: READABLE_STRING_8): BOOLEAN
 		-- `True' if all characters in `str' are in the ASCII character set: 0 .. 127
+		do
+			Result := is_ascii_substring (str, 1, str.count)
+		end
+
+	is_ascii_substring (str: READABLE_STRING_8; start_index, end_index: INTEGER): BOOLEAN
+		-- `True' if all characters in `str.substring (start_index, end_index)' are in the ASCII character set: 0 .. 127
+		require
+			valid_end_index: end_index <= str.count
 		local
-			c_8: EL_CHARACTER_8_ROUTINES
+			c_8: EL_CHARACTER_8_ROUTINES; area_last_index: INTEGER
 		do
 			if attached cursor (str) as c then
-				Result := c_8.is_ascii_area (c.area, c.area_first_index, c.area_last_index)
+				area_last_index := c.area_last_index - (str.count - end_index)
+				Result := c_8.is_ascii_area (c.area, c.area_first_index + start_index - 1, area_last_index)
 			end
 		end
 
