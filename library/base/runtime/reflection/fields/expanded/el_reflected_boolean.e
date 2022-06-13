@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-17 13:00:24 GMT (Sunday 17th October 2021)"
-	revision: "16"
+	date: "2022-06-13 15:47:15 GMT (Monday 13th June 2022)"
+	revision: "17"
 
 class
 	EL_REFLECTED_BOOLEAN
@@ -16,8 +16,6 @@ inherit
 	EL_REFLECTED_EXPANDED_FIELD [BOOLEAN]
 		rename
 			field_value as boolean_field
-		redefine
-			set_from_command_line
 		end
 
 create
@@ -43,11 +41,6 @@ feature -- Basic operations
 		do
 			enclosing_object := a_object
 			set_boolean_field (index, a_value)
-		end
-
-	set_from_command_line (a_object: EL_REFLECTIVE; args: EL_COMMAND_LINE_ARGUMENTS)
-		do
-			set (a_object, args.word_option_exists (name))
 		end
 
 	set_from_integer (a_object: EL_REFLECTIVE; a_value: INTEGER)

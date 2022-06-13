@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:06 GMT (Saturday 5th February 2022)"
-	revision: "22"
+	date: "2022-06-13 15:47:44 GMT (Monday 13th June 2022)"
+	revision: "23"
 
 deferred class
 	EL_COMMAND_LINE_OPTIONS
@@ -51,9 +51,7 @@ feature {NONE} -- Initialization
 		-- make object with attributes initialized from corresponding command line options
 		do
 			make_default
-			across field_table as field loop
-				field.item.set_from_command_line (Current, Args)
-			end
+			Args.set_attributes (Current)
 		ensure
 			valid_help: not help_text.is_empty implies valid_help_table
 			valid_names: Tuple.to_string_8_list (Name).for_all (agent is_option)

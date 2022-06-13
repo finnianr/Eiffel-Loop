@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-23 14:07:26 GMT (Wednesday 23rd February 2022)"
-	revision: "40"
+	date: "2022-06-13 15:46:55 GMT (Monday 13th June 2022)"
+	revision: "41"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -151,13 +151,6 @@ feature -- Basic operations
 
 	set (a_object: EL_REFLECTIVE; a_value: like value)
 		deferred
-		end
-
-	set_from_command_line (a_object: EL_REFLECTIVE; args: EL_COMMAND_LINE_ARGUMENTS)
-		do
-			if args.has_value (name) then
-				set_from_string (a_object, args.value (name))
-			end
 		end
 
 	set_from_integer (a_object: EL_REFLECTIVE; a_value: INTEGER)

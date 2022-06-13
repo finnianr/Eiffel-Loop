@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-25 8:50:24 GMT (Saturday 25th September 2021)"
-	revision: "5"
+	date: "2022-06-13 16:18:59 GMT (Monday 13th June 2022)"
+	revision: "6"
 
 deferred class
 	EL_LOCALE_CONSTANTS
@@ -22,7 +22,7 @@ feature {NONE} -- Constants
 			create Result.make_empty
 		end
 
-	Number_suffix: SPECIAL [ZSTRING]
+	Number_suffix: SPECIAL [STRING]
 		once
 			create Result.make_empty (3)
 			Result.extend (":0") -- zero

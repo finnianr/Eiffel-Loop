@@ -13,15 +13,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-05 15:31:08 GMT (Sunday 5th June 2022)"
-	revision: "22"
+	date: "2022-06-13 13:09:10 GMT (Monday 13th June 2022)"
+	revision: "23"
 
 class
 	NETWORK_AUTOTEST_APP
 
 inherit
 	EL_CRC_32_AUTOTEST_APPLICATION [
-		FTP_TEST_SET,
+--		FTP_TEST_SET,
 		SIMPLE_CLIENT_SERVER_TEST_SET,
 		NETWORK_TEST_SET
 	]
@@ -34,7 +34,7 @@ create
 
 feature {NONE} -- Implementation
 
-	compile: TUPLE [EL_XML_NETWORK_MESSENGER]
+	compile: TUPLE [EL_XML_NETWORK_MESSENGER, FTP_TEST_SET]
 		do
 			create Result
 		end

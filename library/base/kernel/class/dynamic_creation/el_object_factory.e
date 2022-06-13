@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:09:08 GMT (Tuesday 5th January 2021)"
-	revision: "23"
+	date: "2022-06-13 16:10:51 GMT (Monday 13th June 2022)"
+	revision: "24"
 
 class
 	EL_OBJECT_FACTORY [G]
@@ -83,7 +83,7 @@ feature -- Factory
 			valid_type: a_alias /= default_alias implies valid_alias (a_alias)
 			valid_default_type: a_alias = default_alias implies valid_alias (default_alias)
 		do
-			if types_indexed_by_name.has_key (General.to_zstring (a_alias)) then
+			if types_indexed_by_name.has_key (a_alias) then
 				Result := new_item_from_type (types_indexed_by_name.found_item)
 			else
 				Result := new_item_from_alias (default_alias)
@@ -133,12 +133,12 @@ feature -- Contract support
 
 	has_alias (a_alias: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := types_indexed_by_name.has (General.to_zstring (a_alias))
+			Result := types_indexed_by_name.has (a_alias)
 		end
 
 	valid_alias (a_alias: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			if types_indexed_by_name.has_key (General.to_zstring (a_alias)) then
+			if types_indexed_by_name.has_key (a_alias) then
 				Result := valid_name (types_indexed_by_name.found_item)
 			end
 		end
@@ -159,12 +159,5 @@ feature {NONE} -- Internal attributes
 
 	types_indexed_by_name: EL_ZSTRING_HASH_TABLE [TYPE [G]]
 		-- map of alias names to types
-
-feature {NONE} -- Constants
-
-	General: EL_ZSTRING_CONVERTER
-		once
-			create Result.make
-		end
 
 end

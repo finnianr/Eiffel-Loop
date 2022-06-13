@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-13 8:09:56 GMT (Friday 13th May 2022)"
-	revision: "32"
+	date: "2022-06-13 16:18:36 GMT (Monday 13th June 2022)"
+	revision: "33"
 
 class
 	EL_LOCALE
@@ -74,7 +74,6 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			make_solitary
-			create converter.make
 		end
 
 feature -- Access
@@ -136,7 +135,7 @@ feature -- Status query
 	has_all_keys (key_list: ITERABLE [READABLE_STRING_GENERAL]): BOOLEAN
 		do
 			restrict_access
-				Result := across key_list as key all translation_table.has (z_key (key.item)) end
+				Result := across key_list as key all translation_table.has (key.item) end
 			end_restriction
 		end
 
@@ -264,7 +263,7 @@ feature {NONE} -- Implementation
 	has_item_key (key: READABLE_STRING_GENERAL): BOOLEAN
 			-- translation for source code string in current user language
 		do
-			Result := translation_table.has (z_key (key))
+			Result := translation_table.has (key)
 		end
 
 	in (a_language: STRING): EL_LOCALE
@@ -303,7 +302,7 @@ feature {NONE} -- Implementation
 		-- translation for `key'
 		do
 			if attached translation_table as table then
-				if table.has_key (z_key (key)) then
+				if table.has_key (key) then
 					Result := table.found_item
 				else
 					Result := Unknown_key_template #$ [key]
@@ -311,19 +310,13 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	z_key (key: READABLE_STRING_GENERAL): ZSTRING
-		require
-			thread_restricted: is_restricted
-		do
-			Result := converter.to_zstring (key)
-		end
-
 	z_key_for (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): ZSTRING
 			-- complete partial_key by appending ":0", ":1" or ":>1"
 		require
 			thread_restricted: is_restricted
 		do
-			Result := converter.joined (partial_key, Number_suffix [quantity.min (2)])
+			Result := Key_buffer.copied_general (partial_key)
+			Result.append_string_general (Number_suffix [quantity.min (2)])
 		end
 
 	z_key_plural (partial_key: READABLE_STRING_GENERAL): ZSTRING
@@ -331,16 +324,20 @@ feature {NONE} -- Implementation
 		require
 			thread_restricted: is_restricted
 		do
-			Result := converter.joined (partial_key, Number_suffix [2])
+			Result := Key_buffer.copied_general (partial_key)
+			Result.append_string_general (Number_suffix [2])
 		end
 
 feature {NONE} -- Internal attributes
 
-	converter: EL_ZSTRING_CONVERTER
-
 	translation_table: EL_TRANSLATION_TABLE
 
 feature {EL_LOCALE_CONSTANTS} -- Constants
+
+	Key_buffer: EL_ZSTRING_BUFFER
+		once
+			create Result
+		end
 
 	Locale_table: EL_LOCALE_TABLE
 	 	-- Table of all locale data file paths
