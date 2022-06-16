@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "5"
+	date: "2022-06-16 10:34:56 GMT (Thursday 16th June 2022)"
+	revision: "6"
 
 class
 	DUPLICITY_ARGUMENTS
@@ -16,8 +16,7 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_any_field,
-			export_name as export_default,
-			import_name as import_default
+			foreign_naming as eiffel_naming
 		end
 
 create

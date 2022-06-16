@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 16:43:41 GMT (Tuesday 8th February 2022)"
-	revision: "28"
+	date: "2022-06-15 12:06:07 GMT (Wednesday 15th June 2022)"
+	revision: "29"
 
 class
 	EL_NAMING_ROUTINES
@@ -31,22 +31,24 @@ feature {NONE} -- Initialization
 	make
 		do
 			create no_words.make_empty
+			create empty_word_set.make (0)
 		end
 
 feature -- Access
 
 	no_words: ARRAY [STRING]
 
+	empty_word_set: EL_HASH_SET [STRING]
+
 feature -- Class name derivations
 
 	class_as_camel (object_or_type: ANY; head_count, tail_count: INTEGER): STRING
 		local
-			string_8: EL_STRING_8_ROUTINES; l_name: STRING
+			l_name: STRING
 		do
 			l_name := class_as_snake_lower (object_or_type, head_count, tail_count)
 			create Result.make (l_name.count)
-			to_camel_case (l_name, Result)
-			string_8.first_to_upper (Result)
+			to_camel_case (l_name, Result, True)
 		end
 
 	class_as_kebab_lower (object_or_type: ANY; head_count, tail_count: INTEGER): STRING
@@ -228,11 +230,11 @@ feature -- Import names
 		require
 			empty_name_out: name_out.is_empty
 		local
-			string_8: EL_STRING_8_ROUTINES
+			s: EL_STRING_8_ROUTINES
 		do
 			name_out.append (name_in)
 			name_out.to_lower
-			string_8.replace_character (name_out, separator, '_')
+			s.replace_character (name_out, separator, '_')
 		end
 
 	from_snake_case_lower (name_in, name_out: STRING)
@@ -253,11 +255,12 @@ feature -- Import names
 
 feature -- Export names
 
-	to_camel_case (name_in, name_out: STRING)
+	to_camel_case (name_in, name_out: STRING; is_title: BOOLEAN)
 		require
 			empty_name_out: name_out.is_empty
 		local
 			i, count: INTEGER; area: SPECIAL [CHARACTER]; c: CHARACTER
+			s: EL_STRING_8_ROUTINES
 		do
 			if name_in.has ('_') then
 				count := name_in.count; area := name_in.area
@@ -276,27 +279,29 @@ feature -- Export names
 			else
 				name_out.append (name_in)
 			end
+			if is_title then
+				s.first_to_upper (name_out)
+			end
 		end
 
 	to_camel_case_lower (name_in, name_out: STRING)
 		do
-			to_camel_case (name_in, name_out)
+			to_camel_case (name_in, name_out, False)
 			name_out.to_lower
 		end
 
 	to_camel_case_upper (name_in, name_out: STRING)
 		do
-			to_camel_case (name_in, name_out)
+			to_camel_case (name_in, name_out, False)
 			name_out.to_upper
 		end
 
-	to_english (name_in, english_out: STRING; upper_case_words: like no_words)
+	to_english (name_in, english_out: STRING; upper_case_words: like empty_word_set)
 		require
 			empty_name_out: english_out.is_empty
 		local
-			string_8: EL_STRING_8_ROUTINES word: STRING
+			s: EL_STRING_8_ROUTINES; word: STRING
 		do
-			upper_case_words.compare_objects
 			Underscore_split.set_target (name_in)
 			across Underscore_split as list loop
 				word := list.item
@@ -305,13 +310,11 @@ feature -- Export names
 				end
 				if list.cursor_index = 1 then
 					if word.count > 0 then
-						string_8.set_upper (word, 1)
+						s.set_upper (word, 1)
 					end
-				elseif english_out.ends_with (once "NON") then
+				elseif s.caseless_ends_with (english_out, once "NON") then
 					english_out.append_character ('-')
 
-				elseif english_out.ends_with (once "non") then
-					english_out.append_character ('-')
 				else
 					english_out.append_character (' ')
 				end
@@ -323,10 +326,10 @@ feature -- Export names
 		require
 			empty_name_out: name_out.is_empty
 		local
-			string_8: EL_STRING_8_ROUTINES
+			s: EL_STRING_8_ROUTINES
 		do
 			name_out.append (name_in)
-			string_8.replace_character (name_out, '_', '-')
+			s.replace_character (name_out, '_', '-')
 		end
 
 	to_kebab_case_lower (name_in, name_out: STRING)
@@ -356,11 +359,11 @@ feature -- Export names
 			name_out.to_upper
 		end
 
-	to_title (name_in, title_out: STRING; separator_out: CHARACTER)
+	to_title (name_in, title_out: STRING; separator_out: CHARACTER; uppercase_exception_set: EL_HASH_SET [STRING])
 		require
 			empty_title_out: title_out.is_empty
 		local
-			string_8: EL_STRING_8_ROUTINES
+			s: EL_STRING_8_ROUTINES
 		do
 			Underscore_split.set_target (name_in)
 			across Underscore_split as list loop
@@ -368,8 +371,12 @@ feature -- Export names
 					title_out.append_character (separator_out)
 				end
 				if list.item_count > 0 then
-					list.append_item_to (title_out)
-					string_8.set_upper (title_out, list.item_lower)
+					if uppercase_exception_set.has (list.item) then
+						title_out.append (list.item.as_upper)
+					else
+						list.append_item_to (title_out)
+						s.set_upper (title_out, list.item_lower)
+					end
 				end
 			end
 		end

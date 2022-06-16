@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "12"
+	date: "2022-06-16 9:17:45 GMT (Thursday 16th June 2022)"
+	revision: "13"
 
 class
 	TEST_CONFIGURATION
 
 inherit
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML
+		rename
+			xml_naming as eiffel_naming
 		redefine
 			make_default, new_instance_functions
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-27 19:04:21 GMT (Saturday 27th November 2021)"
-	revision: "15"
+	date: "2022-06-16 9:44:02 GMT (Thursday 16th June 2022)"
+	revision: "16"
 
 class
 	EL_HTTP_HEADERS
@@ -16,8 +16,7 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_any_field,
-			export_name as export_default,
-			import_name as from_kebab_case_upper
+			foreign_naming as Http_header_naming
 		redefine
 			make_default
 		end
@@ -124,10 +123,10 @@ feature -- Access
 
 	encoding_name: STRING
 		local
-			part: STRING
+			part: STRING; s: EL_STRING_8_ROUTINES
 		do
 			if content_type.has (';') then
-				part := string_8.substring_to_reversed (content_type, ';', Default_pointer)
+				part := s.substring_to_reversed (content_type, ';', Default_pointer)
 				if part.has ('=') then
 					name_value.set_from_string (part, '=')
 					Result := name_value.value
@@ -163,18 +162,13 @@ feature {NONE} -- Implementation
 		-- set field with name
 		do
 			Precursor (table, name, value)
-			if not table.found and then attached from_kebab_case_upper (name, True) as l_name then
+			if not table.found and then attached Http_header_naming.imported (name) as l_name then
 				if l_name.starts_with (once "x_") then
 					non_standard_table.put (value, l_name.substring (3, name.count))
 				else
 					non_standard_table.put (value, l_name)
 				end
 			end
-		end
-
-	string_8: EL_STRING_8_ROUTINES
-		do
-			-- Expanded type
 		end
 
 feature {NONE} -- Internal attributes
@@ -190,6 +184,11 @@ feature {NONE} -- Constants
 		-- -- "Sat, 14 Aug 2021 14:57:04 GMT"
 		once
 			create Result.make ("Ddd, dd mmm yyyy hh:[0]mi:[0]ss tzd", 1)
+		end
+
+	Http_header_naming: EL_HEADER_NAME_TRANSLATER
+		once
+			create Result.make
 		end
 
 	HTTP: STRING = "HTTP"

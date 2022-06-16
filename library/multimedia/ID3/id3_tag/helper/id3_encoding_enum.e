@@ -6,19 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 10:34:59 GMT (Tuesday 28th April 2020)"
-	revision: "2"
+	date: "2022-06-16 7:53:00 GMT (Thursday 16th June 2022)"
+	revision: "3"
 
 class
 	ID3_ENCODING_ENUM
 
 inherit
 	EL_ENUMERATION [NATURAL_8]
-		rename
-			export_name as to_kebab_case_upper,
-			import_name as import_default
 		redefine
-			initialize_fields
+			foreign_naming, initialize_fields
 		end
 
 create
@@ -85,4 +82,11 @@ feature {NONE} -- Internal attributes
 	libid3_table: EL_HASH_TABLE [INTEGER, NATURAL_8]
 
 	underbit_table: HASH_TABLE [NATURAL_8, INTEGER]
+
+feature {NONE} -- Constants
+
+	Foreign_naming: EL_KEBAB_CASE_TRANSLATER
+		once
+			create Result.make_upper
+		end
 end

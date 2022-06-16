@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:41:18 GMT (Sunday 19th December 2021)"
-	revision: "5"
+	date: "2022-06-16 10:07:54 GMT (Thursday 16th June 2022)"
+	revision: "6"
 
 class
 	EL_NETWORK_DEVICE_IMP
@@ -43,8 +43,7 @@ inherit
 		rename
 			make_default as make,
 			field_included as is_any_field,
-			export_name as export_default,
-			import_name as from_kebab_case_upper
+			foreign_naming as Kebab_case_upper
 		end
 
 	EL_SETTABLE_FROM_STRING_8
@@ -184,6 +183,11 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Default_address: STRING = "00:00:00:00:00:00"
+
+	Kebab_case_upper: EL_KEBAB_CASE_TRANSLATER
+		once
+			create Result.make_upper
+		end
 
 	MAC_address_colon_count: INTEGER = 5
 

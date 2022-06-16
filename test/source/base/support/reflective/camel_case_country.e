@@ -6,25 +6,27 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-28 17:06:31 GMT (Monday 28th December 2020)"
-	revision: "9"
+	date: "2022-06-16 9:08:35 GMT (Thursday 16th June 2022)"
+	revision: "10"
 
 class
 	CAMEL_CASE_COUNTRY
 
 inherit
 	COUNTRY
+		rename
+			eiffel_naming as camel_case
 		redefine
-			import_default
+			camel_case
 		end
 
 create
 	make
 
-feature {NONE} -- Implementation
+feature {NONE} -- Constants
 
-	import_default (name_in: STRING; keep_ref: BOOLEAN): STRING
-		do
-			Result := from_camel_case (name_in, keep_ref)
+	Camel_case: EL_CAMEL_CASE_TRANSLATER
+		once
+			create Result.make
 		end
 end

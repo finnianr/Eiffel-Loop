@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-23 10:52:18 GMT (Wednesday 23rd February 2022)"
-	revision: "34"
+	date: "2022-06-16 9:14:21 GMT (Thursday 16th June 2022)"
+	revision: "35"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -25,9 +25,8 @@ inherit
 
 	EL_REFLECTIVELY_SETTABLE
 		rename
-			export_name as export_default,
-			import_name as import_default,
-			field_included as is_any_field
+			field_included as is_any_field,
+			foreign_naming as eiffel_naming
 		export
 			{NONE} all
 		undefine

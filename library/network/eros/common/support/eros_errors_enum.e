@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 16:19:58 GMT (Sunday 19th January 2020)"
-	revision: "3"
+	date: "2022-06-16 9:12:15 GMT (Thursday 16th June 2022)"
+	revision: "4"
 
 class
 	EROS_ERRORS_ENUM
@@ -15,8 +15,7 @@ class
 inherit
 	EL_DESCRIPTIVE_ENUMERATION [NATURAL_8]
 		rename
-			export_name as export_default,
-			import_name as import_default
+			foreign_naming as eiffel_naming
 		end
 
 create

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-01 9:00:04 GMT (Monday 1st November 2021)"
-	revision: "48"
+	date: "2022-06-14 15:54:08 GMT (Tuesday 14th June 2022)"
+	revision: "49"
 
 class
 	EL_CLASS_META_DATA
@@ -67,6 +67,11 @@ feature {NONE} -- Initialization
 			representations := enclosing_object.new_representations
 			field_list := new_field_list
 			field_table := field_list.to_table (a_enclosing_object)
+			if attached a_enclosing_object.foreign_naming as foreign_naming then
+				across field_table as table loop
+					foreign_naming.inform (table.key)
+				end
+			end
 		ensure then
 			same_order: across field_table as table all
 				table.key.is_equal (field_list.i_th (table.cursor_index).name)

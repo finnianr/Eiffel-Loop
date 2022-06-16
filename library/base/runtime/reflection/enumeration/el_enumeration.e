@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-23 10:52:08 GMT (Wednesday 23rd February 2022)"
-	revision: "44"
+	date: "2022-06-16 13:24:04 GMT (Thursday 16th June 2022)"
+	revision: "45"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -65,7 +65,7 @@ feature {NONE} -- Initialization
 			create name_by_value.make (field_table.count)
 			across field_table as field loop
 				if attached {HASHABLE} field.item.value (Current) as key then
-					name_by_value.put (export_name (field.key, True), key)
+					name_by_value.put (field.item.export_name, key)
 					check
 						no_conflict: not name_by_value.conflict
 					end
@@ -74,6 +74,7 @@ feature {NONE} -- Initialization
 			end
 		ensure then
 			all_values_unique: all_values_unique
+			name_and_values_consistent: name_and_values_consistent
 		end
 
 feature -- Measurement
@@ -122,7 +123,7 @@ feature -- Access
 		require
 			valid_name: is_valid_name (a_name)
 			do
-			if field_table.has_key (import_name (a_name, False))
+			if field_table.has_imported_key (a_name)
 				and then attached {N} field_table.found_item.value (Current) as enum_value
 			then
 				Result := enum_value
@@ -151,7 +152,7 @@ feature -- Status query
 
 	is_valid_name (a_name: STRING_8): BOOLEAN
 		do
-			Result := field_table.has (import_name (a_name, False))
+			Result := field_table.has_imported (a_name)
 		end
 
 	is_valid_value (a_value: N): BOOLEAN
@@ -177,6 +178,14 @@ feature -- Basic operations
 				output.put_indented_line (tab_count + 1, table.item.name + " = " + table.item.to_string (Current))
 			end
 			output.put_indented_line (tab_count, "end")
+		end
+
+feature -- Contract Support
+
+	name_and_values_consistent: BOOLEAN
+		-- `True' if all `value' results can be looked up from `name_by_value' items
+		do
+			Result := across name_by_value as table all value (table.item) = table.key end
 		end
 
 feature {NONE} -- Implementation

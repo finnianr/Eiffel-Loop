@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-22 10:14:56 GMT (Saturday 22nd January 2022)"
-	revision: "22"
+	date: "2022-06-16 9:28:45 GMT (Thursday 16th June 2022)"
+	revision: "23"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
@@ -69,7 +69,7 @@ feature -- Access
 			table: like field_table
 		do
 			table := field_table
-			if table.has_imported (name, current_reflective) then
+			if table.has_imported_key (name) then
 				Result := field_string (table.found_item)
 			else
 				Result := new_string
@@ -210,7 +210,7 @@ feature -- Contract Support
 				converted_type := converted.item (tuple).generating_type.type_id
 				Result := True
 				from map_list.start until not Result or map_list.after loop
-					if table.has_imported (map_list.item_key, current_reflective) then
+					if table.has_imported_key (map_list.item_key) then
 						Result := table.found_item.type_id = converted_type
 					end
 					map_list.forth
@@ -255,7 +255,7 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 				across Reuseable.string as reuse loop
 					name_part := reuse.item
 					name_part.append_substring_general (name, 1, pos_dot - 1)
-					if table.has_imported (name_part, object)
+					if table.has_imported_key (name_part)
 						and then attached {EL_REFLECTIVE} table.found_item.value (object) as inner_object
 					then
 						name_part.wipe_out
@@ -265,7 +265,7 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 					end
 				end
 
-			elseif table.has_imported (name, object) then
+			elseif table.has_imported_key (name) then
 				set_reflected_field (table.found_item, object, value)
 			end
 		end
@@ -274,7 +274,7 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 		do
 			if name.has ('.') then
 				set_inner_table_field (table, name, current_reflective, value)
-			elseif table.has_imported (name, current_reflective) then
+			elseif table.has_imported_key (name) then
 				set_reflected_field (table.found_item, current_reflective, value)
 			end
 		end

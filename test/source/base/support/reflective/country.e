@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-13 9:10:40 GMT (Friday 13th August 2021)"
-	revision: "24"
+	date: "2022-06-16 9:06:40 GMT (Thursday 16th June 2022)"
+	revision: "25"
 
 class
 	COUNTRY
@@ -16,8 +16,7 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_any_field,
-			export_name as export_default,
-			import_name as import_default
+			foreign_naming as eiffel_naming
 		redefine
 			new_representations
 		end

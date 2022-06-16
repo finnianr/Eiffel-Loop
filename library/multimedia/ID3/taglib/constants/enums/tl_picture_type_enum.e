@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 13:09:04 GMT (Monday 23rd November 2020)"
-	revision: "4"
+	date: "2022-06-16 9:51:03 GMT (Thursday 16th June 2022)"
+	revision: "5"
 
 class
 	TL_PICTURE_TYPE_ENUM
@@ -15,8 +15,7 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
-			import_name as from_english,
-			export_name as to_english
+			foreign_naming as English
 		export
 			{NONE} all
 			{ANY} value, is_valid_value, name, list
@@ -119,4 +118,10 @@ feature -- Access
 	recording_location: NATURAL_8
 		-- Picture of the recording location or studio
 
+feature {NONE} -- Constants
+
+	English: EL_ENGLISH_NAME_TRANSLATER
+		once
+			create Result.make
+		end
 end

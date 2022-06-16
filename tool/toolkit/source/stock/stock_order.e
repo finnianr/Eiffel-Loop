@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-01 12:40:40 GMT (Monday 1st February 2021)"
-	revision: "1"
+	date: "2022-06-16 10:34:47 GMT (Thursday 16th June 2022)"
+	revision: "2"
 
 class
 	STOCK_ORDER
@@ -17,8 +17,7 @@ inherit
 		rename
 			make_default as make,
 			field_included as is_any_field,
-			export_name as export_default,
-			import_name as import_default
+			foreign_naming as eiffel_naming
 		end
 
 create

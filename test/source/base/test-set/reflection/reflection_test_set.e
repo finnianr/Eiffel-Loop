@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-20 12:54:47 GMT (Wednesday 20th October 2021)"
-	revision: "23"
+	date: "2022-06-16 8:49:49 GMT (Thursday 16th June 2022)"
+	revision: "24"
 
 class
 	REFLECTION_TEST_SET
@@ -75,13 +75,15 @@ feature -- Tests
 
 	test_object_initialization_from_camel_case_table
 		note
-			testing: "covers/{EL_SETTABLE_FROM_STRING}.make_from_table, covers/{EL_WORD_SEPARATION_ADAPTER}.from_camel_case"
+			testing: "covers/{EL_SETTABLE_FROM_STRING}.make_from_table, covers/{EL_CAMEL_CASE_TRANSLATER}.imported"
 		local
 			country: CAMEL_CASE_COUNTRY; table: like Value_table
 		do
 			create table.make_with_count (Value_table.count)
 			table.merge (Value_table)
-			table.replace_key ("LiteracyRate", "literacy_rate")
+			table.replace_key ("literacyRate", "literacy_rate")
+			table.replace_key ("photoJpeg", "photo_jpeg")
+			table.replace_key ("euroZoneMember", "euro_zone_member")
 			create country.make (table)
 			check_values (country)
 		end

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-07 17:51:09 GMT (Tuesday 7th December 2021)"
-	revision: "31"
+	date: "2022-06-16 9:04:08 GMT (Thursday 16th June 2022)"
+	revision: "32"
 
 class
 	PP_TRANSACTION
@@ -28,8 +28,7 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_any_field,
-			export_name as export_default,
-			import_name as import_default
+			foreign_naming as eiffel_naming
 		redefine
 			make_default, new_instance_functions, new_representations
 		end

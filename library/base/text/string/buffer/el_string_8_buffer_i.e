@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-14 15:55:48 GMT (Friday 14th May 2021)"
-	revision: "3"
+	date: "2022-06-14 16:06:46 GMT (Tuesday 14th June 2022)"
+	revision: "4"
 
 deferred class
 	EL_STRING_8_BUFFER_I
@@ -54,6 +54,15 @@ feature -- Access
 		do
 			Result := empty
 			Result.append_substring (str_8, start_index, end_index)
+		end
+
+	copied_lower (str_8: STRING): STRING
+		require
+			not_buffer: not is_same (str_8)
+		do
+			Result := empty
+			Result.append (str_8)
+			Result.to_lower
 		end
 
 	copied_upper (str_8: STRING): STRING

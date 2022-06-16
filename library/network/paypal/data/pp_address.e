@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 12:28:39 GMT (Tuesday 18th May 2021)"
-	revision: "9"
+	date: "2022-06-16 9:02:33 GMT (Thursday 16th June 2022)"
+	revision: "10"
 
 class
 	PP_ADDRESS
@@ -16,8 +16,7 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_any_field,
-			export_name as export_default,
-			import_name as import_default
+			foreign_naming as eiffel_naming
 		redefine
 			new_representations
 		end

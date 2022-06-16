@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-23 19:04:57 GMT (Tuesday 23rd November 2021)"
-	revision: "10"
+	date: "2022-06-16 9:02:32 GMT (Thursday 16th June 2022)"
+	revision: "11"
 
 class
 	EL_REFLECTIVE_BOOLEAN_REF
@@ -28,8 +28,7 @@ inherit
 	EL_REFLECTIVE
 		rename
 			field_included as is_any_field,
-			export_name as export_default,
-			import_name as import_default
+			foreign_naming as eiffel_naming
 		undefine
 			out
 		end

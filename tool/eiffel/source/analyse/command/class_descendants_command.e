@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 9:20:56 GMT (Saturday 19th February 2022)"
-	revision: "25"
+	date: "2022-06-16 11:40:15 GMT (Thursday 16th June 2022)"
+	revision: "26"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -20,8 +20,7 @@ inherit
 	EL_REFLECTIVE
 		rename
 			field_included as is_any_field,
-			export_name as export_default,
-			import_name as import_default
+			foreign_naming as eiffel_naming
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE

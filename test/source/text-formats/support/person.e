@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 12:36:56 GMT (Wednesday 8th January 2020)"
-	revision: "2"
+	date: "2022-06-16 9:03:25 GMT (Thursday 16th June 2022)"
+	revision: "3"
 
 class
 	PERSON
@@ -16,8 +16,7 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_any_field,
-			export_name as export_default,
-			import_name as import_default
+			foreign_naming as eiffel_naming
 		end
 
 	EL_SETTABLE_FROM_JSON_STRING

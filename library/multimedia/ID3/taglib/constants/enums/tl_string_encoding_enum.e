@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-17 17:26:08 GMT (Tuesday 17th March 2020)"
-	revision: "1"
+	date: "2022-06-16 9:51:32 GMT (Thursday 16th June 2022)"
+	revision: "2"
 
 class
 	TL_STRING_ENCODING_ENUM
@@ -15,11 +15,10 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
-			import_name as import_default,
-			export_name as to_english
+			foreign_naming as English
 		export
 			{NONE} all
-			{ANY} value, is_valid_value, name
+			{ANY} is_valid_value, name
 		redefine
 			initialize_fields
 		end
@@ -49,5 +48,16 @@ feature -- Access
 	utf_8: NATURAL_8
 
 	utf_16_little_endian: NATURAL_8
+
+feature {NONE} -- Constants
+
+	English: EL_ENGLISH_NAME_TRANSLATER
+		local
+			words: EL_STRING_8_LIST
+		once
+			words := "utf"
+			create Result.make
+			Result.set_uppercase_exception_set (words.to_array)
+		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-30 11:19:41 GMT (Sunday 30th January 2022)"
-	revision: "4"
+	date: "2022-06-16 10:42:48 GMT (Thursday 16th June 2022)"
+	revision: "5"
 
 class
 	CORTINA_SET_INFO
@@ -16,8 +16,8 @@ inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
 		rename
 			make_default as make,
-			xml_names as export_default,
-			element_node_fields as Empty_set
+			element_node_fields as Empty_set,
+			xml_naming as eiffel_naming
 		redefine
 			make
 		end

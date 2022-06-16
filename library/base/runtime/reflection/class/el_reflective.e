@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-23 11:16:38 GMT (Wednesday 23rd February 2022)"
-	revision: "51"
+	date: "2022-06-16 13:22:11 GMT (Thursday 16th June 2022)"
+	revision: "52"
 
 deferred class
 	EL_REFLECTIVE
@@ -33,11 +33,6 @@ inherit
 	EL_REFLECTIVE_I
 
 	EL_REFLECTIVE_FIELD_ORDER
-
-	EL_WORD_SEPARATION_ADAPTER
-		export
-			{NONE} all
-		end
 
 	EL_MODULE_EIFFEL
 
@@ -191,25 +186,16 @@ feature {NONE} -- Contract Support
 
 feature {EL_REFLECTION_HANDLER} -- Implementation
 
-	export_default (name_in: STRING; keeping_ref: BOOLEAN): STRING
+	eiffel_naming: detachable EL_NAME_TRANSLATER
+		-- implement in descendant
 		do
-			Result := to_snake_case_lower (name_in, keeping_ref)
+			Result := Void
 		end
 
-	export_name (name_in: STRING; keeping_ref: BOOLEAN): STRING
-		-- rename in descendant to procedure exporting identifiers to a foreign word separation convention.
-		--  `export_default' means that external names already follow the Eiffel convention
-		deferred
-		end
-
-	import_default (name_in: STRING; keeping_ref: BOOLEAN): STRING
-		do
-			Result := from_snake_case_lower (name_in, keeping_ref)
-		end
-
-	import_name (name_in: STRING; keeping_ref: BOOLEAN): STRING
-		-- rename in descendant to procedure importing identifiers using a foreign word separation convention.
-		--  `import_default' means the external name already follows the Eiffel convention
+	foreign_naming: detachable EL_NAME_TRANSLATER
+		-- rename to `eiffel_naming' in descendant if the object will not have fields set
+		-- using a foreign attribute naming convention, or else implement foreign naming
+		-- with a descendant of `EL_NAME_TRANSLATER'
 		deferred
 		end
 

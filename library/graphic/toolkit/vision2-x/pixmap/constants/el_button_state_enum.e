@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-19 11:50:11 GMT (Wednesday 19th August 2020)"
-	revision: "1"
+	date: "2022-06-16 10:25:33 GMT (Thursday 16th June 2022)"
+	revision: "2"
 
 class
 	EL_BUTTON_STATE_ENUM
@@ -15,8 +15,7 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
-			export_name as to_snake_case_lower,
-			import_name as from_snake_case_lower
+			foreign_naming as eiffel_naming
 		end
 
 create

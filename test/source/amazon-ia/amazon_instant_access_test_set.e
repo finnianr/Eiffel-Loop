@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-04 10:20:58 GMT (Friday 4th February 2022)"
-	revision: "33"
+	date: "2022-06-15 8:45:48 GMT (Wednesday 15th June 2022)"
+	revision: "34"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -141,7 +141,7 @@ feature -- Authorization
 				Signed_headers.forth
 			end
 			create request.make_from_table (http_table)
-			headers := request.headers.selected (Signed_headers)
+			headers := request.headers.selected (Signed_headers, Translater)
 			assert ("same count", headers.count = Signed_headers.count)
 			assert ("same names", across headers as h all Signed_headers.has (h.key) end)
 		end
@@ -363,4 +363,8 @@ feature {NONE} -- Constants
 			create Result.make_split ("Content-Type;X-Amz-Date;X-Amz-Dta-Version;X-AMZ-REQUEST-ID", ';')
 		end
 
+	Translater: EL_KEBAB_CASE_TRANSLATER
+		once
+			create Result.make_lower
+		end
 end

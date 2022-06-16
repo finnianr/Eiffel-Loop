@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-12 12:39:37 GMT (Thursday 12th May 2022)"
-	revision: "24"
+	date: "2022-06-16 9:16:26 GMT (Thursday 16th June 2022)"
+	revision: "25"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -20,8 +20,7 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_any_field,
-			export_name as export_default,
-			import_name as import_default
+			foreign_naming as eiffel_naming
 		export
 			{NONE} all
 			{ANY} print_fields

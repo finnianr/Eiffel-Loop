@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-31 20:11:55 GMT (Friday 31st December 2021)"
-	revision: "36"
+	date: "2022-06-15 12:03:58 GMT (Wednesday 15th June 2022)"
+	revision: "37"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make end]
@@ -89,6 +89,27 @@ feature -- Status query
 	is_word (str: S): BOOLEAN
 		do
 			Result := not str.is_empty
+		end
+
+feature -- Comparison
+
+	same_caseless (a, b: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if all characters in `str' are in the ASCII character set: 0 .. 127
+		do
+			if a.count = b.count then
+				Result := a.same_caseless_characters (b, 1, b.count, 1)
+			end
+		end
+
+	caseless_ends_with (a, b: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if `a.ends_with (b)' is true regardless of case of `b'
+		do
+			if b.is_empty then
+				Result := True
+				
+			elseif a.count >= b.count then
+				Result := a.same_caseless_characters (b, 1, b.count, a.count - b.count + 1)
+			end
 		end
 
 feature -- Basic operations

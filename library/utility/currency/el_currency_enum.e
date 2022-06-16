@@ -11,8 +11,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-02 12:31:32 GMT (Saturday 2nd October 2021)"
-	revision: "12"
+	date: "2022-06-16 9:38:02 GMT (Thursday 16th June 2022)"
+	revision: "13"
 
 class
 	EL_CURRENCY_ENUM
@@ -20,8 +20,7 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
-			export_name as to_snake_case_upper,
-			import_name as from_snake_case_upper
+			foreign_naming as Snake_case_upper
 		redefine
 			initialize_fields
 		end
@@ -117,4 +116,10 @@ feature {NONE} -- Internal attributes
 	unit: ARRAY [NATURAL_8] note option: transient attribute end
 		-- currencies that do not have decimal fractions (according to Paypal at least)
 
+feature {NONE} -- Constants
+
+	Snake_case_upper: EL_SNAKE_CASE_TRANSLATER
+		once
+			create Result.make_upper
+		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:34:58 GMT (Sunday 19th December 2021)"
-	revision: "5"
+	date: "2022-06-16 10:46:42 GMT (Thursday 16th June 2022)"
+	revision: "6"
 
 class
 	EL_COMMA_SEPARATED_WORDS

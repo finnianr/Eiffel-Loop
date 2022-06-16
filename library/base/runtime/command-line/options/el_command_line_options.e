@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-13 15:47:44 GMT (Monday 13th June 2022)"
-	revision: "23"
+	date: "2022-06-16 9:05:20 GMT (Thursday 16th June 2022)"
+	revision: "24"
 
 deferred class
 	EL_COMMAND_LINE_OPTIONS
@@ -20,8 +20,7 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_any_field,
-			export_name as export_default,
-			import_name as import_default
+			foreign_naming as eiffel_naming
 		export
 			{NONE} all
 			{ANY} print_fields

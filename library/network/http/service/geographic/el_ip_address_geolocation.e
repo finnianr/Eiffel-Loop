@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-18 10:56:20 GMT (Monday 18th October 2021)"
-	revision: "2"
+	date: "2022-06-16 9:12:36 GMT (Thursday 16th June 2022)"
+	revision: "3"
 
 class
 	EL_IP_ADDRESS_GEOLOCATION
@@ -18,8 +18,7 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_any_field,
-			export_name as export_default,
-			import_name as import_default
+			foreign_naming as eiffel_naming
 		end
 
 	EL_SETTABLE_FROM_JSON_STRING

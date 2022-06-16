@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 17:07:14 GMT (Friday 6th November 2020)"
-	revision: "8"
+	date: "2022-06-16 8:01:50 GMT (Thursday 16th June 2022)"
+	revision: "9"
 
 class
 	EROS_REMOTE_ROUTINE_CALL_SERVER_UI
 
 inherit
-	EL_VISION_2_USER_INTERFACE [EROS_REMOTE_ROUTINE_CALL_SERVER_MAIN_WINDOW]
+	EL_VISION_2_USER_INTERFACE [EROS_REMOTE_ROUTINE_CALL_SERVER_MAIN_WINDOW, EROS_STOCK_PIXMAPS]
 		rename
 			make as make_ui
 		redefine

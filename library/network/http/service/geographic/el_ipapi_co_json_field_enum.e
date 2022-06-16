@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-18 10:09:38 GMT (Monday 18th October 2021)"
-	revision: "1"
+	date: "2022-06-16 9:53:35 GMT (Thursday 16th June 2022)"
+	revision: "2"
 
 class
 	EL_IPAPI_CO_JSON_FIELD_ENUM
@@ -15,8 +15,7 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_16]
 		rename
-			export_name as to_snake_case_upper,
-			import_name as from_snake_case_upper
+			foreign_naming as Snake_case_upper
 		end
 
 create
@@ -105,4 +104,10 @@ feature -- API string fields
 
 	version: NATURAL_16
 
+feature {NONE} -- Constants
+
+	Snake_case_upper: EL_SNAKE_CASE_TRANSLATER
+		once
+			create Result.make_upper
+		end
 end

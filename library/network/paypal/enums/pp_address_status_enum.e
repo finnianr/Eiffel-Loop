@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-30 11:58:20 GMT (Monday 30th November 2020)"
-	revision: "1"
+	date: "2022-06-16 9:12:57 GMT (Thursday 16th June 2022)"
+	revision: "2"
 
 class
 	PP_ADDRESS_STATUS_ENUM
@@ -20,8 +20,7 @@ class
 inherit
 	EL_BOOLEAN_ENUMERATION
 		rename
-			export_name as export_default,
-			import_name as import_default,
+			foreign_naming as eiffel_naming,
 			is_true as confirmed,
 			is_false as unconfirmed
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:21:24 GMT (Sunday 19th December 2021)"
-	revision: "13"
+	date: "2022-06-15 8:45:02 GMT (Wednesday 15th June 2022)"
+	revision: "14"
 
 class
 	AIA_CANONICAL_REQUEST
@@ -34,9 +34,9 @@ feature {NONE} -- Initialization
 			headers: HASH_TABLE [ZSTRING, STRING]
 		do
 			if headers_list.is_empty then
-				headers := request.headers.as_table (True)
+				headers := request.headers.as_table (Translater)
 			else
-				headers := request.headers.selected (headers_list)
+				headers := request.headers.selected (headers_list, Translater)
 			end
 			make_sized (headers.count + 6)
 			extend (request.request_method)
@@ -84,5 +84,12 @@ feature {NONE} -- Implementation
 			else
 				Result.append (value)
 			end
+		end
+
+feature {NONE} -- Constants
+
+	Translater: EL_KEBAB_CASE_TRANSLATER
+		once
+			create Result.make_lower
 		end
 end

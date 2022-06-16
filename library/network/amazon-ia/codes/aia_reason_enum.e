@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:39:26 GMT (Tuesday 28th April 2020)"
-	revision: "6"
+	date: "2022-06-16 9:33:47 GMT (Thursday 16th June 2022)"
+	revision: "7"
 
 class
 	AIA_REASON_ENUM
@@ -17,9 +17,8 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
-			name as reason,
-			export_name as to_snake_case_upper,
-			import_name as from_snake_case_upper
+			foreign_naming as Snake_case_upper,
+			name as reason
 		end
 
 create
@@ -35,5 +34,12 @@ feature -- Access
 
 	payment_problem: NATURAL_8
 		-- Amazon's automated fraud investigation system detected a problem with payment
+
+feature {NONE} -- Constants
+
+	Snake_case_upper: EL_SNAKE_CASE_TRANSLATER
+		once
+			create Result.make_upper
+		end
 
 end

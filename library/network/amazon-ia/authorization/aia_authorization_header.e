@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:33:08 GMT (Sunday 19th December 2021)"
-	revision: "20"
+	date: "2022-06-16 12:07:21 GMT (Thursday 16th June 2022)"
+	revision: "21"
 
 class
 	AIA_AUTHORIZATION_HEADER
@@ -16,9 +16,10 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_any_field,
-			export_name as to_camel_case,
-			import_name as from_camel_case,
+			foreign_naming as Camel_case_title,
 			make_default as make
+		redefine
+			Camel_case_title
 		end
 
 	EL_SETTABLE_FROM_STRING_8
@@ -108,6 +109,11 @@ feature {NONE} -- Constants
 	Default_algorithm: STRING_8
 		once
 			Result := "DTA1-HMAC-SHA256"
+		end
+
+	Camel_case_title: EL_CAMEL_CASE_TRANSLATER
+		once
+			create Result.make_title
 		end
 
 	Semicolon: CHARACTER = ';'

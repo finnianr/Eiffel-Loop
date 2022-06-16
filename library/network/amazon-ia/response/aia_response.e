@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:16:58 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2022-06-16 9:32:09 GMT (Thursday 16th June 2022)"
+	revision: "8"
 
 class
 	AIA_RESPONSE
@@ -21,9 +21,8 @@ class
 inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
-			field_included as is_any_field,
-			export_name as to_camel_case,
-			import_name as import_default
+			foreign_naming as Camel_case,
+			field_included as is_any_field
 		export
 			{NONE} all
 		end
@@ -65,6 +64,13 @@ feature -- Element change
 			valid_code: Valid_responses.has (code)
 		do
 			response := response_enum.name (code)
+		end
+
+feature {NONE} -- Constants
+
+	Camel_case: EL_CAMEL_CASE_TRANSLATER
+		once
+			create Result.make
 		end
 
 end

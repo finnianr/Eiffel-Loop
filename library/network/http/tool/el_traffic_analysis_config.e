@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-12 15:54:33 GMT (Tuesday 12th October 2021)"
-	revision: "2"
+	date: "2022-06-16 10:10:34 GMT (Thursday 16th June 2022)"
+	revision: "3"
 
 class
 	EL_TRAFFIC_ANALYSIS_CONFIG
 
 inherit
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML
+		rename
+			xml_naming as eiffel_naming
 		export
 			{NONE} all
 		end

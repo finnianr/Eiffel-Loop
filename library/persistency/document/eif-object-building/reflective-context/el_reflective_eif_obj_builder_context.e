@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-30 10:40:39 GMT (Sunday 30th January 2022)"
-	revision: "17"
+	date: "2022-06-16 9:37:01 GMT (Thursday 16th June 2022)"
+	revision: "18"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -26,8 +26,7 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_field_convertable_from_xml,
-			export_name as xml_names,
-			import_name as xml_names
+			foreign_naming as xml_naming
 		export
 			{NONE} all
 		redefine
@@ -80,6 +79,13 @@ feature {NONE} -- Build from XML
 			valid_field_names: valid_field_names (Result)
 		end
 
+feature {NONE} -- Constants
+
+	Kebab_case: EL_KEBAB_CASE_TRANSLATER
+		once
+			create Result.make
+		end
+		
 note
 	descendants: "[
 			EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT*

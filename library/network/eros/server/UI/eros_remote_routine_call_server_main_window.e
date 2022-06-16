@@ -6,33 +6,29 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-04 14:15:30 GMT (Friday 4th September 2020)"
-	revision: "9"
+	date: "2022-06-16 8:11:27 GMT (Thursday 16th June 2022)"
+	revision: "10"
 
 class
 	EROS_REMOTE_ROUTINE_CALL_SERVER_MAIN_WINDOW
 
 inherit
 	EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER
+		undefine
+			pixmaps
 		redefine
 			 initialize, prepare_to_show
 		end
 
 	EROS_UI_CONSTANTS
-		undefine
-			copy, default_create
-		end
 
-	EV_FRAME_CONSTANTS
-		undefine
-			copy, default_create
-		end
+	EV_FRAME_CONSTANTS undefine copy, default_create end
 
 	EL_SHARED_THREAD_MANAGER
 
-	EL_MODULE_ICON
-
 	EL_MODULE_LOG
+
+	EROS_SHARED_PIXMAPS
 
 create
 	make
@@ -47,7 +43,6 @@ feature {NONE} -- Initialization
    			-- additional setup tasks.
 		do
 			Precursor
-			set_icon_pixmap (Icon_window)
 			add_toolbar_components
 		end
 
@@ -107,7 +102,7 @@ feature {NONE} -- Build UI
 			lights_frame: EV_FRAME
 		do
 			create go_button.make_with_text ("GO")
-			create on_off_lights.make (Icon_green_light, Icon_red_light, Icon_unlit_light, 3)
+			create on_off_lights.make (Pixmaps.green_light, Pixmaps.red_light, Pixmaps.unlit_light, 3)
 
 			if tool_bar.is_empty then
 				tool_bar.extend (create {EV_CELL})
@@ -135,36 +130,5 @@ feature {NONE} -- Implementation
 	on_off_lights: EL_RED_GREEN_STATUS_LIGHTS_DRAWING_AREA
 
 	activity_meters: EROS_SERVER_ACTIVITY_METERS
-
-feature {NONE} -- Constants
-
-	Pixmap_manifest: ARRAY [EL_SVG_PIXMAP]
-			--
-		once
-		end
-
-	Icon_window: EV_PIXMAP
-			--
-		once
-			Result := Icon.pixmap (<< "server" , "window.png" >>)
-		end
-
-	Icon_green_light: EV_PIXMAP
-			--
-		once
-			Result := Icon.pixmap (<< "server", "green-light.png" >>)
-		end
-
-	Icon_red_light: EV_PIXMAP
-			--
-		once
-			Result := Icon.pixmap (<< "server", "red-light.png" >>)
-		end
-
-	Icon_unlit_light: EV_PIXMAP
-			--
-		once
-			Result := Icon.pixmap (<< "server", "unlit-light.png" >>)
-		end
 
 end

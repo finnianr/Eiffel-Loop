@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:28:52 GMT (Tuesday 28th April 2020)"
-	revision: "8"
+	date: "2022-06-16 9:58:51 GMT (Thursday 16th June 2022)"
+	revision: "9"
 
 class
 	PP_L_VARIABLE_ENUM
@@ -15,13 +15,8 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
-			export_name as to_paypal_name,
-			import_name as from_camel_case_upper
-		undefine
-			import_from_camel_case_upper
+			foreign_naming as Paypal_naming
 		end
-
-	PP_NAMING_ROUTINES
 
 create
 	make
@@ -56,4 +51,10 @@ feature -- Constants
 			Result := << l_option_0_select, l_option_0_price >>
 		end
 
+feature {NONE} -- Constants
+
+	Paypal_naming: PP_NAME_TRANSLATER
+		once
+			create Result.make
+		end
 end

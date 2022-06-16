@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-30 9:36:08 GMT (Sunday 30th January 2022)"
-	revision: "5"
+	date: "2022-06-16 9:18:40 GMT (Thursday 16th June 2022)"
+	revision: "6"
 
 class
 	TEST_VALUES
@@ -15,8 +15,8 @@ class
 inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
 		rename
-			xml_names as export_default,
-			element_node_fields as Empty_set
+			element_node_fields as Empty_set,
+			xml_naming as eiffel_naming
 		end
 
 create

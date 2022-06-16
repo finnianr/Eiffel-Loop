@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-28 17:06:46 GMT (Monday 28th December 2020)"
-	revision: "9"
+	date: "2022-06-16 9:53:01 GMT (Thursday 16th June 2022)"
+	revision: "10"
 
 class
 	JOB
@@ -16,8 +16,7 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_any_field,
-			export_name as export_default,
-			import_name as from_snake_case_upper
+			foreign_naming as Snake_case_upper
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
@@ -45,4 +44,10 @@ feature -- Access
 
 	type: STRING
 
+feature {NONE} -- Constants
+
+	Snake_case_upper: EL_SNAKE_CASE_TRANSLATER
+		once
+			create Result.make_upper
+		end
 end

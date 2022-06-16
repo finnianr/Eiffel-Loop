@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-22 10:14:57 GMT (Saturday 22nd January 2022)"
-	revision: "25"
+	date: "2022-06-16 9:29:13 GMT (Thursday 16th June 2022)"
+	revision: "26"
 
 deferred class
 	EL_SETTABLE_FROM_JSON_STRING
@@ -66,7 +66,7 @@ feature -- Access
 						str.append (JSON.comma_new_line)
 					end
 					str.append (JSON.before_name)
-					str.append_string_general (current_reflective.export_name (table.key, False))
+					str.append_string_general (table.item.export_name)
 					str.append (JSON.after_name)
 					if is_field_text (table.item) then
 						str.append_character ('"')
@@ -89,7 +89,7 @@ feature -- Element change
 		do
 			table := field_table
 			from json_list.start until json_list.after loop
-				if table.has_imported (json_list.name_item_8 (False), current_reflective) then
+				if table.has_imported_key (json_list.name_item_8 (False)) then
 					set_json_field (table.found_item, json_list.value_item (True))
 				end
 				json_list.forth

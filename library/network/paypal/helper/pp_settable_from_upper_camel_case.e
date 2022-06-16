@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:26:12 GMT (Tuesday 28th April 2020)"
-	revision: "7"
+	date: "2022-06-16 9:56:52 GMT (Thursday 16th June 2022)"
+	revision: "8"
 
 class
 	PP_SETTABLE_FROM_UPPER_CAMEL_CASE
@@ -15,14 +15,16 @@ class
 inherit
 	PP_REFLECTIVELY_SETTABLE
 		rename
-			export_name as to_paypal_name,
-			import_name as from_camel_case_upper
-		undefine
-			import_from_camel_case_upper
+			foreign_naming as Paypal_naming
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
 
-	PP_NAMING_ROUTINES
+feature {NONE} -- Constants
+
+	Paypal_naming: PP_NAME_TRANSLATER
+		once
+			create Result.make
+		end
 
 end

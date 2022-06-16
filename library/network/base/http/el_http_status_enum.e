@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-30 11:51:48 GMT (Monday 30th December 2019)"
-	revision: "11"
+	date: "2022-06-16 9:46:23 GMT (Thursday 16th June 2022)"
+	revision: "12"
 
 class
 	EL_HTTP_STATUS_ENUM
@@ -17,10 +17,9 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_16]
 		rename
-			export_name as to_english,
-			import_name as import_default
+			foreign_naming as English
 		redefine
-			initialize_fields, export_to_english
+			initialize_fields
 		end
 
 create
@@ -263,17 +262,15 @@ feature -- 5xx codes
 	not_extended: NATURAL_16
  		-- Not Extended
 
-feature {NONE} -- Implementation
-
-	export_to_english (name_in, english_out: STRING)
-		do
-			Naming.to_english (name_in, english_out, Upper_case_words)
-		end
-
 feature {NONE} -- Constants
 
-	Upper_case_words: ARRAY [STRING]
+	English: EL_ENGLISH_NAME_TRANSLATER
+		local
+			words: EL_STRING_8_LIST
 		once
-			Result := << "http", "uri", "ok" >>
+			words := "http, uri, ok"
+			create Result.make
+			Result.set_uppercase_exception_set (words.to_array)
 		end
+
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-26 13:52:31 GMT (Thursday 26th September 2019)"
-	revision: "1"
+	date: "2022-06-16 10:26:07 GMT (Thursday 16th June 2022)"
+	revision: "2"
 
 class
 	EL_DEBIAN_CONTROL
@@ -16,8 +16,8 @@ inherit
 	EVOLICITY_REFLECTIVE_SERIALIZEABLE
 		rename
 			escaped_field as unescaped_field,
-			export_name as export_default,
 			field_included as is_any_field,
+			foreign_naming as eiffel_naming,
 			make_from_template_and_output as make,
 			getter_function_table as empty_function_table
 		redefine

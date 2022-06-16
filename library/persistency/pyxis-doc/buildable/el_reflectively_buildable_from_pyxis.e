@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-02 13:51:47 GMT (Wednesday 2nd February 2022)"
-	revision: "13"
+	date: "2022-06-16 11:39:42 GMT (Thursday 16th June 2022)"
+	revision: "14"
 
 deferred class
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
@@ -32,11 +32,13 @@ inherit
 
 	EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN
 		rename
-			xml_names as export_default,
-			xml_name_space as xmlns
+			xml_name_space as xmlns,
+			xml_naming as eiffel_naming
 		export
 			{NONE} all
 		end
+
+	EL_MODULE_NAMING
 
 feature {NONE} -- Implementation
 

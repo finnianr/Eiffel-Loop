@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-22 10:14:56 GMT (Saturday 22nd January 2022)"
-	revision: "18"
+	date: "2022-06-14 13:14:15 GMT (Tuesday 14th June 2022)"
+	revision: "19"
 
 class
 	GENERAL_TEST_SET
@@ -123,7 +123,7 @@ feature -- Tests
 		do
 			eif_name := "hex_11_software"
 			create title.make (eif_name.count)
-			Naming.to_title (eif_name, title, ' ')
+			Naming.to_title (eif_name, title, ' ', Naming.empty_word_set)
 			assert ("is title", title ~ "Hex 11 Software")
 
 			excluded_words := "EL"

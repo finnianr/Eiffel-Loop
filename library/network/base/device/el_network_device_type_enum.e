@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-05 15:10:43 GMT (Wednesday 5th August 2020)"
-	revision: "5"
+	date: "2022-06-16 9:47:08 GMT (Thursday 16th June 2022)"
+	revision: "6"
 
 class
 	EL_NETWORK_DEVICE_TYPE_ENUM
@@ -21,8 +21,7 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
-			export_name as to_snake_case_upper,
-			import_name as from_snake_case_upper
+			foreign_naming as Snake_case_upper
 		redefine
 			initialize_fields
 		end
@@ -85,5 +84,12 @@ feature -- Access
 	USB_IEEE80211: NATURAL_8
 		-- An IEEE 802.11 wireless USB network interface.
 		-- An extra category not in Windows or Unix
+
+feature {NONE} -- Constants
+
+	Snake_case_upper: EL_SNAKE_CASE_TRANSLATER
+		once
+			create Result.make_upper
+		end
 
 end

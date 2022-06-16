@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 8:27:45 GMT (Monday 20th January 2020)"
-	revision: "6"
+	date: "2022-06-16 8:09:22 GMT (Thursday 16th June 2022)"
+	revision: "7"
 
-class
+deferred class
 	EROS_UI_CONSTANTS
+
+inherit
+	EL_ANY_SHARED
 
 feature -- Constants
 

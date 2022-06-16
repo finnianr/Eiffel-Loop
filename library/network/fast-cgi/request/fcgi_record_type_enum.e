@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:27:36 GMT (Tuesday 28th April 2020)"
-	revision: "2"
+	date: "2022-06-16 10:01:25 GMT (Thursday 16th June 2022)"
+	revision: "3"
 
 class
 	FCGI_RECORD_TYPE_ENUM
@@ -29,8 +29,7 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
-			export_name as to_snake_case_upper,
-			import_name as import_default
+			foreign_naming as Snake_case_upper
 		redefine
 			initialize_fields
 		end
@@ -78,5 +77,12 @@ feature -- Access
 	get_values_result: NATURAL_8
 
 	unknown_type: NATURAL_8
+
+feature {NONE} -- Constants
+
+	Snake_case_upper: EL_SNAKE_CASE_TRANSLATER
+		once
+			create Result.make_upper
+		end
 
 end

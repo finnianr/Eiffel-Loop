@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-11 9:27:50 GMT (Monday 11th October 2021)"
-	revision: "17"
+	date: "2022-06-16 10:16:55 GMT (Thursday 16th June 2022)"
+	revision: "18"
 
 class
 	PP_NVP_API_CONNECTION
@@ -27,8 +27,7 @@ inherit
 	EL_REFLECTIVE
 		rename
 			field_included as is_button_parameter,
-			export_name as export_default,
-			import_name as import_default
+			foreign_naming as eiffel_naming
 		end
 
 	EL_SOLITARY

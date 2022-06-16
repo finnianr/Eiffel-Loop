@@ -6,16 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 11:35:17 GMT (Sunday 29th November 2020)"
-	revision: "10"
+	date: "2022-06-16 12:16:33 GMT (Thursday 16th June 2022)"
+	revision: "11"
 
-deferred class
+class
 	EL_WORD_SEPARATION_ADAPTER
 
+obsolete
+	"Use EL_NAME_TRANSLATER descendant"
+
 inherit
+	ANY
+
 	EL_MODULE_NAMING
 
-feature {NONE} -- Name exporting
+feature -- Name exporting
 
 	to_camel_case (name_in: STRING; keeping_ref: BOOLEAN): STRING
 		do
@@ -80,7 +85,7 @@ feature {NONE} -- Name exporting
 			end
 		end
 
-feature {NONE} -- Name importing
+feature -- Name importing
 
 	from_camel_case (name_in: STRING; keeping_ref: BOOLEAN): STRING
 		do
@@ -137,7 +142,7 @@ feature {NONE} -- Implementation
 					import_from_camel_case_upper (name_in, Result)
 
 				when To_default then
-					Naming.to_camel_case (name_in, Result)
+					Naming.to_camel_case (name_in, Result, False)
 
 				when To_lower then
 					Naming.to_camel_case_lower (name_in, Result)
@@ -145,7 +150,7 @@ feature {NONE} -- Implementation
 				when To_upper then
 					Naming.to_camel_case_upper (name_in, Result)
 			else
-				Naming.to_camel_case (name_in, Result)
+				Naming.to_camel_case (name_in, Result, False)
 			end
 			if keeping_ref then
 				Result := Result.twin
@@ -165,7 +170,7 @@ feature {NONE} -- Implementation
 
 	export_to_title (name_in, title_out: STRING; separator_out: CHARACTER)
 		do
-			Naming.to_title (name_in, title_out, separator_out)
+			Naming.to_title (name_in, title_out, separator_out, Naming.empty_word_set)
 		end
 
 	import_from_camel_case_upper (name_in, a_name_out: STRING)
@@ -192,7 +197,7 @@ feature {NONE} -- Implementation
 					Naming.to_kebab_case_upper (name_in, Result)
 
 				when To_title then
-					Naming.to_title (name_in, Result, '-')
+					Naming.to_title (name_in, Result, '-', Naming.empty_word_set)
 			else
 				Naming.from_kebab_case (name_in, Result)
 			end
@@ -216,7 +221,7 @@ feature {NONE} -- Implementation
 					when To_lower then
 						Naming.to_snake_case_lower (name_in, Result)
 					when To_title then
-						Naming.to_title (name_in, Result, '_')
+						Naming.to_title (name_in, Result, '_', Naming.empty_word_set)
 
 				else
 					Result := name_in

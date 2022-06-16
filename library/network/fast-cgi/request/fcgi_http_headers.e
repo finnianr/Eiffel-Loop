@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-26 17:55:34 GMT (Sunday 26th December 2021)"
-	revision: "20"
+	date: "2022-06-16 9:47:57 GMT (Thursday 16th June 2022)"
+	revision: "21"
 
 class
 	FCGI_HTTP_HEADERS
@@ -15,10 +15,9 @@ class
 inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
+			foreign_naming as Snake_case_upper,
 			make_default as make,
-			field_included as is_any_field,
-			export_name as export_default,
-			import_name as from_snake_case_upper
+			field_included as is_any_field
 		redefine
 			make
 		end
@@ -30,9 +29,7 @@ inherit
 			set_table_field
 		end
 
-	EL_WORD_SEPARATION_ADAPTER
-
-	EL_MODULE_ITERABLE
+	EL_MODULE_ITERABLE; EL_MODULE_NAMING
 
 create
 	make
@@ -47,7 +44,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	as_table (kebab_names: BOOLEAN): HASH_TABLE [ZSTRING, STRING]
+	as_table (translater: EL_NAME_TRANSLATER): HASH_TABLE [ZSTRING, STRING]
 		-- table of all non-empty headers with name-keys adjusted to use hyphen word separator
 		-- if `kebab_names' is true
 		local
@@ -58,14 +55,14 @@ feature -- Access
 			from table.start until table.after loop
 				value := field_string (table.item_for_iteration)
 				if not value.is_empty then
-					Result [as_table_key (table.key_for_iteration, kebab_names)] := value
+					Result [translater.exported (table.key_for_iteration)] := value
 				end
 				table.forth
 			end
 			from custom_table.start until custom_table.after loop
 				value := custom_table.item_for_iteration
 				if not value.is_empty then
-					Result [as_table_key (custom_table.key_for_iteration, kebab_names)] := value
+					Result [translater.exported (custom_table.key_for_iteration)] := value
 				end
 				custom_table.forth
 			end
@@ -84,14 +81,14 @@ feature -- Access
 			end
 		end
 
-	selected (name_list: ITERABLE [STRING]): HASH_TABLE [ZSTRING, STRING]
+	selected (name_list: ITERABLE [STRING]; translater: EL_NAME_TRANSLATER): HASH_TABLE [ZSTRING, STRING]
 		-- returns table of field values for keys present in `name_list'
 		local
 			l_name: STRING
 		do
 			create Result.make (Iterable.count (name_list))
 			across name_list as name loop
-				l_name := from_kebab_case (name.item, False)
+				l_name := translater.imported (name.item)
 				if field_table.has_key (l_name) then
 					Result.extend (field_string (field_table.found_item), name.item)
 				else
@@ -122,7 +119,6 @@ feature -- Access attributes
 
 	cookie: ZSTRING
 
-
 	from_: ZSTRING
 		-- Trailing `_' to distinguish from Eiffel keyword
 
@@ -138,47 +134,47 @@ feature -- Access attributes
 
 feature -- Element change
 
-	set_accept (a_accept: like accept)
+	set_accept (a_accept: ZSTRING)
 		do
 			accept := a_accept
 		end
 
-	set_accept_encoding (a_accept_encoding: like accept_encoding)
+	set_accept_encoding (a_accept_encoding: ZSTRING)
 		do
 			accept_encoding := a_accept_encoding
 		end
 
-	set_accept_language (a_accept_language: like accept_language)
+	set_accept_language (a_accept_language: ZSTRING)
 		do
 			accept_language := a_accept_language
 		end
 
-	set_authorization (a_authorization: like authorization)
+	set_authorization (a_authorization: ZSTRING)
 		do
 			authorization := a_authorization
 		end
 
-	set_cache_control (a_cache_control: like cache_control)
+	set_cache_control (a_cache_control: ZSTRING)
 		do
 			cache_control := a_cache_control
 		end
 
-	set_connection (a_connection: like connection)
+	set_connection (a_connection: ZSTRING)
 		do
 			connection := a_connection
 		end
 
-	set_content_length (a_content_length: like content_length)
+	set_content_length (a_content_length: INTEGER)
 		do
 			content_length := a_content_length
 		end
 
-	set_content_type (a_content_type: like content_type)
+	set_content_type (a_content_type: ZSTRING)
 		do
 			content_type := a_content_type
 		end
 
-	set_cookie (a_cookie: like cookie)
+	set_cookie (a_cookie: ZSTRING)
 		do
 			cookie := a_cookie
 		end
@@ -192,27 +188,27 @@ feature -- Element change
 			custom_table [kebab_name] := value
 		end
 
-	set_from (a_from: like from_)
+	set_from (a_from: ZSTRING)
 		do
 			from_ := a_from
 		end
 
-	set_host (a_host: like host)
+	set_host (a_host: ZSTRING)
 		do
 			host := a_host
 		end
 
-	set_referer (a_referer: like referer)
+	set_referer (a_referer: ZSTRING)
 		do
 			referer := a_referer
 		end
 
-	set_upgrade_insecure_requests (a_upgrade_insecure_requests: like upgrade_insecure_requests)
+	set_upgrade_insecure_requests (a_upgrade_insecure_requests: ZSTRING)
 		do
 			upgrade_insecure_requests := a_upgrade_insecure_requests
 		end
 
-	set_user_agent (a_user_agent: like user_agent)
+	set_user_agent (a_user_agent: ZSTRING)
 		do
 			user_agent := a_user_agent
 		end
@@ -225,16 +221,6 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
-
-	as_table_key (name: STRING; kebab_names: BOOLEAN): STRING
-		do
-			if kebab_names then
-				create Result.make (name.count)
-				Naming.to_kebab_case (name, Result)
-			else
-				Result := name
-			end
-		end
 
 	set_table_field (table: like field_table; name: STRING; value: ZSTRING)
 		-- set field with name
@@ -249,5 +235,12 @@ feature {NONE} -- Internal attributes
 
 	custom_table: HASH_TABLE [ZSTRING, STRING] note option: transient attribute end
 		-- custom_table fields prefixed with x_
+
+feature {NONE} -- Constants
+
+	Snake_case_upper: EL_SNAKE_CASE_TRANSLATER
+		once
+			create Result.make_upper
+		end
 
 end

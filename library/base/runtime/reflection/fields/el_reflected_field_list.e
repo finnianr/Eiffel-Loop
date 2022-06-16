@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-01 21:14:32 GMT (Monday 1st November 2021)"
-	revision: "15"
+	date: "2022-06-14 10:41:14 GMT (Tuesday 14th June 2022)"
+	revision: "16"
 
 class
 	EL_REFLECTED_FIELD_LIST
@@ -16,6 +16,8 @@ inherit
 	EL_ARRAYED_LIST [EL_REFLECTED_FIELD]
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
+
+	EL_REFLECTION_HANDLER undefine copy, is_equal end
 
 create
 	make
@@ -46,7 +48,7 @@ feature -- Conversion
 		local
 			i: INTEGER; l_item: like item
 		do
-			create Result.make (count)
+			create Result.make (count, enclosing_object.foreign_naming)
 			from i := 1 until i > count loop
 				l_item := i_th (i)
 				Result.extend (l_item, l_item.name)

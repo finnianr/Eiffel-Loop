@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-16 8:50:38 GMT (Wednesday 16th June 2021)"
-	revision: "1"
+	date: "2022-06-15 16:06:23 GMT (Wednesday 15th June 2022)"
+	revision: "2"
 
 class
 	NETWORK_TEST_SET
@@ -22,10 +22,21 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("enumerations", agent test_enumerations)
 			eval.call ("ip_address_conversion", agent test_ip_address_conversion)
 		end
 
 feature -- Tests
+
+	test_enumerations
+		local
+			enum_array: ARRAY [EL_ENUMERATION [NUMERIC]]
+		do
+			enum_array := << create {EL_HTTP_STATUS_ENUM}.make, create {EL_NETWORK_DEVICE_TYPE_ENUM}.make >>
+			across enum_array as enum loop
+				assert ("name and value consistent for " + enum.item.generator, enum.item.name_and_values_consistent)
+			end
+		end
 
 	test_ip_address_conversion
 		do

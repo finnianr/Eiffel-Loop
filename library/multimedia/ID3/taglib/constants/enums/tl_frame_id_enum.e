@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-23 18:43:58 GMT (Tuesday 23rd November 2021)"
-	revision: "8"
+	date: "2022-06-16 9:48:29 GMT (Thursday 16th June 2022)"
+	revision: "9"
 
 class
 	TL_FRAME_ID_ENUM
@@ -21,8 +21,7 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
-			import_name as from_snake_case_upper,
-			export_name as to_snake_case_upper
+			foreign_naming as Snake_case_upper
 		export
 			{NONE} all
 			{ANY} value, is_valid_value, name
@@ -335,4 +334,10 @@ feature -- Codes W
 	WXXX: NATURAL_8
 		-- User defined URL link frame
 
+feature {NONE} -- Constants
+
+	Snake_case_upper: EL_SNAKE_CASE_TRANSLATER
+		once
+			create Result.make_upper
+		end
 end

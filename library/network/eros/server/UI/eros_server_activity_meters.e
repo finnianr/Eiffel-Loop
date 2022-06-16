@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-06 12:29:03 GMT (Tuesday 6th April 2021)"
-	revision: "8"
+	date: "2022-06-16 8:10:02 GMT (Thursday 16th June 2022)"
+	revision: "9"
 
 class
 	EROS_SERVER_ACTIVITY_METERS
@@ -26,14 +26,9 @@ inherit
 			on_server_activity_start, on_server_activity_end, prompt_refresh
 		end
 
-	EROS_UI_CONSTANTS
-		export
-			{NONE} all
-		undefine
-			default_create
-		end
-
 	EL_MODULE_LOG
+
+	EROS_UI_CONSTANTS
 
 create
 	make

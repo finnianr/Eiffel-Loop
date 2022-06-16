@@ -14,7 +14,7 @@ note
 			      "timestamp": "20100921094356"
 			    }
 			  }
-			}		
+			}
 	]"
 
 	author: "Finnian Reilly"
@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-16 14:21:47 GMT (Monday 16th November 2020)"
-	revision: "2"
+	date: "2022-06-16 10:08:55 GMT (Thursday 16th June 2022)"
+	revision: "3"
 
 class
 	EL_WAYBACK_CLOSEST
@@ -32,8 +32,7 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_any_field,
-			export_name as to_camel_case,
-			import_name as import_default
+			foreign_naming as Camel_case_lower
 		export
 			{NONE} all
 		end
@@ -59,4 +58,10 @@ feature -- Access
 
 	url: STRING
 
+feature {NONE} -- Constants
+
+	Camel_case_lower: EL_CAMEL_CASE_TRANSLATER
+		once
+			create Result.make_lower
+		end
 end

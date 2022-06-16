@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:23:17 GMT (Sunday 19th December 2021)"
-	revision: "4"
+	date: "2022-06-14 11:22:26 GMT (Tuesday 14th June 2022)"
+	revision: "5"
 
 deferred class
 	EVOLICITY_REFLECTIVE_XML_CONTEXT
@@ -34,14 +34,13 @@ feature {NONE} -- Implementation
 		-- rename `template' from `EVOLICITY_REFLECTIVE_SERIALIZEABLE' to this function
 		-- to get XML serialization template
 		local
-			table: like current_reflective.field_table
-			list: EL_STRING_8_LIST; tag_name: STRING
+			list: EL_STRING_8_LIST
 		do
-			table := current_reflective.field_table
-			create list.make (table.count)
-			across table.current_keys as name loop
-				tag_name := current_reflective.export_name (name.item, False)
-				list.extend (Element_template #$ [tag_name, name.item, tag_name])
+			create list.make (current_reflective.field_table.count)
+			across current_reflective.field_table as table loop
+				if attached table.item.export_name as tag_name then
+					list.extend (Element_template #$ [tag_name, table.key, tag_name])
+				end
 			end
 			Result := list.joined_lines
 		end

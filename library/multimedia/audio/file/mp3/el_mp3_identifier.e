@@ -1,13 +1,13 @@
 note
-	description: "Mp3 identifier"
+	description: "MP3 identifier"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "13"
+	date: "2022-06-16 10:44:32 GMT (Thursday 16th June 2022)"
+	revision: "14"
 
 class
 	EL_MP3_IDENTIFIER

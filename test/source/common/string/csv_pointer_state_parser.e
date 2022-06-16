@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-22 13:06:11 GMT (Wednesday 22nd December 2021)"
-	revision: "1"
+	date: "2022-06-16 10:33:32 GMT (Thursday 16th June 2022)"
+	revision: "2"
 
 class
 	CSV_POINTER_STATE_PARSER
@@ -51,7 +51,7 @@ feature -- Basic operations
 		do
 			table := object.field_table; field := fields
 			from field.start until field.after loop
-				if table.has_imported (field.item_key, object) then
+				if table.has_imported_key (field.item_key) then
 					table.found_item.set_from_string (object, field.item_value)
 				end
 				field.forth

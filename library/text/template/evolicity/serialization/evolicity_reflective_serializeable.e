@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-11 11:13:09 GMT (Tuesday 11th May 2021)"
-	revision: "6"
+	date: "2022-06-16 10:20:22 GMT (Thursday 16th June 2022)"
+	revision: "7"
 
 deferred class
 	EVOLICITY_REFLECTIVE_SERIALIZEABLE
@@ -26,8 +26,6 @@ inherit
 		end
 
 	EL_REFLECTIVELY_SETTABLE
-		rename
-			import_name as import_default
 		redefine
 			make_default, Transient_fields
 		end

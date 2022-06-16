@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "5"
+	date: "2022-06-16 10:22:14 GMT (Thursday 16th June 2022)"
+	revision: "6"
 
 class
 	EL_SIGNED_EIFFEL_CLASS
@@ -16,8 +16,8 @@ inherit
 	EVOLICITY_REFLECTIVE_SERIALIZEABLE
 		rename
 			escaped_field as unescaped_field,
-			export_name as export_default,
-			field_included as is_any_field
+			field_included as is_any_field,
+			foreign_naming as eiffel_naming
 		export
 			{NONE} all
 			{ANY} serialize

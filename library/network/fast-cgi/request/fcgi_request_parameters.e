@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-02 13:34:09 GMT (Wednesday 2nd March 2022)"
-	revision: "25"
+	date: "2022-06-16 9:50:28 GMT (Thursday 16th June 2022)"
+	revision: "26"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -21,10 +21,9 @@ class
 inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
+			foreign_naming as Snake_case_upper,
 			make_default as make,
-			field_included as is_any_field,
-			export_name as export_default,
-			import_name as from_snake_case_upper
+			field_included as is_any_field
 		redefine
 			make, Transient_fields
 		end
@@ -230,6 +229,11 @@ feature {NONE} -- Constants
 	Transient_fields: STRING
 		once
 			Result := "content, headers"
+		end
+
+	Snake_case_upper: EL_SNAKE_CASE_TRANSLATER
+		once
+			create Result.make_upper
 		end
 
 	Forward_slash: ZSTRING

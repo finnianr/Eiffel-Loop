@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-30 11:21:12 GMT (Sunday 30th January 2022)"
-	revision: "50"
+	date: "2022-06-16 10:52:21 GMT (Thursday 16th June 2022)"
+	revision: "51"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -16,11 +16,11 @@ inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
 		rename
 			make_default as make,
-			xml_names as to_kebab_case,
+			xml_naming as Kebab_case_lower,
 			element_node_fields as All_fields,
 			New_line as New_line_character
 		redefine
-			make, building_action_table, Transient_fields, new_representations
+			make, building_action_table, new_representations, Kebab_case_lower, Transient_fields
 		end
 
 	EVOLICITY_SERIALIZEABLE
@@ -258,6 +258,11 @@ feature {NONE} -- Constants
 	Element_list: EL_STRING_8_LIST
 		once
 			create Result.make (0)
+		end
+
+	Kebab_case_lower: EL_KEBAB_CASE_TRANSLATER
+		once
+			create Result.make_lower
 		end
 
 	Transient_fields: STRING

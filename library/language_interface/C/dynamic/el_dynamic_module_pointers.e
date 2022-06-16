@@ -32,8 +32,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:14:51 GMT (Monday 1st July 2019)"
-	revision: "13"
+	date: "2022-06-16 9:05:20 GMT (Thursday 16th June 2022)"
+	revision: "14"
 
 class
 	EL_DYNAMIC_MODULE_POINTERS
@@ -41,8 +41,7 @@ class
 inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
-			export_name as export_default,
-			import_name as import_default
+			foreign_naming as eiffel_naming
 		end
 
 	EL_MODULE_EXCEPTION

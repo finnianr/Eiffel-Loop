@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 11:40:20 GMT (Sunday 29th November 2020)"
-	revision: "6"
+	date: "2022-06-16 9:52:18 GMT (Thursday 16th June 2022)"
+	revision: "7"
 
 class
 	PP_PAYMENT_STATUS_ENUM
@@ -19,8 +19,7 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
-			export_name as to_snake_case_title, -- eg. Canceled_Reversal
-			import_name as from_snake_case_upper
+			foreign_naming as Snake_case_title
 		end
 
 create
@@ -65,4 +64,11 @@ feature -- Access
 	voided: NATURAL_8
 		-- This authorization has been voided.
 
+feature {NONE} -- Constants
+
+	Snake_case_title: EL_SNAKE_CASE_TRANSLATER
+		-- eg. Canceled_Reversal <--> canceled_reversal
+		once
+			create Result.make_title
+		end
 end

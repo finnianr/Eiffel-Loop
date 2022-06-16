@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-10 15:58:59 GMT (Sunday 10th November 2019)"
-	revision: "2"
+	date: "2022-06-16 7:53:40 GMT (Thursday 16th June 2022)"
+	revision: "3"
 
 class
 	ID3_FRAME_FIELD_TYPE_ENUM
@@ -15,9 +15,9 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
-			default as default_any,
-			export_name as to_english,
-			import_name as import_default
+			default as default_any
+		redefine
+			foreign_naming
 		end
 
 create
@@ -50,4 +50,10 @@ feature -- Types
 
 	frame_id: NATURAL_8
 
+feature {NONE} -- Constants
+
+	Foreign_naming: EL_ENGLISH_NAME_TRANSLATER
+		once
+			create Result.make
+		end
 end

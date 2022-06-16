@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-05 10:18:30 GMT (Sunday 5th September 2021)"
-	revision: "4"
+	date: "2022-06-16 10:00:26 GMT (Thursday 16th June 2022)"
+	revision: "5"
 
 class
 	FCGI_HEADER_ENUMERATION
@@ -15,8 +15,7 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
-			export_name as to_title_kebab_case,
-			import_name as import_default
+			foreign_naming as Http_header_naming
 		end
 
 create
@@ -48,14 +47,9 @@ feature -- Common non-standard
 
 feature {NONE} -- Implementation
 
-	to_title_kebab_case (name_in: STRING; keeping_ref: BOOLEAN): STRING
-		-- Example: "cache_control" -> "Cache-Control"
-		do
-			Result := empty_name_out
-			Naming.to_title (name_in, Result, '-')
-			if keeping_ref then
-				Result := Result.twin
-			end
+	Http_header_naming: EL_HEADER_NAME_TRANSLATER
+		once
+			create Result.make
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-23 15:33:20 GMT (Wednesday 23rd February 2022)"
-	revision: "23"
+	date: "2022-06-16 13:24:04 GMT (Thursday 16th June 2022)"
+	revision: "24"
 
 class
 	EL_REFLECTED_FIELD_TABLE
@@ -38,16 +38,32 @@ create
 
 feature {NONE} -- Initialization
 
-	make (n: INTEGER)
+	make (n: INTEGER; a_translater: like translater)
 		do
+			translater := a_translater
 			make_equal (n)
 			create last_query.make (0)
+			create imported_table.make (n)
 		end
 
 feature -- Access
 
 	last_query: EL_ARRAYED_LIST [like item]
 		-- results of last query
+
+	type_set: ARRAY [like type_table.item]
+		-- set of types use in table
+		do
+			Result := type_table.linear_representation.to_array
+		end
+
+	type_table: HASH_TABLE [TYPE [ANY], INTEGER]
+		do
+			create Result.make_equal (count)
+			across Current as field loop
+				Result.put (field.item.type, field.item.type_id)
+			end
+		end
 
 	value_name (object: EL_REFLECTIVE; value: ANY): STRING
 		-- field name of reference field identical to object `value'
@@ -74,20 +90,6 @@ feature -- Access
 			end
 		end
 
-	type_set: ARRAY [like type_table.item]
-		-- set of types use in table
-		do
-			Result := type_table.linear_representation.to_array
-		end
-
-	type_table: HASH_TABLE [TYPE [ANY], INTEGER]
-		do
-			create Result.make_equal (count)
-			across Current as field loop
-				Result.put (field.item.type, field.item.type_id)
-			end
-		end
-
 feature -- Basic operations
 
 	query_by_type (type: TYPE [ANY])
@@ -108,21 +110,66 @@ feature -- Basic operations
 
 feature -- Status query
 
-	has_imported (a_name: READABLE_STRING_GENERAL; object: EL_REFLECTIVE): BOOLEAN
-		-- `True' if imported `a_name' is present
+	has_imported_key (foreign_name: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if translated `foreign_name' is present
 		-- If `True' then `found_item' is set to the field
+		do
+			Result := internal_has_imported_key (foreign_name, True)
+		end
+
+	has_imported (foreign_name: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if translated `foreign_name' is present
+		-- If `True' then `found_item' is set to the field
+		do
+			Result := internal_has_imported_key (foreign_name, False)
+		end
+
+feature {NONE} -- Implementation
+
+	internal_has_imported_key (
+		foreign_name: READABLE_STRING_GENERAL; set_found_item: BOOLEAN
+	): BOOLEAN
+		local
+			eiffel_name: STRING
+		do
+			if attached translater and then attached imported_table as table then
+				if not table.has_key (foreign_name) then
+					table.put (new_imported (foreign_name), foreign_name.twin) -- twinning essential
+				end
+				eiffel_name := table.found_item
+			else
+				eiffel_name := Name_buffer.copied_general (foreign_name)
+			end
+			if set_found_item then
+				Result := has_key (eiffel_name)
+			else
+				Result := has (eiffel_name)
+			end
+		end
+
+	new_imported (foreign_name: READABLE_STRING_GENERAL): STRING
 		local
 			name: STRING
 		do
-			if attached {STRING} a_name as name_8 then
-				name := name_8
+			if attached {STRING} foreign_name as str_8 then
+				name := str_8
 			else
-				name := Name_buffer.copied_general (a_name)
+				name := Name_buffer.copied_general (foreign_name)
 			end
-			Result := has_key (object.import_name (name, False))
+			if attached translater as t then
+				Result := t.imported (name)
+			end
+		ensure
+			not_buffer: not Name_buffer.is_same (Result)
 		end
 
 feature {NONE} -- Internal attributes
+
+	imported_table: STRING_TABLE [STRING]
+
+	translater: detachable EL_NAME_TRANSLATER
+
+feature {NONE} -- Constants
 
 	Name_buffer: EL_STRING_8_BUFFER
 		once

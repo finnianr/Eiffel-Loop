@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-28 17:07:22 GMT (Monday 28th December 2020)"
-	revision: "5"
+	date: "2022-06-16 9:04:08 GMT (Thursday 16th June 2022)"
+	revision: "6"
 
 class
 	MY_DRY_CLASS
@@ -20,8 +20,7 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_any_field,
-			export_name as export_default,
-			import_name as import_default
+			foreign_naming as eiffel_naming
 		export
 			{ANY} field_table
 		end

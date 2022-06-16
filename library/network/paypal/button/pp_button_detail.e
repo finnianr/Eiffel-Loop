@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-17 10:51:38 GMT (Monday 17th May 2021)"
-	revision: "11"
+	date: "2022-06-16 9:55:06 GMT (Thursday 16th June 2022)"
+	revision: "12"
 
 class
 	PP_BUTTON_DETAIL
@@ -20,8 +20,7 @@ inherit
 		rename
 			make_default as make,
 			field_included as is_any_field,
-			export_name as export_default,
-			import_name as import_default
+			foreign_naming as eiffel_naming
 		undefine
 			new_representations
 		end

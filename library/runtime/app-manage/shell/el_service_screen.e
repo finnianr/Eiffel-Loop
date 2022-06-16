@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-16 8:23:52 GMT (Monday 16th May 2022)"
-	revision: "5"
+	date: "2022-06-16 10:07:16 GMT (Thursday 16th June 2022)"
+	revision: "6"
 
 class
 	EL_SERVICE_SCREEN
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
 		rename
-			xml_names as export_default
+			xml_naming as eiffel_naming
 		redefine
 			on_context_exit
 		end

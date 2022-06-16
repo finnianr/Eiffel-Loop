@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-30 11:19:50 GMT (Sunday 30th January 2022)"
-	revision: "7"
+	date: "2022-06-16 10:42:27 GMT (Thursday 16th June 2022)"
+	revision: "8"
 
 class
 	VOLUME_INFO
@@ -17,7 +17,7 @@ inherit
 		rename
 			make_default as make,
 			element_node_fields as Empty_set,
-			xml_names as export_default
+			xml_naming as eiffel_naming
 		redefine
 			make
 		end
