@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-14 15:54:08 GMT (Tuesday 14th June 2022)"
-	revision: "49"
+	date: "2022-06-18 16:52:41 GMT (Saturday 18th June 2022)"
+	revision: "50"
 
 class
 	EL_CLASS_META_DATA
@@ -161,12 +161,7 @@ feature {NONE} -- Factory
 			type_id: INTEGER
 		do
 			type_id := field_static_type (index)
-			if type_id = Class_id.EL_CODE_STRING then
-				create {EL_REFLECTED_CODE_STRING} Result.make (enclosing_object, index, name)
-
-			else
-				create {EL_REFLECTED_REFERENCE [ANY]} Result.make (enclosing_object, index, name)
-			end
+			create {EL_REFLECTED_REFERENCE [ANY]} Result.make (enclosing_object, index, name)
 		end
 
 	new_field_factory (type: TYPE [EL_REFLECTED_FIELD]): EL_REFLECTED_FIELD_FACTORY [EL_REFLECTED_FIELD]

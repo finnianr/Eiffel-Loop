@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-14 13:14:15 GMT (Tuesday 14th June 2022)"
-	revision: "19"
+	date: "2022-06-18 16:58:29 GMT (Saturday 18th June 2022)"
+	revision: "20"
 
 class
 	GENERAL_TEST_SET
@@ -35,7 +35,6 @@ feature -- Basic operations
 			eval.call ("math_precision", agent test_math_precision)
 			eval.call ("named_thread", agent test_named_thread)
 			eval.call ("naming", agent test_naming)
-			eval.call ("numeric_code", agent test_numeric_code)
 			eval.call ("reusable_strings", agent test_reusable_strings)
 			eval.call ("reverse_managed_pointer", agent test_reverse_managed_pointer)
 		end
@@ -132,23 +131,6 @@ feature -- Tests
 
 			description := Naming.class_description_from (Current, excluded_words)
 			assert ("expected description", description ~ "General test SET")
-		end
-
-	test_numeric_code
-		local
-			code_string: EL_CODE_STRING; string: STRING
-		do
-			string := "ab"
-			code_string.set (string)
-			assert ("same string", code_string.out ~ string)
-
-			string.multiply (2)
-			code_string.set (string)
-			assert ("same string", code_string.out ~ string)
-
-			string.multiply (2)
-			code_string.set (string)
-			assert ("same string", code_string.out ~ string)
 		end
 
 	test_reusable_strings

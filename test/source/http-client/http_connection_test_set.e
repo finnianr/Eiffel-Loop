@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 7:19:11 GMT (Monday 7th February 2022)"
-	revision: "47"
+	date: "2022-06-18 17:20:23 GMT (Saturday 18th June 2022)"
+	revision: "48"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -241,28 +241,29 @@ feature -- Tests
 		note
 			testing: "covers/{EL_JSON_NAME_VALUE_LIST}.name_item, covers/{EL_JSON_NAME_VALUE_LIST}.name_item",
 				"covers/{EL_IP_ADDRESS_ROUTINES}.to_number, covers/{EL_IP_ADDRESS_ROUTINES}.to_string",
-				"covers/{EL_IP_ADDRESS_INFO_TABLE}.new_info"
+				"covers/{EL_IP_ADDRESS_INFO_TABLE}.new_info",
+				"covers/{EL_CODE_REPRESENTATION}.to_value, covers/{EL_CODE_REPRESENTATION}.to_string"
 		local
 			info: EL_IP_ADDRESS_INFO; ip_number: NATURAL
 		do
 			ip_number := IP_address.to_number (www_eiffel_loop_com)
 			info := Internet_address.item (ip_number)
-			assert ("same asn code", info.asn.same_string ("AS8560"))
+			assert ("same asn code", info.asn_.same_string ("AS8560"))
 			assert ("same location", info.location.same_string ("United Kingdom, England"))
-			assert ("same ip", info.ip ~ Www_eiffel_loop_com)
+			assert ("same ip", info.ip_address ~ Www_eiffel_loop_com)
 			assert ("same area", info.country_area.to_integer_32 = 244820)
-			assert ("same country", info.country.same_string ("GB"))
-			assert ("same country code", info.country_code.same_string ("GB"))
-			assert ("same 3 letter country code", info.country_code_iso3.same_string ("GBR"))
-			assert ("same top level domain", info.country_tld.same_string (".uk"))
-			assert ("same continent", info.continent_code.same_string ("EU"))
-			assert ("same currency", info.currency.same_string ("GBP"))
+			assert ("same country", info.country_.same_string ("GB"))
+			assert ("same country code", info.country_code_.same_string ("GB"))
+			assert ("same 3 letter country code", info.country_code_iso3_.same_string ("GBR"))
+			assert ("same top level domain", info.country_tld_.same_string (".uk"))
+			assert ("same continent", info.continent_code_.same_string ("EU"))
+			assert ("same currency", info.currency_.same_string ("GBP"))
 			assert ("same location", info.location ~ IP_location.item (ip_number))
-			assert ("same region code", info.region_code.same_string ("ENG"))
-			assert ("same version", info.version.same_string ("IPv4"))
+			assert ("same region code", info.region_code_.same_string ("ENG"))
+			assert ("same version", info.version_.same_string ("IPv4"))
 
 			-- `utc_offset' can vary depending if daylight saving is in effect
-			assert ("same UTC offset", ("+0000, +0100").has_substring (info.utc_offset.out))
+			assert ("same UTC offset", ("+0000, +0100").has_substring (info.utc_offset_))
 
 			lio.put_integer_field ("size of info", info.deep_physical_size)
 			lio.put_new_line

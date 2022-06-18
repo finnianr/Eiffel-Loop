@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-24 11:47:00 GMT (Monday 24th May 2021)"
-	revision: "3"
+	date: "2022-06-18 15:45:33 GMT (Saturday 18th June 2022)"
+	revision: "4"
 
 class
 	EL_BOOLEAN_REPRESENTATION [S -> READABLE_STRING_GENERAL]
@@ -42,6 +42,8 @@ feature -- Basic operations
 		do
 			field_definition.append (" -- SPECIAL [" + ({S}).name + "]")
 		end
+
+feature -- Conversion
 
 	to_value (str: READABLE_STRING_GENERAL): BOOLEAN
 		do
