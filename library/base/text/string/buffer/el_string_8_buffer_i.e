@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-14 16:06:46 GMT (Tuesday 14th June 2022)"
-	revision: "4"
+	date: "2022-06-17 14:26:15 GMT (Friday 17th June 2022)"
+	revision: "5"
 
 deferred class
 	EL_STRING_8_BUFFER_I
@@ -24,6 +24,7 @@ feature -- Access
 
 	copied_general (general: READABLE_STRING_GENERAL): STRING
 		require
+			convertable: general.is_valid_as_string_8
 			not_buffer: not is_same (general)
 		do
 			Result := empty
@@ -78,6 +79,15 @@ feature -- Access
 		do
 			Result := buffer
 			Result.wipe_out
+		end
+
+	to_same (general: READABLE_STRING_GENERAL): STRING
+		do
+			if attached {STRING} general as str then
+				Result := str
+			else
+				Result := copied_general (general)
+			end
 		end
 
 feature -- Conversion

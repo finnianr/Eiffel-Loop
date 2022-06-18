@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 9:26:41 GMT (Thursday 16th June 2022)"
-	revision: "42"
+	date: "2022-06-17 14:36:32 GMT (Friday 17th June 2022)"
+	revision: "43"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -50,6 +50,7 @@ feature {EL_CLASS_META_DATA} -- Initialization
 		do
 			make_reflected (a_object)
 			index := a_index; name := a_name
+			translater := a_object.foreign_naming
 			type_id := field_static_type (index)
 			type := Eiffel.type_of_type (type_id)
 		end
@@ -206,9 +207,10 @@ feature -- Element change
 feature {NONE} -- Implementation
 
 	new_export_name: STRING
+		-- factory for lazy attribute 'export_name'
 		do
-			if attached enclosing_object.foreign_naming as naming then
-				Result := naming.exported (name)
+			if attached translater as t then
+				Result := t.exported (name)
 			else
 				Result := name
 			end
@@ -224,6 +226,8 @@ feature {EL_REFLECTION_HANDLER} -- Internal attributes
 
 	enclosing_object: separate EL_REFLECTIVE
 			-- Enclosing object containing `object' or a reference to `object.
+
+	translater: detachable EL_NAME_TRANSLATER
 
 feature {NONE} -- Constants
 

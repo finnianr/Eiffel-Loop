@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 16:43:45 GMT (Tuesday 8th February 2022)"
-	revision: "7"
+	date: "2022-06-16 18:36:57 GMT (Thursday 16th June 2022)"
+	revision: "8"
 
 deferred class
 	EL_MODULE_NAMING
@@ -19,7 +19,7 @@ feature {NONE} -- Constants
 
 	Naming: EL_NAMING_ROUTINES
 		once
-			create Result.make
+			create Result
 		end
 
 end

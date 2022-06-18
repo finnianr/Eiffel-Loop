@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 13:24:04 GMT (Thursday 16th June 2022)"
-	revision: "24"
+	date: "2022-06-17 14:27:30 GMT (Friday 17th June 2022)"
+	revision: "25"
 
 class
 	EL_REFLECTED_FIELD_TABLE
@@ -114,19 +114,19 @@ feature -- Status query
 		-- `True' if translated `foreign_name' is present
 		-- If `True' then `found_item' is set to the field
 		do
-			Result := internal_has_imported_key (foreign_name, True)
+			Result := internal_has_imported (foreign_name, True)
 		end
 
 	has_imported (foreign_name: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if translated `foreign_name' is present
 		-- If `True' then `found_item' is set to the field
 		do
-			Result := internal_has_imported_key (foreign_name, False)
+			Result := internal_has_imported (foreign_name, False)
 		end
 
 feature {NONE} -- Implementation
 
-	internal_has_imported_key (
+	internal_has_imported (
 		foreign_name: READABLE_STRING_GENERAL; set_found_item: BOOLEAN
 	): BOOLEAN
 		local
@@ -148,16 +148,11 @@ feature {NONE} -- Implementation
 		end
 
 	new_imported (foreign_name: READABLE_STRING_GENERAL): STRING
-		local
-			name: STRING
 		do
-			if attached {STRING} foreign_name as str_8 then
-				name := str_8
-			else
-				name := Name_buffer.copied_general (foreign_name)
-			end
 			if attached translater as t then
-				Result := t.imported (name)
+				Result := t.imported (Name_buffer.to_same (foreign_name))
+			else
+				Result := foreign_name.to_string_8
 			end
 		ensure
 			not_buffer: not Name_buffer.is_same (Result)

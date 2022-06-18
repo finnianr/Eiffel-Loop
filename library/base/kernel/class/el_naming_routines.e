@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-15 12:06:07 GMT (Wednesday 15th June 2022)"
-	revision: "29"
+	date: "2022-06-16 18:36:50 GMT (Thursday 16th June 2022)"
+	revision: "30"
 
 class
 	EL_NAMING_ROUTINES
@@ -23,22 +23,17 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
-create
-	make
+feature -- Constants
 
-feature {NONE} -- Initialization
-
-	make
-		do
-			create no_words.make_empty
-			create empty_word_set.make (0)
+	No_words: ARRAY [STRING]
+		once
+			create Result.make_empty
 		end
 
-feature -- Access
-
-	no_words: ARRAY [STRING]
-
-	empty_word_set: EL_HASH_SET [STRING]
+	Empty_word_set: EL_HASH_SET [STRING]
+		once
+			create Result.make (0)
+		end
 
 feature -- Class name derivations
 

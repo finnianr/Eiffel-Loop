@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 13:22:11 GMT (Thursday 16th June 2022)"
-	revision: "52"
+	date: "2022-06-18 9:19:14 GMT (Saturday 18th June 2022)"
+	revision: "53"
 
 deferred class
 	EL_REFLECTIVE
@@ -58,13 +58,15 @@ feature -- Access
 			Result := meta_data.field_list.name_list
 		end
 
+feature -- Measurement
+
 	deep_physical_size: INTEGER
 		-- deep physical size excluding the `field_table' which is shared across objects of
 		-- the same type
 		do
 			Result := Eiffel.physical_size (Current)
 			across field_table as table loop
-				if attached table.item as field then
+				if attached {EL_REFLECTED_REFERENCE [ANY]} table.item as field then
 					Result := Result + field.size_of (Current)
 				end
 			end
@@ -75,6 +77,13 @@ feature {EL_REFLECTION_HANDLER} -- Access
 	field_table: EL_REFLECTED_FIELD_TABLE
 		do
 			Result := meta_data.field_table
+		end
+
+	foreign_naming: detachable EL_NAME_TRANSLATER
+		-- rename to `eiffel_naming' in descendant if the object will not have fields set
+		-- using a foreign attribute naming convention, or else implement foreign naming
+		-- with a descendant of `EL_NAME_TRANSLATER'
+		deferred
 		end
 
 	meta_data: like Meta_data_by_type.item
@@ -184,26 +193,17 @@ feature {NONE} -- Contract Support
 			end
 		end
 
-feature {EL_REFLECTION_HANDLER} -- Implementation
-
-	eiffel_naming: detachable EL_NAME_TRANSLATER
-		-- implement in descendant
-		do
-			Result := Void
-		end
-
-	foreign_naming: detachable EL_NAME_TRANSLATER
-		-- rename to `eiffel_naming' in descendant if the object will not have fields set
-		-- using a foreign attribute naming convention, or else implement foreign naming
-		-- with a descendant of `EL_NAME_TRANSLATER'
-		deferred
-		end
-
 feature {NONE} -- Implementation
 
 	current_object: like Once_current_object
 		do
 			Result := Once_current_object; Result.set_object (Current)
+		end
+
+	eiffel_naming: detachable EL_NAME_TRANSLATER
+		-- implement in descendant
+		do
+			Result := Void
 		end
 
 	fill_field_value_table (value_table: EL_FIELD_VALUE_TABLE [ANY])

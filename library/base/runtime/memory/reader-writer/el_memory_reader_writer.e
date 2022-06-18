@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-16 8:15:51 GMT (Wednesday 16th June 2021)"
-	revision: "23"
+	date: "2022-06-18 8:33:53 GMT (Saturday 18th June 2022)"
+	revision: "24"
 
 class
 	EL_MEMORY_READER_WRITER
@@ -15,7 +15,7 @@ class
 inherit
 	EL_MEMORY_READER_WRITER_IMPLEMENTATION
 		export
-			{EL_STORABLE} set_count, buffer, count
+			{EL_STORABLE_HANDLER} set_count, buffer, count, make_with_buffer
 		end
 
 	EL_MEMORY_STRING_READER_WRITER

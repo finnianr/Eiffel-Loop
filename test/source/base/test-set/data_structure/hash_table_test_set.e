@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-04 10:08:05 GMT (Friday 4th February 2022)"
-	revision: "4"
+	date: "2022-06-18 11:51:38 GMT (Saturday 18th June 2022)"
+	revision: "5"
 
 class
 	HASH_TABLE_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
+
+	JSON_TEST_DATA
 
 	EL_MODULE_LIO
 
@@ -24,12 +26,39 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("compressed_table", agent test_compressed_table)
 			eval.call ("iteration_cursor", agent test_iteration_cursor)
 			eval.call ("readable_string_8_table", agent test_readable_string_8_table)
 			eval.call ("string_table", agent test_string_table)
 		end
 
 feature -- Test
+
+	test_compressed_table
+		local
+			geo_info_table: EL_COMPRESSION_TABLE [EL_IP_ADDRESS_GEOGRAPHIC_INFO, NATURAL]
+			geo_info: EL_IP_ADDRESS_GEOGRAPHIC_INFO; compression_ratio: DOUBLE
+		do
+			create geo_info.make_from_json (JSON_eiffel_loop_ip)
+			create geo_info_table.make (11)
+			geo_info_table.put (geo_info, geo_info.ip)
+			assert ("same object", geo_info = geo_info_table.found_item)
+			compression_ratio := geo_info_table.size_compressed_item / geo_info.deep_physical_size
+			lio.put_integer_field ("Compression ratio", (compression_ratio * 100).rounded); lio.put_string ("%%")
+			lio.put_new_line
+
+			geo_info_table.put (geo_info, geo_info.ip)
+			assert ("same value", geo_info /= geo_info_table.found_item and geo_info ~ geo_info_table.found_item)
+
+			assert ("same value", geo_info ~ geo_info_table.found_item)
+			if geo_info_table.has_key (geo_info.ip) then
+				assert ("same value", geo_info ~ geo_info_table.found_item)
+			else
+				assert ("table has geo_info", False)
+			end
+			geo_info_table.put (geo_info, geo_info.ip)
+			assert ("same value", geo_info ~ geo_info_table.found_item)
+		end
 
 	test_iteration_cursor
 		local

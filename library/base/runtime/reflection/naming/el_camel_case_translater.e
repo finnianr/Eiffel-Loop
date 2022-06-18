@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-15 15:29:53 GMT (Wednesday 15th June 2022)"
-	revision: "1"
+	date: "2022-06-16 18:38:06 GMT (Thursday 16th June 2022)"
+	revision: "2"
 
 class
 	EL_CAMEL_CASE_TRANSLATER
@@ -37,15 +37,15 @@ feature -- Conversion
 			create Result.make (eiffel_name.count)
 			inspect foreign_case
 				when Case_lower then
-					Naming.to_camel_case_lower (eiffel_name, Result)
+					to_camel_case_lower (eiffel_name, Result)
 
 				when Case_upper then
-					Naming.to_camel_case_upper (eiffel_name, Result)
+					to_camel_case_upper (eiffel_name, Result)
 
 				when Case_title then
-					Naming.to_camel_case (eiffel_name, Result, True)
+					to_camel_case (eiffel_name, Result, True)
 			else
-				Naming.to_camel_case (eiffel_name, Result, False)
+				to_camel_case (eiffel_name, Result, False)
 			end
 		end
 
@@ -59,7 +59,7 @@ feature -- Conversion
 					end
 			else
 				Result := Name_buffer.empty
-				Naming.from_camel_case (foreign_name, Result)
+				from_camel_case (foreign_name, Result)
 				Result := Result.twin
 			end
 		end

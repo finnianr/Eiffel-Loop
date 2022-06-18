@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-10 11:21:03 GMT (Monday 10th May 2021)"
-	revision: "7"
+	date: "2022-06-18 7:33:46 GMT (Saturday 18th June 2022)"
+	revision: "8"
 
 deferred class
 	EL_STORABLE
@@ -19,6 +19,8 @@ inherit
 		rename
 			make as make_default
 		end
+
+	EL_STORABLE_HANDLER
 
 feature {EL_STORABLE_HANDLER} -- Initialization
 

@@ -10,14 +10,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 10:37:14 GMT (Thursday 16th June 2022)"
-	revision: "1"
+	date: "2022-06-17 14:22:22 GMT (Friday 17th June 2022)"
+	revision: "2"
 
 deferred class
 	EL_NAME_TRANSLATER
 
 inherit
-	ANY EL_MODULE_NAMING
+	ANY
+
+	EL_NAMING_ROUTINES
+		export
+			{NONE} all
+		end
 
 feature {NONE} -- Initialization
 
@@ -50,16 +55,21 @@ feature -- Conversion
 	exported (eiffel_name: STRING): STRING
 		-- `eiffel_name' exported to a foreign naming convention
 		deferred
+		ensure
+			new_instance: Result /= eiffel_name
 		end
 
 	imported (foreign_name: STRING): STRING
 		-- `foreign_name' translated to Eiffel attribute-naming convention
 		deferred
+		ensure
+			new_instance: Result /= foreign_name
 		end
 
 feature -- Element change
 
 	inform (eiffel_name: STRING)
+		-- useful for camelCase descendant
 		do
 		end
 

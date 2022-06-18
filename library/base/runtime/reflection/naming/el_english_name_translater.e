@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-15 16:34:51 GMT (Wednesday 15th June 2022)"
-	revision: "1"
+	date: "2022-06-16 18:38:13 GMT (Thursday 16th June 2022)"
+	revision: "2"
 
 class
 	EL_ENGLISH_NAME_TRANSLATER
@@ -25,7 +25,7 @@ feature {NONE} -- Initialization
 
 	default_create
 		do
-			uppercase_exception_set := Naming.empty_word_set
+			uppercase_exception_set := empty_word_set
 		end
 
 feature -- Conversion
@@ -36,7 +36,7 @@ feature -- Conversion
 			s: EL_STRING_8_ROUTINES
 		do
 			create Result.make (eiffel_name.count)
-			Naming.to_english (eiffel_name, Result, uppercase_exception_set)
+			to_english (eiffel_name, Result, uppercase_exception_set)
 			inspect foreign_case
 				when Case_lower then
 					Result.to_lower
@@ -49,7 +49,7 @@ feature -- Conversion
 							list.forth
 						end
 					end
-					
+
 				when Case_upper then
 					Result.to_upper
 			else
@@ -64,7 +64,7 @@ feature -- Conversion
 			create Result.make (foreign_name.count)
 			if attached Name_buffer.copied (foreign_name) as name then
 				s.replace_character (name, ' ', '-')
-				Naming.from_kebab_case (name, Result)
+				from_kebab_case (name, Result)
 			end
 		end
 

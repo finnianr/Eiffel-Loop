@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 9:44:02 GMT (Thursday 16th June 2022)"
-	revision: "16"
+	date: "2022-06-16 14:45:54 GMT (Thursday 16th June 2022)"
+	revision: "17"
 
 class
 	EL_HTTP_HEADERS
@@ -186,7 +186,7 @@ feature {NONE} -- Constants
 			create Result.make ("Ddd, dd mmm yyyy hh:[0]mi:[0]ss tzd", 1)
 		end
 
-	Http_header_naming: EL_HEADER_NAME_TRANSLATER
+	Http_header_naming: EL_HTTP_HEADER_NAME_TRANSLATER
 		once
 			create Result.make
 		end

@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-14 15:11:47 GMT (Tuesday 14th June 2022)"
-	revision: "1"
+	date: "2022-06-16 14:45:54 GMT (Thursday 16th June 2022)"
+	revision: "2"
 
 class
-	EL_HEADER_NAME_TRANSLATER
+	EL_HTTP_HEADER_NAME_TRANSLATER
 
 inherit
 	EL_KEBAB_CASE_TRANSLATER
