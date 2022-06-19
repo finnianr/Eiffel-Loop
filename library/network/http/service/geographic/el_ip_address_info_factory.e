@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-07 17:49:37 GMT (Tuesday 7th December 2021)"
-	revision: "2"
+	date: "2022-06-19 8:04:21 GMT (Sunday 19th June 2022)"
+	revision: "3"
 
 deferred class
-	EL_IP_ADDRESS_INFO_FACTORY [G -> EL_IP_ADDRESS_GEOLOCATION create make_default, make_from_json end]
+	EL_IP_ADDRESS_INFO_FACTORY [G -> EL_IP_ADDRESS_GEOLOCATION create make, make_from_json end]
 
 inherit
 	EL_MODULE_EXECUTION_ENVIRONMENT
@@ -37,7 +37,7 @@ feature {NONE} -- Implementation
 			from done := False until done loop
 				Web.read_string_get
 				if Web.has_error then
-					create Result.make_default
+					create Result.make
 					done := True
 
 				elseif Web.last_string.has_substring (Ratelimited) then

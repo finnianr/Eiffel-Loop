@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-07 17:48:43 GMT (Tuesday 7th December 2021)"
-	revision: "2"
+	date: "2022-06-19 9:27:24 GMT (Sunday 19th June 2022)"
+	revision: "3"
 
 deferred class
 	EL_SHARED_IP_ADDRESS_GEOLOCATION
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Constants
 
-	IP_location: EL_IP_ADDRESS_GEOLOCATION_TABLE
+	IP_location_table: EL_IP_ADDRESS_GEOLOCATION_TABLE
 		once
 			create Result.make
 		end

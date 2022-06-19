@@ -1,19 +1,20 @@
 note
 	description: "[
-		Fixed length alpha-numeric code representated by one of:
+		Fixed length alpha-numeric 8-bit codes stored in one of:
 		
-			1. [$source NATURAL_16] (2 bytes)
-			2. [$source NATURAL_32] (4 bytes)
-			3. [$source NATURAL_64] (8 bytes)
+			1. [$source NATURAL_16] (2 byte code string)
+			2. [$source NATURAL_32] (4 byte code string)
+			3. [$source NATURAL_64] (8 byte code string)
 	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-18 17:27:43 GMT (Saturday 18th June 2022)"
-	revision: "1"
+	date: "2022-06-19 10:05:52 GMT (Sunday 19th June 2022)"
+	revision: "2"
 
 deferred class
 	EL_CODE_REPRESENTATION [N -> NUMERIC]
@@ -71,8 +72,15 @@ feature -- Conversion
 
 	to_value (general: READABLE_STRING_GENERAL): N
 		require else
-			valid_size: general.count <= byte_count
+			valid_string: valid_string (general)
 		deferred
+		end
+
+feature -- Contract Support
+
+	valid_string (general: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := general.count <= byte_count
 		end
 
 feature {NONE} -- Implementation
@@ -80,4 +88,14 @@ feature {NONE} -- Implementation
 	memory_copy (area: SPECIAL [CHARACTER]; a_value: like to_value)
 		deferred
 		end
+
+note
+	descendants: "[
+			EL_CODE_REPRESENTATION* [N -> NUMERIC]
+				[$source EL_CODE_16_REPRESENTATION]
+				[$source EL_CODE_32_REPRESENTATION]
+					[$source EL_IP_ADDRESS_REPRESENTATION]
+				[$source EL_CODE_64_REPRESENTATION]
+	]"
+
 end

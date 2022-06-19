@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-04 16:12:23 GMT (Saturday 4th June 2022)"
-	revision: "39"
+	date: "2022-06-19 13:09:29 GMT (Sunday 19th June 2022)"
+	revision: "40"
 
 class
 	EIFFEL_CLASS
@@ -47,7 +47,7 @@ inherit
 
 	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_XML
 
-	SHARED_CLASS_PATH_TABLE
+	SHARED_CLASS_PATH_TABLE; SHARED_ISE_CLASS_TABLE
 
 create
 	make
@@ -275,6 +275,10 @@ feature {NONE} -- Implementation
 			l_name.adjust
 			if Class_path_table.has_class (l_name) then
 				crc.add_path (Class_path_table.found_item)
+
+			elseif ISE_class_table.has_class (l_name) then
+				crc.add_string (ISE_class_table.found_item)
+
 			end
 		end
 

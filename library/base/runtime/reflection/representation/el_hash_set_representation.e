@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-14 10:47:56 GMT (Thursday 14th October 2021)"
-	revision: "3"
+	date: "2022-06-19 10:18:09 GMT (Sunday 19th June 2022)"
+	revision: "4"
 
 class
 	EL_HASH_SET_REPRESENTATION [G -> HASHABLE]
@@ -19,13 +19,18 @@ inherit
 		end
 
 create
-	make
+	make, make_default
 
 feature {NONE} -- Initialization
 
 	make (a_hash_set: like hash_set)
 		do
 			hash_set := a_hash_set
+		end
+
+	make_default
+		do
+			create hash_set.make (11)
 		end
 
 feature -- Basic operations

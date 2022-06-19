@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-26 14:56:32 GMT (Wednesday 26th January 2022)"
-	revision: "11"
+	date: "2022-06-19 9:44:06 GMT (Sunday 19th June 2022)"
+	revision: "12"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -27,7 +27,7 @@ inherit
 
 	EL_MODULE_IP_ADDRESS
 
-	EL_SHARED_IP_ADDRESS_INFO_TABLE
+	EL_SHARED_IP_ADDRESS_GEOLOCATION
 
 create
 	make
@@ -36,7 +36,7 @@ feature {NONE} -- Basic operations
 
 	serve
 		local
-			ip_number: NATURAL; ip_info: like IP_info_table.item
+			ip_number: NATURAL; location_status: like new_location_status
 		do
 			log.enter_no_header ("serve")
 			if request.remote_address_32 = Local_host_address then
@@ -44,21 +44,17 @@ feature {NONE} -- Basic operations
 			else
 				ip_number := request.remote_address_32
 			end
-			if IP_info_table.has_key (ip_number) then
-				ip_info := IP_info_table.found_item
-			else
-				ip_info := [Internet_address.item (ip_number).location, False]
-				IP_info_table.extend (ip_info, ip_number)
-			end
-			log.put_labeled_string (IP_address.to_string (ip_number), ip_info.location)
-			if ip_info.is_blocked then
+			Location_status_table.set_new_item_target (Current)
+			location_status := Location_status_table.item (ip_number)
+			log.put_labeled_string (IP_address.to_string (ip_number), location_status.location)
+			if location_status.is_blocked then
 				log.put_line (" (blocked)")
-				ip_info.is_blocked := False -- Try again to set firewall rule
-			elseif is_hacker_probe (request.relative_path_info.as_lower)then
+				location_status.is_blocked := False -- Try again to set firewall rule
+			elseif is_hacker_probe (request.relative_path_info.as_lower) then
 				log.put_line (" (blocking)")
 				service.config.block (IP_address.to_string (ip_number))
 				Execution_environment.sleep (500) -- Wait half a second for firewall rule to apply
-				ip_info.is_blocked := True
+				location_status.is_blocked := True
 			else
 				log.put_new_line
 			end
@@ -91,6 +87,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	new_location_status (ip: NATURAL): like Location_status_table.item
+		do
+			Result := [IP_location_table.item (ip), False]
+		end
+
 feature {NONE} -- Implementation: attributes
 
 	service: EL_HACKER_INTERCEPT_SERVICE
@@ -102,9 +103,9 @@ feature {NONE} -- Constants
 			Result := ".png"
 		end
 
-	IP_info_table: HASH_TABLE [TUPLE [location: ZSTRING; is_blocked: BOOLEAN], NATURAL]
+	Location_status_table: EL_CACHE_TABLE [TUPLE [location: ZSTRING; is_blocked: BOOLEAN], NATURAL]
 		once
-			create Result.make (70)
+			create Result.make (70, agent new_location_status)
 		end
 
 	Local_host_address: NATURAL = 0x7F_00_00_01

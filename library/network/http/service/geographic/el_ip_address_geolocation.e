@@ -1,6 +1,6 @@
 note
 	description: "[
-		Geographic location information parsed from JSON query `https://ipapi.co/<IP-address>/json'
+		country and region fields parsed from JSON query `https://ipapi.co/<IP-address>/json'
 	]"
 
 	author: "Finnian Reilly"
@@ -8,25 +8,30 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 9:12:36 GMT (Thursday 16th June 2022)"
-	revision: "3"
+	date: "2022-06-19 10:22:50 GMT (Sunday 19th June 2022)"
+	revision: "4"
 
 class
 	EL_IP_ADDRESS_GEOLOCATION
 
 inherit
-	EL_REFLECTIVELY_SETTABLE
+	EL_REFLECTIVELY_SETTABLE_STORABLE
 		rename
-			field_included as is_any_field,
-			foreign_naming as eiffel_naming
+			make_default as make,
+			read_version as read_default_version
+		redefine
+			new_representations
 		end
 
 	EL_SETTABLE_FROM_JSON_STRING
+		rename
+			make_default as make
+		end
 
 	EL_MODULE_EIFFEL
 
 create
-	make_default, make_from_json
+	make, make_from_json
 
 feature -- Access
 
@@ -44,7 +49,26 @@ feature -- API string fields
 	region: ZSTRING
 		-- region name (administrative division)
 
+feature {NONE} -- Implementation
+
+	new_representations: like Default_representations
+		do
+			create Result.make (<<
+				["country_name", Country_representation]
+			>>)
+		end
+
 feature {NONE} -- Constants
+
+	Country_representation: EL_HASH_SET_REPRESENTATION [ZSTRING]
+		once
+			create Result.make_default
+		end
+
+	Field_hash: NATURAL
+		once
+			Result := 4271480229
+		end
 
 	Separator: ZSTRING
 		once

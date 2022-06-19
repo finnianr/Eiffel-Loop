@@ -323,13 +323,13 @@ Some basic math classes for the following:
 Classes providing the following facilities:
 
 
-* Reading and writing arrays of floating-point type [REAL_64](https://www.eiffel.org/files/doc/static/18.01/libraries/base/real_64_chart.html).
+* Reading and writing arrays of floating-point type [REAL_64](https://www.eiffel.org/files/doc/static/trunk/libraries/base/real_64_chart.html).
 * Files that notify a listener of byte-count written and read.
-* A file conforming to [PLAIN_TEXT_FILE](https://www.eiffel.org/files/doc/static/18.01/libraries/base/plain_text_file_chart.html) that implements [EL_OUTPUT_MEDIUM](http://www.eiffel-loop.com/library/base/runtime/io/medium/el_output_medium.html)
+* A file conforming to [PLAIN_TEXT_FILE](https://www.eiffel.org/files/doc/static/trunk/libraries/base/plain_text_file_chart.html) that implements [EL_OUTPUT_MEDIUM](http://www.eiffel-loop.com/library/base/runtime/io/medium/el_output_medium.html)
 * File line source and other abstractions
 
 ## Class Reflection
-Building on the basic ISE reflection mechanisms, this cluster makes possible a very flexible way of exchanging data between Eiffel objects and any structured plaintext format, and also a binary memory block conforming to [EL_MEMORY_READER_WRITER](http://www.eiffel-loop.com/library/base/runtime/memory/reader-writer/el_memory_reader_writer.html) (inherits [SED_MEMORY_READER_WRITER](https://www.eiffel.org/files/doc/static/18.01/libraries/base/sed_memory_reader_writer_chart.html))
+Building on the basic ISE reflection mechanisms, this cluster makes possible a very flexible way of exchanging data between Eiffel objects and any structured plaintext format, and also a binary memory block conforming to [EL_MEMORY_READER_WRITER](http://www.eiffel-loop.com/library/base/runtime/memory/reader-writer/el_memory_reader_writer.html) (inherits [SED_MEMORY_READER_WRITER](https://www.eiffel.org/files/doc/static/trunk/libraries/base/sed_memory_reader_writer_chart.html))
 
 **Key Features**
 
@@ -338,9 +338,9 @@ Building on the basic ISE reflection mechanisms, this cluster makes possible a v
 * Support of automatic initialization of reference types with means of adding adhoc types. (non-void safe compiler)
 * Support for numeric enumerations with reflective assignment from strings and optional mappings to extended descriptions. For example: [EL_PASSPHRASE_ATTRIBUTES_ENUM]($source).
 * Basis for reflective initialization of class attributes from command line arguments. See class [EL_COMMAND_LINE_OPTIONS](http://www.eiffel-loop.com/library/base/runtime/command-line/options/el_command_line_options.html)
-* Support for reading and writing to strings conforming to [STRING_GENERAL](https://www.eiffel.org/files/doc/static/18.01/libraries/base/string_general_chart.html)
+* Support for reading and writing to strings conforming to [STRING_GENERAL](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_general_chart.html)
 * Support for reading from objects conforming to [EL_READABLE](http://www.eiffel-loop.com/library/base/kernel/el_readable.html) and writing to objects conforming to [EL_WRITEABLE](http://www.eiffel-loop.com/library/base/kernel/el_writeable.html)
-* Support for reading writing to instance of [EL_MEMORY_READER_WRITER](http://www.eiffel-loop.com/library/base/runtime/memory/reader-writer/el_memory_reader_writer.html) (inherits [SED_MEMORY_READER_WRITER](https://www.eiffel.org/files/doc/static/18.01/libraries/base/sed_memory_reader_writer_chart.html))
+* Support for reading writing to instance of [EL_MEMORY_READER_WRITER](http://www.eiffel-loop.com/library/base/runtime/memory/reader-writer/el_memory_reader_writer.html) (inherits [SED_MEMORY_READER_WRITER](https://www.eiffel.org/files/doc/static/trunk/libraries/base/sed_memory_reader_writer_chart.html))
 * Support for recursively pretty-printing object data to console (with color highlighting in Linux)
 * Support for sinking field data into object conforming to [EL_DATA_SINKABLE](http://www.eiffel-loop.com/library/base/runtime/memory/el_data_sinkable.html). Useful for creating MD5 or SHA-256 hashes.
 * Flexible way to include and exclude fields stored in field table.
@@ -559,7 +559,7 @@ Widget extensions for the [EiffelVision2](https://www.eiffel.org/resources/libra
 **Drop-down Combo Boxes**
 
 
-* Drop-downs linked to data containers conforming to [FINITE [G](https://www.eiffel.org/files/doc/static/18.01/libraries/base/finite_chart.html)] and initialized with a value of type `G`, and a selection change agent of type [PROCEDURE [G](https://www.eiffel.org/files/doc/static/18.01/libraries/base/procedure_chart.html)]. See class [EL_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/widget/item-list/el_drop_down_box.html)
+* Drop-downs linked to data containers conforming to [FINITE [G](https://www.eiffel.org/files/doc/static/trunk/libraries/base/finite_chart.html)] and initialized with a value of type `G`, and a selection change agent of type [PROCEDURE [G](https://www.eiffel.org/files/doc/static/trunk/libraries/base/procedure_chart.html)]. See class [EL_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/widget/item-list/el_drop_down_box.html)
 * Drop-downs with localized display strings. See class [EL_LOCALE_ZSTRING_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/widget/item-list/el_locale_zstring_drop_down_box.html)
 * Drop downs for months of year specified as integers and displayed with English names and a localized variant [EL_LOCALE_ZSTRING_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/widget/item-list/el_locale_zstring_drop_down_box.html)
 
@@ -793,13 +793,13 @@ The class [EL_SMART_BUILDABLE_FROM_NODE_SCAN](http://www.eiffel-loop.com/library
 
 **INTRODUCTION**
 
-*Eco-DB* is an acronym for **E**iffel **C**HAIN **O**rientated **D**atabase, so called because it allows the extension by inheritance of a container conforming to [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) to assume many of the characteristics of a relational database table. *Eco-DB* leverages many of the facilities of the [reflection cluster](http://www.eiffel-loop.com/library/base/base.reflection.html) from the Eiffel-Loop base library, allowing class attributes to be managed as data table fields.
+*Eco-DB* is an acronym for **E**iffel **C**HAIN **O**rientated **D**atabase, so called because it allows the extension by inheritance of a container conforming to [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) to assume many of the characteristics of a relational database table. *Eco-DB* leverages many of the facilities of the [reflection cluster](http://www.eiffel-loop.com/library/base/base.reflection.html) from the Eiffel-Loop base library, allowing class attributes to be managed as data table fields.
 
 Some of the main features of this database system are as follows:
 
 **1.** Perform the normal database [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) operations.
 
-**2.** Table joins, meaning a field in one [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) table can be used to look up a row-item in another using a hash table index. A supporting feature is the ability to generate indexed primary keys in an automated fashion.
+**2.** Table joins, meaning a field in one [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) table can be used to look up a row-item in another using a hash table index. A supporting feature is the ability to generate indexed primary keys in an automated fashion.
 
 **3.** Option to store data securely using [AES encryption](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard).
 
@@ -807,17 +807,17 @@ Some of the main features of this database system are as follows:
 
 **5.** A simple centralised method to specify which fields should maintain a hash index for fast row look-ups by field value. A caveat is it only useful for unique id fields, like email addresses for examples.
 
-**6.** Powerful Eiffel-orientated query facility that leverages the Eiffel conjunctive, disjunctive and negated keywords. Can also be used with [PREDICATE](https://www.eiffel.org/files/doc/static/18.01/libraries/base/predicate_chart.html) agents.
+**6.** Powerful Eiffel-orientated query facility that leverages the Eiffel conjunctive, disjunctive and negated keywords. Can also be used with [PREDICATE](https://www.eiffel.org/files/doc/static/trunk/libraries/base/predicate_chart.html) agents.
 
-**7.** Leverages a feature of the [reflection cluster](http://www.eiffel-loop.com/library/base/base.reflection.html) to link selected fields of an expanded type to a textual representation, as defined for example by a [DATE](https://www.eiffel.org/files/doc/static/18.01/libraries/time/date_chart.html) or [EL_ENUMERATION [N -> NUMERIC](http://www.eiffel-loop.com/library/base/runtime/reflection/enumeration/el_enumeration.html)] object. This is important when it comes to importing or exporting tables to/from a human readable form, or for setting the fields reflectively from a string based source.
+**7.** Leverages a feature of the [reflection cluster](http://www.eiffel-loop.com/library/base/base.reflection.html) to link selected fields of an expanded type to a textual representation, as defined for example by a [DATE](https://www.eiffel.org/files/doc/static/trunk/libraries/time/date_chart.html) or [EL_ENUMERATION [N -> NUMERIC](http://www.eiffel-loop.com/library/base/runtime/reflection/enumeration/el_enumeration.html)] object. This is important when it comes to importing or exporting tables to/from a human readable form, or for setting the fields reflectively from a string based source.
 
-**8.** Contract support to protect database integrity by the inclusion of a CRC check-sum for each [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) table. This guards against accidental changes of field type, field order, field name or textual representation.
+**8.** Contract support to protect database integrity by the inclusion of a CRC check-sum for each [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) table. This guards against accidental changes of field type, field order, field name or textual representation.
 
 **9.** Facility to export a meta-data record of the precise definition of the persistent data structure as a pseudo-Eiffel class. See for example: [myching.software-meta-data.tar.gz](http://www.eiffel-loop.com/download/myching.software-meta-data.tar.gz)
 
-**10.** Fully automated import/export of [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) tables in either CSV or [Pyxis format](https://www.eiffel.org/node/143) (an XML analogue with superior readability). This can be used as a very safe form of backup allowing data to be re-imported even if the field order has changed. The [Pyxis format](https://www.eiffel.org/node/143) is very compact and readable allowing easy manual inspection of data. The [gedit](https://en.wikipedia.org/wiki/Gedit) text editor has syntax highlighting for this format. See for example: [payment.pyx](http://www.eiffel-loop.com/download/payment.pyx) recording Paypal transactions.
+**10.** Fully automated import/export of [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) tables in either CSV or [Pyxis format](https://www.eiffel.org/node/143) (an XML analogue with superior readability). This can be used as a very safe form of backup allowing data to be re-imported even if the field order has changed. The [Pyxis format](https://www.eiffel.org/node/143) is very compact and readable allowing easy manual inspection of data. The [gedit](https://en.wikipedia.org/wiki/Gedit) text editor has syntax highlighting for this format. See for example: [payment.pyx](http://www.eiffel-loop.com/download/payment.pyx) recording Paypal transactions.
 
-**11.** Unlike a relational database, the data rows of a [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) table do not have to be flat, since class attributes in a store-able item, can themselves be declared to be store-able. For example class [EL_UUID](http://www.eiffel-loop.com/library/base/kernel/identify/uuid/el_uuid.html) (inheriting [UUID](https://www.eiffel.org/files/doc/static/18.01/libraries/uuid/uuid_chart.html)) can be a storable attribute, which itself is reflectively stored as 5 integer attributes of various types.
+**11.** Unlike a relational database, the data rows of a [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) table do not have to be flat, since class attributes in a store-able item, can themselves be declared to be store-able. For example class [EL_UUID](http://www.eiffel-loop.com/library/base/kernel/identify/uuid/el_uuid.html) (inheriting [UUID](https://www.eiffel.org/files/doc/static/trunk/libraries/uuid/uuid_chart.html)) can be a storable attribute, which itself is reflectively stored as 5 integer attributes of various types.
 
 **12.** Application version awareness allows data to be migrated from a data table created by an earlier software version.
 
@@ -835,7 +835,7 @@ See class [ECD_CHAIN](http://www.eiffel-loop.com/library/persistency/database/ec
 
 **2. item level persistence**
 
-Item level, or "incremental persistence" is where the effects of any of the basic [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) operations `(extend/replace/delete**)` are recorded as they happen in a separate editions file. When the chain is loaded during object initialisation, a chain level store is loaded first, and then the stored editions are applied to bring the chain to it's final state.
+Item level, or "incremental persistence" is where the effects of any of the basic [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) operations `(extend/replace/delete**)` are recorded as they happen in a separate editions file. When the chain is loaded during object initialisation, a chain level store is loaded first, and then the stored editions are applied to bring the chain to it's final state.
 
 See class [ECD_RECOVERABLE_CHAIN](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_recoverable_chain.html) for more details.
 
@@ -918,7 +918,7 @@ Being able to assign a unique identifier to each item in a chain is essential to
 
 **QUERY LANGUAGE**
 
-Of course the Eiffel language itself can be used to query any [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) list, but sometimes the meaning of the query is obscured in implementation details. What is needed is a slightly more abstract way of expressing queries that makes the meaning more apparent. This is provided by the class [EL_QUERYABLE_CHAIN](http://www.eiffel-loop.com/library/base/data_structure/list/queryable/el_queryable_chain.html) and it's helper [EL_QUERY_CONDITION_FACTORY](http://www.eiffel-loop.com/library/base/data_structure/list/queryable/el_query_condition_factory.html). The implementing class [ECD_ARRAYED_LIST](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_arrayed_list.html) inherits [EL_QUERYABLE_CHAIN](http://www.eiffel-loop.com/library/base/data_structure/list/queryable/el_queryable_chain.html).
+Of course the Eiffel language itself can be used to query any [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) list, but sometimes the meaning of the query is obscured in implementation details. What is needed is a slightly more abstract way of expressing queries that makes the meaning more apparent. This is provided by the class [EL_QUERYABLE_CHAIN](http://www.eiffel-loop.com/library/base/data_structure/list/queryable/el_queryable_chain.html) and it's helper [EL_QUERY_CONDITION_FACTORY](http://www.eiffel-loop.com/library/base/data_structure/list/queryable/el_query_condition_factory.html). The implementing class [ECD_ARRAYED_LIST](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_arrayed_list.html) inherits [EL_QUERYABLE_CHAIN](http://www.eiffel-loop.com/library/base/data_structure/list/queryable/el_queryable_chain.html).
 
 Conditions can be combined using the logical operators: **and**, **or** and **not** as in this example from class [COLLATE_SONGS_TASK](http://www.eiffel-loop.com/example/manage-mp3/source/rhythmbox/manager/task/manage/collate_songs_task.html) found in project [Eiffel-Loop/example/manage-mp3](http://www.eiffel-loop.com/example/manage-mp3/manage-mp3.html).
 
@@ -982,7 +982,7 @@ See for example: [myching.software-meta-data.tar.gz](http://www.eiffel-loop.com/
 It is important to have a way to backup data that offer some degree of independence from the precise binary data structure for the purpose of replacing data with data from another software version, which may have fields stored in a different order, or types etc. *Eco-DB* supports two export formats:
 
 
-1. **CSV** or Comma Separated Values if the data is flat, i.e. all the fields are basic types and are not compound types conforming to either [EL_STORABLE](http://www.eiffel-loop.com/library/base/persistency/storable/el_storable.html) or  [TUPLE](https://www.eiffel.org/files/doc/static/18.01/libraries/base/tuple_chart.html).
+1. **CSV** or Comma Separated Values if the data is flat, i.e. all the fields are basic types and are not compound types conforming to either [EL_STORABLE](http://www.eiffel-loop.com/library/base/persistency/storable/el_storable.html) or  [TUPLE](https://www.eiffel.org/files/doc/static/trunk/libraries/base/tuple_chart.html).
 
 
 2. [Pyxis format](https://www.eiffel.org/node/143) which is very readable and compact. Shorter fields are grouped together as attributes on separate lines. See for example: [payment.pyx](http://www.eiffel-loop.com/download/payment.pyx) which is a record of Paypal transactions.
@@ -1016,7 +1016,7 @@ A preview of classes which will form the basis of reusable abstractions are as f
 
 **Foot Notes**
 
-** `delete` is a routine from [ECD_CHAIN](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_chain.html) and not from [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html).
+** `delete` is a routine from [ECD_CHAIN](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_chain.html) and not from [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html).
 
 *** We are using the term *join* somewhat loosely and mean only that if you have two chains *CHAIN [A]* and *CHAIN [B]*, you can produce a subchain of *CHAIN [B]* where each *B* item has a matching field value with an item from *CHAIN [A]*.
 ## Kindle Publishing
@@ -1043,7 +1043,7 @@ Class [EL_PYXIS_PARSER](http://www.eiffel-loop.com/library/persistency/pyxis-doc
 ## Eiffel LIST-orientated XML Database
 **Status:** No longer maintained
 
-A simple XML database based on VTD-XML xpath and XML parsing library. Supports transactions and encryption. Any list conforming to [LIST [EL_STORABLE_XML_ELEMENT](https://www.eiffel.org/files/doc/static/18.01/libraries/base/list_chart.html)] can be turned into a database. This library has now been superceded by [Eco-DB.ecf](http://www.eiffel-loop.com/library/Eco-DB.html) which is faster, more powerful and uses a binary format.
+A simple XML database based on VTD-XML xpath and XML parsing library. Supports transactions and encryption. Any list conforming to [LIST [EL_STORABLE_XML_ELEMENT](https://www.eiffel.org/files/doc/static/trunk/libraries/base/list_chart.html)] can be turned into a database. This library has now been superceded by [Eco-DB.ecf](http://www.eiffel-loop.com/library/Eco-DB.html) which is faster, more powerful and uses a binary format.
 ## XML Document Node-scanning and Object Building
 Provides:
 
@@ -1322,7 +1322,7 @@ feature -- Basic operations
 			log.exit
 		end
 ````
-Note that each logged routine must start and finish with a paired call to enter_with_args and exit and that the first argument to enter_with_args matches the name of the routine. The log object maintains a logging call stack. A call to enter_with_args pushes a new routine onto the stack and exit pops the entry. The second argument is of type [ARRAY [ANY](https://www.eiffel.org/files/doc/static/18.01/libraries/base/array_chart.html)] and is used to log any routine arguments. Routine enter_with_args calls the out function from the universal ancestor class `ANY` for each of the array items and lists them each on a separate line as argument (1), argument (2) etc.
+Note that each logged routine must start and finish with a paired call to enter_with_args and exit and that the first argument to enter_with_args matches the name of the routine. The log object maintains a logging call stack. A call to enter_with_args pushes a new routine onto the stack and exit pops the entry. The second argument is of type [ARRAY [ANY](https://www.eiffel.org/files/doc/static/trunk/libraries/base/array_chart.html)] and is used to log any routine arguments. Routine enter_with_args calls the out function from the universal ancestor class `ANY` for each of the array items and lists them each on a separate line as argument (1), argument (2) etc.
 
 **Comment on Java**
 

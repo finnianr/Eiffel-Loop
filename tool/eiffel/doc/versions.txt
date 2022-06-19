@@ -1,3 +1,7 @@
+1.5.1
+* EL_REFLECTIVE.foreign_naming
+* sink ISE $source variable in publisher
+
 1.4.19
 * Simplified EL_WORK_DISTRIBUTER descendants
 

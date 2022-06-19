@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-18 17:20:23 GMT (Saturday 18th June 2022)"
-	revision: "48"
+	date: "2022-06-19 9:28:09 GMT (Sunday 19th June 2022)"
+	revision: "49"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -29,7 +29,7 @@ inherit
 
 	EL_MODULE_IP_ADDRESS
 
-	EL_SHARED_IP_ADDRESS_INFO_TABLE
+	EL_SHARED_GEOGRAPHIC_INFO_TABLE
 
 	EL_SHARED_IP_ADDRESS_GEOLOCATION
 
@@ -244,10 +244,10 @@ feature -- Tests
 				"covers/{EL_IP_ADDRESS_INFO_TABLE}.new_info",
 				"covers/{EL_CODE_REPRESENTATION}.to_value, covers/{EL_CODE_REPRESENTATION}.to_string"
 		local
-			info: EL_IP_ADDRESS_INFO; ip_number: NATURAL
+			info: EL_IP_ADDRESS_GEOGRAPHIC_INFO; ip_number: NATURAL
 		do
 			ip_number := IP_address.to_number (www_eiffel_loop_com)
-			info := Internet_address.item (ip_number)
+			info := Geographic_info_table.item (ip_number)
 			assert ("same asn code", info.asn_.same_string ("AS8560"))
 			assert ("same location", info.location.same_string ("United Kingdom, England"))
 			assert ("same ip", info.ip_address ~ Www_eiffel_loop_com)
@@ -258,7 +258,7 @@ feature -- Tests
 			assert ("same top level domain", info.country_tld_.same_string (".uk"))
 			assert ("same continent", info.continent_code_.same_string ("EU"))
 			assert ("same currency", info.currency_.same_string ("GBP"))
-			assert ("same location", info.location ~ IP_location.item (ip_number))
+			assert ("same location", info.location ~ IP_location_table.item (ip_number))
 			assert ("same region code", info.region_code_.same_string ("ENG"))
 			assert ("same version", info.version_.same_string ("IPv4"))
 

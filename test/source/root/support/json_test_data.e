@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-18 7:41:58 GMT (Saturday 18th June 2022)"
-	revision: "1"
+	date: "2022-06-19 11:58:00 GMT (Sunday 19th June 2022)"
+	revision: "2"
 
 deferred class
 	JSON_TEST_DATA
@@ -19,32 +19,32 @@ feature {NONE} -- Constants
 
 	JSON_eiffel_loop_ip: STRING = "[
 		{
-		    "ip": "77.68.64.12",
-		    "version": "IPv4",
-		    "city": "Kensington",
-		    "region": "England",
-		    "region_code": "ENG",
-		    "country": "GB",
-		    "country_name": "United Kingdom",
-		    "country_code": "GB",
-		    "country_code_iso3": "GBR",
-		    "country_capital": "London",
-		    "country_tld": ".uk",
-		    "continent_code": "EU",
-		    "in_eu": false,
-		    "postal": "SW7",
-		    "latitude": 51.4957,
-		    "longitude": -0.1772,
-		    "timezone": "Europe/London",
-		    "utc_offset": "+0100",
-		    "country_calling_code": "+44",
-		    "currency": "GBP",
-		    "currency_name": "Pound",
-		    "languages": "en-GB,cy-GB,gd",
-		    "country_area": 244820.0,
-		    "country_population": 66488991,
-		    "asn": "AS8560",
-		    "org": "IONOS SE"
+			"ip": "77.68.64.12",
+			"version": "IPv4",
+			"city": "Kensington",
+			"region": "England",
+			"region_code": "ENG",
+			"country": "GB",
+			"country_name": "United Kingdom",
+			"country_code": "GB",
+			"country_code_iso3": "GBR",
+			"country_capital": "London",
+			"country_tld": ".uk",
+			"continent_code": "EU",
+			"in_eu": false,
+			"postal": "SW7",
+			"latitude": 51.4957,
+			"longitude": -0.1772,
+			"timezone": "Europe/London",
+			"utc_offset": "+0100",
+			"country_calling_code": "+44",
+			"currency": "GBP",
+			"currency_name": "Pound",
+			"languages": "en-GB,cy-GB,gd",
+			"country_area": 244820.0,
+			"country_population": 66488991,
+			"asn": "AS8560",
+			"org": "IONOS SE"
 		}
 	]"
 

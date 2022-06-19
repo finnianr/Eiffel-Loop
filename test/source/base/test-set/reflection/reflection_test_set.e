@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 8:49:49 GMT (Thursday 16th June 2022)"
-	revision: "24"
+	date: "2022-06-19 8:48:40 GMT (Sunday 19th June 2022)"
+	revision: "25"
 
 class
 	REFLECTION_TEST_SET
@@ -118,7 +118,7 @@ feature -- Tests
 
 	test_size_reporting
 		local
-			ip_info: EL_IP_ADDRESS_INFO
+			ip_info: EL_IP_ADDRESS_GEOGRAPHIC_INFO
 			code_string: EL_CODE_STRING; n_64: INTEGER_64; l_info: SIZE_TEST
 		do
 			lio.put_integer_field ("size of INTEGER_64", Eiffel.physical_size (n_64))

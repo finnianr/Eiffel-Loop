@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-29 10:48:57 GMT (Monday 29th November 2021)"
-	revision: "6"
+	date: "2022-06-19 10:04:33 GMT (Sunday 19th June 2022)"
+	revision: "7"
 
 class
 	EL_IP_ADDRESS_ROUTINES
@@ -19,6 +19,15 @@ inherit
 		end
 
 	EL_STRING_8_CONSTANTS
+
+feature -- Contract Support
+
+	is_valid (address: STRING): BOOLEAN
+		do
+			if attached address.split ('.') as list and then list.count = 4 then
+				Result := across list as part all part.item.count <= 3 end
+			end
+		end
 
 feature -- Conversion
 

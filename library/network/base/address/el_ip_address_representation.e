@@ -6,16 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-18 11:29:33 GMT (Saturday 18th June 2022)"
-	revision: "1"
+	date: "2022-06-19 10:04:33 GMT (Sunday 19th June 2022)"
+	revision: "2"
 
 class
 	EL_IP_ADDRESS_REPRESENTATION
 
 inherit
-	EL_STRING_REPRESENTATION [NATURAL, STRING]
+	EL_CODE_32_REPRESENTATION
 		rename
 			item as address_string
+		redefine
+			append_comment, to_string, to_value, valid_string
 		end
 
 	EL_MODULE_IP_ADDRESS
@@ -25,18 +27,16 @@ inherit
 create
 	make
 
-feature {NONE} -- Initialization
-
-	make
-		do
-			address_string := Empty_string_8
-		end
-
-feature -- Access
+feature -- Conversion
 
 	to_string (a_value: NATURAL): STRING
 		do
 			Result := Ip_address.to_string (a_value)
+		end
+
+	to_value (str: READABLE_STRING_GENERAL): NATURAL
+		do
+			Result := Ip_address.to_number (Buffer_8.to_same (str))
 		end
 
 feature -- Basic operations
@@ -47,9 +47,10 @@ feature -- Basic operations
 			field_definition.append (once " -- IP 4 address as NATURAL_32")
 		end
 
-	to_value (str: READABLE_STRING_GENERAL): NATURAL
-		do
-			Result := Ip_address.to_number (Buffer_8.to_same (str))
-		end
+feature -- Contract Support
 
+	valid_string (general: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := Ip_address.is_valid (Buffer_8.to_same (general))
+		end
 end

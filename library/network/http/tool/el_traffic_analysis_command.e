@@ -7,15 +7,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:37:42 GMT (Tuesday 8th February 2022)"
-	revision: "14"
+	date: "2022-06-19 9:31:17 GMT (Sunday 19th June 2022)"
+	revision: "15"
 
 class
 	EL_TRAFFIC_ANALYSIS_COMMAND
 
 inherit
 	EL_APPLICATION_COMMAND
-	
+
 	EL_WEB_LOG_PARSER_COMMAND
 		rename
 			make as make_parser
@@ -55,13 +55,13 @@ feature -- Basic operations
 			Precursor
 			-- Cache locations
 			lio.put_line ("Getting IP address locations:")
-			IP_location.set_log (Lio)
+			IP_location_table.set_log (Lio)
 			across human_entry_list as entry loop
 				if across config.page_list as page some entry.item.request_uri.starts_with (page.item) end then
-					call (IP_location.item (entry.item.ip_address))
+					call (IP_location_table.item (entry.item.ip_address))
 				end
 			end
-			IP_location.set_log (Void)
+			IP_location_table.set_log (Void)
 			lio.put_new_line_x2
 
 			lio.put_line ("WEB CRAWLERS")
@@ -139,7 +139,7 @@ feature {NONE} -- Implementation
 				lio.put_new_line
 				create location_table.make (page.item.count)
 				across page.item as ip loop
-					location_table.put (IP_location.item (ip.item))
+					location_table.put (IP_location_table.item (ip.item))
 				end
 				across location_table.as_sorted_list (False) as map loop
 					lio.tab_right
