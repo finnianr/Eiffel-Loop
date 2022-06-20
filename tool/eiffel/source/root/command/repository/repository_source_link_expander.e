@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-04 15:38:59 GMT (Saturday 4th June 2022)"
-	revision: "18"
+	date: "2022-06-19 14:19:35 GMT (Sunday 19th June 2022)"
+	revision: "19"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -58,12 +58,18 @@ feature -- Access
 feature -- Basic operations
 
 	execute
+		local
+			line: ZSTRING
 		do
 			log_cpu_percentage
 
-			if attached open (expanded_file_path, Write) as file_out then
-				open_lines (file_path, Utf_8).do_all (agent expand_links (?, file_out))
-				file_out.close
+			from create line.make_empty until line.same_string ("quit") loop
+				if attached open (expanded_file_path, Write) as file_out then
+					open_lines (file_path, Utf_8).do_all (agent expand_links (?, file_out))
+					file_out.close
+				end
+				line := User_input.line ("Press <Enter> to update (or quit)")
+				line.to_lower
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 9:03:10 GMT (Thursday 16th June 2022)"
-	revision: "7"
+	date: "2022-06-20 9:45:38 GMT (Monday 20th June 2022)"
+	revision: "8"
 
 class
 	JSON_CURRENCY

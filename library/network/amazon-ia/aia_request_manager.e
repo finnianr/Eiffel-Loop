@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-22 16:21:00 GMT (Wednesday 22nd January 2020)"
-	revision: "9"
+	date: "2022-06-20 9:36:56 GMT (Monday 20th June 2022)"
+	revision: "10"
 
 class
 	AIA_REQUEST_MANAGER
@@ -65,7 +65,7 @@ feature -- Basic operations
 				if request_table.has_key (operation.name) then
 					request := request_table.found_item
 					request.wipe_out
-					request.set_from_json (operation.json_list)
+					request.set_from_json_list (operation.json_list)
 					Result := request.response
 				else
 					template := "not request_table.has (%"%S%")"

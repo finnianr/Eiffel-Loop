@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 9:33:05 GMT (Thursday 16th June 2022)"
-	revision: "14"
+	date: "2022-06-20 9:36:56 GMT (Monday 20th June 2022)"
+	revision: "15"
 
 deferred class
 	AIA_REQUEST
@@ -34,7 +34,7 @@ inherit
 	EL_SETTABLE_FROM_JSON_STRING
 		export
 			{NONE} all
-			{AIA_REQUEST_MANAGER} set_from_json
+			{AIA_REQUEST_MANAGER} set_from_json_list
 		end
 
 	AIA_SHARED_ENUMERATIONS

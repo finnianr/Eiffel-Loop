@@ -25,7 +25,7 @@ See: [https://sourceforge.net/p/pfhp/PF_HP-mt Sourceforge repository PF_HP-mt]
 	</description>
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
-		<version major = "2" minor = "0" release = "0" build = "133" company = "Leder" product = "PF_HP" copyright = "Finnian Reilly &amp; Gerrit Leder"/>
+		<version major = "2" minor = "0" release = "0" build = "133" company = "Eiffel-Loop" product = "PF_HP" copyright = "Finnian Reilly &amp; Gerrit Leder"/>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<debug name = "pyxis" enabled = "false"/>
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "false"/>

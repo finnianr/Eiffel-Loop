@@ -34,7 +34,7 @@ system:
 			class = APPLICATION_ROOT; feature = make
 		version:
 			major = 2; minor = 0; release = 0; build = 133
-			company = "Leder"; product = "PF_HP"
+			company = "Eiffel-Loop"; product = "PF_HP"
 			copyright = "Finnian Reilly & Gerrit Leder"
 
 		option: 

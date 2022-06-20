@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-19 9:28:09 GMT (Sunday 19th June 2022)"
-	revision: "49"
+	date: "2022-06-20 12:09:07 GMT (Monday 20th June 2022)"
+	revision: "50"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -239,7 +239,7 @@ feature -- Tests
 
 	test_ip_address_info
 		note
-			testing: "covers/{EL_JSON_NAME_VALUE_LIST}.name_item, covers/{EL_JSON_NAME_VALUE_LIST}.name_item",
+			testing: "covers/{EL_SETTABLE_FROM_JSON_STRING}.set_from_json",
 				"covers/{EL_IP_ADDRESS_ROUTINES}.to_number, covers/{EL_IP_ADDRESS_ROUTINES}.to_string",
 				"covers/{EL_IP_ADDRESS_INFO_TABLE}.new_info",
 				"covers/{EL_CODE_REPRESENTATION}.to_value, covers/{EL_CODE_REPRESENTATION}.to_string"

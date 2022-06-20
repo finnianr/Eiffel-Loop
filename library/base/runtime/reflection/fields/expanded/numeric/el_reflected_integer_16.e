@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-17 12:58:18 GMT (Sunday 17th October 2021)"
-	revision: "19"
+	date: "2022-06-20 11:30:39 GMT (Monday 20th June 2022)"
+	revision: "20"
 
 class
 	EL_REFLECTED_INTEGER_16
 
 inherit
-	EL_REFLECTED_NUMERIC_FIELD [INTEGER_16]
+	EL_REFLECTED_INTEGER_FIELD [INTEGER_16]
 		rename
 			field_value as integer_16_field
 		end
@@ -42,14 +42,19 @@ feature -- Basic operations
 			set_integer_16_field (index, a_value)
 		end
 
-	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
+	set_from_double (a_object: EL_REFLECTIVE; a_value: DOUBLE)
 		do
-			set (a_object, readable.read_integer_16)
+			set (a_object, a_value.rounded.to_integer_16)
 		end
 
 	set_from_integer (a_object: EL_REFLECTIVE; a_value: INTEGER)
 		do
 			set (a_object, a_value.to_integer_16)
+		end
+
+	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
+		do
+			set (a_object, readable.read_integer_16)
 		end
 
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)

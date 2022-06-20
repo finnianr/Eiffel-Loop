@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-17 14:26:15 GMT (Friday 17th June 2022)"
-	revision: "5"
+	date: "2022-06-20 10:16:29 GMT (Monday 20th June 2022)"
+	revision: "6"
 
 deferred class
 	EL_STRING_8_BUFFER_I
@@ -79,6 +79,16 @@ feature -- Access
 		do
 			Result := buffer
 			Result.wipe_out
+		end
+
+	quoted (str_8: STRING; quote_character: CHARACTER): STRING
+		require
+			not_buffer: not is_same (str_8)
+		do
+			Result := empty
+			Result.append_character (quote_character)
+			Result.append (str_8)
+			Result.append_character (quote_character)
 		end
 
 	to_same (general: READABLE_STRING_GENERAL): STRING

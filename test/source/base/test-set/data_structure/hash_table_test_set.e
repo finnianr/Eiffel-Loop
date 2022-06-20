@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-19 8:48:40 GMT (Sunday 19th June 2022)"
-	revision: "6"
+	date: "2022-06-20 12:16:39 GMT (Monday 20th June 2022)"
+	revision: "7"
 
 class
 	HASH_TABLE_TEST_SET
@@ -35,11 +35,15 @@ feature -- Basic operations
 feature -- Test
 
 	test_compressed_table
+		note
+			testing: "covers/{EL_SETTABLE_FROM_JSON_STRING}.set_from_json"
 		local
 			geo_info_table: EL_COMPRESSION_TABLE [EL_IP_ADDRESS_GEOGRAPHIC_INFO, NATURAL]
 			geo_info: EL_IP_ADDRESS_GEOGRAPHIC_INFO; compression_ratio: DOUBLE
 		do
 			create geo_info.make_from_json (JSON_eiffel_loop_ip)
+			assert ("country_area rounded up", geo_info.country_area = 244821) -- 244820.6
+
 			create geo_info_table.make (11)
 			geo_info_table.put (geo_info, geo_info.ip)
 			assert ("same object", geo_info = geo_info_table.found_item)

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-19 11:58:00 GMT (Sunday 19th June 2022)"
-	revision: "2"
+	date: "2022-06-20 12:15:06 GMT (Monday 20th June 2022)"
+	revision: "3"
 
 deferred class
 	JSON_TEST_DATA
@@ -41,7 +41,7 @@ feature {NONE} -- Constants
 			"currency": "GBP",
 			"currency_name": "Pound",
 			"languages": "en-GB,cy-GB,gd",
-			"country_area": 244820.0,
+			"country_area": 244820.6,
 			"country_population": 66488991,
 			"asn": "AS8560",
 			"org": "IONOS SE"

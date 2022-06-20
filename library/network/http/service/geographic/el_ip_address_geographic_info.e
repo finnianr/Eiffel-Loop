@@ -7,8 +7,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-19 12:19:25 GMT (Sunday 19th June 2022)"
-	revision: "7"
+	date: "2022-06-20 11:50:25 GMT (Monday 20th June 2022)"
+	revision: "8"
 
 class
 	EL_IP_ADDRESS_GEOGRAPHIC_INFO
@@ -16,7 +16,7 @@ class
 inherit
 	EL_IP_ADDRESS_GEOLOCATION
 		redefine
-			Field_hash, new_representations, set_json_field
+			Field_hash, new_representations
 		end
 
 	EL_SHARED_CODE_REPRESENTATIONS
@@ -210,16 +210,6 @@ feature {NONE} -- Implementation
 				["version", Code_32_representation]
 		end
 
-	set_json_field (field: EL_REFLECTED_FIELD; json_value: ZSTRING)
-		-- Trim decimal point for `country_area' and `country_population'
-		do
-			if Natural_fields.has (field.index) then
-				Precursor (field, json_value.substring_to ('.', Default_pointer))
-			else
-				Precursor (field, json_value)
-			end
-		end
-
 feature {NONE} -- Constants
 
 	Field_hash: NATURAL = 449045943
@@ -227,11 +217,6 @@ feature {NONE} -- Constants
 	Ip_address_representation: EL_IP_ADDRESS_REPRESENTATION
 		do
 			create Result.make
-		end
-
-	Natural_fields: EL_FIELD_INDICES_SET
-		once
-			Result := new_field_indices_set ("country_area, country_population")
 		end
 
 note

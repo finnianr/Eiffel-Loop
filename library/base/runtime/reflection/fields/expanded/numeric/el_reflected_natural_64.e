@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-17 12:56:34 GMT (Sunday 17th October 2021)"
-	revision: "18"
+	date: "2022-06-20 11:45:14 GMT (Monday 20th June 2022)"
+	revision: "19"
 
 class
 	EL_REFLECTED_NATURAL_64
 
 inherit
-	EL_REFLECTED_NUMERIC_FIELD [NATURAL_64]
+	EL_REFLECTED_INTEGER_FIELD [NATURAL_64]
 		rename
 			field_value as natural_64_field
 		end
@@ -40,6 +40,11 @@ feature -- Basic operations
 		do
 			enclosing_object := a_object
 			set_natural_64_field (index, a_value)
+		end
+
+	set_from_double (a_object: EL_REFLECTIVE; a_value: DOUBLE)
+		do
+			set (a_object, a_value.truncated_to_integer_64.to_natural_64)
 		end
 
 	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)

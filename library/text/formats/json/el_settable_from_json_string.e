@@ -24,42 +24,43 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 9:29:13 GMT (Thursday 16th June 2022)"
-	revision: "26"
+	date: "2022-06-20 13:56:49 GMT (Monday 20th June 2022)"
+	revision: "27"
 
 deferred class
 	EL_SETTABLE_FROM_JSON_STRING
 
 inherit
-	EL_SETTABLE_FROM_ZSTRING
+	EL_REFLECTIVE_I undefine is_equal end
 
-	EL_REFLECTION_HANDLER
-		undefine
-			is_equal
-		end
+	EL_REFLECTION_HANDLER undefine is_equal end
 
 	EL_MODULE_REUSEABLE
 
 	EL_MODULE_NAMING
 
-	EL_MODULE_TUPLE
+	EL_JSON_CONSTANTS
 
 feature {NONE} -- Initialization
 
 	make_from_json (utf_8: STRING)
 		do
 			make_default
-			set_from_json (create {EL_JSON_NAME_VALUE_LIST}.make (utf_8))
+			set_from_json (utf_8)
+		end
+
+	make_default
+		deferred
 		end
 
 feature -- Access
 
 	as_json: ZSTRING
 		local
-			str: ZSTRING
+			str, value: ZSTRING
 		do
-			across Reuseable.string as reuse loop
-				str := reuse.item
+			across Reuseable.string_pool as pool loop
+				str := pool.borrowed_item; value := pool.borrowed_item
 				str.append (JSON.open_bracket)
 				across field_table as table loop
 					if not table.is_first then
@@ -69,9 +70,11 @@ feature -- Access
 					str.append_string_general (table.item.export_name)
 					str.append (JSON.after_name)
 					if is_field_text (table.item) then
-						str.append_character ('"')
-						str.append (Escaper.escaped (field_string (table.item), False))
-						str.append_character ('"')
+						value.wipe_out
+						table.item.append_to_string (current_reflective, value)
+						value.escape (Escaper)
+
+						str.append_character ('"') ;str.append (value);  str.append_character ('"')
 					else
 						table.item.append_to_string (current_reflective, str)
 					end
@@ -83,24 +86,68 @@ feature -- Access
 
 feature -- Element change
 
-	set_from_json (json_list: EL_JSON_NAME_VALUE_LIST)
-		local
-			table: like field_table
+	set_from_json (utf_8_json: STRING)
 		do
-			table := field_table
-			from json_list.start until json_list.after loop
-				if table.has_imported_key (json_list.name_item_8 (False)) then
-					set_json_field (table.found_item, json_list.value_item (True))
+			across Reuseable.string_8 as reuse_8 loop
+				across Reuseable.string as reuse loop
+					internal_set_from_json (utf_8_json, reuse_8.item, reuse.item)
 				end
-				json_list.forth
+			end
+		end
+
+	set_from_json_list (json_list: EL_JSON_NAME_VALUE_LIST)
+		do
+			if attached field_table as table then
+				from json_list.start until json_list.after loop
+					if table.has_imported_key (json_list.name_item_8 (False)) then
+						table.found_item.set_from_string (current_reflective, json_list.value_item (True))
+					end
+					json_list.forth
+				end
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	set_json_field (field: EL_REFLECTED_FIELD; json_value: ZSTRING)
+	internal_set_from_json (utf_8_json, utf_8_value: STRING; value: ZSTRING)
+		-- random access setting of object field corresponding to JSON field
+		local
+			quoted_name: STRING; name_index, start_index, end_index, right_index: INTEGER;
+			s: EL_STRING_8_ROUTINES
 		do
-			field.set_from_string (current_reflective, json_value)
+			across field_table as table loop
+--				Search JSON text for each exported field name in quotes
+				quoted_name := Name_buffer.quoted (table.item.export_name, '"')
+				name_index := utf_8_json.substring_index (quoted_name, 1)
+				if name_index > 0 then
+					right_index := name_index + quoted_name.count
+					start_index := utf_8_json.index_of (':', right_index)
+--					if there is a colon within 2 characters to the right of field name
+					if start_index >= right_index and start_index <= right_index + 1 then
+						start_index := start_index + 1
+						end_index := utf_8_json.index_of ('%N', start_index)
+						if end_index = 0 then
+							end_index := utf_8_json.count
+						end
+						utf_8_value.wipe_out; utf_8_value.append_substring (utf_8_json, start_index, end_index)
+						utf_8_value.adjust; utf_8_value.prune_all_trailing (',')
+						s.remove_double_quote (utf_8_value)
+
+						if not utf_8_value.has ('\') and then s.is_ascii (utf_8_value) then
+							if attached {EL_REFLECTED_STRING_8} table.item as str_8_field then
+								str_8_field.set (current_reflective, utf_8_value.twin)
+							else
+								table.item.set_from_string (current_reflective, utf_8_value)
+							end
+						else
+--							Has either a JSON escape sequence or UTF-8 sequence
+							value.wipe_out; value.append_utf_8 (utf_8_value)
+							value.unescape (Unescaper)
+							table.item.set_from_string (current_reflective, value)
+						end
+					end
+				end
+			end
 		end
 
 	is_field_text (field: EL_REFLECTED_FIELD): BOOLEAN
@@ -115,16 +162,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Escaper: EL_JSON_VALUE_ESCAPER
-		once
-			create Result.make
-		end
-
-	JSON: TUPLE [open_bracket, close_bracket, before_name, after_name, comma_new_line: ZSTRING]
+	Name_buffer: EL_STRING_8_BUFFER
 		once
 			create Result
-			Tuple.fill_adjusted (Result, "{%N,%N},%T%",%": ,%N", False)
-			Result.comma_new_line.insert_character (',', 1)
 		end
 
 end

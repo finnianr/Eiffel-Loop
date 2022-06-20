@@ -1,13 +1,13 @@
 note
-	description: "Json unescaper"
+	description: "JSON unescaper"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 14:50:41 GMT (Sunday 3rd January 2021)"
-	revision: "5"
+	date: "2022-06-20 11:06:06 GMT (Monday 20th June 2022)"
+	revision: "6"
 
 class
 	EL_JSON_UNESCAPER

@@ -11,8 +11,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 13:05:03 GMT (Sunday 19th December 2021)"
-	revision: "12"
+	date: "2022-06-20 10:55:35 GMT (Monday 20th June 2022)"
+	revision: "13"
 
 class
 	EL_JSON_NAME_VALUE_LIST
@@ -22,6 +22,8 @@ inherit
 		redefine
 			off
 		end
+
+	EL_JSON_CONSTANTS
 
 create
 	make
@@ -167,11 +169,6 @@ feature {NONE} -- Constants
 	Buffer_latin_1: EL_STRING_8_BUFFER
 		once
 			create Result
-		end
-
-	Unescaper: EL_JSON_UNESCAPER
-		once
-			create Result.make
 		end
 
 note

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-18 7:41:21 GMT (Saturday 18th June 2022)"
-	revision: "16"
+	date: "2022-06-20 12:15:14 GMT (Monday 20th June 2022)"
+	revision: "17"
 
 class
 	JSON_PARSING_TEST_SET
@@ -24,27 +24,13 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("parse", agent test_parse)
-			eval.call ("conversion", agent test_conversion)
+			eval.call ("json_reflection_1", agent test_json_reflection_1)
 			eval.call ("json_intervals_object", agent test_json_intervals_object)
-			eval.call ("json_reflection", agent test_json_reflection)
+			eval.call ("json_reflection_3", agent test_json_reflection_3)
+			eval.call ("parse", agent test_parse)
 		end
 
 feature -- Tests
-
-	test_conversion
-		local
-			person: PERSON
-		do
-			create person.make_from_json (JSON_person.to_utf_8 (True))
-
-			assert ("Correct name", person.name.same_string ("John Smith"))
-			assert ("Correct city", person.city.same_string ("New York"))
-			assert ("Correct age", person.age = 45)
-			assert ("Correct gender", person.gender = '♂')
-
-			assert ("same JSON", JSON_person ~ person.as_json)
-		end
 
 	test_json_intervals_object
 		note
@@ -62,7 +48,7 @@ feature -- Tests
 			assert ("same country_name", meta_data.country_name.same_string ("United Kingdom"))
 			assert ("same region", meta_data.region.same_string ("England"))
 
-			assert ("same country_area", meta_data.country_area = 244820.0)
+			assert ("same country_area", meta_data.country_area = 244820.6)
 			assert ("same country_population", meta_data.country_population = 66488991)
 			assert ("same latitude", meta_data.latitude = 51.4957)
 			assert ("same longitude", meta_data.longitude = -0.1772)
@@ -73,7 +59,26 @@ feature -- Tests
 			meta_data.print_memory (lio)
 		end
 
-	test_json_reflection
+	test_json_reflection_1
+		note
+			testing: "covers/{EL_SETTABLE_FROM_JSON_STRING}.set_from_json"
+		local
+			person: PERSON
+		do
+			create person.make_from_json (JSON_person.to_utf_8 (True))
+
+			assert ("Correct name", person.name.same_string ("John Smith"))
+			assert ("Correct city", person.city.same_string ("New York"))
+			assert ("Correct age", person.age = 45)
+			assert ("Correct gender", person.gender = '♂')
+
+			assert ("same JSON", JSON_person ~ person.as_json)
+		end
+
+	test_json_reflection_3
+		note
+			testing: "covers/{EL_SETTABLE_FROM_JSON_STRING}.set_from_json",
+				"covers/{EL_REFLECTED_INTEGER_FIELD}.set_from_double"
 		local
 			currency, euro: JSON_CURRENCY
 		do
@@ -83,6 +88,8 @@ feature -- Tests
 		end
 
 	test_parse
+		note
+			testing: "covers/{EL_JSON_NAME_VALUE_LIST}.make"
 		local
 			list: EL_JSON_NAME_VALUE_LIST
 		do
