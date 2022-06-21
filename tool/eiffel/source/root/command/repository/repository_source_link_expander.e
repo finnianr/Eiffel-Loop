@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-19 14:19:35 GMT (Sunday 19th June 2022)"
-	revision: "19"
+	date: "2022-06-20 14:19:38 GMT (Monday 20th June 2022)"
+	revision: "20"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -63,13 +63,12 @@ feature -- Basic operations
 		do
 			log_cpu_percentage
 
-			from create line.make_empty until line.same_string ("quit") loop
+			from create line.make_empty until line.same_string (Quit) loop
 				if attached open (expanded_file_path, Write) as file_out then
 					open_lines (file_path, Utf_8).do_all (agent expand_links (?, file_out))
 					file_out.close
 				end
-				line := User_input.line ("Press <Enter> to update (or quit)")
-				line.to_lower
+				line := user_response
 			end
 		end
 
@@ -121,11 +120,19 @@ feature {NONE} -- Implementation
 			file_out.put_string (link_text)
 		end
 
+	user_response: STRING
+		do
+			Result := User_input.line ("Press <Enter> to update (or quit)")
+			Result.to_lower
+		end
+
 feature {NONE} -- Internal attributes
 
 	file_path: FILE_PATH
 
 feature {NONE} -- Constants
+
+	Quit: STRING = "quit"
 
 	Triple_space: ZSTRING
 		once

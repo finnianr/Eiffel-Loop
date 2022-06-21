@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 10:08:55 GMT (Thursday 16th June 2022)"
-	revision: "3"
+	date: "2022-06-21 8:28:19 GMT (Tuesday 21st June 2022)"
+	revision: "4"
 
 class
 	EL_WAYBACK_CLOSEST
@@ -37,7 +37,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_SETTABLE_FROM_JSON_STRING
+	EL_JSON_SETTABLE_FROM_STRING
 		rename
 			make_from_json as make
 		export

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 9:03:25 GMT (Thursday 16th June 2022)"
-	revision: "3"
+	date: "2022-06-21 8:27:40 GMT (Tuesday 21st June 2022)"
+	revision: "4"
 
 class
 	PERSON
@@ -19,7 +19,7 @@ inherit
 			foreign_naming as eiffel_naming
 		end
 
-	EL_SETTABLE_FROM_JSON_STRING
+	EL_JSON_SETTABLE_FROM_STRING
 
 create
 	make_default, make_from_json

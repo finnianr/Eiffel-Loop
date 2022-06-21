@@ -11,16 +11,17 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-20 10:55:35 GMT (Monday 20th June 2022)"
-	revision: "13"
+	date: "2022-06-21 13:46:12 GMT (Tuesday 21st June 2022)"
+	revision: "14"
 
 class
 	EL_JSON_NAME_VALUE_LIST
 
 inherit
-	LINEAR [TUPLE [name, value: ZSTRING]]
-		redefine
-			off
+	EL_JSON_FIELD_NAME_INTERVALS
+		export
+			{NONE} all
+			{ANY} go_i_th, start, forth, after, off, count, index, valid_index
 		end
 
 	EL_JSON_CONSTANTS
@@ -28,145 +29,43 @@ inherit
 create
 	make
 
-feature {NONE} -- Initialization
-
-	make (utf_8: STRING)
-		require
-			new_line_delimited: utf_8.has ('%N')
-		local
-			pos_colon: INTEGER
-		do
-			create split_list.make (create {ZSTRING}.make_from_utf_8 (utf_8), '%N')
-			from split_list.start until split_list.after loop
-				if attached split_list.item as line then
-					pos_colon := line.index_of (':', 1)
-					if pos_colon > 0 and then line.last_index_of ('"', pos_colon) > 0 then
-						split_list.forth
-					else
-						split_list.remove
-					end
-				end
-			end
-			count := split_list.count
-		end
-
-feature -- Access
-
-	count: INTEGER
-
-	index: INTEGER
-
 feature -- Iteration items
 
-	item: like item_for_iteration
+	name_item (keep_ref: BOOLEAN): STRING
+		require
+			valid_item: not off
 		do
-			Result := [name_item (True), value_item (True)]
-		end
-
-	name_item (keep_ref: BOOLEAN): ZSTRING
-		local
-			line: ZSTRING; pos_colon, pos_quote_end, pos_quote_start: INTEGER
-		do
-			Result := Buffer.empty
-			split_list.go_i_th (index)
-			line := split_list.item
-			pos_colon := line.index_of (':', 1)
-			if pos_colon > 0 then
-				pos_quote_end := line.last_index_of ('"', pos_colon)
-				pos_quote_start := line.index_of ('"', 1)
-				if pos_quote_start > 0 and then pos_quote_start < pos_quote_end then
-					Result.append_substring (line, pos_quote_start + 1, pos_quote_end - 1)
-					Result.unescape (Unescaper)
-				end
-			end
-			if keep_ref then
-				Result := Result.twin
-			end
-		end
-
-	name_item_8 (keep_ref: BOOLEAN): STRING
-		do
-			Result := Buffer_latin_1.copied_general (name_item (False))
+			Result := item_name
 			if keep_ref then
 				Result := Result.twin
 			end
 		end
 
 	value_item (keep_ref: BOOLEAN): ZSTRING
-		-- append item value to `str'
-		local
-			line: ZSTRING; pos_colon, pos_quote: INTEGER
+		require
+			valid_item: not off
 		do
 			Result := Buffer.empty
-			split_list.go_i_th (index)
-			line := split_list.item
-			pos_colon := line.index_of (':', 1)
-			if pos_colon > 0 then
-				pos_quote := line.index_of ('"', pos_colon + 1)
-				if pos_quote > 0 then
-					Result.append_substring (line, pos_quote + 1, line.last_index_of ('"', line.count) - 1)
-
-				elseif line.valid_index (pos_colon + 1) and then line.is_space_item (pos_colon + 1) then
-					Result.append_substring (line, pos_colon + 2, line.count)
-					Result.prune_all_trailing (',')
-				else
-					Result.append_substring (line, pos_colon + 1, line.count)
-					Result.prune_all_trailing (',')
-				end
-				Result.unescape (Unescaper)
-			end
+			Result.append_utf_8 (value_item_8 (False))
+			Result.unescape (Unescaper)
 			if keep_ref then
 				Result := Result.twin
 			end
 		end
 
-feature -- Cursor movement
-
-	finish
+	value_item_8 (keep_ref: BOOLEAN): STRING
+		require
+			valid_item: not off
 		do
-			index := count
+			Result := item_utf_8_value
+			if keep_ref then
+				Result := Result.twin
+			end
 		end
-
-	forth
-		do
-			index := index + 1
-		end
-
-	start
-		do
-			index := 1
-		end
-
-feature -- Status query
-
-	after: BOOLEAN
-		do
-			Result := index > count
-		end
-
-	is_empty: BOOLEAN
-		do
-			Result := count = 0
-		end
-
-	off: BOOLEAN
-			-- Is there no current item?
-		do
-			Result := (index = 0) or (index = count + 1)
-		end
-
-feature {NONE} -- Internal attributes
-
-	split_list: EL_SPLIT_ZSTRING_LIST
 
 feature {NONE} -- Constants
 
 	Buffer: EL_ZSTRING_BUFFER
-		once
-			create Result
-		end
-
-	Buffer_latin_1: EL_STRING_8_BUFFER
 		once
 			create Result
 		end

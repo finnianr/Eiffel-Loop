@@ -1,13 +1,13 @@
 ﻿note
-	description: "Test set for [$source EL_SETTABLE_FROM_JSON_STRING] and [$source EL_JSON_NAME_VALUE_LIST]"
+	description: "Test set for [$source EL_JSON_SETTABLE_FROM_STRING] and [$source EL_JSON_NAME_VALUE_LIST]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-20 12:15:14 GMT (Monday 20th June 2022)"
-	revision: "17"
+	date: "2022-06-21 13:54:36 GMT (Tuesday 21st June 2022)"
+	revision: "18"
 
 class
 	JSON_PARSING_TEST_SET
@@ -19,18 +19,47 @@ inherit
 
 	EL_CRC_32_TEST_ROUTINES
 
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
+
 feature -- Basic operations
 
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("json_reflection_1", agent test_json_reflection_1)
+			eval.call ("json_across_iteration", agent test_json_across_iteration)
 			eval.call ("json_intervals_object", agent test_json_intervals_object)
+			eval.call ("json_reflection_1", agent test_json_reflection_1)
 			eval.call ("json_reflection_3", agent test_json_reflection_3)
 			eval.call ("parse", agent test_parse)
 		end
 
 feature -- Tests
+
+	test_json_across_iteration
+		note
+			testing: "covers/{EL_JSON_FIELD_NAME_INTERVALS}.make, covers/{EL_JSON_ZNAME_VALUE_LIST}.new_cursor"
+		local
+			list: EL_JSON_ZNAME_VALUE_LIST; checksum_1: NATURAL
+			crc: like crc_generator
+		do
+			crc := crc_generator
+			create list.make (JSON_price.to_utf_8 (True))
+			from list.start until list.after loop
+				crc.add_string (list.name_item (False))
+				crc.add_string (list.value_item (False))
+				list.forth
+			end
+			checksum_1 := crc.checksum
+
+			crc.reset
+			across list as l loop
+				if attached l.item as pair then
+					crc.add_string (pair.name)
+					crc.add_string (pair.value)
+				end
+			end
+			assert ("same checksums", checksum_1 = crc.checksum)
+		end
 
 	test_json_intervals_object
 		note
@@ -61,7 +90,7 @@ feature -- Tests
 
 	test_json_reflection_1
 		note
-			testing: "covers/{EL_SETTABLE_FROM_JSON_STRING}.set_from_json"
+			testing: "covers/{EL_JSON_SETTABLE_FROM_STRING}.set_from_json"
 		local
 			person: PERSON
 		do
@@ -77,7 +106,7 @@ feature -- Tests
 
 	test_json_reflection_3
 		note
-			testing: "covers/{EL_SETTABLE_FROM_JSON_STRING}.set_from_json",
+			testing: "covers/{EL_JSON_SETTABLE_FROM_STRING}.set_from_json",
 				"covers/{EL_REFLECTED_INTEGER_FIELD}.set_from_double"
 		local
 			currency, euro: JSON_CURRENCY
@@ -89,7 +118,7 @@ feature -- Tests
 
 	test_parse
 		note
-			testing: "covers/{EL_JSON_NAME_VALUE_LIST}.make"
+			testing: "covers/{EL_JSON_FIELD_NAME_INTERVALS}.make"
 		local
 			list: EL_JSON_NAME_VALUE_LIST
 		do
@@ -97,10 +126,10 @@ feature -- Tests
 			from list.start until list.after loop
 				inspect list.index
 					when 1 then
-						assert ("valid name", list.name_item_8 (False) ~ "name" and list.value_item (False) ~ My_ching.literal)
+						assert ("valid name", list.name_item (False) ~ "name" and list.value_item (False) ~ My_ching.literal)
 						assert ("valid escaped", Escaper.escaped (list.value_item (False), True) ~ My_ching.escaped)
 					when 2 then
-						assert ("valid price", list.name_item_8 (False) ~ "price" and list.value_item (False) ~ Price.literal)
+						assert ("valid price", list.name_item (False) ~ "price" and list.value_item (False) ~ Price.literal)
 						assert ("valid escaped", Escaper.escaped (list.value_item (False), True) ~ Price.escaped)
 
 				else end

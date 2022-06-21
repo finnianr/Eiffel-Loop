@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-22 10:14:57 GMT (Saturday 22nd January 2022)"
-	revision: "5"
+	date: "2022-06-21 13:46:56 GMT (Tuesday 21st June 2022)"
+	revision: "6"
 
 class
 	EL_JSON_INTERVALS_OBJECT [FIELD_ENUM -> EL_ENUMERATION [NATURAL_16] create make end]
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 			across Reuseable.string as reuse loop
 				if attached reuse.item as text then
 					from field_list.start until field_list.after loop
-						name := field_list.name_item_8 (False)
+						name := field_list.name_item (False)
 						if field.is_valid_name (name) then
 							text_count := text.count
 							field_index := field.value (name)

@@ -13,6 +13,7 @@ from glob import glob
 from distutils import dir_util
 
 from eiffel_loop.eiffel.ecf import SYSTEM_INFO
+
 from eiffel_loop.C_util import C_dev
 from eiffel_loop.os import environ
 

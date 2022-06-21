@@ -3,32 +3,24 @@ note
 		Used in conjunction with [$source EL_REFLECTIVELY_SETTABLE] to reflectively set fields
 		from corresponding JSON name-value pairs.
 	]"
-	tests: "Class [$source JSON_PARSING_TEST_SET]"
-	descendants: "[
-		The following example implementations are from the Amazon Instant Access API for Eiffel.
-
-			EL_SETTABLE_FROM_JSON_STRING*
-				[$source AIA_RESPONSE]
-					[$source AIA_PURCHASE_RESPONSE]
-						[$source AIA_REVOKE_RESPONSE]
-					[$source AIA_GET_USER_ID_RESPONSE]
-				[$source AIA_REQUEST]*
-					[$source AIA_GET_USER_ID_REQUEST]
-					[$source AIA_PURCHASE_REQUEST]
-						[$source AIA_REVOKE_REQUEST]
-				[$source JSON_CURRENCY]
+	tests: "[
+			[$source JSON_PARSING_TEST_SET]
+			[$source HTTP_CONNECTION_TEST_SET]
+			[$source HASH_TABLE_TEST_SET]
+			[$source AMAZON_INSTANT_ACCESS_TEST_SET]
 	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-20 13:56:49 GMT (Monday 20th June 2022)"
-	revision: "27"
+	date: "2022-06-21 13:47:20 GMT (Tuesday 21st June 2022)"
+	revision: "29"
 
 deferred class
-	EL_SETTABLE_FROM_JSON_STRING
+	EL_JSON_SETTABLE_FROM_STRING
 
 inherit
 	EL_REFLECTIVE_I undefine is_equal end
@@ -87,52 +79,19 @@ feature -- Access
 feature -- Element change
 
 	set_from_json (utf_8_json: STRING)
-		do
-			across Reuseable.string_8 as reuse_8 loop
-				across Reuseable.string as reuse loop
-					internal_set_from_json (utf_8_json, reuse_8.item, reuse.item)
-				end
-			end
-		end
-
-	set_from_json_list (json_list: EL_JSON_NAME_VALUE_LIST)
-		do
-			if attached field_table as table then
-				from json_list.start until json_list.after loop
-					if table.has_imported_key (json_list.name_item_8 (False)) then
-						table.found_item.set_from_string (current_reflective, json_list.value_item (True))
-					end
-					json_list.forth
-				end
-			end
-		end
-
-feature {NONE} -- Implementation
-
-	internal_set_from_json (utf_8_json, utf_8_value: STRING; value: ZSTRING)
 		-- random access setting of object field corresponding to JSON field
 		local
-			quoted_name: STRING; name_index, start_index, end_index, right_index: INTEGER;
-			s: EL_STRING_8_ROUTINES
+			utf_8_value: STRING; s: EL_STRING_8_ROUTINES; field_intervals: EL_JSON_FIELD_NAME_INTERVALS
+			value: ZSTRING
 		do
-			across field_table as table loop
---				Search JSON text for each exported field name in quotes
-				quoted_name := Name_buffer.quoted (table.item.export_name, '"')
-				name_index := utf_8_json.substring_index (quoted_name, 1)
-				if name_index > 0 then
-					right_index := name_index + quoted_name.count
-					start_index := utf_8_json.index_of (':', right_index)
---					if there is a colon within 2 characters to the right of field name
-					if start_index >= right_index and start_index <= right_index + 1 then
-						start_index := start_index + 1
-						end_index := utf_8_json.index_of ('%N', start_index)
-						if end_index = 0 then
-							end_index := utf_8_json.count
-						end
-						utf_8_value.wipe_out; utf_8_value.append_substring (utf_8_json, start_index, end_index)
-						utf_8_value.adjust; utf_8_value.prune_all_trailing (',')
-						s.remove_double_quote (utf_8_value)
+			create field_intervals.make (utf_8_json)
+			across Reuseable.string as reuse loop
+				value := reuse.item
+				across field_table as table loop
+					field_intervals.find_field (table.item.export_name)
 
+					if field_intervals.found then
+						utf_8_value := field_intervals.item_utf_8_value
 						if not utf_8_value.has ('\') and then s.is_ascii (utf_8_value) then
 							if attached {EL_REFLECTED_STRING_8} table.item as str_8_field then
 								str_8_field.set (current_reflective, utf_8_value.twin)
@@ -140,7 +99,7 @@ feature {NONE} -- Implementation
 								table.item.set_from_string (current_reflective, utf_8_value)
 							end
 						else
---							Has either a JSON escape sequence or UTF-8 sequence
+	--						Has either a JSON escape sequence or UTF-8 sequence
 							value.wipe_out; value.append_utf_8 (utf_8_value)
 							value.unescape (Unescaper)
 							table.item.set_from_string (current_reflective, value)
@@ -149,6 +108,20 @@ feature {NONE} -- Implementation
 				end
 			end
 		end
+
+	set_from_json_list (json_list: EL_JSON_NAME_VALUE_LIST)
+		do
+			if attached field_table as table then
+				from json_list.start until json_list.after loop
+					if table.has_imported_key (json_list.name_item (False)) then
+						table.found_item.set_from_string (current_reflective, json_list.value_item (True))
+					end
+					json_list.forth
+				end
+			end
+		end
+
+feature {NONE} -- Implementation
 
 	is_field_text (field: EL_REFLECTED_FIELD): BOOLEAN
 		do
@@ -160,11 +133,43 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Constants
-
-	Name_buffer: EL_STRING_8_BUFFER
-		once
-			create Result
+	new_field_index (utf_8_json: STRING): EL_ARRAYED_LIST [INTEGER]
+		-- index table of character to right of first quote-mark for each line
+		local
+			splitter: EL_SPLIT_ON_CHARACTER [STRING]; i: INTEGER; found: BOOLEAN
+		do
+			create Result.make (utf_8_json.occurrences ('%N') + 1)
+			create splitter.make (utf_8_json, '%N')
+			across splitter as split loop
+				found := False
+				from i := split.item_lower until found or else i > split.item_upper loop
+					if utf_8_json [i] = '"' then
+						found := True
+					else
+						i := i + 1
+					end
+				end
+				if found and i + 1 <= split.item_upper then
+					Result.extend (i + 1)
+				end
+			end
 		end
 
+note
+	descendants: "[
+			EL_SETTABLE_FROM_JSON_STRING*
+				[$source PERSON]
+				[$source AIA_RESPONSE]
+					[$source AIA_FAIL_RESPONSE]
+					[$source AIA_PURCHASE_RESPONSE]
+						[$source AIA_REVOKE_RESPONSE]
+					[$source AIA_GET_USER_ID_RESPONSE]
+				[$source JSON_CURRENCY]
+				[$source AIA_REQUEST]*
+					[$source AIA_PURCHASE_REQUEST]
+						[$source AIA_REVOKE_REQUEST]
+					[$source AIA_GET_USER_ID_REQUEST]
+				[$source EL_IP_ADDRESS_GEOLOCATION]
+					[$source EL_IP_ADDRESS_GEOGRAPHIC_INFO]
+	]"
 end

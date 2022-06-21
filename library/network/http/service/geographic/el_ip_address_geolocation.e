@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-20 9:47:57 GMT (Monday 20th June 2022)"
-	revision: "5"
+	date: "2022-06-21 8:27:40 GMT (Tuesday 21st June 2022)"
+	revision: "6"
 
 class
 	EL_IP_ADDRESS_GEOLOCATION
@@ -23,7 +23,7 @@ inherit
 			new_representations
 		end
 
-	EL_SETTABLE_FROM_JSON_STRING
+	EL_JSON_SETTABLE_FROM_STRING
 		rename
 			make_default as make
 		end

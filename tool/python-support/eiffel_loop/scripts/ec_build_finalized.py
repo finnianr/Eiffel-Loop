@@ -68,7 +68,8 @@ for cpu_target in target_architectures:
 	project.build (cpu_target)
 
 if options.autotest:
-	import eiffel_loop.scripts.ec_install_resources
+	# importing ec_install_resources caused "el_eiffel -autotest" to fail
+	call (['python', '-m', 'eiffel_loop.scripts.ec_install_resources'])
 	passed_tests = project.autotest () == 0
 else:
 	passed_tests = True
