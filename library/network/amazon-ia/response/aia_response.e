@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-21 8:27:40 GMT (Tuesday 21st June 2022)"
-	revision: "9"
+	date: "2022-06-22 8:27:25 GMT (Wednesday 22nd June 2022)"
+	revision: "10"
 
 class
 	AIA_RESPONSE
@@ -27,7 +27,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_JSON_SETTABLE_FROM_STRING
+	JSON_SETTABLE_FROM_STRING
 		export
 			{NONE} all
 			{ANY} as_json

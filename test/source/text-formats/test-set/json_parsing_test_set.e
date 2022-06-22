@@ -1,13 +1,13 @@
 ﻿note
-	description: "Test set for [$source EL_JSON_SETTABLE_FROM_STRING] and [$source EL_JSON_NAME_VALUE_LIST]"
+	description: "Test set for [$source JSON_SETTABLE_FROM_STRING] and [$source JSON_NAME_VALUE_LIST]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-21 13:54:36 GMT (Tuesday 21st June 2022)"
-	revision: "18"
+	date: "2022-06-22 8:28:21 GMT (Wednesday 22nd June 2022)"
+	revision: "19"
 
 class
 	JSON_PARSING_TEST_SET
@@ -37,9 +37,9 @@ feature -- Tests
 
 	test_json_across_iteration
 		note
-			testing: "covers/{EL_JSON_FIELD_NAME_INTERVALS}.make, covers/{EL_JSON_ZNAME_VALUE_LIST}.new_cursor"
+			testing: "covers/{JSON_FIELD_NAME_INTERVALS}.make, covers/{JSON_ZNAME_VALUE_LIST}.new_cursor"
 		local
-			list: EL_JSON_ZNAME_VALUE_LIST; checksum_1: NATURAL
+			list: JSON_ZNAME_VALUE_LIST; checksum_1: NATURAL
 			crc: like crc_generator
 		do
 			crc := crc_generator
@@ -63,7 +63,7 @@ feature -- Tests
 
 	test_json_intervals_object
 		note
-			testing: "covers/{EL_JSON_INTERVALS_OBJECT}.make"
+			testing: "covers/{JSON_INTERVALS_OBJECT}.make"
 		local
 			meta_data: EL_IP_ADDRESS_META_DATA
 		do
@@ -90,7 +90,7 @@ feature -- Tests
 
 	test_json_reflection_1
 		note
-			testing: "covers/{EL_JSON_SETTABLE_FROM_STRING}.set_from_json"
+			testing: "covers/{JSON_SETTABLE_FROM_STRING}.set_from_json"
 		local
 			person: PERSON
 		do
@@ -106,7 +106,7 @@ feature -- Tests
 
 	test_json_reflection_3
 		note
-			testing: "covers/{EL_JSON_SETTABLE_FROM_STRING}.set_from_json",
+			testing: "covers/{JSON_SETTABLE_FROM_STRING}.set_from_json",
 				"covers/{EL_REFLECTED_INTEGER_FIELD}.set_from_double"
 		local
 			currency, euro: JSON_CURRENCY
@@ -118,9 +118,9 @@ feature -- Tests
 
 	test_parse
 		note
-			testing: "covers/{EL_JSON_FIELD_NAME_INTERVALS}.make"
+			testing: "covers/{JSON_FIELD_NAME_INTERVALS}.make"
 		local
-			list: EL_JSON_NAME_VALUE_LIST
+			list: JSON_NAME_VALUE_LIST
 		do
 			create list.make (JSON_price.to_utf_8 (True))
 			from list.start until list.after loop
@@ -139,7 +139,7 @@ feature -- Tests
 
 feature {NONE} -- Constants
 
-	Escaper: EL_JSON_VALUE_ESCAPER
+	Escaper: JSON_VALUE_ESCAPER
 		once
 			create Result.make
 		end
@@ -161,3 +161,7 @@ feature {NONE} -- Constants
 		end
 
 end
+
+
+
+

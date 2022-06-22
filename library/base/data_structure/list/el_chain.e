@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-12 11:28:56 GMT (Sunday 12th June 2022)"
-	revision: "45"
+	date: "2022-06-22 9:58:45 GMT (Wednesday 22nd June 2022)"
+	revision: "46"
 
 deferred class EL_CHAIN [G]
 
@@ -532,7 +532,7 @@ note
 								[$source EL_SPLIT_STRING_32_LIST]
 								[$source EL_IP_ADDRESS_ROUTINES]
 								[$source EL_SPLIT_STRING_8_LIST]
-						[$source EL_JSON_INTERVALS_OBJECT] [FIELD_ENUM -> [$source EL_ENUMERATION] [NATURAL_16] create make end]
+						[$source JSON_INTERVALS_OBJECT] [FIELD_ENUM -> [$source EL_ENUMERATION] [NATURAL_16] create make end]
 							[$source EL_IP_ADDRESS_META_DATA]
 					[$source EL_SORTABLE_ARRAYED_LIST] [G -> [$source COMPARABLE]]
 						[$source EL_FILE_PATH_LIST]
@@ -540,16 +540,16 @@ note
 						[$source EL_STRING_LIST] [S -> [$source STRING_GENERAL] create make, make_empty end]
 							[$source EL_ZSTRING_LIST]
 								[$source EL_XHTML_STRING_LIST]
-								[$source EL_XML_TAG_LIST]
-									[$source EL_XML_PARENT_TAG_LIST]
-									[$source EL_XML_VALUE_TAG_PAIR]
+								[$source XML_TAG_LIST]
+									[$source XML_PARENT_TAG_LIST]
+									[$source XML_VALUE_TAG_PAIR]
 							[$source EL_STRING_8_LIST]
 								[$source EVOLICITY_VARIABLE_REFERENCE]
 									[$source EVOLICITY_FUNCTION_REFERENCE]
 								[$source AIA_CANONICAL_REQUEST]
 							[$source EL_STRING_32_LIST]
 					[$source EL_COMMA_SEPARATED_WORDS_LIST]
-					[$source EL_IMPORTABLE_ARRAYED_LIST] [G -> [$source EL_REFLECTIVELY_SETTABLE] create make_default end]
+					[$source CSV_IMPORTABLE_ARRAYED_LIST] [G -> [$source EL_REFLECTIVELY_SETTABLE] create make_default end]
 					[$source EL_QUERYABLE_ARRAYED_LIST] [G]
 						[$source ECD_ARRAYED_LIST] [G -> [$source EL_STORABLE] create make_default end]
 						[$source AIA_CREDENTIAL_LIST]
@@ -574,3 +574,6 @@ note
 	]"
 
 end
+
+
+

@@ -16,7 +16,7 @@ See doc/eiffel-utility.txt for details.
 	<!--&quot;Swiss army knife&quot; toolkit containing a suite of command line tools for Eiffel development-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
-		<version major = "1" minor = "5" release = "1" build = "493" company = "Eiffel-Loop" product = "eiffel" copyright = "Finnian Reilly"/>
+		<version major = "1" minor = "6" release = "0" build = "493" company = "Eiffel-Loop" product = "eiffel" copyright = "Finnian Reilly"/>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "false"/>
 		</option>

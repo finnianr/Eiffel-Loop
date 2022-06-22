@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 12:16:33 GMT (Thursday 16th June 2022)"
-	revision: "11"
+	date: "2022-06-22 8:46:24 GMT (Wednesday 22nd June 2022)"
+	revision: "12"
 
 class
 	EL_WORD_SEPARATION_ADAPTER
 
 obsolete
-	"Use EL_NAME_TRANSLATER descendant"
+	"Use EL_NAME_TRANSLATER descendant (remove)"
 
 inherit
 	ANY

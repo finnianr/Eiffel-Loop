@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-19 21:11:51 GMT (Tuesday 19th October 2021)"
-	revision: "3"
+	date: "2022-06-22 8:25:42 GMT (Wednesday 22nd June 2022)"
+	revision: "4"
 
 class
 	EL_IP_ADDRESS_META_DATA
 
 inherit
-	EL_JSON_INTERVALS_OBJECT [EL_IPAPI_CO_JSON_FIELD_ENUM]
+	JSON_INTERVALS_OBJECT [EL_IPAPI_CO_JSON_FIELD_ENUM]
 
 create
 	make

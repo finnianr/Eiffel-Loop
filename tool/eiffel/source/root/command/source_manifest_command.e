@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 12:37:16 GMT (Tuesday 8th February 2022)"
-	revision: "15"
+	date: "2022-06-22 9:31:06 GMT (Wednesday 22nd June 2022)"
+	revision: "16"
 
 deferred class
 	SOURCE_MANIFEST_COMMAND
@@ -31,13 +31,21 @@ inherit
 feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (manifest_path_or_directory: FILE_PATH)
+		local
+			l_manifest: SOURCE_MANIFEST
+		do
+			if File_system.is_directory (manifest_path_or_directory) then
+				create l_manifest.make_from_directory (manifest_path_or_directory.to_string)
+			else
+				create l_manifest.make_from_file (manifest_path_or_directory)
+			end
+			make_from_manifest (l_manifest)
+		end
+
+	make_from_manifest (a_manifest: SOURCE_MANIFEST)
 		do
 			make_default
-			if File_system.is_directory (manifest_path_or_directory) then
-				create manifest.make_from_directory (manifest_path_or_directory.to_string)
-			else
-				create manifest.make_from_file (manifest_path_or_directory)
-			end
+			manifest := a_manifest
 		end
 
 	make_default

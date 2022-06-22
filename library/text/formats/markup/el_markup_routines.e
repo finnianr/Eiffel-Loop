@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:28:29 GMT (Sunday 19th December 2021)"
-	revision: "10"
+	date: "2022-06-22 10:11:04 GMT (Wednesday 22nd June 2022)"
+	revision: "11"
 
 class
 	EL_MARKUP_ROUTINES
@@ -17,7 +17,7 @@ inherit
 
 feature -- Access
 
-	numbered_tag_list (base_name: READABLE_STRING_GENERAL; lower, upper: INTEGER): EL_ARRAYED_LIST [EL_XML_TAG]
+	numbered_tag_list (base_name: READABLE_STRING_GENERAL; lower, upper: INTEGER): EL_ARRAYED_LIST [XML_TAG]
 		local
 			i: INTEGER; name: ZSTRING
 		do
@@ -32,7 +32,7 @@ feature -- Access
 			end
 		end
 
-	tag_list (string_list: READABLE_STRING_GENERAL): EL_ARRAYED_LIST [EL_XML_TAG]
+	tag_list (string_list: READABLE_STRING_GENERAL): EL_ARRAYED_LIST [XML_TAG]
 		local
 			list: EL_ZSTRING_LIST
 		do
@@ -74,7 +74,7 @@ feature -- Mark up
 			Result.append_character ('%N')
 		end
 
-	tag (name: READABLE_STRING_GENERAL): EL_XML_TAG
+	tag (name: READABLE_STRING_GENERAL): XML_TAG
 		do
 			create Result.make (name)
 		end

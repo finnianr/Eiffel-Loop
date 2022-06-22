@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-17 11:34:23 GMT (Wednesday 17th February 2021)"
-	revision: "12"
+	date: "2022-06-22 10:00:19 GMT (Wednesday 22nd June 2022)"
+	revision: "13"
 
 class
 	ZSTRING_BENCHMARK
@@ -150,7 +150,7 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Internal attributes
 
-	xml_escaper: EL_XML_ZSTRING_ESCAPER
+	xml_escaper: XML_ZSTRING_ESCAPER
 
 feature {NONE} -- Constants
 

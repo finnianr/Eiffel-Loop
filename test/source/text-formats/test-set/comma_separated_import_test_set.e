@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 14:13:28 GMT (Wednesday 19th January 2022)"
-	revision: "15"
+	date: "2022-06-22 8:21:36 GMT (Wednesday 22nd June 2022)"
+	revision: "16"
 
 class
 	COMMA_SEPARATED_IMPORT_TEST_SET
@@ -32,8 +32,8 @@ feature -- Test
 	test_import_export
 			--
 		note
-			testing: "covers/{EL_IMPORTABLE_ARRAYED_LIST}.import",
-				"covers/{EL_COMMA_SEPARATED_LINE_PARSER}.parse",
+			testing: "covers/{CSV_IMPORTABLE_ARRAYED_LIST}.import",
+				"covers/{CSV_LINE_PARSER}.parse",
 				"covers/{EL_COMMA_SEPARATED_VALUE_ESCAPER}.escaped",
 				"covers/{EL_REFLECTIVELY_SETTABLE}.comma_separated_values"
 		do
@@ -47,7 +47,7 @@ feature {NONE} -- Implementation
 
 	do_export_test (job_list: like new_job_list)
 		local
-			parser: EL_COMMA_SEPARATED_LINE_PARSER
+			parser: CSV_LINE_PARSER
 			job, job_2: JOB; list: EL_ZSTRING_LIST
 		do
 			job_list.find_first_true (agent role_contains (?, "Change Manager"))
@@ -87,7 +87,7 @@ feature {NONE} -- Implementation
 			Result := job.type ~ name
 		end
 
-	new_job_list: EL_IMPORTABLE_ARRAYED_LIST [JOB]
+	new_job_list: CSV_IMPORTABLE_ARRAYED_LIST [JOB]
 		do
 			create Result.make (10)
 			Result.import_csv_latin_1 ("data/csv/JobServe.csv")

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-24 17:27:39 GMT (Thursday 24th February 2022)"
-	revision: "11"
+	date: "2022-06-22 10:01:03 GMT (Wednesday 22nd June 2022)"
+	revision: "12"
 
 class
 	EIFFEL_PARSING_TEST_SET
@@ -30,7 +30,7 @@ feature -- Tests
 	test_code_highlighting
 		note
 			testing: "covers/{EL_FILE_PARSER_TEXT_EDITOR}.edit",
-				"covers/{EL_XML_ROUTINES}.escaped_128_plus",
+				"covers/{XML_ROUTINES}.escaped_128_plus",
 				"covers/{EL_EIFFEL_TEXT_PATTERN_FACTORY}.comment",
 				"covers/{EL_EIFFEL_TEXT_PATTERN_FACTORY}.unescaped_manifest_string",
 				"covers/{EL_EIFFEL_TEXT_PATTERN_FACTORY}.character_manifest",

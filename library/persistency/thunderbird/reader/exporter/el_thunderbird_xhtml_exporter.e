@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 9:28:52 GMT (Saturday 19th February 2022)"
-	revision: "21"
+	date: "2022-06-22 10:00:57 GMT (Wednesday 22nd June 2022)"
+	revision: "22"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -20,7 +20,7 @@ inherit
 			make_default, export_mails, set_header_subject
 		end
 
-	EL_XML_ESCAPE_ROUTINES
+	XML_ESCAPE_ROUTINES
 		rename
 			entity as xml_entity
 		end

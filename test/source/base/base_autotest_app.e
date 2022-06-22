@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-22 15:46:06 GMT (Tuesday 22nd February 2022)"
-	revision: "133"
+	date: "2022-06-22 10:00:31 GMT (Wednesday 22nd June 2022)"
+	revision: "134"
 
 class
 	BASE_AUTOTEST_APP
@@ -84,7 +84,7 @@ feature {NONE} -- Implementation
 
 		EL_URI_QUERY_STRING_8_HASH_TABLE, EL_URI_QUERY_STRING_32_HASH_TABLE,
 
-		EL_XML_STRING_8_ESCAPER
+		XML_STRING_8_ESCAPER
 	]
 		-- classes compiled for maintenance
 		do

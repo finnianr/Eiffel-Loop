@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 6:25:29 GMT (Monday 7th February 2022)"
-	revision: "5"
+	date: "2022-06-22 9:33:42 GMT (Wednesday 22nd June 2022)"
+	revision: "6"
 
 class
 	CLASS_RENAMING_TEST_SET
@@ -29,9 +29,11 @@ feature -- Tests
 		local
 			command: CLASS_RENAMING_COMMAND; digest_table: like new_file_digest_table
 			string_8_counter: EL_SPLIT_ON_STRING [STRING]
+			manifest: SOURCE_MANIFEST
 		do
 			digest_table := new_file_digest_table
-			create command.make (Manifest_path, "STRING", "STRING_8")
+			create manifest.make_from_file (Manifest_path)
+			create command.make (manifest, "STRING", "STRING_8")
 			command.execute
 
 			file_list.find_first_base ("el_text_item_translations_table.e")

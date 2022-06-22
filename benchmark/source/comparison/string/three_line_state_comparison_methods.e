@@ -1,13 +1,13 @@
 note
-	description: "Test variations of class [$source EL_COMMA_SEPARATED_LINE_PARSER]"
+	description: "Test variations of class [$source CSV_LINE_PARSER]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-04-11 9:27:23 GMT (Monday 11th April 2022)"
-	revision: "5"
+	date: "2022-06-22 8:20:10 GMT (Wednesday 22nd June 2022)"
+	revision: "6"
 
 class
 	THREE_LINE_STATE_COMPARISON_METHODS
@@ -41,7 +41,7 @@ feature {NONE} -- String append variations
 
 	using_procedure_states (lines: EL_ITERABLE_SPLIT [STRING, ANY])
 		local
-			parser: EL_COMMA_SEPARATED_LINE_PARSER
+			parser: CSV_LINE_PARSER
 		do
 			create parser.make
 			across lines as l loop

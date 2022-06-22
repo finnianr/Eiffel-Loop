@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-25 8:42:38 GMT (Friday 25th February 2022)"
-	revision: "15"
+	date: "2022-06-22 10:01:10 GMT (Wednesday 22nd June 2022)"
+	revision: "16"
 
 class
 	EL_SPREAD_SHEET
@@ -119,7 +119,7 @@ feature -- Contract support
 
 	is_valid_file_type (file_path: FILE_PATH): BOOLEAN
 		local
-			ns_table: EL_XML_NAME_SPACE_TABLE
+			ns_table: XML_NAME_SPACE_TABLE
 		do
 			create ns_table.make_from_file (file_path)
 			if ns_table.has_key ("office") then

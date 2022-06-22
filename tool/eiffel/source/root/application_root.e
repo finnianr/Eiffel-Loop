@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-12 8:06:04 GMT (Sunday 12th June 2022)"
-	revision: "41"
+	date: "2022-06-22 8:51:19 GMT (Wednesday 22nd June 2022)"
+	revision: "42"
 
 class
 	APPLICATION_ROOT
@@ -30,7 +30,6 @@ inherit
 		UNDEFINE_PATTERN_COUNTER_APP,
 
 	-- Class editing
-		CLASS_PREFIX_REMOVAL_APP,
 		CLASS_RENAMING_APP,
 		FEATURE_EDITOR_APP,
 		FIND_AND_REPLACE_APP,

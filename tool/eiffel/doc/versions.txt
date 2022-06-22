@@ -1,3 +1,6 @@
+1.6.0
+* Combined class renaming and prefix removal into one application
+
 1.5.1
 * EL_REFLECTIVE.foreign_naming
 * sink ISE $source variable in publisher

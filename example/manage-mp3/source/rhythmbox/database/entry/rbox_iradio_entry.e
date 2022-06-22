@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 10:52:21 GMT (Thursday 16th June 2022)"
-	revision: "51"
+	date: "2022-06-22 10:00:44 GMT (Wednesday 22nd June 2022)"
+	revision: "52"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -34,7 +34,7 @@ inherit
 
 	HASHABLE undefine is_equal end
 
-	EL_XML_ZSTRING_CONSTANTS
+	XML_ZSTRING_CONSTANTS
 
 	EL_MODULE_LIO
 
@@ -187,7 +187,7 @@ feature {NONE} -- Evolicity fields
 
 	get_element_list: like Element_list
 		local
-			element: EL_XML_TEXT_ELEMENT; always_saved: BOOLEAN
+			element: XML_TEXT_ELEMENT; always_saved: BOOLEAN
 		do
 			Result := Element_list
 			Result.wipe_out
@@ -250,7 +250,7 @@ feature {NONE} -- Constants
 			create Result.make (0)
 		end
 
-	Default_xml_elememt: EL_XML_EMPTY_ELEMENT
+	Default_xml_elememt: XML_EMPTY_ELEMENT
 		once
 			create Result.make ("")
 		end
@@ -276,9 +276,11 @@ feature {NONE} -- Constants
 			Result := "iradio"
 		end
 
-	Xml_8: EL_XML_STRING_8_ESCAPER
+	Xml_8: XML_STRING_8_ESCAPER
 		once
 			create Result.make
 		end
 
 end
+
+

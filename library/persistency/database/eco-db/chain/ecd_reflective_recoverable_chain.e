@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 9:30:58 GMT (Friday 11th February 2022)"
-	revision: "12"
+	date: "2022-06-22 8:21:37 GMT (Wednesday 22nd June 2022)"
+	revision: "13"
 
 deferred class
 	ECD_REFLECTIVE_RECOVERABLE_CHAIN [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -109,7 +109,7 @@ feature -- Basic operations
 
 	import_csv (a_file_path: FILE_PATH)
 		local
-			import_list: EL_IMPORTABLE_ARRAYED_LIST [G]
+			import_list: CSV_IMPORTABLE_ARRAYED_LIST [G]
 		do
 			create import_list.make_empty
 			wipe_out

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-20 15:18:55 GMT (Sunday 20th February 2022)"
-	revision: "24"
+	date: "2022-06-22 9:33:02 GMT (Wednesday 22nd June 2022)"
+	revision: "25"
 
 class
 	CLASS_RENAMING_COMMAND
@@ -31,13 +31,13 @@ create
 
 feature {EL_APPLICATION} -- Initialization
 
-	make (source_manifest_path: FILE_PATH; a_old_name, a_new_name: STRING)
+	make (a_manifest: SOURCE_MANIFEST; a_old_name, a_new_name: STRING)
 		require
 			old_name_not_empty: not a_old_name.is_empty
 			new_name_not_empty: not a_new_name.is_empty
 		do
 			old_name := a_old_name; new_name := a_new_name
-			make_command (source_manifest_path)
+			make_from_manifest (a_manifest)
 		end
 
 feature -- Constants

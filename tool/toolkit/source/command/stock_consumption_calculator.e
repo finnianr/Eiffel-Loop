@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 14:09:13 GMT (Wednesday 16th February 2022)"
-	revision: "7"
+	date: "2022-06-22 8:21:36 GMT (Wednesday 22nd June 2022)"
+	revision: "8"
 
 class
 	STOCK_CONSUMPTION_CALCULATOR
@@ -53,7 +53,7 @@ feature -- Basic operations
 
 	execute
 		local
-			import_list: EL_IMPORTABLE_ARRAYED_LIST [STOCK_ORDER]
+			import_list: CSV_IMPORTABLE_ARRAYED_LIST [STOCK_ORDER]
 			monthly_use_list: EL_ARRAYED_MAP_LIST [DATE, REAL]; last_order, order: STOCK_ORDER
 			date: DATE; average: REAL; found_first: BOOLEAN; day_count: INTEGER
 		do

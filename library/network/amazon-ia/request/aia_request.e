@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-21 8:27:40 GMT (Tuesday 21st June 2022)"
-	revision: "16"
+	date: "2022-06-22 8:27:25 GMT (Wednesday 22nd June 2022)"
+	revision: "17"
 
 deferred class
 	AIA_REQUEST
@@ -31,7 +31,7 @@ inherit
 			Transient_fields
 		end
 
-	EL_JSON_SETTABLE_FROM_STRING
+	JSON_SETTABLE_FROM_STRING
 		export
 			{NONE} all
 			{AIA_REQUEST_MANAGER} set_from_json_list

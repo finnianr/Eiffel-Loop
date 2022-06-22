@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:52:16 GMT (Saturday 5th February 2022)"
-	revision: "14"
+	date: "2022-06-22 9:58:39 GMT (Wednesday 22nd June 2022)"
+	revision: "15"
 
 class
 	TEXT_FORMATS_AUTOTEST_APP
@@ -33,7 +33,7 @@ create
 
 feature {NONE} -- Implementation
 
-	compile: TUPLE [EL_XHTML_STRING_LIST, EL_XHTML_UTF_8_SOURCE, EL_XML_TAG_LIST, EL_XML_PARENT_TAG_LIST]
+	compile: TUPLE [EL_XHTML_STRING_LIST, EL_XHTML_UTF_8_SOURCE, XML_TAG_LIST, XML_PARENT_TAG_LIST]
 		do
 			create Result
 		end

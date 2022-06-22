@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-22 10:14:57 GMT (Saturday 22nd January 2022)"
-	revision: "22"
+	date: "2022-06-22 10:00:25 GMT (Wednesday 22nd June 2022)"
+	revision: "23"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -22,7 +22,7 @@ inherit
 
 	EL_MODULE_LIO
 
-	EL_XML_STRING_8_CONSTANTS
+	XML_STRING_8_CONSTANTS
 
 	EL_STRING_8_CONSTANTS
 

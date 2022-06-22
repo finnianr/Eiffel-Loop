@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 17:33:57 GMT (Friday 8th January 2021)"
-	revision: "11"
+	date: "2022-06-22 9:59:39 GMT (Wednesday 22nd June 2022)"
+	revision: "12"
 
 class
 	EL_HTML_ROUTINES
@@ -46,13 +46,13 @@ feature -- Access
 			Result := value_element_markup ("td", data)
 		end
 
-	text_element (name: READABLE_STRING_GENERAL; attributes: ARRAY [READABLE_STRING_GENERAL]): EL_XML_TEXT_ELEMENT
+	text_element (name: READABLE_STRING_GENERAL; attributes: ARRAY [READABLE_STRING_GENERAL]): XML_TEXT_ELEMENT
 		do
 			create Result.make_empty (name)
 			Result.set_attributes_from_pairs (attributes)
 		end
 
-	text_element_class (name, class_name: READABLE_STRING_GENERAL): EL_XML_TEXT_ELEMENT
+	text_element_class (name, class_name: READABLE_STRING_GENERAL): XML_TEXT_ELEMENT
 		do
 			create Result.make_empty (name)
 			Result.set_attributes_from_pairs (<< "class=" + class_name >>)

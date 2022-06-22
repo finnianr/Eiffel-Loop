@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-24 17:57:49 GMT (Thursday 24th February 2022)"
-	revision: "8"
+	date: "2022-06-22 10:00:38 GMT (Wednesday 22nd June 2022)"
+	revision: "9"
 
 class
 	XML_ESCAPER_TEST_SET
@@ -31,16 +31,16 @@ feature -- Tests
 
 	test_xml_escape
 		do
-			do_test ("make", 3792568687, agent escape, [create {EL_XML_ZSTRING_ESCAPER}.make])
-			do_test ("make_128_plus", 3518096339, agent escape, [create {EL_XML_ZSTRING_ESCAPER}.make_128_plus])
+			do_test ("make", 3792568687, agent escape, [create {XML_ZSTRING_ESCAPER}.make])
+			do_test ("make_128_plus", 3518096339, agent escape, [create {XML_ZSTRING_ESCAPER}.make_128_plus])
 
-			do_test ("make", 4167379891, agent escape, [create {EL_XML_STRING_32_ESCAPER}.make])
-			do_test ("make_128_plus", 1319921288, agent escape, [create {EL_XML_STRING_32_ESCAPER}.make_128_plus])
+			do_test ("make", 4167379891, agent escape, [create {XML_STRING_32_ESCAPER}.make])
+			do_test ("make_128_plus", 1319921288, agent escape, [create {XML_STRING_32_ESCAPER}.make_128_plus])
 		end
 
 feature {NONE} -- Implementation
 
-	escape (escaper: EL_XML_GENERAL_ESCAPER)
+	escape (escaper: XML_GENERAL_ESCAPER)
 		local
 			str_32, esc_str_32: STRING_32; str, esc_str, xml: ZSTRING
 			root: EL_XPATH_ROOT_NODE_CONTEXT; s: EL_STRING_32_ROUTINES
@@ -56,7 +56,7 @@ feature {NONE} -- Implementation
 				end
 				str := str_32
 
-				if attached {EL_XML_ZSTRING_ESCAPER} escaper as z_escaper then
+				if attached {XML_ZSTRING_ESCAPER} escaper as z_escaper then
 					esc_str := z_escaper.escaped (str, False)
 					xml := XML_template #$ [esc_str]
 					log.put_line (esc_str)
@@ -81,3 +81,4 @@ feature {NONE} -- Constants
 		end
 
 end
+

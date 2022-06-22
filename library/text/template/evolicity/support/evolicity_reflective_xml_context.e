@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-14 11:22:26 GMT (Tuesday 14th June 2022)"
-	revision: "5"
+	date: "2022-06-22 10:00:39 GMT (Wednesday 22nd June 2022)"
+	revision: "6"
 
 deferred class
 	EVOLICITY_REFLECTIVE_XML_CONTEXT
@@ -47,12 +47,12 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	XML_escaper_by_type: EL_HASH_TABLE [EL_XML_GENERAL_ESCAPER, INTEGER]
+	XML_escaper_by_type: EL_HASH_TABLE [XML_GENERAL_ESCAPER, INTEGER]
 		once
 			create Result.make (<<
-				[Class_id.ZSTRING, create {EL_XML_ZSTRING_ESCAPER}.make],
-				[Class_id.STRING_8, create {EL_XML_STRING_8_ESCAPER}.make],
-				[Class_id.STRING_32, create {EL_XML_STRING_32_ESCAPER}.make]
+				[Class_id.ZSTRING, create {XML_ZSTRING_ESCAPER}.make],
+				[Class_id.STRING_8, create {XML_STRING_8_ESCAPER}.make],
+				[Class_id.STRING_32, create {XML_STRING_32_ESCAPER}.make]
 			>>)
 		end
 
@@ -62,3 +62,5 @@ feature {NONE} -- Constants
 		end
 
 end
+
+

@@ -1,13 +1,13 @@
 note
-	description: "Shared access to routines of class [$source EL_XML_ROUTINES]"
+	description: "Shared access to routines of class [$source XML_ROUTINES]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-03 8:30:40 GMT (Sunday 3rd May 2020)"
-	revision: "9"
+	date: "2022-06-22 10:01:04 GMT (Wednesday 22nd June 2022)"
+	revision: "10"
 
 deferred class
 	EL_MODULE_XML
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Constants
 
-	XML: EL_XML_ROUTINES
+	XML: XML_ROUTINES
 			--
 		once
 			create Result

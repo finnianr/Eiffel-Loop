@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-13 14:39:39 GMT (Friday 13th September 2019)"
-	revision: "3"
+	date: "2022-06-22 10:00:13 GMT (Wednesday 22nd June 2022)"
+	revision: "4"
 
 class
 	XML_UC_UTF8_STRING_ESCAPER
 
 inherit
-	EL_XML_GENERAL_ESCAPER
+	XML_GENERAL_ESCAPER
 
 create
 	make, make_128_plus

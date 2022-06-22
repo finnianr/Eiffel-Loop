@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 11:53:48 GMT (Tuesday 5th January 2021)"
-	revision: "8"
+	date: "2022-06-22 10:11:04 GMT (Wednesday 22nd June 2022)"
+	revision: "9"
 
 class
 	EL_THUNDERBIRD_CONSTANTS
@@ -70,17 +70,17 @@ feature {NONE} -- Constants
 			Result := 1 |..| 5
 		end
 
-	List_tags: ARRAY [EL_XML_TAG]
+	List_tags: ARRAY [XML_TAG]
 		once
 			Result := << Tag.ordered_list, Tag.unordered_list >>
 		end
 
-	Paragraph: EL_XML_TAG
+	Paragraph: XML_TAG
 		once
 			Result := XML.tag ("p")
 		end
 
-	Tag: TUPLE [break, body, html, ordered_list, unordered_list: EL_XML_TAG]
+	Tag: TUPLE [break, body, html, ordered_list, unordered_list: XML_TAG]
 		once
 			create Result
 			Result.break := "br"
@@ -96,7 +96,7 @@ feature {NONE} -- Constants
 			Tuple.fill (Result, "<a, <body, <img")
 		end
 
-	Text_tags: ARRAYED_LIST [EL_XML_TAG]
+	Text_tags: ARRAYED_LIST [XML_TAG]
 		once
 			Result := XML.numbered_tag_list ("h", Heading_levels.lower, Heading_levels.upper) + Paragraph
 			Result.append (XML.tag_list ("li, ol"))

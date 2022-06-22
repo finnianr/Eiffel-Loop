@@ -1,13 +1,15 @@
 note
-	description: "English name translater"
+	description: "[
+		Translate English/Eiffel names: "English name" <-> english_name
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 18:38:13 GMT (Thursday 16th June 2022)"
-	revision: "2"
+	date: "2022-06-21 16:14:24 GMT (Tuesday 21st June 2022)"
+	revision: "3"
 
 class
 	EL_ENGLISH_NAME_TRANSLATER

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 10:38:15 GMT (Thursday 16th June 2022)"
-	revision: "9"
+	date: "2022-06-22 9:59:37 GMT (Wednesday 22nd June 2022)"
+	revision: "10"
 
 class
 	RBOX_DATABASE_FIELD_ENUM
@@ -291,7 +291,7 @@ feature -- Access
 			create Result.make_from_list (agent type, sorted)
 		end
 
-	xml_element (field_code: NATURAL_16): EL_XML_TEXT_ELEMENT
+	xml_element (field_code: NATURAL_16): XML_TEXT_ELEMENT
 		do
 			Result := element_cache_table.item (field_code)
 		end
@@ -317,14 +317,14 @@ feature {NONE} -- Constants
 
 feature {NONE} -- Implementation
 
-	new_element (field_code: NATURAL_16): EL_XML_TEXT_ELEMENT
+	new_element (field_code: NATURAL_16): XML_TEXT_ELEMENT
 		do
 			create Result.make_empty (name (field_code))
 		end
 
 feature {NONE} -- Internal attributes
 
-	element_cache_table: EL_CACHE_TABLE [EL_XML_TEXT_ELEMENT, NATURAL_16]
+	element_cache_table: EL_CACHE_TABLE [XML_TEXT_ELEMENT, NATURAL_16]
 
 feature {NONE} -- Constants
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-26 14:51:16 GMT (Sunday 26th December 2021)"
-	revision: "14"
+	date: "2022-06-22 10:00:37 GMT (Wednesday 22nd June 2022)"
+	revision: "15"
 
 class
 	STRING_32_BENCHMARK
@@ -145,7 +145,7 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Internal attributes
 
-	xml_escaper: EL_XML_STRING_32_ESCAPER
+	xml_escaper: XML_STRING_32_ESCAPER
 
 feature {NONE} -- Constants
 

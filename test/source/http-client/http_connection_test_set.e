@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-20 12:09:07 GMT (Monday 20th June 2022)"
-	revision: "50"
+	date: "2022-06-22 8:26:30 GMT (Wednesday 22nd June 2022)"
+	revision: "51"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -384,7 +384,7 @@ feature {NONE} -- Factory
 
 	new_json_fields (json_data: STRING): EL_URI_QUERY_ZSTRING_HASH_TABLE
 		local
-			pair_list: EL_JSON_NAME_VALUE_LIST; s: EL_STRING_8_ROUTINES
+			pair_list: JSON_NAME_VALUE_LIST; s: EL_STRING_8_ROUTINES
 			value: EL_COOKIE_STRING_8
 		do
 			create pair_list.make (json_data)
