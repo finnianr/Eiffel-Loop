@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-22 8:26:31 GMT (Wednesday 22nd June 2022)"
-	revision: "7"
+	date: "2022-06-23 8:44:20 GMT (Thursday 23rd June 2022)"
+	revision: "8"
 
 class
 	JSON_INTERVALS_OBJECT [FIELD_ENUM -> EL_ENUMERATION [NATURAL_16] create make end]
@@ -121,7 +121,7 @@ feature {NONE} -- Implementation
 		require
 			valid_index: valid_index (i)
 		do
-			Result := buffer_8.copied (buffer_string_value (i)).twin
+			Result := buffer_8.copied (buffer_string_value (i).to_latin_1).twin
 		end
 
 	string_value (i: NATURAL_16): ZSTRING

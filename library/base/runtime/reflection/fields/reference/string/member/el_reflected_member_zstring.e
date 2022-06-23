@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-22 18:49:19 GMT (Monday 22nd November 2021)"
-	revision: "3"
+	date: "2022-06-23 8:54:39 GMT (Thursday 23rd June 2022)"
+	revision: "4"
 
 class
 	EL_REFLECTED_MEMBER_ZSTRING
@@ -38,11 +38,10 @@ feature -- Basic operations
 			set (a_object, node.as_string (False))
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Constants
 
-	reuseable_string: EL_BORROWED_STRING_SCOPE [ZSTRING]
-		do
-			Result := reuseable.string
+	Buffer: EL_ZSTRING_BUFFER
+		once
+			create Result
 		end
-
 end

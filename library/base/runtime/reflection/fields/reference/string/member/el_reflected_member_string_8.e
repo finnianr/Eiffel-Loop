@@ -9,14 +9,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-22 18:49:19 GMT (Monday 22nd November 2021)"
-	revision: "3"
+	date: "2022-06-23 8:54:39 GMT (Thursday 23rd June 2022)"
+	revision: "4"
 
 class
 	EL_REFLECTED_MEMBER_STRING_8
 
 inherit
 	EL_REFLECTED_MEMBER_STRING [STRING_8]
+		rename
+			buffer as Buffer_8
+		end
 
 	EL_REFLECTED_STRING_8
 		rename
@@ -33,13 +36,6 @@ feature -- Basic operations
 	set_from_node (a_object: EL_REFLECTIVE; node: EL_STRING_NODE)
 		do
 			set (a_object, node.as_string_8 (False))
-		end
-
-feature {NONE} -- Implementation
-
-	reuseable_string: EL_BORROWED_STRING_SCOPE [STRING_8]
-		do
-			Result := reuseable.string_8
 		end
 
 end

@@ -6,33 +6,30 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-09 10:19:42 GMT (Wednesday 9th June 2021)"
-	revision: "2"
+	date: "2022-06-23 10:06:34 GMT (Thursday 23rd June 2022)"
+	revision: "3"
 
 deferred class
 	EL_ZSTRING_BUFFER_I
 
+inherit
+	EL_STRING_BUFFER [ZSTRING, EL_READABLE_ZSTRING]
+
 feature -- Access
 
-	copied (str: ZSTRING): ZSTRING
-		require
-			not_buffer: not is_same (str)
+	copied (str: EL_READABLE_ZSTRING): ZSTRING
 		do
 			Result := empty
 			Result.append (str)
 		end
 
 	copied_general (general: READABLE_STRING_GENERAL): ZSTRING
-		require
-			not_buffer: not is_same (general)
 		do
 			Result := empty
 			Result.append_string_general (general)
 		end
 
 	copied_substring (str: EL_READABLE_ZSTRING; start_index, end_index: INTEGER): ZSTRING
-		require
-			not_buffer: not is_same (str)
 		do
 			Result := empty
 			Result.append_substring (str, start_index, end_index)
@@ -44,34 +41,25 @@ feature -- Access
 			Result.wipe_out
 		end
 
-feature -- Conversion
-
-	adjusted (str: ZSTRING): ZSTRING
-		require
-			not_buffer: not is_same (str)
-		local
-			start_index, end_index: INTEGER
-		do
-			end_index := str.count - str.trailing_white_space
-			if end_index.to_boolean then
-				start_index := str.leading_white_space + 1
-			else
-				start_index := 1
-			end
-			Result := empty
-			Result.append_substring (str, start_index, end_index)
-		end
-
-feature -- Contract Support
-
-	is_same (general: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := general = Buffer
-		end
-
 feature {NONE} -- Implementation
 
-	buffer: ZSTRING
-		deferred
+	leading_white_count (str: EL_READABLE_ZSTRING): INTEGER
+		do
+			Result := str.leading_white_space
+		end
+
+	trailing_white_count (str: EL_READABLE_ZSTRING): INTEGER
+		do
+			Result := str.trailing_white_space
+		end
+
+	to_lower (str: ZSTRING)
+		do
+			str.to_lower
+		end
+
+	to_upper (str: ZSTRING)
+		do
+			str.to_upper
 		end
 end

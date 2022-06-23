@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-19 10:24:23 GMT (Sunday 19th June 2022)"
-	revision: "6"
+	date: "2022-06-23 8:54:13 GMT (Thursday 23rd June 2022)"
+	revision: "7"
 
 deferred class
 	EL_REFLECTED_MEMBER_STRING [S -> STRING_GENERAL create make end]
@@ -22,8 +22,6 @@ inherit
 		redefine
 			set, set_from_string_general
 		end
-
-	EL_MODULE_REUSEABLE
 
 feature {NONE} -- Initialization
 
@@ -55,15 +53,7 @@ feature -- Basic operations
 
 	set_from_string_general (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
-			if attached {S} string as str then
-				set (a_object, str)
-
-			else
-				across reuseable_string as reuse loop
-					reuse.item.append (string)
-					set (a_object, reuse.item)
-				end
-			end
+			set (a_object, buffer.to_same (string))
 		end
 
 feature -- Access
@@ -72,7 +62,7 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	reuseable_string: EL_BORROWED_STRING_SCOPE [S]
+	buffer: EL_STRING_BUFFER [S, READABLE_STRING_GENERAL]
 		deferred
 		end
 

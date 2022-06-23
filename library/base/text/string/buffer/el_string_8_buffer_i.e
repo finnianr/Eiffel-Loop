@@ -6,26 +6,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-20 10:16:29 GMT (Monday 20th June 2022)"
-	revision: "6"
+	date: "2022-06-23 10:06:14 GMT (Thursday 23rd June 2022)"
+	revision: "7"
 
 deferred class
 	EL_STRING_8_BUFFER_I
 
+inherit
+	EL_STRING_BUFFER [STRING_8, READABLE_STRING_8]
+
 feature -- Access
 
-	copied (str_8: STRING): STRING
-		require
-			not_buffer: not is_same (str_8)
+	copied (str_8: READABLE_STRING_8): STRING
 		do
 			Result := empty
 			Result.append (str_8)
 		end
 
 	copied_general (general: READABLE_STRING_GENERAL): STRING
-		require
+		require else
 			convertable: general.is_valid_as_string_8
-			not_buffer: not is_same (general)
 		do
 			Result := empty
 			if attached {ZSTRING} general as zstr then
@@ -36,8 +36,6 @@ feature -- Access
 		end
 
 	copied_general_as_utf_8 (general: READABLE_STRING_GENERAL): STRING
-		require
-			not_buffer: not is_same (general)
 		local
 			c: EL_UTF_CONVERTER
 		do
@@ -49,30 +47,10 @@ feature -- Access
 			end
 		end
 
-	copied_substring (str_8: STRING; start_index, end_index: INTEGER): STRING
-		require
-			not_buffer: not is_same (str_8)
+	copied_substring (str_8: READABLE_STRING_8; start_index, end_index: INTEGER): STRING
 		do
 			Result := empty
 			Result.append_substring (str_8, start_index, end_index)
-		end
-
-	copied_lower (str_8: STRING): STRING
-		require
-			not_buffer: not is_same (str_8)
-		do
-			Result := empty
-			Result.append (str_8)
-			Result.to_lower
-		end
-
-	copied_upper (str_8: STRING): STRING
-		require
-			not_buffer: not is_same (str_8)
-		do
-			Result := empty
-			Result.append (str_8)
-			Result.to_upper
 		end
 
 	empty: STRING_8
@@ -91,41 +69,30 @@ feature -- Access
 			Result.append_character (quote_character)
 		end
 
-	to_same (general: READABLE_STRING_GENERAL): STRING
-		do
-			if attached {STRING} general as str then
-				Result := str
-			else
-				Result := copied_general (general)
-			end
-		end
-
-feature -- Conversion
-
-	adjusted (str: STRING_8): STRING_8
-		local
-			start_index, end_index: INTEGER; s: EL_STRING_8_ROUTINES
-		do
-			end_index := str.count - s.trailing_white_count (str)
-			if end_index.to_boolean then
-				start_index := s.leading_white_count (str) + 1
-			else
-				start_index := 1
-			end
-			Result := empty
-			Result.append_substring (str, start_index, end_index)
-		end
-
-feature -- Contract Support
-
-	is_same (general: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := general = buffer
-		end
-
 feature {NONE} -- Implementation
 
-	buffer: STRING_8
-		deferred
+	leading_white_count (str: READABLE_STRING_8): INTEGER
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			Result := s.leading_white_count (str)
 		end
+
+	trailing_white_count (str: READABLE_STRING_8): INTEGER
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			Result := s.trailing_white_count (str)
+		end
+
+	to_lower (str: STRING_8)
+		do
+			str.to_lower
+		end
+
+	to_upper (str: STRING_8)
+		do
+			str.to_upper
+		end
+
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-19 8:48:40 GMT (Sunday 19th June 2022)"
-	revision: "25"
+	date: "2022-06-23 9:19:29 GMT (Thursday 23rd June 2022)"
+	revision: "26"
 
 class
 	REFLECTION_TEST_SET
@@ -24,6 +24,8 @@ inherit
 	EL_SHARED_CURRENCY_ENUM
 
 	EL_MODULE_BASE_64
+
+	JSON_TEST_DATA
 
 feature -- Basic operations
 
@@ -118,17 +120,23 @@ feature -- Tests
 
 	test_size_reporting
 		local
-			ip_info: EL_IP_ADDRESS_GEOGRAPHIC_INFO
-			code_string: EL_CODE_STRING; n_64: INTEGER_64; l_info: SIZE_TEST
+			geo_info: EL_IP_ADDRESS_GEOGRAPHIC_INFO
+			asn_string: EL_CODE_STRING; n_64: INTEGER_64; l_info: SIZE_TEST
 		do
-			lio.put_integer_field ("size of INTEGER_64", Eiffel.physical_size (n_64))
+			create geo_info.make_from_json (JSON_eiffel_loop_ip)
+
+			lio.put_integer_field ("size of INTEGER_64", {PLATFORM}.Integer_64_bytes)
 			lio.put_new_line
-			lio.put_integer_field ("size of EL_CODE_STRING", Eiffel.physical_size (code_string))
+			asn_string := geo_info.asn_
+			lio.put_integer_field ("size of EL_CODE_STRING " + asn_string, Eiffel.deep_physical_size (asn_string))
 			lio.put_new_line
+			assert ("12 times bigger", Eiffel.deep_physical_size (asn_string) // {PLATFORM}.Integer_64_bytes = 12)
 
 			create l_info
-			lio.put_integer_field ("size of instance SIZE_TEST", Eiffel.physical_size (l_info))
+			lio.put_integer_field ("size of instance SIZE_TEST", Eiffel.deep_physical_size (l_info))
 			lio.put_new_line
+
+			assert ("same size", Eiffel.deep_physical_size (l_info) = Object_header_size + {PLATFORM}.Integer_64_bytes * 4)
 		end
 
 feature {NONE} -- Implementation
@@ -171,6 +179,8 @@ feature {NONE} -- Constants
 				"code, continent, currency, date_founded, euro_zone_member, literacy_rate, name, photo_jpeg, population"
 			)
 		end
+
+	Object_header_size: INTEGER = 16
 
 	Value_table: EL_ZSTRING_TABLE
 		once

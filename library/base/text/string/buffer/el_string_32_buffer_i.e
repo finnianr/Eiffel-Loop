@@ -6,25 +6,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-16 18:50:36 GMT (Sunday 16th May 2021)"
-	revision: "1"
+	date: "2022-06-23 10:06:01 GMT (Thursday 23rd June 2022)"
+	revision: "2"
 
 deferred class
 	EL_STRING_32_BUFFER_I
 
+inherit
+	EL_STRING_BUFFER [STRING_32, READABLE_STRING_32]
+
 feature -- Access
 
-	copied (str_32: STRING_32): STRING_32
-		require
-			not_buffer: not is_same (str_32)
+	copied (str_32: READABLE_STRING_32): STRING_32
 		do
 			Result := empty
 			Result.append (str_32)
 		end
 
 	copied_general (general: READABLE_STRING_GENERAL): STRING_32
-		require
-			not_buffer: not is_same (general)
 		do
 			Result := empty
 			if attached {ZSTRING} general as zstr then
@@ -34,9 +33,7 @@ feature -- Access
 			end
 		end
 
-	copied_substring (str_32: STRING_32; start_index, end_index: INTEGER): STRING_32
-		require
-			not_buffer: not is_same (str_32)
+	copied_substring (str_32: READABLE_STRING_32; start_index, end_index: INTEGER): STRING_32
 		do
 			Result := empty
 			Result.append_substring (str_32, start_index, end_index)
@@ -48,34 +45,31 @@ feature -- Access
 			Result.wipe_out
 		end
 
-feature -- Conversion
-
-	adjusted (str: STRING_32): STRING_32
-		require
-			not_buffer: not is_same (str)
-		local
-			start_index, end_index: INTEGER; s: EL_STRING_32_ROUTINES
-		do
-			end_index := str.count - s.trailing_white_count (str)
-			if end_index.to_boolean then
-				start_index := s.leading_white_count (str) + 1
-			else
-				start_index := 1
-			end
-			Result := empty
-			Result.append_substring (str, start_index, end_index)
-		end
-
-feature -- Contract Support
-
-	is_same (general: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := general = Buffer
-		end
-
 feature {NONE} -- Implementation
 
-	buffer: STRING_32
-		deferred
+	leading_white_count (str: READABLE_STRING_32): INTEGER
+		local
+			s: EL_STRING_32_ROUTINES
+		do
+			Result := s.leading_white_count (str)
 		end
+
+	trailing_white_count (str: READABLE_STRING_32): INTEGER
+		local
+			s: EL_STRING_32_ROUTINES
+		do
+			Result := s.trailing_white_count (str)
+		end
+
+	to_lower (str: STRING_32)
+		do
+			str.to_lower
+		end
+
+	to_upper (str: STRING_32)
+		do
+			str.to_upper
+		end
+
+
 end

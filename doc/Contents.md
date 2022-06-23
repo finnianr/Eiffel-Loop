@@ -1653,7 +1653,7 @@ A "Swiss-army knife" of Eiffel class editing utilities invokeable by a command-l
 
 **Sub-applications**
 
-[CLASS_PREFIX_REMOVAL_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/class_prefix_removal_app.html) removes all classname prefixes over a source directory
+[CLASS_PREFIX_REMOVAL_APP]($source) removes all classname prefixes over a source directory
 
 Command switch: `-remove_prefix`
 
