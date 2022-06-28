@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 18:36:50 GMT (Thursday 16th June 2022)"
-	revision: "30"
+	date: "2022-06-27 8:09:05 GMT (Monday 27th June 2022)"
+	revision: "31"
 
 class
 	EL_NAMING_ROUTINES
@@ -358,16 +358,21 @@ feature -- Export names
 		require
 			empty_title_out: title_out.is_empty
 		local
-			s: EL_STRING_8_ROUTINES
+			s: EL_STRING_8_ROUTINES; i: INTEGER; word: STRING
 		do
 			Underscore_split.set_target (name_in)
 			across Underscore_split as list loop
+				word := list.item
 				if list.cursor_index > 1 then
 					title_out.append_character (separator_out)
 				end
-				if list.item_count > 0 then
-					if uppercase_exception_set.has (list.item) then
-						title_out.append (list.item.as_upper)
+				if word.count > 0 then
+					if uppercase_exception_set.has_key (word) then
+						word := uppercase_exception_set.found_item
+						from i := 1 until i > word.count loop
+							title_out.append_character (word [i].as_upper)
+							i := i + 1
+						end
 					else
 						list.append_item_to (title_out)
 						s.set_upper (title_out, list.item_lower)

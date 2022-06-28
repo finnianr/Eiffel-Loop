@@ -56,19 +56,9 @@ system:
 
 					Classes for processing audio files and sample data.
 				"""
-			file_rule:
-				exclude:
-					"/imp_mswin$"
-				condition:
-					platform:
-						value = unix
+			platform_list:
+				"imp_mswin; imp_unix"
 
-			file_rule:
-				exclude:
-					"/imp_unix$"
-				condition:
-					platform:
-						value = windows
 
 		cluster:
 			name = video; location = "multimedia/video"; recursive = true
@@ -78,18 +68,8 @@ system:
 
 					Wrappers for various video conversion operations using OS commands
 				"""
-			file_rule:
-				exclude:
-					"/imp_mswin$"
-				condition:
-					platform:
-						value = unix
+			platform_list:
+				"imp_mswin; imp_unix"
 
-			file_rule:
-				exclude:
-					"/imp_unix$"
-				condition:
-					platform:
-						value = windows
 
 

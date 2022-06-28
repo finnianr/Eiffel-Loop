@@ -6,19 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-15 15:30:47 GMT (Wednesday 15th June 2022)"
-	revision: "1"
+	date: "2022-06-25 12:17:18 GMT (Saturday 25th June 2022)"
+	revision: "2"
 
 class
 	PP_NAME_TRANSLATER
 
 inherit
 	EL_CAMEL_CASE_TRANSLATER
-		rename
-			make as make_default,
-			make_upper as make
 		redefine
-			exported, new_camel_name
+			exported, new_camel_name, Default_case
 		end
 
 create
@@ -46,6 +43,11 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Default_case: NATURAL
+		once
+			Result := {EL_CASE}.upper
+		end
 
 	L_: STRING = "l_"
 end

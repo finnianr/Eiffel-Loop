@@ -6,16 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 7:53:00 GMT (Thursday 16th June 2022)"
-	revision: "3"
+	date: "2022-06-25 15:07:36 GMT (Saturday 25th June 2022)"
+	revision: "4"
 
 class
 	ID3_ENCODING_ENUM
 
 inherit
 	EL_ENUMERATION [NATURAL_8]
+		rename
+			foreign_naming as kebab_case_upper
 		redefine
-			foreign_naming, initialize_fields
+			initialize_fields
 		end
 
 create
@@ -83,10 +85,10 @@ feature {NONE} -- Internal attributes
 
 	underbit_table: HASH_TABLE [NATURAL_8, INTEGER]
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	Foreign_naming: EL_KEBAB_CASE_TRANSLATER
-		once
-			create Result.make_upper
+	kebab_case_upper: EL_NAME_TRANSLATER
+		do
+			Result := kebab_case_translater ({EL_CASE}.Upper)
 		end
 end

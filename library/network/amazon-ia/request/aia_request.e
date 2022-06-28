@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-22 8:27:25 GMT (Wednesday 22nd June 2022)"
-	revision: "17"
+	date: "2022-06-25 14:48:51 GMT (Saturday 25th June 2022)"
+	revision: "18"
 
 deferred class
 	AIA_REQUEST
@@ -22,7 +22,7 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_any_field,
-			foreign_naming as Camel_case,
+			foreign_naming as camel_case,
 			reset_fields as wipe_out
 		export
 			{NONE} all
@@ -79,11 +79,6 @@ feature {NONE} -- Internal attributes
 		-- callback function
 
 feature {NONE} -- Constants
-
-	Camel_case: EL_CAMEL_CASE_TRANSLATER
-		once
-			create Result.make
-		end
 
 	Transient_fields: STRING
 		once

@@ -31,21 +31,18 @@ system:
 		library:
 			name = wel; location="$ISE_LIBRARY/library/wel/wel.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		library:
 			name = wex_mci; location="$EL_CONTRIB/Eiffel/Wex_MCI/Wex_MCI.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		# For Windows: Internal WaveOut API callback function.
 		external_include: 
 			location = "$(EL_C_LIB)/audio/source"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		external_include:
 			location = "$(ISE_LIBRARY)/C_library/zlib"
@@ -53,26 +50,22 @@ system:
 		external_object:
 			location = "$(EL_C_LIB)/audio/spec/$(ISE_PLATFORM)/el_audio.lib"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		external_object:
 			location = 'WinMM.lib'
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		external_object:
 			location = "-L$(ISE_LIBRARY)/C_library/zlib -lz"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		library:
 			name = c_library_zlib; location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 		
 		# Eiffel-Loop
 		library:
@@ -94,6 +87,5 @@ system:
 		cluster:
 			name = wel_x_audio; location = "multimedia/wel-x-audio"; recursive = true
 			condition:
-				platform:
-					value = windows
+				platform = windows
 

@@ -49,9 +49,6 @@ See doc/app-manage.txt for details.
 		<!--Source code-->
 		<cluster name = "app_manage" location = "runtime/app-manage" recursive = "true">
 			<file_rule>
-				<exclude>/gui-installer$</exclude>
-			</file_rule>
-			<file_rule>
 				<exclude>/imp_mswin$</exclude>
 				<condition>
 					<platform value = "unix"/>
@@ -62,6 +59,9 @@ See doc/app-manage.txt for details.
 				<condition>
 					<platform value = "windows"/>
 				</condition>
+			</file_rule>
+			<file_rule>
+				<exclude>/gui-installer$</exclude>
 			</file_rule>
 		</cluster>
 	</target>

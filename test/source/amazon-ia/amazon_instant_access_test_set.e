@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-15 8:45:48 GMT (Wednesday 15th June 2022)"
-	revision: "34"
+	date: "2022-06-25 11:49:44 GMT (Saturday 25th June 2022)"
+	revision: "35"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -365,6 +365,6 @@ feature {NONE} -- Constants
 
 	Translater: EL_KEBAB_CASE_TRANSLATER
 		once
-			create Result.make_lower
+			create Result.make
 		end
 end

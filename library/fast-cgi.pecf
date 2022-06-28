@@ -66,6 +66,9 @@ system:
 		# Source code
 		cluster:
 			name = protocol; location = "network/fast-cgi"; recursive = true
+			platform_list:
+				"imp_mswin; imp_unix"
+
 			description:
 				"""
 					Fast CGI Protocol
@@ -81,19 +84,7 @@ system:
 					This API has been tested in production with the [https://cherokee-project.com/ Cherokee Web Server]
 					Ver. 1.2.101
 				"""
-			file_rule:
-				exclude:
-					"/imp_mswin$"
-				condition:
-					platform:
-						value = unix
 
-			file_rule:
-				exclude:
-					"/imp_unix$"
-				condition:
-					platform:
-						value = windows
 
 		cluster:
 			name = service; location = "network/fcgi-service"; recursive = true

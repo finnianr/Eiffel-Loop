@@ -41,13 +41,11 @@ system:
 		library:
 			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 		library:
 			name = cocoa; location = "$ISE_LIBRARY/library/cocoa/cocoa.ecf"; readonly = false
 			condition:
-				platform:
-					value = macintosh
+				platform = macintosh
 				custom:
 					name = vision_implementation; value = cocoa
 		cluster:
@@ -57,8 +55,7 @@ system:
 			cluster:
 				name = implementation_mswin; location = "$|implementation"; recursive = true
 				condition:
-					platform:
-						value = windows
+					platform = windows
 				option:
 					namespace = Implementation
 				file_rule:
@@ -70,8 +67,7 @@ system:
 			cluster:
 				name = implementation_mac; location = "$|implementation"; recursive = true
 				condition:
-					platform:
-						value = macintosh
+					platform = macintosh
 					custom:
 						name = vision_implementation; value = cocoa
 				file_rule:

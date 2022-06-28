@@ -45,8 +45,7 @@ system:
 		library: 
 			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		library:
 			name = vision2; location = "$EIFFEL_LOOP/library/override/ES-vision2.ecf"

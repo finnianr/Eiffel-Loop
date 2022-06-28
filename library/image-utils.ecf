@@ -105,13 +105,13 @@ $EL_C_LIB/image-utils/spec/$ISE_PLATFORM/libelimageutils.so
 		<!--Source code-->
 		<cluster name = "image_utils" location = "graphic/image/utils" recursive = "true">
 			<file_rule>
-				<exclude>/windows$</exclude>
+				<exclude>/imp_mswin$</exclude>
 				<condition>
 					<platform value = "unix"/>
 				</condition>
 			</file_rule>
 			<file_rule>
-				<exclude>/unix$</exclude>
+				<exclude>/imp_unix$</exclude>
 				<condition>
 					<platform value = "windows"/>
 				</condition>

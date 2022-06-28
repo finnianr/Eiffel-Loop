@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 9:36:35 GMT (Thursday 16th June 2022)"
-	revision: "10"
+	date: "2022-06-25 14:45:46 GMT (Saturday 25th June 2022)"
+	revision: "11"
 
 class
 	EL_BOOK_INFO
@@ -16,7 +16,7 @@ inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
 		rename
 			element_node_fields as All_fields,
-			xml_naming as Kebab_case
+			xml_naming as kebab_case
 		redefine
 			make_default
 		end

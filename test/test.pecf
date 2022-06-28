@@ -17,7 +17,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 3; release = 4; build = 247
+			major = 1; minor = 3; release = 4; build = 248
 			company = "Eiffel-Loop"; product = "test"
 			copyright = "Finnian Reilly"
 
@@ -188,8 +188,7 @@ system:
 		library:
 			name = EL_taglib; location = "$EIFFEL_LOOP/library/TagLib.ecf"; readonly = false
 			condition:
-				platform:
-					value = unix
+				platform = unix
 	
 		library:
 			name = EL_text_formats; readonly = false; location = "$EIFFEL_LOOP/library/text-formats.ecf"
@@ -206,17 +205,17 @@ system:
 		library:
 			name = EL_wel_x_audio; readonly = false; location = "$EIFFEL_LOOP/library/wel-x-audio.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 		library:
-			name = EL_vtd_xml; location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
-			readonly = false
+			name = EL_vtd_xml; readonly = false; location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
 
 		library:
 			name = EL_xml_scan; readonly = false; location = "$EIFFEL_LOOP/library/xml-scan.ecf"
 
 		cluster:
 			name = root; location = "source/root"; recursive = true
+			platform_list:
+				"imp_mswin; imp_unix"
 			description:
 				"""
 					Root class and Experiments
@@ -226,19 +225,6 @@ system:
 
 					See doc/test.root.txt for details
 				"""
-			file_rule:
-				condition:
-					platform:
-						value = windows
-				exclude:
-					"imp_unix$"
-
-			file_rule:
-				condition:
-					platform:
-						value = unix
-				exclude:
-					"imp_mswin$"
 	
 		cluster:
 			name = amazon_ia; location = "source/amazon-ia"; recursive = true
@@ -370,8 +356,7 @@ system:
 					* Test wav to mp3 conversion
 				"""
 			condition:
-				platform:
-					value = unix
+				platform = unix
 		cluster:
 			name = network; location = "source/network"; recursive = true
 			description:
@@ -436,8 +421,7 @@ system:
 					See class [$source TAGLIB_AUTOTEST_APP]
 				"""
 			condition:
-				platform:
-					value = unix
+				platform = unix
 		cluster:
 			name = text_formats; location = "source/text-formats"; recursive = true
 			description:
@@ -466,6 +450,8 @@ system:
 				"""
 		cluster:
 			name = wel_x_audio; location = "source/wel-x-audio"; recursive = true
+			platform_list:
+				"imp_mswin; imp_unix"
 			description:
 				"""
 					wel-x-audio.ecf
@@ -473,19 +459,6 @@ system:
 					Maintenance of Windows audio classes
 					See class [$source MEDIA_PLAYER_DUMMY_APP]
 				"""
-			file_rule:
-				exclude:
-					"imp_unix$"
-				condition:
-					platform:
-						value = windows
-
-			file_rule:
-				exclude:
-					"imp_mswin$"
-				condition:
-					platform:
-						value = unix
 		cluster:
 			name = xml_scan; location = "source/xml-scan"; recursive = true
 			description:

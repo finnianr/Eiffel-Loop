@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 18:38:20 GMT (Thursday 16th June 2022)"
-	revision: "2"
+	date: "2022-06-27 8:19:29 GMT (Monday 27th June 2022)"
+	revision: "3"
 
 class
 	EL_KEBAB_CASE_TRANSLATER
@@ -16,7 +16,10 @@ inherit
 	EL_NAME_TRANSLATER
 
 create
-	make, make_lower, make_upper, make_title
+	make, make_case
+
+convert
+	make_case ({NATURAL})
 
 feature -- Conversion
 
@@ -25,16 +28,13 @@ feature -- Conversion
 		do
 			create Result.make (eiffel_name.count)
 			inspect foreign_case
-				when Case_lower then
-					to_kebab_case_lower (eiffel_name, Result)
-
-				when Case_upper then
+				when {EL_CASE}.upper then
 					to_kebab_case_upper (eiffel_name, Result)
 
-				when Case_title then
-					to_title (eiffel_name, Result, '-', title_uppercase_word_exception_set)
+				when {EL_CASE}.title then
+					to_title (eiffel_name, Result, '-', uppercase_exception_set)
 			else
-				to_kebab_case (eiffel_name, Result)
+				to_kebab_case_lower (eiffel_name, Result)
 			end
 		end
 
@@ -43,13 +43,6 @@ feature -- Conversion
 		do
 			create Result.make (foreign_name.count)
 			from_kebab_case (foreign_name, Result)
-		end
-
-feature {NONE} -- Implementation
-
-	title_uppercase_word_exception_set: EL_HASH_SET [STRING]
-		do
-			Result := empty_word_set
 		end
 
 end

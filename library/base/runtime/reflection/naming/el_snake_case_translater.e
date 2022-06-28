@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 18:37:56 GMT (Thursday 16th June 2022)"
-	revision: "2"
+	date: "2022-06-27 8:19:48 GMT (Monday 27th June 2022)"
+	revision: "3"
 
 class
 	EL_SNAKE_CASE_TRANSLATER
@@ -16,7 +16,10 @@ inherit
 	EL_NAME_TRANSLATER
 
 create
-	make_upper, make_title
+	make, make_case
+
+convert
+	make_case ({NATURAL})
 
 feature -- Conversion
 
@@ -25,11 +28,11 @@ feature -- Conversion
 		do
 			create Result.make (eiffel_name.count)
 			inspect foreign_case
-				when Case_upper then
+				when {EL_CASE}.upper then
 					to_snake_case_upper (eiffel_name, Result)
 
-				when Case_title then
-					to_title (eiffel_name, Result, '_', no_words)
+				when {EL_CASE}.title then
+					to_title (eiffel_name, Result, '_', uppercase_exception_set)
 			else
 				Result.append (eiffel_name)
 			end

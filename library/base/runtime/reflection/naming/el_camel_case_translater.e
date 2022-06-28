@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 18:38:06 GMT (Thursday 16th June 2022)"
-	revision: "2"
+	date: "2022-06-26 10:34:41 GMT (Sunday 26th June 2022)"
+	revision: "3"
 
 class
 	EL_CAMEL_CASE_TRANSLATER
@@ -19,7 +19,10 @@ inherit
 		end
 
 create
-	make, make_lower, make_upper, make_title
+	make, make_case
+
+convert
+	make_case ({NATURAL})
 
 feature {NONE} -- Initialization
 
@@ -34,15 +37,15 @@ feature -- Conversion
 	exported (eiffel_name: STRING): STRING
 		-- `eiffel_name' exported to a foreign naming convention
 		do
-			create Result.make (eiffel_name.count)
+			create Result.make (eiffel_name.count - eiffel_name.occurrences ('_'))
 			inspect foreign_case
-				when Case_lower then
+				when {EL_CASE}.lower then
 					to_camel_case_lower (eiffel_name, Result)
 
-				when Case_upper then
+				when {EL_CASE}.upper then
 					to_camel_case_upper (eiffel_name, Result)
 
-				when Case_title then
+				when {EL_CASE}.title then
 					to_camel_case (eiffel_name, Result, True)
 			else
 				to_camel_case (eiffel_name, Result, False)
@@ -53,7 +56,7 @@ feature -- Conversion
 		-- `foreign_name' translated to Eiffel attribute-naming convention
 		do
 			inspect foreign_case
-				when Case_lower, Case_upper then
+				when {EL_CASE}.lower, {EL_CASE}.upper then
 					if eiffel_table.has_key (Name_buffer.copied_lower (foreign_name)) then
 						Result := eiffel_table.found_item
 					end
@@ -69,7 +72,7 @@ feature -- Element change
 	inform (eiffel_name: STRING)
 		do
 			inspect foreign_case
-				when Case_lower, Case_upper then
+				when {EL_CASE}.lower, {EL_CASE}.upper then
 					eiffel_table.put (eiffel_name, new_camel_name (eiffel_name))
 			else
 			end

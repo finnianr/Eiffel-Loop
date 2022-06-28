@@ -46,39 +46,33 @@ system:
 		external_include: 
 			location = "$(EL_CONTRIB)/C++/id3lib/include"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		external_cflag:
 			value = "-DID3LIB_LINKOPTION=1 -DWIN32 -EHsc"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		external_object:
 			location = "$(EL_CONTRIB)/C/libid3tag/spec/$(ISE_PLATFORM)/id3tag.lib"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		external_object:
 			location = "$(EL_CONTRIB)/C++/id3lib/spec/$(ISE_PLATFORM)/id3.lib"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		# For Unix: libid3 and libid3tag externals
 		external_include: 
 			location = "$(EL_CONTRIB)/C++/id3lib/include"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		external_object:
 			location = "-L$(EL_CONTRIB)/C++/id3lib/spec/$(ISE_PLATFORM) -lid3"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		external_object:
 			location = "-L$(EL_CONTRIB)/C/libid3tag/spec/$(ISE_PLATFORM) -lid3tag"
@@ -89,14 +83,12 @@ system:
 					GetRawText() routine will return null for utf8 strings.
 				"""
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		external_object:
 			location = "-L$(ISE_LIBRARY)/C_library/zlib -lz"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		# ISE libraries
 		library: 
@@ -105,8 +97,7 @@ system:
 		library:
 			name = c_library_zlib; location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		library:
 			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"

@@ -29,6 +29,18 @@ for creating single and multi-threaded HTTP servlet services.
 		<library name = "EL_thread" location = "thread.ecf"/>
 		<!--Source code-->
 		<cluster name = "protocol" location = "network/fast-cgi" recursive = "true">
+			<file_rule>
+				<exclude>/imp_mswin$</exclude>
+				<condition>
+					<platform value = "unix"/>
+				</condition>
+			</file_rule>
+			<file_rule>
+				<exclude>/imp_unix$</exclude>
+				<condition>
+					<platform value = "windows"/>
+				</condition>
+			</file_rule>
 			<description>
 Fast CGI Protocol
 
@@ -43,18 +55,6 @@ or a Unix socket for request from the web server.
 This API has been tested in production with the [https://cherokee-project.com/ Cherokee Web Server]
 Ver. 1.2.101
 			</description>
-			<file_rule>
-				<exclude>/imp_mswin$</exclude>
-				<condition>
-					<platform value = "unix"/>
-				</condition>
-			</file_rule>
-			<file_rule>
-				<exclude>/imp_unix$</exclude>
-				<condition>
-					<platform value = "windows"/>
-				</condition>
-			</file_rule>
 		</cluster>
 		<cluster name = "service" location = "network/fcgi-service" recursive = "true">
 			<description>

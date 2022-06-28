@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 10:44:32 GMT (Thursday 16th June 2022)"
-	revision: "14"
+	date: "2022-06-25 14:38:39 GMT (Saturday 25th June 2022)"
+	revision: "15"
 
 class
 	EL_MP3_IDENTIFIER
@@ -15,6 +15,7 @@ class
 inherit
 	EL_REFLECTIVELY_SETTABLE_STORABLE
 		rename
+			foreign_naming as eiffel_naming,
 			read_version as read_default_version
 		redefine
 			make_default

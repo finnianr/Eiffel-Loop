@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-18 9:19:14 GMT (Saturday 18th June 2022)"
-	revision: "53"
+	date: "2022-06-26 10:39:33 GMT (Sunday 26th June 2022)"
+	revision: "54"
 
 deferred class
 	EL_REFLECTIVE
@@ -35,6 +35,8 @@ inherit
 	EL_REFLECTIVE_FIELD_ORDER
 
 	EL_MODULE_EIFFEL
+
+	EL_NAMING_CONVENTIONS
 
 feature {NONE} -- Initialization
 
@@ -201,7 +203,7 @@ feature {NONE} -- Implementation
 		end
 
 	eiffel_naming: detachable EL_NAME_TRANSLATER
-		-- implement in descendant
+		-- Void translater
 		do
 			Result := Void
 		end

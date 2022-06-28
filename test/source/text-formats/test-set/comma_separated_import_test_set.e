@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-22 8:21:36 GMT (Wednesday 22nd June 2022)"
-	revision: "16"
+	date: "2022-06-25 15:02:55 GMT (Saturday 25th June 2022)"
+	revision: "17"
 
 class
 	COMMA_SEPARATED_IMPORT_TEST_SET
@@ -39,7 +39,7 @@ feature -- Test
 		do
 			if attached new_job_list as job_list then
 				do_import_test (job_list)
-				do_test ("do_export_test", 1772416557, agent do_export_test, [job_list])
+				do_test ("do_export_test", 3825742947, agent do_export_test, [job_list])
 			end
 		end
 

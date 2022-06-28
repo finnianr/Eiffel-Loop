@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 9:08:35 GMT (Thursday 16th June 2022)"
-	revision: "10"
+	date: "2022-06-25 14:53:50 GMT (Saturday 25th June 2022)"
+	revision: "11"
 
 class
 	CAMEL_CASE_COUNTRY
@@ -23,10 +23,10 @@ inherit
 create
 	make
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	Camel_case: EL_CAMEL_CASE_TRANSLATER
-		once
-			create Result.make
+	camel_case: EL_NAME_TRANSLATER
+		do
+			Result := camel_case_translater ({EL_CASE}.Default)
 		end
 end

@@ -42,8 +42,7 @@ system:
 		library:
 			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		library: 
 			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"

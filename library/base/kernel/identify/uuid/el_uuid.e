@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 10:46:53 GMT (Thursday 16th June 2022)"
-	revision: "19"
+	date: "2022-06-25 14:12:50 GMT (Saturday 25th June 2022)"
+	revision: "20"
 
 class
 	EL_UUID
@@ -22,6 +22,7 @@ inherit
 
 	EL_REFLECTIVELY_SETTABLE_STORABLE
 		rename
+			foreign_naming as eiffel_naming,
 			read_version as read_default_version
 		undefine
 			out

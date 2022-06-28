@@ -30,29 +30,17 @@ system:
 		library:
 			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		# Eiffel-Loop
 		library:
 			name = EL_wel_x_audio; location = "wel-x-audio.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		# Source code
 		cluster:
 			name = EL_audio; location = "multimedia/vision2-x-audio"; recursive = true
-			file_rule:
-				exclude:
-					"/imp_mswin$"
-				condition:
-					platform:
-						value = unix
+			platform_list:
+				"imp_mswin; imp_unix"
 
-			file_rule:
-				exclude:
-					"/imp_unix$"
-				condition:
-					platform:
-						value = windows

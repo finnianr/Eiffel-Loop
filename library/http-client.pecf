@@ -33,14 +33,12 @@ system:
 		external_object:
 			location = "-L$(EL_C_LIB)/cURL/spec/$(ISE_PLATFORM) -lelcurl"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		external_object:
 			location = "$(EL_C_LIB)/cURL/spec/$(ISE_PLATFORM)/elcurl.lib"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		# Include libraries
 		library: 
@@ -66,6 +64,12 @@ system:
 			name = EL_network; location = "network.ecf"
 
 		library:
+			name = EL_os_command; location = "os-command.ecf"
+
+		library:
+			name = EL_pyxis_scan; location = "pyxis-scan.ecf"
+
+		library:
 			name = EL_text_formats; location = "text-formats.ecf"
 
 		library:
@@ -85,17 +89,7 @@ system:
 			name = http; location = "network/http"; recursive = true
 			option:
 				namespace = "Eiffel-Loop.http"
-			file_rule:
-				exclude:
-					"/imp_mswin$"
-				condition:
-					platform:
-						value = unix
+			platform_list:
+				"imp_mswin; imp_unix"
 
-			file_rule:
-				exclude:
-					"/imp_unix$"
-				condition:
-					platform:
-						value = windows
 

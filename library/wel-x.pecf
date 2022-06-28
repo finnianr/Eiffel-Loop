@@ -24,8 +24,7 @@ system:
 		external_object:
 			location = "UxTheme.lib"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		library: 
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
@@ -36,8 +35,7 @@ system:
 		library:
 			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		# Eiffel-Loop
 		library:

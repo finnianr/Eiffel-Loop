@@ -1,3 +1,7 @@
+1.6.1
+* insert platform/exclude rules for pecf -> xml
+* Abbreviate platform/condition/@value in pecf
+
 1.6.0
 * Combined class renaming and prefix removal into one application
 

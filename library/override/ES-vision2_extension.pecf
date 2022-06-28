@@ -50,8 +50,7 @@ system:
 		cluster:
 			name = independent_mswin; location = "$ISE_LIBRARY/library/vision2_extension/independent"; recursive = true
 			condition:
-				platform:
-					value = windows
+				platform = windows
 			option:
 				namespace = Vision2Extension
 			file_rule:
@@ -67,8 +66,7 @@ system:
 		cluster:
 			name = windows_neutral; location = "$ISE_LIBRARY/library/vision2_extension/windows/neutral"; recursive = true
 			condition:
-				platform:
-					value = windows
+				platform = windows
 			condition:
 				dotnet:
 					value = true

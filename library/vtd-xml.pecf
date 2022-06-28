@@ -50,20 +50,17 @@ system:
 		external_object:
 			location = "-L$(EL_C_LIB)/vtd2eiffel/spec/$(ISE_PLATFORM) -lvtd-xml"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		external_object:
 			location = "$(EL_C_LIB)/vtd2eiffel/spec/$(ISE_PLATFORM)/vtd-xml.lib"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		external_linker_flag:
 			value = "-L$(EL_C_LIB)/vtd2eiffel/spec/$(ISE_PLATFORM) -lvtd-xml"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 		
 		# Experiment to see if calling scons with pre-compile action is practical
 		#pre_compile_action:
@@ -94,18 +91,8 @@ system:
 		# Source code
 		cluster:
 			name = vtd_xml; location = "persistency/xml/vtd-xml"; recursive = true
-			file_rule:
-				exclude:
-					"/imp_mswin$"
-				condition:
-					platform:
-						value = unix
+			platform_list:
+				"imp_mswin; imp_unix"
 
-			file_rule:
-				exclude:
-					"/imp_unix$"
-				condition:
-					platform:
-						value = windows
 
 

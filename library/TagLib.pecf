@@ -49,57 +49,48 @@ system:
 		external_include:
 			location = "$(EL_CONTRIB)\\C++\\taglib\\include"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		external_include:
 			location = "$(EL_CONTRIB)\\C++\\taglib\\include\\mpeg\\id3v2"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		external_include: 
 			location = "$(EL_CONTRIB)\\C++\\taglib\\include\\toolkit"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		external_object:
 			location = "$(EL_CONTRIB)\\C++\\taglib\\spec\\$(ISE_PLATFORM)\\tag.lib"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		# For Unix
 		external_include:
 			location = "$(EL_CONTRIB)/C++/taglib/include"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		external_include:
 			location = "$(EL_CONTRIB)/C++/taglib/include/mpeg/id3v2"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		external_include:
 			location = "$(EL_CONTRIB)/C++/taglib/include/toolkit"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		external_object:
 			location = "-L$(EL_CONTRIB)/C++/taglib/spec/$(ISE_PLATFORM) -ltag"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		external_object:
 			location = "-L$(ISE_LIBRARY)/C_library/zlib -lz"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		# ISE libraries
 		library: 
@@ -108,8 +99,7 @@ system:
 		library:
 			name = c_library_zlib; location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		library:
 			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
@@ -117,7 +107,6 @@ system:
 		# Eiffel Loop
 		library:
 			name = EL_base; location = "base/base.ecf"
-			readonly = false
 
 		library:
 			name = EL_c_api; location = "C-language-interface.ecf"
@@ -125,18 +114,8 @@ system:
 		# Source code
 		cluster:
 			name = taglib; location = "multimedia/ID3/taglib"; recursive = true
-			file_rule:
-				exclude:
-					"/imp_mswin$"
-				condition:
-					platform:
-						value = unix
+			platform_list:
+				"imp_mswin; imp_unix"
 
-			file_rule:
-				exclude:
-					"/imp_unix$"
-				condition:
-					platform:
-						value = windows
 
 

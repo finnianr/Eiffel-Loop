@@ -36,52 +36,44 @@ system:
 		external_include:
 			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/cairo"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		external_include:
 			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/librsvg-2.0/librsvg"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		external_include: 
 			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/glib-2.0"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		external_include: 
 			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/lib/glib-2.0/include"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		# Unix includes
 		external_include:
 			location = "/usr/include/cairo"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		external_include:
 			location = "/usr/include/librsvg-2.0/librsvg"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		external_include:
 			location = "/usr/include/glib-2.0"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		# Needs to be a way to select the 32 bit version but how?
 		external_include: 
 			location = "/usr/lib/x86_64-linux-gnu/glib-2.0/include"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		# For Windows
 		# The following objects are excluded from being linked because they are intended for dynamic linking at runtime. 
@@ -98,8 +90,7 @@ system:
 					$EL_C_LIB/image-utils/spec/$ISE_PLATFORM/elimageutils.dll
 				"""
 			condition:
-				platform:
-					value = windows
+				platform = windows
 				custom:
 					name = link_object; value = true
 
@@ -111,8 +102,7 @@ system:
 					$EL_CONTRIB/C/Cairo-1.12.16/spec/$ISE_PLATFORM/*.dll
 				"""
 			condition:
-				platform:
-					value = windows
+				platform = windows
 				custom:
 					name = link_object; value = true
 
@@ -125,8 +115,7 @@ system:
 					$EL_C_LIB/image-utils/spec/$ISE_PLATFORM/libelimageutils.so
 				"""
 			condition:
-				platform:
-					value = unix
+				platform = unix
 				custom:
 					name = link_object; value = true
 
@@ -149,17 +138,7 @@ system:
 		# Source code
 		cluster:
 			name = image_utils; location = "graphic/image/utils"; recursive = true
-			file_rule:
-				exclude:
-					"/windows$"
-				condition:
-					platform:
-						value = unix
+			platform_list:
+				"imp_mswin; imp_unix"
 
-			file_rule:
-				exclude:
-					"/unix$"
-				condition:
-					platform:
-						value = windows
 

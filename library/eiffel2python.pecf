@@ -29,27 +29,23 @@ system:
 		external_include: 
 			location = "$(PYTHON_HOME)/include"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		external_object:
 			location = "$(PYTHON_HOME)/libs/$(PYTHON_LIB_NAME).lib"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 		
 		# Unix
 		external_include: 
 			location = "/usr/include/$(PYTHON_LIB_NAME)"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		external_object:
 			location = "-l$(PYTHON_LIB_NAME)"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		library: 
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"

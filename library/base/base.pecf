@@ -49,8 +49,7 @@ system:
 					$EL_CONTRIB/C/MSC-runtime/spec/$ISE_PLATFORM/msvcr71.dll
 				"""
 			condition:
-				platform:
-					value = windows
+				platform = windows
 				custom:
 					name = link_object; value = true
 
@@ -78,8 +77,7 @@ system:
 		library:
 			name = ise_i18n; location = "$ISE_LIBRARY/library/i18n/i18n.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		# CLUSTERS
 		cluster:
@@ -124,19 +122,8 @@ system:
 					* Reading file properties
 					* Processing directory data
 				"""
-			file_rule:
-				exclude:
-					"imp_mswin$"
-				condition:
-					platform:
-						value = unix
-
-			file_rule:
-				exclude:
-					"imp_unix$"
-				condition:
-					platform:
-						value = windows
+			platform_list:
+				"imp_mswin; imp_unix"
 
 		cluster:
 			name = io; location = "runtime/io"; recursive = true
@@ -149,19 +136,9 @@ system:
 					* Writing to the console with color highlighting
 					* Read user input data
 				"""
-			file_rule:
-				exclude:
-					"imp_mswin$"
-				condition:
-					platform:
-						value = unix
+			platform_list:
+				"imp_mswin; imp_unix"
 
-			file_rule:
-				exclude:
-					"imp_unix$"
-				condition:
-					platform:
-						value = windows
 
 		cluster:
 			name = kernel; location = kernel; recursive = true
@@ -203,34 +180,14 @@ system:
 				name = exception; location = "$|exception"; recursive = true
 			cluster:
 				name = memory; location = "$|memory"; recursive = true
-				file_rule:
-					exclude:
-						"imp_mswin$"
-					condition:
-						platform:
-							value = unix
+				platform_list:
+					"imp_mswin; imp_unix"
 
-				file_rule:
-					exclude:
-						"imp_unix$"
-					condition:
-						platform:
-							value = windows
 			cluster:
 				name = process; location = "$|process"; recursive = true
-				file_rule:
-					exclude:
-						"imp_mswin$"
-					condition:
-						platform:
-							value = unix
+				platform_list:
+					"imp_mswin; imp_unix"
 
-				file_rule:
-					exclude:
-						"imp_unix$"
-					condition:
-						platform:
-							value = windows
 			cluster:
 				name = progress_track; location = "$|progress-track"; recursive = true
 			cluster:
@@ -307,13 +264,11 @@ system:
 			cluster:
 				name = imp_unix; location = "$|imp_unix"; recursive = true
 				condition:
-					platform:
-						value = unix
+					platform = unix
 			cluster:
 				name = imp_mswin; location = "$|imp_mswin"; recursive = true
 				condition:
-					platform:
-						value = windows
+					platform = windows
 			cluster:
 				name = character; location = "$|character"; recursive = true
 			cluster:

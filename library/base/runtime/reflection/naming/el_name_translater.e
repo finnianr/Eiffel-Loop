@@ -10,44 +10,52 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-17 14:22:22 GMT (Friday 17th June 2022)"
-	revision: "2"
+	date: "2022-06-27 8:19:03 GMT (Monday 27th June 2022)"
+	revision: "3"
 
 deferred class
 	EL_NAME_TRANSLATER
 
 inherit
-	ANY
-
 	EL_NAMING_ROUTINES
 		export
 			{NONE} all
+		redefine
+			default_create
 		end
 
 feature {NONE} -- Initialization
 
+	default_create
+		do
+			if attached uppercase_exception_set_list as set_list then
+				set_uppercase_exception_set (set_list)
+			else
+				uppercase_exception_set := empty_word_set
+			end
+		end
+
 	make
 		do
-			default_create
-			foreign_case := Case_default
+			make_case (Default_case)
 		end
 
-	make_lower
+	make_case (case: NATURAL)
+		require
+			valid_case: (create {EL_CASE}).valid.has (case)
 		do
 			default_create
-			foreign_case := Case_lower
+			foreign_case := case
 		end
 
-	make_title
-		do
-			default_create
-			foreign_case := Case_title
-		end
+feature -- Element change
 
-	make_upper
+	set_uppercase_exception_set (csv_list: STRING)
+		local
+			words: EL_STRING_8_LIST
 		do
-			default_create
-			foreign_case := Case_upper
+			words := csv_list
+			uppercase_exception_set := words.to_array
 		end
 
 feature -- Conversion
@@ -73,24 +81,32 @@ feature -- Element change
 		do
 		end
 
+feature {NONE} -- Implementation
+
+	uppercase_exception_set_list: detachable STRING
+		-- comma separated list of exceptions to initialized `uppercase_exception_set'
+		do
+			Result := Void
+		end
+
 feature {NONE} -- Internal attributes
 
-	foreign_case: INTEGER
+	foreign_case: NATURAL
+
+	uppercase_exception_set: EL_HASH_SET [STRING]
+		-- set of words to be fully upper-cased for title case
 
 feature {NONE} -- Constants
+
+	Default_case: NATURAL
+		once
+			Result := {EL_CASE}.default
+		end
 
 	Name_buffer: EL_STRING_8_BUFFER
 		once
 			create Result
 		end
-
-	Case_default: INTEGER = 0
-
-	Case_lower: INTEGER = 1
-
-	Case_title: INTEGER = 3
-
-	Case_upper: INTEGER = 2
 
 note
 	descendants: "[
@@ -99,6 +115,7 @@ note
 					[$source EL_HEADER_NAME_TRANSLATER]
 				[$source EL_SNAKE_CASE_TRANSLATER]
 				[$source EL_CAMEL_CASE_TRANSLATER]
+					[$source PP_NAME_TRANSLATER]
 				[$source EL_ENGLISH_NAME_TRANSLATER]
 					[$source TL_MUSICBRAINZ_TRANSLATER]
 	]"

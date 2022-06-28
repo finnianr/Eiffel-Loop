@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-21 13:39:59 GMT (Monday 21st February 2022)"
-	revision: "6"
+	date: "2022-06-28 17:06:36 GMT (Tuesday 28th June 2022)"
+	revision: "7"
 
 deferred class
 	EL_FILE_ROUTINES_I
@@ -36,7 +36,6 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	info (a_path: EL_PATH; keep_ref: BOOLEAN): EL_INFO_RAW_FILE
-			--
 		do
 			if keep_ref then
 				create Result.make

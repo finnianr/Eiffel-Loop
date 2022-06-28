@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 9:47:57 GMT (Thursday 16th June 2022)"
-	revision: "21"
+	date: "2022-06-25 11:57:40 GMT (Saturday 25th June 2022)"
+	revision: "22"
 
 class
 	FCGI_HTTP_HEADERS
@@ -240,7 +240,7 @@ feature {NONE} -- Constants
 
 	Snake_case_upper: EL_SNAKE_CASE_TRANSLATER
 		once
-			create Result.make_upper
+			Result := {EL_CASE}.Upper
 		end
 
 end

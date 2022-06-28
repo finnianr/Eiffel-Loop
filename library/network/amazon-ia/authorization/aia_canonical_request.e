@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-15 8:45:02 GMT (Wednesday 15th June 2022)"
-	revision: "14"
+	date: "2022-06-25 11:49:44 GMT (Saturday 25th June 2022)"
+	revision: "15"
 
 class
 	AIA_CANONICAL_REQUEST
@@ -90,6 +90,6 @@ feature {NONE} -- Constants
 
 	Translater: EL_KEBAB_CASE_TRANSLATER
 		once
-			create Result.make_lower
+			create Result.make
 		end
 end

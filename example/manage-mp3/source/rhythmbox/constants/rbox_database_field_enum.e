@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-22 9:59:37 GMT (Wednesday 22nd June 2022)"
-	revision: "10"
+	date: "2022-06-25 14:50:19 GMT (Saturday 25th June 2022)"
+	revision: "11"
 
 class
 	RBOX_DATABASE_FIELD_ENUM
@@ -26,7 +26,7 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_16]
 		rename
-			foreign_naming as Kebab_case
+			foreign_naming as kebab_case
 		redefine
 			initialize_fields, make
 		end
@@ -326,10 +326,4 @@ feature {NONE} -- Internal attributes
 
 	element_cache_table: EL_CACHE_TABLE [XML_TEXT_ELEMENT, NATURAL_16]
 
-feature {NONE} -- Constants
-
-	Kebab_case: EL_KEBAB_CASE_TRANSLATER
-		once
-			create Result.make
-		end
 end

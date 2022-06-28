@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 9:53:35 GMT (Thursday 16th June 2022)"
-	revision: "2"
+	date: "2022-06-25 11:57:42 GMT (Saturday 25th June 2022)"
+	revision: "3"
 
 class
 	EL_IPAPI_CO_JSON_FIELD_ENUM
@@ -108,6 +108,6 @@ feature {NONE} -- Constants
 
 	Snake_case_upper: EL_SNAKE_CASE_TRANSLATER
 		once
-			create Result.make_upper
+			Result := {EL_CASE}.Upper
 		end
 end

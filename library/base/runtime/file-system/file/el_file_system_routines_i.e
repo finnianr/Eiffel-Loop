@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 6:23:32 GMT (Thursday 17th February 2022)"
-	revision: "49"
+	date: "2022-06-28 18:20:38 GMT (Tuesday 28th June 2022)"
+	revision: "50"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -176,6 +176,8 @@ feature -- Basic operations
 			file_exists: a_file_path.exists
 		do
 			File.info (a_file_path, False).rename_file (new_file_path)
+		ensure
+			renamed: new_file_path.exists
 		end
 
 feature -- Status query

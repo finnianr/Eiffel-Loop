@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-23 9:19:29 GMT (Thursday 23rd June 2022)"
-	revision: "26"
+	date: "2022-06-25 13:20:45 GMT (Saturday 25th June 2022)"
+	revision: "27"
 
 class
 	REFLECTION_TEST_SET
@@ -45,8 +45,7 @@ feature -- Tests
 
 	test_arrayed_list_initialization
 		local
-			any_list: ARRAYED_LIST [ANY]
-			integer_list: EL_ARRAYED_LIST [INTEGER]
+			any_list: ARRAYED_LIST [ANY]; integer_list: EL_ARRAYED_LIST [INTEGER]
 		do
 			create integer_list.make (0)
 			any_list := integer_list

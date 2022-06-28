@@ -52,14 +52,12 @@ system:
 		external_object:
 			location = "-L$(EL_CONTRIB)/C/Expat/spec/$(ISE_PLATFORM) -lexpat"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		external_object:
 			location = "$(EL_CONTRIB)/C/Expat/spec/$(ISE_PLATFORM)/expat.lib"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		# ISE libraries
 		library: 

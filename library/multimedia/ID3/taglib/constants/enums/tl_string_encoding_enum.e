@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 9:51:32 GMT (Thursday 16th June 2022)"
-	revision: "2"
+	date: "2022-06-25 14:30:09 GMT (Saturday 25th June 2022)"
+	revision: "3"
 
 class
 	TL_STRING_ENCODING_ENUM
@@ -52,12 +52,9 @@ feature -- Access
 feature {NONE} -- Constants
 
 	English: EL_ENGLISH_NAME_TRANSLATER
-		local
-			words: EL_STRING_8_LIST
 		once
-			words := "utf"
 			create Result.make
-			Result.set_uppercase_exception_set (words.to_array)
+			Result.set_uppercase_exception_set ("utf")
 		end
 
 end

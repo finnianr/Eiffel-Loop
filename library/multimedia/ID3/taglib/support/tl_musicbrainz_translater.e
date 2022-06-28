@@ -1,24 +1,21 @@
 note
-	description: "TL musicbrainz translater"
+	description: "TagLib musicbrainz translater"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-15 16:43:23 GMT (Wednesday 15th June 2022)"
-	revision: "1"
+	date: "2022-06-27 8:30:23 GMT (Monday 27th June 2022)"
+	revision: "2"
 
 class
 	TL_MUSICBRAINZ_TRANSLATER
 
 inherit
 	EL_ENGLISH_NAME_TRANSLATER
-		rename
-			make as make_default,
-			make_title as make
 		redefine
-			exported, imported
+			exported, imported, Default_case
 		end
 
 create
@@ -41,6 +38,11 @@ feature -- Conversion
 		end
 
 feature {NONE} -- Constants
+
+	Default_case: NATURAL
+		once
+			Result := {EL_CASE}.title
+		end
 
 	Musicbrainz: STRING = "MusicBrainz "
 		-- identifier with trailing space

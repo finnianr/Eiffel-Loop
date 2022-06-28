@@ -6,19 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 14:45:54 GMT (Thursday 16th June 2022)"
-	revision: "2"
+	date: "2022-06-27 8:17:49 GMT (Monday 27th June 2022)"
+	revision: "3"
 
 class
 	EL_HTTP_HEADER_NAME_TRANSLATER
 
 inherit
 	EL_KEBAB_CASE_TRANSLATER
-		rename
-			make as make_kebab,
-			make_title as make
 		redefine
-			exported, Title_uppercase_word_exception_set
+			exported, Default_case, Uppercase_exception_set_list
 		end
 
 create
@@ -40,13 +37,13 @@ feature -- Conversion
 
 feature {NONE} -- Constants
 
-	Title_uppercase_word_exception_set: EL_HASH_SET [STRING]
-		local
-			list: EL_STRING_8_LIST
+	Default_case: NATURAL
 		once
-			list := "http2, id, im, md5, te, p3p, www"
-			Result := list.to_array
+			Result := {EL_CASE}.title
 		end
 
 	Etag: STRING = "ETag"
+
+	Uppercase_exception_set_list: STRING = "http2, id, im, md5, te, p3p, www"
+
 end

@@ -39,19 +39,8 @@ system:
 
 					Support creation of Eiffel interfaces to C and C++ API's
 				"""
-			file_rule:
-				exclude:
-					"/imp_mswin$"
-				condition:
-					platform:
-						value = unix
-
-			file_rule:
-				exclude:
-					"/imp_unix$"
-				condition:
-					platform:
-						value = windows
+			platform_list:
+				"imp_mswin; imp_unix"
 
 		cluster:
 			name = MS_COM; location = "language_interface/MS-COM"; recursive = true

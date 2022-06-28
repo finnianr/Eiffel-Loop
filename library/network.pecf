@@ -37,14 +37,12 @@ system:
 		external_object:
 			location = "$(EL_C_LIB)/network-adapter/spec/$(ISE_PLATFORM)/network-adapter.lib"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		external_object:
 			location = "IPHlpApi.lib"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 		
 		# ISE libraries
 		library: 
@@ -89,17 +87,7 @@ system:
 			name = network; location = "network/base"; recursive = true
 			option:
 				namespace = "Eiffel-Loop-net"
-			file_rule:
-				exclude:
-					"/imp_mswin$"
-				condition:
-					platform:
-						value = unix
+			platform_list:
+				"imp_mswin; imp_unix"
 
-			file_rule:
-				exclude:
-					"/imp_unix$"
-				condition:
-					platform:
-						value = windows
 

@@ -19,18 +19,17 @@ system:
 		external_include:
 			location = "$(EL_CONTRIB)/C++/Wex_MCI/include"
 			condition:
-				platform:
-					value = windows
+				platform = windows
+
 		external_object:
 			location = "$(EL_CONTRIB)/C++/Wex_MCI/spec/$ISE_PLATFORM/wex_mci.lib"
 			condition:
-				platform:
-					value = windows
+				platform = windows
+
 		external_object:
 			location = "WinMM.lib"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		library:
 			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"

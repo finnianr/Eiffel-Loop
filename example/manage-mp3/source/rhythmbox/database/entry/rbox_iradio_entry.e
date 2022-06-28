@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-22 10:00:44 GMT (Wednesday 22nd June 2022)"
-	revision: "52"
+	date: "2022-06-25 14:50:24 GMT (Saturday 25th June 2022)"
+	revision: "53"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -16,11 +16,11 @@ inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
 		rename
 			make_default as make,
-			xml_naming as Kebab_case_lower,
+			xml_naming as kebab_case,
 			element_node_fields as All_fields,
 			New_line as New_line_character
 		redefine
-			make, building_action_table, new_representations, Kebab_case_lower, Transient_fields
+			make, building_action_table, new_representations, Transient_fields
 		end
 
 	EVOLICITY_SERIALIZEABLE
@@ -260,11 +260,6 @@ feature {NONE} -- Constants
 			create Result.make (0)
 		end
 
-	Kebab_case_lower: EL_KEBAB_CASE_TRANSLATER
-		once
-			create Result.make_lower
-		end
-
 	Transient_fields: STRING
 		-- fields that are treated as transient and not stored in Rhythmbox database
 		once
@@ -282,5 +277,4 @@ feature {NONE} -- Constants
 		end
 
 end
-
 

@@ -21,8 +21,7 @@ system:
 		external_include:
 			location = "$(ISE_LIBRARY)\library\web_browser\spec\include"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 		external_include:
 			location = "$(ISE_LIBRARY)/library/web_browser/spec/include"
 			condition:
@@ -36,8 +35,7 @@ system:
 		external_library:
 			location = "$(ISE_LIBRARY)\library\web_browser\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\ole_ie.lib"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 		library:
 			name = api_wrapper; location = "$ISE_LIBRARY/library/api_wrapper/api_wrapper.ecf"
 		library:
@@ -48,8 +46,7 @@ system:
 		library:
 			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		# Eiffel-Loop libraries
 		library:
@@ -101,8 +98,7 @@ system:
 				exclude:
 					"/windows$"
 				condition:
-					platform:
-						value = unix
+					platform = unix
 
 		cluster:
 			name = implementation_interface
@@ -123,16 +119,14 @@ system:
 				exclude:
 					"/dotnet$"
 				condition:
-					platform:
-						value = windows
+					platform = windows
 					dotnet:
 						value = false
 			file_rule:
 				exclude:
 					"/classic$"
 				condition:
-					platform:
-						value = windows
+					platform = windows
 					dotnet:
 						value = true
 		cluster:

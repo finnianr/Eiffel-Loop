@@ -1,6 +1,6 @@
 note
 	description: "[
-		Translate English/Eiffel names: "English name" <-> english_name
+		Translate English/Eiffel names: "English name" <-> english_name (first letter is capitalized)
 	]"
 
 	author: "Finnian Reilly"
@@ -8,27 +8,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-21 16:14:24 GMT (Tuesday 21st June 2022)"
-	revision: "3"
+	date: "2022-06-27 8:11:41 GMT (Monday 27th June 2022)"
+	revision: "4"
 
 class
 	EL_ENGLISH_NAME_TRANSLATER
 
 inherit
 	EL_NAME_TRANSLATER
-		redefine
-			default_create
-		end
 
 create
-	make, make_lower, make_upper, make_title
+	make, make_case
 
-feature {NONE} -- Initialization
-
-	default_create
-		do
-			uppercase_exception_set := empty_word_set
-		end
+convert
+	make_case ({NATURAL})
 
 feature -- Conversion
 
@@ -40,10 +33,11 @@ feature -- Conversion
 			create Result.make (eiffel_name.count)
 			to_english (eiffel_name, Result, uppercase_exception_set)
 			inspect foreign_case
-				when Case_lower then
+				when {EL_CASE}.lower then
 					Result.to_lower
+					s.set_upper (Result, 1)
 
-				when Case_title then
+				when {EL_CASE}.title then
 					if attached Split_list as list then
 						list.set_target (Result, ' ', 0)
 						from list.start until list.after loop
@@ -52,7 +46,7 @@ feature -- Conversion
 						end
 					end
 
-				when Case_upper then
+				when {EL_CASE}.upper then
 					Result.to_upper
 			else
 			end
@@ -69,17 +63,6 @@ feature -- Conversion
 				from_kebab_case (name, Result)
 			end
 		end
-
-feature -- Element change
-
-	set_uppercase_exception_set (word_set: EL_HASH_SET [STRING])
-		do
-			uppercase_exception_set := word_set
-		end
-
-feature {NONE} -- Implementation
-
-	uppercase_exception_set: EL_HASH_SET [STRING]
 
 feature {NONE} -- Constants
 

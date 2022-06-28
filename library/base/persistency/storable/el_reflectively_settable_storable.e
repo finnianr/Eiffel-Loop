@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 10:46:22 GMT (Thursday 16th June 2022)"
-	revision: "53"
+	date: "2022-06-25 14:08:51 GMT (Saturday 25th June 2022)"
+	revision: "54"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -24,8 +24,7 @@ inherit
 
 	EL_REFLECTIVELY_SETTABLE
 		rename
-			field_included as is_storable_field,
-			foreign_naming as eiffel_naming
+			field_included as is_storable_field
 		export
 			{EL_MEMORY_READER_WRITER} make_default, generating_type
 		redefine

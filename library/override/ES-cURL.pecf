@@ -21,8 +21,8 @@ system:
 		external_include:
 			location = "$(ISE_LIBRARY)\library\cURL\spec\include"
 			condition:
-				platform:
-					value = windows
+				platform = windows
+
 		external_object:
 			location = "$(ISE_LIBRARY)/library/cURL/spec/$(ISE_PLATFORM)/lib/eiffel_curl.o"
 			condition:
@@ -40,8 +40,7 @@ system:
 		external_object:
 			location = "$(ISE_LIBRARY)\library\cURL\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\eiffel_curl.lib"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 				concurrency:
 					value = none
 				dotnet:
@@ -56,8 +55,7 @@ system:
 					$ISE_LIBRARY\studio\spec\$ISE_PLATFORM\bin\ssleay32.dll
 				"""
 			condition:
-				platform:
-					value = windows
+				platform = windows
 				concurrency:
 					excluded_value = none
 				dotnet:
@@ -65,8 +63,7 @@ system:
 		external_object:
 			location = "$(ISE_LIBRARY)\library\cURL\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\ileiffel_curl.lib"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 				dotnet:
 					value = true
 		library:
@@ -84,15 +81,13 @@ system:
 					"/mac$"
 					"/gtk$"
 				condition:
-					platform:
-						value = windows
+					platform = windows
 			file_rule:
 				exclude:
 					"/gtk$"
 					"/mswin$"
 				condition:
-					platform:
-						value = macintosh
+					platform	 = macintosh
 					custom:
 						name = vision_implementation; value = cocoa
 			file_rule:

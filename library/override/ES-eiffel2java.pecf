@@ -30,20 +30,17 @@ system:
 		external_include: 
 			location = "$(JDK_HOME)/include/linux"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		external_cflag:
 			value = "-Wno-write-strings"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		external_include: 
 			location = "$(JDK_HOME)/include/win32"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		library: 
 			name = "base"; location = "$ISE_LIBRARY/library/base/base.ecf"
@@ -61,19 +58,8 @@ system:
 					Override of Eiffel Software's [https://www.eiffel.org/doc/solutions/Eiffel2Java Eiffel2Java] library
 					for use with the [./library/eiffel2java.html  Eiffel-Loop Eiffel to Java] library.
 				"""
-			file_rule:
-				exclude:
-					"/windows$"
-				condition:
-					platform:
-						value = unix
-
-			file_rule:
-				exclude:
-					"/unix$"
-				condition:
-					platform:
-						value = windows
+			platform_list:
+				"windows; unix"
 
 		cluster:
 			name = eiffel2java; location = "$ISE_LIBRARY/library/Eiffel2Java/"; recursive = true

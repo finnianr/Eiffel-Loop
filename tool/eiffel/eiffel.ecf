@@ -7,7 +7,7 @@
 	It is also a Latin transliteration of a Greek word for a type of pottery used by women to hold
 	cosmetics, trinkets or jewellery.
 -->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "el_eiffel" uuid = "EEA36E90-5A49-11E7-8290-A34D58BF65CD">
+<system xmlns = "http://www.eiffel.com/developers/xml/configuration-EEA36E90-5A49-11E7-8290-A34D58BF65CD" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-EEA36E90-5A49-11E7-8290-A34D58BF65CD http://www.eiffel.com/developers/xml/configuration-EEA36E90-5A49-11E7-8290-A34D58BF65CD.xsd" name = "el_eiffel" uuid = "EEA36E90-5A49-11E7-8290-A34D58BF65CD">
 	<description>
 Eiffel Development Utilities
 
@@ -16,7 +16,7 @@ See doc/eiffel-utility.txt for details.
 	<!--&quot;Swiss army knife&quot; toolkit containing a suite of command line tools for Eiffel development-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
-		<version major = "1" minor = "6" release = "0" build = "493" company = "Eiffel-Loop" product = "eiffel" copyright = "Finnian Reilly"/>
+		<version major = "1" minor = "6" release = "1" build = "502" company = "Eiffel-Loop" product = "eiffel" copyright = "Finnian Reilly"/>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "false"/>
 		</option>

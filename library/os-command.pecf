@@ -61,17 +61,6 @@ system:
 		# Source code
 		cluster:
 			name = os_command; location = "runtime/process/commands"; recursive = true
-			file_rule:
-				exclude:
-					"/imp_mswin$"
-				condition:
-					platform:
-						value = unix
-
-			file_rule:
-				exclude:
-					"/imp_unix$"
-				condition:
-					platform:
-						value = windows
+			platform_list:
+				"imp_mswin; imp_unix"
 

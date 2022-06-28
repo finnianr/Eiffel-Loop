@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 9:37:01 GMT (Thursday 16th June 2022)"
-	revision: "18"
+	date: "2022-06-25 14:32:05 GMT (Saturday 25th June 2022)"
+	revision: "19"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -79,13 +79,6 @@ feature {NONE} -- Build from XML
 			valid_field_names: valid_field_names (Result)
 		end
 
-feature {NONE} -- Constants
-
-	Kebab_case: EL_KEBAB_CASE_TRANSLATER
-		once
-			create Result.make
-		end
-		
 note
 	descendants: "[
 			EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT*

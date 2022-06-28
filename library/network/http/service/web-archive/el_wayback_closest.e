@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-22 8:27:25 GMT (Wednesday 22nd June 2022)"
-	revision: "5"
+	date: "2022-06-25 11:43:45 GMT (Saturday 25th June 2022)"
+	revision: "6"
 
 class
 	EL_WAYBACK_CLOSEST
@@ -62,6 +62,6 @@ feature {NONE} -- Constants
 
 	Camel_case_lower: EL_CAMEL_CASE_TRANSLATER
 		once
-			create Result.make_lower
+			create Result.make
 		end
 end

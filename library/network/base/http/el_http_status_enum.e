@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 9:46:23 GMT (Thursday 16th June 2022)"
-	revision: "12"
+	date: "2022-06-25 14:30:23 GMT (Saturday 25th June 2022)"
+	revision: "13"
 
 class
 	EL_HTTP_STATUS_ENUM
@@ -265,12 +265,9 @@ feature -- 5xx codes
 feature {NONE} -- Constants
 
 	English: EL_ENGLISH_NAME_TRANSLATER
-		local
-			words: EL_STRING_8_LIST
 		once
-			words := "http, uri, ok"
 			create Result.make
-			Result.set_uppercase_exception_set (words.to_array)
+			Result.set_uppercase_exception_set ("http, uri, ok")
 		end
 
 end

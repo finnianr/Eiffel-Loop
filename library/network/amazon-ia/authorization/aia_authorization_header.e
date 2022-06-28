@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 12:07:21 GMT (Thursday 16th June 2022)"
-	revision: "21"
+	date: "2022-06-25 14:52:10 GMT (Saturday 25th June 2022)"
+	revision: "22"
 
 class
 	AIA_AUTHORIZATION_HEADER
@@ -102,6 +102,13 @@ feature -- Access
 			create Result.make_split (signed_headers, Semicolon)
 		end
 
+feature {NONE} -- Implementation
+
+	camel_case_title: EL_NAME_TRANSLATER
+		do
+			Result := camel_case_translater ({EL_CASE}.Title)
+		end
+
 feature {NONE} -- Constants
 
 	Algorithm_equals: STRING = "algorithm="
@@ -109,11 +116,6 @@ feature {NONE} -- Constants
 	Default_algorithm: STRING_8
 		once
 			Result := "DTA1-HMAC-SHA256"
-		end
-
-	Camel_case_title: EL_CAMEL_CASE_TRANSLATER
-		once
-			create Result.make_title
 		end
 
 	Semicolon: CHARACTER = ';'

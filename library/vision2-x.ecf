@@ -110,11 +110,6 @@ CLUSTERS
 		</library>
 		<!--Source clusters-->
 		<cluster name = "graphics" location = "graphic/toolkit/vision2-x/graphics" recursive = "true">
-			<description>
-Vision2-X 2D Graphics
-
-Classes for 2D geometry and graphical drawing
-			</description>
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>
 				<condition>
@@ -127,14 +122,33 @@ Classes for 2D geometry and graphical drawing
 					<platform value = "windows"/>
 				</condition>
 			</file_rule>
+			<description>
+Vision2-X 2D Graphics
+
+Classes for 2D geometry and graphical drawing
+			</description>
 		</cluster>
 		<cluster name = "pango_cairo" location = "graphic/toolkit/vision2-x/pango-cairo" recursive = "true">
+			<file_rule>
+				<exclude>/imp_mswin$</exclude>
+				<condition>
+					<platform value = "unix"/>
+				</condition>
+			</file_rule>
+			<file_rule>
+				<exclude>/imp_unix$</exclude>
+				<condition>
+					<platform value = "windows"/>
+				</condition>
+			</file_rule>
 			<description>
 Pango-Cairo 2D Graphics
 
 Eiffel interface to the [https://cairographics.org/ Cairo 2D graphics library]
 providing pixel buffer rendering with transparencies and anti-aliasing.
 			</description>
+		</cluster>
+		<cluster name = "extensions" location = "graphic/toolkit/vision2-x/extensions" recursive = "true">
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>
 				<condition>
@@ -147,13 +161,13 @@ providing pixel buffer rendering with transparencies and anti-aliasing.
 					<platform value = "windows"/>
 				</condition>
 			</file_rule>
-		</cluster>
-		<cluster name = "extensions" location = "graphic/toolkit/vision2-x/extensions" recursive = "true">
 			<description>
 Vision2-X UI Extensions
 
 Various extensions for the [https://www.eiffel.org/resources/libraries/eiffelvision2 EiffelVision2] library.
 			</description>
+		</cluster>
+		<cluster name = "container" location = "graphic/toolkit/vision2-x/container" recursive = "true">
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>
 				<condition>
@@ -166,8 +180,6 @@ Various extensions for the [https://www.eiffel.org/resources/libraries/eiffelvis
 					<platform value = "windows"/>
 				</condition>
 			</file_rule>
-		</cluster>
-		<cluster name = "container" location = "graphic/toolkit/vision2-x/container" recursive = "true">
 			<description>
 Vision2-X UI Container Extensions
 
@@ -176,9 +188,8 @@ Window, dialogs and other widget-container extensions for the
 
 See doc/vision2-x.container.txt for details
 			</description>
-			<class_option class = "EL_VIEW_DIALOG">
-				<assertions precondition = "true" postcondition = "true"/>
-			</class_option>
+		</cluster>
+		<cluster name = "pixmap" location = "graphic/toolkit/vision2-x/pixmap" recursive = "true">
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>
 				<condition>
@@ -191,13 +202,13 @@ See doc/vision2-x.container.txt for details
 					<platform value = "windows"/>
 				</condition>
 			</file_rule>
-		</cluster>
-		<cluster name = "pixmap" location = "graphic/toolkit/vision2-x/pixmap" recursive = "true">
 			<description>
 Vision2-X Pixmap Extensions
 
 Classes for managing pixmaps
 			</description>
+		</cluster>
+		<cluster name = "widget" location = "graphic/toolkit/vision2-x/widget" recursive = "true">
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>
 				<condition>
@@ -210,8 +221,6 @@ Classes for managing pixmaps
 					<platform value = "windows"/>
 				</condition>
 			</file_rule>
-		</cluster>
-		<cluster name = "widget" location = "graphic/toolkit/vision2-x/widget" recursive = "true">
 			<description>
 Vision2-X UI Widget Extensions
 
@@ -220,18 +229,6 @@ Widget extensions for the
 
 See doc/vision2-x.widget.txt for details
 			</description>
-			<file_rule>
-				<exclude>/imp_mswin$</exclude>
-				<condition>
-					<platform value = "unix"/>
-				</condition>
-			</file_rule>
-			<file_rule>
-				<exclude>/imp_unix$</exclude>
-				<condition>
-					<platform value = "windows"/>
-				</condition>
-			</file_rule>
 		</cluster>
 	</target>
 </system>

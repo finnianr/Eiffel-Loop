@@ -33,6 +33,8 @@ Supports the HTTP commands: POST, GET and HEAD.
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf" readonly = "false"/>
 		<library name = "EL_network" location = "network.ecf"/>
+		<library name = "EL_os_command" location = "os-command.ecf"/>
+		<library name = "EL_pyxis_scan" location = "pyxis-scan.ecf"/>
 		<library name = "EL_text_formats" location = "text-formats.ecf"/>
 		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<library name = "EL_thread" location = "thread.ecf"/>

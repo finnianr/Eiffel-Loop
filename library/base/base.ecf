@@ -83,13 +83,13 @@ Classes for the following:
 * Processing directory data
 			</description>
 			<file_rule>
-				<exclude>imp_mswin$</exclude>
+				<exclude>/imp_mswin$</exclude>
 				<condition>
 					<platform value = "unix"/>
 				</condition>
 			</file_rule>
 			<file_rule>
-				<exclude>imp_unix$</exclude>
+				<exclude>/imp_unix$</exclude>
 				<condition>
 					<platform value = "windows"/>
 				</condition>
@@ -105,13 +105,13 @@ Classes for the following:
 * Read user input data
 			</description>
 			<file_rule>
-				<exclude>imp_mswin$</exclude>
+				<exclude>/imp_mswin$</exclude>
 				<condition>
 					<platform value = "unix"/>
 				</condition>
 			</file_rule>
 			<file_rule>
-				<exclude>imp_unix$</exclude>
+				<exclude>/imp_unix$</exclude>
 				<condition>
 					<platform value = "windows"/>
 				</condition>
@@ -150,13 +150,13 @@ Classes for the following:
 			<cluster name = "exception" location = "$|exception" recursive = "true"/>
 			<cluster name = "memory" location = "$|memory" recursive = "true">
 				<file_rule>
-					<exclude>imp_mswin$</exclude>
+					<exclude>/imp_mswin$</exclude>
 					<condition>
 						<platform value = "unix"/>
 					</condition>
 				</file_rule>
 				<file_rule>
-					<exclude>imp_unix$</exclude>
+					<exclude>/imp_unix$</exclude>
 					<condition>
 						<platform value = "windows"/>
 					</condition>
@@ -164,13 +164,13 @@ Classes for the following:
 			</cluster>
 			<cluster name = "process" location = "$|process" recursive = "true">
 				<file_rule>
-					<exclude>imp_mswin$</exclude>
+					<exclude>/imp_mswin$</exclude>
 					<condition>
 						<platform value = "unix"/>
 					</condition>
 				</file_rule>
 				<file_rule>
-					<exclude>imp_unix$</exclude>
+					<exclude>/imp_unix$</exclude>
 					<condition>
 						<platform value = "windows"/>
 					</condition>

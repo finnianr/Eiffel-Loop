@@ -31,8 +31,8 @@ system:
 		external_include:
 			location = "$(ISE_LIBRARY)\library\vision2\spec\include"
 			condition:
-				platform:
-					value = windows
+				platform = windows
+
 		external_include:
 			location = "$(ISE_LIBRARY)/library/vision2/spec/include"
 			condition:
@@ -89,8 +89,7 @@ system:
 		external_object:
 			location = "$ISE_LIBRARY\library\vision2\spec\$ISE_C_COMPILER\$ISE_PLATFORM\lib\ilvision2.lib"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 				dotnet:
 					value = true
 		external_linker_flag:
@@ -178,18 +177,15 @@ system:
 		library:
 			name = c_library_libpng; location = "$ISE_LIBRARY/C_library/libpng/clibs_libpng.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 		library:
 			name = c_library_zlib; location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 		library:
 			name = cocoa; location = "$ISE_LIBRARY\library\cocoa\cocoa.ecf"; readonly = false
 			condition:
-				platform:
-					value = macintosh
+				platform = macintosh
 				custom:
 					name = vision_implementation; value = cocoa
 				custom:
@@ -198,8 +194,7 @@ system:
 			name = objective_c; location = "$ISE_LIBRARY\library\objc_base\objc_base.ecf"
 			readonly = false
 			condition:
-				platform:
-					value = macintosh
+				platform = macintosh
 				custom:
 					name = vision_implementation; value = cocoa
 				custom:
@@ -209,8 +204,7 @@ system:
 		library:
 			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 		assembly:
 			name = eiffelsoftware_runtime
 			location = "$ISE_EIFFEL\studio\spec\$ISE_PLATFORM\lib\EiffelSoftware.Runtime.dll"
@@ -248,8 +242,7 @@ system:
 			name = implementation_cocoa; location = "$ISE_LIBRARY/library/vision2/implementation\cocoa\\"
 			recursive = true
 			condition:
-				platform:
-					value = macintosh
+				platform = macintosh
 				custom:
 					name = vision_implementation; excluded_value = gtk34
 				custom:
@@ -283,8 +276,7 @@ system:
 			name = implementation_mswin; location = "$ISE_LIBRARY/library/vision2/implementation/mswin"
 			recursive = true
 			condition:
-				platform:
-					value = windows
+				platform = windows
 			option:
 				namespace = "Vision2.$$Implementation"
 			file_rule:
@@ -295,16 +287,14 @@ system:
 					"/ev_pixmap_imp_drawable\.e"
 					"/ev_radio_button_imp\.e"
 				condition:
-					platform:
-						value = windows
+					platform = windows
 					dotnet:
 						value = false
 			file_rule:
 				exclude:
 					"/classic$"
 				condition:
-					platform:
-						value = windows
+					platform = windows
 					dotnet:
 						value = true
 
@@ -328,8 +318,7 @@ system:
 			cluster:
 				name = el_implementation_mswin; location = "$|implementation/mswin"; recursive = true
 				condition:
-					platform:
-						value = windows
+					platform = windows
 			cluster:
 				name = el_implementation_gtk; location = "$|implementation/gtk"; recursive = true
 				condition:

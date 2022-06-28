@@ -65,25 +65,12 @@ system:
 		library:
 			name = EL_wel_regedit; location = "wel-regedit-x.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 		
 		# Source code
 		cluster:
 			name = Java; location = "language_interface/Java"; recursive = true
-			file_rule:
-				exclude:
-					"/imp_mswin$"
-				condition:
-					platform:
-						value = unix
 
-			file_rule:
-				exclude:
-					"/imp_unix$"
-				condition:
-					platform:
-						value = windows
-
-
+			platform_list:
+				"imp_mswin; imp_unix"
 

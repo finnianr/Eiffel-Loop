@@ -158,8 +158,7 @@ system:
 		library:
 			name = EL_wel_x; readonly = false; location = "$EIFFEL_LOOP/library/wel-x.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		library:
 			name = EL_xml_scan; readonly = false; location = "$EIFFEL_LOOP/library/xml-scan.ecf"

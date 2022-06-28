@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 9:59:43 GMT (Thursday 16th June 2022)"
-	revision: "3"
+	date: "2022-06-25 11:58:10 GMT (Saturday 25th June 2022)"
+	revision: "4"
 
 class
 	PP_CONVERTABLE_TO_PARAMETER_LIST
@@ -28,6 +28,6 @@ feature {NONE} -- Constants
 
 	Camel_case_upper: EL_CAMEL_CASE_TRANSLATER
 		once
-			create Result.make_upper
+			Result := {EL_CASE}.Upper
 		end
 end

@@ -31,8 +31,7 @@ system:
 		external_object:
 			location = "-L$(EL_C_LIB)/bit-utils/spec/$(ISE_PLATFORM) -lpf_bit_utils"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 			
 		# C externals (Windows)
 		library:

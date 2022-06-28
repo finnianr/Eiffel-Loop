@@ -33,8 +33,7 @@ system:
 		external_object:
 			location = "-L$(ISE_LIBRARY)/C_library/zlib -lz"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		library: 
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
@@ -42,8 +41,7 @@ system:
 		library:
 			name = c_library_zlib; location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		# Eiffel Loop
 

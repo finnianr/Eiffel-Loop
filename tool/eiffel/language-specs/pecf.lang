@@ -333,6 +333,7 @@
 			<keyword>new_name</keyword>
 			<keyword>old_name</keyword>
 			<keyword>optimize</keyword>
+			<keyword>platform</keyword>
 			<keyword>postcondition</keyword>
 			<keyword>precondition</keyword>
 			<keyword>prefix</keyword>
@@ -403,6 +404,7 @@
 			<keyword>override</keyword>
 			<keyword>overrides</keyword>
 			<keyword>platform</keyword>
+			<keyword>platform_list</keyword>
 			<keyword>post_compile_action</keyword>
 			<keyword>pre_compile_action</keyword>
 			<keyword>precompile</keyword>

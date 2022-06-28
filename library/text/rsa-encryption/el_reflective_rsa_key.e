@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 10:48:03 GMT (Thursday 16th June 2022)"
-	revision: "12"
+	date: "2022-06-25 14:48:34 GMT (Saturday 25th June 2022)"
+	revision: "13"
 
 deferred class
 	EL_REFLECTIVE_RSA_KEY
@@ -19,10 +19,10 @@ inherit
 	EL_REFLECTIVELY_SETTABLE_STORABLE
 		rename
 			read_version as read_default_version,
-			eiffel_naming as Camel_case
+			foreign_naming as camel_case
 		redefine
 			print_fields, is_storable_field,
-			new_reader_writer_interfaces, Camel_case, Use_default_values
+			new_reader_writer_interfaces, Use_default_values
 		end
 
 	EL_SETTABLE_FROM_STRING_8
@@ -109,11 +109,6 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Default_exponent: INTEGER = 65537
-
-	Camel_case: EL_CAMEL_CASE_TRANSLATER
-		once
-			create Result.make
-		end
 
 	Integer_x_type: INTEGER
 		once

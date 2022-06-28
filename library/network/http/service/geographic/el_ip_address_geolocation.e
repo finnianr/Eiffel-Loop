@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-22 8:27:25 GMT (Wednesday 22nd June 2022)"
-	revision: "7"
+	date: "2022-06-25 14:12:04 GMT (Saturday 25th June 2022)"
+	revision: "8"
 
 class
 	EL_IP_ADDRESS_GEOLOCATION
@@ -17,6 +17,7 @@ class
 inherit
 	EL_REFLECTIVELY_SETTABLE_STORABLE
 		rename
+			foreign_naming as eiffel_naming,
 			make_default as make,
 			read_version as read_default_version
 		redefine

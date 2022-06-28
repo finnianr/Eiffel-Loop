@@ -31,75 +31,63 @@ system:
 		external_include:
 			location = "$(EL_C_LIB)/gtk-init/source"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		external_include:
 			location = "cairo.h"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		external_object:
 			location = "-lcairo"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		external_object:
 			location = "-lXrandr"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		external_object:
 			location = "-lX11"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		external_object:
 			location = "$(EL_C_LIB)/gtk-init/spec/$(ISE_PLATFORM)/libgtkinit.a"
 			condition:
-				platform:
-					value = unix
+				platform = unix
 
 		# Windows externals
 		external_include:
 			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/atk-1.0"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		external_include:
 			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/cairo"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		external_include:
 			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/glib-2.0"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		external_include:
 			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/gtk-3.0"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		external_include:
 			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/gdk-pixbuf-2.0"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		external_include:
 			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/pango-1.0"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		library: 
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
@@ -125,8 +113,7 @@ system:
 		library:
 			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		# Eiffel-Loop
 		library:
@@ -153,39 +140,31 @@ system:
 		library:
 			name = EL_wel_x; location = "wel-x.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		library:
 			name = EL_wel_regedit_x; location = "wel-regedit-x.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
 
 		# Source clusters
 		cluster:
 			name = graphics; location = "graphic/toolkit/vision2-x/graphics"; recursive = true
+			platform_list:
+				"imp_mswin; imp_unix"
+
 			description:
 				"""
 					Vision2-X 2D Graphics
 
 					Classes for 2D geometry and graphical drawing
 				"""
-			file_rule:
-				exclude:
-					"/imp_mswin$"
-				condition:
-					platform:
-						value = unix
 
-			file_rule:
-				exclude:
-					"/imp_unix$"
-				condition:
-					platform:
-						value = windows
 		cluster:
 			name = pango_cairo; location = "graphic/toolkit/vision2-x/pango-cairo"; recursive = true
+			platform_list:
+				"imp_mswin; imp_unix"
+
 			description:
 				"""
 					Pango-Cairo 2D Graphics
@@ -193,42 +172,24 @@ system:
 					Eiffel interface to the [https://cairographics.org/ Cairo 2D graphics library]
 					providing pixel buffer rendering with transparencies and anti-aliasing.
 				"""
-			file_rule:
-				exclude:
-					"/imp_mswin$"
-				condition:
-					platform:
-						value = unix
 
-			file_rule:
-				exclude:
-					"/imp_unix$"
-				condition:
-					platform:
-						value = windows
 		cluster:
 			name = extensions; location = "graphic/toolkit/vision2-x/extensions"; recursive = true
+			platform_list:
+				"imp_mswin; imp_unix"
+
 			description:
 				"""
 					Vision2-X UI Extensions
 
 					Various extensions for the [https://www.eiffel.org/resources/libraries/eiffelvision2 EiffelVision2] library.
 				"""
-			file_rule:
-				exclude:
-					"/imp_mswin$"
-				condition:
-					platform:
-						value = unix
 
-			file_rule:
-				exclude:
-					"/imp_unix$"
-				condition:
-					platform:
-						value = windows
 		cluster:
 			name = container; location = "graphic/toolkit/vision2-x/container"; recursive = true
+			platform_list:
+				"imp_mswin; imp_unix"
+
 			description:
 				"""
 					Vision2-X UI Container Extensions
@@ -238,48 +199,24 @@ system:
 
 					See doc/vision2-x.container.txt for details
 				"""
-			class_option:
-				class = EL_VIEW_DIALOG
-				assertions:
-					precondition = true; postcondition = true
-			file_rule:
-				exclude:
-					"/imp_mswin$"
-				condition:
-					platform:
-						value = unix
-
-			file_rule:
-				exclude:
-					"/imp_unix$"
-				condition:
-					platform:
-						value = windows
 
 		cluster:
 			name = pixmap; location = "graphic/toolkit/vision2-x/pixmap"; recursive = true
+			platform_list:
+				"imp_mswin; imp_unix"
+
 			description:
 				"""
 					Vision2-X Pixmap Extensions
 
 					Classes for managing pixmaps
 				"""
-			file_rule:
-				exclude:
-					"/imp_mswin$"
-				condition:
-					platform:
-						value = unix
-
-			file_rule:
-				exclude:
-					"/imp_unix$"
-				condition:
-					platform:
-						value = windows
 
 		cluster:
 			name = widget; location = "graphic/toolkit/vision2-x/widget"; recursive = true
+			platform_list:
+				"imp_mswin; imp_unix"
+
 			description:
 				"""
 					Vision2-X UI Widget Extensions
@@ -289,18 +226,4 @@ system:
 
 					See doc/vision2-x.widget.txt for details
 				"""
-			file_rule:
-				exclude:
-					"/imp_mswin$"
-				condition:
-					platform:
-						value = unix
-
-			file_rule:
-				exclude:
-					"/imp_unix$"
-				condition:
-					platform:
-						value = windows
-
 

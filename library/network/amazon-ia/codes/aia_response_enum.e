@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 9:34:35 GMT (Thursday 16th June 2022)"
-	revision: "8"
+	date: "2022-06-25 14:54:36 GMT (Saturday 25th June 2022)"
+	revision: "9"
 
 class
 	AIA_RESPONSE_ENUM
@@ -19,7 +19,7 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
-			foreign_naming as Snake_case_upper
+			foreign_naming as snake_case_upper
 		end
 
 create
@@ -27,23 +27,23 @@ create
 
 feature -- Access
 
-	ok: NATURAL_8
-
 	fail_account_invalid: NATURAL_8
-
-	fail_user_not_eligible: NATURAL_8
-
-	fail_user_invalid: NATURAL_8
-
-	fail_other: NATURAL_8
 
 	fail_invalid_purchase_token: NATURAL_8
 
-feature {NONE} -- Constants
+	fail_other: NATURAL_8
 
-	Snake_case_upper: EL_SNAKE_CASE_TRANSLATER
-		once
-			create Result.make_upper
+	fail_user_invalid: NATURAL_8
+
+	fail_user_not_eligible: NATURAL_8
+
+	ok: NATURAL_8
+
+feature {NONE} -- Implementation
+
+	snake_case_upper: EL_NAME_TRANSLATER
+		do
+			Result := snake_case_translater ({EL_CASE}.Upper)
 		end
 
 end
