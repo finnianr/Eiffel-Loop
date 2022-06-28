@@ -2,6 +2,20 @@ note
 	description: "[
 		Converts Pyxis format Eiffel project configuration with `.pecf' extension to `.ecf' XML file
 	]"
+	notes: "[
+		**Expansions**
+
+		**1.** Schema and name space expansion
+			configuration_ns = "1-16-00"
+
+		**2.** Excluded directores file rule by platform
+			platform_list:
+				"imp_mswin; imp_unix"
+
+		**3.** Abbreviated platform condition
+			condition:
+				platform = windows
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
