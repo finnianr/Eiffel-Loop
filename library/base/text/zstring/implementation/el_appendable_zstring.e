@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-13 10:22:09 GMT (Monday 13th June 2022)"
-	revision: "36"
+	date: "2022-06-29 15:47:06 GMT (Wednesday 29th June 2022)"
+	revision: "37"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -26,6 +26,8 @@ inherit
 		end
 
 	EL_SHARED_ENCODINGS
+
+	EL_SHARED_STRING_8_CURSOR
 
 feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
@@ -96,14 +98,14 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 		require
 			valid_encoding: valid_encoding (str_encoding)
 		local
-			offset: INTEGER; s: EL_STRING_8_ROUTINES; buffer: like empty_unencoded_buffer
+			offset: INTEGER; buffer: like empty_unencoded_buffer
 			l_codec: EL_ZCODEC
 		do
 			-- UTF-16 must be first to test as it can look like ascii
 			if str_encoding = {EL_ENCODING_CONSTANTS}.Utf_16 then
 				append_utf_16_le (str)
 
-			elseif s.is_ascii (str) then
+			elseif cursor_8 (str).all_ascii then
 				-- <= 127 is all the same no matter which encoding
 				append_ascii (str)
 
@@ -117,8 +119,8 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 				l_codec := Codec_factory.codec_by (str_encoding)
 				buffer := empty_unencoded_buffer
 				offset := count; accommodate (str.count)
-				if attached s.cursor (str) as cursor then
-					codec.re_encode (l_codec, cursor.area, area, str.count, cursor.area_first_index, offset, buffer)
+				if attached cursor_8 (str) as c then
+					codec.re_encode (l_codec, c.area, area, str.count, c.area_first_index, offset, buffer)
 					inspect respective_encoding (buffer)
 						when Both_have_mixed_encoding then
 							append_unencoded (buffer, 0)
@@ -208,7 +210,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 			if attached {EL_ZSTRING} general as str_z then
 				append_string (str_z)
 
-			elseif attached {READABLE_STRING_8} general as str_8 and then string_8.is_ascii (str_8) then
+			elseif attached {READABLE_STRING_8} general as str_8 and then cursor_8 (str_8).all_ascii then
 				append_ascii (str_8)
 			else
 				offset := count
@@ -313,7 +315,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 				append_substring (str_z, start_index, end_index)
 
 			elseif attached {READABLE_STRING_8} general as str_8
-				and then string_8.is_ascii_substring (str_8, start_index, end_index)
+				and then cursor_8 (str_8).is_ascii_substring (start_index, end_index)
 			then
 				append_ascii_substring (str_8, start_index, end_index)
 			else
@@ -596,12 +598,12 @@ feature {STRING_HANDLER} -- Contract support
 
 	is_ascii_string (str: READABLE_STRING_8): BOOLEAN
 		do
-			Result := string_8.is_ascii (str)
+			Result := cursor_8 (str).all_ascii
 		end
 
 	is_ascii_substring (str: READABLE_STRING_8; start_index, end_index: INTEGER): BOOLEAN
 		do
-			Result := string_8.is_ascii_substring (str, start_index, end_index)
+			Result := cursor_8 (str).is_ascii_substring (start_index, end_index)
 		end
 
 	valid_encoding (a_encoding: NATURAL): BOOLEAN

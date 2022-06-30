@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-21 7:55:33 GMT (Monday 21st February 2022)"
-	revision: "22"
+	date: "2022-06-30 9:33:43 GMT (Thursday 30th June 2022)"
+	revision: "23"
 
 class
 	EL_OS_ROUTINES
@@ -160,6 +160,14 @@ feature -- File query
 			--
 		do
 			if attached find_files_command (a_dir_path, a_file_pattern) as cmd then
+				cmd.execute
+				Result := cmd.path_list
+			end
+		end
+
+	file_pattern_list (file_pattern: FILE_PATH): EL_FILE_PATH_LIST
+		do
+			if attached find_files_command (file_pattern.parent, file_pattern.base) as cmd then
 				cmd.execute
 				Result := cmd.path_list
 			end

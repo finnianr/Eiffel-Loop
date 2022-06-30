@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-12 9:40:57 GMT (Tuesday 12th January 2021)"
-	revision: "4"
+	date: "2022-06-29 15:16:37 GMT (Wednesday 29th June 2022)"
+	revision: "5"
 
 class
 	EL_STRING_32_UNESCAPER
@@ -16,6 +16,8 @@ inherit
 	EL_STRING_GENERAL_UNESCAPER [READABLE_STRING_32, STRING_32]
 
 	EL_STRING_32_CONSTANTS
+
+	EL_SHARED_STRING_32_CURSOR
 
 create
 	make
@@ -57,11 +59,11 @@ feature {NONE} -- Implementation
 	unescaped_array (str: READABLE_STRING_32): SPECIAL [CHARACTER_32]
 		local
 			i, seq_count, first_index, last_index: INTEGER
-			l_area: SPECIAL [CHARACTER_32]; s: EL_STRING_32_ROUTINES
+			l_area: SPECIAL [CHARACTER_32]
 			char_i, esc_char: CHARACTER_32
 		do
 			esc_char := escape_code.to_character_32
-			if attached s.cursor (str) as l_cursor then
+			if attached cursor_32 (str) as l_cursor then
 				l_area := l_cursor.area
 				first_index := l_cursor.area_first_index
 				last_index := l_cursor.area_last_index

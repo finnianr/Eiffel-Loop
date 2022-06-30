@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-05 11:23:24 GMT (Wednesday 5th January 2022)"
-	revision: "6"
+	date: "2022-06-30 8:45:23 GMT (Thursday 30th June 2022)"
+	revision: "7"
 
 deferred class
 	EL_ITERABLE_SPLIT_CURSOR [S -> READABLE_STRING_GENERAL, G]
@@ -17,6 +17,8 @@ inherit
 		rename
 			item as item_copy
 		end
+
+	EL_SHARED_UNICODE_PROPERTY
 
 feature {NONE} -- Initialization
 
@@ -224,11 +226,4 @@ feature {NONE} -- Internal attributes
 
 	target: S
 
-feature {NONE} -- Constants
-
-	Unicode_property: CHARACTER_PROPERTY
-			-- Property for Unicode characters.
-		once
-			create Result.make
-		end
 end

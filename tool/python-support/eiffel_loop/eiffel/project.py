@@ -226,6 +226,7 @@ class EIFFEL_PROJECT (object):
 		system = SYSTEM_INFO (XPATH_ROOT_CONTEXT (self.ecf_name, 'ec'))
 		self.exe_name = system.exe_name ()
 		self.version = system.version ().short_string ()
+		self.default_installation_dir = path.join (system.installation_dir (), 'bin')
 
 # Access
 	def eifgens_dir (self):
@@ -293,7 +294,12 @@ class EIFFEL_PROJECT (object):
 	def link (self, target, link_name, sudo):
 		pass
 
-	def install (self, install_dir, f_code = False):
+	def install (self, a_install_dir, f_code = False):
+		if a_install_dir == "default":
+			install_dir = self.default_installation_dir
+		else:
+			install_dir = a_install_dir
+			
 		# Install linked version of executable in `install_dir'
 		if f_code:
 			exe_path = path.join (self.eifgens_dir (), 'classic', 'F_code', self.exe_name)
@@ -311,6 +317,11 @@ class EIFFEL_PROJECT (object):
 			print 'Linked', self.exe_name, '->', exe_dest_path
 		else:
 			print "Link error"
+
+		script_path = path.join (path.dirname (self.package_exe_path ()), self.exe_name + '.sh')
+		if path.exists (script_path):
+			self.copy (script_path, path.join (install_dir, path.basename (script_path)))
+			print "Copied " + script_path + " to", install_dir
 
 		for so_path in self.shared_object_list (path.dirname (exe_path)):
 			dest_so_path = path.join (install_dir, path.basename (so_path))

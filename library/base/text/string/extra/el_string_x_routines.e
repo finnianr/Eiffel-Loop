@@ -6,111 +6,16 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-15 12:03:58 GMT (Wednesday 15th June 2022)"
-	revision: "37"
+	date: "2022-06-30 8:59:42 GMT (Thursday 30th June 2022)"
+	revision: "38"
 
 deferred class
-	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make end]
+	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make end, READABLE -> READABLE_STRING_GENERAL]
 
 inherit
-	STRING_HANDLER
+	EL_READABLE_STRING_X_ROUTINES [READABLE]
 
-	EL_MODULE_CONVERT_STRING
-
-feature -- Status query
-
-	has_double_quotes (s: READABLE_STRING_GENERAL): BOOLEAN
-			--
-		do
-			Result := has_quotes (s, 2)
-		end
-
-	has_enclosing (s, ends: READABLE_STRING_GENERAL): BOOLEAN
-			--
-		require
-			ends_has_2_characters: ends.count = 2
-		do
-			Result := s.count >= 2
-				and then s.item (1) = ends.item (1) and then s.item (s.count) = ends.item (2)
-		end
-
-	has_quotes (s: READABLE_STRING_GENERAL; type: INTEGER): BOOLEAN
-		require
-			double_or_single: 1 <= type and type <= 2
-		local
-			quote_code: NATURAL
-		do
-			if type = 1 then
-				quote_code := ('%'').natural_32_code
-			else
-				quote_code := ('"').natural_32_code
-			end
-			Result := s.count >= 2 and then s.code (1) = quote_code and then s.code (s.count) = quote_code
-		end
-
-	has_single_quotes (s: READABLE_STRING_GENERAL): BOOLEAN
-			--
-		do
-			Result := has_quotes (s, 1)
-		end
-
-	is_ascii (str: READABLE_STRING_GENERAL): BOOLEAN
-		-- `True' if all characters in `str' are in the ASCII character set: 0 .. 127
-		deferred
-		end
-
-	is_convertible (s: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): BOOLEAN
-		-- `True' if `str' is convertible to type `basic_type'
-		do
-			Result := Convert_string.is_convertible (s, basic_type)
-		end
-
-	is_eiffel_identifier (s: READABLE_STRING_GENERAL): BOOLEAN
-		local
-			i: INTEGER
-		do
-			Result := True
-			from i := 1 until i > s.count or not Result loop
-				inspect s [i]
-					when 'a' .. 'z', 'A' .. 'Z', '0' .. '9', '_' then
-						Result := i = 1 implies s.item (1).is_alpha
-				else
-					Result := False
-				end
-				i := i + 1
-			end
-		end
-
-	is_punctuation (c: CHARACTER_32): BOOLEAN
-		do
-			Result := c.is_punctuation
-		end
-
-	is_word (str: S): BOOLEAN
-		do
-			Result := not str.is_empty
-		end
-
-feature -- Comparison
-
-	same_caseless (a, b: READABLE_STRING_GENERAL): BOOLEAN
-		-- `True' if all characters in `str' are in the ASCII character set: 0 .. 127
-		do
-			if a.count = b.count then
-				Result := a.same_caseless_characters (b, 1, b.count, 1)
-			end
-		end
-
-	caseless_ends_with (a, b: READABLE_STRING_GENERAL): BOOLEAN
-		-- `True' if `a.ends_with (b)' is true regardless of case of `b'
-		do
-			if b.is_empty then
-				Result := True
-				
-			elseif a.count >= b.count then
-				Result := a.same_caseless_characters (b, 1, b.count, a.count - b.count + 1)
-			end
-		end
+	EL_READABLE_STRING_GENERAL_ROUTINES
 
 feature -- Basic operations
 
@@ -136,40 +41,7 @@ feature -- Basic operations
 		deferred
 		end
 
-	write_utf_8 (s: READABLE_STRING_GENERAL; writeable: EL_WRITEABLE)
-		local
-			i: INTEGER; c: EL_CHARACTER_8_ROUTINES
-		do
-			from i := 1 until i > s.count loop
-				c.write_utf_8 (s [i], writeable)
-				i := i + 1
-			end
-		end
-
 feature -- Measurement
-
-	latin_1_count (s: READABLE_STRING_GENERAL): INTEGER
-		-- count of latin-1 characters
-		deferred
-		end
-
-	leading_occurences (s: READABLE_STRING_GENERAL; c: CHARACTER_32): INTEGER
-		deferred
-		end
-
-	leading_white_count (s: READABLE_STRING_GENERAL): INTEGER
-		deferred
-		end
-
-	maximum_count (strings: ITERABLE [READABLE_STRING_GENERAL]): INTEGER
-			--
-		do
-			across strings as str loop
-				if str.item.count > Result then
-					Result := str.item.count
-				end
-			end
-		end
 
 	occurrences (text, search_string: S): INTEGER
 			--
@@ -181,29 +53,6 @@ feature -- Measurement
 				Result := Result + 1
 				l_occurrences.forth
 			end
-		end
-
-	trailing_white_count (s: READABLE_STRING_GENERAL): INTEGER
-		deferred
-		end
-
-	word_count (str: READABLE_STRING_GENERAL): INTEGER
-		do
-			across str.split ('%N') as line loop
-				across words (line.item) as word loop
-					if is_word (word.item) then
-						Result := Result + 1
-					end
-				end
-			end
-		end
-
-feature -- Conversion
-
-	to_type (str: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): detachable ANY
-		-- `str' converted to type `basic_type'
-		do
-			Result := Convert_string.to_type (str, basic_type)
 		end
 
 feature -- Lists
@@ -228,39 +77,7 @@ feature -- Lists
 			Result.do_all (agent left_adjust)
 		end
 
-	words (str: READABLE_STRING_GENERAL): LIST [S]
-			-- unpunctuated words
-		local
-			i: INTEGER; l_str: S
-		do
-			create l_str.make (str.count)
-			from i := 1 until i > str.count loop
-				if not is_punctuation (str [i]) then
-					l_str.append_code (str.code (i))
-				end
-				i := i + 1
-			end
-			Result := l_str.split (' ')
-		end
-
 feature -- Transformed
-
-	adjusted (str: S): S
-		local
-			start_index, end_index: INTEGER
-		do
-			end_index := str.count - trailing_white_count (str)
-			if end_index.to_boolean then
-				start_index := leading_white_count (str) + 1
-			else
-				start_index := 1
-			end
-			if start_index = 1 and then end_index = str.count then
-				Result := str
-			else
-				Result := str.substring (start_index, end_index)
-			end
-		end
 
 	enclosed (str: READABLE_STRING_GENERAL; left, right: CHARACTER_32): S
 			--
@@ -343,69 +160,6 @@ feature -- Transformed
 			from i := 1 until i > n loop
 				Result.append_code (32)
 				i := i + 1
-			end
-		end
-
-	substring_to (str: S; uc: CHARACTER_32; start_index_ptr: POINTER): S
-		-- substring from INTEGER at memory location `start_index_ptr' up to but not including index of `uc'
-		-- or else `substring_end (start_index)' if `uc' not found
-		-- `start_index' is 1 if `start_index_ptr = Default_pointer'
-		-- write new start_index back to `start_index_ptr'
-		-- if `uc' not found then new `start_index' is `count + 1'
-		local
-			start_index, index: INTEGER
-		do
-			if start_index_ptr = Default_pointer then
-				start_index := 1
-			else
-				start_index := pointer.read_integer (start_index_ptr)
-			end
-			index := str.index_of (uc, start_index)
-			if index > 0 then
-				Result := str.substring (start_index, index - 1)
-				start_index := index + 1
-			else
-				Result := str.substring (start_index, str.count)
-				start_index := str.count + 1
-			end
-			if start_index_ptr /= Default_pointer then
-				start_index_ptr.memory_copy ($start_index, {PLATFORM}.Integer_32_bytes)
-			end
-		end
-
-	substring_to_reversed (str: S; uc: CHARACTER_32; start_index_from_end_ptr: POINTER): S
-		-- the same as `substring_to' except going from right to left
-		-- if `uc' not found `start_index_from_end' is set to `0' and written back to `start_index_from_end_ptr'
-		local
-			start_index_from_end, index: INTEGER
-		do
-			if start_index_from_end_ptr = Default_pointer then
-				start_index_from_end := str.count
-			else
-				start_index_from_end := pointer.read_integer (start_index_from_end_ptr)
-			end
-			index := last_index_of (str, uc, start_index_from_end)
-			if index > 0 then
-				Result := str.substring (index + 1, start_index_from_end)
-				start_index_from_end := index - 1
-			else
-				Result := str.substring (1, start_index_from_end)
-				start_index_from_end := 0
-			end
-			if start_index_from_end_ptr /= Default_pointer then
-				pointer.put_integer (start_index_from_end, start_index_from_end_ptr)
-			end
-		end
-
-	truncated (str: S; max_count: INTEGER): S
-		-- return `str' truncated to `max_count' characters, adding ellipsis where necessary
-		do
-			if str.count <= max_count then
-				Result := str
-			else
-				Result := str.substring (1, max_count - 2)
-				str.append_code ({ASCII}.Dot.to_natural_32)
-				str.append_code ({ASCII}.Dot.to_natural_32)
 			end
 		end
 
@@ -527,17 +281,6 @@ feature -- Transform
 				end
 				i := i + 1
 			end
-		end
-
-feature {NONE} -- Implementation
-
-	last_index_of (str: S; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
-		deferred
-		end
-
-	pointer: EL_POINTER_ROUTINES
-		-- expanded instance
-		do
 		end
 
 end

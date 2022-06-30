@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 19:32:40 GMT (Friday 11th February 2022)"
-	revision: "5"
+	date: "2022-06-29 15:45:49 GMT (Wednesday 29th June 2022)"
+	revision: "6"
 
 deferred class
 	EL_MEMORY_STRING_READER_WRITER
@@ -19,6 +19,10 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_SHARED_STRING_8_CURSOR
+
+	EL_SHARED_STRING_32_CURSOR
 
 	STRING_HANDLER
 
@@ -240,18 +244,16 @@ feature -- Write operations
 	write_string_32 (str: READABLE_STRING_32)
 		local
 			i, pos, first_index, last_index: INTEGER; compressed_32: SPECIAL [NATURAL_8]
-			area: SPECIAL [CHARACTER_32]; s: EL_STRING_32_ROUTINES
-			is_native: BOOLEAN
+			area: SPECIAL [CHARACTER_32]; is_native: BOOLEAN
 		do
 			if attached big_enough_buffer (size_of_string_32 (str)) as buf then
 				pos := count; is_native := is_native_endian
 				buf.put_integer_32 (str.count, pos)
 				pos := pos + Integer_32_bytes
 
-				if attached s.cursor (str) as cursor then
-					area := cursor.area
-					first_index := cursor.area_first_index
-					last_index := cursor.area_last_index
+				if attached cursor_32 (str) as c then
+					area := c.area; first_index := c.area_first_index
+					last_index := c.area_last_index
 				end
 				from i := first_index until i > last_index loop
 					compressed_32 := new_compressed_natural_32 (area [i].natural_32_code, is_native)
@@ -267,10 +269,10 @@ feature -- Write operations
 			-- Write `str'.
 		local
 			i, pos, first_index, last_index: INTEGER
-			area: SPECIAL [CHARACTER_8]; s: EL_STRING_8_ROUTINES
+			area: SPECIAL [CHARACTER_8]
 		do
 			write_compressed_natural_32 (str.count.to_natural_32)
-			if attached s.cursor (str) as cursor then
+			if attached cursor_8 (str) as cursor then
 				area := cursor.area
 				first_index := cursor.area_first_index
 				last_index := cursor.area_last_index

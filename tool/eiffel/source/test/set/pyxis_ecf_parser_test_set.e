@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-28 14:15:40 GMT (Tuesday 28th June 2022)"
-	revision: "18"
+	date: "2022-06-29 8:17:45 GMT (Wednesday 29th June 2022)"
+	revision: "19"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -31,7 +31,7 @@ feature -- Tests
 			--
 		local
 			converter: PYXIS_ECF_CONVERTER; ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT
-			schema_location, node_str, platform_value, exclude_value: STRING; file_rule_count, windows_count: INTEGER
+			schema_location, platform_value, exclude_value: STRING; file_rule_count, windows_count: INTEGER
 		do
 			create converter.make (pecf_path, Work_area_dir + (pecf_path.base_sans_extension + ".xml"))
 			converter.execute

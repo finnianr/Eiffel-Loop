@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:15 GMT (Tuesday 15th February 2022)"
-	revision: "30"
+	date: "2022-06-29 15:47:32 GMT (Wednesday 29th June 2022)"
+	revision: "31"
 
 class
 	EL_URI
@@ -41,6 +41,8 @@ inherit
 		export
 			{STRING_HANDLER} Colon_slash_x2
 		end
+
+	EL_SHARED_STRING_8_CURSOR
 
 create
 	make_empty, make, make_from_general, make_with_size
@@ -299,10 +301,8 @@ feature -- Status query
 feature -- Contract Support
 
 	is_unencoded (str: READABLE_STRING_8): BOOLEAN
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			Result := s.is_ascii (str)
+			Result := cursor_8 (str).all_ascii
 		end
 
 feature {NONE} -- Implementation

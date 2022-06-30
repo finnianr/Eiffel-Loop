@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-13 11:27:49 GMT (Monday 13th June 2022)"
-	revision: "32"
+	date: "2022-06-29 15:32:48 GMT (Wednesday 29th June 2022)"
+	revision: "33"
 
 deferred class
 	EL_ZCODEC
@@ -33,6 +33,8 @@ inherit
 	EL_ZSTRING_CONSTANTS
 
 	STRING_HANDLER
+
+	EL_SHARED_STRING_8_CURSOR
 
 feature {EL_ZCODEC_FACTORY} -- Initialization
 
@@ -199,10 +201,10 @@ feature -- Basic operations
 			i, j, byte_count, end_index: INTEGER; leading_byte, unicode, code_1: NATURAL
 			uc: CHARACTER_32; c: CHARACTER; area: SPECIAL [CHARACTER]
 			l_unicodes: like unicode_table; is_utf_8_in: BOOLEAN
-			string_8: EL_STRING_8_ROUTINES; utf_8: EL_UTF_8_CONVERTER; utf_16_le: EL_UTF_16_LE_CONVERTER
+			utf_8: EL_UTF_8_CONVERTER; utf_16_le: EL_UTF_16_LE_CONVERTER
 		do
 			l_unicodes := unicode_table; is_utf_8_in := utf_type = 8
-			if attached string_8.cursor (utf_in) as cursor then
+			if attached cursor_8 (utf_in) as cursor then
 				area := cursor.area; end_index := cursor.area_last_index
 				from i := cursor.area_first_index; j := out_offset until i > end_index loop
 					if is_utf_8_in then
@@ -305,10 +307,8 @@ feature -- Text conversion
 	as_unicode (encoded: READABLE_STRING_8; keeping_ref: BOOLEAN): READABLE_STRING_GENERAL
 		-- returns `encoded' string as unicode assuming the encoding matches `Current' codec
 		-- when keeping a reference to `Result' specify `keeping_ref' as `True'
-		local
-			string_8: EL_STRING_8_ROUTINES
 		do
-			if encoded_as_latin (1) or else string_8.is_ascii (encoded) then
+			if encoded_as_latin (1) or else cursor_8 (encoded).all_ascii then
 				Result := encoded
 			else
 				Unicode_buffer.set_from_encoded (Current, encoded)

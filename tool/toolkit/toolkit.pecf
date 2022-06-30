@@ -131,6 +131,9 @@ system:
 			name = EL_evolicity; readonly = false; location = "$EIFFEL_LOOP/library/evolicity.ecf"
 
 		library:
+			name = EL_http_client; readonly = false; location = "$EIFFEL_LOOP/library/http-client.ecf"
+
+		library:
 			name = EL_i18n; readonly = false; location = "$EIFFEL_LOOP/library/i18n.ecf"
 
 		library:

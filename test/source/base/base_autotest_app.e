@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-25 10:19:09 GMT (Saturday 25th June 2022)"
-	revision: "135"
+	date: "2022-06-30 7:12:42 GMT (Thursday 30th June 2022)"
+	revision: "136"
 
 class
 	BASE_AUTOTEST_APP
@@ -35,6 +35,7 @@ inherit
 		SEQUENTIAL_INTERVALS_TEST_SET,
 		SPLIT_STRING_TEST_SET,
 		STRING_EDITION_HISTORY_TEST_SET,
+		STRING_ITERATION_CURSOR_TEST_SET,
 		STRING_32_ROUTINES_TEST_SET,
 		SUBSTRING_32_ARRAY_TEST_SET,
 		SUBSTITUTION_TEMPLATE_TEST_SET,
@@ -125,6 +126,7 @@ note
 			[$source SPLIT_STRING_TEST_SET]
 			[$source STRING_EDITION_HISTORY_TEST_SET]
 			[$source STRING_32_ROUTINES_TEST_SET]
+			[$source STRING_ITERATION_CURSOR_TEST_SET]
 			[$source SUBSTRING_32_ARRAY_TEST_SET]
 			[$source SUBSTITUTION_TEMPLATE_TEST_SET]
 

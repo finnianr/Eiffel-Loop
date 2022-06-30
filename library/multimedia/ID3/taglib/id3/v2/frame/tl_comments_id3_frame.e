@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 11:50:15 GMT (Tuesday 5th January 2021)"
-	revision: "8"
+	date: "2022-06-29 20:52:19 GMT (Wednesday 29th June 2022)"
+	revision: "9"
 
 class
 	TL_COMMENTS_ID3_FRAME
@@ -26,6 +26,8 @@ inherit
 
 	TL_SHARED_ONCE_STRING
 
+	EL_SHARED_STRING_8_CURSOR
+
 create
 	make, make_from_pointer
 
@@ -43,12 +45,14 @@ feature -- Access
 
 	language: STRING
 		local
-			s: EL_STRING_8_ROUTINES; c: EL_CHARACTER_8_ROUTINES
+			c: EL_CHARACTER_8_ROUTINES
 		do
 			cpp_get_language (self_ptr, Once_byte_vector.self_ptr)
 			-- Filter anything that is not in set 'a' .. 'z', 'A' .. 'Z'
 			-- (weird characters found in test files)
-			Result := s.filtered (Once_byte_vector.to_string, agent c.is_a_to_z_caseless)
+			if attached Once_byte_vector.to_temporary_string (False) as tmp_str then
+				Result := cursor_8 (tmp_str).filtered (agent c.is_a_to_z_caseless)
+			end
 		end
 
 feature -- Status query

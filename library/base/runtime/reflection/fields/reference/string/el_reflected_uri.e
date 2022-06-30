@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-12 11:05:37 GMT (Sunday 12th September 2021)"
-	revision: "6"
+	date: "2022-06-29 15:47:47 GMT (Wednesday 29th June 2022)"
+	revision: "7"
 
 class
 	EL_REFLECTED_URI
@@ -17,6 +17,8 @@ inherit
 		rename
 			set_string as set_uri
 		end
+
+	EL_SHARED_STRING_8_CURSOR
 
 create
 	make
@@ -53,12 +55,10 @@ feature -- Basic operations
 feature {NONE} -- Implementation
 
 	set_uri (uri: EL_URI; general: READABLE_STRING_GENERAL)
-		local
-			s: EL_STRING_8_ROUTINES
 		do
 			uri.wipe_out
 			if general.has_substring (uri.Colon_slash_x2) then
-				if attached {READABLE_STRING_8} general as str_8 and then s.is_ascii (str_8) then
+				if attached {READABLE_STRING_8} general as str_8 and then cursor_8 (str_8).all_ascii then
 					uri.append (str_8)
 				else
 					uri.append_general (general)

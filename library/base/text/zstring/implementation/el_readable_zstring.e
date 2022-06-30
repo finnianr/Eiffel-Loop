@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-13 13:05:08 GMT (Monday 13th June 2022)"
-	revision: "91"
+	date: "2022-06-30 8:47:33 GMT (Thursday 30th June 2022)"
+	revision: "92"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -88,7 +88,7 @@ inherit
 			is_equal, copy, out
 		end
 
-	EL_SHARED_ZSTRING_CODEC
+	EL_SHARED_ZSTRING_CODEC; EL_SHARED_UNICODE_PROPERTY
 
 feature {NONE} -- Initialization
 
@@ -904,12 +904,6 @@ feature {NONE} -- Constants
 	Latin_1_string: EL_STRING_8
 		once
 			create Result.make_empty
-		end
-
-	Unicode_property: CHARACTER_PROPERTY
-			-- Property for Unicode characters.
-		once
-			create Result.make
 		end
 
 	Once_expanded_strings: SPECIAL [STRING_32]

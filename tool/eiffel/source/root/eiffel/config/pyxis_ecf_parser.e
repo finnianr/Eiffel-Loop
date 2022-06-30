@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-28 16:33:50 GMT (Tuesday 28th June 2022)"
-	revision: "10"
+	date: "2022-06-29 16:01:32 GMT (Wednesday 29th June 2022)"
+	revision: "11"
 
 class
 	PYXIS_ECF_PARSER
@@ -39,32 +39,30 @@ feature {NONE} -- State procedures
 
 	call_state_procedure (line: STRING)
 		local
-			s_8: EL_STRING_8_ROUTINES; equal_index, platform_index: INTEGER
-			platform_value, value_line: STRING
+			equal_index, platform_index: INTEGER
+			platform_value, value_line: STRING; s_8: EL_STRING_8_ROUTINES
 		do
 			line.right_adjust
 			if line.ends_with (Platform_list) and then line [1] = '%T' then
-				platform_indent := s_8.leading_occurences (line, '%T')
+				platform_indent := cursor_8 (line).leading_occurrences ('%T')
 
---			insert platform/exclude rules
 			elseif platform_indent.to_boolean and then line.occurrences ('"') = 2 and then line.has (';') then
-				across platform_lines (line) as list loop
+				across file_rule_lines (line) as list loop
 					Precursor (list.item)
 				end
 				platform_indent := 0
 
 			else
 				equal_index := line.index_of ('=', 1)
-				if equal_index > 0 then -- and then element_stack.count > 0 and then element_stack.item ~ Condition
+				if equal_index > 0 and tag_name ~ Condition then
 					platform_index := line.substring_index (Platform_attribute, 1)
 					if platform_index > 1 and then line [platform_index - 1] = '%T'
 						and then platform_index + Platform_attribute.count <= equal_index
 						and then line [platform_index + Platform_attribute.count] /= ':'
-						and then tag_name ~ Condition
 					then
---						Change:
+--						Expand:
 --							platform = windows
---						to:
+--						as:
 --							platform:
 --								value = windows
 						platform_value := line.substring (equal_index + 1, line.count)
@@ -112,7 +110,10 @@ feature {NONE} -- State procedures
 			end
 		end
 
-	platform_lines (line: STRING): EL_STRING_8_LIST
+	file_rule_lines (line: STRING): EL_STRING_8_LIST
+		--	Expand:
+		--		platform_list = "imp_mswin, imp_unix"
+		--	as pair of platform/exclude file rules
 		local
 			q_start, q_end: INTEGER; filled_template: ZSTRING; platform: STRING
 			is_unix: BOOLEAN

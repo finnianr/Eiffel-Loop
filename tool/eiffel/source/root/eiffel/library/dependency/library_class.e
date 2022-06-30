@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-12 14:43:04 GMT (Sunday 12th June 2022)"
-	revision: "1"
+	date: "2022-06-29 16:13:24 GMT (Wednesday 29th June 2022)"
+	revision: "2"
 
 class
 	LIBRARY_CLASS
@@ -21,6 +21,8 @@ inherit
 		end
 
 	EL_MODULE_FILE
+
+	EL_SHARED_STRING_8_CURSOR
 
 create
 	make
@@ -61,14 +63,13 @@ feature {NONE} -- Line state
 
 	compile_class_names (line: STRING)
 		local
-			splitter: EL_SPLIT_ON_CHARACTER [STRING]; s: EL_STRING_8_ROUTINES
-			word: STRING
+			splitter: EL_SPLIT_ON_CHARACTER [STRING]; word: STRING
 		do
 			line.left_adjust
 			create splitter.make (line, ' ')
 			across splitter as split loop
 				word := split.item
-				if word.count > 0 and then s.is_upper_eiffel_identifier (word) and then word /~ name then
+				if word.count > 0 and then cursor_8 (word).is_eiffel_upper and then word /~ name then
 					if not class_reference_set.has (word) then
 						class_reference_set.put (word.twin)
 					end

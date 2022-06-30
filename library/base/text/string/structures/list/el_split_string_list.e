@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-02 18:37:59 GMT (Sunday 2nd January 2022)"
-	revision: "28"
+	date: "2022-06-30 8:46:56 GMT (Thursday 30th June 2022)"
+	revision: "29"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -53,6 +53,8 @@ inherit
 		end
 
 	PART_COMPARATOR [INTEGER_64] undefine is_equal, copy, out end
+
+	EL_SHARED_UNICODE_PROPERTY
 
 create
 	make_by_string, make_adjusted, make_adjusted_by_string, make_empty, make_from_sub_list, make
@@ -481,11 +483,4 @@ feature {EL_SPLIT_STRING_LIST} -- Internal attributes
 
 	target: S
 
-feature {NONE} -- Constants
-
-	Unicode_property: CHARACTER_PROPERTY
-			-- Property for Unicode characters.
-		once
-			create Result.make
-		end
 end

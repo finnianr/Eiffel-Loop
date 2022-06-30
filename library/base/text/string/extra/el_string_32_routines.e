@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-26 15:38:41 GMT (Sunday 26th December 2021)"
-	revision: "25"
+	date: "2022-06-30 8:56:50 GMT (Thursday 30th June 2022)"
+	revision: "26"
 
 expanded class
 	EL_STRING_32_ROUTINES
@@ -15,18 +15,21 @@ expanded class
 inherit
 	EL_EXPANDED_ROUTINES
 
-	EL_STRING_X_ROUTINES [STRING_32]
+	EL_STRING_X_ROUTINES [STRING_32, READABLE_STRING_32]
+
+	EL_SHARED_STRING_32_CURSOR
+		rename
+			cursor_32 as cursor
+		end
 
 feature -- Status query
 
-	is_ascii (str: READABLE_STRING_32): BOOLEAN
-		-- `True' if all characters in `str' are in the ASCII character set: 0 .. 127
+	is_identifier_character (str: READABLE_STRING_32; i: INTEGER): BOOLEAN
 		local
-			c_32: EL_CHARACTER_32_ROUTINES
+			c: CHARACTER_32
 		do
-			if attached cursor (str) as c then
-				Result := c_32.is_ascii_area (c.area, c.area_first_index, c.area_last_index)
-			end
+			c := str [i]
+			Result := c.is_alpha_numeric or c = '_'
 		end
 
 feature -- Basic operations
@@ -46,12 +49,6 @@ feature -- Basic operations
 		end
 
 feature -- Conversion
-
-	cursor (s: READABLE_STRING_32): EL_STRING_32_ITERATION_CURSOR
-		do
-			Result := Once_cursor
-			Result.make (s)
-		end
 
 	from_general (str: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): STRING_32
 		local
@@ -86,65 +83,6 @@ feature -- Conversion
 			c.utf_32_string_into_utf_8_string_8 (str, Result)
 			if keep_ref then
 				Result := Result.twin
-			end
-		end
-
-feature -- Measurement
-
-	latin_1_count (s: STRING_32): INTEGER
-		-- count of latin-1 characters
-		local
-			i, count: INTEGER; area: SPECIAL [CHARACTER_32]
-		do
-			area := s.area; count := s.count
-			from i := 0 until i = count loop
-				if area.item (i).natural_32_code <= 0xFF then
-					Result := Result + 1
-				end
-				i := i + 1
-			end
-		end
-
-	leading_occurences (s: READABLE_STRING_32; uc: CHARACTER_32): INTEGER
-		local
-			i, l_count, offset: INTEGER; l_area: SPECIAL [CHARACTER_32]
-		do
-			l_count := s.count
-			if attached cursor (s) as c then
-				l_area := c.area
-				offset := c.area_first_index
-			end
-			from until i = l_count or else l_area.item (i + offset) /= uc loop
-				i := i + 1
-			end
-			Result := i
-		end
-
-	leading_white_count (s: STRING_32): INTEGER
-		local
-			i, l_count: INTEGER; l_area: SPECIAL [CHARACTER_32]
-			p: like Character_properties
-		do
-			p := Character_properties; l_count := s.count; l_area := s.area
-			from until i = l_count or else not p.is_space (l_area.item (i)) loop
-				i := i + 1
-			end
-			Result := i
-		end
-
-	trailing_white_count (s: STRING_32): INTEGER
-		local
-			i, nb: INTEGER; l_area: SPECIAL [CHARACTER_32]
-			p: like Character_properties
-		do
-			p := Character_properties; l_area := s.area
-			from
-				nb := s.count - 1; i := nb
-			until
-				i < 0 or else not p.is_space (l_area.item (i))
-			loop
-				Result := Result + 1
-				i := i - 1
 			end
 		end
 
@@ -187,17 +125,9 @@ feature -- Transformation
 
 feature {NONE} -- Implementation
 
-	last_index_of (str: STRING_32; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
+	last_index_of (str: READABLE_STRING_32; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
 		do
 			Result := str.last_index_of (c, start_index_from_end)
-		end
-
-feature {NONE} -- Constants
-
-	Character_properties: CHARACTER_PROPERTY
-			-- Access to Unicode character properties
-		once
-			create Result.make
 		end
 
 feature {NONE} -- Constants
@@ -207,8 +137,4 @@ feature {NONE} -- Constants
 			create Result.make
 		end
 
-	Once_cursor: EL_STRING_32_ITERATION_CURSOR
-		once
-			create Result.make_empty
-		end
 end

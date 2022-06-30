@@ -56,6 +56,7 @@ See doc/toolkit.txt for details.
 		</library>
 		<library name = "EL_encryption" readonly = "false" location = "$EIFFEL_LOOP/library/encryption.ecf"/>
 		<library name = "EL_evolicity" readonly = "false" location = "$EIFFEL_LOOP/library/evolicity.ecf"/>
+		<library name = "EL_http_client" readonly = "false" location = "$EIFFEL_LOOP/library/http-client.ecf"/>
 		<library name = "EL_i18n" readonly = "false" location = "$EIFFEL_LOOP/library/i18n.ecf"/>
 		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
 		<library name = "EL_image_utils" readonly = "false" location = "$EIFFEL_LOOP/library/image-utils.ecf"/>

@@ -21,7 +21,7 @@ parser.add_option (
 	"-f", "--f_code", action="store_true", dest="f_code", default=False, help="Install F_code executable"
 )
 parser.add_option (
-	"-i", "--install", action="store", dest="install_dir", default="/usr/local/bin", help="Installation location"
+	"-i", "--install", action="store", dest="install_dir", default="", help="Installation location"
 )
 (options, args) = parser.parse_args()
 

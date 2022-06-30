@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-22 9:33:02 GMT (Wednesday 22nd June 2022)"
-	revision: "25"
+	date: "2022-06-29 9:47:30 GMT (Wednesday 29th June 2022)"
+	revision: "26"
 
 class
 	CLASS_RENAMING_COMMAND
@@ -94,33 +94,18 @@ feature {NONE} -- Implementation
 
 	has_old_name_identifier (line: STRING): BOOLEAN
 		local
-			intervals: EL_OCCURRENCE_INTERVALS [STRING]
+			intervals: EL_OCCURRENCE_INTERVALS [STRING]; s_8: EL_STRING_8_ROUTINES
 		do
 			if line.has_substring (old_name) then
 				create intervals.make_by_string (line, old_name)
 
 				from intervals.start until Result or else intervals.after loop
-					if is_whole_identifier (line, intervals.item_lower, intervals.item_upper) then
+					if s_8.is_identifier_boundary (line, intervals.item_lower, intervals.item_upper) then
 						Result := True
 					else
 						intervals.forth
 					end
 				end
-			end
-		end
-
-	is_whole_identifier (line: STRING; lower, upper: INTEGER): BOOLEAN
-		local
-			c: CHARACTER
-		do
-			Result := True
-			if upper + 1 <= line.count then
-				c := line [upper + 1]
-				Result := not (c.is_alpha_numeric or c = '_')
-			end
-			if Result and then lower - 1 >= 1 then
-				c := line [lower - 1]
-				Result := not (c.is_alpha_numeric or c = '_')
 			end
 		end
 
@@ -133,7 +118,7 @@ feature {NONE} -- Implementation
 	put_substituted (a_file: PLAIN_TEXT_FILE; line: STRING)
 		local
 			name_split: EL_SPLIT_STRING_8_LIST
-			lower, upper: INTEGER
+			lower, upper: INTEGER; s_8: EL_STRING_8_ROUTINES
 		do
 			create name_split.make_by_string (line, old_name)
 			from name_split.start until name_split.after loop
@@ -142,7 +127,7 @@ feature {NONE} -- Implementation
 				if not name_split.after then
 					lower := name_split.i_th_upper (name_split.index - 1) + 1
 					upper := name_split.item_start_index - 1
-					if is_whole_identifier (line, lower, upper) then
+					if s_8.is_identifier_boundary (line, lower, upper) then
 						a_file.put_string (new_name)
 					else
 						a_file.put_string (old_name)

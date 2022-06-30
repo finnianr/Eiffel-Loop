@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-02 12:49:24 GMT (Wednesday 2nd February 2022)"
-	revision: "36"
+	date: "2022-06-29 20:13:46 GMT (Wednesday 29th June 2022)"
+	revision: "37"
 
 class
 	EL_PYXIS_PARSER
@@ -25,6 +25,8 @@ inherit
 	EL_MODULE_LIO
 
 	EL_MODULE_BUFFER_8
+
+	EL_SHARED_STRING_8_CURSOR
 
 create
 	make
@@ -322,15 +324,15 @@ feature {NONE} -- Implementation
 
 	call_state_procedure (line: STRING)
 		local
-			start_index, end_index: INTEGER; s_8: EL_STRING_8_ROUTINES
+			start_index, end_index: INTEGER
 		do
-			end_index := line.count - s_8.trailing_white_count (line)
+			end_index := line.count - cursor_8 (line).trailing_white_count
 			if end_index.to_boolean then
 				if state = State_gather_verbatim_lines and not has_triple_quote (line, 0, end_index) then
 					-- preserve indentation of verbatim string
 					start_index := tab_count + 2
 				else
-					tab_count := s_8.leading_occurences (line, '%T')
+					tab_count := cursor_8 (line).leading_occurrences ('%T')
 					start_index := tab_count + 1
 				end
 			else
@@ -370,12 +372,12 @@ feature {NONE} -- Implementation
 
 	has_triple_quote (line: STRING; start_index, end_index: INTEGER): BOOLEAN
 		local
-			index_start: INTEGER; s_8: EL_STRING_8_ROUTINES
+			index_start: INTEGER
 		do
 			if start_index.to_boolean then
 				index_start := start_index
 			else
-				index_start := s_8.leading_occurences (line, '%T') + 1
+				index_start := cursor_8 (line).leading_occurrences ('%T') + 1
 			end
 			if end_index - index_start = 2 then
 				Result := line.same_characters (Triple_quote, 1, 3, index_start)

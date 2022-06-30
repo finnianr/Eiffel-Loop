@@ -1,3 +1,6 @@
+2.4.1
+* Refactored EL_STRING_X_ROUTINES
+
 2.3.4
 * New routine {EL_REFLECTIVE}.foreign_naming
 

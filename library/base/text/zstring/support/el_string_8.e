@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 17:56:46 GMT (Tuesday 2nd March 2021)"
-	revision: "11"
+	date: "2022-06-29 15:42:40 GMT (Wednesday 29th June 2022)"
+	revision: "12"
 
 class
 	EL_STRING_8
@@ -17,6 +17,8 @@ inherit
 		export
 			{STRING_HANDLER} make_from_string
 		end
+
+	EL_SHARED_STRING_8_CURSOR
 
 create
 	make_from_zstring, make_empty, make
@@ -41,17 +43,13 @@ feature -- Staus query
 feature -- Measurement
 
 	leading_white_count: INTEGER
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			Result := s.leading_white_count (Current)
+			Result := cursor_8 (Current).leading_white_count
 		end
 
 	trailing_white_count: INTEGER
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			Result := s.trailing_white_count (Current)
+			Result := cursor_8 (Current).trailing_white_count
 		end
 
 feature -- Basic operations

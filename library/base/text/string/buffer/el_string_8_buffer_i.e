@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-23 10:06:14 GMT (Thursday 23rd June 2022)"
-	revision: "7"
+	date: "2022-06-29 15:41:17 GMT (Wednesday 29th June 2022)"
+	revision: "8"
 
 deferred class
 	EL_STRING_8_BUFFER_I
 
 inherit
 	EL_STRING_BUFFER [STRING_8, READABLE_STRING_8]
+
+	EL_SHARED_STRING_8_CURSOR
 
 feature -- Access
 
@@ -72,17 +74,13 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	leading_white_count (str: READABLE_STRING_8): INTEGER
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			Result := s.leading_white_count (str)
+			Result := cursor_8 (str).leading_white_count
 		end
 
 	trailing_white_count (str: READABLE_STRING_8): INTEGER
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			Result := s.trailing_white_count (str)
+			Result := cursor_8 (str).trailing_white_count
 		end
 
 	to_lower (str: STRING_8)

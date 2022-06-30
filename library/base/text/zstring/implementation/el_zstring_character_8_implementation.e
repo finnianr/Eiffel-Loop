@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-31 16:58:27 GMT (Friday 31st December 2021)"
-	revision: "17"
+	date: "2022-06-29 15:36:48 GMT (Wednesday 29th June 2022)"
+	revision: "18"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
 
 inherit
+	EL_SHARED_STRING_8_CURSOR
+
 	STRING_HANDLER
 
 feature {NONE} -- Initialization
@@ -231,6 +233,13 @@ feature -- Resizing
 			end
 		ensure then
 			same_string: same_string (old twin)
+		end
+
+feature -- Contract support
+
+	is_ascii_string_8 (str: READABLE_STRING_8): BOOLEAN
+		do
+			Result := cursor_8 (str).all_ascii
 		end
 
 feature -- Comparison
@@ -613,7 +622,7 @@ feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION} -- Implementation
 
 	set_from_ascii (str: READABLE_STRING_8)
 		require
-			is_7_bit: string_8.is_ascii (str)
+			is_7_bit: is_ascii_string_8 (str)
 		local
 			s: STRING_8
 		do
@@ -633,10 +642,6 @@ feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION} -- Implementation
 		do
 			Result := String_8_args [index - 1]
 			Result.set_area_and_count (zstr.area, zstr.count)
-		end
-
-	string_8: EL_STRING_8_ROUTINES
-		do
 		end
 
 feature -- Constants

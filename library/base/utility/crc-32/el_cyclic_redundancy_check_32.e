@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 6:34:34 GMT (Thursday 17th February 2022)"
-	revision: "23"
+	date: "2022-06-29 15:24:35 GMT (Wednesday 29th June 2022)"
+	revision: "24"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -21,9 +21,13 @@ inherit
 			{NONE} all
 		end
 
-	STRING_HANDLER undefine copy, is_equal end
-
 	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM
+
+	EL_SHARED_STRING_8_CURSOR
+
+	EL_SHARED_STRING_32_CURSOR
+
+	STRING_HANDLER undefine copy, is_equal end
 
 create
 	make
@@ -259,21 +263,17 @@ feature -- Add strings
 
 	add_string_32 (str: READABLE_STRING_32)
 			--
-		local
-			s: EL_STRING_32_ROUTINES
 		do
-			if attached s.cursor (str) as cursor then
-				add_memory (cursor.area.base_address + cursor.area_first_index, str.count, character_32_bytes)
+			if attached cursor_32 (str) as c then
+				add_memory (c.area.base_address + c.area_first_index, str.count, character_32_bytes)
 			end
 		end
 
 	add_string_8 (str: READABLE_STRING_8)
 			--
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			if attached s.cursor (str) as cursor then
-				add_memory (cursor.area.base_address + cursor.area_first_index, str.count, character_8_bytes)
+			if attached cursor_8 (str) as c then
+				add_memory (c.area.base_address + c.area_first_index, str.count, character_8_bytes)
 			end
 		end
 

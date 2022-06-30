@@ -6,15 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-06 10:03:37 GMT (Friday 6th May 2022)"
-	revision: "19"
+	date: "2022-06-29 15:18:55 GMT (Wednesday 29th June 2022)"
+	revision: "20"
 
 deferred class
 	EL_DATA_SINKABLE
 
 inherit
-	STRING_HANDLER
-
 	EL_WRITEABLE
 		rename
 			write_raw_character_8 as sink_raw_character_8, -- Allows UTF-8 conversion
@@ -39,6 +37,10 @@ inherit
 			write_boolean as sink_boolean,
 			write_pointer as sink_pointer
 		end
+
+	EL_SHARED_STRING_8_CURSOR
+
+	STRING_HANDLER
 
 feature -- Measurement
 
@@ -224,7 +226,7 @@ feature -- Character sinks
 
 	sink_character_32 (in: CHARACTER_32)
 		local
-			c: EL_CHARACTER_8_ROUTINES
+			c: EL_CHARACTER_32_ROUTINES
 		do
 			if utf_8_mode_enabled then
 				c.write_utf_8 (in, Current)
@@ -293,12 +295,12 @@ feature -- String sinks
 
 	sink_string_8 (in: READABLE_STRING_8)
 		local
-			s32: EL_STRING_32_ROUTINES; s8: EL_STRING_8_ROUTINES
+			s32: EL_STRING_32_ROUTINES
 		do
 			if utf_8_mode_enabled then
 				s32.write_utf_8 (in, Current)
 
-			elseif in.count > 0 and then attached s8.cursor (in) as cursor then
+			elseif in.count > 0 and then attached cursor_8 (in) as cursor then
 				sink_character_array (cursor.area, cursor.area_first_index, cursor.area_last_index)
 			end
 		end

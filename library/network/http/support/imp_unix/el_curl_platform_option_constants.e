@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "2"
+	date: "2022-06-30 9:23:32 GMT (Thursday 30th June 2022)"
+	revision: "3"
 
 class
 	EL_CURL_PLATFORM_OPTION_CONSTANTS
@@ -15,7 +15,7 @@ class
 feature -- HTTP
 
 	CURLOPT_copypostfields: INTEGER
-			-- Declared as CURLOPT_POSTFIELDS.
+		-- Declared as CURLOPT_POSTFIELDS.
 		external
 			"C [macro <curl/curl.h>]: EIF_INTEGER"
 		alias

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-06 11:42:33 GMT (Sunday 6th February 2022)"
-	revision: "3"
+	date: "2022-06-29 20:23:07 GMT (Wednesday 29th June 2022)"
+	revision: "4"
 
 deferred class
 	EL_CRC_32_LOG_OUTPUT
@@ -17,16 +17,18 @@ inherit
 
 	EL_MODULE_REUSEABLE
 
+	EL_SHARED_STRING_8_CURSOR
+
 feature {NONE} -- Implementation
 
 	write_console (general: READABLE_STRING_GENERAL)
 		local
-			utf: EL_UTF_CONVERTER; s: EL_STRING_8_ROUTINES
+			utf: EL_UTF_CONVERTER
 		do
 			if attached {ZSTRING} general as zstr then
 				append_to_crc_32 (zstr.to_utf_8 (False))
 
-			elseif attached {READABLE_STRING_8} general as str_8 and then s.is_ascii (str_8) then
+			elseif attached {READABLE_STRING_8} general as str_8 and then cursor_8 (str_8).all_ascii then
 				append_to_crc_32 (str_8)
 
 			else

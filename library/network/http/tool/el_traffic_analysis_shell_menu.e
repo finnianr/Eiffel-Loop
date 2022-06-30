@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-28 8:56:28 GMT (Tuesday 28th June 2022)"
-	revision: "1"
+	date: "2022-06-30 11:54:28 GMT (Thursday 30th June 2022)"
+	revision: "2"
 
 class
 	EL_TRAFFIC_ANALYSIS_SHELL_MENU
@@ -41,11 +41,7 @@ feature -- Constants
 
 feature {NONE} -- Commands
 
-	remove_prefix
-		do
-		end
-
-	rename_classes
+	analyse_log (log_path: FILE_PATH)
 		do
 		end
 
@@ -56,14 +52,24 @@ feature {NONE} -- Implementation
 feature {NONE} -- Factory
 
 	new_command_table: like command_table
+		local
+			date: EL_DATE_TIME
 		do
-			create Result.make (<<
-				["Rename classes",	agent rename_classes],
-				["Remove prefix", 	agent remove_prefix]
-			>>)
+			if attached OS.file_pattern_list (config.archived_web_logs) as file_list then
+				create Result.make_equal (file_list.count)
+				file_list.order_by (agent {FILE_PATH}.modification_time, False)
+				across file_list as list loop
+					date := list.item.modification_date_time
+					Result.put (agent analyse_log (list.item), date.formatted_out (Date_format))
+				end
+			end
 		end
 
 feature {NONE} -- Internal attributes
 
 	config: EL_TRAFFIC_ANALYSIS_CONFIG
+
+feature {NONE} -- Constants
+
+	Date_format: STRING = " yyyy/mm Mmm dd"
 end

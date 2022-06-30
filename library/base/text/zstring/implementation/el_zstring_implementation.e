@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-13 10:51:11 GMT (Monday 13th June 2022)"
-	revision: "32"
+	date: "2022-06-29 15:36:56 GMT (Wednesday 29th June 2022)"
+	revision: "33"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION

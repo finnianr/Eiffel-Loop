@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-22 8:27:25 GMT (Wednesday 22nd June 2022)"
-	revision: "30"
+	date: "2022-06-29 20:48:19 GMT (Wednesday 29th June 2022)"
+	revision: "31"
 
 deferred class
 	JSON_SETTABLE_FROM_STRING
@@ -32,6 +32,8 @@ inherit
 	EL_MODULE_NAMING
 
 	JSON_CONSTANTS
+
+	EL_SHARED_STRING_8_CURSOR
 
 feature {NONE} -- Initialization
 
@@ -81,7 +83,7 @@ feature -- Element change
 	set_from_json (utf_8_json: STRING)
 		-- random access setting of object field corresponding to JSON field
 		local
-			utf_8_value: STRING; s: EL_STRING_8_ROUTINES; field_intervals: JSON_FIELD_NAME_INTERVALS
+			utf_8_value: STRING; field_intervals: JSON_FIELD_NAME_INTERVALS
 			value: ZSTRING
 		do
 			create field_intervals.make (utf_8_json)
@@ -92,7 +94,7 @@ feature -- Element change
 
 					if field_intervals.found then
 						utf_8_value := field_intervals.item_utf_8_value
-						if not utf_8_value.has ('\') and then s.is_ascii (utf_8_value) then
+						if not utf_8_value.has ('\') and then cursor_8 (utf_8_value).all_ascii then
 							if attached {EL_REFLECTED_STRING_8} table.item as str_8_field then
 								str_8_field.set (current_reflective, utf_8_value.twin)
 							else
@@ -172,6 +174,5 @@ note
 				[$source EL_IP_ADDRESS_GEOLOCATION]
 					[$source EL_IP_ADDRESS_GEOGRAPHIC_INFO]
 	]"
+
 end
-
-

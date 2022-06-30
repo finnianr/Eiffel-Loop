@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-22 10:00:38 GMT (Wednesday 22nd June 2022)"
-	revision: "9"
+	date: "2022-06-29 20:32:12 GMT (Wednesday 29th June 2022)"
+	revision: "10"
 
 class
 	XML_ESCAPER_TEST_SET
@@ -31,11 +31,11 @@ feature -- Tests
 
 	test_xml_escape
 		do
-			do_test ("make", 3792568687, agent escape, [create {XML_ZSTRING_ESCAPER}.make])
-			do_test ("make_128_plus", 3518096339, agent escape, [create {XML_ZSTRING_ESCAPER}.make_128_plus])
+			do_test ("make", 855989182, agent escape, [create {XML_ZSTRING_ESCAPER}.make])
+			do_test ("make_128_plus", 2055570232, agent escape, [create {XML_ZSTRING_ESCAPER}.make_128_plus])
 
-			do_test ("make", 4167379891, agent escape, [create {XML_STRING_32_ESCAPER}.make])
-			do_test ("make_128_plus", 1319921288, agent escape, [create {XML_STRING_32_ESCAPER}.make_128_plus])
+			do_test ("make", 3958945292, agent escape, [create {XML_STRING_32_ESCAPER}.make])
+			do_test ("make_128_plus", 3197404867, agent escape, [create {XML_STRING_32_ESCAPER}.make_128_plus])
 		end
 
 feature {NONE} -- Implementation
@@ -81,4 +81,3 @@ feature {NONE} -- Constants
 		end
 
 end
-

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-15 11:58:25 GMT (Wednesday 15th June 2022)"
-	revision: "32"
+	date: "2022-06-30 8:56:59 GMT (Thursday 30th June 2022)"
+	revision: "33"
 
 expanded class
 	EL_STRING_8_ROUTINES
@@ -15,11 +15,16 @@ expanded class
 inherit
 	EL_EXPANDED_ROUTINES
 
-	EL_STRING_X_ROUTINES [STRING_8]
+	EL_STRING_X_ROUTINES [STRING_8, READABLE_STRING_8]
 		rename
 			replace_character as replace_character_32
 		redefine
-			is_eiffel_identifier, replace_character_32
+			replace_character_32
+		end
+
+	EL_SHARED_STRING_8_CURSOR
+		rename
+			cursor_8 as cursor
 		end
 
 feature -- Basic operations
@@ -40,38 +45,12 @@ feature -- Basic operations
 
 feature -- Status query
 
-	is_lower_eiffel_identifier (s: STRING_8): BOOLEAN
-		do
-			Result := is_area_eiffel_identifier (s.area, s.count, Case_lower)
-		end
-
-	is_upper_eiffel_identifier (s: STRING_8): BOOLEAN
-		do
-			Result := is_area_eiffel_identifier (s.area, s.count, Case_upper)
-		end
-
-	is_eiffel_identifier (s: STRING_8): BOOLEAN
-		do
-			Result := is_area_eiffel_identifier (s.area, s.count, Case_lower | Case_upper)
-		end
-
-	is_ascii (str: READABLE_STRING_8): BOOLEAN
-		-- `True' if all characters in `str' are in the ASCII character set: 0 .. 127
-		do
-			Result := is_ascii_substring (str, 1, str.count)
-		end
-
-	is_ascii_substring (str: READABLE_STRING_8; start_index, end_index: INTEGER): BOOLEAN
-		-- `True' if all characters in `str.substring (start_index, end_index)' are in the ASCII character set: 0 .. 127
-		require
-			valid_end_index: end_index <= str.count
+	is_identifier_character (str: READABLE_STRING_8; i: INTEGER): BOOLEAN
 		local
-			c_8: EL_CHARACTER_8_ROUTINES; area_last_index: INTEGER
+			c: CHARACTER
 		do
-			if attached cursor (str) as c then
-				area_last_index := c.area_last_index - (str.count - end_index)
-				Result := c_8.is_ascii_area (c.area, c.area_first_index + start_index - 1, area_last_index)
-			end
+			c := str [i]
+			Result := c.is_alpha_numeric or else c = '_'
 		end
 
 feature -- Conversion
@@ -89,12 +68,6 @@ feature -- Conversion
 				end
 				i := i + 1
 			end
-		end
-
-	cursor (s: READABLE_STRING_8): EL_STRING_8_ITERATION_CURSOR
-		do
-			Result := Once_cursor
-			Result.make (s)
 		end
 
 	from_code_array (array: SPECIAL [NATURAL_8]): STRING_8
@@ -121,20 +94,6 @@ feature -- Conversion
 			end
 		end
 
-	filtered (str: STRING_8; included: PREDICATE [CHARACTER]): STRING
-		local
-			i: INTEGER; c: CHARACTER
-		do
-			create Result.make (str.count)
-			from i := 1 until i > str.count loop
-				c := str [i]
-				if included (c) then
-					Result.extend (c)
-				end
-				i := i + 1
-			end
-		end
-
 feature -- Character strings
 
 	character_string (c: CHARACTER): STRING
@@ -151,42 +110,6 @@ feature -- Character strings
 
 feature -- Measurement
 
-	latin_1_count (s: STRING_8): INTEGER
-		-- count of latin-1 characters
-		do
-			Result := s.count
-		end
-
-	leading_occurences (s: READABLE_STRING_8; uc: CHARACTER_32): INTEGER
-		local
-			i, l_count, offset: INTEGER; l_area: SPECIAL [CHARACTER_8]
-		do
-			l_count := s.count
-			if attached cursor (s) as c then
-				l_area := c.area
-				offset := c.area_first_index
-			end
-			from until i = l_count or else l_area.item (i + offset).to_character_32 /= uc loop
-				i := i + 1
-			end
-			Result := i
-		end
-
-	leading_white_count (s: READABLE_STRING_8): INTEGER
-		local
-			i, l_count, offset: INTEGER; l_area: SPECIAL [CHARACTER_8]
-		do
-			l_count := s.count
-			if attached cursor (s) as c then
-				l_area := c.area
-				offset := c.area_first_index
-			end
-			from until i = l_count or else not l_area.item (i + offset).is_space loop
-				i := i + 1
-			end
-			Result := i
-		end
-
 	leading_string_count (s: STRING; space_count: INTEGER): INTEGER
 		-- count of leading characters up to `space_count' number of spaces counting from end
 		local
@@ -199,21 +122,6 @@ feature -- Measurement
 				i := i - 1
 			end
 			Result := i
-		end
-
-	trailing_white_count (s: READABLE_STRING_8): INTEGER
-		local
-			i, nb, offset: INTEGER; l_area: SPECIAL [CHARACTER_8]
-		do
-			nb := s.count - 1
-			if attached cursor (s) as c then
-				l_area := c.area
-				offset := c.area_first_index
-			end
-			from i := nb until i < 0 or else not l_area.item (i + offset).is_space loop
-				Result := Result + 1
-				i := i - 1
-			end
 		end
 
 feature -- Transformation
@@ -265,51 +173,16 @@ feature -- Transformation
 
 feature {NONE} -- Implementation
 
-	last_index_of (str: STRING_8; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
+	last_index_of (str: READABLE_STRING_8; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
 		do
 			Result := str.last_index_of (c.to_character_8, start_index_from_end)
 		end
 
-	is_area_eiffel_identifier (area: SPECIAL [CHARACTER]; count, case_code: INTEGER): BOOLEAN
-		local
-			i: INTEGER; c: CHARACTER
-		do
-			Result := True
-			from i := 0 until i = count or not Result loop
-				c := area [i]
-				if i = 0 implies c.is_alpha then
-					inspect c
-						when 'a' .. 'z' then
-							Result := (case_code & Case_lower).to_boolean
-
-						when 'A' .. 'Z' then
-							Result := (case_code & Case_upper).to_boolean
-
-						when '0' .. '9', '_' then
-							Result := True
-					else
-						Result := False
-					end
-				else
-					Result := False
-				end
-				i := i + 1
-			end
-		end
-
 feature {NONE} -- Constants
-
-	Case_lower: INTEGER = 1
-
-	Case_upper: INTEGER = 2
 
 	Character_string_table: EL_FILLED_STRING_8_TABLE
 		once
 			create Result.make
 		end
 
-	Once_cursor: EL_STRING_8_ITERATION_CURSOR
-		once
-			create Result.make_empty
-		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-26 15:37:33 GMT (Sunday 26th December 2021)"
-	revision: "1"
+	date: "2022-06-29 15:44:23 GMT (Wednesday 29th June 2022)"
+	revision: "2"
 
 expanded class
 	EL_UTF_16_LE_CONVERTER
@@ -15,7 +15,7 @@ expanded class
 inherit
 	EL_EXPANDED_ROUTINES
 
-	STRING_HANDLER
+	EL_SHARED_STRING_8_CURSOR
 
 feature -- Conversion
 
@@ -65,9 +65,8 @@ feature -- Measurement
 	frozen unicode_count (s: READABLE_STRING_8): INTEGER
 		local
 			i, end_index: INTEGER; area: SPECIAL [CHARACTER]
-			string_8: EL_STRING_8_ROUTINES
 		do
-			if attached string_8.cursor (s) as cursor then
+			if attached cursor_8 (s) as cursor then
 				area := cursor.area
 				end_index := cursor.area_last_index
 				from i := cursor.area_first_index until i > end_index loop
@@ -99,10 +98,10 @@ feature -- Basic operations
 			-- appended into `a_result'.
 		local
 			i, i_final, n, offset, byte_count: INTEGER; code: NATURAL_32
-			area: SPECIAL [CHARACTER_8]; string_8: EL_STRING_8_ROUTINES
+			area: SPECIAL [CHARACTER_8]
 		do
-			if attached string_8.cursor (s) as cursor then
-				area := cursor.area; offset := cursor.area_first_index
+			if attached cursor_8 (s) as c then
+				area := c.area; offset := c.area_first_index
 			end
 			n := end_index - start_index + 1
 			i_final := offset + start_index + n - 1

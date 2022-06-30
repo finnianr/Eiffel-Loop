@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-02 15:54:58 GMT (Sunday 2nd January 2022)"
-	revision: "19"
+	date: "2022-06-30 7:57:05 GMT (Thursday 30th June 2022)"
+	revision: "20"
 
 expanded class
 	EL_CHARACTER_8_ROUTINES
@@ -17,14 +17,12 @@ inherit
 
 	EL_LATIN_1
 
-	EL_SHARED_UTF_8_SEQUENCE
-
 feature -- Status query
 
 	is_a_to_z_lower (c: CHARACTER): BOOLEAN
 		do
 			inspect c
-				when 'A' .. 'Z' then
+				when 'a' .. 'z' then
 					Result := True
 			else
 			end
@@ -186,17 +184,6 @@ feature -- Conversion
 			else
 				Result := c
 			end
-		end
-
-feature -- Basic operations
-
-	write_utf_8 (uc: CHARACTER_32; writeable: EL_WRITEABLE)
-		local
-			sequence: like Utf_8_sequence
-		do
-			sequence := Utf_8_sequence
-			sequence.set (uc)
-			sequence.write (writeable)
 		end
 
 feature {NONE} -- Constants
