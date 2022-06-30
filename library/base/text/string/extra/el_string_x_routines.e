@@ -6,27 +6,27 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-30 8:59:42 GMT (Thursday 30th June 2022)"
-	revision: "38"
+	date: "2022-06-30 14:13:26 GMT (Thursday 30th June 2022)"
+	revision: "39"
 
 deferred class
-	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make end, READABLE -> READABLE_STRING_GENERAL]
+	EL_STRING_X_ROUTINES [STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL]
 
 inherit
-	EL_READABLE_STRING_X_ROUTINES [READABLE]
+	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X]
 
 	EL_READABLE_STRING_GENERAL_ROUTINES
 
 feature -- Basic operations
 
-	append_to (str: S; extra: READABLE_STRING_GENERAL)
+	append_to (str: STRING_X; extra: READABLE_STRING_GENERAL)
 		deferred
 		end
 
-	search_interval_at_nth (text, search_string: S; n: INTEGER): INTEGER_INTERVAL
+	search_interval_at_nth (text, search_string: STRING_X; n: INTEGER): INTEGER_INTERVAL
 			--
 		local
-			l_occurrences: EL_OCCURRENCE_INTERVALS [S]
+			l_occurrences: EL_OCCURRENCE_INTERVALS [STRING_X]
 		do
 			create l_occurrences.make_by_string (text, search_string)
 			from l_occurrences.start until l_occurrences.after or l_occurrences.index > n loop
@@ -35,7 +35,7 @@ feature -- Basic operations
 			Result := l_occurrences.item_interval
 		end
 
-	set_upper (str: S; i: INTEGER)
+	set_upper (str: STRING_X; i: INTEGER)
 		require
 			valid_index: 0 < i and i <= str.count
 		deferred
@@ -43,10 +43,10 @@ feature -- Basic operations
 
 feature -- Measurement
 
-	occurrences (text, search_string: S): INTEGER
+	occurrences (text, search_string: STRING_X): INTEGER
 			--
 		local
-			l_occurrences: EL_OCCURRENCE_INTERVALS [S]
+			l_occurrences: EL_OCCURRENCE_INTERVALS [STRING_X]
 		do
 			create l_occurrences.make_by_string (text, search_string)
 			from l_occurrences.start until l_occurrences.after loop
@@ -57,19 +57,19 @@ feature -- Measurement
 
 feature -- Lists
 
-	delimited_list (text, delimiter: S): LIST [S]
+	delimited_list (text, delimiter: STRING_X): LIST [STRING_X]
 			-- string delimited list
 		local
-			splits: EL_SPLIT_STRING_LIST [S]
+			splits: EL_SPLIT_STRING_LIST [STRING_X]
 		do
 			create splits.make_by_string (text, delimiter)
 			Result := splits.as_string_list
 		end
 
-	to_list (text: S): LIST [S]
+	to_list (text: STRING_X): LIST [STRING_X]
 		-- comma separated list
 		local
-			comma: S
+			comma: STRING_X
 		do
 			create comma.make (1)
 			comma.append_code ((',').natural_32_code)
@@ -79,7 +79,7 @@ feature -- Lists
 
 feature -- Transformed
 
-	enclosed (str: READABLE_STRING_GENERAL; left, right: CHARACTER_32): S
+	enclosed (str: READABLE_STRING_GENERAL; left, right: CHARACTER_32): STRING_X
 			--
 		do
 			create Result.make (str.count + 2)
@@ -88,12 +88,12 @@ feature -- Transformed
 			Result.append_code (right.natural_32_code)
 		end
 
-	joined_lines (list: ITERABLE [READABLE_STRING_GENERAL]): S
+	joined_lines (list: ITERABLE [READABLE_STRING_GENERAL]): STRING_X
 		do
 			Result := joined_with (list, once "%N")
 		end
 
-	joined_with (list: ITERABLE [READABLE_STRING_GENERAL]; delimiter: READABLE_STRING_GENERAL): S
+	joined_with (list: ITERABLE [READABLE_STRING_GENERAL]; delimiter: READABLE_STRING_GENERAL): STRING_X
 		local
 			char_count, count: INTEGER
 		do
@@ -114,10 +114,10 @@ feature -- Transformed
 			end
 		end
 
-	leading_delimited (text, delimiter: S; include_delimiter: BOOLEAN): S
+	leading_delimited (text, delimiter: STRING_X; include_delimiter: BOOLEAN): STRING_X
 			--
 		local
-			l_occurrences: EL_OCCURRENCE_INTERVALS [S]
+			l_occurrences: EL_OCCURRENCE_INTERVALS [STRING_X]
 		do
 			create l_occurrences.make_by_string (text, delimiter)
 			l_occurrences.start
@@ -132,11 +132,11 @@ feature -- Transformed
 			end
 		end
 
-	pruned (str: READABLE_STRING_GENERAL; c: CHARACTER_32): S
+	pruned (str: READABLE_STRING_GENERAL; c: CHARACTER_32): STRING_X
 		deferred
 		end
 
-	quoted (str: READABLE_STRING_GENERAL; quote_type: INTEGER): S
+	quoted (str: READABLE_STRING_GENERAL; quote_type: INTEGER): STRING_X
 		require
 			single_or_double: (1 |..| 2).has (quote_type)
 		local
@@ -150,7 +150,7 @@ feature -- Transformed
 			Result := enclosed (str, c, c)
 		end
 
-	spaces (width, count: INTEGER): S
+	spaces (width, count: INTEGER): STRING_X
 			-- width * count spaces
 		local
 			i, n: INTEGER
@@ -163,7 +163,7 @@ feature -- Transformed
 			end
 		end
 
-	unbracketed (str: READABLE_STRING_GENERAL; left_bracket: CHARACTER_32): S
+	unbracketed (str: READABLE_STRING_GENERAL; left_bracket: CHARACTER_32): STRING_X
 			-- Returns text enclosed in one of matching paired characters: {}, [], (), <>
 		require
 			valid_left_bracket: ({STRING_32} "{[(<").has (left_bracket)
@@ -200,15 +200,15 @@ feature -- Transform
 			end
 		end
 
-	left_adjust (str: S)
+	left_adjust (str: STRING_X)
 		deferred
 		end
 
-	prune_all_leading (str: S; c: CHARACTER_32)
+	prune_all_leading (str: STRING_X; c: CHARACTER_32)
 		deferred
 		end
 
-	remove_bookends (str: S; ends: READABLE_STRING_GENERAL)
+	remove_bookends (str: STRING_X; ends: READABLE_STRING_GENERAL)
 			--
 		require
 			ends_has_2_characters: ends.count = 2
@@ -221,19 +221,19 @@ feature -- Transform
 			end
 		end
 
-	remove_double_quote (quoted_str: S)
+	remove_double_quote (quoted_str: STRING_X)
 			--
 		do
 			remove_bookends (quoted_str, once "%"%"" )
 		end
 
-	remove_single_quote (quoted_str: S)
+	remove_single_quote (quoted_str: STRING_X)
 			--
 		do
 			remove_bookends (quoted_str, once "''" )
 		end
 
-	replace_character (target: S; uc_old, uc_new: CHARACTER_32)
+	replace_character (target: STRING_X; uc_old, uc_new: CHARACTER_32)
 		local
 			i: INTEGER; code_old, code_new: NATURAL
 		do
@@ -246,25 +246,25 @@ feature -- Transform
 			end
 		end
 
-	right_adjust (str: S)
+	right_adjust (str: STRING_X)
 		deferred
 		end
 
-	translate (target, old_characters, new_characters: S)
+	translate (target, old_characters, new_characters: STRING_X)
 		do
 			translate_deleting_null_characters (target, old_characters, new_characters, False)
 		end
 
-	translate_and_delete (target, old_characters, new_characters: S)
+	translate_and_delete (target, old_characters, new_characters: STRING_X)
 		do
 			translate_deleting_null_characters (target, old_characters, new_characters, True)
 		end
 
-	translate_deleting_null_characters (target, old_characters, new_characters: S; delete_null: BOOLEAN)
+	translate_deleting_null_characters (target, old_characters, new_characters: STRING_X; delete_null: BOOLEAN)
 		require
 			each_old_has_new: old_characters.count = new_characters.count
 		local
-			source: S; c, new_c: CHARACTER_32; i, index: INTEGER
+			source: STRING_X; c, new_c: CHARACTER_32; i, index: INTEGER
 		do
 			source := target.twin
 			target.set_count (0)

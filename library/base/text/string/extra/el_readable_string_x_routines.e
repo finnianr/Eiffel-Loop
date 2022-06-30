@@ -6,24 +6,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-30 9:01:49 GMT (Thursday 30th June 2022)"
-	revision: "1"
+	date: "2022-06-30 14:12:42 GMT (Thursday 30th June 2022)"
+	revision: "2"
 
 deferred class
-	EL_READABLE_STRING_X_ROUTINES [S -> READABLE_STRING_GENERAL]
+	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL]
 
 inherit
 	STRING_HANDLER
 
 feature -- Status query
 
-	has_double_quotes (s: S): BOOLEAN
+	has_double_quotes (s: READABLE_STRING_X): BOOLEAN
 			--
 		do
 			Result := has_quotes (s, 2)
 		end
 
-	has_enclosing (s, ends: S): BOOLEAN
+	has_enclosing (s, ends: READABLE_STRING_X): BOOLEAN
 			--
 		require
 			ends_has_2_characters: ends.count = 2
@@ -32,7 +32,7 @@ feature -- Status query
 				and then s.item (1) = ends.item (1) and then s.item (s.count) = ends.item (2)
 		end
 
-	has_quotes (s: S; type: INTEGER): BOOLEAN
+	has_quotes (s: READABLE_STRING_X; type: INTEGER): BOOLEAN
 		require
 			double_or_single: 1 <= type and type <= 2
 		local
@@ -46,13 +46,13 @@ feature -- Status query
 			Result := s.count >= 2 and then s.code (1) = quote_code and then s.code (s.count) = quote_code
 		end
 
-	has_single_quotes (s: S): BOOLEAN
+	has_single_quotes (s: READABLE_STRING_X): BOOLEAN
 			--
 		do
 			Result := has_quotes (s, 1)
 		end
 
-	is_identifier_boundary (str: S; lower, upper: INTEGER): BOOLEAN
+	is_identifier_boundary (str: READABLE_STRING_X; lower, upper: INTEGER): BOOLEAN
 		-- `True' if indices `lower' to `upper' are an identifier boundary
 		do
 			Result := True
@@ -66,13 +66,13 @@ feature -- Status query
 
 feature -- Character query
 
-	is_identifier_character (str: S; i: INTEGER): BOOLEAN
+	is_identifier_character (str: READABLE_STRING_X; i: INTEGER): BOOLEAN
 		deferred
 		end
 
 feature -- Substring
 
-	adjusted (str: S): S
+	adjusted (str: READABLE_STRING_X): READABLE_STRING_X
 		local
 			start_index, end_index: INTEGER
 		do
@@ -89,7 +89,7 @@ feature -- Substring
 			end
 		end
 
-	substring_to (str: S; uc: CHARACTER_32; start_index_ptr: POINTER): S
+	substring_to (str: READABLE_STRING_X; uc: CHARACTER_32; start_index_ptr: POINTER): READABLE_STRING_X
 		-- substring from INTEGER at memory location `start_index_ptr' up to but not including index of `uc'
 		-- or else `substring_end (start_index)' if `uc' not found
 		-- `start_index' is 1 if `start_index_ptr = Default_pointer'
@@ -116,7 +116,7 @@ feature -- Substring
 			end
 		end
 
-	substring_to_reversed (str: S; uc: CHARACTER_32; start_index_from_end_ptr: POINTER): S
+	substring_to_reversed (str: READABLE_STRING_X; uc: CHARACTER_32; start_index_from_end_ptr: POINTER): READABLE_STRING_X
 		-- the same as `substring_to' except going from right to left
 		-- if `uc' not found `start_index_from_end' is set to `0' and written back to `start_index_from_end_ptr'
 		local
@@ -140,7 +140,7 @@ feature -- Substring
 			end
 		end
 
-	truncated (str: S; max_count: INTEGER): S
+	truncated (str: READABLE_STRING_X; max_count: INTEGER): READABLE_STRING_X
 		-- return `str' truncated to `max_count' characters, adding ellipsis where necessary
 		do
 			if str.count <= max_count then
@@ -152,11 +152,11 @@ feature -- Substring
 
 feature {NONE} -- Implementation
 
-	cursor (s: S): EL_STRING_ITERATION_CURSOR
+	cursor (s: READABLE_STRING_X): EL_STRING_ITERATION_CURSOR
 		deferred
 		end
 
-	last_index_of (str: S; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
+	last_index_of (str: READABLE_STRING_X; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
 		deferred
 		end
 
