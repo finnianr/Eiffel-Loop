@@ -1,13 +1,13 @@
 ﻿note
-	description: "String x routines"
+	description: "Routines to supplement handling of [$source STRING_8] [$source STRING_32] strings"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-30 14:13:26 GMT (Thursday 30th June 2022)"
-	revision: "39"
+	date: "2022-06-30 15:45:03 GMT (Thursday 30th June 2022)"
+	revision: "40"
 
 deferred class
 	EL_STRING_X_ROUTINES [STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL]

@@ -6,7 +6,7 @@ pyxis-doc:
 
 # Pyxis as an acronym stands for: Pythonic XML ideal source.
 # It is also a Latin transliteration of a Greek word for a type of pottery used by women to hold 
-# cosmetics, trinkets or jewellery. 
+# cosmetics, trinkets or jewellery. occurs
 
 system:
 	configuration_ns = "1-16-0"; name = el_eiffel; uuid = "EEA36E90-5A49-11E7-8290-A34D58BF65CD"
@@ -23,7 +23,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 6; release = 1; build = 503
+			major = 1; minor = 6; release = 1; build = 504
 			company = "Eiffel-Loop"; product = "eiffel"
 			copyright = "Finnian Reilly"
 
@@ -33,38 +33,13 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = false
 
-		setting:
-			name = address_expression; value = false
-
-		setting:
-			name = array_optimization; value = false
-
-		setting:
-			name = check_vape; value = true
-
-		setting:
-			name = console_application; value = true
-
-		setting:
-			name = dead_code_removal; value = true
-
-		setting:
-			name = dynamic_runtime; value = false
-
-		setting:
-			name = exception_trace; value = false
-
-		setting:
-			name = inlining; value = true
-
-		setting:
-			name = inlining_size; value = 3
-
-		setting:
-			name = line_generation; value = false
-
-		setting:
-			name = concurrency; value = thread
+		settings:
+			address_expression = false; array_optimization = false
+			check_vape = true; console_application = true; concurrency = thread
+			dead_code_removal = true; dynamic_runtime = false
+			exception_trace = false
+			inlining = true; inlining_size = 3
+			line_generation = false
 
 		precompile: 
 			name = precompile; location = "$ISE_PRECOMP/EL/console-application.ecf"

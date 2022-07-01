@@ -1,13 +1,15 @@
 note
-	description: "Routines for strings conforming to [$source READABLE_STRING_GENERAL]"
+	description: "[
+		Routines to supplement handling of strings conforming to [$source READABLE_STRING_8] [$source READABLE_STRING_32]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-30 14:12:42 GMT (Thursday 30th June 2022)"
-	revision: "2"
+	date: "2022-07-01 10:02:58 GMT (Friday 1st July 2022)"
+	revision: "3"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -61,6 +63,37 @@ feature -- Status query
 			end
 			if Result and then lower - 1 >= 1 then
 				Result := not is_identifier_character (str, lower - 1)
+			end
+		end
+
+feature -- Comparison
+
+	caseless_ends_with (big, small: READABLE_STRING_X): BOOLEAN
+		-- `True' if `big.ends_with (small)' is true regardless of case of `small'
+		do
+			if small.is_empty then
+				Result := True
+
+			elseif big.count >= small.count then
+				Result := occurs_caseless_at (big, small, big.count - small.count + 1)
+			end
+		end
+
+	occurs_at (big, small: READABLE_STRING_X; index: INTEGER): BOOLEAN
+		-- `True' if `small' string occurs in `big' string at `index'
+		deferred
+		end
+
+	occurs_caseless_at (big, small: READABLE_STRING_X; index: INTEGER): BOOLEAN
+		-- `True' if `small' string occurs in `big' string at `index' regardless of case
+		deferred
+		end
+
+	same_caseless (a, b: READABLE_STRING_X): BOOLEAN
+		-- `True' if all characters in `str' are in the ASCII character set: 0 .. 127
+		do
+			if a.count = b.count then
+				Result := occurs_caseless_at (a, b, 1)
 			end
 		end
 
@@ -159,6 +192,8 @@ feature {NONE} -- Implementation
 	last_index_of (str: READABLE_STRING_X; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
 		deferred
 		end
+
+feature {NONE} -- Constants
 
 	Ellipsis_dots: STRING = ".."
 

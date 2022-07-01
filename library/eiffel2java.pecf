@@ -70,7 +70,6 @@ system:
 		# Source code
 		cluster:
 			name = Java; location = "language_interface/Java"; recursive = true
-
 			platform_list:
 				"imp_mswin; imp_unix"
 

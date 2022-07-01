@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-30 13:59:14 GMT (Thursday 30th June 2022)"
-	revision: "3"
+	date: "2022-06-30 14:26:48 GMT (Thursday 30th June 2022)"
+	revision: "4"
 
 class
 	EL_TRAFFIC_ANALYSIS_SHELL_MENU
@@ -18,9 +18,7 @@ inherit
 			make as make_shell
 		end
 
-	EL_MODULE_LIO; EL_MODULE_OS; EL_MODULE_TUPLE
-
-	EL_MODULE_COMMAND
+	EL_MODULE_COMMAND; EL_MODULE_DIRECTORY; EL_MODULE_LIO; EL_MODULE_OS; EL_MODULE_TUPLE
 
 create
 	make
@@ -45,18 +43,16 @@ feature {NONE} -- Commands
 		local
 			log_path: FILE_PATH; analysis_cmd: EL_TRAFFIC_ANALYSIS_COMMAND
 		do
-			log_path := log_gz_path.without_extension
+			log_path := Directory.temporary + (log_gz_path.base_sans_extension + ".log")
 			if attached Unzip_command as cmd then
 				cmd.put_path (Var.path, log_gz_path)
+				cmd.put_path (Var.ouput_path, log_path)
 				cmd.execute
 			end
 			if log_path.exists then
 				create analysis_cmd.make (log_path, config)
 				analysis_cmd.execute
-				if attached Command.new_delete_file (log_path) as cmd then
-					cmd.sudo.enable
-					cmd.execute
-				end
+				OS.File_system.remove_file (log_path)
 			end
 		end
 
@@ -87,11 +83,11 @@ feature {NONE} -- Constants
 
 	Unzip_command: EL_OS_COMMAND
 		once
-			create Result.make ("gunzip $path")
+			create Result.make ("gunzip -c $path > $ouput_path")
 			Result.sudo.enable
 		end
 
-	Var: TUPLE [path: STRING]
+	Var: TUPLE [path, ouput_path: STRING]
 		once
 			create Result
 			Unzip_command.fill_variables (Result)

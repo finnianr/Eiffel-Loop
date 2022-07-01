@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-30 8:56:59 GMT (Thursday 30th June 2022)"
-	revision: "33"
+	date: "2022-07-01 10:02:58 GMT (Friday 1st July 2022)"
+	revision: "34"
 
 expanded class
 	EL_STRING_8_ROUTINES
@@ -51,6 +51,20 @@ feature -- Status query
 		do
 			c := str [i]
 			Result := c.is_alpha_numeric or else c = '_'
+		end
+
+feature -- Comparison
+
+	occurs_at (big, small: READABLE_STRING_8; index: INTEGER): BOOLEAN
+		-- `True' if `small' string occurs in `big' string at `index'
+		do
+			Result := big.same_characters (small, 1, small.count, index)
+		end
+
+	occurs_caseless_at (big, small: READABLE_STRING_8; index: INTEGER): BOOLEAN
+		-- `True' if `small' string occurs in `big' string at `index' regardless of case
+		do
+			Result := big.same_caseless_characters (small, 1, small.count, index)
 		end
 
 feature -- Conversion

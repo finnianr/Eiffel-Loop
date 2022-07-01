@@ -179,25 +179,17 @@
 
 			<prefix>=\s*</prefix>
 
-			<keyword>address_expression</keyword>
 			<keyword>all</keyword>
-			<keyword>array_optimization</keyword>
 			<keyword>automatic_backup</keyword>
 			<keyword>check_generic_creation_constraint</keyword>
 			<keyword>check_for_void_target</keyword>
-			<keyword>check_vape</keyword>
 			<keyword>classic</keyword>
 			<keyword>cls_compliant</keyword>
 			<keyword>common</keyword>
 			<keyword>compiler</keyword>
-			<keyword>concurrency</keyword>
-			<keyword>console_application</keyword>
-			<keyword>dead_code_removal</keyword>
 			<keyword>dotnet</keyword>
 			<keyword>dotnet_naming_convention</keyword>
-			<keyword>dynamic_runtime</keyword>
 			<keyword>enforce_unique_class_names</keyword>
-			<keyword>exception_trace</keyword>
 			<keyword>executable_name</keyword>
 			<keyword>export_class_missing</keyword>
 			<keyword>external_runtime</keyword>
@@ -206,11 +198,8 @@
 			<keyword>force_</keyword>
 			<keyword>il_verifiable</keyword>
 			<keyword>initialization</keyword>
-			<keyword>inlining</keyword>
-			<keyword>inlining_size</keyword>
 			<keyword>java_generation</keyword>
 			<keyword>library_root</keyword>
-			<keyword>line_generation</keyword>
 			<keyword>macintosh</keyword>
 			<keyword>metadata_cache_path</keyword>
 			<keyword>msil_assembly_compatibility</keyword>
@@ -285,8 +274,10 @@
 			<prefix>(;\s*|\t)</prefix>
 
 			<keyword>abstract</keyword>
+			<keyword>address_expression</keyword>
 			<keyword>all</keyword>
 			<keyword>all_classes</keyword>
+			<keyword>array_optimization</keyword>
 			<keyword>assembly</keyword>
 			<keyword>assembly_culture</keyword>
 			<keyword>assembly_key</keyword>
@@ -295,14 +286,19 @@
 			<keyword>build</keyword>
 			<keyword>cat_call_detection</keyword>
 			<keyword>check</keyword>
+			<keyword>check_vape</keyword>
 			<keyword>class</keyword>
 			<keyword>class_rename</keyword>
 			<keyword>cluster</keyword>
 			<keyword>command</keyword>
 			<keyword>company</keyword>
+			<keyword>concurrency</keyword>
 			<keyword>configuration_ns</keyword>
+			<keyword>console_application</keyword>
 			<keyword>copyright</keyword>
+			<keyword>dead_code_removal</keyword>
 			<keyword>debug</keyword>
+			<keyword>dynamic_runtime</keyword>
 			<keyword>eifgens</keyword>
 			<keyword>eifgens_location</keyword>
 			<keyword>enabled</keyword>
@@ -310,17 +306,21 @@
 			<keyword>excluded</keyword>
 			<keyword>excluded_value</keyword>
 			<keyword>extends</keyword>
+			<keyword>exception_trace</keyword>
 			<keyword>feature</keyword>
 			<keyword>feature_rename</keyword>
 			<keyword>full</keyword>
 			<keyword>full_class_checking</keyword>
 			<keyword>group</keyword>
 			<keyword>hidden</keyword>
+			<keyword>inlining</keyword>
+			<keyword>inlining_size</keyword>
 			<keyword>invariant</keyword>
 			<keyword>is_attached_by_default</keyword>
 			<keyword>is_obsolete_routine_type</keyword>
 			<keyword>is_void_safe</keyword>
 			<keyword>library_target</keyword>
+			<keyword>line_generation</keyword>
 			<keyword>location</keyword>
 			<keyword>loop</keyword>
 			<keyword>major</keyword>
@@ -412,6 +412,7 @@
 			<keyword>renaming</keyword>
 			<keyword>root</keyword>
 			<keyword>setting</keyword>
+			<keyword>settings</keyword>
 			<keyword>system</keyword>
 			<keyword>target</keyword>
 			<keyword>tests</keyword>

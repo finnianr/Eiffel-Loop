@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-05 15:06:32 GMT (Sunday 5th June 2022)"
-	revision: "6"
+	date: "2022-06-30 14:49:15 GMT (Thursday 30th June 2022)"
+	revision: "7"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -29,39 +29,40 @@ feature {NONE} -- Initialization
 		require
 			valid_line: line.occurrences (Quote) = 6
 		local
-			list: like Split_list; index: INTEGER; address: STRING
+			index: INTEGER; address: STRING; part: ZSTRING
 		do
-			list := Split_list
-			list.wipe_out
-			list.append_split (line, Quote, {EL_STRING_ADJUST}.None)
-			from list.start until list.after loop
-				inspect list.index
+			across line.split (Quote) as list loop
+				part := list.item
+				inspect list.cursor_index
 					when 1 then
-						address := list.item.substring (1, list.item.index_of (' ', 1) - 1)
+						address := part.substring_to (' ', default_pointer)
 						ip_address := Mod_ip_address.to_number (address)
-						index := list.item.index_of ('[', address.count + 3) + 1
-						date := Date_factory.create_date (list.item.substring (index, index + 10))
+						index := part.index_of ('[', address.count + 3) + 1
+						date := Date_factory.create_date (part.substring (index, index + 10))
 						index := index + 12
-						time := Time_factory.create_time (list.item.substring (index, index + 7))
+						time := Time_factory.create_time (part.substring (index, index + 7))
 					when 2 then
-						http_command := list.item.substring (1, list.item.index_of (' ', 1))
-						index := list.item.substring_index (Http_protocol, http_command.count + 1)
-						request_uri := list.item.substring (http_command.count + 1, index - 2)
+						http_command := part.substring_to (' ', default_pointer)
+						index := part.substring_index (Http_protocol, http_command.count + 1)
+						if index.to_boolean then
+							request_uri := part.substring (http_command.count + 1, index - 2)
+						else
+							create request_uri.make_empty
+						end
 					when 3 then
-						list.item.adjust
-						index := list.item.index_of (' ', 1)
-						status_code := list.item.substring (1, index - 1).to_natural
-						byte_count := list.item.substring_end (index + 1).to_natural
+						part.adjust
+						index := part.index_of (' ', 1)
+						status_code := part.substring (1, index - 1).to_natural
+						byte_count := part.substring_end (index + 1).to_natural
 					when 4 then
-						referer := list.item
+						referer := part.twin
 						if referer.count = 1 and referer [1] = '-' then
 							referer.wipe_out
 						end
 					when 6 then
-						user_agent := list.item
+						user_agent := part.twin
 
 				else end
-				list.forth
 			end
 		end
 
@@ -116,11 +117,6 @@ feature {NONE} -- Constants
 		end
 
 	Quote: CHARACTER_32 = '%"'
-
-	Split_list: EL_ZSTRING_LIST
-		once
-			create Result.make_empty
-		end
 
 	Date_factory: DATE_TIME_CODE_STRING
 		once

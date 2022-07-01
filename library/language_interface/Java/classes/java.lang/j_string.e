@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-22 10:14:57 GMT (Saturday 22nd January 2022)"
-	revision: "7"
+	date: "2022-06-30 15:41:07 GMT (Thursday 30th June 2022)"
+	revision: "8"
 
 class
 	J_STRING
@@ -23,6 +23,8 @@ inherit
 	JAVA_LANG_JPACKAGE
 
 	EL_MODULE_REUSEABLE
+
+	EL_SHARED_STRING_8_CURSOR
 
 create
 	default_create,
@@ -49,9 +51,9 @@ feature {NONE} -- Initialization
 	make_from_string_8 (str: STRING)
 		--
 		local
-			s: EL_STRING_8_ROUTINES; conv: EL_UTF_CONVERTER
+			conv: EL_UTF_CONVERTER
 		do
-			if s.is_ascii (str) then
+			if cursor_8 (str).all_ascii then
 				make_from_pointer (jni.new_string (str))
 			else
 				across Reuseable.string_8 as reuse loop

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-29 8:17:45 GMT (Wednesday 29th June 2022)"
-	revision: "19"
+	date: "2022-07-01 14:55:33 GMT (Friday 1st July 2022)"
+	revision: "20"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -23,6 +23,7 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			eval.call ("conversion_to_pecf", agent test_conversion_to_pecf)
+			eval.call ("settings_transformation", agent test_settings_transformation)
 		end
 
 feature -- Tests
@@ -30,12 +31,10 @@ feature -- Tests
 	test_conversion_to_pecf
 			--
 		local
-			converter: PYXIS_ECF_CONVERTER; ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT
-			schema_location, platform_value, exclude_value: STRING; file_rule_count, windows_count: INTEGER
+			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; file_rule_count, windows_count: INTEGER
+			schema_location, platform_value, exclude_value: STRING
 		do
-			create converter.make (pecf_path, Work_area_dir + (pecf_path.base_sans_extension + ".xml"))
-			converter.execute
-			create ecf_xdoc.make_from_file (converter.output_path)
+			ecf_xdoc := new_ecf_xdoc (library_pecf_path)
 			across ecf_xdoc.context_list ("//file_rule") as rule loop
 				platform_value := rule.node.query ("condition/platform/@value")
 				exclude_value := rule.node.query ("exclude/text()")
@@ -62,11 +61,33 @@ feature -- Tests
 			assert ("valid xsi:schemaLocation", schema_location.ends_with ("configuration-1-16-0.xsd"))
 		end
 
+	test_settings_transformation
+		local
+			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; file_rule_count, windows_count: INTEGER
+			schema_location, platform_value, exclude_value, name: STRING
+		do
+			ecf_xdoc := new_ecf_xdoc (project_pecf_path)
+			across
+				<< "address_expression", "array_optimization", "dynamic_runtime", "line_generation" >> as list
+			loop
+				assert ("false", ecf_xdoc.query (Setting_xpath #$ [list.item]).as_string_8 ~ "false")
+			end
+			across ("check_vape, dead_code_removal, inlining, console_application").split (',') as list loop
+				name := list.item; name.left_adjust
+				assert ("true", ecf_xdoc.query (Setting_xpath #$ [name]).as_string_8 ~ "true")
+			end
+		end
+
 feature {NONE} -- Implementation
 
-	pecf_path: FILE_PATH
+	library_pecf_path: FILE_PATH
 		do
 			Result := Eiffel_loop_dir + "library/eiffel2java.pecf"
+		end
+
+	project_pecf_path: FILE_PATH
+		do
+			Result := "eiffel.pecf"
 		end
 
 	unix_exclude: STRING
@@ -74,11 +95,26 @@ feature {NONE} -- Implementation
 			Result := "file_rule [condition/platform/@value = 'unix']/exclude"
 		end
 
+	new_ecf_xdoc (pecf_path: FILE_PATH): EL_XPATH_ROOT_NODE_CONTEXT
+		local
+			converter: PYXIS_ECF_CONVERTER;
+			schema_location, platform_value, exclude_value: STRING; file_rule_count, windows_count: INTEGER
+		do
+			create converter.make (pecf_path, Work_area_dir + (pecf_path.base_sans_extension + ".xml"))
+			converter.execute
+			create Result.make_from_file (converter.output_path)
+		end
+
 feature {NONE} -- Constants
 
 	Valid_platforms: EL_STRING_8_LIST
 		once
 			Result := "unix, windows"
+		end
+
+	Setting_xpath: ZSTRING
+		once
+			Result := "/system/target/setting[@name='%S']/@value"
 		end
 
 end

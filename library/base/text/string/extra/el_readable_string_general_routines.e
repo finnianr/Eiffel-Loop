@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-29 10:35:15 GMT (Wednesday 29th June 2022)"
-	revision: "1"
+	date: "2022-07-01 9:37:26 GMT (Friday 1st July 2022)"
+	revision: "2"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES
@@ -21,27 +21,6 @@ feature -- Status query
 		-- `True' if `str' is convertible to type `basic_type'
 		do
 			Result := Convert_string.is_convertible (s, basic_type)
-		end
-
-feature -- Comparison
-
-	same_caseless (a, b: READABLE_STRING_GENERAL): BOOLEAN
-		-- `True' if all characters in `str' are in the ASCII character set: 0 .. 127
-		do
-			if a.count = b.count then
-				Result := a.same_caseless_characters (b, 1, b.count, 1)
-			end
-		end
-
-	caseless_ends_with (a, b: READABLE_STRING_GENERAL): BOOLEAN
-		-- `True' if `a.ends_with (b)' is true regardless of case of `b'
-		do
-			if b.is_empty then
-				Result := True
-
-			elseif a.count >= b.count then
-				Result := a.same_caseless_characters (b, 1, b.count, a.count - b.count + 1)
-			end
 		end
 
 feature -- Conversion

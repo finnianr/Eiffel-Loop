@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-29 16:01:32 GMT (Wednesday 29th June 2022)"
-	revision: "11"
+	date: "2022-07-01 15:00:27 GMT (Friday 1st July 2022)"
+	revision: "12"
 
 class
 	PYXIS_ECF_PARSER
@@ -32,6 +32,8 @@ inherit
 			call_state_procedure, parse_line
 		end
 
+	EL_MODULE_TUPLE
+
 create
 	make
 
@@ -39,26 +41,49 @@ feature {NONE} -- State procedures
 
 	call_state_procedure (line: STRING)
 		local
-			equal_index, platform_index: INTEGER
+			equal_index, platform_index, indent_count, end_index: INTEGER
 			platform_value, value_line: STRING; s_8: EL_STRING_8_ROUTINES
 		do
 			line.right_adjust
-			if line.ends_with (Platform_list) and then line [1] = '%T' then
-				platform_indent := cursor_8 (line).leading_occurrences ('%T')
+			indent_count := cursor_8 (line).leading_occurrences ('%T')
+			end_index := line.count - cursor_8 (line).trailing_white_count
 
-			elseif platform_indent.to_boolean and then line.occurrences ('"') = 2 and then line.has (';') then
+			if platform_indent.to_boolean and then line.occurrences ('"') = 2 and then line.has (';') then
 				across file_rule_lines (line) as list loop
 					Precursor (list.item)
 				end
 				platform_indent := 0
 
+			elseif setting_indent.to_boolean then
+				if end_index.to_boolean and then line [end_index] = ':' then
+					setting_indent := 0
+					Precursor (line)
+
+				elseif line.has ('=') then
+					across setting_name_value_list (line, False) as list loop
+						Precursor (list.item)
+					end
+				else
+					Precursor (line)
+				end
+
+			elseif indent_count.to_boolean and then line.ends_with (Platform_list) then
+				platform_indent := indent_count
+
+			elseif is_attribute (line, Name.settings) then
+				setting_indent := indent_count - 1
+				tag_name.remove_tail (1)
+				across setting_name_value_list (line, True) as list loop
+					Precursor (list.item)
+				end
+
 			else
 				equal_index := line.index_of ('=', 1)
-				if equal_index > 0 and tag_name ~ Condition then
-					platform_index := line.substring_index (Platform_attribute, 1)
+				if equal_index > 0 and tag_name ~ Name.condition then
+					platform_index := line.substring_index (Name.platform, 1)
 					if platform_index > 1 and then line [platform_index - 1] = '%T'
-						and then platform_index + Platform_attribute.count <= equal_index
-						and then line [platform_index + Platform_attribute.count] /= ':'
+						and then platform_index + Name.platform.count <= equal_index
+						and then line [platform_index + Name.platform.count] /= ':'
 					then
 --						Expand:
 --							platform = windows
@@ -67,7 +92,7 @@ feature {NONE} -- State procedures
 --								value = windows
 						platform_value := line.substring (equal_index + 1, line.count)
 						platform_value.adjust
-						line.replace_substring (s_8.character_string (':'), platform_index + Platform_attribute.count, line.count)
+						line.replace_substring (s_8.character_string (':'), platform_index + Name.platform.count, line.count)
 						Precursor (line)
 						create value_line.make_filled ('%T', platform_index)
 						value_line.append (once "value = ")
@@ -82,14 +107,20 @@ feature {NONE} -- State procedures
 			end
 		end
 
+	is_attribute (line, a_name: STRING): BOOLEAN
+		do
+			Result := line.has ('=') and then attached tag_name as tag and then tag ~ a_name
+		end
+
 	parse_line (line: STRING; start_index, end_index: INTEGER)
 		local
 			nvp_end, equal_index: INTEGER; assignment: EL_ASSIGNMENT_ROUTINES
 			xml_ns: STRING; eiffel_url, configuration_name_value: ZSTRING
+			s: EL_STRING_8_ROUTINES
 		do
 			equal_index := line.index_of ('=', start_index)
-			if equal_index.to_boolean and then (equal_index - start_index) >= Configuration_ns.count
-				and then line.same_characters (Configuration_ns, 1, Configuration_ns.count, start_index)
+			if equal_index.to_boolean and then (equal_index - start_index) >= Name.configuration_ns.count
+				and then s.occurs_at (line, Name.configuration_ns, start_index)
 			then
 				-- expand line
 				nvp_end := line.index_of (';', start_index)
@@ -140,24 +171,79 @@ feature {NONE} -- State procedures
 			Result := Platform_name [True]
 		end
 
+	name_value_list (line: STRING): detachable like Once_name_value_list
+		local
+			pair_splitter: like Once_pair_splitter
+			nvp: EL_NAME_VALUE_PAIR [STRING]
+		do
+			pair_splitter := Once_pair_splitter
+			pair_splitter.set_target (line)
+			if attached Once_name_value_list as list then
+				list.wipe_out
+				across pair_splitter as split loop
+					if split.item_has ('=') then
+						create nvp.make (split.item, '=')
+						nvp.name.adjust
+						list.extend (nvp)
+					end
+				end
+				if list.count > 0 then
+					Result := list
+				end
+			end
+		end
+
+	setting_name_value_list (a_line: STRING; is_first: BOOLEAN): EL_STRING_8_LIST
+		local
+			setting_lines: ZSTRING
+		do
+			if attached name_value_list (a_line) as nvp_list then
+				create Result.make (nvp_list.count * 2)
+				across nvp_list as list loop
+					setting_lines := Setting_template #$ [list.item.name, list.item.value]
+					across setting_lines.split ('%N') as line loop
+						Result.extend (line.item)
+					end
+				end
+				if is_first then
+					Result.start; Result.remove
+				end
+				Result.indent (setting_indent)
+			else
+				create Result.make_empty
+			end
+		end
+
 feature {NONE} -- Internal attributes
 
 	platform_indent: INTEGER
 
+	setting_indent: INTEGER
+
 feature {NONE} -- Constants
-
-	Configuration_ns: STRING = "configuration_ns"
-
-	Condition: STRING = "condition"
 
 	Eiffel_configuration: ZSTRING
 		once
 			Result := "http://www.eiffel.com/developers/xml/configuration-"
 		end
 
-	Platform_list: STRING = "platform_list:"
+	Name: TUPLE [condition, configuration_ns, platform, settings: STRING]
+		once
+			create Result
+			Tuple.fill (Result, "condition, configuration_ns, platform, settings" )
+		end
 
-	Platform_attribute: STRING = "platform"
+	Once_name_value_list: EL_ARRAYED_LIST [EL_NAME_VALUE_PAIR [STRING]]
+		once
+			create Result.make (7)
+		end
+
+	Once_pair_splitter: EL_SPLIT_ON_CHARACTER [STRING]
+		once
+			create Result.make_adjusted ("", ';', {EL_STRING_ADJUST}.Left)
+		end
+
+	Platform_list: STRING = "platform_list:"
 
 	Platform_name: EL_BOOLEAN_INDEXABLE [STRING]
 		once
@@ -167,12 +253,20 @@ feature {NONE} -- Constants
 	File_rule_template: ZSTRING
 		once
 			Result := "[
-			file_rule:
-				exclude:
-					"/#$"
-				condition:
-					platform:
-						value = #
+				file_rule:
+					exclude:
+						"/#$"
+					condition:
+						platform:
+							value = #
+			]"
+		end
+
+	Setting_template: ZSTRING
+		once
+			Result := "[
+				setting:
+					name = #; value = #
 			]"
 		end
 
