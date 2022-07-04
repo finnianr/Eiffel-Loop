@@ -1,8 +1,13 @@
 note
 	description: "[
 		String substitution template with placeholder variables designated by the '$' symbol.
+	]"
+	notes: "[
 		To differentiate variable names from contiguous text, the variable name can be enclosed by
 		curly braces as for example `$code' in the template `"Country: ${code}"'
+
+		If you need to have a literal $ sign use class [$source EL_TEMPLATE [STRING_GENERAL]] instead,
+		as it supports dollor escaping with the % character.
 	]"
 
 	author: "Finnian Reilly"
@@ -10,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 12:35:49 GMT (Sunday 10th January 2021)"
-	revision: "17"
+	date: "2022-07-04 9:20:26 GMT (Monday 4th July 2022)"
+	revision: "18"
 
 deferred class
 	EL_SUBSTITUTION_TEMPLATE

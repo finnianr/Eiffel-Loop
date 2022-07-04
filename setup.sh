@@ -33,8 +33,7 @@ then
 		sudo cp $curl_lib/MTeiffel_curl.o $ISE_LIBRARY/library/$curl_lib
 		rm -r cURL
 	fi
-
-	sudo python setup.py install --install-scripts=/usr/local/bin
+	sudo python setup.py build -b build/$ISE_PLATFORM install --install-scripts=/usr/local/bin
 	python -m eiffel_loop.scripts.setup
 else
 	echo

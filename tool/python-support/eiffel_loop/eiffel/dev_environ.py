@@ -118,7 +118,6 @@ environ_extra = {
 	'JDK_HOME' 						: environ.jdk_home (),
 
 	# Third party C/C++ libraries
-
 	'PYTHON_HOME'   				: environ.python_home_dir (),
 	'PYTHON_LIB_NAME'	  			: environ.python_dir_name ()
 }

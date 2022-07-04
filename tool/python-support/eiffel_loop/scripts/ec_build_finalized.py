@@ -31,6 +31,9 @@ parser.add_option (
 	dest = "build_x86", default = False, help = "Build a 32 bit version in addition to 64 bit"
 )
 parser.add_option (
+	"-e", "--ecf", action = "store_true", dest = "ecf", default = False, help = "Use only the XML ecf to build project"
+)
+parser.add_option (
 	"-n", "--no_build", action = "store_true", dest = "no_build", default = False, help = "Build without incrementing build number"
 )
 parser.add_option (
@@ -47,22 +50,18 @@ if options.build_x86:
 	target_architectures.append ('x86')
 	
 # Find project ECF file
-project = new_eiffel_project ()
+project = new_eiffel_project (options.ecf)
 
-f_code_tar = path.join ('build', 'F_code-%s.tar') % platform_name
-if not path.exists (f_code_tar):
-	f_code_tar = None
-
-# Update project.py build_number for `build_info.e'
 if options.no_build:
-	if f_code_tar:
-		os.remove (f_code_tar)
+	target_path = project.build_target ()
+	if path.exists (target_path):
+		print 'removing', target_path
+		os.remove (target_path)
 else:
-	project.increment_build_number ()
-	# remove if corrupted (size is less than 1 mb)
-	if f_code_tar:
-		if os.path.getsize(f_code_tar) < 1000000:
-			os.remove (f_code_tar)
+	# Update project.py build_number for `build_info.e'
+	print "options.ecf", options.ecf
+	project.increment_build_number (options.ecf)
+	project.remove_tar_if_corrupt ()
 
 for cpu_target in target_architectures:
 	project.build (cpu_target)
@@ -72,6 +71,7 @@ if options.autotest:
 	call (['python', '-m', 'eiffel_loop.scripts.ec_install_resources'])
 	passed_tests = project.autotest () == 0
 else:
+	print "No autotest"
 	passed_tests = True
 
 # Install with version link

@@ -26,67 +26,44 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true
 
-		setting:
-			name = address_expression; value = false
-		setting:
-			name = array_optimization; value = false
-		setting:
-			name = check_vape; value = true
-		setting:
-			name = console_application; value = true
-		setting:
-			name = dead_code_removal; value = true
-		setting:
-			name = dynamic_runtime; value = false
-		setting:
-			name = exception_trace; value = true
-		setting:
-			name = line_generation; value = false
-		setting:
-			name = inlining; value = true
-		setting:
-			name = inlining_size; value = 2
-		setting:
-			name = concurrency; value = thread
+		settings:
+			address_expression = false; array_optimization = false
+			check_vape = true; console_application = true; concurrency = thread
+			dead_code_removal = true; dynamic_runtime = false
+			exception_trace = true
+			inlining = true; inlining_size = 2
+			line_generation = false
 
 		precompile:
 			name = precompile; location = "$ISE_PRECOMP/EL/console-application.ecf"
 
-		library:
-			name = ise_base; location = "$ISE_LIBRARY/library/base/base.ecf"
+		libraries:
+			ise_base = "$ISE_LIBRARY/library/base/base.ecf"
 			option:
 				assertions:
 					precondition = true; postcondition = true; check = true; invariant = true
 
-		library:
-			name = ise_base_ext; location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"
-
-		library:
-			name = ise_encoding; location = "$ISE_EIFFEL/library/encoding/encoding.ecf"
-
-		library:
-			name = ise_thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
-
-		library:
-			name = ise_time; location = "$ISE_LIBRARY/library/time/time.ecf"
+		libraries:
+			ise_time = "$ISE_LIBRARY/library/time/time.ecf"
 			option:
 				assertions:
 					precondition = true; postcondition = true
 
-		library:
-			name = ise_net; location = "$ISE_LIBRARY/library/net/net.ecf"
-
-		library:
-			name = ise_testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			ise_base_ext = "base_extension/base_extension.ecf"
+			ise_encoding = "encoding/encoding.ecf"
+			ise_thread = "thread/thread.ecf"
+			ise_net = "net/net.ecf"
+			ise_testing = "testing/testing.ecf"
 
 		# Encryption
 		variable:
 			name = eapml_limb_type; value = natural_32
-		library:
-			name = ise_arbitrary_precision_math; location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"
-
-		library:
-			name = ise_encryption_base; location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"
+		libraries:
+			location = "$ISE_LIBRARY/contrib"
+			ise_integer_x = "library/math/eapml/eapml.ecf"
+			ise_encryption = "library/text/encryption/eel/eel.ecf"
 
 		# Other libraries
 		library:
@@ -96,114 +73,60 @@ system:
 
 		# Eiffel Loop libraries
 		library:
-			name = EL_amazon_ia; readonly = false; location = "$EIFFEL_LOOP/library/amazon-instant-access.ecf"
-			
-		library:
-			name = EL_app_manage; readonly = false; location = "$EIFFEL_LOOP/library/app-manage.ecf"
-
-		library:
 			name = EL_base; location = "$EIFFEL_LOOP/library/base/base.ecf"; readonly = false
 			option:
 				assertions:
 					precondition = true; postcondition = true; check = true
 
-		library:
-			name = EL_c_api; readonly = false; location = "$EIFFEL_LOOP/library/C-language-interface.ecf"
-
-		library:
-			name = EL_compression; readonly = false; location = "$EIFFEL_LOOP/library/compression.ecf"
-
-		library:
-			name = EL_currency; readonly = false; location = "$EIFFEL_LOOP/library/currency.ecf"
-
-		library:
-			name = EL_doc_scan; readonly = false; location = "$EIFFEL_LOOP/library/document-scan.ecf"
-
-		library:
-			name = EL_eco_db; readonly = false; location = "$EIFFEL_LOOP/library/Eco-DB.ecf"
-
-		library:
-			name = EL_encryption; readonly = false; location = "$EIFFEL_LOOP/library/encryption.ecf"
-
 		variable:
 			name = eros_server_enabled; value = false
 
-		library:
-			name = EL_eros; readonly = false; location = "$EIFFEL_LOOP/library/eros.ecf"
-
-		library:
-			name = EL_evolicity; readonly = false; location = "$EIFFEL_LOOP/library/evolicity.ecf"
-
-		library:
-			name = EL_fast_cgi; readonly = false; location = "$EIFFEL_LOOP/library/fast-cgi.ecf"
-
-		library:
-			name = EL_http_client; readonly = false; location = "$EIFFEL_LOOP/library/http-client.ecf"
-
-		library:
-			name = EL_i18n; readonly = false; location = "$EIFFEL_LOOP/library/i18n.ecf"
-
-		library:
-			name = EL_image_utils; readonly = false; location="$EIFFEL_LOOP/library/image-utils.ecf"
-
-		library:
-			name = EL_logging; readonly = false; location = "$EIFFEL_LOOP/library/logging.ecf"
-
-		library:
-			name = EL_markup_docs; readonly = false; location = "$EIFFEL_LOOP/library/markup-docs.ecf"
-
-		library:
-			name = EL_multimedia; readonly = false; location = "$EIFFEL_LOOP/library/multi-media.ecf"
-
-		library:
-			name = EL_network; readonly = false; location = "$EIFFEL_LOOP/library/network.ecf"
-
-		library:
-			name = EL_os_command; readonly = false; location = "$EIFFEL_LOOP/library/os-command.ecf"
-
-		library:
-			name = EL_paypal_SBM; readonly = false; location = "$EIFFEL_LOOP/library/paypal-SBM.ecf"
-
-		library:
-			name = EL_public_key_encryption; readonly = false; location = "$EIFFEL_LOOP/library/public-key-encryption.ecf"
-
-		library:
-			name = EL_pyxis_scan; readonly = false; location = "$EIFFEL_LOOP/library/pyxis-scan.ecf"
-
-		library:
-			name = EL_search_engine; readonly = false; location = "$EIFFEL_LOOP/library/search-engine.ecf"
+		writeable_libraries:
+			location = "$EIFFEL_LOOP/library"
+			EL_amazon_ia = "amazon-instant-access.ecf"
+			EL_app_manage = "app-manage.ecf"
+			EL_c_api = "C-language-interface.ecf"
+			EL_compression = "compression.ecf"
+			EL_currency = "currency.ecf"
+			EL_doc_scan = "document-scan.ecf"
+			EL_eco_db = "Eco-DB.ecf"
+			EL_encryption = "encryption.ecf"
+			EL_eros = "eros.ecf"
+			EL_evolicity = "evolicity.ecf"
+			EL_fast_cgi = "fast-cgi.ecf"
+			EL_http_client = "http-client.ecf"
+			EL_i18n = "i18n.ecf"
+			EL_image_utils = "image-utils.ecf"
+			EL_logging = "logging.ecf"
+			EL_markup_docs = "markup-docs.ecf"
+			EL_multimedia = "multi-media.ecf"
+			EL_network = "network.ecf"
+			EL_os_command = "os-command.ecf"
+			EL_paypal_SBM = "paypal-SBM.ecf"
+			EL_public_key_encryption = "public-key-encryption.ecf"
+			EL_pyxis_scan = "pyxis-scan.ecf"
+			EL_search_engine = "search-engine.ecf"
+			EL_vtd_xml = "vtd-xml.ecf"
+			EL_xml_scan = "xml-scan.ecf"
+			EL_text_formats = "text-formats.ecf"
+			EL_testing = "testing.ecf"
+			EL_text_process = "text-process.ecf"
+			EL_thread = "thread.ecf"
 
 		# Excluded on Windows because symbolic link Eiffel-Loop\contrib\C++\taglib\include is linked to Linux library
 		# Solve this problem in future version
-		library:
-			name = EL_taglib; location = "$EIFFEL_LOOP/library/TagLib.ecf"; readonly = false
+		writeable_libraries:
+			EL_taglib = "$EIFFEL_LOOP/library/TagLib.ecf"
 			condition:
 				platform = unix
-	
-		library:
-			name = EL_text_formats; readonly = false; location = "$EIFFEL_LOOP/library/text-formats.ecf"
 
-		library:
-			name = EL_testing; readonly = false; location = "$EIFFEL_LOOP/library/testing.ecf"
-
-		library:
-			name = EL_text_process; readonly = false; location = "$EIFFEL_LOOP/library/text-process.ecf"
-
-		library:
-			name = EL_thread; readonly = false; location = "$EIFFEL_LOOP/library/thread.ecf"
-
-		library:
-			name = EL_wel_x_audio; readonly = false; location = "$EIFFEL_LOOP/library/wel-x-audio.ecf"
+		writeable_libraries:
+			EL_wel_x_audio = "$EIFFEL_LOOP/library/wel-x-audio.ecf"
 			condition:
 				platform = windows
-		library:
-			name = EL_vtd_xml; readonly = false; location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
 
-		library:
-			name = EL_xml_scan; readonly = false; location = "$EIFFEL_LOOP/library/xml-scan.ecf"
-
-		cluster:
-			name = root; location = "source/root"; recursive = true
+		cluster_tree:
+			root = "source/root"
 			platform_list:
 				"imp_mswin; imp_unix"
 			description:
@@ -216,8 +139,8 @@ system:
 					See doc/test.root.txt for details
 				"""
 	
-		cluster:
-			name = amazon_ia; location = "source/amazon-ia"; recursive = true
+		cluster_tree:
+			amazon_ia = "source/amazon-ia"
 			description:
 				"""
 					amazon-instant-access.ecf
@@ -226,16 +149,16 @@ system:
 					See class [$source AMAZON_INSTANT_ACCESS_TEST_APP]
 				"""
 
-		cluster:
-			name = base; location = "source/base"; recursive = true
+		cluster_tree:
+			base = "source/base"
 			description:
 				"""
 					base.ecf (Eiffel-Loop)
 					
 					Test Eiffel-Loop base classes. See [$source BASE_AUTOTEST_APP]
 				"""
-		cluster:
-			name = common; location = "source/common"; recursive = true
+		cluster_tree:
+			common = "source/common"
 			description:
 				"""
 					Common Classes
@@ -243,32 +166,32 @@ system:
 					See doc/test.common.txt for details
 				"""
 
-		cluster:
-			name = compression; location = "source/compression"; recursive = true
+		cluster_tree:
+			compression = "source/compression"
 			description:
 				"""
 					compression.ecf
 					
 					See class [$source COMPRESSION_TEST_APP]
 				"""
-		cluster:
-			name = currency; location = "source/currency"; recursive = true
+		cluster_tree:
+			currency = "source/currency"
 			description:
 				"""
 					currency.ecf
 					
 					See class [$source CURRENCY_TEST_APP]
 				"""
-		cluster:
-			name = encryption; location = "source/encryption"; recursive = true
+		cluster_tree:
+			encryption = "source/encryption"
 			description:
 				"""
 					encryption.ecf
 					
 					See class [$source ENCRYPTION_AUTOTEST_APP]
 				"""
-		cluster:
-			name = eco_db; location = "source/Eco-DB"; recursive = true
+		cluster_tree:
+			eco_db = "source/Eco-DB"
 			description:
 				"""
 					Eco-DB.ecf
@@ -277,8 +200,8 @@ system:
 
 					Test application: [$source ECO_DB_AUTOTEST_APP]
 				"""
-		cluster:
-			name = eros; location = "source/eros"; recursive = true
+		cluster_tree:
+			eros = "source/eros"
 			description:
 				"""
 					eros.ecf
@@ -293,8 +216,8 @@ system:
 					* [$source FOURIER_MATH_CLIENT_TEST_APP]
 					* [$source FOURIER_MATH_SERVER_TEST_APP]
 				"""
-		cluster:
-			name = evolicity; location = "source/evolicity"; recursive = true
+		cluster_tree:
+			evolicity = "source/evolicity"
 			description:
 				"""
 					evolicity.ecf
@@ -302,16 +225,16 @@ system:
 					Test of Evolicity text substitution engine.
 					See class [$source EVOLICITY_TEST_APP]
 				"""
-		cluster:
-			name = http_client; location = "source/http-client"; recursive = true
+		cluster_tree:
+			http_client = "source/http-client"
 			description:
 				"""
 					http-client.ecf
 					
 					See class [$source HTTP_CLIENT_AUTOTEST_APP]
 				"""
-		cluster:
-			name = i18n; location = "source/i18n"; recursive = true
+		cluster_tree:
+			i18n = "source/i18n"
 			description:
 				"""
 					i18n.ecf
@@ -319,16 +242,16 @@ system:
 					Test localization library.
 					See class [$source I18N_AUTOTEST_APP]
 				"""
-		cluster:
-			name = image_utils; location = "source/image-utils"; recursive = true
+		cluster_tree:
+			image_utils = "source/image-utils"
 			description:
 				"""
 					image-utils.ecf
 					
 					See class [$source SVG_TO_PNG_CONVERSION_TEST_APP]
 				"""
-		cluster:
-			name = markup_docs; location = "source/markup-docs"; recursive = true
+		cluster_tree:
+			markup_docs = "source/markup-docs"
 			description:
 				"""
 					markup-docs.ecf
@@ -337,8 +260,8 @@ system:
 					* Regression test reading of Open Office Spreadsheet with [$source OPEN_OFFICE_TEST_APP]
 				"""
 		# Excluded on Windows because TagLib.ecf is not yet available for Windows
-		cluster:
-			name = multimedia; location = "source/multimedia"; recursive = true
+		cluster_tree:
+			multimedia = "source/multimedia"
 			description:
 				"""
 					multimedia.ecf
@@ -347,8 +270,8 @@ system:
 				"""
 			condition:
 				platform = unix
-		cluster:
-			name = network; location = "source/network"; recursive = true
+		cluster_tree:
+			network = "source/network"
 			description:
 				"""
 					network.ecf
@@ -358,8 +281,8 @@ system:
 					* [$source TEST_SIMPLE_CLIENT]
 					* [$source SIMPLE_SERVER_TEST_APP]
 				"""
-		cluster:
-			name = os_command; location = "source/os-command"; recursive = true
+		cluster_tree:
+			os_command = "source/os-command"
 			description:
 				"""
 					os-command.ecf
@@ -367,8 +290,8 @@ system:
 					* Test OS command interface library. See class [$source OS_COMMAND_AUTOTEST_APP]
 					* Test set for classes that manage and read file system content. See class [$source FILE_AND_DIRECTORY_TEST_SET]
 				"""
-		cluster:
-			name = paypal_sbm; location = "source/paypal-SBM"; recursive = true
+		cluster_tree:
+			paypal_sbm = "source/paypal-SBM"
 			description:
 				"""
 					paypal-SBM.ecf
@@ -376,8 +299,8 @@ system:
 					Tests for Eiffel interface to PayPal Payments Standard Button Manager API.
 					See class [$source PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP]
 				"""
-		cluster:
-			name = public_key_encryption; location = "source/public-key-encryption"; recursive = true
+		cluster_tree:
+			public_key_encryption = "source/public-key-encryption"
 			description:
 				"""
 					public-key-encryption.ecf
@@ -385,25 +308,24 @@ system:
 					Tests for RSA public key encryption tools.
 					See class [$source PUBLIC_KEY_ENCRYPTION_TEST_APP]
 				"""
-
-		cluster:
-			name = pyxis_scan; location = "source/pyxis-scan"; recursive = true
+		cluster_tree:
+			pyxis_scan = "source/pyxis-scan"
 			description:
 				"""
 					pyxis-scan.ecf
 					
 					Test application class: [$source PYXIS_SCAN_AUTOTEST_APP]
 				"""
-		cluster:
-			name = search_engine; location = "source/search-engine"; recursive = true
+		cluster_tree:
+			search_engine = "source/search-engine"
 			description:
 				"""
 					search-engine.ecf
 					
 					See class [$source SEARCH_ENGINE_AUTOTEST_APP]
 				"""
-		cluster:
-			name = taglib; location = "source/TagLib"; recursive = true
+		cluster_tree:
+			taglib = "source/TagLib"
 			description:
 				"""
 					TagLib.ecf
@@ -412,24 +334,24 @@ system:
 				"""
 			condition:
 				platform = unix
-		cluster:
-			name = text_formats; location = "source/text-formats"; recursive = true
+		cluster_tree:
+			text_formats = "source/text-formats"
 			description:
 				"""
 					text-formats.ecf
 					
 					See class [$source TEXT_FORMATS_AUTOTEST_APP]
 				"""
-		cluster:
-			name = text_process; location = "source/text-process"; recursive = true
+		cluster_tree:
+			text_process = "source/text-process"
 			description:
 				"""
 					text-process.ecf
 					
 					See class [$source TEXT_PROCESS_AUTOTEST_APP]
 				"""
-		cluster:
-			name = vtd_xml; location = "source/vtd-xml"; recursive = true
+		cluster_tree:
+			vtd_xml = "source/vtd-xml"
 			description:
 				"""
 					vtd-xml.ecf
@@ -438,8 +360,8 @@ system:
 
 					See class [$source VTD_XML_AUTOTEST_APP]
 				"""
-		cluster:
-			name = wel_x_audio; location = "source/wel-x-audio"; recursive = true
+		cluster_tree:
+			wel_x_audio = "source/wel-x-audio"
 			platform_list:
 				"imp_mswin; imp_unix"
 			description:
@@ -449,8 +371,8 @@ system:
 					Maintenance of Windows audio classes
 					See class [$source MEDIA_PLAYER_DUMMY_APP]
 				"""
-		cluster:
-			name = xml_scan; location = "source/xml-scan"; recursive = true
+		cluster_tree:
+			xml_scan = "source/xml-scan"
 			description:
 				"""
 					xml-scan.ecf

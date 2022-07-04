@@ -184,10 +184,18 @@ class WINDOWS_INSTALLER (INSTALLER):
 		gedit_dir = gedit_home_dir ()
 		if gedit_dir:
 			print gedit_dir
-			for gtk_ver in range (2, 4):
-				specs_dir = path.join (gedit_dir, r'share\gtksourceview-%s.0\language-specs' % gtk_ver)
-				if path.exists (specs_dir):
-					dir_util.copy_tree ('language-specs', specs_dir)
+			local_app_data = path.join (path.dirname (path.expandvars ('$APPDATA')), 'Local')
+			gtksourceview_dir = path.join (local_app_data, 'gtksourceview-%s.0') % self.__gtk_version (gedit_dir) 
+			specs_dir = path.join (gtksourceview_dir, 'language-specs')
+			dir_util.mkpath (specs_dir)
+			print "Installing Pyxis ECF syntax highlighting support:"
+			print " ", specs_dir
+			for name in os.listdir ('language-specs'):
+				file_path = path.join ('language-specs', name)
+				if path.exists (file_path):
+					print "  source:", file_path
+					file_util.copy_file (file_path, specs_dir)
+
 			gedit_exe_path = path.join (gedit_dir, r'bin\gedit.exe')
 			if path.exists (gedit_exe_path):
 				edit_cmd = '"%s"  "%%1"' % gedit_exe_path
@@ -240,6 +248,16 @@ class WINDOWS_INSTALLER (INSTALLER):
 		if ise_platform == ise.Platform_64_bit:
 			if path.exists (project.x86_path (ise.eiffel)):
 				super (WINDOWS_INSTALLER, self).install_precompiles ('windows')
+
+# Implementation
+	def __gtk_version (self, gedit_dir):
+		result = 3
+		for gtk_ver in range (2, 4):
+			specs_dir = path.join (gedit_dir, r'share\gtksourceview-%s.0\language-specs' % gtk_ver)
+			if path.exists (specs_dir):
+				result = gtk_ver
+				break
+		return result
 
 class UNIX_INSTALLER (INSTALLER):
 

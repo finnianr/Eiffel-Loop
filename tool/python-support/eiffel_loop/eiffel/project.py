@@ -85,11 +85,11 @@ def restore_classic_f_code_tar (f_code_tar_path, ise_platform):
 	print	'Extracting:', f_code_tar_path, ' to', build_dir
 	call (['tar', '-xf', f_code_tar_path, '-C', build_dir])
 
-def new_eiffel_project ():
+def new_eiffel_project (use_ecf = False):
 	if os.name == "posix":
-		result = UNIX_EIFFEL_PROJECT ()
+		result = UNIX_EIFFEL_PROJECT (None, use_ecf)
 	else:
-		result = MSWIN_EIFFEL_PROJECT ()
+		result = MSWIN_EIFFEL_PROJECT (None, use_ecf)
 	return result
 
 def convert_pecf_to_xml (pecf_path):
@@ -214,19 +214,23 @@ class EIFFEL_PROJECT (object):
 	Project_py_template = "project-%d.py"
 
 # Initialization
-	def __init__ (self, ecf_name = None):
+	def __init__ (self, ecf_name = None, use_ecf = False):
 		if ecf_name:
 			self.ecf_name = ecf_name
 		else:
 			self.ecf_name = glob ('*.ecf')[0]
 		self.name = path.splitext (self.ecf_name)[0]
 		self.pecf_name = self.name + '.pecf'
-		update_ecf (self.ecf_name)
+		if not use_ecf:
+			update_ecf (self.ecf_name)
 		
 		system = SYSTEM_INFO (XPATH_ROOT_CONTEXT (self.ecf_name, 'ec'))
 		self.exe_name = system.exe_name ()
 		self.version = system.version ().short_string ()
 		self.default_installation_dir = path.join (system.installation_dir (), 'bin')
+
+		py = read_project_py ()
+		self.build_f_code_tar = py.build_f_code_tar
 
 # Access
 	def eifgens_dir (self):
@@ -240,6 +244,20 @@ class EIFFEL_PROJECT (object):
 		# path to exe in package
 		result =	exe_path = path.join ('build', ise.platform, 'package', 'bin', self.exe_name)
 		return result
+
+	def build_target (self):
+		if self.build_f_code_tar:
+			result = self.f_code_tar_path ()
+		else:
+			result = self.f_code_exe_path ()
+
+		return result
+
+	def f_code_tar_path (self):
+		return path.join ('build', 'F_code-%s.tar' % self.platform_name ()) 
+
+	def f_code_exe_path (self):
+		return path.join (self.eifgens_dir (), 'classic', 'F_code', self.exe_name)
 
 # Basic operation
 	def autotest (self):
@@ -270,12 +288,21 @@ class EIFFEL_PROJECT (object):
 			os.rename (self.Project_py, self.Project_py_template % 32)
 			os.rename (self.Project_py_template % 64, self.Project_py)
 
+	def remove_tar_if_corrupt (self):
+		# remove corrupted F_code archive if it appears to be corrupted (size is less than 1 mb)
+		if self.build_f_code_tar:
+			f_code_tar = self.f_code_tar_path ()
+			if path.exists (f_code_tar):
+				if os.path.getsize (f_code_tar) < 1000000:
+					os.remove (f_code_tar)
+
+
 	def clean_build (self):
 		l_dir = self.eifgens_dir ()
 		if path.exists (l_dir):
 			dir_util.remove_tree (l_dir)
 
-		f_code_tar = path.join ('build', 'F_code-%s.tar' % self.platform_name ()) 
+		f_code_tar = self.f_code_tar_path ()
 		if path.exists (f_code_tar):
 			os.remove (f_code_tar)
 
@@ -302,7 +329,7 @@ class EIFFEL_PROJECT (object):
 			
 		# Install linked version of executable in `install_dir'
 		if f_code:
-			exe_path = path.join (self.eifgens_dir (), 'classic', 'F_code', self.exe_name)
+			exe_path = self.f_code_exe_path ()
 		else:
 			exe_path = self.package_exe_path ()
 
@@ -329,11 +356,13 @@ class EIFFEL_PROJECT (object):
 				self.copy (so_path, dest_so_path)
 				print 'Copied', so_path
 
-	def increment_build_number (self):
+	def increment_build_number (self, use_ecf = False):
 		print 'version:', self.version
-		if path.exists (self.pecf_name):
+		if path.exists (self.pecf_name) and not use_ecf:
+			print "Using Pyxis ECF:", self.ecf_name
 			project = PYXIS_FORMAT_PROJECT_FILE (self.pecf_name)
 		else:
+			print "Using ECF:", self.ecf_name
 			project = ECF_PROJECT_FILE (self.ecf_name)
 		
 		project.increment_build ()

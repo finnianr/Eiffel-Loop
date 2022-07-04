@@ -40,11 +40,10 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
-		library: 
-			name = "base"; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library: 
-			name = api_wrapper; location = "$ISE_LIBRARY/library/api_wrapper/api_wrapper.ecf"
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			api_wrapper = "api_wrapper/api_wrapper.ecf"
 
 		#	renaming:
 		#		old_name = JAVA_OBJECT; new_name = OBSOLETE_JAVA_OBJECT
@@ -56,20 +55,17 @@ system:
 				old_name = SHARED_JNI_ENVIRONMENT; new_name = JAVA_SHARED_ORB
 
 		# Eiffel Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_os_command = "os-command.ecf"
 
-		library:
-			name = EL_os_command; location = "os-command.ecf"
-
-		library:
-			name = EL_wel_regedit; location = "wel-regedit-x.ecf"
+			EL_wel_regedit = "wel-regedit-x.ecf"
 			condition:
 				platform = windows
 		
 		# Source code
-		cluster:
-			name = Java; location = "language_interface/Java"; recursive = true
+		cluster_tree:
+			Java = "language_interface/Java"
 			platform_list:
 				"imp_mswin; imp_unix"
 

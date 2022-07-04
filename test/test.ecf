@@ -16,86 +16,93 @@
 		<setting name = "array_optimization" value = "false"/>
 		<setting name = "check_vape" value = "true"/>
 		<setting name = "console_application" value = "true"/>
+		<setting name = "concurrency" value = "thread"/>
 		<setting name = "dead_code_removal" value = "true"/>
 		<setting name = "dynamic_runtime" value = "false"/>
 		<setting name = "exception_trace" value = "true"/>
-		<setting name = "line_generation" value = "false"/>
 		<setting name = "inlining" value = "true"/>
 		<setting name = "inlining_size" value = "2"/>
-		<setting name = "concurrency" value = "thread"/>
+		<setting name = "line_generation" value = "false"/>
 		<precompile name = "precompile" location = "$ISE_PRECOMP/EL/console-application.ecf"/>
+		<library/>
 		<library name = "ise_base" location = "$ISE_LIBRARY/library/base/base.ecf">
 			<option>
 				<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 			</option>
 		</library>
-		<library name = "ise_base_ext" location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"/>
-		<library name = "ise_encoding" location = "$ISE_EIFFEL/library/encoding/encoding.ecf"/>
-		<library name = "ise_thread" location = "$ISE_LIBRARY/library/thread/thread.ecf"/>
+		<library/>
 		<library name = "ise_time" location = "$ISE_LIBRARY/library/time/time.ecf">
 			<option>
 				<assertions precondition = "true" postcondition = "true"/>
 			</option>
 		</library>
+		<library/>
+		<library name = "ise_base_ext" location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"/>
+		<library name = "ise_encoding" location = "$ISE_LIBRARY/library/encoding/encoding.ecf"/>
+		<library name = "ise_thread" location = "$ISE_LIBRARY/library/thread/thread.ecf"/>
 		<library name = "ise_net" location = "$ISE_LIBRARY/library/net/net.ecf"/>
 		<library name = "ise_testing" location = "$ISE_LIBRARY/library/testing/testing.ecf"/>
 		<!--Encryption-->
 		<variable name = "eapml_limb_type" value = "natural_32"/>
-		<library name = "ise_arbitrary_precision_math" location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"/>
-		<library name = "ise_encryption_base" location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"/>
+		<library/>
+		<library name = "ise_integer_x" location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"/>
+		<library name = "ise_encryption" location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"/>
 		<!--Other libraries-->
 		<library name = "gobo_base" location = "$EIFFEL_LOOP/library/gobo-base.ecf"/>
 		<library name = "nel_fft_math" location = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"/>
 		<!--Eiffel Loop libraries-->
-		<library name = "EL_amazon_ia" readonly = "false" location = "$EIFFEL_LOOP/library/amazon-instant-access.ecf"/>
-		<library name = "EL_app_manage" readonly = "false" location = "$EIFFEL_LOOP/library/app-manage.ecf"/>
 		<library name = "EL_base" location = "$EIFFEL_LOOP/library/base/base.ecf" readonly = "false">
 			<option>
 				<assertions precondition = "true" postcondition = "true" check = "true"/>
 			</option>
 		</library>
-		<library name = "EL_c_api" readonly = "false" location = "$EIFFEL_LOOP/library/C-language-interface.ecf"/>
-		<library name = "EL_compression" readonly = "false" location = "$EIFFEL_LOOP/library/compression.ecf"/>
-		<library name = "EL_currency" readonly = "false" location = "$EIFFEL_LOOP/library/currency.ecf"/>
-		<library name = "EL_doc_scan" readonly = "false" location = "$EIFFEL_LOOP/library/document-scan.ecf"/>
-		<library name = "EL_eco_db" readonly = "false" location = "$EIFFEL_LOOP/library/Eco-DB.ecf"/>
-		<library name = "EL_encryption" readonly = "false" location = "$EIFFEL_LOOP/library/encryption.ecf"/>
 		<variable name = "eros_server_enabled" value = "false"/>
-		<library name = "EL_eros" readonly = "false" location = "$EIFFEL_LOOP/library/eros.ecf"/>
-		<library name = "EL_evolicity" readonly = "false" location = "$EIFFEL_LOOP/library/evolicity.ecf"/>
-		<library name = "EL_fast_cgi" readonly = "false" location = "$EIFFEL_LOOP/library/fast-cgi.ecf"/>
-		<library name = "EL_http_client" readonly = "false" location = "$EIFFEL_LOOP/library/http-client.ecf"/>
-		<library name = "EL_i18n" readonly = "false" location = "$EIFFEL_LOOP/library/i18n.ecf"/>
-		<library name = "EL_image_utils" readonly = "false" location = "$EIFFEL_LOOP/library/image-utils.ecf"/>
-		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
-		<library name = "EL_markup_docs" readonly = "false" location = "$EIFFEL_LOOP/library/markup-docs.ecf"/>
-		<library name = "EL_multimedia" readonly = "false" location = "$EIFFEL_LOOP/library/multi-media.ecf"/>
-		<library name = "EL_network" readonly = "false" location = "$EIFFEL_LOOP/library/network.ecf"/>
-		<library name = "EL_os_command" readonly = "false" location = "$EIFFEL_LOOP/library/os-command.ecf"/>
-		<library name = "EL_paypal_SBM" readonly = "false" location = "$EIFFEL_LOOP/library/paypal-SBM.ecf"/>
-		<library name = "EL_public_key_encryption" readonly = "false" location = "$EIFFEL_LOOP/library/public-key-encryption.ecf"/>
-		<library name = "EL_pyxis_scan" readonly = "false" location = "$EIFFEL_LOOP/library/pyxis-scan.ecf"/>
-		<library name = "EL_search_engine" readonly = "false" location = "$EIFFEL_LOOP/library/search-engine.ecf"/>
+		<library/>
+		<library name = "EL_amazon_ia" location = "$EIFFEL_LOOP/library/amazon-instant-access.ecf" readonly = "false"/>
+		<library name = "EL_app_manage" location = "$EIFFEL_LOOP/library/app-manage.ecf" readonly = "false"/>
+		<library name = "EL_c_api" location = "$EIFFEL_LOOP/library/C-language-interface.ecf" readonly = "false"/>
+		<library name = "EL_compression" location = "$EIFFEL_LOOP/library/compression.ecf" readonly = "false"/>
+		<library name = "EL_currency" location = "$EIFFEL_LOOP/library/currency.ecf" readonly = "false"/>
+		<library name = "EL_doc_scan" location = "$EIFFEL_LOOP/library/document-scan.ecf" readonly = "false"/>
+		<library name = "EL_eco_db" location = "$EIFFEL_LOOP/library/Eco-DB.ecf" readonly = "false"/>
+		<library name = "EL_encryption" location = "$EIFFEL_LOOP/library/encryption.ecf" readonly = "false"/>
+		<library name = "EL_eros" location = "$EIFFEL_LOOP/library/eros.ecf" readonly = "false"/>
+		<library name = "EL_evolicity" location = "$EIFFEL_LOOP/library/evolicity.ecf" readonly = "false"/>
+		<library name = "EL_fast_cgi" location = "$EIFFEL_LOOP/library/fast-cgi.ecf" readonly = "false"/>
+		<library name = "EL_http_client" location = "$EIFFEL_LOOP/library/http-client.ecf" readonly = "false"/>
+		<library name = "EL_i18n" location = "$EIFFEL_LOOP/library/i18n.ecf" readonly = "false"/>
+		<library name = "EL_image_utils" location = "$EIFFEL_LOOP/library/image-utils.ecf" readonly = "false"/>
+		<library name = "EL_logging" location = "$EIFFEL_LOOP/library/logging.ecf" readonly = "false"/>
+		<library name = "EL_markup_docs" location = "$EIFFEL_LOOP/library/markup-docs.ecf" readonly = "false"/>
+		<library name = "EL_multimedia" location = "$EIFFEL_LOOP/library/multi-media.ecf" readonly = "false"/>
+		<library name = "EL_network" location = "$EIFFEL_LOOP/library/network.ecf" readonly = "false"/>
+		<library name = "EL_os_command" location = "$EIFFEL_LOOP/library/os-command.ecf" readonly = "false"/>
+		<library name = "EL_paypal_SBM" location = "$EIFFEL_LOOP/library/paypal-SBM.ecf" readonly = "false"/>
+		<library name = "EL_public_key_encryption" location = "$EIFFEL_LOOP/library/public-key-encryption.ecf" readonly = "false"/>
+		<library name = "EL_pyxis_scan" location = "$EIFFEL_LOOP/library/pyxis-scan.ecf" readonly = "false"/>
+		<library name = "EL_search_engine" location = "$EIFFEL_LOOP/library/search-engine.ecf" readonly = "false"/>
+		<library name = "EL_vtd_xml" location = "$EIFFEL_LOOP/library/vtd-xml.ecf" readonly = "false"/>
+		<library name = "EL_xml_scan" location = "$EIFFEL_LOOP/library/xml-scan.ecf" readonly = "false"/>
+		<library name = "EL_text_formats" location = "$EIFFEL_LOOP/library/text-formats.ecf" readonly = "false"/>
+		<library name = "EL_testing" location = "$EIFFEL_LOOP/library/testing.ecf" readonly = "false"/>
+		<library name = "EL_text_process" location = "$EIFFEL_LOOP/library/text-process.ecf" readonly = "false"/>
+		<library name = "EL_thread" location = "$EIFFEL_LOOP/library/thread.ecf" readonly = "false"/>
 		<!--
 			Excluded on Windows because symbolic link Eiffel-Loop\contrib\C++\taglib\include is linked to Linux library
 			Solve this problem in future version
 		-->
+		<library/>
 		<library name = "EL_taglib" location = "$EIFFEL_LOOP/library/TagLib.ecf" readonly = "false">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
 		</library>
-		<library name = "EL_text_formats" readonly = "false" location = "$EIFFEL_LOOP/library/text-formats.ecf"/>
-		<library name = "EL_testing" readonly = "false" location = "$EIFFEL_LOOP/library/testing.ecf"/>
-		<library name = "EL_text_process" readonly = "false" location = "$EIFFEL_LOOP/library/text-process.ecf"/>
-		<library name = "EL_thread" readonly = "false" location = "$EIFFEL_LOOP/library/thread.ecf"/>
-		<library name = "EL_wel_x_audio" readonly = "false" location = "$EIFFEL_LOOP/library/wel-x-audio.ecf">
+		<library/>
+		<library name = "EL_wel_x_audio" location = "$EIFFEL_LOOP/library/wel-x-audio.ecf" readonly = "false">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</library>
-		<library name = "EL_vtd_xml" readonly = "false" location = "$EIFFEL_LOOP/library/vtd-xml.ecf"/>
-		<library name = "EL_xml_scan" readonly = "false" location = "$EIFFEL_LOOP/library/xml-scan.ecf"/>
 		<cluster name = "root" location = "source/root" recursive = "true">
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>

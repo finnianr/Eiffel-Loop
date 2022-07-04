@@ -187,8 +187,10 @@
 			<keyword>cls_compliant</keyword>
 			<keyword>common</keyword>
 			<keyword>compiler</keyword>
+			<keyword>disabled</keyword>
 			<keyword>dotnet</keyword>
 			<keyword>dotnet_naming_convention</keyword>
+			<keyword>enabled</keyword>
 			<keyword>enforce_unique_class_names</keyword>
 			<keyword>executable_name</keyword>
 			<keyword>export_class_missing</keyword>
@@ -377,11 +379,13 @@
 			<keyword>class</keyword>
 			<keyword>class_option</keyword>
 			<keyword>cluster</keyword>
+			<keyword>cluster_tree</keyword>
 			<keyword>capability</keyword>
 			<keyword>concurrency</keyword>
 			<keyword>condition</keyword>
 			<keyword>custom</keyword>
 			<keyword>debug</keyword>
+			<keyword>debugging</keyword>
 			<keyword>description</keyword>
 			<keyword>dotnet</keyword>
 			<keyword>dynamic_runtime</keyword>
@@ -396,6 +400,7 @@
 			<keyword>external_resource</keyword>
 			<keyword>file_rule</keyword>
 			<keyword>include</keyword>
+			<keyword>libraries</keyword>
 			<keyword>library</keyword>
 			<keyword>mapping</keyword>
 			<keyword>multithreaded</keyword>
@@ -413,6 +418,7 @@
 			<keyword>root</keyword>
 			<keyword>setting</keyword>
 			<keyword>settings</keyword>
+			<keyword>sub_clusters</keyword>
 			<keyword>system</keyword>
 			<keyword>target</keyword>
 			<keyword>tests</keyword>
@@ -421,6 +427,8 @@
 			<keyword>version</keyword>
 			<keyword>visible</keyword>
 			<keyword>warning</keyword>
+			<keyword>warnings</keyword>
+			<keyword>writeable_libraries</keyword>
         </context>
 
       </include>

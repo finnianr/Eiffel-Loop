@@ -10,6 +10,8 @@ note
 			'A' .. 'Z'
 			'0' .. '9'
 			'_'
+			
+		For a literal dollar sign use % to escape it, for example: "USD 100 %$"
 	]"
 
 	author: "Finnian Reilly"
@@ -17,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-01 9:09:10 GMT (Tuesday 1st March 2022)"
-	revision: "10"
+	date: "2022-07-04 9:17:01 GMT (Monday 4th July 2022)"
+	revision: "11"
 
 class
 	EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -26,11 +28,14 @@ class
 create
 	make
 
+convert
+	make ({S})
+
 feature {NONE} -- Initialization
 
 	make (a_template: READABLE_STRING_GENERAL)
 		local
-			dollor_split: EL_SPLIT_ON_CHARACTER [S]; item: S
+			dollor_split: EL_SPLIT_ON_CHARACTER [S]; item: S; previous_end_character: CHARACTER_32
 			i, length, start_index, end_index, variable_count: INTEGER; has_braces: BOOLEAN
 		do
 			create dollor_split.make (new_string (a_template), '$')
@@ -39,7 +44,10 @@ feature {NONE} -- Initialization
 			create part_list.make (variable_count * 2)
 			across dollor_split as list loop
 				item := list.item
-				if list.cursor_index = 1 then
+				if list.cursor_index = 1 or else previous_end_character = '%%' then
+					if previous_end_character = '%%' then
+						part_list.last.put_code ({ASCII}.Dollar.to_natural_32, part_list.last.count)
+					end
 					if not item.is_empty then
 						part_list.extend (item.twin)
 					end
@@ -68,6 +76,11 @@ feature {NONE} -- Initialization
 					if length < item.count then
 						part_list.extend (item.substring (length + 1, item.count))
 					end
+				end
+				if item.count > 0 then
+					previous_end_character := item [item.count]
+				else
+					previous_end_character := '%U'
 				end
 			end
 		end

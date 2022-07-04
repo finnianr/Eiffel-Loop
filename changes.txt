@@ -508,3 +508,6 @@ Cairo drawing area initialializeable from JPEG
 Sun 19th Jun 2022, 17:42:31
 EL_COMPRESSION_TABLE
 
+Mon 4th Jul 2022, 14:59:48
+New pecf tag expansions
+

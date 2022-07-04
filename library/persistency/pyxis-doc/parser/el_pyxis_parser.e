@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-29 20:13:46 GMT (Wednesday 29th June 2022)"
-	revision: "37"
+	date: "2022-07-04 6:31:01 GMT (Monday 4th July 2022)"
+	revision: "38"
 
 class
 	EL_PYXIS_PARSER
@@ -318,7 +318,7 @@ feature {NONE} -- Implementation
 		local
 			s_8: EL_STRING_8_ROUTINES
 		do
-			Result := buffer_8.copied_substring (line, start_index, end_index)
+			Result := Buffer_8.copied_substring (line, start_index, end_index)
 			s_8.replace_character (Result, '.', ':')
 		end
 

@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-01 15:00:27 GMT (Friday 1st July 2022)"
-	revision: "12"
+	date: "2022-07-04 14:49:37 GMT (Monday 4th July 2022)"
+	revision: "16"
 
 class
 	PYXIS_ECF_PARSER
@@ -32,84 +32,126 @@ inherit
 			call_state_procedure, parse_line
 		end
 
-	EL_MODULE_TUPLE
+	EL_STRING_8_CONSTANTS
+
+	PYXIS_ECF_TEMPLATES
 
 create
 	make
 
-feature {NONE} -- State procedures
+feature {NONE} -- Template Expansion
+
+	expanded_option_settings (nvp: EL_NAME_VALUE_PAIR [STRING]): STRING
+		-- option/debug OR option/warning
+		local
+			boolean: STRING
+		do
+			boolean := Boolean_value [nvp.value /~ Name.disabled]
+			if attached Option_setting_template as template then
+				template.put (Var.element, last_tag)
+				template.put (Var.name, nvp.name)
+				template.put (Var.value, boolean)
+				Result := template.substituted
+			end
+		end
+
+	expanded_platform (nvp: EL_NAME_VALUE_PAIR [STRING]): STRING
+		do
+			if attached Platform_template as template then
+				template.put (Var.value, nvp.value)
+				Result := template.substituted
+			end
+		end
+
+	expanded_sub_cluster (nvp: EL_NAME_VALUE_PAIR [STRING]): STRING
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			if attached Sub_clusters_template as template then
+				template.put (Var.name, nvp.name)
+				s.remove_double_quote (nvp.value)
+				template.put (Var.value, nvp.value)
+				Result := template.substituted
+			end
+		end
+
+feature {NONE} -- Implemenatation
 
 	call_state_procedure (line: STRING)
 		local
-			equal_index, platform_index, indent_count, end_index: INTEGER
-			platform_value, value_line: STRING; s_8: EL_STRING_8_ROUTINES
+			equal_index, indent_count, end_index: INTEGER
 		do
 			line.right_adjust
 			indent_count := cursor_8 (line).leading_occurrences ('%T')
 			end_index := line.count - cursor_8 (line).trailing_white_count
+			equal_index := line.index_of ('=', indent_count + 1)
 
-			if platform_indent.to_boolean and then line.occurrences ('"') = 2 and then line.has (';') then
+			if platform_indent > 0 and then line.occurrences ('"') = 2 and then line.has (';') then
 				across file_rule_lines (line) as list loop
 					Precursor (list.item)
 				end
 				platform_indent := 0
 
-			elseif setting_indent.to_boolean then
-				if end_index.to_boolean and then line [end_index] = ':' then
-					setting_indent := 0
-					Precursor (line)
+			elseif indent_count > 0 and then line.ends_with (platform_list) then
+				platform_indent := indent_count
+				 -- This might be an exit to cluster_tree group
+				grouped_lines := Void
 
-				elseif line.has ('=') then
-					across setting_name_value_list (line, False) as list loop
-						Precursor (list.item)
+			elseif attached grouped_lines as grouped then
+				if equal_index > 0 then
+					grouped.set_from_line (line)
+					across grouped as ln loop
+						Precursor (ln.item)
 					end
 				else
+					if end_index > 0 and then line [end_index] = ':' then
+						grouped_lines := Void
+					end
 					Precursor (line)
 				end
 
-			elseif indent_count.to_boolean and then line.ends_with (Platform_list) then
-				platform_indent := indent_count
+			elseif equal_index > 0 and then attached tag_name as tag and then Grouped_element_table.has_key (tag) then
+				tag_name := Grouped_element_table.found_item
 
-			elseif is_attribute (line, Name.settings) then
-				setting_indent := indent_count - 1
-				tag_name.remove_tail (1)
-				across setting_name_value_list (line, True) as list loop
-					Precursor (list.item)
+				if attached new_group_lines (tag, line, indent_count - 1) as new_lines then
+					across new_lines as list loop
+						Precursor (list.item)
+					end
+					grouped_lines := new_lines
+				end
+
+			elseif equal_index > 0 and then last_tag ~ Name.condition
+				and then first_name (line, equal_index, indent_count) ~ Name.platform
+			then
+				across new_group_lines (Name.platform, line, indent_count) as ln loop
+					Precursor (ln.item)
 				end
 
 			else
-				equal_index := line.index_of ('=', 1)
-				if equal_index > 0 and tag_name ~ Name.condition then
-					platform_index := line.substring_index (Name.platform, 1)
-					if platform_index > 1 and then line [platform_index - 1] = '%T'
-						and then platform_index + Name.platform.count <= equal_index
-						and then line [platform_index + Name.platform.count] /= ':'
-					then
---						Expand:
---							platform = windows
---						as:
---							platform:
---								value = windows
-						platform_value := line.substring (equal_index + 1, line.count)
-						platform_value.adjust
-						line.replace_substring (s_8.character_string (':'), platform_index + Name.platform.count, line.count)
-						Precursor (line)
-						create value_line.make_filled ('%T', platform_index)
-						value_line.append (once "value = ")
-						value_line.append (platform_value)
-						Precursor (value_line)
-					else
-						Precursor (line)
-					end
-				else
-					Precursor (line)
-				end
+				Precursor (line)
 			end
 		end
 
-	is_attribute (line, a_name: STRING): BOOLEAN
+	first_name (line: STRING; equal_index, indent_count: INTEGER): STRING
 		do
-			Result := line.has ('=') and then attached tag_name as tag and then tag ~ a_name
+			Result := Buffer_8.copied_substring (line, indent_count + 1, equal_index - 1)
+			Result.right_adjust
+		end
+
+	new_group_lines (tag, line: STRING; indent_count: INTEGER): GROUPED_ECF_LINES
+		do
+			if attached Expansion_table as table and then table.has_key (tag) then
+				-- Truncated first line
+				table.found_item.set_target (Current)
+				if Library_tags.has (tag) then
+					create {LIBRARIES_ECF_LINES} Result.make_truncated (table.found_item, indent_count, line)
+				else
+					create Result.make_truncated (table.found_item, indent_count, line)
+				end
+
+			elseif tag ~ Name.platform then
+				create Result.make (agent expanded_platform, indent_count, line)
+			end
 		end
 
 	parse_line (line: STRING; start_index, end_index: INTEGER)
@@ -119,7 +161,7 @@ feature {NONE} -- State procedures
 			s: EL_STRING_8_ROUTINES
 		do
 			equal_index := line.index_of ('=', start_index)
-			if equal_index.to_boolean and then (equal_index - start_index) >= Name.configuration_ns.count
+			if equal_index > 0 and then (equal_index - start_index) >= Name.configuration_ns.count
 				and then s.occurs_at (line, Name.configuration_ns, start_index)
 			then
 				-- expand line
@@ -146,10 +188,10 @@ feature {NONE} -- State procedures
 		--		platform_list = "imp_mswin, imp_unix"
 		--	as pair of platform/exclude file rules
 		local
-			q_start, q_end: INTEGER; filled_template: ZSTRING; platform: STRING
+			q_start, q_end: INTEGER; platform: STRING
 			is_unix: BOOLEAN
 		do
-			create Result.make ((File_rule_template.occurrences ('%N') + 1) * 2)
+			create Result.make (15)
 			q_start := line.index_of ('"', 1) + 1
 			if q_start > platform_indent then
 				q_end := line.last_index_of ('"', line.count) - 1
@@ -157,12 +199,24 @@ feature {NONE} -- State procedures
 					platform := list.item
 					platform.left_adjust
 					is_unix := platform.has_substring (unix)
-					filled_template := File_rule_template #$ [platform, Platform_name [not is_unix]]
-					across filled_template.split ('%N') as split loop
-						Result.extend (split.item)
+					if attached File_rule_template as template then
+						template.put (Var.directory, platform)
+						template.put (Var.value, Platform_name [not is_unix])
+						across template.substituted.split ('%N') as split loop
+							Result.extend (split.item)
+						end
 					end
 				end
 				Result.indent (platform_indent)
+			end
+		end
+
+	last_tag: STRING
+		do
+			if attached tag_name as tag then
+				Result := tag
+			else
+				Result := Empty_string_8
 			end
 		end
 
@@ -171,110 +225,82 @@ feature {NONE} -- State procedures
 			Result := Platform_name [True]
 		end
 
-	name_value_list (line: STRING): detachable like Once_name_value_list
-		local
-			pair_splitter: like Once_pair_splitter
-			nvp: EL_NAME_VALUE_PAIR [STRING]
+	substituted (template: EL_TEMPLATE [STRING]; nvp: EL_NAME_VALUE_PAIR [STRING]): STRING
 		do
-			pair_splitter := Once_pair_splitter
-			pair_splitter.set_target (line)
-			if attached Once_name_value_list as list then
-				list.wipe_out
-				across pair_splitter as split loop
-					if split.item_has ('=') then
-						create nvp.make (split.item, '=')
-						nvp.name.adjust
-						list.extend (nvp)
-					end
-				end
-				if list.count > 0 then
-					Result := list
-				end
-			end
-		end
-
-	setting_name_value_list (a_line: STRING; is_first: BOOLEAN): EL_STRING_8_LIST
-		local
-			setting_lines: ZSTRING
-		do
-			if attached name_value_list (a_line) as nvp_list then
-				create Result.make (nvp_list.count * 2)
-				across nvp_list as list loop
-					setting_lines := Setting_template #$ [list.item.name, list.item.value]
-					across setting_lines.split ('%N') as line loop
-						Result.extend (line.item)
-					end
-				end
-				if is_first then
-					Result.start; Result.remove
-				end
-				Result.indent (setting_indent)
-			else
-				create Result.make_empty
-			end
+			template.put (Var.name, nvp.name)
+			template.put (Var.value, nvp.value)
+			Result := template.substituted
 		end
 
 feature {NONE} -- Internal attributes
 
 	platform_indent: INTEGER
 
-	setting_indent: INTEGER
+	grouped_lines: detachable GROUPED_ECF_LINES
 
 feature {NONE} -- Constants
+
+	Boolean_value: EL_BOOLEAN_INDEXABLE [STRING]
+		once
+			create Result.make ("false", "true")
+		end
 
 	Eiffel_configuration: ZSTRING
 		once
 			Result := "http://www.eiffel.com/developers/xml/configuration-"
 		end
 
-	Name: TUPLE [condition, configuration_ns, platform, settings: STRING]
+	Expansion_table: EL_HASH_TABLE [FUNCTION [EL_NAME_VALUE_PAIR [STRING], STRING], STRING]
+		once
+			create Result.make (<<
+				[Name.settings, agent substituted (Setting_template, ?)],
+				[Name.libraries, agent substituted (Library_template, ?)],
+				[Name.writeable_libraries, agent substituted (Writeable_library_template, ?)],
+				[Name.debugging, agent expanded_option_settings],
+				[Name.warnings, agent expanded_option_settings],
+				[Name.cluster_tree, agent substituted (Cluster_tree_template, ?)],
+				[Name.sub_clusters, agent expanded_sub_cluster]
+			>>)
+		end
+
+	Name: TUPLE [
+		cluster_tree, condition, configuration_ns, debugging, disabled, libraries,
+		platform, settings, sub_clusters, warnings, writeable_libraries: STRING
+	]
 		once
 			create Result
-			Tuple.fill (Result, "condition, configuration_ns, platform, settings" )
+			Tuple.fill (Result,
+				"cluster_tree, condition, configuration_ns, debugging, disabled, libraries, %
+				%platform, settings, sub_clusters, warnings, writeable_libraries"
+			)
+		ensure
+			aligned_correctly: Result.writeable_libraries ~ "writeable_libraries"
 		end
 
-	Once_name_value_list: EL_ARRAYED_LIST [EL_NAME_VALUE_PAIR [STRING]]
+	Grouped_element_table: EL_HASH_TABLE [STRING, STRING]
 		once
-			create Result.make (7)
+			create Result.make (<<
+				[Name.settings, "setting"],
+				[Name.libraries, "library"],
+				[Name.writeable_libraries, "library"],
+				[Name.debugging, "debug"],
+				[Name.cluster_tree, "cluster"],
+				[Name.sub_clusters, "cluster"],
+				[Name.warnings, "warning"]
+			>>)
 		end
 
-	Once_pair_splitter: EL_SPLIT_ON_CHARACTER [STRING]
+	Library_tags: ARRAY [STRING]
 		once
-			create Result.make_adjusted ("", ';', {EL_STRING_ADJUST}.Left)
+			Result := << Name.libraries, Name.writeable_libraries >>
+			Result.compare_objects
 		end
-
-	Platform_list: STRING = "platform_list:"
 
 	Platform_name: EL_BOOLEAN_INDEXABLE [STRING]
 		once
 			create Result.make ("windows", "unix")
 		end
 
-	File_rule_template: ZSTRING
-		once
-			Result := "[
-				file_rule:
-					exclude:
-						"/#$"
-					condition:
-						platform:
-							value = #
-			]"
-		end
-
-	Setting_template: ZSTRING
-		once
-			Result := "[
-				setting:
-					name = #; value = #
-			]"
-		end
-
-	XMS_NS_template: ZSTRING
-		once
-			Result := "[
-				xmlns = "#"; xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance"; xsi.schemaLocation = "# #.xsd"
-			]"
-		end
+	Platform_list: STRING = "platform_list:"
 
 end
