@@ -1,3 +1,6 @@
+1.6.2
+* Fixed bad library tag count in Pyxis -> ECF converter
+
 1.6.1
 * insert platform/exclude rules for pecf -> xml
 * Abbreviate platform/condition/@value in pecf

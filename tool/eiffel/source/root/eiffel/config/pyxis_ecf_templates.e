@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-04 14:49:38 GMT (Monday 4th July 2022)"
-	revision: "2"
+	date: "2022-07-05 13:31:36 GMT (Tuesday 5th July 2022)"
+	revision: "3"
 
 deferred class
 	PYXIS_ECF_TEMPLATES
@@ -30,6 +30,20 @@ feature {NONE} -- Constants
 			Result := "[
 				library:
 					name = $NAME; location = $VALUE
+			]"
+		end
+
+	Name_location_template: EL_TEMPLATE [STRING]
+		once
+			Result := "[
+				name = $NAME; location = $VALUE
+			]"
+		end
+
+	Name_value_template: EL_TEMPLATE [STRING]
+		once
+			Result := "[
+				name = $NAME; value = $VALUE
 			]"
 		end
 

@@ -62,7 +62,7 @@ system:
 			concurrency = thread
 
 		precompile:
-			name = precompile; location = "$ISE_PRECOMP/EL/GUI-application.ecf"
+			precompile = "$ISE_PRECOMP/EL/GUI-application.ecf"
 
 		libraries:
 			location = "$ISE_LIBRARY/library"

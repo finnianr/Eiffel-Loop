@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-04 6:16:19 GMT (Monday 4th July 2022)"
-	revision: "2"
+	date: "2022-07-05 11:14:29 GMT (Tuesday 5th July 2022)"
+	revision: "3"
 
 class
 	LIBRARIES_ECF_LINES
@@ -24,33 +24,31 @@ class
 inherit
 	GROUPED_ECF_LINES
 		redefine
-			make_truncated, adjust_value
+			set_from_line, adjust_value
 		end
 
 create
-	make_truncated
+	make
 
-feature {NONE} -- Initialization
+feature -- Element change
 
-	make_truncated (a_expanded_template: like expanded_template; a_tab_count: INTEGER; line: STRING)
+	set_from_line (line: STRING; tab_count: INTEGER)
 		local
 			s: EL_STRING_8_ROUTINES
 		do
-			make_empty
-			expanded_template := a_expanded_template; tab_count := a_tab_count
-			if line.has_substring (Location)
+			if not first_line_removed
+				and then not attached location_dir and then line.has_substring (Location)
 				and then attached shared_name_value_list (line) as nvp_list
 				and then nvp_list.count = 1 and then nvp_list.first.name ~ Location
+				and then attached nvp_list.first.value as dir
 			then
-				location_dir := nvp_list.first.value
-				if attached location_dir as dir then
-					s.remove_double_quote (dir)
-					if dir [dir.count] /= '/' then
-						dir.append_character ('/')
-					end
+				s.remove_double_quote (dir)
+				if dir [dir.count] /= '/' then
+					dir.append_character ('/')
 				end
+				location_dir := dir
 			else
-				set_from_line (line)
+				Precursor (line, tab_count)
 			end
 		end
 

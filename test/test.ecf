@@ -24,27 +24,24 @@
 		<setting name = "inlining_size" value = "2"/>
 		<setting name = "line_generation" value = "false"/>
 		<precompile name = "precompile" location = "$ISE_PRECOMP/EL/console-application.ecf"/>
-		<library/>
+		<!--ISE-->
 		<library name = "ise_base" location = "$ISE_LIBRARY/library/base/base.ecf">
 			<option>
 				<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 			</option>
 		</library>
-		<library/>
 		<library name = "ise_time" location = "$ISE_LIBRARY/library/time/time.ecf">
 			<option>
 				<assertions precondition = "true" postcondition = "true"/>
 			</option>
 		</library>
-		<library/>
 		<library name = "ise_base_ext" location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"/>
 		<library name = "ise_encoding" location = "$ISE_LIBRARY/library/encoding/encoding.ecf"/>
 		<library name = "ise_thread" location = "$ISE_LIBRARY/library/thread/thread.ecf"/>
 		<library name = "ise_net" location = "$ISE_LIBRARY/library/net/net.ecf"/>
 		<library name = "ise_testing" location = "$ISE_LIBRARY/library/testing/testing.ecf"/>
-		<!--Encryption-->
+		<!--ISE contributions-->
 		<variable name = "eapml_limb_type" value = "natural_32"/>
-		<library/>
 		<library name = "ise_integer_x" location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"/>
 		<library name = "ise_encryption" location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"/>
 		<!--Other libraries-->
@@ -57,7 +54,6 @@
 			</option>
 		</library>
 		<variable name = "eros_server_enabled" value = "false"/>
-		<library/>
 		<library name = "EL_amazon_ia" location = "$EIFFEL_LOOP/library/amazon-instant-access.ecf" readonly = "false"/>
 		<library name = "EL_app_manage" location = "$EIFFEL_LOOP/library/app-manage.ecf" readonly = "false"/>
 		<library name = "EL_c_api" location = "$EIFFEL_LOOP/library/C-language-interface.ecf" readonly = "false"/>
@@ -91,13 +87,11 @@
 			Excluded on Windows because symbolic link Eiffel-Loop\contrib\C++\taglib\include is linked to Linux library
 			Solve this problem in future version
 		-->
-		<library/>
 		<library name = "EL_taglib" location = "$EIFFEL_LOOP/library/TagLib.ecf" readonly = "false">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
 		</library>
-		<library/>
 		<library name = "EL_wel_x_audio" location = "$EIFFEL_LOOP/library/wel-x-audio.ecf" readonly = "false">
 			<condition>
 				<platform value = "windows"/>

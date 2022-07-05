@@ -37,6 +37,7 @@ system:
 		precompile:
 			name = precompile; location = "$ISE_PRECOMP/EL/console-application.ecf"
 
+		# ISE
 		libraries:
 			ise_base = "$ISE_LIBRARY/library/base/base.ecf"
 			option:
@@ -57,13 +58,13 @@ system:
 			ise_net = "net/net.ecf"
 			ise_testing = "testing/testing.ecf"
 
-		# Encryption
+		# ISE contributions
 		variable:
 			name = eapml_limb_type; value = natural_32
 		libraries:
-			location = "$ISE_LIBRARY/contrib"
-			ise_integer_x = "library/math/eapml/eapml.ecf"
-			ise_encryption = "library/text/encryption/eel/eel.ecf"
+			location = "$ISE_LIBRARY/contrib/library"
+			ise_integer_x = "math/eapml/eapml.ecf"
+			ise_encryption = "text/encryption/eel/eel.ecf"
 
 		# Other libraries
 		library:
@@ -148,7 +149,6 @@ system:
 					Tests for Eiffel interface to Amazon Instant Access API.
 					See class [$source AMAZON_INSTANT_ACCESS_TEST_APP]
 				"""
-
 		cluster_tree:
 			base = "source/base"
 			description:
@@ -165,7 +165,6 @@ system:
 
 					See doc/test.common.txt for details
 				"""
-
 		cluster_tree:
 			compression = "source/compression"
 			description:

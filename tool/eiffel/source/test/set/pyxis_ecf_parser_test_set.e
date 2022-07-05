@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-04 12:22:08 GMT (Monday 4th July 2022)"
-	revision: "23"
+	date: "2022-07-05 13:47:48 GMT (Tuesday 5th July 2022)"
+	revision: "24"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -22,20 +22,21 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("conversion_to_pecf", agent test_conversion_to_pecf)
-			eval.call ("expansions", agent test_expansions)
-			eval.call ("clusters_expansion", agent test_clusters_expansion)
+			eval.call ("eiffel2java_pecf", agent test_eiffel2java_pecf)
+			eval.call ("graphical_pecf", agent test_graphical_pecf)
+			eval.call ("eiffel_pecf", agent test_eiffel_pecf)
 		end
 
 feature -- Tests
 
-	test_conversion_to_pecf
+	test_eiffel2java_pecf
 			--
 		local
 			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; file_rule_count, windows_count: INTEGER
-			schema_location, platform_value, name, exclude_value: STRING
+			schema_location, platform_value, exclude_value: STRING
 		do
 			ecf_xdoc := new_ecf_xdoc (library_pecf_path)
+			assert ("6 libraries", library_count (ecf_xdoc) = 6)
 			across ecf_xdoc.context_list ("//file_rule") as rule loop
 				platform_value := rule.node.query ("condition/platform/@value")
 				exclude_value := rule.node.query ("exclude/text()")
@@ -63,13 +64,13 @@ feature -- Tests
 			assert ("valid xsi:schemaLocation", schema_location.ends_with ("configuration-1-16-0.xsd"))
 		end
 
-	test_expansions
+	test_graphical_pecf
 		local
-			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; file_rule_count, windows_count: INTEGER
-			schema_location, platform_value, exclude_value, name, xpath: STRING
+			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; exclude_value, name, xpath: STRING
 			location_steps: EL_PATH_STEPS
 		do
 			ecf_xdoc := new_ecf_xdoc (graphical_pecf_path)
+			assert ("17 libraries", library_count (ecf_xdoc) = 17)
 			across ("__unnamed_debug__, wel_gdi_references, win_dispatcher").split (',') as list loop
 				name := list.item; name.left_adjust
 				assert ("debug false", ecf_xdoc.query (Option_setting_xpath #$ ["debug", name]).as_string_8 ~ "false")
@@ -96,14 +97,16 @@ feature -- Tests
 				assert ("is library path", location_steps.item (2).same_string ("library"))
 				assert (table.key, location_steps.base.same_string (table.item))
 			end
+			assert ("is GUI-application.ecf", has_precompile (ecf_xdoc, "GUI-application.ecf"))
 		end
 
-	test_clusters_expansion
+	test_eiffel_pecf
 		local
 			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; sub_cluster_count: INTEGER
 			name, location: STRING
 		do
 			ecf_xdoc := new_ecf_xdoc (project_pecf_path)
+			assert ("21 libraries", library_count (ecf_xdoc) = 21)
 			if attached ecf_xdoc.context_list ("//cluster [@recursive='true']") as list then
 				assert ("4 recursive", list.count = 4)
 			end
@@ -116,6 +119,18 @@ feature -- Tests
 				end
 			end
 			assert ("2 sub clusters", sub_cluster_count = 2)
+
+			if attached ecf_xdoc.find_node ("/system/target/variable[@name='eapml_limb_type']") as variable then
+				assert ("is natural_32", variable ["value"].as_string_8 ~ "natural_32")
+			else
+				assert ("found variable eapml_limb_type", False)
+			end
+			if attached ecf_xdoc.find_node ("/system/target/cluster[@name='Test_common']") as cluster then
+				assert ("is source/common", cluster ["location"].as_string_8.ends_with ("source/common"))
+			else
+				assert ("found Test_common cluster", False)
+			end
+			assert ("is console-application.ecf", has_precompile (ecf_xdoc, "console-application.ecf"))
 		end
 
 feature {NONE} -- Implementation
@@ -125,15 +140,26 @@ feature {NONE} -- Implementation
 			Result := Eiffel_loop_dir + "example/graphical/graphical.pecf"
 		end
 
+	has_precompile (ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; name: STRING): BOOLEAN
+		do
+			if attached ecf_xdoc.find_node ("/system/target/precompile[@name='precompile']") as precompile then
+				Result := precompile ["location"].as_string_8.ends_with (name)
+			end
+		end
+
 	library_pecf_path: FILE_PATH
 		do
 			Result := Eiffel_loop_dir + "library/eiffel2java.pecf"
 		end
 
+	library_count (ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT): INTEGER
+		do
+			Result := ecf_xdoc.context_list ("//library").count
+		end
+
 	new_ecf_xdoc (pecf_path: FILE_PATH): EL_XPATH_ROOT_NODE_CONTEXT
 		local
-			converter: PYXIS_ECF_CONVERTER;
-			schema_location, platform_value, exclude_value: STRING; file_rule_count, windows_count: INTEGER
+			converter: PYXIS_ECF_CONVERTER
 		do
 			create converter.make (pecf_path, Work_area_dir + (pecf_path.base_sans_extension + ".xml"))
 			converter.execute
@@ -156,6 +182,7 @@ feature {NONE} -- Constants
 		once
 			Result := "/system/target/library[@name='%S']/@location"
 		end
+		
 	Library_table: EL_HASH_TABLE [STRING, STRING]
 		once
 			create Result.make (<<

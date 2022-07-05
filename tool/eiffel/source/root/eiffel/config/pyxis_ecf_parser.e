@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-04 14:49:37 GMT (Monday 4th July 2022)"
-	revision: "16"
+	date: "2022-07-05 15:34:02 GMT (Tuesday 5th July 2022)"
+	revision: "17"
 
 class
 	PYXIS_ECF_PARSER
@@ -81,25 +81,26 @@ feature {NONE} -- Implemenatation
 		local
 			equal_index, indent_count, end_index: INTEGER
 		do
-			line.right_adjust
 			indent_count := cursor_8 (line).leading_occurrences ('%T')
-			end_index := line.count - cursor_8 (line).trailing_white_count
 			equal_index := line.index_of ('=', indent_count + 1)
+			end_index := line.count - cursor_8 (line).trailing_white_count
 
 			if platform_indent > 0 and then line.occurrences ('"') = 2 and then line.has (';') then
-				across file_rule_lines (line) as list loop
+				across new_file_rule_lines (line) as list loop
 					Precursor (list.item)
 				end
 				platform_indent := 0
 
-			elseif indent_count > 0 and then line.ends_with (platform_list) then
+			elseif indent_count > 0 and then attached element (line, indent_count + 1, end_index) as tag
+				and then tag ~ Name.platform_list
+			then
 				platform_indent := indent_count
 				 -- This might be an exit to cluster_tree group
 				grouped_lines := Void
 
 			elseif attached grouped_lines as grouped then
 				if equal_index > 0 then
-					grouped.set_from_line (line)
+					grouped.set_from_line (line, indent_count - 1)
 					across grouped as ln loop
 						Precursor (ln.item)
 					end
@@ -110,20 +111,10 @@ feature {NONE} -- Implemenatation
 					Precursor (line)
 				end
 
-			elseif equal_index > 0 and then attached tag_name as tag and then Grouped_element_table.has_key (tag) then
-				tag_name := Grouped_element_table.found_item
-
-				if attached new_group_lines (tag, line, indent_count - 1) as new_lines then
-					across new_lines as list loop
-						Precursor (list.item)
-					end
-					grouped_lines := new_lines
-				end
-
 			elseif equal_index > 0 and then last_tag ~ Name.condition
-				and then first_name (line, equal_index, indent_count) ~ Name.platform
+				and then first_name_matches (line, Name.platform, equal_index, indent_count + 1)
 			then
-				across new_group_lines (Name.platform, line, indent_count) as ln loop
+				across new_platform_lines (line, indent_count) as ln loop
 					Precursor (ln.item)
 				end
 
@@ -132,25 +123,32 @@ feature {NONE} -- Implemenatation
 			end
 		end
 
-	first_name (line: STRING; equal_index, indent_count: INTEGER): STRING
+	element (line: STRING; start_index, end_index: INTEGER): detachable STRING
+		-- name of element (tag) or Void if no element found
 		do
-			Result := Buffer_8.copied_substring (line, indent_count + 1, equal_index - 1)
-			Result.right_adjust
+			if end_index > 0 and then line [end_index] = ':' then
+				Result := Buffer_8.copied_substring (line, start_index, end_index - 1)
+			end
 		end
 
-	new_group_lines (tag, line: STRING; indent_count: INTEGER): GROUPED_ECF_LINES
+	first_name_matches (line, a_name: STRING; equal_index, start_index: INTEGER): BOOLEAN
+		local
+			i: INTEGER
 		do
-			if attached Expansion_table as table and then table.has_key (tag) then
-				-- Truncated first line
-				table.found_item.set_target (Current)
-				if Library_tags.has (tag) then
-					create {LIBRARIES_ECF_LINES} Result.make_truncated (table.found_item, indent_count, line)
-				else
-					create Result.make_truncated (table.found_item, indent_count, line)
-				end
+			from i := equal_index - 1 until i = (start_index - 1) or else line [i].is_alpha_numeric loop
+				i := i - 1
+			end
+			if i >= start_index then
+				Result := a_name.same_characters (line, start_index, i, 1)
+			end
+		end
 
-			elseif tag ~ Name.platform then
-				create Result.make (agent expanded_platform, indent_count, line)
+	last_tag: STRING
+		do
+			if attached tag_name as tag then
+				Result := tag
+			else
+				Result := Empty_string_8
 			end
 		end
 
@@ -161,9 +159,7 @@ feature {NONE} -- Implemenatation
 			s: EL_STRING_8_ROUTINES
 		do
 			equal_index := line.index_of ('=', start_index)
-			if equal_index > 0 and then (equal_index - start_index) >= Name.configuration_ns.count
-				and then s.occurs_at (line, Name.configuration_ns, start_index)
-			then
+			if equal_index > 0 and then first_name_matches (line, Name.configuration_ns, equal_index, start_index) then
 				-- expand line
 				nvp_end := line.index_of (';', start_index)
 				if nvp_end = 0 then
@@ -178,12 +174,41 @@ feature {NONE} -- Implemenatation
 				line.replace_substring (xml_ns, start_index, nvp_end)
 
 				Precursor (line, start_index, end_index + (xml_ns.count - configuration_name_value.count))
+
+			elseif equal_index > 0
+				and then Template_table.has_key (last_tag)
+				and then not first_name_matches (line, Name.name, equal_index, start_index)
+				and then attached Empty_group.shared_name_value_list (line) as nvp_list
+				and then nvp_list.count = 1
+				and then attached substituted (Template_table.found_item, nvp_list.first) as l_line
+			then
+				l_line.prepend (s.n_character_string ('%T', start_index - 1))
+				Precursor (l_line, start_index, l_line.count)
+
+			elseif attached element (line, start_index, end_index) as tag and then Original_tag_table.has_key (tag) then
+				line.replace_substring (Original_tag_table.found_item, start_index, end_index - 1)
+				grouped_lines := new_group_lines (tag)
+				Precursor (line, start_index, end_index - (tag.count - Original_tag_table.found_item.count))
 			else
 				Precursor (line, start_index, end_index)
 			end
 		end
 
-	file_rule_lines (line: STRING): EL_STRING_8_LIST
+	substituted (template: EL_TEMPLATE [STRING]; nvp: EL_NAME_VALUE_PAIR [STRING]): STRING
+		do
+			template.put (Var.name, nvp.name)
+			template.put (Var.value, nvp.value)
+			Result := template.substituted
+		end
+
+	unix: STRING
+		do
+			Result := Platform_name [True]
+		end
+
+feature {NONE} -- Factory
+
+	new_file_rule_lines (line: STRING): EL_STRING_8_LIST
 		--	Expand:
 		--		platform_list = "imp_mswin, imp_unix"
 		--	as pair of platform/exclude file rules
@@ -211,32 +236,36 @@ feature {NONE} -- Implemenatation
 			end
 		end
 
-	last_tag: STRING
+	new_group_lines (tag: STRING): GROUPED_ECF_LINES
 		do
-			if attached tag_name as tag then
-				Result := tag
+			if attached Expansion_table as table and then table.has_key (tag) then
+				-- Truncated first line
+				table.found_item.set_target (Current)
+				if Library_tags.has (tag) then
+					create {LIBRARIES_ECF_LINES} Result.make (table.found_item)
+				else
+					create Result.make (table.found_item)
+				end
+				Result.enable_truncation
 			else
-				Result := Empty_string_8
+				Result := Empty_group
 			end
+		ensure
+			not_empty: Result /= Empty_group
 		end
 
-	unix: STRING
+	new_platform_lines (line: STRING; indent_count: INTEGER): GROUPED_ECF_LINES
 		do
-			Result := Platform_name [True]
+			create Result.make (agent expanded_platform)
+			Result.set_from_line (line, indent_count)
 		end
 
-	substituted (template: EL_TEMPLATE [STRING]; nvp: EL_NAME_VALUE_PAIR [STRING]): STRING
-		do
-			template.put (Var.name, nvp.name)
-			template.put (Var.value, nvp.value)
-			Result := template.substituted
-		end
 
 feature {NONE} -- Internal attributes
 
-	platform_indent: INTEGER
-
 	grouped_lines: detachable GROUPED_ECF_LINES
+
+	platform_indent: INTEGER
 
 feature {NONE} -- Constants
 
@@ -248,6 +277,11 @@ feature {NONE} -- Constants
 	Eiffel_configuration: ZSTRING
 		once
 			Result := "http://www.eiffel.com/developers/xml/configuration-"
+		end
+
+	Empty_group: GROUPED_ECF_LINES
+		once
+			create Result.make_empty
 		end
 
 	Expansion_table: EL_HASH_TABLE [FUNCTION [EL_NAME_VALUE_PAIR [STRING], STRING], STRING]
@@ -263,21 +297,33 @@ feature {NONE} -- Constants
 			>>)
 		end
 
+	Library_tags: ARRAY [STRING]
+		once
+			Result := << Name.libraries, Name.writeable_libraries >>
+			Result.compare_objects
+		end
+
 	Name: TUPLE [
-		cluster_tree, condition, configuration_ns, debugging, disabled, libraries,
-		platform, settings, sub_clusters, warnings, writeable_libraries: STRING
+		cluster, cluster_tree, condition, configuration_ns, debugging, disabled,
+		library, libraries, name,
+		platform, platform_list, precompile, settings, sub_clusters,
+		variable, warnings, writeable_libraries: STRING
 	]
 		once
 			create Result
 			Tuple.fill (Result,
-				"cluster_tree, condition, configuration_ns, debugging, disabled, libraries, %
-				%platform, settings, sub_clusters, warnings, writeable_libraries"
+				"cluster, cluster_tree, condition, configuration_ns, debugging, disabled, %
+				%library, libraries, name, %
+				%platform, platform_list, precompile, settings, sub_clusters, %
+				%variable, warnings, writeable_libraries"
 			)
 		ensure
 			aligned_correctly: Result.writeable_libraries ~ "writeable_libraries"
 		end
 
-	Grouped_element_table: EL_HASH_TABLE [STRING, STRING]
+	Original_tag_table: EL_HASH_TABLE [STRING, STRING]
+		-- map group element to original element
+		-- eg. libraries -> library
 		once
 			create Result.make (<<
 				[Name.settings, "setting"],
@@ -290,17 +336,19 @@ feature {NONE} -- Constants
 			>>)
 		end
 
-	Library_tags: ARRAY [STRING]
-		once
-			Result := << Name.libraries, Name.writeable_libraries >>
-			Result.compare_objects
-		end
-
 	Platform_name: EL_BOOLEAN_INDEXABLE [STRING]
 		once
 			create Result.make ("windows", "unix")
 		end
 
-	Platform_list: STRING = "platform_list:"
+	Template_table: EL_HASH_TABLE [ EL_TEMPLATE [STRING], STRING]
+		once
+			create Result.make (<<
+				[Name.variable, Name_value_template],
+				[Name.cluster, Name_location_template],
+				[Name.library, Name_location_template],
+				[Name.precompile, Name_location_template]
+			>>)
+		end
 
 end

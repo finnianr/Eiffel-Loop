@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-04 11:47:46 GMT (Monday 4th July 2022)"
-	revision: "4"
+	date: "2022-07-05 12:26:04 GMT (Tuesday 5th July 2022)"
+	revision: "5"
 
 class
 	GROUPED_ECF_LINES
@@ -21,31 +21,30 @@ inherit
 		end
 
 create
-	make_truncated, make, make_empty
+	make, make_empty
 
 feature {NONE} -- Initialization
 
-	make_truncated (a_expanded_template: like expanded_template; a_tab_count: INTEGER; line: STRING)
-		-- make with first line removed on first call to `set_from_line'
-		do
-			create first_line_removed
-			make (a_expanded_template, a_tab_count, line)
-		end
-
-	make (a_expanded_template: like expanded_template; a_tab_count: INTEGER; line: STRING)
+	make (a_expanded_template: like expanded_template)
 		do
 			make_empty
-			expanded_template := a_expanded_template; tab_count := a_tab_count
-			set_from_line (line)
+			expanded_template := a_expanded_template
 		end
 
-feature -- Access
+feature -- Status change
 
-	tab_count: INTEGER
+	enable_truncation
+		do
+			is_truncateable := True
+		end
+
+feature -- Status query
+
+	is_truncateable: BOOLEAN
 
 feature -- Element change
 
-	set_from_line (a_line: STRING)
+	set_from_line (a_line: STRING; tab_count: INTEGER)
 		do
 			wipe_out
 			if attached shared_name_value_list (a_line) as nvp_list then
@@ -57,9 +56,10 @@ feature -- Element change
 				end
 				indent (tab_count)
 			end
-			if attached first_line_removed as removed and then not removed.item then
+			if is_truncateable and then not first_line_removed then
+				-- Remove element open tag which has already been processed
 				start; remove
-				removed.set_item (True)
+				first_line_removed := True
 			end
 		end
 
@@ -96,9 +96,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	first_line_removed: BOOLEAN_REF
-
 	expanded_template: FUNCTION [EL_NAME_VALUE_PAIR [STRING], STRING]
+
+	first_line_removed: BOOLEAN
 
 feature {NONE} -- Constants
 

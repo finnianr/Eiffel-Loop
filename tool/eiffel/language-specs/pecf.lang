@@ -288,6 +288,7 @@
 			<keyword>build</keyword>
 			<keyword>cat_call_detection</keyword>
 			<keyword>check</keyword>
+			<keyword>check_for_void_target</keyword>
 			<keyword>check_vape</keyword>
 			<keyword>class</keyword>
 			<keyword>class_rename</keyword>
@@ -381,6 +382,7 @@
 			<keyword>cluster</keyword>
 			<keyword>cluster_tree</keyword>
 			<keyword>capability</keyword>
+			<keyword>check_for_void_target</keyword>
 			<keyword>concurrency</keyword>
 			<keyword>condition</keyword>
 			<keyword>custom</keyword>

@@ -23,7 +23,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 6; release = 1; build = 519
+			major = 1; minor = 6; release = 2; build = 519
 			company = "Eiffel-Loop"; product = "eiffel"
 			copyright = "Finnian Reilly"
 
@@ -42,9 +42,9 @@ system:
 			line_generation = false
 
 		precompile: 
-			name = precompile; location = "$ISE_PRECOMP/EL/console-application.ecf"
+			precompile = "$ISE_PRECOMP/EL/console-application.ecf"
 			
-		# LIBRARIES
+		# ISE libraries
 		libraries:
 			location = "$ISE_LIBRARY/library"
 			base = "base/base.ecf"
@@ -52,6 +52,8 @@ system:
 			time = "time/time.ecf"
 			testing = "testing/testing.ecf"
 
+		variable:
+			eapml_limb_type = natural_32
 		libraries:
 			integer_x = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"
 
@@ -119,7 +121,7 @@ system:
 					Test sets for Eiffel utitlities
 				"""
 		cluster:
-			name = Test_common; location = "$EIFFEL_LOOP/test/source/common"
+			Test_common = "$EIFFEL_LOOP/test/source/common"
 			sub_clusters:
 				ftp = ftp
 				support = support
