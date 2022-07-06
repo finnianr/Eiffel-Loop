@@ -1,5 +1,7 @@
 note
-	description: "[$source GROUPED_ECF_LINES] with an optional common library ''location''"
+	description: "[
+		[$source GROUPED_ECF_LINES] for **library** tags with an option with an optional common ''location''
+	]"
 	notes: "[
 		**location** is interpreted as a location prefix only if it's on the first line
 		
@@ -15,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-05 11:14:29 GMT (Tuesday 5th July 2022)"
-	revision: "3"
+	date: "2022-07-06 14:47:12 GMT (Wednesday 6th July 2022)"
+	revision: "4"
 
 class
 	LIBRARIES_ECF_LINES
@@ -24,11 +26,18 @@ class
 inherit
 	GROUPED_ECF_LINES
 		redefine
-			set_from_line, adjust_value
+			set_from_line, adjust_value, exit, Template
 		end
 
 create
 	make
+
+feature -- Access
+
+	tag_name: STRING
+		do
+			Result := Name.library
+		end
 
 feature -- Element change
 
@@ -61,6 +70,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	exit
+		do
+			location_dir := Void
+		end
+
 feature {NONE} -- Internal attributes
 
 	location_dir: detachable STRING
@@ -68,5 +82,13 @@ feature {NONE} -- Internal attributes
 feature {NONE} -- Constants
 
 	Location: STRING = "location"
+
+	Template: EL_TEMPLATE [STRING]
+		once
+			Result := "[
+				$ELEMENT:
+					name = $NAME; location = $VALUE
+			]"
+		end
 
 end

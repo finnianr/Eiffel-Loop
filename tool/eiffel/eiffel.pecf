@@ -9,7 +9,8 @@ pyxis-doc:
 # cosmetics, trinkets or jewellery. occurs
 
 system:
-	configuration_ns = "1-16-0"; name = el_eiffel; uuid = "EEA36E90-5A49-11E7-8290-A34D58BF65CD"
+	configuration_ns = "1-16-0"
+	name = el_eiffel; uuid = "EEA36E90-5A49-11E7-8290-A34D58BF65CD"
 	description:
 		"""
 			Eiffel Development Utilities
@@ -23,7 +24,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 6; release = 2; build = 519
+			major = 1; minor = 6; release = 2; build = 522
 			company = "Eiffel-Loop"; product = "eiffel"
 			copyright = "Finnian Reilly"
 

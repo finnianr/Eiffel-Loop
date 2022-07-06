@@ -51,7 +51,7 @@ el_rhythmbox -manager -config <task-configuration>.pyx
 
 **Manual**
 
-For details on how to use, read the source documentation notes in class [RHYTHMBOX_MUSIC_MANAGER_APP](http://www.eiffel-loop.com/example/manage-mp3/source/apps/rhythmbox_music_manager_app.html).
+For details on how to use, read the source documentation notes in class [RHYTHMBOX_MUSIC_MANAGER_APP]($source).
 
 **Download**
 
@@ -920,7 +920,7 @@ Being able to assign a unique identifier to each item in a chain is essential to
 
 Of course the Eiffel language itself can be used to query any [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) list, but sometimes the meaning of the query is obscured in implementation details. What is needed is a slightly more abstract way of expressing queries that makes the meaning more apparent. This is provided by the class [EL_QUERYABLE_CHAIN](http://www.eiffel-loop.com/library/base/data_structure/list/queryable/el_queryable_chain.html) and it's helper [EL_QUERY_CONDITION_FACTORY](http://www.eiffel-loop.com/library/base/data_structure/list/queryable/el_query_condition_factory.html). The implementing class [ECD_ARRAYED_LIST](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_arrayed_list.html) inherits [EL_QUERYABLE_CHAIN](http://www.eiffel-loop.com/library/base/data_structure/list/queryable/el_queryable_chain.html).
 
-Conditions can be combined using the logical operators: **and**, **or** and **not** as in this example from class [COLLATE_SONGS_TASK](http://www.eiffel-loop.com/example/manage-mp3/source/rhythmbox/manager/task/manage/collate_songs_task.html) found in project [Eiffel-Loop/example/manage-mp3](http://www.eiffel-loop.com/example/manage-mp3/manage-mp3.html).
+Conditions can be combined using the logical operators: **and**, **or** and **not** as in this example from class [COLLATE_SONGS_TASK]($source) found in project [Eiffel-Loop/example/manage-mp3](http://www.eiffel-loop.com/example/manage-mp3/manage-mp3.html).
 
 
 ````
@@ -954,7 +954,7 @@ existing_songs_query (condition: EL_QUERY_CONDITION [RBOX_SONG]): like songs.que
 ````
 songs: EL_QUERYABLE_ARRAYED_LIST [RBOX_SONG]
 ````
-The query atoms *song_is_cortina* and *song_has_normalized_mp3_path* are defined in class [SONG_QUERY_CONDITIONS](http://www.eiffel-loop.com/example/manage-mp3/source/rhythmbox/database/song_query_conditions.html) which is defined as follows
+The query atoms *song_is_cortina* and *song_has_normalized_mp3_path* are defined in class [SONG_QUERY_CONDITIONS]($source) which is defined as follows
 
 
 ````

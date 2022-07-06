@@ -15,7 +15,8 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = el_graphical; uuid="229b7a2e-09aa-11df-87cb-6f5c8d784696"
+	name = el_graphical; uuid = "229b7a2e-09aa-11df-87cb-6f5c8d784696"
+
 	description:
 		"""
 			Vision-2 Extensions Demo

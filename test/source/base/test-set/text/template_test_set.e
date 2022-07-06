@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-29 11:16:48 GMT (Sunday 29th August 2021)"
-	revision: "4"
+	date: "2022-07-06 8:53:24 GMT (Wednesday 6th July 2022)"
+	revision: "5"
 
 class
 	TEMPLATE_TEST_SET
@@ -23,6 +23,8 @@ feature -- Basic operations
 			eval.call ("basic", agent test_basic)
 			eval.call ("date", agent test_date)
 			eval.call ("name_separation", agent test_name_separation)
+			eval.call ("dollor_escaping", agent test_dollor_escaping)
+			eval.call ("repeated_variable", agent test_repeated_variable)
 		end
 
 feature -- Tests
@@ -66,6 +68,17 @@ feature -- Tests
 			assert ("same date", Date_string ~ template.substituted)
 		end
 
+	test_dollor_escaping
+		note
+			testing: "covers/{EL_TEMPLATE}.make", "covers/{EL_TEMPLATE}.substituted"
+		local
+			template: EL_TEMPLATE [STRING]
+		do
+			create template.make ("$s %%$ USD")
+			template.put ("s", "one")
+			assert ("same string", template.substituted ~ "one $ USD")
+		end
+
 	test_name_separation
 		note
 			testing: "covers/{EL_TEMPLATE}.make", "covers/{EL_TEMPLATE}.substituted"
@@ -76,6 +89,17 @@ feature -- Tests
 			template.put ("s", "one")
 			template.put ("s_2", "two")
 			assert ("same string", template.substituted ~ "one, two")
+		end
+
+	test_repeated_variable
+		note
+			testing: "covers/{EL_TEMPLATE}.make", "covers/{EL_TEMPLATE}.substituted"
+		local
+			template: EL_TEMPLATE [STRING]
+		do
+			create template.make ("$s $s $s")
+			template.put ("s", "one")
+			assert ("same string", template.substituted ~ "one one one")
 		end
 
 feature {NONE} -- Constants

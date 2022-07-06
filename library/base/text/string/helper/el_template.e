@@ -19,11 +19,30 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-04 9:17:01 GMT (Monday 4th July 2022)"
-	revision: "11"
+	date: "2022-07-06 9:39:34 GMT (Wednesday 6th July 2022)"
+	revision: "12"
 
 class
 	EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
+
+inherit
+	EL_LAZY_ATTRIBUTE
+		rename
+			item as variable_map_array,
+			new_item as new_variable_map_array,
+			actual_item as actual_variable_map_array
+		export
+			{NONE} all
+		end
+
+	EL_LAZY_ATTRIBUTE_2
+		rename
+			item as repeated_variable,
+			new_item as new_repeated_variable,
+			actual_item_2 as actual_repeated_variable
+		export
+			{NONE} all
+		end
 
 create
 	make
@@ -71,8 +90,8 @@ feature {NONE} -- Initialization
 					else
 						start_index := 1; end_index := length
 					end
-					variable_values.put (create {S}.make_empty, item.substring (start_index, end_index).to_string_8)
-					part_list.extend (variable_values.found_item)
+					put_variable (item.substring (start_index, end_index).to_string_8)
+					part_list.extend (last_value)
 					if length < item.count then
 						part_list.extend (item.substring (length + 1, item.count))
 					end
@@ -110,10 +129,24 @@ feature -- Element change
 			has_name: has (name)
 		do
 			if variable_values.has_key (name) then
-				if attached {BAG [ANY]} variable_values.found_item as bag then
-					bag.wipe_out
+				if variable_values.found_item = repeated_variable
+					and then attached actual_variable_map_array as list
+				then
+					from list.start until list.after loop
+						if list.item_key.same_string (name)
+							and then attached {BAG [ANY]} list.item_value as bag
+						then
+							bag.wipe_out
+							list.item_value.append (value)
+						end
+						list.forth
+					end
+				else
+					if attached {BAG [ANY]} variable_values.found_item as bag then
+						bag.wipe_out
+					end
+					variable_values.found_item.append (value)
 				end
-				variable_values.found_item.append (value)
 			end
 		end
 
@@ -141,7 +174,34 @@ feature {NONE} -- Implementation
 			Result.append (str)
 		end
 
+	new_repeated_variable: S
+		do
+			create Result.make_empty
+		end
+
+	new_variable_map_array: EL_ARRAYED_MAP_LIST [READABLE_STRING_8, S]
+		do
+			create Result.make_empty
+		end
+
+	put_variable (name: READABLE_STRING_8)
+		local
+			l_repeat: S
+		do
+			create last_value.make_empty
+			variable_values.put (last_value, name)
+			if not variable_values.inserted then
+				if variable_map_array.is_empty then
+					variable_map_array.extend (name, variable_values.found_item)
+				end
+				variable_map_array.extend (name, last_value)
+				variable_values [name] := repeated_variable
+			end
+		end
+
 feature {NONE} -- Internal attributes
+
+	last_value: S
 
 	part_list: EL_STRING_LIST [S]
 

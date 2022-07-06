@@ -5,8 +5,7 @@ pyxis-doc:
 # readable supplement/substitute for XML configuration files.
 
 system:
-	configuration_ns = "1-16-0"
-	name = el_benchmark; uuid = "2F16B114-67AF-11EB-94F8-A7BEE388CA6C"
+	configuration_ns = "1-16-0"; name = el_benchmark; uuid = "2F16B114-67AF-11EB-94F8-A7BEE388CA6C"
 	description:
 		"""
 			Eiffel-Loop Performance Benchmarks
@@ -40,56 +39,41 @@ system:
 		precompile:
 			precompile = "$ISE_PRECOMP/EL/console-application.ecf"
 
-		library:
-			name = ise_base; location = "$ISE_LIBRARY/library/base/base.ecf"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			time = "time/time.ecf"
+			ise_base; location = "base/base.ecf"
 			option:
 				assertions:
 					precondition = true; postcondition = true; check = true; invariant = true
 
-		library:
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
 
 		# Other libraries
 		library:
-			name = gobo_base; location = "$EIFFEL_LOOP/library/gobo-base.ecf"
+			gobo_base = "$EIFFEL_LOOP/library/gobo-base.ecf"
 
 		# Eiffel Loop libraries
-		library:
-			name = EL_app_manage; readonly = false; location = "$EIFFEL_LOOP/library/app-manage.ecf"
+		writeable_libraries:
+			location = "$EIFFEL_LOOP/library"
+			EL_app_manage = "app-manage.ecf"
+			EL_c_api = "C-language-interface.ecf"
+			EL_evolicity = "evolicity.ecf"
+			EL_fast_cgi = "fast-cgi.ecf"
+			EL_logging = "logging.ecf"
+			EL_os_command = "os-command.ecf"
+			EL_testing = "testing.ecf"
+			EL_text_formats = "text-formats.ecf"
+			EL_vtd_xml = "vtd-xml.ecf"
 
-		library:
-			name = EL_base; location = "$EIFFEL_LOOP/library/base/base.ecf"; readonly = false
+			EL_base = "base/base.ecf"
 			option:
 				assertions:
 					precondition = true; postcondition = true; check = true
-
-		library:
-			name = EL_c_api; readonly = false; location = "$EIFFEL_LOOP/library/C-language-interface.ecf"
-
-		library:
-			name = EL_evolicity; readonly = false; location = "$EIFFEL_LOOP/library/evolicity.ecf"
-
-		library:
-			name = EL_fast_cgi; readonly = false; location = "$EIFFEL_LOOP/library/fast-cgi.ecf"
-
-		library:
-			name = EL_logging; readonly = false; location = "$EIFFEL_LOOP/library/logging.ecf"
-
-		library:
-			name = EL_os_command; readonly = false; location = "$EIFFEL_LOOP/library/os-command.ecf"
-
-		library:
-			name = EL_testing; readonly = false; location = "$EIFFEL_LOOP/library/testing.ecf"
-
-		library:
-			name = EL_text_formats; readonly = false; location = "$EIFFEL_LOOP/library/text-formats.ecf"
-
-		library:
-			name = EL_vtd_xml; readonly = false; location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
 			
 		# Source
-		cluster:
-			name = project; location = source; recursive = true
+		cluster_tree:
+			project = source
 			description:
 				"""
 					Performance Benchmarks
@@ -102,7 +86,7 @@ system:
 
 					See doc/benchmark.txt for details
 				"""
-		cluster:
-			name = test_common; location = "$EIFFEL_LOOP/test/source/common"; recursive = true
+		cluster_tree:
+			test_common = "$EIFFEL_LOOP/test/source/common"
 
 

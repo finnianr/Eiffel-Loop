@@ -50,6 +50,7 @@ system:
 				assertions:
 					precondition = true; postcondition = true
 
+		# ISE
 		libraries:
 			location = "$ISE_LIBRARY/library"
 			ise_base_ext = "base_extension/base_extension.ecf"
@@ -68,13 +69,13 @@ system:
 
 		# Other libraries
 		library:
-			name = gobo_base; location = "$EIFFEL_LOOP/library/gobo-base.ecf"
+			gobo_base = "$EIFFEL_LOOP/library/gobo-base.ecf"
 		library:
-			name = nel_fft_math; location = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"
+			nel_fft_math = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"
 
 		# Eiffel Loop libraries
-		library:
-			name = EL_base; location = "$EIFFEL_LOOP/library/base/base.ecf"; readonly = false
+		writeable_libraries:
+			EL_base = "$EIFFEL_LOOP/library/base/base.ecf"
 			option:
 				assertions:
 					precondition = true; postcondition = true; check = true

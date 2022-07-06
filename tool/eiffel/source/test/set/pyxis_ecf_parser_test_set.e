@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-05 13:47:48 GMT (Tuesday 5th July 2022)"
-	revision: "24"
+	date: "2022-07-06 8:33:11 GMT (Wednesday 6th July 2022)"
+	revision: "25"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -66,7 +66,7 @@ feature -- Tests
 
 	test_graphical_pecf
 		local
-			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; exclude_value, name, xpath: STRING
+			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; name, xpath: STRING
 			location_steps: EL_PATH_STEPS
 		do
 			ecf_xdoc := new_ecf_xdoc (graphical_pecf_path)
@@ -182,7 +182,7 @@ feature {NONE} -- Constants
 		once
 			Result := "/system/target/library[@name='%S']/@location"
 		end
-		
+
 	Library_table: EL_HASH_TABLE [STRING, STRING]
 		once
 			create Result.make (<<

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-12 20:08:45 GMT (Wednesday 12th January 2022)"
-	revision: "9"
+	date: "2022-07-06 15:35:33 GMT (Wednesday 6th July 2022)"
+	revision: "10"
 
 class
 	EL_NAME_VALUE_PAIR [G -> STRING_GENERAL create make, make_empty end]
@@ -50,6 +50,12 @@ feature -- Element change
 				create name.make_empty
 				create value.make_empty
 			end
+		end
+
+	wipe_out
+		do
+			name.keep_head (0)
+			value.keep_head (0)
 		end
 
 feature -- Access

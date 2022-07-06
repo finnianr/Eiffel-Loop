@@ -28,7 +28,6 @@ See [./example/eiffel2java/eiffel2java.html example/eiffel2java/eiffel2java.ecf]
 		<option namespace = "Eiffel-Loop.Library.Language_interface.Eiffel2Java" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "true" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
-		<library/>
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "api_wrapper" location = "$ISE_LIBRARY/library/api_wrapper/api_wrapper.ecf"/>
 		<!--
@@ -40,7 +39,6 @@ See [./example/eiffel2java/eiffel2java.html example/eiffel2java/eiffel2java.ecf]
 			<renaming old_name = "SHARED_JNI_ENVIRONMENT" new_name = "JAVA_SHARED_ORB"/>
 		</library>
 		<!--Eiffel Loop-->
-		<library/>
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_os_command" location = "os-command.ecf"/>
 		<library name = "EL_wel_regedit" location = "wel-regedit-x.ecf">

@@ -58,7 +58,8 @@ system:
 		libraries:
 			EL_base = "base/base.ecf"
 			EL_os_command = "os-command.ecf"
-
+		
+		library:
 			EL_wel_regedit = "wel-regedit-x.ecf"
 			condition:
 				platform = windows

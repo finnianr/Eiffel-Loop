@@ -1,13 +1,16 @@
 note
-	description: "Pyxis parser"
+	description: "Parser for a data language with a Pythonic syntax that is a direct analog of XML"
+	notes: "[
+		See eiffel.org article: [https://www.eiffel.org/node/143 Introducing Pyxis]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-04 6:31:01 GMT (Monday 4th July 2022)"
-	revision: "38"
+	date: "2022-07-06 11:50:50 GMT (Wednesday 6th July 2022)"
+	revision: "39"
 
 class
 	EL_PYXIS_PARSER
