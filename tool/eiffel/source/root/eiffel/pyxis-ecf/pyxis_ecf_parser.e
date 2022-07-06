@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-06 15:56:56 GMT (Wednesday 6th July 2022)"
-	revision: "18"
+	date: "2022-07-06 17:39:54 GMT (Wednesday 6th July 2022)"
+	revision: "19"
 
 class
 	PYXIS_ECF_PARSER
@@ -33,8 +33,6 @@ inherit
 		end
 
 	EL_STRING_8_CONSTANTS
-
-	PYXIS_ECF_TEMPLATES
 
 	PYXIS_ECF_CONSTANTS
 
@@ -51,21 +49,11 @@ feature {NONE} -- Implemenatation
 			equal_index := line.index_of ('=', indent_count + 1)
 			end_index := line.count - cursor_8 (line).trailing_white_count
 
-			if platform_indent > 0 and then line.occurrences ('"') = 2 and then line.has (';') then
-				across new_file_rule_lines (line) as list loop
-					Precursor (list.item)
-				end
-				platform_indent := 0
-
-			elseif indent_count > 0 and then attached element (line, indent_count + 1, end_index) as tag
-				and then tag ~ Name.platform_list
-			then
-				platform_indent := indent_count
-				 -- This might be an exit to cluster_tree group
-				group_exit
-
-			elseif attached grouped_lines as grouped then
-				if equal_index > 0 then
+			if attached grouped_lines as grouped then
+				if equal_index > 0 or else
+					(attached {PLATFORM_FILE_RULE_ECF_LINES} grouped_lines
+						and then line.occurrences ('"') = 2 and then line.has (';'))
+				then
 					grouped.set_from_line (line, indent_count - 1)
 					if grouped.count > 0 then
 						across grouped as ln loop
@@ -133,19 +121,14 @@ feature {NONE} -- Implemenatation
 
 	parse_line (line: STRING; start_index, end_index: INTEGER)
 		local
-			nvp_end, equal_index: INTEGER; assignment: EL_ASSIGNMENT_ROUTINES
-			xml_ns: STRING; eiffel_url, configuration_name_value: ZSTRING
-			s: EL_STRING_8_ROUTINES
+			equal_index: INTEGER
 		do
 			equal_index := line.index_of ('=', start_index)
 			if equal_index > 0
-				and then Template_table.has_key (last_tag)
+				and then Name_value_table.has_key (last_tag)
 				and then not first_name_matches (line, Name.name, equal_index, start_index)
-				and then attached Empty_group.shared_name_value_list (line) as nvp_list
-				and then nvp_list.count = 1
-				and then attached substituted (Template_table.found_item, nvp_list.first) as l_line
+				and then attached substituted (Name_value_table.found_item, line, start_index - 1) as l_line
 			then
-				l_line.prepend (s.n_character_string ('%T', start_index - 1))
 				Precursor (l_line, start_index, l_line.count)
 
 			elseif attached element (line, start_index, end_index) as tag
@@ -162,47 +145,15 @@ feature {NONE} -- Implemenatation
 			end
 		end
 
-	substituted (template: EL_TEMPLATE [STRING]; nvp: EL_NAME_VALUE_PAIR [STRING]): STRING
+	substituted (line: NAME_VALUE_ECF_LINE; text: STRING; a_tab_count: INTEGER): detachable STRING
 		do
-			template.put (Var.name, nvp.name)
-			template.put (Var.value, nvp.value)
-			Result := template.substituted
-		end
-
-	unix: STRING
-		do
-			Result := Platform_name [True]
+			line.set_from_line (text, a_tab_count)
+			if line.count = 1 then
+				Result := line.first
+			end
 		end
 
 feature {NONE} -- Factory
-
-	new_file_rule_lines (line: STRING): EL_STRING_8_LIST
-		--	Expand:
-		--		platform_list = "imp_mswin, imp_unix"
-		--	as pair of platform/exclude file rules
-		local
-			q_start, q_end: INTEGER; platform: STRING
-			is_unix: BOOLEAN
-		do
-			create Result.make (15)
-			q_start := line.index_of ('"', 1) + 1
-			if q_start > platform_indent then
-				q_end := line.last_index_of ('"', line.count) - 1
-				across line.substring (q_start, q_end).split (';') as list loop
-					platform := list.item
-					platform.left_adjust
-					is_unix := platform.has_substring (unix)
-					if attached File_rule_template as template then
-						template.put (Var.directory, platform)
-						template.put (Var.value, Platform_name [not is_unix])
-						across template.substituted.split ('%N') as split loop
-							Result.extend (split.item)
-						end
-					end
-				end
-				Result.indent (platform_indent)
-			end
-		end
 
 	new_platform_lines (line: STRING; indent_count: INTEGER): PLATFORM_ECF_LINES
 		do
@@ -214,24 +165,7 @@ feature {NONE} -- Internal attributes
 
 	grouped_lines: detachable GROUPED_ECF_LINES
 
-	platform_indent: INTEGER
-
 feature {NONE} -- Constants
-
-	Boolean_value: EL_BOOLEAN_INDEXABLE [STRING]
-		once
-			create Result.make ("false", "true")
-		end
-
-	Eiffel_configuration: ZSTRING
-		once
-			Result := "http://www.eiffel.com/developers/xml/configuration-"
-		end
-
-	Empty_group: SETTING_ECF_LINES
-		once
-			create Result.make
-		end
 
 	Expansion_table: EL_HASH_TABLE [GROUPED_ECF_LINES, STRING]
 		once
@@ -243,31 +177,21 @@ feature {NONE} -- Constants
 				[Name.warnings, create {WARNING_OPTION_ECF_LINES}.make],
 				[Name.cluster_tree, create {CLUSTER_TREE_ECF_LINES}.make],
 				[Name.sub_clusters, create {SUB_CLUSTERS_ECF_LINES}.make],
-				[Name.system, create {SYSTEM_ECF_LINES}.make]
+				[Name.system, create {SYSTEM_ECF_LINES}.make],
+				[Name.platform_list, create {PLATFORM_FILE_RULE_ECF_LINES}.make]
 			>>)
 			across Result as table loop
 				table.item.enable_truncation
 			end
 		end
 
-	Library_tags: ARRAY [STRING]
-		once
-			Result := << Name.libraries, Name.writeable_libraries >>
-			Result.compare_objects
-		end
-
-	Platform_name: EL_BOOLEAN_INDEXABLE [STRING]
-		once
-			create Result.make ("windows", "unix")
-		end
-
-	Template_table: EL_HASH_TABLE [EL_TEMPLATE [STRING], STRING]
+	Name_value_table: EL_HASH_TABLE [NAME_VALUE_ECF_LINE, STRING]
 		once
 			create Result.make (<<
-				[Name.variable, Name_value_template],
-				[Name.cluster, Name_location_template],
-				[Name.library, Name_location_template],
-				[Name.precompile, Name_location_template]
+				[Name.variable, create {NAME_VALUE_ECF_LINE}.make (Name.variable)],
+				[Name.cluster, create {NAME_LOCATION_ECF_LINE}.make (Name.cluster)],
+				[Name.library, create {NAME_LOCATION_ECF_LINE}.make (Name.library)],
+				[Name.precompile, create {NAME_LOCATION_ECF_LINE}.make (Name.precompile)]
 			>>)
 		end
 

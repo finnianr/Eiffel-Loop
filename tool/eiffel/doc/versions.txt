@@ -1,3 +1,6 @@
+1.6.3
+* Refactor to use: Expansion_table: EL_HASH_TABLE [GROUPED_ECF_LINES, STRING] for PECF conversion
+
 1.6.2
 * Fixed bad library tag count in Pyxis -> ECF converter
 

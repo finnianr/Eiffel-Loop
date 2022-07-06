@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-06 15:53:05 GMT (Wednesday 6th July 2022)"
-	revision: "6"
+	date: "2022-07-06 16:43:21 GMT (Wednesday 6th July 2022)"
+	revision: "7"
 
 deferred class
 	GROUPED_ECF_LINES
@@ -19,7 +19,7 @@ inherit
 			make_empty as make
 		export
 			{NONE} all
-			{ANY} count
+			{ANY} count, first
 		end
 
 	EL_MODULE_TUPLE
