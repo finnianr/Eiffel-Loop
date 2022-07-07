@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-06 14:47:12 GMT (Wednesday 6th July 2022)"
-	revision: "4"
+	date: "2022-07-07 8:03:24 GMT (Thursday 7th July 2022)"
+	revision: "5"
 
 class
 	LIBRARIES_ECF_LINES
@@ -41,7 +41,7 @@ feature -- Access
 
 feature -- Element change
 
-	set_from_line (line: STRING; tab_count: INTEGER)
+	set_from_line (line: STRING; a_tab_count: INTEGER)
 		local
 			s: EL_STRING_8_ROUTINES
 		do
@@ -57,7 +57,7 @@ feature -- Element change
 				end
 				location_dir := dir
 			else
-				Precursor (line, tab_count)
+				Precursor (line, a_tab_count)
 			end
 		end
 

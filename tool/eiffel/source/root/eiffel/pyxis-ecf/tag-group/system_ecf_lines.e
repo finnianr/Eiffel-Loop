@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-06 15:37:41 GMT (Wednesday 6th July 2022)"
-	revision: "1"
+	date: "2022-07-07 8:02:38 GMT (Thursday 7th July 2022)"
+	revision: "2"
 
 class
 	SYSTEM_ECF_LINES
@@ -39,7 +39,7 @@ feature -- Access
 
 feature -- Element change
 
-	set_from_line (line: STRING; tab_count: INTEGER)
+	set_from_line (line: STRING; a_tab_count: INTEGER)
 		local
 			nvp: EL_NAME_VALUE_PAIR [STRING]; s: EL_STRING_8_ROUTINES
 		do
@@ -61,9 +61,9 @@ feature -- Element change
 			then
 				nvp_list.wipe_out
 				nvp_list.extend (name_uuid_pair)
-				set_from_pair_list (nvp_list, tab_count)
+				set_from_pair_list (nvp_list, a_tab_count)
 
-				start; remove
+				remove_first
 			end
 		end
 

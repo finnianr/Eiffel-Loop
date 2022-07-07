@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-06 17:43:38 GMT (Wednesday 6th July 2022)"
-	revision: "2"
+	date: "2022-07-07 8:02:57 GMT (Thursday 7th July 2022)"
+	revision: "3"
 
 class
 	PLATFORM_FILE_RULE_ECF_LINES
@@ -22,7 +22,7 @@ class
 inherit
 	GROUPED_ECF_LINES
 		redefine
-			set_variables, set_from_line, Template
+			is_platform_rule, set_variables, set_from_line, Template
 		end
 
 create
@@ -35,9 +35,16 @@ feature -- Access
 			Result := Name.file_rule
 		end
 
+feature -- Status query
+
+	is_platform_rule (line: STRING): BOOLEAN
+		do
+			Result := line.occurrences ('"') = 2 and then line.has (';')
+		end
+
 feature -- Element change
 
-	set_from_line (line: STRING; tab_count: INTEGER)
+	set_from_line (line: STRING; a_tab_count: INTEGER)
 		--	Expand:
 		--		platform_list = "imp_mswin, imp_unix"
 		--	as pair of platform/exclude file rules
@@ -47,7 +54,7 @@ feature -- Element change
 		do
 			wipe_out
 			q_start := line.index_of ('"', 1) + 1
-			if q_start > tab_count then
+			if q_start > a_tab_count then
 				q_end := line.last_index_of ('"', line.count) - 1
 				if attached Once_name_value_list as nvp_list then
 					nvp_list.wipe_out
@@ -58,8 +65,8 @@ feature -- Element change
 						nvp_list.extend (nvp)
 					end
 					set_from_pair_list (nvp_list, 0)
-					indent (tab_count)
-					start; remove
+					set_indent (a_tab_count)
+					remove_first
 				end
 			end
 		end

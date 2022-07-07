@@ -19,13 +19,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-06 9:39:34 GMT (Wednesday 6th July 2022)"
-	revision: "12"
+	date: "2022-07-07 7:33:51 GMT (Thursday 7th July 2022)"
+	revision: "13"
 
 class
 	EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
 
 inherit
+	EL_STRING_LIST [S]
+		rename
+			joined_strings as substituted,
+			append_to as substitute_to,
+			item as list_item,
+			has as has_item,
+			put as put_item,
+			make as make_list
+		export
+			{NONE} all
+			{ANY} substituted, substitute_to
+		end
+
 	EL_LAZY_ATTRIBUTE
 		rename
 			item as variable_map_array,
@@ -33,6 +46,8 @@ inherit
 			actual_item as actual_variable_map_array
 		export
 			{NONE} all
+		undefine
+			copy, is_equal
 		end
 
 	EL_LAZY_ATTRIBUTE_2
@@ -42,6 +57,8 @@ inherit
 			actual_item_2 as actual_repeated_variable
 		export
 			{NONE} all
+		undefine
+			copy, is_equal
 		end
 
 create
@@ -60,15 +77,15 @@ feature {NONE} -- Initialization
 			create dollor_split.make (new_string (a_template), '$')
 			variable_count := a_template.occurrences ('$')
 			create variable_values.make_size (variable_count)
-			create part_list.make (variable_count * 2)
+			make_list (variable_count * 2)
 			across dollor_split as list loop
 				item := list.item
 				if list.cursor_index = 1 or else previous_end_character = '%%' then
 					if previous_end_character = '%%' then
-						part_list.last.put_code ({ASCII}.Dollar.to_natural_32, part_list.last.count)
+						last.put_code ({ASCII}.Dollar.to_natural_32, last.count)
 					end
 					if not item.is_empty then
-						part_list.extend (item.twin)
+						extend (item.twin)
 					end
 				else
 					length := 0; has_braces := False
@@ -91,9 +108,9 @@ feature {NONE} -- Initialization
 						start_index := 1; end_index := length
 					end
 					put_variable (item.substring (start_index, end_index).to_string_8)
-					part_list.extend (last_value)
+					extend (last_value)
 					if length < item.count then
-						part_list.extend (item.substring (length + 1, item.count))
+						extend (item.substring (length + 1, item.count))
 					end
 				end
 				if item.count > 0 then
@@ -106,21 +123,8 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	substituted: S
-			--
-		do
-			Result := part_list.joined_strings
-		end
-
 	variable_values: EL_STRING_8_TABLE [S]
 		-- variable name list
-
-feature -- Basic operations
-
-	append_to (str: S)
-		do
-			part_list.append_to (str)
-		end
 
 feature -- Element change
 
@@ -168,12 +172,6 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	new_string (str: READABLE_STRING_GENERAL): S
-		do
-			create Result.make (str.count)
-			Result.append (str)
-		end
-
 	new_repeated_variable: S
 		do
 			create Result.make_empty
@@ -185,8 +183,6 @@ feature {NONE} -- Implementation
 		end
 
 	put_variable (name: READABLE_STRING_8)
-		local
-			l_repeat: S
 		do
 			create last_value.make_empty
 			variable_values.put (last_value, name)
@@ -202,7 +198,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	last_value: S
-
-	part_list: EL_STRING_LIST [S]
 
 end

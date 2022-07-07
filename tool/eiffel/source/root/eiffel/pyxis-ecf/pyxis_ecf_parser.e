@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-06 17:39:54 GMT (Wednesday 6th July 2022)"
-	revision: "19"
+	date: "2022-07-07 8:53:30 GMT (Thursday 7th July 2022)"
+	revision: "20"
 
 class
 	PYXIS_ECF_PARSER
@@ -50,10 +50,7 @@ feature {NONE} -- Implemenatation
 			end_index := line.count - cursor_8 (line).trailing_white_count
 
 			if attached grouped_lines as grouped then
-				if equal_index > 0 or else
-					(attached {PLATFORM_FILE_RULE_ECF_LINES} grouped_lines
-						and then line.occurrences ('"') = 2 and then line.has (';'))
-				then
+				if equal_index > 0 or else grouped.is_platform_rule (line) then
 					grouped.set_from_line (line, indent_count - 1)
 					if grouped.count > 0 then
 						across grouped as ln loop
@@ -72,8 +69,10 @@ feature {NONE} -- Implemenatation
 
 			elseif equal_index > 0 and then last_tag ~ Name.condition
 				and then first_name_matches (line, Name.platform, equal_index, indent_count + 1)
+				and then attached Platform_lines as group
 			then
-				across new_platform_lines (line, indent_count) as ln loop
+				group.set_from_line (line, indent_count)
+				across group as ln loop
 					Precursor (ln.item)
 				end
 
@@ -127,9 +126,10 @@ feature {NONE} -- Implemenatation
 			if equal_index > 0
 				and then Name_value_table.has_key (last_tag)
 				and then not first_name_matches (line, Name.name, equal_index, start_index)
-				and then attached substituted (Name_value_table.found_item, line, start_index - 1) as l_line
+				and then attached substituted (Name_value_table.found_item, line, start_index - 1) as text
 			then
-				Precursor (l_line, start_index, l_line.count)
+				line.keep_head (start_index - 1); line.append (text)
+				Precursor (line, start_index, line.count)
 
 			elseif attached element (line, start_index, end_index) as tag
 				and then attached Expansion_table as table
@@ -149,16 +149,8 @@ feature {NONE} -- Implemenatation
 		do
 			line.set_from_line (text, a_tab_count)
 			if line.count = 1 then
-				Result := line.first
+				Result := line.text
 			end
-		end
-
-feature {NONE} -- Factory
-
-	new_platform_lines (line: STRING; indent_count: INTEGER): PLATFORM_ECF_LINES
-		do
-			create Result.make
-			Result.set_from_line (line, indent_count)
 		end
 
 feature {NONE} -- Internal attributes
@@ -170,15 +162,15 @@ feature {NONE} -- Constants
 	Expansion_table: EL_HASH_TABLE [GROUPED_ECF_LINES, STRING]
 		once
 			create Result.make (<<
-				[Name.settings, create {SETTING_ECF_LINES}.make],
-				[Name.libraries, create {LIBRARIES_ECF_LINES}.make],
+				[Name.cluster_tree,			create {CLUSTER_TREE_ECF_LINES}.make],
+				[Name.debugging,				create {DEBUG_OPTION_ECF_LINES}.make],
+				[Name.settings,				create {SETTING_ECF_LINES}.make],
+				[Name.libraries,				create {LIBRARIES_ECF_LINES}.make],
+				[Name.platform_list,			create {PLATFORM_FILE_RULE_ECF_LINES}.make],
+				[Name.sub_clusters,			create {SUB_CLUSTERS_ECF_LINES}.make],
+				[Name.system,					create {SYSTEM_ECF_LINES}.make],
 				[Name.writeable_libraries, create {WRITEABLE_LIBRARIES_ECF_LINES}.make],
-				[Name.debugging, create {DEBUG_OPTION_ECF_LINES}.make],
-				[Name.warnings, create {WARNING_OPTION_ECF_LINES}.make],
-				[Name.cluster_tree, create {CLUSTER_TREE_ECF_LINES}.make],
-				[Name.sub_clusters, create {SUB_CLUSTERS_ECF_LINES}.make],
-				[Name.system, create {SYSTEM_ECF_LINES}.make],
-				[Name.platform_list, create {PLATFORM_FILE_RULE_ECF_LINES}.make]
+				[Name.warnings,				create {WARNING_OPTION_ECF_LINES}.make]
 			>>)
 			across Result as table loop
 				table.item.enable_truncation
@@ -188,11 +180,16 @@ feature {NONE} -- Constants
 	Name_value_table: EL_HASH_TABLE [NAME_VALUE_ECF_LINE, STRING]
 		once
 			create Result.make (<<
-				[Name.variable, create {NAME_VALUE_ECF_LINE}.make (Name.variable)],
-				[Name.cluster, create {NAME_LOCATION_ECF_LINE}.make (Name.cluster)],
-				[Name.library, create {NAME_LOCATION_ECF_LINE}.make (Name.library)],
+				[Name.variable,	create {NAME_VALUE_ECF_LINE}.make (Name.variable)],
+				[Name.cluster,		create {NAME_LOCATION_ECF_LINE}.make (Name.cluster)],
+				[Name.library,		create {NAME_LOCATION_ECF_LINE}.make (Name.library)],
 				[Name.precompile, create {NAME_LOCATION_ECF_LINE}.make (Name.precompile)]
 			>>)
+		end
+
+	Platform_lines: PLATFORM_ECF_LINES
+		once
+			create Result.make
 		end
 
 end

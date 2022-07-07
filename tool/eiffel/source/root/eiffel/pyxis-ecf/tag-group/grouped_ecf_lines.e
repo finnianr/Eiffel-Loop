@@ -6,31 +6,55 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-06 16:43:21 GMT (Wednesday 6th July 2022)"
-	revision: "7"
+	date: "2022-07-07 8:26:10 GMT (Thursday 7th July 2022)"
+	revision: "8"
 
 deferred class
 	GROUPED_ECF_LINES
 
 inherit
-	EL_STRING_8_LIST
+	EL_SPLIT_ON_CHARACTER [STRING]
 		rename
-			make as make_list,
-			make_empty as make
+			make as make_split
 		export
 			{NONE} all
-			{ANY} count, first
+			{ANY} count
+		redefine
+			count, new_cursor
 		end
-
-	EL_MODULE_TUPLE
 
 	PYXIS_ECF_CONSTANTS
 
+feature {NONE} -- Initialization
+
+	make
+		do
+			create target.make_empty
+			separator := '%N'
+		end
+
 feature -- Access
+
+	new_cursor: GROUPED_LINES_CURSOR
+			-- Fresh cursor associated with current structure
+		do
+			create Result.make (target, tab_count)
+		end
 
 	tag_name: STRING
 		deferred
 		end
+
+feature -- Measurement
+
+	count: INTEGER
+		do
+			if target.count > 0 then
+				Result := target.occurrences ('%N') + 1
+			end
+		end
+
+	tab_count: INTEGER
 
 feature -- Status change
 
@@ -51,19 +75,24 @@ feature -- Status change
 
 feature -- Status query
 
+	is_platform_rule (line: STRING): BOOLEAN
+		do
+			Result := False
+		end
+
 	is_truncateable: BOOLEAN
 
 feature -- Element change
 
-	set_from_line (a_line: STRING; tab_count: INTEGER)
+	set_from_line (a_line: STRING; a_tab_count: INTEGER)
 		do
 			wipe_out
 			if attached shared_name_value_list (a_line) as nvp_list then
-				set_from_pair_list (nvp_list, tab_count)
+				set_from_pair_list (nvp_list, a_tab_count)
 			end
 			if is_truncateable and then not first_line_removed then
 				-- Remove element open tag which has already been processed
-				start; remove
+				remove_first
 				first_line_removed := True
 			end
 		end
@@ -99,21 +128,33 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	expanded_template (nvp: EL_NAME_VALUE_PAIR [STRING]): STRING
+	remove_first
+		local
+			i: INTEGER
 		do
-			set_variables (nvp)
-			Result := template.substituted
+			i := target.index_of ('%N', 1)
+			if i > 0 then
+				target.remove_head (i)
+			else
+				target.wipe_out
+			end
 		end
 
-	set_from_pair_list (nvp_list: like Once_name_value_list; tab_count: INTEGER)
+	set_from_pair_list (nvp_list: like Once_name_value_list; a_tab_count: INTEGER)
 		do
-			grow (nvp_list.count * 2)
 			across nvp_list as list loop
-				across expanded_template (list.item).split ('%N') as line loop
-					extend (line.item)
+				set_variables (list.item)
+				if target.count > 0 then
+					target.append_character ('%N')
 				end
+				Template.substitute_to (target)
 			end
-			indent (tab_count)
+			set_indent (a_tab_count)
+		end
+
+	set_indent (a_tab_count: INTEGER)
+		do
+			tab_count := a_tab_count
 		end
 
 	set_variables (nvp: EL_NAME_VALUE_PAIR [STRING])
@@ -121,6 +162,11 @@ feature {NONE} -- Implementation
 			template.put (Var.element, tag_name)
 			template.put (Var.name, nvp.name)
 			template.put (Var.value, nvp.value)
+		end
+
+	wipe_out
+		do
+			target.wipe_out
 		end
 
 feature {NONE} -- Internal attributes

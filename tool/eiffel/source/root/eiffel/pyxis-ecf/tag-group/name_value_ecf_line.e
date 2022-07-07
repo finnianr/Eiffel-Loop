@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-06 16:47:51 GMT (Wednesday 6th July 2022)"
-	revision: "2"
+	date: "2022-07-07 8:51:44 GMT (Thursday 7th July 2022)"
+	revision: "3"
 
 class
 	NAME_VALUE_ECF_LINE
@@ -15,7 +15,10 @@ class
 inherit
 	GROUPED_ECF_LINES
 		rename
-			make as make_empty
+			make as make_empty,
+			target as text
+		export
+			{PYXIS_ECF_PARSER} text
 		redefine
 			set_from_line, set_variables, Template
 		end
@@ -37,13 +40,13 @@ feature -- Access
 
 feature -- Element change
 
-	set_from_line (a_line: STRING; tab_count: INTEGER)
+	set_from_line (line: STRING; a_tab_count: INTEGER)
 		do
 			wipe_out
-			if attached shared_name_value_list (a_line) as nvp_list
+			if attached shared_name_value_list (line) as nvp_list
 				and then nvp_list.count = 1
 			then
-				set_from_pair_list (nvp_list, tab_count)
+				set_from_pair_list (nvp_list, a_tab_count)
 			end
 		end
 

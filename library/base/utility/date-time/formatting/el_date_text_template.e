@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-19 7:33:36 GMT (Wednesday 19th May 2021)"
-	revision: "4"
+	date: "2022-07-07 7:34:46 GMT (Thursday 7th July 2022)"
+	revision: "5"
 
 class
 	EL_DATE_TEXT_TEMPLATE
@@ -42,7 +42,7 @@ feature -- Access
 					name.item.share (function_table.found_item (date))
 				end
 			end
-			Result := part_list.joined_strings
+			Result := substituted_template
 		end
 
 feature -- Contract Support

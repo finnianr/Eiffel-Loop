@@ -37,7 +37,7 @@ system:
 		precompile:
 			name = precompile; location = "$ISE_PRECOMP/EL/console-application.ecf"
 
-		# ISE
+		# ISE libraries
 		libraries:
 			ise_base = "$ISE_LIBRARY/library/base/base.ecf"
 			option:

@@ -1,81 +1,102 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-15-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-15-0.xsd" name="el_eiffel" uuid="EEA36E90-5A49-11E7-8290-A34D58BF65CD">
-	<description>Eiffel Development Utilities
+<!--
+	Pyxis is data format inspired by the Python programming language and designed to be a more
+	readable supplement/substitute for XML configuration files.
+	
+	Pyxis as an acronym stands for: Pythonic XML ideal source.
+	It is also a Latin transliteration of a Greek word for a type of pottery used by women to hold
+	cosmetics, trinkets or jewellery. occurs
+-->
+<system name = "el_eiffel" uuid = "EEA36E90-5A49-11E7-8290-A34D58BF65CD" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
+	<description>
+Eiffel Development Utilities
 
-See doc/eiffel-utility.txt for details.</description>
-	<target name="classic">
-		<root class="APPLICATION_ROOT" feature="make"/>
-		<version major="1" minor="6" release="3" build="522" company="Eiffel-Loop" product="eiffel" copyright="Finnian Reilly"/>
-		<option trace="false" debug="false" warning="true" full_class_checking="false" void_safety="none" syntax="standard">
-			<assertions precondition="true" postcondition="true" check="true"/>
+See doc/eiffel-utility.txt for details.
+	</description>
+	<!--&quot;Swiss army knife&quot; toolkit containing a suite of command line tools for Eiffel development-->
+	<target name = "classic">
+		<root class = "APPLICATION_ROOT" feature = "make"/>
+		<version major = "1" minor = "6" release = "4" build = "523" company = "Eiffel-Loop" product = "eiffel" copyright = "Finnian Reilly"/>
+		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
+			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "false"/>
 		</option>
-		<setting name="address_expression" value="false"/>
-		<setting name="array_optimization" value="false"/>
-		<setting name="check_vape" value="true"/>
-		<setting name="console_application" value="true"/>
-		<setting name="dead_code_removal" value="true"/>
-		<setting name="dynamic_runtime" value="false"/>
-		<setting name="exception_trace" value="false"/>
-		<setting name="inlining" value="true"/>
-		<setting name="inlining_size" value="3"/>
-		<setting name="line_generation" value="false"/>
-		<setting name="concurrency" value="thread"/>
-		<variable name="eapml_limb_type" value="natural_32"/>
-		<precompile name="precompile" location="$ISE_PRECOMP\EL\console-application.ecf"/>
-		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
-		<library name="base_ext" location="$ISE_LIBRARY\library\base_extension\base_extension.ecf"/>
-		<library name="el_app_manage" location="$EIFFEL_LOOP\library\app-manage.ecf" readonly="false"/>
-		<library name="el_base" location="$EIFFEL_LOOP\library\base\base.ecf" readonly="false"/>
-		<library name="el_doc_scan" location="$EIFFEL_LOOP\library\document-scan.ecf" readonly="false"/>
-		<library name="el_encryption" location="$EIFFEL_LOOP\library\encryption.ecf" readonly="false"/>
-		<library name="el_evolicity" location="$EIFFEL_LOOP\library\evolicity.ecf" readonly="false"/>
-		<library name="el_i18n" location="$EIFFEL_LOOP\library\i18n.ecf" readonly="false">
+		<setting name = "address_expression" value = "false"/>
+		<setting name = "array_optimization" value = "false"/>
+		<setting name = "check_vape" value = "true"/>
+		<setting name = "console_application" value = "true"/>
+		<setting name = "concurrency" value = "thread"/>
+		<setting name = "dead_code_removal" value = "true"/>
+		<setting name = "dynamic_runtime" value = "false"/>
+		<setting name = "exception_trace" value = "false"/>
+		<setting name = "inlining" value = "true"/>
+		<setting name = "inlining_size" value = "3"/>
+		<setting name = "line_generation" value = "false"/>
+		<precompile name = "precompile" location = "$ISE_PRECOMP/EL/console-application.ecf"/>
+		<!--ISE libraries-->
+		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
+		<library name = "base_ext" location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"/>
+		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
+		<library name = "testing" location = "$ISE_LIBRARY/library/testing/testing.ecf"/>
+		<variable name = "eapml_limb_type" value = "natural_32"/>
+		<library name = "integer_x" location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"/>
+		<!--Eiffel-Loop-->
+		<library name = "EL_app_manage" location = "$EIFFEL_LOOP/library/app-manage.ecf" readonly = "false"/>
+		<library name = "EL_base" location = "$EIFFEL_LOOP/library/base/base.ecf" readonly = "false"/>
+		<library name = "EL_doc_scan" location = "$EIFFEL_LOOP/library/document-scan.ecf" readonly = "false"/>
+		<library name = "EL_encryption" location = "$EIFFEL_LOOP/library/encryption.ecf" readonly = "false"/>
+		<library name = "EL_evolicity" location = "$EIFFEL_LOOP/library/evolicity.ecf" readonly = "false"/>
+		<library name = "EL_logging" location = "$EIFFEL_LOOP/library/logging.ecf" readonly = "false"/>
+		<library name = "EL_network" location = "$EIFFEL_LOOP/library/network.ecf" readonly = "false"/>
+		<library name = "EL_os_command" location = "$EIFFEL_LOOP/library/os-command.ecf" readonly = "false"/>
+		<library name = "EL_pyxis_scan" location = "$EIFFEL_LOOP/library/pyxis-scan.ecf" readonly = "false"/>
+		<library name = "EL_text_formats" location = "$EIFFEL_LOOP/library/text-formats.ecf" readonly = "false"/>
+		<library name = "EL_text_process" location = "$EIFFEL_LOOP/library/text-process.ecf" readonly = "false"/>
+		<library name = "EL_testing" location = "$EIFFEL_LOOP/library/testing.ecf" readonly = "false"/>
+		<library name = "EL_thread" location = "$EIFFEL_LOOP/library/thread.ecf" readonly = "false"/>
+		<library name = "EL_vtd_xml" location = "$EIFFEL_LOOP/library/vtd-xml.ecf" readonly = "false"/>
+		<library name = "EL_xml_scan" location = "$EIFFEL_LOOP/library/xml-scan.ecf" readonly = "false"/>
+		<library name = "EL_i18n" location = "$EIFFEL_LOOP/library/i18n.ecf" readonly = "false">
 			<option>
-				<assertions precondition="true" postcondition="true"/>
+				<assertions precondition = "true" postcondition = "true" check = "false" invariant = "false"/>
 			</option>
 		</library>
-		<library name="el_logging" location="$EIFFEL_LOOP\library\logging.ecf" readonly="false"/>
-		<library name="el_network" location="$EIFFEL_LOOP\library\network.ecf" readonly="false"/>
-		<library name="el_os_command" location="$EIFFEL_LOOP\library\os-command.ecf" readonly="false"/>
-		<library name="el_pyxis_scan" location="$EIFFEL_LOOP\library\pyxis-scan.ecf" readonly="false"/>
-		<library name="el_testing" location="$EIFFEL_LOOP\library\testing.ecf" readonly="false"/>
-		<library name="el_text_formats" location="$EIFFEL_LOOP\library\text-formats.ecf" readonly="false"/>
-		<library name="el_text_process" location="$EIFFEL_LOOP\library\text-process.ecf" readonly="false"/>
-		<library name="el_thread" location="$EIFFEL_LOOP\library\thread.ecf" readonly="false"/>
-		<library name="el_vtd_xml" location="$EIFFEL_LOOP\library\vtd-xml.ecf" readonly="false"/>
-		<library name="el_xml_scan" location="$EIFFEL_LOOP\library\xml-scan.ecf" readonly="false"/>
-		<library name="integer_x" location="$ISE_LIBRARY\contrib\library\math\eapml\eapml.ecf"/>
-		<library name="testing" location="$ISE_LIBRARY\library\testing\testing.ecf"/>
-		<library name="time" location="$ISE_LIBRARY\library\time\time.ecf"/>
-		<cluster name="analyse" location="source\analyse\" recursive="true">
-			<description>Eiffel Class Analysis Utilities
-
-A &quot;Swiss-army knife&quot; of Eiffel class analysis utilities invokeable by a command-line switch.
-
-See doc/eiffel.analyse.txt for details.</description>
-		</cluster>
-		<cluster name="edit" location="source\edit\" recursive="true">
-			<description>Eiffel Class Editing Utilities
-
-A &quot;Swiss-army knife&quot; of Eiffel class editing utilities invokeable by a command-line switch.
-
-See doc/eiffel.edit.txt for details.</description>
-		</cluster>
-		<cluster name="root" location="source\root\" recursive="true">
-			<description>Eiffel Development Utilities
+		<cluster name = "root" location = "source/root" recursive = "true">
+			<description>
+Eiffel Development Utilities
 
 A &quot;Swiss-army knife&quot; of Eiffel development utilities invokeable by a command-line switch.
 
-See doc/eiffel.root.txt for details.</description>
+See doc/eiffel.root.txt for details.
+			</description>
 		</cluster>
-		<cluster name="test" location="source\test\" recursive="true">
-			<description>Eiffel Utility Tests
+		<cluster name = "edit" location = "source/edit" recursive = "true">
+			<description>
+Eiffel Class Editing Utilities
 
-Test sets for Eiffel utitlities</description>
+A &quot;Swiss-army knife&quot; of Eiffel class editing utilities invokeable by a command-line switch.
+
+See doc/eiffel.edit.txt for details.
+			</description>
 		</cluster>
-		<cluster name="test_common" location="$EIFFEL_LOOP\test\source\common\">
-			<cluster name="ftp" location="$|ftp\"/>
-			<cluster name="support" location="$|support\"/>
+		<cluster name = "analyse" location = "source/analyse" recursive = "true">
+			<description>
+Eiffel Class Analysis Utilities
+
+A &quot;Swiss-army knife&quot; of Eiffel class analysis utilities invokeable by a command-line switch.
+
+See doc/eiffel.analyse.txt for details.
+			</description>
+		</cluster>
+		<cluster name = "test" location = "source/test" recursive = "true">
+			<description>
+Eiffel Utility Tests
+
+Test sets for Eiffel utitlities
+			</description>
+		</cluster>
+		<cluster name = "Test_common" location = "$EIFFEL_LOOP/test/source/common">
+			<cluster name = "ftp" location = "$|ftp"/>
+			<cluster name = "support" location = "$|support"/>
 		</cluster>
 	</target>
 </system>

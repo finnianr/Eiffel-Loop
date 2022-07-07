@@ -24,7 +24,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 6; release = 3; build = 522
+			major = 1; minor = 6; release = 4; build = 522
 			company = "Eiffel-Loop"; product = "eiffel"
 			copyright = "Finnian Reilly"
 
@@ -48,21 +48,20 @@ system:
 		# ISE libraries
 		libraries:
 			location = "$ISE_LIBRARY/library"
-			base = "base/base.ecf"
-			base_ext = "base_extension/base_extension.ecf"
+			base = "base/base.ecf"; base_ext = "base_extension/base_extension.ecf"
 			time = "time/time.ecf"
 			testing = "testing/testing.ecf"
 
 		variable:
 			eapml_limb_type = natural_32
-		libraries:
+		library:
 			integer_x = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"
 
 		# Eiffel-Loop
 		writeable_libraries:
 			location = "$EIFFEL_LOOP/library"
-			EL_base = "base/base.ecf"
 			EL_app_manage = "app-manage.ecf"
+			EL_base = "base/base.ecf"
 			EL_doc_scan = "document-scan.ecf"
 			EL_encryption = "encryption.ecf"
 			EL_evolicity = "evolicity.ecf"
