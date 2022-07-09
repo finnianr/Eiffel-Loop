@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-06 8:33:11 GMT (Wednesday 6th July 2022)"
-	revision: "25"
+	date: "2022-07-09 8:40:19 GMT (Saturday 9th July 2022)"
+	revision: "26"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -30,12 +30,19 @@ feature -- Basic operations
 feature -- Tests
 
 	test_eiffel2java_pecf
-			--
+		--
 		local
 			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; file_rule_count, windows_count: INTEGER
-			schema_location, platform_value, exclude_value: STRING
+			schema_location, platform_value, exclude_value, library_target: STRING
 		do
 			ecf_xdoc := new_ecf_xdoc (library_pecf_path)
+			create library_target.make_empty
+			across ecf_xdoc.context_list ("/system[@name='EL_eiffel2java']") as system loop
+				library_target := system.node ["library_target"]
+				assert ("library_target = EL_eiffel2java", library_target ~ "EL_eiffel2java")
+			end
+			assert ("library_target found", library_target.count > 0)
+
 			assert ("6 libraries", library_count (ecf_xdoc) = 6)
 			across ecf_xdoc.context_list ("//file_rule") as rule loop
 				platform_value := rule.node.query ("condition/platform/@value")
@@ -52,6 +59,13 @@ feature -- Tests
 				windows_count := windows_count + 1
 			end
 			assert ("windows platform condition count", windows_count = 1)
+			if attached ecf_xdoc.find_node ("//library [renaming/@old_name='JNI_ENVIRONMENT']") as library then
+				assert ("is eiffel2java", library ["name"].as_string ~ "eiffel2java")
+			else
+				assert ("renaming JNI_ENVIRONMENT found", False)
+			end
+
+
 			if attached ecf_xdoc.query ("/system/target/cluster[@name='Java']/@location").as_string_8 as location then
 				assert ("Java cluster", location.ends_with ("Java"))
 			end
@@ -102,8 +116,8 @@ feature -- Tests
 
 	test_eiffel_pecf
 		local
-			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; sub_cluster_count: INTEGER
-			name, location: STRING
+			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; sub_cluster_count, writeable_count: INTEGER
+			name, location: STRING; has_i18n: BOOLEAN
 		do
 			ecf_xdoc := new_ecf_xdoc (project_pecf_path)
 			assert ("21 libraries", library_count (ecf_xdoc) = 21)
@@ -118,6 +132,15 @@ feature -- Tests
 					sub_cluster_count := sub_cluster_count + 1
 				end
 			end
+			across ecf_xdoc.context_list ("//library[@readonly='false']") as writeable loop
+				if writeable.node ["name"].as_string_8 ~ "EL_i18n" then
+					assert ("precondition true", writeable.node.query ("option/assertions/@precondition").as_string_8 ~ "true")
+					has_i18n := True
+				end
+				writeable_count := writeable_count + 1
+			end
+			assert ("has EL_i18n", has_i18n)
+			assert ("16 writeable", writeable_count = 16)
 			assert ("2 sub clusters", sub_cluster_count = 2)
 
 			if attached ecf_xdoc.find_node ("/system/target/variable[@name='eapml_limb_type']") as variable then

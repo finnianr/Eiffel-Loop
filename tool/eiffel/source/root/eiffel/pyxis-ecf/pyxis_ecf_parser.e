@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-07 8:53:30 GMT (Thursday 7th July 2022)"
-	revision: "20"
+	date: "2022-07-09 9:40:23 GMT (Saturday 9th July 2022)"
+	revision: "21"
 
 class
 	PYXIS_ECF_PARSER
@@ -49,9 +49,21 @@ feature {NONE} -- Implemenatation
 			equal_index := line.index_of ('=', indent_count + 1)
 			end_index := line.count - cursor_8 (line).trailing_white_count
 
-			if attached grouped_lines as grouped then
-				if equal_index > 0 or else grouped.is_platform_rule (line) then
-					grouped.set_from_line (line, indent_count - 1)
+			if equal_index > 0 and then last_tag ~ Name.condition
+				and then first_name_matches (line, Name.platform, equal_index, indent_count + 1)
+				and then attached Platform_lines as group
+			then
+				group.set_indent (indent_count)
+				group.set_from_line (line)
+				across group as ln loop
+					Precursor (ln.item)
+				end
+
+			elseif attached grouped_lines as grouped then
+				if grouped.is_related_line (Current, line, equal_index, indent_count, end_index) then
+					Precursor (line)
+				elseif equal_index > 0 or else grouped.is_platform_rule (line) then
+					grouped.set_from_line (line)
 					if grouped.count > 0 then
 						across grouped as ln loop
 							Precursor (ln.item)
@@ -67,25 +79,8 @@ feature {NONE} -- Implemenatation
 					Precursor (line)
 				end
 
-			elseif equal_index > 0 and then last_tag ~ Name.condition
-				and then first_name_matches (line, Name.platform, equal_index, indent_count + 1)
-				and then attached Platform_lines as group
-			then
-				group.set_from_line (line, indent_count)
-				across group as ln loop
-					Precursor (ln.item)
-				end
-
 			else
 				Precursor (line)
-			end
-		end
-
-	element (line: STRING; start_index, end_index: INTEGER): detachable STRING
-		-- name of element (tag) or Void if no element found
-		do
-			if end_index > 0 and then line [end_index] = ':' then
-				Result := Buffer_8.copied_substring (line, start_index, end_index - 1)
 			end
 		end
 
@@ -95,6 +90,51 @@ feature {NONE} -- Implemenatation
 				group.exit
 			end
 			grouped_lines := Void
+		end
+
+	parse_line (line: STRING; start_index, end_index: INTEGER)
+		local
+			equal_index: INTEGER
+		do
+			equal_index := line.index_of ('=', start_index)
+			if equal_index > 0
+				and then Name_value_table.has_key (last_tag)
+				and then not first_name_matches (line, Name.name, equal_index, start_index)
+				and then attached substituted (Name_value_table.found_item, line) as text
+			then
+				line.keep_head (start_index - 1); line.append (text)
+				Precursor (line, start_index, line.count)
+
+			elseif attached element (line, start_index, end_index) as tag
+				and then attached Expansion_table as table
+				and then table.has_key (tag) and then attached table.found_item as group
+				and then attached group.tag_name as ecf_tag_name
+			then
+				line.replace_substring (ecf_tag_name, start_index, end_index - 1)
+				group.reset; group.set_indent (start_index - 1)
+				grouped_lines := group
+				Precursor (line, start_index, end_index - (tag.count - ecf_tag_name.count))
+			else
+				Precursor (line, start_index, end_index)
+			end
+		end
+
+	substituted (line: NAME_VALUE_ECF_LINE; text: STRING): detachable STRING
+		do
+			line.set_from_line (text)
+			if line.count = 1 then
+				Result := line.text
+			end
+		end
+
+feature {GROUPED_ECF_LINES} -- Access
+
+	element (line: STRING; start_index, end_index: INTEGER): detachable STRING
+		-- name of element (tag) or Void if no element found
+		do
+			if end_index > 0 and then line [end_index] = ':' then
+				Result := Buffer_8.copied_substring (line, start_index, end_index - 1)
+			end
 		end
 
 	first_name_matches (line, a_name: STRING; equal_index, start_index: INTEGER): BOOLEAN
@@ -115,41 +155,6 @@ feature {NONE} -- Implemenatation
 				Result := tag
 			else
 				Result := Empty_string_8
-			end
-		end
-
-	parse_line (line: STRING; start_index, end_index: INTEGER)
-		local
-			equal_index: INTEGER
-		do
-			equal_index := line.index_of ('=', start_index)
-			if equal_index > 0
-				and then Name_value_table.has_key (last_tag)
-				and then not first_name_matches (line, Name.name, equal_index, start_index)
-				and then attached substituted (Name_value_table.found_item, line, start_index - 1) as text
-			then
-				line.keep_head (start_index - 1); line.append (text)
-				Precursor (line, start_index, line.count)
-
-			elseif attached element (line, start_index, end_index) as tag
-				and then attached Expansion_table as table
-				and then table.has_key (tag)
-				and then attached table.found_item.tag_name as ecf_tag_name
-			then
-				line.replace_substring (ecf_tag_name, start_index, end_index - 1)
-				grouped_lines := table.found_item
-				table.found_item.reset
-				Precursor (line, start_index, end_index - (tag.count - ecf_tag_name.count))
-			else
-				Precursor (line, start_index, end_index)
-			end
-		end
-
-	substituted (line: NAME_VALUE_ECF_LINE; text: STRING; a_tab_count: INTEGER): detachable STRING
-		do
-			line.set_from_line (text, a_tab_count)
-			if line.count = 1 then
-				Result := line.text
 			end
 		end
 
@@ -180,10 +185,13 @@ feature {NONE} -- Constants
 	Name_value_table: EL_HASH_TABLE [NAME_VALUE_ECF_LINE, STRING]
 		once
 			create Result.make (<<
+				[Name.custom,		create {NAME_VALUE_ECF_LINE}.make (Name.custom)],
 				[Name.variable,	create {NAME_VALUE_ECF_LINE}.make (Name.variable)],
 				[Name.cluster,		create {NAME_LOCATION_ECF_LINE}.make (Name.cluster)],
 				[Name.library,		create {NAME_LOCATION_ECF_LINE}.make (Name.library)],
-				[Name.precompile, create {NAME_LOCATION_ECF_LINE}.make (Name.precompile)]
+				[Name.precompile, create {NAME_LOCATION_ECF_LINE}.make (Name.precompile)],
+				[Name.mapping,		create {OLD_NAME_NEW_NAME_ECF_LINE}.make (Name.mapping)],
+				[Name.renaming,	create {OLD_NAME_NEW_NAME_ECF_LINE}.make (Name.renaming)]
 			>>)
 		end
 

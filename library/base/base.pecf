@@ -3,8 +3,7 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_base; uuid = "229b789e-09aa-11df-87c7-1bf8afd2bbad" 
-	library_target = EL_base
+	name = EL_base; library_target = EL_base; uuid = "229b789e-09aa-11df-87c7-1bf8afd2bbad" 
 	
 	target:
 		name = EL_base
@@ -31,15 +30,15 @@ system:
 				precondition = true; postcondition = true; check = true; invariant = false
 
 		mapping:
-			old_name = ZSTRING; new_name = EL_ZSTRING
+			ZSTRING = EL_ZSTRING
 		mapping:
-			old_name = DIR_PATH; new_name = EL_DIR_PATH
+			DIR_PATH = EL_DIR_PATH
 		mapping:
-			old_name = FILE_PATH; new_name = EL_FILE_PATH
+			FILE_PATH = EL_FILE_PATH
 
 		# Needed for Windows XP
 		variable:
-			name = link_object; value = false
+			link_object = false
 			
 		external_object:
 			location = "$EL_CONTRIB/C/MSC-runtime/spec/$ISE_PLATFORM/msvcr71.dll"
@@ -53,35 +52,22 @@ system:
 				custom:
 					name = link_object; value = true
 
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library:
-			name = base_ext; location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"
-
-		library:
-			name = encoding; location = "$ISE_EIFFEL/library/encoding/encoding.ecf"
-
-		library:
-			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
-
-		library:
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
-
-		library:
-			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
-
-		library:
-			name = uuid; location = "$ISE_LIBRARY/library/uuid/uuid.ecf"
-
-		library:
-			name = ise_i18n; location = "$ISE_LIBRARY/library/i18n/i18n.ecf"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"; base_ext = "base_extension/base_extension.ecf"
+			encoding = "encoding/encoding.ecf"
+			ise_i18n = "i18n/i18n.ecf"
 			condition:
 				platform = windows
+			net = "net/net.ecf"
+			time = "time/time.ecf"
+			thread = "thread/thread.ecf"
+			uuid = "uuid/uuid.ecf"
 
 		# CLUSTERS
-		cluster:
-			name = data_structure; location = data_structure; recursive = true
+		cluster_tree:
+			data_structure = data_structure
 			description:
 				"""
 					Data Structure
@@ -90,9 +76,8 @@ system:
 
 					See doc/base.data_structure.txt for details
 				"""
-
-		cluster:
-			name = math; location = math; recursive = true
+		cluster_tree:
+			math = math
 			description:
 				"""
 					Math
@@ -103,16 +88,16 @@ system:
 					* Calculating integrals of arbitrary functions
 					* Representing column vectors
 				"""
-		cluster:
-			name = command_line; location = "runtime/command-line"; recursive = true
+		cluster_tree:
+			command_line = "runtime/command-line"
 			description:
 				"""
 					Command-line Arguments
 					
 					Classes for reading and mapping command line arguments
 				"""
-		cluster:
-			name = file_system; location = "runtime/file-system"; recursive = true
+		cluster_tree:
+			file_system = "runtime/file-system"
 			description:
 				"""
 					File System
@@ -125,8 +110,8 @@ system:
 			platform_list:
 				"imp_mswin; imp_unix"
 
-		cluster:
-			name = io; location = "runtime/io"; recursive = true
+		cluster_tree:
+			io = "runtime/io"
 			description:
 				"""
 					Input/Output
@@ -139,18 +124,16 @@ system:
 			platform_list:
 				"imp_mswin; imp_unix"
 
-
-		cluster:
-			name = kernel; location = kernel; recursive = true
+		cluster_tree:
+			kernel = kernel
 			description:
 				"""
 					Kernel
 					
 					Fundamental base classes
 				"""
-
-		cluster:
-			name = reflection; location = "runtime/reflection"; recursive = true
+		cluster_tree:
+			reflection = "runtime/reflection"
 			description:
 				"""
 					Class Reflection
@@ -161,9 +144,8 @@ system:
 
 					See doc/base.reflection.txt for details
 				"""
-
 		cluster:
-			name = runtime; location = runtime
+			runtime = runtime
 			description:
 				"""
 					Runtime Operations
@@ -176,25 +158,25 @@ system:
 					* Tracking progress of time consuming operations
 					* Managing shared resources for competing threads
 				"""
-			cluster:
-				name = exception; location = "$|exception"; recursive = true
-			cluster:
-				name = memory; location = "$|memory"; recursive = true
+			cluster_tree:
+				exception = "$|exception"
+			cluster_tree:
+				memory = "$|memory"
 				platform_list:
 					"imp_mswin; imp_unix"
 
-			cluster:
-				name = process; location = "$|process"; recursive = true
+			cluster_tree:
+				process = "$|process"
 				platform_list:
 					"imp_mswin; imp_unix"
 
-			cluster:
-				name = progress_track; location = "$|progress-track"; recursive = true
-			cluster:
-				name = resource_share; location = "$|resource-share"; recursive = true
+			cluster_tree:
+				progress_track = "$|progress-track"
+			cluster_tree:
+				resource_share = "$|resource-share"
 
-		cluster:
-			name = persistency; location = persistency; recursive = true
+		cluster_tree:
+			persistency = persistency
 			description:
 				"""
 					Data Persistence
@@ -206,8 +188,8 @@ system:
 					* A file conforming to [$source PLAIN_TEXT_FILE] that implements [$source EL_OUTPUT_MEDIUM]
 					* File line source and other abstractions
 				"""
-		cluster:
-			name = string; location = "text/string"; recursive = true
+		cluster_tree:
+			string = "text/string"
 			description:
 				"""
 					String Handling
@@ -221,8 +203,8 @@ system:
 					* Abstractions for objects createable from strings
 					* String occurrence interval lists
 				"""
-		cluster:
-			name = zstring; location = "text/zstring"; recursive = true
+		cluster_tree:
+			zstring = "text/zstring"
 			description:
 				"""
 					Class ZSTRING
@@ -244,7 +226,7 @@ system:
 					* [./benchmark/ZSTRING-benchmarks-latin-15.html Base character-set Latin-15]
 				"""
 		cluster:
-			name = text; location = text
+			text = text
 			description:
 				"""
 					Text Processing
@@ -261,32 +243,32 @@ system:
 					* URI encoding/decoding
 					* UTF encoding/decoding
 				"""
-			cluster:
-				name = imp_unix; location = "$|imp_unix"; recursive = true
+			cluster_tree:
+				imp_unix = "$|imp_unix"
 				condition:
 					platform = unix
-			cluster:
-				name = imp_mswin; location = "$|imp_mswin"; recursive = true
+			cluster_tree:
+				imp_mswin = "$|imp_mswin"
 				condition:
 					platform = windows
-			cluster:
-				name = character; location = "$|character"; recursive = true
-			cluster:
-				name = text_encoding; location = "$|encoding"; recursive = true
-			cluster:
-				name = file_path; location = "$|file-path"; recursive = true
-			cluster:
-				name = general; location = "$|general"; recursive = true
-			cluster:
-				name = i18n; location = "$|i18n"; recursive = true
-			cluster:
-				name = line_traversal; location = "$|line-traversal"; recursive = true
-			cluster:
-				name = name_value; location = "$|name-value"; recursive = true
-			cluster:
-				name = styled; location = "$|styled"; recursive = true
-		cluster:
-			name = utility; location = utility; recursive = true
+			cluster_tree:
+				character = "$|character"
+			cluster_tree:
+				text_encoding = "$|encoding"
+			cluster_tree:
+				file_path = "$|file-path"
+			cluster_tree:
+				general = "$|general"
+			cluster_tree:
+				i18n = "$|i18n"
+			cluster_tree:
+				line_traversal = "$|line-traversal"
+			cluster_tree:
+				name_value = "$|name-value"
+			cluster_tree:
+				styled = "$|styled"
+		cluster_tree:
+			utility = utility
 			description:
 				"""
 					Utility

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-07 8:26:10 GMT (Thursday 7th July 2022)"
-	revision: "8"
+	date: "2022-07-08 9:40:07 GMT (Friday 8th July 2022)"
+	revision: "9"
 
 deferred class
 	GROUPED_ECF_LINES
@@ -70,6 +70,7 @@ feature -- Status change
 	reset
 		do
 			wipe_out
+			tab_count := 0
 			first_line_removed := False
 		end
 
@@ -80,21 +81,31 @@ feature -- Status query
 			Result := False
 		end
 
+	is_related_line (parser: PYXIS_ECF_PARSER; line: STRING; equal_index, indent_count, end_index: INTEGER): BOOLEAN
+		do
+			Result := False
+		end
+
 	is_truncateable: BOOLEAN
 
 feature -- Element change
 
-	set_from_line (a_line: STRING; a_tab_count: INTEGER)
+	set_from_line (a_line: STRING)
 		do
 			wipe_out
 			if attached shared_name_value_list (a_line) as nvp_list then
-				set_from_pair_list (nvp_list, a_tab_count)
+				set_from_pair_list (nvp_list)
 			end
 			if is_truncateable and then not first_line_removed then
 				-- Remove element open tag which has already been processed
 				remove_first
 				first_line_removed := True
 			end
+		end
+
+	set_indent (a_tab_count: INTEGER)
+		do
+			tab_count := a_tab_count
 		end
 
 feature -- Factory
@@ -140,7 +151,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_from_pair_list (nvp_list: like Once_name_value_list; a_tab_count: INTEGER)
+	set_from_pair_list (nvp_list: like Once_name_value_list)
 		do
 			across nvp_list as list loop
 				set_variables (list.item)
@@ -149,12 +160,6 @@ feature {NONE} -- Implementation
 				end
 				Template.substitute_to (target)
 			end
-			set_indent (a_tab_count)
-		end
-
-	set_indent (a_tab_count: INTEGER)
-		do
-			tab_count := a_tab_count
 		end
 
 	set_variables (nvp: EL_NAME_VALUE_PAIR [STRING])

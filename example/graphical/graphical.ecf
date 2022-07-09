@@ -12,7 +12,7 @@
 	
 	This project contains a parser for the Pyxis format and a Pyxis to XML convertion utility
 -->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "el_graphical" uuid = "229b7a2e-09aa-11df-87cb-6f5c8d784696">
+<system name = "el_graphical" uuid = "229b7a2e-09aa-11df-87cb-6f5c8d784696" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 Vision-2 Extensions Demo
 
@@ -75,12 +75,12 @@ Test application for selected components from Eiffel-Loop
 		<library name = "EL_pyxis_scan" location = "$EIFFEL_LOOP/library/pyxis-scan.ecf" readonly = "false"/>
 		<library name = "EL_thread" location = "$EIFFEL_LOOP/library/thread.ecf" readonly = "false"/>
 		<library name = "EL_vision2" location = "$EIFFEL_LOOP/library/vision2-x.ecf" readonly = "false"/>
-		<library name = "EL_xml_scan" location = "$EIFFEL_LOOP/library/xml-scan.ecf" readonly = "false"/>
 		<library name = "EL_wel_x" location = "$EIFFEL_LOOP/library/wel-x.ecf" readonly = "false">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</library>
+		<library name = "EL_xml_scan" location = "$EIFFEL_LOOP/library/xml-scan.ecf" readonly = "false"/>
 		<cluster name = "project" location = "source" recursive = "true"/>
 	</target>
 </system>

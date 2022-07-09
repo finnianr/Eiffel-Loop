@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-26 7:17:36 GMT (Thursday 26th May 2022)"
-	revision: "23"
+	date: "2022-07-07 14:00:02 GMT (Thursday 7th July 2022)"
+	revision: "24"
 
 deferred class
 	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO create make end, APPLICATION_TYPES -> TUPLE create default_create end]
@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 			list: EL_APPLICATION_LIST; lio: EL_LOGGABLE; exit_code: INTEGER
 		do
 			create_singletons
-			if not Base_option.silent then
+			if {PLATFORM}.is_windows and then not Base_option.silent then
 				-- Force console creation. Needed to set `{EL_EXECUTION_ENVIRONMENT_I}.last_codepage'
 
 				io.put_character ({ASCII}.back_space.to_character_8)

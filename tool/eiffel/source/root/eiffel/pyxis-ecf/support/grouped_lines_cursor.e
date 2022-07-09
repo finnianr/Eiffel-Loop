@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-07 8:55:17 GMT (Thursday 7th July 2022)"
-	revision: "1"
+	date: "2022-07-08 8:32:19 GMT (Friday 8th July 2022)"
+	revision: "2"
 
 class
 	GROUPED_LINES_CURSOR

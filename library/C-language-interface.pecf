@@ -3,7 +3,7 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_c_api; uuid = "229b522e-09aa-11df-8775-f3308731f240" 
+	name = EL_c_api; uuid = "229b522e-09aa-11df-8775-f3308731f240"
 	library_target = EL_c_api
 	description: 
 		"""
@@ -22,17 +22,18 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			api_wrapper = "api_wrapper/api_wrapper.ecf"
+			base = "base/base.ecf"
+
+		# Eiffel-Loop
 		library:
-			name = EL_base; location = "base/base.ecf"
+			EL_base = "base/base.ecf"
 
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library:
-			name = api_wrapper; location = "$ISE_LIBRARY/library/api_wrapper/api_wrapper.ecf"
-
-		cluster:
-			name = C_API; location = "language_interface/C"; recursive = true
+		cluster_tree:
+			C_API = "language_interface/C"
 			description: 
 				"""
 					C and C++
@@ -42,8 +43,8 @@ system:
 			platform_list:
 				"imp_mswin; imp_unix"
 
-		cluster:
-			name = MS_COM; location = "language_interface/MS-COM"; recursive = true
+		cluster_tree:
+			MS_COM = "language_interface/MS-COM"
 			description: 
 				"""
 					MS Component Object Model

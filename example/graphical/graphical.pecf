@@ -41,14 +41,12 @@ system:
 			trace = false; debug = false; warning = true
 			assertions:
 				precondition = true; postcondition = true; check = false; invariant = false
-
 			debugging:
 				__unnamed_debug__ = disabled
 				dlg_dispatcher = disabled; refactor_fixme = disabled
 				vision2_windows = disabled; vision2_windows_gdi = disabled
 				wel = disabled; wel_gdi_count = disabled; wel_gdi_references = disabled
 				win_dispatcher = disabled
-
 			warnings:
 				export_class_missing = disabled; old_verbatim_strings = disabled
 				syntax = disabled; vjrv = disabled
@@ -73,13 +71,13 @@ system:
 		
 		# Eiffel Loop overrides
 		writeable_libraries:
-			vision2 = "$EIFFEL_LOOP/library/override/ES-vision2.ecf"
+			location = "$EIFFEL_LOOP/library/override"
+			vision2 = "ES-vision2.ecf"
 			option:
 				assertions:
 					precondition = true; postcondition = true; check = true
 
-		writeable_libraries:
-			docking = "$EIFFEL_LOOP/library/override/ES-docking.ecf"
+			docking = "ES-docking.ecf"
 			option:
 				assertions:
 					precondition = true; postcondition = true; check = true
@@ -97,12 +95,10 @@ system:
 			EL_pyxis_scan = "pyxis-scan.ecf"
 			EL_thread = "thread.ecf"
 			EL_vision2 = "vision2-x.ecf"
-			EL_xml_scan = "xml-scan.ecf"
-
-		writeable_libraries:
-			EL_wel_x = "$EIFFEL_LOOP/library/wel-x.ecf"
+			EL_wel_x = "wel-x.ecf"
 			condition:
 				platform = windows
+			EL_xml_scan = "xml-scan.ecf"
 
 		cluster_tree:
 			project = "source"

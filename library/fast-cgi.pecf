@@ -3,8 +3,7 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_fast_cgi; uuid = "229b4c52-09aa-11df-876c-87080fdd2d54" 
-	library_target = EL_fast_cgi
+	name = EL_fast_cgi; library_target = EL_fast_cgi; uuid = "229b4c52-09aa-11df-876c-87080fdd2d54"
 	description: 
 		"""
 			Fast CGI Servlets
@@ -12,7 +11,6 @@ system:
 			An implementation of the [http://www.mit.edu/~yandros/doc/specs/fcgi-spec.html Fast-CGI protocol]
 			for creating single and multi-threaded HTTP servlet services.
 		"""
-	
 	target:
 		name = EL_fast_cgi
 		root:
@@ -30,7 +28,7 @@ system:
 		library:
 			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
 			renaming:
-				old_name = EMAIL; new_name = NET_EMAIL
+				EMAIL = NET_EMAIL
 		
 		library:
 			name = time; location = "$ISE_EIFFEL/library/time/time.ecf"
@@ -64,8 +62,8 @@ system:
 			name = EL_thread; location = "thread.ecf"
 
 		# Source code
-		cluster:
-			name = protocol; location = "network/fast-cgi"; recursive = true
+		cluster_tree:
+			protocol = "network/fast-cgi"
 			platform_list:
 				"imp_mswin; imp_unix"
 
@@ -84,10 +82,8 @@ system:
 					This API has been tested in production with the [https://cherokee-project.com/ Cherokee Web Server]
 					Ver. 1.2.101
 				"""
-
-
-		cluster:
-			name = service; location = "network/fcgi-service"; recursive = true
+		cluster_tree:
+			service = "network/fcgi-service"
 			description:
 				"""
 					HTTP Servlet Services

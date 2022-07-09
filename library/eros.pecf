@@ -3,8 +3,7 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_eros; uuid = "229b7574-09aa-11df-87bf-1b0f428786d3" 
-	library_target = EL_eros
+	name = EL_eros; library_target = EL_eros; uuid = "229b7574-09aa-11df-87bf-1b0f428786d3" 
 	description:
 		"""
 			Eiffel Remote Object Server (EROS)
@@ -23,76 +22,55 @@ system:
 		"""
 	target:
 		name = EL_eros
-		
 		root:
 			all_classes = true
-
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			net = "net/net.ecf"
 
-		library: 
-			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
-
-		# Eiffel Loop overrides
+		# ISE overrides
 		library:
-			name = vision2; location = "override/ES-vision2.ecf"
+			vision2 = "override/ES-vision2.ecf"
 			condition:
 				custom:
-					name = eros_server_enabled; value = true
+					eros_server_enabled = true
 
-		# Eiffel Loop libraries
-
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_app_manage; location = "app-manage.ecf"
-
-		library:
-			name = EL_doc_scan; location = "document-scan.ecf"
-
-		library:
-			name = EL_evolicity; location = "evolicity.ecf"
-
-		library:
-			name = EL_logging; location = "logging.ecf"
-
-		library:
-			name = EL_net_base; location = "network.ecf"
-
-		library:
-			name = EL_thread; location = "thread.ecf"
-
-		library:
-			name = EL_text_process; location = "text-process.ecf"
-
-		library:
-			name = EL_vision2; location = "vision2-x.ecf"
+		# Eiffel-Loop libraries
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_app_manage = "app-manage.ecf"
+			EL_doc_scan = "document-scan.ecf"
+			EL_evolicity = "evolicity.ecf"
+			EL_logging = "logging.ecf"
+			EL_net_base = "network.ecf"
+			EL_thread = "thread.ecf"
+			EL_text_process = "text-process.ecf"
+			EL_vision2 = "vision2-x.ecf"
 			condition:
 				custom:
-					name = eros_server_enabled; value = true
-
-		library:
-			name = EL_xml_scan; location = "xml-scan.ecf"
+					eros_server_enabled = true
+			EL_xml_scan = "xml-scan.ecf"
 
 		# Source code
-		cluster:
-			name = common; location = "network/eros/common"; recursive = true
+		cluster_tree:
+			common = "network/eros/common"
 
-		cluster:
-			name = client; location = "network/eros/client"; recursive = true
+		cluster_tree:
+			client = "network/eros/client"
 			condition:
 				custom:
 					name = eros_server_enabled; excluded_value = true
 
-		cluster:
-			name = server; location = "network/eros/server"; recursive = true
+		cluster_tree:
+			server = "network/eros/server"
 			condition:
 				custom:
 					name = eros_server_enabled; excluded_value = false

@@ -24,7 +24,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 6; release = 4; build = 522
+			major = 1; minor = 6; release = 5; build = 528
 			company = "Eiffel-Loop"; product = "eiffel"
 			copyright = "Finnian Reilly"
 
@@ -65,6 +65,10 @@ system:
 			EL_doc_scan = "document-scan.ecf"
 			EL_encryption = "encryption.ecf"
 			EL_evolicity = "evolicity.ecf"
+			EL_i18n = "i18n.ecf"
+			option:
+				assertions:
+					precondition = true; postcondition = true; check = false; invariant = false
 			EL_logging = "logging.ecf"
 			EL_network = "network.ecf"
 			EL_os_command = "os-command.ecf"
@@ -75,12 +79,6 @@ system:
 			EL_thread = "thread.ecf"
 			EL_vtd_xml = "vtd-xml.ecf"
 			EL_xml_scan = "xml-scan.ecf"
-
-		writeable_libraries:
-			EL_i18n = "$EIFFEL_LOOP/library/i18n.ecf"
-			option:
-				assertions:
-					precondition = true; postcondition = true; check = false; invariant = false
 
 		cluster_tree:
 			root = "source/root"

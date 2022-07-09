@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_eiffel2java" uuid = "229b783a-09aa-11df-87c6-93dce164c2d4" library_target = "EL_eiffel2java">
+<system name = "EL_eiffel2java" uuid = "229b783a-09aa-11df-87c6-93dce164c2d4" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" library_target = "EL_eiffel2java">
 	<description>
 Java
 
@@ -30,15 +30,11 @@ See [./example/eiffel2java/eiffel2java.html example/eiffel2java/eiffel2java.ecf]
 		</option>
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "api_wrapper" location = "$ISE_LIBRARY/library/api_wrapper/api_wrapper.ecf"/>
-		<!--
-			renaming:
-			old_name = JAVA_OBJECT; new_name = OBSOLETE_JAVA_OBJECT
-		-->
+		<!--Eiffel Loop-->
 		<library name = "eiffel2java" location = "override/ES-eiffel2java.ecf">
 			<renaming old_name = "JNI_ENVIRONMENT" new_name = "JAVA_ORB"/>
 			<renaming old_name = "SHARED_JNI_ENVIRONMENT" new_name = "JAVA_SHARED_ORB"/>
 		</library>
-		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_os_command" location = "os-command.ecf"/>
 		<library name = "EL_wel_regedit" location = "wel-regedit-x.ecf">

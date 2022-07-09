@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-07 8:02:38 GMT (Thursday 7th July 2022)"
-	revision: "2"
+	date: "2022-07-09 8:55:13 GMT (Saturday 9th July 2022)"
+	revision: "3"
 
 class
 	SYSTEM_ECF_LINES
@@ -39,7 +39,7 @@ feature -- Access
 
 feature -- Element change
 
-	set_from_line (line: STRING; a_tab_count: INTEGER)
+	set_from_line (line: STRING)
 		local
 			nvp: EL_NAME_VALUE_PAIR [STRING]; s: EL_STRING_8_ROUTINES
 		do
@@ -50,7 +50,18 @@ feature -- Element change
 						version.share (nvp.value)
 						s.remove_double_quote (version)
 					elseif nvp.name ~ Name.name then
-						name_uuid_pair.name.share (nvp.value)
+						if name_uuid_pair.name.count = 0 then
+							name_uuid_pair.name.share (nvp.value)
+						else
+							name_uuid_pair.name.insert_string (nvp.value, 1)
+						end
+					elseif nvp.name ~ Name.library_target then
+						library_target.put (Var.name, nvp.value)
+						if name_uuid_pair.name.count = 0 then
+							name_uuid_pair.name.share (library_target.substituted)
+						else
+							library_target.substitute_to (name_uuid_pair.name)
+						end
 					elseif nvp.name ~ Name.uuid then
 						name_uuid_pair.value.share (nvp.value)
 					end
@@ -61,7 +72,7 @@ feature -- Element change
 			then
 				nvp_list.wipe_out
 				nvp_list.extend (name_uuid_pair)
-				set_from_pair_list (nvp_list, a_tab_count)
+				set_from_pair_list (nvp_list)
 
 				remove_first
 			end
@@ -95,6 +106,13 @@ feature {NONE} -- Internal attributes
 feature {NONE} -- Constants
 
 	Eiffel_configuration: STRING = "http://www.eiffel.com/developers/xml/configuration-"
+
+	Library_target: EL_TEMPLATE [STRING]
+		once
+			Result := "[
+				; library_target = $NAME
+			]"
+		end
 
 	Template: EL_TEMPLATE [STRING]
 		once

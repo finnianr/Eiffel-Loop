@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-06 17:06:29 GMT (Wednesday 6th July 2022)"
-	revision: "2"
+	date: "2022-07-09 9:39:36 GMT (Saturday 9th July 2022)"
+	revision: "3"
 
 deferred class
 	PYXIS_ECF_CONSTANTS
@@ -32,17 +32,17 @@ feature {NONE} -- Constants
 		end
 
 	Name: TUPLE [
-		cluster, cluster_tree, condition, configuration_ns, debug_, debugging, disabled,
-		file_rule, library, libraries, name,
-		platform, platform_list, precompile, setting, settings, sub_clusters, system,
+		assertions, cluster, cluster_tree, condition, configuration_ns, custom, debug_, debugging, disabled,
+		file_rule, library, library_target, libraries, mapping, name, option,
+		platform, platform_list, precompile, renaming, setting, settings, sub_clusters, system,
 		uuid, variable, warning, warnings, writeable_libraries: STRING
 	]
 		once
 			create Result
 			Tuple.fill (Result,
-				"cluster, cluster_tree, condition, configuration_ns, debug, debugging, disabled, %
-				%file_rule, library, libraries, name, %
-				%platform, platform_list, precompile, setting, settings, sub_clusters, system, %
+				"assertions, cluster, cluster_tree, condition, configuration_ns, custom, debug, debugging, disabled, %
+				%file_rule, library, library_target, libraries, mapping, name, option, %
+				%platform, platform_list, precompile, renaming, setting, settings, sub_clusters, system, %
 				%uuid, variable, warning, warnings, writeable_libraries"
 			)
 		ensure

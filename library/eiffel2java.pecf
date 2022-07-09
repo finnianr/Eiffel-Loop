@@ -3,8 +3,8 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_eiffel2java; uuid = "229b783a-09aa-11df-87c6-93dce164c2d4" 
-	library_target = EL_eiffel2java
+	name = EL_eiffel2java; library_target = EL_eiffel2java; uuid = "229b783a-09aa-11df-87c6-93dce164c2d4" 
+	
 	description: 
 		"""
 			Java
@@ -40,26 +40,22 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
+		# ISE libraries
 		libraries:
 			location = "$ISE_LIBRARY/library"
 			base = "base/base.ecf"
 			api_wrapper = "api_wrapper/api_wrapper.ecf"
 
-		#	renaming:
-		#		old_name = JAVA_OBJECT; new_name = OBSOLETE_JAVA_OBJECT
-		library:
-			name = eiffel2java; location = "override/ES-eiffel2java.ecf"
-			renaming:
-				old_name = JNI_ENVIRONMENT; new_name = JAVA_ORB
-			renaming:
-				old_name = SHARED_JNI_ENVIRONMENT; new_name = JAVA_SHARED_ORB
-
 		# Eiffel Loop
 		libraries:
+			eiffel2java = "override/ES-eiffel2java.ecf"
+			renaming:
+				JNI_ENVIRONMENT = JAVA_ORB
+			renaming:
+				SHARED_JNI_ENVIRONMENT = JAVA_SHARED_ORB
+
 			EL_base = "base/base.ecf"
 			EL_os_command = "os-command.ecf"
-		
-		library:
 			EL_wel_regedit = "wel-regedit-x.ecf"
 			condition:
 				platform = windows

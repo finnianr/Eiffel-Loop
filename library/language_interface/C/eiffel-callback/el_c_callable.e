@@ -4,9 +4,9 @@ note
 		See also: [$source EL_C_TO_EIFFEL_CALLBACK_STRUCT]
 	]"
 	instructions: "[
-		To enable the descendant object item for callbacks, assign the result of the function 
+		To enable the descendant object item for callbacks, assign the result of the function
 		`new_callback' to a temporary variable before invoking the C routine which makes callbacks.
-		
+
 		**Example**
 			execute (connection: EL_HTTP_CONNECTION)
 				local
@@ -21,14 +21,15 @@ note
 				end
 
 	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-15 20:07:16 GMT (Wednesday 15th September 2021)"
-	revision: "7"
+	date: "2022-07-08 18:12:04 GMT (Friday 8th July 2022)"
+	revision: "8"
 
 deferred class
 	EL_C_CALLABLE
@@ -120,4 +121,19 @@ feature {NONE} -- Constants
 			Result := << default_pointer >>
 		end
 
+note
+	descendants: "[
+			EL_C_CALLABLE*
+				[$source EL_EXPAT_XML_PARSER]
+					[$source EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM]
+					[$source EL_EXPAT_XML_WITH_CTRL_Z_PARSER]
+				[$source EL_VTD_CALLABLE_EXCEPTIONS]
+				[$source EL_HTTP_COMMAND]*
+					[$source EL_DOWNLOAD_HTTP_COMMAND]*
+						[$source EL_STRING_DOWNLOAD_HTTP_COMMAND]
+							[$source EL_GET_HTTP_COMMAND]
+							[$source EL_HEAD_HTTP_COMMAND]
+							[$source EL_POST_HTTP_COMMAND]
+						[$source EL_FILE_DOWNLOAD_HTTP_COMMAND]
+	]"
 end

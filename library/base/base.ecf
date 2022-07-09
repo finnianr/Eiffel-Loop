@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_base" uuid = "229b789e-09aa-11df-87c7-1bf8afd2bbad" library_target = "EL_base">
+<system name = "EL_base" library_target = "EL_base" uuid = "229b789e-09aa-11df-87c7-1bf8afd2bbad" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<target name = "EL_base">
 		<description>
 Base classes for Eiffel-Loop
@@ -33,18 +33,19 @@ $EL_CONTRIB/C/MSC-runtime/spec/$ISE_PLATFORM/msvcr71.dll
 				<custom name = "link_object" value = "true"/>
 			</condition>
 		</external_object>
+		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "base_ext" location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"/>
-		<library name = "encoding" location = "$ISE_EIFFEL/library/encoding/encoding.ecf"/>
-		<library name = "net" location = "$ISE_LIBRARY/library/net/net.ecf"/>
-		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
-		<library name = "thread" location = "$ISE_LIBRARY/library/thread/thread.ecf"/>
-		<library name = "uuid" location = "$ISE_LIBRARY/library/uuid/uuid.ecf"/>
+		<library name = "encoding" location = "$ISE_LIBRARY/library/encoding/encoding.ecf"/>
 		<library name = "ise_i18n" location = "$ISE_LIBRARY/library/i18n/i18n.ecf">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</library>
+		<library name = "net" location = "$ISE_LIBRARY/library/net/net.ecf"/>
+		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
+		<library name = "thread" location = "$ISE_LIBRARY/library/thread/thread.ecf"/>
+		<library name = "uuid" location = "$ISE_LIBRARY/library/uuid/uuid.ecf"/>
 		<!--CLUSTERS-->
 		<cluster name = "data_structure" location = "data_structure" recursive = "true">
 			<description>

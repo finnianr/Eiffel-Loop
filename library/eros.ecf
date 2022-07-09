@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_eros" uuid = "229b7574-09aa-11df-87bf-1b0f428786d3" library_target = "EL_eros">
+<system name = "EL_eros" library_target = "EL_eros" uuid = "229b7574-09aa-11df-87bf-1b0f428786d3" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 Eiffel Remote Object Server (EROS)
 
@@ -21,15 +21,16 @@ See doc/eros.txt for details
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
+		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "net" location = "$ISE_LIBRARY/library/net/net.ecf"/>
-		<!--Eiffel Loop overrides-->
+		<!--ISE overrides-->
 		<library name = "vision2" location = "override/ES-vision2.ecf">
 			<condition>
 				<custom name = "eros_server_enabled" value = "true"/>
 			</condition>
 		</library>
-		<!--Eiffel Loop libraries-->
+		<!--Eiffel-Loop libraries-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_app_manage" location = "app-manage.ecf"/>
 		<library name = "EL_doc_scan" location = "document-scan.ecf"/>

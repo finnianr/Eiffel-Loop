@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-07 8:03:24 GMT (Thursday 7th July 2022)"
-	revision: "5"
+	date: "2022-07-09 9:34:45 GMT (Saturday 9th July 2022)"
+	revision: "6"
 
 class
 	LIBRARIES_ECF_LINES
@@ -26,7 +26,7 @@ class
 inherit
 	GROUPED_ECF_LINES
 		redefine
-			set_from_line, adjust_value, exit, Template
+			set_from_line, adjust_value, exit, is_related_line, Template
 		end
 
 create
@@ -39,9 +39,24 @@ feature -- Access
 			Result := Name.library
 		end
 
+feature -- Status query
+
+	is_related_line (parser: PYXIS_ECF_PARSER; line: STRING; equal_index, indent_count, end_index: INTEGER): BOOLEAN
+		do
+			if attached parser.element (line, indent_count + 1, end_index) as tag
+				and then Related_tags.has (tag)
+			then
+				Result := True
+
+			elseif equal_index > 0 and then indent_count > tab_count + 1 then
+				Result := True
+
+			end
+		end
+
 feature -- Element change
 
-	set_from_line (line: STRING; a_tab_count: INTEGER)
+	set_from_line (line: STRING)
 		local
 			s: EL_STRING_8_ROUTINES
 		do
@@ -57,7 +72,7 @@ feature -- Element change
 				end
 				location_dir := dir
 			else
-				Precursor (line, a_tab_count)
+				Precursor (line)
 			end
 		end
 
@@ -82,6 +97,11 @@ feature {NONE} -- Internal attributes
 feature {NONE} -- Constants
 
 	Location: STRING = "location"
+
+	Related_tags: EL_HASH_SET [STRING]
+		once
+			create Result.make_from_array (<< Name.assertions, Name.condition, Name.custom, Name.option, Name.renaming >>)
+		end
 
 	Template: EL_TEMPLATE [STRING]
 		once

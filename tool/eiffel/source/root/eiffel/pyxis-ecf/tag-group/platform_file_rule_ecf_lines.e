@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-07 8:02:57 GMT (Thursday 7th July 2022)"
-	revision: "3"
+	date: "2022-07-08 9:33:51 GMT (Friday 8th July 2022)"
+	revision: "4"
 
 class
 	PLATFORM_FILE_RULE_ECF_LINES
@@ -44,7 +44,7 @@ feature -- Status query
 
 feature -- Element change
 
-	set_from_line (line: STRING; a_tab_count: INTEGER)
+	set_from_line (line: STRING)
 		--	Expand:
 		--		platform_list = "imp_mswin, imp_unix"
 		--	as pair of platform/exclude file rules
@@ -54,7 +54,7 @@ feature -- Element change
 		do
 			wipe_out
 			q_start := line.index_of ('"', 1) + 1
-			if q_start > a_tab_count then
+			if q_start > tab_count then
 				q_end := line.last_index_of ('"', line.count) - 1
 				if attached Once_name_value_list as nvp_list then
 					nvp_list.wipe_out
@@ -64,8 +64,7 @@ feature -- Element change
 						create nvp.make_pair (platform, Platform_name [not is_unix])
 						nvp_list.extend (nvp)
 					end
-					set_from_pair_list (nvp_list, 0)
-					set_indent (a_tab_count)
+					set_from_pair_list (nvp_list)
 					remove_first
 				end
 			end

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_c_api" uuid = "229b522e-09aa-11df-8775-f3308731f240" library_target = "EL_c_api">
+<system name = "EL_c_api" uuid = "229b522e-09aa-11df-8775-f3308731f240" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" library_target = "EL_c_api">
 	<description>
 C/C++ and MS COM objects
 
@@ -11,9 +11,11 @@ Create Eiffel interfaces to C/C++ API&apos;s
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
-		<library name = "EL_base" location = "base/base.ecf"/>
-		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
+		<!--ISE libraries-->
 		<library name = "api_wrapper" location = "$ISE_LIBRARY/library/api_wrapper/api_wrapper.ecf"/>
+		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
+		<!--Eiffel-Loop-->
+		<library name = "EL_base" location = "base/base.ecf"/>
 		<cluster name = "C_API" location = "language_interface/C" recursive = "true">
 			<description>
 C and C++

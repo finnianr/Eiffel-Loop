@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-07 8:51:44 GMT (Thursday 7th July 2022)"
-	revision: "3"
+	date: "2022-07-08 9:31:55 GMT (Friday 8th July 2022)"
+	revision: "4"
 
 class
 	NAME_VALUE_ECF_LINE
@@ -40,13 +40,13 @@ feature -- Access
 
 feature -- Element change
 
-	set_from_line (line: STRING; a_tab_count: INTEGER)
+	set_from_line (line: STRING)
 		do
 			wipe_out
 			if attached shared_name_value_list (line) as nvp_list
 				and then nvp_list.count = 1
 			then
-				set_from_pair_list (nvp_list, a_tab_count)
+				set_from_pair_list (nvp_list)
 			end
 		end
 

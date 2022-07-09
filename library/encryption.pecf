@@ -3,8 +3,8 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_encryption; uuid = "229b74ac-09aa-11df-87bd-ff346cce6bd1" 
-	library_target = EL_encryption
+	name = EL_encryption; library_target = EL_encryption; uuid = "229b74ac-09aa-11df-87bd-ff346cce6bd1" 
+	
 	description:
 		"""
 			AES Encryption
@@ -17,14 +17,12 @@ system:
 		"""
 	target:
 		name = EL_encryption
-		
 		description: 
 			"""
 				AES FOR DUMMIES
 
 				Extensions to Colin Le Mahieu's encryption library.
 			"""
-
 		root:
 			all_classes = true
 
@@ -35,34 +33,27 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
-		library:
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			uuid = "uuid/uuid.ecf"
 
-		library:
-			name = uuid; location = "$ISE_EIFFEL/library/uuid/uuid.ecf"
-
-		library:
-			name = encryption_base; location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"
-
+		# ISE contributions
 		variable:
-			name = eapml_limb_type; value = natural_32
+			eapml_limb_type = natural_32
+		libraries:
+			location = "$ISE_LIBRARY/contrib/library"
+			encryption_base = "text/encryption/eel/eel.ecf"
+			integer_x = "math/eapml/eapml.ecf"
 
-		library:
-			name = arbitrary_precision_math; location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"
+		# Eiffel Loop
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_doc_scan = "document-scan.ecf"
+			EL_evolicity = "evolicity.ecf"
+			EL_text_process = "text-process.ecf"
 
-		# Eiffel-Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_doc_scan; location = "document-scan.ecf"
-
-		library:
-			name = EL_evolicity; location = "evolicity.ecf"
-
-		library:
-			name = EL_text_process; location = "text-process.ecf"
-
-		cluster:
-			name = encryption; location = "text/encryption"; recursive = true
+		cluster_tree:
+			encryption = "text/encryption"
 
