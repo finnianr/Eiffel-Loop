@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_amazon_ia" uuid = "343AD402-C610-11E7-AF25-6FD4B9BA2297" library_target = "EL_amazon_ia">
+<system name = "EL_amazon_ia" uuid = "343AD402-C610-11E7-AF25-6FD4B9BA2297" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" library_target = "EL_amazon_ia">
 	<description>
 Amazon Instant Access API
 
@@ -13,16 +13,18 @@ purchases but not subscriptions. It passes a basic test suite but has not yet be
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
+		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
+		<!--ISE contributions-->
 		<variable name = "eapml_limb_type" value = "natural_32"/>
-		<library name = "arbitrary_precision_math" location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"/>
-		<library name = "encryption_base" location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"/>
+		<library name = "encryption" location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"/>
+		<library name = "integer_x" location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"/>
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
-		<library name = "EL_eco_db" readonly = "false" location = "Eco-DB.ecf"/>
+		<library name = "EL_eco_db" location = "Eco-DB.ecf"/>
 		<library name = "EL_encryption" location = "encryption.ecf"/>
-		<library name = "EL_fast_cgi" location = "fast-cgi.ecf" readonly = "false"/>
+		<library name = "EL_fast_cgi" location = "fast-cgi.ecf"/>
 		<library name = "EL_text_formats" location = "text-formats.ecf"/>
 		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<!--Source code-->

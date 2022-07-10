@@ -4,7 +4,7 @@
 	It is also a Latin transliteration of a Greek word for a type of pottery used by women to hold
 	cosmetics, trinkets or jewellery.
 -->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_compression" uuid = "229b6f84-09aa-11df-87b0-ab7c62abf4b2" library_target = "EL_compression">
+<system name = "EL_compression" library_target = "EL_compression" uuid = "229b6f84-09aa-11df-87b0-ab7c62abf4b2" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 ZLib Compression
 
@@ -22,8 +22,9 @@ The main class is [$source EL_COMPRESSED_ARCHIVE_FILE] with a few helper classes
 				<platform value = "unix"/>
 			</condition>
 		</external_object>
+		<!--ISE-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
-		<library name = "c_library_zlib" location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf">
+		<library name = "zlib" location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf">
 			<condition>
 				<platform value = "windows"/>
 			</condition>

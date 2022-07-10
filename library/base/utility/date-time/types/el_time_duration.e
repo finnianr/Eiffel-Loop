@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-19 7:38:24 GMT (Wednesday 19th May 2021)"
-	revision: "8"
+	date: "2022-07-10 12:05:41 GMT (Sunday 10th July 2022)"
+	revision: "9"
 
 class
 	EL_TIME_DURATION
@@ -71,8 +71,9 @@ feature {NONE} -- Implementation
 				["hrs", hour],
 				["mins", minute],
 				["secs", second],
-				["ms", (fine_second * 1000.0).rounded]
+				["ms", (fractional_second * 1000.0).rounded]
 			>>)
+			-- Remove leading zero units
 			from Result.start until Result.count = 2 or else Result.item.n > 0 loop
 				Result.remove
 			end

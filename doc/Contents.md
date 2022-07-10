@@ -67,13 +67,13 @@ A multi-mode application demonstrating the [EROS remote object protocol](http://
 
 Test client to generate random wave forms and do fourier transforms for 25 seconds
 
-`-bext_test_client` Sub-application [BEXT_CLIENT_TEST_APP]($source)
+`-bext_test_client` Sub-application [BEXT_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/bext_client_test_app.html)
 
 Client to test Binary Encoded XML Transfer (BEXT).
 
 **Server Modes**
 
-`-bext_test_server` Sub-application [BEXT_CLIENT_TEST_APP]($source)
+`-bext_test_server` Sub-application [BEXT_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/bext_client_test_app.html)
 
 Server to test Binary Encoded XML Transfer (BEXT). Ctrl-c shuts down the server.
 
@@ -1073,7 +1073,7 @@ Using the Eiffel API is considerably easier and more intuitive to use than the o
 
 A substantial C-bridge was developed to make Eiffel work better with VTD-XML. The original VTX-XML code was forked to make it possible to compile it with the MSC compiler. This fork is found under `contrib/C`.
 
-Test class [VTD_XML_AUTOTEST_APP]($source)
+Test class [VTD_XML_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/vtd-xml/apps/vtd_xml_autotest_app.html)
 ## Windows Registry Management
 Classes for Windows registry searching, reading and editing.
 
@@ -1119,7 +1119,7 @@ Classes augmenting the classic [EiffelThread library](https://www.eiffel.org/doc
 
 **Work Distribution**
 
-Classes [EL_PROCEDURE_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_procedure_distributer.html) and [EL_FUNCTION_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_function_distributer.html) offer a convenient way to distribute the work of executing routines using a specific number of cores. See routine `read_source_files` in class [EIFFEL_CONFIGURATION_FILE]($source) for an example.
+Classes [EL_PROCEDURE_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_procedure_distributer.html) and [EL_FUNCTION_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_function_distributer.html) offer a convenient way to distribute the work of executing routines using a specific number of cores. See routine `read_source_files` in class [EIFFEL_CONFIGURATION_FILE](http://www.eiffel-loop.com/tool/eiffel/source/root/eiffel/library/publish/config/file/eiffel_configuration_file.html) for an example.
 
 **Producer-Consumer Framework**
 
@@ -1385,7 +1385,7 @@ By default logging is not active in the application. It must be turned on using 
 
 **Log output filtering**
 
-The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_SUB_APPLICATION]($source) and implement the routine `log_filter_set` as function with generic parameters itemizing the types for which logging is enabled.  To only show output only for specific routines, use the `show_selected` procedure as shown in the example below. You can disable logging for any particular routine by prefixing the name with a hyphen. The `log_filter_set` routine for class [FOURIER_MATH_CLIENT_TEST_APP]($source) illustrates:
+The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_SUB_APPLICATION]($source) and implement the routine `log_filter_set` as function with generic parameters itemizing the types for which logging is enabled.  To only show output only for specific routines, use the `show_selected` procedure as shown in the example below. You can disable logging for any particular routine by prefixing the name with a hyphen. The `log_filter_set` routine for class [FOURIER_MATH_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/fourier_math_client_test_app.html) illustrates:
 
 
 ````
@@ -1603,27 +1603,27 @@ A "Swiss-army knife" of Eiffel development utilities invokeable by a command-lin
 
 **Sub-applications**
 
-[CLASS_DESCENDANTS_APP]($source) outputs class descendants for selected class as a text file and is designed to be used as an external tool from within EiffelStudio.
+[CLASS_DESCENDANTS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/class_descendants_app.html) outputs class descendants for selected class as a text file and is designed to be used as an external tool from within EiffelStudio.
 
 Command switch: `-class_descendants`
 
-[EIFFEL_VIEW_APP]($source) publishes source code and descriptions of Eiffel projects to a website as static html and generate a `Contents.md` file in Github markdown. See [eiffel.org article](https://www.eiffel.org/blog/Finnian%20Reilly/2018/10/eiffel-view-repository-publisher-version-1-0-18)
+[EIFFEL_VIEW_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/eiffel_view_app.html) publishes source code and descriptions of Eiffel projects to a website as static html and generate a `Contents.md` file in Github markdown. See [eiffel.org article](https://www.eiffel.org/blog/Finnian%20Reilly/2018/10/eiffel-view-repository-publisher-version-1-0-18)
 
 Command switch: `-eiffel_view`
 
-[CODEC_GENERATOR_APP]($source) generates Eiffel classes conforming to [EL_ZCODEC](http://www.eiffel-loop.com/library/base/text/zstring/codec/el_zcodec.html) from VTD-XML C code
+[CODEC_GENERATOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/generate/codec_generator_app.html) generates Eiffel classes conforming to [EL_ZCODEC](http://www.eiffel-loop.com/library/base/text/zstring/codec/el_zcodec.html) from VTD-XML C code
 
 Command switch: `-generate_codecs`
 
-[ECF_TO_PECF_APP]($source) converts Eiffel configuration files to Pyxis format
+[ECF_TO_PECF_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/ecf_to_pecf_app.html) converts Eiffel configuration files to Pyxis format
 
 Command switch: `-ecf_to_pecf`
 
-[LIBRARY_OVERRIDE_APP]($source) generates override of standard libaries to work with Eiffel-Loop
+[LIBRARY_OVERRIDE_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/generate/library_override_app.html) generates override of standard libaries to work with Eiffel-Loop
 
 Command switch: `-library_override`: 
 
-[REPOSITORY_NOTE_LINK_CHECKER_APP]($source) expands `$source` variable path in wiki-links contained in a wiki-markup text file. The app use a [EIFFEL_VIEW_APP]($source) publishing configuration. Write the expanded output to file named as follows:
+[REPOSITORY_NOTE_LINK_CHECKER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/repository_note_link_checker_app.html) expands `$source` variable path in wiki-links contained in a wiki-markup text file. The app use a [EIFFEL_VIEW_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/eiffel_view_app.html) publishing configuration. Write the expanded output to file named as follows:
 
 
 ````
@@ -1633,15 +1633,15 @@ An incidental function is to expand all tabs in the markup as 3 spaces.
 
 Command switch: `-expand_links`
 
-[SOURCE_FILE_NAME_NORMALIZER_APP]($source) normalize class filenames as lowercase classnames within a source directory
+[SOURCE_FILE_NAME_NORMALIZER_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/source_file_name_normalizer_app.html) normalize class filenames as lowercase classnames within a source directory
 
 Command switch: `-normalize_class_file_name` 
 
-[IMP_CLASS_LOCATION_NORMALIZER_APP]($source) normalizes location of implementation classes in relation to respective interfaces for all projects listed in publisher configuration.
+[IMP_CLASS_LOCATION_NORMALIZER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/imp_class_location_normalizer_app.html) normalizes location of implementation classes in relation to respective interfaces for all projects listed in publisher configuration.
 
 Command switch: `normalize_imp_location`
 
-[WINZIP_SOFTWARE_PACKAGE_BUILDER_APP]($source) builds a signed self-extracting software installer for Windows OS using signtool and WinZip tools.
+[WINZIP_SOFTWARE_PACKAGE_BUILDER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/winzip_software_package_builder_app.html) builds a signed self-extracting software installer for Windows OS using signtool and WinZip tools.
 
 Command switch: `-winzip_exe_builder`
 
@@ -1657,17 +1657,17 @@ A "Swiss-army knife" of Eiffel class editing utilities invokeable by a command-l
 
 Command switch: `-remove_prefix`
 
-[NOTE_EDITOR_APP]($source) add default values to note fields using a source tree manifest.
+[NOTE_EDITOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/note_editor_app.html) add default values to note fields using a source tree manifest.
 
 Command switch: `-edit_notes`
 
-[FEATURE_EDITOR_APP]($source) expands Eiffel shorthand code in source file and reorders feature blocks alphabetically.
+[FEATURE_EDITOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/feature_editor_app.html) expands Eiffel shorthand code in source file and reorders feature blocks alphabetically.
 
 Command switch: `-feature_edit`
 
-[FIND_AND_REPLACE_APP]($source) finds and replaces text in Eiffel source files specified by a source tree manifest Command switch: `-find_replace`
+[FIND_AND_REPLACE_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/find_and_replace_app.html) finds and replaces text in Eiffel source files specified by a source tree manifest Command switch: `-find_replace`
 
-[SOURCE_LOG_LINE_REMOVER_APP]($source) comments out logging lines from Eiffel source code tree
+[SOURCE_LOG_LINE_REMOVER_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/source_log_line_remover_app.html) comments out logging lines from Eiffel source code tree
 
 Command switch: `-elog_remover`
 
@@ -1683,27 +1683,27 @@ A "Swiss-army knife" of Eiffel class analysis utilities invokeable by a command-
 
 **Sub-applications**
 
-[CHECK_LOCALE_STRINGS_APP]($source) verifies localization translation identifiers against various kinds of source texts.
+[CHECK_LOCALE_STRINGS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/check_locale_strings_app.html) verifies localization translation identifiers against various kinds of source texts.
 
 Command switch: `-check_locale_strings`
 
-[CLASS_DESCENDANTS_APP]($source) outputs a list of descendants for a class as an Eiffel note field that can be copy/pasted into Eiffel source code.
+[CLASS_DESCENDANTS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/class_descendants_app.html) outputs a list of descendants for a class as an Eiffel note field that can be copy/pasted into Eiffel source code.
 
 Command switch: `-descendants`
 
-[CODEBASE_STATISTICS_APP]($source) counts classes, code words and combined source file size for Eiffel source trees specified in manifest
+[CODEBASE_STATISTICS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/codebase_statistics_app.html) counts classes, code words and combined source file size for Eiffel source trees specified in manifest
 
 Command switch: `-codebase_stats`
 
-[ENCODING_CHECK_APP]($source) checks for UTF-8 files that could be encoded as Latin-1
+[ENCODING_CHECK_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/encoding_check_app.html) checks for UTF-8 files that could be encoded as Latin-1
 
 Command switch: `-check_encoding`
 
-[REPOSITORY_NOTE_LINK_CHECKER_APP]($source) checks for invalid class references in repository note links
+[REPOSITORY_NOTE_LINK_CHECKER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/repository_note_link_checker_app.html) checks for invalid class references in repository note links
 
 Command switch: `-check_note_links`
 
-[UNDEFINE_PATTERN_COUNTER_APP]($source) counts the number of classes in the source tree manifest that exhibit multiple inheritance of classes with an identical pattern of feature undefining.
+[UNDEFINE_PATTERN_COUNTER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/undefine_pattern_counter_app.html) counts the number of classes in the source tree manifest that exhibit multiple inheritance of classes with an identical pattern of feature undefining.
 
 Command switch: `-undefine_counter`
 
@@ -1733,7 +1733,7 @@ Command switch: `-export_book`
 
 Command switch: `-export_www`
 
-[PYXIS_TRANSLATION_TREE_COMPILER_APP]($source) compiles tree of Pyxis translation files into multiple locale files named `locale.x` where `x` is a 2 letter country code. Does nothing if source files are all older than locale files. See class [EL_LOCALE_I]($source).
+[PYXIS_TRANSLATION_TREE_COMPILER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/pyxis_translation_tree_compiler_app.html) compiles tree of Pyxis translation files into multiple locale files named `locale.x` where `x` is a 2 letter country code. Does nothing if source files are all older than locale files. See class [EL_LOCALE_I]($source).
 
 Command switch: `-compile_translations`
 
@@ -1773,7 +1773,7 @@ Due to C name space clashes with `TagLib.ecf` these tests have been separated fr
 ## amazon-instant-access.ecf
 Tests for Eiffel interface to Amazon Instant Access API. See class [AMAZON_INSTANT_ACCESS_TEST_APP]($source)
 ## base.ecf (Eiffel-Loop)
-Test Eiffel-Loop base classes. See [BASE_AUTOTEST_APP]($source)
+Test Eiffel-Loop base classes. See [BASE_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/base/base_autotest_app.html)
 ## Common Classes
 **Project List**
 
@@ -1795,27 +1795,27 @@ See class [CURRENCY_TEST_APP]($source)
 ## Eco-DB.ecf
 Test [Eco-DB (Eiffel CHAIN Orientated Database)](http://www.eiffel-loop.com/library/Eco-DB.html) library.
 
-Test application: [ECO_DB_AUTOTEST_APP]($source)
+Test application: [ECO_DB_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/Eco-DB/eco_db_autotest_app.html)
 ## encryption.ecf
-See class [ENCRYPTION_AUTOTEST_APP]($source)
+See class [ENCRYPTION_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/encryption/app/encryption_autotest_app.html)
 ## eros.ecf
 Test [Eiffel Remote Object Server (EROS)](http://www.eiffel-loop.com/library/eros.html) protocol library.
 
 **Test Apps**
 
 
-* [EROS_AUTOTEST_APP]($source)
-* [BEXT_CLIENT_TEST_APP]($source)
-* [BEXT_SERVER_TEST_APP]($source)
-* [FOURIER_MATH_CLIENT_TEST_APP]($source)
-* [FOURIER_MATH_SERVER_TEST_APP]($source)
+* [EROS_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/eros_autotest_app.html)
+* [BEXT_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/bext_client_test_app.html)
+* [BEXT_SERVER_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/bext_server_test_app.html)
+* [FOURIER_MATH_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/fourier_math_client_test_app.html)
+* [FOURIER_MATH_SERVER_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/fourier_math_server_test_app.html)
 
 ## evolicity.ecf
 Test of Evolicity text substitution engine. See class [EVOLICITY_TEST_APP]($source)
 ## http-client.ecf
-See class [HTTP_CLIENT_AUTOTEST_APP]($source)
+See class [HTTP_CLIENT_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/http-client/http_client_autotest_app.html)
 ## i18n.ecf
-Test localization library. See class [I18N_AUTOTEST_APP]($source)
+Test localization library. See class [I18N_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/i18n/i18n_autotest_app.html)
 ## image-utils.ecf
 See class [SVG_TO_PNG_CONVERSION_TEST_APP]($source)
 ## markup-docs.ecf
@@ -1833,15 +1833,15 @@ Test network library classes
 * [SIMPLE_SERVER_TEST_APP]($source)
 
 ## os-command.ecf
-* Test OS command interface library. See class [OS_COMMAND_AUTOTEST_APP]($source)
-* Test set for classes that manage and read file system content. See class [FILE_AND_DIRECTORY_TEST_SET]($source)
+* Test OS command interface library. See class [OS_COMMAND_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/os-command/os_command_autotest_app.html)
+* Test set for classes that manage and read file system content. See class [FILE_AND_DIRECTORY_TEST_SET](http://www.eiffel-loop.com/test/source/os-command/test-set/file_and_directory_test_set.html)
 
 ## paypal-SBM.ecf
 Tests for Eiffel interface to PayPal Payments Standard Button Manager API. See class [PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP]($source)
 ## public-key-encryption.ecf
 Tests for RSA public key encryption tools. See class [PUBLIC_KEY_ENCRYPTION_TEST_APP]($source)
 ## pyxis-scan.ecf
-Test application class: [PYXIS_SCAN_AUTOTEST_APP]($source)
+Test application class: [PYXIS_SCAN_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/pyxis-scan/pyxis_scan_autotest_app.html)
 ## Root class and Experiments
 Root class [APPLICATION_ROOT](http://www.eiffel-loop.com/test/source/root/application_root.html) and a collection of developer experiments to verify understanding of ISE base classes.
 

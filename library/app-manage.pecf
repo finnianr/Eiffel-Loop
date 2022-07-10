@@ -3,8 +3,7 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_app_manage; uuid = "229B70BA-09AA-11DF-87B3-13BAE5C3E690" 
-	library_target = EL_app_manage
+	name = EL_app_manage; library_target = EL_app_manage; uuid = "229B70BA-09AA-11DF-87B3-13BAE5C3E690" 
 	description:
 		"""
 			Multi-Application Management
@@ -17,12 +16,10 @@ system:
 
 			See doc/app-manage.txt for details.
 		"""
-	
 	target:
 		name = EL_app_manage
 		root:
 			all_classes = true
-
 		option:
 			namespace = "Eiffel-Loop.Library.Application-management"
 			syntax = standard; full_class_checking = false; void_safety = none
@@ -30,66 +27,39 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
-		library:
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library:
-			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
-
-		library:
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
-
-		library:
-			name = vision2; location="override/ES-vision2.ecf"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			encoding = "encoding/encoding.ecf"
+			time = "time/time.ecf"
+			thread = "thread/thread.ecf"
+			vision2 = "override/ES-vision2.ecf"
 			condition:
 				custom:
-					name = gui_installer_enabled; value = true
-
-		library:
-			name = encoding; location = "$ISE_LIBRARY/library/encoding/encoding.ecf"
+					gui_installer_enabled = true
 
 		# Eiffel-Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_c_api; location = "C-language-interface.ecf"
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_c_api = "C-language-interface.ecf"
 			condition:
 				platform = windows
-
-		library:
-			name = EL_doc_scan; location = "document-scan.ecf"
-
-		library:
-			name = EL_evolicity; location = "evolicity.ecf"
-
-		library:
-			name = EL_http_client; location = "http-client.ecf"
-
-		library:
-			name = EL_i18n; location = "i18n.ecf"
-
-		library:
-			name = EL_os_command; location = "os-command.ecf"
-
-		library:
-			name = EL_pyxis_scan; location = "pyxis-scan.ecf"
-
-		library:
-			name = EL_text_process; location = "text-process.ecf"
-
-		library:
-			name = EL_xml_scan; location = "xml-scan.ecf"
-
-		library:
-			name = EL_wel_regedit_x; location = "wel-regedit-x.ecf"
+			EL_doc_scan = "document-scan.ecf"
+			EL_evolicity = "evolicity.ecf"
+			EL_http_client = "http-client.ecf"
+			EL_i18n = "i18n.ecf"
+			EL_os_command = "os-command.ecf"
+			EL_pyxis_scan = "pyxis-scan.ecf"
+			EL_text_process = "text-process.ecf"
+			EL_wel_regedit_x = "wel-regedit-x.ecf"
 			condition:
-				platform:
-					value = windows
+				platform = windows
+			EL_xml_scan = "xml-scan.ecf"
 
 		# Source code
-		cluster:
-			name = app_manage; location = "runtime/app-manage"; recursive = true
+		cluster_tree:
+			app_manage = "runtime/app-manage"
 			platform_list:
 				"imp_mswin; imp_unix"
 			file_rule:

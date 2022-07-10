@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_app_license" uuid = "229b6ebc-09aa-11df-87ae-dbc8674bb87b" library_target = "EL_app_license">
+<system name = "EL_app_license" library_target = "EL_app_license" uuid = "229b6ebc-09aa-11df-87ae-dbc8674bb87b" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 Application License Management
 
@@ -18,15 +18,21 @@ It has been used for the [http://myching.software My Ching] software product.
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
+		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
-		<library name = "arbitrary_precision_math" location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"/>
-		<!--Eiffel-Loop libraries-->
+		<!--ISE contributions-->
+		<variable name = "eapml_limb_type" value = "natural_32"/>
+		<library name = "integer_x" location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"/>
+		<!--
+			Eiffel-Loop libraries
+			Eiffel Loop
+		-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_encryption" location = "encryption.ecf"/>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
-		<library name = "EL_network" readonly = "false" location = "network.ecf"/>
-		<library name = "EL_os_command" readonly = "false" location = "os-command.ecf"/>
+		<library name = "EL_network" location = "network.ecf"/>
+		<library name = "EL_os_command" location = "os-command.ecf"/>
 		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<library name = "EL_vtd_xml" location = "vtd-xml.ecf"/>
 		<library name = "EL_public_key_encryption" location = "public-key-encryption.ecf"/>

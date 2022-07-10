@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-13 8:17:57 GMT (Friday 13th May 2022)"
-	revision: "56"
+	date: "2022-07-10 12:14:15 GMT (Sunday 10th July 2022)"
+	revision: "57"
 
 deferred class
 	EL_APPLICATION
@@ -165,14 +165,12 @@ feature -- Element change
 			exit_code := a_exit_code
 		end
 
-feature -- Factory routines
+feature {EL_APPLICATION} -- Factory routines
 
 	new_application_mutex: EL_APPLICATION_MUTEX_I
 		do
 			create {EL_APPLICATION_MUTEX_IMP} Result.make_for_application_mode (option_name)
 		end
-
-feature {NONE} -- Factory routines
 
 	new_argument_error (option: READABLE_STRING_GENERAL): EL_COMMAND_ARGUMENT_ERROR
 		do
@@ -218,11 +216,15 @@ feature {NONE} -- Implementation
 
 	do_application
 		local
-			ctrl_c_pressed: BOOLEAN
+			ctrl_c_pressed: BOOLEAN; l_timer: EL_EXECUTION_TIMER
 		do
 			if ctrl_c_pressed then
 				on_operating_system_signal
 			else
+				if App_option.show_benchmarks then
+					create l_timer.make; l_timer.start
+					internal_timer := l_timer
+				end
 				read_command_options
 				if not is_valid_platform then
 					lio.put_labeled_string ("Application option", option_name)
@@ -239,6 +241,9 @@ feature {NONE} -- Implementation
 					call (new_configuration)
 					initialize; run
 
+					if attached internal_timer as timer then
+						show_benchmarks (timer)
+					end
 					if Ask_user_to_quit then
 						lio.put_new_line
 						io.put_string ("<RETURN TO QUIT>")
@@ -313,6 +318,54 @@ feature {NONE} -- Implementation
 		do
 		end
 
+	show_benchmarks (timer: EL_EXECUTION_TIMER)
+		-- show execution times and average execution time since last version update
+		local
+			timer_data: RAW_FILE; data_version: NATURAL; i, data_count: INTEGER
+			sum_elapsed_times: DOUBLE
+		do
+			if attached (Directory.App_data + "show_benchmarks.dat") as file_path then
+				timer.stop
+				across (";Average ").split (';') as label loop
+					lio.put_labeled_string (label.item + "Execution time", timer.elapsed_time.out)
+					lio.put_new_line
+					if label.is_first then
+						if file_path.exists then
+							create timer_data.make_open_read (file_path)
+							timer_data.read_natural
+							data_version := timer_data.last_natural
+							data_count := (timer_data.count - {PLATFORM}.Natural_32_bytes) // {PLATFORM}.Real_64_bytes
+							from i := 1 until i > data_count loop
+								timer_data.read_double
+								sum_elapsed_times := sum_elapsed_times + timer_data.last_double
+								i := i + 1
+							end
+						else
+							create timer_data.make_open_write (file_path)
+							timer_data.put_natural_32 (Build_info.version_number)
+							data_version := Build_info.version_number
+						end
+						timer_data.close
+						if Build_info.version_number > data_version then
+							-- Reset file to zero items
+							create timer_data.make_open_write (file_path)
+							timer_data.put_natural_32 (Build_info.version_number)
+							data_count := 0
+						else
+							create timer_data.make_open_append (file_path)
+						end
+						timer_data.put_double (timer.elapsed_millisecs)
+						timer_data.close
+						lio.put_integer_field ("Previous runs", data_count)
+						lio.put_new_line
+						sum_elapsed_times := sum_elapsed_times + timer.elapsed_millisecs
+						data_count := data_count + 1
+						timer.set_elapsed_millisecs (sum_elapsed_times / data_count)
+					end
+				end
+			end
+		end
+
 	standard_options: EL_DEFAULT_COMMAND_OPTION_LIST
 		-- Standard command line options
 		do
@@ -332,6 +385,10 @@ feature {NONE} -- Implementation
 		ensure
 			all_conform_to_EL_MODULE_LIO: Result.all_conform
 		end
+
+feature {NONE} -- Internal attributes
+
+	internal_timer: detachable EL_EXECUTION_TIMER
 
 feature {EL_DESKTOP_ENVIRONMENT_I} -- Constants
 
@@ -454,5 +511,3 @@ note
 
 	]"
 end
-
-

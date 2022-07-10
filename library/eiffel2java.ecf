@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system name = "EL_eiffel2java" uuid = "229b783a-09aa-11df-87c6-93dce164c2d4" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" library_target = "EL_eiffel2java">
+<system name = "EL_eiffel2java" library_target = "EL_eiffel2java" uuid = "229b783a-09aa-11df-87c6-93dce164c2d4" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 Java
 
@@ -28,6 +28,7 @@ See [./example/eiffel2java/eiffel2java.html example/eiffel2java/eiffel2java.ecf]
 		<option namespace = "Eiffel-Loop.Library.Language_interface.Eiffel2Java" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "true" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
+		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "api_wrapper" location = "$ISE_LIBRARY/library/api_wrapper/api_wrapper.ecf"/>
 		<!--Eiffel Loop-->

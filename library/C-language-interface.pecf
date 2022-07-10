@@ -3,8 +3,7 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_c_api; uuid = "229b522e-09aa-11df-8775-f3308731f240"
-	library_target = EL_c_api
+	name = EL_c_api; library_target = EL_c_api; uuid = "229b522e-09aa-11df-8775-f3308731f240"
 	description: 
 		"""
 			C/C++ and MS COM objects
@@ -15,7 +14,6 @@ system:
 		name = EL_C_API
 		root:
 			all_classes = true
-
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true
@@ -55,6 +53,5 @@ system:
 					* IShellLinkW
 				"""
 			condition:
-				platform:
-					value = windows
+				platform = windows
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 16:40:00 GMT (Saturday 5th February 2022)"
-	revision: "7"
+	date: "2022-07-10 10:53:58 GMT (Sunday 10th July 2022)"
+	revision: "8"
 
 class
 	EL_APPLICATION_COMMAND_OPTIONS
@@ -55,6 +55,8 @@ feature -- Access
 	test_set: STRING
 		-- test to run from EL_AUTOTEST_APPLICATION
 
+	show_benchmarks: BOOLEAN
+
 feature {NONE} -- Constants
 
 	Help_text: STRING
@@ -66,6 +68,8 @@ feature {NONE} -- Constants
 					Show application help
 				no_app_header:
 					Suppress output of application information
+				show_benchmarks:
+					As application exits, show execution time and average execution time since last version update
 				test:
 					Put application in test mode (if testable)
 				test_set:

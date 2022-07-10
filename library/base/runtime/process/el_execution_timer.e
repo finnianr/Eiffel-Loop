@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-03 13:57:30 GMT (Saturday 3rd April 2021)"
-	revision: "7"
+	date: "2022-07-10 11:56:51 GMT (Sunday 10th July 2022)"
+	revision: "8"
 
 class EL_EXECUTION_TIMER
 
@@ -59,7 +59,7 @@ feature -- Access
 
 	elapsed_time: EL_TIME_DURATION
 		do
-			create Result.make_by_fine_seconds (elapsed_millisecs)
+			create Result.make_by_fine_seconds (elapsed_millisecs / 1000)
 		end
 
 feature --Element change
@@ -87,6 +87,12 @@ feature --Element change
 				duration_list.extend (new_time_now - time_area [0])
 				time_area.wipe_out
 			end
+		end
+
+	set_elapsed_millisecs (millisecs: DOUBLE)
+		do
+			duration_list.wipe_out
+			duration_list.extend (millisecs)
 		end
 
 feature -- Status query
