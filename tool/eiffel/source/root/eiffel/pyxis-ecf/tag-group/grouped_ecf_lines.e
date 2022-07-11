@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-08 9:40:07 GMT (Friday 8th July 2022)"
-	revision: "9"
+	date: "2022-07-11 11:19:57 GMT (Monday 11th July 2022)"
+	revision: "10"
 
 deferred class
 	GROUPED_ECF_LINES
@@ -81,7 +81,7 @@ feature -- Status query
 			Result := False
 		end
 
-	is_related_line (parser: PYXIS_ECF_PARSER; line: STRING; equal_index, indent_count, end_index: INTEGER): BOOLEAN
+	is_related_line (line: EL_PYXIS_LINE; equal_index: INTEGER): BOOLEAN
 		do
 			Result := False
 		end

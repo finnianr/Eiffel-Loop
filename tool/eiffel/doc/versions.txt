@@ -1,3 +1,6 @@
+1.6.7
+* Refactored Pyxis parser to use shared line with special attributes
+
 1.6.3
 * Refactor to use: Expansion_table: EL_HASH_TABLE [GROUPED_ECF_LINES, STRING] for PECF conversion
 

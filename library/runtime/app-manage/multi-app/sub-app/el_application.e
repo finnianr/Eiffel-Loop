@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-10 12:14:15 GMT (Sunday 10th July 2022)"
-	revision: "57"
+	date: "2022-07-11 11:39:31 GMT (Monday 11th July 2022)"
+	revision: "58"
 
 deferred class
 	EL_APPLICATION
@@ -322,46 +322,47 @@ feature {NONE} -- Implementation
 		-- show execution times and average execution time since last version update
 		local
 			timer_data: RAW_FILE; data_version: NATURAL; i, data_count: INTEGER
-			sum_elapsed_times: DOUBLE
+			sum_elapsed_times: DOUBLE; file_path: FILE_PATH
 		do
-			if attached (Directory.App_data + "show_benchmarks.dat") as file_path then
-				timer.stop
-				across (";Average ").split (';') as label loop
-					lio.put_labeled_string (label.item + "Execution time", timer.elapsed_time.out)
-					lio.put_new_line
-					if label.is_first then
-						if file_path.exists then
-							create timer_data.make_open_read (file_path)
-							timer_data.read_natural
-							data_version := timer_data.last_natural
-							data_count := (timer_data.count - {PLATFORM}.Natural_32_bytes) // {PLATFORM}.Real_64_bytes
-							from i := 1 until i > data_count loop
-								timer_data.read_double
-								sum_elapsed_times := sum_elapsed_times + timer_data.last_double
-								i := i + 1
-							end
-						else
-							create timer_data.make_open_write (file_path)
-							timer_data.put_natural_32 (Build_info.version_number)
-							data_version := Build_info.version_number
+			file_path := Directory.App_data.joined_file_tuple ([option_name, "show_benchmarks.dat"])
+			timer.stop
+			across (";Average ").split (';') as l_prefix loop
+				lio.put_labeled_string (l_prefix.item + "Execution time", timer.elapsed_time.out)
+				lio.put_new_line
+				if l_prefix.is_first then
+					-- Set average elapsed time from previous runs
+					if file_path.exists then
+						create timer_data.make_open_read (file_path)
+						timer_data.read_natural
+						data_version := timer_data.last_natural
+						data_count := (timer_data.count - {PLATFORM}.Natural_32_bytes) // {PLATFORM}.Real_64_bytes
+						from i := 1 until i > data_count loop
+							timer_data.read_double
+							sum_elapsed_times := sum_elapsed_times + timer_data.last_double
+							i := i + 1
 						end
-						timer_data.close
-						if Build_info.version_number > data_version then
-							-- Reset file to zero items
-							create timer_data.make_open_write (file_path)
-							timer_data.put_natural_32 (Build_info.version_number)
-							data_count := 0
-						else
-							create timer_data.make_open_append (file_path)
-						end
-						timer_data.put_double (timer.elapsed_millisecs)
-						timer_data.close
-						lio.put_integer_field ("Previous runs", data_count)
-						lio.put_new_line
-						sum_elapsed_times := sum_elapsed_times + timer.elapsed_millisecs
-						data_count := data_count + 1
-						timer.set_elapsed_millisecs (sum_elapsed_times / data_count)
+					else
+						File_system.make_directory (file_path.parent)
+						create timer_data.make_open_write (file_path)
+						timer_data.put_natural_32 (Build_info.version_number)
+						data_version := Build_info.version_number
 					end
+					timer_data.close
+					if Build_info.version_number > data_version then
+						-- Reset file to zero items
+						create timer_data.make_open_write (file_path)
+						timer_data.put_natural_32 (Build_info.version_number)
+						sum_elapsed_times := 0; data_count := 0
+					else
+						create timer_data.make_open_append (file_path)
+					end
+					timer_data.put_double (timer.elapsed_millisecs)
+					timer_data.close
+					lio.put_integer_field ("Previous runs", data_count)
+					lio.put_new_line
+					sum_elapsed_times := sum_elapsed_times + timer.elapsed_millisecs
+					data_count := data_count + 1
+					timer.set_elapsed_millisecs (sum_elapsed_times / data_count)
 				end
 			end
 		end

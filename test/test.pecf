@@ -17,7 +17,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 4; release = 0; build = 254
+			major = 1; minor = 4; release = 1; build = 255
 			company = "Eiffel-Loop"; product = "test"
 			copyright = "Finnian Reilly"
 
@@ -50,7 +50,7 @@ system:
 				assertions:
 					precondition = true; postcondition = true
 
-		# ISE
+		# ISE librar
 		libraries:
 			location = "$ISE_LIBRARY/library"
 			ise_base_ext = "base_extension/base_extension.ecf"

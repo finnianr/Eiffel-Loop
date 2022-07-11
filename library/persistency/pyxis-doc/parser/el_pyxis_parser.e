@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-06 11:50:50 GMT (Wednesday 6th July 2022)"
-	revision: "39"
+	date: "2022-07-11 11:28:12 GMT (Monday 11th July 2022)"
+	revision: "40"
 
 class
 	EL_PYXIS_PARSER
@@ -123,16 +123,13 @@ feature -- Basic operations
 
 feature {NONE} -- State procedures
 
-	gather_comments (line: STRING; start_index, end_index: INTEGER)
-		local
-			count: INTEGER
+	gather_comments (line: EL_PYXIS_LINE)
 		do
-			count := end_index - start_index + 1
-			if count = 0 then
+			if line.count = 0 then
 				comment_string.append_character (New_line_character)
 
-			elseif line [start_index] = '#' then
-				append_comment_line (line, start_index + 1, end_index)
+			elseif line.is_comment then
+				line.append_comment_to (comment_string)
 
 			else
 				restore_previous
@@ -140,38 +137,35 @@ feature {NONE} -- State procedures
 			end
 		end
 
-	gather_verbatim_lines (line: STRING; start_index, end_index: INTEGER)
+	gather_verbatim_lines (line: EL_PYXIS_LINE)
 		do
-			if has_triple_quote (line, start_index, end_index) then
+			if line.has_triple_quote then
 				restore_previous
 			else
 				if last_node.count > 0 then
 					last_node.append_character ('%N')
 				end
-				last_node.append_substring (line, start_index, end_index)
+				line.append_to_node (last_node)
 			end
 		end
 
-	output_content_lines (line: STRING; start_index, end_index: INTEGER)
+	output_content_lines (line: EL_PYXIS_LINE)
 		-- output line after first
-		local
-			count: INTEGER
 		do
-			count := end_index - start_index + 1
-			if count = 0 then
+			if line.count = 0 then
 				do_nothing
 
-			elseif has_quotes (line, '"', start_index, end_index) then
-				push_repeat_element (line, start_index, end_index)
-				on_content_line (line, 2, start_index, end_index)
+			elseif line.has_quotes ('"') then
+				push_repeat_element (line)
+				on_content_line (line, 2)
 
-			elseif has_quotes (line, '%'', start_index, end_index) then
-				push_repeat_element (line, start_index, end_index)
-				on_content_line (line, 1, start_index, end_index)
+			elseif line.has_quotes ('%'') then
+				push_repeat_element (line)
+				on_content_line (line, 1)
 
-			elseif buffer_8.copied_substring (line, start_index, end_index).is_double then
-				push_repeat_element (line, start_index, end_index)
-				on_content_line (line, 0, start_index, end_index)
+			elseif line.is_double then
+				push_repeat_element (line)
+				on_content_line (line, 0)
 
 			else
 				restore_previous
@@ -179,44 +173,40 @@ feature {NONE} -- State procedures
 			end
 		end
 
-	parse_line (line: STRING; start_index, end_index: INTEGER)
-		local
-			count: INTEGER
+	parse_line (line: EL_PYXIS_LINE)
 		do
-			count := end_index - start_index + 1
-			if count = 0 then
+			if line.count = 0 then
 				do_nothing
 
 			-- if comment
-			elseif line [start_index] = '#' then
+			elseif line.is_comment then
 				change_state (State_gather_comments)
-				append_comment_line (line, start_index + 1, end_index)
+				line.append_comment_to (comment_string)
 
 			-- if element start
-			elseif line [end_index] = ':' then
-				push_element (line, start_index, end_index - 1)
+			elseif line.is_element then
+				push_element (line, line.start_index, line.end_index - 1)
 
 			-- if verbatim string delimiter
-			elseif count = 3 and then has_triple_quote (line, start_index, end_index) then
+			elseif line.has_triple_quote then
 				change_state (State_gather_verbatim_lines)
 				last_node.wipe_out
 
 			-- if element text
-			elseif has_quotes (line, '"', start_index, end_index) then
+			elseif line.has_quotes ('"') then
 				change_state (State_output_content_lines)
-				on_content_line (line, 2, start_index, end_index)
+				on_content_line (line, 2)
 
-			elseif has_quotes (line, '%'', start_index, end_index) then
+			elseif line.has_quotes ('%'') then
 				change_state (State_output_content_lines)
-				on_content_line (line, 1, start_index, end_index)
+				on_content_line (line, 1)
 
-			elseif buffer_8.copied_substring (line, start_index, end_index).is_double then
+			elseif line.is_double then
 				change_state (State_output_content_lines)
-				on_content_line (line, 0, start_index, end_index)
+				on_content_line (line, 0)
 
 			elseif attached attribute_parser as parser then
-				parser.set_source_text_from_substring (line, start_index, end_index)
-				parser.parse
+				line.parse_attributes (parser)
 
 			else
 				lio.put_string_field ("Invalid Pyxis line", line)
@@ -238,17 +228,17 @@ feature {NONE} -- Parse events
 			comment_string.wipe_out
 		end
 
-	on_content_line (line: STRING; quote_count, start_index, end_index: INTEGER)
+	on_content_line (line: EL_PYXIS_LINE; quote_count: INTEGER)
 			--
 		do
 			last_node.set_type (Node_type_text)
 			inspect quote_count
 				when 1, 2 then
-					last_node.append_substring (line, start_index + 1, end_index - 1)
+					line.append_quoted_to_node (last_node)
 					last_node.unescape (Quote_unescaper [quote_count = 2])
 
 			else
-				last_node.append_substring (line, start_index, end_index)
+				line.append_to_node (last_node)
 			end
 		end
 
@@ -300,23 +290,6 @@ feature {NONE} -- Parse events
 
 feature {NONE} -- Implementation
 
-	append_comment_line (line: STRING; start_index, end_index: INTEGER)
-		local
-			i: INTEGER; found_start: BOOLEAN
-		do
-			from i := start_index until found_start or else i > end_index loop
-				if not line.item (i).is_space then
-					found_start := True
-				else
-					i := i + 1
-				end
-			end
-			if not comment_string.is_empty then
-				comment_string.append_character (New_line_character)
-			end
-			comment_string.append_substring (line, i, end_index)
-		end
-
 	buffer_name (line: STRING; start_index, end_index: INTEGER): STRING
 		local
 			s_8: EL_STRING_8_ROUTINES
@@ -325,35 +298,32 @@ feature {NONE} -- Implementation
 			s_8.replace_character (Result, '.', ':')
 		end
 
-	call_state_procedure (line: STRING)
+	call_state_procedure (a_line: STRING)
 		local
-			start_index, end_index: INTEGER
+			line: like Once_line
 		do
-			end_index := line.count - cursor_8 (line).trailing_white_count
-			if end_index.to_boolean then
-				if state = State_gather_verbatim_lines and not has_triple_quote (line, 0, end_index) then
+			line := shared_pyxis_line (a_line)
+			if line.end_index > 0 then
+				if state = State_gather_verbatim_lines and then not line.has_triple_quote then
 					-- preserve indentation of verbatim string
-					start_index := tab_count + 2
+					line.set_start_index (tab_count + 2)
 				else
-					tab_count := cursor_8 (line).leading_occurrences ('%T')
-					start_index := tab_count + 1
+					tab_count := line.indent_count
 				end
-			else
-				start_index := 1
 			end
 			inspect state
 				-- 1
 				when State_parse_line then
-					parse_line (line, start_index, end_index)
+					parse_line (line)
 				-- 2
 				when State_gather_verbatim_lines then
-					gather_verbatim_lines (line, start_index, end_index)
+					gather_verbatim_lines (line)
 				-- 3
 				when State_output_content_lines then
-					output_content_lines (line, start_index, end_index)
+					output_content_lines (line)
 				-- 4
 				when State_gather_comments then
-					gather_comments (line, start_index, end_index)
+					gather_comments (line)
 			else
 				check
 					Unknown_state: True
@@ -364,27 +334,6 @@ feature {NONE} -- Implementation
 	change_state (a_state: NATURAL_8)
 		do
 			previous_state := state; state := a_state
-		end
-
-	has_quotes (line: STRING; quote: CHARACTER; start_index, end_index: INTEGER): BOOLEAN
-		do
-			if end_index > start_index then
-				Result := line [start_index] = quote and then line [end_index] = quote
-			end
-		end
-
-	has_triple_quote (line: STRING; start_index, end_index: INTEGER): BOOLEAN
-		local
-			index_start: INTEGER
-		do
-			if start_index.to_boolean then
-				index_start := start_index
-			else
-				index_start := cursor_8 (line).leading_occurrences ('%T') + 1
-			end
-			if end_index - index_start = 2 then
-				Result := line.same_characters (Triple_quote, 1, 3, index_start)
-			end
 		end
 
 	parse_final
@@ -418,7 +367,7 @@ feature {NONE} -- Implementation
 			state := State_parse_line
 		end
 
-	push_repeat_element (line: STRING; start_index, end_index: INTEGER)
+	push_repeat_element (line: EL_PYXIS_LINE)
 		do
 			tab_count := tab_count - 1
 			if attached tag_name as name then
@@ -426,21 +375,6 @@ feature {NONE} -- Implementation
 			end
 			tab_count := tab_count + 1
 			state := State_output_content_lines
-		end
-
-	pyxis_encoding (a_string: STRING): STRING
-		local
-			pos_encoding, pos_quote_1, pos_quote_2: INTEGER
-		do
-			pos_encoding := a_string.substring_index (once "encoding", 1)
-			if pos_encoding > 0 then
-				pos_quote_1 := a_string.index_of ('"', pos_encoding + 8).max (1)
-				pos_quote_2 := a_string.index_of ('"', pos_quote_1 + 1).max (2)
-			else
-				pos_quote_1 := 1
-				pos_quote_2 := 2
-			end
-			Result := a_string.substring (pos_quote_1 + 1, pos_quote_2 - 1).as_upper
 		end
 
 	reset
@@ -451,7 +385,7 @@ feature {NONE} -- Implementation
 			element_stack.wipe_out
 			element_set.wipe_out
 			element_set.put (Pyxis_doc)
-	end
+		end
 
 	restore_previous
 		-- restore previous state
@@ -463,6 +397,15 @@ feature {NONE} -- Implementation
 		do
 			last_node_name.wipe_out
 			last_node_name.append (name)
+		end
+
+	shared_pyxis_line (a_line: STRING): EL_PYXIS_LINE
+		do
+			if attached {EL_PYXIS_LINE} a_line as pyxis_line then
+				Result := pyxis_line
+			else
+				Result := Once_line; Result.share (a_line)
+			end
 		end
 
 	unique_tag_name (line: STRING; start_index, end_index: INTEGER): STRING
@@ -498,5 +441,12 @@ feature {NONE} -- Implementation: attributes
 	tab_count: INTEGER
 
 	tag_name: detachable STRING
+
+feature {NONE} -- Constants
+
+	Once_line: EL_PYXIS_LINE
+		once
+			create Result.make_empty
+		end
 
 end

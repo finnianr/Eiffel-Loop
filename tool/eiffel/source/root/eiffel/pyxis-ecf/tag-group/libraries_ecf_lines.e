@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-09 9:34:45 GMT (Saturday 9th July 2022)"
-	revision: "6"
+	date: "2022-07-11 11:19:57 GMT (Monday 11th July 2022)"
+	revision: "7"
 
 class
 	LIBRARIES_ECF_LINES
@@ -41,16 +41,13 @@ feature -- Access
 
 feature -- Status query
 
-	is_related_line (parser: PYXIS_ECF_PARSER; line: STRING; equal_index, indent_count, end_index: INTEGER): BOOLEAN
+	is_related_line (line: EL_PYXIS_LINE; equal_index: INTEGER): BOOLEAN
 		do
-			if attached parser.element (line, indent_count + 1, end_index) as tag
-				and then Related_tags.has (tag)
-			then
+			if attached line.element_name as tag and then Related_tags.has (tag) then
 				Result := True
 
-			elseif equal_index > 0 and then indent_count > tab_count + 1 then
+			elseif equal_index > 0 and then (line.start_index - 1) > tab_count + 1 then
 				Result := True
-
 			end
 		end
 

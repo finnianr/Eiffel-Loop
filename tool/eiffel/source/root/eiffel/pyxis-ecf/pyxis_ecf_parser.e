@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-09 9:40:23 GMT (Saturday 9th July 2022)"
-	revision: "21"
+	date: "2022-07-11 11:27:42 GMT (Monday 11th July 2022)"
+	revision: "22"
 
 class
 	PYXIS_ECF_PARSER
@@ -41,29 +41,28 @@ create
 
 feature {NONE} -- Implemenatation
 
-	call_state_procedure (line: STRING)
+	call_state_procedure (a_line: STRING)
 		local
-			equal_index, indent_count, end_index: INTEGER
+			equal_index: INTEGER; line: like Once_line
 		do
-			indent_count := cursor_8 (line).leading_occurrences ('%T')
-			equal_index := line.index_of ('=', indent_count + 1)
-			end_index := line.count - cursor_8 (line).trailing_white_count
+			line := shared_pyxis_line (a_line)
+			equal_index := line.index_of_equals
 
 			if equal_index > 0 and then last_tag ~ Name.condition
-				and then first_name_matches (line, Name.platform, equal_index, indent_count + 1)
+				and then line.first_name_matches (Name.platform, equal_index)
 				and then attached Platform_lines as group
 			then
-				group.set_indent (indent_count)
+				group.set_indent (line.indent_count)
 				group.set_from_line (line)
 				across group as ln loop
 					Precursor (ln.item)
 				end
 
 			elseif attached grouped_lines as grouped then
-				if grouped.is_related_line (Current, line, equal_index, indent_count, end_index) then
+				if grouped.is_related_line (line, equal_index) then
 					Precursor (line)
 				elseif equal_index > 0 or else grouped.is_platform_rule (line) then
-					grouped.set_from_line (line)
+					grouped.set_from_line (a_line) -- use argument `a_line' here
 					if grouped.count > 0 then
 						across grouped as ln loop
 							Precursor (ln.item)
@@ -73,7 +72,7 @@ feature {NONE} -- Implemenatation
 						end
 					end
 				else
-					if end_index > 0 and then line [end_index] = ':' then
+					if line.is_element then
 						group_exit
 					end
 					Precursor (line)
@@ -92,30 +91,30 @@ feature {NONE} -- Implemenatation
 			grouped_lines := Void
 		end
 
-	parse_line (line: STRING; start_index, end_index: INTEGER)
+	parse_line (line: EL_PYXIS_LINE)
 		local
 			equal_index: INTEGER
 		do
-			equal_index := line.index_of ('=', start_index)
+			equal_index := line.index_of_equals
 			if equal_index > 0
 				and then Name_value_table.has_key (last_tag)
-				and then not first_name_matches (line, Name.name, equal_index, start_index)
+				and then not line.first_name_matches (Name.name, equal_index)
 				and then attached substituted (Name_value_table.found_item, line) as text
 			then
-				line.keep_head (start_index - 1); line.append (text)
-				Precursor (line, start_index, line.count)
+				line.replace (text)
+				Precursor (line)
 
-			elseif attached element (line, start_index, end_index) as tag
+			elseif attached line.element_name as tag
 				and then attached Expansion_table as table
 				and then table.has_key (tag) and then attached table.found_item as group
 				and then attached group.tag_name as ecf_tag_name
 			then
-				line.replace_substring (ecf_tag_name, start_index, end_index - 1)
-				group.reset; group.set_indent (start_index - 1)
+				line.rename_element (ecf_tag_name)
+				group.reset; group.set_indent (line.indent_count)
 				grouped_lines := group
-				Precursor (line, start_index, end_index - (tag.count - ecf_tag_name.count))
+				Precursor (line)
 			else
-				Precursor (line, start_index, end_index)
+				Precursor (line)
 			end
 		end
 
@@ -127,27 +126,7 @@ feature {NONE} -- Implemenatation
 			end
 		end
 
-feature {GROUPED_ECF_LINES} -- Access
-
-	element (line: STRING; start_index, end_index: INTEGER): detachable STRING
-		-- name of element (tag) or Void if no element found
-		do
-			if end_index > 0 and then line [end_index] = ':' then
-				Result := Buffer_8.copied_substring (line, start_index, end_index - 1)
-			end
-		end
-
-	first_name_matches (line, a_name: STRING; equal_index, start_index: INTEGER): BOOLEAN
-		local
-			i: INTEGER
-		do
-			from i := equal_index - 1 until i = (start_index - 1) or else line [i].is_alpha_numeric loop
-				i := i - 1
-			end
-			if i >= start_index then
-				Result := a_name.same_characters (line, start_index, i, 1)
-			end
-		end
+feature {NONE} -- Implementation
 
 	last_tag: STRING
 		do
