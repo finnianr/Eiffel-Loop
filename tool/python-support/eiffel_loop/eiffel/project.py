@@ -10,7 +10,6 @@ import ctypes, os, string, sys, imp, platform, stat
 from string import Template
 from eiffel_loop.os import path
 from glob import glob
-from distutils import dir_util
 
 from eiffel_loop.eiffel.ecf import SYSTEM_INFO
 
@@ -21,6 +20,7 @@ from eiffel_loop.eiffel import ise_environ
 from eiffel_loop.xml.xpath import XPATH_ROOT_CONTEXT
 from eiffel_loop.xml.xpath import XPATH_FRAGMENT_CONTEXT
 from eiffel_loop.distutils import file_util
+from eiffel_loop.distutils import dir_util
 from eiffel_loop.scons.util import scons_command
 from eiffel_loop import tar
 from subprocess import call
@@ -332,6 +332,9 @@ class EIFFEL_PROJECT (object):
 			exe_path = self.f_code_exe_path ()
 		else:
 			exe_path = self.package_exe_path ()
+
+		if not path.exists (install_dir):
+			dir_util.sudo_mkpath (install_dir)
 
 		print 'install_dir', install_dir, self.versioned_exe_name ()
 

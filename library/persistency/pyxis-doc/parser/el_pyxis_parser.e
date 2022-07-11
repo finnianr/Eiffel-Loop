@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-11 11:28:12 GMT (Monday 11th July 2022)"
-	revision: "40"
+	date: "2022-07-11 15:16:23 GMT (Monday 11th July 2022)"
+	revision: "41"
 
 class
 	EL_PYXIS_PARSER
@@ -185,7 +185,7 @@ feature {NONE} -- State procedures
 
 			-- if element start
 			elseif line.is_element then
-				push_element (line, line.start_index, line.end_index - 1)
+				push_element (line)
 
 			-- if verbatim string delimiter
 			elseif line.has_triple_quote then
@@ -342,7 +342,7 @@ feature {NONE} -- Implementation
 			scanner.on_end_document
 		end
 
-	push_element (line: STRING; start_index, end_index: INTEGER)
+	push_element (line: EL_PYXIS_LINE)
 		do
 			if attached tag_name as name then
 				-- do with previous tag_name
@@ -360,7 +360,7 @@ feature {NONE} -- Implementation
 				end
 			end
 			-- set next tag_name
-			tag_name := unique_tag_name (line, start_index, end_index)
+			tag_name := unique_tag_name (line)
 			if tag_name /= Pyxis_doc and then comment_string.count > 0 then
 				on_comment
 			end
@@ -371,7 +371,8 @@ feature {NONE} -- Implementation
 		do
 			tab_count := tab_count - 1
 			if attached tag_name as name then
-				push_element (name, 1, name.count)
+				Element_line.set_element (name)
+				push_element (Element_line)
 			end
 			tab_count := tab_count + 1
 			state := State_output_content_lines
@@ -408,18 +409,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	unique_tag_name (line: STRING; start_index, end_index: INTEGER): STRING
-		local
-			name: STRING
+	unique_tag_name (line: EL_PYXIS_LINE): STRING
 		do
-			name := buffer_name (line, start_index, end_index)
-
-			if not element_set.has_key (name) then
-				element_set.put (name.twin)
+			if attached line.xml_element as xml_name and then not element_set.has_key (xml_name) then
+				element_set.put (xml_name.twin)
 			end
 			Result := element_set.found_item
 		ensure
-			name_in_set: element_set.has (buffer_name (line, start_index, end_index))
+			name_in_set: element_set.has (line.xml_element)
 		end
 
 feature {NONE} -- Implementation: attributes
@@ -449,4 +446,8 @@ feature {NONE} -- Constants
 			create Result.make_empty
 		end
 
+	Element_line: EL_PYXIS_LINE
+		once
+			create Result.make_empty
+		end
 end

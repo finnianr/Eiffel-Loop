@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-11 11:27:19 GMT (Monday 11th July 2022)"
-	revision: "1"
+	date: "2022-07-11 15:23:06 GMT (Monday 11th July 2022)"
+	revision: "2"
 
 class
 	EL_PYXIS_LINE
@@ -41,6 +41,14 @@ feature -- Access
 			if is_element then
 				Result := Buffer_8.copied_substring (Current, start_index, end_index - 1)
 			end
+		end
+
+	xml_element: STRING
+		local
+			s_8: EL_STRING_8_ROUTINES
+		do
+			Result := Buffer_8.copied_substring (Current, start_index, end_index - 1)
+			s_8.replace_character (Result, '.', ':')
 		end
 
 feature -- Measurement
@@ -85,6 +93,17 @@ feature -- Element change
 			keep_head (start_index - 1); append (content)
 			end_index := line_count
 			count := end_index - start_index + 1
+		end
+
+	set_element (a_name: STRING)
+		do
+			wipe_out
+			append (a_name); append_character (':')
+			start_index := 1
+			end_index := line_count
+			count := line_count
+		ensure
+			is_set: attached element_name as name and then name ~ a_name
 		end
 
 	set_start_index (a_index: INTEGER)
