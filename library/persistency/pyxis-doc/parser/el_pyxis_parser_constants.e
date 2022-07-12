@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-12 11:15:49 GMT (Tuesday 12th January 2021)"
-	revision: "3"
+	date: "2022-07-12 9:08:10 GMT (Tuesday 12th July 2022)"
+	revision: "4"
 
-class
+deferred class
 	EL_PYXIS_PARSER_CONSTANTS
+
+inherit
+	EL_MODULE_TUPLE
 
 feature {NONE} -- Parser states
 
@@ -24,11 +27,9 @@ feature {NONE} -- Parser states
 
 feature {NONE} -- Constants
 
-	New_line_character: CHARACTER = '%N'
-
-	Pyxis_doc: STRING = "pyxis-doc"
-
-	Triple_quote: STRING = "[
-		"""
-	]"
+	Pyxis_doc: TUPLE [encoding, end_, name, version: STRING]
+		once
+			create Result
+			Tuple.fill (Result, "encoding, doc-end:, pyxis-doc, version")
+		end
 end

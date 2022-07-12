@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-11 15:16:23 GMT (Monday 11th July 2022)"
-	revision: "41"
+	date: "2022-07-12 9:08:21 GMT (Tuesday 12th July 2022)"
+	revision: "42"
 
 class
 	EL_PYXIS_PARSER
@@ -126,7 +126,7 @@ feature {NONE} -- State procedures
 	gather_comments (line: EL_PYXIS_LINE)
 		do
 			if line.count = 0 then
-				comment_string.append_character (New_line_character)
+				comment_string.append_character ('%N')
 
 			elseif line.is_comment then
 				line.append_comment_to (comment_string)
@@ -249,10 +249,10 @@ feature {NONE} -- Parse events
 		do
 			across attribute_list as list loop
 				attribute_name := list.item.raw_name
-				if attribute_name.same_string ("version") and then list.item.is_real then
+				if attribute_name.same_string (Pyxis_doc.version) and then list.item.is_real then
 					xml_version := list.item.to_real
 
-				elseif attribute_name.same_string ("encoding") then
+				elseif attribute_name.same_string (Pyxis_doc.encoding) then
 					set_encoding_from_name (list.item.to_string_8)
 				end
 			end
@@ -289,14 +289,6 @@ feature {NONE} -- Parse events
 		end
 
 feature {NONE} -- Implementation
-
-	buffer_name (line: STRING; start_index, end_index: INTEGER): STRING
-		local
-			s_8: EL_STRING_8_ROUTINES
-		do
-			Result := Buffer_8.copied_substring (line, start_index, end_index)
-			s_8.replace_character (Result, '.', ':')
-		end
 
 	call_state_procedure (a_line: STRING)
 		local
@@ -338,7 +330,7 @@ feature {NONE} -- Implementation
 
 	parse_final
 		do
-			call_state_procedure ("doc-end:")
+			call_state_procedure (Pyxis_doc.end_)
 			scanner.on_end_document
 		end
 
@@ -346,7 +338,7 @@ feature {NONE} -- Implementation
 		do
 			if attached tag_name as name then
 				-- do with previous tag_name
-				if name = Pyxis_doc then
+				if name = Pyxis_doc.name then
 					on_declaration
 				else
 					on_start_tag (name)
@@ -360,8 +352,8 @@ feature {NONE} -- Implementation
 				end
 			end
 			-- set next tag_name
-			tag_name := unique_tag_name (line)
-			if tag_name /= Pyxis_doc and then comment_string.count > 0 then
+			tag_name := unique_element (line)
+			if tag_name /= Pyxis_doc.name and then comment_string.count > 0 then
 				on_comment
 			end
 			state := State_parse_line
@@ -385,7 +377,7 @@ feature {NONE} -- Implementation
 			comment_string.wipe_out
 			element_stack.wipe_out
 			element_set.wipe_out
-			element_set.put (Pyxis_doc)
+			element_set.put (Pyxis_doc.name)
 		end
 
 	restore_previous
@@ -409,7 +401,8 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	unique_tag_name (line: EL_PYXIS_LINE): STRING
+	unique_element (line: EL_PYXIS_LINE): STRING
+		-- unique XML name (all '.' -> ':')
 		do
 			if attached line.xml_element as xml_name and then not element_set.has_key (xml_name) then
 				element_set.put (xml_name.twin)

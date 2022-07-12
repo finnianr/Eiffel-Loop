@@ -1,13 +1,13 @@
 note
-	description: "Pyxis line string for parsing"
+	description: "Pyxis line string with parse information attributes"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-11 15:23:06 GMT (Monday 11th July 2022)"
-	revision: "2"
+	date: "2022-07-12 9:08:21 GMT (Tuesday 12th July 2022)"
+	revision: "3"
 
 class
 	EL_PYXIS_LINE
@@ -16,17 +16,17 @@ inherit
 	STRING_8
 		rename
 			count as line_count,
-			is_double as is_line_double
+			occurrences as line_occurrences
 		export
 			{NONE} all
 			{ANY} as_string_8
 		redefine
-			share
+			is_double, share
 		end
 
 	EL_SHARED_STRING_8_CURSOR
 
-	EL_PYXIS_PARSER_CONSTANTS undefine copy, is_equal, out end
+	EL_PYXIS_PARSER_CONSTANTS
 
 	EL_MODULE_BUFFER_8
 
@@ -66,6 +66,26 @@ feature -- Measurement
 		do
 			if count > 0 then
 				Result := index_of ('=', start_index)
+			end
+		end
+
+	occurrences (c: CHARACTER_8): INTEGER
+		-- Number of times `c' appears in the content
+		local
+			i, i_final: INTEGER
+			l_area: SPECIAL [CHARACTER_8]
+		do
+			from
+				i := start_index - 1
+				i_final := end_index - 1
+				l_area := area
+			until
+				i > i_final
+			loop
+				if l_area.item (i) = c then
+					Result := Result + 1
+				end
+				i := i + 1
 			end
 		end
 
@@ -138,7 +158,7 @@ feature -- Basic operations
 				end
 			end
 			if not str.is_empty then
-				str.append_character (New_line_character)
+				str.append_character ('%N')
 			end
 			str.append_substring (Current, i, end_index)
 		end
@@ -176,14 +196,14 @@ feature -- Status query
 
 	has_quotes (quote: CHARACTER): BOOLEAN
 		do
-			if end_index > start_index then
+			if count >= 2 then
 				Result := item (start_index) = quote and then item (end_index) = quote
 			end
 		end
 
 	has_triple_quote: BOOLEAN
 		do
-			Result := count = 3 and then same_characters (Triple_quote, 1, 3, start_index)
+			Result := count = 3 and then occurrences ('"') = 3
 		end
 
 	is_comment: BOOLEAN
