@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-12 9:08:21 GMT (Tuesday 12th July 2022)"
-	revision: "3"
+	date: "2022-07-12 18:22:38 GMT (Tuesday 12th July 2022)"
+	revision: "4"
 
 class
 	EL_PYXIS_LINE
@@ -92,6 +92,16 @@ feature -- Measurement
 	start_index: INTEGER
 
 feature -- Element change
+
+	tab_left
+		-- remove first tab
+		require
+			has_tabs: indent_count > 0
+		do
+			remove_head (1)
+			start_index := start_index - 1
+			end_index := end_index - 1
+		end
 
 	rename_element (tag_name: STRING)
 		local

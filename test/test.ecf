@@ -30,14 +30,13 @@
 				<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 			</option>
 		</library>
+		<library name = "ise_base_ext" location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"/>
+		<library name = "ise_encoding" location = "$ISE_LIBRARY/library/encoding/encoding.ecf"/>
 		<library name = "ise_time" location = "$ISE_LIBRARY/library/time/time.ecf">
 			<option>
 				<assertions precondition = "true" postcondition = "true"/>
 			</option>
 		</library>
-		<!--ISE librar-->
-		<library name = "ise_base_ext" location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"/>
-		<library name = "ise_encoding" location = "$ISE_LIBRARY/library/encoding/encoding.ecf"/>
 		<library name = "ise_thread" location = "$ISE_LIBRARY/library/thread/thread.ecf"/>
 		<library name = "ise_net" location = "$ISE_LIBRARY/library/net/net.ecf"/>
 		<library name = "ise_testing" location = "$ISE_LIBRARY/library/testing/testing.ecf"/>
@@ -48,7 +47,7 @@
 		<!--Other libraries-->
 		<library name = "gobo_base" location = "$EIFFEL_LOOP/library/gobo-base.ecf"/>
 		<library name = "nel_fft_math" location = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"/>
-		<!--Eiffel Loop libraries-->
+		<!--Eiffel-Loop libraries-->
 		<library name = "EL_base" location = "$EIFFEL_LOOP/library/base/base.ecf" readonly = "false">
 			<option>
 				<assertions precondition = "true" postcondition = "true" check = "true"/>

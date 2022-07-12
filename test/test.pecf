@@ -39,22 +39,17 @@ system:
 
 		# ISE libraries
 		libraries:
-			ise_base = "$ISE_LIBRARY/library/base/base.ecf"
+			location = "$ISE_LIBRARY/library"
+			ise_base = "base/base.ecf"
 			option:
 				assertions:
 					precondition = true; postcondition = true; check = true; invariant = true
-
-		libraries:
-			ise_time = "$ISE_LIBRARY/library/time/time.ecf"
+			ise_base_ext = "base_extension/base_extension.ecf"
+			ise_encoding = "encoding/encoding.ecf"
+			ise_time = "time/time.ecf"
 			option:
 				assertions:
 					precondition = true; postcondition = true
-
-		# ISE librar
-		libraries:
-			location = "$ISE_LIBRARY/library"
-			ise_base_ext = "base_extension/base_extension.ecf"
-			ise_encoding = "encoding/encoding.ecf"
 			ise_thread = "thread/thread.ecf"
 			ise_net = "net/net.ecf"
 			ise_testing = "testing/testing.ecf"
@@ -73,7 +68,7 @@ system:
 		library:
 			nel_fft_math = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"
 
-		# Eiffel Loop libraries
+		# Eiffel-Loop libraries
 		writeable_libraries:
 			EL_base = "$EIFFEL_LOOP/library/base/base.ecf"
 			option:

@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-11 11:27:42 GMT (Monday 11th July 2022)"
-	revision: "22"
+	date: "2022-07-12 19:04:51 GMT (Tuesday 12th July 2022)"
+	revision: "23"
 
 class
 	PYXIS_ECF_PARSER
@@ -43,12 +43,33 @@ feature {NONE} -- Implemenatation
 
 	call_state_procedure (a_line: STRING)
 		local
-			equal_index: INTEGER; line: like Once_line
+			equal_index: INTEGER; line: like Once_line; s: EL_STRING_8_ROUTINES
 		do
 			line := shared_pyxis_line (a_line)
 			equal_index := line.index_of_equals
 
-			if equal_index > 0 and then last_tag ~ Name.condition
+			if attached c_platform as platform then
+				-- Add platform condition to externals group and unindent
+				if a_line /= line and then line.indent_count = c_platform_indent and line.is_element then
+					-- Exit C compile group of lines
+					c_platform := Void; c_platform_indent := 0
+					call_state_procedure (line)
+
+				elseif equal_index > 0 and C_attributes.there_exists (agent line.first_name_matches (?, equal_index)) then
+					line.tab_left
+					Precursor (line)
+					Platform_condition_lines.set (c_platform, line.indent_count)
+					across Platform_condition_lines as ln loop
+						Precursor (ln.item)
+					end
+				else
+					if a_line /= line and then line.indent_count > 0 then
+						line.tab_left
+					end
+					Precursor (line)
+				end
+
+			elseif equal_index > 0 and then last_tag ~ Name.condition
 				and then line.first_name_matches (Name.platform, equal_index)
 				and then attached Platform_lines as group
 			then
@@ -77,6 +98,9 @@ feature {NONE} -- Implemenatation
 					end
 					Precursor (line)
 				end
+			elseif attached line.element_name as tag and then Externals_set.has (tag) then
+				c_platform := s.substring_to (tag, '_', default_pointer)
+				c_platform_indent := line.indent_count
 
 			else
 				Precursor (line)
@@ -138,6 +162,12 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Internal attributes
+
+	c_platform: detachable STRING
+		-- C externals platform
+
+	c_platform_indent: INTEGER
+		-- C externals group tag tab count
 
 	grouped_lines: detachable GROUPED_ECF_LINES
 

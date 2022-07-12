@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-09 8:40:19 GMT (Saturday 9th July 2022)"
-	revision: "26"
+	date: "2022-07-12 18:54:47 GMT (Tuesday 12th July 2022)"
+	revision: "27"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -22,12 +22,46 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("c_externals_path", agent test_c_externals_path)
 			eval.call ("eiffel2java_pecf", agent test_eiffel2java_pecf)
 			eval.call ("graphical_pecf", agent test_graphical_pecf)
 			eval.call ("eiffel_pecf", agent test_eiffel_pecf)
 		end
 
 feature -- Tests
+
+	test_c_externals_path
+		-- library/ID3-tags.pecf
+		local
+			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; count: INTEGER; location, xpath: STRING
+		do
+			ecf_xdoc := new_ecf_xdoc (c_externals_pecf_path)
+
+			create location.make_empty
+			across ecf_xdoc.context_list (External_object_xpath #$ ["windows"]) as target loop
+				count := count + 1
+				if count = 2 then
+					location := target.node ["location"]
+				end
+			end
+			assert ("valid_location", count = 2 and location ~ "$(EL_CONTRIB)/C++/id3lib/spec/$(ISE_PLATFORM)/id3.lib")
+
+			xpath := "/system/target/external_cflag [condition/platform/@value='windows']/@value"
+			if attached ecf_xdoc.query (xpath) as c_flag then
+				assert ("has DID3LIB_LINKOPTION", c_flag.as_string_8 ~ "-DID3LIB_LINKOPTION=1 -DWIN32 -EHsc")
+			else
+				assert ("windows cflag found", False)
+			end
+
+			count := 0; location.wipe_out
+			across ecf_xdoc.context_list (External_object_xpath #$ ["unix"]) as target loop
+				count := count + 1
+				if count = 3 then
+					location := target.node ["location"]
+				end
+			end
+			assert ("valid_location", count = 3 and location ~ "-L$(ISE_LIBRARY)/C_library/zlib -lz")
+		end
 
 	test_eiffel2java_pecf
 		--
@@ -158,6 +192,11 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
+	c_externals_pecf_path: FILE_PATH
+		do
+			Result := Eiffel_loop_dir + "library/ID3-tags.pecf"
+		end
+
 	graphical_pecf_path: FILE_PATH
 		do
 			Result := Eiffel_loop_dir + "example/graphical/graphical.pecf"
@@ -200,6 +239,11 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	External_object_xpath: ZSTRING
+		once
+			Result := "/system/target/external_object[condition/platform/@value='%S']"
+		end
 
 	Library_location_xpath: ZSTRING
 		once

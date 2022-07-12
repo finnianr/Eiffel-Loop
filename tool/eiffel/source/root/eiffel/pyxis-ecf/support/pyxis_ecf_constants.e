@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-09 9:39:36 GMT (Saturday 9th July 2022)"
-	revision: "3"
+	date: "2022-07-12 19:04:51 GMT (Tuesday 12th July 2022)"
+	revision: "4"
 
 deferred class
 	PYXIS_ECF_CONSTANTS
@@ -18,6 +18,16 @@ inherit
 	EL_MODULE_TUPLE
 
 feature {NONE} -- Constants
+
+	C_attributes: ARRAY [STRING]
+		once
+			Result := << "value", "location" >>
+		end
+
+	Externals_set: EL_HASH_SET [STRING]
+		once
+			create Result.make_from_array (<< Name.unix_externals, Name.windows_externals >>)
+		end
 
 	File_rule_template: EL_TEMPLATE [STRING]
 		once
@@ -35,7 +45,7 @@ feature {NONE} -- Constants
 		assertions, cluster, cluster_tree, condition, configuration_ns, custom, debug_, debugging, disabled,
 		file_rule, library, library_target, libraries, mapping, name, option,
 		platform, platform_list, precompile, renaming, setting, settings, sub_clusters, system,
-		uuid, variable, warning, warnings, writeable_libraries: STRING
+		unix_externals, uuid, variable, warning, warnings, windows_externals, writeable_libraries: STRING
 	]
 		once
 			create Result
@@ -43,10 +53,15 @@ feature {NONE} -- Constants
 				"assertions, cluster, cluster_tree, condition, configuration_ns, custom, debug, debugging, disabled, %
 				%file_rule, library, library_target, libraries, mapping, name, option, %
 				%platform, platform_list, precompile, renaming, setting, settings, sub_clusters, system, %
-				%uuid, variable, warning, warnings, writeable_libraries"
+				%unix_externals, uuid, variable, warning, warnings, windows_externals, writeable_libraries"
 			)
 		ensure
 			aligned_correctly: Result.writeable_libraries ~ "writeable_libraries"
+		end
+
+	Platform_condition_lines: PLATFORM_CONDITION_ECF_LINES
+		once
+			create Result.make
 		end
 
 	Var: TUPLE [directory, element, name, url, value: STRING]

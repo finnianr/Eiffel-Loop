@@ -1,3 +1,6 @@
+1.6.8
+* Added PECF externals groups: eg. unix_externals
+
 1.6.7
 * Refactored Pyxis parser to use shared line with special attributes
 

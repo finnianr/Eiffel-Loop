@@ -424,12 +424,14 @@
 			<keyword>system</keyword>
 			<keyword>target</keyword>
 			<keyword>tests</keyword>
+			<keyword>unix_externals</keyword>
 			<keyword>uses</keyword>
 			<keyword>variable</keyword>
 			<keyword>version</keyword>
 			<keyword>visible</keyword>
 			<keyword>warning</keyword>
 			<keyword>warnings</keyword>
+			<keyword>windows_externals</keyword>
 			<keyword>writeable_libraries</keyword>
         </context>
 

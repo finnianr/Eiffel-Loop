@@ -7,8 +7,7 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_id3_tag; uuid = "229B4FAE-09AA-11DF-8771-E7444F3B4D30" 
-	library_target = EL_id3_tag
+	name = EL_id3_tag; library_target = EL_id3_tag; uuid = "229B4FAE-09AA-11DF-8771-E7444F3B4D30" 
 	description:
 		"""
 			ID3 Tagging for MP3
@@ -25,92 +24,64 @@ system:
 			favor of the [./library/TagLib.html TagLib library] which is still maintained and supports
 			many more meta-data types besides ID3.
 		"""
-	
 	target:
 		name = EL_id3_tag
-		
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
-
 		root:
 			all_classes = true
 
-		# libid3 and libid3tag externals
+		# libid3 and libid3tag includes
 		external_include: 
 			location = "$(EL_CONTRIB)/C/libid3tag/include"
+		external_include: 
+			location = "$(EL_CONTRIB)/C++/id3lib/include"
 		
-		# For Windows: libid3 and libid3tag externals
-		external_include: 
-			location = "$(EL_CONTRIB)/C++/id3lib/include"
-			condition:
-				platform = windows
+		windows_externals:
+			# For Windows: libid3 and libid3tag externals
+			external_cflag:
+				value = "-DID3LIB_LINKOPTION=1 -DWIN32 -EHsc"
+			external_object:
+				location = "$(EL_CONTRIB)/C/libid3tag/spec/$(ISE_PLATFORM)/id3tag.lib"
+			external_object:
+				location = "$(EL_CONTRIB)/C++/id3lib/spec/$(ISE_PLATFORM)/id3.lib"
 
-		external_cflag:
-			value = "-DID3LIB_LINKOPTION=1 -DWIN32 -EHsc"
-			condition:
-				platform = windows
-
-		external_object:
-			location = "$(EL_CONTRIB)/C/libid3tag/spec/$(ISE_PLATFORM)/id3tag.lib"
-			condition:
-				platform = windows
-
-		external_object:
-			location = "$(EL_CONTRIB)/C++/id3lib/spec/$(ISE_PLATFORM)/id3.lib"
-			condition:
-				platform = windows
-
-		# For Unix: libid3 and libid3tag externals
-		external_include: 
-			location = "$(EL_CONTRIB)/C++/id3lib/include"
-			condition:
-				platform = unix
-
-		external_object:
-			location = "-L$(EL_CONTRIB)/C++/id3lib/spec/$(ISE_PLATFORM) -lid3"
-			condition:
-				platform = unix
-
-		external_object:
-			location = "-L$(EL_CONTRIB)/C/libid3tag/spec/$(ISE_PLATFORM) -lid3tag"
-			description: 
-				"""
-					WARNING: subtle bug
-					Only link against a static library. If linked against a shared object library
-					GetRawText() routine will return null for utf8 strings.
-				"""
-			condition:
-				platform = unix
-
-		external_object:
-			location = "-L$(ISE_LIBRARY)/C_library/zlib -lz"
-			condition:
-				platform = unix
+		unix_externals:
+			# For Unix: libid3 and libid3tag externals
+			external_object:
+				location = "-L$(EL_CONTRIB)/C++/id3lib/spec/$(ISE_PLATFORM) -lid3"
+			external_object:
+				location = "-L$(EL_CONTRIB)/C/libid3tag/spec/$(ISE_PLATFORM) -lid3tag"
+				description: 
+					"""
+						WARNING: subtle bug
+						Only link against a static library. If linked against a shared object library
+						GetRawText() routine will return null for utf8 strings.
+					"""
+			external_object:
+				location = "-L$(ISE_LIBRARY)/C_library/zlib -lz"
 
 		# ISE libraries
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			time = "time/time.ecf"
 
 		library:
-			name = c_library_zlib; location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf"
+			ise_zlib = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf"
 			condition:
 				platform = windows
 
-		library:
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
-
 		# Eiffel Loop
-		library:
-			name = EL_base; location = "base/base.ecf"; readonly = false
-
-		library:
-			name = EL_c_api; location = "C-language-interface.ecf"; readonly = false
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_c_api = "C-language-interface.ecf"
 
 		# Source code
-		cluster:
-			name = id3_tag; location = "multimedia/ID3/id3_tag"; recursive = true
+		cluster_tree:
+			id3_tag = "multimedia/ID3/id3_tag"
 
 

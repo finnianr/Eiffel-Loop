@@ -19,11 +19,21 @@ is_windows = platform.system () == 'Windows'
 
 def sudo_mkpath (dir_path):
 	# obsolete: use eiffel_loop.os.system.new_file_system ()
+	creating_root = False
 	parent_path = path.dirname (dir_path)
-	if not path.exists (parent_path):
-		sudo_mkpath (parent_path)
+	is_empty = len (dir_path) == 0
 
-	if is_windows:
+	if is_windows and is_empty:
+		creating_root = True
+	elif dir_path == '/' or is_empty :
+		creating_root = True
+	elif not path.exists (parent_path):
+		sudo_mkpath (parent_path)
+	
+	if creating_root:
+		raise Exception ('Attempt to create root directory: "%s"' % dir_path)
+
+	elif is_windows:
 		osprocess.call (['mkdir', dir_path], shell = True)
 	else:
 		osprocess.sudo_call (['mkdir', dir_path])
