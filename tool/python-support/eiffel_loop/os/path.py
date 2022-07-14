@@ -12,6 +12,10 @@ global program_files
 
 program_files = 'Program Files'
 
+def expanded (a_path):
+	result = normpath (expandvars (a_path))
+	return result
+
 def files_x86 (a_path):
 	if program_files in a_path:
 		result = a_path.replace (program_files, 'Program Files (x86)', 1)

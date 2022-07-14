@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_vtd_xml" uuid = "229b77d6-09aa-11df-87c5-b77da3e246d9" library_target = "EL_vtd_xml">
+<system name = "EL_vtd_xml" library_target = "EL_vtd_xml" uuid = "229b77d6-09aa-11df-87c5-b77da3e246d9" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 XML Scanning and Object Building with VTD-XML
 
@@ -29,14 +29,14 @@ Test class [$source VTD_XML_AUTOTEST_APP]
 			<description>C implementation of EL_C_CALLABLE_PROCEDURE</description>
 		</external_include>
 		<external_include location = "$(EL_C_LIB)/vtd2eiffel/source"/>
-		<external_object location = "-L$(EL_C_LIB)/vtd2eiffel/spec/$(ISE_PLATFORM) -lvtd-xml">
-			<condition>
-				<platform value = "unix"/>
-			</condition>
-		</external_object>
 		<external_object location = "$(EL_C_LIB)/vtd2eiffel/spec/$(ISE_PLATFORM)/vtd-xml.lib">
 			<condition>
 				<platform value = "windows"/>
+			</condition>
+		</external_object>
+		<external_object location = "-L$(EL_C_LIB)/vtd2eiffel/spec/$(ISE_PLATFORM) -lvtd-xml">
+			<condition>
+				<platform value = "unix"/>
 			</condition>
 		</external_object>
 		<external_linker_flag value = "-L$(EL_C_LIB)/vtd2eiffel/spec/$(ISE_PLATFORM) -lvtd-xml">
@@ -48,10 +48,12 @@ Test class [$source VTD_XML_AUTOTEST_APP]
 			Experiment to see if calling scons with pre-compile action is practical
 			pre_compile_action:
 			working_directory = &quot;$EL_C_LIB/vtd2eiffel&quot;; command = &quot;cmd /c scons &amp;&amp; pause&quot;
+			
+			ISE libraries
 		-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
-		<!--Eiffel-Loop-->
+		<!--Eiffel-Loop libraries-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>

@@ -6,7 +6,7 @@
 #	revision: "0.1"
 
 import os, sys, platform
-from os import path
+from eiffel_loop.os import path
 from glob import glob
 
 if platform.system () == "Windows":
@@ -23,15 +23,15 @@ else:
 		'-DEIF_THREADS', '-DEIF_LINUXTHREADS', '-DISE_GC'
 	]
 	
-vtd_xml_dir = path.normpath (path.expandvars ('$EIFFEL_LOOP/contrib/C/VTD-XML.2.7'))
+vtd_xml_dir = path.expanded ('$EL_C_VTD_XML')
 
 include_path = [
-	path.normpath (path.expandvars ('$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/include')),
-	path.normpath (path.expandvars ('$EIFFEL_LOOP/C_library/include')),
+	path.expanded ('$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/include'),
+	path.expanded ('$EIFFEL_LOOP/C_library/include'),
 	path.join (vtd_xml_dir, 'include')
 ]
 
-build_dir = path.normpath (path.expandvars ('spec/$ISE_PLATFORM'))
+build_dir = path.expanded ('spec/$ISE_PLATFORM')
 VariantDir (build_dir, 'source', duplicate=0)
 
 library_path = path.join (build_dir, 'vtd-xml')

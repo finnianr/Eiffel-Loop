@@ -4,7 +4,7 @@
 	It is also a Latin transliteration of a Greek word for a type of pottery used by women to hold
 	cosmetics, trinkets or jewellery.
 -->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_taglib" uuid = "243285C8-F255-11E9-AF8E-E3A3935D48CC" library_target = "EL_taglib">
+<system name = "EL_taglib" library_target = "EL_taglib" uuid = "243285C8-F255-11E9-AF8E-E3A3935D48CC" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 TagLib Audio Meta-Data Library
 
@@ -32,44 +32,43 @@ for his kind assistance and and support in creating this Eiffel binding.
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
 		<root all_classes = "true"/>
-		<!--For Windows-->
-		<external_include location = "$(EL_CONTRIB)\C++\taglib\include">
+		<external_include location = "$(EXT_CPP_TAGLIB)\taglib">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
-		<external_include location = "$(EL_CONTRIB)\C++\taglib\include\mpeg\id3v2">
+		<external_include location = "$(EXT_CPP_TAGLIB)\taglib\mpeg\id3v2">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
-		<external_include location = "$(EL_CONTRIB)\C++\taglib\include\toolkit">
+		<external_include location = "$(EXT_CPP_TAGLIB)\taglib\toolkit">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
-		<external_object location = "$(EL_CONTRIB)\C++\taglib\spec\$(ISE_PLATFORM)\tag.lib">
+		<external_object location = "$(EL_CPP_TAGLIB)\taglib\spec\$(ISE_PLATFORM)\tag.lib">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_object>
 		<!--For Unix-->
-		<external_include location = "$(EL_CONTRIB)/C++/taglib/include">
+		<external_include location = "$(EXT_CPP_TAGLIB)/taglib">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
 		</external_include>
-		<external_include location = "$(EL_CONTRIB)/C++/taglib/include/mpeg/id3v2">
+		<external_include location = "$(EXT_CPP_TAGLIB)/taglib/mpeg/id3v2">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
 		</external_include>
-		<external_include location = "$(EL_CONTRIB)/C++/taglib/include/toolkit">
+		<external_include location = "$(EXT_CPP_TAGLIB)/taglib/toolkit">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
 		</external_include>
-		<external_object location = "-L$(EL_CONTRIB)/C++/taglib/spec/$(ISE_PLATFORM) -ltag">
+		<external_object location = "-L$(EL_CPP_TAGLIB)/spec/$(ISE_PLATFORM) -ltag">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
@@ -81,13 +80,13 @@ for his kind assistance and and support in creating this Eiffel binding.
 		</external_object>
 		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
-		<library name = "c_library_zlib" location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf">
+		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
+		<library name = "zlib" location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</library>
-		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
-		<!--Eiffel Loop-->
+		<!--Eiffel-Loop libraries-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
 		<!--Source code-->

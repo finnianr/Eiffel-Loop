@@ -4,7 +4,7 @@
 	It is also a Latin transliteration of a Greek word for a type of pottery used by women to hold
 	cosmetics, trinkets or jewellery.
 -->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_id3_tag" uuid = "229B4FAE-09AA-11DF-8771-E7444F3B4D30" library_target = "EL_id3_tag">
+<system name = "EL_id3_tag" library_target = "EL_id3_tag" uuid = "229B4FAE-09AA-11DF-8771-E7444F3B4D30" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 ID3 Tagging for MP3
 
@@ -25,10 +25,11 @@ many more meta-data types besides ID3.
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
 		<root all_classes = "true"/>
-		<!--libid3 and libid3tag externals-->
-		<external_include location = "$(EL_CONTRIB)/C/libid3tag/include"/>
-		<!--For Windows: libid3 and libid3tag externals-->
-		<external_include location = "$(EL_CONTRIB)/C++/id3lib/include">
+		<!--
+			libid3 and libid3tag includes
+			For Windows: libid3 and libid3tag externals
+		-->
+		<external_include location = "$(EL_CPP_ID3LIB)\include">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
@@ -38,36 +39,46 @@ many more meta-data types besides ID3.
 				<platform value = "windows"/>
 			</condition>
 		</external_cflag>
-		<external_object location = "$(EL_CONTRIB)/C/libid3tag/spec/$(ISE_PLATFORM)/id3tag.lib">
+		<external_object location = "$(EL_CPP_ID3LIB)/spec/$(ISE_PLATFORM)/id3.lib">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_object>
-		<external_object location = "$(EL_CONTRIB)/C++/id3lib/spec/$(ISE_PLATFORM)/id3.lib">
+		<external_include location = "$(EL_C_LIBID3TAG)\include">
+			<condition>
+				<platform value = "windows"/>
+			</condition>
+		</external_include>
+		<external_object location = "$(EL_C_LIBID3TAG)/spec/$(ISE_PLATFORM)/id3tag.lib">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_object>
 		<!--For Unix: libid3 and libid3tag externals-->
-		<external_include location = "$(EL_CONTRIB)/C++/id3lib/include">
+		<external_include location = "$(EL_CPP_ID3LIB)/include">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
 		</external_include>
-		<external_object location = "-L$(EL_CONTRIB)/C++/id3lib/spec/$(ISE_PLATFORM) -lid3">
+		<external_object location = "-L$(EL_CPP_ID3LIB)/spec/$(ISE_PLATFORM) -lid3">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
 		</external_object>
-		<external_object location = "-L$(EL_CONTRIB)/C/libid3tag/spec/$(ISE_PLATFORM) -lid3tag">
+		<external_include location = "$(EL_C_LIBID3TAG)/include">
+			<condition>
+				<platform value = "unix"/>
+			</condition>
+		</external_include>
+		<external_object location = "-L$(EL_C_LIBID3TAG)/spec/$(ISE_PLATFORM) -lid3tag">
+			<condition>
+				<platform value = "unix"/>
+			</condition>
 			<description>
 WARNING: subtle bug
 Only link against a static library. If linked against a shared object library
 GetRawText() routine will return null for utf8 strings.
 			</description>
-			<condition>
-				<platform value = "unix"/>
-			</condition>
 		</external_object>
 		<external_object location = "-L$(ISE_LIBRARY)/C_library/zlib -lz">
 			<condition>
@@ -76,15 +87,15 @@ GetRawText() routine will return null for utf8 strings.
 		</external_object>
 		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
-		<library name = "c_library_zlib" location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf">
+		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
+		<library name = "ise_zlib" location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</library>
-		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<!--Eiffel Loop-->
-		<library name = "EL_base" location = "base/base.ecf" readonly = "false"/>
-		<library name = "EL_c_api" location = "C-language-interface.ecf" readonly = "false"/>
+		<library name = "EL_base" location = "base/base.ecf"/>
+		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
 		<!--Source code-->
 		<cluster name = "id3_tag" location = "multimedia/ID3/id3_tag" recursive = "true"/>
 	</target>

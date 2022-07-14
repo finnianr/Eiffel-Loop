@@ -14,10 +14,13 @@ from eiffel_loop.eiffel import ise_environ
 global ise
 ise = ise_environ.shared
 
+def expanded_path (a_path):
+	return path.expandvars (path.normpath (a_path))
+
 if platform.system () == "Windows":
 	is_unix = False
 	compiler_flags = ['-Ox', '-Zi', '-MT', '-w', '-nologo', '-DEIF_WINDOWS']
-	cairo_home = path.expandvars (path.normpath ('$EIFFEL_LOOP/contrib/C/Cairo-1.12.16'))
+	cairo_home = path.expandvars (path.normpath ('$EL_C_CAIRO'))
 	include_path = [path.join (cairo_home, 'include')] 
 	prefix = include_path [0]
 	include_path.extend (util.prefixed_list (prefix, ['libpng16', 'cairo', path.normpath ('librsvg-2.0/librsvg')]))
@@ -41,9 +44,8 @@ else:
 include_path.extend (
 	util.prefixed_list (prefix, ['gdk-pixbuf-2.0', 'glib-2.0',  'libxml2', 'pango-1.0', 'freetype2', 'pixman-1'])
 )
-
-for dir_path in ['$EIFFEL_LOOP/C_library/include', '$EIFFEL_LOOP/C_library/include', '$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/include']:
-	include_path.append (path.expandvars (path.normpath (dir_path)))
+include_path.append (expanded_path ('$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/include'))
+include_path.append (expanded_path ('$EIFFEL_LOOP/C_library/include'))
 
 cpp_defines = ['HAVE_CONFIG_H']
 
@@ -57,7 +59,7 @@ print 'Include path', env ['ARCHITECTURE']
 for include in include_path:
 	print env.subst (include)
 
-build_dir =  ise.spec_build_dir ()
+build_dir = ise.spec_build_dir ()
 
 VariantDir (build_dir, 'source', duplicate=0)
 

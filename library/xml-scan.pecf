@@ -3,8 +3,8 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_xml_scan; uuid = "229B7772-09AA-11DF-87C4-BBC432FE4581" 
-	library_target = EL_xml_scan
+	name = EL_xml_scan; library_target = EL_xml_scan; uuid = "229B7772-09AA-11DF-87C4-BBC432FE4581" 
+	
 	description: 
 		"""
 			XML Document Node-scanning and Object Building
@@ -44,50 +44,37 @@ system:
 
 		# Expat
 		external_include: 
-			location = "$(EL_CONTRIB)/C/Expat/include"
+			location = "$(EL_C_EXPAT)/include"
 
 		external_cflag:
 			value = "-DXML_BUILDING_EXPAT"
 
 		external_object:
-			location = "-L$(EL_CONTRIB)/C/Expat/spec/$(ISE_PLATFORM) -lexpat"
+			location = "-L$(EL_C_EXPAT)/spec/$(ISE_PLATFORM) -lexpat"
 			condition:
 				platform = unix
 
 		external_object:
-			location = "$(EL_CONTRIB)/C/Expat/spec/$(ISE_PLATFORM)/expat.lib"
+			location = "$(EL_C_EXPAT)/spec/$(ISE_PLATFORM)/expat.lib"
 			condition:
 				platform = windows
 
 		# ISE libraries
 		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+			base = "$ISE_LIBRARY/library/base/base.ecf"
 
-#		library:
-#			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
-
-		# Eiffel-Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_c_api; location = "C-language-interface.ecf"
-
-		library:
-			name = EL_doc_scan; location = "document-scan.ecf"
-
-		library:
-			name = EL_evolicity; location = "evolicity.ecf"
-
-		library:
-			name = EL_text_formats; location = "text-formats.ecf"
-
-		library:
-			name = EL_text_process; location = "text-process.ecf"
+		# Eiffel-Loop libraries
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_c_api = "C-language-interface.ecf"
+			EL_doc_scan = "document-scan.ecf"
+			EL_evolicity = "evolicity.ecf"
+			EL_text_formats = "text-formats.ecf"
+			EL_text_process = "text-process.ecf"
 
 		# Source code
-		cluster:
-			name = doc; location = "persistency/xml/doc-scan"; recursive = true
+		cluster_tree:
+			doc = "persistency/xml/doc-scan"
 			option:
 				namespace = doc
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-12 19:04:51 GMT (Tuesday 12th July 2022)"
-	revision: "4"
+	date: "2022-07-13 12:33:33 GMT (Wednesday 13th July 2022)"
+	revision: "5"
 
 deferred class
 	PYXIS_ECF_CONSTANTS
@@ -57,11 +57,6 @@ feature {NONE} -- Constants
 			)
 		ensure
 			aligned_correctly: Result.writeable_libraries ~ "writeable_libraries"
-		end
-
-	Platform_condition_lines: PLATFORM_CONDITION_ECF_LINES
-		once
-			create Result.make
 		end
 
 	Var: TUPLE [directory, element, name, url, value: STRING]

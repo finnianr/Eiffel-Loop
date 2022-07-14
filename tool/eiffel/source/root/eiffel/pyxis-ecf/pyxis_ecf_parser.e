@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-12 19:04:51 GMT (Tuesday 12th July 2022)"
-	revision: "23"
+	date: "2022-07-13 12:33:33 GMT (Wednesday 13th July 2022)"
+	revision: "24"
 
 class
 	PYXIS_ECF_PARSER
@@ -101,7 +101,6 @@ feature {NONE} -- Implemenatation
 			elseif attached line.element_name as tag and then Externals_set.has (tag) then
 				c_platform := s.substring_to (tag, '_', default_pointer)
 				c_platform_indent := line.indent_count
-
 			else
 				Precursor (line)
 			end
@@ -202,6 +201,11 @@ feature {NONE} -- Constants
 				[Name.mapping,		create {OLD_NAME_NEW_NAME_ECF_LINE}.make (Name.mapping)],
 				[Name.renaming,	create {OLD_NAME_NEW_NAME_ECF_LINE}.make (Name.renaming)]
 			>>)
+		end
+
+	Platform_condition_lines: PLATFORM_CONDITION_ECF_LINES
+		once
+			create Result.make
 		end
 
 	Platform_lines: PLATFORM_ECF_LINES

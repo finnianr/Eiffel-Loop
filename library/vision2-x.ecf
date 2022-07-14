@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_vision2_x" uuid = "229b7510-09aa-11df-87be-876e1b168743" library_target = "EL_vision2_x" readonly = "false">
+<system name = "EL_vision2_x" library_target = "EL_vision2_x" uuid = "229b7510-09aa-11df-87be-876e1b168743" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 EiffelVision2 GUI Extensions
 
@@ -16,7 +16,6 @@ CLUSTERS
 		<option warning = "true" syntax = "standard" full_class_checking = "false" void_safety = "none">
 			<assertions precondition = "true" postcondition = "true" check = "false" invariant = "false"/>
 		</option>
-		<!--Unix externals-->
 		<external_include location = "$(EL_C_LIB)/gtk-init/source">
 			<condition>
 				<platform value = "unix"/>
@@ -47,49 +46,49 @@ CLUSTERS
 				<platform value = "unix"/>
 			</condition>
 		</external_object>
-		<!--Windows externals-->
-		<external_include location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/atk-1.0">
+		<external_include location = "$(EL_C_CAIRO)/include/atk-1.0">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
-		<external_include location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/cairo">
+		<external_include location = "$(EL_C_CAIRO)/include/cairo">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
-		<external_include location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/glib-2.0">
+		<external_include location = "$(EL_C_CAIRO)/include/glib-2.0">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
-		<external_include location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/gtk-3.0">
+		<external_include location = "$(EL_C_CAIRO)/include/gtk-3.0">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
-		<external_include location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/gdk-pixbuf-2.0">
+		<external_include location = "$(EL_C_CAIRO)/include/gdk-pixbuf-2.0">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
-		<external_include location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/pango-1.0">
+		<external_include location = "$(EL_C_CAIRO)/include/pango-1.0">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
+		<!--ISE libraries-->
+		<library name = "api_wrapper" location = "$ISE_LIBRARY/library/api_wrapper/api_wrapper.ecf"/>
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "base_x" location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<library name = "thread" location = "$ISE_LIBRARY/library/thread/thread.ecf"/>
-		<library name = "api_wrapper" location = "$ISE_LIBRARY/library/api_wrapper/api_wrapper.ecf"/>
-		<library name = "vision2" location = "override/ES-vision2.ecf" readonly = "false"/>
-		<library name = "docking" location = "override/ES-docking.ecf" readonly = "false"/>
 		<library name = "wel" location = "$ISE_LIBRARY/library/wel/wel.ecf">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</library>
+		<library name = "vision2" location = "override/ES-vision2.ecf"/>
+		<library name = "docking" location = "override/ES-docking.ecf"/>
 		<!--Eiffel-Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf"/>

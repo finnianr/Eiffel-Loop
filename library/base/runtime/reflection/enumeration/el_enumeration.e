@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 13:24:04 GMT (Thursday 16th June 2022)"
-	revision: "45"
+	date: "2022-07-13 17:10:11 GMT (Wednesday 13th July 2022)"
+	revision: "46"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -185,7 +185,9 @@ feature -- Contract Support
 	name_and_values_consistent: BOOLEAN
 		-- `True' if all `value' results can be looked up from `name_by_value' items
 		do
-			Result := across name_by_value as table all value (table.item) = table.key end
+			Result := across name_by_value as table all
+				attached {HASHABLE} value (table.item) as hash_value and then hash_value = table.key
+			end
 		end
 
 feature {NONE} -- Implementation

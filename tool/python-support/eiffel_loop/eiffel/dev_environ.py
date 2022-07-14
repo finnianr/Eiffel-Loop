@@ -20,15 +20,25 @@ from eiffel_loop.eiffel import ise_environ
 from eiffel_loop.eiffel.test import TESTS
 
 def is_version_number (a_str):
-	parts = a_str.split ('.')
-	return all (s.isdigit () for s in parts)
+	if a_str [-1].isalpha ():
+		# Eg. 0.15.1b -> 0.15.1
+		parts = a_str [0:-1].split ('.')
+	else:	
+		parts = a_str.split ('.')
+
+	result = all (s.isdigit () for s in parts)
+	return result
 
 def library_environ_name (lib_name):
-	parts = lib_name.split ('-')
-	if len (parts) > 1:
-		if is_version_number (parts [-1]):
-			parts = parts [0:-1]
-	return ('_').join (parts).upper ()
+	result = lib_name
+	hypen_pos = lib_name.rfind ('-')
+	if hypen_pos > 0:
+		if is_version_number (lib_name [hypen_pos + 1:]):
+			result = lib_name [: hypen_pos]
+	
+	result = result.upper ().replace ('-', '_')
+
+	return result
 
 def eiffel_environ ():
 	result = environ_extra.copy ()
@@ -68,6 +78,22 @@ def set_environ_from_directory (a_dir):
 		if path.isdir (file_path):
 			environ_extra [library_environ_name (name)] = file_path
 
+def set_c_externals_environ (prefix, a_dir):
+	print 'a_dir', a_dir
+	# set C/C++ external library location env labels
+	for c_name in ["C", "C++"]:
+		c_dir = path.join (eiffel_dir, path.normpath (a_dir), c_name)
+		if path.exists (c_dir):
+			for name in os.listdir (c_dir):
+				dir_path = path.join (c_dir, name)
+				if path.isdir (dir_path):
+					c_type = path.basename (path.dirname (dir_path)).replace ('+', 'P')
+					label = '_'.join ([prefix, c_type, library_environ_name (name)])
+					environ_extra [label] = dir_path
+		else:
+			print "not found", c_dir
+
+
 def print_environ ():
 	for key in ['INCLUDE', 'LIB', 'LIBPATH', 'PATH', 'PYTHONPATH']:
 		if key in os.environ:
@@ -100,7 +126,7 @@ def set_ise_platform (a_platform):
 
 # SCRIPT BEGIN
 
-global environ_extra, path_extra, ise, var_eiffel, eiffel_basename, library_basename
+global environ_extra, path_extra, ise, var_eiffel, eiffel_basename, library_basename, eiffel_dir
 
 ise = ise_environ.shared
 
@@ -125,6 +151,7 @@ environ_extra = {
 var_eiffel = 'EIFFEL'
 eiffel_basename = 'Eiffel'
 library_basename = 'library'
+eiffel_dir = path.dirname (eiffel_library_dir ())
 
 # keep assertions in finalized build
 keep_assertions = False
@@ -136,6 +163,11 @@ build_f_code_tar = False
 compile_eiffel = True
 
 set_environ_from_directory (eiffel_library_dir ())
+
+# set labels subdirectories of $EIFFEL/external/C and $EIFFEL/external/C++
+
+set_c_externals_environ ('EXT', 'external')
+set_c_externals_environ ('EL',  'library/Eiffel-Loop/contrib')
 	
 set_environ ('EL_CONTRIB',	'$EIFFEL_LOOP/contrib')
 set_environ ('EL_C_LIB',	'$EIFFEL_LOOP/C_library')

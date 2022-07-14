@@ -42,7 +42,6 @@ system:
 			integer_x = "math/eapml/eapml.ecf"
 
 		# Eiffel-Loop libraries
-		# Eiffel Loop
 		libraries:
 			EL_base = "base/base.ecf"
 			EL_encryption = "encryption.ecf"

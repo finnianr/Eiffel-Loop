@@ -3,9 +3,7 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_vision2_x; uuid = "229b7510-09aa-11df-87be-876e1b168743" 
-	library_target = EL_vision2_x
-	readonly = false
+	name = EL_vision2_x; library_target = EL_vision2_x; uuid = "229b7510-09aa-11df-87be-876e1b168743" 
 	description: 
 		"""
 			EiffelVision2 GUI Extensions
@@ -21,135 +19,74 @@ system:
 		name = EL_vision2_x
 		root:
 			all_classes = true
-
 		option:
 			warning = true; syntax = standard; full_class_checking = false; void_safety = none
 			assertions:
 				precondition = true; postcondition = true; check = false; invariant = false
 
-		# Unix externals
-		external_include:
-			location = "$(EL_C_LIB)/gtk-init/source"
-			condition:
-				platform = unix
+		unix_externals:
+			external_include:
+				location = "$(EL_C_LIB)/gtk-init/source"
+			external_include:
+				location = "cairo.h"
+			external_object:
+				location = "-lcairo"
+			external_object:
+				location = "-lXrandr"
+			external_object:
+				location = "-lX11"
+			external_object:
+				location = "$(EL_C_LIB)/gtk-init/spec/$(ISE_PLATFORM)/libgtkinit.a"
 
-		external_include:
-			location = "cairo.h"
-			condition:
-				platform = unix
+		windows_externals:
+			external_include:
+				location = "$(EL_C_CAIRO)/include/atk-1.0"
+			external_include:
+				location = "$(EL_C_CAIRO)/include/cairo"
+			external_include:
+				location = "$(EL_C_CAIRO)/include/glib-2.0"
+			external_include:
+				location = "$(EL_C_CAIRO)/include/gtk-3.0"
+			external_include:
+				location = "$(EL_C_CAIRO)/include/gdk-pixbuf-2.0"
+			external_include:
+				location = "$(EL_C_CAIRO)/include/pango-1.0"
 
-		external_object:
-			location = "-lcairo"
-			condition:
-				platform = unix
-
-		external_object:
-			location = "-lXrandr"
-			condition:
-				platform = unix
-
-		external_object:
-			location = "-lX11"
-			condition:
-				platform = unix
-
-		external_object:
-			location = "$(EL_C_LIB)/gtk-init/spec/$(ISE_PLATFORM)/libgtkinit.a"
-			condition:
-				platform = unix
-
-		# Windows externals
-		external_include:
-			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/atk-1.0"
-			condition:
-				platform = windows
-
-		external_include:
-			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/cairo"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			api_wrapper = "api_wrapper/api_wrapper.ecf"
+			base = "base/base.ecf"; base_x = "base_extension/base_extension.ecf"
+			time = "time/time.ecf"
+			thread = "thread/thread.ecf"
+			wel = "wel/wel.ecf"
 			condition:
 				platform = windows
 
-		external_include:
-			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/glib-2.0"
-			condition:
-				platform = windows
-
-		external_include:
-			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/gtk-3.0"
-			condition:
-				platform = windows
-
-		external_include:
-			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/gdk-pixbuf-2.0"
-			condition:
-				platform = windows
-
-		external_include:
-			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/pango-1.0"
-			condition:
-				platform = windows
-
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library: 
-			name = base_x; location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"
-
-		library:
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
-
-		library: 
-			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
-
-		library:
-			name = api_wrapper; location = "$ISE_LIBRARY/library/api_wrapper/api_wrapper.ecf"
-
-		library:
-			name = vision2; location = "override/ES-vision2.ecf"; readonly = false
-		
-		library:
-			name = docking; location = "override/ES-docking.ecf"; readonly = false
-		
-		library:
-			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
-			condition:
-				platform = windows
+		libraries:
+			location = override
+			vision2 = "ES-vision2.ecf"
+			docking = "ES-docking.ecf"
 
 		# Eiffel-Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_c_api; location = "C-language-interface.ecf"
-
-		library:
-			name = EL_search; location = "search-engine.ecf"
-
-		library:
-			name = EL_image_utils; location = "image-utils.ecf"
-
-		library:
-			name = EL_logging; location = "logging.ecf"
-
-		library:
-			name = EL_text_process; location = "text-process.ecf"
-
-		library:
-			name = EL_thread; location = "thread.ecf"
-
-		library:
-			name = EL_wel_x; location = "wel-x.ecf"
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_c_api = "C-language-interface.ecf"
+			EL_search = "search-engine.ecf"
+			EL_image_utils = "image-utils.ecf"
+			EL_logging = "logging.ecf"
+			EL_text_process = "text-process.ecf"
+			EL_thread = "thread.ecf"
+			EL_wel_x = "wel-x.ecf"
 			condition:
 				platform = windows
-
-		library:
-			name = EL_wel_regedit_x; location = "wel-regedit-x.ecf"
+			EL_wel_regedit_x = "wel-regedit-x.ecf"
 			condition:
 				platform = windows
 
 		# Source clusters
-		cluster:
-			name = graphics; location = "graphic/toolkit/vision2-x/graphics"; recursive = true
+		cluster_tree:
+			graphics = "graphic/toolkit/vision2-x/graphics"
 			platform_list:
 				"imp_mswin; imp_unix"
 
@@ -160,11 +97,10 @@ system:
 					Classes for 2D geometry and graphical drawing
 				"""
 
-		cluster:
-			name = pango_cairo; location = "graphic/toolkit/vision2-x/pango-cairo"; recursive = true
+		cluster_tree:
+			pango_cairo = "graphic/toolkit/vision2-x/pango-cairo"
 			platform_list:
 				"imp_mswin; imp_unix"
-
 			description:
 				"""
 					Pango-Cairo 2D Graphics
@@ -173,11 +109,10 @@ system:
 					providing pixel buffer rendering with transparencies and anti-aliasing.
 				"""
 
-		cluster:
-			name = extensions; location = "graphic/toolkit/vision2-x/extensions"; recursive = true
+		cluster_tree:
+			extensions = "graphic/toolkit/vision2-x/extensions"
 			platform_list:
 				"imp_mswin; imp_unix"
-
 			description:
 				"""
 					Vision2-X UI Extensions
@@ -185,11 +120,10 @@ system:
 					Various extensions for the [https://www.eiffel.org/resources/libraries/eiffelvision2 EiffelVision2] library.
 				"""
 
-		cluster:
-			name = container; location = "graphic/toolkit/vision2-x/container"; recursive = true
+		cluster_tree:
+			container = "graphic/toolkit/vision2-x/container"
 			platform_list:
 				"imp_mswin; imp_unix"
-
 			description:
 				"""
 					Vision2-X UI Container Extensions
@@ -200,11 +134,10 @@ system:
 					See doc/vision2-x.container.txt for details
 				"""
 
-		cluster:
-			name = pixmap; location = "graphic/toolkit/vision2-x/pixmap"; recursive = true
+		cluster_tree:
+			pixmap = "graphic/toolkit/vision2-x/pixmap"
 			platform_list:
 				"imp_mswin; imp_unix"
-
 			description:
 				"""
 					Vision2-X Pixmap Extensions
@@ -212,8 +145,8 @@ system:
 					Classes for managing pixmaps
 				"""
 
-		cluster:
-			name = widget; location = "graphic/toolkit/vision2-x/widget"; recursive = true
+		cluster_tree:
+			widget = "graphic/toolkit/vision2-x/widget"
 			platform_list:
 				"imp_mswin; imp_unix"
 

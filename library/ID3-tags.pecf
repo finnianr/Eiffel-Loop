@@ -35,26 +35,31 @@ system:
 			all_classes = true
 
 		# libid3 and libid3tag includes
-		external_include: 
-			location = "$(EL_CONTRIB)/C/libid3tag/include"
-		external_include: 
-			location = "$(EL_CONTRIB)/C++/id3lib/include"
-		
 		windows_externals:
 			# For Windows: libid3 and libid3tag externals
+			external_include: 
+				location = "$(EL_CPP_ID3LIB)\\include"
 			external_cflag:
 				value = "-DID3LIB_LINKOPTION=1 -DWIN32 -EHsc"
 			external_object:
-				location = "$(EL_CONTRIB)/C/libid3tag/spec/$(ISE_PLATFORM)/id3tag.lib"
+				location = "$(EL_CPP_ID3LIB)/spec/$(ISE_PLATFORM)/id3.lib"
+
+			external_include:
+				location = "$(EL_C_LIBID3TAG)\\include"
 			external_object:
-				location = "$(EL_CONTRIB)/C++/id3lib/spec/$(ISE_PLATFORM)/id3.lib"
+				location = "$(EL_C_LIBID3TAG)/spec/$(ISE_PLATFORM)/id3tag.lib"
 
 		unix_externals:
 			# For Unix: libid3 and libid3tag externals
+			external_include: 
+				location = "$(EL_CPP_ID3LIB)/include"
 			external_object:
-				location = "-L$(EL_CONTRIB)/C++/id3lib/spec/$(ISE_PLATFORM) -lid3"
+				location = "-L$(EL_CPP_ID3LIB)/spec/$(ISE_PLATFORM) -lid3"
+
+			external_include:
+				location = "$(EL_C_LIBID3TAG)/include"
 			external_object:
-				location = "-L$(EL_CONTRIB)/C/libid3tag/spec/$(ISE_PLATFORM) -lid3tag"
+				location = "-L$(EL_C_LIBID3TAG)/spec/$(ISE_PLATFORM) -lid3tag"
 				description: 
 					"""
 						WARNING: subtle bug

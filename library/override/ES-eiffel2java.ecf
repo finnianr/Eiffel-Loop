@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" name = "eiffel2java" uuid = "229b6b92-09aa-11df-87a6-133993654198" library_target = "eiffel2java">
+<system name = "eiffel2java" uuid = "229b6b92-09aa-11df-87a6-133993654198" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" library_target = "eiffel2java">
 	<description>
 Override of ES Eiffel2Java
 
@@ -29,8 +29,8 @@ for use with the [./library/eiffel2java.html  Eiffel-Loop Eiffel to Java] librar
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
-		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "api_wrapper" location = "$ISE_LIBRARY/library/api_wrapper/api_wrapper.ecf"/>
+		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<!--Source code-->
 		<cluster name = "EL_override" location = "language_interface/Java" recursive = "true">
 			<description>

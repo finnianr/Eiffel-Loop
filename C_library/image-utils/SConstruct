@@ -20,7 +20,7 @@ def expanded_path (a_path):
 if platform.system () == "Windows":
 	is_unix = False
 	compiler_flags = ['-Ox', '-Zi', '-MT', '-w', '-nologo', '-DEIF_WINDOWS']
-	cairo_home = path.expandvars (path.normpath ('$EIFFEL_LOOP/contrib/C/Cairo-1.12.16'))
+	cairo_home = path.expandvars (path.normpath ('$EL_C_CAIRO'))
 	include_path = [path.join (cairo_home, 'include')] 
 	prefix = include_path [0]
 	include_path.extend (util.prefixed_list (prefix, ['libpng16', 'cairo', path.normpath ('librsvg-2.0/librsvg')]))

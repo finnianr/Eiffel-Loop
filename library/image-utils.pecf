@@ -3,8 +3,8 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_image_utils; uuid = "229b6cc8-09aa-11df-87a9-ffc4e5fcb1e7" 
-	library_target = el_image_utils
+	name = EL_image_utils; library_target = EL_image_utils; uuid = "229b6cc8-09aa-11df-87a9-ffc4e5fcb1e7" 
+	
 	description: 
 		"""
 			Image Utilities
@@ -14,97 +14,72 @@ system:
 			1. SVG to PNG conversion using C library [http://librsvg.sourceforge.net/ librsvg]
 			2. Miscellaneous routines from the [https://cairographics.org/ Cairo graphics C library]
 		"""
-	
 	target:
 		name = EL_image_utils
 		root:
 			all_classes = true
-
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
+		# Common includes
 		external_include:
 			location = "$(EL_C_LIB)/include"
-
 		external_include:
 			location = "$(EL_C_LIB)/image-utils/source"
 
-		# Windows includes
-		external_include:
-			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/cairo"
-			condition:
-				platform = windows
-
-		external_include:
-			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/librsvg-2.0/librsvg"
-			condition:
-				platform = windows
-
-		external_include: 
-			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/glib-2.0"
-			condition:
-				platform = windows
-
-		external_include: 
-			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/lib/glib-2.0/include"
-			condition:
-				platform = windows
+		windows_externals:
+			external_include:
+				location = "$(EL_C_CAIRO)/include/cairo"
+			external_include:
+				location = "$(EL_C_CAIRO)/include/librsvg-2.0/librsvg"
+			external_include: 
+				location = "$(EL_C_CAIRO)/include/glib-2.0"
+			external_include: 
+				location = "$(EL_C_CAIRO)/lib/glib-2.0/include"
 
 		# Unix includes
-		external_include:
-			location = "/usr/include/cairo"
-			condition:
-				platform = unix
-
-		external_include:
-			location = "/usr/include/librsvg-2.0/librsvg"
-			condition:
-				platform = unix
-
-		external_include:
-			location = "/usr/include/glib-2.0"
-			condition:
-				platform = unix
-
-		# Needs to be a way to select the 32 bit version but how?
-		external_include: 
-			location = "/usr/lib/x86_64-linux-gnu/glib-2.0/include"
-			condition:
-				platform = unix
+		unix_externals:
+			external_include:
+				location = "/usr/include/cairo"
+			external_include:
+				location = "/usr/include/librsvg-2.0/librsvg"
+			external_include:
+				location = "/usr/include/glib-2.0"
+			# Needs to be a way to select the 32 bit version but how?
+			external_include: 
+				location = "/usr/lib/x86_64-linux-gnu/glib-2.0/include"
 
 		# For Windows
 		# The following objects are excluded from being linked because they are intended for dynamic linking at runtime. 
 		# They are included to trigger SCons build scripts.
-
 		variable:
-			name = link_object; value = false
+			link_object = false
 
-		external_object:
-			location = "$(EL_C_LIB)/image-utils/spec/$(ISE_PLATFORM)/elimageutils.dll"
-			description:
-				"""
-					elimageutils.dll requires:
-					$EL_C_LIB/image-utils/spec/$ISE_PLATFORM/elimageutils.dll
-				"""
-			condition:
-				platform = windows
-				custom:
-					name = link_object; value = true
+		windows_externals:
+			external_object:
+				location = "$(EL_C_LIB)/image-utils/spec/$(ISE_PLATFORM)/elimageutils.dll"
+				description:
+					"""
+						elimageutils.dll requires:
+						$EL_C_LIB/image-utils/spec/$ISE_PLATFORM/elimageutils.dll
+					"""
+				condition:
+					custom:
+						link_object = true
 
-		external_object:
-			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/spec/$(ISE_PLATFORM)/libcairo-2.dll"
-			description:
-				"""
-					libcairo-2.dll requires:
-					$EL_CONTRIB/C/Cairo-1.12.16/spec/$ISE_PLATFORM/*.dll
-				"""
-			condition:
-				platform = windows
-				custom:
-					name = link_object; value = true
+			external_object:
+				location = "$(EL_C_CAIRO)/spec/$(ISE_PLATFORM)/libcairo-2.dll"
+				description:
+					"""
+						libcairo-2.dll requires:
+						$EL_C_CAIRO/spec/$ISE_PLATFORM/*.dll
+					"""
+				condition:
+					custom:
+						link_object = true
 
 		# For Unix
 		external_object:
@@ -117,27 +92,21 @@ system:
 			condition:
 				platform = unix
 				custom:
-					name = link_object; value = true
+					link_object = true
 
 		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+			base = "$ISE_LIBRARY/library/base/base.ecf"
 
 		# Eiffel-Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_c_api; location = "C-language-interface.ecf"
-
-		library:
-			name = EL_os_command; location = "os-command.ecf"
-
-		library:
-			name = EL_pyxis_scan; location = "pyxis-scan.ecf"
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_c_api = "C-language-interface.ecf"
+			EL_os_command = "os-command.ecf"
+			EL_pyxis_scan = "pyxis-scan.ecf"
 
 		# Source code
-		cluster:
-			name = image_utils; location = "graphic/image/utils"; recursive = true
+		cluster_tree:
+			image_utils = "graphic/image/utils"
 			platform_list:
 				"imp_mswin; imp_unix"
 

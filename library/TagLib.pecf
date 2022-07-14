@@ -7,8 +7,7 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_taglib; uuid = "243285C8-F255-11E9-AF8E-E3A3935D48CC" 
-	library_target = EL_taglib
+	name = EL_taglib; library_target = EL_taglib; uuid = "243285C8-F255-11E9-AF8E-E3A3935D48CC" 
 	description:
 		"""
 			TagLib Audio Meta-Data Library
@@ -32,90 +31,58 @@ system:
 			Special thanks to [https://github.com/scotchi Scott Wheeler], the original author of the TagLib library,
 			for his kind assistance and and support in creating this Eiffel binding.
 		"""
-	
 	target:
 		name = EL_taglib
-		
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
-
 		root:
 			all_classes = true
 
-		# For Windows
-		external_include:
-			location = "$(EL_CONTRIB)\\C++\\taglib\\include"
-			condition:
-				platform = windows
-
-		external_include:
-			location = "$(EL_CONTRIB)\\C++\\taglib\\include\\mpeg\\id3v2"
-			condition:
-				platform = windows
-
-		external_include: 
-			location = "$(EL_CONTRIB)\\C++\\taglib\\include\\toolkit"
-			condition:
-				platform = windows
-
-		external_object:
-			location = "$(EL_CONTRIB)\\C++\\taglib\\spec\\$(ISE_PLATFORM)\\tag.lib"
-			condition:
-				platform = windows
+		windows_externals:
+			external_include:
+				location = "$(EXT_CPP_TAGLIB)\\taglib"
+			external_include:
+				location = "$(EXT_CPP_TAGLIB)\\taglib\\mpeg\\id3v2"
+			external_include: 
+				location = "$(EXT_CPP_TAGLIB)\\taglib\\toolkit"
+			external_object:
+				location = "$(EL_CPP_TAGLIB)\\taglib\\spec\\$(ISE_PLATFORM)\\tag.lib"
 
 		# For Unix
-		external_include:
-			location = "$(EL_CONTRIB)/C++/taglib/include"
-			condition:
-				platform = unix
-
-		external_include:
-			location = "$(EL_CONTRIB)/C++/taglib/include/mpeg/id3v2"
-			condition:
-				platform = unix
-
-		external_include:
-			location = "$(EL_CONTRIB)/C++/taglib/include/toolkit"
-			condition:
-				platform = unix
-
-		external_object:
-			location = "-L$(EL_CONTRIB)/C++/taglib/spec/$(ISE_PLATFORM) -ltag"
-			condition:
-				platform = unix
-
-		external_object:
-			location = "-L$(ISE_LIBRARY)/C_library/zlib -lz"
-			condition:
-				platform = unix
+		unix_externals:
+			external_include:
+				location = "$(EXT_CPP_TAGLIB)/taglib"
+			external_include:
+				location = "$(EXT_CPP_TAGLIB)/taglib/mpeg/id3v2"
+			external_include:
+				location = "$(EXT_CPP_TAGLIB)/taglib/toolkit"
+			external_object:
+				location = "-L$(EL_CPP_TAGLIB)/spec/$(ISE_PLATFORM) -ltag"
+			external_object:
+				location = "-L$(ISE_LIBRARY)/C_library/zlib -lz"
 
 		# ISE libraries
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			time = "time/time.ecf"
 		library:
-			name = c_library_zlib; location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf"
+			zlib = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf"
 			condition:
 				platform = windows
 
-		library:
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
-
-		# Eiffel Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_c_api; location = "C-language-interface.ecf"
+		# Eiffel-Loop libraries
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_c_api = "C-language-interface.ecf"
 
 		# Source code
-		cluster:
-			name = taglib; location = "multimedia/ID3/taglib"; recursive = true
+		cluster_tree:
+			taglib = "multimedia/ID3/taglib"
 			platform_list:
 				"imp_mswin; imp_unix"
-
 
 

@@ -27,30 +27,24 @@ system:
 		external_include: 
 			location = "$(JDK_HOME)/include"
 
-		external_include: 
-			location = "$(JDK_HOME)/include/linux"
-			condition:
-				platform = unix
+		unix_externals:
+			external_include: 
+				location = "$(JDK_HOME)/include/linux"
+			external_cflag:
+				value = "-Wno-write-strings"
 
-		external_cflag:
-			value = "-Wno-write-strings"
-			condition:
-				platform = unix
+		windows_externals:		
+			external_include: 
+				location = "$(JDK_HOME)/include/win32"
 
-		external_include: 
-			location = "$(JDK_HOME)/include/win32"
-			condition:
-				platform = windows
-
-		library: 
-			name = "base"; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library: 
-			name = api_wrapper; location = "$ISE_LIBRARY/library/api_wrapper/api_wrapper.ecf"
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			api_wrapper = "api_wrapper/api_wrapper.ecf"
+			base = "base/base.ecf"
 
 		# Source code
-		cluster:
-			name = EL_override; location = "language_interface/Java"; recursive = true
+		cluster_tree:
+			EL_override = "language_interface/Java"
 			description:
 				"""
 					Override of Eiffel2Java
@@ -61,8 +55,8 @@ system:
 			platform_list:
 				"windows; unix"
 
-		cluster:
-			name = eiffel2java; location = "$ISE_LIBRARY/library/Eiffel2Java/"; recursive = true
+		cluster_tree:
+			eiffel2java = "$ISE_LIBRARY/library/Eiffel2Java/"
 			file_rule:
 				exclude:
 					"/jni_environment\.e$"

@@ -3,8 +3,7 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_vtd_xml; uuid = "229b77d6-09aa-11df-87c5-b77da3e246d9" 
-	library_target = EL_vtd_xml
+	name = EL_vtd_xml; library_target = EL_vtd_xml; uuid = "229b77d6-09aa-11df-87c5-b77da3e246d9" 
 	description: 
 		"""
 			XML Scanning and Object Building with VTD-XML
@@ -29,7 +28,6 @@ system:
 		name = EL_vtd_xml
 		root:
 			all_classes = true
-
 		option:
 			namespace = "Eiffel-Loop.Library.VTD-XML"
 			syntax = standard; full_class_checking = false; void_safety = none
@@ -43,54 +41,41 @@ system:
 				"""
 					C implementation of EL_C_CALLABLE_PROCEDURE
 				"""
-
 		external_include: 
 			location = "$(EL_C_LIB)/vtd2eiffel/source"
-
-		external_object:
-			location = "-L$(EL_C_LIB)/vtd2eiffel/spec/$(ISE_PLATFORM) -lvtd-xml"
-			condition:
-				platform = unix
 
 		external_object:
 			location = "$(EL_C_LIB)/vtd2eiffel/spec/$(ISE_PLATFORM)/vtd-xml.lib"
 			condition:
 				platform = windows
-
-		external_linker_flag:
-			value = "-L$(EL_C_LIB)/vtd2eiffel/spec/$(ISE_PLATFORM) -lvtd-xml"
-			condition:
-				platform = unix
+		
+		unix_externals:
+			external_object:
+				location = "-L$(EL_C_LIB)/vtd2eiffel/spec/$(ISE_PLATFORM) -lvtd-xml"
+			external_linker_flag:
+				value = "-L$(EL_C_LIB)/vtd2eiffel/spec/$(ISE_PLATFORM) -lvtd-xml"
 		
 		# Experiment to see if calling scons with pre-compile action is practical
 		#pre_compile_action:
 		#	working_directory = "$EL_C_LIB/vtd2eiffel"; command = "cmd /c scons && pause"
 
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			time = "time/time.ecf"
 
-		library:
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
-
-		# Eiffel-Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_c_api; location = "C-language-interface.ecf"
-
-		library:
-			name = EL_evolicity; location = "evolicity.ecf"
-
-		library:
-			name = EL_text_formats; location = "text-formats.ecf"
-
-		library:
-			name = EL_text_process; location = "text-process.ecf"
+		# Eiffel-Loop libraries
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_c_api = "C-language-interface.ecf"
+			EL_evolicity = "evolicity.ecf"
+			EL_text_formats = "text-formats.ecf"
+			EL_text_process = "text-process.ecf"
 
 		# Source code
-		cluster:
-			name = vtd_xml; location = "persistency/xml/vtd-xml"; recursive = true
+		cluster_tree:
+			vtd_xml = "persistency/xml/vtd-xml"
 			platform_list:
 				"imp_mswin; imp_unix"
 
