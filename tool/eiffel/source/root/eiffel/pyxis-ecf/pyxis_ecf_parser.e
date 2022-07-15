@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-13 12:33:33 GMT (Wednesday 13th July 2022)"
-	revision: "24"
+	date: "2022-07-15 11:51:18 GMT (Friday 15th July 2022)"
+	revision: "25"
 
 class
 	PYXIS_ECF_PARSER
@@ -43,7 +43,8 @@ feature {NONE} -- Implemenatation
 
 	call_state_procedure (a_line: STRING)
 		local
-			equal_index: INTEGER; line: like Once_line; s: EL_STRING_8_ROUTINES
+			equal_index: INTEGER; line: EL_PYXIS_LINE; s: EL_STRING_8_ROUTINES
+			group: GROUPED_ECF_LINES
 		do
 			line := shared_pyxis_line (a_line)
 			equal_index := line.index_of_equals
@@ -69,10 +70,15 @@ feature {NONE} -- Implemenatation
 					Precursor (line)
 				end
 
-			elseif equal_index > 0 and then last_tag ~ Name.condition
-				and then line.first_name_matches (Name.platform, equal_index)
-				and then attached Platform_lines as group
+			elseif equal_index > 0 and then is_condition_context (line)
+				and then a_line.index_of ('=', equal_index + 1) = 0 -- Only one
+				and then not line.first_name_matches (Name.name, equal_index)
 			then
+				if line.first_name_matches (Name.platform, equal_index) then
+					group := Platform_lines
+				else
+					group := Custom_lines
+				end
 				group.set_indent (line.indent_count)
 				group.set_from_line (line)
 				across group as ln loop
@@ -151,6 +157,16 @@ feature {NONE} -- Implemenatation
 
 feature {NONE} -- Implementation
 
+	is_condition_context (line: EL_PYXIS_LINE): BOOLEAN
+		do
+ 			if last_tag ~ Name.condition then
+ 				Result := True
+
+ 			elseif attached element_stack as stack and then stack.count > 0 then
+ 				Result := element_stack.count = line.indent_count and then stack.item ~ Name.condition
+ 			end
+		end
+
 	last_tag: STRING
 		do
 			if attached tag_name as tag then
@@ -171,6 +187,11 @@ feature {NONE} -- Internal attributes
 	grouped_lines: detachable GROUPED_ECF_LINES
 
 feature {NONE} -- Constants
+
+	Custom_lines: CUSTOM_ECF_LINES
+		once
+			create Result.make
+		end
 
 	Expansion_table: EL_HASH_TABLE [GROUPED_ECF_LINES, STRING]
 		once

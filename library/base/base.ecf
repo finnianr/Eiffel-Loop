@@ -29,8 +29,7 @@ msvcr71.dll requires:
 $EL_C_MSC_RUNTIME/spec/$ISE_PLATFORM/msvcr71.dll
 			</description>
 			<condition>
-				<platform value = "windows"/>
-				<custom name = "link_object" value = "true"/>
+				<platform value = "windows" link_object = "true"/>
 			</condition>
 		</external_object>
 		<!--ISE libraries-->

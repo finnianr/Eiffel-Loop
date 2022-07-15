@@ -2,14 +2,14 @@ url: https://ftp.osuosl.org/pub/blfs/conglomeration/id3lib/id3lib-3.8.3.tar.gz
 patch_url: http://www.linuxfromscratch.org/patches/blfs/svn/id3lib-3.8.3-consolidated_patches-1.patch
 
 # download here
-c_dev: $HOME/dev/C++
+c_dev: $EIFFEL/external/C++
 
 # Relative to `c_dev'
 extracted: id3lib-3.8.3
 
 # Relative to `extracted'
 clib: src/.libs/libid3.a
-include: include
+
 configure:
 	libtoolize -fc
 	aclocal
@@ -17,5 +17,4 @@ configure:
 	automake --add-missing --copy
 	./configure
 
-test_data: examples
 

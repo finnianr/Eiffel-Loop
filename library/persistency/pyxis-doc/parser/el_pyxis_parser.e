@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-12 9:08:21 GMT (Tuesday 12th July 2022)"
-	revision: "42"
+	date: "2022-07-15 11:49:35 GMT (Friday 15th July 2022)"
+	revision: "43"
 
 class
 	EL_PYXIS_PARSER

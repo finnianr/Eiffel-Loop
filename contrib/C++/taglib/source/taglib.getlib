@@ -1,13 +1,14 @@
 url: https://taglib.org/releases/taglib-1.11.1.tar.gz
+
 # download here
-c_dev: $HOME/dev/C++
+c_dev: $EIFFEL/external/C++
 
 # Relative to `c_dev'
 extracted: taglib-1.11.1
 
 # Relative to `extracted'
 clib: taglib/libtag.a
-include: taglib
+
 configure: cmake -DCMAKE_BUILD_TYPE=Release . 
-test_data: tests/data
+
 

@@ -58,28 +58,27 @@ system:
 		variable:
 			link_object = false
 
-		windows_externals:
-			external_object:
-				location = "$(EL_C_LIB)/image-utils/spec/$(ISE_PLATFORM)/elimageutils.dll"
-				description:
-					"""
-						elimageutils.dll requires:
-						$EL_C_LIB/image-utils/spec/$ISE_PLATFORM/elimageutils.dll
-					"""
-				condition:
-					custom:
-						link_object = true
+		external_object:
+			location = "$(EL_C_LIB)/image-utils/spec/$(ISE_PLATFORM)/elimageutils.dll"
+			description:
+				"""
+					elimageutils.dll requires:
+					$EL_C_LIB/image-utils/spec/$ISE_PLATFORM/elimageutils.dll
+				"""
+			condition:
+				platform = windows
+				link_object = true
 
-			external_object:
-				location = "$(EL_C_CAIRO)/spec/$(ISE_PLATFORM)/libcairo-2.dll"
-				description:
-					"""
-						libcairo-2.dll requires:
-						$EL_C_CAIRO/spec/$ISE_PLATFORM/*.dll
-					"""
-				condition:
-					custom:
-						link_object = true
+		external_object:
+			location = "$(EL_C_CAIRO)/spec/$(ISE_PLATFORM)/libcairo-2.dll"
+			description:
+				"""
+					libcairo-2.dll requires:
+					$EL_C_CAIRO/spec/$ISE_PLATFORM/*.dll
+				"""
+			condition:
+				platform = windows
+				link_object = true
 
 		# For Unix
 		external_object:
@@ -91,8 +90,7 @@ system:
 				"""
 			condition:
 				platform = unix
-				custom:
-					link_object = true
+				link_object = true
 
 		library: 
 			base = "$ISE_LIBRARY/library/base/base.ecf"

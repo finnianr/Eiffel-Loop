@@ -38,8 +38,6 @@ class LIBRARY_INFO (object):
 
 # Initialization
 	def __init__ (self, a_path):
-		self.test_data = None
-		self.include = None
 		self.url = None
 		self.clib = None
 		self.extracted = None
@@ -52,18 +50,6 @@ class LIBRARY_INFO (object):
 
 		if self.c_dev:
 			self.c_dev = path.expandvars (self.c_dev)
-
-# Access
-	def link_table (self):
-		# links to `include' and `test_dir'
-		result = {}
-		if self.include:
-			result ['include'] = self.include
-		if self.test_data:
-			result ['test_data'] = self.test_data
-
-		return result
-
 
 class SOFTWARE_PACKAGE (object):
 
@@ -109,7 +95,6 @@ class SOFTWARE_PACKAGE (object):
 
 	def is_configured (self):
 		return path.exists (path.join (self.unpacked_dir, self.makefile))
-	
 
 # Element change
 	def append (self, target, member_name):

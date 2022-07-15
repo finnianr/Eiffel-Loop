@@ -49,8 +49,7 @@ system:
 				"""
 			condition:
 				platform = windows
-				custom:
-					name = link_object; value = true
+				link_object = true
 
 		# ISE libraries
 		libraries:
@@ -60,6 +59,7 @@ system:
 			ise_i18n = "i18n/i18n.ecf"
 			condition:
 				platform = windows
+
 			net = "net/net.ecf"
 			time = "time/time.ecf"
 			thread = "thread/thread.ecf"

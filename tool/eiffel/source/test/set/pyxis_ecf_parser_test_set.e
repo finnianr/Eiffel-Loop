@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-12 18:54:47 GMT (Tuesday 12th July 2022)"
-	revision: "27"
+	date: "2022-07-15 12:04:11 GMT (Friday 15th July 2022)"
+	revision: "28"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -31,9 +31,9 @@ feature -- Basic operations
 feature -- Tests
 
 	test_c_externals_path
-		-- library/ID3-tags.pecf
+		-- library/image-utils.pecf
 		local
-			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; count: INTEGER; location, xpath: STRING
+			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; count: INTEGER; location, xpath, condition: STRING
 		do
 			ecf_xdoc := new_ecf_xdoc (c_externals_pecf_path)
 
@@ -44,23 +44,26 @@ feature -- Tests
 					location := target.node ["location"]
 				end
 			end
-			assert ("valid_location", count = 2 and location ~ "$(EL_CONTRIB)/C++/id3lib/spec/$(ISE_PLATFORM)/id3.lib")
+			assert ("valid_location", count = 2 and location.ends_with ("libcairo-2.dll"))
 
-			xpath := "/system/target/external_cflag [condition/platform/@value='windows']/@value"
-			if attached ecf_xdoc.query (xpath) as c_flag then
-				assert ("has DID3LIB_LINKOPTION", c_flag.as_string_8 ~ "-DID3LIB_LINKOPTION=1 -DWIN32 -EHsc")
+			condition := "condition/platform/@value='unix' and condition/custom [@name='link_object']/@value='true'"
+			xpath := "/system/target/external_object [" + condition + "]/@location"
+			if attached ecf_xdoc.query (xpath) as node then
+				assert ("is libelimageutils.so", node.as_string_8.ends_with ("libelimageutils.so"))
 			else
-				assert ("windows cflag found", False)
+				assert ("unix link_object found", False)
 			end
+			xpath := "/system/target/external_object [condition/custom [@name='link_object']/@value='true']"
+			assert ("3 link_object = true", ecf_xdoc.context_list (xpath).count = 3)
 
 			count := 0; location.wipe_out
-			across ecf_xdoc.context_list (External_object_xpath #$ ["unix"]) as target loop
+			across ecf_xdoc.context_list (External_include_xpath #$ ["unix"]) as target loop
 				count := count + 1
-				if count = 3 then
+				if count = 4 then
 					location := target.node ["location"]
 				end
 			end
-			assert ("valid_location", count = 3 and location ~ "-L$(ISE_LIBRARY)/C_library/zlib -lz")
+			assert ("valid_location", count = 4 and location.ends_with ("glib-2.0/include"))
 		end
 
 	test_eiffel2java_pecf
@@ -98,8 +101,6 @@ feature -- Tests
 			else
 				assert ("renaming JNI_ENVIRONMENT found", False)
 			end
-
-
 			if attached ecf_xdoc.query ("/system/target/cluster[@name='Java']/@location").as_string_8 as location then
 				assert ("Java cluster", location.ends_with ("Java"))
 			end
@@ -194,7 +195,7 @@ feature {NONE} -- Implementation
 
 	c_externals_pecf_path: FILE_PATH
 		do
-			Result := Eiffel_loop_dir + "library/ID3-tags.pecf"
+			Result := Eiffel_loop_dir + "library/image-utils.pecf"
 		end
 
 	graphical_pecf_path: FILE_PATH
@@ -243,6 +244,11 @@ feature {NONE} -- Constants
 	External_object_xpath: ZSTRING
 		once
 			Result := "/system/target/external_object[condition/platform/@value='%S']"
+		end
+
+	External_include_xpath: ZSTRING
+		once
+			Result := "/system/target/external_include[condition/platform/@value='%S']"
 		end
 
 	Library_location_xpath: ZSTRING
