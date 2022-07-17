@@ -49,12 +49,12 @@ See doc/eros.txt for details
 		<cluster name = "common" location = "network/eros/common" recursive = "true"/>
 		<cluster name = "client" location = "network/eros/client" recursive = "true">
 			<condition>
-				<custom name = "eros_server_enabled" excluded_value = "true"/>
+				<custom name = "eros_server_enabled" value = "false"/>
 			</condition>
 		</cluster>
 		<cluster name = "server" location = "network/eros/server" recursive = "true">
 			<condition>
-				<custom name = "eros_server_enabled" excluded_value = "false"/>
+				<custom name = "eros_server_enabled" value = "true"/>
 			</condition>
 		</cluster>
 	</target>

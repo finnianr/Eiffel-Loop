@@ -211,15 +211,15 @@ system:
 		assembly:
 			name = mscorlib; location = "$ISE_DOTNET_FRAMEWORK\mscorlib.dll"
 			renaming:
-				old_name = INTERFACE_TYPE_ATTRIBUTE; new_name = SYSTEM_INTERFACE_TYPE_ATTRIBUTE
+				INTERFACE_TYPE_ATTRIBUTE = SYSTEM_INTERFACE_TYPE_ATTRIBUTE
 			renaming:
-				old_name = ENCODING; new_name = SYSTEM_ENCODING
+				ENCODING = SYSTEM_ENCODING
 			renaming:
-				old_name = THREAD_STATE; new_name = SYSTEM_THREAD_STATE
+				THREAD_STATE = SYSTEM_THREAD_STATE
 			renaming:
-				old_name = TIMER; new_name = SYSTEM_TIMER
+				TIMER = SYSTEM_TIMER
 			renaming:
-				old_name = WEAK_REFERENCE; new_name = SYSTEM_WEAK_REFERENCE
+				WEAK_REFERENCE = SYSTEM_WEAK_REFERENCE
 		cluster:
 			name = contrib; location = "$ISE_LIBRARY/library/vision2/contrib"; recursive = true
 			option:

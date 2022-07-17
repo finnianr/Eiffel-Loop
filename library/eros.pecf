@@ -55,8 +55,7 @@ system:
 			EL_text_process = "text-process.ecf"
 			EL_vision2 = "vision2-x.ecf"
 			condition:
-				custom:
-					eros_server_enabled = true
+				eros_server_enabled = true
 			EL_xml_scan = "xml-scan.ecf"
 
 		# Source code
@@ -66,12 +65,10 @@ system:
 		cluster_tree:
 			client = "network/eros/client"
 			condition:
-				custom:
-					name = eros_server_enabled; excluded_value = true
+				eros_server_enabled = false
 
 		cluster_tree:
 			server = "network/eros/server"
 			condition:
-				custom:
-					name = eros_server_enabled; excluded_value = false
+				eros_server_enabled = true
 

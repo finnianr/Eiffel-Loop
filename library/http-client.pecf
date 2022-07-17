@@ -3,8 +3,7 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_http_client; uuid = "229b52e2-09aa-11df-8776-57ee66e3341a" 
-	library_target = EL_http_client
+	name = EL_http_client; library_target = EL_http_client; uuid = "229b52e2-09aa-11df-8776-57ee66e3341a" 
 	description:
 		"""
 			HTTP Client Services
@@ -12,13 +11,10 @@ system:
 			Classes for remotely interacting with a HTTP server. 
 			Supports the HTTP commands: POST, GET and HEAD.
 		"""
-	
 	target:
 		name = EL_http_client
-
 		root:
 			all_classes = true
-
 		option:
 			namespace = "Eiffel-Loop.Library.http"
 			syntax = standard; full_class_checking = false; void_safety = none
@@ -26,67 +22,45 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
-		# C interface
+		# C externals
 		external_include: 
 			location = "$(EL_C_LIB)/cURL/source"
 
-		external_object:
-			location = "-L$(EL_C_LIB)/cURL/spec/$(ISE_PLATFORM) -lelcurl"
-			condition:
-				platform = unix
+		unix_externals:		
+			external_object:
+				location = "-L$(EL_C_LIB)/cURL/spec/$(ISE_PLATFORM) -lelcurl"
 
-		external_object:
-			location = "$(EL_C_LIB)/cURL/spec/$(ISE_PLATFORM)/elcurl.lib"
-			condition:
-				platform = windows
+		windows_externals:		
+			external_object:
+				location = "$(EL_C_LIB)/cURL/spec/$(ISE_PLATFORM)/elcurl.lib"
 
-		# Include libraries
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			net = "net/net.ecf"
+			time = "time/time.ecf"
 
-		library: 
-			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
-
+		# ISE override
 		library:
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
-
-		library:
-			name = url_client; location = "override/ES-cURL.ecf"
+			url_client = "override/ES-cURL.ecf"
 
 		# Eiffel Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_c_api; location = "C-language-interface.ecf"; readonly = false
-
-		library:
-			name = EL_network; location = "network.ecf"
-
-		library:
-			name = EL_os_command; location = "os-command.ecf"
-
-		library:
-			name = EL_pyxis_scan; location = "pyxis-scan.ecf"
-
-		library:
-			name = EL_text_formats; location = "text-formats.ecf"
-
-		library:
-			name = EL_text_process; location = "text-process.ecf"
-
-		library:
-			name = EL_thread; location = "thread.ecf"
-
-		library:
-			name = EL_vtd_xml; location = "vtd-xml.ecf"
-
-		library:
-			name = EL_xml_scan; location = "xml-scan.ecf"
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_c_api = "C-language-interface.ecf"
+			EL_network = "network.ecf"
+			EL_os_command = "os-command.ecf"
+			EL_pyxis_scan = "pyxis-scan.ecf"
+			EL_text_formats = "text-formats.ecf"
+			EL_text_process = "text-process.ecf"
+			EL_thread = "thread.ecf"
+			EL_vtd_xml = "vtd-xml.ecf"
+			EL_xml_scan = "xml-scan.ecf"
 
 		# Source code
-		cluster:
-			name = http; location = "network/http"; recursive = true
+		cluster_tree:
+			http = "network/http"
 			option:
 				namespace = "Eiffel-Loop.http"
 			platform_list:

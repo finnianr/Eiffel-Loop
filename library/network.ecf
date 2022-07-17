@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_network" uuid = "229b763c-09aa-11df-87c1-9fd182a2a60d" library_target = "EL_network">
+<system name = "EL_network" library_target = "EL_network" uuid = "229b763c-09aa-11df-87c1-9fd182a2a60d" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 Networking Common
 
@@ -31,7 +31,7 @@ Common networking classes
 		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "thread" location = "$ISE_LIBRARY/library/thread/thread.ecf"/>
-		<library name = "time" location = "$ISE_EIFFEL/library/time/time.ecf"/>
+		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<library name = "net" location = "$ISE_LIBRARY/library/net/net.ecf"/>
 		<!--Eiffel-Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>

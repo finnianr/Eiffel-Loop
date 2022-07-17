@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_http_client" uuid = "229b52e2-09aa-11df-8776-57ee66e3341a" library_target = "EL_http_client">
+<system name = "EL_http_client" library_target = "EL_http_client" uuid = "229b52e2-09aa-11df-8776-57ee66e3341a" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 HTTP Client Services
 
@@ -12,7 +12,7 @@ Supports the HTTP commands: POST, GET and HEAD.
 		<option namespace = "Eiffel-Loop.Library.http" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
-		<!--C interface-->
+		<!--C externals-->
 		<external_include location = "$(EL_C_LIB)/cURL/source"/>
 		<external_object location = "-L$(EL_C_LIB)/cURL/spec/$(ISE_PLATFORM) -lelcurl">
 			<condition>
@@ -24,14 +24,15 @@ Supports the HTTP commands: POST, GET and HEAD.
 				<platform value = "windows"/>
 			</condition>
 		</external_object>
-		<!--Include libraries-->
+		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "net" location = "$ISE_LIBRARY/library/net/net.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
+		<!--ISE override-->
 		<library name = "url_client" location = "override/ES-cURL.ecf"/>
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
-		<library name = "EL_c_api" location = "C-language-interface.ecf" readonly = "false"/>
+		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
 		<library name = "EL_network" location = "network.ecf"/>
 		<library name = "EL_os_command" location = "os-command.ecf"/>
 		<library name = "EL_pyxis_scan" location = "pyxis-scan.ecf"/>

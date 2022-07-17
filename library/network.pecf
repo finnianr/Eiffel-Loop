@@ -3,8 +3,7 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_network; uuid = "229b763c-09aa-11df-87c1-9fd182a2a60d" 
-	library_target = EL_network
+	name = EL_network; library_target = EL_network; uuid = "229b763c-09aa-11df-87c1-9fd182a2a60d" 
 	description:
 		"""
 			Networking Common
@@ -16,12 +15,10 @@ system:
 			* Classes for managing HTTP cookies, query parameters, headers and status codes.
 			* FTP upload and download
 		"""
-	
 	target:
 		name = EL_network
 		root:
 			all_classes = true
-
 		option:
 			namespace = "Eiffel-Loop.Library.net"
 			syntax = standard; full_class_checking = false; void_safety = none
@@ -33,58 +30,34 @@ system:
 		external_include: 
 			location = "$(EL_C_LIB)/network-adapter/source"
 
-
-		external_object:
-			location = "$(EL_C_LIB)/network-adapter/spec/$(ISE_PLATFORM)/network-adapter.lib"
-			condition:
-				platform = windows
-
-		external_object:
-			location = "IPHlpApi.lib"
-			condition:
-				platform = windows
+		windows_externals:
+			external_object:
+				location = "$(EL_C_LIB)/network-adapter/spec/$(ISE_PLATFORM)/network-adapter.lib"
+			external_object:
+				location = "IPHlpApi.lib"
 		
 		# ISE libraries
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library: 
-			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
-
-		library:
-			name = time; location = "$ISE_EIFFEL/library/time/time.ecf"
-
-		library: 
-			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			thread = "thread/thread.ecf"
+			time = "time/time.ecf"
+			net = "net/net.ecf"
 
 		# Eiffel-Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_c_api; location = "C-language-interface.ecf"
-
-		library:
-			name = EL_doc_scan; location = "document-scan.ecf"
-
-		library:
-			name = EL_os_command; location = "os-command.ecf"
-
-		library:
-			name = EL_text_formats; location = "text-formats.ecf"
-
-		library:
-			name = EL_text_process; location = "text-process.ecf"
-
-		library:
-			name = EL_thread; location = "thread.ecf"
-
-		library:
-			name = EL_xml_scan; location = "xml-scan.ecf"
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_c_api = "C-language-interface.ecf"
+			EL_doc_scan = "document-scan.ecf"
+			EL_os_command = "os-command.ecf"
+			EL_text_formats = "text-formats.ecf"
+			EL_text_process = "text-process.ecf"
+			EL_thread = "thread.ecf"
+			EL_xml_scan = "xml-scan.ecf"
 
 		# Source code
-		cluster:
-			name = network; location = "network/base"; recursive = true
+		cluster_tree:
+			network = "network/base"
 			option:
 				namespace = "Eiffel-Loop-net"
 			platform_list:

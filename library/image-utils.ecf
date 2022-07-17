@@ -1,123 +1,100 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!---->
-<system name = "EL_image_utils" library_target = "EL_image_utils" uuid = "229b6cc8-09aa-11df-87a9-ffc4e5fcb1e7" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
-	<description>
-Image Utilities
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-15-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-15-0.xsd" name="el_image_utils" uuid="229B6CC8-09AA-11DF-87A9-FFC4E5FCB1E7" library_target="el_image_utils">
+	<description>Image Utilities
 
 Image utilities providing:
 
 1. SVG to PNG conversion using C library [http://librsvg.sourceforge.net/ librsvg]
-2. Miscellaneous routines from the [https://cairographics.org/ Cairo graphics C library]
-	</description>
-	<target name = "EL_image_utils">
-		<root all_classes = "true"/>
-		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
-			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
+2. Miscellaneous routines from the [https://cairographics.org/ Cairo graphics C library]</description>
+	<target name="el_image_utils">
+		<root all_classes="true"/>
+		<option trace="false" debug="false" warning="true" full_class_checking="false" void_safety="none" syntax="standard">
+			<assertions precondition="true" postcondition="true" check="true" invariant="true"/>
 		</option>
-		<!--Common includes-->
-		<external_include location = "$(EL_C_LIB)/include"/>
-		<external_include location = "$(EL_C_LIB)/image-utils/source"/>
-		<external_include location = "$(EL_C_CAIRO)/include/cairo">
+		<external_include location="$(EL_C_LIB)/include"/>
+		<external_include location="$(EL_C_LIB)/image-utils/source"/>
+		<external_include location="$(EL_C_CAIRO)/include/cairo">
 			<condition>
-				<platform value = "windows"/>
+				<platform value="windows"/>
 			</condition>
 		</external_include>
-		<external_include location = "$(EL_C_CAIRO)/include/librsvg-2.0/librsvg">
+		<external_include location="$(EL_C_CAIRO)/include/librsvg-2.0/librsvg">
 			<condition>
-				<platform value = "windows"/>
+				<platform value="windows"/>
 			</condition>
 		</external_include>
-		<external_include location = "$(EL_C_CAIRO)/include/glib-2.0">
+		<external_include location="$(EL_C_CAIRO)/include/glib-2.0">
 			<condition>
-				<platform value = "windows"/>
+				<platform value="windows"/>
 			</condition>
 		</external_include>
-		<external_include location = "$(EL_C_CAIRO)/lib/glib-2.0/include">
+		<external_include location="$(EL_C_CAIRO)/lib/glib-2.0/include">
 			<condition>
-				<platform value = "windows"/>
+				<platform value="windows"/>
 			</condition>
 		</external_include>
-		<!--Unix includes-->
-		<external_include location = "/usr/include/cairo">
+		<external_include location="/usr/include/cairo">
 			<condition>
-				<platform value = "unix"/>
+				<platform value="unix"/>
 			</condition>
 		</external_include>
-		<external_include location = "/usr/include/librsvg-2.0/librsvg">
+		<external_include location="/usr/include/librsvg-2.0/librsvg">
 			<condition>
-				<platform value = "unix"/>
+				<platform value="unix"/>
 			</condition>
 		</external_include>
-		<external_include location = "/usr/include/glib-2.0">
+		<external_include location="/usr/include/glib-2.0">
 			<condition>
-				<platform value = "unix"/>
+				<platform value="unix"/>
 			</condition>
 		</external_include>
-		<!--Needs to be a way to select the 32 bit version but how?-->
-		<external_include location = "/usr/lib/x86_64-linux-gnu/glib-2.0/include">
+		<external_include location="/usr/lib/x86_64-linux-gnu/glib-2.0/include">
 			<condition>
-				<platform value = "unix"/>
+				<platform value="unix"/>
 			</condition>
 		</external_include>
-		<!--
-			For Windows
-			The following objects are excluded from being linked because they are intended for dynamic linking at runtime.
-			They are included to trigger SCons build scripts.
-		-->
-		<variable name = "link_object" value = "false"/>
-		<external_object location = "$(EL_C_LIB)/image-utils/spec/$(ISE_PLATFORM)/elimageutils.dll">
+		<external_object location="$(EL_C_LIB)/image-utils/spec/$(ISE_PLATFORM)/elimageutils.dll">
+			<description>elimageutils.dll requires:
+$EL_C_LIB/image-utils/spec/$ISE_PLATFORM/elimageutils.dll</description>
 			<condition>
-				<platform value = "windows"/>
-			</condition>
-			<description>
-elimageutils.dll requires:
-$EL_C_LIB/image-utils/spec/$ISE_PLATFORM/elimageutils.dll
-			</description>
-			<condition>
-				<custom name = "link_object" value = "true"/>
+				<platform value="windows"/>
+				<dynamic_runtime value="true"/>
+				<custom name="link_object" value="true"/>
 			</condition>
 		</external_object>
-		<external_object location = "$(EL_C_CAIRO)/spec/$(ISE_PLATFORM)/libcairo-2.dll">
+		<external_object location="$(EL_C_CAIRO)/spec/$(ISE_PLATFORM)/libcairo-2.dll">
+			<description>libcairo-2.dll requires:
+$EL_C_CAIRO/spec/$ISE_PLATFORM/*.dll</description>
 			<condition>
-				<platform value = "windows"/>
-			</condition>
-			<description>
-libcairo-2.dll requires:
-$EL_C_CAIRO/spec/$ISE_PLATFORM/*.dll
-			</description>
-			<condition>
-				<custom name = "link_object" value = "true"/>
+				<platform value="windows"/>
+				<custom name="link_object" value="true"/>
 			</condition>
 		</external_object>
-		<!--For Unix-->
-		<external_object location = "$(EL_C_LIB)/image-utils/spec/$(ISE_PLATFORM)/libelimageutils.so">
-			<description>
-libelimageutils.so requires:
-$EL_C_LIB/image-utils/spec/$ISE_PLATFORM/libelimageutils.so
-			</description>
+		<external_object location="$(EL_C_LIB)/image-utils/spec/$(ISE_PLATFORM)/libelimageutils.so">
+			<description>libelimageutils.so requires:
+$EL_C_LIB/image-utils/spec/$ISE_PLATFORM/libelimageutils.so</description>
 			<condition>
-				<platform value = "unix"/>
-				<custom name = "link_object" value = "true"/>
+				<platform value="unix"/>
+				<custom name="link_object" value="true"/>
 			</condition>
 		</external_object>
-		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
-		<!--Eiffel-Loop-->
-		<library name = "EL_base" location = "base/base.ecf"/>
-		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
-		<library name = "EL_os_command" location = "os-command.ecf"/>
-		<library name = "EL_pyxis_scan" location = "pyxis-scan.ecf"/>
-		<!--Source code-->
-		<cluster name = "image_utils" location = "graphic/image/utils" recursive = "true">
+		<variable name="link_object" value="false"/>
+		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="el_base" location="base\base.ecf"/>
+		<library name="el_c_api" location="C-language-interface.ecf"/>
+		<library name="el_os_command" location="os-command.ecf"/>
+		<library name="el_pyxis_scan" location="pyxis-scan.ecf"/>
+		<cluster name="image_utils" location="graphic\image\utils\" recursive="true">
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>
 				<condition>
-					<platform value = "unix"/>
+					<platform value="unix"/>
 				</condition>
 			</file_rule>
 			<file_rule>
 				<exclude>/imp_unix$</exclude>
 				<condition>
-					<platform value = "windows"/>
+					<platform value="windows"/>
 				</condition>
 			</file_rule>
 		</cluster>
