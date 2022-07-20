@@ -43,7 +43,6 @@ system:
 				value = "-DID3LIB_LINKOPTION=1 -DWIN32 -EHsc"
 			external_object:
 				location = "$(EL_CPP_ID3LIB)/spec/$(ISE_PLATFORM)/id3.lib"
-
 			external_include:
 				location = "$(EL_C_LIBID3TAG)\\include"
 			external_object:

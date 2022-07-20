@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-12 19:07:16 GMT (Tuesday 12th July 2022)"
-	revision: "1"
+	date: "2022-07-20 13:58:05 GMT (Wednesday 20th July 2022)"
+	revision: "2"
 
 class
 	PLATFORM_CONDITION_ECF_LINES
@@ -54,14 +54,14 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	set_variables (nvp: EL_NAME_VALUE_PAIR [STRING])
+	set_variables (nvp: ECF_NAME_VALUE_PAIR)
 		do
 			template.put (Var.value, nvp.value)
 		end
 
 feature {NONE} -- Internal attributes
 
-	platform_name: EL_NAME_VALUE_PAIR [STRING]
+	platform_name: ECF_NAME_VALUE_PAIR
 
 feature {NONE} -- Constants
 

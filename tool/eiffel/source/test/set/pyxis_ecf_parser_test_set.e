@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-15 12:04:11 GMT (Friday 15th July 2022)"
-	revision: "28"
+	date: "2022-07-20 15:06:16 GMT (Wednesday 20th July 2022)"
+	revision: "29"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -24,6 +24,7 @@ feature -- Basic operations
 		do
 			eval.call ("c_externals_path", agent test_c_externals_path)
 			eval.call ("eiffel2java_pecf", agent test_eiffel2java_pecf)
+			eval.call ("excluded_value_conditions", agent test_excluded_value_conditions)
 			eval.call ("graphical_pecf", agent test_graphical_pecf)
 			eval.call ("eiffel_pecf", agent test_eiffel_pecf)
 		end
@@ -33,12 +34,14 @@ feature -- Tests
 	test_c_externals_path
 		-- library/image-utils.pecf
 		local
-			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; count: INTEGER; location, xpath, condition: STRING
+			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; count: INTEGER
+			condition, location, xpath, copy_value, platform: STRING
 		do
-			ecf_xdoc := new_ecf_xdoc (c_externals_pecf_path)
+			ecf_xdoc := new_ecf_xdoc (image_utils_pecf_path)
 
 			create location.make_empty
-			across ecf_xdoc.context_list (External_object_xpath #$ ["windows"]) as target loop
+			condition := "condition/platform/@value='windows'"
+			across ecf_xdoc.context_list (External_object_xpath #$ [condition]) as target loop
 				count := count + 1
 				if count = 2 then
 					location := target.node ["location"]
@@ -46,15 +49,28 @@ feature -- Tests
 			end
 			assert ("valid_location", count = 2 and location.ends_with ("libcairo-2.dll"))
 
-			condition := "condition/platform/@value='unix' and condition/custom [@name='link_object']/@value='true'"
-			xpath := "/system/target/external_object [" + condition + "]/@location"
-			if attached ecf_xdoc.query (xpath) as node then
-				assert ("is libelimageutils.so", node.as_string_8.ends_with ("libelimageutils.so"))
-			else
-				assert ("unix link_object found", False)
+			xpath := "/system/target/external_object [condition/custom [@name='shared']/@value='true']"
+			count := 0
+			across ecf_xdoc.context_list (xpath) as external_object loop
+				count := count + 1
+				lio.put_labeled_string ("Description", external_object.node.query ("description").as_string)
+				lio.put_new_line
+				copy_value := external_object.node.query (Custom_value_xpath #$ ["copy"])
+				inspect count
+					when 1, 3 then
+						assert ("copy is $location", copy_value ~ "$location")
+					when 2 then
+						assert ("copy is $location", copy_value ~ "$EL_C_CAIRO/spec/$ISE_PLATFORM/*.dll")
+				end
+				platform := external_object.node.query ("condition/platform/@value")
+				inspect count
+					when 1, 2 then
+						assert ("platform is windows", platform ~ "windows")
+					when 3 then
+						assert ("platform is unix", platform ~ "unix")
+				end
 			end
-			xpath := "/system/target/external_object [condition/custom [@name='link_object']/@value='true']"
-			assert ("3 link_object = true", ecf_xdoc.context_list (xpath).count = 3)
+			assert ("shared external_object count = 3", count = 3)
 
 			count := 0; location.wipe_out
 			across ecf_xdoc.context_list (External_include_xpath #$ ["unix"]) as target loop
@@ -113,42 +129,6 @@ feature -- Tests
 			assert ("valid xsi:schemaLocation", schema_location.ends_with ("configuration-1-16-0.xsd"))
 		end
 
-	test_graphical_pecf
-		local
-			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; name, xpath: STRING
-			location_steps: EL_PATH_STEPS
-		do
-			ecf_xdoc := new_ecf_xdoc (graphical_pecf_path)
-			assert ("17 libraries", library_count (ecf_xdoc) = 17)
-			across ("__unnamed_debug__, wel_gdi_references, win_dispatcher").split (',') as list loop
-				name := list.item; name.left_adjust
-				assert ("debug false", ecf_xdoc.query (Option_setting_xpath #$ ["debug", name]).as_string_8 ~ "false")
-			end
-			across ("export_class_missing, vjrv").split (',') as list loop
-				name := list.item; name.left_adjust
-				assert ("warning false", ecf_xdoc.query (Option_setting_xpath #$ ["warning", name]).as_string_8 ~ "false")
-			end
-			across <<
-				"address_expression", "array_optimization", "dynamic_runtime",
-				"exception_trace", "inlining", "line_generation" >> as list
-			loop
-				assert ("false", ecf_xdoc.query (Setting_xpath #$ [list.item]).as_string_8 ~ "false")
-			end
-			across ("check_vape, dead_code_removal, console_application").split (',') as list loop
-				name := list.item; name.left_adjust
-				assert ("true", ecf_xdoc.query (Setting_xpath #$ [name]).as_string_8 ~ "true")
-			end
-			assert ("true", ecf_xdoc.query (Setting_xpath #$ ["concurrency"]).as_string_8 ~ "thread")
-
-			across Library_table as table loop
-				xpath := Library_location_xpath #$ [table.key]
-				location_steps := ecf_xdoc.query (xpath).as_file_path
-				assert ("is library path", location_steps.item (2).same_string ("library"))
-				assert (table.key, location_steps.base.same_string (table.item))
-			end
-			assert ("is GUI-application.ecf", has_precompile (ecf_xdoc, "GUI-application.ecf"))
-		end
-
 	test_eiffel_pecf
 		local
 			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; sub_cluster_count, writeable_count: INTEGER
@@ -191,9 +171,68 @@ feature -- Tests
 			assert ("is console-application.ecf", has_precompile (ecf_xdoc, "console-application.ecf"))
 		end
 
+	test_excluded_value_conditions
+		-- override/ES-cURL.ecf
+		local
+			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; condition: STRING
+			count: INTEGER
+		do
+			ecf_xdoc := new_ecf_xdoc (curl_override_pecf_path)
+			across Condition_table as table loop
+				condition := table.key; count := 0
+				across ecf_xdoc.context_list (External_object_xpath #$ [condition]) as list loop
+					count := count + 1
+				end
+				lio.put_integer_field (condition, count)
+				lio.put_new_line
+				assert ("valid count " + condition, count = table.item)
+			end
+		end
+
+	test_graphical_pecf
+		local
+			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; name, xpath: STRING
+			location_steps: EL_PATH_STEPS
+		do
+			ecf_xdoc := new_ecf_xdoc (graphical_pecf_path)
+			assert ("17 libraries", library_count (ecf_xdoc) = 17)
+			across ("__unnamed_debug__, wel_gdi_references, win_dispatcher").split (',') as list loop
+				name := list.item; name.left_adjust
+				assert ("debug false", ecf_xdoc.query (Option_setting_xpath #$ ["debug", name]).as_string_8 ~ "false")
+			end
+			across ("export_class_missing, vjrv").split (',') as list loop
+				name := list.item; name.left_adjust
+				assert ("warning false", ecf_xdoc.query (Option_setting_xpath #$ ["warning", name]).as_string_8 ~ "false")
+			end
+			across <<
+				"address_expression", "array_optimization", "dynamic_runtime",
+				"exception_trace", "inlining", "line_generation" >> as list
+			loop
+				assert ("false", ecf_xdoc.query (Setting_xpath #$ [list.item]).as_string_8 ~ "false")
+			end
+			across ("check_vape, dead_code_removal, console_application").split (',') as list loop
+				name := list.item; name.left_adjust
+				assert ("true", ecf_xdoc.query (Setting_xpath #$ [name]).as_string_8 ~ "true")
+			end
+			assert ("true", ecf_xdoc.query (Setting_xpath #$ ["concurrency"]).as_string_8 ~ "thread")
+
+			across Library_table as table loop
+				xpath := Library_location_xpath #$ [table.key]
+				location_steps := ecf_xdoc.query (xpath).as_file_path
+				assert ("is library path", location_steps.item (2).same_string ("library"))
+				assert (table.key, location_steps.base.same_string (table.item))
+			end
+			assert ("is GUI-application.ecf", has_precompile (ecf_xdoc, "GUI-application.ecf"))
+		end
+
 feature {NONE} -- Implementation
 
-	c_externals_pecf_path: FILE_PATH
+	curl_override_pecf_path: FILE_PATH
+		do
+			Result := Eiffel_loop_dir + "library/override/ES-cURL.pecf"
+		end
+
+	image_utils_pecf_path: FILE_PATH
 		do
 			Result := Eiffel_loop_dir + "library/image-utils.pecf"
 		end
@@ -210,14 +249,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	library_pecf_path: FILE_PATH
-		do
-			Result := Eiffel_loop_dir + "library/eiffel2java.pecf"
-		end
-
 	library_count (ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT): INTEGER
 		do
 			Result := ecf_xdoc.context_list ("//library").count
+		end
+
+	library_pecf_path: FILE_PATH
+		do
+			Result := Eiffel_loop_dir + "library/eiffel2java.pecf"
 		end
 
 	new_ecf_xdoc (pecf_path: FILE_PATH): EL_XPATH_ROOT_NODE_CONTEXT
@@ -241,14 +280,29 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	External_object_xpath: ZSTRING
+	Condition_table: EL_HASH_TABLE [INTEGER, STRING]
 		once
-			Result := "/system/target/external_object[condition/platform/@value='%S']"
+			create Result.make (<<
+				["condition/platform/@value='windows'", 4],
+				["condition/platform/@excluded_value='windows'", 2],
+				["condition/dotnet/@value='false'", 2],
+				["condition/concurrency/@excluded_value='none'", 2]
+			>>)
+		end
+
+	Custom_value_xpath: ZSTRING
+		once
+			Result := "condition/custom [@name='%S']/@value"
 		end
 
 	External_include_xpath: ZSTRING
 		once
 			Result := "/system/target/external_include[condition/platform/@value='%S']"
+		end
+
+	External_object_xpath: ZSTRING
+		once
+			Result := "/system/target/external_object[%S]"
 		end
 
 	Library_location_xpath: ZSTRING

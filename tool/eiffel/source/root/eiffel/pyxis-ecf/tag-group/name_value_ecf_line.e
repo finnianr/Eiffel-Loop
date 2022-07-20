@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-08 9:31:55 GMT (Friday 8th July 2022)"
-	revision: "4"
+	date: "2022-07-20 13:58:14 GMT (Wednesday 20th July 2022)"
+	revision: "5"
 
 class
 	NAME_VALUE_ECF_LINE
@@ -52,7 +52,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	set_variables (nvp: EL_NAME_VALUE_PAIR [STRING])
+	set_variables (nvp: ECF_NAME_VALUE_PAIR)
 		do
 			template.put (Var.name, nvp.name)
 			template.put (Var.value, nvp.value)

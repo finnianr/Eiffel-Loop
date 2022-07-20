@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 system:
 	configuration_ns = "1-10-0"
-	name = curl; uuid = "D51EF190-6157-4B47-8E73-FA93DCBB7A71"; library_target = curl
+	name = curl; library_target = curl; uuid = "D51EF190-6157-4B47-8E73-FA93DCBB7A71"
 	target:
 		name = curl
 		description:
@@ -26,40 +26,29 @@ system:
 		external_object:
 			location = "$(ISE_LIBRARY)/library/cURL/spec/$(ISE_PLATFORM)/lib/eiffel_curl.o"
 			condition:
-				platform:
-					excluded_value = windows
-				concurrency:
-					value = none
+				platform /= windows; concurrency = none
 		external_object:
 			location = "$(ISE_LIBRARY)/library/cURL/spec/$(ISE_PLATFORM)/lib/MTeiffel_curl.o"
 			condition:
-				platform:
-					excluded_value = windows
-				concurrency:
-					excluded_value = none
+				platform /= windows; concurrency /= none
 		external_object:
 			location = "$(ISE_LIBRARY)\library\cURL\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\eiffel_curl.lib"
 			condition:
-				platform = windows
-				concurrency:
-					value = none
-				dotnet:
-					value = false
+				platform = windows; concurrency = none; dotnet = false
 		external_object:
 			location = "$(ISE_LIBRARY)\library\cURL\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\mteiffel_curl.lib"
-			description:
-				"""
-					mteiffel_curl.lib requires:
-					$ISE_LIBRARY\studio\spec\$ISE_PLATFORM\bin\libcurl.dll
-					$ISE_LIBRARY\studio\spec\$ISE_PLATFORM\bin\libeay32.dll
-					$ISE_LIBRARY\studio\spec\$ISE_PLATFORM\bin\ssleay32.dll
-				"""
 			condition:
-				platform = windows
-				concurrency:
-					excluded_value = none
-				dotnet:
-					value = false
+				platform = windows; concurrency /= none; dotnet = false
+
+		external_object:
+			location = "$ISE_LIBRARY\studio\spec\$ISE_PLATFORM\bin\libcurl.dll"
+			description:
+				"Windows DLL for mteiffel_curl.lib"
+			condition:
+				shared = true; platform = windows; copy = "$location"
+				depends_1 = "$ISE_LIBRARY\studio\spec\$ISE_PLATFORM\bin\libeay32.dll"
+				depends_2 = "$ISE_LIBRARY\studio\spec\$ISE_PLATFORM\bin\ssleay32.dll"
+
 		external_object:
 			location = "$(ISE_LIBRARY)\library\cURL\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\ileiffel_curl.lib"
 			condition:
@@ -87,7 +76,7 @@ system:
 					"/gtk$"
 					"/mswin$"
 				condition:
-					platform	 = macintosh
+					platform	= macintosh
 					custom:
 						name = vision_implementation; value = cocoa
 			file_rule:

@@ -3,8 +3,7 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_wel_x_audio; uuid = "229b6df4-09aa-11df-87ac-abdb0fd497e6" 
-	library_target = EL_wel_x_audio
+	name = EL_wel_x_audio; library_target = EL_wel_x_audio; uuid = "229b6df4-09aa-11df-87ac-abdb0fd497e6" 
 	description: 
 		"""
 			Windows Audio
@@ -12,80 +11,60 @@ system:
 			Audio extensions for the [https://www.eiffel.org/doc/solutions/WEL WEL GUI library]
 			that facilitate playback and other audio functions.
 		"""
-	
 	target:
 		name = EL_wel_x_audio
 		root:
 			all_classes = true
-
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true
 
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library:
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
-
-		library:
-			name = wel; location="$ISE_LIBRARY/library/wel/wel.ecf"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			time = "time/time.ecf"
+			wel = "wel/wel.ecf"
 			condition:
 				platform = windows
 
 		library:
-			name = wex_mci; location="$EL_CONTRIB/Eiffel/Wex_MCI/Wex_MCI.ecf"
+			wex_mci = "$EL_CONTRIB/Eiffel/Wex_MCI/Wex_MCI.ecf"
 			condition:
 				platform = windows
 
 		# For Windows: Internal WaveOut API callback function.
-		external_include: 
-			location = "$(EL_C_LIB)/audio/source"
-			condition:
-				platform = windows
-
 		external_include:
 			location = "$(ISE_LIBRARY)/C_library/zlib"
-					
-		external_object:
-			location = "$(EL_C_LIB)/audio/spec/$(ISE_PLATFORM)/el_audio.lib"
-			condition:
-				platform = windows
 
-		external_object:
-			location = 'WinMM.lib'
-			condition:
-				platform = windows
+		windows_externals:
+			external_include:
+				location = "$(EL_C_LIB)/audio/source"
+			external_object:
+				location = "$(EL_C_LIB)/audio/spec/$(ISE_PLATFORM)/el_audio.lib"
+			external_object:
+				location = 'WinMM.lib'
 
-		external_object:
-			location = "-L$(ISE_LIBRARY)/C_library/zlib -lz"
-			condition:
-				platform = unix
+		unix_externals:
+			external_object:
+				location = "-L$(ISE_LIBRARY)/C_library/zlib -lz"
 
 		library:
-			name = c_library_zlib; location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf"
+			c_library_zlib = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf"
 			condition:
 				platform = windows
 		
 		# Eiffel-Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_c_api; location = "C-language-interface.ecf"; readonly = false
-
-		library:
-			name = EL_thread; location = "thread.ecf"
-
-		library:
-			name = EL_logging; location = "logging.ecf"
-
-		library:
-			name = EL_multimedia; location = "multi-media.ecf"; readonly = false
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_c_api = "C-language-interface.ecf"
+			EL_thread = "thread.ecf"
+			EL_logging = "logging.ecf"
+			EL_multimedia = "multi-media.ecf"
 
 		# Source code
-		cluster:
-			name = wel_x_audio; location = "multimedia/wel-x-audio"; recursive = true
+		cluster_tree:
+			wel_x_audio = "multimedia/wel-x-audio"
 			condition:
 				platform = windows
 

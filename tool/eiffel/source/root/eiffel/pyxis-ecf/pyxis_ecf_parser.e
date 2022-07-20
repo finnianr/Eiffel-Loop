@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-15 11:51:18 GMT (Friday 15th July 2022)"
-	revision: "25"
+	date: "2022-07-20 13:30:05 GMT (Wednesday 20th July 2022)"
+	revision: "26"
 
 class
 	PYXIS_ECF_PARSER
@@ -44,7 +44,6 @@ feature {NONE} -- Implemenatation
 	call_state_procedure (a_line: STRING)
 		local
 			equal_index: INTEGER; line: EL_PYXIS_LINE; s: EL_STRING_8_ROUTINES
-			group: GROUPED_ECF_LINES
 		do
 			line := shared_pyxis_line (a_line)
 			equal_index := line.index_of_equals
@@ -71,14 +70,9 @@ feature {NONE} -- Implemenatation
 				end
 
 			elseif equal_index > 0 and then is_condition_context (line)
-				and then a_line.index_of ('=', equal_index + 1) = 0 -- Only one
 				and then not line.first_name_matches (Name.name, equal_index)
+				and then attached Condition_lines as group
 			then
-				if line.first_name_matches (Name.platform, equal_index) then
-					group := Platform_lines
-				else
-					group := Custom_lines
-				end
 				group.set_indent (line.indent_count)
 				group.set_from_line (line)
 				across group as ln loop
@@ -188,7 +182,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Custom_lines: CUSTOM_ECF_LINES
+	Condition_lines: CONDITION_ECF_LINE
 		once
 			create Result.make
 		end
@@ -225,11 +219,6 @@ feature {NONE} -- Constants
 		end
 
 	Platform_condition_lines: PLATFORM_CONDITION_ECF_LINES
-		once
-			create Result.make
-		end
-
-	Platform_lines: PLATFORM_ECF_LINES
 		once
 			create Result.make
 		end

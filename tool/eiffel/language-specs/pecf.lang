@@ -301,6 +301,7 @@
 			<keyword>copyright</keyword>
 			<keyword>dead_code_removal</keyword>
 			<keyword>debug</keyword>
+			<keyword>dotnet</keyword>
 			<keyword>dynamic_runtime</keyword>
 			<keyword>eifgens</keyword>
 			<keyword>eifgens_location</keyword>

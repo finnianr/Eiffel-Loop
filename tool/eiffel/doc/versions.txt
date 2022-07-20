@@ -1,3 +1,7 @@
+1.7.1
+* Added PECF excluded_value = x shorthand: x /= y
+* Modified Scons system condition element to store shared object data
+
 1.6.8
 * Added PECF externals groups: eg. unix_externals
 

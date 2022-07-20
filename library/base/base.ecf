@@ -22,14 +22,12 @@ Clusters:
 		<mapping old_name = "DIR_PATH" new_name = "EL_DIR_PATH"/>
 		<mapping old_name = "FILE_PATH" new_name = "EL_FILE_PATH"/>
 		<!--Needed for Windows XP-->
-		<variable name = "link_object" value = "false"/>
-		<external_object location = "$EL_CONTRIB/C/MSC-runtime/spec/$ISE_PLATFORM/msvcr71.dll">
-			<description>
-msvcr71.dll requires:
-$EL_C_MSC_RUNTIME/spec/$ISE_PLATFORM/msvcr71.dll
-			</description>
+		<external_object location = "$EL_C_MSC_RUNTIME/spec/$ISE_PLATFORM/msvcr71.dll">
+			<description>MS VC++ Runtime (for Windows XP)</description>
 			<condition>
-				<platform value = "windows" link_object = "true"/>
+				<custom name = "shared" value = "true"/>
+				<platform value = "windows"/>
+				<custom name = "copy" value = "$location"/>
 			</condition>
 		</external_object>
 		<!--ISE libraries-->

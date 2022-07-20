@@ -34,7 +34,7 @@ system:
 				platform = unix
 
 		# ISE
-		libraries: 
+		libraries:
 			base = "$ISE_LIBRARY/library/base/base.ecf"
 			zlib = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf"
 			condition:

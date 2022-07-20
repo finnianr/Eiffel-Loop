@@ -16,7 +16,7 @@ from eiffel_loop.eiffel import project
 # Install executable from package or F_code directory
 
 usage = "usage: python ec_install_app --install <install directory> [--f_code]"
-parser = OptionParser(usage=usage)
+parser = OptionParser(usage = usage)
 parser.add_option (
 	"-f", "--f_code", action="store_true", dest="f_code", default=False, help="Install F_code executable"
 )

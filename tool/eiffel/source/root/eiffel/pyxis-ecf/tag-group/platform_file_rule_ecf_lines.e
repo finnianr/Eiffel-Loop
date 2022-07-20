@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-08 9:33:51 GMT (Friday 8th July 2022)"
-	revision: "4"
+	date: "2022-07-20 13:58:05 GMT (Wednesday 20th July 2022)"
+	revision: "5"
 
 class
 	PLATFORM_FILE_RULE_ECF_LINES
@@ -49,7 +49,7 @@ feature -- Element change
 		--		platform_list = "imp_mswin, imp_unix"
 		--	as pair of platform/exclude file rules
 		local
-			q_start, q_end: INTEGER; nvp: EL_NAME_VALUE_PAIR [STRING]
+			q_start, q_end: INTEGER; nvp: ECF_NAME_VALUE_PAIR
 			platform: STRING; is_unix: BOOLEAN
 		do
 			wipe_out
@@ -72,7 +72,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	set_variables (nvp: EL_NAME_VALUE_PAIR [STRING])
+	set_variables (nvp: ECF_NAME_VALUE_PAIR)
 		do
 			template.put (Var.directory, nvp.name)
 			template.put (Var.value, nvp.value)

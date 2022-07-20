@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-09 8:55:13 GMT (Saturday 9th July 2022)"
-	revision: "3"
+	date: "2022-07-20 13:58:05 GMT (Wednesday 20th July 2022)"
+	revision: "4"
 
 class
 	SYSTEM_ECF_LINES
@@ -41,7 +41,7 @@ feature -- Element change
 
 	set_from_line (line: STRING)
 		local
-			nvp: EL_NAME_VALUE_PAIR [STRING]; s: EL_STRING_8_ROUTINES
+			nvp: ECF_NAME_VALUE_PAIR; s: EL_STRING_8_ROUTINES
 		do
 			if attached shared_name_value_list (line) as nvp_list then
 				across nvp_list as list loop
@@ -91,7 +91,7 @@ feature {NONE} -- Implementation
 			name_uuid_pair.wipe_out
 		end
 
-	set_variables (nvp: EL_NAME_VALUE_PAIR [STRING])
+	set_variables (nvp: ECF_NAME_VALUE_PAIR)
 		do
 			Precursor (nvp)
 			template.put (Var.url, Eiffel_configuration + version)
@@ -99,7 +99,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	name_uuid_pair: EL_NAME_VALUE_PAIR [STRING]
+	name_uuid_pair: ECF_NAME_VALUE_PAIR
 
 	version: STRING
 

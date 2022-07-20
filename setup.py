@@ -39,6 +39,7 @@ script_names = [
 	'ec_clean_build',
 	'ec_gedit_project',
 	'ec_gedit_implementation',
+	'ec_list_shared_objects',
 	'ec_install_app',
 	'ec_install_resources',
 	'ec_open_directory',

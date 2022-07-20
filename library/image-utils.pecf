@@ -55,42 +55,27 @@ system:
 		# For Windows
 		# The following objects are excluded from being linked because they are intended for dynamic linking at runtime. 
 		# They are included to trigger SCons build scripts.
-		variable:
-			link_object = false
-
 		external_object:
 			location = "$(EL_C_LIB)/image-utils/spec/$(ISE_PLATFORM)/elimageutils.dll"
 			description:
-				"""
-					elimageutils.dll requires:
-					$EL_C_LIB/image-utils/spec/$ISE_PLATFORM/elimageutils.dll
-				"""
+				"Windows implementation of C interface <image-utils.h>"
 			condition:
-				platform = windows
-				link_object = true
+				shared = true; platform = windows; copy = "$location"
 
 		external_object:
 			location = "$(EL_C_CAIRO)/spec/$(ISE_PLATFORM)/libcairo-2.dll"
 			description:
-				"""
-					libcairo-2.dll requires:
-					$EL_C_CAIRO/spec/$ISE_PLATFORM/*.dll
-				"""
+				"Cairo DLL's for Windows"
 			condition:
-				platform = windows
-				link_object = true
+				shared = true; platform = windows; copy = "$EL_C_CAIRO/spec/$ISE_PLATFORM/*.dll"
 
 		# For Unix
 		external_object:
 			location = "$(EL_C_LIB)/image-utils/spec/$(ISE_PLATFORM)/libelimageutils.so"
 			description:
-				"""
-					libelimageutils.so requires:
-					$EL_C_LIB/image-utils/spec/$ISE_PLATFORM/libelimageutils.so
-				"""
+				"Unix implementation of C interface <image-utils.h>"
 			condition:
-				platform = unix
-				link_object = true
+				shared = true; platform = unix; copy = "$location"
 
 		library: 
 			base = "$ISE_LIBRARY/library/base/base.ecf"

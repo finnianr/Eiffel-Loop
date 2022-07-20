@@ -118,6 +118,13 @@ class LIBRARY (object):
 			raise ValueError ("ctx is not a XPATH_CONTEXT")
 
 		self.platform = platform_name ()
+
+		description = ctx.text ("description")
+		if description:
+			self.description = description
+		else:
+			self.description = ""
+
 		for name in self.platform_attributes:
 			value = ctx.attribute ("condition/platform/@" + name)
 			if value:
@@ -143,6 +150,7 @@ class LIBRARY (object):
 		return self.location ().startswith ('$ISE_')
 
 class EXTERNAL_OBJECT (LIBRARY):
+	custom_value = "condition/custom[@name='%s']/@value"
 	multithreaded_conditions = {
 		'concurrency': { 'value' : 'none', 'excluded_value' : 'none' },
 		'multithreaded': { 'value' : 'false', 'excluded_value' : 'false' }
@@ -169,14 +177,21 @@ class EXTERNAL_OBJECT (LIBRARY):
 
 		self.is_shared = False
 		# Eiffel-Loop only, see for example: library/image-utils.ecf
-		value = ctx.attribute ("condition/custom[@name='link_object']/@value")
+		value = ctx.attribute (self.custom_value % 'shared')
 		if value:
 			self.is_shared = value.lower() == 'true'
 
 # Access
+	def location (self):
+		result = self.ctx.attribute ('@location')
+		if result:
+			result = result.translate (None , '()')
+
+		return result
+
 	def library (self):
 		prefix = ''
-		result = self.location ().translate (None , '()')
+		result = self.location ()
 		if result != 'none':
 			for part in result.split():
 				lib = part.strip()
@@ -194,13 +209,19 @@ class EXTERNAL_OBJECT (LIBRARY):
 
 	def shared_libraries (self):
 		result = []
-		description = self.ctx.text ("description")
-		if description:
-			if description.find ('requires:') > 0:
-				# Add lines skipping 1st
-				requires_list = description.strip().splitlines ()[1:]
-				for lib in requires_list:
-					result.append (expanded_path (lib))
+		value = self.ctx.attribute (self.custom_value % 'copy')
+		if value == '$location':
+			result.append (expanded_path (self.location ()))
+		elif value:
+			result.append (expanded_path (value))
+
+		# dependency shared objects (Eg. override/ES-cURL.pecf)
+		for i in range (1, 10):
+			value = self.ctx.attribute (self.custom_value % ('depends_' + str (i)))
+			if value:
+				result.append (expanded_path (value))
+			else:
+				break
 	
 		return result
 
@@ -299,7 +320,7 @@ class SYSTEM_INFO (object):
 class EIFFEL_CONFIG_FILE (object):
 
 # Initialization
-	def __init__ (self, ecf_path, ecf_table = dict ()):
+	def __init__ (self, ecf_path, ecf_table = dict (), ise_platform = None):
 		self.location = ecf_path
 		try:
 			ecf_ctx = XPATH_ROOT_CONTEXT (ecf_path, 'ec')
@@ -311,7 +332,11 @@ class EIFFEL_CONFIG_FILE (object):
 		
 		self.uuid = system.uuid
 		self.name = system.name
-		self.platform = system.platform
+		if ise_platform:
+			self.platform = ise_platform
+		else:
+			self.platform = system.platform
+
 		self.keep_assertions = False
 		self.root_class_path = None
 
@@ -327,9 +352,9 @@ class EIFFEL_CONFIG_FILE (object):
 
 		ecf_table [ecf_path] = self
 
-		objects_list = self.__new_external_objects_list (ecf_ctx)
-		self.external_libs = self.__external_libs (objects_list)
-		self.c_shared_objects = self.__external_shared_objects (objects_list)
+		self.objects_list = self.__new_external_objects_list (ecf_ctx)
+		self.external_libs = self.__external_libs ()
+		self.c_shared_objects = self.__external_shared_objects ()
 
 		for library in self.__new_library_list (ecf_ctx):
 			location = library.expanded_location (ecf_path)
@@ -359,21 +384,19 @@ class EIFFEL_CONFIG_FILE (object):
 		self.system = system
 		self.precompile_path = system.precompile_path ()
 
-	def __external_libs (self, objects_list):
+	def __external_libs (self):
 		result = []
-		for external in objects_list:
-			if external.matches_multithreaded (self.platform):
-				result.append (external.library ())
+		for external in self.objects_list:
+			result.append (external.library ())
 		return result
 
-	def __external_shared_objects (self, objects_list):
+	def __external_shared_objects (self):
 		# Find shared objects (dll files, jar files, etc) in description field containing "requires:"
 		result = []
-		for external in objects_list:
-			if external.matches_multithreaded (self.platform):
-				shared = external.shared_libraries ()
-				if shared:
-					result.extend (shared)
+		for external in self.objects_list:
+			shared = external.shared_libraries ()
+			if shared:
+				result.extend (shared)
 		return result
 
 	def __new_library_list (self, ecf_ctx):
@@ -389,7 +412,9 @@ class EIFFEL_CONFIG_FILE (object):
 	def __new_external_objects_list (self, ecf_ctx):
 		result = []
 		for ctx in ecf_ctx.context_list ('/system/target[1]/external_object'):
-			result.append (EXTERNAL_OBJECT (ctx))
+			external = EXTERNAL_OBJECT (ctx)
+			if external.matches_multithreaded (self.platform):
+				result.append (external)
 		return result
 
 class FREEZE_BUILD (object):

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_wel_x_audio" uuid = "229b6df4-09aa-11df-87ac-abdb0fd497e6" library_target = "EL_wel_x_audio">
+<system name = "EL_wel_x_audio" library_target = "EL_wel_x_audio" uuid = "229b6df4-09aa-11df-87ac-abdb0fd497e6" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 Windows Audio
 
@@ -10,6 +10,7 @@ that facilitate playback and other audio functions.
 	<target name = "EL_wel_x_audio">
 		<root all_classes = "true"/>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true"/>
+		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<library name = "wel" location = "$ISE_LIBRARY/library/wel/wel.ecf">
@@ -23,12 +24,12 @@ that facilitate playback and other audio functions.
 			</condition>
 		</library>
 		<!--For Windows: Internal WaveOut API callback function.-->
+		<external_include location = "$(ISE_LIBRARY)/C_library/zlib"/>
 		<external_include location = "$(EL_C_LIB)/audio/source">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
-		<external_include location = "$(ISE_LIBRARY)/C_library/zlib"/>
 		<external_object location = "$(EL_C_LIB)/audio/spec/$(ISE_PLATFORM)/el_audio.lib">
 			<condition>
 				<platform value = "windows"/>
@@ -51,10 +52,10 @@ that facilitate playback and other audio functions.
 		</library>
 		<!--Eiffel-Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
-		<library name = "EL_c_api" location = "C-language-interface.ecf" readonly = "false"/>
+		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
 		<library name = "EL_thread" location = "thread.ecf"/>
 		<library name = "EL_logging" location = "logging.ecf"/>
-		<library name = "EL_multimedia" location = "multi-media.ecf" readonly = "false"/>
+		<library name = "EL_multimedia" location = "multi-media.ecf"/>
 		<!--Source code-->
 		<cluster name = "wel_x_audio" location = "multimedia/wel-x-audio" recursive = "true">
 			<condition>

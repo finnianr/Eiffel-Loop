@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-15 10:53:24 GMT (Friday 15th July 2022)"
-	revision: "1"
+	date: "2022-07-20 13:58:06 GMT (Wednesday 20th July 2022)"
+	revision: "2"
 
 class
 	CUSTOM_ECF_LINES
@@ -44,7 +44,7 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	set_variables (nvp: EL_NAME_VALUE_PAIR [STRING])
+	set_variables (nvp: ECF_NAME_VALUE_PAIR)
 		do
 			template.put (Var.name, nvp.name)
 			template.put (Var.value, nvp.value)

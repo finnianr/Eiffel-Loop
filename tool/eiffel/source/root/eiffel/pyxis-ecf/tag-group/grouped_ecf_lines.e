@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-11 11:19:57 GMT (Monday 11th July 2022)"
-	revision: "10"
+	date: "2022-07-20 14:00:13 GMT (Wednesday 20th July 2022)"
+	revision: "11"
 
 deferred class
 	GROUPED_ECF_LINES
@@ -113,7 +113,7 @@ feature -- Factory
 	shared_name_value_list (line: STRING): detachable like Once_name_value_list
 		local
 			pair_splitter: like Once_pair_splitter
-			nvp: EL_NAME_VALUE_PAIR [STRING]
+			nvp: ECF_NAME_VALUE_PAIR
 		do
 			pair_splitter := Once_pair_splitter
 			pair_splitter.set_target (line)
@@ -121,7 +121,7 @@ feature -- Factory
 				list.wipe_out
 				across pair_splitter as split loop
 					if split.item_has ('=') then
-						create nvp.make (split.item, '=')
+						create nvp.make (split.item)
 						nvp.name.adjust
 						adjust_value (nvp.value)
 						list.extend (nvp)
@@ -162,7 +162,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_variables (nvp: EL_NAME_VALUE_PAIR [STRING])
+	set_variables (nvp: ECF_NAME_VALUE_PAIR)
 		do
 			template.put (Var.element, tag_name)
 			template.put (Var.name, nvp.name)
@@ -180,7 +180,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Once_name_value_list: EL_ARRAYED_LIST [EL_NAME_VALUE_PAIR [STRING]]
+	Once_name_value_list: EL_ARRAYED_LIST [ECF_NAME_VALUE_PAIR]
 		once
 			create Result.make (7)
 		end
