@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-21 11:11:00 GMT (Wednesday 21st April 2021)"
-	revision: "7"
+	date: "2022-07-21 7:14:35 GMT (Thursday 21st July 2022)"
+	revision: "8"
 
 deferred class
 	EL_VTD_XML_API
@@ -394,7 +394,6 @@ feature {NONE} -- C Externals: VTDGen (Parser)
 
 	c_evx_parse (exception_callbacks, parser: POINTER; is_namespace_aware: BOOLEAN)
 			-- void evx_parse (Exception_handlers_t *p_handlers, EIF_POINTER parser, UByte *xml, int xml_size)
-
 		external
 			"C (Exception_handlers_t *, EIF_POINTER, EIF_BOOLEAN) | <vtd2eiffel.h>"
 		alias

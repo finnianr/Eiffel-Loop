@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-20 15:06:16 GMT (Wednesday 20th July 2022)"
-	revision: "29"
+	date: "2022-07-21 12:31:17 GMT (Thursday 21st July 2022)"
+	revision: "30"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -22,14 +22,23 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("backwards_compatibility", agent test_backwards_compatibility)
 			eval.call ("c_externals_path", agent test_c_externals_path)
 			eval.call ("eiffel2java_pecf", agent test_eiffel2java_pecf)
+			eval.call ("eiffel_pecf", agent test_eiffel_pecf)
 			eval.call ("excluded_value_conditions", agent test_excluded_value_conditions)
 			eval.call ("graphical_pecf", agent test_graphical_pecf)
-			eval.call ("eiffel_pecf", agent test_eiffel_pecf)
 		end
 
 feature -- Tests
+
+	test_backwards_compatibility
+		local
+			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT
+		do
+			ecf_xdoc := new_ecf_xdoc ("library/override/ES-vision2.pecf")
+			assert_parsed_xdoc (ecf_xdoc)
+		end
 
 	test_c_externals_path
 		-- library/image-utils.pecf
@@ -37,7 +46,8 @@ feature -- Tests
 			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; count: INTEGER
 			condition, location, xpath, copy_value, platform: STRING
 		do
-			ecf_xdoc := new_ecf_xdoc (image_utils_pecf_path)
+			ecf_xdoc := new_ecf_xdoc ("library/image-utils.pecf")
+			assert_parsed_xdoc (ecf_xdoc)
 
 			create location.make_empty
 			condition := "condition/platform/@value='windows'"
@@ -88,7 +98,9 @@ feature -- Tests
 			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; file_rule_count, windows_count: INTEGER
 			schema_location, platform_value, exclude_value, library_target: STRING
 		do
-			ecf_xdoc := new_ecf_xdoc (library_pecf_path)
+			ecf_xdoc := new_ecf_xdoc ("library/eiffel2java.pecf")
+			assert_parsed_xdoc (ecf_xdoc)
+
 			create library_target.make_empty
 			across ecf_xdoc.context_list ("/system[@name='EL_eiffel2java']") as system loop
 				library_target := system.node ["library_target"]
@@ -134,7 +146,9 @@ feature -- Tests
 			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; sub_cluster_count, writeable_count: INTEGER
 			name, location: STRING; has_i18n: BOOLEAN
 		do
-			ecf_xdoc := new_ecf_xdoc (project_pecf_path)
+			ecf_xdoc := new_ecf_xdoc ("tool/eiffel/eiffel.pecf")
+			assert_parsed_xdoc (ecf_xdoc)
+
 			assert ("21 libraries", library_count (ecf_xdoc) = 21)
 			if attached ecf_xdoc.context_list ("//cluster [@recursive='true']") as list then
 				assert ("4 recursive", list.count = 4)
@@ -177,7 +191,9 @@ feature -- Tests
 			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; condition: STRING
 			count: INTEGER
 		do
-			ecf_xdoc := new_ecf_xdoc (curl_override_pecf_path)
+			ecf_xdoc := new_ecf_xdoc ("library/override/ES-cURL.pecf")
+			assert_parsed_xdoc (ecf_xdoc)
+
 			across Condition_table as table loop
 				condition := table.key; count := 0
 				across ecf_xdoc.context_list (External_object_xpath #$ [condition]) as list loop
@@ -194,7 +210,9 @@ feature -- Tests
 			ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; name, xpath: STRING
 			location_steps: EL_PATH_STEPS
 		do
-			ecf_xdoc := new_ecf_xdoc (graphical_pecf_path)
+			ecf_xdoc := new_ecf_xdoc ("example/graphical/graphical.pecf")
+			assert_parsed_xdoc (ecf_xdoc)
+
 			assert ("17 libraries", library_count (ecf_xdoc) = 17)
 			across ("__unnamed_debug__, wel_gdi_references, win_dispatcher").split (',') as list loop
 				name := list.item; name.left_adjust
@@ -227,19 +245,14 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	curl_override_pecf_path: FILE_PATH
+	assert_parsed_xdoc (ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT)
 		do
-			Result := Eiffel_loop_dir + "library/override/ES-cURL.pecf"
-		end
-
-	image_utils_pecf_path: FILE_PATH
-		do
-			Result := Eiffel_loop_dir + "library/image-utils.pecf"
-		end
-
-	graphical_pecf_path: FILE_PATH
-		do
-			Result := Eiffel_loop_dir + "example/graphical/graphical.pecf"
+			if ecf_xdoc.parse_failed then
+				if attached ecf_xdoc.last_exception as exception then
+					exception.put_error (lio)
+				end
+				assert (ecf_xdoc.file_path.base + " parsed OK", False)
+			end
 		end
 
 	has_precompile (ecf_xdoc: EL_XPATH_ROOT_NODE_CONTEXT; name: STRING): BOOLEAN
@@ -254,23 +267,13 @@ feature {NONE} -- Implementation
 			Result := ecf_xdoc.context_list ("//library").count
 		end
 
-	library_pecf_path: FILE_PATH
-		do
-			Result := Eiffel_loop_dir + "library/eiffel2java.pecf"
-		end
-
 	new_ecf_xdoc (pecf_path: FILE_PATH): EL_XPATH_ROOT_NODE_CONTEXT
 		local
 			converter: PYXIS_ECF_CONVERTER
 		do
-			create converter.make (pecf_path, Work_area_dir + (pecf_path.base_sans_extension + ".xml"))
+			create converter.make (Eiffel_loop_dir + pecf_path, Work_area_dir + (pecf_path.base_sans_extension + ".xml"))
 			converter.execute
 			create Result.make_from_file (converter.output_path)
-		end
-
-	project_pecf_path: FILE_PATH
-		do
-			Result := "eiffel.pecf"
 		end
 
 	unix_exclude: STRING

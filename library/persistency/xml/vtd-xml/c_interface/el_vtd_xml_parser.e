@@ -1,13 +1,13 @@
 note
-	description: "Vtd xml parser"
+	description: "Vtd XML parser"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-26 9:59:55 GMT (Saturday 26th October 2019)"
-	revision: "7"
+	date: "2022-07-21 7:08:32 GMT (Thursday 21st July 2022)"
+	revision: "8"
 
 class
 	EL_VTD_XML_PARSER

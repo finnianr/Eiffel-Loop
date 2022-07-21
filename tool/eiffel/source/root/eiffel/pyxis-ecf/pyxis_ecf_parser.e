@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-20 13:30:05 GMT (Wednesday 20th July 2022)"
-	revision: "26"
+	date: "2022-07-21 11:51:28 GMT (Thursday 21st July 2022)"
+	revision: "27"
 
 class
 	PYXIS_ECF_PARSER
@@ -121,7 +121,7 @@ feature {NONE} -- Implemenatation
 			equal_index := line.index_of_equals
 			if equal_index > 0
 				and then Name_value_table.has_key (last_tag)
-				and then not line.first_name_matches (Name.name, equal_index)
+				and then not Name_value_table.found_item.is_first_name_reserved (line, equal_index)
 				and then attached substituted (Name_value_table.found_item, line) as text
 			then
 				line.replace (text)
@@ -170,6 +170,19 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	new_name_value_list: ARRAY [NAME_VALUE_ECF_LINE]
+		do
+			Result := <<
+				create {NAME_VALUE_ECF_LINE}.make (Name.custom, << Name.excluded_value >>),
+				create {NAME_VALUE_ECF_LINE}.make (Name.variable, No_extra),
+				create {NAME_LOCATION_ECF_LINE}.make (Name.cluster, << Name.readonly, Name.recursive >>),
+				create {NAME_LOCATION_ECF_LINE}.make (Name.library, << Name.readonly >>),
+				create {NAME_LOCATION_ECF_LINE}.make (Name.precompile, No_extra),
+				create {OLD_NAME_NEW_NAME_ECF_LINE}.make (Name.mapping, No_extra),
+				create {OLD_NAME_NEW_NAME_ECF_LINE}.make (Name.renaming, No_extra)
+			>>
+		end
+
 feature {NONE} -- Internal attributes
 
 	c_platform: detachable STRING
@@ -185,6 +198,11 @@ feature {NONE} -- Constants
 	Condition_lines: CONDITION_ECF_LINE
 		once
 			create Result.make
+		end
+
+	No_extra: ARRAY [STRING]
+		once
+			create Result.make_empty
 		end
 
 	Expansion_table: EL_HASH_TABLE [GROUPED_ECF_LINES, STRING]
@@ -207,15 +225,12 @@ feature {NONE} -- Constants
 
 	Name_value_table: EL_HASH_TABLE [NAME_VALUE_ECF_LINE, STRING]
 		once
-			create Result.make (<<
-				[Name.custom,		create {NAME_VALUE_ECF_LINE}.make (Name.custom)],
-				[Name.variable,	create {NAME_VALUE_ECF_LINE}.make (Name.variable)],
-				[Name.cluster,		create {NAME_LOCATION_ECF_LINE}.make (Name.cluster)],
-				[Name.library,		create {NAME_LOCATION_ECF_LINE}.make (Name.library)],
-				[Name.precompile, create {NAME_LOCATION_ECF_LINE}.make (Name.precompile)],
-				[Name.mapping,		create {OLD_NAME_NEW_NAME_ECF_LINE}.make (Name.mapping)],
-				[Name.renaming,	create {OLD_NAME_NEW_NAME_ECF_LINE}.make (Name.renaming)]
-			>>)
+			if attached new_name_value_list as name_value_list then
+				create Result.make_size (name_value_list.count)
+				across name_value_list as list loop
+					Result.extend (list.item, list.item.tag_name)
+				end
+			end
 		end
 
 	Platform_condition_lines: PLATFORM_CONDITION_ECF_LINES

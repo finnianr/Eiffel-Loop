@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 5:59:19 GMT (Monday 7th February 2022)"
-	revision: "15"
+	date: "2022-07-21 9:16:11 GMT (Thursday 21st July 2022)"
+	revision: "16"
 
 class
 	EL_XPATH_ROOT_NODE_CONTEXT
@@ -49,14 +49,7 @@ inherit
 			default_create
 		end
 
-	EXCEPTION_MANAGER
-		export
-			{NONE} all
-		undefine
-			default_create
-		end
-
-	EL_MODULE_FILE
+	EL_MODULE_EXCEPTION; EL_MODULE_FILE
 
 create
 	default_create, make_from_file, make_from_string, make_from_fragment
@@ -75,6 +68,7 @@ feature {NONE} -- Initaliazation
 			--
 		do
 			make_from_string (File.plain_text (a_file_path))
+			file_path.share (a_file_path)
 		end
 
 	make_from_fragment (xml_fragment: STRING; a_encoding: STRING)
@@ -89,12 +83,15 @@ feature {NONE} -- Initaliazation
 			section: STRING; end_index, index_xml_ns: INTEGER; is_namespace_aware: BOOLEAN
 		do
 			make_default
+			create file_path
+
 			if parse_failed then
 				document_xml := default_xml
-				create error_message.make_from_general (last_exception.description)
+				if attached {EL_VTD_EXCEPTION} Exception.last_exception as last then
+					last_exception := last
+				end
 			else
 				document_xml := a_xml
-				create error_message.make_empty
 				create tag_splitter.make (a_xml, '<')
 				-- look for xmlns name in document root element
 				across tag_splitter as tag until end_index.to_boolean loop
@@ -159,7 +156,9 @@ feature -- Access
 
 	document_xml: EL_C_STRING_8
 
-	error_message: ZSTRING
+	file_path: FILE_PATH
+
+	last_exception: detachable EL_VTD_EXCEPTION
 
 	processing_instruction (a_name: STRING): detachable STRING
 		-- processing instruction with `a_name' or `Void' if not found

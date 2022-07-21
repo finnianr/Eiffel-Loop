@@ -2075,8 +2075,8 @@ void parse(VTDGen *vg, Boolean ns){
 	Catch (e) {
 		if (parser_state != STATE_DOC_END 
 			|| e.subtype == -1){
-				printLineNumber(vg);
-				printf("\n Last Offset val ===> %d \n",vg->offset);
+				// printLineNumber(vg);
+				// printf("\n Last Offset val ===> %d \n",vg->offset);
 				Throw e;
 		}
 		finishUp(vg);

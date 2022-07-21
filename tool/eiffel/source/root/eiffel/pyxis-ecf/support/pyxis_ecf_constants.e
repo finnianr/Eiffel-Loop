@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-20 15:21:20 GMT (Wednesday 20th July 2022)"
-	revision: "6"
+	date: "2022-07-21 11:48:04 GMT (Thursday 21st July 2022)"
+	revision: "7"
 
 deferred class
 	PYXIS_ECF_CONSTANTS
@@ -39,7 +39,7 @@ feature {NONE} -- Constants
 					${EXCLUDED_PREFIX}value = $VALUE
 			]"
 		end
-		
+
 	Externals_set: EL_HASH_SET [STRING]
 		once
 			create Result.make_from_array (<< Name.unix_externals, Name.windows_externals >>)
@@ -59,17 +59,17 @@ feature {NONE} -- Constants
 
 	Name: TUPLE [
 		assertions, cluster, cluster_tree, condition, configuration_ns, custom, debug_, debugging, disabled,
-		excluded_, file_rule, library, library_target, libraries, mapping, name, option,
-		platform, platform_list, precompile, renaming, setting, settings, sub_clusters, system,
-		unix_externals, uuid, variable, warning, warnings, windows_externals, writeable_libraries: STRING
+		excluded_, excluded_value, file_rule, library, library_target, libraries, location, mapping, name, option,
+		platform, platform_list, precompile, readonly, recursive, renaming, setting, settings, sub_clusters, system,
+		unix_externals, uuid, value, variable, warning, warnings, windows_externals, writeable_libraries: STRING
 	]
 		once
 			create Result
 			Tuple.fill (Result,
 				"assertions, cluster, cluster_tree, condition, configuration_ns, custom, debug, debugging, disabled, %
-				%excluded_, file_rule, library, library_target, libraries, mapping, name, option, %
-				%platform, platform_list, precompile, renaming, setting, settings, sub_clusters, system, %
-				%unix_externals, uuid, variable, warning, warnings, windows_externals, writeable_libraries"
+				%excluded_, excluded_value, file_rule, library, library_target, libraries, location, mapping, name, option, %
+				%platform, platform_list, precompile, readonly, recursive, renaming, setting, settings, sub_clusters, system, %
+				%unix_externals, uuid, value, variable, warning, warnings, windows_externals, writeable_libraries"
 			)
 		ensure
 			aligned_correctly: Result.writeable_libraries ~ "writeable_libraries"

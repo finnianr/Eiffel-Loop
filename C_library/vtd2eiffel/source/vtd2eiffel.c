@@ -36,8 +36,46 @@ static void raise_eiffel_exception (Exception_handlers_t *p_handlers, exception 
 	}
 	else {
 		EIF_OBJECT p_object = p_handlers->full.p_object;
-		(p_handlers->full.p_procedure) (p_object, e->et, e->msg, e->sub_msg);
+		(p_handlers->full.p_procedure) (p_object, e->et, 0, 0, e->msg, e->sub_msg);
 	}
+}
+
+static void set_line_number_and_offset (VTDGen *parser, int* a_line_number, int* a_line_offset){
+	int so = parser->docOffset;
+	int lineNumber = 0;
+	int lineOffset = 0;
+	//int end = parser->offset;
+
+	if (parser->encoding < FORMAT_UTF_16BE) {
+		while (so <= parser->offset-1) {
+			if (parser->XMLDoc[so] == '\n') {
+				lineNumber++;
+				lineOffset = so;
+			}
+			//lineOffset++;
+			so++;
+		}
+		lineOffset = parser->offset - lineOffset;
+	} else if (parser->encoding == FORMAT_UTF_16BE) {
+		while (so <= parser->offset-2) {
+			if (parser->XMLDoc[so + 1] == '\n' && parser->XMLDoc[so] == 0) {
+				lineNumber++;
+				lineOffset = so;
+			}
+			so += 2;
+		}
+		lineOffset = (parser->offset - lineOffset) >> 1;
+	} else {
+		while (so <= parser->offset-2) {
+			if (parser->XMLDoc[so] == '\n' && parser->XMLDoc[so + 1] == 0) {
+				lineNumber++;
+				lineOffset = so;
+			}
+			so += 2;
+		}
+		lineOffset = (parser->offset - lineOffset) >> 1;
+	}
+	(*a_line_number) = lineNumber + 1; (*a_line_offset) = lineOffset;
 }
 
 static EIF_POINTER evx_node_context_text (Exception_handlers_t *p_handlers, EIF_POINTER a_node_context, string_function_t string_fn)
@@ -127,7 +165,11 @@ void evx_parse (Exception_handlers_t *p_handlers, EIF_POINTER a_parser, EIF_BOOL
 		}
 	}
 	Catch (e) {
-		raise_eiffel_exception (p_handlers, &e);
+		int line_number = 0; int line_offset = 0;
+		EIF_OBJECT p_object = p_handlers->full.p_object;
+
+		set_line_number_and_offset (parser, &line_number, &line_offset);
+		(p_handlers->full.p_procedure) (p_object, e.et, line_number, line_offset, e.msg, e.sub_msg);
 	}
 }
 

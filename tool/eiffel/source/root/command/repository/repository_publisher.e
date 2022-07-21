@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-11 9:55:53 GMT (Saturday 11th June 2022)"
-	revision: "57"
+	date: "2022-07-21 13:16:55 GMT (Thursday 21st July 2022)"
+	revision: "58"
 
 class
 	REPOSITORY_PUBLISHER
@@ -290,8 +290,10 @@ feature {NONE} -- Build from Pyxis
 				if ecf_path.exists then
 					check_pecf_source (ecf_path)
 					create root_node.make_from_file (ecf_path)
-					if root_node.parse_failed then
-						lio.put_path_field ("Configuration parse failed", ecf_path)
+					if root_node.parse_failed and then attached root_node.last_exception as last then
+						lio.put_path_field ("Failed to parse", ecf_path)
+						lio.put_new_line
+						last.put_error (lio)
 						has_error := True
 
 					elseif ecf.cluster_count (root_node) = 0 then

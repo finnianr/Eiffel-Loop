@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 9:48:56 GMT (Tuesday 8th February 2022)"
-	revision: "19"
+	date: "2022-07-21 8:56:04 GMT (Thursday 21st July 2022)"
+	revision: "20"
 
 class
 	EL_XML_TO_PYXIS_CONVERTER
@@ -81,9 +81,8 @@ feature -- Element change
 				output_path.add_extension ("pyx")
 			end
 			create xdoc.make_from_file (source_path)
-			if xdoc.parse_failed and is_lio_enabled then
-				lio.put_new_line
-				lio.put_line (xdoc.error_message)
+			if attached xdoc.last_exception as exception and is_lio_enabled then
+				exception.put_error (lio)
 			end
  		end
 

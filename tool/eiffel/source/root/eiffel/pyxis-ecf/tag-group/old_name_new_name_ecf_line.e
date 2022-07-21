@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-08 10:33:44 GMT (Friday 8th July 2022)"
-	revision: "3"
+	date: "2022-07-21 11:35:39 GMT (Thursday 21st July 2022)"
+	revision: "4"
 
 class
 	OLD_NAME_NEW_NAME_ECF_LINE
@@ -15,13 +15,18 @@ class
 inherit
 	NAME_VALUE_ECF_LINE
 		redefine
-			Template
+			Reserved_name_set, Template
 		end
 
 create
 	make
 
 feature {NONE} -- Constants
+
+	Reserved_name_set: ARRAY [STRING]
+		once
+			Result := << "old_name", "new_name" >>
+		end
 
 	Template: EL_TEMPLATE [STRING]
 		once

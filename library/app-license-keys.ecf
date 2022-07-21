@@ -24,10 +24,7 @@ It has been used for the [http://myching.software My Ching] software product.
 		<!--ISE contributions-->
 		<variable name = "eapml_limb_type" value = "natural_32"/>
 		<library name = "integer_x" location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"/>
-		<!--
-			Eiffel-Loop libraries
-			Eiffel Loop
-		-->
+		<!--Eiffel-Loop libraries-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_encryption" location = "encryption.ecf"/>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
