@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-29 20:32:12 GMT (Wednesday 29th June 2022)"
-	revision: "10"
+	date: "2022-07-22 9:08:56 GMT (Friday 22nd July 2022)"
+	revision: "11"
 
 class
 	XML_ESCAPER_TEST_SET
@@ -43,7 +43,7 @@ feature {NONE} -- Implementation
 	escape (escaper: XML_GENERAL_ESCAPER)
 		local
 			str_32, esc_str_32: STRING_32; str, esc_str, xml: ZSTRING
-			root: EL_XPATH_ROOT_NODE_CONTEXT; s: EL_STRING_32_ROUTINES
+			root: EL_XML_DOC_CONTEXT; s: EL_STRING_32_ROUTINES
 		do
 			across Text_lines as string loop
 				str_32 := string.item.twin

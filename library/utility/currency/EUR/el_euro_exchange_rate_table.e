@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-25 10:37:51 GMT (Friday 25th February 2022)"
-	revision: "14"
+	date: "2022-07-22 9:08:57 GMT (Friday 22nd July 2022)"
+	revision: "15"
 
 class
 	EL_EURO_EXCHANGE_RATE_TABLE
@@ -49,7 +49,7 @@ feature {NONE} -- Implementation
 	fill
 		local
 			web: EL_HTTP_CONNECTION; file_path: FILE_PATH; xml, code_name: STRING
-			root_node: EL_XPATH_ROOT_NODE_CONTEXT; xml_file: PLAIN_TEXT_FILE
+			root_node: EL_XML_DOC_CONTEXT; xml_file: PLAIN_TEXT_FILE
 			cached: like cached_dates
 		do
 			File_system.make_directory (Rates_dir)

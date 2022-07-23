@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-07-23 8:48:33 GMT (Saturday 23rd July 2022)"
+	revision: "11"
 
 deferred class
 	EL_XML_FILE_PERSISTENT
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 	make_from_file (a_file_path: FILE_PATH)
 			--
 		local
-			root_node: EL_XPATH_ROOT_NODE_CONTEXT
+			root_node: EL_XML_DOC_CONTEXT
 		do
 			Precursor {EVOLICITY_SERIALIZEABLE_AS_XML} (a_file_path)
 			create root_node.make_from_file (a_file_path)
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 
 	make_from_other (other: like Current)
 		local
-			root_node: EL_XPATH_ROOT_NODE_CONTEXT
+			root_node: EL_XML_DOC_CONTEXT
 		do
 			make_from_template_and_output (other.template_path.twin, other.output_path.twin)
 			create root_node.make_from_string (other.to_xml)
@@ -51,7 +51,7 @@ feature {NONE} -- Initialization
 			make_from_root_node (root_node)
 		end
 
-	make_from_root_node (root_node: EL_XPATH_ROOT_NODE_CONTEXT)
+	make_from_root_node (root_node: EL_XML_DOC_CONTEXT)
 		deferred
 		end
 

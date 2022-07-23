@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-12 9:08:10 GMT (Tuesday 12th July 2022)"
-	revision: "4"
+	date: "2022-07-22 9:03:30 GMT (Friday 22nd July 2022)"
+	revision: "5"
 
 deferred class
 	EL_PYXIS_PARSER_CONSTANTS
@@ -27,9 +27,11 @@ feature {NONE} -- Parser states
 
 feature {NONE} -- Constants
 
-	Pyxis_doc: TUPLE [encoding, end_, name, version: STRING]
+	Document_end: STRING = "doc-end:"
+
+	Pyxis_doc: TUPLE [encoding, name, version: STRING]
 		once
 			create Result
-			Tuple.fill (Result, "encoding, doc-end:, pyxis-doc, version")
+			Tuple.fill (Result, "encoding, pyxis-doc, version")
 		end
 end

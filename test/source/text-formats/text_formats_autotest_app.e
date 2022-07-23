@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-22 9:58:39 GMT (Wednesday 22nd June 2022)"
-	revision: "15"
+	date: "2022-07-16 13:24:26 GMT (Saturday 16th July 2022)"
+	revision: "16"
 
 class
 	TEXT_FORMATS_AUTOTEST_APP

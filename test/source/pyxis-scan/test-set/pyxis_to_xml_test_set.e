@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-24 17:16:46 GMT (Thursday 24th February 2022)"
-	revision: "40"
+	date: "2022-07-22 9:08:56 GMT (Friday 22nd July 2022)"
+	revision: "41"
 
 class
 	PYXIS_TO_XML_TEST_SET
@@ -86,7 +86,7 @@ feature -- Tests
 	test_conversion_to_xml
 			--
 		local
-			name, file_name, style_text, style_xpath: STRING; checksum: NATURAL; xsl_doc: EL_XPATH_ROOT_NODE_CONTEXT
+			name, file_name, style_text, style_xpath: STRING; checksum: NATURAL; xsl_doc: EL_XML_DOC_CONTEXT
 			count: INTEGER
 		do
 			name := "convert_pyxis_to_xml"

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-22 10:01:10 GMT (Wednesday 22nd June 2022)"
-	revision: "16"
+	date: "2022-07-22 9:08:57 GMT (Friday 22nd July 2022)"
+	revision: "17"
 
 class
 	EL_SPREAD_SHEET
@@ -51,13 +51,13 @@ feature {NONE} -- Initaliazation
 		require
 			valid_file_type: is_valid_file_type (file_path)
 		local
-			root_node: EL_XPATH_ROOT_NODE_CONTEXT
+			root_node: EL_XML_DOC_CONTEXT
 		do
 			create root_node.make_from_file (file_path)
 			make_with_root_node (root_node, file_path.base_sans_extension, Empty_list)
 		end
 
-	make_with_root_node (root_node: EL_XPATH_ROOT_NODE_CONTEXT; a_name: ZSTRING; table_names: EL_ZSTRING_LIST)
+	make_with_root_node (root_node: EL_XML_DOC_CONTEXT; a_name: ZSTRING; table_names: EL_ZSTRING_LIST)
 		-- make with selected table names
 		local
 			xpath, cell_range_address, l_name: ZSTRING

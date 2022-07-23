@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2022-07-22 9:08:57 GMT (Friday 22nd July 2022)"
+	revision: "6"
 
 deferred class
 	EL_XML_ELEMENT_EDITION [STORABLE_TYPE -> EL_STORABLE_XML_ELEMENT]
@@ -25,7 +25,7 @@ feature -- Access
 
 	tag_name: STRING
 		local
-			node: EL_XPATH_ROOT_NODE_CONTEXT
+			node: EL_XML_DOC_CONTEXT
 		do
 			create node.make_from_string (UTF.utf_32_string_to_utf_8_string_8 (Template))
 			Result := node.name

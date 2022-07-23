@@ -1,3 +1,9 @@
+1.7.3
+* Fixed "oc-end" parser recursion bug where parser invokes a new parser
+
+1.7.2
+* VTD now report line number on parse error
+
 1.7.1
 * Added PECF excluded_value = x shorthand: x /= y
 * Modified Scons system condition element to store shared object data

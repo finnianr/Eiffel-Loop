@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-12 11:28:57 GMT (Sunday 12th June 2022)"
-	revision: "47"
+	date: "2022-07-22 9:08:56 GMT (Friday 22nd July 2022)"
+	revision: "48"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -34,7 +34,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_repository: like repository; ecf: ECF_INFO; root: EL_XPATH_ROOT_NODE_CONTEXT)
+	make (a_repository: like repository; ecf: ECF_INFO; root: EL_XML_DOC_CONTEXT)
 			--
 		require
 			parse_ok: not root.parse_failed

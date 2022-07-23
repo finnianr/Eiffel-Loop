@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-15 11:49:35 GMT (Friday 15th July 2022)"
-	revision: "43"
+	date: "2022-07-22 9:03:36 GMT (Friday 22nd July 2022)"
+	revision: "44"
 
 class
 	EL_PYXIS_PARSER
@@ -45,6 +45,8 @@ feature {NONE} -- Initialization
 			previous_state := State_parse_line
 			create element_stack.make (10)
 			create element_set.make (11)
+			create pyxis_line.make_empty
+			create element_line.make_empty
 		end
 
 feature -- Element change
@@ -292,9 +294,9 @@ feature {NONE} -- Implementation
 
 	call_state_procedure (a_line: STRING)
 		local
-			line: like Once_line
+			line: like pyxis_line
 		do
-			line := shared_pyxis_line (a_line)
+			line := to_pyxis_line (a_line)
 			if line.end_index > 0 then
 				if state = State_gather_verbatim_lines and then not line.has_triple_quote then
 					-- preserve indentation of verbatim string
@@ -330,7 +332,7 @@ feature {NONE} -- Implementation
 
 	parse_final
 		do
-			call_state_procedure (Pyxis_doc.end_)
+			call_state_procedure (Document_end)
 			scanner.on_end_document
 		end
 
@@ -363,8 +365,8 @@ feature {NONE} -- Implementation
 		do
 			tab_count := tab_count - 1
 			if attached tag_name as name then
-				Element_line.set_element (name)
-				push_element (Element_line)
+				element_line.set_element (name)
+				push_element (element_line)
 			end
 			tab_count := tab_count + 1
 			state := State_output_content_lines
@@ -392,12 +394,12 @@ feature {NONE} -- Implementation
 			last_node_name.append (name)
 		end
 
-	shared_pyxis_line (a_line: STRING): EL_PYXIS_LINE
+	to_pyxis_line (a_line: STRING): EL_PYXIS_LINE
 		do
-			if attached {EL_PYXIS_LINE} a_line as pyxis_line then
-				Result := pyxis_line
+			if attached {EL_PYXIS_LINE} a_line as pyx_line then
+				Result := pyx_line
 			else
-				Result := Once_line; Result.share (a_line)
+				Result := pyxis_line; Result.share (a_line)
 			end
 		end
 
@@ -420,11 +422,15 @@ feature {NONE} -- Implementation: attributes
 
 	declaration_comment: detachable STRING
 
+	element_line: EL_PYXIS_LINE
+
 	element_set: EL_HASH_SET [STRING]
 
 	element_stack: ARRAYED_STACK [STRING]
 
 	previous_state: NATURAL_8
+
+	pyxis_line: EL_PYXIS_LINE
 
 	state: NATURAL_8
 
@@ -432,15 +438,4 @@ feature {NONE} -- Implementation: attributes
 
 	tag_name: detachable STRING
 
-feature {NONE} -- Constants
-
-	Once_line: EL_PYXIS_LINE
-		once
-			create Result.make_empty
-		end
-
-	Element_line: EL_PYXIS_LINE
-		once
-			create Result.make_empty
-		end
 end

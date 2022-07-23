@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 9:59:31 GMT (Tuesday 8th February 2022)"
-	revision: "6"
+	date: "2022-07-22 9:08:56 GMT (Friday 22nd July 2022)"
+	revision: "7"
 
 class
 	JOBSERVE_SEARCHER
@@ -78,7 +78,7 @@ feature -- Basic operations
 	execute
 		local
 			jobs_result_set: JOBS_RESULT_SET; xpath: STRING
-			root_node: EL_XPATH_ROOT_NODE_CONTEXT
+			root_node: EL_XML_DOC_CONTEXT
 		do
 			create root_node.make_from_file (xml_path)
 			xpath := Xpath_template #$ [query_filter]

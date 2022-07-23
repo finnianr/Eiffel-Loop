@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 12:37:18 GMT (Thursday 17th February 2022)"
-	revision: "11"
+	date: "2022-07-22 9:08:56 GMT (Friday 22nd July 2022)"
+	revision: "12"
 
 class
 	ECF_CLUSTER_INFO
@@ -55,7 +55,7 @@ feature -- Access
 			end
 		end
 
-	description (root: EL_XPATH_ROOT_NODE_CONTEXT): ZSTRING
+	description (root: EL_XML_DOC_CONTEXT): ZSTRING
 		local
 			word_list: EL_ZSTRING_LIST
 		do

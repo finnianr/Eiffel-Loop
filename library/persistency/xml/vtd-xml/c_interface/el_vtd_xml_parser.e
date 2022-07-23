@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-21 7:08:32 GMT (Thursday 21st July 2022)"
-	revision: "8"
+	date: "2022-07-22 9:08:57 GMT (Friday 22nd July 2022)"
+	revision: "9"
 
 class
 	EL_VTD_XML_PARSER
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 			make_from_pointer (c_evx_create_parser)
 		end
 
-feature {EL_XPATH_ROOT_NODE_CONTEXT} -- Access
+feature {EL_XML_DOC_CONTEXT} -- Access
 
 	root_context_pointer (xml: EL_C_STRING_8; is_namespace_aware: BOOLEAN): POINTER
 			--

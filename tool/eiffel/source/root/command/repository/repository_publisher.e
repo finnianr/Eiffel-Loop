@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-21 13:16:55 GMT (Thursday 21st July 2022)"
-	revision: "58"
+	date: "2022-07-22 9:08:56 GMT (Friday 22nd July 2022)"
+	revision: "59"
 
 class
 	REPOSITORY_PUBLISHER
@@ -281,7 +281,7 @@ feature {NONE} -- Build from Pyxis
 	on_context_return (context: EL_EIF_OBJ_XPATH_CONTEXT)
 		local
 			ecf_path: FILE_PATH; ecf: ECF_INFO
-			root_node: EL_XPATH_ROOT_NODE_CONTEXT
+			root_node: EL_XML_DOC_CONTEXT
 			has_error: BOOLEAN
 		do
 			if attached {ECF_INFO} context as info then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-25 10:36:38 GMT (Friday 25th February 2022)"
-	revision: "11"
+	date: "2022-07-22 9:08:56 GMT (Friday 22nd July 2022)"
+	revision: "12"
 
 class
 	MEDIA_ITEM_DEVICE_SYNC_TABLE
@@ -41,7 +41,7 @@ feature {NONE} -- Initialization
 			Precursor
 		end
 
-	make_from_root_node (root_node: EL_XPATH_ROOT_NODE_CONTEXT)
+	make_from_root_node (root_node: EL_XML_DOC_CONTEXT)
 			--
 		local
 			node_list: EL_XPATH_NODE_CONTEXT_LIST; id: STRING

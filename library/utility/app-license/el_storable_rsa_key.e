@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-24 18:38:43 GMT (Thursday 24th February 2022)"
-	revision: "8"
+	date: "2022-07-22 9:08:57 GMT (Friday 22nd July 2022)"
+	revision: "9"
 
 deferred class
 	EL_STORABLE_RSA_KEY
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	rsa_value (root_node: EL_XPATH_ROOT_NODE_CONTEXT; id: STRING): INTEGER_X
+	rsa_value (root_node: EL_XML_DOC_CONTEXT; id: STRING): INTEGER_X
 			--
 		do
 			if not id.is_empty then

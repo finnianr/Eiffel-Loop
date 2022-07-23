@@ -12,7 +12,6 @@ system:
 			Override of Eiffel Software's [https://www.eiffel.org/doc/solutions/Eiffel2Java Eiffel2Java] library
 			for use with the [./library/eiffel2java.html  Eiffel-Loop Eiffel to Java] library.
 		"""
-	
 	target:
 		name = eiffel2java
 		root:

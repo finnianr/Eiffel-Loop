@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-10 11:03:52 GMT (Monday 10th January 2022)"
-	revision: "1"
+	date: "2022-07-22 9:08:56 GMT (Friday 22nd July 2022)"
+	revision: "2"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER_TEST_SET
@@ -30,7 +30,7 @@ feature -- Tests
 	test_compiler
 		local
 			compiler: PYXIS_TREE_TO_XML_COMPILER; destination_path: FILE_PATH
-			table, merged_table: EL_TRANSLATION_TABLE; root_node: EL_XPATH_ROOT_NODE_CONTEXT
+			table, merged_table: EL_TRANSLATION_TABLE; root_node: EL_XML_DOC_CONTEXT
 			time_stamp: INTEGER
 		do
 			destination_path := work_area_data_dir.parent + "localization.xml"

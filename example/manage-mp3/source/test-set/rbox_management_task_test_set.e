@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-25 10:36:20 GMT (Friday 25th February 2022)"
-	revision: "15"
+	date: "2022-07-22 9:08:56 GMT (Friday 22nd July 2022)"
+	revision: "16"
 
 deferred class
 	RBOX_MANAGEMENT_TASK_TEST_SET [T -> RBOX_MANAGEMENT_TASK create make end]
@@ -101,7 +101,7 @@ feature {NONE} -- Implementation
 
 	print_playlist_xml
 		local
-			root_node: EL_XPATH_ROOT_NODE_CONTEXT
+			root_node: EL_XML_DOC_CONTEXT
 			xpath: STRING
 		do
 			log.enter ("print_playlist_xml")
@@ -129,7 +129,7 @@ feature {NONE} -- Implementation
 
 	print_rhythmdb_xml
 		local
-			root_node: EL_XPATH_ROOT_NODE_CONTEXT; name, xpath: STRING
+			root_node: EL_XML_DOC_CONTEXT; name, xpath: STRING
 			character_count: INTEGER_REF
 		do
 			log.enter ("print_rhythmdb_xml")

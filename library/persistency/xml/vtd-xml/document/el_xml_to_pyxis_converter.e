@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-21 8:56:04 GMT (Thursday 21st July 2022)"
-	revision: "20"
+	date: "2022-07-23 8:48:28 GMT (Saturday 23rd July 2022)"
+	revision: "22"
 
 class
 	EL_XML_TO_PYXIS_CONVERTER
@@ -389,7 +389,7 @@ feature {NONE} -- Internal attributes
 
 	token_count: INTEGER
 
-	xdoc: EL_XPATH_ROOT_NODE_CONTEXT
+	xdoc: EL_XML_DOC_CONTEXT
 
 	xml_identifier_or_numeric_constant_pattern: like one_of
 

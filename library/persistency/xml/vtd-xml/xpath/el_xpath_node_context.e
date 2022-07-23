@@ -1,13 +1,13 @@
 note
-	description: "A Xpath queryable XML node"
+	description: "A XML node queryable with xpath expressions"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-25 10:48:11 GMT (Friday 25th February 2022)"
-	revision: "24"
+	date: "2022-07-23 8:38:55 GMT (Saturday 23rd July 2022)"
+	revision: "25"
 
 class
 	EL_XPATH_NODE_CONTEXT

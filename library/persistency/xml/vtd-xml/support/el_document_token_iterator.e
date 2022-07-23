@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-01 15:32:11 GMT (Tuesday 1st February 2022)"
-	revision: "2"
+	date: "2022-07-23 8:46:22 GMT (Saturday 23rd July 2022)"
+	revision: "4"
 
 class
 	EL_DOCUMENT_TOKEN_ITERATOR
@@ -118,7 +118,7 @@ feature -- Status query
 
 feature {NONE} -- Internal attributes
 
-	target: EL_XPATH_ROOT_NODE_CONTEXT
+	target: EL_XML_DOC_CONTEXT
 
 feature {NONE} -- Constants
 

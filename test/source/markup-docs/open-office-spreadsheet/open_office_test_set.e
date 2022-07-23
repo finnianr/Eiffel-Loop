@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-24 17:29:54 GMT (Thursday 24th February 2022)"
-	revision: "22"
+	date: "2022-07-22 9:23:20 GMT (Friday 22nd July 2022)"
+	revision: "23"
 
 class
 	OPEN_OFFICE_TEST_SET
@@ -40,23 +40,23 @@ feature -- Tests
 	test_open_office_spreadsheet
 		note
 			testing: "covers/{EL_SPREAD_SHEET}.make", "covers/{EL_XPATH_NODE_CONTEXT}.do_query",
-						"covers/{EL_XPATH_ROOT_NODE_CONTEXT}.new_namespace_table",
+						"covers/{EL_XML_DOC_CONTEXT}.new_namespace_table",
 						"covers/{EL_XPATH_NODE_CONTEXT}.context_list, covers/{EL_XPATH_NODE_CONTEXT}.find_node",
 						"covers/{EL_XPATH_NODE_CONTEXT}.query"
 		local
-			xdoc: EL_XPATH_ROOT_NODE_CONTEXT; file_path: FILE_PATH
+			xdoc: EL_XML_DOC_CONTEXT; file_path: FILE_PATH
 		do
 			file_path := "XML/Jobs-spreadsheet.fods"
 			create xdoc.make_from_file (file_path)
 			across Namespace_list.split ('%N') as name loop
 				assert ("has namespace " + name.item, xdoc.namespace_table.has (name.item))
 			end
-			do_test ("print_spreadsheet", 2607162124, agent print_spreadsheet, [xdoc, file_path.base_sans_extension])
+			do_test ("print_spreadsheet", 4123041651, agent print_spreadsheet, [xdoc, file_path.base_sans_extension])
 		end
 
 feature {NONE} -- Implementation
 
-	print_spreadsheet (root_node: EL_XPATH_ROOT_NODE_CONTEXT; name: ZSTRING)
+	print_spreadsheet (root_node: EL_XML_DOC_CONTEXT; name: ZSTRING)
 		local
 			spread_sheet: EL_SPREAD_SHEET
 		do

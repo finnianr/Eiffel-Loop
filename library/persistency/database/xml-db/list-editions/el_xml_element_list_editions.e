@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "8"
+	date: "2022-07-22 9:08:57 GMT (Friday 22nd July 2022)"
+	revision: "9"
 
 class
 	EL_XML_ELEMENT_LIST_EDITIONS [STORABLE_TYPE -> EL_STORABLE_XML_ELEMENT create make_default end]
@@ -78,7 +78,7 @@ feature -- Basic operations
 	apply
 			-- Apply list-editions to target list
 		local
-			root_node: EL_XPATH_ROOT_NODE_CONTEXT
+			root_node: EL_XML_DOC_CONTEXT
 			edition_node_list: EL_XPATH_NODE_CONTEXT_LIST
 			edition_node: EL_XPATH_NODE_CONTEXT
 			template: EL_STRING_8_TEMPLATE
@@ -140,7 +140,7 @@ feature {NONE} -- Implementation
 	set_editions_text
 			-- Set editions text ommitting any possibley corrupted editions
 		local
-			editions_file: PLAIN_TEXT_FILE; editions_checksum_node: EL_XPATH_ROOT_NODE_CONTEXT
+			editions_file: PLAIN_TEXT_FILE; editions_checksum_node: EL_XML_DOC_CONTEXT
 			line, edition: STRING corruption_found: BOOLEAN
 		do
 			create editions_file.make_open_read (storage_file_path)

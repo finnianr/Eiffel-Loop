@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-24 18:38:08 GMT (Thursday 24th February 2022)"
-	revision: "9"
+	date: "2022-07-22 9:08:57 GMT (Friday 22nd July 2022)"
+	revision: "10"
 
 class
 	EL_APP_ACTIVATION_KEY
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 	make_from_file (file_path: FILE_PATH)
 			--
 		local
-			root_node: EL_XPATH_ROOT_NODE_CONTEXT
+			root_node: EL_XML_DOC_CONTEXT
 		do
 			Precursor (file_path)
 			create root_node.make_from_file (file_path)

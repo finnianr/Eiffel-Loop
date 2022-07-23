@@ -511,3 +511,6 @@ EL_COMPRESSION_TABLE
 Mon 4th Jul 2022, 14:59:48
 New pecf tag expansions
 
+Thu 21st Jul 2022, 16:26:42
+VTD-XML line number reporting on error
+

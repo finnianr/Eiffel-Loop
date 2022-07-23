@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "7"
+	date: "2022-07-23 8:48:45 GMT (Saturday 23rd July 2022)"
+	revision: "9"
 
 deferred class
 	EL_LIST_FROM_XML [G -> EL_XML_CREATEABLE_OBJECT create make end]
@@ -17,15 +17,15 @@ feature {NONE} -- Initaliazation
 	make_from_file (file_path: FILE_PATH)
 			--
 		do
-			make_from_root_node (create {EL_XPATH_ROOT_NODE_CONTEXT}.make_from_file (file_path))
+			make_from_root_node (create {EL_XML_DOC_CONTEXT}.make_from_file (file_path))
 		end
 
 	make_from_string (xml_string: STRING)
 		do
-			make_from_root_node (create {EL_XPATH_ROOT_NODE_CONTEXT}.make_from_string (xml_string))
+			make_from_root_node (create {EL_XML_DOC_CONTEXT}.make_from_string (xml_string))
 		end
 
-	make_from_root_node (root_node: EL_XPATH_ROOT_NODE_CONTEXT)
+	make_from_root_node (root_node: EL_XML_DOC_CONTEXT)
 		local
 			node_list: EL_XPATH_NODE_CONTEXT_LIST
 		do

@@ -3,7 +3,7 @@
 		Test classes from library `vtd-xml.ecf'
 		
 		* [$source EL_XPATH_NODE_CONTEXT]
-		* [$source EL_XPATH_ROOT_NODE_CONTEXT]
+		* [$source EL_XML_DOC_CONTEXT]
 		* [$source EL_XPATH_NODE_CONTEXT_LIST]
 	]"
 	notes: "[
@@ -16,8 +16,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-25 10:31:55 GMT (Friday 25th February 2022)"
-	revision: "24"
+	date: "2022-07-22 9:08:56 GMT (Friday 22nd July 2022)"
+	revision: "25"
 
 class
 	VTD_XML_TEST_SET
@@ -256,7 +256,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	root_node: EL_XPATH_ROOT_NODE_CONTEXT
+	root_node: EL_XML_DOC_CONTEXT
 
 feature {NONE} -- Query results
 

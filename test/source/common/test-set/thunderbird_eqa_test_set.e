@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-25 18:02:24 GMT (Friday 25th February 2022)"
-	revision: "11"
+	date: "2022-07-22 9:08:56 GMT (Friday 22nd July 2022)"
+	revision: "12"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
@@ -28,7 +28,7 @@ feature -- Tests
 	test_book_exporter
 		local
 			exporter: like new_book_exporter; package_path, item_path: FILE_PATH
-			package_root: EL_XPATH_ROOT_NODE_CONTEXT; chapter_count: INTEGER
+			package_root: EL_XML_DOC_CONTEXT; chapter_count: INTEGER
 		do
 			write_config ("pop.myching.co", "en", "manual")
 			exporter := new_book_exporter
@@ -42,7 +42,7 @@ feature -- Tests
 				if not item_path.has_extension ("png") then
 					assert ("item exists", item_path.exists)
 					if item_path.base.starts_with_general ("chapter") then
-						check_book_chapter (create {EL_XPATH_ROOT_NODE_CONTEXT}.make_from_file (item_path))
+						check_book_chapter (create {EL_XML_DOC_CONTEXT}.make_from_file (item_path))
 						chapter_count := chapter_count + 1
 					end
 				end
@@ -52,7 +52,7 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	assert_valid_h2_file (xdoc: EL_XPATH_ROOT_NODE_CONTEXT; body_path: FILE_PATH)
+	assert_valid_h2_file (xdoc: EL_XML_DOC_CONTEXT; body_path: FILE_PATH)
 		local
 			h2_path: FILE_PATH; h2_set: EL_HASH_SET [ZSTRING]; title: ZSTRING
 			count: INTEGER; h2_list: EL_XPATH_NODE_CONTEXT_LIST
@@ -76,7 +76,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	check_book_chapter (chapter_root: EL_XPATH_ROOT_NODE_CONTEXT)
+	check_book_chapter (chapter_root: EL_XML_DOC_CONTEXT)
 		do
 			assert ("at least one paragraph", chapter_root.context_list ("/html/body/p").count > 0)
 		end
@@ -106,12 +106,12 @@ feature {NONE} -- Implementation
 			Result := lines.joined_lines
 		end
 
-	new_root_node (body_path: FILE_PATH): EL_XPATH_ROOT_NODE_CONTEXT
+	new_root_node (body_path: FILE_PATH): EL_XML_DOC_CONTEXT
 		do
 			create Result.make_from_string (XML.document_text ("body", "UTF-8", File.plain_text (body_path)))
 		end
 
-	new_xdoc_path (xdoc: EL_XPATH_ROOT_NODE_CONTEXT; xpath: STRING): FILE_PATH
+	new_xdoc_path (xdoc: EL_XML_DOC_CONTEXT; xpath: STRING): FILE_PATH
 		do
 			Result := xdoc.query (xpath)
 		end

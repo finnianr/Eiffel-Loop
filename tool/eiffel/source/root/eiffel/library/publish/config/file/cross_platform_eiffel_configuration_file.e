@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 12:43:15 GMT (Thursday 3rd February 2022)"
-	revision: "9"
+	date: "2022-07-22 9:08:56 GMT (Friday 22nd July 2022)"
+	revision: "10"
 
 class
 	CROSS_PLATFORM_EIFFEL_CONFIGURATION_FILE
@@ -36,7 +36,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_repository: like repository; ecf: ECF_INFO; root: EL_XPATH_ROOT_NODE_CONTEXT)
+	make (a_repository: like repository; ecf: ECF_INFO; root: EL_XML_DOC_CONTEXT)
 		do
 			Precursor (a_repository, ecf, root)
 			create cluster_list.make (source_dir_list.count)

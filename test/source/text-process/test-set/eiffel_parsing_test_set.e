@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-22 10:01:03 GMT (Wednesday 22nd June 2022)"
-	revision: "12"
+	date: "2022-07-22 9:08:56 GMT (Friday 22nd July 2022)"
+	revision: "13"
 
 class
 	EIFFEL_PARSING_TEST_SET
@@ -38,7 +38,7 @@ feature -- Tests
 				"covers/{EL_EIFFEL_TEXT_PATTERN_FACTORY}.quoted_manifest_string"
 		local
 			writer: CODE_HIGHLIGHTING_WRITER; html_path: FILE_PATH
-			xdoc: EL_XPATH_ROOT_NODE_CONTEXT; xpath: STRING
+			xdoc: EL_XML_DOC_CONTEXT; xpath: STRING
 		do
 			assert ("source exists", file_list.count > 0)
 			html_path := file_list.first_path.with_new_extension ("html")

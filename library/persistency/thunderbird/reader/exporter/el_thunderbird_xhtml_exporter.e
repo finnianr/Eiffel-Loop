@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-22 10:00:57 GMT (Wednesday 22nd June 2022)"
-	revision: "22"
+	date: "2022-07-22 9:08:57 GMT (Friday 22nd July 2022)"
+	revision: "23"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -64,7 +64,7 @@ feature {NONE} -- Implementation
 	check_paragraph_count (xhtml: STRING)
 		-- check that there is at least one paragraph
 		local
-			xdoc: EL_XPATH_ROOT_NODE_CONTEXT
+			xdoc: EL_XML_DOC_CONTEXT
 		do
 			create xdoc.make_from_string (xhtml)
 			if xdoc.context_list ("//p").count = 0 then

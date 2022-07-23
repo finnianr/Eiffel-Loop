@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-06 9:22:24 GMT (Wednesday 6th October 2021)"
-	revision: "6"
+	date: "2022-07-22 9:08:56 GMT (Friday 22nd July 2022)"
+	revision: "7"
 
 class
 	JOBS_RESULT_SET
@@ -30,7 +30,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (document_root_node: EL_XPATH_ROOT_NODE_CONTEXT; a_xpath_query: STRING)
+	make (document_root_node: EL_XML_DOC_CONTEXT; a_xpath_query: STRING)
 			--
 		do
 			make_set (20)

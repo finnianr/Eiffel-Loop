@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2022-07-23 8:46:49 GMT (Saturday 23rd July 2022)"
+	revision: "4"
 
 class
 	EL_XPATH_NODE_CONTEXT_LIST_ITERATION_CURSOR

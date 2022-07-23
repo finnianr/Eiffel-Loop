@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-21 11:51:28 GMT (Thursday 21st July 2022)"
-	revision: "27"
+	date: "2022-07-22 8:57:30 GMT (Friday 22nd July 2022)"
+	revision: "28"
 
 class
 	PYXIS_ECF_PARSER
@@ -45,7 +45,7 @@ feature {NONE} -- Implemenatation
 		local
 			equal_index: INTEGER; line: EL_PYXIS_LINE; s: EL_STRING_8_ROUTINES
 		do
-			line := shared_pyxis_line (a_line)
+			line := to_pyxis_line (a_line)
 			equal_index := line.index_of_equals
 
 			if attached c_platform as platform then

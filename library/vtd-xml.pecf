@@ -6,7 +6,7 @@ system:
 	name = EL_vtd_xml; library_target = EL_vtd_xml; uuid = "229b77d6-09aa-11df-87c5-b77da3e246d9" 
 	description: 
 		"""
-			XML Scanning and Object Building with VTD-XML
+			XML parsing and Xpath navigation with VTD-XML
 
 			Classes for scanning XML documents and building Eiffel objects from XML contexts
 			defined by relative Xpaths. Based on the [http://vtd-xml.sourceforge.net/ VTD-XML parser].

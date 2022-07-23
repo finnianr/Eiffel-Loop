@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-25 8:44:12 GMT (Friday 25th February 2022)"
-	revision: "22"
+	date: "2022-07-22 9:08:57 GMT (Friday 22nd July 2022)"
+	revision: "23"
 
 class
 	EL_TRANSLATION_TABLE
@@ -70,7 +70,7 @@ feature {NONE} -- Initialization
 			build_from_string (pyxis_source)
 		end
 
-	make_from_root_node (a_language: STRING; root_node: EL_XPATH_ROOT_NODE_CONTEXT)
+	make_from_root_node (a_language: STRING; root_node: EL_XML_DOC_CONTEXT)
 			-- build from xml
 		require
 			document_has_translation: document_has_translation (a_language, root_node)
@@ -122,7 +122,7 @@ feature -- Basic operations
 
 feature -- Contract Support
 
-	document_has_translation (a_language: STRING; root_node: EL_XPATH_ROOT_NODE_CONTEXT): BOOLEAN
+	document_has_translation (a_language: STRING; root_node: EL_XML_DOC_CONTEXT): BOOLEAN
 		do
 			Result := root_node.is_xpath (Xpath_language_available.substituted_tuple ([a_language]).to_unicode)
 		end
