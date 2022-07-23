@@ -2,9 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_encryption; library_target = EL_encryption; uuid = "229b74ac-09aa-11df-87bd-ff346cce6bd1" 
-	
+	configuration_ns = "1-16-0"; uuid = "229b74ac-09aa-11df-87bd-ff346cce6bd1" 
+	name = EL_encryption; library_target = EL_encryption
 	description:
 		"""
 			AES Encryption

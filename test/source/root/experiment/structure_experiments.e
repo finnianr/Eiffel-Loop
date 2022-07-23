@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:13 GMT (Tuesday 15th February 2022)"
-	revision: "6"
+	date: "2022-07-23 16:07:00 GMT (Saturday 23rd July 2022)"
+	revision: "7"
 
 class
 	STRUCTURE_EXPERIMENTS
@@ -152,58 +152,6 @@ feature -- Basic operations
 				lio.put_integer_field (list.index.out, list.item)
 				lio.put_new_line
 				list.forth
-			end
-		end
-
-	gobo_binary_tree_subtraction_1
-			--
-		local
-			i: INTEGER
-			set_A, set_B: DS_RED_BLACK_TREE_SET [STRING]
-			comparator: KL_COMPARABLE_COMPARATOR [STRING]
-		do
-			create comparator.make
-			create set_A.make (comparator)
-			create set_B.make (comparator)
-
-			from i := 1 until i > Names.count loop
-				set_A.put (Names [i])
-				if i /= 1 then
-					set_B.put (Names [i])
-				end
-				i := i + 1
-			end
-			lio.put_line ("set_B.subtract (set_A)")
-			set_B.subtract (set_A)
-			lio.put_line ("DONE")
-			from set_B.start until set_B.after loop
-				lio.put_line (set_B.item_for_iteration)
-			end
-		end
-
-	gobo_binary_tree_subtraction_2
-			--
-		local
-			i: INTEGER
-			set_A, set_B: DS_AVL_TREE_SET [STRING]
-			comparator: KL_COMPARABLE_COMPARATOR [STRING]
-		do
-			create comparator.make
-			create set_A.make (comparator)
-			create set_B.make (comparator)
-
-			from i := 1 until i > Names.count loop
-				set_A.put (Names [i])
-				if i /= 1 then
-					set_B.put (Names [i])
-				end
-				i := i + 1
-			end
-			lio.put_line ("set_B.subtract (set_A)")
-			set_B.subtract (set_A)
-			lio.put_line ("DONE")
-			from set_B.start until set_B.after loop
-				lio.put_line (set_B.item_for_iteration)
 			end
 		end
 

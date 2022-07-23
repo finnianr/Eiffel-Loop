@@ -2,8 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_fast_cgi; library_target = EL_fast_cgi; uuid = "229b4c52-09aa-11df-876c-87080fdd2d54"
+	configuration_ns = "1-16-0"; uuid = "229b4c52-09aa-11df-876c-87080fdd2d54"
+	name = EL_fast_cgi; library_target = EL_fast_cgi
 	description: 
 		"""
 			Fast CGI Servlets
@@ -22,44 +22,26 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library:
-			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			net = "net/net.ecf"
 			renaming:
 				EMAIL = NET_EMAIL
-		
-		library:
-			name = time; location = "$ISE_EIFFEL/library/time/time.ecf"
+			time = "time/time.ecf"
 
 		# Eiffel Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_evolicity; location = "evolicity.ecf"
-
-		library:
-			name = EL_logging; location = "logging.ecf"
-
-		library:
-			name = EL_http_client; location = "http-client.ecf"
-
-		library:
-			name = EL_net_base; location = "network.ecf"
-
-		library:
-			name = EL_os_command; location = "os-command.ecf"
-
-		library:
-			name = EL_pyxis_scan; location = "pyxis-scan.ecf"
-
-		library:
-			name = EL_text_formats; location = "text-formats.ecf"
-
-		library:
-			name = EL_thread; location = "thread.ecf"
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_evolicity = "evolicity.ecf"
+			EL_logging = "logging.ecf"
+			EL_http_client = "http-client.ecf"
+			EL_net_base = "network.ecf"
+			EL_os_command = "os-command.ecf"
+			EL_pyxis_scan = "pyxis-scan.ecf"
+			EL_text_formats = "text-formats.ecf"
+			EL_thread = "thread.ecf"
 
 		# Source code
 		cluster_tree:

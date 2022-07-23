@@ -12,11 +12,12 @@ for creating single and multi-threaded HTTP servlet services.
 		<option trace = "false" debug = "false" warning = "true" syntax = "standard" full_class_checking = "false" void_safety = "none">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
+		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "net" location = "$ISE_LIBRARY/library/net/net.ecf">
 			<renaming old_name = "EMAIL" new_name = "NET_EMAIL"/>
 		</library>
-		<library name = "time" location = "$ISE_EIFFEL/library/time/time.ecf"/>
+		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>

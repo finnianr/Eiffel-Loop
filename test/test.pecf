@@ -122,6 +122,9 @@ system:
 			condition:
 				platform = windows
 
+		cluster:
+			transcoder = "$ISE_LIBRARY/contrib/library/gobo/library/utility/src/transcoder"
+
 		cluster_tree:
 			root = "source/root"
 			platform_list:

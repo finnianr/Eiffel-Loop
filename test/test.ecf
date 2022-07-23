@@ -97,6 +97,7 @@
 				<platform value = "windows"/>
 			</condition>
 		</library>
+		<cluster name = "transcoder" location = "$ISE_LIBRARY/contrib/library/gobo/library/utility/src/transcoder"/>
 		<cluster name = "root" location = "source/root" recursive = "true">
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>

@@ -4,9 +4,8 @@ pyxis-doc:
 # This ECF is for documentation purposes only and will not compile.
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_laabhair; uuid = "bed6fdc6-c730-11e8-83f1-07cc6249a405" 
-	library_target = EL_laabhair
+	configuration_ns = "1-16-0"; uuid = "bed6fdc6-c730-11e8-83f1-07cc6249a405" 
+	name = EL_laabhair; library_target = EL_laabhair
 	description:
 		"""
 			Laabhair Audio Analysis Framework
@@ -24,11 +23,10 @@ system:
 		"""
 	target:
 		name = EL_laabhair
-
 		root:
 			all_classes = true
 
 		# Classes
-		cluster:
-			name = EL_laabhair; location = "multimedia/laabhair"
+		cluster_tree:
+			EL_laabhair = "multimedia/laabhair"
 

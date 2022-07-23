@@ -2,9 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_currency; uuid = "b86dc0cc-cc46-11e7-8696-3f5f5f993355" 
-	library_target = EL_currency
+	configuration_ns = "1-16-0"; uuid = "b86dc0cc-cc46-11e7-8696-3f5f5f993355" 
+	name = EL_currency; library_target = EL_currency
 	description: 
 		"""
 			Currency Exchange
@@ -24,26 +23,20 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library: 
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			time = "time/time.ecf"
 
 		# Eiffel Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_http_client; location = "http-client.ecf"
-
-		library:
-			name = EL_evolicity; location = "evolicity.ecf"
-
-		library:
-			name = EL_vtd_xml; location = "vtd-xml.ecf"
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_http_client = "http-client.ecf"
+			EL_evolicity = "evolicity.ecf"
+			EL_vtd_xml = "vtd-xml.ecf"
 
 		# Source code
-		cluster:
-			name = currency; location = "utility/currency"; recursive = true
+		cluster_tree:
+			currency = "utility/currency"
 
