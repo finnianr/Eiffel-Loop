@@ -22,7 +22,6 @@ Pyxis is a direct analog of XML that is easier to read and edit making it suitab
 		</option>
 		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
-		<library/>
 		<!--Eiffel-Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_doc_scan" location = "document-scan.ecf"/>

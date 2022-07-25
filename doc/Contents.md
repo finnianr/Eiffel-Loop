@@ -1,16 +1,16 @@
 # Eiffel-Loop Contents
 ## Submission for 99-bottles-of-beer.net
-Eiffel submission for [http://www.99-bottles-of-beer.net/ www.99-bottles-of-beer.net].
+Eiffel submission for [www.99-bottles-of-beer.net](http://www.99-bottles-of-beer.net/).
 
 This website contains sample programs for over 1500 languages and variations, all of which print the lyrics of the song "99 Bottles of Beer".
 ## Concurrency Demonstration
-Demonstration of classes that make the classic multi-threading ISE library `thread.ecf' easier to use.
+Demonstration of classes that make the classic multi-threading ISE library `thread.ecf` easier to use.
 
 
-1. `el_concurrency -horse_race' An [https://www.youtube.com/watch?v=s2-7pzmVjao animated version] of the classic concurrency horse-racing exercise.
-2. `el_concurrency -work_distributer' demonstrates the calculation of integrals for arbitrary functions distributed across a specified number of threads
+1. `el_concurrency -horse_race` An [animated version](https://www.youtube.com/watch?v=s2-7pzmVjao) of the classic concurrency horse-racing exercise.
+2. `el_concurrency -work_distributer` demonstrates the calculation of integrals for arbitrary functions distributed across a specified number of threads
 ## Vision-2 Extensions Demo
-Test application for selected components from Eiffel-Loop [./library/vision2-x.html extension libraries for Vision-2 and Docking].
+Test application for selected components from Eiffel-Loop [extension libraries for Vision-2 and Docking](http://www.eiffel-loop.com/library/vision2-x.html).
 ## Rhythmbox MP3 Collection Manager
 This is a full-blown MP3 collection manager that is designed to work in conjunction with the [Rhythmbox media player](https://wiki.gnome.org/Apps/Rhythmbox) and has a number of features of particular interest to Tango DJs.
 
@@ -647,7 +647,7 @@ A high-level framework for wrapping Java classes that adds a useful layer of abs
 The framework is based on the concept of a Java agent that is similar to an Eiffel agent. You will find classes: [$source JAVA_FUNCTION] and [$source JAVA_PROCEDURE] that inherit [$source JAVA_ROUTINE]. These agent classes automatically generate correct JNI call signatures. The library allows the creation of recursively wrapped classes where the arguments and return types to wrapped routines are themselves wrapped classes.
 
 See [./example/eiffel2java/eiffel2java.html example/eiffel2java/eiffel2java.ecf] for an example of it's use.
-## Python
+## Python Interface
 Some extensions to Daniel RodrÃ­guez's [https://github.com/finnianr/Eiffel-Loop/tree/master/contrib/Eiffel/PEPE PEPE library for Eiffel]. This library allows you to call Python objects from Eiffel. Here is one example to query ID3 tags in an MP3 file: [$source EL_EYED3_TAG].
 ## Matlab
 **Status:** No longer maintained

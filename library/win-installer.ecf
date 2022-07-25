@@ -19,7 +19,13 @@ This library has been superceded by the capabilities of the
 		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<!--Eiffel-Loop-->
-		<library name = "EL_base" location = "base/base.ecf" name = "EL_c_language" location = "c-language-interface.ecf" name = "EL_evolicity" location = "evolicity.ecf" name = "EL_os_command" location = "os-command.ecf" name = "EL_logging" location = "logging.ecf" name = "EL_wel_regedit_x" location = "wel-regedit-x.ecf" name = "EL_vision2_x" location = "vision2-x.ecf"/>
+		<library name = "EL_base" location = "base/base.ecf"/>
+		<library name = "EL_c_language" location = "c-language-interface.ecf"/>
+		<library name = "EL_evolicity" location = "evolicity.ecf"/>
+		<library name = "EL_os_command" location = "os-command.ecf"/>
+		<library name = "EL_logging" location = "logging.ecf"/>
+		<library name = "EL_wel_regedit_x" location = "wel-regedit-x.ecf"/>
+		<library name = "EL_vision2_x" location = "vision2-x.ecf"/>
 		<library name = "vision2" location = "override/ES-vision2.ecf"/>
 		<!--Source code-->
 		<cluster name = "installer" location = "utility/windows-installer" recursive = "true"/>

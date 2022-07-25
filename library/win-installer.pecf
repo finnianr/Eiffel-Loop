@@ -30,7 +30,7 @@ system:
 			base = "$ISE_LIBRARY/library/base/base.ecf"
 
 		# Eiffel-Loop
-		library:
+		libraries:
 			EL_base = "base/base.ecf"
 			EL_c_language = "c-language-interface.ecf"
 			EL_evolicity = "evolicity.ecf"
