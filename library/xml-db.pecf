@@ -2,9 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_xml_database; uuid = "371177CA-4083-11E7-B25C-A7C77F448613" 
-	library_target = EL_xml_database
+	configuration_ns = "1-16-0"; uuid = "371177CA-4083-11E7-B25C-A7C77F448613" 
+	name = EL_xml_database; library_target = EL_xml_database
 	description: 
 		"""
 			Eiffel LIST-orientated XML Database
@@ -18,40 +17,29 @@ system:
 		"""
 	target:
 		name = EL_xml_database
-		
+		root:
+			all_classes = true
 		option: 
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true
 
-		root:
-			all_classes = true
-
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library:
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			time = "time/time.ecf"
 
 		# Eiffel Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_encryption; location = "encryption.ecf"
-
-		library:
-			name = EL_evolicity; location = "evolicity.ecf"
-
-		library:
-			name = EL_text_process; readonly = false
-			location = "text-process.ecf"
-
-		library:
-			name = EL_vtd_xml; location = "vtd-xml.ecf"
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_encryption = "encryption.ecf"
+			EL_evolicity = "evolicity.ecf"
+			EL_text_process = "text-process.ecf"
+			EL_vtd_xml = "vtd-xml.ecf"
 
 		# Source code
-		cluster:
-			name = database; location = "persistency/database/xml-db"; recursive = true; readonly = false
+		cluster_tree:
+			database = "persistency/database/xml-db"
 			
 
 

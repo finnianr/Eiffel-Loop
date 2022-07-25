@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_wel_x" uuid = "229b72ae-09aa-11df-87b8-0312bf157bc0" library_target = "EL_wel_x">
+<system name = "EL_wel_x" library_target = "EL_wel_x" uuid = "229b72ae-09aa-11df-87b8-0312bf157bc0" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 Windows Eiffel Library Extensions
 
@@ -14,6 +14,7 @@ Extensions for [https://www.eiffel.org/doc/solutions/WEL WEL GUI library].
 				<platform value = "windows"/>
 			</condition>
 		</external_object>
+		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<library name = "wel" location = "$ISE_LIBRARY/library/wel/wel.ecf">

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_xml_database" uuid = "371177CA-4083-11E7-B25C-A7C77F448613" library_target = "EL_xml_database">
+<system name = "EL_xml_database" library_target = "EL_xml_database" uuid = "371177CA-4083-11E7-B25C-A7C77F448613" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 Eiffel LIST-orientated XML Database
 
@@ -12,17 +12,18 @@ This library has now been superceded by [./library/Eco-DB.html Eco-DB.ecf] which
 and uses a binary format.
 	</description>
 	<target name = "EL_xml_database">
-		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true"/>
 		<root all_classes = "true"/>
+		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true"/>
+		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_encryption" location = "encryption.ecf"/>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
-		<library name = "EL_text_process" readonly = "false" location = "text-process.ecf"/>
+		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<library name = "EL_vtd_xml" location = "vtd-xml.ecf"/>
 		<!--Source code-->
-		<cluster name = "database" location = "persistency/database/xml-db" recursive = "true" readonly = "false"/>
+		<cluster name = "database" location = "persistency/database/xml-db" recursive = "true"/>
 	</target>
 </system>

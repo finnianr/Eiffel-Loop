@@ -2,16 +2,14 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_wel_x; uuid = "229b72ae-09aa-11df-87b8-0312bf157bc0" 
-	library_target = EL_wel_x
+	configuration_ns = "1-16-0"; uuid = "229b72ae-09aa-11df-87b8-0312bf157bc0" 
+	name = EL_wel_x; library_target = EL_wel_x
 	description: 
 		"""
 			Windows Eiffel Library Extensions
 
 			Extensions for [https://www.eiffel.org/doc/solutions/WEL WEL GUI library].
 		"""
-	
 	target:
 		name = EL_wel_x
 		root:
@@ -26,36 +24,24 @@ system:
 			condition:
 				platform = windows
 
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library:
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
-
-		library:
-			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			time = "time/time.ecf"
+			wel = "wel/wel.ecf"
 			condition:
 				platform = windows
 
 		# Eiffel-Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_c_api; location = "C-language-interface.ecf"
-
-		library:
-			name = EL_logging; location = "logging.ecf"
-
-		library:
-			name = EL_os_command; location = "os-command.ecf"
-
-		library:
-			name = EL_thread; location = "thread.ecf"
-
-		library:
-			name = EL_wel_regedit_x; location = "wel-regedit-x.ecf"
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_c_api = "C-language-interface.ecf"
+			EL_logging = "logging.ecf"
+			EL_os_command = "os-command.ecf"
+			EL_thread = "thread.ecf"
+			EL_wel_regedit_x = "wel-regedit-x.ecf"
 
 		# Source code
-		cluster:
-			name = wel_x; location = "graphic/toolkit/wel-x"; recursive = true
+		cluster_tree:
+			wel_x = "graphic/toolkit/wel-x"

@@ -2,8 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_vision2_x; library_target = EL_vision2_x; uuid = "229b7510-09aa-11df-87be-876e1b168743" 
+	configuration_ns = "1-16-0"; uuid = "229b7510-09aa-11df-87be-876e1b168743" 
+	name = EL_vision2_x; library_target = EL_vision2_x
 	description: 
 		"""
 			EiffelVision2 GUI Extensions
@@ -56,7 +56,8 @@ system:
 		libraries:
 			location = "$ISE_LIBRARY/library"
 			api_wrapper = "api_wrapper/api_wrapper.ecf"
-			base = "base/base.ecf"; base_x = "base_extension/base_extension.ecf"
+			base = "base/base.ecf"
+			base_ext = "base_extension/base_extension.ecf"
 			time = "time/time.ecf"
 			thread = "thread/thread.ecf"
 			wel = "wel/wel.ecf"
@@ -87,20 +88,17 @@ system:
 		# Source clusters
 		cluster_tree:
 			graphics = "graphic/toolkit/vision2-x/graphics"
-			platform_list:
-				"imp_mswin; imp_unix"
-
 			description:
 				"""
 					Vision2-X 2D Graphics
 
 					Classes for 2D geometry and graphical drawing
 				"""
+			platform_list:
+				"imp_mswin; imp_unix"
 
 		cluster_tree:
 			pango_cairo = "graphic/toolkit/vision2-x/pango-cairo"
-			platform_list:
-				"imp_mswin; imp_unix"
 			description:
 				"""
 					Pango-Cairo 2D Graphics
@@ -108,22 +106,22 @@ system:
 					Eiffel interface to the [https://cairographics.org/ Cairo 2D graphics library]
 					providing pixel buffer rendering with transparencies and anti-aliasing.
 				"""
+			platform_list:
+				"imp_mswin; imp_unix"
 
 		cluster_tree:
 			extensions = "graphic/toolkit/vision2-x/extensions"
-			platform_list:
-				"imp_mswin; imp_unix"
 			description:
 				"""
 					Vision2-X UI Extensions
 
 					Various extensions for the [https://www.eiffel.org/resources/libraries/eiffelvision2 EiffelVision2] library.
 				"""
+			platform_list:
+				"imp_mswin; imp_unix"
 
 		cluster_tree:
 			container = "graphic/toolkit/vision2-x/container"
-			platform_list:
-				"imp_mswin; imp_unix"
 			description:
 				"""
 					Vision2-X UI Container Extensions
@@ -133,23 +131,22 @@ system:
 
 					See doc/vision2-x.container.txt for details
 				"""
+			platform_list:
+				"imp_mswin; imp_unix"
 
 		cluster_tree:
 			pixmap = "graphic/toolkit/vision2-x/pixmap"
-			platform_list:
-				"imp_mswin; imp_unix"
 			description:
 				"""
 					Vision2-X Pixmap Extensions
 
 					Classes for managing pixmaps
 				"""
-
-		cluster_tree:
-			widget = "graphic/toolkit/vision2-x/widget"
 			platform_list:
 				"imp_mswin; imp_unix"
 
+		cluster_tree:
+			widget = "graphic/toolkit/vision2-x/widget"
 			description:
 				"""
 					Vision2-X UI Widget Extensions
@@ -159,4 +156,6 @@ system:
 
 					See doc/vision2-x.widget.txt for details
 				"""
+			platform_list:
+				"imp_mswin; imp_unix"
 

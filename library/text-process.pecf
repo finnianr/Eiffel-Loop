@@ -2,9 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_text_process; uuid = "5F4D5242-0204-11E9-8F38-BFFB70340F0C" 
-	library_target = EL_text_process
+	configuration_ns = "1-16-0"; uuid = "5F4D5242-0204-11E9-8F38-BFFB70340F0C" 
+	name = EL_text_process; library_target = EL_text_process
 	description:
 		"""
 			Textual Data Processing
@@ -29,24 +28,24 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+		library:
+			base = "$ISE_LIBRARY/library/base/base.ecf"
 
 		# Eiffel Loop
 		library:
-			name = EL_base; location = "base/base.ecf"
+			EL_base = "base/base.ecf"
 
 		# Source code
-		cluster:
-			name = edit; location = "text/edit"; recursive = true
+		cluster_tree:
+			edit = "text/edit"
 			description:
 				"""
 					Text Editing
 
 					Classes for editing file and other text.
 				"""
-		cluster:
-			name = parse; location = "text/parse"; recursive = true
+		cluster_tree:
+			parse = "text/parse"
 			description:
 				"""
 					Parsing
@@ -54,8 +53,8 @@ system:
 					Classes for parsing text data.
 				"""
 
-		cluster:
-			name = pattern_match; location = "text/pattern-match"; recursive = true
+		cluster_tree:
+			pattern_match = "text/pattern-match"
 			description:
 				"""
 					Pattern-matching

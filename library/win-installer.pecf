@@ -2,9 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_win_installer; uuid = "7A2B2FBA-809E-11E6-8CE5-07CE5F46A9E9" 
-	library_target = EL_win_installer
+	configuration_ns = "1-16-0"; uuid = "7A2B2FBA-809E-11E6-8CE5-07CE5F46A9E9" 
+	name = EL_win_installer; library_target = EL_win_installer
 	description: 
 		"""
 			Windows Installer
@@ -20,44 +19,31 @@ system:
 		name = EL_win_installer
 		root:
 			all_classes = true
-
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
+		# ISE libraries
 		library:
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library:
-			name = vision2; location="override/ES-vision2.ecf"
+			base = "$ISE_LIBRARY/library/base/base.ecf"
 
 		# Eiffel-Loop
 		library:
-			name = EL_base; location = "base/base.ecf"
+			EL_base = "base/base.ecf"
+			EL_c_language = "c-language-interface.ecf"
+			EL_evolicity = "evolicity.ecf"
+			EL_os_command = "os-command.ecf"
+			EL_logging = "logging.ecf"
+			EL_wel_regedit_x = "wel-regedit-x.ecf"
+			EL_vision2_x = "vision2-x.ecf"
 
 		library:
-			name = EL_c_language; location = "c-language-interface.ecf"
-
-
-		library:
-			name = EL_evolicity; location = "evolicity.ecf"
-
-		library:
-			name = EL_os_command; location = "os-command.ecf"
-
-		library:
-			name = EL_logging; location = "logging.ecf"
-
-		library:
-			name = EL_wel_regedit_x; location = "wel-regedit-x.ecf"
-
-		library:
-			name = EL_vision2_x; location = "vision2-x.ecf"
+			vision2 = "override/ES-vision2.ecf"
 
 		# Source code
-		cluster:
-			name = installer; location = "utility/windows-installer"; recursive = true
+		cluster_tree:
+			installer = "utility/windows-installer"
 
 

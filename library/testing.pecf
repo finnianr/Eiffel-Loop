@@ -2,9 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_testing; uuid = "229B6BF6-09AA-11DF-87A7-175ABB67064B" 
-	library_target = EL_testing
+	configuration_ns = "1-16-0"; uuid = "229B6BF6-09AA-11DF-87A7-175ABB67064B" 
+	name = EL_testing; library_target = EL_testing
 	description:
 		"""
 			Development Testing
@@ -13,7 +12,6 @@ system:
 			These are used extensively in Eiffel-Loop projects.
 			* Helper classes for unit tests based on `EQA_TEST_SET'
 		"""
-	
 	target:
 		name = EL_testing
 		root:
@@ -26,32 +24,22 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library:
-			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			ise_testing = "testing/testing.ecf"
 
 		# Eiffel Loop
-		library:
-			name = EL_app_manage; location = "app-manage.ecf"
-
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_encryption; location = "encryption.ecf"
-
-		library:
-			name = EL_logging; location = "logging.ecf"
-
-		library:
-			name = EL_os_command; location = "os-command.ecf"
-
-		library:
-			name = EL_thread; location = "thread.ecf"
+		libraries:
+			EL_app_manage = "app-manage.ecf"
+			EL_base = "base/base.ecf"
+			EL_encryption = "encryption.ecf"
+			EL_logging = "logging.ecf"
+			EL_os_command = "os-command.ecf"
+			EL_thread = "thread.ecf"
 
 		# Source code
-		cluster:
-			name = el_testing; location = "testing"; recursive = true
+		cluster_tree:
+			testing = testing
 

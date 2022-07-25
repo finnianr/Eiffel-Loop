@@ -2,9 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_search; uuid = "131C239A-ACDD-11E6-B781-137D77BA6302" 
-	library_target = EL_search
+	configuration_ns = "1-16-0"; uuid = "131C239A-ACDD-11E6-B781-137D77BA6302" 
+	name = EL_search; library_target = EL_search
 	description:
 		"""
 			Search Engine
@@ -20,38 +19,28 @@ system:
 		"""
 	target:
 		name = EL_search
-		
-		description: 
-			"Search engine"
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true
-
 		root:
 			all_classes = true
 
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library:
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			time = "time/time.ecf"
 
 		# Eiffel Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_eco_db; location = "Eco-DB.ecf"
-
-		library:
-			name = EL_encryption; location = "encryption.ecf"
-
-		library:
-			name = EL_text_process; location = "text-process.ecf"
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_eco_db = "Eco-DB.ecf"
+			EL_encryption = "encryption.ecf"
+			EL_text_process = "text-process.ecf"
 
 		# Source code
-		cluster:
-			name = search; location = "text/search-engine"; recursive = true; readonly = false
+		cluster_tree:
+			search = "text/search-engine"
 			
 
 

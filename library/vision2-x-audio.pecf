@@ -2,9 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-8-0"
-	name = EL_vision2_x_audio; uuid = "229b6e58-09aa-11df-87ad-bf45b875a36c" 
-	library_target = EL_vision2_x_audio
+	configuration_ns = "1-16-0"; uuid = "229b6e58-09aa-11df-87ad-bf45b875a36c" 
+	name = EL_vision2_x_audio; library_target = EL_vision2_x_audio
 	description:
 		"""
 			Vision2 Audio
@@ -12,7 +11,6 @@ system:
 			Audio extensions for Windows implementation of Vision2 GUI library.
 			This depends on the [./library/wel-x-audio.html WEL audio extensions] library.
 		"""
-	
 	target:
 		name = EL_vision2_x_audio
 		root:
@@ -22,25 +20,25 @@ system:
 			trace = false; debug = false; warning = true; syntax = standard
 			assertions:
 				precondition = true; postcondition = true; check = false; invariant = false
-			#precondition = true; postcondition = true; check = true; invariant = true
 
 		library:
-			name = vision2; location="override/ES-vision2.ecf"; readonly = False
-
-		library:
-			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
+			wel = "$ISE_LIBRARY/library/wel/wel.ecf"
 			condition:
 				platform = windows
 
 		# Eiffel-Loop
 		library:
-			name = EL_wel_x_audio; location = "wel-x-audio.ecf"
+			EL_wel_x_audio = "wel-x-audio.ecf"
 			condition:
 				platform = windows
 
+		library:
+			vision2 = "override/ES-vision2.ecf"
+
+
 		# Source code
-		cluster:
-			name = EL_audio; location = "multimedia/vision2-x-audio"; recursive = true
+		cluster_tree:
+			EL_audio = "multimedia/vision2-x-audio"
 			platform_list:
 				"imp_mswin; imp_unix"
 

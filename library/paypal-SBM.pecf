@@ -2,9 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_paypal_SBM; uuid = "229b6c64-09aa-11df-87a8-a3de564c1248" 
-	library_target = EL_paypal_SBM
+	configuration_ns = "1-16-0"; uuid = "229b6c64-09aa-11df-87a8-a3de564c1248" 
+	name = EL_paypal_SBM; library_target = EL_paypal_SBM
 	description: 
 		"""
 			PayPal Payments Standard Button Manager API
@@ -23,33 +22,23 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library: 
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			time = "time/time.ecf"
 
 		# Eiffel Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_currency; location = "currency.ecf"
-
-		library:
-			name = EL_encryption; location = "encryption.ecf"
-
-		library:
-			name = EL_http_client; location = "http-client.ecf"
-
-		library:
-			name = EL_network; location = "network.ecf"
-
-		library:
-			name = EL_pyxis_scan; location = "pyxis-scan.ecf"
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_currency = "currency.ecf"
+			EL_encryption = "encryption.ecf"
+			EL_http_client = "http-client.ecf"
+			EL_network = "network.ecf"
+			EL_pyxis_scan = "pyxis-scan.ecf"
 
 		# Source code
-		cluster:
-			name = paypal; location = "network/paypal"; recursive = true
+		cluster_tree:
+			paypal = "network/paypal"
 
 

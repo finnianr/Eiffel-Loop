@@ -2,8 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_c_api; library_target = EL_c_api; uuid = "229b522e-09aa-11df-8775-f3308731f240"
+	configuration_ns = "1-16-0"; uuid = "229b522e-09aa-11df-8775-f3308731f240"
+	name = EL_c_api; library_target = EL_c_api
 	description: 
 		"""
 			C/C++ and MS COM objects

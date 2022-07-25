@@ -2,8 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_wel_x_audio; library_target = EL_wel_x_audio; uuid = "229b6df4-09aa-11df-87ac-abdb0fd497e6" 
+	configuration_ns = "1-16-0"; uuid = "229b6df4-09aa-11df-87ac-abdb0fd497e6" 
+	name = EL_wel_x_audio; library_target = EL_wel_x_audio
 	description: 
 		"""
 			Windows Audio

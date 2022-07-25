@@ -2,9 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_regedit; uuid = "552d167e-5817-4a31-acb4-8611c5033b28" 
-	library_target = EL_regedit
+	configuration_ns = "1-16-0"; uuid = "552d167e-5817-4a31-acb4-8611c5033b28" 
+	name = EL_regedit; library_target = EL_regedit
 	description: 
 		"""
 			Windows Registry Management
@@ -17,10 +16,8 @@ system:
 			registry keys and data. See
 			[https://www.eiffel.org/article/windows_registry_access_made_easy this article] on Eiffel room.
 		"""
-	
 	target:
 		name = EL_regedit
-
 		root:
 			all_classes = true
 
@@ -36,20 +33,20 @@ system:
 			condition:
 				platform = windows
 
-		library:
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library:
-			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			wel = "wel/wel.ecf"
 			condition:
 				platform = windows
 
 		# Eiffel-Loop
 		library:
-			name = EL_base; location = "base/base.ecf"
+			EL_base = "base/base.ecf"
 
 		# Source code
-		cluster:
-			name = win_registry; location= "persistency/win-registry"; recursive = true
+		cluster_tree:
+			win_registry= "persistency/win-registry"
 
 

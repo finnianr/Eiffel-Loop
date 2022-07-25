@@ -2,8 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_xml_scan; library_target = EL_xml_scan; uuid = "229B7772-09AA-11DF-87C4-BBC432FE4581" 
+	configuration_ns = "1-16-0"; uuid = "229B7772-09AA-11DF-87C4-BBC432FE4581" 
+	name = EL_xml_scan; library_target = EL_xml_scan
 	
 	description: 
 		"""

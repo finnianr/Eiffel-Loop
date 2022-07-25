@@ -1,13 +1,13 @@
 note
-	description: "[$source READABLE_STRING_8] constants derived from the attribute name"
+	description: "Fields conforming to [$source READABLE_STRING_8] are initialized from the attribute name"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-25 5:10:17 GMT (Monday 25th July 2022)"
-	revision: "1"
+	date: "2022-07-25 9:31:06 GMT (Monday 25th July 2022)"
+	revision: "2"
 
 deferred class
 	EL_REFLECTIVE_STRING_CONSTANTS

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-25 6:02:22 GMT (Monday 25th July 2022)"
-	revision: "1"
+	date: "2022-07-25 9:33:41 GMT (Monday 25th July 2022)"
+	revision: "2"
 
 class
 	PYXIS_ECF_NAMES
@@ -36,6 +36,7 @@ feature -- Access
 		end
 
 	excluded_: STRING
+		-- excluded value prefix
 
 feature -- ECF names
 

@@ -2,8 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_vtd_xml; library_target = EL_vtd_xml; uuid = "229b77d6-09aa-11df-87c5-b77da3e246d9" 
+	configuration_ns = "1-16-0"; uuid = "229b77d6-09aa-11df-87c5-b77da3e246d9" 
+	name = EL_vtd_xml; library_target = EL_vtd_xml
 	description: 
 		"""
 			XML parsing and Xpath navigation with VTD-XML

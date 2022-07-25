@@ -2,9 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_formats; uuid = "1D285226-C16E-11E8-B786-73F53AB0E560" 
-	library_target = EL_formats
+	configuration_ns = "1-16-0"; uuid = "1D285226-C16E-11E8-B786-73F53AB0E560" 
+	name = EL_formats; library_target = EL_formats
 	description:
 		"""
 			Textual Data Formats
@@ -25,23 +24,19 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library:
-			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
-
-		library:
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			ise_testing = "testing/testing.ecf"
+			time = "time/time.ecf"
 
 		# Eiffel Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_text_process; location = "text-process.ecf"
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_text_process = "text-process.ecf"
 
 		# Source code
-		cluster:
-			name = formats; location = "text/formats"; recursive = true
+		cluster_tree:
+			formats = "text/formats"
 

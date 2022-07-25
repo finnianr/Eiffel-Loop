@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_regedit" uuid = "552d167e-5817-4a31-acb4-8611c5033b28" library_target = "EL_regedit">
+<system name = "EL_regedit" library_target = "EL_regedit" uuid = "552d167e-5817-4a31-acb4-8611c5033b28" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 Windows Registry Management
 
@@ -22,6 +22,7 @@ registry keys and data. See
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
+		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "wel" location = "$ISE_LIBRARY/library/wel/wel.ecf">
 			<condition>
