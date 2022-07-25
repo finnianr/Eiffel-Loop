@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-11 11:19:57 GMT (Monday 11th July 2022)"
-	revision: "7"
+	date: "2022-07-25 6:03:58 GMT (Monday 25th July 2022)"
+	revision: "8"
 
 class
 	LIBRARIES_ECF_LINES
@@ -97,7 +97,7 @@ feature {NONE} -- Constants
 
 	Related_tags: EL_HASH_SET [STRING]
 		once
-			create Result.make_from_array (<< Name.assertions, Name.condition, Name.custom, Name.option, Name.renaming >>)
+			create Result.make_from_array (Name.library_related)
 		end
 
 	Template: EL_TEMPLATE [STRING]

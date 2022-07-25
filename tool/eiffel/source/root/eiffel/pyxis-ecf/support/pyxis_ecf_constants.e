@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-21 11:48:04 GMT (Thursday 21st July 2022)"
-	revision: "7"
+	date: "2022-07-25 6:03:58 GMT (Monday 25th July 2022)"
+	revision: "8"
 
 deferred class
 	PYXIS_ECF_CONSTANTS
@@ -57,22 +57,9 @@ feature {NONE} -- Constants
 			]"
 		end
 
-	Name: TUPLE [
-		assertions, cluster, cluster_tree, condition, configuration_ns, custom, debug_, debugging, disabled,
-		excluded_, excluded_value, file_rule, library, library_target, libraries, location, mapping, name, option,
-		platform, platform_list, precompile, readonly, recursive, renaming, setting, settings, sub_clusters, system,
-		unix_externals, uuid, value, variable, warning, warnings, windows_externals, writeable_libraries: STRING
-	]
+	Name: PYXIS_ECF_NAMES
 		once
 			create Result
-			Tuple.fill (Result,
-				"assertions, cluster, cluster_tree, condition, configuration_ns, custom, debug, debugging, disabled, %
-				%excluded_, excluded_value, file_rule, library, library_target, libraries, location, mapping, name, option, %
-				%platform, platform_list, precompile, readonly, recursive, renaming, setting, settings, sub_clusters, system, %
-				%unix_externals, uuid, value, variable, warning, warnings, windows_externals, writeable_libraries"
-			)
-		ensure
-			aligned_correctly: Result.writeable_libraries ~ "writeable_libraries"
 		end
 
 	Var: TUPLE [directory, element, excluded_prefix, name, url, value: STRING]

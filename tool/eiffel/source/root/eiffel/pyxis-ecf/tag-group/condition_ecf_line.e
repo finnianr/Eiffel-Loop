@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-20 15:21:52 GMT (Wednesday 20th July 2022)"
-	revision: "1"
+	date: "2022-07-25 6:03:58 GMT (Monday 25th July 2022)"
+	revision: "2"
 
 class
 	CONDITION_ECF_LINE
@@ -19,7 +19,7 @@ inherit
 		redefine
 			make, set_variables, template
 		end
-		
+
 	EL_STRING_8_CONSTANTS
 
 create

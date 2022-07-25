@@ -1,16 +1,16 @@
 note
-	description: "Reflected field that conforms to [$source STRING_GENERAL]"
+	description: "Reflected field that conforms to [$source READABLE_STRING_GENERAL]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-11 16:32:07 GMT (Friday 11th June 2021)"
-	revision: "20"
+	date: "2022-07-25 4:57:07 GMT (Monday 25th July 2022)"
+	revision: "21"
 
 deferred class
-	EL_REFLECTED_STRING [S -> STRING_GENERAL create make end]
+	EL_REFLECTED_STRING [S -> READABLE_STRING_GENERAL create make end]
 
 inherit
 	EL_REFLECTED_REFERENCE [S]

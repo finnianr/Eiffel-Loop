@@ -2,9 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_installer_UI; uuid = "903AB180-331E-11EC-B0C1-6FAD2E2C9640" 
-	library_target = EL_installer_UI
+	configuration_ns = "1-16-0"; uuid = "903AB180-331E-11EC-B0C1-6FAD2E2C9640" 
+	name = EL_installer_UI; library_target = EL_installer_UI
 	description:
 		"""
 			Installer Vision-2 GUI
@@ -15,10 +14,8 @@ system:
 			Includes a special user interface to provide an accurate determination of the display size for
 			Windows users. The user is asked to resize a window to the size of an A5 piece of paper.
 		"""
-	
 	target:
 		name = EL_installer_UI
-
 		root:
 			all_classes = true
 
@@ -29,33 +26,27 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+		library:
+			base = "$ISE_LIBRARY/library/base/base.ecf"
 
 		# Eiffel Loop overrides
 		library:
-			name = vision2; location = "override/ES-vision2.ecf"
+			vision2 = "override/ES-vision2.ecf"
 			option: 
 				assertions:
 					precondition = false; postcondition = false; check = false; invariant = false
 
 		# Eiffel Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_app_manage; location = "app-manage.ecf"
-
-		library:
-			name = EL_logging; location = "logging.ecf"
-
-		library:
-			name = EL_vision2_x; location = "vision2-x.ecf"
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_app_manage = "app-manage.ecf"
+			EL_logging = "logging.ecf"
+			EL_vision2_x = "vision2-x.ecf"
 			option: 
 				assertions:
 					precondition = true; postcondition = true; check = true; invariant = false
 
 		# Source code
-		cluster:
-			name = installer_ui; location = "graphic/toolkit/installer"; recursive = true
+		cluster_tree:
+			installer_ui = "graphic/toolkit/installer"
 

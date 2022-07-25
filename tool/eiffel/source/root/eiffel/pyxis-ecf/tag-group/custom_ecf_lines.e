@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-20 13:58:06 GMT (Wednesday 20th July 2022)"
-	revision: "2"
+	date: "2022-07-25 6:03:58 GMT (Monday 25th July 2022)"
+	revision: "3"
 
 class
 	CUSTOM_ECF_LINES

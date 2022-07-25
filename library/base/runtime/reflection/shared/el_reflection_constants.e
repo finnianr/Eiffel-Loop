@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-08 10:09:00 GMT (Tuesday 8th June 2021)"
-	revision: "36"
+	date: "2022-07-25 5:15:10 GMT (Monday 25th July 2022)"
+	revision: "37"
 
 class
 	EL_REFLECTION_CONSTANTS
@@ -43,10 +43,11 @@ feature {NONE} -- Reference types
 			>>)
 		end
 
-	frozen String_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_STRING [STRING_GENERAL]]
+	frozen String_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_STRING [READABLE_STRING_GENERAL]]
 		once
 			create Result.make (<<
-				{EL_REFLECTED_URI}, {EL_REFLECTED_STRING_8}, {EL_REFLECTED_STRING_32}, {EL_REFLECTED_ZSTRING}
+				{EL_REFLECTED_URI}, {EL_REFLECTED_IMMUTABLE_STRING_8},
+				{EL_REFLECTED_STRING_8}, {EL_REFLECTED_STRING_32}, {EL_REFLECTED_ZSTRING}
 			>>)
 		ensure
 			uri_before_string_8: across Result as reflected some

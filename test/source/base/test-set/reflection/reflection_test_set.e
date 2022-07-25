@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-25 13:20:45 GMT (Saturday 25th June 2022)"
-	revision: "27"
+	date: "2022-07-25 5:32:18 GMT (Monday 25th July 2022)"
+	revision: "28"
 
 class
 	REFLECTION_TEST_SET
@@ -38,6 +38,7 @@ feature -- Basic operations
 			eval.call ("object_initialization_from_camel_case_table", agent test_object_initialization_from_camel_case_table)
 			eval.call ("object_initialization_from_table", agent test_object_initialization_from_table)
 			eval.call ("reflection", agent test_reflection)
+			eval.call ("reflective_string_constants", agent test_reflective_string_constants)
 			eval.call ("size_reporting", agent test_size_reporting)
 		end
 
@@ -117,6 +118,15 @@ feature -- Tests
 			assert ("table ~ object.data_export", table ~ object.data_export)
 		end
 
+	test_reflective_string_constants
+		local
+			name: NAME_CONSTANTS
+		do
+			create name
+			assert ("equal strings", name.string_8 ~ String_8)
+			assert ("equal strings", name.immutable_string_8 ~ Immutable_string_8)
+		end
+
 	test_size_reporting
 		local
 			geo_info: EL_IP_ADDRESS_GEOGRAPHIC_INFO
@@ -179,7 +189,14 @@ feature {NONE} -- Constants
 			)
 		end
 
+	Immutable_string_8: IMMUTABLE_STRING_8
+		once
+			Result := "immutable_string_8"
+		end
+
 	Object_header_size: INTEGER = 16
+
+	String_8: STRING_8 = "string_8"
 
 	Value_table: EL_ZSTRING_TABLE
 		once

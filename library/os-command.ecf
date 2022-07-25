@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_os_command" uuid = "56fccae2-3f64-11e6-854c-875c552900c6" library_target = "EL_os_command">
+<system name = "EL_os_command" library_target = "EL_os_command" uuid = "56fccae2-3f64-11e6-854c-875c552900c6" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 OS Command Wrapping
 
@@ -13,8 +13,9 @@ See doc/os-command.txt for details.
 		<option namespace = "Eiffel-Loop.Library.Commands" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
+		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
-		<library name = "encoding" location = "$ISE_EIFFEL/library/encoding/encoding.ecf"/>
+		<library name = "encoding" location = "$ISE_LIBRARY/library/encoding/encoding.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<library name = "thread" location = "$ISE_LIBRARY/library/thread/thread.ecf"/>
 		<!--Eiffel Loop-->
@@ -26,12 +27,7 @@ See doc/os-command.txt for details.
 		</library>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
 		<library name = "EL_text_process" location = "text-process.ecf"/>
-		<!--
-			library:
-			name = EL_thread; location = &quot;thread.ecf&quot;
-			
-			Source code
-		-->
+		<!--Source code-->
 		<cluster name = "os_command" location = "runtime/process/commands" recursive = "true">
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>

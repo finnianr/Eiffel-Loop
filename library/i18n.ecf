@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_i18n" uuid = "229b7376-09aa-11df-87ba-5b96f04f3b6d" library_target = "EL_i18n">
+<system name = "EL_i18n" library_target = "EL_i18n" uuid = "229b7376-09aa-11df-87ba-5b96f04f3b6d" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 Internationalization
 
@@ -12,12 +12,13 @@ There are a number of tools in `el_toolkit&apos; to support the use of this libr
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "false"/>
 		</option>
 		<root all_classes = "true"/>
+		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "base_ext" location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<!--Eiffel-Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
-		<library name = "EL_eco_db" location = "Eco-DB.ecf" readonly = "false"/>
+		<library name = "EL_eco_db" location = "Eco-DB.ecf"/>
 		<library name = "EL_pyxis_scan" location = "pyxis-scan.ecf"/>
 		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<library name = "EL_thread" location = "thread.ecf"/>

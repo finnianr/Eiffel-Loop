@@ -2,9 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_logging; uuid = "6E0555BC-40FC-11E6-8D05-876C94B8D74F" 
-	library_target = EL_logging
+	configuration_ns = "1-16-0"; uuid = "6E0555BC-40FC-11E6-8D05-876C94B8D74F" 
+	name = EL_logging; library_target = EL_logging
 	description:
 		"""
 			Multi-threaded Logging
@@ -14,10 +13,8 @@ system:
 
 			See doc/logging.txt for details.
 		"""
-	
 	target:
 		name = EL_logging
-
 		root:
 			all_classes = true
 
@@ -28,23 +25,19 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library:
-			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			thread = "thread/thread.ecf"
 
 		# Eiffel Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_thread; location = "thread.ecf"
-
-		library:
-			name = EL_app_manage; location = "app-manage.ecf"
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_thread = "thread.ecf"
+			EL_app_manage = "app-manage.ecf"
 
 		# Source code
-		cluster:
-			name = logging; location = "runtime/logging"; recursive = true
+		cluster_tree:
+			logging = "runtime/logging"
 

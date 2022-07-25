@@ -2,9 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_i18n; uuid = "229b7376-09aa-11df-87ba-5b96f04f3b6d" 
-	library_target = EL_i18n
+	configuration_ns = "1-16-0"; uuid = "229b7376-09aa-11df-87ba-5b96f04f3b6d" 
+	name = EL_i18n; library_target = EL_i18n
 	description:
 		"""
 			Internationalization
@@ -23,37 +22,25 @@ system:
 		root:
 			all_classes = true
 
-		library:
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library:
-			name = base_ext; location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"
-
-		library:
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			base_ext = "base_extension/base_extension.ecf"
+			time = "time/time.ecf"
 
 		# Eiffel-Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
-
-		library:
-			name = EL_eco_db; location = "Eco-DB.ecf"; readonly = false
-
-		library:
-			name = EL_pyxis_scan; location = "pyxis-scan.ecf"
-
-		library:
-			name = EL_text_process; location = "text-process.ecf"
-
-		library:
-			name = EL_thread; location = "thread.ecf"
-
-		library:
-			name = EL_vtd_xml; location = "vtd-xml.ecf"
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_eco_db = "Eco-DB.ecf"
+			EL_pyxis_scan = "pyxis-scan.ecf"
+			EL_text_process = "text-process.ecf"
+			EL_thread = "thread.ecf"
+			EL_vtd_xml = "vtd-xml.ecf"
 
 		# Source code
-		cluster:
-			name = EL_i18n; location = "text/i18n"; recursive = true
+		cluster_tree:
+			EL_i18n = "text/i18n"
 			platform_list:
 				"imp_mswin; imp_unix"
 
