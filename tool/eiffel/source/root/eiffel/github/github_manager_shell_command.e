@@ -4,6 +4,8 @@ note
 		Use this command to [https://git-scm.com/book/en/v2/Git-Tools-Credential-Storage setup credentials store]
 		
 			git config --global credential.helper store
+			
+		https://<user>:<PAT>@github.com
 	]"
 
 	author: "Finnian Reilly"
