@@ -1,51 +1,69 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-15-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-15-0.xsd" name="el_rhythmbox" uuid="9631ECC8-09A7-11DF-89CA-002215BDB9F4">
-	<description>Rhythmbox MP3 Collection Manager
+<!--
+	Pyxis is data format inspired by the Python programming language and designed to be a more
+	readable supplement/substitute for XML configuration files.
+	
+	Pyxis as an acronym stands for: Pythonic XML ideal source.
+	It is also a Latin transliteration of a Greek word for a type of pottery used by women to hold
+	cosmetics, trinkets or jewellery.
+	
+	The following is project configuration data for an Eiffel programming language project
+	compiled with the EiffelStudio IDE
+	
+	This project contains a parser for the Pyxis format and a Pyxis to XML convertion utility
+-->
+<system name = "el_rhythmbox" uuid = "9631ECC8-09A7-11DF-89CA-002215BDB9F4" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
+	<description>
+Rhythmbox MP3 Collection Manager
 
-See doc/manage-mp3.txt for details</description>
-	<target name="classic">
-		<root class="APPLICATION_ROOT" feature="make"/>
-		<version major="2" minor="4" release="1" build="96" company="Eiffel-Loop" product="manage-mp3" copyright="Finnian Reilly"/>
-		<option trace="false" debug="false" warning="true" full_class_checking="false" void_safety="none" syntax="standard">
-			<assertions precondition="true" postcondition="true" check="true" invariant="true"/>
+See doc/manage-mp3.txt for details
+	</description>
+	<target name = "classic">
+		<root class = "APPLICATION_ROOT" feature = "make"/>
+		<version major = "2" minor = "4" release = "1" build = "96" company = "Eiffel-Loop" product = "manage-mp3" copyright = "Finnian Reilly"/>
+		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
+			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
-		<setting name="address_expression" value="false"/>
-		<setting name="array_optimization" value="false"/>
-		<setting name="check_vape" value="true"/>
-		<setting name="console_application" value="true"/>
-		<setting name="dead_code_removal" value="true"/>
-		<setting name="dynamic_runtime" value="false"/>
-		<setting name="exception_trace" value="false"/>
-		<setting name="inlining" value="true"/>
-		<setting name="inlining_size" value="3"/>
-		<setting name="line_generation" value="false"/>
-		<setting name="concurrency" value="thread"/>
-		<precompile name="precompile" location="$ISE_PRECOMP\EL\console-application.ecf"/>
-		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
-		<library name="base_ext" location="$ISE_LIBRARY\library\base_extension\base_extension.ecf"/>
-		<library name="el_app_manage" location="$EIFFEL_LOOP\library\app-manage.ecf" readonly="false"/>
-		<library name="el_base" location="$EIFFEL_LOOP\library\base\base.ecf" readonly="false"/>
-		<library name="el_doc_scan" location="$EIFFEL_LOOP\library\document-scan.ecf" readonly="false"/>
-		<library name="el_eco_db" location="$EIFFEL_LOOP\library\Eco-DB.ecf" readonly="false"/>
-		<library name="el_encryption" location="$EIFFEL_LOOP\library\encryption.ecf" readonly="false"/>
-		<library name="el_evolicity" location="$EIFFEL_LOOP\library\evolicity.ecf" readonly="false"/>
-		<library name="el_logging" location="$EIFFEL_LOOP\library\logging.ecf" readonly="false"/>
-		<library name="el_multimedia" location="$EIFFEL_LOOP\library\multi-media.ecf" readonly="false"/>
-		<library name="el_network" location="$EIFFEL_LOOP\library\network.ecf" readonly="false"/>
-		<library name="el_os_command" location="$EIFFEL_LOOP\library\os-command.ecf" readonly="false"/>
-		<library name="el_pyxis_scan" location="$EIFFEL_LOOP\library\pyxis-scan.ecf" readonly="false"/>
-		<library name="el_taglib" location="$EIFFEL_LOOP\library\TagLib.ecf" readonly="false"/>
-		<library name="el_testing" location="$EIFFEL_LOOP\library\testing.ecf" readonly="false"/>
-		<library name="el_text_formats" location="$EIFFEL_LOOP\library\text-formats.ecf" readonly="false"/>
-		<library name="el_text_process" location="$EIFFEL_LOOP\library\text-process.ecf" readonly="false"/>
-		<library name="el_vtd_xml" location="$EIFFEL_LOOP\library\vtd-xml.ecf" readonly="false"/>
-		<library name="el_xml_scan" location="$EIFFEL_LOOP\library\xml-scan.ecf" readonly="false"/>
-		<library name="encryption" location="$ISE_LIBRARY\contrib\library\text\encryption\eel\eel.ecf"/>
-		<library name="testing" location="$ISE_LIBRARY\library\testing\testing.ecf"/>
-		<library name="time" location="$ISE_LIBRARY\library\time\time.ecf"/>
-		<cluster name="project" location="source\" recursive="true">
+		<setting name = "address_expression" value = "false"/>
+		<setting name = "array_optimization" value = "false"/>
+		<setting name = "check_vape" value = "true"/>
+		<setting name = "console_application" value = "true"/>
+		<setting name = "concurrency" value = "thread"/>
+		<setting name = "dead_code_removal" value = "true"/>
+		<setting name = "dynamic_runtime" value = "false"/>
+		<setting name = "exception_trace" value = "false"/>
+		<setting name = "inlining" value = "true"/>
+		<setting name = "inlining_size" value = "3"/>
+		<setting name = "line_generation" value = "false"/>
+		<precompile name = "precompile" location = "$ISE_PRECOMP/EL/console-application.ecf"/>
+		<!--ISE-->
+		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
+		<library name = "base_ext" location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"/>
+		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
+		<library name = "testing" location = "$ISE_LIBRARY/library/testing/testing.ecf"/>
+		<!--Contributions-->
+		<library name = "encryption" location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"/>
+		<!--Eiffel-Loop-->
+		<library name = "EL_app_manage" location = "$EIFFEL_LOOP/library/app-manage.ecf" readonly = "false"/>
+		<library name = "EL_base" location = "$EIFFEL_LOOP/library/base/base.ecf" readonly = "false"/>
+		<library name = "EL_doc_scan" location = "$EIFFEL_LOOP/library/document-scan.ecf" readonly = "false"/>
+		<library name = "EL_eco_db" location = "$EIFFEL_LOOP/library/Eco-DB.ecf" readonly = "false"/>
+		<library name = "EL_encryption" location = "$EIFFEL_LOOP/library/encryption.ecf" readonly = "false"/>
+		<library name = "EL_evolicity" location = "$EIFFEL_LOOP/library/evolicity.ecf" readonly = "false"/>
+		<library name = "EL_logging" location = "$EIFFEL_LOOP/library/logging.ecf" readonly = "false"/>
+		<library name = "EL_multimedia" location = "$EIFFEL_LOOP/library/multi-media.ecf" readonly = "false"/>
+		<library name = "EL_network" location = "$EIFFEL_LOOP/library/network.ecf" readonly = "false"/>
+		<library name = "EL_os_command" location = "$EIFFEL_LOOP/library/os-command.ecf" readonly = "false"/>
+		<library name = "EL_pyxis_scan" location = "$EIFFEL_LOOP/library/pyxis-scan.ecf" readonly = "false"/>
+		<library name = "EL_taglib" location = "$EIFFEL_LOOP/library/TagLib.ecf" readonly = "false"/>
+		<library name = "EL_text_formats" location = "$EIFFEL_LOOP/library/text-formats.ecf" readonly = "false"/>
+		<library name = "EL_testing" location = "$EIFFEL_LOOP/library/testing.ecf" readonly = "false"/>
+		<library name = "EL_text_process" location = "$EIFFEL_LOOP/library/text-process.ecf" readonly = "false"/>
+		<library name = "EL_vtd_xml" location = "$EIFFEL_LOOP/library/vtd-xml.ecf" readonly = "false"/>
+		<library name = "EL_xml_scan" location = "$EIFFEL_LOOP/library/xml-scan.ecf" readonly = "false"/>
+		<cluster name = "project" location = "source" recursive = "true">
 			<option>
-				<assertions precondition="true" postcondition="true" check="true"/>
+				<assertions precondition = "true" postcondition = "true" check = "true"/>
 			</option>
 		</cluster>
 	</target>

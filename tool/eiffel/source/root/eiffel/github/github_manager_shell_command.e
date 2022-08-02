@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-08-02 10:58:26 GMT (Tuesday 2nd August 2022)"
-	revision: "14"
+	date: "2022-08-02 11:55:27 GMT (Tuesday 2nd August 2022)"
+	revision: "15"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -69,29 +69,21 @@ feature {NONE} -- Commands
 
 	git_push_origin_master
 		local
-			push_cmd: EL_OS_COMMAND; decrypter: EL_AES_ENCRYPTER
-			plain_text, cipher_text: STRING
+			push_cmd: EL_OS_COMMAND
 		do
-			if Credentials_path.exists then
-				decrypter := config.new_credential_decrypter
-				cipher_text := File.plain_text (Credentials_path)
-				plain_text := decrypter.decrypted_base_64 (cipher_text)
-				File.write_text (Credentials_path, plain_text)
-
-				create push_cmd.make ("git push -u origin master")
-				push_cmd.set_working_directory (config.github_dir)
-				push_cmd.execute
-				if push_cmd.has_error then
-					lio.put_labeled_lines ("ERROR", push_cmd.errors)
-				else
-					lio.put_labeled_string ("push", "DONE")
-					lio.put_new_line
+			across << True, False >> as is_plain_text loop
+				File.write_text (Credentials_path, config.new_credentials_text (is_plain_text.item))
+				if is_plain_text.item then
+					create push_cmd.make ("git push -u origin master")
+					push_cmd.set_working_directory (config.github_dir)
+					push_cmd.execute
+					if push_cmd.has_error then
+						lio.put_labeled_lines ("ERROR", push_cmd.errors)
+					else
+						lio.put_labeled_string ("push", "DONE")
+						lio.put_new_line
+					end
 				end
-				-- re-encrypt
-				File.write_text (Credentials_path, cipher_text)
-			else
-				lio.put_path_field ("Cannot find", Credentials_path)
-				lio.put_new_line
 			end
 		end
 
@@ -119,6 +111,9 @@ feature {NONE} -- Commands
 			editor.execute
 			lio.put_new_line
 		end
+
+feature {NONE} -- Implementation
+
 
 feature {NONE} -- Factory
 
