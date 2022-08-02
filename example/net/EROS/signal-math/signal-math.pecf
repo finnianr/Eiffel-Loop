@@ -27,76 +27,44 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
-		setting:
-			name = address_expression; value = false
-		setting:
-			name = array_optimization; value = false
-		setting:
-			name = check_vape; value = true
-		setting:
-			name = console_application; value = true
-		setting:
-			name = dead_code_removal; value = true
-		setting:
-			name = dynamic_runtime; value = false
-		setting:
-			name = exception_trace; value = false
-		setting:
-			name = inlining; value = false
-		setting:
-			name = line_generation; value = false
-		setting:
-			name = concurrency; value = thread
+		settings:
+			address_expression = false; array_optimization = false
+			check_vape = true; console_application = true
+			dead_code_removal = true; dynamic_runtime = false
+			exception_trace = false
+			line_generation = false; inlining = true; inlining_size = 2
+			concurrency = thread
 
 		precompile: 
-			name = precompile; location = "$ISE_PRECOMP/EL/console-application.ecf"
+			precompile = "$ISE_PRECOMP/EL/console-application.ecf"
+
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			thread = "thread/thread.ecf"
+			time = "time/time.ecf"
+			net = "net/net.ecf"
 
 		library:
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library:
-			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
-
-		library:
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
-
-		library:
-			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
-
-		library:
-			name = nel_fft_math; location = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"
+			nel_fft_math = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"
 
 		# Eiffel Loop libraries
 		variable:
-			name = eros_server_enabled; value = false
+			eros_server_enabled = false
 
-		library:
-			name = EL_base; location = "$EIFFEL_LOOP/library/base/base.ecf"
-			#readonly = false; use_application_options = true
+		writeable_libraries:
+			location = "$EIFFEL_LOOP/library"
+			EL_base = "base/base.ecf"
+			EL_app_manage = "app-manage.ecf"
+			EL_doc_scan = "document-scan.ecf"
+			EL_eros = "eros.ecf"
+			EL_evolicity = "evolicity.ecf"
+			EL_logging = "logging.ecf"
+			EL_net_base = "network.ecf"
+			EL_xml_scan = "xml-scan.ecf"
 
-		library:
-			name = EL_app_manage; readonly = false; location = "$EIFFEL_LOOP/library/app-manage.ecf"
-
-		library:
-			name = EL_doc_scan; readonly = false; location = "$EIFFEL_LOOP/library/document-scan.ecf"
-
-		library:
-			name = EL_eros; readonly = false; location = "$EIFFEL_LOOP/library/eros.ecf"
-
-		library:
-			name = EL_evolicity; readonly = false; location = "$EIFFEL_LOOP/library/evolicity.ecf"
-
-		library:
-			name = EL_logging; readonly = false; location = "$EIFFEL_LOOP/library/logging.ecf"
-
-		library:
-			name = EL_net_base; readonly = false; location = "$EIFFEL_LOOP/library/network.ecf"
-
-		library:
-			name = EL_xml_scan; readonly = false; location = "$EIFFEL_LOOP/library/xml-scan.ecf"
-
-		cluster:
-			name = project; location = "source"; recursive = true
+		cluster_tree:
+			project = source
 			description:
 				"""
 					Signal Math Demo of the EROS Protocol
@@ -108,9 +76,9 @@ system:
 
 					See doc/signal-math.txt for details
 				"""
-		cluster:
-			name = eros_test; location = "$EIFFEL_LOOP/test/source/eros"; recursive = true
-		cluster:
-			name = install; location = "../server/source/install"; recursive = true
+		cluster_tree:
+			eros_test = "$EIFFEL_LOOP/test/source/eros"
+		cluster_tree:
+			install = "../server/source/install"
 			
 

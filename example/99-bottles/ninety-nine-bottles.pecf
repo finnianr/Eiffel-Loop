@@ -1,8 +1,8 @@
 pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 system:
-	configuration_ns = "1-16-0"
-	name = ninety_nine_bottles; uuid = "ABC0FAFC-91B1-473D-B203-9C90AA9CAE95"
+	configuration_ns = "1-16-0"; uuid = "ABC0FAFC-91B1-473D-B203-9C90AA9CAE95"
+	name = ninety_nine_bottles
 	description:
 		"""
 			Submission for 99-bottles-of-beer.net
@@ -27,11 +27,11 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 		setting:
-			name = console_application; value = true
+			console_application = true
 		library:
-			name = base; location = "$ISE_EIFFEL/library/base/base.ecf"
+			base = "$ISE_EIFFEL/library/base/base.ecf"
 			option:
 				assertions:
 					precondition = true; postcondition = true; check = true
-		cluster:
-			name = project; location = "source"; recursive = true
+		cluster_tree:
+			project = source

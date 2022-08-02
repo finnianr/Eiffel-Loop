@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-25 9:33:41 GMT (Monday 25th July 2022)"
-	revision: "2"
+	date: "2022-07-27 10:18:13 GMT (Wednesday 27th July 2022)"
+	revision: "3"
 
 class
 	PYXIS_ECF_NAMES
@@ -26,14 +26,21 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			excluded_.append_character ('_')
+			externals_set := << unix_externals, windows_externals >>
+			related_tags := <<
+				assertions, debugging, class_option, condition, custom, debug_, debugging, option, renaming, renaming_map
+			>>
+			C_attributes := << value, location >>
 		end
 
 feature -- Access
 
-	library_related: ARRAY [STRING]
-		do
-			Result := << assertions, class_option, condition, custom, option, renaming >>
-		end
+	C_attributes: ARRAY [STRING]
+
+	externals_set: EL_HASH_SET [STRING]
+
+	related_tags: EL_HASH_SET [STRING]
+		-- library group related tags
 
 	excluded_: STRING
 		-- excluded value prefix
@@ -103,6 +110,8 @@ feature -- Pyxis ECF names
 	libraries: STRING
 
 	platform_list: STRING
+
+	renaming_map: STRING
 
 	settings: STRING
 

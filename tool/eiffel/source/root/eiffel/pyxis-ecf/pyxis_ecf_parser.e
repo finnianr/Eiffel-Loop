@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-25 6:04:36 GMT (Monday 25th July 2022)"
-	revision: "29"
+	date: "2022-07-31 8:55:15 GMT (Sunday 31st July 2022)"
+	revision: "30"
 
 class
 	PYXIS_ECF_PARSER
@@ -29,15 +29,22 @@ class
 inherit
 	EL_PYXIS_PARSER
 		redefine
-			call_state_procedure, parse_line
+			call_state_procedure, make, parse_line
 		end
-
-	EL_STRING_8_CONSTANTS
 
 	PYXIS_ECF_CONSTANTS
 
 create
 	make
+
+feature {NONE} -- Initialization
+
+	make (a_scanner: like scanner)
+			--
+		do
+			Precursor (a_scanner)
+			create grouped_lines_stack.make (3)
+		end
 
 feature {NONE} -- Implemenatation
 
@@ -55,7 +62,7 @@ feature {NONE} -- Implemenatation
 					c_platform := Void; c_platform_indent := 0
 					call_state_procedure (line)
 
-				elseif equal_index > 0 and C_attributes.there_exists (agent line.first_name_matches (?, equal_index)) then
+				elseif equal_index > 0 and Name.C_attributes.there_exists (agent line.first_name_matches (?, equal_index)) then
 					line.tab_left
 					Precursor (line)
 					Platform_condition_lines.set (c_platform, line.indent_count)
@@ -79,9 +86,16 @@ feature {NONE} -- Implemenatation
 					Precursor (ln.item)
 				end
 
-			elseif attached grouped_lines as grouped then
+			elseif grouped_lines_stack.count > 0 and then attached grouped_lines_stack.item as grouped then
 				if grouped.is_related_line (line, equal_index) then
 					Precursor (line)
+
+				elseif equal_index > 0 and then attached previous_grouped_lines as previous
+					and then line.indent_count = previous.tab_count + 1
+				then
+					grouped_lines_stack.remove
+					call_state_procedure (line)
+
 				elseif equal_index > 0 or else grouped.is_platform_rule (line) then
 					grouped.set_from_line (a_line) -- use argument `a_line' here
 					if grouped.count > 0 then
@@ -98,7 +112,7 @@ feature {NONE} -- Implemenatation
 					end
 					Precursor (line)
 				end
-			elseif attached line.element_name as tag and then Externals_set.has (tag) then
+			elseif attached line.element_name as tag and then Name.externals_set.has (tag) then
 				c_platform := s.substring_to (tag, '_', default_pointer)
 				c_platform_indent := line.indent_count
 			else
@@ -108,10 +122,10 @@ feature {NONE} -- Implemenatation
 
 	group_exit
 		do
-			if attached grouped_lines as group then
-				group.exit
+			if grouped_lines_stack.count > 0 then
+				grouped_lines_stack.item.exit
+				grouped_lines_stack.remove
 			end
-			grouped_lines := Void
 		end
 
 	parse_line (line: EL_PYXIS_LINE)
@@ -120,7 +134,7 @@ feature {NONE} -- Implemenatation
 		do
 			equal_index := line.index_of_equals
 			if equal_index > 0
-				and then Name_value_table.has_key (last_tag)
+				and then attached tag_name as tag and then Name_value_table.has_key (tag)
 				and then not Name_value_table.found_item.is_first_name_reserved (line, equal_index)
 				and then attached substituted (Name_value_table.found_item, line) as text
 			then
@@ -134,7 +148,7 @@ feature {NONE} -- Implemenatation
 			then
 				line.rename_element (ecf_tag_name)
 				group.reset; group.set_indent (line.indent_count)
-				grouped_lines := group
+				grouped_lines_stack.put (group)
 				Precursor (line)
 			else
 				Precursor (line)
@@ -153,21 +167,12 @@ feature {NONE} -- Implementation
 
 	is_condition_context (line: EL_PYXIS_LINE): BOOLEAN
 		do
- 			if last_tag ~ Name.condition then
+ 			if attached tag_name as tag and then tag ~ Name.condition then
  				Result := True
 
  			elseif attached element_stack as stack and then stack.count > 0 then
  				Result := element_stack.count = line.indent_count and then stack.item ~ Name.condition
  			end
-		end
-
-	last_tag: STRING
-		do
-			if attached tag_name as tag then
-				Result := tag
-			else
-				Result := Empty_string_8
-			end
 		end
 
 	new_name_value_list: ARRAY [NAME_VALUE_ECF_LINE]
@@ -183,6 +188,14 @@ feature {NONE} -- Implementation
 			>>
 		end
 
+	previous_grouped_lines: detachable GROUPED_ECF_LINES
+		-- item underneath `grouped_lines_stack.item' or `Void' if none
+		do
+			if attached {LIST [GROUPED_ECF_LINES]} grouped_lines_stack as stack and then stack.count > 1 then
+				Result := stack [stack.count - 1]
+			end
+		end
+
 feature {NONE} -- Internal attributes
 
 	c_platform: detachable STRING
@@ -191,7 +204,7 @@ feature {NONE} -- Internal attributes
 	c_platform_indent: INTEGER
 		-- C externals group tag tab count
 
-	grouped_lines: detachable GROUPED_ECF_LINES
+	grouped_lines_stack: ARRAYED_STACK [GROUPED_ECF_LINES]
 
 feature {NONE} -- Constants
 
@@ -213,6 +226,7 @@ feature {NONE} -- Constants
 				[Name.settings,				create {SETTING_ECF_LINES}.make],
 				[Name.libraries,				create {LIBRARIES_ECF_LINES}.make],
 				[Name.platform_list,			create {PLATFORM_FILE_RULE_ECF_LINES}.make],
+				[Name.renaming_map,			create {RENAMING_MAP_ECF_LINES}.make],
 				[Name.sub_clusters,			create {SUB_CLUSTERS_ECF_LINES}.make],
 				[Name.system,					create {SYSTEM_ECF_LINES}.make],
 				[Name.writeable_libraries, create {WRITEABLE_LIBRARIES_ECF_LINES}.make],

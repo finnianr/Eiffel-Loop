@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-26 10:14:45 GMT (Friday 26th June 2020)"
-	revision: "5"
+	date: "2022-08-01 10:11:17 GMT (Monday 1st August 2022)"
+	revision: "6"
 
 class
 	EL_MODEL_LINE
@@ -17,7 +17,7 @@ inherit
 		export
 			{EV_MODEL} set_center
 		undefine
-			copy
+			copy, Default_pixmaps
 		redefine
 			angle --, make_with_points
 		end

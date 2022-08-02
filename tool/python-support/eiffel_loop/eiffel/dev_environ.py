@@ -113,7 +113,11 @@ def append_to_path (search_dir):
 	path_extra.append (path.normpath (search_dir))
 
 def set_environ (name, a_path):
-	environ_extra [name] = path.normpath (a_path)
+	normpath = path.normpath (a_path)
+	if '$' in normpath:
+		environ_extra [name] = Template (normpath).safe_substitute (environ_extra)
+	else:
+		environ_extra [name] = normpath
 
 def set_ise_version (new_version):
 	os.environ [ise.Key_version] = new_version

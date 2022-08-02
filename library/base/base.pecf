@@ -2,8 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_base; library_target = EL_base; uuid = "229b789e-09aa-11df-87c7-1bf8afd2bbad" 
+	configuration_ns = "1-16-0"; uuid = "229b789e-09aa-11df-87c7-1bf8afd2bbad" 
+	name = EL_base; library_target = EL_base
 	
 	target:
 		name = EL_base
@@ -49,7 +49,8 @@ system:
 		# ISE libraries
 		libraries:
 			location = "$ISE_LIBRARY/library"
-			base = "base/base.ecf"; base_ext = "base_extension/base_extension.ecf"
+			base = "base/base.ecf"
+			base_ext = "base_extension/base_extension.ecf"
 			encoding = "encoding/encoding.ecf"
 			ise_i18n = "i18n/i18n.ecf"
 			condition:

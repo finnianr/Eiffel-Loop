@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-22 9:08:56 GMT (Friday 22nd July 2022)"
-	revision: "31"
+	date: "2022-07-27 9:35:04 GMT (Wednesday 27th July 2022)"
+	revision: "32"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -44,14 +44,14 @@ feature -- Tests
 		-- library/image-utils.pecf
 		local
 			ecf_xdoc: EL_XML_DOC_CONTEXT; count: INTEGER
-			condition, location, xpath, copy_value, platform: STRING
+			condition, location, l_xpath, copy_value, platform: STRING
 		do
 			ecf_xdoc := new_ecf_xdoc ("library/image-utils.pecf")
 			assert_parsed_xdoc (ecf_xdoc)
 
 			create location.make_empty
 			condition := "condition/platform/@value='windows'"
-			across ecf_xdoc.context_list (External_object_xpath #$ [condition]) as target loop
+			across ecf_xdoc.context_list (Xpath.external_object #$ [condition]) as target loop
 				count := count + 1
 				if count = 2 then
 					location := target.node ["location"]
@@ -59,13 +59,13 @@ feature -- Tests
 			end
 			assert ("valid_location", count = 2 and location.ends_with ("libcairo-2.dll"))
 
-			xpath := "/system/target/external_object [condition/custom [@name='shared']/@value='true']"
+			l_xpath := "/system/target/external_object [condition/custom [@name='shared']/@value='true']"
 			count := 0
-			across ecf_xdoc.context_list (xpath) as external_object loop
+			across ecf_xdoc.context_list (l_xpath) as external_object loop
 				count := count + 1
 				lio.put_labeled_string ("Description", external_object.node.query ("description").as_string)
 				lio.put_new_line
-				copy_value := external_object.node.query (Custom_value_xpath #$ ["copy"])
+				copy_value := external_object.node.query (Xpath.custom_value #$ ["copy"])
 				inspect count
 					when 1, 3 then
 						assert ("copy is $location", copy_value ~ "$location")
@@ -83,7 +83,7 @@ feature -- Tests
 			assert ("shared external_object count = 3", count = 3)
 
 			count := 0; location.wipe_out
-			across ecf_xdoc.context_list (External_include_xpath #$ ["unix"]) as target loop
+			across ecf_xdoc.context_list (Xpath.external_include #$ ["unix"]) as target loop
 				count := count + 1
 				if count = 4 then
 					location := target.node ["location"]
@@ -93,7 +93,13 @@ feature -- Tests
 		end
 
 	test_eiffel2java_pecf
-		--
+		note
+			testing: "covers/{WRITEABLE_LIBRARIES_ECF_LINES}.set_from_line",
+						"covers/{LIBRARIES_ECF_LINES}.set_from_line",
+						"covers/{RENAMING_MAP_ECF_LINES}.set_from_line",
+						"covers/{CLUSTER_TREE_ECF_LINES}.set_from_line",
+						"covers/{PLATFORM_FILE_RULE_ECF_LINES}.set_from_line",
+						"covers/{SYSTEM_ECF_LINES}.set_from_line"
 		local
 			ecf_xdoc: EL_XML_DOC_CONTEXT; file_rule_count, windows_count: INTEGER
 			schema_location, platform_value, exclude_value, library_target: STRING
@@ -124,10 +130,14 @@ feature -- Tests
 				windows_count := windows_count + 1
 			end
 			assert ("windows platform condition count", windows_count = 1)
-			if attached ecf_xdoc.find_node ("//library [renaming/@old_name='JNI_ENVIRONMENT']") as library then
+
+			if attached ecf_xdoc.find_node ("//library [@name='eiffel2java']") as library then
+				across Renaming_table as table loop
+					assert ("valid new_name", library.query (Xpath.renaming_new_name #$ [table.key]).as_string_8 ~ table.item)
+				end
 				assert ("is eiffel2java", library ["name"].as_string ~ "eiffel2java")
 			else
-				assert ("renaming JNI_ENVIRONMENT found", False)
+				assert ("eiffel2java library found", False)
 			end
 			if attached ecf_xdoc.query ("/system/target/cluster[@name='Java']/@location").as_string_8 as location then
 				assert ("Java cluster", location.ends_with ("Java"))
@@ -196,7 +206,7 @@ feature -- Tests
 
 			across Condition_table as table loop
 				condition := table.key; count := 0
-				across ecf_xdoc.context_list (External_object_xpath #$ [condition]) as list loop
+				across ecf_xdoc.context_list (Xpath.external_object #$ [condition]) as list loop
 					count := count + 1
 				end
 				lio.put_integer_field (condition, count)
@@ -207,7 +217,7 @@ feature -- Tests
 
 	test_graphical_pecf
 		local
-			ecf_xdoc: EL_XML_DOC_CONTEXT; name, xpath: STRING
+			ecf_xdoc: EL_XML_DOC_CONTEXT; name, l_xpath: STRING
 			location_steps: EL_PATH_STEPS
 		do
 			ecf_xdoc := new_ecf_xdoc ("example/graphical/graphical.pecf")
@@ -216,27 +226,27 @@ feature -- Tests
 			assert ("17 libraries", library_count (ecf_xdoc) = 17)
 			across ("__unnamed_debug__, wel_gdi_references, win_dispatcher").split (',') as list loop
 				name := list.item; name.left_adjust
-				assert ("debug false", ecf_xdoc.query (Option_setting_xpath #$ ["debug", name]).as_string_8 ~ "false")
+				assert ("debug false", ecf_xdoc.query (Xpath.named_option #$ ["debug", name]).as_string_8 ~ "false")
 			end
 			across ("export_class_missing, vjrv").split (',') as list loop
 				name := list.item; name.left_adjust
-				assert ("warning false", ecf_xdoc.query (Option_setting_xpath #$ ["warning", name]).as_string_8 ~ "false")
+				assert ("warning false", ecf_xdoc.query (Xpath.named_option #$ ["warning", name]).as_string_8 ~ "false")
 			end
 			across <<
 				"address_expression", "array_optimization", "dynamic_runtime",
 				"exception_trace", "inlining", "line_generation" >> as list
 			loop
-				assert ("false", ecf_xdoc.query (Setting_xpath #$ [list.item]).as_string_8 ~ "false")
+				assert ("false", ecf_xdoc.query (Xpath.setting #$ [list.item]).as_string_8 ~ "false")
 			end
 			across ("check_vape, dead_code_removal, console_application").split (',') as list loop
 				name := list.item; name.left_adjust
-				assert ("true", ecf_xdoc.query (Setting_xpath #$ [name]).as_string_8 ~ "true")
+				assert ("true", ecf_xdoc.query (Xpath.setting #$ [name]).as_string_8 ~ "true")
 			end
-			assert ("true", ecf_xdoc.query (Setting_xpath #$ ["concurrency"]).as_string_8 ~ "thread")
+			assert ("true", ecf_xdoc.query (Xpath.setting #$ ["concurrency"]).as_string_8 ~ "thread")
 
 			across Library_table as table loop
-				xpath := Library_location_xpath #$ [table.key]
-				location_steps := ecf_xdoc.query (xpath).as_file_path
+				l_xpath := Xpath.library_location #$ [table.key]
+				location_steps := ecf_xdoc.query (l_xpath).as_file_path
 				assert ("is library path", location_steps.item (2).same_string ("library"))
 				assert (table.key, location_steps.base.same_string (table.item))
 			end
@@ -247,12 +257,7 @@ feature {NONE} -- Implementation
 
 	assert_parsed_xdoc (ecf_xdoc: EL_XML_DOC_CONTEXT)
 		do
-			if ecf_xdoc.parse_failed then
-				if attached ecf_xdoc.last_exception as exception then
-					exception.put_error (lio)
-				end
-				assert (ecf_xdoc.file_path.base + " parsed OK", False)
-			end
+			assert (ecf_xdoc.file_path.base + " parsed OK", not ecf_xdoc.parse_failed)
 		end
 
 	has_precompile (ecf_xdoc: EL_XML_DOC_CONTEXT; name: STRING): BOOLEAN
@@ -276,11 +281,6 @@ feature {NONE} -- Implementation
 			create Result.make_from_file (converter.output_path)
 		end
 
-	unix_exclude: STRING
-		do
-			Result := "file_rule [condition/platform/@value = 'unix']/exclude"
-		end
-
 feature {NONE} -- Constants
 
 	Condition_table: EL_HASH_TABLE [INTEGER, STRING]
@@ -293,26 +293,6 @@ feature {NONE} -- Constants
 			>>)
 		end
 
-	Custom_value_xpath: ZSTRING
-		once
-			Result := "condition/custom [@name='%S']/@value"
-		end
-
-	External_include_xpath: ZSTRING
-		once
-			Result := "/system/target/external_include[condition/platform/@value='%S']"
-		end
-
-	External_object_xpath: ZSTRING
-		once
-			Result := "/system/target/external_object[%S]"
-		end
-
-	Library_location_xpath: ZSTRING
-		once
-			Result := "/system/target/library[@name='%S']/@location"
-		end
-
 	Library_table: EL_HASH_TABLE [STRING, STRING]
 		once
 			create Result.make (<<
@@ -323,14 +303,27 @@ feature {NONE} -- Constants
 			>>)
 		end
 
-	Option_setting_xpath: ZSTRING
+	Renaming_table: EL_HASH_TABLE [STRING, STRING]
 		once
-			Result := "/system/target/option/%S[@name='%S']/@enabled"
+			create Result.make (<<
+				["JNI_ENVIRONMENT", "JAVA_ORB"],
+				["SHARED_JNI_ENVIRONMENT", "JAVA_SHARED_ORB"]
+			>>)
 		end
 
-	Setting_xpath: ZSTRING
+	Xpath: TUPLE [
+		custom_value, external_include, external_object, library_location, named_option, renaming_new_name,
+		setting: ZSTRING
+	]
 		once
-			Result := "/system/target/setting[@name='%S']/@value"
+			create Result
+			Result.custom_value := "condition/custom [@name='%S']/@value"
+			Result.external_include := "/system/target/external_include[condition/platform/@value='%S']"
+			Result.external_object := "/system/target/external_object[%S]"
+			Result.library_location := "/system/target/library[@name='%S']/@location"
+			Result.named_option := "/system/target/option/%S[@name='%S']/@enabled"
+			Result.renaming_new_name := "renaming[@old_name='%S']/@new_name"
+			Result.setting := "/system/target/setting[@name='%S']/@value"
 		end
 
 	Valid_platforms: EL_STRING_8_LIST

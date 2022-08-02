@@ -2,16 +2,13 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = console_app; uuid = "A2A460B6-057C-4353-9214-E3A94EE08927"
-	library_target = console_app
-	
+	configuration_ns = "1-16-0"; uuid = "A2A460B6-057C-4353-9214-E3A94EE08927"
+	name = console_app; library_target = console_app
 	target:
 		name = console_app
-		
 		description:
 			"""
-				Precompile for console apps. (http://www.eiffel-loop.com) two
+				Precompile for console apps. (http://www.eiffel-loop.com)
 			"""
 		root:
 			all_classes = true
@@ -21,29 +18,18 @@ system:
 				precondition = true; postcondition = true; check = false; invariant = false
 
 		setting:
-			name = concurrency; value = thread
+			concurrency = thread
 
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library:
-			name = base_x; location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"
-
-		library:
-			name = encoding; location = "$ISE_LIBRARY/library/encoding/encoding.ecf"
-
-		library:
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
-
-		library:
-			name = uuid; location = "$ISE_LIBRARY/library/uuid/uuid.ecf"
-
-		# Needed to query Windows registry
-		library:
-			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base; "base/base.ecf"
+			base_ext = "base_extension/base_extension.ecf"
+			encoding = "encoding/encoding.ecf"
+			time = "time/time.ecf"
+			uuid = "uuid/uuid.ecf"
+			# Needed to query Windows registry
+			wel = "wel/wel.ecf"
 			condition:
 				platform = windows
-
-		library: 
-			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
+			thread = "thread/thread.ecf"
 

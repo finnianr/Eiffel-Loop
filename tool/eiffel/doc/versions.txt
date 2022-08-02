@@ -1,3 +1,25 @@
+1.7.8
+* Allow nested groups in pecf for example:
+
+	# Eiffel Loop
+	writeable_libraries:
+		location = "$EIFFEL_LOOP/library"
+		EL_eiffel2java = "eiffel2java.ecf"
+		option:
+			assertions:
+				precondition = true; postcondition = true; check = true
+			debugging:
+				jni = enabled
+
+1.7.7
+* renaming_map element for pecf
+
+1.7.5
+* Test ecf after pecf conversion
+
+1.7.4
+* Added "debug" to list of library related tags
+
 1.7.3
 * Fixed "oc-end" parser recursion bug where parser invokes a new parser
 

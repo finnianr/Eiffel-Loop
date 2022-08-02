@@ -2,8 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_eiffel2java; library_target = EL_eiffel2java; uuid = "229b783a-09aa-11df-87c6-93dce164c2d4" 
+	configuration_ns = "1-16-0"; uuid = "229b783a-09aa-11df-87c6-93dce164c2d4"
+	name = EL_eiffel2java; library_target = EL_eiffel2java
 	description: 
 		"""
 			Java
@@ -48,9 +48,8 @@ system:
 		# Eiffel Loop
 		libraries:
 			eiffel2java = "override/ES-eiffel2java.ecf"
-			renaming:
+			renaming_map:
 				JNI_ENVIRONMENT = JAVA_ORB
-			renaming:
 				SHARED_JNI_ENVIRONMENT = JAVA_SHARED_ORB
 
 			EL_base = "base/base.ecf"

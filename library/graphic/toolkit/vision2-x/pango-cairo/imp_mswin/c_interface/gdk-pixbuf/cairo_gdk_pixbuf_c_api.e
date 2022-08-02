@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-01 15:49:58 GMT (Wednesday 1st June 2022)"
-	revision: "2"
+	date: "2022-08-01 14:11:00 GMT (Monday 1st August 2022)"
+	revision: "3"
 
 class
 	CAIRO_GDK_PIXBUF_C_API
@@ -62,4 +62,19 @@ feature -- Access
 				)
 			]"
 		end
+
+	frozen gdk_pixbuf_unref (fn_ptr, object: POINTER)
+			-- void gdk_pixbuf_unref (GdkPixbuf* pixbuf)
+		external
+			"C inline use <gdk-pixbuf/gdk-pixbuf.h>"
+		alias
+			"[
+				return (
+					FUNCTION_CAST(void, (GdkPixbuf*))$fn_ptr
+				) (
+					(GdkPixbuf*)$object
+				)
+			]"
+		end
+
 end

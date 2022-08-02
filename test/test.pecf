@@ -17,7 +17,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 4; release = 2; build = 257
+			major = 1; minor = 4; release = 3; build = 258
 			company = "Eiffel-Loop"; product = "test"
 			copyright = "Finnian Reilly"
 
@@ -68,7 +68,7 @@ system:
 		library:
 			nel_fft_math = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"
 
-		# Eiffel-Loop libraries
+		# EiffelLoop libraries
 		writeable_libraries:
 			EL_base = "$EIFFEL_LOOP/library/base/base.ecf"
 			option:

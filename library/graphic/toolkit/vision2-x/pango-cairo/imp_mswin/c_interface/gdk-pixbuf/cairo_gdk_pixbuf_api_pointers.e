@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-01 15:50:22 GMT (Wednesday 1st June 2022)"
-	revision: "2"
+	date: "2022-08-01 14:08:03 GMT (Monday 1st August 2022)"
+	revision: "3"
 
 class
 	CAIRO_GDK_PIXBUF_API_POINTERS
@@ -23,6 +23,8 @@ feature {EL_DYNAMIC_MODULE} -- Access
 	get_height: POINTER
 
 	get_width: POINTER
+
+	unref: POINTER
 
 	new_from_file_utf8: POINTER
 

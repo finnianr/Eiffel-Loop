@@ -6,8 +6,8 @@ pyxis-doc:
 # cosmetics, trinkets or jewellery. 
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_taglib; library_target = EL_taglib; uuid = "243285C8-F255-11E9-AF8E-E3A3935D48CC" 
+	configuration_ns = "1-16-0"; uuid = "243285C8-F255-11E9-AF8E-E3A3935D48CC" 
+	name = EL_taglib; library_target = EL_taglib
 	description:
 		"""
 			TagLib Audio Meta-Data Library

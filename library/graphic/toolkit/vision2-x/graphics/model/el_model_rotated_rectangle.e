@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-22 12:46:44 GMT (Saturday 22nd August 2020)"
-	revision: "15"
+	date: "2022-08-01 10:11:17 GMT (Monday 1st August 2022)"
+	revision: "16"
 
 class
 	EL_MODEL_ROTATED_RECTANGLE
@@ -17,7 +17,7 @@ inherit
 		export
 			{EV_MODEL} center, set_center
 		undefine
-			copy, is_equal
+			copy, is_equal, Default_pixmaps
 		end
 
 	EL_MODEL

@@ -37,14 +37,7 @@ parser.add_option (
 	"-n", "--no_build", action = "store_true", dest = "no_build", default = False, help = "Build without incrementing build number"
 )
 parser.add_option (
-	"-i", "--install", action = "store", dest = "install_dir", type = "string", default = None, 
-	help = """
-		Installation location
-
-			--install default
-
-		installs in /opt/<company>/<app-name>/bin
-	"""
+	"-i", "--install", action = "store", dest = "install_dir", type = "string", default = None, help = "Installation location"
 )
 parser.add_option (
 	"-a", "--autotest", action = "store_true", dest = "autotest", default = False, help = "Test before installing"
@@ -53,35 +46,7 @@ parser.add_option (
 
 target_architectures = ['x64']
 
-if options.build_x86:
-	target_architectures.append ('x86')
-	
-# Find project ECF file
-project = new_eiffel_project (options.ecf)
-
-if options.no_build:
-	target_path = project.build_target ()
-	if path.exists (target_path):
-		print 'removing', target_path
-		os.remove (target_path)
-else:
-	# Update project.py build_number for `build_info.e'
-	print "options.ecf", options.ecf
-	project.increment_build_number (options.ecf)
-	project.remove_tar_if_corrupt ()
-
-for cpu_target in target_architectures:
-	project.build (cpu_target)
-
-if options.autotest:
-	# importing ec_install_resources caused "el_eiffel -autotest" to fail
-	call (['python', '-m', 'eiffel_loop.scripts.ec_install_resources'])
-	passed_tests = project.autotest () == 0
-else:
-	print "No autotest"
-	passed_tests = True
-
 # Install with version link
-if passed_tests and options.install_dir:
-	project.install (options.install_dir)
+if options.install_dir:
+	print 'options.install_dir', options.install_dir
 

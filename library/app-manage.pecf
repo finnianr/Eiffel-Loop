@@ -2,8 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_app_manage; library_target = EL_app_manage; uuid = "229B70BA-09AA-11DF-87B3-13BAE5C3E690" 
+	configuration_ns = "1-16-0"; uuid = "229B70BA-09AA-11DF-87B3-13BAE5C3E690" 
+	name = EL_app_manage; library_target = EL_app_manage
 	description:
 		"""
 			Multi-Application Management

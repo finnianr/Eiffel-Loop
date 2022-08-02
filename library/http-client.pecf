@@ -2,8 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_http_client; library_target = EL_http_client; uuid = "229b52e2-09aa-11df-8776-57ee66e3341a" 
+	configuration_ns = "1-16-0"; uuid = "229b52e2-09aa-11df-8776-57ee66e3341a" 
+	name = EL_http_client; library_target = EL_http_client
 	description:
 		"""
 			HTTP Client Services

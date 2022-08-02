@@ -1,5 +1,8 @@
 /*
 Copied from vtd-xml customTypes.h
+
+Was there some reason why customTypes.h could not be used directly ? 
+Workaround for a compiler error perhaps.
  */
 #ifndef VTD_ENUMERATIONS_H
 #define VTD_ENUMERATIONS_H

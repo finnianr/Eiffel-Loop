@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-01 17:31:07 GMT (Wednesday 1st June 2022)"
-	revision: "2"
+	date: "2022-08-01 17:56:14 GMT (Monday 1st August 2022)"
+	revision: "3"
 
 class
 	CAIRO_GDK_PIXBUF_API
@@ -31,6 +31,13 @@ feature -- Measurement
 	width (a_pixbuf: POINTER): INTEGER_32
 		do
 			Result := {GTK}.gdk_pixbuf_get_width (a_pixbuf)
+		end
+
+feature -- Disposal
+
+	unref (pixbuf: POINTER)
+		do
+			{EL_GTK_2_C_API}.gdk_pixbuf_unref (pixbuf)
 		end
 
 feature {NONE} -- Implementation

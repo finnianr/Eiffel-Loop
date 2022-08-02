@@ -2,19 +2,17 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = el_signal_math_server; uuid = "229B79CA-09AA-11DF-87CA-871F44C15657"
+	configuration_ns = "1-16-0"; uuid = "229B79CA-09AA-11DF-87CA-871F44C15657"
+	name = el_signal_math_server
 	description:
 		"""
 			Signal Math EROS Server with GUI
 
 			See cluster[@name='project']/description below for more details
 		"""
-	
 	# classic means C code as an intermediate language
 	target: 
 		name = classic
-
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
@@ -25,114 +23,60 @@ system:
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; profile = false; debug = false; warning = true
-			debug:
-				name = __unnamed_debug__; enabled = false
-			debug:
-				name = dlg_dispatcher; enabled = false
-			debug:
-				name = installer; enabled = false
-			debug:
-				name = refactor_fixme; enabled = false
-			debug:
-				name = vision2_windows; enabled = false
-			debug:
-				name = vision2_windows_gdi; enabled = false
-			debug:
-				name = wel; enabled = false
-			debug:
-				name = wel_gdi_count; enabled = false
-			debug:
-				name = wel_gdi_references; enabled = false
-			debug:
-				name = win_dispatcher; enabled = false
+			debugging:
+				__unnamed_debug__ = disabled
+				dlg_dispatcher = disabled
+				installer = disabled
+				refactor_fixme = disabled
+				vision2_windows = disabled; vision2_windows_gdi = disabled
+				wel = disabled; wel_gdi_count = disabled; wel_gdi_references = disabled
+				win_dispatcher = disabled
+
 			assertions:
 				precondition = true; postcondition = true
-			warning:
-				name = export_class_missing; enabled = false
-			warning:
-				name = old_verbatim_strings; enabled = false
-			warning:
-				name = vjrv; enabled = false
+			warnings:
+				export_class_missing = disabled; old_verbatim_strings = disabled
+				vjrv = disabled
 
-		setting:
-			name = address_expression; value = false
-
-		setting:
-			name = array_optimization; value = false
-
-		setting:
-			name = check_vape; value = true
-
-		setting:
-			name = console_application; value = true
-
-		setting:
-			name = dead_code_removal; value = true
-
-		setting:
-			name = dynamic_runtime; value = false
-
-		setting:
-			name = exception_trace; value = false
-
-		setting:
-			name = inlining; value = false
-
-		setting:
-			name = line_generation; value = false
-
-		setting:
-			name = concurrency; value = thread
+		settings:
+			address_expression = false; array_optimization = false
+			check_vape = true; console_application = true
+			dead_code_removal = true; dynamic_runtime = false
+			exception_trace = false
+			inlining = false; line_generation = false
+			concurrency = thread
 
 		precompile:
-			name = precompile; location = "$ISE_PRECOMP/EL/GUI-application.ecf"
+			precompile = "$ISE_PRECOMP/EL/GUI-application.ecf"
+
+		# ISE
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			thread = "thread/thread.ecf"
+			time = "time/time.ecf"
 
 		library:
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library:
-			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
-
-		library:
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
-
-		library:
-			name = nel_fft_math; location = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"
+			nel_fft_math = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"
 
 		# Eiffel Loop libraries
-		library:
-			name = EL_base; readonly = false; location = "$EIFFEL_LOOP/library/base/base.ecf"
-			# use_application_options = true
-
-		library:
-			name = EL_app_manage; readonly = false; location = "$EIFFEL_LOOP/library/app-manage.ecf"
-
-		library:
-			name = EL_doc_scan; location = "$EIFFEL_LOOP/library/document-scan.ecf"
-
-		library:
-			name = EL_eros; readonly = false; location = "$EIFFEL_LOOP/library/eros.ecf"
 		variable:
-			name = eros_server_enabled; value = true
+			eros_server_enabled = true
 
-		library:
-			name = EL_evolicity; readonly = false; location = "$EIFFEL_LOOP/library/evolicity.ecf"
+		writeable_libraries:
+			location = "$EIFFEL_LOOP/library"
+			EL_base = "base/base.ecf"
+			EL_app_manage = "app-manage.ecf"
+			EL_doc_scan = "document-scan.ecf"
+			EL_eros = "eros.ecf"
+			EL_evolicity = "evolicity.ecf"
+			EL_logging = "logging.ecf"
+			EL_net_base = "network.ecf"
+			EL_thread = "thread.ecf"
+			EL_xml_scan = "xml-scan.ecf"
 
-		library:
-			name = EL_logging; readonly = false; location = "$EIFFEL_LOOP/library/logging.ecf"
-
-		library:
-			name = EL_net_base; location = "$EIFFEL_LOOP/library/network.ecf"
-			readonly = false
-
-		library:
-			name = EL_thread; readonly = false; location = "$EIFFEL_LOOP/library/thread.ecf"
-
-		library:
-			name = EL_xml_scan; readonly = false; location = "$EIFFEL_LOOP/library/xml-scan.ecf"
-
-		cluster:
-			name = project; location = "source"; recursive = true
+		cluster_tree:
+			project = source
 			description:
 				"""
 					Signal Math EROS Server with GUI
@@ -151,6 +95,6 @@ system:
 
 					[./images/screenshot/console-thread-switch.png  Server GUI and terminal window displaying logging output]
 				"""
-		cluster:
-			name = math; location = "$EIFFEL_LOOP/test/source/eros/math"; recursive = true
+		cluster_tree:
+			math = "$EIFFEL_LOOP/test/source/eros/math"
 

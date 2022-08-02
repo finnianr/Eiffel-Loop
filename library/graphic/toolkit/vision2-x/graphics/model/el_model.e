@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-25 9:47:00 GMT (Thursday 25th June 2020)"
-	revision: "6"
+	date: "2022-08-01 10:10:44 GMT (Monday 1st August 2022)"
+	revision: "7"
 
 deferred class
 	EL_MODEL
@@ -17,12 +17,14 @@ inherit
 		export
 			{ANY} center
 		undefine
-			bounding_box, default_create, point_count
+			bounding_box, default_create, point_count, Default_pixmaps
 		redefine
 			copy
 		end
 
 	EL_GEOMETRY_MATH undefine copy, default_create, is_equal end
+
+	EL_SHARED_DEFAULT_PIXMAPS
 
 feature -- Access
 

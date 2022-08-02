@@ -3,7 +3,7 @@
 	Pyxis is data format inspired by the Python programming language and designed to be a more
 	readable supplement/substitute for XML configuration files.
 -->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "el_concurrency" uuid = "DD11287A-8001-11EB-881D-8FE5DD797125">
+<system name = "el_concurrency" uuid = "DD11287A-8001-11EB-881D-8FE5DD797125" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 Concurrency Demonstration
 
@@ -14,7 +14,6 @@ of the classic concurrency horse-racing exercise.
 2. `el_concurrency -work_distributer&apos; demonstrates the calculation of integrals for arbitrary functions
 distributed across a specified number of threads
 	</description>
-	<!--classic means C code as an intermediate language-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
 		<version major = "1" minor = "0" release = "0" build = "0" company = "Eiffel-Loop" product = "Concurrency Demonstration" copyright = "Finnian Reilly"/>
@@ -43,16 +42,15 @@ distributed across a specified number of threads
 		<library name = "ise_time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<library name = "ise_net" location = "$ISE_LIBRARY/library/net/net.ecf"/>
 		<!--Eiffel Loop libraries-->
-		<library name = "EL_app_manage" readonly = "false" location = "$EIFFEL_LOOP/library/app-manage.ecf"/>
+		<library name = "EL_app_manage" location = "$EIFFEL_LOOP/library/app-manage.ecf" readonly = "false"/>
 		<library name = "EL_base" location = "$EIFFEL_LOOP/library/base/base.ecf" readonly = "false">
 			<option>
 				<assertions precondition = "true" postcondition = "true" check = "true"/>
 			</option>
 		</library>
-		<!--; use_application_options = true-->
-		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
-		<library name = "EL_os_command" readonly = "false" location = "$EIFFEL_LOOP/library/os-command.ecf"/>
-		<library name = "EL_thread" readonly = "false" location = "$EIFFEL_LOOP/library/thread.ecf"/>
+		<library name = "EL_logging" location = "$EIFFEL_LOOP/library/logging.ecf" readonly = "false"/>
+		<library name = "EL_os_command" location = "$EIFFEL_LOOP/library/os-command.ecf" readonly = "false"/>
+		<library name = "EL_thread" location = "$EIFFEL_LOOP/library/thread.ecf" readonly = "false"/>
 		<cluster name = "project" location = "source" recursive = "true"/>
 	</target>
 </system>

@@ -35,7 +35,6 @@ system:
 		library:
 			vision2 = "override/ES-vision2.ecf"
 
-
 		# Source code
 		cluster_tree:
 			EL_audio = "multimedia/vision2-x-audio"

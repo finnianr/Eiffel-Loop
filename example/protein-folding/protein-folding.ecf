@@ -8,7 +8,7 @@
 	Finnian Reilly, Dunboyne, Co Meath, Ireland.
 	finnian@eiffel-loop.com
 -->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "el_protein" uuid = "b0730f54-4478-11e7-b58e-cfc186372549">
+<system name = "el_protein" uuid = "b0730f54-4478-11e7-b58e-cfc186372549" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 Protein Folding using 2D HP model
 
@@ -27,7 +27,6 @@ See: [https://sourceforge.net/p/pfhp/PF_HP-mt Sourceforge repository PF_HP-mt]
 		<root class = "APPLICATION_ROOT" feature = "make"/>
 		<version major = "2" minor = "0" release = "0" build = "133" company = "Eiffel-Loop" product = "PF_HP" copyright = "Finnian Reilly &amp; Gerrit Leder"/>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
-			<debug name = "pyxis" enabled = "false"/>
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "false"/>
 		</option>
 		<setting name = "address_expression" value = "false"/>
@@ -37,25 +36,25 @@ See: [https://sourceforge.net/p/pfhp/PF_HP-mt Sourceforge repository PF_HP-mt]
 		<setting name = "dead_code_removal" value = "true"/>
 		<setting name = "dynamic_runtime" value = "false"/>
 		<setting name = "exception_trace" value = "false"/>
+		<setting name = "line_generation" value = "false"/>
 		<setting name = "inlining" value = "true"/>
 		<setting name = "inlining_size" value = "3"/>
-		<setting name = "line_generation" value = "false"/>
 		<setting name = "concurrency" value = "thread"/>
 		<precompile name = "precompile" location = "$ISE_PRECOMP/EL/console-application.ecf"/>
-		<!--LIBRARIES-->
+		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "base_ext" location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"/>
+		<library name = "testing" location = "$ISE_LIBRARY/library/testing/testing.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<library name = "gobo_base" location = "$EIFFEL_LOOP/library/gobo-base.ecf"/>
-		<library name = "testing" location = "$ISE_LIBRARY/library/testing/testing.ecf"/>
 		<!--Eiffel-Loop-->
-		<library name = "EL_base" readonly = "false" location = "$EIFFEL_LOOP/library/base/base.ecf"/>
-		<library name = "EL_app_manage" readonly = "false" location = "$EIFFEL_LOOP/library/app-manage.ecf"/>
-		<library name = "EL_os_command" readonly = "false" location = "$EIFFEL_LOOP/library/os-command.ecf"/>
-		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
-		<library name = "EL_testing" readonly = "false" location = "$EIFFEL_LOOP/library/testing.ecf"/>
-		<library name = "EL_vtd_xml" readonly = "false" location = "$EIFFEL_LOOP/library/vtd-xml.ecf"/>
-		<library name = "thread" location = "$EIFFEL_LOOP/library/thread.ecf"/>
+		<library name = "EL_base" location = "$EIFFEL_LOOP/library/base/base.ecf" readonly = "false"/>
+		<library name = "EL_app_manage" location = "$EIFFEL_LOOP/library/app-manage.ecf" readonly = "false"/>
+		<library name = "EL_os_command" location = "$EIFFEL_LOOP/library/os-command.ecf" readonly = "false"/>
+		<library name = "EL_logging" location = "$EIFFEL_LOOP/library/logging.ecf" readonly = "false"/>
+		<library name = "EL_testing" location = "$EIFFEL_LOOP/library/testing.ecf" readonly = "false"/>
+		<library name = "EL_thread" location = "$EIFFEL_LOOP/library/thread.ecf" readonly = "false"/>
+		<library name = "EL_vtd_xml" location = "$EIFFEL_LOOP/library/vtd-xml.ecf" readonly = "false"/>
 		<!--Sources-->
 		<cluster name = "project" location = "source" recursive = "true"/>
 	</target>

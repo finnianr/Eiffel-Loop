@@ -6,8 +6,8 @@ pyxis-doc:
 # cosmetics, trinkets or jewellery. 
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_compression; library_target = EL_compression; uuid = "229b6f84-09aa-11df-87b0-ab7c62abf4b2" 
+	configuration_ns = "1-16-0"; uuid = "229b6f84-09aa-11df-87b0-ab7c62abf4b2" 
+	name = EL_compression; library_target = EL_compression
 	description:
 		"""
 			ZLib Compression

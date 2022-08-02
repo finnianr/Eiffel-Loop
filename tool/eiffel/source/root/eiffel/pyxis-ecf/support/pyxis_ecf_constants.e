@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-25 6:03:58 GMT (Monday 25th July 2022)"
-	revision: "8"
+	date: "2022-07-27 7:02:08 GMT (Wednesday 27th July 2022)"
+	revision: "9"
 
 deferred class
 	PYXIS_ECF_CONSTANTS
@@ -18,11 +18,6 @@ inherit
 	EL_MODULE_TUPLE
 
 feature {NONE} -- Constants
-
-	C_attributes: ARRAY [STRING]
-		once
-			Result := << "value", "location" >>
-		end
 
 	Custom_template: EL_TEMPLATE [STRING]
 		once
@@ -38,11 +33,6 @@ feature {NONE} -- Constants
 				$ELEMENT:
 					${EXCLUDED_PREFIX}value = $VALUE
 			]"
-		end
-
-	Externals_set: EL_HASH_SET [STRING]
-		once
-			create Result.make_from_array (<< Name.unix_externals, Name.windows_externals >>)
 		end
 
 	File_rule_template: EL_TEMPLATE [STRING]

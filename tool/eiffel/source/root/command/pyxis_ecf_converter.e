@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-28 18:41:45 GMT (Tuesday 28th June 2022)"
-	revision: "6"
+	date: "2022-07-27 7:42:59 GMT (Wednesday 27th July 2022)"
+	revision: "7"
 
 class
 	PYXIS_ECF_CONVERTER
@@ -33,7 +33,7 @@ inherit
 
 	EL_PYXIS_TO_XML_CONVERTER
 		redefine
-			description, new_output_path, new_xml_generator
+			check_output_xml, description, new_output_path, new_xml_generator
 		end
 
 create
@@ -44,6 +44,21 @@ feature -- Constants
 	Description: STRING = "Convert Pyxis format Eiffel project configuration to `.ecf' XML file"
 
 feature {NONE} -- Implementation
+
+	check_output_xml
+		local
+			ecf_xdoc: EL_XML_DOC_CONTEXT
+		do
+			create ecf_xdoc.make_from_file (output_path)
+			if ecf_xdoc.parse_failed then
+				if attached ecf_xdoc.last_exception as exception then
+					exception.put_error (lio)
+				end
+			else
+				lio.put_labeled_string ("No errors detected in", output_path.base)
+				lio.put_new_line
+			end
+		end
 
 	new_output_path: FILE_PATH
 		do

@@ -5,8 +5,8 @@ pyxis-doc:
 # readable supplement/substitute for XML configuration files.
 
 system:
-	configuration_ns = "1-16-0"
-	name = el_id3_test; uuid = "8B45CCDC-8DF7-11EA-83F6-9B3105645C20"
+	configuration_ns = "1-16-0"; uuid = "8B45CCDC-8DF7-11EA-83F6-9B3105645C20"
+	name = el_id3_test
 	description:
 		"""
 			ID3-tags.ecf
@@ -15,7 +15,6 @@ system:
 
 			Due to C name space clashes with `TagLib.ecf' these tests have been separated from `test.ecf'
 		"""
-	# classic means C code as an intermediate language
 	target: 
 		name = classic
 		root:
@@ -30,67 +29,34 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true
 
-		setting:
-			name = address_expression; value = false
-
-		setting:
-			name = array_optimization; value = false
-
-		setting:
-			name = check_vape; value = true
-
-		setting:
-			name = console_application; value = true
-
-		setting:
-			name = dead_code_removal; value = true
-
-		setting:
-			name = dynamic_runtime; value = false
-
-		setting:
-			name = exception_trace; value = true
-
-		setting:
-			name = line_generation; value = false
-
-		setting:
-			name = inlining; value = true
-
-		setting:
-			name = inlining_size; value = 2
-
-		setting:
-			name = concurrency; value = thread
+		settings:
+			address_expression = false; array_optimization = false
+			check_vape = true; console_application = true
+			dead_code_removal = true; dynamic_runtime = false
+			exception_trace = true
+			line_generation = false; inlining = true; inlining_size = 2
+			concurrency = thread
 
 		precompile:
-			name = precompile; location = "$ISE_PRECOMP/EL/console-application.ecf"
+			precompile = "$ISE_PRECOMP/EL/console-application.ecf"
 
 		library:
-			name = ise_base; location = "$ISE_LIBRARY/library/base/base.ecf"
+			ise_base = "$ISE_LIBRARY/library/base/base.ecf"
 			option:
 				assertions:
 					precondition = true; postcondition = true; check = true
 
-		library:
-			name = EL_app_manage; readonly = false; location = "$EIFFEL_LOOP/library/app-manage.ecf"
-
-		library:
-			name = EL_base; location = "$EIFFEL_LOOP/library/base/base.ecf"; readonly = false
+		writeable_libraries:
+			location = "$EIFFEL_LOOP/library"
+			EL_app_manage = "app-manage.ecf"
+			EL_base = "base/base.ecf"
 			option:
 				assertions:
 					precondition = true; postcondition = true; check = true
-			#; use_application_options = true
+			EL_id3_tags = "ID3-tags.ecf"
+			EL_logging = "logging.ecf"
+			EL_testing = "testing.ecf"
 
-		library:
-			name = EL_id3_tags; readonly = false; location = "$EIFFEL_LOOP/library/ID3-tags.ecf"
-			
-		library:
-			name = EL_logging; readonly = false; location = "$EIFFEL_LOOP/library/logging.ecf"
-
-		library:
-			name = EL_testing; readonly = false; location = "$EIFFEL_LOOP/library/testing.ecf"
-
-		cluster:
-			name = project; location = "source"; recursive = true
+		cluster_tree:
+			project = source
 

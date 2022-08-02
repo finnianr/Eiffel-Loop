@@ -407,6 +407,7 @@
 			<keyword>library</keyword>
 			<keyword>mapping</keyword>
 			<keyword>multithreaded</keyword>
+			<keyword>renaming_map</keyword>
 			<keyword>note</keyword>
 			<keyword>option</keyword>
 			<keyword>override</keyword>

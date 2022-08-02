@@ -2,9 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_markup_docs; uuid = "229B53F0-09AA-11DF-8778-2B7E79DF966A" 
-	library_target = EL_markup_docs
+	configuration_ns = "1-16-0"; uuid = "229B53F0-09AA-11DF-8778-2B7E79DF966A" 
+	name = EL_markup_docs; library_target = EL_markup_docs
 	description:
 		"""
 			Markup Document Processing
@@ -28,39 +27,25 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library:
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			time = "time/time.ecf"
 
 		# Eiffel-Loop
-		library:
-			name = EL_base; location = "base/base.ecf"
+		libraries:
+			EL_base = "base/base.ecf"
+			EL_doc_scan = "document-scan.ecf"
+			EL_evolicity = "evolicity.ecf"
+			EL_os_command = "os-command.ecf"
+			EL_text_formats = "text-formats.ecf"
+			EL_text_process = "text-process.ecf"
+			EL_vtd_xml = "vtd-xml.ecf"
+			EL_pyxis_scan = "pyxis-scan.ecf"
 
-		library:
-			name = EL_doc_scan; location = "document-scan.ecf"
-
-		library:
-			name = EL_evolicity; location = "evolicity.ecf"
-
-		library:
-			name = EL_os_command; location = "os-command.ecf"
-
-		library:
-			name = EL_text_formats; location = "text-formats.ecf"
-
-		library:
-			name = EL_text_process; location = "text-process.ecf"
-
-		library:
-			name = EL_vtd_xml; location = "vtd-xml.ecf"
-
-		library:
-			name = EL_pyxis_scan; location = "pyxis-scan.ecf"
-
-		cluster:
-			name = open_office; location = "persistency/xml/open-office-spreadsheet"; recursive = true
+		cluster_tree:
+			open_office = "persistency/xml/open-office-spreadsheet"
 			description:
 				"""
 					Open Office Spreadsheets
@@ -71,8 +56,8 @@ system:
 					
 					Test class [$source OPEN_OFFICE_TEST_APP]
 				"""
-		cluster:
-			name = thunderbird; location = "persistency/thunderbird"; recursive = true
+		cluster_tree:
+			thunderbird = "persistency/thunderbird"
 			description:
 				"""
 					Thunderbird Email Export
@@ -83,8 +68,8 @@ system:
 					Test class [$source THUNDERBIRD_TEST_APP]
 				"""
 
-		cluster:
-			name = kindle_book; location = "persistency/kindle-book"; recursive = true
+		cluster_tree:
+			kindle_book = "persistency/kindle-book"
 			description:
 				"""
 					Kindle Publishing

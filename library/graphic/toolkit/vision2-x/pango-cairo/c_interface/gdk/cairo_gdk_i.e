@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-02 9:14:34 GMT (Thursday 2nd June 2022)"
-	revision: "2"
+	date: "2022-08-01 14:08:44 GMT (Monday 1st August 2022)"
+	revision: "3"
 
 deferred class
 	CAIRO_GDK_I
@@ -72,10 +72,6 @@ feature -- Basic operations
 		end
 
 	set_cairo_source_pixbuf (a_context, a_pixbuf: POINTER; a_pixbuf_x, a_pixbuf_y: REAL_64)
-		deferred
-		end
-
-	pixbuf_unref (pixbuf: POINTER)
 		deferred
 		end
 

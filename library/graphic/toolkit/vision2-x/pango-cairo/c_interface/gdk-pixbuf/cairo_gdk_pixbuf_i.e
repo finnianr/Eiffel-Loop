@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-01 15:58:09 GMT (Wednesday 1st June 2022)"
-	revision: "2"
+	date: "2022-08-01 14:09:30 GMT (Monday 1st August 2022)"
+	revision: "3"
 
 deferred class
 	CAIRO_GDK_PIXBUF_I
@@ -37,6 +37,12 @@ feature -- Measurement
 		end
 
 	width (a_pixbuf: POINTER): INTEGER_32
+		deferred
+		end
+
+feature -- Disposal
+
+	unref (pixbuf: POINTER)
 		deferred
 		end
 

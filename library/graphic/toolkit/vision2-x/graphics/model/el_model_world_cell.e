@@ -6,17 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-25 9:49:41 GMT (Thursday 25th June 2020)"
-	revision: "4"
+	date: "2022-08-01 10:13:19 GMT (Monday 1st August 2022)"
+	revision: "5"
 
 class
 	EL_MODEL_WORLD_CELL
 
 inherit
 	EV_MODEL_WORLD_CELL
+		undefine
+			Default_pixmaps
 		redefine
 			new_projector
 		end
+
+	EL_SHARED_DEFAULT_PIXMAPS
 
 create
 	make_with_world, default_create

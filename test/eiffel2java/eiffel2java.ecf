@@ -12,14 +12,13 @@
 	
 	This project contains a parser for the Pyxis format and a Pyxis to XML convertion utility
 -->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "el_eiffel2java" uuid = "20FD9834-3FC9-4349-AD78-73ABA2C735D4">
+<system name = "el_eiffel2java" uuid = "20FD9834-3FC9-4349-AD78-73ABA2C735D4" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 eiffel2java.ecf (Eiffel-Loop)
 
 Test sets for the [./library/eiffel2java.html Eiffel-Loop Java interface library].
 This library provides a useful layer of abstraction over the Eiffel Software JNI interface.
 	</description>
-	<!--classic means C code as an intermediate language-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
 		<version major = "1" minor = "0" release = "0" build = "56" company = "Eiffel-Loop" product = "eiffel2java" copyright = "Finnian Reilly"/>
@@ -38,40 +37,35 @@ This library provides a useful layer of abstraction over the Eiffel Software JNI
 		<setting name = "line_generation" value = "false"/>
 		<setting name = "concurrency" value = "thread"/>
 		<precompile name = "precompile" location = "$ISE_PRECOMP/EL/console-application.ecf"/>
-		<variable name = "link_object" value = "false"/>
 		<!--Invokes scons script to download Java rasterizer jar files-->
 		<external_object location = "$(EIFFEL_LOOP)/contrib/Java/batik-1.6.1/batik-rasterizer.jar">
 			<condition>
-				<custom name = "link_object" value = "true"/>
+				<custom name = "shared" value = "true"/>
 			</condition>
 		</external_object>
-		<!--
-			Excluded from C linking
-			
-			Invokes scons script to download Java Velocity jar files
-		-->
+		<!--Invokes scons script to download Java Velocity jar files-->
 		<external_object location = "$(EIFFEL_LOOP)/contrib/Java/velocity-1.7/velocity-1.7-dep.jar">
 			<condition>
-				<custom name = "link_object" value = "true"/>
+				<custom name = "shared" value = "true"/>
 			</condition>
 		</external_object>
-		<!--Excluded from C linking-->
+		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<!--Eiffel Loop overrides-->
-		<library name = "eiffel2java" readonly = "false" location = "$EIFFEL_LOOP/library/override/ES-eiffel2java.ecf"/>
+		<library name = "eiffel2java" location = "$EIFFEL_LOOP/library/override/ES-eiffel2java.ecf"/>
 		<!--Eiffel Loop-->
-		<library name = "EL_base" readonly = "false" location = "$EIFFEL_LOOP/library/base/base.ecf"/>
-		<library name = "EL_app_manage" readonly = "false" location = "$EIFFEL_LOOP/library/app-manage.ecf"/>
-		<library name = "EL_eiffel2java" readonly = "false" location = "$EIFFEL_LOOP/library/eiffel2java.ecf">
+		<library name = "EL_base" location = "$EIFFEL_LOOP/library/base/base.ecf" readonly = "false"/>
+		<library name = "EL_app_manage" location = "$EIFFEL_LOOP/library/app-manage.ecf" readonly = "false"/>
+		<library name = "EL_eiffel2java" location = "$EIFFEL_LOOP/library/eiffel2java.ecf" readonly = "false">
 			<option>
 				<assertions precondition = "true" postcondition = "true" check = "true"/>
 				<debug name = "jni" enabled = "true"/>
 			</option>
 		</library>
-		<library name = "EL_evolicity" readonly = "false" location = "$EIFFEL_LOOP/library/evolicity.ecf"/>
-		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
-		<library name = "EL_os_command" readonly = "false" location = "$EIFFEL_LOOP/library/os-command.ecf"/>
-		<library name = "EL_testing" readonly = "false" location = "$EIFFEL_LOOP/library/testing.ecf">
+		<library name = "EL_evolicity" location = "$EIFFEL_LOOP/library/evolicity.ecf" readonly = "false"/>
+		<library name = "EL_logging" location = "$EIFFEL_LOOP/library/logging.ecf" readonly = "false"/>
+		<library name = "EL_os_command" location = "$EIFFEL_LOOP/library/os-command.ecf" readonly = "false"/>
+		<library name = "EL_testing" location = "$EIFFEL_LOOP/library/testing.ecf" readonly = "false">
 			<option>
 				<assertions precondition = "true" postcondition = "true" check = "true"/>
 			</option>

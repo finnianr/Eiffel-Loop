@@ -37,17 +37,16 @@ system:
 
 		external_include: 
 			location = "$(EL_C_LIB)/include"
-			description: 
+			description:
 				"""
 					C implementation of EL_C_CALLABLE_PROCEDURE
 				"""
 		external_include: 
 			location = "$(EL_C_LIB)/vtd2eiffel/source"
 
-		external_object:
-			location = "$(EL_C_LIB)/vtd2eiffel/spec/$(ISE_PLATFORM)/vtd-xml.lib"
-			condition:
-				platform = windows
+		windows_externals:
+			external_object:
+				location = "$(EL_C_LIB)/vtd2eiffel/spec/$(ISE_PLATFORM)/vtd-xml.lib"
 		
 		unix_externals:
 			external_object:

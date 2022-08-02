@@ -2,10 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_eco_db; uuid = "229B73E4-09AA-11DF-87BB-93E5E9639079"
-	library_target = EL_eco_db
-	
+	configuration_ns = "1-16-0"; uuid = "229B73E4-09AA-11DF-87BB-93E5E9639079"
+	name = EL_eco_db; library_target = EL_eco_db
 	description: 
 		"""
 			Eco-DB (Eiffel CHAIN Orientated Database)
@@ -36,7 +34,6 @@ system:
 		option: 
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true
-
 		root:
 			all_classes = true
 

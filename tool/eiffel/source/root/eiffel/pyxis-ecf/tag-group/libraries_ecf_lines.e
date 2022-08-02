@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-25 6:03:58 GMT (Monday 25th July 2022)"
-	revision: "8"
+	date: "2022-07-26 7:14:53 GMT (Tuesday 26th July 2022)"
+	revision: "9"
 
 class
 	LIBRARIES_ECF_LINES
@@ -43,7 +43,7 @@ feature -- Status query
 
 	is_related_line (line: EL_PYXIS_LINE; equal_index: INTEGER): BOOLEAN
 		do
-			if attached line.element_name as tag and then Related_tags.has (tag) then
+			if attached line.element_name as tag and then Name.related_tags.has (tag) then
 				Result := True
 
 			elseif equal_index > 0 and then (line.start_index - 1) > tab_count + 1 then
@@ -94,11 +94,6 @@ feature {NONE} -- Internal attributes
 feature {NONE} -- Constants
 
 	Location: STRING = "location"
-
-	Related_tags: EL_HASH_SET [STRING]
-		once
-			create Result.make_from_array (Name.library_related)
-		end
 
 	Template: EL_TEMPLATE [STRING]
 		once

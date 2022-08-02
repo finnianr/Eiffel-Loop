@@ -2,8 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_app_license; library_target = EL_app_license; uuid = "229b6ebc-09aa-11df-87ae-dbc8674bb87b" 
+	configuration_ns = "1-16-0"; uuid = "229b6ebc-09aa-11df-87ae-dbc8674bb87b" 
+	name = EL_app_license; library_target = EL_app_license
 	description: 
 		"""
 			Application License Management

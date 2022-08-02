@@ -2,8 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_bit_utils; library_target = EL_bit_utils; uuid = "A4321E98-4828-11E7-85A1-D79E23B4EDF3" 
+	configuration_ns = "1-16-0"; uuid = "A4321E98-4828-11E7-85A1-D79E23B4EDF3" 
+	name = EL_bit_utils; library_target = EL_bit_utils
 	description:
 		"""
 			CPU Register Operations

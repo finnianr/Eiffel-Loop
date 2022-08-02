@@ -6,9 +6,8 @@ pyxis-doc:
 # cosmetics, trinkets or jewellery. 
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_audio; uuid = "a90c0d92-c587-11e8-8ec9-0f4082418341" 
-	library_target = EL_audio
+	configuration_ns = "1-16-0"; uuid = "a90c0d92-c587-11e8-8ec9-0f4082418341" 
+	name = EL_audio; library_target = EL_audio
 	description:
 		"""
 			Windows Audio
@@ -22,10 +21,8 @@ system:
 
 			This library ECF is not currently maintained and is for documentation purposes only.
 		"""
-	
 	target:
 		name = EL_audio
-		
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true
@@ -36,10 +33,10 @@ system:
 			all_classes = true
 
 		# Source code
-		cluster:
-			name = laabhair; location = "../multimedia/audio/laabhair"; recursive = true
-		cluster:
-			name = "vision2-x-audio"; location = "../multimedia/audio/vision2-x-audio"; recursive = true
+		cluster_tree:
+			laabhair = "../multimedia/audio/laabhair"
+		cluster_tree:
+			vision2_x_audio = "../multimedia/audio/vision2-x-audio"
 
 
 

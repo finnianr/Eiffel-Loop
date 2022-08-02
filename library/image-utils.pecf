@@ -2,8 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = EL_image_utils; library_target = EL_image_utils; uuid = "229b6cc8-09aa-11df-87a9-ffc4e5fcb1e7" 
+	configuration_ns = "1-16-0"; uuid = "229b6cc8-09aa-11df-87a9-ffc4e5fcb1e7" 
+	name = EL_image_utils; library_target = EL_image_utils
 	
 	description: 
 		"""

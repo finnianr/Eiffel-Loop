@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-25 5:23:01 GMT (Monday 25th July 2022)"
-	revision: "9"
+	date: "2022-08-01 13:52:27 GMT (Monday 1st August 2022)"
+	revision: "10"
 
 class
 	EL_REFLECTED_IMMUTABLE_STRING_8
@@ -32,8 +32,6 @@ feature -- Basic operations
 		end
 
 	set_from_string_general (a_object: EL_REFLECTIVE; general: READABLE_STRING_GENERAL)
-		local
-			new: IMMUTABLE_STRING_8
 		do
 			if attached {IMMUTABLE_STRING_8} general as str then
 				set (a_object, str)

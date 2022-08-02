@@ -2,54 +2,39 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
-	name = GUI_app; uuid = "229b6d2c-09aa-11df-87aa-43539908b5d6"
-	library_target = GUI_app
-	
+	configuration_ns = "1-16-0"; uuid = "229b6d2c-09aa-11df-87aa-43539908b5d6"
+	name = GUI_app; library_target = GUI_app
 	target:
 		name = GUI_app
-		
 		description:
 			"""
 				Precompile for GUI apps
 			"""
 		root:
 			all_classes = true
-
 		option: 
 			assertions:
 				precondition = true; postcondition = true; check = false; invariant = false
 
 		setting:
-			name = concurrency; value = thread
+			concurrency = thread
 
-		library: 
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library: 
-			name = base_x; location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"
-
-		library:
-			name = encoding; location = "$ISE_LIBRARY/library/encoding/encoding.ecf"
-
-		library:
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
-
-		library: 
-			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
-
-		library:
-			name = uuid; location = "$ISE_LIBRARY/library/uuid/uuid.ecf"
-
-		# GUI
-		library: 
-			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base; "base/base.ecf"
+			base_ext = "base_extension/base_extension.ecf"
+			encoding = "encoding/encoding.ecf"
+			time = "time/time.ecf"
+			uuid = "uuid/uuid.ecf"
+			# Needed to query Windows registry
+			wel = "wel/wel.ecf"
 			condition:
 				platform = windows
+			thread = "thread/thread.ecf"
 
-		library:
-			name = vision2; location = "$EIFFEL_LOOP/library/override/ES-vision2.ecf"
-
-		library:
-			name = docking; location = "$EIFFEL_LOOP/library/override/ES-docking.ecf"
+		# ISE overrides
+		libraries:
+			location = "$EIFFEL_LOOP/library/override"
+			vision2 = "ES-vision2.ecf"
+			docking = "ES-docking.ecf"
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-10 13:07:30 GMT (Wednesday 10th June 2020)"
-	revision: "1"
+	date: "2022-08-01 10:11:17 GMT (Monday 1st August 2022)"
+	revision: "2"
 
 class
 	EL_MODEL_TRIANGLE
@@ -15,7 +15,7 @@ class
 inherit
 	EV_MODEL_POLYGON
 		undefine
-			copy, is_equal
+			copy, is_equal, Default_pixmaps
 		redefine
 			default_create
 		end

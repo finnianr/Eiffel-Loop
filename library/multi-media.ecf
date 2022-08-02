@@ -4,7 +4,7 @@
 	It is also a Latin transliteration of a Greek word for a type of pottery used by women to hold
 	cosmetics, trinkets or jewellery.
 -->
-<system name = "EL_multimedia" uuid = "229b770e-09aa-11df-87c3-c377311e3588" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" library_target = "EL_multimedia">
+<system name = "EL_multimedia" library_target = "EL_multimedia" uuid = "229b770e-09aa-11df-87c3-c377311e3588" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 Multi-media management classes
 
@@ -15,6 +15,7 @@ Multi-media management classes
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
 		<root all_classes = "true"/>
+		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<!--Eiffel Loop-->
