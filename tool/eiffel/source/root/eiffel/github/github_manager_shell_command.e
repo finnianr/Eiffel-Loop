@@ -5,7 +5,9 @@ note
 		
 			git config --global credential.helper store
 			
-		https://<user>:<PAT>@github.com
+		~/.git-credentials
+		
+			https://<user>:<PAT>@github.com
 	]"
 
 	author: "Finnian Reilly"
@@ -13,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-08-02 11:55:27 GMT (Tuesday 2nd August 2022)"
-	revision: "15"
+	date: "2022-08-02 12:06:13 GMT (Tuesday 2nd August 2022)"
+	revision: "16"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
