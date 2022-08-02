@@ -1,13 +1,18 @@
 note
 	description: "Github manager shell command"
+	notes: "[
+		Use this command to [https://git-scm.com/book/en/v2/Git-Tools-Credential-Storage setup credentials store]
+		
+			git config --global credential.helper 'store --file ~/.git-credentials'
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-06 8:16:34 GMT (Monday 6th June 2022)"
-	revision: "13"
+	date: "2022-08-02 10:58:26 GMT (Tuesday 2nd August 2022)"
+	revision: "14"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -42,7 +47,7 @@ feature -- Constants
 
 	Description: STRING = "Command shell for updating github repository"
 
-feature {NONE} -- Implementation
+feature {NONE} -- Commands
 
 	git_commit
 		local
@@ -118,10 +123,10 @@ feature {NONE} -- Factory
 	new_command_table: like command_table
 		do
 			create Result.make (<<
-				["update source notes", 				agent update_source_notes],
-				["rsync to github directory", 		agent rsync_to_github_dir],
-				["git add + commit",						agent git_commit],
-				["git push -u origin master", 		agent git_push_origin_master]
+				["update source notes", 		agent update_source_notes],
+				["rsync to github directory", agent rsync_to_github_dir],
+				["git add + commit",				agent git_commit],
+				["git push -u origin master", agent git_push_origin_master]
 			>>)
 		end
 

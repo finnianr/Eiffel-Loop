@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 11:39:52 GMT (Thursday 16th June 2022)"
-	revision: "7"
+	date: "2022-08-02 9:44:52 GMT (Tuesday 2nd August 2022)"
+	revision: "8"
 
 class
 	GITHUB_CONFIGURATION
@@ -42,13 +42,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	new_credential_decrypter: EL_AES_ENCRYPTER
-		do
-			if not credential.is_phrase_set then
-				credential.ask_user
-			end
-			Result := credential.new_aes_encrypter (256)
-		end
+	encrypted_access_token: STRING
 
 	github_dir: DIR_PATH
 
@@ -58,6 +52,16 @@ feature -- Access
 
 	source_manifest_path: ZSTRING
 		-- relative to `source_dir'
+
+feature -- Factory
+
+	new_credential_decrypter: EL_AES_ENCRYPTER
+		do
+			if not credential.is_phrase_set then
+				credential.ask_user
+			end
+			Result := credential.new_aes_encrypter (256)
+		end
 
 feature {NONE} -- Factory
 
@@ -71,7 +75,5 @@ feature {NONE} -- Factory
 feature {NONE} -- Internal attributes
 
 	credential: EL_BUILDABLE_AES_CREDENTIAL
-
-	encrypted_access_token: STRING
 
 end
