@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-08-01 10:10:44 GMT (Monday 1st August 2022)"
-	revision: "7"
+	date: "2022-08-15 8:34:50 GMT (Monday 15th August 2022)"
+	revision: "8"
 
 deferred class
 	EL_MODEL
 
 inherit
 	EV_MODEL
+		rename
+			modulo as modulo_double
 		export
 			{ANY} center
 		undefine
@@ -22,9 +24,21 @@ inherit
 			copy
 		end
 
-	EL_GEOMETRY_MATH undefine copy, default_create, is_equal end
+	EL_GEOMETRY_MATH
+		rename
+			modulo as modulo_double
+		undefine
+			copy, default_create, is_equal
+		end
 
 	EL_SHARED_DEFAULT_PIXMAPS
+
+	EL_INTEGER_MATH
+		export
+			{NONE} all
+		undefine
+			copy, default_create
+		end
 
 feature -- Access
 
@@ -36,6 +50,13 @@ feature -- Access
 	top_most: EV_COORDINATE
 		do
 			Result := utmost (True)
+		end
+
+	point_i_th (i: INTEGER): EV_COORDINATE
+		--  `point_array [i]' using circular indexing
+		-- so `point_i_th (point_count)' = `point_array [0]'
+		do
+			Result := point_array [modulo (i, point_count)]
 		end
 
 feature -- Comparison
@@ -193,6 +214,11 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
+
+	new_line (p1, p2: EV_COORDINATE): EL_MODEL_LINE
+		do
+			create Result.make_with_points (p1, p2)
+		end
 
 	utmost (a_top_most: BOOLEAN): EV_COORDINATE
 		local

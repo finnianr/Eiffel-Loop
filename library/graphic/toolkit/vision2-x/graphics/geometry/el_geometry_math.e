@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-21 10:18:08 GMT (Friday 21st August 2020)"
-	revision: "13"
+	date: "2022-08-15 7:15:37 GMT (Monday 15th August 2022)"
+	revision: "14"
 
 class
 	EL_GEOMETRY_MATH
@@ -52,8 +52,10 @@ feature {NONE} -- Implementation
 		end
 
 	degrees (a_radians: DOUBLE): INTEGER
+		-- `a_radians' rounded to nearest degree <= 360
 		do
-			Result := (360 * a_radians / (2 * Pi)).rounded \\ 360
+--			Result = (360 * a_radians / (2 * Pi)).rounded \\ 360
+			Result := (180 * a_radians / Pi).rounded \\ 360
 		end
 
 	degrees_plus_or_minus (a_radians: DOUBLE): INTEGER

@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-08-01 10:11:17 GMT (Monday 1st August 2022)"
-	revision: "16"
+	date: "2022-08-15 8:33:22 GMT (Monday 15th August 2022)"
+	revision: "17"
 
 class
 	EL_MODEL_ROTATED_RECTANGLE
 
 inherit
 	EV_MODEL_PARALLELOGRAM
+		rename
+			modulo as modulo_double
 		export
 			{EV_MODEL} center, set_center
 		undefine
@@ -82,21 +84,32 @@ feature -- Access
 			else end
 		end
 
-	direction_vector_list: ARRAYED_LIST [EL_MODEL_LINE]
-		-- line vectors from center point to the mid point of each side
+	direction_lines: ARRAYED_LIST [EL_MODEL_LINE]
+		-- 3 parallel lines going from center line to edge for each of 4 directions
 		local
-			i: INTEGER; c, p: like center
-			point_list: EL_ARRAYED_LIST [EV_COORDINATE]
+			i, j: INTEGER; c, mp: EV_COORDINATE; p: SPECIAL [EV_COORDINATE]
 		do
 			create Result.make (4)
 			c := center
-			point_list := to_point_array.to_list
-			from i := 0 until i = 4 loop
-				-- side mid point
-				p := mid_point (point_list.circular_i_th (i), point_list.circular_i_th (i + 1))
-				Result.extend (create {EL_MODEL_LINE}.make_with_points (c, p))
+			create p.make_filled (point_array [0], 4)
+			from i := 0 until i > 3 loop
+				from j := 0 until j > 3 loop
+--					j - 1 => -1 |..| 2
+					p [j] := point_i_th (i + j - 1) -- circular indexing
+					j := j + 1
+				end
+				mp := mid_point (p [0], p [1])
+				Result.extend (new_line (mp, p [1]))
+
+				mp := mid_point (p [1], p [2])
+				Result.extend (new_line (c, mp))
+
+				mp := mid_point (p [2], p [3])
+				Result.extend (new_line (mp, p [2]))
 				i := i + 1
 			end
+		ensure
+			three_by_four: Result.count = 12
 		end
 
 	outer_radial_square_coordinates: EL_RECTANGLE_POINT_ARRAY

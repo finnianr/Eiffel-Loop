@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-08-01 10:11:17 GMT (Monday 1st August 2022)"
-	revision: "6"
+	date: "2022-08-15 8:27:56 GMT (Monday 15th August 2022)"
+	revision: "7"
 
 class
 	EL_MODEL_LINE
 
 inherit
 	EV_MODEL_LINE
+		rename
+			modulo as modulo_double
 		export
 			{EV_MODEL} set_center
 		undefine

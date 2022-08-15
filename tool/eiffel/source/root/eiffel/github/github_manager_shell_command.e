@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-08-02 12:06:13 GMT (Tuesday 2nd August 2022)"
-	revision: "16"
+	date: "2022-08-02 13:48:40 GMT (Tuesday 2nd August 2022)"
+	revision: "17"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -113,9 +113,6 @@ feature {NONE} -- Commands
 			editor.execute
 			lio.put_new_line
 		end
-
-feature {NONE} -- Implementation
-
 
 feature {NONE} -- Factory
 

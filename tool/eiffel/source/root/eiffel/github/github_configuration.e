@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-08-02 11:49:09 GMT (Tuesday 2nd August 2022)"
-	revision: "9"
+	date: "2022-08-02 13:51:59 GMT (Tuesday 2nd August 2022)"
+	revision: "10"
 
 class
 	GITHUB_CONFIGURATION
@@ -18,7 +18,7 @@ inherit
 			make_from_file as make,
 			element_node_fields as All_fields
 		redefine
-			make, make_default, new_instance_functions
+			make, new_instance_functions
 		end
 
 create
@@ -33,11 +33,6 @@ feature {NONE} -- Initialization
 		do
 			Precursor (a_file_path)
 			s.replace_character (rsync_template, '%N', ' ')
-		end
-
-	make_default
-		do
-			Precursor
 		end
 
 feature -- Access
@@ -62,19 +57,14 @@ feature -- Factory
 			decrypter: EL_AES_ENCRYPTER
 		do
 			if plain_text then
-				decrypter := new_credential_decrypter
+				if not credential.is_phrase_set then
+					credential.ask_user
+				end
+				decrypter := credential.new_aes_encrypter (256)
 				Result := Credential_template #$ [user_name, decrypter.decrypted_base_64 (encrypted_access_token)]
 			else
 				Result := Credential_template #$ [user_name, encrypted_access_token]
 			end
-		end
-
-	new_credential_decrypter: EL_AES_ENCRYPTER
-		do
-			if not credential.is_phrase_set then
-				credential.ask_user
-			end
-			Result := credential.new_aes_encrypter (256)
 		end
 
 feature {NONE} -- Factory
