@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "7"
+	date: "2022-08-22 13:53:34 GMT (Monday 22nd August 2022)"
+	revision: "8"
 
 class
 	EL_PASSPHRASE_RATING_TABLE
@@ -31,9 +31,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_new_label: like new_label; a_checked_image_path: FILE_PATH)
+	make (a_new_label: like new_label; a_checked_icon_set: like checked_icon_set)
 		do
-			new_label := a_new_label; checked_image_path := a_checked_image_path
+			new_label := a_new_label; checked_icon_set := a_checked_icon_set
 			minimum_score := Default_minimum_score
 			make_box (0, 0.2)
 
@@ -111,7 +111,7 @@ feature {NONE} -- Implementation
 
 	new_check_area (a_width: INTEGER): EL_CHECK_AREA
 		do
-			create Result.make (checked_image_path, a_width)
+			create Result.make (checked_icon_set, a_width)
 		end
 
 	score_template: ZSTRING
@@ -123,7 +123,7 @@ feature {NONE} -- Internal attributes
 
 	check_list: ARRAYED_LIST [EL_CHECK_AREA]
 
-	checked_image_path: FILE_PATH
+	checked_icon_set: EL_FILE_PATH_BINARY_SET
 
 	minimum_score: INTEGER
 

@@ -1,13 +1,13 @@
 note
-	description: "Model"
+	description: "Extended [$source EV_MODEL]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-08-15 8:34:50 GMT (Monday 15th August 2022)"
-	revision: "8"
+	date: "2022-08-18 12:31:15 GMT (Thursday 18th August 2022)"
+	revision: "9"
 
 deferred class
 	EL_MODEL
@@ -42,21 +42,42 @@ inherit
 
 feature -- Access
 
-	bottom_most: EV_COORDINATE
-		do
-			Result := utmost (False)
-		end
-
-	top_most: EV_COORDINATE
-		do
-			Result := utmost (True)
-		end
-
 	point_i_th (i: INTEGER): EV_COORDINATE
 		--  `point_array [i]' using circular indexing
 		-- so `point_i_th (point_count)' = `point_array [0]'
 		do
 			Result := point_array [modulo (i, point_count)]
+		end
+
+	furthest (direction: INTEGER): EV_COORDINATE
+		-- furthest point in `direction'
+		local
+			i: INTEGER; exceeded: BOOLEAN
+		do
+			if attached point_array as p then
+				Result := p [0]
+				from i := 1 until i = point_count loop
+					inspect direction
+						when {EL_DIRECTION}.Top then
+							exceeded := p [i].y_precise < Result.y_precise
+
+						when {EL_DIRECTION}.Bottom then
+							exceeded := p [i].y_precise > Result.y_precise
+
+						when {EL_DIRECTION}.Left then
+							exceeded := p [i].x_precise < Result.x_precise
+
+						when {EL_DIRECTION}.Right then
+							exceeded := p [i].x_precise > Result.x_precise
+					else
+						exceeded := False
+					end
+					if exceeded then
+						Result := p [i]
+					end
+					i := i + 1
+				end
+			end
 		end
 
 feature -- Comparison
@@ -65,21 +86,19 @@ feature -- Comparison
 		local
 			i, n: INTEGER
 		do
-			Result := point_array.count = other.point_array.count
-			if Result then
-				n := point_count
-				from i := 0 until not Result or else i = n loop
-					Result := point_array.item (i) ~ other.point_array [i]
-					i := i + 1
+			if attached point_array as p and then attached other.point_array as p_o then
+				Result := p.count = p_o.count
+				if Result then
+					n := p.count
+					from i := 0 until not Result or else i = n loop
+						Result := p [i] ~ p_o [i]
+						i := i + 1
+					end
 				end
 			end
 		end
 
 feature -- Conversion
-
-	point_array_twin: like point_array
-		do
-		end
 
 	to_point_array: EL_COORDINATE_ARRAY
 		do
@@ -96,7 +115,7 @@ feature -- Duplication
 			n := other.point_count
 			create point_array.make_empty (n)
 			from i := 0 until i = n loop
-				point_array.extend (other.point_array.item (i).twin)
+				point_array.extend (other.point_array [i].twin)
 				i := i + 1
 			end
 			center := other.center.twin
@@ -128,7 +147,7 @@ feature -- Basic operations
 
 			if a_delta_y /= a_delta_y.zero or a_delta_x /= a_delta_x.zero then
 				from i := 0; nb := points.count - 1 until i > nb loop
-					p := points.item (i)
+					p := points [i]
 					p.set_precise (p.x_precise + a_delta_x, p.y_precise + a_delta_y)
 					i := i + 1
 				end
@@ -178,9 +197,11 @@ feature -- Element change
 		local
 			i: INTEGER
 		do
-			from i := 0 until i = point_array.count loop
-				point_array.item (i).copy (other.point_array [i])
-				i := i + 1
+			if attached point_array as p then
+				from i := 0 until i = p.count loop
+					p [i].copy (other.point_array [i])
+					i := i + 1
+				end
 			end
 			set_center
 			invalidate
@@ -189,19 +210,17 @@ feature -- Element change
 	set_x_y_precise (a_center: EV_COORDINATE)
 		local
 			a_delta_y, a_delta_x: DOUBLE; i, nb: INTEGER
-			l_point_array: SPECIAL [EV_COORDINATE]; l_coordinate: EV_COORDINATE
+			l_coordinate: EV_COORDINATE
 		do
 			a_delta_y := a_center.y_precise - center.y_precise
 			a_delta_x := a_center.x_precise - center.x_precise
-			if a_delta_y /= a_delta_y.zero or a_delta_x /= a_delta_x.zero then
-				l_point_array := point_array
+			if attached point_array as p and then (a_delta_y /= a_delta_y.zero or a_delta_x /= a_delta_x.zero) then
 				from
-					i := 0
-					nb := l_point_array.count - 1
+					i := 0; nb := p.count - 1
 				until
 					i > nb
 				loop
-					l_coordinate := l_point_array.item (i)
+					l_coordinate := p [i]
 					l_coordinate.set_precise (l_coordinate.x_precise + a_delta_x, l_coordinate.y_precise + a_delta_y)
 					i := i + 1
 				end
@@ -220,20 +239,4 @@ feature {NONE} -- Implementation
 			create Result.make_with_points (p1, p2)
 		end
 
-	utmost (a_top_most: BOOLEAN): EV_COORDINATE
-		local
-			i: INTEGER
-		do
-			Result := point_array [0]
-			from i := 1 until i = point_count loop
-				if a_top_most then
-					if point_array.item (i).y_precise < Result.y_precise then
-						Result := point_array [i]
-					end
-				elseif point_array.item (i).y_precise > Result.y_precise then
-					Result := point_array [i]
-				end
-				i := i + 1
-			end
-		end
 end

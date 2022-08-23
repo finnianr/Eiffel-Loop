@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-11 18:18:39 GMT (Friday 11th January 2019)"
-	revision: "4"
+	date: "2022-08-23 11:10:01 GMT (Tuesday 23rd August 2022)"
+	revision: "5"
 
 class
 	EL_CONTENTS_NODE_BUTTON
@@ -25,13 +25,13 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_content_super_link: EL_SUPER_HTML_TEXT_HYPERLINK_AREA; a_plus_pixmap, a_minus_pixmap: EL_SVG_PIXMAP)
+	make (a_content_super_link: EL_SUPER_HTML_TEXT_HYPERLINK_AREA; a_expanded_pixmap: like expanded_pixmap)
 		do
-			content_super_link := a_content_super_link; plus_pixmap := a_plus_pixmap; minus_pixmap := a_minus_pixmap
+			content_super_link := a_content_super_link; expanded_pixmap := a_expanded_pixmap
 			create node_expand_button
 			node_expand_button.select_actions.extend (agent on_hide_show_sub_super_links)
-			node_expand_button.set_pixmap (plus_pixmap)
-			node_expand_button.set_minimum_size (plus_pixmap.width, plus_pixmap.height)
+			node_expand_button.set_pixmap (expanded_pixmap [False])
+			node_expand_button.set_minimum_size (expanded_pixmap.last.width, expanded_pixmap.last.height)
 			make_box (0, 0)
 			extend (create {EV_CELL})
 			extend_unexpanded (node_expand_button)
@@ -48,20 +48,19 @@ feature {NONE} -- Implementation
 		do
 			if is_expanded then
 				content_super_link.hide_sub_links
-				node_expand_button.set_pixmap (plus_pixmap)
 				is_expanded := False
 			else
 				content_super_link.show_sub_links
-				node_expand_button.set_pixmap (minus_pixmap)
 				is_expanded := True
 			end
+			node_expand_button.set_pixmap (expanded_pixmap [is_expanded])
 			-- parent.set_focus
 			-- Needed for windows to prevent focus dots from spoiling graphic but doens't work
 		end
 
 	content_super_link: EL_SUPER_HTML_TEXT_HYPERLINK_AREA
 
-	plus_pixmap, minus_pixmap: EL_SVG_PIXMAP
+	expanded_pixmap: EL_BOOLEAN_INDEXABLE [EL_SVG_PIXMAP]
 
 	node_expand_button: EV_BUTTON
 

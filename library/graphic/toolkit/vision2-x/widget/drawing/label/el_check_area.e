@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-29 15:56:03 GMT (Sunday 29th May 2022)"
-	revision: "3"
+	date: "2022-08-22 14:01:50 GMT (Monday 22nd August 2022)"
+	revision: "4"
 
 class
 	EL_CHECK_AREA
@@ -27,18 +27,16 @@ create
 
 feature {NONE} -- Initialization
 
-	make (checked_image_path: FILE_PATH; a_width: INTEGER)
+	make (a_icon_path_set: like icon_path_set; a_width: INTEGER)
 		require
-			image_exists: checked_image_path.exists
-			unchecked_image_exists: unchecked_image_path (checked_image_path).exists
+			images_exists: a_icon_path_set.all_exist
 		local
 			rect: EL_RECTANGLE
 		do
 			default_create
-			Cache_table.set_new_item_target (Current)
-			internal_image := Cache_table.item (checked_image_path)
-
-			rect := internal_image.checked
+			icon_path_set := a_icon_path_set
+			create checked_drawing_area.make_with_function (agent new_drawing_area)
+			rect := checked_drawing_area [True]
 			rect.scale_to_width (a_width)
 			create canvas.make_with_rectangle (rect)
 			set_minimum_size (rect.width, rect.height)
@@ -72,40 +70,19 @@ feature {NONE} -- Implementation
 
 	image: CAIRO_DRAWING_AREA
 		do
-			if is_checked then
-				Result := internal_image.checked
-			else
-				Result := internal_image.unchecked
-			end
+			Result := checked_drawing_area [is_checked]
 		end
 
-	new_image (checked_image_path: FILE_PATH): like Cache_table.item
+	new_drawing_area (checked: BOOLEAN): CAIRO_DRAWING_AREA
 		do
-			create Result
-			Result.checked := checked_image_path
-			Result.unchecked := unchecked_image_path (checked_image_path)
-		end
-
-	unchecked_image_path (path: FILE_PATH): FILE_PATH
-		do
-			Result := path.parent + (Un_prefix + path.base)
+			Result := icon_path_set [checked]
 		end
 
 feature {NONE} -- Internal attributes
 
 	canvas: CAIRO_DRAWING_AREA
 
-	internal_image: like Cache_table.item
+	checked_drawing_area: EL_BOOLEAN_INDEXABLE [CAIRO_DRAWING_AREA]
 
-feature {NONE} -- Constants
-
-	Cache_table: EL_CACHE_TABLE [TUPLE [checked, unchecked: CAIRO_DRAWING_AREA], FILE_PATH]
-		once
-			create Result.make_equal (5, agent new_image)
-		end
-
-	Un_prefix: ZSTRING
-		once
-			Result := "un"
-		end
+	icon_path_set: EL_FILE_PATH_BINARY_SET
 end

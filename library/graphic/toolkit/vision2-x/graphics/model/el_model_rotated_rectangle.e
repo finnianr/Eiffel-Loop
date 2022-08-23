@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-08-15 8:33:22 GMT (Monday 15th August 2022)"
-	revision: "17"
+	date: "2022-08-18 12:32:23 GMT (Thursday 18th August 2022)"
+	revision: "18"
 
 class
 	EL_MODEL_ROTATED_RECTANGLE
@@ -157,6 +157,11 @@ feature -- Measurement
 	radius: DOUBLE
 		do
 			Result := point_distance (center, point_array.item (0))
+		end
+
+	shorter_dimension: DOUBLE
+		do
+			Result := height_precise.min (width_precise)
 		end
 
 	width_precise: DOUBLE

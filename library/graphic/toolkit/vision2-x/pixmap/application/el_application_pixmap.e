@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-08 7:36:18 GMT (Wednesday 8th June 2022)"
-	revision: "21"
+	date: "2022-08-23 9:55:54 GMT (Tuesday 23rd August 2022)"
+	revision: "22"
 
 deferred class
 	EL_APPLICATION_PIXMAP
@@ -173,7 +173,7 @@ feature -- PNG
 feature -- SVG
 
 	svg_of_height (relative_path: READABLE_STRING_GENERAL; height: INTEGER; background_color: EL_COLOR): EL_SVG_PIXMAP
-			-- Pixmap scaled to height in pixels
+		-- Pixmap scaled to height in pixels
 		do
 			Result := new_svg_pixmap (
 				agent {EL_SVG_PIXMAP}.make_with_height (image_path (relative_path), height, background_color)
@@ -181,7 +181,7 @@ feature -- SVG
 		end
 
 	svg_of_height_cms (relative_path: READABLE_STRING_GENERAL; height_cms: REAL; background_color: EL_COLOR): EL_SVG_PIXMAP
-			-- Pixmap scaled to height in centimeters
+		-- Pixmap scaled to height in centimeters
 		do
 			Result := new_svg_pixmap (
 				agent {EL_SVG_PIXMAP}.make_with_height_cms (image_path (relative_path), height_cms, background_color)
@@ -189,7 +189,7 @@ feature -- SVG
 		end
 
 	svg_of_width (relative_path: READABLE_STRING_GENERAL; width: INTEGER; background_color: EL_COLOR): EL_SVG_PIXMAP
-			-- Pixmap scaled to width in pixels
+		-- Pixmap scaled to width in pixels
 		do
 			Result := new_svg_pixmap (
 				agent {EL_SVG_PIXMAP}.make_with_width (image_path (relative_path), width, background_color)
@@ -197,7 +197,7 @@ feature -- SVG
 		end
 
 	svg_of_width_cms (relative_path: READABLE_STRING_GENERAL; width_cms: REAL; background_color: EL_COLOR): EL_SVG_PIXMAP
-			-- Pixmap scaled to width in centimeters
+		-- Pixmap scaled to width in centimeters
 		do
 			Result := new_svg_pixmap (
 				agent {EL_SVG_PIXMAP}.make_with_width_cms (image_path (relative_path), width_cms, background_color)

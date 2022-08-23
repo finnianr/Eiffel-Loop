@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-31 16:26:55 GMT (Tuesday 31st May 2022)"
-	revision: "24"
+	date: "2022-08-19 17:36:42 GMT (Friday 19th August 2022)"
+	revision: "25"
 
 class
 	EL_RECTANGLE
@@ -269,7 +269,7 @@ feature -- Element change
 				height := size
 			end
 		ensure
-			proportions_unchanged: approximately_equal (old (height / width), height / width, 0.03)
+			proportions_unchanged: old (height / width).rounded = (height / width).rounded
 		end
 
 	scale_to_width (a_width: INTEGER)
