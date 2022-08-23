@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-08-23 10:31:28 GMT (Tuesday 23rd August 2022)"
-	revision: "1"
+	date: "2022-08-23 13:40:33 GMT (Tuesday 23rd August 2022)"
+	revision: "2"
 
 class
 	EL_FILE_PATH_BINARY_SET
@@ -16,7 +16,10 @@ inherit
 	EL_BOOLEAN_INDEXABLE [FILE_PATH]
 
 create
-	make_with_prefix, make, make_with_function
+	make_with_prefix, make, make_with_function, make_with_tuple
+
+convert
+	make_with_tuple ({TUPLE [FILE_PATH, FILE_PATH]}), make_with_function ({FUNCTION [BOOLEAN, FILE_PATH]})
 
 feature {NONE} -- Initialization
 

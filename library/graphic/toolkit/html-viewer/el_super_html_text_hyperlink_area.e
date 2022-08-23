@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-11 18:51:49 GMT (Friday 11th January 2019)"
-	revision: "3"
+	date: "2022-08-23 13:39:00 GMT (Tuesday 23rd August 2022)"
+	revision: "4"
 
 class
 	EL_SUPER_HTML_TEXT_HYPERLINK_AREA
@@ -35,12 +35,24 @@ feature -- Basic operations
 
 	hide_sub_links
 		do
-			sub_links.do_all (agent {EL_HTML_TEXT_HYPERLINK_AREA}.hide)
+			change_sub_links (False)
 		end
 
 	show_sub_links
 		do
-			sub_links.do_all (agent {EL_HTML_TEXT_HYPERLINK_AREA}.show)
+			change_sub_links (True)
+		end
+
+	change_sub_links (visible: BOOLEAN)
+		-- change sub-link visibility
+		do
+			across sub_links as link loop
+				if visible then
+					link.item.show
+				else
+					link.item.hide
+				end
+			end
 		end
 
 feature -- Access
