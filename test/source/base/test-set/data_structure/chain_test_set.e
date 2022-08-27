@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-04 10:21:37 GMT (Friday 4th February 2022)"
-	revision: "18"
+	date: "2022-08-27 19:54:25 GMT (Saturday 27th August 2022)"
+	revision: "19"
 
 class
 	CHAIN_TEST_SET
@@ -33,6 +33,7 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			eval.call ("circular_indexing", agent test_circular_indexing)
+			eval.call ("converted_list", agent test_converted_list)
 			eval.call ("find_predicate", agent test_find_predicate)
 			eval.call ("mapping", agent test_mapping)
 			eval.call ("order_by_color_name", agent test_order_by_color_name)
@@ -67,6 +68,17 @@ feature -- Test
 			from i := 1 until i > list.count loop
 				assert ("same item", list.i_th (list.count - (i - 1)) = list.circular_i_th (i.opposite))
 				i := i + 1
+			end
+		end
+
+	test_converted_list
+		local
+			list: EL_CONVERTED_LIST [STRING, WIDGET]
+		do
+			create list.make (Widget_list, agent {WIDGET}.color_name)
+			assert ("same count", list.count = Widget_list.count)
+			across Widget_list as l loop
+				assert ("same string", l.item.color_name ~ list [l.cursor_index])
 			end
 		end
 
