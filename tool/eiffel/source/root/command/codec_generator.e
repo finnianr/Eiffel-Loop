@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 12:03:50 GMT (Tuesday 15th February 2022)"
-	revision: "18"
+	date: "2022-09-02 7:51:42 GMT (Friday 2nd September 2022)"
+	revision: "19"
 
 class
 	CODEC_GENERATOR
@@ -20,9 +20,9 @@ inherit
 			make as make_machine
 		end
 
-	EL_MODULE_EVOLICITY_TEMPLATES
-
 	EL_MODULE_LIO
+
+	EVOLICITY_SHARED_TEMPLATES
 
 create
 	make

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "17"
+	date: "2022-09-02 9:07:52 GMT (Friday 2nd September 2022)"
+	revision: "19"
 
 class
 	EVOLICITY_EVALUATE_DIRECTIVE
@@ -27,17 +27,10 @@ feature -- Initialization
 			--
 		do
 			Precursor
-			create template_name.make_empty
 			create template_name_variable_ref.make_empty
 		end
 
 feature -- Element change
-
-	set_template_name (a_name: ZSTRING)
-			--
-		do
-			template_name := a_name
-		end
 
 	set_template_name_variable_ref (a_template_name_variable_ref: like template_name_variable_ref)
 			--
@@ -53,8 +46,8 @@ feature -- Basic operations
 			new_line_split: EL_SPLIT_ZSTRING_ON_CHARACTER; template_path: FILE_PATH
 		do
 			if attached {EVOLICITY_CONTEXT} context.referenced_item (variable_ref) as new_context then
-				if not template_name.is_empty then
-					template_path := template_name
+				if attached template_file_path (context) as path then
+					template_path := path
 
 				elseif not template_name_variable_ref.is_empty
 					and then attached {FILE_PATH} context.referenced_item (template_name_variable_ref) as context_template_name
@@ -89,8 +82,6 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Internal attributes
-
-	template_name: ZSTRING
 
 	template_name_variable_ref: EVOLICITY_VARIABLE_REFERENCE
 

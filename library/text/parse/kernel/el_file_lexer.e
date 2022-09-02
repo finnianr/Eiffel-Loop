@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 11:38:55 GMT (Sunday 3rd January 2021)"
-	revision: "5"
+	date: "2022-09-02 7:30:35 GMT (Friday 2nd September 2022)"
+	revision: "7"
 
 deferred class
 	EL_FILE_LEXER
@@ -22,6 +22,8 @@ inherit
 		redefine
 			make_default
 		end
+
+	EL_EIFFEL_TEXT_PATTERN_FACTORY
 
 feature {NONE} -- Initialization
 
@@ -48,7 +50,7 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	debug_consume_events
-			-- Turn on trace
+		-- Turn on trace
 		do
 			debug ("EL_FILE_LEXER")
 				from
@@ -69,17 +71,20 @@ feature {NONE} -- Implementation
 	add_token (token_value: NATURAL_32; token_text: EL_STRING_VIEW)
 			--
 		do
---			log.enter_with_args ("add_token", << token_text >>)
 			tokens_text.append_code (token_value)
 			token_text_array.extend (token_text.interval)
---			log.exit
 		end
 
 	add_token_action (token_id: NATURAL_32): like default_action
-			-- Action to add token_id to the list of parser tokens
-			-- '?' reserves a place for the source text view that matched the token
+		-- Action to add token_id to the list of parser tokens
+		-- '?' reserves a place for the source text view that matched the token
 		do
 			Result := agent add_token (token_id, ?)
+		end
+
+	text_token (word: STRING; id: NATURAL): like string_literal
+		do
+			Result := string_literal (word) |to| add_token_action (id)
 		end
 
 end

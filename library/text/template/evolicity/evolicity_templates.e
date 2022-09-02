@@ -1,6 +1,6 @@
 note
 	description: "[
-		Top level class for Evolicity accessible though [$source EL_MODULE_EVOLICITY_TEMPLATES]
+		Top level class for Evolicity accessible via class [$source EVOLICITY_SHARED_TEMPLATES]
 
 		The templating substitution language was named `Evolicity' as a portmanteau of "Evolve" and "Felicity" 
 		which is also a partial anagram of "Velocity" the Apache project which inspired it. 
@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-04-23 13:33:13 GMT (Saturday 23rd April 2022)"
-	revision: "21"
+	date: "2022-09-02 8:15:00 GMT (Friday 2nd September 2022)"
+	revision: "22"
 
 class
 	EVOLICITY_TEMPLATES

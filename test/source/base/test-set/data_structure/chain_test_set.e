@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-08-27 19:54:25 GMT (Saturday 27th August 2022)"
-	revision: "19"
+	date: "2022-09-02 8:11:08 GMT (Friday 2nd September 2022)"
+	revision: "20"
 
 class
 	CHAIN_TEST_SET
@@ -73,9 +73,10 @@ feature -- Test
 
 	test_converted_list
 		local
-			list: EL_CONVERTED_LIST [STRING, WIDGET]
+			factory: EL_LIST_FACTORY [STRING, WIDGET];list: LIST [STRING]
 		do
-			create list.make (Widget_list, agent {WIDGET}.color_name)
+			create factory
+			list := factory.new_arrayed_list (Widget_list, agent {WIDGET}.color_name)
 			assert ("same count", list.count = Widget_list.count)
 			across Widget_list as l loop
 				assert ("same string", l.item.color_name ~ list [l.cursor_index])

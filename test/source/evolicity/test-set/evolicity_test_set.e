@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-22 15:09:55 GMT (Saturday 22nd January 2022)"
-	revision: "8"
+	date: "2022-09-02 7:49:29 GMT (Friday 2nd September 2022)"
+	revision: "9"
 
 class
 	EVOLICITY_TEST_SET
@@ -26,7 +26,7 @@ inherit
 
 	EIFFEL_LOOP_TEST_ROUTINES
 
-	EL_MODULE_EVOLICITY_TEMPLATES
+	EVOLICITY_SHARED_TEMPLATES
 
 feature -- Basic operations
 

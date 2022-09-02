@@ -6,25 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 12:48:28 GMT (Sunday 10th January 2021)"
-	revision: "7"
+	date: "2022-09-02 8:49:48 GMT (Friday 2nd September 2022)"
+	revision: "9"
 
 class
 	EVOLICITY_FILE_LEXER
 
 inherit
 	EL_FILE_LEXER
+		rename
+			identifier as evolicity_identifier,
+			quoted_string as quoted_string_pattern,
+			token as token_pattern
 		redefine
 			make_default
 		end
 
-	EL_EIFFEL_TEXT_PATTERN_FACTORY
-		rename
-			identifier as evolicity_identifier,
-			quoted_string as quoted_string_patterh
-		end
-
-	EVOLICITY_TOKENS
+	EVOLICITY_SHARED_TOKEN_ENUM
 
 	STRING_HANDLER
 
@@ -37,7 +35,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor
-			set_unmatched_action (add_token_action (Free_text))
+			set_unmatched_action (add_token_action (Token.Free_text))
 		end
 
 feature {NONE} -- Patterns
@@ -47,11 +45,11 @@ feature {NONE} -- Patterns
 		do
 			Result := all_of_separated_by (maybe_non_breaking_white_space,
 
-			<< string_literal ("across")	|to| add_token_action (Keyword_across),
+			<< text_token ("across", Token.keyword_across),
 				variable_reference,
-				string_literal ("as") 		|to| add_token_action (Keyword_as),
+				text_token ("as", Token.keyword_as),
 				variable_reference,
-				string_literal ("loop") 	|to| add_token_action (Keyword_loop)
+				text_token ("loop", Token.keyword_loop)
 			>>)
 		end
 
@@ -64,8 +62,8 @@ feature {NONE} -- Patterns
 					all_of (<<
 						maybe_non_breaking_white_space,
 						one_of (<<
-							string_literal ("and") 	|to| add_token_action (Boolean_and_operator),
-							string_literal ("or") 	|to| add_token_action (Boolean_or_operator)
+							text_token ("and", Token.keyword_and),
+							text_token ("or", Token.keyword_or)
 						>>),
 						maybe_non_breaking_white_space,
 						simple_boolean_expression
@@ -92,10 +90,10 @@ feature {NONE} -- Patterns
 			--
 		do
 			Result := one_of (<<
-				string_literal (">")  |to| add_token_action (Greater_than_operator),
-				string_literal ("<")  |to| add_token_action (Less_than_operator),
-				string_literal ("=")  |to| add_token_action (Equal_to_operator),
-				string_literal ("/=") |to| add_token_action (Not_equal_to_operator)
+				text_token (">", Token.operator_greater_than),
+				text_token ("<", Token.operator_less_than),
+				text_token ("=", Token.operator_equal_to),
+				text_token ("/=", Token.operator_not_equal_to)
 --				string_literal ("is_type") |to| add_token_action (Is_type_of_operator)
 			>>)
 		end
@@ -104,9 +102,9 @@ feature {NONE} -- Patterns
 			--
 		do
 			Result := one_of (<<
-				quoted_manifest_string (Default_action)	|to| add_token_action (Quoted_string),
-				double_constant									|to| add_token_action (Double_constant_token),
-				integer_constant 									|to| add_token_action (Integer_64_constant_token)
+				quoted_manifest_string (Default_action)	|to| add_token_action (Token.Quoted_string),
+				double_constant									|to| add_token_action (Token.double_constant),
+				integer_constant 									|to| add_token_action (Token.integer_64_constant)
 			>>)
 		end
 
@@ -117,7 +115,7 @@ feature {NONE} -- Patterns
 			-- if [ $$RETVAL -eq 0 ]
 			-- then
 		do
-			Result := string_literal ("$$") |to| add_token_action (Double_dollor_sign)
+			Result := text_token ("$$", Token.Double_dollor_sign)
 		end
 
 	evaluate_directive: like all_of
@@ -125,10 +123,11 @@ feature {NONE} -- Patterns
 		do
 			Result := all_of_separated_by (maybe_non_breaking_white_space,
 
-			<< string_literal ("evaluate") 	|to| agent on_evaluate (Keyword_evaluate, ?),
+			<< string_literal ("evaluate") |to| agent on_evaluate (Token.keyword_evaluate, ?),
 				character_literal ('('),
 				one_of (<<
-					template_name_by_class	   |to| add_token_action (Template_name_identifier),
+					quoted_manifest_string (Default_action) |to| add_token_action (Token.Quoted_string),
+					template_name_by_class |to| add_token_action (Token.Template_name_identifier),
 					variable_reference
 				>>),
 				character_literal (','),
@@ -142,11 +141,11 @@ feature {NONE} -- Patterns
 		do
 			Result := all_of_separated_by (maybe_non_breaking_white_space,
 
-			<<  string_literal ("foreach")	|to| add_token_action (Keyword_foreach),
+			<< text_token ("foreach", Token.keyword_foreach),
 				variable_reference,
-				string_literal ("in") 			|to| add_token_action (Keyword_in),
+				text_token ("in", Token.keyword_in),
 				variable_reference,
-				string_literal ("loop") 		|to| add_token_action (Keyword_loop)
+				text_token ("loop", Token.keyword_loop)
 			>>)
 		end
 
@@ -161,7 +160,7 @@ feature {NONE} -- Patterns
 					all_of (<< maybe_non_breaking_white_space, right_bracket_pattern >>),
 					all_of (<<
 						maybe_non_breaking_white_space,
-						character_literal (',') 			|to| add_token_action (Comma_sign),
+						character_literal (',') |to| add_token_action (Token.Comma_sign),
 						maybe_non_breaking_white_space,
 						constant
 					>>)
@@ -172,11 +171,8 @@ feature {NONE} -- Patterns
 	if_directive: like all_of
 			-- if <simple boolean expression> then
 		do
-			Result := all_of_separated_by (maybe_non_breaking_white_space,
-
-			<<	string_literal ("if") 	|to| add_token_action (Keyword_if),
-				boolean_expression,
-				string_literal ("then") |to| add_token_action (Keyword_then)
+			Result := all_of_separated_by (maybe_non_breaking_white_space, <<
+				text_token ("if", Token.keyword_if), boolean_expression, text_token ("then", Token.keyword_then)
 			>>)
 		end
 
@@ -184,8 +180,13 @@ feature {NONE} -- Patterns
 			-- include ($<variable name>)
 		do
 			Result := all_of_separated_by (maybe_non_breaking_white_space, <<
-				string_literal ("include") |to| agent on_include (Keyword_include, ?),
-				character_literal ('('), variable_reference, character_literal (')')
+				string_literal ("include") |to| agent on_include (Token.keyword_include, ?),
+				character_literal ('('),
+				one_of (<<
+					quoted_manifest_string (Default_action) |to| add_token_action (Token.Quoted_string),
+					variable_reference
+				>>),
+				character_literal (')')
 			>>)
 		end
 
@@ -199,7 +200,7 @@ feature {NONE} -- Patterns
 	left_bracket_pattern: like character_literal
 			--
 		do
-			Result := character_literal ('(') |to| add_token_action (Left_bracket)
+			Result := character_literal ('(') |to| add_token_action (Token.Left_bracket)
 		end
 
 	new_pattern: EL_TEXT_PATTERN
@@ -220,11 +221,11 @@ feature {NONE} -- Patterns
 			--
 		do
 			Result := all_of (<<
-				evolicity_identifier 				|to| add_token_action (Unqualified_name),
+				evolicity_identifier 				|to| add_token_action (Token.Unqualified_name),
 				zero_or_more (
 					all_of (<<
-						character_literal ('.') 	|to| add_token_action (Dot_operator),
-						evolicity_identifier 		|to| add_token_action (Unqualified_name)
+						character_literal ('.') 	|to| add_token_action (Token.operator_dot),
+						evolicity_identifier 		|to| add_token_action (Token.Unqualified_name)
 					>>)
 				),
 				optional (function_call_pattern)
@@ -234,7 +235,7 @@ feature {NONE} -- Patterns
 	right_bracket_pattern: like character_literal
 			--
 		do
-			Result := character_literal (')') |to| add_token_action (Right_bracket)
+			Result := character_literal (')') |to| add_token_action (Token.Right_bracket)
 		end
 
 	simple_boolean_expression: like one_of
@@ -243,7 +244,7 @@ feature {NONE} -- Patterns
 			Result := one_of (<<
 				boolean_value,
 				all_of (<<
-					string_literal ("not") |to| add_token_action (Boolean_not_operator),
+					text_token ("not", Token.keyword_not),
 					maybe_non_breaking_white_space,
 					one_of (<< variable_reference, bracketed_boolean_value >>)
 				>>)
@@ -286,11 +287,11 @@ feature {NONE} -- Patterns
 				leading_white_space,
 				character_literal ('#'),
 				one_of (<<
-					string_literal ("end") 			|to| add_token_action (Keyword_end),
+					text_token ("end", Token.keyword_end),
 					if_directive,
 					across_directive,
 					foreach_directive,
-					string_literal ("else") 		|to| add_token_action (Keyword_else),
+					text_token ("else", Token.keyword_else),
 					evaluate_directive,
 					include_directive
 				>>),
@@ -306,7 +307,7 @@ feature {NONE} -- Actions
 		do
 			tokens_text.append_code (keyword_token)
 			token_text_array.extend (token_text.interval)
-			tokens_text.append_code (White_text)
+			tokens_text.append_code (Token.White_text)
 			token_text_array.extend (leading_space_text)
 		end
 
@@ -316,14 +317,8 @@ feature {NONE} -- Actions
 			leading_space_text := text.interval
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Internal attributes
 
 	leading_space_text: INTEGER_64
 
-feature {NONE} -- Constants
-
-	Template_ending: ZSTRING
-		once
-			Result := "}.template"
-		end
 end

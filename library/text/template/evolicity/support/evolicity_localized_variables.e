@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-26 14:12:42 GMT (Sunday 26th September 2021)"
-	revision: "5"
+	date: "2022-09-02 7:43:08 GMT (Friday 2nd September 2022)"
+	revision: "6"
 
 deferred class
 	EVOLICITY_LOCALIZED_VARIABLES
@@ -23,7 +23,7 @@ deferred class
 inherit
 	EL_MODULE_DEFERRED_LOCALE
 
-	EL_MODULE_EVOLICITY_TEMPLATES
+	EVOLICITY_SHARED_TEMPLATES
 
 feature {NONE} -- Evolicity fields
 

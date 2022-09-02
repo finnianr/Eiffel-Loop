@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:23:02 GMT (Sunday 19th December 2021)"
-	revision: "2"
+	date: "2022-09-02 8:51:04 GMT (Friday 2nd September 2022)"
+	revision: "4"
 
 deferred class
 	EVOLICITY_PARSE_ACTIONS
 
 inherit
-	EVOLICITY_TOKENS
+	EVOLICITY_SHARED_TOKEN_ENUM
 
 feature {NONE} -- Initialization
 
@@ -39,8 +39,7 @@ feature {NONE} -- Actions
 		local
 			boolean_conjunction_expression: EVOLICITY_BOOLEAN_CONJUNCTION_EXPRESSION
 		do
---			log.enter ("on_boolean_conjunction_expression")
-			if tokens_matched.code (1) = Boolean_and_operator then
+			if tokens_matched.code (1) = Token.keyword_and then
 				create {EVOLICITY_BOOLEAN_AND_EXPRESSION} boolean_conjunction_expression.make (boolean_expression_stack.item)
 			else
 				create {EVOLICITY_BOOLEAN_OR_EXPRESSION} boolean_conjunction_expression.make (boolean_expression_stack.item)
@@ -49,7 +48,6 @@ feature {NONE} -- Actions
 			boolean_conjunction_expression.set_left_hand_expression (boolean_expression_stack.item)
 			boolean_expression_stack.remove
 			boolean_expression_stack.put (boolean_conjunction_expression)
---			log.exit
 		end
 
 	on_boolean_not_expression (tokens_matched: EL_STRING_VIEW)
@@ -59,11 +57,9 @@ feature {NONE} -- Actions
 		local
 			boolean_not: EVOLICITY_BOOLEAN_NOT_EXPRESSION
 		do
---			log.enter ("boolean_not_expression")
 			create boolean_not.make (boolean_expression_stack.item)
 			boolean_expression_stack.remove
 			boolean_expression_stack.put (boolean_not)
---			log.exit
 		end
 
 	on_boolean_variable (tokens_matched: EL_STRING_VIEW)
@@ -71,31 +67,39 @@ feature {NONE} -- Actions
 		local
 			boolean_variable: EVOLICITY_BOOLEAN_REFERENCE_EXPRESSION
 		do
---			log.enter ("on_boolean_variable")
 			create boolean_variable.make (tokens_to_variable_ref (tokens_matched))
 			boolean_expression_stack.put (boolean_variable)
---			log.exit
+		end
+
+	on_comparable (type: NATURAL; tokens_matched: EL_STRING_VIEW)
+			--
+		require
+			valid_comparison_text: valid_comparison_text (type, tokens_matched)
+		local
+			comparable: EVOLICITY_COMPARABLE; str: ZSTRING
+		do
+  			if type = Token.integer_64_constant then
+				str := source_text_for_token (1, tokens_matched)
+	  			create {EVOLICITY_INTEGER_64_COMPARABLE} comparable.make_from_string (str)
+
+  			elseif type = Token.double_constant then
+				str := source_text_for_token (1, tokens_matched)
+				create {EVOLICITY_DOUBLE_COMPARABLE} comparable.make_from_string (str)
+			else
+				create {EVOLICITY_COMPARABLE_VARIABLE} comparable.make (tokens_to_variable_ref (tokens_matched))
+  			end
+  			number_stack.put (comparable)
 		end
 
 	on_comparison_expression (tokens_matched: EL_STRING_VIEW)
 			--
 		do
---			log.enter ("on_comparison_expression")
   			numeric_comparison_stack.item.set_right_hand_expression (number_stack.item)
   			number_stack.remove
   			numeric_comparison_stack.item.set_left_hand_expression (number_stack.item)
   			number_stack.remove
   			boolean_expression_stack.put (numeric_comparison_stack.item)
   			numeric_comparison_stack.remove
---			log.exit
-		end
-
-	on_comparison_variable_reference (tokens_matched: EL_STRING_VIEW)
-			--
-		do
---			log.enter ("on_comparison_variable_reference")
-			number_stack.put (create {EVOLICITY_COMPARABLE_VARIABLE}.make (tokens_to_variable_ref (tokens_matched)))
---			log.exit
 		end
 
 	on_dollor_sign_escape (tokens_matched: EL_STRING_VIEW)
@@ -110,64 +114,30 @@ feature {NONE} -- Actions
 			end
 		end
 
-	on_double_comparison (tokens_matched: EL_STRING_VIEW)
+	on_evaluate (id: NATURAL; tokens_matched: EL_STRING_VIEW)
 			--
-		require
-			valid_text: source_text_for_token (1, tokens_matched).is_double
-		local
-			comparable_double: EVOLICITY_DOUBLE_COMPARABLE
 		do
---			log.enter ("on_double_comparison")
-			create comparable_double.make_from_string (source_text_for_token (1, tokens_matched))
-  			number_stack.put (comparable_double)
---			log.exit
-		end
+			if id = Token.Keyword_evaluate then
+				create last_evaluate_directive.make
+				compound_directive.extend (last_evaluate_directive)
 
-	on_else (tokens_matched: EL_STRING_VIEW)
-			--
-		do
---			log.enter ("on_else")
-			if_else_directive_stack.item.set_if_true_interval
---			log.exit
-		end
+			elseif id = Token.White_text then
+				--	leading space
+				set_nested_directive_indent (last_evaluate_directive, tokens_matched)
 
-	on_equal_to_numeric_comparison (tokens_matched: EL_STRING_VIEW)
-			--
-		do
---			log.enter ("on_equal_to_numeric_comparison")
-  			numeric_comparison_stack.put (create {EVOLICITY_EQUAL_TO_COMPARISON})
---			log.exit
-		end
+			elseif id = Token.Template_name_identifier then
+				last_evaluate_directive.set_template_name (source_text_for_token (1, tokens_matched))
 
-	on_evaluate (tokens_matched: EL_STRING_VIEW)
-			--
-		do
-			create last_evaluate_directive.make
-			compound_directive.extend (last_evaluate_directive)
-		end
-
-	on_evaluate_leading_space (tokens_matched: EL_STRING_VIEW)
-			--
-		do
-			set_nested_directive_indent (last_evaluate_directive, tokens_matched)
-		end
-
-	on_evaluate_template_identifier (tokens_matched: EL_STRING_VIEW)
-			--
-		do
-			last_evaluate_directive.set_template_name (source_text_for_token (1, tokens_matched))
-		end
-
-	on_evaluate_template_name_reference (tokens_matched: EL_STRING_VIEW)
-			--
-		do
-			last_evaluate_directive.set_template_name_variable_ref (tokens_to_variable_ref (tokens_matched))
-		end
-
-	on_evaluate_variable_reference (tokens_matched: EL_STRING_VIEW)
-			--
-		do
-			last_evaluate_directive.set_variable_ref (tokens_to_variable_ref (tokens_matched))
+			elseif id = Token.Quoted_string then
+				if attached source_text_for_token (1, tokens_matched) as str then
+					str.remove_quotes
+					last_evaluate_directive.set_template_name (str)
+				end
+			elseif id = Token.operator_dot then
+				last_evaluate_directive.set_template_name_variable_ref (tokens_to_variable_ref (tokens_matched))
+			else
+				last_evaluate_directive.set_variable_ref (tokens_to_variable_ref (tokens_matched))
+			end
 		end
 
 	on_free_text (tokens_matched: EL_STRING_VIEW)
@@ -175,145 +145,106 @@ feature {NONE} -- Actions
 		local
 			free_text_string: ZSTRING
 		do
---			log.enter ("on_free_text")
 			free_text_string := source_text_for_token (1, tokens_matched)
---			log.put_string_field ("TEXT", free_text_string )
---			log.put_new_line
 			compound_directive.extend (create {EVOLICITY_FREE_TEXT_DIRECTIVE}.make (free_text_string))
---			log.exit
 		end
 
-	on_greater_than_numeric_comparison (tokens_matched: EL_STRING_VIEW)
+	on_if (id: NATURAL; tokens_matched: EL_STRING_VIEW)
 			--
 		do
---			log.enter ("on_greater_than_numeric_comparison")
-  			numeric_comparison_stack.put (create {EVOLICITY_GREATER_THAN_COMPARISON})
---			log.exit
-		end
+			if id = Token.Keyword_if then
+				compound_directive_stack.put (compound_directive)
+				if_else_directive_stack.put (create {EVOLICITY_IF_ELSE_DIRECTIVE}.make)
+				compound_directive := if_else_directive_stack.item
 
-	on_if (tokens_matched: EL_STRING_VIEW)
-			--
-		do
---			log.enter ("on_if")
-			compound_directive_stack.put (compound_directive)
-			if_else_directive_stack.put (create {EVOLICITY_IF_ELSE_DIRECTIVE}.make)
-			compound_directive := if_else_directive_stack.item
---			log.exit
-		end
+			elseif id = Token.Keyword_then then
+	  			if_else_directive_stack.item.set_boolean_expression (boolean_expression_stack.item)
+	  			boolean_expression_stack.remove
 
-	on_if_else_end (tokens_matched: EL_STRING_VIEW)
-			--
-		do
---			log.enter ("on_if_else_end")
-			compound_directive := compound_directive_stack.item
-			compound_directive_stack.remove
+	  		elseif id = Token.Keyword_else then
+				if_else_directive_stack.item.set_if_true_interval
 
-			if_else_directive_stack.item.set_if_false_interval
-			compound_directive.extend (if_else_directive_stack.item)
-			if_else_directive_stack.remove
---			log.exit
-		end
+			elseif id = Token.Keyword_end then
+				compound_directive := compound_directive_stack.item
+				compound_directive_stack.remove
 
-	on_if_then (tokens_matched: EL_STRING_VIEW)
-			--
-		do
---			log.enter ("on_if_then")
-  			if_else_directive_stack.item.set_boolean_expression (boolean_expression_stack.item)
-  			boolean_expression_stack.remove
---			log.exit
-		end
-
-	on_include (tokens_matched: EL_STRING_VIEW)
-			--
-		do
-			create last_include_directive.make
-			compound_directive.extend (last_include_directive)
-		end
-
-	on_include_leading_space (tokens_matched: EL_STRING_VIEW)
-			--
-		do
-			set_nested_directive_indent (last_include_directive, tokens_matched)
-		end
-
-	on_include_variable_reference (tokens_matched: EL_STRING_VIEW)
-			--
-		do
-			last_include_directive.set_variable_ref (tokens_to_variable_ref (tokens_matched))
-		end
-
-	on_integer_64_comparison (tokens_matched: EL_STRING_VIEW)
-			--
-		require
-			valid_text: source_text_for_token (1, tokens_matched).is_integer_64
-		local
-			comparable_integer: EVOLICITY_INTEGER_64_COMPARABLE
-		do
---			log.enter ("on_integer_64_comparison")
-  			create comparable_integer.make_from_string (source_text_for_token (1, tokens_matched))
-  			number_stack.put (comparable_integer)
---			log.exit
-		end
-
-	on_less_than_numeric_comparison (tokens_matched: EL_STRING_VIEW)
-			--
-		do
---			log.enter ("on_less_than_numeric_comparison")
-  			numeric_comparison_stack.put (create {EVOLICITY_LESS_THAN_COMPARISON})
---			log.exit
-		end
-
-	on_loop_directive (tokens_matched: EL_STRING_VIEW; across_syntax: BOOLEAN)
-			--
-		do
---			log.enter ("on_loop_directive")
-			compound_directive_stack.put (compound_directive)
-			if across_syntax then
-				loop_directive_stack.put (create {EVOLICITY_ACROSS_DIRECTIVE}.make)
-			else
-				loop_directive_stack.put (create {EVOLICITY_FOREACH_DIRECTIVE}.make)
+				if_else_directive_stack.item.set_if_false_interval
+				compound_directive.extend (if_else_directive_stack.item)
+				if_else_directive_stack.remove
 			end
-			compound_directive := loop_directive_stack.item
---			log.exit
 		end
 
-	on_loop_end (tokens_matched: EL_STRING_VIEW)
+	on_include (id: NATURAL; tokens_matched: EL_STRING_VIEW)
 			--
 		do
---			log.enter ("on_loop_end")
-			compound_directive := compound_directive_stack.item
-			compound_directive_stack.remove
+			if id = Token.Keyword_include then
+				create last_include_directive.make
+				compound_directive.extend (last_include_directive)
 
-			compound_directive.extend (loop_directive_stack.item)
-			loop_directive_stack.remove
---			log.exit
+			elseif id = Token.White_text then
+				-- leading space
+				set_nested_directive_indent (last_include_directive, tokens_matched)
+
+			elseif id = Token.Quoted_string then
+				if attached source_text_for_token (1, tokens_matched) as str then
+					str.remove_quotes
+					last_include_directive.set_template_name (str)
+				end
+
+			elseif id = Token.operator_dot then
+				last_include_directive.set_variable_ref (tokens_to_variable_ref (tokens_matched))
+			end
 		end
 
-	on_loop_iterator (tokens_matched: EL_STRING_VIEW)
+	on_loop (id: NATURAL; tokens_matched: EL_STRING_VIEW)
 			--
 		do
---			log.enter ("on_loop_iterator")
-			loop_directive_stack.item.set_var_iterator (
-				tokens_to_variable_ref (tokens_matched) @ 1
-			)
---			log.exit
+			if Token.loop_keywords.has (id) then
+				compound_directive_stack.put (compound_directive)
+				if id = Token.Keyword_across then
+					loop_directive_stack.put (create {EVOLICITY_ACROSS_DIRECTIVE}.make)
+				else
+					loop_directive_stack.put (create {EVOLICITY_FOREACH_DIRECTIVE}.make)
+				end
+				compound_directive := loop_directive_stack.item
+
+			elseif id = Token.keyword_in then
+				loop_directive_stack.item.set_traversable_container_variable_ref (
+					tokens_to_variable_ref (tokens_matched)
+				)
+			elseif id = Token.keyword_as then
+				loop_directive_stack.item.set_var_iterator (tokens_to_variable_ref (tokens_matched) @ 1)
+
+			elseif id  = Token.keyword_end then
+				compound_directive := compound_directive_stack.item
+				compound_directive_stack.remove
+
+				compound_directive.extend (loop_directive_stack.item)
+				loop_directive_stack.remove
+			end
 		end
 
-	on_loop_traversable_container (tokens_matched: EL_STRING_VIEW)
+	on_numeric_comparison (symbol: CHARACTER; tokens_matched: EL_STRING_VIEW)
 			--
+		local
+			comparison: EVOLICITY_COMPARISON
 		do
---			log.enter ("on_loop_traversable_container")
-			loop_directive_stack.item.set_traversable_container_variable_ref (
-				tokens_to_variable_ref (tokens_matched)
-			)
---			log.exit
+			inspect symbol
+				when '<' then
+		  			create {EVOLICITY_LESS_THAN_COMPARISON} comparison
+		  		when '>' then
+		  			create {EVOLICITY_GREATER_THAN_COMPARISON} comparison
+		  		when '=' then
+					create {EVOLICITY_EQUAL_TO_COMPARISON} comparison
+			else
+				create {EVOLICITY_EQUAL_TO_COMPARISON} comparison
+			end
+			numeric_comparison_stack.put (comparison)
 		end
 
 	on_simple_comparison_expression (tokens_matched: EL_STRING_VIEW)
 			--
 		do
---			log.enter ("on_simple_comparison_expression")
---			log.exit
 		end
 
 	on_variable_reference (tokens_matched: EL_STRING_VIEW)
@@ -344,7 +275,7 @@ feature {NONE} -- Implementation
 
 	function_arguments (position: INTEGER; tokens_matched: EL_STRING_VIEW): TUPLE
 		require
-			start_position_is_left_bracket: tokens_matched.code (position) = Left_bracket
+			start_position_is_left_bracket: tokens_matched.code (position) = Token.Left_bracket
 		local
 			i: INTEGER; i_th_token: NATURAL_32; string_arg: ZSTRING
 			buffer: like Argument_buffer
@@ -353,15 +284,15 @@ feature {NONE} -- Implementation
 			buffer.wipe_out
 			from i := position + 1 until i > tokens_matched.count loop
 				i_th_token := tokens_matched.code (i)
-				if i_th_token = Quoted_string then
+				if i_th_token = Token.Quoted_string then
 					string_arg := source_text_for_token (i, tokens_matched)
 					string_arg.remove_quotes
 					buffer.extend (string_arg)
 
-				elseif i_th_token = Double_constant_token then
+				elseif i_th_token = Token.double_constant then
 					buffer.extend (source_text_for_token (i, tokens_matched).to_double)
 
-				elseif i_th_token = Integer_64_constant_token then
+				elseif i_th_token = Token.integer_64_constant then
 					buffer.extend (source_text_for_token (i, tokens_matched).to_integer_64)
 
 				end
@@ -393,20 +324,30 @@ feature {NONE} -- Implementation
 		local
 			i: INTEGER
 		do
---			log.enter ("tokens_to_variable_ref")
-			create Result.make (tokens_matched.occurrences (Unqualified_name))
-			from i := 1 until i > tokens_matched.count or else tokens_matched.code (i) = Left_bracket loop
-				if tokens_matched.code (i) = Unqualified_name then
+			create Result.make (tokens_matched.occurrences (Token.Unqualified_name))
+			from i := 1 until i > tokens_matched.count or else tokens_matched.code (i) = Token.Left_bracket loop
+				if tokens_matched.code (i) = Token.Unqualified_name then
 					Result.extend (source_text_for_token (i, tokens_matched))
 				end
 				i := i + 1
 			end
-			if i < tokens_matched.count and then tokens_matched.code (i) = Left_bracket then
+			if i < tokens_matched.count and then tokens_matched.code (i) = Token.Left_bracket then
 				create {EVOLICITY_FUNCTION_REFERENCE} Result.make (Result.to_array, function_arguments (i, tokens_matched))
 			end
---			log.exit
 		ensure
 			reference_contain_all_steps: Result.full
+		end
+
+	valid_comparison_text (type: NATURAL; tokens_matched: EL_STRING_VIEW): BOOLEAN
+		do
+  			if type = Token.integer_64_constant then
+	  			Result := source_text_for_token (1, tokens_matched).is_integer_64
+
+  			elseif type = Token.double_constant then
+	  			Result := source_text_for_token (1, tokens_matched).is_double
+	  		else
+	  			Result := True
+  			end
 		end
 
 feature {NONE} -- Internal attributes

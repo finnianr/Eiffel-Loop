@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 16:00:19 GMT (Saturday 5th February 2022)"
-	revision: "20"
+	date: "2022-09-02 7:49:55 GMT (Friday 2nd September 2022)"
+	revision: "21"
 
 class
 	FOURIER_MATH_CLIENT_TEST_APP
@@ -18,13 +18,13 @@ inherit
 			Ask_user_to_quit, new_command_options
 		end
 
-	EL_MODULE_EVOLICITY_TEMPLATES
-
 	FFT_ONCE_ROUTINE_NAMES
 		rename
 			R_windower_rectangular as Windower_rectangular,
 			R_windower_default as Windower_default
 		end
+
+	EVOLICITY_SHARED_TEMPLATES
 
 create
 	make

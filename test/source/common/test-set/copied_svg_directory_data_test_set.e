@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 12:10:51 GMT (Saturday 19th February 2022)"
-	revision: "11"
+	date: "2022-09-02 7:49:29 GMT (Friday 2nd September 2022)"
+	revision: "12"
 
 deferred class
 	COPIED_SVG_DIRECTORY_DATA_TEST_SET
@@ -25,9 +25,11 @@ inherit
 
 	EL_CRC_32_TEST_ROUTINES
 
-	EL_MODULE_DIRECTORY EL_MODULE_EVOLICITY_TEMPLATES EL_MODULE_TUPLE
+	EL_MODULE_DIRECTORY EL_MODULE_TUPLE
 
 	EIFFEL_LOOP_TEST_ROUTINES
+
+	EVOLICITY_SHARED_TEMPLATES
 
 feature {NONE} -- Initialization
 

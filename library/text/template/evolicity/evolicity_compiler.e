@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "15"
+	date: "2022-09-02 8:47:36 GMT (Friday 2nd September 2022)"
+	revision: "17"
 
 class
 	EVOLICITY_COMPILER
@@ -30,7 +30,8 @@ inherit
 
 	EL_TEXT_PATTERN_FACTORY
 		rename
-			quoted_string as quoted_string_pattern
+			quoted_string as quoted_string_pattern,
+			token as as_literal
 		end
 
 	EL_FILE_OPEN_ROUTINES
@@ -105,13 +106,13 @@ feature {NONE} -- Directives
 			--
 		do
 			Result := all_of (<<
-				token (Keyword_across)		|to| agent on_loop_directive (?, True),
-				variable_reference 			|to| agent on_loop_traversable_container,
-				token (Keyword_as),
-				variable_reference			|to| agent on_loop_iterator,
-				token (Keyword_loop),
+				as_literal (Token.keyword_across)	|to| agent on_loop (Token.keyword_across, ?),
+				variable_reference 						|to| agent on_loop (Token.keyword_in, ?),
+				as_literal (Token.keyword_as),
+				variable_reference						|to| agent on_loop (Token.keyword_as, ?),
+				as_literal (Token.keyword_loop),
 				recurse (agent zero_or_more_directives, True),
-				token (Keyword_end)			|to| agent on_loop_end
+				as_literal (Token.keyword_end)		|to| agent on_loop (Token.keyword_end, ?)
 			>> )
 		end
 
@@ -125,9 +126,9 @@ feature {NONE} -- Directives
 			--
 		do
 			Result := one_of (
-				<< token (Free_text)				|to| agent on_free_text,
-					token (Double_dollor_sign) |to| agent on_dollor_sign_escape,
-					variable_reference 			|to| agent on_variable_reference,
+				<< as_literal (Token.Free_text)				|to| agent on_free_text,
+					as_literal (Token.Double_dollor_sign)	|to| agent on_dollor_sign_escape,
+					variable_reference 							|to| agent on_variable_reference,
 					evaluate_directive,
 					include_directive,
 					control_directive
@@ -139,7 +140,7 @@ feature {NONE} -- Directives
 			--
 		do
 			Result := all_of (<<
-				token (Keyword_else),
+				as_literal (Token.keyword_else),
 				recurse (agent zero_or_more_directives, True)
 			>> )
 		end
@@ -148,13 +149,14 @@ feature {NONE} -- Directives
 			--
 		do
 			Result := all_of (<<
-				token (Keyword_evaluate)				|to| agent on_evaluate,
-				token (White_text)						|to| agent on_evaluate_leading_space,
+				as_literal (Token.keyword_evaluate)					|to| agent on_evaluate (Token.keyword_evaluate, ?),
+				as_literal (Token.White_text)							|to| agent on_evaluate (Token.White_text, ?),
 				one_of (<<
-					token (Template_name_identifier)	|to| agent on_evaluate_template_identifier,
-					variable_reference 					|to| agent on_evaluate_template_name_reference
+					as_literal (Token.Template_name_identifier)	|to| agent on_evaluate (Token.Template_name_identifier, ?),
+					as_literal (Token.Quoted_string)					|to| agent on_evaluate (Token.Quoted_string, ?),
+					variable_reference 									|to| agent on_evaluate (Token.operator_dot, ?)
 				>>),
-				variable_reference 						|to| agent on_evaluate_variable_reference
+				variable_reference 										|to| agent on_evaluate (0, ?)
 			>> )
 		end
 
@@ -162,13 +164,13 @@ feature {NONE} -- Directives
 			-- Match: foreach ( V in V )
 		do
 			Result := all_of (<<
-				token (Keyword_foreach)		|to| agent on_loop_directive (?, False),
-				variable_reference			|to| agent on_loop_iterator,
-				token (Keyword_in),
-				variable_reference 			|to| agent on_loop_traversable_container,
-				token (Keyword_loop),
+				as_literal (Token.keyword_foreach)	|to| agent on_loop (Token.keyword_foreach, ?),
+				variable_reference						|to| agent on_loop (Token.keyword_as, ?),
+				as_literal (Token.keyword_in),
+				variable_reference 						|to| agent on_loop (Token.keyword_in, ?),
+				as_literal (Token.keyword_loop),
 				recurse (agent zero_or_more_directives, True),
-				token (Keyword_end)			|to| agent on_loop_end
+				as_literal (Token.keyword_end)		|to| agent on_loop (Token.keyword_end, ?)
 			>> )
 		end
 
@@ -176,12 +178,12 @@ feature {NONE} -- Directives
 			--
 		do
 			Result := all_of (<<
-				token (Keyword_if) 			|to| agent on_if,
+				as_literal (Token.keyword_if) 		|to| agent on_if (Token.keyword_if, ?),
 				boolean_expression,
-				token (Keyword_then) 		|to| agent on_if_then,
+				as_literal (Token.keyword_then) 		|to| agent on_if (Token.keyword_then, ?),
 				recurse (agent zero_or_more_directives, True),
-				optional (else_directive)	|to| agent on_else,
-				token (Keyword_end) 			|to| agent on_if_else_end
+				optional (else_directive)				|to| agent on_if (Token.keyword_else, ?),
+				as_literal (Token.keyword_end) 		|to| agent on_if (Token.keyword_end, ?)
 			>> )
 		end
 
@@ -189,9 +191,12 @@ feature {NONE} -- Directives
 			--
 		do
 			Result := all_of (<<
-				token (Keyword_include)		|to| agent on_include,
-				token (White_text)			|to| agent on_include_leading_space,
-				variable_reference 			|to| agent on_include_variable_reference
+				as_literal (Token.keyword_include)	|to| agent on_include (Token.keyword_include, ?),
+				as_literal (Token.White_text)			|to| agent on_include (Token.White_text, ?),
+				one_of (<<
+					as_literal (Token.Quoted_string)	|to| agent on_include (Token.Quoted_string, ?),
+					variable_reference 					|to| agent on_include (Token.operator_dot, ?)
+				>>)
 			>> )
 		end
 
@@ -214,7 +219,7 @@ feature {NONE} -- Expresssions
 			conjunction_plus_right_operand: like all_of
 		do
 			conjunction_plus_right_operand := all_of (<<
-				one_of (<< token (Boolean_and_operator), token (Boolean_or_operator) >>),
+				one_of (<< as_literal (Token.keyword_and), as_literal (Token.keyword_or) >>),
 				simple_boolean_expression
 			>>)
 			conjunction_plus_right_operand.set_action_last (agent on_boolean_conjunction_expression)
@@ -233,46 +238,45 @@ feature {NONE} -- Expresssions
 			>>)
 		end
 
+	comparable_numeric: like one_of
+		do
+			Result := one_of (<<
+				variable_reference 							|to| agent on_comparable (Token.operator_dot, ?),
+				as_literal (Token.integer_64_constant)	|to| agent on_comparable (Token.integer_64_constant, ?),
+				as_literal (Token.double_constant)		|to| agent on_comparable (Token.double_constant, ?)
+			>>)
+		end
+
 	constant_pattern: like one_of
 			--
 		do
 			Result := one_of (<<
-				token (Quoted_string),
-				token (Double_constant_token),
-				token (Integer_64_constant_token)
+				as_literal (Token.Quoted_string),
+				as_literal (Token.double_constant),
+				as_literal (Token.integer_64_constant)
 			>>)
 		end
 
 	function_call: like all_of
 		do
 			Result := all_of (<<
-				token (Left_bracket),
+				as_literal (Token.Left_bracket),
 				constant_pattern,
 				while_not_p1_repeat_p2 (
-					token (Right_bracket),
+					as_literal (Token.Right_bracket),
 					all_of (<<
-						token (Comma_sign),
+						as_literal (Token.Comma_sign),
 						constant_pattern
 					>>)
 				)
 			>>)
 		end
 
---	type_comparison_expression: like all_of is
---			--
---		do
---			Result := all_of ( <<
---				variable_reference,
---				token (Is_type_of_operator),
---				token (Class_name_identifier)
---			>>)
---		end
---
 	negated_boolean_value: like all_of
 			--
 		do
 			Result := all_of (<<
-				token (Boolean_not_operator), boolean_value
+				as_literal (Token.keyword_not), boolean_value
 			>>)
 			Result.set_action_last (agent on_boolean_not_expression)
 		end
@@ -281,17 +285,7 @@ feature {NONE} -- Expresssions
 			--
 		do
 			Result := all_of ( <<
-				one_of (<<
-					variable_reference 						|to| agent on_comparison_variable_reference,
-					token (Integer_64_constant_token)	|to| agent on_integer_64_comparison,
-					token (Double_constant_token)			|to| agent on_double_comparison
-				>>),
-				numeric_comparison_operator,
-				one_of (<<
-					variable_reference 						|to| agent on_comparison_variable_reference,
-					token (Integer_64_constant_token) 	|to| agent on_integer_64_comparison,
-					token (Double_constant_token) 		|to| agent on_double_comparison
-				>>)
+				comparable_numeric, numeric_comparison_operator, comparable_numeric
 			>>)
 			Result.set_action_last (agent on_comparison_expression)
 		end
@@ -300,10 +294,10 @@ feature {NONE} -- Expresssions
 			--
 		do
 			Result := one_of ( <<
-				token (Less_than_operator) 	|to| agent on_less_than_numeric_comparison,
-				token (Greater_than_operator) |to| agent on_greater_than_numeric_comparison,
-				token (Equal_to_operator) 		|to| agent on_equal_to_numeric_comparison,
-				token (Not_equal_to_operator)
+				as_literal (Token.operator_less_than)		|to| agent on_numeric_comparison ('<', ?),
+				as_literal (Token.operator_greater_than)	|to| agent on_numeric_comparison ('>', ?),
+				as_literal (Token.operator_equal_to) 		|to| agent on_numeric_comparison ('=', ?),
+				as_literal (Token.operator_not_equal_to)
 			>>)
 		end
 
@@ -319,9 +313,9 @@ feature {NONE} -- Expresssions
 			--
 		do
 			Result := all_of (<<
-				token (Unqualified_name),
+				as_literal (Token.Unqualified_name),
 				zero_or_more (
-					all_of (<< token (Dot_operator), token (Unqualified_name) >> )
+					all_of (<< as_literal (Token.operator_dot), as_literal (Token.Unqualified_name) >> )
 				),
 				optional (function_call)
 			>>)
