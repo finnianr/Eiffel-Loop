@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:13 GMT (Tuesday 15th February 2022)"
-	revision: "9"
+	date: "2022-09-04 14:24:53 GMT (Sunday 4th September 2022)"
+	revision: "10"
 
 deferred class
 	EVOLICITY_CONTEXT
@@ -178,22 +178,22 @@ feature {EVOLICITY_CONTEXT} -- Implementation
 			Result := context_item (variable_ref.step, variable_ref.arguments)
 			if not variable_ref.is_last_step then
 				last_step := variable_ref.last_step
-				if variable_ref.before_last and then Sequence_features.has (last_step)
-					and then attached {FINITE [ANY]} Result as sequence
+				if variable_ref.before_last and then Container_features.has (last_step)
+					and then attached {FINITE [ANY]} Result as container
 				then
 					-- is a reference to string/list count or empty status
 					if last_step.is_equal (Feature_count) then
-						Result := sequence.count.to_integer_64.to_reference
+						Result := container.count.to_integer_64.to_reference
 
 					elseif last_step.is_equal (Feature_is_empty) then
-						Result := sequence.is_empty.to_reference
+						Result := container.is_empty.to_reference
 
-					elseif attached {INTEGER_INTERVAL} sequence as interval then
+					elseif attached {READABLE_INDEXABLE [ANY]} container as indexable then
 						if last_step.is_equal (Feature_lower) then
-							Result := interval.lower.to_reference
+							Result := indexable.lower.to_reference
 
 						elseif last_step.is_equal (Feature_upper) then
-							Result := interval.upper.to_reference
+							Result := indexable.upper.to_reference
 						end
 					end
 
@@ -210,23 +210,16 @@ feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
 	is_valid_type (object: ANY): BOOLEAN
 			-- object conforms to one of following types
 		do
-			if attached {EVOLICITY_CONTEXT} object as ctx or
-			else attached {ZSTRING} object as zstr or
-			else attached {STRING} object as string or
-			else attached {BOOLEAN_REF} object as boolean_ref or
-
-			else attached {NUMERIC} object as numeric_ref or
-
-			else attached {SEQUENCE [EVOLICITY_CONTEXT]} object as ctx_sequence or
-			else attached {EVOLICITY_OBJECT_TABLE [EVOLICITY_CONTEXT]} object as table or
-			else attached {ITERABLE [ANY]} object as iterable or
-			else attached {EL_PATH} object as path then
+			if attached {EVOLICITY_CONTEXT} object
+				or else attached {BOOLEAN_REF} object
+				or else attached {EL_PATH} object
+				or else attached {NUMERIC} object
+				or else attached {EVOLICITY_OBJECT_TABLE [EVOLICITY_CONTEXT]} object
+				or else attached {ITERABLE [ANY]} object
+				or else attached {FINITE [ANY]} object
+				or else attached {READABLE_INDEXABLE [ANY]} object
+			then
 				Result := true
-
-			elseif attached {HASH_TABLE [ANY, HASHABLE]} object as table then
-				table.start
-				Result := not table.after
-					implies is_valid_type (table.key_for_iteration) and is_valid_type (table.item_for_iteration)
 			end
 		end
 
@@ -244,7 +237,7 @@ feature {NONE} -- Constants
 
 	Feature_upper: STRING = "upper"
 
-	Sequence_features: ARRAY [STRING]
+	Container_features: ARRAY [STRING]
 		once
 			Result := << Feature_count, Feature_is_empty, Feature_lower, Feature_upper >>
 			Result.compare_objects

@@ -1,13 +1,14 @@
 note
 	description: "[
-		Syntax for looping over a sequence:
+		Implemention of iteration of a container conforming to [$source ITERABLE [G] using the
+		syntax
 			
-			#foreach <iteration object variable name> in <sequence name> loop
+			#foreach $<item-variable-name> in $<iterable-container> loop
 				
 			#end
 			
-		The iteration object variable name references the current sequence item.
-		Variable 'loop_index' references the sequence index
+		The iteration variable name references the current iteration item.
+		Variable `$loop_index' references the ''cursor_index''
 	]"
 
 	author: "Finnian Reilly"
@@ -15,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-13 16:23:07 GMT (Sunday 13th March 2022)"
-	revision: "7"
+	date: "2022-09-04 15:15:56 GMT (Sunday 4th September 2022)"
+	revision: "8"
 
 class
 	EVOLICITY_FOREACH_DIRECTIVE
@@ -56,33 +57,54 @@ feature -- Element change
 			local_scope_variable_names [1] := a_iterator_var_name
 		end
 
+feature -- Contract Support
+
+	is_valid_iterable (a_context: EVOLICITY_CONTEXT): BOOLEAN
+		-- `True' if iterable object has valid items
+		local
+			inspected: BOOLEAN
+		do
+			if attached {ITERABLE [ANY]} a_context.referenced_item (traversable_container_variable_ref) as iterable then
+				across iterable as list until inspected loop
+					Result := a_context.is_valid_type (list.item)
+					inspected := True
+				end
+				if not inspected then
+					Result := True
+				end
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	execute (a_context: EVOLICITY_CONTEXT; output: EL_OUTPUT_MEDIUM)
 			--
 		local
-			loop_index: INTEGER_REF; i: INTEGER; l_cursor: ITERATION_CURSOR [ANY]
-			name_space: like outer_loop_variables
+			loop_index: INTEGER_REF; name_space: like outer_loop_variables; cursor_index: INTEGER
+			is_valid_type: BOOLEAN
 		do
 			name_space := a_context.object_table
-			if attached {ITERABLE [ANY]} a_context.referenced_item (traversable_container_variable_ref) as iterable then
+			if attached iterable_container (a_context) as iterable then
 				save_outer_loop_variables (name_space)
 				create loop_index
 				put_loop_index (a_context, loop_index)
 
-				from l_cursor := iterable.new_cursor; i := 1 until l_cursor.after loop
-					loop_index.set_item (i)
-					if attached {ANY} l_cursor.item as cursor_item then
-						if a_context.is_valid_type (cursor_item) then
-							put_iteration_object (a_context, l_cursor, cursor_item)
+				across iterable as list loop
+					cursor_index := cursor_index + 1
+					if cursor_index = 1 then
+						is_valid_type := a_context.is_valid_type (list.item)
+					end
+					loop_index.set_item (cursor_index)
+					if attached list.item as cursor_item then
+						if is_valid_type then
+							put_iteration_object (a_context, list, cursor_item)
 						else
-							put_iteration_object (a_context, l_cursor, cursor_item.out)
+							put_iteration_object (a_context, list, Invalid_item #$ [cursor_item.generator, cursor_index])
 						end
 					else
 						name_space.remove (iterator_var_name)
 					end
 					Precursor (a_context, output)
-					l_cursor.forth; i := i + 1
 				end
 				name_space.remove (iterator_var_name)
 
@@ -90,9 +112,16 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	put_iteration_object (a_context: EVOLICITY_CONTEXT; a_cursor: ITERATION_CURSOR [ANY]; a_iteration_object: ANY)
+	iterable_container (a_context: EVOLICITY_CONTEXT): detachable ITERABLE [ANY]
 		do
-			a_context.put_variable (a_iteration_object, iterator_var_name)
+			if attached {ITERABLE [ANY]} a_context.referenced_item (traversable_container_variable_ref) as iterable then
+				Result := iterable
+			end
+		end
+
+	put_iteration_object (a_context: EVOLICITY_CONTEXT; a_cursor: ITERATION_CURSOR [ANY]; cursor_item: ANY)
+		do
+			a_context.put_variable (cursor_item, iterator_var_name)
 		end
 
 	put_loop_index (a_context: EVOLICITY_CONTEXT; a_loop_index: INTEGER_REF)
@@ -102,15 +131,14 @@ feature {NONE} -- Implementation
 
 	restore_outer_loop_variables (name_space: like outer_loop_variables)
 			-- Restore any previous objects that had the same name as objects used in this loop
-		local
-			variables: like outer_loop_variables
 		do
-			variables := outer_loop_variables
-			from variables.start until variables.after loop
-				name_space [variables.key_for_iteration] := variables.item_for_iteration
-				variables.forth
+			if attached outer_loop_variables as list then
+				from list.start until list.after loop
+					name_space [list.key_for_iteration] := list.item_for_iteration
+					list.forth
+				end
+				list.wipe_out
 			end
-			variables.wipe_out
 		end
 
 	save_outer_loop_variables (name_space: like outer_loop_variables)
@@ -118,15 +146,16 @@ feature {NONE} -- Implementation
 		require
 			empty_saved_objects_context: outer_loop_variables.is_empty
 		local
-			i: INTEGER; name: STRING; names: like local_scope_variable_names
+			i: INTEGER; name: STRING
 		do
-			names := local_scope_variable_names
-			from i := 1 until i > names.count loop
-				name := names [i]
-				if name_space.has_key (name) then
-					outer_loop_variables.extend (name_space.found_item, name)
+			if attached local_scope_variable_names as list then
+				from i := 1 until i > list.count loop
+					name := list [i]
+					if name_space.has_key (name) then
+						outer_loop_variables.extend (name_space.found_item, name)
+					end
+					i := i + 1
 				end
-				i := i + 1
 			end
 		end
 
@@ -142,6 +171,11 @@ feature {NONE} -- Internal attributes
 	traversable_container_variable_ref: EVOLICITY_VARIABLE_REFERENCE
 
 feature -- Constants
+
+	Invalid_item: ZSTRING
+		once
+			Result := "{%S} [%S]"
+		end
 
 	Loop_index_var_name: STRING
 		once

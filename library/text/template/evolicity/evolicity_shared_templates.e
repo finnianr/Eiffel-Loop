@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-02 9:27:14 GMT (Friday 2nd September 2022)"
-	revision: "6"
+	date: "2022-09-03 8:41:09 GMT (Saturday 3rd September 2022)"
+	revision: "7"
 
 deferred class
 	EVOLICITY_SHARED_TEMPLATES
@@ -109,10 +109,12 @@ note
 		More complicated expressions can be implemented an Eiffel function returning a boolean and then
 		referenced as an Evolicity variable.
 
-		**Iteration of [$source SEQUENCE [G]] Containers**
+		**Iteration of [$source ITERABLE [G]] containers**
 		
-		It is possible to iterate any object which conforms to the type [$source SEQUENCE [G]] where `G' is either
-		an Evolicity context or a type that can be referenced by Evolicity.
+		There are two loop syntax alternatives to iterate any object which conforms to the type [$source SEQUENCE [G]]
+		where `G' is an object that satisfies the condition `{[$source EVOLICITY_CONTEXT]}.is_valid_type'.
+		
+		**1. foreach** loop
 
 			#foreach $<variable-name> in $<sequence-name> loop
 				<directive block>
@@ -120,9 +122,9 @@ note
 
 		The loop index can be referenced using the implicit variable: `$loop_index'.
 
-		**''Across'' Loop Iteration**
+		**2. across** loop
 
-		An alternative loop syntax which uses an Eiffel like syntax is as follows:
+		This loop syntax imitates the Eiffel **across** syntax as follows:
 
 			#across $<iterable-name> as $<variable-name> loop
 				<directive block>
@@ -140,7 +142,7 @@ note
 
 		There are 4 ways to reference a template for an ''#evaluate'' directive. These are as follows
 
-		1. Class template
+		**1.** Class template
 
 			#evaluate ({<CLASS-NAME>}.template, $<variable-name>)
 
@@ -148,14 +150,14 @@ note
 		and therefore has a template. The variable in the second argument is some Eiffel data accessible
 		as an Evolicity variable which is referenced by the nested template.
 
-		2. Template reference
+		**2.** Template reference
 		
 			#evaluate ($<variable-name>.template_name, $<variable-name>)
 
 		Here the first argument is a reference to an object that conforms to type [$source EVOLICITY_SERIALIZEABLE]
 		and therefore has a template name which be referenced with the implicit variable name `template_name'.
 
-		3. Template path reference
+		**3.** Template path reference
 
 			#evaluate ($<template-variable-name>, $<variable-name>)
 
@@ -171,7 +173,7 @@ note
 		the nested text spans multiple lines, as it most likely will do, it will be indented to same indent level as
 		the `#evaluate' directive.
 
-		4. Quoted path string relative to template
+		**4.** Quoted path string relative to template
 
 			#evaluate ("<relative-path>", $Current)
 		
