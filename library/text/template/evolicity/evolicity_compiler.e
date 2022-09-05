@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-02 8:47:36 GMT (Friday 2nd September 2022)"
-	revision: "17"
+	date: "2022-09-05 8:06:47 GMT (Monday 5th September 2022)"
+	revision: "18"
 
 class
 	EVOLICITY_COMPILER
@@ -100,7 +100,7 @@ feature -- Element change
 			end
 		end
 
-feature {NONE} -- Directives
+feature {NONE} -- Loop Directives
 
 	across_directive: like all_of
 			--
@@ -115,6 +115,49 @@ feature {NONE} -- Directives
 				as_literal (Token.keyword_end)		|to| agent on_loop (Token.keyword_end, ?)
 			>> )
 		end
+
+	foreach_directive: like all_of
+			-- Match: foreach ( V in V )
+		do
+			Result := all_of (<<
+				as_literal (Token.keyword_foreach)	|to| agent on_loop (Token.keyword_foreach, ?),
+				variable_reference						|to| agent on_loop (Token.keyword_as, ?),
+				optional (
+					variable_reference					|to| agent on_loop (Token.keyword_as, ?)
+				),
+				as_literal (Token.keyword_in),
+				variable_reference 						|to| agent on_loop (Token.keyword_in, ?),
+				as_literal (Token.keyword_loop),
+				recurse (agent zero_or_more_directives, True),
+				as_literal (Token.keyword_end)		|to| agent on_loop (Token.keyword_end, ?)
+			>> )
+		end
+
+feature {NONE} -- Branch Directives
+
+	else_directive: like all_of
+			--
+		do
+			Result := all_of (<<
+				as_literal (Token.keyword_else),
+				recurse (agent zero_or_more_directives, True)
+			>> )
+		end
+
+	if_else_end_directive: like all_of
+			--
+		do
+			Result := all_of (<<
+				as_literal (Token.keyword_if) 		|to| agent on_if (Token.keyword_if, ?),
+				boolean_expression,
+				as_literal (Token.keyword_then) 		|to| agent on_if (Token.keyword_then, ?),
+				recurse (agent zero_or_more_directives, True),
+				optional (else_directive)				|to| agent on_if (Token.keyword_else, ?),
+				as_literal (Token.keyword_end) 		|to| agent on_if (Token.keyword_end, ?)
+			>> )
+		end
+
+feature {NONE} -- Directives
 
 	control_directive: like one_of
 			--
@@ -136,15 +179,6 @@ feature {NONE} -- Directives
 			)
 		end
 
-	else_directive: like all_of
-			--
-		do
-			Result := all_of (<<
-				as_literal (Token.keyword_else),
-				recurse (agent zero_or_more_directives, True)
-			>> )
-		end
-
 	evaluate_directive: like all_of
 			--
 		do
@@ -157,33 +191,6 @@ feature {NONE} -- Directives
 					variable_reference 									|to| agent on_evaluate (Token.operator_dot, ?)
 				>>),
 				variable_reference 										|to| agent on_evaluate (0, ?)
-			>> )
-		end
-
-	foreach_directive: like all_of
-			-- Match: foreach ( V in V )
-		do
-			Result := all_of (<<
-				as_literal (Token.keyword_foreach)	|to| agent on_loop (Token.keyword_foreach, ?),
-				variable_reference						|to| agent on_loop (Token.keyword_as, ?),
-				as_literal (Token.keyword_in),
-				variable_reference 						|to| agent on_loop (Token.keyword_in, ?),
-				as_literal (Token.keyword_loop),
-				recurse (agent zero_or_more_directives, True),
-				as_literal (Token.keyword_end)		|to| agent on_loop (Token.keyword_end, ?)
-			>> )
-		end
-
-	if_else_end_directive: like all_of
-			--
-		do
-			Result := all_of (<<
-				as_literal (Token.keyword_if) 		|to| agent on_if (Token.keyword_if, ?),
-				boolean_expression,
-				as_literal (Token.keyword_then) 		|to| agent on_if (Token.keyword_then, ?),
-				recurse (agent zero_or_more_directives, True),
-				optional (else_directive)				|to| agent on_if (Token.keyword_else, ?),
-				as_literal (Token.keyword_end) 		|to| agent on_if (Token.keyword_end, ?)
 			>> )
 		end
 

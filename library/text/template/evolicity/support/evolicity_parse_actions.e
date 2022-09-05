@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-02 8:51:04 GMT (Friday 2nd September 2022)"
-	revision: "4"
+	date: "2022-09-05 8:22:44 GMT (Monday 5th September 2022)"
+	revision: "5"
 
 deferred class
 	EVOLICITY_PARSE_ACTIONS
@@ -213,7 +213,7 @@ feature {NONE} -- Actions
 					tokens_to_variable_ref (tokens_matched)
 				)
 			elseif id = Token.keyword_as then
-				loop_directive_stack.item.set_var_iterator (tokens_to_variable_ref (tokens_matched) @ 1)
+				loop_directive_stack.item.put_item_name (tokens_to_variable_ref (tokens_matched) @ 1)
 
 			elseif id  = Token.keyword_end then
 				compound_directive := compound_directive_stack.item

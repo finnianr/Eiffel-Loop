@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-04 15:15:56 GMT (Sunday 4th September 2022)"
-	revision: "8"
+	date: "2022-09-05 16:29:30 GMT (Monday 5th September 2022)"
+	revision: "9"
 
 class
 	EVOLICITY_FOREACH_DIRECTIVE
@@ -38,11 +38,18 @@ feature -- Initialization
 		do
 			Precursor
 			create outer_loop_variables.make_equal (3)
-			create local_scope_variable_names.make_filled ("", 1, 2)
-			local_scope_variable_names [2] := Loop_index_var_name
+			create local_scope_variable_names.make_from_array (<< Loop_index_var_name >>)
 		end
 
 feature -- Element change
+
+	put_item_name (a_item_name: STRING)
+			--
+		do
+			local_scope_variable_names.extend (a_item_name)
+		ensure
+			maximum_3: (1 |..| 3).has (local_scope_variable_names.count)
+		end
 
 	set_traversable_container_variable_ref (a_traversable_container_variable_ref: EVOLICITY_VARIABLE_REFERENCE)
 			--
@@ -50,11 +57,9 @@ feature -- Element change
 			traversable_container_variable_ref := a_traversable_container_variable_ref
 		end
 
-	set_var_iterator (a_iterator_var_name: ZSTRING)
-			--
+	has_key_item: BOOLEAN
 		do
-			iterator_var_name := a_iterator_var_name
-			local_scope_variable_names [1] := a_iterator_var_name
+			Result := local_scope_variable_names.count = 3
 		end
 
 feature -- Contract Support
@@ -64,10 +69,17 @@ feature -- Contract Support
 		local
 			inspected: BOOLEAN
 		do
-			if attached {ITERABLE [ANY]} a_context.referenced_item (traversable_container_variable_ref) as iterable then
-				across iterable as list until inspected loop
-					Result := a_context.is_valid_type (list.item)
-					inspected := True
+			if attached iterable_container (a_context) as iterable then
+				if attached {TABLE_ITERABLE [ANY, HASHABLE]} iterable as table_iterable  then
+					across table_iterable as table until inspected loop
+						Result := a_context.is_valid_type (table.item) and a_context.is_valid_type (table.key)
+						inspected := True
+					end
+				else
+					across iterable as list until inspected loop
+						Result := a_context.is_valid_type (list.item)
+						inspected := True
+					end
 				end
 				if not inspected then
 					Result := True
@@ -81,7 +93,7 @@ feature {NONE} -- Implementation
 			--
 		local
 			loop_index: INTEGER_REF; name_space: like outer_loop_variables; cursor_index: INTEGER
-			is_valid_type: BOOLEAN
+			is_valid_type, is_valid_key_type: BOOLEAN; table_cursor: detachable HASH_TABLE_ITERATION_CURSOR [ANY, HASHABLE]
 		do
 			name_space := a_context.object_table
 			if attached iterable_container (a_context) as iterable then
@@ -93,23 +105,39 @@ feature {NONE} -- Implementation
 					cursor_index := cursor_index + 1
 					if cursor_index = 1 then
 						is_valid_type := a_context.is_valid_type (list.item)
+						if attached {HASH_TABLE_ITERATION_CURSOR [ANY, HASHABLE]} list as l_cursor then
+							table_cursor := l_cursor
+							is_valid_key_type := a_context.is_valid_type (l_cursor.key)
+						end
 					end
 					loop_index.set_item (cursor_index)
 					if attached list.item as cursor_item then
 						if is_valid_type then
-							put_iteration_object (a_context, list, cursor_item)
+							put_iteration_object (a_context, cursor_item)
 						else
-							put_iteration_object (a_context, list, Invalid_item #$ [cursor_item.generator, cursor_index])
+							put_iteration_object (a_context, Invalid_item #$ [cursor_item.generator, cursor_index])
+						end
+						if attached table_cursor as table and then has_key_item then
+							if is_valid_key_type then
+								put_table_key (a_context, table.key)
+							else
+								put_table_key (a_context, Invalid_item #$ [table.key.generator, cursor_index] )
+							end
 						end
 					else
-						name_space.remove (iterator_var_name)
+						name_space.remove (item_name)
 					end
 					Precursor (a_context, output)
 				end
-				name_space.remove (iterator_var_name)
+				name_space.remove (item_name)
 
 				restore_outer_loop_variables (name_space)
 			end
+		end
+
+	item_name: STRING
+		do
+			Result := local_scope_variable_names [2]
 		end
 
 	iterable_container (a_context: EVOLICITY_CONTEXT): detachable ITERABLE [ANY]
@@ -119,9 +147,21 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	put_iteration_object (a_context: EVOLICITY_CONTEXT; a_cursor: ITERATION_CURSOR [ANY]; cursor_item: ANY)
+	key_item_name: STRING
+		require
+			has_key_item: has_key_item
 		do
-			a_context.put_variable (cursor_item, iterator_var_name)
+			Result := local_scope_variable_names [3]
+		end
+
+	put_iteration_object (a_context: EVOLICITY_CONTEXT; cursor_item: ANY)
+		do
+			a_context.put_variable (cursor_item, item_name)
+		end
+
+	put_table_key (a_context: EVOLICITY_CONTEXT; key_item: ANY)
+		do
+			a_context.put_variable (key_item, key_item_name)
 		end
 
 	put_loop_index (a_context: EVOLICITY_CONTEXT; a_loop_index: INTEGER_REF)
@@ -161,9 +201,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	iterator_var_name: STRING
-
-	local_scope_variable_names: ARRAY [STRING]
+	local_scope_variable_names: EL_STRING_8_LIST
 
 	outer_loop_variables: HASH_TABLE [ANY, STRING]
 		-- Variables in outer loop that may have names clashing with this loop

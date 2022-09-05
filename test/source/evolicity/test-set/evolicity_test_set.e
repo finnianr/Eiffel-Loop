@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-02 7:49:29 GMT (Friday 2nd September 2022)"
-	revision: "9"
+	date: "2022-09-05 16:35:20 GMT (Monday 5th September 2022)"
+	revision: "10"
 
 class
 	EVOLICITY_TEST_SET
@@ -34,6 +34,7 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			eval.call ("if_then", agent test_if_then)
+			eval.call ("iteration_loops", agent test_iteration_loops)
 			eval.call ("merge_template", agent test_merge_template)
 		end
 
@@ -41,102 +42,119 @@ feature -- Tests
 
 	test_if_then
 		do
-			do_test ("merge_if_then", 3965351676, agent merge_if_then, [work_area_data_dir + "if_then.evol"])
+			do_test ("merge_context", 1832220265, agent merge_context, ["if_then.evol", new_context (2, 2, "")])
+			do_test ("merge_context", 2957896903, agent merge_context, ["if_then.evol", new_context (1, 2, "abc")])
+		end
+
+	test_iteration_loops
+		do
+			do_test ("merge_context", 2402475313, agent merge_context, ["foreach.evol", new_container_context])
+			do_test ("merge_context", 3993563225, agent merge_context, ["across.evol", new_container_context])
 		end
 
 	test_merge_template
+		local
+			title_var_ref: EVOLICITY_VARIABLE_REFERENCE
 		do
-			do_test ("merge_template", 1339847166, agent merge_template, [work_area_data_dir + "jobserve-results.evol"])
+			if attached new_job_list as job_list then
+				create title_var_ref.make_from_array (<< "title" >>)
+				assert ("same string", job_list [1].referenced_item (title_var_ref).out ~ "Java XML Developer")
+				assert ("same string", job_list [2].referenced_item (title_var_ref).out ~ "Eiffel Developer")
+
+				do_test ("merge_template", 1591458457, agent merge_template, ["jobserve-results.evol", new_job_info (job_list)])
+			end
 		end
 
 feature {NONE} -- Implementation
 
-	merge_if_then (template_path: FILE_PATH)
+	merge_context (name: STRING; context: EVOLICITY_CONTEXT_IMP)
 			--
-		local
-			context: EVOLICITY_CONTEXT_IMP
-			var: TUPLE [x, y, str: STRING]
 		do
-			create context.make; create var
-			Tuple.fill (var, "x, y, str")
+			if attached (work_area_data_dir + name) as template_path then
+				Evolicity_templates.put_file (template_path, Utf_8_encoding)
 
-			Evolicity_templates.put_file (template_path, Utf_8_encoding)
-
-			context.put_integer (var.x, 2)
-			context.put_integer (var.y, 2)
-			context.put_string (var.str, "")
-
-			across 1 |..| 2 as n loop
-				if n.item = 2 then
-					context.put_integer (var.x, 1)
-					context.put_string (var.str, "abc")
-				end
 				log.put_string_field_to_max_length ("RESULT", Evolicity_templates.merged_to_string (template_path, context), 160)
 				log.put_new_line
 			end
 		end
 
-	merge_template (template_path: FILE_PATH)
+	merge_template (name: STRING; job_info: EVOLICITY_CONTEXT_IMP)
 			--
 		local
-			html_file: EL_PLAIN_TEXT_FILE; output_path: FILE_PATH
+			html_file: EL_PLAIN_TEXT_FILE; line_source: EL_PLAIN_TEXT_LINE_SOURCE
 		do
-			Evolicity_templates.put_file (template_path, Utf_8_encoding)
+			if attached (work_area_data_dir + name) as template_path then
+				Evolicity_templates.put_file (template_path, Utf_8_encoding)
 
-			output_path := template_path.with_new_extension ("html")
-
-			create html_file.make_open_write (output_path)
-			Evolicity_templates.merge_to_file (template_path, new_root_context, html_file)
-			log.put_labeled_string ("Digest", raw_file_digest (output_path).to_hex_string)
-			log.put_new_line
-		end
-
-	new_root_context: EVOLICITY_CONTEXT_IMP
-			--
-		local
-			title_context, query_context, job_search_context: EVOLICITY_CONTEXT_IMP
-			result_set_context: EVOLICITY_CONTEXT; title_var_ref: EVOLICITY_VARIABLE_REFERENCE
-			result_set: LINKED_LIST [EVOLICITY_CONTEXT]
-		do
-			-- #set ($page.title = "Jobserve results" )
-			log.enter ("new_root_context")
-			create Result.make
-			create title_context.make
-			title_context.put_variable ("Jobserve results", "title")
-			Result.put_variable (title_context, "page")
-
-			create result_set.make
-
-			-- First record
-			result_set_context := create {JOB_INFORMATION}.make (
-				"Java XML Developer", "1 year", "Write XML applications in Java with Eclipse",
-				"7 March 2006", "Susan Hebridy", "JS238543", "17 March 2006", "London", 42000
-			)
-			create title_var_ref.make_from_array (<< "title" >>)
-			log.put_string_field ("result_set_context.title", result_set_context.referenced_item (title_var_ref).out)
-			log.put_new_line
-
-			result_set.extend (result_set_context)
-
-			-- Second record
-			result_set_context := create {JOB_INFORMATION}.make (
-				"Eiffel Developer", "permanent", "Write Eiffel applications using EiffelStudio",
-				"7 Feb 2006", "Martin Demon", "JS238458", "27 March 2006", "Dusseldorf", 50000
-			)
-
-			result_set.extend (result_set_context)
-
-			create job_search_context.make
-			job_search_context.put_variable (result_set ,"result_set")
-			create query_context.make
-			query_context.put_variable (job_search_context, "job_search")
-			Result.put_variable (query_context, "query")
-			log.exit
+				if attached template_path.with_new_extension ("html") as output_path then
+					create html_file.make_open_write (output_path)
+					Evolicity_templates.merge_to_file (template_path, job_info, html_file)
+					create line_source.make_utf_8 (output_path)
+					across line_source as line loop
+						log.put_line (line.item)
+					end
+				end
+			end
 		end
 
 	source_dir: DIR_PATH
 		do
 			Result := EL_test_data_dir #+ "evol"
+		end
+
+feature {NONE} -- Factory
+
+	new_container_context: EVOLICITY_CONTEXT_IMP
+		local
+			table: EL_HASH_TABLE [INTEGER, STRING]
+		do
+			create Result.make
+			create table.make (<<
+				["one", 1], ["two", 2], ["three", 3]
+			>>)
+			Result.put_variable (table, "value_table")
+			Result.put_variable (table.current_keys, "string_list")
+		end
+
+	new_context (x, y: INTEGER; str: STRING): EVOLICITY_CONTEXT_IMP
+		do
+			create Result.make
+			Result.put_integer ("x", x)
+			Result.put_integer ("y", y)
+			Result.put_string ("str", str)
+		end
+
+	new_job_info (job_list: like new_job_list): EVOLICITY_CONTEXT_IMP
+			--
+		local
+			title_context, query_context, job_search_context: EVOLICITY_CONTEXT_IMP
+			result_set_context: EVOLICITY_CONTEXT;
+		do
+			-- #set ($page.title = "Jobserve results" )
+			create Result.make
+			create title_context.make
+			title_context.put_variable ("Jobserve results", "title")
+			Result.put_variable (title_context, "page")
+
+			create job_search_context.make
+			job_search_context.put_variable (job_list ,"result_set")
+			create query_context.make
+			query_context.put_variable (job_search_context, "job_search")
+			Result.put_variable (query_context, "query")
+		end
+
+	new_job_list: ARRAYED_LIST [JOB_INFORMATION]
+		do
+			create Result.make_from_array (<<
+				create {JOB_INFORMATION}.make (
+					"Java XML Developer", "1 year", "Write XML applications in Java with Eclipse",
+					"7 March 2006", "Susan Hebridy", "JS238543", "17 March 2006", "London", 42000
+				),
+				create {JOB_INFORMATION}.make (
+					"Eiffel Developer", "permanent", "Write Eiffel applications using EiffelStudio",
+					"7 Feb 2006", "Martin Demon", "JS238458", "27 March 2006", "Dusseldorf", 50000
+				)
+			>>)
 		end
 
 feature {NONE} -- Constants

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-03 8:41:09 GMT (Saturday 3rd September 2022)"
-	revision: "7"
+	date: "2022-09-05 16:49:24 GMT (Monday 5th September 2022)"
+	revision: "8"
 
 deferred class
 	EVOLICITY_SHARED_TEMPLATES
@@ -111,16 +111,22 @@ note
 
 		**Iteration of [$source ITERABLE [G]] containers**
 		
-		There are two loop syntax alternatives to iterate any object which conforms to the type [$source SEQUENCE [G]]
+		There are two loop syntax alternatives to iterate any object which conforms to the type [$source ITERABLE [G]]
 		where `G' is an object that satisfies the condition `{[$source EVOLICITY_CONTEXT]}.is_valid_type'.
 		
 		**1. foreach** loop
 
-			#foreach $<variable-name> in $<sequence-name> loop
+			#foreach $<variable-name> in $<list-name> loop
 				<directive block>
 			#end
 
-		The loop index can be referenced using the implicit variable: `$loop_index'.
+		The loop index can be referenced using the implicit variable: `$loop_index'. If in addition the container
+		also conforms to [$source TABLE_ITERABLE [G]], then the table key value can be referenced in the
+		loop scope by inserting an additional variable name, separated by a comma.
+
+			#foreach $<variable-name>, $<key-name> in $<table-name> loop
+				<directive block>
+			#end
 
 		**2. across** loop
 
@@ -130,9 +136,10 @@ note
 				<directive block>
 			#end
 
-		The object referenced by `<iterable-name>' must conform to type [$source ITERABLE [G]]. Just like in Eiffel
-		you reference the item values in the directive block using the syntax `$<variable-name>.item', and you can reference the
-		cursor index as: `$cursor_index.item'.
+		The object referenced by `<iterable-name>' must conform to type [$source ITERABLE [G]]. Exactly like in Eiffel
+		you reference the item values in the directive block using the syntax `$<variable-name>.item', and the
+		cursor index can be referenced as: `$<variable-name>.cursor_index'. If in addition the container also conforms to
+		[$source TABLE_ITERABLE [G]], then the table key value can be referenced as `$<variable-name>.key'.
 
 		**The Evaluate Directive**
 

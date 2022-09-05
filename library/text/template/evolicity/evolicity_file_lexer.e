@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-02 8:49:48 GMT (Friday 2nd September 2022)"
-	revision: "9"
+	date: "2022-09-05 8:01:03 GMT (Monday 5th September 2022)"
+	revision: "10"
 
 class
 	EVOLICITY_FILE_LEXER
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 			set_unmatched_action (add_token_action (Token.Free_text))
 		end
 
-feature {NONE} -- Patterns
+feature {NONE} -- Loop Patterns
 
 	across_directive: like all_of
 			-- across <list_var_name> as <var> loop
@@ -52,6 +52,27 @@ feature {NONE} -- Patterns
 				text_token ("loop", Token.keyword_loop)
 			>>)
 		end
+
+	foreach_directive: like all_of
+			-- foreach <var> in <list_var_name> loop
+		do
+			Result := all_of_separated_by (maybe_non_breaking_white_space,
+
+			<< text_token ("foreach", Token.keyword_foreach),
+				variable_reference,
+				optional (
+--					table key variable
+					all_of (<<
+						character_literal (','), maybe_non_breaking_white_space, variable_reference
+					>>)
+				),
+				text_token ("in", Token.keyword_in),
+				variable_reference,
+				text_token ("loop", Token.keyword_loop)
+			>>)
+		end
+
+feature {NONE} -- Patterns
 
 	boolean_expression: like all_of
 			--
@@ -133,19 +154,6 @@ feature {NONE} -- Patterns
 				character_literal (','),
 				variable_reference,
 				character_literal (')')
-			>>)
-		end
-
-	foreach_directive: like all_of
-			-- foreach <var> in <list_var_name> loop
-		do
-			Result := all_of_separated_by (maybe_non_breaking_white_space,
-
-			<< text_token ("foreach", Token.keyword_foreach),
-				variable_reference,
-				text_token ("in", Token.keyword_in),
-				variable_reference,
-				text_token ("loop", Token.keyword_loop)
 			>>)
 		end
 
