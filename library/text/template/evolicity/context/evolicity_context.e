@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-04 14:24:53 GMT (Sunday 4th September 2022)"
-	revision: "10"
+	date: "2022-09-06 11:17:35 GMT (Tuesday 6th September 2022)"
+	revision: "11"
 
 deferred class
 	EVOLICITY_CONTEXT
@@ -25,14 +25,13 @@ feature -- Access
 		do
 			Result := object_table [variable_name]
 		ensure
-			valid_result: attached {ANY} Result as object implies is_valid_type (object)
+			valid_result: attached Result as object implies is_valid_type (object)
 		end
 
 	referenced_item (variable_ref: EVOLICITY_VARIABLE_REFERENCE): ANY
 			--
 		do
-			variable_ref.start
-			Result := deep_item (variable_ref)
+			Result := recursive_item (variable_ref, 1)
 		end
 
 feature -- Status query
@@ -168,39 +167,43 @@ feature -- Basic operations
 
 feature {EVOLICITY_CONTEXT} -- Implementation
 
-	 deep_item (variable_ref: EVOLICITY_VARIABLE_REFERENCE): ANY
-			-- Recurse steps of variable referece to find deepest item
+	 recursive_item (variable_ref: EVOLICITY_VARIABLE_REFERENCE; index: INTEGER): ANY
+			-- Recurse steps of variable reference to find deepest item
 		require
-			valid_variable_ref: not variable_ref.off
+			valid_index: variable_ref.valid_index (index)
 		local
-			last_step: STRING
+			index_end: INTEGER
 		do
-			Result := context_item (variable_ref.step, variable_ref.arguments)
-			if not variable_ref.is_last_step then
-				last_step := variable_ref.last_step
-				if variable_ref.before_last and then Container_features.has (last_step)
+			index_end := variable_ref.count
+			Result := context_item (variable_ref [index], variable_ref.arguments)
+			if index < index_end then
+				if index = (index_end - 1) and then Container_features.has (variable_ref [index_end])
 					and then attached {FINITE [ANY]} Result as container
+					and then attached variable_ref [index_end] as last_step
 				then
 					-- is a reference to string/list count or empty status
-					if last_step.is_equal (Feature_count) then
+					if last_step ~ Feature_count then
 						Result := container.count.to_integer_64.to_reference
 
-					elseif last_step.is_equal (Feature_is_empty) then
+					elseif last_step ~ Feature_is_empty then
 						Result := container.is_empty.to_reference
 
-					elseif attached {READABLE_INDEXABLE [ANY]} container as indexable then
-						if last_step.is_equal (Feature_lower) then
+					elseif Indexable_features.has (last_step)
+						and then attached {READABLE_INDEXABLE [ANY]} container as indexable
+					then
+						if last_step ~ Feature_lower then
 							Result := indexable.lower.to_reference
 
-						elseif last_step.is_equal (Feature_upper) then
+						elseif last_step ~ Feature_upper then
 							Result := indexable.upper.to_reference
 						end
+
+					elseif attached {EVOLICITY_CONTEXT} Result as l_context then
+						Result := l_context.recursive_item (variable_ref, index + 1)
 					end
 
-				elseif attached {EVOLICITY_CONTEXT} Result as context_result then
-					variable_ref.forth
-					Result := context_result.deep_item (variable_ref)
-
+				elseif attached {EVOLICITY_CONTEXT} Result as l_context then
+					Result := l_context.recursive_item (variable_ref, index + 1)
 				end
 			end
 		end
@@ -211,6 +214,7 @@ feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
 			-- object conforms to one of following types
 		do
 			if attached {EVOLICITY_CONTEXT} object
+				or else attached {READABLE_STRING_GENERAL} object
 				or else attached {BOOLEAN_REF} object
 				or else attached {EL_PATH} object
 				or else attached {NUMERIC} object
@@ -220,6 +224,27 @@ feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
 				or else attached {READABLE_INDEXABLE [ANY]} object
 			then
 				Result := true
+			end
+		end
+
+	is_valid_iterable (iterable: ITERABLE [ANY]): BOOLEAN
+		-- `True' if iterable object has valid items
+		local
+			inspected: BOOLEAN
+		do
+			if attached {TABLE_ITERABLE [ANY, HASHABLE]} iterable as table_iterable  then
+				across table_iterable as table until inspected loop
+					Result := is_valid_type (table.item) and is_valid_type (table.key)
+					inspected := True
+				end
+			else
+				across iterable as list until inspected loop
+					Result := is_valid_type (list.item)
+					inspected := True
+				end
+			end
+			if not inspected then
+				Result := True
 			end
 		end
 
@@ -236,6 +261,12 @@ feature {NONE} -- Constants
 	Feature_lower: STRING = "lower"
 
 	Feature_upper: STRING = "upper"
+
+	Indexable_features: ARRAY [STRING]
+		once
+			Result := << Feature_lower, Feature_upper >>
+			Result.compare_objects
+		end
 
 	Container_features: ARRAY [STRING]
 		once

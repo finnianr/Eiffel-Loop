@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:21:37 GMT (Sunday 19th December 2021)"
-	revision: "6"
+	date: "2022-09-06 9:04:28 GMT (Tuesday 6th September 2022)"
+	revision: "7"
 
 class
 	EVOLICITY_VARIABLE_REFERENCE
@@ -35,19 +35,12 @@ feature -- Access
 	arguments: TUPLE
 			-- Arguments for eiffel context function with open arguments
 		do
-			Result := Empty_arguments
-		end
-
-feature -- Status query
-
-	before_last: BOOLEAN
-		do
-			Result := index = count - 1
+			Result := Default_arguments
 		end
 
 feature {NONE} -- Constants
 
-	Empty_arguments: TUPLE
+	Default_arguments: TUPLE
 		once
 			create Result
 		end

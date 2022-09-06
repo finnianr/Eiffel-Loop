@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-16 11:12:08 GMT (Saturday 16th October 2021)"
-	revision: "6"
+	date: "2022-09-06 8:47:18 GMT (Tuesday 6th September 2022)"
+	revision: "7"
 
 deferred class
 	EVOLICITY_REFLECTIVE_EIFFEL_CONTEXT
@@ -21,10 +21,18 @@ deferred class
 inherit
 	EVOLICITY_EIFFEL_CONTEXT
 		redefine
-			context_item
+			context_item, has_variable
 		end
 
 	EL_REFLECTIVE_I
+
+feature -- Status query
+
+	has_variable (variable_name: STRING): BOOLEAN
+			--
+		do
+			Result := getter_functions.has (variable_name) or else field_table.has (variable_name)
+		end
 
 feature {NONE} -- Implementation
 

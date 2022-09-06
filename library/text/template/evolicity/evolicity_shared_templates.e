@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-05 16:49:24 GMT (Monday 5th September 2022)"
-	revision: "8"
+	date: "2022-09-06 7:33:16 GMT (Tuesday 6th September 2022)"
+	revision: "9"
 
 deferred class
 	EVOLICITY_SHARED_TEMPLATES
@@ -62,15 +62,7 @@ note
 		
 		**3.** An Iterable List
 		
-		An iterable list [$source ITERABLE [G]] where `G' conforms to one of the types 1, 2, 3, or 4. (Yes this is a recursive
-		definition.)
-
-		**4.** A Sequence List
-		
-		An iterable list [$source SEQUENCE [G]] where `G' conforms to one of the types 1, 2, 3, or 4. (Yes this is a recursive
-		definition.)
-		
-		These function agents can either be anonymous agents that reference a class attribute or a class function.
+		An iterable list [$source ITERABLE [G]] where `G' recursively conforms to one of the types 1 to 3.
 		
 		**STANDARD VARIABLES**
 		
@@ -121,8 +113,8 @@ note
 			#end
 
 		The loop index can be referenced using the implicit variable: `$loop_index'. If in addition the container
-		also conforms to [$source TABLE_ITERABLE [G]], then the table key value can be referenced in the
-		loop scope by inserting an additional variable name, separated by a comma.
+		also conforms to [$source TABLE_ITERABLE [G]], then the table key value can be referenced
+		by inserting an additional variable name, separated by a comma. This is similar to Python.
 
 			#foreach $<variable-name>, $<key-name> in $<table-name> loop
 				<directive block>

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 10:20:22 GMT (Thursday 16th June 2022)"
-	revision: "7"
+	date: "2022-09-06 12:34:37 GMT (Tuesday 6th September 2022)"
+	revision: "8"
 
 deferred class
 	EVOLICITY_REFLECTIVE_SERIALIZEABLE
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EVOLICITY_SERIALIZEABLE
 		undefine
-			context_item, is_equal
+			context_item, is_equal, has_variable
 		redefine
 			make_default
 		end

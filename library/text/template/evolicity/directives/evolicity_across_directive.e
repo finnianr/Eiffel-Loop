@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-05 9:17:18 GMT (Monday 5th September 2022)"
-	revision: "7"
+	date: "2022-09-06 12:36:30 GMT (Tuesday 6th September 2022)"
+	revision: "8"
 
 class
 	EVOLICITY_ACROSS_DIRECTIVE
@@ -18,8 +18,6 @@ inherit
 			has_key_item, item_name, make, put_loop_index, put_table_key, put_iteration_object,
 			Loop_index_var_name
 		end
-
-	EL_ZSTRING_CONSTANTS
 
 create
 	make

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-05 8:22:44 GMT (Monday 5th September 2022)"
-	revision: "5"
+	date: "2022-09-06 8:00:42 GMT (Tuesday 6th September 2022)"
+	revision: "6"
 
 deferred class
 	EVOLICITY_PARSE_ACTIONS
@@ -201,17 +201,12 @@ feature {NONE} -- Actions
 		do
 			if Token.loop_keywords.has (id) then
 				compound_directive_stack.put (compound_directive)
-				if id = Token.Keyword_across then
-					loop_directive_stack.put (create {EVOLICITY_ACROSS_DIRECTIVE}.make)
-				else
-					loop_directive_stack.put (create {EVOLICITY_FOREACH_DIRECTIVE}.make)
-				end
+				loop_directive_stack.put (new_loop_directive (id))
 				compound_directive := loop_directive_stack.item
 
 			elseif id = Token.keyword_in then
-				loop_directive_stack.item.set_traversable_container_variable_ref (
-					tokens_to_variable_ref (tokens_matched)
-				)
+				loop_directive_stack.item.set_iterable_variable_ref (tokens_to_variable_ref (tokens_matched))
+
 			elseif id = Token.keyword_as then
 				loop_directive_stack.item.put_item_name (tokens_to_variable_ref (tokens_matched) @ 1)
 
@@ -299,6 +294,15 @@ feature {NONE} -- Implementation
 				i := i + 1
 			end
 			Result := buffer.to_tuple
+		end
+
+	new_loop_directive (id: NATURAL): EVOLICITY_FOREACH_DIRECTIVE
+		do
+			if id = Token.Keyword_across then
+				create {EVOLICITY_ACROSS_DIRECTIVE} Result.make
+			else
+				create Result.make
+			end
 		end
 
 	set_nested_directive_indent (nested_directive: EVOLICITY_NESTED_TEMPLATE_DIRECTIVE; tokens_matched: EL_STRING_VIEW)

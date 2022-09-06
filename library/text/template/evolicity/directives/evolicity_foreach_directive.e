@@ -1,14 +1,20 @@
 note
-	description: "[
-		Implemention of iteration of a container conforming to [$source ITERABLE [G] using the
-		syntax
+	description: "Implemention of iteration of a container conforming to [$source ITERABLE [G]]"
+	notes: "[
+	 		The loop syntax is as follows:
 			
 			#foreach $<item-variable-name> in $<iterable-container> loop
 				
 			#end
 			
+		But if the container additionally conforms to [$source TABLE_ITERABLE [G]], an extra loop
+		variable can be optionally used to reference the table key as follows:
+
+			#foreach $<item-variable-name>, $<key-variable-name> in $<iterable-container> loop
+				
+			#end
+			
 		The iteration variable name references the current iteration item.
-		Variable `$loop_index' references the ''cursor_index''
 	]"
 
 	author: "Finnian Reilly"
@@ -16,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-05 16:29:30 GMT (Monday 5th September 2022)"
-	revision: "9"
+	date: "2022-09-06 12:41:13 GMT (Tuesday 6th September 2022)"
+	revision: "10"
 
 class
 	EVOLICITY_FOREACH_DIRECTIVE
@@ -51,10 +57,10 @@ feature -- Element change
 			maximum_3: (1 |..| 3).has (local_scope_variable_names.count)
 		end
 
-	set_traversable_container_variable_ref (a_traversable_container_variable_ref: EVOLICITY_VARIABLE_REFERENCE)
+	set_iterable_variable_ref (a_iterable_variable_ref: EVOLICITY_VARIABLE_REFERENCE)
 			--
 		do
-			traversable_container_variable_ref := a_traversable_container_variable_ref
+			iterable_variable_ref := a_iterable_variable_ref
 		end
 
 	has_key_item: BOOLEAN
@@ -62,35 +68,11 @@ feature -- Element change
 			Result := local_scope_variable_names.count = 3
 		end
 
-feature -- Contract Support
-
-	is_valid_iterable (a_context: EVOLICITY_CONTEXT): BOOLEAN
-		-- `True' if iterable object has valid items
-		local
-			inspected: BOOLEAN
-		do
-			if attached iterable_container (a_context) as iterable then
-				if attached {TABLE_ITERABLE [ANY, HASHABLE]} iterable as table_iterable  then
-					across table_iterable as table until inspected loop
-						Result := a_context.is_valid_type (table.item) and a_context.is_valid_type (table.key)
-						inspected := True
-					end
-				else
-					across iterable as list until inspected loop
-						Result := a_context.is_valid_type (list.item)
-						inspected := True
-					end
-				end
-				if not inspected then
-					Result := True
-				end
-			end
-		end
-
 feature {NONE} -- Implementation
 
 	execute (a_context: EVOLICITY_CONTEXT; output: EL_OUTPUT_MEDIUM)
-			--
+		require else
+			valid_iterable: attached iterable_container (a_context) as iterable and then a_context.is_valid_iterable (iterable)
 		local
 			loop_index: INTEGER_REF; name_space: like outer_loop_variables; cursor_index: INTEGER
 			is_valid_type, is_valid_key_type: BOOLEAN; table_cursor: detachable HASH_TABLE_ITERATION_CURSOR [ANY, HASHABLE]
@@ -142,7 +124,7 @@ feature {NONE} -- Implementation
 
 	iterable_container (a_context: EVOLICITY_CONTEXT): detachable ITERABLE [ANY]
 		do
-			if attached {ITERABLE [ANY]} a_context.referenced_item (traversable_container_variable_ref) as iterable then
+			if attached {ITERABLE [ANY]} a_context.referenced_item (iterable_variable_ref) as iterable then
 				Result := iterable
 			end
 		end
@@ -206,7 +188,7 @@ feature {NONE} -- Internal attributes
 	outer_loop_variables: HASH_TABLE [ANY, STRING]
 		-- Variables in outer loop that may have names clashing with this loop
 
-	traversable_container_variable_ref: EVOLICITY_VARIABLE_REFERENCE
+	iterable_variable_ref: EVOLICITY_VARIABLE_REFERENCE
 
 feature -- Constants
 
