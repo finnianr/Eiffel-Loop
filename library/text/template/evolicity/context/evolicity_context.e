@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-06 11:17:35 GMT (Tuesday 6th September 2022)"
-	revision: "11"
+	date: "2022-09-06 13:01:57 GMT (Tuesday 6th September 2022)"
+	revision: "12"
 
 deferred class
 	EVOLICITY_CONTEXT
@@ -177,29 +177,27 @@ feature {EVOLICITY_CONTEXT} -- Implementation
 			index_end := variable_ref.count
 			Result := context_item (variable_ref [index], variable_ref.arguments)
 			if index < index_end then
-				if index = (index_end - 1) and then Container_features.has (variable_ref [index_end])
+				if index = (index_end - 1) and then Feature_table.has_key (variable_ref [index_end])
 					and then attached {FINITE [ANY]} Result as container
-					and then attached variable_ref [index_end] as last_step
 				then
 					-- is a reference to string/list count or empty status
-					if last_step ~ Feature_count then
-						Result := container.count.to_integer_64.to_reference
+					inspect Feature_table.found_item
+						when Feature_count then
+							Result := container.count.to_integer_64.to_reference
 
-					elseif last_step ~ Feature_is_empty then
-						Result := container.is_empty.to_reference
+						when Feature_is_empty then
+							Result := container.is_empty.to_reference
 
-					elseif Indexable_features.has (last_step)
-						and then attached {READABLE_INDEXABLE [ANY]} container as indexable
-					then
-						if last_step ~ Feature_lower then
-							Result := indexable.lower.to_reference
-
-						elseif last_step ~ Feature_upper then
-							Result := indexable.upper.to_reference
-						end
-
-					elseif attached {EVOLICITY_CONTEXT} Result as l_context then
-						Result := l_context.recursive_item (variable_ref, index + 1)
+						when Feature_lower, Feature_upper then
+							if attached {READABLE_INDEXABLE [ANY]} container as indexable then
+								if Feature_table.found_item = Feature_lower then
+									Result := indexable.lower.to_reference
+								else
+									Result := indexable.upper.to_reference
+								end
+							elseif attached {EVOLICITY_CONTEXT} Result as l_context then
+								Result := l_context.recursive_item (variable_ref, index + 1)
+							end
 					end
 
 				elseif attached {EVOLICITY_CONTEXT} Result as l_context then
@@ -254,24 +252,22 @@ feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Feature_count: STRING = "count"
+	Feature_count: INTEGER = 1
 
-	Feature_is_empty: STRING = "is_empty"
+	Feature_is_empty: INTEGER = 2
 
-	Feature_lower: STRING = "lower"
+	Feature_lower: INTEGER = 3
 
-	Feature_upper: STRING = "upper"
+	Feature_upper: INTEGER = 4
 
-	Indexable_features: ARRAY [STRING]
+	Feature_table: EL_HASH_TABLE [INTEGER, STRING]
 		once
-			Result := << Feature_lower, Feature_upper >>
-			Result.compare_objects
-		end
-
-	Container_features: ARRAY [STRING]
-		once
-			Result := << Feature_count, Feature_is_empty, Feature_lower, Feature_upper >>
-			Result.compare_objects
+			create Result.make (<<
+				["count", Feature_count],
+				["is_empty", Feature_is_empty],
+				["lower", Feature_lower],
+				["upper", Feature_upper]
+			>>)
 		end
 
 end

@@ -1,8 +1,13 @@
 note
 	description: "Principle or main application for installation"
 	notes: "[
-		This is the principle application from the whole set of sub-applications.
-		In Windows this will be the app listed in the Control Panel/Programs List
+		This is the main or principle application in the set of sub-applications defined by the
+		system root class implementing [$source EL_MULTI_APPLICATION_ROOT]. By default it is invoked by
+		using the standard command-option:
+		
+			<application-command> -main
+			
+		In Windows this is the application that will be the app listed in the Control Panel/Programs List.
 	]"
 
 	author: "Finnian Reilly"
@@ -10,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:10:39 GMT (Tuesday 8th February 2022)"
-	revision: "2"
+	date: "2022-09-22 10:58:09 GMT (Thursday 22nd September 2022)"
+	revision: "3"
 
 deferred class
 	EL_MAIN_INSTALLABLE_APPLICATION

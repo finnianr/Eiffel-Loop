@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-16 12:06:26 GMT (Sunday 16th May 2021)"
-	revision: "14"
+	date: "2022-09-25 15:35:58 GMT (Sunday 25th September 2022)"
+	revision: "15"
 
 deferred class
 	EL_MODULE_BUFFER
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_MODULE
 
-feature {NONE} -- Implementation
+feature {NONE} -- Constants
 
 	Buffer: EL_ZSTRING_BUFFER
 		once

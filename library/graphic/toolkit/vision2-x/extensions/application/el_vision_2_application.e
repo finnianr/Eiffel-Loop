@@ -12,11 +12,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-11 15:08:09 GMT (Saturday 11th June 2022)"
-	revision: "3"
+	date: "2022-09-22 10:48:25 GMT (Thursday 22nd September 2022)"
+	revision: "4"
 
 class
-	EL_VISION_2_APPLICATION [PIXMAPS -> {EL_STOCK_PIXMAPS} create make end]
+	EL_VISION_2_APPLICATION [PIXMAPS -> EL_STOCK_PIXMAPS create make end]
 
 inherit
 	EV_APPLICATION
@@ -36,13 +36,13 @@ feature {NONE} -- Initialization
 	initialize
 			--
 		local
-			display_size: EL_ADJUSTED_DISPLAY_SIZE; stock: PIXMAPS
+			stock: PIXMAPS
 		do
 			Precursor
 			create stock.make -- shared singleton
-			create display_size.make
-			display_size.read
-			Screen.set_dimensions (display_size.width_cms, display_size.height_cms)
+			if attached adjusted_display_size as display then
+				Screen.set_dimensions (display.width_cms, display.height_cms)
+			end
 		end
 
 feature {NONE} -- Initialization
@@ -104,6 +104,12 @@ feature {NONE} -- Implementation
 			-- For Unix systems this shared object has to be created before any Vision-2 GUI code
 			-- It calls code that is effectively a mini GTK app to determine the useable screen space
 			create useable_screen.make
+		end
+
+	adjusted_display_size: EL_ADJUSTED_DISPLAY_SIZE
+		do
+			create Result.make
+			Result.read
 		end
 
 	on_creation

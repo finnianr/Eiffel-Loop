@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "4"
+	date: "2022-09-25 15:52:30 GMT (Sunday 25th September 2022)"
+	revision: "5"
 
 class
 	EL_ELEMENT_ATTRIBUTE_NODE_STRING
@@ -37,15 +37,20 @@ feature -- Access
 
 	xpath_name (keep_ref: BOOLEAN): ZSTRING
 		--
+		local
+			name_count: INTEGER
 		do
-			if cached_xpath_name.count = 1 then
+			name_count := cached_xpath_name.count - 1
+			if name_count = 0 then
 				cached_xpath_name.append (raw_name)
 
-			elseif not cached_xpath_name.same_characters (raw_name, 1, raw_name.count, 2) then
+			elseif name_count /= raw_name.count
+				or else not cached_xpath_name.same_characters (raw_name, 1, raw_name.count, 2)
+			then
 				cached_xpath_name.replace_substring (raw_name, 2, cached_xpath_name.count)
 			end
 
-			Result := buffer.empty
+			Result := Buffer.empty
 			if encoded_as_utf (8) then
 				Result.append_utf_8 (cached_xpath_name)
 			else
@@ -58,7 +63,7 @@ feature -- Access
 			valid: Result.count = name.count + 1 and then Result.ends_with (name)
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Internal attributes
 
 	cached_xpath_name: EL_UTF_8_STRING
 

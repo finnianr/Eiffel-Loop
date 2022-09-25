@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-14 9:46:05 GMT (Wednesday 14th July 2021)"
-	revision: "15"
+	date: "2022-09-25 13:57:50 GMT (Sunday 25th September 2022)"
+	revision: "16"
 
 deferred class
 	EL_EIF_OBJ_XPATH_CONTEXT
@@ -18,7 +18,6 @@ feature {NONE} -- Initialization
 			--
 		do
 			set_default_attributes
-			next_context := Default_next_context
 		end
 
 feature {EL_DOCUMENT_CLIENT} -- Event handler
@@ -36,7 +35,7 @@ feature {EL_DOCUMENT_CLIENT} -- Event handler
 
 feature -- Access
 
-	next_context: EL_EIF_OBJ_XPATH_CONTEXT note option: transient attribute end
+	next_context: detachable EL_EIF_OBJ_XPATH_CONTEXT note option: transient attribute end
 		-- Next object context
 
 feature -- Basic operations
@@ -58,7 +57,7 @@ feature -- Element change
 			--
 		do
 			next_context := context
-			next_context.set_node (node)
+			context.set_node (node)
 		end
 
 	add_xpath_step (tag_name: ZSTRING)
@@ -86,10 +85,10 @@ feature -- Element change
 			end
 		end
 
-	delete_next_context
+	reset_next_context
 			--
 		do
-			next_context := Default_next_context
+			next_context := Void
 		end
 
 feature -- Status query
@@ -119,11 +118,6 @@ feature -- Status query
 			Result := xpath.has (xpath_step_separator)
 		end
 
-	has_next_context: BOOLEAN
-		do
-			Result := next_context /= Default_next_context
-		end
-
 feature {EL_EIF_OBJ_XPATH_CONTEXT} -- Implementation
 
 	set_default_attributes
@@ -137,12 +131,6 @@ feature {EL_EIF_OBJ_XPATH_CONTEXT} -- Implementation
 	xpath: ZSTRING note option: transient attribute end
 
 feature {NONE} -- Constant
-
-	Default_next_context: EL_DEFAULT_EIF_OBJ_XPATH_CONTEXT
-		once
-			create Result
-			Result.set_default_attributes
-		end
 
 	Xpath_step_separator: CHARACTER_32 = '/'
 

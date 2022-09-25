@@ -4,10 +4,6 @@ pyxis-doc:
 # Pyxis is data format inspired by the Python programming language and designed to be a more
 # readable supplement/substitute for XML configuration files.
 
-# Pyxis as an acronym stands for: Pythonic XML ideal source.
-# It is also a Latin transliteration of a Greek word for a type of pottery used by women to hold 
-# cosmetics, trinkets or jewellery. occurs
-
 system:
 	configuration_ns = "1-16-0"
 	name = el_eiffel; uuid = "EEA36E90-5A49-11E7-8290-A34D58BF65CD"
@@ -24,7 +20,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 7; release = 9; build = 528
+			major = 1; minor = 8; release = 0; build = 528
 			company = "Eiffel-Loop"; product = "eiffel"
 			copyright = "Finnian Reilly"
 

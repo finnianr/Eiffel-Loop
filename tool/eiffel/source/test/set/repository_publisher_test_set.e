@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-04 19:01:57 GMT (Saturday 4th June 2022)"
-	revision: "46"
+	date: "2022-09-07 8:29:15 GMT (Wednesday 7th September 2022)"
+	revision: "47"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -38,13 +38,7 @@ inherit
 
 	EIFFEL_LOOP_TEST_ROUTINES
 
-	EL_MODULE_OS
-
-	EL_MODULE_USER_INPUT
-
-	EL_MODULE_EXECUTION_ENVIRONMENT
-
-	EL_MODULE_EXECUTABLE
+	EL_MODULE_OS; EL_MODULE_USER_INPUT; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_EXECUTABLE
 
 	EL_MODULE_TUPLE
 

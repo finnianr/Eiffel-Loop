@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-16 12:45:05 GMT (Saturday 16th January 2021)"
-	revision: "13"
+	date: "2022-09-25 14:07:28 GMT (Sunday 25th September 2022)"
+	revision: "14"
 
 class
 	EL_DOCUMENT_EIFFEL_OBJECT_BUILDER
@@ -83,29 +83,33 @@ feature {NONE} -- Parsing events
 		local
 			current_index: INTEGER
 		do
-			context_stack.item.set_node (last_node)
-			context_stack.item.add_xpath_step (last_node.xpath_name (False))
-			context_stack.item.do_with_xpath
+			if attached context_stack.item as top_item then
+				top_item.set_node (last_node)
+				top_item.add_xpath_step (last_node.xpath_name (False))
+				top_item.do_with_xpath
 
-			if context_stack.item.has_next_context then
-				change_context (context_stack.item.next_context)
-			end
-			from attribute_list.start until attribute_list.after loop
-				apply_building_action_for_node (attribute_list.node)
-
-				if context_stack.item.has_next_context then
-					change_context (context_stack.item.next_context)
-
-					current_index := attribute_list.index
-					from attribute_list.start until attribute_list.after loop
-						if attribute_list.index /= current_index then
-							apply_building_action_for_node (attribute_list.node)
-						end
-						attribute_list.forth
-					end
-					attribute_list.go_i_th (current_index)
+				if attached top_item.next_context as next_context then
+					change_context (next_context)
 				end
-				attribute_list.forth
+				if attached attribute_list as list then
+					from list.start until list.after loop
+						apply_building_action_for_node (list.node)
+
+						if attached context_stack.item.next_context as next_context then
+							change_context (next_context)
+
+							current_index := list.index
+							from list.start until list.after loop
+								if list.index /= current_index then
+									apply_building_action_for_node (list.node)
+								end
+								list.forth
+							end
+							list.go_i_th (current_index)
+						end
+						list.forth
+					end
+				end
 			end
 		end
 
@@ -135,16 +139,18 @@ feature {NONE} -- Implementation
 	apply_building_action_for_node (node: EL_DOCUMENT_NODE_STRING)
 			--
 		do
-			context_stack.item.set_node (node)
-			context_stack.item.add_xpath_step (node.xpath_name (False))
-			context_stack.item.do_with_xpath
-			context_stack.item.remove_xpath_step
+			if attached context_stack.item as top_item then
+				top_item.set_node (node)
+				top_item.add_xpath_step (node.xpath_name (False))
+				top_item.do_with_xpath
+				top_item.remove_xpath_step
+			end
 		end
 
 	change_context (new_context: EL_EIF_OBJ_XPATH_CONTEXT)
 			--
 		do
-			context_stack.item.delete_next_context
+			context_stack.item.reset_next_context
 			context_stack.extend (new_context)
 		end
 
