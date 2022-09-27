@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 9:02:33 GMT (Thursday 16th June 2022)"
-	revision: "10"
+	date: "2022-09-27 10:56:31 GMT (Tuesday 27th September 2022)"
+	revision: "11"
 
 class
 	PP_ADDRESS
@@ -58,7 +58,7 @@ feature -- Status query
 
 	is_confirmed: BOOLEAN
 		do
-			Result := status.to_boolean
+			Result := status = Status_enum.confirmed
 		end
 
 feature {NONE} -- Implementation

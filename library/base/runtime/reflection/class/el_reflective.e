@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-26 10:39:33 GMT (Sunday 26th June 2022)"
-	revision: "54"
+	date: "2022-09-27 16:57:00 GMT (Tuesday 27th September 2022)"
+	revision: "55"
 
 deferred class
 	EL_REFLECTIVE
@@ -98,6 +98,14 @@ feature -- Comparison
 	all_fields_equal (other: like Current): BOOLEAN
 		do
 			Result := meta_data.all_fields_equal (Current, other)
+		end
+
+	same_fields (other: like Current; name_list: STRING): BOOLEAN
+		-- `True' if named fields in `name_list' have same value in `Current' and `other'
+		require
+			valid_name_list: valid_field_names (name_list)
+		do
+			Result := meta_data.same_fields (Current, other, name_list)
 		end
 
 feature -- Basic operations
@@ -180,7 +188,7 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 			valid_representations: valid_representations (Result)
 		end
 
-feature {NONE} -- Contract Support
+feature -- Contract Support
 
 	valid_field_names (names: STRING): BOOLEAN
 		-- `True' if comma separated list of `names' are all valid field names

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 5:55:42 GMT (Monday 7th February 2022)"
-	revision: "15"
+	date: "2022-09-27 15:58:24 GMT (Tuesday 27th September 2022)"
+	revision: "16"
 
 class
 	EL_DIGEST_ARRAY
@@ -22,7 +22,7 @@ inherit
 	EL_MODULE_FILE
 
 create
-	make_final, make_reflective, make_from_base64, make_sink, make_from_integer_x, make_from_memory,
+	make_final, make_from_base64, make_sink, make_from_integer_x, make_from_memory,
 	make_from_plain_text
 
 convert
@@ -69,13 +69,6 @@ feature {NONE} -- Initialization
 	make_from_integer_x (integer: INTEGER_X)
 		do
 			area := integer.as_bytes
-		end
-
-	make_reflective (digest: EL_DATA_SINKABLE; object: EL_REFLECTIVE; except_field_names: STRING)
-		do
-			digest.reset
-			object.meta_data.sink_except (object, digest, except_field_names)
-			make_final (digest)
 		end
 
 	make_sink (digest: EL_DATA_SINKABLE; string: READABLE_STRING_8)

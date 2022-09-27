@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-18 16:52:41 GMT (Saturday 18th June 2022)"
-	revision: "50"
+	date: "2022-09-27 16:53:31 GMT (Tuesday 27th September 2022)"
+	revision: "51"
 
 class
 	EL_CLASS_META_DATA
@@ -22,14 +22,9 @@ inherit
 
 	EL_LAZY_ATTRIBUTE
 		rename
-			item as sink_except_fields,
-			new_item as new_sink_except_fields
-		end
-
-	EL_LAZY_ATTRIBUTE_2
-		rename
 			item as alphabetical_list,
-			new_item as new_alphabetical_list
+			new_item as new_alphabetical_list,
+			actual_item as actual_alphabetical_list
 		end
 
 	EL_REFLECTION_CONSTANTS
@@ -61,9 +56,7 @@ feature {NONE} -- Initialization
 				Reader_writer_table.put (interface.item, interface.key.type_id)
 			end
 			create cached_field_indices_set.make_equal (3, agent new_field_indices_set)
-			excluded_fields := cached_field_indices_set.item (a_enclosing_object.Transient_fields)
 
-			hidden_fields := cached_field_indices_set.item (a_enclosing_object.Hidden_fields)
 			representations := enclosing_object.new_representations
 			field_list := new_field_list
 			field_table := field_list.to_table (a_enclosing_object)
@@ -82,45 +75,36 @@ feature -- Access
 
 	enclosing_object: EL_REFLECTIVE
 
-	excluded_fields: EL_FIELD_INDICES_SET
-
 	field_list: EL_REFLECTED_FIELD_LIST
 
 	field_table: EL_REFLECTED_FIELD_TABLE
-
-	hidden_fields: EL_FIELD_INDICES_SET
-
-	sink_except (a_object: EL_REFLECTIVE; sinkable: EL_DATA_SINKABLE; a_excluded_fields: STRING)
-		do
-			if attached sink_except_fields as cached then
-				field_list.sink_except (a_object, sinkable, cached.item (a_excluded_fields))
-			end
-		end
 
 feature -- Basic operations
 
 	print_fields (a_object: EL_REFLECTIVE; a_lio: EL_LOGGABLE)
 		local
-			line_length, length: INTEGER
 			name: STRING; value: ZSTRING; l_field: EL_REFLECTED_FIELD
+			line_length, length: INTEGER
 		do
 			create value.make_empty
-			across field_list as fld loop
-				l_field := fld.item
-				if not hidden_fields.has (l_field.index) then
-					name := l_field.name
-					value.wipe_out
-					value.append_string_general (l_field.to_string (a_object))
-					length := name.count + value.count + 2
-					if line_length > 0 then
-						a_lio.put_string (", ")
-						if line_length + length > Info_line_length then
-							a_lio.put_new_line
-							line_length := 0
+			if attached cached_field_indices_set.item (enclosing_object.Hidden_fields) as hidden then
+				across field_list as fld loop
+					l_field := fld.item
+					if not hidden.has (l_field.index) then
+						name := l_field.name
+						value.wipe_out
+						value.append_string_general (l_field.to_string (a_object))
+						length := name.count + value.count + 2
+						if line_length > 0 then
+							a_lio.put_string (", ")
+							if line_length + length > Info_line_length then
+								a_lio.put_new_line
+								line_length := 0
+							end
 						end
+						a_lio.put_labeled_string (name, value)
+						line_length := line_length + length
 					end
-					a_lio.put_labeled_string (name, value)
-					line_length := line_length + length
 				end
 			end
 			a_lio.put_new_line
@@ -134,17 +118,33 @@ feature -- Status query
 			Result := field_list.field_hash = a_field_hash
 		end
 
+	same_fields (a_current, other: EL_REFLECTIVE; name_list: STRING): BOOLEAN
+		-- `True' if all fields in `name_list' have same value
+		do
+			Result := True
+			if attached cached_field_indices_set.item (name_list) as field_set and then attached field_list as list then
+				from list.start until not Result or list.after loop
+					if field_set.has (list.item.index) then
+						Result := list.item.are_equal (a_current, other)
+					end
+					list.forth
+				end
+			end
+		end
+
 feature -- Comparison
 
 	all_fields_equal (a_current, other: EL_REFLECTIVE): BOOLEAN
 		local
-			i, count: INTEGER; array: like field_list
+			i, count: INTEGER
 		do
-			array := field_list; count := array.count
-			Result := True
-			from i := 1 until not Result or i > count loop
-				Result := array.i_th (i).are_equal (a_current, other)
-				i := i + 1
+			if attached field_list as list then
+				count := list.count
+				Result := True
+				from i := 1 until not Result or i > count loop
+					Result := list [i].are_equal (a_current, other)
+					i := i + 1
+				end
 			end
 		end
 
@@ -183,12 +183,13 @@ feature {NONE} -- Factory
 	new_field_list: EL_REFLECTED_FIELD_LIST
 		-- list of field names with empty strings in place of excluded fields
 		local
-			i, count: INTEGER; excluded: like excluded_fields
+			i, count: INTEGER; excluded_fields: EL_FIELD_INDICES_SET
 		do
-			excluded := excluded_fields; count := field_count
-			create Result.make (count - excluded.count)
+			excluded_fields := new_field_indices_set (enclosing_object.Transient_fields)
+			count := field_count
+			create Result.make (count - excluded_fields.count)
 			from i := 1 until i > count loop
-				if not (is_field_transient (i) or else excluded.has (i))
+				if not (is_field_transient (i) or else excluded_fields.has (i))
 					and then enclosing_object.field_included (field_type (i), field_static_type (i))
 				then
 					if attached field_name (i) as name and then not is_once_object (name) then
@@ -257,12 +258,6 @@ feature {NONE} -- Factory
 			end
 		ensure
 			same_type: not representations.has (name) implies Result.generating_type ~ type
-		end
-
-	new_sink_except_fields: EL_CACHE_TABLE [EL_FIELD_INDICES_SET, STRING]
-		-- fields excluded by `sink_except' by `a_excluded_fields'
-		do
-			create Result.make_equal (11, agent new_field_indices_set)
 		end
 
 feature {NONE} -- Implementation

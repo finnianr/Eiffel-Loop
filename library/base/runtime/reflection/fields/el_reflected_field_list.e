@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-14 10:41:14 GMT (Tuesday 14th June 2022)"
-	revision: "16"
+	date: "2022-09-27 16:58:19 GMT (Tuesday 27th September 2022)"
+	revision: "17"
 
 class
 	EL_REFLECTED_FIELD_LIST
@@ -90,14 +90,12 @@ feature -- Basic operations
 			end
 		end
 
-	sink_except (enclosing_object: EL_REFLECTIVE; sinkable: EL_DATA_SINKABLE; excluded: EL_FIELD_INDICES_SET)
+	sink (sinkable: EL_DATA_SINKABLE; enclosing_object: EL_REFLECTIVE)
 		local
 			i: INTEGER
 		do
 			from i := 1 until i > count loop
-				if not excluded.has (i) then
-					i_th (i).write (enclosing_object, sinkable)
-				end
+				i_th (i).write (enclosing_object, sinkable)
 				i := i + 1
 			end
 		end
