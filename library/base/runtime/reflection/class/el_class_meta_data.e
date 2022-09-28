@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-27 16:53:31 GMT (Tuesday 27th September 2022)"
-	revision: "51"
+	date: "2022-09-28 11:30:21 GMT (Wednesday 28th September 2022)"
+	revision: "52"
 
 class
 	EL_CLASS_META_DATA
@@ -72,6 +72,8 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	cached_field_indices_set: EL_CACHE_TABLE [EL_FIELD_INDICES_SET, STRING]
 
 	enclosing_object: EL_REFLECTIVE
 
@@ -171,7 +173,7 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_field_indices_set (field_names: STRING): EL_FIELD_INDICES_SET
+	new_field_indices_set (field_names: detachable STRING): EL_FIELD_INDICES_SET
 		do
 			if field_names.is_empty then
 				Result := Empty_field_indices_set
@@ -269,8 +271,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Internal attributes
-
-	cached_field_indices_set: EL_CACHE_TABLE [EL_FIELD_INDICES_SET, STRING]
 
 	representations: like enclosing_object.new_representations
 

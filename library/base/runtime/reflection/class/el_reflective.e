@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-28 9:12:48 GMT (Wednesday 28th September 2022)"
-	revision: "56"
+	date: "2022-09-28 11:37:27 GMT (Wednesday 28th September 2022)"
+	revision: "57"
 
 deferred class
 	EL_REFLECTIVE
@@ -39,6 +39,8 @@ inherit
 	EL_NAMING_CONVENTIONS
 
 	EL_REFLECTION_HANDLER
+
+	EL_STRING_8_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -60,6 +62,17 @@ feature -- Access
 	field_name_list: EL_STRING_LIST [STRING]
 		do
 			Result := meta_data.field_list.name_list
+		end
+
+	field_indices_set (field_names: detachable STRING): EL_FIELD_INDICES_SET
+		require
+			valid_names: attached field_names as names implies valid_field_names (names)
+		do
+			if attached field_names as names then
+				Result := meta_data.cached_field_indices_set.item (names)
+			else
+				Result := meta_data.cached_field_indices_set.item (Empty_string_8)
+			end
 		end
 
 feature -- Measurement
@@ -133,13 +146,15 @@ feature -- Element change
 			meta_data.field_list.do_all (agent {EL_REFLECTED_FIELD}.reset (Current))
 		end
 
-	set_from_other (other: EL_REFLECTIVE; other_except_list: STRING)
+	set_from_other (other: EL_REFLECTIVE; other_except_list: detachable STRING)
 		-- set fields in `Current' with identical fields from `other' except for
 		-- other fields listed in comma-separated `other_except_list'
+		require
+			valid_names: attached other_except_list as names implies other.valid_field_names (names)
 		do
 			if attached meta_data.field_table as table
 				and then attached other.meta_data.field_table as table_other
-				and then attached other.new_field_indices_set (other_except_list) as except_indices
+				and then attached other.field_indices_set (other_except_list) as except_indices
 			then
 				from table_other.start until table_other.after loop
 					if attached table_other.item_for_iteration as other_field
@@ -157,11 +172,6 @@ feature -- Element change
 		end
 
 feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
-
-	new_field_indices_set (field_names: STRING): EL_FIELD_INDICES_SET
-		do
-			create Result.make (current_object, field_names)
-		end
 
 	new_instance_functions: like Default_initial_values
 		-- array of functions returning a new value for result type

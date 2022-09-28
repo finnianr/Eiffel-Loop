@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-28 9:45:47 GMT (Wednesday 28th September 2022)"
-	revision: "55"
+	date: "2022-09-28 9:54:31 GMT (Wednesday 28th September 2022)"
+	revision: "56"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -31,7 +31,7 @@ inherit
 			is_equal, new_meta_data, use_default_values
 		end
 
-	EL_REFLECTIVELY_CSV_CONVERTABLE
+	EL_CSV_CONVERTABLE
 
 	EL_MODULE_BUFFER; EL_MODULE_EXECUTABLE; EL_MODULE_LIO; EL_MODULE_REUSEABLE
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 10:26:07 GMT (Thursday 16th June 2022)"
-	revision: "2"
+	date: "2022-09-28 12:13:46 GMT (Wednesday 28th September 2022)"
+	revision: "3"
 
 class
 	EL_DEBIAN_CONTROL
@@ -19,14 +19,10 @@ inherit
 			field_included as is_any_field,
 			foreign_naming as eiffel_naming,
 			make_from_template_and_output as make,
-			getter_function_table as empty_function_table
+			getter_function_table as empty_function_table,
+			Empty_string_8 as Template
 		redefine
 			make_default
-		end
-
-	EL_STRING_8_CONSTANTS
-		rename
-			Empty_string_8 as Template
 		end
 
 	EL_MODULE_BUILD_INFO

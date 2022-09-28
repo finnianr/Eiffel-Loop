@@ -1,16 +1,18 @@
 note
-	description: "Object that is reflectively convertable to comma separated list of string values"
+	description: "[
+		Object that is reflectively convertable to comma separated list of string values
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-28 9:44:39 GMT (Wednesday 28th September 2022)"
-	revision: "1"
+	date: "2022-09-28 9:54:56 GMT (Wednesday 28th September 2022)"
+	revision: "2"
 
 deferred class
-	EL_REFLECTIVELY_CSV_CONVERTABLE
+	EL_CSV_CONVERTABLE
 
 inherit
 	EL_REFLECTIVE_I

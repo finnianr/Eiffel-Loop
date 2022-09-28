@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-25 5:32:18 GMT (Monday 25th July 2022)"
-	revision: "28"
+	date: "2022-09-28 11:36:03 GMT (Wednesday 28th September 2022)"
+	revision: "29"
 
 class
 	REFLECTION_TEST_SET
@@ -39,6 +39,7 @@ feature -- Basic operations
 			eval.call ("object_initialization_from_table", agent test_object_initialization_from_table)
 			eval.call ("reflection", agent test_reflection)
 			eval.call ("reflective_string_constants", agent test_reflective_string_constants)
+			eval.call ("set_from_other", agent test_set_from_other)
 			eval.call ("size_reporting", agent test_size_reporting)
 		end
 
@@ -125,6 +126,26 @@ feature -- Tests
 			create name
 			assert ("equal strings", name.string_8 ~ String_8)
 			assert ("equal strings", name.immutable_string_8 ~ Immutable_string_8)
+		end
+
+	test_set_from_other
+		note
+			testing: "covers/{EL_REFLECTIVE}.set_from_other"
+		local
+			country: COUNTRY; country_2: STORABLE_COUNTRY
+		do
+			create country.make (Value_table)
+			create country_2.make_default
+			country_2.set_from_other (country, "continent, population")
+			assert ("continent is empty", country_2.continent.is_empty)
+			assert ("population is zero", country_2.population = 0)
+			country_2.set_continent (Value_table ["continent"])
+			country_2.set_population (Value_table ["population"].to_integer)
+			check_values (country_2)
+
+			create country_2.make_default
+			country_2.set_from_other (country, Void)
+			check_values (country_2)
 		end
 
 	test_size_reporting

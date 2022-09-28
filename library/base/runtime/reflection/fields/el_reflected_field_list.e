@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-27 16:58:19 GMT (Tuesday 27th September 2022)"
-	revision: "17"
+	date: "2022-09-28 12:03:30 GMT (Wednesday 28th September 2022)"
+	revision: "18"
 
 class
 	EL_REFLECTED_FIELD_LIST
@@ -61,7 +61,7 @@ feature -- Basic operations
 	set_order (meta_data: EL_CLASS_META_DATA)
 		-- reorder fields according to class `meta_data'
 		local
-			i, offset: INTEGER; indices_set: EL_FIELD_INDICES_SET
+			i, offset, i_final: INTEGER; indices_set: EL_FIELD_INDICES_SET
 			enclosing_object: EL_REFLECTIVE_FIELD_ORDER
 		do
 			enclosing_object := meta_data.enclosing_object
@@ -81,11 +81,13 @@ feature -- Basic operations
 			-- move any explicitly ordered fields to the end of list
 			if not enclosing_object.has_default_reordered_fields then
 				create indices_set.make (meta_data, enclosing_object.reordered_fields)
-				across indices_set as set loop
-					find_first_equal (set.item, agent {EL_REFLECTED_FIELD}.index)
+				i_final := indices_set.count
+				from i := 0 until i = i_final loop
+					find_first_equal (indices_set [i], agent {EL_REFLECTED_FIELD}.index)
 					if found then
 						shift (count - index)
 					end
+					i := i + 1
 				end
 			end
 		end

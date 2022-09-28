@@ -1,3 +1,6 @@
+2.4.2
+* Reflection refactor and XML building bug fix
+
 2.4.1
 * Refactored EL_STRING_X_ROUTINES
 
