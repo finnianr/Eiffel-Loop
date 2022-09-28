@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-27 16:57:00 GMT (Tuesday 27th September 2022)"
-	revision: "55"
+	date: "2022-09-28 9:12:48 GMT (Wednesday 28th September 2022)"
+	revision: "56"
 
 deferred class
 	EL_REFLECTIVE
@@ -37,6 +37,8 @@ inherit
 	EL_MODULE_EIFFEL
 
 	EL_NAMING_CONVENTIONS
+
+	EL_REFLECTION_HANDLER
 
 feature {NONE} -- Initialization
 
@@ -88,9 +90,14 @@ feature {EL_REFLECTION_HANDLER} -- Access
 		deferred
 		end
 
-	meta_data: like Meta_data_by_type.item
+	meta_data: EL_CLASS_META_DATA
 		do
-			Result := Meta_data_by_type.item (Current)
+			if attached internal_meta_data as data then
+				Result := data
+			else
+				Result := new_meta_data
+				internal_meta_data := Result
+			end
 		end
 
 feature -- Comparison
@@ -129,27 +136,23 @@ feature -- Element change
 	set_from_other (other: EL_REFLECTIVE; other_except_list: STRING)
 		-- set fields in `Current' with identical fields from `other' except for
 		-- other fields listed in comma-separated `other_except_list'
-		local
-			except_indices: EL_FIELD_INDICES_SET
-			table, table_other: EL_REFLECTED_FIELD_TABLE
-			field, other_field: EL_REFLECTED_FIELD
-			l_meta_data: like Meta_data_by_type.item
 		do
-			l_meta_data := meta_data
-			table := l_meta_data.field_table
-			except_indices := other.new_field_indices_set (other_except_list)
-			table_other := Meta_data_by_type.item (other).field_table
-			from table_other.start until table_other.after loop
-				other_field := table_other.item_for_iteration
-				if not except_indices.has (other_field.index) then
-					if table.has_key (other_field.name) then
-						field := table.found_item
-						if other_field.type_id = field.type_id then
-							field.set (Current, other_field.value (other))
+			if attached meta_data.field_table as table
+				and then attached other.meta_data.field_table as table_other
+				and then attached other.new_field_indices_set (other_except_list) as except_indices
+			then
+				from table_other.start until table_other.after loop
+					if attached table_other.item_for_iteration as other_field
+						and then not except_indices.has (other_field.index)
+					then
+						if table.has_key (other_field.name) and then attached table.found_item as field then
+							if other_field.type_id = field.type_id then
+								field.set (Current, other_field.value (other))
+							end
 						end
 					end
+					table_other.forth
 				end
-				table_other.forth
 			end
 		end
 
@@ -219,16 +222,15 @@ feature {NONE} -- Implementation
 	fill_field_value_table (value_table: EL_FIELD_VALUE_TABLE [ANY])
 		-- fill
 		local
-			l_meta_data: like Meta_data_by_type.item; table: EL_REFLECTED_FIELD_TABLE
 			query_results: LIST [EL_REFLECTED_FIELD]
 		do
-			l_meta_data := meta_data
-			table := l_meta_data.field_table
-			table.query_by_type (value_table.value_type)
-			query_results := table.last_query
-			from query_results.start until query_results.after loop
-				value_table.set_value (query_results.item.export_name, query_results.item.value (Current))
-				query_results.forth
+			if attached meta_data.field_table as table then
+				table.query_by_type (value_table.value_type)
+				query_results := table.last_query
+				from query_results.start until query_results.after loop
+					value_table.set_value (query_results.item.export_name, query_results.item.value (Current))
+					query_results.forth
+				end
 			end
 		end
 
@@ -284,20 +286,22 @@ feature {EL_CLASS_META_DATA} -- Implementation
 		require
 			reference_type: not type.is_expanded
 			type_same_as_function_result_type: new_object.generating_type.generic_parameter_type (2) ~ type
-		local
-			table: EL_REFLECTED_FIELD_TABLE; l_meta_data: like meta_data
 		do
-			l_meta_data := meta_data
-			table := l_meta_data.field_table
-			from table.start until table.after loop
-				if attached {EL_REFLECTED_REFERENCE [ANY]} table.item_for_iteration as ref_field
-					and then ref_field.type_id = type.type_id
-				then
-					ref_field.set (Current, new_object (ref_field.export_name))
+			if attached meta_data.field_table as table then
+				from table.start until table.after loop
+					if attached {EL_REFLECTED_REFERENCE [ANY]} table.item_for_iteration as ref_field
+						and then ref_field.type_id = type.type_id
+					then
+						ref_field.set (Current, new_object (ref_field.export_name))
+					end
+					table.forth
 				end
-				table.forth
 			end
 		end
+
+feature {NONE} -- Internal attributes
+
+	internal_meta_data: detachable EL_CLASS_META_DATA note option: transient attribute end
 
 feature {EL_CLASS_META_DATA} -- Constants
 
@@ -312,11 +316,6 @@ feature {EL_CLASS_META_DATA} -- Constants
 			create Result.make_empty
 		ensure
 			valid_field_names: valid_field_names (Result)
-		end
-
-	Meta_data_by_type: EL_FUNCTION_RESULT_TABLE [EL_REFLECTIVE, EL_CLASS_META_DATA]
-		once
-			create Result.make (11, agent {EL_REFLECTIVE}.new_meta_data)
 		end
 
 	Transient_fields: STRING

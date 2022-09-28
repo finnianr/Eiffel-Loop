@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-25 14:08:51 GMT (Saturday 25th June 2022)"
-	revision: "54"
+	date: "2022-09-28 9:45:47 GMT (Wednesday 28th September 2022)"
+	revision: "55"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -31,15 +31,9 @@ inherit
 			is_equal, new_meta_data, use_default_values
 		end
 
-	EL_REFLECTION_HANDLER undefine is_equal end
+	EL_REFLECTIVELY_CSV_CONVERTABLE
 
-	EL_MODULE_LIO
-
-	EL_MODULE_EXECUTABLE
-
-	EL_MODULE_BUFFER
-
-	EL_MODULE_REUSEABLE
+	EL_MODULE_BUFFER; EL_MODULE_EXECUTABLE; EL_MODULE_LIO; EL_MODULE_REUSEABLE
 
 	EL_SHARED_CLASS_ID
 
@@ -47,13 +41,14 @@ feature -- Basic operations
 
 	write (a_writer: EL_MEMORY_READER_WRITER)
 		local
-			field_array: EL_REFLECTED_FIELD_LIST;i, l_count: INTEGER_32
+			i, l_count: INTEGER_32
 		do
-			field_array := Meta_data_by_type.item (Current).field_list
-			l_count := field_array.count
-			from i := 1 until i > l_count loop
-				write_field (field_array [i], a_writer)
-				i := i + 1
+			if attached meta_data.field_list as list then
+				l_count := list.count
+				from i := 1 until i > l_count loop
+					write_field (list [i], a_writer)
+					i := i + 1
+				end
 			end
 		end
 
@@ -134,14 +129,14 @@ feature -- Element change
 	read_default (a_reader: EL_MEMORY_READER_WRITER)
 			-- Read default (current) version of data
 		local
-			field_array: EL_REFLECTED_FIELD_LIST
 			i, l_count: INTEGER_32
 		do
-			field_array := Meta_data_by_type.item (Current).field_list
-			l_count := field_array.count
-			from i := 1 until i > l_count loop
-				read_field (field_array [i], a_reader)
-				i := i + 1
+			if attached meta_data.field_list as list then
+				l_count := list.count
+				from i := 1 until i > l_count loop
+					read_field (list [i], a_reader)
+					i := i + 1
+				end
 			end
 		end
 

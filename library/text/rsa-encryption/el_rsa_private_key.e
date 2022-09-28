@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "13"
+	date: "2022-09-28 9:23:53 GMT (Wednesday 28th September 2022)"
+	revision: "14"
 
 class
 	EL_RSA_PRIVATE_KEY
@@ -62,9 +62,6 @@ feature {NONE} -- Initialization
 		local
 			phi: INTEGER_X
 		do
-			if not attached field_table then
-				field_table := Meta_data_by_type.item (Current).field_table
-			end
 			prime_1 := a_prime_1
 			prime_2 := a_prime_2
 			modulus := a_modulus

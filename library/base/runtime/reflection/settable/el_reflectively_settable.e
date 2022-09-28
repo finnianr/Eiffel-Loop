@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:23:40 GMT (Sunday 19th December 2021)"
-	revision: "24"
+	date: "2022-09-28 9:42:32 GMT (Wednesday 28th September 2022)"
+	revision: "25"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE
@@ -25,67 +25,17 @@ deferred class
 inherit
 	EL_REFLECTIVE
 		redefine
-			is_equal, field_table
+			is_equal
 		end
 
 feature {NONE} -- Initialization
 
 	make_default
 		do
-			if not attached field_table then
-				field_table := Meta_data_by_type.item (Current).field_table
-			end
 			if use_default_values then
 				initialize_fields
 			end
 		end
-
-feature -- Access
-
-	comma_separated_names: STRING
-		--
-		do
-			Result := field_name_list.joined (',')
-		end
-
-feature -- Basic operations
-
-	put_comma_separated_values (line: ZSTRING)
-		local
-			table: like field_table csv: like CSV_escaper
-			value: ZSTRING
-		do
-			table := field_table; csv := CSV_escaper
-			create value.make_empty
-			from table.start until table.after loop
-				value.wipe_out
-				table.item_for_iteration.append_to_string (Current, value)
-				line.append (csv.escaped (value, False))
-				table.forth
-			end
-		end
-
-	comma_separated_values: ZSTRING
-		--
-		local
-			table: like field_table; list: EL_ZSTRING_LIST; csv: like CSV_escaper
-			value: ZSTRING
-		do
-			table := field_table; csv := CSV_escaper
-			create list.make (table.count)
-			create value.make_empty
-			from table.start until table.after loop
-				value.wipe_out
-				table.item_for_iteration.append_to_string (Current, value)
-				list.extend (csv.escaped (value, True))
-				table.forth
-			end
-			Result := list.joined (',')
-		end
-
-feature {EL_REFLECTION_HANDLER} -- Access
-
-	field_table: EL_REFLECTED_FIELD_TABLE note option: transient attribute end
 
 feature -- Comparison
 
@@ -99,13 +49,6 @@ feature {NONE} -- Implementation
 	use_default_values: BOOLEAN
 		do
 			Result := True
-		end
-
-feature {NONE} -- Constants
-
-	CSV_escaper: EL_COMMA_SEPARATED_VALUE_ESCAPER
-		once
-			create Result.make
 		end
 
 note

@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-26 14:58:46 GMT (Thursday 26th November 2020)"
-	revision: "4"
+	date: "2022-09-28 9:10:31 GMT (Wednesday 28th September 2022)"
+	revision: "5"
 
 deferred class
 	EL_REFLECTIVE_DESCRIPTIONS
@@ -39,12 +39,11 @@ feature -- Access
 	description_table: EL_HASH_TABLE [TUPLE [description: ZSTRING; default_value: ANY], STRING]
 		-- table of descriptions and default values derived from `help_text' and `default' option values
 		local
-			l_current: like current_reflective; help_table: EL_ZSTRING_TABLE
+			help_table: EL_ZSTRING_TABLE
 		do
 			if descriptions.is_empty then
 				create Result
-			else
-				l_current := current_reflective
+			elseif attached current_reflective as l_current then
 				create help_table.make (descriptions)
 				create Result.make_equal (help_table.count)
 				across help_table as table loop
@@ -61,11 +60,10 @@ feature {NONE} -- Contract Support
 
 	valid_description_table: BOOLEAN
 		-- `True' if `description_table' is complete
-		local
-			table: like description_table
 		do
-			table := description_table
-			Result := not table.is_empty implies across field_table as entry all table.has_key (entry.key) end
+			if attached description_table as table then
+				Result := not table.is_empty implies across field_table as entry all table.has_key (entry.key) end
+			end
 		end
 
 feature {NONE} -- Deferred implementation

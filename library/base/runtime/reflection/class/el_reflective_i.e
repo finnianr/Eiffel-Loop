@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-31 12:25:54 GMT (Sunday 31st October 2021)"
-	revision: "5"
+	date: "2022-09-28 9:37:48 GMT (Wednesday 28th September 2022)"
+	revision: "6"
 
 deferred class
 	EL_REFLECTIVE_I
@@ -15,6 +15,10 @@ deferred class
 feature {NONE} -- Implementation
 
 	current_reflective: EL_REFLECTIVE
+		deferred
+		end
+
+	field_name_list: EL_STRING_LIST [STRING]
 		deferred
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-25 11:57:41 GMT (Saturday 25th June 2022)"
-	revision: "11"
+	date: "2022-09-28 9:44:39 GMT (Wednesday 28th September 2022)"
+	revision: "12"
 
 class
 	JOB
@@ -18,6 +18,8 @@ inherit
 			field_included as is_any_field,
 			foreign_naming as Snake_case_upper
 		end
+
+	EL_REFLECTIVELY_CSV_CONVERTABLE
 
 	EL_SETTABLE_FROM_ZSTRING
 
