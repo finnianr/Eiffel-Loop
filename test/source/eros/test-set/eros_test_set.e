@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 11:33:58 GMT (Tuesday 8th February 2022)"
-	revision: "7"
+	date: "2022-10-04 8:50:43 GMT (Tuesday 4th October 2022)"
+	revision: "8"
 
 class
 	EROS_TEST_SET
@@ -47,7 +47,7 @@ feature {NONE} -- Initiliazation
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("fft", agent test_fft)

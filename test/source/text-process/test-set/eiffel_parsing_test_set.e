@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-22 9:08:56 GMT (Friday 22nd July 2022)"
-	revision: "13"
+	date: "2022-10-04 9:18:18 GMT (Tuesday 4th October 2022)"
+	revision: "14"
 
 class
 	EIFFEL_PARSING_TEST_SET
@@ -15,11 +15,11 @@ class
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
 
-	EIFFEL_LOOP_TEST_ROUTINES
+	SHARED_DEV_ENVIRON
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("code_highlighting", agent test_code_highlighting)
@@ -79,7 +79,7 @@ feature {NONE} -- Constants
 
 	Data_dir: DIR_PATH
 		once
-			Result := Eiffel_loop_dir #+ "tool/eiffel/test-data/sources/latin-1/os-command"
+			Result := Dev_environ.Eiffel_loop_dir #+ "tool/eiffel/test-data/sources/latin-1/os-command"
 		end
 
 	Is_zstring_source: BOOLEAN = False

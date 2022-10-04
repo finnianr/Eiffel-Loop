@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-28 9:54:31 GMT (Wednesday 28th September 2022)"
-	revision: "56"
+	date: "2022-09-28 14:59:56 GMT (Wednesday 28th September 2022)"
+	revision: "57"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -34,8 +34,6 @@ inherit
 	EL_CSV_CONVERTABLE
 
 	EL_MODULE_BUFFER; EL_MODULE_EXECUTABLE; EL_MODULE_LIO; EL_MODULE_REUSEABLE
-
-	EL_SHARED_CLASS_ID
 
 feature -- Basic operations
 
@@ -293,9 +291,7 @@ feature {NONE} -- Implementation
 						name.keep_head (2); name.append_integer (i)
 						value.wipe_out
 						value.append_tuple_item (tuple, i)
-						if Class_id.Character_data_types.has (tuple_types [i].type_id)
-							and then not value.is_code_identifier
-						then
+						if tuple_types.i_th_is_character_data (i) and then not value.is_code_identifier then
 							value.enclose ('"', '"')
 						end
 						pair := Pyxis_attribute #$ [name, value]

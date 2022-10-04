@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-25 15:02:55 GMT (Saturday 25th June 2022)"
-	revision: "17"
+	date: "2022-10-04 8:39:37 GMT (Tuesday 4th October 2022)"
+	revision: "18"
 
 class
 	COMMA_SEPARATED_IMPORT_TEST_SET
@@ -21,7 +21,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("import_export", agent test_import_export)

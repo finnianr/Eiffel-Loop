@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-06 8:53:24 GMT (Wednesday 6th July 2022)"
-	revision: "5"
+	date: "2022-10-04 8:51:16 GMT (Tuesday 4th October 2022)"
+	revision: "6"
 
 class
 	TEMPLATE_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("basic", agent test_basic)

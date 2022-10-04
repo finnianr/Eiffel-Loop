@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-01 10:23:44 GMT (Monday 1st March 2021)"
-	revision: "7"
+	date: "2022-10-04 8:51:24 GMT (Tuesday 4th October 2022)"
+	revision: "8"
 
 class
 	ZSTRING_EDITOR_TEST_SET
@@ -21,7 +21,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("for_each_balanced", agent test_for_each_balanced)

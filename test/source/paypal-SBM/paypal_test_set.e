@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 12:18:09 GMT (Sunday 19th December 2021)"
-	revision: "13"
+	date: "2022-10-04 8:51:02 GMT (Tuesday 4th October 2022)"
+	revision: "14"
 
 class
 	PAYPAL_TEST_SET
@@ -25,7 +25,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("pp_transaction", agent test_pp_transaction)

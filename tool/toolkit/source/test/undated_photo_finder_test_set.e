@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 14:11:12 GMT (Wednesday 16th February 2022)"
-	revision: "3"
+	date: "2022-10-04 9:37:26 GMT (Tuesday 4th October 2022)"
+	revision: "4"
 
 class
 	UNDATED_PHOTO_FINDER_TEST_SET
@@ -21,7 +21,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("execute", agent test_execute)

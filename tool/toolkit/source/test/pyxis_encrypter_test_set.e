@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-10 10:34:51 GMT (Monday 10th January 2022)"
-	revision: "1"
+	date: "2022-10-04 9:42:17 GMT (Tuesday 4th October 2022)"
+	revision: "2"
 
 class
 	PYXIS_ENCRYPTER_TEST_SET
@@ -17,11 +17,11 @@ inherit
 
 	EL_MODULE_ENCRYPTION
 
-	EIFFEL_LOOP_TEST_ROUTINES
+	SHARED_DEV_ENVIRON
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("execute", agent test_execute)
@@ -67,6 +67,6 @@ feature {NONE} -- Constants
 
 	Data_dir: DIR_PATH
 		once
-			Result := EL_test_data_dir #+ "pyxis/localization"
+			Result := Dev_environ.EL_test_data_dir #+ "pyxis/localization"
 		end
 end

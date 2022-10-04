@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-15 16:06:23 GMT (Wednesday 15th June 2022)"
-	revision: "2"
+	date: "2022-10-04 8:50:57 GMT (Tuesday 4th October 2022)"
+	revision: "3"
 
 class
 	NETWORK_TEST_SET
@@ -19,7 +19,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("enumerations", agent test_enumerations)

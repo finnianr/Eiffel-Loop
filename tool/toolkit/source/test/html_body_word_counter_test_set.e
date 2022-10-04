@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 4:53:41 GMT (Monday 7th February 2022)"
-	revision: "2"
+	date: "2022-10-04 9:40:44 GMT (Tuesday 4th October 2022)"
+	revision: "3"
 
 class
 	HTML_BODY_WORD_COUNTER_TEST_SET
@@ -15,11 +15,11 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EIFFEL_LOOP_TEST_ROUTINES
+	SHARED_DEV_ENVIRON
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("counter", agent test_counter)
@@ -31,7 +31,7 @@ feature -- Tests
 		local
 			command: HTML_BODY_WORD_COUNTER
 		do
-			create command.make (El_test_data_dir #+ "docs/html/I Ching")
+			create command.make (Dev_environ.El_test_data_dir #+ "docs/html/I Ching")
 			command.execute
 			assert ("word count is 762", command.word_count = 819)
 		end

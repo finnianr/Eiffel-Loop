@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-18 16:58:29 GMT (Saturday 18th June 2022)"
-	revision: "20"
+	date: "2022-10-04 8:50:50 GMT (Tuesday 4th October 2022)"
+	revision: "21"
 
 class
 	GENERAL_TEST_SET
@@ -25,7 +25,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("any_array_numeric_type_detection", agent test_any_array_numeric_type_detection)

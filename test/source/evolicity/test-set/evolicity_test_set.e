@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-05 16:35:20 GMT (Monday 5th September 2022)"
-	revision: "10"
+	date: "2022-10-04 9:18:52 GMT (Tuesday 4th October 2022)"
+	revision: "11"
 
 class
 	EVOLICITY_TEST_SET
@@ -20,17 +20,15 @@ inherit
 
 	EL_CRC_32_TEST_ROUTINES
 
-	EL_MODULE_LOG
+	EL_MODULE_LOG; EL_MODULE_TUPLE
 
-	EL_MODULE_TUPLE
-
-	EIFFEL_LOOP_TEST_ROUTINES
+	SHARED_DEV_ENVIRON
 
 	EVOLICITY_SHARED_TEMPLATES
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("if_then", agent test_if_then)
@@ -99,7 +97,7 @@ feature {NONE} -- Implementation
 
 	source_dir: DIR_PATH
 		do
-			Result := EL_test_data_dir #+ "evol"
+			Result := Dev_environ.EL_test_data_dir #+ "evol"
 		end
 
 feature {NONE} -- Factory

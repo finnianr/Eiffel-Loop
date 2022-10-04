@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-02 8:11:08 GMT (Friday 2nd September 2022)"
-	revision: "20"
+	date: "2022-10-04 8:39:37 GMT (Tuesday 4th October 2022)"
+	revision: "21"
 
 class
 	CHAIN_TEST_SET
@@ -29,7 +29,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("circular_indexing", agent test_circular_indexing)

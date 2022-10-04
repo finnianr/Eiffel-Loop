@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-22 9:08:56 GMT (Friday 22nd July 2022)"
-	revision: "11"
+	date: "2022-10-04 8:51:23 GMT (Tuesday 4th October 2022)"
+	revision: "12"
 
 class
 	XML_ESCAPER_TEST_SET
@@ -21,7 +21,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("xml_escape", agent test_xml_escape)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-07 12:35:03 GMT (Friday 7th January 2022)"
-	revision: "2"
+	date: "2022-10-04 8:56:38 GMT (Tuesday 4th October 2022)"
+	revision: "3"
 
 class
 	UPGRADE_DEFAULT_POINTER_SYNTAX_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("syntax_change", agent test_syntax_change)

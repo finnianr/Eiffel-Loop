@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-06 8:38:39 GMT (Monday 6th June 2022)"
-	revision: "32"
+	date: "2022-10-04 9:33:15 GMT (Tuesday 4th October 2022)"
+	revision: "33"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -28,8 +28,6 @@ inherit
 		end
 
 	EL_FILE_OPEN_ROUTINES
-
-	EIFFEL_LOOP_TEST_ROUTINES
 
 	NOTE_CONSTANTS
 		undefine
@@ -60,7 +58,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("editor_with_new_class", agent test_editor_with_new_class)

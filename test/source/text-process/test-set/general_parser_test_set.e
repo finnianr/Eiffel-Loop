@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 11:07:33 GMT (Thursday 3rd February 2022)"
-	revision: "15"
+	date: "2022-10-04 8:50:49 GMT (Tuesday 4th October 2022)"
+	revision: "16"
 
 class
 	GENERAL_PARSER_TEST_SET
@@ -31,7 +31,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("back_reference_match", agent test_back_reference_match)

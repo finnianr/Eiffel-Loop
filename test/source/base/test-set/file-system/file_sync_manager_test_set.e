@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:21:59 GMT (Monday 14th February 2022)"
-	revision: "24"
+	date: "2022-10-04 8:50:47 GMT (Tuesday 4th October 2022)"
+	revision: "25"
 
 class
 	FILE_SYNC_MANAGER_TEST_SET
@@ -26,7 +26,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("file_transfer", agent test_file_transfer)

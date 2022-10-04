@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 18:18:14 GMT (Wednesday 16th February 2022)"
-	revision: "16"
+	date: "2022-10-04 9:35:31 GMT (Tuesday 4th October 2022)"
+	revision: "17"
 
 class
 	UNDEFINE_PATTERN_COUNTER_TEST_SET
@@ -22,15 +22,13 @@ inherit
 
 	EL_CRC_32_TEST_ROUTINES
 
-	EL_MODULE_DIRECTORY
+	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
-
-	EIFFEL_LOOP_TEST_ROUTINES
+	SHARED_DEV_ENVIRON
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("command", agent test_command)
@@ -80,6 +78,6 @@ feature {NONE} -- Constants
 
 	Data_dir: DIR_PATH
 		once
-			Result := Eiffel_loop_dir #+ "library/base"
+			Result := Dev_environ.Eiffel_loop_dir #+ "library/base"
 		end
 end

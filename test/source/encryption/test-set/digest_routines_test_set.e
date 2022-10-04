@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 18:06:33 GMT (Monday 8th February 2021)"
-	revision: "9"
+	date: "2022-10-04 8:39:39 GMT (Tuesday 4th October 2022)"
+	revision: "10"
 
 class
 	DIGEST_ROUTINES_TEST_SET
@@ -21,7 +21,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("hmac_sha_256_digest",	agent test_hmac_sha_256_digest)

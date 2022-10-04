@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 6:39:17 GMT (Monday 7th February 2022)"
-	revision: "2"
+	date: "2022-10-04 10:20:58 GMT (Tuesday 4th October 2022)"
+	revision: "3"
 
 class
 	VELOCITY_TEST_SET
@@ -15,15 +15,15 @@ class
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
 
-	EIFFEL_LOOP_TEST_ROUTINES
-
 	EL_MODULE_FILE; EL_MODULE_JAVA
 
 	SHARED_JNI_ENVIRONMENT undefine default_create end
 
+	SHARED_DEV_ENVIRON
+
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("velocity", agent test_velocity)
@@ -33,7 +33,7 @@ feature -- Tests
 
 	test_velocity
 		do
-			Java.append_jar_locations (<< Eiffel_loop_dir #+ "contrib/Java/velocity-1.7" >>)
+			Java.append_jar_locations (<< Dev_environ.Eiffel_loop_dir #+ "contrib/Java/velocity-1.7" >>)
 			Java.open (<< "velocity-1.7-dep" >>)
 			do_velocity_test
 			Java.close
@@ -158,6 +158,6 @@ feature {NONE} -- Constants
 
 	Source_dir: EL_DIR_PATH
 		once
-			Result := Eiffel_loop_dir #+ "tool/eiffel/test-data/sources/latin-1"
+			Result := Dev_environ.Eiffel_loop_dir #+ "tool/eiffel/test-data/sources/latin-1"
 		end
 end

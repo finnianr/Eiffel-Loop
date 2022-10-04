@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-04 11:33:08 GMT (Monday 4th October 2021)"
-	revision: "1"
+	date: "2022-10-04 8:39:38 GMT (Tuesday 4th October 2022)"
+	revision: "2"
 
 class
 	CURRENCY_TEST_SET
@@ -21,7 +21,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("locale_table", agent test_locale_table)

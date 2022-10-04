@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-12 15:35:17 GMT (Sunday 12th June 2022)"
-	revision: "4"
+	date: "2022-10-04 8:55:47 GMT (Tuesday 4th October 2022)"
+	revision: "5"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("codebase_statistics", agent test_codebase_statistics)

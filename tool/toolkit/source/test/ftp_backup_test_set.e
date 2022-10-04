@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-04 8:45:42 GMT (Saturday 4th June 2022)"
-	revision: "3"
+	date: "2022-10-04 9:40:45 GMT (Tuesday 4th October 2022)"
+	revision: "4"
 
 class
 	FTP_BACKUP_TEST_SET
@@ -15,11 +15,11 @@ class
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
 
-	EIFFEL_LOOP_TEST_ROUTINES
+	SHARED_DEV_ENVIRON
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("exclude_list", agent test_exclude_list)
@@ -98,7 +98,7 @@ feature {NONE} -- Implementation
 		local
 			command: FTP_BACKUP_COMMAND
 		do
-			set_eiffel_loop_env
+			Dev_environ.put_eiffel_loop
 			file_list.find_first_true (agent {FILE_PATH}.base_matches (name, False))
 			if file_list.found then
 				create command.make (file_list.path, False)

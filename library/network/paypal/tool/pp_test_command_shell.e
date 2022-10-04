@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 9:33:17 GMT (Tuesday 8th February 2022)"
-	revision: "23"
+	date: "2022-10-04 15:03:37 GMT (Tuesday 4th October 2022)"
+	revision: "24"
 
 class
 	PP_TEST_COMMAND_SHELL
@@ -24,7 +24,7 @@ inherit
 			run_command_loop
 		end
 
-	EL_MODULE_DIRECTORY
+	EL_MODULE_DIRECTORY; EL_MODULE_USER_INPUT
 
 	EL_CURRENCY_PROPERTY
 

@@ -8,8 +8,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-04 9:57:58 GMT (Thursday 4th February 2021)"
-	revision: "19"
+	date: "2022-10-04 8:51:14 GMT (Tuesday 4th October 2022)"
+	revision: "20"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -23,7 +23,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		do
 			eval.call ("append", agent test_append)
 			eval.call ("append_substring", agent test_append_substring)

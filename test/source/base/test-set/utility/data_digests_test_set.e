@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-06 10:05:38 GMT (Friday 6th May 2022)"
-	revision: "20"
+	date: "2022-10-04 8:39:38 GMT (Tuesday 4th October 2022)"
+	revision: "21"
 
 class
 	DATA_DIGESTS_TEST_SET
@@ -29,7 +29,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (evaluator: EL_EQA_TEST_EVALUATOR)
+	do_all (evaluator: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			evaluator.call ("file_crc_32", agent test_file_crc_32)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-27 9:35:04 GMT (Wednesday 27th July 2022)"
-	revision: "32"
+	date: "2022-10-04 9:33:46 GMT (Tuesday 4th October 2022)"
+	revision: "33"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -15,11 +15,11 @@ class
 inherit
 	EL_FILE_DATA_TEST_SET
 
-	EIFFEL_LOOP_TEST_ROUTINES
+	SHARED_DEV_ENVIRON
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("backwards_compatibility", agent test_backwards_compatibility)
@@ -276,7 +276,9 @@ feature {NONE} -- Implementation
 		local
 			converter: PYXIS_ECF_CONVERTER
 		do
-			create converter.make (Eiffel_loop_dir + pecf_path, Work_area_dir + (pecf_path.base_sans_extension + ".xml"))
+			create converter.make (
+				Dev_environ.Eiffel_loop_dir + pecf_path, Work_area_dir + (pecf_path.base_sans_extension + ".xml")
+			)
 			converter.execute
 			create Result.make_from_file (converter.output_path)
 		end

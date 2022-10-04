@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-25 5:06:44 GMT (Monday 25th July 2022)"
-	revision: "15"
+	date: "2022-10-01 9:53:38 GMT (Saturday 1st October 2022)"
+	revision: "16"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -31,6 +31,7 @@ feature {NONE} -- Initialization
 				CHARACTER_8, CHARACTER_32, IMMUTABLE_STRING_8, STRING_8, STRING_32, EL_ZSTRING, FILE_PATH, DIR_PATH
 			>>
 			readable_string_8_types := << IMMUTABLE_STRING_8, STRING_8 >>
+			path_types := << EL_FILE_PATH, EL_DIR_PATH >>
 		end
 
 feature -- Type sets
@@ -42,6 +43,8 @@ feature -- Type sets
 		-- set of types containing character data
 
 	readable_string_8_types: ARRAY [INTEGER]
+
+	path_types : ARRAY [INTEGER]
 
 feature -- CHARACTER types
 

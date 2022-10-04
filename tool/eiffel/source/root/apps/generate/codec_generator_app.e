@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 17:53:44 GMT (Wednesday 9th February 2022)"
-	revision: "21"
+	date: "2022-10-04 9:32:29 GMT (Tuesday 4th October 2022)"
+	revision: "22"
 
 class
 	CODEC_GENERATOR_APP
@@ -18,7 +18,7 @@ inherit
 			Option_name
 		end
 
-	EIFFEL_LOOP_TEST_ROUTINES
+	SHARED_DEV_ENVIRON
 
 create
 	make
@@ -40,7 +40,7 @@ feature {NONE} -- Implementation
 
 	default_decoder_c_path: FILE_PATH
 		do
-			Result := Eiffel_loop_dir + "contrib/C/VTD-XML.2.7/source/decoder.c"
+			Result := Dev_environ.Eiffel_loop_dir + "contrib/C/VTD-XML.2.7/source/decoder.c"
 		end
 
 feature {NONE} -- Constants

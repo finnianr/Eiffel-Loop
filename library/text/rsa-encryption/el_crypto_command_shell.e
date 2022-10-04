@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 9:33:17 GMT (Tuesday 8th February 2022)"
-	revision: "33"
+	date: "2022-10-04 15:03:53 GMT (Tuesday 4th October 2022)"
+	revision: "34"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -24,19 +24,11 @@ inherit
 
 	EL_FILE_OPEN_ROUTINES
 
-	EL_MODULE_BASE_64
+	EL_MODULE_BASE_64; EL_MODULE_ENCRYPTION; EL_MODULE_RSA; EL_MODULE_TUPLE
 
-	EL_MODULE_ENCRYPTION
+	EL_MODULE_USER_INPUT; EL_MODULE_X509; EL_MODULE_ZLIB
 
-	EL_MODULE_RSA
-
-	EL_MODULE_TUPLE
-
-	EL_MODULE_ZLIB
-
-	EL_MODULE_X509
-
-	STRING_HANDLER
+	STRING_HANDLER; EL_ZSTRING_CONSTANTS
 
 create
 	make
@@ -68,7 +60,7 @@ feature -- Basic operations
 			encrypter: like new_encrypter; credential: like new_credential
 			input_path: FILE_PATH
 		do
-			input_path := new_file_path ("input")
+			input_path := new_drag_and_drop ("input", Void)
 			credential := new_credential
 			log_pass_phrase_info (credential)
 			encrypter := new_encrypter (credential)
@@ -87,9 +79,7 @@ feature -- Basic operations
 			credential: like new_credential; key_read: BOOLEAN
 			key: EL_RSA_PRIVATE_KEY
 		do
-			from create key_file_path until key_file_path.has_extension (Extension.key) loop
-				key_file_path := new_file_path ("private X509")
-			end
+			key_file_path := new_drag_and_drop ("private X509", Extension.key)
 			from until key_read loop
 				credential := new_credential
 				key_reader := X509_certificate.private_reader (key_file_path, credential.phrase)
@@ -117,34 +107,29 @@ feature -- Basic operations
 
 	write_signed_CSV_list_with_x509_private_key
 		local
-			private_key: like new_private_key; string: ZSTRING
-			signed_string: SPECIAL [NATURAL_8];  string_list: EL_STRING_8_LIST; s: EL_STRING_8_ROUTINES
+			private_key: like new_private_key
+			signed_string: SPECIAL [NATURAL_8]; string_list: EL_STRING_8_LIST; s: EL_STRING_8_ROUTINES
 			eiffel_class: EL_SIGNED_EIFFEL_CLASS; key_file_path: FILE_PATH
+			csv_list: EL_USER_INPUT_VALUE [STRING]
 		do
-			key_file_path := new_key_file_path
+			key_file_path := new_drag_and_drop_key_file
 			private_key := new_private_key (key_file_path)
-			string := User_input.line ("Enter comma-separated list of strings to sign")
-			if string.is_valid_as_string_8 then
-				string_list := string.to_latin_1
-				if across string_list as list all list.item.count <= 16 end then
-					create eiffel_class.make (new_eiffel_source_name, serial_number (key_file_path))
-					across string_list as list loop
-						create signed_string.make_filled (0, 16)
-						signed_string.copy_data (s.to_code_array (list.item), 0, 0, list.item.count)
 
-						lio.put_labeled_string ("Signing", list.item)
-						lio.put_new_line
-						eiffel_class.field_list.extend (new_signed_field (private_key, list.item, signed_string))
-					end
-					eiffel_class.serialize
-				else
-					lio.put_labeled_string ("ERROR", "Each string count must be <= 16 characters")
-					lio.put_new_line
-				end
-			else
-				lio.put_labeled_string ("ERROR", "cannot be encoded with Latin-1 character set")
+			create csv_list.make_valid (
+				"Enter comma-separated list of strings to sign", "Each item must have <= 16 characters", agent valid_csv_list
+			)
+			string_list := csv_list.value
+
+			create eiffel_class.make (new_eiffel_source_name, serial_number (key_file_path))
+			across string_list as list loop
+				create signed_string.make_filled (0, 16)
+				signed_string.copy_data (s.to_code_array (list.item), 0, 0, list.item.count)
+
+				lio.put_labeled_string ("Signing", list.item)
 				lio.put_new_line
+				eiffel_class.field_list.extend (new_signed_field (private_key, list.item, signed_string))
 			end
+			eiffel_class.serialize
 		end
 
 	write_x509_public_key_code_assignment
@@ -152,9 +137,7 @@ feature -- Basic operations
 			crt_file_path: FILE_PATH; eiffel_source_name: FILE_PATH; variable_name: ZSTRING
 			eif_class: EL_PUBLIC_KEY_MANIFEST_CLASS
 		do
-			from create crt_file_path until crt_file_path.has_extension (Extension.crt) loop
-				crt_file_path := new_file_path ("public X509 crt")
-			end
+			crt_file_path := new_drag_and_drop ("public X509 crt", Extension.crt)
 			eiffel_source_name := new_eiffel_source_name
 			variable_name := User_input.line ("Variable name")
 
@@ -207,7 +190,7 @@ feature {NONE} -- Implementation
 		local
 			input_path: FILE_PATH
 		do
-			input_path := new_file_path ("input")
+			input_path := new_drag_and_drop ("input", Void)
 			lio.put_new_line
 			if input_path.has_extension (Extension.aes) then
 				action.call ([create {EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE}.make (input_path, new_encrypter (new_credential))])
@@ -237,6 +220,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	has_extension (path: FILE_PATH; a_extension: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := path.has_extension (a_extension)
+		end
+
 	log_pass_phrase_info (pass_phrase: EL_AES_CREDENTIAL)
 		do
 			lio.put_labeled_string ("Salt", pass_phrase.salt_base_64)
@@ -261,6 +249,15 @@ feature {NONE} -- Implementation
 			Result.replace_extension (Extension.crt)
 		end
 
+	valid_CSV_list (csv_list: STRING): BOOLEAN
+		-- valid list for signing with x509 private key
+		local
+			list: EL_STRING_8_LIST
+		do
+			list := csv_list
+			Result := across list as str all str.item.count <= 16 end
+		end
+
 	write_plain_text (encrypted_lines: EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE)
 		local
 			out_file: EL_PLAIN_TEXT_FILE
@@ -275,9 +272,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Factory
 
-	new_bit_count: INTEGER
+	new_bit_count: EL_USER_INPUT_VALUE [INTEGER]
 		do
-			Result := User_input.integer_from_values ("AES encryption bit count", AES_types)
+			create Result.make_valid ("AES encryption bit count", "Must be one of: 128, 256", agent AES_types.has)
 		end
 
 	new_command_table: like command_table
@@ -308,26 +305,33 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_encrypter (pass_phrase: EL_AES_CREDENTIAL): EL_AES_ENCRYPTER
-		do
-			Result := pass_phrase.new_aes_encrypter (new_bit_count)
-			lio.put_new_line
-		end
-
-	new_file_path (name: ZSTRING): FILE_PATH
+	new_drag_and_drop (
+		name: READABLE_STRING_GENERAL; valid_extension: detachable READABLE_STRING_GENERAL
+	): EL_USER_INPUT_VALUE [FILE_PATH]
 		local
 			prompt: ZSTRING
 		do
 			prompt := "Drag and drop %S file"
-			Result := User_input.file_path (prompt #$ [name])
-			lio.put_new_line
+			if attached valid_extension as ext then
+				create Result.make_valid (prompt #$ [name], "Extension must be: *." + ext, agent has_extension (?, ext))
+			else
+				create Result.make (prompt #$ [name])
+			end
+			Result.check_existence
 		end
 
-	new_key_file_path: FILE_PATH
+	new_drag_and_drop_key_file: FILE_PATH
+		local
+			template: ZSTRING
 		do
-			from create Result until Result.has_extension (Extension.dat) loop
-				Result := new_file_path (Extension.key + "." + Extension.dat)
-			end
+			template := "Key file data (*.%S)"
+			Result := new_drag_and_drop (template #$ [Extension.key_dat], Extension.key_dat)
+		end
+
+	new_encrypter (pass_phrase: EL_AES_CREDENTIAL): EL_AES_ENCRYPTER
+		do
+			Result := pass_phrase.new_aes_encrypter (new_bit_count)
+			lio.put_new_line
 		end
 
 	new_private_key (key_file_path: FILE_PATH): EL_RSA_PRIVATE_KEY
@@ -361,10 +365,10 @@ feature {NONE} -- Constants
 			Result := "%%N"
 		end
 
-	Extension: TUPLE [aes, crt, dat, e, key: IMMUTABLE_STRING_8]
+	Extension: TUPLE [aes, crt, dat, e, key, key_dat: IMMUTABLE_STRING_8]
 		once
 			create Result
-			Tuple.fill_immutable (Result, "aes, crt, dat, e, key")
+			Tuple.fill_immutable (Result, "aes, crt, dat, e, key, key.dat")
 		end
 
 end

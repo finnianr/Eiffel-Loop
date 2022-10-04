@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:06 GMT (Saturday 5th February 2022)"
-	revision: "12"
+	date: "2022-10-04 9:17:12 GMT (Tuesday 4th October 2022)"
+	revision: "13"
 
 deferred class
 	EIFFEL_LOOP_TEST_SET
@@ -20,7 +20,7 @@ inherit
 			on_prepare, on_clean
 		end
 
-	EIFFEL_LOOP_TEST_ROUTINES
+	SHARED_DEV_ENVIRON
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
@@ -28,7 +28,7 @@ feature {NONE} -- Events
 
 	on_prepare
 		do
-			Execution_environment.push_current_working (EL_test_data_dir)
+			Execution_environment.push_current_working (Dev_environ.EL_test_data_dir)
 		end
 
 	on_clean

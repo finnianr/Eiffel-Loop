@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 9:59:02 GMT (Wednesday 19th January 2022)"
-	revision: "12"
+	date: "2022-10-04 9:51:58 GMT (Tuesday 4th October 2022)"
+	revision: "13"
 
 class
 	ID3_TAG_INFO_TEST_SET
@@ -28,7 +28,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 --			eval.call ("underbit_id3_info", agent test_underbit_id3_info)

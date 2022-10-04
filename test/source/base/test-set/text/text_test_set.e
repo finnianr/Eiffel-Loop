@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 12:59:09 GMT (Wednesday 16th February 2022)"
-	revision: "5"
+	date: "2022-10-04 8:51:16 GMT (Tuesday 4th October 2022)"
+	revision: "6"
 
 class
 	TEXT_TEST_SET
@@ -21,7 +21,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		do
 			eval.call ("integer_format", agent test_integer_format)
 			eval.call ("bash_escape", agent test_bash_escape)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 13:41:21 GMT (Wednesday 16th February 2022)"
-	revision: "7"
+	date: "2022-10-04 8:50:48 GMT (Tuesday 4th October 2022)"
+	revision: "8"
 
 class
 	FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("copy_file_command", agent test_copy_file_command)

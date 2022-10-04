@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
-	date: "2022-02-20 15:31:29 GMT (Sunday 20th February 2022)"
-	revision: "3"
+	date: "2022-10-04 9:52:22 GMT (Tuesday 4th October 2022)"
+	revision: "4"
 
 class
 	PROTEIN_FOLDING_TEST_SET
@@ -28,7 +28,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (evaluator: EL_EQA_TEST_EVALUATOR)
+	do_all (evaluator: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			evaluator.call ("multi_core_2_1_with_grid_2_5", agent test_multi_core_2_1_with_grid_2_5)
@@ -134,4 +134,3 @@ feature {NONE} -- Constants
 		end
 
 end
-

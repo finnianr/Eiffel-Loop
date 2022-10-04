@@ -12,11 +12,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 9:48:05 GMT (Tuesday 8th February 2022)"
-	revision: "6"
+	date: "2022-10-03 12:49:01 GMT (Monday 3rd October 2022)"
+	revision: "7"
 
 class
-	EL_EQA_TEST_EVALUATOR
+	EL_TEST_SET_EVALUATOR
 
 inherit
 	EL_COMMAND
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 			if attached {like evaluator} Eiffel.new_factory_instance ({like evaluator}, test_set_type) as new then
 				evaluator := new
 			else
-				create {EQA_TEST_EVALUATOR [EL_DEFAULT_EQA_TEST_SET]} evaluator
+				create {EQA_TEST_EVALUATOR [EL_DEFAULT_TEST_SET]} evaluator
 			end
 			create failure_table.make_equal (3)
 		end
@@ -107,22 +107,31 @@ feature {NONE} -- Implementation
 
 	do_call (name: STRING; a_test: PROCEDURE)
 		local
-			test_result: EQA_PARTIAL_RESULT; duration: EL_TIME_DURATION
+			partial_result: EQA_PARTIAL_RESULT; duration: EL_TIME_DURATION
 		do
 			lio.put_labeled_string ("Executing test", name)
 			lio.put_new_line
-			test_result := evaluator.execute (agent apply (?, a_test))
-			if test_result.is_pass then
-				create duration.make_by_fine_seconds (test_result.duration.fine_seconds_count)
+			partial_result := evaluator.execute (agent apply (?, a_test))
+			if partial_result.is_pass then
+				create duration.make_by_fine_seconds (partial_result.duration.fine_seconds_count)
 				lio.put_labeled_string ("Executed in", duration.out_mins_and_secs)
 				lio.put_new_line
 				lio.put_line ("TEST OK")
 			else
 				lio.put_line ("TEST FAILED")
-				if attached {EQA_RESULT} test_result as l_result
-					and then attached {EQA_TEST_INVOCATION_EXCEPTION} l_result.test_response.exception as test_exception
-				then
+			end
+			if attached {EQA_RESULT} partial_result as full_result then
+				if attached full_result.test_response.exception as test_exception then
 					failure_table [name] := test_exception
+				end
+				if attached full_result.teardown_response.exception as teardown_exception then
+					failure_table [name + " (cleanup)"] := teardown_exception
+					lio.put_line ("CLEANUP FAILED")
+				end
+			elseif attached partial_result as partial then
+				if attached partial.setup_response.exception as setup_exception then
+					failure_table [name + " (setup)"] := setup_exception
+					lio.put_line ("SETUP FAILED")
 				end
 			end
 			lio.put_new_line

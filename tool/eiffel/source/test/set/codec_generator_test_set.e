@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-08 13:34:02 GMT (Saturday 8th January 2022)"
-	revision: "3"
+	date: "2022-10-04 8:55:34 GMT (Tuesday 4th October 2022)"
+	revision: "4"
 
 class
 	CODEC_GENERATOR_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (evaluator: EL_EQA_TEST_EVALUATOR)
+	do_all (evaluator: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			evaluator.call ("generation", agent test_generation)

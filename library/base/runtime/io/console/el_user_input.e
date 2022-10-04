@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "14"
+	date: "2022-10-04 14:08:46 GMT (Tuesday 4th October 2022)"
+	revision: "15"
 
 class
 	EL_USER_INPUT
@@ -108,16 +108,6 @@ feature -- Input
 			end
 		end
 
-	integer_from_values (prompt: READABLE_STRING_GENERAL; values: FINITE [INTEGER]): INTEGER
-		local
-			done: BOOLEAN
-		do
-			from until done loop
-				Result := integer (prompt + valid_values (values))
-				done := values.has (Result)
-			end
-		end
-
 	line (prompt: READABLE_STRING_GENERAL): ZSTRING
 			--
 		do
@@ -137,16 +127,6 @@ feature -- Input
 				elseif l_line.is_natural then
 					Result := l_line.to_natural; done := True
 				end
-			end
-		end
-
-	natural_from_values (prompt: READABLE_STRING_GENERAL; values: FINITE [NATURAL]): NATURAL
-		local
-			done: BOOLEAN
-		do
-			from until done loop
-				Result := natural (prompt + valid_values (values))
-				done := values.has (Result)
 			end
 		end
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-02 7:49:29 GMT (Friday 2nd September 2022)"
-	revision: "12"
+	date: "2022-10-04 9:16:05 GMT (Tuesday 4th October 2022)"
+	revision: "13"
 
 deferred class
 	COPIED_SVG_DIRECTORY_DATA_TEST_SET
@@ -27,7 +27,7 @@ inherit
 
 	EL_MODULE_DIRECTORY EL_MODULE_TUPLE
 
-	EIFFEL_LOOP_TEST_ROUTINES
+	SHARED_DEV_ENVIRON
 
 	EVOLICITY_SHARED_TEMPLATES
 
@@ -77,7 +77,7 @@ feature {NONE} -- Implementation
 
 	source_dir: DIR_PATH
 		do
-			Result := EL_test_data_dir #+ "svg"
+			Result := Dev_environ.EL_test_data_dir #+ "svg"
 		end
 
 feature {NONE} -- Internal attributes

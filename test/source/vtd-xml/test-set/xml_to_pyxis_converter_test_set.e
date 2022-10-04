@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-12 17:10:12 GMT (Saturday 12th March 2022)"
-	revision: "14"
+	date: "2022-10-04 9:31:26 GMT (Tuesday 4th October 2022)"
+	revision: "15"
 
 class
 	XML_TO_PYXIS_CONVERTER_TEST_SET
@@ -26,11 +26,11 @@ inherit
 
 	EL_CRC_32_TEST_ROUTINES
 
-	EIFFEL_LOOP_TEST_ROUTINES
+	SHARED_DEV_ENVIRON
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("conversions",	agent test_conversions)
@@ -64,6 +64,11 @@ feature {NONE} -- Implementation
 			source.close
 		end
 
+	eiffel_loop_dir: DIR_PATH
+		do
+			Result := Dev_environ.Eiffel_loop_dir
+		end
+
 	source_file_list: EL_FILE_PATH_LIST
 		local
 			list: EL_FILE_PATH_LIST; ext_filter: STRING
@@ -92,6 +97,6 @@ feature {NONE} -- Constants
 
 	XML_dir: DIR_PATH
 		once
-			Result := EL_test_data_dir #+ "XML"
+			Result := Dev_environ.EL_test_data_dir #+ "XML"
 		end
 end

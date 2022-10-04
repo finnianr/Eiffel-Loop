@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:21:38 GMT (Monday 14th February 2022)"
-	revision: "39"
+	date: "2022-10-04 9:30:44 GMT (Tuesday 4th October 2022)"
+	revision: "40"
 
 class
 	TAGLIB_TEST_SET
@@ -22,11 +22,7 @@ inherit
 
 	EL_CRC_32_TEST_ROUTINES
 
-	EIFFEL_LOOP_TEST_ROUTINES
-
-	EL_MODULE_NAMING
-
-	EL_MODULE_TUPLE
+	EL_MODULE_NAMING; EL_MODULE_TUPLE
 
 	EL_SHARED_CONSOLE_COLORS
 
@@ -36,9 +32,11 @@ inherit
 
 	EL_TEST_STRINGS
 
+	SHARED_DEV_ENVIRON
+
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("comments", agent test_comments)
@@ -430,7 +428,7 @@ feature {NONE} -- Constants
 
 	Data_dir: DIR_PATH
 		once
-			Result := EL_test_data_dir #+ "id3$"
+			Result := Dev_environ.EL_test_data_dir #+ "id3$"
 		end
 
 	Get_set_routines: ARRAY [ROUTINE]
@@ -475,7 +473,7 @@ feature {NONE} -- Constants
 
 	Top_png_path: FILE_PATH
 		once
-			Result := Eiffel_loop_dir + "doc/images/top.png"
+			Result := Dev_environ.Eiffel_loop_dir + "doc/images/top.png"
 		end
 
 end

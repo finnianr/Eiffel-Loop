@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-11 12:34:14 GMT (Friday 11th December 2020)"
-	revision: "7"
+	date: "2022-10-04 8:39:36 GMT (Tuesday 4th October 2022)"
+	revision: "8"
 
 class
 	ARRAYED_LIST_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("shift", agent test_shift)

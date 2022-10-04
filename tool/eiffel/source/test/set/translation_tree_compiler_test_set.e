@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-02 10:03:18 GMT (Wednesday 2nd March 2022)"
-	revision: "15"
+	date: "2022-10-04 9:35:04 GMT (Tuesday 4th October 2022)"
+	revision: "16"
 
 class
 	TRANSLATION_TREE_COMPILER_TEST_SET
@@ -27,13 +27,13 @@ inherit
 
 	EL_CRC_32_TEST_ROUTINES
 
-	EIFFEL_LOOP_TEST_ROUTINES
-
 	EL_SHARED_SINGLETONS
+
+	SHARED_DEV_ENVIRON
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("compile_tree", agent test_compile_tree)
@@ -132,7 +132,7 @@ feature {NONE} -- Constants
 
 	Data_dir: DIR_PATH
 		once
-			Result := Eiffel_loop_dir #+ "library/localization"
+			Result := Dev_environ.Eiffel_loop_dir #+ "library/localization"
 		end
 
 end

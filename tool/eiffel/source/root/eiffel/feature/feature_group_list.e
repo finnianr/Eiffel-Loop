@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 12:29:26 GMT (Thursday 3rd February 2022)"
-	revision: "2"
+	date: "2022-10-04 10:23:35 GMT (Tuesday 4th October 2022)"
+	revision: "3"
 
 class
 	FEATURE_GROUP_LIST
@@ -51,6 +51,11 @@ feature -- Element change
 
 feature {NONE} -- Constants
 
+	Evaluator_class_name: STRING
+		once
+			Result := ({EL_TEST_SET_EVALUATOR}).name
+		end
+
 	Insertion_symbol: ZSTRING
 		once
 			Result := ":@"
@@ -63,7 +68,7 @@ feature {NONE} -- Constants
 
 	Test_evaluator_do_all: ARRAY [ZSTRING]
 		once
-			Result := << "do_all", "EL_EQA_TEST_EVALUATOR)" >>
+			Result := << "do_all", Evaluator_class_name + ")" >>
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 11:41:44 GMT (Saturday 19th February 2022)"
-	revision: "7"
+	date: "2022-10-04 9:29:49 GMT (Tuesday 4th October 2022)"
+	revision: "8"
 
 class
 	SIMPLE_CLIENT_SERVER_TEST_SET
@@ -22,13 +22,13 @@ inherit
 
 	EL_CRC_32_TEST_ROUTINES
 
-	EL_MODULE_LOG
+	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_LOG
 
-	EIFFEL_LOOP_TEST_ROUTINES
+	SHARED_DEV_ENVIRON
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("client_server", agent test_client_server)
@@ -45,7 +45,7 @@ feature -- Tests
 			server.launch
 			Execution_environment.sleep (100)
 
-			lio.put_path_field ("data %S", (new_eiffel_loop_dir #+ "test/data") + "txt/file.txt")
+			lio.put_path_field ("data %S", (Eiffel_loop_dir #+ "test/data") + "txt/file.txt")
 			lio.put_new_line
 
 			do_test ("send_file", 2627758098, agent send_file, [source_file_list.first_path])
@@ -55,6 +55,11 @@ feature -- Tests
 
 
 feature {NONE} -- Implementation
+
+	eiffel_loop_dir: DIR_PATH
+		do
+			Result := Dev_environ.Eiffel_loop_dir
+		end
 
 	send_file (file_path: FILE_PATH)
 		local
@@ -78,7 +83,7 @@ feature {NONE} -- Implementation
 
 	source_file_list: EL_FILE_PATH_LIST
 		do
-			create Result.make_from_array (<< EL_test_data_dir + "txt/file.txt" >>)
+			create Result.make_from_array (<< Dev_environ.EL_test_data_dir + "txt/file.txt" >>)
 		end
 
 feature {NONE} -- Constants

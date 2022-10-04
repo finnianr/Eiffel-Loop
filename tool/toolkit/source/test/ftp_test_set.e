@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 9:24:12 GMT (Saturday 19th February 2022)"
-	revision: "2"
+	date: "2022-10-04 9:40:45 GMT (Tuesday 4th October 2022)"
+	revision: "3"
 
 class
 	FTP_TEST_SET
@@ -20,13 +20,13 @@ inherit
 
 	EL_CRC_32_TEST_ROUTINES
 
-	EIFFEL_LOOP_TEST_ROUTINES
-
 	EL_SHARED_APPLICATION_OPTION
+
+	SHARED_DEV_ENVIRON
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("upload", agent test_upload)
@@ -93,7 +93,7 @@ feature {NONE} -- Constants
 
 	Data_dir: DIR_PATH
 		once
-			Result := El_test_data_dir
+			Result := Dev_environ.El_test_data_dir
 		end
 
 end

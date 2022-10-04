@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 14:11:54 GMT (Wednesday 16th February 2022)"
-	revision: "11"
+	date: "2022-10-03 15:50:11 GMT (Monday 3rd October 2022)"
+	revision: "12"
 
 deferred class
 	EL_EXECUTABLE_I
@@ -33,7 +33,6 @@ feature {NONE} -- Initialization
 	make
 		do
 			path := Args.command_path.twin
-			name := Args.command_path.base
 			if path.exists then
 				-- In development project
 			else
@@ -97,6 +96,9 @@ feature -- Access
 
 	name: ZSTRING
 			-- Name of currently executing command
+		do
+			Result := path.base
+		end
 
 	parent_dir: DIR_PATH
 			-- Directory containing this application's executable command

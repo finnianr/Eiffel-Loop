@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 9:26:33 GMT (Friday 11th February 2022)"
-	revision: "7"
+	date: "2022-10-03 16:51:12 GMT (Monday 3rd October 2022)"
+	revision: "8"
 
 deferred class
 	EL_FILE_OPEN_ROUTINES
@@ -33,6 +33,7 @@ feature {NONE} -- Basic operations
 	frozen open (path: READABLE_STRING_GENERAL; mode: NATURAL): EL_PLAIN_TEXT_FILE
 		require
 			valid_mode: valid_file_mode (mode)
+			parent_exists: (create {FILE_PATH}.make (path)).parent.exists
 		do
 			if (mode & Notifying).to_boolean then
 				create {EL_NOTIFYING_PLAIN_TEXT_FILE} Result.make_with_name (path)

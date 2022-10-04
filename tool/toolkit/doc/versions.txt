@@ -1,3 +1,6 @@
+1.6.0
+* Changed user input method to use EL_INPUT_USER_VALUE
+
 1.5.3
 Addition of pre_backup_command for duplicity backup
 

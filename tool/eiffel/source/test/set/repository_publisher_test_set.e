@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-07 8:29:15 GMT (Wednesday 7th September 2022)"
-	revision: "47"
+	date: "2022-10-04 9:34:36 GMT (Tuesday 4th October 2022)"
+	revision: "48"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -36,19 +36,17 @@ inherit
 
 	EL_FILE_SYNC_ROUTINES undefine default_create end
 
-	EIFFEL_LOOP_TEST_ROUTINES
-
 	EL_MODULE_OS; EL_MODULE_USER_INPUT; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_EXECUTABLE
 
 	EL_MODULE_TUPLE
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
-	SHARED_INVALID_CLASSNAMES
+	SHARED_INVALID_CLASSNAMES; SHARED_DEV_ENVIRON
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("publisher", agent test_publisher)
@@ -135,12 +133,12 @@ feature {NONE} -- Events
 			lib_dir: DIR_PATH; list: EL_STRING_8_LIST; steps: EL_PATH_STEPS
 		do
 			Precursor
-			OS.copy_tree (Eiffel_loop_dir #+ "doc-config", Work_area_dir)
+			OS.copy_tree (Dev_environ.Eiffel_loop_dir #+ "doc-config", Work_area_dir)
 			OS.copy_file ("test-data/publish/config-1.pyx", Doc_config_dir)
 			list := "dummy, images, css, js"
 			across << Doc_dir, Ftp_dir >> as destination_dir loop
 				across list as name loop
-					OS.copy_tree (Eiffel_loop_dir.joined_dir_steps (<< "doc", name.item >>), destination_dir.item)
+					OS.copy_tree (Dev_environ.Eiffel_loop_dir.joined_dir_steps (<< "doc", name.item >>), destination_dir.item)
 				end
 			end
 			list := "library/base/kernel, library/base/math, library/base/persistency, library/persistency/database/eco-db%
@@ -154,11 +152,11 @@ feature {NONE} -- Events
 			end
 			across list as dir loop
 				lib_dir := dir.item
-				OS.copy_tree (Eiffel_loop_dir #+ lib_dir, Work_area_dir #+ lib_dir.parent)
+				OS.copy_tree (Dev_environ.Eiffel_loop_dir #+ lib_dir, Work_area_dir #+ lib_dir.parent)
 			end
 			list := "library/base/base.ecf, library/Eco-DB.ecf, library/public-key-encryption.ecf"
 			across list as path loop
-				OS.copy_file (Eiffel_loop_dir + path.item, (Work_area_dir + path.item).parent)
+				OS.copy_file (Dev_environ.Eiffel_loop_dir + path.item, (Work_area_dir + path.item).parent)
 			end
 		end
 

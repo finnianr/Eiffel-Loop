@@ -16,8 +16,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-22 9:08:56 GMT (Friday 22nd July 2022)"
-	revision: "25"
+	date: "2022-10-04 9:17:12 GMT (Tuesday 4th October 2022)"
+	revision: "26"
 
 class
 	VTD_XML_TEST_SET
@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("bioinfo_xpath_query", agent test_bioinfo_xpath_query)
@@ -60,7 +60,7 @@ feature -- Tests
 				"covers/{EL_XPATH_NODE_CONTEXT}.find_node",
 				"covers/{EL_XPATH_NODE_CONTEXT}.query"
 		do
-			create root_node.make_from_file (EL_test_data_dir + "vtd-xml/bioinfo.xml")
+			create root_node.make_from_file (Dev_environ.EL_test_data_dir + "vtd-xml/bioinfo.xml")
 			assert ("encoding is latin-1", root_node.encoding_name ~ "ISO-8859-1")
 			across bioinfo_results_1 as xpath loop
 				assert_same_string_8_list (xpath.key, xpath.item, bioinfo_query_1 (xpath.key))

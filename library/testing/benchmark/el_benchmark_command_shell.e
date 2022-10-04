@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 9:33:17 GMT (Tuesday 8th February 2022)"
-	revision: "18"
+	date: "2022-10-04 15:04:06 GMT (Tuesday 4th October 2022)"
+	revision: "19"
 
 deferred class
 	EL_BENCHMARK_COMMAND_SHELL
@@ -21,6 +21,8 @@ inherit
 		end
 
 	EL_FACTORY_CLIENT
+
+	EL_MODULE_USER_INPUT
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 

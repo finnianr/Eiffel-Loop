@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-22 8:28:21 GMT (Wednesday 22nd June 2022)"
-	revision: "19"
+	date: "2022-10-04 8:50:55 GMT (Tuesday 4th October 2022)"
+	revision: "20"
 
 class
 	JSON_PARSING_TEST_SET
@@ -23,7 +23,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("json_across_iteration", agent test_json_across_iteration)
@@ -161,7 +161,6 @@ feature {NONE} -- Constants
 		end
 
 end
-
 
 
 

@@ -29,7 +29,7 @@ many more meta-data types besides ID3.
 			libid3 and libid3tag includes
 			For Windows: libid3 and libid3tag externals
 		-->
-		<external_include location = "$(EL_CPP_ID3LIB)\include">
+		<external_include location = "$(EXT_CPP_ID3LIB)\include">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
@@ -44,7 +44,7 @@ many more meta-data types besides ID3.
 				<platform value = "windows"/>
 			</condition>
 		</external_object>
-		<external_include location = "$(EL_C_LIBID3TAG)\include">
+		<external_include location = "$(EXT_C_LIBID3TAG)">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
@@ -55,7 +55,7 @@ many more meta-data types besides ID3.
 			</condition>
 		</external_object>
 		<!--For Unix: libid3 and libid3tag externals-->
-		<external_include location = "$(EL_CPP_ID3LIB)/include">
+		<external_include location = "$(EXT_CPP_ID3LIB)/include">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
@@ -65,7 +65,7 @@ many more meta-data types besides ID3.
 				<platform value = "unix"/>
 			</condition>
 		</external_object>
-		<external_include location = "$(EL_C_LIBID3TAG)/include">
+		<external_include location = "$(EXT_C_LIBID3TAG)">
 			<condition>
 				<platform value = "unix"/>
 			</condition>

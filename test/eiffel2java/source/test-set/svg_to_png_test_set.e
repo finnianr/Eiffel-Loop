@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:54:50 GMT (Monday 14th February 2022)"
-	revision: "2"
+	date: "2022-10-04 10:18:29 GMT (Tuesday 4th October 2022)"
+	revision: "3"
 
 class
 	SVG_TO_PNG_TEST_SET
@@ -30,7 +30,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("svg_format_conversion", agent test_svg_format_conversion)
@@ -40,7 +40,7 @@ feature -- Tests
 
 	test_svg_format_conversion
 		do
-			Java.append_jar_locations (<< Eiffel_loop_dir #+ "contrib/Java/batik-1.6.1" >>)
+			Java.append_jar_locations (<< Dev_environ.Eiffel_loop_dir #+ "contrib/Java/batik-1.6.1" >>)
 			Java.append_class_locations (<< "test-data/java_classes" >>)
 			Java.open (<< "batik-rasterizer" >>)
 

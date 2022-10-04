@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-28 11:36:03 GMT (Wednesday 28th September 2022)"
-	revision: "29"
+	date: "2022-10-04 8:51:04 GMT (Tuesday 4th October 2022)"
+	revision: "30"
 
 class
 	REFLECTION_TEST_SET
@@ -29,7 +29,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("arrayed_list_initialization", agent test_arrayed_list_initialization)

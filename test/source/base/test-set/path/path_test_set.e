@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 11:26:46 GMT (Thursday 17th February 2022)"
-	revision: "7"
+	date: "2022-10-04 9:17:21 GMT (Tuesday 4th October 2022)"
+	revision: "8"
 
 class
 	PATH_TEST_SET
@@ -23,7 +23,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("path_steps", agent test_path_steps)
@@ -159,7 +159,7 @@ feature -- Tests
 			file_path.set_parent (Dev_eiffel)
 			assert_same_string (file_path, Dev_eiffel + OS.separator.out + file_path.base)
 
-			assert_same_string (new_eiffel_loop_dir.base, Eiffel_loop)
+			assert_same_string (Dev_environ.Eiffel_loop_dir.base, Dev_environ.Eiffel_loop)
 		end
 
 	test_parent_of
@@ -233,15 +233,15 @@ feature -- Tests
 			path_1, p1, relative_path: FILE_PATH; path_2, p2: DIR_PATH
 		do
 			log.enter ("test_universal_relative_path")
-			across OS.file_list (Eiffel_dir.to_string, "*.e") as list loop
+			across OS.file_list (Eiffel_tool_dir.to_string, "*.e") as list loop
 				p1 := list.item.to_string
-				path_1 := p1.relative_path (Eiffel_dir)
+				path_1 := p1.relative_path (Eiffel_tool_dir)
 				log.put_labeled_string ("class", path_1.to_string)
 				log.put_new_line
-				across OS.directory_list (Eiffel_dir.to_string) as dir loop
+				across OS.directory_list (Eiffel_tool_dir.to_string) as dir loop
 					p2 := dir.item.to_string
-					if Eiffel_dir.is_parent_of (p2) then
-						path_2 := p2.relative_path (Eiffel_dir)
+					if Eiffel_tool_dir.is_parent_of (p2) then
+						path_2 := p2.relative_path (Eiffel_tool_dir)
 						relative_path := path_1.universal_relative_path (path_2)
 
 						Execution_environment.push_current_working (p2)
@@ -301,7 +301,7 @@ feature {NONE} -- Constants
 			Result := "Documents/Eiffel-spec.pdf"
 		end
 
-	Eiffel_dir: DIR_PATH
+	Eiffel_tool_dir: DIR_PATH
 		once
 			Result := "$EIFFEL_LOOP/tool/eiffel/test-data"
 			Result.expand

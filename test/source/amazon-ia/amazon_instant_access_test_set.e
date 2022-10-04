@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-25 11:49:44 GMT (Saturday 25th June 2022)"
-	revision: "35"
+	date: "2022-10-04 9:14:52 GMT (Tuesday 4th October 2022)"
+	revision: "36"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -24,8 +24,6 @@ inherit
 
 	AIA_SHARED_ENUMERATIONS
 
-	EIFFEL_LOOP_TEST_ROUTINES
-
 feature {NONE} -- Initialization
 
 	on_prepare
@@ -38,7 +36,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			-- Account Linking

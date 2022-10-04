@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-12 17:14:29 GMT (Saturday 12th March 2022)"
-	revision: "8"
+	date: "2022-10-03 9:06:19 GMT (Monday 3rd October 2022)"
+	revision: "9"
 
 deferred class
 	EL_EQA_TEST_SET
@@ -24,7 +24,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (evaluator: EL_EQA_TEST_EVALUATOR)
+	do_all (evaluator: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		deferred
 		end

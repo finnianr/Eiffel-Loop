@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:19:45 GMT (Tuesday 5th January 2021)"
-	revision: "2"
+	date: "2022-10-04 8:51:21 GMT (Tuesday 4th October 2022)"
+	revision: "3"
 
 class
 	UUID_TEST_SET
@@ -19,7 +19,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("to_string", agent test_to_string)

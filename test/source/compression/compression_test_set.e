@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 5:57:26 GMT (Monday 7th February 2022)"
-	revision: "9"
+	date: "2022-10-04 9:15:31 GMT (Tuesday 4th October 2022)"
+	revision: "10"
 
 class
 	COMPRESSION_TEST_SET
@@ -15,13 +15,13 @@ class
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
 
-	EIFFEL_LOOP_TEST_ROUTINES
+	SHARED_DEV_ENVIRON
 
 	EL_MODULE_FILE; EL_MODULE_ZLIB; EL_MODULE_LIO
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("archive_file", agent test_archive_file)
@@ -73,7 +73,7 @@ feature {NONE} -- Implementation
 
 	source_dir: DIR_PATH
 		do
-			Result := EL_test_data_dir #+ "XML"
+			Result := Dev_environ.EL_test_data_dir #+ "XML"
 		end
 
 	test_zlib_with_file (a_file_path: FILE_PATH)

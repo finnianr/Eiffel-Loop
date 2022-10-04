@@ -4,7 +4,7 @@ note
 		
 		For example:
 		
-			do_all (eval: EL_EQA_TEST_EVALUATOR)
+			do_all (eval: EL_TEST_SET_EVALUATOR)
 				-- evaluate all tests
 				do
 					eval.call ("file_editing", agent test_file_editing)
@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 9:45:02 GMT (Saturday 5th February 2022)"
-	revision: "3"
+	date: "2022-10-04 9:01:24 GMT (Tuesday 4th October 2022)"
+	revision: "4"
 
 class
 	EQA_TEST_EVALUATION_CALLBACK_FEATURE

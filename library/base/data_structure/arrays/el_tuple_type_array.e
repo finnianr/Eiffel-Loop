@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-31 14:50:42 GMT (Sunday 31st October 2021)"
-	revision: "16"
+	date: "2022-09-28 15:01:47 GMT (Wednesday 28th September 2022)"
+	revision: "17"
 
 class
 	EL_TUPLE_TYPE_ARRAY
@@ -16,6 +16,8 @@ inherit
 	ARRAY [TYPE [ANY]]
 		rename
 			make as make_array
+		redefine
+			make_filled
 		end
 
 	EL_REFLECTION_CONSTANTS
@@ -41,7 +43,6 @@ feature {NONE} -- Initialization
 				put (type.generic_parameter_type (i), i)
 				i := i + 1
 			end
-			compare_objects
 		end
 
 	make_from_static (static_type: INTEGER)
@@ -51,12 +52,17 @@ feature {NONE} -- Initialization
 			else
 				make_filled ({INTEGER}, 0, 0)
 			end
-			compare_objects
 		end
 
 	make_from_tuple (tuple: TUPLE)
 		do
 			make_from_static ({ISE_RUNTIME}.dynamic_type (tuple))
+		end
+
+	make_filled (a_default_value: TYPE [ANY]; min_index, max_index: INTEGER)
+		do
+			Precursor (a_default_value, min_index, max_index)
+			compare_objects
 		end
 
 feature -- Status query
@@ -67,6 +73,11 @@ feature -- Status query
 		do
 			type_id := a_type.type_id
 			Result := across Current as type all Eiffel.type_conforms_to (type.item.type_id, type_id) end
+		end
+
+	i_th_is_character_data (i: INTEGER): BOOLEAN
+		do
+			Result := Class_id.Character_data_types.has (area [i - 1].type_id)
 		end
 
 	is_latin_1_representable: BOOLEAN

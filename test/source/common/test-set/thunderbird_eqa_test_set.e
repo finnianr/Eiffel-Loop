@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-22 9:08:56 GMT (Friday 22nd July 2022)"
-	revision: "12"
+	date: "2022-10-04 9:13:36 GMT (Tuesday 4th October 2022)"
+	revision: "13"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
@@ -15,11 +15,9 @@ deferred class
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
 
-	EIFFEL_LOOP_TEST_ROUTINES
-
 	EL_FILE_OPEN_ROUTINES
 
-	EL_SHARED_DIGESTS
+	SHARED_DEV_ENVIRON; EL_SHARED_DIGESTS
 
 	EL_MODULE_FILE; EL_MODULE_XML
 
@@ -118,11 +116,15 @@ feature {NONE} -- Implementation
 
 	source_dir: DIR_PATH
 		do
-			Result := EL_test_data_dir #+ ".thunderbird"
+			Result := Dev_environ.EL_test_data_dir #+ ".thunderbird"
 		end
 
 	write_config (account, language, folders: STRING)
 		do
+			lio.put_path_field ("Config_path", Config_path)
+			lio.put_new_line
+			File_system.make_directory (Config_path.parent)
+
 			if attached open (Config_path, Write) as pyxis_out then
 				pyxis_out.put_string (new_config_text (account, language, folders))
 				pyxis_out.close

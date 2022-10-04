@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-22 9:08:56 GMT (Friday 22nd July 2022)"
-	revision: "2"
+	date: "2022-10-04 9:42:17 GMT (Tuesday 4th October 2022)"
+	revision: "3"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER_TEST_SET
@@ -15,11 +15,11 @@ class
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
 
-	EIFFEL_LOOP_TEST_ROUTINES
+	SHARED_DEV_ENVIRON
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("compiler", agent test_compiler)
@@ -53,7 +53,7 @@ feature {NONE} -- Implementation
 
 	source_dir: DIR_PATH
 		do
-			Result := EL_test_data_dir #+ "pyxis/localization"
+			Result := Dev_environ.EL_test_data_dir #+ "pyxis/localization"
 		end
 
 end

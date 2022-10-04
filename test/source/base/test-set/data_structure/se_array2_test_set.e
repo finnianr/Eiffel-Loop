@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-07 11:46:52 GMT (Saturday 7th March 2020)"
-	revision: "5"
+	date: "2022-10-04 8:51:08 GMT (Tuesday 4th October 2022)"
+	revision: "6"
 
 class
 	SE_ARRAY2_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("array_read_write", agent test_array_read_write)

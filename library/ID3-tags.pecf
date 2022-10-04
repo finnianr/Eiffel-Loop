@@ -38,25 +38,25 @@ system:
 		windows_externals:
 			# For Windows: libid3 and libid3tag externals
 			external_include: 
-				location = "$(EL_CPP_ID3LIB)\\include"
+				location = "$(EXT_CPP_ID3LIB)\\include"
 			external_cflag:
 				value = "-DID3LIB_LINKOPTION=1 -DWIN32 -EHsc"
 			external_object:
 				location = "$(EL_CPP_ID3LIB)/spec/$(ISE_PLATFORM)/id3.lib"
 			external_include:
-				location = "$(EL_C_LIBID3TAG)\\include"
+				location = "$(EXT_C_LIBID3TAG)"
 			external_object:
 				location = "$(EL_C_LIBID3TAG)/spec/$(ISE_PLATFORM)/id3tag.lib"
 
 		unix_externals:
 			# For Unix: libid3 and libid3tag externals
 			external_include: 
-				location = "$(EL_CPP_ID3LIB)/include"
+				location = "$(EXT_CPP_ID3LIB)/include"
 			external_object:
 				location = "-L$(EL_CPP_ID3LIB)/spec/$(ISE_PLATFORM) -lid3"
 
 			external_include:
-				location = "$(EL_C_LIBID3TAG)/include"
+				location = "$(EXT_C_LIBID3TAG)"
 			external_object:
 				location = "-L$(EL_C_LIBID3TAG)/spec/$(ISE_PLATFORM) -lid3tag"
 				description: 

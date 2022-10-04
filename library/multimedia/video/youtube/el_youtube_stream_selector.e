@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "2"
+	date: "2022-10-04 14:40:52 GMT (Tuesday 4th October 2022)"
+	revision: "3"
 
 class
 	EL_YOUTUBE_STREAM_SELECTOR
@@ -18,8 +18,6 @@ inherit
 	EL_YOUTUBE_CONSTANTS
 
 	EL_MODULE_LIO
-
-	EL_MODULE_USER_INPUT
 
 create
 	make
@@ -61,15 +59,14 @@ feature -- Basic operations
 	get_code
 		-- get user `code' selection
 		local
-			l_title, prompt_template: ZSTRING
+			l_title, prompt_template, response_template, invalid_response: ZSTRING
+			code_input: EL_USER_INPUT_VALUE [NATURAL]
 		do
-			l_title := type; l_title.append_string_general (" STREAMS")
-			prompt_template := "Enter %S code"
-			from code := 0 until stream_table.has_key (code) and then included (stream_table.found_item) loop
-				display (l_title)
-				code := User_input.natural (prompt_template #$ [type.as_lower])
-				lio.put_new_line
-			end
+			display (type + " STREAMS")
+			prompt_template := "Enter %S code"; response_template := "Code %S is not a valid %S stream"
+			invalid_response := response_template #$ ['%S', type.as_lower]
+			create code_input.make_valid (prompt_template #$ [type.as_lower], invalid_response, agent valid_stream)
+			code := code_input.value
 		end
 
 feature {NONE} -- Implementation
@@ -83,6 +80,11 @@ feature {NONE} -- Implementation
 				end
 			end
 			lio.put_new_line
+		end
+
+	valid_stream (a_code: NATURAL): BOOLEAN
+		do
+			Result := stream_table.has_key (a_code) and then included (stream_table.found_item)
 		end
 
 feature {NONE} -- Internal attributes

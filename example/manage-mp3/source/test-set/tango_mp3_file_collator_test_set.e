@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-18 15:23:21 GMT (Monday 18th January 2021)"
-	revision: "4"
+	date: "2022-10-04 9:43:53 GMT (Tuesday 4th October 2022)"
+	revision: "5"
 
 class
 	TANGO_MP3_FILE_COLLATOR_TEST_SET
@@ -24,7 +24,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("mp3_file_collator", agent test_mp3_file_collator)

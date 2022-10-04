@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-10 9:29:54 GMT (Monday 10th January 2022)"
-	revision: "5"
+	date: "2022-10-04 9:21:00 GMT (Tuesday 4th October 2022)"
+	revision: "6"
 
 class
 	JOBSERVE_SEARCHER_TEST_SET
@@ -15,11 +15,11 @@ class
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
 
-	EIFFEL_LOOP_TEST_ROUTINES
+	SHARED_DEV_ENVIRON
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("execute", agent test_execute)
@@ -49,6 +49,6 @@ feature {NONE} -- Constants
 
 	Data_dir: DIR_PATH
 		once
-			Result := EL_test_data_dir #+ "XML"
+			Result := Dev_environ.EL_test_data_dir #+ "XML"
 		end
 end

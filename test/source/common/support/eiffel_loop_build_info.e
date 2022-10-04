@@ -6,18 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:22:26 GMT (Monday 14th February 2022)"
-	revision: "7"
+	date: "2022-10-04 9:12:39 GMT (Tuesday 4th October 2022)"
+	revision: "8"
 
 class
 	EIFFEL_LOOP_BUILD_INFO
 
 inherit
+	ANY
+
 	EL_BUILD_INFO
 
 	EL_MODULE_EXECUTABLE
 
-	EIFFEL_LOOP_TEST_ROUTINES
+	SHARED_DEV_ENVIRON
 
 feature -- Constants
 
@@ -27,7 +29,7 @@ feature -- Constants
 
 	Installation_sub_directory: DIR_PATH
 		once
-			Result := Eiffel_loop
+			Result := Dev_environ.Eiffel_loop
 			Result := Result #+ Executable.name
 		end
 end

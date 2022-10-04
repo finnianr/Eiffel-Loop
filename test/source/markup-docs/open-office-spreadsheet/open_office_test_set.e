@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-22 9:23:20 GMT (Friday 22nd July 2022)"
-	revision: "23"
+	date: "2022-10-04 8:50:59 GMT (Tuesday 4th October 2022)"
+	revision: "24"
 
 class
 	OPEN_OFFICE_TEST_SET
@@ -29,7 +29,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("open_office_spreadsheet", agent test_open_office_spreadsheet)

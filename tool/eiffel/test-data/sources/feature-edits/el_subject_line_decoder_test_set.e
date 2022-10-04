@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("iso",		agent test_iso)

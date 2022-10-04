@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
-	revision: "12"
+	date: "2022-10-04 9:15:09 GMT (Tuesday 4th October 2022)"
+	revision: "13"
 
 class
 	AUDIO_COMMAND_TEST_SET
@@ -15,15 +15,13 @@ class
 inherit
 	EL_FILE_DATA_TEST_SET
 
-	EIFFEL_LOOP_TEST_ROUTINES
-
 	EL_MODULE_AUDIO_COMMAND
 
 	EL_MODULE_CONSOLE
 
 feature -- Basic operations
 
-	do_all (evaluator: EL_EQA_TEST_EVALUATOR)
+	do_all (evaluator: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			evaluator.call ("mp3_audio", agent test_mp3_audio)

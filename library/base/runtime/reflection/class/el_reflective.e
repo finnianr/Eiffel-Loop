@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-28 11:37:27 GMT (Wednesday 28th September 2022)"
-	revision: "57"
+	date: "2022-09-28 13:23:59 GMT (Wednesday 28th September 2022)"
+	revision: "58"
 
 deferred class
 	EL_REFLECTIVE
@@ -153,11 +153,11 @@ feature -- Element change
 			valid_names: attached other_except_list as names implies other.valid_field_names (names)
 		do
 			if attached meta_data.field_table as table
-				and then attached other.meta_data.field_table as table_other
+				and then attached other.meta_data.field_list as other_list
 				and then attached other.field_indices_set (other_except_list) as except_indices
 			then
-				from table_other.start until table_other.after loop
-					if attached table_other.item_for_iteration as other_field
+				from other_list.start until other_list.after loop
+					if attached other_list.item as other_field
 						and then not except_indices.has (other_field.index)
 					then
 						if table.has_key (other_field.name) and then attached table.found_item as field then
@@ -166,7 +166,7 @@ feature -- Element change
 							end
 						end
 					end
-					table_other.forth
+					other_list.forth
 				end
 			end
 		end

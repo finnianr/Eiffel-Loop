@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 17:34:45 GMT (Friday 8th January 2021)"
-	revision: "9"
+	date: "2022-10-04 8:51:07 GMT (Tuesday 4th October 2022)"
+	revision: "10"
 
 class
 	SEQUENTIAL_INTERVALS_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("item_count", agent test_item_count)

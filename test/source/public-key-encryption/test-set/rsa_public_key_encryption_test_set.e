@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:21:04 GMT (Monday 14th February 2022)"
-	revision: "9"
+	date: "2022-10-04 9:27:59 GMT (Tuesday 4th October 2022)"
+	revision: "10"
 
 class
 	RSA_PUBLIC_KEY_ENCRYPTION_TEST_SET
@@ -15,16 +15,16 @@ class
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
 		rename
-			data_dir as Eiffel_loop_dir
+			data_dir as eiffel_loop_dir
 		end
-
-	EIFFEL_LOOP_TEST_ROUTINES
 
 	EL_MODULE_X509
 
+	SHARED_DEV_ENVIRON
+
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("write_x509_key_file_to_aes_binary", agent test_write_x509_key_file_to_aes_binary)
@@ -76,6 +76,11 @@ feature {NONE} -- Implementation
 			assert ("correct public_exponent", key.public_exponent.out ~ "10001")
 		end
 
+	eiffel_loop_dir: DIR_PATH
+		do
+			Result := Dev_environ.Eiffel_loop_dir
+		end
+
 	new_key_reader: EL_X509_PRIVATE_READER_COMMAND_I
 		do
 			if file_list.is_empty then
@@ -91,7 +96,7 @@ feature {NONE} -- Implementation
 
 	source_file_list: EL_FILE_PATH_LIST
 		do
-			Result := OS.file_list (EL_test_data_dir #+ "rsa_keys", "*.key")
+			Result := OS.file_list (Dev_environ.EL_test_data_dir #+ "rsa_keys", "*.key")
 		end
 
 feature {NONE} -- Constants

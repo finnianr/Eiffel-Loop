@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-22 8:26:30 GMT (Wednesday 22nd June 2022)"
-	revision: "51"
+	date: "2022-10-04 9:20:37 GMT (Tuesday 4th October 2022)"
+	revision: "52"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -21,21 +21,17 @@ inherit
 			on_prepare
 		end
 
-	EIFFEL_LOOP_TEST_ROUTINES
-
-	EL_MODULE_WEB
-
-	EL_MODULE_HTML
-
-	EL_MODULE_IP_ADDRESS
+	EL_MODULE_HTML; EL_MODULE_IP_ADDRESS; EL_MODULE_WEB
 
 	EL_SHARED_GEOGRAPHIC_INFO_TABLE
 
 	EL_SHARED_IP_ADDRESS_GEOLOCATION
 
+	SHARED_DEV_ENVIRON
+
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("cookies", agent test_cookies)

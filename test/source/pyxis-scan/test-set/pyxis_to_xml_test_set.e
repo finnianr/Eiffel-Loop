@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-22 9:08:56 GMT (Friday 22nd July 2022)"
-	revision: "41"
+	date: "2022-10-04 9:24:08 GMT (Tuesday 4th October 2022)"
+	revision: "42"
 
 class
 	PYXIS_TO_XML_TEST_SET
@@ -19,7 +19,7 @@ class
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
 		rename
-			data_dir as Eiffel_loop_dir
+			data_dir as eiffel_loop_dir
 		undefine
 			new_lio
 		end
@@ -33,11 +33,11 @@ inherit
 			default_create
 		end
 
-	EIFFEL_LOOP_TEST_ROUTINES
+	SHARED_DEV_ENVIRON
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("attribute_parser", agent test_attribute_parser)
@@ -122,9 +122,14 @@ feature {NONE} -- Implementation
 			source.close
 		end
 
+	eiffel_loop_dir: DIR_PATH
+		do
+			Result := Dev_environ.Eiffel_loop_dir
+		end
+
 	source_file_list: EL_FILE_PATH_LIST
 		do
-			Result := OS.file_list (EL_test_data_dir #+ "pyxis", "*.pyx")
+			Result := OS.file_list (Dev_environ.EL_test_data_dir #+ "pyxis", "*.pyx")
 		end
 
 feature {NONE} -- Constants

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-07 6:04:48 GMT (Monday 7th February 2022)"
-	revision: "3"
+	date: "2022-10-04 9:37:30 GMT (Tuesday 4th October 2022)"
+	revision: "4"
 
 class
 	VCF_CONTACT_TEST_SET
@@ -21,7 +21,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("splitter", agent test_splitter)

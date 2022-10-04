@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-20 12:16:39 GMT (Monday 20th June 2022)"
-	revision: "7"
+	date: "2022-10-04 8:50:51 GMT (Tuesday 4th October 2022)"
+	revision: "8"
 
 class
 	HASH_TABLE_TEST_SET
@@ -23,7 +23,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("compressed_table", agent test_compressed_table)

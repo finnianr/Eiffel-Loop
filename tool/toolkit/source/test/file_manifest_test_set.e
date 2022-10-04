@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-13 12:12:32 GMT (Thursday 13th January 2022)"
-	revision: "3"
+	date: "2022-10-04 9:36:54 GMT (Tuesday 4th October 2022)"
+	revision: "4"
 
 class
 	FILE_MANIFEST_TEST_SET
@@ -19,7 +19,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("file_manifest", agent test_file_manifest)

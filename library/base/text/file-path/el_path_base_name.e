@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 12:28:36 GMT (Thursday 17th February 2022)"
-	revision: "1"
+	date: "2022-10-01 10:34:09 GMT (Saturday 1st October 2022)"
+	revision: "2"
 
 deferred class
 	EL_PATH_BASE_NAME
@@ -140,8 +140,8 @@ feature -- Status Query
 		local
 			index: INTEGER
 		do
-			index := dot_index
-			if index > 0 then
+			index := base.count - a_extension.count
+			if index > 0 and then base [index] = '.' then
 				if case_insensitive then
 					Result := base.same_caseless_characters_general (a_extension, 1, a_extension.count, index + 1)
 				else

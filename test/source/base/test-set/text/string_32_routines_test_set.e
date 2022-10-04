@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-14 16:35:46 GMT (Thursday 14th January 2021)"
-	revision: "12"
+	date: "2022-10-04 8:51:10 GMT (Tuesday 4th October 2022)"
+	revision: "13"
 
 class
 	STRING_32_ROUTINES_TEST_SET
@@ -19,7 +19,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("delimited_list", agent test_delimited_list)

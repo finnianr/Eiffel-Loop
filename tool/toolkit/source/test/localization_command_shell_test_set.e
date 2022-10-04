@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:26:27 GMT (Monday 14th February 2022)"
-	revision: "12"
+	date: "2022-10-04 9:40:44 GMT (Tuesday 4th October 2022)"
+	revision: "13"
 
 class
 	LOCALIZATION_COMMAND_SHELL_TEST_SET
@@ -15,11 +15,11 @@ class
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
 
-	EIFFEL_LOOP_TEST_ROUTINES
+	SHARED_DEV_ENVIRON
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("add_unchecked", agent test_add_unchecked)
@@ -46,7 +46,7 @@ feature {NONE} -- Constants
 
 	Source_dir: DIR_PATH
 		once
-			Result := EL_test_data_dir #+ "pyxis/localization"
+			Result := Dev_environ.EL_test_data_dir #+ "pyxis/localization"
 		end
 
 	Unchecked_de_list: EL_ZSTRING_LIST

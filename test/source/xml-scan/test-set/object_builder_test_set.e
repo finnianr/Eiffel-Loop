@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:21:31 GMT (Monday 14th February 2022)"
-	revision: "16"
+	date: "2022-10-04 9:21:41 GMT (Tuesday 4th October 2022)"
+	revision: "17"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -28,11 +28,11 @@ inherit
 			on_prepare
 		end
 
+	EL_MODULE_TUPLE
+
 	EL_CRC_32_TEST_ROUTINES
 
-	EIFFEL_LOOP_TEST_ROUTINES
-
-	EL_MODULE_TUPLE
+	SHARED_DEV_ENVIRON
 
 feature {NONE} -- Initialization
 
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("buildable_from_node_scan",			agent test_buildable_from_node_scan)
@@ -116,7 +116,7 @@ feature {NONE} -- Implementation
 		local
 			commands: BIOINFORMATIC_COMMANDS
 		do
-			create commands.make_from_file (El_test_data_dir + "vtd-xml/bioinfo.xml")
+			create commands.make_from_file (Dev_environ.El_test_data_dir + "vtd-xml/bioinfo.xml")
 			commands.display
 		end
 
@@ -152,7 +152,7 @@ feature {NONE} -- Constants
 
 	XML_dir: DIR_PATH
 		once
-			Result := EL_test_data_dir #+ "XML"
+			Result := Dev_environ.EL_test_data_dir #+ "XML"
 		end
 
 end

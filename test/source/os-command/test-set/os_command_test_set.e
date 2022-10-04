@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-21 13:35:45 GMT (Monday 21st February 2022)"
-	revision: "20"
+	date: "2022-10-04 9:22:09 GMT (Tuesday 4th October 2022)"
+	revision: "21"
 
 class
 	OS_COMMAND_TEST_SET
@@ -15,13 +15,13 @@ class
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
 
-	EIFFEL_LOOP_TEST_ROUTINES
-
 	EL_MODULE_SYSTEM
+
+	SHARED_DEV_ENVIRON
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("cpu_info", agent test_cpu_info)
@@ -113,7 +113,7 @@ feature {NONE} -- Implementation
 
 	source_dir: DIR_PATH
 		do
-			Result := EL_test_data_dir #+ "txt"
+			Result := Dev_environ.EL_test_data_dir #+ "txt"
 		end
 
 end

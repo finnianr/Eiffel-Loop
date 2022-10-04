@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 13:44:53 GMT (Wednesday 16th February 2022)"
-	revision: "26"
+	date: "2022-10-04 8:50:46 GMT (Tuesday 4th October 2022)"
+	revision: "27"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -23,7 +23,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("gnome_virtual_file_system", agent test_gnome_virtual_file_system)

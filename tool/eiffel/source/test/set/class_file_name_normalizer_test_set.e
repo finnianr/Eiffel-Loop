@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 11:30:31 GMT (Saturday 5th February 2022)"
-	revision: "1"
+	date: "2022-10-04 8:55:53 GMT (Tuesday 4th October 2022)"
+	revision: "2"
 
 class
 	CLASS_FILE_NAME_NORMALIZER_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 feature -- Basic operations
 
-	do_all (eval: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("renaming", agent test_renaming)
