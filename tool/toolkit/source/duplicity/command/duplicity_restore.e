@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 9:57:05 GMT (Tuesday 8th February 2022)"
-	revision: "24"
+	date: "2022-10-05 13:16:10 GMT (Wednesday 5th October 2022)"
+	revision: "25"
 
 class
 	DUPLICITY_RESTORE
@@ -82,7 +82,8 @@ feature {NONE} -- Implementation
 	restore_date (a_time: DATE_TIME)
 		local
 			cmd: DUPLICITY_LISTING_OS_CMD; restore_cmd: DUPLICITY_RESTORE_ALL_OS_CMD
-			path_list: EL_FILE_PATH_LIST; file_path: FILE_PATH; i: INTEGER
+			path_list: EL_FILE_PATH_LIST; input: EL_USER_INPUT_VALUE [INTEGER]
+			i: INTEGER
 		do
 			lio.put_line ("(%"library/%" to search for directory library)")
 			create cmd.make (a_time, backup_dir, User_input.line ("Enter search string"))
@@ -99,20 +100,23 @@ feature {NONE} -- Implementation
 				lio.put_new_line
 			end
 			lio.put_new_line
-			i := User_input.integer ("Enter a file option")
-			lio.put_new_line
+			create input.make ("Enter a file option")
+			i := input.value
 			if path_list.valid_index (i) then
 				if not encryption_key.is_empty and then not attached Execution_environment.item (Var_passphrase) then
 					Execution_environment.put (User_input.line ("Enter passphrase"), Var_passphrase)
 					lio.put_new_line
 				end
-				file_path := path_list [i]
-				if i = 1 then
-					create restore_cmd.make (Current, a_time, file_path)
-				else
-					create {DUPLICITY_RESTORE_FILE_OS_CMD} restore_cmd.make (Current, a_time, file_path)
+				if attached path_list [i] as file_path then
+					if i = 1 then
+						create restore_cmd.make (Current, a_time, file_path)
+					else
+						create {DUPLICITY_RESTORE_FILE_OS_CMD} restore_cmd.make (Current, a_time, file_path)
+					end
 				end
 				restore_cmd.execute
+			else
+				-- exit and do nothing
 			end
 		end
 

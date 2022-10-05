@@ -6,29 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 14:08:46 GMT (Tuesday 4th October 2022)"
-	revision: "15"
+	date: "2022-10-05 13:30:52 GMT (Wednesday 5th October 2022)"
+	revision: "16"
 
 class
 	EL_USER_INPUT
 
 inherit
-	ANY
-	EL_MODULE_CONSOLE
-	EL_MODULE_LIO
-
-feature -- Basic operations
-
-	set_real_from_line (prompt: READABLE_STRING_GENERAL; value_setter: PROCEDURE [REAL])
-			--
-		local
-			real_string: ZSTRING
-		do
-			real_string := line (prompt)
-			if real_string.is_real then
-				value_setter.call ([real_string.to_real])
-			end
-		end
+	ANY; EL_MODULE_CONSOLE; EL_MODULE_LIO
 
 feature -- Status query
 
@@ -74,20 +59,6 @@ feature -- Input
 			Result := path (prompt)
 		end
 
-	double (prompt: READABLE_STRING_GENERAL): DOUBLE
-		local
-			l_line: like line; done: BOOLEAN
-		do
-			from until done loop
-				l_line := line (prompt)
-				if l_line.is_empty then
-					done := True
-				elseif l_line.is_double then
-					Result := l_line.to_double; done := True
-				end
-			end
-		end
-
 	file_path (prompt: READABLE_STRING_GENERAL): FILE_PATH
 			--
 		do
@@ -96,16 +67,10 @@ feature -- Input
 
 	integer (prompt: READABLE_STRING_GENERAL): INTEGER
 		local
-			l_line: like line; done: BOOLEAN
+			input: EL_USER_INPUT_VALUE [INTEGER]
 		do
-			from until done loop
-				l_line := line (prompt)
-				if l_line.is_empty then
-					done := True
-				elseif l_line.is_integer then
-					Result := l_line.to_integer; done := True
-				end
-			end
+			create input.make (prompt)
+			Result := input.value
 		end
 
 	line (prompt: READABLE_STRING_GENERAL): ZSTRING
@@ -114,20 +79,6 @@ feature -- Input
 			lio.put_labeled_string (prompt, "")
 			io.read_line
 			Result := Console.decoded (io.last_string)
-		end
-
-	natural (prompt: READABLE_STRING_GENERAL): NATURAL
-		local
-			l_line: like line; done: BOOLEAN
-		do
-			from until done loop
-				l_line := line (prompt)
-				if l_line.is_empty then
-					done := True
-				elseif l_line.is_natural then
-					Result := l_line.to_natural; done := True
-				end
-			end
 		end
 
 	path (prompt: READABLE_STRING_GENERAL): ZSTRING
@@ -142,46 +93,7 @@ feature -- Input
 			end
 		end
 
-	real (prompt: READABLE_STRING_GENERAL): REAL
-		local
-			l_line: like line; done: BOOLEAN
-		do
-			from until done loop
-				l_line := line (prompt)
-				if l_line.is_empty then
-					done := True
-				elseif l_line.is_real then
-					Result := l_line.to_real; done := True
-				end
-			end
-		end
-
-feature {NONE} -- Implementation
-
-	valid_values (a_values: FINITE [ANY]): ZSTRING
-		local
-			values: LINEAR [ANY]; count: INTEGER
-		do
-			values := a_values.linear_representation
-			create Result.make (a_values.count * 7)
-			Result.append_string_general (" (")
-			from values.start until values.after loop
-				if count > 0 then
-					Result.append_string_general (once ", ")
-				end
-				Result.append_string_general (values.item.out)
-				values.forth
-				count := count + 1
-			end
-			Result.append_character (')')
-		end
-
 feature {NONE} -- Constants
-
-	Under_score: ZSTRING
-		once
-			Result := "_"
-		end
 
 	Yes_no_choices: STRING
 		once
