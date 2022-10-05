@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-05 9:23:57 GMT (Wednesday 5th October 2022)"
-	revision: "2"
+	date: "2022-10-05 15:50:59 GMT (Wednesday 5th October 2022)"
+	revision: "3"
 
 class
 	EL_STRING_TO_BOOLEAN
@@ -24,6 +24,14 @@ feature -- Contract Support
 		-- `True' if `str' is convertible to type `BOOLEAN'
 		do
 			Result := str.is_boolean
+		end
+
+feature -- Basic operations
+
+	put_tuple_item (a_tuple: TUPLE; value: BOOLEAN; index: INTEGER)
+		-- put `value' at `index' position in `a_tuple'
+		do
+			a_tuple.put_boolean (value, index)
 		end
 
 feature -- Conversion

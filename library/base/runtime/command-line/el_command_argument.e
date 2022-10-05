@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-06 17:20:36 GMT (Sunday 6th February 2022)"
-	revision: "20"
+	date: "2022-10-05 17:00:16 GMT (Wednesday 5th October 2022)"
+	revision: "21"
 
 class
 	EL_COMMAND_ARGUMENT
@@ -116,24 +116,38 @@ feature {NONE} -- Constants
 			create Result
 		end
 
-	Setter_types: EL_HASH_TABLE [TYPE [EL_MAKE_OPERAND_SETTER [ANY]], TYPE [ANY]]
+	Setter_types: EL_TYPE_TABLE [TYPE [EL_MAKE_OPERAND_SETTER [ANY]]]
 		once
 			create Result.make (<<
+--				Basic setters
+				[{CHARACTER_8},							{EL_OPERAND_SETTER [CHARACTER_8]}],
+				[{CHARACTER_32},							{EL_OPERAND_SETTER [CHARACTER_32]}],
+
+				[{INTEGER_8},								{EL_OPERAND_SETTER [INTEGER_8]}],
+				[{INTEGER_16},								{EL_OPERAND_SETTER [INTEGER_16]}],
+				[{INTEGER_32},								{EL_OPERAND_SETTER [INTEGER_32]}],
+				[{INTEGER_64},								{EL_OPERAND_SETTER [INTEGER_64]}],
+
+				[{NATURAL_8},								{EL_OPERAND_SETTER [NATURAL_8]}],
+				[{NATURAL_16},								{EL_OPERAND_SETTER [NATURAL_16]}],
+				[{NATURAL_32},								{EL_OPERAND_SETTER [NATURAL_32]}],
+				[{NATURAL_64},								{EL_OPERAND_SETTER [NATURAL_64]}],
+
+				[{REAL_32},									{EL_OPERAND_SETTER [REAL_32]}],
+				[{REAL_64},									{EL_OPERAND_SETTER [REAL_64]}],
+
+				[{ZSTRING},									{EL_OPERAND_SETTER [ZSTRING]}],
+				[{STRING_8},								{EL_OPERAND_SETTER [STRING_8]}],
+				[{STRING_32},								{EL_OPERAND_SETTER [STRING_32]}],
+
+				[{EL_DIR_URI_PATH},						{EL_OPERAND_SETTER [EL_DIR_URI_PATH]}],
+				[{EL_FILE_URI_PATH},						{EL_OPERAND_SETTER [EL_FILE_URI_PATH]}],
+
+--				Specialized setters
 				[{BOOLEAN},									{EL_BOOLEAN_OPERAND_SETTER}],
 
-				[{INTEGER},									{EL_INTEGER_OPERAND_SETTER}],
-				[{INTEGER_64},								{EL_INTEGER_64_OPERAND_SETTER}],
-				[{NATURAL},									{EL_NATURAL_OPERAND_SETTER}],
-				[{NATURAL_64},								{EL_NATURAL_64_OPERAND_SETTER}],
-				[{REAL},										{EL_REAL_OPERAND_SETTER}],
-				[{DOUBLE},									{EL_DOUBLE_OPERAND_SETTER}],
-
-				[{ZSTRING},									{EL_ZSTRING_OPERAND_SETTER}],
-				[{STRING_8},								{EL_STRING_8_OPERAND_SETTER}],
-				[{STRING_32},								{EL_STRING_32_OPERAND_SETTER}],
-
-				[{FILE_PATH},								{EL_FILE_PATH_OPERAND_SETTER}],
-				[{DIR_PATH},								{EL_DIR_PATH_OPERAND_SETTER}],
+				[{FILE_PATH},								{EL_PATH_OPERAND_SETTER [FILE_PATH]}],
+				[{DIR_PATH},								{EL_PATH_OPERAND_SETTER [DIR_PATH]}],
 
 				[{EL_ZSTRING_HASH_TABLE [ZSTRING]}, {EL_ZSTRING_TABLE_OPERAND_SETTER}],
 

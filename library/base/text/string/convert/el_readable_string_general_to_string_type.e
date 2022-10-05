@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-05 11:32:48 GMT (Wednesday 5th October 2022)"
-	revision: "1"
+	date: "2022-10-05 15:55:00 GMT (Wednesday 5th October 2022)"
+	revision: "2"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_TO_STRING_TYPE [G -> STRING_GENERAL]
@@ -23,6 +23,14 @@ inherit
 feature -- Access
 
 	type: TYPE [STRING_GENERAL]
+
+feature -- Basic operations
+
+	put_tuple_item (a_tuple: TUPLE; value: G; index: INTEGER)
+		-- put `value' at `index' position in `a_tuple'
+		do
+			a_tuple.put_reference (value, index)
+		end
 
 feature {NONE} -- Implementation
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-05 9:43:18 GMT (Tuesday 5th June 2018)"
-	revision: "4"
+	date: "2022-10-05 15:28:43 GMT (Wednesday 5th October 2022)"
+	revision: "5"
 
 class
 	EL_ENVIRON_VARIABLE_OPERAND_SETTER [E -> EL_ENVIRON_VARIABLE create make_from_string end]
@@ -15,7 +15,7 @@ class
 inherit
 	EL_MAKE_OPERAND_SETTER [E]
 		redefine
-			is_convertible, value_description
+			is_convertible, value_description, value
 		end
 
 feature {NONE} -- Implementation

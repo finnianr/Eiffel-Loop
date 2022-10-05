@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-23 18:46:30 GMT (Tuesday 23rd November 2021)"
-	revision: "4"
+	date: "2022-10-05 16:54:12 GMT (Wednesday 5th October 2022)"
+	revision: "5"
 
 class
 	EL_MAKEABLE_FROM_ZSTRING_OPERAND_SETTER
 
 inherit
-	EL_ZSTRING_OPERAND_SETTER
+	EL_MAKE_OPERAND_SETTER [ZSTRING]
 		redefine
 			put_reference
 		end
@@ -32,4 +32,8 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	value (str: ZSTRING): ZSTRING
+		do
+			Result := str
+		end
 end

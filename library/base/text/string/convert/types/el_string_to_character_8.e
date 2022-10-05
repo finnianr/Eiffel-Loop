@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-05 9:28:34 GMT (Wednesday 5th October 2022)"
-	revision: "2"
+	date: "2022-10-05 15:51:35 GMT (Wednesday 5th October 2022)"
+	revision: "3"
 
 class
 	EL_STRING_TO_CHARACTER_8
@@ -24,6 +24,14 @@ feature -- Contract Support
 		-- `True' if `str' is convertible to type `CHARACTER_8'
 		do
 			Result := str.count = 1 and then str.code (1) <= 0xFF
+		end
+
+feature -- Basic operations
+
+	put_tuple_item (a_tuple: TUPLE; value: CHARACTER_8; index: INTEGER)
+		-- put `value' at `index' position in `a_tuple'
+		do
+			a_tuple.put_character (value, index)
 		end
 
 feature -- Conversion

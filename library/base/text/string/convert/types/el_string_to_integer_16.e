@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-05 9:25:42 GMT (Wednesday 5th October 2022)"
-	revision: "2"
+	date: "2022-10-05 15:51:54 GMT (Wednesday 5th October 2022)"
+	revision: "3"
 
 class
 	EL_STRING_TO_INTEGER_16
@@ -24,6 +24,14 @@ feature -- Contract Support
 		-- `True' if `str' is convertible to type `INTEGER_16'
 		do
 			Result := str.is_integer_16
+		end
+
+feature -- Basic operations
+
+	put_tuple_item (a_tuple: TUPLE; value: INTEGER_16; index: INTEGER)
+		-- put `value' at `index' position in `a_tuple'
+		do
+			a_tuple.put_integer_16 (value, index)
 		end
 
 feature -- Conversion

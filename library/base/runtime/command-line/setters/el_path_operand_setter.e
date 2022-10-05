@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 11:36:39 GMT (Saturday 19th February 2022)"
-	revision: "15"
+	date: "2022-10-05 16:00:20 GMT (Wednesday 5th October 2022)"
+	revision: "16"
 
-deferred class
+class
 	EL_PATH_OPERAND_SETTER [G -> EL_PATH create make end]
 
 inherit
 	EL_MAKE_OPERAND_SETTER [EL_PATH]
 		redefine
-			default_argument_setter, new_list
+			default_argument_setter, new_list, value
 		end
 
 feature {NONE} -- Implementation

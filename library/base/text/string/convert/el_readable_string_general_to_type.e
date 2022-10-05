@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-05 11:33:08 GMT (Wednesday 5th October 2022)"
-	revision: "3"
+	date: "2022-10-05 16:28:28 GMT (Wednesday 5th October 2022)"
+	revision: "4"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_TO_TYPE [G]
@@ -18,6 +18,11 @@ inherit
 			item as type_description,
 			new_item as new_type_description,
 			actual_item as actual_type_description
+		end
+
+	EL_MODULE_TUPLE
+		export
+			{ANY} Tuple
 		end
 
 feature {EL_MODULE_EIFFEL} -- Initialization
@@ -54,6 +59,16 @@ feature -- Conversion
 	as_type (str: READABLE_STRING_GENERAL): G
 		require
 			valid_string: is_convertible (str)
+		deferred
+		end
+
+feature -- Basic operations
+
+	put_tuple_item (a_tuple: TUPLE; value: G; index: INTEGER)
+		-- put `value' at `index' position in `a_tuple'
+		require
+			valid_index: a_tuple.valid_index (index)
+			valid_type_at_index: Tuple.type_array (a_tuple)[index] ~ type
 		deferred
 		end
 

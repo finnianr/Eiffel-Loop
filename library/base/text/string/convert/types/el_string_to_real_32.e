@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-05 9:26:21 GMT (Wednesday 5th October 2022)"
-	revision: "2"
+	date: "2022-10-05 15:54:45 GMT (Wednesday 5th October 2022)"
+	revision: "3"
 
 class
 	EL_STRING_TO_REAL_32
@@ -24,6 +24,14 @@ feature -- Contract Support
 		-- `True' if `str' is convertible to type `REAL_32'
 		do
 			Result := str.is_real_32
+		end
+
+feature -- Basic operations
+
+	put_tuple_item (a_tuple: TUPLE; value: REAL_32; index: INTEGER)
+		-- put `value' at `index' position in `a_tuple'
+		do
+			a_tuple.put_real_32 (value, index)
 		end
 
 feature -- Conversion

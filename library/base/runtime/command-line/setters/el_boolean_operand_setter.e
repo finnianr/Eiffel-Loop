@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 11:35:22 GMT (Friday 25th January 2019)"
-	revision: "4"
+	date: "2022-10-05 15:24:37 GMT (Wednesday 5th October 2022)"
+	revision: "5"
 
 class
 	EL_BOOLEAN_OPERAND_SETTER
@@ -15,7 +15,7 @@ class
 inherit
 	EL_MAKE_OPERAND_SETTER [BOOLEAN]
 		redefine
-			set_operand
+			set_operand, value
 		end
 
 feature {NONE} -- Implementation

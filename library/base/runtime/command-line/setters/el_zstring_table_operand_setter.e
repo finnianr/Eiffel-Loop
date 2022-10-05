@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-09 10:00:37 GMT (Tuesday 9th March 2021)"
-	revision: "5"
+	date: "2022-10-05 15:29:05 GMT (Wednesday 5th October 2022)"
+	revision: "6"
 
 class
 	EL_ZSTRING_TABLE_OPERAND_SETTER
@@ -18,7 +18,7 @@ class
 inherit
 	EL_MAKE_OPERAND_SETTER [EL_ZSTRING_HASH_TABLE [ZSTRING]]
 		redefine
-			set_operand
+			set_operand, value
 		end
 
 feature {NONE} -- Implementation

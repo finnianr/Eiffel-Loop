@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-09 9:39:16 GMT (Sunday 9th June 2019)"
-	revision: "6"
+	date: "2022-10-05 16:00:33 GMT (Wednesday 5th October 2022)"
+	revision: "7"
 
 class
 	EL_BUILDABLE_FROM_FILE_OPERAND_SETTER
 
 inherit
-	EL_FILE_PATH_OPERAND_SETTER
+	EL_PATH_OPERAND_SETTER [FILE_PATH]
 		rename
 			put_reference as build_object,
 			value as file_path

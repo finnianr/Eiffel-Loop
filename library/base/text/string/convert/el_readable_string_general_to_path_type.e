@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-05 11:33:44 GMT (Wednesday 5th October 2022)"
-	revision: "1"
+	date: "2022-10-05 15:55:32 GMT (Wednesday 5th October 2022)"
+	revision: "2"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_TO_PATH_TYPE [G -> EL_PATH create make end]
@@ -33,6 +33,14 @@ feature -- Conversion
 	as_type (str: READABLE_STRING_GENERAL): G
 		do
 			create Result.make (str)
+		end
+
+feature -- Basic operations
+
+	put_tuple_item (a_tuple: TUPLE; value: G; index: INTEGER)
+		-- put `value' at `index' position in `a_tuple'
+		do
+			a_tuple.put_reference (value, index)
 		end
 
 feature {NONE} -- Implementation
