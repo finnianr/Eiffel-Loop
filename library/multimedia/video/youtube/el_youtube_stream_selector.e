@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 14:40:52 GMT (Tuesday 4th October 2022)"
-	revision: "3"
+	date: "2022-10-05 10:00:02 GMT (Wednesday 5th October 2022)"
+	revision: "4"
 
 class
 	EL_YOUTUBE_STREAM_SELECTOR
@@ -59,7 +59,7 @@ feature -- Basic operations
 	get_code
 		-- get user `code' selection
 		local
-			l_title, prompt_template, response_template, invalid_response: ZSTRING
+			prompt_template, response_template, invalid_response: ZSTRING
 			code_input: EL_USER_INPUT_VALUE [NATURAL]
 		do
 			display (type + " STREAMS")

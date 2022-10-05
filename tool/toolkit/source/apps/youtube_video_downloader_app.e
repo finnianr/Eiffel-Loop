@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:40 GMT (Saturday 5th February 2022)"
-	revision: "14"
+	date: "2022-10-05 10:50:02 GMT (Wednesday 5th October 2022)"
+	revision: "15"
 
 class
 	YOUTUBE_VIDEO_DOWNLOADER_APP
@@ -41,7 +41,7 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make (create {EL_INPUT_PATH [EL_DIR_URI_PATH]})
+			Result := agent {like command}.make (create {EL_DIR_URI_PATH})
 		end
 
 feature {NONE} -- Constants

@@ -33,8 +33,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 9:58:19 GMT (Tuesday 8th February 2022)"
-	revision: "9"
+	date: "2022-10-05 11:51:35 GMT (Wednesday 5th October 2022)"
+	revision: "10"
 
 class
 	FILE_TREE_TRANSFORMER_SCRIPT
@@ -57,17 +57,22 @@ inherit
 			make_default, building_action_table
 		end
 
-	EL_MODULE_USER_INPUT
-
 create
 	make
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_input: EL_INPUT_PATH [FILE_PATH])
+	make (a_file_path: FILE_PATH)
+		local
+			input: EL_USER_INPUT_VALUE [FILE_PATH]
 		do
-			a_input.check_path ("Drag and drop a Pyxis transform script")
-			make_from_file (a_input.path)
+			if a_file_path.is_empty then
+				create input.make ("Drag and drop a Pyxis transform script")
+				input.check_existence
+				make_from_file (input.value)
+			else
+				make_from_file (a_file_path)
+			end
 		end
 
 	make_default

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 8:51:10 GMT (Tuesday 4th October 2022)"
-	revision: "13"
+	date: "2022-10-05 9:57:36 GMT (Wednesday 5th October 2022)"
+	revision: "14"
 
 class
 	STRING_32_ROUTINES_TEST_SET
@@ -17,15 +17,36 @@ inherit
 
 	EL_TEST_STRINGS
 
+	EL_MODULE_CONVERT_STRING; EL_MODULE_LIO
+
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
+
 feature -- Basic operations
 
 	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("convert_string_type_descriptions", agent test_convert_string_type_descriptions)
 			eval.call ("delimited_list", agent test_delimited_list)
 		end
 
 feature -- Conversion tests
+
+	test_convert_string_type_descriptions
+		note
+			testing: "covers/{EL_READABLE_STRING_GENERAL_TO_TYPE}.new_type_description"
+		do
+			if attached crc_generator as crc then
+				output_type_descriptions (crc)
+				lio.put_natural_field ("Checksum", crc.checksum)
+				lio.put_new_line
+				if crc.checksum = 176473444 then
+					assert ("Expected descriptions", True)
+				else
+					output_type_descriptions (Void)
+				end
+			end
+		end
 
 	test_delimited_list
 		note
@@ -62,5 +83,20 @@ feature -- Conversion tests
 			assert ("delimited_list OK", str ~ Text_russian_and_english)
 		ensure
 			line_2_starts_with_W: Text_lines.i_th (2).item (1) = 'W'
+		end
+
+feature {NONE} -- Implementation
+
+	output_type_descriptions (crc_check: detachable EL_CYCLIC_REDUNDANCY_CHECK_32)
+		do
+			across Convert_string.type_list as list loop
+				if attached Convert_string.type_descripton (list.item) as description then
+					if attached crc_check as crc then
+						crc.add_string_8 (description)
+					else
+						lio.put_line (description)
+					end
+				end
+			end
 		end
 end

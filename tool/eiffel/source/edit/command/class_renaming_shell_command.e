@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-22 9:51:18 GMT (Wednesday 22nd June 2022)"
-	revision: "1"
+	date: "2022-10-05 10:57:53 GMT (Wednesday 5th October 2022)"
+	revision: "2"
 
 class
 	CLASS_RENAMING_SHELL_COMMAND
@@ -98,17 +98,16 @@ feature {NONE} -- Implementation
 
 	set_class_names
 		local
-			input: EL_INPUT_PATH [FILE_PATH]
+			input: EL_USER_INPUT_VALUE [FILE_PATH]; class_path: FILE_PATH
 		do
 			lio.put_new_line
 			lio.put_new_line
-			create input
-			input.wipe_out
-			input.check_path ("Drag and drop class file")
-			if input.path.base.as_upper.is_equal ("QUIT") then
+			create input.make ("Drag and drop class file")
+			class_path := input.value
+			if class_path.base.as_upper.is_equal ("QUIT") then
 				user_quit := true
 			else
-				old_name := input.path.base_sans_extension.as_upper
+				old_name := class_path.base_sans_extension.as_upper
 				if prefix_letters.count > 0 then
 					if old_name.starts_with (prefix_letters) then
 						new_name := old_name.substring (prefix_letters.count + 1, old_name.count)

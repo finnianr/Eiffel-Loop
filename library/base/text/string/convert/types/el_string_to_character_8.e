@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-09 8:40:14 GMT (Sunday 9th May 2021)"
-	revision: "1"
+	date: "2022-10-05 9:28:34 GMT (Wednesday 5th October 2022)"
+	revision: "2"
 
 class
 	EL_STRING_TO_CHARACTER_8
 
 inherit
 	EL_READABLE_STRING_GENERAL_TO_TYPE [CHARACTER_8]
+		redefine
+			is_convertible
+		end
 
 feature -- Contract Support
 
@@ -27,8 +30,8 @@ feature -- Conversion
 
 	as_type (str: READABLE_STRING_GENERAL): CHARACTER_8
 		do
-			if is_convertible (str) then
-				Result := str.item (1).to_character_8
+			if str.count >= 1 then
+				Result := str [1].to_character_8
 			end
 		end
 

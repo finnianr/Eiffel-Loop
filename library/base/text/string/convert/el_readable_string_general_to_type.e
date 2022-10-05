@@ -6,24 +6,47 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-09 14:01:30 GMT (Sunday 9th May 2021)"
-	revision: "2"
+	date: "2022-10-05 11:33:08 GMT (Wednesday 5th October 2022)"
+	revision: "3"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_TO_TYPE [G]
 
+inherit
+	EL_LAZY_ATTRIBUTE
+		rename
+			item as type_description,
+			new_item as new_type_description,
+			actual_item as actual_type_description
+		end
+
+feature {EL_MODULE_EIFFEL} -- Initialization
+
+	make
+		do
+			type := {G}
+		end
+
 feature -- Access
+
+	type: TYPE [ANY]
 
 	type_id: INTEGER
 		do
-			Result := ({G}).type_id
+			Result := type.type_id
 		end
 
-feature -- Contract Support
+feature -- Status query
 
 	is_convertible (str: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if `str' is convertible to type `G'
-		deferred
+		do
+			Result := True
+		end
+
+	is_path: BOOLEAN
+		do
+			Result := False
 		end
 
 feature -- Conversion
@@ -32,6 +55,34 @@ feature -- Conversion
 		require
 			valid_string: is_convertible (str)
 		deferred
+		end
+
+feature {NONE} -- Implementation
+
+	new_type_description: STRING
+		-- terse English language description of type
+		local
+			name, last_part: IMMUTABLE_STRING_8
+			underscore_index: INTEGER
+		do
+			name := type.name
+			underscore_index := name.last_index_of ('_', name.count)
+			if underscore_index > 0 then
+				last_part := name.substring (underscore_index + 1, name.count)
+				if last_part.is_integer then
+					Result := last_part + "-bit " + name.substring (1, underscore_index - 1)
+					Result.to_lower
+					if across << "REAL", "NATURAL" >> as list some name.has_substring (list.item) end then
+						Result.append (" number")
+					end
+				else
+					Result := name
+					Result.to_lower
+				end
+			else
+				Result := name + " value"
+				Result.to_lower
+			end
 		end
 
 end

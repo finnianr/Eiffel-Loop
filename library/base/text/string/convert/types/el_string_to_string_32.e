@@ -6,22 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-09 9:04:38 GMT (Sunday 9th May 2021)"
-	revision: "1"
+	date: "2022-10-05 11:30:02 GMT (Wednesday 5th October 2022)"
+	revision: "2"
 
 class
 	EL_STRING_TO_STRING_32
 
 inherit
-	EL_READABLE_STRING_GENERAL_TO_TYPE [STRING_32]
-
-feature -- Contract Support
-
-	is_convertible (str: READABLE_STRING_GENERAL): BOOLEAN
-		-- `True' if `str' is convertible to type `STRING_32'
-		do
-			Result := True
-		end
+	EL_READABLE_STRING_GENERAL_TO_STRING_TYPE [STRING_32]
 
 feature -- Conversion
 

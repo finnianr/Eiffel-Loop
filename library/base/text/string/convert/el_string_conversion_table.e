@@ -27,7 +27,9 @@ note
 			EL_STRING_TO_STRING_32,
 			EL_STRING_TO_ZSTRING,
 			EL_STRING_TO_DIR_PATH,
-			EL_STRING_TO_FILE_PATH
+			EL_STRING_TO_FILE_PATH,
+			EL_STRING_TO_DIR_URI_PATH,
+			EL_STRING_TO_FILE_URI_PATH
 
 	]"
 
@@ -36,8 +38,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-23 11:17:49 GMT (Thursday 23rd December 2021)"
-	revision: "12"
+	date: "2022-10-05 11:06:53 GMT (Wednesday 5th October 2022)"
+	revision: "13"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -48,7 +50,7 @@ inherit
 			make as make_table
 		export
 			{NONE} all
-			{ANY} has
+			{ANY} has, found_item
 		end
 
 	EL_MODULE_EIFFEL
@@ -71,16 +73,53 @@ feature {NONE} -- Initialization
 			make_size (type_array.count)
 			across type_array as type loop
 				if attached {like item} Eiffel.new_object (type.item) as converter then
+					converter.make
 					extend (converter, converter.type_id)
+				end
+			end
+		end
+
+feature -- Access
+
+	type_descripton (type: TYPE [ANY]): STRING
+		do
+			if has_key (type.type_id) then
+				Result := found_item.type_description
+			else
+				create Result.make_empty
+			end
+		end
+
+	type_list: EL_ARRAYED_LIST [TYPE [ANY]]
+		do
+			create Result.make (count)
+			across current_keys as key loop
+				if has_key (key.item) then
+					Result.extend (found_item.type)
 				end
 			end
 		end
 
 feature -- Status query
 
+	has_converter (type: TYPE [ANY]): BOOLEAN
+		-- `True' if table has converter for `type'
+		-- set `found_item' as converter if found
+		do
+			Result := has_key (type.type_id)
+		end
+
 	is_convertible (s: like readable_string; type: TYPE [ANY]): BOOLEAN
 		do
 			Result := is_convertible_to_type (s, type.type_id)
+		end
+
+	is_convertible_list (item_type_id: INTEGER; csv_list: READABLE_STRING_GENERAL; left_adjusted: BOOLEAN): BOOLEAN
+		do
+			Result := True
+			across new_comma_splitter (csv_list, left_adjusted.to_integer) as list until not Result loop
+				Result := is_convertible_to_type (list.item, item_type_id)
+			end
 		end
 
 	is_convertible_to_type (s: like readable_string; type_id: INTEGER): BOOLEAN
@@ -109,14 +148,6 @@ feature -- Status query
 						Result := is_convertible_to_type (item_str, type_id)
 					end
 				end
-			end
-		end
-
-	is_convertible_list (item_type_id: INTEGER; csv_list: READABLE_STRING_GENERAL; left_adjusted: BOOLEAN): BOOLEAN
-		do
-			Result := True
-			across new_comma_splitter (csv_list, left_adjusted.to_integer) as list until not Result loop
-				Result := is_convertible_to_type (list.item, item_type_id)
 			end
 		end
 
@@ -188,6 +219,19 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
+	new_comma_splitter (csv_list: READABLE_STRING_GENERAL; adjustments: INTEGER): EL_SPLIT_ON_CHARACTER [READABLE_STRING_GENERAL]
+		do
+			if attached {ZSTRING} csv_list as zstring_list then
+				create {EL_SPLIT_ZSTRING_ON_CHARACTER} Result.make_adjusted (zstring_list, ',', adjustments)
+
+			elseif csv_list.is_string_8 then
+				create {EL_SPLIT_ON_CHARACTER [STRING_8]} Result.make_adjusted (csv_list.as_string_8, ',', adjustments)
+
+			else
+				create {EL_SPLIT_ON_CHARACTER [STRING_32]} Result.make_adjusted (csv_list.as_string_32, ',', adjustments)
+			end
+		end
+
 	new_type_tuple: TUPLE [
 			EL_STRING_TO_INTEGER_8,
 			EL_STRING_TO_INTEGER_16,
@@ -210,23 +254,12 @@ feature {NONE} -- Implementation
 			EL_STRING_TO_STRING_32,
 			EL_STRING_TO_ZSTRING,
 			EL_STRING_TO_DIR_PATH,
-			EL_STRING_TO_FILE_PATH
+			EL_STRING_TO_FILE_PATH,
+			EL_STRING_TO_DIR_URI_PATH,
+			EL_STRING_TO_FILE_URI_PATH
 	]
 		do
 			create Result
-		end
-
-	new_comma_splitter (csv_list: READABLE_STRING_GENERAL; adjustments: INTEGER): EL_SPLIT_ON_CHARACTER [READABLE_STRING_GENERAL]
-		do
-			if attached {ZSTRING} csv_list as zstring_list then
-				create {EL_SPLIT_ZSTRING_ON_CHARACTER} Result.make_adjusted (zstring_list, ',', adjustments)
-
-			elseif csv_list.is_string_8 then
-				create {EL_SPLIT_ON_CHARACTER [STRING_8]} Result.make_adjusted (csv_list.as_string_8, ',', adjustments)
-
-			else
-				create {EL_SPLIT_ON_CHARACTER [STRING_32]} Result.make_adjusted (csv_list.as_string_32, ',', adjustments)
-			end
 		end
 
 	readable_string: READABLE_STRING_GENERAL

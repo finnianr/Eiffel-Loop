@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-09 8:40:44 GMT (Sunday 9th May 2021)"
-	revision: "1"
+	date: "2022-10-05 9:26:07 GMT (Wednesday 5th October 2022)"
+	revision: "2"
 
 class
 	EL_STRING_TO_NATURAL_32
 
 inherit
 	EL_READABLE_STRING_GENERAL_TO_TYPE [NATURAL_32]
+		redefine
+			is_convertible
+		end
 
 feature -- Contract Support
 

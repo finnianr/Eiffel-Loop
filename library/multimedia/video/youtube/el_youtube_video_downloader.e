@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:02:30 GMT (Tuesday 15th February 2022)"
-	revision: "15"
+	date: "2022-10-05 10:50:32 GMT (Wednesday 5th October 2022)"
+	revision: "16"
 
 class
 	EL_YOUTUBE_VIDEO_DOWNLOADER
@@ -42,9 +42,14 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_url: EL_INPUT_PATH [EL_DIR_URI_PATH])
+	make (a_url: EL_DIR_URI_PATH)
+		local
+			input: EL_USER_INPUT_VALUE [EL_DIR_URI_PATH]
 		do
-			a_url.check_path_default
+			if a_url.is_empty then
+				create input.make_drag_and_drop
+				a_url.copy (input.value)
+			end
 			create video.make (a_url.to_string)
 		end
 

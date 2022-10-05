@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 15:34:49 GMT (Tuesday 4th October 2022)"
-	revision: "1"
+	date: "2022-10-05 11:09:19 GMT (Wednesday 5th October 2022)"
+	revision: "2"
 
 class
 	EL_USER_INPUT_VALUE [G]
@@ -24,7 +24,7 @@ inherit
 	EL_SHARED_CLASS_ID
 
 create
-	make, make_valid
+	make, make_valid, make_drag_and_drop
 
 convert
 	value: {G}
@@ -33,23 +33,36 @@ feature {NONE} -- Initialization
 
 	make (a_prompt: READABLE_STRING_GENERAL)
 		require
-			convertable_type: Convert_string.has (value_type.type_id)
+			convertable_type: Convert_string.has_converter ({G})
 		do
-			prompt := a_prompt
+			create prompt.make_from_general (a_prompt)
+			value_type := {G}
+			if Convert_string.has_converter (value_type)
+				and then attached {like converter} Convert_string.found_item as c
+			then
+				converter := c
+			end
 		end
 
 	make_valid (a_prompt, a_invalid_response: READABLE_STRING_GENERAL; is_value_valid: PREDICATE [G])
-		require
-			convertable_type: Convert_string.has (value_type.type_id)
 		do
-			prompt := a_prompt; invalid_response := a_invalid_response; is_valid_value := is_value_valid
+			invalid_response := a_invalid_response; is_valid_value := is_value_valid
+			make (a_prompt)
+		end
+
+	make_drag_and_drop
+		require
+			valid_type: Convert_string.has_converter ({G}) and then Convert_string.found_item.is_path
+		do
+			make ("Drag and drop a ")
+			prompt.append_string_general (converter.type_description)
 		end
 
 feature -- Access
 
 	value: G
 		local
-			line, name: ZSTRING; done: BOOLEAN; operands: TUPLE [G]
+			line: ZSTRING; done: BOOLEAN; operands: TUPLE [G]
 		do
 			from until done loop
 				if is_path_type then
@@ -59,15 +72,12 @@ feature -- Access
 				end
 				lio.put_new_line
 
-				if Convert_string.is_convertible (line, value_type)
-					and then attached {G} Convert_string.to_type (line, value_type) as v
-				then
+				if converter.is_convertible (line) and then attached converter.as_type (line) as v then
 					Result := v; operands := [v]
 					if attached {EL_PATH} v as path
-						and then Path_type.has_key (path.generating_type)
 						and then path_must_exist and then not path.exists
 					then
-						lio.put_labeled_string (Bad_input, Does_not_exist #$ [Path_type.found_item])
+						lio.put_labeled_string (Bad_input, Does_not_exist #$ [value_description])
 						lio.put_new_line
 
 					elseif attached is_valid_value as test and then test.valid_operands (operands) then
@@ -89,15 +99,18 @@ feature -- Access
 						done := True
 					end
 				else
-					lio.put_labeled_string (Bad_input, Not_convertible #$ [line, value_type.name])
+					lio.put_labeled_string (Bad_input, Not_convertible #$ [line, value_description])
 					lio.put_new_line
 				end
 			end
 		end
 
 	value_type: TYPE [G]
+
+	value_description: STRING
+		-- Eg. 32-bit integer
 		do
-			Result := {G}
+			Result := converter.type_description
 		end
 
 feature -- Status query
@@ -114,24 +127,21 @@ feature -- Status change
 	check_existence
 		do
 			path_must_exist := True
+		ensure
+			appropriate_type: path_must_exist implies is_path_type
 		end
 
 feature {NONE} -- Internal attributes
+
+	converter: EL_READABLE_STRING_GENERAL_TO_TYPE [G]
 
 	invalid_response: READABLE_STRING_GENERAL
 
 	is_valid_value: detachable PREDICATE [G]
 
-	prompt: READABLE_STRING_GENERAL
+	prompt: ZSTRING
 
 feature {NONE} -- Constants
-
-	Path_type: EL_HASH_TABLE [STRING, TYPE [EL_PATH]]
-		once
-			create Result.make (<<
-				[{DIR_PATH}, "directory"], [{FILE_PATH}, "file"]
-			>>)
-		end
 
 	Does_not_exist: ZSTRING
 		once
@@ -143,7 +153,7 @@ feature {NONE} -- Constants
 	Not_convertible: ZSTRING
 		once
 			Result := "[
-				"#" is not convertable to # type
+				"#" is not a valid #
 			]"
 		end
 
