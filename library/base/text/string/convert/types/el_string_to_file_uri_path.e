@@ -6,13 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-05 11:26:13 GMT (Wednesday 5th October 2022)"
-	revision: "3"
+	date: "2022-10-06 8:05:43 GMT (Thursday 6th October 2022)"
+	revision: "4"
 
 class
 	EL_STRING_TO_FILE_URI_PATH
 
 inherit
-	EL_READABLE_STRING_GENERAL_TO_PATH_TYPE [EL_FILE_URI_PATH]
+	EL_STRING_TO_PATH_TYPE [EL_FILE_URI_PATH]
 
 end

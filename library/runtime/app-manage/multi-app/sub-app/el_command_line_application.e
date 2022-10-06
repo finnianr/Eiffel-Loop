@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-12 9:19:43 GMT (Sunday 12th June 2022)"
-	revision: "44"
+	date: "2022-10-06 12:40:46 GMT (Thursday 6th October 2022)"
+	revision: "45"
 
 deferred class
 	EL_COMMAND_LINE_APPLICATION [C -> EL_APPLICATION_COMMAND]
@@ -23,12 +23,10 @@ inherit
 		export
 			{EL_COMMAND_ARGUMENT} new_argument_error
 		redefine
-			read_command_options
+			read_command_options, options_help
 		end
 
 	EL_APPLICATION_CONSTANTS
-
-	EL_MAKE_PROCEDURE_INFO
 
 	EL_COMMAND_CLIENT
 
@@ -46,7 +44,7 @@ feature {NONE} -- Initialization
 			make_command := default_make
 			set_closed_operands
 
-			if not has_argument_errors and then attached new_command as cmd then
+			if error_list.is_empty and then attached new_command as cmd then
 				make_command (cmd)
 				cmd.error_check (error_list)
 				command := cmd
@@ -60,10 +58,22 @@ feature -- Access
 			Result := new_command.description
 		end
 
+	options_help: EL_APPLICATION_HELP_LIST
+		local
+			i: INTEGER
+		do
+			Result := Precursor
+			if attached new_operands as l_operands then
+				across argument_list as list loop
+					i := list.cursor_index + l_operands.first_argument_offset
+					Result.extend (list.item.word_option, list.item.help_description, l_operands.closed [i])
+				end
+			end
+		end
+
 feature -- Basic operations
 
 	run
-			--
 		do
 			command.execute
 		end
@@ -86,7 +96,7 @@ feature {NONE} -- Implementation
 		word_option, help_description: READABLE_STRING_GENERAL; validations: like No_checks
 	): EL_COMMAND_ARGUMENT
 		do
-			create Result.make (Current, word_option, help_description)
+			create Result.make (error_list, word_option, help_description)
 			if validations /= No_checks then
 				Result.validation_table.merge_array (validations)
 			end
@@ -96,7 +106,7 @@ feature {NONE} -- Implementation
 		word_option, help_description: READABLE_STRING_GENERAL; validations: like No_checks
 	): EL_COMMAND_ARGUMENT
 		do
-			create Result.make (Current, word_option, help_description)
+			create Result.make (error_list, word_option, help_description)
 			Result.set_required
 			if validations /= No_checks then
 				Result.validation_table.merge_array (validations)
@@ -106,22 +116,31 @@ feature {NONE} -- Implementation
 	set_closed_operands
 		-- set closed arguments of `make_command' from command line
 		local
-			procedure: EL_PROCEDURE; offset: INTEGER
+			i: INTEGER
 		do
-			create procedure.make (make_command)
-			operands := procedure.closed_operands
-			if operands.count > 0
-				and then operands.is_reference_item (1)
-				and then operands.reference_item (1) = Current
-			then
-				offset := 1
-			end
-			across argument_list as list loop
-				list.item.set_operand (list.cursor_index + offset)
+			if attached new_operands as l_operands then
+				across argument_list as list loop
+					i := list.cursor_index + l_operands.first_argument_offset
+					list.item.set_operands (l_operands.closed, i)
+					list.item.try_put_argument
+				end
 			end
 		end
 
 feature {NONE} -- Validations
+
+	at_least_n_characters (n: INTEGER): like No_checks.item
+		local
+			template: ZSTRING
+		do
+			template := "Must have at least %S characters"
+			Result := [template #$ [n], agent is_valid_string (?, n)]
+		end
+
+	at_least_one_file_must_exist: like No_checks.item
+		do
+			Result := ["At least one matching file must exist", agent is_valid_path_or_wild_card]
+		end
 
 	directory_must_exist: like No_checks.item
 		do
@@ -133,25 +152,38 @@ feature {NONE} -- Validations
 			Result := ["The file must exist", agent is_valid_path]
 		end
 
-	at_least_one_file_must_exist: like No_checks.item
-		do
-			Result := ["At least one matching file must exist", agent is_valid_path_or_wild_card]
-		end
-
-	at_least_n_characters (n: INTEGER): like No_checks.item
-		local
-			template: ZSTRING
-		do
-			template := "Must have at least %S characters"
-			Result := [template #$ [n], agent is_valid_string (?, n)]
-		end
-
 	within_range (a_range: INTEGER_INTERVAL): like No_checks.item
 		local
 			template: ZSTRING
 		do
 			template := "number must be within range %S to %S"
 			Result := ["The %S " + template #$ [a_range.lower, a_range.upper], agent integer_in_range (?, a_range)]
+		end
+
+feature {NONE} -- Factory
+
+	new_command: like command
+		do
+			if attached {like command} Eiffel.new_object ({like command}) as cmd then
+				Result := cmd
+			end
+		end
+
+	new_operands: TUPLE [first_argument_offset: INTEGER; closed: TUPLE]
+		-- offset of first argument operand in `make_command'
+		local
+			procedure: EL_PROCEDURE; offset: INTEGER
+			l_operands: TUPLE
+		do
+			create procedure.make (make_command)
+			l_operands := procedure.closed_operands
+			if l_operands.count > 0
+				and then l_operands.is_reference_item (1)
+				and then l_operands.reference_item (1) = Current
+			then
+				offset := 1
+			end
+			Result := [offset, l_operands]
 		end
 
 feature {NONE} -- Implementation
@@ -166,7 +198,7 @@ feature {NONE} -- Implementation
 			-- argument specifications
 		deferred
 		ensure
-			valid_specs_count: Result.count <= operands.count
+			valid_specs_count: Result.count <= new_operands.closed.count
 		end
 
 	default_make: PROCEDURE [like command]
@@ -175,6 +207,11 @@ feature {NONE} -- Implementation
 		ensure
 			closed_except_for_target: Result.open_count = 1
 			target_is_open: Result.target /= Current implies not Result.is_target_closed
+		end
+
+	integer_in_range (n: INTEGER; range: INTEGER_INTERVAL): BOOLEAN
+		do
+			Result := range.has (n)
 		end
 
 	is_valid_path (path: EL_PATH; is_optional: BOOLEAN): BOOLEAN
@@ -208,26 +245,11 @@ feature {NONE} -- Implementation
 			Result := str.count >= minimum_count
 		end
 
-	integer_in_range (n: INTEGER; range: INTEGER_INTERVAL): BOOLEAN
-		do
-			Result := range.has (n)
-		end
-
-	new_command: like command
-		do
-			if attached {like command} Eiffel.new_object ({like command}) as cmd then
-				Result := cmd
-			end
-		end
-
 feature {EL_COMMAND_ARGUMENT, EL_MAKE_OPERAND_SETTER} -- Internal attributes
 
 	command: C
 
 	make_command: PROCEDURE [like command]
-
-	operands: TUPLE
-		-- make procedure operands
 
 feature {NONE} -- Constants
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-05 16:50:57 GMT (Wednesday 5th October 2022)"
-	revision: "16"
+	date: "2022-10-06 12:27:37 GMT (Thursday 6th October 2022)"
+	revision: "17"
 
 deferred class
 	EL_MAKE_OPERAND_SETTER [G]
@@ -23,20 +23,20 @@ inherit
 
 feature {EL_FACTORY_CLIENT} -- Initialization
 
-	make (a_make_routine: like make_routine; a_argument: like argument)
+	make (a_argument: like argument)
 		do
-			make_routine := a_make_routine; argument := a_argument
+			argument := a_argument
 		end
 
-	make_list (a_make_routine: like make_routine; a_argument: like argument)
+	make_list (a_argument: like argument)
 		do
-			make (a_make_routine, a_argument)
+			make (a_argument)
 			is_list := True
 		end
 
 feature -- Basic operations
 
-	set_operand (i: INTEGER)
+	try_put_operand
 		local
 			string_value: ZSTRING; ref_argument: ANY
 			has_argument, has_default_argument: BOOLEAN
@@ -46,8 +46,8 @@ feature -- Basic operations
 				has_argument := True
 			else
 				create string_value.make_empty
-				if make_routine.operands.is_reference_item (i) then
-					if attached make_routine.operands.reference_item (i) as ref_item then
+				if operands.is_reference_item (index) then
+					if attached operands.reference_item (index) as ref_item then
 						ref_argument := ref_item
 						has_default_argument := True
 					end
@@ -61,12 +61,12 @@ feature -- Basic operations
 			elseif has_argument or has_default_argument then
 				if string_value.is_empty then
 					if attached {G} ref_argument as l_value then
-						try_put_value (l_value, i)
+						try_put_value (l_value)
 					end
 				else
 					across new_list (string_value) as str loop
 						if is_convertible (str.item) then
-							try_put_value (value (str.item), i)
+							try_put_value (value (str.item))
 						else
 							extend_errors (agent {EL_COMMAND_ARGUMENT_ERROR}.set_type_error (type_description))
 						end
@@ -77,28 +77,11 @@ feature -- Basic operations
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Factory
 
-	default_argument_setter (a_value: like value; a_description: ZSTRING): PROCEDURE [EL_COMMAND_ARGUMENT_ERROR]
+	new_error: EL_COMMAND_ARGUMENT_ERROR
 		do
-			Result := agent {EL_COMMAND_ARGUMENT_ERROR}.set_invalid_argument (a_description)
-		end
-
-	is_convertible (string_value: ZSTRING): BOOLEAN
-		do
-			Result := True
-		end
-
-	try_put_value (a_value: like value; i: INTEGER)
-		do
-			validate (a_value)
-			if not make_routine.has_argument_errors then
-				if is_list and then attached {CHAIN [like value]} make_routine.operands.item (i) as list then
-					list.extend (a_value)
-				else
-					put_reference (a_value, i)
-				end
-			end
+			create Result.make (argument.word_option)
 		end
 
 	new_list (string_value: ZSTRING): EL_ZSTRING_LIST
@@ -116,9 +99,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	put_reference (a_value: like value; i: INTEGER)
+feature {NONE} -- Implementation
+
+	default_argument_setter (a_value: like value; a_description: ZSTRING): PROCEDURE [EL_COMMAND_ARGUMENT_ERROR]
 		do
-			make_routine.operands.put_reference (a_value, i)
+			Result := agent {EL_COMMAND_ARGUMENT_ERROR}.set_invalid_argument (a_description)
 		end
 
 	extend_errors (set_error_type: PROCEDURE [EL_COMMAND_ARGUMENT_ERROR])
@@ -127,37 +112,70 @@ feature {NONE} -- Implementation
 		do
 			if attached new_error as error then
 				set_error_type (error)
-				make_routine.extend_errors (error)
+				argument.error_list.extend (error)
 			end
 		end
 
-	new_error: EL_COMMAND_ARGUMENT_ERROR
+	is_convertible (string_value: ZSTRING): BOOLEAN
 		do
-			create Result.make (argument.word_option)
+			Result := True
 		end
 
-	value (str: ZSTRING): G
-		deferred
+	index: INTEGER
+		-- operand index for argument
+		do
+			Result := argument.index
+		end
+
+	operands: TUPLE
+		do
+			Result := argument.operands
+		end
+
+	put_reference (a_value: like value)
+		do
+			operands.put_reference (a_value, index)
+		end
+
+	try_put_value (a_value: like value)
+		do
+			validate (a_value)
+			if argument.error_list.is_empty then
+				if is_list and then attached {CHAIN [like value]} operands.item (index) as list then
+					list.extend (a_value)
+				else
+					put_reference (a_value)
+				end
+			end
+		end
+
+	type_description: ZSTRING
+		do
+			Result := value_description
+			if is_list then
+				Result.prepend_string_general ("a list of ")
+				Result.append_character ('s')
+			end
 		end
 
 	validate (a_value: like value)
 		local
-			operands: TUPLE; description: ZSTRING; is_valid_value: PREDICATE
+			l_operands: TUPLE; description: ZSTRING; is_valid_value: PREDICATE
 		do
 			across argument.validation_table as table loop
 				description := table.key; is_valid_value := table.item
 
 				inspect is_valid_value.open_count
 					when 1 then
-						operands := [a_value]
+						l_operands := [a_value]
 					when 2 then
 						-- Example: is_valid_path (path: EL_PATH; is_optional: BOOLEAN): BOOLEAN
-						operands := [a_value, not argument.is_required]
+						l_operands := [a_value, not argument.is_required]
 				else
-					operands := []
+					l_operands := []
 				end
-				if is_valid_value.valid_operands (operands) then
-					is_valid_value.set_operands (operands)
+				if is_valid_value.valid_operands (l_operands) then
+					is_valid_value.set_operands (l_operands)
 					is_valid_value.apply
 
 					if not is_valid_value.last_result then
@@ -175,32 +193,21 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	value_description: ZSTRING
-		local
-			type: TYPE [like value]; name: STRING
-			s: EL_STRING_8_ROUTINES
-		do
-			type := {like value}
-			name := type.name.as_lower
-			if name.starts_with ("el_") then
-				name.remove_head (3)
-			end
-			s.replace_character (name, '_', ' ')
-			Result := name
+	value (str: ZSTRING): G
+		deferred
 		end
 
-	type_description: ZSTRING
+	value_description: ZSTRING
 		do
-			Result := value_description
-			if is_list then
-				Result.prepend_string_general ("a list of ")
-				Result.append_character ('s')
+			create Result.make_from_general (({G}).name)
+			Result.to_lower
+			if Result.starts_with ("el_") then
+				Result.remove_head (3)
 			end
+			Result.replace_character ('_', ' ')
 		end
 
 feature {NONE} -- Internal attributes
-
-	make_routine: EL_MAKE_PROCEDURE_INFO
 
 	argument: EL_COMMAND_ARGUMENT
 

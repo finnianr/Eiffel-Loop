@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-05 15:24:37 GMT (Wednesday 5th October 2022)"
-	revision: "5"
+	date: "2022-10-06 12:24:09 GMT (Thursday 6th October 2022)"
+	revision: "6"
 
 class
 	EL_BOOLEAN_OPERAND_SETTER
@@ -15,14 +15,14 @@ class
 inherit
 	EL_MAKE_OPERAND_SETTER [BOOLEAN]
 		redefine
-			set_operand, value
+			try_put_operand, value
 		end
 
 feature {NONE} -- Implementation
 
-	set_operand (i: INTEGER)
+	try_put_operand
 		do
-			make_routine.operands.put_boolean (value (Empty_string), i)
+			operands.put_boolean (value (Empty_string), index)
 		end
 
 	value (str: ZSTRING): BOOLEAN

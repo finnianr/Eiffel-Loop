@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-10 10:53:58 GMT (Sunday 10th July 2022)"
-	revision: "8"
+	date: "2022-10-06 8:48:39 GMT (Thursday 6th October 2022)"
+	revision: "9"
 
 class
 	EL_APPLICATION_COMMAND_OPTIONS
@@ -73,8 +73,8 @@ feature {NONE} -- Constants
 				test:
 					Put application in test mode (if testable)
 				test_set:
-					Name of EQA test set to evaluate. Optionally execute a single test by appending
-					'.' and name of test: Eg. MY_TESTS.test_something. The "test_" prefix is optional.
+					Name of EQA test set to evaluate. Optionally execute a single test by appending '.'
+					and name of test: Eg. MY_TESTS.test_something. The "test_" prefix is optional.
 			]"
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:33:41 GMT (Tuesday 8th February 2022)"
-	revision: "6"
+	date: "2022-10-06 10:46:09 GMT (Thursday 6th October 2022)"
+	revision: "7"
 
 deferred class
 	EL_LOGGED_COMMAND_LINE_APPLICATION [C -> EL_APPLICATION_COMMAND]
@@ -22,6 +22,6 @@ inherit
 
 	EL_LOGGED_APPLICATION
 		undefine
-			read_command_options
+			read_command_options, options_help
 		end
 end

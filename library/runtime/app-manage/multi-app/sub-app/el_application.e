@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-11 11:39:31 GMT (Monday 11th July 2022)"
-	revision: "58"
+	date: "2022-10-06 11:02:32 GMT (Thursday 6th October 2022)"
+	revision: "59"
 
 deferred class
 	EL_APPLICATION
@@ -67,12 +67,8 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 
 			create error_list.make (0)
 			Exception.catch ({EXCEP_CONST}.Signal_exception)
-
-			create options_help.make (11)
-			across standard_options as options loop
-				across options.item.help_table as help loop
-					options_help.extend (help.key, help.item.description, help.item.default_value)
-				end
+			across standard_options as opt loop
+				do_nothing
 			end
 		end
 
@@ -103,6 +99,14 @@ feature -- Access
 		end
 
 	options_help: EL_APPLICATION_HELP_LIST
+		do
+			create Result.make (11)
+			across standard_options as options loop
+				across options.item.help_table as help loop
+					Result.extend (help.key, help.item.description, help.item.default_value)
+				end
+			end
+		end
 
 	unwrapped_description: ZSTRING
 	 -- description unwrapped as a single line
@@ -133,11 +137,6 @@ feature -- Status query
 			Result := App_option.ask_user_to_quit
 		end
 
-	has_argument_errors: BOOLEAN
-		do
-			Result := not error_list.is_empty
-		end
-
 	is_same_option (name: ZSTRING): BOOLEAN
 		do
 			Result := name.same_string (option_name)
@@ -149,16 +148,6 @@ feature -- Status query
 		end
 
 feature -- Element change
-
-	extend_errors (error: EL_COMMAND_ARGUMENT_ERROR)
-		do
-			error_list.extend (error)
-		end
-
-	extend_help (word_option, a_description: READABLE_STRING_GENERAL; default_value: ANY)
-		do
-			options_help.extend (word_option, a_description, default_value)
-		end
 
 	set_exit_code (a_exit_code: INTEGER)
 		do
@@ -235,7 +224,7 @@ feature {NONE} -- Implementation
 				elseif App_option.help then
 					options_help.print_to_lio
 
-				elseif has_argument_errors then
+				elseif error_list.count > 0 then
 					error_list.do_all (agent {EL_COMMAND_ARGUMENT_ERROR}.print_to_lio)
 				else
 					call (new_configuration)

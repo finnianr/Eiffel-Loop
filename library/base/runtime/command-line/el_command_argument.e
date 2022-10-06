@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-05 17:00:16 GMT (Wednesday 5th October 2022)"
-	revision: "21"
+	date: "2022-10-06 12:46:39 GMT (Thursday 6th October 2022)"
+	revision: "22"
 
 class
 	EL_COMMAND_ARGUMENT
@@ -22,17 +22,19 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_make_routine: like make_routine; a_word_option, a_help_description: READABLE_STRING_GENERAL)
+	make (a_error_list: like error_list; a_word_option, a_help_description: READABLE_STRING_GENERAL)
 		do
-			make_routine := a_make_routine;
-			word_option := a_word_option
+			error_list := a_error_list; word_option := a_word_option
 			create help_description.make_from_general (a_help_description)
 			create validation_table.make_equal (0)
+			operands := Default_operands
 		end
 
 feature -- Access
 
 	help_description: ZSTRING
+
+	error_list: LIST [EL_COMMAND_ARGUMENT_ERROR]
 
 	validation_table: EL_ZSTRING_HASH_TABLE [PREDICATE]
 		-- table of argument validation checks by description
@@ -42,6 +44,13 @@ feature -- Access
 feature -- Status query
 
 	is_required: BOOLEAN
+
+	operands_and_index_set: BOOLEAN
+		do
+			if operands /= Default_operands then
+				Result := index > 0 and then operands.valid_index (index)
+			end
+		end
 
 	path_exists: BOOLEAN
 		do
@@ -59,30 +68,34 @@ feature -- Status change
 			is_required := False
 		end
 
+	set_operands (a_operands: TUPLE; a_index: INTEGER)
+		do
+			operands := a_operands; index := a_index
+		end
+
 feature -- Basic operations
 
-	set_operand (a_index: INTEGER)
+	try_put_argument
+		-- attempt to set value at `operands.at (index)' using corresponding command line argument
+		require
+			operands_and_index_set: operands_and_index_set
 		local
-			setter: EL_MAKE_OPERAND_SETTER [ANY]; operand_type: TYPE [ANY]
+			setter: detachable EL_MAKE_OPERAND_SETTER [ANY]; operand_type: TYPE [ANY]
 			operand: ANY
 		do
-			index := a_index
-			operand := make_routine.operands.item (index)
-			make_routine.extend_help (word_option, help_description, operand)
+			operand := operands.item (index)
 			operand_type := operand.generating_type
 			if Setter_types.has_key (operand_type) then
-				if attached Factory.new_item_from_type (Setter_types.found_item) as l_setter then
-					l_setter.make (make_routine, Current)
-					l_setter.set_operand (index)
+				if attached Factory.new_item_from_type (Setter_types.found_item) as new_item then
+					new_item.make (Current)
+					setter := new_item
 				end
 
 			elseif attached {EL_MAKEABLE_FROM_STRING [STRING_GENERAL]} operand as makeable then
-				create {EL_MAKEABLE_FROM_ZSTRING_OPERAND_SETTER} setter.make (make_routine, Current)
-				setter.set_operand (index)
+				create {EL_MAKEABLE_FROM_ZSTRING_OPERAND_SETTER} setter.make (Current)
 
 			elseif attached {EL_BUILDABLE_FROM_FILE} operand as buildable then
-				create {EL_BUILDABLE_FROM_FILE_OPERAND_SETTER} setter.make (make_routine, Current)
-				setter.set_operand (index)
+				create {EL_BUILDABLE_FROM_FILE_OPERAND_SETTER} setter.make (Current)
 
 			elseif attached {CHAIN [ANY]} operand as list then
 				if list.generating_type.generic_parameter_count = 1 then
@@ -97,19 +110,27 @@ feature -- Basic operations
 				if Setter_types.found and then
 					attached Factory.new_item_from_type (Setter_types.found_item) as new_item
 				then
-					new_item.make_list (make_routine, Current)
-					new_item.set_operand (index)
+					new_item.make_list (Current)
+					setter := new_item
 				end
+			end
+			if attached setter as s then
+				s.try_put_operand
 			end
 		end
 
-feature {NONE} -- Internal attributes
-
-	make_routine: EL_MAKE_PROCEDURE_INFO
+feature {EL_MAKE_OPERAND_SETTER} -- Internal attributes
 
 	index: INTEGER
 
+	operands: TUPLE
+
 feature {NONE} -- Constants
+
+	Default_operands: TUPLE
+		once ("PROCESS")
+			create Result
+		end
 
 	Factory: EL_OBJECT_FACTORY [EL_MAKE_OPERAND_SETTER [ANY]]
 		once

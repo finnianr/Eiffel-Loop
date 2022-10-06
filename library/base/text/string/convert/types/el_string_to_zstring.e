@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-05 11:12:31 GMT (Wednesday 5th October 2022)"
-	revision: "3"
+	date: "2022-10-06 8:08:15 GMT (Thursday 6th October 2022)"
+	revision: "4"
 
 class
 	EL_STRING_TO_ZSTRING
 
 inherit
-	EL_READABLE_STRING_GENERAL_TO_STRING_TYPE [ZSTRING]
+	EL_TO_STRING_GENERAL_TYPE [ZSTRING]
 
 feature -- Conversion
 

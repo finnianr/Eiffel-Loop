@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-05 15:29:05 GMT (Wednesday 5th October 2022)"
-	revision: "6"
+	date: "2022-10-06 12:24:00 GMT (Thursday 6th October 2022)"
+	revision: "7"
 
 class
 	EL_ZSTRING_TABLE_OPERAND_SETTER
@@ -18,14 +18,14 @@ class
 inherit
 	EL_MAKE_OPERAND_SETTER [EL_ZSTRING_HASH_TABLE [ZSTRING]]
 		redefine
-			set_operand, value
+			try_put_operand, value
 		end
 
 feature {NONE} -- Implementation
 
-	set_operand (i: INTEGER)
+	try_put_operand
 		do
-			if attached {like value} make_routine.operands.item (i) as args_table then
+			if attached {like value} operands.item (index) as args_table then
 				across args_table as arg loop
 					if Args.has_value (arg.key) then
 						args_table [arg.key] := Args.value (arg.key)

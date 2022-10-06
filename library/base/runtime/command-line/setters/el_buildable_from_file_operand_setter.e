@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-05 16:00:33 GMT (Wednesday 5th October 2022)"
-	revision: "7"
+	date: "2022-10-06 12:26:41 GMT (Thursday 6th October 2022)"
+	revision: "8"
 
 class
 	EL_BUILDABLE_FROM_FILE_OPERAND_SETTER
@@ -28,9 +28,9 @@ create
 
 feature {NONE} -- Implementation
 
-	build_object (a_file_path: like file_path; i: INTEGER)
+	build_object (a_file_path: like file_path)
 		do
-			if attached {EL_BUILDABLE_FROM_FILE} make_routine.operands.reference_item (i) as buildable then
+			if attached {EL_BUILDABLE_FROM_FILE} operands.reference_item (index) as buildable then
 				buildable.build_from_file (a_file_path)
 			end
 		end

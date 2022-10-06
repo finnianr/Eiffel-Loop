@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-05 16:54:12 GMT (Wednesday 5th October 2022)"
-	revision: "5"
+	date: "2022-10-06 12:26:19 GMT (Thursday 6th October 2022)"
+	revision: "6"
 
 class
 	EL_MAKEABLE_FROM_ZSTRING_OPERAND_SETTER
@@ -25,9 +25,9 @@ create
 
 feature {NONE} -- Implementation
 
-	put_reference (a_string: ZSTRING; i: INTEGER)
+	put_reference (a_string: ZSTRING)
 		do
-			if attached {EL_MAKEABLE_FROM_STRING [STRING_GENERAL]} make_routine.operands.item (i) as makeable then
+			if attached {EL_MAKEABLE_FROM_STRING [STRING_GENERAL]} operands.item (index) as makeable then
 				makeable.make_from_general (a_string)
 			end
 		end

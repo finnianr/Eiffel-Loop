@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-01 17:27:10 GMT (Tuesday 1st March 2022)"
-	revision: "10"
+	date: "2022-10-06 8:47:50 GMT (Thursday 6th October 2022)"
+	revision: "11"
 
 class
 	EL_ZSTRING_TABLE
@@ -56,7 +56,7 @@ feature {NONE} -- Implementation
 				first := line [1]
 				last := line [l_count]
 			end
-			if l_count > 1 and then first /= '%T' and last = ':' then
+			if l_count > 1 and then first /= '%T' and last = ':' and line.occurrences (' ') = 0 then
 				line.remove_tail (1)
 				put (create {ZSTRING}.make_empty, line.twin)
 			else

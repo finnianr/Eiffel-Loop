@@ -1,6 +1,6 @@
 note
 	description: "[
-		Convert [$source READABLE_STRING_GENERAL] string to type conforming to [$source EL_PATH]
+		Convert [$source READABLE_STRING_GENERAL] string to type conforming to [$source STRING_GENERAL]
 	]"
 
 	author: "Finnian Reilly"
@@ -8,32 +8,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-05 15:55:32 GMT (Wednesday 5th October 2022)"
-	revision: "2"
+	date: "2022-10-06 8:08:15 GMT (Thursday 6th October 2022)"
+	revision: "3"
 
 deferred class
-	EL_READABLE_STRING_GENERAL_TO_PATH_TYPE [G -> EL_PATH create make end]
+	EL_TO_STRING_GENERAL_TYPE [G -> STRING_GENERAL]
 
 inherit
 	EL_READABLE_STRING_GENERAL_TO_TYPE [G]
 		redefine
-			is_path, new_type_description, type
+			new_type_description, type
 		end
 
 feature -- Access
 
-	type: TYPE [EL_PATH]
-
-feature -- Status query
-
-	Is_path: BOOLEAN = True
-
-feature -- Conversion
-
-	as_type (str: READABLE_STRING_GENERAL): G
-		do
-			create Result.make (str)
-		end
+	type: TYPE [STRING_GENERAL]
 
 feature -- Basic operations
 
@@ -48,15 +37,10 @@ feature {NONE} -- Implementation
 	new_type_description: STRING
 		-- terse English language description of type
 		do
-			if type ~ {DIR_PATH} then
-				Result := "directory path"
-
-			elseif type ~ {FILE_PATH} then
-				Result := "file path"
-
+			if type ~ {STRING} then
+				Result := "latin-1 string"
 			else
-				Result := "URL"
+				Result := "unicode string"
 			end
 		end
-
 end
