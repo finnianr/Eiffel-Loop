@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-07 13:31:50 GMT (Friday 7th October 2022)"
-	revision: "9"
+	date: "2022-10-07 16:22:09 GMT (Friday 7th October 2022)"
+	revision: "10"
 
 class
 	EL_APPLICATION_HELP_LIST
@@ -34,7 +34,9 @@ feature -- Basic operations
 
 			from start until after loop
 				lio.put_line (indent (4) + "-" + item.name + ":")
-				lio.put_line (indent (8) + item.description)
+				across item.description.split ('%N') as line loop
+					lio.put_line (indent (8) + line.item)
+				end
 				if attached {READABLE_STRING_GENERAL} item.default_value as str then
 					create default_value.make_from_general (str)
 				elseif attached {EL_PATH} item.default_value as path then
