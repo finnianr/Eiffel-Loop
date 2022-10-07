@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 15:11:17 GMT (Tuesday 10th September 2019)"
-	revision: "7"
+	date: "2022-10-07 8:36:20 GMT (Friday 7th October 2022)"
+	revision: "8"
 
 class
 	EL_PROCEDURE [OPEN_ARGS -> detachable TUPLE create default_create end]
@@ -40,6 +40,9 @@ feature -- Initialization
 				encaps_rout_disp := other.encaps_rout_disp
 			end
 			closed_operands := other.closed_operands
+			is_target_closed := other.is_target_closed
+			is_basic := other.is_basic
+			open_count := other.open_count
 		end
 
 feature -- Comparison

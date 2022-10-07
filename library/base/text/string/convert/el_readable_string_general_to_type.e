@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-05 16:28:28 GMT (Wednesday 5th October 2022)"
-	revision: "4"
+	date: "2022-10-07 9:22:39 GMT (Friday 7th October 2022)"
+	revision: "5"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_TO_TYPE [G]
@@ -20,10 +20,7 @@ inherit
 			actual_item as actual_type_description
 		end
 
-	EL_MODULE_TUPLE
-		export
-			{ANY} Tuple
-		end
+	EL_MODULE_EIFFEL; EL_MODULE_TUPLE
 
 feature {EL_MODULE_EIFFEL} -- Initialization
 
@@ -67,9 +64,15 @@ feature -- Basic operations
 	put_tuple_item (a_tuple: TUPLE; value: G; index: INTEGER)
 		-- put `value' at `index' position in `a_tuple'
 		require
-			valid_index: a_tuple.valid_index (index)
-			valid_type_at_index: Tuple.type_array (a_tuple)[index] ~ type
+			valid_tuple_item: valid_tuple_item (a_tuple, index)
 		deferred
+		end
+
+	valid_tuple_item (a_tuple: TUPLE; index: INTEGER): BOOLEAN
+		do
+			if a_tuple.valid_index (index) then
+				Result := Eiffel.type_conforms_to (type_id, Tuple.type_array (a_tuple)[index].type_id)
+			end
 		end
 
 feature {NONE} -- Implementation

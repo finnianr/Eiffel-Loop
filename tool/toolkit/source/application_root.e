@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-02 14:58:03 GMT (Thursday 2nd June 2022)"
-	revision: "38"
+	date: "2022-10-07 10:35:11 GMT (Friday 7th October 2022)"
+	revision: "39"
 
 class
 	APPLICATION_ROOT
@@ -21,6 +21,7 @@ inherit
 		CRYPTO_COMMAND_SHELL_APP,
 
 		EL_DEBIAN_PACKAGER_APP,
+		DIAGNOSTICS_APP,
 		DUPLICITY_BACKUP_APP,
 		DUPLICITY_RESTORE_APP,
 

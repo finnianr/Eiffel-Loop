@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-06 12:40:46 GMT (Thursday 6th October 2022)"
-	revision: "45"
+	date: "2022-10-07 13:27:25 GMT (Friday 7th October 2022)"
+	revision: "46"
 
 deferred class
 	EL_COMMAND_LINE_APPLICATION [C -> EL_APPLICATION_COMMAND]
@@ -42,7 +42,12 @@ feature {NONE} -- Initialization
 	read_command_options
 		do
 			make_command := default_make
-			set_closed_operands
+			if attached make_operands as operands then
+				across argument_list as list loop
+					list.item.set_operands (operands, list.cursor_index + first_operand_offset)
+					list.item.try_put_argument
+				end
+			end
 
 			if error_list.is_empty and then attached new_command as cmd then
 				make_command (cmd)
@@ -63,10 +68,11 @@ feature -- Access
 			i: INTEGER
 		do
 			Result := Precursor
-			if attached new_operands as l_operands then
+			-- Add command line options
+			if attached make_operands as operands then
 				across argument_list as list loop
-					i := list.cursor_index + l_operands.first_argument_offset
-					Result.extend (list.item.word_option, list.item.help_description, l_operands.closed [i])
+					i := list.cursor_index + first_operand_offset
+					Result.extend (list.item.word_option, list.item.help_description, operands [i])
 				end
 			end
 		end
@@ -113,20 +119,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_closed_operands
-		-- set closed arguments of `make_command' from command line
-		local
-			i: INTEGER
-		do
-			if attached new_operands as l_operands then
-				across argument_list as list loop
-					i := list.cursor_index + l_operands.first_argument_offset
-					list.item.set_operands (l_operands.closed, i)
-					list.item.try_put_argument
-				end
-			end
-		end
-
 feature {NONE} -- Validations
 
 	at_least_n_characters (n: INTEGER): like No_checks.item
@@ -160,32 +152,6 @@ feature {NONE} -- Validations
 			Result := ["The %S " + template #$ [a_range.lower, a_range.upper], agent integer_in_range (?, a_range)]
 		end
 
-feature {NONE} -- Factory
-
-	new_command: like command
-		do
-			if attached {like command} Eiffel.new_object ({like command}) as cmd then
-				Result := cmd
-			end
-		end
-
-	new_operands: TUPLE [first_argument_offset: INTEGER; closed: TUPLE]
-		-- offset of first argument operand in `make_command'
-		local
-			procedure: EL_PROCEDURE; offset: INTEGER
-			l_operands: TUPLE
-		do
-			create procedure.make (make_command)
-			l_operands := procedure.closed_operands
-			if l_operands.count > 0
-				and then l_operands.is_reference_item (1)
-				and then l_operands.reference_item (1) = Current
-			then
-				offset := 1
-			end
-			Result := [offset, l_operands]
-		end
-
 feature {NONE} -- Implementation
 
 	argument_list: EL_ARRAYED_LIST [EL_COMMAND_ARGUMENT]
@@ -198,7 +164,7 @@ feature {NONE} -- Implementation
 			-- argument specifications
 		deferred
 		ensure
-			valid_specs_count: Result.count <= new_operands.closed.count
+			valid_specs_count: Result.count <= make_operands.count
 		end
 
 	default_make: PROCEDURE [like command]
@@ -207,6 +173,11 @@ feature {NONE} -- Implementation
 		ensure
 			closed_except_for_target: Result.open_count = 1
 			target_is_open: Result.target /= Current implies not Result.is_target_closed
+		end
+
+	first_operand_offset: INTEGER
+		do
+			Result := make_command.is_target_closed.to_integer
 		end
 
 	integer_in_range (n: INTEGER; range: INTEGER_INTERVAL): BOOLEAN
@@ -243,6 +214,22 @@ feature {NONE} -- Implementation
 	is_valid_string (str: READABLE_STRING_GENERAL; minimum_count: INTEGER): BOOLEAN
 		do
 			Result := str.count >= minimum_count
+		end
+
+	make_operands: TUPLE
+		-- closed operands of `make_command'
+		local
+			procedure: EL_PROCEDURE
+		do
+			create procedure.make (make_command)
+			Result := procedure.closed_operands
+		end
+
+	new_command: like command
+		do
+			if attached {like command} Eiffel.new_object ({like command}) as cmd then
+				Result := cmd
+			end
 		end
 
 feature {EL_COMMAND_ARGUMENT, EL_MAKE_OPERAND_SETTER} -- Internal attributes

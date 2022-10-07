@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-09 8:49:49 GMT (Wednesday 9th February 2022)"
-	revision: "15"
+	date: "2022-10-07 10:27:41 GMT (Friday 7th October 2022)"
+	revision: "16"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_APP
@@ -15,7 +15,7 @@ class
 inherit
 	REPOSITORY_PUBLISHER_APPLICATION [REPOSITORY_SOURCE_LINK_EXPANDER]
 		redefine
-			Option_name, argument_list
+			default_make, Option_name, argument_list
 		end
 
 	EL_ZSTRING_CONSTANTS

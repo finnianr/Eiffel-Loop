@@ -1,13 +1,13 @@
 note
-	description: "Sub application help list"
+	description: "Sub-application help list"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:14 GMT (Tuesday 15th February 2022)"
-	revision: "8"
+	date: "2022-10-07 13:31:50 GMT (Friday 7th October 2022)"
+	revision: "9"
 
 class
 	EL_APPLICATION_HELP_LIST
@@ -68,8 +68,10 @@ feature -- Element change
 feature {NONE} -- Implementation
 
 	indent (n: INTEGER): ZSTRING
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
-			create Result.make_filled (' ', n)
+			Result := s.n_character_string (' ', n)
 		end
 
 end
