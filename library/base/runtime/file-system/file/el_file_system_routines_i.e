@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-28 18:20:38 GMT (Tuesday 28th June 2022)"
-	revision: "50"
+	date: "2022-10-13 14:20:23 GMT (Thursday 13th October 2022)"
+	revision: "51"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -81,7 +81,7 @@ feature -- Access
 					dir_set.put (parent)
 				end
 			end
-			create Result.make_from_array (dir_set.to_array)
+			create Result.make_from_array (dir_set.to_list.to_array)
 			Result.order_by (agent {DIR_PATH}.step_count, ascending_order)
 		end
 

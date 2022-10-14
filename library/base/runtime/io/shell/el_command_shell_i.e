@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 15:15:47 GMT (Tuesday 4th October 2022)"
-	revision: "15"
+	date: "2022-10-09 11:06:51 GMT (Sunday 9th October 2022)"
+	revision: "16"
 
 deferred class
 	EL_COMMAND_SHELL_I
@@ -37,6 +37,13 @@ feature {NONE} -- Initialization
 					command_table [command.key] := command.item
 				end
 			end
+		end
+
+feature -- Measurement
+
+	option_count: INTEGER
+		do
+			Result := command_table.count
 		end
 
 feature -- Basic operations

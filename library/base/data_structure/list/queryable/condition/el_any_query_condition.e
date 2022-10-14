@@ -1,5 +1,5 @@
 note
-	description: "Any query condition"
+	description: "Query condition that returns **True** for every item if type **G**"
 	tests: "Class [$source CHAIN_TEST_SET]"
 
 	author: "Finnian Reilly"
@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-04 13:16:08 GMT (Friday 4th October 2019)"
-	revision: "9"
+	date: "2022-10-14 16:53:04 GMT (Friday 14th October 2022)"
+	revision: "10"
 
 class
 	EL_ANY_QUERY_CONDITION [G]

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-08-27 19:11:01 GMT (Saturday 27th August 2022)"
-	revision: "39"
+	date: "2022-10-14 18:55:44 GMT (Friday 14th October 2022)"
+	revision: "41"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -33,7 +33,7 @@ inherit
 			i_th, at, last, first, valid_index, is_inserted, move, start, finish, go_i_th, put_i_th,
 			force, append_sequence, prune, prune_all, remove, swap, new_cursor, to_array, order_by
 		redefine
-			find_next_item, joined, push_cursor, pop_cursor
+			find_next_item, joined
 		end
 
 create
@@ -148,7 +148,7 @@ feature -- Access
 
 	to_tuple: TUPLE
 		require
-			maximum_4_args: count <= 5
+			maximum_5_args: count <= 5
 		local
 			l_area: like area
 		do
@@ -188,21 +188,6 @@ feature -- Removal
 			--
 		do
 			remove_end (n, agent finish)
-		end
-
-feature -- Cursor movement
-
-	pop_cursor
-		-- restore cursor position from stack
-		do
-			index := Index_stack.item
-			Index_stack.remove
-		end
-
-	push_cursor
-		-- push cursor position on to stack
-		do
-			Index_stack.put (index)
 		end
 
 feature -- Reorder items
@@ -304,13 +289,6 @@ feature {NONE} -- Implementation
 				go_to_end.apply; remove
 				i := i + 1
 			end
-		end
-
-feature {NONE} -- Constants
-
-	Index_stack: ARRAYED_STACK [INTEGER]
-		once
-			create Result.make (5)
 		end
 
 end

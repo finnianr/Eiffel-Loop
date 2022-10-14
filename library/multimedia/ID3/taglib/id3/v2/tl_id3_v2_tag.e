@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 8:15:45 GMT (Saturday 27th March 2021)"
-	revision: "19"
+	date: "2022-10-14 14:54:56 GMT (Friday 14th October 2022)"
+	revision: "20"
 
 class
 	TL_ID3_V2_TAG
@@ -63,7 +63,7 @@ feature {NONE} -- Initialization
 			across frame_list (Frame_id.COMM) as frame until found loop
 				if attached {TL_COMMENTS_ID3_FRAME} frame as l_comment then
 					Language_set.put (l_comment.language)
-					if not Language_set.found_item.is_empty then
+					if Language_set.found_item.count > 0 then
 						language := Language_set.found_item
 						found := True
 					end

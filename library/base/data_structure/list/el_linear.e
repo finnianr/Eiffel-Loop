@@ -6,14 +6,46 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-07 17:03:44 GMT (Monday 7th October 2019)"
-	revision: "8"
+	date: "2022-10-12 19:52:45 GMT (Wednesday 12th October 2022)"
+	revision: "9"
 
 deferred class
 	EL_LINEAR [G]
 
 inherit
 	LINEAR [G]
+		redefine
+			index_of
+		end
+
+	EL_TRAVERSABLE_STRUCTURE [G]
+		rename
+			current_traversable as current_linear
+		end
+
+feature -- Access
+
+	index_for_value (target_value: ANY; value: FUNCTION [G, ANY]): INTEGER
+			-- index of item with function returning result equal to value, 0 if not found
+		do
+			push_cursor
+			find_first_equal (target_value, value)
+			if found then
+				Result := index
+			end
+			pop_cursor
+		end
+
+	index_of (v: like item; i: INTEGER): INTEGER
+			-- Index of `i'-th occurrence of item identical to `v'.
+			-- (Reference or object equality,
+			-- based on `object_comparison'.)
+			-- 0 if none.
+		do
+			push_cursor
+			Result := Precursor (v, i)
+			pop_cursor
+		end
 
 feature -- Status query
 
@@ -79,6 +111,11 @@ feature -- Cursor movement
 		end
 
 feature {NONE} -- Implementation
+
+	current_linear: like Current
+		do
+			Result := Current
+		end
 
 	find_next_conforming_item (type: TYPE [G])
 		local

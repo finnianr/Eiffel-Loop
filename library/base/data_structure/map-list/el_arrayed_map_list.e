@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-26 15:46:09 GMT (Sunday 26th December 2021)"
-	revision: "14"
+	date: "2022-10-14 17:42:05 GMT (Friday 14th October 2022)"
+	revision: "16"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -26,11 +26,22 @@ create
 
 feature {NONE} -- Initialization
 
-	make_from_keys (list: ITERABLE [K]; to_value: FUNCTION [K, G])
+	make_from_keys (keys: FINITE [K]; to_value: FUNCTION [K, G])
+		local
+			saved_cursor: EL_SAVED_CURSOR [K]
 		do
-			make (Iterable.count (list))
-			across list as key loop
-				extend (key.item, to_value (key.item))
+			make (keys.count)
+			if attached {ITERABLE [K]} keys as list then
+				across list as key loop
+					extend (key.item, to_value (key.item))
+				end
+
+			elseif attached {LINEAR [K]} keys as list then
+				create saved_cursor.make (list)
+				append_values (list, to_value)
+				saved_cursor.restore
+			else
+				append_values (keys.linear_representation, to_value)
 			end
 		end
 
@@ -42,11 +53,22 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_from_values (list: ITERABLE [G]; to_key: FUNCTION [G, K])
+	make_from_values (values: FINITE [G]; to_key: FUNCTION [G, K])
+		local
+			saved_cursor: EL_SAVED_CURSOR [G]
 		do
-			make (Iterable.count (list))
-			across list as value loop
-				extend (to_key (value.item), value.item)
+			make (values.count)
+			if attached {ITERABLE [G]} values as list then
+				across list as value loop
+					extend (to_key (value.item), value.item)
+				end
+
+			elseif attached {LINEAR [G]} values as list then
+				create saved_cursor.make (list)
+				append_keys (list, to_key)
+				saved_cursor.restore
+			else
+				append_keys (values.linear_representation, to_key)
 			end
 		end
 
@@ -173,6 +195,23 @@ feature -- Conversion
 		end
 
 feature {NONE} -- Implementation
+
+	append_values (keys: LINEAR [K]; to_value: FUNCTION [K, G])
+		-- append
+		do
+			from keys.start until keys.after loop
+				extend (keys.item, to_value (keys.item))
+				keys.forth
+			end
+		end
+
+	append_keys (values: LINEAR [G]; to_key: FUNCTION [G, K])
+		do
+			from values.start until values.after loop
+				extend (to_key (values.item), values.item)
+				values.forth
+			end
+		end
 
 	extend_key_list (list: like key_list; a_item: like item)
 		do

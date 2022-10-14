@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-23 8:54:13 GMT (Thursday 23rd June 2022)"
-	revision: "7"
+	date: "2022-10-14 15:02:45 GMT (Friday 14th October 2022)"
+	revision: "8"
 
 deferred class
 	EL_REFLECTED_MEMBER_STRING [S -> STRING_GENERAL create make end]
@@ -39,9 +39,7 @@ feature -- Basic operations
 
 	set (a_object: EL_REFLECTIVE; a_value: S)
 		do
-			if not hash_set.has_key (a_value) then
-				hash_set.put (a_value.twin)
-			end
+			hash_set.put_copy (a_value)
 			Precursor (a_object, hash_set.found_item)
 		ensure then
 			member_of_set: hash_set.has (value (a_object))

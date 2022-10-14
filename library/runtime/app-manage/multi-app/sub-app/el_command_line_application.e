@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-07 13:27:25 GMT (Friday 7th October 2022)"
-	revision: "46"
+	date: "2022-10-09 11:39:10 GMT (Sunday 9th October 2022)"
+	revision: "47"
 
 deferred class
 	EL_COMMAND_LINE_APPLICATION [C -> EL_APPLICATION_COMMAND]
@@ -84,7 +84,7 @@ feature -- Basic operations
 			command.execute
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Argument items
 
 	config_argument (help_description: detachable READABLE_STRING_GENERAL): EL_COMMAND_ARGUMENT
 		local

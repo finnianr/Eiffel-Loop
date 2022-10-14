@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 9:13:52 GMT (Friday 11th February 2022)"
-	revision: "14"
+	date: "2022-10-11 8:59:29 GMT (Tuesday 11th October 2022)"
+	revision: "15"
 
 class
 	EL_FILE_MANIFEST_LIST
@@ -81,7 +81,7 @@ feature -- Access
 
 	total_byte_count: INTEGER
 		local
-			summator: EL_CHAIN_SUMMATOR [EL_FILE_MANIFEST_ITEM, INTEGER]
+			summator: EL_RESULT_SUMMATOR [EL_FILE_MANIFEST_ITEM, INTEGER]
 		do
 			create summator
 			Result := summator.sum (Current, agent {EL_FILE_MANIFEST_ITEM}.byte_count)

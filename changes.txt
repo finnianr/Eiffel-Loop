@@ -523,3 +523,6 @@ Refactor of Evolicity to use token id enumeration
 Tue 4th Oct 2022, 16:02:10
 Changed user input method to use EL_INPUT_USER_VALUE
 
+Wed 12th Oct 2022, 20:09:24
+Refactor of EL_CHAIN to move query routines into EL_TRAVERSABLE_STRUCTURE
+

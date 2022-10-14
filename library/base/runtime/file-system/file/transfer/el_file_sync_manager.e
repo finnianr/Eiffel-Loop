@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "10"
+	date: "2022-10-13 14:54:53 GMT (Thursday 13th October 2022)"
+	revision: "11"
 
 class
 	EL_FILE_SYNC_MANAGER
@@ -50,7 +50,7 @@ feature {NONE} -- Initialization
 			first_item: EL_FILE_SYNC_ITEM
 		do
 			current_set := a_current_set
-			a_current_set.start; first_item := a_current_set.item_for_iteration
+			a_current_set.start; first_item := a_current_set.iteration_item
 			local_home_dir := first_item.home_dir ; destination_name := first_item.destination_name
 			extension := first_item.file_path.extension
 

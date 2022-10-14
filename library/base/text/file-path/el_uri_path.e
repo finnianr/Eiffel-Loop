@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 11:38:35 GMT (Saturday 19th February 2022)"
-	revision: "33"
+	date: "2022-10-14 15:02:45 GMT (Friday 14th October 2022)"
+	revision: "34"
 
 deferred class
 	EL_URI_PATH
@@ -177,22 +177,14 @@ feature -- Element change
 
 	set_authority (a_authority: READABLE_STRING_GENERAL)
 		do
-			if Authority_set.has_key (buffer.copied_general (a_authority)) then
-				authority := Authority_set.found_item
-			else
-				create authority.make_from_general (a_authority)
-				Authority_set.put (authority)
-			end
+			Authority_set.put_copy (Buffer.copied_general (a_authority))
+			authority := Authority_set.found_item
 		end
 
 	set_scheme (a_scheme: STRING)
 		do
-			if Scheme_set.has_key (a_scheme) then
-				scheme := Scheme_set.found_item
-			else
-				scheme := a_scheme.twin
-				Scheme_set.put (scheme)
-			end
+			Scheme_set.put_copy (a_scheme)
+			scheme := Scheme_set.found_item
 		end
 
 	set_path (a_path: READABLE_STRING_GENERAL)

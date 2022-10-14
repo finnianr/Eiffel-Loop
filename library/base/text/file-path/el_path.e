@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 11:27:42 GMT (Saturday 19th February 2022)"
-	revision: "61"
+	date: "2022-10-14 14:56:58 GMT (Friday 14th October 2022)"
+	revision: "62"
 
 deferred class
 	EL_PATH
@@ -411,7 +411,7 @@ feature -- Element change
 
 	set_parent_path (a_parent: READABLE_STRING_GENERAL)
 		local
-			set: like Parent_set; l_path: ZSTRING
+			l_path: ZSTRING
 		do
 			if a_parent.is_empty then
 				parent_path := Empty_path
@@ -420,13 +420,8 @@ feature -- Element change
 				if a_parent [a_parent.count] /= Separator then
 					l_path.append_character (Separator)
 				end
-				set := Parent_set
-				if set.has_key (l_path) then
-					parent_path := set.found_item
-				else
-					parent_path := l_path.twin
-					set.extend (parent_path)
-				end
+				Parent_set.put_copy (l_path)
+				parent_path := Parent_set.found_item
 			end
 			internal_hash_code := 0
 		end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-22 9:03:36 GMT (Friday 22nd July 2022)"
-	revision: "44"
+	date: "2022-10-14 15:02:55 GMT (Friday 14th October 2022)"
+	revision: "45"
 
 class
 	EL_PYXIS_PARSER
@@ -406,9 +406,7 @@ feature {NONE} -- Implementation
 	unique_element (line: EL_PYXIS_LINE): STRING
 		-- unique XML name (all '.' -> ':')
 		do
-			if attached line.xml_element as xml_name and then not element_set.has_key (xml_name) then
-				element_set.put (xml_name.twin)
-			end
+			element_set.put_copy (line.xml_element)
 			Result := element_set.found_item
 		ensure
 			name_in_set: element_set.has (line.xml_element)

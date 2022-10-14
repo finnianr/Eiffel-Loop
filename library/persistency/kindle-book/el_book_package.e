@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:23:39 GMT (Monday 14th February 2022)"
-	revision: "6"
+	date: "2022-10-13 14:45:42 GMT (Thursday 13th October 2022)"
+	revision: "7"
 
 class
 	EL_BOOK_PACKAGE
@@ -59,7 +59,7 @@ feature {NONE} -- Factory
 			across book.chapter_list as chapter loop
 				Result.extend (chapter.item.output_path.base)
 			end
-			across book.image_path_set.to_array as image_path loop
+			across book.image_path_set.to_list as image_path loop
 				Result.extend (image_path.item)
 			end
 		ensure then

@@ -6,7 +6,7 @@ note
 		* [$source EL_ARRAYED_RESULT_LIST]
 		* [$source EL_ARRAYED_LIST]
 		* [$source EL_QUERY_CONDITION]
-		* [$source EL_CHAIN_SUMMATOR]
+		* [$source EL_RESULT_SUMMATOR]
 		* [$source EL_PREDICATE_QUERY_CONDITION]
 		* [$source EL_ANY_QUERY_CONDITION]
 	]"
@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 8:39:37 GMT (Tuesday 4th October 2022)"
-	revision: "21"
+	date: "2022-10-14 18:51:21 GMT (Friday 14th October 2022)"
+	revision: "23"
 
 class
 	CHAIN_TEST_SET
@@ -27,6 +27,10 @@ inherit
 
 	EL_MODULE_LIO
 
+	EL_SHARED_ZCODEC_FACTORY
+
+	EL_ENCODING_CONSTANTS
+
 feature -- Basic operations
 
 	do_all (eval: EL_TEST_SET_EVALUATOR)
@@ -35,7 +39,9 @@ feature -- Basic operations
 			eval.call ("circular_indexing", agent test_circular_indexing)
 			eval.call ("converted_list", agent test_converted_list)
 			eval.call ("find_predicate", agent test_find_predicate)
-			eval.call ("mapping", agent test_mapping)
+			eval.call ("index_of", agent test_index_of)
+			eval.call ("make_from_keys", agent test_make_from_keys)
+			eval.call ("query_and_map_list", agent test_query_and_map_list)
 			eval.call ("order_by_color_name", agent test_order_by_color_name)
 			eval.call ("order_by_weight", agent test_order_by_weight)
 			eval.call ("result_list", agent test_result_list)
@@ -95,18 +101,31 @@ feature -- Test
 			assert ("item color is green", Widget_list.item.color = Green)
 		end
 
-	test_mapping
+	test_index_of
+		note
+			testing: "covers/{EL_LINEAR}.index_of"
 		local
-			key_list: EL_ARRAYED_LIST [INTEGER]
+			codec: EL_ZCODEC
 		do
-			key_list := Widget_list.query_if (agent {WIDGET}.is_color (Red)).integer_map_list (agent {WIDGET}.weight).key_list
-			assert ("red weights are: 2, 12", key_list.to_array ~ << 2, 12 >>)
+			codec := Codec_factory.codec_by (Windows | 1250)
+			assert ("windows 1250 codec", codec.generating_type ~ {EL_WINDOWS_1250_ZCODEC})
+		end
 
-			key_list := Widget_list.query (color_is (Blue)).integer_map_list (agent {WIDGET}.weight).key_list
-			assert ("blue weights are: 3, 5", key_list.to_array ~ << 3, 5 >>)
-
-			key_list := Widget_list.query (color_is (Green)).integer_map_list (agent {WIDGET}.weight).key_list
-			assert ("green weight is: 1", key_list.to_array ~ << 1 >>)
+	test_make_from_keys
+		note
+			testing: "covers/{EL_ARRAYED_MAP_LIST}.make_from_keys"
+		local
+			code_map: EL_ARRAYED_MAP_LIST [CHARACTER, NATURAL]
+			str: STRING
+		do
+			str := "abc"
+			create code_map.make_from_keys (str, agent ascii_code)
+			assert ("size is 3", code_map.count = 3)
+			from code_map.start until code_map.after loop
+				assert ("same letter", code_map.item.key = str [code_map.index])
+				assert ("same code", code_map.item.value = str [code_map.index].natural_32_code)
+				code_map.forth
+			end
 		end
 
 	test_order_by_color_name
@@ -145,6 +164,32 @@ feature -- Test
 			end
 		end
 
+	test_query_and_map_list
+		note
+			testing: "covers/{EL_ARRAYED_MAP_LIST}.make_from_values",
+						"convers/{EL_TRAVERSABLE_STRUCTURE}.query"
+		local
+			key_list: EL_ARRAYED_LIST [INTEGER]
+			color_map: EL_ARRAYED_MAP_LIST [WIDGET, INTEGER]
+		do
+			Widget_list.start
+			if attached Widget_list.query_if (agent {WIDGET}.is_color (Red)) as red_list then
+				assert ("index is 1", Widget_list.index = 1)
+				key_list := red_list.integer_map_list (agent {WIDGET}.weight).key_list
+				assert ("red weights are: 2, 12", key_list.to_array ~ << 2, 12 >>)
+			end
+			if attached Widget_list.query (color_is (Blue)) as blue_list then
+				assert ("index is 1", Widget_list.index = 1)
+				key_list := blue_list.integer_map_list (agent {WIDGET}.weight).key_list
+				assert ("blue weights are: 3, 5", key_list.to_array ~ << 3, 5 >>)
+			end
+			if attached Widget_list.query (color_is (Green)) as green_list then
+				assert ("index is 1", Widget_list.index = 1)
+				key_list := green_list.integer_map_list (agent {WIDGET}.weight).key_list
+				assert ("green weight is: 1", key_list.to_array ~ << 1 >>)
+			end
+		end
+
 	test_result_list
 		local
 			result_list: EL_ARRAYED_RESULT_LIST [INTEGER, WIDGET]
@@ -164,7 +209,7 @@ feature -- Test
 	test_weight_summation_1
 		-- using method 1
 		note
-			testing: "covers/{EL_CHAIN_SUMMATOR}.sum"
+			testing: "covers/{EL_RESULT_SUMMATOR}.sum"
 		do
 			assert ("sum red is 14",			weight_sum_meeting_1 (Widget_list, color_is (Red)) = 14)
 			assert ("sum blue is 8", 			weight_sum_meeting_1 (Widget_list, color_is (Blue)) = 8)
@@ -206,6 +251,11 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
+	ascii_code (c: CHARACTER): NATURAL
+		do
+			Result := c.natural_32_code
+		end
+
 	color_is (color: INTEGER): EL_PREDICATE_QUERY_CONDITION [WIDGET]
 		do
 			Result := agent {WIDGET}.is_color (color)
@@ -214,16 +264,20 @@ feature {NONE} -- Implementation
 	weight_sum_meeting_1 (widgets: EL_CHAIN [WIDGET]; condition: EL_QUERY_CONDITION [WIDGET]): INTEGER
 		-- sum of widget-weights for widgets meeting `condition' (method 1)
 		local
-			summator: EL_CHAIN_SUMMATOR [WIDGET, INTEGER]
+			summator: EL_RESULT_SUMMATOR [WIDGET, INTEGER]
 		do
+			widgets.start
 			create summator
 			Result := summator.sum (widgets.query (condition), agent {WIDGET}.weight)
+			assert ("index is 1", widgets.index = 1)
 		end
 
 	weight_sum_meeting_2 (widgets: EL_CHAIN [WIDGET]; condition: EL_QUERY_CONDITION [WIDGET]): INTEGER
 		-- sum of widget-weights for widgets meeting `condition' (method 2)
 		do
+			widgets.start
 			Result := widgets.sum_integer_meeting (agent {WIDGET}.weight, condition)
+			assert ("index is 1", widgets.index = 1)
 		end
 
 	widget_colors: EL_ARRAYED_LIST [INTEGER]

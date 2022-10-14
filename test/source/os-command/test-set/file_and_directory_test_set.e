@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 8:50:46 GMT (Tuesday 4th October 2022)"
-	revision: "27"
+	date: "2022-10-13 15:50:57 GMT (Thursday 13th October 2022)"
+	revision: "28"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -60,6 +60,8 @@ feature -- Tests
 		end
 
 	test_delete_paths
+		note
+			testing: "covers/{EL_HASH_SET}.subset_exclude"
 		local
 			a_file_set: like file_set
 		do
@@ -273,7 +275,7 @@ feature {NONE} -- Implementation
 				if root.item.scheme ~ File_protocol then
 					create file_path_string.make_from_general (root.item)
 					file_path_string.remove_head (File_protocol.count + 3)
-					if a_file_set.item_for_iteration.to_string.starts_with (file_path_string) then
+					if a_file_set.iteration_item.to_string.starts_with (file_path_string) then
 						volume_name := root.key
 						volume_root_path := file_path_string
 						volume_workarea_dir := Work_area_absolute_dir.relative_path (volume_root_path)
@@ -316,7 +318,7 @@ feature {NONE} -- Implementation
 				lio.put_integer_field (a_path_set.generator, a_path_set.count)
 				lio.put_new_line
 				from a_path_set.start until a_path_set.after loop
-					lio.put_path_field ("a_path_set", a_path_set.key_for_iteration)
+					lio.put_path_field ("a_path_set", a_path_set.iteration_item)
 					lio.put_new_line
 					a_path_set.forth
 				end
@@ -373,6 +375,8 @@ feature {NONE} -- Implementation
 		end
 
 	find_directories (a_dir_set: like dir_set; root_dir: DIR_PATH)
+		note
+			testing: "covers/{EL_HASH_SET}.subset_include"
 		local
 			lower, upper: INTEGER; has_substring: EL_PREDICATE_FIND_CONDITION
 		do
@@ -402,6 +406,8 @@ feature {NONE} -- Implementation
 		end
 
 	find_files (a_file_set: like new_file_set; root_dir: DIR_PATH)
+		note
+			testing: "covers/{EL_HASH_SET}.subset_include"
 		local
 			lower, upper: INTEGER
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:28:29 GMT (Sunday 19th December 2021)"
-	revision: "15"
+	date: "2022-10-13 14:35:52 GMT (Thursday 13th October 2022)"
+	revision: "16"
 
 class
 	EL_LOG_FILTER
@@ -55,7 +55,7 @@ feature -- Basic operations
 
 	print_to (output: EL_CONSOLE_LOG_OUTPUT)
 		local
-			name: STRING
+			name: STRING; index: INTEGER
 		do
 			if class_type.type_id /= - 1 then
 				output.put_new_line
@@ -79,7 +79,8 @@ feature -- Basic operations
 						else
 							output.put_string (name)
 						end
-						if not set.is_last then
+						index := index + 1
+						if index < routine_set.count then
 							output.put_new_line
 						end
 					end

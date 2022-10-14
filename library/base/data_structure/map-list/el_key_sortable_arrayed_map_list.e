@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 13:11:36 GMT (Saturday 25th January 2020)"
-	revision: "6"
+	date: "2022-10-11 9:57:26 GMT (Tuesday 11th October 2022)"
+	revision: "7"
 
 class
 	EL_KEY_SORTABLE_ARRAYED_MAP_LIST [K -> COMPARABLE, G]
@@ -20,7 +20,7 @@ create
 
 feature {NONE} -- Implementation
 
-	make_sorted (list: ITERABLE [G]; sort_key: FUNCTION [G, K]; in_ascending_order: BOOLEAN)
+	make_sorted (list: FINITE [G]; sort_key: FUNCTION [G, K]; in_ascending_order: BOOLEAN)
 		do
 			make_from_values (list, sort_key)
 			sort (in_ascending_order)

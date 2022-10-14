@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-07 17:50:30 GMT (Tuesday 7th December 2021)"
-	revision: "2"
+	date: "2022-10-14 14:56:08 GMT (Friday 14th October 2022)"
+	revision: "3"
 
 class
 	EL_IP_ADDRESS_GEOLOCATION_TABLE

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-27 8:09:05 GMT (Monday 27th June 2022)"
-	revision: "31"
+	date: "2022-10-14 15:02:44 GMT (Friday 14th October 2022)"
+	revision: "32"
 
 class
 	EL_NAMING_ROUTINES
