@@ -1,8 +1,9 @@
 note
-	description: "Test set for [$source EL_CHAIN] and related classes"
+	description: "Test set for [$source EL_CONTAINER_STRUCTURE] descendants and related classes"
 	notes: "[
 		Covers various routines from the following:
 		
+		* [$source EL_CONTAINER_STRUCTURE]
 		* [$source EL_ARRAYED_RESULT_LIST]
 		* [$source EL_ARRAYED_LIST]
 		* [$source EL_QUERY_CONDITION]
@@ -16,11 +17,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-15 5:38:46 GMT (Saturday 15th October 2022)"
-	revision: "24"
+	date: "2022-10-15 15:20:14 GMT (Saturday 15th October 2022)"
+	revision: "25"
 
 class
-	CHAIN_TEST_SET
+	CONTAINER_STRUCTURE_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
@@ -36,21 +37,45 @@ feature -- Basic operations
 	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("arrayed_result_list", agent test_arrayed_result_list)
 			eval.call ("circular_indexing", agent test_circular_indexing)
 			eval.call ("converted_list", agent test_converted_list)
 			eval.call ("find_predicate", agent test_find_predicate)
 			eval.call ("index_of", agent test_index_of)
 			eval.call ("make_from_keys", agent test_make_from_keys)
-			eval.call ("query_and_map_list", agent test_query_and_map_list)
 			eval.call ("order_by_color_name", agent test_order_by_color_name)
 			eval.call ("order_by_weight", agent test_order_by_weight)
+			eval.call ("query_and_map_list", agent test_query_and_map_list)
 			eval.call ("string_list", agent test_string_list)
+			eval.call ("summator", agent test_summator)
 			eval.call ("weight_summation_1", agent test_weight_summation_1)
 			eval.call ("weight_summation_2", agent test_weight_summation_2)
 			eval.call ("weight_summation_3", agent test_weight_summation_3)
 		end
 
 feature -- Test
+
+	test_arrayed_result_list
+		note
+			testing: "covers/{EL_ARRAYED_RESULT_LIST}.make_filtered"
+		local
+			result_list: EL_ARRAYED_RESULT_LIST [CHARACTER, INTEGER]
+		do
+			across Container_types as type loop
+				if attached new_character_container (type.item) as container then
+					if attached {LINEAR [CHARACTER]} container as list then
+						list.start
+					end
+					lio.put_labeled_string ("Type", container.generator)
+					lio.put_new_line
+					create result_list.make_filtered (container, is_digit, agent to_integer)
+					assert ("array is 1, 2, 3", result_list.to_array ~ << 1, 2, 3 >> )
+					if attached {LINEAR [CHARACTER]} container as list then
+						assert ("index = 1", list.index = 1)
+					end
+				end
+			end
+		end
 
 	test_circular_indexing
 		local
@@ -198,10 +223,29 @@ feature -- Test
 			assert ("same colors", Widget_list.string_8_list (agent {WIDGET}.color_name).joined (',') ~ color_list)
 		end
 
+	test_summator
+		note
+			testing: "covers/{EL_RESULT_SUMMATOR}.sum_meeting"
+		local
+			summator: EL_RESULT_SUMMATOR [CHARACTER, INTEGER]
+		do
+			across Container_types as type loop
+				if attached new_character_container (type.item) as container then
+					lio.put_labeled_string ("Type", container.generator)
+					lio.put_new_line
+					create summator.make (container)
+					assert ("sum is 6", summator.sum_meeting (agent to_integer, is_digit) = 6 )
+				end
+			end
+		end
+
 	test_weight_summation_1
 		-- using method 1
 		note
-			testing: "covers/{EL_RESULT_SUMMATOR}.sum"
+			testing: "covers/{EL_RESULT_SUMMATOR}.sum",
+						"covers/{EL_OR_QUERY_CONDITION}.met",
+						"covers/{EL_NOT_QUERY_CONDITION}.met",
+						"covers/{EL_ANY_QUERY_CONDITION}.met"
 		do
 			assert ("sum red is 14",			weight_sum_meeting_1 (Widget_list, color_is (Red)) = 14)
 			assert ("sum blue is 8", 			weight_sum_meeting_1 (Widget_list, color_is (Blue)) = 8)
@@ -212,6 +256,10 @@ feature -- Test
 
 	test_weight_summation_2
 		-- using method 2
+		note
+			testing: "covers/{EL_RESULT_SUMMATOR}.sum_integer_meeting",
+						"covers/{EL_NOT_QUERY_CONDITION}.met",
+						"covers/{EL_ANY_QUERY_CONDITION}.met"
 		do
 			assert ("sum red is 14",			weight_sum_meeting_2 (Widget_list, color_is (Red)) = 14)
 			assert ("sum blue is 8", 			weight_sum_meeting_2 (Widget_list, color_is (Blue)) = 8)
@@ -223,8 +271,10 @@ feature -- Test
 	test_weight_summation_3
 		-- using method 2
 		note
-			testing: "covers/{EL_CHAIN}.query_is_equal, covers/{EL_CHAIN}.query_if",
-						"covers/{EL_CHAIN}.query, covers/{EL_FUNCTION_VALUE_QUERY_CONDITION}.met"
+			testing: "covers/{EL_CONTAINER_STRUCTURE}.query_is_equal",
+						"covers/{EL_CONTAINER_STRUCTURE}.query_if",
+						"covers/{EL_CONTAINER_STRUCTURE}.query",
+						"covers/{EL_FUNCTION_VALUE_QUERY_CONDITION}.met"
 		do
 			assert (
 				"sum red is 14",
@@ -236,21 +286,90 @@ feature -- Test
 			)
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Query conditions
 
 	any_color: EL_ANY_QUERY_CONDITION [WIDGET]
 		do
 			create Result
 		end
 
+	color_is (color: INTEGER): EL_PREDICATE_QUERY_CONDITION [WIDGET]
+		do
+			Result := agent {WIDGET}.is_color (color)
+		end
+
+	is_digit: EL_PREDICATE_QUERY_CONDITION [CHARACTER]
+		do
+			Result := agent is_character_digit
+		end
+
+
+feature {NONE} -- Implementation
+
 	ascii_code (c: CHARACTER): NATURAL
 		do
 			Result := c.natural_32_code
 		end
 
-	color_is (color: INTEGER): EL_PREDICATE_QUERY_CONDITION [WIDGET]
+	is_character_digit (c: CHARACTER): BOOLEAN
 		do
-			Result := agent {WIDGET}.is_color (color)
+			Result := c.is_digit
+		end
+
+	new_character_container (type: INTEGER): CONTAINER [CHARACTER]
+		local
+			table: HASH_TABLE [CHARACTER, NATURAL]; tree: BINARY_SEARCH_TREE [CHARACTER]
+			linked: LINKED_LIST [CHARACTER]; set: EL_HASH_SET [CHARACTER]
+		do
+			inspect type
+				when Array_type then
+					if attached {ARRAYED_LIST [CHARACTER_8]} Character_string.linear_representation as list then
+						Result := list.to_array
+					end
+
+				when Hash_table_type then
+					create table.make_equal (3)
+					across Character_string as str loop
+						table.put (str.item, str.item.natural_32_code)
+					end
+					Result := table
+
+				when Hash_set_type then
+					create set.make (3)
+					across Character_string as str loop
+						set.put (str.item)
+					end
+					Result := set
+
+				when Binary_tree_type then
+					create tree.make (Character_string [1])
+					across Character_string as str loop
+						if str.cursor_index > 1 then
+							tree.put (str.item)
+						end
+					end
+					Result := tree
+
+				when Linked_list_type then
+					create linked.make
+					across Character_string as str loop
+						linked.extend (str.item)
+					end
+					Result := linked
+
+				when List_type then
+					Result := Character_string.linear_representation
+
+				when String_type then
+					Result := Character_string
+			else
+
+			end
+		end
+
+	to_integer (c: CHARACTER): INTEGER
+		do
+			Result := (c - {ASCII}.Zero).code
 		end
 
 	weight_sum_meeting_1 (widgets: EL_CHAIN [WIDGET]; condition: EL_QUERY_CONDITION [WIDGET]): INTEGER
@@ -259,8 +378,8 @@ feature {NONE} -- Implementation
 			summator: EL_RESULT_SUMMATOR [WIDGET, INTEGER]
 		do
 			widgets.start
-			create summator
-			Result := summator.sum (widgets.query (condition), agent {WIDGET}.weight)
+			create summator.make (widgets.query (condition))
+			Result := summator.sum (agent {WIDGET}.weight)
 			assert ("index is 1", widgets.index = 1)
 		end
 
@@ -280,13 +399,38 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Container types
+
+	Array_type: INTEGER = 1
+
+	Binary_tree_type: INTEGER = 2
+
+	Hash_set_type: INTEGER = 4
+
+	Hash_table_type: INTEGER = 3
+
+	Linked_list_type: INTEGER = 5
+
+	List_type: INTEGER = 6
+
+	String_type: INTEGER = 7
+
+feature {NONE} -- Colors
 
 	Blue: INTEGER = 2
 
 	Green: INTEGER = 3
 
 	Red: INTEGER = 1
+
+feature {NONE} -- Constants
+
+	Character_string: STRING = "a1-b2-c3"
+
+	Container_types: INTEGER_INTERVAL
+		once
+			Result := Array_type |..| String_type
+		end
 
 	Widget_list: EL_ARRAYED_LIST [WIDGET]
 		once

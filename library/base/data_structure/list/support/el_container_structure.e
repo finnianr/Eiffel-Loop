@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-15 7:13:07 GMT (Saturday 15th October 2022)"
-	revision: "3"
+	date: "2022-10-15 14:34:28 GMT (Saturday 15th October 2022)"
+	revision: "4"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]
@@ -44,6 +44,13 @@ feature -- Access
 						Result.extend (i)
 					end
 					i := i + 1
+				end
+			elseif attached {ITERABLE [G]} current_container as iterable_list then
+				across iterable_list as list loop
+					i := i + 1
+					if condition.met (list.item) then
+						Result.extend (i)
+					end
 				end
 			elseif attached current_container.linear_representation as list then
 				from list.start until list.after loop
@@ -149,49 +156,49 @@ feature -- Summation
 	sum_double (value: FUNCTION [G, DOUBLE]): DOUBLE
 			-- sum of call to `value' function
 		do
-			Result := (create {EL_RESULT_SUMMATOR [G, DOUBLE]}).sum (current_container, value)
+			Result := double_summator.sum (value)
 		end
 
 	sum_double_meeting (value: FUNCTION [G, DOUBLE]; condition: EL_QUERY_CONDITION [G]): DOUBLE
 			-- sum of call to `value' function for all items meeting `condition'
 		do
-			Result := (create {EL_RESULT_SUMMATOR [G, DOUBLE]}).sum_meeting (current_container, value, condition)
+			Result := double_summator.sum_meeting (value, condition)
 		end
 
 	sum_integer (value: FUNCTION [G, INTEGER]): INTEGER
 			-- sum of call to `value' function
 		do
-			Result := (create {EL_RESULT_SUMMATOR [G, INTEGER]}).sum (current_container, value)
+			Result := integer_summator.sum (value)
 		end
 
 	sum_integer_meeting (value: FUNCTION [G, INTEGER]; condition: EL_QUERY_CONDITION [G]): INTEGER
 			-- sum of call to `value' function for all items meeting `condition'
 		do
-			Result := (create {EL_RESULT_SUMMATOR [G, INTEGER]}).sum_meeting (current_container, value, condition)
+			Result := integer_summator.sum_meeting (value, condition)
 		end
 
 	sum_natural (value: FUNCTION [G, NATURAL]): NATURAL
 			-- sum of call to `value' function
 		do
-			Result := (create {EL_RESULT_SUMMATOR [G, NATURAL]}).sum (current_container, value)
+			Result := natural_summator.sum (value)
 		end
 
 	sum_natural_meeting (value: FUNCTION [G, NATURAL]; condition: EL_QUERY_CONDITION [G]): NATURAL
 			-- sum of call to `value' function for all items meeting `condition'
 		do
-			Result := (create {EL_RESULT_SUMMATOR [G, NATURAL]}).sum_meeting (current_container, value, condition)
+			Result := natural_summator.sum_meeting (value, condition)
 		end
 
 	sum_real (value: FUNCTION [G, REAL]): REAL
 			-- sum of call to `value' function
 		do
-			Result := (create {EL_RESULT_SUMMATOR [G, REAL]}).sum (current_container, value)
+			Result := real_summator.sum (value)
 		end
 
 	sum_real_meeting (value: FUNCTION [G, REAL]; condition: EL_QUERY_CONDITION [G]): REAL
 			-- sum of call to `value' function for all items meeting `condition'
 		do
-			Result := (create {EL_RESULT_SUMMATOR [G, REAL]}).sum_meeting (current_container, value, condition)
+			Result := real_summator.sum_meeting (value, condition)
 		end
 
 feature -- Conversion
@@ -304,6 +311,11 @@ feature -- Contract Support
 
 feature {NONE} -- Implementation
 
+	double_summator: EL_RESULT_SUMMATOR [G, DOUBLE]
+		do
+			create Result.make (current_container)
+		end
+
 	container_count (container: CONTAINER [ANY]): INTEGER
 		do
 			if attached {FINITE [ANY]} container as finite then
@@ -320,6 +332,21 @@ feature {NONE} -- Implementation
 					Result := Result + 1
 				end
 			end
+		end
+
+	integer_summator: EL_RESULT_SUMMATOR [G, INTEGER]
+		do
+			create Result.make (current_container)
+		end
+
+	natural_summator: EL_RESULT_SUMMATOR [G, NATURAL]
+		do
+			create Result.make (current_container)
+		end
+
+	real_summator: EL_RESULT_SUMMATOR [G, REAL]
+		do
+			create Result.make (current_container)
 		end
 
 	restore_cursor (structure: CURSOR_STRUCTURE [G])

@@ -11,35 +11,58 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-15 5:47:18 GMT (Saturday 15th October 2022)"
-	revision: "11"
+	date: "2022-10-15 15:26:49 GMT (Saturday 15th October 2022)"
+	revision: "12"
 
 class
 	EL_RESULT_SUMMATOR [G, N -> NUMERIC]
 
 inherit
 	EL_CONTAINER_STRUCTURE [G]
+		rename
+			current_container as container
 		export
 			{NONE} all
+			{ANY} container_item
+		end
+
+create
+	make
+
+feature {NONE} -- Initialization
+
+	make (a_container: like container)
+		do
+			container := a_container
 		end
 
 feature -- Access
 
-	sum (container: CONTAINER [G]; value: FUNCTION [G, N]): N
+	sum (value: FUNCTION [G, N]): N
 		-- sum of `value' function across all items of `chain'
 		do
-			Result := sum_meeting (container, value, create {EL_ANY_QUERY_CONDITION [G]})
+			Result := sum_meeting (value, create {EL_ANY_QUERY_CONDITION [G]})
 		end
 
-	sum_meeting (container: CONTAINER [G]; value: FUNCTION [G, N]; condition: EL_QUERY_CONDITION [G]): N
+	sum_meeting (value: FUNCTION [G, N]; condition: EL_QUERY_CONDITION [G]): N
 		-- sum of `value' function across all items of `chain' meeting `condition'
 		require
-			valid_value_function: first_item (container).is_valid_for (value)
+			valid_value_function: container_item.is_valid_for (value)
+		local
+			i, l_upper: INTEGER
 		do
 			if attached {LINEAR [G]} container as list then
-				current_container := list; push_cursor
+				push_cursor
 				Result := sum_linear (list, value, condition)
 				pop_cursor
+			elseif attached {READABLE_INDEXABLE [G]} container as array then
+				l_upper := array.upper
+				from i := array.lower until i > l_upper loop
+					if condition.met (array [i]) then
+						Result := Result + value (array [i])
+					end
+					i := i + 1
+				end
 			elseif attached {ITERABLE [G]} container as iterable_list then
 				across iterable_list as list loop
 					if condition.met (list.item) then
@@ -49,13 +72,6 @@ feature -- Access
 			else
 				Result := sum_linear (container.linear_representation, value, condition)
 			end
-		end
-
-feature -- Contract Support
-
-	first_item (container: CONTAINER [G]): EL_CONTAINER_ITEM [G]
-		do
-			create Result.make (container)
 		end
 
 feature {NONE} -- Implementation
@@ -73,6 +89,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	current_container: CONTAINER [G]
+	container: CONTAINER [G]
 
 end

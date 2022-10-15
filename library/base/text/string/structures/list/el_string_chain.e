@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-27 11:45:38 GMT (Sunday 27th February 2022)"
-	revision: "24"
+	date: "2022-10-15 11:22:20 GMT (Saturday 15th October 2022)"
+	revision: "25"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -18,7 +18,10 @@ inherit
 			joined as joined_chain
 		end
 
-	EL_JOINABLE_STRINGS [S]
+	EL_LINEAR_STRINGS [S]
+		undefine
+			find_first_equal, search, has, occurrences, off
+		end
 
 	EL_MODULE_ITERABLE
 

@@ -1,23 +1,26 @@
 note
-	description: "Abstraction for joining strings using some routines found in [$source EL_CHAIN]"
+	description: "Abstraction for joining strings using routines in [$source EL_LINEAR [S]]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-10 10:50:16 GMT (Wednesday 10th November 2021)"
-	revision: "8"
+	date: "2022-10-15 11:28:17 GMT (Saturday 15th October 2022)"
+	revision: "9"
 
 deferred class
-	EL_JOINABLE_STRINGS [S -> STRING_GENERAL create make end]
+	EL_LINEAR_STRINGS [S -> STRING_GENERAL create make end]
+
+inherit
+	EL_LINEAR [S]
 
 feature -- Access
 
 	as_string_32_list: ARRAYED_LIST [STRING_32]
 		do
 			push_cursor
-			create Result.make (count)
+			create Result.make (current_count)
 			from start until after loop
 				Result.extend (item.as_string_32)
 				forth
@@ -29,7 +32,7 @@ feature -- Access
 			-- string delimited list
 		do
 			push_cursor
-			create Result.make (count)
+			create Result.make (current_count)
 			from start until after loop
 				Result.extend (item.twin)
 				forth
@@ -40,7 +43,7 @@ feature -- Access
 	comma_separated: like item
 		do
 			push_cursor
-			create Result.make (character_count + (count - 1).max (0) * 2)
+			create Result.make (character_count + (current_count - 1).max (0) * 2)
 			from start until after loop
 				if index > 1 then
 					Result.append (once ", ")
@@ -81,7 +84,7 @@ feature -- Access
 			l_count: INTEGER
 		do
 			if a_separator.natural_32_code.to_boolean then
-				l_count := character_count + (count - 1).max (0)
+				l_count := character_count + (current_count - 1).max (0)
 			else
 				l_count := character_count
 			end
@@ -91,7 +94,7 @@ feature -- Access
 
 	joined_with_string (a_separator: READABLE_STRING_GENERAL): like item
 		do
-			create Result.make (character_count + (count - 1) * a_separator.count)
+			create Result.make (character_count + (current_count - 1) * a_separator.count)
 			append_separated_to (Result, a_separator)
 		end
 
@@ -161,7 +164,7 @@ feature -- Measurement
 		do
 			push_cursor
 			from start until after loop
-				Result := Result + item_count
+				Result := Result + item.count
 				forth
 			end
 			pop_cursor
@@ -170,7 +173,7 @@ feature -- Measurement
 	joined_character_count: INTEGER
 			--
 		do
-			Result := character_count + (count - 1)
+			Result := character_count + (current_count - 1)
 		end
 
 feature {NONE} -- Implementation
@@ -189,48 +192,6 @@ feature {NONE} -- Implementation
 	separator_code (a_separator: CHARACTER_32): NATURAL
 		do
 			Result := a_separator.natural_32_code
-		end
-
-feature {NONE} -- Deferred Implementation
-
-	after: BOOLEAN
-		deferred
-		end
-
-	count: INTEGER
-		deferred
-		end
-
-	do_all (action: PROCEDURE [S])
-		deferred
-		end
-
-	forth
-		deferred
-		end
-
-	index: INTEGER
-		deferred
-		end
-
-	item: S
-		deferred
-		end
-
-	item_count: INTEGER
-		deferred
-		end
-
-	pop_cursor
-		deferred
-		end
-
-	push_cursor
-		deferred
-		end
-
-	start
-		deferred
 		end
 
 end

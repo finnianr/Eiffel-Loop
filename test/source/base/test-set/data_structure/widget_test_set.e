@@ -17,13 +17,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-05 8:42:57 GMT (Monday 5th November 2018)"
-	revision: "1"
+	date: "2022-10-15 10:44:31 GMT (Saturday 15th October 2022)"
+	revision: "2"
 
 class
 	WIDGET_TEST_SET
 
 inherit
-	CHAIN_TEST_SET
+	CONTAINER_STRUCTURE_TEST_SET
 
 end

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-15 6:35:45 GMT (Saturday 15th October 2022)"
-	revision: "5"
+	date: "2022-10-15 15:25:03 GMT (Saturday 15th October 2022)"
+	revision: "6"
 
 class
 	EL_ARRAYED_RESULT_LIST [G, R]
@@ -23,7 +23,7 @@ inherit
 		end
 
 create
-	make, make_with_tuple_1, make_with_tuple_2
+	make, make_filtered, make_with_tuple_1, make_with_tuple_2
 
 convert
 	make_with_tuple_1 ({TUPLE [ARRAY [G], FUNCTION [G, R]]}),
@@ -32,34 +32,54 @@ convert
 feature {NONE} -- Initialization
 
 	make (container: CONTAINER [G]; to_item: FUNCTION [G, R])
+		do
+			make_filtered (container, create {EL_ANY_QUERY_CONDITION [G]}, to_item)
+		ensure
+			same_count: count = container_count (container)
+		end
+
+	make_filtered (container: CONTAINER [G]; condition: EL_QUERY_CONDITION [G]; to_item: FUNCTION [G, R])
 		-- initialize from `container' with conversion function `to_item'
 		require
 			valid_function: operand_item (container).is_valid_for (to_item)
 		local
 			pos: CURSOR; saved_cursor: EL_SAVED_CURSOR [G]
+			i, l_upper: INTEGER
 		do
 			make_sized (container_count (container))
 			if attached {LINEAR [G]} container as list then
 				create saved_cursor.make (list)
 				from list.start until list.after loop
-					extend (to_item (list.item))
+					if condition.met (list.item) then
+						extend (to_item (list.item))
+					end
 					list.forth
 				end
 				saved_cursor.restore
 
-			elseif attached {ITERABLE [G]} container as list then
-				across list as any loop
-					extend (to_item (any.item))
+			elseif attached {READABLE_INDEXABLE [G]} container as array then
+				l_upper := array.upper
+				from i := array.lower until i > l_upper loop
+					if condition.met (array [i]) then
+						extend (to_item (array [i]))
+					end
+					i := i + 1
+				end
+			elseif attached {ITERABLE [G]} container as iterable_list then
+				across iterable_list as list loop
+					if condition.met (list.item) then
+						extend (to_item (list.item))
+					end
 				end
 
 			elseif attached container.linear_representation as list then
 				from list.start until list.after loop
-					extend (to_item (list.item))
+					if condition.met (list.item) then
+						extend (to_item (list.item))
+					end
 					list.forth
 				end
 			end
-		ensure
-			same_count: count = container_count (container)
 		end
 
 	make_with_tuple_1 (tuple: TUPLE [array: ARRAY [G]; to_item: FUNCTION [G, R]])

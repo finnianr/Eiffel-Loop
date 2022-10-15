@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-30 8:46:56 GMT (Thursday 30th June 2022)"
-	revision: "29"
+	date: "2022-10-15 11:22:19 GMT (Saturday 15th October 2022)"
+	revision: "30"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -23,26 +23,44 @@ inherit
 	EL_OCCURRENCE_INTERVALS [S]
 		rename
 			circular_i_th as circular_i_th_interval,
-			has as has_interval,
+			current_linear as current_intervals,
 			do_all as do_all_intervals,
+			do_if as do_if_intervals,
+			find_first_equal as find_first_interval_equal,
+			find_next_item as find_next_interval,
 			for_all as for_all_intervals,
+			has as has_interval,
 			i_th as i_th_interval,
 			item as interval_item,
+			index_of as index_of_interval,
 			item_lower as item_start_index,
 			item_upper as item_end_index,
+			inverse_query_if as inverse_interval_query_if,
 			joined as joined_intervals,
 			new_cursor as new_interval_cursor,
+			occurrences as interval_occurrences,
+			query_if as interval_query_if,
+			search as search_for_interval,
+			to_array as to_interval_array,
 			there_exists as there_exists_interval
+		export
+			{NONE} all
+			{ANY} back, before, count, item_count, item_start_index, item_end_index, valid_index,
+				remove_head, remove_tail
 		redefine
 			is_equal, make_empty, make_from_sub_list, make_by_string, make,
 			extend_buffer
 		end
 
-	EL_JOINABLE_STRINGS [S]
+	EL_LINEAR_STRINGS [S]
 		undefine
-			is_equal, copy, out
+			copy, is_equal, off, out
 		redefine
-			character_count
+			character_count, do_all, for_all, has, there_exists
+		select
+			index_of, occurrences, to_array, do_if, search, inverse_query_if, query_if,
+			current_linear, find_first_equal, find_next_item, do_all, for_all, has, item,
+			there_exists
 		end
 
 	ITERABLE [S]

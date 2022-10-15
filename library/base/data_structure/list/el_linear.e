@@ -1,13 +1,13 @@
 note
-	description: "Linear"
+	description: "Structures whose items may be accessed sequentially, one-way"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-15 5:47:18 GMT (Saturday 15th October 2022)"
-	revision: "10"
+	date: "2022-10-15 11:27:21 GMT (Saturday 15th October 2022)"
+	revision: "11"
 
 deferred class
 	EL_LINEAR [G]
