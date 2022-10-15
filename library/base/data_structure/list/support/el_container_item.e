@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-12 19:18:45 GMT (Wednesday 12th October 2022)"
-	revision: "1"
+	date: "2022-10-15 5:47:19 GMT (Saturday 15th October 2022)"
+	revision: "2"
 
 class
 	EL_CONTAINER_ITEM [G]
 
 inherit
-	EL_TRAVERSABLE_STRUCTURE [G]
+	EL_CONTAINER_STRUCTURE [G]
 		export
 			{NONE} all
 		end
@@ -39,13 +39,13 @@ feature {NONE} -- Initialization
 
 			elseif attached container.linear_representation as list then
 				if container = list and then attached {TRAVERSABLE [G]} list as traversable then
-					current_traversable := traversable; push_cursor
+					current_container := traversable; push_cursor
 				end
 				list.start
 				item := list.item
-				if attached current_traversable as traversable then
+				if attached current_container as traversable then
 					pop_cursor
-					current_traversable := Void
+					current_container := Void
 				end
 			end
 		end
@@ -65,6 +65,6 @@ feature -- Access
 
 feature {NONE} -- Internal attributes
 
-	current_traversable: detachable TRAVERSABLE [G]
+	current_container: detachable TRAVERSABLE [G]
 
 end

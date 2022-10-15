@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 9:17:21 GMT (Tuesday 4th October 2022)"
-	revision: "8"
+	date: "2022-10-15 7:19:02 GMT (Saturday 15th October 2022)"
+	revision: "9"
 
 class
 	PATH_TEST_SET
@@ -26,14 +26,15 @@ feature -- Basic operations
 	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("path_steps", agent test_path_steps)
 			eval.call ("extension", agent test_extension)
 			eval.call ("first_step", agent test_first_step)
-			eval.call ("joined_steps", agent test_joined_steps)
 			eval.call ("initialization", agent test_initialization)
+			eval.call ("joined_steps", agent test_joined_steps)
 			eval.call ("ntfs_translation", agent test_ntfs_translation)
+			eval.call ("path_sort", agent test_path_sort)
 			eval.call ("parent", agent test_parent)
 			eval.call ("parent_of", agent test_parent_of)
+			eval.call ("path_steps", agent test_path_steps)
 			eval.call ("relative_joins", agent test_relative_joins)
 			eval.call ("set_parent", agent test_set_parent)
 			eval.call ("universal_relative_path", agent test_universal_relative_path)
@@ -118,22 +119,6 @@ feature -- Tests
 			assert ("same path", path.to_ntfs_compatible ('-').to_string ~ path_name)
 		end
 
-	test_path_sort
-		note
-			testing: "covers/{EL_PATH}.is_less"
-		local
-			sortable_1: EL_SORTABLE_ARRAYED_LIST [FILE_PATH]
-			sortable_2: EL_ARRAYED_LIST [FILE_PATH]
-		do
-			create sortable_1.make_from_array (<<
-				Dev_eiffel, Documents_eiffel_pdf, Home_finnian, Mem_test_exe, Parent_dots
-			>>)
-			create sortable_2.make_from_list (sortable_1)
-			sortable_1.sort
-			sortable_2.order_by (agent {FILE_PATH}.to_string, True)
-			assert ("same order", sortable_1.to_array ~ sortable_2.to_array)
-		end
-
 	test_parent
 		note
 			testing: "covers/{EL_PATH}.has_parent, covers/{EL_PATH}.parent, covers/{EL_PATH}.parent_string",
@@ -181,6 +166,22 @@ feature -- Tests
 				is_parent := dir_string.starts_with (dir_string_home) and dir_string.count > dir_string_home.count
 				assert ("same result", is_parent ~ dir_home.is_parent_of (dir))
 			end
+		end
+
+	test_path_sort
+		note
+			testing: "covers/{EL_PATH}.is_less"
+		local
+			sortable_1: EL_SORTABLE_ARRAYED_LIST [FILE_PATH]
+			sortable_2: EL_ARRAYED_LIST [FILE_PATH]
+		do
+			create sortable_1.make_from_array (<<
+				Dev_eiffel, Documents_eiffel_pdf, Home_finnian, Mem_test_exe, Parent_dots
+			>>)
+			create sortable_2.make_from_list (sortable_1)
+			sortable_1.sort
+			sortable_2.order_by (agent {FILE_PATH}.to_string, True)
+			assert ("same order", sortable_1.to_array ~ sortable_2.to_array)
 		end
 
 	test_path_steps

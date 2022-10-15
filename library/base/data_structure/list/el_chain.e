@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-12 19:54:36 GMT (Wednesday 12th October 2022)"
-	revision: "47"
+	date: "2022-10-15 7:06:20 GMT (Saturday 15th October 2022)"
+	revision: "48"
 
 deferred class EL_CHAIN [G]
 
@@ -26,13 +26,6 @@ inherit
 			search, has, occurrences, off
 		redefine
 			find_first_equal
-		end
-
-	EL_FINITE_STRUCTURE [G]
-		rename
-			current_finite as current_chain
-		undefine
-			container_item
 		end
 
 	EL_INTEGER_MATH
@@ -147,49 +140,6 @@ feature -- Conversion
 		do
 			create map_list.make_sorted (Current, sort_value, in_ascending_order)
 			Result := map_list.value_list
-		end
-
-	to_array: ARRAY [G]
-		do
-			if is_empty then
-				create Result.make_empty
-			else
-				create Result.make_filled (first, 1, count)
-				push_cursor
-				from start until after loop
-					Result [index] := item
-					forth
-				end
-				pop_cursor
-			end
-		end
-
-feature -- To string list
-
-	string_32_list (value: FUNCTION [G, STRING_32]): EL_STRING_LIST [STRING_32]
-			-- list of `value (item)' strings of type STRING_32
-		require
-			valid_value_function: container_item.is_valid_for (value)
-		do
-			Result := (create {EL_CHAIN_STRING_LIST_COMPILER [G, STRING_32]}).list (Current, value)
-		end
-
-	string_8_list (value: FUNCTION [G, STRING]): EL_STRING_LIST [STRING]
-			-- list of `value (item)' strings of type STRING_8
-		note
-			EIS: "name=Unnamed", "protocol=URI", "src=http://www.yourwebsite.com"
-		require
-			valid_value_function: container_item.is_valid_for (value)
-		do
-			Result := (create {EL_CHAIN_STRING_LIST_COMPILER [G, STRING]}).list (Current, value)
-		end
-
-	string_list (value: FUNCTION [G, ZSTRING]): EL_STRING_LIST [ZSTRING]
-			-- list of `value (item)' strings of type EL_ZSTRING
-		require
-			valid_value_function: container_item.is_valid_for (value)
-		do
-			Result := (create {EL_CHAIN_STRING_LIST_COMPILER [G, ZSTRING]}).list (Current, value)
 		end
 
 feature -- Element change
@@ -333,6 +283,5 @@ note
 	]"
 
 end
-
 
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:14 GMT (Tuesday 15th February 2022)"
-	revision: "13"
+	date: "2022-10-15 5:35:14 GMT (Saturday 15th October 2022)"
+	revision: "14"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -75,7 +75,7 @@ feature -- Basic operations
 
 feature -- Conversion
 
-	to_string_list (a_object: EL_REFLECTIVE): EL_ARRAYED_RESULT_LIST [READABLE_STRING_GENERAL, G]
+	to_string_list (a_object: EL_REFLECTIVE): EL_ARRAYED_RESULT_LIST [G, READABLE_STRING_GENERAL]
 		do
 			create Result.make (collection (a_object), agent to_string_general)
 		end

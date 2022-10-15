@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-14 17:09:54 GMT (Friday 14th October 2022)"
-	revision: "2"
+	date: "2022-10-15 5:47:18 GMT (Saturday 15th October 2022)"
+	revision: "3"
 
 class
 	EL_SAVED_CURSOR [G]
 
 inherit
-	EL_TRAVERSABLE_STRUCTURE [G]
+	EL_CONTAINER_STRUCTURE [G]
 		export
 			{NONE} all
 		end
@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 
 	make (traversable: TRAVERSABLE [G])
 		do
-			current_traversable := traversable
+			current_container := traversable
 			push_cursor
 		end
 
@@ -40,6 +40,6 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	current_traversable: TRAVERSABLE [G]
+	current_container: TRAVERSABLE [G]
 
 end

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Cursor position save/restore routines for containers that conform to [$source CURSOR_STRUCTURE [G]]
+		Routines that can be applied to current object if it conforms to [$source CONTAINER [G]]
 	]"
 
 	author: "Finnian Reilly"
@@ -8,11 +8,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-14 18:15:14 GMT (Friday 14th October 2022)"
-	revision: "2"
+	date: "2022-10-15 7:13:07 GMT (Saturday 15th October 2022)"
+	revision: "3"
 
 deferred class
-	EL_TRAVERSABLE_STRUCTURE [G]
+	EL_CONTAINER_STRUCTURE [G]
 
 inherit
 	ANY
@@ -27,7 +27,7 @@ feature -- Access
 			i, upper: INTEGER
 		do
 			create Result.make_empty (current_count)
-			if attached {LINEAR [G]} current_traversable as list then
+			if attached {LINEAR [G]} current_container as list then
 				push_cursor
 				from list.start until list.after loop
 					if condition.met (list.item) then
@@ -37,7 +37,7 @@ feature -- Access
 				end
 				pop_cursor
 
-			elseif attached {READABLE_INDEXABLE [G]} current_traversable as array then
+			elseif attached {READABLE_INDEXABLE [G]} current_container as array then
 				upper := array.upper
 				from i := array.lower until i > upper loop
 					if condition.met (array [i]) then
@@ -45,7 +45,7 @@ feature -- Access
 					end
 					i := i + 1
 				end
-			elseif attached current_traversable.linear_representation as list then
+			elseif attached current_container.linear_representation as list then
 				from list.start until list.after loop
 					if condition.met (list.item) then
 						Result.extend (list.index)
@@ -60,12 +60,6 @@ feature -- Access
 			Result := query (not condition)
 		end
 
-	query_if (condition: EL_PREDICATE_QUERY_CONDITION [G]): like query
-		-- all items meeting agent predicate condition
-		do
-			Result := query (condition)
-		end
-
 	query (condition: EL_QUERY_CONDITION [G]): EL_ARRAYED_LIST [G]
 			-- all item meeting condition
 		local
@@ -73,7 +67,7 @@ feature -- Access
 		do
 			indices := indices_meeting (condition)
 			create Result.make (indices.count)
-			if attached {LINEAR [G]} current_traversable as list then
+			if attached {LINEAR [G]} current_container as list then
 				push_cursor
 				list.start
 				from i := 0 until i = indices.count loop
@@ -86,13 +80,13 @@ feature -- Access
 				end
 				pop_cursor
 
-			elseif attached {READABLE_INDEXABLE [G]} current_traversable as array then
+			elseif attached {READABLE_INDEXABLE [G]} current_container as array then
 				from i := 0 until i = indices.count loop
 					Result.extend (array [indices [i]])
 					i := i + 1
 				end
 
-			elseif attached current_traversable.linear_representation as list then
+			elseif attached current_container.linear_representation as list then
 				list.start
 				from i := 0 until i = indices.count loop
 					index := indices [i]
@@ -103,6 +97,12 @@ feature -- Access
 					i := i + 1
 				end
 			end
+		end
+
+	query_if (condition: EL_PREDICATE_QUERY_CONDITION [G]): like query
+		-- all items meeting agent predicate condition
+		do
+			Result := query (condition)
 		end
 
 	query_is_equal (target_value: ANY; value: FUNCTION [G, ANY]): EL_ARRAYED_LIST [G]
@@ -122,7 +122,7 @@ feature -- Measurement
 	count_meeting (condition: EL_QUERY_CONDITION [G]): INTEGER
 		-- count of items meeting `condition'
 		do
-			if attached current_traversable.linear_representation as list then
+			if attached current_container.linear_representation as list then
 				push_cursor
 				from list.start until list.after loop
 					if condition.met (list.item) then
@@ -141,17 +141,7 @@ feature -- Measurement
 
 	current_count: INTEGER
 		do
-			if attached {FINITE [G]} current_traversable as finite then
-				Result := finite.count
-
-			elseif attached {READABLE_INDEXABLE [G]} current_traversable as array then
-				Result :=  array.upper - array.lower + 1
-
-			elseif attached {ITERABLE [G]} current_traversable as current_iterable then
-				across current_iterable as list loop
-					Result := Result + 1
-				end
-			end
+			Result := container_count (current_container)
 		end
 
 feature -- Summation
@@ -159,49 +149,114 @@ feature -- Summation
 	sum_double (value: FUNCTION [G, DOUBLE]): DOUBLE
 			-- sum of call to `value' function
 		do
-			Result := (create {EL_RESULT_SUMMATOR [G, DOUBLE]}).sum (current_traversable, value)
+			Result := (create {EL_RESULT_SUMMATOR [G, DOUBLE]}).sum (current_container, value)
 		end
 
 	sum_double_meeting (value: FUNCTION [G, DOUBLE]; condition: EL_QUERY_CONDITION [G]): DOUBLE
 			-- sum of call to `value' function for all items meeting `condition'
 		do
-			Result := (create {EL_RESULT_SUMMATOR [G, DOUBLE]}).sum_meeting (current_traversable, value, condition)
+			Result := (create {EL_RESULT_SUMMATOR [G, DOUBLE]}).sum_meeting (current_container, value, condition)
 		end
 
 	sum_integer (value: FUNCTION [G, INTEGER]): INTEGER
 			-- sum of call to `value' function
 		do
-			Result := (create {EL_RESULT_SUMMATOR [G, INTEGER]}).sum (current_traversable, value)
+			Result := (create {EL_RESULT_SUMMATOR [G, INTEGER]}).sum (current_container, value)
 		end
 
 	sum_integer_meeting (value: FUNCTION [G, INTEGER]; condition: EL_QUERY_CONDITION [G]): INTEGER
 			-- sum of call to `value' function for all items meeting `condition'
 		do
-			Result := (create {EL_RESULT_SUMMATOR [G, INTEGER]}).sum_meeting (current_traversable, value, condition)
+			Result := (create {EL_RESULT_SUMMATOR [G, INTEGER]}).sum_meeting (current_container, value, condition)
 		end
 
 	sum_natural (value: FUNCTION [G, NATURAL]): NATURAL
 			-- sum of call to `value' function
 		do
-			Result := (create {EL_RESULT_SUMMATOR [G, NATURAL]}).sum (current_traversable, value)
+			Result := (create {EL_RESULT_SUMMATOR [G, NATURAL]}).sum (current_container, value)
 		end
 
 	sum_natural_meeting (value: FUNCTION [G, NATURAL]; condition: EL_QUERY_CONDITION [G]): NATURAL
 			-- sum of call to `value' function for all items meeting `condition'
 		do
-			Result := (create {EL_RESULT_SUMMATOR [G, NATURAL]}).sum_meeting (current_traversable, value, condition)
+			Result := (create {EL_RESULT_SUMMATOR [G, NATURAL]}).sum_meeting (current_container, value, condition)
 		end
 
 	sum_real (value: FUNCTION [G, REAL]): REAL
 			-- sum of call to `value' function
 		do
-			Result := (create {EL_RESULT_SUMMATOR [G, REAL]}).sum (current_traversable, value)
+			Result := (create {EL_RESULT_SUMMATOR [G, REAL]}).sum (current_container, value)
 		end
 
 	sum_real_meeting (value: FUNCTION [G, REAL]; condition: EL_QUERY_CONDITION [G]): REAL
 			-- sum of call to `value' function for all items meeting `condition'
 		do
-			Result := (create {EL_RESULT_SUMMATOR [G, REAL]}).sum_meeting (current_traversable, value, condition)
+			Result := (create {EL_RESULT_SUMMATOR [G, REAL]}).sum_meeting (current_container, value, condition)
+		end
+
+feature -- Conversion
+
+	to_array: ARRAY [G]
+		local
+			array: SPECIAL [G]; i, upper: INTEGER
+		do
+			create array.make_empty (current_count)
+			if attached {LINEAR [G]} current_container as list then
+				push_cursor
+				from list.start until list.after loop
+					array.extend (list.item)
+					list.forth
+				end
+				pop_cursor
+
+			elseif attached {READABLE_INDEXABLE [G]} current_container as indexable then
+				upper := indexable.upper
+				from i := indexable.lower until i > upper loop
+					array.extend (indexable [i])
+					i := i + 1
+				end
+			elseif attached current_container.linear_representation as list then
+				from list.start until list.after loop
+					array.extend (list.item)
+					list.forth
+				end
+			end
+			create Result.make_from_special (array)
+		end
+
+feature -- String result list
+
+	string_32_list (to_string_32: FUNCTION [G, STRING_32]): EL_STRING_32_LIST
+			-- list of strings `to_string_32 (item)' for all items in `Current'
+		require
+			valid_value_function: container_item.is_valid_for (to_string_32)
+		local
+			result_list: EL_ARRAYED_RESULT_LIST [G, STRING_32]
+		do
+			create result_list.make (current_container, to_string_32)
+			create Result.make_from_array (result_list.to_array)
+		end
+
+	string_8_list (to_string_8: FUNCTION [G, STRING_8]): EL_STRING_8_LIST
+			-- list of strings `to_string_8 (item)' for all items in `Current'
+		require
+			valid_value_function: container_item.is_valid_for (to_string_8)
+		local
+			result_list: EL_ARRAYED_RESULT_LIST [G, STRING_8]
+		do
+			create result_list.make (current_container, to_string_8)
+			create Result.make_from_array (result_list.to_array)
+		end
+
+	string_list (to_string: FUNCTION [G, ZSTRING]): EL_ZSTRING_LIST
+			-- list of strings `to_string (item)' for all items in `Current'
+		require
+			valid_value_function: container_item.is_valid_for (to_string)
+		local
+			result_list: EL_ARRAYED_RESULT_LIST [G, ZSTRING]
+		do
+			create result_list.make (current_container, to_string)
+			create Result.make_from_array (result_list.to_array)
 		end
 
 feature -- Basic operations
@@ -211,10 +266,10 @@ feature -- Basic operations
 		local
 			index: INTEGER
 		do
-			if attached {CURSOR_STRUCTURE [G]} current_traversable as structure then
+			if attached {CURSOR_STRUCTURE [G]} current_container as structure then
 				restore_cursor (structure)
 
-			elseif attached {LINEAR [G]} current_traversable as linear then
+			elseif attached {LINEAR [G]} current_container as linear then
 				index := Index_stack.item
 				Index_stack.remove
 				from linear.start until linear.index = index or linear.after loop
@@ -226,10 +281,10 @@ feature -- Basic operations
 	push_cursor
 		-- push cursor position on to stack
 		do
-			if attached {CURSOR_STRUCTURE [G]} current_traversable as structure then
+			if attached {CURSOR_STRUCTURE [G]} current_container as structure then
 				save_cursor (structure)
 
-			elseif attached {LINEAR [G]} current_traversable as linear then
+			elseif attached {LINEAR [G]} current_container as linear then
 				Index_stack.put (linear.index)
 			end
 		end
@@ -238,7 +293,7 @@ feature -- Contract Support
 
 	container_item: EL_CONTAINER_ITEM [G]
 		do
-			create Result.make (current_traversable)
+			create Result.make (current_container)
 		end
 
 	result_type (value: FUNCTION [G, ANY]): TYPE [ANY]
@@ -248,6 +303,24 @@ feature -- Contract Support
 		end
 
 feature {NONE} -- Implementation
+
+	container_count (container: CONTAINER [ANY]): INTEGER
+		do
+			if attached {FINITE [ANY]} container as finite then
+				Result := finite.count
+
+			elseif attached {READABLE_INDEXABLE [ANY]} container as array then
+				Result :=  array.upper - array.lower + 1
+
+			elseif attached {SEARCH_TABLE [HASHABLE]} container as table then
+				Result :=  table.count
+
+			elseif attached {ITERABLE [ANY]} container as current_iterable then
+				across current_iterable as list loop
+					Result := Result + 1
+				end
+			end
+		end
 
 	restore_cursor (structure: CURSOR_STRUCTURE [G])
 		do
@@ -269,9 +342,10 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Deferred implementation
 
-	current_traversable: TRAVERSABLE [G]
+	current_container: CONTAINER [G]
+		-- assign Current to Result in descendant
 		deferred
 		end
 

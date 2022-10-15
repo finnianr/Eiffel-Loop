@@ -1,7 +1,8 @@
 note
 	description: "[
-		List that is the result of applying a function to all the items in a container.
-		Parameter **R** is the result type, and **G** is the input type.
+		An [$source EL_ARRAYED_LIST [R]] that is the result of applying a function to all the items in
+		a container conforming to [$source CONTAINER [G]] where **R** is the result type,
+		and **G** is the function operand type.
 	]"
 
 	author: "Finnian Reilly"
@@ -9,19 +10,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-26 15:46:13 GMT (Sunday 26th December 2021)"
-	revision: "4"
+	date: "2022-10-15 6:35:45 GMT (Saturday 15th October 2022)"
+	revision: "5"
 
 class
-	EL_ARRAYED_RESULT_LIST [R, G]
+	EL_ARRAYED_RESULT_LIST [G, R]
 
 inherit
 	EL_ARRAYED_LIST [R]
 		rename
 			make as make_sized
 		end
-
-	EL_MODULE_EIFFEL
 
 create
 	make, make_with_tuple_1, make_with_tuple_2
@@ -35,41 +34,32 @@ feature {NONE} -- Initialization
 	make (container: CONTAINER [G]; to_item: FUNCTION [G, R])
 		-- initialize from `container' with conversion function `to_item'
 		require
-			valid_open_argument: to_item.valid_operands ([proto_list_item])
+			valid_function: operand_item (container).is_valid_for (to_item)
 		local
-			pos: CURSOR
+			pos: CURSOR; saved_cursor: EL_SAVED_CURSOR [G]
 		do
-			if attached {EL_CHAIN [G]} container as el_chain then
-				el_chain.push_cursor
-				make_sized (el_chain.count)
-				from el_chain.start until el_chain.after loop
-					extend (to_item (el_chain.item))
-					el_chain.forth
+			make_sized (container_count (container))
+			if attached {LINEAR [G]} container as list then
+				create saved_cursor.make (list)
+				from list.start until list.after loop
+					extend (to_item (list.item))
+					list.forth
 				end
-				el_chain.pop_cursor
-
-			elseif attached {CHAIN [G]} container as chain then
-				pos := chain.cursor
-				make_sized (chain.count)
-				from chain.start until chain.after loop
-					extend (to_item (chain.item))
-					chain.forth
-				end
-				chain.go_to (cursor)
+				saved_cursor.restore
 
 			elseif attached {ITERABLE [G]} container as list then
-				make_sized (Iterable.count (list))
 				across list as any loop
 					extend (to_item (any.item))
 				end
 
-			elseif attached {FINITE [G]} container as finite and
-				then attached finite.linear_representation as list then
-				make (list, to_item)
+			elseif attached container.linear_representation as list then
+				from list.start until list.after loop
+					extend (to_item (list.item))
+					list.forth
+				end
 			end
 		ensure
-			same_count: attached {FINITE [G]} container as finite implies count = finite.count
-			same_iterable_count: attached {ITERABLE [G]} container as list implies count = Iterable.count (list)
+			same_count: count = container_count (container)
 		end
 
 	make_with_tuple_1 (tuple: TUPLE [array: ARRAY [G]; to_item: FUNCTION [G, R]])
@@ -84,11 +74,9 @@ feature {NONE} -- Initialization
 
 feature -- Contract Support
 
-	proto_list_item: G
-		-- uninitialized item for contract support
+	operand_item (container: CONTAINER [G]): EL_CONTAINER_ITEM [G]
 		do
-			if attached {G} Eiffel.new_instance_of (({G}).type_id) as new then
-				Result := new
-			end
+			create Result.make (container)
 		end
+
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-12 19:52:45 GMT (Wednesday 12th October 2022)"
-	revision: "9"
+	date: "2022-10-15 5:47:18 GMT (Saturday 15th October 2022)"
+	revision: "10"
 
 deferred class
 	EL_LINEAR [G]
@@ -18,9 +18,9 @@ inherit
 			index_of
 		end
 
-	EL_TRAVERSABLE_STRUCTURE [G]
+	EL_CONTAINER_STRUCTURE [G]
 		rename
-			current_traversable as current_linear
+			current_container as current_linear
 		end
 
 feature -- Access

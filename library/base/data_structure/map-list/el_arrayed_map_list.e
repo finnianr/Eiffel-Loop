@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-14 17:42:05 GMT (Friday 14th October 2022)"
-	revision: "16"
+	date: "2022-10-15 4:51:18 GMT (Saturday 15th October 2022)"
+	revision: "17"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -27,6 +27,8 @@ create
 feature {NONE} -- Initialization
 
 	make_from_keys (keys: FINITE [K]; to_value: FUNCTION [K, G])
+		require
+			valid_function: key_item (keys).is_valid_for (to_value)
 		local
 			saved_cursor: EL_SAVED_CURSOR [K]
 		do
@@ -54,6 +56,8 @@ feature {NONE} -- Initialization
 		end
 
 	make_from_values (values: FINITE [G]; to_key: FUNCTION [G, K])
+		require
+			valid_function: value_item (values).is_valid_for (to_key)
 		local
 			saved_cursor: EL_SAVED_CURSOR [G]
 		do
@@ -192,6 +196,18 @@ feature -- Conversion
 		do
 			create Result.make (count)
 			do_all (agent extend_string_list (Result, a_joined, ?))
+		end
+
+feature -- Contract Support
+
+	key_item (keys: CONTAINER [K]): EL_CONTAINER_ITEM [K]
+		do
+			create Result.make (keys)
+		end
+
+	value_item (values: CONTAINER [G]): EL_CONTAINER_ITEM [G]
+		do
+			create Result.make (values)
 		end
 
 feature {NONE} -- Implementation
