@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-16 14:40:25 GMT (Sunday 16th October 2022)"
-	revision: "26"
+	date: "2022-10-16 17:04:38 GMT (Sunday 16th October 2022)"
+	revision: "27"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -37,25 +37,54 @@ feature -- Basic operations
 	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("arrayed_map_list", agent test_arrayed_map_list)
 			eval.call ("arrayed_result_list", agent test_arrayed_result_list)
 			eval.call ("circular_indexing", agent test_circular_indexing)
-			eval.call ("converted_list", agent test_converted_list)
-			eval.call ("find_predicate", agent test_find_predicate)
-			eval.call ("index_of", agent test_index_of)
+			eval.call ("el_linear", agent test_el_linear)
 			eval.call ("make_filtered_array", agent test_make_filtered_array)
-			eval.call ("make_from_keys", agent test_make_from_keys)
-			eval.call ("make_from_values", agent test_make_from_values)
 			eval.call ("order_by_color_name", agent test_order_by_color_name)
 			eval.call ("order_by_weight", agent test_order_by_weight)
 			eval.call ("query_and_map_list", agent test_query_and_map_list)
+			eval.call ("query_and_summator", agent test_query_and_summator)
 			eval.call ("string_list", agent test_string_list)
 			eval.call ("summator", agent test_summator)
-			eval.call ("weight_summation_1", agent test_weight_summation_1)
-			eval.call ("weight_summation_2", agent test_weight_summation_2)
-			eval.call ("weight_summation_3", agent test_weight_summation_3)
 		end
 
 feature -- Test
+
+	test_arrayed_map_list
+		note
+			testing: "covers/{EL_ARRAYED_MAP_LIST}.make_from_keys",
+						"covers/{EL_ARRAYED_MAP_LIST}.make_from_values",
+						"covers/{EL_HASH_SET}.make_from"
+		local
+			string_to_character_map: EL_ARRAYED_MAP_LIST [STRING, CHARACTER]
+			character_to_code_map: EL_ARRAYED_MAP_LIST [CHARACTER, NATURAL]
+			character_set: EL_HASH_SET [CHARACTER]
+		do
+			create character_set.make_from (Character_string, False)
+			across Container_types as type loop
+				if attached new_character_container (type.item) as container then
+					lio.put_labeled_string ("Type", container.generator)
+					lio.put_new_line
+					create character_to_code_map.make_from_keys (container, agent ascii_code)
+					character_to_code_map.compare_objects
+
+					assert ("same count", character_to_code_map.count >= character_set.count)
+					across Character_string as str loop
+						assert ("has character->code pair", character_to_code_map.has ([str.item, str.item.natural_32_code]))
+					end
+
+					create string_to_character_map.make_from_values (container, agent to_character_string)
+					string_to_character_map.compare_objects
+
+					assert ("same count", string_to_character_map.count >= character_set.count)
+					across Character_string as str loop
+						assert ("has string->character pair", string_to_character_map.has ([str.item.out, str.item]))
+					end
+				end
+			end
+		end
 
 	test_arrayed_result_list
 		note
@@ -103,19 +132,11 @@ feature -- Test
 			end
 		end
 
-	test_converted_list
-		local
-			factory: EL_LIST_FACTORY [STRING, WIDGET];list: LIST [STRING]
-		do
-			create factory
-			list := factory.new_arrayed_list (Widget_list, agent {WIDGET}.color_name)
-			assert ("same count", list.count = Widget_list.count)
-			across Widget_list as l loop
-				assert ("same string", l.item.color_name ~ list [l.cursor_index])
-			end
-		end
-
-	test_find_predicate
+	test_el_linear
+		note
+			testing: "covers/{EL_LINEAR}.index_of",
+						"covers/{EL_LINEAR}.find_first_true", "covers/{EL_LINEAR}.find_next_true",
+						"covers/{EL_LINEAR}.find_first_equal"
 		do
 			Widget_list.find_first_true (agent {WIDGET}.is_color (Blue))
 			assert ("item weight is 3", Widget_list.item.weight = 3)
@@ -125,16 +146,10 @@ feature -- Test
 
 			Widget_list.find_first_equal (1, agent {WIDGET}.weight)
 			assert ("item color is green", Widget_list.item.color = Green)
-		end
 
-	test_index_of
-		note
-			testing: "covers/{EL_LINEAR}.index_of"
-		local
-			codec: EL_ZCODEC
-		do
-			codec := Codec_factory.codec_by (Windows | 1250)
-			assert ("windows 1250 codec", codec.generating_type ~ {EL_WINDOWS_1250_ZCODEC})
+			Widget_list.start
+			assert ("3rd position", Widget_list.index_of (Widget_list [3], 1) = 3)
+			assert ("index is 1", Widget_list.index = 1)
 		end
 
 	test_make_filtered_array
@@ -150,54 +165,6 @@ feature -- Test
 					create list.make_from_if (container, agent is_character_digit)
 
 					assert ("same digits", list.to_array ~ << '1', '2' , '3' >>)
-				end
-			end
-		end
-
-	test_make_from_keys
-		note
-			testing: "covers/{EL_ARRAYED_MAP_LIST}.make_from_keys",
-						"covers/{EL_HASH_SET}.make_from"
-		local
-			code_map: EL_ARRAYED_MAP_LIST [CHARACTER, NATURAL]
-			character_set: EL_HASH_SET [CHARACTER]
-		do
-			create character_set.make_from (Character_string, False)
-			across Container_types as type loop
-				if attached new_character_container (type.item) as container then
-					lio.put_labeled_string ("Type", container.generator)
-					lio.put_new_line
-					create code_map.make_from_keys (container, agent ascii_code)
-					code_map.compare_objects
-
-					assert ("same count", code_map.count >= character_set.count)
-					across Character_string as str loop
-						assert ("has character->code pair", code_map.has ([str.item, str.item.natural_32_code]))
-					end
-				end
-			end
-		end
-
-	test_make_from_values
-		note
-			testing: "covers/{EL_ARRAYED_MAP_LIST}.make_from_values",
-						"covers/{EL_HASH_SET}.make_from"
-		local
-			code_map: EL_ARRAYED_MAP_LIST [STRING, CHARACTER]
-			character_set: EL_HASH_SET [CHARACTER]
-		do
-			create character_set.make_from (Character_string, False)
-			across Container_types as type loop
-				if attached new_character_container (type.item) as container then
-					lio.put_labeled_string ("Type", container.generator)
-					lio.put_new_line
-					create code_map.make_from_values (container, agent to_character_string)
-					code_map.compare_objects
-
-					assert ("same count", code_map.count >= character_set.count)
-					across Character_string as str loop
-						assert ("has string->character pair", code_map.has ([str.item.out, str.item]))
-					end
 				end
 			end
 		end
@@ -240,10 +207,9 @@ feature -- Test
 
 	test_query_and_map_list
 		note
-			testing: "covers/{EL_ARRAYED_MAP_LIST}.make_from_values",
-						"covers/{EL_ARRAYED_RESULT_LIST}.make",
+			testing: "covers/{EL_ARRAYED_RESULT_LIST}.make",
 						"covers/{EL_ARRAYED_RESULT_LIST}.make_with_tuple_2",
-						"covers/{EL_TRAVERSABLE_STRUCTURE}.query"
+						"covers/{EL_CONTAINER_STRUCTURE}.query_if"
 		local
 			key_list: EL_ARRAYED_RESULT_LIST [WIDGET, INTEGER]
 		do
@@ -263,6 +229,32 @@ feature -- Test
 				key_list := [green_list, agent {WIDGET}.weight]
 				assert ("green weight is: 1", key_list.to_array ~ << 1 >>)
 			end
+		end
+
+	test_query_and_summator
+		-- using method 1
+		note
+			testing: "covers/{EL_RESULT_SUMMATOR}.sum", "covers/{EL_OR_QUERY_CONDITION}.met",
+						"covers/{EL_NOT_QUERY_CONDITION}.met", "covers/{EL_ANY_QUERY_CONDITION}.met",
+						"covers/{EL_FUNCTION_VALUE_QUERY_CONDITION}.met",
+
+						"covers/{EL_CONTAINER_STRUCTURE}.query_is_equal",
+						"covers/{EL_CONTAINER_STRUCTURE}.query_if",
+						"covers/{EL_CONTAINER_STRUCTURE}.query"
+		local
+			sum: INTEGER
+		do
+			assert ("sum red is 14",			weight_sum_meeting (color_is (Red)) = 14)
+			assert ("sum blue is 8", 			weight_sum_meeting (color_is (Blue)) = 8)
+			assert ("sum red OR blue is 22", weight_sum_meeting (color_is (Blue) or color_is (Red)) = 22)
+			assert ("sum NOT green is 22", 	weight_sum_meeting (not color_is (Green)) = 22)
+			assert ("sum any color is 23", 	weight_sum_meeting (any_color) = 23)
+
+			sum := Widget_list.query_if (agent {WIDGET}.is_color (Red)).sum_integer (agent {WIDGET}.weight)
+			assert ("sum red is 14", sum = 14)
+
+			sum := Widget_list.query_is_equal (Blue, agent {WIDGET}.color).sum_integer (agent {WIDGET}.weight)
+			assert ("sum blue is 8", sum = 8)
 		end
 
 	test_string_list
@@ -287,53 +279,6 @@ feature -- Test
 					assert ("sum is 6", summator.sum_meeting (agent to_integer, is_digit) = 6 )
 				end
 			end
-		end
-
-	test_weight_summation_1
-		-- using method 1
-		note
-			testing: "covers/{EL_RESULT_SUMMATOR}.sum",
-						"covers/{EL_OR_QUERY_CONDITION}.met",
-						"covers/{EL_NOT_QUERY_CONDITION}.met",
-						"covers/{EL_ANY_QUERY_CONDITION}.met"
-		do
-			assert ("sum red is 14",			weight_sum_meeting_1 (Widget_list, color_is (Red)) = 14)
-			assert ("sum blue is 8", 			weight_sum_meeting_1 (Widget_list, color_is (Blue)) = 8)
-			assert ("sum red OR blue is 22", weight_sum_meeting_1 (Widget_list, color_is (Blue) or color_is (Red)) = 22)
-			assert ("sum NOT green is 22", 	weight_sum_meeting_1 (Widget_list, not color_is (Green)) = 22)
-			assert ("sum any color is 23", 	weight_sum_meeting_1 (Widget_list, any_color) = 23)
-		end
-
-	test_weight_summation_2
-		-- using method 2
-		note
-			testing: "covers/{EL_RESULT_SUMMATOR}.sum_integer_meeting",
-						"covers/{EL_NOT_QUERY_CONDITION}.met",
-						"covers/{EL_ANY_QUERY_CONDITION}.met"
-		do
-			assert ("sum red is 14",			weight_sum_meeting_2 (Widget_list, color_is (Red)) = 14)
-			assert ("sum blue is 8", 			weight_sum_meeting_2 (Widget_list, color_is (Blue)) = 8)
-			assert ("sum red OR blue is 22", weight_sum_meeting_2 (Widget_list, color_is (Blue) or color_is (Red)) = 22)
-			assert ("sum NOT green is 22", 	weight_sum_meeting_2 (Widget_list, not color_is (Green)) = 22)
-			assert ("sum any color is 23", 	weight_sum_meeting_2 (Widget_list, any_color) = 23)
-		end
-
-	test_weight_summation_3
-		-- using method 2
-		note
-			testing: "covers/{EL_CONTAINER_STRUCTURE}.query_is_equal",
-						"covers/{EL_CONTAINER_STRUCTURE}.query_if",
-						"covers/{EL_CONTAINER_STRUCTURE}.query",
-						"covers/{EL_FUNCTION_VALUE_QUERY_CONDITION}.met"
-		do
-			assert (
-				"sum red is 14",
-				Widget_list.query_if (agent {WIDGET}.is_color (Red)).sum_integer (agent {WIDGET}.weight) = 14
-			)
-			assert (
-				"sum blue is 8",
-				Widget_list.query_is_equal (Blue, agent {WIDGET}.color).sum_integer (agent {WIDGET}.weight) = 8
-			)
 		end
 
 feature {NONE} -- Query conditions
@@ -427,23 +372,12 @@ feature {NONE} -- Implementation
 			Result := (c - {ASCII}.Zero).code
 		end
 
-	weight_sum_meeting_1 (widgets: EL_CHAIN [WIDGET]; condition: EL_QUERY_CONDITION [WIDGET]): INTEGER
-		-- sum of widget-weights for widgets meeting `condition' (method 1)
-		local
-			summator: EL_RESULT_SUMMATOR [WIDGET, INTEGER]
-		do
-			widgets.start
-			create summator.make (widgets.query (condition))
-			Result := summator.sum (agent {WIDGET}.weight)
-			assert ("index is 1", widgets.index = 1)
-		end
-
-	weight_sum_meeting_2 (widgets: EL_CHAIN [WIDGET]; condition: EL_QUERY_CONDITION [WIDGET]): INTEGER
+	weight_sum_meeting (condition: EL_QUERY_CONDITION [WIDGET]): INTEGER
 		-- sum of widget-weights for widgets meeting `condition' (method 2)
 		do
-			widgets.start
-			Result := widgets.sum_integer_meeting (agent {WIDGET}.weight, condition)
-			assert ("index is 1", widgets.index = 1)
+			Widget_list.start
+			Result := Widget_list.sum_integer_meeting (agent {WIDGET}.weight, condition)
+			assert ("index is 1", Widget_list.index = 1)
 		end
 
 	widget_colors: EL_ARRAYED_LIST [INTEGER]

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-16 11:11:00 GMT (Sunday 16th October 2022)"
-	revision: "5"
+	date: "2022-10-16 16:26:42 GMT (Sunday 16th October 2022)"
+	revision: "6"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]
@@ -311,12 +311,30 @@ feature -- Contract Support
 			Result := value.generating_type.generic_parameter_type (2)
 		end
 
-feature {NONE} -- Implementation
+
+feature {NONE} -- Summators
+
+	integer_summator: EL_RESULT_SUMMATOR [G, INTEGER]
+		do
+			create Result.make (current_container)
+		end
+
+	natural_summator: EL_RESULT_SUMMATOR [G, NATURAL]
+		do
+			create Result.make (current_container)
+		end
+
+	real_summator: EL_RESULT_SUMMATOR [G, REAL]
+		do
+			create Result.make (current_container)
+		end
 
 	double_summator: EL_RESULT_SUMMATOR [G, DOUBLE]
 		do
 			create Result.make (current_container)
 		end
+
+feature {NONE} -- Implementation
 
 	container_count (container: CONTAINER [ANY]): INTEGER
 		do
@@ -339,21 +357,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	integer_summator: EL_RESULT_SUMMATOR [G, INTEGER]
-		do
-			create Result.make (current_container)
-		end
-
-	natural_summator: EL_RESULT_SUMMATOR [G, NATURAL]
-		do
-			create Result.make (current_container)
-		end
-
-	real_summator: EL_RESULT_SUMMATOR [G, REAL]
-		do
-			create Result.make (current_container)
-		end
-
 	restore_cursor (structure: CURSOR_STRUCTURE [G])
 		do
 			if attached {CHAIN [G]} structure as chain then
@@ -373,7 +376,6 @@ feature {NONE} -- Implementation
 				Cursor_stack.put (structure.cursor)
 			end
 		end
-
 feature {NONE} -- Deferred implementation
 
 	current_container: CONTAINER [G]
