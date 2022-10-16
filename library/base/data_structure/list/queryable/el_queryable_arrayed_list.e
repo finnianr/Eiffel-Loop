@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-27 7:09:52 GMT (Wednesday 27th May 2020)"
-	revision: "12"
+	date: "2022-10-16 13:59:43 GMT (Sunday 16th October 2022)"
+	revision: "13"
 
 class
 	EL_QUERYABLE_ARRAYED_LIST [G]
@@ -34,7 +34,7 @@ inherit
 		end
 
 create
-	make, make_default_filled, make_from_array, make_from_list
+	make, make_default_filled, make_from_array, make_from
 
 feature -- Initialization
 

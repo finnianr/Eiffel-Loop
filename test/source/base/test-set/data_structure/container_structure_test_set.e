@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-15 15:20:14 GMT (Saturday 15th October 2022)"
-	revision: "25"
+	date: "2022-10-16 14:40:25 GMT (Sunday 16th October 2022)"
+	revision: "26"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -42,7 +42,9 @@ feature -- Basic operations
 			eval.call ("converted_list", agent test_converted_list)
 			eval.call ("find_predicate", agent test_find_predicate)
 			eval.call ("index_of", agent test_index_of)
+			eval.call ("make_filtered_array", agent test_make_filtered_array)
 			eval.call ("make_from_keys", agent test_make_from_keys)
+			eval.call ("make_from_values", agent test_make_from_values)
 			eval.call ("order_by_color_name", agent test_order_by_color_name)
 			eval.call ("order_by_weight", agent test_order_by_weight)
 			eval.call ("query_and_map_list", agent test_query_and_map_list)
@@ -68,7 +70,7 @@ feature -- Test
 					end
 					lio.put_labeled_string ("Type", container.generator)
 					lio.put_new_line
-					create result_list.make_filtered (container, is_digit, agent to_integer)
+					create result_list.make_from_for (container, is_digit, agent to_integer)
 					assert ("array is 1, 2, 3", result_list.to_array ~ << 1, 2, 3 >> )
 					if attached {LINEAR [CHARACTER]} container as list then
 						assert ("index = 1", list.index = 1)
@@ -135,20 +137,68 @@ feature -- Test
 			assert ("windows 1250 codec", codec.generating_type ~ {EL_WINDOWS_1250_ZCODEC})
 		end
 
+	test_make_filtered_array
+		note
+			testing: "covers/{EL_ARRAYED_LIST}.make_from_for"
+		local
+			list: EL_ARRAYED_LIST [CHARACTER]
+		do
+			across Container_types as type loop
+				if attached new_character_container (type.item) as container then
+					lio.put_labeled_string ("Type", container.generator)
+					lio.put_new_line
+					create list.make_from_if (container, agent is_character_digit)
+
+					assert ("same digits", list.to_array ~ << '1', '2' , '3' >>)
+				end
+			end
+		end
+
 	test_make_from_keys
 		note
-			testing: "covers/{EL_ARRAYED_MAP_LIST}.make_from_keys"
+			testing: "covers/{EL_ARRAYED_MAP_LIST}.make_from_keys",
+						"covers/{EL_HASH_SET}.make_from"
 		local
 			code_map: EL_ARRAYED_MAP_LIST [CHARACTER, NATURAL]
-			str: STRING
+			character_set: EL_HASH_SET [CHARACTER]
 		do
-			str := "abc"
-			create code_map.make_from_keys (str, agent ascii_code)
-			assert ("size is 3", code_map.count = 3)
-			from code_map.start until code_map.after loop
-				assert ("same letter", code_map.item.key = str [code_map.index])
-				assert ("same code", code_map.item.value = str [code_map.index].natural_32_code)
-				code_map.forth
+			create character_set.make_from (Character_string, False)
+			across Container_types as type loop
+				if attached new_character_container (type.item) as container then
+					lio.put_labeled_string ("Type", container.generator)
+					lio.put_new_line
+					create code_map.make_from_keys (container, agent ascii_code)
+					code_map.compare_objects
+
+					assert ("same count", code_map.count >= character_set.count)
+					across Character_string as str loop
+						assert ("has character->code pair", code_map.has ([str.item, str.item.natural_32_code]))
+					end
+				end
+			end
+		end
+
+	test_make_from_values
+		note
+			testing: "covers/{EL_ARRAYED_MAP_LIST}.make_from_values",
+						"covers/{EL_HASH_SET}.make_from"
+		local
+			code_map: EL_ARRAYED_MAP_LIST [STRING, CHARACTER]
+			character_set: EL_HASH_SET [CHARACTER]
+		do
+			create character_set.make_from (Character_string, False)
+			across Container_types as type loop
+				if attached new_character_container (type.item) as container then
+					lio.put_labeled_string ("Type", container.generator)
+					lio.put_new_line
+					create code_map.make_from_values (container, agent to_character_string)
+					code_map.compare_objects
+
+					assert ("same count", code_map.count >= character_set.count)
+					across Character_string as str loop
+						assert ("has string->character pair", code_map.has ([str.item.out, str.item]))
+					end
+				end
 			end
 		end
 
@@ -365,6 +415,11 @@ feature {NONE} -- Implementation
 			else
 
 			end
+		end
+
+	to_character_string (c: CHARACTER): STRING
+		do
+			Result := c.out
 		end
 
 	to_integer (c: CHARACTER): INTEGER

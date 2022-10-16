@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:27:22 GMT (Sunday 19th December 2021)"
-	revision: "21"
+	date: "2022-10-16 14:04:37 GMT (Sunday 16th October 2022)"
+	revision: "22"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -20,7 +20,7 @@ inherit
 		export
 			{NONE} array_subchain
 		undefine
-			make_from_list, joined_chain,
+			make_from, joined_chain,
 			is_equal, copy, prune_all, readable, prune, new_cursor, to_array,
 			first, last, i_th, at,
 			start, finish, move, go_i_th, remove, find_next_item,
@@ -42,7 +42,7 @@ inherit
 
 create
 	make, make_empty, make_split, make_with_lines,
-	make_word_split, make_from_array, make_from_list, make_from_tuple, make_from_general
+	make_word_split, make_from_array, make_from, make_from_tuple, make_from_general
 
 convert
 	make_from_array ({ARRAY [S]})

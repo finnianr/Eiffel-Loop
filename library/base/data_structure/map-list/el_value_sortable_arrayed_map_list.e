@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-11 10:05:27 GMT (Tuesday 11th October 2022)"
-	revision: "6"
+	date: "2022-10-16 14:00:18 GMT (Sunday 16th October 2022)"
+	revision: "7"
 
 class
 	EL_VALUE_SORTABLE_ARRAYED_MAP_LIST [K, G -> COMPARABLE]
@@ -16,13 +16,13 @@ inherit
 	EL_SORTABLE_ARRAYED_MAP_LIST [K, G]
 
 create
-	make, make_filled, make_from_list, make_empty, make_sorted, make_from_table
+	make, make_filled, make_from, make_empty, make_sorted, make_from_table
 
 feature {NONE} -- Implementation
 
-	make_sorted (list: FINITE [K]; sort_value: FUNCTION [K, G]; in_ascending_order: BOOLEAN)
+	make_sorted (container: CONTAINER [K]; sort_value: FUNCTION [K, G]; in_ascending_order: BOOLEAN)
 		do
-			make_from_keys (list, sort_value)
+			make_from_keys (container, sort_value)
 			sort (in_ascending_order)
 		end
 

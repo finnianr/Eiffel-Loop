@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 17:54:11 GMT (Tuesday 2nd March 2021)"
-	revision: "2"
+	date: "2022-10-16 14:00:37 GMT (Sunday 16th October 2022)"
+	revision: "3"
 
 class
 	EL_STYLED_STRING_32_LIST
@@ -19,7 +19,7 @@ inherit
 		end
 
 create
-	make, make_filled, make_from_list, make_empty, make_from_array, make_regular
+	make, make_filled, make_from, make_empty, make_from_array, make_regular
 
 convert
 	make_regular ({ZSTRING, STRING_32, STRING_8})

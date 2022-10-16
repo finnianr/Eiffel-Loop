@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-01 18:40:14 GMT (Monday 1st June 2020)"
-	revision: "10"
+	date: "2022-10-16 15:17:24 GMT (Sunday 16th October 2022)"
+	revision: "11"
 
 deferred class
 	BENCHMARK_TABLE
@@ -95,7 +95,7 @@ feature {NONE} -- Implementation
 
 	sorted_indices: EL_ARRAYED_LIST [INTEGER]
 		do
-			create Result.make_from_list (1 |..| test_count)
+			create Result.make_from (1 |..| test_count)
 			Result.order_by (agent relative_percentage_at_index, True)
 		end
 

@@ -9,15 +9,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:31:51 GMT (Tuesday 8th February 2022)"
-	revision: "6"
+	date: "2022-10-16 15:02:58 GMT (Sunday 16th October 2022)"
+	revision: "7"
 
 class
 	USER_AGENT_COMMAND
 
 inherit
 	EL_APPLICATION_COMMAND
-	
+
 	EL_WEB_LOG_PARSER_COMMAND
 		redefine
 			execute, make
@@ -47,7 +47,7 @@ feature -- Basic operations
 			list: EL_ZSTRING_LIST
 		do
 			Precursor
-			create list.make_from_list (user_agent_set)
+			create list.make_from (user_agent_set)
 			list.sort
 			across list as name loop
 				lio.put_line (name.item)

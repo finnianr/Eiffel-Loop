@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-14 18:55:44 GMT (Friday 14th October 2022)"
-	revision: "41"
+	date: "2022-10-16 14:27:30 GMT (Sunday 16th October 2022)"
+	revision: "42"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -37,8 +37,9 @@ inherit
 		end
 
 create
-	make, make_empty, make_default_filled, make_filled, make_joined,
-	make_from_array, make_from_list, make_from_sub_list, make_from_tuple
+	make, make_empty, make_default_filled, make_filled, make_from_for,
+	make_joined, make_from_special, make_from_array, make_from, make_from_if,
+	make_from_sub_list, make_from_tuple
 
 convert
 	make_from_array ({ARRAY [G]}), to_array: {ARRAY [G]}
@@ -58,18 +59,34 @@ feature {NONE} -- Initialization
 			end
 		end
 
+	make_from_for (container: CONTAINER [G]; condition: EL_QUERY_CONDITION [G])
+		-- initialize from `container' of items for all items meeting `condition'
+		local
+			wrapper: EL_CONTAINER_WRAPPER [G]
+		do
+			create wrapper.make (container)
+			copy (wrapper.query (condition))
+		end
+
+	make_from_if (container: CONTAINER [G]; condition: PREDICATE [G])
+		-- initialize from `container' of items if `condition (item)' is true
+		local
+			wrapper: EL_CONTAINER_WRAPPER [G]
+		do
+			create wrapper.make (container)
+			copy (wrapper.query_if (condition))
+		end
+
+	make_from (container: CONTAINER [G])
+		-- initialize from `container' items
+		do
+			make_from_for (container, create {EL_ANY_QUERY_CONDITION [G]})
+		end
+
 	make_joined (array_1, array_2: ARRAY [G])
 		do
 			make (array_1.count + array_2.count)
 			append (array_1); append (array_2)
-		end
-
-	make_from_list (list: ITERABLE [G])
-		do
-			make (Iterable.count (list))
-			across list as l loop
-				extend (l.item)
-			end
 		end
 
 	make_from_sub_list (list: EL_ARRAYED_LIST [G]; start_index, end_index: INTEGER)
@@ -102,6 +119,11 @@ feature {NONE} -- Initialization
 				end
 				i := i + 1
 			end
+		end
+
+	make_from_special (a_area: like area)
+		do
+			area_v2 := a_area
 		end
 
 feature -- Access

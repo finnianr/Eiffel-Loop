@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-14 19:07:55 GMT (Friday 14th October 2022)"
-	revision: "18"
+	date: "2022-10-16 11:49:09 GMT (Sunday 16th October 2022)"
+	revision: "19"
 
 class
 	EL_HASH_SET [H -> HASHABLE]
@@ -58,7 +58,7 @@ inherit
 	EL_MODULE_ITERABLE
 
 create
-	make, make_size, make_from_list, make_from_array
+	make, make_size, make_from_array, make_from
 
 convert
 	make_from_array ({ARRAY [H]})
@@ -73,17 +73,26 @@ feature {NONE} -- Initialization
 			object_comparison := True
 		end
 
-	make_from_array (array: ARRAY [H])
+	make_from (container: CONTAINER [H]; a_object_comparison: BOOLEAN)
+		local
+			wrapper: EL_CONTAINER_WRAPPER [H]; l_count: INTEGER
 		do
-			make_from_list (array)
+			create wrapper.make (container)
+			l_count := wrapper.count
+			if a_object_comparison then
+				make (l_count)
+			else
+				make_size (l_count)
+			end
+			wrapper.do_for_all (agent put)
+			if count > 100 and then (count / l_count) < 0.5 then
+				make_from (to_list, a_object_comparison)
+			end
 		end
 
-	make_from_list (list: ITERABLE [H])
+	make_from_array (array: ARRAY [H])
 		do
-			make (Iterable.count (list))
-			across list as l loop
-				put (l.item)
-			end
+			make_from (array, True)
 		end
 
 	make_size (n: INTEGER)

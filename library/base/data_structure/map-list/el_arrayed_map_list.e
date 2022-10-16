@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-15 4:51:18 GMT (Saturday 15th October 2022)"
-	revision: "17"
+	date: "2022-10-16 14:06:37 GMT (Sunday 16th October 2022)"
+	revision: "18"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -18,32 +18,34 @@ inherit
 		rename
 			extend as map_extend,
 			put_front as map_put_front
+		redefine
+			compare_objects, compare_references, has
 		end
 
 create
-	make, make_filled, make_from_list, make_empty, make_from_array,
+	make, make_filled, make_from, make_empty, make_from_array,
 	make_from_keys, make_from_table, make_from_values
 
 feature {NONE} -- Initialization
 
-	make_from_keys (keys: FINITE [K]; to_value: FUNCTION [K, G])
+	make_from_keys (keys: CONTAINER [K]; to_value: FUNCTION [K, G])
+		-- make from container of `keys' using `to_value' to generate value for each key
 		require
 			valid_function: key_item (keys).is_valid_for (to_value)
 		local
-			saved_cursor: EL_SAVED_CURSOR [K]
+			wrapper: EL_CONTAINER_WRAPPER [K]; l_area: like area; l_count: INTEGER
 		do
-			make (keys.count)
-			if attached {ITERABLE [K]} keys as list then
-				across list as key loop
-					extend (key.item, to_value (key.item))
+			create wrapper.make (keys)
+			l_count := wrapper.count
+			if l_count > 0 then
+				create l_area.make_empty (l_count)
+				wrapper.do_for_all (agent extend_area_from_key (l_area, to_value, ?))
+				if l_area.count > 5 and then l_area.count / l_count < 0.9 then
+					l_area := l_area.aliased_resized_area (l_area.count)
 				end
-
-			elseif attached {LINEAR [K]} keys as list then
-				create saved_cursor.make (list)
-				append_values (list, to_value)
-				saved_cursor.restore
+				make_from_special (l_area)
 			else
-				append_values (keys.linear_representation, to_value)
+				make_empty
 			end
 		end
 
@@ -55,24 +57,24 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_from_values (values: FINITE [G]; to_key: FUNCTION [G, K])
+	make_from_values (values: CONTAINER [G]; to_key: FUNCTION [G, K])
+		-- make from container of `values' using `to_key' to generate key for each value
 		require
 			valid_function: value_item (values).is_valid_for (to_key)
 		local
-			saved_cursor: EL_SAVED_CURSOR [G]
+			wrapper: EL_CONTAINER_WRAPPER [G]; l_area: like area; l_count: INTEGER
 		do
-			make (values.count)
-			if attached {ITERABLE [G]} values as list then
-				across list as value loop
-					extend (to_key (value.item), value.item)
+			create wrapper.make (values)
+			l_count := wrapper.count
+			if l_count > 0 then
+				create l_area.make_empty (l_count)
+				wrapper.do_for_all (agent extend_area_from_value (l_area, to_key, ?))
+				if l_area.count > 5 and then l_area.count / l_count < 0.9 then
+					l_area := l_area.aliased_resized_area (l_area.count)
 				end
-
-			elseif attached {LINEAR [G]} values as list then
-				create saved_cursor.make (list)
-				append_keys (list, to_key)
-				saved_cursor.restore
+				make_from_special (l_area)
 			else
-				append_keys (values.linear_representation, to_key)
+				make_empty
 			end
 		end
 
@@ -118,6 +120,26 @@ feature -- Access
 		do
 			create Result.make (count)
 			do_all (agent extend_value_list (Result, ?))
+		end
+
+feature -- Status query
+
+	has (v: like item): BOOLEAN
+		do
+			if v.object_comparison /= object_comparison then
+				if object_comparison then
+					v.compare_objects
+				else
+					v.compare_references
+				end
+				Result := Precursor (v)
+				-- restore
+				if object_comparison then
+					v.compare_references
+				else
+					v.compare_objects
+				end
+			end
 		end
 
 feature -- Cursor movement
@@ -178,6 +200,36 @@ feature -- Element change
 			pop_cursor
 		end
 
+feature -- Status setting
+
+	compare_objects
+			-- Ensure that future search operations will use `equal'
+			-- rather than `=' for comparing references.
+		local
+			l_area: like area; i, i_final: INTEGER
+		do
+			object_comparison := True
+			l_area := area
+			from i_final := count until i = i_final loop
+				l_area [i].compare_objects
+				i := i + 1
+			end
+		end
+
+	compare_references
+			-- Ensure that future search operations will use `='
+			-- rather than `equal' for comparing references.
+		local
+			l_area: like area; i, i_final: INTEGER
+		do
+			object_comparison := False
+			l_area := area
+			from i_final := count until i = i_final loop
+				l_area [i].compare_references
+				i := i + 1
+			end
+		end
+
 feature -- Conversion
 
 	as_string_32_list (a_joined: FUNCTION [K, G, STRING_32]): EL_ARRAYED_LIST [STRING_32]
@@ -212,20 +264,19 @@ feature -- Contract Support
 
 feature {NONE} -- Implementation
 
-	append_values (keys: LINEAR [K]; to_value: FUNCTION [K, G])
-		-- append
+	extend_area_from_key (a_area: like area; to_value: FUNCTION [K, G]; key: K)
 		do
-			from keys.start until keys.after loop
-				extend (keys.item, to_value (keys.item))
-				keys.forth
+			a_area.extend ([key, to_value (key)])
+			if object_comparison then
+				a_area [a_area.count - 1].compare_objects
 			end
 		end
 
-	append_keys (values: LINEAR [G]; to_key: FUNCTION [G, K])
+	extend_area_from_value (a_area: like area; to_key: FUNCTION [G, K]; value: G)
 		do
-			from values.start until values.after loop
-				extend (to_key (values.item), values.item)
-				values.forth
+			a_area.extend ([to_key (value), value])
+			if object_comparison then
+				a_area [a_area.count - 1].compare_objects
 			end
 		end
 

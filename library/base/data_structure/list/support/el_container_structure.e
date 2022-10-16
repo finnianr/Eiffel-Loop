@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-15 14:34:28 GMT (Saturday 15th October 2022)"
-	revision: "4"
+	date: "2022-10-16 11:11:00 GMT (Sunday 16th October 2022)"
+	revision: "5"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]
@@ -21,47 +21,6 @@ inherit
 
 feature -- Access
 
-	indices_meeting (condition: EL_QUERY_CONDITION [G]): SPECIAL [INTEGER]
-		-- list of indices meeting `condition'
-		local
-			i, upper: INTEGER
-		do
-			create Result.make_empty (current_count)
-			if attached {LINEAR [G]} current_container as list then
-				push_cursor
-				from list.start until list.after loop
-					if condition.met (list.item) then
-						Result.extend (list.index)
-					end
-					list.forth
-				end
-				pop_cursor
-
-			elseif attached {READABLE_INDEXABLE [G]} current_container as array then
-				upper := array.upper
-				from i := array.lower until i > upper loop
-					if condition.met (array [i]) then
-						Result.extend (i)
-					end
-					i := i + 1
-				end
-			elseif attached {ITERABLE [G]} current_container as iterable_list then
-				across iterable_list as list loop
-					i := i + 1
-					if condition.met (list.item) then
-						Result.extend (i)
-					end
-				end
-			elseif attached current_container.linear_representation as list then
-				from list.start until list.after loop
-					if condition.met (list.item) then
-						Result.extend (list.index)
-					end
-					list.forth
-				end
-			end
-		end
-
 	inverse_query_if (condition: EL_PREDICATE_QUERY_CONDITION [G]): like query
 		do
 			Result := query (not condition)
@@ -70,39 +29,18 @@ feature -- Access
 	query (condition: EL_QUERY_CONDITION [G]): EL_ARRAYED_LIST [G]
 			-- all item meeting condition
 		local
-			indices: SPECIAL [INTEGER]; i, index: INTEGER
+			area: SPECIAL [G]; l_count: INTEGER
 		do
-			indices := indices_meeting (condition)
-			create Result.make (indices.count)
-			if attached {LINEAR [G]} current_container as list then
-				push_cursor
-				list.start
-				from i := 0 until i = indices.count loop
-					index := indices [i]
-					from until list.index = index loop
-						list.forth
-					end
-					Result.extend (list.item)
-					i := i + 1
+			l_count := current_count
+			if l_count > 0 then
+				create area.make_empty (l_count)
+				do_meeting (agent area.extend, condition)
+				if area.count > 5 and then (area.count / l_count) < 0.95 then
+					area := area.aliased_resized_area (area.count)
 				end
-				pop_cursor
-
-			elseif attached {READABLE_INDEXABLE [G]} current_container as array then
-				from i := 0 until i = indices.count loop
-					Result.extend (array [indices [i]])
-					i := i + 1
-				end
-
-			elseif attached current_container.linear_representation as list then
-				list.start
-				from i := 0 until i = indices.count loop
-					index := indices [i]
-					from until list.index = index loop
-						list.forth
-					end
-					Result.extend (list.item)
-					i := i + 1
-				end
+				create Result.make_from_special (area)
+			else
+				create Result.make_empty
 			end
 		end
 
@@ -268,6 +206,70 @@ feature -- String result list
 
 feature -- Basic operations
 
+	do_for_all (action: PROCEDURE [G])
+		do
+			do_meeting (action, create {EL_ANY_QUERY_CONDITION [G]})
+		end
+
+	do_meeting (action: PROCEDURE [G]; condition: EL_QUERY_CONDITION [G])
+		-- list of indices meeting `condition'
+		local
+			i, upper, i_final: INTEGER
+		do
+			if attached {ARRAY [G]} current_container as array and then attached array.area as area then
+				i_final := array.count
+				from i := 0 until i = i_final loop
+					if attached area [i] as l_item and then condition.met (l_item) then
+						action (l_item)
+					end
+					i := i + 1
+				end
+
+			elseif attached {ARRAYED_LIST [G]} current_container as array and then attached array.area as area then
+				i_final := array.count
+				from i := 0 until i = i_final loop
+					if attached area [i] as l_item and then condition.met (l_item) then
+						action (l_item)
+					end
+					i := i + 1
+				end
+
+			elseif attached {LINEAR [G]} current_container as list then
+				push_cursor
+				from list.start until list.after loop
+					if attached list.item as l_item and then condition.met (l_item) then
+						action (l_item)
+					end
+					list.forth
+				end
+				pop_cursor
+
+			elseif attached {READABLE_INDEXABLE [G]} current_container as array then
+				upper := array.upper
+				from i := array.lower until i > upper loop
+					if attached array [i] as l_item and then condition.met (l_item) then
+						action (l_item)
+					end
+					i := i + 1
+				end
+
+			elseif attached {ITERABLE [G]} current_container as iterable_list then
+				across iterable_list as list loop
+					if attached list.item as l_item and then condition.met (l_item) then
+						action (l_item)
+					end
+				end
+
+			elseif attached current_container.linear_representation as list then
+				from list.start until list.after loop
+					if attached list.item as l_item and then condition.met (l_item) then
+						action (l_item)
+					end
+					list.forth
+				end
+			end
+		end
+
 	pop_cursor
 		-- restore cursor position from stack
 		local
@@ -323,6 +325,9 @@ feature {NONE} -- Implementation
 
 			elseif attached {READABLE_INDEXABLE [ANY]} container as array then
 				Result :=  array.upper - array.lower + 1
+
+			elseif attached {BINARY_TREE [ANY]} container as tree then
+				Result :=  tree.count
 
 			elseif attached {SEARCH_TABLE [HASHABLE]} container as table then
 				Result :=  table.count

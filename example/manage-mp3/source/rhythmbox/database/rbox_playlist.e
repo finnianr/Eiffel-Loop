@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-11 8:59:28 GMT (Tuesday 11th October 2022)"
-	revision: "30"
+	date: "2022-10-16 15:14:53 GMT (Sunday 16th October 2022)"
+	revision: "31"
 
 class
 	RBOX_PLAYLIST
@@ -116,10 +116,9 @@ feature -- Measurement
 	file_size_mb: DOUBLE
 			-- Sum of size of m3u line (mega bytes)
 		local
-			summator: EL_RESULT_SUMMATOR [ZSTRING, INTEGER]; bytes: INTEGER
+			bytes: INTEGER
 		do
-			create summator
-			bytes := M3U.extm3u.count + summator.sum (m3u_entry_list (False, False), agent {ZSTRING}.count)
+			bytes := M3U.extm3u.count + m3u_entry_list (False, False).sum_integer (agent {ZSTRING}.count)
 			Result := bytes / 1000000
 		end
 

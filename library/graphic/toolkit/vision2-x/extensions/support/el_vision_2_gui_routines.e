@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-11 13:43:59 GMT (Saturday 11th June 2022)"
-	revision: "36"
+	date: "2022-10-16 15:00:01 GMT (Sunday 16th October 2022)"
+	revision: "37"
 
 class
 	EL_VISION_2_GUI_ROUTINES
@@ -29,9 +29,7 @@ inherit
 
 	EV_FRAME_CONSTANTS
 
-	EL_MODULE_COLOR; EL_MODULE_HEXADECIMAL; EL_MODULE_REUSEABLE
-
-	EL_MODULE_BUFFER_32
+	EL_MODULE_BUFFER_32; EL_MODULE_COLOR; EL_MODULE_HEXADECIMAL; EL_MODULE_REUSEABLE
 
 	EL_SHARED_DEFAULT_PIXMAPS
 
@@ -46,6 +44,8 @@ feature {NONE} -- Initialization
 			text_field_font := (create {EV_TEXT_FIELD}).font
 			application := ev_application
 			create timer_list.make (3)
+			create internal_font
+			letter := ["i", "w"]
 		end
 
 feature -- Basic operations
@@ -118,38 +118,20 @@ feature -- Access
 
 feature -- Font
 
-	General_font_families: ARRAYED_LIST [ZSTRING]
+	General_font_families: EL_SORTABLE_ARRAYED_LIST [ZSTRING]
 		-- monospace + proportional
+		local
+			families: EL_ARRAYED_RESULT_LIST [STRING_32, ZSTRING]
 		once
-			if attached {LIST [STRING_32]} shared_environment.Font_families as families then
-				create Result.make (families.count)
-				Result.compare_objects
-				across families as family loop
-					Result.extend (family.item)
-				end
-			end
-			sort (Result)
+			create families.make (shared_environment.Font_families, agent new_zstring)
+			create Result.make_from_array (families.to_array)
+			Result.sort
 		end
 
-	Monospace_font_families: ARRAYED_LIST [ZSTRING]
+	Monospace_font_families: EL_ARRAYED_LIST [ZSTRING]
 		--
-		local
-			l_font: EV_FONT; i_str, w_str: STRING
 		once
-			create l_font
-			i_str := "i"; w_str := "w"
-			if attached {LIST [STRING_32]} shared_environment.Font_families as families then
-				create Result.make (families.count // 10)
-				Result.compare_objects
-				across families as family loop
-					l_font.preferred_families.wipe_out
-					l_font.preferred_families.extend (family.item)
-					if l_font.string_width (i_str) = l_font.string_width (w_str) then
-						Result.extend (family.item)
-					end
-				end
-			end
-			sort (Result)
+			Result := General_font_families.query_if (agent is_monospace)
 		end
 
 	scale_font (font: EV_FONT; proportion: REAL)
@@ -299,13 +281,18 @@ feature {NONE} -- Implementation
 			action.apply
 		end
 
-	sort (a_list: ARRAYED_LIST [ZSTRING])
-		local
-			l_array: SORTABLE_ARRAY [ZSTRING]
+	is_monospace (font_family: ZSTRING): BOOLEAN
 		do
-			create l_array.make_from_array (a_list.to_array)
-			l_array.compare_objects
-			l_array.sort
+			if attached internal_font as l_font then
+				l_font.preferred_families.wipe_out
+				l_font.preferred_families.extend (font_family.to_latin_1)
+				Result := l_font.string_width (letter.narrow) = l_font.string_width (letter.wide)
+			end
+		end
+
+	new_zstring (str: STRING_32): ZSTRING
+		do
+			Result := str
 		end
 
 	word_fits_width (word: ZSTRING; a_font: EV_FONT; a_width: INTEGER): BOOLEAN
@@ -316,5 +303,9 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	timer_list: ARRAYED_LIST [EV_TIMEOUT]
+
+	internal_font: EV_FONT
+
+	letter: TUPLE [narrow, wide: STRING]
 
 end

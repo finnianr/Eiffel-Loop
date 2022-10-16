@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-15 7:19:02 GMT (Saturday 15th October 2022)"
-	revision: "9"
+	date: "2022-10-16 14:06:37 GMT (Sunday 16th October 2022)"
+	revision: "10"
 
 class
 	PATH_TEST_SET
@@ -178,7 +178,7 @@ feature -- Tests
 			create sortable_1.make_from_array (<<
 				Dev_eiffel, Documents_eiffel_pdf, Home_finnian, Mem_test_exe, Parent_dots
 			>>)
-			create sortable_2.make_from_list (sortable_1)
+			create sortable_2.make_from (sortable_1)
 			sortable_1.sort
 			sortable_2.order_by (agent {FILE_PATH}.to_string, True)
 			assert ("same order", sortable_1.to_array ~ sortable_2.to_array)

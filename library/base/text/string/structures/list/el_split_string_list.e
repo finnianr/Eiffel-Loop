@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-15 11:22:19 GMT (Saturday 15th October 2022)"
-	revision: "30"
+	date: "2022-10-16 15:07:00 GMT (Sunday 16th October 2022)"
+	revision: "31"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -46,7 +46,7 @@ inherit
 		export
 			{NONE} all
 			{ANY} back, before, count, item_count, item_start_index, item_end_index, valid_index,
-				remove_head, remove_tail
+				remove, remove_head, remove_tail, go_i_th, i_th_upper, i_th_lower
 		redefine
 			is_equal, make_empty, make_from_sub_list, make_by_string, make,
 			extend_buffer

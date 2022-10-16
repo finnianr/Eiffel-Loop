@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-15 11:22:20 GMT (Saturday 15th October 2022)"
-	revision: "25"
+	date: "2022-10-16 14:11:50 GMT (Sunday 16th October 2022)"
+	revision: "26"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -35,12 +35,13 @@ feature {NONE} -- Initialization
 		deferred
 		end
 
-	make_from_list (list: ITERABLE [S])
+	make_from (container: CONTAINER [S])
+		local
+			wrapper: EL_CONTAINER_WRAPPER [S]
 		do
-			make (Iterable.count (list))
-			across list as l loop
-				extend (l.item)
-			end
+			create wrapper.make (container)
+			make (wrapper.count)
+			wrapper.do_for_all (agent extend)
 		end
 
 	make_comma_split (a_string: READABLE_STRING_GENERAL)
