@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 16:12:08 GMT (Friday 8th January 2021)"
-	revision: "11"
+	date: "2022-10-17 13:34:25 GMT (Monday 17th October 2022)"
+	revision: "12"
 
 deferred class
 	EL_DRAWABLE_LABEL
@@ -15,7 +15,12 @@ deferred class
 inherit
 	EL_DRAWABLE
 
-	EL_WORD_WRAPPABLE undefine copy, default_create end
+	EL_WORD_WRAPPABLE
+		rename
+			Text as Rendered
+		undefine
+			copy, default_create
+		end
 
 	EL_MODULE_BUFFER
 

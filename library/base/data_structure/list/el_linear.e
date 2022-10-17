@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-15 11:27:21 GMT (Saturday 15th October 2022)"
-	revision: "11"
+	date: "2022-10-17 11:59:23 GMT (Monday 17th October 2022)"
+	revision: "12"
 
 deferred class
 	EL_LINEAR [G]
@@ -15,7 +15,7 @@ deferred class
 inherit
 	LINEAR [G]
 		redefine
-			index_of
+			do_all, for_all, index_of, there_exists
 		end
 
 	EL_CONTAINER_STRUCTURE [G]
@@ -52,6 +52,42 @@ feature -- Status query
 	found: BOOLEAN
 		do
 			Result := not exhausted
+		end
+
+	for_all (predicate: FUNCTION [G, BOOLEAN]): BOOLEAN
+		-- `True' if all split items match `predicate'
+		do
+			push_cursor
+			Result := True
+			from start until not Result or after loop
+				Result := predicate (item)
+				forth
+			end
+			pop_cursor
+		end
+
+	there_exists (predicate: FUNCTION [G, BOOLEAN]): BOOLEAN
+		-- `True' if one split substring matches `predicate'
+		do
+			push_cursor
+			from start until Result or after loop
+				Result := predicate (item)
+				forth
+			end
+			pop_cursor
+		end
+
+feature -- Basic operations
+
+	do_all (action: PROCEDURE [like item])
+		-- apply `action' for all delimited substrings
+		do
+			push_cursor
+			from start until after loop
+				action (item)
+				forth
+			end
+			pop_cursor
 		end
 
 feature -- Cursor movement

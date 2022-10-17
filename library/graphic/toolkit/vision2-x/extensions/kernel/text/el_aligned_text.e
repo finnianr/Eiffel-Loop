@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:47:27 GMT (Sunday 19th December 2021)"
-	revision: "4"
+	date: "2022-10-17 13:39:51 GMT (Monday 17th October 2022)"
+	revision: "5"
 
 class
 	EL_ALIGNED_TEXT
@@ -24,7 +24,8 @@ inherit
 
 	EL_RECTANGLE
 		rename
-			make as make_rectangle
+			make as make_rectangle,
+			Text as Rendered
 		export
 			{NONE} all
 			{ANY} x, y, height, width, set_height, set_y, bottom
@@ -60,7 +61,7 @@ feature -- Element change
 			difference: INTEGER
 		do
 			if text.count > 0 and alignment /= Left_alignment then
-				difference := width - GUI.string_width (text, font)
+				difference := width - Rendered.string_width (text, font)
 				inspect alignment
 					when Right_alignment then
 						grow_left (difference.opposite)

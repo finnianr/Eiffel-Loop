@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-04-23 12:15:01 GMT (Saturday 23rd April 2022)"
-	revision: "5"
+	date: "2022-10-17 12:50:36 GMT (Monday 17th October 2022)"
+	revision: "6"
 
 class
 	EL_BORROWED_STRING_CURSOR [S -> STRING_GENERAL create make end]
@@ -39,6 +39,18 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	same_item (general: READABLE_STRING_GENERAL): S
+		-- `general' is type of general conforms to `S'
+		-- or else a copy of `general'
+		do
+			if attached {S} general as same then
+				Result := same
+			else
+				Result := item
+				Result.append (general)
+			end
+		end
 
 	copied_item (general: READABLE_STRING_GENERAL): S
 		do

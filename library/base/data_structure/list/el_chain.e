@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-15 7:06:20 GMT (Saturday 15th October 2022)"
-	revision: "48"
+	date: "2022-10-17 12:01:16 GMT (Monday 17th October 2022)"
+	revision: "49"
 
 deferred class EL_CHAIN [G]
 
@@ -18,7 +18,7 @@ inherit
 		rename
 			append as append_sequence
 		undefine
-			index_of
+			do_all, for_all, index_of, there_exists
 		end
 
 	EL_LINEAR [G]
@@ -283,5 +283,4 @@ note
 	]"
 
 end
-
 

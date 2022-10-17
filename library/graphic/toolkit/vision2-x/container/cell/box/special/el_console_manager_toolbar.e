@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-20 11:40:21 GMT (Sunday 20th September 2020)"
-	revision: "7"
+	date: "2022-10-17 13:44:34 GMT (Monday 17th October 2022)"
+	revision: "8"
 
 class
 	EL_CONSOLE_MANAGER_TOOLBAR
@@ -39,7 +39,7 @@ inherit
 
 	EL_MODULE_SCREEN
 
-	EL_MODULE_GUI
+	EL_MODULE_TEXT
 
 create
 	make
@@ -59,7 +59,7 @@ feature {NONE} -- Initialization
 
  			label_text := "Thread"
 			create label.make_with_text (label_text)
-			label.font.set_weight (GUI.Weight_bold)
+			label.font.set_weight (Text.Weight_bold)
 			label.set_minimum_width (label.font.string_width (label_text) + 6)
 
  			set_padding_width (Screen.horizontal_pixels (0.2))

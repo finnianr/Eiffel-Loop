@@ -1,10 +1,7 @@
 note
 	description: "[
-		[$source EL_SPLIT_STRING_LIST] for [$source STRING_8] items.
-	]"
-	notes: "[
-		This is a more efficient way to process split strings as it doesn't create a new string
-		instance for each split part.
+		A virtual split-list of [$source STRING_8] represented as an array of [$INTEGER_64]
+		substring intervals
 	]"
 
 	author: "Finnian Reilly"
@@ -12,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 14:47:01 GMT (Sunday 19th December 2021)"
-	revision: "10"
+	date: "2022-10-17 12:37:15 GMT (Monday 17th October 2022)"
+	revision: "11"
 
 class
 	EL_SPLIT_STRING_8_LIST

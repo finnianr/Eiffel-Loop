@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "18"
+	date: "2022-10-17 13:43:54 GMT (Monday 17th October 2022)"
+	revision: "19"
 
 deferred class
 	EL_SVG_TEXT_BUTTON_PIXMAP_SET
@@ -25,7 +25,10 @@ inherit
 			copy, default_create, is_equal
 		end
 
-	EL_MODULE_GUI
+	EL_MODULE_TEXT
+		rename
+			Text as Rendered
+		end
 
 feature {NONE} -- Initialization
 
@@ -33,7 +36,7 @@ feature {NONE} -- Initialization
 		do
 			font := a_font; text := a_text
 			height := (font.line_height * relative_height).rounded
-			svg_text_width := (GUI.string_width (text, a_font) / height * svg_height).rounded
+			svg_text_width := (Rendered.string_width (text, a_font) / height * svg_height).rounded
 			make_pixmap_set (a_icon_path_steps, height / Screen.vertical_resolution, a_background_color)
 		end
 

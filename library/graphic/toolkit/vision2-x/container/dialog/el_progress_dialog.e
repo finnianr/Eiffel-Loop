@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-23 15:27:37 GMT (Wednesday 23rd September 2020)"
-	revision: "8"
+	date: "2022-10-17 14:00:17 GMT (Monday 17th October 2022)"
+	revision: "9"
 
 class
 	EL_PROGRESS_DIALOG
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 			Precursor
 
 			frame := Vision_2.new_vertical_framed_box (0.4, 0.2, "", << label, progress_bar >>)
-			frame.set_style (GUI.Ev_frame_raised)
+			frame.set_style (Vision_2.Frame_raised)
 
 			extend (Vision_2.new_vertical_box (0.15, 0, << frame >>))
 		end

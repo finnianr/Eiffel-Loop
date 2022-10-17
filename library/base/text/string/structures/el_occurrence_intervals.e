@@ -1,6 +1,7 @@
 note
 	description: "[
-		List of all occurrence intervals of a `search_string' in a string conforming to [$source STRING_GENERAL]
+		List of all occurrence intervals of a `search_string' in a string conforming to
+		[$source READABLE_STRING_GENERAL]
 	]"
 
 	author: "Finnian Reilly"
@@ -8,11 +9,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-25 11:28:21 GMT (Saturday 25th December 2021)"
-	revision: "12"
+	date: "2022-10-17 11:33:02 GMT (Monday 17th October 2022)"
+	revision: "13"
 
 class
-	EL_OCCURRENCE_INTERVALS [S -> STRING_GENERAL create make end]
+	EL_OCCURRENCE_INTERVALS [S -> READABLE_STRING_GENERAL]
 
 inherit
 	EL_SEQUENTIAL_INTERVALS
@@ -55,7 +56,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	fill (a_target: S; search_character: like new_target.item; adjustments: INTEGER)
+	fill (a_target: S; search_character: CHARACTER_32; adjustments: INTEGER)
 		require
 			valid_adjustments: valid_adjustments (adjustments)
 		do
@@ -67,10 +68,7 @@ feature -- Basic operations
 			valid_adjustments: valid_adjustments (adjustments)
 		do
 			if search_string.count = 1 then
-				if attached new_target as str then
-					str.append_code (search_string [1].natural_32_code)
-					fill_intervals (a_target, Empty_string_8, str [1], adjustments)
-				end
+				fill_intervals (a_target, Empty_string_8, search_string [1], adjustments)
 			else
 				fill_intervals (a_target, search_string, '%U', adjustments)
 			end
@@ -96,14 +94,15 @@ feature {NONE} -- Implementation
 		end
 
 	fill_intervals (
-		a_target: S; search_string: READABLE_STRING_GENERAL; search_character: like new_target.item
+		a_target: S; search_string: READABLE_STRING_GENERAL; search_character: CHARACTER_32
 		adjustments: INTEGER
 	)
 		require
 			valid_search_string: search_string.count /= 1
 		local
 			i, string_count, search_string_count, search_index: INTEGER
-			buffer: like Intervals_buffer
+			buffer: like Intervals_buffer; string_8_target: detachable STRING_8
+			search_character_8: CHARACTER
 		do
 			buffer := Intervals_buffer
 			buffer.wipe_out
@@ -114,9 +113,16 @@ feature {NONE} -- Implementation
 			else
 				search_string_count := search_string.count
 			end
+			if search_string_count = 1 and then attached {READABLE_STRING_8} a_target as str_8 then
+				string_8_target := str_8; search_character_8 := search_character.to_character_8
+			end
 			from i := 1 until i = 0 or else i > string_count - search_string_count + 1 loop
 				if search_string_count = 1 then
-					i := a_target.index_of (search_character, i)
+					if attached string_8_target as str_8 then
+						i := str_8.index_of (search_character_8, i)
+					else
+						i := a_target.index_of (search_character, i)
+					end
 				else
 					i := a_target.substring_index (search_string, i)
 				end
@@ -129,11 +135,6 @@ feature {NONE} -- Implementation
 			extend_buffer (a_target, buffer, search_index, search_string_count, adjustments, True)
 			make_intervals (buffer.count)
 			area.copy_data (buffer.area, 0, 0, buffer.count)
-		end
-
-	new_target: S
-		do
-			create Result.make (0)
 		end
 
 feature {NONE} -- Constants

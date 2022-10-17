@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-07 10:31:50 GMT (Saturday 7th August 2021)"
-	revision: "4"
+	date: "2022-10-17 13:23:29 GMT (Monday 17th October 2022)"
+	revision: "5"
 
 class
 	EL_DIALOG_STYLE
@@ -23,7 +23,7 @@ inherit
 			Color as Mod_color
 		end
 
-	EL_MODULE_GUI
+	EL_MODULE_TEXT
 
 create
 	make
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 			progress_meter_font := label_font
 
 			create title_font
-			title_font.set_weight (GUI.Weight_bold)
+			title_font.set_weight (Text.Weight_bold)
 			title_background_pixmap := Default_pixmap
 			application_icon_pixmap := Default_pixmap
 
@@ -115,7 +115,7 @@ feature -- Set fonts
 
 	scale_label_font (proportion: REAL)
 		do
-			GUI.scale_font (label_font, proportion)
+			Text.scale_font (label_font, proportion)
 		end
 
 feature -- Factory
@@ -160,7 +160,7 @@ feature {NONE} -- Constants
 
 	frozen Default_new_button_pixmap_set: FUNCTION [READABLE_STRING_GENERAL, EL_COLOR, EL_SVG_TEXT_BUTTON_PIXMAP_SET]
 		once
-			Result := agent (text: READABLE_STRING_GENERAL; a_background_color: EL_COLOR): EL_SVG_TEXT_BUTTON_PIXMAP_SET
+			Result := agent (a_text: READABLE_STRING_GENERAL; a_background_color: EL_COLOR): EL_SVG_TEXT_BUTTON_PIXMAP_SET
 				require
 					never_called: False
 				do

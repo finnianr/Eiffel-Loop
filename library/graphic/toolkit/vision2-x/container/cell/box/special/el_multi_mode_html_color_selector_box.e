@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 18:24:10 GMT (Friday 8th January 2021)"
-	revision: "8"
+	date: "2022-10-17 14:03:15 GMT (Monday 17th October 2022)"
+	revision: "9"
 
 class
 	EL_MULTI_MODE_HTML_COLOR_SELECTOR_BOX
@@ -20,7 +20,10 @@ inherit
 
 	EL_ZSTRING_CONSTANTS
 
-	EL_MODULE_GUI
+	EL_MODULE_COLOR
+		rename
+			Color as Colors
+		end
 
 	EL_MODULE_VISION_2
 
@@ -38,7 +41,7 @@ feature {NONE} -- Initialization
 			html_color_code, longest_html_color_code: STRING; s: EL_STRING_32_ROUTINES
 		do
 			make_box (a_border_cms, a_padding_cms)
-			html_color_code := GUI.rgb_code_to_html_code (RGB_color_code)
+			html_color_code := Colors.rgb_code_to_html_code (RGB_color_code)
 			create code_field
 			code_field.set_capacity (7)
 			create longest_html_color_code.make_filled ('D', 7)

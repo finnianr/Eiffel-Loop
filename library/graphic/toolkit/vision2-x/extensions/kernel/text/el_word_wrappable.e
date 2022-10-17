@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-09 11:13:11 GMT (Sunday 9th August 2020)"
-	revision: "10"
+	date: "2022-10-17 13:35:13 GMT (Monday 17th October 2022)"
+	revision: "11"
 
 deferred class
 	EL_WORD_WRAPPABLE
@@ -17,7 +17,7 @@ inherit
 
 	EL_TEXT_ALIGNMENT
 
-	EL_MODULE_GUI
+	EL_MODULE_TEXT
 
 	EL_ZSTRING_CONSTANTS
 
@@ -25,7 +25,7 @@ feature {NONE} -- Implementation
 
 	new_text_rectangle (a_text: READABLE_STRING_GENERAL): EL_TEXT_RECTANGLE
 		require
-			GUI.is_word_wrappable (a_text, font, width)
+			Text.is_word_wrappable (a_text, font, width)
 		do
 			create Result.make (0, 0, width, height)
 			Result.set_font (font)
@@ -35,7 +35,7 @@ feature {NONE} -- Implementation
 
 	new_wrapped_text_rectangle (a_text: ZSTRING): EL_TEXT_RECTANGLE
 		require
-			GUI.is_word_wrappable (a_text, font, width)
+			Text.is_word_wrappable (a_text, font, width)
 		do
 			if is_aligned_top then
 				create Result.make (0, 0, width, 100000)
@@ -54,7 +54,7 @@ feature {NONE} -- Implementation
 
 	wrapped_lines (a_text: ZSTRING): EL_ZSTRING_LIST
 		require
-			GUI.is_word_wrappable (a_text, font, width)
+			Text.is_word_wrappable (a_text, font, width)
 		do
 			Result := new_wrapped_text_rectangle (a_text).lines
 		end

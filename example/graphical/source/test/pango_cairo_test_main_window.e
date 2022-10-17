@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-26 16:13:36 GMT (Wednesday 26th January 2022)"
-	revision: "19"
+	date: "2022-10-17 13:21:19 GMT (Monday 17th October 2022)"
+	revision: "20"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -47,6 +47,8 @@ inherit
 
 	EL_MODULE_VISION_2
 
+	EL_MODULE_TEXT
+
 create
 	make
 
@@ -67,7 +69,7 @@ feature {NONE} -- Initialization
 			font_family := "Verdana"
 --			font_family := "Courier 10 Pitch"
 --			font_family := "Garuda"
-			create font_list_drop_down.make (font_family, GUI.General_font_families, agent set_font_family)
+			create font_list_drop_down.make (font_family, Text.General_font_families, agent set_font_family)
 
 			text_angle := 0
 			create text_angle_drop_down.make (text_angle, << 0, 90 >>, agent set_text_angle)

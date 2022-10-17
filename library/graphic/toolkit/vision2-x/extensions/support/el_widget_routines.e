@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-11 13:56:34 GMT (Saturday 11th June 2022)"
-	revision: "6"
+	date: "2022-10-17 13:49:01 GMT (Monday 17th October 2022)"
+	revision: "7"
 
 frozen class
 	EL_WIDGET_ROUTINES
@@ -18,7 +18,7 @@ inherit
 			default_create
 		end
 
-	EL_MODULE_GUI; EL_MODULE_ORIENTATION; EL_MODULE_SCREEN
+	EL_MODULE_GUI; EL_MODULE_ORIENTATION; EL_MODULE_SCREEN; EL_MODULE_TEXT
 
 	EL_SHARED_DEFAULT_PIXMAPS
 
@@ -198,7 +198,7 @@ feature -- Apply styling
 
 	apply_bold (font: EV_FONT)
 		do
-			font.set_weight (GUI.Weight_bold)
+			font.set_weight (Text.Weight_bold)
 		end
 
 	apply_colors (widget_list: ARRAY [EV_COLORIZABLE]; foreground_color, background_color: detachable EV_COLOR)

@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 17:20:05 GMT (Tuesday 2nd March 2021)"
-	revision: "16"
+	date: "2022-10-17 13:26:55 GMT (Monday 17th October 2022)"
+	revision: "17"
 
 class
 	EL_HTML_TEXT
@@ -60,7 +60,10 @@ inherit
 
 	EL_MODULE_COLOR
 
-	EL_MODULE_GUI
+	EL_MODULE_TEXT
+		rename
+			Text as Text_font
+		end
 
 	EL_MODULE_SCREEN
 
@@ -308,7 +311,7 @@ feature {EL_HTML_TEXT_HYPERLINK_AREA} -- Implementation
 	content_heading_font (a_header: EL_FORMATTED_TEXT_HEADER): EV_FONT
 		do
 			Result := a_header.format.character.font.twin
-			Result.set_weight (GUI.Weight_regular)
+			Result.set_weight (Text_font.Weight_regular)
 			Result.set_height ((Result.height * Content_height_proportion).rounded)
 		end
 

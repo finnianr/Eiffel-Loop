@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:20:58 GMT (Tuesday 5th January 2021)"
-	revision: "3"
+	date: "2022-10-17 13:37:45 GMT (Monday 17th October 2022)"
+	revision: "4"
 
 class
 	EL_WRAPPED_LABEL
@@ -25,6 +25,7 @@ inherit
 
 	EL_WORD_WRAPPABLE
 		rename
+			Text as Rendered,
 			width as adjusted_width
 		undefine
 			is_equal, copy, default_create, is_left_aligned, is_center_aligned, is_right_aligned,
@@ -140,7 +141,7 @@ feature {NONE} -- Implementation
 		local
 			wrapped: like wrapped_lines
 		do
-			if GUI.is_word_wrappable (unwrapped_text, font, adjusted_width) then
+			if Rendered.is_word_wrappable (unwrapped_text, font, adjusted_width) then
 				wrapped := wrapped_lines (unwrapped_text)
 
 				-- Align with top edge if more than one line

@@ -6,20 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:47:40 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2022-10-17 13:47:53 GMT (Monday 17th October 2022)"
+	revision: "7"
 
 class
 	EL_FORMATTED_TEXT_BLOCK
 
 inherit
 	ANY
-	
-	EL_MODULE_COLOR
 
-	EL_MODULE_GUI
+	EL_MODULE_COLOR; EL_MODULE_VISION_2
 
-	EL_MODULE_VISION_2
+	EL_MODULE_TEXT
+		rename
+			Text as Rendered
+		end
 
 create
 	make
@@ -73,13 +74,13 @@ feature -- Fonts
 	italic_font: EV_FONT
 		do
 			Result := font.twin
-			Result.set_shape (GUI.Shape_italic)
+			Result.set_shape (Rendered.Shape_italic)
 		end
 
 	bold_font: EV_FONT
 		do
 			Result := font.twin
-			Result.set_weight (GUI.Weight_bold)
+			Result.set_weight (Rendered.Weight_bold)
 		end
 
 feature -- Element change

@@ -1,16 +1,18 @@
 note
-	description: "Split string list iteration cursor"
+	description: "[
+		Iteration cursor for objects conforming to [$source EL_SPLIT_READABLE_STRING_LIST]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 13:31:17 GMT (Sunday 19th December 2021)"
-	revision: "2"
+	date: "2022-10-17 12:24:35 GMT (Monday 17th October 2022)"
+	revision: "3"
 
 class
-	EL_SPLIT_STRING_LIST_ITERATION_CURSOR [S -> STRING_GENERAL create make end]
+	EL_SPLIT_STRING_LIST_ITERATION_CURSOR [S -> READABLE_STRING_GENERAL create make end]
 
 inherit
 	ITERATION_CURSOR [S]
@@ -60,6 +62,6 @@ feature -- Cursor movement
 
 feature {TYPED_INDEXABLE_ITERATION_CURSOR} -- Access
 
-	target: EL_SPLIT_STRING_LIST [S]
+	target: EL_SPLIT_READABLE_STRING_LIST [S]
 
 end

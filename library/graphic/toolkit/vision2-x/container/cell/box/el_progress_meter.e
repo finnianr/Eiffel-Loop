@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 11:06:27 GMT (Thursday 9th September 2021)"
-	revision: "5"
+	date: "2022-10-17 13:59:43 GMT (Monday 17th October 2022)"
+	revision: "6"
 
 class
 	EL_PROGRESS_METER
@@ -20,11 +20,12 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_GUI
+	EL_MODULE_GUI; EL_MODULE_DEFERRED_LOCALE; EL_MODULE_VISION_2
 
-	EL_MODULE_VISION_2
-
-	EL_MODULE_DEFERRED_LOCALE
+	EL_MODULE_TEXT
+		rename
+			Text as Rendered
+		end
 
 	EL_PROGRESS_DISPLAY undefine copy, default_create, is_equal end
 
@@ -40,7 +41,7 @@ feature {NONE} -- Initialization
 			create bar.make_size (bar_width_cms, bar_height_cms)
 			create framed_bar
 			framed_bar.extend (bar)
-			framed_bar.set_style (GUI.Ev_frame_etched_in)
+			framed_bar.set_style (Vision_2.Frame_etched_in)
 			framed_bar.set_border_width (2)
 
 
@@ -69,7 +70,7 @@ feature -- Element change
 	set_completion_text (a_completion_text: like completion_text)
 		do
 			completion_text := a_completion_text
-			set_minimum_width (width + GUI.string_width (final_text, label.font))
+			set_minimum_width (width + Rendered.string_width (final_text, label.font))
 		end
 
 feature -- Status change

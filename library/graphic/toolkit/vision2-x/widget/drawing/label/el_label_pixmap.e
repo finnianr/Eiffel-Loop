@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-09 10:23:38 GMT (Sunday 9th August 2020)"
-	revision: "9"
+	date: "2022-10-17 13:42:14 GMT (Monday 17th October 2022)"
+	revision: "10"
 
 class
 	EL_LABEL_PIXMAP
@@ -41,7 +41,7 @@ feature -- Status change
 
 	set_width_for_border (border_cms: REAL)
 		do
-			set_minimum_width (GUI.string_width (text, font) + Screen.horizontal_pixels (border_cms))
+			set_minimum_width (Rendered.string_width (text, font) + Screen.horizontal_pixels (border_cms))
 		end
 
 feature {EV_ANY, EV_ANY_I, EV_ANY_HANDLER} -- Internal attributes

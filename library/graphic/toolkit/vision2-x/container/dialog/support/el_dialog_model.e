@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-11 13:56:52 GMT (Saturday 11th June 2022)"
-	revision: "15"
+	date: "2022-10-17 13:50:30 GMT (Monday 17th October 2022)"
+	revision: "16"
 
 class
 	EL_DIALOG_MODEL
@@ -15,7 +15,12 @@ class
 inherit
 	ANY
 
-	EL_MODULE_GUI; EL_MODULE_ITERABLE; EL_MODULE_SCREEN
+	EL_MODULE_ITERABLE; EL_MODULE_SCREEN
+
+	EL_MODULE_TEXT
+		rename
+			Text as Rendered
+		end
 
 	EL_STRING_8_CONSTANTS
 
@@ -92,7 +97,7 @@ feature -- Measurement
 			maximum_width: INTEGER
 		do
 			maximum_width := Screen.horizontal_pixels (layout.paragraph.width_cms)
-			Result := maximum_width.min ((GUI.widest_width (text_list, style.label_font) * 1.03).rounded)
+			Result := maximum_width.min ((Rendered.widest_width (text_list, style.label_font) * 1.03).rounded)
 		end
 
 feature -- Factory

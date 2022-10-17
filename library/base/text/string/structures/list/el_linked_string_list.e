@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:31:25 GMT (Sunday 19th December 2021)"
-	revision: "9"
+	date: "2022-10-17 12:01:30 GMT (Monday 17th October 2022)"
+	revision: "10"
 
 class
 	EL_LINKED_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -26,7 +26,7 @@ inherit
 			append as append_sequence,
 			make as make_empty
 		undefine
-			index_of
+			do_all, for_all, index_of, there_exists
 		end
 
 create

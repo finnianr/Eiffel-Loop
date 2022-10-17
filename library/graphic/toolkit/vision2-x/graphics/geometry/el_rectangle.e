@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-08-19 17:36:42 GMT (Friday 19th August 2022)"
-	revision: "25"
+	date: "2022-10-17 13:39:51 GMT (Monday 17th October 2022)"
+	revision: "26"
 
 class
 	EL_RECTANGLE
@@ -15,11 +15,7 @@ class
 inherit
 	EV_RECTANGLE
 
-	EL_MODULE_GUI
-
-	EL_MODULE_SCREEN
-
-	EL_MODULE_ORIENTATION
+	EL_MODULE_SCREEN; EL_MODULE_ORIENTATION ; EL_MODULE_TEXT
 
 	EL_DOUBLE_MATH undefine out end
 
@@ -46,7 +42,7 @@ feature {EV_ANY_HANDLER} -- Initialization
 
 	make_for_text (a_text: READABLE_STRING_GENERAL; font: EV_FONT)
 		do
-			make (0, 0, GUI.string_width (a_text, font), font.line_height)
+			make (0, 0, Text.string_width (a_text, font), font.line_height)
 		end
 
 	make_for_widget (widget: EV_POSITIONED)

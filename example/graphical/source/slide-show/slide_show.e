@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-03 6:01:10 GMT (Friday 3rd June 2022)"
-	revision: "5"
+	date: "2022-10-17 13:54:19 GMT (Monday 17th October 2022)"
+	revision: "6"
 
 class
 	SLIDE_SHOW
@@ -27,7 +27,7 @@ inherit
 
 	EL_RECTANGULAR
 
-	EL_MODULE_COLOR; EL_MODULE_LOG; EL_MODULE_GUI
+	EL_MODULE_COLOR; EL_MODULE_LOG; EL_MODULE_TEXT
 
 create
 	make
@@ -72,7 +72,9 @@ feature {NONE} -- Factory
 
 	new_name_font: EV_FONT
 		do
-			create Result.make_with_values (Gui.Family_sans, Gui.Weight_regular, Gui.Shape_italic, font_height * 2 // 3)
+			create Result.make_with_values (
+				Text.Family_sans, Text.Weight_regular, Text.Shape_italic, font_height * 2 // 3
+			)
 			Result.preferred_families.extend (title_font)
 		end
 
@@ -83,7 +85,7 @@ feature {NONE} -- Factory
 
 	new_theme_font: EV_FONT
 		do
-			create Result.make_with_values (Gui.Family_sans, Gui.Weight_bold, Gui.Shape_regular, font_height)
+			create Result.make_with_values (Text.Family_sans, Text.Weight_bold, Text.Shape_regular, font_height)
 			Result.preferred_families.extend (title_font)
 		end
 
