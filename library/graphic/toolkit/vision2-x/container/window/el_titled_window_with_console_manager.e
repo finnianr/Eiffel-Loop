@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:19:23 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2022-10-17 18:51:04 GMT (Monday 17th October 2022)"
+	revision: "6"
 
 deferred class
 	EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER
@@ -20,14 +20,9 @@ inherit
 			initialize
 		end
 
-	EV_SHARED_APPLICATION
-		undefine
-			copy, default_create
-		end
+	EL_MODULE_ACTION; EL_MODULE_VISION_2
 
-	EL_MODULE_GUI
-
-	EL_MODULE_VISION_2
+	EL_SHARED_EV_APPLICATION
 
 feature {NONE} -- Initialization
 

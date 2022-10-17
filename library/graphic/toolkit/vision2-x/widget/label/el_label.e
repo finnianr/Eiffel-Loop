@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-17 13:37:25 GMT (Monday 17th October 2022)"
-	revision: "13"
+	date: "2022-10-17 18:24:54 GMT (Monday 17th October 2022)"
+	revision: "14"
 
 class
 	EL_LABEL
@@ -27,7 +27,7 @@ inherit
 			implementation
 		end
 
-	EL_MODULE_GUI; EL_MODULE_COLOR
+	EL_MODULE_ACTION; EL_MODULE_COLOR
 
 	EL_MODULE_TEXT
 		rename
@@ -42,7 +42,7 @@ feature -- Basic operations
 	restore_later (seconds: REAL)
 		-- restore `foreground_color' and `text' in elapsed `seconds'
 		do
-			GUI.do_later ((seconds * 1000).rounded, agent set_color_and_text (foreground_color, text))
+			Action.do_later ((seconds * 1000).rounded, agent set_color_and_text (foreground_color, text))
 		end
 
 feature -- Status change

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-09 16:12:32 GMT (Thursday 9th June 2022)"
-	revision: "6"
+	date: "2022-10-17 18:22:04 GMT (Monday 17th October 2022)"
+	revision: "7"
 
 deferred class
 	EL_TAB_SHORTCUTS
@@ -24,7 +24,7 @@ inherit
 
 	EL_MODULE_KEY
 
-	EL_MODULE_GUI
+	EL_MODULE_ACTION
 
 feature {NONE} -- Initialization
 

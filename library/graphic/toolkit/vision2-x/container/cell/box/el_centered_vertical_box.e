@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-08 11:33:32 GMT (Tuesday 8th September 2020)"
-	revision: "8"
+	date: "2022-10-17 18:37:11 GMT (Monday 17th October 2022)"
+	revision: "9"
 
 class
 	EL_CENTERED_VERTICAL_BOX
@@ -28,7 +28,7 @@ inherit
 			make, set_border_color, append_unexpanded, initialize
 		end
 
-	EL_MODULE_GUI
+	EL_MODULE_ACTION
 
 	EL_MODULE_WIDGET
 
@@ -125,7 +125,7 @@ feature -- Element change
 			prune (left_border)
 			create left_border
 			left_border.set_background_color (border_color)
-			GUI.do_once_on_idle (agent put_front (left_border))
+			Action.do_once_on_idle (agent put_front (left_border))
 		end
 
 feature -- Status change

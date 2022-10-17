@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 12:22:50 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2022-10-17 18:51:04 GMT (Monday 17th October 2022)"
+	revision: "7"
 
 class
 	EL_TIMED_PROGRESS_BAR
@@ -35,17 +35,14 @@ inherit
 			on_events_start
 		end
 
-	EV_SHARED_APPLICATION
-		undefine
-			copy, default_create
-		end
-
 	EV_FONT_CONSTANTS
 		undefine
 			copy, default_create
 		end
 
 	EL_MODULE_LOG
+
+	EL_SHARED_EV_APPLICATION
 
 create
 	make

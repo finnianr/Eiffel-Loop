@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 16:38:53 GMT (Saturday 5th February 2022)"
-	revision: "12"
+	date: "2022-10-17 19:00:43 GMT (Monday 17th October 2022)"
+	revision: "13"
 
 class
 	EL_RESIZEABLE_A5_PAPER_DIALOG
@@ -86,11 +86,11 @@ feature {EL_INSTALLER_BOX} -- Event handling
 			l_pixel_area := l_width * l_height
 			percent_change := ((pixel_area - l_pixel_area).abs * 100 / pixel_area).rounded
 			if percent_change > 2 then
-				GUI.do_later (1, agent redraw_a5_paper_box)
+				Action.do_later (1, agent redraw_a5_paper_box)
 				pixel_area := l_pixel_area
 			end
 			if not is_final_resize_set then
-				GUI.do_once_on_idle (agent on_final_resize)
+				Action.do_once_on_idle (agent on_final_resize)
 				is_final_resize_set := True
 			end
 		end

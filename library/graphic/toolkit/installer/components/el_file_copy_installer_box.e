@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-04-23 14:29:26 GMT (Saturday 23rd April 2022)"
-	revision: "19"
+	date: "2022-10-17 18:57:22 GMT (Monday 17th October 2022)"
+	revision: "20"
 
 class
 	EL_FILE_COPY_INSTALLER_BOX
@@ -41,6 +41,8 @@ inherit
 	EL_SHARED_INSTALLER_MAIN_WINDOW
 
 	EL_SHARED_PACKAGE_IMAGES_SCOPE
+
+	EL_SHARED_EV_APPLICATION
 
 create
 	make
@@ -97,10 +99,10 @@ feature -- Basic operations
 
 	install
 		do
-			across new_stage_actions as action loop
-				is_final_stage := action.is_last
-				current_stage := action.key
-				Track.data_transfer (Current, 0, action.item)
+			across new_stage_actions as list loop
+				is_final_stage := list.is_last
+				current_stage := list.key
+				Track.data_transfer (Current, 0, list.item)
 			end
 		end
 
@@ -131,7 +133,7 @@ feature {NONE} -- Event handling
 			else
 				file_path_label.remove_text
 			end
-			GUI.application.process_events
+			ev_application.process_events
 		end
 
 	on_start (tick_byte_count: INTEGER)
@@ -149,7 +151,7 @@ feature {NONE} -- Event handling
 	set_progress (proportion: DOUBLE)
 		do
 			progress_bar.set_proportion (proportion.truncated_to_real)
-			GUI.application.process_events
+			ev_application.process_events
 		end
 
 feature {NONE} -- Implementation

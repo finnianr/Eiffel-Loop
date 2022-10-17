@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 7:55:34 GMT (Friday 21st December 2018)"
-	revision: "4"
+	date: "2022-10-17 18:36:53 GMT (Monday 17th October 2022)"
+	revision: "5"
 
 class
 	EL_SPLIT_AREA_DOCKED_TAB_BOOK
@@ -25,8 +25,8 @@ feature -- Element change
 
 	set_split_position_on_idle (a_width: INTEGER)
 		do
---			GUI.do_once_on_idle (agent (manager.contents.last).set_split_position (a_position))
-			GUI.do_once_on_idle (agent set_split_position (a_width))
+--			Action.do_once_on_idle (agent (manager.contents.last).set_split_position (a_position))
+			Action.do_once_on_idle (agent set_split_position (a_width))
 		end
 
 	set_split_position (a_width: INTEGER)

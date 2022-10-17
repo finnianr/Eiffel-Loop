@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-31 14:18:30 GMT (Monday 31st August 2020)"
-	revision: "6"
+	date: "2022-10-17 18:24:54 GMT (Monday 17th October 2022)"
+	revision: "7"
 
 deferred class
 	EL_AUTO_CELL_HIDING_BOX
@@ -24,7 +24,7 @@ inherit
 			make
 		end
 
-	EL_MODULE_GUI
+	EL_MODULE_ACTION
 
 feature {NONE} -- Initialization
 
@@ -135,7 +135,7 @@ feature {NONE} -- Events
 		do
 --			log.enter_with_args ("on_resize", << a_x, a_y, a_width, a_height >>)
 			if {PLATFORM}.is_windows then
-				GUI.do_once_on_idle (agent check_pointer_position)
+				Action.do_once_on_idle (agent check_pointer_position)
 			end
 --			log.exit
 		end
@@ -155,7 +155,7 @@ feature {NONE} -- Windows workaround
 		do
 --			log.enter ("check_pointer")
 			if auto_hide_enabled and then widget_has_pointer (Current) then
-				GUI.do_once_on_idle (agent nudge_pointer_position)
+				Action.do_once_on_idle (agent nudge_pointer_position)
 			end
 --			log.exit
 		end

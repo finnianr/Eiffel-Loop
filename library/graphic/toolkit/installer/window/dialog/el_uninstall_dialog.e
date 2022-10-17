@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-11 13:56:20 GMT (Saturday 11th June 2022)"
-	revision: "3"
+	date: "2022-10-17 18:56:05 GMT (Monday 17th October 2022)"
+	revision: "4"
 
 class
 	EL_UNINSTALL_DIALOG
@@ -26,6 +26,8 @@ inherit
 
 	EL_SHARED_DEFAULT_PIXMAPS; EL_SHARED_INSTALL_TEXTS; EL_SHARED_WORD
 
+	EL_SHARED_EV_APPLICATION
+
 create
 	make
 
@@ -36,7 +38,7 @@ feature {NONE} -- Initialization
 			if attached new_model (app.name) as m then
 				m.set_text (app.Text.uninstall_warning + "%N%N" + Text.uninstall_proceed)
 				make_dialog (m, agent app.do_uninstall)
-				GUI.do_once_on_idle (agent cancel_button.set_focus)
+				Action.do_once_on_idle (agent cancel_button.set_focus)
 			end
 		end
 
@@ -56,7 +58,7 @@ feature {NONE} -- Implementation
 	destroy
 		do
 			Precursor
-			GUI.application.destroy
+			ev_application.destroy
 		end
 
 	new_model (a_title: READABLE_STRING_GENERAL): EL_DIALOG_MODEL

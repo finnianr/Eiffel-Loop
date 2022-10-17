@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-17 13:21:19 GMT (Monday 17th October 2022)"
-	revision: "20"
+	date: "2022-10-17 18:24:53 GMT (Monday 17th October 2022)"
+	revision: "21"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -94,7 +94,7 @@ feature {NONE} -- Initialization
 				>>)
 			)
 			Screen.set_position (Current, 100, 100)
-			GUI.do_later (500, agent check_pixel_color)
+			Action.do_later (500, agent check_pixel_color)
 		end
 
 feature {NONE} -- Element change
@@ -102,19 +102,19 @@ feature {NONE} -- Element change
 	set_font_family (a_font_family: like font_family)
 		do
 			font_family := a_font_family
-			GUI.do_once_on_idle (agent replace_pixmap)
+			Action.do_once_on_idle (agent replace_pixmap)
 		end
 
 	set_font_size (a_font_size: like font_size)
 		do
 			font_size := a_font_size
-			GUI.do_once_on_idle (agent replace_pixmap)
+			Action.do_once_on_idle (agent replace_pixmap)
 		end
 
 	set_text_angle (a_text_angle: like text_angle)
 		do
 			text_angle := a_text_angle
-			GUI.do_once_on_idle (agent replace_pixmap)
+			Action.do_once_on_idle (agent replace_pixmap)
 		end
 
 feature {NONE} -- Factory

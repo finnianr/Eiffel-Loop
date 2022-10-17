@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-17 13:43:30 GMT (Monday 17th October 2022)"
-	revision: "16"
+	date: "2022-10-17 18:22:03 GMT (Monday 17th October 2022)"
+	revision: "17"
 
 class
 	EL_TEXT_RECTANGLE
@@ -44,7 +44,7 @@ inherit
 
 	EL_MODULE_LIO
 
-	EL_MODULE_GUI
+	EL_MODULE_ACTION
 
 create
 	make_cms, make, make_from_rectangle

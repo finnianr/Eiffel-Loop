@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-11 14:08:29 GMT (Saturday 11th June 2022)"
-	revision: "6"
+	date: "2022-10-17 18:22:03 GMT (Monday 17th October 2022)"
+	revision: "7"
 
 deferred class
 	EL_MODELED_DIALOG_IMPLEMENTATION
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EV_ANY_HANDLER
 
-	EL_MODULE_GUI; EL_MODULE_ITERABLE
+	EL_MODULE_ACTION; EL_MODULE_ITERABLE
 
 	EL_MODULE_KEY; EL_MODULE_SCREEN; EL_MODULE_VISION_2;  EL_MODULE_WIDGET
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-07 11:01:22 GMT (Friday 7th February 2020)"
-	revision: "7"
+	date: "2022-10-17 18:24:53 GMT (Monday 17th October 2022)"
+	revision: "8"
 
 class
 	EL_TAB_BOOK [B -> {EL_BOX} create make end]
@@ -58,7 +58,7 @@ feature {NONE} -- Initialization
 			selection_actions.extend (agent
 				do
 					-- Postponing until Ctrl page up/down actions are handled
-					GUI.do_once_on_idle (agent set_selected_index (selected_item_index))
+					Action.do_once_on_idle (agent set_selected_index (selected_item_index))
 				end
 			)
 		end

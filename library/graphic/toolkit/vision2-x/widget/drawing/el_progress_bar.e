@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 11:06:35 GMT (Thursday 9th September 2021)"
-	revision: "3"
+	date: "2022-10-17 18:51:04 GMT (Monday 17th October 2022)"
+	revision: "4"
 
 class
 	EL_PROGRESS_BAR
@@ -21,9 +21,9 @@ inherit
 
 	EL_PROGRESS_DISPLAY undefine copy, default_create, is_equal end
 
-	EL_MODULE_GUI
+	EL_MODULE_ACTION;	EL_MODULE_SCREEN
 
-	EL_MODULE_SCREEN
+	EL_SHARED_EV_APPLICATION
 
 create
 	make, make_size
@@ -91,7 +91,7 @@ feature {EL_PROGRESS_DISPLAY} -- Implementation
 		do
 			proportion_filled := proportion
 			redraw
-			GUI.application.process_events
+			ev_application.process_events
 		end
 
 	set_identified_text (id: INTEGER; a_text: READABLE_STRING_GENERAL)

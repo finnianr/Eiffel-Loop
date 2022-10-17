@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-11 8:33:45 GMT (Saturday 11th June 2022)"
-	revision: "2"
+	date: "2022-10-17 18:26:37 GMT (Monday 17th October 2022)"
+	revision: "3"
 
 deferred class
 	EL_MODELED_DIALOG
@@ -90,7 +90,7 @@ feature -- Status change
 			model.set_default_button_text (Word.close)
 			replace_default_button
 			default_action := agent destroy
-			GUI.do_once_on_idle (agent default_button.set_focus)
+			Action.do_once_on_idle (agent default_button.set_focus)
 		end
 
 	set_maximum_size (a_maximum_width, a_maximum_height: INTEGER)
@@ -231,8 +231,8 @@ feature {NONE} -- Event handling
 
 	on_default
 		do
-			if attached default_action as action then
-				action.apply
+			if attached default_action as l_action then
+				l_action.apply
 			end
 		end
 

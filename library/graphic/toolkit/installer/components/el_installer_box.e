@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-23 10:43:56 GMT (Saturday 23rd October 2021)"
-	revision: "6"
+	date: "2022-10-17 18:22:03 GMT (Monday 17th October 2022)"
+	revision: "7"
 
 class
 	EL_INSTALLER_BOX
@@ -23,7 +23,7 @@ inherit
 			default_create, is_equal, copy
 		end
 
-	EL_MODULE_GUI
+	EL_MODULE_ACTION
 
 	EL_MODULE_VISION_2
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-16 10:06:24 GMT (Thursday 16th July 2020)"
-	revision: "6"
+	date: "2022-10-17 18:22:03 GMT (Monday 17th October 2022)"
+	revision: "7"
 
 class
 	EL_FRAME [B -> EL_BOX create make end]
@@ -32,7 +32,7 @@ inherit
 			implementation
 		end
 
-	EL_MODULE_GUI
+	EL_MODULE_ACTION
 
 	EL_MODULE_SCREEN
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-09 16:13:04 GMT (Thursday 9th June 2022)"
-	revision: "12"
+	date: "2022-10-17 18:58:11 GMT (Monday 17th October 2022)"
+	revision: "13"
 
 deferred class
 	EL_FIXED_TAB_BOOK [W -> EV_WINDOW]
@@ -53,7 +53,7 @@ feature {NONE} -- Initialization
 			selection_actions.extend (agent
 				do
 					-- Postponing until Ctrl page up/down actions are handled
-					GUI.do_once_on_idle (agent set_selected_index (selected_item_index))
+					Action.do_once_on_idle (agent set_selected_index (selected_item_index))
 				end
 			)
 			across content_list as content loop

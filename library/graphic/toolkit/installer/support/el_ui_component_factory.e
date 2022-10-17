@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-11 13:56:42 GMT (Saturday 11th June 2022)"
-	revision: "8"
+	date: "2022-10-17 18:35:10 GMT (Monday 17th October 2022)"
+	revision: "9"
 
 class
 	EL_UI_COMPONENT_FACTORY
@@ -15,15 +15,15 @@ class
 inherit
 	ANY
 
-	EL_MODULE_DIRECTORY; EL_MODULE_GUI
+	EL_MODULE_DIRECTORY; EL_MODULE_ACTION
 
 	EL_SHARED_DEFAULT_PIXMAPS
 
 feature {NONE} -- Factory
 
-	new_button (a_text: READABLE_STRING_GENERAL; action: PROCEDURE): EV_BUTTON
+	new_button (a_text: READABLE_STRING_GENERAL; a_action: PROCEDURE): EV_BUTTON
 		do
-			create Result.make_with_text_and_action (a_text, action)
+			create Result.make_with_text_and_action (a_text, a_action)
 			Result.set_font (new_font (Size.tiny))
 		end
 

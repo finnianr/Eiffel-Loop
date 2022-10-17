@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-23 10:38:29 GMT (Saturday 23rd October 2021)"
-	revision: "9"
+	date: "2022-10-17 18:22:03 GMT (Monday 17th October 2022)"
+	revision: "10"
 
 class
 	EL_A5_PAPER_TEXT_DRAWING_AREA
@@ -22,7 +22,7 @@ inherit
 
 	EL_MODULE_SCREEN
 
-	EL_MODULE_GUI
+	EL_MODULE_ACTION
 
 	EL_SHARED_INSTALL_TEXTS
 

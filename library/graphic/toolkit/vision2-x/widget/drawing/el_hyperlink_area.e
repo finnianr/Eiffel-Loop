@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-11 14:53:13 GMT (Saturday 11th June 2022)"
-	revision: "16"
+	date: "2022-10-17 18:24:53 GMT (Monday 17th October 2022)"
+	revision: "17"
 
 class
 	EL_HYPERLINK_AREA
@@ -52,7 +52,7 @@ feature {NONE} -- Initialization
 	)
 			--
 		do
-			styled_text := a_styled_text; action := a_action
+			styled_text := a_styled_text; click_action := a_action
 			font_set := a_font_set
 			default_create
 
@@ -128,9 +128,9 @@ feature -- Status change
 			is_enabled := true
 		end
 
-	set_action (a_action: like action)
+	set_action (a_action: like click_action)
 		do
-			action := a_action
+			click_action := a_action
 		end
 
 	set_underlined
@@ -147,7 +147,7 @@ feature {NONE} -- Event handling
 			--
 		do
 			if button = 1 and then is_selected then
-				action.apply
+				click_action.apply
 			end
 			on_pointer_leave
 		end
@@ -173,7 +173,7 @@ feature {NONE} -- Event handling
 
 					-- Link exit not always detected by pointer motion event,
 					-- so check a little later if pointer is still over this link
-					GUI.do_later (150, agent check_pointer_still_here)
+					Action.do_later (150, agent check_pointer_still_here)
 				else
 					set_pointer_style (Pixmaps.Standard_cursor)
 				end
@@ -223,7 +223,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	action: PROCEDURE
+	click_action: PROCEDURE
 
 	font_set: EL_FONT_SET
 

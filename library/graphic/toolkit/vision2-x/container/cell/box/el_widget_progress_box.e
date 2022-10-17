@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-11 13:56:14 GMT (Saturday 11th June 2022)"
-	revision: "8"
+	date: "2022-10-17 18:22:03 GMT (Monday 17th October 2022)"
+	revision: "9"
 
 class
 	EL_WIDGET_PROGRESS_BOX [W -> EV_WIDGET create default_create end]
@@ -18,7 +18,7 @@ inherit
 			make as make_box
 		end
 
-	EL_MODULE_COLOR; EL_MODULE_GUI; EL_MODULE_SCREEN; EL_MODULE_TRACK
+	EL_MODULE_COLOR; EL_MODULE_ACTION; EL_MODULE_SCREEN; EL_MODULE_TRACK
 
 create
 	make, make_default

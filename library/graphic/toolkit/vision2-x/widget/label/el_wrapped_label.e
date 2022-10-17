@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-17 13:37:45 GMT (Monday 17th October 2022)"
-	revision: "4"
+	date: "2022-10-17 18:24:53 GMT (Monday 17th October 2022)"
+	revision: "5"
 
 class
 	EL_WRAPPED_LABEL
@@ -157,7 +157,7 @@ feature {NONE} -- Implementation
 				set_text_general (wrapped.joined_lines)
 --				resize_actions.resume
 			else
-				GUI.do_once_on_idle (agent wrap_text)
+				Action.do_once_on_idle (agent wrap_text)
 			end
 		end
 

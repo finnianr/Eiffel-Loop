@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-17 14:04:04 GMT (Monday 17th October 2022)"
-	revision: "20"
+	date: "2022-10-17 18:33:06 GMT (Monday 17th October 2022)"
+	revision: "21"
 
 class
 	EL_VISION_2_FACTORY
@@ -27,16 +27,6 @@ inherit
 		end
 
 	EL_MODULE_TEXT; EL_MODULE_WIDGET
-
-feature -- Measurement
-
-	box_width_real (border_cms, padding_cms: REAL; widget_widths: ARRAY [REAL]): REAL
-		do
-			Result := border_cms * 2 + padding_cms * (widget_widths.count - 1)
-			across widget_widths as width loop
-				Result := Result + width.item
-			end
-		end
 
 feature -- Fonts
 
@@ -180,70 +170,6 @@ feature -- Other
 		do
 			l_text := a_text
 			create Result.make_with_text_and_action (l_text, an_action)
-		end
-
-feature -- Basic operations
-
-	log_structure (log: EL_LOGGABLE; item: EV_WIDGET)
-		do
-			log.put_labeled_substitution (item.generator, "width=%S height=%S", [item.width, item.height])
-			log.put_new_line
-
-			if attached {EV_PRIMITIVE} item as primitive then
-				log.put_line ("conforms to EV_PRIMITIVE")
-
-			elseif attached {EV_CONTAINER} item as container then
-				log.put_integer_field ("conforms to EV_CONTAINER with", container.count)
-				log.put_new_line
-				log.put_labeled_substitution (
-					"Client dimensions", "client_=%S client_=%S", [container.client_width, container.client_height]
-				)
-				log.put_new_line
-				if attached {EV_CELL} item as cell then
-					log.put_line ("conforms to EV_CELL")
-					if cell.is_empty then
-						log.put_line ("is_empty")
-					else
-						log.tab_right
-							log_structure (log, cell.item)
-							log.put_new_line
-						log.tab_left
-					end
-
-				elseif attached {EV_SPLIT_AREA} item as split then
-					log.put_line ("conforms to EV_SPLIT_AREA")
-					log.tab_right
-						log.put_line ("FIRST AREA")
-						log_structure (log, split.first)
-						log.put_line ("SECOND AREA")
-						log_structure (log, split.second)
-					log.tab_left
-
-				elseif attached {SD_MIDDLE_CONTAINER} item as sd_middle then
-					log.put_line ("conforms to SD_MIDDLE_CONTAINER")
-					log.tab_right
-						log.put_line ("FIRST AREA")
-						log_structure (log, sd_middle.first)
-						log.put_line ("SECOND AREA")
-						log_structure (log, sd_middle.second)
-					log.tab_left
-
-				elseif attached {EV_WIDGET_LIST} container as widget_list then
-					log.put_integer_field ("conforms to EV_WIDGET_LIST", container.count)
-					log.put_new_line
-					if widget_list.is_empty then
-						log.put_line ("is_empty")
-					else
-						log.tab_right
-							across widget_list as list loop
-								log.put_integer_field ("Item no", list.cursor_index)
-								log.put_new_line
-								log_structure (log, list.item)
-							end
-						log.tab_left
-					end
-				end
-			end
 		end
 
 end

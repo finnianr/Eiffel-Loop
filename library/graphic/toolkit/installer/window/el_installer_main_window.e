@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-04-23 15:45:09 GMT (Saturday 23rd April 2022)"
-	revision: "7"
+	date: "2022-10-17 18:59:09 GMT (Monday 17th October 2022)"
+	revision: "8"
 
 deferred class
 	EL_INSTALLER_MAIN_WINDOW
@@ -69,7 +69,7 @@ feature {NONE} -- Implementation
 
 	prepare_to_show
 		do
-			GUI.do_once_on_idle (agent on_show)
+			Action.do_once_on_idle (agent on_show)
 		end
 
 feature {NONE} -- Event handler

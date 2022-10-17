@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-11 13:56:25 GMT (Saturday 11th June 2022)"
-	revision: "10"
+	date: "2022-10-17 18:24:54 GMT (Monday 17th October 2022)"
+	revision: "11"
 
 class
 	EL_WINDOW_DRAG
@@ -15,7 +15,7 @@ class
 inherit
 	ANY
 
-	EL_MODULE_GUI; EL_MODULE_SCREEN
+	EL_MODULE_ACTION; EL_MODULE_SCREEN
 
 	EL_SHARED_DEFAULT_PIXMAPS
 
@@ -83,7 +83,7 @@ feature -- Event handling
 		do
 			if is_active then
 				from i := 1 until i > 3 loop
-					GUI.do_later (i * 100, agent move_window_to_pointer)
+					Action.do_later (i * 100, agent move_window_to_pointer)
 					i := i + 1
 				end
 			end

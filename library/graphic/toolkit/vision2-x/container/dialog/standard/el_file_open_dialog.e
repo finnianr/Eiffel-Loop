@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "6"
+	date: "2022-10-17 18:22:03 GMT (Monday 17th October 2022)"
+	revision: "7"
 
 class
 	EL_FILE_OPEN_DIALOG
@@ -25,7 +25,7 @@ inherit
 			default_create, copy
 		end
 
-	EL_MODULE_GUI
+	EL_MODULE_ACTION
 
 create
 	make

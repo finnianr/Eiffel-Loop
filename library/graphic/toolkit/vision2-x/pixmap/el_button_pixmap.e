@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 12:30:16 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2022-10-17 18:22:04 GMT (Monday 17th October 2022)"
+	revision: "8"
 
 class
 	EL_BUTTON_PIXMAP
@@ -19,7 +19,7 @@ inherit
 
 	EL_MODULE_SCREEN
 
-	EL_MODULE_GUI
+	EL_MODULE_ACTION
 
 	EL_MODULE_COLOR
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:06:35 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2022-10-17 18:24:53 GMT (Monday 17th October 2022)"
+	revision: "8"
 
 class
 	FRACTAL_WORLD_CELL
@@ -21,7 +21,7 @@ inherit
 
 	EL_MODULE_LIO
 
-	EL_MODULE_GUI
+	EL_MODULE_ACTION
 
 	SHARED_FRACTAL_CONFIG
 
@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 			set_minimum_size (fractal_world.rectangle.width, fractal_world.rectangle.height)
 
 			set_background_color (Color.Black)
-			GUI.do_once_on_idle (agent set_resize_actions)
+			Action.do_once_on_idle (agent set_resize_actions)
 		end
 
 feature -- Basic operations

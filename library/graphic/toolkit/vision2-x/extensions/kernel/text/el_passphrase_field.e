@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-09 8:44:34 GMT (Wednesday 9th September 2020)"
-	revision: "3"
+	date: "2022-10-17 19:05:02 GMT (Monday 17th October 2022)"
+	revision: "4"
 
 class
 	EL_PASSPHRASE_FIELD
@@ -20,7 +20,7 @@ inherit
 			{ANY} item
 		end
 
-	EL_MODULE_GUI
+	EL_MODULE_ACTION
 
 create
 	make
@@ -73,7 +73,7 @@ feature -- Status change
 	disable_for (seconds: REAL)
 		do
 			item.disable_sensitive
-			GUI.do_later ((seconds * 1000).rounded, agent item.enable_sensitive)
+			Action.do_later ((seconds * 1000).rounded, agent item.enable_sensitive)
 		end
 
 	set_visibility (visible: BOOLEAN)

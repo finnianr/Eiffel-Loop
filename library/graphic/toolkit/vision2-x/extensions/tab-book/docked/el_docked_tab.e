@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-14 13:32:28 GMT (Monday 14th March 2022)"
-	revision: "10"
+	date: "2022-10-17 18:24:54 GMT (Monday 17th October 2022)"
+	revision: "11"
 
 deferred class
 	EL_DOCKED_TAB
@@ -15,7 +15,7 @@ deferred class
 inherit
 	ANY
 
-	EL_MODULE_GUI
+	EL_MODULE_ACTION
 
 feature {NONE} -- Initialization
 
@@ -146,7 +146,7 @@ feature {EL_DOCKED_TAB_BOOK, EL_DOCKING_CONTENT} -- Event handler
 
 	on_focus_in
 		do
-			GUI.do_once_on_idle (agent on_selected)
+			Action.do_once_on_idle (agent on_selected)
 		end
 
 feature {SD_WIDGET_FACTORY} -- Factory

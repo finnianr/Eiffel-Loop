@@ -1,55 +1,38 @@
 note
-	description: "[
-		Vision 2 giving access to various shared objects and routines related to
-		
-		* Fonts and font string measurement
-		* Word wrapping
-		* Color code conversion
-		* Action management
-	]"
+	description: "Action management routines accessible via [$source EL_MODULE_ACTION]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-17 14:01:54 GMT (Monday 17th October 2022)"
-	revision: "38"
+	date: "2022-10-17 18:49:19 GMT (Monday 17th October 2022)"
+	revision: "39"
 
 class
-	EL_VISION_2_GUI_ROUTINES
+	EL_ACTION_MANAGER
 
 inherit
 	EV_SHARED_APPLICATION
 		export
-			{NONE} process_events_and_idle
+			{NONE} all
+		redefine
+			default_create
 		end
-
-	EL_MODULE_REUSEABLE
-
-	EL_SHARED_DEFAULT_PIXMAPS
-
-create
-	make
 
 feature {NONE} -- Initialization
 
-	make
+	default_create
 			--
 		do
-			application := ev_application
 			create timer_list.make (3)
 		end
 
-feature -- Access
-
-	application: EV_APPLICATION
-
 feature -- Action management
 
-	block_all (actions: ARRAY [ACTION_SEQUENCE])
+	block_all (action_list: ITERABLE [ACTION_SEQUENCE])
 		do
-			across actions as a loop
+			across action_list as a loop
 				a.item.flush
 				a.item.block
 			end
@@ -66,12 +49,14 @@ feature -- Action management
 
 	do_once_on_idle (an_action: PROCEDURE)
 		do
-			application.do_once_on_idle (an_action)
+			ev_application.do_once_on_idle (an_action)
 		end
 
-	resume_all (actions: ARRAY [ACTION_SEQUENCE])
+	resume_all (action_list: ITERABLE [ACTION_SEQUENCE [TUPLE]])
 		do
-			actions.do_all (agent {ACTION_SEQUENCE}.resume)
+			across action_list as a loop
+				a.item.resume
+			end
 		end
 
 feature {NONE} -- Implementation

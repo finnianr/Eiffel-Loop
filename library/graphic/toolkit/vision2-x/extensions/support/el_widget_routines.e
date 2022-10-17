@@ -6,19 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-17 13:49:01 GMT (Monday 17th October 2022)"
-	revision: "7"
+	date: "2022-10-17 18:31:58 GMT (Monday 17th October 2022)"
+	revision: "8"
 
 frozen class
 	EL_WIDGET_ROUTINES
 
 inherit
-	ANY
+	EV_SHARED_APPLICATION
+		export
+			{NONE} all
 		redefine
 			default_create
 		end
 
-	EL_MODULE_GUI; EL_MODULE_ORIENTATION; EL_MODULE_SCREEN; EL_MODULE_TEXT
+	EL_MODULE_ACTION; EL_MODULE_ORIENTATION; EL_MODULE_SCREEN; EL_MODULE_TEXT
 
 	EL_SHARED_DEFAULT_PIXMAPS
 
@@ -45,6 +47,16 @@ feature -- Access
 				Result := window
 			else
 				Result := parent_window (widget.parent)
+			end
+		end
+
+feature -- Measurement
+
+	box_width_real (border_cms, padding_cms: REAL; widget_widths: ARRAY [REAL]): REAL
+		do
+			Result := border_cms * 2 + padding_cms * (widget_widths.count - 1)
+			across widget_widths as width loop
+				Result := Result + width.item
 			end
 		end
 
@@ -86,6 +98,68 @@ feature -- Basic operations
 			end
 		end
 
+	log_structure (log: EL_LOGGABLE; item: EV_WIDGET)
+		do
+			log.put_labeled_substitution (item.generator, "width=%S height=%S", [item.width, item.height])
+			log.put_new_line
+
+			if attached {EV_PRIMITIVE} item as primitive then
+				log.put_line ("conforms to EV_PRIMITIVE")
+
+			elseif attached {EV_CONTAINER} item as container then
+				log.put_integer_field ("conforms to EV_CONTAINER with", container.count)
+				log.put_new_line
+				log.put_labeled_substitution (
+					"Client dimensions", "client_=%S client_=%S", [container.client_width, container.client_height]
+				)
+				log.put_new_line
+				if attached {EV_CELL} item as cell then
+					log.put_line ("conforms to EV_CELL")
+					if cell.is_empty then
+						log.put_line ("is_empty")
+					else
+						log.tab_right
+							log_structure (log, cell.item)
+							log.put_new_line
+						log.tab_left
+					end
+
+				elseif attached {EV_SPLIT_AREA} item as split then
+					log.put_line ("conforms to EV_SPLIT_AREA")
+					log.tab_right
+						log.put_line ("FIRST AREA")
+						log_structure (log, split.first)
+						log.put_line ("SECOND AREA")
+						log_structure (log, split.second)
+					log.tab_left
+
+				elseif attached {SD_MIDDLE_CONTAINER} item as sd_middle then
+					log.put_line ("conforms to SD_MIDDLE_CONTAINER")
+					log.tab_right
+						log.put_line ("FIRST AREA")
+						log_structure (log, sd_middle.first)
+						log.put_line ("SECOND AREA")
+						log_structure (log, sd_middle.second)
+					log.tab_left
+
+				elseif attached {EV_WIDGET_LIST} container as widget_list then
+					log.put_integer_field ("conforms to EV_WIDGET_LIST", container.count)
+					log.put_new_line
+					if widget_list.is_empty then
+						log.put_line ("is_empty")
+					else
+						log.tab_right
+							across widget_list as list loop
+								log.put_integer_field ("Item no", list.cursor_index)
+								log.put_new_line
+								log_structure (log, list.item)
+							end
+						log.tab_left
+					end
+				end
+			end
+		end
+
 	propagate_background_color (a_container: EV_CONTAINER; background_color: EV_COLOR; is_excluded: PREDICATE [EV_WIDGET])
 			-- Propagate background
 		do
@@ -107,7 +181,7 @@ feature -- Basic operations
 	refresh (a_widget: EV_WIDGET)
 		do
 			a_widget.refresh_now
-			GUI.application.process_graphical_events
+			ev_application.process_graphical_events
 		end
 
 	replace (widget, new_widget: EV_WIDGET)
@@ -265,24 +339,24 @@ feature -- Mouse pointer setting
 			busy_widget.set_pointer_style (cursor)
 		end
 
-	set_busy_pointer_for_action (action: PROCEDURE; widget: EV_WIDGET; position: INTEGER)
+	set_busy_pointer_for_action (a_action: PROCEDURE; widget: EV_WIDGET; position: INTEGER)
 		do
 			set_busy_pointer (widget, position)
-			GUI.do_once_on_idle (action)
-			GUI.do_once_on_idle (agent restore_standard_pointer)
+			Action.do_once_on_idle (a_action)
+			Action.do_once_on_idle (agent restore_standard_pointer)
 		end
 
-	set_busy_pointer_for_action_at (action: PROCEDURE; widget: EV_WIDGET; position_x_cms, position_y_cms: REAL)
+	set_busy_pointer_for_action_at (a_action: PROCEDURE; widget: EV_WIDGET; position_x_cms, position_y_cms: REAL)
 		do
 			set_busy_pointer_at (widget, position_x_cms, position_y_cms)
-			GUI.do_once_on_idle (action)
-			GUI.do_once_on_idle (agent restore_standard_pointer)
+			Action.do_once_on_idle (a_action)
+			Action.do_once_on_idle (agent restore_standard_pointer)
 		end
 
 	set_busy_pointer_for_duration (widget: EV_WIDGET; position, duration_seconds: INTEGER)
 		do
 			set_busy_pointer (widget, position)
-			GUI.do_later (duration_seconds * 1000, agent restore_standard_pointer)
+			Action.do_later (duration_seconds * 1000, agent restore_standard_pointer)
 		end
 
 feature {NONE} -- Internal attributes

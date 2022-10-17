@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-20 10:14:01 GMT (Wednesday 20th January 2021)"
-	revision: "5"
+	date: "2022-10-17 18:24:54 GMT (Monday 17th October 2022)"
+	revision: "6"
 
 class
 	EL_SEPARATE_PROGRESS_DISPLAY
@@ -17,7 +17,7 @@ class
 inherit
 	EL_PROGRESS_DISPLAY
 
-	EL_MODULE_GUI
+	EL_MODULE_ACTION
 
 create
 	make
@@ -57,7 +57,7 @@ feature {NONE} -- Implementation
 
 	call (an_action: PROCEDURE)
 		do
-			GUI.do_once_on_idle (an_action)
+			Action.do_once_on_idle (an_action)
 		end
 
 	display: EL_PROGRESS_DISPLAY

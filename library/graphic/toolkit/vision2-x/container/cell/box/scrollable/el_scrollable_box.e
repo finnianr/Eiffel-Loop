@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:03:57 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2022-10-17 18:26:37 GMT (Monday 17th October 2022)"
+	revision: "8"
 
 class
 	EL_SCROLLABLE_BOX [B -> EL_BOX create make end]
@@ -34,7 +34,7 @@ inherit
 
 	EL_MODULE_LOG
 
-	EL_MODULE_GUI
+	EL_MODULE_ACTION
 
 feature {NONE} -- Initialization
 
@@ -171,7 +171,7 @@ feature -- Status setting
 	set_focus
 		do
 			if first_widget /= Default_first_widget then
-				GUI.do_once_on_idle (agent first_widget.set_focus)
+				Action.do_once_on_idle (agent first_widget.set_focus)
 			end
 		end
 
@@ -261,7 +261,7 @@ feature {NONE} -- Implementation
 
 	set_widget_actions_recursively (
 		a_widget: EV_WIDGET; action_sequence_function: FUNCTION [EV_ACTION_SEQUENCE [TUPLE]]
-		action: PROCEDURE
+		a_action: PROCEDURE
 	)
 		local
 			l_child_widgets: LINEAR [EV_WIDGET]
@@ -272,7 +272,7 @@ feature {NONE} -- Implementation
 			then
 				l_widget_actions := action_sequence_function.item ([l_widget_action_sequences])
 				if l_widget_actions.is_empty then
-					l_widget_actions.extend (action)
+					l_widget_actions.extend (a_action)
 				end
 			end
 			if attached {EV_DYNAMIC_LIST [EV_WIDGET]} a_widget as l_list then
@@ -289,7 +289,7 @@ feature {NONE} -- Implementation
 				end
 			end
 			from l_child_widgets.start until l_child_widgets.after loop
-				set_widget_actions_recursively (l_child_widgets.item, action_sequence_function, action)
+				set_widget_actions_recursively (l_child_widgets.item, action_sequence_function, a_action)
 				l_child_widgets.forth
 			end
 		end
