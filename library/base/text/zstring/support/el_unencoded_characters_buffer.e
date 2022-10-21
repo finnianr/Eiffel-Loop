@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-21 15:34:22 GMT (Sunday 21st February 2021)"
-	revision: "14"
+	date: "2022-10-20 7:59:58 GMT (Thursday 20th October 2022)"
+	revision: "15"
 
 class
 	EL_UNENCODED_CHARACTERS_BUFFER
@@ -87,7 +87,7 @@ feature -- Element change
 			end
 		end
 
-	extend (a_code: NATURAL; index: INTEGER)
+	extend (uc: CHARACTER_32; index: INTEGER)
 		local
 			area_count, l_last_upper: INTEGER; l_area, current_area: like area
 		do
@@ -99,21 +99,21 @@ feature -- Element change
 			end
 			if l_last_upper + 1 = index then
 				l_area := big_enough (l_area, 1)
-				l_area.put (index.as_natural_32, last_index + 1)
-				l_area.extend (a_code)
+				l_area.put (index.to_character_32, last_index + 1)
+				l_area.extend (uc)
 			else
 				last_index := area_count
 				l_area := big_enough (l_area, 3)
-				l_area.extend (index.as_natural_32)
-				l_area.extend (index.as_natural_32)
-				l_area.extend (a_code)
+				l_area.extend (index.to_character_32)
+				l_area.extend (index.to_character_32)
+				l_area.extend (uc)
 			end
 			set_if_changed (current_area, l_area)
 		end
 
 	extend_z_code (a_z_code: NATURAL; index: INTEGER)
 		do
-			extend (z_code_to_unicode (a_z_code), index)
+			extend (z_code_to_unicode (a_z_code).to_character_32, index)
 		end
 
 feature -- Removal

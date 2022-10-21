@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 17:54:25 GMT (Tuesday 2nd March 2021)"
-	revision: "28"
+	date: "2022-10-20 9:04:49 GMT (Thursday 20th October 2022)"
+	revision: "29"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -39,9 +39,9 @@ feature {NONE} -- Initialization
 
 	make_filled (uc: CHARACTER_32; n: INTEGER)
 		do
-			create area.make_filled (uc.natural_32_code, n + 2)
-			area.put (1, 0)
-			area.put (n.to_natural_32, 1)
+			create area.make_filled (uc, n + 2)
+			area.put ('%/1/', 0)
+			area.put (n.to_character_32, 1)
 		end
 
 	make_joined (a, b: EL_UNENCODED_CHARACTERS; offset: INTEGER)
@@ -105,17 +105,10 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	code (index: INTEGER): NATURAL
-		local
-			i, lower, upper, i_final: INTEGER; l_area: like area
+		require
+			valid_index: index >= 1
 		do
-			l_area := area; i_final := l_area.count
-			from i := 0 until Result > 0 or else i = i_final loop
-				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
-				if lower <= index and then index <= upper then
-					Result := l_area [i + index - lower + 2]
-				end
-				i := i + upper - lower + 3
-			end
+			Result := item (index).natural_32_code
 		end
 
 	count_greater_than_zero_flags (other: EL_UNENCODED_CHARACTERS): INTEGER
@@ -129,7 +122,7 @@ feature -- Access
 		do
 			l_area := area
 			if l_area.count > 0 then
-				Result := l_area.item (0).to_integer_32
+				Result := l_area.item (0).natural_32_code.to_integer_32
 			end
 		end
 
@@ -139,7 +132,7 @@ feature -- Access
 		do
 			l_area := area
 			if l_area.count > 0 then
-				Result := l_area.item (1).to_integer_32
+				Result := l_area.item (1).natural_32_code.to_integer_32
 			end
 		end
 
@@ -156,14 +149,14 @@ feature -- Access
 				from i := i + 2; offset := 0 until offset = count loop
 					-- The magic number `8388593' below is the greatest prime lower than
 					-- 2^23 so that this magic number shifted to the left does not exceed 2^31.
-					Result := ((Result \\ 8388593) |<< 8) + l_area.item (i + offset).to_integer_32
+					Result := ((Result \\ 8388593) |<< 8) + l_area.item (i + offset).code
 					offset := offset + 1
 				end
 				i := i + count
 			end
 		end
 
-	index_of (unicode: NATURAL; start_index: INTEGER): INTEGER
+	index_of (uc: CHARACTER_32; start_index: INTEGER): INTEGER
 		local
 			i, j, lower, upper, count, i_final: INTEGER; l_area: like area
 		do
@@ -173,7 +166,7 @@ feature -- Access
 				count := upper - lower + 1
 				if start_index <= lower or else start_index <= upper then
 					from j := lower.max (start_index) - lower + 1 until Result > 0 or else j > count loop
-						if l_area [i + 1 + j] = unicode then
+						if l_area [i + 1 + j] = uc then
 							Result := lower + j - 1
 						end
 						j := j + 1
@@ -198,10 +191,17 @@ feature -- Access
 		end
 
 	item (index: INTEGER): CHARACTER_32
-		require
-			valid_index: index >= 1
+		local
+			i, lower, upper, i_final: INTEGER; l_area: like area
 		do
-			Result := code (index).to_character_32
+			l_area := area; i_final := l_area.count
+			from i := 0 until Result > '%U' or else i = i_final loop
+				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+				if lower <= index and then index <= upper then
+					Result := l_area [i + index - lower + 2]
+				end
+				i := i + upper - lower + 3
+			end
 		end
 
 	last_index: INTEGER
@@ -219,7 +219,7 @@ feature -- Access
 			end
 		end
 
-	last_index_of (unicode: NATURAL; start_index_from_end: INTEGER): INTEGER
+	last_index_of (uc: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
 		local
 			i, j, k, lower, upper, count: INTEGER; l_area: like area
 			list: like index_list; index_area: SPECIAL [INTEGER]
@@ -231,7 +231,7 @@ feature -- Access
 				count := upper - lower + 1
 				if upper <= start_index_from_end or else lower <= start_index_from_end then
 					from j := upper.min (start_index_from_end) - lower + 1 until Result > 0 or else j = 0 loop
-						if l_area [i + 1 + j] = unicode then
+						if l_area [i + 1 + j] = uc then
 							Result := lower + j - 1
 						end
 						j := j - 1
@@ -273,7 +273,7 @@ feature -- Measurement
 			end
 		end
 
-	occurrences (unicode: NATURAL): INTEGER
+	occurrences (uc: CHARACTER_32): INTEGER
 		local
 			i, j, lower, upper, count, i_final: INTEGER; l_area: like area
 		do
@@ -282,7 +282,7 @@ feature -- Measurement
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				count := upper - lower + 1
 				from j := 1 until j > count loop
-					if l_area [i + 1 + j] = unicode then
+					if l_area [i + 1 + j] = uc then
 						Result := Result + 1
 					end
 					j := j + 1
@@ -343,7 +343,7 @@ feature -- Measurement
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				count := upper - lower + 1
 				from j := 1 until j > count loop
-					l_code := l_area [i + 1 + j]
+					l_code := l_area [i + 1 + j].natural_32_code
 					if l_code <= 0x7F then
 							-- 0xxxxxxx.
 						Result := Result + 1
@@ -366,9 +366,9 @@ feature -- Measurement
 
 feature -- Status query
 
-	has (unicode: NATURAL): BOOLEAN
+	has (uc: CHARACTER_32): BOOLEAN
 		do
-			Result := index_of (unicode, 1) > 0
+			Result := index_of (uc, 1) > 0
 		end
 
 	intersects (start_index, end_index: INTEGER): BOOLEAN
@@ -478,7 +478,7 @@ feature -- Element change
 					l_area.remove_tail (2)
 					i := previous_i; upper := previous_upper + count
 					lower := lower_bound (l_area, i)
-					l_area.put (upper.to_natural_32, i + 1)
+					l_area.put (upper.to_character_32, i + 1)
 					count := upper - lower + 1
 					i_final := i_final - 2
 				end
@@ -504,7 +504,7 @@ feature -- Element change
 			Result.set_area (area)
 		end
 
-	put_code (a_code: NATURAL; index: INTEGER)
+	put (uc: CHARACTER_32; index: INTEGER)
 		local
 			i, previous_i, previous_upper, lower, upper, count, i_final: INTEGER; found: BOOLEAN
 			l_area, current_area: like area
@@ -515,25 +515,25 @@ feature -- Element change
 				count := upper - lower + 1
 				if lower <= index and then index <= upper then
 					-- update interval
-					l_area.put (a_code, i + 2 + index - lower)
+					l_area.put (uc, i + 2 + index - lower)
 					found := True
 				elseif upper + 1 = index then
 					-- extend interval right
 					count := count + 1
-					l_area := extended_enough (l_area, i + count + 1, 0, 0, a_code)
-					l_area.put (index.to_natural_32, i + 1)
+					l_area := extended_enough (l_area, i + count + 1, 0, 0, uc)
+					l_area.put (index.to_character_32, i + 1)
 					found := True
 				elseif lower - 1 = index then
 					-- extend interval left
 					count := count + 1
 					lower := lower - 1
-					l_area := extended_enough (l_area, i + 2, 0, 0, a_code)
-					l_area.put (index.to_natural_32, i)
+					l_area := extended_enough (l_area, i + 2, 0, 0, uc)
+					l_area.put (index.to_character_32, i)
 					found := True
 
 				elseif previous_upper < index and then index < lower then
 					-- insert a new interval
-					l_area := extended_enough (l_area, previous_i, index, index, a_code)
+					l_area := extended_enough (l_area, previous_i, index, index, uc)
 					i := i + 3
 					found := True
 				end
@@ -543,7 +543,7 @@ feature -- Element change
 					l_area.remove_tail (2)
 					i := previous_i; upper := previous_upper + count
 					lower := lower_bound (l_area, i)
-					l_area.put (upper.to_natural_32, i + 1)
+					l_area.put (upper.to_character_32, i + 1)
 					count := upper - lower + 1
 					i_final := i_final - 2
 				end
@@ -552,11 +552,11 @@ feature -- Element change
 			end
 			if not found then
 				-- append a new interval
-				l_area := extended_enough (l_area, l_area.count, index, index, a_code)
+				l_area := extended_enough (l_area, l_area.count, index, index, uc)
 			end
 			set_if_changed (current_area, l_area)
 		ensure
-			code_set: code (index) = a_code
+			code_set: item (index) = uc
 		end
 
 	set_from_buffer (a_area: EL_UNENCODED_CHARACTERS_BUFFER)
@@ -594,7 +594,7 @@ feature -- Element change
 					elseif lower < index and then index <= upper then
 						-- Split the interval in two
 						put_upper (l_area, i, index - 1)
-						l_area := extended_enough (l_area, i + 2 + index - lower, index + offset, upper + offset, 0)
+						l_area := extended_enough (l_area, i + 2 + index - lower, index + offset, upper + offset, '%U')
 						i_final := i_final + 2
 						i := i + 2
 					end
@@ -616,13 +616,13 @@ feature -- Element change
 
 feature -- Removal
 
-	replace_character (uc_old, uc_new: NATURAL; shift_remaining: BOOLEAN)
+	replace_character (uc_old, uc_new: CHARACTER_32; shift_remaining: BOOLEAN)
 		-- replace all `uc_old' with `uc_new' and shifting to left if `shift_remaining = True'
 		-- if `uc_new = 0' then remove `uc_old'
 		local
 			i, j, lower, upper, count, i_final, previous_i, delta: INTEGER
 			l_area: like area; found: BOOLEAN; l_buffer: like empty_buffer
-			l_code: NATURAL
+			l_code: CHARACTER_32
 		do
 			previous_i := (1).opposite
 			l_area := area; i_final := l_area.count
@@ -651,7 +651,7 @@ feature -- Removal
 					from j := lower until j > upper loop
 						l_code := l_area [i + 2 + j - lower]
 						if l_code = uc_old then
-							if uc_new > 0 then
+							if uc_new > '%U' then
 								l_buffer.extend (uc_new, j)
 							elseif shift_remaining then
 								delta := delta + 1
@@ -688,16 +688,16 @@ feature -- Removal
 					l_area.remove_tail (removed_count)
 					if removed_count = 1 then
 						if index = lower then
-							l_area.put ((lower + 1).to_natural_32, i)
+							l_area.put ((lower + 1).to_character_32, i)
 						else
-							l_area.put ((upper - 1).to_natural_32, i + 1)
+							l_area.put ((upper - 1).to_character_32, i + 1)
 						end
 					end
 					found := True
 				elseif lower < index and index < upper then
 					-- Split interval in two
 					destination_index := i + 2 + index - lower
-					l_area := extended_enough (l_area, destination_index, index + 1, 0, 0)
+					l_area := extended_enough (l_area, destination_index, index + 1, 0, '%U')
 					put_upper (l_area, destination_index, upper)
 					put_upper (l_area, i, index - 1)
 					found := True
@@ -762,8 +762,8 @@ feature -- Removal
 					removed_count := remove_section (l_area, i, lower, upper, start_index, upper, deleted_count)
 
 				elseif lower > end_index then
-					l_area [i] := (lower - deleted_count).to_natural_32
-					l_area [i + 1] := (upper - deleted_count).to_natural_32
+					l_area [i] := (lower - deleted_count).to_character_32
+					l_area [i + 1] := (upper - deleted_count).to_character_32
 				end
 				if removed_count > 0 then
 					if removed_count = count + 2 then
@@ -780,7 +780,7 @@ feature -- Removal
 							l_area.remove_tail (2)
 							i := previous_i
 							lower := lower_bound (l_area, i)
-							l_area.put (upper.to_natural_32, i + 1)
+							l_area.put (upper.to_character_32, i + 1)
 							count := upper - lower + 1
 							i_final := i_final - removed_count - 2
 							removed_count := 0

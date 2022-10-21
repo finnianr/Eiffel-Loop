@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 17:42:53 GMT (Monday 8th February 2021)"
-	revision: "9"
+	date: "2022-10-21 7:22:06 GMT (Friday 21st October 2022)"
+	revision: "11"
 
 class
 	EL_UNENCODED_CHARACTERS_INDEX
@@ -38,6 +38,53 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	code (index: INTEGER): NATURAL
+		do
+			Result := item (index).natural_32_code
+		end
+
+	index_of (uc: CHARACTER_32; start_index: INTEGER): INTEGER
+		-- index of `unicode' starting from `start_index'
+		local
+			lower, upper, i, i_final, j: INTEGER
+			l_area: like area; found: BOOLEAN
+		do
+			l_area := area; i_final := l_area.count; i := area_index
+			lower := lower_bound (l_area, i)
+			if start_index < lower then
+				i := 0
+			end
+			from until found or else i = i_final loop
+				upper := upper_bound (l_area, i)
+				if start_index <= upper then
+					found := True
+				else
+					i := i + upper - lower_bound (l_area, i) + 3
+				end
+			end
+			if found then
+				from until Result > 0 or else i = i_final loop
+					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+					from j := lower.max (start_index) until Result > 0 or else j > upper loop
+						if l_area [i + 2 + j - lower] = uc then
+							Result := j
+						end
+						j := j + 1
+					end
+					if Result = 0 then
+						i := i + upper - lower + 3
+					end
+				end
+				if i = i_final then
+					area_index := 0
+				else
+					area_index := i
+				end
+			end
+		ensure
+			valid_result: Result > 0 implies item (Result) = uc
+		end
+
+	item (index: INTEGER): CHARACTER_32
 		require
 			valid_index: valid_index (index)
 		local
@@ -62,61 +109,14 @@ feature -- Access
 			area_index := i
 		end
 
-	index_of (unicode: NATURAL; start_index: INTEGER): INTEGER
-		-- index of `unicode' starting from `start_index'
-		local
-			lower, upper, i, i_final, j: INTEGER
-			l_area: like area; found: BOOLEAN
+	z_code (index: INTEGER): NATURAL
 		do
-			l_area := area; i_final := l_area.count; i := area_index
-			lower := lower_bound (l_area, i)
-			if start_index < lower then
-				i := 0
-			end
-			from until found or else i = i_final loop
-				upper := upper_bound (l_area, i)
-				if start_index <= upper then
-					found := True
-				else
-					i := i + upper - lower_bound (l_area, i) + 3
-				end
-			end
-			if found then
-				from until Result > 0 or else i = i_final loop
-					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
-					from j := lower.max (start_index) until Result > 0 or else j > upper loop
-						if l_area [i + 2 + j - lower] = unicode then
-							Result := j
-						end
-						j := j + 1
-					end
-					if Result = 0 then
-						i := i + upper - lower + 3
-					end
-				end
-				if i = i_final then
-					area_index := 0
-				else
-					area_index := i
-				end
-			end
-		ensure
-			valid_result: Result > 0 implies code (Result) = unicode
-		end
-
-	item (index: INTEGER): CHARACTER_32
-		do
-			Result := code (index).to_character_32
-		end
-
-	z_code (i: INTEGER): NATURAL
-		do
-			Result := unicode_to_z_code (code (i))
+			Result := unicode_to_z_code (item (index).natural_32_code)
 		end
 
 feature -- Measurement
 
-	occurrences (unicode: NATURAL): INTEGER
+	occurrences (uc: CHARACTER_32): INTEGER
 		-- untested
 		local
 			i, j, lower, upper, i_final: INTEGER; l_area: like area
@@ -125,7 +125,7 @@ feature -- Measurement
 			from i := 0 until i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				from j := lower until j > upper loop
-					if l_area [2 + i + j - lower] = unicode then
+					if l_area [2 + i + j - lower] = uc then
 						Result := Result + 1
 					end
 					j := j + 1
@@ -171,17 +171,17 @@ feature {NONE} -- Implementation
 
 	lower_bound (a_area: like area; i: INTEGER): INTEGER
 		do
-			Result := a_area.item (i).to_integer_32
+			Result := a_area [i].natural_32_code.to_integer_32
 		end
 
 	upper_bound (a_area: like area; i: INTEGER): INTEGER
 		do
-			Result := a_area.item (i + 1).to_integer_32
+			Result := a_area [i + 1].natural_32_code.to_integer_32
 		end
 
 feature {EL_UNENCODED_CHARACTERS} -- Internal attributes
 
-	area: SPECIAL [NATURAL]
+	area: SPECIAL [CHARACTER_32]
 		-- unencoded character area
 
 	area_index: INTEGER

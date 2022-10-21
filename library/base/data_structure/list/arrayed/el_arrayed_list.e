@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-16 14:27:30 GMT (Sunday 16th October 2022)"
-	revision: "42"
+	date: "2022-10-20 14:24:48 GMT (Thursday 20th October 2022)"
+	revision: "43"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -201,15 +201,30 @@ feature -- Removal
 		end
 
 	remove_head (n: INTEGER)
-			--
+		local
+			is_index_moveable: BOOLEAN
 		do
-			remove_end (n, agent start)
+			if n <= count then
+				is_index_moveable := index > n
+				area.move_data (n, 0, count - n)
+				area.remove_tail (n)
+				if is_index_moveable then
+					index := index - n
+				end
+			end
+		ensure
+			moved_items: n < old count implies old i_th (n + 1) = first and old i_th (count) = i_th (count)
+			same_item: not off and old index /= index implies old area [index] = area [index]
 		end
 
 	remove_tail (n: INTEGER)
 			--
 		do
-			remove_end (n, agent finish)
+			if n <= count then
+				area.remove_tail (n)
+			end
+		ensure
+			moved_items: n < old count implies old first = first and old i_th (count - n) = i_th (count)
 		end
 
 feature -- Reorder items
@@ -300,17 +315,6 @@ feature {NONE} -- Implementation
 				end
 			end
 			index := i + 1
-		end
-
-	remove_end (n: INTEGER; go_to_end: PROCEDURE)
-			--
-		local
-			i: INTEGER
-		do
-			from i := 1 until i > n or is_empty loop
-				go_to_end.apply; remove
-				i := i + 1
-			end
 		end
 
 end

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 8:51:20 GMT (Tuesday 4th October 2022)"
-	revision: "18"
+	date: "2022-10-20 16:14:42 GMT (Thursday 20th October 2022)"
+	revision: "19"
 
 class
 	URI_TEST_SET
@@ -118,7 +118,7 @@ feature -- Tests
 			book_info := new_book_info (Gunter_grass)
 			url_string := Amazon_query
 			create url.make_from_general (url_string)
-			assert ("same string", url_string.same_string (url))
+			assert ("same string", url_string.same_string_general (url))
 
 			url_string.append_character ('?')
 			url_string.append_string_general (Field.author_title)

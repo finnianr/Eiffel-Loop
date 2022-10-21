@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-15 10:44:31 GMT (Saturday 15th October 2022)"
-	revision: "138"
+	date: "2022-10-20 13:46:58 GMT (Thursday 20th October 2022)"
+	revision: "139"
 
 class
 	BASE_AUTOTEST_APP
@@ -67,6 +67,8 @@ feature {NONE} -- Implementation
 		EL_ESCAPED_STRING_32_FIELD_VALUE_TABLE,
 		EL_ESCAPED_ZSTRING_FIELD_VALUE_TABLE,
 		EL_EXTERNAL_LIBRARY [EL_INITIALIZEABLE],
+
+		EL_IMMUTABLE_STRING_8_SPLIT_LIST, EL_IMMUTABLE_STRING_32_SPLIT_LIST,
 
 		EL_MAKEABLE_FROM_STRING [STRING_GENERAL],
 		EL_MAKEABLE_FROM_ZSTRING_OPERAND_SETTER,

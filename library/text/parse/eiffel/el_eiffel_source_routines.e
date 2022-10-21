@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-26 15:39:17 GMT (Sunday 26th December 2021)"
-	revision: "4"
+	date: "2022-10-20 16:16:36 GMT (Thursday 20th October 2022)"
+	revision: "5"
 
 expanded class
 	EL_EIFFEL_SOURCE_ROUTINES
@@ -77,7 +77,7 @@ feature -- Status query
 
 	is_class_definition_start (line: ZSTRING): BOOLEAN
 		do
-			Result := Class_declaration_keywords.there_exists (agent line.starts_with)
+			Result := across Class_declaration_keywords as list some line.starts_with (list.item) end
 		end
 
 	is_reserved_word (word: ZSTRING): BOOLEAN

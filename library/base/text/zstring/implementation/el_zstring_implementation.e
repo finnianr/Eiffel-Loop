@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-29 15:36:56 GMT (Wednesday 29th June 2022)"
-	revision: "33"
+	date: "2022-10-21 12:54:09 GMT (Friday 21st October 2022)"
+	revision: "35"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -41,7 +41,7 @@ inherit
 			not_empty as has_mixed_encoding,
 			occurrences as unencoded_occurrences,
 			overlaps as overlaps_unencoded,
-			put_code as put_unencoded_code,
+			put as put_unencoded,
 			remove as remove_unencoded,
 			remove_substring as remove_unencoded_substring,
 			replace_character as replace_unencoded_character,
@@ -88,6 +88,7 @@ inherit
 			remove_substring as internal_remove_substring,
 			replace_substring as internal_replace_substring,
 			replace_substring_all as internal_replace_substring_all,
+			same_caseless_characters as internal_same_caseless_characters,
 			same_characters as internal_same_characters,
 			same_string as internal_same_string,
 			share as internal_share,
@@ -124,6 +125,13 @@ feature -- Access
 			end
 		end
 
+	item_code (i: INTEGER): INTEGER
+		obsolete
+			"Due to potential truncation it is recommended to use `code (i)' instead."
+		do
+			Result := item (i).natural_32_code.to_integer_32
+		end
+
 	unicode (i: INTEGER): NATURAL
 		local
 			code: INTEGER
@@ -142,12 +150,25 @@ feature -- Element change
 
 	put (uc: CHARACTER_32; i: INTEGER)
 			-- Replace character at position `i' by `uc'.
+		require else -- from STRING_GENERAL
+			valid_index: valid_index (i)
+		local
+			c, old_c: CHARACTER
 		do
-			put_unicode (uc.natural_32_code, i)
+			old_c := area [i - 1]
+			c := Codec.encoded_character (uc)
+			area [i - 1] := c
+			if c = Substitute then
+				put_unencoded (uc, i)
+			elseif old_c = Substitute then
+				remove_unencoded (i)
+			end
+			reset_hash
 		ensure then
+			inserted: item (i) = uc
 			stable_count: count = old count
-			stable_before_i: elks_checking implies substring (1, i - 1) ~ (old substring (1, i - 1))
-			stable_after_i: elks_checking implies substring (i + 1, count) ~ (old substring (i + 1, count))
+			stable_before_i: Elks_checking implies substring (1, i - 1) ~ (old substring (1, i - 1))
+			stable_after_i: Elks_checking implies substring (i + 1, count) ~ (old substring (i + 1, count))
 		end
 
 	put_z_code (a_z_code: like z_code; i: INTEGER)
@@ -166,7 +187,7 @@ feature -- Element change
 				end
 			else
 				area [i - 1] := Substitute
-				put_unencoded_code (z_code_to_unicode (a_z_code), i)
+				put_unencoded (z_code_to_unicode (a_z_code).to_character_32, i)
 			end
 		end
 
@@ -183,7 +204,7 @@ feature -- Status query
 				c := Codec.encoded_character (uc)
 			end
 			if c = Substitute then
-				Result := unencoded_has (uc.natural_32_code)
+				Result := unencoded_has (uc)
 			else
 				Result := internal_has (c)
 			end
@@ -194,7 +215,7 @@ feature -- Status query
 			if a_z_code <= 0xFF then
 				Result := internal_has (a_z_code.to_character_8)
 			else
-				Result := unencoded_has (z_code_to_unicode (a_z_code))
+				Result := unencoded_has (z_code_to_unicode (a_z_code).to_character_32)
 			end
 		end
 
@@ -204,6 +225,10 @@ feature -- Status query
 			c: EL_CHARACTER_8_ROUTINES
 		do
 			Result := not has_mixed_encoding and then c.is_ascii_area (area, area_lower, area_upper)
+		end
+
+	valid_index (i: INTEGER): BOOLEAN
+		deferred
 		end
 
 feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
@@ -259,8 +284,8 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
 		end
 
 	same_unencoded_substring (other: EL_READABLE_ZSTRING; start_index: INTEGER): BOOLEAN
-			-- True if characters in `other' are unencoded at the same
-			-- positions as `Current' starting at `start_index'
+		-- True if characters in `other' are unencoded at the same
+		-- positions as `Current' starting at `start_index'
 		require
 			valid_start_index: start_index + other.count - 1 <= count
 		local
@@ -376,30 +401,13 @@ feature {NONE} -- Implementation
 
 	put_unicode (a_code: NATURAL_32; i: INTEGER)
 			-- put unicode at i th position
-		require else -- from STRING_GENERAL
-			valid_index: valid_index (i)
-		local
-			c, old_c: CHARACTER
 		do
-			old_c := area [i - 1]
-			c := Codec.encoded_character (a_code.to_character_32)
-			area [i - 1] := c
-			if c = Substitute then
-				put_unencoded_code (a_code, i)
-			elseif old_c = Substitute then
-				remove_unencoded (i)
-			end
-			reset_hash
-		ensure then
-			inserted: unicode (i) = a_code
-			stable_count: count = old count
-			stable_before_i: Elks_checking implies substring (1, i - 1) ~ (old substring (1, i - 1))
-			stable_after_i: Elks_checking implies substring (i + 1, count) ~ (old substring (i + 1, count))
+			put (a_code.to_character_32, i)
 		end
 
 	to_lower_area (a: like area; start_index, end_index: INTEGER)
-			-- Replace all characters in `a' between `start_index' and `end_index'
-			-- with their lower version when available.
+		-- Replace all characters in `a' between `start_index' and `end_index'
+		-- with their lower version when available.
 		do
 			codec.to_lower (a, start_index, end_index, Current)
 		end
@@ -475,7 +483,7 @@ feature {EL_READABLE_ZSTRING} -- Deferred Implementation
 		deferred
 		end
 
-	same_string (other: READABLE_STRING_GENERAL): BOOLEAN
+	same_string (other: READABLE_STRING_32): BOOLEAN
 		deferred
 		end
 
@@ -495,11 +503,12 @@ feature {EL_READABLE_ZSTRING} -- Deferred Implementation
 		deferred
 		end
 
-	valid_index (i: INTEGER): BOOLEAN
-		deferred
-		end
-
 feature {NONE} -- Constants
+
+	Buffer_32: EL_STRING_32_BUFFER
+		once
+			create Result
+		end
 
 	Latin_1_codec: EL_ZCODEC
 		once

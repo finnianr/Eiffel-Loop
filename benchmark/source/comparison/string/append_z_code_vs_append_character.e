@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 16:33:46 GMT (Friday 11th February 2022)"
-	revision: "1"
+	date: "2022-10-19 11:21:36 GMT (Wednesday 19th October 2022)"
+	revision: "2"
 
 class
 	APPEND_Z_CODE_VS_APPEND_CHARACTER
@@ -29,7 +29,7 @@ feature -- Basic operations
 		do
 			create str.make_empty
 			create characters.make (100); create codes.make (100)
-			across Hexagram.Chinese_names as list loop
+			across Hexagram.chinese_names as list loop
 				across << list.item.pinyin, list.item.characters >> as name loop
 					across name.item as c loop
 						characters.extend (c.item)

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-13 9:28:36 GMT (Monday 13th June 2022)"
-	revision: "56"
+	date: "2022-10-21 8:54:37 GMT (Friday 21st October 2022)"
+	revision: "58"
 
 class
 	EL_ZSTRING
@@ -54,6 +54,8 @@ inherit
 			keep_head, keep_tail, left_adjust, remove_head, remove_tail, right_adjust,
 --			Contract support
 			Encoding
+		select
+			String_searcher
 		end
 
 	EL_WRITEABLE
@@ -95,6 +97,8 @@ inherit
 			prepend_substring as prepend_substring_general,
 			put_code as put_z_code,
 			same_caseless_characters as same_caseless_characters_general,
+			same_characters as same_characters_general,
+			same_string as same_string_general,
 			split as split_list,
 			substring_index as substring_index_general,
 			starts_with as starts_with_general
@@ -102,13 +106,20 @@ inherit
 			copy, hash_code, out, index_of, last_index_of, occurrences,
 --			Status query
 			ends_with_general, has, has_unicode,
-			is_double, is_equal, is_integer, is_integer_32, is_real_64,
-			same_characters, starts_with_general,
+			is_real, is_real_32, is_double, is_equal, is_real_64,
+			is_integer_8, is_integer_16, is_integer, is_integer_32, is_integer_64,
+			is_natural_8, is_natural_16, is_natural, is_natural_32, is_natural_64,
+--			Comparison
+			same_characters_general, starts_with_general, same_caseless_characters_general,
 --			Conversion
-			to_boolean, to_double, to_real_64, to_integer, to_integer_32,
+			to_boolean, to_real, to_real_32, to_double, to_real_64,
+			to_integer_8, to_integer_16, to_integer, to_integer_32, to_integer_64,
+			to_natural_8, to_natural_16, to_natural, to_natural_32, to_natural_64,
 			as_string_32, to_string_32, as_string_8, to_string_8, split_list,
 --			Element change
-			append_string_general, append_substring_general, prepend_string_general
+			append_string_general, append_substring_general, prepend_string_general,
+--			Implementation
+			is_valid_integer_or_natural
 		end
 
 	INDEXABLE [CHARACTER_32, INTEGER]
@@ -234,7 +245,7 @@ feature -- Element change
 			internal_insert_character (c, i)
 			shift_unencoded_from (i, 1)
 			if c = Substitute then
-				put_unencoded_code (uc.natural_32_code, i)
+				put_unencoded (uc, i)
 			end
 		ensure
 			one_more_character: count = old count + 1
@@ -332,22 +343,22 @@ feature -- Removal
 
 	prune_all (uc: CHARACTER_32)
 		local
-			i, i_final, pruned_count: INTEGER; uc_code, i_code: NATURAL
+			i, i_final, pruned_count: INTEGER; i_th_uc: CHARACTER_32
 			c, c_i: CHARACTER; l_area: like area; unencoded: like unencoded_indexable
 			buffer: like empty_unencoded_buffer
 		do
 			buffer := empty_unencoded_buffer; unencoded := unencoded_indexable
-			c := encoded_character (uc); uc_code := uc.natural_32_code
+			c := encoded_character (uc)
 			l_area := area; i_final := count
 			from i := 0 until i = i_final loop
 				c_i := l_area.item (i)
 				if c_i = Substitute then
-					i_code := unencoded.code (i + 1)
-					if i_code = uc_code then
+					i_th_uc := unencoded.item (i + 1)
+					if i_th_uc = uc then
 						pruned_count := pruned_count + 1
 					else
 						l_area [i - pruned_count] := Substitute
-						buffer.extend (i_code, i + 1 - pruned_count)
+						buffer.extend (i_th_uc, i + 1 - pruned_count)
 					end
 				elseif c_i = c then
 					pruned_count := pruned_count + 1
@@ -423,6 +434,11 @@ feature {NONE} -- Implementation
 	append_pointer (ptr: POINTER)
 		do
 			append_string_general (ptr.out)
+		end
+
+	current_zstring: ZSTRING
+		do
+			Result := Current
 		end
 
 	empty_escape_table: like Once_escape_table

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-27 15:29:55 GMT (Friday 27th March 2020)"
-	revision: "2"
+	date: "2022-10-20 16:14:41 GMT (Thursday 20th October 2022)"
+	revision: "3"
 
 deferred class
 	TL_ID3_V2_TAG_FRAME_ROUTINES
@@ -92,7 +92,7 @@ feature -- Element change
 		do
 			set_frame (a_frame_id, text)
 		ensure
-			set: frame_text (a_frame_id).same_string (text)
+			set: frame_text (a_frame_id).same_string_general (text)
 		end
 
 feature -- Removal

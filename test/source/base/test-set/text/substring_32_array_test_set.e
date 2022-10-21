@@ -8,8 +8,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 8:51:14 GMT (Tuesday 4th October 2022)"
-	revision: "20"
+	date: "2022-10-20 9:04:25 GMT (Thursday 20th October 2022)"
+	revision: "21"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -216,19 +216,19 @@ feature -- Test
 
 	test_put_code
 		note
-			testing: "covers/{EL_SUBSTRING_32_ARRAY}.put_code"
+			testing: "covers/{EL_SUBSTRING_32_ARRAY}.put"
 		local
 			zstr: ZSTRING; index: INTEGER; unencoded: EL_UNENCODED_CHARACTERS
-			code: NATURAL
+			uc: CHARACTER_32
 		do
-			code := ('д').natural_32_code
+			uc := 'д'
 			across text_russian as n loop
 				zstr := text_russian
 				index := n.cursor_index
 
 				unencoded := zstr
-				unencoded.put_code (code, index)
-				zstr.put_unicode (code, index)
+				unencoded.put (uc, index)
+				zstr.put (uc, index)
 
 				assert ("same content", same_content (zstr, unencoded))
 			end
@@ -396,13 +396,14 @@ feature {NONE} -- Implementation
 
 	compare_index_of (zstr: ZSTRING; unencoded: EL_UNENCODED_CHARACTERS)
 		local
-			i: INTEGER; uc: NATURAL
+			i, last_index: INTEGER; uc: CHARACTER_32
 		do
 			from i := 1 until i > zstr.count loop
 				if zstr.z_code (i) > 0xFF then
-					uc := zstr.unicode (i)
+					uc := zstr [i]
 					assert ("same index_of", to_array (zstr).index_of (uc, 1) = unencoded.index_of (uc, 1))
-					assert ("same last_index_of", to_array (zstr).last_index_of (uc, zstr.count) = unencoded.last_index_of (uc, zstr.count))
+					last_index := to_array (zstr).last_index_of (uc, zstr.count)
+					assert ("same last_index_of", last_index = unencoded.last_index_of (uc, zstr.count))
 				end
 				i := i + 1
 			end
@@ -410,11 +411,11 @@ feature {NONE} -- Implementation
 
 	compare_occurrences (zstr: ZSTRING; unencoded: EL_UNENCODED_CHARACTERS)
 		local
-			i: INTEGER; uc: NATURAL
+			i: INTEGER; uc: CHARACTER_32
 		do
 			from i := 1 until i > zstr.count loop
 				if zstr.z_code (i) > 0xFF then
-					uc := zstr.unicode (i)
+					uc := zstr [i]
 					assert ("same occurrences", to_array (zstr).occurrences (uc) = unencoded.occurrences (uc))
 				end
 				i := i + 1

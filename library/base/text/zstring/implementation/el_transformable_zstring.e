@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 19:32:39 GMT (Friday 11th February 2022)"
-	revision: "25"
+	date: "2022-10-20 16:07:19 GMT (Thursday 20th October 2022)"
+	revision: "27"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -51,7 +51,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 					from i := l_count - 1 until i < 0 loop
 						c_i := l_area.item (i)
 						if c_i = Substitute then
-							buffer.extend (unencoded.code (i + 1), l_count - i)
+							buffer.extend (unencoded.item (i + 1), l_count - i)
 						end
 						i := i - 1
 					end
@@ -241,35 +241,32 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 
 	replace_character (uc_old, uc_new: CHARACTER_32)
 		local
-			code_old, code_new: NATURAL; c_old, c_new: CHARACTER; i, l_count: INTEGER; l_area: like area
-			unencoded: like unencoded_indexable
+			c_old, c_new: CHARACTER; i, l_count: INTEGER; l_area: like area
+			unencoded: like unencoded_indexable; new_unencoded: CHARACTER_32
 		do
 			c_old := encoded_character (uc_old)
-			if c_old = Substitute then
-				code_old := uc_old.natural_32_code
-			end
 			c_new := encoded_character (uc_new)
 			if c_new = Substitute then
-				code_new := uc_new.natural_32_code
+				new_unencoded := uc_new
 			end
 			l_area := area; l_count := count
-			if code_old.to_boolean then
+			if c_old = Substitute then
 				if has_mixed_encoding then
 					unencoded := unencoded_indexable
 					from i := 0 until i = l_count loop
-						if l_area [i] = Substitute and then code_old = unencoded.code (i + 1) then
+						if l_area [i] = Substitute and then uc_old = unencoded.item (i + 1) then
 							l_area [i] := c_new
 						end
 						i := i + 1
 					end
-					replace_unencoded_character (code_old, code_new, False)
+					replace_unencoded_character (uc_old, new_unencoded, False)
 				end
 			else
 				from i := 0 until i = l_count loop
 					if l_area [i] = c_old then
 						l_area [i] := c_new
 						if c_new = Substitute then
-							put_unencoded_code (code_new, i + 1)
+							put_unencoded (new_unencoded, i + 1)
 						end
 					end
 					i := i + 1
@@ -439,7 +436,7 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 						current_8 := string_8_argument (Current, 1)
 						new_substring_8 := string_8_argument (new_substring, 2)
 						create area.make_filled ('%U', old_count + size_difference * positions.count + 1)
-						count := 0; replaced_8 := current_string_8
+						set_count (0); replaced_8 := current_string_8
 					end
 					from positions.start until positions.after loop
 						end_index := positions.item - 1

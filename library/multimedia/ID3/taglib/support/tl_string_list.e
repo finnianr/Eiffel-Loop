@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-26 15:46:44 GMT (Sunday 26th December 2021)"
-	revision: "7"
+	date: "2022-10-20 16:14:41 GMT (Thursday 20th October 2022)"
+	revision: "8"
 
 class
 	TL_STRING_LIST
@@ -67,7 +67,7 @@ feature -- Element change
 			Once_string.set_from_string (str)
 			cpp_append (self_ptr, Once_string.self_ptr)
 		ensure
-			extended: to_list.last.same_string (str)
+			extended: to_list.last.same_string_general (str)
 		end
 
 	wipe_out

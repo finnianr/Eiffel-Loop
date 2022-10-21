@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 19:33:50 GMT (Friday 11th February 2022)"
-	revision: "18"
+	date: "2022-10-20 8:15:34 GMT (Thursday 20th October 2022)"
+	revision: "19"
 
 class
 	EL_ZSTRING_VIEW
@@ -123,7 +123,7 @@ feature -- Conversion
 				i_final := offset + count
 				from i := offset until i = i_final loop
 					if l_area [i] = Substitute then
-						buffer.extend (unencoded.code (i + 1), i + 1)
+						buffer.extend (unencoded.item (i + 1), i + 1)
 					end
 					i := i + 1
 				end
@@ -163,7 +163,7 @@ feature -- Basic operations
 					from i := area_lower until i > area_upper loop
 						if l_area [i] = Substitute then
 							index := i - start_index + 2
-							buffer.extend (unencoded.code (index), index)
+							buffer.extend (unencoded.item (index), index)
 						end
 						i := i + 1
 					end

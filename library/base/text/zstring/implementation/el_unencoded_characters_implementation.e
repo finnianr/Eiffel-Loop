@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-21 15:34:39 GMT (Sunday 21st February 2021)"
-	revision: "5"
+	date: "2022-10-20 6:50:37 GMT (Thursday 20th October 2022)"
+	revision: "6"
 
 deferred class
 	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
 
 inherit
-	EL_EXTENDABLE_AREA [NATURAL]
+	EL_EXTENDABLE_AREA [CHARACTER_32]
 		export
 			{ANY} area
 		end
@@ -88,7 +88,7 @@ feature {NONE} -- Implementation
 						new_c := c.as_upper
 					end
 					if c /= new_c then
-						l_area [index] := new_c.natural_32_code
+						l_area [index] := new_c
 					end
 					j := j + 1
 				end
@@ -113,23 +113,23 @@ feature {NONE} -- Implementation
 
 	extend_bounds (a_area: like area; lower, upper: INTEGER)
 		do
-			a_area.extend (lower.to_natural_32)
-			a_area.extend (upper.to_natural_32)
+			a_area.extend (lower.to_character_32)
+			a_area.extend (upper.to_character_32)
 		end
 
-	extended_enough (a_area: like area; destination_index, lower, upper: INTEGER; a_code: NATURAL): like area
+	extended_enough (a_area: like area; destination_index, lower, upper: INTEGER; uc: CHARACTER_32): like area
 		local
 			l_insert: like area
 		do
 			l_insert := Unencoded_insert; l_insert.wipe_out
 			if lower > 0 then
-				l_insert.extend (lower.to_natural_32)
+				l_insert.extend (lower.to_character_32)
 			end
 			if upper > 0 then
-				l_insert.extend (upper.to_natural_32)
+				l_insert.extend (upper.to_character_32)
 			end
-			if a_code > 0 then
-				l_insert.extend (a_code)
+			if uc > '%U' then
+				l_insert.extend (uc)
 			end
 			Result := big_enough (a_area, l_insert.count)
 			Result.insert_data (l_insert, 0, destination_index, l_insert.count)
@@ -150,17 +150,17 @@ feature {NONE} -- Implementation
 
 	lower_bound (a_area: like area; i: INTEGER): INTEGER
 		do
-			Result := a_area.item (i).to_integer_32
+			Result := a_area.item (i).natural_32_code.to_integer_32
 		end
 
 	put_lower (a_area: like area; i, lower: INTEGER)
 		do
-			a_area.put (lower.to_natural_32, i)
+			a_area.put (lower.to_character_32, i)
 		end
 
 	put_upper (a_area: like area; i, upper: INTEGER)
 		do
-			a_area.put (upper.to_natural_32, i + 1)
+			a_area.put (upper.to_character_32, i + 1)
 		end
 
 	remove_section (a_area: like area; i, lower, upper, start_index, end_index, deleted_count: INTEGER): INTEGER
@@ -180,10 +180,10 @@ feature {NONE} -- Implementation
 			if destination_index > i then
 				if start_index = lower then
 					-- Remove from start
-					a_area [i] := (lower + count_to_remove - deleted_count).to_natural_32
-					a_area [i + 1] := (upper - deleted_count).to_natural_32
+					a_area [i] := (lower + count_to_remove - deleted_count).to_character_32
+					a_area [i + 1] := (upper - deleted_count).to_character_32
 				else
-					a_area [i + 1] := (upper - count_to_remove).to_natural_32
+					a_area [i + 1] := (upper - count_to_remove).to_character_32
 				end
 			end
 			Result := count_to_remove
@@ -191,7 +191,7 @@ feature {NONE} -- Implementation
 
 	upper_bound (a_area: like area; i: INTEGER): INTEGER
 		do
-			Result := a_area.item (i + 1).to_integer_32
+			Result := a_area.item (i + 1).natural_32_code.to_integer_32
 		end
 
 feature {NONE} -- `count_greater_than_zero_flags' values
@@ -211,7 +211,7 @@ feature {NONE} -- Constants
 			create Result.make
 		end
 
-	Empty_unencoded: SPECIAL [NATURAL]
+	Empty_unencoded: SPECIAL [CHARACTER_32]
 		once
 			create Result.make_empty (0)
 		end
@@ -233,7 +233,7 @@ feature {NONE} -- Constants
 			create Result.make_default
 		end
 
-	Unencoded_insert: SPECIAL [NATURAL]
+	Unencoded_insert: SPECIAL [CHARACTER_32]
 		once
 			create Result.make_empty (3)
 		end

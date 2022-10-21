@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-17 12:39:10 GMT (Monday 17th October 2022)"
-	revision: "1"
+	date: "2022-10-20 12:50:05 GMT (Thursday 20th October 2022)"
+	revision: "2"
 
 class
 	EL_IMMUTABLE_STRING_8_SPLIT_LIST
@@ -22,7 +22,7 @@ inherit
 		end
 
 create
-	make_by_string, make_adjusted, make_adjusted_by_string, make_empty, make_from_sub_list, make
+	make_by_string, make_adjusted, make_adjusted_by_string, make_empty, make
 
 feature -- Access
 

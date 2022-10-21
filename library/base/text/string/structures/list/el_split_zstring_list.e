@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-17 12:37:05 GMT (Monday 17th October 2022)"
-	revision: "10"
+	date: "2022-10-20 12:50:41 GMT (Thursday 20th October 2022)"
+	revision: "11"
 
 class
 	EL_SPLIT_ZSTRING_LIST
@@ -27,7 +27,7 @@ inherit
 	EL_SHARED_ZSTRING_CODEC
 
 create
-	make, make_empty, make_by_string, make_adjusted, make_adjusted_by_string, make_from_sub_list
+	make, make_empty, make_by_string, make_adjusted, make_adjusted_by_string
 
 feature {NONE} -- Implementation
 

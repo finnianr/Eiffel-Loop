@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-29 15:45:49 GMT (Wednesday 29th June 2022)"
-	revision: "6"
+	date: "2022-10-20 8:03:56 GMT (Thursday 20th October 2022)"
+	revision: "7"
 
 deferred class
 	EL_MEMORY_STRING_READER_WRITER
@@ -167,7 +167,7 @@ feature {NONE} -- Implementation
 							if pos + Natural_32_bytes < buffer_count then
 								code := buf.read_natural_32 (pos)
 								pos := pos + Natural_32_bytes
-								unencoded_buffer.extend (code, i + 1)
+								unencoded_buffer.extend (code.to_character_32, i + 1)
 							else
 								done := True
 							end

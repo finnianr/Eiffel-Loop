@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-17 12:38:28 GMT (Monday 17th October 2022)"
-	revision: "32"
+	date: "2022-10-20 14:13:22 GMT (Thursday 20th October 2022)"
+	revision: "33"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -38,7 +38,7 @@ inherit
 		end
 
 create
-	make_by_string, make_adjusted, make_adjusted_by_string, make_empty, make_from_sub_list, make
+	make_by_string, make_adjusted, make_adjusted_by_string, make_empty, make
 
 feature {NONE} -- Initialization
 
@@ -56,15 +56,6 @@ feature -- Basic operations
 		end
 
 feature -- Shared items
-
-	circular_i_th (i: INTEGER): S
-		local
-			interval: INTEGER_64
-		do
-			interval := circular_i_th_interval (i)
-			Result := empty_item
-			Result.append_substring (target, lower_integer (interval), upper_integer (interval))
-		end
 
 	first_item: S
 		-- first split item

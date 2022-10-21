@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-27 10:34:33 GMT (Sunday 27th March 2022)"
-	revision: "10"
+	date: "2022-10-20 16:09:15 GMT (Thursday 20th October 2022)"
+	revision: "11"
 
 class
 	EL_PATH_STEPS
@@ -309,7 +309,7 @@ feature -- Status query
 	same_i_th_step (str: READABLE_STRING_GENERAL; i: INTEGER): BOOLEAN
 		do
 			if valid_index (i) then
-				Result := internal_i_th_step (i).same_string (str)
+				Result := internal_i_th_step (i).same_string_general (str)
 			end
 		end
 
@@ -492,7 +492,7 @@ feature -- Element change
 		do
 			put_token_front (Step_table.to_token (s.as_zstring (step)))
 		ensure
-			is_set: internal_i_th_step (1).same_string (step)
+			is_set: internal_i_th_step (1).same_string_general (step)
 		end
 
 	set_base (a_base: READABLE_STRING_GENERAL)
@@ -506,7 +506,7 @@ feature -- Element change
 				internal_hash_code := 0
 			end
 		ensure
-			base_set: internal_base.same_string (a_base)
+			base_set: internal_base.same_string_general (a_base)
 		end
 
 feature -- Removal
@@ -534,7 +534,7 @@ feature -- Removal
 			end
 			internal_hash_code := 0
 		ensure
-			same_last_step: not is_empty implies internal_i_th_step (count).same_string (last_step)
+			same_last_step: not is_empty implies internal_i_th_step (count).same_string_general (last_step)
 		end
 
 	remove (a_index: INTEGER)

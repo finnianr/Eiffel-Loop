@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-17 12:38:43 GMT (Monday 17th October 2022)"
-	revision: "1"
+	date: "2022-10-20 14:12:29 GMT (Thursday 20th October 2022)"
+	revision: "2"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -46,11 +46,10 @@ inherit
 			there_exists as there_exists_interval
 		export
 			{NONE} all
-			{ANY} back, index, count, item_count, item_start_index, item_end_index,
-				remove, remove_head, remove_tail, go_i_th, i_th_upper, i_th_lower,
-				is_empty, before, valid_index
+			{ANY} index, count, item_count, item_start_index, item_end_index, i_th_upper, i_th_lower,
+				back, remove, remove_head, remove_tail, go_i_th, is_empty, before, valid_index
 		redefine
-			extend_buffer, is_equal, make_empty, make_from_sub_list, make_by_string, make
+			extend_buffer, is_equal, make_empty, make_by_string, make
 		end
 
 	ITERABLE [S]
@@ -65,7 +64,7 @@ inherit
 	EL_SHARED_UNICODE_PROPERTY
 
 create
-	make_by_string, make_adjusted, make_adjusted_by_string, make_empty, make_from_sub_list, make
+	make_by_string, make_adjusted, make_adjusted_by_string, make_empty, make
 
 feature {NONE} -- Initialization
 
@@ -109,12 +108,6 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_from_sub_list (list: like Current; a_start_index, a_end_index: INTEGER)
-		do
-			target := list.target
-			Precursor (list, a_start_index, a_end_index)
-		end
-
 feature -- Access
 
 	new_cursor: EL_SPLIT_STRING_LIST_ITERATION_CURSOR [S]
@@ -140,14 +133,6 @@ feature -- Numeric items
 		end
 
 feature -- Items
-
-	circular_i_th_copy (i: INTEGER): S
-		local
-			interval: INTEGER_64
-		do
-			interval := circular_i_th_interval (i)
-			Result := target.substring (lower_integer (interval), upper_integer (interval))
-		end
 
 	i_th (i: INTEGER): S
 		local

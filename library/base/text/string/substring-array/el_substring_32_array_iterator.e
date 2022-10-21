@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-30 12:46:48 GMT (Saturday 30th January 2021)"
-	revision: "5"
+	date: "2022-10-20 7:38:39 GMT (Thursday 20th October 2022)"
+	revision: "6"
 
 class
 	EL_SUBSTRING_32_ARRAY_ITERATOR
@@ -64,7 +64,7 @@ feature -- Access
 				create Result.make (character_count + 20)
 				i_final := offset + character_count
 				from i := offset until i = i_final loop
-					Result.append_code (area [i])
+					Result.append_character (area [i])
 					i := i + 1
 				end
 				Result.append_string_general (": ")
@@ -81,7 +81,7 @@ feature -- Measurement
 			l_area: like area; i: INTEGER
 		do
 			l_area := area; i := index
-			Result := (l_area [i + 1] - l_area [i]).to_integer_32 + 1
+			Result := value (l_area, i + 1) - value (l_area, i) + 1
 		end
 
 	count: INTEGER
@@ -138,13 +138,13 @@ feature -- Cursor movement
 
 feature {EL_SUBSTRING_32_ARRAY} -- Access
 
-	area: SPECIAL [NATURAL]
+	area: SPECIAL [CHARACTER_32]
 
 feature {NONE} -- Constants
 
-	Default_area: SPECIAL [NATURAL]
+	Default_area: SPECIAL [CHARACTER_32]
 		once
-			create Result.make_filled (0, 1)
+			create Result.make_filled ('%U', 1)
 		end
 
 end

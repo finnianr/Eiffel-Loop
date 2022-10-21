@@ -7,44 +7,68 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-30 8:47:33 GMT (Thursday 30th June 2022)"
-	revision: "92"
+	date: "2022-10-21 9:35:01 GMT (Friday 21st October 2022)"
+	revision: "94"
 
 deferred class
 	EL_READABLE_ZSTRING
 
 inherit
-	READABLE_STRING_GENERAL
+	READABLE_STRING_32
 		rename
+			area as unencoded_area,
 			code as z_code,
 			has_code as has_unicode,
-			same_caseless_characters as same_caseless_characters_general,
+			make_from_string_general as make_from_general,
 			split as split_list,
 			substring_index as substring_index_general,
-			ends_with as ends_with_general,
-			is_case_insensitive_equal as is_case_insensitive_equal_general,
-			starts_with as starts_with_general
+			string_searcher as string_32_searcher,
+			to_lower_area as unencoded_to_lower_area,
+			to_upper_area as unencoded_to_upper_area
+		export
+			{NONE} unencoded_to_lower_area, unencoded_to_upper_area
 		undefine
+--			Initialization
+			make,
 --			Access
-			index_of, last_index_of, out,
+			area_lower, area_upper, fuzzy_index, index_of, last_index_of, out,
+			substring_index_in_bounds, substring_index_general, string,
 --			Status query			
-			has, is_double, is_real_64, is_integer, is_integer_32,
+			has, ends_with, ends_with_general, starts_with, starts_with_general, is_less,
+			is_boolean, is_real, is_real_32, is_double, is_real_64,
+			is_integer_8, is_integer_16, is_integer, is_integer_32, is_integer_64,
+			is_natural_8, is_natural_16, is_natural, is_natural_32, is_natural_64,
+			is_substring_whitespace, is_valid_as_string_8, valid_code,
 --			Conversion
-			as_string_8, as_string_32,
-			split_list,
-			to_boolean, to_double, to_real_64, to_integer, to_integer_32,
+			as_string_8, as_string_32, split_list,
+			to_boolean, to_real, to_real_32, to_double, to_real_64,
+			to_integer_8, to_integer_16, to_integer, to_integer_32, to_integer_64,
+			to_natural_8, to_natural_16, to_natural, to_natural_32, to_natural_64,
 			to_string_8, to_string_32,
---			Measurement
-			occurrences
-		redefine
---			Access
-			hash_code,
---			Status query
-			ends_with_general, starts_with_general, has_unicode,
 --			Comparison
-			is_equal, same_characters,
+			same_caseless_characters, same_characters,
+--			Element change
+			fill_character,
+--			Measurement
+			capacity, occurrences,
+--			Implementation
+			is_valid_integer_or_natural
+		redefine
+--			Initialization
+			make_from_string,
+--			Access
+			hash_code, unencoded_area, new_cursor,
+--			Status query
+			has_unicode,
+--			Comparison
+			is_equal, same_caseless_characters_general, same_characters_general,
 --			Duplication
 			copy
+		end
+
+	EL_COMPARABLE_ZSTRING
+		redefine
+			make_from_string_8, unencoded_area
 		end
 
 	EL_CONVERTABLE_ZSTRING
@@ -52,19 +76,24 @@ inherit
 			{STRING_HANDLER} empty_unencoded_buffer, unencoded_indexable, set_unencoded_from_buffer
 			{EL_ZSTRING_ITERATION_CURSOR} area_lower, area_upper, area, unencoded_area
 		redefine
-			make_from_string
+			make_from_string_8, unencoded_area
 		end
 
 	EL_MEASUREABLE_ZSTRING
 		redefine
-			make_from_string
+			make_from_string_8, unencoded_area
 		end
 
 	EL_SEARCHABLE_ZSTRING
 		export
 			{EL_APPENDABLE_ZSTRING} internal_substring_index_list
 		redefine
-			make_from_string
+			make_from_string_8, unencoded_area
+		end
+
+	EL_ZSTRING_TO_BASIC_TYPES
+		redefine
+			make_from_string_8, unencoded_area
 		end
 
 	READABLE_INDEXABLE [CHARACTER_32]
@@ -97,19 +126,6 @@ feature {NONE} -- Initialization
 		do
 			internal_make (n)
 			make_unencoded
-		end
-
-	make_filled (uc: CHARACTER_32; n: INTEGER)
-			-- Create string of length `n' filled with `uc'.
-		require
-			valid_count: n >= 0
-		do
-			make (n)
-			fill_character (uc)
-		ensure
-			count_set: count = n
-			area_allocated: capacity >= n
-			filled: occurrences (uc) = count
 		end
 
 	make_from_latin_1_c (latin_1_ptr: POINTER)
@@ -158,6 +174,10 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Initialization
 
+	make_from_cil (a_system_string: detachable SYSTEM_STRING)
+		do
+		end
+
 	make_from_general (s: READABLE_STRING_GENERAL)
 		do
 			if attached {EL_ZSTRING} s as other then
@@ -168,7 +188,17 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_from_string (str: READABLE_STRING_8)
+	make_from_string (s: READABLE_STRING_32)
+		do
+			if attached {EL_ZSTRING} s as other then
+				make_from_other (other)
+			else
+				make_filled ('%U', s.count)
+				encode (s, 0)
+			end
+		end
+
+	make_from_string_8 (str: READABLE_STRING_8)
 			-- initialize with string that has the same encoding as codec
 		require else
 			must_not_have_reserved_substitute_character: not str.has ('%/026/')
@@ -249,20 +279,6 @@ feature -- Access
 			unencoded_area := other.unencoded_area
 		end
 
-feature -- Output
-
-	write_latin (writeable: EL_WRITEABLE)
-		-- write `area' sequence as raw characters to `writeable'
-		local
-			i, l_count: INTEGER; l_area: like area
-		do
-			l_area := area; l_count := count
-			from i := 0 until i = l_count loop
-				writeable.write_raw_character_8 (l_area [i])
-				i := i + 1
-			end
-		end
-
 feature -- Character status query
 
 	is_alpha_item (i: INTEGER): BOOLEAN
@@ -317,53 +333,9 @@ feature -- Character status query
 
 feature -- Status query
 
-	begins_with (str: READABLE_STRING_GENERAL): BOOLEAN
-		-- True if left-adjusted string begins with `str'
-		local
-			white_count: INTEGER
-		do
-			white_count := leading_white_space
-			if count - white_count >= str.count then
-				Result := same_characters (str, 1, str.count, white_count + 1)
-			end
-		end
-
-	enclosed_with (character_pair: READABLE_STRING_GENERAL): BOOLEAN
-		require
-			is_pair: character_pair.count = 2
-		do
-			if count >= 2 and then character_pair.count = 2 then
-				if attached {EL_READABLE_ZSTRING} character_pair as zstr then
-					Result := z_code (1) = zstr.z_code (1) and then z_code (count) = zstr.z_code (2)
-				else
-					Result := item (1) = character_pair [1] and then item (count) = character_pair [2]
-				end
-			end
-		end
-
 	encoded_with (a_codec: EL_ZCODEC): BOOLEAN
 		do
 			Result := a_Codec.same_type (codec)
-		end
-
-	ends_with (str: EL_READABLE_ZSTRING): BOOLEAN
-		do
-			Result := internal_ends_with (str)
-			if Result and then str.has_mixed_encoding then
-				Result := Result and same_unencoded_substring (str, count - str.count + 1)
-			end
-		end
-
-	ends_with_character (c: CHARACTER_32): BOOLEAN
-		do
-			if not is_empty then
-				Result := item (count) = c
-			end
-		end
-
-	ends_with_general (str: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := ends_with (adapted_argument (str, 1))
 		end
 
 	extendible: BOOLEAN = True
@@ -397,11 +369,6 @@ feature -- Status query
 	has_unicode (uc: like unicode): BOOLEAN
 		do
 			Result := has_z_code (unicode_to_z_code (uc))
-		end
-
-	has_first (uc: CHARACTER_32): BOOLEAN
-		do
-			Result := not is_empty and then z_code (1) = uc.natural_32_code
 		end
 
 	has_quotes (a_count: INTEGER): BOOLEAN
@@ -499,12 +466,6 @@ feature -- Status query
 			Result := not is_empty and then is_space_item (count)
 		end
 
-	is_string_32: BOOLEAN = True
-			-- <Precursor>
-
-	is_string_8: BOOLEAN = False
-			-- <Precursor>
-
 	is_substring_whitespace (start_index, end_index: INTEGER): BOOLEAN
 		local
 			i: INTEGER; l_area: like area; c_i: CHARACTER
@@ -538,28 +499,10 @@ feature -- Status query
 			end
 		end
 
-	matches (a_pattern: EL_TEXT_PATTERN_I): BOOLEAN
-		do
-			Result := a_pattern.matches_string_general (Current)
-		end
-
 	prunable: BOOLEAN
 			-- May items be removed? (Answer: yes.)
 		do
 			Result := True
-		end
-
-	starts_with (str: like Current): BOOLEAN
-		do
-			Result := internal_starts_with (str)
-			if Result and then str.has_mixed_encoding then
-				Result := Result and same_unencoded_substring (str, 1)
-			end
-		end
-
-	starts_with_general (str: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := starts_with (adapted_argument (str, 1))
 		end
 
 	valid_code (a_code: NATURAL_32): BOOLEAN
@@ -683,39 +626,25 @@ feature -- Comparison
 			end
 		end
 
- 	same_characters (other: READABLE_STRING_GENERAL; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
+	same_caseless_characters_general (other: READABLE_STRING_GENERAL; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
+		-- Are characters of `other' within bounds `start_pos' and `end_pos'
+		-- caseless identical to characters of current string starting at index `index_pos'.
+		do
+ 			if attached {EL_READABLE_ZSTRING} other as z_other then
+ 				Result := matching_characters_in_bounds (z_other, start_pos, end_pos, index_pos, False)
+ 			else
+ 				Result := Precursor (other, start_pos, end_pos, index_pos)
+ 			end
+ 		end
+
+ 	same_characters_general (other: READABLE_STRING_GENERAL; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `index_pos'.
-		local
-			i, j, l_count, i_final: INTEGER; l_area, o_area: like area
-			unencoded, o_unencoded: like unencoded_indexable
 		do
-			if attached {EL_READABLE_ZSTRING} other as z_other then
-				Result := internal_same_characters (z_other, start_pos, end_pos, index_pos)
-				if Result and then has_mixed_encoding then
-					unencoded := unencoded_indexable; o_unencoded := z_other.unencoded_indexable_other
-					l_area := area; o_area := z_other.area
-					l_count := end_pos - start_pos + 1
-					i_final := index_pos + l_count - 1
-					from i := index_pos - 1; j := start_pos - 1 until not Result or else i = i_final loop
-						if l_area [i] = Substitute then
-							Result := unencoded.code (i + 1) = o_unencoded.code (j + 1)
-						end
-						i := i + 1; j := j + 1
-					end
-				end
+ 			if attached {EL_READABLE_ZSTRING} other as z_other then
+				Result := matching_characters_in_bounds (z_other, start_pos, end_pos, index_pos, True)
 			else
 				Result := Precursor (other, start_pos, end_pos, index_pos)
-			end
-		end
-
-	same_substring (str: READABLE_STRING_GENERAL; i: INTEGER; case_insensitive: BOOLEAN): BOOLEAN
-		-- `True' if `str' occurs at position `i'
-		do
-			if case_insensitive then
-				Result := same_caseless_characters_general (str, 1, str.count, i)
-			else
-				Result := same_characters (str, 1, str.count, i)
 			end
 		end
 
@@ -741,7 +670,9 @@ feature {EL_READABLE_ZSTRING} -- Duplication
 			-- same_characters: For every `i' in 1..`count', `item' (`i') = `other'.`item' (`i')
 		end
 
-feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Access
+feature {EL_READABLE_ZSTRING, STRING_HANDLER, EL_ZSTRING_ITERATION_CURSOR} -- Access
+
+	unencoded_area: SPECIAL [CHARACTER_32]
 
 	as_expanded (index: INTEGER): STRING_32
 			-- Current expanded as `z_code' sequence
@@ -752,64 +683,17 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Access
 			fill_expanded (Result)
 		end
 
-feature -- Append to output
-
-	append_to (output: like Current)
+	frozen set_count (number: INTEGER)
+			-- Set `count' to `number' of characters.
 		do
-			output.append (Current)
-		end
-
-	append_to_general (output: STRING_GENERAL)
-		do
-			if attached {EL_ZSTRING} output as str_z then
-				append_to (str_z)
-
-			elseif attached {STRING_32} output as str_32 then
-				append_to_string_32 (str_32)
-
-			elseif attached {STRING_8} output as str_8 then
-				append_to_string_8 (str_8)
-			end
-		end
-
-	append_to_string_32 (output: STRING_32)
-		local
-			old_count: INTEGER; area_out: SPECIAL [CHARACTER_32]
-		do
-			old_count := output.count
-			output.grow (old_count + count)
-			area_out := output.area
-
-			Codec.decode (count, area, area_out, old_count)
-			write_unencoded (area_out, old_count)
-
-			area_out [old_count + count] := '%U'
-			output.set_count (old_count + count)
-		end
-
-	append_to_string_8 (output: STRING_8)
-		local
-			str_32: STRING_32; l_buffer: EL_STRING_32_BUFFER_ROUTINES
-		do
-			str_32 := l_buffer.empty
-			append_to_string_32 (str_32)
-			output.append_string_general (str_32)
-		end
-
-	append_to_utf_8 (utf_8_out: STRING_8)
-		do
-			Utf_8_Codec.append_general_to_utf_8 (Current, utf_8_out)
+			count := number
+			reset_hash
 		end
 
 feature {NONE} -- Implementation
 
 	current_zstring: ZSTRING
-		do
-			if attached {ZSTRING} Current as zstring then
-				Result := zstring
-			else
-				create Result.make_from_other (Current)
-			end
+		deferred
 		end
 
 	current_readable: EL_READABLE_ZSTRING
@@ -837,48 +721,6 @@ feature {NONE} -- Implementation
 --			Does not work in 16.05 compiler
 --			Result := uc.is_space
 			Result := Unicode_property.is_space (uc)
-		end
-
-	order_comparison (other: EL_READABLE_ZSTRING; n: INTEGER): INTEGER
-			-- Compare `n' characters from `area' starting at `area_lower' with
-			-- `n' characters from and `other' starting at `other.area_lower'.
-			-- 0 if equal, < 0 if `Current' < `other', > 0 if `Current' > `other'
-		require
-			n_non_negative: n >= 0
-			n_valid: n <= (area.upper - other.area_lower + 1) and n <= (other.area.upper - area_lower + 1)
-		local
-			i, j, i_final, l_code: INTEGER; found: BOOLEAN
-			l_z_code, o_z_code: NATURAL; o_area, l_area: like area
-			unencoded, o_unencoded: like unencoded_indexable
-		do
-			l_area := area; o_area := other.area
-			if has_mixed_encoding or else other.has_mixed_encoding then
-				unencoded := unencoded_indexable; o_unencoded := other.unencoded_indexable_other
-				from i := area_lower; i_final := i + n; j := other.area_lower until found or else i = i_final loop
-					l_z_code := area_z_code (l_area, unencoded, i)
-					o_z_code := area_z_code (o_area, o_unencoded, j)
-					if l_z_code /= o_z_code then
-						found := True
-					else
-						i := i + 1; j := j + 1
-					end
-				end
-			else
-				from i := area_lower; i_final := i + n; j := other.area_lower until found or else i = i_final loop
-					if l_area [i] /= o_area [j] then
-						found := True
-					else
-						i := i + 1; j := j + 1
-					end
-				end
-				l_z_code := l_area.item (i).natural_32_code
-				o_z_code := o_area.item (j).natural_32_code
-			end
-			if found then
-				-- Comparison must be done as unicode and never Latin-15
-				l_code := Codec.z_code_as_unicode (l_z_code).to_integer_32
-				Result := Codec.z_code_as_unicode (o_z_code).to_integer_32 - l_code
-			end
 		end
 
 	pointer: EL_POINTER_ROUTINES

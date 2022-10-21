@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-01 10:34:09 GMT (Saturday 1st October 2022)"
-	revision: "2"
+	date: "2022-10-20 16:06:43 GMT (Thursday 20th October 2022)"
+	revision: "3"
 
 deferred class
 	EL_PATH_BASE_NAME
@@ -104,7 +104,7 @@ feature -- Status Query
 				end
 			end
 		ensure
-			valid_result: Result and not case_insensitive implies base_sans_extension.same_string (name)
+			valid_result: Result and not case_insensitive implies base_sans_extension.same_string_general (name)
 			valid_result: Result and case_insensitive implies base_sans_extension.same_caseless_characters_general (name, 1, name.count, 1)
 
 		end
@@ -133,7 +133,7 @@ feature -- Status Query
 
 	same_base (a_base: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := base.same_string (a_base)
+			Result := base.same_string_general (a_base)
 		end
 
 	same_extension (a_extension: READABLE_STRING_GENERAL; case_insensitive: BOOLEAN): BOOLEAN
@@ -145,7 +145,7 @@ feature -- Status Query
 				if case_insensitive then
 					Result := base.same_caseless_characters_general (a_extension, 1, a_extension.count, index + 1)
 				else
-					Result := base.same_characters (a_extension, 1, a_extension.count, index + 1)
+					Result := base.same_characters_general (a_extension, 1, a_extension.count, index + 1)
 				end
 			end
 		end

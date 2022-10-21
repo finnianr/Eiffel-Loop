@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-29 16:13:05 GMT (Friday 29th January 2021)"
-	revision: "5"
+	date: "2022-10-20 7:14:43 GMT (Thursday 20th October 2022)"
+	revision: "6"
 
 class
 	EL_SUBSTRING_32_LIST
 
 inherit
-	ARRAYED_LIST [NATURAL]
+	ARRAYED_LIST [CHARACTER_32]
 		rename
 			make as make_array,
 			last as last_upper,
@@ -57,12 +57,12 @@ feature -- Measurement
 
 	first_lower: INTEGER
 		do
-			Result := first.to_integer_32
+			Result := first.natural_32_code.to_integer_32
 		end
 
 	first_upper: INTEGER
 		do
-			Result := i_th (2).to_integer_32
+			Result := i_th (2).natural_32_code.to_integer_32
 		end
 
 feature -- Status change
@@ -93,42 +93,42 @@ feature -- Element change
 			character_area.copy_data (strings.area, 1 + additional, character_area.count, strings.character_count)
 		end
 
-	append_interval (a_area: SPECIAL [NATURAL]; a_lower, a_upper, offset: INTEGER)
+	append_interval (a_area: SPECIAL [CHARACTER_32]; a_lower, a_upper, offset: INTEGER)
 		local
 			l_count: INTEGER
 		do
 			l_count := a_upper - a_lower + 1
 			ensure_capacity (character_area, l_count)
 			character_area.copy_data (a_area, offset, character_area.count, l_count)
-			extend (a_lower.to_natural_32); extend (a_upper.to_natural_32)
+			extend (a_lower.to_character_32); extend (a_upper.to_character_32)
 		end
 
-	put_character (c: CHARACTER_32; a_index: INTEGER)
-		do
-			put_unicode (c.natural_32_code, a_index)
-		end
-
-	put_unicode (uc: NATURAL; a_index: INTEGER)
+	put_character (uc: CHARACTER_32; a_index: INTEGER)
 		require
-			valid_index: is_empty or else a_index.to_natural_32 > last_upper
+			valid_index: is_empty or else a_index.to_character_32 > last_upper
 		do
 			ensure_capacity (character_area, 1)
 			character_area.extend (uc)
 
-			if is_empty or else a_index.to_natural_32 > last_upper + 1 then
-				extend (a_index.to_natural_32)
-				extend (a_index.to_natural_32)
+			if is_empty or else a_index.to_character_32 > last_upper + 1 then
+				extend (a_index.to_character_32)
+				extend (a_index.to_character_32)
 			else
-				put_i_th (a_index.to_natural_32, count)
+				put_i_th (a_index.to_character_32, count)
 			end
 		ensure
-			valid_last_upper: last_upper = a_index.to_natural_32
+			valid_last_upper: last_upper = a_index.to_character_32
 			even_count: count \\ 2 = 0
+		end
+
+	put_unicode (a_code: NATURAL; a_index: INTEGER)
+		do
+			put_character (a_code.to_character_32, a_index)
 		end
 
 	put_z_code (a_z_code: NATURAL; a_index: INTEGER)
 		do
-			put_unicode (z_code_to_unicode (a_z_code), a_index)
+			put_character (z_code_to_unicode (a_z_code).to_character_32, a_index)
 		end
 
 feature -- Transformation
@@ -136,7 +136,7 @@ feature -- Transformation
 	to_substring_area: like area
 		do
 			create Result.make_empty (count + character_area.count + 1)
-			Result.extend (count.to_natural_32 // 2)
+			Result.extend ((count // 2).to_character_32)
 			Result.copy_data (area_v2, 0, 1, count)
 			Result.copy_data (character_area, 0, Result.count, character_area.count)
 		end
@@ -156,7 +156,7 @@ feature -- Removal
 
 feature {EL_SUBSTRING_32_CONTAINER} -- Access
 
-	character_area: SPECIAL [NATURAL]
+	character_area: SPECIAL [CHARACTER_32]
 
 feature {NONE} -- Implementation
 

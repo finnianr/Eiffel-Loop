@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-29 15:18:55 GMT (Wednesday 29th June 2022)"
-	revision: "20"
+	date: "2022-10-20 7:58:47 GMT (Thursday 20th October 2022)"
+	revision: "21"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -266,7 +266,7 @@ feature -- String sinks
 
 	sink_string (in: EL_READABLE_ZSTRING)
 		local
-			l_area: SPECIAL [NATURAL]; i, count: INTEGER
+			l_area: SPECIAL [CHARACTER_32]; i, count: INTEGER
 			s: EL_STRING_32_ROUTINES
 		do
 			if utf_8_mode_enabled then
@@ -276,7 +276,7 @@ feature -- String sinks
 				-- Unencoded
 				l_area := in.unencoded_area; count := l_area.count
 				from i := 0 until i = count loop
-					sink_natural_32 (l_area.item (i))
+					sink_natural_32 (l_area [i].natural_32_code)
 					i := i + 1
 				end
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-17 18:22:04 GMT (Monday 17th October 2022)"
-	revision: "14"
+	date: "2022-10-18 17:49:41 GMT (Tuesday 18th October 2022)"
+	revision: "15"
 
 class
 	EL_DRAWING_AREA_BUTTON
@@ -29,6 +29,8 @@ inherit
 
 	EL_SHARED_BUTTON_STATE; EL_SHARED_DEFAULT_PIXMAPS
 
+	EL_STRING_8_CONSTANTS
+
 create
 	make
 
@@ -46,7 +48,7 @@ feature {NONE} -- Initialization
 			drawing_area.pointer_button_release_actions.extend (agent on_pointer_button_release)
 			drawing_area.pointer_motion_actions.extend (agent on_pointer_motion)
 
-			create {STRING} tool_tip.make_empty
+			tool_tip := Empty_string_8
 			create timer
 		end
 

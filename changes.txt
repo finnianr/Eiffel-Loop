@@ -526,3 +526,6 @@ Changed user input method to use EL_INPUT_USER_VALUE
 Wed 12th Oct 2022, 20:09:24
 Refactor of EL_CHAIN to move query routines into EL_TRAVERSABLE_STRUCTURE
 
+Thu 20th Oct 2022, 14:29:30
+Changed EL_UNENCODED_CHARACTERS to use SPECIAL [CHARACTER_32]
+

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 19:32:39 GMT (Friday 11th February 2022)"
-	revision: "9"
+	date: "2022-10-21 7:02:14 GMT (Friday 21st October 2022)"
+	revision: "11"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
@@ -16,8 +16,6 @@ inherit
 	EL_ZSTRING_IMPLEMENTATION
 
 feature -- Measurement
-
-	Lower: INTEGER = 1
 
 	leading_occurrences (uc: CHARACTER_32): INTEGER
 			-- Returns count of continous occurrences of `uc' or white space starting from the begining
@@ -105,7 +103,7 @@ feature -- Measurement
 				c := Codec.encoded_character (uc)
 			end
 			if c = Substitute then
-				Result := unencoded_occurrences (uc.natural_32_code)
+				Result := unencoded_occurrences (uc)
 			else
 				Result := internal_occurrences (c)
 			end

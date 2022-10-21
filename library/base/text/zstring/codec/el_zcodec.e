@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-29 15:32:48 GMT (Wednesday 29th June 2022)"
-	revision: "33"
+	date: "2022-10-20 8:37:49 GMT (Thursday 20th October 2022)"
+	revision: "34"
 
 deferred class
 	EL_ZCODEC
@@ -178,7 +178,7 @@ feature -- Basic operations
 					c := latin_character (uc)
 					if c.code = 0 then
 						encoded_out [out_i] := Substitute
-						unencoded_characters.extend (uc.natural_32_code, out_i + 1)
+						unencoded_characters.extend (uc, out_i + 1)
 					else
 						encoded_out [out_i] := c
 					end
@@ -223,7 +223,7 @@ feature -- Basic operations
 						c := latin_character (uc)
 						if c.code = 0 then
 							encoded_out [j] := Substitute
-							unencoded_characters.extend (unicode, j + 1)
+							unencoded_characters.extend (uc, j + 1)
 						else
 							encoded_out [j] := c
 						end
@@ -275,7 +275,7 @@ feature -- Basic operations
 						c := latin_character (uc)
 						if c.code = 0 then
 							encoded_out [i + out_offset] := Substitute
-							unencoded_characters.extend (unicode.to_natural_32, i + out_offset + 1)
+							unencoded_characters.extend (unicode.to_character_32, i + out_offset + 1)
 						else
 							encoded_out [i + out_offset] := c
 						end
@@ -405,7 +405,7 @@ feature {EL_ZSTRING} -- Implementation
 						unicode_substitute := unicode_case_change_substitute (c.natural_32_code)
 						if unicode_substitute.natural_32_code > 0 then
 							new_c := Substitute
-							unencoded_characters.put_code (unicode_substitute.natural_32_code, i + 1)
+							unencoded_characters.put (unicode_substitute, i + 1)
 						end
 					end
 					if new_c /= c then

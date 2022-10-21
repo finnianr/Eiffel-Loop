@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 14:00:12 GMT (Tuesday 15th February 2022)"
-	revision: "28"
+	date: "2022-10-21 12:53:58 GMT (Friday 21st October 2022)"
+	revision: "30"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -19,11 +19,13 @@ inherit
 			{EL_CONVERTABLE_ZSTRING} all
 		end
 
-	EL_MODULE_BUFFER_32
+	EL_WRITEABLE_ZSTRING
 
 	EL_MODULE_BUFFER_8
 
 	EL_SHARED_UTF_8_SEQUENCE
+
+	EL_SHARED_STRING_32_CURSOR
 
 feature -- Measurement
 
@@ -99,7 +101,15 @@ feature -- To Strings
 			end
 		end
 
-	to_string_32, as_string_32: STRING_32
+	to_immutable_32: IMMUTABLE_STRING_32
+		do
+			create Result.make (count)
+			if attached cursor_32 (Result) as immutable then
+				codec.decode (count, area, immutable.area, 0)
+			end
+		end
+
+	to_string_32, as_string_32, string: STRING_32
 			-- UCS-4
 		do
 			create Result.make (count)
@@ -204,19 +214,24 @@ feature -- To list
 			create Result.make (current_zstring, a_separator)
 		end
 
+	split_intervals (delimiter: READABLE_STRING_GENERAL): EL_SPLIT_ZSTRING_LIST
+			-- substring intervals of `Current' split with `delimiter'
+		do
+			create Result.make_by_string (current_zstring, delimiter)
+		end
+
 	split_list (a_separator: CHARACTER_32): LIST [like Current]
 			-- Split on `a_separator'.
 		local
 			l_list: ARRAYED_LIST [like Current]; part: like Current; i, j, l_count, result_count: INTEGER
-			separator: CHARACTER; call_index_of_8: BOOLEAN; separator_code: NATURAL
+			separator: CHARACTER; call_index_of_8: BOOLEAN
 			unencoded: like unencoded_indexable
 		do
 			separator := encoded_character (a_separator)
 			l_count := count
 				-- Worse case allocation: every character is a separator
 			if separator = Substitute then
-				separator_code := a_separator.natural_32_code
-				result_count := unencoded_occurrences (separator_code) + 1
+				result_count := unencoded_occurrences (a_separator) + 1
 			else
 				result_count := internal_occurrences (separator) + 1
 				call_index_of_8 := True
@@ -239,7 +254,7 @@ feature -- To list
 				else
 					unencoded := unencoded_indexable
 					from i := 1 until i > l_count loop
-						j := unencoded.index_of (separator_code, i)
+						j := unencoded.index_of (a_separator, i)
 						if j = 0 then
 							j := l_count + 1
 						end
@@ -263,12 +278,6 @@ feature -- To list
 			check
 				l_list.count = occurrences (a_separator) + 1
 			end
-		end
-
-	split_intervals (delimiter: READABLE_STRING_GENERAL): EL_SPLIT_ZSTRING_LIST
-			-- substring intervals of `Current' split with `delimiter'
-		do
-			create Result.make_by_string (current_zstring, delimiter)
 		end
 
 	split_on_string (a_separator: READABLE_STRING_GENERAL): EL_SPLIT_ZSTRING_ON_STRING
@@ -459,6 +468,11 @@ feature -- Conversion
 			Result.translate_general (old_characters, new_characters)
 		end
 
+	unescaped (unescaper: EL_ZSTRING_UNESCAPER): like Current
+		do
+			create {ZSTRING} Result.make_from_zcode_area (unescaper.unescaped_array (current_readable))
+		end
+
 	unquoted: like Current
 		do
 			if count >= 2 then
@@ -466,11 +480,6 @@ feature -- Conversion
 			else
 				Result := twin
 			end
-		end
-
-	unescaped (unescaper: EL_ZSTRING_UNESCAPER): like Current
-		do
-			create {ZSTRING} Result.make_from_zcode_area (unescaper.unescaped_array (current_readable))
 		end
 
 feature -- Case changed
@@ -501,14 +510,6 @@ feature {NONE} -- Deferred Implementation
 		deferred
 		end
 
-	append_to_string_32 (output: STRING_32)
-		deferred
-		end
-
-	append_to_utf_8 (utf_8_out: STRING_8)
-		deferred
-		end
-
 	internal_substring_index_list (str: EL_READABLE_ZSTRING): ARRAYED_LIST [INTEGER]
 		deferred
 		end
@@ -521,11 +522,11 @@ feature {NONE} -- Deferred Implementation
 		deferred
 		end
 
-	substring_index (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
+	substitution_marker: EL_ZSTRING
 		deferred
 		end
 
-	substitution_marker: EL_ZSTRING
+	substring_index (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
 		deferred
 		end
 

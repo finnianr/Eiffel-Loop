@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-08 9:05:58 GMT (Thursday 8th April 2021)"
-	revision: "4"
+	date: "2022-10-20 8:38:34 GMT (Thursday 20th October 2022)"
+	revision: "5"
 
 class
 	UNENCODED_CHARACTER_LIST_GENERATION
@@ -65,15 +65,15 @@ feature {NONE} -- String append variations
 
 	extendable_extend
 		local
-			i: INTEGER; str: STRING_32; c: CHARACTER_32
+			i: INTEGER; str: STRING_32; uc: CHARACTER_32
 			unencoded: like extendable; characters: EL_UNENCODED_CHARACTERS
 		do
 			str := String; unencoded := extendable
 			unencoded.wipe_out
 			from i := 1  until i > str.count loop
-				c := str [i]
-				if c.code > 0xFF then
-					unencoded.extend (c.natural_32_code, i)
+				uc := str [i]
+				if uc.code > 0xFF then
+					unencoded.extend (uc, i)
 				end
 				i := i + 1
 			end
@@ -110,7 +110,7 @@ feature {NONE} -- Constants
 	String: STRING_32
 		once
 			create Result.make (100)
-			across Hexagram.Chinese_names as chinese loop
+			across Hexagram.chinese_names as chinese loop
 				Result.append_character (' ')
 				Result.append (chinese.item.pinyin)
 				Result.append_character (' ')

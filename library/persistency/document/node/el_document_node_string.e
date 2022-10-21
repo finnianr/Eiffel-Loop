@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 19:04:34 GMT (Tuesday 15th February 2022)"
-	revision: "24"
+	date: "2022-10-20 16:15:12 GMT (Thursday 20th October 2022)"
+	revision: "25"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -178,7 +178,7 @@ feature -- Status query
 
 	same_as (a_string: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := adjusted (False).same_string (a_string)
+			Result := adjusted (False).same_string_general (a_string)
 		end
 
 feature -- String conversion

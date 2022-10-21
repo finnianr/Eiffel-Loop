@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-30 9:38:46 GMT (Saturday 30th January 2021)"
-	revision: "13"
+	date: "2022-10-20 7:39:24 GMT (Thursday 20th October 2022)"
+	revision: "14"
 
 deferred class
 	EL_SUBSTRING_32_ARRAY_IMPLEMENTATION
@@ -24,7 +24,7 @@ feature {EL_ZCODE_CONVERSION} -- Debug
 			list: ARRAYED_LIST [STRING_32]; string: STRING_32
 		do
 			l_area := area
-			create list.make (l_area.item (0).to_integer_32)
+			create list.make (l_area.item (0).natural_32_code.to_integer_32)
 			i_final := list.capacity * 2 + 1
 			offset := i_final
 			from i := 1 until i = i_final loop
@@ -52,7 +52,7 @@ feature {NONE} -- Factory
 		-- new area with memory of `count' substrings and `character_count' characters
 		do
 			create Result.make_empty (1 + count * 2 + a_character_count)
-			Result.extend (0)
+			Result.extend ('%U')
 		end
 
 	new_joined_area (area_1, area_2: like area; delta: INTEGER): like area
@@ -61,13 +61,13 @@ feature {NONE} -- Factory
 			valid_areas: area_1.count > 0 and area_2.count > 0
 		do
 			create Result.make_empty (area_1.count + area_2.count - delta - 1)
-			Result.extend (0)
-			increment_count (Result, (area_1 [0] + area_2 [0]).to_integer_32 - (delta // 2))
+			Result.extend ('%U')
+			increment_count (Result, value (area_1, 0) + value (area_2, 0) - (delta // 2))
 		end
 
 feature {EL_SUBSTRING_32_ARRAY_IMPLEMENTATION} -- Access
 
-	area: SPECIAL [NATURAL]
+	area: SPECIAL [CHARACTER_32]
 		deferred
 		end
 
@@ -91,8 +91,8 @@ feature {NONE} -- Implementation
 			if last_upper + 1 = lower then
 				put_upper (a_area, index, upper)
 			else
-				a_area.extend (lower.to_natural_32)
-				a_area.extend (upper.to_natural_32)
+				a_area.extend (lower.to_character_32)
+				a_area.extend (upper.to_character_32)
 				increment_count (a_area, 1)
 			end
 		end
@@ -113,13 +113,13 @@ feature {NONE} -- Implementation
 					new_c := c.as_upper
 				end
 				if c /= new_c then
-					l_area [i] := new_c.natural_32_code
+					l_area [i] := new_c
 				end
 				i := i + 1
 			end
 		end
 
-	character_substring (code: NATURAL; index: INTEGER): EL_SUBSTRING_32_ARRAY
+	character_substring (uc: CHARACTER_32; index: INTEGER): EL_SUBSTRING_32_ARRAY
 		-- substring with single character of `code' at `index'
 		local
 			l_area: like area
@@ -127,7 +127,7 @@ feature {NONE} -- Implementation
 			Result := Character_buffer
 			l_area := Result.area
 			put_interval (l_area, 1, index, index)
-			l_area.put (code, first_index (l_area))
+			l_area.put (uc, first_index (l_area))
 		end
 
 	character_count: INTEGER
@@ -141,7 +141,7 @@ feature {NONE} -- Implementation
 			Result.wipe_out
 		end
 
-	first_index (a_area: SPECIAL [NATURAL]): INTEGER
+	first_index (a_area: SPECIAL [CHARACTER_32]): INTEGER
 		-- index of first character in first substring of `a_area'
 		do
 			Result := value (a_area, 0) * 2 + 1
@@ -156,28 +156,28 @@ feature {NONE} -- Implementation
 
 	interval_count (a_area: like area; i: INTEGER): INTEGER
 		do
-			Result := (a_area [i + 1] - a_area [i]).to_integer_32 + 1
+			Result := value (a_area, i + 1) - value (a_area, i) + 1
 		end
 
 	lower_bound, value (a_area: like area; i: INTEGER): INTEGER
 		do
-			Result := a_area.item (i).to_integer_32
+			Result := a_area [i].natural_32_code.to_integer_32
 		end
 
 	put_interval (a_area: like area; i, lower, upper: INTEGER)
 		do
-			a_area.put (lower.to_natural_32, i)
-			a_area.put (upper.to_natural_32, i + 1)
+			a_area.put (lower.to_character_32, i)
+			a_area.put (upper.to_character_32, i + 1)
 		end
 
 	put_lower (a_area: like area; i, lower: INTEGER)
 		do
-			a_area.put (lower.to_natural_32, i)
+			a_area.put (lower.to_character_32, i)
 		end
 
 	put_upper (a_area: like area; i, upper: INTEGER)
 		do
-			a_area.put (upper.to_natural_32, i + 1)
+			a_area.put (upper.to_character_32, i + 1)
 		end
 
 	start (array: EL_SUBSTRING_32_ARRAY_IMPLEMENTATION): EL_SUBSTRING_32_ARRAY_ITERATOR
@@ -192,7 +192,7 @@ feature {NONE} -- Implementation
 
 	upper_bound (a_area: like area; i: INTEGER): INTEGER
 		do
-			Result := a_area.item (i + 1).to_integer_32
+			Result := a_area.item (i + 1).natural_32_code.to_integer_32
 		end
 
 	valid_index (index: INTEGER): BOOLEAN
@@ -224,14 +224,14 @@ feature {NONE} -- Constants
 		once
 			l_area := new_area (1, 1)
 			extend_interval (l_area, 1, 1)
-			l_area.extend (0)
+			l_area.extend ('%U')
 			create Result.make_from_area (l_area)
 		end
 
-	Empty_area: SPECIAL [NATURAL]
+	Empty_area: SPECIAL [CHARACTER_32]
 		once
 			create Result.make_empty (1)
-			Result.extend (0)
+			Result.extend ('%U')
 		end
 
 	Once_iterator: SPECIAL [EL_SUBSTRING_32_ARRAY_ITERATOR]

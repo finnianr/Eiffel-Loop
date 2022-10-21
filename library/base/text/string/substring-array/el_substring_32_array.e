@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-28 18:23:22 GMT (Friday 28th January 2022)"
-	revision: "20"
+	date: "2022-10-20 9:02:05 GMT (Thursday 20th October 2022)"
+	revision: "21"
 
 class
 	EL_SUBSTRING_32_ARRAY
@@ -50,10 +50,10 @@ feature {NONE} -- Initialization
 
 	make_filled (uc: CHARACTER_32; n: INTEGER)
 		do
-			create area.make_filled (uc.natural_32_code, n + 3)
-			area [0] := 1
-			area [1] := 1
-			area [2] := n.to_natural_32
+			create area.make_filled (uc, n + 3)
+			area [0] := '%/1/'
+			area [1] := '%/1/'
+			area [2] := n.to_character_32
 		ensure
 			valid_array: is_valid
 		end
@@ -62,7 +62,7 @@ feature {NONE} -- Initialization
 		require
 			area_has_count: a_area.count > 0
 		do
-			if a_area.item (0).to_boolean then
+			if a_area [0] > '%U' then
 				area := a_area
 			else
 				make_empty
@@ -78,12 +78,12 @@ feature {NONE} -- Initialization
 		do
 			l_count := unencoded.substring_count
 			create area.make_empty (l_count * 2 + unencoded.character_count + 1)
-			area.extend (l_count.to_natural_32)
+			area.extend (l_count.to_character_32)
 
 			l_area := unencoded.area; i_final := l_area.count
 			from i := 0 until i = i_final loop
 				lower := unencoded.lower_bound (l_area, i); upper := unencoded.upper_bound (l_area, i)
-				area.extend (lower.to_natural_32); area.extend (upper.to_natural_32);
+				area.extend (lower.to_character_32); area.extend (upper.to_character_32);
 				char_count := upper - lower + 1
 				i := i + char_count + 2
 			end
@@ -108,9 +108,76 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	area: SPECIAL [NATURAL]
+	area: SPECIAL [CHARACTER_32]
 
 	code (index: INTEGER): NATURAL
+		do
+			Result := item (index).natural_32_code
+		end
+
+	count_greater_than_zero_flags (other: EL_SUBSTRING_32_CONTAINER): INTEGER
+		do
+			Result := (count.to_boolean.to_integer |<< 1) | other.count.to_boolean.to_integer
+		end
+
+	first_lower: INTEGER
+		require
+			not_empty: not_empty
+		do
+			if count.to_boolean then
+				Result := area [1].code
+			end
+		end
+
+	first_upper: INTEGER
+		require
+			not_empty: not_empty
+		do
+			if count.to_boolean then
+				Result := area [2].code
+			end
+		end
+
+	hash_code (seed: INTEGER): INTEGER
+			-- Hash code value
+		local
+			i, i_final: INTEGER; l_area: like area
+		do
+			l_area := area; i_final := first_index (l_area) + character_count
+			Result := seed
+			from i := first_index (l_area) until i = i_final loop
+				-- The magic number `8388593' below is the greatest prime lower than
+				-- 2^23 so that this magic number shifted to the left does not exceed 2^31.
+				Result := ((Result \\ 8388593) |<< 8) + l_area [i].code
+				i := i + 1
+			end
+		end
+
+	index_of (uc: CHARACTER_32; start_index: INTEGER): INTEGER
+		local
+			i, j, lower, upper, offset, char_count, i_final: INTEGER; l_area: like area
+			found: BOOLEAN
+		do
+			l_area := area; i_final := first_index (l_area)
+			offset := i_final
+			from i := 1 until i = i_final loop
+				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+				char_count := upper - lower + 1
+				if start_index <= lower or else start_index <= upper then
+					from j := lower.max (start_index) - lower + 1 until found or else j > char_count loop
+						if l_area [offset + j - 1] = uc then
+							Result := lower + j - 1
+							found := True
+						end
+						j := j + 1
+					end
+				end
+				offset := offset + char_count
+				i := i + 2
+			end
+		end
+
+	item (index: INTEGER): CHARACTER_32
 		require
 			valid_index: valid_index (index)
 		local
@@ -130,74 +197,7 @@ feature -- Access
 			end
 		end
 
-	count_greater_than_zero_flags (other: EL_SUBSTRING_32_CONTAINER): INTEGER
-		do
-			Result := (count.to_boolean.to_integer |<< 1) | other.count.to_boolean.to_integer
-		end
-
-	first_lower: INTEGER
-		require
-			not_empty: not_empty
-		do
-			if count.to_boolean then
-				Result := area.item (1).to_integer_32
-			end
-		end
-
-	first_upper: INTEGER
-		require
-			not_empty: not_empty
-		do
-			if count.to_boolean then
-				Result := area.item (2).to_integer_32
-			end
-		end
-
-	hash_code (seed: INTEGER): INTEGER
-			-- Hash code value
-		local
-			i, i_final: INTEGER; l_area: like area
-		do
-			l_area := area; i_final := first_index (l_area) + character_count
-			Result := seed
-			from i := first_index (l_area) until i = i_final loop
-				-- The magic number `8388593' below is the greatest prime lower than
-				-- 2^23 so that this magic number shifted to the left does not exceed 2^31.
-				Result := ((Result \\ 8388593) |<< 8) + l_area.item (i).to_integer_32
-				i := i + 1
-			end
-		end
-
-	index_of (unicode: NATURAL; start_index: INTEGER): INTEGER
-		local
-			i, j, lower, upper, offset, char_count, i_final: INTEGER; l_area: like area
-			found: BOOLEAN
-		do
-			l_area := area; i_final := first_index (l_area)
-			offset := i_final
-			from i := 1 until i = i_final loop
-				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
-				char_count := upper - lower + 1
-				if start_index <= lower or else start_index <= upper then
-					from j := lower.max (start_index) - lower + 1 until found or else j > char_count loop
-						if l_area [offset + j - 1] = unicode then
-							Result := lower + j - 1
-							found := True
-						end
-						j := j + 1
-					end
-				end
-				offset := offset + char_count
-				i := i + 2
-			end
-		end
-
-	item (index: INTEGER): CHARACTER_32
-		do
-			Result := code (index).to_character_32
-		end
-
-	last_index_of (unicode: NATURAL; start_index_from_end: INTEGER): INTEGER
+	last_index_of (uc: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
 		local
 			i, j, lower, upper, offset, char_count, i_final: INTEGER; l_area: like area
 			found: BOOLEAN
@@ -210,7 +210,7 @@ feature -- Access
 				offset := offset - char_count
 				if upper <= start_index_from_end or else lower <= start_index_from_end then
 					from j := upper.min (start_index_from_end) - lower + 1 until found or else j = 0 loop
-						if l_area [offset + j - 1] = unicode then
+						if l_area [offset + j - 1] = uc then
 							Result := lower + j - 1
 							found := True
 						end
@@ -226,7 +226,7 @@ feature -- Access
 		require
 			not_empty: not_empty
 		do
-			Result := area.item (count * 2 - 1).to_integer_32
+			Result := area [count * 2 - 1].code
 		end
 
 	last_upper: INTEGER
@@ -234,7 +234,7 @@ feature -- Access
 		require
 			not_empty: not_empty
 		do
-			Result := area.item (count * 2).to_integer_32
+			Result := area [count * 2].code
 		end
 
 	sub_array (start_index, end_index: INTEGER): EL_SUBSTRING_32_ARRAY
@@ -292,7 +292,7 @@ feature -- Access
 			if array_start_index.to_boolean then
 				l_count := (array_end_index - array_start_index) // 2 + 1
 				sub_area := new_area (l_count, l_character_count)
-				sub_area [0] := l_count.to_natural_32
+				sub_area [0] := l_count.to_character_32
 				sub_area.copy_data (l_area, array_start_index, 1, l_count * 2)
 				put_lower (sub_area, 1, l_first_lower)
 				put_upper (sub_area, l_count * 2 - 1, l_last_upper)
@@ -320,16 +320,16 @@ feature -- Measurement
 	count: INTEGER
 		-- substring count
 		do
-			Result := area.item (0).to_integer_32
+			Result := area.item (0).code
 		end
 
-	occurrences (unicode: NATURAL): INTEGER
+	occurrences (uc: CHARACTER_32): INTEGER
 		local
 			i, i_final: INTEGER; l_area: like area
 		do
 			l_area := area; i_final := first_index (l_area) + character_count
 			from i := first_index (l_area) until i = i_final loop
-				if l_area [i] = unicode then
+				if l_area [i] = uc then
 					Result := Result + 1
 				end
 				i := i + 1
@@ -342,7 +342,7 @@ feature -- Measurement
 		do
 			l_area := area; i_final := first_index (l_area) + character_count
 			from i := first_index (l_area) until i = i_final loop
-				l_code := l_area [i]
+				l_code := l_area [i].natural_32_code
 				if l_code <= 0x7F then
 				-- 0xxxxxxx.
 					Result := Result + 1
@@ -363,9 +363,9 @@ feature -- Measurement
 
 feature -- Status query
 
-	has (unicode: NATURAL): BOOLEAN
+	has (uc: CHARACTER_32): BOOLEAN
 		do
-			Result := index_of (unicode, 1) > 0
+			Result := index_of (uc, 1) > 0
 		end
 
 feature -- Comparison
@@ -478,7 +478,7 @@ feature -- Status change
 
 					create l_area.make_empty (l_area.count + 2)
 					l_area.copy_data (area, 0, 0, next_i)
-					l_area.fill_with (0, next_i, next_i + 1)
+					l_area.fill_with ('%U', next_i, next_i + 1)
 					l_area.copy_data (area, next_i, next_i + 2, area.count - next_i)
 					area := l_area
 
@@ -526,15 +526,15 @@ feature -- Element change
 					new_count := new_count - 1
 				end
 				l_area := new_area (new_count, character_count + buffer.character_count)
-				l_area [0] := new_count.to_natural_32
+				l_area [0] := new_count.to_character_32
 				-- copy indices
 				l_area.copy_data (area, 1, 1, count * 2)
 				buffer_area := buffer.area; i_final := buffer_area.count
 				from i := 1 until i = i_final loop
 					lower := lower_bound (buffer_area, i); upper := upper_bound (buffer_area, i)
 					if merge_first implies i > 1 then
-						l_area.extend (lower.to_natural_32)
-						l_area.extend (upper.to_natural_32)
+						l_area.extend (lower.to_character_32)
+						l_area.extend (upper.to_character_32)
 					end
 					i := i + upper - lower + 3
 				end
@@ -569,7 +569,7 @@ feature -- Element change
 					new_count := new_count - 1
 				end
 				l_area := new_area (new_count, character_count + list.character_area.count)
-				l_area [0] := new_count.to_natural_32
+				l_area [0] := new_count.to_character_32
 				-- copy indices
 				l_area.copy_data (area, 1, 1, count * 2)
 				if merge_first then
@@ -639,7 +639,7 @@ feature -- Element change
 				make_from_other (other)
 			else
 				create l_area.make_empty (area.count + other.area.count - 1)
-				l_area.extend (0)
+				l_area.extend ('%U')
 				if first_upper < other.first_lower then
 					it_lead := start (Current); it_middle := start (other)
 				else
@@ -676,7 +676,7 @@ feature -- Element change
 			valid_array: is_valid
 		end
 
-	put_code (a_code: NATURAL; index: INTEGER)
+	put (uc: CHARACTER_32; index: INTEGER)
 		local
 			i, lower, upper, i_final, offset: INTEGER
 			found: BOOLEAN; l_area: like area
@@ -687,17 +687,17 @@ feature -- Element change
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				if lower <= index and then index <= upper then
 					-- update interval
-					l_area.put (a_code, offset + index - lower)
+					l_area.put (uc, offset + index - lower)
 					found := True
 				end
 				offset := offset + upper - lower + 1
 				i := i + 2
 			end
 			if not found then
-				insert (character_substring (a_code, index))
+				insert (character_substring (uc, index))
 			end
 		ensure
-			code_set: code (index) = a_code
+			code_set: item (index) = uc
 		end
 
 	prepend (other: EL_SUBSTRING_32_ARRAY)

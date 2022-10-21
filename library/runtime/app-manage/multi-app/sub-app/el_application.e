@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-06 11:02:32 GMT (Thursday 6th October 2022)"
-	revision: "59"
+	date: "2022-10-20 16:09:15 GMT (Thursday 20th October 2022)"
+	revision: "60"
 
 deferred class
 	EL_APPLICATION
@@ -139,7 +139,7 @@ feature -- Status query
 
 	is_same_option (name: ZSTRING): BOOLEAN
 		do
-			Result := name.same_string (option_name)
+			Result := name.same_string_general (option_name)
 		end
 
 	is_valid_platform: BOOLEAN

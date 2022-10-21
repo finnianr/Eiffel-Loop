@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-15 11:28:17 GMT (Saturday 15th October 2022)"
-	revision: "9"
+	date: "2022-10-20 13:55:55 GMT (Thursday 20th October 2022)"
+	revision: "10"
 
 deferred class
 	EL_LINEAR_STRINGS [S -> STRING_GENERAL create make end]
@@ -28,7 +28,7 @@ feature -- Access
 			pop_cursor
 		end
 
-	as_string_list: EL_ARRAYED_LIST [S]
+	as_string_list: EL_ARRAYED_LIST [like item]
 			-- string delimited list
 		do
 			push_cursor

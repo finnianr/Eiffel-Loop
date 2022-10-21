@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-26 14:59:08 GMT (Sunday 26th December 2021)"
-	revision: "7"
+	date: "2022-10-19 11:33:35 GMT (Wednesday 19th October 2022)"
+	revision: "8"
 
 deferred class
 	SHARED_HEXAGRAM_STRINGS
@@ -19,6 +19,6 @@ feature {NONE} -- Constants
 
 	Hexagram: HEXAGRAM_STRINGS
 		once
-			create Result.make
+			create Result
 		end
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-28 10:02:31 GMT (Thursday 28th January 2021)"
-	revision: "3"
+	date: "2022-10-20 8:40:55 GMT (Thursday 20th October 2022)"
+	revision: "4"
 
 class
 	EL_INDEXABLE_SUBSTRING_32_ARRAY
@@ -52,7 +52,7 @@ feature -- Access
 			--	Recurse
 				Result := code (i)
 			else
-				Result := l_area [offset + i - l_lower]
+				Result := l_area [offset + i - l_lower].natural_32_code
 			end
 		end
 

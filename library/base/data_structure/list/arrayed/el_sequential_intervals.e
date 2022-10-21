@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-18 10:50:06 GMT (Monday 18th October 2021)"
-	revision: "8"
+	date: "2022-10-20 14:11:21 GMT (Thursday 20th October 2022)"
+	revision: "9"
 
 class
 	EL_SEQUENTIAL_INTERVALS
@@ -29,7 +29,7 @@ inherit
 		end
 
 create
-	make
+	make, make_empty
 
 feature -- Access
 

@@ -1,19 +1,21 @@
 note
-	description: "[$source CHARACTER_32] iterator for [$source ZSTRING]"
+	description: "[$source CHARACTER_32] iterator for [$source EL_READABLE_ZSTRING]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 19:33:49 GMT (Friday 11th February 2022)"
-	revision: "4"
+	date: "2022-10-21 7:22:58 GMT (Friday 21st October 2022)"
+	revision: "5"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
 
 inherit
-	READABLE_INDEXABLE_ITERATION_CURSOR [CHARACTER_32]
+	STRING_32_ITERATION_CURSOR
+		rename
+			area as unencoded_area
 		redefine
 			item, make, target
 		end

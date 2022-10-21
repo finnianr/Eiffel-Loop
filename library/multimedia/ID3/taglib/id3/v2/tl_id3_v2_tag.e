@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-14 14:54:56 GMT (Friday 14th October 2022)"
-	revision: "20"
+	date: "2022-10-20 16:14:42 GMT (Thursday 20th October 2022)"
+	revision: "21"
 
 class
 	TL_ID3_V2_TAG
@@ -206,7 +206,7 @@ feature -- Element change
 		do
 			set_frame_text (Frame_id.TPE2, a_album_artist)
 		ensure then
-			set: album_artist.same_string (a_album_artist)
+			set: album_artist.same_string_general (a_album_artist)
 		end
 
 	set_beats_per_minute (a_beats_per_minute: INTEGER)
@@ -233,7 +233,7 @@ feature -- Element change
 		do
 			set_frame_text (Frame_id.TCOM, a_composer)
 		ensure then
-			set: composer.same_string (a_composer)
+			set: composer.same_string_general (a_composer)
 		end
 
 	set_duration (a_duration: INTEGER)

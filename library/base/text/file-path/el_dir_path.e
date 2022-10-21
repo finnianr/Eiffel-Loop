@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 11:38:35 GMT (Saturday 19th February 2022)"
-	revision: "26"
+	date: "2022-10-20 16:07:59 GMT (Thursday 20th October 2022)"
+	revision: "27"
 
 class
 	EL_DIR_PATH
@@ -116,7 +116,7 @@ feature -- Status report
 	has_step (step: READABLE_STRING_GENERAL): BOOLEAN
 			-- true if path has directory step
 		do
-			Result := base.same_string (step) or else Precursor (step)
+			Result := base.same_string_general (step) or else Precursor (step)
 		end
 
 	is_createable: BOOLEAN

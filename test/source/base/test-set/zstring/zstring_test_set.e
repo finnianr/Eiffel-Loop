@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 8:51:25 GMT (Tuesday 4th October 2022)"
-	revision: "62"
+	date: "2022-10-21 13:19:17 GMT (Friday 21st October 2022)"
+	revision: "63"
 
 class
 	ZSTRING_TEST_SET
@@ -103,7 +103,7 @@ feature -- Conversion tests
 			create pair
 			across text_words as word loop
 				pair.set (word.item)
-				assert ("mirror OK", pair.z.mirrored.same_string (pair.uc.mirrored))
+				assert ("mirror OK", pair.z_32.mirrored.same_string (pair.s_32.mirrored))
 			end
 		end
 
@@ -118,8 +118,8 @@ feature -- Conversion tests
 			across Text_lines as line loop
 				pair.set (line.item)
 				from i := 1 until i > 3 loop
-					list := pair.z.split_list (pair.uc [i])
-					list_32 := pair.uc.split (pair.uc [i])
+					list := pair.z_32.split_list (pair.s_32 [i])
+					list_32 := pair.s_32.split (pair.s_32 [i])
 					assert ("same count", list.count = list_32.count)
 					if list.count = list_32.count then
 						assert ("same content", across list as ls all ls.item.same_string (list_32.i_th (ls.cursor_index)) end)
@@ -171,9 +171,9 @@ feature -- Conversion tests
 			create pair
 			across text_lines as line loop
 				pair.set (line.item)
-				if attached pair.z.to_general as general then
-					assert ("same string", general.same_string (pair.uc))
-					assert ("both string 8", attached {STRING} general implies pair.uc.is_valid_as_string_8)
+				if attached pair.z_32.to_general as general then
+					assert ("same string", general.same_string (pair.s_32))
+					assert ("both string 8", attached {STRING} general implies pair.s_32.is_valid_as_string_8)
 				end
 			end
 		end
@@ -190,7 +190,6 @@ feature -- Conversion tests
 				assert ("strings equal", pair.is_same)
 			end
 		end
-
 
 feature -- Appending tests
 
@@ -213,7 +212,7 @@ feature -- Appending tests
 				across << 1 |..| 15, 1250 |..| 1258 >> as range loop
 					across range.item as n loop
 						encoding_id := n.item.to_natural_32
-						pair.z.wipe_out
+						pair.z_32.wipe_out
 						if encoding_id <= 15 and then encodeable.valid_latin (encoding_id) then
 							encodeable.set_latin_encoding (encoding_id)
 						elseif encodeable.valid_windows (encoding_id) then
@@ -221,12 +220,12 @@ feature -- Appending tests
 						end
 						encoding := encodeable.encoding
 						if encodeable.valid_encoding (encoding) then
-							unicode.convert_to (encodeable.as_encoding, pair.uc)
+							unicode.convert_to (encodeable.as_encoding, pair.s_32)
 							if unicode.last_conversion_lost_data then
 								uncovertable_count := uncovertable_count + 1
 							else
 								encoded := unicode.last_converted_string_8
-								pair.z.append_encoded (unicode.last_converted_string_8, encoding)
+								pair.z_32.append_encoded (unicode.last_converted_string_8, encoding)
 								assert ("same string", pair.is_same)
 							end
 						end
@@ -245,18 +244,18 @@ feature -- Appending tests
 			create pair; create word_pair
 			across text_words as word loop
 				word_pair.wipe_out
-				word_pair.uc.share (word.item)
-				if not pair.uc.is_empty then
+				word_pair.s_32.share (word.item)
+				if not pair.s_32.is_empty then
 					pair.append_character (' ')
 				end
-				pair.uc.append (word_pair.uc)
+				pair.s_32.append (word_pair.s_32)
 				if attached word_pair.latin_1 as str_8 then
-					pair.z.append_string_general (str_8)
+					pair.z_32.append_string_general (str_8)
 				else
-					pair.z.append_string_general (word_pair.uc)
+					pair.z_32.append_string_general (word_pair.s_32)
 				end
 				assert ("append_string_general OK", pair.is_same)
-				word_pair.z.share (pair.z.substring (pair.z.count - word_pair.uc.count + 1, pair.z.count))
+				word_pair.z_32.share (pair.z_32.substring (pair.z_32.count - word_pair.s_32.count + 1, pair.z_32.count))
 				assert ("substring OK", word_pair.is_same)
 			end
 		end
@@ -319,15 +318,15 @@ feature -- Appending tests
 					if list.index > 1 then
 						pair.append_character (' ')
 					end
-					pair.uc.append_substring_general (line_32, list.item_start_index, list.item_end_index)
+					pair.s_32.append_substring_general (line_32, list.item_start_index, list.item_end_index)
 					if attached pair.latin_1 as str_8 then
-						pair.z.append_substring_general (str_8, list.item_start_index, list.item_end_index)
+						pair.z_32.append_substring_general (str_8, list.item_start_index, list.item_end_index)
 					else
-						pair.z.append_substring_general (line_32, list.item_start_index, list.item_end_index)
+						pair.z_32.append_substring_general (line_32, list.item_start_index, list.item_end_index)
 					end
 					list.forth
 				end
-				assert ("reconstituted line", pair.uc ~ line_32)
+				assert ("reconstituted line", pair.s_32 ~ line_32)
 				assert ("same line", pair.is_same)
 			end
 		end
@@ -369,11 +368,11 @@ feature -- Appending tests
 			across text_lines as line loop
 				pair.wipe_out
 				across conv.string_32_to_utf_8_string_8 (line.item).split (' ') as utf_word loop
-					if pair.uc.count > 0 then
+					if pair.s_32.count > 0 then
 						pair.append_character (' ')
 					end
-					pair.z.append_utf_8 (utf_word.item)
-					pair.uc.append (conv.utf_8_string_8_to_string_32 (utf_word.item))
+					pair.z_32.append_utf_8 (utf_word.item)
+					pair.s_32.append (conv.utf_8_string_8_to_string_32 (utf_word.item))
 					assert ("same string", pair.is_same)
 				end
 			end
@@ -399,10 +398,10 @@ feature -- Prepending tests
 				start_index := 1
 				from word_list.start until word_list.after loop
 					end_index := word_list.item_lower - 1
-					pair.uc.prepend_substring (line_32.item, start_index, end_index)
-					pair.uc.prepend_substring (line_32.item, word_list.item_lower, word_list.item_upper)
-					pair.z.prepend_substring (line, start_index, end_index)
-					pair.z.prepend_substring (line, word_list.item_lower, word_list.item_upper)
+					pair.s_32.prepend_substring (line_32.item, start_index, end_index)
+					pair.s_32.prepend_substring (line_32.item, word_list.item_lower, word_list.item_upper)
+					pair.z_32.prepend_substring (line, start_index, end_index)
+					pair.z_32.prepend_substring (line, word_list.item_lower, word_list.item_upper)
 					assert ("same string", pair.is_same)
 					start_index := word_list.item_upper + 1
 					word_list.forth
@@ -428,8 +427,8 @@ feature -- Element change tests
 			create pair
 			across text_words as word loop
 				pair.set (word.item)
-				pair.uc.prepend_character ('"'); pair.uc.append_character ('"')
-				pair.z.quote (2)
+				pair.s_32.prepend_character ('"'); pair.s_32.append_character ('"')
+				pair.z_32.quote (2)
 				assert ("enclose OK", pair.is_same)
 			end
 		end
@@ -474,11 +473,11 @@ feature -- Element change tests
 			create pair
 			across text_lines as line loop
 				pair.set (line.item)
-				create word_list.make_by_string (pair.uc, " ")
+				create word_list.make_by_string (pair.s_32, " ")
 				from word_list.start until word_list.after loop
 					insert := word_list.item
-					pair.z.remove_substring (word_list.item_start_index, word_list.item_end_index)
-					pair.z.insert_string (insert, word_list.item_start_index)
+					pair.z_32.remove_substring (word_list.item_start_index, word_list.item_end_index)
+					pair.z_32.insert_string (insert, word_list.item_start_index)
 					assert ("insert_string OK", pair.is_same)
 					word_list.forth
 				end
@@ -516,15 +515,15 @@ feature -- Element change tests
 				uc := char.item
 				across text_lines as line loop
 					pair.set (line.item)
-					pair.uc.prune_all (uc); pair.z.prune_all (uc)
+					pair.s_32.prune_all (uc); pair.z_32.prune_all (uc)
 					assert ("prune_all OK", pair.is_same)
 				end
 			end
 			across text_words as word loop
 				pair.set (word.item)
-				from until pair.uc.is_empty loop
-					uc := pair.uc [1]
-					pair.uc.prune_all (uc); pair.z.prune_all (uc)
+				from until pair.s_32.is_empty loop
+					uc := pair.s_32 [1]
+					pair.s_32.prune_all (uc); pair.z_32.prune_all (uc)
 					assert ("prune_all OK", pair.is_same)
 				end
 			end
@@ -554,10 +553,10 @@ feature -- Element change tests
 			pair := text_russian
 			across text_russian as c loop
 				i := c.cursor_index; old_uc := c.item
-				pair.uc.put (uc, i); pair.z.put (uc, i)
+				pair.s_32.put (uc, i); pair.z_32.put (uc, i)
 				assert ("put_unicode OK", pair.is_same)
 			--	Restore
-				pair.uc.put (old_uc, i); pair.z.put (old_uc, i)
+				pair.s_32.put (old_uc, i); pair.z_32.put (old_uc, i)
 				assert ("put_unicode OK", pair.is_same)
 			end
 		end
@@ -578,8 +577,8 @@ feature -- Element change tests
 					then
 						substring := Text_russian_and_english.substring (l_interval.lower, l_interval.upper) -- Debug
 						pair.set (Text_russian_and_english.twin)
-						pair.uc.remove_substring (l_interval.lower, l_interval.upper)
-						pair.z.remove_substring (l_interval.lower, l_interval.upper)
+						pair.s_32.remove_substring (l_interval.lower, l_interval.upper)
+						pair.z_32.remove_substring (l_interval.lower, l_interval.upper)
 						assert ("remove_substring OK", pair.is_same)
 					end
 					offset := offset + (interval.item.count // 2).max (1)
@@ -587,9 +586,9 @@ feature -- Element change tests
 			end
 			across text_words as word loop
 				pair.set (word.item)
-				pair.z.remove_substring (1, pair.z.count)
-				pair.uc.remove_substring (1, pair.uc.count)
-				assert ("empty string", pair.uc.is_empty)
+				pair.z_32.remove_substring (1, pair.z_32.count)
+				pair.s_32.remove_substring (1, pair.s_32.count)
+				assert ("empty string", pair.s_32.is_empty)
 				assert ("same strings", pair.is_same)
 			end
 		end
@@ -605,10 +604,10 @@ feature -- Element change tests
 				pair := text_russian
 				if not uc.is_last then
 					uc_old := uc.item
-					uc_new := pair.uc [uc.cursor_index + 1]
+					uc_new := pair.s_32 [uc.cursor_index + 1]
 				end
-				s.replace_character (pair.uc, uc_old, uc_new)
-				pair.z.replace_character (uc_old, uc_new)
+				s.replace_character (pair.s_32, uc_old, uc_new)
+				pair.z_32.replace_character (uc_old, uc_new)
 				assert ("replace_character OK", pair.is_same)
 			end
 		end
@@ -637,11 +636,11 @@ feature -- Element change tests
 				word_pair.set (list.item)
 				across text_lines as line loop
 					pair.set (line.item)
-					space_intervals.fill (pair.uc, ' ', 0)
+					space_intervals.fill (pair.s_32, ' ', 0)
 					start_index := space_intervals.first_lower + 1
 					end_index := space_intervals.i_th_lower (2) - 1
-					pair.uc.replace_substring (word_pair.uc, start_index, end_index)
-					pair.z.replace_substring (word_pair.z, start_index, end_index)
+					pair.s_32.replace_substring (word_pair.s_32, start_index, end_index)
+					pair.z_32.replace_substring (word_pair.z_32, start_index, end_index)
 					assert ("same characters", pair.is_same)
 				end
 			end
@@ -660,8 +659,8 @@ feature -- Element change tests
 				create previous_word_32.make_empty; previous_word := previous_word_32
 				across text_words as list loop
 					word_32 := list.item; word := word_32
-					pair.uc.replace_substring_all (word_32, previous_word_32)
-					pair.z.replace_substring_all (word, previous_word)
+					pair.s_32.replace_substring_all (word_32, previous_word_32)
+					pair.z_32.replace_substring_all (word, previous_word)
 					assert ("replace_substring_all OK", pair.is_same)
 					previous_word_32 := word_32; previous_word := word
 				end
@@ -685,10 +684,10 @@ feature -- Element change tests
 			create pair
 			across text_words as word loop
 				pair.set (word.item)
-				str_utf_8 := pair.z.to_utf_8 (True)
-				assert ("to_utf_8 OK", str_utf_8.same_string (Utf_8_codec.as_utf_8 (pair.uc, False)))
+				str_utf_8 := pair.z_32.to_utf_8 (True)
+				assert ("to_utf_8 OK", str_utf_8.same_string (Utf_8_codec.as_utf_8 (pair.s_32, False)))
 				create str_2.make_from_utf_8 (str_utf_8)
-				assert ("make_from_utf_8 OK", str_2.same_string (pair.uc))
+				assert ("make_from_utf_8 OK", str_2.same_string (pair.s_32))
 			end
 		end
 
@@ -717,8 +716,8 @@ feature -- Element change tests
 					end
 					old_characters := old_characters_32; new_characters := new_characters_32
 					pair.set (Text_russian_and_english.twin)
-					s.translate_deleting_null_characters (pair.uc, old_characters_32, new_characters_32, j = 2)
-					pair.z.translate_deleting_null_characters (old_characters, new_characters, j = 2)
+					s.translate_deleting_null_characters (pair.s_32, old_characters_32, new_characters_32, j = 2)
+					pair.z_32.translate_deleting_null_characters (old_characters, new_characters, j = 2)
 					assert ("translate OK", pair.is_same)
 					j := j + 1
 				end
@@ -876,7 +875,7 @@ feature -- Removal tests
 			across text_words as word loop
 				from i := 1 until i > word.item.count loop
 					pair.set (word.item)
-					pair.z.remove (i); pair.uc.remove (i)
+					pair.z_32.remove (i); pair.s_32.remove (i)
 					assert ("remove OK", pair.is_same)
 					i := i + 1
 				end
@@ -890,12 +889,12 @@ feature -- Removal tests
 			pair: STRING_PAIR; pos: INTEGER
 		do
 			pair := Text_russian_and_english.twin
-			from until pair.uc.is_empty loop
-				pos := pair.uc.index_of (' ', pair.uc.count)
+			from until pair.s_32.is_empty loop
+				pos := pair.s_32.index_of (' ', pair.s_32.count)
 				if pos > 0 then
-					pair.uc.remove_head (pos); pair.z.remove_head (pos)
+					pair.s_32.remove_head (pos); pair.z_32.remove_head (pos)
 				else
-					pair.uc.remove_head (pair.uc.count) pair.z.remove_head (pair.z.count)
+					pair.s_32.remove_head (pair.s_32.count) pair.z_32.remove_head (pair.z_32.count)
 				end
 				assert ("remove_head OK", pair.is_same)
 			end
@@ -908,12 +907,12 @@ feature -- Removal tests
 			pair: STRING_PAIR; pos: INTEGER
 		do
 			pair := Text_russian_and_english.twin
-			from until pair.uc.is_empty loop
-				pos := pair.uc.last_index_of (' ', pair.uc.count)
+			from until pair.s_32.is_empty loop
+				pos := pair.s_32.last_index_of (' ', pair.s_32.count)
 				if pos > 0 then
-					pair.uc.remove_tail (pos); pair.z.remove_tail (pos)
+					pair.s_32.remove_tail (pos); pair.z_32.remove_tail (pos)
 				else
-					pair.uc.remove_tail (pair.uc.count) pair.z.remove_tail (pair.z.count)
+					pair.s_32.remove_tail (pair.s_32.count) pair.z_32.remove_tail (pair.z_32.count)
 				end
 				assert ("remove_tail OK", pair.is_same)
 			end
@@ -933,9 +932,9 @@ feature -- Access tests
 				pair.set (line.item)
 				across Text_characters as char loop
 					uc := char.item
-					across << 1, pair.uc.count // 2 >> as value loop
+					across << 1, pair.s_32.count // 2 >> as value loop
 						i := value.item
-						assert ("index_of OK", pair.z.index_of (uc, i) = pair.uc.index_of (uc, i))
+						assert ("index_of OK", pair.z_32.index_of (uc, i) = pair.s_32.index_of (uc, i))
 					end
 				end
 			end
@@ -953,9 +952,9 @@ feature -- Access tests
 				pair.set (line.item)
 				across Text_characters as char loop
 					uc := char.item
-					across << pair.uc.count, pair.uc.count // 2 >> as value loop
+					across << pair.s_32.count, pair.s_32.count // 2 >> as value loop
 						i := value.item
-						assert ("last_index_of OK", pair.z.last_index_of (uc, i) = pair.uc.last_index_of (uc, i))
+						assert ("last_index_of OK", pair.z_32.last_index_of (uc, i) = pair.s_32.last_index_of (uc, i))
 					end
 				end
 			end
@@ -970,8 +969,8 @@ feature -- Access tests
 			create pair
 			across text_lines as line loop
 				pair.set (line.item)
-				across pair.z as c loop
-					assert ("same character", c.item = pair.uc [c.cursor_index])
+				across pair.z_32 as c loop
+					assert ("same character", c.item = pair.s_32 [c.cursor_index])
 				end
 			end
 		end
@@ -988,7 +987,7 @@ feature -- Access tests
 				across Text_characters as char loop
 					uc := char.item
 				end
-				assert ("occurrences OK", pair.z.occurrences (uc) ~ pair.uc.occurrences (uc))
+				assert ("occurrences OK", pair.z_32.occurrences (uc) ~ pair.s_32.occurrences (uc))
 			end
 		end
 
@@ -1003,12 +1002,12 @@ feature -- Access tests
 				pair.set (line.item)
 				across text_words as search_word_32 loop
 					search_word := search_word_32.item
-					pos := pair.z.substring_index (search_word, 1)
-					pos_32 := pair.uc.substring_index (search_word_32.item, 1)
+					pos := pair.z_32.substring_index (search_word, 1)
+					pos_32 := pair.s_32.substring_index (search_word_32.item, 1)
 					assert ("substring_index OK", pos = pos_32)
 					if pos_32 > 0 then
 						assert (
-							"substring_index OK", pair.z.same_characters (pair.uc, pos_32, pos_32 + search_word_32.item.count - 1, pos)
+							"substring_index OK", pair.z_32.same_characters (pair.s_32, pos_32, pos_32 + search_word_32.item.count - 1, pos)
 						)
 					end
 				end
@@ -1065,9 +1064,9 @@ feature -- Duplication tests
 		do
 			create pair
 			pair.set (Text_russian_and_english)
-			count := pair.uc.count
+			count := pair.s_32.count
 			from i := 1 until (i + 4) > count loop
-				assert ("substring OK",  pair.z.substring (i, i + 4).same_string (pair.uc.substring (i, i + 4)))
+				assert ("substring OK",  pair.z_32.substring (i, i + 4).same_string (pair.s_32.substring (i, i + 4)))
 				i := i + 1
 			end
 		end
@@ -1116,13 +1115,21 @@ feature {NONE} -- Implementation
 		end
 
 	compare_ends_with (str_32, left_32, right_32: STRING_32; str, left, right: ZSTRING)
+		local
+			ends_with: BOOLEAN
 		do
-			assert ("same result", str_32.ends_with (right_32) = str.ends_with (right))
+			ends_with := str_32.ends_with (right_32)
+			assert ("same result", ends_with = str.ends_with (right))
+			assert ("same result", ends_with = str.ends_with (right_32))
 		end
 
 	compare_starts_with (str_32, left_32, right_32: STRING_32; str, left, right: ZSTRING)
+		local
+			starts_with: BOOLEAN
 		do
-			assert ("same result", str_32.starts_with (left_32) = str.starts_with (left))
+			starts_with := str_32.starts_with (left_32)
+			assert ("same result", starts_with = str.starts_with (left))
+			assert ("same result", starts_with = str.starts_with (left_32))
 		end
 
 	do_pruning_test (type: STRING)
@@ -1135,10 +1142,10 @@ feature {NONE} -- Implementation
 				across << Tab_character, Ogham_space_mark >> as c loop
 					across 1 |..| 2 as n loop
 						if type = Right_adjust or type = Prune_trailing then
-							pair.uc.append_character (c.item)
+							pair.s_32.append_character (c.item)
 							op_name := "append_character"
 						else
-							pair.uc.prepend_character (c.item)
+							pair.s_32.prepend_character (c.item)
 							op_name := "prepend_character"
 						end
 						pair.set_z_from_uc
@@ -1146,11 +1153,11 @@ feature {NONE} -- Implementation
 					assert (op_name + " OK", pair.is_same)
 
 					if type = Left_adjust then
-						pair.z.left_adjust; pair.uc.left_adjust
+						pair.z_32.left_adjust; pair.s_32.left_adjust
 					elseif type = Right_adjust then
-						pair.z.right_adjust; pair.uc.right_adjust
+						pair.z_32.right_adjust; pair.s_32.right_adjust
 					elseif type = Prune_trailing then
-						pair.z.prune_all_trailing (c.item); pair.uc.prune_all_trailing (c.item)
+						pair.z_32.prune_all_trailing (c.item); pair.s_32.prune_all_trailing (c.item)
 					end
 					assert (type + " OK", pair.is_same)
 				end
@@ -1188,9 +1195,9 @@ feature {NONE} -- Implementation
 			from i := 1 until i > count loop
 				substring_pair := Text_russian_and_english.substring (i, i + 4)
 				if type ~ once "append" then
-					pair.z.append (substring_pair.z);  pair.uc.append (substring_pair.uc)
+					pair.z_32.append (substring_pair.z_32);  pair.s_32.append (substring_pair.s_32)
 				else
-					pair.z.prepend (substring_pair.z);  pair.uc.prepend (substring_pair.uc)
+					pair.z_32.prepend (substring_pair.z_32);  pair.s_32.prepend (substring_pair.s_32)
 				end
 				assert (type + " OK", pair.is_same)
 				i := i + 5

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 19:32:40 GMT (Friday 11th February 2022)"
-	revision: "12"
+	date: "2022-10-20 16:05:37 GMT (Thursday 20th October 2022)"
+	revision: "14"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -27,7 +27,7 @@ feature -- Access
 				c := Codec.encoded_character (uc)
 			end
 			if c = Substitute then
-				Result := unencoded_index_of (uc.natural_32_code, start_index)
+				Result := unencoded_index_of (uc, start_index)
 			else
 				Result := internal_index_of (c, start_index)
 			end
@@ -44,7 +44,7 @@ feature -- Access
 			if a_z_code <= 0xFF then
 				Result := internal_index_of (a_z_code.to_character_8, start_index)
 			else
-				Result := unencoded_index_of (z_code_to_unicode (a_z_code), start_index)
+				Result := unencoded_index_of (z_code_to_unicode (a_z_code).to_character_32, start_index)
 			end
 		ensure then
 			valid_result: Result = 0 or (start_index <= Result and Result <= count)
@@ -66,7 +66,7 @@ feature -- Access
 				c := Codec.encoded_character (uc)
 			end
 			if c = Substitute then
-				Result := unencoded_last_index_of (uc.natural_32_code, start_index_from_end)
+				Result := unencoded_last_index_of (uc, start_index_from_end)
 			else
 				Result := internal_last_index_of (c, start_index_from_end)
 			end
@@ -92,18 +92,21 @@ feature -- Access
 			Result := substring_index (adapted_argument (other, 1), start_index)
 		end
 
-	substring_index_in_bounds (other: EL_READABLE_ZSTRING; start_pos, end_pos: INTEGER): INTEGER
+	substring_index_in_bounds (other: READABLE_STRING_GENERAL; start_pos, end_pos: INTEGER): INTEGER
 		do
-			inspect respective_encoding (other)
-				when Both_have_mixed_encoding then
-					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
-					if has_unencoded_between (start_pos, end_pos) then
-						Result := String_searcher.substring_index (current_readable, other.as_expanded (1), start_pos, end_pos)
-					end
-				when Only_other then
-					Result := 0
-				when Only_current, Neither then
-					Result := internal_substring_index_in_bounds (other, start_pos, end_pos)
+			if attached adapted_argument (other, 1) as other_zstr then
+				inspect respective_encoding (other_zstr)
+					when Both_have_mixed_encoding then
+						-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
+						if has_unencoded_between (start_pos, end_pos) then
+							Result := String_searcher.substring_index (current_readable, other_zstr.as_expanded (1), start_pos, end_pos)
+						end
+					when Only_other then
+						Result := 0
+					when Only_current, Neither then
+						Result := internal_substring_index_in_bounds (other_zstr, start_pos, end_pos)
+				else
+				end
 			else
 			end
 		end
@@ -160,7 +163,7 @@ feature {NONE} -- Implementation
 		-- shared list of indices of `str' occurring in `Current'
 		local
 			index, l_count, str_count: INTEGER; unencoded: like unencoded_indexable
-			str_code, str_z_code: NATURAL; str_character: CHARACTER
+			str_z_code: NATURAL; str_character: CHARACTER; str_uc: CHARACTER_32
 			searcher: like String_searcher; pattern: READABLE_STRING_GENERAL
 		do
 			l_count := count; str_count := str.count
@@ -174,7 +177,7 @@ feature {NONE} -- Implementation
 						if str_count = 1 then
 							str_z_code := str.z_code (1)
 							if str_z_code > 0xFF then
-								str_code := z_code_to_unicode (str_z_code)
+								str_uc := z_code_to_unicode (str_z_code).to_character_32
 								unencoded := unencoded_indexable
 							else
 								str_character := str.area [0]
@@ -189,7 +192,7 @@ feature {NONE} -- Implementation
 								if str_character /= '%U' then
 									index := internal_index_of (str_character, index)
 								else
-									index := unencoded.index_of (str_code, index)
+									index := unencoded.index_of (str_uc, index)
 								end
 							else
 								index := searcher.substring_index_with_deltas (current_readable, pattern, index, l_count)

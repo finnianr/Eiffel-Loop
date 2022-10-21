@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-21 19:25:22 GMT (Saturday 21st March 2020)"
-	revision: "1"
+	date: "2022-10-20 16:14:42 GMT (Thursday 20th October 2022)"
+	revision: "2"
 
 deferred class
 	TL_DESCRIBEABLE_ID3_TAG_FRAME
@@ -30,7 +30,7 @@ feature -- Element change
 			Once_string.set_from_string (a_description)
 			cpp_set_description (self_ptr, Once_string.self_ptr)
 		ensure
-			set: description.same_string (a_description)
+			set: description.same_string_general (a_description)
 		end
 
 feature {NONE} -- Implementation

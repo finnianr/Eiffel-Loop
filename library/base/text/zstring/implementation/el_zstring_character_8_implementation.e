@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-29 15:36:48 GMT (Wednesday 29th June 2022)"
-	revision: "18"
+	date: "2022-10-21 8:39:22 GMT (Friday 21st October 2022)"
+	revision: "19"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
@@ -22,17 +22,16 @@ feature {NONE} -- Initialization
 	make (n: INTEGER)
 			-- Allocate space for at least `n' characters.
 		do
-			count := 0
-			reset_hash
+			set_count (0)
 			create area.make_filled ('%/000/', n + 1)
 		end
 
-	make_from_string (s: READABLE_STRING_8)
+	make_from_string_8 (s: READABLE_STRING_8)
 		-- initialize with string that has the same encoding as codec
 		local
 			l_str: EL_STRING_8
 		do
-			l_str := Once_string_8
+			l_str := String_8_args [0]
 			l_str.make_from_string (s)
 			set_from_string_8 (l_str)
 		end
@@ -143,6 +142,8 @@ feature -- Measurement
 
 	count: INTEGER
 			-- Actual number of characters making up the string
+		deferred
+		end
 
 	occurrences (c: CHARACTER_8): INTEGER
 			-- Number of times `c' appears in the string
@@ -169,22 +170,6 @@ feature -- Status query
 		ensure then
 			false_if_empty: count = 0 implies not Result
 			true_if_first: count > 0 and then item (1) = c implies Result
-		end
-
-	is_boolean: BOOLEAN
-			-- Does `Current' represent a BOOLEAN?
-		do
-			Result := current_string_8.is_boolean
-		end
-
-	is_double, is_real_64: BOOLEAN
-		do
-			Result := current_string_8.is_double
-		end
-
-	is_integer, is_integer_32: BOOLEAN
-		do
-			Result := current_string_8.is_integer
 		end
 
 	starts_with (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION): BOOLEAN
@@ -304,21 +289,6 @@ feature -- Conversion
 			Result := string.substring (start_index, end_index)
 		end
 
-	to_boolean: BOOLEAN
-		do
-			Result := current_string_8.to_boolean
-		end
-
-	to_double, to_real_64: DOUBLE
-		do
-			Result := current_string_8.to_double
-		end
-
-	to_integer, to_integer_32: INTEGER_32
-		do
-			Result := current_string_8.to_integer
-		end
-
 feature {NONE} -- Element change
 
 	fill_character (c: CHARACTER_8)
@@ -329,8 +299,7 @@ feature {NONE} -- Element change
 			l_cap := capacity
 			if l_cap /= 0 then
 				area.fill_with (c, 0, l_cap - 1)
-				count := l_cap
-				reset_hash
+				set_count (l_cap)
 			end
 		ensure
 			filled: count = capacity
@@ -391,8 +360,7 @@ feature {NONE} -- Element change
 			-- do nothing if `n' >= `count'.
 		do
 			if n < count then
-				count := n
-				reset_hash
+				set_count (n)
 			end
 		end
 
@@ -405,8 +373,7 @@ feature {NONE} -- Element change
 			nb := count
 			if n < nb then
 				area.overlapping_move (nb - n, 0, n)
-				count := n
-				reset_hash
+				set_count (n)
 			end
 		end
 
@@ -489,8 +456,7 @@ feature {NONE} -- Implementation
 			-- will also affect `other', and conversely.
 		do
 			area := other.area
-			count := other.count
-			reset_hash
+			set_count (other.count)
 		ensure
 			shared_count: other.count = count
 			shared_area: other.area = area
@@ -507,8 +473,7 @@ feature -- Removal
 				-- Shift characters to the left.
 			area.overlapping_move (i, i - 1, l_count - i)
 				-- Update content.
-			count := l_count - 1
-			reset_hash
+			set_count (l_count - 1)
 		end
 
 	remove_substring (start_index, end_index: INTEGER)
@@ -531,19 +496,10 @@ feature -- Removal
 	wipe_out
 			-- Remove all characters.
 		do
-			count := 0
+			set_count (0)
 		ensure then
 			is_empty: count = 0
 			same_capacity: capacity = old capacity
-		end
-
-feature {STRING_HANDLER} -- Implementation
-
-	frozen set_count (number: INTEGER)
-			-- Set `count' to `number' of characters.
-		do
-			count := number
-			reset_hash
 		end
 
 feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION} -- Implementation
@@ -582,7 +538,7 @@ feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION} -- Implementation
 
 	current_string_8: EL_STRING_8
 		do
-			Result := Once_string_8
+			Result := String_8_args [0]
 			Result.set_area_and_count (area, count)
 		end
 
@@ -620,6 +576,29 @@ feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION} -- Implementation
 		deferred
 		end
 
+ 	same_caseless_characters (other: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
+			-- Are characters of `other' within bounds `start_pos' and `end_pos'
+			-- caseless identical to characters of current string starting at index `index_pos'.
+		require
+			other_not_void: other /= Void
+			valid_start_pos: other.valid_index (start_pos)
+			valid_end_pos: other.valid_index (end_pos)
+			valid_bounds: (start_pos <= end_pos) or (start_pos = end_pos + 1)
+			valid_index_pos: valid_index (index_pos)
+		do
+			if attached string_8_argument (other, 1) as l_other then
+				Result := current_string_8.same_caseless_characters (l_other, start_pos, end_pos, index_pos)
+			end
+		ensure
+			same_characters: Result = substring (index_pos, index_pos + end_pos - start_pos).is_case_insensitive_equal (
+				other.string.substring (start_pos, end_pos)
+			)
+		end
+
+	set_count (number: INTEGER)
+		deferred
+		end
+
 	set_from_ascii (str: READABLE_STRING_8)
 		require
 			is_7_bit: is_ascii_string_8 (str)
@@ -640,20 +619,18 @@ feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION} -- Implementation
 		require
 			valid_index: 1 <= index and index <= 2
 		do
-			Result := String_8_args [index - 1]
+--			`String_8_args [0]' reserved for `current_string_8'
+			Result := String_8_args [index]
 			Result.set_area_and_count (zstr.area, zstr.count)
 		end
 
 feature -- Constants
 
-	Once_string_8: EL_STRING_8
-		once
-			create Result.make_empty
-		end
-
 	String_8_args: SPECIAL [EL_STRING_8]
 		once
-			create Result.make_filled (create {EL_STRING_8}.make_empty, 2)
-			Result [1] := create {EL_STRING_8}.make_empty
+			create Result.make_empty (3)
+			from until Result.count = 3 loop
+				Result.extend (create {EL_STRING_8}.make_empty)
+			end
 		end
 end

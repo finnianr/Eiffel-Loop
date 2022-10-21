@@ -13,14 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-21 14:24:57 GMT (Sunday 21st February 2021)"
-	revision: "3"
+	date: "2022-10-20 7:55:02 GMT (Thursday 20th October 2022)"
+	revision: "4"
 
 class
 	EL_SUBSTRING_32_BUFFER
 
 inherit
-	EL_EXTENDABLE_AREA [NATURAL]
+	EL_EXTENDABLE_AREA [CHARACTER_32]
 		export
 			{EL_SUBSTRING_32_CONTAINER} area
 		undefine
@@ -60,7 +60,7 @@ feature -- Measurement
 
 	substring_count: INTEGER
 		do
-			Result := area.item (0).to_integer_32
+			Result := value (area, 0)
 		end
 
 feature -- Access
@@ -82,7 +82,7 @@ feature -- Access
 	last_upper: INTEGER
 		do
 			if last_upper_index.to_boolean then
-				Result := area.item (last_upper_index).to_integer_32
+				Result := value (area, last_upper_index)
 			else
 				Result := (1).opposite
 			end
@@ -104,8 +104,8 @@ feature -- Element change
 			from i := 1 until i = i_final loop
 				lower := lower_bound (l_area_array, i); upper := upper_bound (l_area_array, i)
 				char_count := upper - lower + 1
-				l_area.extend (lower.to_natural_32)
-				l_area.extend (upper.to_natural_32)
+				l_area.extend (lower.to_character_32)
+				l_area.extend (upper.to_character_32)
 				if i + 2 = i_final then
 					last_upper_index := l_area.count - 1
 				end
@@ -125,34 +125,34 @@ feature -- Element change
 			shift ((start_index - 1).opposite)
 		end
 
-	put_character (c: CHARACTER_32; a_index: INTEGER)
-		do
-			put_unicode (c.natural_32_code, a_index)
-		end
-
-	put_unicode (a_code: NATURAL; index: INTEGER)
+	put_character (uc: CHARACTER_32; index: INTEGER)
 		local
 			area_count: INTEGER; l_area, current_area: like area
 		do
 			l_area := area; current_area := l_area; area_count := l_area.count
 			if last_upper + 1 = index then
 				l_area := big_enough (l_area, area_count + 1)
-				l_area.put (index.as_natural_32, last_upper_index)
-				l_area.extend (a_code)
+				l_area.put (index.to_character_32, last_upper_index)
+				l_area.extend (uc)
 			else
 				l_area := big_enough (l_area, area_count + 3)
 				l_area [0] := l_area [0] + 1
-				l_area.extend (index.as_natural_32)
-				l_area.extend (index.as_natural_32)
-				l_area.extend (a_code)
+				l_area.extend (index.to_character_32)
+				l_area.extend (index.to_character_32)
+				l_area.extend (uc)
 				last_upper_index := area_count + 1
 			end
 			set_if_changed (current_area, l_area)
 		end
 
+	put_unicode (a_code: NATURAL; index: INTEGER)
+		do
+			put_character (a_code.to_character_32, index)
+		end
+
 	put_z_code (a_z_code: NATURAL; index: INTEGER)
 		do
-			put_unicode (z_code_to_unicode (a_z_code), index)
+			put_character (z_code_to_unicode (a_z_code).to_character_32, index)
 		end
 
 feature -- Status change
@@ -179,9 +179,9 @@ feature -- Transformation
 			i, j, lower, upper, area_count, char_count, count: INTEGER; l_area: like area
 		do
 			l_area := area; area_count := l_area.count
-			count := l_area.item (i).to_integer_32
+			count := value (l_area, i)
 			create Result.make_empty (area_count)
-			Result.fill_with (count.to_natural_32, 0, count * 2)
+			Result.fill_with (count.to_character_32, 0, count * 2)
 
 			from i := 1; j := 1 until i = area_count loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
@@ -203,20 +203,20 @@ feature -- Removal
 	wipe_out
 		do
 			area.wipe_out
-			area.extend (0)
+			area.extend ('%U')
 			last_upper_index := 0
 		end
 
 feature {EL_SUBSTRING_32_CONTAINER} -- Implementation
 
-	append_interval (a_area: SPECIAL [NATURAL]; a_lower, a_upper, offset: INTEGER)
+	append_interval (a_area: SPECIAL [CHARACTER_32]; a_lower, a_upper, offset: INTEGER)
 		local
 			l_count: INTEGER; l_area, current_area: like area
 		do
 			l_count := a_upper - a_lower + 1
 			l_area := area; current_area := l_area
 			l_area := big_enough (l_area, l_count + 2)
-			l_area.extend (a_lower.to_natural_32); l_area.extend (a_upper.to_natural_32)
+			l_area.extend (a_lower.to_character_32); l_area.extend (a_upper.to_character_32)
 			increment_count (l_area, 1)
 			last_upper_index := l_area.count - 1
 			l_area.copy_data (a_area, offset, l_area.count, l_count)

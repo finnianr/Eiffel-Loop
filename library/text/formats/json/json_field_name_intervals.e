@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-22 8:24:12 GMT (Wednesday 22nd June 2022)"
-	revision: "3"
+	date: "2022-10-20 14:11:50 GMT (Thursday 20th October 2022)"
+	revision: "4"
 
 class
 	JSON_FIELD_NAME_INTERVALS
