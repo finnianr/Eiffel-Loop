@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-18 10:36:52 GMT (Saturday 18th December 2021)"
-	revision: "10"
+	date: "2022-10-24 11:18:11 GMT (Monday 24th October 2022)"
+	revision: "11"
 
 class
 	EL_BENCHMARK_ROUTINE_TABLE
@@ -39,7 +39,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (routines: ARRAY [TUPLE [READABLE_STRING_GENERAL, ROUTINE]]; a_trial_duration: INTEGER)
+	make (routines: ARRAY [TUPLE [STRING, ROUTINE]]; a_trial_duration: INTEGER)
 		do
 			make_table (routines)
 			trial_duration := a_trial_duration
@@ -51,20 +51,16 @@ feature -- Access
 		-- list of number of times that `action' can be applied within the `trial_duration' in milliseconds
 		-- in descending order
 		local
-			timer: EL_EXECUTION_TIMER; l_count: INTEGER; b: EL_BENCHMARK_ROUTINES
+			benchmark: EL_BENCHMARK_ROUTINES
 		do
-			create timer.make
 			create Result.make (count)
 			across Current as routine loop
 				if is_lio_enabled then
 					lio.put_labeled_string ("Repeating for " + trial_duration.out + " millisecs", routine.key)
 					lio.put_new_line
 				end
-				timer.start
-				l_count := b.application_count (routine.item, trial_duration)
-				timer.stop
 
-				Result.extend (routine.key, trial_duration * l_count / timer.elapsed_millisecs)
+				Result.extend (routine.key, benchmark.repetition_count (routine.item, trial_duration))
 			end
 			Result.sort (False)
 		end

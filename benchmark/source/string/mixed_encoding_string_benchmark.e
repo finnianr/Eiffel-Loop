@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 16:18:25 GMT (Friday 11th February 2022)"
-	revision: "8"
+	date: "2022-10-23 19:21:23 GMT (Sunday 23rd October 2022)"
+	revision: "9"
 
 deferred class
-	MIXED_ENCODING_STRING_BENCHMARK
+	MIXED_ENCODING_STRING_BENCHMARK [S -> STRING_GENERAL create make end]
 
 inherit
-	STRING_BENCHMARK
+	STRING_BENCHMARK [S]
 		redefine
 			do_performance_tests, do_memory_tests
 		end
@@ -26,9 +26,9 @@ feature -- Basic operations
 			do_performance_test ("append_string_general", "A,B,C,D", agent test_append_string_general)
 			do_performance_test ("append_utf_8", "$B $C", agent test_append_utf_8)
 
-			do_performance_test ("as_lower", "$A $B $C $D", agent test_as_lower)
 			do_performance_test ("as_string_32", "$A $B $C $D", agent test_as_string_32)
-			do_performance_test ("as_upper", "$A $B $C $D", agent test_as_upper)
+			do_performance_test ("to_lower", "$A $B $C $D", agent test_to_lower)
+			do_performance_test ("to_upper", "$A $B $C $D", agent test_to_upper)
 
 			do_performance_test ("code (z_code)", "$A $B $C $D", agent test_code)
 			do_performance_test ("code (z_code)", "$B $C", agent test_code)
@@ -65,9 +65,9 @@ feature -- Basic operations
 			do_performance_test ("to_utf_8", "$A $B $C $D", agent test_to_utf_8)
 			do_performance_test ("translate", "$B $C", agent test_translate)
 
-			set_escape_character (Pinyin_u)
+			escape_character := Pinyin_u
 			do_performance_test ("unescape (C lang string)", "escaped ($B $C)", agent test_unescape)
-			set_escape_character (Back_slash)
+			escape_character := Back_slash
 		end
 
 	do_memory_tests

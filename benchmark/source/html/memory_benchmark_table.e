@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-01 18:38:27 GMT (Monday 1st June 2020)"
-	revision: "6"
+	date: "2022-10-24 14:00:02 GMT (Monday 24th October 2022)"
+	revision: "7"
 
 class
 	MEMORY_BENCHMARK_TABLE
@@ -17,6 +17,10 @@ inherit
 
 create
 	make
+
+feature -- Status query
+
+	is_memory: BOOLEAN = True
 
 feature {NONE} -- Implementation
 
@@ -41,7 +45,7 @@ feature {NONE} -- Implementation
 			Result := benchmark.zstring.memory_tests.count
 		end
 
-	test_result (a_benchmark: STRING_BENCHMARK; index: INTEGER): DOUBLE
+	test_result (a_benchmark: STRING_BENCHMARK [STRING_GENERAL]; index: INTEGER): DOUBLE
 		do
 			Result := a_benchmark.memory_tests.i_th (index).storage_size
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 17:28:51 GMT (Friday 11th February 2022)"
-	revision: "8"
+	date: "2022-10-24 10:39:42 GMT (Monday 24th October 2022)"
+	revision: "9"
 
 class
 	ZSTRING_BENCHMARK_COMMAND
@@ -23,11 +23,11 @@ inherit
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (output_dir: DIR_PATH; template_path: FILE_PATH; a_number_of_runs: INTEGER; filter: ZSTRING)
+	make (output_dir: DIR_PATH; template_path: FILE_PATH; a_trial_duration_ms: INTEGER; filter: ZSTRING)
 		local
 			h: like Hexagram; date: EL_DATE_TIME; output_name: ZSTRING
 		do
-			number_of_runs := a_number_of_runs; routine_filter := filter
+			trial_duration_ms := a_trial_duration_ms; routine_filter := filter
 			h := Hexagram
 			create date.make_now
 			output_name := Output_name_template #$ [codec.id, date.formatted_out ("yyyy-[0]mm-[0]dd")]
@@ -44,7 +44,8 @@ feature -- Basic operations
 		do
 			lio.put_labeled_string ("{ZSTRING}.codec", codec.name)
 			lio.put_new_line
-			lio.put_integer_field ("Runs per test", number_of_runs)
+			lio.put_integer_field ("Benchmark duration per test", trial_duration_ms)
+			lio.put_string (" ms")
 			lio.put_new_line
 			lio.put_new_line
 
@@ -61,12 +62,12 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	add_benchmarks (benchmark: TUPLE [STRING_BENCHMARK, STRING_BENCHMARK])
+	add_benchmarks (benchmark: TUPLE [STRING_BENCHMARK [STRING_GENERAL], STRING_BENCHMARK [STRING_GENERAL]])
 		local
-			list: EL_ARRAYED_LIST [STRING_BENCHMARK]
+			list: EL_ARRAYED_LIST [STRING_BENCHMARK [STRING_GENERAL]]
 		do
 			create list.make_from_tuple (benchmark)
-			list.do_all (agent {STRING_BENCHMARK}.execute)
+			list.do_all (agent {STRING_BENCHMARK [STRING_GENERAL]}.execute)
 
 			benchmark_html.performance_tables.extend (create {PERFORMANCE_BENCHMARK_TABLE}.make (codec.id, benchmark))
 			benchmark_html.memory_tables.extend (create {MEMORY_BENCHMARK_TABLE}.make (codec.id, benchmark))
@@ -76,7 +77,7 @@ feature {STRING_BENCHMARK} -- Internal attributes
 
 	benchmark_html: BENCHMARK_HTML
 
-	number_of_runs: INTEGER
+	trial_duration_ms: INTEGER
 
 	routine_filter: ZSTRING
 

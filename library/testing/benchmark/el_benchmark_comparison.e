@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:06:00 GMT (Tuesday 8th February 2022)"
-	revision: "7"
+	date: "2022-10-24 4:35:04 GMT (Monday 24th October 2022)"
+	revision: "8"
 
 deferred class
 	EL_BENCHMARK_COMPARISON
@@ -34,7 +34,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	compare (label: STRING; routines: ARRAY [TUPLE [READABLE_STRING_GENERAL, ROUTINE]])
+	compare (label: STRING; routines: ARRAY [TUPLE [STRING, ROUTINE]])
 		local
 			table: EL_BENCHMARK_ROUTINE_TABLE
 		do

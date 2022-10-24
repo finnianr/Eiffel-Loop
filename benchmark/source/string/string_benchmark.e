@@ -6,49 +6,49 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:12:07 GMT (Tuesday 8th February 2022)"
-	revision: "17"
+	date: "2022-10-24 13:16:54 GMT (Monday 24th October 2022)"
+	revision: "18"
 
 deferred class
-	STRING_BENCHMARK
+	STRING_BENCHMARK [S -> STRING_GENERAL create make end]
 
 inherit
 	EL_COMMAND
 
 	SHARED_HEXAGRAM_STRINGS
 
-	EL_MODULE_EIFFEL
-
-	EL_MODULE_LIO
-
 	MEMORY
+		export
+			{NONE} all
+		end
 
 	EL_BENCHMARK_ROUTINES
+		export
+			{NONE} all
+		end
+
+	BENCHMARK_CONSTANTS
+
+	EL_MODULE_LIO
 
 feature {NONE} -- Initialization
 
 	make (command: ZSTRING_BENCHMARK_COMMAND)
 		do
-			number_of_runs := command.number_of_runs
+			trial_duration_ms := command.trial_duration_ms
 			routine_filter := command.routine_filter
-			create {STRING} output_string.make (0)
-			create input_string_list.make (64)
-			create input_string_list_twin.make (64)
-			create input_substring_list.make (64)
-			create input_utf_8_string_list.make (64)
-			create input_character_list.make (64)
 			create performance_tests.make (23)
 			create memory_tests.make (23)
-			set_escape_character (Back_slash)
+			escape_character := Back_slash
 		end
 
 feature -- Access
 
-	memory_tests: EL_ARRAYED_LIST [TUPLE [description: STRING; input_format: STRING; storage_size: INTEGER]]
+	memory_tests: EL_ARRAYED_LIST [TUPLE [description, input_format: STRING; storage_size: INTEGER]]
 
-	number_of_runs: INTEGER
+	trial_duration_ms: INTEGER
 
-	performance_tests: EL_ARRAYED_LIST [TUPLE [routines: STRING_32; input_format: STRING; average_time: DOUBLE]]
+	performance_tests: EL_ARRAYED_LIST [TUPLE [routines, input_format: STRING; repetition_count: DOUBLE]]
 
 feature -- Basic operations
 
@@ -71,10 +71,10 @@ feature {NONE} -- Implementation
 			do_performance_test ("append_string_general", "A,D", agent test_append_string_general)
 			do_performance_test ("append_utf_8", "A,D", agent test_append_utf_8)
 
-			do_performance_test ("as_lower", "$A $D", agent test_as_lower)
 			do_performance_test ("as_string_8", "$A $D", agent test_as_string_8)
 			do_performance_test ("as_string_32", "$A $D", agent test_as_string_32)
-			do_performance_test ("as_upper", "$A $D", agent test_as_upper)
+			do_performance_test ("to_lower", "$A $D", agent test_to_lower)
+			do_performance_test ("to_upper", "$A $D", agent test_to_upper)
 
 			do_performance_test ("code (z_code)", "$A $D", agent test_code)
 
@@ -112,59 +112,186 @@ feature {NONE} -- Implementation
 			do_performance_test ("unescape (C lang string)", "escaped (D)", agent test_unescape)
 		end
 
-feature -- Benchmark tests
+feature {NONE} -- Concatenation
 
 	test_append_string
-		local
-			str: STRING_GENERAL
+		require
+			valid_substring_list: test.substring_list.count = 64
 		do
-			across input_string_list as string loop
-				str := string.item.twin
-				append (str, input_substring_list.i_th (string.cursor_index).first_word)
-			end
+			concat_string (True)
 		end
 
 	test_append_string_general
+		require
+			valid_string_list: test.string_list.is_empty
 		do
-			add_string_general (True)
+			concat_string_general (True)
 		end
 
 	test_append_utf_8
+		require
+			valid_utf_8_string_list: test.utf_8_string_list.count = 64
 		do
-			across input_utf_8_string_list as utf_8 loop
-				append_utf_8 (new_string_with_count (0), utf_8.item)
+			across test.utf_8_string_list as utf_8 loop
+				test.append_utf_8 (create {S}.make (0), utf_8.item)
 			end
 		end
 
-	test_as_lower
+	test_prepend_string
+		require
+			valid_substring_list: test.substring_list.count = 64
 		do
-			change_case (True)
+			concat_string (False)
 		end
+
+	test_prepend_string_general
+		require
+			valid_string_list: test.string_list.is_empty
+		do
+			concat_string_general (True)
+		end
+
+feature {NONE} -- Mutation tests
+
+	test_insert_string
+		require
+			valid_substring_list: test.substring_list.count = 64
+		local
+			i: INTEGER
+		do
+			across test.string_list as string loop
+				i := string.cursor_index
+				if attached string.item.twin as str then
+					test.insert_string (str, test.substring_list [i].last_word, str.count // 2)
+				end
+			end
+		end
+
+	test_left_adjust
+		do
+			across test.string_list as string loop
+				if attached string.item.twin as str then
+					str.left_adjust
+				end
+			end
+		end
+
+	test_prune_all
+		require
+			valid_character_pair_list: test.character_pair_list.count = 64
+		do
+			across test.string_list as str loop
+				test.prune_all (str.item, test.character_pair_list [str.cursor_index].last_character)
+				test.prune_all (str.item, ' ')
+			end
+		end
+
+	test_replace_character
+		require
+			valid_set_list: not test.character_set_list.is_empty
+		do
+			across test.string_list as str loop
+				if attached test.character_set_list [str.cursor_index] as character_set then
+					across character_set as set loop
+						test.replace_character (str.item, set.item, ' ')
+					end
+				end
+			end
+		end
+
+	test_remove_substring
+		local
+			str: S
+		do
+			across test.string_list as string loop
+				str := string.item.twin
+				test.remove_substring (str, str.count // 3, str.count * 2 // 3)
+			end
+		end
+
+	test_replace_substring
+		require
+			valid_substring_list: test.substring_list.count = 64
+		local
+			start_index, end_index: INTEGER; str: S
+		do
+			across test.string_list as string loop
+				str := string.item.twin
+				start_index := str.count // 2 - 1
+				end_index:= str.count // 2 + 1
+				test.replace_substring (str, test.substring_list [string.cursor_index].last_word, start_index, end_index)
+			end
+		end
+
+	test_replace_substring_all
+		require
+			valid_substring_list: test.substring_list.count = 64
+		do
+			across test.string_list as string loop
+				if attached test.substring_list [string.cursor_index] as substring then
+					test.replace_substring_all (string.item.twin, substring.middle_word, substring.last_word)
+				end
+			end
+		end
+
+	test_right_adjust
+		do
+			across test.string_list as str loop
+				str.item.right_adjust
+			end
+		end
+
+	test_to_lower
+		do
+			across test.string_list as string loop
+				test.to_lower (string.item)
+			end
+		end
+
+	test_to_upper
+		do
+			across test.string_list as string loop
+				test.to_upper (string.item)
+			end
+		end
+
+	test_translate
+		require
+			valid_substring_list: test.substring_list.count = 64
+			valid_substitution_list: test.substitution_list.count = 64
+		local
+			old_characters, new_characters: S
+		do
+			across test.string_list as string loop
+				old_characters := test.substitution_list [string.cursor_index].old_characters
+				new_characters := test.substitution_list [string.cursor_index].new_characters
+				if attached string.item.twin as str then
+					test.translate (str, old_characters, new_characters)
+				end
+			end
+		end
+
+feature {NONE} -- Query tests
 
 	test_as_string_8
 		do
-			across input_string_list as string loop
+			across test.string_list as string loop
 				call (string.item.as_string_8)
 			end
 		end
 
 	test_as_string_32
 		do
-			across input_string_list as string loop
+			across test.string_list as string loop
 				call (string.item.as_string_32)
 			end
 		end
 
-	test_as_upper
-		do
-			change_case (False)
-		end
-
 	test_code
 		local
-			i: INTEGER; str: STRING_GENERAL
+			i: INTEGER; str: S
 		do
-			across input_string_list as string loop
+			across test.string_list as string loop
 				str := string.item
 				from i := 1 until i > str.count loop
 					call (str.code (i))
@@ -174,159 +301,73 @@ feature -- Benchmark tests
 		end
 
 	test_ends_with
+		require
+			valid_substring_list: test.substring_list.count = 64
 		local
-			ending: STRING_GENERAL; substring: like input_substring_list.item
+			ending: STRING_GENERAL
 		do
-			across input_string_list as string loop
-				substring := input_substring_list [string.cursor_index]
-				call (ends_with (string.item, substring.first_word))
-				call (ends_with (string.item, substring.last_word))
+			across test.string_list as string loop
+				if attached test.substring_list [string.cursor_index] as substring then
+					across << substring.first_word, substring.last_word >> as word loop
+						call (string.item.ends_with (word.item))
+					end
+				end
 			end
 		end
 
 	test_index_of
+		require
+			valid_character_pair_list: test.character_pair_list.count = 64
 		local
-			str: STRING_GENERAL; uc: CHARACTER_32
+			uc: CHARACTER_32
 		do
-			across input_string_list as string loop
-				str := string.item
-				uc := input_character_list.i_th (string.cursor_index).last_character
-				call (str.index_of (uc, 1))
-			end
-		end
-
-	test_insert_string
-		local
-			str: STRING_GENERAL
-		do
-			across input_string_list as string loop
-				str := string.item.twin
-				insert_string (str, input_substring_list.i_th (string.cursor_index).last_word, str.count // 2)
+			across test.string_list as str loop
+				uc := test.character_pair_list [str.cursor_index].last_character
+				call (str.item.index_of (uc, 1))
 			end
 		end
 
 	test_item
 		local
-			i: INTEGER; str: STRING_GENERAL
+			i: INTEGER; str: S
 		do
-			across input_string_list as string loop
+			across test.string_list as string loop
 				str := string.item
 				from i := 1 until i > str.count loop
-					call (item (str, i))
+					call (str [i])
 					i := i + 1
 				end
 			end
 		end
 
 	test_is_equal
-		local
-			str: STRING_GENERAL
+		require
+			valid_string_list_twin: test.string_list_twin.count = 64
 		do
-			across input_string_list as string loop
-				is_a_equal_to_b (string.item, input_string_list_twin [string.cursor_index])
+			across test.string_list as str loop
+				call (str.item.is_equal (test.string_list_twin [str.cursor_index]))
 			end
 		end
 
 	test_last_index_of
+		require
+			valid_character_pair_list: test.character_pair_list.count = 64
 		local
 			str: STRING_GENERAL;  uc: CHARACTER_32
 		do
-			across input_string_list as string loop
+			across test.string_list as string loop
 				str := string.item
-				uc := input_character_list.i_th (string.cursor_index).first_character
+				uc := test.character_pair_list [string.cursor_index].first_character
 				call (str.last_index_of (uc, str.count))
 			end
-		end
-
-	test_left_adjust
-		do
-			adjust (True)
-		end
-
-	test_prepend_string
-		do
-			across input_string_list as string loop
-				prepend (string.item.twin, input_substring_list.i_th (string.cursor_index).last_word)
-			end
-		end
-
-	test_prepend_string_general
-		do
-			add_string_general (False)
-		end
-
-	test_prune_all
-		local
-			str: STRING_GENERAL; i: INTEGER
-		do
-			across input_string_list as string loop
-				str := string.item.twin
-				prune_all (str, input_character_list.i_th (string.cursor_index).last_character)
-				prune_all (str, ' ')
-			end
-		end
-
-	test_replace_character
-		local
-			str: STRING_GENERAL; i, count: INTEGER
-			characters: STRING_32
-		do
-			create characters.make_empty
-			across input_string_list as string loop
-				characters.wipe_out
-				characters.append_string_general (string.item)
-				str := string.item.twin
-				count := characters.count
-				from i := 2 until i > count loop
-					replace_character (str, characters [1], characters [i])
-					i := i + 1
-				end
-			end
-		end
-
-	test_remove_substring
-		local
-			str: STRING_GENERAL
-		do
-			across input_string_list as string loop
-				str := string.item.twin
-				remove_substring (str, str.count // 3, str.count * 2 // 3)
-			end
-		end
-
-	test_replace_substring
-		local
-			start_index, end_index: INTEGER; str: STRING_GENERAL
-		do
-			across input_string_list as string loop
-				str := string.item.twin
-				start_index := str.count // 2 - 1
-				end_index:= str.count // 2 + 1
-				replace_substring (str, input_substring_list.i_th (string.cursor_index).last_word, start_index, end_index)
-			end
-		end
-
-	test_replace_substring_all
-		local
-			substring: like input_substring_list.item
-		do
-			across input_string_list as string loop
-				substring := input_substring_list [string.cursor_index]
-				replace_substring_all (string.item.twin, substring.middle_word, substring.last_word)
-			end
-		end
-
-	test_right_adjust
-		do
-			adjust (False)
 		end
 
 	test_sort
 		local
 			sortable: EL_SORTABLE_ARRAYED_LIST [STRING_GENERAL]
 		do
-			create sortable.make (input_string_list.count)
-			across input_string_list as string loop
+			create sortable.make (test.string_list.count)
+			across test.string_list as string loop
 				sortable.extend (string.item)
 			end
 			sortable.sort
@@ -336,56 +377,40 @@ feature -- Benchmark tests
 		local
 			first: STRING_GENERAL
 		do
-			across input_string_list as string loop
+			across test.string_list as string loop
 				first := string.item
 				call (first.split (' '))
 			end
 		end
 
 	test_starts_with
-		local
-			substring: like input_substring_list.item
+		require
+			valid_substring_list: test.substring_list.count = 64
 		do
-			across input_string_list as string loop
-				substring := input_substring_list [string.cursor_index]
-				call (starts_with (string.item, substring.first_word))
-				call (starts_with (string.item, substring.last_word))
+			across test.string_list as string loop
+				if attached test.substring_list [string.cursor_index] as substring then
+					across << substring.first_word, substring.last_word >> as word loop
+						call (string.item.starts_with (word.item))
+					end
+				end
 			end
 		end
 
 	test_substring_index
-		local
-			substring: like input_substring_list.item
+		require
+			valid_substring_list: test.substring_list.count = 64
 		do
-			across input_string_list as string loop
-				substring := input_substring_list [string.cursor_index]
-				call (string.item.substring_index (substring.last_word, 1))
+			across test.string_list as string loop
+				if attached test.substring_list [string.cursor_index] as substring then
+					call (string.item.substring_index (substring.last_word, 1))
+				end
 			end
 		end
 
 	test_to_utf_8
-		local
-			str: like new_string
 		do
-			across input_string_list as string loop
-				call (to_utf_8 (string.item))
-			end
-		end
-
-	test_translate
-		local
-			str: STRING_GENERAL; old_characters, new_characters: STRING_GENERAL
-			substring: like input_substring_list.item; l_count: INTEGER
-		do
-			across input_string_list as string loop
-				str := string.item.twin
-				substring := input_substring_list [string.cursor_index]
-				old_characters := substring.last_word.twin
-				new_characters := substring.first_word.twin
-				l_count := old_characters.count.min (new_characters.count)
-				old_characters.keep_head (l_count)
-				new_characters.keep_head (l_count)
-				translate (str, old_characters, new_characters)
+			across test.string_list as string loop
+				call (test.to_utf_8 (string.item))
 			end
 		end
 
@@ -393,375 +418,95 @@ feature -- Benchmark tests
 		local
 			str: READABLE_STRING_GENERAL
 		do
-			across input_string_list as string loop
-				str := unescaped (string.item)
+			across test.string_list as string loop
+				str := test.unescaped (string.item)
 			end
 		end
 
 	test_xml_escape
 		do
-			across input_string_list as string loop
-				call (xml_escaped (string.item.twin))
+			across test.string_list as string loop
+				call (test.xml_escaped (string.item.twin))
 			end
-		end
-
-feature {NONE} -- Factory
-
-	new_string (unicode: STRING_GENERAL): STRING_GENERAL
-		deferred
-		end
-
-	new_string_with_count (n: INTEGER): STRING_GENERAL
-		deferred
 		end
 
 feature {NONE} -- Implementation
-
-	add_string_general (do_append: BOOLEAN)
-		local
-			str: STRING_GENERAL
-		do
-			across input_string_list as string loop
-				str := string.item; str.keep_head (0)
-				across format_columns as column loop
-					if attached {READABLE_STRING_GENERAL} Hexagram.string_arrays [column.item] as readable_string then
-						if do_append then
-							str.append (readable_string)
-						else
-							str.prepend (readable_string)
-						end
-					end
-				end
-			end
-		end
-
-	adjust (left: BOOLEAN)
-		local
-			str: STRING_GENERAL
-		do
-			across input_string_list as string loop
-				str := string.item.twin
-				if left then
-					str.left_adjust
-				else
-					str.right_adjust
-				end
-			end
-		end
 
 	call (object: ANY)
 		do
 		end
 
-	change_case (as_lower: BOOLEAN)
+	concat_string_general (append: BOOLEAN)
+		require
+			valid_string_list: test.string_list.is_empty
 		local
-			str: STRING_GENERAL
+			str: S
 		do
-			across input_string_list as string loop
-				str := string.item.twin
-				if as_lower then
-					call (str.as_lower)
-				else
-					call (str.as_upper)
+			create str.make (100)
+			across Hexagram.string_arrays as array loop
+				test.wipe_out (str)
+				across test.format_columns as column loop
+					if append then
+						str.append (array.item [column.item])
+					else
+						str.prepend (array.item [column.item])
+					end
 				end
 			end
 		end
 
-	displayed_input_format: STRING
+	concat_string (append: BOOLEAN)
+		require
+			valid_substring_list: test.substring_list.count = 64
 		local
-			pos_first, pos_last: INTEGER
+			str: S
 		do
-			pos_first := input_format.index_of ('$', 1)
-			if pos_first > 0 then
-				Result := input_format.twin
-				Result.insert_character ('"', pos_first)
-				pos_last := Result.last_index_of ('$', Result.count)
-				Result.insert_character ('"', pos_last + 2)
-			else
-				Result := input_format
+			create str.make (100)
+			across test.string_list as string loop
+				test.wipe_out (str)
+				if append then
+					str.append (string.item)
+					str.append (test.substring_list [string.cursor_index].first_word)
+				else
+					str.prepend (string.item)
+					str.prepend (test.substring_list [string.cursor_index].first_word)
+				end
 			end
 		end
 
-	do_memory_test (a_input_format: STRING; rows: INTEGER)
-		require
-			valid_input_format: across input_arguments (a_input_format) as c all c.item.is_alpha implies c.item.is_upper end
+	do_memory_test (a_format: STRING; rows: INTEGER)
 		local
-			i: INTEGER; l_description: STRING
+			i: INTEGER; l_description: STRING; output_string: S
 		do
 			if rows = 1 then
 				l_description := "First line only"
 			else
 				l_description := "Lines 1 to " + rows.out
 			end
-			lio.put_labeled_string (generator, l_description); lio.put_labeled_string (" input", a_input_format)
+			lio.put_labeled_string (generator, l_description); lio.put_labeled_string (" input", a_format)
 			lio.put_new_line
-			input_format := a_input_format
-			fill_input_strings ("append_string")
-			output_string := input_string_list.first.twin
+			test := new_test ("append_string", a_format)
+			output_string := test.string_list.first.twin
 			from i := 2 until i > rows loop
 				output_string.append_code (32)
-				append (output_string, input_string_list [i])
+				output_string.append (test.string_list [i])
 				i := i + 1
 			end
-			memory_tests.extend ([l_description, displayed_input_format, storage_bytes (output_string)])
+			memory_tests.extend ([l_description, test.display_format, test.storage_bytes (output_string)])
 		end
 
-	do_performance_test (routines: STRING_32; a_input_format: STRING; procedure: PROCEDURE)
-		require
-			valid_input_format: across input_arguments (a_input_format) as c all c.item.is_alpha implies c.item.is_upper end
-		local
-			timer: EL_EXECUTION_TIMER; i: INTEGER
+	do_performance_test (routines, a_format: STRING; procedure: PROCEDURE)
 		do
 			if routines.has_substring (routine_filter) then
-				lio.put_labeled_string (generator, routines); lio.put_labeled_string (" input", a_input_format)
+				lio.put_labeled_string (generator, routines); lio.put_labeled_string (" input", a_format)
 				lio.put_new_line
-				input_format := a_input_format
-				fill_input_strings (routines)
+				test := new_test (routines, a_format)
 				full_collect
-				create timer.make
-				timer.start
-				from i := 1 until i > number_of_runs loop
-					procedure.apply; full_collect
-					i := i + 1
-				end
-				timer.stop
-				performance_tests.extend ([routines, displayed_input_format, timer.elapsed_millisecs / number_of_runs])
+				performance_tests.extend ([routines, test.display_format, repetition_count (procedure, trial_duration_ms)])
 			end
 		end
 
-	escape_input_strings
-		local
-			i: INTEGER; s: EL_STRING_32_ROUTINES
-		do
-			across input_string_list as string loop
-				if attached {EL_ZSTRING} string.item  as str_z then
-					str_z.translate_general (" ", "\")
-				elseif attached {STRING_32} string.item  as str_32 then
-					s.translate (str_32, " ", "\")
-				end
-				from i := string.item.index_of (Pinyin_u, 1) until i = 0 loop
-					if attached {EL_ZSTRING} string.item  as str_z then
-						str_z.insert_character (Back_slash, i)
-					elseif attached {STRING_32} string.item  as str_32 then
-						str_32.insert_character (Back_slash, i)
-					end
-					i := string.item.index_of (Pinyin_u, i + 2)
-				end
-			end
-		end
-
-	fill_input_strings (routines: STRING_32)
-		local
-			parts_32: ARRAYED_LIST [STRING_GENERAL]; words: LIST [STRING_GENERAL]
-			format_args: STRING; i, count: INTEGER; conv: EL_UTF_CONVERTER
-			str, first_word, last_word, first_character, last_character: STRING_GENERAL
-		do
-			input_string_list.wipe_out; input_string_list_twin.wipe_out
-			input_substring_list.wipe_out; input_character_list.wipe_out
-			input_utf_8_string_list.wipe_out
-			format_args := input_arguments (input_format)
-			format_columns := input_columns (format_args)
-			if routines.has_substring ("pend_general") then
-				across 1 |..| 64 as n loop
-					input_string_list.extend (new_string_with_count (0))
-				end
-			else
-				across Hexagram.string_arrays as array loop
-					create parts_32.make (format_columns.count)
-					from i := 1  until i > format_columns.upper loop
-						parts_32.extend (new_string (array.item [format_columns [i]]))
-						i := i + 1
-					end
-					input_string_list.extend (joined_string (parts_32))
-					if routines.starts_with_general (once "append_utf_8") then
-						input_utf_8_string_list.extend (conv.string_32_to_utf_8_string_8 (input_string_list.last.to_string_32))
-					elseif routines.starts_with_general (once "is_equal") then
-						input_string_list_twin.extend (input_string_list.last.twin)
-					end
-				end
-			end
-			if input_format.starts_with (Padded) then
-				pad_input_strings (format_args)
-			elseif input_format.starts_with (Put_amp) then
-				put_ampersands_input_strings
-			elseif input_format.starts_with (Escaped) then
-				escape_input_strings
-			end
-			across input_string_list as string loop
-				str := string.item; count := str.count
-				first_character := str.substring (1, 1)
-				last_character := str.substring (count, count)
-				words := str.split (' ')
-				input_substring_list.extend ([words [1], words [(words.count // 2) + 1], words [words.count], first_character, last_character])
-				input_character_list.extend ([str [1], str [count]])
-			end
-		end
-
-	input_arguments (format: STRING): STRING
-		local
-			pos_left_bracket: INTEGER
-		do
-			pos_left_bracket := format.index_of ('(', 1)
-			if pos_left_bracket > 0 then
-				Result := format.substring (pos_left_bracket + 1, format.count - 1)
-			else
-				Result := format
-			end
-		end
-
-	input_columns (format: STRING): ARRAY [INTEGER]
-		local
-			c: CHARACTER; l_array: ARRAYED_LIST [CHARACTER]; i: INTEGER
-		do
-			create l_array.make (4)
-			if format.has ('$') then
-				across format.split (' ') as str loop
-					l_array.extend (str.item [str.item.count])
-				end
-			else
-				across format.split (',') as str loop
-					l_array.extend (str.item [1])
-				end
-			end
-			create Result.make (1, l_array.count)
-			from i := 1 until i > l_array.count loop
-				c := l_array [i]
-				Result [i] := c.natural_32_code.to_integer_32 - {ASCII}.upper_a + 1
-				i := i + 1
-			end
-		end
-
-	joined_count (parts: LIST [READABLE_STRING_GENERAL]; with_separators: BOOLEAN): INTEGER
-		do
-			if with_separators then
-				Result := parts.count - 1
-			end
-			across parts as part loop
-				Result := Result + part.item.count
-			end
-		end
-
-	joined_string (parts_32: ARRAYED_LIST [STRING_GENERAL]): STRING_GENERAL
-		do
-			Result := new_string_with_count (joined_count (parts_32, True))
-			across parts_32 as part loop
-				if part.cursor_index > 1 then
-					Result.append_code (32)
-				end
-				append (Result, part.item)
-			end
-		end
-
-	pad_input_strings (format_args: STRING)
-		do
-			across input_string_list as string loop
-				if across "BC" as letter some format_args.has (letter.item) end then
-					prepend (string.item, Ogham_padding); append (string.item, Ogham_padding)
-				else
-					prepend (string.item, Space_padding); append (string.item, Space_padding)
-				end
-			end
-		end
-
-	put_ampersands_input_strings
-		do
-			across input_string_list as string loop
-				if attached {STRING_32} string.item as str_32 then
-					str_32.replace_substring_all (" ", "&")
-				elseif attached {EL_ZSTRING} string.item as str_z then
-					str_z.replace_character (' ', '&')
-				end
-			end
-		end
-
-	set_escape_character (a_escape_character: like escape_character)
-		do
-			C_escape_table.remove (escape_character)
-			escape_character := a_escape_character
-			C_escape_table [a_escape_character] := a_escape_character
-			unescaper.set_escape_character (a_escape_character)
-		end
-
-	unescaper: EL_STRING_GENERAL_UNESCAPER [READABLE_STRING_GENERAL, STRING_GENERAL]
-		deferred
-		end
-
-feature {NONE} -- Deferred implementation
-
-	append (target: STRING_GENERAL; s: STRING_GENERAL)
-		deferred
-		end
-
-	append_utf_8 (target: STRING_GENERAL; utf_8: STRING)
-		deferred
-		end
-
-	ends_with (target, ending: STRING_GENERAL): BOOLEAN
-		deferred
-		end
-
-	insert_string (target, insertion: STRING_GENERAL; index: INTEGER)
-		deferred
-		end
-
-	item (target: STRING_GENERAL; index: INTEGER): CHARACTER_32
-		deferred
-		end
-
-	is_a_equal_to_b (a, b: STRING_GENERAL)
-		deferred
-		end
-
-	prepend (target: STRING_GENERAL; s: STRING_GENERAL)
-		deferred
-		end
-
-	prune_all (target: STRING_GENERAL; uc: CHARACTER_32)
-		deferred
-		end
-
-	remove_substring (target: STRING_GENERAL; start_index, end_index: INTEGER)
-		deferred
-		end
-
-	replace_character (target: STRING_GENERAL; old_character, new_character: CHARACTER_32)
-		deferred
-		end
-
-	replace_substring (target, insertion: STRING_GENERAL; start_index, end_index: INTEGER)
-		deferred
-		end
-
-	replace_substring_all (target, original, new: STRING_GENERAL)
-		deferred
-		end
-
-	starts_with (target, beginning: STRING_GENERAL): BOOLEAN
-		deferred
-		end
-
-	storage_bytes (s: STRING_GENERAL): INTEGER
-		deferred
-		end
-
-	to_string_32 (string: STRING_GENERAL): STRING_32
-		deferred
-		end
-
-	to_utf_8 (string: STRING_GENERAL): STRING
-		deferred
-		end
-
-	translate (target, old_characters, new_characters: STRING_GENERAL)
-		deferred
-		end
-
-	unescaped (target: like new_string): like new_string
-		do
-			Result := Unescaper.unescaped (target)
-		end
-
-	xml_escaped (target: STRING_GENERAL): STRING_GENERAL
+	new_test (routines, a_format: STRING): TEST_STRINGS [S]
 		deferred
 		end
 
@@ -769,57 +514,8 @@ feature {NONE} -- Internal attributes
 
 	escape_character: CHARACTER_32
 
-	format_columns: ARRAY [INTEGER]
+	test: like new_test
 
-	input_character_list: ARRAYED_LIST [TUPLE [first_character, last_character: CHARACTER_32]]
-
-	input_format: STRING
-
-	input_string_list: ARRAYED_LIST [STRING_GENERAL]
-		-- first column of `input_string_list'
-
-	input_string_list_twin: ARRAYED_LIST [STRING_GENERAL]
-
-	input_utf_8_string_list: ARRAYED_LIST [STRING]
-
-	input_substring_list: ARRAYED_LIST [TUPLE [first_word, middle_word, last_word, first_character, last_character: STRING_GENERAL]]
-
-	output_string: STRING_GENERAL
-
-	routine_filter: STRING_32
-
-feature {NONE} -- Constants
-
-	Back_slash: CHARACTER = '\'
-
-	C_escape_table: HASH_TABLE [CHARACTER_32, CHARACTER_32]
-		once
-			create Result.make (7)
-			Result ['n'] := '%N'
-			Result ['r'] := '%R'
-			Result ['t'] := '%T'
-
-			Result ['N'] := '%N'
-			Result ['R'] := '%R'
-			Result ['T'] := '%T'
- 		end
-
-	Escaped: STRING = "escaped"
-
-	Ogham_padding: STRING_32
-		once
-			create Result.make_filled ((1680).to_character_32, 5)
-		end
-
-	Padded: STRING = "padded"
-
-	Pinyin_u: CHARACTER_32 = 'ū'
-
-	Put_amp: STRING = "put_amp"
-
-	Space_padding: STRING_32
-		once
-			create Result.make_filled (' ', 5)
-		end
+	routine_filter: STRING
 
 end

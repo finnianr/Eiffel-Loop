@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 17:23:35 GMT (Friday 11th February 2022)"
-	revision: "18"
+	date: "2022-10-24 10:46:02 GMT (Monday 24th October 2022)"
+	revision: "19"
 
 class
 	ZSTRING_BENCHMARK_APP
@@ -25,31 +25,19 @@ create
 
 feature {NONE} -- Implementation
 
-	compile: TUPLE [UC_UTF8_STRING_BENCHMARK]
-		do
-			create Result
-		end
-
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
 				optional_argument ("output", "HTML output directory", No_checks),
 				optional_argument ("template", "HTML page Evolicity template", << file_must_exist >>),
-				optional_argument ("runs", "The number of test runs to average over", No_checks),
+				optional_argument ("duration", "The duration of each in milliseconds", No_checks),
 				optional_argument ("filter", "Routine filter", No_checks)
 			>>
 		end
 
 	default_make: PROCEDURE [like command]
-		local
-			number_of_runs: INTEGER
 		do
-			if Executable.is_work_bench then
-				number_of_runs := 1
-			else
-				number_of_runs := 100
-			end
-			Result := agent {like command}.make ("doc/benchmark", "doc/ZSTRING-benchmarks.evol", number_of_runs, "")
+			Result := agent {like command}.make ("doc/benchmark", "doc/ZSTRING-benchmarks.evol", 500, "")
 		end
 
 end

@@ -5,8 +5,8 @@ note
 		
 		**Test Sets**
 		
-			[$source TEXT_PARSER_TEST_SET_1]
-			[$source TEXT_PARSER_TEST_SET_2]
+			[$source GENERAL_PARSER_TEST_SET]
+			[$source EIFFEL_PARSING_TEST_SET]
 	]"
 
 	author: "Finnian Reilly"
@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:49:49 GMT (Saturday 5th February 2022)"
-	revision: "7"
+	date: "2022-10-23 9:19:27 GMT (Sunday 23rd October 2022)"
+	revision: "8"
 
 class
 	TEXT_PROCESS_AUTOTEST_APP

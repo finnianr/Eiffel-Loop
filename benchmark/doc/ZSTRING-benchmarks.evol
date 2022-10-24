@@ -49,12 +49,13 @@
 		<h2>Input Test Data</h2>
 		<p>See <a href="#test_strings">table below</a></p>
 		<p>
-			<b>$$A</b> = string from column A<br/>
-			<b>$$B</b> = string from column B<br/>
-			<b>$$C</b> = string from column C<br/>
-			<b>$$D</b> = string from column D
+			<b>$$A</b> = column A string is short latin<br/>
+			<b>$$B</b> = column B string is short mix of unicode and latin<br/>
+			<b>$$C</b> = column C string is 1 or 2 characters of Chinese unicode<br/>
+			<b>$$D</b> = column D string is long latin string
 		</p>
-		<p>Each test iterates over 64 table rows and the average time is taken of $number_of_runs executions</p>
+		<p>Each test iterates over 64 table rows and the number of executions in $trial_duration_ms ms is recorded</p>
+		<p>(The higher the number the better the performance)</p>
 
 		<h2>Memory Consumption</h2>
 	#across $memory_tables as $table loop

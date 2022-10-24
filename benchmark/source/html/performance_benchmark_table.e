@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-01 18:38:27 GMT (Monday 1st June 2020)"
-	revision: "6"
+	date: "2022-10-24 14:39:26 GMT (Monday 24th October 2022)"
+	revision: "7"
 
 class
 	PERFORMANCE_BENCHMARK_TABLE
@@ -18,23 +18,33 @@ inherit
 create
 	make
 
+feature -- Status query
+
+	is_memory: BOOLEAN = False
+
 feature {NONE} -- Implementation
 
 	append_to_row (row: like Html_row; index: INTEGER)
 		local
-			string_32_test, zstring_test: like Type_benchmark.performance_tests.item
-			zstring_time, string_32_time: DOUBLE
+			test_32, test_z: like Type_benchmark.performance_tests.item
+			absolute_result, relative_result: STRING
 		do
-			string_32_test := benchmark.string_32.performance_tests [index]
-			zstring_test := benchmark.zstring.performance_tests [index]
+			test_32 := benchmark.string_32.performance_tests [index]
+			test_z := benchmark.zstring.performance_tests [index]
 
-			row.append (Html.table_data (zstring_test.routines))
-			row.append (Html.table_data (XML.escaped (zstring_test.input_format)))
+			row.append (Html.table_data (test_z.routines))
+			row.append (Html.table_data (XML.escaped (test_z.input_format)))
 
-			zstring_time := zstring_test.average_time; string_32_time := string_32_test.average_time
+			if relative_percentage (test_32.repetition_count, test_z.repetition_count) = 0 then
+				relative_result := test_32.repetition_count.rounded.out
+			else
+				relative_result := relative_percentage_string (test_32.repetition_count, test_z.repetition_count)
+			end
+			absolute_result := test_z.repetition_count.rounded.out
 
-			row.append (Html.table_data (comparative_millisecs_string (zstring_time, string_32_time)))
-			row.append (Html.table_data (comparative_millisecs_string (string_32_time, string_32_time)))
+			across << absolute_result, relative_result >> as string loop
+				row.append (Html.table_data (string.item))
+			end
 		end
 
 	test_count: INTEGER
@@ -42,13 +52,14 @@ feature {NONE} -- Implementation
 			Result := benchmark.zstring.performance_tests.count
 		end
 
-	test_result (a_benchmark: STRING_BENCHMARK; index: INTEGER): DOUBLE
+	test_result (a_benchmark: STRING_BENCHMARK [STRING_GENERAL]; index: INTEGER): DOUBLE
 		do
-			Result := a_benchmark.performance_tests.i_th (index).average_time
+			Result := a_benchmark.performance_tests [index].repetition_count
 		end
 
 feature {NONE} -- Constants
 
 	Column_title: STRING = "String routines"
+
 
 end

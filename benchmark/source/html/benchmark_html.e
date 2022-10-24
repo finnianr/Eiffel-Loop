@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "10"
+	date: "2022-10-24 10:40:27 GMT (Monday 24th October 2022)"
+	revision: "11"
 
 class
 	BENCHMARK_HTML
@@ -88,9 +88,9 @@ feature {NONE} -- Implemenation
 
 feature {NONE} -- Evolicity fields
 
-	get_number_of_runs: INTEGER_REF
+	get_trial_duration_ms: INTEGER_REF
 		do
-			Result := performance_tables.first.number_of_runs.to_reference
+			Result := performance_tables.first.trial_duration_ms.to_reference
 		end
 
 	getter_function_table: like getter_functions
@@ -102,7 +102,7 @@ feature {NONE} -- Evolicity fields
 				["data_rows",				agent data_rows],
 				["github_link",			agent: STRING do Result := github_link end],
 				["source_links",			agent source_links_table],
-				["number_of_runs",		agent get_number_of_runs]
+				["trial_duration_ms",	agent get_trial_duration_ms]
 			>>)
 		end
 

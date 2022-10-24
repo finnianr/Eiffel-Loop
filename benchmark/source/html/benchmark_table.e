@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-16 15:17:24 GMT (Sunday 16th October 2022)"
-	revision: "11"
+	date: "2022-10-24 14:00:02 GMT (Monday 24th October 2022)"
+	revision: "12"
 
 deferred class
 	BENCHMARK_TABLE
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 				title := Title_latin #$ [a_encoding_id]
 			end
 			benchmark := a_benchmark
-			number_of_runs := benchmark.zstring.number_of_runs
+			trial_duration_ms := benchmark.zstring.trial_duration_ms
 			set_data_rows
 		end
 
@@ -51,13 +51,19 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	benchmark: TUPLE [zstring, string_32: STRING_BENCHMARK]
+	benchmark: TUPLE [zstring, string_32: STRING_BENCHMARK [STRING_GENERAL]]
 
 	data_rows: EL_ZSTRING_LIST
 
-	number_of_runs: INTEGER
-
 	title: ZSTRING
+
+	trial_duration_ms: INTEGER
+
+feature -- Status query
+
+	is_memory: BOOLEAN
+		deferred
+		end
 
 feature {NONE} -- Implementation
 
@@ -96,14 +102,14 @@ feature {NONE} -- Implementation
 	sorted_indices: EL_ARRAYED_LIST [INTEGER]
 		do
 			create Result.make_from (1 |..| test_count)
-			Result.order_by (agent relative_percentage_at_index, True)
+			Result.order_by (agent relative_percentage_at_index, is_memory)
 		end
 
 	test_count: INTEGER
 		deferred
 		end
 
-	test_result (a_benchmark: STRING_BENCHMARK; index: INTEGER): DOUBLE
+	test_result (a_benchmark: STRING_BENCHMARK [STRING_GENERAL]; index: INTEGER): DOUBLE
 		deferred
 		end
 
@@ -122,7 +128,7 @@ feature {NONE} -- Evolicity fields
 
 feature {NONE} -- Type definition
 
-	Type_benchmark: STRING_BENCHMARK
+	Type_benchmark: STRING_BENCHMARK [STRING_GENERAL]
 		require
 			never_called: False
 		once
@@ -143,7 +149,7 @@ feature {NONE} -- Constants
 	Template: STRING =
 	"[
 		<h3>$title</h3>
-		<caption>Table $table_id (In ascending order of ZSTRING percentage)</caption>
+		<caption>Table $table_id (In descending order of ZSTRING iteration count)</caption>
 		<table>
 			<tr>
 				<th width="40%">$column_title</th>

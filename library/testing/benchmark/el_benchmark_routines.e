@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-26 15:39:11 GMT (Sunday 26th December 2021)"
-	revision: "11"
+	date: "2022-10-24 4:48:29 GMT (Monday 24th October 2022)"
+	revision: "12"
 
 expanded class
 	EL_BENCHMARK_ROUTINES
@@ -71,6 +71,16 @@ feature -- Access
 			end
 		end
 
+	repetition_count (action: ROUTINE; trial_duration: INTEGER): DOUBLE
+		local
+			count: INTEGER
+		do
+			Timer.start
+			count := application_count (action, trial_duration)
+			Timer.stop
+			Result := trial_duration * count / Timer.elapsed_millisecs
+		end
+
 feature {NONE} -- Constants
 
 	Double: FORMAT_DOUBLE
@@ -78,4 +88,8 @@ feature {NONE} -- Constants
 			create Result.make (6, 3)
 		end
 
+	Timer: EL_EXECUTION_TIMER
+		once
+			create Result.make
+		end
 end

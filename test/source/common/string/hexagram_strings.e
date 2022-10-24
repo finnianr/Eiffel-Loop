@@ -13,8 +13,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-19 11:33:30 GMT (Wednesday 19th October 2022)"
-	revision: "13"
+	date: "2022-10-24 11:56:55 GMT (Monday 24th October 2022)"
+	revision: "14"
 
 class
 	HEXAGRAM_STRINGS
@@ -59,7 +59,7 @@ feature -- Access
 			txt_file.close
 		end
 
-	String_arrays: ARRAYED_LIST [ARRAY [STRING_GENERAL]]
+	String_arrays: ARRAYED_LIST [ARRAY [READABLE_STRING_GENERAL]]
 		local
 			index: INTEGER; chinese_name: like chinese_names.item
 		once
