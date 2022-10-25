@@ -6,17 +6,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-24 2:45:36 GMT (Monday 24th October 2022)"
-	revision: "14"
+	date: "2022-10-25 8:48:33 GMT (Tuesday 25th October 2022)"
+	revision: "15"
 
 class
 	ZSTRING_BENCHMARK
 
 inherit
-	STRING_BENCHMARK [ZSTRING]
+	STRING_BENCHMARK
+
+	EL_SHARED_ZSTRING_CODEC
 
 create
 	make
+
+feature -- Access
+
+	title: ZSTRING
+		do
+			Result := Title_template #$ [Codec.id]
+		end
 
 feature {NONE} -- Factory
 
@@ -35,6 +44,11 @@ feature {NONE} -- Constants
 	Xml_escaper: XML_ZSTRING_ESCAPER
 		once
 			create Result.make_128_plus
+		end
+
+	Title_template: ZSTRING
+		once
+			Result := "Pure Latin-%S Encoding"
 		end
 
 end

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-24 13:09:24 GMT (Monday 24th October 2022)"
-	revision: "1"
+	date: "2022-10-25 8:10:22 GMT (Tuesday 25th October 2022)"
+	revision: "2"
 
 deferred class
 	TEST_STRINGS [S -> STRING_GENERAL create make end]
@@ -118,6 +118,11 @@ feature -- Access
 	format: STRING
 
 	format_columns: ARRAY [INTEGER]
+
+	new_string (n: INTEGER): S
+		do
+			create Result.make (n)
+		end
 
 	unescaped (target: S): S
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-24 14:00:02 GMT (Monday 24th October 2022)"
-	revision: "12"
+	date: "2022-10-25 8:48:57 GMT (Tuesday 25th October 2022)"
+	revision: "13"
 
 deferred class
 	BENCHMARK_TABLE
@@ -26,19 +26,12 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (a_encoding_id: NATURAL; a_benchmark: like benchmark)
-		require
-			valid_zstring_benchmark: attached {ZSTRING_BENCHMARK} a_benchmark.zstring
-			valid_string_32_benchmark: attached {STRING_32_BENCHMARK} a_benchmark.string_32
+	make (a_benchmark_z: like benchmark_z; a_benchmark_32: like benchmark_32)
 		do
 			make_default
-			if attached {MIXED_ENCODING_ZSTRING_BENCHMARK} a_benchmark.zstring then
-				title := Title_mixed #$ [a_encoding_id]
-			else
-				title := Title_latin #$ [a_encoding_id]
-			end
-			benchmark := a_benchmark
-			trial_duration_ms := benchmark.zstring.trial_duration_ms
+			title := a_benchmark_z.title
+			benchmark_z := a_benchmark_z; benchmark_32 := a_benchmark_32
+			trial_duration_ms := benchmark_z.trial_duration_ms
 			set_data_rows
 		end
 
@@ -50,8 +43,6 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
-
-	benchmark: TUPLE [zstring, string_32: STRING_BENCHMARK [STRING_GENERAL]]
 
 	data_rows: EL_ZSTRING_LIST
 
@@ -85,8 +76,8 @@ feature {NONE} -- Implementation
 		local
 			a, b: DOUBLE
 		do
-			a := test_result (benchmark.zstring, index)
-			b := test_result (benchmark.string_32, index)
+			a := test_result (benchmark_z, index)
+			b := test_result (benchmark_32, index)
 			Result := relative_percentage (a, b)
 		end
 
@@ -109,7 +100,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	test_result (a_benchmark: STRING_BENCHMARK [STRING_GENERAL]; index: INTEGER): DOUBLE
+	test_result (a_benchmark: STRING_BENCHMARK; index: INTEGER): DOUBLE
 		deferred
 		end
 
@@ -126,13 +117,11 @@ feature {NONE} -- Evolicity fields
 			>>)
 		end
 
-feature {NONE} -- Type definition
+feature {NONE} -- Internal attributes
 
-	Type_benchmark: STRING_BENCHMARK [STRING_GENERAL]
-		require
-			never_called: False
-		once
-		end
+	benchmark_32: STRING_32_BENCHMARK
+
+	benchmark_z: ZSTRING_BENCHMARK
 
 feature {NONE} -- Constants
 
@@ -164,15 +153,5 @@ feature {NONE} -- Constants
 		#end
 		</table>
 	]"
-
-	Title_latin: ZSTRING
-		once
-			Result := "Pure Latin-%S Encoding"
-		end
-
-	Title_mixed: ZSTRING
-		once
-			Result := "Mixed Latin-%S and Unicode Encoding"
-		end
 
 end

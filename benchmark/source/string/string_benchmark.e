@@ -6,15 +6,13 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-24 13:16:54 GMT (Monday 24th October 2022)"
-	revision: "18"
+	date: "2022-10-25 8:58:41 GMT (Tuesday 25th October 2022)"
+	revision: "19"
 
 deferred class
-	STRING_BENCHMARK [S -> STRING_GENERAL create make end]
+	STRING_BENCHMARK
 
 inherit
-	EL_COMMAND
-
 	SHARED_HEXAGRAM_STRINGS
 
 	MEMORY
@@ -40,6 +38,8 @@ feature {NONE} -- Initialization
 			create performance_tests.make (23)
 			create memory_tests.make (23)
 			escape_character := Back_slash
+
+			do_performance_tests; do_memory_tests
 		end
 
 feature -- Access
@@ -49,13 +49,6 @@ feature -- Access
 	trial_duration_ms: INTEGER
 
 	performance_tests: EL_ARRAYED_LIST [TUPLE [routines, input_format: STRING; repetition_count: DOUBLE]]
-
-feature -- Basic operations
-
-	execute
-		do
-			do_performance_tests; do_memory_tests
-		end
 
 feature {NONE} -- Implementation
 
@@ -133,7 +126,7 @@ feature {NONE} -- Concatenation
 			valid_utf_8_string_list: test.utf_8_string_list.count = 64
 		do
 			across test.utf_8_string_list as utf_8 loop
-				test.append_utf_8 (create {S}.make (0), utf_8.item)
+				test.append_utf_8 (test.new_string (0), utf_8.item)
 			end
 		end
 
@@ -201,7 +194,7 @@ feature {NONE} -- Mutation tests
 
 	test_remove_substring
 		local
-			str: S
+			str: like test.new_string
 		do
 			across test.string_list as string loop
 				str := string.item.twin
@@ -213,7 +206,7 @@ feature {NONE} -- Mutation tests
 		require
 			valid_substring_list: test.substring_list.count = 64
 		local
-			start_index, end_index: INTEGER; str: S
+			start_index, end_index: INTEGER; str: like test.new_string
 		do
 			across test.string_list as string loop
 				str := string.item.twin
@@ -260,7 +253,7 @@ feature {NONE} -- Mutation tests
 			valid_substring_list: test.substring_list.count = 64
 			valid_substitution_list: test.substitution_list.count = 64
 		local
-			old_characters, new_characters: S
+			old_characters, new_characters: like test.new_string
 		do
 			across test.string_list as string loop
 				old_characters := test.substitution_list [string.cursor_index].old_characters
@@ -289,7 +282,7 @@ feature {NONE} -- Query tests
 
 	test_code
 		local
-			i: INTEGER; str: S
+			i: INTEGER; str: like test.new_string
 		do
 			across test.string_list as string loop
 				str := string.item
@@ -329,7 +322,7 @@ feature {NONE} -- Query tests
 
 	test_item
 		local
-			i: INTEGER; str: S
+			i: INTEGER; str: like test.new_string
 		do
 			across test.string_list as string loop
 				str := string.item
@@ -353,7 +346,7 @@ feature {NONE} -- Query tests
 		require
 			valid_character_pair_list: test.character_pair_list.count = 64
 		local
-			str: STRING_GENERAL;  uc: CHARACTER_32
+			str: like test.new_string; uc: CHARACTER_32
 		do
 			across test.string_list as string loop
 				str := string.item
@@ -440,9 +433,9 @@ feature {NONE} -- Implementation
 		require
 			valid_string_list: test.string_list.is_empty
 		local
-			str: S
+			str: like test.new_string
 		do
-			create str.make (100)
+			str := test.new_string (100)
 			across Hexagram.string_arrays as array loop
 				test.wipe_out (str)
 				across test.format_columns as column loop
@@ -459,9 +452,9 @@ feature {NONE} -- Implementation
 		require
 			valid_substring_list: test.substring_list.count = 64
 		local
-			str: S
+			str: like test.new_string
 		do
-			create str.make (100)
+			str := test.new_string (100)
 			across test.string_list as string loop
 				test.wipe_out (str)
 				if append then
@@ -476,7 +469,7 @@ feature {NONE} -- Implementation
 
 	do_memory_test (a_format: STRING; rows: INTEGER)
 		local
-			i: INTEGER; l_description: STRING; output_string: S
+			i: INTEGER; l_description: STRING; output_string: like test.new_string
 		do
 			if rows = 1 then
 				l_description := "First line only"
@@ -506,7 +499,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_test (routines, a_format: STRING): TEST_STRINGS [S]
+	new_test (routines, a_format: STRING): TEST_STRINGS [STRING_GENERAL]
 		deferred
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-24 10:40:27 GMT (Monday 24th October 2022)"
-	revision: "11"
+	date: "2022-10-25 9:00:03 GMT (Tuesday 25th October 2022)"
+	revision: "12"
 
 class
 	BENCHMARK_HTML
@@ -42,11 +42,27 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	performance_tables: ARRAYED_LIST [PERFORMANCE_BENCHMARK_TABLE]
-
 	memory_tables: ARRAYED_LIST [MEMORY_BENCHMARK_TABLE]
 
+	performance_tables: ARRAYED_LIST [PERFORMANCE_BENCHMARK_TABLE]
+
+feature -- Element change
+
+	extend (benchmark_z: ZSTRING_BENCHMARK; benchmark_32: STRING_32_BENCHMARK)
+		do
+			performance_tables.extend (create {PERFORMANCE_BENCHMARK_TABLE}.make (benchmark_z, benchmark_32))
+			memory_tables.extend (create {MEMORY_BENCHMARK_TABLE}.make (benchmark_z, benchmark_32))
+		end
+
 feature {NONE} -- Implemenation
+
+	base_name_has_words (a_path: ZSTRING; words: ARRAY [ZSTRING]): BOOLEAN
+		local
+			path: FILE_PATH
+		do
+			path := a_path
+			Result := across words as word all path.base.has_substring (word.item) end
+		end
 
 	data_rows: EL_ZSTRING_LIST
 		local
@@ -76,14 +92,6 @@ feature {NONE} -- Implemenation
 				name.remove_tail (2)
 				Result [name] := path.item.with_new_extension ("html")
 			end
-		end
-
-	base_name_has_words (a_path: ZSTRING; words: ARRAY [ZSTRING]): BOOLEAN
-		local
-			path: FILE_PATH
-		do
-			path := a_path
-			Result := across words as word all path.base.has_substring (word.item) end
 		end
 
 feature {NONE} -- Evolicity fields

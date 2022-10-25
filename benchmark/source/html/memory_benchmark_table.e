@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-24 14:00:02 GMT (Monday 24th October 2022)"
-	revision: "7"
+	date: "2022-10-25 8:41:33 GMT (Tuesday 25th October 2022)"
+	revision: "8"
 
 class
 	MEMORY_BENCHMARK_TABLE
@@ -26,11 +26,12 @@ feature {NONE} -- Implementation
 
 	append_to_row (row: like Html_row; index: INTEGER)
 		local
-			string_32_test, zstring_test: like Type_benchmark.memory_tests.item
+			string_32_test: like benchmark_32.memory_tests.item
+			zstring_test: like benchmark_z.memory_tests.item
 			zstring_bytes, string_32_bytes: INTEGER
 		do
-			string_32_test := benchmark.string_32.memory_tests [index]
-			zstring_test := benchmark.zstring.memory_tests [index]
+			string_32_test := benchmark_32.memory_tests [index]
+			zstring_test := benchmark_z.memory_tests [index]
 
 			row.append (Html.table_data (zstring_test.description))
 			row.append (Html.table_data (XML.escaped (zstring_test.input_format)))
@@ -42,10 +43,10 @@ feature {NONE} -- Implementation
 
 	test_count: INTEGER
 		do
-			Result := benchmark.zstring.memory_tests.count
+			Result := benchmark_z.memory_tests.count
 		end
 
-	test_result (a_benchmark: STRING_BENCHMARK [STRING_GENERAL]; index: INTEGER): DOUBLE
+	test_result (a_benchmark: STRING_BENCHMARK; index: INTEGER): DOUBLE
 		do
 			Result := a_benchmark.memory_tests.i_th (index).storage_size
 		end

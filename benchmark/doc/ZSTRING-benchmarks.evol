@@ -54,14 +54,15 @@
 			<b>$$C</b> = column C string is 1 or 2 characters of Chinese unicode<br/>
 			<b>$$D</b> = column D string is long latin string
 		</p>
-		<p>Each test iterates over 64 table rows and the number of executions in $trial_duration_ms ms is recorded</p>
-		<p>(The higher the number the better the performance)</p>
 
 		<h2>Memory Consumption</h2>
 	#across $memory_tables as $table loop
 		#evaluate ($table.item.template_name, $table.item)
 	#end
 		<h2>Runtime Performance</h2>
+		<p>Each test iterates over 64 table rows and the number of executions in $trial_duration_ms ms is recorded<br/>
+		(The higher the number the better the performance)</p>
+
 	#across $performance_tables as $table loop
 		#evaluate ($table.item.template_name, $table.item)
 	#end

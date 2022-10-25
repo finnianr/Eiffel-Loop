@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-23 19:21:23 GMT (Sunday 23rd October 2022)"
-	revision: "9"
+	date: "2022-10-25 8:13:56 GMT (Tuesday 25th October 2022)"
+	revision: "10"
 
 deferred class
-	MIXED_ENCODING_STRING_BENCHMARK [S -> STRING_GENERAL create make end]
+	MIXED_ENCODING_STRING_BENCHMARK
 
 inherit
-	STRING_BENCHMARK [S]
+	STRING_BENCHMARK
 		redefine
 			do_performance_tests, do_memory_tests
 		end

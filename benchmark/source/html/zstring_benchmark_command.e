@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-24 10:39:42 GMT (Monday 24th October 2022)"
-	revision: "9"
+	date: "2022-10-25 9:00:24 GMT (Tuesday 25th October 2022)"
+	revision: "10"
 
 class
 	ZSTRING_BENCHMARK_COMMAND
@@ -49,28 +49,15 @@ feature -- Basic operations
 			lio.put_new_line
 			lio.put_new_line
 
-			add_benchmarks ([
+			benchmark_html.extend (
 				create {ZSTRING_BENCHMARK}.make (Current),
 				create {STRING_32_BENCHMARK}.make (Current)
-			])
-			add_benchmarks ([
+			)
+			benchmark_html.extend (
 				create {MIXED_ENCODING_ZSTRING_BENCHMARK}.make (Current),
 				create {MIXED_ENCODING_STRING_32_BENCHMARK}.make (Current)
-			])
+			)
 			benchmark_html.serialize
-		end
-
-feature {NONE} -- Implementation
-
-	add_benchmarks (benchmark: TUPLE [STRING_BENCHMARK [STRING_GENERAL], STRING_BENCHMARK [STRING_GENERAL]])
-		local
-			list: EL_ARRAYED_LIST [STRING_BENCHMARK [STRING_GENERAL]]
-		do
-			create list.make_from_tuple (benchmark)
-			list.do_all (agent {STRING_BENCHMARK [STRING_GENERAL]}.execute)
-
-			benchmark_html.performance_tables.extend (create {PERFORMANCE_BENCHMARK_TABLE}.make (codec.id, benchmark))
-			benchmark_html.memory_tables.extend (create {MEMORY_BENCHMARK_TABLE}.make (codec.id, benchmark))
 		end
 
 feature {STRING_BENCHMARK} -- Internal attributes

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-24 14:39:26 GMT (Monday 24th October 2022)"
-	revision: "7"
+	date: "2022-10-25 8:41:32 GMT (Tuesday 25th October 2022)"
+	revision: "8"
 
 class
 	PERFORMANCE_BENCHMARK_TABLE
@@ -26,11 +26,12 @@ feature {NONE} -- Implementation
 
 	append_to_row (row: like Html_row; index: INTEGER)
 		local
-			test_32, test_z: like Type_benchmark.performance_tests.item
+			test_32: like benchmark_32.performance_tests.item
+			test_z: like benchmark_z.performance_tests.item
 			absolute_result, relative_result: STRING
 		do
-			test_32 := benchmark.string_32.performance_tests [index]
-			test_z := benchmark.zstring.performance_tests [index]
+			test_32 := benchmark_32.performance_tests [index]
+			test_z := benchmark_z.performance_tests [index]
 
 			row.append (Html.table_data (test_z.routines))
 			row.append (Html.table_data (XML.escaped (test_z.input_format)))
@@ -49,10 +50,10 @@ feature {NONE} -- Implementation
 
 	test_count: INTEGER
 		do
-			Result := benchmark.zstring.performance_tests.count
+			Result := benchmark_z.performance_tests.count
 		end
 
-	test_result (a_benchmark: STRING_BENCHMARK [STRING_GENERAL]; index: INTEGER): DOUBLE
+	test_result (a_benchmark: STRING_BENCHMARK; index: INTEGER): DOUBLE
 		do
 			Result := a_benchmark.performance_tests [index].repetition_count
 		end
@@ -60,6 +61,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Column_title: STRING = "String routines"
-
 
 end
