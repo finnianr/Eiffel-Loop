@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-25 8:48:57 GMT (Tuesday 25th October 2022)"
-	revision: "13"
+	date: "2022-10-25 9:15:06 GMT (Tuesday 25th October 2022)"
+	revision: "14"
 
 deferred class
 	BENCHMARK_TABLE
@@ -138,7 +138,7 @@ feature {NONE} -- Constants
 	Template: STRING =
 	"[
 		<h3>$title</h3>
-		<caption>Table $table_id (In descending order of ZSTRING iteration count)</caption>
+		<caption>Table $table_id (In ascending order of relative STRING_32 performance)</caption>
 		<table>
 			<tr>
 				<th width="40%">$column_title</th>
