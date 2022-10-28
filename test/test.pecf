@@ -108,6 +108,10 @@ system:
 			EL_text_formats = "text-formats.ecf"
 			EL_testing = "testing.ecf"
 			EL_text_process = "text-process.ecf"
+			EL_text_process_fast = "text-process-fast.ecf"
+			renaming_map:
+				EL_EIFFEL_TEXT_PATTERN_FACTORY = EL_EIFFEL_TEXT_PATTERN_FACTORY_2
+
 			EL_thread = "thread.ecf"
 
 		# Excluded on Windows because symbolic link Eiffel-Loop\contrib\C++\taglib\include is linked to Linux library
@@ -138,7 +142,6 @@ system:
 
 					See doc/test.root.txt for details
 				"""
-	
 		cluster_tree:
 			amazon_ia = "source/amazon-ia"
 			description:
@@ -347,6 +350,14 @@ system:
 					text-process.ecf
 					
 					See class [$source TEXT_PROCESS_AUTOTEST_APP]
+				"""
+		cluster_tree:
+			text_process_fast = "source/text-process-fast"
+			description:
+				"""
+					text-process-fast.ecf
+					
+					See class [$source TEXT_PROCESS_FAST_AUTOTEST_APP]
 				"""
 		cluster_tree:
 			vtd_xml = "source/vtd-xml"

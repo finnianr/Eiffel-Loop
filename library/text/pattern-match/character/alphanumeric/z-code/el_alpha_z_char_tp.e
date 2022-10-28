@@ -1,13 +1,13 @@
 note
-	description: "Alpha z char tp"
+	description: "Match alphabetical character if source string is [$source ZSTRING]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 13:37:44 GMT (Thursday 14th May 2020)"
-	revision: "7"
+	date: "2022-10-26 21:16:51 GMT (Wednesday 26th October 2022)"
+	revision: "8"
 
 class
 	EL_ALPHA_Z_CHAR_TP

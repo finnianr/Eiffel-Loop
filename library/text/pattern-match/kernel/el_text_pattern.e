@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-20 13:50:35 GMT (Saturday 20th February 2021)"
-	revision: "8"
+	date: "2022-10-27 13:25:05 GMT (Thursday 27th October 2022)"
+	revision: "9"
 
 deferred class
 	EL_TEXT_PATTERN
@@ -158,7 +158,7 @@ feature -- Element change
 
 feature -- Basic operations
 
-	call_actions (text: EL_STRING_VIEW)
+	frozen call_actions (text: EL_STRING_VIEW)
 		local
 			l_interval: INTEGER_64
 		do
@@ -184,7 +184,7 @@ feature {NONE} -- Debug
 
 	debug_on: BOOLEAN
 
-feature {EL_TEXT_PATTERN, EL_PARSER} -- Implementation
+feature {EL_TEXT_PATTERN_I, EL_PARSER} -- Implementation
 
 	internal_call_actions (text: EL_STRING_VIEW)
 		do

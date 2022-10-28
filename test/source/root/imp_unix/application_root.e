@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-22 16:17:08 GMT (Tuesday 22nd February 2022)"
-	revision: "69"
+	date: "2022-10-28 16:37:20 GMT (Friday 28th October 2022)"
+	revision: "70"
 
 class
 	APPLICATION_ROOT
@@ -93,6 +93,9 @@ inherit
 
 	-- Test text-process.ecf
 		TEXT_PROCESS_AUTOTEST_APP,
+
+	-- Test text-process-fast.ecf
+		TEXT_PROCESS_FAST_AUTOTEST_APP,
 
 	-- Test vtd-xml.ecf
 		VTD_XML_AUTOTEST_APP,

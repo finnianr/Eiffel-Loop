@@ -82,6 +82,9 @@
 		<library name = "EL_text_formats" location = "$EIFFEL_LOOP/library/text-formats.ecf" readonly = "false"/>
 		<library name = "EL_testing" location = "$EIFFEL_LOOP/library/testing.ecf" readonly = "false"/>
 		<library name = "EL_text_process" location = "$EIFFEL_LOOP/library/text-process.ecf" readonly = "false"/>
+		<library name = "EL_text_process_fast" location = "$EIFFEL_LOOP/library/text-process-fast.ecf" readonly = "false">
+			<renaming old_name = "EL_EIFFEL_TEXT_PATTERN_FACTORY" new_name = "EL_EIFFEL_TEXT_PATTERN_FACTORY_2"/>
+		</library>
 		<library name = "EL_thread" location = "$EIFFEL_LOOP/library/thread.ecf" readonly = "false"/>
 		<!--
 			Excluded on Windows because symbolic link Eiffel-Loop\contrib\C++\taglib\include is linked to Linux library
@@ -306,6 +309,13 @@ See class [$source TEXT_FORMATS_AUTOTEST_APP]
 text-process.ecf
 
 See class [$source TEXT_PROCESS_AUTOTEST_APP]
+			</description>
+		</cluster>
+		<cluster name = "text_process_fast" location = "source/text-process-fast" recursive = "true">
+			<description>
+text-process-fast.ecf
+
+See class [$source TEXT_PROCESS_FAST_AUTOTEST_APP]
 			</description>
 		</cluster>
 		<cluster name = "vtd_xml" location = "source/vtd-xml" recursive = "true">

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-12 16:56:45 GMT (Tuesday 12th January 2021)"
-	revision: "12"
+	date: "2022-10-27 9:27:53 GMT (Thursday 27th October 2022)"
+	revision: "13"
 
 deferred class
 	EL_STRING_VIEW
@@ -17,7 +17,7 @@ inherit
 		rename
 			set_offset_and_count as set_view
 		export
-			{EL_TEXT_PATTERN, EL_PARSER} interval
+			{EL_TEXT_PATTERN_I, EL_PARSER} interval
 		redefine
 			set_view, set_count
 		end

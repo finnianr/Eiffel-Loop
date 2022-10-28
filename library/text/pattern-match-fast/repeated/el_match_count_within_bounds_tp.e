@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-27 14:03:50 GMT (Thursday 27th October 2022)"
-	revision: "6"
+	date: "2022-10-28 17:32:48 GMT (Friday 28th October 2022)"
+	revision: "1"
 
 class
 	EL_MATCH_COUNT_WITHIN_BOUNDS_TP
@@ -55,15 +55,16 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	match_count (text: EL_STRING_VIEW): INTEGER
+	match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER
 		local
-			i, l_count: INTEGER; match_failed: BOOLEAN
+			i, l_count, offset: INTEGER; match_failed: BOOLEAN
 		do
+			offset := a_offset
 			from i := 1 until match_failed or else i > occurrence_bounds.upper loop
 				if text.count > 0 then
-					l_count := repeat_match_count (text)
+					l_count := repeat_match_count (offset, text)
 					if l_count >= 0 then
-						text.prune_leading (l_count)
+						offset := offset + 1
 						Result := Result + l_count
 						i := i + 1
 					else
@@ -91,3 +92,4 @@ feature {NONE}-- Constant
 		end
 
 end
+

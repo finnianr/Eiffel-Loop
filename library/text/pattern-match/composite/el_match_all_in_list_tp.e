@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2022-10-27 11:19:47 GMT (Thursday 27th October 2022)"
+	revision: "5"
 
 class
 	EL_MATCH_ALL_IN_LIST_TP
@@ -99,18 +99,8 @@ feature -- Access
 feature -- Status query
 
 	has_action: BOOLEAN
-		local
-			l_index: INTEGER
 		do
-			Result := Precursor
-			if not Result then
-				l_index := index
-				from start until after or else Result loop
-					Result := sub_pattern.has_action
-					forth
-				end
-				index := l_index
-			end
+			Result := Precursor or else across Current as list some list.item.has_action end
 		end
 
 feature -- Element change

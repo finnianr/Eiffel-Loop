@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-27 11:40:45 GMT (Thursday 27th October 2022)"
-	revision: "4"
+	date: "2022-10-28 17:31:52 GMT (Friday 28th October 2022)"
+	revision: "1"
 
 class
 	EL_REPEATED_TEXT_PATTERN
@@ -20,7 +20,7 @@ inherit
 		rename
 			make as make_with_patterns
 		redefine
-			copy, has_action, is_equal, match, name_list, set_debug_to_depth, sub_pattern_description
+			copy, has_action, is_equal, match, name_list, set_debug_to_depth, i_th_sub_pattern
 		end
 
 create
@@ -53,17 +53,18 @@ feature -- Access
 			Result.extend (l_name)
 		end
 
-	sub_pattern_description: STRING
+	i_th_sub_pattern (i: INTEGER): STRING
+		-- i'th pattern description
 		do
 			Result := name
 		end
 
 feature -- Basic operations
 
-	match (text: EL_STRING_VIEW)
+	match (a_offset: INTEGER; text: READABLE_STRING_GENERAL)
 		do
 			recycle_repeats
-			Precursor (text)
+			Precursor (a_offset, text)
 			if not is_matched then
 				recycle_repeats
 			end
@@ -110,7 +111,7 @@ feature {NONE} -- Implementation
 			wipe_out
 		end
 
-	repeat_match_count (text: EL_STRING_VIEW): INTEGER
+	repeat_match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER
 		local
 			l_repeated: like repeated
 		do
@@ -119,7 +120,7 @@ feature {NONE} -- Implementation
 			else
 				l_repeated := repeated
 			end
-			l_repeated.match (text)
+			l_repeated.match (a_offset, text)
 			Result := l_repeated.count
 			if Result >= 0 and then repeat_has_action then
 				extend (l_repeated)
@@ -148,3 +149,5 @@ feature -- Constants
 			create Result.make (0, agent repeated_twin)
 		end
 end
+
+

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-21 9:35:01 GMT (Friday 21st October 2022)"
-	revision: "94"
+	date: "2022-10-26 17:31:06 GMT (Wednesday 26th October 2022)"
+	revision: "95"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -106,13 +106,6 @@ inherit
 		end
 
 	STRING_HANDLER
-		undefine
-			is_equal, copy, out
-		end
-
-	DEBUG_OUTPUT
-		rename
-			debug_output as as_string_32
 		undefine
 			is_equal, copy, out
 		end

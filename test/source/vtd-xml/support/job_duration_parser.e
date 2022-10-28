@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 13:23:50 GMT (Sunday 10th January 2021)"
-	revision: "5"
+	date: "2022-10-26 21:25:08 GMT (Wednesday 26th October 2022)"
+	revision: "6"
 
 class
 	JOB_DURATION_PARSER
@@ -94,7 +94,7 @@ feature {NONE} -- Patterns
 					string_literal ("to")
 				>>),
 				maybe_non_breaking_white_space,
-				integer								|to| agent on_integer_to
+				integer |to| agent on_integer_to
 			>>)
 		end
 
@@ -104,10 +104,10 @@ feature {NONE} -- Patterns
 			Result := all_of (<<
 				maybe_non_breaking_white_space,
 				one_of (<<
-					year_word						|to| agent on_year_unit,
-					month_word						|to| agent on_month_unit,
-					week_word						|to| agent on_week_unit,
-					day_word							|to| agent on_day_unit
+					year_word		|to| agent on_year_unit,
+					month_word		|to| agent on_month_unit,
+					week_word		|to| agent on_week_unit,
+					day_word			|to| agent on_day_unit
 				>>),
 				optional (character_literal ('s'))
 			>>)

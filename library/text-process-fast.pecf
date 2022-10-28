@@ -1,0 +1,51 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+system:
+	configuration_ns = "1-16-0"; uuid = "75A6AC12-569E-11ED-B784-C777B2A8BBB9" 
+	name = EL_text_process_fast; library_target = EL_text_process_fast
+	description:
+		"""
+			Textual Data Processing (FAST)
+
+			Classes for editing, parsing and pattern-matching textual data. This is a significant
+			rewrite of the [./library/text-process.html text-process.ecf] library and does away
+			with the need for the [$source EL_STRING_VIEW] class.
+
+			CLUSTERS
+
+			* Text Editing
+			* Parsing
+			* Pattern-matching
+		"""
+	target:
+		name = EL_text_process_fast
+		root:
+			all_classes = true
+
+		option:
+			namespace = "Eiffel-Loop.Library.Text.Process_fast"
+			syntax = standard; full_class_checking = false; void_safety = none
+			trace = false; debug=false; warning=true
+			assertions:
+				precondition = true; postcondition = true; check = true; invariant = true
+
+		library:
+			base = "$ISE_LIBRARY/library/base/base.ecf"
+
+		# Eiffel Loop
+		library:
+			EL_base = "base/base.ecf"
+
+		# Source code
+
+		cluster_tree:
+			pattern_match_fast = "text/pattern-match-fast"
+			description:
+				"""
+					Pattern-matching
+
+					Classes for finding and matching textual patterns.
+				"""
+
+

@@ -144,6 +144,7 @@ publish-repository:
 			"library/text-process.ecf#edit"
 			"library/text-process.ecf#parse"
 			"library/text-process.ecf#pattern_match"
+			"library/text-process-fast.ecf#pattern_match_fast"
 
 		# Library (Utility)
 		ecf:
@@ -197,6 +198,7 @@ publish-repository:
 			"test/test.ecf#taglib"
 			"test/test.ecf#text_formats"
 			"test/test.ecf#text_process"
+			"test/test.ecf#text_process_fast"
 			"test/test.ecf#vtd_xml"
 			"test/test.ecf#wel_x_audio"
 			"test/test.ecf#xml_scan"
