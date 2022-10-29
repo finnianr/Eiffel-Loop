@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-17 12:50:36 GMT (Monday 17th October 2022)"
-	revision: "6"
+	date: "2022-10-29 10:50:46 GMT (Saturday 29th October 2022)"
+	revision: "7"
 
 class
 	EL_BORROWED_STRING_CURSOR [S -> STRING_GENERAL create make end]
@@ -47,8 +47,7 @@ feature -- Access
 			if attached {S} general as same then
 				Result := same
 			else
-				Result := item
-				Result.append (general)
+				Result := copied_item (general)
 			end
 		end
 
@@ -58,4 +57,9 @@ feature -- Access
 			Result.append (general)
 		end
 
+	substring_item (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): S
+		do
+			Result := item
+			Result.append_substring (general, start_index, end_index)
+		end
 end

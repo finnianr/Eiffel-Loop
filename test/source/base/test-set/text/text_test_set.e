@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 8:51:16 GMT (Tuesday 4th October 2022)"
-	revision: "6"
+	date: "2022-10-29 8:50:55 GMT (Saturday 29th October 2022)"
+	revision: "7"
 
 class
 	TEXT_TEST_SET
@@ -15,9 +15,9 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_TEST_STRINGS
-
 	EL_MODULE_FORMAT
+
+	EL_SHARED_TEST_TEXT
 
 feature -- Basic operations
 
@@ -88,14 +88,14 @@ feature -- Unescape tests
 		do
 			across << ('\').to_character_32, 'л' >> as l_escape_character loop
 				escape_character := l_escape_character.item
-				create str_32.make (Text_russian_and_english.count)
+				create str_32.make (Text.Russian_and_english.count)
 				str_32.append_character (escape_character)
 				str_32.append_character (escape_character)
 
 				escape_table_32 := new_escape_table
 				escape_table_32 [escape_character] := escape_character
 
-				across Text_russian_and_english as character loop
+				across Text.Russian_and_english as character loop
 					escape_table_32.search (character.item)
 					if escape_table_32.found then
 						str_32.append_character (escape_character)
@@ -121,7 +121,7 @@ feature {NONE} -- Implementation
 			str_32, escaped_32: STRING_32; str, escaped: ZSTRING
 			s: EL_STRING_32_ROUTINES
 		do
-			across text_lines as string loop
+			across Text.lines as string loop
 				str_32 := string.item.twin
 				s.replace_character (str_32, '+', '&')
 				str := str_32

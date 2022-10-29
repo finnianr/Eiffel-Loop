@@ -9,16 +9,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-21 13:19:17 GMT (Friday 21st October 2022)"
-	revision: "63"
+	date: "2022-10-29 8:34:40 GMT (Saturday 29th October 2022)"
+	revision: "64"
 
 class
 	ZSTRING_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
-
-	EL_TEST_STRINGS
 
 	EL_ZSTRING_CONSTANTS
 
@@ -29,6 +27,8 @@ inherit
 	EL_SHARED_UTF_8_ZCODEC
 
 	EL_SHARED_ENCODINGS
+
+	EL_SHARED_TEST_TEXT
 
 feature -- Basic operations
 
@@ -101,7 +101,7 @@ feature -- Conversion tests
 			pair: STRING_PAIR
 		do
 			create pair
-			across text_words as word loop
+			across Text.words as word loop
 				pair.set (word.item)
 				assert ("mirror OK", pair.z_32.mirrored.same_string (pair.s_32.mirrored))
 			end
@@ -115,7 +115,7 @@ feature -- Conversion tests
 			pair: STRING_PAIR; i: INTEGER
 		do
 			create pair
-			across Text_lines as line loop
+			across Text.lines as line loop
 				pair.set (line.item)
 				from i := 1 until i > 3 loop
 					list := pair.z_32.split_list (pair.s_32 [i])
@@ -136,7 +136,7 @@ feature -- Conversion tests
 		local
 			str, delimiter, str_2, l_substring: ZSTRING
 		do
-			across text_lines as line loop
+			across Text.lines as line loop
 				str := line.item
 				from delimiter := " "  until delimiter.count > 2 loop
 					create str_2.make_empty
@@ -151,7 +151,7 @@ feature -- Conversion tests
 					delimiter.prepend_character ('и')
 				end
 			end
-			str := Text_russian_and_english; delimiter := "Latin"
+			str := Text.russian_and_english; delimiter := "Latin"
 			across str.substring_split (delimiter) as substring loop
 				l_substring := substring.item
 				if substring.cursor_index > 1 then
@@ -159,7 +159,7 @@ feature -- Conversion tests
 				end
 				str_2.append (l_substring)
 			end
-			assert ("substring_split OK", str.same_string (Text_russian_and_english))
+			assert ("substring_split OK", str.same_string (Text.russian_and_english))
 		end
 
 	test_to_general
@@ -169,7 +169,7 @@ feature -- Conversion tests
 			pair: STRING_PAIR
 		do
 			create pair
-			across text_lines as line loop
+			across Text.lines as line loop
 				pair.set (line.item)
 				if attached pair.z_32.to_general as general then
 					assert ("same string", general.same_string (pair.s_32))
@@ -185,7 +185,7 @@ feature -- Conversion tests
 			pair: STRING_PAIR
 		do
 			create pair
-			across text_lines as line loop
+			across Text.lines as line loop
 				pair.set (line.item)
 				assert ("strings equal", pair.is_same)
 			end
@@ -207,7 +207,7 @@ feature -- Appending tests
 			create encodeable.make_default
 			create pair
 			unicode := Encodings.Unicode
-		 	across text_lines as line loop
+		 	across Text.lines as line loop
 		 		pair.set (line.item)
 				across << 1 |..| 15, 1250 |..| 1258 >> as range loop
 					across range.item as n loop
@@ -242,7 +242,7 @@ feature -- Appending tests
 			pair, word_pair: STRING_PAIR
 		do
 			create pair; create word_pair
-			across text_words as word loop
+			across Text.words as word loop
 				word_pair.wipe_out
 				word_pair.s_32.share (word.item)
 				if not pair.s_32.is_empty then
@@ -267,11 +267,11 @@ feature -- Appending tests
 			str_32, template_32: STRING_32; l_word: READABLE_STRING_GENERAL; str, substituted: ZSTRING
 			tuple: TUPLE; i, index: INTEGER
 		do
-			across text_lines as line loop
+			across Text.lines as line loop
 				str_32 := line.item
 				if line.cursor_index = 1 then
 					-- Test escaping the substitution marker
-					str_32.replace_substring_all ({STRING_32} "воду", Escaped_substitution_marker)
+					str_32.replace_substring_all ({STRING_32} "воду", Text.Escaped_substitution_marker)
 				end
 				template_32 := str_32.twin
 				tuple := Substituted_words [line.cursor_index]
@@ -297,7 +297,7 @@ feature -- Appending tests
 				substituted := str #$ tuple
 				if line.cursor_index = 1 then
 					index := substituted.index_of ('%S', 1)
-					substituted.replace_substring_general (Escaped_substitution_marker, index, index)
+					substituted.replace_substring_general (Text.Escaped_substitution_marker, index, index)
 				end
 				assert ("substitute_tuple OK", substituted.same_string (str_32))
 			end
@@ -310,7 +310,7 @@ feature -- Appending tests
 			line_32: STRING_32; list: EL_SPLIT_STRING_32_LIST; pair: STRING_PAIR
 		do
 			create pair
-			across text_lines as line loop
+			across Text.lines as line loop
 				line_32 := line.item
 				create list.make (line_32, ' ')
 				pair.wipe_out
@@ -335,7 +335,7 @@ feature -- Appending tests
 		local
 			str_32: STRING_32; word: ZSTRING
 		do
-			across text_lines as line_32 loop
+			across Text.lines as line_32 loop
 				create str_32.make (0)
 				across line_32.item.split (' ') as word_32 loop
 					word := word_32.item
@@ -353,10 +353,10 @@ feature -- Appending tests
 			a: ZSTRING
 		do
 			create a.make_empty
-			across Text_russian_and_english as uc loop
+			across Text.russian_and_english as uc loop
 				a.append_unicode (uc.item.natural_32_code)
 			end
-			assert ("append_unicode OK", a.same_string (Text_russian_and_english))
+			assert ("append_unicode OK", a.same_string (Text.russian_and_english))
 		end
 
 	test_append_utf_8
@@ -365,7 +365,7 @@ feature -- Appending tests
 			pair: STRING_PAIR
 		do
 			create pair
-			across text_lines as line loop
+			across Text.lines as line loop
 				pair.wipe_out
 				across conv.string_32_to_utf_8_string_8 (line.item).split (' ') as utf_word loop
 					if pair.s_32.count > 0 then
@@ -391,7 +391,7 @@ feature -- Prepending tests
 			word_list: EL_OCCURRENCE_INTERVALS [STRING_32]
 			start_index, end_index: INTEGER; s: EL_STRING_32_ROUTINES
 		do
-			across text_lines as line_32 loop
+			across Text.lines as line_32 loop
 				line := line_32.item
 				create pair
 				create word_list.make (line_32.item, ' ')
@@ -413,8 +413,8 @@ feature -- Element change tests
 
 	test_case_changing
 		do
-			change_case (Lower_case_characters, Upper_case_characters)
-			change_case (Text_russian_and_english.as_lower, Text_russian_and_english.as_upper)
+			change_case (Text.Lower_case_characters, Text.Upper_case_characters)
+			change_case (Text.russian_and_english.as_lower, Text.russian_and_english.as_upper)
 --			change_case (Lower_case_mu, Upper_case_mu)
 		end
 
@@ -425,7 +425,7 @@ feature -- Element change tests
 			pair: STRING_PAIR
 		do
 			create pair
-			across text_words as word loop
+			across Text.words as word loop
 				pair.set (word.item)
 				pair.s_32.prepend_character ('"'); pair.s_32.append_character ('"')
 				pair.z_32.quote (2)
@@ -440,7 +440,7 @@ feature -- Element change tests
 			pair: STRING_PAIR
 		do
 			across 1 |..| 2 as index loop
-				create pair.make_filled (text_russian [index.item], 3)
+				create pair.make_filled (Text.russian [index.item], 3)
 				assert ("same string", pair.is_same)
 			end
 		end
@@ -451,7 +451,7 @@ feature -- Element change tests
 		local
 			str_32, word_32: STRING_32; word: ZSTRING; uc_1, uc_2: CHARACTER_32
 		do
-			across text_words as list loop
+			across Text.words as list loop
 				word_32 := list.item
 				if word_32.count > 1 then
 					word := word_32
@@ -471,7 +471,7 @@ feature -- Element change tests
 			pair: STRING_PAIR; insert: ZSTRING; word_list: EL_SPLIT_ZSTRING_LIST
 		do
 			create pair
-			across text_lines as line loop
+			across Text.lines as line loop
 				pair.set (line.item)
 				create word_list.make_by_string (pair.s_32, " ")
 				from word_list.start until word_list.after loop
@@ -490,7 +490,7 @@ feature -- Element change tests
 		local
 			line, joined: ZSTRING; line_32: STRING_32
 		do
-			across text_lines as list loop
+			across Text.lines as list loop
 				line_32 := list.item.twin; line := line_32
 				line_32.append_string_general (" 100-abc")
 				joined := line.joined ([' ', 100, "-abc"])
@@ -511,15 +511,15 @@ feature -- Element change tests
 			pair: STRING_PAIR; uc: CHARACTER_32
 		do
 			create pair
-			across Text_characters as char loop
+			across Text.character_set as char loop
 				uc := char.item
-				across text_lines as line loop
+				across Text.lines as line loop
 					pair.set (line.item)
 					pair.s_32.prune_all (uc); pair.z_32.prune_all (uc)
 					assert ("prune_all OK", pair.is_same)
 				end
 			end
-			across text_words as word loop
+			across Text.words as word loop
 				pair.set (word.item)
 				from until pair.s_32.is_empty loop
 					uc := pair.s_32 [1]
@@ -550,8 +550,8 @@ feature -- Element change tests
 			pair: STRING_PAIR; uc, old_uc: CHARACTER_32; i: INTEGER
 		do
 			uc := 'д'
-			pair := text_russian
-			across text_russian as c loop
+			pair := Text.russian
+			across Text.russian as c loop
 				i := c.cursor_index; old_uc := c.item
 				pair.s_32.put (uc, i); pair.z_32.put (uc, i)
 				assert ("put_unicode OK", pair.is_same)
@@ -569,14 +569,14 @@ feature -- Element change tests
 			l_interval: INTEGER_INTERVAL; i, lower, upper, offset: INTEGER
 		do
 			create pair
-			across Text_word_intervals as interval loop
+			across Text.word_intervals as interval loop
 				from offset := 0 until offset > (interval.item.count // 2).max (1) loop
 					l_interval := (interval.item.lower + offset) |..| (interval.item.upper + offset)
-					if Text_russian_and_english.valid_index (l_interval.lower)
-						and then Text_russian_and_english.valid_index (l_interval.upper)
+					if Text.russian_and_english.valid_index (l_interval.lower)
+						and then Text.russian_and_english.valid_index (l_interval.upper)
 					then
-						substring := Text_russian_and_english.substring (l_interval.lower, l_interval.upper) -- Debug
-						pair.set (Text_russian_and_english.twin)
+						substring := Text.russian_and_english.substring (l_interval.lower, l_interval.upper) -- Debug
+						pair.set (Text.russian_and_english.twin)
 						pair.s_32.remove_substring (l_interval.lower, l_interval.upper)
 						pair.z_32.remove_substring (l_interval.lower, l_interval.upper)
 						assert ("remove_substring OK", pair.is_same)
@@ -584,7 +584,7 @@ feature -- Element change tests
 					offset := offset + (interval.item.count // 2).max (1)
 				end
 			end
-			across text_words as word loop
+			across Text.words as word loop
 				pair.set (word.item)
 				pair.z_32.remove_substring (1, pair.z_32.count)
 				pair.s_32.remove_substring (1, pair.s_32.count)
@@ -600,8 +600,8 @@ feature -- Element change tests
 			pair: STRING_PAIR; uc_new, uc_old: CHARACTER_32
 			s: EL_STRING_32_ROUTINES
 		do
-			across text_russian as uc loop
-				pair := text_russian
+			across Text.russian as uc loop
+				pair := Text.russian
 				if not uc.is_last then
 					uc_old := uc.item
 					uc_new := pair.s_32 [uc.cursor_index + 1]
@@ -619,12 +619,12 @@ feature -- Element change tests
 			pair, word_pair: STRING_PAIR
 			word_list_32: EL_STRING_32_LIST; index, start_index, end_index: INTEGER
 			space_intervals: EL_OCCURRENCE_INTERVALS [STRING_32]
-			line_list: like text_lines
+			line_list: like Text.lines
 		do
 			create pair; create word_pair
 			create space_intervals.make_empty
 			create word_list_32.make (50)
-			line_list := text_lines
+			line_list := Text.lines
 			across line_list as line loop
 				if line.is_first or line.is_last then
 					across line.item.split (' ') as list loop
@@ -634,7 +634,7 @@ feature -- Element change tests
 			end
 			across word_list_32 as list loop
 				word_pair.set (list.item)
-				across text_lines as line loop
+				across Text.lines as line loop
 					pair.set (line.item)
 					space_intervals.fill (pair.s_32, ' ', 0)
 					start_index := space_intervals.first_lower + 1
@@ -654,10 +654,10 @@ feature -- Element change tests
 			word_32, previous_word_32: STRING_32; word, previous_word: ZSTRING
 		do
 			create pair
-			across text_lines as line loop
+			across Text.lines as line loop
 				pair.set (line.item)
 				create previous_word_32.make_empty; previous_word := previous_word_32
-				across text_words as list loop
+				across Text.words as list loop
 					word_32 := list.item; word := word_32
 					pair.s_32.replace_substring_all (word_32, previous_word_32)
 					pair.z_32.replace_substring_all (word, previous_word)
@@ -682,7 +682,7 @@ feature -- Element change tests
 			str_2: ZSTRING; str_utf_8: STRING
 		do
 			create pair
-			across text_words as word loop
+			across Text.words as word loop
 				pair.set (word.item)
 				str_utf_8 := pair.z_32.to_utf_8 (True)
 				assert ("to_utf_8 OK", str_utf_8.same_string (Utf_8_codec.as_utf_8 (pair.s_32, False)))
@@ -702,12 +702,12 @@ feature -- Element change tests
 		do
 			create pair
 			create old_characters_32.make (3); create new_characters_32.make (3)
-			count := (Text_characters.count // 3 - 1)
+			count := (Text.character_set.count // 3 - 1)
 			from i := 0  until i = count loop
 				old_characters_32.wipe_out; new_characters_32.wipe_out
 				from j := 1 until j > 3 loop
-					old_characters_32.extend (Text_characters [i * 3 + j])
-					new_characters_32.extend (Text_characters [i * 3 + j + 3])
+					old_characters_32.extend (Text.character_set [i * 3 + j])
+					new_characters_32.extend (Text.character_set [i * 3 + j + 3])
 					j := j + 1
 				end
 				from j := 1 until j > 2 loop
@@ -715,7 +715,7 @@ feature -- Element change tests
 						new_characters_32 [2] := '%U'
 					end
 					old_characters := old_characters_32; new_characters := new_characters_32
-					pair.set (Text_russian_and_english.twin)
+					pair.set (Text.russian_and_english.twin)
 					s.translate_deleting_null_characters (pair.s_32, old_characters_32, new_characters_32, j = 2)
 					pair.z_32.translate_deleting_null_characters (old_characters, new_characters, j = 2)
 					assert ("translate OK", pair.is_same)
@@ -741,7 +741,7 @@ feature -- Status query tests
 		local
 			line: ZSTRING; word_list: EL_ZSTRING_LIST; s: EL_ZSTRING_ROUTINES
 		do
-			across text_lines as line_32 loop
+			across Text.lines as line_32 loop
 				line := line_32.item
 				create word_list.make_word_split (line)
 				assert ("word is in word_list", line.for_all_split (s.character_string (' '), agent word_list.has))
@@ -754,9 +754,9 @@ feature -- Status query tests
 		local
 			english: ZSTRING; english_32: STRING_32
 		do
-			english_32 := text_lines.last
+			english_32 := Text.lines.last
 			english := english_32
-			across text_lines as line loop
+			across Text.lines as line loop
 				across line.item as uc loop
 					assert ("has OK", english.has (uc.item) ~ english_32.has (uc.item))
 				end
@@ -787,8 +787,8 @@ feature -- Status query tests
 			list_32: EL_STRING_32_LIST; list: EL_ZSTRING_LIST
 			left_32, right_32: STRING_32; left, right: ZSTRING
 		do
-			list_32 := text_words
-			create list.make_from_general (text_words)
+			list_32 := Text.words
+			create list.make_from_general (Text.words)
 			list_32.sort; list.sort
 			across list_32 as str_32 loop
 				assert ("same string", str_32.item ~ list.i_th (str_32.cursor_index).to_string_32)
@@ -800,7 +800,7 @@ feature -- Status query tests
 			line, word: ZSTRING; i: INTEGER
 			word_list: EL_ZSTRING_LIST
 		do
-			across text_lines as l loop
+			across Text.lines as l loop
 				line := l.item
 				create word_list.make_word_split (l.item)
 				i := 1
@@ -821,7 +821,7 @@ feature -- Status query tests
 		do
 			create sorted.make (20); create sorted_32.make (20)
 			sorted.compare_objects; sorted_32.compare_objects
-			across text_lines as line loop
+			across Text.lines as line loop
 				sorted.wipe_out; sorted_32.wipe_out
 				across line.item.split (' ') as w loop
 					word := w.item
@@ -851,7 +851,7 @@ feature -- Status query tests
 			line: ZSTRING; word_list: EL_ZSTRING_LIST
 			s: EL_ZSTRING_ROUTINES
 		do
-			across text_lines as line_32 loop
+			across Text.lines as line_32 loop
 				line := line_32.item
 				create word_list.make_word_split (line)
 				across word_list as word loop
@@ -872,7 +872,7 @@ feature -- Removal tests
 			pair: STRING_PAIR; i: INTEGER
 		do
 			create pair
-			across text_words as word loop
+			across Text.words as word loop
 				from i := 1 until i > word.item.count loop
 					pair.set (word.item)
 					pair.z_32.remove (i); pair.s_32.remove (i)
@@ -888,7 +888,7 @@ feature -- Removal tests
 		local
 			pair: STRING_PAIR; pos: INTEGER
 		do
-			pair := Text_russian_and_english.twin
+			pair := Text.russian_and_english.twin
 			from until pair.s_32.is_empty loop
 				pos := pair.s_32.index_of (' ', pair.s_32.count)
 				if pos > 0 then
@@ -906,7 +906,7 @@ feature -- Removal tests
 		local
 			pair: STRING_PAIR; pos: INTEGER
 		do
-			pair := Text_russian_and_english.twin
+			pair := Text.russian_and_english.twin
 			from until pair.s_32.is_empty loop
 				pos := pair.s_32.last_index_of (' ', pair.s_32.count)
 				if pos > 0 then
@@ -928,9 +928,9 @@ feature -- Access tests
 			index, index_32, i: INTEGER
 		do
 			create pair
-			across text_lines as line loop
+			across Text.lines as line loop
 				pair.set (line.item)
-				across Text_characters as char loop
+				across Text.character_set as char loop
 					uc := char.item
 					across << 1, pair.s_32.count // 2 >> as value loop
 						i := value.item
@@ -948,9 +948,9 @@ feature -- Access tests
 			index, index_32, i: INTEGER
 		do
 			create pair
-			across text_lines as line loop
+			across Text.lines as line loop
 				pair.set (line.item)
-				across Text_characters as char loop
+				across Text.character_set as char loop
 					uc := char.item
 					across << pair.s_32.count, pair.s_32.count // 2 >> as value loop
 						i := value.item
@@ -967,7 +967,7 @@ feature -- Access tests
 			pair: STRING_PAIR
 		do
 			create pair
-			across text_lines as line loop
+			across Text.lines as line loop
 				pair.set (line.item)
 				across pair.z_32 as c loop
 					assert ("same character", c.item = pair.s_32 [c.cursor_index])
@@ -982,9 +982,9 @@ feature -- Access tests
 			pair: STRING_PAIR; uc: CHARACTER_32
 		do
 			create pair
-			across text_lines as line loop
+			across Text.lines as line loop
 				pair.set (line.item)
-				across Text_characters as char loop
+				across Text.character_set as char loop
 					uc := char.item
 				end
 				assert ("occurrences OK", pair.z_32.occurrences (uc) ~ pair.s_32.occurrences (uc))
@@ -998,9 +998,9 @@ feature -- Access tests
 			pair: STRING_PAIR; search_word: ZSTRING; pos, pos_32: INTEGER
 		do
 			create pair
-			across text_lines as line loop
+			across Text.lines as line loop
 				pair.set (line.item)
-				across text_words as search_word_32 loop
+				across Text.words as search_word_32 loop
 					search_word := search_word_32.item
 					pos := pair.z_32.substring_index (search_word, 1)
 					pos_32 := pair.s_32.substring_index (search_word_32.item, 1)
@@ -1021,7 +1021,7 @@ feature -- Access tests
 			str_32, word_32: STRING_32; str, word: ZSTRING
 			i, count, index, start_pos, end_pos, substring_index, substring_index_32: INTEGER; word_list: EL_STRING_32_LIST
 		do
-			across text_lines as line loop
+			across Text.lines as line loop
 				str_32 := line.item; str := str_32
 				create word_list.make_word_split (str_32)
 				across word_list as list loop
@@ -1050,7 +1050,7 @@ feature -- Access tests
 			testing: "covers/{ZSTRING}.substring", "covers/{ZSTRING}.index_of"
 		do
 			across << (' ').to_character_32, 'и' >> as c loop
-				unicode_index_of (Text_russian_and_english, c.item)
+				unicode_index_of (Text.russian_and_english, c.item)
 			end
 		end
 
@@ -1063,7 +1063,7 @@ feature -- Duplication tests
 			pair: STRING_PAIR; i, count: INTEGER
 		do
 			create pair
-			pair.set (Text_russian_and_english)
+			pair.set (Text.russian_and_english)
 			count := pair.s_32.count
 			from i := 1 until (i + 4) > count loop
 				assert ("substring OK",  pair.z_32.substring (i, i + 4).same_string (pair.s_32.substring (i, i + 4)))
@@ -1078,9 +1078,9 @@ feature -- Duplication tests
 			line, full_text: ZSTRING
 			start_index: INTEGER
 		do
-			full_text := Text_russian_and_english
+			full_text := Text.russian_and_english
 			start_index := 1
-			across text_lines as list loop
+			across Text.lines as list loop
 				line := list.item
 				assert ("same string", full_text.substring_to ('%N', $start_index) ~ line)
 			end
@@ -1094,9 +1094,9 @@ feature -- Duplication tests
 			line, full_text: ZSTRING
 			start_end_index: INTEGER
 		do
-			full_text := Text_russian_and_english
+			full_text := Text.russian_and_english
 			start_end_index := full_text.count
-			across text_lines.new_cursor.reversed as list loop
+			across Text.lines.new_cursor.reversed as list loop
 				line := list.item
 				assert ("same string", full_text.substring_to_reversed ('%N', $start_end_index) ~ line)
 			end
@@ -1137,9 +1137,9 @@ feature {NONE} -- Implementation
 			pair: STRING_PAIR; op_name: STRING
 		do
 			create pair
-			across text_words as word loop
+			across Text.words as word loop
 				pair.set (word.item)
-				across << Tab_character, Ogham_space_mark >> as c loop
+				across << Text.Tab_character, Text.Ogham_space_mark >> as c loop
 					across 1 |..| 2 as n loop
 						if type = Right_adjust or type = Prune_trailing then
 							pair.s_32.append_character (c.item)
@@ -1168,7 +1168,7 @@ feature {NONE} -- Implementation
 		local
 			str_32, left_32, right_32: STRING_32; str, left, right: ZSTRING; split_position: INTEGER
 		do
-			across text_lines as line loop
+			across Text.lines as line loop
 				str_32 := line.item; str := str_32
 				across 0 |..| 5 as n loop
 					if n.item = 5 then
@@ -1191,9 +1191,9 @@ feature {NONE} -- Implementation
 			pair, substring_pair: STRING_PAIR; i, count: INTEGER
 		do
 			create pair
-			count := (Text_russian_and_english.count // 5) * 5
+			count := (Text.russian_and_english.count // 5) * 5
 			from i := 1 until i > count loop
-				substring_pair := Text_russian_and_english.substring (i, i + 4)
+				substring_pair := Text.russian_and_english.substring (i, i + 4)
 				if type ~ once "append" then
 					pair.z_32.append (substring_pair.z_32);  pair.s_32.append (substring_pair.s_32)
 				else
@@ -1237,7 +1237,7 @@ feature {NONE} -- Constants
 				['€']
 			>>
 		ensure
-			same_number: Result.count = Text_russian_and_english.occurrences ('%N') + 1
+			same_number: Result.count = Text.russian_and_english.occurrences ('%N') + 1
 		end
 
 end

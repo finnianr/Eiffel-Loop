@@ -6,18 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-29 7:16:43 GMT (Saturday 29th October 2022)"
+	date: "2022-10-29 7:17:49 GMT (Saturday 29th October 2022)"
 	revision: "8"
 
 class
 	EL_WHITE_SPACE_CHAR_TP
 
 inherit
-	EL_ALPHA_CHAR_TP
-		redefine
-			name, code_matches
+	EL_CHARACTER_PROPERTY_TP
+		rename
+			make_default as make
 		end
-
+		
 create
 	make
 
@@ -30,11 +30,11 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	code_matches (code: NATURAL): BOOLEAN
+	i_th_matches (i: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if i'th character matches pattern
 		local
 			c: EL_CHARACTER_32_ROUTINES
 		do
-			Result := c.is_space (code.to_character_32) -- Work around for finalization bug
+			Result := c.is_space (text [i]) -- Work around for finalization bug
 		end
-
 end

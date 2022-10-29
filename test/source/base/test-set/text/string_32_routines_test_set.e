@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-05 9:57:36 GMT (Wednesday 5th October 2022)"
-	revision: "14"
+	date: "2022-10-29 8:42:12 GMT (Saturday 29th October 2022)"
+	revision: "15"
 
 class
 	STRING_32_ROUTINES_TEST_SET
@@ -15,11 +15,11 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_TEST_STRINGS
-
 	EL_MODULE_CONVERT_STRING; EL_MODULE_LIO
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
+
+	EL_SHARED_TEST_TEXT
 
 feature -- Basic operations
 
@@ -57,7 +57,7 @@ feature -- Conversion tests
 			str, delimiter, str_2, l_substring: STRING_32
 			s: EL_STRING_32_ROUTINES
 		do
-			across Text_lines as line loop
+			across Text.lines as line loop
 				str := line.item
 				from delimiter := " "  until delimiter.count > 2 loop
 					create str_2.make_empty
@@ -72,7 +72,7 @@ feature -- Conversion tests
 					delimiter.prepend_character ('и')
 				end
 			end
-			str := Text_russian_and_english; delimiter := "Latin"
+			str := Text.Russian_and_english; delimiter := "Latin"
 			across s.delimited_list (str, delimiter) as substring loop
 				l_substring := substring.item
 				if substring.cursor_index > 1 then
@@ -80,9 +80,9 @@ feature -- Conversion tests
 				end
 				str_2.append (l_substring)
 			end
-			assert ("delimited_list OK", str ~ Text_russian_and_english)
+			assert ("delimited_list OK", str ~ Text.Russian_and_english)
 		ensure
-			line_2_starts_with_W: Text_lines.i_th (2).item (1) = 'W'
+			line_2_starts_with_W: Text.lines.i_th (2).item (1) = 'W'
 		end
 
 feature {NONE} -- Implementation

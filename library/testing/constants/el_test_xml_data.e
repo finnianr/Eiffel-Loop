@@ -6,20 +6,25 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 12:00:34 GMT (Sunday 10th January 2021)"
-	revision: "8"
+	date: "2022-10-29 9:22:35 GMT (Saturday 29th October 2022)"
+	revision: "9"
 
 class
-	PYXIS_ATTRIBUTE_PARSER_TEST_DATA
+	EL_TEST_XML_DATA
 
-feature {NONE} -- Implementation
+inherit
+	ANY
+
+	EL_SHARED_TEST_NUMBERS
+
+feature -- Access
 
 	attribute_value (object: ANY): STRING
 		local
 			quote_mark: CHARACTER; i: INTEGER
 		do
 			if attached {DOUBLE} object as l_double then
-				Result := number_to_string (l_double)
+				Result := Number.double_to_string (l_double)
 
 			elseif attached {STRING} object as string then
 				Result := string.twin
@@ -36,15 +41,6 @@ feature {NONE} -- Implementation
 				Result.append_character (quote_mark)
 			else
 				Result := object.out
-			end
-		end
-
-	number_to_string (n: DOUBLE): STRING
-		do
-			Result := n.out
-			if Result.ends_with ("001") then
-				 Result.remove_tail (1)
-				 Result.prune_all_trailing ('0')
 			end
 		end
 
@@ -83,4 +79,16 @@ feature -- Constants
 				Result.append_string (attribute_value (table.item))
 			end
 		end
+
+	Name_template: ZSTRING
+		once
+			Result := "<name>%S</name>"
+		end
+
+	Xpaths: STRING = "[
+		head/meta[@name='title']/@content
+		body/seq
+		@id
+		audio
+	]"
 end

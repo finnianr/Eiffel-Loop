@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-28 17:31:01 GMT (Friday 28th October 2022)"
-	revision: "1"
+	date: "2022-10-29 11:24:53 GMT (Saturday 29th October 2022)"
+	revision: "2"
 
 class
 	EL_MATCH_ALL_IN_LIST_TP
@@ -165,7 +165,6 @@ feature {NONE} -- Implementation
 					if sub_pattern.is_matched then
 						offset := offset + sub_pattern.count
 						Result := Result + sub_pattern.count
-						forth
 					else
 						Result := Match_fail
 					end
@@ -192,5 +191,4 @@ feature {NONE} -- Implementation
 		end
 
 end
-
 

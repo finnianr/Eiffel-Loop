@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 9:24:08 GMT (Tuesday 4th October 2022)"
-	revision: "42"
+	date: "2022-10-29 9:20:02 GMT (Saturday 29th October 2022)"
+	revision: "43"
 
 class
 	PYXIS_TO_XML_TEST_SET
@@ -26,14 +26,9 @@ inherit
 
 	EL_CRC_32_TEST_ROUTINES
 
-	PYXIS_ATTRIBUTE_PARSER_TEST_DATA
-		export
-			{NONE} all
-		undefine
-			default_create
-		end
-
 	SHARED_DEV_ENVIRON
+
+	EL_SHARED_TEST_XML_DATA
 
 feature -- Basic operations
 
@@ -50,14 +45,14 @@ feature -- Tests
 		note
 			testing: "covers/{EL_PYXIS_ATTRIBUTE_PARSER}.parse"
 		local
-			parser: EL_PYXIS_ATTRIBUTE_PARSER; table: like Attribute_table; name: STRING
+			parser: EL_PYXIS_ATTRIBUTE_PARSER; table: like XML.Attribute_table; name: STRING
 			attribute_list: EL_ELEMENT_ATTRIBUTE_LIST; l_attribute: EL_ELEMENT_ATTRIBUTE_NODE_STRING
 			document_dir: DIR_PATH
 		do
 			create document_dir
 			create attribute_list.make (document_dir)
 			create parser.make (attribute_list)
-			parser.set_source_text (Attributes_source_line)
+			parser.set_source_text (XML.Attributes_source_line)
 			parser.parse
 			create table.make_equal (5)
 			across attribute_list as list loop
@@ -73,7 +68,7 @@ feature -- Tests
 					table [name] := l_attribute.to_string_8
 				end
 			end
-			assert ("pyxis_parser OK", table ~ Attribute_table)
+			assert ("pyxis_parser OK", table ~ XML.Attribute_table)
 
 			attribute_list.reset
 			parser.set_source_text_from_substring (Pyxis_encoding, 2, Pyxis_encoding.count)

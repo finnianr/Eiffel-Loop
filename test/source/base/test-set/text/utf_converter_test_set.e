@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 8:51:20 GMT (Tuesday 4th October 2022)"
-	revision: "5"
+	date: "2022-10-29 8:51:37 GMT (Saturday 29th October 2022)"
+	revision: "6"
 
 class
 	UTF_CONVERTER_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_TEST_STRINGS
+	EL_SHARED_TEST_TEXT
 
 feature -- Basic operations
 
@@ -30,7 +30,7 @@ feature -- Test
 	test_little_endian_utf_16_substring_conversion
 		do
 			do_test (agent test_utf_16_le)
-			test_utf_16_le (G_clef, 0, 0)
+			test_utf_16_le (Text.G_clef, 0, 0)
 		end
 
 	test_utf_8_substring_conversion
@@ -68,7 +68,7 @@ feature {NONE} -- Implementation
 		local
 			str_32: STRING_32; i, leading_count, trailing_count: INTEGER
 		do
-			across text_lines as line loop
+			across Text.lines as line loop
 				str_32 := line.item
 				from i := 1 until i > str_32.count or else str_32.code (i) > 0x7F loop
 					i := i + 1

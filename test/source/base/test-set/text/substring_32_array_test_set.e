@@ -8,8 +8,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-20 9:04:25 GMT (Thursday 20th October 2022)"
-	revision: "21"
+	date: "2022-10-29 8:44:24 GMT (Saturday 29th October 2022)"
+	revision: "22"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -17,9 +17,9 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_TEST_STRINGS
-
 	EL_ZCODE_CONVERSION undefine default_create end
+
+	EL_SHARED_TEST_TEXT
 
 feature -- Basic operations
 
@@ -58,7 +58,7 @@ feature -- Test
 			create line.make_empty
 			create array.make_from_unencoded (line)
 			across 0 |..| 1 as n loop
-				across text_russian.split (' ') as split loop
+				across Text.russian.split (' ') as split loop
 					word := split.item
 					create word_array.make_from_unencoded (word)
 					shifted_array := word_array.shifted (line.count)
@@ -83,9 +83,9 @@ feature -- Test
 		do
 			create extendable.make
 			across 1 |..| 7 as n loop
-				across 1 |..| (text_russian.count - n.item + 1) as index loop
+				across 1 |..| (Text.russian.count - n.item + 1) as index loop
 					extendable.wipe_out
-					zstr := text_russian
+					zstr := Text.russian
 					lower := index.item; upper := index.item + n.item - 1
 					unencoded := zstr
 					extendable.append_substring (unencoded, lower, upper, 0)
@@ -134,12 +134,12 @@ feature -- Test
 	test_zstring_indexable
 		local
 			unencoded: EL_INDEXABLE_SUBSTRING_32_ARRAY
-			text: STRING_32; list: EL_SUBSTRING_32_LIST; array: EL_SUBSTRING_32_ARRAY
+			str_32: STRING_32; list: EL_SUBSTRING_32_LIST; array: EL_SUBSTRING_32_ARRAY
 			index: INTEGER; code: NATURAL
 		do
-			text := text_russian
-			create list.make (text.count)
-			across text as uc loop
+			str_32 := Text.russian
+			create list.make (str_32.count)
+			across str_32 as uc loop
 				if uc.item.code > 1000 then
 					list.put_character (uc.item, uc.cursor_index)
 				end
@@ -147,17 +147,17 @@ feature -- Test
 			create array.make_from_area (list.to_substring_area)
 			create unencoded.make (array)
 --			forwards
-			across text as uc loop
+			across str_32 as uc loop
 				if uc.item.code > 1000 then
 					index := uc.cursor_index
 					assert ("same code", uc.item.natural_32_code = unencoded.code (index))
 				end
 			end
 --			in reverse
-			across text.new_cursor.reversed as uc loop
+			across str_32.new_cursor.reversed as uc loop
 				code := uc.item.natural_32_code
 				if code > 1000 then
-					index := text.count - uc.cursor_index + 1
+					index := str_32.count - uc.cursor_index + 1
 					assert ("same code", code = unencoded.code (index))
 				end
 			end
@@ -170,7 +170,7 @@ feature -- Test
 			insert, zstr: ZSTRING; index: INTEGER
 			insert_array, array: EL_SUBSTRING_32_ARRAY
 		do
-			zstr := text_russian
+			zstr := Text.russian
 			index := zstr.index_of (',', 1)
 			insert := {STRING_32} "не"
 
@@ -199,7 +199,7 @@ feature -- Test
 		do
 			create line.make_empty
 			across 0 |..| 1 as n loop
-				across text_russian.split (' ') as split loop
+				across Text.russian.split (' ') as split loop
 					word := split.item
 					word_unencoded := word
 					line_unencoded := line
@@ -222,8 +222,8 @@ feature -- Test
 			uc: CHARACTER_32
 		do
 			uc := 'д'
-			across text_russian as n loop
-				zstr := text_russian
+			across Text.russian as n loop
+				zstr := Text.russian
 				index := n.cursor_index
 
 				unencoded := zstr
@@ -241,9 +241,9 @@ feature -- Test
 			zstr: ZSTRING; unencoded: EL_UNENCODED_CHARACTERS
 			index: INTEGER
 		do
-			across text_russian as c loop
+			across Text.russian as c loop
 				index := c.cursor_index
-				zstr := text_russian
+				zstr := Text.russian
 				if c.item.natural_32_code > 1000 then
 					unencoded := zstr
 					unencoded.remove (index)
@@ -261,8 +261,8 @@ feature -- Test
 			lower, upper: INTEGER
 		do
 			across 1 |..| 5 as n loop
-				across 1 |..| (text_russian.count - n.item + 1) as index loop
-					zstr := text_russian
+				across 1 |..| (Text.russian.count - n.item + 1) as index loop
+					zstr := Text.russian
 					create array.make_from_unencoded (zstr)
 					lower := index.item; upper := index.item + n.item - 1
 					array.remove_substring (lower, upper)
@@ -279,7 +279,7 @@ feature -- Test
 			array: EL_SUBSTRING_32_ARRAY; unencoded: EL_UNENCODED_CHARACTERS
 			zstr, padded: ZSTRING; count: INTEGER
 		do
-			zstr := text_russian
+			zstr := Text.russian
 			count := zstr.count
 			across 1 |..| count as index loop
 				padded := zstr + create {ZSTRING}.make_filled (' ', count)
@@ -298,7 +298,7 @@ feature -- Test
 			zstr, substring: ZSTRING; i, i_last, substring_count: INTEGER
 			array, sub_array: EL_UNENCODED_CHARACTERS; extendable: EL_UNENCODED_CHARACTERS_BUFFER
 		do
-			zstr := text_russian
+			zstr := Text.russian
 			create extendable.make
 			across 1 |..| 5 as n loop
 				substring_count := n.item
@@ -323,7 +323,7 @@ feature -- Test
 			array: EL_SUBSTRING_32_ARRAY
 		do
 			create str_32.make (50)
-			across text_lines as line loop
+			across Text.lines as line loop
 				str_32.wipe_out
 				create list.make (line.item.count)
 				across line.item as uc loop
@@ -346,7 +346,7 @@ feature -- Test
 		local
 			zstr: ZSTRING; unencoded: EL_UNENCODED_CHARACTERS
 		do
-			zstr := text_russian
+			zstr := Text.russian
 			unencoded := zstr
 			unencoded.to_upper; zstr.to_upper
 			assert ("same content", same_content (zstr, unencoded))
@@ -431,7 +431,7 @@ feature {NONE} -- Implementation
 		local
 			zstr: ZSTRING; unencoded: EL_UNENCODED_CHARACTERS
 		do
-			across Text_lines as line loop
+			across Text.lines as line loop
 				zstr := line.item
 				unencoded := zstr
 				test (zstr, unencoded)

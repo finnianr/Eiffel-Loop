@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-08 9:05:58 GMT (Thursday 8th April 2021)"
-	revision: "4"
+	date: "2022-10-29 9:23:54 GMT (Saturday 29th October 2022)"
+	revision: "5"
 
 class
 	MAKE_GENERAL_COMPARISON
@@ -15,7 +15,7 @@ class
 inherit
 	EL_BENCHMARK_COMPARISON
 
-	EL_TEST_STRINGS
+	EL_SHARED_TEST_TEXT
 
 create
 	make
@@ -36,15 +36,14 @@ feature {NONE} -- String append variations
 		local
 			str: L1_UC_STRING
 		do
-			create str.make_from_general (Text_russian_and_english)
+			create str.make_from_general (Text.Russian_and_english)
 		end
 
 	zstring_make
 		local
 			str: ZSTRING
 		do
-			create str.make_from_general (Text_russian_and_english)
+			create str.make_from_general (Text.Russian_and_english)
 		end
-
 
 end

@@ -9,11 +9,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-04-23 12:24:32 GMT (Saturday 23rd April 2022)"
-	revision: "6"
+	date: "2022-10-29 10:30:54 GMT (Saturday 29th October 2022)"
+	revision: "7"
 
 class
-	EL_BORROWED_STRING_SCOPE [S -> STRING_GENERAL create make end]
+	EL_BORROWED_STRING_SCOPE [
+		S -> STRING_GENERAL create make end, C -> EL_BORROWED_STRING_CURSOR [S] create make end
+	]
 
 inherit
 	EL_BORROWED_OBJECT_SCOPE [S]
@@ -33,7 +35,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	new_cursor: EL_BORROWED_STRING_CURSOR [S]
+	new_cursor: C
 		do
 			create Result.make (Current)
 		end

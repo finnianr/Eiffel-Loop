@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 12:23:15 GMT (Thursday 3rd February 2022)"
-	revision: "8"
+	date: "2022-10-29 7:37:34 GMT (Saturday 29th October 2022)"
+	revision: "9"
 
 class
 	CLASS_NOTES
@@ -72,7 +72,7 @@ feature {NONE} -- Line states
 						state := agent find_verbatim_string_end (?, verbatim_field)
 					else
 						if name ~ Description
-							and then (value.is_empty or Description_defaults.there_exists (agent value.starts_with))
+							and then (value.is_empty or across Description_defaults as l some value.starts_with (l.item) end)
 						then
 							value := default_description
 						end

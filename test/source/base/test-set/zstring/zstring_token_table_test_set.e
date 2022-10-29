@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 8:51:26 GMT (Tuesday 4th October 2022)"
-	revision: "10"
+	date: "2022-10-29 8:52:35 GMT (Saturday 29th October 2022)"
+	revision: "11"
 
 class
 	ZSTRING_TOKEN_TABLE_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_TEST_STRINGS
+	EL_SHARED_TEST_TEXT
 
 feature -- Basic operations
 
@@ -32,7 +32,7 @@ feature -- Tests
 			table: EL_ZSTRING_TOKEN_TABLE
 			line: ZSTRING; path_tokens: STRING_32
 		do
-			across text_lines as list loop
+			across Text.lines as list loop
 				line := list.item
 				create table.make (30)
 				path_tokens := table.token_list (line, ' ')

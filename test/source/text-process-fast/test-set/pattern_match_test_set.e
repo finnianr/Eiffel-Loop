@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-28 8:32:59 GMT (Friday 28th October 2022)"
-	revision: "1"
+	date: "2022-10-29 16:03:30 GMT (Saturday 29th October 2022)"
+	revision: "2"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -15,12 +15,14 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_TEST_STRINGS
-
 	EL_EIFFEL_TEXT_PATTERN_FACTORY_2
 		undefine
 			default_create
 		end
+
+	EL_SHARED_TEST_TEXT
+
+	EL_SHARED_TEST_NUMBERS
 
 feature -- Basic operations
 
@@ -29,6 +31,7 @@ feature -- Basic operations
 		do
 			eval.call ("alpha_character_match", agent test_alpha_character_match)
 			eval.call ("integer_match", agent test_integer_match)
+			eval.call ("numbers_array_parsing", agent test_numbers_array_parsing)
 			eval.call ("numeric_match", agent test_numeric_match)
 		end
 
@@ -58,17 +61,41 @@ feature -- Test
 						"covers/EL_STRING_8_NUMERIC_CHAR_TP}.match_count",
 						"covers/EL_STRING_8_LITERAL_CHAR_TP}.match_count"
 		local
-			number: DOUBLE; boolean: BOOLEAN
+			double: DOUBLE; boolean: BOOLEAN
 		do
 			set_optimal_core ("")
-			across Numbers as n loop
-				number := n.item
-				if number.rounded /~ number then
-					boolean := not integer_constant.matches_string_general (number.out)
+			across Number.Doubles_list as n loop
+				double := n.item
+				if double.rounded /~ double then
+					boolean := not signed_integer.matches_string_general (double.out)
 				else
-					boolean := integer_constant.matches_string_general (number.out)
+					boolean := signed_integer.matches_string_general (double.out)
 				end
 				assert ("matches_string_general OK", boolean)
+			end
+		end
+
+	test_numbers_array_parsing
+		note
+			testing: "covers/{EL_MATCH_ALL_IN_LIST_TP}.match_count",
+						"covers/{EL_LITERAL_TEXT_PATTERN}.match_count",
+						"covers/{EL_MATCH_ZERO_OR_MORE_TIMES_TP}.match_count",
+						"covers/{EL_MATCH_ANY_CHAR_IN_SET_TP}.match_count",
+						"covers/{EL_LITERAL_CHAR_TP}.match_count",
+						"covers/{EL_MATCH_CHAR_IN_ASCII_RANGE_TP}.match_count"
+		local
+			is_full_match: BOOLEAN; number_list: ARRAYED_LIST [DOUBLE]
+		do
+			create number_list.make (10)
+			source_string_8 := Text.doubles_array_manifest
+			set_optimal_core (source_string_8)
+			if attached numeric_array_pattern (number_list) as pattern then
+
+				pattern.match (0, source_string_8)
+				is_full_match := pattern.is_matched and pattern.count = source_string_8.count
+				assert ("numeric_array_pattern: is_full_match OK", is_full_match)
+				pattern.call_actions (1, source_string_8.count)
+				assert ("parsed Eiffel numeric array OK", number_list.to_array ~ Number.Doubles_list)
 			end
 		end
 
@@ -80,20 +107,47 @@ feature -- Test
 						"covers/EL_STRING_8_NUMERIC_CHAR_TP}.match_count",
 						"covers/EL_STRING_8_LITERAL_CHAR_TP}.match_count"
 		local
-			number: DOUBLE
+			double: DOUBLE
 		do
 			set_optimal_core ("")
-			across Numbers as n loop
-				number := n.item
-				assert ("matches_string_general OK", numeric_constant.matches_string_general (number.out))
+			across Number.Doubles_list as n loop
+				double := n.item
+				assert ("matches_string_general OK", decimal_constant.matches_string_general (double.out))
 			end
 		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Patterns
 
-	Numbers: ARRAY [DOUBLE]
-		once
-			Result := << 1.23, 1, 10, 12.3, 12.3, 123, -1, -10, -1.23, -12.3, -123 >>
+	numeric_array_pattern (list: ARRAYED_LIST [DOUBLE]): like all_of
+		do
+			Result := all_of (<<
+				string_literal ("<<"), maybe_white_space,
+				decimal_constant |to| agent on_numeric (?, ?, list),
+				zero_or_more (
+					all_of (<<
+						maybe_white_space, character_literal (','), maybe_white_space,
+						decimal_constant |to| agent on_numeric (?, ?, list)
+					>>)
+				),
+				maybe_white_space,
+				string_literal (">>")
+			>>)
 		end
+
+feature {NONE} -- Parse events handlers
+
+	on_numeric (start_index, end_index: INTEGER; list: ARRAYED_LIST [DOUBLE])
+		local
+			str: STRING
+		do
+			str := source_string_8.substring (start_index, end_index)
+			if str.is_double then
+				list.extend (str.to_double)
+			end
+		end
+
+feature {NONE} -- Internal attributes
+
+	source_string_8: STRING_8
 
 end

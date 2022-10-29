@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 8:39:38 GMT (Tuesday 4th October 2022)"
-	revision: "21"
+	date: "2022-10-29 8:35:45 GMT (Saturday 29th October 2022)"
+	revision: "22"
 
 class
 	DATA_DIGESTS_TEST_SET
@@ -21,11 +21,11 @@ inherit
 
 	EL_FILE_OPEN_ROUTINES
 
-	EL_TEST_STRINGS
-
 	EL_ZSTRING_CONSTANTS
 
 	EL_STRING_8_CONSTANTS
+
+	EL_SHARED_TEST_TEXT
 
 feature -- Basic operations
 
@@ -66,14 +66,14 @@ feature -- Tests
 		local
 			str_8: STRING; zstr: ZSTRING; md5: EL_MD5_128
 		do
-			zstr := Text_russian_and_english
+			zstr := Text.Russian_and_english
 			create md5.make
 			across << zstr, Empty_string >> as str loop
 				md5.sink_string (str.item)
 				assert ("correct SHA-256", md5.digest_base_64 ~ "tGC3tVpZNZJKAxI/WFqDAg==")
 			end
 
-			str_8 := text_lines [2]
+			str_8 := Text.lines [2]
 			assert ("correct line", str_8.starts_with ("Wanting"))
 			md5.reset
 			across << str_8, Empty_string_8 >> as str loop

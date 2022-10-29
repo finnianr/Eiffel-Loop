@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-28 17:32:48 GMT (Friday 28th October 2022)"
-	revision: "1"
+	date: "2022-10-29 13:51:57 GMT (Saturday 29th October 2022)"
+	revision: "2"
 
 class
 	EL_MATCH_COUNT_WITHIN_BOUNDS_TP
@@ -64,7 +64,7 @@ feature {NONE} -- Implementation
 				if text.count > 0 then
 					l_count := repeat_match_count (offset, text)
 					if l_count >= 0 then
-						offset := offset + 1
+						offset := offset + l_count
 						Result := Result + l_count
 						i := i + 1
 					else
@@ -92,4 +92,3 @@ feature {NONE}-- Constant
 		end
 
 end
-

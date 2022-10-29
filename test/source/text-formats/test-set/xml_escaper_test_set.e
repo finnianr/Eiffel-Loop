@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 8:51:23 GMT (Tuesday 4th October 2022)"
-	revision: "12"
+	date: "2022-10-29 8:52:05 GMT (Saturday 29th October 2022)"
+	revision: "13"
 
 class
 	XML_ESCAPER_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 	EL_CRC_32_TEST_ROUTINES
 
-	EL_TEST_STRINGS
+	EL_SHARED_TEST_TEXT
 
 feature -- Basic operations
 
@@ -45,7 +45,7 @@ feature {NONE} -- Implementation
 			str_32, esc_str_32: STRING_32; str, esc_str, xml: ZSTRING
 			root: EL_XML_DOC_CONTEXT; s: EL_STRING_32_ROUTINES
 		do
-			across Text_lines as string loop
+			across Text.lines as string loop
 				str_32 := string.item.twin
 				inspect string.cursor_index
 					when 5 then

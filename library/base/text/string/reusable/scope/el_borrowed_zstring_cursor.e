@@ -1,0 +1,53 @@
+note
+	description: "[
+		Cursor to use an **across** loop as an artificial scope in which a temporary
+		[$source ZSTRING] buffer can be borrowed from a shared pool. After iterating
+		just once the scope finishes and the buffer item is automatically returned to
+		the shared `pool' stack.
+	]"
+	tests: "[
+		[$source GENERAL_TEST_SET].test_reusable_strings
+	]"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2022-10-29 10:48:07 GMT (Saturday 29th October 2022)"
+	revision: "1"
+
+class
+	EL_BORROWED_ZSTRING_CURSOR
+
+inherit
+	EL_BORROWED_STRING_CURSOR [ZSTRING]
+		redefine
+			copied_item, substring_item
+		end
+
+create
+	make
+
+feature -- Access
+
+	copied_item (general: READABLE_STRING_GENERAL): ZSTRING
+		do
+			Result := item
+			if attached {EL_READABLE_ZSTRING} general as zstr then
+				Result.append (zstr)
+			else
+				Result.append_string_general (general)
+			end
+		end
+
+	substring_item (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): ZSTRING
+		do
+			Result := item
+			if attached {EL_READABLE_ZSTRING} general as zstr then
+				Result.append_substring (zstr, start_index, end_index)
+			else
+				Result.append_substring_general (general, start_index, end_index)
+			end
+		end
+end

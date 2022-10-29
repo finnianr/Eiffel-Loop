@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 8:50:56 GMT (Tuesday 4th October 2022)"
-	revision: "6"
+	date: "2022-10-29 8:41:01 GMT (Saturday 29th October 2022)"
+	revision: "7"
 
 class
 	L1_UC_STRING_TEST
@@ -15,9 +15,9 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_TEST_STRINGS
-
 	EL_ZCODE_CONVERSION undefine default_create end
+
+	EL_SHARED_TEST_TEXT
 
 feature -- Basic operations
 
@@ -36,8 +36,8 @@ feature -- Tests
 		local
 			l1_uc: L1_UC_STRING; code: NATURAL
 		do
-			create l1_uc.make_from_general (Text_russian_and_english)
-			assert ("strings equal", Text_russian_and_english ~ l1_uc.to_string_32)
+			create l1_uc.make_from_general (Text.Russian_and_english)
+			assert ("strings equal", Text.Russian_and_english ~ l1_uc.to_string_32)
 		end
 
 	test_unicode_by_index
@@ -46,10 +46,10 @@ feature -- Tests
 		local
 			l1_uc: L1_UC_STRING; code: NATURAL
 		do
-			create l1_uc.make_from_general (Text_russian_and_english)
+			create l1_uc.make_from_general (Text.Russian_and_english)
 
 --			Test binary search in `code_item'
-			across Text_russian_and_english as char loop
+			across Text.Russian_and_english as char loop
 				code := char.item.natural_32_code
 				if code > 0xFF then
 					assert ("same code", code = l1_uc.unicode (char.cursor_index))

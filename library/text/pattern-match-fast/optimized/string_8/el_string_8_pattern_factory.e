@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-28 17:22:59 GMT (Friday 28th October 2022)"
-	revision: "1"
+	date: "2022-10-29 16:05:59 GMT (Saturday 29th October 2022)"
+	revision: "2"
 
 class
 	EL_STRING_8_PATTERN_FACTORY
@@ -15,7 +15,8 @@ class
 inherit
 	EL_CORE_PATTERN_FACTORY
 		redefine
-			new_character_literal, new_digit, new_letter, new_string_literal
+			new_character_literal, new_digit, new_letter, new_white_space_character,
+			new_string_literal, new_white_space, new_digits_string
 		end
 
 feature -- Character
@@ -38,10 +39,27 @@ feature -- Character
 			create Result.make
 		end
 
+	new_white_space_character: EL_STRING_8_WHITE_SPACE_CHAR_TP
+			--
+		do
+			create Result.make
+		end
+
 feature -- String
 
 	new_string_literal (a_text: READABLE_STRING_GENERAL): EL_STRING_8_LITERAL_TP
 		do
 			create Result.make (a_text)
 		end
+
+	new_white_space (a_minimum_match_count: INTEGER): EL_MATCH_STRING_8_WHITE_SPACE_TP
+		do
+			create Result.make (a_minimum_match_count)
+		end
+
+	new_digits_string (a_minimum_match_count: INTEGER): EL_MATCH_STRING_8_DIGITS_TP
+		do
+			create Result.make (a_minimum_match_count)
+		end
+
 end

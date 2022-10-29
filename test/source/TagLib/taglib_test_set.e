@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 9:30:44 GMT (Tuesday 4th October 2022)"
-	revision: "40"
+	date: "2022-10-29 8:49:23 GMT (Saturday 29th October 2022)"
+	revision: "41"
 
 class
 	TAGLIB_TEST_SET
@@ -30,9 +30,9 @@ inherit
 
 	TL_SHARED_ONCE_STRING_LIST
 
-	EL_TEST_STRINGS
-
 	SHARED_DEV_ENVIRON
+
+	EL_SHARED_TEST_TEXT
 
 feature -- Basic operations
 
@@ -67,17 +67,17 @@ feature -- Tests
 			file_list.find_first_base (That_spot_tag)
 			assert ("exists", file_list.found)
 			create mp3.make (file_list.path)
-			across table as text loop
-				assert ("same string", mp3.tag.comment_with (musicmatch + text.key).text.same_string (text.item))
+			across table as str loop
+				assert ("same string", mp3.tag.comment_with (musicmatch + str.key).text.same_string (str.item))
 			end
 
 			create table.make (<<
 				["First_line", "In that spot, over here in that spot."], -- Test new comment
 				["Preference", "5 stars"]
 			>>)
-			across table as text loop
-				mp3.tag.set_comment_with (musicmatch + text.key, text.item)
-				assert ("same string", mp3.tag.comment_with (musicmatch + text.key).text.same_string (text.item))
+			across table as str loop
+				mp3.tag.set_comment_with (musicmatch + str.key, str.item)
+				assert ("same string", mp3.tag.comment_with (musicmatch + str.key).text.same_string (str.item))
 			end
 		end
 
@@ -154,7 +154,7 @@ feature -- Tests
 			tl_string: TL_STRING
 		do
 			create tl_string.make_empty
-			across Text_lines as line loop
+			across Text.lines as line loop
 				tl_string.set_from_string (line.item)
 				assert ("same string", tl_string.to_string_32 (False) ~ line.item)
 			end
@@ -176,7 +176,7 @@ feature -- Tests
 		do
 			across file_list as path loop
 				create mp3.make (path.item)
-				title := Text_lines.circular_i_th (path.cursor_index)
+				title := Text.lines.circular_i_th (path.cursor_index)
 				if not mp3.tag.is_default then
 					mp3.tag.set_title (title)
 					assert ("title set", mp3.tag.title ~ title)
@@ -222,11 +222,11 @@ feature -- Tests
 			across file_list as path loop
 				create mp3.make (path.item)
 				if mp3.tag.has_user_text then
-					across user_text_table as text loop
-						if mp3.tag.has_user_text_with (text.key) then
-							assert ("text starts with", mp3.tag.user_text (text.key).starts_with_general (text.item))
-							mp3.tag.set_user_text (text.key, text.item)
-							assert ("same text", text.item ~ mp3.tag.user_text (text.key).to_latin_1)
+					across user_text_table as table loop
+						if mp3.tag.has_user_text_with (table.key) then
+							assert ("text starts with", mp3.tag.user_text (table.key).starts_with_general (table.item))
+							mp3.tag.set_user_text (table.key, table.item)
+							assert ("same text", table.item ~ mp3.tag.user_text (table.key).to_latin_1)
 							count := count + 1
 						end
 					end
@@ -357,12 +357,12 @@ feature {NONE} -- Implementation
 						log.put_integer_field ("; byte count", pic.picture.count)
 						log.put_new_line
 						print_field ("description", pic.description)
-					elseif attached {TL_TEXT_IDENTIFICATION_ID3_FRAME} frame.item as text then
-						if attached {TL_USER_TEXT_IDENTIFICATION_ID3_FRAME} text as user then
+					elseif attached {TL_TEXT_IDENTIFICATION_ID3_FRAME} frame.item as id_frame then
+						if attached {TL_USER_TEXT_IDENTIFICATION_ID3_FRAME} id_frame as user then
 							log.put_string_field ("; description", user.description)
 						end
 						log.put_new_line
-						across text.field_list as field loop
+						across id_frame.field_list as field loop
 							print_field (Array_template #$ ["field_list", field.cursor_index], field.item)
 						end
 

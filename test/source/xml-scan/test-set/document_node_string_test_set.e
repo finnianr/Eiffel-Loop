@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 8:39:39 GMT (Tuesday 4th October 2022)"
-	revision: "4"
+	date: "2022-10-29 8:37:39 GMT (Saturday 29th October 2022)"
+	revision: "5"
 
 class
 	DOCUMENT_NODE_STRING_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_TEST_STRINGS
+	EL_SHARED_TEST_TEXT
 
 feature -- Basic operations
 
@@ -34,7 +34,7 @@ feature -- Conversion tests
 		do
 			create padded.make_filled (' ', 3)
 			create node.make_default
-			across << Dollor_symbol, Euro_symbol >> as symbol loop
+			across << Text.Dollor_symbol, Text.Euro_symbol >> as symbol loop
 				padded [2] := symbol.item
 				node.set_from_general (padded)
 				check_string (node.to_string, symbol.item, 1, 1)
@@ -52,9 +52,4 @@ feature {NONE} -- Implementation
 			assert ("valid str", str [index] = symbol)
 		end
 
-feature {NONE} -- Constants
-
-	Dollor_symbol: CHARACTER_32 = '$'
-
-	Euro_symbol: CHARACTER_32 = '€'
 end

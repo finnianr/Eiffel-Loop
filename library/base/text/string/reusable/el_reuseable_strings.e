@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-23 11:49:17 GMT (Tuesday 23rd November 2021)"
-	revision: "6"
+	date: "2022-10-29 10:47:49 GMT (Saturday 29th October 2022)"
+	revision: "7"
 
 class
 	EL_REUSEABLE_STRINGS
@@ -43,13 +43,13 @@ feature -- Pool scopes
 
 feature -- String scopes
 
-	string: EL_BORROWED_STRING_SCOPE [ZSTRING]
+	string: EL_BORROWED_STRING_SCOPE [ZSTRING, EL_BORROWED_ZSTRING_CURSOR]
 		-- access to pool of reusable `ZSTRING'
 
-	string_8: EL_BORROWED_STRING_SCOPE [STRING_8]
+	string_8: EL_BORROWED_STRING_SCOPE [STRING_8, EL_BORROWED_STRING_8_CURSOR]
 		-- access to pool of reusable `STRING_8'
 
-	string_32: EL_BORROWED_STRING_SCOPE [STRING_32];
+	string_32: EL_BORROWED_STRING_SCOPE [STRING_32, EL_BORROWED_STRING_32_CURSOR];
 		-- access to pool of reusable `STRING_32'
 
 note

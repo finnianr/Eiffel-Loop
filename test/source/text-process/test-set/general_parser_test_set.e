@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 8:50:49 GMT (Tuesday 4th October 2022)"
-	revision: "16"
+	date: "2022-10-29 9:23:01 GMT (Saturday 29th October 2022)"
+	revision: "17"
 
 class
 	GENERAL_PARSER_TEST_SET
@@ -20,14 +20,11 @@ inherit
 			default_create
 		end
 
-	PYXIS_ATTRIBUTE_PARSER_TEST_DATA
-		export
-			{NONE} all
-		undefine
-			default_create
-		end
+	EL_SHARED_TEST_TEXT
 
-	EL_TEST_STRINGS
+	EL_SHARED_TEST_NUMBERS
+
+	EL_SHARED_TEST_XML_DATA
 
 feature -- Basic operations
 
@@ -53,11 +50,11 @@ feature -- Test
 		note
 			testing: "covers/{EL_BACK_REFERENCE_MATCH_TP}.match_count"
 		local
-			xml, name, output: ZSTRING; pattern: like all_of
+			name, output: ZSTRING; pattern: like all_of
 		do
 			create output.make_empty
 			pattern := xml_text_element (agent append_matched_1 (?, output))
-			pattern.parse (XML_name_template #$ [Name_susan])
+			pattern.parse (XML.name_template #$ [Name_susan])
 			assert ("match_count OK", Name_susan ~ output)
 		end
 
@@ -69,22 +66,22 @@ feature -- Test
 		do
 			create comma_separated_list.make_empty
 			pattern := pyxis_assignment (comma_separated_list)
-			pattern.find_all (Attributes_source_line, agent on_unmatched_text (?, comma_separated_list))
-			assert ("find_all OK", Attributes_comma_separated_values ~ comma_separated_list)
+			pattern.find_all (XML.Attributes_source_line, agent on_unmatched_text (?, comma_separated_list))
+			assert ("find_all OK", XML.Attributes_comma_separated_values ~ comma_separated_list)
 		end
 
 	test_integer_match
 		note
 			testing: "covers/{EL_MATCH_ALL_IN_LIST_TP}.match_count"
 		local
-			number: DOUBLE; boolean: BOOLEAN
+			double: DOUBLE; boolean: BOOLEAN
 		do
-			across Numbers as n loop
-				number := n.item
-				if number.rounded /~ number then
-					boolean := not integer_constant.matches_string_general (number.out)
+			across Number.Doubles_list as n loop
+				double := n.item
+				if double.rounded /~ double then
+					boolean := not integer_constant.matches_string_general (double.out)
 				else
-					boolean := integer_constant.matches_string_general (number.out)
+					boolean := integer_constant.matches_string_general (double.out)
 				end
 				assert ("matches_string_general OK", boolean)
 			end
@@ -122,23 +119,23 @@ feature -- Test
 		do
 			create number_list.make (10)
 			pattern := numeric_array_pattern (number_list)
-			create view.make (numbers_string)
+			create view.make (Text.doubles_array_manifest)
 			pattern.match (view)
 			is_full_match := pattern.is_matched and pattern.count = view.count
 			assert ("numeric_array_pattern: is_full_match OK", is_full_match)
 			pattern.call_actions (view)
-			assert ("parsed Eiffel numeric array OK", number_list.to_array ~ numbers)
+			assert ("parsed Eiffel numeric array OK", number_list.to_array ~ Number.Doubles_list)
 		end
 
 	test_numeric_match
 		note
 			testing: "covers/{EL_MATCH_ALL_IN_LIST_TP}.match_count"
 		local
-			number: DOUBLE
+			double: DOUBLE
 		do
-			across Numbers as n loop
-				number := n.item
-				assert ("matches_string_general OK", numeric_constant.matches_string_general (number.out))
+			across Number.Doubles_list as n loop
+				double := n.item
+				assert ("matches_string_general OK", numeric_constant.matches_string_general (double.out))
 			end
 		end
 
@@ -172,7 +169,7 @@ feature -- Test
 		local
 			str, second_word: ZSTRING; view: EL_ZSTRING_VIEW
 		do
-			str := Text_russian; second_word := str.split_list (' ').i_th (2)
+			str := Text.russian; second_word := str.split_list (' ').i_th (2)
 			create view.make (str)
 			view.prune_leading (str.substring_index (second_word, 1) - 1)
 			view.set_count (second_word.count)
@@ -192,7 +189,7 @@ feature -- Test
 			matcher: EL_TEXT_MATCHER
 		do
 			create output.make_empty
-			source_text := text_russian
+			source_text := Text.russian
 			character_set := source_text.substring_end (source_text.count - 1) -- last two
 			create matcher.make
 			matcher.set_source_text (source_text)
@@ -214,7 +211,7 @@ feature -- Test
 			index_of_at, index_of_equal: INTEGER
 		do
 			create parser.make
-			across Xpaths.split ('%N') as xpath loop
+			across XML.Xpaths.split ('%N') as xpath loop
 				steps := xpath.item.split ('/')
 				parser.set_source_text (xpath.item)
 				parser.parse
@@ -361,19 +358,6 @@ feature {NONE} -- Implementation
 			>>)
 		end
 
-	numbers_string: STRING
-		do
-			create Result.make (Numbers.count * 4)
-			Result.append ("<< ")
-			across Numbers as n loop
-				if n.cursor_index > 1 then
-					Result.append (", ")
-				end
-				Result.append (number_to_string (n.item).out)
-			end
-			Result.append (" >>")
-		end
-
 	xml_identifier_character: EL_FIRST_MATCHING_CHAR_IN_LIST_TP
 		do
 			Result := identifier_character
@@ -413,20 +397,4 @@ feature {NONE} -- Constants
 			Result := "Susan Miller"
 		end
 
-	Numbers: ARRAY [DOUBLE]
-		once
-			Result := << 1.23, 1, 10, 12.3, 12.3, 123, -1, -10, -1.23, -12.3, -123 >>
-		end
-
-	XML_name_template: ZSTRING
-		once
-			Result := "<name>%S</name>"
-		end
-
-	Xpaths: STRING = "[
-		head/meta[@name='title']/@content
-		body/seq
-		@id
-		audio
-	]"
 end

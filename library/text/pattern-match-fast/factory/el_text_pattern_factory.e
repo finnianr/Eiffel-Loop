@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-28 17:17:19 GMT (Friday 28th October 2022)"
-	revision: "1"
+	date: "2022-10-29 16:05:59 GMT (Saturday 29th October 2022)"
+	revision: "2"
 
 deferred class
 	EL_TEXT_PATTERN_FACTORY
@@ -42,6 +42,12 @@ feature -- Bounded occurrences
 			Result := optional_pattern #occurs (0 |..| 1)
 		end
 
+	zero_or_more (a_pattern: EL_TEXT_PATTERN): EL_MATCH_ZERO_OR_MORE_TIMES_TP
+			--
+		do
+			create Result.make (a_pattern)
+		end
+
 feature -- Core patterns
 
 	character_literal (literal: CHARACTER_32): EL_LITERAL_CHAR_TP
@@ -60,6 +66,43 @@ feature -- Core patterns
 			--
 		do
 			Result := core.new_letter
+		end
+
+	white_space_character: EL_WHITE_SPACE_CHAR_TP
+			--
+		do
+			Result := core.new_white_space_character
+		end
+
+feature -- Derived character patterns
+
+	maybe_white_space: EL_MATCH_WHITE_SPACE_TP
+		-- Matches even if no white space found
+		do
+			Result := core.new_white_space (0)
+		end
+
+feature -- Numeric strings
+
+	natural_number: EL_MATCH_DIGITS_TP
+		do
+			Result := core.new_digits_string (1)
+		end
+
+	signed_integer: like all_of
+			--
+		do
+			Result := all_of (<<
+				optional (character_literal ('-')), natural_number
+			>>)
+		end
+
+	decimal_constant: like all_of
+		do
+			Result := all_of (<<
+				signed_integer,
+				optional (all_of (<< character_literal ('.'), signed_integer >>))
+			>>)
 		end
 
 feature {NONE} -- Implementation
@@ -108,7 +151,6 @@ feature {NONE} -- Constants
 			create Result
 		end
 end
-
 
 
 
