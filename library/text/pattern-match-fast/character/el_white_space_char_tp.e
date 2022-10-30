@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-29 7:17:49 GMT (Saturday 29th October 2022)"
-	revision: "8"
+	date: "2022-10-30 9:05:12 GMT (Sunday 30th October 2022)"
+	revision: "9"
 
 class
 	EL_WHITE_SPACE_CHAR_TP
@@ -17,7 +17,7 @@ inherit
 		rename
 			make_default as make
 		end
-		
+
 create
 	make
 
@@ -25,7 +25,7 @@ feature -- Access
 
 	name: STRING
 		do
-			Result := "white_space_character"
+			Result := "whitespace character"
 		end
 
 feature {NONE} -- Implementation

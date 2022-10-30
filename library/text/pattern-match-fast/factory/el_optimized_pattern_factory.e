@@ -1,7 +1,13 @@
 note
 	description: "[
-		Factory for creating new instances of core patterns matched against strings
+		Factory for creating new instances of core text-patterns matched against strings
 		conforming to [$source READABLE_STRING_GENERAL]
+	]"
+	notes: "[
+		Descendants are optimized to handle [$source ZSTRING] or strings conforming to [$source READABLE_STRING_8]
+			
+			[$source EL_ZSTRING_PATTERN_FACTORY]
+			[$source EL_STRING_8_PATTERN_FACTORY]
 	]"
 
 	author: "Finnian Reilly"
@@ -9,11 +15,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-29 16:05:59 GMT (Saturday 29th October 2022)"
-	revision: "2"
+	date: "2022-10-30 11:12:52 GMT (Sunday 30th October 2022)"
+	revision: "3"
 
 class
-	EL_CORE_PATTERN_FACTORY
+	EL_OPTIMIZED_PATTERN_FACTORY
 
 feature -- Character
 
@@ -53,10 +59,14 @@ feature -- String
 			create Result.make (a_minimum_match_count)
 		end
 
+	new_nonbreaking_white_space (a_minimum_match_count: INTEGER): EL_MATCH_WHITE_SPACE_TP
+		do
+			create Result.make_nonbreaking (a_minimum_match_count)
+		end
+
 	new_digits_string (a_minimum_match_count: INTEGER): EL_MATCH_DIGITS_TP
 		do
 			create Result.make (a_minimum_match_count)
 		end
 
 end
-

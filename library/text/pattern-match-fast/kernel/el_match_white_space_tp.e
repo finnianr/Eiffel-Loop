@@ -6,36 +6,116 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-29 15:54:47 GMT (Saturday 29th October 2022)"
-	revision: "1"
+	date: "2022-10-30 10:56:23 GMT (Sunday 30th October 2022)"
+	revision: "2"
 
 class
 	EL_MATCH_WHITE_SPACE_TP
 
 inherit
 	EL_MATCH_CONTINUOUS_PROPERTY_TP
-		rename
-			i_th_has as is_i_th_space
+		redefine
+			match_count
 		end
 
 create
-	make
+	make, make_nonbreaking
+
+feature {NONE} -- Initialization
+
+	make_nonbreaking (a_minimum_match_count: INTEGER)
+		-- only match white space that does not include a
+		-- new line or carraige return character
+		do
+			make (a_minimum_match_count)
+			nonbreaking := True
+		end
 
 feature -- Access
 
 	name: STRING
 		do
-			Result := spell_minimum + " or more whitespace"
+			if nonbreaking then
+				Result := spell_minimum + " or more nonbreaking whitespace"
+			else
+				Result := spell_minimum + " or more whitespace"
+			end
 		end
+
+feature -- Status query
+
+	nonbreaking: BOOLEAN
 
 feature {NONE} -- Implementation
 
-	is_i_th_space (i: INTEGER_32; text: READABLE_STRING_GENERAL): BOOLEAN
+	is_nonbreaking_character (uc: CHARACTER_32): BOOLEAN
+		do
+			Result := not (uc = '%N' or uc = '%R')
+		end
+
+	i_th_has (i: INTEGER_32; text: READABLE_STRING_GENERAL): BOOLEAN
 			-- `True' if i'th character is white space
 		local
 			c: EL_CHARACTER_32_ROUTINES
 		do
-			Result := c.is_space (text [i]) -- Work around for finalization bug
+			Result := c.is_space (text [i]) -- workaround for finalization bug
 		end
+
+	i_th_type (i: INTEGER_32; text: READABLE_STRING_GENERAL): INTEGER
+		local
+			c: EL_CHARACTER_32_ROUTINES; uc: CHARACTER_32
+		do
+			uc := text [i]
+			if c.is_space (uc) then -- workaround for finalization bug
+				if is_nonbreaking_character (uc) then
+					Result := Nonbreaking_space
+				else
+					Result := Breaking_space
+				end
+			end
+		end
+
+	match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER
+			--
+		local
+			offset, l_count, character_type: INTEGER; done, l_nonbreaking: BOOLEAN
+		do
+			l_count := text.count; l_nonbreaking := nonbreaking
+			from offset := a_offset until offset = l_count or done loop
+				character_type := i_th_type (offset + 1, text)
+				if character_type > 0 then
+					if l_nonbreaking then
+						inspect character_type
+							when Breaking_space then
+								done := True
+							when Nonbreaking_space then
+								Result := Result + 1
+						end
+					else
+						Result := Result + 1
+					end
+				else
+					done := True
+				end
+				offset := offset + 1
+			end
+			if l_nonbreaking and then character_type = Breaking_space then
+				Result := Match_fail
+			elseif not (Result >= minimum_match_count) then
+				Result := Match_fail
+			end
+		ensure then
+			valid_result: (Result > Match_fail and nonbreaking)
+				implies
+					across text.substring (a_offset + 1, a_offset + Result).to_string_32 as uc all
+						is_nonbreaking_character (uc.item)
+					end
+		end
+
+feature {NONE} -- Constants
+
+	Breaking_space: INTEGER = 1
+
+	Nonbreaking_space: INTEGER = 2
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-29 16:05:59 GMT (Saturday 29th October 2022)"
-	revision: "2"
+	date: "2022-10-30 11:14:07 GMT (Sunday 30th October 2022)"
+	revision: "3"
 
 deferred class
 	EL_TEXT_PATTERN_FACTORY
@@ -74,12 +74,30 @@ feature -- Core patterns
 			Result := core.new_white_space_character
 		end
 
-feature -- Derived character patterns
+feature -- White space
 
 	maybe_white_space: EL_MATCH_WHITE_SPACE_TP
 		-- Matches even if no white space found
 		do
 			Result := core.new_white_space (0)
+		end
+
+	maybe_nonbreaking_white_space: EL_MATCH_WHITE_SPACE_TP
+			-- Matches even if no white space found
+		do
+			Result := core.new_nonbreaking_white_space (0)
+		end
+
+	non_breaking_white_space: EL_MATCH_WHITE_SPACE_TP
+			-- Matches only if at least one white space character found
+		do
+			Result := core.new_nonbreaking_white_space (1)
+		end
+
+	white_space: EL_MATCH_WHITE_SPACE_TP
+		-- Matches only if at least one white space character found
+		do
+			Result := core.new_white_space (1)
 		end
 
 feature -- Numeric strings
@@ -107,12 +125,12 @@ feature -- Numeric strings
 
 feature {NONE} -- Implementation
 
-	core: EL_CORE_PATTERN_FACTORY
+	core: EL_OPTIMIZED_PATTERN_FACTORY
 		do
 			if attached optimal_core as optimal then
 				Result := optimal
 			else
-				Result := Core_general
+				Result := Optimal_general
 			end
 		end
 
@@ -120,38 +138,37 @@ feature {NONE} -- Implementation
 		-- set `optimal_core' factory with shared instance that is optimal for `text' type
 		do
 			if attached {ZSTRING} text then
-				optimal_core := Core_zstring
+				optimal_core := Optimal_zstring
 
 			elseif attached {READABLE_STRING_8} text then
-				optimal_core := Core_string_8
+				optimal_core := Optimal_string_8
 
 			else
-				optimal_core := Core_general
+				optimal_core := Optimal_general
 			end
 		end
 
 feature {NONE} -- Internal attributes
 
-	optimal_core: detachable EL_CORE_PATTERN_FACTORY
+	optimal_core: detachable EL_OPTIMIZED_PATTERN_FACTORY
 
 feature {NONE} -- Constants
 
-	Core_general: EL_CORE_PATTERN_FACTORY
+	Optimal_general: EL_OPTIMIZED_PATTERN_FACTORY
 		once
 			create Result
 		end
 
-	Core_string_8: EL_STRING_8_PATTERN_FACTORY
+	Optimal_string_8: EL_STRING_8_PATTERN_FACTORY
 		once
 			create Result
 		end
 
-	Core_zstring: EL_ZSTRING_PATTERN_FACTORY
+	Optimal_zstring: EL_ZSTRING_PATTERN_FACTORY
 		once
 			create Result
 		end
 end
-
 
 
 

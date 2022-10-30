@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-28 17:30:18 GMT (Friday 28th October 2022)"
-	revision: "1"
+	date: "2022-10-30 10:48:03 GMT (Sunday 30th October 2022)"
+	revision: "2"
 
 deferred class
 	EL_TEXT_PATTERN
@@ -228,5 +228,4 @@ feature {NONE} -- Constants
 	Match_fail: INTEGER = -1
 
 end
-
 

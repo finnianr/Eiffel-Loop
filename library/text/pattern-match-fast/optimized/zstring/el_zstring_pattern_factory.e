@@ -6,17 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-29 16:05:59 GMT (Saturday 29th October 2022)"
-	revision: "2"
+	date: "2022-10-30 11:08:10 GMT (Sunday 30th October 2022)"
+	revision: "3"
 
 class
 	EL_ZSTRING_PATTERN_FACTORY
 
 inherit
-	EL_CORE_PATTERN_FACTORY
+	EL_OPTIMIZED_PATTERN_FACTORY
 		redefine
 			new_character_literal, new_digit, new_letter, new_white_space_character,
-			new_string_literal, new_white_space, new_digits_string
+			new_string_literal, new_white_space, new_digits_string, new_nonbreaking_white_space
 		end
 
 feature -- Character
@@ -46,6 +46,11 @@ feature -- Character
 		end
 
 feature -- String
+
+	new_nonbreaking_white_space (a_minimum_match_count: INTEGER): EL_MATCH_ZSTRING_WHITE_SPACE_TP
+		do
+			create Result.make_nonbreaking (a_minimum_match_count)
+		end
 
 	new_string_literal (a_text: READABLE_STRING_GENERAL): EL_ZSTRING_LITERAL_TP
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-29 9:23:01 GMT (Saturday 29th October 2022)"
-	revision: "17"
+	date: "2022-10-30 9:01:20 GMT (Sunday 30th October 2022)"
+	revision: "18"
 
 class
 	GENERAL_PARSER_TEST_SET
@@ -350,7 +350,7 @@ feature {NONE} -- Implementation
 			matched.append_to (str)
 		end
 
-	Eiffel_string_assignment (list: ARRAYED_LIST [STRING]): like all_of
+	eiffel_string_assignment (list: ARRAYED_LIST [STRING]): like all_of
 		do
 			Result := all_of (<<
 				identifier, maybe_non_breaking_white_space, string_literal (":="), maybe_non_breaking_white_space,

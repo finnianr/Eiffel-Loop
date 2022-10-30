@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-29 15:54:03 GMT (Saturday 29th October 2022)"
-	revision: "1"
+	date: "2022-10-30 10:53:27 GMT (Sunday 30th October 2022)"
+	revision: "2"
 
 deferred class
 	EL_MATCH_CONTINUOUS_PROPERTY_TP
@@ -47,7 +47,7 @@ feature {NONE} -- Implementation
 				Result := Match_fail
 			end
 		ensure then
-			definition: is_matched implies
+			definition: Result > Match_fail implies
 				across 1 |..| Result as index all i_th_has (a_offset + index.item, text) end
 		end
 

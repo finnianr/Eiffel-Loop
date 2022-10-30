@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-21 12:54:09 GMT (Friday 21st October 2022)"
-	revision: "35"
+	date: "2022-10-30 9:56:54 GMT (Sunday 30th October 2022)"
+	revision: "36"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -231,6 +231,38 @@ feature -- Status query
 		deferred
 		end
 
+feature -- Contract Support
+
+	is_valid: BOOLEAN
+			-- True position and number of `Unencoded_character' in `area' consistent with `unencoded_area' substrings
+		local
+			i, j, lower, upper, l_count, interval_count, sum_count, i_final: INTEGER
+			l_unencoded: like unencoded_area; l_area: like area
+		do
+			if has_mixed_encoding then
+				l_count := count
+				l_area := area; l_unencoded := unencoded_area; i_final := l_unencoded.count
+				Result := True
+				from i := 0 until not Result or else i = i_final loop
+					lower := lower_bound (l_unencoded, i); upper := upper_bound (l_unencoded, i)
+					interval_count := upper - lower + 1
+					if upper <= l_count then
+						from j := lower until not Result or else j > upper loop
+							Result := Result and l_area [j - 1] = Substitute
+							j := j + 1
+						end
+					else
+						Result := False
+					end
+					sum_count := sum_count + interval_count
+					i := i + interval_count + 2
+				end
+				Result := Result and internal_occurrences (Substitute) = sum_count
+			else
+				Result := internal_occurrences (Substitute) = 0
+			end
+		end
+
 feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
 
 	elks_checking: BOOLEAN
@@ -307,46 +339,6 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
 			end
 		end
 
-feature -- Contract Support
-
-	is_valid: BOOLEAN
-			-- True position and number of `Unencoded_character' in `area' consistent with `unencoded_area' substrings
-		local
-			i, j, lower, upper, l_count, interval_count, sum_count, i_final: INTEGER
-			l_unencoded: like unencoded_area; l_area: like area
-		do
-			if has_mixed_encoding then
-				l_count := count
-				l_area := area; l_unencoded := unencoded_area; i_final := l_unencoded.count
-				Result := True
-				from i := 0 until not Result or else i = i_final loop
-					lower := lower_bound (l_unencoded, i); upper := upper_bound (l_unencoded, i)
-					interval_count := upper - lower + 1
-					if upper <= l_count then
-						from j := lower until not Result or else j > upper loop
-							Result := Result and l_area [j - 1] = Substitute
-							j := j + 1
-						end
-					else
-						Result := False
-					end
-					sum_count := sum_count + interval_count
-					i := i + interval_count + 2
-				end
-				Result := Result and internal_occurrences (Substitute) = sum_count
-			else
-				Result := internal_occurrences (Substitute) = 0
-			end
-		end
-
-	valid_area_offset (a_unicode: READABLE_STRING_GENERAL; start_index, end_index, area_offset: INTEGER): BOOLEAN
-		local
-			l_count: INTEGER
-		do
-			l_count := end_index - start_index + 1
-			Result := l_count > 0 implies area.valid_index (l_count + area_offset - 1)
-		end
-
 feature {NONE} -- Implementation
 
 	adapted_argument (a_general: READABLE_STRING_GENERAL; index: INTEGER): EL_ZSTRING
@@ -399,6 +391,12 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	item_8 (i: INTEGER): CHARACTER_8
+		-- internal character at position `i'
+		do
+			Result := area [i - 1]
+		end
+
 	put_unicode (a_code: NATURAL_32; i: INTEGER)
 			-- put unicode at i th position
 		do
@@ -417,6 +415,14 @@ feature {NONE} -- Implementation
 			-- with their upper version when available.
 		do
 			codec.to_upper (a, start_index, end_index, Current)
+		end
+
+	valid_area_offset (a_unicode: READABLE_STRING_GENERAL; start_index, end_index, area_offset: INTEGER): BOOLEAN
+		local
+			l_count: INTEGER
+		do
+			l_count := end_index - start_index + 1
+			Result := l_count > 0 implies area.valid_index (l_count + area_offset - 1)
 		end
 
 	z_code (i: INTEGER): NATURAL_32

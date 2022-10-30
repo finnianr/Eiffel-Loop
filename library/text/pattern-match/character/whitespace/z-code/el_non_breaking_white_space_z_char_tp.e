@@ -1,13 +1,13 @@
 note
-	description: "Non breaking white space z char tp"
+	description: "Non breaking white space for [$source ZSTRING] text"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2022-10-30 9:09:47 GMT (Sunday 30th October 2022)"
+	revision: "6"
 
 class
 	EL_NON_BREAKING_WHITE_SPACE_Z_CHAR_TP
