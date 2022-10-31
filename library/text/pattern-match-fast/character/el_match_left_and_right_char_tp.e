@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-28 17:32:43 GMT (Friday 28th October 2022)"
-	revision: "1"
+	date: "2022-10-31 8:09:51 GMT (Monday 31st October 2022)"
+	revision: "2"
 
 class
 	EL_MATCH_LEFT_AND_RIGHT_CHAR_TP
@@ -71,10 +71,26 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
+		-- contract support
+		local
+			left_count, right_count: INTEGER
+		do
+			if count <= text.count - a_offset then
+				left_count := left_operand.match_count (a_offset, text)
+				if left_count /= Match_fail then
+					right_count := right_operand.match_count (a_offset + left_count, text)
+				end
+				if right_count /= Match_fail then
+					Result := count = left_count + right_count
+				end
+			end
+		end
+
+feature {NONE} -- Internal attributes
+
 	left_operand : EL_SINGLE_CHAR_TEXT_PATTERN
 
 	right_operand: EL_SINGLE_CHAR_TEXT_PATTERN
 
 end
-
-

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-28 17:30:27 GMT (Friday 28th October 2022)"
-	revision: "1"
+	date: "2022-10-31 8:11:45 GMT (Monday 31st October 2022)"
+	revision: "2"
 
 class
 	EL_LITERAL_CHAR_TP
@@ -47,6 +47,8 @@ feature -- Access
 			Result.append_character ('%'')
 		end
 
+	item: CHARACTER_32
+
 feature {NONE} -- Implementation
 
 	i_th_matches (i: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
@@ -54,8 +56,12 @@ feature {NONE} -- Implementation
 			Result := text [i] = item
 		end
 
-feature -- Access
-
-	item: CHARACTER_32
+	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
+		-- contract support
+		do
+			if count <= text.count - a_offset then
+				Result := text [a_offset + 1] = item
+			end
+		end
 
 end

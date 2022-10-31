@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-28 17:31:28 GMT (Friday 28th October 2022)"
-	revision: "1"
+	date: "2022-10-31 15:37:12 GMT (Monday 31st October 2022)"
+	revision: "2"
 
 class
 	EL_LITERAL_TEXT_PATTERN
@@ -30,23 +30,6 @@ feature {NONE} -- Initialization
 			set_text (a_text)
 		end
 
-feature {NONE} -- Implementation
-
-	match_count (a_offset: INTEGER; source_text: like new_text): INTEGER
-			--
-		local
-			text_count: INTEGER
-		do
-			text_count := text.count
-			if (source_text.count - a_offset) >= text_count
-				and then same_characters (source_text, a_offset, text_count)
-			then
-				Result := text_count
-			else
-				Result := Match_fail
-			end
-		end
-
 feature -- Element change
 
 	set_text (a_text: READABLE_STRING_GENERAL)
@@ -67,14 +50,37 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	same_characters (source_text: like new_text; a_offset, text_count: INTEGER): BOOLEAN
+	match_count (a_offset: INTEGER; source_text: like new_text): INTEGER
+			--
+		local
+			text_count: INTEGER
 		do
-			Result := text.same_characters (source_text, a_offset + 1, a_offset + text_count, 1)
+			text_count := text.count
+			if (source_text.count - a_offset) >= text_count
+				and then same_characters (source_text, a_offset, text_count)
+			then
+				Result := text_count
+			else
+				Result := Match_fail
+			end
+		end
+
+	meets_definition (a_offset: INTEGER; source_text: READABLE_STRING_GENERAL): BOOLEAN
+		-- contract support
+		do
+			if count <= source_text.count - a_offset then
+				Result := source_text.substring (a_offset + 1, a_offset + count).same_string (text)
+			end
 		end
 
 	new_text (a_text: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
 		do
 			Result := a_text
+		end
+
+	same_characters (source_text: like new_text; a_offset, text_count: INTEGER): BOOLEAN
+		do
+			Result := text.same_characters (source_text, a_offset + 1, a_offset + text_count, 1)
 		end
 
 end

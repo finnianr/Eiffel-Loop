@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-30 9:05:12 GMT (Sunday 30th October 2022)"
-	revision: "9"
+	date: "2022-10-31 7:57:06 GMT (Monday 31st October 2022)"
+	revision: "10"
 
 class
 	EL_WHITE_SPACE_CHAR_TP
@@ -37,4 +37,12 @@ feature {NONE} -- Implementation
 		do
 			Result := c.is_space (text [i]) -- Work around for finalization bug
 		end
+
+	meets_definition (a_offset: INTEGER; source_text: READABLE_STRING_GENERAL): BOOLEAN
+		-- contract support
+		do
+			if count <= source_text.count - a_offset then
+			end
+		end
+
 end

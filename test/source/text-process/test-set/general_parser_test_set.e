@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-30 9:01:20 GMT (Sunday 30th October 2022)"
-	revision: "18"
+	date: "2022-10-31 13:06:20 GMT (Monday 31st October 2022)"
+	revision: "19"
 
 class
 	GENERAL_PARSER_TEST_SET
@@ -234,7 +234,7 @@ feature {NONE} -- Patterns
 	double_quote_escape_sequence: EL_FIRST_MATCH_IN_LIST_TP
 			--
 		do
-			Result := one_of ( << string_literal ("\\"), string_literal ("\%"") >> )
+			Result := one_of (<< string_literal ("\\"), string_literal ("\%"") >>)
 		end
 
 	numeric_array_pattern (list: ARRAYED_LIST [DOUBLE]): like all_of

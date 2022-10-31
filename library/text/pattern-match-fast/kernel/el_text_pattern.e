@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-30 10:48:03 GMT (Sunday 30th October 2022)"
-	revision: "2"
+	date: "2022-10-31 7:59:31 GMT (Monday 31st October 2022)"
+	revision: "3"
 
 deferred class
 	EL_TEXT_PATTERN
@@ -59,6 +59,8 @@ feature -- Basic operations
 	match (a_offset: INTEGER; text: READABLE_STRING_GENERAL)
 		do
 			count := match_count (a_offset, text)
+		ensure
+			definition: is_matched implies meets_definition (a_offset, text)
 		end
 
 	parse (text: READABLE_STRING_GENERAL)
@@ -185,6 +187,11 @@ feature {EL_TEXT_PATTERN_I, EL_PARSER} -- Implementation
 		deferred
 		end
 
+	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
+		-- contract support
+		deferred
+		end
+
 feature {NONE} -- Implementation
 
 	call_i_th_action (i, start_index, end_index: INTEGER)
@@ -228,4 +235,3 @@ feature {NONE} -- Constants
 	Match_fail: INTEGER = -1
 
 end
-

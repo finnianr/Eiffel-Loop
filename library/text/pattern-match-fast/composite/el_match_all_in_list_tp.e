@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-29 11:24:53 GMT (Saturday 29th October 2022)"
-	revision: "2"
+	date: "2022-10-31 8:06:40 GMT (Monday 31st October 2022)"
+	revision: "3"
 
 class
 	EL_MATCH_ALL_IN_LIST_TP
@@ -173,6 +173,24 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
+		-- contract support
+		local
+			sum_count, l_count, offset: INTEGER
+		do
+			if count <= text.count - a_offset then
+				offset := a_offset
+				across Current as sub_pattern until l_count = Match_fail loop
+					l_count := sub_pattern.item.match_count (offset, text)
+					if l_count /= Match_fail then
+						offset := offset + l_count
+						sum_count := sum_count + l_count
+					end
+				end
+				Result := count = sum_count
+			end
+		end
+
 	call_list_actions (a_start_index, a_end_index: INTEGER)
 		local
 			i, i_final: INTEGER; l_area: like area
@@ -191,4 +209,3 @@ feature {NONE} -- Implementation
 		end
 
 end
-

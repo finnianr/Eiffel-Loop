@@ -1,13 +1,13 @@
 note
-	description: "Match any char in set tp"
+	description: "Matches character found in specified set"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2022-10-31 16:10:22 GMT (Monday 31st October 2022)"
+	revision: "6"
 
 class
 	EL_MATCH_ANY_CHAR_IN_SET_TP

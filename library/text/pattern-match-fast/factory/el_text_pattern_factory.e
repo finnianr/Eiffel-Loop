@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-30 11:14:07 GMT (Sunday 30th October 2022)"
-	revision: "3"
+	date: "2022-10-31 16:37:16 GMT (Monday 31st October 2022)"
+	revision: "4"
 
 deferred class
 	EL_TEXT_PATTERN_FACTORY
@@ -20,12 +20,22 @@ feature -- Recursive patterns
 			create Result.make (array)
 		end
 
-feature -- Basic patterns
+feature -- String patterns
+
+	c_identifier: EL_MATCH_C_IDENTIFIER_TP
+		do
+			Result := core.new_c_identifier
+		end
 
 	string_literal (a_text: READABLE_STRING_GENERAL): EL_LITERAL_TEXT_PATTERN
 			--
 		do
 			Result := core.new_string_literal (a_text)
+		end
+
+	xml_identifier: EL_MATCH_XML_IDENTIFIER_TP
+		do
+			Result := core.new_xml_identifier
 		end
 
 feature -- Bounded occurrences
@@ -48,12 +58,18 @@ feature -- Bounded occurrences
 			create Result.make (a_pattern)
 		end
 
-feature -- Core patterns
+feature -- Character patterns
 
 	character_literal (literal: CHARACTER_32): EL_LITERAL_CHAR_TP
 			--
 		do
 			Result := core.new_character_literal (literal)
+		end
+
+	one_character_from (a_character_set: READABLE_STRING_GENERAL): EL_MATCH_CHARACTER_IN_SET_TP
+			--
+		do
+			Result := core.new_character_in_set (a_character_set)
 		end
 
 	digit: EL_NUMERIC_CHAR_TP
@@ -169,7 +185,6 @@ feature {NONE} -- Constants
 			create Result
 		end
 end
-
 
 
 

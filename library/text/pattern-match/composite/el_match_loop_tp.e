@@ -1,13 +1,13 @@
 note
-	description: "Match loop tp"
+	description: "Match repeated text pattern in a loop until a terminating pattern is matched"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2022-10-31 10:26:33 GMT (Monday 31st October 2022)"
+	revision: "6"
 
 class
 	EL_MATCH_LOOP_TP

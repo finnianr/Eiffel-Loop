@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-29 13:51:57 GMT (Saturday 29th October 2022)"
-	revision: "2"
+	date: "2022-10-31 8:40:39 GMT (Monday 31st October 2022)"
+	revision: "3"
 
 class
 	EL_MATCH_COUNT_WITHIN_BOUNDS_TP
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_repeated_pattern
 		redefine
-			match_count, name
+			match_count, meets_definition, name
 		end
 
 create
@@ -76,6 +76,14 @@ feature {NONE} -- Implementation
 			end
 			if not occurrence_bounds.has (i - 1) then
 				Result := Match_fail
+			end
+		end
+
+	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
+		-- contract support
+		do
+			if occurrence_bounds.has (list_count) then
+				Result := list_count > 0 implies Precursor (a_offset, text)
 			end
 		end
 

@@ -1,30 +1,30 @@
 note
-	description: "Match consecutive characters that share the same property"
+	description: "Match computer language identifier name"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-31 7:48:46 GMT (Monday 31st October 2022)"
+	date: "2022-10-31 9:49:04 GMT (Monday 31st October 2022)"
 	revision: "3"
 
 deferred class
-	EL_MATCH_CONTINUOUS_PROPERTY_TP
+	EL_MATCH_IDENTIFIER_TP
 
 inherit
 	EL_TEXT_PATTERN
+		rename
+			make_default as make
 		redefine
 			match_count
 		end
 
-feature {NONE} -- Initialization
+feature -- Access
 
-	make (a_minimum_match_count: INTEGER)
-			--
+	name: STRING
 		do
-			make_default
-			minimum_match_count := a_minimum_match_count
+			Result := language_name + " identifier"
 		end
 
 feature {NONE} -- Implementation
@@ -36,14 +36,15 @@ feature {NONE} -- Implementation
 		do
 			l_count := text.count
 			from offset := a_offset until offset = l_count or done loop
-				if i_th_has (offset + 1, text) then
+				if i_th_conforms (offset + 1, text, offset = a_offset) then
 					Result := Result + 1
+
 				else
 					done := True
 				end
 				offset := offset + 1
 			end
-			if not (Result >= minimum_match_count) then
+			if Result = 0 then
 				Result := Match_fail
 			end
 		end
@@ -51,27 +52,20 @@ feature {NONE} -- Implementation
 	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
 		-- contract support
 		do
-			Result := across 1 |..| count as index all i_th_has (a_offset + index.item, text) end
+			Result := across 1 |..| count as index all
+				i_th_conforms (a_offset + index.item, text, index.item =1)
+			end
 		end
-
-feature -- Access
-
-	minimum_match_count: INTEGER
 
 feature {NONE} -- Implementation
 
-	i_th_has (i: INTEGER_32; text: READABLE_STRING_GENERAL): BOOLEAN
-			-- `True' if i'th character exhibits property
+	language_name: STRING
 		deferred
 		end
 
-	spell_minimum: STRING
-		do
-			if minimum_match_count = 0 then
-				Result := "zero"
-			else
-				Result := "one"
-			end
+	i_th_conforms (i: INTEGER_32; text: READABLE_STRING_GENERAL; is_first_character: BOOLEAN): BOOLEAN
+		-- `True' if i'th character conforms to language rule
+		deferred
 		end
 
 end
