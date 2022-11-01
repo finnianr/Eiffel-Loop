@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-30 10:59:48 GMT (Sunday 30th October 2022)"
-	revision: "2"
+	date: "2022-11-01 11:44:14 GMT (Tuesday 1st November 2022)"
+	revision: "3"
 
 class
 	EL_MATCH_ZSTRING_WHITE_SPACE_TP
@@ -26,7 +26,7 @@ inherit
 	STRING_HANDLER
 
 create
-	make, make_nonbreaking
+	make
 
 feature {NONE} -- Implementation
 

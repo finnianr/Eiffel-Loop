@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-31 16:50:10 GMT (Monday 31st October 2022)"
-	revision: "4"
+	date: "2022-11-01 11:45:24 GMT (Tuesday 1st November 2022)"
+	revision: "5"
 
 class
 	EL_OPTIMIZED_PATTERN_FACTORY
@@ -65,14 +65,9 @@ feature -- String
 			create Result.make (a_text)
 		end
 
-	new_white_space (a_minimum_match_count: INTEGER): EL_MATCH_WHITE_SPACE_TP
+	new_white_space (optional, nonbreaking: BOOLEAN): EL_MATCH_WHITE_SPACE_TP
 		do
-			create Result.make (a_minimum_match_count)
-		end
-
-	new_nonbreaking_white_space (a_minimum_match_count: INTEGER): EL_MATCH_WHITE_SPACE_TP
-		do
-			create Result.make_nonbreaking (a_minimum_match_count)
+			create Result.make (optional, nonbreaking)
 		end
 
 	new_digits_string (a_minimum_match_count: INTEGER): EL_MATCH_DIGITS_TP
@@ -81,7 +76,7 @@ feature -- String
 		end
 
 	new_quoted_c_lang_string (
-		quote: CHARACTER_32; unescaped_action: detachable PROCEDURE [READABLE_STRING_GENERAL]
+		quote: CHARACTER_32; unescaped_action: detachable PROCEDURE [STRING_GENERAL]
 	): EL_MATCH_QUOTED_C_LANG_STRING_TP
 		do
 			create Result.make (quote, unescaped_action)

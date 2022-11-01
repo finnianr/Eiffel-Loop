@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-22 10:16:45 GMT (Saturday 22nd January 2022)"
-	revision: "26"
+	date: "2022-11-01 15:12:40 GMT (Tuesday 1st November 2022)"
+	revision: "27"
 
 expanded class
 	EL_ZSTRING_ROUTINES
@@ -16,6 +16,8 @@ inherit
 	EL_EXPANDED_ROUTINES
 
 	EL_MODULE_REUSEABLE
+
+	STRING_HANDLER
 
 feature -- Measurement
 
@@ -141,6 +143,13 @@ feature -- Conversion
 			else
 				Result := general
 			end
+		end
+
+	shared_substring (s: ZSTRING; new_count: INTEGER): ZSTRING
+		do
+			create Result.make (0)
+			Result.share (s)
+			Result.set_count (new_count)
 		end
 
 feature -- Status query

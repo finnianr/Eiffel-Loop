@@ -6,29 +6,33 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-30 10:56:23 GMT (Sunday 30th October 2022)"
-	revision: "2"
+	date: "2022-11-01 11:43:54 GMT (Tuesday 1st November 2022)"
+	revision: "3"
 
 class
 	EL_MATCH_WHITE_SPACE_TP
 
 inherit
 	EL_MATCH_CONTINUOUS_PROPERTY_TP
+		rename
+			make as make_minimum
 		redefine
 			match_count
 		end
 
 create
-	make, make_nonbreaking
+	make
 
 feature {NONE} -- Initialization
 
-	make_nonbreaking (a_minimum_match_count: INTEGER)
-		-- only match white space that does not include a
-		-- new line or carraige return character
+	make (optional, a_nonbreaking: BOOLEAN)
 		do
-			make (a_minimum_match_count)
-			nonbreaking := True
+			if optional then
+				make_minimum (0)
+			else
+				make_minimum (1)
+			end
+			nonbreaking := a_nonbreaking
 		end
 
 feature -- Access

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-31 16:37:16 GMT (Monday 31st October 2022)"
-	revision: "4"
+	date: "2022-11-01 14:23:27 GMT (Tuesday 1st November 2022)"
+	revision: "5"
 
 deferred class
 	EL_TEXT_PATTERN_FACTORY
@@ -23,8 +23,18 @@ feature -- Recursive patterns
 feature -- String patterns
 
 	c_identifier: EL_MATCH_C_IDENTIFIER_TP
+		-- match C language identifier
 		do
 			Result := core.new_c_identifier
+		end
+
+	quoted_c_lang_string (
+		quote: CHARACTER_32; unescaped_action: detachable PROCEDURE [STRING_GENERAL]
+	): EL_MATCH_QUOTED_C_LANG_STRING_TP
+		-- match C language string in quotes and call procedure `unescaped_action'
+		-- with unescaped value
+		do
+			Result := core.new_quoted_c_lang_string (quote, unescaped_action)
 		end
 
 	string_literal (a_text: READABLE_STRING_GENERAL): EL_LITERAL_TEXT_PATTERN
@@ -34,6 +44,7 @@ feature -- String patterns
 		end
 
 	xml_identifier: EL_MATCH_XML_IDENTIFIER_TP
+		-- match XML element or attribute name identifier
 		do
 			Result := core.new_xml_identifier
 		end
@@ -41,13 +52,13 @@ feature -- String patterns
 feature -- Bounded occurrences
 
 	one_or_more (repeated_pattern: EL_TEXT_PATTERN): EL_MATCH_ONE_OR_MORE_TIMES_TP
-			--
+		--
 		do
 			create Result.make (repeated_pattern)
 		end
 
 	optional (optional_pattern: EL_TEXT_PATTERN): EL_MATCH_COUNT_WITHIN_BOUNDS_TP
-			--
+		--
 		do
 			Result := optional_pattern #occurs (0 |..| 1)
 		end
@@ -92,28 +103,28 @@ feature -- Character patterns
 
 feature -- White space
 
-	maybe_white_space: EL_MATCH_WHITE_SPACE_TP
-		-- Matches even if no white space found
-		do
-			Result := core.new_white_space (0)
-		end
-
-	maybe_nonbreaking_white_space: EL_MATCH_WHITE_SPACE_TP
-			-- Matches even if no white space found
-		do
-			Result := core.new_nonbreaking_white_space (0)
-		end
-
 	non_breaking_white_space: EL_MATCH_WHITE_SPACE_TP
-			-- Matches only if at least one white space character found
+		-- match at least one nonbreaking white space
 		do
-			Result := core.new_nonbreaking_white_space (1)
+			Result := core.new_white_space (False, True)
+		end
+
+	optional_white_space: EL_MATCH_WHITE_SPACE_TP
+		-- match optional white space
+		do
+			Result := core.new_white_space (True, False)
+		end
+
+	optional_nonbreaking_white_space: EL_MATCH_WHITE_SPACE_TP
+		-- match optional nonbreaking white space
+		do
+			Result := core.new_white_space (True, True)
 		end
 
 	white_space: EL_MATCH_WHITE_SPACE_TP
-		-- Matches only if at least one white space character found
+		-- match at least one white space
 		do
-			Result := core.new_white_space (1)
+			Result := core.new_white_space (False, False)
 		end
 
 feature -- Numeric strings
@@ -185,7 +196,6 @@ feature {NONE} -- Constants
 			create Result
 		end
 end
-
 
 
 

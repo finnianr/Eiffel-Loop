@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-01 10:02:59 GMT (Friday 1st July 2022)"
-	revision: "27"
+	date: "2022-11-01 15:10:42 GMT (Tuesday 1st November 2022)"
+	revision: "28"
 
 expanded class
 	EL_STRING_32_ROUTINES
@@ -98,6 +98,13 @@ feature -- Conversion
 			if keep_ref then
 				Result := Result.twin
 			end
+		end
+
+	shared_substring (s: STRING_32; new_count: INTEGER): STRING_32
+		do
+			create Result.make (0)
+			Result.share (s)
+			Result.set_count (new_count)
 		end
 
 feature -- Character strings

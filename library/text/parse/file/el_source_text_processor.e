@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 12:49:46 GMT (Sunday 10th January 2021)"
-	revision: "5"
+	date: "2022-11-01 12:30:52 GMT (Tuesday 1st November 2022)"
+	revision: "6"
 
 class
 	EL_SOURCE_TEXT_PROCESSOR
@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 
 		do
 			make_default
-			delimiting_pattern := a_pattern
+			internal_pattern := a_pattern
 		end
 
 end

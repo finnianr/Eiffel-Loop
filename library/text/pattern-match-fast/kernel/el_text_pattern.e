@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-31 7:59:31 GMT (Monday 31st October 2022)"
-	revision: "3"
+	date: "2022-11-01 14:14:20 GMT (Tuesday 1st November 2022)"
+	revision: "4"
 
 deferred class
 	EL_TEXT_PATTERN
@@ -109,7 +109,7 @@ feature -- Element change
 			Result.set_action (a_action)
 		end
 
-	set_action (a_action: like actions.item)
+	set_action (a_action: like Default_action)
 			--
 		do
 			if actions.count = 0 then
@@ -196,14 +196,14 @@ feature {NONE} -- Implementation
 
 	call_i_th_action (i, start_index, end_index: INTEGER)
 		local
-			l_actions: like actions; index: INTEGER
-			action: like actions.item
+			index: INTEGER
 		do
-			l_actions := actions; index := i - 1
-			if l_actions.valid_index (index) then
-				action := actions [index]
-				if action /= Default_action then
-					action (start_index, end_index)
+			if attached actions as l_actions then
+				index := i - 1
+				if l_actions.valid_index (index) then
+					if attached actions [index] as action and then action /= Default_action then
+						action (start_index, end_index)
+					end
 				end
 			end
 		end

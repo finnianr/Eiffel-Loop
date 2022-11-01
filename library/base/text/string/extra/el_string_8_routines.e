@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-01 10:02:58 GMT (Friday 1st July 2022)"
-	revision: "34"
+	date: "2022-11-01 15:07:10 GMT (Tuesday 1st November 2022)"
+	revision: "35"
 
 expanded class
 	EL_STRING_8_ROUTINES
@@ -106,6 +106,13 @@ feature -- Conversion
 				Result.extend (area [i].natural_32_code.to_natural_8)
 				i := i + 1
 			end
+		end
+
+	shared_substring (s: STRING_8; new_count: INTEGER): STRING_8
+		do
+			create Result.make (0)
+			Result.share (s)
+			Result.set_count (new_count)
 		end
 
 feature -- Character strings

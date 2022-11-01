@@ -1,13 +1,15 @@
 note
-	description: "[$source EL_MATCH_DIGITS_TP] optimized for [$source ZSTRING] source text"
+	description: "[
+		[$source EL_MATCH_DIGITS_TP] optimized for [$source ZSTRING] source text
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-29 16:07:51 GMT (Saturday 29th October 2022)"
-	revision: "1"
+	date: "2022-11-01 9:05:32 GMT (Tuesday 1st November 2022)"
+	revision: "2"
 
 class
 	EL_MATCH_ZSTRING_DIGITS_TP

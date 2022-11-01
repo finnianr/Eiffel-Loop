@@ -1,13 +1,13 @@
 note
-	description: "Match quoted string with escaping"
+	description: "Match quoted string with escaping for specified coding language"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-31 18:09:43 GMT (Monday 31st October 2022)"
-	revision: "3"
+	date: "2022-11-01 14:03:49 GMT (Tuesday 1st November 2022)"
+	revision: "4"
 
 deferred class
 	EL_MATCH_QUOTED_STRING_TP
@@ -15,15 +15,17 @@ deferred class
 inherit
 	EL_TEXT_PATTERN
 		redefine
-			copy, make_default, internal_call_actions
+			make_default, internal_call_actions
 		end
 
 	EL_TEXT_PATTERN_FACTORY
 		export
 			{NONE} all
-		undefine
-			copy
 		end
+
+	EL_STRING_32_CONSTANTS
+
+	EL_MODULE_REUSEABLE
 
 feature {NONE} -- Initialization
 
@@ -37,8 +39,9 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			Precursor
+			unescaped_string := default_unescaped_string
+			set_optimal_core (unescaped_string)
 			escape_sequence := new_escape_sequence
---			unescaped_string
 		end
 
 feature -- Access
@@ -55,50 +58,114 @@ feature {NONE} -- Implementation
 
 	internal_call_actions (start_index, end_index: INTEGER)
 		do
-			Precursor (start_index, end_index)
+			Precursor (start_index + 1, end_index - 1)
 			if attached unescaped_action as action then
+				action (unescaped_string)
 			end
 		end
 
 	match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER
 			--
 		local
-			offset, text_count: INTEGER; done: BOOLEAN
-			l_quote: CHARACTER_32; l_escape_sequence: like new_escape_sequence
+			offset, text_count, sequence_count: INTEGER; quote_closed, collecting_text: BOOLEAN
+			l_quote: CHARACTER_32; escape_pattern: like new_escape_sequence
+			buffer: STRING_GENERAL
 		do
-			text_count := text.count; l_quote := quote; l_escape_sequence := new_escape_sequence
-			unescaped_string.keep_head (0)
-			from offset := a_offset until offset = text_count or done loop
-				l_escape_sequence.match (offset, text)
-				if l_escape_sequence.is_matched then
---					unescaped_string.extend (offset + 1, offset + l_escape_sequence.count)
-					offset := offset + l_escape_sequence.count
-					Result := Result + l_escape_sequence.count
+			text_count := text.count; l_quote := quote; offset := a_offset
 
-				elseif i_th_is_quote (offset + 1, text, l_quote) then
-					done := True
-					Result := Result + 1
+			if i_th_is_quote (offset + 1, text, l_quote) then
+				escape_pattern := new_escape_sequence
+				collecting_text := attached unescaped_action
+				Result := Result + 1; offset := offset + 1
+
+				across buffer_scope as scope loop
+					buffer := scope.item
+					from until offset = text_count or quote_closed loop
+						escape_pattern.match (offset, text)
+						if escape_pattern.is_matched then
+							sequence_count := escape_pattern.count
+							if collecting_text then
+								buffer.append_code (unescaped_code (text, offset + 1, offset + sequence_count))
+							end
+							offset := offset + sequence_count; Result := Result + sequence_count
+
+						elseif i_th_is_quote (offset + 1, text, l_quote) then
+							quote_closed := True
+							Result := Result + 1
+						else
+							if collecting_text then
+								buffer.append_code (i_th_code (offset + 1, text))
+							end
+							Result := Result + 1; offset := offset + 1
+						end
+					end
+					if quote_closed then
+						if collecting_text then
+							unescaped_string := buffer.twin
+						end
+					else
+						Result := Match_fail
+					end
+				end
+			else
+				Result := Match_fail
+			end
+		end
+
+feature {NONE} -- Contract Support
+
+	escaped_sequence (text: READABLE_STRING_GENERAL): TUPLE [counted, character_count: INTEGER]
+		local
+			offset, text_count: INTEGER; escape_pattern: like new_escape_sequence
+		do
+			create Result
+			text_count := text.count
+			escape_pattern := new_escape_sequence
+			from until offset = text_count loop
+				escape_pattern.match (offset, text)
+				if escape_pattern.is_matched then
+					offset := offset + escape_pattern.count
+					Result.character_count := Result.character_count + escape_pattern.count
+					Result.counted := Result.counted + 1
 				else
-					Result := Result + 1
 					offset := offset + 1
 				end
 			end
 		end
 
 	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
-		-- contract support
+		local
+			unescaped: READABLE_STRING_GENERAL
 		do
-		end
-
-feature {NONE} -- Duplication
-
-	copy (other: like Current)
-		do
-			Precursor (other)
-			unescaped_string := other.unescaped_string.twin
+			if i_th_is_quote (a_offset + 1, text, quote) then
+				Result := i_th_is_quote (a_offset + count, text, quote)
+				if Result and attached unescaped_action then
+					unescaped := text.substring (a_offset + 2, a_offset + count - 1)
+					if attached escaped_sequence (unescaped) as sequence then
+--						Compare count of characters that are not escaped
+						Result := unescaped_string.count - sequence.counted = unescaped.count - sequence.character_count
+					end
+				end
+			end
 		end
 
 feature {NONE} -- Implementation
+
+	buffer_scope: EL_BORROWED_STRING_SCOPE [STRING_GENERAL, EL_BORROWED_STRING_CURSOR [STRING_GENERAL]]
+		do
+			Result := Reuseable.string_32
+		end
+
+	default_unescaped_string: STRING_GENERAL
+		do
+			Result := Empty_string_32
+		end
+
+	i_th_code (i: INTEGER_32; text: READABLE_STRING_GENERAL): NATURAL
+			-- `True' if i'th character exhibits property
+		do
+			Result := text [i].natural_32_code
+		end
 
 	i_th_is_quote (i: INTEGER_32; text: READABLE_STRING_GENERAL; a_quote: CHARACTER_32): BOOLEAN
 			-- `True' if i'th character exhibits property
@@ -116,7 +183,7 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	unescaped (text: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): CHARACTER_32
+	unescaped_code (text: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): NATURAL_32
 		deferred
 		end
 
@@ -124,15 +191,8 @@ feature {EL_MATCH_QUOTED_STRING_TP} -- Internal attributes
 
 	escape_sequence: like new_escape_sequence
 
-	unescaped_action: detachable PROCEDURE [READABLE_STRING_GENERAL]
+	unescaped_action: detachable PROCEDURE [STRING_GENERAL]
 
 	unescaped_string: STRING_GENERAL
-
-feature {NONE} -- Constants
-
-	Once_buffer: EL_STRING_BUFFER [STRING_GENERAL, READABLE_STRING_GENERAL]
-		once
-			create {EL_STRING_32_BUFFER} Result
-		end
 
 end

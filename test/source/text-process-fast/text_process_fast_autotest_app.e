@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-28 16:36:24 GMT (Friday 28th October 2022)"
-	revision: "9"
+	date: "2022-11-01 14:41:16 GMT (Tuesday 1st November 2022)"
+	revision: "10"
 
 class
 	TEXT_PROCESS_FAST_AUTOTEST_APP
@@ -26,5 +26,12 @@ inherit
 
 create
 	make
+
+feature {NONE} -- Implementation
+
+	compile: TUPLE [EL_PARSER_2]
+		do
+			create Result
+		end
 
 end

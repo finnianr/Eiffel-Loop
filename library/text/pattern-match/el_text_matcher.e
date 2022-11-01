@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-19 12:04:16 GMT (Friday 19th February 2021)"
-	revision: "6"
+	date: "2022-11-01 19:30:30 GMT (Tuesday 1st November 2022)"
+	revision: "7"
 
 class
 	EL_TEXT_MATCHER
 
 inherit
 	EL_PARSER
+		rename
+			new_pattern as default_pattern
+		end
 
 	EL_TEXT_PATTERN_FACTORY
 		export
@@ -29,14 +32,13 @@ feature {NONE} -- Initialization
 			--
 		do
 			make_default
-			create {EL_MATCH_BEGINNING_OF_LINE_TP} pattern.make
 		end
 
 feature -- Element change
 
 	set_pattern (a_pattern: like pattern)
 		do
-			pattern := a_pattern
+			internal_pattern := a_pattern
 		end
 
 feature -- Basic operations
@@ -68,7 +70,7 @@ feature -- Basic operations
 		end
 
 	deleted (string: ZSTRING): ZSTRING
-			-- string with all occurrences of pattern deleted
+		-- string with all occurrences of pattern deleted
 		do
 			create Result.make (string.count)
 			set_source_text (string)
@@ -88,10 +90,10 @@ feature {NONE} -- Implementation
 			count.set_item (count + 1)
 		end
 
-	new_pattern: EL_TEXT_PATTERN
+	default_pattern: EL_MATCH_BEGINNING_OF_LINE_TP
 			--
 		do
-			Result := pattern
+			create Result.make
 		end
 
 end

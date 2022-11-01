@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 15:05:58 GMT (Sunday 10th January 2021)"
-	revision: "10"
+	date: "2022-11-01 12:38:01 GMT (Tuesday 1st November 2022)"
+	revision: "11"
 
 deferred class
 	EL_PARSER
@@ -22,7 +22,7 @@ feature {NONE} -- Initialization
 		do
 			source_view := Default_source_view
 			unmatched_action := default_action
-			set_pattern_changed
+			internal_pattern := Void
 			reset
 		end
 
@@ -33,7 +33,6 @@ feature -- Element change
 		do
 			is_reset := true
 			fully_matched := false
-			reassign_pattern_if_changed
 		end
 
 	set_source_text (a_source_text: READABLE_STRING_GENERAL)
@@ -77,11 +76,12 @@ feature -- Basic operations
 			name_list: like pattern.name_list
 			old_count: INTEGER
 		do
-			reassign_pattern_if_changed
-			name_list := pattern.name_list
-			old_count := source_view.count
-			pattern.match (source_view)
-			fully_matched := pattern.count = old_count
+			if attached pattern as pat then
+				name_list := pat.name_list
+				old_count := source_view.count
+				pat.match (source_view)
+				fully_matched := pat.count = old_count
+			end
 		end
 
 	parse
@@ -96,8 +96,6 @@ feature -- Status query
 
 	fully_matched: BOOLEAN
 
-	has_pattern_changed: BOOLEAN
-
 	is_reset: BOOLEAN
 
 	is_zstring_source: BOOLEAN
@@ -107,14 +105,7 @@ feature -- Status setting
 	set_pattern_changed
 			--
 		do
-			has_pattern_changed := true
-		end
-
-feature {NONE} -- Factory
-
-	new_pattern: EL_TEXT_PATTERN
-			--
-		deferred
+			internal_pattern := Void
 		end
 
 feature {NONE} -- Implementation
@@ -123,18 +114,24 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	reassign_pattern_if_changed
+	new_pattern: EL_TEXT_PATTERN
 			--
+		deferred
+		end
+
+	pattern: EL_TEXT_PATTERN
 		do
-			if has_pattern_changed then
-				pattern := new_pattern
-				has_pattern_changed := false
+			if attached internal_pattern as p then
+				Result := p
+			else
+				Result := new_pattern
+				internal_pattern := Result
 			end
 		end
 
 feature {NONE} -- Internal attributes
 
-	pattern: EL_TEXT_PATTERN
+	internal_pattern: detachable EL_TEXT_PATTERN
 
 	source_view: EL_STRING_VIEW
 

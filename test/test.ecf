@@ -85,6 +85,7 @@
 		<library name = "EL_text_process_fast" location = "$EIFFEL_LOOP/library/text-process-fast.ecf" readonly = "false">
 			<renaming old_name = "EL_EIFFEL_TEXT_PATTERN_FACTORY" new_name = "EL_EIFFEL_TEXT_PATTERN_FACTORY_2"/>
 			<renaming old_name = "EL_MATCH_ALL_IN_LIST_TP" new_name = "EL_MATCH_ALL_IN_LIST_TP_2"/>
+			<renaming old_name = "EL_PARSER" new_name = "EL_PARSER_2"/>
 			<renaming old_name = "EL_TEXT_PATTERN_FACTORY" new_name = "EL_TEXT_PATTERN_FACTORY_2"/>
 			<renaming old_name = "EL_TEXT_PATTERN" new_name = "EL_TEXT_PATTERN_2"/>
 		</library>
