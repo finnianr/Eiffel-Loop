@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-01 14:56:23 GMT (Tuesday 1st November 2022)"
-	revision: "4"
+	date: "2022-11-02 18:28:46 GMT (Wednesday 2nd November 2022)"
+	revision: "5"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -18,14 +18,18 @@ inherit
 			on_prepare
 		end
 
-	EL_EIFFEL_TEXT_PATTERN_FACTORY_2
+	EL_TEXT_PATTERN_FACTORY_2
 		undefine
 			default_create
 		end
 
+	EL_MODULE_LIO
+
 	EL_SHARED_TEST_TEXT
 
 	EL_SHARED_TEST_NUMBERS
+
+	EL_SHARED_TEST_XML_DATA
 
 feature -- Basic operations
 
@@ -36,6 +40,7 @@ feature -- Basic operations
 			eval.call ("integer_match", agent test_integer_match)
 			eval.call ("numbers_array_parsing", agent test_numbers_array_parsing)
 			eval.call ("numeric_match", agent test_numeric_match)
+			eval.call ("pyxis_attribute_parser", agent test_pyxis_attribute_parser)
 			eval.call ("quoted_c_string", agent test_quoted_c_string)
 		end
 
@@ -131,6 +136,41 @@ feature -- Test
 			end
 		end
 
+	test_pyxis_attribute_parser
+		local
+			parser: PYXIS_ATTRIBUTE_TEST_PARSER; index: INTEGER
+			leading_tabs, trailing_spaces, source_line_1, source_line_2: STRING
+		do
+			create leading_tabs.make_filled ('%T', 2)
+			create trailing_spaces.make_filled (' ', 2)
+
+			source_line_1 := XML.pyxis_attributes_line (XML.Attribute_table)
+			source_line_2 := leading_tabs + source_line_1 + trailing_spaces
+
+			create parser.make
+
+			across << source_line_1, source_line_2 >> as source loop
+				if source.item.starts_with (leading_tabs) then
+					parser.set_substring_source_text (source.item, 3, source.item.count - 2)
+				else
+					parser.set_source_text (source.item)
+				end
+				assert ("table is empty", parser.table.is_empty)
+				parser.parse
+				across XML.Attribute_table as table loop
+					if parser.table.has_key (table.key) then
+						if attached {DOUBLE} table.item as double then
+							assert ("same value", Number.double_to_string (double) ~ parser.table.found_item)
+						else
+							assert ("same value", table.item.out ~ parser.table.found_item)
+						end
+					else
+						assert ("has key " + table.key, False)
+					end
+				end
+			end
+		end
+
 	test_quoted_c_string
 		note
 			testing: "covers/{EL_MATCH_QUOTED_C_LANG_STRING_TP}.match"
@@ -154,6 +194,32 @@ feature -- Test
 					assert ("same string", output.same_string ("-%N-%"-\"))
 				else
 					assert ("matched", False)
+				end
+			end
+		end
+
+	test_xpath_parser
+		note
+			testing: "covers/{EL_XPATH_PARSER}.parse"
+		local
+			parser: EL_XPATH_PARSER_2; steps: LIST [STRING]; parsed_step: EL_PARSED_XPATH_STEP_2
+			index_of_at, index_of_equal: INTEGER
+		do
+			create parser.make
+			across XML.Xpaths.split ('%N') as xpath loop
+				steps := xpath.item.split ('/')
+				parser.set_source_text (xpath.item)
+				parser.parse
+				across steps as step loop
+					parsed_step := parser.step_list.i_th (step.cursor_index)
+					assert ("parser OK", parsed_step.step ~ step.item)
+					index_of_at := step.item.index_of ('@', 1)
+					if index_of_at > 0 then
+						index_of_equal := step.item.index_of ('=', 1)
+						assert ("parser OK",
+							parsed_step.selecting_attribute_name ~ step.item.substring (index_of_at, index_of_equal - 1)
+						)
+					end
 				end
 			end
 		end

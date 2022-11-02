@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-31 8:40:39 GMT (Monday 31st October 2022)"
-	revision: "3"
+	date: "2022-11-02 7:49:30 GMT (Wednesday 2nd November 2022)"
+	revision: "4"
 
 class
 	EL_MATCH_COUNT_WITHIN_BOUNDS_TP
@@ -80,7 +80,7 @@ feature {NONE} -- Implementation
 		end
 
 	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
-		-- contract support
+		-- `True' if matched pattern meets defintion of `Current' pattern
 		do
 			if occurrence_bounds.has (list_count) then
 				Result := list_count > 0 implies Precursor (a_offset, text)

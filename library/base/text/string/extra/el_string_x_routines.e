@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-30 15:45:03 GMT (Thursday 30th June 2022)"
-	revision: "40"
+	date: "2022-11-02 8:50:34 GMT (Wednesday 2nd November 2022)"
+	revision: "41"
 
 deferred class
 	EL_STRING_X_ROUTINES [STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -161,6 +161,12 @@ feature -- Transformed
 				Result.append_code (32)
 				i := i + 1
 			end
+		end
+
+	shared_substring (s: STRING_X; new_count: INTEGER): STRING_X
+		require
+			valid_count: new_count <= s.count
+		deferred
 		end
 
 	unbracketed (str: READABLE_STRING_GENERAL; left_bracket: CHARACTER_32): STRING_X

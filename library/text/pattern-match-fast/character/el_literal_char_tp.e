@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-31 8:11:45 GMT (Monday 31st October 2022)"
-	revision: "2"
+	date: "2022-11-02 7:54:50 GMT (Wednesday 2nd November 2022)"
+	revision: "3"
 
 class
 	EL_LITERAL_CHAR_TP
@@ -54,14 +54,6 @@ feature {NONE} -- Implementation
 	i_th_matches (i: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := text [i] = item
-		end
-
-	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
-		-- contract support
-		do
-			if count <= text.count - a_offset then
-				Result := text [a_offset + 1] = item
-			end
 		end
 
 end

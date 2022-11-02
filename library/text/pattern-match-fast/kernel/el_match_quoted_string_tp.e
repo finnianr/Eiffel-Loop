@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-01 14:03:49 GMT (Tuesday 1st November 2022)"
-	revision: "4"
+	date: "2022-11-02 7:48:27 GMT (Wednesday 2nd November 2022)"
+	revision: "5"
 
 deferred class
 	EL_MATCH_QUOTED_STRING_TP
@@ -134,6 +134,7 @@ feature {NONE} -- Contract Support
 		end
 
 	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if matched pattern meets defintion of `Current' pattern
 		local
 			unescaped: READABLE_STRING_GENERAL
 		do

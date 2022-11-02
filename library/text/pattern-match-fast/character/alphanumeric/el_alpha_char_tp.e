@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-31 8:08:53 GMT (Monday 31st October 2022)"
-	revision: "2"
+	date: "2022-11-02 7:55:07 GMT (Wednesday 2nd November 2022)"
+	revision: "3"
 
 class
 	EL_ALPHA_CHAR_TP
@@ -35,11 +35,4 @@ feature {NONE} -- Implementation
 			Result := text [i].is_alpha
 		end
 
-	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
-		-- contract support
-		do
-			if count <= text.count - a_offset then
-				Result := text [a_offset + 1].is_alpha
-			end
-		end
 end

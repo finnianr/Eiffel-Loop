@@ -1,13 +1,13 @@
 note
-	description: "First match in list tp"
+	description: "Matches first pattern in list that matches"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2022-11-02 6:42:01 GMT (Wednesday 2nd November 2022)"
+	revision: "6"
 
 class
 	EL_FIRST_MATCH_IN_LIST_TP
@@ -23,8 +23,8 @@ create
 
 feature {NONE} -- Implementation
 
-	match_count (text: EL_STRING_VIEW): INTEGER			--
-			-- Try to match one pattern
+	match_count (text: EL_STRING_VIEW): INTEGER
+		-- Try to match one pattern
 		local
 			matches: BOOLEAN
 		do

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-29 9:20:02 GMT (Saturday 29th October 2022)"
-	revision: "43"
+	date: "2022-11-02 8:16:18 GMT (Wednesday 2nd November 2022)"
+	revision: "44"
 
 class
 	PYXIS_TO_XML_TEST_SET
@@ -52,7 +52,7 @@ feature -- Tests
 			create document_dir
 			create attribute_list.make (document_dir)
 			create parser.make (attribute_list)
-			parser.set_source_text (XML.Attributes_source_line)
+			parser.set_source_text (XML.pyxis_attributes_line (XML.Attribute_table))
 			parser.parse
 			create table.make_equal (5)
 			across attribute_list as list loop

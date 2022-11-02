@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-31 7:47:43 GMT (Monday 31st October 2022)"
-	revision: "2"
+	date: "2022-11-02 7:49:09 GMT (Wednesday 2nd November 2022)"
+	revision: "3"
 
 class
 	EL_NEGATED_TEXT_PATTERN
@@ -51,7 +51,7 @@ feature {NONE} -- Implementation
 		end
 
 	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
-		-- contract support
+		-- `True' if matched pattern meets defintion of `Current' pattern
 		do
 			Result := pattern.match_count (a_offset, text) = Match_fail
 		end

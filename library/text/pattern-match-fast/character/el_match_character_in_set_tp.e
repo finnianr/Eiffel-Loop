@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-31 16:35:23 GMT (Monday 31st October 2022)"
-	revision: "1"
+	date: "2022-11-02 7:54:10 GMT (Wednesday 2nd November 2022)"
+	revision: "2"
 
 class
 	EL_MATCH_CHARACTER_IN_SET_TP
@@ -42,12 +42,6 @@ feature {NONE} -- Implementation
 		-- `True' if i'th character is in `set'
 		do
 			Result := set.has (text [i])
-		end
-
-	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
-		-- contract support
-		do
-			Result := set.has (text [a_offset + 1])
 		end
 
 feature {NONE} -- Internal attributes

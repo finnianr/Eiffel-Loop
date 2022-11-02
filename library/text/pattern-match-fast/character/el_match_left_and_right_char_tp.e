@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-31 8:09:51 GMT (Monday 31st October 2022)"
-	revision: "2"
+	date: "2022-11-02 7:49:02 GMT (Wednesday 2nd November 2022)"
+	revision: "3"
 
 class
 	EL_MATCH_LEFT_AND_RIGHT_CHAR_TP
@@ -72,7 +72,7 @@ feature {NONE} -- Implementation
 		end
 
 	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
-		-- contract support
+		-- `True' if matched pattern meets defintion of `Current' pattern
 		local
 			left_count, right_count: INTEGER
 		do

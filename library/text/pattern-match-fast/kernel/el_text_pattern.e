@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-01 14:14:20 GMT (Tuesday 1st November 2022)"
-	revision: "4"
+	date: "2022-11-02 7:48:09 GMT (Wednesday 2nd November 2022)"
+	revision: "5"
 
 deferred class
 	EL_TEXT_PATTERN
@@ -24,7 +24,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	Default_action: PROCEDURE [INTEGER, INTEGER]
+	EVENT_ACTION: PROCEDURE [INTEGER, INTEGER]
 		once
 			Result := agent on_match
 		end
@@ -44,16 +44,16 @@ feature -- Measurement
 
 feature -- Basic operations
 
-	find_all (text: READABLE_STRING_GENERAL; unmatched_action: like Default_action)
+	find_all (text: READABLE_STRING_GENERAL; unmatched_action: like EVENT_ACTION)
 			-- Call actions for all consecutive matchs of `Current' in `s' and calling `unmatched_action'
 			-- with any unmatched text
 		do
-			internal_find_all (0, text, Default_action)
+			internal_find_all (0, text, EVENT_ACTION)
 		end
 
 	find_all_default (text: READABLE_STRING_GENERAL)
 		do
-			find_all (text, Default_action)
+			find_all (text, EVENT_ACTION)
 		end
 
 	match (a_offset: INTEGER; text: READABLE_STRING_GENERAL)
@@ -83,7 +83,7 @@ feature -- Status query
 		do
 			l_actions := actions; l_count := l_actions.count
 			from i := 0 until Result or else i = l_count loop
-				Result := l_actions [i] /= Default_action
+				Result := l_actions [i] /= EVENT_ACTION
 				i := i + 1
 			end
 		end
@@ -109,7 +109,7 @@ feature -- Element change
 			Result.set_action (a_action)
 		end
 
-	set_action (a_action: like Default_action)
+	set_action (a_action: like EVENT_ACTION)
 			--
 		do
 			if actions.count = 0 then
@@ -158,7 +158,7 @@ feature {EL_TEXT_PATTERN_I, EL_PARSER} -- Implementation
 			call_i_th_action (1, start_index, end_index)
 		end
 
-	internal_find_all (a_offset: INTEGER; text: READABLE_STRING_GENERAL; unmatched_action: like Default_action)
+	internal_find_all (a_offset: INTEGER; text: READABLE_STRING_GENERAL; unmatched_action: like EVENT_ACTION)
 		local
 			unmatched_count, text_count, l_offset: INTEGER
 		do
@@ -188,7 +188,7 @@ feature {EL_TEXT_PATTERN_I, EL_PARSER} -- Implementation
 		end
 
 	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
-		-- contract support
+		-- `True' if matched pattern meets defintion of `Current' pattern
 		deferred
 		end
 
@@ -201,16 +201,16 @@ feature {NONE} -- Implementation
 			if attached actions as l_actions then
 				index := i - 1
 				if l_actions.valid_index (index) then
-					if attached actions [index] as action and then action /= Default_action then
+					if attached actions [index] as action and then action /= EVENT_ACTION then
 						action (start_index, end_index)
 					end
 				end
 			end
 		end
 
-	call_unmatched_action (start_index, end_index, unmatched_count: INTEGER; unmatched_action: like Default_action)
+	call_unmatched_action (start_index, end_index, unmatched_count: INTEGER; unmatched_action: like EVENT_ACTION)
 		do
-			if unmatched_action /= Default_action then
+			if unmatched_action /= EVENT_ACTION then
 				unmatched_action (start_index, end_index)
 			end
 		end

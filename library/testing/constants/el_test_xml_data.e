@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-29 9:22:35 GMT (Saturday 29th October 2022)"
-	revision: "9"
+	date: "2022-11-02 8:16:41 GMT (Wednesday 2nd November 2022)"
+	revision: "10"
 
 class
 	EL_TEST_XML_DATA
@@ -19,7 +19,7 @@ inherit
 
 feature -- Access
 
-	attribute_value (object: ANY): STRING
+	pyxis_attribute_value (object: ANY): STRING
 		local
 			quote_mark: CHARACTER; i: INTEGER
 		do
@@ -44,6 +44,19 @@ feature -- Access
 			end
 		end
 
+	pyxis_attributes_line (a_table: like Attribute_table): STRING
+		do
+			create Result.make (50)
+			across a_table as table loop
+				if not Result.is_empty then
+					Result.append_string_general ("; ")
+				end
+				Result.append (table.key)
+				Result.append_string_general (" = ")
+				Result.append (pyxis_attribute_value (table.item))
+			end
+		end
+
 feature -- Constants
 
 	Attribute_table: HASH_TABLE [ANY, STRING]
@@ -56,19 +69,6 @@ feature -- Constants
 			Result ["string_2"] := "one%"two"
 		end
 
-	Attributes_source_line: STRING
-		once
-			create Result.make (50)
-			across Attribute_table as table loop
-				if not Result.is_empty then
-					Result.append_string_general ("; ")
-				end
-				Result.append (table.key)
-				Result.append_string_general (" = ")
-				Result.append (attribute_value (table.item))
-			end
-		end
-
 	Attributes_comma_separated_values: STRING
 		once
 			create Result.make (50)
@@ -76,7 +76,7 @@ feature -- Constants
 				if not Result.is_empty then
 					Result.append_character (',')
 				end
-				Result.append_string (attribute_value (table.item))
+				Result.append_string (pyxis_attribute_value (table.item))
 			end
 		end
 

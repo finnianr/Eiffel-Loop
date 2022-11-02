@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-01 14:23:27 GMT (Tuesday 1st November 2022)"
-	revision: "5"
+	date: "2022-11-02 6:44:52 GMT (Wednesday 2nd November 2022)"
+	revision: "6"
 
 deferred class
 	EL_TEXT_PATTERN_FACTORY
@@ -18,6 +18,12 @@ feature -- Recursive patterns
 			--
 		do
 			create Result.make (array)
+		end
+
+	one_of (array_of_alternatives: ARRAY [EL_TEXT_PATTERN]): EL_FIRST_MATCH_IN_LIST_TP
+			--
+		do
+			create Result.make (array_of_alternatives)
 		end
 
 feature -- String patterns
@@ -196,6 +202,5 @@ feature {NONE} -- Constants
 			create Result
 		end
 end
-
 
 

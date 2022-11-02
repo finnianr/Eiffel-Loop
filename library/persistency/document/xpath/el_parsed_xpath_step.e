@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 15:52:59 GMT (Sunday 20th December 2020)"
-	revision: "7"
+	date: "2022-11-02 9:20:46 GMT (Wednesday 2nd November 2022)"
+	revision: "8"
 
 class
 	EL_PARSED_XPATH_STEP
 
 inherit
 	ANY
-	
+
 	EL_STRING_8_CONSTANTS
 
 create
@@ -33,21 +33,18 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	set_element_name (an_element_name: like element_name)
-			-- Set `element_name' to `an_element_name'.
+	set_element_name (an_element_name: STRING)
 		do
 			element_name := an_element_name
-		ensure
-			element_name_assigned: element_name = an_element_name
 		end
 
-	set_selecting_attribute_name (attribute_name: like selecting_attribute_name)
+	set_selecting_attribute_name (attribute_name: STRING)
 			--
 		do
 			selecting_attribute_name := attribute_name
 		end
 
-	set_selecting_attribute_value (attribute_value: like selecting_attribute_value)
+	set_selecting_attribute_value (attribute_value: STRING)
 			--
 		do
 			selecting_attribute_value := attribute_value

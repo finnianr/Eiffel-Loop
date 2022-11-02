@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-31 15:37:12 GMT (Monday 31st October 2022)"
-	revision: "2"
+	date: "2022-11-02 7:49:52 GMT (Wednesday 2nd November 2022)"
+	revision: "3"
 
 class
 	EL_LITERAL_TEXT_PATTERN
@@ -66,7 +66,7 @@ feature {NONE} -- Implementation
 		end
 
 	meets_definition (a_offset: INTEGER; source_text: READABLE_STRING_GENERAL): BOOLEAN
-		-- contract support
+		-- `True' if matched pattern meets defintion of `Current' pattern
 		do
 			if count <= source_text.count - a_offset then
 				Result := source_text.substring (a_offset + 1, a_offset + count).same_string (text)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-31 13:06:20 GMT (Monday 31st October 2022)"
-	revision: "19"
+	date: "2022-11-02 8:16:18 GMT (Wednesday 2nd November 2022)"
+	revision: "20"
 
 class
 	GENERAL_PARSER_TEST_SET
@@ -62,11 +62,12 @@ feature -- Test
 		note
 			testing: "covers/{EL_TEXT_PATTERN}.find_all"
 		local
-			pattern: EL_TEXT_PATTERN; comma_separated_list: STRING
+			pattern: EL_TEXT_PATTERN; comma_separated_list, source_line: STRING
 		do
 			create comma_separated_list.make_empty
 			pattern := pyxis_assignment (comma_separated_list)
-			pattern.find_all (XML.Attributes_source_line, agent on_unmatched_text (?, comma_separated_list))
+			source_line := XML.pyxis_attributes_line (XML.Attribute_table)
+			pattern.find_all (source_line, agent on_unmatched_text (?, comma_separated_list))
 			assert ("find_all OK", XML.Attributes_comma_separated_values ~ comma_separated_list)
 		end
 
