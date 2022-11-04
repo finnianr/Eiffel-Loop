@@ -1,13 +1,13 @@
 note
-	description: "Test routines in libary cluster [./library/text-process.pattern_match.html Pattern-matching]"
+	description: "Test routines in libary cluster [./library/text-process-fast.pattern_match.html Pattern-matching]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 18:28:46 GMT (Wednesday 2nd November 2022)"
-	revision: "5"
+	date: "2022-11-04 16:51:39 GMT (Friday 4th November 2022)"
+	revision: "6"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -42,6 +42,7 @@ feature -- Basic operations
 			eval.call ("numeric_match", agent test_numeric_match)
 			eval.call ("pyxis_attribute_parser", agent test_pyxis_attribute_parser)
 			eval.call ("quoted_c_string", agent test_quoted_c_string)
+			eval.call ("string_substitution", agent test_string_substitution)
 		end
 
 feature -- Test
@@ -198,6 +199,39 @@ feature -- Test
 			end
 		end
 
+	test_string_substitution
+		note
+			testing: "covers/{EL_SUBST_VARIABLE_PARSER}.parse",
+					"covers/{EL_SUBST_VARIABLE_PARSER}.set_variables_from_object",
+					"covers/{EL_SUBST_VARIABLE_PARSER}.set_variables_from_array"
+		local
+			template_list: ARRAY [EL_SUBSTITUTION_TEMPLATE_2]
+			target_text: STRING
+		do
+			across << True, False >> as use_reflection loop
+				across << Text.country_template, Text.Country_template_canonical >> as l_type loop
+					target_text := Text.country_substituted (Ireland.name, Ireland.code, Ireland.population)
+					template_list := <<
+						create {EL_STRING_8_TEMPLATE_2}.make (l_type.item),
+						create {EL_STRING_32_TEMPLATE_2}.make (l_type.item),
+						create {EL_ZSTRING_TEMPLATE_2}.make (l_type.item)
+					>>
+					across template_list as template loop
+						if use_reflection.item then
+							template.item.set_variables_from_object (ireland)
+						else
+							template.item.set_variables_from_array (<<
+								[Text.Country.name, Ireland.name],
+								[Text.Country.code, Ireland.code],
+								[Text.Country.population, Ireland.population]
+							>>)
+						end
+						assert ("same string", template.item.substituted.same_string (target_text))
+					end
+				end
+			end
+		end
+
 	test_xpath_parser
 		note
 			testing: "covers/{EL_XPATH_PARSER}.parse"
@@ -273,6 +307,16 @@ feature {NONE} -- Events handlers
 		do
 			output.wipe_out
 			output.append_substring_general (source, start_index, end_index)
+		end
+
+feature {NONE} -- Constants
+
+	Ireland: COUNTRY
+		once
+			create Result.make_default
+			Result.set_name ("Ireland")
+			Result.set_code ("ie")
+			Result.set_population (4_766_073)
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 7:47:35 GMT (Wednesday 2nd November 2022)"
-	revision: "1"
+	date: "2022-11-04 8:40:34 GMT (Friday 4th November 2022)"
+	revision: "2"
 
 class
 	EL_FIRST_MATCH_IN_LIST_TP
@@ -52,7 +52,9 @@ feature {NONE} -- Implementation
 		-- `True' if matched pattern meets defintion of `Current' pattern
 		do
 			if count <= text.count - a_offset and then valid_index (match_index) then
-				Result := count = i_th (match_index).match_count (a_offset, text)
+				if across 1 |..| (match_index - 1) as n all i_th (n.item).count = Match_fail end then
+					Result := i_th (match_index).count = count
+				end
 			end
 		end
 

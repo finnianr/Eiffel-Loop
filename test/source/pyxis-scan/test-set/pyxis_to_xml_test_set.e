@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 8:16:18 GMT (Wednesday 2nd November 2022)"
-	revision: "44"
+	date: "2022-11-03 8:43:38 GMT (Thursday 3rd November 2022)"
+	revision: "45"
 
 class
 	PYXIS_TO_XML_TEST_SET
@@ -45,7 +45,7 @@ feature -- Tests
 		note
 			testing: "covers/{EL_PYXIS_ATTRIBUTE_PARSER}.parse"
 		local
-			parser: EL_PYXIS_ATTRIBUTE_PARSER; table: like XML.Attribute_table; name: STRING
+			parser: EL_PYXIS_DOC_ATTRIBUTE_PARSER; table: like XML.Attribute_table; name: STRING
 			attribute_list: EL_ELEMENT_ATTRIBUTE_LIST; l_attribute: EL_ELEMENT_ATTRIBUTE_NODE_STRING
 			document_dir: DIR_PATH
 		do
@@ -71,7 +71,7 @@ feature -- Tests
 			assert ("pyxis_parser OK", table ~ XML.Attribute_table)
 
 			attribute_list.reset
-			parser.set_source_text_from_substring (Pyxis_encoding, 2, Pyxis_encoding.count)
+			parser.set_substring_source_text (Pyxis_encoding, 2, Pyxis_encoding.count)
 			parser.parse
 			assert ("is version", attribute_list.first.name.same_string ("version"))
 			assert ("is encoding", attribute_list.last.name.same_string ("encoding"))

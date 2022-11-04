@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 7:49:30 GMT (Wednesday 2nd November 2022)"
-	revision: "4"
+	date: "2022-11-04 17:40:08 GMT (Friday 4th November 2022)"
+	revision: "5"
 
 class
 	EL_MATCH_COUNT_WITHIN_BOUNDS_TP
@@ -61,7 +61,7 @@ feature {NONE} -- Implementation
 		do
 			offset := a_offset
 			from i := 1 until match_failed or else i > occurrence_bounds.upper loop
-				if text.count > 0 then
+				if (text.count - offset) > 0 then
 					l_count := repeat_match_count (offset, text)
 					if l_count >= 0 then
 						offset := offset + l_count
@@ -82,8 +82,10 @@ feature {NONE} -- Implementation
 	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if matched pattern meets defintion of `Current' pattern
 		do
-			if occurrence_bounds.has (list_count) then
-				Result := list_count > 0 implies Precursor (a_offset, text)
+			if repeat_has_action and occurrence_bounds.has (list_count) then
+				Result := Precursor (a_offset, text)
+			else
+				Result := count <= (text.count - a_offset)
 			end
 		end
 

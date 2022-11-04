@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 7:49:09 GMT (Wednesday 2nd November 2022)"
-	revision: "3"
+	date: "2022-11-04 17:35:07 GMT (Friday 4th November 2022)"
+	revision: "4"
 
 class
 	EL_NEGATED_TEXT_PATTERN
@@ -40,7 +40,7 @@ feature {NONE} -- Implementation
 	match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER
 			-- Try to match one pattern
 		do
-			if text.count > 0 then
+			if text.count - a_offset >= actual_count then
 				pattern.match (a_offset, text)
 				if not pattern.is_matched then
 					Result := actual_count
@@ -51,9 +51,9 @@ feature {NONE} -- Implementation
 		end
 
 	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
-		-- `True' if matched pattern meets defintion of `Current' pattern
+		-- `True' if matched pattern meets definition of `Current' pattern
 		do
-			Result := pattern.match_count (a_offset, text) = Match_fail
+			Result := not pattern.is_matched implies count = actual_count
 		end
 
 feature {NONE, EL_NEGATED_TEXT_PATTERN} -- Implementation

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-14 15:02:55 GMT (Friday 14th October 2022)"
-	revision: "45"
+	date: "2022-11-03 8:36:06 GMT (Thursday 3rd November 2022)"
+	revision: "46"
 
 class
 	EL_PYXIS_PARSER
@@ -414,7 +414,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation: attributes
 
-	attribute_parser: EL_PYXIS_ATTRIBUTE_PARSER
+	attribute_parser: EL_PYXIS_DOC_ATTRIBUTE_PARSER
 
 	comment_string: STRING
 

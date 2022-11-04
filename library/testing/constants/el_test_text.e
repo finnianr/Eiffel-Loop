@@ -6,14 +6,16 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-29 9:09:02 GMT (Saturday 29th October 2022)"
-	revision: "16"
+	date: "2022-11-04 14:55:21 GMT (Friday 4th November 2022)"
+	revision: "17"
 
 class
 	EL_TEST_TEXT
 
 inherit
 	ANY
+
+	EL_MODULE_TUPLE
 
 	EL_SHARED_TEST_NUMBERS
 
@@ -75,6 +77,59 @@ feature -- Characters
 			Result := '%T'
 		end
 
+feature -- Substitution testing
+
+	country_template: STRING
+		do
+			Result := country_template_canonical.twin
+			across "{}" as c loop
+				Result.prune_all (c.item)
+			end
+		end
+
+	country_substituted (name, code: READABLE_STRING_GENERAL; population: INTEGER): STRING
+		local
+			dollor: STRING
+		do
+			Result := country_template
+			dollor := "$"
+			Result.replace_substring_all (dollor + Country.name , name.to_string_8)
+			Result.replace_substring_all (dollor + Country.code , code.to_string_8)
+			Result.replace_substring_all (dollor + Country.population , population.out)
+		end
+
+	Country_variables: EL_STRING_8_LIST
+		once
+			create Result.make_from_tuple (Country)
+		end
+
+	Country: TUPLE [name, code, population: STRING]
+		once
+			create Result
+			Tuple.fill (Result, "name, code, population")
+		end
+
+	Country_template_canonical: STRING = "Country: ${name}; Code: ${code}; Population: ${population}; Code again: ${code}"
+
+feature -- STRING_32 contants
+
+	Lower_case_characters: STRING_32 = "™ÿaàöžšœ" --
+
+	Lower_case_mu: STRING_32 = "µ symbol"
+
+	Russian_and_english: STRING_32 = "[
+		и рыбку съесть, и в воду не лезть
+		Wanting to eat a fish without first catching it from the waters
+		Latin-1: ¼ + ¾ = 1
+		Latin-15: Slavoj Žižek
+		Le Quattro Stagioni ´L´Estate`- I. Allegro non molto
+		Price € 100
+	]"
+
+	Upper_case_characters: STRING_32 = "™ŸAÀÖŽŠŒ"
+
+	Upper_case_mu: STRING_32 = "Μ SYMBOL"
+
 feature -- Constants
 
 	Character_set: ARRAY [CHARACTER_32]
@@ -101,24 +156,5 @@ feature -- Constants
 				i := Russian_and_english.index_of (' ', j - 1)
 			end
 		end
-
-feature -- String_32 contants
-
-	Lower_case_characters: STRING_32 = "™ÿaàöžšœ" --
-
-	Lower_case_mu: STRING_32 = "µ symbol"
-
-	Russian_and_english: STRING_32 = "[
-		и рыбку съесть, и в воду не лезть
-		Wanting to eat a fish without first catching it from the waters
-		Latin-1: ¼ + ¾ = 1
-		Latin-15: Slavoj Žižek
-		Le Quattro Stagioni ´L´Estate`- I. Allegro non molto
-		Price € 100
-	]"
-
-	Upper_case_characters: STRING_32 = "™ŸAÀÖŽŠŒ"
-
-	Upper_case_mu: STRING_32 = "Μ SYMBOL"
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 7:49:16 GMT (Wednesday 2nd November 2022)"
-	revision: "4"
+	date: "2022-11-04 8:35:17 GMT (Friday 4th November 2022)"
+	revision: "5"
 
 class
 	EL_MATCH_ALL_IN_LIST_TP
@@ -181,8 +181,8 @@ feature {NONE} -- Implementation
 			if count <= text.count - a_offset then
 				offset := a_offset
 				across Current as sub_pattern until l_count = Match_fail loop
-					l_count := sub_pattern.item.match_count (offset, text)
-					if l_count /= Match_fail then
+					if sub_pattern.item.is_matched then
+						l_count := sub_pattern.item.count
 						offset := offset + l_count
 						sum_count := sum_count + l_count
 					end

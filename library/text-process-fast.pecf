@@ -40,7 +40,16 @@ system:
 		# Source code
 
 		cluster_tree:
-			pattern_match_fast = "text/pattern-match-fast"
+			parse = "text/parse-fast"
+			description:
+				"""
+					Parsing
+					
+					Classes for parsing text data.
+				"""
+
+		cluster_tree:
+			text_pattern = "text/pattern"
 			description:
 				"""
 					Pattern-matching

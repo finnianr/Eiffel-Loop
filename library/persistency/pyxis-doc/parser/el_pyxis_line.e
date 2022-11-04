@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-22 8:33:02 GMT (Friday 22nd July 2022)"
-	revision: "5"
+	date: "2022-11-03 8:43:38 GMT (Thursday 3rd November 2022)"
+	revision: "6"
 
 class
 	EL_PYXIS_LINE
@@ -185,7 +185,7 @@ feature -- Basic operations
 
 	parse_attributes (parser: EL_PYXIS_ATTRIBUTE_PARSER)
 		do
-			parser.set_source_text_from_substring (Current, start_index, end_index)
+			parser.set_substring_source_text (Current, start_index, end_index)
 			parser.parse
 		end
 

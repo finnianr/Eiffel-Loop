@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 7:54:10 GMT (Wednesday 2nd November 2022)"
-	revision: "2"
+	date: "2022-11-04 15:56:16 GMT (Friday 4th November 2022)"
+	revision: "3"
 
 class
 	EL_MATCH_CHARACTER_IN_SET_TP
@@ -25,6 +25,7 @@ feature {NONE} -- Initialization
 
 	make (a_character_set: READABLE_STRING_GENERAL)
 		do
+			make_default
 			create set.make_from_general (a_character_set)
 		end
 

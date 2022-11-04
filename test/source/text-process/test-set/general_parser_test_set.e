@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 8:16:18 GMT (Wednesday 2nd November 2022)"
-	revision: "20"
+	date: "2022-11-04 16:51:05 GMT (Friday 4th November 2022)"
+	revision: "21"
 
 class
 	GENERAL_PARSER_TEST_SET
@@ -40,6 +40,7 @@ feature -- Basic operations
 			eval.call ("quoted_string", agent test_quoted_string)
 			eval.call ("recursive_match", agent test_recursive_match)
 			eval.call ("string_view", agent test_string_view)
+			eval.call ("string_substitution", agent test_string_substitution)
 			eval.call ("unencoded_as_latin", agent test_unencoded_as_latin)
 			eval.call ("xpath_parser", agent test_xpath_parser)
 		end
@@ -175,6 +176,39 @@ feature -- Test
 			view.prune_leading (str.substring_index (second_word, 1) - 1)
 			view.set_count (second_word.count)
 			assert ("same as second word", view.to_string.same_string (second_word))
+		end
+
+	test_string_substitution
+		note
+			testing: "covers/{EL_SUBST_VARIABLE_PARSER}.parse",
+					"covers/{EL_SUBST_VARIABLE_PARSER}.set_variables_from_object",
+					"covers/{EL_SUBST_VARIABLE_PARSER}.set_variables_from_array"
+		local
+			template_list: ARRAY [EL_SUBSTITUTION_TEMPLATE]
+			target_text: STRING
+		do
+			across << True, False >> as use_reflection loop
+				across << Text.country_template, Text.Country_template_canonical >> as l_type loop
+					target_text := Text.country_substituted (Ireland.name, Ireland.code, Ireland.population)
+					template_list := <<
+						create {EL_STRING_8_TEMPLATE}.make (l_type.item),
+						create {EL_STRING_32_TEMPLATE}.make (l_type.item),
+						create {EL_ZSTRING_TEMPLATE}.make (l_type.item)
+					>>
+					across template_list as template loop
+						if use_reflection.item then
+							template.item.set_variables_from_object (ireland)
+						else
+							template.item.set_variables_from_array (<<
+								[Text.Country.name, Ireland.name],
+								[Text.Country.code, Ireland.code],
+								[Text.Country.population, Ireland.population]
+							>>)
+						end
+						assert ("same string", template.item.substituted.same_string (target_text))
+					end
+				end
+			end
 		end
 
 	test_unencoded_as_latin
@@ -389,6 +423,14 @@ feature {NONE} -- Constants
 				ARRAY [HASH_TABLE [STRING, STRING]]
 				HASH_TABLE [ARRAY [HASH_TABLE [STRING, STRING]], STRING]
 			]"
+		end
+
+	Ireland: COUNTRY
+		once
+			create Result.make_default
+			Result.set_name ("Ireland")
+			Result.set_code ("ie")
+			Result.set_population (4_766_073)
 		end
 
 	Is_zstring_source: BOOLEAN = True

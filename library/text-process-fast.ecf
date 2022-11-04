@@ -23,7 +23,14 @@ CLUSTERS
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<!--Source code-->
-		<cluster name = "pattern_match_fast" location = "text/pattern-match-fast" recursive = "true">
+		<cluster name = "parse" location = "text/parse-fast" recursive = "true">
+			<description>
+Parsing
+
+Classes for parsing text data.
+			</description>
+		</cluster>
+		<cluster name = "text_pattern" location = "text/pattern" recursive = "true">
 			<description>
 Pattern-matching
 

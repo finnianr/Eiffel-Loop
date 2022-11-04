@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-28 17:31:52 GMT (Friday 28th October 2022)"
-	revision: "1"
+	date: "2022-11-04 17:15:23 GMT (Friday 4th November 2022)"
+	revision: "2"
 
 class
 	EL_REPEATED_TEXT_PATTERN
@@ -22,9 +22,6 @@ inherit
 		redefine
 			copy, has_action, is_equal, match, name_list, set_debug_to_depth, i_th_sub_pattern
 		end
-
-create
-	make
 
 feature {NONE} -- Initialization
 
@@ -149,5 +146,4 @@ feature -- Constants
 			create Result.make (0, agent repeated_twin)
 		end
 end
-
 

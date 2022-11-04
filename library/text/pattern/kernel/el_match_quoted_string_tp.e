@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 7:48:27 GMT (Wednesday 2nd November 2022)"
-	revision: "5"
+	date: "2022-11-04 8:33:01 GMT (Friday 4th November 2022)"
+	revision: "6"
 
 deferred class
 	EL_MATCH_QUOTED_STRING_TP
@@ -65,7 +65,7 @@ feature {NONE} -- Implementation
 		end
 
 	match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER
-			--
+		--
 		local
 			offset, text_count, sequence_count: INTEGER; quote_closed, collecting_text: BOOLEAN
 			l_quote: CHARACTER_32; escape_pattern: like new_escape_sequence
