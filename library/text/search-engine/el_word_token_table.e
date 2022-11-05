@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-18 12:43:55 GMT (Thursday 18th February 2021)"
-	revision: "13"
+	date: "2022-11-05 8:16:36 GMT (Saturday 5th November 2022)"
+	revision: "14"
 
 class
 	EL_WORD_TOKEN_TABLE
@@ -30,10 +30,12 @@ feature -- Initialization
 
 	make (n: INTEGER)
 			--
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
 			Precursor (n)
 			create on_new_token_list.make
-			put (character_string ('%N')) -- paragraph separator for `New_line_token'
+			put (s.character_string ('%N')) -- paragraph separator for `New_line_token'
 		end
 
 feature -- Access
@@ -47,16 +49,16 @@ feature -- Status query
 	valid_token_list (tokens: EL_WORD_TOKEN_LIST; paragraph_list: EL_CHAIN [ZSTRING]): BOOLEAN
 		-- quick check to make sure `tokens' meets basic conditions to be valid
 		local
-			last_word_lower: ZSTRING; non_empty_count: INTEGER
+			last_word_lower: ZSTRING; non_empty_count: INTEGER; s: EL_ZSTRING_ROUTINES
 		do
 			last_word_lower := Empty_string
 			-- Iterate in reverse to find last non empty line
 			-- and count number of non empty lines
 			across paragraph_list.new_cursor.reversed as paragraph loop
-				if has_alpha_numeric (paragraph.item) then
+				if s.has_alpha_numeric (paragraph.item) then
 					non_empty_count := non_empty_count + 1
 					if last_word_lower.is_empty then
-						last_word_lower := last_word (paragraph.item)
+						last_word_lower := s.last_word (paragraph.item)
 						last_word_lower.to_lower
 					end
 				end
@@ -102,13 +104,13 @@ feature -- Conversion
 
 	paragraph_list_tokens (paragraph_list: ITERABLE [ZSTRING]): EL_WORD_TOKEN_LIST
 		local
-			i: INTEGER; word, str: ZSTRING
+			s: EL_ZSTRING_ROUTINES; i: INTEGER; word, str: ZSTRING
 		do
 			Result := Once_token_list; Result.wipe_out
 			create word.make (12)
 			across paragraph_list as paragraph loop
 				str := paragraph.item
-				if has_alpha_numeric (str) then
+				if s.has_alpha_numeric (str) then
 					if not Result.is_empty then
 						Result.extend (New_line_token)
 					end

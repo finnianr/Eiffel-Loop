@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-22 15:42:50 GMT (Saturday 22nd January 2022)"
-	revision: "17"
+	date: "2022-11-05 10:14:29 GMT (Saturday 5th November 2022)"
+	revision: "18"
 
 class
 	CODEBASE_STATISTICS_COMMAND
@@ -22,8 +22,6 @@ inherit
 		end
 
 	EVOLICITY_EIFFEL_CONTEXT
-		rename
-			word_count as zstring_word_count
 		redefine
 			make_default
 		end

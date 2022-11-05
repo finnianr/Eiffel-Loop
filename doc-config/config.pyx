@@ -144,7 +144,8 @@ publish-repository:
 			"library/text-process.ecf#edit"
 			"library/text-process.ecf#parse"
 			"library/text-process.ecf#pattern_match"
-			"library/text-process-fast.ecf#pattern_match_fast"
+			"library/text-process-fast.ecf#parse"
+			"library/text-process-fast.ecf#text_pattern"
 
 		# Library (Utility)
 		ecf:

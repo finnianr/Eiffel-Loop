@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-15 14:29:28 GMT (Saturday 15th October 2022)"
-	revision: "16"
+	date: "2022-11-05 8:18:32 GMT (Saturday 5th November 2022)"
+	revision: "17"
 
 class
 	EL_FILE_MANIFEST_LIST
@@ -55,14 +55,14 @@ feature -- Access
 
 	manifest_digest: NATURAL
 		local
-			l_found: BOOLEAN
+			l_found: BOOLEAN; s: EL_ZSTRING_ROUTINES
 		do
 			if output_path.exists then
 				if attached open_lines (output_path, Utf_8) as lines then
 					lines.enable_shared_item
 					across lines as line until l_found loop
 						if line.item.has_substring (Digest_attribute) then
-							Result := line.item.substring_between (Digest_attribute, character_string ('"'), 1).to_natural_32
+							Result := line.item.substring_between (Digest_attribute, s.character_string ('"'), 1).to_natural_32
 							l_found := True
 						end
 					end

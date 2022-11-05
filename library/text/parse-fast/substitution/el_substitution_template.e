@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-04 15:34:08 GMT (Friday 4th November 2022)"
-	revision: "19"
+	date: "2022-11-05 9:34:06 GMT (Saturday 5th November 2022)"
+	revision: "1"
 
 deferred class
 	EL_SUBSTITUTION_TEMPLATE
@@ -28,7 +28,7 @@ inherit
 		export
 			{NONE} all
 		redefine
-			make_default, parse, reset
+			make_default, parse, reset, source_text
 		end
 
 	EL_MODULE_EXCEPTION
@@ -44,10 +44,10 @@ feature {NONE} -- Initialization
 	make (a_template: READABLE_STRING_GENERAL)
 			--
 		local
-			new_template: like new_string
+			new_template: like string.new
 		do
 			make_default
-			new_template := new_string (a_template.count)
+			new_template := string.new (a_template.count)
 			new_template.append (a_template)
 			set_template (new_template)
 		end
@@ -55,10 +55,10 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		do
-			internal_key := new_string (0)
-			actual_template := new_string (0)
+			internal_key := string.new (0)
+			actual_template := string.new (0)
 
-			parts := new_parts (7)
+			parts := string.new_list (7)
 			create place_holder_table.make (5)
 			is_strict := True
 			Precursor {EL_SUBST_VARIABLE_PARSER}
@@ -66,13 +66,13 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	substituted: like new_string
+	substituted: like string.new
 			--
 		do
 			Result := parts.joined_strings
 		end
 
-	variables: ARRAYED_LIST [like new_string]
+	variables: ARRAYED_LIST [like string.new]
 			-- variable name list
 		do
 			create Result.make_from_array (place_holder_table.current_keys)
@@ -110,7 +110,7 @@ feature -- Element change
 			place_holder_table.wipe_out
 		end
 
-	set_template (a_template: like new_string)
+	set_template (a_template: like string.new)
 			--
 		do
 			actual_template := a_template
@@ -131,9 +131,9 @@ feature -- Element change
 
 	set_variable_quoted_value (name, value: READABLE_STRING_GENERAL)
 		local
-			quoted_value: like new_string
+			quoted_value: like string.new
 		do
-			quoted_value := new_string (value.count + 2)
+			quoted_value := string.new (value.count + 2)
 			quoted_value.append_code ({ASCII}.Doublequote.to_natural_32)
 			quoted_value.append (value)
 			quoted_value.append_code ({ASCII}.Doublequote.to_natural_32)
@@ -176,7 +176,7 @@ feature -- Element change
 	wipe_out_variables
 		do
 			across place_holder_table as place loop
-				wipe_out (place.item)
+				string.wipe_out (place.item)
 			end
 		end
 
@@ -185,7 +185,7 @@ feature {NONE} -- Implementation: parsing actions
 	on_literal_text (start_index, end_index: INTEGER)
 			--
 		do
-			parts.extend (match_string (start_index, end_index))
+			parts.extend (source_text.substring (start_index, end_index))
 		end
 
 	on_substitution_variable (start_index, end_index: INTEGER)
@@ -193,25 +193,25 @@ feature {NONE} -- Implementation: parsing actions
 		local
 			l_key: like key
 		do
-			l_key := match_string (start_index, end_index)
+			l_key := source_text.substring (start_index, end_index)
 			place_holder_table.put (dollor_sign + l_key, l_key)
 			parts.extend (place_holder_table.found_item)
 		end
 
 feature {NONE} -- Implementation
 
-	dollor_sign: like new_string
+	dollor_sign: like string.new
 		do
-			Result := new_string (1)
+			Result := string.new (1)
 			Result.append_code ({ASCII}.Dollar.to_natural_32)
 		end
 
-	key (str: READABLE_STRING_GENERAL): like new_string
+	key (str: READABLE_STRING_GENERAL): like string.new
 		-- reusable key for `place_holder_table'
 		do
 			Result := internal_key
-			wipe_out (Result)
-			append_from_general (Result, str)
+			string.wipe_out (Result)
+			string.append_to (Result, str)
 		end
 
 	parse
@@ -227,20 +227,20 @@ feature {NONE} -- Implementation
 		require
 			internal_key: a_key = internal_key
 		local
-			place_holder: like new_string
+			place_holder: like string.new
 		do
 			if place_holder_table.has_key (a_key) then
 				place_holder := place_holder_table.found_item
-				wipe_out (place_holder)
+				string.wipe_out (place_holder)
 				if attached {READABLE_STRING_GENERAL} value as string_value then
-					append_from_general (place_holder, string_value)
+					string.append_to (place_holder, string_value)
 				else
 					place_holder.append (value.out)
 				end
 			end
 		end
 
-	template: like new_string
+	template: like string.new
 			--
 		do
 			Result := actual_template
@@ -248,37 +248,23 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Deferred implementation
 
-	append_from_general (target: like new_string; a_general: READABLE_STRING_GENERAL)
-		deferred
-		end
-
-	match_string (start_index, end_index: INTEGER): like new_string
-		deferred
-		end
-
-	new_string (n: INTEGER): STRING_GENERAL
-		deferred
-		end
-
-	new_parts (n: INTEGER): EL_STRING_LIST [like new_string]
-		deferred
-		end
-
-	wipe_out (str: like new_string)
+	string: EL_STRING_X_ROUTINES [STRING_GENERAL, READABLE_STRING_GENERAL]
 		deferred
 		end
 
 feature {NONE} -- Internal attributes
 
-	actual_template: like new_string
-
-	parts: like new_parts
-		-- substition parts
-
-	place_holder_table: HASH_TABLE [like new_string, like new_string]
-		-- map variable name to place holder
+	actual_template: like string.new
 
 	internal_key: like key
+
+	parts: like string.new_list
+		-- substition parts
+
+	place_holder_table: HASH_TABLE [like string.new, like string.new]
+		-- map variable name to place holder
+
+	source_text: like string.new
 
 feature {NONE} -- Constants
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-20 16:15:12 GMT (Thursday 20th October 2022)"
-	revision: "25"
+	date: "2022-11-05 10:05:47 GMT (Saturday 5th November 2022)"
+	revision: "26"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -380,16 +380,6 @@ feature -- Conversion
 		end
 
 feature -- Element change
-
-	set_from_view (view: EL_STRING_VIEW)
-		do
-			wipe_out
-			if attached {EL_STRING_8_VIEW} view as string_8 then
-				string_8.append_to_string_8 (Current)
-			else
-				view.append_to (Current)
-			end
-		end
 
 	set_type (a_type: INTEGER)
 		do

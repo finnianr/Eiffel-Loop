@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-04 16:51:05 GMT (Friday 4th November 2022)"
-	revision: "21"
+	date: "2022-11-05 10:06:20 GMT (Saturday 5th November 2022)"
+	revision: "22"
 
 class
 	GENERAL_PARSER_TEST_SET
@@ -40,9 +40,7 @@ feature -- Basic operations
 			eval.call ("quoted_string", agent test_quoted_string)
 			eval.call ("recursive_match", agent test_recursive_match)
 			eval.call ("string_view", agent test_string_view)
-			eval.call ("string_substitution", agent test_string_substitution)
 			eval.call ("unencoded_as_latin", agent test_unencoded_as_latin)
-			eval.call ("xpath_parser", agent test_xpath_parser)
 		end
 
 feature -- Test
@@ -178,39 +176,6 @@ feature -- Test
 			assert ("same as second word", view.to_string.same_string (second_word))
 		end
 
-	test_string_substitution
-		note
-			testing: "covers/{EL_SUBST_VARIABLE_PARSER}.parse",
-					"covers/{EL_SUBST_VARIABLE_PARSER}.set_variables_from_object",
-					"covers/{EL_SUBST_VARIABLE_PARSER}.set_variables_from_array"
-		local
-			template_list: ARRAY [EL_SUBSTITUTION_TEMPLATE]
-			target_text: STRING
-		do
-			across << True, False >> as use_reflection loop
-				across << Text.country_template, Text.Country_template_canonical >> as l_type loop
-					target_text := Text.country_substituted (Ireland.name, Ireland.code, Ireland.population)
-					template_list := <<
-						create {EL_STRING_8_TEMPLATE}.make (l_type.item),
-						create {EL_STRING_32_TEMPLATE}.make (l_type.item),
-						create {EL_ZSTRING_TEMPLATE}.make (l_type.item)
-					>>
-					across template_list as template loop
-						if use_reflection.item then
-							template.item.set_variables_from_object (ireland)
-						else
-							template.item.set_variables_from_array (<<
-								[Text.Country.name, Ireland.name],
-								[Text.Country.code, Ireland.code],
-								[Text.Country.population, Ireland.population]
-							>>)
-						end
-						assert ("same string", template.item.substituted.same_string (target_text))
-					end
-				end
-			end
-		end
-
 	test_unencoded_as_latin
 		-- test with characters not encodeable as Latin-1
 		note
@@ -235,32 +200,6 @@ feature -- Test
 				matcher.set_pattern (pattern)
 				matcher.find_all
 				assert ("last two occur twice", output ~ character_set.multiplied (2))
-			end
-		end
-
-	test_xpath_parser
-		note
-			testing: "covers/{EL_XPATH_PARSER}.parse"
-		local
-			parser: EL_XPATH_PARSER; steps: LIST [STRING]; parsed_step: EL_PARSED_XPATH_STEP
-			index_of_at, index_of_equal: INTEGER
-		do
-			create parser.make
-			across XML.Xpaths.split ('%N') as xpath loop
-				steps := xpath.item.split ('/')
-				parser.set_source_text (xpath.item)
-				parser.parse
-				across steps as step loop
-					parsed_step := parser.step_list.i_th (step.cursor_index)
-					assert ("parser OK", parsed_step.step ~ step.item)
-					index_of_at := step.item.index_of ('@', 1)
-					if index_of_at > 0 then
-						index_of_equal := step.item.index_of ('=', 1)
-						assert ("parser OK",
-							parsed_step.selecting_attribute_name ~ step.item.substring (index_of_at, index_of_equal - 1)
-						)
-					end
-				end
 			end
 		end
 

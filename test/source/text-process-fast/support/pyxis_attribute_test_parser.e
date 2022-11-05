@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 8:34:31 GMT (Wednesday 2nd November 2022)"
-	revision: "1"
+	date: "2022-11-05 10:10:10 GMT (Saturday 5th November 2022)"
+	revision: "2"
 
 class
 	PYXIS_ATTRIBUTE_TEST_PARSER
 
 inherit
-	EL_PYXIS_ATTRIBUTE_PARSER_2
+	EL_PYXIS_ATTRIBUTE_PARSER
 		rename
 			make_default as make
 		redefine

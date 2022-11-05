@@ -76,7 +76,7 @@ system:
 			EL_search = "search-engine.ecf"
 			EL_image_utils = "image-utils.ecf"
 			EL_logging = "logging.ecf"
-			EL_text_process = "text-process.ecf"
+			EL_text_process_fast = "text-process-fast.ecf"
 			EL_thread = "thread.ecf"
 			EL_wel_x = "wel-x.ecf"
 			condition:

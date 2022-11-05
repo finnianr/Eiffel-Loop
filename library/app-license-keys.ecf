@@ -30,7 +30,7 @@ It has been used for the [http://myching.software My Ching] software product.
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
 		<library name = "EL_network" location = "network.ecf"/>
 		<library name = "EL_os_command" location = "os-command.ecf"/>
-		<library name = "EL_text_process" location = "text-process.ecf"/>
+		<library name = "EL_text_process_fast" location = "text-process-fast.ecf"/>
 		<library name = "EL_vtd_xml" location = "vtd-xml.ecf"/>
 		<library name = "EL_public_key_encryption" location = "public-key-encryption.ecf"/>
 		<!--Source code-->

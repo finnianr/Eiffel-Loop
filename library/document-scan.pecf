@@ -48,7 +48,7 @@ system:
 			EL_base = "base/base.ecf"
 			EL_evolicity = "evolicity.ecf"
 			EL_text_formats = "text-formats.ecf"
-			EL_text_process = "text-process.ecf"
+			EL_text_process_fast = "text-process-fast.ecf"
 
 		# Source code
 		cluster_tree:

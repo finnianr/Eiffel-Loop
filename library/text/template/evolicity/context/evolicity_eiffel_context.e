@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-06 9:08:27 GMT (Wednesday 6th October 2021)"
-	revision: "18"
+	date: "2022-11-05 8:12:06 GMT (Saturday 5th November 2022)"
+	revision: "19"
 
 deferred class
 	EVOLICITY_EIFFEL_CONTEXT
@@ -15,8 +15,7 @@ deferred class
 inherit
 	EVOLICITY_CONTEXT
 		rename
-			object_table as getter_functions,
-			joined as joined_strings
+			object_table as getter_functions
 		redefine
 			context_item, put_variable
 		end
@@ -82,7 +81,7 @@ feature {NONE} -- Implementation
 					template := "Cannot set %S operands for: {%S}.%S"
 					Result := template #$ [getter_action.open_count, generator, key]
 				end
-				
+
 			elseif key.same_caseless_characters (Var_current, 1, Var_current.count, 1) then
 				Result := Current
 

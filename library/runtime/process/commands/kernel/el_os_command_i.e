@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 9:14:21 GMT (Thursday 16th June 2022)"
-	revision: "35"
+	date: "2022-11-05 8:18:32 GMT (Saturday 5th November 2022)"
+	revision: "36"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -197,7 +197,7 @@ feature {NONE} -- Implementation
 			-- display word wrapped command
 		local
 			current_working_directory, printable_line, name, prompt, blank_prompt: ZSTRING
-			max_width: INTEGER; words: EL_SEQUENTIAL_INTERVALS
+			max_width: INTEGER; words: EL_SEQUENTIAL_INTERVALS; s: EL_ZSTRING_ROUTINES
 		do
 			current_working_directory := Directory.current_working
 			name := generator
@@ -217,7 +217,7 @@ feature {NONE} -- Implementation
 			across lines as line loop
 				line.item.replace_substring_all (current_working_directory, Variable_cwd)
 				line.item.left_adjust
-				words := line.item.split_intervals (character_string (' '))
+				words := line.item.split_intervals (s.character_string (' '))
 				from words.start until words.after loop
 					if words.item_count > 0 then
 						if not printable_line.is_empty then

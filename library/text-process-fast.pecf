@@ -38,7 +38,6 @@ system:
 			EL_base = "base/base.ecf"
 
 		# Source code
-
 		cluster_tree:
 			parse = "text/parse-fast"
 			description:
@@ -56,5 +55,4 @@ system:
 
 					Classes for finding and matching textual patterns.
 				"""
-
 

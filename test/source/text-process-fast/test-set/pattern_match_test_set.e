@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-04 16:51:39 GMT (Friday 4th November 2022)"
-	revision: "6"
+	date: "2022-11-05 10:07:52 GMT (Saturday 5th November 2022)"
+	revision: "7"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -205,16 +205,16 @@ feature -- Test
 					"covers/{EL_SUBST_VARIABLE_PARSER}.set_variables_from_object",
 					"covers/{EL_SUBST_VARIABLE_PARSER}.set_variables_from_array"
 		local
-			template_list: ARRAY [EL_SUBSTITUTION_TEMPLATE_2]
+			template_list: ARRAY [EL_SUBSTITUTION_TEMPLATE]
 			target_text: STRING
 		do
 			across << True, False >> as use_reflection loop
 				across << Text.country_template, Text.Country_template_canonical >> as l_type loop
 					target_text := Text.country_substituted (Ireland.name, Ireland.code, Ireland.population)
 					template_list := <<
-						create {EL_STRING_8_TEMPLATE_2}.make (l_type.item),
-						create {EL_STRING_32_TEMPLATE_2}.make (l_type.item),
-						create {EL_ZSTRING_TEMPLATE_2}.make (l_type.item)
+						create {EL_STRING_8_TEMPLATE}.make (l_type.item),
+						create {EL_STRING_32_TEMPLATE}.make (l_type.item),
+						create {EL_ZSTRING_TEMPLATE}.make (l_type.item)
 					>>
 					across template_list as template loop
 						if use_reflection.item then
@@ -236,7 +236,7 @@ feature -- Test
 		note
 			testing: "covers/{EL_XPATH_PARSER}.parse"
 		local
-			parser: EL_XPATH_PARSER_2; steps: LIST [STRING]; parsed_step: EL_PARSED_XPATH_STEP_2
+			parser: EL_XPATH_PARSER; steps: LIST [STRING]; parsed_step: EL_PARSED_XPATH_STEP
 			index_of_at, index_of_equal: INTEGER
 		do
 			create parser.make

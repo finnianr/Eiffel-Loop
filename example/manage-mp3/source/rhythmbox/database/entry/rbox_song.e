@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-16 11:30:41 GMT (Wednesday 16th February 2022)"
-	revision: "53"
+	date: "2022-11-05 10:20:52 GMT (Saturday 5th November 2022)"
+	revision: "54"
 
 class
 	RBOX_SONG
@@ -127,6 +127,7 @@ feature -- Access
 		local
 			artists, info: ZSTRING; tanda_name: EL_ZSTRING_LIST
 			destination_dir: DIR_PATH; destination_path: FILE_PATH
+			s: EL_ZSTRING_ROUTINES
 		do
  			artists := lead_artist.twin
  			if not album_artists.list.is_empty then
@@ -151,7 +152,7 @@ feature -- Access
 			if is_nokia_phone then
 				Result := destination_path.as_windows
 			else
-				Result := M3U.extinf + info + character_string ('%N') + destination_path
+				Result := M3U.extinf + info + s.character_string ('%N') + destination_path
 			end
 		end
 

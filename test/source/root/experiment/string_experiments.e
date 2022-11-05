@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-24 11:53:44 GMT (Thursday 24th March 2022)"
-	revision: "20"
+	date: "2022-11-05 9:57:01 GMT (Saturday 5th November 2022)"
+	revision: "21"
 
 class
 	STRING_EXPERIMENTS
@@ -248,26 +248,6 @@ feature -- Basic operations
 			lio.put_string_field ("Content", Mime_type_template #$ [type, "UTF-8"])
 			lio.put_new_line
 			lio.put_string_field ("Content", Mime_type_template #$ [type, "UTF-8"])
-		end
-
-	substitution
-		local
-			template: EL_STRING_8_TEMPLATE
-		do
-			create template.make ("from $var := 1 until $var > 10 loop")
-			template.set_variable ("var", "i")
-			lio.put_line (template.substituted)
-		end
-
-	substitution_template
-			--
-		local
-			l_template: EL_STRING_8_TEMPLATE
-		do
-			create l_template.make ("x=$x, y=$y")
-			l_template.set_variable ("x", "100")
-			l_template.set_variable ("y", "200")
-			lio.put_line (l_template.substituted)
 		end
 
 	test_has_repeated_hexadecimal_digit

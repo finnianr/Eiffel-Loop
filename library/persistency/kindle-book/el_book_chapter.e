@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-21 12:52:02 GMT (Friday 21st January 2022)"
-	revision: "12"
+	date: "2022-11-05 8:17:39 GMT (Saturday 5th November 2022)"
+	revision: "13"
 
 class
 	EL_BOOK_CHAPTER
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 
 	make (a_title: ZSTRING; a_number: NATURAL; modification_date: DATE_TIME; a_text: EL_ZSTRING output_dir: DIR_PATH)
 		local
-			h_tag: like XML.tag; base_name: ZSTRING
+			h_tag: like XML.tag; base_name: ZSTRING; s: EL_ZSTRING_ROUTINES
 		do
 			create image_list.make (5)
 			create section_table.make_equal (5)
@@ -56,7 +56,7 @@ feature {NONE} -- Initialization
 
 			h_tag := XML.tag ("h2")
 			text.edit (h_tag.open, h_tag.close, agent edit_heading_2)
-			text.edit (Src_attribute, character_string ('"'), agent on_src_attribute)
+			text.edit (Src_attribute, s.character_string ('"'), agent on_src_attribute)
 		end
 
 feature -- Access

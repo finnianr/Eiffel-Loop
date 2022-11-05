@@ -1,13 +1,20 @@
 note
 	description: "Compare call on expanded vs once ref object"
+	notes: "[
+		Passes over 3000 millisecs (in descending order)
+
+			do_nothing on expanded local :  32919.6 times (100%)
+			do_nothing on once ref       :  29146.6 times (-11.5%)
+			do_nothing on expanded       :   4217.6 times (-87.2%)
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-04-11 9:08:55 GMT (Monday 11th April 2022)"
-	revision: "2"
+	date: "2022-11-05 7:37:35 GMT (Saturday 5th November 2022)"
+	revision: "3"
 
 class
 	ROUTINE_CALL_ON_ONCE_VS_EXPANDED

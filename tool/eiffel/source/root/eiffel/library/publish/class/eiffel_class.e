@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-19 13:09:29 GMT (Sunday 19th June 2022)"
-	revision: "40"
+	date: "2022-11-05 10:16:57 GMT (Saturday 5th November 2022)"
+	revision: "41"
 
 class
 	EIFFEL_CLASS
@@ -27,8 +27,7 @@ inherit
 
 	EVOLICITY_SERIALIZEABLE
 		rename
-			output_path as html_output_path,
-			word_count as zstring_word_count
+			output_path as html_output_path
 		undefine
 			is_equal
 		redefine
@@ -341,10 +340,12 @@ feature {NONE} -- Evolicity fields
 feature {NONE} -- Constants
 
 	Class_begin_strings: EL_ZSTRING_LIST
+		local
+			s: EL_ZSTRING_ROUTINES
 		once
 			create Result.make (3)
 			across Class_declaration_keywords as word loop
-				Result.extend (character_string ('%N') + word.item)
+				Result.extend (s.character_string ('%N') + word.item)
 			end
 		end
 

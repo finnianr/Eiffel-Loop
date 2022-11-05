@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 8:50:34 GMT (Wednesday 2nd November 2022)"
-	revision: "41"
+	date: "2022-11-05 9:30:28 GMT (Saturday 5th November 2022)"
+	revision: "42"
 
 deferred class
 	EL_STRING_X_ROUTINES [STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -53,6 +53,37 @@ feature -- Measurement
 				Result := Result + 1
 				l_occurrences.forth
 			end
+		end
+
+feature -- Factory
+
+	new (n: INTEGER): STRING_X
+			-- width * count spaces
+		do
+			create Result.make (n)
+		end
+
+	new_list (n: INTEGER): EL_STRING_LIST [STRING_X]
+		deferred
+		end
+
+	spaces (width, count: INTEGER): STRING_X
+			-- width * count spaces
+		local
+			i, n: INTEGER
+		do
+			n := width * count
+			create Result.make (n)
+			from i := 1 until i > n loop
+				Result.append_code (32)
+				i := i + 1
+			end
+		end
+
+	shared_substring (s: STRING_X; new_count: INTEGER): STRING_X
+		require
+			valid_count: new_count <= s.count
+		deferred
 		end
 
 feature -- Lists
@@ -150,25 +181,6 @@ feature -- Transformed
 			Result := enclosed (str, c, c)
 		end
 
-	spaces (width, count: INTEGER): STRING_X
-			-- width * count spaces
-		local
-			i, n: INTEGER
-		do
-			n := width * count
-			create Result.make (n)
-			from i := 1 until i > n loop
-				Result.append_code (32)
-				i := i + 1
-			end
-		end
-
-	shared_substring (s: STRING_X; new_count: INTEGER): STRING_X
-		require
-			valid_count: new_count <= s.count
-		deferred
-		end
-
 	unbracketed (str: READABLE_STRING_GENERAL; left_bracket: CHARACTER_32): STRING_X
 			-- Returns text enclosed in one of matching paired characters: {}, [], (), <>
 		require
@@ -197,14 +209,7 @@ feature -- Transformed
 			end
 		end
 
-feature -- Transform
-
-	first_to_upper (str: STRING_GENERAL)
-		do
-			if not str.is_empty then
-				str.put_code (str.item (1).as_upper.natural_32_code, 1)
-			end
-		end
+feature -- Adjust
 
 	left_adjust (str: STRING_X)
 		deferred
@@ -239,6 +244,23 @@ feature -- Transform
 			remove_bookends (quoted_str, once "''" )
 		end
 
+	right_adjust (str: STRING_X)
+		deferred
+		end
+
+	wipe_out (str: STRING_X)
+		deferred
+		end
+
+feature -- Transform
+
+	first_to_upper (str: STRING_GENERAL)
+		do
+			if not str.is_empty then
+				str.put_code (str.item (1).as_upper.natural_32_code, 1)
+			end
+		end
+
 	replace_character (target: STRING_X; uc_old, uc_new: CHARACTER_32)
 		local
 			i: INTEGER; code_old, code_new: NATURAL
@@ -250,10 +272,6 @@ feature -- Transform
 				end
 				i := i + 1
 			end
-		end
-
-	right_adjust (str: STRING_X)
-		deferred
 		end
 
 	translate (target, old_characters, new_characters: STRING_X)
