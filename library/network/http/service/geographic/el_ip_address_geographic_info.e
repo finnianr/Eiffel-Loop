@@ -7,8 +7,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-30 10:21:42 GMT (Thursday 30th June 2022)"
-	revision: "9"
+	date: "2022-11-06 17:57:16 GMT (Sunday 6th November 2022)"
+	revision: "10"
 
 class
 	EL_IP_ADDRESS_GEOGRAPHIC_INFO
@@ -212,7 +212,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Field_hash: NATURAL = 132261029
+	Field_hash: NATURAL = 120250182
 
 	Ip_address_representation: EL_IP_ADDRESS_REPRESENTATION
 		do

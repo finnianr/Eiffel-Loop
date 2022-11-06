@@ -1,40 +1,36 @@
 note
-	description: "Reflected field of type [$source STRING_32]"
+	description: "Reflected field of type [$source IMMUTABLE_STRING_32]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-06 17:22:30 GMT (Sunday 6th November 2022)"
-	revision: "10"
+	date: "2022-11-06 17:25:56 GMT (Sunday 6th November 2022)"
+	revision: "11"
 
 class
-	EL_REFLECTED_STRING_32
+	EL_REFLECTED_IMMUTABLE_STRING_32
 
 inherit
-	EL_REFLECTED_STRING [STRING_32]
+	EL_REFLECTED_STRING [IMMUTABLE_STRING_32]
 
 create
 	make
 
 feature -- Basic operations
 
-	reset (a_object: EL_REFLECTIVE)
-		do
-			value (a_object).wipe_out
-		end
-
 	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
 		do
-			if attached value (a_object) as str then
+			if attached Buffer_32.empty as str then
 				memory.read_into_string_32 (str)
+				set_from_string_general (a_object, str)
 			end
 		end
 
 	set_from_node (a_object: EL_REFLECTIVE; node: EL_STRING_NODE)
 		do
-			set (a_object, node.as_string_32 (not is_value_cached))
+			set (a_object, create {IMMUTABLE_STRING_32}.make_from_string (node.as_string_8 (False)))
 		end
 
 	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
@@ -54,12 +50,25 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	replaced (str: STRING_32; content: READABLE_STRING_GENERAL): STRING_32
-		local
-			s: EL_STRING_32_ROUTINES
+	replaced (string: IMMUTABLE_STRING_32; content: READABLE_STRING_GENERAL): IMMUTABLE_STRING_32
 		do
-			Result := str
-			s.replace (str, content)
+			if attached {ZSTRING} content as zstr then
+				Result := zstr.to_immutable_32
+			else
+				create Result.make_from_string (content.to_string_32)
+			end
+		end
+
+	reset (a_object: EL_REFLECTIVE)
+		do
+			set (a_object, Empty_string)
+		end
+
+feature {NONE} -- Constants
+
+	Empty_string: IMMUTABLE_STRING_32
+		once
+			create Result.make_empty
 		end
 
 end

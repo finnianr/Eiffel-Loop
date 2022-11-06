@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-25 4:57:07 GMT (Monday 25th July 2022)"
-	revision: "21"
+	date: "2022-11-06 17:21:06 GMT (Sunday 6th November 2022)"
+	revision: "22"
 
 deferred class
 	EL_REFLECTED_STRING [S -> READABLE_STRING_GENERAL create make end]
 
 inherit
-	EL_REFLECTED_REFERENCE [S]
+	EL_REFLECTED_HASHABLE_REFERENCE [S]
 		rename
 			set_from_string as set_from_string_general
 		undefine
@@ -40,28 +40,29 @@ feature -- Basic operations
 			end
 		end
 
+	set_from_node (a_object: EL_REFLECTIVE; node: EL_STRING_NODE)
+		deferred
+		end
+
 	set_from_string_general (a_object: EL_REFLECTIVE; general: READABLE_STRING_GENERAL)
 		local
 			new: S
 		do
 			if attached {S} general as str then
-				set (a_object, str)
+				new := str
+			elseif attached value (a_object) as str then
+				new := replaced (str, general)
 			else
-				if attached value (a_object) as str then
-					set_string (str, general)
-				else
-					create new.make (general.count)
-					set_string (new, general)
-					set (a_object, new)
-				end
+				new := replaced (create {S}.make (general.count), general)
 			end
+			set (a_object, new)
 		ensure then
 			same_string: value (a_object).same_string (general)
 		end
 
 feature {NONE} -- Implementation
 
-	set_string (string: S; general: READABLE_STRING_GENERAL)
+	replaced (str: S; content: READABLE_STRING_GENERAL): S
 		deferred
 		end
 

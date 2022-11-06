@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-29 15:47:47 GMT (Wednesday 29th June 2022)"
-	revision: "7"
+	date: "2022-11-06 17:27:26 GMT (Sunday 6th November 2022)"
+	revision: "8"
 
 class
 	EL_REFLECTED_URI
 
 inherit
 	EL_REFLECTED_STRING [EL_URI]
-		rename
-			set_string as set_uri
-		end
 
 	EL_SHARED_STRING_8_CURSOR
 
@@ -37,6 +34,15 @@ feature -- Basic operations
 			end
 		end
 
+	set_from_node (a_object: EL_REFLECTIVE; node: EL_STRING_NODE)
+		do
+			if attached value (a_object) as uri then
+				set (a_object, replaced (uri, node.as_string_8 (False)))
+			else
+				set (a_object, create {EL_URI}.make (node.as_string_8 (False)))
+			end
+		end
+
 	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
 		do
 			set (a_object, create {EL_URI}.make (readable.read_string_8))
@@ -54,14 +60,15 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	set_uri (uri: EL_URI; general: READABLE_STRING_GENERAL)
+	replaced (uri: EL_URI; content: READABLE_STRING_GENERAL): EL_URI
 		do
+			Result := uri
 			uri.wipe_out
-			if general.has_substring (uri.Colon_slash_x2) then
-				if attached {READABLE_STRING_8} general as str_8 and then cursor_8 (str_8).all_ascii then
+			if content.has_substring (uri.Colon_slash_x2) then
+				if attached {READABLE_STRING_8} content as str_8 and then cursor_8 (str_8).all_ascii then
 					uri.append (str_8)
 				else
-					uri.append_general (general)
+					uri.append_general (content)
 				end
 			end
 		end

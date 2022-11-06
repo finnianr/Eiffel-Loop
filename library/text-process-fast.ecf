@@ -25,14 +25,14 @@ CLUSTERS
 		<!--Source code-->
 		<cluster name = "parse" location = "text/parse-fast" recursive = "true">
 			<description>
-Parsing
+Parsing (Fast)
 
 Classes for parsing text data.
 			</description>
 		</cluster>
 		<cluster name = "text_pattern" location = "text/pattern" recursive = "true">
 			<description>
-Pattern-matching
+Pattern-matching (Fast)
 
 Classes for finding and matching textual patterns.
 			</description>

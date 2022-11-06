@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-05 9:30:28 GMT (Saturday 5th November 2022)"
-	revision: "42"
+	date: "2022-11-06 8:59:42 GMT (Sunday 6th November 2022)"
+	revision: "43"
 
 deferred class
 	EL_STRING_X_ROUTINES [STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -181,6 +181,13 @@ feature -- Transformed
 			Result := enclosed (str, c, c)
 		end
 
+	replace (str: STRING_X; content: READABLE_STRING_GENERAL)
+		-- replace all characters of `str' wih new `content'
+		do
+			wipe_out (str)
+			append_to (str, content)
+		end
+
 	unbracketed (str: READABLE_STRING_GENERAL; left_bracket: CHARACTER_32): STRING_X
 			-- Returns text enclosed in one of matching paired characters: {}, [], (), <>
 		require
@@ -220,7 +227,6 @@ feature -- Adjust
 		end
 
 	remove_bookends (str: STRING_X; ends: READABLE_STRING_GENERAL)
-			--
 		require
 			ends_has_2_characters: ends.count = 2
 		do

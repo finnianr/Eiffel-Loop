@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-09-28 11:30:21 GMT (Wednesday 28th September 2022)"
-	revision: "52"
+	date: "2022-11-06 17:51:17 GMT (Sunday 6th November 2022)"
+	revision: "53"
 
 class
 	EL_CLASS_META_DATA
@@ -243,17 +243,6 @@ feature {NONE} -- Factory
 				Result := factory.new_item (enclosing_object, index, name)
 				if representations.has_key (name) then
 					Result.set_representation (representations.found_item)
-					if attached {EL_HASH_SET_REPRESENTATION [HASHABLE]} Result.representation then
-						if attached {EL_REFLECTED_ZSTRING} Result as l_field then
-							create {EL_REFLECTED_MEMBER_ZSTRING} Result.make (l_field)
-
-						elseif attached {EL_REFLECTED_STRING_8} Result as l_field then
-							create {EL_REFLECTED_MEMBER_STRING_8} Result.make (l_field)
-
-						elseif attached {EL_REFLECTED_STRING_32} Result as l_field then
-							create {EL_REFLECTED_MEMBER_STRING_32} Result.make (l_field)
-						end
-					end
 				end
 			else
 				create {EL_REFLECTED_REFERENCE [ANY]} Result.make (enclosing_object, index, name)

@@ -48,18 +48,18 @@ system:
 			parse = "text/parse"
 			description:
 				"""
-					Parsing
+					Parsing (Legacy)
 					
-					Classes for parsing text data.
+					Classes for parsing text data using class [$source EL_STRING_VIEW].
 				"""
 
 		cluster_tree:
 			pattern_match = "text/pattern-match"
 			description:
 				"""
-					Pattern-matching
+					Pattern-matching (Legacy)
 
-					Classes for finding and matching textual patterns.
+					Classes for finding and matching textual patterns using class [$source EL_STRING_VIEW].
 				"""
 
 

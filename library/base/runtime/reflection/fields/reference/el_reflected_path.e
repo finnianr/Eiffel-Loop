@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-17 6:48:43 GMT (Thursday 17th February 2022)"
-	revision: "14"
+	date: "2022-11-06 18:06:39 GMT (Sunday 6th November 2022)"
+	revision: "15"
 
 class
 	EL_REFLECTED_PATH
 
 inherit
-	EL_REFLECTED_REFERENCE [EL_PATH]
+	EL_REFLECTED_HASHABLE_REFERENCE [EL_PATH]
 		redefine
 			reset, set_from_readable, set_from_string, to_string, write
 		end

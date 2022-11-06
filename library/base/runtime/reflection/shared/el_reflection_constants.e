@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-25 5:15:10 GMT (Monday 25th July 2022)"
-	revision: "37"
+	date: "2022-11-06 9:40:17 GMT (Sunday 6th November 2022)"
+	revision: "38"
 
 class
 	EL_REFLECTION_CONSTANTS
@@ -46,7 +46,7 @@ feature {NONE} -- Reference types
 	frozen String_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_STRING [READABLE_STRING_GENERAL]]
 		once
 			create Result.make (<<
-				{EL_REFLECTED_URI}, {EL_REFLECTED_IMMUTABLE_STRING_8},
+				{EL_REFLECTED_URI}, {EL_REFLECTED_IMMUTABLE_STRING_8}, {EL_REFLECTED_IMMUTABLE_STRING_32},
 				{EL_REFLECTED_STRING_8}, {EL_REFLECTED_STRING_32}, {EL_REFLECTED_ZSTRING}
 			>>)
 		ensure

@@ -30,16 +30,16 @@ Classes for editing file and other text.
 		</cluster>
 		<cluster name = "parse" location = "text/parse" recursive = "true">
 			<description>
-Parsing
+Parsing (Legacy)
 
-Classes for parsing text data.
+Classes for parsing text data using class [$source EL_STRING_VIEW].
 			</description>
 		</cluster>
 		<cluster name = "pattern_match" location = "text/pattern-match" recursive = "true">
 			<description>
-Pattern-matching
+Pattern-matching (Legacy)
 
-Classes for finding and matching textual patterns.
+Classes for finding and matching textual patterns using class [$source EL_STRING_VIEW].
 			</description>
 		</cluster>
 	</target>

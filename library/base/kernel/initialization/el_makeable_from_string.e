@@ -1,13 +1,13 @@
 note
-	description: "Makeable from string"
+	description: "Object is makeable from string conforming to [$source STRING_GENERAL]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 15:00:45 GMT (Wednesday 29th January 2020)"
-	revision: "1"
+	date: "2022-11-05 11:16:33 GMT (Saturday 5th November 2022)"
+	revision: "2"
 
 deferred class
 	EL_MAKEABLE_FROM_STRING [S-> STRING_GENERAL create make end]

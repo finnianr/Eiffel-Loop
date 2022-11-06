@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-11 15:36:11 GMT (Friday 11th June 2021)"
-	revision: "8"
+	date: "2022-11-06 17:22:57 GMT (Sunday 6th November 2022)"
+	revision: "9"
 
 class
 	EL_REFLECTED_STRING_8
@@ -32,6 +32,11 @@ feature -- Basic operations
 			end
 		end
 
+	set_from_node (a_object: EL_REFLECTIVE; node: EL_STRING_NODE)
+		do
+			set (a_object, node.as_string_8 (not is_value_cached))
+		end
+
 	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
 		do
 			set (a_object, readable.read_string_8)
@@ -49,14 +54,12 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	set_string (string: STRING_8; general: READABLE_STRING_GENERAL)
+	replaced (str: STRING_8; general: READABLE_STRING_GENERAL): STRING_8
+		local
+			s: EL_STRING_8_ROUTINES
 		do
-			string.wipe_out
-			if attached {ZSTRING} general as zstr then
-				zstr.append_to_string_8 (string)
-			else
-				string.append_string_general (general)
-			end
+			Result := str
+			s.replace (str, general)
 		end
 
 end

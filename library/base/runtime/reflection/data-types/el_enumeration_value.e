@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 13:46:55 GMT (Wednesday 29th January 2020)"
-	revision: "9"
+	date: "2022-11-05 11:15:04 GMT (Saturday 5th November 2022)"
+	revision: "10"
 
 deferred class
 	EL_ENUMERATION_VALUE [N -> {NUMERIC, HASHABLE}]

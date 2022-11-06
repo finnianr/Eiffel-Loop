@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-22 10:00:45 GMT (Wednesday 22nd June 2022)"
-	revision: "36"
+	date: "2022-11-06 17:46:11 GMT (Sunday 6th November 2022)"
+	revision: "37"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -220,10 +220,12 @@ feature {NONE} -- Implementation
 				elseif attached {EL_REFLECTED_PATH} field as path_field then
 					Result [new_xpath (field, node_type)] := agent set_path_field_from_node (path_field)
 
-				elseif attached {EL_REFLECTED_MEMBER_STRING [STRING_GENERAL]} field as member_field then
+				elseif attached {EL_REFLECTED_STRING [READABLE_STRING_GENERAL]} field as string_field
+					and then string_field.is_value_cached
+				then
 					-- Field value caching
-					xpath := new_xpath (member_field, node_type)
-					Result [xpath] := agent set_cached_field_from_node (member_field)
+					xpath := new_xpath (string_field, node_type)
+					Result [xpath] := agent set_cached_field_from_node (string_field)
 				else
 					Result [new_xpath (field, node_type)] := agent set_field_from_node (field)
 				end
@@ -287,7 +289,7 @@ feature {NONE} -- Implementation
 			field.set_from_readable (current_reflective, node)
 		end
 
-	set_cached_field_from_node (field: EL_REFLECTED_MEMBER_STRING [STRING_GENERAL])
+	set_cached_field_from_node (field: EL_REFLECTED_STRING [READABLE_STRING_GENERAL])
 		-- set string `field' with a cached value from `field.hash_set'
 		do
 			field.set_from_node (current_reflective, node)

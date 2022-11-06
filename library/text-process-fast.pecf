@@ -42,7 +42,7 @@ system:
 			parse = "text/parse-fast"
 			description:
 				"""
-					Parsing
+					Parsing (Fast)
 					
 					Classes for parsing text data.
 				"""
@@ -51,7 +51,7 @@ system:
 			text_pattern = "text/pattern"
 			description:
 				"""
-					Pattern-matching
+					Pattern-matching (Fast)
 
 					Classes for finding and matching textual patterns.
 				"""

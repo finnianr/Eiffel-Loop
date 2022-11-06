@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-08-01 13:52:27 GMT (Monday 1st August 2022)"
-	revision: "10"
+	date: "2022-11-06 17:25:57 GMT (Sunday 6th November 2022)"
+	revision: "11"
 
 class
 	EL_REFLECTED_IMMUTABLE_STRING_8
 
 inherit
 	EL_REFLECTED_STRING [IMMUTABLE_STRING_8]
-		redefine
-			set_from_string_general
-		end
 
 create
 	make
@@ -31,14 +28,9 @@ feature -- Basic operations
 			end
 		end
 
-	set_from_string_general (a_object: EL_REFLECTIVE; general: READABLE_STRING_GENERAL)
+	set_from_node (a_object: EL_REFLECTIVE; node: EL_STRING_NODE)
 		do
-			if attached {IMMUTABLE_STRING_8} general as str then
-				set (a_object, str)
-			else
-
-				set (a_object, create {IMMUTABLE_STRING_8}.make_from_string (general.to_string_8))
-			end
+			set (a_object, create {IMMUTABLE_STRING_8}.make_from_string (node.as_string_8 (False)))
 		end
 
 	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
@@ -58,14 +50,20 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
+	replaced (string: IMMUTABLE_STRING_8; content: READABLE_STRING_GENERAL): IMMUTABLE_STRING_8
+		do
+			create Result.make_from_string (content.to_string_8)
+		end
+
 	reset (a_object: EL_REFLECTIVE)
-		-- do nothing because `string' is immutable
 		do
+			set (a_object, Empty_string)
 		end
 
-	set_string (string: IMMUTABLE_STRING_8; general: READABLE_STRING_GENERAL)
-		-- do nothing because `string' is immutable
-		do
-		end
+feature {NONE} -- Constants
 
+	Empty_string: IMMUTABLE_STRING_8
+		once
+			create Result.make_empty
+		end
 end
