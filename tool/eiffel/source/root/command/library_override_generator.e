@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-14 12:27:43 GMT (Monday 14th February 2022)"
-	revision: "9"
+	date: "2022-11-07 11:08:31 GMT (Monday 7th November 2022)"
+	revision: "10"
 
 class
 	LIBRARY_OVERRIDE_GENERATOR
@@ -66,7 +66,7 @@ feature {NONE} -- Implementation
 			if source_path.exists then
 				lio.put_path_field ("Editing", relative_path)
 				if attached Editor_factory.new_item_from_alias (relative_path.to_string) as editor then
-					editor.make (source_path)
+					editor.make (source_path, False)
 					File_system.make_directory (output_path.parent)
 					editor.write_edited_lines (output_path)
 				else

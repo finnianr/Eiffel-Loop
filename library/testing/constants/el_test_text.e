@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-04 14:55:21 GMT (Friday 4th November 2022)"
-	revision: "17"
+	date: "2022-11-07 9:18:15 GMT (Monday 7th November 2022)"
+	revision: "18"
 
 class
 	EL_TEST_TEXT
@@ -33,6 +33,20 @@ feature -- Access
 			end
 			Result.append (" >>")
 		end
+
+feature -- Eiffel
+
+	Eiffel_assignment: STRING = "[
+		str := "1%N2%"/3"
+	]"
+
+	Eiffel_type_declarations: STRING = "[
+		STRING
+		ARRAY [STRING]
+		HASH_TABLE [STRING, STRING]
+		ARRAY [HASH_TABLE [STRING, STRING]]
+		HASH_TABLE [ARRAY [HASH_TABLE [STRING, STRING]], STRING]
+	]"
 
 feature -- Lists
 

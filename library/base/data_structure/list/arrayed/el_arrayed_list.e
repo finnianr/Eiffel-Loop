@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-20 14:24:48 GMT (Thursday 20th October 2022)"
-	revision: "43"
+	date: "2022-11-07 11:02:41 GMT (Monday 7th November 2022)"
+	revision: "44"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -65,7 +65,10 @@ feature {NONE} -- Initialization
 			wrapper: EL_CONTAINER_WRAPPER [G]
 		do
 			create wrapper.make (container)
-			copy (wrapper.query (condition))
+			if attached wrapper.query (condition) as result_list then
+				area_v2 := result_list.area
+				object_comparison := container.object_comparison
+			end
 		end
 
 	make_from_if (container: CONTAINER [G]; condition: PREDICATE [G])
@@ -74,7 +77,10 @@ feature {NONE} -- Initialization
 			wrapper: EL_CONTAINER_WRAPPER [G]
 		do
 			create wrapper.make (container)
-			copy (wrapper.query_if (condition))
+			if attached wrapper.query_if (condition) as result_list then
+				area_v2 := result_list.area
+				object_comparison := container.object_comparison
+			end
 		end
 
 	make_from (container: CONTAINER [G])

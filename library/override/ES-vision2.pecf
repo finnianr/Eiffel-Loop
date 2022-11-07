@@ -19,7 +19,7 @@ system:
 		file_rule:
 			exclude:
 				"/EIFGEN.{0,1}$"
-				"/\.svn$"
+				"/\\.svn$"
 				"/temp$"
 		option:
 			warning = true; full_class_checking = false; is_attached_by_default = false
@@ -29,7 +29,7 @@ system:
 		setting:
 			name = dotnet_naming_convention; value = true
 		external_include:
-			location = "$(ISE_LIBRARY)\library\vision2\spec\include"
+			location = "$(ISE_LIBRARY)\\library\\vision2\\spec\\include"
 			condition:
 				platform = windows
 
@@ -69,7 +69,7 @@ system:
 				custom:
 					name = vision_implementation; value = gtk34
 		external_object:
-			location = "$(ISE_LIBRARY)\library\vision2\spec\$ISE_C_COMPILER\$ISE_PLATFORM\lib\vision2.lib"
+			location = "$(ISE_LIBRARY)\\library\\vision2\\spec\\$ISE_C_COMPILER\\$ISE_PLATFORM\\lib\\vision2.lib"
 			condition:
 				platform:
 					value = windows
@@ -78,7 +78,7 @@ system:
 				dotnet:
 					value = false
 		external_object:
-			location = "$ISE_LIBRARY\library\vision2\spec\$ISE_C_COMPILER\$ISE_PLATFORM\lib\mtvision2.lib"
+			location = "$ISE_LIBRARY\\library\\vision2\\spec\\$ISE_C_COMPILER\\$ISE_PLATFORM\\lib\\mtvision2.lib"
 			condition:
 				platform:
 					value = windows
@@ -87,7 +87,7 @@ system:
 				dotnet:
 					value = false
 		external_object:
-			location = "$ISE_LIBRARY\library\vision2\spec\$ISE_C_COMPILER\$ISE_PLATFORM\lib\ilvision2.lib"
+			location = "$ISE_LIBRARY\\library\\vision2\\spec\\$ISE_C_COMPILER\\$ISE_PLATFORM\\lib\\ilvision2.lib"
 			condition:
 				platform = windows
 				dotnet:
@@ -173,7 +173,7 @@ system:
 				custom:
 					name = vision_implementation; value = gtk34
 		library:
-			name = base; location = "$ISE_LIBRARY\library\base\base.ecf"
+			name = base; location = "$ISE_LIBRARY\\library\\base\\base.ecf"
 		library:
 			name = c_library_libpng; location = "$ISE_LIBRARY/C_library/libpng/clibs_libpng.ecf"
 			condition:
@@ -183,7 +183,7 @@ system:
 			condition:
 				platform = windows
 		library:
-			name = cocoa; location = "$ISE_LIBRARY\library\cocoa\cocoa.ecf"; readonly = false
+			name = cocoa; location = "$ISE_LIBRARY\\library\\cocoa\\cocoa.ecf"; readonly = false
 			condition:
 				platform = macintosh
 				custom:
@@ -191,7 +191,7 @@ system:
 				custom:
 					name = vision_implementation; excluded_value = gtk34
 		library:
-			name = objective_c; location = "$ISE_LIBRARY\library\objc_base\objc_base.ecf"
+			name = objective_c; location = "$ISE_LIBRARY\\library\\objc_base\\objc_base.ecf"
 			readonly = false
 			condition:
 				platform = macintosh
@@ -207,9 +207,9 @@ system:
 				platform = windows
 		assembly:
 			name = eiffelsoftware_runtime
-			location = "$ISE_EIFFEL\studio\spec\$ISE_PLATFORM\lib\EiffelSoftware.Runtime.dll"
+			location = "$ISE_EIFFEL\\studio\\spec\\$ISE_PLATFORM\\lib\\EiffelSoftware.Runtime.dll"
 		assembly:
-			name = mscorlib; location = "$ISE_DOTNET_FRAMEWORK\mscorlib.dll"
+			name = mscorlib; location = "$ISE_DOTNET_FRAMEWORK\\mscorlib.dll"
 			renaming:
 				old_name = INTERFACE_TYPE_ATTRIBUTE; new_name = SYSTEM_INTERFACE_TYPE_ATTRIBUTE
 			renaming:
@@ -239,7 +239,7 @@ system:
 					platform:
 						value = windows
 		cluster:
-			name = implementation_cocoa; location = "$ISE_LIBRARY/library/vision2/implementation\cocoa\\"
+			name = implementation_cocoa; location = "$ISE_LIBRARY/library/vision2/implementation/cocoa"
 			recursive = true
 			condition:
 				platform = macintosh

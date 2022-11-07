@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 9:05:02 GMT (Wednesday 2nd November 2022)"
-	revision: "12"
+	date: "2022-11-07 16:22:44 GMT (Monday 7th November 2022)"
+	revision: "13"
 
 deferred class
 	EL_PARSER
@@ -81,7 +81,7 @@ feature -- Element change
 			end
 		ensure
 			definition: attached a_source_text.substring (start_index, end_index) as substring
-								implies substring ~ source_text.substring (start_offset + 1, source_text.count)
+								implies substring.same_string (source_text.substring (start_offset + 1, source_text.count))
 		end
 
 	set_unmatched_action (a_unmatched_action: like unmatched_action)

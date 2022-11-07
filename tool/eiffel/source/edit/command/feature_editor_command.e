@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 10:25:31 GMT (Tuesday 8th February 2022)"
-	revision: "14"
+	date: "2022-11-07 11:22:20 GMT (Monday 7th November 2022)"
+	revision: "15"
 
 class
 	FEATURE_EDITOR_COMMAND
@@ -34,8 +34,19 @@ feature -- Constants
 feature -- Basic operations
 
 	execute
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
-			write_edited_lines (source_path)
+			if is_dry_run then
+				lio.put_labeled_string ("Dry run modified text", source_path.without_extension.base.as_upper)
+				lio.put_new_line
+			 	across edited_lines as line loop
+			 		line.item.replace_substring_all (s.character_string ('%T'), s.n_character_string (' ', 3))
+			 		lio.put_line (line.item)
+			 	end
+			else
+				write_edited_lines (source_path)
+			end
 		end
 
 feature {NONE} -- Implementation

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-17 11:59:23 GMT (Monday 17th October 2022)"
-	revision: "12"
+	date: "2022-11-07 16:02:19 GMT (Monday 7th November 2022)"
+	revision: "13"
 
 deferred class
 	EL_LINEAR [G]
@@ -21,6 +21,8 @@ inherit
 	EL_CONTAINER_STRUCTURE [G]
 		rename
 			current_container as current_linear
+		undefine
+			object_comparison
 		end
 
 feature -- Access

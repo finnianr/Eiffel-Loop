@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-16 11:49:09 GMT (Sunday 16th October 2022)"
-	revision: "19"
+	date: "2022-11-07 16:07:35 GMT (Monday 7th November 2022)"
+	revision: "20"
 
 class
 	EL_HASH_SET [H -> HASHABLE]
@@ -25,7 +25,7 @@ inherit
 		undefine
 			is_equal, copy, default_create
 		redefine
-			compare_objects, compare_references, is_subset
+			compare_objects, compare_references, is_subset, intersect, subtract
 		end
 
 	SEARCH_TABLE [detachable H]
@@ -53,6 +53,14 @@ inherit
 			item as iteration_item
 		undefine
 			changeable_comparison_criterion, compare_objects, compare_references, copy, is_equal
+		end
+
+	EL_CONTAINER_STRUCTURE [H]
+		rename
+			current_container as current_table,
+			intersection as intersection_query
+		undefine
+			copy, object_comparison, is_equal
 		end
 
 	EL_MODULE_ITERABLE
@@ -290,7 +298,33 @@ feature -- Status query
 	Extendible: BOOLEAN = True
 		-- May new items be added?
 
+feature -- Basic operations
+
+	intersect (other: TRAVERSABLE_SUBSET [H])
+		-- Remove all items not in `other'.
+		-- No effect if `other' `is_empty'.
+		do
+			if not other.is_empty then
+				query_not_in (other).do_all (agent prune)
+			else
+				wipe_out
+			end
+		end
+
+	subtract (other: TRAVERSABLE_SUBSET [H])
+		-- Remove all items also in `other'.
+		do
+			if not (other.is_empty or is_empty) then
+				intersection_query (other).do_all (agent prune)
+			end
+		end
+
 feature {NONE} -- Implementation
+
+	current_table: like Current
+		do
+			Result := Current
+		end
 
 	subset_strategy_selection (v: H; other: EL_HASH_SET [H]): SUBSET_STRATEGY_HASHABLE [H]
 			-- Strategy to calculate several subset features selected depending

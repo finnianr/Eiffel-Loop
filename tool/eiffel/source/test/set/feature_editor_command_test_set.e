@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 10:38:54 GMT (Tuesday 4th October 2022)"
-	revision: "18"
+	date: "2022-11-07 11:08:31 GMT (Monday 7th November 2022)"
+	revision: "19"
 
 class
 	FEATURE_EDITOR_COMMAND_TEST_SET
@@ -21,7 +21,7 @@ feature {NONE} -- Implementation
 		local
 			command: FEATURE_EDITOR_COMMAND
 		do
-			create command.make (file_path)
+			create command.make (file_path, False)
 			Result := agent command.execute
 		end
 

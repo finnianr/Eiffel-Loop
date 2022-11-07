@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-27 15:01:59 GMT (Thursday 27th October 2022)"
-	revision: "9"
+	date: "2022-11-07 9:26:36 GMT (Monday 7th November 2022)"
+	revision: "10"
 
 deferred class
 	EL_TEXT_PATTERN_FACTORY
@@ -58,7 +58,7 @@ feature -- Recursive patterns
 			create Result.make (alternatives)
 		end
 
-	recurse (new_recursive: like recurse.new_recursive; has_action: BOOLEAN): EL_RECURSIVE_TEXT_PATTERN
+	recurse (new_recursive: FUNCTION [EL_TEXT_PATTERN]; has_action: BOOLEAN): EL_RECURSIVE_TEXT_PATTERN
 		do
 			create Result.make (new_recursive, has_action)
 		end

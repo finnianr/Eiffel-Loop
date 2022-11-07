@@ -19,7 +19,7 @@ system:
 		setting:
 			name = dotnet_naming_convention; value = true
 		external_include:
-			location = "$(ISE_LIBRARY)\library\cURL\spec\include"
+			location = "$(ISE_LIBRARY)\\library\\cURL\\spec\\include"
 			condition:
 				platform = windows
 
@@ -32,35 +32,35 @@ system:
 			condition:
 				platform /= windows; concurrency /= none
 		external_object:
-			location = "$(ISE_LIBRARY)\library\cURL\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\eiffel_curl.lib"
+			location = "$(ISE_LIBRARY)\\library\\cURL\\spec\\$(ISE_C_COMPILER)\\$(ISE_PLATFORM)\\lib\\eiffel_curl.lib"
 			condition:
 				platform = windows; concurrency = none; dotnet = false
 		external_object:
-			location = "$(ISE_LIBRARY)\library\cURL\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\mteiffel_curl.lib"
+			location = "$(ISE_LIBRARY)\\library\\cURL\\spec\\$(ISE_C_COMPILER)\\$(ISE_PLATFORM)\\lib\\mteiffel_curl.lib"
 			condition:
 				platform = windows; concurrency /= none; dotnet = false
 
 		external_object:
-			location = "$ISE_LIBRARY\studio\spec\$ISE_PLATFORM\bin\libcurl.dll"
+			location = "$ISE_LIBRARY\\studio\\spec\\$ISE_PLATFORM\\bin\\libcurl.dll"
 			description:
 				"Windows DLL for mteiffel_curl.lib"
 			condition:
 				shared = true; platform = windows; copy = "$location"
-				depends_1 = "$ISE_LIBRARY\studio\spec\$ISE_PLATFORM\bin\libeay32.dll"
-				depends_2 = "$ISE_LIBRARY\studio\spec\$ISE_PLATFORM\bin\ssleay32.dll"
+				depends_1 = "$ISE_LIBRARY\\studio\\spec\\$ISE_PLATFORM\\bin\\libeay32.dll"
+				depends_2 = "$ISE_LIBRARY\\studio\\spec\\$ISE_PLATFORM\\bin\\ssleay32.dll"
 
 		external_object:
-			location = "$(ISE_LIBRARY)\library\cURL\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\ileiffel_curl.lib"
+			location = "$(ISE_LIBRARY)\\library\\cURL\\spec\\$(ISE_C_COMPILER)\\$(ISE_PLATFORM)\\lib\\ileiffel_curl.lib"
 			condition:
 				platform = windows
 				dotnet:
 					value = true
 		library:
-			name = api_wrapper; location = "$ISE_LIBRARY\library\api_wrapper\api_wrapper.ecf"
+			name = api_wrapper; location = "$ISE_LIBRARY\\library\\api_wrapper\\api_wrapper.ecf"
 		library:
-			name = base; location = "$ISE_LIBRARY\library\base\base.ecf"
+			name = base; location = "$ISE_LIBRARY\\library\\base\\base.ecf"
 		cluster:
-			name = curl; location = "$ISE_LIBRARY\library\cURL\\"; recursive = true
+			name = curl; location = "$ISE_LIBRARY\\library\\cURL"; recursive = true
 			file_rule:
 				exclude:
 					"/Clib$"

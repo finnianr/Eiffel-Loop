@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 9:48:27 GMT (Saturday 5th February 2022)"
-	revision: "11"
+	date: "2022-11-07 11:05:31 GMT (Monday 7th November 2022)"
+	revision: "12"
 
 class
 	SOURCE_MODEL
@@ -24,7 +24,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (a_source_path: like source_path)
+	make (a_source_path: FILE_PATH)
 		do
 			make_machine
 			source_path := a_source_path

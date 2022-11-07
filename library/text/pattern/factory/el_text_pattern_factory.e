@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 6:44:52 GMT (Wednesday 2nd November 2022)"
-	revision: "6"
+	date: "2022-11-07 10:23:49 GMT (Monday 7th November 2022)"
+	revision: "7"
 
 deferred class
 	EL_TEXT_PATTERN_FACTORY
@@ -26,12 +26,23 @@ feature -- Recursive patterns
 			create Result.make (array_of_alternatives)
 		end
 
+	recurse (new_recursive: FUNCTION [EL_TEXT_PATTERN]; has_action: BOOLEAN): EL_RECURSIVE_TEXT_PATTERN
+		do
+			create Result.make (new_recursive, has_action)
+		end
+
 feature -- String patterns
 
 	c_identifier: EL_MATCH_C_IDENTIFIER_TP
 		-- match C language identifier
 		do
-			Result := core.new_c_identifier
+			Result := core.new_c_identifier (False)
+		end
+
+	c_identifier_upper: EL_MATCH_C_IDENTIFIER_TP
+		-- match upper-case C language identifier
+		do
+			Result := core.new_c_identifier (False)
 		end
 
 	quoted_c_lang_string (
@@ -202,5 +213,4 @@ feature {NONE} -- Constants
 			create Result
 		end
 end
-
 

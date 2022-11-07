@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-20 14:12:29 GMT (Thursday 20th October 2022)"
-	revision: "2"
+	date: "2022-11-07 15:50:30 GMT (Monday 7th November 2022)"
+	revision: "3"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -34,6 +34,7 @@ inherit
 			i_th as i_th_interval,
 			item as interval_item,
 			index_of as index_of_interval,
+			intersection as interval_intersection,
 			item_lower as item_start_index,
 			item_upper as item_end_index,
 			inverse_query_if as inverse_interval_query_if,
@@ -41,6 +42,8 @@ inherit
 			new_cursor as new_interval_cursor,
 			occurrences as interval_occurrences,
 			query_if as interval_query_if,
+			query_in as interval_query_in,
+			query_not_in as interval_query_not_in,
 			search as search_for_interval,
 			to_array as to_interval_array,
 			there_exists as there_exists_interval

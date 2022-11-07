@@ -1,3 +1,6 @@
+1.8.1
+* Fix detection of verbatim string in SOURCE_MODEL when line ends with ')'
+
 1.8.0
 * Improvements to Evolicity engine
 

@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:46:40 GMT (Saturday 5th February 2022)"
-	revision: "18"
+	date: "2022-11-07 11:10:29 GMT (Monday 7th November 2022)"
+	revision: "19"
 
 class
 	FEATURE_EDITOR_APP
@@ -30,13 +30,14 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				required_argument ("source", "Source file path", << file_must_exist >>)
+				required_argument ("source", "Source file path", << file_must_exist >>),
+				optional_argument ("dry_run", "Print output to screen without modifying file", No_checks)
 			>>
 		end
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make ("")
+			Result := agent {like command}.make ("", False)
 		end
 
 note

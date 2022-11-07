@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-16 16:26:42 GMT (Sunday 16th October 2022)"
-	revision: "6"
+	date: "2022-11-07 16:08:13 GMT (Monday 7th November 2022)"
+	revision: "7"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]
@@ -48,6 +48,28 @@ feature -- Access
 		-- all items meeting agent predicate condition
 		do
 			Result := query (condition)
+		end
+
+	query_not_in (other: CONTAINER [G]): like query
+		-- all items in `Current' not in `other'
+		require
+			same_comparison: object_comparison = other.object_comparison
+		local
+			other_has_item: EL_CONTAINER_HAS_QUERY_CONDITION [G]
+		do
+			create other_has_item.make (other)
+			Result := query (not other_has_item)
+		end
+
+	query_in, intersection (other: CONTAINER [G]): like query
+		-- all items in `Current' that are also in `other'
+		require
+			same_comparison: object_comparison = other.object_comparison
+		local
+			other_has_item: EL_CONTAINER_HAS_QUERY_CONDITION [G]
+		do
+			create other_has_item.make (other)
+			Result := query (other_has_item)
 		end
 
 	query_is_equal (target_value: ANY; value: FUNCTION [G, ANY]): EL_ARRAYED_LIST [G]
@@ -305,12 +327,16 @@ feature -- Contract Support
 			create Result.make (current_container)
 		end
 
+	object_comparison: BOOLEAN
+		do
+			Result := current_container.object_comparison
+		end
+
 	result_type (value: FUNCTION [G, ANY]): TYPE [ANY]
 
 		do
 			Result := value.generating_type.generic_parameter_type (2)
 		end
-
 
 feature {NONE} -- Summators
 

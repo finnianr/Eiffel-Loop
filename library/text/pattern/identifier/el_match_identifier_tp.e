@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 7:49:23 GMT (Wednesday 2nd November 2022)"
-	revision: "4"
+	date: "2022-11-07 10:20:24 GMT (Monday 7th November 2022)"
+	revision: "5"
 
 deferred class
 	EL_MATCH_IDENTIFIER_TP
@@ -20,6 +20,14 @@ inherit
 			match_count
 		end
 
+feature {NONE} -- Initialization
+
+	make_upper
+		do
+			make
+			is_upper := True
+		end
+
 feature -- Access
 
 	name: STRING
@@ -27,16 +35,21 @@ feature -- Access
 			Result := language_name + " identifier"
 		end
 
+feature -- Status query
+
+	is_upper: BOOLEAN
+		-- `True' if only upper case identifier should be matched
+
 feature {NONE} -- Implementation
 
 	match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER
 			--
 		local
-			offset, l_count: INTEGER; done: BOOLEAN
+			offset, l_count: INTEGER; done, uppercase_only: BOOLEAN
 		do
-			l_count := text.count
+			l_count := text.count; uppercase_only := is_upper
 			from offset := a_offset until offset = l_count or done loop
-				if i_th_conforms (offset + 1, text, offset = a_offset) then
+				if i_th_conforms (offset + 1, text, offset = a_offset, uppercase_only) then
 					Result := Result + 1
 
 				else
@@ -53,18 +66,18 @@ feature {NONE} -- Implementation
 		-- `True' if matched pattern meets defintion of `Current' pattern
 		do
 			Result := across 1 |..| count as index all
-				i_th_conforms (a_offset + index.item, text, index.item =1)
+				i_th_conforms (a_offset + index.item, text, index.item = 1, is_upper)
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	language_name: STRING
+	i_th_conforms (i: INTEGER_32; text: READABLE_STRING_GENERAL; is_first_character, uppercase_only: BOOLEAN): BOOLEAN
+		-- `True' if i'th character conforms to language rule
 		deferred
 		end
 
-	i_th_conforms (i: INTEGER_32; text: READABLE_STRING_GENERAL; is_first_character: BOOLEAN): BOOLEAN
-		-- `True' if i'th character conforms to language rule
+	language_name: STRING
 		deferred
 		end
 

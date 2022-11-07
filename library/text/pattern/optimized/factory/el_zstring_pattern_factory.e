@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-01 20:28:37 GMT (Tuesday 1st November 2022)"
-	revision: "6"
+	date: "2022-11-07 10:23:14 GMT (Monday 7th November 2022)"
+	revision: "7"
 
 class
 	EL_ZSTRING_PATTERN_FACTORY
@@ -22,9 +22,13 @@ inherit
 
 feature -- Character
 
-	new_c_identifier: EL_MATCH_ZSTRING_C_IDENTIFIER_TP
+	new_c_identifier (is_upper: BOOLEAN): EL_MATCH_ZSTRING_C_IDENTIFIER_TP
 		do
-			create Result.make
+			if is_upper then
+				create Result.make_upper
+			else
+				create Result.make
+			end
 		end
 
 	new_character_literal (literal: CHARACTER_32): EL_ZSTRING_LITERAL_CHAR_TP

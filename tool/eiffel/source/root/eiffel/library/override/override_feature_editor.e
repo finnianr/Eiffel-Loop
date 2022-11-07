@@ -20,9 +20,9 @@ inherit
 
 feature {EL_FACTORY_CLIENT} -- Initialization
 
-	make (a_source_path: like source_path)
+	make (a_source_path: FILE_PATH; dry_run: BOOLEAN)
 		do
-			Precursor (a_source_path)
+			Precursor (a_source_path, dry_run)
 			feature_edit_actions := new_feature_edit_actions
 		end
 

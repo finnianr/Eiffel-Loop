@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-16 10:29:06 GMT (Sunday 16th October 2022)"
-	revision: "13"
+	date: "2022-11-07 15:59:17 GMT (Monday 7th November 2022)"
+	revision: "14"
 
 class
 	EL_RESULT_SUMMATOR [G, N -> NUMERIC]

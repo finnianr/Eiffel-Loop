@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-20 14:13:22 GMT (Thursday 20th October 2022)"
-	revision: "33"
+	date: "2022-11-07 15:51:15 GMT (Monday 7th November 2022)"
+	revision: "34"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -32,7 +32,8 @@ inherit
 		redefine
 			character_count, has
 		select
-			index_of, occurrences, to_array, do_if, search, inverse_query_if, query_if,
+			index_of, occurrences, to_array, do_if, search, inverse_query_if,
+			query_if, query_not_in, query_in, intersection,
 			current_linear, find_first_equal, find_next_item, do_all, for_all, has, item,
 			there_exists
 		end

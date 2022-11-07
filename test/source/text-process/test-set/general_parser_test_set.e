@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-05 10:06:20 GMT (Saturday 5th November 2022)"
-	revision: "22"
+	date: "2022-11-07 10:43:10 GMT (Monday 7th November 2022)"
+	revision: "23"
 
 class
 	GENERAL_PARSER_TEST_SET
@@ -94,13 +94,13 @@ feature -- Test
 		do
 			create list.make (1)
 			assignment := eiffel_string_assignment (list)
-			view := Eiffel_statement
+			view := Text.Eiffel_assignment
 			assignment.match (view)
-			if assignment.is_matched and then assignment.count = Eiffel_statement.count then
+			if assignment.is_matched and then assignment.count = Text.Eiffel_assignment.count then
 				assignment.call_actions (view)
-				start_index := Eiffel_statement.index_of ('"', 1) + 1
-				end_index := Eiffel_statement.count - 1
-				boolean := list.first ~ Eiffel_statement.substring (start_index, end_index)
+				start_index := Text.Eiffel_assignment.index_of ('"', 1) + 1
+				end_index := Text.Eiffel_assignment.count - 1
+				boolean := list.first ~ Text.Eiffel_assignment.substring (start_index, end_index)
 			end
 			assert ("match_p1_while_not_p2 OK", boolean)
 		end
@@ -157,7 +157,7 @@ feature -- Test
 			eiffel_type: like type; type_string: ZSTRING
 		do
 			eiffel_type := type
-			across Eiffel_types.split_list ('%N') as line loop
+			across Text.Eiffel_type_declarations.split ('%N') as line loop
 				type_string := line.item
 				assert ("match OK", type_string.matches (eiffel_type))
 				type_string := type_string + " X"
@@ -332,12 +332,6 @@ feature {NONE} -- Implementation
 			>>)
 		end
 
-	xml_identifier_character: EL_FIRST_MATCHING_CHAR_IN_LIST_TP
-		do
-			Result := identifier_character
-			Result.extend (character_literal ('-'))
-		end
-
 	xml_identifier: EL_MATCH_ALL_IN_LIST_TP
 			--
 		do
@@ -347,22 +341,13 @@ feature {NONE} -- Implementation
 			>>)
 		end
 
-feature {NONE} -- Constants
-
-	Eiffel_statement: STRING = "[
-		str := "1%N2%"/3"
-	]"
-
-	Eiffel_types: ZSTRING
-		once
-			Result := "[
-				STRING
-				ARRAY [STRING]
-				HASH_TABLE [STRING, STRING]
-				ARRAY [HASH_TABLE [STRING, STRING]]
-				HASH_TABLE [ARRAY [HASH_TABLE [STRING, STRING]], STRING]
-			]"
+	xml_identifier_character: EL_FIRST_MATCHING_CHAR_IN_LIST_TP
+		do
+			Result := identifier_character
+			Result.extend (character_literal ('-'))
 		end
+
+feature {NONE} -- Constants
 
 	Ireland: COUNTRY
 		once

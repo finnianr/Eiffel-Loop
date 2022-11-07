@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-05 10:07:52 GMT (Saturday 5th November 2022)"
-	revision: "7"
+	date: "2022-11-07 10:47:28 GMT (Monday 7th November 2022)"
+	revision: "8"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -18,7 +18,7 @@ inherit
 			on_prepare
 		end
 
-	EL_TEXT_PATTERN_FACTORY_2
+	EL_EIFFEL_TEXT_PATTERN_FACTORY_2
 		undefine
 			default_create
 		end
@@ -42,7 +42,6 @@ feature -- Basic operations
 			eval.call ("numeric_match", agent test_numeric_match)
 			eval.call ("pyxis_attribute_parser", agent test_pyxis_attribute_parser)
 			eval.call ("quoted_c_string", agent test_quoted_c_string)
-			eval.call ("string_substitution", agent test_string_substitution)
 		end
 
 feature -- Test
@@ -196,6 +195,21 @@ feature -- Test
 				else
 					assert ("matched", False)
 				end
+			end
+		end
+
+	test_recursive_match
+		note
+			testing: "covers/{EL_RECURSIVE_TEXT_PATTERN}.match"
+		local
+			eiffel_type: like class_type; type_string: ZSTRING
+		do
+			eiffel_type := class_type
+			across Text.Eiffel_type_declarations.split ('%N') as line loop
+				type_string := line.item
+				assert ("match OK", type_string.matches (eiffel_type))
+				type_string := type_string + " X"
+				assert ("not match OK", not type_string.matches (eiffel_type))
 			end
 		end
 

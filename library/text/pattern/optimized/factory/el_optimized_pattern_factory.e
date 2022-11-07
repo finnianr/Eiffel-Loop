@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-01 20:28:41 GMT (Tuesday 1st November 2022)"
-	revision: "6"
+	date: "2022-11-07 10:22:41 GMT (Monday 7th November 2022)"
+	revision: "7"
 
 class
 	EL_OPTIMIZED_PATTERN_FACTORY
@@ -55,9 +55,13 @@ feature -- Character
 
 feature -- String
 
-	new_c_identifier: EL_MATCH_C_IDENTIFIER_TP
+	new_c_identifier (is_upper: BOOLEAN): EL_MATCH_C_IDENTIFIER_TP
 		do
-			create Result.make
+			if is_upper then
+				create Result.make_upper
+			else
+				create Result.make
+			end
 		end
 
 	new_string_literal (a_text: READABLE_STRING_GENERAL): EL_LITERAL_TEXT_PATTERN

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 11:10:04 GMT (Saturday 5th February 2022)"
-	revision: "9"
+	date: "2022-11-07 13:54:32 GMT (Monday 7th November 2022)"
+	revision: "10"
 
 class
 	EL_EIFFEL_SOURCE_LINE_STATE_MACHINE
@@ -24,6 +24,8 @@ inherit
 		rename
 			comment_prefix as pattern_comment_prefix
 		end
+
+	STRING_HANDLER
 
 feature {NONE} -- Initialization
 
@@ -89,13 +91,31 @@ feature {NONE} -- Implementation
 		end
 
 	code_line_is_verbatim_string_end: BOOLEAN
+		local
+			index: INTEGER
 		do
-			Result := across Close_verbatim_string_markers as marker some code_line.ends_with (marker.item) end
+			if attached code_line as line and then line.count >= 2 then
+				index := line.last_index_of ('"', line.count)
+				if index > 1 and then Verbatim_markers.close.has (line.item_8 (index - 1)) then
+					if index < line.count then
+						Result := line.item_8 (index + 1) = ')'
+					else
+						Result := True
+					end
+				end
+			end
 		end
 
 	code_line_is_verbatim_string_start: BOOLEAN
+		local
+			index: INTEGER
 		do
-			Result := across Open_verbatim_string_markers as marker some code_line.ends_with (marker.item) end
+			if attached code_line as line and then line.count >= 2 then
+				index := line.index_of ('"', line.count)
+				if index > 0 then
+					Result := Verbatim_markers.open.has (line.item_8 (index + 1))
+				end
+			end
 		end
 
 	code_line_starts_with_one_of (indent_count: INTEGER; keywords: LIST [ZSTRING]): BOOLEAN
@@ -123,16 +143,12 @@ feature {NONE} -- Implementation attributes
 
 feature {NONE} -- Constants
 
-	Close_verbatim_string_markers: ARRAY [ZSTRING]
-		once
-			Result := << "]%"", "}%"" >>
-		end
-
 	Is_zstring_source: BOOLEAN = True
 
-	Open_verbatim_string_markers: ARRAY [ZSTRING]
+	Verbatim_markers: TUPLE [open, close: STRING]
 		once
-			Result := << "%"[", "%"{" >>
+			create Result
+			Tuple.fill (Result, "{[,]}")
 		end
 
 end

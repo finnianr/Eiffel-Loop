@@ -6,14 +6,29 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-03 12:23:39 GMT (Thursday 3rd February 2022)"
-	revision: "10"
+	date: "2022-11-07 11:08:31 GMT (Monday 7th November 2022)"
+	revision: "11"
 
 deferred class
 	FEATURE_EDITOR
 
 inherit
 	SOURCE_MODEL
+		rename
+			make as make_model
+		end
+
+feature {NONE} -- Initialization
+
+	make (a_source_path: FILE_PATH; dry_run: BOOLEAN)
+		do
+			make_model (a_source_path)
+			is_dry_run := dry_run
+		end
+
+feature -- Status query
+
+	is_dry_run: BOOLEAN
 
 feature -- Basic operations
 

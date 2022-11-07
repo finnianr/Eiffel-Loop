@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2022-11-07 10:39:25 GMT (Monday 7th November 2022)"
+	revision: "6"
 
 class
 	EL_RECURSIVE_TEXT_PATTERN
