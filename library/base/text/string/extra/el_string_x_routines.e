@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-06 8:59:42 GMT (Sunday 6th November 2022)"
-	revision: "43"
+	date: "2022-11-08 5:51:10 GMT (Tuesday 8th November 2022)"
+	revision: "44"
 
 deferred class
 	EL_STRING_X_ROUTINES [STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -67,6 +67,12 @@ feature -- Factory
 		deferred
 		end
 
+	shared_substring (s: STRING_X; new_count: INTEGER): STRING_X
+		require
+			valid_count: new_count <= s.count
+		deferred
+		end
+
 	spaces (width, count: INTEGER): STRING_X
 			-- width * count spaces
 		local
@@ -78,12 +84,6 @@ feature -- Factory
 				Result.append_code (32)
 				i := i + 1
 			end
-		end
-
-	shared_substring (s: STRING_X; new_count: INTEGER): STRING_X
-		require
-			valid_count: new_count <= s.count
-		deferred
 		end
 
 feature -- Lists
@@ -109,6 +109,16 @@ feature -- Lists
 		end
 
 feature -- Transformed
+
+	curtailed (str: READABLE_STRING_X; max_count: INTEGER): READABLE_STRING_X
+		-- `str' curtailed to `max_count' with added ellipsis where `max_count' is exceeded
+		do
+			if str.count > max_count - 2 then
+				Result := str.substring (1, max_count - 2) + Ellipsis_dots
+			else
+				Result := str
+			end
+		end
 
 	enclosed (str: READABLE_STRING_GENERAL; left, right: CHARACTER_32): STRING_X
 			--

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 7:53:32 GMT (Wednesday 2nd November 2022)"
-	revision: "2"
+	date: "2022-11-08 5:31:32 GMT (Tuesday 8th November 2022)"
+	revision: "3"
 
 deferred class
 	EL_CHARACTER_PROPERTY_TP
@@ -32,9 +32,7 @@ feature {NONE} -- Implementation
 	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if matched pattern meets defintion of `Current' pattern
 		do
-			if count <= text.count - a_offset then
-				Result := i_th_matches (a_offset + 1, text)
-			end
+			Result := i_th_matches (a_offset + 1, text)
 		end
 
 	i_th_matches (i: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN

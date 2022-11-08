@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 7:49:38 GMT (Wednesday 2nd November 2022)"
-	revision: "4"
+	date: "2022-11-08 6:35:37 GMT (Tuesday 8th November 2022)"
+	revision: "5"
 
 deferred class
 	EL_MATCH_CONTINUOUS_PROPERTY_TP
@@ -68,9 +68,9 @@ feature {NONE} -- Implementation
 	spell_minimum: STRING
 		do
 			if minimum_match_count = 0 then
-				Result := "zero"
+				Result := "0+"
 			else
-				Result := "one"
+				Result := "1+"
 			end
 		end
 

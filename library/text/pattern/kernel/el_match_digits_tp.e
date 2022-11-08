@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-29 15:55:01 GMT (Saturday 29th October 2022)"
-	revision: "1"
+	date: "2022-11-08 6:35:53 GMT (Tuesday 8th November 2022)"
+	revision: "2"
 
 class
 	EL_MATCH_DIGITS_TP
@@ -25,7 +25,7 @@ feature -- Access
 
 	name: STRING
 		do
-			Result := spell_minimum + " or more digits"
+			Result := spell_minimum + " digits"
 		end
 
 feature {NONE} -- Implementation

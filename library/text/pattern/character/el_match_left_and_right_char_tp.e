@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 7:49:02 GMT (Wednesday 2nd November 2022)"
-	revision: "3"
+	date: "2022-11-08 5:31:55 GMT (Tuesday 8th November 2022)"
+	revision: "4"
 
 class
 	EL_MATCH_LEFT_AND_RIGHT_CHAR_TP
@@ -76,14 +76,12 @@ feature {NONE} -- Implementation
 		local
 			left_count, right_count: INTEGER
 		do
-			if count <= text.count - a_offset then
-				left_count := left_operand.match_count (a_offset, text)
-				if left_count /= Match_fail then
-					right_count := right_operand.match_count (a_offset + left_count, text)
-				end
-				if right_count /= Match_fail then
-					Result := count = left_count + right_count
-				end
+			left_count := left_operand.match_count (a_offset, text)
+			if left_count /= Match_fail then
+				right_count := right_operand.match_count (a_offset + left_count, text)
+			end
+			if right_count /= Match_fail then
+				Result := count = left_count + right_count
 			end
 		end
 

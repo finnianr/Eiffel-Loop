@@ -16,7 +16,7 @@ system:
 			all_classes = true
 		file_rule:
 			exclude:
-				"/\.svn"
+				"/\\.svn"
 
 		option:
 			warning = true; full_class_checking = false; is_attached_by_default = false

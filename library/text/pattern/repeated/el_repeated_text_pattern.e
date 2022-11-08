@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-04 17:15:23 GMT (Friday 4th November 2022)"
-	revision: "2"
+	date: "2022-11-08 6:47:22 GMT (Tuesday 8th November 2022)"
+	revision: "3"
 
 class
 	EL_REPEATED_TEXT_PATTERN
@@ -20,7 +20,7 @@ inherit
 		rename
 			make as make_with_patterns
 		redefine
-			copy, has_action, is_equal, match, name_list, set_debug_to_depth, i_th_sub_pattern
+			copy, has_action, is_equal, match, new_name_list, set_debug_to_depth
 		end
 
 feature {NONE} -- Initialization
@@ -36,24 +36,6 @@ feature {NONE} -- Initialization
 			else
 				instance_pool := Default_instance_pool
 			end
-		end
-
-feature -- Access
-
-	name_list: SPECIAL [STRING]
-		local
-			l_name: STRING
-		do
-			create Result.make_empty (1)
-			l_name := "repeated ()"
-			l_name.insert_string (repeated.name, l_name.count)
-			Result.extend (l_name)
-		end
-
-	i_th_sub_pattern (i: INTEGER): STRING
-		-- i'th pattern description
-		do
-			Result := name
 		end
 
 feature -- Basic operations
@@ -102,6 +84,18 @@ feature {NONE} -- Duplication
 
 feature {NONE} -- Implementation
 
+	new_name_list (curtailed: BOOLEAN): EL_STRING_8_LIST
+		do
+			create Result.make (list_count)
+			if list_count > 0 then
+				Result.extend (first.curtailed_name)
+			end
+			if list_count > 1 then
+				Result.extend ("repeated X ")
+				Result.last.append_integer (list_count - 1)
+			end
+		end
+
 	recycle_repeats
 		do
 			do_for_each (agent instance_pool.recycle)
@@ -146,4 +140,3 @@ feature -- Constants
 			create Result.make (0, agent repeated_twin)
 		end
 end
-

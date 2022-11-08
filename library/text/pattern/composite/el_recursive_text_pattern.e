@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-07 10:09:06 GMT (Monday 7th November 2022)"
-	revision: "6"
+	date: "2022-11-08 5:22:18 GMT (Tuesday 8th November 2022)"
+	revision: "1"
 
 class
 	EL_RECURSIVE_TEXT_PATTERN
@@ -15,7 +15,16 @@ class
 inherit
 	EL_TEXT_PATTERN
 		redefine
-			copy, is_equal, internal_call_actions, has_action
+			copy, is_equal, internal_call_actions, has_action, match
+		end
+
+	EL_LAZY_ATTRIBUTE
+		rename
+			actual_item as actual_nested_pattern,
+			item as nested_pattern,
+			new_item as new_nested_pattern
+		undefine
+			copy, is_equal
 		end
 
 create
@@ -23,10 +32,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_new_recursive: like new_recursive; a_has_action: like has_action)
+	make (new_pattern_function: FUNCTION [EL_TEXT_PATTERN]; a_has_action: BOOLEAN)
 		do
 			make_default
-			new_recursive := a_new_recursive; has_action := a_has_action
+			new_pattern := new_pattern_function; has_action := a_has_action
 		end
 
 feature -- Access
@@ -39,11 +48,21 @@ feature -- Access
 			end
 		end
 
+feature -- Basic operations
+
+	match (a_offset: INTEGER; text: READABLE_STRING_GENERAL)
+		do
+			if attached nested_pattern as pattern then
+				pattern.match (a_offset, text)
+				count := pattern.count
+			end
+		end
+
 feature -- Comparison
 
 	is_equal (other: like Current): BOOLEAN
 		do
-			Result := count = other.count and then new_recursive = other.new_recursive
+			Result := count = other.count and then new_pattern = other.new_pattern
 		end
 
 feature -- Status query
@@ -55,49 +74,39 @@ feature {NONE} -- Duplication
 	copy (other: like Current)
 		do
 			standard_copy (other)
-			nested_pattern := Void
+			actual_nested_pattern := Void
 		end
 
 feature {NONE} -- Implementation
 
 	internal_call_actions (start_index, end_index: INTEGER)
 		do
-			if attached nested_pattern as pattern then
+			if attached actual_nested_pattern as pattern then
 				pattern.internal_call_actions (start_index, end_index)
 			end
 		end
 
 	match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER
-			--
+		-- not used
 		do
-			if attached nested_pattern as pattern then
-				Result := pattern.match_count (a_offset, text)
-			else
-				nested_pattern := new_nested_pattern
-				Result := match_count (a_offset, text) -- recurse
-			end
 		end
 
 	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if matched pattern meets defintion of `Current' pattern
 		do
-			if attached nested_pattern as pattern then
-				Result := pattern.meets_definition (a_offset, text)
-			else
-				Result := True
+			if attached actual_nested_pattern as pattern then
+				Result := count = pattern.count
 			end
 		end
 
 	new_nested_pattern: EL_TEXT_PATTERN
 		do
-			new_recursive.apply
-			Result := new_recursive.last_result
+			new_pattern.apply
+			Result := new_pattern.last_result
 		end
 
 feature {EL_TEXT_PATTERN, EL_TEXT_PATTERN_FACTORY} -- Implementation attributes
 
-	new_recursive: FUNCTION [EL_TEXT_PATTERN]
-
-	nested_pattern: detachable EL_TEXT_PATTERN
+	new_pattern: FUNCTION [EL_TEXT_PATTERN]
 
 end

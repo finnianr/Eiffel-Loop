@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-04 8:35:17 GMT (Friday 4th November 2022)"
-	revision: "5"
+	date: "2022-11-08 6:56:08 GMT (Tuesday 8th November 2022)"
+	revision: "6"
 
 class
 	EL_MATCH_ALL_IN_LIST_TP
@@ -61,40 +61,13 @@ feature -- Access
 
 	name: STRING
 		do
-			Result := "all_of"
+			Result := "all_of ()"
+			Result.insert_string (new_name_list (True).comma_separated, Result.count)
 		end
 
 	name_list: SPECIAL [STRING]
-		local
-			l_count, i: INTEGER
 		do
-			create Result.make_empty (list_count)
-			l_count := list_count
-			from i := 1 until i > l_count loop
-				Result.extend (i_th_sub_pattern (i))
-				i := i + 1
-			end
-		end
-
-	i_th_sub_pattern (i: INTEGER): STRING
-		-- i'th pattern description
-		do
-			create Result.make (20)
-			if attached i_th (i) as sub_pattern then
-				Result.append (sub_pattern.name)
-				if not attached {EL_REPEATED_TEXT_PATTERN} sub_pattern
-					and then attached {ARRAYED_LIST [EL_TEXT_PATTERN]} sub_pattern as list
-				then
-					Result.append (" (")
-					across list as l_pattern loop
-						if l_pattern.cursor_index > 1 then
-							Result.append (", ")
-						end
-						Result.append (l_pattern.item.name)
-					end
-					Result.append_character (')')
-				end
-			end
+			Result := new_name_list (False).area
 		end
 
 feature -- Status query
@@ -178,16 +151,34 @@ feature {NONE} -- Implementation
 		local
 			sum_count, l_count, offset: INTEGER
 		do
-			if count <= text.count - a_offset then
-				offset := a_offset
-				across Current as sub_pattern until l_count = Match_fail loop
-					if sub_pattern.item.is_matched then
-						l_count := sub_pattern.item.count
-						offset := offset + l_count
-						sum_count := sum_count + l_count
+			offset := a_offset
+			across Current as sub_pattern until l_count = Match_fail loop
+				if sub_pattern.item.is_matched then
+					l_count := sub_pattern.item.count
+					offset := offset + l_count
+					sum_count := sum_count + l_count
+				end
+			end
+			Result := count = sum_count
+		end
+
+	new_name_list (curtailed: BOOLEAN): EL_STRING_8_LIST
+		local
+			done: BOOLEAN; s: EL_STRING_8_ROUTINES
+		do
+			create Result.make (list_count)
+			across Current as list loop
+				if curtailed then
+					Result.extend (list.item.curtailed_name)
+				else
+					Result.extend (list.item.name)
+				end
+				if Result.character_count > 200 then
+					done := True
+					if not list.is_last then
+						Result.extend (s.Ellipsis_dots)
 					end
 				end
-				Result := count = sum_count
 			end
 		end
 

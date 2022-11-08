@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-04 17:40:08 GMT (Friday 4th November 2022)"
-	revision: "5"
+	date: "2022-11-08 6:33:39 GMT (Tuesday 8th November 2022)"
+	revision: "6"
 
 class
 	EL_MATCH_COUNT_WITHIN_BOUNDS_TP
@@ -37,14 +37,13 @@ feature -- Access
 	name: STRING
 		do
 			if occurrence_bounds ~ 0 |..| Max_matches then
-				Result := "zero_or_more"
+				Result := "0+"
 			elseif occurrence_bounds ~ 1 |..| Max_matches then
-				Result := "one_or_more"
+				Result := "1+"
 			elseif occurrence_bounds ~ 0 |..| 1 then
 				Result := "optional"
 			else
 				create Result.make (10)
-				Result.append ("occurs ")
 				Result.append_integer (occurrence_bounds.lower)
 				Result.append ("..")
 				Result.append_integer (occurrence_bounds.upper)
@@ -85,7 +84,7 @@ feature {NONE} -- Implementation
 			if repeat_has_action and occurrence_bounds.has (list_count) then
 				Result := Precursor (a_offset, text)
 			else
-				Result := count <= (text.count - a_offset)
+				Result := True
 			end
 		end
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-01 10:02:58 GMT (Friday 1st July 2022)"
-	revision: "3"
+	date: "2022-11-08 6:45:29 GMT (Tuesday 8th November 2022)"
+	revision: "4"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -193,7 +193,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-feature {NONE} -- Constants
+feature -- Constants
 
 	Ellipsis_dots: STRING = ".."
 

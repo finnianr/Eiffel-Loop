@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-04 8:29:14 GMT (Friday 4th November 2022)"
-	revision: "6"
+	date: "2022-11-08 6:24:42 GMT (Tuesday 8th November 2022)"
+	revision: "7"
 
 deferred class
 	EL_TEXT_PATTERN
 
 inherit
 	EL_TEXT_PATTERN_I
+
+--	DEBUG_OUTPUT
+--		rename
+--			debug_output as name
+--		end
 
 feature {NONE} -- Initialization
 
@@ -27,6 +32,13 @@ feature -- Access
 	EVENT_ACTION: PROCEDURE [INTEGER, INTEGER]
 		once
 			Result := agent on_match
+		end
+
+	curtailed_name: STRING
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			Result := s.curtailed (name, 20)
 		end
 
 	name: STRING
@@ -60,7 +72,7 @@ feature -- Basic operations
 		do
 			count := match_count (a_offset, text)
 		ensure
-			definition: is_matched implies meets_definition (a_offset, text)
+			definition: is_matched implies count <= (text.count - a_offset) and then meets_definition (a_offset, text)
 		end
 
 	parse (text: READABLE_STRING_GENERAL)

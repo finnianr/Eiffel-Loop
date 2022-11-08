@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-01 11:43:54 GMT (Tuesday 1st November 2022)"
-	revision: "3"
+	date: "2022-11-08 6:37:14 GMT (Tuesday 8th November 2022)"
+	revision: "4"
 
 class
 	EL_MATCH_WHITE_SPACE_TP
@@ -40,9 +40,9 @@ feature -- Access
 	name: STRING
 		do
 			if nonbreaking then
-				Result := spell_minimum + " or more nonbreaking whitespace"
+				Result := spell_minimum + " NB whitespace"
 			else
-				Result := spell_minimum + " or more whitespace"
+				Result := spell_minimum + " whitespace"
 			end
 		end
 

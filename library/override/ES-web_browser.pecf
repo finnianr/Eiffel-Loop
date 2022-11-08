@@ -19,7 +19,7 @@ system:
 		setting:
 			name = dotnet_naming_convention; value = true
 		external_include:
-			location = "$(ISE_LIBRARY)\library\web_browser\spec\include"
+			location = "$(ISE_LIBRARY)\\library\\web_browser\\spec\\include"
 			condition:
 				platform = windows
 		external_include:
@@ -33,7 +33,7 @@ system:
 				platform:
 					excluded_value = windows
 		external_library:
-			location = "$(ISE_LIBRARY)\library\web_browser\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\ole_ie.lib"
+			location = "$(ISE_LIBRARY)\\library\\web_browser\\spec\\$(ISE_C_COMPILER)\\$(ISE_PLATFORM)\\lib\\ole_ie.lib"
 			condition:
 				platform = windows
 		library:

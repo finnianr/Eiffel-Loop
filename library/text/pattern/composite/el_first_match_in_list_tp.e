@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-04 8:40:34 GMT (Friday 4th November 2022)"
-	revision: "2"
+	date: "2022-11-08 6:21:05 GMT (Tuesday 8th November 2022)"
+	revision: "3"
 
 class
 	EL_FIRST_MATCH_IN_LIST_TP
@@ -51,7 +51,7 @@ feature {NONE} -- Implementation
 	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if matched pattern meets defintion of `Current' pattern
 		do
-			if count <= text.count - a_offset and then valid_index (match_index) then
+			if valid_index (match_index) then
 				if across 1 |..| (match_index - 1) as n all i_th (n.item).count = Match_fail end then
 					Result := i_th (match_index).count = count
 				end
@@ -62,7 +62,8 @@ feature -- Access
 
 	name: STRING
 		do
-			Result := "one_of"
+			Result := Precursor
+			Result.replace_substring ("one", 1, 3)
 		end
 
 feature {NONE} -- Implementation

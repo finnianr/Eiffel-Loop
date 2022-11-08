@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-07 10:47:28 GMT (Monday 7th November 2022)"
-	revision: "8"
+	date: "2022-11-08 4:33:25 GMT (Tuesday 8th November 2022)"
+	revision: "9"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -42,6 +42,9 @@ feature -- Basic operations
 			eval.call ("numeric_match", agent test_numeric_match)
 			eval.call ("pyxis_attribute_parser", agent test_pyxis_attribute_parser)
 			eval.call ("quoted_c_string", agent test_quoted_c_string)
+			eval.call ("recursive_match", agent test_recursive_match)
+			eval.call ("string_substitution", agent test_string_substitution)
+			eval.call ("xpath_parser", agent test_xpath_parser)
 		end
 
 feature -- Test
