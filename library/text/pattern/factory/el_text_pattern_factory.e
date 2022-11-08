@@ -6,11 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-07 10:23:49 GMT (Monday 7th November 2022)"
-	revision: "7"
+	date: "2022-11-08 16:18:35 GMT (Tuesday 8th November 2022)"
+	revision: "8"
 
 deferred class
 	EL_TEXT_PATTERN_FACTORY
+
+feature -- Basic operations
+
+	reference_match (pattern: EL_TEXT_PATTERN): EL_MATCH_REFERENCE_TP
+		do
+			create Result.make (pattern)
+		end
 
 feature -- Recursive patterns
 
@@ -80,6 +87,11 @@ feature -- Bounded occurrences
 			Result := optional_pattern #occurs (0 |..| 1)
 		end
 
+	while_not_p1_repeat_p2 (p1, p2: EL_TEXT_PATTERN): EL_MATCH_P2_WHILE_NOT_P1_MATCH_TP
+		do
+			create Result.make (p1, p2)
+		end
+
 	zero_or_more (a_pattern: EL_TEXT_PATTERN): EL_MATCH_ZERO_OR_MORE_TIMES_TP
 			--
 		do
@@ -88,16 +100,16 @@ feature -- Bounded occurrences
 
 feature -- Character patterns
 
+	any_character: EL_MATCH_ANY_CHAR_TP
+			--
+		do
+			create Result.make
+		end
+
 	character_literal (literal: CHARACTER_32): EL_LITERAL_CHAR_TP
 			--
 		do
 			Result := core.new_character_literal (literal)
-		end
-
-	one_character_from (a_character_set: READABLE_STRING_GENERAL): EL_MATCH_CHARACTER_IN_SET_TP
-			--
-		do
-			Result := core.new_character_in_set (a_character_set)
 		end
 
 	digit: EL_NUMERIC_CHAR_TP
@@ -110,6 +122,12 @@ feature -- Character patterns
 			--
 		do
 			Result := core.new_letter
+		end
+
+	one_character_from (a_character_set: READABLE_STRING_GENERAL): EL_MATCH_CHARACTER_IN_SET_TP
+			--
+		do
+			Result := core.new_character_in_set (a_character_set)
 		end
 
 	white_space_character: EL_WHITE_SPACE_CHAR_TP
@@ -126,16 +144,16 @@ feature -- White space
 			Result := core.new_white_space (False, True)
 		end
 
-	optional_white_space: EL_MATCH_WHITE_SPACE_TP
-		-- match optional white space
-		do
-			Result := core.new_white_space (True, False)
-		end
-
 	optional_nonbreaking_white_space: EL_MATCH_WHITE_SPACE_TP
 		-- match optional nonbreaking white space
 		do
 			Result := core.new_white_space (True, True)
+		end
+
+	optional_white_space: EL_MATCH_WHITE_SPACE_TP
+		-- match optional white space
+		do
+			Result := core.new_white_space (True, False)
 		end
 
 	white_space: EL_MATCH_WHITE_SPACE_TP
@@ -145,6 +163,14 @@ feature -- White space
 		end
 
 feature -- Numeric strings
+
+	decimal_constant: like all_of
+		do
+			Result := all_of (<<
+				signed_integer,
+				optional (all_of (<< character_literal ('.'), signed_integer >>))
+			>>)
+		end
 
 	natural_number: EL_MATCH_DIGITS_TP
 		do
@@ -156,14 +182,6 @@ feature -- Numeric strings
 		do
 			Result := all_of (<<
 				optional (character_literal ('-')), natural_number
-			>>)
-		end
-
-	decimal_constant: like all_of
-		do
-			Result := all_of (<<
-				signed_integer,
-				optional (all_of (<< character_literal ('.'), signed_integer >>))
 			>>)
 		end
 
@@ -213,4 +231,3 @@ feature {NONE} -- Constants
 			create Result
 		end
 end
-

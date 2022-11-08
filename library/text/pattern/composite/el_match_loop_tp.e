@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-08 16:06:19 GMT (Tuesday 8th November 2022)"
-	revision: "7"
+	date: "2022-11-08 16:58:29 GMT (Tuesday 8th November 2022)"
+	revision: "1"
 
 class
 	EL_MATCH_LOOP_TP
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_repeated
 		redefine
-			internal_call_actions, copy
+			internal_call_actions, copy, meets_definition
 		end
 
 feature {NONE} -- Initialization
@@ -30,20 +30,15 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	internal_call_actions (text: EL_STRING_VIEW)
-		local
-			l_interval: like interval
+	internal_call_actions (start_index, end_index: INTEGER)
 		do
-			call_i_th_action (1, text)
-			call_list_actions (text)
+			call_i_th_action (1, start_index, end_index)
+			call_list_actions (start_index, end_index)
 			if actions.count = 3 then
-				l_interval := interval
-				set_count (count - conditional_pattern.count)
-				call_i_th_action (3, text)
-				set_interval (l_interval)
+				call_i_th_action (3, start_index, end_index - conditional_pattern.count)
 			end
-			conditional_pattern.internal_call_actions (text)
-			call_i_th_action (2, text)
+			conditional_pattern.internal_call_actions (start_index, end_index)
+			call_i_th_action (2, start_index, end_index)
 		end
 
 feature -- Element change
@@ -51,7 +46,7 @@ feature -- Element change
 	set_action_combined_p1 (action: like actions.item)
 		do
 			if actions.count < 3 then
-				actions := actions.resized_area_with_default (Default_action, 3)
+				actions := actions.resized_area_with_default (EVENT_ACTION, 3)
 			end
 			actions [2] := action
 		end
@@ -62,6 +57,12 @@ feature {NONE} -- Duplication
 		do
 			Precursor (other)
 			conditional_pattern := other.conditional_pattern.twin
+		end
+
+feature {NONE} -- Implementation
+
+	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
+		do
 		end
 
 feature {EL_MATCH_LOOP_TP} -- Internal attributes

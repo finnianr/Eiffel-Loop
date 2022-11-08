@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-08 15:44:12 GMT (Tuesday 8th November 2022)"
-	revision: "6"
+	date: "2022-11-08 16:58:29 GMT (Tuesday 8th November 2022)"
+	revision: "1"
 
 class
 	EL_MATCH_P2_WHILE_NOT_P1_MATCH_TP
@@ -39,27 +39,27 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	match_count (text: EL_STRING_VIEW): INTEGER
+	match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER
 		local
-			l_conditional: like conditional_pattern
-			done: BOOLEAN; repeat_count, sum_repeat_count: INTEGER
+			offset, repeat_count, sum_repeat_count: INTEGER; done: BOOLEAN
 		do
-			l_conditional := conditional_pattern
-			from until done loop
-				l_conditional.match (text)
-				if l_conditional.is_matched then
-					done := True
-				else
-					repeat_count := repeat_match_count (text)
-					if repeat_count > 0 then
-						text.prune_leading (repeat_count)
-						sum_repeat_count := sum_repeat_count + repeat_count
-					else
+			if attached conditional_pattern as final_pattern then
+				from offset := a_offset until done loop
+					final_pattern.match (offset, text)
+					if final_pattern.is_matched then
 						done := True
+					else
+						repeat_count := repeat_match_count (offset, text)
+						if repeat_count > 0 then
+							offset := offset + repeat_count
+							sum_repeat_count := sum_repeat_count + repeat_count
+						else
+							done := True
+						end
 					end
 				end
+				Result := sum_repeat_count + final_pattern.count
 			end
-			Result := sum_repeat_count + l_conditional.count
 			if Result = 0 then
 				Result := Match_fail
 			end
