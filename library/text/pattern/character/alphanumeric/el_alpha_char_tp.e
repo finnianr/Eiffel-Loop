@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 7:55:07 GMT (Wednesday 2nd November 2022)"
-	revision: "3"
+	date: "2022-11-10 13:28:04 GMT (Thursday 10th November 2022)"
+	revision: "4"
 
 class
 	EL_ALPHA_CHAR_TP
@@ -15,17 +15,7 @@ class
 inherit
 	EL_CHARACTER_PROPERTY_TP
 		rename
-			make_default as make
-		end
-
-create
-	make
-
-feature -- Access
-
-	name: STRING
-		do
-			Result := "letter"
+			name_inserts as Empty_inserts
 		end
 
 feature {NONE} -- Implementation
@@ -33,6 +23,13 @@ feature {NONE} -- Implementation
 	i_th_matches (i: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := text [i].is_alpha
+		end
+
+feature {NONE} -- Constants
+
+	Name_template: ZSTRING
+		once
+			Result := "letter"
 		end
 
 end

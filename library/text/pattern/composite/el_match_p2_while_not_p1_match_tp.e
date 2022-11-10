@@ -6,7 +6,7 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-08 16:58:29 GMT (Tuesday 8th November 2022)"
+	date: "2022-11-10 14:34:47 GMT (Thursday 10th November 2022)"
 	revision: "1"
 
 class
@@ -17,7 +17,7 @@ inherit
 		rename
 			set_action_combined_p1 as set_action_combined_p2
 		redefine
-			name, make, match_count
+			name_inserts, make, match, meets_definition, Name_template
 		end
 
 create
@@ -30,18 +30,11 @@ feature {NONE} -- Initialization
 			Precursor (p2, p1)
 		end
 
-feature -- Access
-
-	name: STRING
-		do
-			Result := "while (not " + conditional_pattern.name + "): " + repeated.name
-		end
-
 feature {NONE} -- Implementation
 
-	match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER
+	match (a_offset: INTEGER; text: READABLE_STRING_GENERAL)
 		local
-			offset, repeat_count, sum_repeat_count: INTEGER; done: BOOLEAN
+			offset, repeat_count, sum_repeat_count, l_count: INTEGER; done: BOOLEAN
 		do
 			if attached conditional_pattern as final_pattern then
 				from offset := a_offset until done loop
@@ -58,11 +51,39 @@ feature {NONE} -- Implementation
 						end
 					end
 				end
-				Result := sum_repeat_count + final_pattern.count
+				l_count := sum_repeat_count + final_pattern.count
 			end
-			if Result = 0 then
-				Result := Match_fail
+			if l_count = 0 then
+				count := Match_fail
+			else
+				count := l_count
 			end
+		end
+
+feature {NONE} -- Implementation
+
+	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			l_count: INTEGER
+		do
+			l_count := count
+			count := count - conditional_pattern.count
+			if list_count > 0 implies Precursor (a_offset, text) then
+				Result := conditional_pattern.meets_definition (a_offset + count, text)
+			end
+			count := l_count
+		end
+
+	name_inserts: TUPLE
+		do
+			Result := [conditional_pattern.name, repeated.name]
+		end
+
+feature {NONE} -- Constants
+
+	Name_template: ZSTRING
+		once
+			Result := "while (not %S): %S"
 		end
 
 end

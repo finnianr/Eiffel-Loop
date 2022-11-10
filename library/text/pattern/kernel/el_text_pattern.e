@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-08 6:24:42 GMT (Tuesday 8th November 2022)"
-	revision: "7"
+	date: "2022-11-10 13:50:12 GMT (Thursday 10th November 2022)"
+	revision: "8"
 
 deferred class
 	EL_TEXT_PATTERN
@@ -15,21 +15,9 @@ deferred class
 inherit
 	EL_TEXT_PATTERN_I
 
---	DEBUG_OUTPUT
---		rename
---			debug_output as name
---		end
-
-feature {NONE} -- Initialization
-
-	make_default
-		do
-			actions := Empty_actions
-		end
-
 feature -- Access
 
-	EVENT_ACTION: PROCEDURE [INTEGER, INTEGER]
+	Default_action: PROCEDURE [INTEGER, INTEGER]
 		once
 			Result := agent on_match
 		end
@@ -42,12 +30,26 @@ feature -- Access
 		end
 
 	name: STRING
-		deferred
+		do
+			if attached name_inserts as inserts then
+				if inserts.count = 0 then
+					Result := name_template
+				else
+					Result := name_template #$ inserts
+				end
+			end
 		end
 
 	name_list: SPECIAL [STRING]
 		do
 			create Result.make_empty (0)
+		end
+
+	referenced: EL_MATCH_REFERENCE_TP
+		-- pattern that can be used refer back to match of `Current'
+		-- in a match pattern executed later
+		do
+			create Result.make (Current)
 		end
 
 feature -- Measurement
@@ -56,16 +58,16 @@ feature -- Measurement
 
 feature -- Basic operations
 
-	find_all (text: READABLE_STRING_GENERAL; unmatched_action: like EVENT_ACTION)
+	find_all (text: READABLE_STRING_GENERAL; unmatched_action: like Default_action)
 			-- Call actions for all consecutive matchs of `Current' in `s' and calling `unmatched_action'
 			-- with any unmatched text
 		do
-			internal_find_all (0, text, EVENT_ACTION)
+			internal_find_all (0, text, Default_action)
 		end
 
 	find_all_default (text: READABLE_STRING_GENERAL)
 		do
-			find_all (text, EVENT_ACTION)
+			find_all (text, Default_action)
 		end
 
 	match (a_offset: INTEGER; text: READABLE_STRING_GENERAL)
@@ -91,12 +93,14 @@ feature -- Status query
 
 	has_action: BOOLEAN
 		local
-			l_actions: like actions; i, l_count: INTEGER
+			i, l_count: INTEGER
 		do
-			l_actions := actions; l_count := l_actions.count
-			from i := 0 until Result or else i = l_count loop
-				Result := l_actions [i] /= EVENT_ACTION
-				i := i + 1
+			if attached actions_array as array then
+				l_count := array.count
+				from i := 0 until Result or else i = l_count loop
+					Result := array [i] /= Default_action
+					i := i + 1
+				end
 			end
 		end
 
@@ -113,7 +117,7 @@ feature -- Status query
 
 feature -- Element change
 
-	pipe alias "|to|" (a_action: like actions.item): like Current
+	pipe alias "|to|" (a_action: PROCEDURE [INTEGER, INTEGER]): like Current
 			-- Pipe matching text to procedure
 			-- <pattern> |to| agent <on match procedure>
 		do
@@ -121,14 +125,10 @@ feature -- Element change
 			Result.set_action (a_action)
 		end
 
-	set_action (a_action: like EVENT_ACTION)
+	set_action (action: like Default_action)
 			--
 		do
-			if actions.count = 0 then
-				create actions.make_filled (a_action, 1)
-			else
-				actions [0] := a_action
-			end
+			set_i_th_action (1, action)
 		end
 
 	set_debug_to_depth (depth: INTEGER)
@@ -167,10 +167,12 @@ feature {EL_TEXT_PATTERN_I, EL_PARSER} -- Implementation
 
 	internal_call_actions (start_index, end_index: INTEGER)
 		do
-			call_i_th_action (1, start_index, end_index)
+			if attached actions_array as array then
+				call_action (array [0], start_index, end_index)
+			end
 		end
 
-	internal_find_all (a_offset: INTEGER; text: READABLE_STRING_GENERAL; unmatched_action: like EVENT_ACTION)
+	internal_find_all (a_offset: INTEGER; text: READABLE_STRING_GENERAL; unmatched_action: like Default_action)
 		local
 			unmatched_count, text_count, l_offset: INTEGER
 		do
@@ -206,23 +208,16 @@ feature {EL_TEXT_PATTERN_I, EL_PARSER} -- Implementation
 
 feature {NONE} -- Implementation
 
-	call_i_th_action (i, start_index, end_index: INTEGER)
-		local
-			index: INTEGER
+	call_action (on_matched_substring: PROCEDURE [INTEGER, INTEGER]; start_index, end_index: INTEGER)
 		do
-			if attached actions as l_actions then
-				index := i - 1
-				if l_actions.valid_index (index) then
-					if attached actions [index] as action and then action /= EVENT_ACTION then
-						action (start_index, end_index)
-					end
-				end
+			if on_matched_substring /= Default_action then
+				on_matched_substring (start_index, end_index)
 			end
 		end
 
-	call_unmatched_action (start_index, end_index, unmatched_count: INTEGER; unmatched_action: like EVENT_ACTION)
+	call_unmatched_action (start_index, end_index, unmatched_count: INTEGER; unmatched_action: like Default_action)
 		do
-			if unmatched_action /= EVENT_ACTION then
+			if unmatched_action /= Default_action then
 				unmatched_action (start_index, end_index)
 			end
 		end
@@ -232,18 +227,45 @@ feature {NONE} -- Implementation
 		do
 		end
 
+	set_i_th_action (i: INTEGER; action: PROCEDURE [INTEGER, INTEGER])
+		--
+		do
+			if attached actions_array as array then
+				if array.valid_index (i - 1) then
+					array [i - 1] := action
+				else
+					actions_array := actions_array.resized_area_with_default (Default_action, i)
+					set_i_th_action (i, action)
+				end
+			else
+				create actions_array.make_filled (Default_action, i)
+				set_i_th_action (i, action)
+			end
+		end
+
+feature {NONE} -- Deferred
+
+	name_template: ZSTRING
+		deferred
+		end
+
+	name_inserts: TUPLE
+		deferred
+		ensure
+			valid_place_holders: Result.count = name_template.occurrences ('%S')
+		end
+
 feature {EL_TEXT_PATTERN} -- Internal attributes
 
-	actions: like Empty_actions
+	actions_array: detachable SPECIAL [PROCEDURE [INTEGER, INTEGER]]
 
 feature {NONE} -- Constants
 
-	Empty_actions: SPECIAL [PROCEDURE [INTEGER, INTEGER]]
-			--This is also accessible through {EL_TEXTUAL_PATTERN_FACTORY}.default_match_action
-		once
-			create Result.make_empty (0)
-		end
-
 	Match_fail: INTEGER = -1
+
+	Empty_inserts: TUPLE
+		do
+			create Result
+		end
 
 end

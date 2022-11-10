@@ -6,18 +6,18 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-29 9:16:18 GMT (Saturday 29th October 2022)"
-	revision: "1"
+	date: "2022-11-09 8:19:47 GMT (Wednesday 9th November 2022)"
+	revision: "2"
 
 deferred class
-	EL_SHARED_TEST_XML_DATA
+	EL_SHARED_TEST_XDOC_DATA
 
 inherit
 	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 
-	XML: EL_TEST_XML_DATA
+	Xdoc: EL_TEST_XDOC_DATA
 		once
 			create Result
 		end

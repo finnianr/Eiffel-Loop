@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-08 5:31:55 GMT (Tuesday 8th November 2022)"
-	revision: "4"
+	date: "2022-11-10 13:36:00 GMT (Thursday 10th November 2022)"
+	revision: "5"
 
 class
 	EL_MATCH_LEFT_AND_RIGHT_CHAR_TP
@@ -32,16 +32,7 @@ feature {NONE} -- Initialization
 			if_not_first_negative_then_second_is: not attached {EL_NEGATED_CHAR_TP} a_left_operand
 												implies attached {EL_NEGATED_CHAR_TP} a_right_operand
 		do
-			make_default
 			left_operand := a_left_operand; right_operand := a_right_operand
-		end
-
-	name: STRING
-		do
-			create Result.make (7)
-			Result.append (left_operand.name)
-			Result.append (" and ")
-			Result.append (right_operand.name)
 		end
 
 feature -- Status query
@@ -85,10 +76,21 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	name_inserts: TUPLE
+		do
+			Result := [left_operand.name, right_operand.name]
+		end
+
 feature {NONE} -- Internal attributes
 
 	left_operand : EL_SINGLE_CHAR_TEXT_PATTERN
 
 	right_operand: EL_SINGLE_CHAR_TEXT_PATTERN
 
+feature {NONE} -- Constants
+
+	Name_template: ZSTRING
+		once
+			Result := "%S and %S"
+		end
 end

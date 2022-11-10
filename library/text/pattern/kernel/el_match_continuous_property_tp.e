@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-08 6:35:37 GMT (Tuesday 8th November 2022)"
-	revision: "5"
+	date: "2022-11-09 16:29:49 GMT (Wednesday 9th November 2022)"
+	revision: "6"
 
 deferred class
 	EL_MATCH_CONTINUOUS_PROPERTY_TP
@@ -23,7 +23,6 @@ feature {NONE} -- Initialization
 	make (a_minimum_match_count: INTEGER)
 			--
 		do
-			make_default
 			minimum_match_count := a_minimum_match_count
 		end
 

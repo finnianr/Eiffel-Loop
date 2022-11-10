@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-04 8:33:01 GMT (Friday 4th November 2022)"
-	revision: "6"
+	date: "2022-11-10 13:46:56 GMT (Thursday 10th November 2022)"
+	revision: "7"
 
 deferred class
 	EL_MATCH_QUOTED_STRING_TP
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_TEXT_PATTERN
 		redefine
-			make_default, internal_call_actions
+			internal_call_actions, has_action
 		end
 
 	EL_TEXT_PATTERN_FACTORY
@@ -38,7 +38,6 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			Precursor
 			unescaped_string := default_unescaped_string
 			set_optimal_core (unescaped_string)
 			escape_sequence := new_escape_sequence
@@ -46,13 +45,14 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	name: STRING
-		do
-			Result := "quoted " + language_name + " string ()"
-			Result.insert_character (quote.to_character_8, name.count)
-		end
-
 	quote: CHARACTER_32
+
+feature -- Status query
+
+	has_action: BOOLEAN
+		do
+			Result := Precursor or else attached unescaped_action
+		end
 
 feature {NONE} -- Implementation
 
@@ -174,6 +174,11 @@ feature {NONE} -- Implementation
 			Result := text [i] = a_quote
 		end
 
+	name_inserts: TUPLE
+		do
+			Result := [language_name, quote]
+		end
+
 feature {NONE} -- Deferred
 
 	language_name: STRING
@@ -196,4 +201,10 @@ feature {EL_MATCH_QUOTED_STRING_TP} -- Internal attributes
 
 	unescaped_string: STRING_GENERAL
 
+feature {NONE} -- Constants
+
+	Name_template: ZSTRING
+		once
+			Result := "quoted %S string (%S)"
+		end
 end

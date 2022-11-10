@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-07 16:22:44 GMT (Monday 7th November 2022)"
-	revision: "13"
+	date: "2022-11-09 17:07:03 GMT (Wednesday 9th November 2022)"
+	revision: "14"
 
 deferred class
 	EL_PARSER
@@ -168,6 +168,6 @@ feature {NONE} -- Internal attributes
 
 	start_offset: INTEGER
 
-	unmatched_action: detachable like pattern.EVENT_ACTION
+	unmatched_action: detachable like pattern.Default_action
 
 end

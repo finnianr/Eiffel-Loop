@@ -6,18 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-08 16:18:35 GMT (Tuesday 8th November 2022)"
-	revision: "8"
+	date: "2022-11-10 13:59:21 GMT (Thursday 10th November 2022)"
+	revision: "9"
 
 deferred class
 	EL_TEXT_PATTERN_FACTORY
-
-feature -- Basic operations
-
-	reference_match (pattern: EL_TEXT_PATTERN): EL_MATCH_REFERENCE_TP
-		do
-			create Result.make (pattern)
-		end
 
 feature -- Recursive patterns
 
@@ -87,6 +80,13 @@ feature -- Bounded occurrences
 			Result := optional_pattern #occurs (0 |..| 1)
 		end
 
+
+	while_not_p_match_any (p: EL_TEXT_PATTERN): EL_MATCH_ANY_WHILE_NOT_P_MATCH_TP
+		--
+		do
+			create Result.make (p)
+		end
+
 	while_not_p1_repeat_p2 (p1, p2: EL_TEXT_PATTERN): EL_MATCH_P2_WHILE_NOT_P1_MATCH_TP
 		do
 			create Result.make (p1, p2)
@@ -103,7 +103,7 @@ feature -- Character patterns
 	any_character: EL_MATCH_ANY_CHAR_TP
 			--
 		do
-			create Result.make
+			create Result
 		end
 
 	character_literal (literal: CHARACTER_32): EL_LITERAL_CHAR_TP

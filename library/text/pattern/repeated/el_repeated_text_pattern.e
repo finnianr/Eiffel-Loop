@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-08 6:47:22 GMT (Tuesday 8th November 2022)"
-	revision: "3"
+	date: "2022-11-09 8:00:22 GMT (Wednesday 9th November 2022)"
+	revision: "4"
 
 class
 	EL_REPEATED_TEXT_PATTERN
@@ -59,7 +59,7 @@ feature -- Status query
 feature -- Element change
 
 	set_debug_to_depth (depth: INTEGER)
-			-- For debugging purposes
+		-- For debugging purposes
 		do
 			Precursor (depth)
 			debug_depth := depth - 1

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-08 6:33:39 GMT (Tuesday 8th November 2022)"
-	revision: "6"
+	date: "2022-11-10 13:44:56 GMT (Thursday 10th November 2022)"
+	revision: "7"
 
 class
 	EL_MATCH_COUNT_WITHIN_BOUNDS_TP
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_repeated_pattern
 		redefine
-			match_count, meets_definition, name
+			match_count, meets_definition, name_inserts, Name_template
 		end
 
 create
@@ -30,26 +30,6 @@ feature {NONE} -- Initialization
 		do
 			make_repeated_pattern (a_repeated)
 			occurrence_bounds := a_occurrence_bounds
-		end
-
-feature -- Access
-
-	name: STRING
-		do
-			if occurrence_bounds ~ 0 |..| Max_matches then
-				Result := "0+"
-			elseif occurrence_bounds ~ 1 |..| Max_matches then
-				Result := "1+"
-			elseif occurrence_bounds ~ 0 |..| 1 then
-				Result := "optional"
-			else
-				create Result.make (10)
-				Result.append_integer (occurrence_bounds.lower)
-				Result.append ("..")
-				Result.append_integer (occurrence_bounds.upper)
-			end
-			Result.append (" ()")
-			Result.insert_string (repeated.name, Result.count)
 		end
 
 feature {NONE} -- Implementation
@@ -88,6 +68,25 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	name_inserts: TUPLE
+		local
+			bounds: STRING
+		do
+			if occurrence_bounds ~ 0 |..| Max_matches then
+				bounds := "0+"
+			elseif occurrence_bounds ~ 1 |..| Max_matches then
+				bounds := "1+"
+			elseif occurrence_bounds ~ 0 |..| 1 then
+				bounds := "optional"
+			else
+				create bounds.make (10)
+				bounds.append_integer (occurrence_bounds.lower)
+				bounds.append ("..")
+				bounds.append_integer (occurrence_bounds.upper)
+			end
+			Result := [bounds, repeated.name]
+		end
+
 feature {NONE} -- Internal attributes
 
 	occurrence_bounds: INTEGER_INTERVAL
@@ -98,6 +97,11 @@ feature {NONE}-- Constant
 			--
 		once
 			Result := Result.Max_value - 1
+		end
+
+	Name_template: ZSTRING
+		once
+			Result := "%S (%S)"
 		end
 
 end

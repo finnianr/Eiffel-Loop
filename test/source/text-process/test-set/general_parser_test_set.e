@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-07 10:43:10 GMT (Monday 7th November 2022)"
-	revision: "23"
+	date: "2022-11-09 8:32:08 GMT (Wednesday 9th November 2022)"
+	revision: "24"
 
 class
 	GENERAL_PARSER_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
+
+	EL_MODULE_XML
 
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
 		undefine
@@ -24,7 +26,7 @@ inherit
 
 	EL_SHARED_TEST_NUMBERS
 
-	EL_SHARED_TEST_XML_DATA
+	EL_SHARED_TEST_XDOC_DATA
 
 feature -- Basic operations
 
@@ -53,7 +55,7 @@ feature -- Test
 		do
 			create output.make_empty
 			pattern := xml_text_element (agent append_matched_1 (?, output))
-			pattern.parse (XML.name_template #$ [Name_susan])
+			pattern.parse (XML.value_element_markup ("name", Name_susan))
 			assert ("match_count OK", Name_susan ~ output)
 		end
 
@@ -65,9 +67,9 @@ feature -- Test
 		do
 			create comma_separated_list.make_empty
 			pattern := pyxis_assignment (comma_separated_list)
-			source_line := XML.pyxis_attributes_line (XML.Attribute_table)
+			source_line := Xdoc.pyxis_attributes_line (Xdoc.Attribute_table)
 			pattern.find_all (source_line, agent on_unmatched_text (?, comma_separated_list))
-			assert ("find_all OK", XML.Attributes_comma_separated_values ~ comma_separated_list)
+			assert ("find_all OK", Xdoc.Attributes_comma_separated_values ~ comma_separated_list)
 		end
 
 	test_integer_match

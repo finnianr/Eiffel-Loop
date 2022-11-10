@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-07 10:20:24 GMT (Monday 7th November 2022)"
-	revision: "5"
+	date: "2022-11-10 13:38:12 GMT (Thursday 10th November 2022)"
+	revision: "6"
 
 deferred class
 	EL_MATCH_IDENTIFIER_TP
 
 inherit
 	EL_TEXT_PATTERN
-		rename
-			make_default as make
 		redefine
 			match_count
 		end
@@ -24,15 +22,7 @@ feature {NONE} -- Initialization
 
 	make_upper
 		do
-			make
 			is_upper := True
-		end
-
-feature -- Access
-
-	name: STRING
-		do
-			Result := language_name + " identifier"
 		end
 
 feature -- Status query
@@ -79,6 +69,18 @@ feature {NONE} -- Implementation
 
 	language_name: STRING
 		deferred
+		end
+
+	name_inserts: TUPLE
+		do
+			Result := [language_name]
+		end
+
+feature {NONE} -- Constants
+
+	Name_template: ZSTRING
+		once
+			Result :=  "%S identifier"
 		end
 
 end

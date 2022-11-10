@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-07 10:23:14 GMT (Monday 7th November 2022)"
-	revision: "7"
+	date: "2022-11-09 16:28:36 GMT (Wednesday 9th November 2022)"
+	revision: "8"
 
 class
 	EL_ZSTRING_PATTERN_FACTORY
@@ -27,7 +27,7 @@ feature -- Character
 			if is_upper then
 				create Result.make_upper
 			else
-				create Result.make
+				create Result
 			end
 		end
 
@@ -46,19 +46,19 @@ feature -- Character
 	new_digit: EL_ZSTRING_NUMERIC_CHAR_TP
 			--
 		do
-			create Result.make
+			create Result
 		end
 
 	new_letter: EL_ZSTRING_ALPHA_CHAR_TP
 			--
 		do
-			create Result.make
+			create Result
 		end
 
 	new_white_space_character: EL_ZSTRING_WHITE_SPACE_CHAR_TP
 			--
 		do
-			create Result.make
+			create Result
 		end
 
 feature -- String
@@ -87,7 +87,7 @@ feature -- String
 
 	new_xml_identifier: EL_MATCH_ZSTRING_XML_IDENTIFIER_TP
 		do
-			create Result.make
+			create Result
 		end
 
 end

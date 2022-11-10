@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-07 10:20:59 GMT (Monday 7th November 2022)"
-	revision: "2"
+	date: "2022-11-09 16:27:03 GMT (Wednesday 9th November 2022)"
+	revision: "3"
 
 class
 	EL_MATCH_C_IDENTIFIER_TP
@@ -16,7 +16,7 @@ inherit
 	EL_MATCH_IDENTIFIER_TP
 
 create
-	make, make_upper
+	default_create, make_upper
 
 feature {NONE} -- Implementation
 

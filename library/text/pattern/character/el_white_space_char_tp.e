@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 7:54:28 GMT (Wednesday 2nd November 2022)"
-	revision: "11"
+	date: "2022-11-10 13:20:52 GMT (Thursday 10th November 2022)"
+	revision: "12"
 
 class
 	EL_WHITE_SPACE_CHAR_TP
@@ -15,17 +15,7 @@ class
 inherit
 	EL_CHARACTER_PROPERTY_TP
 		rename
-			make_default as make
-		end
-
-create
-	make
-
-feature -- Access
-
-	name: STRING
-		do
-			Result := "whitespace character"
+			name_inserts as Empty_inserts
 		end
 
 feature {NONE} -- Implementation
@@ -38,4 +28,10 @@ feature {NONE} -- Implementation
 			Result := c.is_space (text [i]) -- Work around for finalization bug
 		end
 
+feature {NONE} -- Constants
+
+	Name_template: ZSTRING
+		once
+			Result := "whitespace character"
+		end
 end

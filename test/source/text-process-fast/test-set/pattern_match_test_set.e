@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-08 4:33:25 GMT (Tuesday 8th November 2022)"
-	revision: "9"
+	date: "2022-11-10 14:30:43 GMT (Thursday 10th November 2022)"
+	revision: "10"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -23,13 +23,15 @@ inherit
 			default_create
 		end
 
-	EL_MODULE_LIO
+	EL_MODULE_LIO; EL_MODULE_XML
 
 	EL_SHARED_TEST_TEXT
 
 	EL_SHARED_TEST_NUMBERS
 
-	EL_SHARED_TEST_XML_DATA
+	EL_SHARED_TEST_XDOC_DATA
+
+	EL_STRING_8_CONSTANTS
 
 feature -- Basic operations
 
@@ -37,6 +39,7 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			eval.call ("alpha_character_match", agent test_alpha_character_match)
+			eval.call ("back_reference_match", agent test_back_reference_match)
 			eval.call ("integer_match", agent test_integer_match)
 			eval.call ("numbers_array_parsing", agent test_numbers_array_parsing)
 			eval.call ("numeric_match", agent test_numeric_match)
@@ -62,6 +65,38 @@ feature -- Test
 				assert ("no match", not p.is_matched)
 				p.match (1, str)
 				assert ("matched", p.is_matched)
+			end
+		end
+
+	test_back_reference_match
+		note
+			testing: "covers/{EL_BACK_REFERENCE_MATCH_TP}.match_count",
+				"covers/{EL_REFERENCE_MATCH_TP}.match_count",
+				"covers/{EL_MATCH_P2_WHILE_NOT_P1_MATCH_TP}.match_count",
+				"covers/{EL_MATCH_ANY_WHILE_NOT_P_MATCH_TP}.match_count"
+		local
+			output: ZSTRING; pattern: like all_of
+			xml_text_element: like xml_text_element_list.item
+		do
+			create output.make_empty
+			across xml_text_element_list as list loop
+				xml_text_element := list.item
+				across << Empty_string_8, Name_susan >> as name loop
+					across source_strings as str loop
+						if attached str.item as source then
+							set_optimal_core (source)
+							XML.value_element_markup ("name", name.item).append_to_general (source)
+							output.wipe_out
+							pattern := xml_text_element (agent output.append_substring_general (source, ?, ?))
+							pattern.parse (source)
+							if pattern.is_matched then
+								assert ("match_count OK", name.item ~ output)
+							else
+								assert ("parse OK", False)
+							end
+						end
+					end
+				end
 			end
 		end
 
@@ -94,28 +129,33 @@ feature -- Test
 						"covers/{EL_MATCH_ZERO_OR_MORE_TIMES_TP}.match_count",
 						"covers/{EL_MATCH_ANY_CHAR_IN_SET_TP}.match_count",
 						"covers/{EL_LITERAL_CHAR_TP}.match_count",
-						"covers/{EL_MATCH_CHAR_IN_ASCII_RANGE_TP}.match_count"
+						"covers/{EL_MATCH_CHAR_IN_ASCII_RANGE_TP}.match_count",
+						"covers/{EL_MATCH_LOOP_TP}.internal_call_actions",
+						"covers/{EL_MATCH_LOOP_TP}.match"
 		local
 			number_list: ARRAYED_LIST [DOUBLE]; csv_list: ZSTRING
+			numeric_array_pattern: like numeric_array_pattern_list.item
 		do
 			create number_list.make (10)
 			create csv_list.make_empty
-			across source_strings as str loop
-				set_optimal_core (str.item)
-				str.item.append (Text.doubles_array_manifest)
-
-				if attached numeric_array_pattern (agent on_numeric (?, ?, str.item, csv_list)) as pattern then
-					csv_list.wipe_out; number_list.wipe_out
-					pattern.parse (str.item)
-					if pattern.is_matched then
-						across csv_list.split (',') as list loop
-							if list.item.is_double then
-								number_list.extend (list.item.to_double)
+			across numeric_array_pattern_list as array_pattern loop
+				numeric_array_pattern := array_pattern.item
+				across source_strings as str loop
+					set_optimal_core (str.item)
+					str.item.append (Text.doubles_array_manifest)
+					if attached numeric_array_pattern (agent on_numeric (?, ?, str.item, csv_list)) as pattern then
+						csv_list.wipe_out; number_list.wipe_out
+						pattern.parse (str.item)
+						if pattern.is_matched then
+							across csv_list.split (',') as list loop
+								if list.item.is_double then
+									number_list.extend (list.item.to_double)
+								end
 							end
+							assert ("parsed Eiffel numeric array OK", number_list.to_array ~ Number.Doubles_list)
+						else
+							assert ("numeric_array_pattern: is_full_match OK", False)
 						end
-						assert ("parsed Eiffel numeric array OK", number_list.to_array ~ Number.Doubles_list)
-					else
-						assert ("numeric_array_pattern: is_full_match OK", False)
 					end
 				end
 			end
@@ -147,7 +187,7 @@ feature -- Test
 			create leading_tabs.make_filled ('%T', 2)
 			create trailing_spaces.make_filled (' ', 2)
 
-			source_line_1 := XML.pyxis_attributes_line (XML.Attribute_table)
+			source_line_1 := Xdoc.pyxis_attributes_line (Xdoc.Attribute_table)
 			source_line_2 := leading_tabs + source_line_1 + trailing_spaces
 
 			create parser.make
@@ -160,7 +200,7 @@ feature -- Test
 				end
 				assert ("table is empty", parser.table.is_empty)
 				parser.parse
-				across XML.Attribute_table as table loop
+				across Xdoc.Attribute_table as table loop
 					if parser.table.has_key (table.key) then
 						if attached {DOUBLE} table.item as double then
 							assert ("same value", Number.double_to_string (double) ~ parser.table.found_item)
@@ -257,7 +297,7 @@ feature -- Test
 			index_of_at, index_of_equal: INTEGER
 		do
 			create parser.make
-			across XML.Xpaths.split ('%N') as xpath loop
+			across Xdoc.Xpaths.split ('%N') as xpath loop
 				steps := xpath.item.split ('/')
 				parser.set_source_text (xpath.item)
 				parser.parse
@@ -284,7 +324,12 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Patterns
 
-	numeric_array_pattern (get_number: PROCEDURE [INTEGER, INTEGER]): like all_of
+	numeric_array_pattern_list: ARRAY [FUNCTION [PROCEDURE [INTEGER, INTEGER], like all_of]]
+		do
+			Result := << agent numeric_array_pattern_1, agent numeric_array_pattern_2 >>
+		end
+
+	numeric_array_pattern_1 (get_number: PROCEDURE [INTEGER, INTEGER]): like all_of
 		do
 			Result := all_of (<<
 				string_literal ("<<"), white_space,
@@ -300,6 +345,68 @@ feature {NONE} -- Patterns
 			>>)
 		end
 
+	numeric_array_pattern_2 (get_number: PROCEDURE [INTEGER, INTEGER]): like all_of
+		do
+			Result := all_of (<<
+				string_literal ("<<"),
+				optional_white_space,
+				one_of (<<
+					string_literal (">>"), -- Empty array
+					all_of (<<
+						decimal_constant |to| get_number,
+						while_not_p1_repeat_p2 (
+							all_of (<< optional_white_space, string_literal (">>") >>),
+							all_of (<<
+								all_of (<< optional_white_space, character_literal (','), optional_white_space >>),
+								decimal_constant |to| get_number
+							>>)
+						)
+					>>)
+				>>)
+			>>)
+		end
+
+	xml_text_element_list: ARRAY [FUNCTION [PROCEDURE [INTEGER, INTEGER], like all_of]]
+		do
+			Result := << agent xml_text_element_1, agent xml_text_element_2 >>
+		end
+
+	xml_text_element_1 (a_action: PROCEDURE [INTEGER, INTEGER]): like all_of
+		local
+			any_text: like while_not_p1_repeat_p2
+		do
+			any_text := while_not_p1_repeat_p2 (string_literal ("</"), any_character)
+			any_text.set_action_combined_p2 (a_action)
+			if attached xml_identifier.referenced as tag_name then
+				Result := all_of (<<
+					character_literal ('<'),
+					tag_name,
+					character_literal ('>'),
+					any_text,
+					tag_name.back_reference,
+					character_literal ('>')
+				>>)
+			end
+		end
+
+	xml_text_element_2 (a_action: PROCEDURE [INTEGER, INTEGER]): like all_of
+		local
+			any_text: like while_not_p_match_any
+		do
+			any_text := while_not_p_match_any (string_literal ("</"))
+			any_text.set_leading_text_action (a_action)
+			if attached xml_identifier.referenced as tag_name then
+				Result := all_of (<<
+					character_literal ('<'),
+					tag_name,
+					character_literal ('>'),
+					any_text,
+					tag_name.back_reference,
+					character_literal ('>')
+				>>)
+			end
+		end
+
 feature {NONE} -- Events handlers
 
 	on_numeric (start_index, end_index: INTEGER; source: STRING_GENERAL; output: ZSTRING)
@@ -307,7 +414,7 @@ feature {NONE} -- Events handlers
 			if output.count > 0 then
 				output.append_character (',')
 			end
-			output.append_string_general (source.substring (start_index, end_index))
+			output.append_substring_general (source, start_index, end_index)
 		end
 
 	on_prepare
@@ -336,4 +443,5 @@ feature {NONE} -- Constants
 			Result.set_population (4_766_073)
 		end
 
+	Name_susan: STRING = "Susan Miller"
 end

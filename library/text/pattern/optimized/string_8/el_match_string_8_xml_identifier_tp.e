@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-07 10:17:41 GMT (Monday 7th November 2022)"
-	revision: "2"
+	date: "2022-11-09 16:25:44 GMT (Wednesday 9th November 2022)"
+	revision: "3"
 
 class
 	EL_MATCH_STRING_8_XML_IDENTIFIER_TP
@@ -17,9 +17,6 @@ inherit
 		undefine
 			i_th_conforms
 		end
-
-create
-	make
 
 feature {NONE} -- Implementation
 

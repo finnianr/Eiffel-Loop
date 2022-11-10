@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-08 5:22:18 GMT (Tuesday 8th November 2022)"
-	revision: "1"
+	date: "2022-11-10 13:48:01 GMT (Thursday 10th November 2022)"
+	revision: "2"
 
 class
 	EL_RECURSIVE_TEXT_PATTERN
@@ -34,18 +34,7 @@ feature {NONE} -- Initialization
 
 	make (new_pattern_function: FUNCTION [EL_TEXT_PATTERN]; a_has_action: BOOLEAN)
 		do
-			make_default
 			new_pattern := new_pattern_function; has_action := a_has_action
-		end
-
-feature -- Access
-
-	name: STRING
-		do
-			Result := "recurse ()"
-			if attached nested_pattern as pattern then
-				Result.insert_string (pattern.name, Result.count)
-			end
 		end
 
 feature -- Basic operations
@@ -99,6 +88,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	name_inserts: TUPLE
+		do
+			Result := [nested_pattern.name]
+		end
+
 	new_nested_pattern: EL_TEXT_PATTERN
 		do
 			new_pattern.apply
@@ -109,4 +103,10 @@ feature {EL_TEXT_PATTERN, EL_TEXT_PATTERN_FACTORY} -- Implementation attributes
 
 	new_pattern: FUNCTION [EL_TEXT_PATTERN]
 
+feature {NONE} -- Constants
+
+	Name_template: ZSTRING
+		once
+			Result := "recurse (%S)"
+		end
 end

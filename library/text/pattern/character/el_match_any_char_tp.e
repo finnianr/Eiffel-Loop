@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-08 15:42:07 GMT (Tuesday 8th November 2022)"
-	revision: "1"
+	date: "2022-11-10 13:36:44 GMT (Thursday 10th November 2022)"
+	revision: "2"
 
 class
 	EL_MATCH_ANY_CHAR_TP
@@ -15,18 +15,11 @@ class
 inherit
 	EL_SINGLE_CHAR_TEXT_PATTERN
 		rename
-			make_default as make
+			name_inserts as Empty_inserts
 		end
 
 create
-	make
-
-feature -- Access
-
-	name: STRING
-		do
-			Result := "1 character"
-		end
+	default_create
 
 feature {NONE} -- Implementation
 
@@ -46,4 +39,10 @@ feature {NONE} -- Implementation
 			Result := True
 		end
 
+feature {NONE} -- Constants
+
+	Name_template: ZSTRING
+		once
+			Result := "1 character"
+		end
 end

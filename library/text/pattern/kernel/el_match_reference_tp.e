@@ -1,21 +1,23 @@
 note
-	description: "Allows a future match to back reference a previous"
+	description: "Allows a future match to back reference a pattern"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-08 14:52:37 GMT (Tuesday 8th November 2022)"
-	revision: "1"
+	date: "2022-11-10 13:34:52 GMT (Thursday 10th November 2022)"
+	revision: "2"
 
 class
 	EL_MATCH_REFERENCE_TP
 
 inherit
 	EL_TEXT_PATTERN
+		export
+			{NONE} pipe, set_action
 		redefine
-			match
+			internal_call_actions, match
 		end
 
 create
@@ -23,11 +25,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_pattern: like previous)
+	make (a_pattern: like pattern)
 			--
 		do
-			make_default
-			previous := a_pattern
+			pattern := a_pattern
 		end
 
 feature -- Access
@@ -37,19 +38,13 @@ feature -- Access
 			create Result.make (Current)
 		end
 
-	name: STRING
-		do
-			Result := "reference ()"
-			Result.insert_string (previous.name, Result.count)
-		end
-
 	offset: INTEGER
 
 feature -- Basic operations
 
 	match (a_offset: INTEGER; text: READABLE_STRING_GENERAL)
 		do
-			count := previous.match_count (a_offset, text)
+			count := pattern.match_count (a_offset, text)
 			if is_matched then
 				offset := a_offset
 			else
@@ -59,6 +54,11 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
+	internal_call_actions (start_index, end_index: INTEGER)
+		do
+			pattern.internal_call_actions (start_index, end_index)
+		end
+
 	match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER
 			--
 		do
@@ -67,11 +67,22 @@ feature {NONE} -- Implementation
 	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if matched pattern meets defintion of `Current' pattern
 		do
-			Result := previous.meets_definition (a_offset, text)
+			Result := pattern.meets_definition (a_offset, text)
+		end
+
+	name_inserts: TUPLE
+		do
+			Result := [pattern.name]
 		end
 
 feature {NONE} -- Internal attributes
 
-	previous: EL_TEXT_PATTERN
+	pattern: EL_TEXT_PATTERN
 
+feature {NONE} -- Constants
+
+	Name_template: ZSTRING
+		once
+			Result := "reference (%S)"
+		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-08 6:35:53 GMT (Tuesday 8th November 2022)"
-	revision: "2"
+	date: "2022-11-10 13:40:38 GMT (Thursday 10th November 2022)"
+	revision: "3"
 
 class
 	EL_MATCH_DIGITS_TP
@@ -21,13 +21,6 @@ inherit
 create
 	make
 
-feature -- Access
-
-	name: STRING
-		do
-			Result := spell_minimum + " digits"
-		end
-
 feature {NONE} -- Implementation
 
 	is_i_th_digit (i: INTEGER_32; text: READABLE_STRING_GENERAL): BOOLEAN
@@ -36,4 +29,15 @@ feature {NONE} -- Implementation
 			Result := text [i].is_digit
 		end
 
+	name_inserts: TUPLE
+		do
+			Result := [spell_minimum]
+		end
+
+feature {NONE} -- Constants
+
+	Name_template: ZSTRING
+		once
+			Result := "%S digits"
+		end
 end

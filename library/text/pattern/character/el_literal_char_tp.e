@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 7:54:50 GMT (Wednesday 2nd November 2022)"
-	revision: "3"
+	date: "2022-11-10 13:25:03 GMT (Thursday 10th November 2022)"
+	revision: "4"
 
 class
 	EL_LITERAL_CHAR_TP
@@ -23,29 +23,16 @@ feature {NONE} -- Initialization
 	make (uc: CHARACTER_32)
 			--
 		do
-			make_default
 			item := uc
 		end
 
-	make_with_action (a_item: like item; a_action: like actions.item)
+	make_with_action (a_item: like item; a_action: like actions_array.item)
 			--
 		do
 			make (a_item); set_action (a_action)
 		end
 
 feature -- Access
-
-	name: STRING
-		do
-			create Result.make (3)
-			Result.append_character ('%'')
-			if item <= '%/127/' then
-				Result.append_character (item.to_character_8)
-			else
-				Result.append_character ('?')
-			end
-			Result.append_character ('%'')
-		end
 
 	item: CHARACTER_32
 
@@ -56,4 +43,15 @@ feature {NONE} -- Implementation
 			Result := text [i] = item
 		end
 
+	name_inserts: TUPLE
+		do
+			Result := [item]
+		end
+
+feature {NONE} -- Constants
+
+	Name_template: ZSTRING
+		once
+			Result := "'%S'"
+		end
 end

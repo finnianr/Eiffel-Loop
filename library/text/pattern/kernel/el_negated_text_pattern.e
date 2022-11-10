@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-04 17:35:07 GMT (Friday 4th November 2022)"
-	revision: "4"
+	date: "2022-11-10 13:33:19 GMT (Thursday 10th November 2022)"
+	revision: "5"
 
 class
 	EL_NEGATED_TEXT_PATTERN
@@ -23,19 +23,17 @@ feature {NONE} -- Initialization
 	make (a_pattern: like Type_negated_pattern)
 			--
 		do
-			make_default
 			pattern := a_pattern
-			actions := pattern.actions
-		end
-
-feature -- Access
-
-	name: STRING
-		do
-			Result := "not " + pattern.name
+			actions_array := pattern.actions_array
 		end
 
 feature {NONE} -- Implementation
+
+	actual_count: INTEGER
+			--
+		do
+			Result := 0
+		end
 
 	match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER
 			-- Try to match one pattern
@@ -56,15 +54,14 @@ feature {NONE} -- Implementation
 			Result := not pattern.is_matched implies count = actual_count
 		end
 
-feature {NONE, EL_NEGATED_TEXT_PATTERN} -- Implementation
+	name_inserts: TUPLE
+		do
+			Result := [pattern.name]
+		end
+
+feature {NONE, EL_NEGATED_TEXT_PATTERN} -- Internal attributes
 
 	pattern: like Type_negated_pattern
-
-	actual_count: INTEGER
-			--
-		do
-			Result := 0
-		end
 
 feature {NONE} -- Anchored type
 
@@ -72,4 +69,10 @@ feature {NONE} -- Anchored type
 		do
 		end
 
+feature {NONE} -- Constants
+
+	Name_template: ZSTRING
+		once
+			Result := "not (%S)"
+		end
 end

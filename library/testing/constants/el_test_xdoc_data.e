@@ -1,16 +1,16 @@
 note
-	description: "Pyxis attribute parser test data"
+	description: "XML or Pyxis related document data"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 8:16:41 GMT (Wednesday 2nd November 2022)"
-	revision: "10"
+	date: "2022-11-09 8:18:43 GMT (Wednesday 9th November 2022)"
+	revision: "11"
 
 class
-	EL_TEST_XML_DATA
+	EL_TEST_XDOC_DATA
 
 inherit
 	ANY
@@ -78,11 +78,6 @@ feature -- Constants
 				end
 				Result.append_string (pyxis_attribute_value (table.item))
 			end
-		end
-
-	Name_template: ZSTRING
-		once
-			Result := "<name>%S</name>"
 		end
 
 	Xpaths: STRING = "[

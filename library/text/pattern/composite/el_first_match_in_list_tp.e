@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-08 6:21:05 GMT (Tuesday 8th November 2022)"
-	revision: "3"
+	date: "2022-11-10 13:39:09 GMT (Thursday 10th November 2022)"
+	revision: "4"
 
 class
 	EL_FIRST_MATCH_IN_LIST_TP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_MATCH_ALL_IN_LIST_TP
 		redefine
-			match_count, meets_definition, call_list_actions, name
+			match_count, meets_definition, call_list_actions, Name_template
 		end
 
 create
@@ -58,14 +58,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature -- Access
-
-	name: STRING
-		do
-			Result := Precursor
-			Result.replace_substring ("one", 1, 3)
-		end
-
 feature {NONE} -- Implementation
 
 	call_list_actions (a_start_index, a_end_index: INTEGER)
@@ -78,4 +70,11 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	match_index: INTEGER
+
+feature {NONE} -- Constants
+
+	Name_template: ZSTRING
+		once
+			Result := "one_of (%S)"
+		end
 end

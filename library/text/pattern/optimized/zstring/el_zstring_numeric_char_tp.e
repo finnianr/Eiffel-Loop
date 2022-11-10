@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-01 9:04:53 GMT (Tuesday 1st November 2022)"
-	revision: "3"
+	date: "2022-11-09 16:25:16 GMT (Wednesday 9th November 2022)"
+	revision: "4"
 
 class
 	EL_ZSTRING_NUMERIC_CHAR_TP
@@ -17,9 +17,6 @@ inherit
 		redefine
 			i_th_matches
 		end
-
-create
-	make
 
 feature {NONE} -- Implementation
 

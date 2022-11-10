@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-04 15:56:16 GMT (Friday 4th November 2022)"
-	revision: "3"
+	date: "2022-11-10 13:26:24 GMT (Thursday 10th November 2022)"
+	revision: "4"
 
 class
 	EL_MATCH_CHARACTER_IN_SET_TP
@@ -25,16 +25,7 @@ feature {NONE} -- Initialization
 
 	make (a_character_set: READABLE_STRING_GENERAL)
 		do
-			make_default
 			create set.make_from_general (a_character_set)
-		end
-
-feature -- Access
-
-	name: STRING
-		do
-			Result := "in set: {}"
-			Result.insert_string (set.to_latin_1, Result.count)
 		end
 
 feature {NONE} -- Implementation
@@ -45,8 +36,19 @@ feature {NONE} -- Implementation
 			Result := set.has (text [i])
 		end
 
+	name_inserts: TUPLE
+		do
+			Result := [set.to_latin_1]
+		end
+
 feature {NONE} -- Internal attributes
 
 	set: ZSTRING
 
+feature {NONE} -- Constants
+
+	Name_template: ZSTRING
+		once
+			Result := "in set: {%S}"
+		end
 end

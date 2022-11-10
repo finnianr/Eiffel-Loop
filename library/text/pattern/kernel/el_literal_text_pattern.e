@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-08 5:32:34 GMT (Tuesday 8th November 2022)"
-	revision: "4"
+	date: "2022-11-10 13:10:26 GMT (Thursday 10th November 2022)"
+	revision: "5"
 
 class
 	EL_LITERAL_TEXT_PATTERN
@@ -26,7 +26,6 @@ feature {NONE} -- Initialization
 	make (a_text: READABLE_STRING_GENERAL)
 			--
 		do
-			make_default
 			set_text (a_text)
 		end
 
@@ -39,12 +38,6 @@ feature -- Element change
 		end
 
 feature -- Access
-
-	name: STRING
-		do
-			Result := "''"
-			Result.insert_string (text.to_string_8, 2)
-		end
 
 	text: like new_text
 
@@ -71,6 +64,11 @@ feature {NONE} -- Implementation
 			Result := source_text.substring (a_offset + 1, a_offset + count).same_string (text)
 		end
 
+	name_inserts: TUPLE
+		do
+			Result := [text]
+		end
+
 	new_text (a_text: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
 		do
 			Result := a_text
@@ -79,6 +77,13 @@ feature {NONE} -- Implementation
 	same_characters (source_text: like new_text; a_offset, text_count: INTEGER): BOOLEAN
 		do
 			Result := text.same_characters (source_text, a_offset + 1, a_offset + text_count, 1)
+		end
+
+feature {NONE} -- Constants
+
+	Name_template: ZSTRING
+		once
+			Result := "'%S'"
 		end
 
 end

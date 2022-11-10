@@ -6,10 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-08 16:58:29 GMT (Tuesday 8th November 2022)"
-	revision: "1"
+	date: "2022-11-10 9:42:19 GMT (Thursday 10th November 2022)"
+	revision: "2"
 
-class
+deferred class
 	EL_MATCH_LOOP_TP
 
 inherit
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_repeated
 		redefine
-			internal_call_actions, copy, meets_definition
+			internal_call_actions, copy
 		end
 
 feature {NONE} -- Initialization
@@ -32,23 +32,27 @@ feature -- Basic operations
 
 	internal_call_actions (start_index, end_index: INTEGER)
 		do
-			call_i_th_action (1, start_index, end_index)
-			call_list_actions (start_index, end_index)
-			if actions.count = 3 then
-				call_i_th_action (3, start_index, end_index - conditional_pattern.count)
+			if attached actions_array as array then
+				call_action (array [0], start_index, end_index)
+				call_list_actions (start_index, end_index)
+				if array.valid_index (2) then
+					call_action (array [2], start_index, end_index - conditional_pattern.count)
+				end
+				conditional_pattern.internal_call_actions (start_index, end_index)
+				if array.valid_index (1) then
+					call_action (array [1], start_index, end_index)
+				end
+			else
+				call_list_actions (start_index, end_index)
+				conditional_pattern.internal_call_actions (start_index, end_index)
 			end
-			conditional_pattern.internal_call_actions (start_index, end_index)
-			call_i_th_action (2, start_index, end_index)
 		end
 
 feature -- Element change
 
-	set_action_combined_p1 (action: like actions.item)
+	set_action_combined_p1 (action: PROCEDURE [INTEGER, INTEGER])
 		do
-			if actions.count < 3 then
-				actions := actions.resized_area_with_default (EVENT_ACTION, 3)
-			end
-			actions [2] := action
+			set_i_th_action (3, action)
 		end
 
 feature {NONE} -- Duplication
@@ -57,12 +61,6 @@ feature {NONE} -- Duplication
 		do
 			Precursor (other)
 			conditional_pattern := other.conditional_pattern.twin
-		end
-
-feature {NONE} -- Implementation
-
-	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
-		do
 		end
 
 feature {EL_MATCH_LOOP_TP} -- Internal attributes

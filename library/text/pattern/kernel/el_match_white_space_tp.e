@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-08 6:37:14 GMT (Tuesday 8th November 2022)"
-	revision: "4"
+	date: "2022-11-10 13:43:11 GMT (Thursday 10th November 2022)"
+	revision: "5"
 
 class
 	EL_MATCH_WHITE_SPACE_TP
@@ -33,17 +33,6 @@ feature {NONE} -- Initialization
 				make_minimum (1)
 			end
 			nonbreaking := a_nonbreaking
-		end
-
-feature -- Access
-
-	name: STRING
-		do
-			if nonbreaking then
-				Result := spell_minimum + " NB whitespace"
-			else
-				Result := spell_minimum + " whitespace"
-			end
 		end
 
 feature -- Status query
@@ -116,10 +105,25 @@ feature {NONE} -- Implementation
 					end
 		end
 
+	name_inserts: TUPLE
+		do
+			if nonbreaking then
+				Result := [spell_minimum, "NB "]
+			else
+				Result := [spell_minimum, ""]
+			end
+		end
+
 feature {NONE} -- Constants
 
 	Breaking_space: INTEGER = 1
 
 	Nonbreaking_space: INTEGER = 2
 
+feature {NONE} -- Constants
+
+	Name_template: ZSTRING
+		once
+			Result := "%S %Swhitespace"
+		end
 end
