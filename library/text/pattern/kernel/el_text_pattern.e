@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-10 13:50:12 GMT (Thursday 10th November 2022)"
-	revision: "8"
+	date: "2022-11-11 9:15:52 GMT (Friday 11th November 2022)"
+	revision: "9"
 
 deferred class
 	EL_TEXT_PATTERN
 
 inherit
 	EL_TEXT_PATTERN_I
+
+	STRING_HANDLER
 
 feature -- Access
 
@@ -54,6 +56,21 @@ feature -- Access
 
 feature -- Measurement
 
+	action_count: INTEGER
+		local
+			i, l_count: INTEGER
+		do
+			if attached actions_array as array then
+				l_count := array.count
+				from i := 0 until i = l_count loop
+					if array [i] /= Default_action then
+						Result := Result + 1
+					end
+					i := i + 1
+				end
+			end
+		end
+
 	count: INTEGER
 
 feature -- Basic operations
@@ -90,19 +107,6 @@ feature -- Basic operations
 		end
 
 feature -- Status query
-
-	has_action: BOOLEAN
-		local
-			i, l_count: INTEGER
-		do
-			if attached actions_array as array then
-				l_count := array.count
-				from i := 0 until Result or else i = l_count loop
-					Result := array [i] /= Default_action
-					i := i + 1
-				end
-			end
-		end
 
 	is_matched: BOOLEAN
 		do
@@ -143,7 +147,7 @@ feature -- Basic operations
 
 	frozen call_actions (start_index, end_index: INTEGER)
 		do
-			internal_call_actions (start_index, end_index)
+			internal_call_actions (start_index, end_index, Void)
 		end
 
 feature -- Conversion
@@ -165,10 +169,10 @@ feature {NONE} -- Debug
 
 feature {EL_TEXT_PATTERN_I, EL_PARSER} -- Implementation
 
-	internal_call_actions (start_index, end_index: INTEGER)
+	internal_call_actions (start_index, end_index: INTEGER; repeated: detachable EL_REPEATED_TEXT_PATTERN)
 		do
 			if attached actions_array as array then
-				call_action (array [0], start_index, end_index)
+				call_action (array [0], start_index, end_index, repeated)
 			end
 		end
 
@@ -208,10 +212,17 @@ feature {EL_TEXT_PATTERN_I, EL_PARSER} -- Implementation
 
 feature {NONE} -- Implementation
 
-	call_action (on_matched_substring: PROCEDURE [INTEGER, INTEGER]; start_index, end_index: INTEGER)
+	call_action (
+		on_substring: like Default_action; start_index, end_index: INTEGER
+		repeated: detachable EL_REPEATED_TEXT_PATTERN
+	)
 		do
-			if on_matched_substring /= Default_action then
-				on_matched_substring (start_index, end_index)
+			if on_substring /= Default_action then
+				if attached repeated as l_repeated then
+					l_repeated.extend (on_substring, start_index, end_index)
+				else
+					on_substring (start_index, end_index)
+				end
 			end
 		end
 

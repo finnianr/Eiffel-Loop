@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-10 13:39:09 GMT (Thursday 10th November 2022)"
-	revision: "4"
+	date: "2022-11-11 9:40:47 GMT (Friday 11th November 2022)"
+	revision: "5"
 
 class
 	EL_FIRST_MATCH_IN_LIST_TP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_MATCH_ALL_IN_LIST_TP
 		redefine
-			match_count, meets_definition, call_list_actions, Name_template
+			list_action_count, match_count, meets_definition, call_list_actions, Name_template
 		end
 
 create
@@ -60,10 +60,23 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation
 
-	call_list_actions (a_start_index, a_end_index: INTEGER)
+	call_list_actions (a_start_index, a_end_index: INTEGER; repeated: detachable EL_REPEATED_TEXT_PATTERN)
 		do
 			if valid_index (match_index) then
-				i_th (match_index).internal_call_actions (a_start_index, a_end_index)
+				i_th (match_index).internal_call_actions (a_start_index, a_end_index, repeated)
+			end
+		end
+
+	list_action_count: INTEGER
+		-- maximum count
+		local
+			l_count: INTEGER
+		do
+			across Current as pattern loop
+				l_count := pattern.item.action_count
+				if l_count > Result then
+					Result := l_count
+				end
 			end
 		end
 

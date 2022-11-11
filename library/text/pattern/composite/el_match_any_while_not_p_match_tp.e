@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-10 14:34:59 GMT (Thursday 10th November 2022)"
-	revision: "1"
+	date: "2022-11-11 7:54:38 GMT (Friday 11th November 2022)"
+	revision: "2"
 
 class
 	EL_MATCH_ANY_WHILE_NOT_P_MATCH_TP
@@ -37,12 +37,12 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	internal_call_actions (start_index, end_index: INTEGER)
+	internal_call_actions (start_index, end_index: INTEGER; repeated: detachable EL_REPEATED_TEXT_PATTERN)
 		do
 			if attached actions_array as array then
-				call_action (array [0], start_index, end_index)
+				call_action (array [0], start_index, end_index, repeated)
 				if array.valid_index (1) then
-					call_action (array [1], start_index, end_index - pattern.count)
+					call_action (array [1], start_index, end_index - pattern.count, repeated)
 				end
 			end
 		end

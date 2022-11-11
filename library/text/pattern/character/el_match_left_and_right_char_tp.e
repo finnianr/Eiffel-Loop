@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-10 13:36:00 GMT (Thursday 10th November 2022)"
-	revision: "5"
+	date: "2022-11-11 7:17:25 GMT (Friday 11th November 2022)"
+	revision: "6"
 
 class
 	EL_MATCH_LEFT_AND_RIGHT_CHAR_TP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_SINGLE_CHAR_TEXT_PATTERN
 		redefine
-			has_action
+			action_count
 		end
 
 
@@ -37,9 +37,9 @@ feature {NONE} -- Initialization
 
 feature -- Status query
 
-	has_action: BOOLEAN
+	action_count: INTEGER
 		do
-			Result := Precursor or else left_operand.has_action or else right_operand.has_action
+			Result := Precursor + left_operand.action_count + right_operand.action_count
 		end
 
 feature {NONE} -- Implementation

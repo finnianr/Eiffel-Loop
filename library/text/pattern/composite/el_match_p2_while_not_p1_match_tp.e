@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-10 14:34:47 GMT (Thursday 10th November 2022)"
-	revision: "1"
+	date: "2022-11-11 9:56:01 GMT (Friday 11th November 2022)"
+	revision: "2"
 
 class
 	EL_MATCH_P2_WHILE_NOT_P1_MATCH_TP
@@ -36,14 +36,19 @@ feature {NONE} -- Implementation
 		local
 			offset, repeat_count, sum_repeat_count, l_count: INTEGER; done: BOOLEAN
 		do
+			matched_count := 0; wipe_out
 			if attached conditional_pattern as final_pattern then
 				from offset := a_offset until done loop
 					final_pattern.match (offset, text)
 					if final_pattern.is_matched then
 						done := True
 					else
-						repeat_count := repeat_match_count (offset, text)
+						repeat_count := match_count (offset, text)
 						if repeat_count > 0 then
+							if repeat_has_action then
+								repeated.internal_call_actions (offset + 1, offset + repeat_count, Current)
+							end
+							matched_count := matched_count + 1
 							offset := offset + repeat_count
 							sum_repeat_count := sum_repeat_count + repeat_count
 						else
@@ -68,7 +73,7 @@ feature {NONE} -- Implementation
 		do
 			l_count := count
 			count := count - conditional_pattern.count
-			if list_count > 0 implies Precursor (a_offset, text) then
+			if matched_count > 0 implies Precursor (a_offset, text) then
 				Result := conditional_pattern.meets_definition (a_offset + count, text)
 			end
 			count := l_count

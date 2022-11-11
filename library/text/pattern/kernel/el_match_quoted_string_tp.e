@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-10 13:46:56 GMT (Thursday 10th November 2022)"
-	revision: "7"
+	date: "2022-11-11 9:16:22 GMT (Friday 11th November 2022)"
+	revision: "8"
 
 deferred class
 	EL_MATCH_QUOTED_STRING_TP
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_TEXT_PATTERN
 		redefine
-			internal_call_actions, has_action
+			internal_call_actions, action_count
 		end
 
 	EL_TEXT_PATTERN_FACTORY
@@ -49,18 +49,26 @@ feature -- Access
 
 feature -- Status query
 
-	has_action: BOOLEAN
+	action_count: INTEGER
 		do
-			Result := Precursor or else attached unescaped_action
+			if attached unescaped_action then
+				Result := Precursor + 1
+			else
+				Result := Precursor
+			end
 		end
 
 feature {NONE} -- Implementation
 
-	internal_call_actions (start_index, end_index: INTEGER)
+	internal_call_actions (start_index, end_index: INTEGER; repeated: detachable EL_REPEATED_TEXT_PATTERN)
 		do
-			Precursor (start_index + 1, end_index - 1)
+			Precursor (start_index + 1, end_index - 1, repeated)
 			if attached unescaped_action as action then
-				action (unescaped_string)
+				if attached repeated as l_repeated then
+					l_repeated.extend_quoted (action, unescaped_string)
+				else
+					action (unescaped_string)
+				end
 			end
 		end
 

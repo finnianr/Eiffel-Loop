@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-01 9:59:32 GMT (Tuesday 1st November 2022)"
-	revision: "2"
+	date: "2022-11-11 9:16:29 GMT (Friday 11th November 2022)"
+	revision: "3"
 
 class
 	EL_MATCH_ZSTRING_QUOTED_C_LANG_STRING_TP
@@ -20,9 +20,10 @@ inherit
 			buffer_scope, default_unescaped_string, i_th_code, i_th_is_quote, unescaped_code
 		end
 
-	STRING_HANDLER
-
 	EL_ZCODE_CONVERSION
+		export
+			{NONE} all
+		end
 
 	EL_ZSTRING_CONSTANTS
 

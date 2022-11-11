@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-10 13:44:56 GMT (Thursday 10th November 2022)"
-	revision: "7"
+	date: "2022-11-11 12:28:09 GMT (Friday 11th November 2022)"
+	revision: "8"
 
 class
 	EL_MATCH_COUNT_WITHIN_BOUNDS_TP
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_repeated_pattern
 		redefine
-			match_count, meets_definition, name_inserts, Name_template
+			match, meets_definition, name_inserts, Name_template
 		end
 
 create
@@ -28,23 +28,28 @@ feature {NONE} -- Initialization
 	make (a_repeated: like repeated; a_occurrence_bounds: INTEGER_INTERVAL)
 			--
 		do
-			make_repeated_pattern (a_repeated)
 			occurrence_bounds := a_occurrence_bounds
+			make_repeated_pattern (a_repeated)
 		end
 
-feature {NONE} -- Implementation
+feature -- Basic operations
 
-	match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER
+	match (a_offset: INTEGER; text: READABLE_STRING_GENERAL)
 		local
-			i, l_count, offset: INTEGER; match_failed: BOOLEAN
+			i, repeat_count, l_count, offset: INTEGER; match_failed: BOOLEAN
 		do
-			offset := a_offset
+			matched_count := 0; offset := a_offset
+			wipe_out
 			from i := 1 until match_failed or else i > occurrence_bounds.upper loop
 				if (text.count - offset) > 0 then
-					l_count := repeat_match_count (offset, text)
-					if l_count >= 0 then
-						offset := offset + l_count
-						Result := Result + l_count
+					repeat_count := match_count (offset, text)
+					if repeat_count >= 0 then
+						if repeat_has_action then
+							repeated.internal_call_actions (offset + 1, offset + repeat_count, Current)
+						end
+						matched_count := matched_count + 1
+						offset := offset + repeat_count
+						l_count := l_count + repeat_count
 						i := i + 1
 					else
 						match_failed := True
@@ -53,18 +58,37 @@ feature {NONE} -- Implementation
 					match_failed := True
 				end
 			end
-			if not occurrence_bounds.has (i - 1) then
-				Result := Match_fail
+			if occurrence_bounds.has (matched_count) then
+				count := l_count
+			else
+				count := Match_fail
 			end
 		end
 
+feature {NONE} -- Implementation
+
 	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if matched pattern meets defintion of `Current' pattern
+		local
+			i, repeat_count, l_count, offset: INTEGER; match_failed: BOOLEAN
 		do
-			if repeat_has_action and occurrence_bounds.has (list_count) then
-				Result := Precursor (a_offset, text)
-			else
-				Result := True
+			offset := a_offset
+			from i := 1 until match_failed or else i > occurrence_bounds.upper loop
+				if (text.count - offset) > 0 then
+					repeat_count := match_count (offset, text)
+					if repeat_count >= 0 then
+						offset := offset + repeat_count
+						l_count := l_count + repeat_count
+						i := i + 1
+					else
+						match_failed := True
+					end
+				else
+					match_failed := True
+				end
+			end
+			if l_count = count then
+				Result := occurrence_bounds.has (i - 1)
 			end
 		end
 

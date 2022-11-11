@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-28 17:30:41 GMT (Friday 28th October 2022)"
-	revision: "1"
+	date: "2022-11-11 7:15:47 GMT (Friday 11th November 2022)"
+	revision: "2"
 
 class
 	EL_NEGATED_CHAR_TP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_SINGLE_CHAR_TEXT_PATTERN
 		undefine
-			has_action
+			action_count
 		end
 
 	EL_NEGATED_TEXT_PATTERN
@@ -38,5 +38,4 @@ feature {NONE} -- Anchored type
 		do
 		end
 end
-
 

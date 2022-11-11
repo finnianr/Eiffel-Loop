@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-10 13:59:21 GMT (Thursday 10th November 2022)"
-	revision: "9"
+	date: "2022-11-11 11:41:26 GMT (Friday 11th November 2022)"
+	revision: "10"
 
 deferred class
 	EL_TEXT_PATTERN_FACTORY
@@ -26,9 +26,9 @@ feature -- Recursive patterns
 			create Result.make (array_of_alternatives)
 		end
 
-	recurse (new_recursive: FUNCTION [EL_TEXT_PATTERN]; has_action: BOOLEAN): EL_RECURSIVE_TEXT_PATTERN
+	recurse (new_recursive: FUNCTION [EL_TEXT_PATTERN]; unique_id: NATURAL): EL_RECURSIVE_TEXT_PATTERN
 		do
-			create Result.make (new_recursive, has_action)
+			create Result.make (new_recursive, unique_id)
 		end
 
 feature -- String patterns
@@ -79,7 +79,6 @@ feature -- Bounded occurrences
 		do
 			Result := optional_pattern #occurs (0 |..| 1)
 		end
-
 
 	while_not_p_match_any (p: EL_TEXT_PATTERN): EL_MATCH_ANY_WHILE_NOT_P_MATCH_TP
 		--

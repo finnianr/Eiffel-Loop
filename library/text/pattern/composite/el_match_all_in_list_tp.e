@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-10 13:09:49 GMT (Thursday 10th November 2022)"
-	revision: "7"
+	date: "2022-11-11 9:40:08 GMT (Friday 11th November 2022)"
+	revision: "8"
 
 class
 	EL_MATCH_ALL_IN_LIST_TP
@@ -19,16 +19,14 @@ inherit
 		undefine
 			copy, is_equal, default_create
 		redefine
-			internal_call_actions, has_action, name_list, set_debug_to_depth
+			internal_call_actions, action_count, name_list, set_debug_to_depth
 		end
 
-	ARRAYED_LIST [EL_TEXT_PATTERN]
+	EL_ARRAYED_LIST [EL_TEXT_PATTERN]
 		rename
 			make as make_list,
 			count as list_count,
 			do_all as do_for_each
-		redefine
-			copy
 		end
 
 create
@@ -63,11 +61,11 @@ feature -- Access
 			Result := new_name_list (False).area
 		end
 
-feature -- Status query
+feature -- Measurement
 
-	has_action: BOOLEAN
+	action_count: INTEGER
 		do
-			Result := Precursor or else across Current as list some list.item.has_action end
+			Result := Precursor + list_action_count
 		end
 
 feature -- Element change
@@ -90,39 +88,9 @@ feature -- Element change
 			make_from_array (patterns)
 		end
 
-feature -- Basic operations
-
-	internal_call_actions (start_index, end_index: INTEGER)
-		do
-			if attached actions_array as array then
-				call_action (array [0], start_index, end_index)
-				call_list_actions (start_index, end_index)
-				if array.valid_index (1) then
-					call_action (array [1], start_index, end_index)
-				end
-			else
-				call_list_actions (start_index, end_index)
-			end
-		end
-
-feature {NONE} -- Duplication
-
-	copy (other: like Current)
-		local
-			i, i_final: INTEGER; l_area: like area
-		do
-			Precursor {ARRAYED_LIST} (other)
-			count := other.count
-			l_area := area; i_final := list_count
-			from until i = i_final loop
-				l_area [i] := other.i_th (i + 1).twin
-				i := i + 1
-			end
-		end
-
 feature {NONE} -- Implementation
 
-	call_list_actions (a_start_index, a_end_index: INTEGER)
+	call_list_actions (a_start_index, a_end_index: INTEGER; repeated: detachable EL_REPEATED_TEXT_PATTERN)
 		local
 			i, i_final: INTEGER; l_area: like area
 			start_index, end_index: INTEGER
@@ -132,11 +100,29 @@ feature {NONE} -- Implementation
 			from until i = i_final loop
 				if attached l_area [i] as sub_pattern then
 					end_index := start_index + sub_pattern.count - 1
-					sub_pattern.internal_call_actions (start_index, end_index)
+					sub_pattern.internal_call_actions (start_index, end_index, repeated)
 					start_index := start_index + sub_pattern.count
 				end
 				i := i + 1
 			end
+		end
+
+	internal_call_actions (start_index, end_index: INTEGER; repeated: detachable EL_REPEATED_TEXT_PATTERN)
+		do
+			if attached actions_array as array then
+				call_action (array [0], start_index, end_index, repeated)
+				call_list_actions (start_index, end_index, repeated)
+				if array.valid_index (1) then
+					call_action (array [1], start_index, end_index, repeated)
+				end
+			else
+				call_list_actions (start_index, end_index, repeated)
+			end
+		end
+
+	list_action_count: INTEGER
+		do
+			Result := sum_integer (agent {EL_TEXT_PATTERN}.action_count)
 		end
 
 	match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER

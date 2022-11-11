@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-10 13:48:01 GMT (Thursday 10th November 2022)"
-	revision: "2"
+	date: "2022-11-11 12:16:55 GMT (Friday 11th November 2022)"
+	revision: "3"
 
 class
 	EL_RECURSIVE_TEXT_PATTERN
@@ -15,7 +15,7 @@ class
 inherit
 	EL_TEXT_PATTERN
 		redefine
-			copy, is_equal, internal_call_actions, has_action, match
+			is_equal, internal_call_actions, action_count, match
 		end
 
 	EL_LAZY_ATTRIBUTE
@@ -24,7 +24,7 @@ inherit
 			item as nested_pattern,
 			new_item as new_nested_pattern
 		undefine
-			copy, is_equal
+			is_equal
 		end
 
 create
@@ -32,9 +32,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (new_pattern_function: FUNCTION [EL_TEXT_PATTERN]; a_has_action: BOOLEAN)
+	make (new_pattern_function: FUNCTION [EL_TEXT_PATTERN]; unique_id: NATURAL)
 		do
-			new_pattern := new_pattern_function; has_action := a_has_action
+			new_pattern := new_pattern_function
+			id := unique_id
 		end
 
 feature -- Basic operations
@@ -56,22 +57,24 @@ feature -- Comparison
 
 feature -- Status query
 
-	has_action: BOOLEAN
-
-feature {NONE} -- Duplication
-
-	copy (other: like Current)
+	action_count: INTEGER
 		do
-			standard_copy (other)
-			actual_nested_pattern := Void
+			-- Prevent infinite recursion
+			if Action_count_set.has_key (id) then
+				Result := Action_count_set.found_item
+			else
+				Action_count_set.extend (0, id)
+				Result := Precursor + new_nested_pattern.action_count
+				Action_count_set [id] := Result
+			end
 		end
 
 feature {NONE} -- Implementation
 
-	internal_call_actions (start_index, end_index: INTEGER)
+	internal_call_actions (start_index, end_index: INTEGER; repeated: detachable EL_REPEATED_TEXT_PATTERN)
 		do
 			if attached actual_nested_pattern as pattern then
-				pattern.internal_call_actions (start_index, end_index)
+				pattern.internal_call_actions (start_index, end_index, repeated)
 			end
 		end
 
@@ -103,7 +106,14 @@ feature {EL_TEXT_PATTERN, EL_TEXT_PATTERN_FACTORY} -- Implementation attributes
 
 	new_pattern: FUNCTION [EL_TEXT_PATTERN]
 
+	id: NATURAL
+
 feature {NONE} -- Constants
+
+	Action_count_set: HASH_TABLE [INTEGER, NATURAL]
+		once
+			create Result.make (5)
+		end
 
 	Name_template: ZSTRING
 		once

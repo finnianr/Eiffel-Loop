@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-08 4:37:54 GMT (Tuesday 8th November 2022)"
-	revision: "4"
+	date: "2022-11-11 12:16:19 GMT (Friday 11th November 2022)"
+	revision: "5"
 
 deferred class
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
@@ -38,12 +38,12 @@ feature -- Type specifier
 			Result := all_of (<<
 				character_literal ('['),
 				optional_white_space,
-				recurse (agent class_type, False),
+				recurse (agent class_type, 1),
 				zero_or_more (
 					all_of (<<
 						optional_white_space, character_literal (','),
 						optional_white_space,
-						recurse (agent class_type, False)
+						recurse (agent class_type, 1)
 					>>)
 				),
 				character_literal (']')

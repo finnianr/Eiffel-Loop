@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-10 14:30:43 GMT (Thursday 10th November 2022)"
-	revision: "10"
+	date: "2022-11-11 9:23:43 GMT (Friday 11th November 2022)"
+	revision: "12"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -40,6 +40,7 @@ feature -- Basic operations
 		do
 			eval.call ("alpha_character_match", agent test_alpha_character_match)
 			eval.call ("back_reference_match", agent test_back_reference_match)
+			eval.call ("twin_procedure", agent test_twin_procedure)
 			eval.call ("integer_match", agent test_integer_match)
 			eval.call ("numbers_array_parsing", agent test_numbers_array_parsing)
 			eval.call ("numeric_match", agent test_numeric_match)
@@ -139,6 +140,8 @@ feature -- Test
 			create number_list.make (10)
 			create csv_list.make_empty
 			across numeric_array_pattern_list as array_pattern loop
+				lio.put_integer_field ("pattern", array_pattern.cursor_index)
+				lio.put_new_line
 				numeric_array_pattern := array_pattern.item
 				across source_strings as str loop
 					set_optimal_core (str.item)
@@ -289,6 +292,24 @@ feature -- Test
 			end
 		end
 
+	test_twin_procedure
+		local
+			output: ZSTRING; str: STRING
+			procedure, procedure_copy: PROCEDURE
+		do
+			create output.make_empty
+			str := "A"
+			procedure := agent on_quoted (?, output)
+			if procedure.open_count = 1 then
+				procedure_copy := procedure.twin
+				procedure_copy.set_operands ([str])
+				procedure_copy.apply
+				assert ("same string", output.same_string (str))
+			else
+				assert ("1 open argument", False)
+			end
+		end
+
 	test_xpath_parser
 		note
 			testing: "covers/{EL_XPATH_PARSER}.parse"
@@ -323,11 +344,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Patterns
-
-	numeric_array_pattern_list: ARRAY [FUNCTION [PROCEDURE [INTEGER, INTEGER], like all_of]]
-		do
-			Result := << agent numeric_array_pattern_1, agent numeric_array_pattern_2 >>
-		end
 
 	numeric_array_pattern_1 (get_number: PROCEDURE [INTEGER, INTEGER]): like all_of
 		do
@@ -366,9 +382,9 @@ feature {NONE} -- Patterns
 			>>)
 		end
 
-	xml_text_element_list: ARRAY [FUNCTION [PROCEDURE [INTEGER, INTEGER], like all_of]]
+	numeric_array_pattern_list: ARRAY [FUNCTION [PROCEDURE [INTEGER, INTEGER], like all_of]]
 		do
-			Result := << agent xml_text_element_1, agent xml_text_element_2 >>
+			Result := << agent numeric_array_pattern_1, agent numeric_array_pattern_2 >>
 		end
 
 	xml_text_element_1 (a_action: PROCEDURE [INTEGER, INTEGER]): like all_of
@@ -405,6 +421,11 @@ feature {NONE} -- Patterns
 					character_literal ('>')
 				>>)
 			end
+		end
+
+	xml_text_element_list: ARRAY [FUNCTION [PROCEDURE [INTEGER, INTEGER], like all_of]]
+		do
+			Result := << agent xml_text_element_1, agent xml_text_element_2 >>
 		end
 
 feature {NONE} -- Events handlers

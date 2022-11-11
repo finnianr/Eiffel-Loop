@@ -1,7 +1,7 @@
 note
 	description: "[
-		Abstraction representing patterns that are repeated. Any repeated pattern that has actions defined for it are
-		added to list as faux-patterns so they can have their actions called from `call_actions'
+		Abstraction representing patterns that are repeated. Any repeated pattern that has actions defined
+		for it are added to list as faux-patterns so they can have their actions called from `call_actions'
 	]"
 
 	author: "Finnian Reilly"
@@ -9,51 +9,63 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-09 8:00:22 GMT (Wednesday 9th November 2022)"
-	revision: "4"
+	date: "2022-11-11 10:33:16 GMT (Friday 11th November 2022)"
+	revision: "5"
 
-class
+deferred class
 	EL_REPEATED_TEXT_PATTERN
 
 inherit
-	EL_MATCH_ALL_IN_LIST_TP
-		rename
-			make as make_with_patterns
+	EL_TEXT_PATTERN
+		undefine
+			copy, is_equal, out
 		redefine
-			copy, has_action, is_equal, match, new_name_list, set_debug_to_depth
+			action_count, internal_call_actions, is_equal, set_debug_to_depth
+		end
+
+	EL_ARRAYED_INTERVAL_LIST
+		rename
+			make as make_event_list,
+			count as event_count,
+			extend as interval_extend,
+			item as interval_item
+		export
+			{NONE} all
+		redefine
+			make_event_list, wipe_out
 		end
 
 feature {NONE} -- Initialization
 
 	make (a_repeated: like repeated)
 		do
-			make_default
+			repeated_action_count := a_repeated.action_count
 			repeated := a_repeated
-			repeat_has_action := a_repeated.has_action
-
-			if repeat_has_action then
-				create instance_pool.make (10, agent repeated_twin)
+			if repeated_action_count.to_boolean then
+				repeat_has_action := True
+				make_event_list (repeated_action_count)
 			else
-				instance_pool := Default_instance_pool
+				make_event_list (0)
 			end
 		end
 
-feature -- Basic operations
-
-	match (a_offset: INTEGER; text: READABLE_STRING_GENERAL)
+	make_event_list (n: INTEGER)
 		do
-			recycle_repeats
-			Precursor (a_offset, text)
-			if not is_matched then
-				recycle_repeats
-			end
+			Precursor (n)
+			create action_area.make_empty (n)
 		end
+
+feature -- Measurement
+
+	matched_count: INTEGER
+
+	repeated_action_count: INTEGER
 
 feature -- Status query
 
-	has_action: BOOLEAN
+	action_count: INTEGER
 		do
-			Result := Precursor or else repeated.has_action
+			Result := Precursor + repeated.action_count
 		end
 
 feature -- Element change
@@ -65,78 +77,124 @@ feature -- Element change
 			debug_depth := depth - 1
 		end
 
-feature -- Comparison
-
-	is_equal (other: like Current): BOOLEAN
-			-- Is array made of the same items as `other'?
+	extend (action: PROCEDURE; start_index, end_index: INTEGER)
+		local
+			l_action_area: like action_area
 		do
-			Result := True
+			interval_extend (start_index, end_index)
+			l_action_area := action_area
+			if l_action_area.capacity < area_v2.capacity then
+				l_action_area := l_action_area.aliased_resized_area (area_v2.capacity)
+				action_area := l_action_area
+			end
+			l_action_area.extend (action)
+		ensure
+			same_capacity: area_v2.capacity = action_area.capacity
+			same_count: event_count = action_area.count
 		end
 
-feature {NONE} -- Duplication
-
-	copy (other: like Current)
+	extend_quoted (action: PROCEDURE; unescaped_string: STRING_GENERAL)
+		local
+			action_twin: PROCEDURE
 		do
-			standard_copy (other)
-			-- Do not copy contents of list which may contain faux-patterns added in repeat_match_count
-			make_list (0)
+			action_twin := action.twin
+			action_twin.set_operands ([unescaped_string])
+			extend (action_twin, 0, 0)
 		end
 
 feature {NONE} -- Implementation
 
-	new_name_list (curtailed: BOOLEAN): EL_STRING_8_LIST
+	action_item: PROCEDURE
 		do
-			create Result.make (list_count)
-			if list_count > 0 then
-				Result.extend (first.curtailed_name)
-			end
-			if list_count > 1 then
-				Result.extend ("repeated X ")
-				Result.last.append_integer (list_count - 1)
-			end
+			Result := action_area [index - 1]
 		end
 
-	recycle_repeats
-		do
-			do_for_each (agent instance_pool.recycle)
-			wipe_out
-		end
-
-	repeat_match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER
+	apply_events (a_repeated: detachable EL_REPEATED_TEXT_PATTERN)
 		local
-			l_repeated: like repeated
+			interval: INTEGER_64
 		do
-			if repeat_has_action then
-				l_repeated := instance_pool.borrowed_item
-			else
-				l_repeated := repeated
-			end
-			l_repeated.match (a_offset, text)
-			Result := l_repeated.count
-			if Result >= 0 and then repeat_has_action then
-				extend (l_repeated)
+			from start until after loop
+				if attached action_item as action then
+					if attached {PROCEDURE [INTEGER, INTEGER]} action as on_substring_match then
+						interval := interval_item
+						if attached a_repeated as l_repeated then
+							l_repeated.extend (on_substring_match, lower_integer (interval), upper_integer (interval))
+						else
+							on_substring_match (lower_integer (interval), upper_integer (interval))
+						end
+					else
+						if attached a_repeated as l_repeated then
+							l_repeated.extend (action, 0, 0)
+						else
+							action.apply
+						end
+					end
+				end
+				forth
 			end
 		end
 
-	repeated_twin: EL_TEXT_PATTERN
+	internal_call_actions (start_index, end_index: INTEGER; a_repeated: detachable EL_REPEATED_TEXT_PATTERN)
 		do
-			Result := repeated.twin
+			if attached actions_array as array then
+				call_action (array [0], start_index, end_index, a_repeated)
+			end
+			apply_events (a_repeated)
+		end
+
+	match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER
+		do
+			Result := repeated.match_count (a_offset, text)
+		end
+
+	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if matched pattern meets defintion of `Current' pattern
+		local
+			i, repeat_count, l_count, offset: INTEGER; match_failed: BOOLEAN
+		do
+			offset := a_offset
+			from i := 1 until i > matched_count or else match_failed loop
+				if (text.count - offset) > 0 then
+					repeat_count := match_count (offset, text)
+					if repeat_count >= 0 then
+						offset := offset + repeat_count
+						l_count := l_count + repeat_count
+						i := i + 1
+					else
+						match_failed := True
+					end
+				else
+					match_failed := True
+				end
+			end
+			Result := i - 1 = matched_count and l_count = count
+		end
+
+	name_inserts: TUPLE
+		do
+			Result := [repeated.curtailed_name]
+		end
+
+	wipe_out
+		do
+			Precursor
+			action_area.wipe_out
 		end
 
 feature {EL_REPEATED_TEXT_PATTERN} -- Internal attributes
 
-	debug_depth: INTEGER
+	action_area: SPECIAL [PROCEDURE]
 
-	instance_pool: like Default_instance_pool
+	debug_depth: INTEGER
 
 	repeat_has_action: BOOLEAN
 
 	repeated: EL_TEXT_PATTERN
 
-feature -- Constants
+feature {NONE} -- Constants
 
-	Default_instance_pool: EL_AGENT_FACTORY_POOL [EL_TEXT_PATTERN]
+	Name_template: ZSTRING
 		once
-			create Result.make (0, agent repeated_twin)
+			Result := "repeat (%S)"
 		end
 end

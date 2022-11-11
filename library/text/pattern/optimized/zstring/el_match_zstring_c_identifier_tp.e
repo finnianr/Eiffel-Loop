@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-09 16:30:57 GMT (Wednesday 9th November 2022)"
-	revision: "3"
+	date: "2022-11-11 9:13:06 GMT (Friday 11th November 2022)"
+	revision: "4"
 
 class
 	EL_MATCH_ZSTRING_C_IDENTIFIER_TP
@@ -17,8 +17,6 @@ inherit
 		redefine
 			i_th_conforms
 		end
-
-	STRING_HANDLER
 
 create
 	default_create, make_upper

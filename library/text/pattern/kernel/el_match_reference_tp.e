@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-10 13:34:52 GMT (Thursday 10th November 2022)"
-	revision: "2"
+	date: "2022-11-11 12:21:50 GMT (Friday 11th November 2022)"
+	revision: "3"
 
 class
 	EL_MATCH_REFERENCE_TP
@@ -17,7 +17,7 @@ inherit
 		export
 			{NONE} pipe, set_action
 		redefine
-			internal_call_actions, match
+			action_count, internal_call_actions, match
 		end
 
 create
@@ -40,6 +40,13 @@ feature -- Access
 
 	offset: INTEGER
 
+feature -- Measurement
+
+	action_count: INTEGER
+		do
+			Result := pattern.action_count
+		end
+
 feature -- Basic operations
 
 	match (a_offset: INTEGER; text: READABLE_STRING_GENERAL)
@@ -54,9 +61,9 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	internal_call_actions (start_index, end_index: INTEGER)
+	internal_call_actions (start_index, end_index: INTEGER; repeated: detachable EL_REPEATED_TEXT_PATTERN)
 		do
-			pattern.internal_call_actions (start_index, end_index)
+			pattern.internal_call_actions (start_index, end_index, repeated)
 		end
 
 	match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER
