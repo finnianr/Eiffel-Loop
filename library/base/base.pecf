@@ -240,6 +240,12 @@ system:
 					* UTF encoding/decoding
 				"""
 			cluster_tree:
+				edit = "$|edit"
+				description:
+					"""
+						Common classes for text editing. (Moved from text-process.ecf)
+					"""
+			cluster_tree:
 				imp_unix = "$|imp_unix"
 				condition:
 					platform = unix

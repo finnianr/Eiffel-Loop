@@ -37,14 +37,6 @@ system:
 
 		# Source code
 		cluster_tree:
-			edit = "text/edit"
-			description:
-				"""
-					Text Editing
-
-					Classes for editing file and other text.
-				"""
-		cluster_tree:
 			parse = "text/parse"
 			description:
 				"""

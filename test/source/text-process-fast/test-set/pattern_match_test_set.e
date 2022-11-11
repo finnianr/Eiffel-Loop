@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-11 9:23:43 GMT (Friday 11th November 2022)"
-	revision: "12"
+	date: "2022-11-11 13:29:13 GMT (Friday 11th November 2022)"
+	revision: "13"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -40,7 +40,7 @@ feature -- Basic operations
 		do
 			eval.call ("alpha_character_match", agent test_alpha_character_match)
 			eval.call ("back_reference_match", agent test_back_reference_match)
-			eval.call ("twin_procedure", agent test_twin_procedure)
+			eval.call ("find_all", agent test_find_all)
 			eval.call ("integer_match", agent test_integer_match)
 			eval.call ("numbers_array_parsing", agent test_numbers_array_parsing)
 			eval.call ("numeric_match", agent test_numeric_match)
@@ -48,6 +48,7 @@ feature -- Basic operations
 			eval.call ("quoted_c_string", agent test_quoted_c_string)
 			eval.call ("recursive_match", agent test_recursive_match)
 			eval.call ("string_substitution", agent test_string_substitution)
+			eval.call ("twin_procedure", agent test_twin_procedure)
 			eval.call ("xpath_parser", agent test_xpath_parser)
 		end
 
@@ -98,6 +99,20 @@ feature -- Test
 						end
 					end
 				end
+			end
+		end
+
+	test_find_all
+		note
+			testing: "covers/{EL_RECURSIVE_TEXT_PATTERN}.match"
+		local
+			pattern: like class_name; output: ZSTRING
+		do
+			across Text.Eiffel_type_declarations.split ('%N') as line loop
+				create output.make_empty
+				pattern := class_name |to| agent output.append_substring_general (line.item, ?, ?)
+				pattern.find_all (line.item, agent output.append_substring_general (line.item, ?, ?))
+				assert ("text reconstructed", output.same_string (line.item))
 			end
 		end
 

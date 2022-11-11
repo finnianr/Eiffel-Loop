@@ -21,13 +21,6 @@ CLUSTERS
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<!--Source code-->
-		<cluster name = "edit" location = "text/edit" recursive = "true">
-			<description>
-Text Editing
-
-Classes for editing file and other text.
-			</description>
-		</cluster>
 		<cluster name = "parse" location = "text/parse" recursive = "true">
 			<description>
 Parsing (Legacy)

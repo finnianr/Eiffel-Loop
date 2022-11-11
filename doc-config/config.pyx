@@ -141,7 +141,6 @@ publish-repository:
 			"library/evolicity.ecf"
 			"library/search-engine.ecf"
 			"library/text-formats.ecf"
-			"library/text-process.ecf#edit"
 			"library/text-process.ecf#parse"
 			"library/text-process.ecf#pattern_match"
 			"library/text-process-fast.ecf#parse"

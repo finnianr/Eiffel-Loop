@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-11 9:15:52 GMT (Friday 11th November 2022)"
-	revision: "9"
+	date: "2022-11-11 13:49:24 GMT (Friday 11th November 2022)"
+	revision: "10"
 
 deferred class
 	EL_TEXT_PATTERN
@@ -75,16 +75,16 @@ feature -- Measurement
 
 feature -- Basic operations
 
-	find_all (text: READABLE_STRING_GENERAL; unmatched_action: like Default_action)
+	find_all (text: READABLE_STRING_GENERAL; unmatched_action: detachable like Default_action)
 			-- Call actions for all consecutive matchs of `Current' in `s' and calling `unmatched_action'
 			-- with any unmatched text
 		do
-			internal_find_all (0, text, Default_action)
+			internal_find_all (0, text, unmatched_action)
 		end
 
 	find_all_default (text: READABLE_STRING_GENERAL)
 		do
-			find_all (text, Default_action)
+			find_all (text, Void)
 		end
 
 	match (a_offset: INTEGER; text: READABLE_STRING_GENERAL)
@@ -176,27 +176,29 @@ feature {EL_TEXT_PATTERN_I, EL_PARSER} -- Implementation
 			end
 		end
 
-	internal_find_all (a_offset: INTEGER; text: READABLE_STRING_GENERAL; unmatched_action: like Default_action)
+	internal_find_all (
+		a_offset: INTEGER; text: READABLE_STRING_GENERAL; unmatched_action: detachable like Default_action
+	)
 		local
-			unmatched_count, text_count, l_offset: INTEGER
+			unmatched_count, text_count, offset: INTEGER
 		do
-			text_count := text.count
-			from l_offset := a_offset until l_offset >= text_count loop
-				match (l_offset, text)
+			unmatched_count := 0; text_count := text.count
+			from offset := a_offset until offset >= text_count loop
+				match (offset, text)
 				if count > 0 then
-					if unmatched_count > 0 then
-						call_unmatched_action (l_offset + 1, l_offset + count, unmatched_count, unmatched_action)
+					if unmatched_count > 0 and then attached unmatched_action as on_unmatched then
+						call_action (on_unmatched, offset - unmatched_count + 1, offset, Void)
 						unmatched_count := 0
 					end
-					call_actions (l_offset + 1, l_offset + count)
-					l_offset := l_offset + count
+					call_actions (offset + 1, offset + count)
+					offset := offset + count
 				else
-					l_offset := l_offset + 1
+					offset := offset + 1
 					unmatched_count := unmatched_count + 1
 				end
 			end
-			if unmatched_count > 0 then
-				call_unmatched_action (l_offset + 1, l_offset + count, unmatched_count, unmatched_action)
+			if unmatched_count > 0 and then attached unmatched_action as on_unmatched then
+				call_action (on_unmatched, offset - unmatched_count + 1, text_count, Void)
 			end
 		end
 
@@ -223,13 +225,6 @@ feature {NONE} -- Implementation
 				else
 					on_substring (start_index, end_index)
 				end
-			end
-		end
-
-	call_unmatched_action (start_index, end_index, unmatched_count: INTEGER; unmatched_action: like Default_action)
-		do
-			if unmatched_action /= Default_action then
-				unmatched_action (start_index, end_index)
 			end
 		end
 

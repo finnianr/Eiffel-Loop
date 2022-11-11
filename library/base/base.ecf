@@ -240,6 +240,9 @@ Classes providing the following:
 * URI encoding/decoding
 * UTF encoding/decoding
 			</description>
+			<cluster name = "edit" location = "$|edit" recursive = "true">
+				<description>Common classes for text editing. (Moved from text-process.ecf)</description>
+			</cluster>
 			<cluster name = "imp_unix" location = "$|imp_unix" recursive = "true">
 				<condition>
 					<platform value = "unix"/>

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-28 16:36:37 GMT (Friday 28th October 2022)"
-	revision: "9"
+	date: "2022-11-11 16:43:03 GMT (Friday 11th November 2022)"
+	revision: "10"
 
 class
 	TEXT_PROCESS_AUTOTEST_APP
@@ -33,7 +33,10 @@ feature {NONE} -- Implementation
 
 	compile: TUPLE [
 		EL_C_PATTERN_FACTORY,
+		EL_FILE_PARSER_TEXT_FILE_CONVERTER,
 		EL_FILE_TRAILING_SPACE_REMOVER,
+		EL_EIFFEL_LINE_STATE_MACHINE_TEXT_FILE_EDITOR,
+		EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR,
 		EL_ZIP_FILE_LISTING_PARSER
 	]
 		do
