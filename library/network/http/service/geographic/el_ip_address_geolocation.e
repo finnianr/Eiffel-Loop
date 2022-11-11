@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-25 14:12:04 GMT (Saturday 25th June 2022)"
-	revision: "8"
+	date: "2022-11-11 12:38:41 GMT (Friday 11th November 2022)"
+	revision: "9"
 
 class
 	EL_IP_ADDRESS_GEOLOCATION
@@ -68,7 +68,7 @@ feature {NONE} -- Constants
 
 	Field_hash: NATURAL
 		once
-			Result := 4271480229
+			Result := 1966935048
 		end
 
 	Separator: ZSTRING
