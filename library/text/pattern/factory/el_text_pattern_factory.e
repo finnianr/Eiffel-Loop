@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-11 11:41:26 GMT (Friday 11th November 2022)"
-	revision: "10"
+	date: "2022-11-13 9:43:46 GMT (Sunday 13th November 2022)"
+	revision: "12"
 
 deferred class
 	EL_TEXT_PATTERN_FACTORY
@@ -36,22 +36,29 @@ feature -- String patterns
 	c_identifier: EL_MATCH_C_IDENTIFIER_TP
 		-- match C language identifier
 		do
-			Result := core.new_c_identifier (False)
+			Result := core.new_c_identifier
 		end
 
-	c_identifier_upper: EL_MATCH_C_IDENTIFIER_TP
-		-- match upper-case C language identifier
+	quoted_c_character (unescaped_action: detachable PROCEDURE [CHARACTER_32]): EL_MATCH_QUOTED_CHARACTER_TP
 		do
-			Result := core.new_c_identifier (False)
 		end
 
 	quoted_c_lang_string (
 		quote: CHARACTER_32; unescaped_action: detachable PROCEDURE [STRING_GENERAL]
-	): EL_MATCH_QUOTED_C_LANG_STRING_TP
+	): EL_MATCH_QUOTED_STRING_TP
 		-- match C language string in quotes and call procedure `unescaped_action'
 		-- with unescaped value
 		do
 			Result := core.new_quoted_c_lang_string (quote, unescaped_action)
+		end
+
+	quoted_eiffel_string (
+		quote: CHARACTER_32; unescaped_action: detachable PROCEDURE [STRING_GENERAL]
+	): EL_MATCH_QUOTED_STRING_TP
+		-- match Eiffel language string in quotes and call procedure `unescaped_action'
+		-- with unescaped value
+		do
+			Result := core.new_quoted_eiffel_string (quote, unescaped_action)
 		end
 
 	string_literal (a_text: READABLE_STRING_GENERAL): EL_LITERAL_TEXT_PATTERN
@@ -115,6 +122,12 @@ feature -- Character patterns
 			--
 		do
 			Result := core.new_digit
+		end
+
+	end_of_line_character: EL_END_OF_LINE_CHAR_TP
+			-- Matches new line or EOF
+		do
+			Result := core.new_end_of_line_character
 		end
 
 	letter: EL_ALPHA_CHAR_TP
@@ -214,6 +227,11 @@ feature {NONE} -- Internal attributes
 	optimal_core: detachable EL_OPTIMIZED_PATTERN_FACTORY
 
 feature {NONE} -- Constants
+
+	OPTIONAL_ACTION: detachable PROCEDURE [INTEGER, INTEGER]
+		once
+			Result := Void
+		end
 
 	Optimal_general: EL_OPTIMIZED_PATTERN_FACTORY
 		once

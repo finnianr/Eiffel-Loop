@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-10 13:25:03 GMT (Thursday 10th November 2022)"
-	revision: "4"
+	date: "2022-11-11 18:07:37 GMT (Friday 11th November 2022)"
+	revision: "5"
 
 class
 	EL_LITERAL_CHAR_TP
@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 			item := uc
 		end
 
-	make_with_action (a_item: like item; a_action: like actions_array.item)
+	make_with_action (a_item: like item; a_action: like Default_action)
 			--
 		do
 			make (a_item); set_action (a_action)

@@ -1,13 +1,16 @@
 note
-	description: "Test routines in libary cluster [./library/text-process-fast.pattern_match.html Pattern-matching]"
+	description: "[
+		Test routines in libary cluster [./library/text-process-fast.pattern_match.html Pattern-matching]
+		using [$source STRING_8] source text.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-11 13:29:13 GMT (Friday 11th November 2022)"
-	revision: "13"
+	date: "2022-11-13 9:06:25 GMT (Sunday 13th November 2022)"
+	revision: "14"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -40,15 +43,15 @@ feature -- Basic operations
 		do
 			eval.call ("alpha_character_match", agent test_alpha_character_match)
 			eval.call ("back_reference_match", agent test_back_reference_match)
+			eval.call ("end_of_line", agent test_end_of_line)
 			eval.call ("find_all", agent test_find_all)
 			eval.call ("integer_match", agent test_integer_match)
 			eval.call ("numbers_array_parsing", agent test_numbers_array_parsing)
 			eval.call ("numeric_match", agent test_numeric_match)
 			eval.call ("pyxis_attribute_parser", agent test_pyxis_attribute_parser)
-			eval.call ("quoted_c_string", agent test_quoted_c_string)
+			eval.call ("quoted_string", agent test_quoted_string)
 			eval.call ("recursive_match", agent test_recursive_match)
 			eval.call ("string_substitution", agent test_string_substitution)
-			eval.call ("twin_procedure", agent test_twin_procedure)
 			eval.call ("xpath_parser", agent test_xpath_parser)
 		end
 
@@ -84,21 +87,45 @@ feature -- Test
 			across xml_text_element_list as list loop
 				xml_text_element := list.item
 				across << Empty_string_8, Name_susan >> as name loop
-					across source_strings as str loop
-						if attached str.item as source then
-							set_optimal_core (source)
-							XML.value_element_markup ("name", name.item).append_to_general (source)
-							output.wipe_out
-							pattern := xml_text_element (agent output.append_substring_general (source, ?, ?))
-							pattern.parse (source)
-							if pattern.is_matched then
-								assert ("match_count OK", name.item ~ output)
-							else
-								assert ("parse OK", False)
-							end
-						end
+					set_source_text (XML.value_element_markup ("name", name.item))
+					output.wipe_out
+					pattern := xml_text_element (agent output.append_substring_general (source_text, ?, ?))
+					pattern.parse (source_text)
+					if pattern.is_matched then
+						assert ("match_count OK", name.item ~ output)
+					else
+						assert ("parse OK", False)
 					end
 				end
+			end
+		end
+
+	test_end_of_line
+		note
+			testing: "covers/{EL_END_OF_LINE_CHAR_TP}.match",
+				"covers/{EL_STRING_8_END_OF_LINE_CHAR_TP}.match",
+				"covers/{EL_ZSTRING_END_OF_LINE_CHAR_TP}.match"
+		local
+			pattern: like zero_or_more; output: ZSTRING
+			line_pattern: like while_not_p_match_any
+			line_list: ARRAYED_LIST [STRING_GENERAL]
+		do
+			create output.make_empty; create line_list.make (10)
+			line_pattern := while_not_p_match_any (end_of_line_character)
+			line_pattern.set_leading_text_action (agent on_line (?, ?, line_list))
+			pattern := zero_or_more (line_pattern)
+			set_source_text (Text.Eiffel_type_declarations)
+			pattern.parse (source_text)
+			if pattern.is_matched then
+				across Text.Eiffel_type_declarations.split ('%N') as line loop
+					if line_list.valid_index (line.cursor_index) then
+						assert ("text reconstructed", line_list [line.cursor_index].same_string (line.item))
+					else
+						assert ("same item count", False)
+					end
+				end
+			else
+				assert ("matched", False)
 			end
 		end
 
@@ -108,11 +135,13 @@ feature -- Test
 		local
 			pattern: like class_name; output: ZSTRING
 		do
+			create output.make_empty
+			pattern := class_name |to| agent append_to (?, ?, output)
 			across Text.Eiffel_type_declarations.split ('%N') as line loop
-				create output.make_empty
-				pattern := class_name |to| agent output.append_substring_general (line.item, ?, ?)
-				pattern.find_all (line.item, agent output.append_substring_general (line.item, ?, ?))
-				assert ("text reconstructed", output.same_string (line.item))
+				set_source_text (line.item)
+				output.wipe_out
+				pattern.find_all (source_text, agent append_to (?, ?, output))
+				assert ("text reconstructed", output.same_string (source_text))
 			end
 		end
 
@@ -158,22 +187,19 @@ feature -- Test
 				lio.put_integer_field ("pattern", array_pattern.cursor_index)
 				lio.put_new_line
 				numeric_array_pattern := array_pattern.item
-				across source_strings as str loop
-					set_optimal_core (str.item)
-					str.item.append (Text.doubles_array_manifest)
-					if attached numeric_array_pattern (agent on_numeric (?, ?, str.item, csv_list)) as pattern then
-						csv_list.wipe_out; number_list.wipe_out
-						pattern.parse (str.item)
-						if pattern.is_matched then
-							across csv_list.split (',') as list loop
-								if list.item.is_double then
-									number_list.extend (list.item.to_double)
-								end
+				set_source_text (Text.doubles_array_manifest)
+				if attached numeric_array_pattern (agent on_numeric (?, ?, csv_list)) as pattern then
+					csv_list.wipe_out; number_list.wipe_out
+					pattern.parse (source_text)
+					if pattern.is_matched then
+						across csv_list.split (',') as list loop
+							if list.item.is_double then
+								number_list.extend (list.item.to_double)
 							end
-							assert ("parsed Eiffel numeric array OK", number_list.to_array ~ Number.Doubles_list)
-						else
-							assert ("numeric_array_pattern: is_full_match OK", False)
 						end
+						assert ("parsed Eiffel numeric array OK", number_list.to_array ~ Number.Doubles_list)
+					else
+						assert ("numeric_array_pattern: is_full_match OK", False)
 					end
 				end
 			end
@@ -187,13 +213,9 @@ feature -- Test
 						"covers/EL_STRING_8_NUMERIC_CHAR_TP}.match_count",
 						"covers/EL_STRING_8_LITERAL_CHAR_TP}.match_count"
 		do
-			across source_strings as str loop
-				set_optimal_core (str.item)
-				across Number.Doubles_list as double loop
-					str.item.keep_head (0)
-					str.item.append (double.item.out)
-					assert ("matches_string_general OK", decimal_constant.matches_string_general (str.item))
-				end
+			across Number.Doubles_list as double loop
+				set_source_text (double.item.out)
+				assert ("matches_string_general OK", decimal_constant.matches_string_general (source_text))
 			end
 		end
 
@@ -210,11 +232,11 @@ feature -- Test
 
 			create parser.make
 
-			across << source_line_1, source_line_2 >> as source loop
-				if source.item.starts_with (leading_tabs) then
-					parser.set_substring_source_text (source.item, 3, source.item.count - 2)
+			across << source_line_1, source_line_2 >> as line loop
+				if line.item.starts_with (leading_tabs) then
+					parser.set_substring_source_text (line.item, 3, line.item.count - 2)
 				else
-					parser.set_source_text (source.item)
+					parser.set_source_text (line.item)
 				end
 				assert ("table is empty", parser.table.is_empty)
 				parser.parse
@@ -232,27 +254,41 @@ feature -- Test
 			end
 		end
 
-	test_quoted_c_string
+	test_quoted_string
 		note
-			testing: "covers/{EL_MATCH_QUOTED_C_LANG_STRING_TP}.match"
+			testing: "covers/{EL_MATCH_QUOTED_STRING_TP}.match"
 		local
-			pattern: like quoted_c_lang_string
+			pattern: EL_MATCH_QUOTED_STRING_TP
 			output, content: ZSTRING
 		do
-			create content.make_empty
 			create output.make_empty
-			across source_strings as str loop
-				set_optimal_core (str.item)
-				str.item.append ("[
-					"-\n-\"-\\"
-				]")
+			across <<
+				quoted_c_lang_string ('"', agent on_quoted (?, output)),
+				quoted_eiffel_string ('"', agent on_quoted (?, output))
+
+			>> as list loop
+				pattern := list.item
 				output.wipe_out
-				pattern := quoted_c_lang_string ('"', agent on_quoted (?, output))
-				pattern.set_action (agent on_quoted_substring (?, ?, str.item, content))
-				pattern.parse (str.item)
+				create content.make_empty
+				if pattern.language_name ~ "C" then
+					set_source_text ("[
+						"-\n-\"-\\"
+					]")
+				else
+					set_source_text ("[
+						"-%N-%"-%%-%/65/"
+					]")
+				end
+				output.wipe_out
+				pattern.set_action (agent on_quoted_substring (?, ?, content))
+				pattern.parse (source_text)
 				if pattern.is_matched then
-					assert ("string without quotes", content.enclosed ('"', '"').same_string (str.item))
-					assert ("same string", output.same_string ("-%N-%"-\"))
+					assert ("string without quotes", content.enclosed ('"', '"').same_string (source_text))
+					if pattern.language_name ~ "C" then
+						assert ("same string", output.same_string_general ("-%N-%"-\"))
+					else
+						assert ("same string", output.same_string_general ("-%N-%"-%%-A"))
+					end
 				else
 					assert ("matched", False)
 				end
@@ -265,6 +301,9 @@ feature -- Test
 		local
 			eiffel_type: like class_type; type_string: ZSTRING
 		do
+			create type_string.make_empty
+			set_optimal_core (type_string)
+
 			eiffel_type := class_type
 			across Text.Eiffel_type_declarations.split ('%N') as line loop
 				type_string := line.item
@@ -307,24 +346,6 @@ feature -- Test
 			end
 		end
 
-	test_twin_procedure
-		local
-			output: ZSTRING; str: STRING
-			procedure, procedure_copy: PROCEDURE
-		do
-			create output.make_empty
-			str := "A"
-			procedure := agent on_quoted (?, output)
-			if procedure.open_count = 1 then
-				procedure_copy := procedure.twin
-				procedure_copy.set_operands ([str])
-				procedure_copy.apply
-				assert ("same string", output.same_string (str))
-			else
-				assert ("1 open argument", False)
-			end
-		end
-
 	test_xpath_parser
 		note
 			testing: "covers/{EL_XPATH_PARSER}.parse"
@@ -353,9 +374,24 @@ feature -- Test
 
 feature {NONE} -- Implementation
 
-	source_strings: ARRAY [STRING_GENERAL]
+	append_to (start_index, end_index: INTEGER; output: ZSTRING)
 		do
-			Result := << create {ZSTRING}.make_empty, create {STRING_8}.make_empty, create {STRING_32}.make_empty >>
+			output.append_substring_general (source_text, start_index, end_index)
+		end
+
+	prepare_source
+		do
+			create {STRING_8} source_text.make_empty
+		end
+
+	set_source_text (a_text: STRING_GENERAL)
+		do
+			source_text.keep_head (0)
+			if attached {ZSTRING} a_text as zstr then
+				zstr.append_to_general (source_text)
+			else
+				source_text.append (a_text)
+			end
 		end
 
 feature {NONE} -- Patterns
@@ -445,17 +481,24 @@ feature {NONE} -- Patterns
 
 feature {NONE} -- Events handlers
 
-	on_numeric (start_index, end_index: INTEGER; source: STRING_GENERAL; output: ZSTRING)
+	on_line (start_index, end_index: INTEGER; line_list: ARRAYED_LIST [STRING_GENERAL])
+		do
+			line_list.extend (source_text.substring (start_index, end_index))
+		end
+
+	on_numeric (start_index, end_index: INTEGER; output: ZSTRING)
 		do
 			if output.count > 0 then
 				output.append_character (',')
 			end
-			output.append_substring_general (source, start_index, end_index)
+			output.append_substring_general (source_text, start_index, end_index)
 		end
 
 	on_prepare
 		do
 			Precursor
+			prepare_source
+			set_optimal_core (source_text)
 		end
 
 	on_quoted (str: STRING_GENERAL; output: ZSTRING)
@@ -463,11 +506,15 @@ feature {NONE} -- Events handlers
 			output.append_string_general (str)
 		end
 
-	on_quoted_substring (start_index, end_index: INTEGER; source: STRING_GENERAL; output: ZSTRING)
+	on_quoted_substring (start_index, end_index: INTEGER; output: ZSTRING)
 		do
 			output.wipe_out
-			output.append_substring_general (source, start_index, end_index)
+			output.append_substring_general (source_text, start_index, end_index)
 		end
+
+feature {NONE} -- Internal attributes
+
+	source_text: STRING_GENERAL
 
 feature {NONE} -- Constants
 

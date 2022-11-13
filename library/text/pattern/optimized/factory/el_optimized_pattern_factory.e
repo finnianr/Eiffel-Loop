@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-09 16:26:39 GMT (Wednesday 9th November 2022)"
-	revision: "8"
+	date: "2022-11-13 6:21:52 GMT (Sunday 13th November 2022)"
+	revision: "9"
 
 class
 	EL_OPTIMIZED_PATTERN_FACTORY
@@ -41,6 +41,12 @@ feature -- Character
 			create Result
 		end
 
+	new_end_of_line_character: EL_END_OF_LINE_CHAR_TP
+			-- Matches new line or EOF
+		do
+			create Result.make
+		end
+
 	new_letter: EL_ALPHA_CHAR_TP
 			--
 		do
@@ -55,13 +61,9 @@ feature -- Character
 
 feature -- String
 
-	new_c_identifier (is_upper: BOOLEAN): EL_MATCH_C_IDENTIFIER_TP
+	new_c_identifier: EL_MATCH_C_IDENTIFIER_TP
 		do
-			if is_upper then
-				create Result.make_upper
-			else
-				create Result
-			end
+			create Result
 		end
 
 	new_string_literal (a_text: READABLE_STRING_GENERAL): EL_LITERAL_TEXT_PATTERN
@@ -81,9 +83,16 @@ feature -- String
 
 	new_quoted_c_lang_string (
 		quote: CHARACTER_32; unescaped_action: detachable PROCEDURE [STRING_GENERAL]
-	): EL_MATCH_QUOTED_C_LANG_STRING_TP
+	): EL_MATCH_QUOTED_STRING_TP
 		do
-			create Result.make (quote, unescaped_action)
+			create {EL_MATCH_QUOTED_C_LANG_STRING_TP} Result.make (quote, unescaped_action)
+		end
+
+	new_quoted_eiffel_string (
+		quote: CHARACTER_32; unescaped_action: detachable PROCEDURE [STRING_GENERAL]
+	): EL_MATCH_QUOTED_STRING_TP
+		do
+			create {EL_MATCH_QUOTED_EIFFEL_STRING_TP} Result.make (quote, unescaped_action)
 		end
 
 	new_xml_identifier: EL_MATCH_XML_IDENTIFIER_TP

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-11 7:54:38 GMT (Friday 11th November 2022)"
-	revision: "2"
+	date: "2022-11-12 10:32:54 GMT (Saturday 12th November 2022)"
+	revision: "3"
 
 class
 	EL_MATCH_ANY_WHILE_NOT_P_MATCH_TP
@@ -53,7 +53,7 @@ feature {NONE} -- Implementation
 		do
 			text_count := text.count
 			if attached pattern as p then
-				from offset := a_offset until offset = text_count or else done loop
+				from offset := a_offset until offset > text_count or else done loop
 					p.match (offset, text)
 					if p.is_matched then
 						done := True

@@ -5,7 +5,10 @@ note
 		
 		**Test Sets**
 		
+			[$source EIFFEL_FAST_PARSING_TEST_SET]
 			[$source PATTERN_MATCH_TEST_SET]
+			[$source STRING_32_PATTERN_MATCH_TEST_SET]
+			[$source ZSTRING_PATTERN_MATCH_TEST_SET]
 	]"
 
 	author: "Finnian Reilly"
@@ -13,15 +16,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-01 14:41:16 GMT (Tuesday 1st November 2022)"
-	revision: "10"
+	date: "2022-11-12 9:36:14 GMT (Saturday 12th November 2022)"
+	revision: "12"
 
 class
 	TEXT_PROCESS_FAST_AUTOTEST_APP
 
 inherit
 	EL_AUTOTEST_APPLICATION [
-		PATTERN_MATCH_TEST_SET
+		EIFFEL_FAST_PARSING_TEST_SET,
+		PATTERN_MATCH_TEST_SET,
+		STRING_32_PATTERN_MATCH_TEST_SET,
+		ZSTRING_PATTERN_MATCH_TEST_SET
 	]
 
 create
@@ -29,7 +35,12 @@ create
 
 feature {NONE} -- Implementation
 
-	compile: TUPLE [EL_PARSER_2]
+	compile: TUPLE [
+		EL_FILE_PARSER_2,
+		EL_FILE_PARSER_TEXT_EDITOR_2,
+		EL_PARSER_2,
+		EL_PARSER_TEXT_EDITOR_2
+	]
 		do
 			create Result
 		end

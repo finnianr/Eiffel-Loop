@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2022-11-11 17:25:56 GMT (Friday 11th November 2022)"
+	revision: "6"
 
 class
 	EL_TEXTUAL_PATTERN_MATCH_ROUTINES
@@ -33,7 +33,7 @@ feature -- Basic operations
 	is_match (a_string: ZSTRING; a_pattern: EL_TEXT_PATTERN): BOOLEAN
 			--
 		do
-			pattern := a_pattern
+			internal_pattern := a_pattern
 			Result := is_text_match (a_string)
 		end
 
@@ -46,7 +46,7 @@ feature -- Basic operations
 	occurrences (a_string: ZSTRING; a_pattern: EL_TEXT_PATTERN): INTEGER
 			--
 		do
-			pattern := a_pattern
+			internal_pattern := a_pattern
 			Result := text_occurrences (a_string)
 		end
 

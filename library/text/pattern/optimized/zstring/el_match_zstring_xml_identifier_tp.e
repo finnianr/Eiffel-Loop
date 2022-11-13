@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-11 9:13:25 GMT (Friday 11th November 2022)"
-	revision: "4"
+	date: "2022-11-12 12:15:54 GMT (Saturday 12th November 2022)"
+	revision: "5"
 
 class
 	EL_MATCH_ZSTRING_XML_IDENTIFIER_TP
@@ -20,7 +20,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	i_th_conforms (i: INTEGER_32; text: ZSTRING; is_first_character, uppercase_only: BOOLEAN): BOOLEAN
+	i_th_conforms (i: INTEGER_32; text: ZSTRING; is_first_character, uppercase_only, letter_first: BOOLEAN): BOOLEAN
 		-- `True' if i'th character conforms to language rule
 		do
 			inspect text.item_8 (i)

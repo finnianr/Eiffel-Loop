@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-09 16:27:45 GMT (Wednesday 9th November 2022)"
-	revision: "8"
+	date: "2022-11-12 12:26:02 GMT (Saturday 12th November 2022)"
+	revision: "9"
 
 class
 	EL_STRING_8_PATTERN_FACTORY
@@ -16,8 +16,8 @@ inherit
 	EL_OPTIMIZED_PATTERN_FACTORY
 		redefine
 			new_character_literal, new_digit, new_letter, new_white_space_character, new_character_in_set,
-			new_string_literal, new_white_space, new_digits_string,
-			new_c_identifier, new_xml_identifier, new_quoted_c_lang_string
+			new_string_literal, new_white_space, new_digits_string, new_end_of_line_character,
+			new_c_identifier, new_xml_identifier, new_quoted_c_lang_string, new_quoted_eiffel_string
 		end
 
 feature -- Character
@@ -40,6 +40,12 @@ feature -- Character
 			create Result
 		end
 
+	new_end_of_line_character: EL_STRING_8_END_OF_LINE_CHAR_TP
+			-- Matches new line or EOF
+		do
+			create Result.make
+		end
+
 	new_letter: EL_STRING_8_ALPHA_CHAR_TP
 			--
 		do
@@ -54,13 +60,9 @@ feature -- Character
 
 feature -- String
 
-	new_c_identifier (is_upper: BOOLEAN): EL_MATCH_STRING_8_C_IDENTIFIER_TP
+	new_c_identifier: EL_MATCH_STRING_8_C_IDENTIFIER_TP
 		do
-			if is_upper then
-				create Result.make_upper
-			else
-				create Result
-			end
+			create Result
 		end
 
 	new_string_literal (a_text: READABLE_STRING_GENERAL): EL_STRING_8_LITERAL_TP
@@ -81,6 +83,13 @@ feature -- String
 	new_quoted_c_lang_string (
 		quote: CHARACTER_32; unescaped_action: detachable PROCEDURE [STRING_GENERAL]
 	): EL_MATCH_STRING_8_QUOTED_C_LANG_STRING_TP
+		do
+			create Result.make (quote, unescaped_action)
+		end
+
+	new_quoted_eiffel_string (
+		quote: CHARACTER_32; unescaped_action: detachable PROCEDURE [STRING_GENERAL]
+	): EL_MATCH_STRING_8_QUOTED_EIFFEL_STRING_TP
 		do
 			create Result.make (quote, unescaped_action)
 		end

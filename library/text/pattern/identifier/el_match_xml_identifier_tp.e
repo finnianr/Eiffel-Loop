@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-09 16:25:15 GMT (Wednesday 9th November 2022)"
-	revision: "3"
+	date: "2022-11-12 12:14:53 GMT (Saturday 12th November 2022)"
+	revision: "4"
 
 class
 	EL_MATCH_XML_IDENTIFIER_TP
@@ -17,12 +17,17 @@ inherit
 
 feature {NONE} -- Implementation
 
-	i_th_conforms (i: INTEGER_32; text: READABLE_STRING_GENERAL; is_first_character, uppercase_only: BOOLEAN): BOOLEAN
+	i_th_conforms (
+		i: INTEGER_32; text: READABLE_STRING_GENERAL; is_first_character, uppercase_only, letter_first: BOOLEAN
+	): BOOLEAN
 		-- `True' if i'th character conforms to language rule
 		do
 			inspect text [i]
-				when 'A' .. 'Z', '_'  then
+				when 'A' .. 'Z' then
 					Result := True
+
+				when '_' then
+					Result := letter_first implies not is_first_character
 
 				when 'a' .. 'z' then
 					Result := not uppercase_only
