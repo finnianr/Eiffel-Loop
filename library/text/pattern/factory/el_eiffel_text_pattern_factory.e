@@ -25,7 +25,7 @@ feature {NONE} -- Eiffel comments
 	comment: like all_of
 			--
 		do
-			Result := all_of (<< comment_prefix, zero_or_more (not character_literal ('%N')) >>)
+			Result := all_of (<< comment_prefix, while_not_p_match_any (end_of_line_character) >>)
 		end
 
 	comment_prefix: EL_LITERAL_TEXT_PATTERN
