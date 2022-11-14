@@ -25,7 +25,7 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 9:40:59 GMT (Wednesday 2nd November 2022)"
+	date: "2022-11-14 17:04:02 GMT (Monday 14th November 2022)"
 	revision: "1"
 
 class
@@ -40,7 +40,7 @@ inherit
 			parse, make, source_text
 		end
 
-	EL_TEXT_PATTERN_FACTORY
+	EL_C_LANGUAGE_PATTERN_FACTORY
 
 create
 	make
@@ -126,7 +126,7 @@ feature {NONE} -- Grammar
 				character_literal ('['),
 				attribute_name_pattern |to| agent on_selecting_attribute_name,
 				string_literal ("="),
-				quoted_c_lang_string ('%'', Void) |to| agent on_selecting_attribute_value,
+				quoted_string ('%'', Void) |to| agent on_selecting_attribute_value,
 				character_literal (']')
 			>> )
 			Result.set_action_last (agent on_attribute_value_predicate)

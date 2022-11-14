@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-13 9:06:25 GMT (Sunday 13th November 2022)"
-	revision: "14"
+	date: "2022-11-14 17:21:55 GMT (Monday 14th November 2022)"
+	revision: "15"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -49,6 +49,7 @@ feature -- Basic operations
 			eval.call ("numbers_array_parsing", agent test_numbers_array_parsing)
 			eval.call ("numeric_match", agent test_numeric_match)
 			eval.call ("pyxis_attribute_parser", agent test_pyxis_attribute_parser)
+			eval.call ("quoted_character_array_parsing", agent test_quoted_character_array_parsing)
 			eval.call ("quoted_string", agent test_quoted_string)
 			eval.call ("recursive_match", agent test_recursive_match)
 			eval.call ("string_substitution", agent test_string_substitution)
@@ -254,6 +255,25 @@ feature -- Test
 			end
 		end
 
+	test_quoted_character_array_parsing
+		note
+			testing: "covers/{EL_MATCH_EIFFEL_QUOTED_CHARACTER_TP}.match",
+				"covers/{EL_MATCH_ZSTRING_EIFFEL_QUOTED_CHARACTER_TP}.match",
+				"covers/{EL_MATCH_STRING_8_EIFFEL_QUOTED_CHARACTER_TP}.match"
+		local
+			pattern: like character_array_pattern; output, content: ZSTRING
+		do
+			create output.make_empty
+			pattern := character_array_pattern (agent on_quoted_character (?, output))
+			set_source_text (Eiffel_character_array)
+			pattern.parse (source_text)
+			if pattern.is_matched then
+				assert ("same string", output.same_string ("AA%N'"))
+			else
+				assert ("matched", False)
+ 			end
+		end
+
 	test_quoted_string
 		note
 			testing: "covers/{EL_MATCH_QUOTED_STRING_TP}.match"
@@ -263,8 +283,8 @@ feature -- Test
 		do
 			create output.make_empty
 			across <<
-				quoted_c_lang_string ('"', agent on_quoted (?, output)),
-				quoted_eiffel_string ('"', agent on_quoted (?, output))
+				core.new_c_quoted_string ('"', agent on_quoted (?, output)),
+				core.new_eiffel_quoted_string ('"', agent on_quoted (?, output))
 
 			>> as list loop
 				pattern := list.item
@@ -396,6 +416,27 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Patterns
 
+	character_array_pattern (do_with_char: PROCEDURE [CHARACTER_32]): like all_of
+		do
+			Result := all_of (<<
+				string_literal ("<<"),
+				optional_white_space,
+				one_of (<<
+					string_literal (">>"), -- Empty array
+					all_of (<<
+						quoted_character (do_with_char),
+						while_not_p1_repeat_p2 (
+							all_of (<< optional_white_space, string_literal (">>") >>),
+							all_of (<<
+								all_of (<< optional_white_space, character_literal (','), optional_white_space >>),
+								quoted_character (do_with_char)
+							>>)
+						)
+					>>)
+				>>)
+			>>)
+		end
+
 	numeric_array_pattern_1 (get_number: PROCEDURE [INTEGER, INTEGER]): like all_of
 		do
 			Result := all_of (<<
@@ -506,10 +547,15 @@ feature {NONE} -- Events handlers
 			output.append_string_general (str)
 		end
 
+	on_quoted_character (uc: CHARACTER_32; output: ZSTRING)
+		do
+			output.append_character (uc)
+		end
+
 	on_quoted_substring (start_index, end_index: INTEGER; output: ZSTRING)
 		do
 			output.wipe_out
-			output.append_substring_general (source_text, start_index, end_index)
+			output.append_substring_general (source_text, start_index + 1, end_index - 1)
 		end
 
 feature {NONE} -- Internal attributes
@@ -517,6 +563,10 @@ feature {NONE} -- Internal attributes
 	source_text: STRING_GENERAL
 
 feature {NONE} -- Constants
+
+	Eiffel_character_array: STRING = "[
+		<< 'A', '%/65/', '%N', '%'' >>
+	]"
 
 	Ireland: COUNTRY
 		once

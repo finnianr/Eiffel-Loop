@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-09 17:07:03 GMT (Wednesday 9th November 2022)"
-	revision: "14"
+	date: "2022-11-14 13:40:52 GMT (Monday 14th November 2022)"
+	revision: "1"
 
 deferred class
 	EL_PARSER
 
 inherit
 	EL_STRING_8_CONSTANTS
+
+	EL_SHARED_OPTIMIZED_FACTORY
 
 feature {NONE} -- Initialization
 
@@ -98,7 +100,7 @@ feature -- Basic operations
 
 	find_all
 		do
---			pattern.internal_find_all (source_text, unmatched_action)
+			pattern.internal_find_all (0, source_text, unmatched_action)
 		end
 
 	match_full
@@ -154,10 +156,6 @@ feature {NONE} -- Implementation
 				Result := new_pattern
 				internal_pattern := Result
 			end
-		end
-
-	set_optimal_core (text: READABLE_STRING_GENERAL)
-		deferred
 		end
 
 feature {NONE} -- Internal attributes

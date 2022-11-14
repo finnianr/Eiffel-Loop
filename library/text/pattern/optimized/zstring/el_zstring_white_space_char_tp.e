@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-09 16:25:17 GMT (Wednesday 9th November 2022)"
-	revision: "9"
+	date: "2022-11-14 8:22:30 GMT (Monday 14th November 2022)"
+	revision: "1"
 
 class
 	EL_ZSTRING_WHITE_SPACE_CHAR_TP

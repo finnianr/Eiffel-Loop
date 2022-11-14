@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-13 7:06:02 GMT (Sunday 13th November 2022)"
-	revision: "4"
+	date: "2022-11-14 11:21:51 GMT (Monday 14th November 2022)"
+	revision: "1"
 
 deferred class
 	EL_MATCH_ZSTRING_QUOTED_STRING_TP
@@ -20,18 +20,15 @@ inherit
 			as_code, buffer_scope, default_unescaped_string, i_th_code
 		end
 
-	EL_ZCODE_CONVERSION
-		export
-			{NONE} all
-		end
-
 	EL_ZSTRING_CONSTANTS
+
+	EL_SHARED_ZSTRING_CODEC
 
 feature {NONE} -- Implementation
 
 	as_code (uc: CHARACTER_32): NATURAL
 		do
-			Result := unicode_to_z_code (uc.natural_32_code)
+			Result := Codec.as_z_code (uc)
 		end
 
 	buffer_scope: like Reuseable.string

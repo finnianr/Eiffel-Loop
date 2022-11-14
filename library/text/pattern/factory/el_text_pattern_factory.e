@@ -6,11 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-13 9:43:46 GMT (Sunday 13th November 2022)"
-	revision: "12"
+	date: "2022-11-14 17:04:52 GMT (Monday 14th November 2022)"
+	revision: "1"
 
-deferred class
+class
 	EL_TEXT_PATTERN_FACTORY
+
+inherit
+	ANY
+
+	EL_SHARED_OPTIMIZED_FACTORY
 
 feature -- Recursive patterns
 
@@ -32,34 +37,6 @@ feature -- Recursive patterns
 		end
 
 feature -- String patterns
-
-	c_identifier: EL_MATCH_C_IDENTIFIER_TP
-		-- match C language identifier
-		do
-			Result := core.new_c_identifier
-		end
-
-	quoted_c_character (unescaped_action: detachable PROCEDURE [CHARACTER_32]): EL_MATCH_QUOTED_CHARACTER_TP
-		do
-		end
-
-	quoted_c_lang_string (
-		quote: CHARACTER_32; unescaped_action: detachable PROCEDURE [STRING_GENERAL]
-	): EL_MATCH_QUOTED_STRING_TP
-		-- match C language string in quotes and call procedure `unescaped_action'
-		-- with unescaped value
-		do
-			Result := core.new_quoted_c_lang_string (quote, unescaped_action)
-		end
-
-	quoted_eiffel_string (
-		quote: CHARACTER_32; unescaped_action: detachable PROCEDURE [STRING_GENERAL]
-	): EL_MATCH_QUOTED_STRING_TP
-		-- match Eiffel language string in quotes and call procedure `unescaped_action'
-		-- with unescaped value
-		do
-			Result := core.new_quoted_eiffel_string (quote, unescaped_action)
-		end
 
 	string_literal (a_text: READABLE_STRING_GENERAL): EL_LITERAL_TEXT_PATTERN
 			--
@@ -196,55 +173,10 @@ feature -- Numeric strings
 				optional (character_literal ('-')), natural_number
 			>>)
 		end
-
-feature {NONE} -- Implementation
-
-	core: EL_OPTIMIZED_PATTERN_FACTORY
-		do
-			if attached optimal_core as optimal then
-				Result := optimal
-			else
-				Result := Optimal_general
-			end
-		end
-
-	set_optimal_core (text: READABLE_STRING_GENERAL)
-		-- set `optimal_core' factory with shared instance that is optimal for `text' type
-		do
-			if attached {ZSTRING} text then
-				optimal_core := Optimal_zstring
-
-			elseif attached {READABLE_STRING_8} text then
-				optimal_core := Optimal_string_8
-
-			else
-				optimal_core := Optimal_general
-			end
-		end
-
-feature {NONE} -- Internal attributes
-
-	optimal_core: detachable EL_OPTIMIZED_PATTERN_FACTORY
-
 feature {NONE} -- Constants
 
 	OPTIONAL_ACTION: detachable PROCEDURE [INTEGER, INTEGER]
 		once
 			Result := Void
-		end
-
-	Optimal_general: EL_OPTIMIZED_PATTERN_FACTORY
-		once
-			create Result
-		end
-
-	Optimal_string_8: EL_STRING_8_PATTERN_FACTORY
-		once
-			create Result
-		end
-
-	Optimal_zstring: EL_ZSTRING_PATTERN_FACTORY
-		once
-			create Result
 		end
 end

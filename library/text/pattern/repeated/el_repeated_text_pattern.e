@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-11 10:33:16 GMT (Friday 11th November 2022)"
-	revision: "5"
+	date: "2022-11-14 8:23:22 GMT (Monday 14th November 2022)"
+	revision: "1"
 
 deferred class
 	EL_REPEATED_TEXT_PATTERN

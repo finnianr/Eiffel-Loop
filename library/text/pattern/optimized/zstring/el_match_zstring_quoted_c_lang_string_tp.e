@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-13 7:43:22 GMT (Sunday 13th November 2022)"
-	revision: "4"
+	date: "2022-11-14 11:22:33 GMT (Monday 14th November 2022)"
+	revision: "1"
 
 class
 	EL_MATCH_ZSTRING_QUOTED_C_LANG_STRING_TP
@@ -33,7 +33,7 @@ feature {NONE} -- Implementation
 	unescaped_code (text: ZSTRING; start_index, end_index, sequence_count: INTEGER): NATURAL
 		do
 			if sequence_count = 2 then
-				Result := unicode_to_z_code (Code_table [text.item_8 (end_index)].to_natural_32)
+				Result := Codec.as_z_code (Code_table [text.item_8 (end_index)].to_character_32)
 			end
 		end
 

@@ -6,7 +6,7 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 7:12:13 GMT (Wednesday 2nd November 2022)"
+	date: "2022-11-14 17:02:55 GMT (Monday 14th November 2022)"
 	revision: "1"
 
 deferred class
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_PARSER
 
-	EL_TEXT_PATTERN_FACTORY
+	EL_C_LANGUAGE_PATTERN_FACTORY
 		export
 			{NONE} all
 		end
@@ -32,8 +32,8 @@ feature {NONE} -- Pattern definitions
 				optional_nonbreaking_white_space,
 				one_of (<<
 --					Optimal order for fastest parsing
-					quoted_c_lang_string ('"', agent on_quoted_value),
-					quoted_c_lang_string ('%'', agent on_quoted_value),
+					quoted_string ('"', agent on_quoted_value),
+					quoted_string ('%'', agent on_quoted_value),
 					decimal_constant |to| agent on_value,
 					xml_identifier |to| agent on_value
 				>>)

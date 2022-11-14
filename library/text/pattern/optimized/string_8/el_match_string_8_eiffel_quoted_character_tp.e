@@ -1,6 +1,7 @@
 note
 	description: "[
-		[$source EL_MATCH_STRING_8_QUOTED_STRING_TP] implemented for Eiffel language
+		Match quoted character with escaping for Eiffel language and optimized for
+		strings conforming to [$source READABLE_STRING_8]
 	]"
 
 	author: "Finnian Reilly"
@@ -8,16 +9,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-14 8:20:03 GMT (Monday 14th November 2022)"
+	date: "2022-11-14 10:13:12 GMT (Monday 14th November 2022)"
 	revision: "1"
 
 class
-	EL_MATCH_STRING_8_QUOTED_EIFFEL_STRING_TP
+	EL_MATCH_STRING_8_EIFFEL_QUOTED_CHARACTER_TP
 
 inherit
-	EL_MATCH_STRING_8_QUOTED_STRING_TP
+	EL_MATCH_QUOTED_CHARACTER_TP
 		redefine
-			unescaped_code
+			i_th_is_single_quote
 		end
 
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
@@ -30,19 +31,26 @@ create
 
 feature {NONE} -- Implementation
 
-	unescaped_code (text: READABLE_STRING_8; start_index, end_index, sequence_count: INTEGER): NATURAL
+	decoded (text: READABLE_STRING_8; start_index, end_index, sequence_count: INTEGER): CHARACTER_32
+		-- decoded escape sequence
 		local
 			buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
 			if sequence_count = 2 then
-				Result := Code_table [text [end_index]].to_natural_32
+				Result := Code_table [text [end_index]].to_character_32
 
 			elseif text [start_index + 1] = '/' and then text [end_index] = '/'
 				and then attached buffer.empty as str
 			then
 				str.append_substring (text, start_index + 2, end_index - 1)
-				Result := str.to_natural
+				Result := str.to_natural.to_character_32
 			end
+		end
+
+	i_th_is_single_quote (i: INTEGER; text: READABLE_STRING_8): BOOLEAN
+			-- `True' if i'th character exhibits property
+		do
+			Result := text [i] = '%''
 		end
 
 end

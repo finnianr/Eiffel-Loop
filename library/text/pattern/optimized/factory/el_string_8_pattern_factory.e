@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-12 12:26:02 GMT (Saturday 12th November 2022)"
-	revision: "9"
+	date: "2022-11-14 17:12:35 GMT (Monday 14th November 2022)"
+	revision: "1"
 
 class
 	EL_STRING_8_PATTERN_FACTORY
@@ -17,7 +17,45 @@ inherit
 		redefine
 			new_character_literal, new_digit, new_letter, new_white_space_character, new_character_in_set,
 			new_string_literal, new_white_space, new_digits_string, new_end_of_line_character,
-			new_c_identifier, new_xml_identifier, new_quoted_c_lang_string, new_quoted_eiffel_string
+			new_c_identifier, new_xml_identifier, new_c_quoted_string, new_eiffel_quoted_string,
+			new_eiffel_quoted_character
+		end
+
+feature -- C language
+
+	new_c_identifier: EL_MATCH_STRING_8_C_IDENTIFIER_TP
+		do
+			create Result
+		end
+
+	new_c_quoted_string (
+		quote: CHARACTER_32; unescaped_action: detachable PROCEDURE [STRING_GENERAL]
+	): EL_MATCH_STRING_8_QUOTED_C_LANG_STRING_TP
+		do
+			create Result.make (quote, unescaped_action)
+		end
+
+feature -- Eiffel language
+
+	new_eiffel_quoted_character (
+		unescaped_action: detachable PROCEDURE [CHARACTER_32]
+	): EL_MATCH_STRING_8_EIFFEL_QUOTED_CHARACTER_TP
+		do
+			create Result.make (unescaped_action)
+		end
+
+	new_eiffel_quoted_string (
+		quote: CHARACTER_32; unescaped_action: detachable PROCEDURE [STRING_GENERAL]
+	): EL_MATCH_STRING_8_QUOTED_EIFFEL_STRING_TP
+		do
+			create Result.make (quote, unescaped_action)
+		end
+
+feature -- XML language
+
+	new_xml_identifier: EL_MATCH_STRING_8_XML_IDENTIFIER_TP
+		do
+			create Result
 		end
 
 feature -- Character
@@ -60,11 +98,6 @@ feature -- Character
 
 feature -- String
 
-	new_c_identifier: EL_MATCH_STRING_8_C_IDENTIFIER_TP
-		do
-			create Result
-		end
-
 	new_string_literal (a_text: READABLE_STRING_GENERAL): EL_STRING_8_LITERAL_TP
 		do
 			create Result.make (a_text)
@@ -80,23 +113,5 @@ feature -- String
 			create Result.make (a_minimum_match_count)
 		end
 
-	new_quoted_c_lang_string (
-		quote: CHARACTER_32; unescaped_action: detachable PROCEDURE [STRING_GENERAL]
-	): EL_MATCH_STRING_8_QUOTED_C_LANG_STRING_TP
-		do
-			create Result.make (quote, unescaped_action)
-		end
-
-	new_quoted_eiffel_string (
-		quote: CHARACTER_32; unescaped_action: detachable PROCEDURE [STRING_GENERAL]
-	): EL_MATCH_STRING_8_QUOTED_EIFFEL_STRING_TP
-		do
-			create Result.make (quote, unescaped_action)
-		end
-
-	new_xml_identifier: EL_MATCH_STRING_8_XML_IDENTIFIER_TP
-		do
-			create Result
-		end
 
 end

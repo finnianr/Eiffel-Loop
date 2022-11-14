@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-30 9:56:54 GMT (Sunday 30th October 2022)"
-	revision: "36"
+	date: "2022-11-14 11:16:45 GMT (Monday 14th November 2022)"
+	revision: "37"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -439,11 +439,14 @@ feature {NONE} -- Implementation
 			c := area [i - 1]
 			if c = Substitute then
 				Result := unencoded_z_code (i)
+--			elseif c <= '%/0xFF/' then
+--				Result := Sign_bit & c.natural_32_code
 			else
 				Result := c.natural_32_code
 			end
 		ensure then
 			first_byte_is_reserved_for_latin: area [i - 1] = Substitute implies Result > 0xFF
+			reversible: z_code_to_unicode (Result) = unicode (i)
 		end
 
 feature {EL_READABLE_ZSTRING} -- Deferred Implementation

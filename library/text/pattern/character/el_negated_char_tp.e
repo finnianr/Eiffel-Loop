@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-11 7:15:47 GMT (Friday 11th November 2022)"
-	revision: "2"
+	date: "2022-11-14 8:15:42 GMT (Monday 14th November 2022)"
+	revision: "1"
 
 class
 	EL_NEGATED_CHAR_TP
@@ -38,4 +38,3 @@ feature {NONE} -- Anchored type
 		do
 		end
 end
-

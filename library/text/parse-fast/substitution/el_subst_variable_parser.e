@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-04 15:33:46 GMT (Friday 4th November 2022)"
-	revision: "6"
+	date: "2022-11-14 17:00:55 GMT (Monday 14th November 2022)"
+	revision: "1"
 
 deferred class
 	EL_SUBST_VARIABLE_PARSER
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_PARSER
 
-	EL_TEXT_PATTERN_FACTORY
+	EL_C_LANGUAGE_PATTERN_FACTORY
 
 feature {NONE} -- Token actions
 
@@ -42,7 +42,7 @@ feature {NONE} -- Implemenation
 		do
 			Result := all_of (<<
 				string_literal ("${"),
-				c_identifier |to| agent on_substitution_variable,
+				identifier |to| agent on_substitution_variable,
 				character_literal ('}')
 			>>)
 		end
@@ -52,7 +52,7 @@ feature {NONE} -- Implemenation
 		do
 			Result := all_of (<<
 				character_literal ('$'),
-				c_identifier |to| agent on_substitution_variable
+				identifier |to| agent on_substitution_variable
 			>>)
 		end
 

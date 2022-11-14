@@ -1582,8 +1582,6 @@ Classes for parsing search terms and searching a list conforming to `CHAIN [EL_W
 See [myching.software](http://myching.software/en/home/my-ching.html) for an example of a commercial application that makes use of this library.
 ## Textual Data Formats
 Classes for handling various human-readable text formats. Supported formats are: XML, XHTML, HTML, JSON, CSV. (Note: Eiffel-Loop has other libraries for parsing XML)
-## Text Editing
-Classes for editing file and other text.
 ## Parsing (Legacy)
 Classes for parsing text data using class [EL_STRING_VIEW](http://www.eiffel-loop.com/library/text/pattern-match/text-view/el_string_view.html).
 ## Pattern-matching (Legacy)
