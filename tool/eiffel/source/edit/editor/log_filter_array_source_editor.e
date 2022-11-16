@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 16:00:40 GMT (Wednesday 16th November 2022)"
-	revision: "6"
+	date: "2022-11-16 17:36:54 GMT (Wednesday 16th November 2022)"
+	revision: "7"
 
 class
 	LOG_FILTER_ARRAY_SOURCE_EDITOR
@@ -55,7 +55,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Pattern definitions
 
-	search_patterns: ARRAYED_LIST [EL_TEXT_PATTERN_2]
+	search_patterns: ARRAYED_LIST [EL_TEXT_PATTERN]
 		do
 			create Result.make_from_array (<<
 				logging_filter_function,

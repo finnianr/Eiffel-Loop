@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2022-11-16 17:36:22 GMT (Wednesday 16th November 2022)"
+	revision: "10"
 
 class
 	CODEC_INFO
@@ -16,8 +16,10 @@ inherit
 	EL_FILE_PARSER
 		rename
 			new_pattern as assignment_pattern
+		export
+			{NONE} all
 		redefine
-			make_default
+			make_default, source_text
 		end
 
 	EVOLICITY_EIFFEL_CONTEXT
@@ -25,7 +27,7 @@ inherit
 			make_default
 		end
 
-	EL_TEXT_PATTERN_FACTORY
+	EL_C_LANGUAGE_PATTERN_FACTORY
 
 	EL_MODULE_LIO
 
@@ -35,6 +37,13 @@ create
 	make
 
 feature {NONE} -- Initialization
+
+	make (a_codec_name: ZSTRING)
+			--
+		do
+			make_default
+			codec_name := a_codec_name
+		end
 
 	make_default
 		local
@@ -57,23 +66,11 @@ feature {NONE} -- Initialization
 			Precursor {EVOLICITY_EIFFEL_CONTEXT}
 		end
 
-	make (a_codec_name: ZSTRING)
-			--
-		do
-			make_default
-			codec_name := a_codec_name
-		end
-
 feature -- Access
 
 	alpha_set: ARRAYED_LIST [INTEGER_INTERVAL]
 		do
 			Result := character_set (agent {LATIN_CHARACTER}.is_alpha)
-		end
-
-	numeric_set: ARRAYED_LIST [INTEGER_INTERVAL]
-		do
-			Result := character_set (agent {LATIN_CHARACTER}.is_digit)
 		end
 
 	codec_base_name: ZSTRING
@@ -94,9 +91,14 @@ feature -- Access
 
 	lower_case_offsets: HASH_TABLE [ARRAYED_LIST [INTEGER_INTERVAL], NATURAL]
 
-	upper_case_offsets: HASH_TABLE [ARRAYED_LIST [INTEGER_INTERVAL], NATURAL]
+	numeric_set: ARRAYED_LIST [INTEGER_INTERVAL]
+		do
+			Result := character_set (agent {LATIN_CHARACTER}.is_digit)
+		end
 
 	unicode_intervals: ARRAYED_LIST [UNICODE_INTERVAL]
+
+	upper_case_offsets: HASH_TABLE [ARRAYED_LIST [INTEGER_INTERVAL], NATURAL]
 
 feature -- Element change
 
@@ -203,14 +205,14 @@ feature {NONE} -- Pattern definitions
 			--
 		do
 			Result := all_of (<<
-				string_literal ("%T%T"), c_identifier, string_literal ("[0x"),
+				string_literal ("%T%T"), identifier, string_literal ("[0x"),
 				alphanumeric #occurs (2 |..| 2) |to| agent on_latin_code,
 				string_literal ("] = (char) (0x"),
 				alphanumeric #occurs (4 |..| 4) |to| agent on_unicode,
 				string_literal (");"),
 				optional (
 					all_of (<<
-						maybe_non_breaking_white_space,
+						optional_nonbreaking_white_space,
 						character_literal ('/'),
 						one_character_from ("/*"),
 						one_or_more (any_character) |to| agent on_comment
@@ -221,33 +223,45 @@ feature {NONE} -- Pattern definitions
 
 feature {NONE} -- Match actions
 
-	on_latin_code (a_hexadecimal: EL_STRING_VIEW)
-			--
-		do
-			last_latin_code := Hexadecimal.to_integer (a_hexadecimal)
-			latin_characters.extend (create {LATIN_CHARACTER}.make (last_latin_code.to_natural_32))
-			latin_table [last_latin_code] := latin_characters.last
-		end
-
-	on_unicode (a_hexadecimal: EL_STRING_VIEW)
-			--
-		do
-			latin_table.item (last_latin_code).set_unicode (Hexadecimal.to_natural_32 (a_hexadecimal))
-		end
-
-	on_comment (a_comment: EL_STRING_VIEW)
+	on_comment (start_index, end_index: INTEGER)
 			--
 		local
 			l_name: ZSTRING
 		do
-			l_name := a_comment
+			l_name := source_substring (start_index, end_index, True)
 			l_name.left_adjust
 			l_name.prune_all_trailing ('/')
 			l_name.prune_all_trailing ('*')
 			latin_table.item (last_latin_code).set_name(l_name)
 		end
 
+	on_latin_code (start_index, end_index: INTEGER)
+			--
+		do
+			last_latin_code := Hexadecimal.to_integer (source_substring (start_index, end_index, False))
+			latin_characters.extend (create {LATIN_CHARACTER}.make (last_latin_code.to_natural_32))
+			latin_table [last_latin_code] := latin_characters.last
+		end
+
+	on_unicode (start_index, end_index: INTEGER)
+			--
+		local
+			unicode: NATURAL
+		do
+			unicode := Hexadecimal.to_natural_32 (source_substring (start_index, end_index, False))
+			latin_table.item (last_latin_code).set_unicode (unicode)
+		end
+
 feature {NONE} -- Implementation
+
+	case_change_offsets_string_table (case_offsets: like lower_case_offsets): HASH_TABLE [STRING, INTEGER_REF]
+			-- Eg. {32: "97..122, 224..246, 248..254"}
+		do
+			create Result.make (case_offsets.count)
+			across case_offsets as code_intervals loop
+				Result [code_intervals.key.to_integer_32.to_reference] := code_intervals_string (code_intervals.item)
+			end
+		end
 
 	character_set (filter: PREDICATE): ARRAYED_LIST [INTEGER_INTERVAL]
 		local
@@ -265,6 +279,21 @@ feature {NONE} -- Implementation
 					end
 				end
 				i := i + 1
+			end
+		end
+
+	code_intervals_string (intervals_list: ARRAYED_LIST [INTEGER_INTERVAL]): STRING
+		do
+			create Result.make (10)
+			across intervals_list as interval loop
+				if interval.cursor_index > 1 then
+					Result.append (", ")
+				end
+				Result.append_integer (interval.item.lower)
+				if interval.item.count > 1 then
+					Result.append ("..")
+					Result.append_integer (interval.item.upper)
+				end
 			end
 		end
 
@@ -297,30 +326,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	code_intervals_string (intervals_list: ARRAYED_LIST [INTEGER_INTERVAL]): STRING
-		do
-			create Result.make (10)
-			across intervals_list as interval loop
-				if interval.cursor_index > 1 then
-					Result.append (", ")
-				end
-				Result.append_integer (interval.item.lower)
-				if interval.item.count > 1 then
-					Result.append ("..")
-					Result.append_integer (interval.item.upper)
-				end
-			end
-		end
-
-	case_change_offsets_string_table (case_offsets: like lower_case_offsets): HASH_TABLE [STRING, INTEGER_REF]
-			-- Eg. {32: "97..122, 224..246, 248..254"}
-		do
-			create Result.make (case_offsets.count)
-			across case_offsets as code_intervals loop
-				Result [code_intervals.key.to_integer_32.to_reference] := code_intervals_string (code_intervals.item)
-			end
-		end
-
 	sorted_unicode_intervals (a_unicode_intervals: like unicode_intervals): like unicode_intervals
 		local
 			sortable: SORTABLE_ARRAY [UNICODE_INTERVAL]
@@ -330,15 +335,19 @@ feature {NONE} -- Implementation
 			create Result.make_from_array (sortable)
 		end
 
-	latin_table: ARRAY [LATIN_CHARACTER]
-
-	latin_characters: ARRAYED_LIST [LATIN_CHARACTER]
+feature {NONE} -- Internal attributes
 
 	default_unicode_info: LATIN_CHARACTER
 
 	last_latin_code: INTEGER
 
+	latin_characters: ARRAYED_LIST [LATIN_CHARACTER]
+
+	latin_table: ARRAY [LATIN_CHARACTER]
+
 	single_case_character_set: ARRAYED_LIST [LATIN_CHARACTER]
+
+	source_text: ZSTRING
 
 feature {NONE} -- Evolicity fields
 

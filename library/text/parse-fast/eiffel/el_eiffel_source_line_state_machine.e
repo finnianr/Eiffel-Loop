@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 16:35:36 GMT (Wednesday 16th November 2022)"
-	revision: "13"
+	date: "2022-11-16 17:06:52 GMT (Wednesday 16th November 2022)"
+	revision: "14"
 
 class
 	EL_EIFFEL_SOURCE_LINE_STATE_MACHINE
@@ -140,8 +140,6 @@ feature {NONE} -- Implementation attributes
 	tab_count: INTEGER
 
 feature {NONE} -- Constants
-
-	Is_zstring_source: BOOLEAN = True
 
 	Verbatim_markers: TUPLE [open, close: STRING]
 		once

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 18:22:42 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-11-16 17:46:17 GMT (Wednesday 16th November 2022)"
+	revision: "3"
 
 deferred class
 	EL_PARSER
@@ -34,6 +34,8 @@ feature -- Access
 			Result := pattern.name_list
 		end
 
+feature -- Source text substrings
+
 	source_substring (start_index, end_index: INTEGER; keep_ref: BOOLEAN): like source_text
 		do
 			if keep_ref then
@@ -41,6 +43,16 @@ feature -- Access
 			else
 				Result := core.copied_substring (source_text, start_index, end_index)
 			end
+		end
+
+	integer_32_substring (start_index, end_index: INTEGER): INTEGER
+		do
+			Result := source_substring (start_index, end_index, False).to_integer
+		end
+
+	natural_32_substring (start_index, end_index: INTEGER): NATURAL
+		do
+			Result := source_substring (start_index, end_index, False).to_natural
 		end
 
 feature -- Element change

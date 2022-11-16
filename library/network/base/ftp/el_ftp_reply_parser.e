@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 16:56:33 GMT (Wednesday 16th November 2022)"
-	revision: "4"
+	date: "2022-11-16 17:42:28 GMT (Wednesday 16th November 2022)"
+	revision: "5"
 
 class
 	EL_FTP_REPLY_PARSER
@@ -49,7 +49,7 @@ feature {NONE} -- Event handling
 	on_reply_code (start_index, end_index: INTEGER)
 			--
 		do
-			last_reply_code := source_substring (start_index, end_index, False).to_integer
+			last_reply_code := integer_32_substring (start_index, end_index)
 		end
 
 feature {NONE} -- Pattern

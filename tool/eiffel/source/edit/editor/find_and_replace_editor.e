@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 15:55:15 GMT (Wednesday 16th November 2022)"
-	revision: "10"
+	date: "2022-11-16 17:36:47 GMT (Wednesday 16th November 2022)"
+	revision: "11"
 
 class
 	FIND_AND_REPLACE_EDITOR
@@ -44,7 +44,7 @@ feature -- Basic operations
 
 feature {NONE} -- Pattern definitions
 
-	search_patterns: ARRAYED_LIST [EL_TEXT_PATTERN_2]
+	search_patterns: ARRAYED_LIST [EL_TEXT_PATTERN]
 		do
 			create Result.make_from_array (<< string_literal (find_text) |to| agent replace (?, ?, replacement_text)>>)
 		end

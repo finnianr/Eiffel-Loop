@@ -70,18 +70,7 @@ system:
 			EL_os_command = "os-command.ecf"
 			EL_pyxis_scan = "pyxis-scan.ecf"
 			EL_text_formats = "text-formats.ecf"
-			EL_text_process = "text-process.ecf"
 			EL_text_process_fast = "text-process-fast.ecf"
-			renaming_map:
-				EL_EIFFEL_TEXT_PATTERN_FACTORY = EL_EIFFEL_TEXT_PATTERN_FACTORY_2
-				EL_FIRST_MATCH_IN_LIST_TP = EL_FIRST_MATCH_IN_LIST_TP_2
-				EL_FILE_PARSER = EL_FILE_PARSER_2
-				EL_MATCH_ALL_IN_LIST_TP = EL_MATCH_ALL_IN_LIST_TP_2
-				EL_MATCH_COUNT_WITHIN_BOUNDS_TP = EL_MATCH_COUNT_WITHIN_BOUNDS_TP_2
-				EL_PARSER = EL_PARSER_2
-				EL_TEXT_PATTERN_FACTORY = EL_TEXT_PATTERN_FACTORY_2
-				EL_TEXT_PATTERN = EL_TEXT_PATTERN_2
-
 			EL_testing = "testing.ecf"
 			EL_thread = "thread.ecf"
 			EL_vtd_xml = "vtd-xml.ecf"

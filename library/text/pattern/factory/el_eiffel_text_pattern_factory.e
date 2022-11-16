@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 16:35:52 GMT (Wednesday 16th November 2022)"
-	revision: "4"
+	date: "2022-11-16 17:18:56 GMT (Wednesday 16th November 2022)"
+	revision: "5"
 
 deferred class
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
@@ -67,6 +67,14 @@ feature -- Identifiers
 		do
 			Result := core.new_c_identifier
 			Result.set_letter_first
+		end
+
+	qualified_identifier: like all_of
+			--
+		do
+			Result := all_of (<<
+				identifier, zero_or_more (all_of (<< character_literal ('.'), identifier >>))
+			>>)
 		end
 
 feature -- Type specifier

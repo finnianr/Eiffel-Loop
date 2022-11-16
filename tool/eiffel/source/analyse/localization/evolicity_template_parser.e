@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2022-11-16 17:36:39 GMT (Wednesday 16th November 2022)"
+	revision: "8"
 
 class
 	EVOLICITY_TEMPLATE_PARSER
@@ -15,9 +15,10 @@ class
 inherit
 	EL_FILE_PARSER
 		export
+			{NONE} all
 			{ANY} source_file_path, find_all
 		redefine
-			reset, make_default
+			reset, make_default, source_text
 		end
 
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
@@ -42,9 +43,9 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	locale_keys: EL_ZSTRING_LIST
-
 	ignored_keys: EL_HASH_SET [ZSTRING]
+
+	locale_keys: EL_ZSTRING_LIST
 
 feature -- Element change
 
@@ -58,20 +59,24 @@ feature {NONE} -- Patterns
 
 	new_pattern: like all_of
 		do
-			Result := all_of (<< character_literal ('$'), c_identifier |to| agent on_identifier >>)
+			Result := all_of (<< character_literal ('$'), identifier |to| agent on_identifier >>)
 		end
 
 feature {NONE} -- Event handlers
 
-	on_identifier (matched: EL_STRING_VIEW)
+	on_identifier (start_index, end_index: INTEGER)
 		local
 			name: ZSTRING
 		do
-			name := matched.to_string
+			name := source_substring (start_index, end_index, True)
 			if not ignored_keys.has (name) then
 				locale_keys.extend (Translation_key_template #$ [name])
 			end
 		end
+
+feature {NONE} -- Internal attributes
+
+	source_text: ZSTRING
 
 feature {NONE} -- Constants
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "25"
+	date: "2022-11-16 17:25:32 GMT (Wednesday 16th November 2022)"
+	revision: "26"
 
 class
 	CHECK_LOCALE_STRINGS_COMMAND
@@ -102,7 +102,7 @@ feature -- Basic operations
 			end
 
 			across evolicity_parser_list as evolicity_parser loop
-				evolicity_parser.item.find_all
+				evolicity_parser.item.find_all (Void)
 				source_path := evolicity_parser.item.source_file_path
 				check_keys (evolicity_parser.item.locale_keys)
 			end
@@ -160,7 +160,7 @@ feature {NONE} -- State handlers
 					l_parser := parser
 				end
 				l_parser.set_source_text (routine_lines.joined_lines)
-				l_parser.find_all
+				l_parser.find_all (Void)
 				check_keys (l_parser.locale_keys)
 				state := agent find_routine
 				routine_has_english_prefix := False

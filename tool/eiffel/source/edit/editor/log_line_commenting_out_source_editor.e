@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 17:03:15 GMT (Wednesday 16th November 2022)"
-	revision: "10"
+	date: "2022-11-16 17:37:01 GMT (Wednesday 16th November 2022)"
+	revision: "11"
 
 class
 	LOG_LINE_COMMENTING_OUT_SOURCE_EDITOR
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Pattern definitions
 
-	search_patterns: ARRAYED_LIST [EL_TEXT_PATTERN_2]
+	search_patterns: ARRAYED_LIST [EL_TEXT_PATTERN]
 		do
 			create Result.make_from_array (<<
 				end_of_line_character	|to| agent on_unmatched_text,
