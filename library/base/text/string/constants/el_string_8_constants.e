@@ -2,12 +2,12 @@ note
 	description: "Constants for class STRING"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-21 16:37:47 GMT (Sunday 21st November 2021)"
-	revision: "14"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "15"
 
 deferred class
 	EL_STRING_8_CONSTANTS

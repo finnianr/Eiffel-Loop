@@ -2,12 +2,12 @@ note
 	description: "Remote call client connection queue"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-03 16:31:50 GMT (Thursday 3rd June 2021)"
-	revision: "10"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "11"
 
 class
 	EROS_CALL_REQUEST_CLIENT_CONNECTION_QUEUE

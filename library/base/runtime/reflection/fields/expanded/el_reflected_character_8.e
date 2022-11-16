@@ -2,12 +2,12 @@ note
 	description: "Reflected [$source CHARACTER_8] field"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-17 12:55:18 GMT (Sunday 17th October 2021)"
-	revision: "19"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "20"
 
 class
 	EL_REFLECTED_CHARACTER_8

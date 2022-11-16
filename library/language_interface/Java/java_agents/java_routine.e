@@ -2,12 +2,12 @@ note
 	description: "Java routine"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-11 9:36:33 GMT (Thursday 11th March 2021)"
-	revision: "6"
+	date: "2021-03-11 9:36:34 GMT (Thursday 11th March 2021)"
+	revision: "7"
 
 deferred class
 	JAVA_ROUTINE

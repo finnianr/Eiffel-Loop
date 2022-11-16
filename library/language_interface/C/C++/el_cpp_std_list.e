@@ -4,12 +4,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-11 20:45:18 GMT (Monday 11th November 2019)"
-	revision: "3"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "4"
 
 class
 	EL_CPP_STD_LIST [C -> EL_CPP_STD_ITERATION_CURSOR [G] create make end, G]

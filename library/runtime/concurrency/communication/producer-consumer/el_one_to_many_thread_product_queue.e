@@ -2,12 +2,12 @@ note
 	description: "Product queue serviced by many consumers"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-20 8:21:50 GMT (Thursday 20th May 2021)"
-	revision: "6"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "7"
 
 class
 	EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE [P, CONSUMER_TYPE -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]

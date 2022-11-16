@@ -2,12 +2,12 @@ note
 	description: "HTML viewer navigation link"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-11 12:59:01 GMT (Friday 11th September 2020)"
-	revision: "2"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "3"
 
 class
 	EL_HTML_TEXT_HYPERLINK_AREA

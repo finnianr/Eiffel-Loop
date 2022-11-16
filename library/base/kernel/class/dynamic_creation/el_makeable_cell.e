@@ -2,12 +2,12 @@ note
 	description: "A factory cell to create objects conforming to [$source EL_MAKEABLE]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 19:06:03 GMT (Thursday 16th January 2020)"
-	revision: "1"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 class
 	EL_MAKEABLE_CELL [G-> EL_MAKEABLE create make end]

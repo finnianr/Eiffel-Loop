@@ -2,12 +2,12 @@ note
 	description: "General string unescaper"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-12 17:38:42 GMT (Tuesday 12th January 2021)"
-	revision: "3"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "4"
 
 deferred class
 	EL_STRING_GENERAL_UNESCAPER [R -> READABLE_STRING_GENERAL, G -> STRING_GENERAL]

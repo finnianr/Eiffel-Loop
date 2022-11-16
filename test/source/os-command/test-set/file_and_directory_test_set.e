@@ -2,12 +2,12 @@ note
 	description: "Test set for classes that manage and read file system content"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-13 15:50:57 GMT (Thursday 13th October 2022)"
-	revision: "28"
+	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
+	revision: "29"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET

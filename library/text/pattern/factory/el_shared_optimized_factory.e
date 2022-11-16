@@ -2,12 +2,12 @@ note
 	description: "Shared instance of object conforming to [$source EL_OPTIMIZED_PATTERN_FACTORY]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-14 8:48:21 GMT (Monday 14th November 2022)"
-	revision: "1"
+	date: "2022-11-15 8:43:08 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 deferred class
 	EL_SHARED_OPTIMIZED_FACTORY
@@ -22,6 +22,11 @@ feature {NONE} -- Implementation
 			Result := Optimized_list.item
 		end
 
+	set_default_optimal_core
+		do
+			Optimized_list.go_i_th (1)
+		end
+
 	set_optimal_core (text: READABLE_STRING_GENERAL)
 		-- set `optimal_core' factory with shared instance that is optimal for `text' type
 		do
@@ -32,7 +37,7 @@ feature {NONE} -- Implementation
 				Optimized_list.go_i_th (2)
 
 			else
-				Optimized_list.go_i_th (1)
+				set_default_optimal_core
 			end
 		end
 

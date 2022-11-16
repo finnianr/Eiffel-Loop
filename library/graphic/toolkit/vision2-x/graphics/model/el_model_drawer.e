@@ -2,12 +2,12 @@ note
 	description: "Model drawer with support for rotated pictures using features of [$source CAIRO_DRAWING_AREA]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-29 15:49:26 GMT (Sunday 29th May 2022)"
-	revision: "10"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "11"
 
 deferred class
 	EL_MODEL_DRAWER

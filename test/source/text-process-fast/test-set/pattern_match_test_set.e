@@ -5,12 +5,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-14 17:21:55 GMT (Monday 14th November 2022)"
-	revision: "15"
+	date: "2022-11-15 8:55:18 GMT (Tuesday 15th November 2022)"
+	revision: "16"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -264,8 +264,8 @@ feature -- Test
 			pattern: like character_array_pattern; output, content: ZSTRING
 		do
 			create output.make_empty
-			pattern := character_array_pattern (agent on_quoted_character (?, output))
 			set_source_text (Eiffel_character_array)
+			pattern := character_array_pattern (agent on_quoted_character (?, output))
 			pattern.parse (source_text)
 			if pattern.is_matched then
 				assert ("same string", output.same_string ("AA%N'"))

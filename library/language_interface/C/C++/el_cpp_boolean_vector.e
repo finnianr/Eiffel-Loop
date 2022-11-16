@@ -2,12 +2,12 @@ note
 	description: "A vector of boolean values using C++ type `std::vector<bool>'"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-31 12:51:20 GMT (Wednesday 31st March 2021)"
-	revision: "1"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 class
 	EL_CPP_BOOLEAN_VECTOR

@@ -2,12 +2,12 @@ note
 	description: "Drawing area button"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-18 17:49:41 GMT (Tuesday 18th October 2022)"
-	revision: "15"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "16"
 
 class
 	EL_DRAWING_AREA_BUTTON

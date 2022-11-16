@@ -2,12 +2,12 @@ note
 	description: "Pyxis document line attribute parser"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-03 8:59:36 GMT (Thursday 3rd November 2022)"
-	revision: "1"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 class
 	EL_PYXIS_DOC_ATTRIBUTE_PARSER

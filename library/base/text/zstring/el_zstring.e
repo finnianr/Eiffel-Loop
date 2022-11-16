@@ -9,12 +9,12 @@ note
 	notes: "See end of class"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-01 13:58:27 GMT (Tuesday 1st November 2022)"
-	revision: "60"
+	date: "2022-11-16 8:19:36 GMT (Wednesday 16th November 2022)"
+	revision: "61"
 
 class
 	EL_ZSTRING

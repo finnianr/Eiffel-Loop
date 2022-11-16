@@ -2,12 +2,12 @@ note
 	description: "Underbit id3 string list field"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-22 10:14:57 GMT (Saturday 22nd January 2022)"
-	revision: "4"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "5"
 
 class
 	UNDERBIT_ID3_STRING_LIST_FIELD

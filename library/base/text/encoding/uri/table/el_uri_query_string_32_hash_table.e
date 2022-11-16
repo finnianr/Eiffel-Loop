@@ -2,12 +2,12 @@ note
 	description: "Hash table of URL query string name-value pairs"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-17 9:25:58 GMT (Friday 17th July 2020)"
-	revision: "16"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "17"
 
 class
 	EL_URI_QUERY_STRING_32_HASH_TABLE

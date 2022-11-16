@@ -2,12 +2,12 @@ note
 	description: "Reflected makeable from string 32"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 17:30:36 GMT (Wednesday 29th January 2020)"
-	revision: "3"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "4"
 
 class
 	EL_REFLECTED_MAKEABLE_FROM_STRING_32

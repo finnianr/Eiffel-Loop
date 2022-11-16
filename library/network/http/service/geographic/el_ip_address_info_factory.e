@@ -2,12 +2,12 @@ note
 	description: "Factory for objects conforming to [$source EL_IP_ADDRESS_GEOLOCATION]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-19 8:04:21 GMT (Sunday 19th June 2022)"
-	revision: "3"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "4"
 
 deferred class
 	EL_IP_ADDRESS_INFO_FACTORY [G -> EL_IP_ADDRESS_GEOLOCATION create make, make_from_json end]

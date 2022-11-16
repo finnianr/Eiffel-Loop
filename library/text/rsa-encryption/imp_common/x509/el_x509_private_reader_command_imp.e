@@ -2,12 +2,12 @@ note
 	description: "Implementation of [$source EL_X509_PRIVATE_READER_COMMAND_I] interface"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 9:25:07 GMT (Wednesday 1st September 2021)"
-	revision: "8"
+	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
+	revision: "9"
 
 class
 	EL_X509_PRIVATE_READER_COMMAND_IMP

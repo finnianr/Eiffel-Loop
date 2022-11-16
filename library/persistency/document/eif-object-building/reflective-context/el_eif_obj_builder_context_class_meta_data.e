@@ -2,12 +2,12 @@ note
 	description: "Eif obj builder context class meta data"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-29 10:34:47 GMT (Thursday 29th April 2021)"
-	revision: "7"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "8"
 
 class
 	EL_EIF_OBJ_BUILDER_CONTEXT_CLASS_META_DATA

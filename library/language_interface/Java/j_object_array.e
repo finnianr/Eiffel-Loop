@@ -2,12 +2,12 @@ note
 	description: "Java object array of types conforming to [$source JAVA_OBJECT_REFERENCE]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-11 9:30:58 GMT (Thursday 11th March 2021)"
-	revision: "6"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "7"
 
 class
 	J_OBJECT_ARRAY [G -> JAVA_OBJECT_REFERENCE create make, make_from_pointer end]

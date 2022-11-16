@@ -2,12 +2,12 @@ note
 	description: "Repository test source link expander"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-20 14:20:27 GMT (Monday 20th June 2022)"
-	revision: "7"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "8"
 
 class
 	REPOSITORY_TEST_SOURCE_LINK_EXPANDER

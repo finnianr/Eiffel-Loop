@@ -2,12 +2,12 @@ note
 	description: "Command line interface to [$source SLIDE_SHOW_COMMAND]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-29 12:44:01 GMT (Sunday 29th May 2022)"
-	revision: "2"
+	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
+	revision: "3"
 
 class
 	SLIDE_SHOW_APP

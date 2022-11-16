@@ -5,12 +5,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-14 8:24:17 GMT (Monday 14th November 2022)"
-	revision: "1"
+	date: "2022-11-15 6:07:26 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 deferred class
 	EL_FILE_PARSER_TEXT_EDITOR
@@ -30,8 +30,7 @@ inherit
 		rename
 			set_source_text_from_file as set_file_path,
 			source_file_path as file_path,
-			new_pattern as delimiting_pattern,
-			find_all as put_editions
+			new_pattern as delimiting_pattern
 		undefine
 			Default_file_path
 		redefine

@@ -2,12 +2,12 @@ note
 	description: "Table to count number of attempts to insert key with `put' routine"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-04 9:03:33 GMT (Sunday 4th August 2019)"
-	revision: "1"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 class
 	EL_COUNTER_TABLE [K -> HASHABLE]

@@ -2,12 +2,12 @@ note
 	description: "Remote call errors"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 16:20:59 GMT (Sunday 19th January 2020)"
-	revision: "9"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "10"
 
 deferred class
 	EROS_REMOTE_CALL_ERRORS

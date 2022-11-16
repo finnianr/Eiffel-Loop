@@ -2,12 +2,12 @@ note
 	description: "Factory to create new instances of text patterns"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-14 17:04:52 GMT (Monday 14th November 2022)"
-	revision: "1"
+	date: "2022-11-15 17:55:45 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 class
 	EL_TEXT_PATTERN_FACTORY
@@ -23,6 +23,23 @@ feature -- Recursive patterns
 			--
 		do
 			create Result.make (array)
+		end
+
+	all_of_separated_by (separator: EL_TEXT_PATTERN; array: ARRAY [EL_TEXT_PATTERN]): like all_of
+			--
+		do
+			create Result.make (array)
+			from
+				Result.start
+				Result.forth
+			until
+				Result.after
+			loop
+				Result.put_left (separator)
+				Result.forth
+			end
+		ensure
+			correct_number_inserted: Result.list_count = array.count * 2 - 1
 		end
 
 	one_of (array_of_alternatives: ARRAY [EL_TEXT_PATTERN]): EL_FIRST_MATCH_IN_LIST_TP
@@ -42,6 +59,14 @@ feature -- String patterns
 			--
 		do
 			Result := core.new_string_literal (a_text)
+		end
+
+	quoted_string (
+		quote: CHARACTER_32; unescaped_action: detachable PROCEDURE [STRING_GENERAL]
+
+	): EL_MATCH_BASIC_QUOTED_STRING_TP
+		do
+			Result := core.new_quoted_string (quote, unescaped_action)
 		end
 
 	xml_identifier: EL_MATCH_XML_IDENTIFIER_TP
@@ -83,6 +108,12 @@ feature -- Bounded occurrences
 
 feature -- Character patterns
 
+	alphanumeric: EL_ALPHANUMERIC_CHAR_TP
+			--
+		do
+			Result := core.new_alphanumeric
+		end
+
 	any_character: EL_MATCH_ANY_CHAR_TP
 			--
 		do
@@ -93,6 +124,12 @@ feature -- Character patterns
 			--
 		do
 			Result := core.new_character_literal (literal)
+		end
+
+	character_in_range (lower, upper: CHARACTER): EL_MATCH_CHAR_IN_ASCII_RANGE_TP
+			--
+		do
+			Result := core.new_character_in_range (lower, upper)
 		end
 
 	digit: EL_NUMERIC_CHAR_TP

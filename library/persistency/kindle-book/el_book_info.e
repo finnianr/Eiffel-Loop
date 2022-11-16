@@ -2,12 +2,12 @@ note
 	description: "Published book information reflectively settable from XML context"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-25 14:45:46 GMT (Saturday 25th June 2022)"
-	revision: "11"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "12"
 
 class
 	EL_BOOK_INFO

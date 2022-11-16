@@ -2,12 +2,12 @@ note
 	description: "Command line interface to [$source REPOSITORY_NOTE_LINK_CHECKER] command"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-07 10:31:27 GMT (Friday 7th October 2022)"
-	revision: "11"
+	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
+	revision: "12"
 
 class
 	REPOSITORY_NOTE_LINK_CHECKER_APP

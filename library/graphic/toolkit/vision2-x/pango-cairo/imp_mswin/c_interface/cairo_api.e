@@ -3,12 +3,12 @@ note
 	notes: "Using Cairo version 1.12.16 from package gtk+-bundle_3.10.4-20131202_win64.zip"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 12:29:38 GMT (Thursday 30th July 2020)"
-	revision: "11"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "12"
 
 class
 	CAIRO_API

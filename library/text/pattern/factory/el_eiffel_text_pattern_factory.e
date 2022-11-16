@@ -2,12 +2,12 @@ note
 	description: "Eiffel language text pattern factory"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-14 17:10:21 GMT (Monday 14th November 2022)"
-	revision: "1"
+	date: "2022-11-15 8:59:07 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 deferred class
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
@@ -80,7 +80,7 @@ feature {NONE} -- Eiffel character manifest
 
 	quoted_character (unescaped_action: detachable PROCEDURE [CHARACTER_32]): EL_MATCH_QUOTED_CHARACTER_TP
 		do
-			create {EL_MATCH_EIFFEL_QUOTED_CHARACTER_TP} Result.make (unescaped_action)
+			Result := core.new_eiffel_quoted_character (unescaped_action)
 		end
 
 feature {NONE} -- Eiffel manifest string

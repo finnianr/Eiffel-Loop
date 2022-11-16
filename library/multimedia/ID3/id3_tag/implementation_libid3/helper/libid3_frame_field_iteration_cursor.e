@@ -2,12 +2,12 @@ note
 	description: "Libid3 frame field iteration cursor"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 13:36:55 GMT (Tuesday 28th April 2020)"
-	revision: "2"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "3"
 
 class
 	LIBID3_FRAME_FIELD_ITERATION_CURSOR

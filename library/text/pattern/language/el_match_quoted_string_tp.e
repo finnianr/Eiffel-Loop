@@ -2,12 +2,12 @@ note
 	description: "Match quoted string with escaping for specified coding language"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-14 17:19:23 GMT (Monday 14th November 2022)"
-	revision: "1"
+	date: "2022-11-15 17:14:04 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 deferred class
 	EL_MATCH_QUOTED_STRING_TP
@@ -36,7 +36,6 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			unescaped_string := default_unescaped_string
-			set_optimal_core (unescaped_string)
 			escape_sequence := new_escape_sequence
 		end
 
@@ -79,7 +78,7 @@ feature {NONE} -- Implementation
 			offset, text_count, sequence_count: INTEGER;
 			quote_closed, collecting_text, escape_sequence_found: BOOLEAN
 			quote_code, escape_code: NATURAL; escape_pattern: like new_escape_sequence
-			buffer: STRING_GENERAL
+			l_string: STRING_GENERAL
 		do
 			text_count := text.count; offset := a_offset
 			quote_code := as_code (quote); escape_code := as_code (escape_character)
@@ -90,7 +89,7 @@ feature {NONE} -- Implementation
 				offset := offset + 1
 
 				across buffer_scope as scope loop
-					buffer := scope.item
+					l_string := scope.item
 					from until offset = text_count or quote_closed loop
 						if i_th_code (offset + 1, text) = escape_code then
 							escape_pattern.match (offset, text)
@@ -101,7 +100,7 @@ feature {NONE} -- Implementation
 						if escape_sequence_found then
 							sequence_count := escape_pattern.count
 							if collecting_text then
-								buffer.append_code (unescaped_code (text, offset + 1, offset + sequence_count, sequence_count))
+								l_string.append_code (unescaped_code (text, offset + 1, offset + sequence_count, sequence_count))
 							end
 							offset := offset + sequence_count
 
@@ -110,14 +109,14 @@ feature {NONE} -- Implementation
 							offset := offset + 1
 						else
 							if collecting_text then
-								buffer.append_code (i_th_code (offset + 1, text))
+								l_string.append_code (i_th_code (offset + 1, text))
 							end
 							offset := offset + 1
 						end
 					end
 					if quote_closed then
 						if collecting_text then
-							unescaped_string := buffer.twin
+							unescaped_string := l_string.twin
 						end
 						Result := offset - a_offset
 						if Result <= 2 then

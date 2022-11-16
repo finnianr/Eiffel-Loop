@@ -2,18 +2,21 @@ note
 	description: "Text patterns for computer language"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-14 8:17:07 GMT (Monday 14th November 2022)"
-	revision: "1"
+	date: "2022-11-15 7:43:09 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 deferred class
 	EL_CODE_LANGUAGE_PATTERN_FACTORY
 
 inherit
 	EL_TEXT_PATTERN_FACTORY
+		rename
+			quoted_string as basic_quoted_string
+		end
 
 feature -- Access
 

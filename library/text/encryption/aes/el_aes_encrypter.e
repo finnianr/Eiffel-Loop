@@ -2,12 +2,12 @@ note
 	description: "AES encryption using cipher chain blocks"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-04 11:39:24 GMT (Wednesday 4th August 2021)"
-	revision: "18"
+	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
+	revision: "19"
 
 class
 	EL_AES_ENCRYPTER

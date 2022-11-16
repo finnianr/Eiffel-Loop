@@ -2,12 +2,12 @@ note
 	description: "Java environment configuration accessible from [$source EL_MODULE_JAVA]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-25 8:18:54 GMT (Friday 25th March 2022)"
-	revision: "13"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "14"
 
 class
 	JAVA_ENVIRONMENT

@@ -529,3 +529,6 @@ Refactor of EL_CHAIN to move query routines into EL_TRAVERSABLE_STRUCTURE
 Thu 20th Oct 2022, 14:29:30
 Changed EL_UNENCODED_CHARACTERS to use SPECIAL [CHARACTER_32]
 
+Tue 15th Nov 2022, 19:56:02
+Convert search term parser to fast pattern matching
+

@@ -9,12 +9,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-02 11:59:55 GMT (Monday 2nd November 2020)"
-	revision: "1"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 class
 	EL_CLASS_SET_FACTORY [G, DEFAULT -> G, TYPE_SET -> TUPLE create default_create end]

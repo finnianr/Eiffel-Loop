@@ -10,12 +10,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 14:49:49 GMT (Saturday 5th February 2022)"
-	revision: "6"
+	date: "2022-11-15 6:45:24 GMT (Tuesday 15th November 2022)"
+	revision: "7"
 
 class
 	SEARCH_ENGINE_AUTOTEST_APP
@@ -32,7 +32,7 @@ create
 feature {NONE} -- Implementation
 
 	compile: TUPLE [
-		EL_SEARCH_TERM_PARSER [EL_WORD_SEARCHABLE]
+		EL_SEARCH_ENGINE [EL_WORD_SEARCHABLE, EL_SEARCH_TERM_PARSER [EL_WORD_SEARCHABLE]]
 	]
 		do
 			create Result

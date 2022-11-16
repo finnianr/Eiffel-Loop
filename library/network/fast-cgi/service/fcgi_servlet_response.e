@@ -2,12 +2,12 @@ note
 	description: "Fcgi servlet response"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-05 10:20:59 GMT (Sunday 5th September 2021)"
-	revision: "25"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "26"
 
 class
 	FCGI_SERVLET_RESPONSE

@@ -2,12 +2,12 @@ note
 	description: "Add console string to CRC-32 checksum as normalized UTF-8 string"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-29 20:23:07 GMT (Wednesday 29th June 2022)"
-	revision: "4"
+	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
+	revision: "5"
 
 deferred class
 	EL_CRC_32_LOG_OUTPUT

@@ -2,12 +2,12 @@ note
 	description: "Text pattern"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-27 13:25:05 GMT (Thursday 27th October 2022)"
-	revision: "9"
+	date: "2022-11-15 6:52:50 GMT (Tuesday 15th November 2022)"
+	revision: "10"
 
 deferred class
 	EL_TEXT_PATTERN
@@ -23,11 +23,6 @@ inherit
 			{ANY} count, twin
 			{EL_TEXT_PATTERN} interval
 		end
-
---	IDENTIFIED
---		undefine
---			is_equal, copy
---		end
 
 feature {NONE} -- Initialization
 

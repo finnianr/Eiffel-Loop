@@ -2,12 +2,12 @@ note
 	description: "Duplicity OS command with `target_uri'"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-16 12:56:48 GMT (Thursday 16th July 2020)"
-	revision: "1"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 deferred class
 	DUPLICITY_OS_COMMAND

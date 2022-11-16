@@ -2,12 +2,12 @@ note
 	description: "Application mutex i"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-18 10:45:45 GMT (Friday 18th September 2020)"
-	revision: "8"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "9"
 
 deferred class
 	EL_APPLICATION_MUTEX_I

@@ -2,12 +2,12 @@ note
 	description: "Libid3 field"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 10:04:51 GMT (Wednesday 19th January 2022)"
-	revision: "10"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "11"
 
 class
 	LIBID3_STRING_FIELD

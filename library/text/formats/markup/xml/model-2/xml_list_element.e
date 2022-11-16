@@ -2,12 +2,12 @@ note
 	description: "XML element with list of nested elements"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-22 9:59:26 GMT (Wednesday 22nd June 2022)"
-	revision: "6"
+	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
+	revision: "7"
 
 class
 	XML_LIST_ELEMENT
@@ -82,5 +82,3 @@ feature {XML_LIST_ELEMENT} -- Implementation
 		end
 
 end
-
-

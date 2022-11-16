@@ -2,12 +2,12 @@ note
 	description: "Shared document types"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-10 18:40:19 GMT (Thursday 10th February 2022)"
-	revision: "10"
+	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
+	revision: "11"
 
 deferred class
 	EL_SHARED_DOCUMENT_TYPES

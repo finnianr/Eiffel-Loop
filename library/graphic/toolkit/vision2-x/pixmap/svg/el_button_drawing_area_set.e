@@ -2,12 +2,12 @@ note
 	description: "Set of [$source CAIRO_DRAWING_AREA] objects for class [$source EL_DRAWING_AREA_BUTTON]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-19 13:00:38 GMT (Wednesday 19th August 2020)"
-	revision: "13"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "14"
 
 class
 	EL_BUTTON_DRAWING_AREA_SET

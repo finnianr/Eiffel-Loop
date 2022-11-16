@@ -2,12 +2,12 @@
 	description: "ISO-8859-1 zcodec"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 19:23:56 GMT (Friday 11th February 2022)"
-	revision: "9"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "10"
 
 class
 	EL_ISO_8859_1_ZCODEC

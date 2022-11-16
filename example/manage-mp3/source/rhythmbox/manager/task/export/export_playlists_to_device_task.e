@@ -2,12 +2,12 @@ note
 	description: "Export playlists to device task"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 17:36:18 GMT (Tuesday 19th May 2020)"
-	revision: "3"
+	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
+	revision: "4"
 
 class
 	EXPORT_PLAYLISTS_TO_DEVICE_TASK

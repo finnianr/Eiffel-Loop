@@ -4,12 +4,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-14 8:20:09 GMT (Monday 14th November 2022)"
-	revision: "1"
+	date: "2022-11-15 18:15:10 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 deferred class
 	EL_MATCH_STRING_8_QUOTED_STRING_TP
@@ -20,7 +20,7 @@ inherit
 			buffer_scope, default_unescaped_string, i_th_code
 		end
 
-	EL_STRING_8_CONSTANTS
+	EL_MATCH_OPTIMIZED_FOR_READABLE_STRING_8
 
 feature {NONE} -- Implementation
 

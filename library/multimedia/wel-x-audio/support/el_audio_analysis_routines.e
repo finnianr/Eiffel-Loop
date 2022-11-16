@@ -2,12 +2,12 @@ note
 	description: "Audio analysis routines"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:05 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "4"
 
 deferred class
 	EL_AUDIO_ANALYSIS_ROUTINES
@@ -113,5 +113,3 @@ feature {NONE} -- Implementation
 	Percent_of_samples_for_signal_test: REAL = 0.01
 
 end
-
-

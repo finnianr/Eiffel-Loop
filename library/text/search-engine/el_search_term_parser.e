@@ -2,12 +2,12 @@ note
 	description: "Search term parser"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-11 9:20:19 GMT (Friday 11th February 2022)"
-	revision: "15"
+	date: "2022-11-15 17:35:45 GMT (Tuesday 15th November 2022)"
+	revision: "16"
 
 class
 	EL_SEARCH_TERM_PARSER [G -> EL_WORD_SEARCHABLE]
@@ -17,14 +17,15 @@ inherit
 		rename
 			make_default as make,
 			parse as compile_conditions,
+			source_text as search_terms,
 			set_source_text as set_search_terms
 		export
 			{NONE} all
 		redefine
-			make, reset, set_search_terms
+			make, reset, search_terms
 		end
 
-	EL_EIFFEL_TEXT_PATTERN_FACTORY
+	EL_TEXT_PATTERN_FACTORY
 		export
 			{NONE} all
 		end
@@ -82,12 +83,6 @@ feature -- Element Change
 			compile_conditions
  		end
 
-	set_search_terms (a_source_text: ZSTRING)
-		do
-			source_text := a_source_text
-			Precursor (a_source_text)
-		end
-
 feature -- Status query
 
 	invalid_wildcard: BOOLEAN
@@ -102,14 +97,16 @@ feature {NONE} -- Text patterns
 	default_word: like all_of
 			--
 		do
-			Result := all_of (<< one_or_more (alphanumeric), optional (character_literal ('*')) >>) |to| agent on_word_or_phrase
+			Result := all_of (<<
+				one_or_more (alphanumeric), optional (character_literal ('*'))
+			>>) |to| agent on_word_or_phrase_substring
 		end
 
 	either_search_term: like all_of
 			--
 		do
 			Result := all_of_separated_by (non_breaking_white_space, <<
-				positive_or_negated_search_term, string_literal ("OR"), recurse (agent search_term, True)
+				positive_or_negated_search_term, string_literal ("OR"), recurse (agent search_term, 1)
 			>>)
 			Result.set_action_last (agent on_either_search_term)
 		end
@@ -126,10 +123,10 @@ feature {NONE} -- Text patterns
 			--
 		do
 			Result := all_of (<<
-				optional (character_literal ('-') |to| agent on_hypen_prefix (?, True)),
+				optional (character_literal ('-') |to| agent on_hypen_prefix (?, ?, True)),
 				positive_search_term
 			>>)
-			Result.set_action_first (agent on_hypen_prefix (?, False))
+			Result.set_action_first (agent on_hypen_prefix (?, ?, False))
 			Result.set_action_last (agent on_positive_or_negated_search_term)
 		end
 
@@ -143,7 +140,7 @@ feature {NONE} -- Text patterns
 	quoted_phrase: like quoted_string
 			--
 		do
-			Result := quoted_string (string_literal ("\%""), agent on_word_or_phrase)
+			Result := quoted_string ('"', agent on_word_or_phrase)
 		end
 
 	search_term: like one_of
@@ -154,7 +151,7 @@ feature {NONE} -- Text patterns
 
 feature {NONE} -- Match actions
 
-	on_either_search_term (matched: EL_STRING_VIEW)
+	on_either_search_term (start_index, end_index: INTEGER)
 			--
 		require
 			at_least_two_condition_operands: condition_list.count >= 2
@@ -167,12 +164,12 @@ feature {NONE} -- Match actions
 			condition_list.replace (left or condition_list.item)
 		end
 
-	on_hypen_prefix (matched: EL_STRING_VIEW; value: BOOLEAN)
+	on_hypen_prefix (start_index, end_index: INTEGER; value: BOOLEAN)
 		do
 			has_hypen_prefix := value
 		end
 
-	on_positive_or_negated_search_term (matched: EL_STRING_VIEW)
+	on_positive_or_negated_search_term (start_index, end_index: INTEGER)
 		do
 			if has_hypen_prefix and then not condition_list.is_empty then
 				condition_list.finish
@@ -184,12 +181,19 @@ feature {NONE} -- Match actions
 			end
 		end
 
-	on_word_or_phrase (matched: EL_STRING_VIEW)
+	on_word_or_phrase_substring (start_index, end_index: INTEGER)
+			--
+		do
+			on_word_or_phrase (source_substring (start_index, end_index, True))
+		end
+
+	on_word_or_phrase (general: STRING_GENERAL)
 			--
 		local
 			word_tokens: EL_WORD_TOKEN_LIST; text: ZSTRING
+			s: EL_ZSTRING_ROUTINES
 		do
-			text := matched
+			text := s.as_zstring (general)
 			if not text.is_empty and then text [text.count] = '*' then
 				text.remove_tail (1); add_wildcard_term (text)
 			else
@@ -254,7 +258,7 @@ feature {NONE} -- Internal attributes
 
 	has_hypen_prefix: BOOLEAN
 
-	source_text: ZSTRING
+	search_terms: ZSTRING
 
 	word_token_table: EL_WORD_TOKEN_TABLE
 

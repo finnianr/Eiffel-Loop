@@ -2,12 +2,12 @@ note
 	description: "Eros error result"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 11:26:58 GMT (Tuesday 21st January 2020)"
-	revision: "9"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "10"
 
 class
 	EROS_ERROR_RESULT

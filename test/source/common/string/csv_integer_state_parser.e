@@ -2,12 +2,12 @@ note
 	description: "CSV parser for lines encoded as Latin-1"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-16 10:33:32 GMT (Thursday 16th June 2022)"
-	revision: "2"
+	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
+	revision: "3"
 
 class
 	CSV_INTEGER_STATE_PARSER

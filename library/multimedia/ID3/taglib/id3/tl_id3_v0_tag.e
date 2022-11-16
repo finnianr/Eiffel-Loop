@@ -2,12 +2,12 @@ note
 	description: "A default ID3 tag with version = 0"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 9:07:27 GMT (Tuesday 24th March 2020)"
-	revision: "9"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "10"
 
 class
 	TL_ID3_V0_TAG

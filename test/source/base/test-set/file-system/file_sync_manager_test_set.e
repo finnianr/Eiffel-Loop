@@ -2,12 +2,12 @@ note
 	description: "Test classes [$source EL_FILE_SYNC_MANAGER] and [$source EL_LOCAL_FILE_SYNC_MEDIUM]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 8:50:47 GMT (Tuesday 4th October 2022)"
-	revision: "25"
+	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
+	revision: "26"
 
 class
 	FILE_SYNC_MANAGER_TEST_SET

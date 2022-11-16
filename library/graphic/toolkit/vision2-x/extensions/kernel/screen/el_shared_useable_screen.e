@@ -2,12 +2,12 @@ note
 	description: "Shared instance of [$source EL_USEABLE_SCREEN_IMP]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-23 16:04:24 GMT (Wednesday 23rd September 2020)"
-	revision: "4"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "5"
 
 deferred class
 	EL_SHARED_USEABLE_SCREEN

@@ -2,12 +2,12 @@ note
 	description: "Timeout thread"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-06 12:20:31 GMT (Tuesday 6th April 2021)"
-	revision: "1"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 class
 	EL_TIMEOUT_THREAD

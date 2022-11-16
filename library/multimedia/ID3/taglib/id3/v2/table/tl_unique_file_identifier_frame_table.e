@@ -2,12 +2,12 @@ note
 	description: "Unique file identifier table indexed by owner field"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-21 14:53:52 GMT (Saturday 21st March 2020)"
-	revision: "1"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 class
 	TL_UNIQUE_FILE_IDENTIFIER_FRAME_TABLE

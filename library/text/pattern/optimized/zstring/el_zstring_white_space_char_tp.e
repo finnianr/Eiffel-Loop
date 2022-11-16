@@ -2,29 +2,25 @@ note
 	description: "Matches white space character in [$source ZSTRING]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-14 8:22:30 GMT (Monday 14th November 2022)"
-	revision: "1"
+	date: "2022-11-15 17:01:10 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 class
 	EL_ZSTRING_WHITE_SPACE_CHAR_TP
 
 inherit
 	EL_WHITE_SPACE_CHAR_TP
-		redefine
+		undefine
 			i_th_matches
 		end
 
-feature {NONE} -- Implementation
-
-	i_th_matches (i: INTEGER; text: ZSTRING): BOOLEAN
-		-- `True' if i'th character matches pattern
-		local
-			c: EL_CHARACTER_32_ROUTINES
-		do
-			Result := c.is_space (text [i]) -- Work around for finalization bug
+	EL_MATCH_OPTIMIZED_FOR_ZSTRING
+		rename
+			i_th_is_space as i_th_matches
 		end
+
 end

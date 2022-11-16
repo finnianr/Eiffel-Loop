@@ -2,12 +2,12 @@ note
 	description: "Export music to device task"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-30 11:35:23 GMT (Saturday 30th May 2020)"
-	revision: "6"
+	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
+	revision: "7"
 
 class
 	EXPORT_MUSIC_TO_DEVICE_TASK

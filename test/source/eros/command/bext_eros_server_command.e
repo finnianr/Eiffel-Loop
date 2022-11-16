@@ -2,12 +2,12 @@ note
 	description: "Bext eros server command"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-08 11:14:21 GMT (Tuesday 8th February 2022)"
-	revision: "1"
+	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 class
 	BEXT_EROS_SERVER_COMMAND

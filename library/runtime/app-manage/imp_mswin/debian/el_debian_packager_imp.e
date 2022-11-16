@@ -2,12 +2,12 @@ note
 	description: "Windows implementation of [$source EL_DEBIAN_PACKAGER_I]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-24 18:52:33 GMT (Sunday 24th November 2019)"
-	revision: "1"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 class
 	EL_DEBIAN_PACKAGER_IMP

@@ -2,12 +2,12 @@ note
 	description: "[$source EQA_TEST_SET] that can be invoked in finalized application"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-03 9:06:19 GMT (Monday 3rd October 2022)"
-	revision: "9"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "10"
 
 deferred class
 	EL_EQA_TEST_SET

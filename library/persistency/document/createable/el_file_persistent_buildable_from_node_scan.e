@@ -2,12 +2,12 @@ note
 	description: "File persistent buildable from node scan"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-03 13:06:27 GMT (Monday 3rd August 2020)"
-	revision: "11"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "12"
 
 deferred class
 	EL_FILE_PERSISTENT_BUILDABLE_FROM_NODE_SCAN

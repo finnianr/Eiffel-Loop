@@ -2,12 +2,12 @@ note
 	description: "Extends [$source EL_CONSOLE_ONLY_LOG] for CRC-32 regression testing"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-19 14:35:23 GMT (Wednesday 19th January 2022)"
-	revision: "6"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "7"
 
 class
 	EL_CRC_32_CONSOLE_ONLY_LOG

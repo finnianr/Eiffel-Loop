@@ -2,12 +2,12 @@ note
 	description: "[$source EL_HIGHLIGHTED_CONSOLE_LOG_OUTPUT] with CRC-32 checksum"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-18 12:00:32 GMT (Tuesday 18th January 2022)"
-	revision: "8"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "9"
 
 class
 	EL_CRC_32_HIGHLIGHTED_CONSOLE_LOG_OUTPUT

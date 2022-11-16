@@ -2,12 +2,12 @@ note
 	description: "Internal thread for class [$source EL_IDENTIFIED_THREAD]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-24 13:02:35 GMT (Tuesday 24th December 2019)"
-	revision: "1"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 class
 	EL_INTERNAL_THREAD

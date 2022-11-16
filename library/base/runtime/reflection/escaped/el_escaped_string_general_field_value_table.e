@@ -11,12 +11,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-05 13:38:40 GMT (Friday 5th March 2021)"
-	revision: "6"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "7"
 
 deferred class
 	EL_ESCAPED_STRING_GENERAL_FIELD_VALUE_TABLE [S -> STRING_GENERAL create make end]

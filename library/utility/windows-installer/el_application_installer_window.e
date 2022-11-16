@@ -2,12 +2,12 @@ note
 	description: "Window for application installer"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-15 19:05:16 GMT (Tuesday 15th February 2022)"
-	revision: "6"
+	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
+	revision: "7"
 
 class
 	EL_APPLICATION_INSTALLER_WINDOW [INSTALLER_TYPE -> EL_APPLICATION_INSTALLER create make end]

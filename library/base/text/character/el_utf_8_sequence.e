@@ -2,12 +2,12 @@ note
 	description: "UTF-8 sequence for single unicode character `uc'"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 17:42:40 GMT (Monday 8th February 2021)"
-	revision: "8"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "9"
 
 class
 	EL_UTF_8_SEQUENCE

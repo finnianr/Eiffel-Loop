@@ -2,12 +2,12 @@ note
 	description: "Matches first pattern in list that matches"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-02 6:42:01 GMT (Wednesday 2nd November 2022)"
-	revision: "6"
+	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
+	revision: "7"
 
 class
 	EL_FIRST_MATCH_IN_LIST_TP

@@ -2,12 +2,12 @@ note
 	description: "A mutable substring view of characters in a [$source STRING_32]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 17:55:22 GMT (Tuesday 2nd March 2021)"
-	revision: "9"
+	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
+	revision: "10"
 
 class
 	EL_STRING_32_VIEW

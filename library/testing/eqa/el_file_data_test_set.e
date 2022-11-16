@@ -2,12 +2,12 @@ note
 	description: "Test sets that read or write data to a temporary test directory `work_area_dir'"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-12 17:15:20 GMT (Saturday 12th March 2022)"
-	revision: "20"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "21"
 
 deferred class
 	EL_FILE_DATA_TEST_SET

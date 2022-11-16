@@ -2,12 +2,12 @@ note
 	description: "Remote routine call server application"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-05 17:37:14 GMT (Saturday 5th February 2022)"
-	revision: "10"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "11"
 
 deferred class
 	EROS_REMOTE_ROUTINE_CALL_SERVER_APPLICATION

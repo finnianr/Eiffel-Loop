@@ -2,12 +2,12 @@ note
 	description: "URL encoded string with unescaped path separator"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-12 9:36:21 GMT (Sunday 12th September 2021)"
-	revision: "10"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "11"
 
 class
 	EL_URI_PATH_ELEMENT_STRING_8

@@ -2,12 +2,12 @@ note
 	description: "Thread that remains dormant until signalled to resume action loop"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-06 10:29:08 GMT (Friday 6th October 2017)"
-	revision: "3"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "4"
 
 deferred class
 	EL_DORMANT_ACTION_LOOP_THREAD

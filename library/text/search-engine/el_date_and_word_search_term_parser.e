@@ -2,12 +2,12 @@ note
 	description: "Date and word search term parser"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-25 14:04:03 GMT (Thursday 25th February 2021)"
-	revision: "7"
+	date: "2022-11-15 17:47:23 GMT (Tuesday 15th November 2022)"
+	revision: "8"
 
 class
 	EL_DATE_AND_WORD_SEARCH_TERM_PARSER  [G -> {EL_DATEABLE, EL_WORD_SEARCHABLE}]
@@ -96,45 +96,45 @@ feature {NONE} -- Text patterns
 
 feature {NONE} -- Match actions
 
-	on_day (matched_text: EL_STRING_VIEW)
+	on_day (start_index, end_index: INTEGER)
 		do
-			last_date.set_day (matched_text.to_string_8.to_integer)
+			last_date.set_day (source_substring (start_index, end_index, False).to_integer)
 		end
 
-	on_month (matched_text: EL_STRING_VIEW)
+	on_month (start_index, end_index: INTEGER)
 		do
-			last_date.set_month (matched_text.to_string_8.to_integer)
+			last_date.set_month (source_substring (start_index, end_index, False).to_integer)
 		end
 
-	on_year (matched_text: EL_STRING_VIEW)
+	on_year (start_index, end_index: INTEGER)
 		local
 			number: INTEGER
 		do
-			number := matched_text.to_string_8.to_integer
+			number := source_substring (start_index, end_index, False).to_integer
 			if number < 100 then
 				number := number + (last_date.year // 100) * 100
 			end
 			last_date.set_year (number)
 		end
 
-	on_interval (matched_text: EL_STRING_VIEW)
+	on_interval (start_index, end_index: INTEGER)
 		do
 			date_from := last_date.twin
 		end
 
-	on_date (matched_text: EL_STRING_VIEW)
+	on_date (start_index, end_index: INTEGER)
 		do
 			date_from := last_date.twin
 			extend_critera
 		end
 
-	on_start_to_end_month (matched_text: EL_STRING_VIEW)
+	on_start_to_end_month (start_index, end_index: INTEGER)
 		do
 			date_from := last_date.twin
-			on_month_interval (matched_text)
+			on_month_interval (start_index, end_index)
 		end
 
-	on_month_interval (matched_text: EL_STRING_VIEW)
+	on_month_interval (start_index, end_index: INTEGER)
 			--
 		do
 			date_from.set_day (1)
@@ -142,7 +142,7 @@ feature {NONE} -- Match actions
 			extend_critera
 		end
 
-	on_day_interval (matched_text: EL_STRING_VIEW)
+	on_day_interval (start_index, end_index: INTEGER)
 			--
 		do
 			extend_critera

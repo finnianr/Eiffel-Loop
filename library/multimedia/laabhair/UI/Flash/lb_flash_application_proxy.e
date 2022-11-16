@@ -4,12 +4,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-03 17:16:33 GMT (Wednesday 3rd October 2018)"
-	revision: "4"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "5"
 
 class
 	LB_FLASH_APPLICATION_PROXY
@@ -69,6 +69,4 @@ feature {NONE} -- Implementation
 	object_name: STRING = "application"
 
 end
-
-
 

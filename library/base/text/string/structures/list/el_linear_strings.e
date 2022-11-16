@@ -2,12 +2,12 @@ note
 	description: "Abstraction for joining strings using routines in [$source EL_LINEAR [S]]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-20 13:55:55 GMT (Thursday 20th October 2022)"
-	revision: "10"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "11"
 
 deferred class
 	EL_LINEAR_STRINGS [S -> STRING_GENERAL create make end]

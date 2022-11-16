@@ -12,7 +12,7 @@ See doc/eiffel-utility.txt for details.
 	<!--&quot;Swiss army knife&quot; toolkit containing a suite of command line tools for Eiffel development-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
-		<version major = "1" minor = "8" release = "1" build = "531" company = "Eiffel-Loop" product = "eiffel" copyright = "Finnian Reilly"/>
+		<version major = "1" minor = "8" release = "2" build = "528" company = "Eiffel-Loop" product = "eiffel" copyright = "Finnian Reilly"/>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "false"/>
 		</option>
@@ -55,7 +55,9 @@ See doc/eiffel-utility.txt for details.
 		<library name = "EL_text_process_fast" location = "$EIFFEL_LOOP/library/text-process-fast.ecf" readonly = "false">
 			<renaming old_name = "EL_EIFFEL_TEXT_PATTERN_FACTORY" new_name = "EL_EIFFEL_TEXT_PATTERN_FACTORY_2"/>
 			<renaming old_name = "EL_FIRST_MATCH_IN_LIST_TP" new_name = "EL_FIRST_MATCH_IN_LIST_TP_2"/>
+			<renaming old_name = "EL_FILE_PARSER" new_name = "EL_FILE_PARSER_2"/>
 			<renaming old_name = "EL_MATCH_ALL_IN_LIST_TP" new_name = "EL_MATCH_ALL_IN_LIST_TP_2"/>
+			<renaming old_name = "EL_MATCH_COUNT_WITHIN_BOUNDS_TP" new_name = "EL_MATCH_COUNT_WITHIN_BOUNDS_TP_2"/>
 			<renaming old_name = "EL_PARSER" new_name = "EL_PARSER_2"/>
 			<renaming old_name = "EL_TEXT_PATTERN_FACTORY" new_name = "EL_TEXT_PATTERN_FACTORY_2"/>
 			<renaming old_name = "EL_TEXT_PATTERN" new_name = "EL_TEXT_PATTERN_2"/>

@@ -2,12 +2,12 @@ note
 	description: "Button to expand sub-links in level 3 link [$source EL_SUPER_HTML_TEXT_HYPERLINK_AREA]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-08-23 13:38:10 GMT (Tuesday 23rd August 2022)"
-	revision: "6"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "7"
 
 class
 	EL_CONTENTS_NODE_BUTTON

@@ -2,12 +2,12 @@ note
 	description: "Consumer of arguments to an action or sequence of actions"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-06 12:39:23 GMT (Saturday 6th March 2021)"
-	revision: "4"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "5"
 
 deferred class
 	EL_ACTION_ARGUMENTS_CONSUMER  [OPEN_ARGS -> TUPLE create default_create end]

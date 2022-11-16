@@ -2,12 +2,12 @@ note
 	description: "Match consecutive digits"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-14 8:18:15 GMT (Monday 14th November 2022)"
-	revision: "1"
+	date: "2022-11-15 17:03:55 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 class
 	EL_MATCH_DIGITS_TP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_MATCH_CONTINUOUS_PROPERTY_TP
 		rename
-			i_th_has as is_i_th_digit
+			i_th_has as i_th_is_digit
 		end
 
 create
@@ -23,7 +23,7 @@ create
 
 feature {NONE} -- Implementation
 
-	is_i_th_digit (i: INTEGER_32; text: READABLE_STRING_GENERAL): BOOLEAN
+	i_th_is_digit (i: INTEGER_32; text: READABLE_STRING_GENERAL): BOOLEAN
 			-- `True' if i'th character is white space
 		do
 			Result := text [i].is_digit

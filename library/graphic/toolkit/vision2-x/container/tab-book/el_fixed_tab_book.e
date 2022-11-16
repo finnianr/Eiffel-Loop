@@ -2,12 +2,12 @@ note
 	description: "Fixed tab book"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-17 18:58:11 GMT (Monday 17th October 2022)"
-	revision: "13"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "14"
 
 deferred class
 	EL_FIXED_TAB_BOOK [W -> EV_WINDOW]

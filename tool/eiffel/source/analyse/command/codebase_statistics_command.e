@@ -3,12 +3,12 @@ note
 	tests: "[$source CODEBASE_STATISTICS_TEST_SET]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-05 10:14:29 GMT (Saturday 5th November 2022)"
-	revision: "18"
+	date: "2022-11-16 8:40:28 GMT (Wednesday 16th November 2022)"
+	revision: "19"
 
 class
 	CODEBASE_STATISTICS_COMMAND
@@ -100,9 +100,9 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make (<<
-				["class_count", 		agent: INTEGER_REF do Result := class_count.to_reference end],
-				["word_count", 		agent: INTEGER_REF do Result := word_count.to_reference end],
-				["mega_bytes", 		agent: STRING do Result := Double.formatted (mega_bytes) end]
+				["class_count",	agent: INTEGER_REF do Result := class_count.to_reference end],
+				["word_count",		agent: INTEGER_REF do Result := word_count.to_reference end],
+				["mega_bytes",		agent: STRING do Result := Double.formatted (mega_bytes) end]
 			>>)
 		end
 

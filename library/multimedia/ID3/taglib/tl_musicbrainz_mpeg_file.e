@@ -3,12 +3,12 @@ note
 	notes: "See: [https://picard.musicbrainz.org/docs/mappings/ Field mappings document]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-20 13:24:23 GMT (Friday 20th November 2020)"
-	revision: "6"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "7"
 
 class
 	TL_MUSICBRAINZ_MPEG_FILE

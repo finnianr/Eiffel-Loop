@@ -2,12 +2,12 @@ note
 	description: "C decoder accessible via [$source EL_MODULE_C_DECODER]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 9:15:33 GMT (Wednesday 25th September 2019)"
-	revision: "6"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "7"
 
 class
 	EL_C_DECODER

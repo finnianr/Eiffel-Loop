@@ -2,12 +2,12 @@ note
 	description: "Debian package generator with support for localized XDG desktop menu strings"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-13 8:32:49 GMT (Friday 13th May 2022)"
-	revision: "6"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "7"
 
 class
 	EL_LOCALIZED_DEBIAN_PACKAGER_APP

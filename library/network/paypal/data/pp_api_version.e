@@ -2,12 +2,12 @@ note
 	description: "Paypal API version"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-22 10:59:15 GMT (Tuesday 22nd June 2021)"
-	revision: "2"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "3"
 
 class
 	PP_API_VERSION

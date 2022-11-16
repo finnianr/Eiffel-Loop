@@ -2,12 +2,12 @@ note
 	description: "[$source EL_COMMAND_SHELL] that plugs into [$source EL_COMMAND_SHELL_APPLICATION]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-08 10:55:59 GMT (Tuesday 8th March 2022)"
-	revision: "10"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "11"
 
 deferred class
 	EL_APPLICATION_COMMAND_SHELL

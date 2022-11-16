@@ -2,18 +2,20 @@ note
 	description: "Eiffel HTML code highlighting writer"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-14 17:14:46 GMT (Monday 14th November 2022)"
-	revision: "16"
+	date: "2022-11-15 7:44:46 GMT (Tuesday 15th November 2022)"
+	revision: "17"
 
 class
 	CODE_HIGHLIGHTING_WRITER_2
 
 inherit
 	EL_FILE_PARSER_TEXT_EDITOR_2
+		rename
+			quoted_string as basic_quoted_string
 		redefine
 			make_default, on_unmatched_text, new_output, put_editions, source_text
 		end

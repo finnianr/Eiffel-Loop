@@ -2,12 +2,12 @@ note
 	description: "Eco-DB chain editions file"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-07 21:13:19 GMT (Monday 7th March 2022)"
-	revision: "16"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "17"
 
 class
 	ECD_EDITIONS_FILE [G -> EL_STORABLE create make_default end]

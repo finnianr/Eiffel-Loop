@@ -2,12 +2,12 @@ note
 	description: "Tl describeable id3 tag frame"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-20 16:14:42 GMT (Thursday 20th October 2022)"
-	revision: "2"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "3"
 
 deferred class
 	TL_DESCRIBEABLE_ID3_TAG_FRAME

@@ -2,12 +2,12 @@ note
 	description: "Pyxis parse event type"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-21 15:26:53 GMT (Monday 21st December 2020)"
-	revision: "2"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "3"
 
 class
 	EL_PYXIS_PARSE_EVENT_TYPE

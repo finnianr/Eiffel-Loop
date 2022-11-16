@@ -2,12 +2,12 @@ note
 	description: "Constants for [$source EIFFEL_CONFIGURATION_FILE]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-11 10:08:08 GMT (Saturday 11th June 2022)"
-	revision: "1"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 deferred class
 	ECF_CONSTANTS

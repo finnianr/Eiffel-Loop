@@ -2,12 +2,12 @@ note
 	description: "Lowercase alpha z char tp"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 13:37:47 GMT (Thursday 14th May 2020)"
-	revision: "7"
+	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
+	revision: "8"
 
 class
 	EL_LOWERCASE_ALPHA_Z_CHAR_TP

@@ -2,12 +2,12 @@ note
 	description: "Shared access to routines of class [$source EL_CRC_32_CHECKSUM_ROUTINES]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 12:49:33 GMT (Sunday 22nd December 2019)"
-	revision: "2"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "3"
 
 deferred class
 	EL_MODULE_CHECKSUM

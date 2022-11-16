@@ -2,12 +2,12 @@ note
 	description: "Literal text pattern for source text conforming to [$source READABLE_STRING_8]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-14 8:20:40 GMT (Monday 14th November 2022)"
-	revision: "1"
+	date: "2022-11-15 18:15:10 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 class
 	EL_STRING_8_LITERAL_TP
@@ -17,6 +17,8 @@ inherit
 		redefine
 			same_characters, new_text
 		end
+
+	EL_MATCH_OPTIMIZED_FOR_READABLE_STRING_8
 
 create
 	make

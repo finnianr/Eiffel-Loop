@@ -2,12 +2,12 @@ note
 	description: "GDK API pointers"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-08-01 14:05:44 GMT (Monday 1st August 2022)"
-	revision: "7"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "8"
 
 class
 	CAIRO_GDK_API_POINTERS

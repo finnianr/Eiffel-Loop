@@ -2,12 +2,12 @@ note
 	description: "Windows implementation of [$source EL_UNINSTALL_APP_MENU_DESKTOP_ENV_I] interface"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-03-22 11:22:51 GMT (Tuesday 22nd March 2022)"
-	revision: "14"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "15"
 
 class
 	EL_UNINSTALL_APP_MENU_DESKTOP_ENV_IMP

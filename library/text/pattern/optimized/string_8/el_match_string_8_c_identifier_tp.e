@@ -2,12 +2,12 @@ note
 	description: "[$source EL_MATCH_C_IDENTIFIER_TP] optimized for strings conforming to [$source READABLE_STRING_8]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-14 8:19:43 GMT (Monday 14th November 2022)"
-	revision: "1"
+	date: "2022-11-15 18:15:10 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 class
 	EL_MATCH_STRING_8_C_IDENTIFIER_TP
@@ -17,6 +17,8 @@ inherit
 		redefine
 			i_th_conforms
 		end
+
+	EL_MATCH_OPTIMIZED_FOR_READABLE_STRING_8
 
 feature {NONE} -- Implementation
 

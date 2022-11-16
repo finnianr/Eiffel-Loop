@@ -2,12 +2,12 @@ note
 	description: "Causes the search directory to appear at start of list to match Unix"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-10 17:48:03 GMT (Thursday 10th February 2022)"
-	revision: "1"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 class
 	EL_WINDOWS_DIR_PATH_LINE_SOURCE

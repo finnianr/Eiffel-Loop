@@ -2,12 +2,12 @@ note
 	description: "Match quoted character with escaping for specified coding language"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-14 17:20:23 GMT (Monday 14th November 2022)"
-	revision: "1"
+	date: "2022-11-15 9:01:31 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 deferred class
 	EL_MATCH_QUOTED_CHARACTER_TP
@@ -17,10 +17,6 @@ inherit
 		redefine
 			internal_call_actions, action_count
 		end
-
-	EL_SHARED_OPTIMIZED_FACTORY
-
-	EL_STRING_32_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -33,7 +29,6 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			set_optimal_core (default_string)
 			escape_sequence := new_escape_sequence
 		end
 
@@ -128,7 +123,7 @@ feature {NONE} -- Contract Support
 	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if matched pattern meets defintion of `Current' pattern
 		local
-			str: READABLE_STRING_GENERAL; start_index, end_index, l_count: INTEGER
+			start_index, end_index, l_count: INTEGER
 		do
 			if i_th_is_single_quote (a_offset + 1, text) then
 				Result := i_th_is_single_quote (a_offset + count, text)
@@ -144,11 +139,6 @@ feature {NONE} -- Contract Support
 		end
 
 feature {NONE} -- Implementation
-
-	default_string: STRING_GENERAL
-		do
-			Result := Empty_string_32
-		end
 
 	i_th_is_single_quote (i: INTEGER_32; text: READABLE_STRING_GENERAL): BOOLEAN
 			-- `True' if i'th character exhibits property

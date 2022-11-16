@@ -2,12 +2,12 @@ note
 	description: "Eco-DB encryptable file reader writer"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-15 9:19:34 GMT (Tuesday 15th June 2021)"
-	revision: "8"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "9"
 
 class
 	ECD_ENCRYPTABLE_READER_WRITER [G -> EL_STORABLE create make_default end]

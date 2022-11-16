@@ -7,12 +7,12 @@ note
 	tests: "Class [$source COMMA_SEPARATED_IMPORT_TEST_SET]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-22 8:22:55 GMT (Wednesday 22nd June 2022)"
-	revision: "13"
+	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
+	revision: "14"
 
 class
 	CSV_IMPORTABLE_ARRAYED_LIST [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
@@ -74,4 +74,3 @@ feature {NONE} -- Implementation
 		end
 
 end
-

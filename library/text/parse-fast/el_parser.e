@@ -2,12 +2,12 @@ note
 	description: "Parses text using text pattern [$source EL_TEXT_PATTERN]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-14 13:40:52 GMT (Monday 14th November 2022)"
-	revision: "1"
+	date: "2022-11-15 18:22:42 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 deferred class
 	EL_PARSER
@@ -32,6 +32,15 @@ feature -- Access
 	name_list: like pattern.name_list
 		do
 			Result := pattern.name_list
+		end
+
+	source_substring (start_index, end_index: INTEGER; keep_ref: BOOLEAN): like source_text
+		do
+			if keep_ref then
+				Result := source_text.substring (start_index, end_index)
+			else
+				Result := core.copied_substring (source_text, start_index, end_index)
+			end
 		end
 
 feature -- Element change
@@ -86,11 +95,6 @@ feature -- Element change
 								implies substring.same_string (source_text.substring (start_offset + 1, source_text.count))
 		end
 
-	set_unmatched_action (a_unmatched_action: like unmatched_action)
-		do
-			unmatched_action := a_unmatched_action
-		end
-
 feature -- Basic operations
 
 	call_actions
@@ -98,7 +102,7 @@ feature -- Basic operations
 			pattern.call_actions (start_offset + 1, source_text.count)
 		end
 
-	find_all
+	find_all (unmatched_action: detachable like pattern.Default_action)
 		do
 			pattern.internal_find_all (0, source_text, unmatched_action)
 		end
@@ -165,7 +169,5 @@ feature {NONE} -- Internal attributes
 	source_text: READABLE_STRING_GENERAL
 
 	start_offset: INTEGER
-
-	unmatched_action: detachable like pattern.Default_action
 
 end

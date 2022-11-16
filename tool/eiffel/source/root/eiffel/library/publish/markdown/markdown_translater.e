@@ -2,12 +2,12 @@ note
 	description: "Translates Eiffel-View publisher markdown to Github markdown"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 12:09:28 GMT (Thursday 4th March 2021)"
-	revision: "10"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "11"
 
 class
 	MARKDOWN_TRANSLATER

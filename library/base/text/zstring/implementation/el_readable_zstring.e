@@ -3,12 +3,12 @@ note
 	tests: "Class [$source ZSTRING_TEST_SET]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-30 9:58:42 GMT (Sunday 30th October 2022)"
-	revision: "96"
+	date: "2022-11-16 8:07:49 GMT (Wednesday 16th November 2022)"
+	revision: "97"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -103,11 +103,6 @@ inherit
 			out, copy, is_equal
 		redefine
 			new_cursor
-		end
-
-	STRING_HANDLER
-		undefine
-			is_equal, copy, out
 		end
 
 	EL_SHARED_ZSTRING_CODEC; EL_SHARED_UNICODE_PROPERTY

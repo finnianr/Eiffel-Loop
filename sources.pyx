@@ -4,7 +4,7 @@ pyxis-doc:
 manifest:
 	notes:
 		author = "Finnian Reilly"
-		copyright = "Copyright (c) 2001-2017 Finnian Reilly"
+		copyright = "Copyright (c) 2001-2022 Finnian Reilly"
 		contact = "finnian at eiffel hyphen loop dot com"
 		license = "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 

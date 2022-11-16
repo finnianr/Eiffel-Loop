@@ -2,12 +2,12 @@ note
 	description: "Unix implementation of [$source CAIRO_PIXEL_SURFACE_I]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-05-31 18:03:32 GMT (Tuesday 31st May 2022)"
-	revision: "14"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "15"
 
 class
 	CAIRO_PIXEL_SURFACE_IMP

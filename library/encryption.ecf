@@ -31,7 +31,7 @@ Extensions to Colin Le Mahieu&apos;s encryption library.
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_doc_scan" location = "document-scan.ecf"/>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
-		<library name = "EL_text_process" location = "text-process.ecf"/>
+		<library name = "EL_text_process_fast" location = "text-process-fast.ecf"/>
 		<cluster name = "encryption" location = "text/encryption" recursive = "true"/>
 	</target>
 </system>

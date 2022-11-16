@@ -2,12 +2,12 @@ note
 	description: "Arrayed list of key-value pair tuples that can be sorted"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-29 10:34:53 GMT (Sunday 29th December 2019)"
-	revision: "3"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "4"
 
 deferred class
 	EL_SORTABLE_ARRAYED_MAP_LIST [K, G]

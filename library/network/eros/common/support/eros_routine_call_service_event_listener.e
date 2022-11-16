@@ -2,12 +2,12 @@ note
 	description: "Listener for routine call request handling events"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 16:20:38 GMT (Sunday 19th January 2020)"
-	revision: "5"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "6"
 
 class
 	EROS_ROUTINE_CALL_SERVICE_EVENT_LISTENER

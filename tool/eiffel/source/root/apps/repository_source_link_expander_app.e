@@ -2,12 +2,12 @@ note
 	description: "Command line interface to [$source REPOSITORY_SOURCE_LINK_EXPANDER] command"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-07 10:27:41 GMT (Friday 7th October 2022)"
-	revision: "16"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "17"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_APP

@@ -2,12 +2,12 @@ note
 	description: "Reflected field of type [$source IMMUTABLE_STRING_8]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-06 17:25:57 GMT (Sunday 6th November 2022)"
-	revision: "11"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "12"
 
 class
 	EL_REFLECTED_IMMUTABLE_STRING_8

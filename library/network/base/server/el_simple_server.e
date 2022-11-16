@@ -2,12 +2,12 @@ note
 	description: "Simple server"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 18:10:00 GMT (Tuesday 18th February 2020)"
-	revision: "10"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "11"
 
 class
 	EL_SIMPLE_SERVER [H -> EL_SERVER_COMMAND_HANDLER create make end]

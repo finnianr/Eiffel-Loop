@@ -2,12 +2,12 @@ note
 	description: "Test command classes [$source VCF_CONTACT_SPLITTER] and [$source VCF_CONTACT_NAME_SWITCHER]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 9:37:30 GMT (Tuesday 4th October 2022)"
-	revision: "4"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "5"
 
 class
 	VCF_CONTACT_TEST_SET

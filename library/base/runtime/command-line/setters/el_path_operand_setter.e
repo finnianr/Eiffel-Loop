@@ -2,12 +2,12 @@ note
 	description: "Sets an' operand conforming to  [$source EL_PATH] in `make' routine argument tuple"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-05 16:00:20 GMT (Wednesday 5th October 2022)"
-	revision: "16"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "17"
 
 class
 	EL_PATH_OPERAND_SETTER [G -> EL_PATH create make end]

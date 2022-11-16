@@ -2,12 +2,12 @@ note
 	description: "Tl id3 frame code iteration cursor"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-12 20:01:58 GMT (Tuesday 12th November 2019)"
-	revision: "3"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "4"
 
 class
 	TL_ID3_FRAME_CODE_ITERATION_CURSOR

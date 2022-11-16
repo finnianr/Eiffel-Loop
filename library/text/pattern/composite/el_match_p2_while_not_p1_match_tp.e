@@ -2,12 +2,12 @@ note
 	description: "Match pattern p2 while p1 does not match"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-14 8:16:50 GMT (Monday 14th November 2022)"
-	revision: "1"
+	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 class
 	EL_MATCH_P2_WHILE_NOT_P1_MATCH_TP

@@ -2,12 +2,12 @@ note
 	description: "Import videos task"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-02-19 9:14:20 GMT (Saturday 19th February 2022)"
-	revision: "14"
+	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
+	revision: "15"
 
 class
 	IMPORT_VIDEOS_TASK

@@ -11,12 +11,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-25 10:19:42 GMT (Saturday 25th June 2022)"
-	revision: "66"
+	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
+	revision: "67"
 
 class
 	PAYPAL_STANDARD_BUTTON_MANAGER_AUTOTEST_APP

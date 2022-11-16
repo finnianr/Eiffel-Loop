@@ -2,12 +2,12 @@ note
 	description: "Unix implementation of [$source CAIRO_GOBJECT_I]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-02 13:11:56 GMT (Thursday 2nd June 2022)"
-	revision: "9"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "10"
 
 class
 	CAIRO_GOBJECT_API

@@ -2,12 +2,12 @@ note
 	description: "Shared file progress listener"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-24 8:41:23 GMT (Tuesday 24th September 2019)"
-	revision: "10"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "11"
 
 deferred class
 	EL_SHARED_DATA_TRANSFER_PROGRESS_LISTENER

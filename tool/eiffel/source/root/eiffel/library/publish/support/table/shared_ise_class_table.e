@@ -2,12 +2,12 @@ note
 	description: "Shared instance of [$source ISE_CLASS_TABLE]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 12:32:01 GMT (Wednesday 24th November 2021)"
-	revision: "3"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "4"
 
 deferred class
 	SHARED_ISE_CLASS_TABLE

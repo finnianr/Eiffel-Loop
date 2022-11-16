@@ -2,12 +2,12 @@ note
 	description: "Common class type identifiers accesible via [$source EL_SHARED_CLASS_ID]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-01 9:53:38 GMT (Saturday 1st October 2022)"
-	revision: "16"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "17"
 
 class
 	EL_CLASS_TYPE_ID_ENUM

@@ -15,12 +15,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-07 14:00:02 GMT (Thursday 7th July 2022)"
-	revision: "24"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "25"
 
 deferred class
 	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO create make end, APPLICATION_TYPES -> TUPLE create default_create end]

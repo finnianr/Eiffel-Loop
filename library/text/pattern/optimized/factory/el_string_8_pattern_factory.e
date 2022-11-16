@@ -1,13 +1,15 @@
 note
-	description: "Core text patterns for operating on strings conforming to [$source READABLE_STRING_8]"
+	description: "[
+		[$source EL_OPTIMIZED_PATTERN_FACTORY] optimized for strings conforming to [$source READABLE_STRING_8]
+	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-14 17:12:35 GMT (Monday 14th November 2022)"
-	revision: "1"
+	date: "2022-11-15 18:10:42 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 class
 	EL_STRING_8_PATTERN_FACTORY
@@ -15,13 +17,27 @@ class
 inherit
 	EL_OPTIMIZED_PATTERN_FACTORY
 		redefine
+			Buffer, copied_substring,
 			new_character_literal, new_digit, new_letter, new_white_space_character, new_character_in_set,
 			new_string_literal, new_white_space, new_digits_string, new_end_of_line_character,
 			new_c_identifier, new_xml_identifier, new_c_quoted_string, new_eiffel_quoted_string,
-			new_eiffel_quoted_character
+			new_eiffel_quoted_character, new_alphanumeric, new_quoted_string, new_character_in_range
+		end
+
+feature -- Access
+
+	copied_substring (str: READABLE_STRING_8; start_index, end_index: INTEGER): STRING
+		do
+			Result := Buffer.copied_substring (str, start_index, end_index)
 		end
 
 feature -- C language
+
+	new_alphanumeric: EL_STRING_8_ALPHANUMERIC_CHAR_TP
+			--
+		do
+			create Result
+		end
 
 	new_c_identifier: EL_MATCH_STRING_8_C_IDENTIFIER_TP
 		do
@@ -72,6 +88,12 @@ feature -- Character
 			create Result.make (a_character_set)
 		end
 
+	new_character_in_range (lower, upper: CHARACTER): EL_MATCH_STRING_8_CHAR_IN_ASCII_RANGE_TP
+			--
+		do
+			create Result.make (lower, upper)
+		end
+
 	new_digit: EL_STRING_8_NUMERIC_CHAR_TP
 			--
 		do
@@ -113,5 +135,19 @@ feature -- String
 			create Result.make (a_minimum_match_count)
 		end
 
+	new_quoted_string (
+		quote: CHARACTER_32; unescaped_action: detachable PROCEDURE [STRING_GENERAL]
+
+	): EL_MATCH_STRING_8_BASIC_QUOTED_STRING_TP
+		do
+			create Result.make (quote, unescaped_action)
+		end
+
+feature {NONE} -- Constants
+
+	Buffer: EL_STRING_8_BUFFER
+		once
+			create Result
+		end
 
 end

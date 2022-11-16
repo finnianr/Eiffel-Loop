@@ -2,12 +2,12 @@ note
 	description: "Constants for defining directions/dimensions/axes of geometry operations"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-07 9:37:51 GMT (Monday 7th September 2020)"
-	revision: "18"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "19"
 
 frozen class
 	EL_ORIENTATION_ROUTINES

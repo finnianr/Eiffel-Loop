@@ -5,12 +5,12 @@
 	testing: "type/manual"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 9:20:37 GMT (Tuesday 4th October 2022)"
-	revision: "52"
+	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
+	revision: "53"
 
 class
 	HTTP_CONNECTION_TEST_SET

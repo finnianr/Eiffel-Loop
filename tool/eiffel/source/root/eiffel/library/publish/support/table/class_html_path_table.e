@@ -2,12 +2,12 @@ note
 	description: "Map class name to HTML source path"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-04 11:09:50 GMT (Saturday 4th June 2022)"
-	revision: "7"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "8"
 
 class
 	CLASS_HTML_PATH_TABLE

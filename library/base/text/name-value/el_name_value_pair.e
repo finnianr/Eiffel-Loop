@@ -2,12 +2,12 @@ note
 	description: "Parses string for name value pair using specified delimiter"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-07-06 15:35:33 GMT (Wednesday 6th July 2022)"
-	revision: "10"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "11"
 
 class
 	EL_NAME_VALUE_PAIR [G -> STRING_GENERAL create make, make_empty end]

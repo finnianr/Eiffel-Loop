@@ -2,12 +2,12 @@ note
 	description: "String 32 edition history"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:10:53 GMT (Tuesday 5th January 2021)"
-	revision: "8"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "9"
 
 class
 	EL_ZSTRING_EDITION_HISTORY

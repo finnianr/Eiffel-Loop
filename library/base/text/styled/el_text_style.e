@@ -2,12 +2,12 @@ note
 	description: "Text style constants"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-03 13:20:10 GMT (Thursday 3rd September 2020)"
-	revision: "2"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "3"
 
 class
 	EL_TEXT_STYLE

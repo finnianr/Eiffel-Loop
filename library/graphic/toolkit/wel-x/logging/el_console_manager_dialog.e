@@ -2,12 +2,12 @@ note
 	description: "Console manager dialog"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-11 8:17:41 GMT (Sunday 11th April 2021)"
-	revision: "6"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "7"
 
 deferred class
 	EL_CONSOLE_MANAGER_DIALOG

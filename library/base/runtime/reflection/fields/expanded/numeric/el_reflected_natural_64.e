@@ -2,12 +2,12 @@ note
 	description: "Reflected [$source NATURAL_64] field"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-20 11:45:14 GMT (Monday 20th June 2022)"
-	revision: "19"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "20"
 
 class
 	EL_REFLECTED_NATURAL_64

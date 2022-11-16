@@ -51,7 +51,7 @@ system:
 			EL_base = "base/base.ecf"
 			EL_doc_scan = "document-scan.ecf"
 			EL_evolicity = "evolicity.ecf"
-			EL_text_process = "text-process.ecf"
+			EL_text_process_fast = "text-process-fast.ecf"
 
 		cluster_tree:
 			encryption = "text/encryption"

@@ -2,12 +2,12 @@ note
 	description: "Test class [$source UPGRADE_DEFAULT_POINTER_SYNTAX_COMMAND]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 8:56:38 GMT (Tuesday 4th October 2022)"
-	revision: "3"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "4"
 
 class
 	UPGRADE_DEFAULT_POINTER_SYNTAX_TEST_SET

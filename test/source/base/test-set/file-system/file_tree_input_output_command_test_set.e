@@ -2,12 +2,12 @@ note
 	description: "Test suite for class [$source EL_FILE_TREE_TRANSFORMER]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-10-04 8:50:48 GMT (Tuesday 4th October 2022)"
-	revision: "8"
+	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
+	revision: "9"
 
 class
 	FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET

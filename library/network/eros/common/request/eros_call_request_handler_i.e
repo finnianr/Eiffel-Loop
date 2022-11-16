@@ -2,12 +2,12 @@ note
 	description: "Remote routine call request handler i"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 9:53:33 GMT (Tuesday 21st January 2020)"
-	revision: "10"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "11"
 
 deferred class
 	EROS_CALL_REQUEST_HANDLER_I

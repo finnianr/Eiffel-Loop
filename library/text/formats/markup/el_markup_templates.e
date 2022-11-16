@@ -2,12 +2,12 @@ note
 	description: "Markup templates"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-16 20:17:04 GMT (Friday 16th November 2018)"
-	revision: "1"
+	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 class
 	EL_MARKUP_TEMPLATES

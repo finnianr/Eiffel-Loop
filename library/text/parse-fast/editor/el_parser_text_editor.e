@@ -5,12 +5,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-14 8:24:23 GMT (Monday 14th November 2022)"
-	revision: "1"
+	date: "2022-11-15 6:07:13 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 deferred class
 	EL_PARSER_TEXT_EDITOR
@@ -23,8 +23,7 @@ inherit
 
 	EL_PARSER
 		rename
-			new_pattern as delimiting_pattern,
-			find_all as put_editions
+			new_pattern as delimiting_pattern
 		redefine
 			make_default
 		end
@@ -38,10 +37,21 @@ feature {NONE} -- Initialization
 		do
 			Precursor {EL_TEXT_EDITOR}
 			Precursor {EL_PARSER}
-			set_unmatched_action (agent on_unmatched_text)
+		end
+
+feature -- Basic operations
+
+	put_editions
+		do
+			find_all (agent on_unmatched_text)
 		end
 
 feature {NONE} -- Implementation
+
+	delete (start_index, end_index: INTEGER)
+			--
+		do
+		end
 
 	on_unmatched_text (start_index, end_index: INTEGER)
 			--
@@ -53,11 +63,6 @@ feature {NONE} -- Implementation
 			--
 		do
 			put_string (new_text)
-		end
-
-	delete (start_index, end_index: INTEGER)
-			--
-		do
 		end
 
 end

@@ -2,12 +2,12 @@ note
 	description: "Shared frame ID enumeration codes"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-17 17:17:12 GMT (Tuesday 17th March 2020)"
-	revision: "5"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "6"
 
 deferred class
 	TL_SHARED_FRAME_ID_ENUM

@@ -4,12 +4,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 10:25:53 GMT (Sunday 2nd August 2020)"
-	revision: "5"
+	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
+	revision: "6"
 
 class
 	EL_PIXMAP_IMP_DRAWABLE
@@ -68,5 +68,3 @@ feature {EV_ANY, EV_ANY_I}
 		end
 
 end -- class EL_PIXMAP_IMP_DRAWABLE
-
-

@@ -2,12 +2,12 @@ note
 	description: "Paypal shared payment pending reason enum"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-28 10:36:47 GMT (Saturday 28th November 2020)"
-	revision: "5"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "6"
 
 deferred class
 	PP_SHARED_PAYMENT_PENDING_REASON_ENUM

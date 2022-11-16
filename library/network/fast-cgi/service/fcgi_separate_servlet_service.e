@@ -2,12 +2,12 @@ note
 	description: "A `FCGI_SERVLET_SERVICE' service operating in a separate thread."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-17 9:45:21 GMT (Friday 17th January 2020)"
-	revision: "6"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "7"
 
 deferred class
 	FCGI_SEPARATE_SERVLET_SERVICE

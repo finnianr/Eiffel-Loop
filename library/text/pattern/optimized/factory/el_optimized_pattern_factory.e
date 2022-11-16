@@ -11,28 +11,47 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-14 17:10:59 GMT (Monday 14th November 2022)"
-	revision: "1"
+	date: "2022-11-15 18:23:00 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 class
 	EL_OPTIMIZED_PATTERN_FACTORY
 
+feature -- Access
+
+	copied_substring (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): STRING_GENERAL
+		do
+			Result := Buffer.copied_substring_general (str, start_index, end_index)
+		end
+
 feature -- Character
 
-	new_character_literal (literal: CHARACTER_32): EL_LITERAL_CHAR_TP
+	new_alphanumeric: EL_ALPHANUMERIC_CHAR_TP
 			--
 		do
-			create Result.make (literal)
+			create Result
 		end
 
 	new_character_in_set (a_character_set: READABLE_STRING_GENERAL): EL_MATCH_CHARACTER_IN_SET_TP
 			--
 		do
 			create Result.make (a_character_set)
+		end
+
+	new_character_in_range (lower, upper: CHARACTER): EL_MATCH_CHAR_IN_ASCII_RANGE_TP
+			--
+		do
+			create Result.make (lower, upper)
+		end
+
+	new_character_literal (literal: CHARACTER_32): EL_LITERAL_CHAR_TP
+			--
+		do
+			create Result.make (literal)
 		end
 
 	new_digit: EL_NUMERIC_CHAR_TP
@@ -96,6 +115,19 @@ feature -- XML language
 
 feature -- String
 
+	new_digits_string (a_minimum_match_count: INTEGER): EL_MATCH_DIGITS_TP
+		do
+			create Result.make (a_minimum_match_count)
+		end
+
+	new_quoted_string (
+		quote: CHARACTER_32; unescaped_action: detachable PROCEDURE [STRING_GENERAL]
+
+	): EL_MATCH_BASIC_QUOTED_STRING_TP
+		do
+			create Result.make (quote, unescaped_action)
+		end
+
 	new_string_literal (a_text: READABLE_STRING_GENERAL): EL_LITERAL_TEXT_PATTERN
 		do
 			create Result.make (a_text)
@@ -106,9 +138,11 @@ feature -- String
 			create Result.make (optional, nonbreaking)
 		end
 
-	new_digits_string (a_minimum_match_count: INTEGER): EL_MATCH_DIGITS_TP
-		do
-			create Result.make (a_minimum_match_count)
+feature {NONE} -- Constants
+
+	Buffer: EL_STRING_BUFFER [STRING_GENERAL, READABLE_STRING_GENERAL]
+		once
+			create {EL_STRING_32_BUFFER} Result
 		end
 
 end

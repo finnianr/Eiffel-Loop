@@ -2,12 +2,12 @@ note
 	description: "Temporary string buffer"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-06-23 10:05:10 GMT (Thursday 23rd June 2022)"
-	revision: "1"
+	date: "2022-11-15 8:09:48 GMT (Tuesday 15th November 2022)"
+	revision: "2"
 
 deferred class
 	EL_STRING_BUFFER [S -> STRING_GENERAL, READABLE -> READABLE_STRING_GENERAL]
@@ -38,6 +38,18 @@ feature -- Access
 		require
 			not_buffer: not is_same (str)
 		deferred
+		end
+
+	copied_substring_general (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): S
+		require
+			not_buffer: not is_same (general)
+		do
+			Result := empty
+			if attached {READABLE} general as str then
+				Result := copied_substring (str, start_index, end_index)
+			else
+				Result.append_substring (general, start_index, end_index)
+			end
 		end
 
 	copied_upper (str: READABLE): S

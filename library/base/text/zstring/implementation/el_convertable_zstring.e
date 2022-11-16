@@ -2,12 +2,12 @@ note
 	description: "Routines to convert instance of [$source ZSTRING] to another type or form"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-06 9:23:48 GMT (Sunday 6th November 2022)"
-	revision: "32"
+	date: "2022-11-16 8:30:24 GMT (Wednesday 16th November 2022)"
+	revision: "33"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -26,6 +26,14 @@ inherit
 	EL_SHARED_UTF_8_SEQUENCE
 
 	EL_SHARED_STRING_32_CURSOR
+
+	DEBUG_OUTPUT
+		-- This is not working in Workbench 16.05 so shorten to `db' for convenience
+		rename
+			debug_output as db
+		undefine
+			copy, is_equal, out
+		end
 
 feature -- Measurement
 
@@ -110,7 +118,7 @@ feature -- To Strings
 			end
 		end
 
-	to_string_32, as_string_32, string: STRING_32
+	to_string_32, as_string_32, string, db: STRING_32
 			-- UCS-4
 		do
 			create Result.make (count)
@@ -128,7 +136,7 @@ feature -- To Strings
 			str_32: STRING_32
 		do
 			if is_ascii then
-				Result := current_string_8.twin
+				create {STRING_8} Result.make_from_string (current_string_8)
 			else
 				str_32 := buffer_32.empty
 				append_to_string_32 (str_32)

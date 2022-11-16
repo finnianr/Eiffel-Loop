@@ -2,12 +2,12 @@ note
 	description: "Reflected field conforming to type [$source EL_STORABLE]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-21 14:59:18 GMT (Friday 21st May 2021)"
-	revision: "11"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "12"
 
 class
 	EL_REFLECTED_STORABLE

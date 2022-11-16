@@ -2,12 +2,12 @@ note
 	description: "Remote call constants"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 17:37:10 GMT (Sunday 20th December 2020)"
-	revision: "11"
+	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
+	revision: "12"
 
 class
 	EROS_REMOTE_CALL_CONSTANTS
