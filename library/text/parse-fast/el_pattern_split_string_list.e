@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2022-11-16 15:10:30 GMT (Wednesday 16th November 2022)"
+	revision: "10"
 
 class
 	EL_PATTERN_SPLIT_STRING_LIST
@@ -19,7 +19,7 @@ inherit
 		undefine
 			is_equal, copy
 		redefine
-			make_with_delimiter
+			make_with_delimiter, source_text
 		end
 
 	EL_TEXT_PATTERN_FACTORY
@@ -47,7 +47,7 @@ feature {NONE} -- Initialization
 			character_set: ZSTRING
 		do
 			character_set := a_character_set
-			make_with_delimiter (create {EL_MATCH_ANY_CHAR_IN_SET_TP}.make (character_set))
+			make_with_delimiter (one_character_from (character_set))
 		end
 
 	make_with_delimiter (a_pattern: EL_TEXT_PATTERN)
@@ -55,17 +55,9 @@ feature {NONE} -- Initialization
 		do
 			make_list
 			Precursor (a_pattern)
-			set_unmatched_action (agent on_unmatched_text)
 		end
 
 feature -- Element change
-
-	set_from_string (target: ZSTRING)
-			--
-		do
-			wipe_out
-			extend_from_string (target)
-		end
 
 	extend_from_string (target: ZSTRING)
 			--
@@ -74,7 +66,7 @@ feature -- Element change
 		do
 --			log.enter_with_args ("extend_from_string", <<target>>)
 			set_source_text (target)
-			processor_do_all
+			processor_do_all (agent on_unmatched_text)
 			set_source_text (Empty_string)
 --			log.exit
 		end
@@ -87,16 +79,26 @@ feature -- Element change
 			delimiting_pattern.set_action (agent on_unmatched_text)
 		end
 
+	set_from_string (target: ZSTRING)
+			--
+		do
+			wipe_out
+			extend_from_string (target)
+		end
+
 feature {NONE} -- Parsing actions
 
-	on_unmatched_text (text: EL_STRING_VIEW)
+	on_unmatched_text (start_index, end_index: INTEGER)
 			--
 		do
 --			log.enter_with_args ("on_unmatched_text", <<text>>)
-			if text.count > 0 then
-				extend (text)
+			if end_index >= start_index then
+				extend (source_substring (start_index, end_index, True))
 			end
 --			log.exit
 		end
 
-end -- class EL_SPLIT_STRING_LIST
+feature {NONE} -- Internal attributes
+
+	source_text: ZSTRING
+end

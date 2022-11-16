@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2022-11-16 14:44:29 GMT (Wednesday 16th November 2022)"
+	revision: "12"
 
 deferred class
 	EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR
@@ -25,12 +25,14 @@ inherit
 
 	EL_FILE_PARSER_TEXT_EDITOR
 		rename
+			file_path as source_path,
+			quoted_string as basic_quoted_string,
 			set_file_path as set_source_path,
-			file_path as source_path
+			set_source_text as set_zstring_source_text
 		undefine
 			is_bom_enabled
 		redefine
-			make_default, set_source_path, set_source_text
+			make_default, set_source_path, source_text
 		end
 
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
@@ -59,15 +61,17 @@ feature -- Element Change
 		end
 
 	set_source_text (a_source_text: STRING)
+		local
+			l_text: ZSTRING
 		do
 			if a_source_text.starts_with ({UTF_CONVERTER}.Utf_8_bom_to_string_8) then
-				create source_text.make_from_utf_8 (a_source_text)
+				create l_text.make_from_utf_8 (a_source_text)
 				set_utf_encoding (8)
 			else
-				create source_text.make_from_general (a_source_text)
+				create l_text.make_from_general (a_source_text)
 				set_latin_encoding (1)
 			end
-			Precursor (source_text)
+			set_zstring_source_text (l_text)
 		end
 
 feature {NONE} -- Patterns

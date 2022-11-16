@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 17:55:45 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-11-16 16:12:00 GMT (Wednesday 16th November 2022)"
+	revision: "3"
 
 class
 	EL_TEXT_PATTERN_FACTORY
@@ -48,8 +48,13 @@ feature -- Recursive patterns
 			create Result.make (array_of_alternatives)
 		end
 
-	recurse (new_recursive: FUNCTION [EL_TEXT_PATTERN]; unique_id: NATURAL): EL_RECURSIVE_TEXT_PATTERN
+	recurse (new_recursive: FUNCTION [EL_TEXT_PATTERN]; a_unique_id: NATURAL): EL_RECURSIVE_TEXT_PATTERN
+		local
+			unique_id, current_type_id, function_type_id: NATURAL
 		do
+			current_type_id := {ISE_RUNTIME}.dynamic_type (Current).to_natural_32
+			function_type_id := {ISE_RUNTIME}.dynamic_type (new_recursive).to_natural_32
+			unique_id := (current_type_id |<< 16) | (function_type_id + a_unique_id)
 			create Result.make (new_recursive, unique_id)
 		end
 
@@ -106,6 +111,20 @@ feature -- Bounded occurrences
 			create Result.make (a_pattern)
 		end
 
+feature -- Line ends
+
+	end_of_line_character: EL_END_OF_LINE_CHAR_TP
+			-- Matches new line or EOF
+		do
+			Result := core.new_end_of_line_character
+		end
+
+	start_of_line: EL_BEGINNING_OF_LINE_TP
+			-- Match start of line position
+		do
+			Result := core.new_start_of_line
+		end
+
 feature -- Character patterns
 
 	alphanumeric: EL_ALPHANUMERIC_CHAR_TP
@@ -138,12 +157,6 @@ feature -- Character patterns
 			Result := core.new_digit
 		end
 
-	end_of_line_character: EL_END_OF_LINE_CHAR_TP
-			-- Matches new line or EOF
-		do
-			Result := core.new_end_of_line_character
-		end
-
 	letter: EL_ALPHA_CHAR_TP
 			--
 		do
@@ -164,7 +177,7 @@ feature -- Character patterns
 
 feature -- White space
 
-	non_breaking_white_space: EL_MATCH_WHITE_SPACE_TP
+	nonbreaking_white_space: EL_MATCH_WHITE_SPACE_TP
 		-- match at least one nonbreaking white space
 		do
 			Result := core.new_white_space (False, True)

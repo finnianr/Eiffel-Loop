@@ -1,13 +1,15 @@
 note
-	description: "Matches end of line in a string conforming to [$source READABLE_STRING_8]"
+	description: "[
+		[$source EL_END_OF_LINE_CHAR_TP] optimized for string conforming to [$source READABLE_STRING_8]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-11-16 15:39:18 GMT (Wednesday 16th November 2022)"
+	revision: "3"
 
 class
 	EL_STRING_8_END_OF_LINE_CHAR_TP

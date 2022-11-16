@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2022-11-16 13:45:03 GMT (Wednesday 16th November 2022)"
+	revision: "12"
 
 class
 	EL_EIFFEL_SOURCE_LINE_STATE_MACHINE
@@ -87,7 +87,7 @@ feature {NONE} -- Implementation
 
 	code_line_is_type_identifier: BOOLEAN
 		do
-			Result := code_line.matches (type)
+			Result := code_line.matches (class_type)
 		end
 
 	code_line_is_verbatim_string_end: BOOLEAN

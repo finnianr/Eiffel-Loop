@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 8:59:07 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-11-16 16:16:08 GMT (Wednesday 16th November 2022)"
+	revision: "3"
 
 deferred class
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
@@ -19,6 +19,24 @@ inherit
 		end
 
 	EL_SHARED_ZSTRING_CODEC
+
+feature {NONE} -- Eiffel text patterns
+
+	bracketed_expression: like all_of
+			--
+		do
+			Result := all_of (<<
+				character_literal ('('),
+				zero_or_more (
+					one_of (<<
+						quoted_string (Void),
+						not one_character_from ("()"),
+						recurse (agent bracketed_expression, 1)
+					>>)
+				),
+				character_literal (')')
+			>>)
+		end
 
 feature {NONE} -- Eiffel comments
 
@@ -87,7 +105,7 @@ feature {NONE} -- Eiffel manifest string
 
 	decimal_character_code: like all_of
 		do
-			Result :=  all_of (<< character_literal ('/'), digit #occurs (1 |..| 3), character_literal ('/') >>)
+			Result := all_of (<< character_literal ('/'), digit #occurs (1 |..| 3), character_literal ('/') >>)
 		end
 
 	escaped_character_sequence: like all_of
@@ -99,13 +117,11 @@ feature {NONE} -- Eiffel manifest string
 			>>)
 		end
 
-	quoted_string (
-		quote: CHARACTER_32; unescaped_action: detachable PROCEDURE [STRING_GENERAL]
-	): EL_MATCH_QUOTED_STRING_TP
+	quoted_string (unescaped_action: detachable PROCEDURE [STRING_GENERAL]): EL_MATCH_QUOTED_STRING_TP
 		-- match Eiffel language string in quotes and call procedure `unescaped_action'
 		-- with unescaped value
 		do
-			Result := core.new_eiffel_quoted_string (quote, unescaped_action)
+			Result := core.new_eiffel_quoted_string ('"', unescaped_action)
 		end
 
 	unescaped_manifest_string (action_to_process_content: like OPTIONAL_ACTION): like all_of

@@ -39,7 +39,7 @@ Common networking classes
 		<library name = "EL_doc_scan" location = "document-scan.ecf"/>
 		<library name = "EL_os_command" location = "os-command.ecf"/>
 		<library name = "EL_text_formats" location = "text-formats.ecf"/>
-		<library name = "EL_text_process" location = "text-process.ecf"/>
+		<library name = "EL_text_process_fast" location = "text-process-fast.ecf"/>
 		<library name = "EL_thread" location = "thread.ecf"/>
 		<library name = "EL_xml_scan" location = "xml-scan.ecf"/>
 		<!--Source code-->

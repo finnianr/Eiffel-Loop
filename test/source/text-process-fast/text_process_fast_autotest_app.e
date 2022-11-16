@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2022-11-16 14:39:15 GMT (Wednesday 16th November 2022)"
+	revision: "14"
 
 class
 	TEXT_PROCESS_FAST_AUTOTEST_APP
@@ -39,7 +39,8 @@ feature {NONE} -- Implementation
 		EL_FILE_PARSER_2,
 		EL_FILE_PARSER_TEXT_EDITOR_2,
 		EL_PARSER_2,
-		EL_PARSER_TEXT_EDITOR_2
+		EL_PARSER_TEXT_EDITOR_2,
+		EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR
 	]
 		do
 			create Result

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 18:10:42 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-11-16 15:37:58 GMT (Wednesday 16th November 2022)"
+	revision: "3"
 
 class
 	EL_STRING_8_PATTERN_FACTORY
@@ -21,7 +21,8 @@ inherit
 			new_character_literal, new_digit, new_letter, new_white_space_character, new_character_in_set,
 			new_string_literal, new_white_space, new_digits_string, new_end_of_line_character,
 			new_c_identifier, new_xml_identifier, new_c_quoted_string, new_eiffel_quoted_string,
-			new_eiffel_quoted_character, new_alphanumeric, new_quoted_string, new_character_in_range
+			new_eiffel_quoted_character, new_alphanumeric, new_quoted_string, new_character_in_range,
+			new_start_of_line
 		end
 
 feature -- Access
@@ -29,6 +30,20 @@ feature -- Access
 	copied_substring (str: READABLE_STRING_8; start_index, end_index: INTEGER): STRING
 		do
 			Result := Buffer.copied_substring (str, start_index, end_index)
+		end
+
+feature -- Line ends
+
+	new_end_of_line_character: EL_STRING_8_END_OF_LINE_CHAR_TP
+			-- Matches new line or EOF
+		do
+			create Result.make
+		end
+
+	new_start_of_line: EL_STRING_8_BEGINNING_OF_LINE_TP
+			-- Match start of line position
+		do
+			create Result
 		end
 
 feature -- C language
@@ -98,12 +113,6 @@ feature -- Character
 			--
 		do
 			create Result
-		end
-
-	new_end_of_line_character: EL_STRING_8_END_OF_LINE_CHAR_TP
-			-- Matches new line or EOF
-		do
-			create Result.make
 		end
 
 	new_letter: EL_STRING_8_ALPHA_CHAR_TP

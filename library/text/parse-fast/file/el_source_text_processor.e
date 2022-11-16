@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2022-11-16 15:02:44 GMT (Wednesday 16th November 2022)"
+	revision: "8"
 
 class
 	EL_SOURCE_TEXT_PROCESSOR
@@ -21,7 +21,7 @@ inherit
 		export
 			{NONE} all
 			{ANY} do_all, fully_matched,
-				set_source_text, set_unmatched_action, set_source_text_from_line_source, set_source_text_from_file,
+				set_source_text, set_source_text_from_line_source, set_source_text_from_file,
 				delimiting_pattern
 		end
 

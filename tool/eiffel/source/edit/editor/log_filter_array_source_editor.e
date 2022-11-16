@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2022-11-16 16:00:40 GMT (Wednesday 16th November 2022)"
+	revision: "6"
 
 class
 	LOG_FILTER_ARRAY_SOURCE_EDITOR
@@ -55,7 +55,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Pattern definitions
 
-	search_patterns: ARRAYED_LIST [EL_TEXT_PATTERN]
+	search_patterns: ARRAYED_LIST [EL_TEXT_PATTERN_2]
 		do
 			create Result.make_from_array (<<
 				logging_filter_function,
@@ -101,12 +101,12 @@ feature {NONE} -- Pattern definitions
 		do
 			Result := all_of ( <<
 				character_literal ('['),
-				quoted_manifest_string (agent on_class_name),
+				quoted_string (Void) |to| agent on_class_name,
 				one_or_more (feature_specifiers),
-				maybe_white_space,
+				optional_white_space,
 				character_literal (']')
 			>> )
-			Result.set_action_last (agent on_filter_end (?, is_first))
+			Result.set_action_last (agent on_filter_end (?, ?, is_first))
 		end
 
 	feature_specifiers: like all_of
@@ -114,8 +114,8 @@ feature {NONE} -- Pattern definitions
 		do
 			Result := all_of ( <<
 				character_literal (','),
-				maybe_white_space,
-				quoted_manifest_string (agent on_feature_specifier)
+				optional_white_space,
+				quoted_string (Void) |to| agent on_feature_specifier
 			>> )
 		end
 
@@ -132,17 +132,17 @@ feature {NONE} -- Pattern definitions
 
 feature {NONE} -- Parsing actions
 
-	on_once_result_equals_open_array (text: EL_STRING_VIEW)
+	on_once_result_equals_open_array (start_index, end_index: INTEGER)
 			--
 		local
 			out_text: STRING
 		do
-			out_text := text
+			out_text := source_substring (start_index, end_index, False)
 			out_text.replace_substring_all ("once", "do")
 			put_string (out_text)
 		end
 
-	on_tuple (text: EL_STRING_VIEW)
+	on_tuple (start_index, end_index: INTEGER)
 			--
 		do
 --			log.enter_with_args ("on_tuple", << text >>)
@@ -150,19 +150,19 @@ feature {NONE} -- Parsing actions
 --			log.exit
 		end
 
-	on_class_name (text: EL_STRING_VIEW)
+	on_class_name (start_index, end_index: INTEGER)
 			--
 		do
-			class_name := text
+			class_name := source_substring (start_index, end_index, False)
 		end
 
-	on_feature_specifier (text: EL_STRING_VIEW)
+	on_feature_specifier (start_index, end_index: INTEGER)
 			--
 		do
-			feature_names.extend (text)
+			feature_names.extend (source_substring (start_index, end_index, False))
 		end
 
-	on_filter_end (text: EL_STRING_VIEW; is_first: BOOLEAN)
+	on_filter_end (start_index, end_index: INTEGER; is_first: BOOLEAN)
 			--
 		do
 			if not is_first then

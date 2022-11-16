@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 18:23:00 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-11-16 15:37:23 GMT (Wednesday 16th November 2022)"
+	revision: "3"
 
 class
 	EL_OPTIMIZED_PATTERN_FACTORY
@@ -26,6 +26,20 @@ feature -- Access
 	copied_substring (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): STRING_GENERAL
 		do
 			Result := Buffer.copied_substring_general (str, start_index, end_index)
+		end
+
+feature -- Line ends
+
+	new_end_of_line_character: EL_END_OF_LINE_CHAR_TP
+			-- Matches new line or EOF
+		do
+			create Result.make
+		end
+
+	new_start_of_line: EL_BEGINNING_OF_LINE_TP
+			-- Match start of line position
+		do
+			create Result
 		end
 
 feature -- Character
@@ -58,12 +72,6 @@ feature -- Character
 			--
 		do
 			create Result
-		end
-
-	new_end_of_line_character: EL_END_OF_LINE_CHAR_TP
-			-- Matches new line or EOF
-		do
-			create Result.make
 		end
 
 	new_letter: EL_ALPHA_CHAR_TP

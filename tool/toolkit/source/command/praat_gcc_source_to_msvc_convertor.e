@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2022-11-16 16:33:27 GMT (Wednesday 16th November 2022)"
+	revision: "14"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR
@@ -22,7 +22,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_TEXT_PATTERN_FACTORY
+	EL_TEXT_PATTERN_FACTORY_2
 		export
 			{NONE} all
 		end
@@ -145,10 +145,10 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-	set_praat_version_no (text: EL_STRING_VIEW)
+	set_praat_version_no (output_directory_text: ZSTRING; start_index, end_index: INTEGER)
 			--
 		do
-			praat_version_no := text
+			praat_version_no := output_directory_text.substring (start_index, end_index)
 		end
 
 	set_version_from_path (
@@ -157,18 +157,19 @@ feature {NONE} -- Implementation
 	)
 			--
 		local
-			path_processor: EL_SOURCE_TEXT_PROCESSOR
+			path_processor: EL_SOURCE_TEXT_PROCESSOR; output_directory_text: ZSTRING
 		once
 			log.enter_with_args ("set_version_from_path", [output_directory])
+			output_directory_text := output_directory
 			create path_processor.make_with_delimiter (
 				all_of (<<
 					character_literal (Operating_environment.Directory_separator),
 					string_literal ("sources_"),
-					(character_in_range ('0', '9') #occurs (4 |..| 4)) |to| agent set_praat_version_no
+					(character_in_range ('0', '9') #occurs (4 |..| 4)) |to| agent set_praat_version_no (output_directory_text, ? , ?)
 				>>)
 			)
-			path_processor.set_source_text (output_directory.to_string)
-			path_processor.do_all
+			path_processor.set_source_text (output_directory_text)
+			path_processor.do_all (Void)
 			log.exit
 		end
 
@@ -178,8 +179,8 @@ feature {NONE} -- Evolicity
 			--
 		do
 			create Result.make (<<
-				["c_library_name_list",	 agent: ITERABLE [ZSTRING] do Result := make_file_parser.c_library_name_list end],
-				["praat_version_no",		 agent: ZSTRING do Result := praat_version_no end]
+				["c_library_name_list",	agent: ITERABLE [ZSTRING] do Result := make_file_parser.c_library_name_list end],
+				["praat_version_no",		agent: ZSTRING do Result := praat_version_no end]
 			>>)
 		end
 
@@ -210,8 +211,6 @@ feature {NONE} -- Constants
 		echo FINISHED!
 		pause
 	]"
-
-	Is_zstring_source: BOOLEAN = True
 
 	Praat_source: ZSTRING
 		once

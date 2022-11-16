@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 17:35:45 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2022-11-16 15:33:06 GMT (Wednesday 16th November 2022)"
+	revision: "17"
 
 class
 	EL_SEARCH_TERM_PARSER [G -> EL_WORD_SEARCHABLE]
@@ -105,7 +105,7 @@ feature {NONE} -- Text patterns
 	either_search_term: like all_of
 			--
 		do
-			Result := all_of_separated_by (non_breaking_white_space, <<
+			Result := all_of_separated_by (nonbreaking_white_space, <<
 				positive_or_negated_search_term, string_literal ("OR"), recurse (agent search_term, 1)
 			>>)
 			Result.set_action_last (agent on_either_search_term)
@@ -115,7 +115,7 @@ feature {NONE} -- Text patterns
 			--
 		do
 			Result := all_of (<<
-				search_term, zero_or_more (all_of (<< non_breaking_white_space, search_term >>) )
+				search_term, zero_or_more (all_of (<< nonbreaking_white_space, search_term >>) )
 			>>)
 		end
 

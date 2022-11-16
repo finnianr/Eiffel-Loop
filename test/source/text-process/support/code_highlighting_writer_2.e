@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 7:44:46 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2022-11-16 16:01:51 GMT (Wednesday 16th November 2022)"
+	revision: "18"
 
 class
 	CODE_HIGHLIGHTING_WRITER_2
@@ -87,7 +87,7 @@ feature {NONE} -- Pattern definitions
 				comment									|to| agent put_emphasis (?, ?, "comment"),
 
 				unescaped_manifest_string (Void)	|to| agent put_emphasis (?, ?, "quote"),
-				quoted_string ('"', Void)			|to| agent put_emphasis (?, ?, "quote"),
+				quoted_string (Void)					|to| agent put_emphasis (?, ?, "quote"),
 				quoted_character (Void)				|to| agent put_emphasis (?, ?, "quote"),
 
 				array_brackets							|to| agent put_emphasis (?, ?, "class"),

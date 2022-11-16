@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2022-11-16 14:53:16 GMT (Wednesday 16th November 2022)"
+	revision: "6"
 
 class
 	UPGRADE_DEFAULT_POINTER_SYNTAX_EDITOR
@@ -19,6 +19,8 @@ class
 
 inherit
 	EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR
+
+	STRING_HANDLER
 
 create
 	make
@@ -34,7 +36,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Pattern definitions
 
-	search_patterns: ARRAYED_LIST [EL_TEXT_PATTERN]
+	search_patterns: ARRAYED_LIST [EL_TEXT_PATTERN_2]
 		do
 			create Result.make_from_array (<<
 				pointer_comparison,
@@ -62,20 +64,20 @@ feature {NONE} -- Pattern definitions
 			Result := all_of ( << one_character_from ("Dd"), string_literal ("efault_pointer")>> )
 		end
 
-	one_or_two_spaces: EL_MATCH_COUNT_WITHIN_BOUNDS_TP
+	one_or_two_spaces: EL_MATCH_COUNT_WITHIN_BOUNDS_TP_2
 		do
 			Result := character_literal (' ') #occurs (1 |..| 2)
 		end
 
 feature {NONE} -- Parsing actions
 
-	on_variable_name (text: EL_STRING_VIEW)
+	on_variable_name (start_index, end_index: INTEGER)
 			--
 		do
-			variable_name := text
+			variable_name := source_substring (start_index, end_index, False)
 		end
 
-	on_pointer_comparison (text: EL_STRING_VIEW)
+	on_pointer_comparison (start_index, end_index: INTEGER)
 			--
 		do
 			if is_equal_comparison then
@@ -85,10 +87,10 @@ feature {NONE} -- Parsing actions
 			end
 		end
 
-	on_comparison_operator (text: EL_STRING_VIEW)
+	on_comparison_operator (start_index, end_index: INTEGER)
 			--
 		do
-			is_equal_comparison := text.to_string_8.item (1) = '='
+			is_equal_comparison := source_text.item_8 (start_index) = '='
 		end
 
 feature {NONE} -- Implementation

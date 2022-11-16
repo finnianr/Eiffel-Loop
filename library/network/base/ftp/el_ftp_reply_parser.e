@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-11-16 15:33:05 GMT (Wednesday 16th November 2022)"
+	revision: "3"
 
 class
 	EL_FTP_REPLY_PARSER
 
 inherit
 	EL_SOURCE_TEXT_PROCESSOR
+		redefine
+			source_text
+		end
 
 	EL_TEXT_PATTERN_FACTORY
 
@@ -24,6 +27,8 @@ feature {NONE} -- Initialization
 
 	make
 		do
+			create source_text.make_empty
+			set_optimal_core (source_text)
 			make_with_delimiter (ftp_reply_pattern)
 		end
 
@@ -35,16 +40,16 @@ feature -- Access
 
 feature {NONE} -- Event handling
 
-	on_ftp_cmd_result (quoted_text: EL_STRING_VIEW)
+	on_ftp_cmd_result (start_index, end_index: INTEGER)
 			--
 		do
-			last_ftp_cmd_result := quoted_text
+			last_ftp_cmd_result := source_substring (start_index, end_index, True)
 		end
 
-	on_reply_code (reply_code_str: EL_STRING_VIEW)
+	on_reply_code (start_index, end_index: INTEGER)
 			--
 		do
-			last_reply_code := reply_code_str.to_string_8.to_integer
+			last_reply_code := source_substring (start_index, end_index, False).to_integer
 		end
 
 feature {NONE} -- Pattern
@@ -52,7 +57,7 @@ feature {NONE} -- Pattern
 	double_quote: EL_LITERAL_CHAR_TP
 			--
 		do
-			create Result.make ({ASCII}.Doublequote.to_natural_32)
+			create Result.make ('"')
 		end
 
 	ftp_reply_pattern: like all_of
@@ -60,8 +65,8 @@ feature {NONE} -- Pattern
 		do
 			Result := all_of (<<
 				start_of_line,
-				integer |to| agent on_reply_code,
-				optional (all_of (<< non_breaking_white_space, quoted_string_pattern >> ))
+				signed_integer |to| agent on_reply_code,
+				optional (all_of (<< nonbreaking_white_space, quoted_string_pattern >> ))
 			>> )
 		end
 
@@ -78,4 +83,7 @@ feature {NONE} -- Pattern
 			>> )
 		end
 
+feature {NONE} -- Internal attributes
+
+	source_text: STRING
 end

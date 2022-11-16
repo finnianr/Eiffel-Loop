@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2022-11-16 16:02:14 GMT (Wednesday 16th November 2022)"
+	revision: "9"
 
 class
 	LOG_LINE_COMMENTING_OUT_SOURCE_EDITOR
@@ -34,11 +34,11 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Pattern definitions
 
-	search_patterns: ARRAYED_LIST [EL_TEXT_PATTERN]
+	search_patterns: ARRAYED_LIST [EL_TEXT_PATTERN_2]
 		do
 			create Result.make_from_array (<<
-				end_of_line_character |to| agent on_unmatched_text,
-				logging_statement  |to| agent on_logging_statement
+				end_of_line_character	|to| agent on_unmatched_text,
+				logging_statement			|to| agent on_logging_statement
 			>>)
 		end
 
@@ -52,13 +52,13 @@ feature {NONE} -- Pattern definitions
 			--
 		do
 			Result := all_of ( <<
-				maybe_non_breaking_white_space,
+				optional_nonbreaking_white_space,
 				one_of (<<
 					string_literal ("log."),
 					string_literal ("log_or_io.")
 				>>),
 				identifier,
-				all_of (<< maybe_white_space, bracketed_expression >>) #occurs (0 |..| 1)
+				all_of (<< optional_white_space, bracketed_expression >>) #occurs (0 |..| 1)
 			>> )
 		end
 
@@ -66,12 +66,12 @@ feature {NONE} -- Pattern definitions
 			--
 		do
 			Result := all_of ( <<
-				maybe_non_breaking_white_space,
+				optional_nonbreaking_white_space,
 				string_literal ("redirect_thread_to_console"),
-				maybe_non_breaking_white_space,
+				optional_nonbreaking_white_space,
 				all_of (<<
 					character_literal ('('),
-					numeric_constant,
+					decimal_constant,
 					character_literal (')')
 				>>)
 			>> )
@@ -79,10 +79,10 @@ feature {NONE} -- Pattern definitions
 
 feature {NONE} -- Parsing actions
 
-	on_logging_statement (text: EL_STRING_VIEW)
+	on_logging_statement (start_index, end_index: INTEGER)
 			--
 		do
-			string_tokenizer_by_new_line.set_from_string (text)
+			string_tokenizer_by_new_line.set_from_string (source_substring (start_index, end_index, True))
 			from
 				string_tokenizer_by_new_line.start
 			until
