@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 16:02:14 GMT (Wednesday 16th November 2022)"
-	revision: "9"
+	date: "2022-11-16 17:03:15 GMT (Wednesday 16th November 2022)"
+	revision: "10"
 
 class
 	LOG_LINE_COMMENTING_OUT_SOURCE_EDITOR
@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			create string_tokenizer_by_new_line.make ("%N")
-			create string_tokenizer_by_eiffel_comment_marker.make_with_delimiter (comment_prefix)
+			create string_tokenizer_by_eiffel_comment_marker.make_with_delimiter (agent comment_prefix)
 		end
 
 feature {NONE} -- Pattern definitions

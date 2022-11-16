@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 15:33:05 GMT (Wednesday 16th November 2022)"
-	revision: "3"
+	date: "2022-11-16 16:56:33 GMT (Wednesday 16th November 2022)"
+	revision: "4"
 
 class
 	EL_FTP_REPLY_PARSER
@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 		do
 			create source_text.make_empty
 			set_optimal_core (source_text)
-			make_with_delimiter (ftp_reply_pattern)
+			make_with_delimiter (agent ftp_reply_pattern)
 		end
 
 feature -- Access

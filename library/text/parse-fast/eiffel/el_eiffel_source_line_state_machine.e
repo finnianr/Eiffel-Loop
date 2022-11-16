@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 13:45:03 GMT (Wednesday 16th November 2022)"
-	revision: "12"
+	date: "2022-11-16 16:35:36 GMT (Wednesday 16th November 2022)"
+	revision: "13"
 
 class
 	EL_EIFFEL_SOURCE_LINE_STATE_MACHINE
@@ -17,8 +17,6 @@ inherit
 		redefine
 			call, make
 		end
-
-	EL_EIFFEL_KEYWORDS
 
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
 		rename

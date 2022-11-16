@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 15:10:30 GMT (Wednesday 16th November 2022)"
-	revision: "10"
+	date: "2022-11-16 17:02:50 GMT (Wednesday 16th November 2022)"
+	revision: "11"
 
 class
 	EL_PATTERN_SPLIT_STRING_LIST
@@ -47,14 +47,14 @@ feature {NONE} -- Initialization
 			character_set: ZSTRING
 		do
 			character_set := a_character_set
-			make_with_delimiter (one_character_from (character_set))
+			make_with_delimiter (agent one_character_from (character_set))
 		end
 
-	make_with_delimiter (a_pattern: EL_TEXT_PATTERN)
+	make_with_delimiter (a_new_delimiting_pattern: FUNCTION [EL_TEXT_PATTERN])
 
 		do
 			make_list
-			Precursor (a_pattern)
+			Precursor (a_new_delimiting_pattern)
 		end
 
 feature -- Element change

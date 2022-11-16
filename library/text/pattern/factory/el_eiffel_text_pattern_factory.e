@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 16:16:08 GMT (Wednesday 16th November 2022)"
-	revision: "3"
+	date: "2022-11-16 16:35:52 GMT (Wednesday 16th November 2022)"
+	revision: "4"
 
 deferred class
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
@@ -19,6 +19,8 @@ inherit
 		end
 
 	EL_SHARED_ZSTRING_CODEC
+
+	EL_EIFFEL_KEYWORDS
 
 feature {NONE} -- Eiffel text patterns
 

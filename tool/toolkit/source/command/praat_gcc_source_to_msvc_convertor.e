@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 16:33:27 GMT (Wednesday 16th November 2022)"
-	revision: "14"
+	date: "2022-11-16 17:00:15 GMT (Wednesday 16th November 2022)"
+	revision: "15"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR
@@ -39,6 +39,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			make_default
 
 			create praat_version_no.make_empty
+			create output_directory_text.make_empty
 			create directory_content_processor.make (input_dir, output_dir #+ input_dir.base)
 
 			directory_content_processor.do_all (agent set_version_from_path, Praat_source)
@@ -145,7 +146,7 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-	set_praat_version_no (output_directory_text: ZSTRING; start_index, end_index: INTEGER)
+	set_praat_version_no (start_index, end_index: INTEGER)
 			--
 		do
 			praat_version_no := output_directory_text.substring (start_index, end_index)
@@ -157,20 +158,24 @@ feature {NONE} -- Implementation
 	)
 			--
 		local
-			path_processor: EL_SOURCE_TEXT_PROCESSOR; output_directory_text: ZSTRING
+			path_processor: EL_SOURCE_TEXT_PROCESSOR
 		once
 			log.enter_with_args ("set_version_from_path", [output_directory])
 			output_directory_text := output_directory
-			create path_processor.make_with_delimiter (
-				all_of (<<
-					character_literal (Operating_environment.Directory_separator),
-					string_literal ("sources_"),
-					(character_in_range ('0', '9') #occurs (4 |..| 4)) |to| agent set_praat_version_no (output_directory_text, ? , ?)
-				>>)
-			)
+
+			create path_processor.make_with_delimiter (agent output_directory_pattern)
 			path_processor.set_source_text (output_directory_text)
 			path_processor.do_all (Void)
 			log.exit
+		end
+
+	output_directory_pattern: like all_of
+		do
+			Result := all_of (<<
+				character_literal (Operating_environment.Directory_separator),
+				string_literal ("sources_"),
+				(digit #occurs (4 |..| 4)) |to| agent set_praat_version_no (? , ?)
+			>>)
 		end
 
 feature {NONE} -- Evolicity
@@ -191,6 +196,8 @@ feature {NONE} -- Internal attributes
 	directory_content_processor: EL_DIRECTORY_CONTENT_PROCESSOR
 
 	make_file_parser: PRAAT_MAKE_FILE_PARSER
+
+	output_directory_text: ZSTRING
 
 	praat_version_no: STRING
 
