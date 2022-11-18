@@ -6,30 +6,35 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "22"
+	date: "2022-11-18 6:20:29 GMT (Friday 18th November 2022)"
+	revision: "23"
 
 class
-	STRING_EXPERIMENTS
+	STRING_TEST_SET
 
 inherit
-	EXPERIMENTAL
+	EL_EQA_TEST_SET
 
-	EL_MODULE_HEXADECIMAL
-
-	EL_SHARED_ENCODINGS
-
-	EL_MODULE_EIFFEL
+	EL_MODULE_CONSOLE; EL_MODULE_EIFFEL; EL_MODULE_HEXADECIMAL; EL_MODULE_LIO
 
 	EL_MODULE_USER_INPUT
 
-	EL_MODULE_CONSOLE
+	EL_SHARED_ENCODINGS
 
 	EL_SHARED_ZCODEC_FACTORY
 
 	EL_ENCODING_CONSTANTS
 
-	STRING_HANDLER
+	STRING_HANDLER undefine default_create end
+
+feature -- Basic operations
+
+	do_all (eval: EL_TEST_SET_EVALUATOR)
+		-- evaluate all tests
+		do
+		end
+
+feature -- Tests
 
 feature -- Basic operations
 

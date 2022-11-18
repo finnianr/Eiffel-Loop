@@ -167,6 +167,14 @@ currency.ecf
 See class [$source CURRENCY_TEST_APP]
 			</description>
 		</cluster>
+		<cluster name = "eiffel" location = "source/eiffel" recursive = "true">
+			<description>
+Eiffel Core Concepts
+
+Test core concepts and behaviour of basic Eiffel code and libraries.
+See class [$source EIFFEL_AUTOTEST_APP]
+			</description>
+		</cluster>
 		<cluster name = "encryption" location = "source/encryption" recursive = "true">
 			<description>
 encryption.ecf

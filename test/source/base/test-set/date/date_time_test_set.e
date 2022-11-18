@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "21"
+	date: "2022-11-18 7:12:12 GMT (Friday 18th November 2022)"
+	revision: "22"
 
 class
 	DATE_TIME_TEST_SET
@@ -15,9 +15,9 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_DATE
+	EL_MODULE_DATE; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_LIO; EL_MODULE_TUPLE
 
-	EL_MODULE_TUPLE
+	TIME_VALIDITY_CHECKER undefine default_create end
 
 feature -- Basic operations
 
@@ -32,6 +32,9 @@ feature -- Basic operations
 			eval.call ("from_canonical_iso_8601_formatted", agent test_from_canonical_iso_8601_formatted)
 			eval.call ("from_iso_8601_formatted", agent test_from_iso_8601_formatted)
 			eval.call ("time_zone_designator", agent test_time_zone_designator)
+			eval.call ("time_input_formats", agent test_time_input_formats)
+			eval.call ("execution_timer", agent test_execution_timer)
+			eval.call ("time_format_out", agent test_time_format_out)
 		end
 
 feature -- Tests
@@ -108,6 +111,31 @@ feature -- Tests
 			assert ("same time", date_time ~ Date.from_ISO_8601_formatted (Date_2017.ISO_8601_short))
 		end
 
+	test_time_input_formats
+		local
+			from_time, to_time: TIME; l_duration: TIME_DURATION
+			l_format, from_str, to_str: STRING
+		do
+			l_format := "[0]mi:[0]ss.ff3"
+			from_str := "01:01.500"; to_str := "01:03.001"
+			if is_valid_time (from_str) and is_valid_time (to_str) then
+				if time_valid (from_str, l_format) and time_valid (to_str, l_format) then
+					create from_time.make_from_string (from_str, l_format)
+					create to_time.make_from_string (to_str, l_format)
+					lio.put_labeled_string ("From", from_str); lio.put_labeled_string (" to", to_str)
+					lio.put_new_line
+					lio.put_labeled_string ("From", from_time.out); lio.put_labeled_string (" to", to_time.out)
+					lio.put_new_line
+					l_duration := to_time.relative_duration (from_time)
+					lio.put_double_field ("Fine seconds", l_duration.fine_seconds_count)
+				else
+					assert ("Bug in `time_valid' precondition routine", True)
+				end
+			else
+				assert ("Invalid time format", False)
+			end
+		end
+
 	test_time_zone_designator
 		local
 			dt, dt_2: EL_DATE_TIME
@@ -118,6 +146,68 @@ feature -- Tests
 
 			create dt.make_with_format ("Sun Apr 9 2016 19:35:01 GMT-0700 (GMT)", "Ddd Mmm dd yyyy [0]hh:[0]mi:[0]ss tzd (tzd)")
 			assert ("same GMT date", dt ~ dt_2)
+		end
+
+feature -- Observation Tests
+
+	test_execution_timer
+		note
+			testing: "covers/{EL_EXECUTION_TIMER}.make",
+				"covers/{EL_EXECUTION_TIMER}.start",
+				"covers/{EL_EXECUTION_TIMER}.stop",
+				"covers/{EL_EXECUTION_TIMER}.resume"
+		local
+			this_year, last_year, now: DATE_TIME; elapsed: EL_TIME_DURATION
+			timer: EL_EXECUTION_TIMER
+		do
+			create this_year.make (2017, 6, 11, 23, 10, 10)
+			create last_year.make (2016, 6, 11, 23, 10, 10)
+
+			lio.put_integer_field ("Year days", this_year.relative_duration (last_year).date.day)
+			lio.put_new_line
+
+			create now.make_now
+			create elapsed.make_by_fine_seconds (now.relative_duration (this_year).fine_seconds_count)
+			lio.put_labeled_string ("TIME", elapsed.out)
+			lio.put_new_line
+
+			create timer.make
+			lio.put_labeled_string ("TIME", timer.elapsed_time.out)
+			lio.put_new_line
+			timer.start
+			execution.sleep (500)
+			timer.stop
+			timer.resume
+			execution.sleep (500)
+			timer.stop
+			lio.put_labeled_string ("TIME", timer.elapsed_time.out)
+			lio.put_new_line
+		end
+
+	test_time_format_out
+		local
+			now: DATE_TIME; const: DATE_CONSTANTS; day_text: ZSTRING
+		do
+			create const
+			create now.make_now
+			day_text := const.days_text.item (now.date.day_of_the_week)
+			day_text.to_proper_case
+			lio.put_labeled_string ("Time", day_text + now.formatted_out (", yyyy-[0]mm-[0]dd hh:[0]mi:[0]ss") + " GMT")
+			lio.put_new_line
+		end
+
+feature {NONE} -- Implementation
+
+	is_valid_time (str: STRING): BOOLEAN
+		local
+			parts: LIST [STRING]; mins, secs: STRING
+		do
+			parts := str.split (':')
+			if parts.count = 2 then
+				mins := parts [1]; secs := parts [2]
+				secs.prune_all_leading ('0')
+				Result := mins.is_integer and secs.is_real
+			end
 		end
 
 feature {NONE} -- Constants

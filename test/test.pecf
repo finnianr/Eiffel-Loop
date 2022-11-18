@@ -192,6 +192,15 @@ system:
 					See class [$source CURRENCY_TEST_APP]
 				"""
 		cluster_tree:
+			eiffel = "source/eiffel"
+			description:
+				"""
+					Eiffel Core Concepts
+
+					Test core concepts and behaviour of basic Eiffel code and libraries.
+					See class [$source EIFFEL_AUTOTEST_APP]
+				"""
+		cluster_tree:
 			encryption = "source/encryption"
 			description:
 				"""

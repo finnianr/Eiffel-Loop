@@ -6,13 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2022-11-18 5:59:02 GMT (Friday 18th November 2022)"
+	revision: "4"
 
 class
 	INCLUDE_CLASSES
 
 feature {NONE} -- Compiled
+
+	compile: TUPLE [
+		EL_TEST_SET_BRIDGE, LIBGCC1, MY_WET_CLASS, MY_DRY_CLASS
+	]
+		do
+			create Result
+		end
 
 	el_app_manage: TUPLE [
 		EL_STANDARD_REMOVE_DATA_APP

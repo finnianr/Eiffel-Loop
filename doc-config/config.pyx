@@ -180,6 +180,7 @@ publish-repository:
 			"test/test.ecf#compression"
 			"test/test.ecf#currency"
 			"test/test.ecf#eco_db"
+			"test/test.ecf#eiffel"
 			"test/test.ecf#encryption"
 			"test/test.ecf#eros"
 			"test/test.ecf#evolicity"

@@ -6,19 +6,33 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2022-11-18 6:19:03 GMT (Friday 18th November 2022)"
+	revision: "8"
 
 class
-	NUMERIC_EXPERIMENTS
+	NUMERIC_TEST_SET
 
 inherit
-	EXPERIMENTAL
+	EL_EQA_TEST_SET
+
+	EL_MODULE_LIO
 
 	DOUBLE_MATH
 		rename
 			pi as pi_double
+		undefine
+			default_create
 		end
+
+feature -- Basic operations
+
+	do_all (eval: EL_TEST_SET_EVALUATOR)
+		-- evaluate all tests
+		do
+		end
+
+feature -- Tests
+
 
 feature -- Basic operations
 

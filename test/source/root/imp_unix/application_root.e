@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "71"
+	date: "2022-11-18 5:45:40 GMT (Friday 18th November 2022)"
+	revision: "72"
 
 class
 	APPLICATION_ROOT
@@ -22,7 +22,8 @@ inherit
 	-- For maintenance purposes only
 		MEDIA_PLAYER_DUMMY_APP,
 
-		EXPERIMENTS_APP,
+		EIFFEL_AUTOTEST_APP,
+	-- Test core concepts and behaviour of basic Eiffel code and libraries
 
 	-- Test network.ecf (Do first to give time for socket address to be released for EROS_AUTOTEST_APP)
 		NETWORK_AUTOTEST_APP,

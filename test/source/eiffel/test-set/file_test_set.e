@@ -6,16 +6,28 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2022-11-18 6:22:04 GMT (Friday 18th November 2022)"
+	revision: "16"
 
 class
-	FILE_EXPERIMENTS
+	FILE_TEST_SET
 
 inherit
-	EXPERIMENTAL
+	EL_EQA_TEST_SET
 
-	EL_MODULE_DIRECTORY; EL_MODULE_OS; EL_MODULE_SYSTEM
+	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_LIO
+
+	EL_MODULE_OS; EL_MODULE_SYSTEM
+
+feature -- Basic operations
+
+	do_all (eval: EL_TEST_SET_EVALUATOR)
+		-- evaluate all tests
+		do
+		end
+
+feature -- Tests
+
 
 feature -- Basic operations
 

@@ -6,34 +6,48 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2022-11-18 6:32:07 GMT (Friday 18th November 2022)"
+	revision: "7"
 
 class
-	AGENT_EXPERIMENTS
+	AGENT_TEST_SET
 
 inherit
-	EXPERIMENTAL
+	EL_EQA_TEST_SET
 
-	EL_MODULE_EIFFEL
+	EL_MODULE_EIFFEL; EL_MODULE_LIO
 
-	EL_ROUTINE_INFO_FACTORY
+	EL_ROUTINE_INFO_FACTORY undefine default_create end
 
 feature -- Basic operations
 
-	function_info
+	do_all (eval: EL_TEST_SET_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("function_info", agent test_function_info)
+		end
+
+feature -- Tests
+
+	test_function_info
+		note
+			testing: "covers/{EL_FUNCTION_INFO}.make"
 		do
 			if attached {EL_FUNCTION_INFO} new_routine_info ("filled_array", agent filled_array) as info then
-				lio.put_labeled_string ("name", info.name)
-				lio.put_new_line
+				assert ("same string", info.name ~ "filled_array")
 				across info.argument_types as arg loop
-					lio.put_labeled_string ("arg "+ arg.cursor_index.out, arg.item.name)
-					lio.put_new_line
+					inspect arg.cursor_index
+						when 1 then
+							assert ("same string", arg.item.name.same_string ("INTEGER_32"))
+						when 2 then
+							assert ("same string", arg.item.name.same_string ("STRING_8"))
+					end
 				end
-				lio.put_labeled_string ("result", info.result_type.name)
-				lio.put_new_line
+				assert ("same string", info.result_type.name.same_string ("ARRAY [STRING_8]"))
 			end
 		end
+
+feature -- Basic operations
 
 	function_result_query
 		local
