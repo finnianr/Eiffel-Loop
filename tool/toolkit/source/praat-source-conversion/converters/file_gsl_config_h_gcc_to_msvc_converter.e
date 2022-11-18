@@ -37,8 +37,6 @@ inherit
 			delimiting_pattern
 		end
 
-	EL_C_PATTERN_FACTORY
-
 create
 	make
 
@@ -62,7 +60,7 @@ feature {NONE} -- C constructs
 				repeat_p1_until_p2 (
 					-- Pattern 1
 					one_of (<<
-						c_identifier,
+						identifier,
 						one_character_from ("|()"),
 						white_space_character
 					>>),
@@ -75,7 +73,7 @@ feature {NONE} -- C constructs
 
 feature {NONE} -- Match actions
 
-	on_if (text: EL_STRING_VIEW)
+	on_if (start_index, end_index: INTEGER)
 			--
 		do
 			put_string ("#if defined (_MSC_VER) // MS Visual C++")

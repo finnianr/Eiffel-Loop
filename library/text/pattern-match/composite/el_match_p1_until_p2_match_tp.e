@@ -1,13 +1,13 @@
 note
-	description: "Match p1 until p2 match tp"
+	description: "Match pattern **p1** repeatedly until **p2** matches"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2022-11-18 17:54:12 GMT (Friday 18th November 2022)"
+	revision: "7"
 
 class
 	EL_MATCH_P1_UNTIL_P2_MATCH_TP

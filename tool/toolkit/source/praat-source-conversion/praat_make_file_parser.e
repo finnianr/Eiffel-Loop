@@ -13,12 +13,14 @@ class
 	PRAAT_MAKE_FILE_PARSER
 
 inherit
-	EL_FILE_PARSER
+	EL_FILE_PARSER_2
 		export
 			{NONE} all
+		redefine
+			source_text
 		end
 
-	EL_TEXT_PATTERN_FACTORY
+	EL_C_LANGUAGE_PATTERN_FACTORY
 		export
 			{NONE} all
 		end
@@ -42,34 +44,24 @@ feature -- Basic operations
 		do
 			create c_library.make
 			set_source_text_from_file (make_file_path)
-			find_all
+			find_all (Void)
 		end
 
 feature {NONE} -- Patterns
 
-	new_pattern: like one_of
-			--
-		do
-			Result := one_of (<<
-				c_flag_include_list_assignment,
-				c_object_list_assignment,
-				make_target_rule
-			>>)
-		end
+	c_flag_include_list_assignment: like all_of
+			-- List of include passed to compiler
+			-- Assumes all on one line and not split across several lines
 
-	c_object_list_assignment: like all_of
-			-- List of target objects assigned to 'OBJECTS' variable as in example:
+			--    CFLAGS = -I ../sys -I ../fon -I ../dwtools -I ../GSL -I ../dwsys
 
-			--    OBJECTS = NUM.o NUMarrays.o NUMrandom.o NUMsort.o NUMear.o \
-			--         enum.o abcio.o lispio.o longchar.o complex.o
-			--
 		do
 			Result := all_of (<<
-				string_literal ("OBJECTS"),
-				maybe_non_breaking_white_space,
+				string_literal ("CFLAGS"),
+				optional_nonbreaking_white_space,
 				character_literal ('='),
-				maybe_non_breaking_white_space,
-				c_object_list
+				optional_nonbreaking_white_space,
+				include_option_list
 			>>)
 		end
 
@@ -87,10 +79,26 @@ feature {NONE} -- Patterns
 --					pattern 2
 					all_of ( <<
 						c_object_name,
-						one_of (<< line_continuation_backslash, non_breaking_white_space  >>)
+						one_of (<< line_continuation_backslash, nonbreaking_white_space  >>)
 					>>)
 
 				)
+			>>)
+		end
+
+	c_object_list_assignment: like all_of
+			-- List of target objects assigned to 'OBJECTS' variable as in example:
+
+			--    OBJECTS = NUM.o NUMarrays.o NUMrandom.o NUMsort.o NUMear.o \
+			--         enum.o abcio.o lispio.o longchar.o complex.o
+			--
+		do
+			Result := all_of (<<
+				string_literal ("OBJECTS"),
+				optional_nonbreaking_white_space,
+				character_literal ('='),
+				optional_nonbreaking_white_space,
+				c_object_list
 			>>)
 		end
 
@@ -98,24 +106,18 @@ feature {NONE} -- Patterns
 			--
 		do
 			Result := all_of (<<
-				c_identifier |to| agent on_c_object_name,
+				identifier |to| agent on_c_object_name,
 				string_literal (".o")
 			>>)
 		end
 
-	c_flag_include_list_assignment: like all_of
-			-- List of include passed to compiler
-			-- Assumes all on one line and not split across several lines
-
-			--    CFLAGS = -I ../sys -I ../fon -I ../dwtools -I ../GSL -I ../dwsys
-
+	include_option: like all_of
+			--
 		do
 			Result := all_of (<<
-				string_literal ("CFLAGS"),
-				maybe_non_breaking_white_space,
-				character_literal ('='),
-				maybe_non_breaking_white_space,
-				include_option_list
+				string_literal ("-I"),
+				optional_nonbreaking_white_space,
+				include_path
 			>>)
 		end
 
@@ -128,33 +130,23 @@ feature {NONE} -- Patterns
 					all_of (<< include_option, end_of_line_character >>),
 
 --					pattern 2
-					all_of (<< include_option, non_breaking_white_space >>)
+					all_of (<< include_option, nonbreaking_white_space >>)
 
 				)
-			>>)
-		end
-
-	include_option: like all_of
-			--
-		do
-			Result := all_of (<<
-				string_literal ("-I"),
-				maybe_non_breaking_white_space,
-				include_path
 			>>)
 		end
 
 	include_path: like one_or_more
 			--
 		do
-			Result := one_or_more (one_of (<< string_literal ("../"), c_identifier >>)) |to| agent on_include_path
+			Result := one_or_more (one_of (<< string_literal ("../"), identifier >>)) |to| agent on_include_path
 		end
 
 	line_continuation_backslash: like all_of
 			--
 		do
 			Result := all_of (<<
-				maybe_non_breaking_white_space,
+				optional_nonbreaking_white_space,
 				character_literal ('\'),
 				white_space
 			>>)
@@ -165,36 +157,48 @@ feature {NONE} -- Patterns
 		do
 			Result := all_of (<<
 				string_literal ("all:"),
-				maybe_non_breaking_white_space,
+				optional_nonbreaking_white_space,
 				string_literal ("lib"),
-				c_identifier |to| agent on_make_target_rule_library_name,
+				identifier |to| agent on_make_target_rule_library_name,
 				string_literal (".a"),
 				white_space
 			>>)
 		end
 
-feature -- Pattern match handlers
-
-	on_make_target_rule_library_name (library_name: EL_STRING_VIEW)
+	new_pattern: like one_of
 			--
 		do
-			c_library.set_library_name (library_name)
-			c_library_name_list.extend (library_name)
+			Result := one_of (<<
+				c_flag_include_list_assignment,
+				c_object_list_assignment,
+				make_target_rule
+			>>)
 		end
 
-	on_c_object_name (name: EL_STRING_VIEW)
+feature -- Pattern match handlers
+
+	on_c_object_name (start_index, end_index: INTEGER)
 			--
 		local
 			object_name: ZSTRING
 		do
-			object_name := name
+			object_name := source_substring (start_index, end_index, True)
 			c_library.add_c_library_object_name (object_name)
 		end
 
-	on_include_path (path: EL_STRING_VIEW)
+	on_include_path (start_index, end_index: INTEGER)
 			--
 		do
-			c_library.add_include_directory (path)
+			c_library.add_include_directory (source_substring (start_index, end_index, True))
+		end
+
+	on_make_target_rule_library_name (start_index, end_index: INTEGER)
+			--
+		do
+			if attached source_substring (start_index, end_index, True) as library_name then
+				c_library.set_library_name (library_name)
+				c_library_name_list.extend (library_name)
+			end
 		end
 
 feature -- Access
@@ -203,4 +207,7 @@ feature -- Access
 
 	c_library_name_list: LINKED_LIST [ZSTRING]
 
+feature {NONE} -- Internal attributes
+
+	source_text: ZSTRING
 end

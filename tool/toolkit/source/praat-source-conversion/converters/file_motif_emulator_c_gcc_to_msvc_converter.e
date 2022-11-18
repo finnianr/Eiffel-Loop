@@ -18,8 +18,6 @@ inherit
 			delimiting_pattern
 		end
 
-	EL_C_PATTERN_FACTORY
-
 create
 	make
 
@@ -49,22 +47,21 @@ feature {NONE} -- C constructs
 			--	}
 		do
 			Result := all_of (<<
-				non_breaking_white_space,
+				nonbreaking_white_space,
 				string_literal ("int APIENTRY WinMain"),
-				non_breaking_white_space,
+				nonbreaking_white_space,
 				character_literal ('('),
 				repeat_p1_until_p2 (
 					-- pattern 1
 					one_of (<<
-						c_identifier,
+						identifier,
 						character_literal (','),
-						non_breaking_white_space
+						nonbreaking_white_space
 					>>),
-
 					-- pattern 2
 					character_literal (')')
 				),
-				maybe_white_space,
+				optional_white_space,
 				statement_block
 
 			>>) |to| agent on_praat_winmain_function_statement_block
@@ -72,13 +69,13 @@ feature {NONE} -- C constructs
 
 feature {NONE} -- Match actions
 
-	on_praat_winmain_function_statement_block (text: EL_STRING_VIEW)
+	on_praat_winmain_function_statement_block (start_index, end_index: INTEGER)
 			--
 		do
 			put_new_line
 			put_string ("%T#if ! defined (EIFFEL_APPLICATION)")
 			put_new_line
-			put_string (text)
+			put_string (source_substring (start_index, end_index, False))
 			put_new_line
 			put_string ("%T#endif")
 

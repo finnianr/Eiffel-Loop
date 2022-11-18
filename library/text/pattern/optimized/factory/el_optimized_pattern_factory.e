@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 15:37:23 GMT (Wednesday 16th November 2022)"
-	revision: "3"
+	date: "2022-11-18 17:38:54 GMT (Friday 18th November 2022)"
+	revision: "4"
 
 class
 	EL_OPTIMIZED_PATTERN_FACTORY
@@ -91,6 +91,11 @@ feature -- C language
 	new_c_identifier: EL_MATCH_C_IDENTIFIER_TP
 		do
 			create Result
+		end
+
+	new_c_quoted_character (unescaped_action: detachable PROCEDURE [CHARACTER_32]): EL_MATCH_QUOTED_CHARACTER_TP
+		do
+			create {EL_MATCH_C_LANG_QUOTED_CHARACTER_TP} Result.make (unescaped_action)
 		end
 
 	new_c_quoted_string (

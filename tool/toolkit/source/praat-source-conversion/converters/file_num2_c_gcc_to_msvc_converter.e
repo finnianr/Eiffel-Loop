@@ -20,8 +20,6 @@ inherit
 			delimiting_pattern
 		end
 
-	EL_C_PATTERN_FACTORY
-
 create
 	make
 
@@ -45,10 +43,10 @@ feature {NONE} -- C constructs
 
 feature {NONE} -- Match actions
 
-	on_include_melder_h_macro (text: EL_STRING_VIEW)
+	on_include_melder_h_macro (start_index, end_index: INTEGER)
 			--
 		do
-			put_string (text)
+			put_string (source_substring (start_index, end_index, False))
 			put_new_line
 			put_string ("#include %"gsl__config.h%"")
 		end

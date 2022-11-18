@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 14:44:29 GMT (Wednesday 16th November 2022)"
-	revision: "12"
+	date: "2022-11-18 8:22:16 GMT (Friday 18th November 2022)"
+	revision: "13"
 
 deferred class
 	EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR
@@ -26,7 +26,6 @@ inherit
 	EL_FILE_PARSER_TEXT_EDITOR
 		rename
 			file_path as source_path,
-			quoted_string as basic_quoted_string,
 			set_file_path as set_source_path,
 			set_source_text as set_zstring_source_text
 		undefine

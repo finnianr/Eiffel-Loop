@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 16:56:22 GMT (Wednesday 16th November 2022)"
-	revision: "9"
+	date: "2022-11-18 7:20:17 GMT (Friday 18th November 2022)"
+	revision: "10"
 
 class
 	EL_SOURCE_TEXT_PROCESSOR
@@ -34,11 +34,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make_with_delimiter (a_new_delimiting_pattern: FUNCTION [EL_TEXT_PATTERN])
+	make_with_delimiter (delimiting_pattern_agent: FUNCTION [EL_TEXT_PATTERN])
 
 		do
 			make_default
-			new_delimiting_pattern := a_new_delimiting_pattern
+			new_delimiting_pattern := delimiting_pattern_agent
 		end
 
 feature {NONE} -- Implementation

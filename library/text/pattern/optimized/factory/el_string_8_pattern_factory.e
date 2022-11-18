@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 15:37:58 GMT (Wednesday 16th November 2022)"
-	revision: "3"
+	date: "2022-11-18 17:42:22 GMT (Friday 18th November 2022)"
+	revision: "4"
 
 class
 	EL_STRING_8_PATTERN_FACTORY
@@ -22,7 +22,7 @@ inherit
 			new_string_literal, new_white_space, new_digits_string, new_end_of_line_character,
 			new_c_identifier, new_xml_identifier, new_c_quoted_string, new_eiffel_quoted_string,
 			new_eiffel_quoted_character, new_alphanumeric, new_quoted_string, new_character_in_range,
-			new_start_of_line
+			new_start_of_line, new_c_quoted_character
 		end
 
 feature -- Access
@@ -57,6 +57,13 @@ feature -- C language
 	new_c_identifier: EL_MATCH_STRING_8_C_IDENTIFIER_TP
 		do
 			create Result
+		end
+
+	new_c_quoted_character (
+		unescaped_action: detachable PROCEDURE [CHARACTER_32]
+	): EL_MATCH_STRING_8_C_LANG_QUOTED_CHARACTER_TP
+		do
+			create Result.make (unescaped_action)
 		end
 
 	new_c_quoted_string (

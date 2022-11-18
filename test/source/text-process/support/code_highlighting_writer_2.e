@@ -14,8 +14,6 @@ class
 
 inherit
 	EL_FILE_PARSER_TEXT_EDITOR_2
-		rename
-			quoted_string as basic_quoted_string
 		redefine
 			make_default, on_unmatched_text, new_output, put_editions, source_text
 		end

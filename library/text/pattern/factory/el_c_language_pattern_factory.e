@@ -6,14 +6,52 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 17:35:10 GMT (Wednesday 16th November 2022)"
-	revision: "3"
+	date: "2022-11-18 7:54:30 GMT (Friday 18th November 2022)"
+	revision: "4"
 
 class
 	EL_C_LANGUAGE_PATTERN_FACTORY
 
 inherit
 	EL_CODE_LANGUAGE_PATTERN_FACTORY
+
+feature {NONE} -- C code patterns
+
+	comment: like all_of
+			--
+		do
+			Result := all_of (<<
+				string_literal ("/*"),
+				while_not_p1_repeat_p2 (string_literal ("*/"), any_character)
+			>>)
+		end
+
+	one_line_comment: like all_of
+			--
+		do
+			Result := all_of (<<
+				string_literal ("//"), while_not_p_match_any (end_of_line_character)
+			>>)
+		end
+
+	statement_block: like all_of
+			--
+		do
+			Result := all_of ( <<
+				character_literal ('{'),
+				zero_or_more (
+					one_of (<<
+							comment,
+							one_line_comment,
+							quoted_string (Void),
+							quoted_character (Void),
+							not one_character_from ("{}"),
+							recurse (agent statement_block, 1)
+					>>)
+				),
+				character_literal ('}')
+			>> )
+		end
 
 feature {NONE} -- String patterns
 
@@ -28,12 +66,12 @@ feature {NONE} -- String patterns
 		end
 
 	quoted_string (
-		quote: CHARACTER_32; unescaped_action: detachable PROCEDURE [STRING_GENERAL]
+		unescaped_action: detachable PROCEDURE [STRING_GENERAL]
 	): EL_MATCH_QUOTED_STRING_TP
 		-- match C language string in quotes and call procedure `unescaped_action'
 		-- with unescaped value
 		do
-			Result := core.new_c_quoted_string (quote, unescaped_action)
+			Result := core.new_c_quoted_string ('"', unescaped_action)
 		end
 
 feature {NONE} -- Implementation

@@ -1,34 +1,25 @@
 note
-	description: "Match pattern **p2** while **p1** does not match"
+	description: "Match pattern **p1** repeatedly until **p2** matches"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-18 17:56:31 GMT (Friday 18th November 2022)"
-	revision: "3"
+	date: "2022-11-18 18:09:42 GMT (Friday 18th November 2022)"
+	revision: "1"
 
 class
-	EL_MATCH_P2_WHILE_NOT_P1_MATCH_TP
+	EL_MATCH_P1_UNTIL_P2_MATCH_TP
 
 inherit
 	EL_MATCH_LOOP_TP
-		rename
-			set_action_combined_p1 as set_action_combined_p2
 		redefine
-			name_inserts, make, match, meets_definition, Name_template
+			name_inserts, match, meets_definition, Name_template
 		end
 
 create
 	make
-
-feature {NONE} -- Initialization
-
-	make (p1, p2: EL_TEXT_PATTERN)
-		do
-			Precursor (p2, p1)
-		end
 
 feature {NONE} -- Implementation
 
@@ -39,21 +30,20 @@ feature {NONE} -- Implementation
 			matched_count := 0; wipe_out
 			if attached conditional_pattern as final_pattern then
 				from offset := a_offset until done loop
-					final_pattern.match (offset, text)
-					if final_pattern.is_matched then
-						done := True
-					else
-						repeat_count := match_count (offset, text)
-						if repeat_count > 0 then
-							if repeat_has_action then
-								repeated.internal_call_actions (offset + 1, offset + repeat_count, Current)
-							end
-							matched_count := matched_count + 1
-							offset := offset + repeat_count
-							sum_repeat_count := sum_repeat_count + repeat_count
-						else
+					repeat_count := match_count (offset, text)
+					if repeat_count > 0 then
+						if repeat_has_action then
+							repeated.internal_call_actions (offset + 1, offset + repeat_count, Current)
+						end
+						matched_count := matched_count + 1
+						offset := offset + repeat_count
+						sum_repeat_count := sum_repeat_count + repeat_count
+						final_pattern.match (offset, text)
+						if final_pattern.is_matched then
 							done := True
 						end
+					else
+						done := True
 					end
 				end
 				l_count := sum_repeat_count + final_pattern.count
@@ -81,14 +71,13 @@ feature {NONE} -- Implementation
 
 	name_inserts: TUPLE
 		do
-			Result := [conditional_pattern.name, repeated.name]
+			Result := [repeated.name, conditional_pattern.name]
 		end
 
 feature {NONE} -- Constants
 
 	Name_template: ZSTRING
 		once
-			Result := "while (not %S): %S"
+			Result := "repeat (%S) until (%S)"
 		end
-
 end

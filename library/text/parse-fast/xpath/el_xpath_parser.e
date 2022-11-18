@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-11-18 8:22:48 GMT (Friday 18th November 2022)"
+	revision: "3"
 
 class
 	EL_XPATH_PARSER
@@ -126,7 +126,7 @@ feature {NONE} -- Grammar
 				character_literal ('['),
 				attribute_name_pattern |to| agent on_selecting_attribute_name,
 				string_literal ("="),
-				quoted_string ('%'', Void) |to| agent on_selecting_attribute_value,
+				basic_quoted_string ('%'', Void) |to| agent on_selecting_attribute_value,
 				character_literal (']')
 			>> )
 			Result.set_action_last (agent on_attribute_value_predicate)

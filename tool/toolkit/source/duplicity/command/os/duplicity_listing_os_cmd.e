@@ -32,7 +32,7 @@ inherit
 
 	DUPLICITY_ROUTINES
 
-	EL_TEXT_PATTERN_FACTORY
+	EL_TEXT_PATTERN_FACTORY_2
 		undefine
 			is_equal
 		end
@@ -94,25 +94,25 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Pattern
 
-	Date_time_dot_pattern: EL_MATCH_ALL_IN_LIST_TP
+	Date_time_dot_pattern: EL_MATCH_ALL_IN_LIST_TP_2
 		-- matches line like: `Thu Jun  6 07:59:15 2019 .'
 		once
-			Result := all_of_separated_by (non_breaking_white_space, <<
+			Result := all_of_separated_by (nonbreaking_white_space, <<
 				day_abbreviation, month_abbreviation, day_of_month, time, year, character_literal ('.')
 			>>)
 		end
 
-	day_abbreviation, month_abbreviation: EL_MATCH_COUNT_WITHIN_BOUNDS_TP
+	day_abbreviation, month_abbreviation: like optional
 		do
 			Result := letter #occurs (3 |..| 3)
 		end
 
-	day_of_month: EL_MATCH_COUNT_WITHIN_BOUNDS_TP
+	day_of_month: like optional
 		do
 			Result := digit #occurs (1 |..| 2)
 		end
 
-	zero_padded_digit: EL_MATCH_COUNT_WITHIN_BOUNDS_TP
+	zero_padded_digit: like optional
 		do
 			Result := digit #occurs (2 |..| 2)
 		end
@@ -128,7 +128,7 @@ feature {NONE} -- Pattern
 			>>)
 		end
 
-	year: EL_MATCH_COUNT_WITHIN_BOUNDS_TP
+	year: like optional
 		do
 			Result := digit #occurs (4 |..| 4)
 		end

@@ -23,7 +23,7 @@ inherit
 			file_output, actual_file_output, close
 		end
 
-	EL_C_PATTERN_FACTORY
+	EL_C_LANGUAGE_PATTERN_FACTORY
 
 	EL_MODULE_LOG
 
@@ -52,18 +52,18 @@ feature {NONE} -- C constructs
 		do
 			Result := all_of (<<
 				start_of_line,
-				non_breaking_white_space,
+				nonbreaking_white_space,
 				string_literal ("if (Melder_batch)"),
-				non_breaking_white_space,
+				nonbreaking_white_space,
 
 				statement_block,
 
 				-- 	else /* GUI */
-				non_breaking_white_space,
+				nonbreaking_white_space,
 				string_literal ("else"),
-				non_breaking_white_space,
+				nonbreaking_white_space,
 				comment,
-				non_breaking_white_space,
+				nonbreaking_white_space,
 
 				statement_block
 
@@ -72,13 +72,13 @@ feature {NONE} -- C constructs
 
 feature {NONE} -- Match actions
 
-	on_if_melder_batch_statement_block (text: EL_STRING_VIEW)
+	on_if_melder_batch_statement_block (start_index, end_index: INTEGER)
 			--
 		do
 			put_new_line
 			put_string ("%T#if ! defined (EIFFEL_APPLICATION)")
 			put_new_line
-			put_string (text)
+			put_string (source_substring (start_index, end_index, False))
 			put_new_line
 			put_string ("%T#endif%T//defined ! (EIFFEL_APPLICATION)")
 

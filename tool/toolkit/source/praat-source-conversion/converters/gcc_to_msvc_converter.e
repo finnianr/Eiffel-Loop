@@ -20,6 +20,8 @@ inherit
 			edit
 		end
 
+	EL_C_LANGUAGE_PATTERN_FACTORY
+
 create
 	make
 
@@ -37,30 +39,30 @@ feature {NONE} -- C constructs
 					white_space,
 					string_literal ("inline")
 
-				>>) |to| agent replace (?, "static __inline"),
+				>>) |to| agent replace (?, ?, "static __inline"),
 
 				all_of (<<
 					string_literal ("inline"),
 					white_space,
 					string_literal ("static")
 
-				>>) |to| agent replace (?, "__inline static")
+				>>) |to| agent replace (?, ?, "__inline static")
 			>>)
 		end
 
 feature -- Match actions
 
-	on_Environ (text: EL_STRING_VIEW)
+	on_Environ (start_index, end_index: INTEGER)
 			--
 		do
 			put_string ("_environ")
 		end
 
-	comment_out_line_remainder (line: EL_STRING_VIEW)
+	comment_out_line_remainder (start_index, end_index: INTEGER)
 			--
 		do
 			put_string ("//")
-			put_string (line)
+			put_string (source_substring (start_index, end_index, False))
 		end
 
 feature -- Basic operations

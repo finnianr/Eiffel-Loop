@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-11-18 17:33:23 GMT (Friday 18th November 2022)"
+	revision: "3"
 
 deferred class
 	EL_PYXIS_ATTRIBUTE_PARSER
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_PARSER
 
-	EL_C_LANGUAGE_PATTERN_FACTORY
+	EL_TEXT_PATTERN_FACTORY
 		export
 			{NONE} all
 		end
@@ -32,8 +32,8 @@ feature {NONE} -- Pattern definitions
 				optional_nonbreaking_white_space,
 				one_of (<<
 --					Optimal order for fastest parsing
-					quoted_string ('"', agent on_quoted_value),
-					quoted_string ('%'', agent on_quoted_value),
+					core.new_c_quoted_string ('"', agent on_quoted_value),
+					core.new_c_quoted_string ('%'', agent on_quoted_value),
 					decimal_constant |to| agent on_value,
 					xml_identifier |to| agent on_value
 				>>)

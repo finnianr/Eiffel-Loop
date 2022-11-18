@@ -18,8 +18,6 @@ inherit
 			delimiting_pattern, edit
 		end
 
-	EL_C_PATTERN_FACTORY
-
 	EL_MODULE_LOG
 
 create
@@ -41,7 +39,7 @@ feature {NONE} -- C constructs
 		do
 			Result := all_of (<<
 				string_literal ("void praat_run (void)") |to| agent on_unmatched_text,
-				non_breaking_white_space,
+				nonbreaking_white_space,
 				statement_block |to| agent on_praat_run_procedure_statement_block
 			>>)
 		end
@@ -51,7 +49,7 @@ feature {NONE} -- C constructs
 		do
 			Result := all_of (<<
 				start_of_line,
-				non_breaking_white_space,
+				nonbreaking_white_space,
 				string_literal ("exit (exit_code);")
 
 			>>) |to| agent on_exit_program_call
@@ -70,29 +68,33 @@ feature {NONE} -- C constructs
 
 feature {NONE} -- Match actions
 
-	on_praat_run_procedure_statement_block (text: EL_STRING_VIEW)
+	on_praat_run_procedure_statement_block (start_index, end_index: INTEGER)
 			--
 		do
 			log.enter ("on_praat_run_procedure_statement_block")
-			log.put_string_field_to_max_length ("text", text, 100)
-			log.put_new_line
-			praat_run_c_procedure_converter.set_source_text (text.to_string_8)
+			if attached source_substring (start_index, end_index, False) as text then
+				log.put_string_field_to_max_length ("text", text, 100)
+				log.put_new_line
+			end
+			praat_run_c_procedure_converter.set_source_text (
+				source_substring (start_index, end_index, False)
+			)
 			praat_run_c_procedure_converter.edit
 			log.exit
 		end
 
-	on_exit_program_call (text: EL_STRING_VIEW)
+	on_exit_program_call (start_index, end_index: INTEGER)
 			--
 		do
 			put_new_line
 			put_string ("%T#if ! defined (EIFFEL_APPLICATION)")
 			put_new_line
-			put_string (text)
+			put_string (source_substring (start_index, end_index, False))
 			put_new_line
 			put_string ("%T#endif")
 		end
 
-	on_static_praat_exit_procedure_declaration (text: EL_STRING_VIEW)
+	on_static_praat_exit_procedure_declaration (start_index, end_index: INTEGER)
 			--
 		do
 			put_string (praat_exit_macro)

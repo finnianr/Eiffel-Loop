@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 16:12:00 GMT (Wednesday 16th November 2022)"
-	revision: "3"
+	date: "2022-11-18 18:00:28 GMT (Friday 18th November 2022)"
+	revision: "4"
 
 class
 	EL_TEXT_PATTERN_FACTORY
@@ -92,6 +92,12 @@ feature -- Bounded occurrences
 		--
 		do
 			Result := optional_pattern #occurs (0 |..| 1)
+		end
+
+	repeat_p1_until_p2 (p1, p2: EL_TEXT_PATTERN ): EL_MATCH_P1_UNTIL_P2_MATCH_TP
+			--
+		do
+			create Result.make (p1, p2)
 		end
 
 	while_not_p_match_any (p: EL_TEXT_PATTERN): EL_MATCH_ANY_WHILE_NOT_P_MATCH_TP
