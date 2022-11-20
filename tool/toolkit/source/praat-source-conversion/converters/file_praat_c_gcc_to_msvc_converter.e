@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2022-11-19 10:19:02 GMT (Saturday 19th November 2022)"
+	revision: "6"
 
 class
 	FILE_PRAAT_C_GCC_TO_MSVC_CONVERTER
@@ -76,9 +76,7 @@ feature {NONE} -- Match actions
 				log.put_string_field_to_max_length ("text", text, 100)
 				log.put_new_line
 			end
-			praat_run_c_procedure_converter.set_source_text (
-				source_substring (start_index, end_index, False)
-			)
+			praat_run_c_procedure_converter.set_source_text (source_substring (start_index, end_index, True))
 			praat_run_c_procedure_converter.edit
 			log.exit
 		end
@@ -89,7 +87,7 @@ feature {NONE} -- Match actions
 			put_new_line
 			put_string ("%T#if ! defined (EIFFEL_APPLICATION)")
 			put_new_line
-			put_string (source_substring (start_index, end_index, False))
+			put_source_substring (start_index, end_index)
 			put_new_line
 			put_string ("%T#endif")
 		end

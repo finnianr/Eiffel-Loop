@@ -532,3 +532,6 @@ Changed EL_UNENCODED_CHARACTERS to use SPECIAL [CHARACTER_32]
 Tue 15th Nov 2022, 19:56:02
 Convert search term parser to fast pattern matching
 
+Sat 19th Nov 2022, 18:34:15
+Compiled Evolicity with new fast patterns
+

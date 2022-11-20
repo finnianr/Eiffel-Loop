@@ -6,30 +6,31 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 17:02:50 GMT (Wednesday 16th November 2022)"
-	revision: "11"
+	date: "2022-11-19 11:58:56 GMT (Saturday 19th November 2022)"
+	revision: "12"
 
 class
 	EL_PATTERN_SPLIT_STRING_LIST
 
 inherit
 	EL_SOURCE_TEXT_PROCESSOR
-		rename
-			do_all as processor_do_all
 		undefine
 			is_equal, copy
 		redefine
-			make_with_delimiter, source_text
+			make_default
+		end
+
+	LINKED_LIST [ZSTRING]
+		rename
+			make as make_default,
+			do_all as do_with_strings
+		redefine
+			make_default
 		end
 
 	EL_TEXT_PATTERN_FACTORY
 		undefine
 			is_equal, copy
-		end
-
-	LINKED_LIST [ZSTRING]
-		rename
-			make as make_list
 		end
 
 	EL_ZSTRING_CONSTANTS
@@ -50,11 +51,11 @@ feature {NONE} -- Initialization
 			make_with_delimiter (agent one_character_from (character_set))
 		end
 
-	make_with_delimiter (a_new_delimiting_pattern: FUNCTION [EL_TEXT_PATTERN])
+	make_default
 
 		do
-			make_list
-			Precursor (a_new_delimiting_pattern)
+			Precursor {EL_SOURCE_TEXT_PROCESSOR}
+			Precursor {LINKED_LIST}
 		end
 
 feature -- Element change
@@ -66,7 +67,7 @@ feature -- Element change
 		do
 --			log.enter_with_args ("extend_from_string", <<target>>)
 			set_source_text (target)
-			processor_do_all (agent on_unmatched_text)
+			find_all (agent on_unmatched_text)
 			set_source_text (Empty_string)
 --			log.exit
 		end
@@ -98,7 +99,4 @@ feature {NONE} -- Parsing actions
 --			log.exit
 		end
 
-feature {NONE} -- Internal attributes
-
-	source_text: ZSTRING
 end

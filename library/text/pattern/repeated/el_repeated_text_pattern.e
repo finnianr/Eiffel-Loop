@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-11-20 7:24:22 GMT (Sunday 20th November 2022)"
+	revision: "3"
 
 deferred class
 	EL_REPEATED_TEXT_PATTERN
@@ -115,7 +115,7 @@ feature {NONE} -- Implementation
 		do
 			from start until after loop
 				if attached action_item as action then
-					if attached {PROCEDURE [INTEGER, INTEGER]} action as on_substring_match then
+					if attached {like Default_action} action as on_substring_match then
 						interval := interval_item
 						if attached a_repeated as l_repeated then
 							l_repeated.extend (on_substring_match, lower_integer (interval), upper_integer (interval))

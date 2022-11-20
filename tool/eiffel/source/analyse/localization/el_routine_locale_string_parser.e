@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 17:41:58 GMT (Wednesday 16th November 2022)"
-	revision: "8"
+	date: "2022-11-19 11:22:52 GMT (Saturday 19th November 2022)"
+	revision: "9"
 
 class
 	EL_ROUTINE_LOCALE_STRING_PARSER
@@ -17,12 +17,14 @@ inherit
 		rename
 			make_default as make
 		redefine
-			reset, make, source_text
+			reset, make, default_source_text
 		end
 
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
 
 	EL_LOCALE_CONSTANTS
+
+	EL_ZSTRING_CONSTANTS
 
 create
 	make
@@ -169,6 +171,13 @@ feature {NONE} -- Event handlers
 			last_identifier.wipe_out
 		end
 
+feature {NONE} -- Implementation
+
+	default_source_text: ZSTRING
+		do
+			Result := Empty_string
+		end
+
 feature {NONE} -- Internal attributes
 
 	last_identifier: ZSTRING
@@ -176,8 +185,6 @@ feature {NONE} -- Internal attributes
 	quantity_lower: INTEGER
 
 	quantity_upper: INTEGER
-
-	source_text: ZSTRING
 
 feature {NONE} -- Constants
 

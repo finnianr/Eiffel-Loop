@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 15:33:06 GMT (Wednesday 16th November 2022)"
-	revision: "17"
+	date: "2022-11-19 11:17:14 GMT (Saturday 19th November 2022)"
+	revision: "18"
 
 class
 	EL_SEARCH_TERM_PARSER [G -> EL_WORD_SEARCHABLE]
@@ -22,7 +22,7 @@ inherit
 		export
 			{NONE} all
 		redefine
-			make, reset, search_terms
+			make, reset
 		end
 
 	EL_TEXT_PATTERN_FACTORY
@@ -257,8 +257,6 @@ feature {NONE} -- Internal attributes
 	condition_list: ARRAYED_LIST [EL_QUERY_CONDITION [G]]
 
 	has_hypen_prefix: BOOLEAN
-
-	search_terms: ZSTRING
 
 	word_token_table: EL_WORD_TOKEN_TABLE
 

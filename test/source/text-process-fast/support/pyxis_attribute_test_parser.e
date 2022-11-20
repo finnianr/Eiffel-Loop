@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2022-11-19 11:16:36 GMT (Saturday 19th November 2022)"
+	revision: "4"
 
 class
 	PYXIS_ATTRIBUTE_TEST_PARSER
@@ -17,7 +17,7 @@ inherit
 		rename
 			make_default as make
 		redefine
-			make, reset, source_text
+			make, reset, default_source_text
 		end
 
 create
@@ -43,11 +43,9 @@ feature -- Element change
 
 feature -- Access
 
-	source_text: STRING_8
+	last_name: STRING
 
 	table: HASH_TABLE [STRING, STRING]
-
-	last_name: STRING
 
 feature {NONE} -- Parse events
 
@@ -69,6 +67,13 @@ feature {NONE} -- Parse events
 		--
 		do
 			table [last_name] := source_text.substring (start_index, end_index)
+		end
+
+feature {NONE} -- Implementation
+
+	default_source_text: STRING_8
+		do
+			Result := Empty_string_8
 		end
 
 end

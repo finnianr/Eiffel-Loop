@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 17:00:41 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-11-20 11:56:05 GMT (Sunday 20th November 2022)"
+	revision: "3"
 
 class
 	EL_MATCH_ZSTRING_WHITE_SPACE_TP
@@ -17,7 +17,7 @@ inherit
 		undefine
 			i_th_has
 		redefine
-			i_th_type
+			i_th_is_white_space
 		end
 
 	EL_MATCH_OPTIMIZED_FOR_ZSTRING
@@ -30,20 +30,14 @@ create
 
 feature {NONE} -- Implementation
 
-	i_th_type (i: INTEGER_32; text: ZSTRING): INTEGER
+	i_th_is_white_space (i: INTEGER_32; text: ZSTRING; a_nonbreaking: BOOLEAN): BOOLEAN
 		local
 			c: CHARACTER_8
 		do
-			c := text.item_8 (i)
-			if c = Substitute then
-				Result := Precursor (i, text)
-
-			elseif c.is_space then
-				if c = '%N' or c = '%R' then
-					Result := Breaking_space
-				else
-					Result := Nonbreaking_space
-				end
+			Result := text.is_space_item (i)
+			if Result and a_nonbreaking then
+				c := text.item_8 (i)
+				Result := not (c = '%N' or c = '%R')
 			end
 		end
 

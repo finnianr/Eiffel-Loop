@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "19"
+	date: "2022-11-19 8:18:16 GMT (Saturday 19th November 2022)"
+	revision: "20"
 
 class
 	EL_TEST_TEXT
@@ -21,11 +21,13 @@ inherit
 
 feature -- Access
 
-	doubles_array_manifest: STRING
+	doubles_array_manifest (upper: INTEGER_REF): STRING
 		do
 			create Result.make (Number.Doubles_list.count * 4)
 			Result.append ("<< ")
-			across Number.Doubles_list as n loop
+			across Number.Doubles_list as n until
+				attached upper as u and then n.cursor_index > u.item
+			loop
 				if n.cursor_index > 1 then
 					Result.append (", ")
 				end

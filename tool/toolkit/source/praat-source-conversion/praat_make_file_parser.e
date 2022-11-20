@@ -6,18 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2022-11-19 14:16:08 GMT (Saturday 19th November 2022)"
+	revision: "7"
 
 class
 	PRAAT_MAKE_FILE_PARSER
 
 inherit
-	EL_FILE_PARSER_2
+	EL_FILE_PARSER
 		export
 			{NONE} all
-		redefine
-			source_text
 		end
 
 	EL_C_LANGUAGE_PATTERN_FACTORY
@@ -207,7 +205,4 @@ feature -- Access
 
 	c_library_name_list: LINKED_LIST [ZSTRING]
 
-feature {NONE} -- Internal attributes
-
-	source_text: ZSTRING
 end

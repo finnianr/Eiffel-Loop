@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 17:00:15 GMT (Wednesday 16th November 2022)"
-	revision: "15"
+	date: "2022-11-19 14:16:08 GMT (Saturday 19th November 2022)"
+	revision: "16"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR
@@ -22,7 +22,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_TEXT_PATTERN_FACTORY_2
+	EL_TEXT_PATTERN_FACTORY
 		export
 			{NONE} all
 		end
@@ -165,7 +165,7 @@ feature {NONE} -- Implementation
 
 			create path_processor.make_with_delimiter (agent output_directory_pattern)
 			path_processor.set_source_text (output_directory_text)
-			path_processor.do_all (Void)
+			path_processor.do_all
 			log.exit
 		end
 

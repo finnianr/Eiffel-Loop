@@ -6,20 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2022-11-20 18:15:35 GMT (Sunday 20th November 2022)"
+	revision: "13"
 
 class
 	EVOLICITY_FILE_LEXER
 
 inherit
 	EL_FILE_LEXER
-		rename
-			identifier as evolicity_identifier,
-			quoted_string as quoted_string_pattern,
-			token as token_pattern
+		export
+			{NONE} all
 		redefine
-			make_default
+			fill_tokens_text
+		end
+
+	EL_EIFFEL_TEXT_PATTERN_FACTORY
+		rename
+			identifier as evolicity_identifier
 		end
 
 	EVOLICITY_SHARED_TOKEN_ENUM
@@ -29,13 +32,11 @@ inherit
 create
 	make
 
-feature {NONE} -- Initialization
+feature -- Basic operations
 
-	make_default
-			--
+	fill_tokens_text
 		do
-			Precursor
-			set_unmatched_action (add_token_action (Token.Free_text))
+			find_all (add_token_action (Token.Free_text))
 		end
 
 feature {NONE} -- Loop Patterns
@@ -43,7 +44,7 @@ feature {NONE} -- Loop Patterns
 	across_directive: like all_of
 			-- across <list_var_name> as <var> loop
 		do
-			Result := all_of_separated_by (maybe_non_breaking_white_space,
+			Result := all_of_separated_by (optional_nonbreaking_white_space,
 
 			<< text_token ("across", Token.keyword_across),
 				variable_reference,
@@ -56,14 +57,13 @@ feature {NONE} -- Loop Patterns
 	foreach_directive: like all_of
 			-- foreach <var> in <list_var_name> loop
 		do
-			Result := all_of_separated_by (maybe_non_breaking_white_space,
-
-			<< text_token ("foreach", Token.keyword_foreach),
+			Result := all_of_separated_by (optional_nonbreaking_white_space, <<
+				text_token ("foreach", Token.keyword_foreach),
 				variable_reference,
 				optional (
 --					table key variable
 					all_of (<<
-						character_literal (','), maybe_non_breaking_white_space, variable_reference
+						character_literal (','), optional_nonbreaking_white_space, variable_reference
 					>>)
 				),
 				text_token ("in", Token.keyword_in),
@@ -81,12 +81,12 @@ feature {NONE} -- Patterns
 				simple_boolean_expression,
 				zero_or_more (
 					all_of (<<
-						maybe_non_breaking_white_space,
+						optional_nonbreaking_white_space,
 						one_of (<<
 							text_token ("and", Token.keyword_and),
 							text_token ("or", Token.keyword_or)
 						>>),
-						maybe_non_breaking_white_space,
+						optional_nonbreaking_white_space,
 						simple_boolean_expression
 					>>)
 				)
@@ -102,7 +102,7 @@ feature {NONE} -- Patterns
 	bracketed_boolean_value: like all_of
 			--
 		do
-			Result := all_of_separated_by (maybe_non_breaking_white_space, <<
+			Result := all_of_separated_by (optional_nonbreaking_white_space, <<
 				character_literal ('('), boolean_value, character_literal (')')
 			>>)
 		end
@@ -123,9 +123,9 @@ feature {NONE} -- Patterns
 			--
 		do
 			Result := one_of (<<
-				quoted_manifest_string (Default_action)	|to| add_token_action (Token.Quoted_string),
-				double_constant									|to| add_token_action (Token.double_constant),
-				integer_constant 									|to| add_token_action (Token.integer_64_constant)
+				quoted_string (Void)	|to| add_token_action (Token.Quoted_string),
+				decimal_constant		|to| add_token_action (Token.double_constant),
+				signed_integer 		|to| add_token_action (Token.integer_64_constant)
 			>>)
 		end
 
@@ -142,12 +142,12 @@ feature {NONE} -- Patterns
 	evaluate_directive: like all_of
 			-- evaluate ({<type name>}.template, $<variable name>)
 		do
-			Result := all_of_separated_by (maybe_non_breaking_white_space,
+			Result := all_of_separated_by (optional_nonbreaking_white_space,
 
-			<< string_literal ("evaluate") |to| agent on_evaluate (Token.keyword_evaluate, ?),
+			<< string_literal ("evaluate") |to| agent on_evaluate (Token.keyword_evaluate, ?, ?),
 				character_literal ('('),
 				one_of (<<
-					quoted_manifest_string (Default_action) |to| add_token_action (Token.Quoted_string),
+					quoted_string (Void) |to| add_token_action (Token.Quoted_string),
 					template_name_by_class |to| add_token_action (Token.Template_name_identifier),
 					variable_reference
 				>>),
@@ -160,16 +160,16 @@ feature {NONE} -- Patterns
 	function_call_pattern: like all_of
 		do
 			Result := all_of (<<
-				maybe_non_breaking_white_space,
+				optional_nonbreaking_white_space,
 				left_bracket_pattern,
-				maybe_non_breaking_white_space,
+				optional_nonbreaking_white_space,
 				constant,
 				while_not_p1_repeat_p2 (
-					all_of (<< maybe_non_breaking_white_space, right_bracket_pattern >>),
+					all_of (<< optional_nonbreaking_white_space, right_bracket_pattern >>),
 					all_of (<<
-						maybe_non_breaking_white_space,
+						optional_nonbreaking_white_space,
 						character_literal (',') |to| add_token_action (Token.Comma_sign),
-						maybe_non_breaking_white_space,
+						optional_nonbreaking_white_space,
 						constant
 					>>)
 				)
@@ -179,7 +179,7 @@ feature {NONE} -- Patterns
 	if_directive: like all_of
 			-- if <simple boolean expression> then
 		do
-			Result := all_of_separated_by (maybe_non_breaking_white_space, <<
+			Result := all_of_separated_by (optional_nonbreaking_white_space, <<
 				text_token ("if", Token.keyword_if), boolean_expression, text_token ("then", Token.keyword_then)
 			>>)
 		end
@@ -187,11 +187,11 @@ feature {NONE} -- Patterns
 	include_directive: like all_of
 			-- include ($<variable name>)
 		do
-			Result := all_of_separated_by (maybe_non_breaking_white_space, <<
-				string_literal ("include") |to| agent on_include (Token.keyword_include, ?),
+			Result := all_of_separated_by (optional_nonbreaking_white_space, <<
+				string_literal ("include") |to| agent on_include (Token.keyword_include, ?, ?),
 				character_literal ('('),
 				one_of (<<
-					quoted_manifest_string (Default_action) |to| add_token_action (Token.Quoted_string),
+					quoted_string (Void) |to| add_token_action (Token.Quoted_string),
 					variable_reference
 				>>),
 				character_literal (')')
@@ -201,7 +201,7 @@ feature {NONE} -- Patterns
 	leading_white_space: like all_of
 		-- Fixes bug where #evaluate with no leading space uses tab count of previous #evaluate
 		do
-			Result := all_of (<< start_of_line, maybe_non_breaking_white_space >>)
+			Result := all_of (<< start_of_line, optional_nonbreaking_white_space >>)
 			Result.set_action_first (agent on_leading_white_space)
 		end
 
@@ -209,12 +209,6 @@ feature {NONE} -- Patterns
 			--
 		do
 			Result := character_literal ('(') |to| add_token_action (Token.Left_bracket)
-		end
-
-	new_pattern: EL_TEXT_PATTERN
-			--
-		do
-			Result := one_of (<< velocity_directive, dollar_literal, variable_reference >>)
 		end
 
 	parenthesized_qualified_variable_name: like all_of
@@ -253,7 +247,7 @@ feature {NONE} -- Patterns
 				boolean_value,
 				all_of (<<
 					text_token ("not", Token.keyword_not),
-					maybe_non_breaking_white_space,
+					optional_nonbreaking_white_space,
 					one_of (<< variable_reference, bracketed_boolean_value >>)
 				>>)
 			>>)
@@ -262,7 +256,7 @@ feature {NONE} -- Patterns
 	simple_comparison_expression: like all_of
 			--
 		do
-			Result := all_of_separated_by (maybe_non_breaking_white_space, <<
+			Result := all_of_separated_by (optional_nonbreaking_white_space, <<
 				variable_reference_or_constant, comparison_operator, variable_reference_or_constant
 			>>)
 		end
@@ -303,26 +297,34 @@ feature {NONE} -- Patterns
 					evaluate_directive,
 					include_directive
 				>>),
-				maybe_non_breaking_white_space,
+				optional_nonbreaking_white_space,
 				end_of_line_character
 			>>)
 		end
 
 feature {NONE} -- Actions
 
-	on_evaluate, on_include (keyword_token: NATURAL_32; token_text: EL_STRING_VIEW)
+	on_evaluate, on_include (keyword_token: NATURAL_32; start_index, end_index: INTEGER)
 			--
 		do
 			tokens_text.append_code (keyword_token)
-			token_text_array.extend (token_text.interval)
+			source_interval_list.extend (start_index, end_index)
 			tokens_text.append_code (Token.White_text)
-			token_text_array.extend (leading_space_text)
+			source_interval_list.item_extend (leading_space_text)
 		end
 
-	on_leading_white_space (text: EL_STRING_VIEW)
+	on_leading_white_space (start_index, end_index: INTEGER)
 			--
 		do
-			leading_space_text := text.interval
+			leading_space_text := source_interval_list.new_item (start_index, end_index)
+		end
+
+feature {NONE} -- Factory
+
+	new_pattern: EL_TEXT_PATTERN
+			--
+		do
+			Result := one_of (<< velocity_directive, dollar_literal, variable_reference >>)
 		end
 
 feature {NONE} -- Internal attributes

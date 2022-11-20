@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 16:37:03 GMT (Tuesday 15th November 2022)"
-	revision: "1"
+	date: "2022-11-20 9:38:09 GMT (Sunday 20th November 2022)"
+	revision: "2"
 
 deferred class
 	EL_TEXT_PATTERN
@@ -180,18 +180,18 @@ feature {EL_TEXT_PATTERN_I, EL_PARSER} -- Implementation
 		a_offset: INTEGER; text: READABLE_STRING_GENERAL; unmatched_action: detachable like Default_action
 	)
 		local
-			unmatched_count, text_count, offset: INTEGER
+			unmatched_count, text_count, offset, l_count: INTEGER
 		do
 			unmatched_count := 0; text_count := text.count
 			from offset := a_offset until offset >= text_count loop
-				match (offset, text)
-				if count > 0 then
+				l_count := match_count (offset, text)
+				if l_count > 0 then
 					if unmatched_count > 0 and then attached unmatched_action as on_unmatched then
 						call_action (on_unmatched, offset - unmatched_count + 1, offset, Void)
 						unmatched_count := 0
 					end
-					call_actions (offset + 1, offset + count)
-					offset := offset + count
+					call_actions (offset + 1, offset + l_count)
+					offset := offset + l_count
 				else
 					offset := offset + 1
 					unmatched_count := unmatched_count + 1

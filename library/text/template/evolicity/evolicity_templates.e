@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "23"
+	date: "2022-11-19 17:15:19 GMT (Saturday 19th November 2022)"
+	revision: "24"
 
 class
 	EVOLICITY_TEMPLATES

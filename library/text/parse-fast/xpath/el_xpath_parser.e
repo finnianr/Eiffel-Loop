@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-18 8:22:48 GMT (Friday 18th November 2022)"
-	revision: "3"
+	date: "2022-11-19 11:12:48 GMT (Saturday 19th November 2022)"
+	revision: "4"
 
 class
 	EL_XPATH_PARSER
@@ -37,7 +37,7 @@ inherit
 			make_default as make,
 			fully_matched as is_attribute_selector_by_attribute_value
 		redefine
-			parse, make, source_text
+			parse, make, default_source_text
 		end
 
 	EL_C_LANGUAGE_PATTERN_FACTORY
@@ -155,8 +155,11 @@ feature {NONE} -- Grammar
 			>>)
 		end
 
-feature {NONE} -- Internal attributes
+feature {NONE} -- Implementation
 
-	source_text: STRING_8
+	default_source_text: STRING_8
+		do
+			Result := Empty_string_8
+		end
 
 end

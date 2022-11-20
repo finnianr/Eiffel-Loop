@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 6:07:26 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-11-19 11:15:00 GMT (Saturday 19th November 2022)"
+	revision: "3"
 
 deferred class
 	EL_FILE_PARSER_TEXT_EDITOR
@@ -22,6 +22,8 @@ inherit
 		end
 
 	EL_PARSER_TEXT_EDITOR
+		undefine
+			default_source_text
 		redefine
 			make_default
 		end

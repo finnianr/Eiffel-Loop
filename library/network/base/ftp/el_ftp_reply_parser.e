@@ -6,16 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 17:42:28 GMT (Wednesday 16th November 2022)"
-	revision: "5"
+	date: "2022-11-19 12:12:39 GMT (Saturday 19th November 2022)"
+	revision: "6"
 
 class
 	EL_FTP_REPLY_PARSER
 
 inherit
-	EL_SOURCE_TEXT_PROCESSOR
+	EL_PARSER
+		rename
+			make_default as make,
+			parse as parse_complete
+		export
+			{NONE} all
+			{ANY} set_source_text
 		redefine
-			source_text
+			default_source_text
 		end
 
 	EL_TEXT_PATTERN_FACTORY
@@ -23,27 +29,25 @@ inherit
 create
 	make
 
-feature {NONE} -- Initialization
-
-	make
-		do
-			create source_text.make_empty
-			set_optimal_core (source_text)
-			make_with_delimiter (agent ftp_reply_pattern)
-		end
-
 feature -- Access
 
 	last_ftp_cmd_result: STRING
 
 	last_reply_code: INTEGER
 
+feature -- Basic operations
+
+	parse
+		do
+			find_all (Void)
+		end
+
 feature {NONE} -- Event handling
 
 	on_ftp_cmd_result (start_index, end_index: INTEGER)
 			--
 		do
-			last_ftp_cmd_result := source_substring (start_index, end_index, True)
+			last_ftp_cmd_result := new_source_substring (start_index, end_index)
 		end
 
 	on_reply_code (start_index, end_index: INTEGER)
@@ -60,14 +64,14 @@ feature {NONE} -- Pattern
 			create Result.make ('"')
 		end
 
-	ftp_reply_pattern: like all_of
-			--
+	new_pattern: like all_of
+		-- reply pattern
 		do
 			Result := all_of (<<
 				start_of_line,
 				signed_integer |to| agent on_reply_code,
 				optional (all_of (<< nonbreaking_white_space, quoted_string_pattern >> ))
-			>> )
+			>>)
 		end
 
 	quoted_string_pattern: like all_of
@@ -83,7 +87,11 @@ feature {NONE} -- Pattern
 			>> )
 		end
 
-feature {NONE} -- Internal attributes
+feature {NONE} -- Implementation
 
-	source_text: STRING
+	default_source_text: STRING
+		do
+			Result := Empty_string_8
+		end
+
 end

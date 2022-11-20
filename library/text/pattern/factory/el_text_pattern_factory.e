@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-18 18:00:28 GMT (Friday 18th November 2022)"
-	revision: "4"
+	date: "2022-11-20 18:41:34 GMT (Sunday 20th November 2022)"
+	revision: "6"
 
 class
 	EL_TEXT_PATTERN_FACTORY
@@ -25,21 +25,10 @@ feature -- Recursive patterns
 			create Result.make (array)
 		end
 
-	all_of_separated_by (separator: EL_TEXT_PATTERN; array: ARRAY [EL_TEXT_PATTERN]): like all_of
+	all_of_separated_by (a_white_space: EL_MATCH_WHITE_SPACE_TP; array: ARRAY [EL_TEXT_PATTERN]): like all_of
 			--
 		do
-			create Result.make (array)
-			from
-				Result.start
-				Result.forth
-			until
-				Result.after
-			loop
-				Result.put_left (separator)
-				Result.forth
-			end
-		ensure
-			correct_number_inserted: Result.list_count = array.count * 2 - 1
+			create Result.make_separated (array, a_white_space)
 		end
 
 	one_of (array_of_alternatives: ARRAY [EL_TEXT_PATTERN]): EL_FIRST_MATCH_IN_LIST_TP
@@ -48,14 +37,13 @@ feature -- Recursive patterns
 			create Result.make (array_of_alternatives)
 		end
 
-	recurse (new_recursive: FUNCTION [EL_TEXT_PATTERN]; a_unique_id: NATURAL): EL_RECURSIVE_TEXT_PATTERN
+	recurse (new_recursive: FUNCTION [EL_TEXT_PATTERN]; unique_id: NATURAL): EL_RECURSIVE_TEXT_PATTERN
 		local
-			unique_id, current_type_id, function_type_id: NATURAL
+			merged_id, current_type_id: INTEGER
 		do
-			current_type_id := {ISE_RUNTIME}.dynamic_type (Current).to_natural_32
-			function_type_id := {ISE_RUNTIME}.dynamic_type (new_recursive).to_natural_32
-			unique_id := (current_type_id |<< 16) | (function_type_id + a_unique_id)
-			create Result.make (new_recursive, unique_id)
+			current_type_id := {ISE_RUNTIME}.dynamic_type (Current)
+			merged_id := (current_type_id |<< 16) | {ISE_RUNTIME}.dynamic_type (new_recursive)
+			create Result.make (new_recursive, merged_id.to_natural_32 + unique_id)
 		end
 
 feature -- String patterns
@@ -229,7 +217,8 @@ feature -- Numeric strings
 				optional (character_literal ('-')), natural_number
 			>>)
 		end
-feature {NONE} -- Constants
+
+feature {NONE} -- Type definition
 
 	OPTIONAL_ACTION: detachable PROCEDURE [INTEGER, INTEGER]
 		once

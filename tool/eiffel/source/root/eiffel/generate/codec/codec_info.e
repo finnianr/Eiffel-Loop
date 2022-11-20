@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 17:36:22 GMT (Wednesday 16th November 2022)"
-	revision: "10"
+	date: "2022-11-19 11:22:52 GMT (Saturday 19th November 2022)"
+	revision: "11"
 
 class
 	CODEC_INFO
@@ -19,7 +19,7 @@ inherit
 		export
 			{NONE} all
 		redefine
-			make_default, source_text
+			make_default
 		end
 
 	EVOLICITY_EIFFEL_CONTEXT
@@ -346,8 +346,6 @@ feature {NONE} -- Internal attributes
 	latin_table: ARRAY [LATIN_CHARACTER]
 
 	single_case_character_set: ARRAYED_LIST [LATIN_CHARACTER]
-
-	source_text: ZSTRING
 
 feature {NONE} -- Evolicity fields
 

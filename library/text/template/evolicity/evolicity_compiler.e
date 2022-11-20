@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "19"
+	date: "2022-11-20 17:34:03 GMT (Sunday 20th November 2022)"
+	revision: "21"
 
 class
 	EVOLICITY_COMPILER
@@ -19,8 +19,10 @@ inherit
 			parse as parse_and_compile,
 			fully_matched as parse_succeeded,
 			call_actions as compile
+		export
+			{ANY} parse, parse_succeeded
 		redefine
-			set_source_text_from_file, set_source_text_from_line_source, tokens_text
+			set_source_text_from_file, set_source_text_from_line_source
 		end
 
 	EVOLICITY_PARSE_ACTIONS
@@ -30,8 +32,7 @@ inherit
 
 	EL_TEXT_PATTERN_FACTORY
 		rename
-			quoted_string as quoted_string_pattern,
-			token as as_literal
+			quoted_string as quoted_string_pattern
 		end
 
 	EL_FILE_OPEN_ROUTINES
@@ -59,7 +60,7 @@ feature -- Access
 			reset_directives
 			compile
 			create Result.make (compound_directive.to_array, modification_time, Current)
-			Result.set_minimum_buffer_length ((source_view.full_count * 1.5).floor)
+			Result.set_minimum_buffer_length ((source_text.count * 1.5).floor)
 		end
 
 	modification_time: EL_DATE_TIME
@@ -77,7 +78,7 @@ feature -- Element change
 	set_source_text_from_line_source (lines: EL_PLAIN_TEXT_LINE_SOURCE)
 			--
 		local
-			compiled_source_path: like source_file_path
+			compiled_source_path: FILE_PATH
 		do
  			source_file_path := lines.file_path
  			set_encoding_from_other (lines) -- May have detected UTF-8 BOM
@@ -88,8 +89,7 @@ feature -- Element change
 				and then compiled_source_path.modification_date_time > source_file_path.modification_date_time
 			then
 				read_tokens_text (compiled_source_path)
-				tokens_view := pattern.new_text_view (tokens_text)
-				source_view := pattern.new_text_view (lines.joined)
+				source_text := lines.joined
 	 			reset
 			else
 	 			set_source_text (lines.joined)
@@ -106,31 +106,31 @@ feature {NONE} -- Loop Directives
 			--
 		do
 			Result := all_of (<<
-				as_literal (Token.keyword_across)	|to| agent on_loop (Token.keyword_across, ?),
-				variable_reference 						|to| agent on_loop (Token.keyword_in, ?),
-				as_literal (Token.keyword_as),
-				variable_reference						|to| agent on_loop (Token.keyword_as, ?),
-				as_literal (Token.keyword_loop),
-				recurse (agent zero_or_more_directives, True),
-				as_literal (Token.keyword_end)		|to| agent on_loop (Token.keyword_end, ?)
-			>> )
+				keyword (Token.keyword_across)	|to| loop_action (Token.keyword_across),
+				variable_reference 					|to| loop_action (Token.keyword_in),
+				keyword (Token.keyword_as),
+				variable_reference					|to| loop_action (Token.keyword_as),
+				keyword (Token.keyword_loop),
+				recurse (agent zero_or_more_directives, 1),
+				keyword (Token.keyword_end)		|to| loop_action (Token.keyword_end)
+			>>)
 		end
 
 	foreach_directive: like all_of
 			-- Match: foreach ( V in V )
 		do
 			Result := all_of (<<
-				as_literal (Token.keyword_foreach)	|to| agent on_loop (Token.keyword_foreach, ?),
-				variable_reference						|to| agent on_loop (Token.keyword_as, ?),
+				keyword (Token.keyword_foreach)	|to| loop_action (Token.keyword_foreach),
+				variable_reference					|to| loop_action (Token.keyword_as),
 				optional (
-					variable_reference					|to| agent on_loop (Token.keyword_as, ?)
+					variable_reference				|to| loop_action (Token.keyword_as)
 				),
-				as_literal (Token.keyword_in),
-				variable_reference 						|to| agent on_loop (Token.keyword_in, ?),
-				as_literal (Token.keyword_loop),
-				recurse (agent zero_or_more_directives, True),
-				as_literal (Token.keyword_end)		|to| agent on_loop (Token.keyword_end, ?)
-			>> )
+				keyword (Token.keyword_in),
+				variable_reference 					|to| loop_action (Token.keyword_in),
+				keyword (Token.keyword_loop),
+				recurse (agent zero_or_more_directives, 1),
+				keyword (Token.keyword_end)		|to| loop_action (Token.keyword_end)
+			>>)
 		end
 
 feature {NONE} -- Branch Directives
@@ -139,22 +139,22 @@ feature {NONE} -- Branch Directives
 			--
 		do
 			Result := all_of (<<
-				as_literal (Token.keyword_else),
-				recurse (agent zero_or_more_directives, True)
-			>> )
+				keyword (Token.keyword_else),
+				recurse (agent zero_or_more_directives, 1)
+			>>)
 		end
 
 	if_else_end_directive: like all_of
 			--
 		do
 			Result := all_of (<<
-				as_literal (Token.keyword_if) 		|to| agent on_if (Token.keyword_if, ?),
+				keyword (Token.keyword_if) 		|to| if_action (Token.keyword_if),
 				boolean_expression,
-				as_literal (Token.keyword_then) 		|to| agent on_if (Token.keyword_then, ?),
-				recurse (agent zero_or_more_directives, True),
-				optional (else_directive)				|to| agent on_if (Token.keyword_else, ?),
-				as_literal (Token.keyword_end) 		|to| agent on_if (Token.keyword_end, ?)
-			>> )
+				keyword (Token.keyword_then) 		|to| if_action (Token.keyword_then),
+				recurse (agent zero_or_more_directives, 1),
+				optional (else_directive)			|to| if_action (Token.keyword_else),
+				keyword (Token.keyword_end) 		|to| if_action (Token.keyword_end)
+			>>)
 		end
 
 feature {NONE} -- Directives
@@ -169,9 +169,9 @@ feature {NONE} -- Directives
 			--
 		do
 			Result := one_of (
-				<< as_literal (Token.Free_text)				|to| agent on_free_text,
-					as_literal (Token.Double_dollor_sign)	|to| agent on_dollor_sign_escape,
-					variable_reference 							|to| agent on_variable_reference,
+				<< keyword (Token.Free_text)				|to| agent on_free_text,
+					keyword (Token.Double_dollor_sign)	|to| agent on_dollor_sign_escape,
+					variable_reference 						|to| agent on_variable_reference,
 					evaluate_directive,
 					include_directive,
 					control_directive
@@ -183,14 +183,14 @@ feature {NONE} -- Directives
 			--
 		do
 			Result := all_of (<<
-				as_literal (Token.keyword_evaluate)					|to| agent on_evaluate (Token.keyword_evaluate, ?),
-				as_literal (Token.White_text)							|to| agent on_evaluate (Token.White_text, ?),
+				keyword (Token.keyword_evaluate)					|to| evaluate_action (Token.keyword_evaluate),
+				keyword (Token.White_text)							|to| evaluate_action (Token.White_text),
 				one_of (<<
-					as_literal (Token.Template_name_identifier)	|to| agent on_evaluate (Token.Template_name_identifier, ?),
-					as_literal (Token.Quoted_string)					|to| agent on_evaluate (Token.Quoted_string, ?),
-					variable_reference 									|to| agent on_evaluate (Token.operator_dot, ?)
+					keyword (Token.Template_name_identifier)	|to| evaluate_action (Token.Template_name_identifier),
+					keyword (Token.Quoted_string)					|to| evaluate_action (Token.Quoted_string),
+					variable_reference 								|to| evaluate_action (Token.operator_dot)
 				>>),
-				variable_reference 										|to| agent on_evaluate (0, ?)
+				variable_reference 									|to| evaluate_action (0)
 			>> )
 		end
 
@@ -198,11 +198,11 @@ feature {NONE} -- Directives
 			--
 		do
 			Result := all_of (<<
-				as_literal (Token.keyword_include)	|to| agent on_include (Token.keyword_include, ?),
-				as_literal (Token.White_text)			|to| agent on_include (Token.White_text, ?),
+				keyword (Token.keyword_include)	|to| include_action (Token.keyword_include),
+				keyword (Token.White_text)			|to| include_action (Token.White_text),
 				one_of (<<
-					as_literal (Token.Quoted_string)	|to| agent on_include (Token.Quoted_string, ?),
-					variable_reference 					|to| agent on_include (Token.operator_dot, ?)
+					keyword (Token.Quoted_string)	|to| include_action (Token.Quoted_string),
+					variable_reference 				|to| include_action (Token.operator_dot)
 				>>)
 			>> )
 		end
@@ -226,7 +226,7 @@ feature {NONE} -- Expresssions
 			conjunction_plus_right_operand: like all_of
 		do
 			conjunction_plus_right_operand := all_of (<<
-				one_of (<< as_literal (Token.keyword_and), as_literal (Token.keyword_or) >>),
+				one_of (<< keyword (Token.keyword_and), keyword (Token.keyword_or) >>),
 				simple_boolean_expression
 			>>)
 			conjunction_plus_right_operand.set_action_last (agent on_boolean_conjunction_expression)
@@ -248,9 +248,9 @@ feature {NONE} -- Expresssions
 	comparable_numeric: like one_of
 		do
 			Result := one_of (<<
-				variable_reference 							|to| agent on_comparable (Token.operator_dot, ?),
-				as_literal (Token.integer_64_constant)	|to| agent on_comparable (Token.integer_64_constant, ?),
-				as_literal (Token.double_constant)		|to| agent on_comparable (Token.double_constant, ?)
+				variable_reference 						|to| comparable_action (Token.operator_dot),
+				keyword (Token.integer_64_constant)	|to| comparable_action (Token.integer_64_constant),
+				keyword (Token.double_constant)		|to| comparable_action (Token.double_constant)
 			>>)
 		end
 
@@ -258,21 +258,21 @@ feature {NONE} -- Expresssions
 			--
 		do
 			Result := one_of (<<
-				as_literal (Token.Quoted_string),
-				as_literal (Token.double_constant),
-				as_literal (Token.integer_64_constant)
+				keyword (Token.Quoted_string),
+				keyword (Token.double_constant),
+				keyword (Token.integer_64_constant)
 			>>)
 		end
 
 	function_call: like all_of
 		do
 			Result := all_of (<<
-				as_literal (Token.Left_bracket),
+				keyword (Token.Left_bracket),
 				constant_pattern,
 				while_not_p1_repeat_p2 (
-					as_literal (Token.Right_bracket),
+					keyword (Token.Right_bracket),
 					all_of (<<
-						as_literal (Token.Comma_sign),
+						keyword (Token.Comma_sign),
 						constant_pattern
 					>>)
 				)
@@ -283,7 +283,7 @@ feature {NONE} -- Expresssions
 			--
 		do
 			Result := all_of (<<
-				as_literal (Token.keyword_not), boolean_value
+				keyword (Token.keyword_not), boolean_value
 			>>)
 			Result.set_action_last (agent on_boolean_not_expression)
 		end
@@ -301,10 +301,10 @@ feature {NONE} -- Expresssions
 			--
 		do
 			Result := one_of ( <<
-				as_literal (Token.operator_less_than)		|to| agent on_numeric_comparison ('<', ?),
-				as_literal (Token.operator_greater_than)	|to| agent on_numeric_comparison ('>', ?),
-				as_literal (Token.operator_equal_to) 		|to| agent on_numeric_comparison ('=', ?),
-				as_literal (Token.operator_not_equal_to)
+				keyword (Token.operator_less_than)		|to| numeric_comparison_action ('<'),
+				keyword (Token.operator_greater_than)	|to| numeric_comparison_action ('>'),
+				keyword (Token.operator_equal_to) 		|to| numeric_comparison_action ('='),
+				keyword (Token.operator_not_equal_to)
 			>>)
 		end
 
@@ -320,9 +320,9 @@ feature {NONE} -- Expresssions
 			--
 		do
 			Result := all_of (<<
-				as_literal (Token.Unqualified_name),
+				keyword (Token.Unqualified_name),
 				zero_or_more (
-					all_of (<< as_literal (Token.operator_dot), as_literal (Token.Unqualified_name) >> )
+					all_of (<< keyword (Token.operator_dot), keyword (Token.Unqualified_name) >> )
 				),
 				optional (function_call)
 			>>)
@@ -330,9 +330,9 @@ feature {NONE} -- Expresssions
 
 feature {NONE} -- Implementation
 
-	read_tokens_text (compiled_source_path: like source_file_path)
+	read_tokens_text (compiled_source_path: FILE_PATH)
 		local
-			l_tokens_text: like tokens_text; l_token_text_array: like token_text_array
+			l_tokens_text: like tokens_text; l_token_text_array: like source_interval_list
 			i, count: INTEGER
 		do
 			if attached open_raw (compiled_source_path, Read) as compiled_source then
@@ -351,11 +351,11 @@ feature {NONE} -- Implementation
 
 				compiled_source.read_integer
 				count := compiled_source.last_integer
-				token_text_array.grow (count)
-				l_token_text_array := token_text_array
+				source_interval_list.grow (count)
+				l_token_text_array := source_interval_list
 				from i := 1 until i > count loop
 					compiled_source.read_integer_64
-					l_token_text_array.extend (compiled_source.last_integer_64)
+					l_token_text_array.item_extend (compiled_source.last_integer_64)
 					i := i + 1
 				end
 				compiled_source.close
@@ -371,9 +371,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	write_tokens_text (compiled_source_path: like source_file_path)
+	write_tokens_text (compiled_source_path: FILE_PATH)
 		local
-			area: like tokens_text.area; array_area: like token_text_array.area
+			area: like tokens_text.area; array_area: like source_interval_list.area
 			i, count: INTEGER
 		do
 			if attached open_raw (compiled_source_path, Write) as compiled_source then
@@ -386,8 +386,8 @@ feature {NONE} -- Implementation
 					i := i + 1
 				end
 
-				array_area := token_text_array.area
-				count := token_text_array.count
+				array_area := source_interval_list.area
+				count := source_interval_list.count
 				compiled_source.put_integer (count)
 				from i := 0 until i = count loop
 					compiled_source.put_integer_64 (array_area [i])
@@ -396,9 +396,5 @@ feature {NONE} -- Implementation
 				compiled_source.close
 			end
 		end
-
-feature {NONE} -- Internal attributes
-
-	tokens_text: STRING_32
 
 end

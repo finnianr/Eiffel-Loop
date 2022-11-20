@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 16:01:51 GMT (Wednesday 16th November 2022)"
-	revision: "18"
+	date: "2022-11-19 11:19:46 GMT (Saturday 19th November 2022)"
+	revision: "19"
 
 class
 	CODE_HIGHLIGHTING_WRITER_2
@@ -15,7 +15,7 @@ class
 inherit
 	EL_FILE_PARSER_TEXT_EDITOR_2
 		redefine
-			make_default, on_unmatched_text, new_output, put_editions, source_text
+			make_default, on_unmatched_text, new_output, put_editions
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -249,8 +249,6 @@ feature {NONE} -- Internal attributes
 	last_feature_block_line_appended: ZSTRING
 
 	selected_features: LIST [ZSTRING]
-
-	source_text: ZSTRING
 
 feature {NONE} -- Constants
 

@@ -1,21 +1,21 @@
 note
-	description: "Text matcher"
+	description: "Text matcher for [$source ZSTRING] source text"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2022-11-19 15:10:18 GMT (Saturday 19th November 2022)"
+	revision: "9"
 
 class
 	EL_TEXT_MATCHER
 
 inherit
 	EL_PARSER
-		rename
-			new_pattern as default_pattern
+		redefine
+			default_source_text
 		end
 
 	EL_TEXT_PATTERN_FACTORY
@@ -23,23 +23,15 @@ inherit
 			{NONE} all
 		end
 
+	EL_NEW_PATTERN_BY_AGENT
+		rename
+			make_with_agent as make
+		end
+
+	EL_ZSTRING_CONSTANTS
+
 create
 	make
-
-feature {NONE} -- Initialization
-
-	make
-			--
-		do
-			make_default
-		end
-
-feature -- Element change
-
-	set_pattern (a_pattern: like pattern)
-		do
-			internal_pattern := a_pattern
-		end
 
 feature -- Basic operations
 
@@ -64,8 +56,8 @@ feature -- Basic operations
 		do
 			create l_result
 			set_source_text (string)
-			pattern.set_action (agent increment (?, l_result))
-			find_all
+			pattern.set_action (agent increment (?, ?, l_result))
+			find_all (Void)
 			Result := l_result
 		end
 
@@ -74,26 +66,24 @@ feature -- Basic operations
 		do
 			create Result.make (string.count)
 			set_source_text (string)
-			unmatched_action := agent append (Result, ?)
-			find_all
+			find_all (agent append (Result, ?, ?))
 		end
 
 feature {NONE} -- Implementation
 
-	append (string: ZSTRING; match: EL_STRING_VIEW)
+	append (string: ZSTRING; start_index, end_index: INTEGER)
 		do
-			string.append (match.to_string)
+			string.append (source_substring (start_index, end_index, False))
 		end
 
-	increment (matched_text: EL_STRING_VIEW; count: INTEGER_REF)
+	increment (start_index, end_index: INTEGER; count: INTEGER_REF)
 		do
 			count.set_item (count + 1)
 		end
 
-	default_pattern: EL_MATCH_BEGINNING_OF_LINE_TP
-			--
+	default_source_text: ZSTRING
 		do
-			create Result.make
+			Result := Empty_string
 		end
 
 end

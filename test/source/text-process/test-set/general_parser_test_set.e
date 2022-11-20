@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "25"
+	date: "2022-11-19 14:33:12 GMT (Saturday 19th November 2022)"
+	revision: "26"
 
 class
 	GENERAL_PARSER_TEST_SET
@@ -42,7 +42,6 @@ feature -- Basic operations
 			eval.call ("quoted_string", agent test_quoted_string)
 			eval.call ("recursive_match", agent test_recursive_match)
 			eval.call ("string_view", agent test_string_view)
-			eval.call ("unencoded_as_latin", agent test_unencoded_as_latin)
 		end
 
 feature -- Test
@@ -121,7 +120,7 @@ feature -- Test
 		do
 			create number_list.make (10)
 			pattern := numeric_array_pattern (number_list)
-			create view.make (Text.doubles_array_manifest)
+			create view.make (Text.doubles_array_manifest (Void))
 			pattern.match (view)
 			is_full_match := pattern.is_matched and pattern.count = view.count
 			assert ("numeric_array_pattern: is_full_match OK", is_full_match)
@@ -178,33 +177,6 @@ feature -- Test
 			assert ("same as second word", view.to_string.same_string (second_word))
 		end
 
-	test_unencoded_as_latin
-		-- test with characters not encodeable as Latin-1
-		note
-			testing: "covers/{EL_MATCH_ONE_OR_MORE_TIMES_TP}.match_count",
-						"covers/{EL_MATCH_ANY_CHAR_IN_SET_TP}.match_count",
-						"covers/{EL_ZSTRING_VIEW}.to_string, covers/{EL_ZSTRING_VIEW}.append_substring_to",
-						"covers/{EL_PARSER}.find_all"
-		local
-			pattern: like repeated_character_in_set
-			source_text, character_set: ZSTRING; output: ZSTRING
-			matcher: EL_TEXT_MATCHER
-		do
-			create output.make_empty
-			source_text := Text.russian
-			character_set := source_text.substring_end (source_text.count - 1) -- last two
-			create matcher.make
-			matcher.set_source_text (source_text)
-
-			across << agent append_matched_1 (?, output), agent append_matched_2 (?, output) >> as action loop
-				output.wipe_out
-				pattern := repeated_character_in_set (character_set, action.item)
-				matcher.set_pattern (pattern)
-				matcher.find_all
-				assert ("last two occur twice", output ~ character_set.multiplied (2))
-			end
-		end
-
 feature {NONE} -- Patterns
 
 	double_quote_escape_sequence: EL_FIRST_MATCH_IN_LIST_TP
@@ -242,11 +214,6 @@ feature {NONE} -- Patterns
 					single_quoted_string (single_quote_escape_sequence, agent on_quoted_value (?, 1, comma_separated_list))
 				>>)
 			>> )
-		end
-
-	repeated_character_in_set (character_set: ZSTRING; on_match: PROCEDURE [EL_STRING_VIEW]): like one_or_more
-		do
-			Result := one_or_more (one_character_from (character_set)) |to| on_match
 		end
 
 	single_quote_escape_sequence: EL_FIRST_MATCH_IN_LIST_TP

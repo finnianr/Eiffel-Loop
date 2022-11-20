@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 8:55:18 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2022-11-20 9:42:01 GMT (Sunday 20th November 2022)"
+	revision: "18"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -53,6 +53,7 @@ feature -- Basic operations
 			eval.call ("quoted_string", agent test_quoted_string)
 			eval.call ("recursive_match", agent test_recursive_match)
 			eval.call ("string_substitution", agent test_string_substitution)
+			eval.call ("text_matcher", agent test_text_matcher)
 			eval.call ("xpath_parser", agent test_xpath_parser)
 		end
 
@@ -135,11 +136,14 @@ feature -- Test
 			testing: "covers/{EL_RECURSIVE_TEXT_PATTERN}.match"
 		local
 			pattern: like class_name; output: ZSTRING
+			padding: STRING
 		do
+			create padding.make_filled (' ', 2)
 			create output.make_empty
 			pattern := class_name |to| agent append_to (?, ?, output)
 			across Text.Eiffel_type_declarations.split ('%N') as line loop
 				set_source_text (line.item)
+				source_text.prepend (padding); source_text.append (padding)
 				output.wipe_out
 				pattern.find_all (source_text, agent append_to (?, ?, output))
 				assert ("text reconstructed", output.same_string (source_text))
@@ -175,34 +179,23 @@ feature -- Test
 						"covers/{EL_MATCH_ZERO_OR_MORE_TIMES_TP}.match_count",
 						"covers/{EL_MATCH_ANY_CHAR_IN_SET_TP}.match_count",
 						"covers/{EL_LITERAL_CHAR_TP}.match_count",
-						"covers/{EL_MATCH_CHAR_IN_ASCII_RANGE_TP}.match_count",
 						"covers/{EL_MATCH_LOOP_TP}.internal_call_actions",
-						"covers/{EL_MATCH_LOOP_TP}.match"
+						"covers/{EL_MATCH_LOOP_TP}.match",
+						"covers/{EL_MATCH_P1_UNTIL_P2_MATCH_TP}.match_count",
+						"covers/{EL_MATCH_P2_WHILE_NOT_P1_MATCH_TP}.match_count"
+
 		local
-			number_list: ARRAYED_LIST [DOUBLE]; csv_list: ZSTRING
-			numeric_array_pattern: like numeric_array_pattern_list.item
+			manifest_text: STRING
 		do
-			create number_list.make (10)
-			create csv_list.make_empty
 			across numeric_array_pattern_list as array_pattern loop
-				lio.put_integer_field ("pattern", array_pattern.cursor_index)
+				lio.put_labeled_string ("function", "numeric_array_pattern_" + array_pattern.cursor_index.out)
 				lio.put_new_line
-				numeric_array_pattern := array_pattern.item
-				set_source_text (Text.doubles_array_manifest)
-				if attached numeric_array_pattern (agent on_numeric (?, ?, csv_list)) as pattern then
-					csv_list.wipe_out; number_list.wipe_out
-					pattern.parse (source_text)
-					if pattern.is_matched then
-						across csv_list.split (',') as list loop
-							if list.item.is_double then
-								number_list.extend (list.item.to_double)
-							end
-						end
-						assert ("parsed Eiffel numeric array OK", number_list.to_array ~ Number.Doubles_list)
-					else
-						assert ("numeric_array_pattern: is_full_match OK", False)
+				across 0 |..| 3 as upper_limit loop
+					if array_pattern.is_last implies upper_limit.item >= 2 then
+						test_array_pattern (array_pattern.item, upper_limit.item)
 					end
 				end
+				lio.put_new_line
 			end
 		end
 
@@ -366,6 +359,36 @@ feature -- Test
 			end
 		end
 
+	test_text_matcher
+		note
+			testing: "covers/{EL_MATCH_ONE_OR_MORE_TIMES_TP}.match_count",
+						"covers/{EL_MATCH_ANY_CHAR_IN_SET_TP}.match_count",
+						"covers/{EL_PARSER}.find_all"
+		local
+			character_set, line: ZSTRING; output, output_2: ZSTRING
+			matcher: EL_TEXT_MATCHER
+		do
+			create output.make_empty
+			create output_2.make_empty
+			create matcher.make (agent start_of_line)
+
+			across Text.lines as list loop
+				line := list.item
+				output.wipe_out; output_2.wipe_out
+				character_set := line.substring (1, 2)
+				across line as uc loop
+					if character_set.has (uc.item) then
+						output_2.append_character (uc.item)
+					end
+				end
+
+				matcher.set_pattern (agent repeated_character_in_set (character_set, line, output))
+				matcher.set_source_text (line)
+				matcher.find_all (Void)
+				assert ("same output", output ~ output_2)
+			end
+		end
+
 	test_xpath_parser
 		note
 			testing: "covers/{EL_XPATH_PARSER}.parse"
@@ -414,19 +437,64 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	test_array_pattern (array_pattern: FUNCTION [like PARSE_ACTION, like all_of]; upper_limit: INTEGER)
+		local
+			number_list, actual_number_list: EL_ARRAYED_LIST [DOUBLE]; csv_list: ZSTRING
+			manifest_text: STRING
+		do
+			create actual_number_list.make_from (Number.Doubles_list)
+			if upper_limit = 3 then
+				manifest_text := Text.doubles_array_manifest (Void)
+			else
+				manifest_text := Text.doubles_array_manifest (upper_limit)
+				actual_number_list.keep_head (upper_limit)
+			end
+			create number_list.make (actual_number_list.count)
+
+			lio.put_string ("doubles := " + manifest_text)
+			lio.put_new_line
+
+			create csv_list.make_empty
+
+			set_source_text (manifest_text)
+			if attached array_pattern (agent on_numeric (?, ?, csv_list)) as pattern then
+				pattern.parse (source_text)
+				if pattern.is_matched then
+					across csv_list.split_list (',') as list loop
+						if list.item.is_double then
+							number_list.extend (list.item.to_double)
+						end
+					end
+					assert ("parsed Eiffel numeric array OK", number_list ~ actual_number_list)
+				else
+					assert ("numeric_array_pattern: is_full_match OK", False)
+				end
+			end
+		end
+
 feature {NONE} -- Patterns
+
+	array_close: like string_literal
+		do
+			Result := string_literal (">>")
+		end
+
+	array_open: like string_literal
+		do
+			Result := string_literal ("<<")
+		end
 
 	character_array_pattern (do_with_char: PROCEDURE [CHARACTER_32]): like all_of
 		do
 			Result := all_of (<<
-				string_literal ("<<"),
+				array_open,
 				optional_white_space,
 				one_of (<<
-					string_literal (">>"), -- Empty array
+					array_close, -- Empty array
 					all_of (<<
 						quoted_character (do_with_char),
 						while_not_p1_repeat_p2 (
-							all_of (<< optional_white_space, string_literal (">>") >>),
+							all_of (<< optional_white_space, array_close >>),
 							all_of (<<
 								all_of (<< optional_white_space, character_literal (','), optional_white_space >>),
 								quoted_character (do_with_char)
@@ -437,33 +505,38 @@ feature {NONE} -- Patterns
 			>>)
 		end
 
-	numeric_array_pattern_1 (get_number: PROCEDURE [INTEGER, INTEGER]): like all_of
+	numeric_array_pattern_1 (get_number: like PARSE_ACTION): like all_of
 		do
 			Result := all_of (<<
-				string_literal ("<<"), white_space,
-				decimal_constant |to| get_number,
-				zero_or_more (
+				array_open, optional_white_space,
+				one_of (<<
+					array_close, -- Empty array
 					all_of (<<
-						optional_white_space, character_literal (','), optional_white_space,
-						decimal_constant |to| get_number
+						decimal_constant |to| get_number,
+						zero_or_more (
+							all_of (<<
+								optional_white_space, character_literal (','), optional_white_space,
+								decimal_constant |to| get_number
+							>>)
+						),
+						optional_white_space,
+						array_close
 					>>)
-				),
-				optional_white_space,
-				string_literal (">>")
+				>>)
 			>>)
 		end
 
-	numeric_array_pattern_2 (get_number: PROCEDURE [INTEGER, INTEGER]): like all_of
+	numeric_array_pattern_2 (get_number: like PARSE_ACTION): like all_of
 		do
 			Result := all_of (<<
-				string_literal ("<<"),
+				array_open,
 				optional_white_space,
 				one_of (<<
-					string_literal (">>"), -- Empty array
+					array_close, -- Empty array
 					all_of (<<
 						decimal_constant |to| get_number,
 						while_not_p1_repeat_p2 (
-							all_of (<< optional_white_space, string_literal (">>") >>),
+							all_of (<< optional_white_space, array_close >>),
 							all_of (<<
 								all_of (<< optional_white_space, character_literal (','), optional_white_space >>),
 								decimal_constant |to| get_number
@@ -474,12 +547,43 @@ feature {NONE} -- Patterns
 			>>)
 		end
 
-	numeric_array_pattern_list: ARRAY [FUNCTION [PROCEDURE [INTEGER, INTEGER], like all_of]]
+	numeric_array_pattern_3 (get_number: like PARSE_ACTION): like all_of
+		-- parse array with at least 2 items
 		do
-			Result := << agent numeric_array_pattern_1, agent numeric_array_pattern_2 >>
+			Result := all_of (<<
+				array_open,
+				optional_white_space,
+				all_of (<<
+					decimal_constant |to| get_number,
+					repeat_p1_until_p2 (
+--						p1
+						all_of (<<
+							all_of (<< optional_white_space, character_literal (','), optional_white_space >>),
+							decimal_constant |to| get_number
+						>>),
+--						p2
+						all_of (<< optional_white_space, array_close >>)
+					)
+				>>)
+			>>)
 		end
 
-	xml_text_element_1 (a_action: PROCEDURE [INTEGER, INTEGER]): like all_of
+	numeric_array_pattern_list: ARRAY [FUNCTION [like PARSE_ACTION, like all_of]]
+		do
+			Result := <<
+				agent numeric_array_pattern_1,
+				agent numeric_array_pattern_2,
+				agent numeric_array_pattern_3
+			>>
+		end
+
+	repeated_character_in_set (character_set: ZSTRING; a_source_text, output: ZSTRING): like one_or_more
+		do
+			Result := one_or_more (one_character_from (character_set))
+			Result.set_action (agent output.append_substring_general (a_source_text, ?, ?))
+		end
+
+	xml_text_element_1 (a_action: like PARSE_ACTION): like all_of
 		local
 			any_text: like while_not_p1_repeat_p2
 		do
@@ -497,7 +601,7 @@ feature {NONE} -- Patterns
 			end
 		end
 
-	xml_text_element_2 (a_action: PROCEDURE [INTEGER, INTEGER]): like all_of
+	xml_text_element_2 (a_action: like PARSE_ACTION): like all_of
 		local
 			any_text: like while_not_p_match_any
 		do
@@ -515,7 +619,7 @@ feature {NONE} -- Patterns
 			end
 		end
 
-	xml_text_element_list: ARRAY [FUNCTION [PROCEDURE [INTEGER, INTEGER], like all_of]]
+	xml_text_element_list: ARRAY [FUNCTION [like PARSE_ACTION, like all_of]]
 		do
 			Result := << agent xml_text_element_1, agent xml_text_element_2 >>
 		end
@@ -577,4 +681,9 @@ feature {NONE} -- Constants
 		end
 
 	Name_susan: STRING = "Susan Miller"
+
+	PARSE_ACTION: PROCEDURE [INTEGER, INTEGER]
+		once
+			Result := agent (start_index, end_index: INTEGER) do  end
+		end
 end

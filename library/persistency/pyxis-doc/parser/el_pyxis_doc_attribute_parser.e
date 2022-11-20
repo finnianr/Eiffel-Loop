@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-11-19 11:13:10 GMT (Saturday 19th November 2022)"
+	revision: "3"
 
 class
 	EL_PYXIS_DOC_ATTRIBUTE_PARSER
@@ -15,7 +15,7 @@ class
 inherit
 	EL_PYXIS_ATTRIBUTE_PARSER
 		redefine
-			source_text
+			default_source_text
 		end
 
 	EL_DOCUMENT_CLIENT
@@ -64,9 +64,15 @@ feature {NONE} -- Title parsing actions
 			attribute_list.last.append_substring (source_text, start_index, end_index)
 		end
 
+feature {NONE} -- Implementation
+
+	default_source_text: STRING_8
+		do
+			Result := Empty_string_8
+		end
+
 feature {NONE} -- Internal attributes
 
 	attribute_list: EL_ELEMENT_ATTRIBUTE_LIST
 
-	source_text: STRING_8
 end

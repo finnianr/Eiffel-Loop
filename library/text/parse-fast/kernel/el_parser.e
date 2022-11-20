@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 17:46:17 GMT (Wednesday 16th November 2022)"
-	revision: "3"
+	date: "2022-11-20 7:21:14 GMT (Sunday 20th November 2022)"
+	revision: "5"
 
 deferred class
 	EL_PARSER
@@ -36,15 +36,6 @@ feature -- Access
 
 feature -- Source text substrings
 
-	source_substring (start_index, end_index: INTEGER; keep_ref: BOOLEAN): like source_text
-		do
-			if keep_ref then
-				Result := source_text.substring (start_index, end_index)
-			else
-				Result := core.copied_substring (source_text, start_index, end_index)
-			end
-		end
-
 	integer_32_substring (start_index, end_index: INTEGER): INTEGER
 		do
 			Result := source_substring (start_index, end_index, False).to_integer
@@ -53,6 +44,20 @@ feature -- Source text substrings
 	natural_32_substring (start_index, end_index: INTEGER): NATURAL
 		do
 			Result := source_substring (start_index, end_index, False).to_natural
+		end
+
+	new_source_substring (start_index, end_index: INTEGER): like default_source_text
+		do
+			Result := source_text.substring (start_index, end_index)
+		end
+
+	source_substring (start_index, end_index: INTEGER; keep_ref: BOOLEAN): like default_source_text
+		do
+			if keep_ref then
+				Result := new_source_substring (start_index, end_index)
+			else
+				Result := core.copied_substring (source_text, start_index, end_index)
+			end
 		end
 
 feature -- Element change
@@ -64,12 +69,12 @@ feature -- Element change
 			fully_matched := false
 		end
 
-	set_source_text (a_source_text: like source_text)
+	set_source_text (a_source_text: like default_source_text)
 			--
 		do
 --			force refresh of pattern if string type changes
-			if {ISE_RUNTIME}.dynamic_type (source_text) /= {ISE_RUNTIME}.dynamic_type (a_source_text) then
-				internal_pattern := Void
+			if not source_text.same_type (a_source_text) then
+				reset_pattern
 			end
 			source_text := a_source_text
 			start_offset := 0
@@ -77,7 +82,7 @@ feature -- Element change
  			reset
 		end
 
-	set_substring_source_text (a_source_text: like source_text; start_index, end_index: INTEGER)
+	set_substring_source_text (a_source_text: like default_source_text; start_index, end_index: INTEGER)
 		local
 			s_8: EL_STRING_8_ROUTINES; s_32: EL_STRING_32_ROUTINES
 			z: EL_ZSTRING_ROUTINES
@@ -154,7 +159,7 @@ feature -- Status setting
 
 feature {NONE} -- Implementation
 
-	default_source_text: like source_text
+	default_source_text: READABLE_STRING_GENERAL
 		do
 			Result := Empty_string_8
 		end
@@ -174,11 +179,23 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	reset_pattern
+		do
+			internal_pattern := Void
+		end
+
+feature {NONE} -- Type definitions
+
+	PARSE_ACTION: PROCEDURE [INTEGER, INTEGER]
+		once
+			Result := agent (start_index, end_index: INTEGER) do do_nothing end
+		end
+
 feature {NONE} -- Internal attributes
 
 	internal_pattern: detachable EL_TEXT_PATTERN
 
-	source_text: READABLE_STRING_GENERAL
+	frozen source_text: like default_source_text
 
 	start_offset: INTEGER
 

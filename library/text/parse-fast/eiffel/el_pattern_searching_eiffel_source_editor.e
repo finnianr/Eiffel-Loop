@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-18 8:22:16 GMT (Friday 18th November 2022)"
-	revision: "13"
+	date: "2022-11-19 11:19:24 GMT (Saturday 19th November 2022)"
+	revision: "14"
 
 deferred class
 	EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR
@@ -31,7 +31,7 @@ inherit
 		undefine
 			is_bom_enabled
 		redefine
-			make_default, set_source_path, source_text
+			make_default, set_source_path
 		end
 
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
@@ -46,10 +46,6 @@ feature {NONE} -- Initialization
 			Precursor {EL_FILE_PARSER_TEXT_EDITOR}
 			create source_text.make_empty
 		end
-
-feature -- Access
-
-	source_text: ZSTRING
 
 feature -- Element Change
 

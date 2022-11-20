@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 15:08:30 GMT (Wednesday 16th November 2022)"
-	revision: "30"
+	date: "2022-11-19 12:05:07 GMT (Saturday 19th November 2022)"
+	revision: "31"
 
 class
 	EL_FTP_PROTOCOL
@@ -335,7 +335,7 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 			send (Command.print_working_directory, << >>)
 			Result := last_reply
 			reply_parser.set_source_text (last_reply)
-			reply_parser.do_all (Void)
+			reply_parser.parse
 			Result := reply_parser.last_ftp_cmd_result
 		end
 

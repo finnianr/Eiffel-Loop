@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2022-11-18 18:13:30 GMT (Friday 18th November 2022)"
+	revision: "6"
 
 class
 	FILE_GSL_CONFIG_H_GCC_TO_MSVC_CONVERTER

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2022-11-19 14:16:08 GMT (Saturday 19th November 2022)"
+	revision: "12"
 
 class
 	DUPLICITY_LISTING_OS_CMD
@@ -32,7 +32,7 @@ inherit
 
 	DUPLICITY_ROUTINES
 
-	EL_TEXT_PATTERN_FACTORY_2
+	EL_TEXT_PATTERN_FACTORY
 		undefine
 			is_equal
 		end
@@ -94,7 +94,7 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Pattern
 
-	Date_time_dot_pattern: EL_MATCH_ALL_IN_LIST_TP_2
+	Date_time_dot_pattern: EL_MATCH_ALL_IN_LIST_TP
 		-- matches line like: `Thu Jun  6 07:59:15 2019 .'
 		once
 			Result := all_of_separated_by (nonbreaking_white_space, <<

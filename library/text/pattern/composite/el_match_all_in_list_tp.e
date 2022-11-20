@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-11-20 18:37:56 GMT (Sunday 20th November 2022)"
+	revision: "3"
 
 class
 	EL_MATCH_ALL_IN_LIST_TP
@@ -30,9 +30,31 @@ inherit
 		end
 
 create
-	make, make_from_other, make_default
+	make, make_from_other, make_default, make_separated
 
 feature {NONE} -- Initialization
+
+	make_separated (patterns: ARRAY [EL_TEXT_PATTERN]; white_space: EL_MATCH_WHITE_SPACE_TP)
+		-- make list of patterns separated by specified `white_space' pattern
+		do
+			make_list (patterns.count * 2 - 1)
+			compare_objects
+			across patterns as list loop
+--				Make sure a new `white_space' instance is inserted between each pattern.
+--				This ensures that the `meets_definition' post condition for `match' will not fail unexpectedly
+				inspect list_count
+					when 0 then
+						do_nothing
+					when 1 then
+						extend (white_space)
+				else
+					extend (white_space.twin)
+				end
+				extend (list.item)
+			end
+		ensure
+			correct_number_inserted: list_count = patterns.count * 2 - 1
+		end
 
 	make (patterns: ARRAY [EL_TEXT_PATTERN])
 			--
@@ -107,6 +129,16 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	count_list: EL_STRING_8_LIST
+		do
+			Result := string_8_list (agent item_count)
+		end
+
+	item_count (p: EL_TEXT_PATTERN): STRING
+		do
+			Result := p.count.out
+		end
+
 	internal_call_actions (start_index, end_index: INTEGER; repeated: detachable EL_REPEATED_TEXT_PATTERN)
 		do
 			if attached actions_array as array then
@@ -128,37 +160,44 @@ feature {NONE} -- Implementation
 	match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER
 		local
 			offset, i, i_final: INTEGER; l_area: like area
+			failed: BOOLEAN
 		do
 			offset := a_offset
 			l_area := area; i_final := list_count
-			from until i = i_final or Result < 0 loop
+			from until i = i_final or failed loop
 				if attached l_area [i] as sub_pattern then
 					sub_pattern.match (offset, text)
 					if sub_pattern.is_matched then
 						offset := offset + sub_pattern.count
-						Result := Result + sub_pattern.count
 					else
-						Result := Match_fail
+						failed := True
 					end
 				end
 				i := i + 1
+			end
+			if failed then
+				Result := Match_fail
+			else
+				Result := offset - a_offset
 			end
 		end
 
 	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if matched pattern meets defintion of `Current' pattern
 		local
-			sum_count, l_count, offset: INTEGER
+			offset: INTEGER; sub_pattern: EL_TEXT_PATTERN
+			failed: BOOLEAN
 		do
 			offset := a_offset
-			across Current as sub_pattern until l_count = Match_fail loop
-				if sub_pattern.item.is_matched then
-					l_count := sub_pattern.item.count
-					offset := offset + l_count
-					sum_count := sum_count + l_count
+			across Current as list until failed loop
+				sub_pattern := list.item
+				if sub_pattern.is_matched then
+					offset := offset + sub_pattern.count
+				else
+					failed := True
 				end
 			end
-			Result := count = sum_count
+			Result := not failed and then count = offset - a_offset
 		end
 
 	name_inserts: TUPLE
@@ -171,13 +210,13 @@ feature {NONE} -- Implementation
 			done: BOOLEAN; s: EL_STRING_8_ROUTINES
 		do
 			create Result.make (list_count)
-			across Current as list loop
+			across Current as list until done loop
 				if curtailed then
 					Result.extend (list.item.curtailed_name)
 				else
 					Result.extend (list.item.name)
 				end
-				if Result.character_count > 200 then
+				if curtailed and then Result.character_count > 200 then
 					done := True
 					if not list.is_last then
 						Result.extend (s.Ellipsis_dots)

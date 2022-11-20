@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2022-11-19 10:19:37 GMT (Saturday 19th November 2022)"
+	revision: "6"
 
 class
 	PROCEDURE_PRAAT_RUN_GCC_TO_MSVC_CONVERTER
@@ -78,10 +78,9 @@ feature {NONE} -- Match actions
 			put_new_line
 			put_string ("%T#if ! defined (EIFFEL_APPLICATION)")
 			put_new_line
-			put_string (source_substring (start_index, end_index, False))
+			put_source_substring (start_index, end_index)
 			put_new_line
 			put_string ("%T#endif%T//defined ! (EIFFEL_APPLICATION)")
-
 		end
 
 feature {NONE} -- Implementation

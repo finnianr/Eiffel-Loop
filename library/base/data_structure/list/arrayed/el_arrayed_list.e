@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "45"
+	date: "2022-11-19 9:29:15 GMT (Saturday 19th November 2022)"
+	revision: "46"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -230,7 +230,7 @@ feature -- Removal
 				area.remove_tail (n)
 			end
 		ensure
-			moved_items: n < old count implies old first = first and old i_th (count - n) = i_th (count)
+			items_removed: to_array ~ old to_array.subarray (1, count - n)
 		end
 
 feature -- Reorder items

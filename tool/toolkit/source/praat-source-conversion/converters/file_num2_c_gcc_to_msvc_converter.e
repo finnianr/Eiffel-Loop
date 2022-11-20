@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2022-11-19 10:17:44 GMT (Saturday 19th November 2022)"
+	revision: "5"
 
 class
 	FILE_NUM2_C_GCC_TO_MSVC_CONVERTER
@@ -46,7 +46,7 @@ feature {NONE} -- Match actions
 	on_include_melder_h_macro (start_index, end_index: INTEGER)
 			--
 		do
-			put_string (source_substring (start_index, end_index, False))
+			put_source_substring (start_index, end_index)
 			put_new_line
 			put_string ("#include %"gsl__config.h%"")
 		end

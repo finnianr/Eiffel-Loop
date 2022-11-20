@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-18 7:47:20 GMT (Friday 18th November 2022)"
-	revision: "3"
+	date: "2022-11-19 10:16:13 GMT (Saturday 19th November 2022)"
+	revision: "4"
 
 deferred class
 	EL_PARSER_TEXT_EDITOR
@@ -54,7 +54,13 @@ feature {NONE} -- Implementation
 	on_unmatched_text (start_index, end_index: INTEGER)
 			--
 		do
-			put_string (source_text.substring (start_index, end_index))
+			put_source_substring (start_index, end_index)
+		end
+
+	put_source_substring (start_index, end_index: INTEGER)
+			--
+		do
+			put_string (source_substring (start_index, end_index, False))
 		end
 
 	replace (start_index, end_index: INTEGER; new_text: ZSTRING)

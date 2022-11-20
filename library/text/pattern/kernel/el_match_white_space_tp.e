@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-11-20 11:47:42 GMT (Sunday 20th November 2022)"
+	revision: "3"
 
 class
 	EL_MATCH_WHITE_SPACE_TP
@@ -41,67 +41,58 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	is_nonbreaking_character (uc: CHARACTER_32): BOOLEAN
+	is_breaking_character (uc: CHARACTER_32): BOOLEAN
 		do
-			Result := not (uc = '%N' or uc = '%R')
+			Result := uc = '%N' or uc = '%R'
 		end
 
 	i_th_has (i: INTEGER_32; text: READABLE_STRING_GENERAL): BOOLEAN
 			-- `True' if i'th character is white space
 		local
-			c: EL_CHARACTER_32_ROUTINES
+			c: EL_CHARACTER_32_ROUTINES; uc: CHARACTER_32
 		do
-			Result := c.is_space (text [i]) -- workaround for finalization bug
+			uc := text [i]
+			if nonbreaking and then is_breaking_character (uc) then
+				Result := False
+			else
+				Result := c.is_space (text [i]) -- workaround for finalization bug
+			end
 		end
 
-	i_th_type (i: INTEGER_32; text: READABLE_STRING_GENERAL): INTEGER
+	i_th_is_white_space (i: INTEGER_32; text: READABLE_STRING_GENERAL; a_nonbreaking: BOOLEAN): BOOLEAN
 		local
 			c: EL_CHARACTER_32_ROUTINES; uc: CHARACTER_32
 		do
 			uc := text [i]
-			if c.is_space (uc) then -- workaround for finalization bug
-				if is_nonbreaking_character (uc) then
-					Result := Nonbreaking_space
-				else
-					Result := Breaking_space
-				end
+			if a_nonbreaking and then is_breaking_character (uc) then
+				Result := False
+			else
+				Result := c.is_space (uc) -- workaround for finalization bug
 			end
 		end
 
 	match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER
 			--
 		local
-			offset, l_count, character_type: INTEGER; done, l_nonbreaking: BOOLEAN
+			offset, l_count: INTEGER; done, l_nonbreaking: BOOLEAN
 		do
 			l_count := text.count; l_nonbreaking := nonbreaking
 			from offset := a_offset until offset = l_count or done loop
-				character_type := i_th_type (offset + 1, text)
-				if character_type > 0 then
-					if l_nonbreaking then
-						inspect character_type
-							when Breaking_space then
-								done := True
-							when Nonbreaking_space then
-								Result := Result + 1
-						end
-					else
-						Result := Result + 1
-					end
+				if i_th_is_white_space (offset + 1, text, l_nonbreaking) then
+					offset := offset + 1
 				else
 					done := True
 				end
-				offset := offset + 1
 			end
-			if l_nonbreaking and then character_type = Breaking_space then
-				Result := Match_fail
-			elseif not (Result >= minimum_match_count) then
+			Result := offset - a_offset
+			if not (Result >= minimum_match_count) then
 				Result := Match_fail
 			end
 		ensure then
 			valid_result: (Result > Match_fail and nonbreaking)
 				implies
 					across text.substring (a_offset + 1, a_offset + Result).to_string_32 as uc all
-						is_nonbreaking_character (uc.item)
+						not is_breaking_character (uc.item)
 					end
 		end
 
@@ -113,12 +104,6 @@ feature {NONE} -- Implementation
 				Result := [spell_minimum, ""]
 			end
 		end
-
-feature {NONE} -- Constants
-
-	Breaking_space: INTEGER = 1
-
-	Nonbreaking_space: INTEGER = 2
 
 feature {NONE} -- Constants
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 18:15:10 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-11-20 11:32:17 GMT (Sunday 20th November 2022)"
+	revision: "3"
 
 class
 	EL_MATCH_STRING_8_WHITE_SPACE_TP
@@ -17,7 +17,7 @@ inherit
 		undefine
 			i_th_has
 		redefine
-			i_th_type
+			i_th_is_white_space
 		end
 
 	EL_MATCH_OPTIMIZED_FOR_READABLE_STRING_8
@@ -30,18 +30,15 @@ create
 
 feature {NONE} -- Implementation
 
-	i_th_type (i: INTEGER_32; text: READABLE_STRING_8): INTEGER
+	i_th_is_white_space (i: INTEGER_32; text: READABLE_STRING_8; a_nonbreaking: BOOLEAN): BOOLEAN
 		local
 			c: CHARACTER_8
 		do
 			c := text [i]
-			if c.is_space then
-				if c = '%N' or c = '%R' then
-					Result := Breaking_space
-				else
-					Result := Nonbreaking_space
-				end
+			if a_nonbreaking and then c = '%N' or c = '%R' then
+				Result := False
+			else
+				Result := c.is_space
 			end
 		end
-
 end

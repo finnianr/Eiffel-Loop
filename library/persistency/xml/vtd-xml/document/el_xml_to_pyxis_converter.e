@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "23"
+	date: "2022-11-20 8:37:30 GMT (Sunday 20th November 2022)"
+	revision: "25"
 
 class
 	EL_XML_TO_PYXIS_CONVERTER
 
 inherit
-	EL_EIFFEL_TEXT_PATTERN_FACTORY
-		rename
-			token as token_pattern
+	EL_TEXT_PATTERN_FACTORY
 		export
 			{NONE} all
 		end
@@ -43,10 +41,11 @@ feature {EL_COMMAND_CLIENT} -- Initiliazation
 
 	make_default
 		do
-			create text_matcher.make
+			create text_matcher.make (
+				create {EL_TEXT_MATCHER}.make (agent one_of (<< xml_identifier, decimal_constant >>)),
+				create {EL_TEXT_MATCHER}.make (agent decimal_constant)
+			)
 			create attributes
-			numeric_constant_pattern := numeric_constant
-			xml_identifier_or_numeric_constant_pattern := one_of (<< xml_identifier, numeric_constant >>)
 
 			create last_attribute_name.make_empty
 			next_node_action := agent put_pyxis_doc
@@ -257,12 +256,9 @@ feature {NONE} -- Implementation
 		local
 			quote: CHARACTER
 		do
-			if identifiers_in_quotes then
-				text_matcher.set_pattern (numeric_constant)
-			else
-				text_matcher.set_pattern (xml_identifier_or_numeric_constant_pattern)
-			end
-			if text_matcher.is_match (a_string) and not (a_string.is_empty or a_string.has ('-')) then
+			if attached text_matcher [identifiers_in_quotes] as matcher
+				and then matcher.is_match (a_string) and not (a_string.is_empty or a_string.has ('-'))
+			then
 				Result := a_string
 			else
 				if a_string.index_of ('"', 1) > 0 then
@@ -346,21 +342,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	xml_identifier: EL_MATCH_ALL_IN_LIST_TP
-			--
-		do
-			Result := all_of ( <<
-				one_of (<< letter, character_literal ('_') >> ),
-				zero_or_more (xml_identifier_character)
-			>>)
-		end
-
-	xml_identifier_character: EL_FIRST_MATCHING_CHAR_IN_LIST_TP
-		do
-			Result := identifier_character
-			Result.extend (character_literal ('-'))
-		end
-
 feature {NONE} -- Internal attributes
 
 	attribute_node_depth: INTEGER
@@ -381,17 +362,13 @@ feature {NONE} -- Internal attributes
 
 	node_depth: INTEGER
 
-	numeric_constant_pattern: like numeric_constant
-
 	out_file: EL_PLAIN_TEXT_FILE
 
-	text_matcher: EL_TEXT_MATCHER
+	text_matcher: EL_BOOLEAN_INDEXABLE [EL_TEXT_MATCHER]
 
 	token_count: INTEGER
 
 	xdoc: EL_XML_DOC_CONTEXT
-
-	xml_identifier_or_numeric_constant_pattern: like one_of
 
 feature {NONE} -- Constants
 
@@ -419,8 +396,6 @@ feature {NONE} -- Constants
 		once
 			Result := "\\%""
 		end
-
-	Is_zstring_source: BOOLEAN = True
 
 	Triple_quote: ZSTRING
 		once

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 17:36:39 GMT (Wednesday 16th November 2022)"
-	revision: "8"
+	date: "2022-11-19 11:23:35 GMT (Saturday 19th November 2022)"
+	revision: "9"
 
 class
 	EVOLICITY_TEMPLATE_PARSER
@@ -18,7 +18,7 @@ inherit
 			{NONE} all
 			{ANY} source_file_path, find_all
 		redefine
-			reset, make_default, source_text
+			reset, make_default
 		end
 
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
@@ -73,10 +73,6 @@ feature {NONE} -- Event handlers
 				locale_keys.extend (Translation_key_template #$ [name])
 			end
 		end
-
-feature {NONE} -- Internal attributes
-
-	source_text: ZSTRING
 
 feature {NONE} -- Constants
 

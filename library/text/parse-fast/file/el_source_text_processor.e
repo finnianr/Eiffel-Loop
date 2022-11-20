@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-18 7:20:17 GMT (Friday 18th November 2022)"
-	revision: "10"
+	date: "2022-11-19 11:54:11 GMT (Saturday 19th November 2022)"
+	revision: "1"
 
 class
 	EL_SOURCE_TEXT_PROCESSOR
@@ -15,11 +15,10 @@ class
 inherit
 	EL_FILE_PARSER
 		rename
-			find_all as do_all,
 			pattern as delimiting_pattern
 		export
 			{NONE} all
-			{ANY} do_all, fully_matched,
+			{ANY} fully_matched,
 				set_source_text, set_source_text_from_line_source, set_source_text_from_file,
 				delimiting_pattern
 		end
@@ -29,28 +28,19 @@ inherit
 			{NONE} all
 		end
 
+	EL_NEW_PATTERN_BY_AGENT
+		rename
+			make_with_agent as make_with_delimiter
+		end
+
 create
 	make_with_delimiter
 
-feature {NONE} -- Initialization
+feature -- Basic operations
 
-	make_with_delimiter (delimiting_pattern_agent: FUNCTION [EL_TEXT_PATTERN])
-
+	do_all
 		do
-			make_default
-			new_delimiting_pattern := delimiting_pattern_agent
+			find_all (Void)
 		end
-
-feature {NONE} -- Implementation
-
-	new_pattern: EL_TEXT_PATTERN
-		do
-			new_delimiting_pattern.apply
-			Result := new_delimiting_pattern.last_result
-		end
-
-feature {NONE} -- Internal attributes
-
-	new_delimiting_pattern: FUNCTION [EL_TEXT_PATTERN]
 
 end

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-11-19 11:12:32 GMT (Saturday 19th November 2022)"
+	revision: "3"
 
 deferred class
 	EL_SUBSTITUTION_TEMPLATE
@@ -28,7 +28,7 @@ inherit
 		export
 			{NONE} all
 		redefine
-			make_default, parse, reset, source_text
+			make_default, parse, reset, default_source_text
 		end
 
 	EL_MODULE_EXCEPTION
@@ -200,6 +200,11 @@ feature {NONE} -- Implementation: parsing actions
 
 feature {NONE} -- Implementation
 
+	default_source_text: like string.new
+		do
+			Result := string.new (0)
+		end
+
 	dollor_sign: like string.new
 		do
 			Result := string.new (1)
@@ -263,8 +268,6 @@ feature {NONE} -- Internal attributes
 
 	place_holder_table: HASH_TABLE [like string.new, like string.new]
 		-- map variable name to place holder
-
-	source_text: like string.new
 
 feature {NONE} -- Constants
 
