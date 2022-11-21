@@ -6,6 +6,8 @@ Eiffel LIST-orientated XML Database
 
 **Status:** No longer maintained
 
+(Last compiled November 2022)
+
 A simple XML database based on VTD-XML xpath and XML parsing library. Supports transactions and encryption.
 Any list conforming to [$source LIST [EL_STORABLE_XML_ELEMENT]] can be turned into a database.
 This library has now been superceded by [./library/Eco-DB.html Eco-DB.ecf] which is faster, more powerful

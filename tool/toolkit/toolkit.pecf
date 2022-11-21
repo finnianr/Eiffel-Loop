@@ -90,7 +90,7 @@ system:
 			EL_markup_docs = "markup-docs.ecf"
 			EL_testing = "testing.ecf"
 			EL_text_formats = "text-formats.ecf"
-			EL_text_process_fast = "text-process-fast.ecf"
+			EL_text_process = "text-process.ecf"
 
 			EL_vtd_xml = "vtd-xml.ecf"
 			EL_xml_scan = "xml-scan.ecf"

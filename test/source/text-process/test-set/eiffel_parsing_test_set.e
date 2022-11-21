@@ -1,28 +1,32 @@
 note
 	description: "Test parsing of Eiffel language expressions"
+	notes: "[
+		**Performance Comparison**
+		
+			Class: EIFFEL_LEGACY_PARSING_TEST_SET
+			Executing test: code_highlighting
+			TIME: 0 secs 18 ms
+		
+			Class: EIFFEL_PARSING_TEST_SET
+			Executing test: code_highlighting
+			TIME: 0 secs 6 ms
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2022-11-21 11:30:14 GMT (Monday 21st November 2022)"
+	revision: "4"
 
 class
 	EIFFEL_PARSING_TEST_SET
 
 inherit
-	EL_COPIED_FILE_DATA_TEST_SET
-
-	SHARED_DEV_ENVIRON
-
-feature -- Basic operations
-
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
-		do
-			eval.call ("code_highlighting", agent test_code_highlighting)
+	EIFFEL_LEGACY_PARSING_TEST_SET
+		redefine
+			test_code_highlighting
 		end
 
 feature -- Tests
@@ -46,7 +50,9 @@ feature -- Tests
 				html_out.set_encoding ({EL_ENCODING_CONSTANTS}.Latin_1)
 				create writer.make (html_out)
 				writer.set_file_path (file_list.first_path)
+				lio.set_timer
 				writer.edit
+				lio.put_elapsed_time
 			end
 			create xdoc.make_from_file (html_path)
 
@@ -56,37 +62,6 @@ feature -- Tests
 				lio.put_new_line
 				assert ("same count " + count.key, xdoc.query (xpath).as_integer = count.item)
 			end
-		end
-
-feature {NONE} -- Implementation
-
-	source_file_list: EL_FILE_PATH_LIST
-		do
-			create Result.make_from_array (<< Data_dir + "el_mp3_convert_command.e" >>)
-		end
-
-feature {NONE} -- Constants
-
-	Emphasis_counts: EL_HASH_TABLE [INTEGER, STRING]
-		once
-			create Result.make (<<
-				["quote", 13],
-				["class", 21],
-				["comment", 13],
-				["keyword", 7]
-			>>)
-		end
-
-	Data_dir: DIR_PATH
-		once
-			Result := Dev_environ.Eiffel_loop_dir #+ "tool/eiffel/test-data/sources/latin-1/os-command"
-		end
-
-	Is_zstring_source: BOOLEAN = False
-
-	Xpath_count_template: ZSTRING
-		once
-			Result := "count (//em[@id='%S'])"
 		end
 
 end

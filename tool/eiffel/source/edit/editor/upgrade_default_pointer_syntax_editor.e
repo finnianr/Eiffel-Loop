@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 17:37:09 GMT (Wednesday 16th November 2022)"
-	revision: "7"
+	date: "2022-11-21 14:38:41 GMT (Monday 21st November 2022)"
+	revision: "8"
 
 class
 	UPGRADE_DEFAULT_POINTER_SYNTAX_EDITOR
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Pattern definitions
 
-	search_patterns: ARRAYED_LIST [EL_TEXT_PATTERN]
+	search_patterns: ARRAYED_LIST [TP_PATTERN]
 		do
 			create Result.make_from_array (<<
 				pointer_comparison,
@@ -47,7 +47,7 @@ feature {NONE} -- Pattern definitions
 	pointer_comparison: like all_of
 			--
 		do
-			Result := all_of_separated_by (one_or_two_spaces, <<
+			Result := all_of_separated_by (white_space, <<
 				identifier |to| agent on_variable_name,
 				one_of (<<
 					string_literal ("/="),
@@ -64,7 +64,7 @@ feature {NONE} -- Pattern definitions
 			Result := all_of ( << one_character_from ("Dd"), string_literal ("efault_pointer")>> )
 		end
 
-	one_or_two_spaces: EL_MATCH_COUNT_WITHIN_BOUNDS_TP
+	one_or_two_spaces: TP_COUNT_WITHIN_BOUNDS
 		do
 			Result := character_literal (' ') #occurs (1 |..| 2)
 		end

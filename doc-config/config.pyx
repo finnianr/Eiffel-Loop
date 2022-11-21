@@ -141,10 +141,10 @@ publish-repository:
 			"library/evolicity.ecf"
 			"library/search-engine.ecf"
 			"library/text-formats.ecf"
+			"library/text-process-legacy.ecf#parse"
+			"library/text-process-legacy.ecf#text_pattern"
 			"library/text-process.ecf#parse"
-			"library/text-process.ecf#pattern_match"
-			"library/text-process-fast.ecf#parse"
-			"library/text-process-fast.ecf#text_pattern"
+			"library/text-process.ecf#text_pattern"
 
 		# Library (Utility)
 		ecf:
@@ -198,8 +198,8 @@ publish-repository:
 			"test/test.ecf#search_engine"
 			"test/test.ecf#taglib"
 			"test/test.ecf#text_formats"
+			"test/test.ecf#text_process_legacy"
 			"test/test.ecf#text_process"
-			"test/test.ecf#text_process_fast"
 			"test/test.ecf#vtd_xml"
 			"test/test.ecf#wel_x_audio"
 			"test/test.ecf#xml_scan"

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2022-11-21 14:32:52 GMT (Monday 21st November 2022)"
+	revision: "16"
 
 class
 	EROS_CALL_REQUEST_PARSER
@@ -24,18 +24,21 @@ class
 inherit
 	EL_PARSER
 		rename
-			make_default as make
+			make_default as make,
+			source_text as call_text,
+			default_source_text as default_call_text
 		redefine
-			make, reset
+			make, reset, default_call_text
 		end
 
-	EL_EIFFEL_TEXT_PATTERN_FACTORY
+	TP_EIFFEL_FACTORY
 		rename
-			class_name as class_name_pattern,
-			single_quote as single_quote_pattern
+			class_name as class_name_pattern
 		export
 			{NONE} all
 		end
+
+	EL_STRING_8_CONSTANTS
 
 create
 	make
@@ -55,30 +58,27 @@ feature -- Access
 
 	argument_list: EL_STRING_8_LIST
 
-	class_name: STRING
-
-	routine_name: STRING
-
 	call_argument: detachable EL_BUILDABLE_FROM_NODE_SCAN
 		do
 		end
 
-	call_text: STRING
+	class_name: STRING
+
+	routine_name: STRING
 
 feature -- Status report
-
-	has_error: BOOLEAN
 
 	has_call_argument: BOOLEAN
 		do
 		end
+
+	has_error: BOOLEAN
 
 feature -- Basic operations
 
 	try_parse (a_call_text: STRING)
 			--
 		do
-			call_text := a_call_text
 			if a_call_text.is_empty then
 				has_error := True
 			else
@@ -90,41 +90,39 @@ feature -- Basic operations
 
 feature {NONE} -- Syntax grammar
 
-	argument: EL_FIRST_MATCH_IN_LIST_TP
+	argument: like one_of
 			--
 		do
 			Result := one_of ( <<
-				class_object_place_holder 	|to| agent on_argument,
-				singley_quoted_string 		|to| agent on_argument,
-				double_constant 				|to| agent on_argument,
-				integer_constant 				|to| agent on_argument,
-				boolean_constant				|to| agent on_argument,
-				identifier						|to| agent on_argument
-			>> )
+				class_object_place_holder 			|to| agent on_argument,
+				basic_quoted_string ('%'', Void)	|to| agent on_argument,
+				decimal_constant						|to| agent on_argument,
+				signed_integer							|to| agent on_argument,
+				boolean_constant						|to| agent on_argument,
+				identifier								|to| agent on_argument
+			>>)
 		end
 
-	argument_list_pattern: EL_MATCH_ALL_IN_LIST_TP
+	argument_list_pattern: like all_of
 			--
 		do
 			Result := all_of (<<
 				character_literal ('('),
-				maybe_white_space,
+				optional_white_space,
 				argument,
 				while_not_p1_repeat_p2 (
-					right_bracket,
+					character_literal (')'),
 
 					-- pattern 2
-					all_of (<<
-						maybe_white_space,
+					all_of_separated_by (optional_white_space, <<
 						character_literal (','),
-						maybe_white_space,
 						argument
 					>>)
 				)
 			>>)
 		end
 
-	boolean_constant: EL_FIRST_MATCH_IN_LIST_TP
+	boolean_constant: like one_of
 			--
 		do
 			Result := one_of (<<
@@ -133,7 +131,7 @@ feature {NONE} -- Syntax grammar
 			>>)
 		end
 
-	class_object_place_holder: EL_MATCH_ALL_IN_LIST_TP
+	class_object_place_holder: like all_of
 			--
 		do
 			Result := all_of ( <<
@@ -141,58 +139,36 @@ feature {NONE} -- Syntax grammar
 			>> )
 		end
 
-	new_pattern: EL_MATCH_ALL_IN_LIST_TP
+	new_pattern: like all_of
 			--
 		do
 			Result := all_of (<<
 				class_object_place_holder |to| agent on_class_name,
 				character_literal ('.'),
-				c_identifier |to| agent on_routine_name,
-				maybe_white_space,
+				identifier |to| agent on_routine_name,
+				optional_white_space,
 				optional (argument_list_pattern)
 			>>)
 		end
 
-	right_bracket: EL_LITERAL_CHAR_TP
-			--
-		do
-			create Result.make (character_argument (')'))
-		end
-
-	single_quote: EL_LITERAL_CHAR_TP
-			--
-		do
-			create Result.make ({ASCII}.Singlequote.to_natural_32)
-		end
-
-	singley_quoted_string: EL_MATCH_ALL_IN_LIST_TP
-			--
-		do
-			Result := all_of ( <<
-				single_quote, while_not_p1_repeat_p2 (single_quote, any_character)
-			>> )
-		end
-
 feature {NONE} -- Parsing match events
 
-	on_argument (matched_text: EL_STRING_VIEW)
+	on_argument (start_index, end_index: INTEGER)
 			--
 		do
-			argument_list.extend (matched_text)
+			argument_list.extend (new_source_substring (start_index, end_index))
 		end
 
-	on_class_name (matched_text: EL_STRING_VIEW)
+	on_class_name (start_index, end_index: INTEGER)
 			--
 		do
-			class_name := matched_text
-			class_name.remove_head (1)
-			class_name.remove_tail (1)
+			class_name := new_source_substring (start_index + 1, end_index - 1)
 		end
 
-	on_routine_name (matched_text: EL_STRING_VIEW)
+	on_routine_name (start_index, end_index: INTEGER)
 			--
 		do
-			routine_name := matched_text
+			routine_name := new_source_substring (start_index, end_index)
 		end
 
 feature {NONE} -- Implementation
@@ -205,4 +181,8 @@ feature {NONE} -- Implementation
 			argument_list.wipe_out
 		end
 
+	default_call_text: STRING
+		do
+			Result := Empty_string_8
+		end
 end

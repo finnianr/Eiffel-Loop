@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-19 12:12:39 GMT (Saturday 19th November 2022)"
-	revision: "6"
+	date: "2022-11-21 14:29:58 GMT (Monday 21st November 2022)"
+	revision: "7"
 
 class
 	EL_FTP_REPLY_PARSER
@@ -24,7 +24,7 @@ inherit
 			default_source_text
 		end
 
-	EL_TEXT_PATTERN_FACTORY
+	TP_FACTORY
 
 create
 	make
@@ -58,7 +58,7 @@ feature {NONE} -- Event handling
 
 feature {NONE} -- Pattern
 
-	double_quote: EL_LITERAL_CHAR_TP
+	double_quote: TP_LITERAL_CHAR
 			--
 		do
 			create Result.make ('"')

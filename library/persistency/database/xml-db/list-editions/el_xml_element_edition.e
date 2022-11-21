@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2022-11-21 8:59:16 GMT (Monday 21st November 2022)"
+	revision: "8"
 
 deferred class
 	EL_XML_ELEMENT_EDITION [STORABLE_TYPE -> EL_STORABLE_XML_ELEMENT]
 
 inherit
 	EVOLICITY_SERIALIZEABLE_AS_XML
-
-	EL_MODULE_UTF
 
 feature -- Access
 
@@ -25,9 +23,9 @@ feature -- Access
 
 	tag_name: STRING
 		local
-			node: EL_XML_DOC_CONTEXT
+			node: EL_XML_DOC_CONTEXT; utf: EL_UTF_CONVERTER
 		do
-			create node.make_from_string (UTF.utf_32_string_to_utf_8_string_8 (Template))
+			create node.make_from_string (utf.utf_32_string_to_utf_8_string_8 (Template))
 			Result := node.name
 		end
 

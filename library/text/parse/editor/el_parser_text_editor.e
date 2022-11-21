@@ -9,7 +9,7 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
+	date: "2022-11-19 10:16:13 GMT (Saturday 19th November 2022)"
 	revision: "4"
 
 deferred class
@@ -23,13 +23,10 @@ inherit
 
 	EL_PARSER
 		rename
-			new_pattern as delimiting_pattern,
-			find_all as put_editions
+			new_pattern as delimiting_pattern
 		redefine
 			make_default
 		end
-
-	EL_TEXT_PATTERN_FACTORY
 
 feature {NONE} -- Initialization
 
@@ -38,26 +35,38 @@ feature {NONE} -- Initialization
 		do
 			Precursor {EL_TEXT_EDITOR}
 			Precursor {EL_PARSER}
-			set_unmatched_action (agent on_unmatched_text)
+		end
+
+feature -- Basic operations
+
+	put_editions
+		do
+			find_all (agent on_unmatched_text)
 		end
 
 feature {NONE} -- Implementation
 
-	on_unmatched_text (text: EL_STRING_VIEW)
+	delete (start_index, end_index: INTEGER)
 			--
 		do
-			put_string (text)
 		end
 
-	replace (text: EL_STRING_VIEW; new_text: ZSTRING)
+	on_unmatched_text (start_index, end_index: INTEGER)
+			--
+		do
+			put_source_substring (start_index, end_index)
+		end
+
+	put_source_substring (start_index, end_index: INTEGER)
+			--
+		do
+			put_string (source_substring (start_index, end_index, False))
+		end
+
+	replace (start_index, end_index: INTEGER; new_text: ZSTRING)
 			--
 		do
 			put_string (new_text)
-		end
-
-	delete (text: EL_STRING_VIEW)
-			--
-		do
 		end
 
 end

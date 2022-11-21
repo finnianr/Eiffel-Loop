@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2022-11-21 14:24:56 GMT (Monday 21st November 2022)"
+	revision: "7"
 
 class
 	EL_FILE_TRAILING_SPACE_REMOVER
@@ -20,7 +20,7 @@ inherit
 			{NONE} set_file_path
 		end
 
-	EL_TEXT_PATTERN_FACTORY
+	TP_FACTORY
 
 create
 	make
@@ -35,7 +35,7 @@ feature {NONE} -- Pattern definitions
 
 feature {NONE} -- Parsing actions
 
-	on_trailing_space (class_name: EL_STRING_VIEW)
+	on_trailing_space (start_index, end_index: INTEGER)
 			-- Ignore trailing space
 		do
 			put_new_line

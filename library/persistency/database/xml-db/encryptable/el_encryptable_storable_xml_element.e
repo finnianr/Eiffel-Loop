@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2022-11-21 8:59:16 GMT (Monday 21st November 2022)"
+	revision: "7"
 
 deferred class
 	EL_ENCRYPTABLE_STORABLE_XML_ELEMENT
@@ -19,12 +19,15 @@ inherit
 		end
 
 	EL_ENCRYPTABLE
+		undefine
+			make_default
+		end
 
 feature {NONE} -- Initialization
 
 	make_default
 		do
-			Precursor
+			Precursor {EL_STORABLE_XML_ELEMENT}
 			create encrypter
 		end
 
@@ -36,7 +39,7 @@ feature {NONE} -- Conversion
 			if Result.is_empty then
 				Result := base_64_text
 			else
-				Result := encrypter.decrypted_base64 (base_64_text)
+				Result := encrypter.decrypted_base_64 (base_64_text)
 			end
 		end
 
@@ -46,7 +49,7 @@ feature {NONE} -- Conversion
 			if text.is_empty then
 				Result := text
 			else
-				Result := encrypter.base64_encrypted (text)
+				Result := encrypter.base_64_encrypted (text)
 			end
 		end
 

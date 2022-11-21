@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-19 11:17:14 GMT (Saturday 19th November 2022)"
-	revision: "18"
+	date: "2022-11-21 14:30:30 GMT (Monday 21st November 2022)"
+	revision: "19"
 
 class
 	EL_SEARCH_TERM_PARSER [G -> EL_WORD_SEARCHABLE]
@@ -25,7 +25,7 @@ inherit
 			make, reset
 		end
 
-	EL_TEXT_PATTERN_FACTORY
+	TP_FACTORY
 		export
 			{NONE} all
 		end
@@ -130,7 +130,7 @@ feature {NONE} -- Text patterns
 			Result.set_action_last (agent on_positive_or_negated_search_term)
 		end
 
-	positive_search_term: EL_FIRST_MATCH_IN_LIST_TP
+	positive_search_term: like one_of
 		do
 			create Result.make (custom_patterns)
 			Result.extend (quoted_phrase)
@@ -247,7 +247,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	custom_patterns: ARRAY [EL_TEXT_PATTERN]
+	custom_patterns: ARRAY [TP_PATTERN]
 		do
 			create Result.make_empty
 		end

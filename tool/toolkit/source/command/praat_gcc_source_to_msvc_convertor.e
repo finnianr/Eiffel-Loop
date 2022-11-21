@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-19 14:16:08 GMT (Saturday 19th November 2022)"
-	revision: "16"
+	date: "2022-11-21 14:40:30 GMT (Monday 21st November 2022)"
+	revision: "17"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR
@@ -22,7 +22,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_TEXT_PATTERN_FACTORY
+	TP_FACTORY
 		export
 			{NONE} all
 		end

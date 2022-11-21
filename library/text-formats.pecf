@@ -34,7 +34,7 @@ system:
 		# Eiffel Loop
 		libraries:
 			EL_base = "base/base.ecf"
-			EL_text_process_fast = "text-process-fast.ecf"
+			EL_text_process = "text-process.ecf"
 
 		# Source code
 		cluster_tree:

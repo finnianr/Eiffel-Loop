@@ -23,7 +23,7 @@ application that makes use of this library.
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_eco_db" location = "Eco-DB.ecf"/>
 		<library name = "EL_encryption" location = "encryption.ecf"/>
-		<library name = "EL_text_process_fast" location = "text-process-fast.ecf"/>
+		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<!--Source code-->
 		<cluster name = "search" location = "text/search-engine" recursive = "true"/>
 	</target>

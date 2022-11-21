@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"; uuid = "5F4D5242-0204-11E9-8F38-BFFB70340F0C" 
+	configuration_ns = "1-16-0"; uuid = "75A6AC12-569E-11ED-B784-C777B2A8BBB9" 
 	name = EL_text_process; library_target = EL_text_process
 	description:
 		"""
@@ -22,7 +22,7 @@ system:
 			all_classes = true
 
 		option:
-			namespace = "Eiffel-Loop.Library.Text.Process"
+			namespace = "Eiffel-Loop.Library.Text.Process_obs"
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug=false; warning=true
 			assertions:
@@ -40,18 +40,17 @@ system:
 			parse = "text/parse"
 			description:
 				"""
-					Parsing (Legacy)
+					Parsing
 					
-					Classes for parsing text data using class [$source EL_STRING_VIEW].
+					Classes for parsing text data.
 				"""
 
 		cluster_tree:
-			pattern_match = "text/pattern-match"
+			text_pattern = "text/pattern"
 			description:
 				"""
-					Pattern-matching (Legacy)
+					Pattern-matching
 
-					Classes for finding and matching textual patterns using class [$source EL_STRING_VIEW].
+					Classes for finding and matching textual patterns.
 				"""
-
 

@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2022-11-21 8:52:54 GMT (Monday 21st November 2022)"
+	revision: "8"
 
 class
-	EL_ENCRYPTABLE_XML_ELEMENT_LIST_EDITIONS [STORABLE_TYPE -> {EL_ENCRYPTABLE, EL_STORABLE_XML_ELEMENT} create make_default end]
+	EL_ENCRYPTABLE_XML_ELEMENT_LIST_EDITIONS [STORABLE_TYPE -> {EL_ENCRYPTABLE_STORABLE_XML_ELEMENT} create make_default end]
 
 inherit
 	EL_XML_ELEMENT_LIST_EDITIONS [STORABLE_TYPE]

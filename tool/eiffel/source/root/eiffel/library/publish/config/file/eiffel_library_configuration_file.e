@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2022-11-21 10:51:49 GMT (Monday 21st November 2022)"
+	revision: "12"
 
 class
 	EIFFEL_LIBRARY_CONFIGURATION_FILE
@@ -36,7 +36,7 @@ feature -- Access
 			Result := once "library" + type_qualifier
 		end
 
-feature {EIFFEL_CLASS_PARSER_2} -- Factory
+feature {EIFFEL_CLASS_PARSER} -- Factory
 
 	new_class (source_path: FILE_PATH): EIFFEL_LIBRARY_CLASS
 		do

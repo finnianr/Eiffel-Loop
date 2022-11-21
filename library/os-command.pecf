@@ -41,7 +41,7 @@ system:
 				assertions:
 					precondition = true; postcondition = true; check = true
 			EL_evolicity = "evolicity.ecf"
-			EL_text_process_fast = "text-process-fast.ecf"
+			EL_text_process = "text-process.ecf"
 
 		# Source code
 		cluster_tree:

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 17:47:23 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2022-11-21 14:29:31 GMT (Monday 21st November 2022)"
+	revision: "9"
 
 class
 	EL_DATE_AND_WORD_SEARCH_TERM_PARSER  [G -> {EL_DATEABLE, EL_WORD_SEARCHABLE}]
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Text patterns
 
-	custom_patterns: ARRAY [EL_TEXT_PATTERN]
+	custom_patterns: ARRAY [TP_PATTERN]
 		do
 			Result := << month_interval, day_interval, date, month >>
 		end

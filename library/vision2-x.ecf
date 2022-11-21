@@ -95,7 +95,7 @@ CLUSTERS
 		<library name = "EL_search" location = "search-engine.ecf"/>
 		<library name = "EL_image_utils" location = "image-utils.ecf"/>
 		<library name = "EL_logging" location = "logging.ecf"/>
-		<library name = "EL_text_process_fast" location = "text-process-fast.ecf"/>
+		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<library name = "EL_thread" location = "thread.ecf"/>
 		<library name = "EL_wel_x" location = "wel-x.ecf">
 			<condition>

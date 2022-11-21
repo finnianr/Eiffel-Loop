@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-20 17:34:03 GMT (Sunday 20th November 2022)"
-	revision: "21"
+	date: "2022-11-21 14:32:10 GMT (Monday 21st November 2022)"
+	revision: "22"
 
 class
 	EVOLICITY_COMPILER
@@ -30,7 +30,7 @@ inherit
 			make as reset_directives
 		end
 
-	EL_TEXT_PATTERN_FACTORY
+	TP_FACTORY
 		rename
 			quoted_string as quoted_string_pattern
 		end

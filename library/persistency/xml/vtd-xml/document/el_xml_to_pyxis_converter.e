@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-20 8:37:30 GMT (Sunday 20th November 2022)"
-	revision: "25"
+	date: "2022-11-21 14:30:36 GMT (Monday 21st November 2022)"
+	revision: "26"
 
 class
 	EL_XML_TO_PYXIS_CONVERTER
 
 inherit
-	EL_TEXT_PATTERN_FACTORY
+	TP_FACTORY
 		export
 			{NONE} all
 		end

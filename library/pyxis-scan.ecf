@@ -25,7 +25,7 @@ Pyxis is a direct analog of XML that is easier to read and edit making it suitab
 		<!--Eiffel-Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_doc_scan" location = "document-scan.ecf"/>
-		<library name = "EL_text_process_fast" location = "text-process-fast.ecf"/>
+		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<!--Source code-->
 		<cluster name = "doc" location = "persistency/pyxis-doc" recursive = "true">
 			<option namespace = "doc"/>

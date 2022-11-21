@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-19 11:22:52 GMT (Saturday 19th November 2022)"
-	revision: "11"
+	date: "2022-11-21 14:38:39 GMT (Monday 21st November 2022)"
+	revision: "12"
 
 class
 	CODEC_INFO
@@ -27,7 +27,7 @@ inherit
 			make_default
 		end
 
-	EL_C_LANGUAGE_PATTERN_FACTORY
+	TP_C_LANGUAGE_FACTORY
 
 	EL_MODULE_LIO
 

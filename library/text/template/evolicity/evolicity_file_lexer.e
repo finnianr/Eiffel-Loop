@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-20 18:15:35 GMT (Sunday 20th November 2022)"
-	revision: "13"
+	date: "2022-11-21 14:32:10 GMT (Monday 21st November 2022)"
+	revision: "14"
 
 class
 	EVOLICITY_FILE_LEXER
@@ -20,7 +20,7 @@ inherit
 			fill_tokens_text
 		end
 
-	EL_EIFFEL_TEXT_PATTERN_FACTORY
+	TP_EIFFEL_FACTORY
 		rename
 			identifier as evolicity_identifier
 		end
@@ -321,7 +321,7 @@ feature {NONE} -- Actions
 
 feature {NONE} -- Factory
 
-	new_pattern: EL_TEXT_PATTERN
+	new_pattern: like one_of
 			--
 		do
 			Result := one_of (<< velocity_directive, dollar_literal, variable_reference >>)

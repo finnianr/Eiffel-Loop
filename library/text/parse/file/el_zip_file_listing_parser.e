@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2022-11-21 14:24:56 GMT (Monday 21st November 2022)"
+	revision: "7"
 
 class
 	EL_ZIP_FILE_LISTING_PARSER
@@ -17,9 +17,11 @@ inherit
 		rename
 			make_default as make,
 			new_pattern as archived_file_listing_pattern
+		redefine
+			default_source_text
 		end
 
-	EL_TEXT_PATTERN_FACTORY
+	TP_FACTORY
 
 create
 	make
@@ -33,28 +35,33 @@ feature {NONE} -- Implementation
 	archived_file_listing_pattern: like all_of
 			--
 		do
-			Result := all_of (<<
+			Result := all_of ( <<
 				white_space,
-				integer,
+				signed_integer,
 				white_space,
-				integer,
+				signed_integer,
 				character_literal ('-'),
-				integer,
+				signed_integer,
 				character_literal ('-'),
-				integer,
+				signed_integer,
 				white_space,
-				integer,
+				signed_integer,
 				character_literal (':'),
-				integer,
+				signed_integer,
 				white_space,
 				zero_or_more (any_character) |to| agent on_file_name
 			>>)
 		end
 
-	on_file_name (file_name: EL_STRING_VIEW)
+	default_source_text: STRING
+		do
+			Result := Empty_string_8
+		end
+
+	on_file_name (start_index, end_index: INTEGER)
 			--
 		do
-			listed_file_name := file_name.out
+			listed_file_name := new_source_substring (start_index, end_index)
 			listed_file_name.prune_all_leading (' ')
 		end
 

@@ -1802,6 +1802,8 @@ See class [CURRENCY_TEST_APP]($source)
 Test [Eco-DB (Eiffel CHAIN Orientated Database)](http://www.eiffel-loop.com/library/Eco-DB.html) library.
 
 Test application: [ECO_DB_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/Eco-DB/eco_db_autotest_app.html)
+## Eiffel Core Concepts
+Test core concepts and behaviour of basic Eiffel code and libraries. See class [EIFFEL_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/eiffel/eiffel_autotest_app.html)
 ## encryption.ecf
 See class [ENCRYPTION_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/encryption/app/encryption_autotest_app.html)
 ## eros.ecf

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2022-11-21 9:13:10 GMT (Monday 21st November 2022)"
+	revision: "11"
 
 class
 	EL_XML_ELEMENT_LIST_EDITIONS [STORABLE_TYPE -> EL_STORABLE_XML_ELEMENT create make_default end]
@@ -20,7 +20,7 @@ feature {NONE} -- Initialization
 	make (a_target_list: like target_list; a_file_path: FILE_PATH)
 			--
 		do
-			create crc
+			create crc.make
 			storage_file_path := a_file_path.with_new_extension ("editions.xml")
 
 			if storage_file_path.exists then
@@ -92,8 +92,15 @@ feature -- Basic operations
 				edition_node_list := root_node.context_list ("/list-editions/*")
 				from edition_node_list.start until edition_node_list.after loop
 					edition_node := edition_node_list.context
-					edition_node.find_node ("*")
-					apply_edition (creation_actions.item (edition_node.name).item ([edition_node]))
+
+					if creation_actions.has_key (edition_node.name) then
+						if edition_node.name ~ Tag_remove then
+							apply_edition (creation_actions.found_item (edition_node))
+
+						elseif attached edition_node.find_node ("*") as found_node  then
+							apply_edition (creation_actions.found_item (found_node))
+						end
+					end
 					edition_node_list.forth
 				end
 				create storage_file.make_open_append (storage_file_path)
@@ -153,7 +160,7 @@ feature {NONE} -- Implementation
 					edition.remove_tail (1) -- remove carriage return
 					crc.add_string (edition)
 					create editions_checksum_node.make_from_string (line)
-					if crc.checksum /= editions_checksum_node.attributes.natural ("value") then
+					if crc.checksum /= editions_checksum_node ["value"] then
 						corruption_found := True
 					else
 						editions_text.append (edition)
@@ -209,21 +216,21 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (create {STORABLE_TYPE}.make_default)
 			prepare_element (Result.element)
-			Result.element.set_from_xpath_node (edition_node.found_node)
+			Result.element.set_from_xpath_node (edition_node)
 		end
 
 	replacement_edition (edition_node: EL_XPATH_NODE_CONTEXT): like Type_replacement_edition
 			--
 		do
-			create Result.make (create {STORABLE_TYPE}.make_default, edition_node.attributes.integer ("index"))
+			create Result.make (create {STORABLE_TYPE}.make_default, edition_node ["index"])
 			prepare_element (Result.element)
-			Result.element.set_from_xpath_node (edition_node.found_node)
+			Result.element.set_from_xpath_node (edition_node)
 		end
 
 	removal_edition (edition_node: EL_XPATH_NODE_CONTEXT): like Type_removal_edition
 			--
 		do
-			create Result.make (edition_node.attributes.integer ("index"))
+			create Result.make (edition_node ["index"])
 		end
 
 	prepare_element (element: STORABLE_TYPE)

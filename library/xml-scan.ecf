@@ -51,7 +51,7 @@ Useful for parsing network streams.
 		<library name = "EL_doc_scan" location = "document-scan.ecf"/>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
 		<library name = "EL_text_formats" location = "text-formats.ecf"/>
-		<library name = "EL_text_process_fast" location = "text-process-fast.ecf"/>
+		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<!--Source code-->
 		<cluster name = "doc" location = "persistency/xml/doc-scan" recursive = "true">
 			<option namespace = "doc"/>

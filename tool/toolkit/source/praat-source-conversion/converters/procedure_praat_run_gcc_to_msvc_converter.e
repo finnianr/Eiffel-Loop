@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-19 10:19:37 GMT (Saturday 19th November 2022)"
-	revision: "6"
+	date: "2022-11-21 14:40:30 GMT (Monday 21st November 2022)"
+	revision: "7"
 
 class
 	PROCEDURE_PRAAT_RUN_GCC_TO_MSVC_CONVERTER
@@ -23,7 +23,7 @@ inherit
 			file_output, actual_file_output, close
 		end
 
-	EL_C_LANGUAGE_PATTERN_FACTORY
+	TP_C_LANGUAGE_FACTORY
 
 	EL_MODULE_LOG
 

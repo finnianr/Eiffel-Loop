@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-19 11:22:52 GMT (Saturday 19th November 2022)"
-	revision: "9"
+	date: "2022-11-21 14:38:39 GMT (Monday 21st November 2022)"
+	revision: "10"
 
 class
 	EL_ROUTINE_LOCALE_STRING_PARSER
@@ -20,7 +20,7 @@ inherit
 			reset, make, default_source_text
 		end
 
-	EL_EIFFEL_TEXT_PATTERN_FACTORY
+	TP_EIFFEL_FACTORY
 
 	EL_LOCALE_CONSTANTS
 

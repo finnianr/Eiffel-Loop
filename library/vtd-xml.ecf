@@ -58,7 +58,7 @@ Test class [$source VTD_XML_AUTOTEST_APP]
 		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
 		<library name = "EL_text_formats" location = "text-formats.ecf"/>
-		<library name = "EL_text_process" location = "text-process-fast.ecf"/>
+		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<!--Source code-->
 		<cluster name = "vtd_xml" location = "persistency/xml/vtd-xml" recursive = "true">
 			<file_rule>

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-19 11:23:35 GMT (Saturday 19th November 2022)"
-	revision: "9"
+	date: "2022-11-21 14:38:40 GMT (Monday 21st November 2022)"
+	revision: "10"
 
 class
 	EVOLICITY_TEMPLATE_PARSER
@@ -21,7 +21,7 @@ inherit
 			reset, make_default
 		end
 
-	EL_EIFFEL_TEXT_PATTERN_FACTORY
+	TP_EIFFEL_FACTORY
 
 create
 	make

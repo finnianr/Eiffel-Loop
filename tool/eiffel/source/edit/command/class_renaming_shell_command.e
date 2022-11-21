@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2022-11-21 14:22:24 GMT (Monday 21st November 2022)"
+	revision: "4"
 
 class
 	CLASS_RENAMING_SHELL_COMMAND
@@ -75,6 +75,49 @@ feature {NONE} -- Commands
 			loop_until_quit
 		end
 
+	rename_text_process_library
+		local
+			command: CLASS_RENAMING_COMMAND; l_prefix: STRING
+			suffix_table: EL_HASH_TABLE [STRING, STRING]
+		do
+			create suffix_table.make (<<
+				["_TEXT_PATTERN", "_PATTERN"],
+				["_TEXT_PATTERN_FACTORY", "_FACTORY"],
+				["_PATTERN_FACTORY", "_FACTORY"],
+				["_CHARACTER", "_CHAR"]
+			>>)
+			across manifest.source_tree_list as tree loop
+				across tree.item.path_list as list loop
+					if list.item.parent.has_step ("pattern") then
+						old_name.wipe_out
+						list.item.base_sans_extension.append_to_string_8 (old_name)
+						old_name.to_upper
+						new_name := old_name.twin
+
+						l_prefix := "EL_MATCH_"
+						if new_name.starts_with (l_prefix) then
+							new_name.replace_substring ("TP_", 1, l_prefix.count)
+						else
+							new_name.replace_substring ("TP", 1, 2)
+						end
+						if new_name.ends_with ("_TP") then
+							new_name.remove_tail (3)
+						end
+						new_name.replace_substring_all ("_STRING_8_", "_RSTRING_")
+						across suffix_table as table loop
+							if new_name.ends_with (table.key) then
+								new_name.remove_tail (table.key.count)
+								new_name.append (table.item)
+							end
+						end
+						lio.put_line (new_name)
+						create command.make (manifest, old_name, new_name)
+						command.execute
+					end
+				end
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	loop_until_quit
@@ -129,8 +172,9 @@ feature {NONE} -- Factory
 	new_command_table: like command_table
 		do
 			create Result.make (<<
-				["Rename classes",	agent rename_classes],
-				["Remove prefix", 	agent remove_prefix]
+				["Rename classes",		agent rename_classes],
+				["Remove prefix",			agent remove_prefix],
+				["Rename text-process",	agent rename_text_process_library]
 			>>)
 		end
 

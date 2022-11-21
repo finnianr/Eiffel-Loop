@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2022-11-19 11:15:00 GMT (Saturday 19th November 2022)"
+	revision: "3"
 
 deferred class
 	EL_FILE_PARSER_TEXT_EDITOR
@@ -22,6 +22,8 @@ inherit
 		end
 
 	EL_PARSER_TEXT_EDITOR
+		undefine
+			default_source_text
 		redefine
 			make_default
 		end
@@ -30,8 +32,7 @@ inherit
 		rename
 			set_source_text_from_file as set_file_path,
 			source_file_path as file_path,
-			new_pattern as delimiting_pattern,
-			find_all as put_editions
+			new_pattern as delimiting_pattern
 		undefine
 			Default_file_path
 		redefine
