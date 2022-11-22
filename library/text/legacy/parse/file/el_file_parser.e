@@ -6,11 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2022-11-22 7:13:49 GMT (Tuesday 22nd November 2022)"
+	revision: "12"
 
 deferred class
 	EL_FILE_PARSER
+
+obsolete "Use EL_FILE_PARSER from text-process.ecf"
 
 inherit
 	EL_PARSER

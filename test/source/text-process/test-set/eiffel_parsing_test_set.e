@@ -17,14 +17,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 11:30:14 GMT (Monday 21st November 2022)"
-	revision: "4"
+	date: "2022-11-22 7:16:52 GMT (Tuesday 22nd November 2022)"
+	revision: "5"
 
 class
 	EIFFEL_PARSING_TEST_SET
 
 inherit
-	EIFFEL_LEGACY_PARSING_TEST_SET
+	LEGACY_EIFFEL_PARSING_TEST_SET
 		redefine
 			test_code_highlighting
 		end

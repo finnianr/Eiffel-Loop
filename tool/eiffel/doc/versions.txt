@@ -1,3 +1,7 @@
+1.9.0
+* Upgrade to new text-process redesign
+* Refactor with EL_FILE_GENERAL_LINE_SOURCE
+
 1.8.1
 * Fix detection of verbatim string in SOURCE_MODEL when line ends with ')'
 

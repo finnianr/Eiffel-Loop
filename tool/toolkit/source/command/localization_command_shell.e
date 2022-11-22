@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2022-11-22 9:43:45 GMT (Tuesday 22nd November 2022)"
+	revision: "21"
 
 class
 	LOCALIZATION_COMMAND_SHELL
@@ -87,7 +87,7 @@ feature {EQA_TEST_SET} -- Implementation
 
 			encoding := Pyxis.encoding (file_path)
 
-			line_list := open_lines (file_path, encoding).list
+			line_list := open_lines (file_path, encoding).as_list
 			across line_list as list loop
 				line := list.item; adjusted := line.adjusted
 				if adjusted.starts_with (Lang_equals)

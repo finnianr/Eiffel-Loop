@@ -1,13 +1,13 @@
 note
-	description: "First text parser test set"
+	description: "Test set for legacy parser"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:35:18 GMT (Monday 21st November 2022)"
-	revision: "27"
+	date: "2022-11-22 7:18:35 GMT (Tuesday 22nd November 2022)"
+	revision: "28"
 
 class
 	LEGACY_PARSER_TEST_SET

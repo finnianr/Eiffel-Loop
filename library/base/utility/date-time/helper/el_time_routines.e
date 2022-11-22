@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2022-11-22 13:54:23 GMT (Tuesday 22nd November 2022)"
+	revision: "9"
 
 class
 	EL_TIME_ROUTINES
@@ -52,9 +52,19 @@ feature -- Status query
 
 feature -- Access
 
+	now: DATE_TIME
+		do
+			create Result.make_now
+		end
+
 	unix_date_time (a_date_time: DATE_TIME): INTEGER
 		do
 			Result := a_date_time.relative_duration (Unix_origin).seconds_count.to_integer
+		end
+
+	unix_now: INTEGER
+		do
+			Result := unix_date_time (now)
 		end
 
 	unix_origin: DATE_TIME

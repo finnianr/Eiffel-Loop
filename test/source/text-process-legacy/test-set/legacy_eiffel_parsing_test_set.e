@@ -1,16 +1,16 @@
 note
-	description: "Test parsing of Eiffel language expressions"
+	description: "Test parsing of Eiffel language expressions using legacy parser"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 11:19:33 GMT (Monday 21st November 2022)"
-	revision: "16"
+	date: "2022-11-22 7:17:24 GMT (Tuesday 22nd November 2022)"
+	revision: "17"
 
 class
-	EIFFEL_LEGACY_PARSING_TEST_SET
+	LEGACY_EIFFEL_PARSING_TEST_SET
 
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET

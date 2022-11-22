@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2022-11-22 9:43:45 GMT (Tuesday 22nd November 2022)"
+	revision: "16"
 
 class
 	EL_ENCRYPTION_ROUTINES
@@ -66,11 +66,11 @@ feature {NONE} -- Implementation
 			across Reuseable.string_8 as reuse loop
 				Result := reuse.item
 				from until file.end_of_file loop
-					file.read_line
+					file.read_line_8
 					if not Result.is_empty then
 						Result.append_character ('%N')
 					end
-					Result.append (file.last_string)
+					Result.append (file.last_string_8)
 					Result.prune_all_trailing ('%R')
 				end
 				Result := Result.twin

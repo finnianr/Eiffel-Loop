@@ -1,6 +1,7 @@
 note
 	description: "[
-		Finalized executable tests for library [./library/text-process-legacy.html text-process-legacy.ecf]
+		Finalized executable tests for legacy library
+		[./library/text-process-legacy.html text-process-legacy.ecf]
 	]"
 	notes: "[
 		Command option: `-text_process_legacy_autotest'
@@ -16,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 10:44:41 GMT (Monday 21st November 2022)"
-	revision: "13"
+	date: "2022-11-22 7:16:52 GMT (Tuesday 22nd November 2022)"
+	revision: "14"
 
 class
 	TEXT_PROCESS_LEGACY_AUTOTEST_APP
@@ -25,11 +26,10 @@ class
 inherit
 	EL_AUTOTEST_APPLICATION [
 		LEGACY_PARSER_TEST_SET,
-		EIFFEL_LEGACY_PARSING_TEST_SET
+		LEGACY_EIFFEL_PARSING_TEST_SET
 	]
 
 create
 	make
 
 end
-

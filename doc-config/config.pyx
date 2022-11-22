@@ -198,7 +198,7 @@ publish-repository:
 			"test/test.ecf#search_engine"
 			"test/test.ecf#taglib"
 			"test/test.ecf#text_formats"
-			"test/test.ecf#text_process_legacy"
+			"test/test.ecf#text_process_obs"
 			"test/test.ecf#text_process"
 			"test/test.ecf#vtd_xml"
 			"test/test.ecf#wel_x_audio"

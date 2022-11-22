@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "142"
+	date: "2022-11-22 9:17:37 GMT (Tuesday 22nd November 2022)"
+	revision: "143"
 
 class
 	BASE_AUTOTEST_APP
@@ -79,6 +79,7 @@ feature {NONE} -- Implementation
 
 		EL_STYLED_STRING_8_LIST, EL_STYLED_STRING_32_LIST, EL_STYLED_ZSTRING_LIST,
 		EL_STRING_8_EDITOR, EL_STRING_32_EDITOR,
+		EL_STRING_8_IO_MEDIUM_LINE_SOURCE,
 
 		EL_SHARED_INITIALIZER [EL_INITIALIZEABLE],
 

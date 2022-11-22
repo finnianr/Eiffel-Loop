@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2022-11-22 10:21:26 GMT (Tuesday 22nd November 2022)"
+	revision: "9"
 
 class
 	EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE
@@ -42,7 +42,7 @@ feature {NONE} -- Constants
 
 	Default_file: EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
 		once
-			create Result.make_with_name (Precursor.path.name)
+			create Result.make_with_name (Precursor.path)
 		end
 
 end

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2022-11-22 7:08:59 GMT (Tuesday 22nd November 2022)"
+	revision: "8"
 
 class
-	EL_LINE_SOURCE_ITERATION_CURSOR
+	EL_LINE_SOURCE_ITERATION_CURSOR [S -> STRING_GENERAL create make end]
 
 inherit
-	ITERATION_CURSOR [ZSTRING]
+	ITERATION_CURSOR [S]
 
 create
 	make
@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	item: ZSTRING
+	item: S
 			-- item at current cursor position.
 		do
 			Result := lines.item
@@ -61,6 +61,6 @@ feature -- Cursor movement
 
 feature {NONE} -- Implementation
 
-	lines: LINEAR [ZSTRING]
+	lines: LINEAR [S]
 
 end

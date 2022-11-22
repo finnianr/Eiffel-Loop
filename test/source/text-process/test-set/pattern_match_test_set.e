@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:32:11 GMT (Monday 21st November 2022)"
-	revision: "19"
+	date: "2022-11-22 7:24:45 GMT (Tuesday 22nd November 2022)"
+	revision: "20"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -61,7 +61,7 @@ feature -- Test
 
 	test_alpha_character_match
 		note
-			testing: "covers/{EL_ZSTRING_ALPHA_CHAR_TP}.match_count"
+			testing: "covers/{TP_ZSTRING_ALPHA_CHAR}.match_count"
 		local
 			str: ZSTRING
 		do
@@ -77,10 +77,10 @@ feature -- Test
 
 	test_back_reference_match
 		note
-			testing: "covers/{EL_BACK_REFERENCE_MATCH_TP}.match_count",
-				"covers/{EL_REFERENCE_MATCH_TP}.match_count",
-				"covers/{EL_MATCH_P2_WHILE_NOT_P1_MATCH_TP}.match_count",
-				"covers/{EL_MATCH_ANY_WHILE_NOT_P_MATCH_TP}.match_count"
+			testing: "covers/{TP_BACK_REFERENCE_MATCH}.match_count",
+				"covers/{TP_REFERENCE_MATCH}.match_count",
+				"covers/{TP_P2_WHILE_NOT_P1_MATCH}.match_count",
+				"covers/{TP_ANY_WHILE_NOT_P_MATCH}.match_count"
 		local
 			output: ZSTRING; pattern: like all_of
 			xml_text_element: like xml_text_element_list.item
@@ -104,9 +104,9 @@ feature -- Test
 
 	test_end_of_line
 		note
-			testing: "covers/{EL_END_OF_LINE_CHAR_TP}.match",
-				"covers/{EL_STRING_8_END_OF_LINE_CHAR_TP}.match",
-				"covers/{EL_ZSTRING_END_OF_LINE_CHAR_TP}.match"
+			testing: "covers/{TP_END_OF_LINE_CHAR}.match",
+				"covers/{TP_STRING_8_END_OF_LINE_CHAR}.match",
+				"covers/{TP_ZSTRING_END_OF_LINE_CHAR}.match"
 		local
 			pattern: like zero_or_more; output: ZSTRING
 			line_pattern: like while_not_p_match_any
@@ -133,7 +133,7 @@ feature -- Test
 
 	test_find_all
 		note
-			testing: "covers/{EL_RECURSIVE_TEXT_PATTERN}.match"
+			testing: "covers/{TP_RECURSIVE}.match"
 		local
 			pattern: like class_name; output: ZSTRING
 			padding: STRING
@@ -152,11 +152,11 @@ feature -- Test
 
 	test_integer_match
 		note
-			testing: "covers/{EL_MATCH_ALL_IN_LIST_TP}.match_count",
-						"covers/EL_MATCH_ONE_OR_MORE_TIMES_TP}.match_count",
-						"covers/EL_MATCH_COUNT_WITHIN_BOUNDS_TP}.match_count",
-						"covers/EL_STRING_8_NUMERIC_CHAR_TP}.match_count",
-						"covers/EL_STRING_8_LITERAL_CHAR_TP}.match_count"
+			testing: "covers/{TP_ALL_IN_LIST}.match_count",
+						"covers/EL_MATCH_ONE_OR_MORE_TIMES}.match_count",
+						"covers/EL_MATCH_COUNT_WITHIN_BOUNDS}.match_count",
+						"covers/EL_STRING_8_NUMERIC_CHAR}.match_count",
+						"covers/EL_STRING_8_LITERAL_CHAR}.match_count"
 		local
 			double: DOUBLE; boolean: BOOLEAN
 		do
@@ -174,15 +174,15 @@ feature -- Test
 
 	test_numbers_array_parsing
 		note
-			testing: "covers/{EL_MATCH_ALL_IN_LIST_TP}.match_count",
-						"covers/{EL_LITERAL_TEXT_PATTERN}.match_count",
-						"covers/{EL_MATCH_ZERO_OR_MORE_TIMES_TP}.match_count",
-						"covers/{EL_MATCH_ANY_CHAR_IN_SET_TP}.match_count",
-						"covers/{EL_LITERAL_CHAR_TP}.match_count",
-						"covers/{EL_MATCH_LOOP_TP}.internal_call_actions",
-						"covers/{EL_MATCH_LOOP_TP}.match",
-						"covers/{EL_MATCH_P1_UNTIL_P2_MATCH_TP}.match_count",
-						"covers/{EL_MATCH_P2_WHILE_NOT_P1_MATCH_TP}.match_count"
+			testing: "covers/{TP_ALL_IN_LIST}.match_count",
+						"covers/{TP_LITERAL_TEXT_PATTERN}.match_count",
+						"covers/{TP_ZERO_OR_MORE_TIMES}.match_count",
+						"covers/{TP_ANY_CHAR_IN_SET}.match_count",
+						"covers/{TP_LITERAL_CHAR}.match_count",
+						"covers/{TP_LOOP}.internal_call_actions",
+						"covers/{TP_LOOP}.match",
+						"covers/{TP_P1_UNTIL_P2_MATCH}.match_count",
+						"covers/{TP_P2_WHILE_NOT_P1_MATCH}.match_count"
 
 		local
 			manifest_text: STRING
@@ -201,11 +201,11 @@ feature -- Test
 
 	test_numeric_match
 		note
-			testing: "covers/{EL_MATCH_ALL_IN_LIST_TP}.match_count",
-						"covers/EL_MATCH_ONE_OR_MORE_TIMES_TP}.match_count",
-						"covers/EL_MATCH_COUNT_WITHIN_BOUNDS_TP}.match_count",
-						"covers/EL_STRING_8_NUMERIC_CHAR_TP}.match_count",
-						"covers/EL_STRING_8_LITERAL_CHAR_TP}.match_count"
+			testing: "covers/{TP_ALL_IN_LIST}.match_count",
+						"covers/{TP_ONE_OR_MORE_TIMES}.match_count",
+						"covers/{TP_COUNT_WITHIN_BOUNDS}.match_count",
+						"covers/{TP_STRING_8_NUMERIC_CHAR}.match_count",
+						"covers/{TP_STRING_8_LITERAL_CHAR}.match_count"
 		do
 			across Number.Doubles_list as double loop
 				set_source_text (double.item.out)
@@ -250,9 +250,9 @@ feature -- Test
 
 	test_quoted_character_array_parsing
 		note
-			testing: "covers/{EL_MATCH_EIFFEL_QUOTED_CHARACTER_TP}.match",
-				"covers/{EL_MATCH_ZSTRING_EIFFEL_QUOTED_CHARACTER_TP}.match",
-				"covers/{EL_MATCH_STRING_8_EIFFEL_QUOTED_CHARACTER_TP}.match"
+			testing: "covers/{TP_EIFFEL_QUOTED_CHAR}.match",
+				"covers/{TP_ZSTRING_EIFFEL_QUOTED_CHAR}.match",
+				"covers/{TP_STRING_8_EIFFEL_QUOTED_CHAR}.match"
 		local
 			pattern: like character_array_pattern; output, content: ZSTRING
 		do
@@ -269,7 +269,7 @@ feature -- Test
 
 	test_quoted_string
 		note
-			testing: "covers/{EL_MATCH_QUOTED_STRING_TP}.match"
+			testing: "covers/{TP_QUOTED_STRING}.match"
 		local
 			pattern: TP_QUOTED_STRING
 			output, content: ZSTRING
@@ -310,7 +310,7 @@ feature -- Test
 
 	test_recursive_match
 		note
-			testing: "covers/{EL_RECURSIVE_TEXT_PATTERN}.match"
+			testing: "covers/{TP_RECURSIVE_TEXT_PATTERN}.match"
 		local
 			eiffel_type: like class_type; type_string: ZSTRING
 		do
@@ -361,8 +361,8 @@ feature -- Test
 
 	test_text_matcher
 		note
-			testing: "covers/{EL_MATCH_ONE_OR_MORE_TIMES_TP}.match_count",
-						"covers/{EL_MATCH_ANY_CHAR_IN_SET_TP}.match_count",
+			testing: "covers/{TP_ONE_OR_MORE_TIMES}.match_count",
+						"covers/{TP_ANY_CHAR_IN_SET}.match_count",
 						"covers/{EL_PARSER}.find_all"
 		local
 			character_set, line: ZSTRING; output, output_2: ZSTRING

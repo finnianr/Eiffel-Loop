@@ -9,21 +9,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "27"
+	date: "2022-11-22 11:35:30 GMT (Tuesday 22nd November 2022)"
+	revision: "28"
 
 class
 	EL_PLAIN_TEXT_LINE_SOURCE
 
 inherit
-	EL_FILE_LINE_SOURCE
+	EL_FILE_GENERAL_LINE_SOURCE [ZSTRING]
 		rename
 			make as make_from_file,
 			encoding as encoding_code
 		export
 			{ANY} file
 		redefine
-			open_at_start, make_from_file
+			check_encoding, read_line, set_file, new_list, Default_file
 		end
 
 	EL_MODULE_FILE
@@ -48,6 +48,7 @@ feature {NONE} -- Initialization
 		do
 			make_from_file (new_file (Other_class, a_path))
 			if not encoding_detected then
+				file.set_other_encoding (a_encoding)
 				set_other_encoding (a_encoding)
 			end
 			is_file_external := False -- Causes file to close automatically when after position is reached
@@ -58,17 +59,10 @@ feature {NONE} -- Initialization
 		do
 			make_from_file (new_file (a_encoding, a_path))
 			if not encoding_detected then
+				file.set_encoding (a_encoding)
 				set_encoding (a_encoding)
 			end
 			is_file_external := False -- Causes file to close automatically when after position is reached
-		end
-
-	make_from_file (a_file: like file)
-		do
-			Precursor (a_file)
-			if a_file.exists then
-				check_encoding
-			end
 		end
 
 	make_utf_8 (a_path: READABLE_STRING_GENERAL)
@@ -77,9 +71,6 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
-
-	bom_count: INTEGER
-		-- byte order mark count
 
 	byte_count: INTEGER
 		do
@@ -96,75 +87,19 @@ feature -- Access
 			Result := file.path
 		end
 
-feature -- Status setting
-
-	delete_file
-			--
-		do
-			if file.is_open_read then
-				file.close
-			end
-			file.delete
-		end
-
-	open_at_start
-		do
-			Precursor
-			if bom_count.to_boolean then
-				file.go (bom_count)
-			end
-		end
-
-feature -- Output
-
-	print_first (log: EL_LOGGABLE; n: INTEGER)
-		-- print first `n' lines to `log' output with leading tabs expanded to 3 spaces
-		local
-			line: ZSTRING; tab_count: INTEGER; s: EL_ZSTRING_ROUTINES
-		do
-			across Current as ln until ln.cursor_index > n loop
-				line := ln.item
-				tab_count := line.leading_occurrences ('%T')
-				if tab_count > 0 then
-					line.replace_substring (s.n_character_string (' ', tab_count * 3), 1, tab_count)
-				end
-				log.put_line (line)
-			end
-			if not after then
-				log.put_line ("..")
-			end
-		end
-
 feature {NONE} -- Implementation
 
 	check_encoding
-		local
-			is_open_read: BOOLEAN; c: UTF_CONVERTER
-			line_one: STRING
 		do
-			is_open_read := file.is_open_read
-			open_at_start
-			if file.count > 0 then
-				-- Find first non-empty line
-				from line_one := Empty_string_8 until line_one.count > 0 or else file.end_of_file loop
-					file.read_line
-					line_one := file.last_string
+			if file.byte_order_mark.is_enabled then
+				file.open_read
+				if file.encoding_detected then
+					set_encoding (file.encoding)
+					encoding_detected := file.encoding_detected
+					bom_count := file.bom_count
 				end
-				if line_one.starts_with (c.Utf_8_bom_to_string_8) then
-					bom_count := c.Utf_8_bom_to_string_8.count
-					encoding_detected := True
-					set_utf_encoding (8)
-				elseif line_one.starts_with (c.utf_16le_bom_to_string_8) then
-					bom_count := c.utf_16le_bom_to_string_8.count
-					encoding_detected := True
-					set_utf_encoding (16)
-				elseif line_one.has_substring (Little_endian_carriage_return) then
-					encoding_detected := True
-					set_utf_encoding (16)
-				end
-			end
-			if not is_open_read then
-				file.close
+			else
+				Precursor
 			end
 		end
 
@@ -173,47 +108,35 @@ feature {NONE} -- Implementation
 			create Result.make_with_name (a_path)
 		end
 
-	update_item
-		local
-			raw_line: STRING
+	new_list (n: INTEGER): EL_ZSTRING_LIST
 		do
-			raw_line := file.last_string
-			if encoded_as_utf (16) then -- little endian
-				file.read_character -- skip '%U' after '%N'
-				raw_line.prune_all_trailing ('%U')
-				raw_line.prune_all_trailing ('%R')
-
-			else
-				raw_line.prune_all_trailing ('%R')
-				if raw_line.has (Substitute) then
-					raw_line.prune_all (Substitute) -- Reserved by `EL_ZSTRING' as Unicode placeholder
-				end
-			end
-			if is_shared_item then
-				item.wipe_out
-			elseif encoded_as_utf (16) then
-				create item.make (raw_line.count // 2)
-			else
-				create item.make (raw_line.count)
-			end
-			if encoding_type = Other_class then
-				item.append_encoded_any (raw_line, other_encoding)
-			else
-				item.append_encoded (raw_line, encoding_code)
-			end
+			create Result.make (n)
 		end
 
-feature {NONE} -- Internal attributes
+	read_line (f: like Default_file)
+		do
+			f.read_line
+		end
 
-	encoding_detected: BOOLEAN
+	set_file (a_file: like file)
+		do
+			file := a_file
+			set_encoding (a_file.encoding)
+		end
+
+	update_item
+		do
+			if is_shared_item then
+				item := file.last_string
+			else
+				item := file.last_string.twin
+			end
+		end
 
 feature {NONE} -- Constants
 
-	Default_file: PLAIN_TEXT_FILE
+	Default_file: EL_PLAIN_TEXT_FILE
 		once
 			create Result.make_with_name ("default.txt")
 		end
-
-	Little_endian_carriage_return: STRING = "%R%U"
-
 end

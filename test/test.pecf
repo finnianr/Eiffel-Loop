@@ -107,12 +107,11 @@ system:
 			EL_xml_scan = "xml-scan.ecf"
 			EL_text_formats = "text-formats.ecf"
 			EL_testing = "testing.ecf"
+			EL_text_process = "text-process.ecf"
 			EL_text_process_obs = "text-process-legacy.ecf"
 			renaming_map:
 				EL_FILE_PARSER_TEXT_EDITOR = EL_FILE_PARSER_TEXT_EDITOR_OBS
 				EL_FILE_PARSER = EL_FILE_PARSER_OBS
-
-			EL_text_process = "text-process.ecf"
 
 			EL_thread = "thread.ecf"
 
@@ -355,7 +354,7 @@ system:
 					See class [$source TEXT_FORMATS_AUTOTEST_APP]
 				"""
 		cluster_tree:
-			text_process = "source/text-process-legacy"
+			text_process_obs = "source/text-process-legacy"
 			description:
 				"""
 					text-process-legacy.ecf
@@ -363,7 +362,7 @@ system:
 					See class [$source TEXT_PROCESS_LEGACY_AUTOTEST_APP]
 				"""
 		cluster_tree:
-			text_process_fast = "source/text-process"
+			text_process = "source/text-process"
 			description:
 				"""
 					text-process.ecf

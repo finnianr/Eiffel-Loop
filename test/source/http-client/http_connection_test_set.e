@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "53"
+	date: "2022-11-22 14:33:19 GMT (Tuesday 22nd November 2022)"
+	revision: "54"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -35,7 +35,7 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			eval.call ("cookies", agent test_cookies)
-			eval.call ("documents_download", agent test_documents_download)
+			eval.call ("cached_documents", agent test_cached_documents)
 			eval.call ("download_document_and_headers", agent test_download_document_and_headers)
 			eval.call ("download_image_and_headers", agent test_download_image_and_headers)
 			eval.call ("ip_address_info", agent test_ip_address_info)
@@ -51,7 +51,7 @@ feature -- Tests
 	test_cookies
 		local
 			city_location, json_fields: EL_URI_QUERY_ZSTRING_HASH_TABLE
-			url: ZSTRING; cookies: EL_HTTP_COOKIE_TABLE
+			url: STRING; cookies: EL_HTTP_COOKIE_TABLE
 		do
 			-- There is an issue with httpbin.org that prevents setting of 2 cookies with 1 call
 			-- so we do a loop instead
@@ -81,21 +81,34 @@ feature -- Tests
 			end
 		end
 
-	test_documents_download
+	test_cached_documents
+		note
+			testing: "covers/{EL_CACHED_HTTP_FILE}.make",
+				"covers/{EL_HTTP_CONNECTION}.download"
 		local
-			url: ZSTRING
+			url: STRING; cached_file: EL_CACHED_HTTP_FILE; line_count: INTEGER
+			first_line: STRING
 		do
 			across << Http >> as protocol loop -- Https
-				across document_retrieved_table as is_retrieved loop
-					url := protocol.item + Httpbin_url + is_retrieved.key
+				across Document_table as table loop
+					url := protocol.item + Httpbin_url + table.key
 					lio.put_labeled_string ("url", url)
 					lio.put_new_line
-					web.open (url)
+					create cached_file.make (url, 24)
+					line_count := 0
+					across cached_file.lines as line loop
+						line_count := line_count + 1
+						if line_count = 1 then
+							first_line := line.item
+						end
+					end
+					cached_file.close
+					lio.put_integer_field (first_line, line_count)
+					lio.put_new_line
 
-					web.read_string_get
-					assert ("retrieved", is_retrieved.item (web.last_string))
-
-					web.close
+					if attached table.item as info then
+						assert ("retrieved", first_line.starts_with (info.leading) and line_count = info.line_count)
+					end
 					lio.put_new_line
 				end
 			end
@@ -103,11 +116,12 @@ feature -- Tests
 
 	test_download_document_and_headers
 		local
-			url: ZSTRING; headers: like web.last_headers
+			url: STRING; headers: like web.last_headers
+			line_count: INTEGER
 		do
 			across << Http >> as protocol loop -- Https
-				across document_retrieved_table as is_retrieved loop
-					url := protocol.item + Httpbin_url + is_retrieved.key
+				across Document_table as table loop
+					url := protocol.item + Httpbin_url + table.key
 					lio.put_labeled_string ("url", url)
 					lio.put_new_line
 					web.open (url)
@@ -116,14 +130,17 @@ feature -- Tests
 					headers := web.last_headers
 					print_lines (web)
 					assert_valid_headers (headers)
-					if is_retrieved.key ~ "xml" then
+					if table.key ~ "xml" then
 						assert ("valid content_type", headers.mime_type ~ "application/xml")
 					else
 						assert ("valid content_type", headers.mime_type ~ "text/html")
 						assert ("valid encoding_name", headers.encoding_name ~ "utf-8")
 					end
 					web.read_string_get
-					assert ("retrieved", is_retrieved.item (web.last_string))
+					line_count := web.last_string.occurrences ('%N') + 1
+					if attached table.item as info then
+						assert ("retrieved", web.last_string.starts_with (info.leading) and line_count = info.line_count)
+					end
 					assert ("valid content_length", headers.content_length = web.last_string.count)
 
 					web.close
@@ -314,16 +331,6 @@ feature {NONE} -- Implementation
 			assert ("valid server", is_server_name (headers.server))
 		end
 
-	document_retrieved_table: EL_HASH_TABLE [PREDICATE [STRING], STRING]
-			-- table of predicates testing if document was retrieved
-		do
-			create Result.make (<<
-				["html", agent (text: STRING): BOOLEAN do Result := h1_text (text).same_string ("Herman Melville - Moby-Dick") end],
-				["links/10/0", agent (text: STRING): BOOLEAN do Result := title_text (text).same_string ("Links") end],
-				["xml", agent (text: STRING): BOOLEAN do Result := em_text (text).same_string ("WonderWidgets") end]
-			>>)
-		end
-
 	element_text (name: STRING; a_text: STRING): ZSTRING
 		local
 			text: ZSTRING
@@ -436,6 +443,16 @@ feature {NONE} -- Constants
 		end
 
 	Cookies_url: STRING = "http://httpbin.org/cookies"
+
+	Document_table: EL_HASH_TABLE [TUPLE [leading: STRING; line_count: INTEGER], STRING]
+		-- table of predicates to test if document was retrieved
+		once
+			create Result.make (<<
+				["html", ["<!DOCTYPE html>", 14]],
+				["links/10/0", ["<html><head><title>Links", 1]],
+				["xml", ["<?xml version='1.0'", 24]]
+			>>)
+		end
 
 	www_eiffel_loop_com: STRING = "77.68.64.12"
 

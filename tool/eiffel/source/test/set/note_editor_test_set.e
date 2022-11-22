@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "34"
+	date: "2022-11-22 9:41:56 GMT (Tuesday 22nd November 2022)"
+	revision: "35"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -175,7 +175,7 @@ feature {NONE} -- Implementation
 			list: EL_ZSTRING_LIST
 		do
 			if attached open_lines (file_path, Latin_1) as lines then
-				list := lines.list
+				list := lines.as_list
 
 				if list.count > 0 then
 					create file_out.make_open_write (file_path)

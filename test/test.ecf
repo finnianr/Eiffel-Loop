@@ -313,14 +313,14 @@ text-formats.ecf
 See class [$source TEXT_FORMATS_AUTOTEST_APP]
 			</description>
 		</cluster>
-		<cluster name = "text_process" location = "source/text-process-legacy" recursive = "true">
+		<cluster name = "text_process_obs" location = "source/text-process-legacy" recursive = "true">
 			<description>
 text-process-legacy.ecf
 
 See class [$source TEXT_PROCESS_LEGACY_AUTOTEST_APP]
 			</description>
 		</cluster>
-		<cluster name = "text_process_fast" location = "source/text-process" recursive = "true">
+		<cluster name = "text_process" location = "source/text-process" recursive = "true">
 			<description>
 text-process.ecf
 

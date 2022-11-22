@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2022-11-22 9:43:46 GMT (Tuesday 22nd November 2022)"
+	revision: "13"
 
 class
 	EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
@@ -17,10 +17,10 @@ inherit
 		export
 			{NONE} all
 			{ANY} put_string, put_string_general, put_string_32, put_string_8, put_raw_string_8, put_new_line,
-					read_line, last_string, close, count,
+					read_line_8, last_string_8, close, count,
 					after, extendible, encoded_as_utf, file_readable, readable, is_closed, end_of_file
 		redefine
-			make_default, put_string, put_string_8, put_raw_string_8, put_string_general, read_line,
+			make_default, put_string, put_string_8, put_raw_string_8, put_string_general, read_line_8,
 			open_append, open_write, open_read
 		end
 
@@ -112,14 +112,14 @@ feature -- Status setting
 
 feature -- Input
 
-	read_line
+	read_line_8
 		do
 			Precursor
 			line_index := line_index + 1
-			if line_index >= line_start and then not last_string.is_empty then
-				last_string := encrypter.decrypted_base_64 (last_string)
+			if line_index >= line_start and then not last_string_8.is_empty then
+				last_string_8 := encrypter.decrypted_base_64 (last_string_8)
 				if is_prepared_for_append then
-					call (encrypter.base_64_encrypted (last_string))
+					call (encrypter.base_64_encrypted (last_string_8))
 				end
 			end
 		end

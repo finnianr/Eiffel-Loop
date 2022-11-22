@@ -1043,6 +1043,8 @@ Class [EL_PYXIS_PARSER](http://www.eiffel-loop.com/library/persistency/pyxis-doc
 ## Eiffel LIST-orientated XML Database
 **Status:** No longer maintained
 
+(Last compiled November 2022)
+
 A simple XML database based on VTD-XML xpath and XML parsing library. Supports transactions and encryption. Any list conforming to [LIST [EL_STORABLE_XML_ELEMENT](https://www.eiffel.org/files/doc/static/trunk/libraries/base/list_chart.html)] can be turned into a database. This library has now been superceded by [Eco-DB.ecf](http://www.eiffel-loop.com/library/Eco-DB.html) which is faster, more powerful and uses a binary format.
 ## XML Document Node-scanning and Object Building
 Provides:
@@ -1583,12 +1585,20 @@ See [myching.software](http://myching.software/en/home/my-ching.html) for an exa
 ## Textual Data Formats
 Classes for handling various human-readable text formats. Supported formats are: XML, XHTML, HTML, JSON, CSV. (Note: Eiffel-Loop has other libraries for parsing XML)
 ## Parsing (Legacy)
-Classes for parsing text data using class [EL_STRING_VIEW](http://www.eiffel-loop.com/library/text/pattern-match/text-view/el_string_view.html).
+**Status**: obsolete
+
+It is recommended to use [text-process.ecf](http://www.eiffel-loop.com/library/text-process.html) instead.
+
+Classes for parsing text data using class [EL_STRING_VIEW](http://www.eiffel-loop.com/library/text/legacy/pattern/text-view/el_string_view.html).
 ## Pattern-matching (Legacy)
-Classes for finding and matching textual patterns using class [EL_STRING_VIEW](http://www.eiffel-loop.com/library/text/pattern-match/text-view/el_string_view.html).
-## Parsing (Fast)
+**Status**: obsolete
+
+It is recommended to use [text-process.ecf](http://www.eiffel-loop.com/library/text-process.html) instead.
+
+Classes for finding and matching textual patterns using class [EL_STRING_VIEW](http://www.eiffel-loop.com/library/text/legacy/pattern/text-view/el_string_view.html).
+## Parsing
 Classes for parsing text data.
-## Pattern-matching (Fast)
+## Pattern-matching
 Classes for finding and matching textual patterns.
 ## Application License Management
 A few basic classes for constructing an application license manager. The most important is a way to obtain a unique machine ID using a combination of the CPU model name and MAC address either from the network card or wifi card.
@@ -1988,10 +1998,10 @@ See class [$source SEARCH_ENGINE_AUTOTEST_APP]
 See class [$source TAGLIB_AUTOTEST_APP]
 ## text-formats.ecf
 See class [$source TEXT_FORMATS_AUTOTEST_APP]
+## text-process-legacy.ecf
+See class [$source TEXT_PROCESS_LEGACY_AUTOTEST_APP]
 ## text-process.ecf
 See class [$source TEXT_PROCESS_AUTOTEST_APP]
-## text-process-fast.ecf
-See class [$source TEXT_PROCESS_FAST_AUTOTEST_APP]
 ## vtd-xml.ecf
 Tests for Eiffel interface VTD-XML C API
 

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "22"
+	date: "2022-11-22 8:57:46 GMT (Tuesday 22nd November 2022)"
+	revision: "23"
 
 class
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -35,7 +35,7 @@ inherit
 
 feature -- Basic operations
 
-	do_once_with_file_lines (initial: like state; lines: EL_FILE_LINE_SOURCE)
+	do_once_with_file_lines (initial: like state; lines: EL_FILE_GENERAL_LINE_SOURCE [ZSTRING])
 		do
 			do_with_lines (initial, lines)
 			lines.close

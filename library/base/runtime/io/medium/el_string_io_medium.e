@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2022-11-22 9:22:08 GMT (Tuesday 22nd November 2022)"
+	revision: "8"
 
 deferred class
 	EL_STRING_IO_MEDIUM
@@ -25,7 +25,7 @@ inherit
 
 		export
 			{NONE} all
-			{ANY} is_closed, file_readable, extendible, twin, is_open_read, wipe_out, prunable
+			{ANY} is_closed, file_readable, extendible, twin, is_open_read, wipe_out, prunable, last_string
 		undefine
 			put_raw_character_8,
 			put_integer, putint, put_integer_8, put_integer_16, put_integer_32, put_integer_64,

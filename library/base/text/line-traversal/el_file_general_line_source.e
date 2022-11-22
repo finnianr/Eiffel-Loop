@@ -1,14 +1,7 @@
 note
 	description: "[
 		Interface for object that interates over the lines of an file object conforming to [$source PLAIN_TEXT_FILE].
-		The lines are assumed to be UTF-8 encoded by default and are converted to [$source EL_ZSTRING] items.
-	]"
-	descendants: "[
-			EL_FILE_LINE_SOURCE*
-				[$source EL_PLAIN_TEXT_LINE_SOURCE]
-					[$source EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE]
-					[$source EL_STRING_8_IO_MEDIUM_LINE_SOURCE]
-				[$source EL_ZSTRING_IO_MEDIUM_LINE_SOURCE]
+		The line items conform to [$source STRING_GENERAL]
 	]"
 
 	author: "Finnian Reilly"
@@ -16,16 +9,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2022-11-22 11:25:25 GMT (Tuesday 22nd November 2022)"
+	revision: "1"
 
 deferred class
-	EL_FILE_LINE_SOURCE
+	EL_FILE_GENERAL_LINE_SOURCE [S -> STRING_GENERAL create make end]
 
 inherit
-	EL_LINEAR [ZSTRING]
+	EL_LINEAR [S]
 
-	ITERABLE [ZSTRING]
+	ITERABLE [S]
 
 	EL_ENCODEABLE_AS_TEXT
 		rename
@@ -34,14 +27,19 @@ inherit
 			make_default
 		end
 
+	EL_MODULE_ENCODING
+		rename
+			Encoding as Mod_encoding
+		end
+
 feature {NONE} -- Initialization
 
-	make (a_file: like file)
+	make (a_file: like Default_file)
 		do
 			make_default
-			file := a_file
-			if attached {EL_PLAIN_TEXT_FILE} a_file as plain then
-				set_encoding (plain.encoding)
+			set_file (a_file)
+			if a_file.exists then
+				check_encoding
 			end
 			is_file_external := True
 		end
@@ -50,19 +48,41 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor
-			create item.make_empty
+			create item.make (0)
 			file := default_file
 		end
 
 feature -- Access
 
+	bom_count: INTEGER
+		-- byte order mark count
+
 	count: INTEGER
 
 	index: INTEGER
 
-	item: ZSTRING
+	item: S
 
-	joined: ZSTRING
+feature -- Conversion
+
+	as_list: like new_list
+			--
+		local
+			is_shared: BOOLEAN
+		do
+			is_shared := is_shared_item
+			is_shared_item := False
+			Result := new_list (file.count // 10)
+			from start until after loop
+				Result.extend (item)
+				forth
+			end
+			is_shared_item := is_shared
+		end
+
+feature -- Access
+
+	joined: S
 		local
 			is_shared: BOOLEAN
 		do
@@ -71,7 +91,7 @@ feature -- Access
 			create Result.make (file.count)
 			from start until after loop
 				if index > 1 then
-					Result.append_character ('%N')
+					Result.append_code ({ASCII}.Line_feed.to_natural_32)
 				end
 				Result.append (item)
 				forth
@@ -79,7 +99,7 @@ feature -- Access
 			is_shared_item := is_shared
 		end
 
-	new_cursor: EL_LINE_SOURCE_ITERATION_CURSOR
+	new_cursor: EL_LINE_SOURCE_ITERATION_CURSOR [S]
 			--
 		do
 			create Result.make (Current)
@@ -112,21 +132,24 @@ feature -- Status query
 	is_shared_item: BOOLEAN
 		-- True if only one instance of `item' created
 
-feature -- Conversion
+feature -- Output
 
-	list: EL_ZSTRING_LIST
-			--
+	print_first (log: EL_LOGGABLE; n: INTEGER)
+		-- print first `n' lines to `log' output with leading tabs expanded to 3 spaces
 		local
-			is_shared: BOOLEAN
+			line: ZSTRING; tab_count: INTEGER; s: EL_ZSTRING_ROUTINES
 		do
-			is_shared := is_shared_item
-			is_shared_item := False
-			create Result.make_empty
-			from start until after loop
-				Result.extend (item)
-				forth
+			across Current as ln until ln.cursor_index > n loop
+				create line.make_from_general (ln.item)
+				tab_count := line.leading_occurrences ('%T')
+				if tab_count > 0 then
+					line.replace_substring (s.n_character_string (' ', tab_count * 3), 1, tab_count)
+				end
+				log.put_line (line)
 			end
-			is_shared_item := is_shared
+			if not after then
+				log.put_line ("..")
+			end
 		end
 
 feature -- Cursor movement
@@ -138,21 +161,23 @@ feature -- Cursor movement
 		local
 			found_item: BOOLEAN
 		do
-			if not file.end_of_file then
-				file.read_line
-				if file.end_of_file then
-					found_item := file.last_string.count > 0
-				else
-					found_item := True
+			if attached file as f then
+				if not f.end_of_file then
+					read_line (f)
+					if f.end_of_file then
+						found_item := f.last_string.count > 0
+					else
+						found_item := True
+					end
 				end
-			end
-			if found_item then
-				update_item
-				count := count + 1
-			end
-			index := index + 1
-			if after and not is_file_external then
-				file.close
+				if found_item then
+					update_item
+					count := count + 1
+				end
+				index := index + 1
+				if after and not is_file_external then
+					f.close
+				end
 			end
 		ensure then
 			closed_if_eof: after and not is_file_external implies file.is_closed
@@ -169,7 +194,7 @@ feature -- Cursor movement
 				count := 0
 				if file.off then
 					index := 1
-					item.wipe_out
+					item.keep_head (0)
 				else
 					index := 0
 					forth
@@ -204,7 +229,18 @@ feature -- Status setting
 			if not file.is_open_read then
 				file.open_read
 			end
-			file.go (0)
+			file.go (bom_count)
+		end
+
+feature -- Basic operations
+
+	delete_file
+			--
+		do
+			if file.is_open_read then
+				file.close
+			end
+			file.delete
 		end
 
 feature {NONE} -- Unused
@@ -216,8 +252,33 @@ feature {NONE} -- Unused
 
 feature {EL_LINE_SOURCE_ITERATION_CURSOR} -- Implementation
 
-	default_file: PLAIN_TEXT_FILE
-		deferred
+	check_encoding
+		do
+			if attached {EL_STRING_IO_MEDIUM} file as medium then
+				set_encoding (medium.encoding)
+
+			elseif attached Mod_encoding.file_info (file) as info then
+				bom_count := info.bom_count
+				encoding_detected := info.detected
+				if encoding_detected then
+					set_encoding (info.encoding)
+				end
+			end
+		end
+
+	new_list (n: INTEGER): EL_ARRAYED_LIST [S]
+		do
+			create Result.make (n)
+		end
+
+	read_line (f: like Default_file)
+		do
+			f.read_line
+		end
+
+	set_file (a_file: like Default_file)
+		do
+			file := a_file
 		end
 
 	update_item
@@ -226,6 +287,15 @@ feature {EL_LINE_SOURCE_ITERATION_CURSOR} -- Implementation
 
 feature {NONE} -- Internal attributes
 
+	encoding_detected: BOOLEAN
+
 	file: like default_file
+
+feature {NONE} -- Constants
+
+	Default_file: PLAIN_TEXT_FILE
+		once
+			create Result.make_with_name ("default.txt")
+		end
 
 end

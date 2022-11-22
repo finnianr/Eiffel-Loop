@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2022-11-22 9:49:24 GMT (Tuesday 22nd November 2022)"
+	revision: "7"
 
 class
 	EL_CURRENT_SOFTWARE_VERSION
@@ -18,6 +18,8 @@ inherit
 			make as make_version,
 			compact_version as actual_compact_version
 		end
+
+	EL_MODULE_FILE
 
 create
 	make
@@ -49,16 +51,11 @@ feature -- Access
 feature -- Element change
 
 	update
-		local
-			file: EL_PLAIN_TEXT_FILE
 		do
-			create file.make_open_read (version_path)
-			file.read_line
-			if file.last_string.occurrences ('.') = 2 then
-				set_from_string (file.last_string)
+			if attached File.line_one (version_path) as line_one and then line_one.occurrences ('.') = 2 then
+				set_from_string (line_one)
+				time_stamp := File.modification_time (version_path)
 			end
-			time_stamp := file.date
-			file.close
 		end
 
 feature -- Status query

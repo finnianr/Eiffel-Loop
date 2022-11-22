@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2022-11-22 10:26:02 GMT (Tuesday 22nd November 2022)"
+	revision: "9"
 
 class
 	SOURCE_FILE
@@ -23,7 +23,6 @@ create
 	make_open_read, make_open_write, make_open_append,
 	make_open_read_write, make_create_read_write,
 	make_open_read_append
-
 
 feature {NONE} -- Initialization
 
