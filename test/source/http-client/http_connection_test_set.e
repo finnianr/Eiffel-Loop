@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-22 14:33:19 GMT (Tuesday 22nd November 2022)"
-	revision: "54"
+	date: "2022-11-23 17:51:22 GMT (Wednesday 23rd November 2022)"
+	revision: "55"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -95,6 +95,7 @@ feature -- Tests
 					lio.put_labeled_string ("url", url)
 					lio.put_new_line
 					create cached_file.make (url, 24)
+					cached_file.open_read
 					line_count := 0
 					across cached_file.lines as line loop
 						line_count := line_count + 1

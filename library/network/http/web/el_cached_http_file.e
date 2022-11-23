@@ -1,6 +1,7 @@
 note
 	description: "[
-		Cache HTTP GET content under standard cache directory defined by [$source EL_STANDARD_DIRECTORY_I].**App_cache**
+		Cache HTTP GET content under standard cache directory defined by
+		[$source EL_STANDARD_DIRECTORY_I].**App_cache**
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-22 14:38:37 GMT (Tuesday 22nd November 2022)"
-	revision: "1"
+	date: "2022-11-23 18:05:46 GMT (Wednesday 23rd November 2022)"
+	revision: "2"
 
 class
 	EL_CACHED_HTTP_FILE
@@ -19,10 +20,16 @@ inherit
 		rename
 			make as make_latin_1_path
 		export
-			{NONE} all
-			{ANY} close, count, delete, lines,
-				read_character, read_integer, read_line_8, read_line, read_line_thread_aware,
-				read_stream, read_stream_thread_aware, read_to_managed_pointer, read_to_string
+			{NONE}
+			make_create_read_write, make_encodeable, make_open_append, make_open_read_append,
+			make_open_read_write, make_open_write, make_with_name, make_with_path,
+			put, put_boolean, put_character_32, put_character_8, put_double, put_indent,
+			put_indented_line, put_indented_lines, put_integer, put_integer_16, put_integer_32,
+			put_integer_64, put_integer_8, put_latin_1, put_line, put_lines, put_managed_pointer,
+			put_natural, put_natural_8, put_natural_16, put_natural_32, put_natural_64,
+			put_new_line, put_pointer, put_raw_character_8, put_raw_string_8, put_real, put_string,
+			put_string_32, put_string_8, put_string_general, putbool, putchar, putdouble, putint,
+			putreal, putstring
 		end
 
 	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_WEB; EL_MODULE_TIME
@@ -32,12 +39,13 @@ create
 
 feature {NONE} -- Initialization
 
-	make (url: READABLE_STRING_GENERAL; refresh_period_hours: REAL)
+	make (a_url: READABLE_STRING_GENERAL; refresh_period_hours: REAL)
 		local
 			part_list: EL_ZSTRING_LIST; part: ZSTRING; s: EL_ZSTRING_ROUTINES
 			url_path: FILE_PATH
 		do
-			create part_list.make_adjusted_split (url, '/', 0)
+			url := a_url
+			create part_list.make_adjusted_split (a_url, '/', 0)
 			if attached part_list as list then
 				from list.start until list.after loop
 					part := list.item
@@ -51,19 +59,43 @@ feature {NONE} -- Initialization
 					end
 				end
 				url_path := Directory.App_cache + list.joined ('/')
+				make_with_name (url_path)
 			end
 			refresh_period_secs := (refresh_period_hours * 3600).rounded
-			if not url_path.exists or else Time.unix_now - url_path.modification_time > refresh_period_secs then
-				Web.open (url)
-				Web.download (url_path)
-				Web.close
-				make_open_read (url_path)
-			else
-				make_open_read (url_path)
+			if not url_path.exists or else has_expired then
+				force_refresh
 			end
 		end
+
+feature -- Access
+
+	url: READABLE_STRING_GENERAL
 
 feature -- Measurement
 
 	refresh_period_secs: INTEGER
+
+feature -- Status query
+
+	has_expired: BOOLEAN
+		-- `True' if caching period has expired
+		do
+			Result := Time.unix_now - path.modification_time > refresh_period_secs
+		end
+
+feature -- Basic operations
+
+	refresh
+		do
+			if has_expired then
+				force_refresh
+			end
+		end
+
+	force_refresh
+		do
+			Web.open (url)
+			Web.download (path)
+			Web.close
+		end
 end

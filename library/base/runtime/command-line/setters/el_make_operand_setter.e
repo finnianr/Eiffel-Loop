@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "18"
+	date: "2022-11-23 16:44:09 GMT (Wednesday 23rd November 2022)"
+	revision: "19"
 
 deferred class
 	EL_MAKE_OPERAND_SETTER [G]
@@ -31,7 +31,7 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 	make_list (a_argument: like argument)
 		do
 			make (a_argument)
-			is_list := True
+			is_bag := True
 		end
 
 feature -- Basic operations
@@ -88,12 +88,16 @@ feature {NONE} -- Factory
 		local
 			separator: CHARACTER_32
 		do
-			if is_list then
-				separator := ';'
-				if not string_value.has (separator) then
-					separator := ','
+			if is_bag then
+				if Args.is_last_word_option (argument.word_option) then
+					Result := Args.remaining_items (argument.word_option)
+				else
+					separator := ';'
+					if not string_value.has (separator) then
+						separator := ','
+					end
+					create Result.make_adjusted_split (string_value, separator, {EL_STRING_ADJUST}.Left)
 				end
-				create Result.make_adjusted_split (string_value, separator, {EL_STRING_ADJUST}.Left)
 			else
 				create Result.make_from_array (<< string_value >>)
 			end
@@ -141,7 +145,7 @@ feature {NONE} -- Implementation
 		do
 			validate (a_value)
 			if argument.error_list.is_empty then
-				if is_list and then attached {CHAIN [like value]} operands.item (index) as list then
+				if is_bag and then attached {BAG [G]} operands.item (index) as list then
 					list.extend (a_value)
 				else
 					put_reference (a_value)
@@ -152,7 +156,7 @@ feature {NONE} -- Implementation
 	type_description: ZSTRING
 		do
 			Result := value_description
-			if is_list then
+			if is_bag then
 				Result.prepend_string_general ("a list of ")
 				Result.append_character ('s')
 			end
@@ -211,6 +215,6 @@ feature {NONE} -- Internal attributes
 
 	argument: EL_COMMAND_ARGUMENT
 
-	is_list: BOOLEAN
+	is_bag: BOOLEAN
 
 end

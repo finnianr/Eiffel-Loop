@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "18"
+	date: "2022-11-23 16:33:58 GMT (Wednesday 23rd November 2022)"
+	revision: "19"
 
 class
 	EL_COMMAND_LINE_ARGUMENTS
@@ -168,6 +168,13 @@ feature -- Status query
 	has_value (name: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := value_table.has_key (name) and then value_table.found_item /= Default_value
+		end
+
+	is_last_word_option (name: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			if value_table.has (name) and attached value_table.current_keys as keys then
+				Result := keys [keys.upper].same_string_general (name)
+			end
 		end
 
 	word_option_exists (name: READABLE_STRING_GENERAL): BOOLEAN

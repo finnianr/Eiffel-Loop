@@ -1,13 +1,13 @@
 note
-	description: "Zstring hash table"
+	description: "Hash table with [$source ZSTRING] as lookup key"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2022-11-23 16:28:23 GMT (Wednesday 23rd November 2022)"
+	revision: "11"
 
 class
 	EL_ZSTRING_HASH_TABLE [G]

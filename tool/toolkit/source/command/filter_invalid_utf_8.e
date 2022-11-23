@@ -1,13 +1,13 @@
 note
-	description: "Command to to Filter out all invalid UTF-8 lines from file"
+	description: "Command to Filter out all invalid UTF-8 lines from file"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2022-11-23 8:31:54 GMT (Wednesday 23rd November 2022)"
+	revision: "12"
 
 class
 	FILTER_INVALID_UTF_8

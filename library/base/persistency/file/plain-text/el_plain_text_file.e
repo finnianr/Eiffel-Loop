@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-22 13:30:16 GMT (Tuesday 22nd November 2022)"
-	revision: "9"
+	date: "2022-11-23 17:58:05 GMT (Wednesday 23rd November 2022)"
+	revision: "10"
 
 class
 	EL_PLAIN_TEXT_FILE
@@ -41,6 +41,8 @@ inherit
 		rename
 			Encoding as Mod_encoding
 		end
+
+	EL_MODULE_FILE
 
 create
 	make, make_with_name, make_with_path, make_closed,
@@ -89,6 +91,11 @@ feature -- Access
 	path: EL_FILE_PATH
 		do
 			create Result.make (internal_name)
+		end
+
+	string_8_lines: EL_ITERABLE_SPLIT [STRING, ANY]
+		do
+			Result := File.plain_text_lines (path)
 		end
 
 feature -- Status query

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "24"
+	date: "2022-11-23 9:12:41 GMT (Wednesday 23rd November 2022)"
+	revision: "25"
 
 class
 	EL_COMMAND_ARGUMENT
@@ -97,15 +97,14 @@ feature -- Basic operations
 			elseif attached {EL_BUILDABLE_FROM_FILE} operand as buildable then
 				create {EL_BUILDABLE_FROM_FILE_OPERAND_SETTER} setter.make (Current)
 
-			elseif attached {CHAIN [ANY]} operand as list then
-				if list.generating_type.generic_parameter_count = 1 then
-					Setter_types.search (list.generating_type.generic_parameter_type (1))
-				elseif attached {EL_ZSTRING_LIST} operand then
-					Setter_types.search ({ZSTRING})
-				elseif attached {EL_FILE_PATH_LIST} operand then
-					Setter_types.search ({FILE_PATH})
+			elseif attached {BAG [ANY]} operand as bag then
+				if attached {EL_CONTAINER_STRUCTURE [ANY]} operand as container then
+					Setter_types.search (container.item_type)
+
+				elseif bag.generating_type.generic_parameter_count = 1 then
+					Setter_types.search (bag.generating_type.generic_parameter_type (1))
 				else
-					Setter_types.search ({like Current}) -- `Setter_types.found' is now False
+					Setter_types.search ({NONE}) -- `Setter_types.found' is now False
 				end
 				if Setter_types.found and then
 					attached Factory.new_item_from_type (Setter_types.found_item) as new_item
