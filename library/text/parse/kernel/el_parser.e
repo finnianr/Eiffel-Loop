@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:56 GMT (Monday 21st November 2022)"
-	revision: "6"
+	date: "2022-11-24 14:55:23 GMT (Thursday 24th November 2022)"
+	revision: "7"
 
 deferred class
 	EL_PARSER
@@ -44,6 +44,16 @@ feature -- Source text substrings
 	natural_32_substring (start_index, end_index: INTEGER): NATURAL
 		do
 			Result := source_substring (start_index, end_index, False).to_natural
+		end
+
+	real_32_substring, real_substring (start_index, end_index: INTEGER): REAL_32
+		do
+			Result := source_substring (start_index, end_index, False).to_real_32
+		end
+
+	real_64_substring, double_substring (start_index, end_index: INTEGER): REAL_64
+		do
+			Result := source_substring (start_index, end_index, False).to_real_64
 		end
 
 	new_source_substring (start_index, end_index: INTEGER): like default_source_text
