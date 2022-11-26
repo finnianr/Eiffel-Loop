@@ -1,13 +1,13 @@
 note
-	description: "[$source EL_ERROR_DESCRIPTION] for command line arguments errors"
+	description: "[$source EL_ERROR_DESCRIPTION] for command line argument errors"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 5:31:59 GMT (Saturday 26th November 2022)"
-	revision: "13"
+	date: "2022-11-26 9:33:15 GMT (Saturday 26th November 2022)"
+	revision: "14"
 
 class
 	EL_COMMAND_ARGUMENT_ERROR

@@ -155,7 +155,7 @@ system:
 					* Managing shared resources for competing threads
 				"""
 			sub_clusters:
-				error = error; exception = exception
+				exception = exception
 
 			cluster_tree:
 				memory = "$|memory"
@@ -255,21 +255,15 @@ system:
 				condition:
 					platform = windows
 			cluster_tree:
-				character = "$|character"
-			cluster_tree:
 				text_encoding = "$|encoding"
 			cluster_tree:
 				file_path = "$|file-path"
 			cluster_tree:
-				general = "$|general"
-			cluster_tree:
-				i18n = "$|i18n"
-			cluster_tree:
 				line_traversal = "$|line-traversal"
 			cluster_tree:
 				name_value = "$|name-value"
-			cluster_tree:
-				styled = "$|styled"
+			sub_clusters:
+				character = character; error = error; general = general; i18n = i18n; styled = styled
 		cluster_tree:
 			utility = utility
 			description:
