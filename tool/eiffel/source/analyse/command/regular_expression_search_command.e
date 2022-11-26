@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2022-11-26 6:26:21 GMT (Saturday 26th November 2022)"
+	revision: "8"
 
 class
 	REGULAR_EXPRESSION_SEARCH_COMMAND
@@ -76,9 +76,7 @@ feature -- Basic operations
 					count := results_list.count
 					if has_error then
 						lio.put_new_line
-						across grep_command.errors as line loop
-							lio.put_line (line.item)
-						end
+						grep_command.print_error ("grep")
 
 					elseif count = 0 then
 						lio.put_line ("No matches found")

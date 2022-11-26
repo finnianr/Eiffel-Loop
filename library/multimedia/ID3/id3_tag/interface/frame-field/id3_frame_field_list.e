@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-11-26 9:21:04 GMT (Saturday 26th November 2022)"
+	revision: "3"
 
 class
 	ID3_FRAME_FIELD_LIST
 
 inherit
 	EL_ARRAYED_LIST [ID3_FRAME_FIELD]
+		rename
+			item_type as item_eiffel_type
 		export
 			{NONE} all
 			{ANY} after, count, extend, item, i_th, put_i_th,

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2022-11-25 9:17:07 GMT (Friday 25th November 2022)"
+	revision: "14"
 
 class
 	EL_ACTION_EXCEPTION_MANAGER [D -> EL_MODELED_INFORMATION_DIALOG create make_info end]
@@ -26,10 +26,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_parent_window: EV_WINDOW; a_error_list: like error_list; a_new_properties: like new_properties)
+	make (a_parent_window: EV_WINDOW; a_new_properties: like new_properties)
 		do
-			parent_window := a_parent_window; error_list := a_error_list
-			new_properties := a_new_properties
+			parent_window := a_parent_window; new_properties := a_new_properties
+			create error_table.make (3)
 		end
 
 feature -- Status query
@@ -52,21 +52,20 @@ feature -- Basic operations
 
 	try (a_action: PROCEDURE)
 		local
-			condition_found: BOOLEAN; title, message: ZSTRING; position_widget: EV_WIDGET
+			title, message: ZSTRING; position_widget: EV_WIDGET
 			error_dialog: D; properties: EL_DIALOG_MODEL
 		do
 			if error_occurred then
-				title := Default_title; message := Default_message
-				position_widget := parent_window.item
-				across error_list as condition until condition_found loop
-					if last_exception.description.same_string (condition.item.exception_message)
-						and condition.item.exception_recipient_name ~ last_exception.recipient_name
-					then
-						condition_found := True
-						title := condition.item.title
-						message := condition.item.message
-						position_widget := condition.item.dialog_position_widget
-					end
+				if attached error_table as table
+					and then table.has_key (last_exception.recipient_name)
+					and then last_exception.description.same_string (table.found_item.exception_description)
+				then
+					title := table.found_item.title
+					message := table.found_item.message
+					position_widget := table.found_item.dialog_position_widget
+				else
+					title := Default_title; message := Default_message
+					position_widget := parent_window.item
 				end
 				properties := new_properties (title.as_upper)
 				properties.set_text (message)
@@ -87,21 +86,30 @@ feature -- Basic operations
 			retry
 		end
 
-feature -- Type definitions
+feature -- Element change
 
-	ERROR_CONDITION: TUPLE [
-		exception_message: READABLE_STRING_GENERAL; exception_recipient_name: STRING
-		dialog_position_widget: EV_WIDGET -- Dialog is centered below this widget
-		title, message: ZSTRING
-	]
-		require
-			never_called: False
+	register_error (
+		exception_recipient_name: STRING; exception_description: READABLE_STRING_GENERAL
+		dialog_position_widget: EV_WIDGET; title, message: ZSTRING
+	)
+		-- Register error to be displayed if `exception_recipient_name' matches `last_exception.recipient_name'
+		-- and `exception_description' matches `last_exception.description'
+		-- Dialog is centered below widget `dialog_position_widget'
 		do
+			error_table [exception_recipient_name] := [
+				exception_description, dialog_position_widget, title, message
+			]
 		end
 
 feature {NONE} -- Internal attributes
 
-	error_list: ARRAY [like ERROR_CONDITION]
+	error_table: HASH_TABLE [
+		TUPLE [
+			exception_description: READABLE_STRING_GENERAL; dialog_position_widget: EV_WIDGET
+			title, message: ZSTRING
+		],
+		STRING
+	]
 
 	new_properties: FUNCTION [READABLE_STRING_GENERAL, EL_DIALOG_MODEL]
 

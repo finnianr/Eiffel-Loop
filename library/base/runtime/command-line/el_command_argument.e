@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-23 9:12:41 GMT (Wednesday 23rd November 2022)"
-	revision: "25"
+	date: "2022-11-26 5:54:56 GMT (Saturday 26th November 2022)"
+	revision: "26"
 
 class
 	EL_COMMAND_ARGUMENT
@@ -22,9 +22,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_error_list: like error_list; a_word_option, a_help_description: READABLE_STRING_GENERAL)
+	make (a_manager: EL_FALLIBLE; a_word_option, a_help_description: READABLE_STRING_GENERAL)
 		do
-			error_list := a_error_list; word_option := a_word_option
+			manager := a_manager; word_option := a_word_option
 			create help_description.make_from_general (a_help_description)
 			create validation_table.make_equal (0)
 			operands := Default_operands
@@ -34,7 +34,7 @@ feature -- Access
 
 	help_description: ZSTRING
 
-	error_list: LIST [EL_COMMAND_ARGUMENT_ERROR]
+	manager: EL_FALLIBLE
 
 	validation_table: EL_ZSTRING_HASH_TABLE [PREDICATE]
 		-- table of argument validation checks by description

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2022-11-25 8:44:08 GMT (Friday 25th November 2022)"
+	revision: "17"
 
 class
 	APPLICATION_ROOT
@@ -24,14 +24,17 @@ inherit
 create
 	make
 
-feature {NONE} -- Compile also
+feature {NONE} -- Compiled classes
 
 	cairo: TUPLE [CAIRO_SHARED_GDK_API, CAIRO_SHARED_GDK_PIXBUF_API]
 		do
 			create Result
 		end
 
-	compile: TUPLE [EL_SEPARATE_PROGRESS_DISPLAY]
+	compile: TUPLE [
+		EL_ACTION_EXCEPTION_MANAGER [EL_MODELED_INFORMATION_DIALOG],
+		EL_SEPARATE_PROGRESS_DISPLAY
+	]
 		do
 			create Result
 		end

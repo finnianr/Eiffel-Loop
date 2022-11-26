@@ -1,11 +1,11 @@
 note
 	description: "[
-		Command line interface to [$source HISTORICAL_CURRENCY_EXCHANGE_COMMAND]
+		Command line interface to [$source CURRENCY_EXCHANGE_HISTORY_COMMAND]
 	]"
 	notes: "[
 		Usage:
 			
-			el_toolkit -currency_exchange_history -year [year] -output [file-path] -currencies [c1, c2 ..]
+			el_toolkit -currency_exchange_history -output <file-path>  -year <year> -base <base-currency> -currencies <c1, c2 ..>
 	]"
 
 	author: "Finnian Reilly"
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-24 9:51:26 GMT (Thursday 24th November 2022)"
-	revision: "15"
+	date: "2022-11-26 8:53:27 GMT (Saturday 26th November 2022)"
+	revision: "16"
 
 class
 	CURRENCY_EXCHANGE_HISTORY_APP
@@ -33,13 +33,25 @@ feature {NONE} -- Implementation
 				required_argument ("output", "Path to CSV output file", No_checks),
 				optional_argument ("year", "Historical year", No_checks),
 				optional_argument ("base", "Base currency", No_checks),
-				required_argument ("currencies", "List of currencies", No_checks)
+				required_argument ("currencies", "List of currencies", << valid_currency_code >>)
 			>>
+		end
+
+	is_valid_code (code: STRING): BOOLEAN
+		do
+			if code.count = 3 then
+				Result := across code as c all c.item.is_upper end
+			end
 		end
 
 	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make (create {FILE_PATH}, 2021, "EUR", create {EL_STRING_8_LIST}.make_empty)
+		end
+
+	valid_currency_code: like No_checks.item
+		do
+			Result := ["Code %"%S%" should be 3 upper case letters", agent is_valid_code]
 		end
 
 end

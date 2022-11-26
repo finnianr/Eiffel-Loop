@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2022-11-26 6:41:19 GMT (Saturday 26th November 2022)"
+	revision: "17"
 
 deferred class
 	EL_AUDIO_PROPERTIES_COMMAND_I
@@ -72,10 +72,10 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	on_error
+	on_error (description: EL_ERROR_DESCRIPTION)
 			-- Strangely the output goes into the error stream, so we parse the errors
 		do
-			do_with_lines (agent find_duration_tag, errors)
+			do_with_lines (agent find_duration_tag, description)
 		end
 
 	getter_function_table: like getter_functions

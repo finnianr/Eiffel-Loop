@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-11-26 5:55:59 GMT (Saturday 26th November 2022)"
+	revision: "3"
 
 deferred class
 	EL_APPLICATION_COMMAND
@@ -25,7 +25,7 @@ feature -- Access
 
 feature -- Basic operations
 
-	error_check (error_list: ARRAYED_LIST [EL_COMMAND_ARGUMENT_ERROR])
+	error_check (application: EL_FALLIBLE)
 		-- check for errors before execution
 		do
 		end

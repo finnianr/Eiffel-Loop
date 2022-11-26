@@ -16,14 +16,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "61"
+	date: "2022-11-26 5:59:25 GMT (Saturday 26th November 2022)"
+	revision: "62"
 
 deferred class
 	EL_APPLICATION
 
 inherit
-	ANY
+	EL_FALLIBLE
+		export
+			{NONE} all
+		end
 
 	EL_SOLITARY
 		rename
@@ -65,7 +68,6 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 			-- Necessary to redefine `Build_info' as type `BUILD_INFO' if the project root class is `Current'
 			call (Build_info)
 
-			create error_list.make (0)
 			Exception.catch ({EXCEP_CONST}.Signal_exception)
 			across standard_options as opt loop
 				do_nothing
@@ -87,8 +89,6 @@ feature -- Access
 	description: READABLE_STRING_GENERAL
 		deferred
 		end
-
-	error_list: ARRAYED_LIST [EL_COMMAND_ARGUMENT_ERROR]
 
 	exit_code: INTEGER
 
@@ -224,8 +224,8 @@ feature {NONE} -- Implementation
 				elseif App_option.help then
 					options_help.print_to_lio
 
-				elseif error_list.count > 0 then
-					error_list.do_all (agent {EL_COMMAND_ARGUMENT_ERROR}.print_to_lio)
+				elseif has_error then
+					print_errors
 				else
 					call (new_configuration)
 					initialize; run

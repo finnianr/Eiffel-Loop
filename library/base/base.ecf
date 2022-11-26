@@ -145,7 +145,8 @@ Classes for the following:
 * Tracking progress of time consuming operations
 * Managing shared resources for competing threads
 			</description>
-			<cluster name = "exception" location = "$|exception" recursive = "true"/>
+			<cluster name = "error" location = "$|error"/>
+			<cluster name = "exception" location = "$|exception"/>
 			<cluster name = "memory" location = "$|memory" recursive = "true">
 				<file_rule>
 					<exclude>/imp_mswin$</exclude>

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2022-11-26 7:25:11 GMT (Saturday 26th November 2022)"
+	revision: "14"
 
 class
 	EL_GVFS_OS_COMMAND
@@ -46,9 +46,18 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Event handling
 
-	on_error
+	on_error (description: EL_ERROR_DESCRIPTION)
+		local
+			f: EL_COLON_FIELD_ROUTINES; message: ZSTRING
 		do
-			Exception.raise_developer (error_message, [])
+			if description.is_empty then
+				message := "Unknown error"
+			else
+				message := f.value (description.first)
+			end
+			if not ignore (message) then
+				Exception.raise_developer (message, [])
+			end
 		end
 
 feature {NONE} -- Line states
@@ -60,15 +69,8 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Implementation
 
-	error_message: ZSTRING
-		local
-			f: EL_COLON_FIELD_ROUTINES
+	ignore (a_error: ZSTRING): BOOLEAN
 		do
-			if errors.is_empty then
-				Result := "Unknown error"
-			else
-				Result := f.value (errors.first)
-			end
 		end
 
 	do_with_lines (a_lines: like new_output_lines)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2022-11-26 7:52:59 GMT (Saturday 26th November 2022)"
+	revision: "8"
 
 class
 	DUPLICITY_TARGET_INFO_OS_CMD
@@ -48,9 +48,7 @@ feature {NONE} -- Initialization
 			set_working_directory (target_dir.parent)
 			execute
 			if has_error then
-				across errors as error loop
-					lio.put_line (error.item)
-				end
+				print_error ("dry-run")
 			else
 				do_with_lines (agent find_last_full_backup, lines)
 			end

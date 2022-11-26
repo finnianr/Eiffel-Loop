@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "18"
+	date: "2022-11-26 6:27:43 GMT (Saturday 26th November 2022)"
+	revision: "19"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -80,7 +80,7 @@ feature {NONE} -- Commands
 					push_cmd.set_working_directory (config.github_dir)
 					push_cmd.execute
 					if push_cmd.has_error then
-						lio.put_labeled_lines ("ERROR", push_cmd.errors)
+						push_cmd.print_error ("pushing to master")
 					else
 						lio.put_labeled_string ("push", "DONE")
 						lio.put_new_line

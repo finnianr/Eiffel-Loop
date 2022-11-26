@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "48"
+	date: "2022-11-26 8:38:51 GMT (Saturday 26th November 2022)"
+	revision: "49"
 
 deferred class
 	EL_COMMAND_LINE_APPLICATION [C -> EL_APPLICATION_COMMAND]
@@ -49,9 +49,9 @@ feature {NONE} -- Initialization
 				end
 			end
 
-			if error_list.is_empty and then attached new_command as cmd then
+			if not has_error and then attached new_command as cmd then
 				make_command (cmd)
-				cmd.error_check (error_list)
+				cmd.error_check (Current)
 				command := cmd
 			end
 		end
@@ -102,7 +102,7 @@ feature {NONE} -- Argument items
 		word_option, help_description: READABLE_STRING_GENERAL; validations: like No_checks
 	): EL_COMMAND_ARGUMENT
 		do
-			create Result.make (error_list, word_option, help_description)
+			create Result.make (Current, word_option, help_description)
 			if validations /= No_checks then
 				Result.validation_table.merge_array (validations)
 			end
@@ -112,7 +112,7 @@ feature {NONE} -- Argument items
 		word_option, help_description: READABLE_STRING_GENERAL; validations: like No_checks
 	): EL_COMMAND_ARGUMENT
 		do
-			create Result.make (error_list, word_option, help_description)
+			create Result.make (Current, word_option, help_description)
 			Result.set_required
 			if validations /= No_checks then
 				Result.validation_table.merge_array (validations)

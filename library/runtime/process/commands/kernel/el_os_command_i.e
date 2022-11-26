@@ -7,14 +7,25 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "37"
+	date: "2022-11-26 7:58:01 GMT (Saturday 26th November 2022)"
+	revision: "38"
 
 deferred class
 	EL_OS_COMMAND_I
 
 inherit
 	EL_COMMAND
+
+	EL_FALLIBLE
+		rename
+			put as put_error,
+			print_errors as print_all_errors
+		export
+			{NONE} all
+			{EL_FALLIBLE} error_list
+		redefine
+			has_error, reset
+		end
 
 	EVOLICITY_SERIALIZEABLE_AS_ZSTRING
 		rename
@@ -54,7 +65,6 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		do
-			errors := Empty_list
 			Precursor {EL_REFLECTIVELY_SETTABLE}
 			Precursor {EVOLICITY_SERIALIZEABLE_AS_ZSTRING}
 			output_encoding := Utf_8
@@ -65,8 +75,6 @@ feature -- Access
 	success_code: INTEGER
 		-- exit code that indicates command ran without error
 		-- default is 0
-
-	errors: EL_ZSTRING_LIST
 
 	working_directory: DIR_PATH
 
@@ -152,6 +160,17 @@ feature -- Basic operations
 					l_command.translate_and_delete (Tab_and_new_line, Null_and_space)
 					do_command (l_command)
 				end
+			end
+		end
+
+	print_error (a_description: detachable READABLE_STRING_GENERAL)
+		do
+			if attached error_list as list then
+				if attached a_description as description then
+					list.first.set_id (description)
+				end
+				lio.put_labeled_string ("ERROR", list.first.id)
+				list.first.print_to_lio
 			end
 		end
 
@@ -268,12 +287,11 @@ feature {NONE} -- Implementation
 				if not working_directory.is_empty then
 					Execution_environment.pop_current_working
 				end
-				if has_error then
-					create errors.make (5)
+				if has_error and then attached new_error as error then
 					if error_path.exists then
-						new_output_lines (error_path).do_all (agent errors.extend)
+						error.append_sequence (new_output_lines (error_path).as_list)
 					end
-					on_error
+					put_error (error); on_error (error)
 				end
 				File_system_mutex.lock
 					if error_path.exists then
@@ -283,14 +301,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	on_error
+	on_error (error: EL_ERROR_DESCRIPTION)
 		do
 		end
 
 	reset
 			-- Executed before do_command
 		do
-			errors := Empty_list
+			Precursor
 			has_error := False
 		end
 
@@ -317,6 +335,11 @@ feature {EL_OS_COMMAND_I} -- Factory
 			Result := <<
 				command_prefix, a_system_command, Error_redirection_operator, temporary_error_file_path
 			>>
+		end
+
+	new_error: EL_ERROR_DESCRIPTION
+		do
+			create Result.make (Execution_environment.return_code.out)
 		end
 
 	new_temporary_file_path (a_extension: STRING): FILE_PATH

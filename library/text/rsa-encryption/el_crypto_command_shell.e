@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-22 9:43:45 GMT (Tuesday 22nd November 2022)"
-	revision: "36"
+	date: "2022-11-26 7:46:48 GMT (Saturday 26th November 2022)"
+	revision: "37"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -85,9 +85,7 @@ feature -- Basic operations
 				key_reader := X509_certificate.private_reader (key_file_path, credential.phrase)
 				key_reader.execute
 				if key_reader.has_error then
-					across key_reader.errors as line loop
-						lio.put_line (line.item)
-					end
+					key_reader.print_error ("exporting")
 				else
 					key_read := True
 				end

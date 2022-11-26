@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-23 16:44:09 GMT (Wednesday 23rd November 2022)"
-	revision: "19"
+	date: "2022-11-26 8:51:54 GMT (Saturday 26th November 2022)"
+	revision: "20"
 
 deferred class
 	EL_MAKE_OPERAND_SETTER [G]
@@ -64,7 +64,7 @@ feature -- Basic operations
 						try_put_value (l_value)
 					end
 				else
-					across new_list (string_value) as str loop
+					across new_list (string_value) as str until argument.manager.has_error loop
 						if is_convertible (str.item) then
 							try_put_value (value (str.item))
 						else
@@ -116,7 +116,7 @@ feature {NONE} -- Implementation
 		do
 			if attached new_error as error then
 				set_error_type (error)
-				argument.error_list.extend (error)
+				argument.manager.put (error)
 			end
 		end
 
@@ -144,7 +144,7 @@ feature {NONE} -- Implementation
 	try_put_value (a_value: like value)
 		do
 			validate (a_value)
-			if argument.error_list.is_empty then
+			if not argument.manager.has_error then
 				if is_bag and then attached {BAG [G]} operands.item (index) as list then
 					list.extend (a_value)
 				else
@@ -184,8 +184,12 @@ feature {NONE} -- Implementation
 
 					if not is_valid_value.last_result then
 						if description.has ('%S') then
-							-- Example: "The %S number must be within range 1 to 65535"
-							description := description #$ [argument.word_option]
+							if is_bag then
+								description := description #$ [a_value]
+							else
+								-- Example: "The %S number must be within range 1 to 65535"
+								description := description #$ [argument.word_option]
+							end
 						end
 						extend_errors (default_argument_setter (a_value, description))
 					end

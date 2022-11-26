@@ -154,8 +154,9 @@ system:
 					* Tracking progress of time consuming operations
 					* Managing shared resources for competing threads
 				"""
-			cluster_tree:
-				exception = "$|exception"
+			sub_clusters:
+				error = error; exception = exception
+
 			cluster_tree:
 				memory = "$|memory"
 				platform_list:

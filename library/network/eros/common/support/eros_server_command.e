@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2022-11-26 6:14:53 GMT (Saturday 26th November 2022)"
+	revision: "6"
 
 deferred class
 	EROS_SERVER_COMMAND [TYPES -> TUPLE create default_create end]
@@ -46,17 +46,17 @@ feature -- Basic operations
 
 feature -- Basic operations
 
-	error_check (error_list: ARRAYED_LIST [EL_COMMAND_ARGUMENT_ERROR])
+	error_check (a_application: EL_FALLIBLE)
 		-- check for errors before execution
 		local
 			type_list: EL_TUPLE_TYPE_LIST [EROS_REMOTELY_ACCESSIBLE]
-			error: EL_COMMAND_ARGUMENT_ERROR
+			error: EL_ERROR_DESCRIPTION
 		do
 			create type_list.make_from_tuple (create {TYPES})
 			across type_list.non_conforming_list as list loop
 				create error.make (Application.option_name)
 				error.set_lines (Non_comforming #$ [list.item.name])
-				error_list.extend (error)
+				a_application.put (error)
 			end
 		end
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "23"
+	date: "2022-11-26 7:45:50 GMT (Saturday 26th November 2022)"
+	revision: "24"
 
 class
 	DUPLICITY_BACKUP
@@ -112,9 +112,7 @@ feature -- Basic operations
 				if mirror.item.has_error then
 					lio.put_labeled_string ("MIRROR ERROR", mirror.item.to_string)
 					lio.put_new_line
-					across mirror.item.errors as error loop
-						lio.put_line (error.item)
-					end
+					mirror.item.print_errors
 					User_input.press_enter
 				end
 				lio.put_new_line

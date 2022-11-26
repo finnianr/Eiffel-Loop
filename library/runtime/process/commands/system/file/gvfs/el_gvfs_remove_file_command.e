@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2022-11-26 7:25:58 GMT (Saturday 26th November 2022)"
+	revision: "7"
 
 class
 	EL_GVFS_REMOVE_FILE_COMMAND
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_command
 		redefine
-			on_error
+			ignore
 		end
 
 create
@@ -30,13 +30,10 @@ feature {NONE} -- Initialization
 			make_command ("gvfs-rm $uri")
 		end
 
-feature {NONE} -- Event handling
+feature {NONE} -- Implementation
 
-	on_error
+	ignore (a_error: ZSTRING): BOOLEAN
 		do
-			if not is_file_not_found (error_message) then
-				Precursor
-			end
+			Result := is_file_not_found (a_error)
 		end
-
 end

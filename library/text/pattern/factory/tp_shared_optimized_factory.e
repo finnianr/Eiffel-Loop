@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:57 GMT (Monday 21st November 2022)"
-	revision: "3"
+	date: "2022-11-24 16:41:01 GMT (Thursday 24th November 2022)"
+	revision: "4"
 
 deferred class
 	TP_SHARED_OPTIMIZED_FACTORY
@@ -44,7 +44,9 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Optimized_list: ARRAYED_LIST [TP_OPTIMIZED_FACTORY]
-		once
+		once ("PROCESS")
+--			Will not work in multi-thread applications unless set to: once ("PROCESS")
+--			Assumed to be thread safe since each factory is stateless
 			create Result.make_from_array (<<
 				create {TP_OPTIMIZED_FACTORY},
 				create {TP_RSTRING_FACTORY},
@@ -53,5 +55,4 @@ feature {NONE} -- Constants
 		end
 
 end
-
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2022-11-26 5:56:10 GMT (Saturday 26th November 2022)"
+	revision: "18"
 
 deferred class
 	SOURCE_MANIFEST_COMMAND
@@ -56,10 +56,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 feature -- Basic operations
 
-	error_check (error_list: ARRAYED_LIST [EL_COMMAND_ARGUMENT_ERROR])
+	error_check (application: EL_FALLIBLE)
 		-- check for errors before execution
 		local
-			error: EL_COMMAND_ARGUMENT_ERROR; missing_list, error_msg: EL_ZSTRING_LIST
+			error: EL_ERROR_DESCRIPTION; missing_list: EL_ZSTRING_LIST
 			s: EL_ZSTRING_ROUTINES
 		do
 			create missing_list.make (5)
@@ -70,11 +70,11 @@ feature -- Basic operations
 				end
 			end
 			if missing_list.count > 0 then
-				create error_msg.make_with_lines (Manifest_error #$ [manifest.name])
-				error_msg.append (missing_list)
-				create error.make ("sources")
-				error.set_description (error_msg)
-				error_list.extend (error)
+				create error.make ("source")
+				error.set_lines (Manifest_error #$ [manifest.name])
+				error.append (missing_list)
+
+				application.put (error)
 			end
 		end
 

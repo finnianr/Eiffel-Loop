@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2022-11-26 6:25:39 GMT (Saturday 26th November 2022)"
+	revision: "5"
 
 deferred class
 	EL_PARSED_CAPTURED_OS_COMMAND [VARIABLES -> TUPLE create default_create end]
@@ -34,7 +34,7 @@ inherit
 			make as make_command
 		export
 			{NONE} all
-			{ANY} set_working_directory, execute, is_valid_platform, has_error, lines, errors
+			{ANY} set_working_directory, execute, is_valid_platform, has_error, lines, print_error
 		undefine
 			execute, make_command
 		end

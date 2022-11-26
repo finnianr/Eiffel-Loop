@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-24 16:12:23 GMT (Thursday 24th November 2022)"
-	revision: "13"
+	date: "2022-11-26 9:15:42 GMT (Saturday 26th November 2022)"
+	revision: "14"
 
 class
 	CURRENCY_EXCHANGE_HISTORY_COMMAND
@@ -37,11 +37,16 @@ class
 inherit
 	EL_APPLICATION_COMMAND
 
+	EL_FALLIBLE
+		redefine
+			reset
+		end
+
 	EL_PARSER
 		export
 			{NONE} all
 		redefine
-			default_source_text
+			default_source_text, reset
 		end
 
 	TP_FACTORY
@@ -83,11 +88,14 @@ feature -- Basic operations
 		local
 			csv_file: PLAIN_TEXT_FILE; i, i_final: INTEGER
 		do
-			across currency_list as code loop
+			across currency_list as code until has_error loop
 				currency_code := code.item
 				append_rates (code.cursor_index)
 			end
-			if attached exchange_rate_table as table then
+			if has_error then
+				print_errors
+
+			elseif attached exchange_rate_table as table then
 				create csv_file.make_open_write (output_path)
 
 				csv_file.put_string ("Column No.,2")
@@ -123,31 +131,51 @@ feature {NONE} -- Implementation
 
 	append_rates (index: INTEGER)
 		local
-			url: ZSTRING; page_file: EL_CACHED_HTTP_FILE
+			page_file: EL_CACHED_HTTP_FILE
 			split_list: EL_SPLIT_ON_STRING [STRING]; currency_equals, str: STRING
-			start_index, end_index: INTEGER
+			start_index, end_index, previous_index: INTEGER
 		do
+			lio.put_labeled_string ("Adding", currency_code)
 			currency_equals := currency_code + " ="
-			url := Url_template #$ [currency_code, base_currency, year]
-			create page_file.make (url, 10_000)
-			across page_file.string_8_lines as line loop
+			create page_file.make (history_url, 10_000)
+			across page_file.string_8_lines as line until has_error loop
 				if line.item.has_substring (Delimiter) then
 					create split_list.make_adjusted (line.item, Delimiter, 0)
-					across split_list as list loop
+					across split_list as list until has_error loop
 						start_index := list.item.substring_index (currency_equals, 1)
 						end_index := list.item.substring_index (Link_suffix, 1)
 						if start_index > 0 and end_index > 0 then
 							str := list.item.substring (start_index, end_index - 1)
 							set_source_text (str)
-							parse
-							exchange_rate_table.binary_search (parsed_date)
-							if exchange_rate_table.found then
-								exchange_rate_table.item_value [index] := parsed.rate
+
+							match_full
+							if fully_matched then
+								call_actions
+								exchange_rate_table.binary_search (parsed_date)
+								if exchange_rate_table.found then
+									if exchange_rate_table.index \\ 20 = 0 then
+										lio.put_character ('.')
+									end
+									if previous_index + 1 = exchange_rate_table.index then
+										exchange_rate_table.item_value [index] := parsed.rate
+										previous_index := exchange_rate_table.index
+									else
+										put_error_message ("Missing day no. " + (previous_index + 1).out)
+									end
+								end
+							else
+								put_error_message ("Cannot match: " + str)
 							end
 						end
 					end
 				end
 			end
+			lio.put_new_line
+		end
+
+	history_url: ZSTRING
+		do
+			Result := Url_template #$ [currency_code, base_currency, year]
 		end
 
 	new_pattern: like all_of
@@ -174,6 +202,12 @@ feature {NONE} -- Implementation
 	parsed_date: NATURAL
 		do
 			Result := parsed.year * 10_000 + parsed.month * 100 + parsed.day
+		end
+
+	reset
+		do
+			Precursor {EL_FALLIBLE}
+			Precursor {EL_PARSER}
 		end
 
 feature {NONE} -- Event handlers

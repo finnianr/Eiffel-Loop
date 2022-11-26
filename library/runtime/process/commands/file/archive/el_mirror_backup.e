@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2022-11-26 8:00:55 GMT (Saturday 26th November 2022)"
+	revision: "11"
 
 class
 	EL_MIRROR_BACKUP
@@ -21,6 +21,8 @@ inherit
 			element_node_fields as Empty_set,
 			xml_naming as eiffel_naming
 		end
+
+	EL_FALLIBLE undefine is_equal end
 
 	EL_PROTOCOL_CONSTANTS
 		rename
@@ -35,8 +37,6 @@ create
 feature -- Access
 
 	backup_dir: DIR_PATH
-
-	errors: EL_ZSTRING_LIST
 
 	host_name: STRING
 
@@ -69,11 +69,6 @@ feature -- Access
 	user: ZSTRING
 
 feature -- Status query
-
-	has_error: BOOLEAN
-		do
-			Result := errors.count > 0
-		end
 
 	is_file: BOOLEAN
 		do
@@ -117,12 +112,12 @@ feature -- Basic operations
 				cmd.execute -- EXECUTE
 
 				if cmd.has_error then
-					errors.append (cmd.errors)
+					error_list.append (cmd.error_list)
 				else
-					errors.wipe_out
+					reset
 				end
 			else
-				errors.extend ("Unknown protocol:" + protocol)
+				put_error_message ("Unknown protocol:" + protocol)
 			end
 		end
 
