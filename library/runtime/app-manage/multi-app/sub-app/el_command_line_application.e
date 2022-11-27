@@ -12,16 +12,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 8:38:51 GMT (Saturday 26th November 2022)"
-	revision: "49"
+	date: "2022-11-26 9:57:18 GMT (Saturday 26th November 2022)"
+	revision: "50"
 
 deferred class
 	EL_COMMAND_LINE_APPLICATION [C -> EL_APPLICATION_COMMAND]
 
 inherit
 	EL_APPLICATION
-		export
-			{EL_COMMAND_ARGUMENT} new_argument_error
 		redefine
 			read_command_options, options_help
 		end
@@ -232,7 +230,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {EL_COMMAND_ARGUMENT, EL_MAKE_OPERAND_SETTER} -- Internal attributes
+feature {NONE} -- Internal attributes
 
 	command: C
 

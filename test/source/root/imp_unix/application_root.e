@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 10:41:37 GMT (Monday 21st November 2022)"
-	revision: "73"
+	date: "2022-11-27 8:36:20 GMT (Sunday 27th November 2022)"
+	revision: "74"
 
 class
 	APPLICATION_ROOT
@@ -91,9 +91,6 @@ inherit
 
 	-- Test text-formats.ecf
 		TEXT_FORMATS_AUTOTEST_APP,
-
-	-- Test text-process-legacy.ecf
-		TEXT_PROCESS_LEGACY_AUTOTEST_APP,
 
 	-- Test text-process.ecf
 		TEXT_PROCESS_AUTOTEST_APP,

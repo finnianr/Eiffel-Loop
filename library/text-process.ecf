@@ -14,23 +14,30 @@ CLUSTERS
 	</description>
 	<target name = "EL_text_process">
 		<root all_classes = "true"/>
-		<option namespace = "Eiffel-Loop.Library.Text.Process_obs" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
+		<option namespace = "Eiffel-Loop.Library.Text.Process" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<!--Source code-->
+		<cluster name = "edit" location = "text/edit" recursive = "true">
+			<description>
+Text Editing
+
+Classes for editing textual data.
+			</description>
+		</cluster>
 		<cluster name = "parse" location = "text/parse" recursive = "true">
 			<description>
-Parsing
+Text Parsing
 
 Classes for parsing text data.
 			</description>
 		</cluster>
-		<cluster name = "text_pattern" location = "text/pattern" recursive = "true">
+		<cluster name = "pattern" location = "text/pattern" recursive = "true">
 			<description>
-Pattern-matching
+Text Pattern-matching
 
 Classes for finding and matching textual patterns.
 			</description>

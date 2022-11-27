@@ -1,13 +1,15 @@
 note
-	description: "Gvfs os command"
+	description: "[
+		[https://www.commandlinux.com/man-page/man7/gvfs.7.html GIO virtual file system] OS command
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 7:25:11 GMT (Saturday 26th November 2022)"
-	revision: "14"
+	date: "2022-11-26 16:54:24 GMT (Saturday 26th November 2022)"
+	revision: "15"
 
 class
 	EL_GVFS_OS_COMMAND
@@ -50,10 +52,10 @@ feature {NONE} -- Event handling
 		local
 			f: EL_COLON_FIELD_ROUTINES; message: ZSTRING
 		do
-			if description.is_empty then
-				message := "Unknown error"
+			if description.line_count > 0 then
+				message := f.value (description.first_line)
 			else
-				message := f.value (description.first)
+				message := "Unknown error"
 			end
 			if not ignore (message) then
 				Exception.raise_developer (message, [])
@@ -73,25 +75,20 @@ feature {NONE} -- Implementation
 		do
 		end
 
+	is_file_not_found (message: ZSTRING): BOOLEAN
+		do
+			Result := across GVFS_file_not_found_errors as error_ending some message.ends_with (error_ending.item) end
+		end
+
 	do_with_lines (a_lines: like new_output_lines)
 		do
 			parse_lines (initial_state, a_lines)
 		end
 
-	is_file_not_found (message: ZSTRING): BOOLEAN
-		do
-			Result := across Gvfs_file_not_found_errors as error_ending some message.ends_with (error_ending.item) end
-		end
-
 feature {NONE} -- Constants
 
-	Error: ZSTRING
-		once
-			Result := "Error "
-		end
-
-	Gvfs_file_not_found_errors: ARRAY [ZSTRING]
-			-- Possible "file not found" errors from gfvs commands
+	GVFS_file_not_found_errors: ARRAY [ZSTRING]
+		-- Possible "file not found" errors from gfvs commands
 		once
 			Result := <<
 				"File does not exist",							-- Applies to MTP devices (gvfs-rm)

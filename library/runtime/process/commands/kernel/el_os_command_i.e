@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 7:58:01 GMT (Saturday 26th November 2022)"
-	revision: "38"
+	date: "2022-11-26 17:05:12 GMT (Saturday 26th November 2022)"
+	revision: "39"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -46,19 +46,11 @@ inherit
 			make_default, Transient_fields
 		end
 
-	EL_OS_COMMAND_CONSTANTS
+	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTABLE; EL_MODULE_LIO
 
-	EL_SHARED_CLASS_ID
+	EL_OS_COMMAND_CONSTANTS; EL_ZSTRING_CONSTANTS
 
-	EL_MODULE_DIRECTORY
-
-	EL_MODULE_EXECUTABLE
-
-	EL_MODULE_LIO
-
-	EL_ZSTRING_CONSTANTS
-
-	EL_SHARED_OPERATING_ENVIRON
+	EL_SHARED_OPERATING_ENVIRON; EL_SHARED_CLASS_ID
 
 feature {NONE} -- Initialization
 
@@ -79,24 +71,6 @@ feature -- Access
 	working_directory: DIR_PATH
 
 	output_encoding: NATURAL
-
-feature -- Element change
-
-	set_success_code (code: INTEGER)
-		do
-			success_code := code
-		end
-
-	set_working_directory (a_working_directory: like working_directory)
-			--
-		do
-			working_directory := a_working_directory
-		end
-
-	set_output_encoding (a_output_encoding: NATURAL)
-		do
-			output_encoding := a_output_encoding
-		end
 
 feature -- Status query
 
@@ -124,6 +98,24 @@ feature -- Status query
 
 	sudo: EL_BOOLEAN_OPTION
 		-- if sudo option is enabled allows a permitted user to execute a command as the superuser
+
+feature -- Element change
+
+	set_success_code (code: INTEGER)
+		do
+			success_code := code
+		end
+
+	set_working_directory (a_working_directory: like working_directory)
+			--
+		do
+			working_directory := a_working_directory
+		end
+
+	set_output_encoding (a_output_encoding: NATURAL)
+		do
+			output_encoding := a_output_encoding
+		end
 
 feature -- Status change
 

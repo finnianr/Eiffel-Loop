@@ -85,23 +85,18 @@ system:
 					* Representing column vectors
 				"""
 		cluster_tree:
-			command_line = "runtime/command-line"
+			file = "runtime/file"
 			description:
 				"""
-					Command-line Arguments
-					
-					Classes for reading and mapping command line arguments
-				"""
-		cluster_tree:
-			file_system = "runtime/file-system"
-			description:
-				"""
-					File System
+					Files and Directories
 					
 					Classes for the following:
 
+					* Naming files and directories
 					* Reading file properties
 					* Processing directory data
+					* Processing file data
+					* File transfer synchronization
 				"""
 			platform_list:
 				"imp_mswin; imp_unix"
@@ -186,6 +181,14 @@ system:
 					* File line source and other abstractions
 				"""
 		cluster_tree:
+			buffer = "text/buffer"
+			description:
+				"""
+					String Buffering
+
+					Classes for buffering string data in shared objects
+				"""
+		cluster_tree:
 			string = "text/string"
 			description:
 				"""
@@ -232,32 +235,18 @@ system:
 
 					* Character and character sequence conversion
 					* Character encoding
-					* File, directory and resource naming
 					* Deferred internationalization
 					* Text line processing
 					* Parsing and manipulating name-value pairs
+					* Classes for reading and mapping command line arguments
 					* Associating formatting styles with strings
 					* URI encoding/decoding
 					* UTF encoding/decoding
 				"""
 			cluster_tree:
-				edit = "$|edit"
-				description:
-					"""
-						Common classes for text editing. (Moved from text-process.ecf)
-					"""
-			cluster_tree:
-				imp_unix = "$|imp_unix"
-				condition:
-					platform = unix
-			cluster_tree:
-				imp_mswin = "$|imp_mswin"
-				condition:
-					platform = windows
+				command_line = "$|command-line"
 			cluster_tree:
 				text_encoding = "$|encoding"
-			cluster_tree:
-				file_path = "$|file-path"
 			cluster_tree:
 				line_traversal = "$|line-traversal"
 			cluster_tree:

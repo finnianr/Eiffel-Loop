@@ -1,23 +1,18 @@
 note
-	description: "Table of GVFS mounts. Example: `E2105 -> mtp://[usb:003,005]/'"
+	description: "Table of GVFS mounts as for example: `E2105 -> mtp://[usb:003,005]/'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2022-11-26 16:55:30 GMT (Saturday 26th November 2022)"
+	revision: "15"
 
 class
 	EL_GVFS_MOUNT_TABLE
 
 inherit
-	EL_ZSTRING_HASH_TABLE [EL_URI]
-		rename
-			make as make_with_array
-		end
-
 	EL_GVFS_OS_COMMAND
 		rename
 			make as make_command,
@@ -28,6 +23,11 @@ inherit
 			copy, default_create, is_equal
 		redefine
 			find_mount
+		end
+
+	EL_ZSTRING_HASH_TABLE [EL_URI]
+		rename
+			make as make_with_array
 		end
 
 create

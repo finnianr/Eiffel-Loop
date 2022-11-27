@@ -1,16 +1,16 @@
 # Eiffel-Loop Contents
 ## Submission for 99-bottles-of-beer.net
-Eiffel submission for [http://www.99-bottles-of-beer.net/ www.99-bottles-of-beer.net].
+Eiffel submission for [www.99-bottles-of-beer.net](http://www.99-bottles-of-beer.net/).
 
 This website contains sample programs for over 1500 languages and variations, all of which print the lyrics of the song "99 Bottles of Beer".
 ## Concurrency Demonstration
-Demonstration of classes that make the classic multi-threading ISE library `thread.ecf' easier to use.
+Demonstration of classes that make the classic multi-threading ISE library `thread.ecf` easier to use.
 
 
-1. `el_concurrency -horse_race' An [https://www.youtube.com/watch?v=s2-7pzmVjao animated version] of the classic concurrency horse-racing exercise.
-2. `el_concurrency -work_distributer' demonstrates the calculation of integrals for arbitrary functions distributed across a specified number of threads
+1. `el_concurrency -horse_race` An [animated version](https://www.youtube.com/watch?v=s2-7pzmVjao) of the classic concurrency horse-racing exercise.
+2. `el_concurrency -work_distributer` demonstrates the calculation of integrals for arbitrary functions distributed across a specified number of threads
 ## Vision-2 Extensions Demo
-Test application for selected components from Eiffel-Loop [./library/vision2-x.html extension libraries for Vision-2 and Docking].
+Test application for selected components from Eiffel-Loop [extension libraries for Vision-2 and Docking](http://www.eiffel-loop.com/library/vision2-x.html).
 ## Rhythmbox MP3 Collection Manager
 This is a full-blown MP3 collection manager that is designed to work in conjunction with the [Rhythmbox media player](https://wiki.gnome.org/Apps/Rhythmbox) and has a number of features of particular interest to Tango DJs.
 
@@ -179,8 +179,6 @@ All of the configurable values can also be set from the command line at startup.
 * Eiffel interface to the Windows sound input API  allowing streaming audio from the microphone to be processed in Eiffel using classes from the producer-consumer thread library. The wrapper is implemented as a WEL extension.
 * Eiffel interface to the Praat sound analysis engine and script interpreter. The wrapper allows Praat scripts to be run from Eiffel and the resulting values of script variables to be accessed from Eiffel. The wrapper uses a modified version of the Praat source code allowing operation from Eiffel and compilation as a library using the MSVC command line compiler.
 
-## Command-line Arguments
-Classes for reading and mapping command line arguments
 ## Data Structure
 Various hash-table, array, list, chain and linear types
 
@@ -295,12 +293,15 @@ EL_LINEAR* [G]
 * Software versioning
 
 
-## File System
+## Files and Directories
 Classes for the following:
 
 
+* Naming files and directories
 * Reading file properties
 * Processing directory data
+* Processing file data
+* File transfer synchronization
 
 ## Input/Output
 Classes for the following:
@@ -337,7 +338,7 @@ Building on the basic ISE reflection mechanisms, this cluster makes possible a v
 * Support for mapping between various name-style conventions: eg. kebab-case, camel-case, snake-case, upper-snake-case etc.
 * Support of automatic initialization of reference types with means of adding adhoc types. (non-void safe compiler)
 * Support for numeric enumerations with reflective assignment from strings and optional mappings to extended descriptions. For example: [EL_PASSPHRASE_ATTRIBUTES_ENUM]($source).
-* Basis for reflective initialization of class attributes from command line arguments. See class [EL_COMMAND_LINE_OPTIONS](http://www.eiffel-loop.com/library/base/runtime/command-line/options/el_command_line_options.html)
+* Basis for reflective initialization of class attributes from command line arguments. See class [EL_COMMAND_LINE_OPTIONS](http://www.eiffel-loop.com/library/base/text/command-line/options/el_command_line_options.html)
 * Support for reading and writing to strings conforming to [STRING_GENERAL](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_general_chart.html)
 * Support for reading from objects conforming to [EL_READABLE](http://www.eiffel-loop.com/library/base/kernel/el_readable.html) and writing to objects conforming to [EL_WRITEABLE](http://www.eiffel-loop.com/library/base/kernel/el_writeable.html)
 * Support for reading writing to instance of [EL_MEMORY_READER_WRITER](http://www.eiffel-loop.com/library/base/runtime/memory/reader-writer/el_memory_reader_writer.html) (inherits [SED_MEMORY_READER_WRITER](https://www.eiffel.org/files/doc/static/trunk/libraries/base/sed_memory_reader_writer_chart.html))
@@ -418,10 +419,10 @@ Classes providing the following:
 
 * Character and character sequence conversion
 * Character encoding
-* File, directory and resource naming
 * Deferred internationalization
 * Text line processing
 * Parsing and manipulating name-value pairs
+* Classes for reading and mapping command line arguments
 * Associating formatting styles with strings
 * URI encoding/decoding
 * UTF encoding/decoding
@@ -1517,7 +1518,7 @@ Classes for creating cross platform wrappers of OS commands with about 30 "out o
 * Support for command output capture, and error output capture.
 
 
-* Automatic escaping of path arguments conforming to [EL_PATH](http://www.eiffel-loop.com/library/base/text/file-path/el_path.html), namely [EL_FILE_PATH](http://www.eiffel-loop.com/library/base/text/file-path/el_file_path.html) and [EL_DIR_PATH](http://www.eiffel-loop.com/library/base/text/file-path/el_dir_path.html). All Windows paths are automatically put in quotes. Unix paths are automatically escaped with \ for reserved characters. This has some advantages over putting them in quotes.
+* Automatic escaping of path arguments conforming to [EL_PATH](http://www.eiffel-loop.com/library/base/runtime/file/naming/el_path.html), namely [EL_FILE_PATH](http://www.eiffel-loop.com/library/base/runtime/file/naming/el_file_path.html) and [EL_DIR_PATH](http://www.eiffel-loop.com/library/base/runtime/file/naming/el_dir_path.html). All Windows paths are automatically put in quotes. Unix paths are automatically escaped with \ for reserved characters. This has some advantages over putting them in quotes.
 
 
 * Designed for cross platform use, with special features for post-capture processing of output lines so they are consistent across platforms. See classes [EL_FIND_DIRECTORIES_COMMAND_I](http://www.eiffel-loop.com/library/runtime/process/commands/system/file/find/el_find_directories_command_i.html) and [EL_FIND_FILES_COMMAND_I](http://www.eiffel-loop.com/library/runtime/process/commands/system/file/find/el_find_files_command_i.html) as an example. Here the Unix `find` command and the Windows `dir` command are made to appear exactly the same for specific tasks.
@@ -1584,21 +1585,9 @@ Classes for parsing search terms and searching a list conforming to `CHAIN [EL_W
 See [myching.software](http://myching.software/en/home/my-ching.html) for an example of a commercial application that makes use of this library.
 ## Textual Data Formats
 Classes for handling various human-readable text formats. Supported formats are: XML, XHTML, HTML, JSON, CSV. (Note: Eiffel-Loop has other libraries for parsing XML)
-## Parsing (Legacy)
-**Status**: obsolete
-
-It is recommended to use [text-process.ecf](http://www.eiffel-loop.com/library/text-process.html) instead.
-
-Classes for parsing text data using class [EL_STRING_VIEW](http://www.eiffel-loop.com/library/text/legacy/pattern/text-view/el_string_view.html).
-## Pattern-matching (Legacy)
-**Status**: obsolete
-
-It is recommended to use [text-process.ecf](http://www.eiffel-loop.com/library/text-process.html) instead.
-
-Classes for finding and matching textual patterns using class [EL_STRING_VIEW](http://www.eiffel-loop.com/library/text/legacy/pattern/text-view/el_string_view.html).
-## Parsing
+## Text Parsing
 Classes for parsing text data.
-## Pattern-matching
+## Text Pattern-matching
 Classes for finding and matching textual patterns.
 ## Application License Management
 A few basic classes for constructing an application license manager. The most important is a way to obtain a unique machine ID using a combination of the CPU model name and MAC address either from the network card or wifi card.
@@ -1998,8 +1987,6 @@ See class [$source SEARCH_ENGINE_AUTOTEST_APP]
 See class [$source TAGLIB_AUTOTEST_APP]
 ## text-formats.ecf
 See class [$source TEXT_FORMATS_AUTOTEST_APP]
-## text-process-legacy.ecf
-See class [$source TEXT_PROCESS_LEGACY_AUTOTEST_APP]
 ## text-process.ecf
 See class [$source TEXT_PROCESS_AUTOTEST_APP]
 ## vtd-xml.ecf

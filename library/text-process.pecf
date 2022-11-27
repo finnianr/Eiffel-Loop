@@ -22,7 +22,7 @@ system:
 			all_classes = true
 
 		option:
-			namespace = "Eiffel-Loop.Library.Text.Process_obs"
+			namespace = "Eiffel-Loop.Library.Text.Process"
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug=false; warning=true
 			assertions:
@@ -37,19 +37,27 @@ system:
 
 		# Source code
 		cluster_tree:
+			edit = "text/edit"
+			description:
+				"""
+					Text Editing
+					
+					Classes for editing textual data.
+				"""
+		cluster_tree:
 			parse = "text/parse"
 			description:
 				"""
-					Parsing
+					Text Parsing
 					
 					Classes for parsing text data.
 				"""
 
 		cluster_tree:
-			text_pattern = "text/pattern"
+			pattern = "text/pattern"
 			description:
 				"""
-					Pattern-matching
+					Text Pattern-matching
 
 					Classes for finding and matching textual patterns.
 				"""

@@ -54,9 +54,8 @@ publish-repository:
 
 		# Library Base
 		ecf:
-			"library/base/base.ecf#command_line"
 			"library/base/base.ecf#data_structure"
-			"library/base/base.ecf#file_system"
+			"library/base/base.ecf#file"
 			"library/base/base.ecf#io"
 			"library/base/base.ecf#kernel"
 			"library/base/base.ecf#math"
@@ -66,6 +65,7 @@ publish-repository:
 			"library/base/base.ecf#utility"
 			"library/base/base.ecf#text"
 			"library/base/base.ecf#string"
+			"library/base/base.ecf#buffer"
 		ecf:
 			"library/base/base.ecf#zstring"
 			alias-map:
@@ -141,10 +141,8 @@ publish-repository:
 			"library/evolicity.ecf"
 			"library/search-engine.ecf"
 			"library/text-formats.ecf"
-			"library/text-process-legacy.ecf#parse"
-			"library/text-process-legacy.ecf#text_pattern"
 			"library/text-process.ecf#parse"
-			"library/text-process.ecf#text_pattern"
+			"library/text-process.ecf#pattern"
 
 		# Library (Utility)
 		ecf:
@@ -198,7 +196,6 @@ publish-repository:
 			"test/test.ecf#search_engine"
 			"test/test.ecf#taglib"
 			"test/test.ecf#text_formats"
-			"test/test.ecf#text_process_obs"
 			"test/test.ecf#text_process"
 			"test/test.ecf#vtd_xml"
 			"test/test.ecf#wel_x_audio"

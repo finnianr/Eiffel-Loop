@@ -108,11 +108,6 @@ system:
 			EL_text_formats = "text-formats.ecf"
 			EL_testing = "testing.ecf"
 			EL_text_process = "text-process.ecf"
-			EL_text_process_obs = "text-process-legacy.ecf"
-			renaming_map:
-				EL_FILE_PARSER_TEXT_EDITOR = EL_FILE_PARSER_TEXT_EDITOR_OBS
-				EL_FILE_PARSER = EL_FILE_PARSER_OBS
-
 			EL_thread = "thread.ecf"
 
 		# Excluded on Windows because symbolic link Eiffel-Loop\contrib\C++\taglib\include is linked to Linux library
@@ -352,14 +347,6 @@ system:
 					text-formats.ecf
 					
 					See class [$source TEXT_FORMATS_AUTOTEST_APP]
-				"""
-		cluster_tree:
-			text_process_obs = "source/text-process-legacy"
-			description:
-				"""
-					text-process-legacy.ecf
-					
-					See class [$source TEXT_PROCESS_LEGACY_AUTOTEST_APP]
 				"""
 		cluster_tree:
 			text_process = "source/text-process"

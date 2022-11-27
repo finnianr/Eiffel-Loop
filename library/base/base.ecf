@@ -64,21 +64,17 @@ Some basic math classes for the following:
 * Representing column vectors
 			</description>
 		</cluster>
-		<cluster name = "command_line" location = "runtime/command-line" recursive = "true">
+		<cluster name = "file" location = "runtime/file" recursive = "true">
 			<description>
-Command-line Arguments
-
-Classes for reading and mapping command line arguments
-			</description>
-		</cluster>
-		<cluster name = "file_system" location = "runtime/file-system" recursive = "true">
-			<description>
-File System
+Files and Directories
 
 Classes for the following:
 
+* Naming files and directories
 * Reading file properties
 * Processing directory data
+* Processing file data
+* File transfer synchronization
 			</description>
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>
@@ -189,6 +185,13 @@ Classes providing the following facilities:
 * File line source and other abstractions
 			</description>
 		</cluster>
+		<cluster name = "buffer" location = "text/buffer" recursive = "true">
+			<description>
+String Buffering
+
+Classes for buffering string data in shared objects
+			</description>
+		</cluster>
 		<cluster name = "string" location = "text/string" recursive = "true">
 			<description>
 String Handling
@@ -232,29 +235,16 @@ Classes providing the following:
 
 * Character and character sequence conversion
 * Character encoding
-* File, directory and resource naming
 * Deferred internationalization
 * Text line processing
 * Parsing and manipulating name-value pairs
+* Classes for reading and mapping command line arguments
 * Associating formatting styles with strings
 * URI encoding/decoding
 * UTF encoding/decoding
 			</description>
-			<cluster name = "edit" location = "$|edit" recursive = "true">
-				<description>Common classes for text editing. (Moved from text-process.ecf)</description>
-			</cluster>
-			<cluster name = "imp_unix" location = "$|imp_unix" recursive = "true">
-				<condition>
-					<platform value = "unix"/>
-				</condition>
-			</cluster>
-			<cluster name = "imp_mswin" location = "$|imp_mswin" recursive = "true">
-				<condition>
-					<platform value = "windows"/>
-				</condition>
-			</cluster>
+			<cluster name = "command_line" location = "$|command-line" recursive = "true"/>
 			<cluster name = "text_encoding" location = "$|encoding" recursive = "true"/>
-			<cluster name = "file_path" location = "$|file-path" recursive = "true"/>
 			<cluster name = "line_traversal" location = "$|line-traversal" recursive = "true"/>
 			<cluster name = "name_value" location = "$|name-value" recursive = "true"/>
 			<cluster name = "character" location = "$|character"/>

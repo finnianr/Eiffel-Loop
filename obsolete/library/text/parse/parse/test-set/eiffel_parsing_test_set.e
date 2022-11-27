@@ -1,24 +1,13 @@
 note
-	description: "Test parsing of Eiffel language expressions"
-	notes: "[
-		**Performance Comparison**
-		
-			Class: EIFFEL_LEGACY_PARSING_TEST_SET
-			Executing test: code_highlighting
-			TIME: 0 secs 18 ms
-		
-			Class: EIFFEL_PARSING_TEST_SET
-			Executing test: code_highlighting
-			TIME: 0 secs 6 ms
-	]"
+	description: "Test parsing of Eiffel language expressions using legacy parser"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-27 8:40:06 GMT (Sunday 27th November 2022)"
-	revision: "6"
+	date: "2022-11-22 7:17:24 GMT (Tuesday 22nd November 2022)"
+	revision: "17"
 
 class
 	EIFFEL_PARSING_TEST_SET
@@ -35,7 +24,7 @@ feature -- Basic operations
 		do
 			eval.call ("code_highlighting", agent test_code_highlighting)
 		end
-		
+
 feature -- Tests
 
 	test_code_highlighting
@@ -95,8 +84,11 @@ feature {NONE} -- Constants
 			Result := Dev_environ.Eiffel_loop_dir #+ "tool/eiffel/test-data/sources/latin-1/os-command"
 		end
 
+	Is_zstring_source: BOOLEAN = False
+
 	Xpath_count_template: ZSTRING
 		once
 			Result := "count (//em[@id='%S'])"
 		end
+
 end

@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 5:59:25 GMT (Saturday 26th November 2022)"
-	revision: "62"
+	date: "2022-11-26 9:50:55 GMT (Saturday 26th November 2022)"
+	revision: "63"
 
 deferred class
 	EL_APPLICATION
@@ -159,11 +159,6 @@ feature {EL_APPLICATION} -- Factory routines
 	new_application_mutex: EL_APPLICATION_MUTEX_I
 		do
 			create {EL_APPLICATION_MUTEX_IMP} Result.make_for_application_mode (option_name)
-		end
-
-	new_argument_error (option: READABLE_STRING_GENERAL): EL_COMMAND_ARGUMENT_ERROR
-		do
-			create Result.make (option)
 		end
 
 	new_command_options: EL_APPLICATION_COMMAND_OPTIONS

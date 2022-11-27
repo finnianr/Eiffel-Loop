@@ -82,10 +82,6 @@
 		<library name = "EL_text_formats" location = "$EIFFEL_LOOP/library/text-formats.ecf" readonly = "false"/>
 		<library name = "EL_testing" location = "$EIFFEL_LOOP/library/testing.ecf" readonly = "false"/>
 		<library name = "EL_text_process" location = "$EIFFEL_LOOP/library/text-process.ecf" readonly = "false"/>
-		<library name = "EL_text_process_obs" location = "$EIFFEL_LOOP/library/text-process-legacy.ecf" readonly = "false">
-			<renaming old_name = "EL_FILE_PARSER_TEXT_EDITOR" new_name = "EL_FILE_PARSER_TEXT_EDITOR_OBS"/>
-			<renaming old_name = "EL_FILE_PARSER" new_name = "EL_FILE_PARSER_OBS"/>
-		</library>
 		<library name = "EL_thread" location = "$EIFFEL_LOOP/library/thread.ecf" readonly = "false"/>
 		<!--
 			Excluded on Windows because symbolic link Eiffel-Loop\contrib\C++\taglib\include is linked to Linux library
@@ -311,13 +307,6 @@ See class [$source TAGLIB_AUTOTEST_APP]
 text-formats.ecf
 
 See class [$source TEXT_FORMATS_AUTOTEST_APP]
-			</description>
-		</cluster>
-		<cluster name = "text_process_obs" location = "source/text-process-legacy" recursive = "true">
-			<description>
-text-process-legacy.ecf
-
-See class [$source TEXT_PROCESS_LEGACY_AUTOTEST_APP]
 			</description>
 		</cluster>
 		<cluster name = "text_process" location = "source/text-process" recursive = "true">

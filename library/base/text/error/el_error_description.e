@@ -1,13 +1,13 @@
 note
-	description: "Error description"
+	description: "Error description line list with ID"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 7:12:43 GMT (Saturday 26th November 2022)"
-	revision: "1"
+	date: "2022-11-26 16:59:23 GMT (Saturday 26th November 2022)"
+	revision: "2"
 
 class
 	EL_ERROR_DESCRIPTION
@@ -15,10 +15,11 @@ class
 inherit
 	EL_ZSTRING_LIST
 		rename
-			make as make_list
-		export
-			{NONE} all
-			{ANY} append, append_sequence, extend, is_empty, count, first
+			make as make_list,
+			count as line_count,
+			first as first_line,
+			last as last_line,
+			item as line
 		end
 
 	EL_MODULE_LIO
@@ -63,8 +64,8 @@ feature -- Basic operations
 	print_to_lio
 		do
 			lio.put_new_line
-			across Current as line loop
-				lio.put_line (line.item)
+			across Current as list loop
+				lio.put_line (list.item)
 			end
 		end
 
