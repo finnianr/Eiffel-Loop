@@ -251,8 +251,13 @@ system:
 				line_traversal = "$|line-traversal"
 			cluster_tree:
 				name_value = "$|name-value"
+			cluster_tree:
+				convert = "$|convert"
 			sub_clusters:
-				character = character; error = error; general = general; i18n = i18n; styled = styled
+				character = character; error = error
+			sub_clusters:
+				general = general; i18n = i18n; styled = styled
+				
 		cluster_tree:
 			utility = utility
 			description:

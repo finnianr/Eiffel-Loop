@@ -436,6 +436,8 @@ Classes providing the following:
 * Recording and managing string edit histories
 * Abstractions for objects createable from strings
 * String occurrence interval lists
+## String Buffering
+Classes for buffering string data in shared objects
 ## Class ZSTRING
 An implementation of a memory compact string with the same unicode character range as the ''base.ecf'' class [$source STRING_32] and conforming to [$source STRING_GENERAL]. The [$source ZSTRING] class (alias for [$source EL_ZSTRING]) has many additional routines not found in [$source STRING_32], as for example: Python like tuple substitution.
 
