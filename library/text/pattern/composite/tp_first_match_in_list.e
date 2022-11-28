@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:25:00 GMT (Monday 21st November 2022)"
-	revision: "3"
+	date: "2022-11-28 8:18:27 GMT (Monday 28th November 2022)"
+	revision: "4"
 
 class
 	TP_FIRST_MATCH_IN_LIST
@@ -15,7 +15,8 @@ class
 inherit
 	TP_ALL_IN_LIST
 		redefine
-			list_action_count, match_count, meets_definition, call_list_actions, Name_template
+			first_searchable, call_list_actions, list_action_count, match_count, meets_definition,
+			Name_template
 		end
 
 create
@@ -67,6 +68,10 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	first_searchable: detachable TP_SEARCHABLE
+		do
+		end
+
 	list_action_count: INTEGER
 		-- maximum count
 		local
@@ -91,4 +96,3 @@ feature {NONE} -- Constants
 			Result := "one_of (%S)"
 		end
 end
-
