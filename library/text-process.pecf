@@ -52,7 +52,6 @@ system:
 					
 					Classes for parsing text data.
 				"""
-
 		cluster_tree:
 			pattern = "text/pattern"
 			description:

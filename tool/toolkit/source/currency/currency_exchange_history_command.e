@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 9:15:42 GMT (Saturday 26th November 2022)"
-	revision: "14"
+	date: "2022-11-28 7:49:33 GMT (Monday 28th November 2022)"
+	revision: "15"
 
 class
 	CURRENCY_EXCHANGE_HISTORY_COMMAND
@@ -51,7 +51,7 @@ inherit
 
 	TP_FACTORY
 
-	EL_MODULE_FILE; EL_MODULE_LOG
+	EL_MODULE_EXCEPTION; EL_MODULE_FILE; EL_MODULE_LOG
 
 create
 	make
@@ -90,7 +90,8 @@ feature -- Basic operations
 		do
 			across currency_list as code until has_error loop
 				currency_code := code.item
-				append_rates (code.cursor_index)
+				column_index := code.cursor_index
+				append_rates
 			end
 			if has_error then
 				print_errors
@@ -129,47 +130,16 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	append_rates (index: INTEGER)
+	append_rates
 		local
 			page_file: EL_CACHED_HTTP_FILE
-			split_list: EL_SPLIT_ON_STRING [STRING]; currency_equals, str: STRING
-			start_index, end_index, previous_index: INTEGER
 		do
 			lio.put_labeled_string ("Adding", currency_code)
-			currency_equals := currency_code + " ="
+			previous_index := 0
 			create page_file.make (history_url, 10_000)
-			across page_file.string_8_lines as line until has_error loop
-				if line.item.has_substring (Delimiter) then
-					create split_list.make_adjusted (line.item, Delimiter, 0)
-					across split_list as list until has_error loop
-						start_index := list.item.substring_index (currency_equals, 1)
-						end_index := list.item.substring_index (Link_suffix, 1)
-						if start_index > 0 and end_index > 0 then
-							str := list.item.substring (start_index, end_index - 1)
-							set_source_text (str)
-
-							match_full
-							if fully_matched then
-								call_actions
-								exchange_rate_table.binary_search (parsed_date)
-								if exchange_rate_table.found then
-									if exchange_rate_table.index \\ 20 = 0 then
-										lio.put_character ('.')
-									end
-									if previous_index + 1 = exchange_rate_table.index then
-										exchange_rate_table.item_value [index] := parsed.rate
-										previous_index := exchange_rate_table.index
-									else
-										put_error_message ("Missing day no. " + (previous_index + 1).out)
-									end
-								end
-							else
-								put_error_message ("Cannot match: " + str)
-							end
-						end
-					end
-				end
-			end
+			reset_pattern
+			set_source_text (File.plain_text (page_file.path))
+			find_all (Void)
 			lio.put_new_line
 		end
 
@@ -182,16 +152,22 @@ feature {NONE} -- Implementation
 		-- match string like: "USD = &#8364;0.8857</td><td><a href="/USD-EUR-15_12_2021"
 		do
 			Result := all_of (<<
-				while_not_p_match_any (character_literal (';')),
-				decimal_constant |to| agent on_exchange_rate,
-				while_not_p_match_any (string_literal (base_currency)),
-				character_literal ('-'),
+				string_literal (currency_code + " = "),
+				while_not_p_match_any (
+				-- match up to ";0.8857"
+					all_of (<< character_literal (';'), decimal_constant |to| agent on_exchange_rate >>)
+				),
+				while_not_p_match_any (
+				-- match up to "EUR-"
+					all_of (<< string_literal (base_currency), character_literal ('-') >>)
+				),
 				natural_number |to| agent on_day,
 				character_literal ('_'),
 				natural_number |to| agent on_month,
 				character_literal ('_'),
 				natural_number |to| agent on_year
 			>>)
+			Result.set_action_last (agent on_entry_found)
 		end
 
 	default_source_text: STRING
@@ -211,6 +187,23 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Event handlers
+
+	on_entry_found (start_index, end_index: INTEGER)
+		do
+			exchange_rate_table.binary_search (parsed_date)
+			if exchange_rate_table.found then
+				if exchange_rate_table.index \\ 20 = 0 then
+					lio.put_character ('.')
+				end
+				if previous_index + 1 = exchange_rate_table.index then
+					exchange_rate_table.item_value [column_index] := parsed.rate
+					previous_index := exchange_rate_table.index
+				else
+					exchange_rate_table.go_i_th (previous_index + 1)
+					Exception.raise_developer ("Missing day %S for %S", [exchange_rate_table.item_key, currency_code])
+				end
+			end
+		end
 
 	on_exchange_rate (start_index, end_index: INTEGER)
 		do
@@ -238,6 +231,8 @@ feature {NONE} -- Internal attributes
 
 	currency_list: EL_STRING_8_LIST
 
+	column_index: INTEGER
+
 	currency_code: STRING
 
 	exchange_rate_table: EL_KEY_INDEXED_ARRAYED_MAP_LIST [NATURAL, SPECIAL [REAL]]
@@ -245,6 +240,8 @@ feature {NONE} -- Internal attributes
 	output_path: FILE_PATH
 
 	parsed: TUPLE [rate: REAL; year, month, day: NATURAL]
+
+	previous_index: INTEGER
 
 	year: INTEGER
 

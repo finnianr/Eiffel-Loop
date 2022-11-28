@@ -6,33 +6,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:54 GMT (Monday 21st November 2022)"
-	revision: "3"
+	date: "2022-11-28 5:29:46 GMT (Monday 28th November 2022)"
+	revision: "4"
 
 class
 	TP_END_OF_LINE_CHAR
 
 inherit
-	TP_LITERAL_CHAR
+	TP_CHARACTER_PROPERTY
 		rename
-			make as make_with_character,
-			make_with_action as make_literal_with_action
+			i_th_matches as i_th_is_newline
 		redefine
 			match_count, meets_definition, name_inserts, Name_template
 		end
 
-create
-	make
-
-feature {NONE} -- Initialization
-
-	make
-			--
-		do
-			make_with_character ('%N')
-		end
-
 feature {NONE} -- Implementation
+
+	i_th_is_newline (i: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := text [i] = '%N'
+		end
 
 	match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER
 		do
@@ -45,7 +38,7 @@ feature {NONE} -- Implementation
 
 	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := a_offset = text.count or else i_th_matches (a_offset + 1, text)
+			Result := a_offset = text.count or else i_th_is_newline (a_offset + 1, text)
 		end
 
 	name_inserts: TUPLE

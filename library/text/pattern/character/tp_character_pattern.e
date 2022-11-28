@@ -1,16 +1,16 @@
 note
-	description: "Single char text pattern"
+	description: "Matches single character"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:56 GMT (Monday 21st November 2022)"
-	revision: "3"
+	date: "2022-11-28 5:09:07 GMT (Monday 28th November 2022)"
+	revision: "4"
 
 deferred class
-	TP_SINGLE_CHAR_PATTERN
+	TP_CHARACTER_PATTERN
 
 inherit
 	TP_PATTERN
@@ -33,7 +33,6 @@ feature -- Conversion
 		end
 
 end
-
 
 
 

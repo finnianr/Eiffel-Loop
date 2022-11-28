@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:55 GMT (Monday 21st November 2022)"
-	revision: "3"
+	date: "2022-11-28 5:08:27 GMT (Monday 28th November 2022)"
+	revision: "4"
 
 class
 	TP_LEFT_AND_RIGHT_CHAR
 
 inherit
-	TP_SINGLE_CHAR_PATTERN
+	TP_CHARACTER_PATTERN
 		redefine
 			action_count
 		end
@@ -24,7 +24,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_left_operand, a_right_operand: TP_SINGLE_CHAR_PATTERN)
+	make (a_left_operand, a_right_operand: TP_CHARACTER_PATTERN)
 			--
 		require
 			if_first_negative_then_second_is_not: attached {TP_NEGATED_CHAR} a_left_operand
@@ -83,9 +83,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	left_operand : TP_SINGLE_CHAR_PATTERN
+	left_operand : TP_CHARACTER_PATTERN
 
-	right_operand: TP_SINGLE_CHAR_PATTERN
+	right_operand: TP_CHARACTER_PATTERN
 
 feature {NONE} -- Constants
 
@@ -94,4 +94,3 @@ feature {NONE} -- Constants
 			Result := "%S and %S"
 		end
 end
-

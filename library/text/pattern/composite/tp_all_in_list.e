@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:25:00 GMT (Monday 21st November 2022)"
-	revision: "4"
+	date: "2022-11-28 5:40:48 GMT (Monday 28th November 2022)"
+	revision: "5"
 
 class
 	TP_ALL_IN_LIST
@@ -19,7 +19,7 @@ inherit
 		undefine
 			copy, is_equal, default_create
 		redefine
-			internal_call_actions, action_count, name_list, set_debug_to_depth
+			first_searchable, internal_call_actions, action_count, name_list, set_debug_to_depth
 		end
 
 	EL_ARRAYED_LIST [TP_PATTERN]
@@ -134,6 +134,13 @@ feature {NONE} -- Implementation
 			Result := string_8_list (agent item_count)
 		end
 
+	first_searchable: detachable TP_SEARCHABLE
+		do
+			if list_count > 0 then
+				Result := i_th (1).first_searchable
+			end
+		end
+
 	item_count (p: TP_PATTERN): STRING
 		do
 			Result := p.count.out
@@ -233,5 +240,4 @@ feature {NONE} -- Constants
 		end
 
 end
-
 

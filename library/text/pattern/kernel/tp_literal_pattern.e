@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:56 GMT (Monday 21st November 2022)"
-	revision: "3"
+	date: "2022-11-28 6:45:32 GMT (Monday 28th November 2022)"
+	revision: "4"
 
 class
 	TP_LITERAL_PATTERN
@@ -15,8 +15,10 @@ class
 inherit
 	TP_PATTERN
 		redefine
-			match_count
+			first_searchable, match_count
 		end
+
+	TP_SEARCHABLE
 
 create
 	make, make_caseless
@@ -46,6 +48,11 @@ feature -- Element change
 
 feature -- Access
 
+	character_count: INTEGER
+		do
+			Result := text.count
+		end
+
 	text: like new_text
 
 feature -- Status query
@@ -53,6 +60,22 @@ feature -- Status query
 	is_caseless: BOOLEAN
 
 feature {NONE} -- Implementation
+
+	first_searchable: detachable TP_SEARCHABLE
+		-- first pattern that can be searched for in source text as literal string or character
+		-- Void if none
+		do
+			if not is_caseless then
+				Result := Current
+			end
+		end
+
+	index_in (source_text: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
+		-- index of current literal text in `source_text'
+		-- 0 if not found
+		do
+			Result := source_text.substring_index (text, start_index)
+		end
 
 	match_count (a_offset: INTEGER; source_text: like new_text): INTEGER
 			--
@@ -102,4 +125,3 @@ feature {NONE} -- Constants
 		end
 
 end
-

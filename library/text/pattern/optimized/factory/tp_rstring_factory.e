@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:58 GMT (Monday 21st November 2022)"
-	revision: "5"
+	date: "2022-11-28 5:25:03 GMT (Monday 28th November 2022)"
+	revision: "6"
 
 class
 	TP_RSTRING_FACTORY
@@ -37,7 +37,7 @@ feature -- Line ends
 	new_end_of_line_character: TP_RSTRING_END_OF_LINE_CHAR
 			-- Matches new line or EOF
 		do
-			create Result.make
+			create Result
 		end
 
 	new_start_of_line: TP_RSTRING_BEGINNING_OF_LINE
@@ -167,7 +167,6 @@ feature {NONE} -- Constants
 		end
 
 end
-
 
 
 

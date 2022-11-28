@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-22 7:24:45 GMT (Tuesday 22nd November 2022)"
-	revision: "20"
+	date: "2022-11-27 16:49:35 GMT (Sunday 27th November 2022)"
+	revision: "21"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -45,6 +45,7 @@ feature -- Basic operations
 			eval.call ("back_reference_match", agent test_back_reference_match)
 			eval.call ("end_of_line", agent test_end_of_line)
 			eval.call ("find_all", agent test_find_all)
+			eval.call ("literal_find_all", agent test_literal_find_all)
 			eval.call ("integer_match", agent test_integer_match)
 			eval.call ("numbers_array_parsing", agent test_numbers_array_parsing)
 			eval.call ("numeric_match", agent test_numeric_match)
@@ -170,6 +171,21 @@ feature -- Test
 				end
 				assert ("matches_string_general OK", boolean)
 			end
+		end
+
+	test_literal_find_all
+		-- test `find_all' with leading `string_literal' in pattern
+		note
+			testing: "covers/{TP_RECURSIVE}.match"
+		local
+			pattern: like all_of; output, name: ZSTRING
+		do
+			name := "STRING"
+			create output.make_empty
+			pattern := hash_table_pattern (agent append_to (?, ?, output))
+			set_source_text (Text.Eiffel_type_declarations)
+			pattern.find_all (source_text, Void)
+			assert ("same text", output ~ name.multiplied (6))
 		end
 
 	test_numbers_array_parsing
@@ -502,6 +518,18 @@ feature {NONE} -- Patterns
 						)
 					>>)
 				>>)
+			>>)
+		end
+
+	hash_table_pattern (append_name: like PARSE_ACTION): like all_of
+		do
+			Result := all_of_separated_by (optional_nonbreaking_white_space, <<
+				string_literal ("HASH_TABLE"),
+				character_literal ('['),
+				class_name |to| append_name,
+				character_literal (','),
+				class_name |to| append_name,
+				character_literal (']')
 			>>)
 		end
 

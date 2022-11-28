@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:25:00 GMT (Monday 21st November 2022)"
-	revision: "3"
+	date: "2022-11-28 6:45:33 GMT (Monday 28th November 2022)"
+	revision: "4"
 
 deferred class
 	TP_PATTERN
@@ -169,6 +169,12 @@ feature {NONE} -- Debug
 
 feature {EL_TEXT_PATTERN_I, EL_PARSER} -- Implementation
 
+	first_searchable: detachable TP_SEARCHABLE
+		-- first pattern that can be searched for in source text as literal string or character
+		-- Void if none
+		do
+		end
+
 	internal_call_actions (start_index, end_index: INTEGER; repeated: detachable TP_REPEATED_PATTERN)
 		do
 			if attached actions_array as array then
@@ -180,21 +186,37 @@ feature {EL_TEXT_PATTERN_I, EL_PARSER} -- Implementation
 		a_offset: INTEGER; text: READABLE_STRING_GENERAL; unmatched_action: detachable like Default_action
 	)
 		local
-			unmatched_count, text_count, offset, l_count: INTEGER
+			unmatched_count, text_count, offset, l_count, text_index: INTEGER
+			searchable_pattern: detachable TP_SEARCHABLE; done: BOOLEAN
 		do
 			unmatched_count := 0; text_count := text.count
-			from offset := a_offset until offset >= text_count loop
-				l_count := match_count (offset, text)
-				if l_count > 0 then
-					if unmatched_count > 0 and then attached unmatched_action as on_unmatched then
-						call_action (on_unmatched, offset - unmatched_count + 1, offset, Void)
-						unmatched_count := 0
+			if attached first_searchable as first then
+				searchable_pattern := first
+			end
+			from offset := a_offset until offset >= text_count or done loop
+				if attached searchable_pattern as searchable then
+					text_index := searchable.index_in (text, offset + 1)
+					if text_index > 0 then
+						offset := text_index - 1
+					else
+						done := True
 					end
-					call_actions (offset + 1, offset + l_count)
-					offset := offset + l_count
-				else
-					offset := offset + 1
-					unmatched_count := unmatched_count + 1
+				end
+				if not done then
+					l_count := match_count (offset, text)
+					if l_count > 0 then
+						if unmatched_count > 0 and then attached unmatched_action as on_unmatched then
+							call_action (on_unmatched, offset - unmatched_count + 1, offset, Void)
+							unmatched_count := 0
+						end
+						call_actions (offset + 1, offset + l_count)
+						offset := offset + l_count
+					elseif attached searchable_pattern as searchable then
+						offset := offset + searchable.character_count
+					else
+						offset := offset + 1
+						unmatched_count := unmatched_count + 1
+					end
 				end
 			end
 			if unmatched_count > 0 and then attached unmatched_action as on_unmatched then
@@ -275,6 +297,5 @@ feature {NONE} -- Constants
 		end
 
 end
-
 
 

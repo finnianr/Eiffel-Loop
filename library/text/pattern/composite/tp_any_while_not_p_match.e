@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:25:00 GMT (Monday 21st November 2022)"
-	revision: "3"
+	date: "2022-11-28 7:31:17 GMT (Monday 28th November 2022)"
+	revision: "4"
 
 class
 	TP_ANY_WHILE_NOT_P_MATCH
@@ -45,29 +45,45 @@ feature {NONE} -- Implementation
 					call_action (array [1], start_index, end_index - pattern.count, repeated)
 				end
 			end
+			pattern.internal_call_actions (end_index - pattern.count + 1, end_index, repeated)
 		end
 
 	match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER
 		local
-			offset, any_count, l_count, text_count: INTEGER; done: BOOLEAN
+			offset, any_count, l_count, text_count, index: INTEGER; done: BOOLEAN
+			searchable_pattern: detachable TP_SEARCHABLE
 		do
 			text_count := text.count
 			if attached pattern as p then
+				searchable_pattern := p.first_searchable
 				from offset := a_offset until offset > text_count or else done loop
-					p.match (offset, text)
-					if p.is_matched then
-						done := True
-					else
-						offset := offset + 1
-						any_count := any_count + 1
+					if attached searchable_pattern as searchable then
+						index := searchable.index_in (text, offset + 1)
+						if index > 0 then
+							any_count := any_count + index - offset - 1
+							offset := index - 1
+						else
+							done := True
+						end
+					end
+					if not done then
+						p.match (offset, text)
+						if p.is_matched then
+							done := True
+						elseif attached {TP_LITERAL_PATTERN} searchable_pattern as string then
+							offset := offset + string.character_count
+							any_count := any_count + string.character_count
+						else
+							offset := offset + 1
+							any_count := any_count + 1
+						end
 					end
 				end
-				l_count := any_count + p.count
-			end
-			if l_count = 0 then
-				Result := Match_fail
-			else
-				Result := l_count
+				if p.is_matched then
+					Result := any_count + p.count
+				else
+					Result := Match_fail
+				end
 			end
 		end
 
@@ -95,4 +111,3 @@ feature {NONE} -- Constants
 		end
 
 end
-

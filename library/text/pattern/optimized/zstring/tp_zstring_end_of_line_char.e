@@ -6,28 +6,25 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:59 GMT (Monday 21st November 2022)"
-	revision: "3"
+	date: "2022-11-28 5:29:56 GMT (Monday 28th November 2022)"
+	revision: "4"
 
 class
 	TP_ZSTRING_END_OF_LINE_CHAR
 
 inherit
 	TP_END_OF_LINE_CHAR
-		undefine
-			i_th_matches, make_with_character
+		redefine
+			i_th_is_newline
 		end
 
-	TP_ZSTRING_LITERAL_CHAR
-		rename
-			make as make_with_character,
-			make_with_action as make_literal_with_action
-		undefine
-			match_count, meets_definition, name_inserts, Name_template
-		end
+	TP_OPTIMIZED_FOR_ZSTRING
 
-create
-	make
+feature {NONE} -- Implementation
+
+	i_th_is_newline (i: INTEGER; text: ZSTRING): BOOLEAN
+		do
+			Result := text.z_code (i) = 10
+		end
 
 end
-

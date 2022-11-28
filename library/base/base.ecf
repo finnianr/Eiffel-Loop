@@ -235,6 +235,7 @@ Classes providing the following:
 
 * Character and character sequence conversion
 * Character encoding
+* Converting string data to other basic types
 * Deferred internationalization
 * Text line processing
 * Parsing and manipulating name-value pairs

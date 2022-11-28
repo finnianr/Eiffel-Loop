@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:55 GMT (Monday 21st November 2022)"
-	revision: "3"
+	date: "2022-11-28 5:08:27 GMT (Monday 28th November 2022)"
+	revision: "4"
 
 deferred class
 	TP_CHARACTER_PROPERTY
 
 inherit
-	TP_SINGLE_CHAR_PATTERN
+	TP_CHARACTER_PATTERN
 
 feature {NONE} -- Implementation
 
