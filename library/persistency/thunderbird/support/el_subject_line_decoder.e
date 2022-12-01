@@ -14,8 +14,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 17:15:50 GMT (Thursday 1st December 2022)"
-	revision: "12"
+	date: "2022-12-01 18:21:56 GMT (Thursday 1st December 2022)"
+	revision: "13"
 
 class
 	EL_SUBJECT_LINE_DECODER
@@ -29,8 +29,6 @@ inherit
 	EL_SHARED_ZCODEC_FACTORY
 
 	EL_MODULE_BASE_64
-
-	EL_SHARED_BASE_POWER_2_CONVERSIONS
 
 	STRING_HANDLER
 
@@ -88,12 +86,14 @@ feature {NONE} -- Implementation
 		end
 
 	unescaped (str: ZSTRING): STRING
+		local
+			hex: EL_HEXADECIMAL_STRING_CONVERSION
 		do
 			create Result.make_empty
 			from until str.is_empty loop
 				inspect str [1]
 					when '=' then
-						Result.append_code (hexadecimal.substring_to_natural_32 (str, 2, 3))
+						Result.append_code (hex.substring_to_natural_32 (str, 2, 3))
 						str.remove_head (3)
 					when '_' then
 						Result.append_character (' ')

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2022-12-01 18:13:18 GMT (Thursday 1st December 2022)"
+	revision: "6"
 
 deferred class
 	EL_STOCK_COLORS_I
@@ -24,8 +24,6 @@ inherit
 			Default_background_color as Default_background,
 			Default_foreground_color as Default_foreground
 		end
-
-	EL_MODULE_HEXADECIMAL
 
 feature -- Access
 
@@ -47,8 +45,10 @@ feature -- Color code
 		require
 			starts_with_hash: html_code.item (1) = '#'
 			has_six_digits: html_code.count = 7
+		local
+			hex: EL_HEXADECIMAL_STRING_CONVERSION
 		do
-			Result := Hexadecimal.to_integer (html_code.substring (2, 7))
+			Result := hex.to_integer (html_code.substring (2, 7))
 		end
 
 	rgb_code_to_html_code (rgb_code: INTEGER): STRING

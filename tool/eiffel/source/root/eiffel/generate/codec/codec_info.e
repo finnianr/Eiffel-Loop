@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:38:39 GMT (Monday 21st November 2022)"
-	revision: "12"
+	date: "2022-12-01 18:27:39 GMT (Thursday 1st December 2022)"
+	revision: "13"
 
 class
 	CODEC_INFO
@@ -30,8 +30,6 @@ inherit
 	TP_C_LANGUAGE_FACTORY
 
 	EL_MODULE_LIO
-
-	EL_MODULE_HEXADECIMAL
 
 create
 	make
@@ -237,8 +235,10 @@ feature {NONE} -- Match actions
 
 	on_latin_code (start_index, end_index: INTEGER)
 			--
+		local
+			hex: EL_HEXADECIMAL_STRING_CONVERSION
 		do
-			last_latin_code := Hexadecimal.to_integer (source_substring (start_index, end_index, False))
+			last_latin_code := hex.to_integer (source_substring (start_index, end_index, False))
 			latin_characters.extend (create {LATIN_CHARACTER}.make (last_latin_code.to_natural_32))
 			latin_table [last_latin_code] := latin_characters.last
 		end
@@ -246,9 +246,10 @@ feature {NONE} -- Match actions
 	on_unicode (start_index, end_index: INTEGER)
 			--
 		local
+			hex: EL_HEXADECIMAL_STRING_CONVERSION
 			unicode: NATURAL
 		do
-			unicode := Hexadecimal.to_natural_32 (source_substring (start_index, end_index, False))
+			unicode := hex.to_natural_32 (source_substring (start_index, end_index, False))
 			latin_table.item (last_latin_code).set_unicode (unicode)
 		end
 

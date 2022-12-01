@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 17:19:21 GMT (Thursday 1st December 2022)"
-	revision: "146"
+	date: "2022-12-01 18:29:57 GMT (Thursday 1st December 2022)"
+	revision: "147"
 
 class
 	BASE_AUTOTEST_APP
@@ -83,6 +83,7 @@ feature {NONE} -- Compile classes
 
 	compile: TUPLE [
 		EL_ARRAY_READER,
+		EL_BINARY_STRING_CONVERSION,
 
 		EL_DATE_TIME_REPRESENTATION, EL_DATE, EL_DEFAULT_FILE_PROCESSING_COMMAND,
 		EL_DIRECTORY_LIST, EL_DOCUMENT_NODE_STRING,
@@ -92,6 +93,8 @@ feature {NONE} -- Compile classes
 
 		EL_MUTEX_NUMERIC [INTEGER],
 		EL_MUTEX_VALUE [BOOLEAN],
+
+		EL_OCTAL_STRING_CONVERSION,
 
 		EL_SHARED_INITIALIZER [EL_INITIALIZEABLE],
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 17:15:50 GMT (Thursday 1st December 2022)"
-	revision: "9"
+	date: "2022-12-01 18:12:22 GMT (Thursday 1st December 2022)"
+	revision: "10"
 
 class
 	JSON_UNESCAPER
@@ -20,10 +20,8 @@ inherit
 			numeric_sequence_count, unescaped_code
 		end
 
-	EL_SHARED_BASE_POWER_2_CONVERSIONS
-
-	create
-		make
+create
+	make
 
 feature {NONE} -- Initialization
 
@@ -69,11 +67,13 @@ feature {NONE} -- Implementation
 		end
 
 	u_code (str: EL_READABLE_ZSTRING; index: INTEGER): INTEGER_64
+		local
+			hex: EL_HEXADECIMAL_STRING_CONVERSION
 		do
 			if str.z_code (index) = U_z_code and then index + 4 <= str.count
-				and then Hexadecimal.is_valid_sequence (str, index + 1, index + 4)
+				and then hex.is_valid_sequence (str, index + 1, index + 4)
 			then
-				Result := Hexadecimal.substring_to_natural_32 (str, index + 1, index + 4)
+				Result := hex.substring_to_natural_32 (str, index + 1, index + 4)
 			else
 				Result := Result.one.opposite
 			end

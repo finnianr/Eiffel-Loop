@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 17:15:51 GMT (Thursday 1st December 2022)"
-	revision: "24"
+	date: "2022-12-01 18:21:24 GMT (Thursday 1st December 2022)"
+	revision: "25"
 
 class
 	STRING_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_CONSOLE; EL_MODULE_EIFFEL; EL_SHARED_BASE_POWER_2_CONVERSIONS; EL_MODULE_LIO
+	EL_MODULE_CONSOLE; EL_MODULE_EIFFEL; EL_MODULE_LIO
 
 	EL_MODULE_USER_INPUT
 
@@ -144,8 +144,10 @@ feature -- Basic operations
 		end
 
 	hexadecimal_to_natural_64
+		local
+			hex: EL_HEXADECIMAL_STRING_CONVERSION
 		do
-			lio.put_string (Hexadecimal.to_natural_64 ("0x00000A987").out)
+			lio.put_string (hex.to_natural_64 ("0x00000A987").out)
 			lio.put_new_line
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2022-12-01 18:09:47 GMT (Thursday 1st December 2022)"
+	revision: "12"
 
 class
 	EL_COLOR
@@ -17,8 +17,6 @@ inherit
 		redefine
 			rgb_24_bit, set_rgb_with_24_bit
 		end
-
-	EL_MODULE_HEXADECIMAL
 
 create
 	default_create,
@@ -130,8 +128,10 @@ feature -- Element change
 	set_with_html (color_code: STRING)
 		require
 			valid_color_string: color_code.count = 7 and then color_code [1] = '#'
+		local
+			hex: EL_HEXADECIMAL_STRING_CONVERSION
 		do
-			set_rgb_with_24_bit (Hexadecimal.to_integer (color_code.substring (2, color_code.count)))
+			set_rgb_with_24_bit (hex.to_integer (color_code.substring (2, color_code.count)))
 		end
 
 feature -- Status query

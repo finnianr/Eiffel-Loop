@@ -535,3 +535,6 @@ Convert search term parser to fast pattern matching
 Sat 19th Nov 2022, 18:34:15
 Compiled Evolicity with new fast patterns
 
+Thu 1st Dec 2022, 17:35:02
+Finished improved parser and pattern matching 2.0
+

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 17:15:50 GMT (Thursday 1st December 2022)"
-	revision: "19"
+	date: "2022-12-01 18:11:41 GMT (Thursday 1st December 2022)"
+	revision: "20"
 
 class
 	EL_RSA_ROUTINES
@@ -16,8 +16,6 @@ inherit
 	ANY
 
 	EL_MODULE_BASE_64
-
-	EL_SHARED_BASE_POWER_2_CONVERSIONS
 
 feature -- Conversion
 

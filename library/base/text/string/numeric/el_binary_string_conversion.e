@@ -6,10 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 16:58:10 GMT (Thursday 1st December 2022)"
-	revision: "4"
+	date: "2022-12-01 18:06:48 GMT (Thursday 1st December 2022)"
+	revision: "5"
 
-class
+expanded class
 	EL_BINARY_STRING_CONVERSION
 
 inherit

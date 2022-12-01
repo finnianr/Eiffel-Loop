@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 17:15:50 GMT (Thursday 1st December 2022)"
-	revision: "6"
+	date: "2022-12-01 18:15:59 GMT (Thursday 1st December 2022)"
+	revision: "7"
 
 deferred class
 	XML_ESCAPE_ROUTINES
@@ -15,21 +15,26 @@ deferred class
 inherit
 	EL_MODULE_BUFFER_8
 
-	EL_SHARED_BASE_POWER_2_CONVERSIONS
-
 feature {NONE} -- Implementation
+
+	hexadecimal_digit_count (code: NATURAL): INTEGER
+		local
+			hex: EL_HEXADECIMAL_STRING_CONVERSION
+		do
+			Result := hex.natural_digit_count (code)
+		end
 
 	hexadecimal_entity (code: NATURAL; keep_ref: BOOLEAN): STRING
 		require
 			valid_code: code > 128
 		local
-			digit_count, i: INTEGER
-			n, digit: NATURAL
+			digit_count, i: INTEGER; n, digit: NATURAL
+			hex: EL_HEXADECIMAL_STRING_CONVERSION
 		do
 			Result := buffer_8.empty
 			Result.append (once "&#x")
 
-			digit_count := Hexadecimal.natural_digit_count (code)
+			digit_count := hex.natural_digit_count (code)
 			from i := 1 until i > digit_count loop
 				Result.append_character ('0')
 				i := i + 1
@@ -46,7 +51,7 @@ feature {NONE} -- Implementation
 				Result := Result.twin
 			end
 		ensure
-			valid_count: Result.count = Hexadecimal.natural_digit_count (code) + 4
+			valid_count: Result.count = hexadecimal_digit_count (code) + 4
 			valid_leading_trailing: Result [1] = '&' and Result [Result.count] = ';'
 		end
 

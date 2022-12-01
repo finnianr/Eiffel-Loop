@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2022-12-01 18:26:25 GMT (Thursday 1st December 2022)"
+	revision: "8"
 
 class
 	EL_PYTHON_INTERPRETER
@@ -19,8 +19,6 @@ inherit
 		end
 
 	EL_PYTHON_INTERFACE
-
-	EL_MODULE_HEXADECIMAL
 
 create
 	initialize
@@ -175,7 +173,7 @@ feature -- Function call items
 	ustring_item (function_specifier: STRING; args: TUPLE): STRING
 			--
 		local
-			py_result: PYTHON_OBJECT
+			py_result: PYTHON_OBJECT; hex: EL_HEXADECIMAL_STRING_CONVERSION
 			backslash_index, start_index, hex_code: INTEGER
 		do
 			create Result.make_empty
@@ -206,7 +204,7 @@ feature -- Function call items
 
 					-- if hexadecimal escape sequence found (\x??)
 					elseif backslash_index + 3 <= Result.count and then Result @ (backslash_index + 1) = 'x' then
-						hex_code := Hexadecimal.substring_to_integer (Result, backslash_index + 2, backslash_index + 3)
+						hex_code := hex.substring_to_integer (Result, backslash_index + 2, backslash_index + 3)
 						Result.replace_substring (hex_code.to_character_8.out, backslash_index, backslash_index + 3)
 						start_index := backslash_index + 1
 

@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 17:16:16 GMT (Thursday 1st December 2022)"
-	revision: "9"
+	date: "2022-12-01 18:11:04 GMT (Thursday 1st December 2022)"
+	revision: "10"
 
 class
 	EL_NETWORK_DEVICE_IMP
@@ -50,8 +50,6 @@ inherit
 		rename
 			make_default as make
 		end
-
-	EL_SHARED_BASE_POWER_2_CONVERSIONS
 
 	EL_MODULE_BUFFER
 
@@ -157,12 +155,12 @@ feature {NONE} -- Factory
 
 	new_hardware_address (string: STRING): ARRAY [NATURAL_8]
 		local
-			byte_list: EL_STRING_8_LIST
+			byte_list: EL_STRING_8_LIST; hex: EL_HEXADECIMAL_STRING_CONVERSION
 		do
 			create byte_list.make_split (string, ':')
 			create Result.make_filled (0, 1, byte_list.count)
 			across byte_list as byte loop
-				Result [byte.cursor_index] := Hexadecimal.to_integer (byte.item).to_natural_8
+				Result [byte.cursor_index] := hex.to_integer (byte.item).to_natural_8
 			end
 		end
 
