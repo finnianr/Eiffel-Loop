@@ -1,16 +1,19 @@
 note
-	description: "Shared access to base class `ASCII'"
+	description: "Shared access to base class [$source ASCII]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2022-12-01 9:54:49 GMT (Thursday 1st December 2022)"
+	revision: "8"
 
-class
+deferred class
 	EL_MODULE_ASCII
+
+inherit
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 

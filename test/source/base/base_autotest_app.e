@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-27 10:14:18 GMT (Sunday 27th November 2022)"
-	revision: "144"
+	date: "2022-12-01 10:42:20 GMT (Thursday 1st December 2022)"
+	revision: "145"
 
 class
 	BASE_AUTOTEST_APP
@@ -34,7 +34,6 @@ inherit
 		SE_ARRAY2_TEST_SET,
 		SEQUENTIAL_INTERVALS_TEST_SET,
 		SPLIT_STRING_TEST_SET,
-		STRING_EDITION_HISTORY_TEST_SET,
 		STRING_ITERATION_CURSOR_TEST_SET,
 		STRING_32_ROUTINES_TEST_SET,
 		SUBSTRING_32_ARRAY_TEST_SET,
@@ -91,6 +90,7 @@ feature {NONE} -- Compile classes
 
 		EL_FILE_SWAPPER, EL_FILE_TREE_COMMAND,
 
+		EL_MODULE_BINARY, EL_MODULE_OCTAL,
 		EL_MUTEX_NUMERIC [INTEGER],
 		EL_MUTEX_VALUE [BOOLEAN],
 

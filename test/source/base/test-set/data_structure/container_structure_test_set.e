@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "28"
+	date: "2022-12-01 10:05:32 GMT (Thursday 1st December 2022)"
+	revision: "29"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -368,8 +368,10 @@ feature {NONE} -- Implementation
 		end
 
 	to_integer (c: CHARACTER): INTEGER
+		local
+			c8: EL_CHARACTER_8_ROUTINES
 		do
-			Result := (c - {ASCII}.Zero).code
+			Result := c8.digit_to_integer (c)
 		end
 
 	weight_sum_meeting (condition: EL_QUERY_CONDITION [WIDGET]): INTEGER

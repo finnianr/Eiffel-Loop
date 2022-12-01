@@ -1,3 +1,6 @@
+1.6.1
+* New more efficient parsing and pattern matching
+
 1.6.0
 * Changed user input method to use EL_INPUT_USER_VALUE
 

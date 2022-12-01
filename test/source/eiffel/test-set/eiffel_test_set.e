@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-18 6:21:41 GMT (Friday 18th November 2022)"
-	revision: "21"
+	date: "2022-12-01 10:24:51 GMT (Thursday 1st December 2022)"
+	revision: "22"
 
 class
 	EIFFEL_TEST_SET
@@ -25,16 +25,21 @@ feature -- Basic operations
 	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("natural_constant", agent test_natural_constant)
 		end
 
 feature -- Tests
 
+	test_natural_constant
+		do
+			assert ("same value", {EL_ASCII}.Newline = {EL_ASCII}.Line_feed)
+		end
 
 feature -- Access
 
-	i_1: INTEGER
-
 	b_1: BOOLEAN
+
+	i_1: INTEGER
 
 feature -- Equal to comparison
 
@@ -280,15 +285,15 @@ feature -- Basic operations
 
 feature {NONE} -- Implemenation
 
+	is_false: BOOLEAN
+		do
+			lio.put_line ("is_false")
+		end
+
 	is_true: BOOLEAN
 		do
 			Result := True
 			lio.put_line ("is_true")
-		end
-
-	is_false: BOOLEAN
-		do
-			lio.put_line ("is_false")
 		end
 
 feature {NONE} -- Constants

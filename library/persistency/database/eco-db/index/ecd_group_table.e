@@ -1,7 +1,7 @@
 note
 	description: "[
 		A field group index table for Eco-DB arrayed lists conforming to [$source ECD_ARRAYED_LIST [EL_STORABLE]]
-		[$source EL_STORABLE] items are grouped according to the value of a specified agent of type FUNCTION [G, K]
+		[$source EL_STORABLE] items are grouped according to the value of a specified agent of type [$source FUNCTION [G, K]]
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2022-11-28 18:19:32 GMT (Monday 28th November 2022)"
+	revision: "4"
 
 class
 	ECD_GROUP_TABLE [G -> EL_STORABLE, K -> HASHABLE]

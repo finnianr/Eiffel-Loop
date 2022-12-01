@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-22 11:25:25 GMT (Tuesday 22nd November 2022)"
-	revision: "1"
+	date: "2022-12-01 10:25:40 GMT (Thursday 1st December 2022)"
+	revision: "2"
 
 deferred class
 	EL_FILE_GENERAL_LINE_SOURCE [S -> STRING_GENERAL create make end]
@@ -91,7 +91,7 @@ feature -- Access
 			create Result.make (file.count)
 			from start until after loop
 				if index > 1 then
-					Result.append_code ({ASCII}.Line_feed.to_natural_32)
+					Result.append_code ({EL_ASCII}.Newline)
 				end
 				Result.append (item)
 				forth

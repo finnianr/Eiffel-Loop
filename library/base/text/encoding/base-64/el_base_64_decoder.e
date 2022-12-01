@@ -8,11 +8,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2022-12-01 10:06:56 GMT (Thursday 1st December 2022)"
+	revision: "6"
 
 class
 	EL_BASE_64_DECODER
+
+inherit
+	ASCII
+		export
+			{NONE} all
+		end
 
 create
 	make
@@ -110,11 +116,11 @@ feature {NONE} -- Implementation
 				when '=' then
 					Result := 0 -- treat padding character as 0 bits
 				when 'A' .. 'Z' then
-					Result := c.code - {ASCII}.Upper_a
+					Result := c.code - Upper_a
 				when 'a' .. 'z' then
-					Result := 26 + c.code - {ASCII}.Lower_a
+					Result := 26 + c.code - Lower_a
 				when '0' .. '9' then
-					Result := 52 + c.code - {ASCII}.zero
+					Result := 52 + c.code - zero
 				when '+' then
 					Result := 62
 				when '/' then

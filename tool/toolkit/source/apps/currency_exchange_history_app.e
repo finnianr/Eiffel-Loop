@@ -5,7 +5,7 @@ note
 	notes: "[
 		Usage:
 			
-			el_toolkit -currency_exchange_history -output <file-path>  -year <year> -base <base-currency> -currencies <c1, c2 ..>
+			el_toolkit -currency_exchange_history -output <file-path> -year <year> -base <base-currency> -currencies <c1, c2 ..>
 	]"
 
 	author: "Finnian Reilly"
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 8:53:27 GMT (Saturday 26th November 2022)"
-	revision: "16"
+	date: "2022-11-28 8:54:42 GMT (Monday 28th November 2022)"
+	revision: "17"
 
 class
 	CURRENCY_EXCHANGE_HISTORY_APP

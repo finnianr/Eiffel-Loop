@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2022-12-01 10:27:42 GMT (Thursday 1st December 2022)"
+	revision: "15"
 
 class
 	EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -82,7 +82,7 @@ feature {NONE} -- Initialization
 				item := list.item
 				if list.cursor_index = 1 or else previous_end_character = '%%' then
 					if previous_end_character = '%%' then
-						last.put_code ({ASCII}.Dollar.to_natural_32, last.count)
+						last.put_code ({EL_ASCII}.Dollar, last.count)
 					end
 					if not item.is_empty then
 						extend (item.twin)

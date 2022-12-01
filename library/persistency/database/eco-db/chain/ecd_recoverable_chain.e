@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "28"
+	date: "2022-11-28 18:20:06 GMT (Monday 28th November 2022)"
+	revision: "29"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -222,7 +222,6 @@ feature -- Removal
 			end
 			chain_remove
 		end
-
 
 feature {NONE} -- Implementation
 

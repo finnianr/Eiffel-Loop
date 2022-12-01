@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "33"
+	date: "2022-12-01 10:31:39 GMT (Thursday 1st December 2022)"
+	revision: "34"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -228,12 +228,6 @@ feature {NONE} -- Constants
 			s: EL_ZSTRING_ROUTINES
 		once
 			Result := s.character_string ('%N')
-		end
-
-	Tabulation_code: NATURAL
-			--
-		once
-			Result := {ASCII}.Tabulation.to_natural_32
 		end
 
 	Template_name_template: ZSTRING

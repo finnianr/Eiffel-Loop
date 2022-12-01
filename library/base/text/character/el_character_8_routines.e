@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "21"
+	date: "2022-12-01 10:03:43 GMT (Thursday 1st December 2022)"
+	revision: "22"
 
 expanded class
 	EL_CHARACTER_8_ROUTINES
@@ -128,17 +128,22 @@ feature -- Status query
 
 feature -- Conversion
 
-	hex_digit_to_decimal (c: CHARACTER): INTEGER
+	digit_to_integer (c: CHARACTER): INTEGER
+		require
+			is_digit: '0' <= c and c <= '9'
 		do
-			if c >= 'a' then
-				Result := c.code - ('a').code + 10
+			Result := c.code - ('0').code
+		end
 
-			elseif c >= 'A' then
-				Result := c.code - ('A').code + 10
-
-			elseif c >= '0' then
-				Result := c.code - ('0').code
-
+	hex_digit_to_decimal (c: CHARACTER): INTEGER
+		-- Hex digit to decimal (base 10)
+		do
+			inspect c
+				when 'a' .. 'f', 'A' .. 'F'  then
+					Result := c.code - ('a').code + 10
+				when '0' .. '9' then
+					Result := c.code - ('0').code
+			else
 			end
 		end
 

@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "25"
+	date: "2022-12-01 9:57:38 GMT (Thursday 1st December 2022)"
+	revision: "26"
 
 deferred class
 	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO create make end, APPLICATION_TYPES -> TUPLE create default_create end]
@@ -28,11 +28,11 @@ deferred class
 inherit
 	EL_FACTORY_CLIENT
 
-	EL_MODULE_ARGS
+	EL_MODULE_ASCII; EL_MODULE_ARGS
 
-	EL_MODULE_ENVIRONMENT
+	EL_MODULE_ENVIRONMENT; EL_MODULE_EXECUTABLE
 
-	EL_MODULE_EXECUTABLE
+
 
 	EL_MODULE_LIO
 		rename
@@ -51,7 +51,7 @@ feature {NONE} -- Initialization
 			if {PLATFORM}.is_windows and then not Base_option.silent then
 				-- Force console creation. Needed to set `{EL_EXECUTION_ENVIRONMENT_I}.last_codepage'
 
-				io.put_character ({ASCII}.back_space.to_character_8)
+				io.put_character (ASCII.back_space.to_character_8)
 
 --				Environment.Execution.set_utf_8_console_output
 					-- Only has effect in Windows command console

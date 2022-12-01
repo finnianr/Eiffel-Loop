@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-19 11:12:32 GMT (Saturday 19th November 2022)"
-	revision: "3"
+	date: "2022-12-01 10:27:17 GMT (Thursday 1st December 2022)"
+	revision: "4"
 
 deferred class
 	EL_SUBSTITUTION_TEMPLATE
@@ -134,9 +134,9 @@ feature -- Element change
 			quoted_value: like string.new
 		do
 			quoted_value := string.new (value.count + 2)
-			quoted_value.append_code ({ASCII}.Doublequote.to_natural_32)
+			quoted_value.append_code ({EL_ASCII}.Doublequote)
 			quoted_value.append (value)
-			quoted_value.append_code ({ASCII}.Doublequote.to_natural_32)
+			quoted_value.append_code ({EL_ASCII}.Doublequote)
 			set_variable (name, quoted_value)
 		end
 
@@ -208,7 +208,7 @@ feature {NONE} -- Implementation
 	dollor_sign: like string.new
 		do
 			Result := string.new (1)
-			Result.append_code ({ASCII}.Dollar.to_natural_32)
+			Result.append_code ({EL_ASCII}.Dollar)
 		end
 
 	key (str: READABLE_STRING_GENERAL): like string.new

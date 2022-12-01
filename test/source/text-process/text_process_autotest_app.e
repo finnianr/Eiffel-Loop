@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-27 8:54:20 GMT (Sunday 27th November 2022)"
-	revision: "16"
+	date: "2022-12-01 9:34:54 GMT (Thursday 1st December 2022)"
+	revision: "17"
 
 class
 	TEXT_PROCESS_AUTOTEST_APP
@@ -27,6 +27,7 @@ inherit
 		EIFFEL_PARSING_TEST_SET,
 		PATTERN_MATCH_TEST_SET,
 		STRING_32_PATTERN_MATCH_TEST_SET,
+		STRING_EDITION_HISTORY_TEST_SET,
 		ZSTRING_PATTERN_MATCH_TEST_SET
 	]
 
