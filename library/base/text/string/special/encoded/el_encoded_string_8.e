@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 9:44:32 GMT (Thursday 1st December 2022)"
-	revision: "17"
+	date: "2022-12-01 17:15:50 GMT (Thursday 1st December 2022)"
+	revision: "18"
 
 deferred class
 	EL_ENCODED_STRING_8
@@ -30,7 +30,7 @@ inherit
 			{STRING_HANDLER} set_count, append_raw_8, item, put, grow
 		end
 
-	EL_MODULE_HEXADECIMAL
+	EL_SHARED_BASE_POWER_2_CONVERSIONS
 
 feature -- Conversion
 
@@ -230,11 +230,11 @@ feature {NONE} -- Implementation
 
 	sequence_code (a_area: like area; offset: INTEGER): NATURAL
 		local
-			hi_c, low_c: NATURAL
+			hi_c, low_c: INTEGER_64
 		do
-			hi_c := a_area.item (offset).natural_32_code
-			low_c := a_area.item (offset + 1).natural_32_code
-			Result := (Hexadecimal.to_decimal (hi_c) |<< 4) | Hexadecimal.to_decimal (low_c)
+			hi_c := Hexadecimal.to_decimal (a_area [offset]) |<< 4
+			low_c := Hexadecimal.to_decimal (a_area [offset + 1])
+			Result := (hi_c | low_c).to_natural_32
 		end
 
 	substring_utf_8 (s: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): STRING

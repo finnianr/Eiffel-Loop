@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "26"
+	date: "2022-12-01 17:28:12 GMT (Thursday 1st December 2022)"
+	revision: "27"
 
 class
 	NETWORK_AUTOTEST_APP
@@ -36,6 +36,7 @@ feature {NONE} -- Implementation
 
 	compile: TUPLE [
 		FTP_TEST_SET,
+		EL_NETWORK_DEVICE_IMP,
 		EL_WAYBACK_CLOSEST,
 		EL_FTP_FILE_SYNC_MEDIUM,
 		EL_FTP_WEBSITE,

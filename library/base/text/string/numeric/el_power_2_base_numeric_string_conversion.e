@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2022-12-01 17:08:29 GMT (Thursday 1st December 2022)"
+	revision: "4"
 
 deferred class
 	EL_POWER_2_BASE_NUMERIC_STRING_CONVERSION
@@ -56,7 +56,7 @@ feature -- Substring conversion
 				end
 			end
 			from until i > end_index loop
-				value := to_decimal (str.item (i).natural_32_code)
+				value := to_decimal (str [i]).to_natural_64
 				bit_shift := (end_index - i) * bit_count
 				Result := Result | (value |<< bit_shift)
 				i := i + 1
@@ -65,8 +65,17 @@ feature -- Substring conversion
 
 feature -- Conversion
 
-	to_decimal (code: NATURAL): NATURAL
-		deferred
+	to_decimal (uc: CHARACTER_32): INTEGER_64
+		do
+			inspect uc
+				when '0' .. '9' then
+				 	 Result := (uc |-| '0')
+				when 'a' .. 'z' then
+				 	 Result := (uc |-| 'a') + 10
+				when 'A' .. 'Z' then
+				 	 Result := (uc |-| 'A') + 10
+			else
+			end
 		end
 
 	to_integer (str: READABLE_STRING_GENERAL): INTEGER
@@ -132,13 +141,6 @@ feature {NONE} -- Implementation
 
 	is_valid_digit (str: READABLE_STRING_GENERAL; index: INTEGER): BOOLEAN
 		deferred
-		end
-
-feature {NONE} -- Constants
-
-	Code_zero: NATURAL
-		once
-			Result := ('0').natural_32_code
 		end
 
 end

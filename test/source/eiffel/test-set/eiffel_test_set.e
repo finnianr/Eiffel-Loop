@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 10:24:51 GMT (Thursday 1st December 2022)"
-	revision: "22"
+	date: "2022-12-01 17:15:50 GMT (Thursday 1st December 2022)"
+	revision: "23"
 
 class
 	EIFFEL_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_DIRECTORY; EL_MODULE_EIFFEL; EL_MODULE_EXECUTION_ENVIRONMENT
 
-	EL_MODULE_HEXADECIMAL; EL_MODULE_LIO
+	EL_SHARED_BASE_POWER_2_CONVERSIONS; EL_MODULE_LIO
 
 
 feature -- Basic operations

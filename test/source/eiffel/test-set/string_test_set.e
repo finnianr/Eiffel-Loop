@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-18 6:20:29 GMT (Friday 18th November 2022)"
-	revision: "23"
+	date: "2022-12-01 17:15:51 GMT (Thursday 1st December 2022)"
+	revision: "24"
 
 class
 	STRING_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_CONSOLE; EL_MODULE_EIFFEL; EL_MODULE_HEXADECIMAL; EL_MODULE_LIO
+	EL_MODULE_CONSOLE; EL_MODULE_EIFFEL; EL_SHARED_BASE_POWER_2_CONVERSIONS; EL_MODULE_LIO
 
 	EL_MODULE_USER_INPUT
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2022-12-01 17:15:50 GMT (Thursday 1st December 2022)"
+	revision: "9"
 
 class
 	JSON_UNESCAPER
@@ -20,7 +20,7 @@ inherit
 			numeric_sequence_count, unescaped_code
 		end
 
-	EL_MODULE_HEXADECIMAL
+	EL_SHARED_BASE_POWER_2_CONVERSIONS
 
 	create
 		make

@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 9:57:38 GMT (Thursday 1st December 2022)"
-	revision: "26"
+	date: "2022-12-01 10:46:48 GMT (Thursday 1st December 2022)"
+	revision: "27"
 
 deferred class
 	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO create make end, APPLICATION_TYPES -> TUPLE create default_create end]
@@ -31,8 +31,6 @@ inherit
 	EL_MODULE_ASCII; EL_MODULE_ARGS
 
 	EL_MODULE_ENVIRONMENT; EL_MODULE_EXECUTABLE
-
-
 
 	EL_MODULE_LIO
 		rename
