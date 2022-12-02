@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 18:07:25 GMT (Thursday 1st December 2022)"
-	revision: "5"
+	date: "2022-12-02 14:22:10 GMT (Friday 2nd December 2022)"
+	revision: "6"
 
 expanded class
 	EL_OCTAL_STRING_CONVERSION
@@ -17,16 +17,16 @@ inherit
 
 feature -- Status query
 
-	is_leading_digit (str: READABLE_STRING_GENERAL; index: INTEGER): BOOLEAN
+	is_leading_digit (c: CHARACTER; index: INTEGER): BOOLEAN
 		do
-			Result := str [index] = '0'
+			Result := c = '0'
 		end
 
 feature {NONE} -- Implementation
 
-	is_valid_digit (str: READABLE_STRING_GENERAL; index: INTEGER): BOOLEAN
+	is_valid_digit (c: CHARACTER; index: INTEGER): BOOLEAN
 		do
-			inspect str [index]
+			inspect c
 				when '0' .. '7' then
 					Result := True
 			else end

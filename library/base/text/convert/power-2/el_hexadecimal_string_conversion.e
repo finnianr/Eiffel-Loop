@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 18:07:21 GMT (Thursday 1st December 2022)"
-	revision: "6"
+	date: "2022-12-02 14:22:59 GMT (Friday 2nd December 2022)"
+	revision: "7"
 
 expanded class
 	EL_HEXADECIMAL_STRING_CONVERSION
@@ -32,21 +32,25 @@ feature -- Access
 
 feature -- Status query
 
-	is_leading_digit (str: READABLE_STRING_GENERAL; index: INTEGER): BOOLEAN
+	is_leading_digit (c: CHARACTER; index: INTEGER): BOOLEAN
 		do
-			inspect str.item (index)
-				when '0', 'x', 'X' then
+			inspect c
+				when '0' then
 					Result := True
+				when 'x', 'X' then
+					Result := index = 2
 			else end
 		end
 
 feature {NONE} -- Implementation
 
-	is_valid_digit (str: READABLE_STRING_GENERAL; index: INTEGER): BOOLEAN
+	is_valid_digit (c: CHARACTER; index: INTEGER): BOOLEAN
 		do
-			inspect str [index]
-				when 'x', 'X', '0' .. '9', 'A' .. 'F', 'a' .. 'f' then
+			inspect c
+				when '0' .. '9', 'A' .. 'F', 'a' .. 'f' then
 					Result := True
+				when  'x', 'X' then
+					Result := index = 2
 			else end
 		end
 

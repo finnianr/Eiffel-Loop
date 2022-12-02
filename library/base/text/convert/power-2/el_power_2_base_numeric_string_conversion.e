@@ -6,11 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 17:08:29 GMT (Thursday 1st December 2022)"
-	revision: "4"
+	date: "2022-12-02 14:39:42 GMT (Friday 2nd December 2022)"
+	revision: "5"
 
 deferred class
 	EL_POWER_2_BASE_NUMERIC_STRING_CONVERSION
+
+inherit
+	ANY
+
+	EL_SHARED_STRING_8_CURSOR
+
+	STRING_HANDLER
 
 feature -- Substring conversion
 
@@ -44,36 +51,40 @@ feature -- Substring conversion
 			valid_sequence: is_valid_sequence (str, start_index, end_index)
 			--
 		local
-			i, count, bit_shift: INTEGER; value: NATURAL_64; found: BOOLEAN
+			i, bit_shift, offset: INTEGER; value: NATURAL_64; found: BOOLEAN
+			l_area: SPECIAL [CHARACTER]
 		do
-			count := end_index - start_index + 1
-			-- Skip 0x00
-			from i := start_index until found or i > end_index loop
-				if is_leading_digit (str, i) then
-					i := i + 1
-				else
-					found := True
+			if attached character_array (str, start_index, end_index) as array then
+				offset := array.offset
+				l_area := array.area
+				-- Skip 0x00
+				from i := start_index - 1 until found or i = end_index loop
+					if is_leading_digit (l_area [i + offset], i - start_index + 2) then
+						i := i + 1
+					else
+						found := True
+					end
 				end
-			end
-			from until i > end_index loop
-				value := to_decimal (str [i]).to_natural_64
-				bit_shift := (end_index - i) * bit_count
-				Result := Result | (value |<< bit_shift)
-				i := i + 1
+				from until i = end_index loop
+					value := to_decimal (l_area [i + offset]).to_natural_64
+					bit_shift := (end_index - i - 1) * bit_count
+					Result := Result | (value |<< bit_shift)
+					i := i + 1
+				end
 			end
 		end
 
 feature -- Conversion
 
-	to_decimal (uc: CHARACTER_32): INTEGER_64
+	to_decimal (c: CHARACTER): INTEGER_64
 		do
-			inspect uc
+			inspect c
 				when '0' .. '9' then
-				 	 Result := (uc |-| '0')
+				 	 Result := (c |-| '0')
 				when 'a' .. 'z' then
-				 	 Result := (uc |-| 'a') + 10
+				 	 Result := (c |-| 'a') + 10
 				when 'A' .. 'Z' then
-				 	 Result := (uc |-| 'A') + 10
+				 	 Result := (c |-| 'A') + 10
 			else
 			end
 		end
@@ -117,11 +128,17 @@ feature -- Contract Support
 
 	is_valid_sequence (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): BOOLEAN
 		local
-			i: INTEGER
+			i: INTEGER; c: CHARACTER; uc: CHARACTER_32
 		do
 			Result := True
 			from i := start_index until not Result or i > end_index loop
-				Result := is_valid_digit (str, i)
+				uc := str [i]
+				if uc.is_character_8 then
+					c := uc.to_character_8
+					Result := is_valid_digit (c, i - start_index + 1)
+				else
+					Result := False
+				end
 				i := i + 1
 			end
 		end
@@ -135,12 +152,40 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	is_leading_digit (str: READABLE_STRING_GENERAL; index: INTEGER): BOOLEAN
+	character_array (
+		str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER
+
+	): TUPLE [area: SPECIAL [CHARACTER]; offset: INTEGER]
+		local
+			substring: STRING
+		do
+			create Result
+			if attached {READABLE_STRING_8} str as str_8
+				and then attached cursor_8 (str_8) as cursor
+			then
+				Result.offset := cursor.area_first_index
+				Result.area := cursor.area
+			elseif attached {ZSTRING} str as zstr then
+				Result.area := zstr.area
+			else
+				substring := Buffer.copied_substring_general (str, start_index, end_index)
+				Result := character_array (substring, 1, end_index - start_index + 1)
+			end
+		end
+
+	is_leading_digit (c: CHARACTER; index: INTEGER): BOOLEAN
 		deferred
 		end
 
-	is_valid_digit (str: READABLE_STRING_GENERAL; index: INTEGER): BOOLEAN
+	is_valid_digit (c: CHARACTER; index: INTEGER): BOOLEAN
 		deferred
+		end
+
+feature {NONE} -- Constants
+
+	Buffer: EL_STRING_8_BUFFER
+		once
+			create Result
 		end
 
 end

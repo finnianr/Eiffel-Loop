@@ -1,18 +1,18 @@
 note
 	description: "Path to a directory"
 	notes: "[
-		**Alias Name**
+		**Short Alias Name**
 		
-			EL_DIR_PATH
+			DIR_PATH
 
 		**Joining Paths**
 		
 		Note that the alias `#+' is used to join directories and using `+' results in a file path.
-		Implicit string conversions are employed to create a `EL_DIR_PATH' or `EL_FILE_PATH' argument.
+		Implicit string conversions are employed to create a `DIR_PATH' or `FILE_PATH' argument.
 			
 			local
-				dir_path: EL_DIR_PATH
-				file_path: EL_FILE_PATH
+				dir_path: DIR_PATH
+				file_path: FILE_PATH
 			do
 				dir_path := "/home/john"
 				dir_path := dir_path #+ "Desktop"
@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "28"
+	date: "2022-12-02 9:08:50 GMT (Friday 2nd December 2022)"
+	revision: "29"
 
 class
 	EL_DIR_PATH

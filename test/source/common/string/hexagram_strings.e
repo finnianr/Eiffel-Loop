@@ -13,8 +13,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2022-12-02 8:48:23 GMT (Friday 2nd December 2022)"
+	revision: "16"
 
 class
 	HEXAGRAM_STRINGS
@@ -42,7 +42,7 @@ feature -- Access
 			create Result.make (Chinese_text.split ('%N'), agent new_chinese_title)
 		end
 
-	English_titles: ARRAYED_LIST [STRING]
+	English_titles: EL_STRING_8_LIST
 		local
 			txt_file: PLAIN_TEXT_FILE; done: BOOLEAN
 		once

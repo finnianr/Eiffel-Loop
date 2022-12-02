@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "23"
+	date: "2022-12-02 10:01:20 GMT (Friday 2nd December 2022)"
+	revision: "24"
 
 class
 	BENCHMARK_COMMAND_SHELL
@@ -41,6 +41,7 @@ feature {NONE} -- Constants
 
 				["CSV parsing methods",									{THREE_LINE_STATE_COMPARISON_METHODS}],
 				["STRING split iteration methods",					{STRING_SPLIT_ITERATION_COMPARISON}],
+				["STRING_8 item vs item_8",							{STRING_ITEM_8_VS_ITEM}],
 
 				["{L1_UC_STRING}.make_general",						{MAKE_GENERAL_COMPARISON}],
 				["{L1_UC_STRING}.unicode",								{UNICODE_ITEM_COMPARISON}],
@@ -52,7 +53,6 @@ feature {NONE} -- Constants
 		end
 
 end
-
 
 
 

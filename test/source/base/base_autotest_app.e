@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 18:29:57 GMT (Thursday 1st December 2022)"
-	revision: "147"
+	date: "2022-12-02 13:42:15 GMT (Friday 2nd December 2022)"
+	revision: "148"
 
 class
 	BASE_AUTOTEST_APP
@@ -28,6 +28,7 @@ inherit
 		HASH_TABLE_TEST_SET,
 		L1_UC_STRING_TEST,
 		PATH_TEST_SET,
+		POWER_2_BASE_NUMERIC_STRING_CONVERSION_TEST_SET,
 
 		REFLECTION_TEST_SET,
 
