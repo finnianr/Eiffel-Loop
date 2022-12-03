@@ -6,10 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:57 GMT (Monday 21st November 2022)"
-	revision: "5"
+	date: "2022-12-03 15:56:18 GMT (Saturday 3rd December 2022)"
+	revision: "6"
 
-class
+deferred class
 	TP_C_LANGUAGE_FACTORY
 
 inherit
@@ -104,6 +104,5 @@ feature {NONE} -- Constants
 	Escape_character: CHARACTER_32 = '\'
 
 end
-
 
 

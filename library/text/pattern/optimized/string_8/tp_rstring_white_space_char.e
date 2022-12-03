@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:58 GMT (Monday 21st November 2022)"
-	revision: "3"
+	date: "2022-12-03 16:44:22 GMT (Saturday 3rd December 2022)"
+	revision: "4"
 
 class
 	TP_RSTRING_WHITE_SPACE_CHAR
@@ -26,4 +26,3 @@ inherit
 		end
 
 end
-

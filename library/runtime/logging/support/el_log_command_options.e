@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2022-12-03 11:23:02 GMT (Saturday 3rd December 2022)"
+	revision: "10"
 
 class
 	EL_LOG_COMMAND_OPTIONS
@@ -22,6 +22,9 @@ create
 	make, make_default
 
 feature -- Access
+
+	log_filters: BOOLEAN
+		-- Display class and routine filtering information for log output
 
 	keep_logs: BOOLEAN
 		-- Do not delete logs
@@ -47,6 +50,8 @@ feature {NONE} -- Constants
 			Activate application logging to console
 		keep_logs:
 			Do not delete log file on program exit
+		log_filters:
+			Display class and routine filtering information for log output
 		thread_toolbar:
 			Activate thread management toolbar in GUI applications
 	]"

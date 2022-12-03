@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2022-12-03 10:25:55 GMT (Saturday 3rd December 2022)"
+	revision: "17"
 
 class
 	EL_CONSOLE_AND_FILE_LOG
@@ -16,8 +16,7 @@ inherit
 	EL_CONSOLE_ONLY_LOG
 		redefine
 			make, enter, enter_no_header, enter_with_args, exit, exit_no_trailer,
-			pause_for_enter_key, put_configuration_info,
-			restore, set_logged_object, current_routine_is_active
+			pause_for_enter_key, restore, set_logged_object, current_routine_is_active
 		end
 
 	EL_MODULE_LOGGING
@@ -127,31 +126,6 @@ feature -- Output
 			pop_call_stack
 		ensure then
 			valid_call_stack: routine_call_stack.count = old routine_call_stack.count - 1
-		end
-
-	put_configuration_info (filter_list: LIST [EL_LOG_FILTER])
-			-- Log logging configuration information
-		local
-			l_out: like current_thread_log_file
-		do
-			l_out := current_thread_log_file
-
-			l_out.put_label ("LOGGED ROUTINES")
-			l_out.set_text_color (Color.Yellow)
-			l_out.put_string_general ("(All threads)")
-			l_out.set_text_color (Color.Default)
-			l_out.put_new_line
-			l_out.tab_right
-
-			across filter_list as list loop
-				list.item.print_to (l_out)
-				if not list.is_last then
-					l_out.put_new_line
-				end
-			end
-			l_out.tab_left; l_out.put_new_line
-
-			l_out.flush
 		end
 
 feature -- Input

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 9:57:18 GMT (Saturday 26th November 2022)"
-	revision: "50"
+	date: "2022-12-03 11:56:11 GMT (Saturday 3rd December 2022)"
+	revision: "51"
 
 deferred class
 	EL_COMMAND_LINE_APPLICATION [C -> EL_APPLICATION_COMMAND]
@@ -21,7 +21,7 @@ deferred class
 inherit
 	EL_APPLICATION
 		redefine
-			read_command_options, options_help
+			read_command_options, options_help, print_help
 		end
 
 	EL_APPLICATION_CONSTANTS
@@ -46,7 +46,6 @@ feature {NONE} -- Initialization
 					list.item.try_put_argument
 				end
 			end
-
 			if not has_error and then attached new_command as cmd then
 				make_command (cmd)
 				cmd.error_check (Current)
@@ -61,25 +60,17 @@ feature -- Access
 			Result := new_command.description
 		end
 
-	options_help: EL_APPLICATION_HELP_LIST
-		local
-			i: INTEGER
-		do
-			Result := Precursor
-			-- Add command line options
-			if attached make_operands as operands then
-				across argument_list as list loop
-					i := list.cursor_index + first_operand_offset
-					Result.extend (list.item.word_option, list.item.help_description, operands [i])
-				end
-			end
-		end
-
 feature -- Basic operations
 
 	run
 		do
 			command.execute
+		end
+
+	print_help
+		do
+			make_command := default_make
+			Precursor
 		end
 
 feature {NONE} -- Argument items
@@ -227,6 +218,22 @@ feature {NONE} -- Implementation
 		do
 			if attached {like command} Eiffel.new_object ({like command}) as cmd then
 				Result := cmd
+			end
+		end
+
+	options_help: EL_APPLICATION_HELP_LIST
+		require else
+			make_command_attached: attached make_command
+		local
+			i: INTEGER
+		do
+			Result := Precursor
+			-- Add command line options
+			if attached make_operands as operands then
+				across argument_list as list loop
+					i := list.cursor_index + first_operand_offset
+					Result.extend (list.item.word_option, list.item.help_description, operands [i])
+				end
 			end
 		end
 

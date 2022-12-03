@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "21"
+	date: "2022-12-03 11:26:12 GMT (Saturday 3rd December 2022)"
+	revision: "22"
 
 deferred class
 	EL_LOGGED_APPLICATION
@@ -19,7 +19,8 @@ inherit
 		undefine
 			new_lio
 		redefine
-			do_application, init_console_and_logging, io_put_header, standard_options
+			do_application, help_requested, init_console_and_logging, io_put_header, print_help,
+			standard_options
 		end
 
 	EL_MODULE_LOG
@@ -30,12 +31,39 @@ inherit
 
 feature -- Status query
 
+	help_requested: BOOLEAN
+		-- `True' if user requested help or other information
+		do
+			Result := App_option.help or Log_option.log_filters
+		end
+
 	is_logging_active: BOOLEAN
 		do
 			Result := Log_option.logging
 		end
 
 	is_logging_initialized: BOOLEAN
+
+feature -- Basic operations
+
+	print_help
+		do
+			if Log_option.log_filters then
+				lio.put_labeled_string ("LOGGED ROUTINES", "(All threads)")
+				lio.put_new_line
+				lio.tab_right
+
+				across Log_filter_list_table.item (Current) as list loop
+					list.item.print_to (lio)
+					if not list.is_last then
+						lio.put_new_line
+					end
+				end
+				lio.tab_left; lio.put_new_line
+			else
+				Precursor
+			end
+		end
 
 feature {NONE} -- Implementation
 
@@ -101,9 +129,8 @@ feature {NONE} -- Implementation
 			log.enter_no_header ("io_put_header")
 			Precursor
 			log.exit_no_trailer
-			log.put_configuration_info (Log_filter_list_table.item (Current))
 			if not Logging.is_active then
-				lio.put_new_line_x2
+				lio.put_new_line
 			end
 		end
 

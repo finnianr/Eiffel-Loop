@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2022-12-03 12:05:00 GMT (Saturday 3rd December 2022)"
+	revision: "21"
 
 deferred class
 	EL_LOGGABLE
@@ -127,37 +127,37 @@ feature -- Output
 		deferred
 		end
 
-	put_configuration_info (log_filters: LIST [EL_LOG_FILTER])
-		deferred
-		end
-
-	put_double (d: DOUBLE)
-			--
-		deferred
-		end
-
-	put_double_field (label: READABLE_STRING_GENERAL; field_value: DOUBLE)
-			--
-		deferred
-		end
-
 	put_elapsed_time
 			-- Log time elapsed since set_timer called
 		deferred
 		end
 
-	put_integer (i: INTEGER)
+	put_new_line
 			--
 		deferred
 		end
 
-	put_integer_field (label: READABLE_STRING_GENERAL; field_value: INTEGER)
+	put_new_line_x2
+		deferred
+		end
+
+	put_path_field (label: READABLE_STRING_GENERAL; a_path: EL_PATH)
+		-- output `a_path' substituting '%S' character for word "file" or "directory"
+		deferred
+		end
+
+	put_spaces (n: INTEGER)
 			--
 		deferred
 		end
 
-	put_integer_interval_field (label: READABLE_STRING_GENERAL; field_value: INTEGER_INTERVAL)
-			--
+feature -- String output
+
+	put_classname (a_name: READABLE_STRING_8)
+		deferred
+		end
+
+	put_keyword (keyword: READABLE_STRING_8)
 		deferred
 		end
 
@@ -180,40 +180,6 @@ feature -- Output
 		deferred
 		end
 
-	put_natural (n: NATURAL)
-			--
-		deferred
-		end
-
-	put_natural_field (label: READABLE_STRING_GENERAL; field_value: NATURAL)
-			--
-		deferred
-		end
-
-	put_new_line
-			--
-		deferred
-		end
-
-	put_new_line_x2
-		deferred
-		end
-
-	put_path_field (label: READABLE_STRING_GENERAL; a_path: EL_PATH)
-		-- output `a_path' substituting '%S' character for word "file" or "directory"
-		deferred
-		end
-
-	put_real (r: REAL)
-			--
-		deferred
-		end
-
-	put_real_field (label: READABLE_STRING_GENERAL; field_value: REAL)
-			--
-		deferred
-		end
-
 	put_string (s: READABLE_STRING_GENERAL)
 			--
 		deferred
@@ -232,6 +198,53 @@ feature -- Output
 	put_substitution (template: READABLE_STRING_GENERAL; inserts: TUPLE)
 			-- Substitute inserts into template at the '%S' markers
 			-- If the tempate has a colon, then apply color highlighting as per `put_labeled_string'
+		deferred
+		end
+
+feature -- Numeric output
+
+	put_double (d: DOUBLE)
+			--
+		deferred
+		end
+
+	put_double_field (label: READABLE_STRING_GENERAL; field_value: DOUBLE)
+			--
+		deferred
+		end
+
+	put_integer (i: INTEGER)
+			--
+		deferred
+		end
+
+	put_integer_field (label: READABLE_STRING_GENERAL; field_value: INTEGER)
+			--
+		deferred
+		end
+
+	put_integer_interval_field (label: READABLE_STRING_GENERAL; field_value: INTEGER_INTERVAL)
+			--
+		deferred
+		end
+
+	put_natural (n: NATURAL)
+			--
+		deferred
+		end
+
+	put_natural_field (label: READABLE_STRING_GENERAL; field_value: NATURAL)
+			--
+		deferred
+		end
+
+	put_real (r: REAL)
+			--
+		deferred
+		end
+
+	put_real_field (label: READABLE_STRING_GENERAL; field_value: REAL)
+			--
 		deferred
 		end
 

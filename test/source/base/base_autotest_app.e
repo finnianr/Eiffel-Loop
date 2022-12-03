@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-02 13:42:15 GMT (Friday 2nd December 2022)"
-	revision: "148"
+	date: "2022-12-03 8:45:10 GMT (Saturday 3rd December 2022)"
+	revision: "149"
 
 class
 	BASE_AUTOTEST_APP
@@ -28,7 +28,7 @@ inherit
 		HASH_TABLE_TEST_SET,
 		L1_UC_STRING_TEST,
 		PATH_TEST_SET,
-		POWER_2_BASE_NUMERIC_STRING_CONVERSION_TEST_SET,
+		BASE_POWER_2_CONVERTER_TEST_SET,
 
 		REFLECTION_TEST_SET,
 
@@ -84,7 +84,7 @@ feature {NONE} -- Compile classes
 
 	compile: TUPLE [
 		EL_ARRAY_READER,
-		EL_BINARY_STRING_CONVERSION,
+		EL_BINARY_CONVERTER,
 
 		EL_DATE_TIME_REPRESENTATION, EL_DATE, EL_DEFAULT_FILE_PROCESSING_COMMAND,
 		EL_DIRECTORY_LIST, EL_DOCUMENT_NODE_STRING,
@@ -95,7 +95,7 @@ feature {NONE} -- Compile classes
 		EL_MUTEX_NUMERIC [INTEGER],
 		EL_MUTEX_VALUE [BOOLEAN],
 
-		EL_OCTAL_STRING_CONVERSION,
+		EL_OCTAL_CONVERTER,
 
 		EL_SHARED_INITIALIZER [EL_INITIALIZEABLE],
 

@@ -1,16 +1,16 @@
 ﻿note
-	description: "Test objects conforming to [$source EL_POWER_2_BASE_NUMERIC_STRING_CONVERSION]"
+	description: "Test objects conforming to [$source BASE_POWER_2_CONVERTER]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-02 14:37:01 GMT (Friday 2nd December 2022)"
-	revision: "1"
+	date: "2022-12-03 8:46:21 GMT (Saturday 3rd December 2022)"
+	revision: "2"
 
 class
-	POWER_2_BASE_NUMERIC_STRING_CONVERSION_TEST_SET
+	BASE_POWER_2_CONVERTER_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
@@ -32,8 +32,7 @@ feature -- Conversion tests
 			testing: "covers/{EL_READABLE_STRING_GENERAL_TO_TYPE}.new_type_description"
 		local
 			type_list: ARRAYED_LIST [STRING_GENERAL]; str: STRING_GENERAL
-			b2: EL_BINARY_STRING_CONVERSION; b8: EL_OCTAL_STRING_CONVERSION
-			b16: EL_HEXADECIMAL_STRING_CONVERSION
+			b2: EL_BINARY_CONVERTER; b8: EL_OCTAL_CONVERTER; b16: EL_HEXADECIMAL_CONVERTER
 			n: INTEGER
 		do
 			create type_list.make_from_array (<<
@@ -72,3 +71,4 @@ feature {NONE} -- Implementation
 			>>)
 		end
 end
+

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 18:27:39 GMT (Thursday 1st December 2022)"
-	revision: "13"
+	date: "2022-12-03 8:42:59 GMT (Saturday 3rd December 2022)"
+	revision: "14"
 
 class
 	CODEC_INFO
@@ -236,7 +236,7 @@ feature {NONE} -- Match actions
 	on_latin_code (start_index, end_index: INTEGER)
 			--
 		local
-			hex: EL_HEXADECIMAL_STRING_CONVERSION
+			hex: EL_HEXADECIMAL_CONVERTER
 		do
 			last_latin_code := hex.to_integer (source_substring (start_index, end_index, False))
 			latin_characters.extend (create {LATIN_CHARACTER}.make (last_latin_code.to_natural_32))
@@ -246,7 +246,7 @@ feature {NONE} -- Match actions
 	on_unicode (start_index, end_index: INTEGER)
 			--
 		local
-			hex: EL_HEXADECIMAL_STRING_CONVERSION
+			hex: EL_HEXADECIMAL_CONVERTER
 			unicode: NATURAL
 		do
 			unicode := hex.to_natural_32 (source_substring (start_index, end_index, False))

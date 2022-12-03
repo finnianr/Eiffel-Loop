@@ -1,16 +1,16 @@
 note
-	description: "Conversion of binary, octal or hexadecimal numeric strings to numbers"
+	description: "Convert binary, octal or hexadecimal strings to [$source NUMERIC] types"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-02 14:39:42 GMT (Friday 2nd December 2022)"
-	revision: "5"
+	date: "2022-12-03 8:39:18 GMT (Saturday 3rd December 2022)"
+	revision: "6"
 
 deferred class
-	EL_POWER_2_BASE_NUMERIC_STRING_CONVERSION
+	EL_BASE_POWER_2_CONVERTER
 
 inherit
 	ANY

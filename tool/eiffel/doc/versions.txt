@@ -1,3 +1,6 @@
+1.9.2
+* New class TP_FACTORY_SELECTOR
+
 1.9.0
 * Upgrade to new text-process redesign
 * Refactor with EL_FILE_GENERAL_LINE_SOURCE

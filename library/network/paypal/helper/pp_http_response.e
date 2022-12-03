@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2022-12-03 13:22:18 GMT (Saturday 3rd December 2022)"
+	revision: "12"
 
 class
 	PP_HTTP_RESPONSE
@@ -55,6 +55,8 @@ feature -- Paypal fields
 	build: NATURAL
 
 	correlation_id: STRING
+
+	email_link: STRING
 
 	http_read_ok: BOOLEAN
 

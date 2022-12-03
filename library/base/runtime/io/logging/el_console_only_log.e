@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "21"
+	date: "2022-12-03 12:03:35 GMT (Saturday 3rd December 2022)"
+	revision: "22"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -126,36 +126,10 @@ feature -- Output
 			log_sink.put_character (c)
 		end
 
-	put_configuration_info (log_filters: LIST [EL_LOG_FILTER])
-		do
-		end
-
 	put_elapsed_time
 			-- Log time elapsed since set_timer called
 		do
 			log_sink.put_elapsed_time
-		end
-
-	put_labeled_lines (label: READABLE_STRING_GENERAL; lines: ITERABLE [READABLE_STRING_GENERAL])
-		do
-			log_sink.put_labeled_lines (label, lines)
-		end
-
-	put_labeled_string (label, str: READABLE_STRING_GENERAL)
-			--
-		do
-			log_sink.put_labeled_string (label, str)
-		end
-
-	put_labeled_substitution (label, template: READABLE_STRING_GENERAL; inserts: TUPLE)
-		do
-			log_sink.put_labeled_substitution (label, template, inserts)
-		end
-
-	put_line (l: READABLE_STRING_GENERAL)
-			-- put string with new line
-		do
-			log_sink.put_line (l)
 		end
 
 	put_new_line
@@ -189,6 +163,46 @@ feature -- Output
 			else
 				log_sink.put_string_field (label, a_path)
 			end
+		end
+
+	put_spaces (n: INTEGER)
+			--
+		do
+			log_sink.put_spaces (n)
+		end
+
+feature -- String output
+
+	put_classname (a_name: READABLE_STRING_8)
+		do
+			log_sink.put_classname (a_name)
+		end
+
+	put_keyword (keyword: READABLE_STRING_8)
+		do
+			log_sink.put_keyword (keyword)
+		end
+
+	put_labeled_lines (label: READABLE_STRING_GENERAL; lines: ITERABLE [READABLE_STRING_GENERAL])
+		do
+			log_sink.put_labeled_lines (label, lines)
+		end
+
+	put_labeled_string (label, str: READABLE_STRING_GENERAL)
+			--
+		do
+			log_sink.put_labeled_string (label, str)
+		end
+
+	put_labeled_substitution (label, template: READABLE_STRING_GENERAL; inserts: TUPLE)
+		do
+			log_sink.put_labeled_substitution (label, template, inserts)
+		end
+
+	put_line (l: READABLE_STRING_GENERAL)
+			-- put string with new line
+		do
+			log_sink.put_line (l)
 		end
 
 	put_string (s: READABLE_STRING_GENERAL)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2022-12-03 11:21:15 GMT (Saturday 3rd December 2022)"
+	revision: "18"
 
 class
 	EL_LOG_FILTER
@@ -53,43 +53,42 @@ feature -- Access
 
 feature -- Basic operations
 
-	print_to (output: EL_CONSOLE_LOG_OUTPUT)
+	print_to (log: EL_LOGGABLE)
 		local
 			name: STRING; index: INTEGER
 		do
 			if class_type.type_id /= - 1 then
-				output.put_new_line
-				output.put_keyword ("class ")
-				output.put_classname (class_type.name)
-				output.put_character (':')
+				log.put_new_line
+				log.put_keyword ("class ")
+				log.put_classname (class_type.name)
+				log.put_character (':')
 
-				output.tab_right; output.put_new_line
+				log.tab_right; log.put_new_line
 				inspect type
 					when Show_all then
-						output.put_string ("(All routines)")
+						log.put_string ("(All routines)")
 
 					when Show_none then
-						output.put_string ("(None)")
+						log.put_string ("(None)")
 				else
 					across routine_set as set loop
 						name := set.item
 						if name.count > 0 and then name [1] = '-' then
-							output.put_string (name.substring (2, name.count))
-							output.put_string (" (Disabled)")
+							log.put_string (name.substring (2, name.count))
+							log.put_string (" (Disabled)")
 						else
-							output.put_string (name)
+							log.put_string (name)
 						end
 						index := index + 1
 						if index < routine_set.count then
-							output.put_new_line
+							log.put_new_line
 						end
 					end
 				end
-				output.tab_left
+				log.tab_left
 			else
-				output.put_label ("No such class")
-				output.put_classname (class_type.name)
-				output.put_new_line
+				log.put_labeled_string ("No such class", class_type.name)
+				log.put_new_line
 			end
 		end
 

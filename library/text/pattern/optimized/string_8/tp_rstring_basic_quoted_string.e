@@ -8,20 +8,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:57 GMT (Monday 21st November 2022)"
-	revision: "3"
+	date: "2022-12-03 16:26:39 GMT (Saturday 3rd December 2022)"
+	revision: "4"
 
 class
 	TP_RSTRING_BASIC_QUOTED_STRING
 
 inherit
 	TP_BASIC_QUOTED_STRING
+		undefine
+			core
 		redefine
 			unescaped_code
 		end
 
 	TP_OPTIMIZED_FOR_READABLE_STRING_8
-	
+
 create
 	make
 
@@ -35,4 +37,3 @@ feature {NONE} -- Implementation
 		end
 
 end
-

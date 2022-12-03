@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 18:21:24 GMT (Thursday 1st December 2022)"
-	revision: "25"
+	date: "2022-12-03 8:42:59 GMT (Saturday 3rd December 2022)"
+	revision: "26"
 
 class
 	STRING_TEST_SET
@@ -145,7 +145,7 @@ feature -- Basic operations
 
 	hexadecimal_to_natural_64
 		local
-			hex: EL_HEXADECIMAL_STRING_CONVERSION
+			hex: EL_HEXADECIMAL_CONVERTER
 		do
 			lio.put_string (hex.to_natural_64 ("0x00000A987").out)
 			lio.put_new_line

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:25:00 GMT (Monday 21st November 2022)"
-	revision: "3"
+	date: "2022-12-03 16:45:31 GMT (Saturday 3rd December 2022)"
+	revision: "4"
 
 deferred class
 	TP_QUOTED_STRING
@@ -181,6 +181,11 @@ feature {NONE} -- Implementation
 			Result := Reuseable.string_32
 		end
 
+	core: TP_OPTIMIZED_FACTORY
+		do
+			Result := Factory_general
+		end
+
 	default_unescaped_string: STRING_GENERAL
 		do
 			Result := Empty_string_32
@@ -226,5 +231,4 @@ feature {NONE} -- Constants
 			Result := "quoted %S string (%S)"
 		end
 end
-
 

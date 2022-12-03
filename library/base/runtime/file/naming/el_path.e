@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "63"
+	date: "2022-12-02 15:00:15 GMT (Friday 2nd December 2022)"
+	revision: "64"
 
 deferred class
 	EL_PATH
@@ -469,11 +469,14 @@ feature -- Comparison
 
 	is_less alias "<" (other: like Current): BOOLEAN
 			-- Is current object less than `other'?
+		local
+			other_parent: like parent_path
 		do
-			if parent_path ~ other.parent_path then
+			other_parent := other.parent_path
+			if parent_path ~ other_parent then
 				Result := base < other.base
 			else
-				Result := parent_path < other.parent_path
+				Result := parent_path < other_parent
 			end
 		end
 

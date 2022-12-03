@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 18:15:59 GMT (Thursday 1st December 2022)"
-	revision: "7"
+	date: "2022-12-03 8:43:00 GMT (Saturday 3rd December 2022)"
+	revision: "8"
 
 deferred class
 	XML_ESCAPE_ROUTINES
@@ -19,7 +19,7 @@ feature {NONE} -- Implementation
 
 	hexadecimal_digit_count (code: NATURAL): INTEGER
 		local
-			hex: EL_HEXADECIMAL_STRING_CONVERSION
+			hex: EL_HEXADECIMAL_CONVERTER
 		do
 			Result := hex.natural_digit_count (code)
 		end
@@ -29,7 +29,7 @@ feature {NONE} -- Implementation
 			valid_code: code > 128
 		local
 			digit_count, i: INTEGER; n, digit: NATURAL
-			hex: EL_HEXADECIMAL_STRING_CONVERSION
+			hex: EL_HEXADECIMAL_CONVERTER
 		do
 			Result := buffer_8.empty
 			Result.append (once "&#x")

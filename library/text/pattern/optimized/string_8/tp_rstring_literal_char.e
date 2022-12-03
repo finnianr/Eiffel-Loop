@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:58 GMT (Monday 21st November 2022)"
-	revision: "3"
+	date: "2022-12-03 16:44:49 GMT (Saturday 3rd December 2022)"
+	revision: "4"
 
 class
 	TP_RSTRING_LITERAL_CHAR
@@ -46,4 +46,3 @@ feature -- Access
 	item_8: CHARACTER_8
 
 end
-

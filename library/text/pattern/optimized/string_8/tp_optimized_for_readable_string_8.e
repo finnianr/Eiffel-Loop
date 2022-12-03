@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:57 GMT (Monday 21st November 2022)"
-	revision: "3"
+	date: "2022-12-03 16:25:36 GMT (Saturday 3rd December 2022)"
+	revision: "4"
 
 deferred class
 	TP_OPTIMIZED_FOR_READABLE_STRING_8
@@ -20,6 +20,11 @@ inherit
 	EL_STRING_8_CONSTANTS
 
 feature {NONE} -- Implementation
+
+	core: TP_OPTIMIZED_FACTORY
+		do
+			Result := Factory_readable_string_8
+		end
 
 	i_th_is_single_quote (i: INTEGER; text: READABLE_STRING_8): BOOLEAN
 			-- `True' if i'th character exhibits property

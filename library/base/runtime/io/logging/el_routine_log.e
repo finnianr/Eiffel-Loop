@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "22"
+	date: "2022-12-03 12:05:11 GMT (Saturday 3rd December 2022)"
+	revision: "23"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -34,12 +34,10 @@ feature -- Element change
 
 	restore (previous_stack_count: INTEGER)
 			-- Return tab count to original level before an exception
-		local
-			l_out: like output
 		do
-			l_out := output
-
-			l_out.restore (previous_stack_count + 1)
+			if attached output as op then
+				op.restore (previous_stack_count + 1)
+			end
 		end
 
 feature -- Basic operations
@@ -121,24 +119,20 @@ feature -- Output
 
 	put_boolean (b: BOOLEAN)
 			--
-		local
-			l_out: like output
 		do
-			l_out := output
-
-			l_out.put_boolean (b)
-			l_out.flush
+			if attached output as op then
+				op.put_boolean (b)
+				op.flush
+			end
 		end
 
 	put_character (c: CHARACTER)
 			--
-		local
-			l_out: like output
 		do
-			l_out := output
-
-			l_out.put_character (c)
-			l_out.flush
+			if attached output as op then
+				op.put_character (c)
+				op.flush
+			end
 		end
 
 	put_configuration_info (log_filters: ARRAYED_LIST [EL_LOG_FILTER])
@@ -153,40 +147,96 @@ feature -- Output
 			put_new_line
 		end
 
+	put_new_line
+			--
+		do
+			if attached output as op then
+				op.put_new_line
+				op.flush
+			end
+		end
+
+	put_new_line_x2
+		do
+			if attached output as op then
+				op.put_new_line; op.put_new_line
+				op.flush
+			end
+		end
+
+	put_path_field (label: READABLE_STRING_GENERAL; a_path: EL_PATH)
+			--
+		do
+			if attached output as op then
+				op.put_label (label)
+				op.put_path (a_path)
+				op.flush
+			end
+		end
+
+	put_spaces (n: INTEGER)
+			--
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			if attached output as op then
+				op.put_string (s.n_character_string (' ', n))
+				op.flush
+			end
+		end
+
+feature -- String output
+
+	put_classname (a_name: READABLE_STRING_8)
+		do
+			if attached output as op then
+				op.put_classname (a_name)
+				op.flush
+			end
+		end
+
+	put_keyword (keyword: READABLE_STRING_8)
+		do
+			if attached output as op then
+				op.put_keyword (keyword)
+				op.flush
+			end
+		end
+
 	put_labeled_lines (label: READABLE_STRING_GENERAL; line_list: ITERABLE [READABLE_STRING_GENERAL])
 		local
-			l_out: like output; not_first: BOOLEAN
+			not_first: BOOLEAN
 		do
-			l_out := output
-			l_out.put_label (label)
-			l_out.tab_right
-			l_out.put_new_line
-			l_out.set_text_color (Color.Yellow)
-			across line_list as list loop
-				if not_first then
-					l_out.put_new_line
-				else
-					not_first := True
+			if attached output as op then
+				op.put_label (label)
+				op.tab_right
+				op.put_new_line
+				op.set_text_color (Color.Yellow)
+				across line_list as list loop
+					if not_first then
+						op.put_new_line
+					else
+						not_first := True
+					end
+					op.put_string_general (list.item)
 				end
-				l_out.put_string_general (list.item)
+				op.tab_left
+				op.put_new_line
+				op.set_text_color (Color.Default)
+				op.flush
 			end
-			l_out.tab_left
-			l_out.put_new_line
-			l_out.set_text_color (Color.Default)
-			l_out.flush
 		end
 
 	put_labeled_string (label, str: READABLE_STRING_GENERAL)
 			--
-		local
-			l_out: like output
 		do
-			l_out := output
-			l_out.put_label (label)
-			l_out.set_text_color (Color.Yellow)
-			l_out.put_string_general (str)
-			l_out.set_text_color (Color.Default)
-			l_out.flush
+			if attached output as op then
+				op.put_label (label)
+				op.set_text_color (Color.Yellow)
+				op.put_string_general (str)
+				op.set_text_color (Color.Default)
+				op.flush
+			end
 		end
 
 	put_labeled_substitution (label, template: READABLE_STRING_GENERAL; inserts: TUPLE)
@@ -196,67 +246,31 @@ feature -- Output
 
 	put_line (l: READABLE_STRING_GENERAL)
 			-- Put string with new line
-		local
-			l_out: like output
 		do
-			l_out := output
-
-			l_out.put_string_general (l)
-			l_out.put_new_line
-			l_out.flush
-		end
-
-	put_new_line
-			--
-		local
-			l_out: like output
-		do
-			l_out := output
-
-			l_out.put_new_line
-			l_out.flush
-		end
-
-	put_new_line_x2
-		local
-			l_out: like output
-		do
-			l_out := output
-
-			l_out.put_new_line; l_out.put_new_line
-			l_out.flush
-		end
-
-	put_path_field (label: READABLE_STRING_GENERAL; a_path: EL_PATH)
-			--
-		local
-			l_out: like output
-		do
-			l_out := output
-			l_out.put_label (label)
-			l_out.put_path (a_path)
-			l_out.flush
+			if attached output as op then
+				op.put_string_general (l)
+				op.put_new_line
+				op.flush
+			end
 		end
 
 	put_string (s: READABLE_STRING_GENERAL)
 			--
-		local
-			l_out: like output
 		do
-			l_out := output
-			l_out.put_string_general (s)
-			l_out.flush
+			if attached output as op then
+				op.put_string_general (s)
+				op.flush
+			end
 		end
 
 	put_string_field (label, field_value: READABLE_STRING_GENERAL)
 			--
-		local
-			l_out: like output
 		do
-			l_out := output
-			l_out.put_label (label)
-			l_out.put_quoted_string (field_value, Double_quote)
-			l_out.flush
+			if attached output as op then
+				op.put_label (label)
+				op.put_quoted_string (field_value, Double_quote)
+				op.flush
+			end
 		end
 
 	put_string_field_to_max_length (
@@ -264,46 +278,47 @@ feature -- Output
 	)
 			-- Put string to log file buffer edited to fit into max_length
 		local
-			l_out: like output; count_trailing_characters: INTEGER
 			l_field_value: ZSTRING; l_lines: EL_ZSTRING_LIST; l_lines_2: LIST [ZSTRING]
+			count_trailing_characters: INTEGER
 		do
-			l_out := output
-			create l_field_value.make_from_general (field_value)
-			create l_lines.make (l_field_value.occurrences ('%N') + 2)
+			if attached output as op then
+				create l_field_value.make_from_general (field_value)
+				create l_lines.make (l_field_value.occurrences ('%N') + 2)
 
-			count_trailing_characters := 30
-			count_trailing_characters := count_trailing_characters.min (max_length // 3)
+				count_trailing_characters := 30
+				count_trailing_characters := count_trailing_characters.min (max_length // 3)
 
-			l_out.put_label (label)
+				op.put_label (label)
 
-			l_out.set_text_color (Color.Yellow)
-			l_out.put_string (once "%"[")
-			l_out.set_text_color (Color.Default)
+				op.set_text_color (Color.Yellow)
+				op.put_string (once "%"[")
+				op.set_text_color (Color.Default)
 
-			l_out.tab_right
-			l_out.put_new_line
+				op.tab_right
+				op.put_new_line
 
-			if l_field_value.count > max_length then
-				l_lines.append (l_field_value.substring (1, max_length - count_trailing_characters).split_list ('%N'))
-				l_lines.last.append_string (Ellipsis_dots)
+				if l_field_value.count > max_length then
+					l_lines.append (l_field_value.substring (1, max_length - count_trailing_characters).split_list ('%N'))
+					l_lines.last.append_string (Ellipsis_dots)
 
-				l_lines_2 := l_field_value.substring_end (l_field_value.count - count_trailing_characters + 1).lines
+					l_lines_2 := l_field_value.substring_end (l_field_value.count - count_trailing_characters + 1).lines
 
-				l_lines_2.first.prepend_string (Ellipsis_dots)
-				l_lines.append (l_lines_2)
+					l_lines_2.first.prepend_string (Ellipsis_dots)
+					l_lines.append (l_lines_2)
 
-			else
-				l_lines.append (l_field_value.lines)
+				else
+					l_lines.append (l_field_value.lines)
+				end
+				op.put_lines (l_lines)
+				op.tab_left
+				op.put_new_line
+
+				op.set_text_color (Color.Yellow)
+				op.put_string (once "]%"")
+				op.set_text_color (Color.Default)
+
+				op.flush
 			end
-			l_out.put_lines (l_lines)
-			l_out.tab_left
-			l_out.put_new_line
-
-			l_out.set_text_color (Color.Yellow)
-			l_out.put_string (once "]%"")
-			l_out.set_text_color (Color.Default)
-
-			l_out.flush
 		end
 
 	put_substitution (template: READABLE_STRING_GENERAL; inserts: TUPLE)
@@ -315,113 +330,97 @@ feature -- Numeric output
 
 	put_double (d: DOUBLE)
 			--
-		local
-			l_out: like output
 		do
-			l_out := output
-
-			l_out.put_double (d)
-			l_out.flush
+			if attached output as op then
+				op.put_double (d)
+				op.flush
+			end
 		end
 
 	put_double_field (label: READABLE_STRING_GENERAL; field_value: DOUBLE)
 			--
-		local
-			l_out: like output
 		do
-			l_out := output
+			if attached output as op then
+				op.put_label (label)
+				op.put_double (field_value)
 
-			l_out.put_label (label)
-			l_out.put_double (field_value)
-
-			l_out.flush
+				op.flush
+			end
 		end
 
 	put_integer (an_integer: INTEGER)
 			--
-		local
-			l_out: like output
 		do
-			l_out := output
-
-			l_out.put_integer (an_integer)
-			l_out.flush
+			if attached output as op then
+				op.put_integer (an_integer)
+				op.flush
+			end
 		end
 
 	put_integer_field (label: READABLE_STRING_GENERAL; field_value: INTEGER)
 			--
-		local
-			l_out: like output
 		do
-			l_out := output
+			if attached output as op then
+				op.put_label (label)
+				op.put_integer (field_value)
 
-			l_out.put_label (label)
-			l_out.put_integer (field_value)
-
-			l_out.flush
+				op.flush
+			end
 		end
 
 	put_integer_interval_field (label: READABLE_STRING_GENERAL; field_value: INTEGER_INTERVAL)
 			--
-		local
-			l_out: like output
 		do
-			l_out := output
+			if attached output as op then
+				op.put_label (label)
+				op.put_string (once "[")
+				op.put_integer (field_value.lower)
+				op.put_string (once ", ")
+				op.put_integer (field_value.upper)
+				op.put_string (once "]")
 
-			l_out.put_label (label)
-			l_out.put_string (once "[")
-			l_out.put_integer (field_value.lower)
-			l_out.put_string (once ", ")
-			l_out.put_integer (field_value.upper)
-			l_out.put_string (once "]")
-
-			l_out.flush
+				op.flush
+			end
 		end
 
 	put_natural (n: NATURAL)
 			--
-		local
-			l_out: like output
 		do
-			l_out := output
-			l_out.put_natural (n)
-			l_out.flush
+			if attached output as op then
+				op.put_natural (n)
+				op.flush
+			end
 		end
 
 	put_natural_field (label: READABLE_STRING_GENERAL; field_value: NATURAL)
 			--
-		local
-			l_out: like output
 		do
-			l_out := output
+			if attached output as op then
+				op.put_label (label)
+				op.put_natural (field_value)
 
-			l_out.put_label (label)
-			l_out.put_natural (field_value)
-
-			l_out.flush
+				op.flush
+			end
 		end
 
 	put_real (r: REAL)
 			--
-		local
-			l_out: like output
 		do
-			l_out := output
-			l_out.put_real (r)
-			l_out.flush
+			if attached output as op then
+				op.put_real (r)
+				op.flush
+			end
 		end
 
 	put_real_field (label: READABLE_STRING_GENERAL; field_value: REAL)
 			--
-		local
-			l_out: like output
 		do
-			l_out := output
+			if attached output as op then
+				op.put_label (label)
+				op.put_real (field_value)
 
-			l_out.put_label (label)
-			l_out.put_real (field_value)
-
-			l_out.flush
+				op.flush
+			end
 		end
 
 feature {NONE} -- Implementation

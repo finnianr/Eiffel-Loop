@@ -14,8 +14,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 18:21:56 GMT (Thursday 1st December 2022)"
-	revision: "13"
+	date: "2022-12-03 8:43:00 GMT (Saturday 3rd December 2022)"
+	revision: "14"
 
 class
 	EL_SUBJECT_LINE_DECODER
@@ -87,7 +87,7 @@ feature {NONE} -- Implementation
 
 	unescaped (str: ZSTRING): STRING
 		local
-			hex: EL_HEXADECIMAL_STRING_CONVERSION
+			hex: EL_HEXADECIMAL_CONVERTER
 		do
 			create Result.make_empty
 			from until str.is_empty loop

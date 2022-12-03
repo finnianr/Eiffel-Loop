@@ -1,24 +1,28 @@
 note
-	description: "Sub-application help list"
+	description: "Sub-application help list sortable by **option_name**"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2022-12-03 12:15:05 GMT (Saturday 3rd December 2022)"
+	revision: "12"
 
 class
 	EL_APPLICATION_HELP_LIST
 
 inherit
-	ARRAYED_LIST [TUPLE [name, description: READABLE_STRING_GENERAL; default_value: ANY]]
+	EL_KEY_SORTABLE_ARRAYED_MAP_LIST [
+		READABLE_STRING_GENERAL, TUPLE [description: READABLE_STRING_GENERAL; default_value: ANY]
+	]
 		rename
-			extend as extend_tuple
+			extend as extend_pair
 		end
 
 	EL_MODULE_LIO
+
+	EL_ZSTRING_CONSTANTS
 
 create
 	make
@@ -27,33 +31,30 @@ feature -- Basic operations
 
 	print_to_lio
 		local
-			default_value: ZSTRING
+			option: ZSTRING; line_list: LIST [READABLE_STRING_GENERAL]
 		do
 			lio.put_line ("COMMAND LINE OPTIONS:")
 			lio.put_new_line
 
+			sort (True)
+
 			from start until after loop
-				lio.put_line (indent (4) + "-" + item.name + ":")
-				across item.description.split ('%N') as line loop
-					lio.put_line (indent (8) + line.item)
-				end
-				if attached {READABLE_STRING_GENERAL} item.default_value as str then
-					create default_value.make_from_general (str)
-				elseif attached {EL_PATH} item.default_value as path then
-					default_value := path.to_string
-				elseif attached {CHAIN [ANY]} item.default_value as chain then
-					create default_value.make_empty
-				elseif attached {BOOLEAN_REF} item.default_value as bool then
-					if bool.item then
-						default_value := "enabled"
-					else
-						default_value := "disabled"
-					end
+				option := "-" + item_key
+				line_list := item_value.description.split ('%N')
+				lio.put_spaces (4)
+				if line_list.count = 1 and then line_list.first.count <= 70 then
+					lio.put_labeled_string (option, line_list.first)
+					line_list.wipe_out
 				else
-					default_value := item.default_value.out
+					lio.put_labeled_string (option, Empty_string)
 				end
-				if not default_value.is_empty then
-					lio.put_line (indent (8) + "Default: " + default_value)
+				lio.put_new_line
+				across line_list as line loop
+					lio.put_spaces (5); lio.put_line (line.item)
+				end
+				if attached default_value_string (item_value.default_value) as str and then str.count > 0 then
+					lio.put_spaces (5); lio.put_labeled_string ("Default", str)
+					lio.put_new_line
 				end
 				lio.put_new_line
 				forth
@@ -64,16 +65,28 @@ feature -- Element change
 
 	extend (name, description: READABLE_STRING_GENERAL; default_value: ANY)
 		do
-			extend_tuple ([name, description, default_value])
+			extend_pair (name, [description, default_value])
 		end
 
 feature {NONE} -- Implementation
 
-	indent (n: INTEGER): ZSTRING
-		local
-			s: EL_ZSTRING_ROUTINES
+	default_value_string (value: ANY): ZSTRING
 		do
-			Result := s.n_character_string (' ', n)
+			if attached {READABLE_STRING_GENERAL} value as str then
+				create Result.make_from_general (str)
+			elseif attached {EL_PATH} value as path then
+				Result := path.to_string
+			elseif attached {CHAIN [ANY]} value as chain then
+				create Result.make_empty
+			elseif attached {BOOLEAN_REF} value as bool then
+				if bool.item then
+					Result := "enabled"
+				else
+					Result := "disabled"
+				end
+			else
+				Result := value.out
+			end
 		end
 
 end

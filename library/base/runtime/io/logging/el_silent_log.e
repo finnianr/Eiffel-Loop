@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2022-12-03 12:03:44 GMT (Saturday 3rd December 2022)"
+	revision: "16"
 
 class
 	EL_SILENT_LOG
@@ -126,6 +126,35 @@ feature -- Output
 		do
 		end
 
+	put_new_line
+			--
+		do
+		end
+
+	put_new_line_x2
+		do
+		end
+
+	put_path_field (label: READABLE_STRING_GENERAL; a_path: EL_PATH)
+			--
+		do
+		end
+
+	put_spaces (n: INTEGER)
+			--
+		do
+		end
+
+feature -- String output
+
+	put_classname (a_name: READABLE_STRING_8)
+		do
+		end
+
+	put_keyword (keyword: READABLE_STRING_8)
+		do
+		end
+
 	put_labeled_lines (label: READABLE_STRING_GENERAL; lines: ITERABLE [READABLE_STRING_GENERAL])
 		do
 		end
@@ -141,20 +170,6 @@ feature -- Output
 
 	put_line (l: READABLE_STRING_GENERAL)
 			-- put string with new line
-		do
-		end
-
-	put_new_line
-			--
-		do
-		end
-
-	put_new_line_x2
-		do
-		end
-
-	put_path_field (label: READABLE_STRING_GENERAL; a_path: EL_PATH)
-			--
 		do
 		end
 

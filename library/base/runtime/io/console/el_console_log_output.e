@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "26"
+	date: "2022-12-03 10:32:44 GMT (Saturday 3rd December 2022)"
+	revision: "27"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -93,16 +93,14 @@ feature -- Output
 			extended_buffer_last.append_character (c)
 		end
 
-	put_classname (a_name: IMMUTABLE_STRING_8)
+	put_classname (a_name: READABLE_STRING_8)
 		do
 			set_text_color_light (Color.Blue)
 			buffer.extend (a_name)
 			set_text_color (Color.Default)
 		end
 
-	put_keyword (keyword: STRING)
-		require
-			not_augmented_latin_string: not attached {ZSTRING} keyword
+	put_keyword (keyword: READABLE_STRING_8)
 		do
 			set_text_color_light (Color.Red)
 			buffer.extend (keyword)

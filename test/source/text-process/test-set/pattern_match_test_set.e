@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-27 16:49:35 GMT (Sunday 27th November 2022)"
-	revision: "21"
+	date: "2022-12-03 16:34:10 GMT (Saturday 3rd December 2022)"
+	revision: "22"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -25,6 +25,8 @@ inherit
 		undefine
 			default_create
 		end
+
+	TP_FACTORY_SELECTOR
 
 	EL_MODULE_LIO; EL_MODULE_XML
 
@@ -397,7 +399,7 @@ feature -- Test
 						output_2.append_character (uc.item)
 					end
 				end
-
+				set_optimal_core (line)
 				matcher.set_pattern (agent repeated_character_in_set (character_set, line, output))
 				matcher.set_source_text (line)
 				matcher.find_all (Void)

@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 18:11:04 GMT (Thursday 1st December 2022)"
-	revision: "10"
+	date: "2022-12-03 8:43:00 GMT (Saturday 3rd December 2022)"
+	revision: "11"
 
 class
 	EL_NETWORK_DEVICE_IMP
@@ -155,7 +155,7 @@ feature {NONE} -- Factory
 
 	new_hardware_address (string: STRING): ARRAY [NATURAL_8]
 		local
-			byte_list: EL_STRING_8_LIST; hex: EL_HEXADECIMAL_STRING_CONVERSION
+			byte_list: EL_STRING_8_LIST; hex: EL_HEXADECIMAL_CONVERTER
 		do
 			create byte_list.make_split (string, ':')
 			create Result.make_filled (0, 1, byte_list.count)

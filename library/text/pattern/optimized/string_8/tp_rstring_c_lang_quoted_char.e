@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:57 GMT (Monday 21st November 2022)"
-	revision: "4"
+	date: "2022-12-03 16:26:02 GMT (Saturday 3rd December 2022)"
+	revision: "5"
 
 class
 	TP_RSTRING_C_LANG_QUOTED_CHAR
@@ -18,7 +18,7 @@ class
 inherit
 	TP_QUOTED_CHAR
 		undefine
-			i_th_is_single_quote
+			core, i_th_is_single_quote
 		end
 
 	TP_OPTIMIZED_FOR_READABLE_STRING_8
@@ -42,5 +42,4 @@ feature {NONE} -- Implementation
 		end
 
 end
-
 

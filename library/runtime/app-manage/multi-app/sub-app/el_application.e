@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 9:50:55 GMT (Saturday 26th November 2022)"
-	revision: "63"
+	date: "2022-12-03 12:06:57 GMT (Saturday 3rd December 2022)"
+	revision: "64"
 
 deferred class
 	EL_APPLICATION
@@ -59,7 +59,15 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 			if not (App_option.no_app_header or Base_option.silent) then
 				io_put_header
 			end
-			do_application
+			if help_requested then
+				print_help
+
+			elseif not is_valid_platform then
+				print_platform_help (0)
+
+			else
+				do_application
+			end
 		end
 
 	make_default
@@ -129,12 +137,39 @@ feature -- Basic operations
 		deferred
 		end
 
+	print_help
+		do
+			options_help.print_to_lio
+			if not is_valid_platform then
+				lio.put_line ("WARNING")
+				lio.put_spaces (4)
+				print_platform_help (4)
+			end
+		end
+
+	print_platform_help (indent_count: INTEGER)
+		local
+			s: EL_ZSTRING_ROUTINES
+		do
+			lio.put_labeled_substitution (
+				s.character_string ('-') + option_name,
+				"this option is not designed for use on %S", [ OS_release.description]
+			)
+			lio.put_new_line
+		end
+
 feature -- Status query
 
 	ask_user_to_quit: BOOLEAN
 			--
 		do
 			Result := App_option.ask_user_to_quit
+		end
+
+	help_requested: BOOLEAN
+		-- `True' if user requested help or other information
+		do
+			Result := App_option.help
 		end
 
 	is_same_option (name: ZSTRING): BOOLEAN
@@ -210,16 +245,7 @@ feature {NONE} -- Implementation
 					internal_timer := l_timer
 				end
 				read_command_options
-				if not is_valid_platform then
-					lio.put_labeled_string ("Application option", option_name)
-					lio.put_new_line
-					lio.put_labeled_string ("This option is not designed to run on", OS_release.description)
-					lio.put_new_line
-
-				elseif App_option.help then
-					options_help.print_to_lio
-
-				elseif has_error then
+				if has_error then
 					print_errors
 				else
 					call (new_configuration)

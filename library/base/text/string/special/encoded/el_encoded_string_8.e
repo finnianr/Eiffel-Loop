@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 18:28:02 GMT (Thursday 1st December 2022)"
-	revision: "19"
+	date: "2022-12-03 8:43:00 GMT (Saturday 3rd December 2022)"
+	revision: "20"
 
 deferred class
 	EL_ENCODED_STRING_8
@@ -228,7 +228,7 @@ feature {NONE} -- Implementation
 
 	sequence_code (a_area: like area; offset: INTEGER): NATURAL
 		local
-			hi_c, low_c: INTEGER_64; hex: EL_HEXADECIMAL_STRING_CONVERSION
+			hi_c, low_c: INTEGER_64; hex: EL_HEXADECIMAL_CONVERTER
 		do
 			hi_c := hex.to_decimal (a_area [offset]) |<< 4
 			low_c := hex.to_decimal (a_area [offset + 1])

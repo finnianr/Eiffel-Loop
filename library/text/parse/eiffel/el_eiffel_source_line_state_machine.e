@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:55 GMT (Monday 21st November 2022)"
-	revision: "15"
+	date: "2022-12-03 16:53:08 GMT (Saturday 3rd December 2022)"
+	revision: "16"
 
 class
 	EL_EIFFEL_SOURCE_LINE_STATE_MACHINE
@@ -23,6 +23,11 @@ inherit
 			comment_prefix as pattern_comment_prefix
 		end
 
+	TP_FACTORY_SELECTOR
+		rename
+			make_default as make_selector
+		end
+
 	STRING_HANDLER
 
 feature {NONE} -- Initialization
@@ -31,6 +36,7 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			create code_line.make_empty
+			set_optimal_core (code_line)
 		end
 
 feature {NONE} -- Implementation

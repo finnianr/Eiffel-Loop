@@ -1,19 +1,19 @@
 note
-	description: "Conversion of hexadecimal numeric strings to numbers"
+	description: "Convert hexadecimal numeric strings to [$source NUMERIC] types"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-02 14:22:59 GMT (Friday 2nd December 2022)"
-	revision: "7"
+	date: "2022-12-03 8:43:00 GMT (Saturday 3rd December 2022)"
+	revision: "8"
 
 expanded class
-	EL_HEXADECIMAL_STRING_CONVERSION
+	EL_HEXADECIMAL_CONVERTER
 
 inherit
-	EL_POWER_2_BASE_NUMERIC_STRING_CONVERSION
+	EL_BASE_POWER_2_CONVERTER
 
 feature -- Access
 

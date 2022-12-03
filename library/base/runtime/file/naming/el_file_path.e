@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-02 9:07:43 GMT (Friday 2nd December 2022)"
-	revision: "30"
+	date: "2022-12-02 14:50:48 GMT (Friday 2nd December 2022)"
+	revision: "31"
 
 class
 	EL_FILE_PATH
@@ -44,11 +44,11 @@ feature -- Access
 			Result := File.modification_time (Current)
 		end
 
-	relative_dot_path (other: EL_FILE_PATH): EL_FILE_PATH
+	relative_dot_path (other: FILE_PATH): FILE_PATH
 		-- relative path using dots do navigate from  `other.parent' to `base'
 		-- Eg. ../../<base> OR ../bbb/<base> OR <base>
 		local
-			dot_dir, super_dir: EL_DIR_PATH
+			dot_dir, super_dir: DIR_PATH
 		do
 			if parent ~ other.parent then
 				Result := base
@@ -65,7 +65,7 @@ feature -- Access
 			end
 		end
 
-	relative_path (a_parent: EL_DIR_PATH): EL_FILE_PATH
+	relative_path (a_parent: DIR_PATH): FILE_PATH
 		do
 			create Result.make (relative_temporary_path (a_parent))
 		end

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-19 9:29:15 GMT (Saturday 19th November 2022)"
-	revision: "46"
+	date: "2022-12-03 13:05:35 GMT (Saturday 3rd December 2022)"
+	revision: "47"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -228,6 +228,9 @@ feature -- Removal
 		do
 			if n <= count then
 				area.remove_tail (n)
+			end
+			if index > count + 1 then
+				index := count + 1
 			end
 		ensure
 			items_removed: to_array ~ old to_array.subarray (1, count - n)

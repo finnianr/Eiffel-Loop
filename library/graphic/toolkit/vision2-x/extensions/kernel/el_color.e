@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 18:09:47 GMT (Thursday 1st December 2022)"
-	revision: "12"
+	date: "2022-12-03 8:43:00 GMT (Saturday 3rd December 2022)"
+	revision: "13"
 
 class
 	EL_COLOR
@@ -129,7 +129,7 @@ feature -- Element change
 		require
 			valid_color_string: color_code.count = 7 and then color_code [1] = '#'
 		local
-			hex: EL_HEXADECIMAL_STRING_CONVERSION
+			hex: EL_HEXADECIMAL_CONVERTER
 		do
 			set_rgb_with_24_bit (hex.to_integer (color_code.substring (2, color_code.count)))
 		end

@@ -1,21 +1,19 @@
 note
 	description: "Factory to create new instances of text patterns"
+	notes: "[
+		Implement **core** feature using [$source TP_FACTORY_SELECTOR]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:25:00 GMT (Monday 21st November 2022)"
-	revision: "7"
+	date: "2022-12-03 16:54:54 GMT (Saturday 3rd December 2022)"
+	revision: "8"
 
-class
+deferred class
 	TP_FACTORY
-
-inherit
-	ANY
-
-	TP_SHARED_OPTIMIZED_FACTORY
 
 feature -- Recursive patterns
 
@@ -232,6 +230,12 @@ feature -- Derived character patterns
 			Result := zero_or_more (not end_of_line_character)
 		end
 
+feature {NONE} -- Implementation
+
+	core: TP_OPTIMIZED_FACTORY
+		deferred
+		end
+
 feature {NONE} -- Type definition
 
 	OPTIONAL_ACTION: detachable PROCEDURE [INTEGER, INTEGER]
@@ -239,7 +243,6 @@ feature {NONE} -- Type definition
 			Result := Void
 		end
 end
-
 
 
 

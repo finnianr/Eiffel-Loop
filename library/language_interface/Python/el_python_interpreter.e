@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 18:26:25 GMT (Thursday 1st December 2022)"
-	revision: "8"
+	date: "2022-12-03 8:43:00 GMT (Saturday 3rd December 2022)"
+	revision: "9"
 
 class
 	EL_PYTHON_INTERPRETER
@@ -173,7 +173,7 @@ feature -- Function call items
 	ustring_item (function_specifier: STRING; args: TUPLE): STRING
 			--
 		local
-			py_result: PYTHON_OBJECT; hex: EL_HEXADECIMAL_STRING_CONVERSION
+			py_result: PYTHON_OBJECT; hex: EL_HEXADECIMAL_CONVERTER
 			backslash_index, start_index, hex_code: INTEGER
 		do
 			create Result.make_empty

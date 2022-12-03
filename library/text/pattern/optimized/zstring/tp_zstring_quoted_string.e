@@ -8,14 +8,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:59 GMT (Monday 21st November 2022)"
-	revision: "3"
+	date: "2022-12-03 16:28:40 GMT (Saturday 3rd December 2022)"
+	revision: "4"
 
 deferred class
 	TP_ZSTRING_QUOTED_STRING
 
 inherit
 	TP_QUOTED_STRING
+		undefine
+			core
 		redefine
 			as_code, buffer_scope, default_unescaped_string, i_th_code
 		end
@@ -46,4 +48,3 @@ feature {NONE} -- Implementation
 		end
 
 end
-

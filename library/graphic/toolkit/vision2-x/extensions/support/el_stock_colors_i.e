@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 18:13:18 GMT (Thursday 1st December 2022)"
-	revision: "6"
+	date: "2022-12-03 8:43:00 GMT (Saturday 3rd December 2022)"
+	revision: "7"
 
 deferred class
 	EL_STOCK_COLORS_I
@@ -46,7 +46,7 @@ feature -- Color code
 			starts_with_hash: html_code.item (1) = '#'
 			has_six_digits: html_code.count = 7
 		local
-			hex: EL_HEXADECIMAL_STRING_CONVERSION
+			hex: EL_HEXADECIMAL_CONVERTER
 		do
 			Result := hex.to_integer (html_code.substring (2, 7))
 		end

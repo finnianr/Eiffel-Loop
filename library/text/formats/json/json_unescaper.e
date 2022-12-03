@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 18:12:22 GMT (Thursday 1st December 2022)"
-	revision: "10"
+	date: "2022-12-03 8:43:00 GMT (Saturday 3rd December 2022)"
+	revision: "11"
 
 class
 	JSON_UNESCAPER
@@ -68,7 +68,7 @@ feature {NONE} -- Implementation
 
 	u_code (str: EL_READABLE_ZSTRING; index: INTEGER): INTEGER_64
 		local
-			hex: EL_HEXADECIMAL_STRING_CONVERSION
+			hex: EL_HEXADECIMAL_CONVERTER
 		do
 			if str.z_code (index) = U_z_code and then index + 4 <= str.count
 				and then hex.is_valid_sequence (str, index + 1, index + 4)
