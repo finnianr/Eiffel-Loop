@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 18:37:00 GMT (Sunday 4th December 2022)"
-	revision: "16"
+	date: "2022-12-04 21:17:29 GMT (Sunday 4th December 2022)"
+	revision: "17"
 
 class
-	EL_DIRECTORY_CONTENT_PROCESSOR [IMP -> EL_FILE_LISTING create default_create end]
+	EL_DIRECTORY_CONTENT_PROCESSOR
 
 inherit
 	ANY
@@ -33,7 +33,6 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			create implementation
 			make (create {DIR_PATH}, create {DIR_PATH})
 		end
 
@@ -104,5 +103,5 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	implementation: IMP
+	implementation: EL_FILE_LISTING
 end

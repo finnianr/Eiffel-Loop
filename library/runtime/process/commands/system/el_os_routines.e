@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 12:12:09 GMT (Sunday 4th December 2022)"
-	revision: "25"
+	date: "2022-12-04 21:21:38 GMT (Sunday 4th December 2022)"
+	revision: "26"
 
 class
 	EL_OS_ROUTINES
@@ -132,7 +132,7 @@ feature -- Directory operations
 
 feature -- File query
 
-	directory_list (a_dir_path: DIR_PATH): EL_SORTABLE_ARRAYED_LIST [DIR_PATH]
+	directory_list (a_dir_path: DIR_PATH): EL_DIRECTORY_PATH_LIST
 		do
 			if attached find_directories_command (a_dir_path) as cmd then
 				cmd.execute

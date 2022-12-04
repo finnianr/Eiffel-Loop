@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 18:41:18 GMT (Sunday 4th December 2022)"
-	revision: "72"
+	date: "2022-12-04 21:08:18 GMT (Sunday 4th December 2022)"
+	revision: "73"
 
 class
 	OS_COMMAND_AUTOTEST_APP
@@ -29,6 +29,8 @@ create
 feature {NONE} -- Implementation
 
 	compile: TUPLE [
+		EL_NATIVE_DIRECTORY_PATH_LIST,
+		EL_NATIVE_DIRECTORY_TREE_FILE_PROCESSOR,
 		EL_VIDEO_TO_MP3_COMMAND_IMP
 	]
 		do

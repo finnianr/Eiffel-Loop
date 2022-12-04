@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 18:36:32 GMT (Sunday 4th December 2022)"
-	revision: "14"
+	date: "2022-12-04 21:03:17 GMT (Sunday 4th December 2022)"
+	revision: "15"
 
 class
-	EL_DIRECTORY_TREE_FILE_PROCESSOR [IMP -> EL_FILE_LISTING create default_create end]
+	EL_DIRECTORY_TREE_FILE_PROCESSOR
 
 inherit
 	EL_COMMAND
@@ -29,6 +29,7 @@ feature -- Initialization
 			--
 		do
 			source_dir := a_source_dir; file_pattern := a_file_pattern; file_processor := a_file_processor
+			create implementation
 		end
 
 feature -- Access
@@ -81,11 +82,6 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	implementation: IMP
-		do
-			create Result
-		end
-
 	new_file_path_list: EL_FILE_PATH_LIST
 		do
 			Result := implementation.new_file_list (source_dir, file_pattern)
@@ -96,5 +92,7 @@ feature {NONE} -- Internal attributes
 	counter: INTEGER
 
 	file_processor: EL_FILE_PROCESSING_COMMAND
+
+	implementation: EL_FILE_LISTING
 
 end

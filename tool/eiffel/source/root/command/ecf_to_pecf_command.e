@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 18:37:28 GMT (Sunday 4th December 2022)"
-	revision: "5"
+	date: "2022-12-04 21:16:13 GMT (Sunday 4th December 2022)"
+	revision: "6"
 
 class
 	ECF_TO_PECF_COMMAND
 
 inherit
-	EL_DIRECTORY_TREE_FILE_PROCESSOR [EL_OS_COMMAND_FILE_LISTING]
+	EL_NATIVE_DIRECTORY_TREE_FILE_PROCESSOR
 		rename
 			make as make_processor,
 			do_all as execute

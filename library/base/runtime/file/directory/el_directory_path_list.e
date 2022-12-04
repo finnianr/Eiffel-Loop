@@ -6,30 +6,29 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 18:37:00 GMT (Sunday 4th December 2022)"
-	revision: "10"
+	date: "2022-12-04 21:14:57 GMT (Sunday 4th December 2022)"
+	revision: "11"
 
 class
-	EL_DIRECTORY_PATH_LIST [IMP -> EL_FILE_LISTING create default_create end]
+	EL_DIRECTORY_PATH_LIST
 
 inherit
-	ARRAYED_LIST [DIR_PATH]
+	EL_SORTABLE_ARRAYED_LIST [DIR_PATH]
 		rename
-			make as make_array,
+			make as make_sized,
 			first as first_path,
 			item as path,
 			last as last_path
+		redefine
+			make_sized
 		end
 
 create
-	make, make_empty
+	make, make_filled, make_sorted, make_empty, make_sized,
+--	Conversion
+	make_from_array, make_from, make_from_for, make_from_if
 
 feature {NONE} -- Initialization
-
-	make_empty
-		do
-			make_array (10)
-		end
 
 	make (a_dir_path: DIR_PATH)
 			--
@@ -38,14 +37,20 @@ feature {NONE} -- Initialization
 			append_dirs (a_dir_path)
 		end
 
+	make_sized (n: INTEGER)
+		do
+			Precursor (n)
+			create implementation
+		end
+
 feature -- Element change
 
 	append_dirs (a_dir_path: DIR_PATH)
-		local
-			implementation: IMP
 		do
-			create implementation
 			append (implementation.new_directory_list (a_dir_path))
 		end
 
+feature {NONE} -- Internal attributes
+
+	implementation: EL_FILE_LISTING
 end

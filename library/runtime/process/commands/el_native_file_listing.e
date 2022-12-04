@@ -1,9 +1,8 @@
 note
-	description: "OS command implementation of [$source EL_FILE_LISTING]"
-	notes: "[
-		Using this class is usually much faster than the pure Eiffel [$source EL_FILE_LISTING]
-		as the native OS commands **find** (on Unix) and **dir** (on Windows) are highly
-		optimized.
+	description: "[
+		Implementation of [$source EL_FILE_LISTING] that uses native OS commands
+		**find** (on Unix) and **dir** (on Windows). These are highly optimized so
+		better performance can be expected, especially on large listings.
 	]"
 
 	author: "Finnian Reilly"
@@ -11,11 +10,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 18:38:45 GMT (Sunday 4th December 2022)"
-	revision: "2"
+	date: "2022-12-04 21:20:49 GMT (Sunday 4th December 2022)"
+	revision: "3"
 
 class
-	EL_OS_COMMAND_FILE_LISTING
+	EL_NATIVE_FILE_LISTING
 
 inherit
 	EL_FILE_LISTING

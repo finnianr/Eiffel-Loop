@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 18:40:43 GMT (Sunday 4th December 2022)"
-	revision: "31"
+	date: "2022-12-04 20:59:48 GMT (Sunday 4th December 2022)"
+	revision: "32"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -100,8 +100,8 @@ feature -- Tests
 			testing: "covers/{EL_FILE_OPERATION}.new_file_list",
 					"covers/{EL_DIRECTORY_CONTENT_PROCESSOR}.do_with"
 		local
-			os_processor: EL_DIRECTORY_CONTENT_PROCESSOR [EL_OS_COMMAND_FILE_LISTING]
-			processor: EL_DIRECTORY_CONTENT_PROCESSOR [EL_FILE_LISTING]
+			os_processor: EL_NATIVE_DIRECTORY_CONTENT_PROCESSOR
+			processor: EL_DIRECTORY_CONTENT_PROCESSOR
 			text_set: EL_HASH_SET [FILE_PATH]
 			output_dir: DIR_PATH; relative_set: like new_file_set
 		do
