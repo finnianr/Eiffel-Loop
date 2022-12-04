@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:41:45 GMT (Monday 21st November 2022)"
-	revision: "13"
+	date: "2022-12-03 18:50:06 GMT (Saturday 3rd December 2022)"
+	revision: "14"
 
 class
 	DUPLICITY_LISTING_OS_CMD
@@ -19,6 +19,8 @@ inherit
 			do_with_lines as do_with_captured_lines
 		export
 			{NONE} all
+		redefine
+			make_default
 		end
 
 	DUPLICITY_OS_COMMAND
@@ -39,6 +41,8 @@ inherit
 
 	EL_MODULE_TUPLE
 
+	TP_SHARED_OPTIMIZED_FACTORY
+
 create
 	make
 
@@ -48,7 +52,6 @@ feature {NONE} -- Initialization
 		local
 			l_count: INTEGER
 		do
-			make_machine
 			make_command ("duplicity list-current-files --time $time $target_dir")
 			l_count := a_search_string.count
 			if l_count > 0 and then a_search_string [l_count] = '/' then
@@ -57,12 +60,20 @@ feature {NONE} -- Initialization
 			else
 				search_string := a_search_string
 			end
-			create path_list.make (50)
 			set_target_dir (a_target_dir)
 			put_string (Var_time, formatted (a_time))
 
 			execute
 			do_with_lines (agent find_first_line, lines)
+		end
+
+	make_default
+			--
+		do
+			Precursor
+			make_machine
+			core := Factory_zstring
+			create path_list.make (50)
 		end
 
 feature -- Access
@@ -134,6 +145,8 @@ feature {NONE} -- Pattern
 		end
 
 feature {NONE} -- Internal attributes
+
+	core: TP_OPTIMIZED_FACTORY
 
 	search_string: ZSTRING
 

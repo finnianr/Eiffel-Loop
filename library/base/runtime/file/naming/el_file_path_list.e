@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "23"
+	date: "2022-12-04 13:28:41 GMT (Sunday 4th December 2022)"
+	revision: "24"
 
 class
 	EL_FILE_PATH_LIST
@@ -16,6 +16,7 @@ inherit
 	EL_SORTABLE_ARRAYED_LIST [FILE_PATH]
 		rename
 			make as make_with_count,
+			make_from_list as make,
 			first as first_path,
 			item as path,
 			last as last_path
@@ -26,20 +27,13 @@ inherit
 	EL_MODULE_FILE
 
 create
-	make, make_empty, make_with_count, make_from_array, make_from_tuple
+	make, make_empty, make_with_count, make_from_array, make_from_tuple,
+	make_from, make_from_for, make_from_if
 
 convert
 	make_from_array ({ARRAY [FILE_PATH]})
 
 feature {NONE} -- Initialization
-
-	make (list: ITERABLE [FILE_PATH])
-		do
-			make_with_count (Iterable.count (list))
-			across list as l_path loop
-				extend (l_path.item)
-			end
-		end
 
 	make_from_tuple (tuple: TUPLE)
 		local

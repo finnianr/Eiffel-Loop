@@ -1,64 +1,64 @@
 note
-	description: "Praat gcc source to msvc convertor"
+	description: "Convert Praat gcc C source code to compile with MSVC"
+	notes: "[
+		Tested with [https://www.fon.hum.uva.nl/praat/old/src/sources_4430.zip Praat version 4.4.3]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:40:30 GMT (Monday 21st November 2022)"
-	revision: "17"
+	date: "2022-12-04 18:00:36 GMT (Sunday 4th December 2022)"
+	revision: "18"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR
 
 inherit
 	EL_APPLICATION_COMMAND
-
-	EVOLICITY_SERIALIZEABLE
-		rename
-			template as build_batch_file_template
-		export
-			{NONE} all
+		redefine
+			error_check
 		end
 
-	TP_FACTORY
+	EL_DIRECTORY_CONTENT_PROCESSOR [EL_OS_COMMAND_FILE_OPERATION]
 		export
 			{NONE} all
+		redefine
+			make
 		end
 
-	EL_MODULE_LOG
+	EL_MODULE_FILE; EL_MODULE_LIO
 
 create
 	make
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (input_dir, output_dir: DIR_PATH)
+	make (a_input_dir, a_output_dir: DIR_PATH)
 		do
-			make_default
-
 			create praat_version_no.make_empty
 			create output_directory_text.make_empty
-			create directory_content_processor.make (input_dir, output_dir #+ input_dir.base)
+			Precursor (a_input_dir, a_output_dir #+ a_input_dir.base)
 
-			directory_content_processor.do_all (agent set_version_from_path, Praat_source)
+			c_header_list := new_path_list (Source_type.c_header)
 
-			if praat_version_no.is_empty then
-				lio.put_labeled_string ("ERROR", "Failed to determine version number from source directory!")
-				lio.put_new_line
+			c_header_list.find_first_base (Praat_version_h)
+			if c_header_list.found then
+--				#define PRAAT_VERSION 4.4.30
+				praat_version_no := File.line_one (c_header_list.path).split (' ').last
 			else
-				create make_file_parser.make
-
-				create converter_table.make (5)
-				converter_table.compare_objects
-
-				converter_table ["default"] := create {GCC_TO_MSVC_CONVERTER}.make
-				converter_table ["praat.c"] := create {FILE_PRAAT_C_GCC_TO_MSVC_CONVERTER}.make
-				converter_table ["motifEmulator.c"] := create {FILE_MOTIF_EMULATOR_C_GCC_TO_MSVC_CONVERTER}.make
-				converter_table ["gsl__config.h"] := create {FILE_GSL_CONFIG_H_GCC_TO_MSVC_CONVERTER}.make
-				converter_table ["NUM2.c"] := create {FILE_NUM2_C_GCC_TO_MSVC_CONVERTER}.make
+				create praat_version_no.make_empty
 			end
+			create make_file_parser.make
+
+			create converter_table.make (<<
+				[Default_key,			create {GCC_TO_MSVC_CONVERTER}.make],
+				["praat.c",				create {FILE_PRAAT_C_GCC_TO_MSVC_CONVERTER}.make],
+				["motifEmulator.c",	create {FILE_MOTIF_EMULATOR_C_GCC_TO_MSVC_CONVERTER}.make],
+				["gsl__config.h",		create {FILE_GSL_CONFIG_H_GCC_TO_MSVC_CONVERTER}.make],
+				["NUM2.c",				create {FILE_NUM2_C_GCC_TO_MSVC_CONVERTER}.make]
+			>>)
 		end
 
 feature -- Constants
@@ -70,158 +70,98 @@ feature -- Basic operations
 	execute
 			--
 		local
-			build_all_batch_file: FILE_PATH; batch_file_name: ZSTRING
+			build_script: PRAAT_BUILD_SCRIPT
 		do
-			if not praat_version_no.is_empty then
-				directory_content_processor.do_all (agent convert_make_file, Source_type.make_file)
-				directory_content_processor.do_all (agent convert_c_source_file, Source_type.c_header)
-				directory_content_processor.do_all (agent convert_c_source_file, Source_type.c_source)
+			do_with (agent convert_c_source_file, c_header_list)
+			do_all (agent convert_c_source_file, Source_type.c_source)
 
-				batch_file_name := "build_all_" + praat_version_no + ".bat"
-				build_all_batch_file := directory_content_processor.output_dir + batch_file_name
+			do_all (agent convert_make_file, Source_type.make_file)
+			create build_script.make (make_file_parser.c_library_name_list, output_dir, praat_version_no)
+			build_script.serialize
+		end
 
-				serialize_to_file (build_all_batch_file)
+	error_check (application: EL_FALLIBLE)
+		-- check for errors before execution
+		do
+			if praat_version_no.is_empty then
+				application.put_error_message ("Failed to determine version number from " + Praat_version_h)
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	convert_c_source_file (
-		input_file_path: FILE_PATH; output_directory: DIR_PATH
-		input_file_name, input_file_extension: ZSTRING
-	)
+	convert_c_source_file (input_file_path, output_file_path: FILE_PATH)
 			--
 		local
-			output_file_path: FILE_PATH
 			converter: GCC_TO_MSVC_CONVERTER
-			source_name: ZSTRING
 		do
-			log.enter_with_args ("convert_c_source_file", [input_file_path, output_directory, input_file_name])
+			lio.enter_with_args ("convert_c_source_file", [input_file_path, output_file_path])
 
-			output_file_path := input_file_name
-			output_file_path.add_extension (input_file_extension)
-
-			source_name := input_file_name.twin
-			source_name.append_character ('.')
-			source_name.append (input_file_extension)
-
-			converter_table.search (source_name)
-			if converter_table.found then
+			if converter_table.has_key (input_file_path.base) then
 				converter := converter_table.found_item
 			else
-				converter := converter_table ["default"]
+				converter := converter_table [Default_key]
 			end
 
 			converter.set_input_file_path (input_file_path)
-			converter.set_output_file_path (output_directory + output_file_path)
+			converter.set_output_file_path (output_file_path)
 			converter.edit
 
-			log.exit
+			lio.exit
 		end
 
-	convert_make_file (
-		input_file_path: FILE_PATH; output_directory: DIR_PATH; input_file_name, input_file_extension: ZSTRING
-	)
+	convert_make_file (input_file_path, output_file_path: FILE_PATH)
 			--
 		do
-			log.enter_with_args ("convert_makefile", [input_file_path, output_directory, input_file_name])
+			lio.enter_with_args ("convert_makefile", [input_file_path, output_file_path])
 			make_file_parser.new_c_library (input_file_path)
 
-			log.put_string (input_file_path.out)
-			log.put_new_line
+			lio.put_string (input_file_path.out)
+			lio.put_new_line
 
 			if make_file_parser.c_library.is_valid then
-				log.put_string_field ("Library name" , make_file_parser.c_library.library_name)
-				log.put_new_line
-				log.put_integer_field (
+				lio.put_string_field ("Library name" , make_file_parser.c_library.library_name)
+				lio.put_new_line
+				lio.put_integer_field (
 					"Number of include directories" , make_file_parser.c_library.include_directory_list.count
 				)
-				log.put_new_line
-				log.put_integer_field ("Number of C objects" , make_file_parser.c_library.object_file_list.count)
-				log.put_new_line
+				lio.put_new_line
+				lio.put_integer_field ("Number of C objects" , make_file_parser.c_library.object_file_list.count)
+				lio.put_new_line
 
 				make_file_parser.c_library.set_praat_version_no (praat_version_no)
-				make_file_parser.c_library.serialize_to_file (output_directory + input_file_name)
+				make_file_parser.c_library.serialize_to_file (output_file_path)
 			end
-			log.exit
-		end
-
-	set_praat_version_no (start_index, end_index: INTEGER)
-			--
-		do
-			praat_version_no := output_directory_text.substring (start_index, end_index)
-		end
-
-	set_version_from_path (
-		input_file_path: FILE_PATH; output_directory: DIR_PATH
-		input_file_name, input_file_extension: ZSTRING
-	)
-			--
-		local
-			path_processor: EL_SOURCE_TEXT_PROCESSOR
-		once
-			log.enter_with_args ("set_version_from_path", [output_directory])
-			output_directory_text := output_directory
-
-			create path_processor.make_with_delimiter (agent output_directory_pattern)
-			path_processor.set_source_text (output_directory_text)
-			path_processor.do_all
-			log.exit
-		end
-
-	output_directory_pattern: like all_of
-		do
-			Result := all_of (<<
-				character_literal (Operating_environment.Directory_separator),
-				string_literal ("sources_"),
-				(digit #occurs (4 |..| 4)) |to| agent set_praat_version_no (? , ?)
-			>>)
-		end
-
-feature {NONE} -- Evolicity
-
-	getter_function_table: like getter_functions
-			--
-		do
-			create Result.make (<<
-				["c_library_name_list",	agent: ITERABLE [ZSTRING] do Result := make_file_parser.c_library_name_list end],
-				["praat_version_no",		agent: ZSTRING do Result := praat_version_no end]
-			>>)
+			lio.exit
 		end
 
 feature {NONE} -- Internal attributes
 
-	converter_table: HASH_TABLE [GCC_TO_MSVC_CONVERTER, STRING]
-
-	directory_content_processor: EL_DIRECTORY_CONTENT_PROCESSOR
+	converter_table: EL_ZSTRING_HASH_TABLE [GCC_TO_MSVC_CONVERTER]
 
 	make_file_parser: PRAAT_MAKE_FILE_PARSER
 
 	output_directory_text: ZSTRING
 
+	c_header_list: like new_path_list
+
 	praat_version_no: STRING
 
 feature {NONE} -- Constants
 
-	Build_batch_file_template: STRING = "[
-		Rem DO NOT EDIT
-		Rem Generated by Eiffel-LOOP build tool from class PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP
-
-		set INCLUDE=%MSVC%\include;%PLATFORM_SDK%\Include;%EIFFEL_LOOP%\C_library\dirent\include
-		set LIB=%LIB%;%PLATFORM_SDK%\Lib;%MSVC%\lib
-
-		#foreach $directory in $c_library_name_list loop
-		cd sources_$praat_version_no\$directory
-		nmake /f Makefile
-		cd ..\..
-		#end
-		echo FINISHED!
-		pause
-	]"
+	Default_key: ZSTRING
+		once
+			Result := "default"
+		end
 
 	Praat_source: ZSTRING
 		once
 			Result := "praat.c"
+		end
+
+	Praat_version_h: ZSTRING
+		once
+			Result := "praat_version.h"
 		end
 
 	Source_type: TUPLE [make_file, c_header, c_source: ZSTRING]

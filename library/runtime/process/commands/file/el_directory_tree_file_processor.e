@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2022-12-04 10:58:25 GMT (Sunday 4th December 2022)"
+	revision: "13"
 
 class
 	EL_DIRECTORY_TREE_FILE_PROCESSOR
@@ -85,6 +85,7 @@ feature {NONE} -- Internal attributes
 	counter: INTEGER
 
 	file_path_list: EL_SORTABLE_ARRAYED_LIST [FILE_PATH]
+	
 	file_processor: EL_FILE_PROCESSING_COMMAND
 
 	source_dir: DIR_PATH

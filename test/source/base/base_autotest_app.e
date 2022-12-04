@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 8:45:10 GMT (Saturday 3rd December 2022)"
-	revision: "149"
+	date: "2022-12-04 12:18:44 GMT (Sunday 4th December 2022)"
+	revision: "150"
 
 class
 	BASE_AUTOTEST_APP
@@ -102,6 +102,14 @@ feature {NONE} -- Compile classes
 		EL_TIMEOUT_THREAD, EL_TIME,
 		EL_UPDATEABLE_FILE
 
+	]
+		do
+			create Result
+		end
+
+	file_processing: TUPLE [
+		EL_DIRECTORY_CONTENT_PROCESSOR [EL_FILE_OPERATION],
+		EL_DIRECTORY_PATH_LIST [EL_FILE_OPERATION]
 	]
 		do
 			create Result

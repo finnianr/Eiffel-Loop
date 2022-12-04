@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2022-12-04 12:42:13 GMT (Sunday 4th December 2022)"
+	revision: "9"
 
 class
-	EL_DIRECTORY_PATH_LIST
+	EL_DIRECTORY_PATH_LIST [IMP -> EL_FILE_OPERATION create default_create end]
 
 inherit
 	ARRAYED_LIST [DIR_PATH]
@@ -20,8 +20,6 @@ inherit
 			item as path,
 			last as last_path
 		end
-
-	EL_MODULE_OS
 
 create
 	make, make_empty
@@ -43,8 +41,11 @@ feature {NONE} -- Initialization
 feature -- Element change
 
 	append_dirs (a_dir_path: DIR_PATH)
+		local
+			implementation: IMP
 		do
-			append (OS.directory_list (a_dir_path))
+			create implementation
+			append (implementation.new_directory_list (a_dir_path))
 		end
 
 end

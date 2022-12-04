@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 13:05:35 GMT (Saturday 3rd December 2022)"
-	revision: "47"
+	date: "2022-12-04 13:29:03 GMT (Sunday 4th December 2022)"
+	revision: "48"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -93,6 +93,18 @@ feature {NONE} -- Initialization
 		do
 			make (array_1.count + array_2.count)
 			append (array_1); append (array_2)
+		end
+
+	make_from_list (list: ITERABLE [G])
+		do
+			if attached {ARRAYED_LIST [G]} list as arrayed_list then
+				make_from_array (arrayed_list.to_array)
+			else
+				make (Iterable.count (list))
+				across list as l_path loop
+					extend (l_path.item)
+				end
+			end
 		end
 
 	make_from_sub_list (list: EL_ARRAYED_LIST [G]; start_index, end_index: INTEGER)

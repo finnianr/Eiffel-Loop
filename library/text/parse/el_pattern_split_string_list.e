@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:56 GMT (Monday 21st November 2022)"
-	revision: "13"
+	date: "2022-12-03 18:58:27 GMT (Saturday 3rd December 2022)"
+	revision: "14"
 
 class
 	EL_PATTERN_SPLIT_STRING_LIST
@@ -40,14 +40,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_character_set: STRING_32)
+	make (character_set: READABLE_STRING_GENERAL)
 			--
 		require
-			at_least_one_delimiter: a_character_set.count >= 1
-		local
-			character_set: ZSTRING
+			at_least_one_delimiter: character_set.count >= 1
 		do
-			character_set := a_character_set
 			make_with_delimiter (agent one_character_from (character_set))
 		end
 

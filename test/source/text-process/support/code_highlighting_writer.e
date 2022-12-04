@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:32:10 GMT (Monday 21st November 2022)"
-	revision: "20"
+	date: "2022-12-03 18:10:28 GMT (Saturday 3rd December 2022)"
+	revision: "21"
 
 class
 	CODE_HIGHLIGHTING_WRITER
@@ -64,7 +64,7 @@ feature {NONE} -- Initialization
 					do_once_with_file_lines (agent find_feature_block, source_lines)
 				end
  			end
-			set_optimal_core (source_text)
+			core := optimal_core (source_text)
 		end
 
 feature {NONE} -- Pattern definitions

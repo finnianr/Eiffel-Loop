@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "22"
+	date: "2022-12-04 13:19:37 GMT (Sunday 4th December 2022)"
+	revision: "23"
 
 class
 	EL_DIRECTORY
@@ -70,7 +70,7 @@ feature -- Initialization
 
 feature -- Access
 
-	directories: EL_ARRAYED_LIST [DIR_PATH]
+	directories: EL_SORTABLE_ARRAYED_LIST [DIR_PATH]
 		do
 			create Result.make (20)
 			read_entries (Result, Type_directory, Empty_string_8)
@@ -78,7 +78,7 @@ feature -- Access
 			object_comparison: Result.object_comparison
 		end
 
-	directories_with_extension (extension: READABLE_STRING_GENERAL): EL_ARRAYED_LIST [DIR_PATH]
+	directories_with_extension (extension: READABLE_STRING_GENERAL): EL_SORTABLE_ARRAYED_LIST [DIR_PATH]
 		do
 			create Result.make (20)
 			Result.compare_objects
@@ -95,7 +95,7 @@ feature -- Access
 			object_comparison: Result.object_comparison
 		end
 
-	entries_with_extension (extension: READABLE_STRING_GENERAL): EL_ARRAYED_LIST [EL_PATH]
+	entries_with_extension (extension: READABLE_STRING_GENERAL): EL_SORTABLE_ARRAYED_LIST [EL_PATH]
 		do
 			create Result.make (20)
 			read_entries (Result, Type_any, extension)
@@ -103,9 +103,9 @@ feature -- Access
 			object_comparison: Result.object_comparison
 		end
 
-	files: EL_SORTABLE_ARRAYED_LIST [FILE_PATH]
+	files: EL_FILE_PATH_LIST
 		do
-			create Result.make (20)
+			create Result.make_with_count (20)
 			read_entries (Result, Type_file, Empty_string_8)
 		ensure
 			object_comparison: Result.object_comparison
@@ -113,7 +113,7 @@ feature -- Access
 
 	files_with_extension (extension: READABLE_STRING_GENERAL): like files
 		do
-			create Result.make (20)
+			create Result.make_with_count (20)
 			read_entries (Result, Type_file, extension)
 		ensure
 			object_comparison: Result.object_comparison
@@ -134,7 +134,7 @@ feature -- Access
 
 	recursive_files: like files
 		do
-			create Result.make (20)
+			create Result.make_with_count (20)
 			read_recursive_entries (Result, Type_file, Empty_string_8)
 		ensure
 			object_comparison: Result.object_comparison
@@ -142,7 +142,7 @@ feature -- Access
 
 	recursive_files_with_extension (extension: READABLE_STRING_GENERAL): like files
 		do
-			create Result.make (20)
+			create Result.make_with_count (20)
 			read_recursive_entries (Result, Type_file, extension)
 		ensure
 			object_comparison: Result.object_comparison

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 16:34:10 GMT (Saturday 3rd December 2022)"
-	revision: "22"
+	date: "2022-12-03 18:10:16 GMT (Saturday 3rd December 2022)"
+	revision: "23"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -26,9 +26,9 @@ inherit
 			default_create
 		end
 
-	TP_FACTORY_SELECTOR
-
 	EL_MODULE_LIO; EL_MODULE_XML
+
+	TP_SHARED_OPTIMIZED_FACTORY
 
 	EL_SHARED_TEST_TEXT
 
@@ -69,7 +69,7 @@ feature -- Test
 			str: ZSTRING
 		do
 			str := "1a"
-			set_optimal_core (str)
+			core := optimal_core (str)
 			if attached letter as p then
 				p.match (0, str)
 				assert ("no match", not p.is_matched)
@@ -163,7 +163,7 @@ feature -- Test
 		local
 			double: DOUBLE; boolean: BOOLEAN
 		do
-			set_optimal_core ("")
+			core := optimal_core (Empty_string_8)
 			across Number.Doubles_list as n loop
 				double := n.item
 				if double.rounded /~ double then
@@ -333,7 +333,7 @@ feature -- Test
 			eiffel_type: like class_type; type_string: ZSTRING
 		do
 			create type_string.make_empty
-			set_optimal_core (type_string)
+			core := optimal_core (type_string)
 
 			eiffel_type := class_type
 			across Text.Eiffel_type_declarations.split ('%N') as line loop
@@ -399,7 +399,7 @@ feature -- Test
 						output_2.append_character (uc.item)
 					end
 				end
-				set_optimal_core (line)
+				core := optimal_core (line)
 				matcher.set_pattern (agent repeated_character_in_set (character_set, line, output))
 				matcher.set_source_text (line)
 				matcher.find_all (Void)
@@ -673,7 +673,7 @@ feature {NONE} -- Events handlers
 		do
 			Precursor
 			prepare_source
-			set_optimal_core (source_text)
+			core := optimal_core (source_text)
 		end
 
 	on_quoted (str: STRING_GENERAL; output: ZSTRING)
@@ -693,6 +693,9 @@ feature {NONE} -- Events handlers
 		end
 
 feature {NONE} -- Internal attributes
+
+	core: TP_OPTIMIZED_FACTORY
+		-- core pattern factory
 
 	source_text: STRING_GENERAL
 

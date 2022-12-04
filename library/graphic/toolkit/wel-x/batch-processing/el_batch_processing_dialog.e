@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2022-12-04 16:43:12 GMT (Sunday 4th December 2022)"
+	revision: "10"
 
 deferred class
 	EL_BATCH_PROCESSING_DIALOG [G]
@@ -51,10 +51,11 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make
+	make (a_wild_card: READABLE_STRING_GENERAL)
 			-- Make the main window
 
 		do
+			wild_card := a_wild_card
 			make_by_id (Id_main_dialog)
 			create output_dir_edit.make_by_id (Current, id_edit_output_directory)
 			create input_dir_edit.make_by_id (Current, id_edit_input_directory)
@@ -161,7 +162,7 @@ feature {NONE} -- Behaviours
 				directory_content_processor.set_output_dir (output_dir_edit.text)
 
 				timer.start
-				directory_content_processor.do_all (agent queue_file_for_processing, "*.wav")
+				directory_content_processor.do_all (agent queue_file_for_processing, wild_card)
 				cancel_button.enable
 				is_processing := true
 				is_cancelled := false
@@ -199,8 +200,7 @@ feature {NONE} -- Behaviours
 	on_process_complete
 			--
 		local
-			msg_box: WEL_MSG_BOX
-			msg_title: STRING
+			msg_box: WEL_MSG_BOX; msg_title: STRING
 		do
 			process_files_button.set_text (process_files_button_text)
 			cancel_button.disable
@@ -265,7 +265,7 @@ feature {NONE} -- Behaviours
 			Precursor (a_result)
 		end
 
-feature {NONE} -- GUI components
+feature {NONE} -- GUI attributes
 
 	output_dir_edit: WEL_SINGLE_LINE_EDIT
 
@@ -274,6 +274,10 @@ feature {NONE} -- GUI components
 	process_files_button: WEL_PUSH_BUTTON
 
 	cancel_button: WEL_PUSH_BUTTON
+
+	pointer_cursor: WEL_CURSOR
+
+feature {NONE} -- GUI components
 
 	open_input_dir_dialog: WEL_CHOOSE_FOLDER_DIALOG
 		once
@@ -299,8 +303,6 @@ feature {NONE} -- GUI components
 		ensure
 			result_not_void: Result /= Void
 		end
-
-	pointer_cursor: WEL_CURSOR
 
 feature {NONE} -- Resource IDs
 
@@ -372,22 +374,14 @@ feature {NONE} -- Resource IDs
 
 feature {NONE} -- Implementation
 
-	queue_file_for_processing (
-		input_file_path: FILE_PATH; output_dir: DIR_PATH
-		input_file_name, input_file_extension: ZSTRING
-	)
+	queue_file_for_processing (input_file_path, output_file_path: FILE_PATH)
 			--
 		do
-			request_processing_queue.put (
-				process_request_item (input_file_path, output_dir, input_file_name, input_file_extension)
-			)
+			request_processing_queue.put (process_request_item (input_file_path, output_file_path))
 			files_to_process := files_to_process + 1
 		end
 
-	process_request_item (
-		input_file_path: FILE_PATH; output_dir: DIR_PATH
-		input_file_name, input_file_extension: STRING
-	): G
+	process_request_item (input_file_path, output_file_path: FILE_PATH): G
 			--
 		deferred
 		end
@@ -407,6 +401,8 @@ feature {NONE} -- Implementation
 			--
 		do
 		end
+
+feature {NONE} -- Internal attributes
 
 	request_processing_queue: EL_THREAD_PRODUCT_QUEUE [G]
 
@@ -428,6 +424,8 @@ feature {NONE} -- Implementation
 		-- Triggers notifications in main GUI thread
 
 	processing_thread: EL_CONSUMER_THREAD [G]
+
+	wild_card: READABLE_STRING_GENERAL
 
 feature {NONE} -- Constants
 

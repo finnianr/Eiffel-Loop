@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 16:21:45 GMT (Saturday 3rd December 2022)"
-	revision: "8"
+	date: "2022-12-03 18:06:47 GMT (Saturday 3rd December 2022)"
+	revision: "9"
 
 deferred class
 	EL_PARSER
 
 inherit
-	TP_FACTORY_SELECTOR
-		redefine
-			make_default
-		end
+	TP_SHARED_OPTIMIZED_FACTORY
 
 	EL_STRING_8_CONSTANTS
 
@@ -26,7 +23,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			source_text := default_source_text
-			set_optimal_core (source_text)
+			core := optimal_core (source_text)
 			internal_pattern := Void
 			reset
 		end
@@ -134,7 +131,7 @@ feature -- Basic operations
 
 	find_all (unmatched_action: detachable like pattern.Default_action)
 		do
-			set_optimal_core (source_text)
+			core := optimal_core (source_text)
 			pattern.internal_find_all (0, source_text, unmatched_action)
 		end
 
@@ -143,7 +140,7 @@ feature -- Basic operations
 		require
 			parser_initialized: is_reset
 		do
-			set_optimal_core (source_text)
+			core := optimal_core (source_text)
 			if attached pattern as l_pattern then
 				l_pattern.match (start_offset, source_text)
 				fully_matched := l_pattern.count = source_text.count - start_offset
@@ -207,6 +204,8 @@ feature {NONE} -- Type definitions
 		end
 
 feature {NONE} -- Internal attributes
+
+	core: TP_OPTIMIZED_FACTORY
 
 	internal_pattern: detachable TP_PATTERN
 

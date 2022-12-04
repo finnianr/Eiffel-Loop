@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:40:29 GMT (Monday 21st November 2022)"
-	revision: "8"
+	date: "2022-12-04 15:13:13 GMT (Sunday 4th December 2022)"
+	revision: "9"
 
 class
 	PRAAT_MAKE_FILE_PARSER
@@ -32,8 +32,14 @@ feature {NONE} -- Initialization
 			--
 		do
 			make_default
-			create c_library_name_list.make
+			create c_library_name_list.make (0)
 		end
+
+feature -- Access
+
+	c_library: PRAAT_LIB_MAKE_FILE_GENERATOR
+
+	c_library_name_list: EL_ARRAYED_LIST [ZSTRING]
 
 feature -- Basic operations
 
@@ -198,11 +204,5 @@ feature -- Pattern match handlers
 				c_library_name_list.extend (library_name)
 			end
 		end
-
-feature -- Access
-
-	c_library: PRAAT_LIB_MAKE_FILE_GENERATOR
-
-	c_library_name_list: LINKED_LIST [ZSTRING]
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "29"
+	date: "2022-12-04 17:44:49 GMT (Sunday 4th December 2022)"
+	revision: "30"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -26,21 +26,22 @@ feature -- Basic operations
 	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("gnome_virtual_file_system", agent test_gnome_virtual_file_system)
-			eval.call ("file_move_and_copy", agent test_file_move_and_copy)
-			eval.call ("file_move_and_copy_absolute", agent test_file_move_and_copy_absolute)
+			eval.call ("delete_content_with_action", agent test_delete_content_with_action)
 			eval.call ("delete_paths", agent test_delete_paths)
+			eval.call ("delete_with_action", agent test_delete_with_action)
 			eval.call ("dir_tree_delete", agent test_dir_tree_delete)
 			eval.call ("directory_info", agent test_directory_info)
+			eval.call ("directory_content_processor", agent test_directory_content_processor)
 			eval.call ("find_directories", agent test_find_directories)
 			eval.call ("find_directories_absolute", agent test_find_directories_absolute)
 			eval.call ("find_files", agent test_find_files)
 			eval.call ("find_files_absolute", agent test_find_files_absolute)
-			eval.call ("search_path_list", agent test_search_path_list)
+			eval.call ("gnome_virtual_file_system", agent test_gnome_virtual_file_system)
 			eval.call ("read_directories", agent test_read_directories)
 			eval.call ("read_directory_files", agent test_read_directory_files)
-			eval.call ("delete_content_with_action", agent test_delete_content_with_action)
-			eval.call ("delete_with_action", agent test_delete_with_action)
+			eval.call ("file_move_and_copy", agent test_file_move_and_copy)
+			eval.call ("file_move_and_copy_absolute", agent test_file_move_and_copy_absolute)
+			eval.call ("search_path_list", agent test_search_path_list)
 		end
 
 feature -- Tests
@@ -94,6 +95,39 @@ feature -- Tests
 			assert ("no longer exists", not help_dir.exists)
 		end
 
+	test_directory_content_processor
+		note
+			testing: "covers/{EL_FILE_OPERATION}.new_file_list",
+					"covers/{EL_DIRECTORY_CONTENT_PROCESSOR}.do_with"
+		local
+			os_processor: EL_DIRECTORY_CONTENT_PROCESSOR [EL_OS_COMMAND_FILE_OPERATION]
+			processor: EL_DIRECTORY_CONTENT_PROCESSOR [EL_FILE_OPERATION]
+			text_set: EL_HASH_SET [FILE_PATH]
+			output_dir: DIR_PATH; relative_set: like new_file_set
+		do
+			output_dir := Workarea_help_pages_dir #+ "output"
+			relative_set := new_file_set (False)
+			create processor.make (Workarea_help_pages_dir, output_dir)
+			create os_processor.make (Workarea_help_pages_dir, output_dir)
+
+			across << "*.txt", "bcd*", "*setup*", "*error.txt" >> as wildcard loop
+				across << processor, os_processor >> as p loop
+					create text_set.make (20)
+					p.item.do_all (agent add_to_set (? ,?, text_set), wildcard.item)
+					inspect wildcard.cursor_index
+						when 1 then
+							assert ("same sets", text_set ~ relative_set)
+						when 2 then
+							assert ("same sets", text_set ~ relative_set.subset_include (agent base_starts_with (?, "bcd")))
+						when 3 then
+							assert ("same sets", text_set ~ relative_set.subset_include (agent base_contains (?, "setup")))
+						when 4 then
+							assert ("same sets", text_set ~ relative_set.subset_include (agent base_ends_with (?, "error.txt")))
+					end
+				end
+			end
+		end
+
 	test_directory_info
 		local
 			directory_info_cmd: like Command.new_directory_info
@@ -101,6 +135,16 @@ feature -- Tests
 			directory_info_cmd := Command.new_directory_info (Work_area_dir)
 			assert ("same file count", directory_info_cmd.file_count = file_set.count)
 			assert ("same total bytes", directory_info_cmd.size = total_file_size)
+		end
+
+	test_file_move_and_copy
+		do
+			file_move_and_copy (new_file_set (False), Work_area_dir)
+		end
+
+	test_file_move_and_copy_absolute
+		do
+			file_move_and_copy (new_file_set (True), Work_area_absolute_dir)
 		end
 
 	test_find_directories
@@ -181,16 +225,6 @@ feature -- Tests
 			end
 		end
 
-	test_file_move_and_copy
-		do
-			file_move_and_copy (new_file_set (False), Work_area_dir)
-		end
-
-	test_file_move_and_copy_absolute
-		do
-			file_move_and_copy (new_file_set (True), Work_area_absolute_dir)
-		end
-
 	test_search_path_list
 		do
 			assert ("has estudio", Executable.search_path_has ("estudio"))
@@ -204,6 +238,21 @@ feature {NONE} -- Events
 		end
 
 feature {NONE} -- Filters
+
+	base_ends_with (path: FILE_PATH; str: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := path.base.ends_with_general (str)
+		end
+
+	base_starts_with (path: FILE_PATH; str: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := path.base.starts_with_general (str)
+		end
+
+	base_contains (path: FILE_PATH; str: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := path.base.has_substring (str)
+		end
 
 	directory_path_contains (path: DIR_PATH; str: ZSTRING): BOOLEAN
 		do
@@ -298,6 +347,14 @@ feature {NONE} -- Implementation
 				a_file_set.put (volume_root_path + (volume_destination_dir + relative_file_path.base))
 			end
 			execute_and_assert (OS.find_files_command (Work_area_absolute_dir, "*"), a_file_set)
+		end
+
+	add_to_set (input_file_path, output_file_path: FILE_PATH; a_set: EL_HASH_SET [FILE_PATH])
+		local
+			relative_path: FILE_PATH
+		do
+			relative_path := output_file_path.relative_path (Workarea_help_pages_dir #+ "output")
+			a_set.put (Workarea_help_pages_dir + relative_path)
 		end
 
 	execute_all (commands: ARRAY [EL_COMMAND])
