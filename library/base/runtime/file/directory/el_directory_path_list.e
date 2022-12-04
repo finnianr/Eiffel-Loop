@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 12:42:13 GMT (Sunday 4th December 2022)"
-	revision: "9"
+	date: "2022-12-04 18:37:00 GMT (Sunday 4th December 2022)"
+	revision: "10"
 
 class
-	EL_DIRECTORY_PATH_LIST [IMP -> EL_FILE_OPERATION create default_create end]
+	EL_DIRECTORY_PATH_LIST [IMP -> EL_FILE_LISTING create default_create end]
 
 inherit
 	ARRAYED_LIST [DIR_PATH]

@@ -1,7 +1,7 @@
 note
-	description: "OS command implementation of [$source EL_FILE_OPERATION]"
+	description: "OS command implementation of [$source EL_FILE_LISTING]"
 	notes: "[
-		Using this class is usually much faster than [$source EL_FILE_OPERATION]
+		Using this class is usually much faster than the pure Eiffel [$source EL_FILE_LISTING]
 		as the native OS commands **find** (on Unix) and **dir** (on Windows) are highly
 		optimized.
 	]"
@@ -11,14 +11,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 18:05:50 GMT (Sunday 4th December 2022)"
-	revision: "1"
+	date: "2022-12-04 18:38:45 GMT (Sunday 4th December 2022)"
+	revision: "2"
 
 class
-	EL_OS_COMMAND_FILE_OPERATION
+	EL_OS_COMMAND_FILE_LISTING
 
 inherit
-	EL_FILE_OPERATION
+	EL_FILE_LISTING
 		redefine
 			new_file_list, new_directory_list
 		end

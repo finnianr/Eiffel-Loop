@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 10:58:25 GMT (Sunday 4th December 2022)"
-	revision: "13"
+	date: "2022-12-04 18:36:32 GMT (Sunday 4th December 2022)"
+	revision: "14"
 
 class
-	EL_DIRECTORY_TREE_FILE_PROCESSOR
+	EL_DIRECTORY_TREE_FILE_PROCESSOR [IMP -> EL_FILE_LISTING create default_create end]
 
 inherit
 	EL_COMMAND
@@ -20,23 +20,22 @@ inherit
 
 	EL_MODULE_LIO
 
-	EL_MODULE_OS
-
 create
 	make, default_create
 
 feature -- Initialization
 
-	make (a_source_dir: DIR_PATH; file_pattern: READABLE_STRING_GENERAL; a_file_processor: EL_FILE_PROCESSING_COMMAND)
+	make (a_source_dir: DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL; a_file_processor: EL_FILE_PROCESSING_COMMAND)
 			--
 		do
-			source_dir := a_source_dir; file_processor := a_file_processor
-			if attached OS.find_files_command (a_source_dir, file_pattern) as find_cmd then
-				find_cmd.set_follow_symbolic_links (True)
-				find_cmd.execute
-				file_path_list := find_cmd.path_list
-			end
+			source_dir := a_source_dir; file_pattern := a_file_pattern; file_processor := a_file_processor
 		end
+
+feature -- Access
+
+	file_pattern: READABLE_STRING_GENERAL
+
+	source_dir: DIR_PATH
 
 feature -- Basic operations
 
@@ -44,7 +43,7 @@ feature -- Basic operations
 			--
 		do
 			counter := 0
-			file_path_list.do_all (agent do_with_file_and_increment_counter)
+			new_file_path_list.do_all (agent do_with_file_and_increment_counter)
 			if is_lio_enabled then
 				lio.put_string ("Found ")
 				lio.put_integer (counter)
@@ -80,14 +79,22 @@ feature -- Element change
 			file_processor := a_file_processor
 		end
 
+feature {NONE} -- Implementation
+
+	implementation: IMP
+		do
+			create Result
+		end
+
+	new_file_path_list: EL_FILE_PATH_LIST
+		do
+			Result := implementation.new_file_list (source_dir, file_pattern)
+		end
+
 feature {NONE} -- Internal attributes
 
 	counter: INTEGER
 
-	file_path_list: EL_SORTABLE_ARRAYED_LIST [FILE_PATH]
-	
 	file_processor: EL_FILE_PROCESSING_COMMAND
-
-	source_dir: DIR_PATH
 
 end

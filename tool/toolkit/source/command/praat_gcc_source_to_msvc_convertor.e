@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 18:00:36 GMT (Sunday 4th December 2022)"
-	revision: "18"
+	date: "2022-12-04 18:39:14 GMT (Sunday 4th December 2022)"
+	revision: "19"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR
@@ -21,7 +21,7 @@ inherit
 			error_check
 		end
 
-	EL_DIRECTORY_CONTENT_PROCESSOR [EL_OS_COMMAND_FILE_OPERATION]
+	EL_DIRECTORY_CONTENT_PROCESSOR [EL_OS_COMMAND_FILE_LISTING]
 		export
 			{NONE} all
 		redefine

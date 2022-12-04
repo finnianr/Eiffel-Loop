@@ -1,16 +1,16 @@
 note
-	description: "Pure Eiffel implementation of common file and directory operations"
+	description: "Pure Eiffel implementation of common file and directory listing operations"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 14:31:56 GMT (Sunday 4th December 2022)"
-	revision: "1"
+	date: "2022-12-04 18:36:32 GMT (Sunday 4th December 2022)"
+	revision: "2"
 
 class
-	EL_FILE_OPERATION
+	EL_FILE_LISTING
 
 inherit
 	ANY

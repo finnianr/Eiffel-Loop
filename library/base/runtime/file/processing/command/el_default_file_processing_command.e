@@ -1,30 +1,30 @@
 note
-	description: "File processing command"
+	description: "Default file processing command"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2022-12-04 18:42:42 GMT (Sunday 4th December 2022)"
+	revision: "6"
 
-deferred class
-	EL_FILE_PROCESSING_COMMAND
+class
+	EL_DEFAULT_FILE_PROCESSING_COMMAND
 
 inherit
-	EL_COMMAND
+	EL_FILE_PROCESSING_COMMAND
 
 feature -- Basic operations
 
 	execute
-		deferred
+		do
 		end
 
 feature -- Element change
 
  	set_file_path (a_file_path: FILE_PATH)
- 		deferred
+ 		do
  		end
 
 end

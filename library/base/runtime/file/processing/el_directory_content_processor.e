@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 16:26:05 GMT (Sunday 4th December 2022)"
-	revision: "15"
+	date: "2022-12-04 18:37:00 GMT (Sunday 4th December 2022)"
+	revision: "16"
 
 class
-	EL_DIRECTORY_CONTENT_PROCESSOR [IMP -> EL_FILE_OPERATION create default_create end]
+	EL_DIRECTORY_CONTENT_PROCESSOR [IMP -> EL_FILE_LISTING create default_create end]
 
 inherit
 	ANY

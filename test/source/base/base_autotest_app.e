@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 12:18:44 GMT (Sunday 4th December 2022)"
-	revision: "150"
+	date: "2022-12-04 18:40:21 GMT (Sunday 4th December 2022)"
+	revision: "151"
 
 class
 	BASE_AUTOTEST_APP
@@ -108,8 +108,9 @@ feature {NONE} -- Compile classes
 		end
 
 	file_processing: TUPLE [
-		EL_DIRECTORY_CONTENT_PROCESSOR [EL_FILE_OPERATION],
-		EL_DIRECTORY_PATH_LIST [EL_FILE_OPERATION]
+		EL_DIRECTORY_CONTENT_PROCESSOR [EL_FILE_LISTING],
+		EL_DIRECTORY_PATH_LIST [EL_FILE_LISTING],
+		EL_DIRECTORY_TREE_FILE_PROCESSOR [EL_FILE_LISTING]
 	]
 		do
 			create Result
