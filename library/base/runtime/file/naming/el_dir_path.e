@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-02 9:08:50 GMT (Friday 2nd December 2022)"
-	revision: "29"
+	date: "2022-12-05 15:11:35 GMT (Monday 5th December 2022)"
+	revision: "30"
 
 class
 	EL_DIR_PATH
@@ -126,7 +126,7 @@ feature -- Status report
 
 	is_parent_of (other: EL_PATH): BOOLEAN
 		do
-			if other.parent_path.starts_with (parent_path) then
+			if other.parent_path.starts_with_zstring (parent_path) then
 				Result := other.parent_path.substring_index (base, parent_path.count + 1) = parent_path.count + 1
 			end
 		end

@@ -25,6 +25,7 @@ Extensions for [https://www.eiffel.org/doc/solutions/WEL WEL GUI library].
 		<!--Eiffel-Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
+		<library name = "EL_file_process" location = "file-processing.ecf"/>
 		<library name = "EL_logging" location = "logging.ecf"/>
 		<library name = "EL_os_command" location = "os-command.ecf"/>
 		<library name = "EL_thread" location = "thread.ecf"/>

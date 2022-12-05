@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2022-12-05 15:16:54 GMT (Monday 5th December 2022)"
+	revision: "9"
 
 class
 	EL_OS_RELEASE_IMP
@@ -49,7 +49,7 @@ feature {NONE} -- Line states
 
 	find_name (line: ZSTRING)
 		do
-			if line.starts_with (Name_field) then
+			if line.starts_with_zstring (Name_field) then
 				name := field_value (Name_field, line)
 				state := agent find_version
 			end
@@ -57,7 +57,7 @@ feature {NONE} -- Line states
 
 	find_version (line: ZSTRING)
 		do
-			if line.starts_with (Version_field) then
+			if line.starts_with_zstring (Version_field) then
 				across field_value (Version_field, line).split ('.') as list loop
 					inspect list.cursor_index
 						when 1 then

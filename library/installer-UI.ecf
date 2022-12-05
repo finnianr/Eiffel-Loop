@@ -25,6 +25,8 @@ Windows users. The user is asked to resize a window to the size of an A5 piece o
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_app_manage" location = "app-manage.ecf"/>
+		<library name = "EL_file_process" location = "file-processing.ecf"/>
+		<library name = "EL_image_utils" location = "image-utils.ecf"/>
 		<library name = "EL_logging" location = "logging.ecf"/>
 		<library name = "EL_vision2_x" location = "vision2-x.ecf">
 			<option>

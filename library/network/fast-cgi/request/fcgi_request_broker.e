@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2022-12-05 15:42:01 GMT (Monday 5th December 2022)"
+	revision: "12"
 
 class
 	FCGI_REQUEST_BROKER
@@ -178,7 +178,7 @@ feature -- Basic operations
 				index := index + Packet_size
 			end
 			-- Compensate for a bug in Cherokee where the connection closes early for HEAD requests
-			if is_head_request and then parameters.server_software.starts_with (Cherokee)
+			if is_head_request and then parameters.server_software.starts_with_zstring (Cherokee)
 				and then parameters.server_software_version <= 1_002_103
 			then
 				socket.close

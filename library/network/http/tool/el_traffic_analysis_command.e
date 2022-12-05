@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2022-12-05 15:42:27 GMT (Monday 5th December 2022)"
+	revision: "17"
 
 class
 	EL_TRAFFIC_ANALYSIS_COMMAND
@@ -57,7 +57,7 @@ feature -- Basic operations
 			lio.put_line ("Getting IP address locations:")
 			IP_location_table.set_log (Lio)
 			across human_entry_list as entry loop
-				if across config.page_list as page some entry.item.request_uri.starts_with (page.item) end then
+				if across config.page_list as page some entry.item.request_uri.starts_with_zstring (page.item) end then
 					call (IP_location_table.item (entry.item.ip_address))
 				end
 			end
@@ -126,7 +126,7 @@ feature {NONE} -- Implementation
 					lio.put_new_line
 				end
 				across config.page_list as page until found loop
-					if entry.item.request_uri.starts_with (page.item) then
+					if entry.item.request_uri.starts_with_zstring (page.item) then
 						found := True
 						if page_table.has_key (page.item) then
 							page_table.found_item.extend (entry.item.ip_address)

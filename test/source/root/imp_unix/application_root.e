@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-27 8:36:20 GMT (Sunday 27th November 2022)"
-	revision: "74"
+	date: "2022-12-05 18:20:59 GMT (Monday 5th December 2022)"
+	revision: "75"
 
 class
 	APPLICATION_ROOT
@@ -45,6 +45,9 @@ inherit
 
 	-- Test encryption.ecf
 		ENCRYPTION_AUTOTEST_APP,
+
+	--	Test file-processing.ecf
+		FILE_PROCESSING_AUTOTEST_APP,
 
 	-- Test eros.ecf
 		BEXT_CLIENT_TEST_APP,

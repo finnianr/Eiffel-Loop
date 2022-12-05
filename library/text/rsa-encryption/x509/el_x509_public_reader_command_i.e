@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2022-12-05 15:26:28 GMT (Monday 5th December 2022)"
+	revision: "7"
 
 deferred class
 	EL_X509_PUBLIC_READER_COMMAND_I
@@ -37,7 +37,7 @@ feature {NONE} -- State handlers
 
 	find_serial_number (line: ZSTRING)
 		do
-			if line.starts_with (Name.serial_number) then
+			if line.starts_with_zstring (Name.serial_number) then
 				serial_number := field.value (line)
 				serial_number.keep_head (serial_number.index_of ('(', 1) - 2)
 				state := agent find_public_key

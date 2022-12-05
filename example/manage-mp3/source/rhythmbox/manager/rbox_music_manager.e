@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "34"
+	date: "2022-12-05 15:33:53 GMT (Monday 5th December 2022)"
+	revision: "35"
 
 class
 	RBOX_MUSIC_MANAGER
@@ -48,7 +48,7 @@ feature -- Access
 	task_name: ZSTRING
 		do
 			Result := Naming.class_as_snake_lower (task, 0, 1)
-			if Result.starts_with ("export") then
+			if Result.starts_with_general ("export") then
 				Result := Name_template #$ [Result, task_path.parent.base]
 			end
 		end

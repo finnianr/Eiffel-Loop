@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2022-12-05 15:18:12 GMT (Monday 5th December 2022)"
+	revision: "14"
 
 class
 	ID3_FRAME_CODE_CLASS_GENERATOR
@@ -136,7 +136,7 @@ feature {NONE} -- Line states
 		do
 			a_line.adjust
 			line := a_line
-			if a_line.ends_with (User_defined_URL_link_frame) then
+			if a_line.ends_with_zstring (User_defined_URL_link_frame) then
 				state := final
 
 			elseif code_table.has (line) then

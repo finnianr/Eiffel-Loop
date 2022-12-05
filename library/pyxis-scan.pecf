@@ -40,6 +40,8 @@ system:
 		libraries:
 			EL_base = "base/base.ecf"
 			EL_doc_scan = "document-scan.ecf"
+			EL_file_process = "file-processing.ecf"
+			EL_text_formats = "text-formats.ecf"
 			EL_text_process = "text-process.ecf"
 
 		# Source code

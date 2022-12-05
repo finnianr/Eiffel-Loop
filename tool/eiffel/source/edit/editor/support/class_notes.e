@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2022-12-05 15:12:14 GMT (Monday 5th December 2022)"
+	revision: "11"
 
 class
 	CLASS_NOTES
@@ -66,13 +66,13 @@ feature {NONE} -- Line states
 				original_lines.extend (line)
 				if is_field (line) then
 					name := f.name (line); value := f.value (line)
-					if value.starts_with (Verbatim_string_start) then
+					if value.starts_with_zstring (Verbatim_string_start) then
 						create verbatim_field.make (name)
 						fields.extend (verbatim_field)
 						state := agent find_verbatim_string_end (?, verbatim_field)
 					else
 						if name ~ Description
-							and then (value.is_empty or across Description_defaults as l some value.starts_with (l.item) end)
+							and then (value.is_empty or across Description_defaults as l some value.starts_with_zstring (l.item) end)
 						then
 							value := default_description
 						end
@@ -85,10 +85,10 @@ feature {NONE} -- Line states
 	find_verbatim_string_end (line: ZSTRING; verbatim_field: VERBATIM_NOTE_FIELD)
 		do
 			original_lines.extend (line)
-			if line.ends_with (Verbatim_string_end) then
+			if line.ends_with_zstring (Verbatim_string_end) then
 				state := agent find_field
 			else
-				if line.starts_with (Tab) then
+				if line.starts_with_zstring (Tab) then
 					verbatim_field.append_text (line.substring_end (2))
 				else
 					verbatim_field.append_text (line)

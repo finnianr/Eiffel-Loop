@@ -26,6 +26,7 @@ See doc/os-command.txt for details.
 			</class_option>
 		</library>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
+		<library name = "EL_file_process" location = "file-processing.ecf"/>
 		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<!--Source code-->
 		<cluster name = "os_command" location = "runtime/process/commands" recursive = "true">

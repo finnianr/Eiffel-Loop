@@ -43,6 +43,7 @@ system:
 			EL_eco_db = "Eco-DB.ecf"
 			EL_encryption = "encryption.ecf"
 			EL_fast_cgi = "fast-cgi.ecf"
+			EL_file_process = "file-processing.ecf"
 			EL_text_formats = "text-formats.ecf"
 			EL_text_process = "text-process.ecf"
 

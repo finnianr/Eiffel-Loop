@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 17:05:12 GMT (Saturday 26th November 2022)"
-	revision: "39"
+	date: "2022-12-05 15:19:25 GMT (Monday 5th December 2022)"
+	revision: "40"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -212,10 +212,10 @@ feature {NONE} -- Implementation
 		do
 			current_working_directory := Directory.current_working
 			name := generator
-			if name.starts_with (EL_prefix) then
+			if name.starts_with_zstring (EL_prefix) then
 				name.remove_head (3)
 			end
-			if name.ends_with (Command_suffix) then
+			if name.ends_with_zstring (Command_suffix) then
 				name.remove_tail (8)
 			end
 			name.replace_character ('_', ' ')

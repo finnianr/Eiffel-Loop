@@ -21,8 +21,10 @@ Multi-media management classes
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_encryption" location = "encryption.ecf"/>
+		<library name = "EL_file_process" location = "file-processing.ecf"/>
 		<library name = "EL_network" location = "network.ecf"/>
 		<library name = "EL_os_command" location = "os-command.ecf"/>
+		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<!--Source code-->
 		<cluster name = "audio" location = "multimedia/audio" recursive = "true">
 			<description>

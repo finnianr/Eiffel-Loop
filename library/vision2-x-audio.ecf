@@ -9,7 +9,7 @@ This depends on the [./library/wel-x-audio.html WEL audio extensions] library.
 	</description>
 	<target name = "EL_vision2_x_audio">
 		<root all_classes = "true"/>
-		<option trace = "false" debug = "false" warning = "true" syntax = "standard">
+		<option trace = "false" debug = "false" warning = "true" syntax = "standard" full_class_checking = "false" void_safety = "none">
 			<assertions precondition = "true" postcondition = "true" check = "false" invariant = "false"/>
 		</option>
 		<library name = "wel" location = "$ISE_LIBRARY/library/wel/wel.ecf">

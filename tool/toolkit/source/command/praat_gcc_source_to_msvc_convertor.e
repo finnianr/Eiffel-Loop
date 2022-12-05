@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 20:52:54 GMT (Sunday 4th December 2022)"
-	revision: "20"
+	date: "2022-12-04 21:37:19 GMT (Sunday 4th December 2022)"
+	revision: "21"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR
@@ -28,7 +28,7 @@ inherit
 			make
 		end
 
-	EL_MODULE_FILE; EL_MODULE_LIO
+	EL_MODULE_FILE; EL_MODULE_LIO; EL_MODULE_TUPLE
 
 create
 	make
@@ -37,12 +37,9 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (a_input_dir, a_output_dir: DIR_PATH)
 		do
-			create praat_version_no.make_empty
-			create output_directory_text.make_empty
 			Precursor (a_input_dir, a_output_dir #+ a_input_dir.base)
 
-			c_header_list := new_path_list (Source_type.c_header)
-
+			c_header_list := new_path_list (Pattern.c_header)
 			c_header_list.find_first_base (Praat_version_h)
 			if c_header_list.found then
 --				#define PRAAT_VERSION 4.4.30
@@ -53,7 +50,6 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create make_file_parser.make
 
 			create converter_table.make (<<
-				[Default_key,			create {GCC_TO_MSVC_CONVERTER}.make],
 				["praat.c",				create {FILE_PRAAT_C_GCC_TO_MSVC_CONVERTER}.make],
 				["motifEmulator.c",	create {FILE_MOTIF_EMULATOR_C_GCC_TO_MSVC_CONVERTER}.make],
 				["gsl__config.h",		create {FILE_GSL_CONFIG_H_GCC_TO_MSVC_CONVERTER}.make],
@@ -73,9 +69,9 @@ feature -- Basic operations
 			build_script: PRAAT_BUILD_SCRIPT
 		do
 			do_with (agent convert_c_source_file, c_header_list)
-			do_all (agent convert_c_source_file, Source_type.c_source)
+			do_all (agent convert_c_source_file, Pattern.c_source)
 
-			do_all (agent convert_make_file, Source_type.make_file)
+			do_all (agent convert_make_file, Pattern.make_file)
 			create build_script.make (make_file_parser.c_library_name_list, output_dir, praat_version_no)
 			build_script.serialize
 		end
@@ -100,9 +96,8 @@ feature {NONE} -- Implementation
 			if converter_table.has_key (input_file_path.base) then
 				converter := converter_table.found_item
 			else
-				converter := converter_table [Default_key]
+				converter := Default_converter
 			end
-
 			converter.set_input_file_path (input_file_path)
 			converter.set_output_file_path (output_file_path)
 			converter.edit
@@ -141,22 +136,15 @@ feature {NONE} -- Internal attributes
 
 	make_file_parser: PRAAT_MAKE_FILE_PARSER
 
-	output_directory_text: ZSTRING
-
 	c_header_list: like new_path_list
 
 	praat_version_no: STRING
 
 feature {NONE} -- Constants
 
-	Default_key: ZSTRING
+	Default_converter: GCC_TO_MSVC_CONVERTER
 		once
-			Result := "default"
-		end
-
-	Praat_source: ZSTRING
-		once
-			Result := "praat.c"
+			create Result.make
 		end
 
 	Praat_version_h: ZSTRING
@@ -164,12 +152,10 @@ feature {NONE} -- Constants
 			Result := "praat_version.h"
 		end
 
-	Source_type: TUPLE [make_file, c_header, c_source: ZSTRING]
+	Pattern: TUPLE [make_file, c_header, c_source: ZSTRING]
 		once
 			create Result
-			Result.make_file := "Makefile"
-			Result.c_header := "*.h"
-			Result.c_source := "*.c"
+			Tuple.fill (Result, "Makefile, *.h, *.c")
 		end
 
 end

@@ -40,6 +40,8 @@ system:
 		libraries:
 			EL_base = "base/base.ecf"
 			EL_app_manage = "app-manage.ecf"
+			EL_file_process = "file-processing.ecf"
+			EL_image_utils = "image-utils.ecf"
 			EL_logging = "logging.ecf"
 			EL_vision2_x = "vision2-x.ecf"
 			option: 

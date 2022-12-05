@@ -9,29 +9,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "67"
+	date: "2022-12-05 18:46:18 GMT (Monday 5th December 2022)"
+	revision: "68"
 
 class
 	APPLICATION_ROOT
 
 inherit
 	EL_MULTI_APPLICATION_ROOT [BUILD_INFO,
-		AUTOTEST_APP,
-
-	-- For maintenance purposes only
-		MEDIA_PLAYER_DUMMY_APP,
-
-		EXPERIMENTS_APP,
-
-	-- Test network.ecf (Do first to give time for socket address to be released for EROS_AUTOTEST_APP)
-		NETWORK_AUTOTEST_APP,
-
 	-- Test amazon-instant-access.ecf
 		AMAZON_INSTANT_ACCESS_AUTOTEST_APP,
 
+		AUTOTEST_APP,
+
 	-- Test base.ecf
 		BASE_AUTOTEST_APP,
+
+		EIFFEL_AUTOTEST_APP,
+	-- Test core concepts and behaviour of basic Eiffel code and libraries
 
 	-- Test compression.ecf
 		COMPRESSION_AUTOTEST_APP,
@@ -51,6 +46,9 @@ inherit
 	-- Test evolicity.ecf
 		EVOLICITY_AUTOTEST_APP,
 
+	--	Test file-processing.ecf
+		FILE_PROCESSING_AUTOTEST_APP,
+
 	-- Test http-client.ecf
 		HTTP_CLIENT_AUTOTEST_APP,
 
@@ -59,6 +57,12 @@ inherit
 
 	-- Test image-utils.ecf
 		IMAGE_UTILS_AUTOTEST_APP,
+
+	-- For maintenance purposes only
+		MEDIA_PLAYER_DUMMY_APP,
+
+	-- Test network.ecf (Do first to give time for socket address to be released for EROS_AUTOTEST_APP)
+		NETWORK_AUTOTEST_APP,
 
 	-- Test markup-docs.pecf
 		OPEN_OFFICE_AUTOTEST_APP,

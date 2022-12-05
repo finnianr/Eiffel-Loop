@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2022-12-05 13:45:15 GMT (Monday 5th December 2022)"
+	revision: "14"
 
 class
 	EL_USERS_INFO_COMMAND_IMP
@@ -72,7 +72,6 @@ feature {NONE} -- Implementation
 			--
 		local
 			home_list: EL_ZSTRING_LIST
-
 		do
 			-- fill `user_list'
 			do_with_text_lines (agent find_dashed_line, new_net_user_list)
@@ -83,7 +82,7 @@ feature {NONE} -- Implementation
 				end
 			end
 			-- prune users that do not have a matching directory in C:\Users
-			create user_list.make_from_list (user_list.query_if (agent home_list.has))
+			create user_list.make_from_if (user_list, agent home_list.has)
 		end
 
 	new_net_user_list: EL_ZSTRING_LIST

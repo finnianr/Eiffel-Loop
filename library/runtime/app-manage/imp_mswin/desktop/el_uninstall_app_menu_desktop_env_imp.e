@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2022-12-05 13:43:54 GMT (Monday 5th December 2022)"
+	revision: "16"
 
 class
 	EL_UNINSTALL_APP_MENU_DESKTOP_ENV_IMP
@@ -101,12 +101,13 @@ feature {NONE} -- Implementation
 	estimated_size: INTEGER
 			-- estimated size of install in KiB
 		local
-			list: like File_system.files; byte_count: INTEGER
+			byte_count: INTEGER
 		do
-			list := File_system.files (Directory.Application_installation, True)
-			from list.start until list.after loop
-				byte_count := byte_count + File.byte_count (list.item)
-				list.forth
+			if attached File_system.files (Directory.Application_installation, True) as list then
+				from list.start until list.after loop
+					byte_count := byte_count + File.byte_count (list.path)
+					list.forth
+				end
 			end
 			Result := (byte_count / 1024.0).rounded
 		end

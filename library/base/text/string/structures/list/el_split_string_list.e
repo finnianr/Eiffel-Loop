@@ -14,16 +14,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "35"
+	date: "2022-12-05 16:03:04 GMT (Monday 5th December 2022)"
+	revision: "36"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
 
 inherit
 	EL_SPLIT_READABLE_STRING_LIST [S]
+		rename
+			circular_i_th as circular_i_th_copy,
+			first_item as first_item_copy,
+			i_th as i_th_copy,
+			item as item_copy,
+			last_item as last_item_copy
 		redefine
-			i_th, item, make_empty
+			make_empty
 		end
 
 	EL_LINEAR_STRINGS [S]
@@ -58,36 +64,33 @@ feature -- Basic operations
 
 feature -- Shared items
 
-	first_item: S
-		-- first split item
-		-- (DO NOT KEEP REFERENCES)
+	circular_i_th (i: INTEGER): S
 		do
-			if count = 0 then
-				Result := empty_item
-			else
-				Result := i_th (1)
+			Result := empty_item
+			append_substring (Result, circular_i_th_interval (i))
+		end
+
+	first_item: S
+		do
+			Result := empty_item
+			if count > 0 then
+				append_substring (Result, first_interval)
 			end
 		end
 
 	i_th (i: INTEGER): S
-		local
-			interval: INTEGER_64
 		do
-			interval := i_th_interval (i)
 			Result := empty_item
-			Result.append_substring (target, lower_integer (interval), upper_integer (interval))
+			append_substring (Result, i_th_interval (i))
 		end
 
 	item: S
 		-- current iteration split item
 		-- (DO NOT KEEP REFERENCES)
-		local
-			interval: INTEGER_64
 		do
 			Result := empty_item
 			if not off then
-				interval := interval_item
-				Result.append_substring (target, lower_integer (interval), upper_integer (interval))
+				append_substring (Result, interval_item)
 			end
 		end
 
@@ -95,30 +98,9 @@ feature -- Shared items
 		-- last split item
 		-- (DO NOT KEEP REFERENCES)
 		do
-			if count = 0 then
-				Result := empty_item
-			else
-				Result := i_th (count)
-			end
-		end
-
-feature -- Items
-
-	first_item_copy: S
-		do
-			if count = 0 then
-				Result := empty_item
-			else
-				Result := i_th (1)
-			end
-		end
-
-	last_item_copy: S
-		do
-			if count = 0 then
-				Result := empty_item
-			else
-				Result := i_th_copy (count)
+			Result := empty_item
+			if count > 0 then
+				append_substring (Result, last_interval)
 			end
 		end
 
@@ -215,6 +197,11 @@ feature -- Status query
 		end
 
 feature {NONE} -- Implementation
+
+	append_substring (str: S; interval: INTEGER_64)
+		do
+			str.append_substring (target, lower_integer (interval), upper_integer (interval))
+		end
 
 	empty_item: S
 		do

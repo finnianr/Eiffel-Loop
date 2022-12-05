@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2022-12-05 11:47:32 GMT (Monday 5th December 2022)"
+	revision: "8"
 
 deferred class
 	EL_INSTALLER_APP [W -> EL_INSTALLER_MAIN_WINDOW create make end]
@@ -17,7 +17,8 @@ inherit
 		rename
 			init_console as init_console_and_logging
 		undefine
-			do_application, init_console_and_logging, io_put_header, new_lio, standard_options
+			do_application, help_requested, init_console_and_logging, io_put_header, new_lio, print_help,
+			standard_options
 		redefine
 			Description, initialize, install_package
 		end

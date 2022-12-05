@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2022-12-05 13:29:32 GMT (Monday 5th December 2022)"
+	revision: "21"
 
 deferred class
 	EL_FIND_COMMAND_I
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		do
-			create path_list.make (20)
+			path_list := new_path_list (20)
 			Precursor
 			set_defaults
 		end
@@ -60,7 +60,7 @@ feature -- Access
 			Result.sort
 		end
 
-	path_list: EL_SORTABLE_ARRAYED_LIST [like new_path] note option: transient attribute end
+	path_list: like new_path_list note option: transient attribute end
 
 	type: STRING
 			-- Unix find type or Windows attribute /A
@@ -199,6 +199,10 @@ feature {NONE} -- Implementation
 		end
 
 	new_path (a_path: ZSTRING): EL_PATH
+		deferred
+		end
+
+	new_path_list (n: INTEGER): EL_SORTABLE_ARRAYED_LIST [like new_path]
 		deferred
 		end
 

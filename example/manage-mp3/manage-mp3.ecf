@@ -50,6 +50,7 @@ See doc/manage-mp3.txt for details
 		<library name = "EL_eco_db" location = "$EIFFEL_LOOP/library/Eco-DB.ecf" readonly = "false"/>
 		<library name = "EL_encryption" location = "$EIFFEL_LOOP/library/encryption.ecf" readonly = "false"/>
 		<library name = "EL_evolicity" location = "$EIFFEL_LOOP/library/evolicity.ecf" readonly = "false"/>
+		<library name = "EL_file_process" location = "$EIFFEL_LOOP/library/file-processing.ecf" readonly = "false"/>
 		<library name = "EL_logging" location = "$EIFFEL_LOOP/library/logging.ecf" readonly = "false"/>
 		<library name = "EL_multimedia" location = "$EIFFEL_LOOP/library/multi-media.ecf" readonly = "false"/>
 		<library name = "EL_network" location = "$EIFFEL_LOOP/library/network.ecf" readonly = "false"/>

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 21:24:40 GMT (Sunday 4th December 2022)"
-	revision: "10"
+	date: "2022-12-05 13:30:38 GMT (Monday 5th December 2022)"
+	revision: "11"
 
 deferred class
 	EL_FIND_DIRECTORIES_COMMAND_I
@@ -16,13 +16,7 @@ inherit
 	EL_FIND_COMMAND_I
 		rename
 			copy_directory_items as copy_sub_directories
-		redefine
-			path_list
 		end
-
-feature -- Access
-
-	path_list: EL_DIRECTORY_PATH_LIST note option: transient attribute end
 
 feature {NONE} -- Implementation
 
@@ -34,6 +28,11 @@ feature {NONE} -- Implementation
 	new_path (a_path: ZSTRING): DIR_PATH
 		do
 			create Result.make (a_path)
+		end
+
+	new_path_list (n: INTEGER): EL_DIRECTORY_PATH_LIST
+		do
+			create Result.make_sized (n)
 		end
 
 end

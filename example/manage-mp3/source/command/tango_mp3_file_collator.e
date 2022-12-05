@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "19"
+	date: "2022-12-05 15:32:54 GMT (Monday 5th December 2022)"
+	revision: "20"
 
 class
 	TANGO_MP3_FILE_COLLATOR
@@ -112,7 +112,7 @@ feature {NONE} -- Implementation
 			if Result.is_empty or else Tango_genres.has (Result) then
 				Result := Tango
 
-			elseif Result.starts_with (Prefix_argentine) then
+			elseif Result.starts_with_zstring (Prefix_argentine) then
 				Result.remove_head (Prefix_argentine.count)
 
 			elseif Result ~ Electronica then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-25 8:44:08 GMT (Friday 25th November 2022)"
-	revision: "17"
+	date: "2022-12-05 14:21:17 GMT (Monday 5th December 2022)"
+	revision: "18"
 
 class
 	APPLICATION_ROOT
@@ -65,7 +65,10 @@ feature {NONE} -- Compiled classes
 			create Result
 		end
 
-	widgets: TUPLE [EL_SCALE_SLIDER, EL_MIXED_FONT_LABEL_AREA, EL_MIXED_STYLE_FIXED_LABELS]
+	widgets: TUPLE [
+		EL_SCALE_SLIDER, EL_MIXED_FONT_LABEL_AREA, EL_MIXED_STYLE_FIXED_LABELS,
+		EL_GENERATED_SVG_BUTTON_PIXMAP_SET
+	]
 		do
 			create Result
 		end

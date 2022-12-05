@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2022-12-05 14:24:23 GMT (Monday 5th December 2022)"
+	revision: "6"
 
 deferred class
 	LB_BASIC_CONFIG_EDIT_DIALOG
@@ -122,10 +122,7 @@ feature {NONE} -- Event handlers
 
 feature {NONE} -- Component layout
 
-	add_integer_field (
-		field_label: STRING;
-		initial_value: EL_EDITABLE_INTEGER
-	)
+	add_integer_field (field_label: STRING; initial_value: EL_EDITABLE_INTEGER)
 			--
 		local
 			field: EL_INTEGER_EDIT_FIELD
@@ -142,10 +139,7 @@ feature {NONE} -- Component layout
 			layout_next_row
 		end
 
-	add_real_field (
-		field_label: STRING;
-		initial_value: EL_EDITABLE_REAL
-	)
+	add_real_field (field_label: STRING; initial_value: EL_EDITABLE_REAL)
 			--
 		local
 			field: EL_REAL_EDIT_FIELD
@@ -248,5 +242,4 @@ feature {NONE} -- Default constants
 	Border_top_bottom: INTEGER = 15
 
 end
-
 

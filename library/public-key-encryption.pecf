@@ -49,6 +49,7 @@ system:
 			EL_compression = "compression.ecf"
 			EL_eco_db = "Eco-DB.ecf"
 			EL_encryption = "encryption.ecf"
+			EL_file_process = "file-processing.ecf"
 			EL_os_command = "os-command.ecf"
 			EL_evolicity = "evolicity.ecf"
 			EL_text_process = "text-process.ecf"

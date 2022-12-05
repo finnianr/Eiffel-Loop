@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 13:29:03 GMT (Sunday 4th December 2022)"
-	revision: "48"
+	date: "2022-12-05 13:50:52 GMT (Monday 5th December 2022)"
+	revision: "49"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -37,8 +37,9 @@ inherit
 		end
 
 create
-	make, make_empty, make_default_filled, make_filled, make_from_for,
-	make_joined, make_from_special, make_from_array, make_from, make_from_if,
+	make, make_empty, make_default_filled, make_filled,
+	make_from_for, make_from, make_from_if,
+	make_joined, make_from_special, make_from_array,
 	make_from_sub_list, make_from_tuple
 
 convert

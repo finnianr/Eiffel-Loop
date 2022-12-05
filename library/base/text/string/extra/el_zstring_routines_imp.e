@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-12-05 15:15:52 GMT (Monday 5th December 2022)"
+	revision: "3"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -277,7 +277,7 @@ feature -- Status query
 
 	starts_with (a, b: ZSTRING): BOOLEAN
 		do
-			Result := a.starts_with (b)
+			Result := a.starts_with_zstring (b)
 		end
 
 	starts_with_drive (str: ZSTRING): BOOLEAN

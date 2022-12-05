@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2022-12-05 15:14:55 GMT (Monday 5th December 2022)"
+	revision: "5"
 
 class
 	HYPERLINK_NOTE_SUBSTITUTION
@@ -33,7 +33,7 @@ feature {NONE} -- Implementation
 			first_index: INTEGER
 		do
 			l_path := path
-			if path.starts_with (Current_dir_forward_slash) then
+			if path.starts_with_zstring (Current_dir_forward_slash) then
 				first_index := Current_dir_forward_slash.count + 1
 				if path.occurrences ('/') > 1 then
 					html_path := path.substring_end (first_index)

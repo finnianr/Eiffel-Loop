@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 10:56:11 GMT (Sunday 4th December 2022)"
-	revision: "18"
+	date: "2022-12-05 15:27:47 GMT (Monday 5th December 2022)"
+	revision: "19"
 
 class
 	EL_GVFS_VOLUME
@@ -84,7 +84,7 @@ feature -- File operations
 		do
 			command := File_list_command
 			if directory_exists (dir_path) then
-				if wild_card.starts_with (Star_dot) then
+				if wild_card.starts_with_zstring (Star_dot) then
 					extension := wild_card.substring_end (3)
 				else
 					create extension.make_empty

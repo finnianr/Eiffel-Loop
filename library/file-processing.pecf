@@ -1,0 +1,45 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+system:
+	configuration_ns = "1-16-0"; uuid = "9588294A-7479-11ED-9684-339C157EAC73" 
+	name = EL_file_process; library_target = EL_file_process
+	description:
+		"""
+			File and Directory Data Processing
+
+			Class categories:
+
+			* Path environment variable setting
+			* Directory content processing to mirrored tree
+			* Comma separated value support
+			* File persistence and file deserialization
+			* Reflective persistence
+			* File swapping
+			* Unique identifier
+		"""
+	target:
+		name = EL_file_process
+		root:
+			all_classes = true
+
+		option:
+			namespace = "Eiffel-Loop.Library.File.Process"
+			syntax = standard; full_class_checking = false; void_safety = none
+			trace = false; debug=false; warning=true
+			assertions:
+				precondition = true; postcondition = true; check = true; invariant = true
+
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			uuid = "uuid/uuid.ecf"
+
+		# Eiffel Loop
+		library:
+			EL_base = "base/base.ecf"
+
+		# Source code
+		cluster_tree:
+			file = "persistency/file"
+

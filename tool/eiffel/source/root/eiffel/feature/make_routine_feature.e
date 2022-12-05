@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2022-12-05 15:18:05 GMT (Monday 5th December 2022)"
+	revision: "5"
 
 class
 	MAKE_ROUTINE_FEATURE
@@ -72,7 +72,9 @@ feature {NONE} -- Implementation
 		do
 			-- Find 'do' keyword
 			from lines.start until lines.after or l_found loop
-				if lines.item.ends_with (Keyword.do_) and then lines.item.z_code (lines.item.count - 2) = Tab_code then
+				if lines.item.ends_with_zstring (Keyword.do_)
+					and then lines.item.z_code (lines.item.count - 2) = Tab_code
+				then
 					l_found := True
 				end
 				lines.forth

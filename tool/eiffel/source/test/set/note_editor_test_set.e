@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-22 9:41:56 GMT (Tuesday 22nd November 2022)"
-	revision: "35"
+	date: "2022-12-05 15:13:57 GMT (Monday 5th December 2022)"
+	revision: "36"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -129,7 +129,7 @@ feature {NONE} -- Line states
 
 	find_class (line: ZSTRING)
 		do
-			if line.starts_with (Keyword.class_) then
+			if line.starts_with_zstring (Keyword.class_) then
 				state := agent find_end
 				find_end (line)
 			end

@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2022-12-05 15:39:48 GMT (Monday 5th December 2022)"
+	revision: "14"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -78,7 +78,7 @@ feature {NONE} -- Implementation
 
 	is_hacker_probe (path_lower: ZSTRING): BOOLEAN
 		do
-			if digit_count (path_lower) > Maximum_digits and then not path_lower.ends_with (Dot_png) then
+			if digit_count (path_lower) > Maximum_digits and then not path_lower.ends_with_zstring (Dot_png) then
 				-- Block requests like: "GET /87543bde9176626b120898f9141058 HTTP/1.1"
 				-- but allow: "GET /images/favicon/196x196.png HTTP/1.1"
 				Result := True

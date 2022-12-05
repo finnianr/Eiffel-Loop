@@ -20,7 +20,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 9; release = 2; build = 528
+			major = 1; minor = 9; release = 4; build = 528
 			company = "Eiffel-Loop"; product = "eiffel"
 			copyright = "Finnian Reilly"
 
@@ -61,6 +61,7 @@ system:
 			EL_doc_scan = "document-scan.ecf"
 			EL_encryption = "encryption.ecf"
 			EL_evolicity = "evolicity.ecf"
+			EL_file_process = "file-processing.ecf"
 			EL_i18n = "i18n.ecf"
 			option:
 				assertions:

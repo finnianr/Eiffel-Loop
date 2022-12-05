@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "33"
+	date: "2022-12-05 15:25:17 GMT (Monday 5th December 2022)"
+	revision: "34"
 
 class
 	PP_TRANSACTION
@@ -189,7 +189,7 @@ feature {NONE} -- Implementation
 
 	set_name_value (key, a_value: ZSTRING)
 		do
-			if key.starts_with (Address_prefix) then
+			if key.starts_with_zstring (Address_prefix) then
 				key [Address_prefix.count] := '.'
 			end
 			set_field (key, a_value)

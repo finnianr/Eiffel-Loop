@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2022-12-05 11:12:26 GMT (Monday 5th December 2022)"
+	revision: "10"
 
 class
 	EL_BYTE_ARRAY
@@ -21,6 +21,13 @@ inherit
 		end
 
 	HASHABLE
+		undefine
+			is_equal
+		end
+
+	UUID_GENERATOR -- Access to {UUID}.make_from_array
+		export
+			{NONE} all
 		undefine
 			is_equal
 		end
@@ -142,7 +149,7 @@ feature -- Conversion
 			Result.area.base_address.memory_copy (area.base_address, count)
 		end
 
-	to_uuid: EL_UUID
+	to_uuid: UUID
 		-- copy first `count.min (18)' bytes to make `EL_UUID'
 		local
 			last_seg_64: NATURAL_64; padded: ARRAY [NATURAL_8]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-12-05 15:20:07 GMT (Monday 5th December 2022)"
+	revision: "3"
 
 class
 	EL_BASE_NAME_IN_LIST_FIND_CONDITION
@@ -33,7 +33,7 @@ feature {NONE} -- Status query
 		do
 			separator := Operating_environment.Directory_separator
 			across base_name_list as list until Result loop
-				if path.ends_with (list.item) then
+				if path.ends_with_zstring (list.item) then
 					if path.count = list.item.count then
 						Result := True
 					else

@@ -30,6 +30,7 @@ See class [$source CRYPTO_APP] for details.
 		<library name = "EL_compression" location = "compression.ecf"/>
 		<library name = "EL_eco_db" location = "Eco-DB.ecf"/>
 		<library name = "EL_encryption" location = "encryption.ecf"/>
+		<library name = "EL_file_process" location = "file-processing.ecf"/>
 		<library name = "EL_os_command" location = "os-command.ecf"/>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
 		<library name = "EL_text_process" location = "text-process.ecf"/>

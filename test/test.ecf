@@ -65,6 +65,7 @@
 		<library name = "EL_eros" location = "$EIFFEL_LOOP/library/eros.ecf" readonly = "false"/>
 		<library name = "EL_evolicity" location = "$EIFFEL_LOOP/library/evolicity.ecf" readonly = "false"/>
 		<library name = "EL_fast_cgi" location = "$EIFFEL_LOOP/library/fast-cgi.ecf" readonly = "false"/>
+		<library name = "EL_file_process" location = "$EIFFEL_LOOP/library/file-processing.ecf" readonly = "false"/>
 		<library name = "EL_http_client" location = "$EIFFEL_LOOP/library/http-client.ecf" readonly = "false"/>
 		<library name = "EL_i18n" location = "$EIFFEL_LOOP/library/i18n.ecf" readonly = "false"/>
 		<library name = "EL_image_utils" location = "$EIFFEL_LOOP/library/image-utils.ecf" readonly = "false"/>
@@ -201,6 +202,15 @@ evolicity.ecf
 
 Test of Evolicity text substitution engine.
 See class [$source EVOLICITY_TEST_APP]
+			</description>
+		</cluster>
+		<cluster name = "file_processing" location = "source/file-processing" recursive = "true">
+			<description>
+file-processing.ecf
+
+Test [./library/file-processing.html File and Directory Processing)] library.
+
+See class [$source FILE_PROCESSING_AUTOTEST_APP]
 			</description>
 		</cluster>
 		<cluster name = "http_client" location = "source/http-client" recursive = "true">

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "52"
+	date: "2022-12-05 10:24:39 GMT (Monday 5th December 2022)"
+	revision: "53"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -32,11 +32,6 @@ inherit
 		rename
 			copy as copy_object,
 			Directory as Stanard_directory
-		end
-
-	EL_FILE_OPEN_ROUTINES
-		rename
-			copy as copy_object
 		end
 
 	STRING_HANDLER

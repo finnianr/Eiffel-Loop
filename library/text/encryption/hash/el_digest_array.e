@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2022-12-05 11:01:33 GMT (Monday 5th December 2022)"
+	revision: "18"
 
 class
 	EL_DIGEST_ARRAY
@@ -26,7 +26,7 @@ create
 	make_from_plain_text
 
 convert
-	to_special: {SPECIAL [NATURAL_8]}, to_uuid: {EL_UUID}, to_data: {MANAGED_POINTER}
+	to_special: {SPECIAL [NATURAL_8]}, to_uuid: {UUID}, to_data: {MANAGED_POINTER}
 
 feature {NONE} -- Initialization
 

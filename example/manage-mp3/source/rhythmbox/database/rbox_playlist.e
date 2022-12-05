@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "32"
+	date: "2022-12-05 11:54:37 GMT (Monday 5th December 2022)"
+	revision: "33"
 
 class
 	RBOX_PLAYLIST
@@ -162,7 +162,7 @@ feature -- Element change
 			if a_name.is_empty then
 				id := Default_id
 			else
-				set_id_from_uuid (Digest.md5 (a_name.to_utf_8 (False)))
+				set_id_from_uuid (Digest.md5 (a_name.to_utf_8 (False)).to_uuid)
 			end
 		end
 

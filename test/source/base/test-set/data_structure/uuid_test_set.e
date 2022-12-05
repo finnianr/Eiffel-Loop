@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2022-12-05 11:06:57 GMT (Monday 5th December 2022)"
+	revision: "5"
 
 class
 	UUID_TEST_SET
@@ -35,7 +35,7 @@ feature -- Tests
 			s: EL_STRING_8_ROUTINES
 		do
 			same_string := "same string"
-			uuid := Digest.md5 (same_string)
+			uuid := Digest.md5 (same_string).to_uuid
 			s1 := uuid.to_string; s2 := uuid.out
 			assert (same_string, s1 ~ s2)
 

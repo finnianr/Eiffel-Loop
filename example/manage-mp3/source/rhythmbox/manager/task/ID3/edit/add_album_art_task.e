@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "21"
+	date: "2022-12-05 15:33:35 GMT (Monday 5th December 2022)"
+	revision: "22"
 
 class
 	ADD_ALBUM_ART_TASK
@@ -129,7 +129,7 @@ feature {EQA_TEST_SET} -- Implementation
 
 	cortina_type (song: RBOX_SONG): ZSTRING
 		do
-			if song.title.starts_with (Tanda.the_end) then
+			if song.title.starts_with_zstring (Tanda.the_end) then
 				Result := Tanda.the_end
 			else
 				Result := song.title.substring_between (Dot_space, Space_tanda, 1)

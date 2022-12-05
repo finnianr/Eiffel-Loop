@@ -1,3 +1,9 @@
+1.9.4
+* Insert starts_with_zstring and ends_with_zstring where appropriate
+
+1.9.3
+* Added manifest name to grep search message
+
 1.9.2
 * New class TP_FACTORY_SELECTOR
 

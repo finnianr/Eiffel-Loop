@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 17:25:32 GMT (Wednesday 16th November 2022)"
-	revision: "26"
+	date: "2022-12-05 15:12:53 GMT (Monday 5th December 2022)"
+	revision: "27"
 
 class
 	CHECK_LOCALE_STRINGS_COMMAND
@@ -136,7 +136,9 @@ feature {NONE} -- State handlers
 			elseif code_line_starts_with_one_of (2, Routine_start_keywords) then
 				routine_lines.wipe_out
 				state := agent find_routine_end
-			elseif tab_count = 1 and across English_prefixes as l_prefix some code_line.starts_with (l_prefix.item) end then
+			elseif tab_count = 1
+				and then across English_prefixes as l_prefix some code_line.starts_with_zstring (l_prefix.item) end
+			then
 				if code_line [code_line.count] = '"' then
 					-- eg: English_name: STRING = "&Backup"
 					pos_quote := code_line.last_index_of ('"', code_line.count - 1)

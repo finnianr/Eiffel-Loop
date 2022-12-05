@@ -25,6 +25,7 @@ purchases but not subscriptions. It passes a basic test suite but has not yet be
 		<library name = "EL_eco_db" location = "Eco-DB.ecf"/>
 		<library name = "EL_encryption" location = "encryption.ecf"/>
 		<library name = "EL_fast_cgi" location = "fast-cgi.ecf"/>
+		<library name = "EL_file_process" location = "file-processing.ecf"/>
 		<library name = "EL_text_formats" location = "text-formats.ecf"/>
 		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<!--Source code-->

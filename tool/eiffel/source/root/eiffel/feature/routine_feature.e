@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2022-12-05 15:17:41 GMT (Monday 5th December 2022)"
+	revision: "5"
 
 class
 	ROUTINE_FEATURE
@@ -55,7 +55,7 @@ feature {NONE} -- Implementation
 				lower := 1
 			else
 				lower := lines.index + 1
-				from lines.forth until lines.after or else lines.item.starts_with (Body_end_line) loop
+				from lines.forth until lines.after or else lines.item.starts_with_zstring (Body_end_line) loop
 					lines.forth
 				end
 				if lines.after then
@@ -73,11 +73,13 @@ feature {NONE} -- Implementation
 		do
 			create loop_code.make_empty
 			Loop_template.set_variable ("expression", until_expression)
-			if until_expression.ends_with (Dot_after) or else until_expression.ends_with (Dot_before) then
+			if until_expression.ends_with_zstring (Dot_after)
+				or else until_expression.ends_with_zstring (Dot_before)
+			then
 				pos_dot := until_expression.index_of ('.', 1)
 				if pos_dot > 0 then
 					l_name := until_expression.substring (1, pos_dot - 1)
-					if until_expression.ends_with (Dot_after) then
+					if until_expression.ends_with_zstring (Dot_after) then
 						Loop_template.set_variable (Var_initial, l_name + ".start")
 						Loop_template.set_variable (Var_increment, l_name + ".forth")
 					else

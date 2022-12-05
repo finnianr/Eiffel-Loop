@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2022-12-05 15:13:09 GMT (Monday 5th December 2022)"
+	revision: "16"
 
 class
 	SOURCE_DIRECTORY
@@ -122,7 +122,7 @@ feature {NONE} -- Evolicity fields
 	get_section: ZSTRING
 		do
 			Result := dir_title
-			if Result.starts_with (Dot_slash) then
+			if Result.starts_with_zstring (Dot_slash) then
 				Result.remove_head (2)
 			end
 			Result.replace_character ('/', '-')

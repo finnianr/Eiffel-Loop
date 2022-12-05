@@ -91,6 +91,7 @@ system:
 			EL_eros = "eros.ecf"
 			EL_evolicity = "evolicity.ecf"
 			EL_fast_cgi = "fast-cgi.ecf"
+			EL_file_process = "file-processing.ecf"
 			EL_http_client = "http-client.ecf"
 			EL_i18n = "i18n.ecf"
 			EL_image_utils = "image-utils.ecf"
@@ -230,6 +231,16 @@ system:
 					
 					Test of Evolicity text substitution engine.
 					See class [$source EVOLICITY_TEST_APP]
+				"""
+		cluster_tree:
+			file_processing = "source/file-processing"
+			description:
+				"""
+					file-processing.ecf
+					
+					Test [./library/file-processing.html File and Directory Processing)] library.
+
+					See class [$source FILE_PROCESSING_AUTOTEST_APP]
 				"""
 		cluster_tree:
 			http_client = "source/http-client"

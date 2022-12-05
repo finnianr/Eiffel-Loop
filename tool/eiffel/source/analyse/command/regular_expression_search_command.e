@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 6:26:21 GMT (Saturday 26th November 2022)"
-	revision: "8"
+	date: "2022-12-05 9:54:20 GMT (Monday 5th December 2022)"
+	revision: "9"
 
 class
 	REGULAR_EXPRESSION_SEARCH_COMMAND
@@ -122,7 +122,9 @@ feature {NONE} -- Implementation
 			has_error := False
 			source_dir.wipe_out; source_class.wipe_out
 
-			lio.put_labeled_substitution ("Searching", "%S directories", [manifest.source_tree_list.count])
+			lio.put_labeled_substitution (
+				"Searching", "%S in %S directories", [manifest.name, manifest.source_tree_list.count]
+			)
 			lio.put_new_line
 			Track.progress (Console_display, manifest.source_tree_list.count, agent iterate_source_trees)
 

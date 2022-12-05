@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 13:19:37 GMT (Sunday 4th December 2022)"
-	revision: "23"
+	date: "2022-12-05 11:33:24 GMT (Monday 5th December 2022)"
+	revision: "24"
 
 class
 	EL_DIRECTORY
@@ -207,13 +207,17 @@ feature -- Element change
 feature -- Status query
 
 	has_executable (a_name: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			s_32: EL_STRING_32_ROUTINES
 		do
-			Result := has_entry_of_type (string_32.from_general (a_name, False), Type_executable_file)
+			Result := has_entry_of_type (s_32.from_general (a_name, False), Type_executable_file)
 		end
 
 	has_file_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			s_32: EL_STRING_32_ROUTINES
 		do
-			Result := has_entry_of_type (string_32.from_general (a_name, False), Type_file)
+			Result := has_entry_of_type (s_32.from_general (a_name, False), Type_file)
 		end
 
 	is_following_symlinks: BOOLEAN
@@ -429,10 +433,6 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 		do
 			internal_path := a_name
 			internal_path_pointer := file_info.file_name_to_pointer (a_name, internal_path_pointer)
-		end
-
-	string_32: EL_STRING_32_ROUTINES
-		do
 		end
 
 feature {EL_DIRECTORY_ITERATION_CURSOR} -- Internal attributes

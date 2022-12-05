@@ -19,6 +19,7 @@ Supported formats are: XML, XHTML, HTML, JSON, CSV.
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
+		<library name = "EL_file_process" location = "file-processing.ecf"/>
 		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<!--Source code-->
 		<cluster name = "formats" location = "text/formats" recursive = "true"/>

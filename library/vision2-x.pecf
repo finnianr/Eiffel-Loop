@@ -73,9 +73,10 @@ system:
 		libraries:
 			EL_base = "base/base.ecf"
 			EL_c_api = "C-language-interface.ecf"
-			EL_search = "search-engine.ecf"
+			EL_file_process = "file-processing.ecf"
 			EL_image_utils = "image-utils.ecf"
 			EL_logging = "logging.ecf"
+			EL_search = "search-engine.ecf"
 			EL_text_process = "text-process.ecf"
 			EL_thread = "thread.ecf"
 			EL_wel_x = "wel-x.ecf"

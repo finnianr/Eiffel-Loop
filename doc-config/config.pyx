@@ -113,6 +113,7 @@ publish-repository:
 		ecf:
 			"library/document-scan.ecf"
 			"library/Eco-DB.ecf"
+			"library/file-processing.ecf"
 			"library/markup-docs.ecf#kindle_book"
 			"library/markup-docs.ecf#thunderbird"
 			"library/markup-docs.ecf#open_office"
@@ -182,6 +183,7 @@ publish-repository:
 			"test/test.ecf#encryption"
 			"test/test.ecf#eros"
 			"test/test.ecf#evolicity"
+			"test/test.ecf#file_processing"
 			"test/test.ecf#http_client"
 			"test/test.ecf#i18n"
 			"test/test.ecf#image_utils"

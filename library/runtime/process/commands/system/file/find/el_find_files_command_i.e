@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2022-12-05 13:42:28 GMT (Monday 5th December 2022)"
+	revision: "15"
 
 deferred class
 	EL_FIND_FILES_COMMAND_I
@@ -17,8 +17,6 @@ inherit
 		rename
 			make as make_path,
 			copy_directory_items as copy_directory_files
-		redefine
-			path_list
 		end
 
 	EL_MODULE_FILE
@@ -31,10 +29,6 @@ feature {NONE} -- Initialization
 			make_path (a_dir_path)
 			name_pattern.append_string_general (a_name_pattern)
 		end
-
-feature -- Access
-
-	path_list: EL_FILE_PATH_LIST
 
 feature -- Measurement
 
@@ -58,4 +52,8 @@ feature {NONE} -- Implementation
 			create Result.make (a_path)
 		end
 
+	new_path_list (n: INTEGER): EL_FILE_PATH_LIST
+		do
+			create Result.make_with_count (n)
+		end
 end

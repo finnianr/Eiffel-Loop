@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2022-12-05 15:11:34 GMT (Monday 5th December 2022)"
+	revision: "13"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -76,16 +76,16 @@ feature -- Start/End comparisons
 				Result := True
 
 			elseif attached {EL_READABLE_ZSTRING} str as z_str then
-				Result := ends_with_ztring (z_str)
+				Result := ends_with_zstring (z_str)
 
 			elseif str.count <= count and then item (l_count - str_count + 1) = str [1]
 				and then str_count > 1 implies item (l_count) = str [str_count]
 			then
-				Result := ends_with_ztring (adapted_argument (str, 1))
+				Result := ends_with_zstring (adapted_argument (str, 1))
 			end
 		end
 
- 	ends_with_ztring (str: EL_READABLE_ZSTRING): BOOLEAN
+ 	ends_with_zstring (str: EL_READABLE_ZSTRING): BOOLEAN
 		do
 			Result := internal_ends_with (str)
 			if Result and then str.has_mixed_encoding then
@@ -100,7 +100,7 @@ feature -- Start/End comparisons
 			Result := starts_with_general (str)
 		end
 
- 	starts_with_ztring (str: EL_READABLE_ZSTRING): BOOLEAN
+ 	starts_with_zstring (str: EL_READABLE_ZSTRING): BOOLEAN
 		do
 			Result := internal_starts_with (str)
 			if Result and then str.has_mixed_encoding then
@@ -119,12 +119,12 @@ feature -- Start/End comparisons
 				Result := True
 
 			elseif attached {EL_READABLE_ZSTRING} str as z_str then
-				Result := starts_with_ztring (z_str)
+				Result := starts_with_zstring (z_str)
 
 			elseif str.count <= count and then item (1) = str [1]
 				and then str_count > 1 implies item (str_count) = str [str_count]
 			then
-				Result := starts_with_ztring (adapted_argument (str, 1))
+				Result := starts_with_zstring (adapted_argument (str, 1))
 			end
 		end
 

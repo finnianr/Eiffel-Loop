@@ -19,6 +19,7 @@ There are a number of tools in `el_toolkit&apos; to support the use of this libr
 		<!--Eiffel-Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_eco_db" location = "Eco-DB.ecf"/>
+		<library name = "EL_file_process" location = "file-processing.ecf"/>
 		<library name = "EL_pyxis_scan" location = "pyxis-scan.ecf"/>
 		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<library name = "EL_thread" location = "thread.ecf"/>

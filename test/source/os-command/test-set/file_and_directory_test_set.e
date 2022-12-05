@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 20:59:48 GMT (Sunday 4th December 2022)"
-	revision: "32"
+	date: "2022-12-05 15:26:18 GMT (Monday 5th December 2022)"
+	revision: "33"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -324,7 +324,7 @@ feature {NONE} -- Implementation
 				if root.item.scheme ~ File_protocol then
 					create file_path_string.make_from_general (root.item)
 					file_path_string.remove_head (File_protocol.count + 3)
-					if a_file_set.iteration_item.to_string.starts_with (file_path_string) then
+					if a_file_set.iteration_item.to_string.starts_with_zstring (file_path_string) then
 						volume_name := root.key
 						volume_root_path := file_path_string
 						volume_workarea_dir := Work_area_absolute_dir.relative_path (volume_root_path)

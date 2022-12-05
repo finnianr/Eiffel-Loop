@@ -33,6 +33,7 @@ system:
 		libraries:
 			EL_base = "base/base.ecf"
 			EL_eco_db = "Eco-DB.ecf"
+			EL_file_process = "file-processing.ecf"
 			EL_pyxis_scan = "pyxis-scan.ecf"
 			EL_text_process = "text-process.ecf"
 			EL_thread = "thread.ecf"

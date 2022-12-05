@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 18:50:06 GMT (Saturday 3rd December 2022)"
-	revision: "14"
+	date: "2022-12-05 15:31:24 GMT (Monday 5th December 2022)"
+	revision: "15"
 
 class
 	DUPLICITY_LISTING_OS_CMD
@@ -97,7 +97,9 @@ feature {NONE} -- Line states
 		do
 			if line.count >= start_index then
 				index := line.substring_index (search_string, start_index)
-				if index > 0 and then (exact_match implies start_index = index and line.ends_with (search_string)) then
+				if index > 0
+					and then (exact_match implies start_index = index and line.ends_with_zstring (search_string))
+				then
 					path_list.extend (line.substring_end (start_index))
 				end
 			end

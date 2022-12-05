@@ -36,6 +36,7 @@ system:
 			EL_base = "base/base.ecf"
 			EL_eco_db = "Eco-DB.ecf"
 			EL_encryption = "encryption.ecf"
+			EL_file_process = "file-processing.ecf"
 			EL_text_process = "text-process.ecf"
 
 		# Source code

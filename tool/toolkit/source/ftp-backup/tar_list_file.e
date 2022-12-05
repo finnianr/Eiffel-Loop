@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2022-12-05 15:30:56 GMT (Monday 5th December 2022)"
+	revision: "8"
 
 deferred class
 	TAR_LIST_FILE
@@ -57,9 +57,9 @@ feature {NONE} -- Implementation
 			steps: DIR_PATH
 		do
 			steps := file_specifier
-			Result := steps.base.starts_with (Star_dot)
-							or else steps.first_step.starts_with (Star)
-							or else steps.base.ends_with (Star)
+			Result := steps.base.starts_with_zstring (Star_dot)
+							or else steps.first_step.starts_with_zstring (Star)
+							or else steps.base.ends_with_zstring (Star)
 		end
 
 	put_file_specifier (file_specifier: ZSTRING)

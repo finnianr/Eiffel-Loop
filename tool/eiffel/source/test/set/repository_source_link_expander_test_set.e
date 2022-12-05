@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2022-12-05 18:48:23 GMT (Monday 5th December 2022)"
+	revision: "15"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET
@@ -36,13 +36,14 @@ feature -- Tests
 
 	test_link_expander
 		local
-			n: INTEGER; publisher: like new_publisher
+			publisher: like new_publisher
 		do
 			publisher := new_publisher
 			publisher.execute
 			check_expanded_contents (publisher)
-			if Executable.Is_work_bench then
-				n := User_input.integer ("Return to finish")
+			if Executable.Is_work_bench
+				and then attached User_input.line ("Return to finish") as line
+			then
 			end
 		end
 
@@ -99,12 +100,12 @@ feature {NONE} -- Constants
 
 	Type_base: TYPE [ANY]
 		once
-			Result := {EL_FILE_PERSISTENT_I}
+			Result := {EL_STORABLE}
 		end
 
 	Type_descendant: TYPE [ANY]
 		once
-			Result := {EL_FILE_PERSISTENT}
+			Result := {EL_STORABLE_IMPL}
 		end
 
 	Inherits_template: ZSTRING

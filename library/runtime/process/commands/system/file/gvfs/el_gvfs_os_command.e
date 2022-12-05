@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 16:54:24 GMT (Saturday 26th November 2022)"
-	revision: "15"
+	date: "2022-12-05 15:24:45 GMT (Monday 5th December 2022)"
+	revision: "16"
 
 class
 	EL_GVFS_OS_COMMAND
@@ -77,7 +77,9 @@ feature {NONE} -- Implementation
 
 	is_file_not_found (message: ZSTRING): BOOLEAN
 		do
-			Result := across GVFS_file_not_found_errors as error_ending some message.ends_with (error_ending.item) end
+			Result := across GVFS_file_not_found_errors as error_ending some
+							message.ends_with_zstring (error_ending.item)
+						end
 		end
 
 	do_with_lines (a_lines: like new_output_lines)

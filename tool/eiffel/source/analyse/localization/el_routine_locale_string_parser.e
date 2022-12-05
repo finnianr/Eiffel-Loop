@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:38:39 GMT (Monday 21st November 2022)"
-	revision: "10"
+	date: "2022-12-05 15:16:25 GMT (Monday 5th December 2022)"
+	revision: "11"
 
 class
 	EL_ROUTINE_LOCALE_STRING_PARSER
@@ -153,7 +153,7 @@ feature {NONE} -- Event handlers
 		local
 			quantity_interval: INTEGER_INTERVAL
 		do
-			if last_identifier.starts_with (Quantity_translation) then
+			if last_identifier.starts_with_zstring (Quantity_translation) then
 				if quantity_lower <= quantity_upper then
 					quantity_interval := quantity_lower |..| quantity_upper
 				else

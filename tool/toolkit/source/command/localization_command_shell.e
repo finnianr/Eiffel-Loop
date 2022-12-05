@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-22 9:43:45 GMT (Tuesday 22nd November 2022)"
-	revision: "21"
+	date: "2022-12-05 15:31:09 GMT (Monday 5th December 2022)"
+	revision: "22"
 
 class
 	LOCALIZATION_COMMAND_SHELL
@@ -90,8 +90,8 @@ feature {EQA_TEST_SET} -- Implementation
 			line_list := open_lines (file_path, encoding).as_list
 			across line_list as list loop
 				line := list.item; adjusted := line.adjusted
-				if adjusted.starts_with (Lang_equals)
-					and then not adjusted.has_substring ("check") and then not adjusted.ends_with (EN)
+				if adjusted.starts_with_zstring (Lang_equals)
+					and then not adjusted.has_substring ("check") and then not adjusted.ends_with_zstring (EN)
 				then
 					line.replace_substring (adjusted + "; check = false", line.leading_white_space + 1, line.count)
 				end

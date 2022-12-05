@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2022-12-05 15:29:27 GMT (Monday 5th December 2022)"
+	revision: "9"
 
 deferred class
 	EL_SLIDE_SHOW
@@ -150,7 +150,7 @@ feature {NONE} -- Factory
 			create Result.make (agent group_name, directory_list.count * 3)
 			across directory_list as list loop
 				across OS.sorted_file_list (list.item, "*." + image_extension) as path loop
-					if not across exclusion_list as excluded some path.item.base.starts_with (excluded.item) end then
+					if not across exclusion_list as excluded some path.item.base.starts_with_zstring (excluded.item) end then
 						Result.list_extend (path.item)
 					end
 				end

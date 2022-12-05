@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2022-12-05 16:01:37 GMT (Monday 5th December 2022)"
+	revision: "5"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -137,29 +137,40 @@ feature -- Numeric items
 
 feature -- Items
 
+	circular_i_th (i: INTEGER): S
+		do
+			Result := target_substring (circular_i_th_interval (i))
+		end
+
+	first_item: S
+		do
+			if count = 0 then
+				create Result.make (0)
+			else
+				Result := target_substring (first_interval)
+			end
+		end
+
 	i_th (i: INTEGER): S
-		local
-			interval: INTEGER_64
 		do
-			interval := i_th_interval (i)
-			Result := target.substring (lower_integer (interval), upper_integer (interval))
+			Result := target_substring (i_th_interval (i))
 		end
 
-	i_th_copy (i: INTEGER): S
-		local
-			interval: INTEGER_64
+	item: S
 		do
-			interval := i_th_interval (i)
-			Result := target.substring (lower_integer (interval), upper_integer (interval))
+			if off then
+				create Result.make (0)
+			else
+				Result := target_substring (interval_item)
+			end
 		end
 
-	item_copy, item: S
-		local
-			interval: INTEGER_64
+	last_item: S
 		do
-			if not off then
-				interval := interval_item
-				Result := target.substring (lower_integer (interval), upper_integer (interval))
+			if count = 0 then
+				create Result.make (0)
+			else
+				Result := target_substring (last_interval)
 			end
 		end
 
@@ -272,6 +283,11 @@ feature {NONE} -- Implementation
 				end
 				i := i + 1; j := j + 1
 			end
+		end
+
+	target_substring (interval: INTEGER_64): S
+		do
+			Result := target.substring (lower_integer (interval), upper_integer (interval))
 		end
 
 feature {EL_SPLIT_READABLE_STRING_LIST} -- Internal attributes

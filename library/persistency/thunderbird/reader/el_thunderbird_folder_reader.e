@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2022-12-05 15:27:08 GMT (Monday 5th December 2022)"
+	revision: "18"
 
 deferred class
 	EL_THUNDERBIRD_FOLDER_READER
@@ -94,7 +94,7 @@ feature {NONE} -- State handlers
 
 	find_first_header (line: ZSTRING)
 		do
-			if line.starts_with (Field.first) then
+			if line.starts_with_zstring (Field.first) then
 				field_table.wipe_out
 				html_lines.wipe_out
 
@@ -118,7 +118,7 @@ feature {NONE} -- State handlers
 				then
 					line.left_adjust
 					last_line := html_lines.last
-					if last_line.ends_with (Tag.break.open) then
+					if last_line.ends_with_zstring (Tag.break.open) then
 						last_line.replace_substring (line, last_line.count - Tag.break.open.count + 1 , last_line.count)
 					else
 						last_line.append (line)

@@ -17,7 +17,8 @@ system:
 			all_classes = true
 
 		option: 
-			trace = false; debug = false; warning = true; syntax = standard
+			trace = false; debug = false; warning = true
+			syntax = standard; full_class_checking = false; void_safety = none
 			assertions:
 				precondition = true; postcondition = true; check = false; invariant = false
 
@@ -27,12 +28,10 @@ system:
 				platform = windows
 
 		# Eiffel-Loop
-		library:
+		libraries:
 			EL_wel_x_audio = "wel-x-audio.ecf"
 			condition:
 				platform = windows
-
-		library:
 			vision2 = "override/ES-vision2.ecf"
 
 		# Source code

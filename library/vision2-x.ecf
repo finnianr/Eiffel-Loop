@@ -92,9 +92,10 @@ CLUSTERS
 		<!--Eiffel-Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
-		<library name = "EL_search" location = "search-engine.ecf"/>
+		<library name = "EL_file_process" location = "file-processing.ecf"/>
 		<library name = "EL_image_utils" location = "image-utils.ecf"/>
 		<library name = "EL_logging" location = "logging.ecf"/>
+		<library name = "EL_search" location = "search-engine.ecf"/>
 		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<library name = "EL_thread" location = "thread.ecf"/>
 		<library name = "EL_wel_x" location = "wel-x.ecf">

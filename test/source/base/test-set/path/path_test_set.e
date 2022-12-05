@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2022-12-05 15:25:35 GMT (Monday 5th December 2022)"
+	revision: "12"
 
 class
 	PATH_TEST_SET
@@ -163,7 +163,7 @@ feature -- Tests
 				end
 				dir_string.append (step.item)
 				dir := dir_string
-				is_parent := dir_string.starts_with (dir_string_home) and dir_string.count > dir_string_home.count
+				is_parent := dir_string.starts_with_zstring (dir_string_home) and dir_string.count > dir_string_home.count
 				assert ("same result", is_parent ~ dir_home.is_parent_of (dir))
 			end
 		end

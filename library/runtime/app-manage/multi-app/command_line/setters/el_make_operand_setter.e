@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 8:51:54 GMT (Saturday 26th November 2022)"
-	revision: "20"
+	date: "2022-12-05 15:11:33 GMT (Monday 5th December 2022)"
+	revision: "21"
 
 deferred class
 	EL_MAKE_OPERAND_SETTER [G]
@@ -120,15 +120,15 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	is_convertible (string_value: ZSTRING): BOOLEAN
-		do
-			Result := True
-		end
-
 	index: INTEGER
 		-- operand index for argument
 		do
 			Result := argument.index
+		end
+
+	is_convertible (string_value: ZSTRING): BOOLEAN
+		do
+			Result := True
 		end
 
 	operands: TUPLE
@@ -209,7 +209,7 @@ feature {NONE} -- Implementation
 		do
 			create Result.make_from_general (({G}).name)
 			Result.to_lower
-			if Result.starts_with ("el_") then
+			if Result.starts_with_zstring (El_prefix) then
 				Result.remove_head (3)
 			end
 			Result.replace_character ('_', ' ')
@@ -221,4 +221,10 @@ feature {NONE} -- Internal attributes
 
 	is_bag: BOOLEAN
 
+feature {NONE} -- Constants
+
+	El_prefix: ZSTRING
+		once
+			Result := "el_"
+		end
 end

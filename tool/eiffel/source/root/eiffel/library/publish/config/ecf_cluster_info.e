@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2022-12-05 15:20:15 GMT (Monday 5th December 2022)"
+	revision: "14"
 
 class
 	ECF_CLUSTER_INFO
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 			make_default
 			if attached ecf.path.base.split_list ('#') as parts then
 				name := parts.last
-				if parts.count > 1 and then name.ends_with (s.character_string ('*')) then
+				if parts.count > 1 and then name.ends_with_zstring (s.character_string ('*')) then
 					has_wildcard := True
 					name.remove_tail (1)
 				end

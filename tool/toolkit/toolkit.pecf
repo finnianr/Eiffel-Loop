@@ -77,6 +77,7 @@ system:
 			EL_app_manage = "app-manage.ecf"
 			EL_compression = "compression.ecf"
 			EL_encryption = "encryption.ecf"
+			EL_file_process = "file-processing.ecf"
 			EL_evolicity = "evolicity.ecf"
 			EL_http_client = "http-client.ecf"
 			EL_i18n = "i18n.ecf"

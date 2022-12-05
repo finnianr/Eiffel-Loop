@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2022-12-05 15:15:27 GMT (Monday 5th December 2022)"
+	revision: "17"
 
 class
 	FEATURE_EDITOR_COMMAND
@@ -53,7 +53,7 @@ feature {NONE} -- Implementation
 
 	call (line: ZSTRING)
 		do
-			if line.starts_with (Feature_abbreviation) then
+			if line.starts_with_zstring (Feature_abbreviation) then
 				expand (line)
 			end
 			Precursor (line)

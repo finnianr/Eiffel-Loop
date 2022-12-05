@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2022-12-05 15:12:18 GMT (Monday 5th December 2022)"
+	revision: "7"
 
 class
 	SCONS_PROJECT_PY_CONFIG
@@ -99,7 +99,7 @@ feature {NONE} -- Line states
 		local
 			pos_equal, pos_quote: INTEGER; found: BOOLEAN
 		do
-			if line.starts_with (Code.if_platform_system) and then line.has_substring (Code.windows) then
+			if line.starts_with_zstring (Code.if_platform_system) and then line.has_substring (Code.windows) then
 				if {PLATFORM}.is_windows then
 					-- Do not scan section B
 					finish_at_else := True
@@ -108,13 +108,13 @@ feature {NONE} -- Line states
 					state := agent find_else
 				end
 
-			elseif line.starts_with (Code.else_) then
+			elseif line.starts_with_general (Code.else_) then
 				if finish_at_else then
 					state := final
 				end
 			else
 				across field_table as table until found loop
-					if line.starts_with (table.item.name) then
+					if line.starts_with_general (table.item.name) then
 						pos_equal := line.index_of ('=', table.item.name.count + 1)
 						if pos_equal > 0 then
 							across once "%"'" as quote until found loop
@@ -133,7 +133,7 @@ feature {NONE} -- Line states
 	find_else (line: ZSTRING)
 		-- find else: statement
 		do
-			if line.starts_with (Code.else_) then
+			if line.starts_with_zstring (Code.else_) then
 				state := agent do_with_line
 			end
 		end
@@ -144,7 +144,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Code: TUPLE [else_, if_platform_system, windows:ZSTRING]
+	Code: TUPLE [else_, if_platform_system, windows: ZSTRING]
 		once
 			create Result
 			Tuple.fill (Result, "else:, if platform.system, Windows")

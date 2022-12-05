@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2022-12-05 15:42:35 GMT (Monday 5th December 2022)"
+	revision: "8"
 
 class
 	EL_HACKER_INTERCEPT_CONFIG
@@ -41,10 +41,10 @@ feature -- Status report
 			across filter_table as table until Result loop
 				key := table.key
 				if key = Predicate.starts_with then
-					Result := across table.item as string some path_lower.starts_with (string.item) end
+					Result := across table.item as string some path_lower.starts_with_zstring (string.item) end
 
 				elseif key = Predicate.ends_with then
-					Result := across table.item as string some path_lower.ends_with (string.item) end
+					Result := across table.item as string some path_lower.ends_with_zstring (string.item) end
 
 				elseif key = Predicate.is_equal_ then
 					Result := across table.item as string some path_lower.is_equal (string.item) end

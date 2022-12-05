@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-28 7:31:17 GMT (Monday 28th November 2022)"
-	revision: "4"
+	date: "2022-12-05 11:54:19 GMT (Monday 5th December 2022)"
+	revision: "5"
 
 class
 	TP_ANY_WHILE_NOT_P_MATCH
@@ -50,7 +50,7 @@ feature {NONE} -- Implementation
 
 	match_count (a_offset: INTEGER; text: READABLE_STRING_GENERAL): INTEGER
 		local
-			offset, any_count, l_count, text_count, index: INTEGER; done: BOOLEAN
+			offset, any_count, text_count, index: INTEGER; done: BOOLEAN
 			searchable_pattern: detachable TP_SEARCHABLE
 		do
 			text_count := text.count

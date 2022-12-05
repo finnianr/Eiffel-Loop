@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2022-12-05 15:38:13 GMT (Monday 5th December 2022)"
+	revision: "18"
 
 class
 	EL_NETWORK_DEVICE_LIST_IMP
@@ -67,7 +67,7 @@ feature {NONE} -- Implementation
 			name: STRING; field: EL_COLON_FIELD_ROUTINES
 		do
 			from lines.start until lines.after loop
-				if lines.item.starts_with (General_dot) then
+				if lines.item.starts_with_zstring (General_dot) then
 					name := new_field_name (lines.item)
 					if name ~ Field_device then
 						extend (create {EL_NETWORK_DEVICE_IMP}.make)
@@ -83,7 +83,7 @@ feature {NONE} -- Implementation
 
 	new_field_name (line: ZSTRING): STRING
 		require
-			starts_with_general: line.starts_with (General_dot)
+			starts_with_general: line.starts_with_zstring (General_dot)
 		local
 			field: EL_COLON_FIELD_ROUTINES
 		do
@@ -95,7 +95,10 @@ feature {NONE} -- Constants
 
 	Field_device: STRING = "DEVICE"
 
-	General_dot: STRING = "GENERAL."
+	General_dot: ZSTRING
+		once
+			Result := "GENERAL."
+		end
 
 feature {NONE} -- Constants
 

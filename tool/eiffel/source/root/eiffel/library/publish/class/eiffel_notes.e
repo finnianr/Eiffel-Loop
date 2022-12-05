@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "26"
+	date: "2022-12-05 15:12:41 GMT (Monday 5th December 2022)"
+	revision: "27"
 
 class
 	EIFFEL_NOTES
@@ -187,7 +187,7 @@ feature {NONE} -- Line states
 
 	find_note_section (line: ZSTRING)
 		do
-			if across Indexing_keywords as word some line.starts_with (word.item) end then
+			if across Indexing_keywords as word some line.starts_with_zstring (word.item) end then
 				state := agent find_note_section_end
 			end
 		end
@@ -241,7 +241,7 @@ feature {NONE} -- Implementation
 		local
 			pos_close: INTEGER; text: ZSTRING
 		do
-			if str.starts_with (Source_variable) then
+			if str.starts_with_zstring (Source_variable) then
 				pos_close := str.index_of (']', Source_variable.count)
 				if pos_close > 0 then
 					text := str.substring (Source_variable.count + 1, pos_close - 1)

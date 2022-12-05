@@ -71,6 +71,7 @@ system:
 			EL_eco_db = "Eco-DB.ecf"
 			EL_encryption = "encryption.ecf"
 			EL_evolicity = "evolicity.ecf"
+			EL_file_process = "file-processing.ecf"
 			EL_logging = "logging.ecf"
 			EL_multimedia = "multi-media.ecf"
 			EL_network = "network.ecf"

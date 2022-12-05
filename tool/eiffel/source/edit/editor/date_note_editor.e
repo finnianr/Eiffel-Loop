@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2022-12-05 15:13:04 GMT (Monday 5th December 2022)"
+	revision: "11"
 
 class
 	DATE_NOTE_EDITOR
@@ -37,7 +37,7 @@ feature -- Basic operations
 			reset
 			create notes.make (input_lines, default_values)
 			across notes.original_lines as line until is_revised loop
-				if line.item.starts_with (Date_line_start) and then is_misformed (line.item) then
+				if line.item.starts_with_zstring (Date_line_start) and then is_misformed (line.item) then
 					correct (line.item)
 					is_revised := True
 				end

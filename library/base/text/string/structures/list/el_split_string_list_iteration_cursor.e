@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2022-12-05 15:48:09 GMT (Monday 5th December 2022)"
+	revision: "5"
 
 class
 	EL_SPLIT_STRING_LIST_ITERATION_CURSOR [S -> READABLE_STRING_GENERAL create make end]
@@ -39,7 +39,7 @@ feature -- Access
 
 	item_copy: S
 		do
-			Result := target.i_th_copy (cursor_index)
+			Result := item.twin
 		end
 
 	cursor_index: INTEGER

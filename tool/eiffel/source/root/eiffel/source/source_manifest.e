@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "24"
+	date: "2022-12-05 10:20:31 GMT (Monday 5th December 2022)"
+	revision: "25"
 
 class
 	SOURCE_MANIFEST
@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 		do
 			parent_dir := manifest_path.parent
 			Precursor (manifest_path)
-			name.share (manifest_path.base)
+			name.share (manifest_path.base_sans_extension)
 		end
 
 	make_from_directory (a_dir_path: DIR_PATH)

@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2022-12-05 15:12:36 GMT (Monday 5th December 2022)"
+	revision: "17"
 
 deferred class
 	EL_PYXIS_TREE_COMPILER
@@ -93,7 +93,7 @@ feature {NONE} -- Implementation
 			if not l_line.is_empty
 				and then l_line [l_line.count] = ':'
 				and then l_line [1] /= '#'
-				and then not l_line.starts_with (Pyxis_doc)
+				and then not l_line.starts_with_zstring (Pyxis_doc)
 			then
 				if file_count = 1 then
 					merged.extend (line)
