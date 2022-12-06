@@ -7,6 +7,7 @@ note
 		
 			[$source FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET]
 			[$source FILE_SYNC_MANAGER_TEST_SET]
+			[$source UUID_TEST_SET]
 	]"
 
 	author: "Finnian Reilly"
@@ -14,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 18:45:06 GMT (Monday 5th December 2022)"
-	revision: "18"
+	date: "2022-12-06 17:40:55 GMT (Tuesday 6th December 2022)"
+	revision: "19"
 
 class
 	FILE_PROCESSING_AUTOTEST_APP
@@ -23,7 +24,8 @@ class
 inherit
 	EL_AUTOTEST_APPLICATION [
 		FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET,
-		FILE_SYNC_MANAGER_TEST_SET
+		FILE_SYNC_MANAGER_TEST_SET,
+		UUID_TEST_SET
 	]
 
 create

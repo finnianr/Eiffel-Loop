@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 18:32:20 GMT (Monday 5th December 2022)"
-	revision: "153"
+	date: "2022-12-06 17:40:43 GMT (Tuesday 6th December 2022)"
+	revision: "154"
 
 class
 	BASE_AUTOTEST_APP
@@ -40,7 +40,6 @@ inherit
 
 		URI_TEST_SET,
 		UTF_CONVERTER_TEST_SET,
-		UUID_TEST_SET,
 
 		ZSTRING_EDITOR_TEST_SET,
 		ZSTRING_TEST_SET,
@@ -143,7 +142,6 @@ note
 
 			[$source URI_TEST_SET]
 			[$source UTF_CONVERTER_TEST_SET]
-			[$source UUID_TEST_SET]
 
 			[$source ZSTRING_EDITOR_TEST_SET]
 			[$source ZSTRING_TEST_SET]

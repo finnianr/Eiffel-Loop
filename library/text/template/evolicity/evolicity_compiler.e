@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:32:10 GMT (Monday 21st November 2022)"
-	revision: "22"
+	date: "2022-12-06 14:31:16 GMT (Tuesday 6th December 2022)"
+	revision: "23"
 
 class
 	EVOLICITY_COMPILER
@@ -48,7 +48,6 @@ feature {NONE} -- Initialization
 			--
 		do
 			make_default
-			create modification_time.make_from_epoch (0)
 			reset_directives
 			encoding := 0 -- indicates a text source by default
 		end
@@ -63,7 +62,7 @@ feature -- Access
 			Result.set_minimum_buffer_length ((source_text.count * 1.5).floor)
 		end
 
-	modification_time: EL_DATE_TIME
+	modification_time: INTEGER
 
 feature -- Element change
 
@@ -71,7 +70,7 @@ feature -- Element change
  		require else
  			valid_encoding_set: valid_encoding (encoding_type | encoding_id)
 		do
-			modification_time := file_path.modification_date_time
+			modification_time := file_path.modification_time
 			Precursor (file_path)
 		end
 
@@ -86,7 +85,7 @@ feature -- Element change
 			compiled_source_path := source_file_path.with_new_extension ("evc")
 			if compiled_source_path.exists
 				and then same_software_version (compiled_source_path)
-				and then compiled_source_path.modification_date_time > source_file_path.modification_date_time
+				and then compiled_source_path.modification_time > source_file_path.modification_time
 			then
 				read_tokens_text (compiled_source_path)
 				source_text := lines.joined

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:13:57 GMT (Monday 5th December 2022)"
-	revision: "36"
+	date: "2022-12-06 11:29:02 GMT (Tuesday 6th December 2022)"
+	revision: "37"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -82,9 +82,13 @@ feature -- Tests
 				restore_default_fields (path.item)
 
 				encoding := encoding_name (path.item); crc := crc_32 (path.item)
+				lio.put_labeled_string ("Encoding " + path.item.base, encoding)
+				lio.put_new_line
 				editor.set_file_path (path.item)
 				editor.edit
 				encoding_after := encoding_name (path.item)
+				lio.put_labeled_string ("Encoding after edit", encoding_after)
+				lio.put_new_line
 				assert ("encoding has not changed", encoding.is_equal (encoding_after))
 				assert ("code has not changed", crc = crc_32 (path.item))
 

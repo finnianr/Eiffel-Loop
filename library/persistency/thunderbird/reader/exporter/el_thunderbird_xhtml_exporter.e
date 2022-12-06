@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "24"
+	date: "2022-12-06 14:33:59 GMT (Tuesday 6th December 2022)"
+	revision: "25"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -27,7 +27,7 @@ inherit
 
 	EL_HTML_CONSTANTS
 
-	EL_MODULE_BUFFER; EL_MODULE_FILE; EL_MODULE_TIME
+	EL_MODULE_BUFFER; EL_MODULE_DATE_TIME; EL_MODULE_FILE; EL_MODULE_TIME
 	EL_MODULE_LIO; EL_MODULE_DIRECTORY; EL_MODULE_EXCEPTION
 
 feature {NONE} -- Initialization
@@ -114,7 +114,8 @@ feature {NONE} -- Implementation
 	on_email_collected
 		do
 			File_system.make_directory (output_file_path.parent)
-			is_html_updated := not output_file_path.exists or else last_header.date > output_file_path.modification_date_time
+			is_html_updated := not output_file_path.exists
+										or else last_header.date > Date_time.modification_time (output_file_path)
 			if is_html_updated then
 				lio.put_path_field (file_out_extension + " %S", output_file_path)
 				lio.put_new_line

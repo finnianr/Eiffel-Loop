@@ -821,7 +821,7 @@ Some of the main features of this database system are as follows:
 
 **10.** Fully automated import/export of [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) tables in either CSV or [Pyxis format](https://www.eiffel.org/node/143) (an XML analogue with superior readability). This can be used as a very safe form of backup allowing data to be re-imported even if the field order has changed. The [Pyxis format](https://www.eiffel.org/node/143) is very compact and readable allowing easy manual inspection of data. The [gedit](https://en.wikipedia.org/wiki/Gedit) text editor has syntax highlighting for this format. See for example: [payment.pyx](http://www.eiffel-loop.com/download/payment.pyx) recording Paypal transactions.
 
-**11.** Unlike a relational database, the data rows of a [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) table do not have to be flat, since class attributes in a store-able item, can themselves be declared to be store-able. For example class [EL_UUID](http://www.eiffel-loop.com/library/base/kernel/identify/uuid/el_uuid.html) (inheriting [UUID](https://www.eiffel.org/files/doc/static/trunk/libraries/uuid/uuid_chart.html)) can be a storable attribute, which itself is reflectively stored as 5 integer attributes of various types.
+**11.** Unlike a relational database, the data rows of a [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) table do not have to be flat, since class attributes in a store-able item, can themselves be declared to be store-able. For example class [EL_UUID](http://www.eiffel-loop.com/library/persistency/file/store/id/el_uuid.html) (inheriting [UUID](https://www.eiffel.org/files/doc/static/trunk/libraries/uuid/uuid_chart.html)) can be a storable attribute, which itself is reflectively stored as 5 integer attributes of various types.
 
 **12.** Application version awareness allows data to be migrated from a data table created by an earlier software version.
 
@@ -918,7 +918,7 @@ feature -- Status query
 ````
 **2. Primary Keys**
 
-Being able to assign a unique identifier to each item in a chain is essential to creating many kinds of data-joins. *Eco-DB* offers a convenient way to both generate primary keys and maintain an index for it. This is achieved with the auxiliary class [ECD_PRIMARY_KEY_INDEXABLE [EL_KEY_IDENTIFIABLE_STORABLE](http://www.eiffel-loop.com/library/persistency/database/eco-db/index/ecd_primary_key_indexable.html)] when used in conjunction with [ECD_ARRAYED_LIST [EL_STORABLE](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_arrayed_list.html)]. The class parameter implies that the storable item must conform to [EL_KEY_IDENTIFIABLE_STORABLE](http://www.eiffel-loop.com/library/base/persistency/storable/el_key_identifiable_storable.html). Generation of primary key values is automatic when the list is extended, as is maintenance of the primary key hash-table index.
+Being able to assign a unique identifier to each item in a chain is essential to creating many kinds of data-joins. *Eco-DB* offers a convenient way to both generate primary keys and maintain an index for it. This is achieved with the auxiliary class [ECD_PRIMARY_KEY_INDEXABLE [EL_KEY_IDENTIFIABLE_STORABLE](http://www.eiffel-loop.com/library/persistency/database/eco-db/index/ecd_primary_key_indexable.html)] when used in conjunction with [ECD_ARRAYED_LIST [EL_STORABLE](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_arrayed_list.html)]. The class parameter implies that the storable item must conform to [EL_KEY_IDENTIFIABLE_STORABLE](http://www.eiffel-loop.com/library/persistency/file/store/id/el_key_identifiable_storable.html). Generation of primary key values is automatic when the list is extended, as is maintenance of the primary key hash-table index.
 
 **QUERY LANGUAGE**
 
@@ -1023,6 +1023,18 @@ A preview of classes which will form the basis of reusable abstractions are as f
 ** `delete` is a routine from [ECD_CHAIN](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_chain.html) and not from [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html).
 
 *** We are using the term *join* somewhat loosely and mean only that if you have two chains *CHAIN [A]* and *CHAIN [B]*, you can produce a subchain of *CHAIN [B]* where each *B* item has a matching field value with an item from *CHAIN [A]*.
+## File and Directory Data Processing
+Class categories:
+
+
+* Path environment variable setting
+* Directory content processing to mirrored tree
+* Comma separated value support
+* File persistence and file deserialization
+* Reflective persistence
+* File swapping
+* Unique identifier
+
 ## Kindle Publishing
 Classes for generating Kindle OPF packages from HTML content.
 ## Thunderbird Email Export
@@ -1822,6 +1834,10 @@ Test [Eiffel Remote Object Server (EROS)](http://www.eiffel-loop.com/library/ero
 
 ## evolicity.ecf
 Test of Evolicity text substitution engine. See class [EVOLICITY_TEST_APP]($source)
+## file-processing.ecf
+Test [File and Directory Processing)](http://www.eiffel-loop.com/library/file-processing.html) library.
+
+See class [FILE_PROCESSING_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/file-processing/file_processing_autotest_app.html)
 ## http-client.ecf
 See class [HTTP_CLIENT_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/http-client/http_client_autotest_app.html)
 ## i18n.ecf

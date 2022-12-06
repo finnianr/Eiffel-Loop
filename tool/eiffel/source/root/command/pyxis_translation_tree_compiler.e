@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2022-12-06 14:52:51 GMT (Tuesday 6th December 2022)"
+	revision: "21"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER
@@ -90,12 +90,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_output_modification_time: EL_DATE_TIME
+	output_modification_time: INTEGER
 		do
-			Result := Zero_time
 			across locales as locale loop
-				if locale.item.modification_date_time > Result then
-					Result := locale.item.modification_date_time
+				if locale.item.modification_time > Result then
+					Result := locale.item.modification_time
 				end
 			end
 		end

@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:12:36 GMT (Monday 5th December 2022)"
-	revision: "17"
+	date: "2022-12-06 14:55:45 GMT (Tuesday 6th December 2022)"
+	revision: "18"
 
 deferred class
 	EL_PYXIS_TREE_COMPILER
@@ -37,13 +37,6 @@ inherit
 			make as make_default
 		redefine
 			make_default
-		end
-
-	EL_LAZY_ATTRIBUTE_2
-		rename
-			reset_item_2 as reset_output_modification_time,
-			item as output_modification_time,
-			new_item as new_output_modification_time
 		end
 
 	EL_MODULE_PYXIS
@@ -70,7 +63,6 @@ feature -- Basic operations
 	execute
 			--
 		do
-			reset_output_modification_time
 			if source_changed then
 				compile_tree
 			else
@@ -161,7 +153,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_output_modification_time: EL_DATE_TIME
+	output_modification_time: INTEGER
 		deferred
 		end
 
@@ -179,9 +171,12 @@ feature {NONE} -- Implementation
 		end
 
 	source_changed: BOOLEAN
+		local
+			modification_time: INTEGER
 		do
+			modification_time := output_modification_time
 			Result := across pyxis_file_path_list as file_path some
-				file_path.item.modification_date_time > output_modification_time
+				file_path.item.modification_time > modification_time
 			end
 		end
 
@@ -194,11 +189,6 @@ feature {NONE} -- Internal attributes
 	file_count: INTEGER
 
 feature {NONE} -- Constants
-
-	Zero_time: EL_DATE_TIME
-		once
-			create Result.make_from_epoch (0)
-		end
 
 	Pyxis_doc: ZSTRING
 		once

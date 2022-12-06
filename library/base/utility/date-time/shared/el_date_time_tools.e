@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2022-12-06 14:25:46 GMT (Tuesday 6th December 2022)"
+	revision: "11"
 
 class
 	EL_DATE_TIME_TOOLS
@@ -42,6 +42,15 @@ feature -- Access
 			end
 		ensure
 			valid_count: format.as_upper.has_substring (Time_zone_designator) implies Result > 0
+		end
+
+	modification_time (file: FILE_PATH): EL_DATE_TIME
+		do
+			if file.exists then
+				create Result.make_from_epoch (file.modification_time)
+			else
+				create Result.make_from_other (Origin)
+			end
 		end
 
 feature -- Integer field representations

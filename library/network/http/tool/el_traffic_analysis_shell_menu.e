@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2022-12-06 16:34:34 GMT (Tuesday 6th December 2022)"
+	revision: "6"
 
 class
 	EL_TRAFFIC_ANALYSIS_SHELL_MENU
@@ -18,7 +18,8 @@ inherit
 			make as make_shell
 		end
 
-	EL_MODULE_COMMAND; EL_MODULE_DIRECTORY; EL_MODULE_LIO; EL_MODULE_OS; EL_MODULE_TUPLE
+	EL_MODULE_COMMAND; EL_MODULE_DATE_TIME; EL_MODULE_DIRECTORY
+	EL_MODULE_LIO; EL_MODULE_OS; EL_MODULE_TUPLE
 
 create
 	make
@@ -62,15 +63,14 @@ feature {NONE} -- Implementation
 feature {NONE} -- Factory
 
 	new_command_table: like command_table
-		local
-			date: EL_DATE_TIME
 		do
 			if attached OS.file_pattern_list (config.archived_web_logs) as file_list then
 				create Result.make_equal (file_list.count)
 				file_list.order_by (agent {FILE_PATH}.modification_time, False)
 				across file_list as list loop
-					date := list.item.modification_date_time
-					Result.put (agent analyse_log (list.item), date.formatted_out (Date_format))
+					if attached Date_time.modification_time (list.item) as date then
+						Result.put (agent analyse_log (list.item), date.formatted_out (Date_format))
+					end
 				end
 			end
 		end

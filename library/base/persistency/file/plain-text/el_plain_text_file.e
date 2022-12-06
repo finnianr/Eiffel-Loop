@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-23 17:58:05 GMT (Wednesday 23rd November 2022)"
-	revision: "10"
+	date: "2022-12-06 12:53:35 GMT (Tuesday 6th December 2022)"
+	revision: "11"
 
 class
 	EL_PLAIN_TEXT_FILE
@@ -129,10 +129,11 @@ feature -- Basic operations
 			read_line_8
 			if attached last_string_8 as raw_line then
 				if encoded_as_utf (16) then -- little endian
-					read_character -- skip '%U' after '%N'
+					if not end_of_file then
+						read_character -- skip '%U' after '%N'
+					end
 					raw_line.prune_all_trailing ('%U')
 					raw_line.prune_all_trailing ('%R')
-
 				else
 					raw_line.prune_all_trailing ('%R')
 					if raw_line.has (Substitute) then

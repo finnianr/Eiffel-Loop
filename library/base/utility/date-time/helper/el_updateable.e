@@ -1,20 +1,33 @@
 note
-	description: "Updateable"
+	description: "Object that is updateable"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2022-12-06 16:45:31 GMT (Tuesday 6th December 2022)"
+	revision: "7"
 
 deferred class
 	EL_UPDATEABLE
 
 feature -- Access
 
-	modification_time: EL_DATE_TIME
+	last_modification_date_time: EL_DATE_TIME
+		do
+			create Result.make_from_epoch (last_modification_time)
+		end
+
+	last_modification_time: INTEGER
+		-- time of last modification
+
+	modification_date_time: EL_DATE_TIME
+		do
+			create Result.make_from_epoch (modification_time)
+		end
+
+	modification_time: INTEGER
 		deferred
 		end
 
@@ -38,8 +51,5 @@ feature {NONE} -- Implementation
 	do_update
 		deferred
 		end
-
-	last_modification_time: EL_DATE_TIME
-		-- time of last modification
 
 end

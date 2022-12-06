@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 9:31:33 GMT (Monday 5th December 2022)"
-	revision: "9"
+	date: "2022-12-06 16:47:14 GMT (Tuesday 6th December 2022)"
+	revision: "10"
 
 deferred class
 	EL_UPDATEABLE_FILE
@@ -19,20 +19,18 @@ feature {NONE} -- Initialization
 
 	make (a_path: like path)
 		do
-			create last_modification_time.make_from_epoch (0)
 			path := a_path
 			update
 		end
 
 feature -- Access
 
-	modification_time: EL_DATE_TIME
+	modification_time: INTEGER
 		do
 			if path.exists then
-				Result := path.modification_date_time
+				Result := path.modification_time
 			else
-				Result := last_modification_time.twin
-				last_modification_time.day_add (-1)
+				Result := last_modification_time - 100
 			end
 		end
 

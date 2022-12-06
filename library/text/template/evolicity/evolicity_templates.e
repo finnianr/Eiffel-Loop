@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 16:04:52 GMT (Monday 5th December 2022)"
-	revision: "25"
+	date: "2022-12-06 14:29:44 GMT (Tuesday 6th December 2022)"
+	revision: "26"
 
 class
 	EVOLICITY_TEMPLATES
@@ -81,7 +81,7 @@ feature -- Basic operations
 				found := True
 			end
 			if found then
-				if template.has_file_source and then a_name.modification_date_time > template.modification_time then
+				if template.has_file_source and then a_name.modification_time > template.modification_time then
 					-- File was modified
 					stack_table.remove (a_name)
 					put_file (a_name, template.encoding)
@@ -237,7 +237,7 @@ feature {NONE} -- Implementation
 			if attached restricted_access (Mutex_compiler_table) as table then
 				if table.has_key (key_path) then
 					if attached file_encoding then
-						source_is_new_or_updated := key_path.modification_date_time > table.found_item.modification_time
+						source_is_new_or_updated := key_path.modification_time > table.found_item.modification_time
 					end
 				else
 					source_is_new_or_updated := True

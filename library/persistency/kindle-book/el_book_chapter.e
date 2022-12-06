@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2022-12-06 14:32:24 GMT (Tuesday 6th December 2022)"
+	revision: "15"
 
 class
 	EL_BOOK_CHAPTER
@@ -24,6 +24,8 @@ inherit
 	EL_MODULE_XML
 
 	EL_ZSTRING_CONSTANTS
+
+	EL_MODULE_DATE_TIME
 
 create
 	make
@@ -50,7 +52,7 @@ feature {NONE} -- Initialization
 				a_text.prepend (Template.h1_line #$ [title])
 			end
 
-			if not output_path.exists or else modification_date > output_path.modification_date_time then
+			if not output_path.exists or else modification_date > Date_time.modification_time (output_path) then
 				is_modified := True
 			end
 

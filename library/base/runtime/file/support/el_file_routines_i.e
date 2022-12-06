@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-22 9:39:29 GMT (Tuesday 22nd November 2022)"
-	revision: "9"
+	date: "2022-12-06 16:53:46 GMT (Tuesday 6th December 2022)"
+	revision: "10"
 
 deferred class
 	EL_FILE_ROUTINES_I
@@ -81,7 +81,9 @@ feature -- Measurement
 
 	modification_time (file_path: FILE_PATH): INTEGER
 		do
-			Result := info (file_path, False).date
+			if file_path.exists then
+				Result := info (file_path, False).date
+			end
 		end
 
 feature -- File content

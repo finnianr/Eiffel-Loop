@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-02 14:50:48 GMT (Friday 2nd December 2022)"
-	revision: "31"
+	date: "2022-12-06 14:24:26 GMT (Tuesday 6th December 2022)"
+	revision: "32"
 
 class
 	EL_FILE_PATH
@@ -29,15 +29,6 @@ convert
  	steps: {EL_PATH_STEPS}, to_path: {PATH}, to_uri: {EL_URI}
 
 feature -- Access
-
-	modification_date_time: EL_DATE_TIME
-		do
-			if exists then
-				create Result.make_from_epoch (modification_time)
-			else
-				create Result.make_from_other (Date_time.Origin)
-			end
-		end
 
 	modification_time: INTEGER
 		do

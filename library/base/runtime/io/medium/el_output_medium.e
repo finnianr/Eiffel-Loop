@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "25"
+	date: "2022-12-06 12:36:56 GMT (Tuesday 6th December 2022)"
+	revision: "26"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -234,7 +234,11 @@ feature {NONE} -- Implementation
 	set_codec
 			--
 		do
-			codec := Codec_factory.codec (Current)
+			if Codec_factory.has_codec (Current) then
+				codec := Codec_factory.codec (Current)
+			else
+				codec := Codec_factory.codec_by (Utf_8)
+			end
 		end
 
 feature {NONE} -- Internal attributes

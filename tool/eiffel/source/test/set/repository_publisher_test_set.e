@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "49"
+	date: "2022-12-06 14:43:57 GMT (Tuesday 6th December 2022)"
+	revision: "50"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -36,9 +36,9 @@ inherit
 
 	EL_FILE_SYNC_ROUTINES undefine default_create end
 
-	EL_MODULE_OS; EL_MODULE_USER_INPUT; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_EXECUTABLE
+	EL_MODULE_DATE_TIME; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_EXECUTABLE
 
-	EL_MODULE_TUPLE
+	EL_MODULE_OS; EL_MODULE_TUPLE; EL_MODULE_USER_INPUT
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
@@ -192,7 +192,7 @@ feature {NONE} -- Implementation
 		do
 			crc := crc_generator
 			across OS.file_list (Doc_dir, "*.html") as html loop
-				modification_time := html.item.modification_date_time
+				modification_time := Date_time.modification_time (html.item)
 				crc.add_integer (modification_time.date.ordered_compact_date)
 				crc.add_integer (modification_time.time.compact_time)
 			end

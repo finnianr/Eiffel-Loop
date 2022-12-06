@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2022-12-05 18:54:09 GMT (Monday 5th December 2022)"
+	revision: "14"
 
 class
 	EL_GENERATED_SVG_BUTTON_PIXMAP_SET
@@ -140,11 +140,11 @@ feature {NONE} -- Implementation
 			put (svg_icon (Button_state.normal, width_cms), Button_state.normal)
 
 			final_relative_path_steps := icon_path_steps.to_string
-			final_relative_path_steps.put_front (Image_path.Step.icons)
+			final_relative_path_steps.put_front (Image.Step.icons)
 			image_dir_path := Directory.Application_installation + final_relative_path_steps
 
 			create generated_svg_relative_path_steps.make_steps (icon_path_steps.count + 1)
-			generated_svg_relative_path_steps.extend (Image_path.Step.icons)
+			generated_svg_relative_path_steps.extend (Image.Step.icons)
 			generated_svg_relative_path_steps.append_path (icon_path_steps)
 			generated_svg_image_dir := Directory.App_configuration #+ generated_svg_relative_path_steps
 			File_system.make_directory (generated_svg_image_dir)

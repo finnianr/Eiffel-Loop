@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-18 7:13:14 GMT (Friday 18th November 2022)"
-	revision: "1"
+	date: "2022-12-06 11:20:31 GMT (Tuesday 6th December 2022)"
+	revision: "2"
 
 class
 	EIFFEL_AUTOTEST_APP
@@ -57,7 +57,6 @@ feature -- Syntax testing
 				-- something
 			end
 			if a1 = b2 then
-
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2022-12-06 14:30:24 GMT (Tuesday 6th December 2022)"
+	revision: "9"
 
 class
 	EVOLICITY_COMPILED_TEMPLATE
@@ -23,7 +23,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (directives: ARRAY [EVOLICITY_DIRECTIVE]; a_modification_time: like modification_time; a_encoding: like encoding)
+	make (directives: ARRAY [EVOLICITY_DIRECTIVE]; a_modification_time: INTEGER; a_encoding: like encoding)
 		do
 			make_from_array (directives)
 			modification_time := a_modification_time
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	modification_time: EL_DATE_TIME
+	modification_time: INTEGER
 
 	encoding: EL_ENCODEABLE_AS_TEXT
 
@@ -45,7 +45,7 @@ feature -- Status query
 
 feature -- Element change
 
-	set_modification_time (a_modification_time: like modification_time)
+	set_modification_time (a_modification_time: INTEGER)
 		do
 			modification_time := a_modification_time
 		end
