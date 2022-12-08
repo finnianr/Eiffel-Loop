@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2022-12-07 9:06:44 GMT (Wednesday 7th December 2022)"
+	revision: "11"
 
 class
 	EL_SMART_EIF_OBJ_ROOT_BUILDER_CONTEXT
@@ -29,7 +29,7 @@ inherit
 
 	EL_MODULE_EIFFEL
 
-	EL_SHARED_MAKEABLE_FACTORY
+	EL_SHARED_FACTORIES
 
 create
 	make

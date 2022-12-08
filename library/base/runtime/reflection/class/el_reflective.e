@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "59"
+	date: "2022-12-08 19:10:35 GMT (Thursday 8th December 2022)"
+	revision: "60"
 
 deferred class
 	EL_REFLECTIVE
@@ -184,12 +184,21 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 			create Result.make (Current)
 		end
 
-	new_reader_writer_interfaces: like Default_reader_writer_interfaces
-		-- redefine to map an adapter object for reading and writing a reference field type
-		-- to instance of `EL_MEMORY_READER_WRITER'
-		-- See routine `{EL_REFLECTED_REFERENCE}.set_from_memory' and `write'
+	frozen new_extra_reader_writer_table: HASH_TABLE [EL_READER_WRITER_INTERFACE [ANY], INTEGER]
+		local
+			type_list: EL_TUPLE_TYPE_LIST [EL_READER_WRITER_INTERFACE [ANY]]
 		do
-			Result := Default_reader_writer_interfaces
+			if attached extra_reader_writer_types as extra_types and then extra_types.count > 0 then
+				create type_list.make_from_tuple (extra_types)
+				create Result.make (type_list.count)
+				across type_list as list loop
+					if attached {EL_READER_WRITER_INTERFACE [ANY]} Eiffel.new_object (list.item) as new then
+						Result.extend (new, new.item_type.type_id)
+					end
+				end
+			else
+				create Result.make (0)
+			end
 		end
 
 	new_representations: like Default_representations
@@ -227,6 +236,16 @@ feature {NONE} -- Implementation
 		-- Void translater
 		do
 			Result := Void
+		end
+
+	extra_reader_writer_types: TUPLE
+		-- redefine to map an adapter object for reading and writing a reference field type
+		-- to instance of `EL_MEMORY_READER_WRITER'
+		-- See routine `{EL_REFLECTED_REFERENCE}.set_from_memory' and `write'
+
+		-- For example see `EL_REFLECTIVE_RSA_KEY' which uses `INTEGER_X' as an extra type
+		do
+			create Result
 		end
 
 	fill_field_value_table (value_table: EL_FIELD_VALUE_TABLE [ANY])

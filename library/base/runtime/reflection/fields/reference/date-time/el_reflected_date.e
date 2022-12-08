@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "19"
+	date: "2022-12-08 7:51:06 GMT (Thursday 8th December 2022)"
+	revision: "20"
 
 class
 	EL_REFLECTED_DATE
@@ -15,7 +15,8 @@ class
 inherit
 	EL_REFLECTED_REFERENCE [DATE]
 		redefine
-			append_to_string, reset, set_from_memory, set_from_readable, set_from_string, to_string, write
+			append_to_string, reset, new_factory,
+			set_from_memory, set_from_readable, set_from_string, to_string, write
 		end
 
 create
@@ -90,6 +91,15 @@ feature {NONE} -- Implementation
 			else
 				Result := EL_date
 				Result.make_by_ordered_compact_date (date.ordered_compact_date)
+			end
+		end
+
+	new_factory: detachable EL_FACTORY [DATE]
+		do
+			if attached {EL_FACTORY [DATE]} Date_factory.new_item_factory (type_id) as f then
+				Result := f
+			else
+				Result := Precursor
 			end
 		end
 

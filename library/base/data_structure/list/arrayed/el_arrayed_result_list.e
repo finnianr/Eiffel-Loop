@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2022-12-08 18:23:02 GMT (Thursday 8th December 2022)"
+	revision: "9"
 
 class
 	EL_ARRAYED_RESULT_LIST [G, R]
@@ -40,11 +40,6 @@ feature {NONE} -- Initialization
 			same_count: count = container_count (container)
 		end
 
-	make_from_if (container: CONTAINER [G]; condition: EL_PREDICATE_QUERY_CONDITION [G]; to_item: FUNCTION [G, R])
-		do
-			make_from_for (container, condition, to_item)
-		end
-
 	make_from_for (container: CONTAINER [G]; condition: EL_QUERY_CONDITION [G]; to_item: FUNCTION [G, R])
 		-- initialize from `container' with conversion function `to_item'
 		require
@@ -66,6 +61,11 @@ feature {NONE} -- Initialization
 			end
 		end
 
+	make_from_if (container: CONTAINER [G]; condition: EL_PREDICATE_QUERY_CONDITION [G]; to_item: FUNCTION [G, R])
+		do
+			make_from_for (container, condition, to_item)
+		end
+
 	make_with_tuple_1 (tuple: TUPLE [array: ARRAY [G]; to_item: FUNCTION [G, R]])
 		do
 			make (tuple.array, tuple.to_item)
@@ -74,6 +74,13 @@ feature {NONE} -- Initialization
 	make_with_tuple_2 (tuple: TUPLE [list: EL_ARRAYED_LIST [G]; to_item: FUNCTION [G, R]])
 		do
 			make (tuple.list, tuple.to_item)
+		end
+
+feature -- Access
+
+	to_list: EL_ARRAYED_LIST [R]
+		do
+			create Result.make_from_special (area_v2)
 		end
 
 feature -- Contract Support

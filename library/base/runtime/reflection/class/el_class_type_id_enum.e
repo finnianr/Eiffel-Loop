@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2022-12-08 11:59:10 GMT (Thursday 8th December 2022)"
+	revision: "18"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -129,5 +129,10 @@ feature -- Other types
 	TUPLE: INTEGER
 
 	EL_QUANTITY_TEMPLATE: INTEGER
+
+	EL_CHAIN_ANY: INTEGER
+		once
+			Result := ({EL_CHAIN [ANY]}).type_id
+		end
 
 end

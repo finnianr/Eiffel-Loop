@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2022-12-07 9:12:40 GMT (Wednesday 7th December 2022)"
+	revision: "7"
 
 class
 	EL_MAKEABLE_OBJECT_FACTORY
@@ -69,7 +69,7 @@ feature -- Contract Support
 
 feature {NONE} -- Implementation
 
-	new_cell (type: TYPE [EL_MAKEABLE]): EL_MAKEABLE_CELL [EL_MAKEABLE]
+	new_cell (type: TYPE [EL_MAKEABLE]): EL_MAKEABLE_FACTORY [EL_MAKEABLE]
 		do
 			if attached {like new_cell} Eiffel.new_factory_instance ({like new_cell}, type) as new then
 				Result := new

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 18:44:29 GMT (Tuesday 6th December 2022)"
-	revision: "1"
+	date: "2022-12-08 8:38:24 GMT (Thursday 8th December 2022)"
+	revision: "2"
 
 class
 	EL_INITIALIZED_OBJECT_FACTORY [F -> EL_FACTORY [G], G]
@@ -19,7 +19,7 @@ inherit
 	EL_OBJECT_FACTORY [G]
 		export
 			{NONE} all
-			{ANY} new_item_from_type, valid_type_id
+			{ANY} new_item_from_type, new_item_from_name, valid_type_id, valid_name
 		redefine
 			default_create, new_item_from_type_id
 		end
@@ -39,12 +39,26 @@ feature {NONE} -- Initialization
 
 feature -- Factory
 
+	new_item_factory (type_id: INTEGER): detachable F
+		do
+			Result := factory_table.item (type_id)
+		end
+
 	new_item_from_type_id (type_id: INTEGER): detachable G
 		-- new item from dynamic type `type_id'
+		require else
+			valid_type: is_valid_type (type_id)
 		do
 			if attached factory_table.item (type_id) as factory then
 				Result := factory.new_item
 			end
+		end
+
+feature -- Status query
+
+	is_valid_type (type_id: INTEGER): BOOLEAN
+		do
+			Result := Eiffel.type_conforms_to (type_id, ({G}).type_id)
 		end
 
 feature {NONE} -- Implementation
@@ -55,17 +69,19 @@ feature {NONE} -- Implementation
 		do
 			factory_name := template.twin
 			factory_name.insert_string (Eiffel.type_name_of_type (type_id), factory_name.count)
-			if attached factory_factory.new_item_from_name (factory_name) as factory then
+			if factory_factory.valid_name (factory_name)
+				and then attached factory_factory.new_item_from_name (factory_name) as factory
+			then
 				Result := factory
 			end
 		end
 
 feature {NONE} -- Internal attributes
 
-	template: STRING
-
 	factory_factory: EL_OBJECT_FACTORY [F]
 
 	factory_table: EL_CACHE_TABLE [detachable F, INTEGER]
+
+	template: STRING
 
 end

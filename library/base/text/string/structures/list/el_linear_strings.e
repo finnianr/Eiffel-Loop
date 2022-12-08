@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2022-12-08 18:41:04 GMT (Thursday 8th December 2022)"
+	revision: "12"
 
 deferred class
 	EL_LINEAR_STRINGS [S -> STRING_GENERAL create make end]
@@ -41,6 +41,8 @@ feature -- Access
 		end
 
 	comma_separated: like item
+		local
+			quoted: BOOLEAN
 		do
 			push_cursor
 			create Result.make (character_count + (current_count - 1).max (0) * 2)
@@ -48,7 +50,14 @@ feature -- Access
 				if index > 1 then
 					Result.append (once ", ")
 				end
+				quoted := item.has (',')
+				if quoted then
+					Result.append_code ({EL_ASCII}.Doublequote)
+				end
 				Result.append (item)
+				if quoted then
+					Result.append_code ({EL_ASCII}.Doublequote)
+				end
 				forth
 			end
 			pop_cursor

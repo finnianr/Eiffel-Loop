@@ -1,6 +1,7 @@
 note
 	description: "[
-		Adapter interface to read and write [$source INTEGER_X] from/to instance of [$source EL_MEMORY_READER_WRITER]
+		Adapter interface to read a [$source INTEGER_X] item from [$source EL_READABLE]
+		and write an item to [$source EL_WRITEABLE]
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2022-12-08 16:44:33 GMT (Thursday 8th December 2022)"
+	revision: "5"
 
 class
 	EL_INTEGER_X_READER_WRITER
@@ -21,7 +22,21 @@ inherit
 
 feature -- Basic operations
 
-	write (item: INTEGER_X; writer: EL_MEMORY_READER_WRITER)
+	read_item (reader: EL_READABLE): INTEGER_X
+		do
+			create Result
+			set (Result, reader)
+		end
+
+	set (item: INTEGER_X; reader: EL_READABLE)
+		do
+			if attached read_array (reader) as array then
+				item.item_set (array)
+				item.count_set (array.count)
+			end
+		end
+
+	write (item: INTEGER_X; writer: EL_WRITEABLE)
 		local
 			i, l_count: INTEGER; l_area: SPECIAL [NATURAL_32]
 		do
@@ -33,18 +48,18 @@ feature -- Basic operations
 			end
 		end
 
-	set (item: INTEGER_X; reader: EL_MEMORY_READER_WRITER)
+feature {NONE} -- Implementation
+
+	read_array (reader: EL_READABLE): SPECIAL [NATURAL_32]
 		local
 			i, l_count: INTEGER; l_area: SPECIAL [NATURAL_32]
 		do
 			l_count := reader.read_integer_32
-			create l_area.make_empty (l_count)
+			create Result.make_empty (l_count)
 			from i := 0 until i = l_count loop
-				l_area.extend (reader.read_natural_32)
+				Result.extend (reader.read_natural_32)
 				i := i + 1
 			end
-			item.item_set (l_area)
-			item.count_set (l_count)
 		end
 
 end

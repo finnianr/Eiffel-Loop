@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2022-12-08 17:27:46 GMT (Thursday 8th December 2022)"
+	revision: "15"
 
 class
 	TEST_STORABLE
@@ -17,20 +17,10 @@ inherit
 		rename
 			foreign_naming as eiffel_naming,
 			read_version as read_default_version
-		redefine
-			make_default
 		end
 
 create
 	make_default
-
-feature {NONE} -- Initialization
-
-	make_default
-		do
-			Precursor
-			create uuid.make (1, 2, 3, 4, 5)
-		end
 
 feature -- Access
 

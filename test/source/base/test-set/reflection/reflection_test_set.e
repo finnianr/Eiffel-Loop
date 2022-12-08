@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "31"
+	date: "2022-12-08 17:35:32 GMT (Thursday 8th December 2022)"
+	revision: "32"
 
 class
 	REFLECTION_TEST_SET
@@ -17,15 +17,11 @@ inherit
 
 	EL_MODULE_EIFFEL
 
-	EL_MODULE_TUPLE
-
-	EL_MODULE_LIO
-
 	EL_SHARED_CURRENCY_ENUM
 
-	EL_MODULE_BASE_64
+	JSON_TEST_DATA; STORABLE_COUNTRY_TEST_DATA
 
-	JSON_TEST_DATA
+	EL_SHARED_FACTORIES
 
 feature -- Basic operations
 
@@ -35,6 +31,7 @@ feature -- Basic operations
 			eval.call ("arrayed_list_initialization", agent test_arrayed_list_initialization)
 			eval.call ("default_tuple_initialization", agent test_default_tuple_initialization)
 			eval.call ("field_representation", agent test_field_representation)
+			eval.call ("initialized_object_factory", agent test_initialized_object_factory)
 			eval.call ("object_initialization_from_camel_case_table", agent test_object_initialization_from_camel_case_table)
 			eval.call ("object_initialization_from_table", agent test_object_initialization_from_table)
 			eval.call ("reflection", agent test_reflection)
@@ -74,6 +71,36 @@ feature -- Tests
 		do
 			representation := Currency_enum.to_representation
 			assert ("EURO is 9", representation.to_value ("EUR") = (9).to_natural_8)
+		end
+
+	test_initialized_object_factory
+		-- GENERAL_TEST_SET.test_initialized_object_factory
+		note
+			testing: "covers/{EL_INITIALIZED_OBJECT_FACTORY}.new_item_from_type"
+		local
+			type_list: ARRAYED_LIST [TYPE [READABLE_STRING_GENERAL]]
+		do
+			create type_list.make_from_array (<<
+				{IMMUTABLE_STRING_32}, {IMMUTABLE_STRING_8},
+				{STRING_32}, {STRING_8}, {EL_STRING_32}, {EL_STRING_8},
+				{ZSTRING}
+			>>)
+			across type_list as list loop
+				if attached String_factory.new_item_from_type (list.item) as str then
+					lio.put_labeled_string ("Created", str.generator)
+					lio.put_new_line
+					assert ("same type", str.generating_type ~ list.item)
+				else
+					assert ("created", False)
+				end
+			end
+			if attached Default_factory.new_item_from_type ({BOOLEAN_REF}) as bool then
+				lio.put_labeled_string ("Created", bool.generator)
+				lio.put_new_line
+				assert ("same type", bool.generating_type ~ {BOOLEAN_REF})
+			else
+				assert ("created BOOLEAN_REF", False)
+			end
 		end
 
 	test_object_initialization_from_camel_case_table
@@ -169,46 +196,7 @@ feature -- Tests
 			assert ("same size", Eiffel.deep_physical_size (l_info) = Object_header_size + {PLATFORM}.Integer_64_bytes * 4)
 		end
 
-feature {NONE} -- Implementation
-
-	check_values (country: COUNTRY)
-		local
-			name: ZSTRING; date_founded: DATE; euro_zone_member: BOOLEAN
-			photo_jpeg: MANAGED_POINTER
-		do
-			name := Value_table.item (Field.name)
-			assert ("same name", country.name ~ name)
-			assert ("same code", country.code  ~ Value_table.item (Field.code).to_string_8)
-			lio.put_labeled_string ("country.currency_name", country.currency_name)
-			lio.put_new_line
-			assert ("same currency", country.currency_name  ~ Value_table.item (Field.currency).to_string_8)
-			assert ("same literacy_rate", country.literacy_rate ~ Value_table.item (Field.literacy_rate).to_real)
-			assert ("same population", country.population ~ Value_table.item (Field.population).to_integer)
-
-			-- Test field cached in associated set
-			assert ("same continent", country.continent ~ Value_table.item (Field.continent).to_string_8)
-			assert ("in continent set", across country.Continent_set as list some list.item = country.continent end)
-
-			create date_founded.make_from_string_default (Value_table.item (Field.date_founded))
-			assert ("same date_founded", country.date_founded = date_founded.ordered_compact_date)
-			euro_zone_member := Value_table.item (Field.euro_zone_member) ~ "YES"
-			assert ("same euro_zone_member", country.euro_zone_member = euro_zone_member)
-
-			create photo_jpeg.make_from_array (Base_64.decoded_array (Value_table.item (Field.photo_jpeg)))
-			assert ("same photo", country.photo_jpeg ~ photo_jpeg)
-		end
-
 feature {NONE} -- Constants
-
-	Field: TUPLE [
-		code, continent, currency, date_founded, euro_zone_member, literacy_rate, name, photo_jpeg, population: STRING
-	]
-		once
-			create Result
-			Tuple.fill (Result,
-				"code, continent, currency, date_founded, euro_zone_member, literacy_rate, name, photo_jpeg, population"
-			)
-		end
 
 	Immutable_string_8: IMMUTABLE_STRING_8
 		once
@@ -218,29 +206,5 @@ feature {NONE} -- Constants
 	Object_header_size: INTEGER = 16
 
 	String_8: STRING_8 = "string_8"
-
-	Value_table: EL_ZSTRING_TABLE
-		once
-			create Result.make ("[
-				code:
-					IE
-				continent:
-					Europe
-				currency:
-					EUR
-				date_founded:
-					12/29/1937
-				literacy_rate:
-					0.9
-				name:
-					Ireland
-				population:
-					6500000
-				photo_jpeg:
-					VyDHQ26RoAdUlNMQiWOKp22iUZEbS/VqWgX6rafZUGg=
-				euro_zone_member:
-					YES
-			]")
-		end
 
 end

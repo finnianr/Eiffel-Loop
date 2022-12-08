@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "19"
+	date: "2022-12-08 7:52:00 GMT (Thursday 8th December 2022)"
+	revision: "20"
 
 class
 	EL_REFLECTED_DATE_TIME
@@ -17,7 +17,8 @@ inherit
 		rename
 			valid_string as valid_format
 		redefine
-			append_to_string, write, reset, set_from_memory, set_from_readable, set_from_string, to_string,
+			append_to_string, write, reset, new_factory,
+			set_from_memory, set_from_readable, set_from_string, to_string,
 			valid_format
 		end
 
@@ -97,6 +98,15 @@ feature {NONE} -- Implementation
 			else
 				Result := EL_date_time
 				Result.set_from_other (date_time)
+			end
+		end
+
+	new_factory: detachable EL_FACTORY [DATE_TIME]
+		do
+			if attached {EL_FACTORY [DATE_TIME]} Date_time_factory.new_item_factory (type_id) as f then
+				Result := f
+			else
+				Result := Precursor
 			end
 		end
 

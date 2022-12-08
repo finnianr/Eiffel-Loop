@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 18:51:38 GMT (Tuesday 6th December 2022)"
-	revision: "25"
+	date: "2022-12-08 6:33:32 GMT (Thursday 8th December 2022)"
+	revision: "26"
 
 class
 	GENERAL_TEST_SET
@@ -28,7 +28,6 @@ feature -- Basic operations
 			eval.call ("base_64_codec", agent test_base_64_codec)
 			eval.call ("character_32_status_queries", agent test_character_32_status_queries)
 			eval.call ("environment_put", agent test_environment_put)
-			eval.call ("initialized_object_factory", agent test_initialized_object_factory)
 			eval.call ("math_precision", agent test_math_precision)
 			eval.call ("named_thread", agent test_named_thread)
 			eval.call ("naming", agent test_naming)
@@ -93,28 +92,6 @@ feature -- Tests
 			assert ("not attached", not attached Execution_environment.item (name))
 		end
 
-	test_initialized_object_factory
-		local
-			factory: like new_string_factory
-			type_list: ARRAYED_LIST [TYPE [READABLE_STRING_GENERAL]]
-		do
-			create factory
-			create type_list.make_from_array (<<
-				{IMMUTABLE_STRING_32}, {IMMUTABLE_STRING_8},
-				{STRING_32}, {STRING_8}, {EL_STRING_32}, {EL_STRING_8},
-				{ZSTRING}
-			>>)
-			across type_list as list loop
-				if attached factory.new_item_from_type (list.item) as str then
-					lio.put_labeled_string ("Created", str.generator)
-					lio.put_new_line
-					assert ("same type", str.generator.same_string (list.item.name))
-				else
-					assert ("created", False)
-				end
-			end
-		end
-
 	test_math_precision
 		local
 			math: EL_DOUBLE_MATH_ROUTINES
@@ -133,8 +110,8 @@ feature -- Tests
 
 	test_naming
 		note
-			testing:
-				"covers/{EL_NAMING_ROUTINES}.to_title", "covers/{EL_NAMING_ROUTINES}.class_description"
+			testing: "covers/{EL_NAMING_ROUTINES}.to_title",
+						"covers/{EL_NAMING_ROUTINES}.class_description"
 		local
 			eif_name, title, description: STRING
 			excluded_words: EL_STRING_8_LIST
@@ -195,15 +172,6 @@ feature -- Tests
 			ptr.put_natural_64 (0x11_22_33_44_55_66_77_88, 0)
 			n_64 := reverse_ptr.read_natural_64 (0)
 			assert ("reversed", n_64 = 0x88_77_66_55_44_33_22_11)
-		end
-
-feature {NONE} -- Implementation
-
-	new_string_factory: EL_INITIALIZED_OBJECT_FACTORY [
-		EL_STRING_FACTORY [READABLE_STRING_GENERAL], READABLE_STRING_GENERAL
-	]
-		do
-			create Result
 		end
 
 feature {NONE} -- Constants

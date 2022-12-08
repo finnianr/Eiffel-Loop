@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 17:35:25 GMT (Tuesday 6th December 2022)"
-	revision: "9"
+	date: "2022-12-07 9:19:30 GMT (Wednesday 7th December 2022)"
+	revision: "10"
 
 class
 	TYPE_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_LIO
 
-	EL_SHARED_MAKEABLE_FACTORY
+	EL_SHARED_FACTORIES
 
 feature -- Basic operations
 
@@ -30,13 +30,14 @@ feature -- Basic operations
 feature -- Tests
 
 	test_string_factory_creation
+		-- Establish basis for creating class EL_INITIALIZED_OBJECT_FACTORY
 		local
 			factory: EL_OBJECT_FACTORY [EL_STRING_FACTORY [READABLE_STRING_GENERAL]]
 		do
 			create factory
-			if attached factory.new_item_from_name ("EL_STRING_FACTORY [EL_ZSTRING]") as string_factory then
+			if attached factory.new_item_from_name ("EL_STRING_FACTORY [EL_ZSTRING]") as zstr_factory then
 				assert ("created", True)
-				if attached string_factory.new_item as str then
+				if attached zstr_factory.new_item as str then
 					lio.put_labeled_string ("Type", str.generator)
 					lio.put_new_line
 					assert ("is empty string", str.count = 0)

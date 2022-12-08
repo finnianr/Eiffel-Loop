@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "27"
+	date: "2022-12-08 9:48:02 GMT (Thursday 8th December 2022)"
+	revision: "28"
 
 class
 	COUNTRY
@@ -50,11 +50,15 @@ feature -- Access
 
 	euro_zone_member: BOOLEAN
 
+	brics_member: BOOLEAN_REF
+
 	literacy_rate: REAL
 
 	name: ZSTRING
 
 	population: INTEGER
+
+	province_list: EL_ZSTRING_LIST
 
 	photo_jpeg: MANAGED_POINTER
 

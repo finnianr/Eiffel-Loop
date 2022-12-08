@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 17:33:52 GMT (Tuesday 6th December 2022)"
-	revision: "1"
+	date: "2022-12-08 6:57:11 GMT (Thursday 8th December 2022)"
+	revision: "2"
 
 deferred class
 	EL_FACTORY [G]
 
 feature -- Factory
 
-	new_item: G
+	new_item: detachable G
 	  deferred
 	  end
 

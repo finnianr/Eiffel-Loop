@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "58"
+	date: "2022-12-08 12:08:37 GMT (Thursday 8th December 2022)"
+	revision: "59"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -34,6 +34,8 @@ inherit
 	EL_CSV_CONVERTABLE
 
 	EL_MODULE_BUFFER; EL_MODULE_EXECUTABLE; EL_MODULE_LIO; EL_MODULE_REUSEABLE
+
+	EL_SHARED_CLASS_ID; EL_SHARED_FACTORIES
 
 feature -- Basic operations
 
@@ -175,7 +177,16 @@ feature {NONE} -- Implementation
 
 	is_storable_field (basic_type, type_id: INTEGER_32): BOOLEAN
 		do
-			Result := Eiffel.is_storable_type (basic_type, type_id)
+			if Eiffel.is_storable_type (basic_type, type_id) then
+				Result := True
+
+			elseif Eiffel.type_conforms_to (type_id, Class_id.El_chain_any) then
+				if Arrayed_list_factory.is_valid_type (type_id)
+					and then attached {EL_ARRAYED_LIST [ANY]} Arrayed_list_factory.new_item_from_type_id (type_id) as list
+				then
+					Result := Eiffel.is_storable_type (basic_type, list.item_type.type_id)
+				end
+			end
 		end
 
 	new_meta_data: EL_STORABLE_CLASS_META_DATA

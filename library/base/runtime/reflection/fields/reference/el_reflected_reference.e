@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "30"
+	date: "2022-12-08 18:50:50 GMT (Thursday 8th December 2022)"
+	revision: "31"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -21,11 +21,9 @@ inherit
 			initialize, make, value, is_initialized, set_from_memory, write_to_memory
 		end
 
-	EL_SHARED_NEW_INSTANCE_TABLE
-
 	EL_SHARED_READER_WRITER_TABLE
 
-	EL_SHARED_CLASS_ID
+	EL_SHARED_FACTORIES
 
 create
 	make
@@ -35,9 +33,10 @@ feature {EL_CLASS_META_DATA} -- Initialization
 	make (a_object: like enclosing_object; a_index: INTEGER; a_name: STRING)
 		do
 			Precursor (a_object, a_index, a_name)
-			if attached {EL_READER_WRITER_INTERFACE [G]} Reader_writer_table.item (type_id) as interface then
-				reader_writer_interface := interface
+			if attached {EL_READER_WRITER_INTERFACE [G]} Reader_writer_table.item (type_id) as extra then
+				reader_writer_extra := extra
 			end
+			factory := new_factory
 		end
 
 feature -- Access
@@ -53,11 +52,6 @@ feature -- Access
 			Result := Eiffel.deep_physical_size (value (a_object))
 		end
 
-	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
-		do
-			Result := value (a_object).out
-		end
-
 	value (a_object: EL_REFLECTIVE): G
 		do
 			enclosing_object := a_object
@@ -66,6 +60,13 @@ feature -- Access
 			else
 				Result := new_instance
 			end
+		end
+
+feature -- Conversion
+
+	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
+		do
+			Result := value (a_object).out
 		end
 
 feature -- Status query
@@ -78,7 +79,7 @@ feature -- Status query
 		-- (To satisfy this precondition, override `{EL_REFLECTIVE}.new_instance_functions'
 		-- to return a suitable creation function)
 		do
-			Result := New_instance_table.has (type_id) or else conforms_to_type (Class_id.EL_MAKEABLE)
+			Result := attached factory
 		end
 
 	is_initialized (a_object: EL_REFLECTIVE): BOOLEAN
@@ -127,8 +128,8 @@ feature -- Basic operations
 
 	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
 		do
-			if attached reader_writer_interface as interface and then attached value (a_object) as v then
-				interface.set (v, memory)
+			if attached reader_writer_extra as extra and then attached value (a_object) as v then
+				extra.set (v, memory)
 			else
 				set_from_readable (a_object, memory)
 			end
@@ -148,7 +149,7 @@ feature -- Basic operations
 
 	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
 		do
-			if attached reader_writer_interface as interface and then attached value (a_object) as v then
+			if attached reader_writer_extra as interface and then attached value (a_object) as v then
 				interface.write (v, memory)
 			else
 				write (a_object, memory)
@@ -164,41 +165,41 @@ feature -- Comparison
 
 feature {NONE} -- Implementation
 
-	new_instance: G
-		-- new initialized instance of field
+	new_factory: detachable EL_FACTORY [G]
 		local
-			new_func: FUNCTION [ANY]; is_assigned: BOOLEAN
+			agent_factory: EL_AGENT_FACILITATED_FACTORY [G]
 		do
-			if New_instance_table.has_key (type_id) then
-				new_func := New_instance_table.found_item
-				new_func.apply
-				if attached {G} new_func.last_result as new then
-					Result := new
-					is_assigned := True
+			if attached {EL_FACTORY [G]} Makeable_factory.new_item_factory (type_id) as f then
+				Result := f
+			else
+				create agent_factory.make (type_id)
+				if agent_factory.is_useable then
+					Result := agent_factory
+
+				elseif attached {EL_FACTORY [G]} Default_factory.new_item_factory (type_id) as f then
+					Result := f
 				end
 			end
-			if not is_assigned then
-				if Makeable_factory.valid_type_id (type_id) -- conforms to EL_MAKEABLE
-					and then attached {G} Makeable_factory.new_item_from_type_id (type_id) as new
-				then
-					Result := new
-				elseif attached {G} Eiffel.new_instance_of (type_id) as new then
-					-- Uninitialized
-					Result := new
-				end
+		end
+
+	new_instance: G
+		-- new initialized instance of field
+		do
+			if attached factory as f and then attached f.new_item as new then
+				Result := new
+
+			elseif attached {G} Eiffel.new_instance_of (type_id) as new then
+				-- Uninitialized instance
+				Result := new
 			end
 		end
 
 feature {NONE} -- Internal attributes
 
-	reader_writer_interface: detachable EL_READER_WRITER_INTERFACE [G]
+	factory: like new_factory
 
-feature {NONE} -- Constants
-
-	Makeable_factory: EL_MAKEABLE_OBJECT_FACTORY
-		once
-			create Result
-		end
+	reader_writer_extra: detachable EL_READER_WRITER_INTERFACE [G];
+		-- reader writer for supplementary types like `INTEGER_X' for example
 
 note
 	descendants: "[

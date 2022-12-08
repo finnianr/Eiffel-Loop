@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2022-12-08 7:14:06 GMT (Thursday 8th December 2022)"
+	revision: "6"
 
 class
 	EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT
@@ -17,6 +17,8 @@ inherit
 		redefine
 			is_initializeable
 		end
+
+	EL_SHARED_NEW_INSTANCE_TABLE
 
 create
 	make

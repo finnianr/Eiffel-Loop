@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "54"
+	date: "2022-12-08 19:07:24 GMT (Thursday 8th December 2022)"
+	revision: "55"
 
 class
 	EL_CLASS_META_DATA
@@ -52,9 +52,7 @@ feature {NONE} -- Initialization
 		do
 			Precursor (a_enclosing_object)
 			New_instance_table.extend_from_list (a_enclosing_object.new_instance_functions)
-			across a_enclosing_object.new_reader_writer_interfaces as interface loop
-				Reader_writer_table.put (interface.item, interface.key.type_id)
-			end
+			Reader_writer_table.merge (a_enclosing_object.new_extra_reader_writer_table)
 			create cached_field_indices_set.make_equal (3, agent new_field_indices_set)
 
 			representations := enclosing_object.new_representations

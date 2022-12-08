@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2022-12-08 17:53:18 GMT (Thursday 8th December 2022)"
+	revision: "10"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -15,9 +15,9 @@ class
 inherit
 	EL_FILE_DATA_TEST_SET
 
-	EL_SHARED_CURRENCY_ENUM
+	STORABLE_COUNTRY_TEST_DATA
 
-	EL_MODULE_BASE_64
+	EL_SHARED_CURRENCY_ENUM
 
 feature -- Basic operations
 
@@ -31,12 +31,30 @@ feature -- Tests
 
 	test_read_write
 		note
-			testing: "covers/{EL_MEMORY_READER_WRITER}.read_string", "covers/{EL_MEMORY_READER_WRITER}.write_string"
+			testing: "covers/{EL_MEMORY_READER_WRITER}.read_string",
+					"covers/{EL_MEMORY_READER_WRITER}.write_string"
+		local
+			country: STORABLE_COUNTRY
 		do
 			across << {STRING_32} "Xiǎo Chù 小畜", {STRING_32} "Trademark (™)" >> as str loop
-				write_and_read (new_test_storable (str.item), Storable_reader_writer)
+				if attached new_test_storable (str.item) as storable then
+					if attached {TEST_STORABLE} restored_object (storable, Storable_reader_writer) as restored then
+						assert ("same string", storable.string ~ restored.string)
+						assert ("same string", storable.string_utf_8 ~ restored.string_utf_8)
+						assert ("same string", storable.string_32 ~ restored.string_32)
+					else
+						assert ("restored OK", False)
+					end
+				end
 			end
-			write_and_read (Ireland, Country_reader_writer)
+
+			create country.make (Value_table)
+			check_values (country)
+			if attached {STORABLE_COUNTRY} restored_object (country, Country_reader_writer) as restored then
+				check_values (restored)
+			else
+				assert ("country restored", False)
+			end
 		end
 
 feature {NONE} -- Implementation
@@ -47,12 +65,10 @@ feature {NONE} -- Implementation
 			Result.set_string_values  (str)
 		end
 
-	write_and_read (object: EL_REFLECTIVELY_SETTABLE_STORABLE; reader_writer: ECD_READER_WRITER [EL_STORABLE])
+	restored_object (object: EL_REFLECTIVELY_SETTABLE_STORABLE; reader_writer: ECD_READER_WRITER [EL_STORABLE]): EL_STORABLE
 		note
-			testing: "covers/{EL_MEMORY_READER_WRITER}.read_string", "covers/{EL_MEMORY_READER_WRITER}.write_string"
-		local
-			restored_object: EL_STORABLE
-			zstr: ZSTRING
+			testing: "covers/{EL_MEMORY_READER_WRITER}.read_string",
+					"covers/{EL_MEMORY_READER_WRITER}.write_string"
 		do
 			File_path.set_base ("stored.dat")
 
@@ -64,17 +80,8 @@ feature {NONE} -- Implementation
 			end
 
 			if attached open_raw (File_path, Read) as l_file then
-				restored_object := reader_writer.read_item (l_file)
+				Result := reader_writer.read_item (l_file)
 				l_file.close
-			end
-
-			assert ("restored OK", object ~ restored_object)
-			if attached {TEST_STORABLE} object as l_object
-				and then attached {TEST_STORABLE} restored_object as l_restored_object
-			then
-				create zstr.make_from_utf_8 (l_restored_object.string_utf_8)
-				assert ("same as original", l_object.string ~ zstr)
-				assert ("same as original", l_object.string_32 ~ zstr.to_string_32)
 			end
 		end
 
@@ -88,25 +95,6 @@ feature {NONE} -- Constants
 	Country_reader_writer: ECD_READER_WRITER [STORABLE_COUNTRY]
 		once
 			create Result.make
-		end
-
-	Ireland: STORABLE_COUNTRY
-		once
-			create Result.make_default
-			Result.set_code ("IE")
-			Result.set_continent ("Europe")
-			Result.set_currency (Currency_enum.EUR)
-			Result.set_date_founded (create {DATE}.make (1937, 12, 29))
-			Result.set_literacy_rate (91.7)
-			Result.set_population (4_845_000)
-			Result.set_photo_jpeg (Base_64.decoded_special (Photo_data))
-			Result.set_name ("Ireland")
-			Result.set_temperature_range ([5, 17, "degrees"])
-		end
-
-	Photo_data: STRING
-		once
-			Result := "VyDHQ26RoAdUlNMQiWOKp22iUZEbS/VqWgX6rafZUGg="
 		end
 
 	Storable_reader_writer: ECD_READER_WRITER [TEST_STORABLE]

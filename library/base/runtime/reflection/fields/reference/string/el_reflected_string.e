@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "23"
+	date: "2022-12-08 7:12:17 GMT (Thursday 8th December 2022)"
+	revision: "24"
 
 deferred class
 	EL_REFLECTED_STRING [S -> READABLE_STRING_GENERAL create make end]
@@ -19,7 +19,7 @@ inherit
 		undefine
 			reset, set_from_readable, set_from_memory, write, write_to_memory
 		redefine
-			append_to_string, to_string, set_from_string_general
+			append_to_string, new_factory, to_string, set_from_string_general
 		end
 
 	STRING_HANDLER undefine is_equal end
@@ -64,6 +64,15 @@ feature {NONE} -- Implementation
 
 	replaced (str: S; content: READABLE_STRING_GENERAL): S
 		deferred
+		end
+
+	new_factory: detachable EL_FACTORY [S]
+		do
+			if attached {EL_FACTORY [S]} String_factory.new_item_factory (type_id) as f then
+				Result := f
+			else
+				Result := Precursor
+			end
 		end
 
 end

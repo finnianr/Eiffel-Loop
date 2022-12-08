@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "19"
+	date: "2022-12-08 12:20:38 GMT (Thursday 8th December 2022)"
+	revision: "20"
 
 class
 	EL_REFLECTED_TUPLE
@@ -31,6 +31,8 @@ inherit
 
 	EL_DOUBLE_MATH undefine is_equal end
 
+	EL_SHARED_NEW_INSTANCE_TABLE
+
 create
 	make
 
@@ -40,6 +42,7 @@ feature {EL_CLASS_META_DATA} -- Initialization
 		do
 			make_reflected (a_object)
 			create member_types.make_from_static (field_static_type (a_index))
+			factory_array := new_factory_array
 			Precursor (a_object, a_index, a_name)
 		end
 
@@ -156,18 +159,15 @@ feature {NONE} -- Implementation
 
 	new_instance: TUPLE
 		local
-			i: INTEGER_32; l_type: TYPE [ANY]; has_reference: BOOLEAN
-			l_types: like member_types
+			i, i_final: INTEGER_32; has_reference: BOOLEAN
 		do
-			if attached {TUPLE} Eiffel.new_instance_of (type_id) as new_tuple then
-				l_types := member_types
-				from i := 1 until i > l_types.count loop
-					l_type := l_types [i]
-					if not l_type.is_expanded then
-						if New_instance_table.has_key (l_type.type_id) then
-							New_instance_table.found_item.apply
-							new_tuple.put_reference (New_instance_table.found_item.last_result, i)
-						end
+			if attached {TUPLE} Eiffel.new_instance_of (type_id) as new_tuple
+				and then attached factory_array as array
+			then
+				i_final := array.count
+				from i := 0 until i = i_final loop
+					if attached array [i] as l_factory then
+						new_tuple.put_reference (l_factory.new_item, i + 1)
 						has_reference := True
 					end
 					i := i + 1
@@ -180,6 +180,32 @@ feature {NONE} -- Implementation
 				create Result
 			end
 		end
+
+	new_factory_array: SPECIAL [detachable EL_FACTORY [ANY]]
+		local
+			i: INTEGER_32; l_type: TYPE [ANY]
+		do
+			create Result.make_filled (Void, member_types.count)
+			if attached member_types as l_types then
+				from i := 1 until i > l_types.count loop
+					l_type := l_types [i]
+					if not l_type.is_expanded then
+						if attached factory_for_type (l_type.type_id) as item_factory then
+							if item_factory = Default_factory and then New_instance_table.has (l_type.type_id) then
+								Result [i - 1] := create {EL_AGENT_FACILITATED_FACTORY [ANY]}.make (l_type.type_id)
+							else
+								Result [i - 1] := item_factory
+							end
+						end
+					end
+					i := i + 1
+				end
+			end
+		end
+
+feature {NONE} -- Internal attributes
+
+	factory_array: like new_factory_array
 
 feature {NONE} -- Constants
 

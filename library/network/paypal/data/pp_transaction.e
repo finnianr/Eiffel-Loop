@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:25:17 GMT (Monday 5th December 2022)"
-	revision: "34"
+	date: "2022-12-08 9:29:46 GMT (Thursday 8th December 2022)"
+	revision: "35"
 
 class
 	PP_TRANSACTION
@@ -30,7 +30,7 @@ inherit
 			field_included as is_any_field,
 			foreign_naming as eiffel_naming
 		redefine
-			make_default, new_instance_functions, new_representations
+			new_representations
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
@@ -58,13 +58,6 @@ feature {NONE} -- Initialization
 	make_count (n: INTEGER)
 		do
 			make_default
-		end
-
-	make_default
-		do
-			create address.make_default
-			create payment_date.make_now
-			Precursor
 		end
 
 feature -- Payer
@@ -169,13 +162,6 @@ feature -- Access
 	invoice: STRING
 
 feature {NONE} -- Implementation
-
-	new_instance_functions: like Default_initial_values
-		do
-			create Result.make_from_array (<<
-				agent: PP_DATE_TIME do create Result.make_now end
-			>>)
-		end
 
 	new_representations: like Default_representations
 		do

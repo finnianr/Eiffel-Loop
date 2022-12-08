@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2022-12-08 19:02:55 GMT (Thursday 8th December 2022)"
+	revision: "15"
 
 deferred class
 	EL_REFLECTIVE_RSA_KEY
@@ -21,8 +21,7 @@ inherit
 			read_version as read_default_version,
 			foreign_naming as camel_case
 		redefine
-			print_fields, is_storable_field,
-			new_reader_writer_interfaces, Use_default_values
+			extra_reader_writer_types, print_fields, is_storable_field, Use_default_values
 		end
 
 	EL_SETTABLE_FROM_STRING_8
@@ -70,11 +69,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_reader_writer_interfaces: like Default_reader_writer_interfaces
+	extra_reader_writer_types: TUPLE [EL_INTEGER_X_READER_WRITER]
 		do
-			create Result.make (<<
-				[{INTEGER_X}, create {EL_INTEGER_X_READER_WRITER}]
-			>>)
+			create Result
 		end
 
 	put_number (a_lio: EL_LOGGABLE; label: ZSTRING; number: INTEGER_X; indefinite_length: BOOLEAN)

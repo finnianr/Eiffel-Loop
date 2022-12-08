@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2022-12-08 7:42:44 GMT (Thursday 8th December 2022)"
+	revision: "13"
 
 class
 	PP_ADDRESS
@@ -19,6 +19,13 @@ inherit
 			foreign_naming as eiffel_naming
 		redefine
 			new_representations
+		end
+
+	EL_MAKEABLE
+		rename
+			make as make_default
+		undefine
+			is_equal
 		end
 
 create
