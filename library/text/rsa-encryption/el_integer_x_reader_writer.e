@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-08 16:44:33 GMT (Thursday 8th December 2022)"
-	revision: "5"
+	date: "2022-12-09 8:13:54 GMT (Friday 9th December 2022)"
+	revision: "6"
 
 class
 	EL_INTEGER_X_READER_WRITER
@@ -52,7 +52,7 @@ feature {NONE} -- Implementation
 
 	read_array (reader: EL_READABLE): SPECIAL [NATURAL_32]
 		local
-			i, l_count: INTEGER; l_area: SPECIAL [NATURAL_32]
+			i, l_count: INTEGER
 		do
 			l_count := reader.read_integer_32
 			create Result.make_empty (l_count)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "24"
+	date: "2022-12-09 8:33:55 GMT (Friday 9th December 2022)"
+	revision: "25"
 
 class
 	EL_DATE_TIME
@@ -38,6 +38,7 @@ inherit
 		rename
 			Time as Mod_time
 		end
+
 
 create
 	make, make_fine, make_by_date_time, make_by_date, make_from_epoch, make_now, make_now_utc,

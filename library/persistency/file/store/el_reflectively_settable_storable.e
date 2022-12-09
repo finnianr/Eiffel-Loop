@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-08 12:08:37 GMT (Thursday 8th December 2022)"
-	revision: "59"
+	date: "2022-12-09 15:16:26 GMT (Friday 9th December 2022)"
+	revision: "60"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -101,7 +101,7 @@ feature -- Basic operations
 				output.put_indented_line (tab_count, "-- " + list.cursor_index.out)
 
 				field_definition := list.item.name + ": " + list.item.class_name
-				if attached {EL_STRING_REPRESENTATION [ANY, ANY]} list.item.representation as representation then
+				if attached {EL_STRING_FIELD_REPRESENTATION [ANY, ANY]} list.item.representation as representation then
 					representation.append_comment (field_definition)
 					if attached {EL_ENUMERATION [NUMERIC]} representation.item as enumeration then
 						enumeration_list.extend (enumeration)
@@ -176,15 +176,18 @@ feature {NONE} -- Implementation
 		end
 
 	is_storable_field (basic_type, type_id: INTEGER_32): BOOLEAN
+		local
+			item_type_id: INTEGER
 		do
 			if Eiffel.is_storable_type (basic_type, type_id) then
 				Result := True
 
-			elseif Eiffel.type_conforms_to (type_id, Class_id.El_chain_any) then
+			elseif Eiffel.type_conforms_to (type_id, Class_id.ARRAYED_LIST_ANY) then
 				if Arrayed_list_factory.is_valid_type (type_id)
-					and then attached {EL_ARRAYED_LIST [ANY]} Arrayed_list_factory.new_item_from_type_id (type_id) as list
+					and then attached {ARRAYED_LIST [ANY]} Arrayed_list_factory.new_item_from_type_id (type_id) as list
 				then
-					Result := Eiffel.is_storable_type (basic_type, list.item_type.type_id)
+					item_type_id := list.area.generating_type.generic_parameter_type (1).type_id
+					Result := Eiffel.is_storable_type (basic_type, item_type_id)
 				end
 			end
 		end
@@ -238,7 +241,6 @@ feature {NONE} -- Implementation
 			name: STRING
 		do
 			value := buffer.empty; attribute_lines := Once_attribute_lines
-
 			across Reuseable.string_pool as pool loop
 				from attribute_lines.wipe_out until attribute_lines.full loop
 					attribute_lines.extend (pool.borrowed_item)

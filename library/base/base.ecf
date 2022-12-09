@@ -111,14 +111,14 @@ Classes for the following:
 				</condition>
 			</file_rule>
 		</cluster>
-		<cluster name = "kernel" location = "kernel" recursive = "true">
+		<cluster name = "kernel" location = "kernel/base" recursive = "true">
 			<description>
 Kernel
 
 Fundamental base classes
 			</description>
 		</cluster>
-		<cluster name = "reflection" location = "runtime/reflection" recursive = "true">
+		<cluster name = "reflection" location = "kernel/reflection" recursive = "true">
 			<description>
 Class Reflection
 
@@ -235,6 +235,7 @@ Classes providing the following:
 
 * Character and character sequence conversion
 * Character encoding
+* Class and routine naming-convention translation
 * Converting string data to other basic types
 * Deferred internationalization
 * Text line processing
@@ -248,6 +249,7 @@ Classes providing the following:
 			<cluster name = "text_encoding" location = "$|encoding" recursive = "true"/>
 			<cluster name = "line_traversal" location = "$|line-traversal" recursive = "true"/>
 			<cluster name = "name_value" location = "$|name-value" recursive = "true"/>
+			<cluster name = "naming" location = "$|naming" recursive = "true"/>
 			<cluster name = "convert" location = "$|convert" recursive = "true"/>
 			<cluster name = "character" location = "$|character"/>
 			<cluster name = "error" location = "$|error"/>
@@ -262,7 +264,6 @@ Utility
 Classes providing the following facilities:
 
 * Benchmarking
-* Date/time formatting
 * Memory writing
 * Cyclic redundancy check
 * Command shells

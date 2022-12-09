@@ -116,7 +116,7 @@ system:
 				"imp_mswin; imp_unix"
 
 		cluster_tree:
-			kernel = kernel
+			kernel = "kernel/base"
 			description:
 				"""
 					Kernel
@@ -124,7 +124,7 @@ system:
 					Fundamental base classes
 				"""
 		cluster_tree:
-			reflection = "runtime/reflection"
+			reflection = "kernel/reflection"
 			description:
 				"""
 					Class Reflection
@@ -235,6 +235,7 @@ system:
 
 					* Character and character sequence conversion
 					* Character encoding
+					* Class and routine naming-convention translation
 					* Converting string data to other basic types
 					* Deferred internationalization
 					* Text line processing
@@ -253,6 +254,8 @@ system:
 			cluster_tree:
 				name_value = "$|name-value"
 			cluster_tree:
+				naming = "$|naming"
+			cluster_tree:
 				convert = "$|convert"
 			sub_clusters:
 				character = character; error = error
@@ -268,7 +271,6 @@ system:
 					Classes providing the following facilities:
 
 					* Benchmarking
-					* Date/time formatting
 					* Memory writing
 					* Cyclic redundancy check
 					* Command shells

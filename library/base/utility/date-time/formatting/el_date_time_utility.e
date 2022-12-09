@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2022-12-09 9:03:57 GMT (Friday 9th December 2022)"
+	revision: "7"
 
 deferred class
 	EL_DATE_TIME_UTILITY
@@ -25,6 +25,13 @@ inherit
 	EL_MODULE_DATE_TIME
 
 	EL_MODULE_REUSEABLE
+
+	EL_APPENDABLE_TO_STRING_GENERAL
+		rename
+			append_to as default_append_to
+		undefine
+			copy, is_equal, out
+		end
 
 feature {NONE} -- Initialization
 
@@ -39,10 +46,6 @@ feature {NONE} -- Initialization
 					end
 				end
 			end
-		end
-
-	make_with_parser (parser: EL_DATE_TIME_PARSER)
-		deferred
 		end
 
 feature -- Access
@@ -90,6 +93,11 @@ feature -- Basic operations
 											implies code.correspond (str.substring (old str.count + 1, str.count))
 		end
 
+	default_append_to (general: STRING_GENERAL)
+		do
+			append_to (general, default_format_string)
+		end
+
 feature -- Contract support
 
 	input_valid (s: STRING; format: STRING): BOOLEAN
@@ -133,15 +141,25 @@ feature {NONE} -- Implementation
 			Result := Code_string_table.item (format).new_parser
 		end
 
-	to_shared_date_time: DATE_TIME
-		deferred
-		end
-
 	upper_input_valid (upper_str: STRING; format: STRING): BOOLEAN
 		do
 			if attached Code_string_table.item (format) as code then
 				Result := valid_string_for_code (upper_str, code)
 			end
+		end
+
+feature {NONE} -- Deferred Implementation
+
+	default_format_string: STRING
+		deferred
+		end
+
+	make_with_parser (parser: EL_DATE_TIME_PARSER)
+		deferred
+		end
+
+	to_shared_date_time: DATE_TIME
+		deferred
 		end
 
 	valid_string_for_code (str: STRING; code: EL_DATE_TIME_CODE_STRING): BOOLEAN
