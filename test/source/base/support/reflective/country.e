@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 15:17:33 GMT (Friday 9th December 2022)"
-	revision: "29"
+	date: "2022-12-10 13:48:31 GMT (Saturday 10th December 2022)"
+	revision: "30"
 
 class
 	COUNTRY
@@ -18,7 +18,7 @@ inherit
 			field_included as is_any_field,
 			foreign_naming as eiffel_naming
 		redefine
-			new_representations
+			new_representations, make_default
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
@@ -32,6 +32,14 @@ inherit
 
 create
 	make, make_default
+
+feature {NONE} -- Initialization
+
+	make_default
+		do
+			Precursor
+			province_list.compare_objects
+		end
 
 feature -- Access
 
@@ -58,7 +66,7 @@ feature -- Access
 
 	population: INTEGER
 
-	province_list: EL_ZSTRING_LIST
+	province_list: ARRAYED_LIST [STRING]
 
 	photo_jpeg: MANAGED_POINTER
 

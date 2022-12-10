@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-08 19:10:35 GMT (Thursday 8th December 2022)"
-	revision: "60"
+	date: "2022-12-10 16:21:00 GMT (Saturday 10th December 2022)"
+	revision: "61"
 
 deferred class
 	EL_REFLECTIVE
@@ -41,6 +41,8 @@ inherit
 	EL_REFLECTION_HANDLER
 
 	EL_STRING_8_CONSTANTS
+
+	EL_SHARED_FACTORIES
 
 feature {NONE} -- Initialization
 
@@ -225,7 +227,7 @@ feature -- Contract Support
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {EL_REFLECTIVE_I} -- Implementation
 
 	current_object: like Once_current_object
 		do
@@ -271,6 +273,13 @@ feature {NONE} -- Implementation
 	is_collection_field (basic_type, type_id: INTEGER): BOOLEAN
 		do
 			Result := Eiffel.field_conforms_to_collection (basic_type, type_id)
+		end
+
+	is_initializeable_collection_field (basic_type, type_id: INTEGER): BOOLEAN
+		do
+			if Eiffel.is_reference (basic_type) and then Arrayed_list_factory.is_valid_type (type_id) then
+				Result := Eiffel.is_type_convertable_from_string (basic_type, Eiffel.collection_item_type (type_id))
+			end
 		end
 
 	is_date_field (basic_type, type_id: INTEGER): BOOLEAN

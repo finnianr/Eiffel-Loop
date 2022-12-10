@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "18"
+	date: "2022-12-10 15:42:51 GMT (Saturday 10th December 2022)"
+	revision: "19"
 
 class
 	EL_TUPLE_TYPE_ARRAY
@@ -20,12 +20,7 @@ inherit
 			make_filled
 		end
 
-	EL_REFLECTION_CONSTANTS
-		undefine
-			is_equal, copy
-		end
-
-	EL_MODULE_EIFFEL
+	EL_MODULE_EIFFEL; EL_MODULE_CONVERT_STRING
 
 	EL_SHARED_CLASS_ID
 
@@ -82,7 +77,7 @@ feature -- Status query
 
 	is_latin_1_representable: BOOLEAN
 		do
-			Result := for_all (agent type_is_latin_1_representable)
+			Result := for_all (agent type_is_latin_1)
 		end
 
 	is_uniformly (type: TYPE [ANY]): BOOLEAN
@@ -92,12 +87,8 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	type_is_latin_1_representable (type: TYPE [ANY]): BOOLEAN
+	type_is_latin_1 (type: TYPE [ANY]): BOOLEAN
 		do
-			if Collection_type_table.has_conforming (type.type_id) then
-				Result := Collection_type_table.is_latin_1_representable (type.type_id)
-			else
-				Result := not Class_id.Unicode_types.has (type.type_id)
-			end
+			Result := Convert_string.is_latin_1 (type)
 		end
 end

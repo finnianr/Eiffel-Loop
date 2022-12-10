@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2022-12-10 15:38:53 GMT (Saturday 10th December 2022)"
+	revision: "5"
 
 class
 	EL_STRING_TO_CHARACTER_32
@@ -15,8 +15,13 @@ class
 inherit
 	EL_READABLE_STRING_GENERAL_TO_TYPE [CHARACTER_32]
 		redefine
-			is_convertible
+			is_convertible, is_latin_1
 		end
+
+feature -- Status query
+
+	is_latin_1: BOOLEAN = False
+		-- `True' if type can be always be represented by Latin-1 encoded string
 
 feature -- Contract Support
 

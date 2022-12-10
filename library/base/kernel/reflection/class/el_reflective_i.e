@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-08 19:05:59 GMT (Thursday 8th December 2022)"
-	revision: "8"
+	date: "2022-12-10 16:22:13 GMT (Saturday 10th December 2022)"
+	revision: "9"
 
 deferred class
 	EL_REFLECTIVE_I
@@ -23,14 +23,6 @@ feature {NONE} -- Implementation
 		end
 
 	field_table: EL_REFLECTED_FIELD_TABLE
-		deferred
-		end
-
-	is_collection_field (basic_type, type_id: INTEGER): BOOLEAN
-		deferred
-		end
-
-	is_field_convertable_from_string (basic_type, type_id: INTEGER): BOOLEAN
 		deferred
 		end
 

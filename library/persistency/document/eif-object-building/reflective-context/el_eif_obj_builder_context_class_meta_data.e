@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 15:52:13 GMT (Friday 9th December 2022)"
-	revision: "9"
+	date: "2022-12-10 10:27:10 GMT (Saturday 10th December 2022)"
+	revision: "10"
 
 class
 	EL_EIF_OBJ_BUILDER_CONTEXT_CLASS_META_DATA
@@ -32,8 +32,7 @@ feature {NONE} -- Constants
 				Boolean_ref_type_table,
 				Makeable_from_string_type_table,
 				String_convertable_type_table,
-				Eiffel_object_builder_type_table,
-				Collection_type_table
+				Eiffel_object_builder_type_table
 			>>
 		end
 

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 15:16:26 GMT (Friday 9th December 2022)"
-	revision: "60"
+	date: "2022-12-10 16:08:38 GMT (Saturday 10th December 2022)"
+	revision: "61"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -176,18 +176,13 @@ feature {NONE} -- Implementation
 		end
 
 	is_storable_field (basic_type, type_id: INTEGER_32): BOOLEAN
-		local
-			item_type_id: INTEGER
 		do
 			if Eiffel.is_storable_type (basic_type, type_id) then
 				Result := True
 
 			elseif Eiffel.type_conforms_to (type_id, Class_id.ARRAYED_LIST_ANY) then
-				if Arrayed_list_factory.is_valid_type (type_id)
-					and then attached {ARRAYED_LIST [ANY]} Arrayed_list_factory.new_item_from_type_id (type_id) as list
-				then
-					item_type_id := list.area.generating_type.generic_parameter_type (1).type_id
-					Result := Eiffel.is_storable_type (basic_type, item_type_id)
+				if Arrayed_list_factory.is_valid_type (type_id) then
+					Result := Eiffel.is_storable_type (basic_type, Eiffel.collection_item_type (type_id))
 				end
 			end
 		end

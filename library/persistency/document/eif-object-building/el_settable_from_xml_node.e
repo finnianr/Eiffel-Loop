@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 15:52:13 GMT (Friday 9th December 2022)"
-	revision: "39"
+	date: "2022-12-10 16:23:08 GMT (Saturday 10th December 2022)"
+	revision: "40"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -274,9 +274,11 @@ feature {NONE} -- Implementation
 
 	is_field_convertable_from_xml (basic_type, type_id: INTEGER): BOOLEAN
 		do
-			Result := is_field_convertable_from_string (basic_type, type_id)
-							or else is_collection_field (basic_type, type_id)
-							or else is_builder_context_field (basic_type, type_id)
+			if attached current_reflective as cr then
+				Result := cr.is_field_convertable_from_string (basic_type, type_id)
+								or else cr.is_initializeable_collection_field (basic_type, type_id)
+								or else is_builder_context_field (basic_type, type_id)
+			end
 		end
 
 	is_builder_context_field (basic_type, type_id: INTEGER): BOOLEAN

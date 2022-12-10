@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "39"
+	date: "2022-12-10 15:48:07 GMT (Saturday 10th December 2022)"
+	revision: "40"
 
 class
 	EL_REFLECTION_CONSTANTS
@@ -17,11 +17,6 @@ feature {NONE} -- Reference types
 	frozen Boolean_ref_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_BOOLEAN_REF]
 		once
 			create Result.make (<< {EL_REFLECTED_BOOLEAN_REF} >>)
-		end
-
-	frozen Collection_type_table: EL_REFLECTED_COLLECTION_TYPE_TABLE
-		once
-			create Result.make
 		end
 
 	frozen Makeable_from_string_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [

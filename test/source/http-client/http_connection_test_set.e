@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-23 17:51:22 GMT (Wednesday 23rd November 2022)"
-	revision: "55"
+	date: "2022-12-10 16:38:22 GMT (Saturday 10th December 2022)"
+	revision: "56"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -74,8 +74,9 @@ feature -- Tests
 
 			assert ("two cookies set", cookies.count = 2)
 			across cookies as cookie loop
-				lio.put_string_field (cookie.key, cookie.item)
+				lio.put_string_field (cookie.key, cookie.item); lio.put_string_field (" JSON", json_fields.item (cookie.key))
 				lio.put_new_line
+
 				assert ("json has cookie key", json_fields.has (cookie.key))
 				assert ("cookie equals json value", json_fields.item (cookie.key) ~ cookie.item)
 			end

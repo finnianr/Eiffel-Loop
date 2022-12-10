@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 16:16:24 GMT (Friday 9th December 2022)"
-	revision: "15"
+	date: "2022-12-10 15:59:25 GMT (Saturday 10th December 2022)"
+	revision: "16"
 
 class
 	EL_INTERNAL
@@ -33,6 +33,8 @@ inherit
 		end
 
 	EL_REFLECTION_CONSTANTS
+
+	EL_MODULE_REUSEABLE
 
 	EL_SHARED_CLASS_ID; EL_SHARED_FACTORIES
 
@@ -61,7 +63,7 @@ feature -- Type queries
 		-- True if `type_id' conforms to COLLECTION [X] where x is a string or an expanded type
 		do
 			if is_reference (basic_type) then
-				Result := Collection_type_table.has_conforming (type_id)
+				Result := type_conforms_to (type_id, Class_id.COLLECTION_ANY)
 			end
 		end
 
@@ -149,6 +151,24 @@ feature -- Access
 	reflected (a_object: ANY): EL_REFLECTED_REFERENCE_OBJECT
 		do
 			create Result.make (a_object)
+		end
+
+	substituted_type_name (generic_type, parameter_type, insert_type: TYPE [ANY]): STRING
+		--
+		local
+			intervals: EL_OCCURRENCE_INTERVALS [IMMUTABLE_STRING_8]; s_8: EL_STRING_8_ROUTINES
+		do
+			create intervals.make_by_string (generic_type.name, parameter_type.name)
+			across Reuseable.string_8 as reuse loop
+				Result := reuse.copied_item (generic_type.name)
+				from intervals.finish until intervals.before loop
+					if s_8.is_identifier_boundary (generic_type.name, intervals.item_lower, intervals.item_upper) then
+						Result.replace_substring (insert_type.name, intervals.item_lower, intervals.item_upper)
+					end
+					intervals.back
+				end
+			end
+			Result := Result.twin
 		end
 
 	type_from_string (class_type: STRING): TYPE [ANY]

@@ -3,43 +3,15 @@ note
 		Table of converters conforming to [$source EL_READABLE_STRING_GENERAL_TO_TYPE [ANY]]
 		for converting strings conforming to [$source READABLE_STRING_GENERAL] to common data types
 	]"
-	notes: "[
-		Converters:
-		
-			EL_STRING_TO_INTEGER_8,
-			EL_STRING_TO_INTEGER_16,
-			EL_STRING_TO_INTEGER_32,
-			EL_STRING_TO_INTEGER_64,
-
-			EL_STRING_TO_NATURAL_8,
-			EL_STRING_TO_NATURAL_16,
-			EL_STRING_TO_NATURAL_32,
-			EL_STRING_TO_NATURAL_64,
-
-			EL_STRING_TO_REAL_32,
-			EL_STRING_TO_REAL_64,
-
-			EL_STRING_TO_BOOLEAN,
-			EL_STRING_TO_CHARACTER_8,
-			EL_STRING_TO_CHARACTER_32,
-
-			EL_STRING_TO_STRING_8,
-			EL_STRING_TO_STRING_32,
-			EL_STRING_TO_ZSTRING,
-			EL_STRING_TO_DIR_PATH,
-			EL_STRING_TO_FILE_PATH,
-			EL_STRING_TO_DIR_URI_PATH,
-			EL_STRING_TO_FILE_URI_PATH
-
-	]"
+	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2022-12-10 15:38:53 GMT (Saturday 10th December 2022)"
+	revision: "15"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -69,7 +41,7 @@ feature {NONE} -- Initialization
 		local
 			type_array: EL_TUPLE_TYPE_ARRAY
 		do
-			create type_array.make_from_tuple (new_type_tuple)
+			create type_array.make_from_tuple (converter_types)
 			make_size (type_array.count)
 			across type_array as type loop
 				if attached {like item} Eiffel.new_object (type.item) as converter then
@@ -151,6 +123,14 @@ feature -- Status query
 			end
 		end
 
+	is_latin_1 (type: TYPE [ANY]): BOOLEAN
+		-- `True' if type can be always be represented by Latin-1 encoded string
+		do
+			if has_key (type.type_id) then
+				Result := found_item.is_latin_1
+			end
+		end
+
 feature -- Basic operations
 
 	append_to_chain (
@@ -219,20 +199,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	new_comma_splitter (csv_list: READABLE_STRING_GENERAL; adjustments: INTEGER): EL_SPLIT_ON_CHARACTER [READABLE_STRING_GENERAL]
-		do
-			if attached {ZSTRING} csv_list as zstring_list then
-				create {EL_SPLIT_ZSTRING_ON_CHARACTER} Result.make_adjusted (zstring_list, ',', adjustments)
-
-			elseif csv_list.is_string_8 then
-				create {EL_SPLIT_ON_CHARACTER [STRING_8]} Result.make_adjusted (csv_list.as_string_8, ',', adjustments)
-
-			else
-				create {EL_SPLIT_ON_CHARACTER [STRING_32]} Result.make_adjusted (csv_list.as_string_32, ',', adjustments)
-			end
-		end
-
-	new_type_tuple: TUPLE [
+	converter_types: TUPLE [
 			EL_STRING_TO_INTEGER_8,
 			EL_STRING_TO_INTEGER_16,
 			EL_STRING_TO_INTEGER_32,
@@ -250,16 +217,27 @@ feature {NONE} -- Implementation
 			EL_STRING_TO_CHARACTER_8,
 			EL_STRING_TO_CHARACTER_32,
 
-			EL_STRING_TO_STRING_8,
-			EL_STRING_TO_STRING_32,
-			EL_STRING_TO_ZSTRING,
-			EL_STRING_TO_DIR_PATH,
-			EL_STRING_TO_FILE_PATH,
-			EL_STRING_TO_DIR_URI_PATH,
-			EL_STRING_TO_FILE_URI_PATH
+			EL_STRING_TO_STRING_8, EL_STRING_TO_STRING_32, EL_STRING_TO_ZSTRING,
+			EL_STRING_TO_IMMUTABLE_STRING_8, EL_STRING_TO_IMMUTABLE_STRING_32,
+
+			EL_STRING_TO_DIR_PATH, EL_STRING_TO_FILE_PATH,
+			EL_STRING_TO_DIR_URI_PATH, EL_STRING_TO_FILE_URI_PATH
 	]
 		do
 			create Result
+		end
+
+	new_comma_splitter (csv_list: READABLE_STRING_GENERAL; adjustments: INTEGER): EL_SPLIT_ON_CHARACTER [READABLE_STRING_GENERAL]
+		do
+			if attached {ZSTRING} csv_list as zstring_list then
+				create {EL_SPLIT_ZSTRING_ON_CHARACTER} Result.make_adjusted (zstring_list, ',', adjustments)
+
+			elseif csv_list.is_string_8 then
+				create {EL_SPLIT_ON_CHARACTER [STRING_8]} Result.make_adjusted (csv_list.as_string_8, ',', adjustments)
+
+			else
+				create {EL_SPLIT_ON_CHARACTER [STRING_32]} Result.make_adjusted (csv_list.as_string_32, ',', adjustments)
+			end
 		end
 
 	readable_string: READABLE_STRING_GENERAL
@@ -267,4 +245,24 @@ feature {NONE} -- Implementation
 			Result := ""
 		end
 
+note
+	notes: "[
+		Conversion targets:
+
+			INTEGER_8, INTEGER_16, INTEGER_32, INTEGER_64,
+
+			NATURAL_8, NATURAL_16, NATURAL_32, NATURAL_64,
+
+			REAL_32, REAL_64,
+
+			BOOLEAN, CHARACTER_8, CHARACTER_32,
+
+			STRING_8, STRING_32, IMMUTABLE_STRING_8, IMMUTABLE_STRING_32,
+
+			[$source ZSTRING],
+			[$source DIR_PATH], [$source FILE_PATH],
+
+			[$source EL_DIR_URI_PATH], [$source EL_FILE_URI_PATH]
+
+	]"
 end

@@ -1,16 +1,16 @@
 # Eiffel-Loop Contents
 ## Submission for 99-bottles-of-beer.net
-Eiffel submission for [www.99-bottles-of-beer.net](http://www.99-bottles-of-beer.net/).
+Eiffel submission for [http://www.99-bottles-of-beer.net/ www.99-bottles-of-beer.net].
 
 This website contains sample programs for over 1500 languages and variations, all of which print the lyrics of the song "99 Bottles of Beer".
 ## Concurrency Demonstration
-Demonstration of classes that make the classic multi-threading ISE library `thread.ecf` easier to use.
+Demonstration of classes that make the classic multi-threading ISE library `thread.ecf' easier to use.
 
 
-1. `el_concurrency -horse_race` An [animated version](https://www.youtube.com/watch?v=s2-7pzmVjao) of the classic concurrency horse-racing exercise.
-2. `el_concurrency -work_distributer` demonstrates the calculation of integrals for arbitrary functions distributed across a specified number of threads
+1. `el_concurrency -horse_race' An [https://www.youtube.com/watch?v=s2-7pzmVjao animated version] of the classic concurrency horse-racing exercise.
+2. `el_concurrency -work_distributer' demonstrates the calculation of integrals for arbitrary functions distributed across a specified number of threads
 ## Vision-2 Extensions Demo
-Test application for selected components from Eiffel-Loop [extension libraries for Vision-2 and Docking](http://www.eiffel-loop.com/library/vision2-x.html).
+Test application for selected components from Eiffel-Loop [./library/vision2-x.html extension libraries for Vision-2 and Docking].
 ## Rhythmbox MP3 Collection Manager
 This is a full-blown MP3 collection manager that is designed to work in conjunction with the [Rhythmbox media player](https://wiki.gnome.org/Apps/Rhythmbox) and has a number of features of particular interest to Tango DJs.
 
@@ -338,9 +338,9 @@ Building on the basic ISE reflection mechanisms, this cluster makes possible a v
 * Support for mapping between various name-style conventions: eg. kebab-case, camel-case, snake-case, upper-snake-case etc.
 * Support of automatic initialization of reference types with means of adding adhoc types. (non-void safe compiler)
 * Support for numeric enumerations with reflective assignment from strings and optional mappings to extended descriptions. For example: [EL_PASSPHRASE_ATTRIBUTES_ENUM]($source).
-* Basis for reflective initialization of class attributes from command line arguments. See class [EL_COMMAND_LINE_OPTIONS](http://www.eiffel-loop.com/library/base/text/command-line/options/el_command_line_options.html)
+* Basis for reflective initialization of class attributes from command line arguments. See class [EL_COMMAND_LINE_OPTIONS](http://www.eiffel-loop.com/library/base/kernel/base/command/options/el_command_line_options.html)
 * Support for reading and writing to strings conforming to [STRING_GENERAL](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_general_chart.html)
-* Support for reading from objects conforming to [EL_READABLE](http://www.eiffel-loop.com/library/base/kernel/el_readable.html) and writing to objects conforming to [EL_WRITEABLE](http://www.eiffel-loop.com/library/base/kernel/el_writeable.html)
+* Support for reading from objects conforming to [EL_READABLE](http://www.eiffel-loop.com/library/base/kernel/base/el_readable.html) and writing to objects conforming to [EL_WRITEABLE](http://www.eiffel-loop.com/library/base/kernel/base/el_writeable.html)
 * Support for reading writing to instance of [EL_MEMORY_READER_WRITER](http://www.eiffel-loop.com/library/base/runtime/memory/reader-writer/el_memory_reader_writer.html) (inherits [SED_MEMORY_READER_WRITER](https://www.eiffel.org/files/doc/static/trunk/libraries/base/sed_memory_reader_writer_chart.html))
 * Support for recursively pretty-printing object data to console (with color highlighting in Linux)
 * Support for sinking field data into object conforming to [EL_DATA_SINKABLE](http://www.eiffel-loop.com/library/base/runtime/memory/el_data_sinkable.html). Useful for creating MD5 or SHA-256 hashes.
@@ -408,7 +408,6 @@ Classes providing the following facilities:
 
 
 * Benchmarking
-* Date/time formatting
 * Memory writing
 * Cyclic redundancy check
 * Command shells
@@ -419,6 +418,7 @@ Classes providing the following:
 
 * Character and character sequence conversion
 * Character encoding
+* Class and routine naming-convention translation
 * Converting string data to other basic types
 * Deferred internationalization
 * Text line processing
@@ -813,7 +813,7 @@ Some of the main features of this database system are as follows:
 
 **6.** Powerful Eiffel-orientated query facility that leverages the Eiffel conjunctive, disjunctive and negated keywords. Can also be used with [PREDICATE](https://www.eiffel.org/files/doc/static/trunk/libraries/base/predicate_chart.html) agents.
 
-**7.** Leverages a feature of the [reflection cluster](http://www.eiffel-loop.com/library/base/base.reflection.html) to link selected fields of an expanded type to a textual representation, as defined for example by a [DATE](https://www.eiffel.org/files/doc/static/trunk/libraries/time/date_chart.html) or [EL_ENUMERATION [N -> NUMERIC](http://www.eiffel-loop.com/library/base/runtime/reflection/enumeration/el_enumeration.html)] object. This is important when it comes to importing or exporting tables to/from a human readable form, or for setting the fields reflectively from a string based source.
+**7.** Leverages a feature of the [reflection cluster](http://www.eiffel-loop.com/library/base/base.reflection.html) to link selected fields of an expanded type to a textual representation, as defined for example by a [DATE](https://www.eiffel.org/files/doc/static/trunk/libraries/time/date_chart.html) or [EL_ENUMERATION [N -> NUMERIC](http://www.eiffel-loop.com/library/base/kernel/reflection/enumeration/el_enumeration.html)] object. This is important when it comes to importing or exporting tables to/from a human readable form, or for setting the fields reflectively from a string based source.
 
 **8.** Contract support to protect database integrity by the inclusion of a CRC check-sum for each [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) table. This guards against accidental changes of field type, field order, field name or textual representation.
 

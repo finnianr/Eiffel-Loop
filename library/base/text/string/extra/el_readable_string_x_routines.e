@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2022-12-10 9:53:46 GMT (Saturday 10th December 2022)"
+	revision: "6"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -56,6 +56,9 @@ feature -- Status query
 
 	is_identifier_boundary (str: READABLE_STRING_X; lower, upper: INTEGER): BOOLEAN
 		-- `True' if indices `lower' to `upper' are an identifier boundary
+		require
+			valid_lower: lower >= 1 
+			valid_upper: upper <= str.count
 		do
 			Result := True
 			if upper + 1 <= str.count then

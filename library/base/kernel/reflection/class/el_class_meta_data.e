@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 16:42:58 GMT (Friday 9th December 2022)"
-	revision: "56"
+	date: "2022-12-10 13:35:33 GMT (Saturday 10th December 2022)"
+	revision: "57"
 
 class
 	EL_CLASS_META_DATA
@@ -206,6 +206,7 @@ feature {NONE} -- Factory
 	new_reference_field (index: INTEGER; name: STRING): EL_REFLECTED_FIELD
 		local
 			type_id, item_type_id: INTEGER; found: BOOLEAN
+			collection_factory: EL_REFLECTED_COLLECTION_FACTORY [ANY, EL_REFLECTED_COLLECTION [ANY]]
 		do
 			type_id := field_static_type (index)
 			across Reference_type_tables as table until found loop
@@ -217,12 +218,14 @@ feature {NONE} -- Factory
 			if found then
 				do_nothing
 
---			elseif Eiffel.type_conforms_to (type_id, Class_id.COLLECTION_ANY) then
---				item_type_id := Eiffel.collection_item_type (type_id)
---				if item_type_id > 0 then
---				else
---					create {EL_REFLECTED_REFERENCE [ANY]} Result.make (enclosing_object, index, name)
---				end
+			elseif Eiffel.type_conforms_to (type_id, Class_id.COLLECTION_ANY) then
+				item_type_id := Eiffel.collection_item_type (type_id)
+				if item_type_id > 0 then
+					collection_factory := Reflected_collection_factory.new_item_factory (item_type_id)
+					Result := collection_factory.new_field (enclosing_object, index, name)
+				else
+					create {EL_REFLECTED_REFERENCE [ANY]} Result.make (enclosing_object, index, name)
+				end
 
 			else
 				create {EL_REFLECTED_REFERENCE [ANY]} Result.make (enclosing_object, index, name)
@@ -296,8 +299,7 @@ feature {NONE} -- Constants
 				String_type_table,
 				Boolean_ref_type_table,
 				Makeable_from_string_type_table,
-				String_convertable_type_table,
-				Collection_type_table
+				String_convertable_type_table
 			>>
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 13:27:11 GMT (Friday 9th December 2022)"
-	revision: "17"
+	date: "2022-12-10 15:46:29 GMT (Saturday 10th December 2022)"
+	revision: "18"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -22,6 +22,8 @@ inherit
 
 	EL_MODULE_CONVERT_STRING; EL_MODULE_REUSEABLE
 
+	EL_SHARED_CLASS_ID
+
 create
 	make
 
@@ -31,8 +33,8 @@ feature {NONE} -- Initialization
 		require else
 			is_string_convertible: Convert_string.has (({G}).type_id)
 		do
-			Precursor (a_object, a_index, a_name)
 			item_type_id := ({G}).type_id
+			Precursor (a_object, a_index, a_name)
 			if Item_reader_writer_table.has_key (item_type_id)
 				and then attached {EL_READER_WRITER_INTERFACE [G]} Item_reader_writer_table.found_item as found_item
 			then
@@ -56,7 +58,7 @@ feature -- Status query
 
 	has_character_data: BOOLEAN
 		do
-			Result := Collection_type_table.is_character_data (item_type_id)
+			Result := Class_id.Character_data_types.has (item_type_id)
 		end
 
 feature -- Basic operations

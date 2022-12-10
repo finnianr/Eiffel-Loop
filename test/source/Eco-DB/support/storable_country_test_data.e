@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-08 17:35:31 GMT (Thursday 8th December 2022)"
-	revision: "1"
+	date: "2022-12-10 13:49:31 GMT (Saturday 10th December 2022)"
+	revision: "2"
 
 deferred class
 	STORABLE_COUNTRY_TEST_DATA
@@ -26,7 +26,7 @@ feature {NONE} -- Implementation
 	check_values (country: COUNTRY)
 		local
 			name: ZSTRING; date_founded: DATE; euro_zone_member, brics_member: BOOLEAN
-			photo_jpeg: MANAGED_POINTER; province_list: EL_ZSTRING_LIST
+			photo_jpeg: MANAGED_POINTER; province_list: ARRAYED_LIST [STRING]
 		do
 			name := Value_table.item (Field.name)
 			assert ("same name", country.name ~ name)
@@ -52,7 +52,13 @@ feature {NONE} -- Implementation
 			create photo_jpeg.make_from_array (Base_64.decoded_array (Value_table.item (Field.photo_jpeg)))
 			assert ("same photo", country.photo_jpeg ~ photo_jpeg)
 
-			province_list := Value_table.item (Field.province_list)
+			create province_list.make (10)
+			province_list.compare_objects
+			across Value_table.item (Field.province_list).split (',') as list loop
+				province_list.extend (list.item)
+				province_list.last.left_adjust
+			end
+			assert ("comaparing objects", country.province_list.object_comparison)
 			assert ("same provinces", country.province_list ~ province_list)
 		end
 

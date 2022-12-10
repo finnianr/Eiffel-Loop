@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 15:18:10 GMT (Friday 9th December 2022)"
-	revision: "23"
+	date: "2022-12-10 13:48:04 GMT (Saturday 10th December 2022)"
+	revision: "24"
 
 class
 	STORABLE_COUNTRY
@@ -25,7 +25,7 @@ inherit
 			foreign_naming as eiffel_naming,
 			read_version as read_default_version
 		undefine
-			new_representations
+			make_default, new_representations
 		select
 			is_storable_field
 		end
@@ -35,6 +35,6 @@ create
 
 feature {NONE} -- Constants
 
-	Field_hash: NATURAL_32 = 1274429412
+	Field_hash: NATURAL_32 = 2108077697
 
 end

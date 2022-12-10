@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-08 8:38:24 GMT (Thursday 8th December 2022)"
-	revision: "2"
+	date: "2022-12-10 10:06:08 GMT (Saturday 10th December 2022)"
+	revision: "3"
 
 class
 	EL_INITIALIZED_OBJECT_FACTORY [F -> EL_FACTORY [G], G]
@@ -31,10 +31,7 @@ feature {NONE} -- Initialization
 			Precursor
 			create factory_factory
 			create factory_table.make (5, agent new_factory)
-			template := ({F}).name
-			template.remove_substring (template.index_of ('[', 1) + 1, template.count - 1)
-		ensure then
-			valid_template: template.ends_with ("[]")
+			parameter_type := ({F}).generic_parameter_type (1)
 		end
 
 feature -- Factory
@@ -63,12 +60,16 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
+	new_factory_name (type_id: INTEGER): STRING
+		do
+			Result := Eiffel.substituted_type_name ({F}, parameter_type, Eiffel.type_of_type (type_id))
+		end
+
 	new_factory (type_id: INTEGER): detachable F
 		local
 			factory_name: STRING
 		do
-			factory_name := template.twin
-			factory_name.insert_string (Eiffel.type_name_of_type (type_id), factory_name.count)
+			factory_name := new_factory_name (type_id)
 			if factory_factory.valid_name (factory_name)
 				and then attached factory_factory.new_item_from_name (factory_name) as factory
 			then
@@ -82,6 +83,6 @@ feature {NONE} -- Internal attributes
 
 	factory_table: EL_CACHE_TABLE [detachable F, INTEGER]
 
-	template: STRING
+	parameter_type: TYPE [ANY]
 
 end

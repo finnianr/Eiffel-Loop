@@ -6,14 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2022-12-10 15:38:53 GMT (Saturday 10th December 2022)"
+	revision: "6"
 
 class
 	EL_STRING_TO_ZSTRING
 
 inherit
 	EL_TO_STRING_GENERAL_TYPE [ZSTRING]
+		redefine
+			is_latin_1
+		end
+
+feature -- Status query
+
+	is_latin_1: BOOLEAN = False
+		-- `True' if type can be always be represented by Latin-1 encoded string
 
 feature -- Conversion
 

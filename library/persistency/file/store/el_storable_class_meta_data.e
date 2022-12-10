@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 10:41:33 GMT (Monday 5th December 2022)"
-	revision: "15"
+	date: "2022-12-10 10:27:35 GMT (Saturday 10th December 2022)"
+	revision: "16"
 
 class
 	EL_STORABLE_CLASS_META_DATA
@@ -31,8 +31,7 @@ feature {NONE} -- Constants
 				Storable_type_table,
 				String_type_table,
 				String_convertable_type_table,
-				Makeable_from_string_type_table,
-				Collection_type_table
+				Makeable_from_string_type_table
 			>>
 		end
 end

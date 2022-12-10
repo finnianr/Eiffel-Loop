@@ -1,6 +1,6 @@
 note
 	description: "[
-		Cookie value string with decimal encoded UTF-8 sequences
+		Cookie value string with hexadecimal encoded UTF-8 sequences
 		Eg. `"Köln-Altstadt-Süd"' becomes `"K%C3%B6ln-Altstadt-S%C3%BCd"'
 	]"
 
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 9:44:35 GMT (Thursday 1st December 2022)"
-	revision: "9"
+	date: "2022-12-10 17:15:57 GMT (Saturday 10th December 2022)"
+	revision: "10"
 
 class
 	EL_COOKIE_STRING_8
@@ -55,8 +55,14 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Escape_character: CHARACTER = '%%'
+	Escape_character: CHARACTER
+		once
+			Result := '%%'
+		end
 
-	Sequence_count: INTEGER = 2
+	Sequence_count: INTEGER
+		once
+			Result := 2
+		end
 
 end

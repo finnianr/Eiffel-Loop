@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 8:43:30 GMT (Saturday 3rd December 2022)"
-	revision: "7"
+	date: "2022-12-10 17:21:56 GMT (Saturday 10th December 2022)"
+	revision: "8"
 
 expanded class
 	EL_OCTAL_CONVERTER

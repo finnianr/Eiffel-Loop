@@ -8,11 +8,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2022-12-10 15:21:15 GMT (Saturday 10th December 2022)"
+	revision: "5"
 
 deferred class
-	EL_TO_STRING_GENERAL_TYPE [G -> STRING_GENERAL]
+	EL_TO_STRING_GENERAL_TYPE [G -> READABLE_STRING_GENERAL]
 
 inherit
 	EL_READABLE_STRING_GENERAL_TO_TYPE [G]

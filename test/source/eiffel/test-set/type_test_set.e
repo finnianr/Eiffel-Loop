@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-07 9:19:30 GMT (Wednesday 7th December 2022)"
-	revision: "10"
+	date: "2022-12-10 8:59:02 GMT (Saturday 10th December 2022)"
+	revision: "11"
 
 class
 	TYPE_TEST_SET
@@ -25,6 +25,7 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			eval.call ("string_factory_creation", agent test_string_factory_creation)
+			eval.call ("type_and_type_name_caching", agent test_type_and_type_name_caching)
 		end
 
 feature -- Tests
@@ -48,6 +49,17 @@ feature -- Tests
 			else
 				assert ("created", False)
 			end
+		end
+
+	test_type_and_type_name_caching
+		local
+			t1, t2: TYPE [READABLE_STRING_32]
+			name_1, name_2: IMMUTABLE_STRING_8
+		do
+			t1 := {EL_ZSTRING}; t2 := {EL_ZSTRING}
+			name_1 := t1.name; name_2 := t2.name
+			assert ("same instance", t1 = t2)
+			assert ("same instance", name_1 = name_2)
 		end
 
 feature -- Basic operations

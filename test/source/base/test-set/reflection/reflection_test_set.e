@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-08 17:35:32 GMT (Thursday 8th December 2022)"
-	revision: "32"
+	date: "2022-12-10 12:00:02 GMT (Saturday 10th December 2022)"
+	revision: "33"
 
 class
 	REFLECTION_TEST_SET
@@ -34,10 +34,12 @@ feature -- Basic operations
 			eval.call ("initialized_object_factory", agent test_initialized_object_factory)
 			eval.call ("object_initialization_from_camel_case_table", agent test_object_initialization_from_camel_case_table)
 			eval.call ("object_initialization_from_table", agent test_object_initialization_from_table)
+			eval.call ("reflected_collection_factory", agent test_reflected_collection_factory)
 			eval.call ("reflection", agent test_reflection)
 			eval.call ("reflective_string_constants", agent test_reflective_string_constants)
 			eval.call ("set_from_other", agent test_set_from_other)
 			eval.call ("size_reporting", agent test_size_reporting)
+			eval.call ("substituted_type_name", agent test_substituted_type_name)
 		end
 
 feature -- Tests
@@ -79,6 +81,7 @@ feature -- Tests
 			testing: "covers/{EL_INITIALIZED_OBJECT_FACTORY}.new_item_from_type"
 		local
 			type_list: ARRAYED_LIST [TYPE [READABLE_STRING_GENERAL]]
+			arrayed_type_list: ARRAYED_LIST [TYPE [ARRAYED_LIST [ANY]]]
 		do
 			create type_list.make_from_array (<<
 				{IMMUTABLE_STRING_32}, {IMMUTABLE_STRING_8},
@@ -100,6 +103,18 @@ feature -- Tests
 				assert ("same type", bool.generating_type ~ {BOOLEAN_REF})
 			else
 				assert ("created BOOLEAN_REF", False)
+			end
+			create arrayed_type_list.make_from_array (<<
+				{ARRAYED_LIST [STRING]}, {EL_STRING_8_LIST}, {EL_ARRAYED_LIST [INTEGER]}
+			>>)
+			across arrayed_type_list as list loop
+				if attached Arrayed_list_factory.new_item_from_type (list.item) as new then
+					lio.put_labeled_string ("Created", new.generator)
+					lio.put_new_line
+					assert ("same type", new.generating_type ~ list.item)
+				else
+					assert ("created " + list.item.name, False)
+				end
 			end
 		end
 
@@ -126,6 +141,13 @@ feature -- Tests
 		do
 			create country.make (Value_table)
 			check_values (country)
+		end
+
+	test_reflected_collection_factory
+		local
+			factory: EL_REFLECTED_COLLECTION_FACTORY [ANY, EL_REFLECTED_COLLECTION [ANY]]
+		do
+			factory := Reflected_collection_factory.new_item_factory (({ARRAYED_LIST [STRING]}).type_id)
 		end
 
 	test_reflection
@@ -196,6 +218,16 @@ feature -- Tests
 			assert ("same size", Eiffel.deep_physical_size (l_info) = Object_header_size + {PLATFORM}.Integer_64_bytes * 4)
 		end
 
+	test_substituted_type_name
+		note
+			testing: "covers/{EL_INTERNAL}.substituted_type_name"
+		local
+			type_name: STRING
+		do
+			type_name := Eiffel.substituted_type_name ({EL_MAKEABLE_FACTORY [EL_MAKEABLE]}, {EL_MAKEABLE}, {EL_UUID})
+			assert ("same string", type_name ~ "EL_MAKEABLE_FACTORY [EL_UUID]")
+		end
+
 feature {NONE} -- Constants
 
 	Immutable_string_8: IMMUTABLE_STRING_8
@@ -204,6 +236,13 @@ feature {NONE} -- Constants
 		end
 
 	Object_header_size: INTEGER = 16
+
+	Reflected_collection_factory: EL_INITIALIZED_OBJECT_FACTORY [
+		EL_REFLECTED_COLLECTION_FACTORY [ANY, EL_REFLECTED_COLLECTION [ANY]], EL_REFLECTED_COLLECTION [ANY]
+	]
+		once
+			create Result
+		end
 
 	String_8: STRING_8 = "string_8"
 
