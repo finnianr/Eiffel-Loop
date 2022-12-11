@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-10 13:49:31 GMT (Saturday 10th December 2022)"
-	revision: "2"
+	date: "2022-12-11 10:49:35 GMT (Sunday 11th December 2022)"
+	revision: "3"
 
 deferred class
 	STORABLE_COUNTRY_TEST_DATA
@@ -27,7 +27,15 @@ feature {NONE} -- Implementation
 		local
 			name: ZSTRING; date_founded: DATE; euro_zone_member, brics_member: BOOLEAN
 			photo_jpeg: MANAGED_POINTER; province_list: ARRAYED_LIST [STRING]
+			wikipedia_url: EL_URL; temperature_range: like new_country.temperature_range
 		do
+			assert ("same field count", country.field_count = Value_table.count)
+
+			assert ("matching field names",
+				across country.field_name_list as list all
+					Value_table.has (list.item)
+				end
+			)
 			name := Value_table.item (Field.name)
 			assert ("same name", country.name ~ name)
 			assert ("same code", country.code  ~ Value_table.item (Field.code).to_string_8)
@@ -58,21 +66,34 @@ feature {NONE} -- Implementation
 				province_list.extend (list.item)
 				province_list.last.left_adjust
 			end
-			assert ("comaparing objects", country.province_list.object_comparison)
+			assert ("comparing objects", country.province_list.object_comparison)
 			assert ("same provinces", country.province_list ~ province_list)
+
+			create temperature_range
+			temperature_range.compare_objects
+			Tuple.fill (temperature_range, Value_table.item (Field.temperature_range).to_string_8)
+			assert ("same temperature_range", country.temperature_range ~ temperature_range)
+
+			wikipedia_url := Value_table.item (Field.wikipedia_url).to_string_8
+			assert ("same wikipedia_url", country.wikipedia_url ~ wikipedia_url)
+		end
+
+	new_country: COUNTRY
+		do
+			create Result.make (Value_table)
 		end
 
 feature {NONE} -- Constants
 
 	Field: TUPLE [
 		brics_member, code, continent, currency, date_founded, euro_zone_member,
-		literacy_rate, name, photo_jpeg, population, province_list: STRING
+		literacy_rate, name, photo_jpeg, population, province_list, temperature_range, wikipedia_url: STRING
 	]
 		once
 			create Result
 			Tuple.fill (Result,
 				"brics_member, code, continent, currency, date_founded, euro_zone_member,%
-				%literacy_rate, name, photo_jpeg, population, province_list"
+				%literacy_rate, name, photo_jpeg, population, province_list, temperature_range, wikipedia_url"
 			)
 		end
 
@@ -101,6 +122,10 @@ feature {NONE} -- Constants
 					6500000
 				province_list:
 					Connaught, Leinster, Munster, Ulster
+				temperature_range:
+					4, 16, Celsius
+				wikipedia_url:
+					https://en.wikipedia.org/wiki/Ireland
 			]")
 		end
 

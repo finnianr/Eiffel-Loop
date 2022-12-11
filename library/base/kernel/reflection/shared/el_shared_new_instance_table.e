@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-08 9:38:53 GMT (Thursday 8th December 2022)"
-	revision: "18"
+	date: "2022-12-11 10:57:29 GMT (Sunday 11th December 2022)"
+	revision: "19"
 
 deferred class
 	EL_SHARED_NEW_INSTANCE_TABLE
@@ -26,13 +26,8 @@ feature {NONE} -- Constants
 	New_instance_table: EL_FUNCTIONS_BY_RESULT_TYPE
 		once
 			create Result.make (<<
-				-- Strings
-				agent: EL_URI do create Result.make_empty end,
-				agent: EL_URL do create Result.make_empty end,
-
 				-- Path types
 				agent: EL_PATH do create {DIR_PATH} Result end,
-
 				-- Other
 				agent: MANAGED_POINTER do create Result.make (0) end,
 				agent: EL_QUANTITY_TEMPLATE do create Result.make end

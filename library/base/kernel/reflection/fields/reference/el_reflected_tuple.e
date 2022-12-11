@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 8:19:37 GMT (Friday 9th December 2022)"
-	revision: "21"
+	date: "2022-12-11 9:07:44 GMT (Sunday 11th December 2022)"
+	revision: "22"
 
 class
 	EL_REFLECTED_TUPLE
@@ -101,14 +101,14 @@ feature -- Basic operations
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
 		do
 			if attached value (a_object) as l_tuple then
-				Tuple.write (l_tuple, writeable, Comma_space)
+				Tuple.write_with_comma (l_tuple, writeable, True)
 			end
 		end
 
 	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
 		do
 			if attached value (a_object) as l_tuple then
-				Tuple.write (l_tuple, memory, Empty_string_8)
+				Tuple.write (l_tuple, memory, Void)
 			end
 		end
 
@@ -119,7 +119,7 @@ feature -- Conversion
 			if attached value (a_object) as l_tuple then
 				across Reuseable.string as reuse loop
 					if attached reuse.item as str then
-						Tuple.write (l_tuple, str, Comma_space)
+						Tuple.write_with_comma (l_tuple, str, True)
 						if member_types.is_latin_1_representable then
 							Result := str.to_latin_1
 						else
@@ -205,11 +205,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	factory_array: like new_factory_array
-
-feature {NONE} -- Constants
-
-	Comma_space: STRING = ", "
-
-	Comma_string: STRING = ","
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-08 17:27:46 GMT (Thursday 8th December 2022)"
-	revision: "15"
+	date: "2022-12-11 9:42:51 GMT (Sunday 11th December 2022)"
+	revision: "16"
 
 class
 	TEST_STORABLE
@@ -28,8 +28,6 @@ feature -- Access
 
 	string_32: STRING_32
 
-	string_utf_8: STRING
-
 	uuid: EL_UUID
 
 feature -- Element change
@@ -38,11 +36,10 @@ feature -- Element change
 		do
 			string_32 := str
 			string := str
-			string_utf_8 := string.to_utf_8 (True)
 		end
 
 feature {NONE} -- Constants
 
-	Field_hash: NATURAL = 3304235613
+	Field_hash: NATURAL = 4144711558
 
 end

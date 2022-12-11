@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "27"
+	date: "2022-12-11 9:09:54 GMT (Sunday 11th December 2022)"
+	revision: "28"
 
 class
 	EL_TUPLE_ROUTINES
@@ -265,14 +265,13 @@ feature -- Basic operations
 			end
 		end
 
-	write (tuple: TUPLE; writeable: EL_WRITEABLE; delimiter: STRING)
+	write (tuple: TUPLE; writeable: EL_WRITEABLE; delimiter: detachable READABLE_STRING_8)
 		local
-			i: INTEGER; has_delimiter: BOOLEAN
+			i: INTEGER
 		do
-			has_delimiter := delimiter.count > 0
 			from i := 1 until i > tuple.count loop
-				if i > 1 and then has_delimiter then
-					writeable.write_string_8 (delimiter)
+				if i > 1 and then attached delimiter as str then
+					writeable.write_string_8 (str)
 				end
 				inspect tuple.item_code (i)
 					when {TUPLE}.Character_8_code then
@@ -327,6 +326,15 @@ feature -- Basic operations
 			end
 		end
 
+	write_with_comma (tuple: TUPLE; writeable: EL_WRITEABLE; extra_space: BOOLEAN)
+		do
+			if extra_space then
+				write (tuple, writeable, Comma_space)
+			else
+				write (tuple, writeable, Comma_only)
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	new_type_array (static_type: INTEGER): EL_TUPLE_TYPE_ARRAY
@@ -349,4 +357,9 @@ feature -- Contract Support
 			end
 		end
 
+feature {NONE} -- Constants
+
+	Comma_space: STRING = ", "
+
+	Comma_only: STRING = ","
 end

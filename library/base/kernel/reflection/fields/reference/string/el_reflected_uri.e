@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2022-12-11 10:20:53 GMT (Sunday 11th December 2022)"
+	revision: "10"
 
 class
-	EL_REFLECTED_URI
+	EL_REFLECTED_URI [U -> EL_URI]
 
 inherit
 	EL_REFLECTED_STRING [EL_URI]
@@ -39,13 +39,13 @@ feature -- Basic operations
 			if attached value (a_object) as uri then
 				set (a_object, replaced (uri, node.as_string_8 (False)))
 			else
-				set (a_object, create {EL_URI}.make (node.as_string_8 (False)))
+				set (a_object, create {like value}.make (node.as_string_8 (False)))
 			end
 		end
 
 	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
 		do
-			set (a_object, create {EL_URI}.make (readable.read_string_8))
+			set (a_object, create {like value}.make (readable.read_string_8))
 		end
 
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
@@ -60,7 +60,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	replaced (uri: EL_URI; content: READABLE_STRING_GENERAL): EL_URI
+	replaced (uri: like value; content: READABLE_STRING_GENERAL): like value
 		do
 			Result := uri
 			uri.wipe_out

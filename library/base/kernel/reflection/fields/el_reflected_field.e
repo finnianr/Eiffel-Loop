@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "45"
+	date: "2022-12-11 17:52:00 GMT (Sunday 11th December 2022)"
+	revision: "46"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -200,6 +200,7 @@ feature -- Element change
 	set_representation (a_representation: like representation)
 		require
 			correct_type: a_representation.value_type ~ type
+			not_default_reference_type: generating_type /~ {EL_REFLECTED_REFERENCE [ANY]}
 		do
 			representation := a_representation
 		end

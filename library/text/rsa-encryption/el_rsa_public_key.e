@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2022-12-11 14:27:17 GMT (Sunday 11th December 2022)"
+	revision: "16"
 
 class
 	EL_RSA_PUBLIC_KEY
@@ -21,8 +21,8 @@ inherit
 		end
 
 	EL_REFLECTIVE_RSA_KEY
-		rename
-			make_default as make_reflective
+		redefine
+			make_default
 		end
 
 	EL_MODULE_BASE_64
@@ -32,20 +32,19 @@ inherit
 	EL_MODULE_X509
 
 create
-	make, make_from_array, make_from_base_64, make_from_manifest, make_from_pkcs1_table
+	make, make_default, make_from_array, make_from_base_64, make_from_manifest, make_from_pkcs1_table
 
 feature {NONE} -- Initialization
 
 	make (a_modulus: INTEGER_X)
 			--
 		do
-			make_reflective
 			make_with_exponent (a_modulus, Default_exponent)
 		end
 
 	make_default
 		do
-			make (2)
+			make_with_exponent (2, Default_exponent)
 		end
 
 	make_from_array (a_modulus: SPECIAL [NATURAL_8])

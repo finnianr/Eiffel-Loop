@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-10 13:35:33 GMT (Saturday 10th December 2022)"
-	revision: "57"
+	date: "2022-12-11 17:58:59 GMT (Sunday 11th December 2022)"
+	revision: "58"
 
 class
 	EL_CLASS_META_DATA
@@ -55,12 +55,16 @@ feature {NONE} -- Initialization
 			Reader_writer_table.merge (a_enclosing_object.new_extra_reader_writer_table)
 			create cached_field_indices_set.make_equal (3, agent new_field_indices_set)
 
-			representations := enclosing_object.new_representations
 			field_list := new_field_list
 			field_table := field_list.to_table (a_enclosing_object)
 			if attached a_enclosing_object.foreign_naming as foreign_naming then
 				across field_table as table loop
 					foreign_naming.inform (table.key)
+				end
+			end
+			across enclosing_object.new_representations as representation loop
+				if field_table.has_key (representation.key) then
+					field_table.found_item.set_representation (representation.item)
 				end
 			end
 		ensure then
@@ -164,13 +168,6 @@ feature {NONE} -- Factory
 			create {EL_REFLECTED_REFERENCE [ANY]} Result.make (enclosing_object, index, name)
 		end
 
-	new_field_factory (type: TYPE [EL_REFLECTED_FIELD]): EL_REFLECTED_FIELD_FACTORY [EL_REFLECTED_FIELD]
-		do
-			if attached {like new_field_factory} Eiffel.new_factory_instance ({like new_field_factory}, type) as new then
-				Result := new
-			end
-		end
-
 	new_field_indices_set (field_names: detachable STRING): EL_FIELD_INDICES_SET
 		do
 			if field_names.is_empty then
@@ -211,7 +208,7 @@ feature {NONE} -- Factory
 			type_id := field_static_type (index)
 			across Reference_type_tables as table until found loop
 				if table.item.has_type (type_id) then
-					Result := new_reflected_field_for_type (table.item.found_item, index, name)
+					Result := Field_factory.new_item (table.item.found_item, enclosing_object, index, name)
 					found := True
 				end
 			end
@@ -221,7 +218,7 @@ feature {NONE} -- Factory
 			elseif Eiffel.type_conforms_to (type_id, Class_id.COLLECTION_ANY) then
 				item_type_id := Eiffel.collection_item_type (type_id)
 				if item_type_id > 0 then
-					collection_factory := Reflected_collection_factory.new_item_factory (item_type_id)
+					collection_factory := Collection_field_factory.new_item_factory (item_type_id)
 					Result := collection_factory.new_field (enclosing_object, index, name)
 				else
 					create {EL_REFLECTED_REFERENCE [ANY]} Result.make (enclosing_object, index, name)
@@ -244,22 +241,8 @@ feature {NONE} -- Factory
 				when Expanded_type then
 					Result := new_expanded_field (index, name)
 			else
-				Result := new_reflected_field_for_type (Standard_field_types [type], index, name)
+				Result := Field_factory.new_item (Standard_field_types [type], enclosing_object, index, name)
 			end
-		end
-
-	new_reflected_field_for_type (type: TYPE [EL_REFLECTED_FIELD]; index: INTEGER; name: STRING): EL_REFLECTED_FIELD
-		do
-			if attached new_field_factory (type) as factory then
-				Result := factory.new_item (enclosing_object, index, name)
-				if representations.has_key (name) then
-					Result.set_representation (representations.found_item)
-				end
-			else
-				create {EL_REFLECTED_REFERENCE [ANY]} Result.make (enclosing_object, index, name)
-			end
-		ensure
-			same_type: not representations.has (name) implies Result.generating_type ~ type
 		end
 
 feature {NONE} -- Implementation
@@ -270,27 +253,28 @@ feature {NONE} -- Implementation
 			Result := name.count > 0 and then name [1] = '_'
 		end
 
-feature {NONE} -- Internal attributes
-
-	representations: like enclosing_object.new_representations
-
 feature {NONE} -- Constants
+
+	Collection_field_factory: EL_INITIALIZED_OBJECT_FACTORY [
+		EL_REFLECTED_COLLECTION_FACTORY [ANY, EL_REFLECTED_COLLECTION [ANY]], EL_REFLECTED_COLLECTION [ANY]
+	]
+		once
+			create Result
+		end
 
 	Empty_field_indices_set: EL_FIELD_INDICES_SET
 		once
 			create Result.make_empty
 		end
 
+	Field_factory: EL_INITIALIZED_FIELD_FACTORY
+		once
+			create Result
+		end
+
 	Info_line_length: INTEGER
 		once
 			Result := 100
-		end
-
-	Reflected_collection_factory: EL_INITIALIZED_OBJECT_FACTORY [
-		EL_REFLECTED_COLLECTION_FACTORY [ANY, EL_REFLECTED_COLLECTION [ANY]], EL_REFLECTED_COLLECTION [ANY]
-	]
-		once
-			create Result
 		end
 
 	Reference_type_tables: ARRAY [EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_REFERENCE [ANY]]]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-10 12:00:02 GMT (Saturday 10th December 2022)"
-	revision: "33"
+	date: "2022-12-11 10:56:39 GMT (Sunday 11th December 2022)"
+	revision: "34"
 
 class
 	REFLECTION_TEST_SET
@@ -55,16 +55,18 @@ feature -- Tests
 
 	test_default_tuple_initialization
 		local
-			country, country_2: STORABLE_COUNTRY
+			country: COUNTRY
 		do
-			create country.make (Value_table)
-			assert ("temperature_range not void", attached country.temperature_range)
-			assert ("unit_name.is_empty", country.temperature_range.unit_name.is_empty)
-
-			create country_2.make (Value_table)
-			assert ("country is equal to country_2", country ~ country_2)
-			country_2.temperature_range.unit_name := "Celcius"
-			assert ("country not equal to country_2", country /~ country_2)
+			create country.make_default
+			if attached country.temperature_range as temperature_range then
+				if attached temperature_range.unit_name as unit_name then
+					assert ("unit_name.is_empty", unit_name.is_empty)
+				else
+					assert ("unit_name /= Void", False)
+				end
+			else
+				assert ("temperature_range /= Void", False)
+			end
 		end
 
 	test_field_representation

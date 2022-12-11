@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2022-12-11 10:18:36 GMT (Sunday 11th December 2022)"
+	revision: "21"
 
 class
 	EL_OS_COMMAND
@@ -76,7 +76,7 @@ feature -- Element change
 				if template.has_variable (field.name) then
 					if attached {EL_REFLECTED_PATH} field as path_field then
 						template.set_variable (field.name, path_field.value (object).escaped)
-					elseif attached {EL_REFLECTED_URI} field as uri_field then
+					elseif attached {EL_REFLECTED_URI [EL_URI]} field as uri_field then
 						template.set_variable (field.name, File_system.escaped_path (uri_field.value (object)))
 					else
 						template.set_variable (field.name, field.to_string (object))

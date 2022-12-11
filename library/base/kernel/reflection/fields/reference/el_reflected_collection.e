@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-10 15:46:29 GMT (Saturday 10th December 2022)"
-	revision: "18"
+	date: "2022-12-11 9:24:07 GMT (Sunday 11th December 2022)"
+	revision: "19"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -17,7 +17,7 @@ inherit
 		rename
 			value as collection
 		redefine
-			make, new_factory, set_from_memory, set_from_string, to_string, write_to_memory
+			make, new_factory, set_from_memory, set_from_string, to_string, write
 		end
 
 	EL_MODULE_CONVERT_STRING; EL_MODULE_REUSEABLE
@@ -107,14 +107,14 @@ feature -- Basic operations
 			end
 		end
 
-	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+	write (a_object: EL_REFLECTIVE; writable: EL_WRITEABLE)
 		do
 			if attached reader_writer as writer
 				and then attached {FINITE [G]} collection (a_object) as finite
 				and then attached finite.linear_representation as item_list
 			then
-				memory.write_integer_32 (finite.count)
-				item_list.do_all (agent writer.write (?, memory))
+				writable.write_integer_32 (finite.count)
+				item_list.do_all (agent writer.write (?, writable))
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2022-12-11 10:26:22 GMT (Sunday 11th December 2022)"
+	revision: "7"
 
 class
 	EL_REFLECTED_REFERENCE_TYPE_TABLE [REFLECTED_TYPE -> EL_REFLECTED_REFERENCE [ANY]]
@@ -42,7 +42,10 @@ feature {NONE} -- Initialization
 		do
 			make_size (array.count)
 			across array as reflected loop
-				if attached {REFLECTED_TYPE} Eiffel.new_instance_of (reflected.item.type_id) as field then
+				if reflected.item.generic_parameter_count = 1 then
+					extend (reflected.item, reflected.item.generic_parameter_type (1).type_id)
+
+				elseif attached {REFLECTED_TYPE} Eiffel.new_instance_of (reflected.item.type_id) as field then
 					generic_type := field.generic_type
 					extend (reflected.item, generic_type.type_id)
 				end

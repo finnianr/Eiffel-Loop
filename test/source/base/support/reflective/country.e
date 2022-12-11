@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-10 13:48:31 GMT (Saturday 10th December 2022)"
-	revision: "30"
+	date: "2022-12-11 10:49:06 GMT (Sunday 11th December 2022)"
+	revision: "31"
 
 class
 	COUNTRY
@@ -39,9 +39,12 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			province_list.compare_objects
+			temperature_range.compare_objects
 		end
 
 feature -- Access
+
+	brics_member: BOOLEAN_REF
 
 	code: STRING
 
@@ -58,19 +61,26 @@ feature -- Access
 
 	euro_zone_member: BOOLEAN
 
-	brics_member: BOOLEAN_REF
-
 	literacy_rate: REAL
 
 	name: ZSTRING
+
+	photo_jpeg: MANAGED_POINTER
 
 	population: INTEGER
 
 	province_list: ARRAYED_LIST [STRING]
 
-	photo_jpeg: MANAGED_POINTER
-
 	temperature_range: TUPLE [winter, summer: INTEGER; unit_name: STRING]
+
+	wikipedia_url: EL_URL
+
+feature -- Measurement
+
+	field_count: INTEGER
+		do
+			Result := field_table.count
+		end
 
 feature -- Element change
 
