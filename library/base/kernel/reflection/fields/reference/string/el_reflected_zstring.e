@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
+	revision: "12"
 
 class
 	EL_REFLECTED_ZSTRING
@@ -52,7 +52,7 @@ feature -- Basic operations
 			set (a_object, readable.read_string)
 		end
 
-	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
+	write (a_object: EL_REFLECTIVE; writeable: EL_WRITABLE)
 		do
 			writeable.write_string (value (a_object))
 		end

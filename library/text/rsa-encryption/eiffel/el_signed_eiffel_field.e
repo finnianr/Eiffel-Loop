@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2022-12-12 9:39:47 GMT (Monday 12th December 2022)"
+	revision: "4"
 
 class
 	EL_SIGNED_EIFFEL_FIELD
@@ -42,7 +42,7 @@ feature {NONE} -- Implementation
 			base64_string: STRING
 		do
 			create Result.make (4)
-			base64_string := Base_64.encoded_special (a_value.as_bytes)
+			base64_string := Base_64.encoded_special (a_value.as_bytes, False)
 			count_per_line := base64_string.count // 4
 			from until Result.full loop
 				i := Result.count

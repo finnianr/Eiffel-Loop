@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2022-12-12 9:09:20 GMT (Monday 12th December 2022)"
+	revision: "16"
 
 class
 	EL_BASE_64_CODEC
@@ -27,11 +27,9 @@ feature -- Conversion
 
 	decoded (base64_string: STRING): STRING
 		local
-			data: like decoded_special
+			s: EL_STRING_8_ROUTINES
 		do
-			data := decoded_special (base64_string)
-			create Result.make_filled ('%U', data.count)
-			Result.area.base_address.memory_copy (data.base_address, data.count)
+			Result := s.from_code_array (decoded_special (base64_string))
 		end
 
 	decoded_array (base64_string: STRING): ARRAY [NATURAL_8]
@@ -40,22 +38,16 @@ feature -- Conversion
 		end
 
 	decoded_special (base_64_string: STRING): SPECIAL [NATURAL_8]
-		local
-			str: STRING; buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			if base_64_string.has ('%N') then
-				str := buffer.copied (base_64_string)
-				str.prune_all ('%N')
-			else
-				str := base_64_string
-			end
-			Result := decoder.data (str)
+			Result := decoder.data (base_64_string)
 		end
 
-	encoded (a_string: STRING): STRING
+	encoded (a_string: STRING; line_breaks: BOOLEAN): STRING
 		do
+			encoder.enable_line_breaks (line_breaks)
 			encoder.put_string (a_string)
 			Result := encoder.output (True)
+			encoder.enable_line_breaks (False)
 		end
 
 	encoded_array (array: ARRAY [NATURAL_8]): STRING
@@ -64,10 +56,22 @@ feature -- Conversion
 			Result := encoder.output (True)
 		end
 
-	encoded_special (array: SPECIAL [NATURAL_8]): STRING
+	encoded_special (array: SPECIAL [NATURAL_8]; line_breaks: BOOLEAN): STRING
 		do
+			encoder.enable_line_breaks (line_breaks)
 			encoder.put_natural_8_array (array)
 			Result := encoder.output (True)
+			encoder.enable_line_breaks (False)
+		end
+
+	encode_to_writable (bytes: MANAGED_POINTER; nb: INTEGER; writable: EL_WRITABLE)
+		require
+			valid_size: nb <= bytes.count
+		do
+			encoder.enable_line_breaks (True)
+			encoder.put_memory (bytes, nb)
+			writable.write_raw_string_8 (encoder.output (False))
+			encoder.enable_line_breaks (False)
 		end
 
 	joined (base64_lines: STRING): STRING

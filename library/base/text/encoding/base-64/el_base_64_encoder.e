@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2022-12-12 7:27:36 GMT (Monday 12th December 2022)"
+	revision: "4"
 
 class
 	EL_BASE_64_ENCODER
@@ -57,6 +57,22 @@ feature -- Output
 			if attached output_string as str then
 				from i := 1 until i > nb loop
 					put_character (a_string.item (i), str)
+					i := i + 1
+				end
+			end
+			finalize
+		end
+
+	put_memory (bytes: MANAGED_POINTER; nb: INTEGER)
+		require
+			valid_size: nb <= bytes.count
+		local
+			i: INTEGER
+		do
+			start (nb)
+			if attached output_string as str then
+				from i := 0 until i = nb loop
+					put_character (bytes.read_character (i), str)
 					i := i + 1
 				end
 			end
@@ -119,9 +135,7 @@ feature {NONE} -- Implementation
 	put_character (c: CHARACTER; str: STRING)
 			-- Write `c' to output_string stream.
 		do
-			if not is_normalizing then
-				buffer_character (c, str)
-			else
+			if is_normalizing then
 				if is_pending_line_break then
 					is_pending_line_break := False
 					if c = '%N' then
@@ -142,6 +156,8 @@ feature {NONE} -- Implementation
 				else
 					buffer_character (c, str)
 				end
+			else
+				buffer_character (c, str)
 			end
 		end
 

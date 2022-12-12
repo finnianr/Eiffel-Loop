@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-11 17:52:00 GMT (Sunday 11th December 2022)"
-	revision: "46"
+	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
+	revision: "47"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -173,7 +173,7 @@ feature -- Basic operations
 		deferred
 		end
 
-	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
+	write (a_object: EL_REFLECTIVE; writeable: EL_WRITABLE)
 		deferred
 		end
 

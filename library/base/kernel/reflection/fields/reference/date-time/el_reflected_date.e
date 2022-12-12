@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 11:24:21 GMT (Friday 9th December 2022)"
-	revision: "21"
+	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
+	revision: "22"
 
 class
 	EL_REFLECTED_DATE
@@ -44,10 +44,10 @@ feature -- Basic operations
 			end
 		end
 
-	write (a_object: EL_REFLECTIVE; writeable: EL_MEMORY_READER_WRITER)
+	write (a_object: EL_REFLECTIVE; writable: EL_WRITABLE)
 		do
 			if attached value (a_object) as date then
-				writeable.write_integer_32 (date.ordered_compact_date)
+				writable.write_integer_32 (date.ordered_compact_date)
 			end
 		end
 

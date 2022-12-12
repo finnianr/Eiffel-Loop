@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2022-12-12 7:21:45 GMT (Monday 12th December 2022)"
+	revision: "13"
 
 class
 	EL_REFLECTED_STORABLE
@@ -15,8 +15,10 @@ class
 inherit
 	EL_REFLECTED_REFERENCE [EL_STORABLE]
 		redefine
-			 write, to_string, set_from_string, set_from_memory
+			 to_string, set_from_string, set_from_memory, write, write_to_memory
 		end
+
+	EL_MODULE_BASE_64
 
 create
 	make
@@ -49,9 +51,34 @@ feature -- Basic operations
 			end
 		end
 
-	write (a_object: EL_REFLECTIVE; writer: EL_MEMORY_READER_WRITER)
+	write (a_object: EL_REFLECTIVE; writable: EL_WRITABLE)
+		-- write base64 encoded string representation of data
 		do
-			value (a_object).write (writer)
+			if attached Memory_reader_writer as memory then
+				memory.set_for_writing
+				memory.reset_count
+				write_to_memory (a_object, memory)
+				Base_64.encode_to_writable (Memory_buffer, memory.count, writable)
+			end
+		end
+
+	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+		do
+			if attached value (a_object) as v then
+				v.write (memory)
+			end
+		end
+
+feature {NONE} -- Constants
+
+	Memory_reader_writer: EL_MEMORY_READER_WRITER
+		once
+			create Result.make_with_buffer (Memory_buffer)
+		end
+
+	Memory_buffer: MANAGED_POINTER
+		once
+			create Result.make (20)
 		end
 
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-11 9:09:54 GMT (Sunday 11th December 2022)"
-	revision: "28"
+	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
+	revision: "29"
 
 class
 	EL_TUPLE_ROUTINES
@@ -265,7 +265,7 @@ feature -- Basic operations
 			end
 		end
 
-	write (tuple: TUPLE; writeable: EL_WRITEABLE; delimiter: detachable READABLE_STRING_8)
+	write (tuple: TUPLE; writeable: EL_WRITABLE; delimiter: detachable READABLE_STRING_8)
 		local
 			i: INTEGER
 		do
@@ -326,7 +326,7 @@ feature -- Basic operations
 			end
 		end
 
-	write_with_comma (tuple: TUPLE; writeable: EL_WRITEABLE; extra_space: BOOLEAN)
+	write_with_comma (tuple: TUPLE; writeable: EL_WRITABLE; extra_space: BOOLEAN)
 		do
 			if extra_space then
 				write (tuple, writeable, Comma_space)

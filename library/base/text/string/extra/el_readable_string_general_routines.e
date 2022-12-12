@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2022-12-12 6:36:26 GMT (Monday 12th December 2022)"
+	revision: "4"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES
@@ -33,7 +33,7 @@ feature -- Conversion
 
 feature -- Basic operations
 
-	write_utf_8 (s: READABLE_STRING_GENERAL; writeable: EL_WRITEABLE)
+	write_utf_8 (s: READABLE_STRING_GENERAL; writeable: EL_WRITABLE)
 		local
 			i: INTEGER; c: EL_CHARACTER_32_ROUTINES
 		do

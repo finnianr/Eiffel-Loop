@@ -1,7 +1,7 @@
 note
 	description: "[
 		Adapter interface to read item of type **G** from [$source EL_READABLE]
-		and write an item to [$source EL_WRITEABLE]
+		and write an item to [$source EL_WRITABLE]
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-08 19:12:23 GMT (Thursday 8th December 2022)"
-	revision: "4"
+	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
+	revision: "5"
 
 deferred class
 	EL_READER_WRITER_INTERFACE [G]
@@ -32,7 +32,7 @@ feature -- Basic operations
 		deferred
 		end
 
-	write (item: G; writer: EL_WRITEABLE)
+	write (item: G; writer: EL_WRITABLE)
 		deferred
 		end
 

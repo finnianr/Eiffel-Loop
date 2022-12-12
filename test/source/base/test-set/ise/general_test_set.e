@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-08 6:33:32 GMT (Thursday 8th December 2022)"
-	revision: "26"
+	date: "2022-12-12 9:28:05 GMT (Monday 12th December 2022)"
+	revision: "27"
 
 class
 	GENERAL_TEST_SET
@@ -19,6 +19,8 @@ inherit
 
 	EL_MODULE_REUSEABLE
 
+	SHARED_HEXAGRAM_STRINGS
+
 feature -- Basic operations
 
 	do_all (eval: EL_TEST_SET_EVALUATOR)
@@ -26,6 +28,7 @@ feature -- Basic operations
 		do
 			eval.call ("any_array_numeric_type_detection", agent test_any_array_numeric_type_detection)
 			eval.call ("base_64_codec", agent test_base_64_codec)
+			eval.call ("base_64_encode_decode", agent test_base_64_encode_decode)
 			eval.call ("character_32_status_queries", agent test_character_32_status_queries)
 			eval.call ("environment_put", agent test_environment_put)
 			eval.call ("math_precision", agent test_math_precision)
@@ -64,11 +67,28 @@ feature -- Tests
 			from until list.full loop
 				list.extend ((r.item \\ 100).to_natural_8)
 				r.forth
-				encoded := Base_64.encoded_special (list.area)
+				encoded := Base_64.encoded_special (list.area, False)
 				gobo_encoded := Gobo_base_64.encoded_special (list.area)
 				assert ("same encoding", encoded ~ gobo_encoded)
 				assert ("same list", Base_64.decoded_special (encoded) ~ list.area)
 			end
+		end
+
+	test_base_64_encode_decode
+		-- GENERAL_TEST_SET.test_base_64_encode_decode
+		note
+			testing: "covers/{EL_BASE_64_CODEC}.decoded_special",
+						"covers/{EL_BASE_64_CODEC}.encoded_special"
+		local
+			conv: EL_UTF_8_CONVERTER; text_utf_8, text_base_64, decoded: STRING
+			i, l_count: INTEGER
+		do
+			text_utf_8 := conv.utf_32_string_to_string_8 (Hexagram.Chinese_text)
+			text_base_64 := Base_64.encoded (text_utf_8, True)
+			lio.put_string_field_to_max_length ("Base 64", text_base_64, 300)
+			lio.put_new_line
+			decoded := Base_64.decoded (text_base_64)
+			assert ("decoded OK", decoded ~ text_utf_8)
 		end
 
 	test_character_32_status_queries

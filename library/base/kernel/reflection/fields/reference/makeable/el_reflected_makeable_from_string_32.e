@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2022-12-12 7:30:57 GMT (Monday 12th December 2022)"
+	revision: "5"
 
 class
 	EL_REFLECTED_MAKEABLE_FROM_STRING_32
@@ -22,11 +22,15 @@ feature -- Basic operations
 
 	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
 		do
-			value (a_object).make_from_general (readable.read_string_32)
+			if attached value (a_object) as v then
+				v.make_from_general (readable.read_string_32)
+			end
 		end
 
-	write (a_object: EL_REFLECTIVE; writable: EL_WRITEABLE)
+	write (a_object: EL_REFLECTIVE; writable: EL_WRITABLE)
 		do
-			writable.write_string_32 (value (a_object).to_string)
+			if attached value (a_object) as v then
+				writable.write_string_32 (v.to_string)
+			end
 		end
 end

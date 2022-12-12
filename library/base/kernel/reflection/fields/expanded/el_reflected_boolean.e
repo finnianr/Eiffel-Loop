@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 12:18:32 GMT (Friday 9th December 2022)"
-	revision: "19"
+	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
+	revision: "20"
 
 class
 	EL_REFLECTED_BOOLEAN
@@ -63,7 +63,7 @@ feature -- Basic operations
 			end
 		end
 
-	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
+	write (a_object: EL_REFLECTIVE; writeable: EL_WRITABLE)
 		do
 			writeable.write_boolean (value (a_object))
 		end

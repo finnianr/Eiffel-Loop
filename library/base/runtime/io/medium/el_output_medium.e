@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 12:36:56 GMT (Tuesday 6th December 2022)"
-	revision: "26"
+	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
+	revision: "27"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -21,7 +21,7 @@ inherit
 			make_default
 		end
 
-	EL_WRITEABLE
+	EL_WRITABLE
 		rename
 			write_raw_character_8 as put_raw_character_8, -- Allows UTF-8 conversion
 			write_raw_string_8 as put_raw_string_8,

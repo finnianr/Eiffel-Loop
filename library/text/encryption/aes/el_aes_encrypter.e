@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "19"
+	date: "2022-12-12 9:28:05 GMT (Monday 12th December 2022)"
+	revision: "20"
 
 class
 	EL_AES_ENCRYPTER
@@ -174,7 +174,7 @@ feature -- Encryption
 			padded_plain_data: EL_PADDED_BYTE_ARRAY
 		do
 			create padded_plain_data.make_from_string (plain_text, Block_size)
-			Result := Base_64.encoded_special (encrypted (padded_plain_data))
+			Result := Base_64.encoded_special (encrypted (padded_plain_data), False)
 		end
 
 	encrypted (plain_data: EL_PADDED_BYTE_ARRAY): EL_BYTE_ARRAY

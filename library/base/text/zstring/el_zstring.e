@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 8:19:36 GMT (Wednesday 16th November 2022)"
-	revision: "61"
+	date: "2022-12-12 6:36:26 GMT (Monday 12th December 2022)"
+	revision: "62"
 
 class
 	EL_ZSTRING
@@ -58,7 +58,7 @@ inherit
 			String_searcher
 		end
 
-	EL_WRITEABLE
+	EL_WRITABLE
 		rename
 			write_raw_character_8 as append_raw_character_8,
 			write_character_8 as append_character_8,

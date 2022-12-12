@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2022-12-12 6:36:26 GMT (Monday 12th December 2022)"
+	revision: "7"
 
 expanded class
 	EL_CHARACTER_32_ROUTINES
@@ -38,7 +38,7 @@ feature -- Status query
 
 feature -- Basic operations
 
-	write_utf_8 (uc: CHARACTER_32; writeable: EL_WRITEABLE)
+	write_utf_8 (uc: CHARACTER_32; writeable: EL_WRITABLE)
 		local
 			sequence: like Utf_8_sequence
 		do

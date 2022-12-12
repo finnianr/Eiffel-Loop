@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2022-12-12 9:28:05 GMT (Monday 12th December 2022)"
+	revision: "5"
 
 class
 	EL_REFLECTED_MANAGED_POINTER
@@ -33,7 +33,7 @@ feature -- Access
 			if attached value (a_object) as block then
 				create area.make_filled (0, block.count)
 				area.base_address.memory_copy (block.item, block.count)
-				Result := Base_64.encoded_special (area)
+				Result := Base_64.encoded_special (area, False)
 			else
 				create Result.make_empty
 			end
@@ -83,9 +83,9 @@ feature -- Basic operations
 			end
 		end
 
-	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
+	write (a_object: EL_REFLECTIVE; writable: EL_WRITABLE)
 		do
-			writeable.write_raw_string_8 (to_string (a_object))
+			writable.write_raw_string_8 (to_string (a_object))
 		end
 
 	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)

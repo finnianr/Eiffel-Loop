@@ -1,7 +1,7 @@
 note
 	description: "[
 		Adapter interface to read a [$source INTEGER_32] item from [$source EL_READABLE]
-		and write an item to [$source EL_WRITEABLE]
+		and write an item to [$source EL_WRITABLE]
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-08 16:52:11 GMT (Thursday 8th December 2022)"
-	revision: "4"
+	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
+	revision: "5"
 
 class
 	EL_INTEGER_32_READER_WRITER
@@ -25,7 +25,7 @@ feature -- Basic operations
 			Result := reader.read_integer_32
 		end
 
-	write (item: INTEGER_32; writer: EL_WRITEABLE)
+	write (item: INTEGER_32; writer: EL_WRITABLE)
 		do
 			writer.write_integer_32 (item)
 		end

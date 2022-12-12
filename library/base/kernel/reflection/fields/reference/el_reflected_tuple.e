@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-11 9:07:44 GMT (Sunday 11th December 2022)"
-	revision: "22"
+	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
+	revision: "23"
 
 class
 	EL_REFLECTED_TUPLE
@@ -98,7 +98,7 @@ feature -- Basic operations
 			set: lists_match (csv_list, to_string (a_object))
 		end
 
-	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
+	write (a_object: EL_REFLECTIVE; writeable: EL_WRITABLE)
 		do
 			if attached value (a_object) as l_tuple then
 				Tuple.write_with_comma (l_tuple, writeable, True)

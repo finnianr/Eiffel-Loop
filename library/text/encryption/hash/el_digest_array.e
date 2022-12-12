@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 11:01:33 GMT (Monday 5th December 2022)"
-	revision: "18"
+	date: "2022-12-12 9:28:06 GMT (Monday 12th December 2022)"
+	revision: "19"
 
 class
 	EL_DIGEST_ARRAY
@@ -82,7 +82,7 @@ feature -- Conversion
 
 	to_base_64_string: STRING
 		do
-			Result := Base_64.encoded_special (area)
+			Result := Base_64.encoded_special (area, False)
 		end
 
 	to_byte_array: EL_BYTE_ARRAY

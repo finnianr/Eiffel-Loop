@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-11 17:58:59 GMT (Sunday 11th December 2022)"
-	revision: "58"
+	date: "2022-12-11 21:08:51 GMT (Sunday 11th December 2022)"
+	revision: "59"
 
 class
 	EL_CLASS_META_DATA
@@ -161,10 +161,10 @@ feature {NONE} -- Factory
 		end
 
 	new_expanded_field (index: INTEGER; name: STRING): EL_REFLECTED_FIELD
-		local
-			type_id: INTEGER
+		-- have not worked out how to deal with this
+		require
+			never_called: False
 		do
-			type_id := field_static_type (index)
 			create {EL_REFLECTED_REFERENCE [ANY]} Result.make (enclosing_object, index, name)
 		end
 

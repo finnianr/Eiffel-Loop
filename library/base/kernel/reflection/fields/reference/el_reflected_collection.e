@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-11 9:24:07 GMT (Sunday 11th December 2022)"
-	revision: "19"
+	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
+	revision: "20"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -107,7 +107,7 @@ feature -- Basic operations
 			end
 		end
 
-	write (a_object: EL_REFLECTIVE; writable: EL_WRITEABLE)
+	write (a_object: EL_REFLECTIVE; writable: EL_WRITABLE)
 		do
 			if attached reader_writer as writer
 				and then attached {FINITE [G]} collection (a_object) as finite

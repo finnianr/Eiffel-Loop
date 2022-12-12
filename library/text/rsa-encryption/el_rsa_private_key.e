@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2022-12-12 9:28:19 GMT (Monday 12th December 2022)"
+	revision: "16"
 
 class
 	EL_RSA_PRIVATE_KEY
@@ -144,13 +144,13 @@ feature -- Access
 	prime_1_base_64: STRING
 			--
 		do
-			Result := Base_64.encoded_special (prime_1.as_bytes)
+			Result := Base_64.encoded_special (prime_1.as_bytes, False)
 		end
 
 	prime_2_base_64: STRING
 			--
 		do
-			Result := Base_64.encoded_special (prime_2.as_bytes)
+			Result := Base_64.encoded_special (prime_2.as_bytes, False)
 		end
 
 feature {NONE} -- Factory

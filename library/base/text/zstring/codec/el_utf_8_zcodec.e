@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "18"
+	date: "2022-12-12 6:36:26 GMT (Monday 12th December 2022)"
+	revision: "19"
 
 class
 	EL_UTF_8_ZCODEC
@@ -46,13 +46,13 @@ feature -- Basic operations
 			c.utf_32_string_into_utf_8_string_8 (unicode_in, utf_8_out)
 		end
 
-	write_encoded (unicode_in: READABLE_STRING_GENERAL; writeable: EL_WRITEABLE)
+	write_encoded (unicode_in: READABLE_STRING_GENERAL; writeable: EL_WRITABLE)
 		do
 			Utf_8_buffer.set_from_general (unicode_in)
 			writeable.write_raw_string_8 (Utf_8_buffer)
 		end
 
-	write_encoded_character (uc: CHARACTER_32; writeable: EL_WRITEABLE)
+	write_encoded_character (uc: CHARACTER_32; writeable: EL_WRITABLE)
 		local
 			c: EL_CHARACTER_32_ROUTINES
 		do

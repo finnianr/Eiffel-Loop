@@ -1,7 +1,7 @@
 note
 	description: "[
 		Adapter interface to read a [$source INTEGER_X] item from [$source EL_READABLE]
-		and write an item to [$source EL_WRITEABLE]
+		and write an item to [$source EL_WRITABLE]
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 8:13:54 GMT (Friday 9th December 2022)"
-	revision: "6"
+	date: "2022-12-12 6:36:27 GMT (Monday 12th December 2022)"
+	revision: "7"
 
 class
 	EL_INTEGER_X_READER_WRITER
@@ -36,7 +36,7 @@ feature -- Basic operations
 			end
 		end
 
-	write (item: INTEGER_X; writer: EL_WRITEABLE)
+	write (item: INTEGER_X; writer: EL_WRITABLE)
 		local
 			i, l_count: INTEGER; l_area: SPECIAL [NATURAL_32]
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 11:24:45 GMT (Friday 9th December 2022)"
-	revision: "20"
+	date: "2022-12-12 6:48:04 GMT (Monday 12th December 2022)"
+	revision: "21"
 
 class
 	EL_REFLECTED_TIME
@@ -46,10 +46,10 @@ feature -- Basic operations
 			end
 		end
 
-	write (a_object: EL_REFLECTIVE; writeable: EL_MEMORY_READER_WRITER)
+	write (a_object: EL_REFLECTIVE; writable: EL_WRITABLE)
 		do
 			if attached value (a_object) as time then
-				writeable.write_integer_32 (time.compact_time)
+				writable.write_integer_32 (time.compact_time)
 			end
 		end
 

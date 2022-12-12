@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-10 16:08:38 GMT (Saturday 10th December 2022)"
-	revision: "61"
+	date: "2022-12-12 6:43:12 GMT (Monday 12th December 2022)"
+	revision: "62"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -223,11 +223,7 @@ feature {NONE} -- Implementation
 	write_field (field: EL_REFLECTED_FIELD; a_writer: EL_MEMORY_READER_WRITER)
 			-- Write operations
 		do
-			if attached {EL_REFLECTED_STORABLE} field as storable_field then
-				storable_field.write (Current, a_writer)
-			else
-				field.write_to_memory (Current, a_writer)
-			end
+			field.write_to_memory (Current, a_writer)
 		end
 
 	write_pyxis_attributes (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; is_pyxis_attribute: SPECIAL [BOOLEAN])

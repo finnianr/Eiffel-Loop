@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-11 10:20:53 GMT (Sunday 11th December 2022)"
-	revision: "10"
+	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
+	revision: "11"
 
 class
 	EL_REFLECTED_URI [U -> EL_URI]
@@ -48,7 +48,7 @@ feature -- Basic operations
 			set (a_object, create {like value}.make (readable.read_string_8))
 		end
 
-	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
+	write (a_object: EL_REFLECTIVE; writeable: EL_WRITABLE)
 		do
 			writeable.write_string_8 (value (a_object))
 		end

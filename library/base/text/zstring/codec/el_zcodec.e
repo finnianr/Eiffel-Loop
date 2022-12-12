@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "35"
+	date: "2022-12-12 6:36:26 GMT (Monday 12th December 2022)"
+	revision: "36"
 
 deferred class
 	EL_ZCODEC
@@ -285,7 +285,7 @@ feature -- Basic operations
 			end
 		end
 
-	write_encoded (unicode_in: READABLE_STRING_GENERAL; writeable: EL_WRITEABLE)
+	write_encoded (unicode_in: READABLE_STRING_GENERAL; writeable: EL_WRITABLE)
 		local
 			l_area: SPECIAL [CHARACTER]; i, count: INTEGER
 		do
@@ -297,7 +297,7 @@ feature -- Basic operations
 			end
 		end
 
-	write_encoded_character (uc: CHARACTER_32; writeable: EL_WRITEABLE)
+	write_encoded_character (uc: CHARACTER_32; writeable: EL_WRITABLE)
 		do
 			writeable.write_raw_character_8 (encoded_character (uc))
 		end
