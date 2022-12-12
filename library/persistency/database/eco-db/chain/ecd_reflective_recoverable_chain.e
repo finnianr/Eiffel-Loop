@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2022-12-12 16:29:16 GMT (Monday 12th December 2022)"
+	revision: "15"
 
 deferred class
 	ECD_REFLECTIVE_RECOVERABLE_CHAIN [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -21,6 +21,10 @@ inherit
 		export
 			{ANY} Mod_encoding
 		end
+
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
+
+	EL_SHARED_DIGESTS
 
 feature -- Access
 
@@ -41,6 +45,37 @@ feature -- Access
 	pyxis_file_path: FILE_PATH
 		do
 			Result := exported_file_path ("pyxis", "pyx")
+		end
+feature -- Digests
+
+	crc_32_digest: NATURAL
+		-- CRC-32 digest of all data in list
+		local
+			crc: like crc_generator
+		do
+			crc := crc_generator
+			across Current as list loop
+				if not list.item.is_deleted then
+					list.item.write (crc)
+				end
+			end
+			Result := crc.checksum
+		end
+
+	md5_digest: SPECIAL [NATURAL_8]
+		-- MD5 digest of all data in list
+		do
+			Result := md5.digest
+		end
+
+	md5_digest_base_64: STRING
+		do
+			Result := md5.digest_base_64
+		end
+
+	md5_digest_string: STRING
+		do
+			Result := md5.digest_string
 		end
 
 feature -- Basic operations
@@ -135,6 +170,18 @@ feature {NONE} -- Implementation
 		do
 			Result := file_path.parent.joined_file_tuple ([dir_name, file_path.base])
 			Result.replace_extension (extension)
+		end
+
+	md5: like Md5_128
+		-- shared MD5 digest of all data in list
+		do
+			Result := Md5_128
+			Result.reset
+			across Current as list loop
+				if not list.item.is_deleted then
+					list.item.write (Result)
+				end
+			end
 		end
 
 feature {NONE} -- Constants

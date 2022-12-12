@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2022-12-12 16:53:10 GMT (Monday 12th December 2022)"
+	revision: "7"
 
 class
 	FTP_TEST_SET
@@ -50,7 +50,6 @@ feature -- Tests
 		end
 
 feature {NONE} -- Implementation
-
 
 	source_file_list: EL_FILE_PATH_LIST
 		do

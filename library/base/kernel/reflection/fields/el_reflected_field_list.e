@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2022-12-12 13:02:11 GMT (Monday 12th December 2022)"
+	revision: "21"
 
 class
 	EL_REFLECTED_FIELD_LIST
@@ -102,4 +102,29 @@ feature -- Basic operations
 			end
 		end
 
+	write (enclosing_object: EL_REFLECTIVE; a_writable: EL_WRITABLE)
+		local
+			i, i_final: INTEGER_32
+		do
+			if attached area as l_area then
+				i_final := count
+				from i := 0 until i = i_final loop
+					l_area [i].write (enclosing_object, a_writable)
+					i := i + 1
+				end
+			end
+		end
+
+	write_to_memory (enclosing_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+		local
+			i, i_final: INTEGER_32
+		do
+			if attached area as l_area then
+				i_final := count
+				from i := 0 until i = i_final loop
+					l_area [i].write_to_memory (enclosing_object, memory)
+					i := i + 1
+				end
+			end
+		end
 end

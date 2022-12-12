@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-28 18:20:06 GMT (Monday 28th November 2022)"
-	revision: "29"
+	date: "2022-12-12 13:44:14 GMT (Monday 12th December 2022)"
+	revision: "30"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -32,7 +32,7 @@ inherit
 			header, make_from_file, delete_file, rename_base, safe_store, is_closed
 		end
 
-	EL_MODULE_DIRECTORY; EL_MODULE_LIO; EL_MODULE_NAMING
+	EL_MODULE_LIO; EL_MODULE_NAMING
 
 	ECD_CONSTANTS
 
@@ -242,7 +242,7 @@ feature {NONE} -- Implementation
 			l_name := name
 			create file_name.make (l_name.count)
 			Naming.to_kebab_case_lower (l_name, file_name)
-			Result := Directory.App_data + file_name
+			Result := Default_data_dir + file_name
 			Result.add_extension (Default_file_extension)
 		end
 

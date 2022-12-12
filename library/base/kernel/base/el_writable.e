@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 10:15:16 GMT (Monday 12th December 2022)"
-	revision: "7"
+	date: "2022-12-12 11:52:35 GMT (Monday 12th December 2022)"
+	revision: "8"
 
 deferred class
 	EL_WRITABLE
@@ -121,24 +121,29 @@ note
 			EL_WRITABLE*
 				[$source EL_ZSTRING]
 				[$source EL_OUTPUT_MEDIUM]*
+					[$source EL_STREAM_SOCKET]*
+						[$source EL_NETWORK_STREAM_SOCKET]
+						[$source EL_UNIX_STREAM_SOCKET]
+					[$source EL_STRING_IO_MEDIUM]*
+						[$source EL_STRING_8_IO_MEDIUM]
+						[$source EL_ZSTRING_IO_MEDIUM]
 					[$source EL_PLAIN_TEXT_FILE]
 						[$source EL_NOTIFYING_PLAIN_TEXT_FILE]
 							[$source EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE]
-					[$source EL_STREAM_SOCKET]*
-						[$source EL_NETWORK_STREAM_SOCKET]
-					[$source EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM]
-					[$source EL_STRING_IO_MEDIUM]*
-						[$source EL_ZSTRING_IO_MEDIUM]
-						[$source EL_STRING_8_IO_MEDIUM]
-				[$source EL_MEMORY_READER_WRITER]
-					[$source ECD_READER_WRITER] [G -> [$source EL_STORABLE] create make_default end]
-						[$source ECD_ENCRYPTABLE_READER_WRITER] [G -> [$source EL_STORABLE] create make_default end]
-							[$source ECD_ENCRYPTABLE_MULTI_TYPE_READER_WRITER] [G -> [$source EL_STORABLE] create make_default end]
-						[$source ECD_MULTI_TYPE_READER_WRITER] [G -> [$source EL_STORABLE] create make_default end]
-							[$source ECD_ENCRYPTABLE_MULTI_TYPE_READER_WRITER] [G -> [$source EL_STORABLE] create make_default end]
+				[$source EL_MEMORY_READER_WRITER_IMPLEMENTATION]*
+					[$source EL_MEMORY_STRING_READER_WRITER]*
+						[$source EL_MEMORY_READER_WRITER]
+							[$source FCGI_MEMORY_READER_WRITER]
+							[$source ECD_READER_WRITER] [G -> [$source EL_STORABLE]]
+								[$source ECD_ENCRYPTABLE_READER_WRITER] [G -> [$source EL_STORABLE]]
+									[$source ECD_ENCRYPTABLE_MULTI_TYPE_READER_WRITER] [G -> [$source EL_STORABLE]]
+								[$source ECD_MULTI_TYPE_READER_WRITER] [G -> [$source EL_STORABLE]]
+									[$source ECD_ENCRYPTABLE_MULTI_TYPE_READER_WRITER] [G -> [$source EL_STORABLE]]
+					[$source EL_MEMORY_READER_WRITER]
 				[$source EL_DATA_SINKABLE]*
 					[$source EL_HMAC_SHA_256]
 					[$source EL_SHA_256]
 					[$source EL_MD5_128]
+				[$source EL_CYCLIC_REDUNDANCY_CHECK_32]
 	]"
 end

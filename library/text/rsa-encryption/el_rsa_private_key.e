@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 9:28:19 GMT (Monday 12th December 2022)"
-	revision: "16"
+	date: "2022-12-12 13:03:58 GMT (Monday 12th December 2022)"
+	revision: "17"
 
 class
 	EL_RSA_PRIVATE_KEY

@@ -10,14 +10,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:43:12 GMT (Monday 12th December 2022)"
-	revision: "62"
+	date: "2022-12-12 14:00:10 GMT (Monday 12th December 2022)"
+	revision: "63"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
 
 inherit
 	EL_STORABLE
+		rename
+			write as write_to_memory
 		undefine
 			is_equal
 		end
@@ -39,17 +41,14 @@ inherit
 
 feature -- Basic operations
 
-	write (a_writer: EL_MEMORY_READER_WRITER)
-		local
-			i, l_count: INTEGER_32
+	write (writable: EL_WRITABLE)
 		do
-			if attached meta_data.field_list as list then
-				l_count := list.count
-				from i := 1 until i > l_count loop
-					write_field (list [i], a_writer)
-					i := i + 1
-				end
-			end
+			meta_data.field_list.write (Current, writable)
+		end
+
+	write_to_memory (memory: EL_MEMORY_READER_WRITER)
+		do
+			meta_data.field_list.write_to_memory (Current, memory)
 		end
 
 	write_as_pyxis (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
@@ -218,12 +217,6 @@ feature {NONE} -- Implementation
 	use_default_values: BOOLEAN
 		do
 			Result := True
-		end
-
-	write_field (field: EL_REFLECTED_FIELD; a_writer: EL_MEMORY_READER_WRITER)
-			-- Write operations
-		do
-			field.write_to_memory (Current, a_writer)
 		end
 
 	write_pyxis_attributes (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; is_pyxis_attribute: SPECIAL [BOOLEAN])

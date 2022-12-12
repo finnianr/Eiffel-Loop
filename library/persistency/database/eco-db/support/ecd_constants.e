@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-12-12 13:43:46 GMT (Monday 12th December 2022)"
+	revision: "3"
 
 deferred class
 	ECD_CONSTANTS
 
 inherit
-	EL_ANY_SHARED
+	EL_MODULE_DIRECTORY
 
 feature {NONE} -- Constants
 
@@ -28,6 +28,11 @@ feature {NONE} -- Constants
 	Default_file_extension: ZSTRING
 		once
 			Result := "dat"
+		end
+
+	Default_data_dir: DIR_PATH
+		once
+			Result := Directory.App_data
 		end
 
 	Editions_file_extension: ZSTRING
