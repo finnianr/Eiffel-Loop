@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 7:27:36 GMT (Monday 12th December 2022)"
-	revision: "4"
+	date: "2022-12-12 17:00:29 GMT (Monday 12th December 2022)"
+	revision: "5"
 
 class
 	EL_BASE_64_ENCODER
@@ -40,10 +40,10 @@ feature -- Access
 feature -- Status report
 
 	is_line_breaking: BOOLEAN
-			-- Are line breaks to be written out after 76 characters?
+		-- Are line breaks to be written out after `Full_line_count' characters?
 
 	is_normalizing: BOOLEAN
-			-- Are line-breaks normalized to CRLF before encoding?
+		-- Are line-breaks normalized to CRLF before encoding?
 
 feature -- Output
 
@@ -163,6 +163,7 @@ feature {NONE} -- Implementation
 
 	start (byte_count: INTEGER)
 		do
+			line_count := 0; is_pending_line_break := False
 			output_string.wipe_out
 			output_string.grow (byte_count // 3 * 4 + 4)
 		end
@@ -193,7 +194,7 @@ feature {NONE} -- Implementation
 			end
 			if is_line_breaking then
 				line_count := line_count + 1
-				if line_count = full_line_count then
+				if line_count = Full_line_count then
 					line_count := 0
 					str.extend ('%N')
 				end
@@ -254,7 +255,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	full_line_count: INTEGER = 76
+	Full_line_count: INTEGER = 76
 			-- Maximum line length
 
 	padding: INTEGER = 64
