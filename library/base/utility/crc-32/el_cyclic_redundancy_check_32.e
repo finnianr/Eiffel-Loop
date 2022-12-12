@@ -6,13 +6,39 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "25"
+	date: "2022-12-12 11:01:54 GMT (Monday 12th December 2022)"
+	revision: "26"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
 
 inherit
+	EL_WRITABLE
+		rename
+			write_raw_character_8 as add_character_8,
+			write_character_8 as add_character_8,
+			write_character_32 as add_character_32,
+			write_integer_8 as add_integer_8,
+			write_integer_16 as add_integer_16,
+			write_integer_32 as add_integer,
+			write_integer_64 as add_integer_64,
+			write_natural_8 as add_natural_8,
+			write_natural_16 as add_natural_16,
+			write_natural_32 as add_natural_32,
+			write_natural_64 as add_natural_64,
+			write_raw_string_8 as add_string_8,
+			write_real_32 as add_real,
+			write_real_64 as add_double,
+			write_string as add_string,
+			write_string_8 as add_string_8,
+			write_string_32 as add_string_32,
+			write_string_general as add_string_general,
+			write_boolean as add_boolean,
+			write_pointer as add_pointer
+		undefine
+			copy, is_equal
+		end
+
 	MANAGED_POINTER
 		rename
 			count as byte_count,
@@ -274,19 +300,6 @@ feature -- Add strings
 		do
 			if attached cursor_8 (str) as c then
 				add_memory (c.area.base_address + c.area_first_index, str.count, character_8_bytes)
-			end
-		end
-
-	add_string_general (general: READABLE_STRING_GENERAL)
-		do
-			if attached {ZSTRING} general as str then
-				add_string (str)
-			elseif attached {READABLE_STRING_8} general as str_8 then
-				add_string_8 (str_8)
-			elseif attached {READABLE_STRING_32} general as str_32 then
-				add_string_32 (str_32)
-			else
-				add_string_32 (general.to_string_32)
 			end
 		end
 

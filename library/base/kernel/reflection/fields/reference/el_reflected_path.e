@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
-	revision: "17"
+	date: "2022-12-12 10:10:07 GMT (Monday 12th December 2022)"
+	revision: "18"
 
 class
 	EL_REFLECTED_PATH
@@ -34,7 +34,7 @@ feature -- Access
 
 	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
 		do
-			if attached {EL_PATH} value (a_object) as path then
+			if attached value (a_object) as path then
 				Result := path.to_string
 			else
 				create {STRING} Result.make_empty
@@ -45,35 +45,35 @@ feature -- Basic operations
 
 	expand (a_object: EL_REFLECTIVE)
 		do
-			if attached {EL_PATH} value (a_object) as path then
+			if attached value (a_object) as path then
 				path.expand
 			end
 		end
 
 	reset (a_object: EL_REFLECTIVE)
 		do
-			if attached {EL_PATH} value (a_object) as path then
+			if attached value (a_object) as path then
 				path.wipe_out
 			end
 		end
 
 	set_from_readable (a_object: EL_REFLECTIVE; a_value: EL_READABLE)
 		do
-			if attached {EL_PATH} value (a_object) as path then
+			if attached value (a_object) as path then
 				path.set_path (a_value.read_string)
 			end
 		end
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
-			if attached {EL_PATH} value (a_object) as path then
+			if attached value (a_object) as path then
 				path.set_path (string)
 			end
 		end
 
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITABLE)
 		do
-			if attached {EL_PATH} value (a_object) as path then
+			if attached value (a_object) as path then
 				writeable.write_string (path.parent_string (False))
 				writeable.write_string (path.base)
 			end

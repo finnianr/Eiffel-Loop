@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
-	revision: "11"
+	date: "2022-12-12 10:52:57 GMT (Monday 12th December 2022)"
+	revision: "12"
 
 class
 	EL_REFLECTED_URI [U -> EL_URI]
@@ -24,7 +24,9 @@ feature -- Basic operations
 
 	reset (a_object: EL_REFLECTIVE)
 		do
-			value (a_object).wipe_out
+			if attached value (a_object) as uri then
+				uri.wipe_out
+			end
 		end
 
 	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
@@ -50,12 +52,16 @@ feature -- Basic operations
 
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITABLE)
 		do
-			writeable.write_string_8 (value (a_object))
+			if attached value (a_object) as uri then
+				writeable.write_string_8 (uri)
+			end
 		end
 
 	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
 		do
-			memory.write_string_8 (value (a_object))
+			if attached value (a_object) as uri then
+				memory.write_string_8 (uri)
+			end
 		end
 
 feature {NONE} -- Implementation

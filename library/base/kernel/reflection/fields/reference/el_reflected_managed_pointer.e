@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 9:28:05 GMT (Monday 12th December 2022)"
-	revision: "5"
+	date: "2022-12-12 10:06:49 GMT (Monday 12th December 2022)"
+	revision: "6"
 
 class
 	EL_REFLECTED_MANAGED_POINTER
@@ -27,13 +27,9 @@ create
 feature -- Access
 
 	to_string (a_object: EL_REFLECTIVE): STRING
-		local
-			area: SPECIAL [NATURAL_8]
 		do
-			if attached value (a_object) as block then
-				create area.make_filled (0, block.count)
-				area.base_address.memory_copy (block.item, block.count)
-				Result := Base_64.encoded_special (area, False)
+			if attached value (a_object) as pointer then
+				Result := Base_64.encoded_memory (pointer, pointer.count, True)
 			else
 				create Result.make_empty
 			end
@@ -48,13 +44,15 @@ feature -- Basic operations
 
 	reset (a_object: EL_REFLECTIVE)
 		do
-			value (a_object).resize (0)
+			if attached value (a_object) as pointer then
+				pointer.resize (0)
+			end
 		end
 
 	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
 		do
-			if attached value (a_object) as block then
-				memory.read_into_memory_block (block)
+			if attached value (a_object) as pointer then
+				memory.read_into_memory_block (pointer)
 			end
 		end
 
@@ -72,26 +70,28 @@ feature -- Basic operations
 			end
 		end
 
-	set_from_string_8 (a_object: EL_REFLECTIVE; string: STRING)
+	set_from_string_8 (a_object: EL_REFLECTIVE; base_64_encoded: STRING)
 		local
 			area: SPECIAL [NATURAL_8]
 		do
-			if attached value (a_object) as block then
-				area := Base_64.decoded_special (string)
-				block.resize (area.count)
-				block.put_special_natural_8 (area, 0, 0, area.count)
+			if attached value (a_object) as pointer then
+				area := Base_64.decoded_special (base_64_encoded)
+				pointer.resize (area.count)
+				pointer.put_special_natural_8 (area, 0, 0, area.count)
 			end
 		end
 
 	write (a_object: EL_REFLECTIVE; writable: EL_WRITABLE)
 		do
-			writable.write_raw_string_8 (to_string (a_object))
+			if attached value (a_object) as pointer then
+				Base_64.encode_to_writable (pointer, pointer.count, writable, True)
+			end
 		end
 
 	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
 		do
-			if attached value (a_object) as block then
-				memory.write_memory_block (block)
+			if attached value (a_object) as pointer then
+				memory.write_memory_block (pointer)
 			end
 		end
 

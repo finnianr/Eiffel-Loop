@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
-	revision: "6"
+	date: "2022-12-12 10:15:16 GMT (Monday 12th December 2022)"
+	revision: "7"
 
 deferred class
 	EL_WRITABLE
@@ -74,7 +74,7 @@ feature -- String
 		deferred
 		end
 
-	write_string (value: EL_READABLE_ZSTRING)
+	write_string (a_string: EL_READABLE_ZSTRING)
 		deferred
 		end
 

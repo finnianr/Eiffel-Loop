@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 9:28:05 GMT (Monday 12th December 2022)"
-	revision: "27"
+	date: "2022-12-12 9:49:37 GMT (Monday 12th December 2022)"
+	revision: "28"
 
 class
 	GENERAL_TEST_SET
@@ -198,12 +198,12 @@ feature {NONE} -- Constants
 
 	Base_64_data: STRING
 		once
-			Result := Base_64.joined ("[
+			Result := "[
 				SAFweR4G0xAxjN11FNtzojS0rrJitfeQh9KUa9kuuk1/6Wk7wDBmDpTXx3hZ4e48ovkIs50w3YSFSsH1EyseOe
 				/OsvGW5ncCl3V08u0whToDEXDCQc3LAT4U6ULIYgw4+Kmx9Xoi9lINa4iS8ze/p2NPIvL61TDuYhocxX1ux7xu
 				OGXlvDw4mNhnNWMqT1671/XW+I+WMMO5JyA0Sw20LWGGAPbKm/gZj+X5qAuLAQKz7hoUYX0SCep8mrKgprDbdd
 				jxw4uSuCTvZtxyORmhrB4u6nwMPDx8Rq7ECzpMAGxsVFZh959BvwmtXhR7vs3tTYRZ7YBTwLopkCuhlGQXMQ==
-			]")
+			]"
 		end
 
 	Gobo_base_64: GOBO_BASE_64_ROUTINES

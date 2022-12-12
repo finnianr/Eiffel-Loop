@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 9:09:20 GMT (Monday 12th December 2022)"
-	revision: "16"
+	date: "2022-12-12 10:01:11 GMT (Monday 12th December 2022)"
+	revision: "17"
 
 class
 	EL_BASE_64_CODEC
@@ -56,6 +56,14 @@ feature -- Conversion
 			Result := encoder.output (True)
 		end
 
+	encoded_memory (bytes: MANAGED_POINTER; nb: INTEGER; line_breaks: BOOLEAN): STRING
+		do
+			encoder.enable_line_breaks (line_breaks)
+			encoder.put_memory (bytes, nb)
+			Result := encoder.output (True)
+			encoder.enable_line_breaks (False)
+		end
+
 	encoded_special (array: SPECIAL [NATURAL_8]; line_breaks: BOOLEAN): STRING
 		do
 			encoder.enable_line_breaks (line_breaks)
@@ -64,23 +72,14 @@ feature -- Conversion
 			encoder.enable_line_breaks (False)
 		end
 
-	encode_to_writable (bytes: MANAGED_POINTER; nb: INTEGER; writable: EL_WRITABLE)
+	encode_to_writable (bytes: MANAGED_POINTER; nb: INTEGER; writable: EL_WRITABLE; line_breaks: BOOLEAN)
 		require
 			valid_size: nb <= bytes.count
 		do
-			encoder.enable_line_breaks (True)
+			encoder.enable_line_breaks (line_breaks)
 			encoder.put_memory (bytes, nb)
 			writable.write_raw_string_8 (encoder.output (False))
 			encoder.enable_line_breaks (False)
-		end
-
-	joined (base64_lines: STRING): STRING
-			-- base64 string with all newlines removed.
-			-- Useful for manifest constants of type "[
-			-- ]"
-		do
-			Result := base64_lines.twin
-			Result.prune_all ('%N')
 		end
 
 feature {NONE} -- Internal attributes
