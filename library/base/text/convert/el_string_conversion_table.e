@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-10 15:38:53 GMT (Saturday 10th December 2022)"
-	revision: "15"
+	date: "2022-12-14 12:08:51 GMT (Wednesday 14th December 2022)"
+	revision: "16"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -25,12 +25,14 @@ inherit
 			{ANY} has, found_item
 		end
 
-	EL_MODULE_EIFFEL
+	EL_MODULE_EIFFEL; EL_MODULE_NAMING; EL_MODULE_REUSEABLE
 
 	EL_MODULE_TUPLE
 		rename
 			Tuple as Mod_tuple
 		end
+
+	EL_SHARED_CLASS_ID; EL_SHARED_FACTORIES
 
 create
 	make
@@ -58,7 +60,7 @@ feature -- Access
 			if has_key (type.type_id) then
 				Result := found_item.type_description
 			else
-				create Result.make_empty
+				Result := Naming.class_description_from (type, Naming.No_words)
 			end
 		end
 
@@ -99,6 +101,8 @@ feature -- Status query
 		do
 			if has_key (type_id) then
 				Result := found_item.is_convertible (s)
+			else
+				Result := Eiffel.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING)
 			end
 		end
 
@@ -194,6 +198,22 @@ feature -- Basic operations
 		do
 			if has_key (type_id) then
 				Result := found_item.as_type (str)
+
+			elseif Eiffel.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING)
+				and then attached Makeable_from_string_factory.new_item_factory (type_id) as factory
+			then
+				if attached {STRING_GENERAL} str as general then
+					Result := factory.new_item (general)
+
+				elseif attached {READABLE_STRING_8} str as str_8 then
+					across Reuseable.string_8 as reuse loop
+						Result := factory.new_item (reuse.copied_item (str_8))
+					end
+				elseif attached {READABLE_STRING_32} str as str_32 then
+					across Reuseable.string_32 as reuse loop
+						Result := factory.new_item (reuse.copied_item (str_32))
+					end
+				end
 			end
 		end
 

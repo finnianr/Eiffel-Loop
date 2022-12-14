@@ -1,24 +1,30 @@
 note
-	description: "Eifel object builder context type constants"
+	description: "Eiffel object builder context type constants"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 15:52:00 GMT (Friday 9th December 2022)"
-	revision: "7"
+	date: "2022-12-14 12:44:06 GMT (Wednesday 14th December 2022)"
+	revision: "8"
 
 class
 	EL_EIF_OBJ_BUILDER_CONTEXT_TYPE_CONSTANTS
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	Eiffel_object_builder_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_REFERENCE [ANY]]
+	extra_field_types: TUPLE [
+		EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT,
+		EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT
+	]
+		do
+			create Result
+		end
+
+	Eiffel_object_builder_types: EL_TUPLE_TYPE_LIST [EL_REFLECTED_REFERENCE [ANY]]
 		once
-			create Result.make (<<
-				{EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT}, {EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT}
-			>>)
+			create Result.make_from_tuple (extra_field_types)
 		end
 
 end

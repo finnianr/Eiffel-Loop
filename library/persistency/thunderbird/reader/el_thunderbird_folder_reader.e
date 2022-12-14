@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:27:08 GMT (Monday 5th December 2022)"
-	revision: "18"
+	date: "2022-12-14 16:41:02 GMT (Wednesday 14th December 2022)"
+	revision: "19"
 
 deferred class
 	EL_THUNDERBIRD_FOLDER_READER
@@ -76,7 +76,7 @@ feature {NONE} -- State handlers
 		local
 			pos_colon: INTEGER
 		do
-			if not line.is_empty then
+			if line.count > 0 then
 				if line.begins_with (First_doc_tag) then
 					set_header_date; set_header_charset; set_header_subject
 					on_first_tag (line)

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 12:13:57 GMT (Tuesday 6th December 2022)"
-	revision: "30"
+	date: "2022-12-14 16:59:59 GMT (Wednesday 14th December 2022)"
+	revision: "31"
 
 class
 	EL_PLAIN_TEXT_LINE_SOURCE
@@ -23,11 +23,6 @@ inherit
 			{ANY} file
 		redefine
 			read_line, set_file, new_list, Default_file
-		end
-
-	EL_EVENT_LISTENER
-		rename
-			notify as on_encoding_update
 		end
 
 create

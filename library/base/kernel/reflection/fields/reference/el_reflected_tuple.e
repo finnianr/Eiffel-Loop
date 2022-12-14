@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
-	revision: "23"
+	date: "2022-12-13 16:43:00 GMT (Tuesday 13th December 2022)"
+	revision: "24"
 
 class
 	EL_REFLECTED_TUPLE
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REFLECTED_REFERENCE [TUPLE]
 		redefine
-			append_to_string, is_initializeable,
+			append_to_string, is_initializeable, is_abstract, is_storable_type,
 			make, write, new_instance, reset,
 			set_from_memory, set_from_readable, set_from_string, to_string,
 			write_to_memory
@@ -205,5 +205,13 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	factory_array: like new_factory_array
+
+feature {NONE} -- Constants
+
+	Is_abstract: BOOLEAN = True
+		-- `True' if field type is deferred
+
+	Is_storable_type: BOOLEAN = False
+		-- is type storable using `EL_STORABLE' interface
 
 end

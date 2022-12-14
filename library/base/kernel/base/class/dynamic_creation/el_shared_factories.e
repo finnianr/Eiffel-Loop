@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-10 11:45:42 GMT (Saturday 10th December 2022)"
-	revision: "5"
+	date: "2022-12-14 11:40:36 GMT (Wednesday 14th December 2022)"
+	revision: "6"
 
 deferred class
 	EL_SHARED_FACTORIES
@@ -57,6 +57,14 @@ feature {NONE} -- Factories
 		end
 
 	Makeable_factory: EL_INITIALIZED_OBJECT_FACTORY [EL_MAKEABLE_FACTORY [EL_MAKEABLE], EL_MAKEABLE]
+		once
+			create Result
+		end
+
+	Makeable_from_string_factory: EL_INITIALIZED_OBJECT_FACTORY [
+		EL_MAKEABLE_FROM_STRING_FACTORY [EL_MAKEABLE_FROM_STRING [STRING_GENERAL]],
+		EL_MAKEABLE_FROM_STRING [STRING_GENERAL]
+	]
 		once
 			create Result
 		end

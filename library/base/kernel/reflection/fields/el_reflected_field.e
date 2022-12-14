@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
-	revision: "47"
+	date: "2022-12-13 16:25:18 GMT (Tuesday 13th December 2022)"
+	revision: "48"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -38,7 +38,7 @@ inherit
 
 	EL_NAMEABLE [STRING] undefine is_equal end
 
-	EL_REFLECTION_CONSTANTS undefine is_equal end
+	EL_REFLECTION_CONSTANTS
 
 	EL_REFLECTION_HANDLER undefine is_equal end
 
@@ -103,8 +103,20 @@ feature -- Status query
 			Result := field_conforms_to (type_id, base_type_id)
 		end
 
+	is_abstract: BOOLEAN
+		-- `True' if field type is deferred
+		do
+			Result := False
+		end
+
 	is_expanded: BOOLEAN
 		deferred
+		end
+
+	is_storable_type: BOOLEAN
+		-- is type storable using `EL_STORABLE' interface
+		do
+			Result := True
 		end
 
 	is_initialized (a_object: EL_REFLECTIVE): BOOLEAN

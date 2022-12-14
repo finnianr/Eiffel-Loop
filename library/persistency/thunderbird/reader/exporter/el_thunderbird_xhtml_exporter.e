@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 14:33:59 GMT (Tuesday 6th December 2022)"
-	revision: "25"
+	date: "2022-12-14 17:07:28 GMT (Wednesday 14th December 2022)"
+	revision: "26"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -68,7 +68,7 @@ feature {NONE} -- Implementation
 		do
 			create xdoc.make_from_string (xhtml)
 			if xdoc.context_list ("//p").count = 0 then
-				lio.put_path_field ("ERROR, no paragraphs found in", output_file_path)
+				lio.put_labeled_string (output_file_path.base, "count (//p) = 0")
 				lio.put_new_line
 			end
 		end

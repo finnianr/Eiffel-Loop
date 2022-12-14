@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2022-12-13 16:56:53 GMT (Tuesday 13th December 2022)"
+	revision: "17"
 
 deferred class
 	EL_REFLECTED_MAKEABLE_FROM_STRING [MAKEABLE -> EL_MAKEABLE_FROM_STRING [STRING_GENERAL]]
@@ -17,11 +17,11 @@ inherit
 		undefine
 			set_from_readable, write
 		redefine
-			is_initializeable, make,
-			reset, set_from_string, set_from_readable, to_string
+			is_abstract, is_initializeable, group_type, make, reset,
+			set_from_string, set_from_readable, to_string
 		end
 
-	EL_REFLECTION_CONSTANTS undefine is_equal end
+	EL_REFLECTION_CONSTANTS
 
 feature {EL_CLASS_META_DATA} -- Initialization
 
@@ -32,6 +32,11 @@ feature {EL_CLASS_META_DATA} -- Initialization
 		end
 
 feature -- Access
+
+	group_type: TYPE [ANY]
+		do
+			Result := {EL_MAKEABLE_FROM_STRING [STRING_GENERAL]}
+		end
 
 	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
 		do
@@ -63,5 +68,10 @@ feature -- Status query
 feature {NONE} -- Implementation
 
 	makeable_from_string_type_id: INTEGER
+
+feature {NONE} -- Constants
+
+	Is_abstract: BOOLEAN = True
+		-- `True' if field type is deferred
 
 end

@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2022-12-14 9:41:04 GMT (Wednesday 14th December 2022)"
+	revision: "9"
 
 class
 	EL_BOOLEAN_OPTION
@@ -50,7 +50,7 @@ inherit
 		end
 
 create
-	default_create, make_enabled, make, make_with_action, make_from_string
+	default_create, make_enabled, make, make_with_action, make_from_general, make_from_string
 
 convert
 	make ({BOOLEAN})

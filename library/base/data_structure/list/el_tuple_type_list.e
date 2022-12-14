@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2022-12-14 12:41:31 GMT (Wednesday 14th December 2022)"
+	revision: "12"
 
 class
 	EL_TUPLE_TYPE_LIST [T]
@@ -20,6 +20,8 @@ inherit
 		redefine
 			make_from_array
 		end
+
+	EL_MODULE_EIFFEL
 
 create
 	make, make_from_static, make_from_tuple, make_from_array
@@ -72,6 +74,11 @@ feature -- Status query
 		-- `True' if all items in `make' routine argument `type_array' conform to type `T'
 		do
 			Result := non_conforming_list = Empty_list
+		end
+
+	has_conforming (type_id: INTEGER): BOOLEAN
+		do
+			Result := across Current as list some Eiffel.type_conforms_to (type_id, list.item.type_id)  end
 		end
 
 feature -- Basic operations

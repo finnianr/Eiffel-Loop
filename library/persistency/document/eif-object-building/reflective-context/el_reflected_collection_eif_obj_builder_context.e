@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-08 7:14:06 GMT (Thursday 8th December 2022)"
-	revision: "6"
+	date: "2022-12-14 10:08:17 GMT (Wednesday 14th December 2022)"
+	revision: "7"
 
 class
 	EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REFLECTED_REFERENCE [COLLECTION [EL_EIF_OBJ_BUILDER_CONTEXT]]
 		redefine
-			is_initializeable
+			is_abstract, is_initializeable, is_storable_type
 		end
 
 	EL_SHARED_NEW_INSTANCE_TABLE
@@ -38,5 +38,13 @@ feature -- Status query
 		do
 			Result := Precursor and then New_instance_table.has (item_type_id)
 		end
+
+feature {NONE} -- Constants
+
+	Is_abstract: BOOLEAN = True
+		-- `True' if field type is deferred
+
+	Is_storable_type: BOOLEAN = False
+		-- is type storable using `EL_STORABLE' interface
 
 end

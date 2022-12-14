@@ -1,3 +1,6 @@
+1.9.5
+* Fixed failure of EL_PLAIN_TEXT_LINE_SOURCE to update encoding dynamically
+
 1.9.4
 * Insert starts_with_zstring and ends_with_zstring where appropriate
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2022-12-14 16:17:05 GMT (Wednesday 14th December 2022)"
+	revision: "15"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
@@ -67,7 +67,7 @@ feature {NONE} -- Implementation
 				end
 				across h2_list as h2 loop
 					title := h2.node.as_full_string
-					assert ("has title " + title, h2_set.has (title))
+					assert ("has title " + title.to_latin_1, h2_set.has (title))
 					count := count + 1
 				end
 				assert ("same h2 set count", h2_set.count = count)

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-10 15:59:25 GMT (Saturday 10th December 2022)"
-	revision: "16"
+	date: "2022-12-14 13:08:42 GMT (Wednesday 14th December 2022)"
+	revision: "17"
 
 class
 	EL_INTERNAL
@@ -34,9 +34,11 @@ inherit
 
 	EL_REFLECTION_CONSTANTS
 
-	EL_MODULE_REUSEABLE
+	EL_MODULE_CONVERT_STRING; EL_MODULE_REUSEABLE
 
 	EL_SHARED_CLASS_ID; EL_SHARED_FACTORIES
+
+	EL_STRING_8_CONSTANTS
 
 feature -- Type queries
 
@@ -84,12 +86,21 @@ feature -- Type queries
 		end
 
 	is_storable_type (basic_type, type_id: INTEGER_32): BOOLEAN
+		-- `True' if type is storable using `EL_STORABLE' interface
+		local
+			tuple_types: EL_TUPLE_TYPE_ARRAY
 		do
-			inspect basic_type
-				when Reference_type then
-					Result := String_type_table.type_array.has (type_id) or else Storable_type_table.has_conforming (type_id)
-				when Pointer_type then
-					Result := False
+			if basic_type = Reference_type then
+				if type_conforms_to (type_id, Class_id.TUPLE) then
+					create tuple_types.make_from_static (type_id)
+--					TUPLE items must be expanded or strings
+					Result := across tuple_types as type all
+						type.item.is_expanded
+							or else String_reference_types.there_exists (agent type_conforms_to (type.item.type_id, ?))
+					end
+				else
+					Result := Storable_reference_types.there_exists (agent type_conforms_to (type_id, ?))
+				end
 			else
 				Result := True
 			end
@@ -99,8 +110,10 @@ feature -- Type queries
 		do
 			inspect basic_type
 				when Reference_type then
-					Result := String_type_table.type_array.has (type_id)
+					Result := String_reference_types.there_exists (agent type_conforms_to (type_id, ?))
+
 				when Pointer_type then
+					-- Exclude pointer
 			else
 				Result := True
 			end
@@ -112,9 +125,9 @@ feature -- Type queries
 		do
 			inspect basic_type
 				when Reference_type then
-					Result := String_type_table.type_array.has (type_id)
-									or else String_convertable_type_table.has_conforming (type_id)
-									or else Makeable_from_string_type_table.has_conforming (type_id)
+					Result := across Reference_field_list as list some
+						type_conforms_to (type_id, list.item.value_type.type_id)
+					end
 
 				when Pointer_type then
 					-- Exclude pointer

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-11 10:56:39 GMT (Sunday 11th December 2022)"
-	revision: "34"
+	date: "2022-12-13 9:10:50 GMT (Tuesday 13th December 2022)"
+	revision: "35"
 
 class
 	REFLECTION_TEST_SET
@@ -15,13 +15,13 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_EIFFEL
+	EL_MODULE_EIFFEL; EL_MODULE_LIO
 
 	EL_SHARED_CURRENCY_ENUM
 
 	JSON_TEST_DATA; STORABLE_COUNTRY_TEST_DATA
 
-	EL_SHARED_FACTORIES
+	EL_REFLECTION_CONSTANTS
 
 feature -- Basic operations
 
@@ -35,6 +35,7 @@ feature -- Basic operations
 			eval.call ("object_initialization_from_camel_case_table", agent test_object_initialization_from_camel_case_table)
 			eval.call ("object_initialization_from_table", agent test_object_initialization_from_table)
 			eval.call ("reflected_collection_factory", agent test_reflected_collection_factory)
+			eval.call ("reference_field_list", agent test_reference_field_list)
 			eval.call ("reflection", agent test_reflection)
 			eval.call ("reflective_string_constants", agent test_reflective_string_constants)
 			eval.call ("set_from_other", agent test_set_from_other)
@@ -143,6 +144,14 @@ feature -- Tests
 		do
 			create country.make (Value_table)
 			check_values (country)
+		end
+
+	test_reference_field_list
+		-- REFLECTION_TEST_SET.test_reference_field_list
+		do
+			across Reference_field_list as list loop
+				lio.put_line (list.item.value_type.name)
+			end
 		end
 
 	test_reflected_collection_factory

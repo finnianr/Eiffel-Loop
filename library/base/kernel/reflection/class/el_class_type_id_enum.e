@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 16:01:17 GMT (Friday 9th December 2022)"
-	revision: "19"
+	date: "2022-12-14 11:53:00 GMT (Wednesday 14th December 2022)"
+	revision: "20"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -114,7 +114,7 @@ feature -- Class aliases
 			Result := EL_ZSTRING
 		end
 
-feature -- Collections
+feature -- Parameterized
 
 	ARRAYED_LIST_ANY: INTEGER
 		once
@@ -126,6 +126,11 @@ feature -- Collections
 			Result := ({COLLECTION [ANY]}).type_id
 		end
 
+	EL_MAKEABLE_FROM_STRING: INTEGER
+		once
+			Result := ({EL_MAKEABLE_FROM_STRING [STRING_GENERAL]}).type_id
+		end
+	
 feature -- Other types
 
 	ANY: INTEGER

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-22 9:35:18 GMT (Tuesday 22nd November 2022)"
-	revision: "4"
+	date: "2022-12-14 16:59:35 GMT (Wednesday 14th December 2022)"
+	revision: "5"
 
 class
 	EL_ZSTRING_IO_MEDIUM_LINE_SOURCE
@@ -28,6 +28,10 @@ create
 	make_default, make
 
 feature {NONE} -- Implementation
+
+	on_encoding_update
+		do
+		end
 
 	update_item
 		do

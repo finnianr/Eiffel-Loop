@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 10:01:57 GMT (Tuesday 6th December 2022)"
-	revision: "3"
+	date: "2022-12-14 17:00:33 GMT (Wednesday 14th December 2022)"
+	revision: "4"
 
 deferred class
 	EL_FILE_GENERAL_LINE_SOURCE [S -> STRING_GENERAL create make end]
@@ -32,6 +32,11 @@ inherit
 			Encoding as Mod_encoding
 		end
 
+	EL_EVENT_LISTENER
+		rename
+			notify as on_encoding_update
+		end
+
 feature {NONE} -- Initialization
 
 	make (a_file: like Default_file)
@@ -50,6 +55,7 @@ feature {NONE} -- Initialization
 			Precursor
 			create item.make (0)
 			file := default_file
+			on_encoding_change.add_listener (Current)
 		end
 
 feature -- Access
@@ -243,13 +249,6 @@ feature -- Basic operations
 			file.delete
 		end
 
-feature {NONE} -- Unused
-
-	finish
-			-- Move to last position.
-		do
-		end
-
 feature {EL_LINE_SOURCE_ITERATION_CURSOR} -- Implementation
 
 	check_encoding
@@ -266,6 +265,11 @@ feature {EL_LINE_SOURCE_ITERATION_CURSOR} -- Implementation
 			end
 		end
 
+	finish
+			-- Move to last position.
+		do
+		end
+
 	new_list (n: INTEGER): EL_ARRAYED_LIST [S]
 		do
 			create Result.make (n)
@@ -280,6 +284,12 @@ feature {EL_LINE_SOURCE_ITERATION_CURSOR} -- Implementation
 		do
 			encoding_detected := False
 			file := a_file
+		end
+
+feature {NONE} -- Deferred
+
+	on_encoding_update
+		deferred
 		end
 
 	update_item

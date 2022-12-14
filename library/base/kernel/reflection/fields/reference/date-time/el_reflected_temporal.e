@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 11:25:30 GMT (Friday 9th December 2022)"
-	revision: "1"
+	date: "2022-12-13 16:57:37 GMT (Tuesday 13th December 2022)"
+	revision: "2"
 
 deferred class
 	EL_REFLECTED_TEMPORAL [G -> ABSOLUTE]
@@ -15,10 +15,15 @@ deferred class
 inherit
 	EL_REFLECTED_REFERENCE [G]
 		redefine
-			append_to_string, to_string, set_from_readable
+			append_to_string, group_type, to_string, set_from_readable
 		end
 
 feature -- Access
+
+	group_type: TYPE [ANY]
+		do
+			Result := {ABSOLUTE}
+		end
 
 	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
 		do

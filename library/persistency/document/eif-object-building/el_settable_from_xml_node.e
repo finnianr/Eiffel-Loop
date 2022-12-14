@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-10 16:23:08 GMT (Saturday 10th December 2022)"
-	revision: "40"
+	date: "2022-12-14 12:38:37 GMT (Wednesday 14th December 2022)"
+	revision: "41"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -283,7 +283,7 @@ feature {NONE} -- Implementation
 
 	is_builder_context_field (basic_type, type_id: INTEGER): BOOLEAN
 		do
-			Result := Eiffel.is_reference (basic_type) and then Eiffel_object_builder_type_table.has_conforming (type_id)
+			Result := Eiffel.is_reference (basic_type) and then Eiffel_object_builder_types.has_conforming (type_id)
 		end
 
 	set_field_from_node (field: EL_REFLECTED_FIELD)

@@ -6,19 +6,34 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 10:52:57 GMT (Monday 12th December 2022)"
-	revision: "12"
+	date: "2022-12-13 17:41:15 GMT (Tuesday 13th December 2022)"
+	revision: "13"
 
 class
 	EL_REFLECTED_URI [U -> EL_URI]
 
 inherit
 	EL_REFLECTED_STRING [EL_URI]
+		redefine
+			group_type, value_type
+		end
 
 	EL_SHARED_STRING_8_CURSOR
 
 create
 	make
+
+feature -- Access
+
+	value_type: TYPE [ANY]
+		do
+			Result := {U}
+		end
+
+	group_type: TYPE [ANY]
+		do
+			Result := {EL_URI}
+		end
 
 feature -- Basic operations
 

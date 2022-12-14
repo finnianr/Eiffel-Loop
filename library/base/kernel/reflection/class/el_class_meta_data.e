@@ -1,13 +1,17 @@
 note
 	description: "Class reflective meta data"
+	descendants: "[
+			EL_CLASS_META_DATA
+				[$source EL_EIF_OBJ_BUILDER_CONTEXT_CLASS_META_DATA]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-11 21:08:51 GMT (Sunday 11th December 2022)"
-	revision: "59"
+	date: "2022-12-14 17:29:36 GMT (Wednesday 14th December 2022)"
+	revision: "61"
 
 class
 	EL_CLASS_META_DATA
@@ -27,19 +31,15 @@ inherit
 			actual_item as actual_alphabetical_list
 		end
 
+	EL_MODULE_EIFFEL; EL_MODULE_NAMING
+
 	EL_REFLECTION_CONSTANTS
-
-	EL_MODULE_EIFFEL
-
-	EL_MODULE_NAMING
 
 	EL_REFLECTION_HANDLER
 
 	EL_STRING_8_CONSTANTS
 
-	EL_SHARED_NEW_INSTANCE_TABLE
-
-	EL_SHARED_READER_WRITER_TABLE
+	EL_SHARED_NEW_INSTANCE_TABLE; EL_SHARED_READER_WRITER_TABLE
 
 	EL_SHARED_CLASS_ID; EL_SHARED_FACTORIES
 
@@ -51,6 +51,7 @@ feature {NONE} -- Initialization
 	make (a_enclosing_object: like enclosing_object)
 		do
 			Precursor (a_enclosing_object)
+
 			New_instance_table.extend_from_list (a_enclosing_object.new_instance_functions)
 			Reader_writer_table.merge (a_enclosing_object.new_extra_reader_writer_table)
 			create cached_field_indices_set.make_equal (3, agent new_field_indices_set)
@@ -165,7 +166,7 @@ feature {NONE} -- Factory
 		require
 			never_called: False
 		do
-			create {EL_REFLECTED_REFERENCE [ANY]} Result.make (enclosing_object, index, name)
+			create {EL_REFLECTED_REFERENCE_ANY} Result.make (enclosing_object, index, name)
 		end
 
 	new_field_indices_set (field_names: detachable STRING): EL_FIELD_INDICES_SET
@@ -202,31 +203,29 @@ feature {NONE} -- Factory
 
 	new_reference_field (index: INTEGER; name: STRING): EL_REFLECTED_FIELD
 		local
-			type_id, item_type_id: INTEGER; found: BOOLEAN
-			collection_factory: EL_REFLECTED_COLLECTION_FACTORY [ANY, EL_REFLECTED_COLLECTION [ANY]]
+			type_id: INTEGER
 		do
 			type_id := field_static_type (index)
-			across Reference_type_tables as table until found loop
-				if table.item.has_type (type_id) then
-					Result := Field_factory.new_item (table.item.found_item, enclosing_object, index, name)
-					found := True
-				end
-			end
-			if found then
-				do_nothing
+			if Non_abstract_field_type_table.has_key (type_id) then
+				Result := Field_factory.new_item (Non_abstract_field_type_table.found_item, enclosing_object, index, name)
 
-			elseif Eiffel.type_conforms_to (type_id, Class_id.COLLECTION_ANY) then
-				item_type_id := Eiffel.collection_item_type (type_id)
-				if item_type_id > 0 then
-					collection_factory := Collection_field_factory.new_item_factory (item_type_id)
-					Result := collection_factory.new_field (enclosing_object, index, name)
-				else
-					create {EL_REFLECTED_REFERENCE [ANY]} Result.make (enclosing_object, index, name)
-				end
+			elseif attached matched_field_type (type_id) as matched_type then
+				Result := Field_factory.new_item (matched_type, enclosing_object, index, name)
 
+			elseif attached matched_collection_factory (type_id) as collection then
+				Result := collection.new_field (enclosing_object, index, name)
 			else
-				create {EL_REFLECTED_REFERENCE [ANY]} Result.make (enclosing_object, index, name)
+				create {EL_REFLECTED_REFERENCE_ANY} Result.make (enclosing_object, index, name)
 			end
+		end
+
+	new_reference_group_table: like Reference_group_table
+		do
+			extend_field_types (Reference_field_list)
+			extend_group_ordering (Group_type_order_table)
+
+			Reference_field_list.order_by (agent group_type_order, True)
+			create Result.make_from_list (agent {EL_REFLECTED_REFERENCE [ANY]}.group_type, Reference_field_list)
 		end
 
 	new_reflected_field (index: INTEGER; name: STRING): EL_REFLECTED_FIELD
@@ -247,10 +246,54 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Implementation
 
+	extend_group_ordering (order_table: like Group_type_order_table)
+		-- for use in descendants as once routine
+		do
+		end
+
+	extend_field_types (a_field_list: like Reference_field_list)
+		-- add extra field types defined in `extra_field_types'
+		-- for use in descendants as once routine
+		do
+		end
+
 	is_once_object (name: STRING): BOOLEAN
 		-- `True' if `name' is a once ("OBJECT") field name
 		do
 			Result := name.count > 0 and then name [1] = '_'
+		end
+
+	group_type_order (a_field: EL_REFLECTED_REFERENCE [ANY]): REAL
+		-- search order for matching value_type
+		do
+			if Group_type_order_table.has_key (a_field.group_type)  then
+				Result := Group_type_order_table.found_item
+			end
+		end
+
+	matched_collection_factory (type_id: INTEGER): detachable like Collection_field_factory.new_item_factory
+		local
+			item_type_id: INTEGER
+		do
+			if Eiffel.type_conforms_to (type_id, Class_id.COLLECTION_ANY) then
+				item_type_id := Eiffel.collection_item_type (type_id)
+				if item_type_id > 0 then
+					Result := Collection_field_factory.new_item_factory (item_type_id)
+				end
+			end
+		end
+
+	matched_field_type (type_id: INTEGER): detachable TYPE [EL_REFLECTED_REFERENCE [ANY]]
+		do
+			across Reference_group_table as table until attached Result loop
+				if Eiffel.type_conforms_to (type_id, table.key.type_id) then
+					across table.item as group until attached Result loop
+						if Eiffel.type_conforms_to (type_id, group.item.value_type.type_id) then
+							Result := group.item.generating_type
+						end
+					end
+				end
+			end
 		end
 
 feature {NONE} -- Constants
@@ -277,43 +320,9 @@ feature {NONE} -- Constants
 			Result := 100
 		end
 
-	Reference_type_tables: ARRAY [EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_REFERENCE [ANY]]]
+	Reference_group_table: EL_FUNCTION_GROUP_TABLE [EL_REFLECTED_REFERENCE [ANY], TYPE [ANY]]
 		once
-			Result := <<
-				String_type_table,
-				Boolean_ref_type_table,
-				Makeable_from_string_type_table,
-				String_convertable_type_table
-			>>
+			Result := new_reference_group_table
 		end
-
-	frozen Standard_field_types: ARRAY [TYPE [EL_REFLECTED_FIELD]]
-		-- standard expanded types
-		once
-			create Result.make_filled ({EL_REFLECTED_CHARACTER_8}, 0, 16)
-				-- Characters
-				Result [Character_8_type] := {EL_REFLECTED_CHARACTER_8}
-				Result [Character_32_type] := {EL_REFLECTED_CHARACTER_32}
-
-				-- Integers
-				Result [Integer_8_type] := {EL_REFLECTED_INTEGER_8}
-				Result [Integer_16_type] := {EL_REFLECTED_INTEGER_16}
-				Result [Integer_32_type] := {EL_REFLECTED_INTEGER_32}
-				Result [Integer_64_type] := {EL_REFLECTED_INTEGER_64}
-
-				-- Naturals
-				Result [Natural_8_type] := {EL_REFLECTED_NATURAL_8}
-				Result [Natural_16_type] := {EL_REFLECTED_NATURAL_16}
-				Result [Natural_32_type] := {EL_REFLECTED_NATURAL_32}
-				Result [Natural_64_type] := {EL_REFLECTED_NATURAL_64}
-
-				-- Reals
-				Result [Real_32_type] := {EL_REFLECTED_REAL_32}
-				Result [Real_64_type] := {EL_REFLECTED_REAL_64}
-
-				-- Others
-				Result [Boolean_type] := {EL_REFLECTED_BOOLEAN}
-				Result [Pointer_type] := {EL_REFLECTED_POINTER}
-			end
 
 end

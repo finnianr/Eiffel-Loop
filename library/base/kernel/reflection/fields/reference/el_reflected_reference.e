@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
-	revision: "33"
+	date: "2022-12-14 10:06:31 GMT (Wednesday 14th December 2022)"
+	revision: "34"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -25,9 +25,6 @@ inherit
 
 	EL_SHARED_FACTORIES
 
-create
-	make
-
 feature {EL_CLASS_META_DATA} -- Initialization
 
 	make (a_object: like enclosing_object; a_index: INTEGER; a_name: STRING)
@@ -40,11 +37,6 @@ feature {EL_CLASS_META_DATA} -- Initialization
 		end
 
 feature -- Access
-
-	generic_type: TYPE [ANY]
-		do
-			Result := {G}
-		end
 
 	size_of (a_object: EL_REFLECTIVE): INTEGER
 		-- size of field object
@@ -60,6 +52,11 @@ feature -- Access
 			else
 				Result := new_instance
 			end
+		end
+
+	value_type, group_type: TYPE [ANY]
+		do
+			Result := {G}
 		end
 
 feature -- Conversion

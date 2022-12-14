@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 10:10:07 GMT (Monday 12th December 2022)"
-	revision: "18"
+	date: "2022-12-13 16:26:42 GMT (Tuesday 13th December 2022)"
+	revision: "19"
 
 class
 	EL_REFLECTED_PATH
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REFLECTED_HASHABLE_REFERENCE [EL_PATH]
 		redefine
-			reset, set_from_readable, set_from_string, to_string, write
+			is_abstract, reset, set_from_readable, set_from_string, to_string, write
 		end
 
 	EL_ZSTRING_ROUTINES
@@ -78,5 +78,10 @@ feature -- Basic operations
 				writeable.write_string (path.base)
 			end
 		end
+
+feature {NONE} -- Constants
+
+	Is_abstract: BOOLEAN = True
+		-- `True' if field type is deferred
 
 end

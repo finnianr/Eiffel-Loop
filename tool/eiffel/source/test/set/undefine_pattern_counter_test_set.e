@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "18"
+	date: "2022-12-14 17:22:18 GMT (Wednesday 14th December 2022)"
+	revision: "19"
 
 class
 	UNDEFINE_PATTERN_COUNTER_TEST_SET
@@ -70,8 +70,8 @@ feature {NONE} -- Implementation
 
 	source_file_list: EL_FILE_PATH_LIST
 		do
-			Result := OS.file_list (Data_dir #+ "runtime/reflection/settable", "*.e")
-			Result.append (OS.file_list (Data_dir #+ "text/file-naming", "*.e"))
+			Result := OS.file_list (Data_dir #+ "kernel/reflection/settable", "*.e")
+			Result.append (OS.file_list (Data_dir #+ "text/file/naming", "*.e"))
 		end
 
 feature {NONE} -- Constants

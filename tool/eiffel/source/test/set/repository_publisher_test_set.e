@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 14:43:57 GMT (Tuesday 6th December 2022)"
-	revision: "50"
+	date: "2022-12-14 17:16:51 GMT (Wednesday 14th December 2022)"
+	revision: "51"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -141,7 +141,7 @@ feature {NONE} -- Events
 					OS.copy_tree (Dev_environ.Eiffel_loop_dir.joined_dir_steps (<< "doc", name.item >>), destination_dir.item)
 				end
 			end
-			list := "library/base/kernel, library/base/math, library/base/persistency, library/persistency/database/eco-db%
+			list := "library/base/kernel/base, library/base/math, library/base/persistency, library/persistency/database/eco-db%
 								%, library/text/rsa-encryption"
 			across list as dir loop
 				from steps := dir.item.twin until steps.is_empty loop
@@ -251,7 +251,7 @@ feature {NONE} -- Constants
 		local
 			l_dir: DIR_PATH
 		once
-			l_dir := "library/base/kernel/event"
+			l_dir := "library/base/kernel/base/event"
 			Result := [Work_area_dir #+ l_dir, Work_area_dir #+ "doc" #+ l_dir]
 		end
 

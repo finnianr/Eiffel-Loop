@@ -538,3 +538,6 @@ Compiled Evolicity with new fast patterns
 Thu 1st Dec 2022, 17:35:02
 Finished improved parser and pattern matching 2.0
 
+Mon 12th Dec 2022, 17:16:56
+Refactor for reflection factories and write method
+

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-11 18:37:49 GMT (Sunday 11th December 2022)"
-	revision: "1"
+	date: "2022-12-14 16:22:23 GMT (Wednesday 14th December 2022)"
+	revision: "2"
 
 class
 	EL_INITIALIZED_FIELD_FACTORY
@@ -15,7 +15,7 @@ class
 inherit
 	EL_INITIALIZED_OBJECT_FACTORY [EL_REFLECTED_FIELD_FACTORY [EL_REFLECTED_FIELD], EL_REFLECTED_FIELD]
 		export
-			{NONE}
+			{NONE} all
 		end
 
 feature -- Factory
@@ -27,7 +27,7 @@ feature -- Factory
 			if attached new_factory (type.type_id) as factory then
 				Result := factory.new_item (a_object, a_index, a_name)
 			else
-				create {EL_REFLECTED_REFERENCE [ANY]} Result.make (a_object, a_index, a_name)
+				create {EL_REFLECTED_REFERENCE_ANY} Result.make (a_object, a_index, a_name)
 			end
 		end
 end

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2022-12-14 12:24:27 GMT (Wednesday 14th December 2022)"
+	revision: "9"
 
 class
 	TEXT_TEST_SET
@@ -15,7 +15,9 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_FORMAT
+	EL_MODULE_CONVERT_STRING; EL_MODULE_FORMAT; EL_MODULE_LIO
+
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 	EL_SHARED_TEST_TEXT
 
@@ -23,13 +25,59 @@ feature -- Basic operations
 
 	do_all (eval: EL_TEST_SET_EVALUATOR)
 		do
-			eval.call ("integer_format", agent test_integer_format)
 			eval.call ("bash_escape", agent test_bash_escape)
+			eval.call ("convert_string_type_descriptions", agent test_convert_string_type_descriptions)
+			eval.call ("convert_string_to_makeable", agent test_convert_string_to_makeable)
+			eval.call ("integer_format", agent test_integer_format)
 			eval.call ("substitution_marker_unescape", agent test_substitution_marker_unescape)
 			eval.call ("unescape", agent test_unescape)
 		end
 
 feature -- Tests
+
+	test_bash_escape
+		local
+			bash_escaper: EL_BASH_PATH_ZSTRING_ESCAPER; bash_escaper_32: EL_BASH_PATH_STRING_32_ESCAPER
+		do
+			create bash_escaper.make; create bash_escaper_32.make
+			escape_test ("BASH", bash_escaper, bash_escaper_32)
+		end
+
+	test_convert_string_to_makeable
+		-- TEXT_TEST_SET.test_convert_string_to_makeable
+		note
+			testing:	"covers/{EL_STRING_CONVERSION_TABLE}.is_convertible",
+			 	"covers/{EL_STRING_CONVERSION_TABLE}.make_from_zcode_area"
+		local
+			encoding: EL_ENCODING; uuid: EL_UUID
+			name: IMMUTABLE_STRING_8; uuid_string: STRING
+		do
+			name := "UTF-8"
+			create encoding.make_from_name (name)
+			assert ("is convertible", Convert_string.is_convertible (name, encoding.generating_type))
+			assert ("same encoding", encoding ~ Convert_string.to_type (name, encoding.generating_type))
+
+			create uuid.make_from_string ("A325754F-7BEB-44B6-937C-CC7EBDDA764F")
+			uuid_string := uuid.to_string
+			assert ("is convertible", Convert_string.is_convertible (uuid_string, uuid.generating_type))
+			assert ("same uuid", uuid ~ Convert_string.to_type (uuid_string, uuid.generating_type))
+		end
+
+	test_convert_string_type_descriptions
+		note
+			testing: "covers/{EL_READABLE_STRING_GENERAL_TO_TYPE}.new_type_description"
+		do
+			if attached crc_generator as crc then
+				output_type_descriptions (crc)
+				lio.put_natural_field ("Checksum", crc.checksum)
+				lio.put_new_line
+				if crc.checksum = 176473444 then
+					assert ("Expected descriptions", True)
+				else
+					output_type_descriptions (Void)
+				end
+			end
+		end
 
 	test_integer_format
 		local
@@ -52,18 +100,6 @@ feature -- Tests
 				end
 			end
 		end
-
-feature -- Escape tests
-
-	test_bash_escape
-		local
-			bash_escaper: EL_BASH_PATH_ZSTRING_ESCAPER; bash_escaper_32: EL_BASH_PATH_STRING_32_ESCAPER
-		do
-			create bash_escaper.make; create bash_escaper_32.make
-			escape_test ("BASH", bash_escaper, bash_escaper_32)
-		end
-
-feature -- Unescape tests
 
 	test_substitution_marker_unescape
 		note
@@ -139,6 +175,18 @@ feature {NONE} -- Implementation
 			Result ['и'] := 'N'
  		end
 
+	output_type_descriptions (crc_check: detachable EL_CYCLIC_REDUNDANCY_CHECK_32)
+		do
+			across Convert_string.type_list as list loop
+				if attached Convert_string.type_descripton (list.item) as description then
+					if attached crc_check as crc then
+						crc.add_string_8 (description)
+					else
+						lio.put_line (description)
+					end
+				end
+			end
+		end
 feature {NONE} -- Constants
 
 	Substitution_mark_unescaper: EL_ZSTRING_UNESCAPER

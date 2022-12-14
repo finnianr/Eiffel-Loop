@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 10:42:48 GMT (Monday 12th December 2022)"
-	revision: "14"
+	date: "2022-12-14 12:34:36 GMT (Wednesday 14th December 2022)"
+	revision: "15"
 
 class
 	EL_REFLECTED_STORABLE
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REFLECTED_REFERENCE [EL_STORABLE]
 		redefine
-			 to_string, set_from_string, set_from_memory, write, write_to_memory
+			is_abstract, to_string, set_from_string, set_from_memory, write, write_to_memory
 		end
 
 	EL_STORABLE_HANDLER undefine is_equal end
@@ -100,6 +100,9 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Is_abstract: BOOLEAN = True
+		-- `True' if field type is deferred
 
 	Memory_buffer: MANAGED_POINTER
 		once

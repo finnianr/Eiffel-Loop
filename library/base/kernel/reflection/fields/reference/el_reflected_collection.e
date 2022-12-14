@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
-	revision: "20"
+	date: "2022-12-13 16:25:32 GMT (Tuesday 13th December 2022)"
+	revision: "21"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -17,7 +17,7 @@ inherit
 		rename
 			value as collection
 		redefine
-			make, new_factory, set_from_memory, set_from_string, to_string, write
+			make, is_abstract, is_storable_type, new_factory, set_from_memory, set_from_string, to_string, write
 		end
 
 	EL_MODULE_CONVERT_STRING; EL_MODULE_REUSEABLE
@@ -184,6 +184,12 @@ feature {NONE} -- Internal attributes
 		-- item reader/writer
 
 feature {NONE} -- Constants
+
+	Is_abstract: BOOLEAN = True
+		-- `True' if field type is deferred
+
+	Is_storable_type: BOOLEAN = False
+		-- is type storable using `EL_STORABLE' interface
 
 	Item_reader_writer_table: HASH_TABLE [EL_READER_WRITER_INTERFACE [ANY], INTEGER]
 		local

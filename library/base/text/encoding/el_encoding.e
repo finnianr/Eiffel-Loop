@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-22 10:46:13 GMT (Tuesday 22nd November 2022)"
-	revision: "10"
+	date: "2022-12-14 9:40:44 GMT (Wednesday 14th December 2022)"
+	revision: "11"
 
 class
 	EL_ENCODING
@@ -27,7 +27,7 @@ inherit
 	EL_STRING_8_CONSTANTS
 
 create
-	make_default, make, make_from_name, make_from_other
+	make_default, make, make_from_general, make_from_name, make_from_other
 
 convert
 	make_from_other ({EL_ENCODING_BASE})

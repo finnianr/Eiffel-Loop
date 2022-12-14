@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 14:00:10 GMT (Monday 12th December 2022)"
-	revision: "63"
+	date: "2022-12-14 12:50:07 GMT (Wednesday 14th December 2022)"
+	revision: "64"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -30,7 +30,7 @@ inherit
 		export
 			{EL_MEMORY_READER_WRITER} make_default, generating_type
 		redefine
-			is_equal, new_meta_data, use_default_values
+			is_equal, make_default, new_meta_data, use_default_values
 		end
 
 	EL_CSV_CONVERTABLE
@@ -38,6 +38,15 @@ inherit
 	EL_MODULE_BUFFER; EL_MODULE_EXECUTABLE; EL_MODULE_LIO; EL_MODULE_REUSEABLE
 
 	EL_SHARED_CLASS_ID; EL_SHARED_FACTORIES
+
+feature {NONE} -- Initialization
+
+	make_default
+		do
+			Precursor
+		ensure then
+			all_fields_storable: all_fields_storable
+		end
 
 feature -- Basic operations
 
@@ -147,7 +156,7 @@ feature -- Comparison
 			Result := all_fields_equal (other)
 		end
 
-feature {EL_STORABLE_CLASS_META_DATA} -- Access
+feature {EL_CLASS_META_DATA} -- Access
 
 	field_hash: NATURAL
 		-- CRC checksum for field names and types of generating type
@@ -155,6 +164,16 @@ feature {EL_STORABLE_CLASS_META_DATA} -- Access
 		end
 
 feature {NONE} -- Implementation
+
+	all_fields_storable: BOOLEAN
+		do
+			Result := True
+			across field_table as table until not Result loop
+				if attached {EL_REFLECTED_REFERENCE [ANY]} table.item as ref_item then
+					Result := is_storable_field (ref_item.category_id, ref_item.type_id)
+				end
+			end
+		end
 
 	attribute_line_index (field: EL_REFLECTED_FIELD): INTEGER
 		do
@@ -186,7 +205,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_meta_data: EL_STORABLE_CLASS_META_DATA
+	new_meta_data: EL_CLASS_META_DATA
 		local
 			exception: POSTCONDITION_VIOLATION; field_structure_error: STRING
 		do

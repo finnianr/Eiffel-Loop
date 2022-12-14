@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2022-12-14 9:40:29 GMT (Wednesday 14th December 2022)"
+	revision: "15"
 
 class
 	AIA_CREDENTIAL_ID
@@ -29,9 +29,9 @@ inherit
 		undefine
 			is_equal
 		end
-		
+
 create
-	make, make_default
+	make, make_default, make_from_general
 
 feature {NONE} -- Initialization
 

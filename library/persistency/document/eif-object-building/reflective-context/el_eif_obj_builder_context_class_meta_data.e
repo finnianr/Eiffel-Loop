@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-11 14:33:38 GMT (Sunday 11th December 2022)"
-	revision: "11"
+	date: "2022-12-14 12:42:16 GMT (Wednesday 14th December 2022)"
+	revision: "12"
 
 class
 	EL_EIF_OBJ_BUILDER_CONTEXT_CLASS_META_DATA
@@ -15,7 +15,7 @@ class
 inherit
 	EL_CLASS_META_DATA
 		redefine
-			Reference_type_tables
+			extend_group_ordering, extend_field_types, Reference_group_table
 		end
 
 	EL_EIF_OBJ_BUILDER_CONTEXT_TYPE_CONSTANTS
@@ -23,17 +23,28 @@ inherit
 create
 	make
 
+feature {NONE} -- Implementation
+
+	extend_group_ordering (order_table: like Group_type_order_table)
+		local
+			order_no: INTEGER
+		once
+			order_no := order_table [{EL_MAKEABLE_FROM_STRING [STRING_GENERAL]}]  + 2
+
+			order_table [{EL_EIF_OBJ_BUILDER_CONTEXT}] := order_no
+			order_table [{COLLECTION [EL_EIF_OBJ_BUILDER_CONTEXT]}] := order_no
+		end
+
+	extend_field_types (a_field_list: like Reference_field_list)
+		once
+			a_field_list.append_sequence (new_reference_field_list (extra_field_types))
+		end
+
 feature {NONE} -- Constants
 
-	Reference_type_tables: ARRAY [EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_REFERENCE [ANY]]]
+	Reference_group_table: EL_FUNCTION_GROUP_TABLE [EL_REFLECTED_REFERENCE [ANY], TYPE [ANY]]
 		once
-			Result := <<
-				String_type_table,
-				Boolean_ref_type_table,
-				Makeable_from_string_type_table,
-				String_convertable_type_table,
-				Eiffel_object_builder_type_table
-			>>
+			Result := new_reference_group_table
 		end
 
 end
