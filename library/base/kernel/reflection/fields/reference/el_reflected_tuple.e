@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-13 16:43:00 GMT (Tuesday 13th December 2022)"
-	revision: "24"
+	date: "2022-12-16 17:08:57 GMT (Friday 16th December 2022)"
+	revision: "25"
 
 class
 	EL_REFLECTED_TUPLE
@@ -65,7 +65,9 @@ feature -- Basic operations
 
 	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
 		do
+			str.append_character_8 ('[')
 			write (a_object, str)
+			str.append_character_8 (']')
 		end
 
 	reset (a_object: EL_REFLECTIVE)
@@ -92,7 +94,15 @@ feature -- Basic operations
 			valid_comma_count: (csv_list.occurrences (',') + 1) = member_types.count
 		do
 			if attached value (a_object) as l_tuple then
-				Convert_string.fill_tuple (l_tuple, csv_list, True)
+				if csv_list.count > 2 and then csv_list [1] = '[' and then csv_list [csv_list.count] = ']' then
+					across Reuseable.string as reuse loop
+						if attached reuse.substring_item (csv_list, 2, csv_list.count - 1) as stripped then
+							Convert_string.fill_tuple (l_tuple, stripped, True)
+						end
+					end
+				else
+					Convert_string.fill_tuple (l_tuple, csv_list, True)
+				end
 			end
 		ensure then
 			set: lists_match (csv_list, to_string (a_object))
@@ -119,7 +129,9 @@ feature -- Conversion
 			if attached value (a_object) as l_tuple then
 				across Reuseable.string as reuse loop
 					if attached reuse.item as str then
+						str.append_character_8 ('[')
 						Tuple.write_with_comma (l_tuple, str, True)
+						str.append_character_8 (']')
 						if member_types.is_latin_1_representable then
 							Result := str.to_latin_1
 						else

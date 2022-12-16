@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-14 11:53:00 GMT (Wednesday 14th December 2022)"
-	revision: "20"
+	date: "2022-12-16 14:46:52 GMT (Friday 16th December 2022)"
+	revision: "21"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -36,25 +36,23 @@ feature {NONE} -- Initialization
 
 feature -- Type sets
 
-	unicode_types: ARRAY [INTEGER]
-		-- set of types containing character data from the Unicode character set
-
 	character_data_types: ARRAY [INTEGER]
 		-- set of types containing character data
 
+	path_types : ARRAY [INTEGER]
+
 	readable_string_8_types: ARRAY [INTEGER]
 
-	path_types : ARRAY [INTEGER]
+	unicode_types: ARRAY [INTEGER]
+		-- set of types containing character data from the Unicode character set
 
 feature -- CHARACTER types
 
-	CHARACTER_8: INTEGER
-
 	CHARACTER_32: INTEGER
 
-feature -- INTEGER types
+	CHARACTER_8: INTEGER
 
-	INTEGER_8: INTEGER
+feature -- INTEGER types
 
 	INTEGER_16: INTEGER
 
@@ -62,15 +60,17 @@ feature -- INTEGER types
 
 	INTEGER_64: INTEGER
 
-feature -- NATURAL types
+	INTEGER_8: INTEGER
 
-	NATURAL_8: INTEGER
+feature -- NATURAL types
 
 	NATURAL_16: INTEGER
 
 	NATURAL_32: INTEGER
 
 	NATURAL_64: INTEGER
+
+	NATURAL_8: INTEGER
 
 feature -- REAL types
 
@@ -80,19 +80,19 @@ feature -- REAL types
 
 feature -- String types
 
-	IMMUTABLE_STRING_8: INTEGER
+	EL_ZSTRING: INTEGER
 
-	STRING_8: INTEGER
+	IMMUTABLE_STRING_8: INTEGER
 
 	STRING_32: INTEGER
 
-	EL_ZSTRING: INTEGER
+	STRING_8: INTEGER
 
 feature -- Path types
 
-	EL_FILE_PATH: INTEGER
-
 	EL_DIR_PATH: INTEGER
+
+	EL_FILE_PATH: INTEGER
 
 	EL_PATH: INTEGER
 
@@ -126,25 +126,31 @@ feature -- Parameterized
 			Result := ({COLLECTION [ANY]}).type_id
 		end
 
+feature -- Eiffel-Loop types
+
 	EL_MAKEABLE_FROM_STRING: INTEGER
 		once
 			Result := ({EL_MAKEABLE_FROM_STRING [STRING_GENERAL]}).type_id
 		end
-	
+
+	EL_BOOLEAN_OPTION: INTEGER
+
+	EL_MAKEABLE: INTEGER
+
+	EL_QUANTITY_TEMPLATE: INTEGER
+
+	EL_REFLECTIVE: INTEGER
+
+	EL_STORABLE: INTEGER
+
 feature -- Other types
 
 	ANY: INTEGER
 
 	BOOLEAN: INTEGER
 
-	EL_BOOLEAN_OPTION: INTEGER
-
 	DATE_TIME: INTEGER
 
-	EL_MAKEABLE: INTEGER
-
 	TUPLE: INTEGER
-
-	EL_QUANTITY_TEMPLATE: INTEGER
 
 end

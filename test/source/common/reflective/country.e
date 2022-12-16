@@ -1,24 +1,28 @@
 note
-	description: "Test for reflective classes [$source EL_REFLECTIVELY_SETTABLE] and [$source EL_SETTABLE_FROM_ZSTRING]"
+	description: "[
+		Test for reflective classes [$source EL_REFLECTIVELY_SETTABLE] and [$source EL_SETTABLE_FROM_ZSTRING]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-11 10:49:06 GMT (Sunday 11th December 2022)"
-	revision: "31"
+	date: "2022-12-16 9:10:08 GMT (Friday 16th December 2022)"
+	revision: "32"
 
 class
 	COUNTRY
 
 inherit
-	EL_REFLECTIVELY_SETTABLE
+	EL_REFLECTIVELY_SETTABLE_STORABLE
 		rename
-			field_included as is_any_field,
-			foreign_naming as eiffel_naming
+			foreign_naming as eiffel_naming,
+			read_version as read_default_version
+		export
+			{ANY} field_table
 		redefine
-			new_representations, make_default
+			make_default, new_representations
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
@@ -69,7 +73,7 @@ feature -- Access
 
 	population: INTEGER
 
-	province_list: ARRAYED_LIST [STRING]
+	province_list: ARRAYED_LIST [PROVINCE]
 
 	temperature_range: TUPLE [winter, summer: INTEGER; unit_name: STRING]
 
@@ -156,4 +160,7 @@ feature {NONE} -- Reflection
 			>>)
 		end
 
+feature {NONE} -- Constants
+
+	Field_hash: NATURAL_32 = 2318316378
 end

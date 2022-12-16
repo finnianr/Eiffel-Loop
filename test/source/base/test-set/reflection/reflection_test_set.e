@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-13 9:10:50 GMT (Tuesday 13th December 2022)"
-	revision: "35"
+	date: "2022-12-16 9:33:20 GMT (Friday 16th December 2022)"
+	revision: "36"
 
 class
 	REFLECTION_TEST_SET
@@ -19,7 +19,7 @@ inherit
 
 	EL_SHARED_CURRENCY_ENUM
 
-	JSON_TEST_DATA; STORABLE_COUNTRY_TEST_DATA
+	JSON_TEST_DATA; COUNTRY_TEST_DATA
 
 	EL_REFLECTION_CONSTANTS
 
@@ -125,25 +125,23 @@ feature -- Tests
 		note
 			testing: "covers/{EL_SETTABLE_FROM_STRING}.make_from_table, covers/{EL_CAMEL_CASE_TRANSLATER}.imported"
 		local
-			country: CAMEL_CASE_COUNTRY; table: like Value_table
+			country: CAMEL_CASE_COUNTRY; table: like Country_table
 		do
-			create table.make_with_count (Value_table.count)
-			table.merge (Value_table)
+			create table.make_with_count (Country_table.count)
+			table.merge (Country_table)
 			table.replace_key ("literacyRate", "literacy_rate")
 			table.replace_key ("photoJpeg", "photo_jpeg")
 			table.replace_key ("euroZoneMember", "euro_zone_member")
 			create country.make (table)
+			country.province_list.copy (new_country.province_list)
 			check_values (country)
 		end
 
 	test_object_initialization_from_table
 		note
 			testing: "covers/{EL_SETTABLE_FROM_STRING}.make_from_table"
-		local
-			country: COUNTRY
 		do
-			create country.make (Value_table)
-			check_values (country)
+			check_values (new_country)
 		end
 
 	test_reference_field_list
@@ -192,15 +190,15 @@ feature -- Tests
 		note
 			testing: "covers/{EL_REFLECTIVE}.set_from_other"
 		local
-			country: COUNTRY; country_2: STORABLE_COUNTRY
+			country: COUNTRY; country_2: COUNTRY
 		do
-			create country.make (Value_table)
+			country := new_country
 			create country_2.make_default
 			country_2.set_from_other (country, "continent, population")
 			assert ("continent is empty", country_2.continent.is_empty)
 			assert ("population is zero", country_2.population = 0)
-			country_2.set_continent (Value_table ["continent"])
-			country_2.set_population (Value_table ["population"].to_integer)
+			country_2.set_continent (Country_table ["continent"])
+			country_2.set_population (Country_table ["population"].to_integer)
 			check_values (country_2)
 
 			create country_2.make_default

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-11 10:45:25 GMT (Sunday 11th December 2022)"
-	revision: "11"
+	date: "2022-12-16 10:19:06 GMT (Friday 16th December 2022)"
+	revision: "12"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_FILE_DATA_TEST_SET
 
-	STORABLE_COUNTRY_TEST_DATA
+	COUNTRY_TEST_DATA
 
 	EL_SHARED_CURRENCY_ENUM
 
@@ -24,8 +24,8 @@ feature -- Basic operations
 	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("read_write", agent test_read_write)
 			eval.call ("collection_read_write", agent test_collection_read_write)
+			eval.call ("read_write", agent test_read_write)
 		end
 
 feature -- Tests
@@ -36,15 +36,14 @@ feature -- Tests
 			testing: "covers/{EL_MEMORY_READER_WRITER}.read_string",
 					"covers/{EL_MEMORY_READER_WRITER}.write_string",
 					"covers/{EL_REFLECTED_COLLECTION}.write"
-		local
-			country: STORABLE_COUNTRY
 		do
-			create country.make (Value_table)
-			check_values (country)
-			if attached {STORABLE_COUNTRY} restored_object (country, Country_reader_writer) as restored then
-				check_values (restored)
-			else
-				assert ("country restored", False)
+			if attached new_country as country then
+				check_values (country)
+				if attached {COUNTRY} restored_object (country, Country_reader_writer) as restored then
+					check_values (restored)
+				else
+					assert ("country restored", False)
+				end
 			end
 		end
 
@@ -102,7 +101,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Country_reader_writer: ECD_READER_WRITER [STORABLE_COUNTRY]
+	Country_reader_writer: ECD_READER_WRITER [COUNTRY]
 		once
 			create Result.make
 		end

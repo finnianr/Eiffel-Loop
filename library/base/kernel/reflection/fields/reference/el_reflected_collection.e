@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-13 16:25:32 GMT (Tuesday 13th December 2022)"
-	revision: "21"
+	date: "2022-12-16 18:34:25 GMT (Friday 16th December 2022)"
+	revision: "22"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -17,10 +17,13 @@ inherit
 		rename
 			value as collection
 		redefine
-			make, is_abstract, is_storable_type, new_factory, set_from_memory, set_from_string, to_string, write
+			append_to_string, make, is_abstract, is_storable_type, new_factory,
+			set_from_memory, set_from_string, to_string, write
 		end
 
 	EL_MODULE_CONVERT_STRING; EL_MODULE_REUSEABLE
+
+	EL_STRING_8_CONSTANTS
 
 	EL_SHARED_CLASS_ID
 
@@ -39,10 +42,20 @@ feature {NONE} -- Initialization
 				and then attached {EL_READER_WRITER_INTERFACE [G]} Item_reader_writer_table.found_item as found_item
 			then
 				reader_writer := found_item
+
+			elseif attached storable_reader_writer_factory as reader_writer_factory
+				and then attached {EL_READER_WRITER_INTERFACE [G]} reader_writer_factory.new_item as new
+			then
+				reader_writer := new
+				Item_reader_writer_table.extend (new, item_type_id)
 			end
 		ensure then
 			valid_reader_writer: attached reader_writer as rw implies rw.item_type ~ {G}
 		end
+
+feature -- Access
+
+	item_type_id: INTEGER
 
 feature -- Conversion
 
@@ -61,7 +74,29 @@ feature -- Status query
 			Result := Class_id.Character_data_types.has (item_type_id)
 		end
 
+	is_reflective_item: BOOLEAN
+		do
+			Result := Eiffel.type_conforms_to (item_type_id, Class_id.EL_REFLECTIVE)
+		end
+
 feature -- Basic operations
+
+	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
+		local
+			i: INTEGER
+		do
+			if attached {ITERABLE [G]} collection (a_object) as reflective_list then
+				across reflective_list as list loop
+					i := i + 1
+					if i > 1 then
+						str.append_string_general (Comma_space)
+					end
+					if attached reader_writer as writer then
+						writer.write (list.item, str)
+					end
+				end
+			end
+		end
 
 	extend_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
 		do
@@ -70,6 +105,25 @@ feature -- Basic operations
 
 			elseif attached {G} Convert_string.to_type_of_type (readable.read_string, item_type_id) as new then
 				collection (a_object).extend (new)
+			end
+		end
+
+	print_items (a_object: EL_REFLECTIVE; a_lio: EL_LOGGABLE)
+		require
+			reflective_item: is_reflective_item
+		local
+			i: INTEGER
+		do
+			if attached {ITERABLE [EL_REFLECTIVE]} collection (a_object) as reflective_list then
+				across reflective_list as list loop
+					i := i + 1
+					a_lio.put_labeled_substitution (name, "[%S]", [i])
+					a_lio.tab_right
+					a_lio.put_new_line
+					list.item.print_fields (a_lio)
+					a_lio.tab_left
+					a_lio.put_new_line
+				end
 			end
 		end
 
@@ -139,6 +193,13 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	storable_reader_writer_factory: detachable like Storable_reader_writer_factory_factory.new_item_factory
+		do
+			if Eiffel.type_conforms_to (item_type_id, Class_id.EL_STORABLE) then
+				Result := Storable_reader_writer_factory_factory.new_item_factory (item_type_id)
+			end
+		end
+
 	reader_writer_types: TUPLE [
 		EL_BOOLEAN_READER_WRITER,
 
@@ -152,7 +213,8 @@ feature {NONE} -- Implementation
 
 		EL_REAL_32_READER_WRITER, EL_REAL_64_READER_WRITER,
 
-		EL_ZSTRING_READER_WRITER, EL_STRING_8_READER_WRITER, EL_STRING_32_READER_WRITER
+		EL_STRING_8_READER_WRITER, EL_STRING_32_READER_WRITER,
+		EL_ZSTRING_READER_WRITER
 	]
 		do
 			create Result
@@ -178,8 +240,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	item_type_id: INTEGER
-
 	reader_writer: detachable EL_READER_WRITER_INTERFACE [G]
 		-- item reader/writer
 
@@ -204,6 +264,14 @@ feature {NONE} -- Constants
 			end
 			-- Might also handle `COLLECTION [INTEGER_X]' from encryption.ecf for example
 			Result.merge (Reader_writer_table)
+		end
+
+	Storable_reader_writer_factory_factory: EL_INITIALIZED_OBJECT_FACTORY [
+		EL_STORABLE_READER_WRITER_FACTORY [EL_STORABLE, EL_STORABLE_READER_WRITER [EL_STORABLE]],
+		EL_STORABLE_READER_WRITER [EL_STORABLE]
+	]
+		once
+			create Result
 		end
 
 end

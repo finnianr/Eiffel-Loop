@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "23"
+	date: "2022-12-16 16:33:09 GMT (Friday 16th December 2022)"
+	revision: "24"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -290,8 +290,6 @@ feature {NONE} -- Constants
 		once
 			Result := << ",a,b,c,", "a,b,c", " a, b , c ", "" >>
 		end
-
-	Comma_space: STRING = ", "
 
 	Numbers: STRING = "one,two,three"
 

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2022-12-15 8:44:43 GMT (Thursday 15th December 2022)"
+	revision: "8"
 
 class
 	MY_DRY_CLASS

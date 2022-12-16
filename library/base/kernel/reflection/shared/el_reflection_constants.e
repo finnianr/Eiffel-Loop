@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-14 13:25:51 GMT (Wednesday 14th December 2022)"
-	revision: "42"
+	date: "2022-12-16 8:34:42 GMT (Friday 16th December 2022)"
+	revision: "43"
 
 deferred class
 	EL_REFLECTION_CONSTANTS

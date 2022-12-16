@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
-	revision: "29"
+	date: "2022-12-16 16:34:01 GMT (Friday 16th December 2022)"
+	revision: "30"
 
 class
 	EL_TUPLE_ROUTINES
@@ -18,11 +18,11 @@ class
 inherit
 	ANY
 
-	EL_MODULE_EIFFEL
-
-	EL_MODULE_CONVERT_STRING
+	EL_MODULE_CONVERT_STRING; EL_MODULE_EIFFEL
 
 	EL_SHARED_CLASS_ID
+
+	EL_STRING_8_CONSTANTS
 
 create
 	make
@@ -357,9 +357,4 @@ feature -- Contract Support
 			end
 		end
 
-feature {NONE} -- Constants
-
-	Comma_space: STRING = ", "
-
-	Comma_only: STRING = ","
 end

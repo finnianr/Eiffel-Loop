@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-14 17:29:36 GMT (Wednesday 14th December 2022)"
-	revision: "61"
+	date: "2022-12-16 18:45:08 GMT (Friday 16th December 2022)"
+	revision: "62"
 
 class
 	EL_CLASS_META_DATA
@@ -31,13 +31,11 @@ inherit
 			actual_item as actual_alphabetical_list
 		end
 
-	EL_MODULE_EIFFEL; EL_MODULE_NAMING
+	EL_MODULE_EIFFEL; EL_MODULE_NAMING; EL_MODULE_REUSEABLE
 
 	EL_REFLECTION_CONSTANTS
 
 	EL_REFLECTION_HANDLER
-
-	EL_STRING_8_CONSTANTS
 
 	EL_SHARED_NEW_INSTANCE_TABLE; EL_SHARED_READER_WRITER_TABLE
 
@@ -88,27 +86,13 @@ feature -- Basic operations
 
 	print_fields (a_object: EL_REFLECTIVE; a_lio: EL_LOGGABLE)
 		local
-			name: STRING; value: ZSTRING; l_field: EL_REFLECTED_FIELD
-			line_length, length: INTEGER
+			line_length: INTEGER_REF
 		do
-			create value.make_empty
+			create line_length
 			if attached cached_field_indices_set.item (enclosing_object.Hidden_fields) as hidden then
-				across field_list as fld loop
-					l_field := fld.item
-					if not hidden.has (l_field.index) then
-						name := l_field.name
-						value.wipe_out
-						value.append_string_general (l_field.to_string (a_object))
-						length := name.count + value.count + 2
-						if line_length > 0 then
-							a_lio.put_string (", ")
-							if line_length + length > Info_line_length then
-								a_lio.put_new_line
-								line_length := 0
-							end
-						end
-						a_lio.put_labeled_string (name, value)
-						line_length := line_length + length
+				across field_list as list loop
+					if not hidden.has (list.item.index) then
+						print_field_value (a_object, list.item, line_length, a_lio)
 					end
 				end
 			end
@@ -271,14 +255,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	matched_collection_factory (type_id: INTEGER): detachable like Collection_field_factory.new_item_factory
+	matched_collection_factory (type_id: INTEGER): detachable like Collection_field_factory_factory.new_item_factory
 		local
 			item_type_id: INTEGER
 		do
 			if Eiffel.type_conforms_to (type_id, Class_id.COLLECTION_ANY) then
 				item_type_id := Eiffel.collection_item_type (type_id)
 				if item_type_id > 0 then
-					Result := Collection_field_factory.new_item_factory (item_type_id)
+					Result := Collection_field_factory_factory.new_item_factory (item_type_id)
 				end
 			end
 		end
@@ -296,9 +280,40 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	print_field_value (a_object: EL_REFLECTIVE; a_field: EL_REFLECTED_FIELD; line_length: INTEGER_REF; a_lio: EL_LOGGABLE)
+		local
+			length: INTEGER; value: ZSTRING; exceeded_maximum: BOOLEAN
+		do
+			if attached {EL_REFLECTED_COLLECTION [ANY]} a_field as collection
+				and then Eiffel.type_conforms_to (collection.item_type_id, Class_id.EL_REFLECTIVE)
+			then
+				line_length.set_item (0)
+				a_lio.put_new_line
+				collection.print_items (a_object, a_lio)
+			else
+				across Reuseable.string as reuse loop
+					value := reuse.item
+					a_field.append_to_string (a_object, value)
+					length := a_field.name.count + value.count + 2
+					if line_length.item > 0 then
+						exceeded_maximum := line_length.item + length > Info_line_length
+						if not exceeded_maximum then
+							a_lio.put_character (';'); a_lio.put_character (' ')
+						end
+						if exceeded_maximum then
+							a_lio.put_new_line
+							line_length.set_item (0)
+						end
+					end
+					a_lio.put_labeled_string (a_field.name, value)
+					line_length.set_item (line_length.item + length)
+				end
+			end
+		end
+
 feature {NONE} -- Constants
 
-	Collection_field_factory: EL_INITIALIZED_OBJECT_FACTORY [
+	Collection_field_factory_factory: EL_INITIALIZED_OBJECT_FACTORY [
 		EL_REFLECTED_COLLECTION_FACTORY [ANY, EL_REFLECTED_COLLECTION [ANY]], EL_REFLECTED_COLLECTION [ANY]
 	]
 		once
