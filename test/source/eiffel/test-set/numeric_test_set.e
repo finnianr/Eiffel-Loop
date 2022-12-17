@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-18 6:19:03 GMT (Friday 18th November 2022)"
-	revision: "8"
+	date: "2022-12-17 10:06:22 GMT (Saturday 17th December 2022)"
+	revision: "9"
 
 class
 	NUMERIC_TEST_SET
@@ -29,10 +29,35 @@ feature -- Basic operations
 	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("double_string_conversion", agent test_double_string_conversion)
 		end
 
 feature -- Tests
 
+	test_double_string_conversion
+		-- NUMERIC_TEST_SET.test_double_string_conversion
+		local
+			d1, d2, r64: DOUBLE; r32: REAL
+			n: INTEGER
+		do
+			d1 := 3.3;
+			across << "3.3000000000000003", "3.3" >> as str loop
+				d2 := str.item.to_double
+				if str.cursor_index = 1 then
+					assert ("same number", d1 /= d2)
+				else
+					assert ("same number", d1 = d2)
+				end
+			end
+			n := 1
+			across 1 |..| 9 as i loop
+				r64 := n.to_double + (1 / i.item); r32 := r64.truncated_to_real
+
+				lio.put_labeled_substitution (i.item.out, "double: %S real: %S", [r64, r32])
+				lio.put_new_line
+				n := n * 10
+			end
+		end
 
 feature -- Basic operations
 

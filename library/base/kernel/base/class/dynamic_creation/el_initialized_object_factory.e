@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-10 10:06:08 GMT (Saturday 10th December 2022)"
-	revision: "3"
+	date: "2022-12-17 9:03:02 GMT (Saturday 17th December 2022)"
+	revision: "4"
 
 class
 	EL_INITIALIZED_OBJECT_FACTORY [F -> EL_FACTORY [G], G]
@@ -55,7 +55,7 @@ feature -- Status query
 
 	is_valid_type (type_id: INTEGER): BOOLEAN
 		do
-			Result := Eiffel.type_conforms_to (type_id, ({G}).type_id)
+			Result := {ISE_RUNTIME}.type_conforms_to (type_id, ({G}).type_id)
 		end
 
 feature {NONE} -- Implementation

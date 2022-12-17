@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-14 12:41:31 GMT (Wednesday 14th December 2022)"
-	revision: "12"
+	date: "2022-12-17 8:56:32 GMT (Saturday 17th December 2022)"
+	revision: "13"
 
 class
 	EL_TUPLE_TYPE_LIST [T]
@@ -20,8 +20,6 @@ inherit
 		redefine
 			make_from_array
 		end
-
-	EL_MODULE_EIFFEL
 
 create
 	make, make_from_static, make_from_tuple, make_from_array
@@ -78,7 +76,7 @@ feature -- Status query
 
 	has_conforming (type_id: INTEGER): BOOLEAN
 		do
-			Result := across Current as list some Eiffel.type_conforms_to (type_id, list.item.type_id)  end
+			Result := across Current as list some {ISE_RUNTIME}.type_conforms_to (type_id, list.item.type_id)  end
 		end
 
 feature -- Basic operations

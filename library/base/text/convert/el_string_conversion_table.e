@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-14 12:08:51 GMT (Wednesday 14th December 2022)"
-	revision: "16"
+	date: "2022-12-17 9:01:34 GMT (Saturday 17th December 2022)"
+	revision: "17"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -102,7 +102,7 @@ feature -- Status query
 			if has_key (type_id) then
 				Result := found_item.is_convertible (s)
 			else
-				Result := Eiffel.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING)
+				Result := {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING)
 			end
 		end
 
@@ -199,7 +199,7 @@ feature -- Basic operations
 			if has_key (type_id) then
 				Result := found_item.as_type (str)
 
-			elseif Eiffel.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING)
+			elseif {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING)
 				and then attached Makeable_from_string_factory.new_item_factory (type_id) as factory
 			then
 				if attached {STRING_GENERAL} str as general then

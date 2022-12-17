@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-16 18:45:08 GMT (Friday 16th December 2022)"
-	revision: "62"
+	date: "2022-12-17 9:04:37 GMT (Saturday 17th December 2022)"
+	revision: "63"
 
 class
 	EL_CLASS_META_DATA
@@ -259,7 +259,7 @@ feature {NONE} -- Implementation
 		local
 			item_type_id: INTEGER
 		do
-			if Eiffel.type_conforms_to (type_id, Class_id.COLLECTION_ANY) then
+			if {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.COLLECTION_ANY) then
 				item_type_id := Eiffel.collection_item_type (type_id)
 				if item_type_id > 0 then
 					Result := Collection_field_factory_factory.new_item_factory (item_type_id)
@@ -270,9 +270,9 @@ feature {NONE} -- Implementation
 	matched_field_type (type_id: INTEGER): detachable TYPE [EL_REFLECTED_REFERENCE [ANY]]
 		do
 			across Reference_group_table as table until attached Result loop
-				if Eiffel.type_conforms_to (type_id, table.key.type_id) then
+				if {ISE_RUNTIME}.type_conforms_to (type_id, table.key.type_id) then
 					across table.item as group until attached Result loop
-						if Eiffel.type_conforms_to (type_id, group.item.value_type.type_id) then
+						if {ISE_RUNTIME}.type_conforms_to (type_id, group.item.value_type.type_id) then
 							Result := group.item.generating_type
 						end
 					end
@@ -285,7 +285,7 @@ feature {NONE} -- Implementation
 			length: INTEGER; value: ZSTRING; exceeded_maximum: BOOLEAN
 		do
 			if attached {EL_REFLECTED_COLLECTION [ANY]} a_field as collection
-				and then Eiffel.type_conforms_to (collection.item_type_id, Class_id.EL_REFLECTIVE)
+				and then {ISE_RUNTIME}.type_conforms_to (collection.item_type_id, Class_id.EL_REFLECTIVE)
 			then
 				line_length.set_item (0)
 				a_lio.put_new_line
@@ -313,17 +313,11 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Collection_field_factory_factory: EL_INITIALIZED_OBJECT_FACTORY [
-		EL_REFLECTED_COLLECTION_FACTORY [ANY, EL_REFLECTED_COLLECTION [ANY]], EL_REFLECTED_COLLECTION [ANY]
-	]
-		once
-			create Result
-		end
-
 	Empty_field_indices_set: EL_FIELD_INDICES_SET
 		once
 			create Result.make_empty
 		end
+
 
 	Field_factory: EL_INITIALIZED_FIELD_FACTORY
 		once

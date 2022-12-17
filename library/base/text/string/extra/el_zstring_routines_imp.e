@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:15:52 GMT (Monday 5th December 2022)"
-	revision: "3"
+	date: "2022-12-17 16:33:31 GMT (Saturday 17th December 2022)"
+	revision: "4"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -220,6 +220,18 @@ feature -- Status query
 			from i := 1 until Result or i > str.count loop
 				Result := str.is_alpha_numeric_item (i)
 				i := i + 1
+			end
+		end
+
+	has_enclosing (s: EL_READABLE_ZSTRING; c_first, c_last: CHARACTER_32): BOOLEAN
+			--
+		do
+			if s.count >= 2 then
+				if c_first.natural_32_code <= 127 and c_last.natural_32_code <= 127 then
+					Result := s.item_8 (1) = c_first and then s.item_8 (s.count) = c_last
+				else
+					Result := s [1] = c_first and then s [s.count] = c_last
+				end
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2022-12-17 16:23:40 GMT (Saturday 17th December 2022)"
+	revision: "3"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -42,6 +42,12 @@ feature -- Basic operations
 		end
 
 feature -- Status query
+
+	has_enclosing (s: READABLE_STRING_8; c_first, c_last: CHARACTER_32): BOOLEAN
+			--
+		do
+			Result := s.count >= 2 and then s.item (1) = c_first and then s.item (s.count) = c_last
+		end
 
 	is_identifier_character (str: READABLE_STRING_8; i: INTEGER): BOOLEAN
 		local

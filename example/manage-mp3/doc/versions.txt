@@ -1,3 +1,6 @@
+2.4.4
+* New reflection system
+
 2.4.2
 * Reflection refactor and XML building bug fix
 

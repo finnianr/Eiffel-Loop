@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2022-12-17 16:22:14 GMT (Saturday 17th December 2022)"
+	revision: "16"
 
 deferred class
 	EROS_REMOTELY_ACCESSIBLE
@@ -125,11 +125,11 @@ feature {NONE} -- Implementation
 		do
 			from i := 1 until i > argument_list.count or has_error loop
 				argument := argument_list [i]
-				if s.has_enclosing (argument, once "''") then
+				if s.has_single_quotes (argument) then
 					s.remove_single_quote (argument)
 					set_string_argument (i, argument)
 
-				elseif s.has_enclosing (argument, Curly_braces)
+				elseif s.has_enclosing (argument, '{', '}')
 					and then attached call_argument as deserialized_object
 				then
 					set_deserialized_object_argument (i, argument, deserialized_object)
@@ -241,9 +241,5 @@ feature {NONE} -- Constants
 		once
 			create Result.make
 		end
-
-feature {NONE} -- String constants
-
-	Curly_braces: STRING = "{}"
 
 end

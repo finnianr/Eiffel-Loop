@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "25"
+	date: "2022-12-17 10:35:20 GMT (Saturday 17th December 2022)"
+	revision: "26"
 
 class
 	EL_OBJECT_FACTORY [G]
@@ -94,13 +94,8 @@ feature -- Factory
 			--
 		require
 			valid_type: valid_name (class_name)
-		local
-			type_id: INTEGER
 		do
-			type_id := Eiffel.dynamic_type_from_string (class_name)
-			if type_id > 0 and then attached {G} Eiffel.new_instance_of (type_id) as new then
-				Result := new
-			end
+			Result := new_item_from_type_id (Eiffel.dynamic_type_from_string (class_name))
 		end
 
 feature -- Access

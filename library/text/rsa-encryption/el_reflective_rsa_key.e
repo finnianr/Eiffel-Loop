@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-08 19:02:55 GMT (Thursday 8th December 2022)"
-	revision: "15"
+	date: "2022-12-17 8:59:57 GMT (Saturday 17th December 2022)"
+	revision: "16"
 
 deferred class
 	EL_REFLECTIVE_RSA_KEY
@@ -65,7 +65,7 @@ feature {NONE} -- Implementation
 	is_storable_field (basic_type, type_id: INTEGER_32): BOOLEAN
 		do
 			if basic_type = {REFLECTOR_CONSTANTS}.Reference_type then
-				Result := Eiffel.type_conforms_to (type_id, Integer_x_type)
+				Result := {ISE_RUNTIME}.type_conforms_to (type_id, Integer_x_type)
 			end
 		end
 

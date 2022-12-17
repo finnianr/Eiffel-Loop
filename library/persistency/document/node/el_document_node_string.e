@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "27"
+	date: "2022-12-17 16:08:01 GMT (Saturday 17th December 2022)"
+	revision: "28"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -23,7 +23,8 @@ inherit
 
 			{ANY} count, wipe_out, share, set_from_general, append_adjusted_to, unescape,
 					-- Element change
-					append, append_character, append_count_from_c, append_substring, prepend,
+					append, append_character, append_count_from_c, append_substring,
+					prepend, prepend_character,
 					-- Status query
 					has, has_substring, starts_with,
 					is_boolean, is_double, is_integer, is_real, is_valid_as_string_8, is_raw_empty

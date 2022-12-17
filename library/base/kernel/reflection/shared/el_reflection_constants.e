@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-16 8:34:42 GMT (Friday 16th December 2022)"
-	revision: "43"
+	date: "2022-12-17 9:25:12 GMT (Saturday 17th December 2022)"
+	revision: "44"
 
 deferred class
 	EL_REFLECTION_CONSTANTS
@@ -54,6 +54,30 @@ feature {NONE} -- Implementation
 					Result.extend (new)
 				end
 			end
+		end
+
+feature {NONE} -- Factories
+
+	Collection_field_factory_factory: EL_INITIALIZED_OBJECT_FACTORY [
+		EL_REFLECTED_COLLECTION_FACTORY [ANY, EL_REFLECTED_COLLECTION [ANY]], EL_REFLECTED_COLLECTION [ANY]
+	]
+		once
+			create Result
+		end
+
+	Reflectively_settable_factory: EL_INITIALIZED_OBJECT_FACTORY [
+		EL_REFLECTIVELY_SETTABLE_FACTORY [EL_REFLECTIVELY_SETTABLE], EL_REFLECTIVELY_SETTABLE
+	]
+		once
+			create Result
+		end
+
+	Storable_reader_writer_factory_factory: EL_INITIALIZED_OBJECT_FACTORY [
+		EL_STORABLE_READER_WRITER_FACTORY [EL_STORABLE, EL_STORABLE_READER_WRITER [EL_STORABLE]],
+		EL_STORABLE_READER_WRITER [EL_STORABLE]
+	]
+		once
+			create Result
 		end
 
 feature {NONE} -- Reference types

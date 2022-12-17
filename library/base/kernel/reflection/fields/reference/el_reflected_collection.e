@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-16 18:34:25 GMT (Friday 16th December 2022)"
-	revision: "22"
+	date: "2022-12-17 9:24:47 GMT (Saturday 17th December 2022)"
+	revision: "23"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -76,7 +76,7 @@ feature -- Status query
 
 	is_reflective_item: BOOLEAN
 		do
-			Result := Eiffel.type_conforms_to (item_type_id, Class_id.EL_REFLECTIVE)
+			Result := {ISE_RUNTIME}.type_conforms_to (item_type_id, Class_id.EL_REFLECTIVE)
 		end
 
 feature -- Basic operations
@@ -195,7 +195,7 @@ feature {NONE} -- Implementation
 
 	storable_reader_writer_factory: detachable like Storable_reader_writer_factory_factory.new_item_factory
 		do
-			if Eiffel.type_conforms_to (item_type_id, Class_id.EL_STORABLE) then
+			if {ISE_RUNTIME}.type_conforms_to (item_type_id, Class_id.EL_STORABLE) then
 				Result := Storable_reader_writer_factory_factory.new_item_factory (item_type_id)
 			end
 		end
@@ -264,14 +264,6 @@ feature {NONE} -- Constants
 			end
 			-- Might also handle `COLLECTION [INTEGER_X]' from encryption.ecf for example
 			Result.merge (Reader_writer_table)
-		end
-
-	Storable_reader_writer_factory_factory: EL_INITIALIZED_OBJECT_FACTORY [
-		EL_STORABLE_READER_WRITER_FACTORY [EL_STORABLE, EL_STORABLE_READER_WRITER [EL_STORABLE]],
-		EL_STORABLE_READER_WRITER [EL_STORABLE]
-	]
-		once
-			create Result
 		end
 
 end

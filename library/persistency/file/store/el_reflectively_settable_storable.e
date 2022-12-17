@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-14 12:50:07 GMT (Wednesday 14th December 2022)"
-	revision: "64"
+	date: "2022-12-17 9:01:52 GMT (Saturday 17th December 2022)"
+	revision: "65"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -198,7 +198,7 @@ feature {NONE} -- Implementation
 			if Eiffel.is_storable_type (basic_type, type_id) then
 				Result := True
 
-			elseif Eiffel.type_conforms_to (type_id, Class_id.ARRAYED_LIST_ANY) then
+			elseif {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.ARRAYED_LIST_ANY) then
 				if Arrayed_list_factory.is_valid_type (type_id) then
 					Result := Eiffel.is_storable_type (basic_type, Eiffel.collection_item_type (type_id))
 				end

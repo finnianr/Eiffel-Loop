@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 11:01:54 GMT (Monday 12th December 2022)"
-	revision: "26"
+	date: "2022-12-17 17:03:24 GMT (Saturday 17th December 2022)"
+	revision: "27"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -64,6 +64,7 @@ feature {NONE} -- Initialization
 	 	local
 	 		n, i: INTEGER; c: NATURAL
 		do
+			default_create
 			is_shared := True
 			set_from_pointer (Default_pointer, 0)
 	 		create table.make_filled (0, 256)
@@ -85,6 +86,18 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	checksum: NATURAL
+
+feature -- Status query
+
+	add_reals_as_strings: BOOLEAN
+		-- when `True' type `DOUBLE' and `REAL' are added as `STRING_8'
+
+feature -- Status change
+
+	set_add_reals_as_strings (yes: BOOLEAN)
+		do
+			add_reals_as_strings := yes
+		end
 
 feature -- Add file content
 
@@ -202,13 +215,21 @@ feature -- Add reals
 	add_real_32, add_real (real: REAL)
 			--
 		do
-			add_memory ($real, 1, Real_32_bytes)
+			if add_reals_as_strings then
+				add_string_8 (real.out)
+			else
+				add_memory ($real, 1, Real_32_bytes)
+			end
 		end
 
 	add_real_64, add_double (real: DOUBLE)
 			--
 		do
-			add_memory ($real, 1, Real_64_bytes)
+			if add_reals_as_strings then
+				add_string_8 (real.out)
+			else
+				add_memory ($real, 1, Real_64_bytes)
+			end
 		end
 
 feature -- Add integers
@@ -318,6 +339,7 @@ feature -- Element change
 	reset
 		do
 			checksum := 0
+			add_reals_as_strings := False
 		end
 
 	set_checksum (a_checksum: NATURAL)

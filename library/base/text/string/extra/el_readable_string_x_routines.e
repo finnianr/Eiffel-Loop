@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-10 9:53:46 GMT (Saturday 10th December 2022)"
-	revision: "6"
+	date: "2022-12-17 16:25:55 GMT (Saturday 17th December 2022)"
+	revision: "7"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -25,27 +25,20 @@ feature -- Status query
 			Result := has_quotes (s, 2)
 		end
 
-	has_enclosing (s, ends: READABLE_STRING_X): BOOLEAN
+	has_enclosing (s: READABLE_STRING_X; c_first, c_last: CHARACTER_32): BOOLEAN
 			--
-		require
-			ends_has_2_characters: ends.count = 2
-		do
-			Result := s.count >= 2
-				and then s.item (1) = ends.item (1) and then s.item (s.count) = ends.item (2)
+		deferred
 		end
 
 	has_quotes (s: READABLE_STRING_X; type: INTEGER): BOOLEAN
 		require
 			double_or_single: 1 <= type and type <= 2
-		local
-			quote_code: NATURAL
 		do
 			if type = 1 then
-				quote_code := ('%'').natural_32_code
+				Result := has_enclosing (s, '%'', '%'')
 			else
-				quote_code := ('"').natural_32_code
+				Result := has_enclosing (s, '"', '"')
 			end
-			Result := s.count >= 2 and then s.code (1) = quote_code and then s.code (s.count) = quote_code
 		end
 
 	has_single_quotes (s: READABLE_STRING_X): BOOLEAN
@@ -57,7 +50,7 @@ feature -- Status query
 	is_identifier_boundary (str: READABLE_STRING_X; lower, upper: INTEGER): BOOLEAN
 		-- `True' if indices `lower' to `upper' are an identifier boundary
 		require
-			valid_lower: lower >= 1 
+			valid_lower: lower >= 1
 			valid_upper: upper <= str.count
 		do
 			Result := True

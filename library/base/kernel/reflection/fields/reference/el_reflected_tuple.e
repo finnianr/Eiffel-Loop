@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-16 17:08:57 GMT (Friday 16th December 2022)"
-	revision: "25"
+	date: "2022-12-17 9:36:36 GMT (Saturday 17th December 2022)"
+	revision: "26"
 
 class
 	EL_REFLECTED_TUPLE
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REFLECTED_REFERENCE [TUPLE]
 		redefine
-			append_to_string, is_initializeable, is_abstract, is_storable_type,
+			is_initializeable, is_abstract, is_storable_type,
 			make, write, new_instance, reset,
 			set_from_memory, set_from_readable, set_from_string, to_string,
 			write_to_memory
@@ -63,13 +63,6 @@ feature -- Status query
 
 feature -- Basic operations
 
-	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
-		do
-			str.append_character_8 ('[')
-			write (a_object, str)
-			str.append_character_8 (']')
-		end
-
 	reset (a_object: EL_REFLECTIVE)
 		do
 			initialize (a_object)
@@ -111,7 +104,9 @@ feature -- Basic operations
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITABLE)
 		do
 			if attached value (a_object) as l_tuple then
+				writeable.write_character_8 ('[')
 				Tuple.write_with_comma (l_tuple, writeable, True)
+				writeable.write_character_8 (']')
 			end
 		end
 

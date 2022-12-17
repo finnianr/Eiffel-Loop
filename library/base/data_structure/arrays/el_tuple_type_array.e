@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-10 15:42:51 GMT (Saturday 10th December 2022)"
-	revision: "19"
+	date: "2022-12-17 8:58:42 GMT (Saturday 17th December 2022)"
+	revision: "20"
 
 class
 	EL_TUPLE_TYPE_ARRAY
@@ -67,7 +67,7 @@ feature -- Status query
 			type_id: INTEGER
 		do
 			type_id := a_type.type_id
-			Result := across Current as type all Eiffel.type_conforms_to (type.item.type_id, type_id) end
+			Result := across Current as type all {ISE_RUNTIME}.type_conforms_to (type.item.type_id, type_id) end
 		end
 
 	i_th_is_character_data (i: INTEGER): BOOLEAN

@@ -4,7 +4,7 @@ note
 
 	author: "Python module: eiffel_loop.eiffel.ecf.py"
 
-	date: "2022-11-29 8:58:27 GMT (Tuesday 29th November 2022)"
+	date: "2022-12-17 10:38:27 GMT (Saturday 17th December 2022)"
 	revision: "1"
 
 class
@@ -18,9 +18,9 @@ create
 
 feature -- Constants
 
-	Version_number: NATURAL = 02_04_03
+	Version_number: NATURAL = 02_04_04
 
-	Build_number: NATURAL = 99
+	Build_number: NATURAL = 100
 
 	Installation_sub_directory: DIR_PATH
 		once
