@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "65"
+	date: "2022-12-18 16:18:46 GMT (Sunday 18th December 2022)"
+	revision: "66"
 
 class
 	ZSTRING_TEST_SET
@@ -388,7 +388,7 @@ feature -- Prepending tests
 	test_prepend_substring
 		local
 			pair: STRING_PAIR; line: ZSTRING
-			word_list: EL_OCCURRENCE_INTERVALS [STRING_32]
+			word_list: EL_OCCURRENCE_INTERVALS
 			start_index, end_index: INTEGER; s: EL_STRING_32_ROUTINES
 		do
 			across Text.lines as line_32 loop
@@ -618,7 +618,7 @@ feature -- Element change tests
 		local
 			pair, word_pair: STRING_PAIR
 			word_list_32: EL_STRING_32_LIST; index, start_index, end_index: INTEGER
-			space_intervals: EL_OCCURRENCE_INTERVALS [STRING_32]
+			space_intervals: EL_OCCURRENCE_INTERVALS
 			line_list: like Text.lines
 		do
 			create pair; create word_pair

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-14 16:41:02 GMT (Wednesday 14th December 2022)"
-	revision: "19"
+	date: "2022-12-18 16:17:24 GMT (Sunday 18th December 2022)"
+	revision: "20"
 
 deferred class
 	EL_THUNDERBIRD_FOLDER_READER
@@ -265,7 +265,7 @@ feature {NONE} -- Constants
 			Result := Tag.html.close
 		end
 
-	Occurrence_intervals: EL_OCCURRENCE_INTERVALS [ZSTRING]
+	Occurrence_intervals: EL_OCCURRENCE_INTERVALS
 		once
 			create Result.make_empty
 		end

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 8:07:49 GMT (Wednesday 16th November 2022)"
-	revision: "97"
+	date: "2022-12-18 14:37:39 GMT (Sunday 18th December 2022)"
+	revision: "98"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -631,6 +631,11 @@ feature -- Comparison
 		do
  			if attached {EL_READABLE_ZSTRING} other as z_other then
 				Result := matching_characters_in_bounds (z_other, start_pos, end_pos, index_pos, True)
+
+			elseif attached {READABLE_STRING_8} other as str_8
+				and then cursor_8 (str_8).is_ascii_substring (start_pos, end_pos)
+			then
+				Result := current_string_8.same_characters (str_8, start_pos, end_pos, index_pos)
 			else
 				Result := Precursor (other, start_pos, end_pos, index_pos)
 			end

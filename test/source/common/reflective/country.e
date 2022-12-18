@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-16 9:10:08 GMT (Friday 16th December 2022)"
-	revision: "32"
+	date: "2022-12-18 14:55:15 GMT (Sunday 18th December 2022)"
+	revision: "33"
 
 class
 	COUNTRY
@@ -22,7 +22,7 @@ inherit
 		export
 			{ANY} field_table
 		redefine
-			make_default, new_representations
+			make_default, new_representations, new_tuple_field_names
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
@@ -160,7 +160,14 @@ feature {NONE} -- Reflection
 			>>)
 		end
 
+	new_tuple_field_names: like Default_tuple_field_names
+		do
+			create Result.make (<<
+				["temperature_range", "winter, summer, unit_name"]
+			>>)
+		end
+
 feature {NONE} -- Constants
 
-	Field_hash: NATURAL_32 = 2318316378
+	Field_hash: NATURAL_32 = 3967280807
 end

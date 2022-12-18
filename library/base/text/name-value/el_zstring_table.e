@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2022-12-18 11:17:15 GMT (Sunday 18th December 2022)"
+	revision: "13"
 
 class
 	EL_ZSTRING_TABLE
@@ -42,6 +42,13 @@ feature {NONE} -- Initialization
 			across s.as_zstring (general).split ('%N') as split loop
 				add_line (split.item_copy)
 			end
+		end
+
+feature -- Access
+
+	name_list: EL_STRING_8_LIST
+		do
+			create Result.make_from_array (current_keys)
 		end
 
 feature {NONE} -- Implementation

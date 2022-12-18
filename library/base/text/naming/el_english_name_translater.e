@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 10:03:42 GMT (Friday 9th December 2022)"
-	revision: "6"
+	date: "2022-12-18 17:13:27 GMT (Sunday 18th December 2022)"
+	revision: "7"
 
 class
 	EL_ENGLISH_NAME_TRANSLATER
@@ -38,10 +38,11 @@ feature -- Conversion
 					s.set_upper (Result, 1)
 
 				when {EL_CASE}.title then
-					if attached Split_list as list then
-						list.set_target (Result, ' ', 0)
+					if attached Split_intervals as list then
+						list.wipe_out
+						list.fill (Result, ' ', 0)
 						from list.start until list.after loop
-							s.set_upper (Result, list.item_start_index)
+							s.set_upper (Result, list.item_lower)
 							list.forth
 						end
 					end
@@ -66,7 +67,7 @@ feature -- Conversion
 
 feature {NONE} -- Constants
 
-	Split_list: EL_SPLIT_STRING_8_LIST
+	Split_intervals: EL_SPLIT_INTERVALS
 		once
 			create Result.make_empty
 		end

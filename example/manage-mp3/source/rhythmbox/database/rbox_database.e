@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "46"
+	date: "2022-12-18 16:55:05 GMT (Sunday 18th December 2022)"
+	revision: "47"
 
 class
 	RBOX_DATABASE
@@ -63,7 +63,7 @@ feature {NONE} -- Initialization
 	make (a_xml_database_path: FILE_PATH; a_music_dir: like music_dir)
 			--
 		local
-			playlist: DJ_EVENT_PLAYLIST; xml_text: STRING; entry_occurences: EL_OCCURRENCE_INTERVALS [STRING]
+			playlist: DJ_EVENT_PLAYLIST; xml_text: STRING; entry_occurences: EL_OCCURRENCE_INTERVALS
 			song_count: INTEGER
 		do
 			make_solitary

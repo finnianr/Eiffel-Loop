@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-16 18:10:21 GMT (Friday 16th December 2022)"
-	revision: "6"
+	date: "2022-12-18 9:58:36 GMT (Sunday 18th December 2022)"
+	revision: "7"
 
 class
 	EL_STORABLE_READER_WRITER [S -> EL_STORABLE create make_default end]
@@ -18,22 +18,29 @@ class
 inherit
 	EL_READER_WRITER_INTERFACE [S]
 
-feature -- Basic operations
+feature -- Factory
 
-	read_item (reader: EL_READABLE): S
+	new_item: S
 		do
 			create Result.make_default
+		end
+
+feature -- Basic operations
+
+	read_item (reader: EL_READABLE): like new_item
+		do
+			Result := new_item
 			set (Result, reader)
 		end
 
-	set (item: like read_item; reader: EL_READABLE)
+	set (item: like new_item; reader: EL_READABLE)
 		do
 			if attached {EL_MEMORY_READER_WRITER} reader as memory then
 				item.read (memory)
 			end
 		end
 
-	write (item: like read_item; writer: EL_WRITABLE)
+	write (item: like new_item; writer: EL_WRITABLE)
 		do
 			if attached {EL_MEMORY_READER_WRITER} writer as memory then
 				item.write (memory)

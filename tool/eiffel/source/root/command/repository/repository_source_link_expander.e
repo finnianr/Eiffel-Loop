@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "21"
+	date: "2022-12-18 16:56:24 GMT (Sunday 18th December 2022)"
+	revision: "22"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -74,7 +74,7 @@ feature -- Basic operations
 
 	expand_links (line: ZSTRING; file_out: EL_PLAIN_TEXT_FILE)
 		local
-			link: EL_OCCURRENCE_INTERVALS [ZSTRING]; s: EL_ZSTRING_ROUTINES
+			link: EL_OCCURRENCE_INTERVALS; s: EL_ZSTRING_ROUTINES
 			pos_right_bracket, previous_pos: INTEGER; link_text, inside_text: ZSTRING
 		do
 			line.replace_substring_all (s.character_string ('%T'), Triple_space)

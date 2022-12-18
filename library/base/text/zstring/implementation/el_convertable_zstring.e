@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 8:30:24 GMT (Wednesday 16th November 2022)"
-	revision: "33"
+	date: "2022-12-18 16:17:08 GMT (Sunday 18th December 2022)"
+	revision: "34"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -299,7 +299,7 @@ feature -- To list
 			Result := internal_substring_index_list (adapted_argument (delimiter, 1)).twin
 		end
 
-	substring_intervals (str: READABLE_STRING_GENERAL): EL_OCCURRENCE_INTERVALS [ZSTRING]
+	substring_intervals (str: READABLE_STRING_GENERAL): EL_OCCURRENCE_INTERVALS
 		do
 			create Result.make_by_string (current_zstring, str)
 		end

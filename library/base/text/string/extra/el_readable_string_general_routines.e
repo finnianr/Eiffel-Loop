@@ -6,14 +6,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:26 GMT (Monday 12th December 2022)"
-	revision: "4"
+	date: "2022-12-18 17:04:31 GMT (Sunday 18th December 2022)"
+	revision: "5"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES
 
 inherit
 	EL_MODULE_CONVERT_STRING
+
+feature -- Measurement
+
+	occurrences (text, search_string: READABLE_STRING_GENERAL): INTEGER
+			--
+		do
+			if attached Shared_intervals as intervals then
+				intervals.wipe_out
+				intervals.fill_by_string (text, search_string, 0)
+				Result := intervals.count
+			end
+		end
 
 feature -- Status query
 
@@ -32,6 +44,21 @@ feature -- Conversion
 		end
 
 feature -- Basic operations
+
+	search_interval_at_nth (text, search_string: READABLE_STRING_GENERAL; n: INTEGER): INTEGER_INTERVAL
+			--
+		do
+			if attached Shared_intervals as intervals then
+				intervals.wipe_out
+				intervals.fill_by_string (text, search_string, 0)
+				from intervals.start until intervals.after or intervals.index > n loop
+					intervals.forth
+				end
+				Result := intervals.item_interval
+			else
+				create Result.make (0, 0)
+			end
+		end
 
 	write_utf_8 (s: READABLE_STRING_GENERAL; writeable: EL_WRITABLE)
 		local
@@ -55,4 +82,10 @@ feature -- Measurement
 			end
 		end
 
+feature {NONE} -- Constants
+
+	Shared_intervals: EL_OCCURRENCE_INTERVALS
+		once
+			create Result.make_empty
+		end
 end

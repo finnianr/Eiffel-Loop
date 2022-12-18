@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 13:45:32 GMT (Monday 5th December 2022)"
-	revision: "17"
+	date: "2022-12-18 17:52:58 GMT (Sunday 18th December 2022)"
+	revision: "18"
 
 class
 	EL_ZSTRING_LIST
@@ -65,8 +65,10 @@ feature {NONE} -- Implementation
 		end
 
 	tab_string (a_count: INTEGER): ZSTRING
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
-			create Result.make_filled (Tabulation.to_character_8, a_count)
+			Result := s.n_character_string ('%T', a_count)
 		end
 
 end

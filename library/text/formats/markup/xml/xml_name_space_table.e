@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2022-12-18 16:18:34 GMT (Sunday 18th December 2022)"
+	revision: "14"
 
 class
 	XML_NAME_SPACE_TABLE
@@ -42,7 +42,7 @@ feature {NONE} -- Initaliazation
 
 	make (xml: STRING)
 		local
-			xmlns_intervals: EL_OCCURRENCE_INTERVALS [STRING]
+			xmlns_intervals: EL_OCCURRENCE_INTERVALS
 			pos_double_quote: INTEGER; declaration, value: STRING
 		do
 			create xmlns_intervals.make_by_string (xml, Xml_namespace_marker)

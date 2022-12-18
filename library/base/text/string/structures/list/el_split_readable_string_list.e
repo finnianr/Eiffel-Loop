@@ -14,14 +14,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 16:01:37 GMT (Monday 5th December 2022)"
-	revision: "5"
+	date: "2022-12-18 16:16:40 GMT (Sunday 18th December 2022)"
+	revision: "6"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
 
 inherit
-	EL_OCCURRENCE_INTERVALS [S]
+	EL_SPLIT_INTERVALS
 		rename
 			circular_i_th as circular_i_th_interval,
 			current_linear as current_intervals,
@@ -52,7 +52,7 @@ inherit
 			{ANY} index, count, item_count, item_start_index, item_end_index, i_th_upper, i_th_lower,
 				back, remove, remove_head, remove_tail, go_i_th, is_empty, before, valid_index
 		redefine
-			extend_buffer, is_equal, make_empty, make_by_string, make
+			is_equal, make_empty, make_by_string, make
 		end
 
 	ITERABLE [S]
@@ -63,8 +63,6 @@ inherit
 		end
 
 	PART_COMPARATOR [INTEGER_64] undefine is_equal, copy, out end
-
-	EL_SHARED_UNICODE_PROPERTY
 
 create
 	make_by_string, make_adjusted, make_adjusted_by_string, make_empty, make
@@ -116,6 +114,43 @@ feature -- Access
 	new_cursor: EL_SPLIT_STRING_LIST_ITERATION_CURSOR [S]
 		do
 			create Result.make (Current)
+		end
+
+feature -- Status query
+
+	has (str: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			push_cursor
+			from start until Result or after loop
+				Result := item_same_as (str)
+				forth
+			end
+			pop_cursor
+		end
+
+	item_same_as (str: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			interval: INTEGER_64; item_upper, item_lower: INTEGER
+		do
+			interval := interval_item
+			item_lower := lower_integer (interval); item_upper := upper_integer (interval)
+			if item_upper - item_lower + 1 = str.count then
+				if str.count = 0 then
+					Result := item_upper + 1 = item_lower
+				else
+					Result := target.same_characters (str, 1, str.count, item_lower)
+				end
+			end
+		end
+
+	left_adjusted: BOOLEAN
+		do
+			Result := (adjustments & {EL_STRING_ADJUST}.Left).to_boolean
+		end
+
+	right_adjusted: BOOLEAN
+		do
+			Result := (adjustments & {EL_STRING_ADJUST}.Right).to_boolean
 		end
 
 feature -- Numeric items
@@ -178,7 +213,7 @@ feature -- Comparison
 
 	is_equal (other: like Current): BOOLEAN
 		do
-			Result := target ~ other.target and then Precursor {EL_OCCURRENCE_INTERVALS} (other)
+			Result := target ~ other.target and then Precursor {EL_SPLIT_INTERVALS} (other)
 		end
 
 feature -- Basic operations
@@ -196,55 +231,6 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
-
-	extend_buffer (
-		a_target: S; buffer: like Intervals_buffer; search_index, search_string_count, a_adjustments: INTEGER
-		final: BOOLEAN
-	)
-		local
-			start_index, end_index: INTEGER
-			found_first: BOOLEAN
-		do
-			if final then
-				if search_index = 0 then
-					start_index := 1; end_index := target.count
-				else
-					start_index := search_index + search_string_count; end_index := target.count
-				end
-			else
-				if buffer.is_empty then
-					start_index := 1; end_index := search_index - 1
-				else
-					start_index := upper_integer (buffer.last) + search_string_count + 1
-					end_index := search_index - 1
-				end
-			end
-			if (a_adjustments & {EL_STRING_ADJUST}.Left).to_boolean then
-				from until found_first or else start_index > end_index loop
-					if is_white_space (a_target, start_index) then
-						start_index := start_index + 1
-					else
-						found_first := True
-					end
-				end
-			end
-			if (a_adjustments & {EL_STRING_ADJUST}.Right).to_boolean then
-				found_first := False
-				from until found_first or else end_index < start_index  loop
-					if is_white_space (a_target, end_index) then
-						end_index := end_index - 1
-					else
-						found_first := True
-					end
-				end
-			end
-			buffer.extend (new_interval (start_index, end_index))
-		end
-
-	is_white_space (a_target: like target; i: INTEGER): BOOLEAN
-		do
-			Result := Unicode_property.is_space (a_target [i])
-		end
 
 	less_than (left, right: INTEGER_64): BOOLEAN
 		local

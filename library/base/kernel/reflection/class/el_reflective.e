@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-10 16:21:00 GMT (Saturday 10th December 2022)"
-	revision: "61"
+	date: "2022-12-18 13:19:04 GMT (Sunday 18th December 2022)"
+	revision: "62"
 
 deferred class
 	EL_REFLECTIVE
@@ -42,7 +42,7 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
-	EL_SHARED_FACTORIES
+	EL_SHARED_CLASS_ID; EL_SHARED_FACTORIES
 
 feature {NONE} -- Initialization
 
@@ -209,7 +209,26 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 		do
 			Result := Default_representations
 		ensure
-			valid_representations: valid_representations (Result)
+			valid_field_names: valid_table_field_names (Result)
+		end
+
+	new_tuple_field_names: like Default_tuple_field_names
+		do
+			Result := Default_tuple_field_names
+		ensure
+			valid_field_names: valid_table_field_names (Result)
+			valid_tuple_field_names: valid_tuple_field_name_count (Result)
+		end
+
+	new_tuple_field_name_table (field_names: like Default_tuple_field_names): HASH_TABLE [EL_STRING_8_LIST, INTEGER]
+		local
+			field_set: EL_FIELD_INDICES_SET; s: EL_STRING_8_ROUTINES
+		do
+			create field_set.make_from_reflective (Current, s.joined_with (field_names.current_keys, Comma_space))
+			create Result.make (field_names.count)
+			across field_names as table loop
+				Result.extend (table.item, field_set [table.cursor_index - 1])
+			end
 		end
 
 feature -- Contract Support
@@ -224,6 +243,37 @@ feature -- Contract Support
 			else
 				create field_set.make_from_reflective (Current, names)
 				Result := field_set.is_valid
+			end
+		end
+
+	valid_table_field_names (table: HASH_TABLE [ANY, STRING]): BOOLEAN
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			Result := valid_field_names (s.joined_with (table.current_keys, Comma_space))
+		end
+
+	valid_tuple_field_name_count (field_names: like Default_tuple_field_names): BOOLEAN
+		local
+			l_current: REFLECTED_REFERENCE_OBJECT
+			i, count, field_count, field_type: INTEGER
+			field_name_table: like new_tuple_field_name_table
+		do
+			field_name_table := new_tuple_field_name_table (field_names)
+			create l_current.make (Current)
+			count := l_current.field_count
+			Result := True
+			from i := 1 until i > count or not Result loop
+				if field_name_table.has_key (i) then
+					field_type := l_current.field_static_type (i)
+					if {ISE_RUNTIME}.type_conforms_to (field_type, Class_id.TUPLE) then
+						field_count := Eiffel.generic_count_of_type (field_type)
+						Result := field_name_table.found_item.count = field_count
+					else
+						Result := False
+					end
+				end
+				i := i + 1
 			end
 		end
 
@@ -299,13 +349,6 @@ feature {EL_REFLECTIVE_I} -- Implementation
 			Result := Eiffel.is_string_or_expanded_type (basic_type, type_id)
 		end
 
-	valid_representations (representations: like Default_representations): BOOLEAN
-		local
-			s: EL_STRING_8_ROUTINES
-		do
-			Result := valid_field_names (s.joined_with (representations.current_keys, ", "))
-		end
-
 feature {EL_CLASS_META_DATA} -- Implementation
 
 	current_reflective: like Current
@@ -344,6 +387,11 @@ feature {NONE} -- Internal attributes
 feature {EL_CLASS_META_DATA} -- Constants
 
 	Default_representations: EL_HASH_TABLE [EL_FIELD_REPRESENTATION [ANY, ANY], STRING]
+		once
+			create Result.make_size (0)
+		end
+
+	Default_tuple_field_names: EL_HASH_TABLE [STRING, STRING]
 		once
 			create Result.make_size (0)
 		end

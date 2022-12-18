@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-16 14:46:52 GMT (Friday 16th December 2022)"
-	revision: "21"
+	date: "2022-12-18 18:02:29 GMT (Sunday 18th December 2022)"
+	revision: "22"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -87,6 +87,8 @@ feature -- String types
 	STRING_32: INTEGER
 
 	STRING_8: INTEGER
+
+	STRING_GENERAL: INTEGER
 
 feature -- Path types
 

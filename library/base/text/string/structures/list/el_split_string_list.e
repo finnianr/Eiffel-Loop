@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 16:03:04 GMT (Monday 5th December 2022)"
-	revision: "36"
+	date: "2022-12-18 15:01:51 GMT (Sunday 18th December 2022)"
+	revision: "37"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -33,14 +33,16 @@ inherit
 		end
 
 	EL_LINEAR_STRINGS [S]
+		rename
+			has as has_item
 		undefine
 			copy, is_equal, off, out
 		redefine
-			character_count, has
+			character_count, has_item
 		select
 			index_of, occurrences, to_array, do_if, search, inverse_query_if,
-			query_if, query_not_in, query_in, intersection,
-			current_linear, find_first_equal, find_next_item, do_all, for_all, has, item,
+			query_if, query_not_in, query_in, intersection, has_item,
+			current_linear, find_first_equal, find_next_item, do_all, for_all, item,
 			there_exists
 		end
 
@@ -150,50 +152,9 @@ feature -- Element change
 
 feature -- Status query
 
-	has (str: like item): BOOLEAN
+	has_item (str: like item): BOOLEAN
 		do
-			push_cursor
-			from start until Result or after loop
-				Result := item ~ str
-				forth
-			end
-			pop_cursor
-		end
-
-	has_general (str: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			push_cursor
-			from start until Result or after loop
-				Result := item_same_as (str)
-				forth
-			end
-			pop_cursor
-		end
-
-	item_same_as (str: READABLE_STRING_GENERAL): BOOLEAN
-		local
-			interval: INTEGER_64; item_upper, item_lower: INTEGER
-		do
-			interval := interval_item
-			item_lower := lower_integer (interval)
-			item_upper := upper_integer (interval)
-			if item_upper - item_lower + 1 = str.count then
-				if str.count = 0 then
-					Result := item_upper + 1 = item_lower
-				else
-					Result := target.same_characters (str, 1, str.count, item_lower)
-				end
-			end
-		end
-
-	left_adjusted: BOOLEAN
-		do
-			Result := (adjustments & {EL_STRING_ADJUST}.Left).to_boolean
-		end
-
-	right_adjusted: BOOLEAN
-		do
-			Result := (adjustments & {EL_STRING_ADJUST}.Right).to_boolean
+			Result := has (str)
 		end
 
 feature {NONE} -- Implementation

@@ -9,11 +9,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2022-12-18 16:15:06 GMT (Sunday 18th December 2022)"
+	revision: "15"
 
 class
-	EL_OCCURRENCE_INTERVALS [S -> READABLE_STRING_GENERAL]
+	EL_OCCURRENCE_INTERVALS
 
 inherit
 	EL_SEQUENTIAL_INTERVALS
@@ -36,13 +36,13 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_target: S; search_character: CHARACTER_32)
+	make (a_target: READABLE_STRING_GENERAL; search_character: CHARACTER_32)
 		do
 			make_empty
 			fill (a_target, search_character, 0)
 		end
 
-	make_by_string (a_target: S; search_string: READABLE_STRING_GENERAL)
+	make_by_string (a_target, search_string: READABLE_STRING_GENERAL)
 			-- Move to first position if any.
 		do
 			make_empty
@@ -56,14 +56,14 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	fill (a_target: S; search_character: CHARACTER_32; adjustments: INTEGER)
+	fill (a_target: READABLE_STRING_GENERAL; search_character: CHARACTER_32; adjustments: INTEGER)
 		require
 			valid_adjustments: valid_adjustments (adjustments)
 		do
 			fill_intervals (a_target, Empty_string_8, search_character, adjustments)
 		end
 
-	fill_by_string (a_target: S; search_string: READABLE_STRING_GENERAL; adjustments: INTEGER)
+	fill_by_string (a_target, search_string: READABLE_STRING_GENERAL; adjustments: INTEGER)
 		require
 			valid_adjustments: valid_adjustments (adjustments)
 		do
@@ -84,7 +84,8 @@ feature -- Contract Support
 feature {NONE} -- Implementation
 
 	extend_buffer (
-		a_target: S; buffer: like Intervals_buffer; search_index, search_string_count, adjustments: INTEGER
+		a_target: READABLE_STRING_GENERAL
+		buffer: like Intervals_buffer; search_index, search_string_count, adjustments: INTEGER
 		final: BOOLEAN
 	)
 		do
@@ -94,7 +95,7 @@ feature {NONE} -- Implementation
 		end
 
 	fill_intervals (
-		a_target: S; search_string: READABLE_STRING_GENERAL; search_character: CHARACTER_32
+		a_target, search_string: READABLE_STRING_GENERAL; search_character: CHARACTER_32
 		adjustments: INTEGER
 	)
 		require

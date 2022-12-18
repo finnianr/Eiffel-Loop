@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2022-12-18 18:10:55 GMT (Sunday 18th December 2022)"
+	revision: "14"
 
 class
 	EL_STRING_32_LIST
 
 inherit
 	EL_STRING_LIST [STRING_32]
+		redefine
+			tab_string
+		end
 
 create
 	make, make_empty, make_with_lines, make_filled,
@@ -22,4 +25,13 @@ create
 
 convert
 	make_from_array ({ARRAY [STRING_32]}), make_from_tuple ({TUPLE}), make_comma_split ({STRING_32})
+
+feature {NONE} -- Implementation
+
+	tab_string (a_count: INTEGER): STRING_32
+		local
+			s: EL_STRING_32_ROUTINES
+		do
+			Result := s.n_character_string ('%T', a_count)
+		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2022-12-18 12:37:53 GMT (Sunday 18th December 2022)"
+	revision: "17"
 
 class
 	EL_PYXIS_TABLE_DATA_IMPORTER [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -66,7 +66,7 @@ feature {NONE} -- Implementation
 	fill_match_events (object: EL_REFLECTIVE; xpath, field_name: STRING)
 		-- recursive procedure to fill `match_events_list'
 		local
-			xpath_element: STRING; i: INTEGER; i_name: STRING
+			xpath_element: STRING; i: INTEGER
 		do
 			match_events_list.extend ([On_open, xpath, agent push_item (field_name)])
 			match_events_list.extend ([On_close, xpath, agent pop_item])
@@ -80,13 +80,13 @@ feature {NONE} -- Implementation
 						xpath_element := xpath + Slash + field.key
 						fill_match_events (storable, xpath_element, field.key)
 					end
-				elseif attached {EL_REFLECTED_TUPLE} field.item as tuple_field then
-					if attached tuple_field.member_types as tuple_types then
-						i_name := once "i_"
+				elseif attached {EL_REFLECTED_TUPLE} field.item as tuple
+					and then attached tuple.field_name_list as name_list
+				then
+					if attached tuple.member_types as tuple_types then
 						from i := 1 until i > tuple_types.count loop
-							i_name.keep_head (2); i_name.append_integer (i)
-							xpath_element := xpath + Slash + field.key + Slash_at + i_name
-							append_map (xpath_element, agent set_item_tuple_i_th (tuple_field, i, tuple_types [i].type_id))
+							xpath_element := xpath + Slash + field.key + Slash_at + name_list [i]
+							append_map (xpath_element, agent set_item_tuple_i_th (tuple, i, tuple_types [i].type_id))
 							i := i + 1
 						end
 					end
@@ -140,8 +140,8 @@ feature {NONE} -- Implementation
 				and then expanded_field.has_string_representation
 			then
 				expanded_field.set_from_string (item, last_node.raw_string_32 (True))
-			elseif attached {EL_REFLECTED_TUPLE} field as tuple_field then
-				tuple_field.set_from_string (item, last_node.raw_string_32 (True))
+			elseif attached {EL_REFLECTED_TUPLE} field as tuple then
+				tuple.set_from_string (item, last_node.raw_string_32 (True))
 			else
 				field.set_from_readable (item, last_node)
 			end

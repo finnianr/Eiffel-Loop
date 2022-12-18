@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-17 9:04:37 GMT (Saturday 17th December 2022)"
-	revision: "63"
+	date: "2022-12-18 12:33:27 GMT (Sunday 18th December 2022)"
+	revision: "64"
 
 class
 	EL_CLASS_META_DATA
@@ -53,6 +53,7 @@ feature {NONE} -- Initialization
 			New_instance_table.extend_from_list (a_enclosing_object.new_instance_functions)
 			Reader_writer_table.merge (a_enclosing_object.new_extra_reader_writer_table)
 			create cached_field_indices_set.make_equal (3, agent new_field_indices_set)
+			tuple_field_name_table := a_enclosing_object.new_tuple_field_name_table (a_enclosing_object.new_tuple_field_names)
 
 			field_list := new_field_list
 			field_table := field_list.to_table (a_enclosing_object)
@@ -178,6 +179,9 @@ feature {NONE} -- Factory
 						-- remove underscore used to distinguish field name from keyword
 						name.prune_all_trailing ('_')
 						Result.extend (new_reflected_field (i, name))
+						if attached {EL_REFLECTED_TUPLE} Result.last as tuple and then tuple_field_name_table.has_key (i) then
+							tuple.set_field_name_list (tuple_field_name_table.found_item)
+						end
 					end
 				end
 				i := i + 1
@@ -230,21 +234,15 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Implementation
 
-	extend_group_ordering (order_table: like Group_type_order_table)
-		-- for use in descendants as once routine
-		do
-		end
-
 	extend_field_types (a_field_list: like Reference_field_list)
 		-- add extra field types defined in `extra_field_types'
 		-- for use in descendants as once routine
 		do
 		end
 
-	is_once_object (name: STRING): BOOLEAN
-		-- `True' if `name' is a once ("OBJECT") field name
+	extend_group_ordering (order_table: like Group_type_order_table)
+		-- for use in descendants as once routine
 		do
-			Result := name.count > 0 and then name [1] = '_'
 		end
 
 	group_type_order (a_field: EL_REFLECTED_REFERENCE [ANY]): REAL
@@ -253,6 +251,12 @@ feature {NONE} -- Implementation
 			if Group_type_order_table.has_key (a_field.group_type)  then
 				Result := Group_type_order_table.found_item
 			end
+		end
+
+	is_once_object (name: STRING): BOOLEAN
+		-- `True' if `name' is a once ("OBJECT") field name
+		do
+			Result := name.count > 0 and then name [1] = '_'
 		end
 
 	matched_collection_factory (type_id: INTEGER): detachable like Collection_field_factory_factory.new_item_factory
@@ -310,6 +314,10 @@ feature {NONE} -- Implementation
 				end
 			end
 		end
+
+feature {NONE} -- Internal attributes
+
+	tuple_field_name_table: HASH_TABLE [EL_STRING_8_LIST, INTEGER]
 
 feature {NONE} -- Constants
 

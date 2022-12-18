@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-14 10:06:31 GMT (Wednesday 14th December 2022)"
-	revision: "34"
+	date: "2022-12-18 9:41:17 GMT (Sunday 18th December 2022)"
+	revision: "35"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -89,9 +89,7 @@ feature -- Basic operations
 
 	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
 		do
-			if attached value (a_object) as l_value then
-				str.append_raw_string_8 (l_value.out)
-			end
+			write (a_object, str)
 		end
 
 	initialize (a_object: EL_REFLECTIVE)

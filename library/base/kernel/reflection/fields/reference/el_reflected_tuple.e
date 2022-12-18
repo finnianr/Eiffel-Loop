@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-17 9:36:36 GMT (Saturday 17th December 2022)"
-	revision: "26"
+	date: "2022-12-18 13:28:58 GMT (Sunday 18th December 2022)"
+	revision: "27"
 
 class
 	EL_REFLECTED_TUPLE
@@ -18,7 +18,7 @@ inherit
 			is_initializeable, is_abstract, is_storable_type,
 			make, write, new_instance, reset,
 			set_from_memory, set_from_readable, set_from_string, to_string,
-			write_to_memory
+			write_crc, write_to_memory
 		end
 
 	EL_MODULE_TUPLE
@@ -51,6 +51,9 @@ feature -- Access
 	member_types: EL_TUPLE_TYPE_ARRAY
 		-- types of tuple members
 
+	field_name_list: detachable EL_STRING_8_LIST
+		-- names assigned to tuple members by redefining `{EL_REFLECTIVE}.new_tuple_field_names'
+
 feature -- Status query
 
 	is_initializeable: BOOLEAN
@@ -66,6 +69,13 @@ feature -- Basic operations
 	reset (a_object: EL_REFLECTIVE)
 		do
 			initialize (a_object)
+		end
+
+	set_field_name_list (name_list: EL_STRING_8_LIST)
+		require
+			valid_count: name_list.count = member_types.count
+		do
+			field_name_list := name_list
 		end
 
 	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
@@ -107,6 +117,16 @@ feature -- Basic operations
 				writeable.write_character_8 ('[')
 				Tuple.write_with_comma (l_tuple, writeable, True)
 				writeable.write_character_8 (']')
+			end
+		end
+
+	write_crc (crc: EL_CYCLIC_REDUNDANCY_CHECK_32)
+		do
+			Precursor (crc)
+			if attached field_name_list as name_list then
+				across name_list as list loop
+					crc.add_string_8 (list.item)
+				end
 			end
 		end
 

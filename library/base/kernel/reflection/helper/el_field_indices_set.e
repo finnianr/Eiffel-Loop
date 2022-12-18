@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2022-12-18 14:23:59 GMT (Sunday 18th December 2022)"
+	revision: "15"
 
 class
 	EL_FIELD_INDICES_SET
@@ -32,6 +32,7 @@ feature {NONE} -- Initialization
 		do
 			if field_names.is_empty then
 				make_empty
+				is_valid := True
 			else
 				create field_list.make_adjusted (field_names, ',', {EL_STRING_ADJUST}.Left)
 
@@ -43,6 +44,7 @@ feature {NONE} -- Initialization
 					end
 					i := i + 1
 				end
+				is_valid := count = field_list.count
 			end
 		end
 
@@ -87,8 +89,5 @@ feature -- Status query
 		end
 
 	is_valid: BOOLEAN
-		do
-			Result := not has (0)
-		end
 
 end

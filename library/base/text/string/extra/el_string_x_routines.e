@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "45"
+	date: "2022-12-18 17:07:19 GMT (Sunday 18th December 2022)"
+	revision: "46"
 
 deferred class
 	EL_STRING_X_ROUTINES [STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -23,36 +23,10 @@ feature -- Basic operations
 		deferred
 		end
 
-	search_interval_at_nth (text, search_string: STRING_X; n: INTEGER): INTEGER_INTERVAL
-			--
-		local
-			l_occurrences: EL_OCCURRENCE_INTERVALS [STRING_X]
-		do
-			create l_occurrences.make_by_string (text, search_string)
-			from l_occurrences.start until l_occurrences.after or l_occurrences.index > n loop
-				l_occurrences.forth
-			end
-			Result := l_occurrences.item_interval
-		end
-
 	set_upper (str: STRING_X; i: INTEGER)
 		require
 			valid_index: 0 < i and i <= str.count
 		deferred
-		end
-
-feature -- Measurement
-
-	occurrences (text, search_string: STRING_X): INTEGER
-			--
-		local
-			l_occurrences: EL_OCCURRENCE_INTERVALS [STRING_X]
-		do
-			create l_occurrences.make_by_string (text, search_string)
-			from l_occurrences.start until l_occurrences.after loop
-				Result := Result + 1
-				l_occurrences.forth
-			end
 		end
 
 feature -- Factory
@@ -157,19 +131,22 @@ feature -- Transformed
 
 	leading_delimited (text, delimiter: STRING_X; include_delimiter: BOOLEAN): STRING_X
 			--
-		local
-			l_occurrences: EL_OCCURRENCE_INTERVALS [STRING_X]
 		do
-			create l_occurrences.make_by_string (text, delimiter)
-			l_occurrences.start
-			if l_occurrences.after then
-				create Result.make (0)
-			else
-				if include_delimiter then
-					Result := text.substring (1, l_occurrences.item_upper)
+			if attached Shared_intervals as intervals then
+				intervals.wipe_out
+				intervals.fill_by_string (text, delimiter, 0)
+				intervals.start
+				if intervals.after then
+					create Result.make (0)
 				else
-					Result := text.substring (1, l_occurrences.item_lower - 1)
+					if include_delimiter then
+						Result := text.substring (1, intervals.item_upper)
+					else
+						Result := text.substring (1, intervals.item_lower - 1)
+					end
 				end
+			else
+				create Result.make (0)
 			end
 		end
 

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 10:09:21 GMT (Friday 9th December 2022)"
-	revision: "34"
+	date: "2022-12-18 15:37:09 GMT (Sunday 18th December 2022)"
+	revision: "35"
 
 class
 	EL_NAMING_ROUTINES
@@ -25,7 +25,7 @@ inherit
 
 feature -- Constants
 
-	No_words: ARRAY [STRING]
+	No_words: EL_STRING_8_LIST
 		once
 			create Result.make_empty
 		end
@@ -110,6 +110,8 @@ feature -- Class name derivations
 		-- derive English description from object or object type
 		-- Words <= 3 are left capitalized
 		-- Class parameters result in suffix " for type X"
+		require
+			using_no_words_for_empty: excluded_words.is_empty implies excluded_words = No_words
 		local
 			word_split: EL_SPLIT_ON_CHARACTER [STRING]
 			word, name: STRING; s: EL_STRING_8_ROUTINES

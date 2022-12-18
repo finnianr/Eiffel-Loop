@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-16 8:28:42 GMT (Friday 16th December 2022)"
-	revision: "18"
+	date: "2022-12-18 16:20:21 GMT (Sunday 18th December 2022)"
+	revision: "19"
 
 class
 	EL_INTERNAL
@@ -169,7 +169,7 @@ feature -- Access
 	substituted_type_name (generic_type, parameter_type, insert_type: TYPE [ANY]): STRING
 		--
 		local
-			intervals: EL_OCCURRENCE_INTERVALS [IMMUTABLE_STRING_8]; s_8: EL_STRING_8_ROUTINES
+			intervals: EL_OCCURRENCE_INTERVALS; s_8: EL_STRING_8_ROUTINES
 		do
 			create intervals.make_by_string (generic_type.name, parameter_type.name)
 			across Reuseable.string_8 as reuse loop

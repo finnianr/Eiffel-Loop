@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "27"
+	date: "2022-12-18 18:10:28 GMT (Sunday 18th December 2022)"
+	revision: "28"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -23,7 +23,9 @@ inherit
 			find_first_equal, search, has, occurrences, off
 		end
 
-	EL_MODULE_ITERABLE
+	EL_MODULE_ITERABLE; EL_MODULE_CONVERT_STRING
+
+	EL_SHARED_CLASS_ID
 
 feature {NONE} -- Initialization
 
@@ -134,33 +136,14 @@ feature -- Element change
 	append_split (a_string: READABLE_STRING_GENERAL; delimiter: CHARACTER_32; adjustments: INTEGER)
 		require
 			valid_adjustments: valid_adjustments (adjustments)
-		local
-			list: LIST [READABLE_STRING_GENERAL]; str: S
-			i: INTEGER; left_adjusted, right_adjusted: BOOLEAN
 		do
-			list := a_string.split (delimiter)
-			if attached {LIST [S]} list as same_list then
-				append (same_list)
-			else
+			if attached Split_intervals as list then
+				list.wipe_out
+				list.fill (a_string, delimiter, adjustments)
 				grow (count + list.count)
-				across list as general loop
-					create str.make (general.item.count)
-					str.append (general.item)
-					extend (str)
-				end
-			end
-			if adjustments > 0 then
-				left_adjusted := (adjustments & {EL_STRING_ADJUST}.Left).to_boolean
-				right_adjusted := (adjustments & {EL_STRING_ADJUST}.Right).to_boolean
-				from i := 1 until i > list.count loop
-					str := circular_i_th (i.opposite)
-					if left_adjusted then
-						str.left_adjust
-					end
-					if right_adjusted then
-						str.right_adjust
-					end
-					i := i + 1
+				from list.start until list.after loop
+					extend (new_string (a_string.substring (list.item_lower, list.item_upper)))
+					list.forth
 				end
 			end
 		end
@@ -186,18 +169,14 @@ feature -- Element change
 		end
 
 	append_general (list: ITERABLE [READABLE_STRING_GENERAL])
-		local
-			string: S
 		do
 			grow (count + Iterable.count (list))
 			across list as general loop
 				if attached {S} general.item as str then
-					string := str
+					extend (str)
 				else
-					create string.make (general.item.count)
-					string.append (general.item)
+					extend (new_string (general.item))
 				end
-				extend (string)
 			end
 		end
 
@@ -230,6 +209,8 @@ feature -- Element change
 			if tab_count > 0 then
 				item.prepend (tab_string (tab_count))
 			end
+		ensure
+			tab_count_extra: old item_indent + tab_count = item_indent
 		end
 
 	left_adjust
@@ -306,19 +287,27 @@ feature {NONE} -- Implementation
 		do
 			if attached {S} general as str then
 				Result := str
+
 			else
 				create Result.make (general.count)
 				Result.append (general)
 			end
 		end
 
-	tab_string (a_count: INTEGER): READABLE_STRING_GENERAL
+	tab_string (a_count: INTEGER): S
+		local
+			s: EL_STRING_8_ROUTINES
 		do
-			create {STRING} Result.make_filled (Tabulation.to_character_8, a_count)
+			Result := new_string (s.n_character_string ('%T', a_count))
 		end
 
 feature {NONE} -- Constants
 
 	Tabulation: NATURAL = 9
+
+	Split_intervals: EL_SPLIT_INTERVALS
+		once
+			create Result.make_empty
+		end
 
 end

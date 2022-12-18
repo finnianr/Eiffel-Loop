@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-17 9:24:47 GMT (Saturday 17th December 2022)"
-	revision: "23"
+	date: "2022-12-18 10:00:18 GMT (Sunday 18th December 2022)"
+	revision: "24"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -238,7 +238,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Internal attributes
+feature {EL_REFLECTION_HANDLER} -- Internal attributes
 
 	reader_writer: detachable EL_READER_WRITER_INTERFACE [G]
 		-- item reader/writer

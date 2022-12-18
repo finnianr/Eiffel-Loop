@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 9:49:37 GMT (Monday 12th December 2022)"
-	revision: "28"
+	date: "2022-12-18 17:10:30 GMT (Sunday 18th December 2022)"
+	revision: "29"
 
 class
 	GENERAL_TEST_SET
@@ -142,8 +142,8 @@ feature -- Tests
 			assert ("is title", title ~ "Hex 11 Software")
 
 			excluded_words := "EL"
-			description := Naming.class_description_from ({EL_OCCURRENCE_INTERVALS [STRING]}, excluded_words)
-			assert ("expected description", description ~ "Occurrence intervals for type STRING_8")
+			description := Naming.class_description_from ({EL_SPLIT_READABLE_STRING_LIST [STRING]}, excluded_words)
+			assert ("expected description", description ~ "Split readable string list for type STRING_8")
 
 			description := Naming.class_description_from (Current, excluded_words)
 			assert ("expected description", description ~ "General test SET")

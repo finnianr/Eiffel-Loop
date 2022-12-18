@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-16 17:12:27 GMT (Friday 16th December 2022)"
-	revision: "4"
+	date: "2022-12-18 9:16:06 GMT (Sunday 18th December 2022)"
+	revision: "5"
 
 deferred class
 	COUNTRY_TEST_DATA
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_ANY_SHARED
 
-	EL_MODULE_BASE_64; EL_MODULE_LIO; EL_MODULE_TUPLE
+	EL_MODULE_BASE_64; EL_MODULE_TUPLE
 
 feature {NONE} -- Implementation
 
@@ -150,8 +150,5 @@ feature {NONE} -- Constants
 					https://en.wikipedia.org/wiki/Ireland
 			]")
 		end
-
-
-
 
 end

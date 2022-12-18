@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "27"
+	date: "2022-12-18 16:55:55 GMT (Sunday 18th December 2022)"
+	revision: "28"
 
 class
 	CLASS_RENAMING_COMMAND
@@ -94,7 +94,7 @@ feature {NONE} -- Implementation
 
 	has_old_name_identifier (line: STRING): BOOLEAN
 		local
-			intervals: EL_OCCURRENCE_INTERVALS [STRING]; s_8: EL_STRING_8_ROUTINES
+			intervals: EL_OCCURRENCE_INTERVALS; s_8: EL_STRING_8_ROUTINES
 		do
 			if line.has_substring (old_name) then
 				create intervals.make_by_string (line, old_name)

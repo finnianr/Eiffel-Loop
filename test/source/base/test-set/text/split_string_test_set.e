@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-16 16:33:09 GMT (Friday 16th December 2022)"
-	revision: "24"
+	date: "2022-12-18 16:18:56 GMT (Sunday 18th December 2022)"
+	revision: "25"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -65,7 +65,7 @@ feature -- Tests
 
 	test_occurrence_intervals
 		local
-			intervals: EL_OCCURRENCE_INTERVALS [STRING]
+			intervals: EL_OCCURRENCE_INTERVALS
 			str: STRING; item_lower, item_upper: INTEGER
 		do
 			create intervals.make_by_string (Api_string_list.joined_with_string (Comma_space), Comma_space)
@@ -150,6 +150,7 @@ feature -- Tests
 		end
 
 	test_split_and_join_1
+		-- SPLIT_STRING_TEST_SET.test_split_and_join_1
 		local
 			list: EL_STRING_LIST [STRING]
 		do

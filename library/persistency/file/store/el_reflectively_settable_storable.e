@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-17 9:01:52 GMT (Saturday 17th December 2022)"
-	revision: "65"
+	date: "2022-12-18 12:50:01 GMT (Sunday 18th December 2022)"
+	revision: "66"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -77,10 +77,11 @@ feature -- Basic operations
 						write_pyxis_field (output, name, tab_count)
 						storable.write_as_pyxis (output, tab_count + 1)
 					elseif attached {EL_REFLECTED_TUPLE} list.item as tuple_field
-						and then attached {TUPLE} tuple_field.value (Current) as l_tuple
+						and then attached tuple_field.value (Current) as tuple
+						and then attached tuple_field.field_name_list as name_list
 					then
 						write_pyxis_field (output, name, tab_count)
-						write_pyxis_tuple (output, tab_count + 1, l_tuple, tuple_field.member_types)
+						write_pyxis_tuple (output, tab_count + 1, tuple_field, tuple, name_list)
 					else
 						value.wipe_out
 						list.item.append_to_string (Current, value)
@@ -101,8 +102,10 @@ feature -- Basic operations
 	write_meta_data (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
 		local
 			field_definition: STRING; enumeration_list: ARRAYED_LIST [EL_ENUMERATION [NUMERIC]]
+			collection_item_list: ARRAYED_LIST [EL_REFLECTIVELY_SETTABLE_STORABLE]
 		do
 			create enumeration_list.make (5)
+			create collection_item_list.make (0)
 			output.put_indented_line (tab_count, "class " + generator)
 			across meta_data.field_list as list loop
 				-- Number
@@ -115,10 +118,15 @@ feature -- Basic operations
 						enumeration_list.extend (enumeration)
 					end
 				end
-				output.put_indented_line (tab_count + 1, field_definition)
-				if attached {EL_REFLECTIVELY_SETTABLE_STORABLE} list.item.value (Current) as storable then
-					storable.write_meta_data (output, tab_count + 1)
+				if attached {EL_REFLECTED_COLLECTION [EL_REFLECTIVELY_SETTABLE_STORABLE]} list.item as collection then
+					if attached {EL_STORABLE_READER_WRITER [EL_REFLECTIVELY_SETTABLE_STORABLE]} collection.reader_writer as rw then
+						collection_item_list.extend (rw.new_item)
+						if attached collection_item_list.last.generator as name then
+							field_definition.append (" -- " + name + " -> EL_REFLECTIVELY_SETTABLE_STORABLE")
+						end
+					end
 				end
+				output.put_indented_line (tab_count + 1, field_definition)
 			end
 			output.put_new_line
 			output.put_indented_line (tab_count, "-- CRC checksum ")
@@ -126,6 +134,10 @@ feature -- Basic operations
 
 			output.put_indented_line (tab_count, "end")
 
+			across collection_item_list as list loop
+				output.put_new_line
+				list.item.write_meta_data (output, tab_count)
+			end
 			across enumeration_list as enum loop
 				output.put_new_line
 				enum.item.write_meta_data (output, tab_count)
@@ -294,31 +306,30 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	write_pyxis_tuple (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; tuple: TUPLE; tuple_types: EL_TUPLE_TYPE_ARRAY)
+	write_pyxis_tuple (
+		output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; field: EL_REFLECTED_TUPLE; tuple: TUPLE
+		name_list: EL_STRING_8_LIST
+	)
 		local
-			pair, value: ZSTRING; name: STRING; i: INTEGER
+			pair, value: ZSTRING; i: INTEGER
 		do
 			across Reuseable.string as reuse loop
 				value := reuse.item
-				across Reuseable.string_8 as reuse_8 loop
-					name := reuse_8.copied_item (once "i_")
-					output.put_indent (tab_count)
-					from i := 1 until i > tuple.count loop
-						name.keep_head (2); name.append_integer (i)
-						value.wipe_out
-						value.append_tuple_item (tuple, i)
-						if tuple_types.i_th_is_character_data (i) and then not value.is_code_identifier then
-							value.enclose ('"', '"')
-						end
-						pair := Pyxis_attribute #$ [name, value]
-						if i = 1 then
-							pair.remove_head (2)
-						end
-						output.put_string (pair)
-						i := i + 1
+				output.put_indent (tab_count)
+				from i := 1 until i > tuple.count loop
+					value.wipe_out
+					value.append_tuple_item (tuple, i)
+					if field.member_types.i_th_is_character_data (i) and then not value.is_code_identifier then
+						value.enclose ('"', '"')
 					end
-					output.put_new_line
+					pair := Pyxis_attribute #$ [name_list [i], value]
+					if i = 1 then
+						pair.remove_head (2)
+					end
+					output.put_string (pair)
+					i := i + 1
 				end
+				output.put_new_line
 			end
 		end
 

@@ -6,16 +6,21 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-16 10:19:06 GMT (Friday 16th December 2022)"
-	revision: "12"
+	date: "2022-12-18 13:21:50 GMT (Sunday 18th December 2022)"
+	revision: "13"
 
 class
 	ECD_READER_WRITER_TEST_SET
 
 inherit
 	EL_FILE_DATA_TEST_SET
+		undefine
+			new_lio
+		end
 
 	COUNTRY_TEST_DATA
+
+	EL_CRC_32_TEST_ROUTINES
 
 	EL_SHARED_CURRENCY_ENUM
 
@@ -25,7 +30,10 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			eval.call ("collection_read_write", agent test_collection_read_write)
+			eval.call ("print_fields", agent test_print_fields)
+			eval.call ("pyxis_export", agent test_pyxis_export)
 			eval.call ("read_write", agent test_read_write)
+			eval.call ("write_meta_data", agent test_write_meta_data)
 		end
 
 feature -- Tests
@@ -34,8 +42,8 @@ feature -- Tests
 		-- ECD_READER_WRITER_TEST_SET.test_collection_read_write
 		note
 			testing: "covers/{EL_MEMORY_READER_WRITER}.read_string",
-					"covers/{EL_MEMORY_READER_WRITER}.write_string",
-					"covers/{EL_REFLECTED_COLLECTION}.write"
+						"covers/{EL_MEMORY_READER_WRITER}.write_string",
+						"covers/{EL_REFLECTED_COLLECTION}.write"
 		do
 			if attached new_country as country then
 				check_values (country)
@@ -45,6 +53,28 @@ feature -- Tests
 					assert ("country restored", False)
 				end
 			end
+		end
+
+	test_print_fields
+		do
+			if attached new_country as country then
+				do_test ("print_fields", 4263234204, agent country.print_fields (lio), [])
+			end
+		end
+
+	test_pyxis_export
+		note
+			testing: "covers/{ECD_REFLECTIVE_RECOVERABLE_CHAIN}.export_pyxis"
+		local
+			data_table: COUNTRY_DATA_TABLE; data_path, pyxis_path: FILE_PATH
+		do
+			data_path := Work_area_dir + "country.dat"
+			create data_table.make_from_file (data_path)
+			data_table.extend (new_country)
+
+			pyxis_path := data_path.with_new_extension ("pyx")
+			data_table.export_pyxis (pyxis_path, Latin_1)
+			data_table.close
 		end
 
 	test_read_write
@@ -69,6 +99,21 @@ feature -- Tests
 					end
 				end
 			end
+		end
+
+	test_write_meta_data
+		note
+			testing: "covers/{EL_REFLECTIVELY_SETTABLE_STORABLE}.write_meta_data"
+		local
+			meta_data: EL_PLAIN_TEXT_FILE
+		do
+			create meta_data.make_open_write (Work_area_dir + "country.e")
+			meta_data.set_encoding (Latin_1)
+			if attached new_country as country then
+				country.write_meta_data (meta_data, 0)
+				meta_data.close
+			end
+			assert_same_digest_hexadecimal (meta_data.path, "6A7A5D0051555859C26D95FEC29479FC")
 		end
 
 feature {NONE} -- Implementation
