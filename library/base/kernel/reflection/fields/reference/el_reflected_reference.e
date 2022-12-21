@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 9:41:17 GMT (Sunday 18th December 2022)"
-	revision: "35"
+	date: "2022-12-21 21:31:11 GMT (Wednesday 21st December 2022)"
+	revision: "36"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -210,8 +210,6 @@ note
 					[$source EL_REFLECTED_MAKEABLE_FROM_ZSTRING]
 					[$source EL_REFLECTED_MAKEABLE_FROM_STRING_8]
 					[$source EL_REFLECTED_MAKEABLE_FROM_STRING_32]
-				[$source EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT]
-				[$source EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT]
 				[$source EL_REFLECTED_COLLECTION] [G]
 				[$source EL_REFLECTED_STRING]* [S -> [$source STRING_GENERAL]]
 					[$source EL_REFLECTED_ZSTRING]

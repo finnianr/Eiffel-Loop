@@ -9,14 +9,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
-	revision: "5"
+	date: "2022-12-21 17:42:02 GMT (Wednesday 21st December 2022)"
+	revision: "6"
 
 class
 	EL_REAL_64_READER_WRITER
 
 inherit
 	EL_READER_WRITER_INTERFACE [REAL_64]
+
+feature -- Factory
+
+	new_item: REAL_64
+		do
+		end
 
 feature -- Basic operations
 

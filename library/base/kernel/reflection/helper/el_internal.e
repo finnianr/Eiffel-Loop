@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 16:20:21 GMT (Sunday 18th December 2022)"
-	revision: "19"
+	date: "2022-12-19 19:29:02 GMT (Monday 19th December 2022)"
+	revision: "20"
 
 class
 	EL_INTERNAL
@@ -42,11 +42,6 @@ inherit
 
 feature -- Type queries
 
-	dynamic_type (object: separate ANY): INTEGER
-		do
-			Result := {ISE_RUNTIME}.dynamic_type (object)
-		end
-
 	collection_item_type (type_id: INTEGER): INTEGER
 		require
 			valid_id: is_collection_type (type_id)
@@ -59,6 +54,11 @@ feature -- Type queries
 			then
 				Result := list.area.generating_type.generic_parameter_type (1).type_id
 			end
+		end
+
+	dynamic_type (object: separate ANY): INTEGER
+		do
+			Result := {ISE_RUNTIME}.dynamic_type (object)
 		end
 
 	field_conforms_to_collection (basic_type, type_id: INTEGER): BOOLEAN
@@ -85,7 +85,15 @@ feature -- Type queries
 			Result := basic_type = Reference_type
 		end
 
-	is_storable_type (basic_type, type_id: INTEGER_32): BOOLEAN
+	is_storable_collection_type (type_id: INTEGER): BOOLEAN
+		local
+			item_type_id: INTEGER
+		do
+			item_type_id := collection_item_type (type_id)
+			Result := is_storable_type (abstract_type (item_type_id), item_type_id)
+		end
+
+	is_storable_type (basic_type, type_id: INTEGER): BOOLEAN
 		-- `True' if type is storable using `EL_STORABLE' interface
 		local
 			tuple_types: EL_TUPLE_TYPE_ARRAY
@@ -125,9 +133,7 @@ feature -- Type queries
 		do
 			inspect basic_type
 				when Reference_type then
-					Result := across Reference_field_list as list some
-						type_conforms_to (type_id, list.item.value_type.type_id)
-					end
+					Result := Reference_field_list.has_conforming (type_id)
 
 				when Pointer_type then
 					-- Exclude pointer
@@ -138,11 +144,6 @@ feature -- Type queries
 		end
 
 feature -- Access
-
-	new_object (type: TYPE [ANY]): detachable ANY
-		do
-			Result := new_instance_of (type.type_id)
-		end
 
 	new_factory_instance (factory_type, type: TYPE [ANY]): detachable ANY
 		require
@@ -159,6 +160,11 @@ feature -- Access
 			if type_id > 0 and then attached new_instance_of (type_id) as new then
 				Result := new
 			end
+		end
+
+	new_object (type: TYPE [ANY]): detachable ANY
+		do
+			Result := new_instance_of (type.type_id)
 		end
 
 	reflected (a_object: ANY): EL_REFLECTED_REFERENCE_OBJECT
@@ -194,17 +200,27 @@ feature -- Access
 			end
 		end
 
+feature -- Constants
+
+	Basic_types: ARRAYED_LIST [TYPE [ANY]]
+		once
+			create Result.make (Special_type_mapping.count)
+			across Special_type_mapping as table loop
+				Result.extend (type_of_type (table.key))
+			end
+		end
+
 feature -- Contract Support
+
+	is_collection_type (type_id: INTEGER): BOOLEAN
+		do
+			Result := type_conforms_to (type_id, Class_id.COLLECTION_ANY)
+		end
 
 	valid_factory_type (factory_type, type: TYPE [ANY]): BOOLEAN
 		do
 			Result := factory_type.generic_parameter_count = 1
 				and then field_conforms_to (type.type_id, factory_type.generic_parameter_type (1).type_id)
-		end
-
-	is_collection_type (type_id: INTEGER): BOOLEAN
-		do
-			Result := type_conforms_to (type_id, Class_id.COLLECTION_ANY)
 		end
 
 feature {NONE} -- Implementation
@@ -218,11 +234,6 @@ feature {NONE} -- Implementation
 				Result := field_conforms_to (type_id, types [i])
 				i := i + 1
 			end
-		end
-
-	new_template (type: TYPE [ANY]): STRING_8
-		do
-			Result := type.name
 		end
 
 	new_factory_type_id (factory_type, type: TYPE [ANY]): INTEGER
@@ -242,15 +253,20 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Constants
-
-	Factory_type_id_table: HASH_TABLE [INTEGER, TYPE [ANY]]
-		once
-			create Result.make (17)
+	new_template (type: TYPE [ANY]): STRING_8
+		do
+			Result := type.name
 		end
+
+feature {NONE} -- Constants
 
 	Factory_template_table: EL_CACHE_TABLE [STRING_8, TYPE [ANY]]
 		once
 			create Result.make (17, agent new_template)
 		end
+	Factory_type_id_table: HASH_TABLE [INTEGER, TYPE [ANY]]
+		once
+			create Result.make (17)
+		end
+
 end

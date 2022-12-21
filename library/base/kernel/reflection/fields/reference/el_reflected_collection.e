@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 10:00:18 GMT (Sunday 18th December 2022)"
-	revision: "24"
+	date: "2022-12-21 21:13:21 GMT (Wednesday 21st December 2022)"
+	revision: "25"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -17,7 +17,7 @@ inherit
 		rename
 			value as collection
 		redefine
-			append_to_string, make, is_abstract, is_storable_type, new_factory,
+			append_to_string, group_type, make, is_abstract, is_storable_type, new_factory,
 			set_from_memory, set_from_string, to_string, write
 		end
 
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 			then
 				reader_writer := found_item
 
-			elseif attached storable_reader_writer_factory as reader_writer_factory
+			elseif attached makeable_reader_writer_factory as reader_writer_factory
 				and then attached {EL_READER_WRITER_INTERFACE [G]} reader_writer_factory.new_item as new
 			then
 				reader_writer := new
@@ -56,6 +56,11 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	item_type_id: INTEGER
+
+	group_type: TYPE [ANY]
+		do
+			Result := {COLLECTION [ANY]}
+		end
 
 feature -- Conversion
 
@@ -72,6 +77,11 @@ feature -- Status query
 	has_character_data: BOOLEAN
 		do
 			Result := Class_id.Character_data_types.has (item_type_id)
+		end
+
+	is_extendible (a_object: EL_REFLECTIVE): BOOLEAN
+		do
+			Result := attached collection (a_object) and then attached reader_writer
 		end
 
 	is_reflective_item: BOOLEAN
@@ -95,6 +105,13 @@ feature -- Basic operations
 						writer.write (list.item, str)
 					end
 				end
+			end
+		end
+
+	extend_with_new (a_object: EL_REFLECTIVE)
+		do
+			if attached collection (a_object) as container and then attached reader_writer as rw then
+				container.extend (rw.new_item)
 			end
 		end
 
@@ -184,19 +201,19 @@ feature -- Conversion
 
 feature {NONE} -- Implementation
 
+	makeable_reader_writer_factory: detachable like Makeable_reader_writer_factory_factory.new_item_factory
+		do
+			if {ISE_RUNTIME}.type_conforms_to (item_type_id, Class_id.EL_MAKEABLE) then
+				Result := Makeable_reader_writer_factory_factory.new_item_factory (item_type_id)
+			end
+		end
+
 	new_factory: detachable EL_FACTORY [COLLECTION [G]]
 		do
 			if attached {EL_FACTORY [COLLECTION [G]]} Arrayed_list_factory.new_item_factory (type_id) as f then
 				Result := f
 			else
 				Result := Precursor
-			end
-		end
-
-	storable_reader_writer_factory: detachable like Storable_reader_writer_factory_factory.new_item_factory
-		do
-			if {ISE_RUNTIME}.type_conforms_to (item_type_id, Class_id.EL_STORABLE) then
-				Result := Storable_reader_writer_factory_factory.new_item_factory (item_type_id)
 			end
 		end
 

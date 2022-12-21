@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-10 16:22:13 GMT (Saturday 10th December 2022)"
-	revision: "9"
+	date: "2022-12-19 9:13:21 GMT (Monday 19th December 2022)"
+	revision: "10"
 
 deferred class
 	EL_REFLECTIVE_I
@@ -32,6 +32,21 @@ feature {NONE} -- Constants
 		-- array of functions returning a new value for result type
 		once
 			create Result.make_empty
+		end
+
+	frozen Default_representations: EL_HASH_TABLE [EL_FIELD_REPRESENTATION [ANY, ANY], STRING]
+		once
+			create Result.make_size (0)
+		end
+
+	frozen Default_tuple_field_names: EL_HASH_TABLE [STRING, STRING]
+		once
+			create Result.make_size (0)
+		end
+
+	frozen Default_tuple_field_name_table: HASH_TABLE [EL_STRING_8_LIST, INTEGER]
+		once
+			create Result.make (0)
 		end
 
 	frozen Once_current_object: REFLECTED_REFERENCE_OBJECT

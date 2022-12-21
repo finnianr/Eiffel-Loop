@@ -6,25 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-14 12:44:06 GMT (Wednesday 14th December 2022)"
-	revision: "8"
+	date: "2022-12-21 21:28:56 GMT (Wednesday 21st December 2022)"
+	revision: "9"
 
 class
 	EL_EIF_OBJ_BUILDER_CONTEXT_TYPE_CONSTANTS
 
 feature {NONE} -- Implementation
 
-	extra_field_types: TUPLE [
-		EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT,
-		EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT
-	]
+	extra_field_types: TUPLE [EL_REFLECTED_REFERENCE [EL_EIF_OBJ_BUILDER_CONTEXT]]
 		do
 			create Result
 		end
 
-	Eiffel_object_builder_types: EL_TUPLE_TYPE_LIST [EL_REFLECTED_REFERENCE [ANY]]
+	Eiffel_object_builder_types: EL_REFLECTED_REFERENCE_LIST
 		once
-			create Result.make_from_tuple (extra_field_types)
+			create Result.make (extra_field_types)
 		end
 
 end

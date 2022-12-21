@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 13:19:04 GMT (Sunday 18th December 2022)"
-	revision: "62"
+	date: "2022-12-19 9:12:58 GMT (Monday 19th December 2022)"
+	revision: "63"
 
 deferred class
 	EL_REFLECTIVE
@@ -224,10 +224,14 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 		local
 			field_set: EL_FIELD_INDICES_SET; s: EL_STRING_8_ROUTINES
 		do
-			create field_set.make_from_reflective (Current, s.joined_with (field_names.current_keys, Comma_space))
-			create Result.make (field_names.count)
-			across field_names as table loop
-				Result.extend (table.item, field_set [table.cursor_index - 1])
+			if field_names.count = 0 then
+				Result := Default_tuple_field_name_table
+			else
+				create field_set.make_from_reflective (Current, s.joined_with (field_names.current_keys, Comma_space))
+				create Result.make (field_names.count)
+				across field_names as table loop
+					Result.extend (table.item, field_set [table.cursor_index - 1])
+				end
 			end
 		end
 
@@ -385,16 +389,6 @@ feature {NONE} -- Internal attributes
 	internal_meta_data: detachable EL_CLASS_META_DATA note option: transient attribute end
 
 feature {EL_CLASS_META_DATA} -- Constants
-
-	Default_representations: EL_HASH_TABLE [EL_FIELD_REPRESENTATION [ANY, ANY], STRING]
-		once
-			create Result.make_size (0)
-		end
-
-	Default_tuple_field_names: EL_HASH_TABLE [STRING, STRING]
-		once
-			create Result.make_size (0)
-		end
 
 	Hidden_fields: STRING
 		-- comma-separated list of fields that will not be output by `print_fields'

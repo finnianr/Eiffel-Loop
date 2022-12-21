@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2022-12-21 21:14:33 GMT (Wednesday 21st December 2022)"
+	revision: "16"
 
 class
 	REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET
@@ -33,6 +33,8 @@ feature -- Tests
 			File_path.set_base ("config.xml")
 			create l_values.make (1.1, 1)
 			create config.make ("/home/finnian/Graphics/icon.png", "'&' means %"and%"", l_values)
+
+			assert ("8 fields", config.field_table.count = 8)
 
 			config.substring_interval.start_index := 5
 			config.substring_interval.end_index := 10

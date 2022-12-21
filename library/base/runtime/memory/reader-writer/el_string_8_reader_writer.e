@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
-	revision: "5"
+	date: "2022-12-21 17:44:55 GMT (Wednesday 21st December 2022)"
+	revision: "6"
 
 class
 	EL_STRING_8_READER_WRITER
 
 inherit
-	EL_READER_WRITER_INTERFACE [STRING_8]
+	EL_STRING_GENERAL_READER_WRITER [STRING_8]
 
 feature -- Basic operations
 

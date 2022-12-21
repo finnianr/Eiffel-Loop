@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-10 8:59:02 GMT (Saturday 10th December 2022)"
-	revision: "11"
+	date: "2022-12-21 9:31:39 GMT (Wednesday 21st December 2022)"
+	revision: "12"
 
 class
 	TYPE_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_LIO
+	EL_MODULE_EIFFEL; EL_MODULE_LIO
 
 	EL_SHARED_FACTORIES
 
@@ -60,6 +60,12 @@ feature -- Tests
 			name_1 := t1.name; name_2 := t2.name
 			assert ("same instance", t1 = t2)
 			assert ("same instance", name_1 = name_2)
+
+			if attached {TYPE [READABLE_STRING_32]} Eiffel.type_of_type (t1.type_id) as t3 then
+				assert ("same instance", t1 = t3)
+			else
+				assert ("same type", False)
+			end
 		end
 
 feature -- Basic operations

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-13 16:25:18 GMT (Tuesday 13th December 2022)"
-	revision: "48"
+	date: "2022-12-21 21:31:54 GMT (Wednesday 21st December 2022)"
+	revision: "49"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -238,7 +238,7 @@ feature {NONE} -- Implementation
 feature {EL_REFLECTION_HANDLER} -- Internal attributes
 
 	enclosing_object: separate EL_REFLECTIVE
-			-- Enclosing object containing `object' or a reference to `object.
+		-- Enclosing object containing `object' or a reference to `object.
 
 	translater: detachable EL_NAME_TRANSLATER
 
@@ -268,8 +268,6 @@ note
 						[$source EL_REFLECTED_MAKEABLE_FROM_ZSTRING]
 						[$source EL_REFLECTED_MAKEABLE_FROM_STRING_8]
 						[$source EL_REFLECTED_MAKEABLE_FROM_STRING_32]
-					[$source EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT]
-					[$source EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT]
 					[$source EL_REFLECTED_COLLECTION] [G]
 					[$source EL_REFLECTED_STRING]* [S -> [$source STRING_GENERAL]]
 						[$source EL_REFLECTED_ZSTRING]

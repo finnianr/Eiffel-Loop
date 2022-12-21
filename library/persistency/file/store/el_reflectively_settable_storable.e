@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 12:50:01 GMT (Sunday 18th December 2022)"
-	revision: "66"
+	date: "2022-12-21 17:35:39 GMT (Wednesday 21st December 2022)"
+	revision: "67"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -103,23 +103,25 @@ feature -- Basic operations
 		local
 			field_definition: STRING; enumeration_list: ARRAYED_LIST [EL_ENUMERATION [NUMERIC]]
 			collection_item_list: ARRAYED_LIST [EL_REFLECTIVELY_SETTABLE_STORABLE]
+			field: EL_REFLECTED_FIELD
 		do
 			create enumeration_list.make (5)
 			create collection_item_list.make (0)
 			output.put_indented_line (tab_count, "class " + generator)
 			across meta_data.field_list as list loop
+				field := list.item
 				-- Number
 				output.put_indented_line (tab_count, "-- " + list.cursor_index.out)
 
-				field_definition := list.item.name + ": " + list.item.class_name
-				if attached {EL_STRING_FIELD_REPRESENTATION [ANY, ANY]} list.item.representation as representation then
+				field_definition := new_field_definition (field)
+				if attached {EL_STRING_FIELD_REPRESENTATION [ANY, ANY]} field.representation as representation then
 					representation.append_comment (field_definition)
 					if attached {EL_ENUMERATION [NUMERIC]} representation.item as enumeration then
 						enumeration_list.extend (enumeration)
 					end
 				end
-				if attached {EL_REFLECTED_COLLECTION [EL_REFLECTIVELY_SETTABLE_STORABLE]} list.item as collection then
-					if attached {EL_STORABLE_READER_WRITER [EL_REFLECTIVELY_SETTABLE_STORABLE]} collection.reader_writer as rw then
+				if attached {EL_REFLECTED_COLLECTION [EL_REFLECTIVELY_SETTABLE_STORABLE]} field as collection then
+					if attached {EL_MAKEABLE_READER_WRITER [EL_REFLECTIVELY_SETTABLE_STORABLE]} collection.reader_writer as rw then
 						collection_item_list.extend (rw.new_item)
 						if attached collection_item_list.last.generator as name then
 							field_definition.append (" -- " + name + " -> EL_REFLECTIVELY_SETTABLE_STORABLE")
@@ -205,14 +207,35 @@ feature {NONE} -- Implementation
 			valid_index: Result <= Once_attribute_lines.count
 		end
 
-	is_storable_field (basic_type, type_id: INTEGER_32): BOOLEAN
+	is_storable_field (basic_type, type_id: INTEGER): BOOLEAN
 		do
 			if Eiffel.is_storable_type (basic_type, type_id) then
 				Result := True
 
 			elseif {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.ARRAYED_LIST_ANY) then
 				if Arrayed_list_factory.is_valid_type (type_id) then
-					Result := Eiffel.is_storable_type (basic_type, Eiffel.collection_item_type (type_id))
+					Result := Eiffel.is_storable_collection_type (type_id)
+				end
+			end
+		end
+
+	new_field_definition (field: EL_REFLECTED_FIELD): STRING
+		local
+			parts: EL_SPLIT_INTERVALS; index: INTEGER
+		do
+			Result := field.name + ": " + field.class_name
+			if attached {EL_REFLECTED_TUPLE} field as tuple
+				and then attached tuple.field_name_list as name_list
+			then
+				create parts.make_by_string (Result, ", ")
+				from parts.finish until parts.before loop
+					if parts.isfirst then
+						index := Result.index_of ('[', 1) + 1
+					else
+						index := parts.item_lower
+					end
+					Result.insert_string (name_list [parts.index] + ": ", index)
+					parts.back
 				end
 			end
 		end

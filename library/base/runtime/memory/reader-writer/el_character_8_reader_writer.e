@@ -9,14 +9,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
-	revision: "5"
+	date: "2022-12-21 17:39:53 GMT (Wednesday 21st December 2022)"
+	revision: "6"
 
 class
 	EL_CHARACTER_8_READER_WRITER
 
 inherit
 	EL_READER_WRITER_INTERFACE [CHARACTER_8]
+
+feature -- Factory
+
+	new_item: CHARACTER_8
+		do
+		end
 
 feature -- Basic operations
 

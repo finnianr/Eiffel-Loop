@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2022-12-20 10:27:45 GMT (Tuesday 20th December 2022)"
+	revision: "10"
 
 deferred class
 	EL_STORABLE
@@ -21,6 +21,8 @@ inherit
 		end
 
 	EL_STORABLE_HANDLER
+
+	EL_SHARED_FACTORIES
 
 feature {EL_STORABLE_HANDLER} -- Initialization
 
@@ -72,9 +74,14 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	new_twin: like Current
+	new_default: like Current
+		-- new item like `Current' in default state
 		do
-			Result := twin
+			if attached {like Current} Makeable_factory.new_item_from_type ({like Current}) as new then
+				Result := new
+			else
+				Result := twin
+			end
 		end
 
 	on_read
@@ -96,15 +103,16 @@ feature {NONE} -- Contract Support
 
 	is_reversible (a_writer: EL_MEMORY_READER_WRITER; from_count: INTEGER): BOOLEAN
 		do
-			Result := is_equal (read_twin (a_writer, from_count))
+			Result := is_equal (read_again (a_writer, from_count))
 		end
 
-	read_twin (a_writer: EL_MEMORY_READER_WRITER; from_count: INTEGER): like Current
+	read_again (a_writer: EL_MEMORY_READER_WRITER; from_count: INTEGER): like Current
 		local
 			reader: EL_MEMORY_READER_WRITER
 		do
 			create reader.make_with_buffer (a_writer.buffer); reader.set_count (from_count)
-			Result := new_twin; Result.read (reader)
+			Result := new_default
+			Result.read (reader)
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-16 9:33:20 GMT (Friday 16th December 2022)"
-	revision: "36"
+	date: "2022-12-19 19:47:26 GMT (Monday 19th December 2022)"
+	revision: "37"
 
 class
 	REFLECTION_TEST_SET
@@ -23,6 +23,8 @@ inherit
 
 	EL_REFLECTION_CONSTANTS
 
+	EL_SHARED_FACTORIES
+
 feature -- Basic operations
 
 	do_all (eval: EL_TEST_SET_EVALUATOR)
@@ -34,8 +36,9 @@ feature -- Basic operations
 			eval.call ("initialized_object_factory", agent test_initialized_object_factory)
 			eval.call ("object_initialization_from_camel_case_table", agent test_object_initialization_from_camel_case_table)
 			eval.call ("object_initialization_from_table", agent test_object_initialization_from_table)
-			eval.call ("reflected_collection_factory", agent test_reflected_collection_factory)
 			eval.call ("reference_field_list", agent test_reference_field_list)
+			eval.call ("reflected_collection_factory", agent test_reflected_collection_factory)
+			eval.call ("reflected_integer_list", agent test_reflected_integer_list)
 			eval.call ("reflection", agent test_reflection)
 			eval.call ("reflective_string_constants", agent test_reflective_string_constants)
 			eval.call ("set_from_other", agent test_set_from_other)
@@ -154,9 +157,26 @@ feature -- Tests
 
 	test_reflected_collection_factory
 		local
-			factory: EL_REFLECTED_COLLECTION_FACTORY [ANY, EL_REFLECTED_COLLECTION [ANY]]
+			type_list: ARRAY [TYPE [ANY]]; type_id: INTEGER
+			factory_type: TYPE [ANY]
 		do
-			factory := Reflected_collection_factory.new_item_factory (({ARRAYED_LIST [STRING]}).type_id)
+			type_list := << {INTEGER}, {STRING}, {COUNTRY} >>
+			across type_list as type loop
+				if attached Collection_field_factory_factory.new_item_factory (type.item.type_id) as factory then
+					lio.put_labeled_string ("Type", factory.generating_type.name)
+					lio.put_new_line
+				else
+					assert ("created factory", False)
+				end
+			end
+		end
+
+	test_reflected_integer_list
+		local
+			l_test: TEST_STORABLE
+		do
+			create l_test.make_default
+			assert ("integer_list initialized", attached l_test.integer_list)
 		end
 
 	test_reflection
@@ -246,7 +266,7 @@ feature {NONE} -- Constants
 
 	Object_header_size: INTEGER = 16
 
-	Reflected_collection_factory: EL_INITIALIZED_OBJECT_FACTORY [
+	Reflected_collection_factory_factory: EL_INITIALIZED_OBJECT_FACTORY [
 		EL_REFLECTED_COLLECTION_FACTORY [ANY, EL_REFLECTED_COLLECTION [ANY]], EL_REFLECTED_COLLECTION [ANY]
 	]
 		once

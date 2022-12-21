@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:27 GMT (Monday 12th December 2022)"
-	revision: "7"
+	date: "2022-12-21 17:45:50 GMT (Wednesday 21st December 2022)"
+	revision: "8"
 
 class
 	EL_INTEGER_X_READER_WRITER
@@ -19,6 +19,13 @@ inherit
 	EL_READER_WRITER_INTERFACE [INTEGER_X]
 
 	INTEGER_X_FACILITIES
+
+feature -- Factory
+
+	new_item: INTEGER_X
+		do
+			create Result
+		end
 
 feature -- Basic operations
 

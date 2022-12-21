@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "24"
+	date: "2022-12-21 9:39:57 GMT (Wednesday 21st December 2022)"
+	revision: "25"
 
 deferred class
 	EL_BUILDABLE_FROM_NODE_SCAN
@@ -54,7 +54,7 @@ feature {EL_EIF_OBJ_ROOT_BUILDER_CONTEXT} -- Initialization
 
 feature -- Access
 
-	xml_name_space: STRING
+	xml_name_space: STRING note option: transient attribute end
 
 feature {NONE} -- Element change
 

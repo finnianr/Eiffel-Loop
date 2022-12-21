@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 13:21:50 GMT (Sunday 18th December 2022)"
-	revision: "13"
+	date: "2022-12-20 11:22:23 GMT (Tuesday 20th December 2022)"
+	revision: "14"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -46,6 +46,8 @@ feature -- Tests
 						"covers/{EL_REFLECTED_COLLECTION}.write"
 		do
 			if attached new_country as country then
+				country.print_fields (lio)
+
 				check_values (country)
 				if attached {COUNTRY} restored_object (country, Country_reader_writer) as restored then
 					check_values (restored)
@@ -81,19 +83,17 @@ feature -- Tests
 		note
 			testing: "covers/{EL_MEMORY_READER_WRITER}.read_string",
 					"covers/{EL_MEMORY_READER_WRITER}.write_string"
-		local
-			byte_array: EL_BYTE_ARRAY; zstr: ZSTRING; uuid: EL_UUID
 		do
 			across << {STRING_32} "Xiǎo Chù 小畜", {STRING_32} "Trademark (™)" >> as str loop
-				zstr := str.item
-				create byte_array.make_from_string (zstr.to_utf_8 (False))
-				uuid := byte_array.to_uuid
+				if attached new_test_storable (str.item) as storable then
+					storable.print_fields (lio)
+					lio.put_new_line
 
-				if attached new_test_storable (str.item, uuid) as storable then
 					if attached {TEST_STORABLE} restored_object (storable, Storable_reader_writer) as restored then
 						assert ("same string", storable.string ~ restored.string)
 						assert ("same string", storable.string_32 ~ restored.string_32)
-						assert ("same uuid", storable.uuid ~ uuid)
+						assert ("same uuid", storable.uuid ~ restored.uuid)
+						assert ("same integer_list", storable.integer_list ~ restored.integer_list)
 					else
 						assert ("restored OK", False)
 					end
@@ -113,16 +113,25 @@ feature -- Tests
 				country.write_meta_data (meta_data, 0)
 				meta_data.close
 			end
-			assert_same_digest_hexadecimal (meta_data.path, "6A7A5D0051555859C26D95FEC29479FC")
+			assert_same_digest_hexadecimal (meta_data.path, "8816F18DF6ACAD66843B3F30A22A8E65")
 		end
 
 feature {NONE} -- Implementation
 
-	new_test_storable (str: STRING_32; uuid: EL_UUID): TEST_STORABLE
+	new_test_storable (str: STRING_32): TEST_STORABLE
+		local
+			byte_array: EL_BYTE_ARRAY; zstr: ZSTRING; uuid: EL_UUID
 		do
+			zstr := str
+			create byte_array.make_from_string (zstr.to_utf_8 (False))
+			uuid := byte_array.to_uuid
+
 			create Result.make_default
 			Result.set_string_values  (str)
 			Result.uuid.copy (uuid)
+			across str as character until Result.integer_list.count = 4 loop
+				Result.integer_list.extend (character.item.code)
+			end
 		end
 
 	restored_object (object: EL_REFLECTIVELY_SETTABLE_STORABLE; reader_writer: ECD_READER_WRITER [EL_STORABLE]): EL_STORABLE
@@ -131,9 +140,6 @@ feature {NONE} -- Implementation
 					"covers/{EL_MEMORY_READER_WRITER}.write_string"
 		do
 			File_path.set_base ("stored.dat")
-
-			object.print_fields (lio)
-
 			if attached open_raw (File_path, Write) as l_file then
 				reader_writer.write (object, l_file)
 				l_file.close

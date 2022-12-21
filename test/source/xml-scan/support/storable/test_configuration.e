@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2022-12-21 9:16:58 GMT (Wednesday 21st December 2022)"
+	revision: "15"
 
 class
 	TEST_CONFIGURATION
@@ -16,6 +16,8 @@ inherit
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML
 		rename
 			xml_naming as eiffel_naming
+		export
+			{ANY} field_table
 		redefine
 			make_default, new_instance_functions
 		end
@@ -33,13 +35,10 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			create values_list.make (3)
-			values_list.compare_objects
-			create colors.make (3)
-			create integer_list.make (3)
-			colors.compare_objects
-			create clipping.make_enabled
 			Precursor
+			values_list.compare_objects
+			colors.compare_objects
+			clipping.enable
 		end
 
 feature {NONE} -- Implementation

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-14 12:42:16 GMT (Wednesday 14th December 2022)"
-	revision: "12"
+	date: "2022-12-19 10:02:34 GMT (Monday 19th December 2022)"
+	revision: "13"
 
 class
 	EL_EIF_OBJ_BUILDER_CONTEXT_CLASS_META_DATA
@@ -37,7 +37,7 @@ feature {NONE} -- Implementation
 
 	extend_field_types (a_field_list: like Reference_field_list)
 		once
-			a_field_list.append_sequence (new_reference_field_list (extra_field_types))
+			a_field_list.append_types (extra_field_types)
 		end
 
 feature {NONE} -- Constants

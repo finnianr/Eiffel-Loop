@@ -6,11 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2022-12-21 9:44:13 GMT (Wednesday 21st December 2022)"
+	revision: "18"
 
 deferred class
 	EL_EIF_OBJ_XPATH_CONTEXT
+
+inherit
+	EL_MAKEABLE
+		rename
+			make as make_default
+		end
 
 feature {NONE} -- Initialization
 

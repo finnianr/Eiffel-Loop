@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-17 9:25:12 GMT (Saturday 17th December 2022)"
-	revision: "44"
+	date: "2022-12-21 17:37:39 GMT (Wednesday 21st December 2022)"
+	revision: "45"
 
 deferred class
 	EL_REFLECTION_CONSTANTS
@@ -18,12 +18,22 @@ inherit
 			copy, is_equal, default_create
 		end
 
-	EL_SHARED_FACTORIES
-
 feature {NONE} -- Implementation
 
 	reflected_reference_types: TUPLE [
 		EL_REFLECTED_BOOLEAN_REF,
+
+		EL_REFLECTED_COLLECTION [BOOLEAN], EL_REFLECTED_COLLECTION [POINTER],
+		EL_REFLECTED_COLLECTION [CHARACTER_8], EL_REFLECTED_COLLECTION [CHARACTER_32],
+
+		EL_REFLECTED_COLLECTION [NATURAL_8], EL_REFLECTED_COLLECTION [NATURAL_16],
+		EL_REFLECTED_COLLECTION [NATURAL_32], EL_REFLECTED_COLLECTION [NATURAL_64],
+
+		EL_REFLECTED_COLLECTION [INTEGER_8], EL_REFLECTED_COLLECTION [INTEGER_16],
+		EL_REFLECTED_COLLECTION [INTEGER_32], EL_REFLECTED_COLLECTION [INTEGER_64],
+
+		EL_REFLECTED_COLLECTION [REAL_32], EL_REFLECTED_COLLECTION [REAL_64],
+
 		EL_REFLECTED_DATE, EL_REFLECTED_DATE_TIME,
 		EL_REFLECTED_IMMUTABLE_STRING_8, EL_REFLECTED_IMMUTABLE_STRING_32,
 		EL_REFLECTED_MAKEABLE_FROM_STRING_8, EL_REFLECTED_MAKEABLE_FROM_STRING_32,
@@ -41,25 +51,18 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	new_reference_field_list (type_tuple: TUPLE): like Reference_field_list
-		local
-			type_list: EL_TUPLE_TYPE_ARRAY
-		do
-			create type_list.make_from_tuple (type_tuple)
-			create Result.make (type_list.count)
-			across type_list as list loop
-				if attached {EL_REFLECTED_REFERENCE [ANY]}
-					Default_factory.new_item_from_type_id (list.item.type_id) as new
-				then
-					Result.extend (new)
-				end
-			end
-		end
-
 feature {NONE} -- Factories
 
 	Collection_field_factory_factory: EL_INITIALIZED_OBJECT_FACTORY [
 		EL_REFLECTED_COLLECTION_FACTORY [ANY, EL_REFLECTED_COLLECTION [ANY]], EL_REFLECTED_COLLECTION [ANY]
+	]
+		once
+			create Result
+		end
+
+	Makeable_reader_writer_factory_factory: EL_INITIALIZED_OBJECT_FACTORY [
+		EL_MAKEABLE_READER_WRITER_FACTORY [EL_MAKEABLE, EL_MAKEABLE_READER_WRITER [EL_MAKEABLE]],
+		EL_MAKEABLE_READER_WRITER [EL_MAKEABLE]
 	]
 		once
 			create Result
@@ -72,21 +75,14 @@ feature {NONE} -- Factories
 			create Result
 		end
 
-	Storable_reader_writer_factory_factory: EL_INITIALIZED_OBJECT_FACTORY [
-		EL_STORABLE_READER_WRITER_FACTORY [EL_STORABLE, EL_STORABLE_READER_WRITER [EL_STORABLE]],
-		EL_STORABLE_READER_WRITER [EL_STORABLE]
-	]
-		once
-			create Result
-		end
-
 feature {NONE} -- Reference types
 
 	Group_type_order_table: EL_HASH_TABLE [INTEGER, TYPE [ANY]]
 		-- Defines search order for matching `value_type' in groups
 		once
 			create Result.make (<<
-				[{EL_MAKEABLE_FROM_STRING [STRING_GENERAL]}, 14],
+				[{EL_MAKEABLE_FROM_STRING [STRING_GENERAL]}, 16],
+				[{COLLECTION [ANY]}, 14],
 				[{EL_STORABLE}, 12],
 				[{READABLE_STRING_GENERAL}, 10],
 				[{EL_URI}, 8], -- Must be higher priority than READABLE_STRING_GENERAL
@@ -96,17 +92,12 @@ feature {NONE} -- Reference types
 
 	Non_abstract_field_type_table: HASH_TABLE [TYPE [EL_REFLECTED_REFERENCE [ANY]], INTEGER]
 		once
-			create Result.make (Reference_field_list.count)
-			across Reference_field_list as list loop
-				if not list.item.is_abstract then
-					Result.extend (list.item.generating_type, list.item.value_type.type_id)
-				end
-			end
+			Result := Reference_field_list.non_abstract_type_table
 		end
 
-	Reference_field_list: EL_ARRAYED_LIST [EL_REFLECTED_REFERENCE [ANY]]
+	Reference_field_list: EL_REFLECTED_REFERENCE_LIST
 		once
-			Result := new_reference_field_list (reflected_reference_types)
+			create Result.make (reflected_reference_types)
 		end
 
 	frozen Standard_field_types: ARRAY [TYPE [EL_REFLECTED_FIELD]]
@@ -140,22 +131,12 @@ feature {NONE} -- Reference types
 
 	String_reference_types: EL_ARRAYED_LIST [INTEGER]
 		once
-			create Result.make (10)
-			across Reference_field_list as list loop
-				if attached {EL_REFLECTED_STRING [READABLE_STRING_GENERAL]} list.item then
-					Result.extend (list.item.value_type.type_id)
-				end
-			end
+			Result := Reference_field_list.string_type_id_list
 		end
 
 	Storable_reference_types: EL_ARRAYED_LIST [INTEGER]
 		once
-			create Result.make (Reference_field_list.count)
-			across Reference_field_list as list loop
-				if list.item.is_storable_type then
-					Result.extend (list.item.value_type.type_id)
-				end
-			end
+			Result := Reference_field_list.storable_types
 		end
 
 end
