@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-21 21:14:33 GMT (Wednesday 21st December 2022)"
-	revision: "16"
+	date: "2022-12-21 21:37:28 GMT (Wednesday 21st December 2022)"
+	revision: "17"
 
 class
 	REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET
@@ -55,7 +55,6 @@ feature -- Tests
 				end
 				i := i + 1
 			end
-
 			config.colors.extend ("Red")
 			config.colors.extend ("Green")
 			config.colors.extend ("Blue")

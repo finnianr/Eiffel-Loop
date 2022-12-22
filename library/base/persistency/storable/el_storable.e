@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-20 10:27:45 GMT (Tuesday 20th December 2022)"
-	revision: "10"
+	date: "2022-12-22 10:04:22 GMT (Thursday 22nd December 2022)"
+	revision: "11"
 
 deferred class
 	EL_STORABLE
@@ -33,6 +33,11 @@ feature {EL_STORABLE_HANDLER} -- Initialization
 feature -- Status query
 
 	is_deleted: BOOLEAN note option: transient attribute end
+
+	not_deleted: BOOLEAN
+		do
+			Result := not is_deleted
+		end
 
 feature {EL_STORABLE_HANDLER} -- Status change
 

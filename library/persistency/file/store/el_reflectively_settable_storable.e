@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-21 17:35:39 GMT (Wednesday 21st December 2022)"
-	revision: "67"
+	date: "2022-12-22 10:17:34 GMT (Thursday 22nd December 2022)"
+	revision: "68"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -58,45 +58,6 @@ feature -- Basic operations
 	write_to_memory (memory: EL_MEMORY_READER_WRITER)
 		do
 			meta_data.field_list.write_to_memory (Current, memory)
-		end
-
-	write_as_pyxis (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
-		local
-			name: STRING; value: ZSTRING; is_pyxis_attribute: SPECIAL [BOOLEAN]
-		do
-			create is_pyxis_attribute.make_filled (False, field_table.count)
-			value := buffer.empty
-			write_pyxis_attributes (output, tab_count, is_pyxis_attribute)
-
-			across meta_data.alphabetical_list as list loop
-				name := list.item.name
-				if not is_pyxis_attribute [list.cursor_index - 1] then
-					if attached {EL_REFLECTED_STORABLE} list.item as storable_field
-						and then attached {EL_REFLECTIVELY_SETTABLE_STORABLE} storable_field.value (Current) as storable
-					then
-						write_pyxis_field (output, name, tab_count)
-						storable.write_as_pyxis (output, tab_count + 1)
-					elseif attached {EL_REFLECTED_TUPLE} list.item as tuple_field
-						and then attached tuple_field.value (Current) as tuple
-						and then attached tuple_field.field_name_list as name_list
-					then
-						write_pyxis_field (output, name, tab_count)
-						write_pyxis_tuple (output, tab_count + 1, tuple_field, tuple, name_list)
-					else
-						value.wipe_out
-						list.item.append_to_string (Current, value)
-						if value.has ('%N') then
-							write_pyxis_field (output, name, tab_count)
-							write_pyxis_manifest (output, value, tab_count + 1)
-
-						elseif value.count > 0 then
-							value.enclose ('"', '"')
-							write_pyxis_field (output, name, tab_count)
-							output.put_indented_line (tab_count + 1, value)
-						end
-					end
-				end
-			end
 		end
 
 	write_meta_data (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
@@ -189,24 +150,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	attribute_line_index (field: EL_REFLECTED_FIELD): INTEGER
-		do
-			if attached {EL_REFLECTED_BOOLEAN} field then
-				Result := 2
-			elseif attached {EL_REFLECTED_BOOLEAN_REF} field then
-				Result := 2
-
-			elseif attached {EL_REFLECTED_EXPANDED_FIELD [ANY]} field as expanded_field then
-				if expanded_field.has_string_representation then
-					Result := 3
-				else
-					Result := 1
-				end
-			end
-		ensure
-			valid_index: Result <= Once_attribute_lines.count
-		end
-
 	is_storable_field (basic_type, type_id: INTEGER): BOOLEAN
 		do
 			if Eiffel.is_storable_type (basic_type, type_id) then
@@ -271,106 +214,6 @@ feature {NONE} -- Implementation
 	use_default_values: BOOLEAN
 		do
 			Result := True
-		end
-
-	write_pyxis_attributes (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; is_pyxis_attribute: SPECIAL [BOOLEAN])
-		local
-			attribute_lines: EL_ZSTRING_LIST; value: ZSTRING; line_index: INTEGER
-			name: STRING
-		do
-			value := buffer.empty; attribute_lines := Once_attribute_lines
-			across Reuseable.string_pool as pool loop
-				from attribute_lines.wipe_out until attribute_lines.full loop
-					attribute_lines.extend (pool.borrowed_item)
-				end
-				across meta_data.alphabetical_list as list loop
-					-- output numeric as Pyxis element attributes
-					name := list.item.name
-					line_index := attribute_line_index (list.item)
-					if line_index > 0 then
-						is_pyxis_attribute [list.cursor_index - 1] := True
-						value.wipe_out
-						list.item.append_to_string (Current, value)
-						if value.count > 0 then
-							if line_index = 3 and then not value.is_code_identifier then
-								value.enclose ('"', '"')
-							end
-							attribute_lines [line_index].append (Pyxis_attribute #$ [name, value])
-						end
-					end
-				end
-				across attribute_lines as line loop
-					if line.item.count > 0 then
-						line.item.remove_head (2)
-						output.put_indented_line (tab_count, line.item)
-					end
-				end
-			end
-		end
-
-	write_pyxis_field (output: EL_OUTPUT_MEDIUM; name: STRING; tab_count: INTEGER)
-		do
-			output.put_indent (tab_count)
-			output.put_string_8 (name)
-			output.put_character_8 (':')
-			output.put_new_line
-		end
-
-	write_pyxis_manifest (output: EL_OUTPUT_MEDIUM; str: ZSTRING; tab_count: INTEGER)
-		local
-			lines: EL_ZSTRING_LIST
-		do
-			create lines.make_with_lines (str)
-			lines.indent (1)
-			lines.put_front (Pyxis_triple_quote)
-			lines.extend (Pyxis_triple_quote)
-			across lines as list loop
-				output.put_indented_line (tab_count, list.item)
-			end
-		end
-
-	write_pyxis_tuple (
-		output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; field: EL_REFLECTED_TUPLE; tuple: TUPLE
-		name_list: EL_STRING_8_LIST
-	)
-		local
-			pair, value: ZSTRING; i: INTEGER
-		do
-			across Reuseable.string as reuse loop
-				value := reuse.item
-				output.put_indent (tab_count)
-				from i := 1 until i > tuple.count loop
-					value.wipe_out
-					value.append_tuple_item (tuple, i)
-					if field.member_types.i_th_is_character_data (i) and then not value.is_code_identifier then
-						value.enclose ('"', '"')
-					end
-					pair := Pyxis_attribute #$ [name_list [i], value]
-					if i = 1 then
-						pair.remove_head (2)
-					end
-					output.put_string (pair)
-					i := i + 1
-				end
-				output.put_new_line
-			end
-		end
-
-feature {NONE} -- Constants
-
-	Once_attribute_lines: EL_ZSTRING_LIST
-		once
-			create Result.make (3)
-		end
-
-	Pyxis_attribute: ZSTRING
-		once
-			Result := "; %S = %S"
-		end
-
-	Pyxis_triple_quote: ZSTRING
-		once
-			create Result.make_filled ('"', 3)
 		end
 
 note

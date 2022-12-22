@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-21 9:16:58 GMT (Wednesday 21st December 2022)"
-	revision: "15"
+	date: "2022-12-21 21:52:18 GMT (Wednesday 21st December 2022)"
+	revision: "16"
 
 class
 	TEST_CONFIGURATION
@@ -19,7 +19,7 @@ inherit
 		export
 			{ANY} field_table
 		redefine
-			make_default, new_instance_functions
+			make_default
 		end
 
 create
@@ -39,15 +39,6 @@ feature {NONE} -- Initialization
 			values_list.compare_objects
 			colors.compare_objects
 			clipping.enable
-		end
-
-feature {NONE} -- Implementation
-
-	new_instance_functions: like Default_initial_values
-		do
-			create Result.make_from_array (<<
-				agent: like values do create Result.make_default end
-			>>)
 		end
 
 feature -- Access

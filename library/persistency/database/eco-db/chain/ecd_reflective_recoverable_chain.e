@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 16:29:16 GMT (Monday 12th December 2022)"
-	revision: "15"
+	date: "2022-12-22 10:14:34 GMT (Thursday 22nd December 2022)"
+	revision: "16"
 
 deferred class
 	ECD_REFLECTIVE_RECOVERABLE_CHAIN [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -124,18 +124,20 @@ feature -- Basic operations
 		require
 			valid_encoding: Mod_encoding.is_valid (encoding)
 		local
-			file: EL_PLAIN_TEXT_FILE
+			file: EL_PLAIN_TEXT_FILE; exporter: EL_PYXIS_OBJECT_EXPORTER
 		do
 			File_system.make_directory (a_file_path.parent)
+			if count > 0 then
+				create exporter.make (first)
+			else
+				create exporter.make (create {G}.make_default)
+			end
 			create file.make_open_write (a_file_path)
 			file.set_encoding (encoding)
-			file.put_line (Pyxis_header #$ [file.encoding_name, file_path.base_sans_extension, software_version])
+			exporter.write_header (file, software_version)
 			from start until after loop
-				if not item.is_deleted then
-					file.put_indent (1)
-					file.put_string_8 ("item:")
-					file.put_new_line
-					item.write_as_pyxis (file, 2)
+				if item.not_deleted then
+					exporter.write_item_to (item, file, 0)
 				end
 				forth
 			end
@@ -184,16 +186,4 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Constants
-
-	Pyxis_header: ZSTRING
-		once
-			Result := "[
-				pyxis-doc:
-					version = 1.0; encoding = "#"
-				
-				#:
-					software_version = #
-			]"
-		end
 end
