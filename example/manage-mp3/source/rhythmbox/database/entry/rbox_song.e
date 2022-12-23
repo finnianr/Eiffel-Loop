@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "55"
+	date: "2022-12-23 17:15:25 GMT (Friday 23rd December 2022)"
+	revision: "56"
 
 class
 	RBOX_SONG
@@ -35,7 +35,7 @@ inherit
 			set_id_from_uuid as set_audio_id_from_uuid
 		end
 
-	RBOX_SONG_FIELDS
+	RBOX_SONG_FIELDS undefine is_equal end
 
 	M3U_PLAY_LIST_CONSTANTS
 
@@ -49,13 +49,15 @@ create
 feature {NONE} -- Initialization
 
 	make
+		local
+			time: EL_TIME_ROUTINES
 		do
 			Precursor
 			album_artists := Default_album_artists
 			media_type := Media_types.mpeg
-			set_last_seen_time (Time.Unix_origin)
+			set_last_seen_time (time.Unix_origin)
 			set_audio_id (Default_audio_id)
-			set_first_seen_time (Time.Unix_origin)
+			set_first_seen_time (time.Unix_origin)
 		end
 
 feature -- Artist
@@ -304,8 +306,10 @@ feature -- Element change
 		end
 
 	set_first_seen_time (a_first_seen_time: like first_seen_time)
+		local
+			time: EL_TIME_ROUTINES
 		do
-			first_seen := Time.unix_date_time (a_first_seen_time)
+			first_seen := time.unix_date_time (a_first_seen_time)
 		end
 
 	set_music_dir (a_music_dir: like music_dir)

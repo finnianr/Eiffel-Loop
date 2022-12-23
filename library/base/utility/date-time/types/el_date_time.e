@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 8:33:55 GMT (Friday 9th December 2022)"
-	revision: "25"
+	date: "2022-12-23 16:58:28 GMT (Friday 23rd December 2022)"
+	revision: "26"
 
 class
 	EL_DATE_TIME
@@ -25,20 +25,12 @@ inherit
 			Date_time, formatted_out, date_time_valid, make_with_format
 		end
 
-	EL_DATE_TIME_UTILITY
+	EL_TIME_DATE_I
 		rename
 			input_valid as date_time_valid
-		export
-			{EL_DATE_TIME_CONVERSION} Code_string_table
 		redefine
-			new_code_string
+			Factory
 		end
-
-	EL_MODULE_TIME
-		rename
-			Time as Mod_time
-		end
-
 
 create
 	make, make_fine, make_by_date_time, make_by_date, make_from_epoch, make_now, make_now_utc,
@@ -136,8 +128,10 @@ feature -- Conversion
 		end
 
 	to_unix: INTEGER
+		local
+			t: EL_TIME_ROUTINES
 		do
-			Result := Mod_time.unix_date_time (Current)
+			Result := t.unix_date_time (Current)
 		end
 
 feature {NONE} -- Implementation
@@ -153,22 +147,6 @@ feature {NONE} -- Implementation
 			end
 			if minute_offset.abs.to_boolean then
 				minute_add (minute_offset)
-			end
-		end
-
-	new_code_string (format: STRING): EL_DATE_TIME_CODE_STRING
-		local
-			zone_designator_count: INTEGER
-		do
-			if attached Conversion_table [format] as converter then
-				create {EL_ISO_8601_DATE_TIME_CODE_STRING} Result.make (format, converter)
-			else
-				zone_designator_count := Date_time.zone_designator_count (format)
-				if zone_designator_count > 0 then
-					create {EL_ZONED_DATE_TIME_CODE_STRING} Result.make (format, zone_designator_count)
-				else
-					create Result.make (format)
-				end
 			end
 		end
 
@@ -200,18 +178,15 @@ feature {NONE} -- Implementation
 			Result := code.precise and code.correspond (str) and then code.is_date_time (str)
 		end
 
-feature {NONE} -- Constants
+feature {EL_DATE_TIME_CONVERSION} -- Constants
 
 	Epochal_origin: EL_DATE_TIME
 		once
 			create Result.make_from_epoch (0)
 		end
 
-	Conversion_table: HASH_TABLE [EL_DATE_TIME_CONVERSION, STRING]
+	Factory: EL_DATE_TIME_PARSER_FACTORY
 		once
-			create Result.make_equal (3)
-			Result [Date_time.ISO_8601.format] := create {EL_ISO_8601_DATE_TIME_CONVERSION}.make
-			Result [Date_time.ISO_8601.format_extended] := create {EL_ISO_8601_EXTENDED_DATE_TIME_CONVERSION}.make
+			create Result.make
 		end
-
 end

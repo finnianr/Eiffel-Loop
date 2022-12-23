@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-14 11:40:36 GMT (Wednesday 14th December 2022)"
-	revision: "6"
+	date: "2022-12-23 13:32:03 GMT (Friday 23rd December 2022)"
+	revision: "7"
 
 deferred class
 	EL_SHARED_FACTORIES
@@ -76,12 +76,17 @@ feature {NONE} -- Factories
 			create Result
 		end
 
+	Time_factory: EL_INITIALIZED_OBJECT_FACTORY [EL_TIME_FACTORY [TIME], TIME]
+		once
+			create Result
+		end
+
 feature {NONE} -- Constants
 
 	Factory_list: ARRAY [EL_INITIALIZED_OBJECT_FACTORY [EL_FACTORY [ANY], ANY]]
 		once
 			Result := <<
-				Arrayed_list_factory, Date_factory, Date_time_factory,
+				Arrayed_list_factory, Date_factory, Date_time_factory, Time_factory,
 				Makeable_factory, String_factory, Default_factory
 			>>
 		ensure

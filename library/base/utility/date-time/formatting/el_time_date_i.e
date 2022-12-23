@@ -1,7 +1,7 @@
 note
-	description: "Routines for date time classes"
+	description: "Base class for date time classes"
 	descendants: "[
-			EL_DATE_TIME_UTILITY*
+			EL_TIME_DATE_I*
 				[$source EL_DATE]
 				[$source EL_TIME]
 				[$source EL_DATE_TIME]
@@ -15,11 +15,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 9:03:57 GMT (Friday 9th December 2022)"
-	revision: "7"
+	date: "2022-12-23 10:12:59 GMT (Friday 23rd December 2022)"
+	revision: "8"
 
 deferred class
-	EL_DATE_TIME_UTILITY
+	EL_TIME_DATE_I
 
 inherit
 	EL_MODULE_DATE_TIME
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 			across Reuseable.string_8 as reuse loop
 				if attached reuse.item as str then
 					str.append (s)
-					if attached Parser_table.item (format) as parser then
+					if attached Factory.date_time_parser (format) as parser then
 						parser.parse_source (str)
 						make_with_parser (parser)
 					end
@@ -84,12 +84,12 @@ feature -- Basic operations
 			old_count: INTEGER
 		do
 			old_count := str.count
-			if attached Code_string_table.item (format) as code then
+			if attached Factory.code_string (format) as code then
 				code.append_to (str, to_shared_date_time)
 			end
 			check_case (format, str, old_count + 1)
 		ensure
-			corresponds_to_format: attached Code_string_table.item (format) as code
+			corresponds_to_format: attached Factory.code_string (format) as code
 											implies code.correspond (str.substring (old str.count + 1, str.count))
 		end
 
@@ -131,19 +131,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_code_string (format: STRING): EL_DATE_TIME_CODE_STRING
-		do
-			create Result.make (format)
-		end
-
-	new_parser (format: STRING): EL_DATE_TIME_PARSER
-		do
-			Result := Code_string_table.item (format).new_parser
-		end
-
 	upper_input_valid (upper_str: STRING; format: STRING): BOOLEAN
 		do
-			if attached Code_string_table.item (format) as code then
+			if attached Factory.code_string (format) as code then
 				Result := valid_string_for_code (upper_str, code)
 			end
 		end
@@ -168,19 +158,14 @@ feature {NONE} -- Deferred Implementation
 
 feature {NONE} -- Constants
 
-	Code_string_table: EL_CACHE_TABLE [EL_DATE_TIME_CODE_STRING, STRING]
-		once
-			create Result.make (11, agent new_code_string)
-		end
-
 	Once_date_time: DATE_TIME
 		once
 			create Result.make (1, 1, 1, 1, 1, 1)
 		end
 
-	Parser_table: EL_CACHE_TABLE [EL_DATE_TIME_PARSER, STRING]
+	Factory: EL_DATE_OR_TIME_PARSER_FACTORY
 		once
-			create Result.make (11, agent new_parser)
+			create Result.make
 		end
 
 	Propercase_table: EL_HASH_TABLE [ARRAY [STRING], STRING]

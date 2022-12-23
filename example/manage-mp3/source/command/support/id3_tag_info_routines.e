@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 15:04:46 GMT (Tuesday 6th December 2022)"
-	revision: "17"
+	date: "2022-12-23 17:13:48 GMT (Friday 23rd December 2022)"
+	revision: "18"
 
 deferred class
 	ID3_TAG_INFO_ROUTINES
 
 inherit
-	EL_MODULE_DATE_TIME;	EL_MODULE_FILE_SYSTEM; EL_MODULE_LIO
+	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM; EL_MODULE_LIO
 
-	EL_MODULE_TIME; EL_MODULE_TUPLE
+	EL_MODULE_TUPLE
 
 	TL_SHARED_PICTURE_TYPE_ENUM
 
@@ -127,7 +127,7 @@ feature -- Basic operations
 			mtime: INTEGER
 		do
 			print_id3 (id3_info, relative_song_path)
-			mtime := Time.unix_date_time (Date_time.modification_time (id3_info.path))
+			mtime := File.modification_time (id3_info.path)
 --			mtime := mtime & File.byte_count (id3_info.mp3_path)
 			lio.put_integer_field ("File time", mtime)
 			lio.put_new_line

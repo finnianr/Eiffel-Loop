@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 9:23:17 GMT (Friday 9th December 2022)"
-	revision: "155"
+	date: "2022-12-23 13:35:50 GMT (Friday 23rd December 2022)"
+	revision: "156"
 
 class
 	BASE_AUTOTEST_APP
@@ -95,6 +95,8 @@ feature {NONE} -- Compile classes
 		EL_OCTAL_CONVERTER,
 
 		EL_SHARED_INITIALIZER [EL_INITIALIZEABLE],
+
+		EL_REFLECTED_TIME,
 
 		EL_TIMEOUT_THREAD, EL_TIME
 

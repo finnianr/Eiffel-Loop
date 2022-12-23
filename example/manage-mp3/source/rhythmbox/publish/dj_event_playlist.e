@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2022-12-23 17:15:53 GMT (Friday 23rd December 2022)"
+	revision: "21"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -32,8 +32,6 @@ inherit
 	EL_ZSTRING_CONSTANTS
 
 	EL_MODULE_LOG
-
-	EL_MODULE_TIME
 
 	EL_MODULE_DATE
 		rename
@@ -266,8 +264,10 @@ feature {NONE} -- Building from XML
 		end
 
 	set_start_time_from_node
+		local
+			time: EL_TIME_ROUTINES
 		do
-			if Time.is_valid (node) then
+			if time.is_valid (node) then
 				create start_time.make_from_string (node, "hh:mi")
 			end
 		end

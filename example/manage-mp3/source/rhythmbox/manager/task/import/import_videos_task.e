@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2022-12-23 17:20:38 GMT (Friday 23rd December 2022)"
+	revision: "16"
 
 class
 	IMPORT_VIDEOS_TASK
@@ -17,11 +17,7 @@ inherit
 
 	DATABASE_UPDATE_TASK
 
-	EL_MODULE_AUDIO_COMMAND
-
-	EL_MODULE_VIDEO_COMMAND
-
-	EL_MODULE_TIME
+	EL_MODULE_AUDIO_COMMAND; EL_MODULE_VIDEO_COMMAND
 
 	EL_MODULE_USER_INPUT
 
@@ -63,13 +59,13 @@ feature {NONE} -- Factory
 
 	new_input_song_time (prompt: ZSTRING): TIME
 		local
-			time_str: STRING
+			time_str: STRING; time: EL_TIME_ROUTINES
 		do
 			time_str := User_input.line (prompt).to_string_8
 			if not time_str.has ('.') then
 				time_str.append (".000")
 			end
-			if Time.is_valid_fine (time_str) then
+			if time.is_valid_fine (time_str) then
 				create Result.make_from_string (time_str, Fine_time_format)
 			else
 				create Result.make_by_seconds (0)

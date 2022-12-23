@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 11:29:02 GMT (Tuesday 6th December 2022)"
-	revision: "37"
+	date: "2022-12-23 17:09:27 GMT (Friday 23rd December 2022)"
+	revision: "38"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -36,7 +36,7 @@ inherit
 
 	EL_EIFFEL_KEYWORDS
 
-	EL_MODULE_USER_INPUT; EL_MODULE_TIME; EL_MODULE_LIO
+	EL_MODULE_USER_INPUT; EL_MODULE_LIO
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
@@ -71,7 +71,7 @@ feature -- Tests
 			testing:	"covers/{SOURCE_MANIFEST}.make_from_file, covers/{NOTE_EDITOR}.edit"
 		local
 			encoding, encoding_after: STRING; crc: NATURAL
-			old_revision, new_revision: INTEGER_REF
+			old_revision, new_revision: INTEGER_REF; time: EL_TIME_ROUTINES
 		do
 			assert ("valid author", manifest.notes.author.starts_with_general ("Finnian"))
 			assert ("valid copyright", manifest.notes.copyright.starts_with_general ("Copyright"))
@@ -101,7 +101,7 @@ feature -- Tests
 					do_once_with_file_lines (agent get_revision (?, revision.item), open_lines (path.item, Latin_1))
 					if revision.cursor_index = 1 then
 						if attached open (path.item, Closed) as l_file then
-							l_file.stamp (Time.unix_date_time (create {DATE_TIME}.make_now_utc) + 5)
+							l_file.stamp (time.unix_now (True) + 5)
 							editor.edit
 						end
 					end

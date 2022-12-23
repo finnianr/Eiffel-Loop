@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
-	revision: "22"
+	date: "2022-12-23 13:45:13 GMT (Friday 23rd December 2022)"
+	revision: "23"
 
 class
 	EL_REFLECTED_DATE_TIME
@@ -37,6 +37,7 @@ feature -- Basic operations
 			if attached value (a_object) as dt then
 				dt.date.make_by_ordered_compact_date (memory.read_integer_32)
 				dt.time.make_by_compact_time (memory.read_integer_32)
+				dt.time.set_fractionals (0)
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-17 10:06:22 GMT (Saturday 17th December 2022)"
-	revision: "9"
+	date: "2022-12-23 16:52:45 GMT (Friday 23rd December 2022)"
+	revision: "10"
 
 class
 	NUMERIC_TEST_SET
@@ -30,6 +30,7 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			eval.call ("double_string_conversion", agent test_double_string_conversion)
+			eval.call ("truncated_natural_64", agent test_truncated_natural_64)
 		end
 
 feature -- Tests
@@ -57,6 +58,14 @@ feature -- Tests
 				lio.put_new_line
 				n := n * 10
 			end
+		end
+
+	test_truncated_natural_64
+		local
+			natural_64: NATURAL_64
+		do
+			natural_64 := 0xFFFFFFFF
+			assert ("same string", natural_64.to_natural_16.to_hex_string ~ "FFFF")
 		end
 
 feature -- Basic operations

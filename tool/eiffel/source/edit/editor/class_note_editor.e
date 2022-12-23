@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2022-12-23 17:05:31 GMT (Friday 23rd December 2022)"
+	revision: "16"
 
 class
 	CLASS_NOTE_EDITOR
@@ -19,8 +19,6 @@ inherit
 		end
 
 	EL_MODULE_DATE
-
-	EL_MODULE_TIME
 
 	EL_ZSTRING_CONSTANTS
 
@@ -107,8 +105,10 @@ feature -- Access
 	updated_fields: EL_STRING_8_LIST
 
 	time_stamp: INTEGER
+		local
+			time: EL_TIME_ROUTINES
 		do
-			Result := Time.unix_date_time (field_date)
+			Result := time.unix_date_time (field_date)
 		end
 
 feature -- Status query

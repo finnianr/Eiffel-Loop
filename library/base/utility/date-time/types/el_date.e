@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2022-12-23 9:18:36 GMT (Friday 23rd December 2022)"
+	revision: "4"
 
 class
 	EL_DATE
@@ -25,7 +25,7 @@ inherit
 			default_format_string
 		end
 
-	EL_DATE_TIME_UTILITY
+	EL_TIME_DATE_I
 		rename
 			input_valid as date_valid
 		end
@@ -38,9 +38,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make_with_parser (parser: EL_DATE_TIME_PARSER)
+	make_with_parser (a_parser: EL_DATE_TIME_PARSER)
 		do
-			make (parser.year, parser.month, parser.day)
+			make (a_parser.year, a_parser.month, a_parser.day)
 		end
 
 feature -- Access

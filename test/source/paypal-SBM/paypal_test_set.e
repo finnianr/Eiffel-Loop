@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2022-12-23 10:18:20 GMT (Friday 23rd December 2022)"
+	revision: "16"
 
 class
 	PAYPAL_TEST_SET
@@ -23,13 +23,16 @@ inherit
 
 	EL_SHARED_CURRENCY_ENUM
 
+	EL_REFLECTION_HANDLER undefine default_create end
+
 feature -- Basic operations
 
 	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("pp_transaction", agent test_pp_transaction)
 			eval.call ("pp_date_format", agent test_pp_date_format)
+			eval.call ("pp_transaction", agent test_pp_transaction)
+			eval.call ("uri_query_table_conversion", agent test_uri_query_table_conversion)
 		end
 
 feature -- Test
@@ -54,7 +57,8 @@ feature -- Test
 
 	test_pp_transaction
 		note
-			testing: "covers/{EL_SETTABLE_FROM_STRING}.set_inner_table_field",
+			testing: "covers/{EL_URI_QUERY_TABLE}.make_url",
+				"covers/{EL_SETTABLE_FROM_STRING}.set_inner_table_field",
 				"covers/{EL_SETTABLE_FROM_STRING}.set_table_field"
 		local
 			transaction: PP_TRANSACTION; date_time: EL_DATE_TIME
@@ -79,13 +83,48 @@ feature -- Test
 			assert ("payment_date=2018/4/10 10:22:41", transaction.payment_date.to_unix = date_time.to_unix)
 		end
 
+	test_uri_query_table_conversion
+		-- PAYPAL_TEST_SET.test_uri_query_table_conversion
+		note
+			testing: "covers/{EL_URI_QUERY_TABLE}.make_url",
+				"covers/{EL_SETTABLE_FROM_STRING}.set_table_field"
+		local
+			transaction: PP_TRANSACTION; count, real_count, date_count: INTEGER
+			value_table: EL_URI_QUERY_ZSTRING_HASH_TABLE; date_time: EL_DATE_TIME
+			name: STRING
+		do
+			create transaction.make (ipn_url_query)
+
+			create value_table.make_url (ipn_url_query)
+			if attached transaction.field_table as field_table then
+				across value_table as table loop
+					name := table.key
+					if field_table.has_key (name) then
+						count := count + 1
+						if attached {EL_REFLECTED_DATE_TIME} field_table.found_item as real then
+							date_count := date_count + 1
+
+						elseif attached {EL_REFLECTED_REAL_32} field_table.found_item as real then
+							assert ("same value", table.item.to_real = real.value (transaction))
+							real_count := real_count + 1
+						else
+							assert ("same value", table.item.same_string_general (field_table.found_item.to_string (transaction)))
+						end
+					end
+				end
+			end
+			assert ("26 fields", count = 26)
+			assert ("3 REAL fields", real_count = 3)
+			assert ("1 date field", date_count = 1)
+		end
+
 feature {NONE} -- Implementation
 
 	ipn_url_query: STRING
 		local
 			param_list: EL_SPLIT_STRING_LIST [STRING]
 		do
-			create param_list.make_by_string (IPN_message, "%N")
+			create param_list.make (IPN_message, '%N')
 			Result := param_list.joined ('&')
 		end
 

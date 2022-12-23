@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-25 8:31:15 GMT (Friday 25th November 2022)"
-	revision: "3"
+	date: "2022-12-23 17:08:54 GMT (Friday 23rd December 2022)"
+	revision: "4"
 
 class
 	EL_CACHED_HTTP_FILE
@@ -24,7 +24,7 @@ inherit
 			make_create_read_write, make_encodeable, make_open_append, make_open_read_append,
 			make_open_read_write, make_open_write, make_with_name, make_with_path,
 			open_read_append, open_read_write, open_write,
-			
+
 			put, put_boolean, put_character_32, put_character_8, put_double, put_indent,
 			put_indented_line, put_indented_lines, put_integer, put_integer_16, put_integer_32,
 			put_integer_64, put_integer_8, put_latin_1, put_line, put_lines, put_managed_pointer,
@@ -34,7 +34,7 @@ inherit
 			putreal, putstring
 		end
 
-	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_WEB; EL_MODULE_TIME
+	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_WEB
 
 create
 	make
@@ -81,8 +81,10 @@ feature -- Status query
 
 	has_expired: BOOLEAN
 		-- `True' if caching period has expired
+		local
+			time: EL_TIME_ROUTINES
 		do
-			Result := Time.unix_now - path.modification_time > refresh_period_secs
+			Result := time.unix_now (False) - path.modification_time > refresh_period_secs
 		end
 
 feature -- Basic operations

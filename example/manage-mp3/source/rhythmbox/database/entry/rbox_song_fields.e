@@ -32,14 +32,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2022-12-23 17:10:43 GMT (Friday 23rd December 2022)"
+	revision: "9"
 
 deferred class
 	RBOX_SONG_FIELDS
-
-inherit
-	EL_MODULE_TIME
 
 feature -- Access
 
@@ -172,13 +169,17 @@ feature -- Element change
 		end
 
 	set_last_seen_time (a_last_seen_time: DATE_TIME)
+		local
+			time: EL_TIME_ROUTINES
 		do
-			last_seen := Time.unix_date_time (a_last_seen_time)
+			last_seen := time.unix_date_time (a_last_seen_time)
 		end
 
 	set_modification_time (a_modification_time: DATE_TIME)
+		local
+			time: EL_TIME_ROUTINES
 		do
-			mtime := Time.unix_date_time (a_modification_time)
+			mtime := time.unix_date_time (a_modification_time)
 		end
 
 	set_track_number (a_track_number: like track_number)

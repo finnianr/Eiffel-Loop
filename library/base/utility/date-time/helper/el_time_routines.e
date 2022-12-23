@@ -6,21 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-22 13:54:23 GMT (Tuesday 22nd November 2022)"
-	revision: "9"
+	date: "2022-12-23 17:08:32 GMT (Friday 23rd December 2022)"
+	revision: "10"
 
-class
+expanded class
 	EL_TIME_ROUTINES
-
-create
-	make
-
-feature {NONE} -- Initialization
-
-	make
-		do
-			create unix_origin.make_from_epoch (0)
-		end
 
 feature -- Status query
 
@@ -50,11 +40,18 @@ feature -- Status query
 			end
 		end
 
-feature -- Access
+feature -- Conversion
 
-	now: DATE_TIME
+	compact_decimal_time (time: TIME): NATURAL_64
 		do
-			create Result.make_now
+			Result := time.compact_time.to_natural_64
+			Result := Result |<< 16 | time_fraction_16 (time)
+		end
+
+	time_fraction_16 (time: TIME): NATURAL_16
+		-- `fractional_second' expressed as portion of `0xFFFF' i.e. 16-bit max value
+		do
+			Result := (time.fractional_second * Result.Max_value).rounded.to_natural_16
 		end
 
 	unix_date_time (a_date_time: DATE_TIME): INTEGER
@@ -62,12 +59,28 @@ feature -- Access
 			Result := a_date_time.relative_duration (Unix_origin).seconds_count.to_integer
 		end
 
-	unix_now: INTEGER
+feature -- Access
+
+	now (utc: BOOLEAN): DATE_TIME
 		do
-			Result := unix_date_time (now)
+			if utc then
+				create Result.make_now_UTC
+			else
+				create Result.make_now
+			end
 		end
 
-	unix_origin: DATE_TIME
+	unix_now (utc: BOOLEAN): INTEGER
+		do
+			Result := unix_date_time (now (utc))
+		end
+
+feature -- Constants
+
+	Unix_origin: DATE_TIME
 		-- Time 00:00 on 1st Jan 1970
+		once
+			create Result.make_from_epoch (0)
+		end
 
 end

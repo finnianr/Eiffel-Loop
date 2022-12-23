@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-14 17:07:28 GMT (Wednesday 14th December 2022)"
-	revision: "26"
+	date: "2022-12-23 16:56:50 GMT (Friday 23rd December 2022)"
+	revision: "27"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -27,7 +27,7 @@ inherit
 
 	EL_HTML_CONSTANTS
 
-	EL_MODULE_BUFFER; EL_MODULE_DATE_TIME; EL_MODULE_FILE; EL_MODULE_TIME
+	EL_MODULE_BUFFER; EL_MODULE_DATE_TIME; EL_MODULE_FILE
 	EL_MODULE_LIO; EL_MODULE_DIRECTORY; EL_MODULE_EXCEPTION
 
 feature {NONE} -- Initialization

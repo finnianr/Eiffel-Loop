@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:48:04 GMT (Monday 12th December 2022)"
-	revision: "21"
+	date: "2022-12-23 13:45:45 GMT (Friday 23rd December 2022)"
+	revision: "22"
 
 class
 	EL_REFLECTED_TIME
@@ -17,7 +17,7 @@ inherit
 		rename
 			valid_string as valid_format
 		redefine
-			reset, set_from_memory, set_from_string, write, valid_format
+			new_factory, reset, set_from_memory, set_from_string, write, valid_format
 		end
 
 create
@@ -36,6 +36,7 @@ feature -- Basic operations
 		do
 			if attached value (a_object) as time then
 				time.make_by_compact_time (memory.read_integer_32)
+				time.set_fractionals (0)
 			end
 		end
 
@@ -63,6 +64,15 @@ feature -- Contract Support
 		end
 
 feature {NONE} -- Implementation
+
+	new_factory: detachable EL_FACTORY [TIME]
+		do
+			if attached {EL_FACTORY [TIME]} Time_factory.new_item_factory (type_id) as f then
+				Result := f
+			else
+				Result := Precursor
+			end
+		end
 
 	upgraded (time: TIME): EL_TIME
 		-- upgrade `TIME' to `EL_TIME'

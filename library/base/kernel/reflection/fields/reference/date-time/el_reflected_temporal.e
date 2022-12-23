@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-13 16:57:37 GMT (Tuesday 13th December 2022)"
-	revision: "2"
+	date: "2022-12-23 9:18:35 GMT (Friday 23rd December 2022)"
+	revision: "3"
 
 deferred class
 	EL_REFLECTED_TEMPORAL [G -> ABSOLUTE]
@@ -39,7 +39,7 @@ feature -- Basic operations
 	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
 		do
 			if attached value (a_object) as date_time then
-				if attached {EL_DATE_TIME_UTILITY} date_time as el_date_time then
+				if attached {EL_TIME_DATE_I} date_time as el_date_time then
 					el_date_time.default_append_to (str)
 				else
 					upgraded (date_time).default_append_to (str)
@@ -54,7 +54,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	upgraded (a_value: G): EL_DATE_TIME_UTILITY
+	upgraded (a_value: G): EL_TIME_DATE_I
 		deferred
 		end
 end

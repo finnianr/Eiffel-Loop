@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 12:18:32 GMT (Friday 9th December 2022)"
-	revision: "5"
+	date: "2022-12-23 16:58:57 GMT (Friday 23rd December 2022)"
+	revision: "6"
 
 class
 	EL_DATE_TIME_REPRESENTATION
@@ -17,8 +17,6 @@ inherit
 		rename
 			item as date_time
 		end
-
-	EL_MODULE_TIME
 
 create
 	make
@@ -50,10 +48,12 @@ feature -- Basic operations
 		end
 
 	to_value (string: READABLE_STRING_GENERAL): INTEGER
+		local
+			t: EL_TIME_ROUTINES
 		do
 			if attached Buffer_8.copied_general (string) as str_8 then
 				date_time.make_with_format (str_8, format)
-				Result := Time.unix_date_time (date_time)
+				Result := t.unix_date_time (date_time)
 			end
 		end
 end

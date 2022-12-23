@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2022-12-23 9:38:13 GMT (Friday 23rd December 2022)"
+	revision: "7"
 
 class
 	EL_ISO_8601_DATE_TIME_CONVERSION
@@ -38,7 +38,7 @@ feature -- Basic operations
 			old_count: INTEGER
 		do
 			old_count := str.count
-			if attached dt.Code_string_table.item (format) as code then
+			if attached dt.Factory.code_string (format) as code then
 				code.append_to (str, dt)
 				put_T (str, old_count)
 				str.append_character ('Z')
