@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
-	revision: "9"
+	date: "2022-12-24 12:09:36 GMT (Saturday 24th December 2022)"
+	revision: "10"
 
 deferred class
 	EL_MEMORY_READER_WRITER_IMPLEMENTATION
@@ -423,5 +423,10 @@ feature {NONE} -- Constants
 		once
 			Result := 500
 		end
+
+	Time_has_fraction_mask: INTEGER = 0x40000000
+		-- 31st bit
+
+	Compact_time_mask: INTEGER = 0x00FFFFFF
 
 end

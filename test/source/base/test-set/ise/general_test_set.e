@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 17:10:30 GMT (Sunday 18th December 2022)"
-	revision: "29"
+	date: "2022-12-24 18:40:44 GMT (Saturday 24th December 2022)"
+	revision: "30"
 
 class
 	GENERAL_TEST_SET
@@ -29,6 +29,7 @@ feature -- Basic operations
 			eval.call ("any_array_numeric_type_detection", agent test_any_array_numeric_type_detection)
 			eval.call ("base_64_codec", agent test_base_64_codec)
 			eval.call ("base_64_encode_decode", agent test_base_64_encode_decode)
+			eval.call ("natural_32_bit_routines", agent test_natural_32_bit_routines)
 			eval.call ("character_32_status_queries", agent test_character_32_status_queries)
 			eval.call ("environment_put", agent test_environment_put)
 			eval.call ("math_precision", agent test_math_precision)
@@ -147,6 +148,28 @@ feature -- Tests
 
 			description := Naming.class_description_from (Current, excluded_words)
 			assert ("expected description", description ~ "General test SET")
+		end
+
+	test_natural_32_bit_routines
+		-- GENERAL_TEST_SET.test_natural_32_bit_routines
+		local
+			n32: EL_NATURAL_32_BIT_ROUTINES
+		do
+			assert ("0xF0 is shifted 4 bits to left", n32.shift_count (0xF0) = 4)
+
+			assert ("0xF fits in 0xF0", n32.valid_value (0xF0, 0xF))
+			assert ("0x10 does not fit in 0xF0", not n32.valid_value (0xF0, 0x10))
+
+			assert ("0xF0 has continous bits", n32.valid_mask (0xF0))
+			assert ("0x3 has continous bits", n32.valid_mask (0x3))
+			assert ("1001 bits are not continuous", not n32.valid_mask (0x90))
+
+			assert ("set 8 shifted right by 4", n32.combined (0x000, 0x0F0, 8) = 0x080)
+			assert ("set 8 shifted right by 8", n32.combined (0x080, 0xF00, 8) = 0x880)
+
+			assert ("value in position 3 is 0x8", n32.isolated (0x881, 0xF00) = 0x08)
+			assert ("value in position 2 is 0x8", n32.isolated (0x881, 0x0F0) = 0x08)
+			assert ("value in position 1 is 0x1", n32.isolated (0x881, 0x00F) = 0x1)
 		end
 
 	test_reusable_strings

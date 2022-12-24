@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-23 13:54:45 GMT (Friday 23rd December 2022)"
-	revision: "23"
+	date: "2022-12-24 11:53:17 GMT (Saturday 24th December 2022)"
+	revision: "24"
 
 class
 	DATE_TIME_TEST_SET
@@ -18,6 +18,8 @@ inherit
 	EL_MODULE_DATE; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_LIO; EL_MODULE_TUPLE
 
 	TIME_VALIDITY_CHECKER undefine default_create end
+
+	EL_DOUBLE_MATH undefine default_create end
 
 feature -- Basic operations
 
@@ -42,13 +44,21 @@ feature -- Tests
 
 	test_compact_decimal_time
 		-- DATE_TIME_TEST_SET.test_compact_decimal_time
+		note
+			testing: "covers/{EL_TIME_ROUTINES}.compact_decimal",
+						"covers/{EL_TIME_ROUTINES}.set_from_compact_decimal",
+						"covers/{EL_TIME_ROUTINES}.same_time"
 		local
-			dt, dt_2: EL_TIME; compact_decimal: NATURAL
+			t1, t2: EL_TIME; time: EL_TIME_ROUTINES
 		do
-			create dt.make_from_string ("3:08:01.947 PM")
---			compact_decimal := dt.compact_decimal_time
---			create dt_2.make_from_compact (compact_decimal)
-			assert ("same date", dt ~ dt_2)
+			create t1.make_from_string ("3:08:01.947 PM")
+			create t2.make_by_compact_decimal (time.compact_decimal (t1))
+			assert ("same time", t1.compact_time = t2.compact_time)
+			assert ("same time", time.same_time (t1, t2))
+			assert ("same fractional second", approximately_equal (t1.fractional_second,t2.fractional_second, 0.00001))
+
+			create t1.make_by_seconds (0)
+			assert ("NATURAL_16 fraction is zero", time.fractional_secs_16 (t1) = 0)
 		end
 
 	test_date_time

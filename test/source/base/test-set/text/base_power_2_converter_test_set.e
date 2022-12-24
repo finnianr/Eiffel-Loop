@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 8:46:21 GMT (Saturday 3rd December 2022)"
-	revision: "2"
+	date: "2022-12-24 16:17:02 GMT (Saturday 24th December 2022)"
+	revision: "3"
 
 class
 	BASE_POWER_2_CONVERTER_TEST_SET
@@ -71,4 +71,3 @@ feature {NONE} -- Implementation
 			>>)
 		end
 end
-

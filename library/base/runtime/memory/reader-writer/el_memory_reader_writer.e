@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "25"
+	date: "2022-12-24 12:11:22 GMT (Saturday 24th December 2022)"
+	revision: "26"
 
 class
 	EL_MEMORY_READER_WRITER
@@ -162,6 +162,19 @@ feature -- Write sequences
 			end
 		end
 
+	write_time (time: TIME)
+		local
+			fraction: NATURAL_16; t: EL_TIME_ROUTINES
+		do
+			fraction := t.fractional_secs_16 (time)
+			if fraction.to_boolean then
+				write_integer_32 (Time_has_fraction_mask | time.compact_time)
+				write_natural_16 (fraction)
+			else
+				write_integer_32 (time.compact_time)
+			end
+		end
+
 	write_to_medium (output: IO_MEDIUM)
 		-- Write `buffer' to `output'
 		do
@@ -189,6 +202,19 @@ feature -- Read other
 			is_ready: is_ready_for_reading
 		do
 			Result := read_natural_32.to_character_32
+		end
+
+	read_compact_time: NATURAL_64
+		local
+			compact_time: INTEGER; fraction: NATURAL_16
+		do
+			compact_time := read_integer_32
+			if (compact_time & Time_has_fraction_mask).to_boolean then
+				Result := (compact_time & Compact_time_mask).to_natural_64
+				Result := Result |<< 16 | read_natural_16
+			else
+				Result := compact_time.to_natural_64 |<< 16
+			end
 		end
 
 	read_character_8: CHARACTER

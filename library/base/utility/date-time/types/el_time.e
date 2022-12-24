@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-23 13:55:05 GMT (Friday 23rd December 2022)"
-	revision: "4"
+	date: "2022-12-24 11:36:35 GMT (Saturday 24th December 2022)"
+	revision: "5"
 
 class
 	EL_TIME
@@ -33,12 +33,17 @@ inherit
 
 create
 	make, make_fine, make_now, make_now_utc, make_by_seconds, make_by_fine_seconds,
-	make_with_format, make_from_string, make_by_compact_time, make_by_compact_fine_time
+	make_with_format, make_from_string, make_by_compact_time, make_by_compact_decimal
 
 feature {NONE} -- Initialization
 
-	make_by_compact_fine_time (compact_decimal: NATURAL)
+	make_by_compact_decimal (a_compact_decimal: NATURAL_64)
+		local
+			time: EL_TIME_ROUTINES
 		do
+			time.set_from_compact_decimal (Current, a_compact_decimal)
+		ensure
+			set: a_compact_decimal = compact_decimal
 		end
 
 	make_with_parser (a_parser: EL_DATE_TIME_PARSER)
@@ -54,10 +59,11 @@ feature -- Access
 			Result := Date_time_tools.time_default_format_string
 		end
 
-	fractional_second_16: NATURAL_16
-		-- `fractional_second' expressed as portion of `0xFFFF' i.e. 16-bit max value
+	compact_decimal: NATURAL_64
+		local
+			time: EL_TIME_ROUTINES
 		do
-			Result := (fractional_second * Result.Max_value).rounded.to_natural_16
+			Result := time.compact_decimal (Current)
 		end
 
 feature -- Status query
@@ -84,7 +90,4 @@ feature {NONE} -- Implementation
 			Result := code.precise_time and code.correspond (str) and then code.is_time (str)
 		end
 
-feature {NONE} -- Constants
-
-	Mask_compact_decimal: NATURAL_32 = 0xFFFF0000
 end
