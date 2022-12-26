@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-24 11:53:17 GMT (Saturday 24th December 2022)"
-	revision: "24"
+	date: "2022-12-26 10:14:43 GMT (Monday 26th December 2022)"
+	revision: "25"
 
 class
 	DATE_TIME_TEST_SET
@@ -55,10 +55,10 @@ feature -- Tests
 			create t2.make_by_compact_decimal (time.compact_decimal (t1))
 			assert ("same time", t1.compact_time = t2.compact_time)
 			assert ("same time", time.same_time (t1, t2))
-			assert ("same fractional second", approximately_equal (t1.fractional_second,t2.fractional_second, 0.00001))
+			assert ("same fractional second", approximately_equal (t1.fractional_second, t2.fractional_second, 0.000_000_1))
 
 			create t1.make_by_seconds (0)
-			assert ("NATURAL_16 fraction is zero", time.fractional_secs_16 (t1) = 0)
+			assert ("NATURAL_16 fraction is zero", time.fractional_secs_23_bit (t1) = 0)
 		end
 
 	test_date_time

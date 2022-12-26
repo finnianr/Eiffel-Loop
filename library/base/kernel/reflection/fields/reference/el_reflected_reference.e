@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-21 21:31:11 GMT (Wednesday 21st December 2022)"
-	revision: "36"
+	date: "2022-12-25 9:29:05 GMT (Sunday 25th December 2022)"
+	revision: "37"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -155,7 +155,14 @@ feature -- Comparison
 
 	are_equal (a_current, other: EL_REFLECTIVE): BOOLEAN
 		do
-			Result := value (a_current).is_equal (value (other))
+			if attached value (a_current) as v then
+				if attached value (other) as o then
+					Result := v.is_equal (o)
+				end
+			else
+--				Both void
+				Result := not attached value (other)
+			end
 		end
 
 feature {NONE} -- Implementation

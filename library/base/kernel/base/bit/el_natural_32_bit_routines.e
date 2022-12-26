@@ -6,39 +6,42 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-24 19:00:46 GMT (Saturday 24th December 2022)"
-	revision: "1"
+	date: "2022-12-26 16:05:05 GMT (Monday 26th December 2022)"
+	revision: "2"
 
 expanded class
 	EL_NATURAL_32_BIT_ROUTINES
 
 inherit
-	PLATFORM
-		export
-			{NONE} all
-		end
+	EL_NUMERIC_BIT_ROUTINES
 
 feature -- Access
 
-	combined (combined_values, mask, value: NATURAL_32): NATURAL_32
-		-- `combined_values' with `value' set in the `mask' position
-		require
-			valid_mask: valid_mask (mask)
-			valid_value: valid_value (mask, value)
+	inserted (combined_values, mask, value: NATURAL_32): NATURAL_32
+		-- `combined_values' with `value' inserted at the `mask' position
 		do
 			Result := combined_values & mask.bit_not
 			Result := Result | (value |<< shift_count (mask))
-		ensure
-			value_inserted: isolated (Result, mask) = value
+		end
+
+	filled_bits (bit_count: INTEGER): NATURAL_32
+		-- number with `bit_count' bits set to 1 starting from LSB
+		local
+			i: INTEGER
+		do
+			from i := 0 until i = bit_count loop
+				Result := Result | (One |<< i)
+				i := i + 1
+			end
 		end
 
 	isolated (combined_values, mask: NATURAL_32): NATURAL_32
 		-- value isolated from `combined_values' by mask
-		require
-			valid_mask: valid_mask (mask)
 		do
 			Result := (combined_values & mask) |>> shift_count (mask)
 		end
+
+feature -- Measurement
 
 	shift_count (mask: NATURAL_32): INTEGER
 		local
@@ -56,32 +59,23 @@ feature -- Access
 			end
 		end
 
-feature -- Contract Support
-
-	filled_bits (bit_count: INTEGER): NATURAL_32
-		local
-			i: INTEGER; moving_bit: NATURAL_32
-		do
-			moving_bit := One
-			from i := 1 until i > bit_count loop
-				Result := Result | moving_bit
-				moving_bit := moving_bit |<< 1
-				i := i + 1
-			end
-		end
-
 	leading_digit_position (bitmap: NATURAL_32): INTEGER
 		-- position of first binary digit 1 in `bitmap' going from high to low
 		-- zero if none
-		local
-			moving_bit: NATURAL_32
 		do
-			moving_bit := One |<< (Natural_32_bits - 1)
-
-			from Result := Natural_32_bits until (moving_bit & bitmap).to_boolean or Result = 0 loop
-				moving_bit := moving_bit |>> 1
+			from
+				Result := Natural_32_bits
+			until (One |<< (Result - 1) & bitmap).to_boolean or Result = 0 loop
 				Result := Result - 1
 			end
+		end
+
+feature -- Contract Support
+
+	compatible_value (mask, value: NATURAL_32): BOOLEAN
+		-- `True' if `value' is small enough to fit inside `mask' when shifted to the same position
+		do
+			Result := value <= mask |>> shift_count (mask)
 		end
 
 	valid_mask (mask: NATURAL_32): BOOLEAN
@@ -93,12 +87,6 @@ feature -- Contract Support
 				adjusted_mask := mask |>> shift_count (mask)
 				Result := adjusted_mask = filled_bits (leading_digit_position (adjusted_mask))
 			end
-		end
-
-	valid_value (mask, value: NATURAL_32): BOOLEAN
-		-- `True' if `value' is small enough to fit inside `mask' when shifted to same position
-		do
-			Result := value <= mask |>> shift_count (mask)
 		end
 
 feature {NONE} -- Constants

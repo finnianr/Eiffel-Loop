@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-23 16:58:28 GMT (Friday 23rd December 2022)"
-	revision: "26"
+	date: "2022-12-25 10:08:23 GMT (Sunday 25th December 2022)"
+	revision: "27"
 
 class
 	EL_DATE_TIME
@@ -116,8 +116,10 @@ feature -- Element change
 
 	set_from_other (other: DATE_TIME)
 		do
-			time.make_by_compact_time (other.time.compact_time)
 			date.make_by_ordered_compact_date (other.date.ordered_compact_date)
+			
+			time.make_by_compact_time (other.time.compact_time)
+			time.set_fractionals (other.time.fractional_second)
 		end
 
 feature -- Conversion

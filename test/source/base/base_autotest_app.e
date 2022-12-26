@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-23 13:35:50 GMT (Friday 23rd December 2022)"
-	revision: "156"
+	date: "2022-12-26 15:07:00 GMT (Monday 26th December 2022)"
+	revision: "157"
 
 class
 	BASE_AUTOTEST_APP
@@ -88,6 +88,7 @@ feature {NONE} -- Compile classes
 		EL_EXTERNAL_LIBRARY [EL_INITIALIZEABLE],
 
 		EL_INTEGER_FIELD_VALUE_TABLE,
+		EL_INTEGER_32_BIT_ROUTINES,
 
 		EL_MUTEX_NUMERIC [INTEGER],
 		EL_MUTEX_VALUE [BOOLEAN],

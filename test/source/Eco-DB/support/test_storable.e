@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-19 14:54:23 GMT (Monday 19th December 2022)"
-	revision: "17"
+	date: "2022-12-26 14:48:08 GMT (Monday 26th December 2022)"
+	revision: "18"
 
 class
 	TEST_STORABLE
@@ -28,6 +28,8 @@ feature -- Access
 
 	string_32: STRING_32
 
+	time: EL_TIME
+
 	uuid: EL_UUID
 
 	integer_list: ARRAYED_LIST [INTEGER]
@@ -42,6 +44,6 @@ feature -- Element change
 
 feature {NONE} -- Constants
 
-	Field_hash: NATURAL = 406287629
+	Field_hash: NATURAL = 2952565099
 
 end

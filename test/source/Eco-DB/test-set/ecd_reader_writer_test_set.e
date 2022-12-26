@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-22 10:53:20 GMT (Thursday 22nd December 2022)"
-	revision: "15"
+	date: "2022-12-26 14:44:35 GMT (Monday 26th December 2022)"
+	revision: "16"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -93,6 +93,8 @@ feature -- Tests
 		note
 			testing: "covers/{EL_MEMORY_READER_WRITER}.read_string",
 					"covers/{EL_MEMORY_READER_WRITER}.write_string"
+		local
+			t: EL_TIME_ROUTINES
 		do
 			across << {STRING_32} "Xiǎo Chù 小畜", {STRING_32} "Trademark (™)" >> as str loop
 				if attached new_test_storable (str.item) as storable then
@@ -103,6 +105,7 @@ feature -- Tests
 						assert ("same string", storable.string ~ restored.string)
 						assert ("same string", storable.string_32 ~ restored.string_32)
 						assert ("same uuid", storable.uuid ~ restored.uuid)
+						assert ("same time", t.same_time (storable.time, restored.time))
 						assert ("same integer_list", storable.integer_list ~ restored.integer_list)
 					else
 						assert ("restored OK", False)
@@ -131,14 +134,17 @@ feature {NONE} -- Implementation
 	new_test_storable (str: STRING_32): TEST_STORABLE
 		local
 			byte_array: EL_BYTE_ARRAY; zstr: ZSTRING; uuid: EL_UUID
+			time: EL_TIME
 		do
 			zstr := str
 			create byte_array.make_from_string (zstr.to_utf_8 (False))
 			uuid := byte_array.to_uuid
+			create time.make_from_string ("3:08:01.947 PM")
 
 			create Result.make_default
 			Result.set_string_values  (str)
 			Result.uuid.copy (uuid)
+			Result.time.copy (time)
 			across str as character until Result.integer_list.count = 4 loop
 				Result.integer_list.extend (character.item.code)
 			end

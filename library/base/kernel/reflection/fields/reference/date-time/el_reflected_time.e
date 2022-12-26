@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-23 13:45:45 GMT (Friday 23rd December 2022)"
-	revision: "22"
+	date: "2022-12-26 10:33:08 GMT (Monday 26th December 2022)"
+	revision: "23"
 
 class
 	EL_REFLECTED_TIME
@@ -17,7 +17,14 @@ inherit
 		rename
 			valid_string as valid_format
 		redefine
-			new_factory, reset, set_from_memory, set_from_string, write, valid_format
+			are_equal, new_factory, reset, set_from_memory, set_from_string, write, valid_format
+		end
+
+	EL_TIME_ROUTINES
+		export
+			{NONE} all
+		undefine
+			is_equal
 		end
 
 create
@@ -35,8 +42,7 @@ feature -- Basic operations
 	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
 		do
 			if attached value (a_object) as time then
-				time.make_by_compact_time (memory.read_integer_32)
-				time.set_fractionals (0)
+				set_from_compact_decimal (time, read_compressed_time (memory))
 			end
 		end
 
@@ -50,7 +56,21 @@ feature -- Basic operations
 	write (a_object: EL_REFLECTIVE; writable: EL_WRITABLE)
 		do
 			if attached value (a_object) as time then
-				writable.write_integer_32 (time.compact_time)
+				write_compressed_time (time, writable)
+			end
+		end
+
+feature -- Comparison
+
+	are_equal (a_current, other: EL_REFLECTIVE): BOOLEAN
+		do
+			if attached value (a_current) as t1 then
+				if attached value (other) as t2 then
+					Result := same_time (t1, t2)
+				end
+			else
+--				Both void
+				Result := not attached value (other)
 			end
 		end
 

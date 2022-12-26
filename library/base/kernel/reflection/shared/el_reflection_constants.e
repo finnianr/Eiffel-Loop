@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-21 17:37:39 GMT (Wednesday 21st December 2022)"
-	revision: "45"
+	date: "2022-12-26 14:47:16 GMT (Monday 26th December 2022)"
+	revision: "46"
 
 deferred class
 	EL_REFLECTION_CONSTANTS
@@ -42,6 +42,7 @@ feature {NONE} -- Implementation
 		EL_REFLECTED_PATH,
 		EL_REFLECTED_STORABLE,
 		EL_REFLECTED_STRING_8, EL_REFLECTED_STRING_32,
+		EL_REFLECTED_TIME,
 		EL_REFLECTED_TUPLE,
 		EL_REFLECTED_URI [EL_URL], EL_REFLECTED_URI [EL_URI],
 		EL_REFLECTED_ZSTRING

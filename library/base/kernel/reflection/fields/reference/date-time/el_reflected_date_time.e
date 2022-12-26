@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-24 11:06:03 GMT (Saturday 24th December 2022)"
-	revision: "24"
+	date: "2022-12-26 10:33:08 GMT (Monday 26th December 2022)"
+	revision: "25"
 
 class
 	EL_REFLECTED_DATE_TIME
@@ -17,7 +17,14 @@ inherit
 		rename
 			valid_string as valid_format
 		redefine
-			write, reset, new_factory, set_from_memory, set_from_string, valid_format
+			are_equal, write, reset, new_factory, set_from_memory, set_from_string, valid_format
+		end
+
+	EL_TIME_ROUTINES
+		export
+			{NONE} all
+		undefine
+			is_equal
 		end
 
 create
@@ -36,8 +43,7 @@ feature -- Basic operations
 		do
 			if attached value (a_object) as dt then
 				dt.date.make_by_ordered_compact_date (memory.read_integer_32)
-				dt.time.make_by_compact_time (memory.read_integer_32)
-				dt.time.set_fractionals (0)
+				set_from_compact_decimal (dt.time, read_compressed_time (memory))
 			end
 		end
 
@@ -52,7 +58,23 @@ feature -- Basic operations
 		do
 			if attached value (a_object) as dt then
 				writable.write_integer_32 (dt.date.ordered_compact_date)
-				writable.write_integer_32 (dt.time.compact_time)
+				write_compressed_time (dt.time, writable)
+			end
+		end
+
+feature -- Comparison
+
+	are_equal (a_current, other: EL_REFLECTIVE): BOOLEAN
+		do
+			if attached value (a_current) as dt_1 then
+				if attached value (other) as dt_2
+					and then dt_1.date.ordered_compact_date = dt_2.date.ordered_compact_date
+				then
+					Result := same_time (dt_1.time, dt_2.time)
+				end
+			else
+--				Both void
+				Result := not attached value (other)
 			end
 		end
 
