@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2022-12-27 9:17:38 GMT (Tuesday 27th December 2022)"
+	revision: "12"
 
 deferred class
 	EL_STRING_GENERAL_ESCAPER
@@ -71,7 +71,17 @@ feature -- Conversion
 		do
 			Result := once_buffer
 			wipe_out (Result)
-			escape_substring_into (str, start_index, end_index, Result)
+
+			if has_escaped (code_table, str, start_index, end_index) then
+				escape_substring_into (str, start_index, end_index, Result)
+
+			elseif start_index = 1 and then end_index = str.count
+				and then attached {like once_buffer} str as l_str
+			then
+				Result := l_str
+			else
+				Result.append_substring (str, start_index, end_index.min (str.count))
+			end
 			if keeping_ref then
 				Result := Result.twin
 			end
@@ -89,14 +99,16 @@ feature -- Basic operations
 			i, min_index: INTEGER; code: NATURAL
 		do
 			min_index := str.count.min (end_index)
-			from i := start_index until i > min_index loop
-				code := str.code (i)
-				if is_escaped (code) then
-					append_escape_sequence (output, code)
-				else
-					output.append_code (code)
+			if attached code_table as table then
+				from i := start_index until i > min_index loop
+					code := str.code (i)
+					if is_escaped (code, table) then
+						append_escape_sequence (output, code)
+					else
+						output.append_code (code)
+					end
+					i := i + 1
 				end
-				i := i + 1
 			end
 		end
 
@@ -114,9 +126,20 @@ feature {NONE} -- Implementation
 			str.append_code (code_table.found_item)
 		end
 
-	is_escaped (code: NATURAL): BOOLEAN
+	has_escaped (table: like code_table; str: like READABLE; start_index, end_index: INTEGER): BOOLEAN
+		local
+			i, min_index: INTEGER
 		do
-			Result := code_table.has_key (code)
+			min_index := str.count.min (end_index)
+			from i := start_index until Result or i > min_index loop
+				Result := is_escaped (str.code (i), table)
+				i := i + 1
+			end
+		end
+
+	is_escaped (code: NATURAL; table: like code_table): BOOLEAN
+		do
+			Result := table.has_key (code)
 		end
 
 	new_characters_string (characters: READABLE_STRING_GENERAL): STRING_32

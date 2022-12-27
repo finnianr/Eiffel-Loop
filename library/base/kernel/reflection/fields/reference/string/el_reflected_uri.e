@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-13 17:41:15 GMT (Tuesday 13th December 2022)"
-	revision: "13"
+	date: "2022-12-27 17:49:15 GMT (Tuesday 27th December 2022)"
+	revision: "14"
 
 class
-	EL_REFLECTED_URI [U -> EL_URI]
+	EL_REFLECTED_URI [U -> EL_URI create make end]
 
 inherit
 	EL_REFLECTED_STRING [EL_URI]
@@ -62,7 +62,12 @@ feature -- Basic operations
 
 	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
 		do
-			set (a_object, create {like value}.make (readable.read_string_8))
+			if attached value (a_object) as uri then
+				uri.wipe_out
+				uri.append (readable.read_string_8)
+			else
+				set (a_object, new_uri (readable.read_string_8))
+			end
 		end
 
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITABLE)
@@ -92,6 +97,11 @@ feature {NONE} -- Implementation
 					uri.append_general (content)
 				end
 			end
+		end
+
+	new_uri (str: READABLE_STRING_8): U
+		do
+			create Result.make (str)
 		end
 
 end

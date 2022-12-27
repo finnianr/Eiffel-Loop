@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-16 16:34:01 GMT (Friday 16th December 2022)"
-	revision: "30"
+	date: "2022-12-27 15:27:03 GMT (Tuesday 27th December 2022)"
+	revision: "31"
 
 class
 	EL_TUPLE_ROUTINES
@@ -204,63 +204,85 @@ feature -- Basic operations
 			filled:is_filled (tuple, start_index, start_index + csv_field_list.occurrences (','))
 		end
 
-	read (tuple: TUPLE; reader: EL_MEMORY_READER_WRITER)
+	set_i_th (tuple: TUPLE; i: INTEGER; readable: EL_READABLE; type_id: INTEGER)
+		require
+			valid_index: tuple.valid_index (i)
+		do
+			inspect tuple.item_code (i)
+				when {TUPLE}.Character_8_code then
+					tuple.put_character (readable.read_character_8, i)
+
+				when {TUPLE}.Character_32_code then
+					tuple.put_character_32 (readable.read_character_32, i)
+
+				when {TUPLE}.Boolean_code then
+					tuple.put_boolean (readable.read_boolean, i)
+
+				when {TUPLE}.Pointer_code then
+					tuple.put_pointer (readable.read_pointer, i)
+
+				when {TUPLE}.Integer_8_code then
+					tuple.put_integer_8 (readable.read_integer_8, i)
+
+				when {TUPLE}.Integer_16_code then
+					tuple.put_integer_16 (readable.read_integer_16, i)
+
+				when {TUPLE}.Integer_32_code then
+					tuple.put_integer (readable.read_integer_32, i)
+
+				when {TUPLE}.Integer_64_code then
+					tuple.put_integer_64 (readable.read_integer_64, i)
+
+				when {TUPLE}.Natural_8_code then
+					tuple.put_natural_8 (readable.read_natural_8, i)
+
+				when {TUPLE}.Natural_16_code then
+					tuple.put_natural_16 (readable.read_natural_16, i)
+
+				when {TUPLE}.Natural_32_code then
+					tuple.put_natural_32 (readable.read_natural_32, i)
+
+				when {TUPLE}.Natural_64_code then
+					tuple.put_natural_64 (readable.read_natural_64, i)
+
+				when {TUPLE}.Real_32_code then
+					tuple.put_real_32 (readable.read_real_32, i)
+
+				when {TUPLE}.Real_64_code then
+					tuple.put_real_64 (readable.read_real_64, i)
+
+				when {TUPLE}.Reference_code then
+					if type_id = 0 then
+						set_i_th (tuple, i, readable, Eiffel.generic_dynamic_type (tuple, i))
+
+					elseif type_id = Class_id.ZSTRING then
+						tuple.put_reference (readable.read_string, i)
+
+					elseif type_id = Class_id.STRING_8 then
+						tuple.put_reference (readable.read_string_8, i)
+
+					elseif type_id = Class_id.STRING_32 then
+						tuple.put_reference (readable.read_string_32, i)
+
+					elseif type_id = Class_id.DIR_PATH then
+						tuple.put_reference (create {DIR_PATH}.make (readable.read_string), i)
+
+					elseif type_id = Class_id.FILE_PATH then
+						tuple.put_reference (create {FILE_PATH}.make (readable.read_string), i)
+
+					else
+						do_nothing -- exits recursion
+					end
+			else
+			end
+		end
+
+	read (tuple: TUPLE; readable: EL_READABLE)
 		local
 			i: INTEGER
 		do
 			from i := 1 until i > tuple.count loop
-				inspect tuple.item_code (i)
-					when {TUPLE}.Character_8_code then
-						tuple.put_character (reader.read_character_8, i)
-
-					when {TUPLE}.Character_32_code then
-						tuple.put_character_32 (reader.read_character_32, i)
-
-					when {TUPLE}.Boolean_code then
-						tuple.put_boolean (reader.read_boolean, i)
-
-					when {TUPLE}.Integer_8_code then
-						tuple.put_integer_8 (reader.read_integer_8, i)
-
-					when {TUPLE}.Integer_16_code then
-						tuple.put_integer_16 (reader.read_integer_16, i)
-
-					when {TUPLE}.Integer_32_code then
-						tuple.put_integer (reader.read_integer_32, i)
-
-					when {TUPLE}.Integer_64_code then
-						tuple.put_integer_64 (reader.read_integer_64, i)
-
-					when {TUPLE}.Natural_8_code then
-						tuple.put_natural_8 (reader.read_natural_8, i)
-
-					when {TUPLE}.Natural_16_code then
-						tuple.put_natural_16 (reader.read_natural_16, i)
-
-					when {TUPLE}.Natural_32_code then
-						tuple.put_natural_32 (reader.read_natural_32, i)
-
-					when {TUPLE}.Natural_64_code then
-						tuple.put_natural_64 (reader.read_natural_64, i)
-
-					when {TUPLE}.Real_32_code then
-						tuple.put_real_32 (reader.read_real_32, i)
-
-					when {TUPLE}.Real_64_code then
-						tuple.put_real_64 (reader.read_real_64, i)
-
-					when {TUPLE}.Reference_code then
-						if attached {STRING_GENERAL} tuple.reference_item (i) as str then
-							if attached {ZSTRING} str then
-								tuple.put_reference (reader.read_string, i)
-							elseif attached {STRING} str then
-								tuple.put_reference (reader.read_string_8, i)
-							elseif attached {STRING_32} str then
-								tuple.put_reference (reader.read_string_32, i)
-							end
-						end
-				else
-				end
+				set_i_th (tuple, i, readable, 0)
 				i := i + 1
 			end
 		end

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-22 10:14:34 GMT (Thursday 22nd December 2022)"
-	revision: "16"
+	date: "2022-12-27 17:25:44 GMT (Tuesday 27th December 2022)"
+	revision: "17"
 
 deferred class
 	ECD_REFLECTIVE_RECOVERABLE_CHAIN [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -158,11 +158,13 @@ feature -- Basic operations
 	import_pyxis (a_file_path: FILE_PATH)
 		-- replace all items with imported Pyxis data
 		local
-			importer: EL_PYXIS_TABLE_DATA_IMPORTER [G]
+--			importer: EL_PYXIS_TABLE_DATA_IMPORTER [G]
+			importer: EL_PYXIS_OBJECT_IMPORTER [G]
+			context: EL_EIF_REFLECTIVE_BUILDER_CONTEXT
 		do
 			wipe_out
-			create importer.make (Current, pyxis_file_path)
-			importer.execute
+			create importer.make (a_file_path)
+			append_sequence (importer.list)
 			safe_store
 		end
 

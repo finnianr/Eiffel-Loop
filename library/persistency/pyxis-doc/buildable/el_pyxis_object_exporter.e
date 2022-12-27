@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-22 10:38:18 GMT (Thursday 22nd December 2022)"
-	revision: "1"
+	date: "2022-12-27 12:31:08 GMT (Tuesday 27th December 2022)"
+	revision: "2"
 
 class
 	EL_PYXIS_OBJECT_EXPORTER
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REFLECTION_HANDLER
 
-	EL_MODULE_BUFFER; EL_MODULE_REUSEABLE
+	EL_MODULE_BUFFER; EL_MODULE_PYXIS; EL_MODULE_REUSEABLE
 
 create
 	make
@@ -44,7 +44,7 @@ feature -- Basic operations
 	write_item_to (a_object: EL_REFLECTIVE; output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
 		do
 			object := a_object
-			output.put_indented_line (tab_count + 1, once "item:")
+			output.put_indented_line (tab_count + 1, Item_element)
 			write_to (output, tab_count + 2)
 		end
 
@@ -68,11 +68,8 @@ feature -- Basic operations
 							write_to (output, tab_count + 1)
 							object := l_object
 						end
-					elseif attached {EL_REFLECTED_COLLECTION [EL_REFLECTIVE]} list.item as collection_field
-						and then attached collection_field.collection (object) as collection
-					then
-						write_field (output, name, tab_count)
-						write_list (output, tab_count, collection.linear_representation)
+					elseif attached {EL_REFLECTED_COLLECTION [ANY]} list.item as collection_field then
+						write_collection (output, tab_count, collection_field)
 
 					elseif attached {EL_REFLECTED_TUPLE} list.item as tuple_field
 						and then attached tuple_field.value (object) as tuple
@@ -99,67 +96,81 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	attribute_line_index (field: EL_REFLECTED_FIELD): INTEGER
+	empty_attribute_lines: like Once_attribute_lines
 		do
-			if attached {EL_REFLECTED_BOOLEAN} field then
-				Result := 2
-			elseif attached {EL_REFLECTED_BOOLEAN_REF} field then
-				Result := 2
-
-			elseif attached {EL_REFLECTED_EXPANDED_FIELD [ANY]} field as expanded_field then
-				if expanded_field.has_string_representation then
-					Result := 3
-				else
-					Result := 1
-				end
+			Result := Once_attribute_lines
+			across Result as line loop
+				line.item.wipe_out
 			end
-		ensure
-			valid_index: Result <= Once_attribute_lines.count
 		end
 
 	write_attributes (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; is_attribute: SPECIAL [BOOLEAN])
 		local
-			attribute_lines: EL_ZSTRING_LIST; value: ZSTRING; line_index: INTEGER
+			attribute_lines: like Once_attribute_lines; value: ZSTRING; line_index: INTEGER
 			name: STRING
 		do
-			value := buffer.empty; attribute_lines := Once_attribute_lines
+			value := buffer.empty; attribute_lines := empty_attribute_lines
 			across Reuseable.string_pool as pool loop
-				from attribute_lines.wipe_out until attribute_lines.full loop
-					attribute_lines.extend (pool.borrowed_item)
-				end
 				across object.meta_data.alphabetical_list as list loop
 					-- output numeric as Pyxis element attributes
 					name := list.item.name
-					line_index := attribute_line_index (list.item)
+					line_index := Pyxis.attribute_type (list.item)
 					if line_index > 0 then
 						is_attribute [list.cursor_index - 1] := True
-						value.wipe_out
+						value := pool.borrowed_item
 						list.item.append_to_string (object, value)
 						if value.count > 0 then
-							if line_index = 3 and then not value.is_code_identifier then
-								value.enclose ('"', '"')
-							end
-							attribute_lines [line_index].append (Pyxis_attribute #$ [name, value])
+							attribute_lines [line_index].extend (value, name)
 						end
 					end
 				end
-				across attribute_lines as line loop
-					if line.item.count > 0 then
-						line.item.remove_head (2)
-						output.put_indented_line (tab_count, line.item)
-					end
+				write_attribute_lines (output, tab_count, attribute_lines)
+			end
+		end
+
+	write_collection (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; collection_field: EL_REFLECTED_COLLECTION [ANY])
+		do
+			if attached {EL_REFLECTED_COLLECTION [EL_REFLECTIVE]} collection_field as reflective
+				and then attached reflective.collection (object) as collection
+			then
+				if not collection.is_empty then
+					write_field (output, collection_field.name, tab_count)
+					write_recursive_list (output, tab_count, collection.linear_representation)
+				end
+
+			elseif attached collection_field.to_string_list (object) as string_list then
+				if not string_list.is_empty then
+					write_field (output, collection_field.name, tab_count)
+					write_item_list (output, tab_count + 1, string_list)
 				end
 			end
 		end
 
-	write_list (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; list: LINEAR [EL_REFLECTIVE])
+	write_attribute_lines (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; attribute_lines: like Once_attribute_lines)
+		local
+			value_table: like Once_attribute_lines.item; use_quotes: BOOLEAN
 		do
-			if attached object as l_object then
-				from list.start until list.after loop
-					write_item_to (list.item, output, tab_count)
-					list.forth
+			across attribute_lines as line loop
+				value_table := line.item
+				if value_table.count > 0 then
+					output.put_indent (tab_count)
+					across value_table as table loop
+						if not table.is_first then
+							output.put_string_8 (Semicolon_space)
+						end
+						output.put_string_8 (table.key)
+						output.put_string_8 (Equals_sign)
+						use_quotes := line.is_last and then not table.item.is_code_identifier
+						if use_quotes then
+							output.put_character_8 ('"')
+						end
+						output.put_string (table.item)
+						if use_quotes then
+							output.put_character_8 ('"')
+						end
+					end
+					output.put_new_line
 				end
-				object := l_object
 			end
 		end
 
@@ -171,6 +182,19 @@ feature {NONE} -- Implementation
 			output.put_new_line
 		end
 
+	write_item_list (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; list: LIST [READABLE_STRING_GENERAL])
+		do
+			output.put_indented_line (tab_count, Item_element)
+			from list.start until list.after loop
+				output.put_indent (tab_count + 1)
+				output.put_character_8 ('"')
+				output.put_string_general (list.item)
+				output.put_character_8 ('"')
+				output.put_new_line
+				list.forth
+			end
+		end
+
 	write_manifest (output: EL_OUTPUT_MEDIUM; str: ZSTRING; tab_count: INTEGER)
 		do
 			output.put_indented_line (tab_count, Pyxis_triple_quote)
@@ -180,30 +204,38 @@ feature {NONE} -- Implementation
 			output.put_indented_line (tab_count, Pyxis_triple_quote)
 		end
 
+	write_recursive_list (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; list: LINEAR [EL_REFLECTIVE])
+		do
+			if attached object as l_object then
+				from list.start until list.after loop
+					write_item_to (list.item, output, tab_count)
+					list.forth
+				end
+				object := l_object
+			end
+		end
+
 	write_tuple (
 		output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; field: EL_REFLECTED_TUPLE; tuple: TUPLE
 		name_list: EL_STRING_8_LIST
 	)
 		local
-			pair, value: ZSTRING; i: INTEGER
+			value: ZSTRING; i: INTEGER
+			attribute_lines: like Once_attribute_lines
 		do
-			across Reuseable.string as reuse loop
-				value := reuse.item
-				output.put_indent (tab_count)
+			attribute_lines := empty_attribute_lines
+			across Reuseable.string_pool as pool loop
 				from i := 1 until i > tuple.count loop
-					value.wipe_out
+					value := pool.borrowed_item
 					value.append_tuple_item (tuple, i)
-					if field.member_types.i_th_is_character_data (i) and then not value.is_code_identifier then
-						value.enclose ('"', '"')
+					if field.member_types.i_th_is_character_data (i) then
+						attribute_lines.last.extend (value, name_list [i])
+					else
+						attribute_lines.first.extend (value, name_list [i])
 					end
-					pair := Pyxis_attribute #$ [name_list [i], value]
-					if i = 1 then
-						pair.remove_head (2)
-					end
-					output.put_string (pair)
 					i := i + 1
 				end
-				output.put_new_line
+				write_attribute_lines (output, tab_count, attribute_lines)
 			end
 		end
 
@@ -213,14 +245,20 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Once_attribute_lines: EL_ZSTRING_LIST
-		once
-			create Result.make (3)
-		end
+	Equals_sign: STRING = " = "
 
-	Pyxis_attribute: ZSTRING
+	Item_element: STRING = "item:"
+
+	Semicolon_space: STRING = "; "
+
+	Once_attribute_lines: ARRAYED_LIST [HASH_TABLE [ZSTRING, STRING]]
 		once
-			Result := "; %S = %S"
+			create Result.make (Pyxis.Type_represented)
+			from until Result.full loop
+				Result.extend (create {HASH_TABLE [ZSTRING, STRING]}.make (5))
+			end
+		ensure
+			expected_size: Result.count = 3
 		end
 
 	Pyxis_header: ZSTRING

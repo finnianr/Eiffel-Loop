@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-14 12:24:27 GMT (Wednesday 14th December 2022)"
-	revision: "9"
+	date: "2022-12-27 9:41:21 GMT (Tuesday 27th December 2022)"
+	revision: "10"
 
 class
 	TEXT_TEST_SET
@@ -36,6 +36,7 @@ feature -- Basic operations
 feature -- Tests
 
 	test_bash_escape
+		-- TEXT_TEST_SET.test_bash_escape
 		local
 			bash_escaper: EL_BASH_PATH_ZSTRING_ESCAPER; bash_escaper_32: EL_BASH_PATH_STRING_32_ESCAPER
 		do
@@ -157,13 +158,19 @@ feature {NONE} -- Implementation
 			str_32, escaped_32: STRING_32; str, escaped: ZSTRING
 			s: EL_STRING_32_ROUTINES
 		do
-			across Text.lines as string loop
-				str_32 := string.item.twin
-				s.replace_character (str_32, '+', '&')
-				str := str_32
-				escaped := escaper.escaped (str, True)
-				escaped_32 := escaper_32.escaped (str_32, True)
-				assert (name + " escape OK", escaped.same_string (escaped_32))
+			across << True, False >> as replace_space loop
+				across Text.lines as string loop
+					str_32 := string.item.twin
+					if replace_space.item then
+						s.replace_character (str_32, ' ', '/')
+					else
+						s.replace_character (str_32, '+', '&')
+					end
+					str := str_32
+					escaped := escaper.escaped (str, True)
+					escaped_32 := escaper_32.escaped (str_32, True)
+					assert (name + " escape OK", escaped.same_string (escaped_32))
+				end
 			end
 		end
 

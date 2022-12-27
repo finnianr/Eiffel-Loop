@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2022-12-27 9:03:13 GMT (Tuesday 27th December 2022)"
+	revision: "15"
 
 deferred class
 	XML_GENERAL_ESCAPER
@@ -53,12 +53,12 @@ feature {NONE} -- Implementation
 			str.append (escape_sequence (code))
 		end
 
-	is_escaped (code: NATURAL): BOOLEAN
+	is_escaped (code: NATURAL; table: like code_table): BOOLEAN
 		do
 			if escape_128_plus and then code > 128 then
 				Result := True
 			else
-				Result := code_table.has_key (code)
+				Result := table.has_key (code)
 			end
 		end
 

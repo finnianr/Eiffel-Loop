@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:19:06 GMT (Monday 5th December 2022)"
-	revision: "19"
+	date: "2022-12-27 12:30:16 GMT (Tuesday 27th December 2022)"
+	revision: "20"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -48,6 +48,20 @@ feature -- Basic operations
 		end
 
 feature -- Access
+
+	attribute_type (field: EL_REFLECTED_FIELD): INTEGER
+		do
+			if attached {EL_REFLECTED_BOOLEAN} field or else attached {EL_REFLECTED_BOOLEAN_REF} field then
+				Result := Type_boolean
+
+			elseif attached {EL_REFLECTED_EXPANDED_FIELD [ANY]} field as expanded_field then
+				if expanded_field.has_string_representation then
+					Result := Type_represented
+				else
+					Result := Type_expanded
+				end
+			end
+		end
 
 	encoding (file_path: FILE_PATH): EL_MARKUP_ENCODING
 		do
@@ -117,6 +131,14 @@ feature -- Access
 			xml_out.close
 			Result := xml_out.text
 		end
+
+feature -- Constants
+
+	Type_boolean: INTEGER = 1
+
+	Type_expanded: INTEGER = 2
+
+	Type_represented: INTEGER = 3
 
 feature {NONE} -- Constants
 

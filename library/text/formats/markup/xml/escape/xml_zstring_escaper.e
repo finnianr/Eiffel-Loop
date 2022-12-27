@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2022-12-27 9:03:29 GMT (Tuesday 27th December 2022)"
+	revision: "13"
 
 class
 	XML_ZSTRING_ESCAPER
@@ -37,12 +37,12 @@ feature {NONE} -- Implementation
 			str.append_string_general (escape_sequence (codec.z_code_as_unicode (code)))
 		end
 
-	is_escaped (code: NATURAL): BOOLEAN
+	is_escaped (code: NATURAL; table: like code_table): BOOLEAN
 		do
 			if escape_128_plus and then codec.z_code_as_unicode (code) > 128 then
 				Result := True
 			else
-				Result := code_table.has_key (code)
+				Result := table.has_key (code)
 			end
 		end
 
