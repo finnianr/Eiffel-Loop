@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-22 10:17:34 GMT (Thursday 22nd December 2022)"
-	revision: "68"
+	date: "2022-12-28 9:50:24 GMT (Wednesday 28th December 2022)"
+	revision: "69"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -49,16 +49,6 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Basic operations
-
-	write (writable: EL_WRITABLE)
-		do
-			meta_data.field_list.write (Current, writable)
-		end
-
-	write_to_memory (memory: EL_MEMORY_READER_WRITER)
-		do
-			meta_data.field_list.write_to_memory (Current, memory)
-		end
 
 	write_meta_data (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
 		local

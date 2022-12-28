@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-27 16:51:17 GMT (Tuesday 27th December 2022)"
-	revision: "27"
+	date: "2022-12-28 9:56:43 GMT (Wednesday 28th December 2022)"
+	revision: "28"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE
@@ -49,6 +49,18 @@ feature -- Comparison
 	is_equal (other: like Current): BOOLEAN
 		do
 			Result := all_fields_equal (other)
+		end
+
+feature -- Basic operations
+
+	write_to (writable: EL_WRITABLE)
+		do
+			meta_data.field_list.write (Current, writable)
+		end
+
+	write_to_memory (memory: EL_MEMORY_READER_WRITER)
+		do
+			meta_data.field_list.write_to_memory (Current, memory)
 		end
 
 feature {NONE} -- Implementation

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-27 12:30:16 GMT (Tuesday 27th December 2022)"
-	revision: "20"
+	date: "2022-12-28 10:28:18 GMT (Wednesday 28th December 2022)"
+	revision: "21"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -91,7 +91,7 @@ feature -- Access
 			end
 		end
 
-	root_element_name (xml: READABLE_STRING_GENERAL): STRING_8
+	root_element_name (xml: READABLE_STRING_GENERAL): STRING
 		local
 			found: BOOLEAN; i, pos_new_line, pos_colon: INTEGER; line: READABLE_STRING_GENERAL
 		do
@@ -110,6 +110,12 @@ feature -- Access
 					create Result.make_empty
 				end
 			end
+		end
+
+	root_element_name_for_type (type: TYPE [EL_REFLECTIVELY_SETTABLE]): STRING
+		do
+			Result := type.name + "_list"
+			Result.to_lower
 		end
 
 	to_utf_8_xml (a_pyxis_file_path: FILE_PATH): STRING

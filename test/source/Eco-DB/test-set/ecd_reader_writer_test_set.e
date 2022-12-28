@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-27 17:55:21 GMT (Tuesday 27th December 2022)"
-	revision: "17"
+	date: "2022-12-28 10:30:40 GMT (Wednesday 28th December 2022)"
+	revision: "18"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -78,7 +78,7 @@ feature -- Tests
 			pyxis_path := data_path.with_new_extension ("pyx")
 			data_table.export_pyxis (pyxis_path, Latin_1)
 
-			export_digest := "7E404341048221DE24605F220D75CAF1"
+			export_digest := "AB16828935E6FF99AC0A9057CBBEA234"
 			assert_same_digest_hexadecimal (pyxis_path, export_digest)
 
 			data_table.import_pyxis (pyxis_path)

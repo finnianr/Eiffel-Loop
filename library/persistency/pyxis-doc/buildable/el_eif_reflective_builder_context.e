@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-27 17:53:36 GMT (Tuesday 27th December 2022)"
-	revision: "1"
+	date: "2022-12-28 16:04:45 GMT (Wednesday 28th December 2022)"
+	revision: "2"
 
 class
 	EL_EIF_REFLECTIVE_BUILDER_CONTEXT
@@ -19,6 +19,8 @@ inherit
 
 	EL_MODULE_EIFFEL; EL_MODULE_PYXIS; EL_MODULE_TUPLE
 
+	EL_SHARED_CLASS_ID
+
 create
 	make
 
@@ -28,7 +30,7 @@ feature {NONE} -- Initialization
 		do
 			object := a_object
 			set_default_attributes
-			create reflective_item_context_table.make (3)
+			create context_table.make (3)
 			building_actions := new_building_actions
 		end
 
@@ -70,6 +72,11 @@ feature {NONE} -- Build from XML
 						item_type_id := tuple_field.member_types [list.cursor_index].type_id
 						Result [l_xpath] := agent set_tuple_item_from_node (tuple_field, list.cursor_index, item_type_id)
 					end
+				elseif attached {EL_REFLECTED_REFERENCE [ANY]} field as reflective
+					and then reflective.conforms_to_type (Class_id.EL_REFLECTIVE)
+				then
+					Result [name] := agent set_reflective_field (reflective)
+
 				else
 					Result [name + Text_path] := agent set_from_node (field)
 				end
@@ -82,13 +89,13 @@ feature {NONE} -- Build from XML
 		do
 			field.extend_with_new (object)
 			if attached {CHAIN [EL_REFLECTIVE]} field.collection (object) as list then
-				if reflective_item_context_table.has_key (field.name) then
-					reflective_item_context_table.found_item.set_object (list.last)
+				if context_table.has_key (field.name) then
+					context_table.found_item.set_object (list.last)
 				else
 					create item_context.make (list.last)
-					reflective_item_context_table.put (item_context, field.name)
+					context_table.put (item_context, field.name)
 				end
-			 	set_next_context (reflective_item_context_table.found_item)
+			 	set_next_context (context_table.found_item)
 			end
 		end
 
@@ -107,6 +114,21 @@ feature {NONE} -- Build from XML
 			field.set_from_readable (object, node)
 		end
 
+	set_reflective_field (field: EL_REFLECTED_REFERENCE [ANY])
+		local
+			context: EL_EIF_REFLECTIVE_BUILDER_CONTEXT
+		do
+			if attached {EL_REFLECTIVE} field.value (object) as value then
+				if context_table.has_key (field.name) then
+					context_table.found_item.set_object (value)
+				else
+					create context.make (value)
+					context_table.put (context, field.name)
+				end
+			 	set_next_context (context_table.found_item)
+			end
+		end
+
 	set_string_from_node (field: EL_REFLECTED_STRING [READABLE_STRING_GENERAL])
 		do
 			field.set_from_node (object, node)
@@ -123,7 +145,7 @@ feature {NONE} -- Internal attributes
 
 	object: EL_REFLECTIVE
 
-	reflective_item_context_table: HASH_TABLE [EL_EIF_REFLECTIVE_BUILDER_CONTEXT, STRING]
+	context_table: HASH_TABLE [EL_EIF_REFLECTIVE_BUILDER_CONTEXT, STRING]
 
 feature {NONE} -- Constants
 

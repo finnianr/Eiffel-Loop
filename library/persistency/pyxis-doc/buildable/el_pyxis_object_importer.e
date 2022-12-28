@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-27 17:22:01 GMT (Tuesday 27th December 2022)"
-	revision: "1"
+	date: "2022-12-28 10:28:57 GMT (Wednesday 28th December 2022)"
+	revision: "2"
 
 class
 	EL_PYXIS_OBJECT_IMPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
@@ -19,6 +19,8 @@ inherit
 		redefine
 			make
 		end
+
+	EL_MODULE_PYXIS
 
 create
 	make
@@ -40,8 +42,7 @@ feature {NONE} -- Initialization
 			end
 			file.close
 			create list.make (item_count)
-			root_node_name := ({G}).name
-			root_node_name.to_lower
+			root_node_name := Pyxis.root_element_name_for_type ({G})
 
 			create item_context.make (new_item)
 
@@ -52,13 +53,16 @@ feature -- Access
 
 	list: EL_ARRAYED_LIST [G]
 
+	software_version: NATURAL
+
 feature {NONE} -- Build from XML
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			create Result.make (<<
-				["item", agent extend_item]
+				["item", agent extend_item],
+				["@software_version", agent do software_version := node end]
 			>>)
 		end
 

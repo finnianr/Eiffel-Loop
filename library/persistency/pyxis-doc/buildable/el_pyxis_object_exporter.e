@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-27 12:31:08 GMT (Tuesday 27th December 2022)"
-	revision: "2"
+	date: "2022-12-28 16:15:32 GMT (Wednesday 28th December 2022)"
+	revision: "3"
 
 class
-	EL_PYXIS_OBJECT_EXPORTER
+	EL_PYXIS_OBJECT_EXPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
 
 inherit
 	EL_REFLECTION_HANDLER
@@ -22,14 +22,14 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_object: EL_REFLECTIVE)
+	make
 		do
-			object := a_object
+			create {G} object.make_default
 		end
 
 feature -- Element change
 
-	set_object (a_object: EL_REFLECTIVE)
+	set_object (a_object: G)
 		do
 			object := a_object
 		end
@@ -38,7 +38,7 @@ feature -- Basic operations
 
 	write_header (file: EL_PLAIN_TEXT_FILE; software_version: NATURAL)
 		do
-			file.put_line (Pyxis_header #$ [file.encoding_name, file.path.base_sans_extension, software_version])
+			file.put_line (Pyxis_header #$ [file.encoding_name, Pyxis.root_element_name_for_type ({G}), software_version])
 		end
 
 	write_item_to (a_object: EL_REFLECTIVE; output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
@@ -59,16 +59,7 @@ feature -- Basic operations
 			across object.meta_data.alphabetical_list as list loop
 				name := list.item.name
 				if not is_attribute [list.cursor_index - 1] then
-					if attached {EL_REFLECTED_STORABLE} list.item as storable_field
-						and then attached {EL_REFLECTIVELY_SETTABLE_STORABLE} storable_field.value (object) as storable
-					then
-						write_field (output, name, tab_count)
-						if attached object as l_object then
-							object := storable
-							write_to (output, tab_count + 1)
-							object := l_object
-						end
-					elseif attached {EL_REFLECTED_COLLECTION [ANY]} list.item as collection_field then
+					if attached {EL_REFLECTED_COLLECTION [ANY]} list.item as collection_field then
 						write_collection (output, tab_count, collection_field)
 
 					elseif attached {EL_REFLECTED_TUPLE} list.item as tuple_field
@@ -77,6 +68,16 @@ feature -- Basic operations
 					then
 						write_field (output, name, tab_count)
 						write_tuple (output, tab_count + 1, tuple_field, tuple, name_list)
+
+					elseif attached {EL_REFLECTED_REFERENCE [ANY]} list.item as field
+						and then attached {EL_REFLECTIVE} field.value (object) as reflective
+					then
+						write_field (output, name, tab_count)
+						if attached object as previous then
+							object := reflective
+							write_to (output, tab_count + 1)
+							object := previous
+						end
 					else
 						value.wipe_out
 						list.item.append_to_string (object, value)

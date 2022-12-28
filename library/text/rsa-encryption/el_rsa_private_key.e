@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 13:03:58 GMT (Monday 12th December 2022)"
-	revision: "17"
+	date: "2022-12-28 9:58:17 GMT (Wednesday 28th December 2022)"
+	revision: "18"
 
 class
 	EL_RSA_PRIVATE_KEY
@@ -31,8 +31,7 @@ class
 inherit
 	EL_REFLECTIVE_RSA_KEY
 		rename
-			read as read_from,
-			write as write_to
+			read as read_from
 		redefine
 			make_default
 		end
