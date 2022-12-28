@@ -1,22 +1,25 @@
 note
-	description: "Pyxis parse event type"
+	description: "Module pyxis"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2022-12-28 18:48:17 GMT (Wednesday 28th December 2022)"
+	revision: "9"
 
-class
-	EL_PYXIS_PARSE_EVENT_TYPE
+deferred class
+	EL_MODULE_PYXIS
+
+inherit
+	EL_MODULE
 
 feature {NONE} -- Constants
 
-	Parse_event_source_type: TYPE [EL_PARSE_EVENT_SOURCE]
+	Pyxis: EL_PYXIS_XML_ROUTINES
 		once
-			Result := {EL_PYXIS_PARSER}
+			create Result
 		end
 
 end

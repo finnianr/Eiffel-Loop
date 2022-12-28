@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-28 16:15:32 GMT (Wednesday 28th December 2022)"
-	revision: "3"
+	date: "2022-12-28 18:54:43 GMT (Wednesday 28th December 2022)"
+	revision: "4"
 
 class
 	EL_PYXIS_OBJECT_EXPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
@@ -97,35 +97,28 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	empty_attribute_lines: like Once_attribute_lines
-		do
-			Result := Once_attribute_lines
-			across Result as line loop
-				line.item.wipe_out
-			end
-		end
-
 	write_attributes (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; is_attribute: SPECIAL [BOOLEAN])
 		local
-			attribute_lines: like Once_attribute_lines; value: ZSTRING; line_index: INTEGER
-			name: STRING
+			value: ZSTRING; name: STRING; line_index: INTEGER
 		do
-			value := buffer.empty; attribute_lines := empty_attribute_lines
-			across Reuseable.string_pool as pool loop
-				across object.meta_data.alphabetical_list as list loop
-					-- output numeric as Pyxis element attributes
-					name := list.item.name
-					line_index := Pyxis.attribute_type (list.item)
-					if line_index > 0 then
-						is_attribute [list.cursor_index - 1] := True
-						value := pool.borrowed_item
-						list.item.append_to_string (object, value)
-						if value.count > 0 then
-							attribute_lines [line_index].extend (value, name)
+			value := buffer.empty
+			if attached Once_attribute_lines as attribute_lines then
+				across Reuseable.string_pool as pool loop
+					across object.meta_data.alphabetical_list as list loop
+						-- output numeric as Pyxis element attributes
+						name := list.item.name
+						line_index := Pyxis.attribute_type (list.item)
+						if line_index > 0 then
+							is_attribute [list.cursor_index - 1] := True
+							value := pool.borrowed_item
+							list.item.append_to_string (object, value)
+							if value.count > 0 then
+								attribute_lines [line_index].extend (value, name)
+							end
 						end
 					end
+					attribute_lines.write_to (output, tab_count)
 				end
-				write_attribute_lines (output, tab_count, attribute_lines)
 			end
 		end
 
@@ -143,34 +136,6 @@ feature {NONE} -- Implementation
 				if not string_list.is_empty then
 					write_field (output, collection_field.name, tab_count)
 					write_item_list (output, tab_count + 1, string_list)
-				end
-			end
-		end
-
-	write_attribute_lines (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; attribute_lines: like Once_attribute_lines)
-		local
-			value_table: like Once_attribute_lines.item; use_quotes: BOOLEAN
-		do
-			across attribute_lines as line loop
-				value_table := line.item
-				if value_table.count > 0 then
-					output.put_indent (tab_count)
-					across value_table as table loop
-						if not table.is_first then
-							output.put_string_8 (Semicolon_space)
-						end
-						output.put_string_8 (table.key)
-						output.put_string_8 (Equals_sign)
-						use_quotes := line.is_last and then not table.item.is_code_identifier
-						if use_quotes then
-							output.put_character_8 ('"')
-						end
-						output.put_string (table.item)
-						if use_quotes then
-							output.put_character_8 ('"')
-						end
-					end
-					output.put_new_line
 				end
 			end
 		end
@@ -222,21 +187,21 @@ feature {NONE} -- Implementation
 	)
 		local
 			value: ZSTRING; i: INTEGER
-			attribute_lines: like Once_attribute_lines
 		do
-			attribute_lines := empty_attribute_lines
-			across Reuseable.string_pool as pool loop
-				from i := 1 until i > tuple.count loop
-					value := pool.borrowed_item
-					value.append_tuple_item (tuple, i)
-					if field.member_types.i_th_is_character_data (i) then
-						attribute_lines.last.extend (value, name_list [i])
-					else
-						attribute_lines.first.extend (value, name_list [i])
+			if attached Once_attribute_lines as attribute_lines then
+				across Reuseable.string_pool as pool loop
+					from i := 1 until i > tuple.count loop
+						value := pool.borrowed_item
+						value.append_tuple_item (tuple, i)
+						if field.member_types.i_th_is_character_data (i) then
+							attribute_lines.last.extend (value, name_list [i])
+						else
+							attribute_lines.first.extend (value, name_list [i])
+						end
+						i := i + 1
 					end
-					i := i + 1
+					attribute_lines.write_to (output, tab_count)
 				end
-				write_attribute_lines (output, tab_count, attribute_lines)
 			end
 		end
 
@@ -246,20 +211,11 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Equals_sign: STRING = " = "
-
 	Item_element: STRING = "item:"
 
-	Semicolon_space: STRING = "; "
-
-	Once_attribute_lines: ARRAYED_LIST [HASH_TABLE [ZSTRING, STRING]]
+	Once_attribute_lines: EL_PYXIS_ATTRIBUTES
 		once
-			create Result.make (Pyxis.Type_represented)
-			from until Result.full loop
-				Result.extend (create {HASH_TABLE [ZSTRING, STRING]}.make (5))
-			end
-		ensure
-			expected_size: Result.count = 3
+			create Result.make
 		end
 
 	Pyxis_header: ZSTRING
