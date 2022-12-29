@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2022-12-29 10:00:36 GMT (Thursday 29th December 2022)"
+	revision: "15"
 
 deferred class
 	EL_INSTALLABLE_APPLICATION
@@ -41,7 +41,7 @@ feature -- Access
 		do
 			create words.make_split (generator, '_')
 			words.finish
-			if not words.off and then words.item.same_string ("APP") then
+			if not words.off and then words.item.same_string_general ("APP") then
 				words.remove
 			end
 			Result := words.joined_propercase_words

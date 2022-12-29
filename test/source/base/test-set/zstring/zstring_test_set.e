@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 16:18:46 GMT (Sunday 18th December 2022)"
-	revision: "66"
+	date: "2022-12-29 9:39:27 GMT (Thursday 29th December 2022)"
+	revision: "67"
 
 class
 	ZSTRING_TEST_SET
@@ -103,7 +103,7 @@ feature -- Conversion tests
 			create pair
 			across Text.words as word loop
 				pair.set (word.item)
-				assert ("mirror OK", pair.z_32.mirrored.same_string (pair.s_32.mirrored))
+				assert_same_string ("mirror OK", pair.z_32.mirrored, pair.s_32.mirrored)
 			end
 		end
 
@@ -159,7 +159,7 @@ feature -- Conversion tests
 				end
 				str_2.append (l_substring)
 			end
-			assert ("substring_split OK", str.same_string (Text.russian_and_english))
+			assert_same_string ("substring_split OK", str, Text.russian_and_english)
 		end
 
 	test_to_general
@@ -172,7 +172,7 @@ feature -- Conversion tests
 			across Text.lines as line loop
 				pair.set (line.item)
 				if attached pair.z_32.to_general as general then
-					assert ("same string", general.same_string (pair.s_32))
+					assert_same_string (Void, general, pair.s_32)
 					assert ("both string 8", attached {STRING} general implies pair.s_32.is_valid_as_string_8)
 				end
 			end
@@ -299,7 +299,7 @@ feature -- Appending tests
 					index := substituted.index_of ('%S', 1)
 					substituted.replace_substring_general (Text.Escaped_substitution_marker, index, index)
 				end
-				assert ("substitute_tuple OK", substituted.same_string (str_32))
+				assert_same_string ("substitute_tuple OK", substituted, str_32)
 			end
 		end
 
@@ -356,7 +356,7 @@ feature -- Appending tests
 			across Text.russian_and_english as uc loop
 				a.append_unicode (uc.item.natural_32_code)
 			end
-			assert ("append_unicode OK", a.same_string (Text.russian_and_english))
+			assert_same_string ("append_unicode OK", a, Text.russian_and_english)
 		end
 
 	test_append_utf_8
@@ -459,7 +459,7 @@ feature -- Element change tests
 					word := word_32.substring (2, word_32.count - 1)
 					word.insert_character (uc_1, 1)
 					word.insert_character (uc_2, word.count + 1)
-					assert ("insert_character OK", word.same_string (word_32))
+					assert_same_string ("insert_character OK", word, word_32)
 				end
 			end
 		end
@@ -494,8 +494,8 @@ feature -- Element change tests
 				line_32 := list.item.twin; line := line_32
 				line_32.append_string_general (" 100-abc")
 				joined := line.joined ([' ', 100, "-abc"])
-				assert ("line not modified", line.same_string (list.item))
-				assert ("same joined", joined.same_string (line_32))
+				assert_same_string ("line not modified", line, list.item)
+				assert_same_string ("same joined", joined, line_32)
 			end
 		end
 
@@ -685,9 +685,9 @@ feature -- Element change tests
 			across Text.words as word loop
 				pair.set (word.item)
 				str_utf_8 := pair.z_32.to_utf_8 (True)
-				assert ("to_utf_8 OK", str_utf_8.same_string (Utf_8_codec.as_utf_8 (pair.s_32, False)))
+				assert_same_string ("to_utf_8 OK", str_utf_8, Utf_8_codec.as_utf_8 (pair.s_32, False))
 				create str_2.make_from_utf_8 (str_utf_8)
-				assert ("make_from_utf_8 OK", str_2.same_string (pair.s_32))
+				assert_same_string ("make_from_utf_8 OK", str_2, pair.s_32)
 			end
 		end
 
@@ -1066,7 +1066,7 @@ feature -- Duplication tests
 			pair.set (Text.russian_and_english)
 			count := pair.s_32.count
 			from i := 1 until (i + 4) > count loop
-				assert ("substring OK",  pair.z_32.substring (i, i + 4).same_string (pair.s_32.substring (i, i + 4)))
+				assert_same_string ("substring OK",  pair.z_32.substring (i, i + 4), pair.s_32.substring (i, i + 4))
 				i := i + 1
 			end
 		end
@@ -1110,8 +1110,8 @@ feature {NONE} -- Implementation
 			lower, upper: ZSTRING
 		do
 			lower := lower_32; upper :=  upper_32
-			assert ("to_upper OK", lower.as_upper.same_string (upper_32))
-			assert ("to_lower OK", upper.as_lower.same_string (lower_32))
+			assert_same_string ("to_upper OK", lower.as_upper, upper_32)
+			assert_same_string ("to_lower OK", upper.as_lower, lower_32)
 		end
 
 	compare_ends_with (str_32, left_32, right_32: STRING_32; str, left, right: ZSTRING)
@@ -1211,7 +1211,7 @@ feature {NONE} -- Implementation
 			str := str_32
 			part_a := str.substring (1, str.index_of (uc, 1))
 			part_32 := str_32.substring (1, str_32.index_of (uc, 1))
-			assert ("unicode_index_of OK", part_a.same_string (part_32))
+			assert_same_string ("unicode_index_of OK", part_a, part_32)
 		end
 
 feature {NONE} -- String 8 constants

@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-10 16:38:22 GMT (Saturday 10th December 2022)"
-	revision: "56"
+	date: "2022-12-29 16:51:17 GMT (Thursday 29th December 2022)"
+	revision: "57"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -63,7 +63,7 @@ feature -- Tests
 				web.set_cookie_paths (Cookie_path)
 				web.open (url)
 				web.read_string_get
-				assert ("is redirection page", h1_text (web.last_string).same_string ("Redirecting..."))
+				assert_same_string ("is redirection page", h1_text (web.last_string), "Redirecting...")
 				web.close
 			end
 
@@ -263,19 +263,20 @@ feature -- Tests
 		do
 			ip_number := IP_address.to_number (www_eiffel_loop_com)
 			info := Geographic_info_table.item (ip_number)
-			assert ("same asn code", info.asn_.same_string ("AS8560"))
-			assert ("same location", info.location.same_string ("United Kingdom, England"))
+			assert_same_string ("same asn code", info.asn_, "AS8560")
+			assert_same_string ("same location", info.location, "United Kingdom, England")
+			assert_same_string ("same country", info.country_, "GB")
+			assert_same_string ("same country code", info.country_code_, "GB")
+			assert_same_string ("same 3 letter country code", info.country_code_iso3_, "GBR")
+			assert_same_string ("same top level domain", info.country_tld_, ".uk")
+			assert_same_string ("same continent", info.continent_code_, "EU")
+			assert_same_string ("same currency", info.currency_, "GBP")
+			assert_same_string ("same region code", info.region_code_, "ENG")
+			assert_same_string ("same version", info.version_, "IPv4")
+
+			assert ("same location", info.location ~ IP_location_table.item (ip_number))
 			assert ("same ip", info.ip_address ~ Www_eiffel_loop_com)
 			assert ("same area", info.country_area.to_integer_32 = 244820)
-			assert ("same country", info.country_.same_string ("GB"))
-			assert ("same country code", info.country_code_.same_string ("GB"))
-			assert ("same 3 letter country code", info.country_code_iso3_.same_string ("GBR"))
-			assert ("same top level domain", info.country_tld_.same_string (".uk"))
-			assert ("same continent", info.continent_code_.same_string ("EU"))
-			assert ("same currency", info.currency_.same_string ("GBP"))
-			assert ("same location", info.location ~ IP_location_table.item (ip_number))
-			assert ("same region code", info.region_code_.same_string ("ENG"))
-			assert ("same version", info.version_.same_string ("IPv4"))
 
 			-- `utc_offset' can vary depending if daylight saving is in effect
 			assert ("same UTC offset", ("+0000, +0100").has_substring (info.utc_offset_))
@@ -396,7 +397,7 @@ feature {NONE} -- Factory
 			create Result.make_equal (pair_list.count)
 			from pair_list.start until pair_list.after loop
 				create value.make_encoded (pair_list.value_item (False).to_latin_1)
-				if not value.same_string (s.character_string ('{')) then
+				if not s.is_character (value, '{') then
 					Result.set_string (pair_list.name_item (True), value.decoded)
 				end
 				pair_list.forth

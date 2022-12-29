@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "53"
+	date: "2022-12-29 10:28:03 GMT (Thursday 29th December 2022)"
+	revision: "54"
 
 class
 	AUTOTEST_APP
@@ -36,6 +36,7 @@ inherit
 		CLASS_FILE_NAME_NORMALIZER_TEST_SET,
 		CLASS_RENAMING_TEST_SET,
 		CODEC_GENERATOR_TEST_SET,
+		EIFFEL_GREP_COMMAND_TEST_SET,
 		EIFFEL_SOURCE_COMMAND_TEST_SET,
 		FEATURE_EDITOR_COMMAND_TEST_SET,
 		LIBRARY_MIGRATION_COMMAND_TEST_SET,

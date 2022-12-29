@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "29"
+	date: "2022-12-29 17:26:37 GMT (Thursday 29th December 2022)"
+	revision: "30"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -328,6 +328,15 @@ feature {EL_PATH} -- Implementation
 					Result := Result + 1
 				end
 				i := i + 3
+			end
+		end
+
+	normalized_copy (path: READABLE_STRING_GENERAL): ZSTRING
+		-- temporary path string normalized for platform
+		do
+			Result := temporary_copy (path)
+			if {PLATFORM}.is_windows and then path.has (Unix_separator) then
+				Result.replace_character (Unix_separator, Separator)
 			end
 		end
 

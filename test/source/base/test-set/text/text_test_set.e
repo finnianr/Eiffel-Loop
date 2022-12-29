@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-27 9:41:21 GMT (Tuesday 27th December 2022)"
-	revision: "10"
+	date: "2022-12-29 9:47:40 GMT (Thursday 29th December 2022)"
+	revision: "11"
 
 class
 	TEXT_TEST_SET
@@ -111,7 +111,7 @@ feature -- Tests
 		do
 			str := "1 %%S 3"
 			str.unescape (Substitution_mark_unescaper)
-			assert ("has substitution marker", str.same_string ("1 %S 3"))
+			assert_same_string ("has substitution marker", str, "1 %S 3")
 		end
 
 	test_unescape
@@ -147,7 +147,7 @@ feature -- Tests
 
 				unescaped := unescaper.unescaped (str)
 				unescaped_32 := unescaper_32.unescaped (str_32)
-				assert ("unescape OK", unescaped.same_string (unescaped_32))
+				assert_same_string ("unescape OK", unescaped, unescaped_32)
 			end
 		end
 
@@ -169,7 +169,7 @@ feature {NONE} -- Implementation
 					str := str_32
 					escaped := escaper.escaped (str, True)
 					escaped_32 := escaper_32.escaped (str_32, True)
-					assert (name + " escape OK", escaped.same_string (escaped_32))
+					assert_same_string (name + " escape OK", escaped, escaped_32)
 				end
 			end
 		end

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2022-12-29 17:08:40 GMT (Thursday 29th December 2022)"
+	revision: "5"
 
 class
 	EIFFEL_VIEW_COMMAND
@@ -43,7 +43,7 @@ feature -- Basic operations
 
 	execute
 		do
-			from until line.same_string ("quit") loop
+			from until line.same_string_general ("quit") loop
 				publisher.execute
 				line := User_input.line ("Press <Enter> to update (or quit)")
 				line.to_lower

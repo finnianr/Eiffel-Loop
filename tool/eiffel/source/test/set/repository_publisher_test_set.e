@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-14 17:16:51 GMT (Wednesday 14th December 2022)"
-	revision: "51"
+	date: "2022-12-29 17:07:05 GMT (Thursday 29th December 2022)"
+	revision: "52"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -67,7 +67,7 @@ feature -- Tests
 				create rbox_classes.make_from_array (<< "RBOX_TEST_DATABASE", "RBOX_DATABASE" >>)
 
 				from table.start until found or else table.after loop
-					if table.key_for_iteration.base.same_string ("el_solitary.e")  then
+					if table.key_for_iteration.base.same_string_general ("el_solitary.e")  then
 						assert ("key is RBOX_DATABASE class", table.item_for_iteration.for_all (agent rbox_classes.has))
 						found := true
 					end

@@ -1,3 +1,6 @@
+1.9.6
+* Introduced mixed utf-8 and latin-1 encoding to solve problem with combined grep output
+
 1.9.5
 * Fixed failure of EL_PLAIN_TEXT_LINE_SOURCE to update encoding dynamically
 

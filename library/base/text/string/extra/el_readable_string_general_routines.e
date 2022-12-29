@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 17:04:31 GMT (Sunday 18th December 2022)"
-	revision: "5"
+	date: "2022-12-29 16:49:03 GMT (Thursday 29th December 2022)"
+	revision: "6"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES
@@ -28,6 +28,14 @@ feature -- Measurement
 		end
 
 feature -- Status query
+
+	is_character (str: READABLE_STRING_GENERAL; uc: CHARACTER_32): BOOLEAN
+		-- `True' if `str.same_string (uc.out)' is true
+		do
+			Result := str.count = 1 and then str [1] = uc
+		ensure
+			definition: Result implies str.same_string (uc.out)
+		end
 
 	is_convertible (s: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): BOOLEAN
 		-- `True' if `str' is convertible to type `basic_type'

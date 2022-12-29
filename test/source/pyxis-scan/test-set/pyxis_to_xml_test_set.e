@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "47"
+	date: "2022-12-29 9:41:57 GMT (Thursday 29th December 2022)"
+	revision: "48"
 
 class
 	PYXIS_TO_XML_TEST_SET
@@ -73,8 +73,8 @@ feature -- Tests
 			attribute_list.reset
 			parser.set_substring_source_text (Pyxis_encoding, 2, Pyxis_encoding.count)
 			parser.parse
-			assert ("is version", attribute_list.first.name.same_string ("version"))
-			assert ("is encoding", attribute_list.last.name.same_string ("encoding"))
+			assert_same_string ("is version", attribute_list.first.name, "version")
+			assert_same_string ("is encoding", attribute_list.last.name, "encoding")
 			parser.parse
 		end
 

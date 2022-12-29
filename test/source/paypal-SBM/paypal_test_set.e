@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-23 10:18:20 GMT (Friday 23rd December 2022)"
-	revision: "16"
+	date: "2022-12-29 9:50:02 GMT (Thursday 29th December 2022)"
+	revision: "17"
 
 class
 	PAYPAL_TEST_SET
@@ -64,8 +64,8 @@ feature -- Test
 			transaction: PP_TRANSACTION; date_time: EL_DATE_TIME
 		do
 			create transaction.make (ipn_url_query)
-			assert ("address_country=Ireland", transaction.address.country.same_string ("Ireland"))
-			assert ("address_city=Dún Búinne", transaction.address.city.same_string ("Dún Búinne"))
+			assert_same_string ("address_country=Ireland", transaction.address.country, "Ireland")
+			assert_same_string ("address_city=Dún Búinne", transaction.address.city, "Dún Búinne")
 			assert ("address_country_code=IE", transaction.address.country_code ~ "IE")
 
 			assert ("charset=UTF-8", transaction.charset.name ~ "UTF-8")
@@ -108,7 +108,7 @@ feature -- Test
 							assert ("same value", table.item.to_real = real.value (transaction))
 							real_count := real_count + 1
 						else
-							assert ("same value", table.item.same_string_general (field_table.found_item.to_string (transaction)))
+							assert_same_string ("same value", table.item, field_table.found_item.to_string (transaction))
 						end
 					end
 				end

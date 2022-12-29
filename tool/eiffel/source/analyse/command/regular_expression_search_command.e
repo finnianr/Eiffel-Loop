@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 9:54:20 GMT (Monday 5th December 2022)"
-	revision: "9"
+	date: "2022-12-29 17:07:27 GMT (Thursday 29th December 2022)"
+	revision: "10"
 
 class
 	REGULAR_EXPRESSION_SEARCH_COMMAND
@@ -64,7 +64,7 @@ feature -- Basic operations
 					grep_options := User_input.line ("Grep arguments")
 				end
 				grep_options.adjust
-				user_quit := grep_options.same_string ("quit")
+				user_quit := grep_options.same_string_general ("quit")
 				if not user_quit then
 					lio.put_new_line
 					grep_command.set_options (grep_options)
@@ -106,12 +106,14 @@ feature {NONE} -- Implementation
 	iterate_source_trees
 		do
 			across manifest.source_tree_list as list until has_error loop
-				grep_command.set_source_dir (list.item.dir_path)
+				grep_command.set_working_directory (list.item.dir_path)
 				grep_command.execute
 				if grep_command.has_error then
 					has_error := True
 				else
-					results_list.append (grep_command.lines)
+					across grep_command.lines as line loop
+						results_list.extend (grep_command.working_directory, line.item)
+					end
 					Track.progress_listener.notify_tick
 				end
 			end
@@ -133,15 +135,16 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	write_result (line: ZSTRING; output: detachable EL_PLAIN_TEXT_FILE)
+	write_result (a_line: TUPLE [source_dir: DIR_PATH; content: ZSTRING]; output: detachable EL_PLAIN_TEXT_FILE)
 		local
 			source_path: FILE_PATH; dir_line: detachable ZSTRING; index_colon: INTEGER
-			s: EL_ZSTRING_ROUTINES
+			s: EL_ZSTRING_ROUTINES; line: ZSTRING
 		do
+			line := a_line.content
 			index_colon := line.index_of (':', 1)
 
 			if index_colon > 0 then
-				source_path := line.substring (1, index_colon - 1)
+				source_path := a_line.source_dir + line.substring (1, index_colon - 1)
 				line.remove_head (index_colon)
 			end
 			line.left_adjust
@@ -179,7 +182,7 @@ feature {NONE} -- Internal attributes
 
 	output_file: EL_PLAIN_TEXT_FILE
 
-	results_list: EL_ZSTRING_LIST
+	results_list: EL_ARRAYED_MAP_LIST [DIR_PATH, ZSTRING]
 
 	source_dir: DIR_PATH
 

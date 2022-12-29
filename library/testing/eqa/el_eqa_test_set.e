@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2022-12-29 9:34:53 GMT (Thursday 29th December 2022)"
+	revision: "11"
 
 deferred class
 	EL_EQA_TEST_SET
@@ -20,7 +20,7 @@ inherit
 			on_prepare
 		end
 
-	EL_MODULE_FILE_SYSTEM;	EL_MODULE_OS
+	EL_MODULE_FILE_SYSTEM; EL_MODULE_LIO; EL_MODULE_OS
 
 feature -- Basic operations
 
@@ -31,9 +31,31 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	assert_same_string (a, b: READABLE_STRING_GENERAL)
+	assert_same_string (a_tag: detachable STRING; a, b: READABLE_STRING_GENERAL)
+		local
+			tag: STRING
 		do
-			assert ("same string", a.same_string (b))
+			if attached a_tag as l_tag then
+				tag := l_tag
+			else
+				tag := "same string"
+			end
+			if a.count /= b.count then
+				lio.put_integer_field ("a.count", a.count); lio.put_integer_field (" b.count", a.count)
+				lio.put_new_line
+				if attached a_tag then
+					assert (tag, False)
+				else
+					assert ("String a.count = b.count", False)
+				end
+
+			elseif not a.same_string (b) then
+				lio.put_string_field_to_max_length (a.generator + " a", a, 200)
+				lio.put_new_line
+				lio.put_string_field_to_max_length (b.generator + " b", a, 200)
+				lio.put_new_line
+				assert (tag, False)
+			end
 		end
 
 feature {NONE} -- Event handling

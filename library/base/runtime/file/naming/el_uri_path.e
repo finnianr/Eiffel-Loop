@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "35"
+	date: "2022-12-29 17:27:10 GMT (Thursday 29th December 2022)"
+	revision: "36"
 
 deferred class
 	EL_URI_PATH
@@ -25,7 +25,7 @@ inherit
 		export
 			{ANY} Forward_slash
 		redefine
-			append, append_file_prefix, default_create, make, make_from_other,
+			append, append_file_prefix, default_create, make, make_from_other, normalized_copy,
 			is_absolute, is_uri, is_equal, is_less,
 			set_path, part_count, part_string, first_index,
 			Separator, Type_parent
@@ -274,6 +274,12 @@ feature {NONE} -- Implementation
 	first_index: INTEGER
 		do
 			Result := scheme.count + Colon_slash_x2.count + authority.count + 1
+		end
+
+	normalized_copy (path: READABLE_STRING_GENERAL): ZSTRING
+		-- temporary path string normalized for platform
+		do
+			Result := temporary_copy (path)
 		end
 
 	part_count: INTEGER

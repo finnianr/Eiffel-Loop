@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 12:53:35 GMT (Tuesday 6th December 2022)"
-	revision: "11"
+	date: "2022-12-29 12:38:28 GMT (Thursday 29th December 2022)"
+	revision: "12"
 
 class
 	EL_PLAIN_TEXT_FILE
@@ -141,6 +141,7 @@ feature -- Basic operations
 					end
 				end
 				last_string.wipe_out
+
 				if encoding_type = Other_class then
 					last_string.append_encoded_any (raw_line, other_encoding)
 				else

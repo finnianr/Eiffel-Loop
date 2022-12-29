@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2022-12-29 8:50:07 GMT (Thursday 29th December 2022)"
+	revision: "6"
 
 class
 	FTP_BACKUP_TEST_SET
@@ -35,8 +35,7 @@ feature -- Tests
 		do
 			archive := new_archive ("exclude_list")
 			assert_excludes_files (archive, <<
-				"XML/jobserve.xml",
-				"XML/Jobs-spreadsheet.fods"
+				"XML/jobserve.xml", "XML/Jobs-spreadsheet.fods"
 			>>)
 			assert_includes_files (archive, <<
 				"XML/uuid.ecf"
@@ -49,8 +48,7 @@ feature -- Tests
 		do
 			archive := new_archive ("exclude_wildcard")
 			assert_excludes_files (archive, <<
-				"XML/jobserve.xml",
-				"XML/creatable/request-matrix-sum.xml"
+				"XML/jobserve.xml", "XML/creatable/request-matrix-sum.xml"
 			>>)
 			assert_includes_files (archive, <<
 				"XML/uuid.ecf"
@@ -60,9 +58,7 @@ feature -- Tests
 	test_include_list
 		do
 			assert_includes_files (new_archive ("include_list"), <<
-				"XML/jobserve.xml",
-				"XML/Jobs-spreadsheet.fods",
-				"txt/file.txt"
+				"XML/jobserve.xml", "XML/Jobs-spreadsheet.fods", "txt/file.txt"
 			>>)
 		end
 

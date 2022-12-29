@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-02 15:00:15 GMT (Friday 2nd December 2022)"
-	revision: "64"
+	date: "2022-12-29 17:51:17 GMT (Thursday 29th December 2022)"
+	revision: "65"
 
 deferred class
 	EL_PATH
@@ -78,11 +78,7 @@ feature {NONE} -- Initialization
 		local
 			pos_last_separator: INTEGER l_path: ZSTRING
 		do
-			l_path := temporary_copy (a_path)
-			-- Normalize path
-			if not is_uri and then {PLATFORM}.is_windows and then a_path.has (Unix_separator) then
-				l_path.replace_character (Unix_separator, Separator)
-			end
+			l_path := normalized_copy (a_path)
 			if not l_path.is_empty then
 				pos_last_separator := l_path.last_index_of (Separator, l_path.count)
 				if pos_last_separator = 0 then
@@ -305,6 +301,7 @@ feature -- Status Query
 							end
 		end
 
+
 feature -- Conversion
 
 	escaped: ZSTRING
@@ -477,6 +474,29 @@ feature -- Comparison
 				Result := base < other.base
 			else
 				Result := parent_path < other_parent
+			end
+		end
+
+	same_as (path: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			i, start_index: INTEGER; l_path: ZSTRING
+			i_th_part: READABLE_STRING_GENERAL
+		do
+			if path.count = count then
+				Result := True
+				if path.count > 0 then
+					l_path := normalized_copy (path)
+					start_index := 1
+					from i := 1 until i > part_count or else not Result loop
+						i_th_part := part_string (i)
+						if l_path.same_substring (i_th_part, start_index, False) then
+							start_index := start_index + i_th_part.count
+							i := i + 1
+						else
+							Result := False
+						end
+					end
+				end
 			end
 		end
 

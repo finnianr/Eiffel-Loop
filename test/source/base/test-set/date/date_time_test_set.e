@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-26 10:14:43 GMT (Monday 26th December 2022)"
-	revision: "25"
+	date: "2022-12-29 10:02:25 GMT (Thursday 29th December 2022)"
+	revision: "26"
 
 class
 	DATE_TIME_TEST_SET
@@ -115,7 +115,7 @@ feature -- Tests
 		do
 			create date_text.make_default
 			canonical_format := date_text.formatted (Date_time.date, {EL_DATE_FORMATS}.canonical)
-			assert ("Same date string", canonical_format.same_string (Date_2017.spelled))
+			assert ("Same date string", canonical_format.same_string_general (Date_2017.spelled))
 		end
 
 	test_from_canonical_iso_8601_formatted

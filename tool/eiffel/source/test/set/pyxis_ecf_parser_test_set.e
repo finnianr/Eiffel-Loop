@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 10:00:07 GMT (Monday 5th December 2022)"
-	revision: "37"
+	date: "2022-12-29 17:07:51 GMT (Thursday 29th December 2022)"
+	revision: "38"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -247,8 +247,8 @@ feature -- Tests
 			across Library_table as table loop
 				l_xpath := Xpath.library_location #$ [table.key]
 				location_steps := ecf_xdoc.query (l_xpath).as_file_path
-				assert ("is library path", location_steps.item (2).same_string ("library"))
-				assert (table.key, location_steps.base.same_string (table.item))
+				assert ("is library path", location_steps.item (2).same_string_general ("library"))
+				assert (table.key, location_steps.base.same_string_general (table.item))
 			end
 			assert ("is GUI-application.ecf", has_precompile (ecf_xdoc, "GUI-application.ecf"))
 		end

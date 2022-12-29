@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:25:35 GMT (Monday 5th December 2022)"
-	revision: "12"
+	date: "2022-12-29 17:57:21 GMT (Thursday 29th December 2022)"
+	revision: "13"
 
 class
 	PATH_TEST_SET
@@ -19,21 +19,20 @@ inherit
 
 	EL_MODULE_DIRECTORY
 
-	EL_MODULE_LOG
-
 feature -- Basic operations
 
 	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("comparisons", agent test_comparisons)
 			eval.call ("extension", agent test_extension)
 			eval.call ("first_step", agent test_first_step)
 			eval.call ("initialization", agent test_initialization)
 			eval.call ("joined_steps", agent test_joined_steps)
 			eval.call ("ntfs_translation", agent test_ntfs_translation)
-			eval.call ("path_sort", agent test_path_sort)
 			eval.call ("parent", agent test_parent)
 			eval.call ("parent_of", agent test_parent_of)
+			eval.call ("path_sort", agent test_path_sort)
 			eval.call ("path_steps", agent test_path_steps)
 			eval.call ("relative_joins", agent test_relative_joins)
 			eval.call ("set_parent", agent test_set_parent)
@@ -43,20 +42,32 @@ feature -- Basic operations
 
 feature -- Tests
 
-	test_extension
+	test_comparisons
+		-- PATH_TEST_SET.test_comparisons
 		note
-			testing:
-				"covers/{EL_PATH}.with_new_extension, covers/{EL_PATH}.without_extension,, covers/{EL_PATH}.has_dot_extension",
-				"covers/{EL_PATH}.replace_extension, covers/{EL_PATH}.remove_extension, covers/{EL_PATH}.add_extension",
-				"covers/{EL_PATH}.base_matches, covers/{EL_PATH}.same_extension"
+			testing: "covers/{EL_PATH}.base_matches, covers/{EL_PATH}.same_extension",
+						"covers/{EL_PATH}.same_as"
 		local
 			eiffel_pdf: FILE_PATH
 		do
 			eiffel_pdf := Documents_eiffel_pdf
 			assert ("same string", eiffel_pdf.same_extension ("PDF", True))
 			assert ("base matches", eiffel_pdf.base_matches ("Eiffel-spec", False))
-			assert ("same string", eiffel_pdf.with_new_extension ("doc").base.same_string ("Eiffel-spec.doc"))
-			assert ("same string", eiffel_pdf.without_extension.base.same_string ("Eiffel-spec"))
+			assert ("same path", eiffel_pdf.same_as (Documents_eiffel_pdf))
+			assert ("not same path", not eiffel_pdf.same_as (Documents_eiffel_pdf.translated_general ("f", "_")))
+		end
+
+	test_extension
+		note
+			testing:
+				"covers/{EL_PATH}.with_new_extension, covers/{EL_PATH}.without_extension,, covers/{EL_PATH}.has_dot_extension",
+				"covers/{EL_PATH}.replace_extension, covers/{EL_PATH}.remove_extension, covers/{EL_PATH}.add_extension"
+		local
+			eiffel_pdf: FILE_PATH
+		do
+			eiffel_pdf := Documents_eiffel_pdf
+			assert_same_string (Void, eiffel_pdf.with_new_extension ("doc").base, "Eiffel-spec.doc")
+			assert_same_string (Void, eiffel_pdf.without_extension.base, "Eiffel-spec")
 		end
 
 	test_first_step
@@ -67,9 +78,9 @@ feature -- Tests
 			dir_path: DIR_PATH
 		do
 			dir_path := Dev_eiffel
-			assert ("is home", dir_path.first_step.same_string ("home"))
+			assert_same_string ("is home", dir_path.first_step, "home")
 			dir_path := Documents_eiffel_pdf
-			assert ("is Documents", dir_path.first_step.same_string ("Documents"))
+			assert_same_string ("is Documents", dir_path.first_step, "Documents")
 		end
 
 	test_initialization
@@ -82,7 +93,7 @@ feature -- Tests
 		do
 			home_path := "/home"
 			config_path := home_path.joined_dir_steps (<< "finnian", ".config" >>)
-			assert ("same path", config_path.to_string ~ Home_finnian + "/.config")
+			assert ("same path", config_path.same_as (Home_finnian + "/.config"))
 
 			mem_test_path := Mem_test_exe
 			assert ("3 steps", mem_test_path.step_count = 3)
@@ -116,7 +127,7 @@ feature -- Tests
 			assert ("invalid path", not path.is_valid_ntfs)
 
 			path_name [index_dot] := '-'
-			assert ("same path", path.to_ntfs_compatible ('-').to_string ~ path_name)
+			assert ("same path", path.to_ntfs_compatible ('-').same_as (path_name))
 		end
 
 	test_parent
@@ -137,14 +148,14 @@ feature -- Tests
 					root_name := "/"
 				end
 				assert ("same string" + root_name, dir_path.parent.parent.to_string ~ root_name)
-				assert_same_string (dir_path.parent.to_string + OS.separator.out, dir_path.parent_string (False))
+				assert_same_string (Void, dir_path.parent.to_string + OS.separator.out, dir_path.parent_string (False))
 			end
 
 			file_path := Documents_eiffel_pdf
 			file_path.set_parent (Dev_eiffel)
-			assert_same_string (file_path, Dev_eiffel + OS.separator.out + file_path.base)
+			assert_same_string (Void, file_path, Dev_eiffel + OS.separator.out + file_path.base)
 
-			assert_same_string (Dev_environ.Eiffel_loop_dir.base, Dev_environ.Eiffel_loop)
+			assert_same_string (Void, Dev_environ.Eiffel_loop_dir.base, Dev_environ.Eiffel_loop)
 		end
 
 	test_parent_of
@@ -216,12 +227,12 @@ feature -- Tests
 		do
 			eiffel_pdf := Documents_eiffel_pdf
 			eiffel_pdf.set_parent_path (Dev_eiffel)
-			assert ("same string", eiffel_pdf.to_string.same_string (Dev_eiffel + "/Eiffel-spec.pdf"))
+			assert_same_string (Void, eiffel_pdf.to_string, Dev_eiffel + "/Eiffel-spec.pdf")
 
 			eiffel_pdf := Documents_eiffel_pdf
 			dir_path := Dev_eiffel
 			eiffel_pdf.set_parent (dir_path)
-			assert ("same string", eiffel_pdf.to_string.same_string (Dev_eiffel + "/Eiffel-spec.pdf"))
+			assert_same_string (Void, eiffel_pdf.to_string, Dev_eiffel + "/Eiffel-spec.pdf")
 		end
 
 	test_universal_relative_path
@@ -233,12 +244,12 @@ feature -- Tests
 		local
 			path_1, p1, relative_path: FILE_PATH; path_2, p2: DIR_PATH
 		do
-			log.enter ("test_universal_relative_path")
+			lio.enter ("test_universal_relative_path")
 			across OS.file_list (Eiffel_tool_dir.to_string, "*.e") as list loop
 				p1 := list.item.to_string
 				path_1 := p1.relative_path (Eiffel_tool_dir)
-				log.put_labeled_string ("class", path_1.to_string)
-				log.put_new_line
+				lio.put_labeled_string ("class", path_1.to_string)
+				lio.put_new_line
 				across OS.directory_list (Eiffel_tool_dir.to_string) as dir loop
 					p2 := dir.item.to_string
 					if Eiffel_tool_dir.is_parent_of (p2) then
@@ -251,7 +262,7 @@ feature -- Tests
 					end
 				end
 			end
-			log.exit
+			lio.exit
 		end
 
 	test_version_number

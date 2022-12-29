@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2022-12-29 9:27:26 GMT (Thursday 29th December 2022)"
+	revision: "10"
 
 class
 	EROS_TEST_SET
@@ -29,8 +29,6 @@ inherit
 		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
-
-	EL_MODULE_LOG
 
 feature {NONE} -- Initiliazation
 
@@ -60,7 +58,7 @@ feature -- Tests
 			wave_form, output: ARRAYED_LIST [COLUMN_VECTOR_COMPLEX_64]
 			i_freq, log2_length: INTEGER; phase_fraction: DOUBLE
 		do
-			log.enter ("test_fft")
+			lio.enter ("test_fft")
 			connection.set_inbound_type (Type_plaintext)
 			connection.set_outbound_type (Type_plaintext)
 
@@ -76,14 +74,14 @@ feature -- Tests
 				output.extend (fft.item.output)
 			end
 			assert ("outputs approximately equal", output.first.is_approximately_equal (output.last, Precision))
-			log.exit
+			lio.exit
 		end
 
 feature {NONE} -- Implementation
 
 	do_fourier_transform (fft: FFT_COMPLEX_64_I; wave_form: COLUMN_VECTOR_COMPLEX_64)
 		do
-			log.enter_with_args ("do_fourier_transform", [fft.generator])
+			lio.enter_with_args ("do_fourier_transform", [fft.generator])
 			if fft.is_power_of_two (wave_form.count) then
 				fft.fft_make (wave_form.count)
 				if attached {FFT_COMPLEX_64_PROXY} fft as proxy then
@@ -104,7 +102,7 @@ feature {NONE} -- Implementation
 			else
 				assert ("is_power_of_two (wave_form.count)", False)
 			end
-			log.exit
+			lio.exit
 		end
 
 	on_clean

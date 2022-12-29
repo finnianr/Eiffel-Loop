@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 18:10:16 GMT (Saturday 3rd December 2022)"
-	revision: "23"
+	date: "2022-12-29 9:51:58 GMT (Thursday 29th December 2022)"
+	revision: "24"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -124,7 +124,7 @@ feature -- Test
 			if pattern.is_matched then
 				across Text.Eiffel_type_declarations.split ('%N') as line loop
 					if line_list.valid_index (line.cursor_index) then
-						assert ("text reconstructed", line_list [line.cursor_index].same_string (line.item))
+						assert_same_string ("text reconstructed", line_list [line.cursor_index], line.item)
 					else
 						assert ("same item count", False)
 					end
@@ -149,7 +149,7 @@ feature -- Test
 				source_text.prepend (padding); source_text.append (padding)
 				output.wipe_out
 				pattern.find_all (source_text, agent append_to (?, ?, output))
-				assert ("text reconstructed", output.same_string (source_text))
+				assert_same_string ("text reconstructed", output, source_text)
 			end
 		end
 
@@ -279,7 +279,7 @@ feature -- Test
 			pattern := character_array_pattern (agent on_quoted_character (?, output))
 			pattern.parse (source_text)
 			if pattern.is_matched then
-				assert ("same string", output.same_string ("AA%N'"))
+				assert_same_string (Void, output, "AA%N'")
 			else
 				assert ("matched", False)
  			end
@@ -314,11 +314,11 @@ feature -- Test
 				pattern.set_action (agent on_quoted_substring (?, ?, content))
 				pattern.parse (source_text)
 				if pattern.is_matched then
-					assert ("string without quotes", content.enclosed ('"', '"').same_string (source_text))
+					assert_same_string ("string without quotes", content.enclosed ('"', '"'), source_text)
 					if pattern.language_name ~ "C" then
-						assert ("same string", output.same_string_general ("-%N-%"-\"))
+						assert_same_string (Void, output, "-%N-%"-\")
 					else
-						assert ("same string", output.same_string_general ("-%N-%"-%%-A"))
+						assert_same_string (Void, output, "-%N-%"-%%-A")
 					end
 				else
 					assert ("matched", False)
@@ -371,7 +371,7 @@ feature -- Test
 								[Text.Country.population, Ireland.population]
 							>>)
 						end
-						assert ("same string", template.item.substituted.same_string (target_text))
+						assert_same_string (Void, template.item.substituted, target_text)
 					end
 				end
 			end

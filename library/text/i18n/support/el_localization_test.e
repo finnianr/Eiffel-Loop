@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2022-12-29 10:07:10 GMT (Thursday 29th December 2022)"
+	revision: "7"
 
 deferred class
 	EL_LOCALIZATION_TEST
@@ -30,7 +30,7 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	assert_same_string (a, b: READABLE_STRING_GENERAL)
+	assert_same_string (tag: detachable STRING; a, b: READABLE_STRING_GENERAL)
 		deferred
 		end
 

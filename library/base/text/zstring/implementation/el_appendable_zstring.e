@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "40"
+	date: "2022-12-29 12:53:41 GMT (Thursday 29th December 2022)"
+	revision: "41"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -99,7 +99,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 			valid_encoding: valid_encoding (str_encoding)
 		local
 			offset: INTEGER; buffer: like empty_unencoded_buffer
-			l_codec: EL_ZCODEC
+			l_codec: EL_ZCODEC; u: UTF_CONVERTER
 		do
 			-- UTF-16 must be first to test as it can look like ascii
 			if str_encoding = {EL_ENCODING_CONSTANTS}.Utf_16 then
@@ -111,6 +111,13 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
 			elseif str_encoding = {EL_ENCODING_CONSTANTS}.Utf_8 then
 				append_utf_8 (str)
+
+			elseif str_encoding = {EL_ENCODING_CONSTANTS}.Mixed_utf_8_latin_1 then
+				if u.is_valid_utf_8_string_8 (str) then
+					append_utf_8 (str)
+				else
+					append_encoded (str, {EL_ENCODING_CONSTANTS}.Latin_1)
+				end
 
 			elseif codec.encoding = str_encoding then
 				append_string_8 (str)
@@ -607,9 +614,14 @@ feature {STRING_HANDLER} -- Contract support
 		end
 
 	valid_encoding (a_encoding: NATURAL): BOOLEAN
-		-- `True' when `a_encoding' is UTF-8/16, Latin, or Windows
+		-- `True' when `a_encoding' is `Mixed_utf_8_latin_1', UTF-8/16, Latin, or Windows
 		do
-			Result := a_encoding = {EL_ENCODING_CONSTANTS}.Utf_16 or Codec_factory.valid_encoding (a_encoding)
+			inspect a_encoding
+				when {EL_ENCODING_CONSTANTS}.Utf_16, {EL_ENCODING_CONSTANTS}.Mixed_utf_8_latin_1 then
+					Result := True
+			else
+				Result := Codec_factory.valid_encoding (a_encoding)
+			end
 		end
 
 feature {NONE} -- Implementation

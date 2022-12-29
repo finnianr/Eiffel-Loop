@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2022-12-29 9:25:46 GMT (Thursday 29th December 2022)"
+	revision: "9"
 
 deferred class
 	EL_TEST_DATA_TEST_SET
@@ -21,8 +21,6 @@ inherit
 		redefine
 			on_prepare, on_clean
 		end
-
-	EL_MODULE_LOG
 
 	EL_MODULE_OS
 

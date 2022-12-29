@@ -6,14 +6,17 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "21"
+	date: "2022-12-29 9:54:28 GMT (Thursday 29th December 2022)"
+	revision: "22"
 
 class
 	JSON_PARSING_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
+		undefine
+			new_lio
+		end
 
 	JSON_TEST_DATA
 
@@ -73,9 +76,9 @@ feature -- Tests
 			assert ("same asn", meta_data.asn ~ "AS8560")
 			assert ("same country", meta_data.country ~ "GB")
 
-			assert ("same city", meta_data.city.same_string ("Kensington"))
-			assert ("same country_name", meta_data.country_name.same_string ("United Kingdom"))
-			assert ("same region", meta_data.region.same_string ("England"))
+			assert_same_string ("same city", meta_data.city, "Kensington")
+			assert_same_string ("same country_name", meta_data.country_name, "United Kingdom")
+			assert_same_string ("same region", meta_data.region, "England")
 
 			assert ("same country_area", meta_data.country_area = 244820.6)
 			assert ("same country_population", meta_data.country_population = 66488991)
@@ -96,8 +99,8 @@ feature -- Tests
 		do
 			create person.make_from_json (JSON_person.to_utf_8 (True))
 
-			assert ("Correct name", person.name.same_string ("John Smith"))
-			assert ("Correct city", person.city.same_string ("New York"))
+			assert_same_string ("same name", person.name, "John Smith")
+			assert_same_string ("Correct city", person.city, "New York")
 			assert ("Correct age", person.age = 45)
 			assert ("Correct gender", person.gender = '♂')
 
@@ -161,4 +164,3 @@ feature {NONE} -- Constants
 		end
 
 end
-

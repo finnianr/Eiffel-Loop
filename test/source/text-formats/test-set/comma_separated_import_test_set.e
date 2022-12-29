@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "19"
+	date: "2022-12-29 9:27:03 GMT (Thursday 29th December 2022)"
+	revision: "20"
 
 class
 	COMMA_SEPARATED_IMPORT_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
+		undefine
+			new_lio
+		end
 
 	EL_CRC_32_TEST_ROUTINES
 

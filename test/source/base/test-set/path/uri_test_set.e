@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2022-12-29 17:55:40 GMT (Thursday 29th December 2022)"
+	revision: "21"
 
 class
 	URI_TEST_SET
@@ -53,7 +53,7 @@ feature -- Tests
 				str_32 := line.to_string_32
 				create uri.make (str_32)
 				assert ("same scheme", uri.scheme ~ scheme)
-				assert ("same authority", uri.authority.same_string (parts [3]))
+				assert_same_string ("same authority", uri.authority, parts [3])
 				assert ("str_32 same as uri.to_string", str_32 ~ uri.to_string.to_string_32)
 				assert ("is absolute", uri.is_absolute)
 				index_slash := line.linear_representation.index_of ('/', 3)
@@ -61,7 +61,7 @@ feature -- Tests
 				assert ("same path", dir_path ~ uri.to_dir_path)
 			end
 			create uri.make_file ("/home/finnian/Desktop")
-			assert_same_string (uri.to_string, URI_list.first)
+			assert_same_string (Void, uri.to_string, URI_list.first)
 		end
 
 	test_uri_path_plus_joins
@@ -82,11 +82,11 @@ feature -- Tests
 				if dir_path.has_extension ("html") then
 					create file_path.make (line.substring (index_slash, line.count))
 					file_uri := uri + file_path
-					assert_same_string (file_uri.to_string, line)
+					assert ("same path", file_uri.same_as (line))
 					assert ("same path", file_uri.to_file_path ~ file_path)
 				else
 					uri := uri #+ dir_path
-					assert_same_string (uri.to_string, line)
+					assert ("same path", uri.same_as (line))
 					assert ("same path", uri.to_dir_path ~ dir_path)
 				end
 			end
@@ -100,10 +100,10 @@ feature -- Tests
 					if dir_path.has_extension ("html") then
 						create file_path.make (line.substring (index_slash + 1, line.count))
 						file_uri := uri + file_path
-						assert_same_string (file_uri.to_string, line)
+						assert_same_string (Void, file_uri.to_string, line)
 					else
 						uri := uri #+ dir_path
-						assert_same_string (uri.to_string, line)
+						assert_same_string (Void, uri.to_string, line)
 					end
 				end
 			end
@@ -118,7 +118,7 @@ feature -- Tests
 			book_info := new_book_info (Gunter_grass)
 			url_string := Amazon_query
 			create url.make_from_general (url_string)
-			assert ("same string", url_string.same_string_general (url))
+			assert_same_string (Void, url_string, url)
 
 			url_string.append_character ('?')
 			url_string.append_string_general (Field.author_title)
@@ -127,12 +127,12 @@ feature -- Tests
 			create url.make_from_general (url_string)
 
 			encoded_author_title := s.substring_to (Encoded_gunter_grass, '&', Default_pointer)
-			assert ("same string", (Amazon_query + "?" + encoded_author_title).same_string (url))
+			assert_same_string (Void, Amazon_query + "?" + encoded_author_title, url)
 
 			title_fragment := "#title"
 			url_string.append_string_general (title_fragment)
 			create url.make_from_general (url_string)
-			assert ("same string", (Amazon_query + "?" + encoded_author_title + title_fragment).same_string (url))
+			assert_same_string (Void, Amazon_query + "?" + encoded_author_title + title_fragment, url)
 		end
 
 	test_url_parts
@@ -188,7 +188,7 @@ feature -- Tests
 			book: EL_URI_QUERY_ZSTRING_HASH_TABLE; book_query_string: STRING
 		do
 			if attached new_book_info (Gunter_grass) as book_info then
-				assert ("price correct", book_info.price.same_string ({STRING_32} "€ 10.00"))
+				assert_same_string ("price correct", book_info.price, {STRING_32} "€ 10.00")
 			end
 
 			if attached new_book_table (Gunter_grass) as book_table then
@@ -201,7 +201,7 @@ feature -- Tests
 			book_query_string := book.url_query
 			lio.put_string_field ("book_query_string", book_query_string)
 			lio.put_new_line
-			assert ("same_string", book_query_string.same_string (Encoded_gunter_grass))
+			assert_same_string (Void, book_query_string, Encoded_gunter_grass)
 
 			create book.make_url (Encoded_gunter_grass)
 			across new_book_table (Gunter_grass) as info loop
@@ -210,7 +210,7 @@ feature -- Tests
 			book_query_string := book.url_query
 			lio.put_string_field ("book_query_string", book_query_string)
 			lio.put_new_line
-			assert ("same_string", book_query_string.same_string (Encoded_gunter_grass))
+			assert_same_string (Void, book_query_string, Encoded_gunter_grass)
 		end
 
 	test_url_query_part
@@ -223,7 +223,7 @@ feature -- Tests
 
 				create currency_uri.make (10)
 				currency_uri.append_general (symbol_32)
-				assert ("same sequence", Currency_list.i_th (symbol.cursor_index).same_string (currency_uri))
+				assert_same_string ("same sequence", Currency_list.i_th (symbol.cursor_index), currency_uri)
 				url := "http://shop.com/currency.html?symbol=" + currency_uri
 				assert ("same string", symbol_32 ~ url.query_table.item ("symbol").to_string_32)
 			end

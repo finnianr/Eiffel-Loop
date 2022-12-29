@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 16:56:24 GMT (Sunday 18th December 2022)"
-	revision: "22"
+	date: "2022-12-29 17:06:38 GMT (Thursday 29th December 2022)"
+	revision: "23"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -63,7 +63,7 @@ feature -- Basic operations
 		do
 			log_cpu_percentage
 
-			from create line.make_empty until line.same_string (Quit) loop
+			from create line.make_empty until line.same_string_general (Quit) loop
 				if attached open (expanded_file_path, Write) as file_out then
 					open_lines (file_path, Utf_8).do_all (agent expand_links (?, file_out))
 					file_out.close

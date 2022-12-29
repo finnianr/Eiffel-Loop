@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2022-12-29 12:51:01 GMT (Thursday 29th December 2022)"
+	revision: "5"
 
 class
 	EIFFEL_GREP_COMMAND
 
 inherit
-	EL_PARSED_CAPTURED_OS_COMMAND [TUPLE [options, source_dir: STRING]]
+	EL_PARSED_CAPTURED_OS_COMMAND [TUPLE [options: STRING]]
 		redefine
 			make, set_has_error
 		end
@@ -26,24 +26,14 @@ feature {NONE} -- Initialization
 	make
 		do
 			Precursor
---			set_output_encoding (Latin_1)
+			set_output_encoding (Mixed_utf_8_latin_1)
 		end
-
-feature -- Access
-
-	source_dir: DIR_PATH
 
 feature -- Element change
 
 	set_options (options: ZSTRING)
 		do
 			put_string (var.options, options)
-		end
-
-	set_source_dir (a_path: DIR_PATH)
-		do
-			put_path (var.source_dir, a_path)
-			source_dir := a_path
 		end
 
 feature {NONE} -- Implementation
@@ -61,7 +51,7 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Template: STRING = "[
-		grep --recursive --include "*.e" $OPTIONS $SOURCE_DIR
+		grep --recursive --include "*.e" $OPTIONS
 	]"
 
 end

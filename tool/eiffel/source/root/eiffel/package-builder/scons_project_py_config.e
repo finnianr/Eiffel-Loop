@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:12:18 GMT (Monday 5th December 2022)"
-	revision: "7"
+	date: "2022-12-29 8:53:00 GMT (Thursday 29th December 2022)"
+	revision: "8"
 
 class
 	SCONS_PROJECT_PY_CONFIG
@@ -34,11 +34,6 @@ inherit
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
 			make as make_machine
-		undefine
-			is_equal
-		end
-
-	EL_MAKEABLE
 		undefine
 			is_equal
 		end

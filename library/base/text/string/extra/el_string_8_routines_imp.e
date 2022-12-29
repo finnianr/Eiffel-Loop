@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-17 16:23:40 GMT (Saturday 17th December 2022)"
-	revision: "3"
+	date: "2022-12-29 16:49:24 GMT (Thursday 29th December 2022)"
+	revision: "4"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -17,7 +17,7 @@ inherit
 		rename
 			replace_character as replace_character_32
 		redefine
-			replace_character_32
+			replace_character_32, is_character
 		end
 
 	EL_SHARED_STRING_8_CURSOR
@@ -47,6 +47,12 @@ feature -- Status query
 			--
 		do
 			Result := s.count >= 2 and then s.item (1) = c_first and then s.item (s.count) = c_last
+		end
+
+	is_character (str: STRING; uc: CHARACTER_32): BOOLEAN
+		-- `True' if `str.same_string (uc.out)' is true
+		do
+			Result := str.count = 1 and then str [1] = uc
 		end
 
 	is_identifier_character (str: READABLE_STRING_8; i: INTEGER): BOOLEAN

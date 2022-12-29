@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "42"
+	date: "2022-12-29 9:48:32 GMT (Thursday 29th December 2022)"
+	revision: "43"
 
 class
 	TAGLIB_TEST_SET
@@ -68,7 +68,7 @@ feature -- Tests
 			assert ("exists", file_list.found)
 			create mp3.make (file_list.path)
 			across table as str loop
-				assert ("same string", mp3.tag.comment_with (musicmatch + str.key).text.same_string (str.item))
+				assert_same_string (Void, mp3.tag.comment_with (musicmatch + str.key).text, str.item)
 			end
 
 			create table.make (<<
@@ -77,7 +77,7 @@ feature -- Tests
 			>>)
 			across table as str loop
 				mp3.tag.set_comment_with (musicmatch + str.key, str.item)
-				assert ("same string", mp3.tag.comment_with (musicmatch + str.key).text.same_string (str.item))
+				assert_same_string (Void, mp3.tag.comment_with (musicmatch + str.key).text, str.item)
 			end
 		end
 

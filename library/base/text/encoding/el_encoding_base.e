@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 12:30:41 GMT (Tuesday 6th December 2022)"
-	revision: "19"
+	date: "2022-12-29 12:43:05 GMT (Thursday 29th December 2022)"
+	revision: "20"
 
 deferred class
 	EL_ENCODING_BASE
@@ -204,6 +204,11 @@ feature -- Element change
 			set_encoding (Utf_class | a_id)
 		end
 
+	set_mixed_utf_8_latin_1
+		do
+			set_encoding (Mixed_utf_8_latin_1)
+		end
+
 	set_windows (a_id: NATURAL)
 		require
 			valid_windows (a_id)
@@ -288,6 +293,9 @@ feature -- Contract Support
 	frozen valid_utf (a_id: NATURAL): BOOLEAN
 		do
 			inspect a_id
+				when 9 then
+				-- mixed UTF-8 and Latin-1
+					Result := True
 				when 8, 16, 32 then
 					Result := True
 			else
