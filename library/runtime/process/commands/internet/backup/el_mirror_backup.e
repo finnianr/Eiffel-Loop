@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 10:43:58 GMT (Sunday 4th December 2022)"
-	revision: "12"
+	date: "2022-12-30 17:29:51 GMT (Friday 30th December 2022)"
+	revision: "13"
 
 class
 	EL_MIRROR_BACKUP
@@ -17,6 +17,7 @@ class
 inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
 		rename
+			field_included as is_any_field,
 			make_default as make,
 			element_node_fields as Empty_set,
 			xml_naming as eiffel_naming

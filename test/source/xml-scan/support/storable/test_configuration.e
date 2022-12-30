@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-21 21:52:18 GMT (Wednesday 21st December 2022)"
-	revision: "16"
+	date: "2022-12-30 11:01:40 GMT (Friday 30th December 2022)"
+	revision: "17"
 
 class
 	TEST_CONFIGURATION
@@ -15,6 +15,7 @@ class
 inherit
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML
 		rename
+			field_included as is_any_field,
 			xml_naming as eiffel_naming
 		export
 			{ANY} field_table

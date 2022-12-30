@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-21 9:39:57 GMT (Wednesday 21st December 2022)"
-	revision: "25"
+	date: "2022-12-30 11:06:29 GMT (Friday 30th December 2022)"
+	revision: "26"
 
 deferred class
 	EL_BUILDABLE_FROM_NODE_SCAN
@@ -109,7 +109,7 @@ feature {EL_EIF_OBJ_BUILDER_CONTEXT, EL_DOCUMENT_NODE_SCAN_SOURCE} -- Implementa
 
 feature {EL_EIF_OBJ_BUILDER_CONTEXT, EL_DOCUMENT_NODE_SCAN_SOURCE} -- Internal attributes
 
-	PI_building_actions: like building_actions
+	PI_building_actions: like building_actions note option: transient attribute end
 
 feature {NONE} -- Constants
 

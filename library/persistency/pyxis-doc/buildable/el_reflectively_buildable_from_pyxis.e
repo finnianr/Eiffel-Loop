@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2022-12-30 11:13:30 GMT (Friday 30th December 2022)"
+	revision: "16"
 
 deferred class
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
@@ -36,11 +36,17 @@ inherit
 			xml_naming as eiffel_naming
 		export
 			{NONE} all
+		redefine
+			Transient_fields
 		end
 
 	EL_MODULE_NAMING
 
 feature {NONE} -- Implementation
+
+	prune_root_words_count: INTEGER
+		do
+		end
 
 	root_node_name: STRING
 			--
@@ -48,8 +54,13 @@ feature {NONE} -- Implementation
 			Result := Naming.class_as_snake_lower (Current, prune_root_words_count, 0)
 		end
 
-	prune_root_words_count: INTEGER
-		do
+feature {NONE} -- Constants
+
+	Transient_fields: STRING
+		-- comma-separated list of fields that will be treated as if they are transient attributes and
+		-- excluded from `field_table'
+		once
+			Result := "actual_node_source"
 		end
 
 note

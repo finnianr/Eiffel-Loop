@@ -1,16 +1,13 @@
 note
 	description: "Hash set"
-	notes: "[
-		Tried implementing this with class [$source SEARCH_TABLE] but there seems to be some problems
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "21"
+	date: "2022-12-30 9:17:19 GMT (Friday 30th December 2022)"
+	revision: "22"
 
 class
 	EL_HASH_SET [H -> HASHABLE]

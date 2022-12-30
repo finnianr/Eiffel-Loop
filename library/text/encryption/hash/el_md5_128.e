@@ -1,13 +1,13 @@
 note
-	description: "Md5 128"
+	description: "MD5 128"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 9:28:28 GMT (Monday 12th December 2022)"
-	revision: "15"
+	date: "2022-12-30 17:38:23 GMT (Friday 30th December 2022)"
+	revision: "16"
 
 class
 	EL_MD5_128

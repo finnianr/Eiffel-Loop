@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2022-12-30 11:00:10 GMT (Friday 30th December 2022)"
+	revision: "21"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -25,7 +25,6 @@ inherit
 
 	EL_REFLECTIVELY_SETTABLE
 		rename
-			field_included as is_field_convertable_from_xml,
 			foreign_naming as xml_naming
 		export
 			{NONE} all
@@ -58,7 +57,7 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
-			Result := building_actions_for_type (({ANY}), element_node_field_set)
+			Result := building_actions_for_type ({ANY}, element_node_field_set)
 		end
 
 	element_node_field_set: EL_FIELD_INDICES_SET

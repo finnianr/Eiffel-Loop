@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-21 21:28:48 GMT (Wednesday 21st December 2022)"
-	revision: "42"
+	date: "2022-12-30 10:59:30 GMT (Friday 30th December 2022)"
+	revision: "43"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -32,6 +32,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_REFLECTION_HANDLER
 
 	EL_MODULE_CONVERT_STRING; EL_MODULE_EIFFEL; EL_MODULE_REUSEABLE; EL_MODULE_TUPLE
 
@@ -46,15 +48,15 @@ feature {EL_SETTABLE_FROM_XML_NODE} -- Basic operations
 	put_xml_element (xml_out: EL_OUTPUT_MEDIUM; name: STRING; tab_count: INTEGER)
 		-- recursively output elements to file as XML
 		local
-			has_child_element: BOOLEAN; table: like field_table
+			has_child_element: BOOLEAN; field_list: like new_importable_list
 			attribute_count: INTEGER; l_name: STRING; value: ZSTRING
 		do
-			table := field_table
+			field_list := Importable_fields_table_by_type.item (Current)
 			across Reuseable.string as reuse loop
 				value := reuse.item
 				xml_out.put_indent (tab_count); xml_out.put_character_8 ('<')
 				xml_out.put_string_8 (name)
-				across table as field loop
+				across field_list as field loop
 					l_name := field.item.name
 					if attached {EL_REFLECTED_REFERENCE [EL_EIF_OBJ_BUILDER_CONTEXT]} field.item
 						or else attached {EL_REFLECTED_COLLECTION [ANY]} field.item
@@ -80,7 +82,7 @@ feature {EL_SETTABLE_FROM_XML_NODE} -- Basic operations
 				if has_child_element then
 					xml_out.put_character_8 ('>')
 					xml_out.put_new_line
-					put_child_elements (xml_out, table, value, tab_count)
+					put_child_elements (xml_out, field_list, value, tab_count)
 					put_xml_tag_close (xml_out, name, tab_count, New_line)
 				else
 					xml_out.put_indent (tab_count)
@@ -89,11 +91,11 @@ feature {EL_SETTABLE_FROM_XML_NODE} -- Basic operations
 			end
 		end
 
-	put_child_elements (xml_out: EL_OUTPUT_MEDIUM; table: like field_table; value: ZSTRING; tab_count: INTEGER)
+	put_child_elements (xml_out: EL_OUTPUT_MEDIUM; field_list: like new_importable_list; value: ZSTRING; tab_count: INTEGER)
 		local
 			needs_escaping: BOOLEAN
 		do
-			across table as field loop
+			across field_list as field loop
 				if attached {EL_REFLECTED_REFERENCE [EL_EIF_OBJ_BUILDER_CONTEXT]} field.item as context_field then
 					if attached {EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT} context_field.value (current_reflective) as context
 					then
@@ -183,12 +185,13 @@ feature {NONE} -- Implementation
 		-- by default xpaths select an element attribute except for field in `element_set' which
 		-- select the text within an element.
 		local
-			table: EL_REFLECTED_FIELD_TABLE; field_list: LIST [EL_REFLECTED_FIELD]; xpath: STRING_8
+			field_list: like new_importable_list; xpath: STRING_8
 			node_type: INTEGER; field: EL_REFLECTED_FIELD
 		do
-			table := field_table
-			table.query_by_type (type)
-			field_list := table.last_query
+			field_list := Importable_fields_table_by_type.item (Current)
+			if type /= {ANY} then
+				field_list := field_list.query_if (agent {EL_REFLECTED_FIELD}.is_type (type.type_id))
+			end
 			create Result.make_equal (field_list.count)
 			across field_list as list loop
 				field := list.item
@@ -261,23 +264,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	is_field_convertable_from_xml (basic_type, type_id: INTEGER): BOOLEAN
-		local
-			item_type_id: INTEGER
-		do
-			if attached current_reflective as cr then
-				if cr.is_field_convertable_from_string (basic_type, type_id)
-					or else is_builder_context_field (type_id)
-				then
-					Result := True
-
-				elseif cr.is_collection_field (basic_type, type_id) then
-					item_type_id := Eiffel.collection_item_type (type_id)
-					Result := Convert_string.has (item_type_id) or else is_builder_context_field (item_type_id)
-				end
-			end
-		end
-
 	is_builder_context_field (type_id: INTEGER): BOOLEAN
 		do
 			Result := Eiffel.type_of_type (type_id).conforms_to ({EL_EIF_OBJ_BUILDER_CONTEXT})
@@ -307,7 +293,30 @@ feature {NONE} -- Implementation
 			end
 		end
 
+feature {EL_SETTABLE_FROM_XML_NODE} -- Factory
+
+	new_importable_list: EL_ARRAYED_LIST [EL_REFLECTED_FIELD]
+		do
+			Result := current_reflective.meta_data.field_list.query_if (agent is_importable)
+		end
+
 feature {NONE} -- Implementation
+
+	is_importable (field: EL_REFLECTED_FIELD): BOOLEAN
+		local
+			basic_type, type_id, item_type_id: INTEGER
+		do
+			basic_type := field.category_id; type_id := field.type_id
+			if Eiffel.is_type_convertable_from_string (basic_type, type_id)
+				or else is_builder_context_field (type_id)
+			then
+				Result := True
+
+			elseif Eiffel.field_conforms_to_collection (basic_type, type_id) then
+				item_type_id := Eiffel.collection_item_type (type_id)
+				Result := Convert_string.has (item_type_id) or else is_builder_context_field (item_type_id)
+			end
+		end
 
 	node: EL_DOCUMENT_NODE_STRING
 		deferred
@@ -336,6 +345,14 @@ feature {NONE} -- Constants
 		-- rename `element_node_fields' as this to include all
 		once ("PROCESS")
 			create Result.make_empty
+		end
+
+	Importable_fields_table_by_type: EL_FUNCTION_RESULT_TABLE [
+		EL_SETTABLE_FROM_XML_NODE, EL_ARRAYED_LIST [EL_REFLECTED_FIELD]
+	]
+		-- table of fields importable from XML
+		once
+			create Result.make (17, agent {EL_SETTABLE_FROM_XML_NODE}.new_importable_list)
 		end
 
 	Item: TUPLE [name, xpath, text_xpath: STRING]

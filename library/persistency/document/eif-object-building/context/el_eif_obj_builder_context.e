@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2022-12-30 11:04:54 GMT (Friday 30th December 2022)"
+	revision: "17"
 
 deferred class
 	EL_EIF_OBJ_BUILDER_CONTEXT
@@ -104,7 +104,7 @@ feature {EL_EIF_OBJ_BUILDER_CONTEXT} -- Factory
 
 feature {EL_EIF_OBJ_ROOT_BUILDER_CONTEXT} -- Implementation attributes
 
-	building_actions: HASH_TABLE [PROCEDURE, ZSTRING]
+	building_actions: HASH_TABLE [PROCEDURE, ZSTRING] note option: transient attribute end
 
 feature {NONE} -- Implementation
 

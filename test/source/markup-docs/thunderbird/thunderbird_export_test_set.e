@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 9:46:37 GMT (Thursday 29th December 2022)"
-	revision: "12"
+	date: "2022-12-30 17:32:49 GMT (Friday 30th December 2022)"
+	revision: "13"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -72,7 +72,7 @@ feature -- Tests
 			command: EL_THUNDERBIRD_WWW_EXPORTER
 			file_set, dir_set: EL_HASH_SET [ZSTRING]
 		do
-			write_config ("pop.eiffel-loop.com", "", "")
+			write_config ("pop.eiffel-loop.com", Empty_string_8, Empty_lines)
 			create command.make_from_file (Config_path)
 			command.execute
 
@@ -93,7 +93,7 @@ feature -- Tests
 			command: EL_ML_THUNDERBIRD_ACCOUNT_XHTML_DOC_EXPORTER
 			count: INTEGER; xhtml_path: FILE_PATH; xdoc: like new_root_node
 		do
-			write_config ("pop.myching.software", "", "1.About")
+			write_config ("pop.myching.software", Empty_string_8, new_folder_lines ("1.About"))
 			create command.make_from_file (config_path)
 			command.execute
 			-- check parseable as XML document
@@ -115,7 +115,7 @@ feature -- Tests
 			name: ZSTRING; count: INTEGER; xdoc: like new_root_node
 		do
 			create modification_table.make_size (50)
-			write_config ("pop.myching.co", "", "Purchase, manual, Product Tour, Screenshots")
+			write_config ("pop.myching.co", Empty_string_8, new_folder_lines ("Purchase, manual, Product Tour, Screenshots"))
 			create command.make_from_file (Config_path)
 			command.execute
 

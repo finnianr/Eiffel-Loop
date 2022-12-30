@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-28 16:03:22 GMT (Wednesday 28th December 2022)"
-	revision: "50"
+	date: "2022-12-30 10:44:31 GMT (Friday 30th December 2022)"
+	revision: "51"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -117,6 +117,11 @@ feature -- Status query
 		-- is type storable using `EL_STORABLE' interface
 		do
 			Result := True
+		end
+
+	is_type (a_type_id: INTEGER): BOOLEAN
+		do
+			Result := type_id = a_type_id
 		end
 
 	is_initialized (a_object: EL_REFLECTIVE): BOOLEAN

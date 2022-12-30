@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2022-12-30 9:05:00 GMT (Friday 30th December 2022)"
+	revision: "10"
 
 class
 	FTP_BACKUP_COMMAND
@@ -47,8 +47,8 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make_default
 		do
-			create backup_list.make (10)
-			create archive_upload_list.make (0)
+--			create backup_list.make (10)
+--			create archive_upload_list.make (0)
 			new_ftp_backup := agent: FTP_BACKUP do create Result.make (Current) end
 			Precursor
 		end

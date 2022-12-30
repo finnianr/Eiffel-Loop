@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2022-12-30 11:01:13 GMT (Friday 30th December 2022)"
+	revision: "13"
 
 class
 	EL_FILE_MANIFEST_ITEM
@@ -15,6 +15,7 @@ class
 inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
 		rename
+			field_included as is_any_field,
 			element_node_fields as All_fields,
 			xml_naming as kebab_case
 		redefine

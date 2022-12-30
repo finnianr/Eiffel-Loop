@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "19"
+	date: "2022-12-30 12:39:56 GMT (Friday 30th December 2022)"
+	revision: "20"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -68,11 +68,11 @@ feature {NONE} -- Initialization
 			l_count := wrapper.count
 			if l_count > 0 then
 				create l_area.make_empty (l_count)
+				make_from_special (l_area)
 				wrapper.do_for_all (agent extend_area_from_value (l_area, to_key, ?))
 				if l_area.count > 5 and then l_area.count / l_count < 0.9 then
 					l_area := l_area.aliased_resized_area (l_area.count)
 				end
-				make_from_special (l_area)
 			else
 				make_empty
 			end

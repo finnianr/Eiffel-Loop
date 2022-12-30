@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "25"
+	date: "2022-12-30 12:20:51 GMT (Friday 30th December 2022)"
+	revision: "26"
 
 deferred class
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML
@@ -106,7 +106,7 @@ feature {NONE} -- Constants
 
 	Transient_fields: STRING
 		once
-			Result := "file_path, last_store_ok"
+			Result := "actual_node_source, file_path, last_store_ok"
 		end
 
 end
