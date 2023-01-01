@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 9:28:06 GMT (Monday 12th December 2022)"
-	revision: "19"
+	date: "2022-12-31 16:28:01 GMT (Saturday 31st December 2022)"
+	revision: "20"
 
 class
 	EL_DIGEST_ARRAY
@@ -15,7 +15,7 @@ class
 inherit
 	EL_BYTE_ARRAY
 
-	EL_REFLECTION_HANDLER undefine copy, is_equal end
+	EL_REFLECTION_HANDLER
 
 	EL_MODULE_BASE_64
 

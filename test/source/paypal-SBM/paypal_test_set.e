@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 9:50:02 GMT (Thursday 29th December 2022)"
-	revision: "17"
+	date: "2022-12-31 16:28:53 GMT (Saturday 31st December 2022)"
+	revision: "18"
 
 class
 	PAYPAL_TEST_SET
@@ -23,7 +23,7 @@ inherit
 
 	EL_SHARED_CURRENCY_ENUM
 
-	EL_REFLECTION_HANDLER undefine default_create end
+	EL_REFLECTION_HANDLER
 
 feature -- Basic operations
 

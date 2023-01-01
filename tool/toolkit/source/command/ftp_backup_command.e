@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-30 9:05:00 GMT (Friday 30th December 2022)"
-	revision: "10"
+	date: "2022-12-31 9:08:39 GMT (Saturday 31st December 2022)"
+	revision: "11"
 
 class
 	FTP_BACKUP_COMMAND
@@ -15,9 +15,10 @@ class
 inherit
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
 		rename
-			element_node_fields as Empty_set
+			element_node_fields as Empty_set,
+			field_included as is_any_field
 		redefine
-			make_default, new_instance_functions, root_node_name
+			building_action_table, root_node_name
 		end
 
 	EL_APPLICATION_COMMAND
@@ -43,14 +44,6 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 			make_from_file (file_path)
 			backup_list.do_all (agent {FTP_BACKUP}.set_absolute_target_dir (file_path.parent))
-		end
-
-	make_default
-		do
---			create backup_list.make (10)
---			create archive_upload_list.make (0)
-			new_ftp_backup := agent: FTP_BACKUP do create Result.make (Current) end
-			Precursor
 		end
 
 feature -- Pyxis configured
@@ -105,20 +98,18 @@ feature -- Basic operations
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Build from XML
 
-	new_instance_functions: EL_ARRAYED_LIST [FUNCTION [ANY]]
-		-- array of functions returning a new value for result type
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
+			--
 		do
-			Result := << new_ftp_backup >>
+			Result := Precursor +
+				["backup_list/item", agent do set_collection_context (backup_list, create {FTP_BACKUP}.make (Current)) end]
 		end
 
 feature {NONE} -- Implementation: attributes
 
 	ask_user_to_upload: BOOLEAN
-
-	new_ftp_backup: FUNCTION [ANY]
-		-- We need to be able to set the target of this result from `make'
 
 feature {NONE} -- Constants
 

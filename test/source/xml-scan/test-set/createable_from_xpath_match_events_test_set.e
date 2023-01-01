@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 9:26:44 GMT (Thursday 29th December 2022)"
-	revision: "7"
+	date: "2023-01-01 8:49:40 GMT (Sunday 1st January 2023)"
+	revision: "8"
 
 class
 	CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET
@@ -20,7 +20,7 @@ inherit
 			new_lio
 		end
 
-	EL_CRC_32_TEST_ROUTINES
+	EL_CRC_32_TESTABLE
 
 feature -- Basic operations
 
@@ -64,10 +64,10 @@ feature {NONE} -- Implementation
 			events: XHTML_XPATH_MATCH_EVENTS
 		do
 			create events.make_from_file (file_path)
-			log.put_string_field ("Title", events.title)
-			log.put_new_line
-			log.put_integer_field ("Paragraph count", events.paragraph_count)
-			log.put_new_line
+			lio.put_string_field ("Title", events.title)
+			lio.put_new_line
+			lio.put_integer_field ("Paragraph count", events.paragraph_count)
+			lio.put_new_line
 		end
 
 end

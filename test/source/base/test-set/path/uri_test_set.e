@@ -6,16 +6,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 17:55:40 GMT (Thursday 29th December 2022)"
-	revision: "21"
+	date: "2022-12-31 14:33:27 GMT (Saturday 31st December 2022)"
+	revision: "22"
 
 class
 	URI_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
-
-	EL_MODULE_LIO
 
 	EL_MODULE_TUPLE
 

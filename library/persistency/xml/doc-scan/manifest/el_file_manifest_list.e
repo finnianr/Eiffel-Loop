@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "18"
+	date: "2022-12-31 9:11:41 GMT (Saturday 31st December 2022)"
+	revision: "19"
 
 class
 	EL_FILE_MANIFEST_LIST
@@ -132,15 +132,8 @@ feature {NONE} -- Build from XML
 			-- Nodes relative to root element: smil
 		do
 			create Result.make (<<
-				["file", agent extend_list]
+				["file", agent do set_collection_context (Current, create {EL_FILE_MANIFEST_ITEM}.make_default) end]
 			>>)
-		end
-
-	extend_list
-			--
-		do
-			extend (create {EL_FILE_MANIFEST_ITEM}.make_default)
-			set_next_context (last)
 		end
 
 feature {NONE} -- Constants

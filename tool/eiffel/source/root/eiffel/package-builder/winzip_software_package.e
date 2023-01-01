@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 6:27:08 GMT (Saturday 26th November 2022)"
-	revision: "20"
+	date: "2022-12-30 17:58:44 GMT (Friday 30th December 2022)"
+	revision: "21"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -23,6 +23,7 @@ inherit
 
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
 		rename
+			field_included as is_any_field,
 			element_node_fields as Empty_set
 		export
 			{WINZIP_CREATE_SELF_EXTRACT_COMMAND} field_table

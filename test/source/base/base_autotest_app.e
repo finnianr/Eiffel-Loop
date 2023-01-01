@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-26 15:07:00 GMT (Monday 26th December 2022)"
-	revision: "157"
+	date: "2022-12-31 18:50:10 GMT (Saturday 31st December 2022)"
+	revision: "158"
 
 class
 	BASE_AUTOTEST_APP
@@ -82,6 +82,8 @@ feature {NONE} -- Compile classes
 	compile: TUPLE [
 		EL_ARRAY_READER,
 		EL_BINARY_CONVERTER,
+
+		EL_CRC_32_CONSOLE_ONLY_LOG,
 
 		EL_DATE_TIME_REPRESENTATION, EL_DATE,
 		EL_DOCUMENT_NODE_STRING,

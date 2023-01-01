@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 9:41:57 GMT (Thursday 29th December 2022)"
-	revision: "48"
+	date: "2023-01-01 8:51:24 GMT (Sunday 1st January 2023)"
+	revision: "49"
 
 class
 	PYXIS_TO_XML_TEST_SET
@@ -24,7 +24,7 @@ inherit
 			new_lio
 		end
 
-	EL_CRC_32_TEST_ROUTINES
+	EL_CRC_32_TESTABLE
 
 	SHARED_DEV_ENVIRON
 
@@ -113,7 +113,7 @@ feature {NONE} -- Implementation
 			create converter.make (a_file_path, create {FILE_PATH})
 			converter.execute
 			create source.make (converter.source_encoding.encoding, converter.output_path)
-			source.print_first (log, 50)
+			source.print_first (lio, 50)
 			source.close
 		end
 

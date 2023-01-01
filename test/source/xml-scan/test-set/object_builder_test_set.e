@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "18"
+	date: "2023-01-01 8:51:10 GMT (Sunday 1st January 2023)"
+	revision: "19"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -28,9 +28,9 @@ inherit
 			on_prepare
 		end
 
-	EL_MODULE_TUPLE
+	EL_CRC_32_TESTABLE
 
-	EL_CRC_32_TEST_ROUTINES
+	EL_MODULE_TUPLE
 
 	SHARED_DEV_ENVIRON
 
@@ -75,7 +75,7 @@ feature -- Tests
 		end
 
 	test_recursive_object_build
-		-- 10 Feb 2020
+		-- OBJECT_BUILDER_TEST_SET.test_recursive_object_build
 		do
 			do_test ("create_bioinformatic_commands", 4104321945, agent create_bioinformatic_commands, [])
 		end
@@ -86,7 +86,7 @@ feature {NONE} -- Implementation
 		local
 			l_name: STRING
 		do
-			log.enter_with_args ("build", [type])
+			lio.enter_with_args ("build", [type])
 			l_name := Routine_name
 			do_test (l_name, 561488628,
 				agent build_and_serialize_file, [Name.smil_presentation, agent type.new_smil_presentation]
@@ -94,7 +94,7 @@ feature {NONE} -- Implementation
 			do_test (l_name, 3086032535, agent build_and_serialize_file, [Name.web_form, agent type.new_web_form] )
 			do_test (l_name, 1024683824, agent build_and_serialize_file, [Name.matrix_average, agent type.new_matrix])
 			do_test (l_name, 2770913439, agent build_and_serialize_file, [Name.matrix_sum, agent type.new_matrix])
-			log.exit
+			lio.exit
 		end
 
 	build_and_serialize_file (file_name: STRING; new_object: FUNCTION [FILE_PATH, EL_BUILDABLE_FROM_NODE_SCAN])
@@ -106,8 +106,8 @@ feature {NONE} -- Implementation
 			object := new_object (XML_dir.joined_file_tuple (["creatable", file_name]))
 			if attached {EVOLICITY_SERIALIZEABLE_AS_XML} object as serializeable then
 				serializeable.save_as_xml (file_path)
-				log.put_labeled_string ("Digest saved " + file_path.base, raw_file_digest (file_path).to_base_64_string)
-				log.put_new_line
+				lio.put_labeled_string ("Digest saved " + file_path.base, raw_file_digest (file_path).to_base_64_string)
+				lio.put_new_line
 			end
 		end
 
@@ -125,13 +125,13 @@ feature {NONE} -- Implementation
 		local
 			l_name: STRING
 		do
-			log.enter_with_args ("smart_build", [type])
+			lio.enter_with_args ("smart_build", [type])
 			l_name := Routine_name
 			do_test (l_name, 944788983, agent build_and_serialize_file, [Name.smil_presentation, agent type.new_serializeable])
 			do_test (l_name, 540764938, agent build_and_serialize_file, [Name.web_form, agent type.new_serializeable])
 			do_test (l_name, 4129507502, agent build_and_serialize_file, [Name.matrix_average, agent type.new_serializeable])
 			do_test (l_name, 345614884, agent build_and_serialize_file, [Name.matrix_sum, agent type.new_serializeable])
-			log.exit
+			lio.exit
 		end
 
 feature {NONE} -- Internal attributes

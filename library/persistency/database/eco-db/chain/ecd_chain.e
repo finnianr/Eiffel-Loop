@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "30"
+	date: "2022-12-31 16:28:23 GMT (Saturday 31st December 2022)"
+	revision: "31"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -68,9 +68,6 @@ inherit
 		end
 
 	EL_STORABLE_HANDLER
-		undefine
-			copy, is_equal
-		end
 
 	EL_FILE_OPEN_ROUTINES
 		rename

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2022-12-31 9:10:43 GMT (Saturday 31st December 2022)"
+	revision: "16"
 
 deferred class
 	DUPLICITY_CONFIG
@@ -113,15 +113,6 @@ feature {NONE} -- Build from XML
 			end
 		end
 
-	append_mirror
-		local
-			mirror: EL_MIRROR_BACKUP
-		do
-			create mirror.make
-			set_next_context (mirror)
-			mirror_list.extend (mirror)
-		end
-
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
@@ -133,7 +124,7 @@ feature {NONE} -- Build from XML
 				["@restore_dir",				agent do restore_dir := node.to_expanded_dir_path end],
 				["@target_dir",				agent do target_dir := node.to_expanded_dir_path end],
 
-				["mirror",						agent append_mirror],
+				["mirror",						agent do set_collection_context (mirror_list, create {EL_MIRROR_BACKUP}.make) end],
 				["exclude-any/text()",		agent append_exclude_any],
 				["exclude-files/text()",	agent append_exclude_files]
 			>>)

@@ -1,3 +1,6 @@
+1.9.7
+* Added source file count to grep 
+
 1.9.6
 * Introduced mixed utf-8 and latin-1 encoding to solve problem with combined grep output
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 9:26:15 GMT (Thursday 29th December 2022)"
-	revision: "15"
+	date: "2023-01-01 8:53:01 GMT (Sunday 1st January 2023)"
+	revision: "16"
 
 class
 	XML_ESCAPER_TEST_SET
@@ -18,7 +18,7 @@ inherit
 			new_lio
 		end
 
-	EL_CRC_32_TEST_ROUTINES
+	EL_CRC_32_TESTABLE
 
 	EL_SHARED_TEST_TEXT
 
@@ -62,11 +62,11 @@ feature {NONE} -- Implementation
 				if attached {XML_ZSTRING_ESCAPER} escaper as z_escaper then
 					esc_str := z_escaper.escaped (str, False)
 					xml := XML_template #$ [esc_str]
-					log.put_line (esc_str)
+					lio.put_line (esc_str)
 				else
 					esc_str_32 := escaper.escaped (str_32, False)
 					xml := XML_template #$ [esc_str_32]
-					log.put_line (esc_str_32)
+					lio.put_line (esc_str_32)
 				end
 				create root.make_from_string (xml.to_utf_8 (True))
 				assert ("same string", str_32.is_equal (root.query ("/TEXT")))

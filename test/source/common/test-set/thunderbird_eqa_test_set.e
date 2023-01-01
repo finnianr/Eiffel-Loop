@@ -6,20 +6,25 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-30 17:54:06 GMT (Friday 30th December 2022)"
-	revision: "16"
+	date: "2023-01-01 9:16:52 GMT (Sunday 1st January 2023)"
+	revision: "17"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
 
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
+		undefine
+			new_lio
+		end
+
+	EL_CRC_32_TESTABLE
+
+	EL_MODULE_TUPLE; EL_MODULE_XML
 
 	EL_FILE_OPEN_ROUTINES
 
-	SHARED_DEV_ENVIRON; EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
-
-	EL_MODULE_FILE; EL_MODULE_TUPLE; EL_MODULE_XML
+	SHARED_DEV_ENVIRON
 
 	EL_STRING_8_CONSTANTS
 
@@ -181,7 +186,7 @@ feature {NONE} -- Implementation
 	check_book_navigation
 		local
 			navigation_path: FILE_PATH; dtb_uid, doc_title, doc_author: ZSTRING
-			crc: like crc_generator; ncx_root: EL_XML_DOC_CONTEXT
+			ncx_root: EL_XML_DOC_CONTEXT
 		do
 			navigation_path := work_area_data_dir + "export/manual/book-navigation.ncx"
 			lio.put_path_field ("Checking", navigation_path)
@@ -197,13 +202,15 @@ feature {NONE} -- Implementation
 			assert ("valid docTitle", Book_info_table ["title"] ~ doc_title)
 			assert ("valid docAuthor", Book_info_table ["author"] ~ doc_author)
 
-			crc := crc_generator
+			do_test ("display_book_navigation_text", 1633220310 , agent display_book_navigation_text, [ncx_root])
+		end
+
+	display_book_navigation_text (ncx_root: EL_XML_DOC_CONTEXT)
+		do
 			across ncx_root.context_list ("//text") as text loop
 				lio.put_string_field ("text", text.node.as_string)
 				lio.put_new_line
-				crc.add_string (text.node)
 			end
-			assert ("correct checksum", crc.checksum = 983439871)
 		end
 
 	source_dir: DIR_PATH

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-28 18:58:57 GMT (Wednesday 28th December 2022)"
-	revision: "1"
+	date: "2023-01-01 12:08:22 GMT (Sunday 1st January 2023)"
+	revision: "2"
 
 class
 	EL_PYXIS_ATTRIBUTES
@@ -15,7 +15,8 @@ class
 inherit
 	FIXED_LIST [HASH_TABLE [ZSTRING, STRING]]
 		rename
-			make as make_list
+			make as make_list,
+			put as put_table
 		export
 			{NONE} all
 			{ANY} first, last, i_th
@@ -28,7 +29,7 @@ create
 
 feature -- Basic operations
 
-	write_to (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
+	put (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
 		local
 			value_table: like item; use_quotes: BOOLEAN
 		do

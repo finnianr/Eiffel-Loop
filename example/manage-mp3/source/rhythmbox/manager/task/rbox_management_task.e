@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "22"
+	date: "2022-12-31 10:22:18 GMT (Saturday 31st December 2022)"
+	revision: "23"
 
 deferred class
 	RBOX_MANAGEMENT_TASK
@@ -17,7 +17,8 @@ inherit
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
 		rename
 			make_from_file as make,
-			element_node_fields as Empty_set
+			element_node_fields as Empty_set,
+			field_included as is_any_field
 		export
 			{RBOX_MUSIC_MANAGER} make
 		redefine
@@ -139,7 +140,7 @@ feature {NONE} -- Constants
 
 	Transient_fields: STRING
 		once
-			Result := "file_path"
+			Result := Precursor + ", file_path"
 		end
 
 note

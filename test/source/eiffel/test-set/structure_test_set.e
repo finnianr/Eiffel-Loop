@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-18 6:22:20 GMT (Friday 18th November 2022)"
-	revision: "9"
+	date: "2022-12-31 14:32:08 GMT (Saturday 31st December 2022)"
+	revision: "10"
 
 class
 	STRUCTURE_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_DIRECTORY; EL_MODULE_LIO
+	EL_MODULE_DIRECTORY
 
 feature -- Basic operations
 

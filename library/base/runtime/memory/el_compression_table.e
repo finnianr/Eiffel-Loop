@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 11:18:07 GMT (Monday 5th December 2022)"
-	revision: "3"
+	date: "2022-12-31 16:28:08 GMT (Saturday 31st December 2022)"
+	revision: "4"
 
 class
 	EL_COMPRESSION_TABLE [G -> EL_STORABLE create make_default end, K -> HASHABLE]
@@ -27,7 +27,7 @@ inherit
 			has_key, make
 		end
 
-	EL_STORABLE_HANDLER undefine copy, is_equal end
+	EL_STORABLE_HANDLER
 
 	EL_MODULE_EIFFEL
 

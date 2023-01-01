@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2022-12-31 10:03:13 GMT (Saturday 31st December 2022)"
+	revision: "14"
 
 class
 	DJ_EVENT_PUBLISHER_CONFIG
@@ -17,6 +17,7 @@ inherit
 		rename
 			make_default as make,
 			element_node_fields as Empty_set,
+			field_included as is_any_field,
 			xml_naming as eiffel_naming
 		redefine
 			make

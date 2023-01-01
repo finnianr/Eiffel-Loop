@@ -6,16 +6,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-24 16:17:02 GMT (Saturday 24th December 2022)"
-	revision: "3"
+	date: "2022-12-31 14:35:18 GMT (Saturday 31st December 2022)"
+	revision: "4"
 
 class
 	BASE_POWER_2_CONVERTER_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
-
-	EL_MODULE_LIO
 
 feature -- Basic operations
 

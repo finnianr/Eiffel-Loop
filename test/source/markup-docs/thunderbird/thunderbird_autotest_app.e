@@ -18,16 +18,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-30 17:34:36 GMT (Friday 30th December 2022)"
-	revision: "70"
+	date: "2023-01-01 9:09:30 GMT (Sunday 1st January 2023)"
+	revision: "71"
 
 class
 	THUNDERBIRD_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_APPLICATION [THUNDERBIRD_EXPORT_TEST_SET]
+	EL_CRC_32_AUTOTEST_APPLICATION [THUNDERBIRD_EXPORT_TEST_SET]
 		redefine
-			visible_types
+			log_filter_set, visible_types
 		end
 
 create
@@ -38,5 +38,10 @@ feature {NONE} -- Implementation
 	visible_types: TUPLE [THUNDERBIRD_EXPORT_TEST_SET]
 		do
 			create Result
+		end
+
+	log_filter_set: EL_LOG_FILTER_SET [like Current, THUNDERBIRD_EXPORT_TEST_SET]
+		do
+			create Result.make
 		end
 end

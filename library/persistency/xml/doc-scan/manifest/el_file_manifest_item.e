@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-30 11:01:13 GMT (Friday 30th December 2022)"
-	revision: "13"
+	date: "2022-12-31 16:32:48 GMT (Saturday 31st December 2022)"
+	revision: "14"
 
 class
 	EL_FILE_MANIFEST_ITEM
@@ -32,9 +32,6 @@ inherit
 		end
 
 	EVOLICITY_REFLECTIVE_XML_CONTEXT
-		undefine
-			is_equal
-		end
 
 	COMPARABLE
 		undefine

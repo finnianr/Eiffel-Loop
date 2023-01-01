@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-21 9:44:13 GMT (Wednesday 21st December 2022)"
-	revision: "18"
+	date: "2022-12-31 10:06:36 GMT (Saturday 31st December 2022)"
+	revision: "19"
 
 deferred class
 	EL_EIF_OBJ_XPATH_CONTEXT
@@ -57,6 +57,13 @@ feature -- Element change
 			--
 		do
 			node := a_node
+		end
+
+	set_collection_context (collection: COLLECTION [EL_EIF_OBJ_XPATH_CONTEXT]; new_item: EL_EIF_OBJ_XPATH_CONTEXT)
+		-- set next context as extended collection last item
+		do
+			collection.extend (new_item)
+			set_next_context (new_item)
 		end
 
 	set_next_context (context: EL_EIF_OBJ_XPATH_CONTEXT)

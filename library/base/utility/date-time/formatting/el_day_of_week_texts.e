@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2022-12-31 10:49:06 GMT (Saturday 31st December 2022)"
+	revision: "4"
 
 class
 	EL_DAY_OF_WEEK_TEXTS
@@ -81,7 +81,7 @@ feature {NONE} -- Constants
 		-- comma-separated list of fields that will be treated as if they are transient attributes and
 		-- excluded from `field_table'
 		once
-			Result := "full_names, short_names"
+			Result := Precursor + ", full_names, short_names"
 		end
 
 end

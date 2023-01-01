@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-14 17:22:18 GMT (Wednesday 14th December 2022)"
-	revision: "19"
+	date: "2023-01-01 11:34:29 GMT (Sunday 1st January 2023)"
+	revision: "20"
 
 class
 	UNDEFINE_PATTERN_COUNTER_TEST_SET
@@ -20,7 +20,7 @@ inherit
 			source_file_list
 		end
 
-	EL_CRC_32_TEST_ROUTINES
+	EL_CRC_32_TESTABLE
 
 	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT
 

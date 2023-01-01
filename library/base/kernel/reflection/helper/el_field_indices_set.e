@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 14:23:59 GMT (Sunday 18th December 2022)"
-	revision: "15"
+	date: "2022-12-31 10:44:04 GMT (Saturday 31st December 2022)"
+	revision: "16"
 
 class
 	EL_FIELD_INDICES_SET
@@ -28,13 +28,19 @@ feature {NONE} -- Initialization
 
 	make (reflected: REFLECTED_REFERENCE_OBJECT; field_names: STRING)
 		local
-			field_list: EL_SPLIT_STRING_8_LIST; i, field_count: INTEGER
+			field_list: EL_SPLIT_STRING_8_LIST; i, field_count, empty_count: INTEGER
 		do
 			if field_names.is_empty then
 				make_empty
 				is_valid := True
 			else
 				create field_list.make_adjusted (field_names, ',', {EL_STRING_ADJUST}.Left)
+				from field_list.start until field_list.after loop
+					if field_list.item_count = 0 then
+						empty_count := empty_count + 1
+					end
+					field_list.forth
+				end
 
 				make_empty_area (field_list.count)
 				field_count := reflected.field_count
@@ -44,7 +50,7 @@ feature {NONE} -- Initialization
 					end
 					i := i + 1
 				end
-				is_valid := count = field_list.count
+				is_valid := count = field_list.count - empty_count
 			end
 		end
 

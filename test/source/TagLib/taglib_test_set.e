@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 9:48:32 GMT (Thursday 29th December 2022)"
-	revision: "43"
+	date: "2023-01-01 8:51:37 GMT (Sunday 1st January 2023)"
+	revision: "44"
 
 class
 	TAGLIB_TEST_SET
@@ -20,7 +20,7 @@ inherit
 			on_clean
 		end
 
-	EL_CRC_32_TEST_ROUTINES
+	EL_CRC_32_TESTABLE
 
 	EL_MODULE_NAMING; EL_MODULE_TUPLE
 
@@ -272,25 +272,25 @@ feature {NONE} -- Implementation
 				else
 					create list.make_by_string (value, s.character_string ('%N'))
 				end
-				log.put_labeled_string (name, "%"[")
-				log.tab_right
-				log.put_new_line
+				lio.put_labeled_string (name, "%"[")
+				lio.tab_right
+				lio.put_new_line
 				across << list.first_item_copy, s.n_character_string ('.', 2), list.last_item_copy >> as line loop
-					log.put_string (line.item)
+					lio.put_string (line.item)
 					if line.is_last then
-						log.tab_left
+						lio.tab_left
 					end
-					log.put_new_line
+					lio.put_new_line
 				end
-				log.set_text_color (Color.Yellow)
-				log.put_string ("]%"")
-				log.set_text_color (Color.Default)
+				lio.set_text_color (Color.Yellow)
+				lio.put_string ("]%"")
+				lio.set_text_color (Color.Default)
 			elseif value.count >= 80 then
-				log.put_string_field_to_max_length (name, value, 80)
+				lio.put_string_field_to_max_length (name, value, 80)
 			else
-				log.put_string_field (name, value)
+				lio.put_string_field (name, value)
 			end
-			log.put_new_line
+			lio.put_new_line
 		end
 
 	get_set_basic_fields (relative_path: FILE_PATH)
@@ -322,8 +322,8 @@ feature {NONE} -- Implementation
 					elseif attached {FUNCTION [TL_ID3_TAG, INTEGER]} Get_set_routines [index] as get_integer then
 						value := get_integer (tag)
 						if value > 0 then
-							log.put_integer_field (name.item, value)
-							log.put_new_line
+							lio.put_integer_field (name.item, value)
+							lio.put_new_line
 							if attached {PROCEDURE [TL_ID3_TAG, INTEGER]} Get_set_routines [index + 1] as set_integer then
 								set_integer (tag, value + 1)
 								assert ("same value", get_integer (tag) = value + 1)
@@ -346,43 +346,43 @@ feature {NONE} -- Implementation
 				print_version (mp3)
 				across tag.all_frames_list as frame loop
 					name := Naming.class_as_snake_upper (frame.item, 1, 2)
-					log.put_labeled_string (name, frame.item.id.to_string_8)
+					lio.put_labeled_string (name, frame.item.id.to_string_8)
 					if attached {TL_COMMENTS_ID3_FRAME} frame.item as comments then
 						print_field ("; language", comments.language)
 						print_field ("description", comments.description)
 						print_field ("text", comments.text)
 					elseif attached {TL_PICTURE_ID3_FRAME} frame.item as pic then
-						log.put_string_field ("; mime_type", pic.mime_type)
-						log.put_string_field ("; type", pic.type)
-						log.put_integer_field ("; byte count", pic.picture.count)
-						log.put_new_line
+						lio.put_string_field ("; mime_type", pic.mime_type)
+						lio.put_string_field ("; type", pic.type)
+						lio.put_integer_field ("; byte count", pic.picture.count)
+						lio.put_new_line
 						print_field ("description", pic.description)
 					elseif attached {TL_TEXT_IDENTIFICATION_ID3_FRAME} frame.item as id_frame then
 						if attached {TL_USER_TEXT_IDENTIFICATION_ID3_FRAME} id_frame as user then
-							log.put_string_field ("; description", user.description)
+							lio.put_string_field ("; description", user.description)
 						end
-						log.put_new_line
+						lio.put_new_line
 						across id_frame.field_list as field loop
 							print_field (Array_template #$ ["field_list", field.cursor_index], field.item)
 						end
 
 					elseif attached {TL_UNIQUE_FILE_IDENTIFIER_ID3_FRAME} frame.item as l_unique then
-						log.put_string_field ("; identifier", l_unique.identifier)
-						log.put_string_field ("; owner", l_unique.owner)
-						log.put_new_line
+						lio.put_string_field ("; identifier", l_unique.identifier)
+						lio.put_string_field ("; owner", l_unique.owner)
+						lio.put_new_line
 					else
 						print_field ("; text", frame.item.text)
 					end
 				end
 			else
-				log.put_line ("Unknown version")
+				lio.put_line ("Unknown version")
 			end
 		end
 
 	print_version (mp3: TL_MPEG_FILE)
 		do
-			log.put_labeled_substitution ("Version", "%S.%S.%S", mp3.id3_version)
-			log.put_new_line
+			lio.put_labeled_substitution ("Version", "%S.%S.%S", mp3.id3_version)
+			lio.put_new_line
 		end
 
 	source_file_list: EL_FILE_PATH_LIST

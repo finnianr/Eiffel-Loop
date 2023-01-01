@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 16:39:08 GMT (Thursday 29th December 2022)"
-	revision: "6"
+	date: "2023-01-01 11:35:08 GMT (Sunday 1st January 2023)"
+	revision: "7"
 
 class
 	JAVA_TEST_SET
@@ -21,7 +21,7 @@ inherit
 			new_lio
 		end
 
-	EL_CRC_32_TEST_ROUTINES
+	EL_CRC_32_TESTABLE
 
 	EL_MODULE_JAVA
 

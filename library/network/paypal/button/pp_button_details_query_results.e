@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2022-12-31 11:04:12 GMT (Saturday 31st December 2022)"
+	revision: "11"
 
 class
 	PP_BUTTON_DETAILS_QUERY_RESULTS
@@ -100,8 +100,8 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Hidden_fields: STRING
-			-- Fields that will not be output by `print_fields'
-			-- Must be comma-separated names
+		-- Fields that will not be output by `print_fields'
+		-- Must be comma-separated names
 		once
 			Result := Precursor + ", options_list, detail"
 		end

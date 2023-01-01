@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-30 12:20:51 GMT (Friday 30th December 2022)"
-	revision: "26"
+	date: "2023-01-01 14:29:06 GMT (Sunday 1st January 2023)"
+	revision: "27"
 
 deferred class
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML
@@ -65,17 +65,20 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	put_xml_document (xml_out: EL_OUTPUT_MEDIUM)
+	put_xml_document (output: EL_OUTPUT_MEDIUM)
+		local
+			exporter: EL_XML_OBJECT_EXPORTER [like Current]
 		do
-			xml_out.put_bom
-			xml_out.put_string (XML.header (1.0, once "UTF-8"))
-			xml_out.put_new_line
-			put_xml_element (xml_out, root_node_name, 0)
+			create exporter.make (Current)
+			output.put_bom
+			exporter.put_header (output)
+			exporter.put_element (output, root_node_name, 0)
 		end
 
 	store_as (a_file_path: FILE_PATH)
 		do
 			if attached open (a_file_path, Write) as xml_out then
+				xml_out.byte_order_mark.enable
 				put_xml_document (xml_out)
 				xml_out.close
 			end
@@ -106,7 +109,7 @@ feature {NONE} -- Constants
 
 	Transient_fields: STRING
 		once
-			Result := "actual_node_source, file_path, last_store_ok"
+			Result := Precursor + ", file_path, last_store_ok"
 		end
 
 end

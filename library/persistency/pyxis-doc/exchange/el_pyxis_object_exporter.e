@@ -1,28 +1,35 @@
 note
-	description: "Exports object conforming to [$source EL_REFLECTIVE] as Pyxis document format"
+	description: "Exports object conforming to [$source EL_REFLECTIVELY_SETTABLE] as Pyxis document format"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-28 18:54:43 GMT (Wednesday 28th December 2022)"
-	revision: "4"
+	date: "2023-01-01 13:02:06 GMT (Sunday 1st January 2023)"
+	revision: "5"
 
 class
 	EL_PYXIS_OBJECT_EXPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
 
 inherit
+	ANY
+
 	EL_REFLECTION_HANDLER
 
 	EL_MODULE_BUFFER; EL_MODULE_PYXIS; EL_MODULE_REUSEABLE
 
 create
-	make
+	make, make_default
 
 feature {NONE} -- Initialization
 
-	make
+	make (a_object: G)
+		do
+			object := a_object
+		end
+
+	make_default
 		do
 			create {G} object.make_default
 		end
@@ -36,58 +43,60 @@ feature -- Element change
 
 feature -- Basic operations
 
-	write_header (file: EL_PLAIN_TEXT_FILE; software_version: NATURAL)
+	put_header (output: EL_OUTPUT_MEDIUM; software_version: NATURAL)
 		do
-			file.put_line (Pyxis_header #$ [file.encoding_name, Pyxis.root_element_name_for_type ({G}), software_version])
+			output.put_line (
+				Pyxis_header #$ [output.encoding_name, Pyxis.root_element_name_for_type ({G}), software_version]
+			)
 		end
 
-	write_item_to (a_object: EL_REFLECTIVE; output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
+	put_item (a_object: EL_REFLECTIVE; output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
 		do
 			object := a_object
 			output.put_indented_line (tab_count + 1, Item_element)
-			write_to (output, tab_count + 2)
+			put (output, tab_count + 2)
 		end
 
-	write_to (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
+	put (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
 		local
 			name: STRING; value: ZSTRING; is_attribute: SPECIAL [BOOLEAN]
 		do
 			create is_attribute.make_filled (False, object.field_table.count)
 			value := buffer.empty
-			write_attributes (output, tab_count, is_attribute)
+			put_attributes (output, tab_count, is_attribute)
 
 			across object.meta_data.alphabetical_list as list loop
 				name := list.item.name
 				if not is_attribute [list.cursor_index - 1] then
 					if attached {EL_REFLECTED_COLLECTION [ANY]} list.item as collection_field then
-						write_collection (output, tab_count, collection_field)
+						put_collection (output, tab_count, collection_field)
 
 					elseif attached {EL_REFLECTED_TUPLE} list.item as tuple_field
 						and then attached tuple_field.value (object) as tuple
 						and then attached tuple_field.field_name_list as name_list
 					then
-						write_field (output, name, tab_count)
-						write_tuple (output, tab_count + 1, tuple_field, tuple, name_list)
+						put_field (output, name, tab_count)
+						put_tuple (output, tab_count + 1, tuple_field, tuple, name_list)
 
 					elseif attached {EL_REFLECTED_REFERENCE [ANY]} list.item as field
 						and then attached {EL_REFLECTIVE} field.value (object) as reflective
 					then
-						write_field (output, name, tab_count)
+						put_field (output, name, tab_count)
 						if attached object as previous then
 							object := reflective
-							write_to (output, tab_count + 1)
+							put (output, tab_count + 1)
 							object := previous
 						end
 					else
 						value.wipe_out
 						list.item.append_to_string (object, value)
 						if value.has ('%N') then
-							write_field (output, name, tab_count)
-							write_manifest (output, value, tab_count + 1)
+							put_field (output, name, tab_count)
+							put_manifest (output, value, tab_count + 1)
 
 						elseif value.count > 0 then
 							value.enclose ('"', '"')
-							write_field (output, name, tab_count)
+							put_field (output, name, tab_count)
 							output.put_indented_line (tab_count + 1, value)
 						end
 					end
@@ -97,7 +106,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	write_attributes (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; is_attribute: SPECIAL [BOOLEAN])
+	put_attributes (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; is_attribute: SPECIAL [BOOLEAN])
 		local
 			value: ZSTRING; name: STRING; line_index: INTEGER
 		do
@@ -117,30 +126,30 @@ feature {NONE} -- Implementation
 							end
 						end
 					end
-					attribute_lines.write_to (output, tab_count)
+					attribute_lines.put (output, tab_count)
 				end
 			end
 		end
 
-	write_collection (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; collection_field: EL_REFLECTED_COLLECTION [ANY])
+	put_collection (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; collection_field: EL_REFLECTED_COLLECTION [ANY])
 		do
 			if attached {EL_REFLECTED_COLLECTION [EL_REFLECTIVE]} collection_field as reflective
 				and then attached reflective.collection (object) as collection
 			then
 				if not collection.is_empty then
-					write_field (output, collection_field.name, tab_count)
-					write_recursive_list (output, tab_count, collection.linear_representation)
+					put_field (output, collection_field.name, tab_count)
+					put_recursive_list (output, tab_count, collection.linear_representation)
 				end
 
 			elseif attached collection_field.to_string_list (object) as string_list then
 				if not string_list.is_empty then
-					write_field (output, collection_field.name, tab_count)
-					write_item_list (output, tab_count + 1, string_list)
+					put_field (output, collection_field.name, tab_count)
+					put_item_list (output, tab_count + 1, string_list)
 				end
 			end
 		end
 
-	write_field (output: EL_OUTPUT_MEDIUM; name: STRING; tab_count: INTEGER)
+	put_field (output: EL_OUTPUT_MEDIUM; name: STRING; tab_count: INTEGER)
 		do
 			output.put_indent (tab_count)
 			output.put_string_8 (name)
@@ -148,7 +157,7 @@ feature {NONE} -- Implementation
 			output.put_new_line
 		end
 
-	write_item_list (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; list: LIST [READABLE_STRING_GENERAL])
+	put_item_list (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; list: LIST [READABLE_STRING_GENERAL])
 		do
 			output.put_indented_line (tab_count, Item_element)
 			from list.start until list.after loop
@@ -161,7 +170,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	write_manifest (output: EL_OUTPUT_MEDIUM; str: ZSTRING; tab_count: INTEGER)
+	put_manifest (output: EL_OUTPUT_MEDIUM; str: ZSTRING; tab_count: INTEGER)
 		do
 			output.put_indented_line (tab_count, Pyxis_triple_quote)
 			across str.split ('%N') as line loop
@@ -170,18 +179,18 @@ feature {NONE} -- Implementation
 			output.put_indented_line (tab_count, Pyxis_triple_quote)
 		end
 
-	write_recursive_list (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; list: LINEAR [EL_REFLECTIVE])
+	put_recursive_list (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; list: LINEAR [EL_REFLECTIVE])
 		do
 			if attached object as l_object then
 				from list.start until list.after loop
-					write_item_to (list.item, output, tab_count)
+					put_item (list.item, output, tab_count)
 					list.forth
 				end
 				object := l_object
 			end
 		end
 
-	write_tuple (
+	put_tuple (
 		output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; field: EL_REFLECTED_TUPLE; tuple: TUPLE
 		name_list: EL_STRING_8_LIST
 	)
@@ -200,7 +209,7 @@ feature {NONE} -- Implementation
 						end
 						i := i + 1
 					end
-					attribute_lines.write_to (output, tab_count)
+					attribute_lines.put (output, tab_count)
 				end
 			end
 		end

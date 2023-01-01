@@ -2,14 +2,12 @@ note
 	description: "Protein folding test set"
 
 	author: "Finnian Reilly"
-	copyright: "[
-	Copyright (C) 2016-2017  Gerrit Leder, Finnian Reilly
-	]"
+	copyright: "Copyright (C) 2016-2017  Gerrit Leder, Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
-	date: "2022-10-04 9:52:22 GMT (Tuesday 4th October 2022)"
-	revision: "4"
+	date: "2023-01-01 11:32:10 GMT (Sunday 1st January 2023)"
+	revision: "5"
 
 class
 	PROTEIN_FOLDING_TEST_SET
@@ -20,7 +18,7 @@ inherit
 			new_lio
 		end
 
-	EL_CRC_32_TEST_ROUTINES
+	EL_CRC_32_TESTABLE
 
 	EL_COMMAND_CLIENT undefine default_create end
 

@@ -16,8 +16,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 9:26:53 GMT (Thursday 29th December 2022)"
-	revision: "28"
+	date: "2023-01-01 8:52:07 GMT (Sunday 1st January 2023)"
+	revision: "29"
 
 class
 	VTD_XML_TEST_SET
@@ -30,7 +30,7 @@ inherit
 			on_prepare
 		end
 
-	EL_CRC_32_TEST_ROUTINES
+	EL_CRC_32_TESTABLE
 
 	EL_MODULE_OS
 
@@ -252,8 +252,8 @@ feature {NONE} -- Implementation
 
 	encoding
 		do
-			log.put_string_field ("Encoding", root_node.encoding_name)
-			log.put_new_line
+			lio.put_string_field ("Encoding", root_node.encoding_name)
+			lio.put_new_line
 		end
 
 feature {NONE} -- Internal attributes

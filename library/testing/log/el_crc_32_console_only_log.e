@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2022-12-31 16:35:08 GMT (Saturday 31st December 2022)"
+	revision: "8"
 
 class
 	EL_CRC_32_CONSOLE_ONLY_LOG
@@ -21,7 +21,7 @@ inherit
 create
 	make
 
-feature {NONE} -- Implementation
+feature {EL_LOG_HANDLER} -- Implementation
 
 	new_output: EL_CONSOLE_LOG_OUTPUT
 		do

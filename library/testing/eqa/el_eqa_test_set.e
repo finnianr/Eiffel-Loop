@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 9:34:53 GMT (Thursday 29th December 2022)"
-	revision: "11"
+	date: "2023-01-01 8:49:27 GMT (Sunday 1st January 2023)"
+	revision: "12"
 
 deferred class
 	EL_EQA_TEST_SET
@@ -20,7 +20,11 @@ inherit
 			on_prepare
 		end
 
-	EL_MODULE_FILE_SYSTEM; EL_MODULE_LIO; EL_MODULE_OS
+	EL_MODULE_LIO -- so test can still be run in AutoTest tool
+
+	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM; EL_MODULE_OS
+
+	EL_SHARED_DIGESTS; EL_SHARED_TEST_CRC
 
 feature -- Basic operations
 
@@ -58,6 +62,25 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	os_checksum (unix, windows: NATURAL): NATURAL
+		do
+			if {PLATFORM}.is_unix then
+				Result := unix
+			else
+				Result := windows
+			end
+		end
+
+	plain_text_digest (file_path: FILE_PATH): EL_DIGEST_ARRAY
+		do
+			create Result.make_from_plain_text (MD5_128, file_path)
+		end
+
+	raw_file_digest (file_path: FILE_PATH): EL_DIGEST_ARRAY
+		do
+			create Result.make_from_memory (MD5_128, File.data (file_path))
+		end
+
 feature {NONE} -- Event handling
 
 	on_prepare
@@ -69,6 +92,13 @@ feature {NONE} -- Event handling
 			if not global.is_created then
 				create logging.make (False)
 			end
+		end
+
+feature {NONE} -- Constants
+
+	CRC_32_console_only_log: EL_CRC_32_CONSOLE_ONLY_LOG
+		once
+			create Result.make
 		end
 
 end

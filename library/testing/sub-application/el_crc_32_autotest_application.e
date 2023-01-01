@@ -1,7 +1,7 @@
 note
 	description: "[
 		[$source EL_AUTOTEST_APPLICATION] object with support for test sets conforming
-		to [$source EL_CRC_32_TEST_ROUTINES]
+		to [$source EL_CRC_32_TESTABLE]
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-01-01 11:34:01 GMT (Sunday 1st January 2023)"
+	revision: "10"
 
 deferred class
 	EL_CRC_32_AUTOTEST_APPLICATION [EQA_TYPES -> TUPLE create default_create end]

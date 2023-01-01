@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 9:27:03 GMT (Thursday 29th December 2022)"
-	revision: "20"
+	date: "2023-01-01 8:53:41 GMT (Sunday 1st January 2023)"
+	revision: "21"
 
 class
 	COMMA_SEPARATED_IMPORT_TEST_SET
@@ -18,9 +18,7 @@ inherit
 			new_lio
 		end
 
-	EL_CRC_32_TEST_ROUTINES
-
-	EL_MODULE_LOG
+	EL_CRC_32_TESTABLE
 
 feature -- Basic operations
 
@@ -61,10 +59,10 @@ feature {NONE} -- Implementation
 			create list.make_comma_split (job.comma_separated_values)
 			across list as value loop
 				if value.item.count > 140 then
-					log.put_string_field_to_max_length ("LONG", value.item, 140)
-					log.put_new_line
+					lio.put_string_field_to_max_length ("LONG", value.item, 140)
+					lio.put_new_line
 				else
-					log.put_line (value.item)
+					lio.put_line (value.item)
 				end
 			end
 			parser.parse (job.comma_separated_values)

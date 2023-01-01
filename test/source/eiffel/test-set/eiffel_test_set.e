@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-26 14:31:23 GMT (Monday 26th December 2022)"
-	revision: "25"
+	date: "2022-12-31 14:30:31 GMT (Saturday 31st December 2022)"
+	revision: "26"
 
 class
 	EIFFEL_TEST_SET
@@ -16,8 +16,6 @@ inherit
 	EL_EQA_TEST_SET
 
 	EL_MODULE_DIRECTORY; EL_MODULE_EIFFEL; EL_MODULE_EXECUTION_ENVIRONMENT
-
-	EL_MODULE_LIO
 
 feature -- Basic operations
 

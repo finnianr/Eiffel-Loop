@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-01-01 8:49:53 GMT (Sunday 1st January 2023)"
+	revision: "13"
 
 class
 	EVOLICITY_TEST_SET
@@ -18,9 +18,9 @@ inherit
 			new_lio
 		end
 
-	EL_CRC_32_TEST_ROUTINES
+	EL_CRC_32_TESTABLE
 
-	EL_MODULE_LOG; EL_MODULE_TUPLE
+	EL_MODULE_TUPLE
 
 	SHARED_DEV_ENVIRON
 
@@ -71,8 +71,8 @@ feature {NONE} -- Implementation
 			if attached (work_area_data_dir + name) as template_path then
 				Evolicity_templates.put_file (template_path, Utf_8_encoding)
 
-				log.put_string_field_to_max_length ("RESULT", Evolicity_templates.merged_to_string (template_path, context), 160)
-				log.put_new_line
+				lio.put_string_field_to_max_length ("RESULT", Evolicity_templates.merged_to_string (template_path, context), 160)
+				lio.put_new_line
 			end
 		end
 
@@ -89,7 +89,7 @@ feature {NONE} -- Implementation
 					Evolicity_templates.merge_to_file (template_path, job_info, html_file)
 					create line_source.make_utf_8 (output_path)
 					across line_source as line loop
-						log.put_line (line.item)
+						lio.put_line (line.item)
 					end
 				end
 			end

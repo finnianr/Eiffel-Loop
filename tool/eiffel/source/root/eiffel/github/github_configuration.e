@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2022-12-30 17:58:54 GMT (Friday 30th December 2022)"
+	revision: "12"
 
 class
 	GITHUB_CONFIGURATION
@@ -15,6 +15,7 @@ class
 inherit
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
 		rename
+			field_included as is_any_field,
 			make_from_file as make,
 			element_node_fields as All_fields
 		redefine

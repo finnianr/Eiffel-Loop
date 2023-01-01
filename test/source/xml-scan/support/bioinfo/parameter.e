@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2022-12-31 9:56:59 GMT (Saturday 31st December 2022)"
+	revision: "6"
 
 class
 	PARAMETER
@@ -95,78 +95,10 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Build from XML
 
-	set_label_item
-			--
+	set_descendant_context (a_descendant: PARAMETER)
 		do
-			label := node.to_string
-		end
-
-	set_id_item
-			--
-		do
-			id := node.to_string
-		end
-
-	set_run_switch
-			--
-		do
-			run_switch := node.to_string
-		end
-
-	set_container_parameter_descendant
-			--
-		do
-			create {CONTAINER_PARAMETER} descendant.make  -- Recursive class
-			set_next_context (descendant)
-		end
-
-	set_choice_parameter_descendant
-			--
-		do
-			create {CHOICE_PARAMETER} descendant.make -- Recursive class
-			set_next_context (descendant)
-		end
-
-	set_title_parameter_descendant
-			--
-		do
-			create {TITLE_PARAMETER} descendant.make
-			set_next_context (descendant)
-		end
-
-	set_string_parameter_descendant
-			--
-		do
-			create {STRING_PARAMETER} descendant.make
-			set_next_context (descendant)
-		end
-
-	set_url_parameter_descendant
-			--
-		do
-			create {URL_PARAMETER} descendant.make
-			set_next_context (descendant)
-		end
-
-	set_data_parameter_descendant
-			--
-		do
-			create {DATA_PARAMETER} descendant.make
-			set_next_context (descendant)
-		end
-
-	set_boolean_parameter_descendant
-			--
-		do
-			create {BOOLEAN_PARAMETER} descendant.make
-			set_next_context (descendant)
-		end
-
-	set_integer_parameter_descendant
-			--
-		do
-			create {INTEGER_PARAMETER} descendant.make
-			set_next_context (descendant)
+			descendant := a_descendant
+			set_next_context (a_descendant)
 		end
 
 	set_integer_range_list_parameter_descendant
@@ -196,41 +128,29 @@ feature {NONE} -- Build from XML
 			set_next_context (descendant)
 		end
 
-	set_string_list_parameter_descendant
-			--
-		do
-			create {STRING_LIST_PARAMETER} descendant.make
-			set_next_context (descendant)
-		end
-
-	set_real_parameter_descendant
-			--
-		do
-			create {REAL_PARAMETER} descendant.make
-			set_next_context (descendant)
-		end
-
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to element: par
 		do
 			create Result.make (<<
-				["id/text()", agent set_id_item],
-				["label/text()", agent set_label_item],
-				["runSwitch/text()", agent set_run_switch],
+				["id/text()", agent do id := node.to_string_8 end],
+				["label/text()", agent do label := node.to_string_8 end],
+				["runSwitch/text()", agent do run_switch := node.to_string_8 end],
 
-				["value[@type='container']", agent set_container_parameter_descendant], 	-- Recursive builder routine
-				["value[@type='choice']", agent set_choice_parameter_descendant], 			-- Recursive builder routine
+			-- Recursive
+				["value[@type='container']", agent do set_descendant_context (create {CONTAINER_PARAMETER}.make) end],
+				["value[@type='choice']", agent do set_descendant_context (create {CHOICE_PARAMETER}.make) end],
 
-				["value[@type='title']", agent set_title_parameter_descendant],
-				["value[@type='string']", agent set_string_parameter_descendant],
-				["value[@type='url']", agent set_url_parameter_descendant],
+			-- Non-recursive
+				["value[@type='title']", agent do set_descendant_context (create {TITLE_PARAMETER}.make) end],
+				["value[@type='string']", agent do set_descendant_context (create {STRING_PARAMETER}.make) end],
+				["value[@type='url']", agent do set_descendant_context (create {URL_PARAMETER}.make) end],
 				["value[@type='rules']", agent set_rules_list_parameter_descendant],
-				["value[@type='data']", agent set_data_parameter_descendant],
-				["value[@type='list']", agent set_string_list_parameter_descendant],
+				["value[@type='data']", agent do set_descendant_context (create {DATA_PARAMETER}.make) end],
+				["value[@type='list']", agent do set_descendant_context (create {STRING_LIST_PARAMETER}.make) end],
 
-				["value[@type='boolean']", agent set_boolean_parameter_descendant],
-				["value[@type='integer']", agent set_integer_parameter_descendant],
-				["value[@type='float']", agent set_real_parameter_descendant],
+				["value[@type='boolean']", agent do set_descendant_context (create {BOOLEAN_PARAMETER}.make) end],
+				["value[@type='integer']", agent do set_descendant_context (create {INTEGER_PARAMETER}.make) end],
+				["value[@type='float']", agent do set_descendant_context (create {REAL_PARAMETER}.make) end],
 
 				["value[@type='intRange']", agent set_integer_range_list_parameter_descendant],
 				["value[@type='floatRange']", agent set_real_range_list_parameter_descendant]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 18:36:28 GMT (Monday 5th December 2022)"
-	revision: "27"
+	date: "2023-01-01 8:49:59 GMT (Sunday 1st January 2023)"
+	revision: "28"
 
 class
 	FILE_SYNC_MANAGER_TEST_SET
@@ -20,7 +20,7 @@ inherit
 			on_prepare
 		end
 
-	EL_CRC_32_TEST_ROUTINES
+	EL_CRC_32_TESTABLE
 
 	EL_MODULE_TRACK
 

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 16:18:56 GMT (Sunday 18th December 2022)"
-	revision: "25"
+	date: "2022-12-31 14:34:24 GMT (Saturday 31st December 2022)"
+	revision: "26"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -18,8 +18,6 @@ inherit
 	EL_STRING_8_CONSTANTS
 
 	EL_ENCODING_CONSTANTS
-
-	EL_MODULE_LIO
 
 	EL_MODULE_TUPLE
 

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "19"
+	date: "2022-12-31 10:49:00 GMT (Saturday 31st December 2022)"
+	revision: "20"
 
 deferred class
 	AIA_REQUEST
@@ -82,6 +82,6 @@ feature {NONE} -- Constants
 
 	Transient_fields: STRING
 		once
-			Result := "new_response"
+			Result := Precursor + ", new_response"
 		end
 end

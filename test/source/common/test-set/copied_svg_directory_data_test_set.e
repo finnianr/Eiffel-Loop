@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2023-01-01 8:45:29 GMT (Sunday 1st January 2023)"
+	revision: "15"
 
 deferred class
 	COPIED_SVG_DIRECTORY_DATA_TEST_SET
@@ -23,9 +23,9 @@ inherit
 			on_prepare
 		end
 
-	EL_CRC_32_TEST_ROUTINES
+	EL_CRC_32_TESTABLE
 
-	EL_MODULE_DIRECTORY EL_MODULE_TUPLE
+	EL_MODULE_DIRECTORY; EL_MODULE_TUPLE
 
 	SHARED_DEV_ENVIRON
 
@@ -71,8 +71,8 @@ feature {NONE} -- Implementation
 
 	print_digest (output_path: FILE_PATH)
 		do
-			log.put_labeled_string ("Digest " + output_path.base, raw_file_digest (output_path).to_base_64_string)
-			log.put_new_line
+			lio.put_labeled_string ("Digest " + output_path.base, raw_file_digest (output_path).to_base_64_string)
+			lio.put_new_line
 		end
 
 	source_dir: DIR_PATH

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-19 19:47:26 GMT (Monday 19th December 2022)"
-	revision: "37"
+	date: "2022-12-31 14:33:58 GMT (Saturday 31st December 2022)"
+	revision: "38"
 
 class
 	REFLECTION_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_EIFFEL; EL_MODULE_LIO
+	EL_MODULE_EIFFEL
 
 	EL_SHARED_CURRENCY_ENUM
 
@@ -158,15 +158,21 @@ feature -- Tests
 	test_reflected_collection_factory
 		local
 			type_list: ARRAY [TYPE [ANY]]; type_id: INTEGER
-			factory_type: TYPE [ANY]
+			factory_type: TYPE [ANY]; type_name: STRING
 		do
 			type_list := << {INTEGER}, {STRING}, {COUNTRY} >>
 			across type_list as type loop
+				type_name := Eiffel.substituted_type_name (
+					{EL_REFLECTED_COLLECTION_FACTORY [ANY, EL_REFLECTED_COLLECTION [ANY]]}, {ANY}, type.item
+				)
 				if attached Collection_field_factory_factory.new_item_factory (type.item.type_id) as factory then
-					lio.put_labeled_string ("Type", factory.generating_type.name)
+					lio.put_labeled_string ("Created", factory.generating_type.name)
 					lio.put_new_line
 				else
-					assert ("created factory", False)
+					lio.put_labeled_string ("Failed to create", type_name)
+					lio.put_new_line
+--					{INTEGER} expected to fail, (but at one point it was succeeding, why ??)
+					assert ("created factory", type.cursor_index = 1)
 				end
 			end
 		end

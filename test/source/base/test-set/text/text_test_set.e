@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 9:47:40 GMT (Thursday 29th December 2022)"
-	revision: "11"
+	date: "2022-12-31 14:33:35 GMT (Saturday 31st December 2022)"
+	revision: "12"
 
 class
 	TEXT_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_CONVERT_STRING; EL_MODULE_FORMAT; EL_MODULE_LIO
+	EL_MODULE_CONVERT_STRING; EL_MODULE_FORMAT
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 

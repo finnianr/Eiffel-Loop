@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 9:54:28 GMT (Thursday 29th December 2022)"
-	revision: "22"
+	date: "2023-01-01 8:53:25 GMT (Sunday 1st January 2023)"
+	revision: "23"
 
 class
 	JSON_PARSING_TEST_SET
@@ -18,9 +18,9 @@ inherit
 			new_lio
 		end
 
-	JSON_TEST_DATA
+	EL_CRC_32_TESTABLE
 
-	EL_CRC_32_TEST_ROUTINES
+	JSON_TEST_DATA
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 

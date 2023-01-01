@@ -19,13 +19,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 10:46:48 GMT (Thursday 1st December 2022)"
-	revision: "27"
+	date: "2023-01-01 9:18:30 GMT (Sunday 1st January 2023)"
+	revision: "28"
 
 deferred class
 	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO create make end, APPLICATION_TYPES -> TUPLE create default_create end]
 
 inherit
+	ANY
+
 	EL_FACTORY_CLIENT
 
 	EL_MODULE_ASCII; EL_MODULE_ARGS

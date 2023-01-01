@@ -1,21 +1,6 @@
 note
 	description: "Stateless class with reflective routines"
-	notes: "[
-		Any fields that are marked as being transient are not included in `field_table'. For example in
-		[$source EL_REFLECTIVELY_SETTABLE], the field `field_table' is marked as transient.
-		
-			field_table: EL_REFLECTED_FIELD_TABLE note option: transient attribute end
-
-		When inheriting this class, rename `field_included' as either `is_any_field' or `is_string_or_expanded_field'.
-
-		It is permitted to have a trailing underscore to prevent clashes with Eiffel keywords.
-		The field is settable with `set_field' by a name string that does not have a trailing underscore.
-
-		To adapt foreign names that do not follow the Eiffel snake_case word separation convention,
-		rename `import_name' in the inheritance clause to one of the predefined routines `from_*'.
-		If no adaptation is need rename it to `import_default'. Rename `export_name' in a similar manner
-		as required. Name exporting routines are named `to_*'.
-	]"
+	notes: "See end of class"
 	descendants: "See end of class"
 
 	author: "Finnian Reilly"
@@ -23,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-19 9:12:58 GMT (Monday 19th December 2022)"
-	revision: "63"
+	date: "2022-12-31 11:01:31 GMT (Saturday 31st December 2022)"
+	revision: "64"
 
 deferred class
 	EL_REFLECTIVE
@@ -408,6 +393,36 @@ feature {EL_CLASS_META_DATA} -- Constants
 		end
 
 note
+	notes: "[
+		Any fields that are marked as being transient are not included in `field_table'. For example in
+		[$source EL_REFLECTIVELY_SETTABLE], the field `field_table' is marked as transient.
+
+			field_table: EL_REFLECTED_FIELD_TABLE note option: transient attribute end
+
+		When inheriting this class, rename `field_included' as either `is_any_field' or `is_string_or_expanded_field'.
+
+		It is permitted to have a trailing underscore to prevent clashes with Eiffel keywords.
+		The field is settable with `set_field' by a name string that does not have a trailing underscore.
+
+		To adapt foreign names that do not follow the Eiffel snake_case word separation convention,
+		rename `import_name' in the inheritance clause to one of the predefined routines `from_*'.
+		If no adaptation is need rename it to `import_default'. Rename `export_name' in a similar manner
+		as required. Name exporting routines are named `to_*'.
+
+		**Transisent and Hidden fields**
+
+		When redefining `Transient_fields' or `Hidden_fields', always include the precursor regardless of
+		whether you think the precursor is empty. An empty leading field will do no harm:
+
+		For example:
+
+			Transient_fields: STRING
+				once
+					Result := Precursor + ", file_path"
+				end
+
+	]"
+
 	descendants: "[
 			EL_REFLECTIVE*
 				[$source EL_REFLECTIVELY_SETTABLE]*

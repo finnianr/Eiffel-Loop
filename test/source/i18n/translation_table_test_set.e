@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 9:26:39 GMT (Thursday 29th December 2022)"
-	revision: "18"
+	date: "2023-01-01 8:51:57 GMT (Sunday 1st January 2023)"
+	revision: "19"
 
 class
 	TRANSLATION_TABLE_TEST_SET
@@ -18,7 +18,7 @@ inherit
 			new_lio
 		end
 
-	EL_CRC_32_TEST_ROUTINES
+	EL_CRC_32_TESTABLE
 
 feature -- Basic operations
 
@@ -32,6 +32,7 @@ feature -- Basic operations
 feature -- Tests
 
 	test_reading_from_file
+		-- TRANSLATION_TABLE_TEST_SET.test_reading_from_file
 		do
 			do_test ("test_reading_from_file", 459241925, agent test_reading, [agent new_table_from_file])
 		end
@@ -61,13 +62,13 @@ feature {NONE} -- Implementation
 		do
 			across << "credits", "phrases", "words" >> as name loop
 				pyxis_file_path := Localization_dir + (name.item + ".pyx")
-				log.put_labeled_string ("Localization", pyxis_file_path.base)
-				log.put_new_line
+				lio.put_labeled_string ("Localization", pyxis_file_path.base)
+				lio.put_new_line
 				across << "en", "de" >> as language loop
 					table := new_table (language.item, pyxis_file_path)
 					across table as translation loop
-						log.put_string_field_to_max_length (translation.key, translation.item, 200)
-						log.put_new_line
+						lio.put_string_field_to_max_length (translation.key, translation.item, 200)
+						lio.put_new_line
 					end
 				end
 			end

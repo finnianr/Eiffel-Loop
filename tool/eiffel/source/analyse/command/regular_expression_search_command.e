@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 17:07:27 GMT (Thursday 29th December 2022)"
-	revision: "10"
+	date: "2022-12-30 18:04:31 GMT (Friday 30th December 2022)"
+	revision: "11"
 
 class
 	REGULAR_EXPRESSION_SEARCH_COMMAND
@@ -58,6 +58,9 @@ feature -- Basic operations
 		local
 			grep_options: ZSTRING; user_quit: BOOLEAN; count: INTEGER
 		do
+			lio.put_integer_field ("Manifest source file count", manifest.file_count)
+			lio.put_new_line_x2
+
 			create grep_options.make_empty
 			from until user_quit loop
 				from grep_options.wipe_out until grep_options.count > 0 loop

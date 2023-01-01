@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2022-12-31 10:49:13 GMT (Saturday 31st December 2022)"
+	revision: "5"
 
 class
 	EL_MONTH_TEXTS
@@ -117,7 +117,7 @@ feature {NONE} -- Implementation
 		-- comma-separated list of fields that will be treated as if they are transient attributes and
 		-- excluded from `field_table'
 		once
-			Result := "full_names, short_names"
+			Result := Precursor + ", full_names, short_names"
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-01-01 8:51:30 GMT (Sunday 1st January 2023)"
+	revision: "10"
 
 class
 	SIMPLE_CLIENT_SERVER_TEST_SET
@@ -20,9 +20,9 @@ inherit
 			new_lio
 		end
 
-	EL_CRC_32_TEST_ROUTINES
+	EL_CRC_32_TESTABLE
 
-	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_LOG
+	EL_MODULE_EXECUTION_ENVIRONMENT
 
 	SHARED_DEV_ENVIRON
 
@@ -67,15 +67,15 @@ feature {NONE} -- Implementation
 		do
 			create socket.make_client_by_port (8000, "localhost")
 			socket.set_latin_encoding (1)
-			log.put_line ("Connecting")
+			lio.put_line ("Connecting")
 			socket.connect
 			across << "greeting", "number 1", "number 2" >> as cmd loop
-				log.put_labeled_string ("Command", cmd.item)
-				log.put_new_line
+				lio.put_labeled_string ("Command", cmd.item)
+				lio.put_new_line
 				socket.put_line (cmd.item)
 				socket.read_line
-				log.put_labeled_string ("Response", socket.last_string (False))
-				log.put_new_line
+				lio.put_labeled_string ("Response", socket.last_string (False))
+				lio.put_new_line
 			end
 			socket.put_line (Quit_cmd)
 			socket.close

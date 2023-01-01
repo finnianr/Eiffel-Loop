@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 9:27:26 GMT (Thursday 29th December 2022)"
-	revision: "10"
+	date: "2022-12-31 14:30:09 GMT (Saturday 31st December 2022)"
+	revision: "11"
 
 class
 	EROS_TEST_SET
@@ -18,6 +18,8 @@ inherit
 			on_prepare, on_clean
 		end
 
+	EL_MODULE_EXECUTION_ENVIRONMENT
+
 	EROS_REMOTE_CALL_CONSTANTS undefine default_create end
 
 	FFT_ONCE_ROUTINE_NAMES
@@ -27,8 +29,6 @@ inherit
 		undefine
 			default_create
 		end
-
-	EL_MODULE_EXECUTION_ENVIRONMENT
 
 feature {NONE} -- Initiliazation
 

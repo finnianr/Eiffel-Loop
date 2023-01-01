@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "28"
+	date: "2022-12-31 10:50:47 GMT (Saturday 31st December 2022)"
+	revision: "29"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -228,7 +228,7 @@ feature {NONE} -- Constants
 
 	Transient_fields: STRING
 		once
-			Result := "content, headers"
+			Result := Precursor + ", content, headers"
 		end
 
 	Snake_case_upper: EL_SNAKE_CASE_TRANSLATER

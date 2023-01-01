@@ -13,11 +13,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2023-01-01 9:16:41 GMT (Sunday 1st January 2023)"
+	revision: "15"
 
 deferred class
-	EL_CRC_32_TEST_ROUTINES
+	EL_CRC_32_TESTABLE
 
 inherit
 	EL_MODULE_FILE
@@ -28,21 +28,19 @@ inherit
 
 	EL_SHARED_TEST_CRC
 
-	EL_SHARED_DIGESTS
-
 feature {NONE} -- Implementation
 
 	assert (a_tag: STRING; a_condition: BOOLEAN)
 		deferred
 		end
 
-	do_test (name: STRING; target: NATURAL test: PROCEDURE; operands: TUPLE)
+	do_test (name: STRING; target_checksum: NATURAL test: PROCEDURE; operands: TUPLE)
 		require
 			valid_lio: attached {EL_CRC_32_CONSOLE_AND_FILE_LOG} lio
 			valid_log_manager: attached {EL_CRC_32_LOG_MANAGER} Log_manager
 			valid_operands: test.valid_operands (operands)
 		local
-			actual: NATURAL
+			actual_checksum: NATURAL
 		do
 			Test_crc.reset
 			if operands.is_empty then
@@ -53,32 +51,15 @@ feature {NONE} -- Implementation
 			test.call (operands)
 			log.exit
 
-			actual := Test_crc.checksum
-			if target /= actual then
-				log.put_natural_field ("Target checksum", target)
-				log.put_natural_field (" Actual checksum", actual)
+			actual_checksum := Test_crc.checksum
+			log.put_new_line
+
+			if target_checksum /= actual_checksum then
+				log.put_natural_field ("Expected checksum", target_checksum)
+				log.put_natural_field (" actual checksum", actual_checksum)
 				log.put_new_line
-				assert ("checksums agree", False)
+				assert ("Routine %"" + name + "%" checksums agree", False)
 			end
-		end
-
-	os_checksum (unix, windows: NATURAL): NATURAL
-		do
-			if {PLATFORM}.is_unix then
-				Result := unix
-			else
-				Result := windows
-			end
-		end
-
-	plain_text_digest (file_path: FILE_PATH): EL_DIGEST_ARRAY
-		do
-			create Result.make_from_plain_text (MD5_128, file_path)
-		end
-
-	raw_file_digest (file_path: FILE_PATH): EL_DIGEST_ARRAY
-		do
-			create Result.make_from_memory (MD5_128, File.data (file_path))
 		end
 
 end

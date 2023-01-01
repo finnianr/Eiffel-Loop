@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2022-12-31 11:02:42 GMT (Saturday 31st December 2022)"
+	revision: "21"
 
 class
 	EVOLICITY_AUTOTEST_APP
@@ -20,7 +20,7 @@ create
 
 feature {NONE} -- Implementation
 
-	compile_also: TUPLE [EVOLICITY_TUPLE_CONTEXT]
+	compile_also: TUPLE [EVOLICITY_TUPLE_CONTEXT, EVOLICITY_REFLECTIVE_SERIALIZEABLE]
 		do
 			create Result
 		end

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-30 10:44:31 GMT (Friday 30th December 2022)"
-	revision: "51"
+	date: "2022-12-31 16:28:34 GMT (Saturday 31st December 2022)"
+	revision: "52"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -40,7 +40,7 @@ inherit
 
 	EL_REFLECTION_CONSTANTS
 
-	EL_REFLECTION_HANDLER undefine is_equal end
+	EL_REFLECTION_HANDLER
 
 	EL_MODULE_EIFFEL
 

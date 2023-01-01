@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2022-12-31 16:23:57 GMT (Saturday 31st December 2022)"
+	revision: "8"
 
 class
 	EL_CONSOLE_ROUTINE_LOG
@@ -18,6 +18,13 @@ inherit
 create
 	make
 
+feature -- Element change
+
+	set_output (a_output: like output)
+		do
+			output := a_output
+		end
+
 feature {NONE} -- Initialization
 
 	make (a_output: like output)
@@ -26,7 +33,7 @@ feature {NONE} -- Initialization
 			output := a_output
 		end
 
-feature {NONE} -- Implementation
+feature {EL_LOG_HANDLER} -- Internal attributes
 
 	output: EL_CONSOLE_LOG_OUTPUT
 

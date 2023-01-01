@@ -6,16 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 5:54:56 GMT (Saturday 26th November 2022)"
-	revision: "26"
+	date: "2023-01-01 9:05:36 GMT (Sunday 1st January 2023)"
+	revision: "27"
 
 class
 	EL_COMMAND_ARGUMENT
 
 inherit
-	EL_MODULE_ARGS
+	ANY
 
 	EL_FACTORY_CLIENT
+
+	EL_MODULE_ARGS
 
 create
 	make

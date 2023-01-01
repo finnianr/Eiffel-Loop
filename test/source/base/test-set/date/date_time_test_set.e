@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 10:02:25 GMT (Thursday 29th December 2022)"
-	revision: "26"
+	date: "2022-12-31 14:34:05 GMT (Saturday 31st December 2022)"
+	revision: "27"
 
 class
 	DATE_TIME_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_DATE; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_LIO; EL_MODULE_TUPLE
+	EL_MODULE_DATE; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_TUPLE
 
 	TIME_VALIDITY_CHECKER undefine default_create end
 

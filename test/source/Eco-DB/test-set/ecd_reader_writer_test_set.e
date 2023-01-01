@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-28 10:30:40 GMT (Wednesday 28th December 2022)"
-	revision: "18"
+	date: "2023-01-01 8:49:47 GMT (Sunday 1st January 2023)"
+	revision: "19"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -18,9 +18,9 @@ inherit
 			new_lio
 		end
 
-	COUNTRY_TEST_DATA
+	EL_CRC_32_TESTABLE
 
-	EL_CRC_32_TEST_ROUTINES
+	COUNTRY_TEST_DATA
 
 	EL_SHARED_CURRENCY_ENUM
 

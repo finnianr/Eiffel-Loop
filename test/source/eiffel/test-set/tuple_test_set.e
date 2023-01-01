@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-18 6:19:56 GMT (Friday 18th November 2022)"
-	revision: "5"
+	date: "2022-12-31 14:31:50 GMT (Saturday 31st December 2022)"
+	revision: "6"
 
 class
 	TUPLE_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
-
-	EL_MODULE_LIO
 
 feature -- Basic operations
 

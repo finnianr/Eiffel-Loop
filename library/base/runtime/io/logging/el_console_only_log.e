@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 12:03:35 GMT (Saturday 3rd December 2022)"
-	revision: "22"
+	date: "2022-12-31 17:21:56 GMT (Saturday 31st December 2022)"
+	revision: "23"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -284,7 +284,7 @@ feature -- Numeric output
 			log_sink.put_real_field (label, field_value)
 		end
 
-feature {EL_CONSOLE_ONLY_LOG, EL_MODULE_LIO} -- Element change
+feature {EL_LOG_HANDLER} -- Element change
 
 	restore (previous_stack_count: INTEGER)
 			--
@@ -302,6 +302,11 @@ feature {EL_CONSOLE_ONLY_LOG, EL_MODULE_LIO} -- Element change
 			log_sink.set_timer
 		end
 
+	set_log_sink (a_log_sink: like log_sink)
+		do
+			log_sink := a_log_sink
+		end
+
 feature {NONE} -- Implementation
 
 	new_output: EL_CONSOLE_LOG_OUTPUT
@@ -313,7 +318,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Internal attributes
+feature {EL_LOG_HANDLER} -- Internal attributes
 
 	log_sink: EL_LOGGABLE
 

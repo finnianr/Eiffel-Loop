@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-18 6:32:07 GMT (Friday 18th November 2022)"
-	revision: "7"
+	date: "2022-12-31 14:27:56 GMT (Saturday 31st December 2022)"
+	revision: "8"
 
 class
 	AGENT_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_EIFFEL; EL_MODULE_LIO
+	EL_MODULE_EIFFEL
 
 	EL_ROUTINE_INFO_FACTORY undefine default_create end
 

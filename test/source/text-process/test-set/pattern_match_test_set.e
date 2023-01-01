@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 9:51:58 GMT (Thursday 29th December 2022)"
-	revision: "24"
+	date: "2022-12-31 14:32:03 GMT (Saturday 31st December 2022)"
+	revision: "25"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -26,7 +26,7 @@ inherit
 			default_create
 		end
 
-	EL_MODULE_LIO; EL_MODULE_XML
+	EL_MODULE_XML
 
 	TP_SHARED_OPTIMIZED_FACTORY
 

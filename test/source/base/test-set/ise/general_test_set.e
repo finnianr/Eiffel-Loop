@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-26 15:53:51 GMT (Monday 26th December 2022)"
-	revision: "31"
+	date: "2022-12-31 14:33:52 GMT (Saturday 31st December 2022)"
+	revision: "32"
 
 class
 	GENERAL_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_BASE_64; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_LIO; EL_MODULE_NAMING
+	EL_MODULE_BASE_64; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_NAMING
 
 	EL_MODULE_REUSEABLE
 

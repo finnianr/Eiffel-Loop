@@ -6,22 +6,38 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-21 21:28:56 GMT (Wednesday 21st December 2022)"
-	revision: "9"
+	date: "2023-01-01 14:52:00 GMT (Sunday 1st January 2023)"
+	revision: "10"
 
-class
+deferred class
 	EL_EIF_OBJ_BUILDER_CONTEXT_TYPE_CONSTANTS
 
+inherit
+	EL_ANY_SHARED
+
 feature {NONE} -- Implementation
+
+	Eiffel_object_builder_types: EL_REFLECTED_REFERENCE_LIST
+		once
+			create Result.make (extra_field_types)
+		end
 
 	extra_field_types: TUPLE [EL_REFLECTED_REFERENCE [EL_EIF_OBJ_BUILDER_CONTEXT]]
 		do
 			create Result
 		end
 
-	Eiffel_object_builder_types: EL_REFLECTED_REFERENCE_LIST
+feature {NONE} -- Node types
+
+	Attribute_node: INTEGER = 1
+
+	Element_node: INTEGER = 2
+
+	Node_types: ARRAY [INTEGER]
 		once
-			create Result.make (extra_field_types)
+			Result := << Attribute_node, Element_node, Text_element_node >>
 		end
+
+	Text_element_node: INTEGER = 3
 
 end

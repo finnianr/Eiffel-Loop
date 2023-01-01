@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-18 7:13:36 GMT (Friday 18th November 2022)"
-	revision: "7"
+	date: "2022-12-31 14:32:21 GMT (Saturday 31st December 2022)"
+	revision: "8"
 
 class
 	DATE_TIME_2_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_LIO
+	EL_MODULE_EXECUTION_ENVIRONMENT
 
 feature -- Basic operations
 

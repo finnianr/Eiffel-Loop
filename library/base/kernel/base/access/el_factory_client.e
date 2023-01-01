@@ -6,10 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-01-01 9:00:39 GMT (Sunday 1st January 2023)"
+	revision: "7"
 
-class
+deferred class
 	EL_FACTORY_CLIENT
+
+inherit
+	EL_FEATURE_ACCESS
 
 end

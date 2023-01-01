@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:29:27 GMT (Monday 5th December 2022)"
-	revision: "9"
+	date: "2022-12-31 10:58:08 GMT (Saturday 31st December 2022)"
+	revision: "10"
 
 deferred class
 	EL_SLIDE_SHOW
@@ -21,6 +21,7 @@ deferred class
 inherit
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
 		rename
+			field_included as is_any_field,
 			make_from_file as make
 		redefine
 			make, Transient_fields, Root_node_name
@@ -221,7 +222,12 @@ feature {NONE} -- Constants
 			Result := "~ %S ~"
 		end
 
-	Transient_fields: STRING = "config_name, dimensions, integer, group_list, pixmap, counter"
+	Transient_fields: STRING
+		-- comma-separated list of fields that will be treated as if they are transient attributes and
+		-- excluded from `field_table'
+		once
+			Result := Precursor + ", config_name, dimensions, integer, group_list, pixmap, counter"
+		end
 
 note
 	notes: "[

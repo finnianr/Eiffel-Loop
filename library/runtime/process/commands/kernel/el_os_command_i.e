@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-30 9:30:46 GMT (Friday 30th December 2022)"
-	revision: "41"
+	date: "2022-12-31 10:50:12 GMT (Saturday 31st December 2022)"
+	revision: "42"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -388,8 +388,9 @@ feature {NONE} -- Constants
 
 	Transient_fields: STRING
 		once
-			Result := "dry_run_enabled, getter_functions, internal_error_list, is_forked, has_error,%
-							%on_encoding_change, other_encoding, output_path, template_path"
+			Result := Precursor +
+				", dry_run_enabled, getter_functions, internal_error_list, is_forked,%
+				%has_error, on_encoding_change, other_encoding, output_path, template_path"
 		end
 
 note

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 13:22:18 GMT (Saturday 3rd December 2022)"
-	revision: "12"
+	date: "2022-12-31 11:04:17 GMT (Saturday 31st December 2022)"
+	revision: "13"
 
 class
 	PP_HTTP_RESPONSE
@@ -130,7 +130,7 @@ feature {NONE} -- Constants
 			-- Fields that will not be output by `print_fields'
 			-- Must be comma-separated names
 		once
-			Result := "time_stamp"
+			Result := Precursor + ", time_stamp"
 		end
 
 end

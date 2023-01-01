@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 10:07:10 GMT (Thursday 29th December 2022)"
-	revision: "7"
+	date: "2023-01-01 8:41:04 GMT (Sunday 1st January 2023)"
+	revision: "8"
 
 deferred class
 	EL_LOCALIZATION_TEST
@@ -20,9 +20,6 @@ inherit
 	EL_MODULE_LOCALE
 
 	EL_REFLECTION_HANDLER
-		undefine
-			default_create
-		end
 
 feature {NONE} -- Deferred
 

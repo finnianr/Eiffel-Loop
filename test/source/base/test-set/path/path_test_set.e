@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 17:57:21 GMT (Thursday 29th December 2022)"
-	revision: "13"
+	date: "2022-12-31 14:33:31 GMT (Saturday 31st December 2022)"
+	revision: "14"
 
 class
 	PATH_TEST_SET
@@ -15,9 +15,7 @@ class
 inherit
 	EIFFEL_LOOP_TEST_SET
 
-	EL_MODULE_COMMAND
-
-	EL_MODULE_DIRECTORY
+	EL_MODULE_COMMAND; EL_MODULE_DIRECTORY
 
 feature -- Basic operations
 

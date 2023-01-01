@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 10:25:55 GMT (Saturday 3rd December 2022)"
-	revision: "17"
+	date: "2022-12-31 18:11:41 GMT (Saturday 31st December 2022)"
+	revision: "18"
 
 class
 	EL_CONSOLE_AND_FILE_LOG
@@ -51,7 +51,7 @@ feature -- Element change
 			log_sink.restore (previous_stack_count)
 		end
 
-feature {EL_CONSOLE_ONLY_LOG, EL_MODULE_LOG} -- Element change
+feature {EL_LOG_HANDLER} -- Element change
 
 	set_log_sink_for_routine (routine: EL_LOGGED_ROUTINE)
 			--
@@ -165,7 +165,7 @@ feature {NONE} -- Implementation
 			Result := logging.is_user_prompt_active
 		end
 
-feature {NONE} -- Internal attributes
+feature {EL_LOG_HANDLER} -- Internal attributes
 
 	disabled_call_forward_log: EL_SILENT_LOG
 

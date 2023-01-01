@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-30 9:03:26 GMT (Friday 30th December 2022)"
-	revision: "13"
+	date: "2022-12-31 10:47:42 GMT (Saturday 31st December 2022)"
+	revision: "14"
 
 class
 	FTP_BACKUP
@@ -16,6 +16,7 @@ inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
 		rename
 			element_node_fields as Empty_set,
+			field_included as is_any_field,
 			xml_naming as eiffel_naming
 		redefine
 			on_context_exit, Transient_fields
@@ -26,7 +27,7 @@ inherit
 	EL_MODULE_LIO
 
 create
-	make, make_default
+	make
 
 feature {NONE} -- Initialization
 
@@ -107,7 +108,7 @@ feature {NONE} -- Constants
 
 	Transient_fields: STRING
 		once
-			Result := "total_byte_count, config"
+			Result := Precursor + ", total_byte_count, config"
 		end
 
 	Tar_gz: ZSTRING

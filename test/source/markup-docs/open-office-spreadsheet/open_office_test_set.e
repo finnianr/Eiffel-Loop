@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 9:27:02 GMT (Thursday 29th December 2022)"
-	revision: "26"
+	date: "2023-01-01 8:51:18 GMT (Sunday 1st January 2023)"
+	revision: "27"
 
 class
 	OPEN_OFFICE_TEST_SET
@@ -28,7 +28,7 @@ inherit
 			new_lio
 		end
 
-	EL_CRC_32_TEST_ROUTINES
+	EL_CRC_32_TESTABLE
 
 feature -- Basic operations
 
@@ -66,13 +66,13 @@ feature {NONE} -- Implementation
 			create spread_sheet.make_with_root_node (root_node, name, "")
 			across spread_sheet as table loop
 				across table.item as row loop
-					log.put_integer_field ("Row", row.cursor_index)
-					log.put_string_field (" Type", row.item.cell ("Type").text)
-					log.put_string_field (" Title", row.item.cell ("Title").text)
-					log.put_new_line
-					log.put_integer_field ("Description paragraph count", row.item.cell ("Description").paragraphs.count)
-					log.put_new_line
-					log.put_new_line
+					lio.put_integer_field ("Row", row.cursor_index)
+					lio.put_string_field (" Type", row.item.cell ("Type").text)
+					lio.put_string_field (" Title", row.item.cell ("Title").text)
+					lio.put_new_line
+					lio.put_integer_field ("Description paragraph count", row.item.cell ("Description").paragraphs.count)
+					lio.put_new_line
+					lio.put_new_line
 				end
 			end
 		end

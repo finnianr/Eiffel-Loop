@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2022-12-31 11:03:12 GMT (Saturday 31st December 2022)"
+	revision: "10"
 
 deferred class
 	EVOLICITY_REFLECTIVE_SERIALIZEABLE
@@ -43,6 +43,6 @@ feature {NONE} -- Constants
 	Transient_fields: STRING
 		-- comma-separated list of fields to be excluded from `field_table'
 		once
-			Result := "encoding, output_path, template_path"
+			Result := Precursor + ", encoding, output_path, template_path"
 		end
 end

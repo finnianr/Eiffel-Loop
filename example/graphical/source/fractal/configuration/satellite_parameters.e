@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2022-12-31 10:59:44 GMT (Saturday 31st December 2022)"
+	revision: "12"
 
 class
 	SATELLITE_PARAMETERS
@@ -16,6 +16,7 @@ inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
 		rename
 			element_node_fields as Empty_set,
+			field_included as is_any_field,
 			xml_naming as eiffel_naming
 		redefine
 			make_default, building_action_table

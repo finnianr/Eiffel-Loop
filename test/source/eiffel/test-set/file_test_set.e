@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-18 6:22:04 GMT (Friday 18th November 2022)"
-	revision: "16"
+	date: "2022-12-31 14:30:03 GMT (Saturday 31st December 2022)"
+	revision: "17"
 
 class
 	FILE_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_LIO
+	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT
 
 	EL_MODULE_OS; EL_MODULE_SYSTEM
 
@@ -33,12 +33,12 @@ feature -- Basic operations
 
 	date_setting
 		local
-			file, file_copy: RAW_FILE
+			png_file, file_copy: RAW_FILE
 		do
-			create file.make_open_read ("data\01.png")
+			create png_file.make_open_read ("data\01.png")
 			create file_copy.make_open_write ("workarea\01(copy).png")
-			file.copy_to (file_copy)
-			file.close; file_copy.close
+			png_file.copy_to (file_copy)
+			png_file.close; file_copy.close
 			file_copy.stamp (1418308263)
 		end
 
@@ -69,12 +69,12 @@ feature -- Basic operations
 
 	launch_remove_files_script
 		local
-			script: FILE_PATH; file: PLAIN_TEXT_FILE
+			script: FILE_PATH; bat_file: PLAIN_TEXT_FILE
 		do
 --			script := "/tmp/eros removal.sh"
 			script := Directory.temporary + "eros remove files.bat"
-			create file.make_with_name (script)
-			file.add_permission ("uog", "x")
+			create bat_file.make_with_name (script)
+			bat_file.add_permission ("uog", "x")
 			Execution_environment.launch ("call " + script.escaped)
 		end
 
@@ -89,13 +89,13 @@ feature -- Basic operations
 
 	position
 		local
-			file: PLAIN_TEXT_FILE
+			txt_file: PLAIN_TEXT_FILE
 		do
-			create file.make_open_write ("workarea\test.txt")
-			file.put_string ("one two three")
-			lio.put_integer_field ("file.position", file.position)
-			file.close
-			file.delete
+			create txt_file.make_open_write ("workarea\test.txt")
+			txt_file.put_string ("one two three")
+			lio.put_integer_field ("file.position", txt_file.position)
+			txt_file.close
+			txt_file.delete
 		end
 
 	print_app_data
@@ -111,16 +111,16 @@ feature -- Basic operations
 
 	stamp
 		local
-			file: PLAIN_TEXT_FILE
+			txt_file: PLAIN_TEXT_FILE
 			date: DATE_TIME
 		do
-			create file.make_open_write ("workarea\file.txt")
-			file.put_string ("hello"); file.close
---			file.add_permission ("u", "Write Attributes")
+			create txt_file.make_open_write ("workarea\file.txt")
+			txt_file.put_string ("hello"); txt_file.close
+--			txt_file.add_permission ("u", "Write Attributes")
 			create date.make_from_epoch (1418308263)
 			lio.put_labeled_string ("Date", date.out)
-			file.set_date (1418308263)
-			file.delete
+			txt_file.set_date (1418308263)
+			txt_file.delete
 		end
 
 end

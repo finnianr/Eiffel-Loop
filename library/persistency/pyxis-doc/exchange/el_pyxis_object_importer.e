@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-28 10:28:57 GMT (Wednesday 28th December 2022)"
-	revision: "2"
+	date: "2022-12-31 9:18:01 GMT (Saturday 31st December 2022)"
+	revision: "3"
 
 class
 	EL_PYXIS_OBJECT_IMPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
@@ -61,12 +61,12 @@ feature {NONE} -- Build from XML
 			--
 		do
 			create Result.make (<<
-				["item", agent extend_item],
+				["item", agent set_extended_list_context],
 				["@software_version", agent do software_version := node end]
 			>>)
 		end
 
-	extend_item
+	set_extended_list_context
 		do
 			list.extend (create {G}.make_default)
 			item_context.set_object (list.last)
