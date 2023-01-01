@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-28 18:59:32 GMT (Wednesday 28th December 2022)"
-	revision: "22"
+	date: "2023-01-01 17:00:09 GMT (Sunday 1st January 2023)"
+	revision: "23"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -138,6 +138,23 @@ feature -- Access
 			Result := xml_out.text
 		end
 
+feature -- Measurement
+
+	element_count (file_path: FILE_PATH; name: STRING; tab_count: INTEGER): INTEGER
+		local
+			element_line: STRING; s: EL_STRING_8_ROUTINES
+		do
+			if file_path.exists then
+				element_line := s.n_character_string ('%T', tab_count) + name
+				element_line.append_character (':')
+				across File.plain_text_lines (file_path) as line loop
+					if line.item_starts_with (element_line) then
+						Result := Result + 1
+					end
+				end
+			end
+		end
+
 feature -- Constants
 
 	Type_boolean: INTEGER = 1
@@ -148,11 +165,6 @@ feature -- Constants
 
 feature {NONE} -- Constants
 
-	Pyxis_doc: ZSTRING
-		once
-			Result := "pyxis-doc:"
-		end
-
 	Header_template: ZSTRING
 		once
 			Result := "[
@@ -160,4 +172,9 @@ feature {NONE} -- Constants
 					version = 1.0; encoding = "#"
 			]"
 		end
+	Pyxis_doc: ZSTRING
+		once
+			Result := "pyxis-doc:"
+		end
+
 end

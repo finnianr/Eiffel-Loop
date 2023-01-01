@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-01-01 17:33:58 GMT (Sunday 1st January 2023)"
+	revision: "11"
 
 class
 	XML_TAG_LIST
@@ -27,8 +27,6 @@ inherit
 			copy, is_equal
 		end
 
-	EL_MODULE_XML
-
 create
 	make, make_empty
 
@@ -36,6 +34,8 @@ feature {NONE} -- Initialization
 
 	make (tag_name: STRING)
 			--
+		local
+			XML: XML_ROUTINES
 		do
 			make_sized (5)
 			extend (XML.open_tag (tag_name))

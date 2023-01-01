@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 9:16:52 GMT (Sunday 1st January 2023)"
-	revision: "17"
+	date: "2023-01-01 17:30:57 GMT (Sunday 1st January 2023)"
+	revision: "18"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
@@ -20,7 +20,7 @@ inherit
 
 	EL_CRC_32_TESTABLE
 
-	EL_MODULE_TUPLE; EL_MODULE_XML
+	EL_MODULE_TUPLE
 
 	EL_FILE_OPEN_ROUTINES
 
@@ -129,7 +129,7 @@ feature {NONE} -- Factory
 
 	new_metadata_name (name: STRING): STRING
 		local
-			s: EL_STRING_8_ROUTINES
+			s: EL_STRING_8_ROUTINES; XML: XML_ROUTINES
 		do
 			if name.ends_with ("-date") then
 				Result :=  s.substring_to_reversed (name, '-', default_pointer)
@@ -143,6 +143,8 @@ feature {NONE} -- Factory
 		end
 
 	new_root_node (body_path: FILE_PATH): EL_XML_DOC_CONTEXT
+		local
+			XML: XML_ROUTINES
 		do
 			create Result.make_from_string (XML.document_text ("body", "UTF-8", File.plain_text (body_path)))
 		end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:32:03 GMT (Saturday 31st December 2022)"
-	revision: "25"
+	date: "2023-01-01 17:31:20 GMT (Sunday 1st January 2023)"
+	revision: "26"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -25,8 +25,6 @@ inherit
 		undefine
 			default_create
 		end
-
-	EL_MODULE_XML
 
 	TP_SHARED_OPTIMIZED_FACTORY
 
@@ -85,7 +83,7 @@ feature -- Test
 				"covers/{TP_P2_WHILE_NOT_P1_MATCH}.match_count",
 				"covers/{TP_ANY_WHILE_NOT_P_MATCH}.match_count"
 		local
-			output: ZSTRING; pattern: like all_of
+			output: ZSTRING; pattern: like all_of; XML: XML_ROUTINES
 			xml_text_element: like xml_text_element_list.item
 		do
 			create output.make_empty

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2023-01-01 17:25:13 GMT (Sunday 1st January 2023)"
+	revision: "12"
 
 deferred class
 	EL_MODULE_XML
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Constants
 
-	XML: XML_ROUTINES
+	XML: XML_ROUTINES_IMP
 			--
 		once
 			create Result

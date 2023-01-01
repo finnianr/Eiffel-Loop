@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 14:52:18 GMT (Sunday 1st January 2023)"
-	revision: "22"
+	date: "2023-01-01 17:29:10 GMT (Sunday 1st January 2023)"
+	revision: "23"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT

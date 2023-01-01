@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:26:06 GMT (Monday 5th December 2022)"
-	revision: "20"
+	date: "2023-01-01 17:33:36 GMT (Sunday 1st January 2023)"
+	revision: "21"
 
 class
 	EL_XHTML_STRING_LIST
@@ -27,8 +27,6 @@ inherit
 			call
 		end
 
-	EL_MODULE_XML
-
 	XML_ZSTRING_CONSTANTS
 
 create
@@ -39,7 +37,7 @@ feature {NONE} -- Initialization
 	make_from_file (file_path: FILE_PATH)
 			--
 		local
-			line_source: EL_PLAIN_TEXT_LINE_SOURCE
+			line_source: EL_PLAIN_TEXT_LINE_SOURCE; XML: XML_ROUTINES
 		do
 			make_sized (10)
 			create text_group_end_tags.make_from_array (<< "</p>" >>)

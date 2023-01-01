@@ -6,27 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2023-01-01 17:21:30 GMT (Sunday 1st January 2023)"
+	revision: "3"
 
-class
+deferred class
 	EL_MARKUP_TEMPLATES
+
+inherit
+	EL_ANY_SHARED
+
+	EL_MODULE_TUPLE
 
 feature {NONE} -- Constants
 
-	Tag_close: ZSTRING
+	Tag: TUPLE [close, empty, open: ZSTRING]
 		once
-			Result := "</%S>"
-		end
-
-	Tag_open: ZSTRING
-		once
-			Result := "<%S>"
-		end
-
-	Tag_empty: ZSTRING
-		once
-			Result := "<%S/>"
+			create Result
+			Tuple.fill (Result, "</%S>,<%S/>,<%S>")
 		end
 
 end

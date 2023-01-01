@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-01-01 17:30:18 GMT (Sunday 1st January 2023)"
+	revision: "6"
 
 class
 	EL_ATTRIBUTE_EDIT_TABLE
@@ -23,7 +23,6 @@ inherit
 		end
 
 	EL_MODULE_REUSEABLE
-	EL_MODULE_XML
 
 create
 	make, make_size
@@ -35,7 +34,7 @@ feature -- Basic operations
 		require
 			is_element: element.enclosed_with ("<>")
 		local
-			start_index, end_index: INTEGER
+			start_index, end_index: INTEGER; XML: XML_ROUTINES
 			name, ending: ZSTRING; quote_splitter: EL_SPLIT_ON_CHARACTER [ZSTRING]
 		do
 			start_index := element.index_of ('=', 1)

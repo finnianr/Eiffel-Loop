@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-01-01 17:22:07 GMT (Sunday 1st January 2023)"
+	revision: "13"
 
 class
 	EL_MARKUP_ROUTINES
 
 inherit
+	ANY
+
 	EL_MARKUP_TEMPLATES
+		rename
+			Tag as Tag_template
+		end
 
 feature -- Access
 
@@ -48,19 +53,19 @@ feature -- Mark up
 	closed_tag (name: READABLE_STRING_GENERAL): ZSTRING
 			-- closed tag markup
 		do
-			Result := Tag_close #$ [name]
+			Result := Tag_template.close #$ [name]
 		end
 
 	empty_tag (name: READABLE_STRING_GENERAL): ZSTRING
 			-- empty tag markup
 		do
-			Result := Tag_empty #$ [name]
+			Result := Tag_template.empty #$ [name]
 		end
 
 	open_tag (name: READABLE_STRING_GENERAL): ZSTRING
 			-- open tag markup
 		do
-			Result := Tag_open #$ [name]
+			Result := Tag_template.open #$ [name]
 		end
 
 	parent_element_markup (name, element_list: READABLE_STRING_GENERAL): ZSTRING

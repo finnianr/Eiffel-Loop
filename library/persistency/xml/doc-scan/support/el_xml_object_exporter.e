@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 12:54:34 GMT (Sunday 1st January 2023)"
-	revision: "1"
+	date: "2023-01-01 17:36:39 GMT (Sunday 1st January 2023)"
+	revision: "2"
 
 class
 	EL_XML_OBJECT_EXPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
@@ -17,7 +17,7 @@ inherit
 
 	EL_REFLECTION_HANDLER
 
-	EL_MODULE_REUSEABLE; EL_MODULE_XML; EL_MODULE_TUPLE
+	EL_MODULE_REUSEABLE; EL_MODULE_TUPLE
 
 	XML_ZSTRING_CONSTANTS
 
@@ -39,6 +39,8 @@ feature {NONE} -- Initialization
 feature -- Basic operations
 
 	put_header (output: EL_OUTPUT_MEDIUM)
+		local
+			XML: XML_ROUTINES
 		do
 			output.put_string_8 (XML.header (1.0, output.encoding_name))
 			output.put_new_line

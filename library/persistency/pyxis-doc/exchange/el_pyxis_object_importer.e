@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 9:18:01 GMT (Saturday 31st December 2022)"
-	revision: "3"
+	date: "2023-01-01 17:01:53 GMT (Sunday 1st January 2023)"
+	revision: "4"
 
 class
 	EL_PYXIS_OBJECT_IMPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
@@ -30,22 +30,11 @@ feature {NONE} -- Initialization
 	make (a_file_path: FILE_PATH)
 		require else
 			file_exists: a_file_path.exists
-		local
-			file: PLAIN_TEXT_FILE; item_count: INTEGER
 		do
-			create file.make_open_read (a_file_path)
-			from until file.end_of_file loop
-				file.read_line
-				if file.last_string.starts_with (Tab_item) then
-					item_count := item_count + 1
-				end
-			end
-			file.close
-			create list.make (item_count)
+			create list.make (Pyxis.element_count (a_file_path, "item", 1))
 			root_node_name := Pyxis.root_element_name_for_type ({G})
 
 			create item_context.make (new_item)
-
 			Precursor (a_file_path)
 		end
 
@@ -85,9 +74,5 @@ feature {NONE} -- Internal attributes
 	item_context: EL_EIF_REFLECTIVE_BUILDER_CONTEXT
 
 	root_node_name: STRING
-
-feature {NONE} -- Constants
-
-	Tab_item: STRING = "%Titem:"
 
 end

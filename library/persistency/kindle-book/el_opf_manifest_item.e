@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-01-01 17:33:07 GMT (Sunday 1st January 2023)"
+	revision: "6"
 
 class
 	EL_OPF_MANIFEST_ITEM
 
 inherit
 	EVOLICITY_EIFFEL_CONTEXT
-
-	EL_MODULE_XML
 
 	EL_MEDIA_TYPE_CONSTANTS
 
@@ -54,13 +52,20 @@ feature -- Status query
 
 feature {NONE} -- Evolicity fields
 
+	escaped_href_path: ZSTRING
+		local
+			XML: XML_ROUTINES
+		do
+			Result := XML.escaped (href_path)
+		end
+
 	getter_function_table: like getter_functions
 			--
 		do
 			create Result.make (<<
 				["id",			agent: INTEGER_REF do Result := id.to_reference end],
 				["media_type", agent media_type],
-				["href", 		agent: ZSTRING do Result := XML.escaped (href_path) end]
+				["href", 		agent escaped_href_path]
 			>>)
 		end
 
