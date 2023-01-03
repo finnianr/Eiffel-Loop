@@ -541,3 +541,6 @@ Finished improved parser and pattern matching 2.0
 Mon 12th Dec 2022, 17:16:56
 Refactor for reflection factories and write method
 
+Tue 3rd Jan 2023, 9:49:42
+Reflection improvements
+

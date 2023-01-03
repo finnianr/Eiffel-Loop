@@ -1,13 +1,13 @@
 note
-	description: "Postal address"
+	description: "Paypal postal address"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-08 7:42:44 GMT (Thursday 8th December 2022)"
-	revision: "13"
+	date: "2023-01-03 18:11:44 GMT (Tuesday 3rd January 2023)"
+	revision: "14"
 
 class
 	PP_ADDRESS
@@ -16,7 +16,8 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_any_field,
-			foreign_naming as eiffel_naming
+			foreign_naming as eiffel_naming,
+			has_default_strings as is_empty
 		redefine
 			new_representations
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "23"
+	date: "2023-01-03 17:57:54 GMT (Tuesday 3rd January 2023)"
+	revision: "24"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -80,27 +80,5 @@ feature -- Access
 			end
 		end
 
-feature -- Element change
-
-	set_first_and_last (a_first, a_last: S)
-		do
-			if not is_empty then
-				put_i_th (a_first, 1); put_i_th (a_last, count)
-			end
-		end
-
-feature -- Removal
-
-	prune_all_empty
-			-- Remove empty items
-		do
-			from start until after loop
-				if item.is_empty then
-					remove
-				else
-					forth
-				end
-			end
-		end
 
 end

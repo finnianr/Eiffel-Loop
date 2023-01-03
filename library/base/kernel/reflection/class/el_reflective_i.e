@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-19 9:13:21 GMT (Monday 19th December 2022)"
-	revision: "10"
+	date: "2023-01-03 11:41:07 GMT (Tuesday 3rd January 2023)"
+	revision: "11"
 
 deferred class
 	EL_REFLECTIVE_I
@@ -23,6 +23,12 @@ feature {NONE} -- Implementation
 		end
 
 	field_table: EL_REFLECTED_FIELD_TABLE
+		deferred
+		end
+
+feature -- Contract Support
+
+	valid_field_names (names: STRING): BOOLEAN
 		deferred
 		end
 

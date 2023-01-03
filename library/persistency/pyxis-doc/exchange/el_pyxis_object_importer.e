@@ -1,13 +1,13 @@
 note
-	description: "Import items from file created by [$source EL_PYXIS_OBJECT_EXPORTER]"
+	description: "Import Pyxis data for object conforming to [$source EL_REFLECTIVELY_SETTABLE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 17:01:53 GMT (Sunday 1st January 2023)"
-	revision: "4"
+	date: "2023-01-03 13:14:36 GMT (Tuesday 3rd January 2023)"
+	revision: "6"
 
 class
 	EL_PYXIS_OBJECT_IMPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
@@ -16,63 +16,42 @@ inherit
 	EL_BUILDABLE_FROM_PYXIS
 		rename
 			make_from_file as make
+		undefine
+			new_building_actions
 		redefine
-			make
+			make_default
 		end
 
-	EL_MODULE_PYXIS
+	EL_REFLECTIVE_OBJECT_BUILDER_CONTEXT
+		rename
+			make as make_context
+		redefine
+			make_default
+		end
+
+	EL_MODULE_NAMING
 
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (a_file_path: FILE_PATH)
-		require else
-			file_exists: a_file_path.exists
+	make_default
 		do
-			create list.make (Pyxis.element_count (a_file_path, "item", 1))
-			root_node_name := Pyxis.root_element_name_for_type ({G})
-
-			create item_context.make (new_item)
-			Precursor (a_file_path)
+			create item.make_default; object := item
+			create context_table.make (3)
+			Precursor {EL_BUILDABLE_FROM_PYXIS}
 		end
 
 feature -- Access
 
-	list: EL_ARRAYED_LIST [G]
-
-	software_version: NATURAL
-
-feature {NONE} -- Build from XML
-
-	building_action_table: EL_PROCEDURE_TABLE [STRING]
-			--
-		do
-			create Result.make (<<
-				["item", agent set_extended_list_context],
-				["@software_version", agent do software_version := node end]
-			>>)
-		end
-
-	set_extended_list_context
-		do
-			list.extend (create {G}.make_default)
-			item_context.set_object (list.last)
-			set_next_context (item_context)
-		end
+	item: G
 
 feature {NONE} -- Implementation
 
-	new_item: G
-		do
-			create Result.make_default
-		end
-
-feature {NONE} -- Internal attributes
-
-	item_context: EL_EIF_REFLECTIVE_BUILDER_CONTEXT
-
 	root_node_name: STRING
+		do
+			Result := Naming.class_as_snake_lower ({G}, 0, 0)
+		end
 
 end

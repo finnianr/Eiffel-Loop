@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 17:29:10 GMT (Sunday 1st January 2023)"
-	revision: "23"
+	date: "2023-01-03 16:46:21 GMT (Tuesday 3rd January 2023)"
+	revision: "24"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -36,6 +36,8 @@ inherit
 
 	EL_EIF_OBJ_BUILDER_CONTEXT_TYPE_CONSTANTS
 
+	EL_ELEMENT_NODE_HINTS
+
 feature {NONE} -- Initialization
 
 	make_default
@@ -52,6 +54,40 @@ feature {EL_REFLECTION_HANDLER} -- Access
 		end
 
 feature {EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT} -- Factory
+
+	new_build_action (field: EL_REFLECTED_REFERENCE [ANY]; node_type: INTEGER): TUPLE [xpath: STRING; procedure: PROCEDURE]
+		local
+			reflective_context: EL_REFLECTIVE_OBJECT_BUILDER_CONTEXT
+		do
+			create Result
+			if attached {EL_REFLECTED_COLLECTION [EL_EIF_OBJ_BUILDER_CONTEXT]} field as builder_context_list then
+				Result.xpath := new_xpath (field, Element_node) + Item.xpath
+				Result.procedure := agent extend_context_collection (builder_context_list)
+
+			elseif attached {EL_REFLECTED_COLLECTION [ANY]} field as collection_field then
+				Result := [new_xpath (field, Element_node) + Item.text_xpath, agent extend_collection (collection_field)]
+
+			elseif attached {EL_REFLECTED_REFERENCE [EL_EIF_OBJ_BUILDER_CONTEXT]} field as context_field then
+				Result := [new_xpath (field, Element_node), agent set_builder_field_context (context_field)]
+
+			elseif attached {EL_REFLECTED_PATH} field as path_field then
+				Result := [new_xpath (field, node_type), agent set_path_field_from_node (path_field)]
+
+			elseif attached {EL_REFLECTED_STRING [READABLE_STRING_GENERAL]} field as string_field
+				and then string_field.is_value_cached
+			then
+				-- Field value caching
+				Result := [new_xpath (string_field, node_type), agent set_cached_field_from_node (string_field)]
+
+			elseif field.conforms_to_type (Class_id.EL_REFLECTIVE)
+				and then attached {EL_REFLECTIVE} field.value (field.enclosing_object) as reflective_value
+			then
+				create reflective_context.make (reflective_value)
+				Result := [new_xpath (field, Element_node), agent set_reflective_field_context (field, reflective_context)]
+			else
+				Result := [new_xpath (field, node_type), agent set_field_from_node (field)]
+			end
+		end
 
 	new_importable_list: EL_ARRAYED_LIST [EL_REFLECTED_FIELD]
 		do
@@ -106,8 +142,7 @@ feature {NONE} -- Build from XML
 		-- by default xpaths select an element attribute except for field in `element_set' which
 		-- select the text within an element.
 		local
-			field_list: like importable_list; l_xpath: STRING_8
-			node_type: INTEGER; field: EL_REFLECTED_FIELD
+			field_list: like importable_list; node_type: INTEGER; field: EL_REFLECTED_FIELD
 		do
 			field_list := importable_list
 			if type /= {ANY} then
@@ -121,36 +156,30 @@ feature {NONE} -- Build from XML
 				else
 					node_type := Attribute_node
 				end
-				if attached {EL_REFLECTED_COLLECTION [EL_EIF_OBJ_BUILDER_CONTEXT]} field as builder_context_list then
-					l_xpath := new_xpath (field, Element_node) + Item.xpath
-					Result [l_xpath] := agent extend_context_collection (builder_context_list)
-
-				elseif attached {EL_REFLECTED_COLLECTION [ANY]} field as collection_field then
-					l_xpath := new_xpath (field, Element_node) + Item.text_xpath
-					Result [l_xpath] := agent extend_collection (collection_field)
-
-				elseif attached {EL_REFLECTED_REFERENCE [EL_EIF_OBJ_BUILDER_CONTEXT]} field as context_field then
-					Result [new_xpath (field, Element_node)] := agent change_context (context_field)
-
-				elseif attached {EL_REFLECTED_PATH} field as path_field then
-					Result [new_xpath (field, node_type)] := agent set_path_field_from_node (path_field)
-
-				elseif attached {EL_REFLECTED_STRING [READABLE_STRING_GENERAL]} field as string_field
-					and then string_field.is_value_cached
+				if attached {EL_REFLECTED_REFERENCE [ANY]} field as ref_field
+					and then attached new_build_action (ref_field, node_type) as action
 				then
-					-- Field value caching
-					l_xpath := new_xpath (string_field, node_type)
-					Result [l_xpath] := agent set_cached_field_from_node (string_field)
+					Result [action.xpath] := action.procedure
 				else
 					Result [new_xpath (field, node_type)] := agent set_field_from_node (field)
 				end
 			end
 		end
 
-	change_context (context_field: EL_REFLECTED_REFERENCE [EL_EIF_OBJ_BUILDER_CONTEXT])
+	set_builder_field_context (context_field: EL_REFLECTED_REFERENCE [EL_EIF_OBJ_BUILDER_CONTEXT])
 		do
 			if attached {EL_EIF_OBJ_XPATH_CONTEXT} context_field.value (Current) as context then
 				set_next_context (context)
+			end
+		end
+
+	set_reflective_field_context (
+		field: EL_REFLECTED_REFERENCE [ANY]; reflective_context: EL_REFLECTIVE_OBJECT_BUILDER_CONTEXT
+	)
+		do
+			if attached {EL_REFLECTIVE} field.value (Current) as object then
+				reflective_context.set_object (object)
+				set_next_context (reflective_context)
 			end
 		end
 
@@ -197,15 +226,6 @@ feature {NONE} -- Build from XML
 
 feature {NONE} -- Implementation
 
-	element_node_field_set: EL_FIELD_INDICES_SET
-		do
-			if element_node_fields = All_fields then
-				create Result.make_for_any (field_table)
-			else
-				create Result.make_from_reflective (Current, element_node_fields)
-			end
-		end
-
 	is_importable (field: EL_REFLECTED_FIELD): BOOLEAN
 		local
 			basic_type, type_id, item_type_id: INTEGER
@@ -227,28 +247,7 @@ feature {NONE} -- Implementation
 			Result := Eiffel.type_of_type (type_id).conforms_to ({EL_EIF_OBJ_BUILDER_CONTEXT})
 		end
 
-feature {NONE} -- Deferred
-
-	element_node_fields: STRING
-		-- list of fields that will be treated as XML elements
-		-- (default is element attributes)
-		deferred
-		ensure
-			renamed_to_once_fields: Result.is_empty implies Result = Empty_set or Result = All_fields
-			valid_field_names: valid_field_names (Result)
-		end
-
 feature {NONE} -- Constants
-
-	All_fields: STRING
-		-- rename `element_node_fields' as this to treat all fields as XML elements rather than
-		-- attributes
-		once ("PROCESS")
-			create Result.make_empty
-		end
-
-	Empty_set: STRING = ""
-		-- rename `element_node_fields' as this to exclude all
 
 	Importable_fields_table_by_type: EL_FUNCTION_RESULT_TABLE [
 		EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT, EL_ARRAYED_LIST [EL_REFLECTED_FIELD]

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 11:01:31 GMT (Saturday 31st December 2022)"
-	revision: "64"
+	date: "2023-01-03 18:14:36 GMT (Tuesday 3rd January 2023)"
+	revision: "65"
 
 deferred class
 	EL_REFLECTIVE
@@ -46,11 +46,6 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	field_name_list: EL_STRING_LIST [STRING]
-		do
-			Result := meta_data.field_list.name_list
-		end
-
 	field_indices_set (field_names: detachable STRING): EL_FIELD_INDICES_SET
 		require
 			valid_names: attached field_names as names implies valid_field_names (names)
@@ -60,6 +55,11 @@ feature -- Access
 			else
 				Result := meta_data.cached_field_indices_set.item (Empty_string_8)
 			end
+		end
+
+	field_name_list: EL_STRING_LIST [STRING]
+		do
+			Result := meta_data.field_list.name_list
 		end
 
 feature -- Measurement
@@ -72,6 +72,21 @@ feature -- Measurement
 			across field_table as table loop
 				if attached {EL_REFLECTED_REFERENCE [ANY]} table.item as field then
 					Result := Result + field.size_of (Current)
+				end
+			end
+		end
+
+feature -- Status query
+
+	has_default_strings: BOOLEAN
+		-- `True' if all string fields are empty
+		do
+			Result := True
+			across meta_data.field_list as list until not Result loop
+				if attached {EL_REFLECTED_STRING [READABLE_STRING_GENERAL]} list.item as field
+					and then attached field.value (Current) as string
+				then
+					Result := string.is_empty
 				end
 			end
 		end
@@ -160,17 +175,6 @@ feature -- Element change
 
 feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 
-	new_instance_functions: like Default_initial_values
-		-- array of functions returning a new value for result type
-		do
-			Result := Default_initial_values
-		end
-
-	new_meta_data: EL_CLASS_META_DATA
-		do
-			create Result.make (Current)
-		end
-
 	frozen new_extra_reader_writer_table: HASH_TABLE [EL_READER_WRITER_INTERFACE [ANY], INTEGER]
 		local
 			type_list: EL_TUPLE_TYPE_LIST [EL_READER_WRITER_INTERFACE [ANY]]
@@ -188,6 +192,17 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 			end
 		end
 
+	new_instance_functions: like Default_initial_values
+		-- array of functions returning a new value for result type
+		do
+			Result := Default_initial_values
+		end
+
+	new_meta_data: EL_CLASS_META_DATA
+		do
+			create Result.make (Current)
+		end
+
 	new_representations: like Default_representations
 		-- redefine to associate expanded fields with an object that can be used to
 		-- get or set from a string. An object conforming to `EL_ENUMERATION [NUMERIC]' for example
@@ -195,14 +210,6 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 			Result := Default_representations
 		ensure
 			valid_field_names: valid_table_field_names (Result)
-		end
-
-	new_tuple_field_names: like Default_tuple_field_names
-		do
-			Result := Default_tuple_field_names
-		ensure
-			valid_field_names: valid_table_field_names (Result)
-			valid_tuple_field_names: valid_tuple_field_name_count (Result)
 		end
 
 	new_tuple_field_name_table (field_names: like Default_tuple_field_names): HASH_TABLE [EL_STRING_8_LIST, INTEGER]
@@ -218,6 +225,14 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 					Result.extend (table.item, field_set [table.cursor_index - 1])
 				end
 			end
+		end
+
+	new_tuple_field_names: like Default_tuple_field_names
+		do
+			Result := Default_tuple_field_names
+		ensure
+			valid_field_names: valid_table_field_names (Result)
+			valid_tuple_field_names: valid_tuple_field_name_count (Result)
 		end
 
 feature -- Contract Support
@@ -314,13 +329,6 @@ feature {EL_REFLECTIVE_I} -- Implementation
 			Result := Eiffel.field_conforms_to_collection (basic_type, type_id)
 		end
 
-	is_initializeable_collection_field (basic_type, type_id: INTEGER): BOOLEAN
-		do
-			if Eiffel.is_reference (basic_type) and then Arrayed_list_factory.is_valid_type (type_id) then
-				Result := Eiffel.is_type_convertable_from_string (basic_type, Eiffel.collection_item_type (type_id))
-			end
-		end
-
 	is_date_field (basic_type, type_id: INTEGER): BOOLEAN
 		do
 			Result := Eiffel.field_conforms_to_date_time (basic_type, type_id)
@@ -331,6 +339,13 @@ feature {EL_REFLECTIVE_I} -- Implementation
 		-- 	STRING_GENERAL, EL_DATE_TIME, EL_MAKEABLE_FROM_STRING_GENERAL, BOOLEAN_REF, EL_PATH
 		do
 			Result := Eiffel.is_type_convertable_from_string (basic_type, type_id)
+		end
+
+	is_initializeable_collection_field (basic_type, type_id: INTEGER): BOOLEAN
+		do
+			if Eiffel.is_reference (basic_type) and then Arrayed_list_factory.is_valid_type (type_id) then
+				Result := Eiffel.is_type_convertable_from_string (basic_type, Eiffel.collection_item_type (type_id))
+			end
 		end
 
 	is_string_or_expanded_field (basic_type, type_id: INTEGER): BOOLEAN

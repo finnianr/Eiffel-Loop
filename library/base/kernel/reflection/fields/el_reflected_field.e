@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 16:28:34 GMT (Saturday 31st December 2022)"
-	revision: "52"
+	date: "2023-01-03 19:58:41 GMT (Tuesday 3rd January 2023)"
+	revision: "53"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -101,6 +101,11 @@ feature -- Status query
 	conforms_to_type (base_type_id: INTEGER): BOOLEAN
 		do
 			Result := field_conforms_to (type_id, base_type_id)
+		end
+
+	has_representation: BOOLEAN
+		do
+			Result := attached representation
 		end
 
 	is_abstract: BOOLEAN

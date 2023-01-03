@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 17:00:09 GMT (Sunday 1st January 2023)"
-	revision: "23"
+	date: "2023-01-03 20:35:05 GMT (Tuesday 3rd January 2023)"
+	revision: "24"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -18,6 +18,8 @@ inherit
 	EL_MODULE_FILE
 
 	EL_FILE_OPEN_ROUTINES
+
+	EL_REFLECTION_HANDLER
 
 feature -- Status query
 
@@ -49,18 +51,11 @@ feature -- Basic operations
 
 feature -- Access
 
-	attribute_type (field: EL_REFLECTED_FIELD): INTEGER
+	escaped (str: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): ZSTRING
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
-			if attached {EL_REFLECTED_BOOLEAN} field or else attached {EL_REFLECTED_BOOLEAN_REF} field then
-				Result := Type_boolean
-
-			elseif attached {EL_REFLECTED_EXPANDED_FIELD [ANY]} field as expanded_field then
-				if expanded_field.has_string_representation then
-					Result := Type_represented
-				else
-					Result := Type_expanded
-				end
-			end
+			Result := Python.escaped (s.as_zstring (str), keep_ref)
 		end
 
 	encoding (file_path: FILE_PATH): EL_MARKUP_ENCODING
@@ -155,15 +150,12 @@ feature -- Measurement
 			end
 		end
 
-feature -- Constants
-
-	Type_boolean: INTEGER = 1
-
-	Type_expanded: INTEGER = 2
-
-	Type_represented: INTEGER = 3
-
 feature {NONE} -- Constants
+
+	Python: EL_PYTHON_ZSTRING_ESCAPER
+		once
+			create Result.make (1)
+		end
 
 	Header_template: ZSTRING
 		once
@@ -172,6 +164,7 @@ feature {NONE} -- Constants
 					version = 1.0; encoding = "#"
 			]"
 		end
+
 	Pyxis_doc: ZSTRING
 		once
 			Result := "pyxis-doc:"

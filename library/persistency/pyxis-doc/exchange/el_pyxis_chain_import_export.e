@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 13:59:02 GMT (Sunday 1st January 2023)"
-	revision: "2"
+	date: "2023-01-03 10:03:55 GMT (Tuesday 3rd January 2023)"
+	revision: "3"
 
 deferred class
 	EL_PYXIS_CHAIN_IMPORT_EXPORT [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
@@ -56,7 +56,7 @@ feature -- Basic operations
 	import_pyxis (a_file_path: FILE_PATH)
 		-- replace all items with imported Pyxis data
 		local
-			importer: EL_PYXIS_OBJECT_IMPORTER [G]
+			importer: EL_PYXIS_LIST_IMPORTER [G]
 		do
 			create importer.make (a_file_path)
 			on_import (importer.software_version, importer.list)
