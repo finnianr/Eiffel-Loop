@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 14:52:00 GMT (Sunday 1st January 2023)"
-	revision: "10"
+	date: "2023-01-04 14:23:04 GMT (Wednesday 4th January 2023)"
+	revision: "11"
 
 deferred class
 	EL_EIF_OBJ_BUILDER_CONTEXT_TYPE_CONSTANTS
@@ -40,4 +40,11 @@ feature {NONE} -- Node types
 
 	Text_element_node: INTEGER = 3
 
+feature {NONE} -- Xpath components
+
+	Attribute_path: STRING = "/@"
+
+	Item_path: STRING = "/item"
+
+	Text_path: STRING = "/text()"
 end

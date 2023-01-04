@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-03 20:35:05 GMT (Tuesday 3rd January 2023)"
-	revision: "24"
+	date: "2023-01-04 11:46:21 GMT (Wednesday 4th January 2023)"
+	revision: "25"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -20,6 +20,8 @@ inherit
 	EL_FILE_OPEN_ROUTINES
 
 	EL_REFLECTION_HANDLER
+
+	EL_SHARED_ESCAPE_TABLE
 
 feature -- Status query
 
@@ -152,9 +154,9 @@ feature -- Measurement
 
 feature {NONE} -- Constants
 
-	Python: EL_PYTHON_ZSTRING_ESCAPER
+	Python: EL_STRING_ESCAPER [ZSTRING]
 		once
-			create Result.make (1)
+			create Result.make (Escape_table.Python_1)
 		end
 
 	Header_template: ZSTRING

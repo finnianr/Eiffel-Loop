@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 8:53:25 GMT (Sunday 1st January 2023)"
-	revision: "23"
+	date: "2023-01-04 13:15:00 GMT (Wednesday 4th January 2023)"
+	revision: "24"
 
 class
 	JSON_PARSING_TEST_SET
@@ -22,7 +22,7 @@ inherit
 
 	JSON_TEST_DATA
 
-	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32; EL_SHARED_ESCAPE_TABLE
 
 feature -- Basic operations
 
@@ -120,6 +120,7 @@ feature -- Tests
 		end
 
 	test_parse
+		-- JSON_PARSING_TEST_SET.test_parse
 		note
 			testing: "covers/{JSON_FIELD_NAME_INTERVALS}.make"
 		local
@@ -142,9 +143,9 @@ feature -- Tests
 
 feature {NONE} -- Constants
 
-	Escaper: JSON_VALUE_ESCAPER
+	Escaper: EL_STRING_ESCAPER [ZSTRING]
 		once
-			create Result.make
+			create Result.make (Escape_table.JSON)
 		end
 
 	My_ching: TUPLE [literal, escaped: ZSTRING]

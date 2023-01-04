@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-23 17:15:53 GMT (Friday 23rd December 2022)"
-	revision: "21"
+	date: "2023-01-04 12:01:59 GMT (Wednesday 4th January 2023)"
+	revision: "22"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -41,6 +41,8 @@ inherit
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 	SHARED_DATABASE
+
+	EL_SHARED_ESCAPE_TABLE
 
 create
 	make, make_from_file
@@ -187,13 +189,10 @@ feature {NONE} -- Implementation
 feature {NONE} -- Evolicity fields
 
 	get_path_list: EL_ARRAYED_LIST [ZSTRING]
-		local
-			escaper: EL_PYTHON_ZSTRING_ESCAPER
 		do
-			create escaper.make (2)
 			create Result.make (count)
 			across Current as l_song loop
-				Result.extend (l_song.item.mp3_relative_path.to_string.escaped (escaper))
+				Result.extend (Python.escaped (l_song.item.mp3_relative_path.to_string, True))
 				if unplayed.has (l_song.item) then
 					Result.last.prepend_character ('X')
 				end
@@ -288,6 +287,11 @@ feature {NONE} -- Constants
 	Is_bom_enabled: BOOLEAN = False
 
 	Name_date_format: STRING = "yyyy-mm-dd"
+
+	Python: EL_STRING_ESCAPER [ZSTRING]
+		once
+			create Result.make (Escape_table.Python_2)
+		end
 
 	Template: STRING = "[
 		pyxis-doc:

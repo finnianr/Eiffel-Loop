@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-03 16:46:21 GMT (Tuesday 3rd January 2023)"
-	revision: "24"
+	date: "2023-01-04 14:27:04 GMT (Wednesday 4th January 2023)"
+	revision: "25"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -108,7 +108,7 @@ feature {EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT} -- Factory
 				when Attribute_node then
 					Result := s.character_string ('@') + field.export_name
 				when Text_element_node then
-					Result := field.export_name + once "/text()"
+					Result := field.export_name + Text_path
 			else
 				Result := field.export_name
 			end
@@ -142,7 +142,8 @@ feature {NONE} -- Build from XML
 		-- by default xpaths select an element attribute except for field in `element_set' which
 		-- select the text within an element.
 		local
-			field_list: like importable_list; node_type: INTEGER; field: EL_REFLECTED_FIELD
+			field_list: like importable_list; node_type, item_type_id: INTEGER; field: EL_REFLECTED_FIELD
+			l_xpath: STRING
 		do
 			field_list := importable_list
 			if type /= {ANY} then
@@ -156,7 +157,15 @@ feature {NONE} -- Build from XML
 				else
 					node_type := Attribute_node
 				end
-				if attached {EL_REFLECTED_REFERENCE [ANY]} field as ref_field
+				if attached {EL_REFLECTED_TUPLE} field as tuple_field
+						and then attached tuple_field.field_name_list as name_list
+				then
+					across name_list as name loop
+						l_xpath := tuple_field.export_name + Attribute_path + name.item
+						item_type_id := tuple_field.member_types [name.cursor_index].type_id
+						Result [l_xpath] := agent set_tuple_item_from_node (tuple_field, name.cursor_index, item_type_id)
+					end
+				elseif attached {EL_REFLECTED_REFERENCE [ANY]} field as ref_field
 					and then attached new_build_action (ref_field, node_type) as action
 				then
 					Result [action.xpath] := action.procedure
@@ -221,6 +230,13 @@ feature {NONE} -- Build from XML
 				and then not node.document_dir.is_empty
 			then
 				field.set (Current, node.document_dir.plus (file_path))
+			end
+		end
+
+	set_tuple_item_from_node (field: EL_REFLECTED_TUPLE; index: INTEGER; type_id: INTEGER)
+		do
+			if attached field.value (Current) as l_tuple then
+				Tuple.set_i_th (l_tuple, index, node, type_id)
 			end
 		end
 

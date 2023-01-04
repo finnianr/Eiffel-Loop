@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-03 20:32:34 GMT (Tuesday 3rd January 2023)"
-	revision: "3"
+	date: "2023-01-03 22:00:58 GMT (Tuesday 3rd January 2023)"
+	revision: "4"
 
 class
 	EL_PYXIS_ATTRIBUTES
@@ -52,7 +52,9 @@ feature -- Basic operations
 		local
 			value_table: like item
 		do
-			sort_quoted_unquoted
+			collate (Type_expanded, agent {ZSTRING}.is_double)
+			collate (Type_unquoted, agent {ZSTRING}.is_code_identifier)
+			collate (Type_quoted, agent requires_quotes)
 
 			across Current as line loop
 				value_table := line.item
@@ -80,25 +82,18 @@ feature -- Basic operations
 			empty_attribute_lines: across Current as line all line.item.is_empty end
 		end
 
-	sort_quoted_unquoted
-		do
-			collate (Type_expanded, agent {ZSTRING}.is_natural)
-			collate (Type_unquoted, agent {ZSTRING}.is_code_identifier)
-			collate (Type_quoted, agent requires_quotes)
-		end
-
 feature {NONE} -- Implementation
 
 	collate (a_type: INTEGER; has_property: FUNCTION [ZSTRING, BOOLEAN])
 		local
 			source_table: like item
 		do
-			if attached i_th (a_type) as table_for_property then
+			if attached i_th (a_type) as destination_table then
 				across Types_expanded_to_quoted as type loop
-					source_table := i_th (type.item)
-					if source_table /= table_for_property then
+					if a_type /= type.item then
+						source_table := i_th (type.item)
 						across name_query (source_table, has_property) as name loop
-							table_for_property.extend (source_table [name.item], name.item)
+							destination_table.extend (source_table [name.item], name.item)
 							source_table.remove (name.item)
 						end
 					end
@@ -119,7 +114,7 @@ feature {NONE} -- Implementation
 
 	requires_quotes (str: ZSTRING): BOOLEAN
 		do
-			Result := not (str.is_code_identifier or str.is_natural)
+			Result := str.has (' ') or else not (str.is_code_identifier or str.is_double)
 		end
 
 feature {NONE} -- Constants

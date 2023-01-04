@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:33:35 GMT (Saturday 31st December 2022)"
-	revision: "12"
+	date: "2023-01-04 12:18:27 GMT (Wednesday 4th January 2023)"
+	revision: "13"
 
 class
 	TEXT_TEST_SET
@@ -21,15 +21,18 @@ inherit
 
 	EL_SHARED_TEST_TEXT
 
+	EL_SHARED_ESCAPE_TABLE
+
 feature -- Basic operations
 
 	do_all (eval: EL_TEST_SET_EVALUATOR)
 		do
 			eval.call ("bash_escape", agent test_bash_escape)
-			eval.call ("convert_string_type_descriptions", agent test_convert_string_type_descriptions)
 			eval.call ("convert_string_to_makeable", agent test_convert_string_to_makeable)
+			eval.call ("convert_string_type_descriptions", agent test_convert_string_type_descriptions)
 			eval.call ("integer_format", agent test_integer_format)
 			eval.call ("substitution_marker_unescape", agent test_substitution_marker_unescape)
+			eval.call ("python_escape", agent test_python_escape)
 			eval.call ("unescape", agent test_unescape)
 		end
 
@@ -38,10 +41,10 @@ feature -- Tests
 	test_bash_escape
 		-- TEXT_TEST_SET.test_bash_escape
 		local
-			bash_escaper: EL_BASH_PATH_ZSTRING_ESCAPER; bash_escaper_32: EL_BASH_PATH_STRING_32_ESCAPER
+			escaper: EL_STRING_ESCAPER [ZSTRING]; escaper_32: EL_STRING_ESCAPER [STRING_32]
 		do
-			create bash_escaper.make; create bash_escaper_32.make
-			escape_test ("BASH", bash_escaper, bash_escaper_32)
+			create escaper.make (Escape_table.bash) ; create escaper_32.make (Escape_table.bash)
+			escape_test ("BASH", escaper, escaper_32)
 		end
 
 	test_convert_string_to_makeable
@@ -102,6 +105,19 @@ feature -- Tests
 			end
 		end
 
+	test_python_escape
+		-- TEXT_TEST_SET.test_python_escape
+		local
+			escaper: EL_STRING_ESCAPER [ZSTRING]
+			str: STRING; zstr: STRING
+		do
+			create escaper.make (Escape_table.Python_1)
+			str := "tab%Tquote'"
+			zstr := str
+			assert ("correct escape", escaper.escaped (str, False).same_string ("tab\tquote\'"))
+			assert_same_string (Void, escaper.escaped (str, True), escaper.escaped (zstr, True))
+		end
+
 	test_substitution_marker_unescape
 		note
 			testing:	"covers/{ZSTRING}.unescape, covers/{ZSTRING}.unescaped",
@@ -153,7 +169,7 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	escape_test (name: STRING; escaper: EL_ZSTRING_ESCAPER; escaper_32: EL_STRING_32_ESCAPER)
+	escape_test (name: STRING; escaper: EL_STRING_ESCAPER [ZSTRING]; escaper_32: EL_STRING_ESCAPER [STRING_32])
 		local
 			str_32, escaped_32: STRING_32; str, escaped: ZSTRING
 			s: EL_STRING_32_ROUTINES

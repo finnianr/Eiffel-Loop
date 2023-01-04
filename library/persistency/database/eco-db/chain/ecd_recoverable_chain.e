@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 13:44:14 GMT (Monday 12th December 2022)"
-	revision: "30"
+	date: "2023-01-04 13:38:17 GMT (Wednesday 4th January 2023)"
+	revision: "31"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -67,6 +67,12 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	active_list: EL_ARRAYED_LIST [G]
+		-- list of items that are not deleted
+		do
+			create Result.make_from_if (Current, agent is_active)
+		end
 
 	name: STRING
 		do
@@ -224,6 +230,11 @@ feature -- Removal
 		end
 
 feature {NONE} -- Implementation
+
+	is_active (v: G): BOOLEAN
+		do
+			Result := not v.is_deleted
+		end
 
 	apply_editions
 		do

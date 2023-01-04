@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-03 20:17:46 GMT (Tuesday 3rd January 2023)"
-	revision: "4"
+	date: "2023-01-04 14:22:37 GMT (Wednesday 4th January 2023)"
+	revision: "5"
 
 class
 	EL_REFLECTIVE_OBJECT_BUILDER_CONTEXT
@@ -18,6 +18,8 @@ inherit
 	EL_REFLECTION_HANDLER
 
 	EL_MODULE_EIFFEL; EL_MODULE_TUPLE
+
+	EL_EIF_OBJ_BUILDER_CONTEXT_TYPE_CONSTANTS
 
 	EL_SHARED_CLASS_ID
 
@@ -47,7 +49,7 @@ feature {NONE} -- Build from XML
 			-- Nodes relative to root element: bix
 		local
 			l_xpath: STRING; field: EL_REFLECTED_FIELD; s: EL_STRING_8_ROUTINES
-			type: EL_ATTRIBUTE_TYPE_ROUTINES
+			type: EL_ATTRIBUTE_TYPE_ROUTINES; item_type_id: INTEGER
 		do
 			create Result.make_equal (object.field_table.count)
 			across object.field_table as table loop
@@ -58,6 +60,14 @@ feature {NONE} -- Build from XML
 						Result [l_xpath] := agent set_from_representation (field)
 					else
 						Result [l_xpath] := agent set_from_node (field)
+					end
+				elseif attached {EL_REFLECTED_TUPLE} field as tuple_field
+						and then attached tuple_field.field_name_list as name_list
+				then
+					across name_list as list loop
+						l_xpath := field.name + Attribute_path + list.item
+						item_type_id := tuple_field.member_types [list.cursor_index].type_id
+						Result [l_xpath] := agent set_tuple_item_from_node (tuple_field, list.cursor_index, item_type_id)
 					end
 				elseif attached {EL_REFLECTED_REFERENCE [ANY]} field as ref_field
 					and then attached new_build_action (ref_field, field.name) as action
@@ -132,8 +142,6 @@ feature {NONE} -- Build from XML
 feature {NONE} -- Implementation
 
 	new_build_action (field: EL_REFLECTED_REFERENCE [ANY]; name: STRING): TUPLE [xpath: STRING; procedure: PROCEDURE]
-		local
-			item_type_id: INTEGER
 		do
 			create Result
 			if attached {EL_REFLECTED_STRING [READABLE_STRING_GENERAL]} field as string_field then
@@ -144,14 +152,6 @@ feature {NONE} -- Implementation
 					Result := [name + Item_path, agent extend_reflective_collection (reflective)]
 				else
 					Result := [name + Item_path + Text_path, agent extend_collection (collection_field)]
-				end
-			elseif attached {EL_REFLECTED_TUPLE} field as tuple_field
-					and then attached tuple_field.field_name_list as name_list
-			then
-				across name_list as list loop
-					Result.xpath := name + Attribute_path + list.item
-					item_type_id := tuple_field.member_types [list.cursor_index].type_id
-					Result.procedure := agent set_tuple_item_from_node (tuple_field, list.cursor_index, item_type_id)
 				end
 			elseif attached {EL_REFLECTED_REFERENCE [ANY]} field as reflective
 				and then reflective.conforms_to_type (Class_id.EL_REFLECTIVE)
@@ -168,13 +168,5 @@ feature {NONE} -- Internal attributes
 	context_table: HASH_TABLE [EL_REFLECTIVE_OBJECT_BUILDER_CONTEXT, STRING]
 
 	object: EL_REFLECTIVE
-
-feature {NONE} -- Constants
-
-	Attribute_path: STRING = "/@"
-
-	Item_path: STRING = "/item"
-
-	Text_path: STRING = "/text()"
 
 end

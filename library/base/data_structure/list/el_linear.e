@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2023-01-04 13:48:44 GMT (Wednesday 4th January 2023)"
+	revision: "15"
 
 deferred class
 	EL_LINEAR [G]
@@ -93,6 +93,26 @@ feature -- Basic operations
 		end
 
 feature -- Cursor movement
+
+	find_first_differing (chain: CHAIN [G])
+		-- find first `item' to differ from corresponding item in `chain'
+		local
+			differs, equals_comparison: BOOLEAN
+		do
+			equals_comparison := object_comparison
+			from start until after or else differs loop
+				if not chain.valid_index (index) then
+					differs := True
+				elseif equals_comparison then
+					differs := item /~ chain [index]
+				else
+					differs := item /= chain [index]
+				end
+				if not differs then
+					forth
+				end
+			end
+		end
 
 	find_first (condition: EL_QUERY_CONDITION [G])
 			-- Find first `item' that meets `condition'
