@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-04 11:08:42 GMT (Wednesday 4th January 2023)"
-	revision: "13"
+	date: "2023-01-04 17:51:56 GMT (Wednesday 4th January 2023)"
+	revision: "14"
 
 deferred class
 	EL_STRING_ESCAPER_IMP [S -> STRING_GENERAL create make end]
@@ -45,6 +45,14 @@ feature -- Basic operations
 		do
 			str.append_code (escape_code)
 			str.append_code (table.found_item)
+		end
+
+feature {NONE} -- Implementation
+
+	to_unicode (code: NATURAL): NATURAL
+		-- Useful for XML escaper
+		do
+			Result := code
 		end
 
 feature {NONE} -- Internal attributes

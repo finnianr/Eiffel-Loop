@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 8:53:01 GMT (Sunday 1st January 2023)"
-	revision: "16"
+	date: "2023-01-04 18:31:10 GMT (Wednesday 4th January 2023)"
+	revision: "17"
 
 class
 	XML_ESCAPER_TEST_SET
@@ -22,6 +22,8 @@ inherit
 
 	EL_SHARED_TEST_TEXT
 
+	EL_SHARED_ESCAPE_TABLE
+
 feature -- Basic operations
 
 	do_all (eval: EL_TEST_SET_EVALUATOR)
@@ -33,19 +35,26 @@ feature -- Basic operations
 feature -- Tests
 
 	test_xml_escape
+		local
+			escaper, escaper_plus: XML_ESCAPER [ZSTRING]
+			escaper_32, escaper_plus_32: XML_ESCAPER [STRING_32]
 		do
-			do_test ("make", 855989182, agent escape, [create {XML_ZSTRING_ESCAPER}.make])
-			do_test ("make_128_plus", 2055570232, agent escape, [create {XML_ZSTRING_ESCAPER}.make_128_plus])
+			create escaper.make; create escaper_plus.make_128_plus
 
-			do_test ("make", 3958945292, agent escape, [create {XML_STRING_32_ESCAPER}.make])
-			do_test ("make_128_plus", 3197404867, agent escape, [create {XML_STRING_32_ESCAPER}.make_128_plus])
+			create escaper_32.make; create escaper_plus_32.make_128_plus
+
+			do_test ("make", 3526221345, agent escape, [escaper])
+			do_test ("make_128_plus", 873448859, agent escape, [escaper_plus])
+
+			do_test ("make", 2973479053, agent escape, [escaper_32])
+			do_test ("make_128_plus", 2325183600, agent escape, [escaper_plus_32])
 		end
 
 feature {NONE} -- Implementation
 
-	escape (escaper: XML_GENERAL_ESCAPER)
+	escape (escaper: XML_ESCAPER [STRING_GENERAL])
 		local
-			str_32, esc_str_32: STRING_32; str, esc_str, xml: ZSTRING
+			str_32: STRING_32; xml: ZSTRING
 			root: EL_XML_DOC_CONTEXT; s: EL_STRING_32_ROUTINES
 		do
 			across Text.lines as string loop
@@ -57,16 +66,9 @@ feature {NONE} -- Implementation
 						s.replace_character (str_32, ' ', '&')
 				else
 				end
-				str := str_32
-
-				if attached {XML_ZSTRING_ESCAPER} escaper as z_escaper then
-					esc_str := z_escaper.escaped (str, False)
-					xml := XML_template #$ [esc_str]
-					lio.put_line (esc_str)
-				else
-					esc_str_32 := escaper.escaped (str_32, False)
-					xml := XML_template #$ [esc_str_32]
-					lio.put_line (esc_str_32)
+				if attached escaper.escaped (str_32, False) as escaped then
+					xml := XML_template #$ [escaped]
+					lio.put_line (escaped)
 				end
 				create root.make_from_string (xml.to_utf_8 (True))
 				assert ("same string", str_32.is_equal (root.query ("/TEXT")))

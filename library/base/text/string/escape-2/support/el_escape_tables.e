@@ -1,13 +1,13 @@
 note
-	description: "Escape tables"
+	description: "Escape tables for common data formats"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-04 13:10:52 GMT (Wednesday 4th January 2023)"
-	revision: "1"
+	date: "2023-01-04 18:28:59 GMT (Wednesday 4th January 2023)"
+	revision: "2"
 
 class
 	EL_ESCAPE_TABLES
@@ -17,6 +17,13 @@ feature -- Access
 	Bash: EL_ESCAPE_TABLE
 		do
 			create Result.make_simple ('\', "<>(){}[] '`%"!?&|^$:;,")
+		end
+
+	CSV: EL_ESCAPE_TABLE
+		once
+			create Result.make ('\', <<
+				"%N:=n", "%R:=r", "%T:=t", "%":=%"", "\:=\"
+			>>)
 		end
 
 	JSON: EL_ESCAPE_TABLE

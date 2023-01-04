@@ -1,13 +1,13 @@
 note
-	description: "[$source EL_ZSTRING] implementation of [$source EL_STRING_ESCAPER_IMP [STRING_GENERAL]]"
+	description: "[$source ZSTRING] implementation of [$source EL_STRING_ESCAPER_IMP [STRING_GENERAL]]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-04 10:54:23 GMT (Wednesday 4th January 2023)"
-	revision: "13"
+	date: "2023-01-04 17:58:21 GMT (Wednesday 4th January 2023)"
+	revision: "14"
 
 class
 	EL_ZSTRING_ESCAPER_IMP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_STRING_ESCAPER_IMP [ZSTRING]
 		redefine
-			to_code, make
+			to_code, to_unicode, make
 		end
 
 	EL_SHARED_ZSTRING_CODEC
@@ -47,6 +47,13 @@ feature -- Access
 		do
 			Result := buffer
 			Result.wipe_out
+		end
+
+feature {NONE} -- Implementation
+
+	to_unicode (z_code: NATURAL): NATURAL
+		do
+			Result := codec.z_code_as_unicode (z_code)
 		end
 
 feature {NONE} -- Internal attributes

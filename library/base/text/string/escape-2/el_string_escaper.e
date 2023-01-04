@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-04 12:12:56 GMT (Wednesday 4th January 2023)"
-	revision: "13"
+	date: "2023-01-04 17:47:39 GMT (Wednesday 4th January 2023)"
+	revision: "14"
 
 class
 	EL_STRING_ESCAPER [S -> STRING_GENERAL create make end]
@@ -67,7 +67,7 @@ feature -- Basic operations
 		do
 			min_index := str.count.min (end_index)
 			compatible_type := attached {S} str
-			if attached code_table as table and then attached implementation as imp then
+			if attached code_table as table and then attached adjusted_implementation as imp then
 				from i := start_index until i > min_index loop
 					if compatible_type then
 						code := str.code (i)
@@ -94,13 +94,18 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Implementation
 
+	adjusted_implementation: like implementation
+		do
+			Result := implementation
+		end
+
 	has_escaped (table: like code_table; str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): BOOLEAN
 		local
 			i, min_index: INTEGER; compatible_type: BOOLEAN
 		do
 			min_index := str.count.min (end_index)
 			compatible_type := attached {S} str
-			if attached implementation as imp then
+			if attached adjusted_implementation as imp then
 				from i := start_index until Result or i > min_index loop
 					if compatible_type then
 						Result := imp.is_escaped (str.code (i), table)
