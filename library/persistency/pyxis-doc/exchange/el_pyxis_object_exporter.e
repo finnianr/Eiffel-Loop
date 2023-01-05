@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-03 16:37:16 GMT (Tuesday 3rd January 2023)"
-	revision: "6"
+	date: "2023-01-05 13:26:00 GMT (Thursday 5th January 2023)"
+	revision: "7"
 
 class
 	EL_PYXIS_OBJECT_EXPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
@@ -123,7 +123,7 @@ feature {NONE} -- Implementation
 							value := pool.borrowed_item
 							list.item.append_to_string (object, value)
 							if value.count > 0 then
-								attribute_lines [line_index].extend (value, name)
+								attribute_lines.extend (line_index, name, value)
 							end
 						end
 					end

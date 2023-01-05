@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 8:49:47 GMT (Sunday 1st January 2023)"
-	revision: "19"
+	date: "2023-01-05 13:35:48 GMT (Thursday 5th January 2023)"
+	revision: "20"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -65,6 +65,7 @@ feature -- Tests
 		end
 
 	test_pyxis_export
+		-- ECD_READER_WRITER_TEST_SET.pyxis_export
 		note
 			testing: "covers/{ECD_REFLECTIVE_RECOVERABLE_CHAIN}.export_pyxis"
 		local
@@ -78,7 +79,7 @@ feature -- Tests
 			pyxis_path := data_path.with_new_extension ("pyx")
 			data_table.export_pyxis (pyxis_path, Latin_1)
 
-			export_digest := "AB16828935E6FF99AC0A9057CBBEA234"
+			export_digest := "0E9E168EE6234F052DDB0C7CFA8C5568"
 			assert_same_digest_hexadecimal (pyxis_path, export_digest)
 
 			data_table.import_pyxis (pyxis_path)

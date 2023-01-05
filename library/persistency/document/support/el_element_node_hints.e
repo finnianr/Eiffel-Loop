@@ -31,17 +31,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-03 11:59:33 GMT (Tuesday 3rd January 2023)"
-	revision: "1"
+	date: "2023-01-05 13:38:54 GMT (Thursday 5th January 2023)"
+	revision: "2"
 
 deferred class
 	EL_ELEMENT_NODE_HINTS
 
 inherit
-	EL_REFLECTIVE_I
-		undefine
-			is_equal
-		end
+	EL_NODE_HINTS
 
 feature {EL_REFLECTION_HANDLER} -- Access
 
@@ -88,14 +85,6 @@ feature {NONE} -- Constants
 		-- table of fields importable from XML
 		once
 			create Result.make (17, agent {EL_ELEMENT_NODE_HINTS}.new_element_node_field_set)
-		end
-
-	Empty_set: STRING = ""
-		-- rename `element_node_fields' as this to exclude all
-
-	Empty_field_set: EL_FIELD_INDICES_SET
-		once
-			create Result.make_empty
 		end
 
 end

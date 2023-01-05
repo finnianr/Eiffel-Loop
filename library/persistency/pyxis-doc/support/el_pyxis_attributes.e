@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-03 22:00:58 GMT (Tuesday 3rd January 2023)"
-	revision: "4"
+	date: "2023-01-05 13:33:50 GMT (Thursday 5th January 2023)"
+	revision: "5"
 
 class
 	EL_PYXIS_ATTRIBUTES
@@ -16,10 +16,11 @@ inherit
 	FIXED_LIST [HASH_TABLE [ZSTRING, STRING]]
 		rename
 			make as make_list,
-			put as put_table
+			put as put_table,
+			extend as extend_list
 		export
 			{NONE} all
-			{ANY} first, last, i_th
+			{ANY} first, last
 		end
 
 	EL_ATTRIBUTE_TYPE_ROUTINES
@@ -40,7 +41,7 @@ feature {NONE} -- Initialization
 		do
 			make_list (Type_quoted)
 			from until full loop
-				extend (create {like item}.make (5))
+				extend_list (create {like item}.make (5))
 			end
 		ensure
 			expected_size: count = 4
@@ -48,14 +49,31 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
+	extend (a_type: INTEGER; name: STRING; value: ZSTRING)
+		local
+			type: INTEGER
+		do
+			inspect a_type
+				when Type_expanded, Type_unquoted, Type_quoted then
+					if value.is_double then
+						type := Type_expanded
+					elseif value.is_code_identifier then
+						type := Type_unquoted
+					elseif requires_quotes (value) then
+						type := Type_quoted
+					else
+						type := a_type
+					end
+			else
+				type := a_type
+			end
+			i_th (type).extend (value, name)
+		end
+
 	put (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
 		local
 			value_table: like item
 		do
-			collate (Type_expanded, agent {ZSTRING}.is_double)
-			collate (Type_unquoted, agent {ZSTRING}.is_code_identifier)
-			collate (Type_quoted, agent requires_quotes)
-
 			across Current as line loop
 				value_table := line.item
 				if value_table.count > 0 then
@@ -84,34 +102,6 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	collate (a_type: INTEGER; has_property: FUNCTION [ZSTRING, BOOLEAN])
-		local
-			source_table: like item
-		do
-			if attached i_th (a_type) as destination_table then
-				across Types_expanded_to_quoted as type loop
-					if a_type /= type.item then
-						source_table := i_th (type.item)
-						across name_query (source_table, has_property) as name loop
-							destination_table.extend (source_table [name.item], name.item)
-							source_table.remove (name.item)
-						end
-					end
-				end
-			end
-		end
-
-	name_query (a_table: like item; has_property: FUNCTION [ZSTRING, BOOLEAN]): EL_STRING_8_LIST
-		do
-			Result := Name_list
-			Result.wipe_out
-			across a_table as table loop
-				if has_property (table.item) then
-					Result.extend (table.key)
-				end
-			end
-		end
-
 	requires_quotes (str: ZSTRING): BOOLEAN
 		do
 			Result := str.has (' ') or else not (str.is_code_identifier or str.is_double)
@@ -120,11 +110,6 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Equals_sign: STRING = " = "
-
-	Name_list: EL_STRING_8_LIST
-		once
-			create Result.make_empty
-		end
 
 	Semicolon_space: STRING = "; "
 

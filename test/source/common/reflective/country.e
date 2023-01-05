@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 14:55:15 GMT (Sunday 18th December 2022)"
-	revision: "33"
+	date: "2023-01-05 13:00:43 GMT (Thursday 5th January 2023)"
+	revision: "34"
 
 class
 	COUNTRY
@@ -29,6 +29,8 @@ inherit
 		rename
 			make_from_table as make
 		end
+
+	EL_ATTRIBUTE_NODE_HINTS
 
 	EL_SHARED_CURRENCY_ENUM
 
@@ -168,6 +170,8 @@ feature {NONE} -- Reflection
 		end
 
 feature {NONE} -- Constants
+
+	Attribute_node_fields: STRING = "code, continent, name"
 
 	Field_hash: NATURAL_32 = 3967280807
 end

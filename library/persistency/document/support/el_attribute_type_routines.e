@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-03 19:16:40 GMT (Tuesday 3rd January 2023)"
-	revision: "1"
+	date: "2023-01-05 13:29:14 GMT (Thursday 5th January 2023)"
+	revision: "2"
 
 expanded class
 	EL_ATTRIBUTE_TYPE_ROUTINES
@@ -30,6 +30,11 @@ feature -- Access
 				else
 					Result := Type_expanded
 				end
+			elseif attached {EL_ATTRIBUTE_NODE_HINTS} field.enclosing_object as hints
+				and then hints.attribute_node_field_set.has (field.index)
+			then
+				Result := Type_quoted
+
 			elseif attached {EL_ELEMENT_NODE_HINTS} field.enclosing_object as hints
 				and then not hints.element_node_field_set.has (field.index)
 			then
@@ -47,8 +52,4 @@ feature -- Constants
 
 	Type_quoted: INTEGER = 4
 
-	Types_expanded_to_quoted: INTEGER_INTERVAL
-		once
-			Result := Type_expanded |..| Type_quoted
-		end
 end
