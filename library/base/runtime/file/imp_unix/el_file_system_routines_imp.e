@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2023-01-05 10:50:27 GMT (Thursday 5th January 2023)"
+	revision: "15"
 
 class
 	EL_FILE_SYSTEM_ROUTINES_IMP
@@ -16,6 +16,11 @@ inherit
 	EL_FILE_SYSTEM_ROUTINES_I
 
 	EL_OS_IMPLEMENTATION
+		rename
+			copy as copy_object
+		end
+
+	EL_SHARED_ESCAPE_TABLE
 		rename
 			copy as copy_object
 		end
@@ -31,9 +36,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Path_escaper: EL_BASH_PATH_ZSTRING_ESCAPER
+	Path_escaper: EL_STRING_ESCAPER [ZSTRING]
 		once
-			create Result.make
+			create Result.make (Escape_table.Bash)
 		end
 
 end

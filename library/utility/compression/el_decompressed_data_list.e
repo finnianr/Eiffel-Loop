@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 16:33:43 GMT (Saturday 31st December 2022)"
-	revision: "4"
+	date: "2023-01-05 11:43:18 GMT (Thursday 5th January 2023)"
+	revision: "5"
 
 class
 	EL_DECOMPRESSED_DATA_LIST
@@ -20,6 +20,9 @@ inherit
 		end
 
 	EL_FILE_DECOMPRESS_HANDLER
+		undefine
+			copy, is_equal
+		end
 
 create
 	make

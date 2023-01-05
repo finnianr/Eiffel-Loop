@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "24"
+	date: "2023-01-05 11:08:24 GMT (Thursday 5th January 2023)"
+	revision: "25"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -265,7 +265,7 @@ feature {NONE} -- Implementation
 			Result.append_character (' ')
 			Result.append (node.raw_name)
 			Result.append (Value_equals_separator)
-			Attribute_escaper.escape_into (node, Result)
+			XML_escaper.escape_into (node, Result)
 			Result.append_character ('"')
 		end
 

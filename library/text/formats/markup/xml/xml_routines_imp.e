@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 17:29:31 GMT (Sunday 1st January 2023)"
-	revision: "20"
+	date: "2023-01-05 11:05:06 GMT (Thursday 5th January 2023)"
+	revision: "21"
 
 class
 	XML_ROUTINES_IMP
@@ -69,7 +69,7 @@ feature -- Access
 			create Result.make_from_file (file_path)
 		end
 
-	entity (unicode: NATURAL): ZSTRING
+	entity (unicode: CHARACTER_32): ZSTRING
 		do
 			Result := xml_escaper.escape_sequence (unicode)
 		end
@@ -120,18 +120,6 @@ feature -- Conversion
 			-- Escapes characters: < > & ' and all codes > 128
 		do
 			Result := a_string.escaped (Xml_128_plus_escaper)
-		end
-
-	escaped_attribute (value: ZSTRING): ZSTRING
-			-- Escapes attribute value characters and double quotes
-		do
-			Result := value.escaped (Attribute_escaper)
-		end
-
-	escaped_attribute_128_plus (value: ZSTRING): ZSTRING
-			-- Escapes attribute value characters and double quotes and all codes > 128
-		do
-			Result := value.escaped (Attribute_128_plus_escaper)
 		end
 
 feature -- Basic operations

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-01-05 11:12:25 GMT (Thursday 5th January 2023)"
+	revision: "5"
 
 deferred class
 	XML_STRING_8_CONSTANTS
@@ -42,22 +42,12 @@ feature {NONE} -- Constants
 
 feature {NONE} -- Escaping
 
-	Attribute_escaper: XML_ATTRIBUTE_VALUE_STRING_8_ESCAPER
+	Xml_escaper: XML_ESCAPER [STRING_8]
 		once
 			create Result.make
 		end
 
-	Attribute_128_plus_escaper: XML_ATTRIBUTE_VALUE_STRING_8_ESCAPER
-		once
-			create Result.make_128_plus
-		end
-
-	Xml_escaper: XML_STRING_8_ESCAPER
-		once
-			create Result.make
-		end
-
-	Xml_128_plus_escaper: XML_STRING_8_ESCAPER
+	Xml_128_plus_escaper: XML_ESCAPER [STRING_8]
 		once
 			create Result.make_128_plus
 		end

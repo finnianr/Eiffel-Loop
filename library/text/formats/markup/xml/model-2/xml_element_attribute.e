@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-01-05 10:57:37 GMT (Thursday 5th January 2023)"
+	revision: "6"
 
 class
 	XML_ELEMENT_ATTRIBUTE
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 
 feature -- Conversion
 
-	escaped (escaper: XML_ATTRIBUTE_VALUE_ZSTRING_ESCAPER; keep_ref: BOOLEAN): ZSTRING
+	escaped (escaper: XML_ESCAPER [ZSTRING]; keep_ref: BOOLEAN): ZSTRING
 		do
 			Result := Once_buffer
 			Result.wipe_out

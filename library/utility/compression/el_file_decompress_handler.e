@@ -6,17 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 16:33:31 GMT (Saturday 31st December 2022)"
-	revision: "5"
+	date: "2023-01-05 11:41:11 GMT (Thursday 5th January 2023)"
+	revision: "6"
 
 deferred class
 	EL_FILE_DECOMPRESS_HANDLER
-
-inherit
-	ANY
-		undefine
-			copy, default_create, is_equal, out
-		end
 
 feature {EL_COMPRESSED_ARCHIVE_FILE} -- Event handling
 

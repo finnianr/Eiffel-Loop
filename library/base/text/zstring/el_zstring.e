@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-03 13:25:00 GMT (Tuesday 3rd January 2023)"
-	revision: "63"
+	date: "2023-01-05 9:55:34 GMT (Thursday 5th January 2023)"
+	revision: "64"
 
 class
 	EL_ZSTRING
@@ -232,7 +232,7 @@ feature -- Element change
 			editor.for_each (left_delimiter, right_delimiter, a_edit)
 		end
 
-	escape (escaper: EL_ZSTRING_ESCAPER)
+	escape (escaper: EL_STRING_ESCAPER [ZSTRING])
 		do
 			make_from_other (escaper.escaped (Current, False))
 		end

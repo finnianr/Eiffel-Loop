@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-04 17:51:56 GMT (Wednesday 4th January 2023)"
-	revision: "14"
+	date: "2023-01-05 10:36:37 GMT (Thursday 5th January 2023)"
+	revision: "15"
 
 deferred class
 	EL_STRING_ESCAPER_IMP [S -> STRING_GENERAL create make end]
@@ -45,6 +45,10 @@ feature -- Basic operations
 		do
 			str.append_code (escape_code)
 			str.append_code (table.found_item)
+		end
+
+	prepend_character (str: S; uc: CHARACTER_32)
+		deferred
 		end
 
 feature {NONE} -- Implementation

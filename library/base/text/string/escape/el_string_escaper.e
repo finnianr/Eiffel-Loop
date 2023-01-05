@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-04 17:47:39 GMT (Wednesday 4th January 2023)"
-	revision: "14"
+	date: "2023-01-05 10:46:17 GMT (Thursday 5th January 2023)"
+	revision: "15"
 
 class
 	EL_STRING_ESCAPER [S -> STRING_GENERAL create make end]
@@ -128,6 +128,8 @@ feature {NONE} -- Implementation
 			elseif attached {like implementation} String_8_imp as imp then
 				implementation := imp
 			end
+		ensure
+			attached_implementation: attached implementation
 		end
 
 feature {NONE} -- Constants

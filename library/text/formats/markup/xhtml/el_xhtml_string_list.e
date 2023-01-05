@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 17:33:36 GMT (Sunday 1st January 2023)"
-	revision: "21"
+	date: "2023-01-05 11:06:07 GMT (Thursday 5th January 2023)"
+	revision: "22"
 
 class
 	EL_XHTML_STRING_LIST
@@ -45,14 +45,14 @@ feature {NONE} -- Initialization
 				text_group_end_tags.extend ("</h" + level.item.out + ">")
 			end
 
-			space_entity := XML.entity ({EL_ASCII}.Space)
+			space_entity := XML.entity (' ')
 			closed_pre_tag := XML.closed_tag ("pre")
 			pre_tag := XML.open_tag ("pre")
 			break_tag := XML.empty_tag ("br")
 
 			create substitutions.make_from_array (<<
 				[Non_breaking_space,	space_entity],
-				[Tab, 					XML.entity ({EL_ASCII}.Tab)],
+				[Tab, 					XML.entity ('%T')],
 				[Line_break, 			break_tag]
 			>>)
 			create line_source.make_utf_8 (file_path)

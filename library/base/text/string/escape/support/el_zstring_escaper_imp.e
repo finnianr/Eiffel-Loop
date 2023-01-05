@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-04 17:58:21 GMT (Wednesday 4th January 2023)"
-	revision: "14"
+	date: "2023-01-05 10:38:13 GMT (Thursday 5th January 2023)"
+	revision: "15"
 
 class
 	EL_ZSTRING_ESCAPER_IMP
@@ -47,6 +47,13 @@ feature -- Access
 		do
 			Result := buffer
 			Result.wipe_out
+		end
+
+feature -- Basic operations
+
+	prepend_character (str: ZSTRING; uc: CHARACTER_32)
+		do
+			str.prepend_character (uc)
 		end
 
 feature {NONE} -- Implementation

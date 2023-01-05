@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 14:49:08 GMT (Sunday 1st January 2023)"
-	revision: "55"
+	date: "2023-01-05 11:31:02 GMT (Thursday 5th January 2023)"
+	revision: "56"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -271,7 +271,7 @@ feature {NONE} -- Constants
 			Result := "iradio"
 		end
 
-	Xml_8: XML_STRING_8_ESCAPER
+	Xml_8: XML_ESCAPER [STRING_8]
 		once
 			create Result.make
 		end

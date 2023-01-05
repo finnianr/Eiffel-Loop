@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 16:17:08 GMT (Sunday 18th December 2022)"
-	revision: "34"
+	date: "2023-01-05 10:59:02 GMT (Thursday 5th January 2023)"
+	revision: "35"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -390,7 +390,7 @@ feature -- Conversion
 			Result.enclose (left, right)
 		end
 
-	escaped (escaper: EL_ZSTRING_ESCAPER): like Current
+	escaped (escaper: EL_STRING_ESCAPER [ZSTRING]): like Current
 		do
 			Result := escaper.escaped (current_readable, True)
 		end

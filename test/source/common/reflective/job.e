@@ -1,13 +1,13 @@
 note
-	description: "Job"
+	description: "Advertised job details"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-15 8:44:24 GMT (Thursday 15th December 2022)"
-	revision: "15"
+	date: "2023-01-05 10:16:55 GMT (Thursday 5th January 2023)"
+	revision: "16"
 
 class
 	JOB

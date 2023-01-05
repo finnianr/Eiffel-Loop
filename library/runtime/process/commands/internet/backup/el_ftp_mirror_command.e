@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 10:44:20 GMT (Sunday 4th December 2022)"
-	revision: "5"
+	date: "2023-01-05 11:27:11 GMT (Thursday 5th January 2023)"
+	revision: "6"
 
 class
 	EL_FTP_MIRROR_COMMAND
@@ -17,6 +17,8 @@ inherit
 		redefine
 			set_passphrase, set_source_dir, set_target_dir
 		end
+
+	EL_SHARED_ESCAPE_TABLE
 
 create
 	 make
@@ -49,9 +51,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Bash_escaper: EL_BASH_PATH_ZSTRING_ESCAPER
+	Bash_escaper: EL_STRING_ESCAPER [ZSTRING]
 		once
-			create Result.make
+			create Result.make (Escape_table.Bash)
 		end
 
 	Template: STRING = "[

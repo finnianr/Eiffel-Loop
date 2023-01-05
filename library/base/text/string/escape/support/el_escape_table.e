@@ -1,13 +1,17 @@
 note
-	description: "Character escape table"
+	description: "[
+		Character escape table initializeable by a string like the following example for C language
+		
+			"%T:=t, %N:=n, \:=\"
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-04 12:23:55 GMT (Wednesday 4th January 2023)"
-	revision: "1"
+	date: "2023-01-05 10:13:30 GMT (Thursday 5th January 2023)"
+	revision: "2"
 
 class
 	EL_ESCAPE_TABLE
@@ -23,24 +27,28 @@ create
 
 feature {NONE} -- Initialization
 
-	make (escape: CHARACTER_32; character_map: ARRAY [READABLE_STRING_GENERAL])
+	make (escape: CHARACTER_32; character_map: STRING_GENERAL)
 		-- make table where characters are transformed into another character prefixed by `escape_character'
+		-- `character_map' is a comma separated list of assignments. See description above.
 		require
-			contains_assignment: across character_map as str all str.item.substring_index (":=", 1) = 2 end
-			size_is_4: across character_map as str all str.item.count = 4 end
+			contains_assignment:
+				across adjusted_list (character_map) as str all
+					str.item.substring_index (":=", 1) = 2
+				end
+			size_is_4: across adjusted_list (character_map) as str all str.item.count = 4 end
 		local
 			index: INTEGER
 		do
 			escape_character := escape
 			make_table (character_map.count)
-			 across character_map as str loop
+			 across adjusted_list (character_map) as str loop
 			 	index := str.item.substring_index (":=", 1)
 			 	if index = 2 and then str.item.count = 4 then
 			 		extend (str.item [4], str.item [1])
 			 	end
 			 end
 		ensure
-			full: count = character_map.count
+			full: count = character_map.occurrences (',') + 1
 			has_escape: has (escape_character)
 		end
 
@@ -65,4 +73,16 @@ feature -- Access
 
 	escape_character: CHARACTER_32
 
+	adjusted_list (str: STRING_GENERAL): LIST [STRING_GENERAL]
+		local
+			map: STRING_GENERAL
+		do
+			Result := str.split (',')
+			across Result as list loop
+				map := list.item
+				from until map.count = 0 or else map [1] /= ' ' loop
+					map.remove (1)
+				end
+			end
+		end
 end

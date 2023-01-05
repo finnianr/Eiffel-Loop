@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-04 18:28:59 GMT (Wednesday 4th January 2023)"
-	revision: "2"
+	date: "2023-01-05 10:50:15 GMT (Thursday 5th January 2023)"
+	revision: "3"
 
 class
 	EL_ESCAPE_TABLES
@@ -15,23 +15,18 @@ class
 feature -- Access
 
 	Bash: EL_ESCAPE_TABLE
-		do
+		once
 			create Result.make_simple ('\', "<>(){}[] '`%"!?&|^$:;,")
 		end
 
 	CSV: EL_ESCAPE_TABLE
 		once
-			create Result.make ('\', <<
-				"%N:=n", "%R:=r", "%T:=t", "%":=%"", "\:=\"
-			>>)
+			create Result.make ('\', "%N:=n, %R:=r, %T:=t, %":=%", \:=\")
 		end
 
 	JSON: EL_ESCAPE_TABLE
 		once
-			create Result.make ('\', <<
-				"%B:=b", "%F:=f", "%N:=n", "%R:=r", "%T:=t",
-				"%":=%"", "\:=\"
-			>>)
+			create Result.make ('\', "%B:=b, %F:=f, %N:=n, %R:=r, %T:=t, %":=%", \:=\")
 		end
 
 	Python_1: EL_ESCAPE_TABLE
@@ -48,12 +43,15 @@ feature -- Access
 			Result ['"'] := '"'
 		end
 
+	XML: EL_ESCAPE_TABLE
+		once
+			create Result.make_simple ('%U', "<>&'%"")
+		end
+
 feature {NONE} -- Implementation
 
 	new_python: EL_ESCAPE_TABLE
 		do
-			create Result.make ('\', <<
-				"%T:=t", "%N:=n", "\:=\"
-			>>)
+			create Result.make ('\', "%T:=t, %N:=n, \:=\")
 		end
 end

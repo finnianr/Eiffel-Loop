@@ -1,13 +1,7 @@
 note
 	description: "[
-		Implementation of [$source EL_FIELD_VALUE_TABLE] that escapes the value of field attribute
+		Implementation of [$source EL_REFERENCE_FIELD_VALUE_TABLE] that escapes the value of field attribute
 		string.
-	]"
-	descendants: "[
-			EL_ESCAPED_STRING_GENERAL_FIELD_VALUE_TABLE [$source STRING_GENERAL]*
-				[$source EL_ESCAPED_ZSTRING_FIELD_VALUE_TABLE]
-				[$source EL_ESCAPED_STRING_8_FIELD_VALUE_TABLE]
-				[$source EL_ESCAPED_STRING_32_FIELD_VALUE_TABLE]
 	]"
 
 	author: "Finnian Reilly"
@@ -15,11 +9,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-01-05 11:27:48 GMT (Thursday 5th January 2023)"
+	revision: "8"
 
-deferred class
-	EL_ESCAPED_STRING_GENERAL_FIELD_VALUE_TABLE [S -> STRING_GENERAL create make end]
+class
+	EL_ESCAPED_STRING_FIELD_VALUE_TABLE [S -> STRING_GENERAL create make end]
 
 inherit
 	EL_REFERENCE_FIELD_VALUE_TABLE [S]
@@ -28,6 +22,9 @@ inherit
 		redefine
 			set_conditional_value
 		end
+
+create
+	make
 
 feature {NONE} -- Initialization
 
@@ -47,11 +44,12 @@ feature {NONE} -- Implementation
 		end
 
 	escaped_value (str: S): S
-		deferred
+		do
+			Result := escaper.escaped (str, True)
 		end
 
 feature {NONE} -- Internal attributes
 
-	escaper: EL_STRING_GENERAL_ESCAPER
+	escaper: EL_STRING_ESCAPER [S]
 
 end

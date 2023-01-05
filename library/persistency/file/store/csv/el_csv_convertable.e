@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 10:41:21 GMT (Monday 5th December 2022)"
-	revision: "4"
+	date: "2023-01-05 9:40:44 GMT (Thursday 5th January 2023)"
+	revision: "5"
 
 deferred class
 	EL_CSV_CONVERTABLE
@@ -65,7 +65,7 @@ feature -- Basic operations
 
 feature {NONE} -- Constants
 
-	CSV_escaper: EL_COMMA_SEPARATED_VALUE_ESCAPER
+	CSV_escaper: EL_CSV_ESCAPER [ZSTRING]
 		once
 			create Result.make
 		end

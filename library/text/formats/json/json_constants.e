@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-01-05 10:02:58 GMT (Thursday 5th January 2023)"
+	revision: "4"
 
 deferred class
 	JSON_CONSTANTS
@@ -17,11 +17,13 @@ inherit
 
 	EL_MODULE_TUPLE
 
+	EL_SHARED_ESCAPE_TABLE
+
 feature {NONE} -- Constants
 
-	Escaper: JSON_VALUE_ESCAPER
+	Escaper: EL_STRING_ESCAPER [ZSTRING]
 		once
-			create Result.make
+			create Result.make (Escape_table.JSON)
 		end
 
 	Unescaper: JSON_UNESCAPER

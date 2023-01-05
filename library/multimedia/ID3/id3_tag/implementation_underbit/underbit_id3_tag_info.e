@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-01-05 11:41:54 GMT (Thursday 5th January 2023)"
+	revision: "10"
 
 class
 	UNDERBIT_ID3_TAG_INFO
@@ -38,7 +38,7 @@ inherit
 
 	UNDERBIT_ID3_TAG_C_API undefine default_create end
 
-	EL_FACTORY_CLIENT undefine default_create end
+	EL_FACTORY_CLIENT
 
 create
 	make

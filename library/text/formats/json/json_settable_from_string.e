@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 16:29:08 GMT (Saturday 31st December 2022)"
-	revision: "33"
+	date: "2023-01-05 9:56:53 GMT (Thursday 5th January 2023)"
+	revision: "34"
 
 deferred class
 	JSON_SETTABLE_FROM_STRING

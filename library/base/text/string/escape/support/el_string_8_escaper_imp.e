@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-04 17:58:14 GMT (Wednesday 4th January 2023)"
-	revision: "2"
+	date: "2023-01-05 10:39:21 GMT (Thursday 5th January 2023)"
+	revision: "3"
 
 class
 	EL_STRING_8_ESCAPER_IMP
@@ -24,6 +24,15 @@ feature -- Access
 		do
 			Result := buffer
 			Result.wipe_out
+		end
+
+feature -- Basic operations
+
+	prepend_character (str: STRING_8; uc: CHARACTER_32)
+		require else
+			one_byte_character: uc.is_character_8
+		do
+			str.prepend_character (uc.to_character_8)
 		end
 
 end
