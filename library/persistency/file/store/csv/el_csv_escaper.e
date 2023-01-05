@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 10:45:29 GMT (Thursday 5th January 2023)"
-	revision: "1"
+	date: "2023-01-05 15:45:19 GMT (Thursday 5th January 2023)"
+	revision: "2"
 
 class
 	EL_CSV_ESCAPER [S -> STRING_GENERAL create make end]
@@ -39,15 +39,13 @@ feature -- Conversion
 		-- and enclose with double quotes if `value.has (',')'
 		do
 			Result := Precursor (value, keeping_ref)
-			if value.has (',') and then attached adjusted_implementation as imp then
+			if value.has (',') and then attached implementation as imp then
 				imp.prepend_character (Result, Double_quote)
 				Result.append_code (Double_quote.natural_32_code)
 			end
 		end
 
 feature {NONE} -- Internal attributes
-
-	escape_128_plus: BOOLEAN
 
 	implementation: EL_CSV_ESCAPER_IMP [S]
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-17 16:33:31 GMT (Saturday 17th December 2022)"
-	revision: "4"
+	date: "2023-01-05 16:28:14 GMT (Thursday 5th January 2023)"
+	revision: "5"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -24,6 +24,8 @@ inherit
 	EL_MODULE_REUSEABLE
 
 	STRING_HANDLER
+
+	EL_SHARED_ESCAPE_TABLE
 
 feature -- Measurement
 
@@ -369,12 +371,8 @@ feature {NONE} -- Constants
 		end
 
 	Substitution_mark_unescaper: EL_ZSTRING_UNESCAPER
-		local
-			table: HASH_TABLE [CHARACTER_32, CHARACTER_32]
 		once
-			create table.make_equal (3)
-			table ['S'] := '%S'
-			create Result.make ('%%', table)
+			create Result.make (Escape_table.Substitution)
 		end
 
 end

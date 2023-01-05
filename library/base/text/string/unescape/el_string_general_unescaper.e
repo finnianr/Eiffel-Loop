@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-01-05 16:03:45 GMT (Thursday 5th January 2023)"
+	revision: "5"
 
 deferred class
 	EL_STRING_GENERAL_UNESCAPER [R -> READABLE_STRING_GENERAL, G -> STRING_GENERAL]
@@ -24,7 +24,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (escape_character: CHARACTER_32; table: HASH_TABLE [CHARACTER_32, CHARACTER_32])
+	make (table: EL_ESCAPE_TABLE)
 		local
 			key_code, code: NATURAL
 		do
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 				code := character_to_code (char.item)
 				extend (code, key_code)
 			end
-			escape_code := character_to_code (escape_character)
+			escape_code := character_to_code (table.escape_character)
 		end
 
 feature -- Access

@@ -1,13 +1,13 @@
 note
-	description: "Unescape Latin-1 strings"
+	description: "Unescape strings conforming to [$source READABLE_STRING_8]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-01-05 15:57:39 GMT (Thursday 5th January 2023)"
+	revision: "7"
 
 class
 	EL_STRING_8_UNESCAPER

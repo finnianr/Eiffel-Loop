@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-04 17:49:59 GMT (Wednesday 4th January 2023)"
-	revision: "16"
+	date: "2023-01-05 15:48:44 GMT (Thursday 5th January 2023)"
+	revision: "17"
 
 deferred class
 	XML_ESCAPER_IMP [S -> STRING_GENERAL create make end]
@@ -20,17 +20,9 @@ inherit
 
 	XML_ESCAPE_ROUTINES
 
-feature -- Initialization
-
-	set_escape_128_plus (yes: BOOLEAN)
-			-- include escaping of all codes > 128
-		do
-			escape_128_plus := yes
-		end
-
 feature -- Access
 
-	escape_sequence (code: NATURAL): STRING
+	escape_sequence (code: NATURAL; escape_128_plus: BOOLEAN): STRING
 		local
 			unicode: NATURAL
 		do
@@ -44,22 +36,18 @@ feature -- Access
 
 feature -- Basic operations
 
-	append_escape_sequence (str: S; escape_code, code: NATURAL; table: HASH_TABLE [NATURAL, NATURAL])
+	append_escape_sequence (escaper: XML_ESCAPER [S]; str: S; code: NATURAL)
 		do
-			str.append (escape_sequence (code))
+			str.append (escape_sequence (code, escaper.escape_128_plus))
 		end
 
-	is_escaped (code: NATURAL; table: HASH_TABLE [NATURAL, NATURAL]): BOOLEAN
+	is_escaped (escaper: XML_ESCAPER [S]; code: NATURAL): BOOLEAN
 		do
-			if escape_128_plus and then to_unicode (code) > 128 then
+			if escaper.escape_128_plus and then to_unicode (code) > 128 then
 				Result := True
 			else
-				Result := table.has_key (code)
+				Result := escaper.has_code (code)
 			end
 		end
-
-feature {NONE} -- Internal attributes
-
-	escape_128_plus: BOOLEAN
 
 end

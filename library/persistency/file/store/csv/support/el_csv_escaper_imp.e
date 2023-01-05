@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 9:51:45 GMT (Thursday 5th January 2023)"
-	revision: "1"
+	date: "2023-01-05 15:48:57 GMT (Thursday 5th January 2023)"
+	revision: "2"
 
 deferred class
 	EL_CSV_ESCAPER_IMP [S -> STRING_GENERAL create make end]
@@ -20,13 +20,13 @@ inherit
 
 feature -- Basic operations
 
-	append_escape_sequence (str: S; escape_code, code: NATURAL; table: HASH_TABLE [NATURAL, NATURAL])
+	append_escape_sequence (escaper: EL_STRING_ESCAPER [S]; str: S; code: NATURAL)
 		-- Escape " as ""
 		do
 			if code = Double_quote then
 				str.append_code (Double_quote); str.append_code (Double_quote)
 			else
-				Precursor (str, escape_code, code, table)
+				Precursor (escaper, str, code)
 			end
 		end
 

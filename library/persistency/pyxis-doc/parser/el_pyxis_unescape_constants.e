@@ -6,26 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-28 18:48:27 GMT (Wednesday 28th December 2022)"
-	revision: "13"
+	date: "2023-01-05 16:06:30 GMT (Thursday 5th January 2023)"
+	revision: "14"
 
 class
 	EL_PYXIS_UNESCAPE_CONSTANTS
 
 feature {NONE} -- Implementation
 
-	new_escape_table (quote_mark: CHARACTER_32): HASH_TABLE [CHARACTER_32, CHARACTER_32]
+	new_escape_table (quote_mark: CHARACTER_32): EL_ESCAPE_TABLE
 		do
-			create Result.make (3)
-			Result [Escape_character] := Escape_character
-			Result ['n'] := '%N'
-			Result ['t'] := '%T'
+			create Result.make (Escape_character, "\:=\, n:=%N, t:=%T")
 			Result [quote_mark] := quote_mark
 		end
 
 	new_unescape (uc: CHARACTER_32): EL_STRING_8_UNESCAPER
 		do
-			create Result.make (Escape_character, new_escape_table (uc))
+			create Result.make (new_escape_table (uc))
 		end
 
 feature {NONE} -- Constants

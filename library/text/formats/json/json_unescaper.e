@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 8:43:00 GMT (Saturday 3rd December 2022)"
-	revision: "11"
+	date: "2023-01-05 16:10:35 GMT (Thursday 5th January 2023)"
+	revision: "12"
 
 class
 	JSON_UNESCAPER
@@ -20,6 +20,8 @@ inherit
 			numeric_sequence_count, unescaped_code
 		end
 
+	EL_SHARED_ESCAPE_TABLE
+
 create
 	make
 
@@ -27,7 +29,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			make_unescaper ('\', C_escape_table)
+			make_unescaper (Escape_table.JSON.inverted)
 			u_z_code := Codec.as_z_code ('u')
 		end
 
@@ -80,18 +82,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	C_escape_table: HASH_TABLE [CHARACTER_32, CHARACTER_32]
-		once
-			create Result.make (11)
-			Result ['b'] := '%B'
-			Result ['f'] := '%F'
-			Result ['n'] := '%N'
-			Result ['r'] := '%R'
-			Result ['t'] := '%T'
-			Result ['"'] := '"'
-			Result ['\'] := '\'
-		end
 
 	Utf_16_sequence: EL_UTF_16_SEQUENCE
 		once

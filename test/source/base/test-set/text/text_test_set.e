@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-04 12:18:27 GMT (Wednesday 4th January 2023)"
-	revision: "13"
+	date: "2023-01-05 16:20:16 GMT (Thursday 5th January 2023)"
+	revision: "14"
 
 class
 	TEXT_TEST_SET
@@ -145,8 +145,7 @@ feature -- Tests
 				str_32.append_character (escape_character)
 				str_32.append_character (escape_character)
 
-				escape_table_32 := new_escape_table
-				escape_table_32 [escape_character] := escape_character
+				escape_table_32 := new_escape_table (escape_character)
 
 				across Text.Russian_and_english as character loop
 					escape_table_32.search (character.item)
@@ -158,8 +157,8 @@ feature -- Tests
 				str_32 [str_32.index_of (' ', 1)] := escape_character
 				str := str_32
 
-				create unescaper.make (escape_character, escape_table_32)
-				create unescaper_32.make (escape_character, escape_table_32)
+				create unescaper.make (escape_table_32)
+				create unescaper_32.make (escape_table_32)
 
 				unescaped := unescaper.unescaped (str)
 				unescaped_32 := unescaper_32.unescaped (str_32)
@@ -190,13 +189,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_escape_table: HASH_TABLE [CHARACTER_32, CHARACTER_32]
+	new_escape_table (escape: CHARACTER_32): EL_ESCAPE_TABLE
 		do
-			create Result.make (7)
-			Result ['t'] := '%T'
-			Result ['ь'] := 'в'
-			Result ['и'] := 'N'
- 		end
+			create Result.make (escape, {STRING_32} "t:=%T, ь:=в, и:=N")
+ 			Result [escape] := escape
+		end
 
 	output_type_descriptions (crc_check: detachable EL_CYCLIC_REDUNDANCY_CHECK_32)
 		do
@@ -213,12 +210,8 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Substitution_mark_unescaper: EL_ZSTRING_UNESCAPER
-		local
-			table: HASH_TABLE [CHARACTER_32, CHARACTER_32]
 		once
-			create table.make_equal (3)
-			table ['S'] := '%S'
-			create Result.make ('%%', table)
+			create Result.make (Escape_table.Substitution)
 		end
 
 end

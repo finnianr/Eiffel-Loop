@@ -6,11 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 10:46:17 GMT (Thursday 5th January 2023)"
-	revision: "15"
+	date: "2023-01-05 15:49:43 GMT (Thursday 5th January 2023)"
+	revision: "16"
 
 class
 	EL_STRING_ESCAPER [S -> STRING_GENERAL create make end]
+
+inherit
+	HASH_TABLE [NATURAL, NATURAL]
+		rename
+			make as make_table,
+			found_item as found_code,
+			has_key as has_code
+		export
+			{NONE} all
+			{EL_STRING_ESCAPER_IMP} has_code, found_code
+		end
 
 create
 	make
@@ -22,11 +33,15 @@ feature {NONE} -- Initialization
 			set_implementation
 			escape_code := implementation.to_code (escape_table.escape_character)
 
-			create code_table.make (escape_table.count)
+			make_table (escape_table.count)
 			across escape_table as table loop
-				code_table.extend (implementation.to_code (table.item), implementation.to_code (table.key))
+				extend (implementation.to_code (table.item), implementation.to_code (table.key))
 			end
 		end
+
+feature -- Access
+
+	escape_code: NATURAL
 
 feature -- Conversion
 
@@ -41,7 +56,7 @@ feature -- Conversion
 		do
 			Result := implementation.empty_buffer
 
-			if has_escaped (code_table, str, start_index, end_index) then
+			if has_escaped (str, start_index, end_index) then
 				escape_substring_into (str, start_index, end_index, Result)
 
 			elseif start_index = 1 and then end_index = str.count and then attached {S} str as same_str then
@@ -67,15 +82,15 @@ feature -- Basic operations
 		do
 			min_index := str.count.min (end_index)
 			compatible_type := attached {S} str
-			if attached code_table as table and then attached adjusted_implementation as imp then
+			if attached implementation as imp then
 				from i := start_index until i > min_index loop
 					if compatible_type then
 						code := str.code (i)
 					else
 						code := imp.to_code (str [i])
 					end
-					if imp.is_escaped (code, table) then
-						imp.append_escape_sequence (output, escape_code, code, table)
+					if imp.is_escaped (Current, code) then
+						imp.append_escape_sequence (Current, output, code)
 					else
 						output.append_code (code)
 					end
@@ -86,31 +101,22 @@ feature -- Basic operations
 
 feature {NONE} -- Internal attributes
 
-	code_table: HASH_TABLE [NATURAL, NATURAL]
-
-	escape_code: NATURAL
-
 	implementation: EL_STRING_ESCAPER_IMP [S]
 
 feature {NONE} -- Implementation
 
-	adjusted_implementation: like implementation
-		do
-			Result := implementation
-		end
-
-	has_escaped (table: like code_table; str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): BOOLEAN
+	has_escaped (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): BOOLEAN
 		local
 			i, min_index: INTEGER; compatible_type: BOOLEAN
 		do
 			min_index := str.count.min (end_index)
 			compatible_type := attached {S} str
-			if attached adjusted_implementation as imp then
+			if attached implementation as imp then
 				from i := start_index until Result or i > min_index loop
 					if compatible_type then
-						Result := imp.is_escaped (str.code (i), table)
+						Result := imp.is_escaped (Current, str.code (i))
 					else
-						Result := imp.is_escaped (imp.to_code (str [i]), table)
+						Result := imp.is_escaped (Current, imp.to_code (str [i]))
 					end
 					i := i + 1
 				end
@@ -134,18 +140,18 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Zstring_imp: EL_ZSTRING_ESCAPER_IMP
+	String_32_imp: EL_STRING_32_ESCAPER_IMP
 		once
 			create Result.make
 		end
-
 	String_8_imp: EL_STRING_8_ESCAPER_IMP
 		once
 			create Result.make
 		end
 
-	String_32_imp: EL_STRING_32_ESCAPER_IMP
+	Zstring_imp: EL_ZSTRING_ESCAPER_IMP
 		once
 			create Result.make
 		end
+
 end

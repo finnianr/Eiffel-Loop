@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 10:36:37 GMT (Thursday 5th January 2023)"
-	revision: "15"
+	date: "2023-01-05 15:47:38 GMT (Thursday 5th January 2023)"
+	revision: "16"
 
 deferred class
 	EL_STRING_ESCAPER_IMP [S -> STRING_GENERAL create make end]
@@ -34,17 +34,17 @@ feature -- Access
 
 feature -- Status query
 
-	is_escaped (code: NATURAL; table: HASH_TABLE [NATURAL, NATURAL]): BOOLEAN
+	is_escaped (escaper: EL_STRING_ESCAPER [S]; code: NATURAL): BOOLEAN
 		do
-			Result := table.has_key (code)
+			Result := escaper.has_code (code)
 		end
 
 feature -- Basic operations
 
-	append_escape_sequence (str: S; escape_code, code: NATURAL; table: HASH_TABLE [NATURAL, NATURAL])
+	append_escape_sequence (escaper: EL_STRING_ESCAPER [S]; str: S; code: NATURAL)
 		do
-			str.append_code (escape_code)
-			str.append_code (table.found_item)
+			str.append_code (escaper.escape_code)
+			str.append_code (escaper.found_code)
 		end
 
 	prepend_character (str: S; uc: CHARACTER_32)

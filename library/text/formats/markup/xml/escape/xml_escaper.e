@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 11:05:30 GMT (Thursday 5th January 2023)"
-	revision: "15"
+	date: "2023-01-05 15:46:42 GMT (Thursday 5th January 2023)"
+	revision: "16"
 
 class
 	XML_ESCAPER [S -> STRING_GENERAL create make end]
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_escaper
 		redefine
-			adjusted_implementation, implementation, Zstring_imp, String_8_imp, String_32_imp
+			implementation, Zstring_imp, String_8_imp, String_32_imp
 		end
 
 	EL_SHARED_ESCAPE_TABLE
@@ -42,33 +42,27 @@ feature -- Access
 
 	escape_sequence (uc: CHARACTER_32): STRING
 		do
-			if attached adjusted_implementation as imp then
-				Result := imp.escape_sequence (imp.to_code (uc))
+			if attached implementation as imp then
+				Result := imp.escape_sequence (imp.to_code (uc), escape_128_plus)
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	adjusted_implementation: like implementation
-		do
-			Result := implementation
-			Result.set_escape_128_plus (escape_128_plus)
-		end
-
-feature {NONE} -- Internal attributes
+feature -- Status query
 
 	escape_128_plus: BOOLEAN
+
+feature {NONE} -- Internal attributes
 
 	implementation: XML_ESCAPER_IMP [S]
 
 feature {NONE} -- Constants
 
-	String_8_imp: XML_STRING_8_ESCAPER_IMP
+	String_32_imp: XML_STRING_32_ESCAPER_IMP
 		once
 			create Result.make
 		end
 
-	String_32_imp: XML_STRING_32_ESCAPER_IMP
+	String_8_imp: XML_STRING_8_ESCAPER_IMP
 		once
 			create Result.make
 		end

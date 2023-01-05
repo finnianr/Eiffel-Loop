@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 10:13:30 GMT (Thursday 5th January 2023)"
-	revision: "2"
+	date: "2023-01-05 16:24:05 GMT (Thursday 5th January 2023)"
+	revision: "3"
 
 class
 	EL_ESCAPE_TABLE
@@ -23,7 +23,7 @@ inherit
 		end
 
 create
-	make, make_simple
+	make, make_simple, make_inverted
 
 feature {NONE} -- Initialization
 
@@ -69,9 +69,16 @@ feature {NONE} -- Initialization
 			has_escape: has (escape_character)
 		end
 
-feature -- Access
+	make_inverted (other: EL_ESCAPE_TABLE)
+		do
+			escape_character := other.escape_character
+			make_table (other.count)
+			across other as table loop
+				extend (table.key, table.item)
+			end
+		end
 
-	escape_character: CHARACTER_32
+feature -- Access
 
 	adjusted_list (str: STRING_GENERAL): LIST [STRING_GENERAL]
 		local
@@ -84,5 +91,14 @@ feature -- Access
 					map.remove (1)
 				end
 			end
+		end
+
+	escape_character: CHARACTER_32
+
+feature -- Conversion
+
+	inverted: EL_ESCAPE_TABLE
+		do
+			create Result.make_inverted (Current)
 		end
 end
