@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-01-06 12:25:04 GMT (Friday 6th January 2023)"
+	revision: "4"
 
 class
 	EL_ACTIVE_SERVICE_SCREEN
@@ -15,13 +15,13 @@ class
 inherit
 	EL_SERVICE_SCREEN
 		redefine
-			new_command_parts, sort_prefix, Transition_name
+			is_active, new_command_parts, sort_prefix, Transition_name
 		end
 
 	EL_STRING_8_CONSTANTS
 
 create
-	make
+	make, make_default
 
 feature {NONE} -- Initialization
 
@@ -36,6 +36,10 @@ feature -- Access
 
 	id: INTEGER
 		-- screen id
+
+feature -- Status query
+
+	is_active: BOOLEAN = True
 
 feature {NONE} -- Implementation
 

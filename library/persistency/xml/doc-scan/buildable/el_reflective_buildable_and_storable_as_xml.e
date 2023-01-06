@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 14:29:06 GMT (Sunday 1st January 2023)"
-	revision: "27"
+	date: "2023-01-06 13:36:39 GMT (Friday 6th January 2023)"
+	revision: "28"
 
 deferred class
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML
@@ -42,7 +42,7 @@ inherit
 			make_from_file, make_default, Transient_fields
 		end
 
-	EL_MODULE_NAMING; EL_MODULE_XML
+	EL_MODULE_XML
 
 	EL_FILE_OPEN_ROUTINES
 
@@ -97,12 +97,6 @@ feature {NONE} -- Implementation
 	new_file (a_file_path: like file_path): EL_PLAIN_TEXT_FILE
 		do
 			create Result.make_with_name (a_file_path)
-		end
-
-	root_node_name: STRING
-			--
-		do
-			Result := Naming.class_as_snake_lower (Current, 0, 0)
 		end
 
 feature {NONE} -- Constants

@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:12:48 GMT (Monday 5th December 2022)"
-	revision: "17"
+	date: "2023-01-06 10:45:59 GMT (Friday 6th January 2023)"
+	revision: "18"
 
 class
 	UNDEFINE_PATTERN_COUNTER_COMMAND

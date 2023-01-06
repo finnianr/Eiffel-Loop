@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 16:14:24 GMT (Thursday 5th January 2023)"
-	revision: "4"
+	date: "2023-01-06 14:35:33 GMT (Friday 6th January 2023)"
+	revision: "5"
 
 class
 	EL_ESCAPE_TABLES
@@ -45,7 +45,7 @@ feature -- Access
 
 	Substitution: EL_ESCAPE_TABLE
 		once
-			create Result.make ('%%', "S:=%S")
+			create Result.make ('%%', "S:=%S, %%:=%%")
 		end
 
 	XML: EL_ESCAPE_TABLE

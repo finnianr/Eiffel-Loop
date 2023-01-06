@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-30 17:58:54 GMT (Friday 30th December 2022)"
-	revision: "12"
+	date: "2023-01-06 8:54:00 GMT (Friday 6th January 2023)"
+	revision: "13"
 
 class
 	GITHUB_CONFIGURATION
@@ -19,7 +19,7 @@ inherit
 			make_from_file as make,
 			element_node_fields as All_fields
 		redefine
-			make, new_instance_functions
+			make
 		end
 
 create
@@ -66,15 +66,6 @@ feature -- Factory
 			else
 				Result := Credential_template #$ [user_name, encrypted_access_token]
 			end
-		end
-
-feature {NONE} -- Factory
-
-	new_instance_functions: like Default_initial_values
-		do
-			create Result.make_from_array (<<
-				agent: like credential do create Result.make_default end
-			>>)
 		end
 
 feature {NONE} -- Internal attributes

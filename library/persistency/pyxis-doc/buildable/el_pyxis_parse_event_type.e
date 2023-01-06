@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-28 18:48:59 GMT (Wednesday 28th December 2022)"
-	revision: "4"
+	date: "2023-01-06 9:04:30 GMT (Friday 6th January 2023)"
+	revision: "5"
 
-class
+deferred class
 	EL_PYXIS_PARSE_EVENT_TYPE
+
+inherit
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 

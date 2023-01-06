@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 11:34:29 GMT (Sunday 1st January 2023)"
-	revision: "20"
+	date: "2023-01-06 11:06:38 GMT (Friday 6th January 2023)"
+	revision: "21"
 
 class
 	UNDEFINE_PATTERN_COUNTER_TEST_SET
@@ -38,16 +38,21 @@ feature -- Tests
 
 	test_command
 		local
-			command: UNDEFINE_PATTERN_COUNTER_COMMAND
+			command: UNDEFINE_PATTERN_COUNTER_COMMAND; expected_count: INTEGER
 		do
 			create command.make (Manifest_path, create {EL_DIR_PATH_ENVIRON_VARIABLE})
 			command.execute
 			if attached command.greater_than_0_list as list then
-				assert ("1 in list", list.count = 1)
+				assert ("3 in list", list.count = 3)
 				from list.start until list.after loop
-					assert ("2 patterns found", list.item_value = 2)
+					if list.index = 1 then
+						expected_count := 1
+					else
+						expected_count := 2
+					end
+					assert ("expected number", list.item_value = expected_count)
 					assert ("matches type",
-						some_type_matches (<< {EL_SETTABLE_FROM_STRING}, {EL_PATH} >>, list.item_key)
+						some_type_matches (<< {EL_SETTABLE_FROM_STRING}, {EL_PATH}, {EL_PATH_STEPS} >>, list.item_key)
 					)
 					list.forth
 				end
@@ -71,7 +76,7 @@ feature {NONE} -- Implementation
 	source_file_list: EL_FILE_PATH_LIST
 		do
 			Result := OS.file_list (Data_dir #+ "kernel/reflection/settable", "*.e")
-			Result.append (OS.file_list (Data_dir #+ "text/file/naming", "*.e"))
+			Result.append (OS.file_list (Data_dir #+ "runtime/file/naming", "*.e"))
 		end
 
 feature {NONE} -- Constants

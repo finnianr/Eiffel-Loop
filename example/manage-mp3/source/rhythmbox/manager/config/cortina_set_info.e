@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 10:03:02 GMT (Saturday 31st December 2022)"
-	revision: "7"
+	date: "2023-01-06 12:01:07 GMT (Friday 6th January 2023)"
+	revision: "8"
 
 class
 	CORTINA_SET_INFO
@@ -42,10 +42,10 @@ feature -- Access
 	clip_duration: INTEGER
 
 	fade_in: REAL
-		-- fade in duration
+		-- fade-in duration in secs
 
 	fade_out: REAL
-		-- fade out duration
+		-- fade-out duration in secs
 
 	tango_count: INTEGER
 

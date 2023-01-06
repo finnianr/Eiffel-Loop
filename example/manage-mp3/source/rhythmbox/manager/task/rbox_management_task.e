@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 10:22:18 GMT (Saturday 31st December 2022)"
-	revision: "23"
+	date: "2023-01-06 12:04:05 GMT (Friday 6th January 2023)"
+	revision: "24"
 
 deferred class
 	RBOX_MANAGEMENT_TASK
@@ -22,7 +22,7 @@ inherit
 		export
 			{RBOX_MUSIC_MANAGER} make
 		redefine
-			make, make_default, new_instance_functions, Transient_fields, root_node_name
+			make, make_default, Transient_fields, root_node_name
 		end
 
 	SONG_QUERY_CONDITIONS undefine is_equal end
@@ -88,17 +88,6 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
-
-	new_instance_functions: like Default_initial_values
-		do
-			create Result.make_from_array (<<
-				agent: VOLUME_INFO do create Result.make end,
-				agent: PLAYLIST_EXPORT_INFO do create Result.make end,
-				agent: DJ_EVENT_INFO do create Result.make end,
-				agent: CORTINA_SET_INFO do create Result.make end,
-				agent: DJ_EVENT_PUBLISHER_CONFIG do create Result.make end
-			>>)
-		end
 
 	root_node_name: STRING
 		do

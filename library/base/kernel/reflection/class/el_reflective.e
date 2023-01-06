@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-03 18:14:36 GMT (Tuesday 3rd January 2023)"
-	revision: "65"
+	date: "2023-01-06 14:18:01 GMT (Friday 6th January 2023)"
+	revision: "66"
 
 deferred class
 	EL_REFLECTIVE
@@ -19,15 +19,15 @@ inherit
 
 	EL_REFLECTIVE_FIELD_ORDER
 
-	EL_MODULE_EIFFEL
-
 	EL_NAMING_CONVENTIONS
+
+	EL_FIELD_TYPE_QUERY_ROUTINES
 
 	EL_REFLECTION_HANDLER
 
 	EL_STRING_8_CONSTANTS
 
-	EL_SHARED_CLASS_ID; EL_SHARED_FACTORIES
+	EL_SHARED_CLASS_ID
 
 feature {NONE} -- Initialization
 
@@ -95,7 +95,12 @@ feature {EL_REFLECTION_HANDLER} -- Access
 
 	field_table: EL_REFLECTED_FIELD_TABLE
 		do
-			Result := meta_data.field_table
+			if attached internal_field_table as table then
+				Result := table
+			else
+				Result := meta_data.field_table
+				internal_field_table := Result
+			end
 		end
 
 	foreign_naming: detachable EL_NAME_TRANSLATER
@@ -107,12 +112,7 @@ feature {EL_REFLECTION_HANDLER} -- Access
 
 	meta_data: EL_CLASS_META_DATA
 		do
-			if attached internal_meta_data as data then
-				Result := data
-			else
-				Result := new_meta_data
-				internal_meta_data := Result
-			end
+			Result := Meta_data_table.item (Current)
 		end
 
 feature -- Comparison
@@ -319,39 +319,6 @@ feature {EL_REFLECTIVE_I} -- Implementation
 			end
 		end
 
-	is_any_field (basic_type, type_id: INTEGER): BOOLEAN
-		do
-			Result := True
-		end
-
-	is_collection_field (basic_type, type_id: INTEGER): BOOLEAN
-		do
-			Result := Eiffel.field_conforms_to_collection (basic_type, type_id)
-		end
-
-	is_date_field (basic_type, type_id: INTEGER): BOOLEAN
-		do
-			Result := Eiffel.field_conforms_to_date_time (basic_type, type_id)
-		end
-
-	is_field_convertable_from_string (basic_type, type_id: INTEGER): BOOLEAN
-		-- True if field is either an expanded type (with the exception of POINTER) or conforms to one of following types
-		-- 	STRING_GENERAL, EL_DATE_TIME, EL_MAKEABLE_FROM_STRING_GENERAL, BOOLEAN_REF, EL_PATH
-		do
-			Result := Eiffel.is_type_convertable_from_string (basic_type, type_id)
-		end
-
-	is_initializeable_collection_field (basic_type, type_id: INTEGER): BOOLEAN
-		do
-			if Eiffel.is_reference (basic_type) and then Arrayed_list_factory.is_valid_type (type_id) then
-				Result := Eiffel.is_type_convertable_from_string (basic_type, Eiffel.collection_item_type (type_id))
-			end
-		end
-
-	is_string_or_expanded_field (basic_type, type_id: INTEGER): BOOLEAN
-		do
-			Result := Eiffel.is_string_or_expanded_type (basic_type, type_id)
-		end
 
 feature {EL_CLASS_META_DATA} -- Implementation
 
@@ -386,7 +353,7 @@ feature {EL_CLASS_META_DATA} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	internal_meta_data: detachable EL_CLASS_META_DATA note option: transient attribute end
+	internal_field_table: detachable like field_table note option: transient attribute end
 
 feature {EL_CLASS_META_DATA} -- Constants
 
@@ -396,6 +363,11 @@ feature {EL_CLASS_META_DATA} -- Constants
 			create Result.make_empty
 		ensure
 			valid_field_names: valid_field_names (Result)
+		end
+
+	Meta_data_table: EL_FUNCTION_RESULT_TABLE [EL_REFLECTIVE, EL_CLASS_META_DATA]
+		once
+			create Result.make (19, agent {EL_REFLECTIVE}.new_meta_data)
 		end
 
 	Transient_fields: STRING
@@ -436,6 +408,18 @@ note
 					Result := Precursor + ", file_path"
 				end
 
+		**New Instance Functions**
+
+		Override `new_instance_functions' to add creation functions for any attributes
+		that do not have a default factory. These functions are added to **New_instance_table**
+		in class [$source EL_SHARED_NEW_INSTANCE_TABLE].
+		
+		For example:
+
+			new_instance_functions: ARRAY [FUNCTION [ANY]]
+				do
+					Result := << agent: FTP_BACKUP do create Result.make end >>
+				end
 	]"
 
 	descendants: "[

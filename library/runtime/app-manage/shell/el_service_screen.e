@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-30 17:29:39 GMT (Friday 30th December 2022)"
-	revision: "8"
+	date: "2023-01-06 12:24:20 GMT (Friday 6th January 2023)"
+	revision: "9"
 
 class
 	EL_SERVICE_SCREEN
@@ -65,6 +65,10 @@ feature -- Access
 		-- sort alphabetically with active in top section
 
 feature -- Status query
+
+	is_active: BOOLEAN
+		do
+		end
 
 	is_script: BOOLEAN
 		do

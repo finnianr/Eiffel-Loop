@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-01-06 12:37:49 GMT (Friday 6th January 2023)"
+	revision: "7"
 
 class
 	EL_SERVICE_MANAGER_SHELL
@@ -51,7 +51,7 @@ feature {NONE} -- Implementation
 	display_menu
 		do
 			Precursor
-			lio.put_integer_field ("Active services", config.active_screen_count)
+			lio.put_integer_field ("Active services", config.screen_list.active_count)
 			lio.put_new_line
 		end
 
@@ -59,8 +59,8 @@ feature {NONE} -- Implementation
 		local
 			screen: EL_SERVICE_SCREEN; longest_name_count: INTEGER
 		do
-			longest_name_count := config.longest_name_count
-			create Result.make_equal (config.screen_count)
+			longest_name_count := config.screen_list.longest_name_count
+			create Result.make_equal (config.screen_list.count)
 			across config.screen_list as list loop
 				screen := list.item
 				Result [screen.menu_name (longest_name_count)] := agent screen.resume_or_launch (Current)

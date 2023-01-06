@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-30 18:04:31 GMT (Friday 30th December 2022)"
-	revision: "11"
+	date: "2023-01-06 13:42:00 GMT (Friday 6th January 2023)"
+	revision: "12"
 
 class
 	REGULAR_EXPRESSION_SEARCH_COMMAND
@@ -56,17 +56,28 @@ feature -- Basic operations
 
 	execute
 		local
-			grep_options: ZSTRING; user_quit: BOOLEAN; count: INTEGER
+			user_quit: BOOLEAN; count: INTEGER; previous_options, grep_options: ZSTRING
 		do
 			lio.put_integer_field ("Manifest source file count", manifest.file_count)
 			lio.put_new_line_x2
+			lio.put_labeled_string ("TIP", "to repeat a search use ditto symbol %"")
+			lio.put_new_line
 
 			create grep_options.make_empty
+			create previous_options.make_empty
+
 			from until user_quit loop
 				from grep_options.wipe_out until grep_options.count > 0 loop
 					grep_options := User_input.line ("Grep arguments")
 				end
 				grep_options.adjust
+				if grep_options.is_character ('"') then
+					if previous_options.count > 0 then
+						grep_options := previous_options.twin
+					end
+				else
+					previous_options := grep_options.twin
+				end
 				user_quit := grep_options.same_string_general ("quit")
 				if not user_quit then
 					lio.put_new_line

@@ -1,3 +1,6 @@
+1.9.8
+* Added ditto for repeating a grep search
+
 1.9.7
 * Added source file count to grep 
 

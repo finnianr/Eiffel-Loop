@@ -1,14 +1,5 @@
 note
 	description: "Reflectively buildable from pyxis"
-	notes: "[
-		Override `new_instance_functions' to add creation functions for any attributes
-		conforming to class [$source EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT]. For example:
-
-			new_instance_functions: ARRAY [FUNCTION [ANY]]
-				do
-					Result := << agent: FTP_BACKUP do create Result.make end >>
-				end
-	]"
 	descendants: "See end of class"
 
 	author: "Finnian Reilly"
@@ -16,20 +7,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-03 15:40:38 GMT (Tuesday 3rd January 2023)"
-	revision: "18"
+	date: "2023-01-06 13:23:05 GMT (Friday 6th January 2023)"
+	revision: "19"
 
 deferred class
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
 
 inherit
-	EL_BUILDABLE_FROM_PYXIS
-		rename
-			xml_name_space as xmlns
-		undefine
-			is_equal, new_building_actions, make_default
-		end
-
 	EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN
 		rename
 			xml_name_space as xmlns,
@@ -38,19 +22,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_NAMING
-
-feature {NONE} -- Implementation
-
-	prune_root_words_count: INTEGER
-		do
-		end
-
-	root_node_name: STRING
-			--
-		do
-			Result := Naming.class_as_snake_lower (Current, prune_root_words_count, 0)
-		end
+	EL_PYXIS_PARSE_EVENT_TYPE
 
 note
 	descendants: "[

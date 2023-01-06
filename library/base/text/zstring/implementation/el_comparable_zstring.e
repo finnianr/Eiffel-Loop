@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:11:34 GMT (Monday 5th December 2022)"
-	revision: "13"
+	date: "2023-01-06 10:13:51 GMT (Friday 6th January 2023)"
+	revision: "14"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -24,16 +24,25 @@ feature -- Status query
 
 feature -- Character comparison
 
-	ends_with_character (c: CHARACTER_32): BOOLEAN
+	ends_with_character (uc: CHARACTER_32): BOOLEAN
+		-- `True' if last character in string is same as `uc'
+		local
+			i: INTEGER
 		do
-			if not is_empty then
-				Result := item (count) = c
-			end
+			i := count
+			Result := i > 0 and then item (i) = uc
 		end
 
 	has_first (uc: CHARACTER_32): BOOLEAN
+		-- `True' if first character in string is same as `uc'
 		do
-			Result := not is_empty and then z_code (1) = uc.natural_32_code
+			Result := count > 0 and then item (1) = uc
+		end
+
+	is_character (uc: CHARACTER_32): BOOLEAN
+		-- `True' if string is same as single character `uc'
+		do
+			Result := count = 1 and then item (1) = uc
 		end
 
 feature -- Start/End comparisons
