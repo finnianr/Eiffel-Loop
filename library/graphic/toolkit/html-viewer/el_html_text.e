@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "18"
+	date: "2023-01-07 11:47:02 GMT (Saturday 7th January 2023)"
+	revision: "19"
 
 class
 	EL_HTML_TEXT
@@ -54,9 +54,6 @@ inherit
 		end
 
 	EL_XML_PARSE_EVENT_TYPE
-		undefine
-			default_create, copy
-		end
 
 	EL_MODULE_COLOR
 

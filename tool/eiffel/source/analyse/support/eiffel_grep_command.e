@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 12:51:01 GMT (Thursday 29th December 2022)"
-	revision: "5"
+	date: "2023-01-07 17:05:19 GMT (Saturday 7th January 2023)"
+	revision: "6"
 
 class
 	EIFFEL_GREP_COMMAND
@@ -19,7 +19,7 @@ inherit
 		end
 
 create
-	execute, make
+	make
 
 feature {NONE} -- Initialization
 
@@ -51,7 +51,7 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Template: STRING = "[
-		grep --recursive --include "*.e" $OPTIONS
+		grep --recursive --line-number --include "*.e" $OPTIONS
 	]"
 
 end

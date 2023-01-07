@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-06 13:42:00 GMT (Friday 6th January 2023)"
-	revision: "12"
+	date: "2023-01-07 16:38:05 GMT (Saturday 7th January 2023)"
+	revision: "13"
 
 class
 	REGULAR_EXPRESSION_SEARCH_COMMAND
@@ -24,6 +24,8 @@ inherit
 	EL_MODULE_FILE_SYSTEM; EL_MODULE_DIRECTORY; EL_MODULE_USER_INPUT
 
 	EL_ENCODING_CONSTANTS
+
+	GREP_RESULT_CONSTANTS
 
 create
 	make
@@ -151,22 +153,27 @@ feature {NONE} -- Implementation
 
 	write_result (a_line: TUPLE [source_dir: DIR_PATH; content: ZSTRING]; output: detachable EL_PLAIN_TEXT_FILE)
 		local
-			source_path: FILE_PATH; dir_line: detachable ZSTRING; index_colon: INTEGER
-			s: EL_ZSTRING_ROUTINES; line: ZSTRING
+			source_path: FILE_PATH; dir_line: detachable ZSTRING; index_colon, i: INTEGER
+			s: EL_ZSTRING_ROUTINES; line, class_line: ZSTRING
 		do
 			line := a_line.content
-			index_colon := line.index_of (':', 1)
-
-			if index_colon > 0 then
-				source_path := a_line.source_dir + line.substring (1, index_colon - 1)
-				line.remove_head (index_colon)
+			index_colon := 1
+			from i := 1 until i > 2 or else index_colon = 0 loop
+				index_colon := line.index_of (':', 1)
+				if index_colon > 0 then
+					if i = 1 then
+						source_path := a_line.source_dir + line.substring (1, index_colon - 1)
+						line.remove_head (index_colon)
+					else
+						line.prepend (s.n_character_string (' ', 5 - index_colon))
+					end
+				end
+				i := i + 1
 			end
-			line.left_adjust
-			line.prepend (s.n_character_string (' ', 3))
 
 			if source_path.parent /~ source_dir then
 				source_dir := source_path.parent
-				dir_line := Comment_line + source_dir
+				dir_line := Comment.directory + source_dir
 				if attached output as file then
 					file.put_new_line
 					file.put_line (dir_line)
@@ -177,10 +184,15 @@ feature {NONE} -- Implementation
 			end
 			if not source_path.base_matches (source_class, True) then
 				source_class := source_path.base_sans_extension.as_upper
+				class_line := Class_line_template #$ [source_class]
 				if attached output as file then
-					file.put_line (Class_line + source_class)
+					file.put_new_line
+					file.put_line (class_line)
+					file.put_new_line
 				else
-					lio.put_line (Class_line + source_class)
+					lio.put_new_line
+					lio.put_line (class_line)
+					lio.put_new_line
 				end
 			end
 			if attached output as file then
@@ -206,19 +218,14 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Comment_line: ZSTRING
-		once
-			Result := "-- "
-		end
-
 	Count_template: ZSTRING
 		once
 			Result := "Writing %S results to"
 		end
 
-	Class_line: ZSTRING
+	Class_line_template: ZSTRING
 		once
-			Result := "class "
+			Result := Class_keyword + " %S " + Comment.matching_lines
 		end
 
 	Default_output_file: EL_PLAIN_TEXT_FILE

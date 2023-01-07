@@ -1,3 +1,6 @@
+2.4.5
+* Fixed incorrect meta_data caching
+
 2.4.4
 * New reflection system
 

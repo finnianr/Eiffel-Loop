@@ -21,7 +21,7 @@ system:
 			class = APPLICATION_ROOT; feature = make
 		version:
 			# Special case: no automatic generation of ecf XML for this project
-			major = 1; minor = 9; release = 8; build = 527
+			major = 1; minor = 1; release = 0; build = 527
 			company = "Eiffel-Loop"; product = "eiffel"
 			copyright = "Finnian Reilly"
 

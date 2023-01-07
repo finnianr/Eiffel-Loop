@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "44"
+	date: "2023-01-07 16:08:21 GMT (Saturday 7th January 2023)"
+	revision: "45"
 
 class
 	APPLICATION_ROOT
@@ -35,6 +35,7 @@ inherit
 		FIND_AND_REPLACE_APP,
 		NOTE_DATE_FIXER_APP,
 		NOTE_EDITOR_APP,
+		OPEN_GREP_RESULT_APP,
 		SOURCE_FILE_NAME_NORMALIZER_APP,
 		SOURCE_LOG_LINE_REMOVER_APP,
 		UPGRADE_DEFAULT_POINTER_SYNTAX_APP,
