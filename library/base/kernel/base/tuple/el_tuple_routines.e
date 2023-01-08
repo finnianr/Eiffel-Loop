@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-27 15:27:03 GMT (Tuesday 27th December 2022)"
-	revision: "31"
+	date: "2023-01-08 20:09:40 GMT (Sunday 8th January 2023)"
+	revision: "32"
 
 class
 	EL_TUPLE_ROUTINES
@@ -295,56 +295,64 @@ feature -- Basic operations
 				if i > 1 and then attached delimiter as str then
 					writeable.write_string_8 (str)
 				end
-				inspect tuple.item_code (i)
-					when {TUPLE}.Character_8_code then
-						writeable.write_character_8 (tuple.character_8_item (i))
-
-					when {TUPLE}.Character_32_code then
-						writeable.write_character_32 (tuple.character_32_item (i))
-
-					when {TUPLE}.Boolean_code then
-						writeable.write_boolean (tuple.boolean_item (i))
-
-					when {TUPLE}.Integer_8_code then
-						writeable.write_integer_8 (tuple.integer_8_item (i))
-
-					when {TUPLE}.Integer_16_code then
-						writeable.write_integer_16 (tuple.integer_16_item (i))
-
-					when {TUPLE}.Integer_32_code then
-						writeable.write_integer_32 (tuple.integer_32_item (i))
-
-					when {TUPLE}.Integer_64_code then
-						writeable.write_integer_64 (tuple.integer_64_item (i))
-
-					when {TUPLE}.Natural_8_code then
-						writeable.write_natural_8 (tuple.natural_8_item (i))
-
-					when {TUPLE}.Natural_16_code then
-						writeable.write_natural_16 (tuple.natural_16_item (i))
-
-					when {TUPLE}.Natural_32_code then
-						writeable.write_natural_32 (tuple.natural_32_item (i))
-
-					when {TUPLE}.Natural_64_code then
-						writeable.write_natural_64 (tuple.natural_64_item (i))
-
-					when {TUPLE}.Real_32_code then
-						writeable.write_real_32 (tuple.real_32_item (i))
-
-					when {TUPLE}.Real_64_code then
-						writeable.write_real_64 (tuple.real_64_item (i))
-
-					when {TUPLE}.Reference_code then
-						if attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as str then
-							writeable.write_string_general (str)
-
-						elseif attached {EL_PATH} tuple.reference_item (i) as path then
-							writeable.write_string (path.to_string)
-						end
-				else
-				end
+				write_i_th (tuple, i, writeable)
 				i := i + 1
+			end
+		end
+
+	write_i_th (tuple: TUPLE; i: INTEGER; writeable: EL_WRITABLE)
+		do
+			inspect tuple.item_code (i)
+				when {TUPLE}.Character_8_code then
+					writeable.write_character_8 (tuple.character_8_item (i))
+
+				when {TUPLE}.Character_32_code then
+					writeable.write_character_32 (tuple.character_32_item (i))
+
+				when {TUPLE}.Boolean_code then
+					writeable.write_boolean (tuple.boolean_item (i))
+
+				when {TUPLE}.Integer_8_code then
+					writeable.write_integer_8 (tuple.integer_8_item (i))
+
+				when {TUPLE}.Integer_16_code then
+					writeable.write_integer_16 (tuple.integer_16_item (i))
+
+				when {TUPLE}.Integer_32_code then
+					writeable.write_integer_32 (tuple.integer_32_item (i))
+
+				when {TUPLE}.Integer_64_code then
+					writeable.write_integer_64 (tuple.integer_64_item (i))
+
+				when {TUPLE}.Natural_8_code then
+					writeable.write_natural_8 (tuple.natural_8_item (i))
+
+				when {TUPLE}.Natural_16_code then
+					writeable.write_natural_16 (tuple.natural_16_item (i))
+
+				when {TUPLE}.Natural_32_code then
+					writeable.write_natural_32 (tuple.natural_32_item (i))
+
+				when {TUPLE}.Natural_64_code then
+					writeable.write_natural_64 (tuple.natural_64_item (i))
+
+				when {TUPLE}.Pointer_code then
+					writeable.write_pointer (tuple.pointer_item (i))
+
+				when {TUPLE}.Real_32_code then
+					writeable.write_real_32 (tuple.real_32_item (i))
+
+				when {TUPLE}.Real_64_code then
+					writeable.write_real_64 (tuple.real_64_item (i))
+
+				when {TUPLE}.Reference_code then
+					if attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as str then
+						writeable.write_string_general (str)
+
+					elseif attached {EL_PATH} tuple.reference_item (i) as path then
+						writeable.write_string (path.to_string)
+					end
+			else
 			end
 		end
 

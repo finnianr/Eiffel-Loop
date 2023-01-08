@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 16:28:23 GMT (Saturday 31st December 2022)"
-	revision: "31"
+	date: "2023-01-08 14:29:45 GMT (Sunday 8th January 2023)"
+	revision: "32"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]

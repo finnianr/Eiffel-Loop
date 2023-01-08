@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-17 17:03:24 GMT (Saturday 17th December 2022)"
-	revision: "27"
+	date: "2023-01-08 20:07:06 GMT (Sunday 8th January 2023)"
+	revision: "28"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -35,25 +35,18 @@ inherit
 			write_string_general as add_string_general,
 			write_boolean as add_boolean,
 			write_pointer as add_pointer
-		undefine
-			copy, is_equal
 		end
 
-	MANAGED_POINTER
-		rename
-			count as byte_count,
-			make as make_pointer
+	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM; EL_MODULE_TUPLE
+
+	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR
+
+	STRING_HANDLER
+
+	PLATFORM
 		export
 			{NONE} all
 		end
-
-	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM
-
-	EL_SHARED_STRING_8_CURSOR
-
-	EL_SHARED_STRING_32_CURSOR
-
-	STRING_HANDLER undefine copy, is_equal end
 
 create
 	make
@@ -64,11 +57,8 @@ feature {NONE} -- Initialization
 	 	local
 	 		n, i: INTEGER; c: NATURAL
 		do
-			default_create
-			is_shared := True
-			set_from_pointer (Default_pointer, 0)
-	 		create table.make_filled (0, 256)
-	 		from n := 0 until n = table.count loop
+	 		create crc_table.make_filled (0, 256)
+	 		from n := 0 until n = crc_table.count loop
 	 			c := n.to_natural_32
 	 			from i := 1 until i > 8 loop
 	 				if (c & 1) /= 0 then
@@ -78,7 +68,7 @@ feature {NONE} -- Initialization
 	 				end
 	 				i := i + 1
 	 			end
-	 			table [n] := c
+	 			crc_table [n] := c
 	 			n := n + 1
 	 		end
 		end
@@ -149,62 +139,22 @@ feature -- Add basic types
 
 	add_tuple (a_tuple: TUPLE)
 		local
-			i: INTEGER; l_reference: ANY
+			i, count: INTEGER
 		do
-			from i := 1 until i > a_tuple.count loop
-				inspect a_tuple.item_code (i)
-					when {TUPLE}.Boolean_code then
-						add_boolean (a_tuple.boolean_item (i))
-
-					when {TUPLE}.Character_8_code then
-						add_character_8 (a_tuple.character_8_item (i))
-
-					when {TUPLE}.Character_32_code then
-						add_character_32 (a_tuple.character_32_item (i))
-
-					when {TUPLE}.Integer_8_code then
-						add_integer_8 (a_tuple.integer_8_item (i))
-
-					when {TUPLE}.Integer_16_code then
-						add_integer_16 (a_tuple.integer_16_item (i))
-
-					when {TUPLE}.Integer_32_code then
-						add_integer_32 (a_tuple.integer_32_item (i))
-
-					when {TUPLE}.Integer_64_code then
-						add_integer_64 (a_tuple.integer_64_item (i))
-
-					when {TUPLE}.Natural_8_code then
-						add_natural_8 (a_tuple.natural_8_item (i))
-
-					when {TUPLE}.Natural_16_code then
-						add_natural_16 (a_tuple.natural_16_item (i))
-
-					when {TUPLE}.Natural_32_code then
-						add_natural_32 (a_tuple.natural_32_item (i))
-
-					when {TUPLE}.Natural_64_code then
-						add_natural_64 (a_tuple.natural_64_item (i))
-
-					when {TUPLE}.Real_32_code then
-						add_real_32 (a_tuple.real_32_item (i))
-
-					when {TUPLE}.Real_64_code then
-						add_real_64 (a_tuple.real_64_item (i))
-
-					when {TUPLE}.Pointer_code then
-						add_pointer (a_tuple.pointer_item (i))
-
-					when {TUPLE}.Reference_code then
-						l_reference := a_tuple.reference_item (i)
-						if attached {READABLE_STRING_GENERAL} l_reference as string then
-							add_string_general (string)
-						elseif attached {EL_PATH} l_reference as path then
-							add_path (path)
-						elseif attached {PATH} l_reference as ise_path then
-							add_ise_path (ise_path)
-						end
+			count := a_tuple.count
+			from i := 1 until i > count loop
+				if a_tuple.item_code (i) = {TUPLE}.Reference_code
+					and then attached a_tuple.reference_item (i) as ref_item
+				then
+					if attached {READABLE_STRING_GENERAL} ref_item as string then
+						add_string_general (string)
+					elseif attached {EL_PATH} ref_item as path then
+						add_path (path)
+					elseif attached {PATH} ref_item as ise_path then
+						add_ise_path (ise_path)
+					end
 				else
+					Tuple.write_i_th (a_tuple, i, Current)
 				end
 				i := i + 1
 			end
@@ -352,21 +302,23 @@ feature {NONE} -- Implementation
 	add_memory (array_ptr: POINTER; count, item_bytes: INTEGER)
 		-- add `count' items of raw memory data of size `item_bytes'
 		local
-			i: INTEGER; c, index: NATURAL
+			i, byte_count, index: INTEGER; c: NATURAL; byte: NATURAL_8
 		do
-			set_from_pointer (array_ptr, count * item_bytes)
+			byte_count := count * item_bytes
 			c := checksum.bit_not
-			from i := 0 until i = byte_count loop
-				index := c.bit_xor (read_natural_8 (i)) & 0xFF
-				c := table.item (index.to_integer_32).bit_xor (c |>> 8)
-				i := i + 1
+			if attached crc_table as area then
+				from i := 0 until i = byte_count loop
+					($byte).memory_copy (array_ptr + i, natural_8_bytes)
+					index := c.bit_xor (byte).to_integer_32 & 0xFF
+					c := area [index].bit_xor (c |>> 8)
+					i := i + 1
+				end
 			end
 			checksum := c.bit_not
-			set_from_pointer (Default_pointer, 0)
 		end
 
 feature {NONE} -- Internal attributes
 
-	table: SPECIAL [NATURAL]
+	crc_table: SPECIAL [NATURAL]
 
 end

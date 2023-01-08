@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 11:23:09 GMT (Monday 5th December 2022)"
-	revision: "14"
+	date: "2023-01-08 14:31:25 GMT (Sunday 8th January 2023)"
+	revision: "15"
 
 deferred class
 	EL_FILE_PERSISTENT_I
@@ -121,6 +121,8 @@ feature {NONE} -- Implementation
 
 	new_file (a_file_path: like file_path): FILE
 		deferred
+		ensure
+			closed: Result.is_closed
 		end
 
 	store_as (a_file_path: like file_path)
