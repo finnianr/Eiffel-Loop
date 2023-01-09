@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2023-01-09 9:59:45 GMT (Monday 9th January 2023)"
+	revision: "15"
 
 deferred class
 	EL_EXCHANGE_RATE_TABLE
@@ -49,7 +49,7 @@ feature -- Access
 			create Result.make (5)
 			create dir.make (Rates_dir)
 			across dir.files_with_extension (XML_extension) as file_path loop
-				Result.extend (Date_factory.create_date (file_path.item.base_sans_extension))
+				Result.extend (Date_factory.create_date (file_path.item.base_name))
 			end
 			Result.reverse_sort
 			Result.compare_objects

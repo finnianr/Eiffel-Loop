@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
-	date: "2023-01-01 11:32:10 GMT (Sunday 1st January 2023)"
-	revision: "5"
+	date: "2023-01-09 9:55:45 GMT (Monday 9th January 2023)"
+	revision: "6"
 
 class
 	PROTEIN_FOLDING_TEST_SET
@@ -86,7 +86,7 @@ feature {NONE} -- Implementation
 
 	input_sequence (result_path: FILE_PATH): STRING
 		do
-			Result := result_path.base_sans_extension
+			Result := result_path.base_name
 		end
 
 	output_path (result_path: FILE_PATH): FILE_PATH

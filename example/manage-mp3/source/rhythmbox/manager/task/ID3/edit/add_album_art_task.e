@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:33:35 GMT (Monday 5th December 2022)"
-	revision: "22"
+	date: "2023-01-09 9:54:44 GMT (Monday 9th January 2023)"
+	revision: "23"
 
 class
 	ADD_ALBUM_ART_TASK
@@ -143,7 +143,7 @@ feature {EQA_TEST_SET} -- Implementation
 			create Result.make (jpeg_path_list.count)
 			across jpeg_path_list as jpeg loop
 				type_name := jpeg.item.parent.base
-				create picture.make (jpeg.item, jpeg.item.base_sans_extension, Picture_type.value (type_name))
+				create picture.make (jpeg.item, jpeg.item.base_name, Picture_type.value (type_name))
 				Result.extend (picture)
 			end
 		end

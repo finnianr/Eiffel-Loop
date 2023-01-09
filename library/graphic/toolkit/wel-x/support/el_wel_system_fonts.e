@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2023-01-09 9:59:20 GMT (Monday 9th January 2023)"
+	revision: "14"
 
 class
 	EL_WEL_SYSTEM_FONTS
@@ -43,7 +43,7 @@ feature -- Element change
 			font_name: ZSTRING; package_file: RAW_FILE
 		do
 			across File_system.files_with_extension (source_dir, font_type, True) as package_path loop
-				font_name := package_path.item.base_sans_extension
+				font_name := package_path.item.base_name
 				if not has_true_type_font (font_name) then
 					create package_file.make_with_name (package_path.item)
 					File.copy_contents_to_dir (package_file, System_fonts_dir)

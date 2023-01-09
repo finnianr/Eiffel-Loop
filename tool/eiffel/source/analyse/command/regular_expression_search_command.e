@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-07 16:38:05 GMT (Saturday 7th January 2023)"
-	revision: "13"
+	date: "2023-01-09 9:56:18 GMT (Monday 9th January 2023)"
+	revision: "14"
 
 class
 	REGULAR_EXPRESSION_SEARCH_COMMAND
@@ -183,7 +183,7 @@ feature {NONE} -- Implementation
 				end
 			end
 			if not source_path.base_matches (source_class, True) then
-				source_class := source_path.base_sans_extension.as_upper
+				source_class := source_path.base_name.as_upper
 				class_line := Class_line_template #$ [source_class]
 				if attached output as file then
 					file.put_new_line

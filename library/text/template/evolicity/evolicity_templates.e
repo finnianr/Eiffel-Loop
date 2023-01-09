@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 14:29:44 GMT (Tuesday 6th December 2022)"
-	revision: "26"
+	date: "2023-01-09 9:50:06 GMT (Monday 9th January 2023)"
+	revision: "27"
 
 class
 	EVOLICITY_TEMPLATES
@@ -216,7 +216,7 @@ feature -- Contract Support
 
 	is_type_template (key_path: FILE_PATH): BOOLEAN
 		do
-			Result := key_path.has_extension ("template") and then key_path.base_sans_extension.enclosed_with (Braces)
+			Result := key_path.has_extension ("template") and then key_path.base_name.enclosed_with (Braces)
 		end
 
 feature {NONE} -- Implementation

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:32:54 GMT (Monday 5th December 2022)"
-	revision: "20"
+	date: "2023-01-09 9:54:35 GMT (Monday 9th January 2023)"
+	revision: "21"
 
 class
 	TANGO_MP3_FILE_COLLATOR
@@ -125,7 +125,7 @@ feature {NONE} -- Implementation
 		do
 			Result := id3_info.tag.title
 			if Result.is_empty then
-				Result := mp3_path.base_sans_extension
+				Result := mp3_path.base_name
 			end
 			-- Remove numbers and other rubbish from start
 			from until Result.is_empty or else Result.item (1).is_alpha loop

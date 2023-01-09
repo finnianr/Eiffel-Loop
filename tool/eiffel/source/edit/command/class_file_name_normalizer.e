@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 13:42:34 GMT (Wednesday 16th November 2022)"
-	revision: "8"
+	date: "2023-01-09 9:56:34 GMT (Monday 9th January 2023)"
+	revision: "9"
 
 class
 	CLASS_FILE_NAME_NORMALIZER
@@ -91,7 +91,7 @@ feature {NONE} -- Implementation
 			new_path: FILE_PATH
 		do
 			do_once_with_file_lines (agent find_class_declaration, open_lines (source_path, Latin_1))
-			if source_path.base_sans_extension /~ class_name.as_lower then
+			if source_path.base_name /~ class_name.as_lower then
 				new_path := source_path.parent + (class_name.as_lower + ".e")
 				File_system.rename_file (source_path, new_path)
 				renamed_table [source_path.base] := new_path.base

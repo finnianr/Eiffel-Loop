@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "42"
+	date: "2023-01-09 9:57:15 GMT (Monday 9th January 2023)"
+	revision: "43"
 
 class
 	EIFFEL_CLASS
@@ -63,7 +63,7 @@ feature {NONE} -- Initialization
 				a_repository.templates.eiffel_source, a_repository.output_dir + relative_source_path.with_new_extension (Html)
 			)
 			library_ecf := a_library_ecf; repository := a_repository; source_path := a_source_path
-			name := source_path.base_sans_extension.as_upper
+			name := source_path.base_name.as_upper
 			code_text := new_code_text (File.plain_text (source_path))
 			make_sync_item (
 				repository.output_dir, repository.ftp_url, html_output_path.relative_path (repository.output_dir)

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:22:24 GMT (Monday 21st November 2022)"
-	revision: "4"
+	date: "2023-01-09 9:56:43 GMT (Monday 9th January 2023)"
+	revision: "5"
 
 class
 	CLASS_RENAMING_SHELL_COMMAND
@@ -90,7 +90,7 @@ feature {NONE} -- Commands
 				across tree.item.path_list as list loop
 					if list.item.parent.has_step ("pattern") then
 						old_name.wipe_out
-						list.item.base_sans_extension.append_to_string_8 (old_name)
+						list.item.base_name.append_to_string_8 (old_name)
 						old_name.to_upper
 						new_name := old_name.twin
 
@@ -150,7 +150,7 @@ feature {NONE} -- Implementation
 			if class_path.base.as_upper.is_equal ("QUIT") then
 				user_quit := true
 			else
-				old_name := class_path.base_sans_extension.as_upper
+				old_name := class_path.base_name.as_upper
 				if prefix_letters.count > 0 then
 					if old_name.starts_with (prefix_letters) then
 						new_name := old_name.substring (prefix_letters.count + 1, old_name.count)

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-01-09 9:54:56 GMT (Monday 9th January 2023)"
+	revision: "11"
 
 class
 	IMPORT_NEW_MP3_TASK
@@ -68,7 +68,7 @@ feature {NONE} -- Implementation
 			if relative_steps.count = 3 then
 				create id3_info.make (mp3_path)
 				if id3_info.tag.title.is_empty then
-					song.set_title (mp3_path.base_sans_extension)
+					song.set_title (mp3_path.base_name)
 				else
 					song.set_title (id3_info.tag.title)
 				end

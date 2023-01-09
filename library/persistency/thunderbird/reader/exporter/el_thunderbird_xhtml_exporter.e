@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-23 16:56:50 GMT (Friday 23rd December 2022)"
-	revision: "27"
+	date: "2023-01-09 9:50:07 GMT (Monday 9th January 2023)"
+	revision: "28"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -134,7 +134,7 @@ feature {NONE} -- Implementation
 			create l_dir.make (output_dir)
 			across related_file_extensions as extension loop
 				across l_dir.files_with_extension (extension.item) as file_path loop
-					if not subject_list.has (file_path.item.base_sans_extension) then
+					if not subject_list.has (file_path.item.base_name) then
 						lio.put_path_field ("Removing %S", file_path.item)
 						lio.put_new_line
 						File_system.remove_file (file_path.item)

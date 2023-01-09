@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-01-09 9:55:55 GMT (Monday 9th January 2023)"
+	revision: "5"
 
 class
 	VELOCITY_TEST_SET
@@ -53,7 +53,7 @@ feature {NONE} -- Implementation
 				lio.put_new_line
 				assert ("output has directory element", manifest_text.has_substring (element))
 				across OS.file_list (list.item, "*.e") as l_path loop
-					element := Class_element #$ [l_path.item.base_sans_extension.as_upper]
+					element := Class_element #$ [l_path.item.base_name.as_upper]
 					assert ("output has class element", manifest_text.has_substring (element))
 				end
 			end
@@ -130,7 +130,7 @@ feature {NONE} -- Implementation
 		do
 			create Result.make
 			across OS.file_list (location, "*.e") as l_path loop
-				class_name := l_path.item.base_sans_extension.as_upper
+				class_name := l_path.item.base_name.as_upper
 				Result.add_last_string (class_name)
 			end
 		end

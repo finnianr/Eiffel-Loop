@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 8:51:18 GMT (Sunday 1st January 2023)"
-	revision: "27"
+	date: "2023-01-09 9:50:07 GMT (Monday 9th January 2023)"
+	revision: "28"
 
 class
 	OPEN_OFFICE_TEST_SET
@@ -54,7 +54,7 @@ feature -- Tests
 			across Namespace_list.split ('%N') as name loop
 				assert ("has namespace " + name.item, xdoc.namespace_table.has (name.item))
 			end
-			do_test ("print_spreadsheet", 4123041651, agent print_spreadsheet, [xdoc, file_path.base_sans_extension])
+			do_test ("print_spreadsheet", 4123041651, agent print_spreadsheet, [xdoc, file_path.base_name])
 		end
 
 feature {NONE} -- Implementation

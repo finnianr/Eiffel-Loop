@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 11:31:56 GMT (Sunday 1st January 2023)"
-	revision: "6"
+	date: "2023-01-09 9:58:30 GMT (Monday 9th January 2023)"
+	revision: "7"
 
 deferred class
 	EDITOR_COMMAND_TEST_SET
@@ -37,7 +37,7 @@ feature -- Tests
 	test_file_editing
 		do
 			across file_list as file_path loop
-				do_test ("edit_file", Checksum_table [file_path.item.base_sans_extension], agent edit_file, [file_path.item])
+				do_test ("edit_file", Checksum_table [file_path.item.base_name], agent edit_file, [file_path.item])
 			end
 		end
 

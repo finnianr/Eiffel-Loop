@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 17:00:58 GMT (Thursday 29th December 2022)"
-	revision: "5"
+	date: "2023-01-09 10:02:35 GMT (Monday 9th January 2023)"
+	revision: "6"
 
 deferred class
 	EL_PATH_BASE_NAME
@@ -18,8 +18,10 @@ inherit
 feature -- Access
 
 	base: ZSTRING
+		-- last step in path
 
-	base_sans_extension: ZSTRING
+	base_name: ZSTRING
+		-- `base' with the dot extension removed
 		local
 			index: INTEGER
 		do
@@ -29,6 +31,8 @@ feature -- Access
 			else
 				Result := base
 			end
+		ensure
+			definition: Result ~ (base + "." + old extension)
 		end
 
 	extension: ZSTRING
@@ -89,7 +93,7 @@ feature -- Measurement
 feature -- Status Query
 
 	base_matches (name: READABLE_STRING_GENERAL; case_insensitive: BOOLEAN): BOOLEAN
-		-- `True' if `name' is same string as `base_sans_extension' if `case_insensitive' is `True'
+		-- `True' if `name' is same string as `base_name' if `case_insensitive' is `True'
 		local
 			pos_dot: INTEGER
 		do
@@ -104,8 +108,8 @@ feature -- Status Query
 				end
 			end
 		ensure
-			valid_result: not case_insensitive and Result implies base_sans_extension.same_string_general (name)
-			valid_result: case_insensitive and Result implies base_sans_extension.same_caseless_characters_general (name, 1, name.count, 1)
+			valid_result: not case_insensitive and Result implies base_name.same_string_general (name)
+			valid_result: case_insensitive and Result implies base_name.same_caseless_characters_general (name, 1, name.count, 1)
 		end
 
 	has_dot_extension: BOOLEAN

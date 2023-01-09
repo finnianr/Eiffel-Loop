@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-04 12:01:59 GMT (Wednesday 4th January 2023)"
-	revision: "22"
+	date: "2023-01-09 9:55:27 GMT (Monday 9th January 2023)"
+	revision: "23"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -104,7 +104,7 @@ feature -- Access
 
 	html_page_name: ZSTRING
 		do
-			Result := output_path.base_sans_extension + ".html"
+			Result := output_path.base_name + ".html"
 		end
 
 	less_unplayed: EL_ARRAYED_LIST [RBOX_SONG]
@@ -121,7 +121,7 @@ feature -- Access
 
 	name: ZSTRING
 		do
-			Result := output_path.base_sans_extension
+			Result := output_path.base_name
 		end
 
 	new_rbox_entry: RBOX_PLAYLIST_ENTRY

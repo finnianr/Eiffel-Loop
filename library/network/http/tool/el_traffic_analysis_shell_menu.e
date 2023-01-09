@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 16:34:34 GMT (Tuesday 6th December 2022)"
-	revision: "6"
+	date: "2023-01-09 9:59:27 GMT (Monday 9th January 2023)"
+	revision: "7"
 
 class
 	EL_TRAFFIC_ANALYSIS_SHELL_MENU
@@ -44,7 +44,7 @@ feature {NONE} -- Commands
 		local
 			log_path: FILE_PATH; analysis_cmd: EL_TRAFFIC_ANALYSIS_COMMAND
 		do
-			log_path := Directory.temporary + (log_gz_path.base_sans_extension + ".log")
+			log_path := Directory.temporary + (log_gz_path.base_name + ".log")
 			if attached Unzip_command as cmd then
 				cmd.put_path (Var.path, log_gz_path)
 				cmd.put_path (Var.ouput_path, log_path)

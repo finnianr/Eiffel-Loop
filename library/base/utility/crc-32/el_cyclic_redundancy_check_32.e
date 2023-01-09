@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-08 20:07:06 GMT (Sunday 8th January 2023)"
-	revision: "28"
+	date: "2023-01-09 9:37:01 GMT (Monday 9th January 2023)"
+	revision: "29"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -79,14 +79,15 @@ feature -- Access
 
 feature -- Status query
 
-	add_reals_as_strings: BOOLEAN
-		-- when `True' type `DOUBLE' and `REAL' are added as `STRING_8'
+	reals_by_out: BOOLEAN
+		-- when `True' type `DOUBLE' and `REAL' types are added as `STRING_8' by calling `out' function
+		-- useful if checking results of representation in XML etc
 
 feature -- Status change
 
-	set_add_reals_as_strings (yes: BOOLEAN)
+	set_reals_by_out (yes: BOOLEAN)
 		do
-			add_reals_as_strings := yes
+			reals_by_out := yes
 		end
 
 feature -- Add file content
@@ -110,31 +111,31 @@ feature -- Add basic types
 	add_boolean (b: BOOLEAN)
 			--
 		do
-			add_memory ($b, 1, Boolean_bytes)
+			add_to_checksum ($b, 1, Boolean_bytes)
 		end
 
 	add_character_32 (c: CHARACTER_32)
 			--
 		do
-			add_memory ($c, 1, Character_32_bytes)
+			add_to_checksum ($c, 1, Character_32_bytes)
 		end
 
 	add_character_8 (c: CHARACTER)
 			--
 		do
-			add_memory ($c, 1, Character_8_bytes)
+			add_to_checksum ($c, 1, Character_8_bytes)
 		end
 
 	add_data (data: MANAGED_POINTER)
 			--
 		do
-			add_memory (data.item, data.count, 1)
+			add_to_checksum (data.item, data.count, 1)
 		end
 
 	add_pointer (b: POINTER)
 			--
 		do
-			add_memory ($b, 1, Pointer_bytes)
+			add_to_checksum ($b, 1, Pointer_bytes)
 		end
 
 	add_tuple (a_tuple: TUPLE)
@@ -165,20 +166,20 @@ feature -- Add reals
 	add_real_32, add_real (real: REAL)
 			--
 		do
-			if add_reals_as_strings then
+			if reals_by_out then
 				add_string_8 (real.out)
 			else
-				add_memory ($real, 1, Real_32_bytes)
+				add_to_checksum ($real, 1, Real_32_bytes)
 			end
 		end
 
 	add_real_64, add_double (real: DOUBLE)
 			--
 		do
-			if add_reals_as_strings then
+			if reals_by_out then
 				add_string_8 (real.out)
 			else
-				add_memory ($real, 1, Real_64_bytes)
+				add_to_checksum ($real, 1, Real_64_bytes)
 			end
 		end
 
@@ -187,25 +188,25 @@ feature -- Add integers
 	add_integer_16 (n: INTEGER_16)
 			--
 		do
-			add_memory ($n, 1, Integer_16_bytes)
+			add_to_checksum ($n, 1, Integer_16_bytes)
 		end
 
 	add_integer_32, add_integer (n: INTEGER)
 			--
 		do
-			add_memory ($n, 1, Integer_32_bytes)
+			add_to_checksum ($n, 1, Integer_32_bytes)
 		end
 
 	add_integer_64 (n: INTEGER_64)
 			--
 		do
-			add_memory ($n, 1, Integer_64_bytes)
+			add_to_checksum ($n, 1, Integer_64_bytes)
 		end
 
 	add_integer_8 (n: INTEGER_8)
 			--
 		do
-			add_memory ($n, 1, Integer_8_bytes)
+			add_to_checksum ($n, 1, Integer_8_bytes)
 		end
 
 feature -- Add naturals
@@ -213,25 +214,25 @@ feature -- Add naturals
 	add_natural_16 (n: NATURAL_16)
 			--
 		do
-			add_memory ($n, 1, Natural_16_bytes)
+			add_to_checksum ($n, 1, Natural_16_bytes)
 		end
 
 	add_natural_32, add_natural (n: NATURAL)
 			--
 		do
-			add_memory ($n, 1, Natural_32_bytes)
+			add_to_checksum ($n, 1, Natural_32_bytes)
 		end
 
 	add_natural_64 (n: NATURAL_64)
 			--
 		do
-			add_memory ($n, 1, Natural_64_bytes)
+			add_to_checksum ($n, 1, Natural_64_bytes)
 		end
 
 	add_natural_8 (n: NATURAL_8)
 			--
 		do
-			add_memory ($n, 1, Natural_8_bytes)
+			add_to_checksum ($n, 1, Natural_8_bytes)
 		end
 
 feature -- Add strings
@@ -252,9 +253,9 @@ feature -- Add strings
 	add_string (str: ZSTRING)
 			--
 		do
-			add_memory (str.area.base_address, str.count, character_8_bytes)
+			add_to_checksum (str.area.base_address, str.count, character_8_bytes)
 			if str.has_mixed_encoding then
-				add_memory (str.unencoded_area.base_address, str.unencoded_area.count, character_32_bytes)
+				add_to_checksum (str.unencoded_area.base_address, str.unencoded_area.count, character_32_bytes)
 			end
 		end
 
@@ -262,7 +263,7 @@ feature -- Add strings
 			--
 		do
 			if attached cursor_32 (str) as c then
-				add_memory (c.area.base_address + c.area_first_index, str.count, character_32_bytes)
+				add_to_checksum (c.area.base_address + c.area_first_index, str.count, character_32_bytes)
 			end
 		end
 
@@ -270,7 +271,7 @@ feature -- Add strings
 			--
 		do
 			if attached cursor_8 (str) as c then
-				add_memory (c.area.base_address + c.area_first_index, str.count, character_8_bytes)
+				add_to_checksum (c.area.base_address + c.area_first_index, str.count, character_8_bytes)
 			end
 		end
 
@@ -289,7 +290,7 @@ feature -- Element change
 	reset
 		do
 			checksum := 0
-			add_reals_as_strings := False
+			reals_by_out := False
 		end
 
 	set_checksum (a_checksum: NATURAL)
@@ -299,7 +300,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	add_memory (array_ptr: POINTER; count, item_bytes: INTEGER)
+	add_to_checksum (array_ptr: POINTER; count, item_bytes: INTEGER)
 		-- add `count' items of raw memory data of size `item_bytes'
 		local
 			i, byte_count, index: INTEGER; c: NATURAL; byte: NATURAL_8

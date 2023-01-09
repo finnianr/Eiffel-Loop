@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "18"
+	date: "2023-01-09 9:50:07 GMT (Monday 9th January 2023)"
+	revision: "19"
 
 class
 	EL_SPREAD_SHEET
@@ -54,7 +54,7 @@ feature {NONE} -- Initaliazation
 			root_node: EL_XML_DOC_CONTEXT
 		do
 			create root_node.make_from_file (file_path)
-			make_with_root_node (root_node, file_path.base_sans_extension, Empty_list)
+			make_with_root_node (root_node, file_path.base_name, Empty_list)
 		end
 
 	make_with_root_node (root_node: EL_XML_DOC_CONTEXT; a_name: ZSTRING; table_names: EL_ZSTRING_LIST)

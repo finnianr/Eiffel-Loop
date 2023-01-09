@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-01-09 9:58:39 GMT (Monday 9th January 2023)"
+	revision: "6"
 
 class
 	VCF_CONTACT_TEST_SET
@@ -41,7 +41,7 @@ feature -- Tests
 				splitter.execute
 				across OS.file_list (Work_area_dir #+ "contacts", "*.vcf") as path loop
 					split_text := File.plain_text (path.item)
-					id := path.item.base_sans_extension
+					id := path.item.base_name
 					index := split_text.substring_index (id, 1)
 					assert ("id", index > 0)
 					index := split_text.substring_index ("N:", index)

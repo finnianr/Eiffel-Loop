@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-23 17:20:38 GMT (Friday 23rd December 2022)"
-	revision: "16"
+	date: "2023-01-09 9:55:12 GMT (Monday 9th January 2023)"
+	revision: "17"
 
 class
 	IMPORT_VIDEOS_TASK
@@ -126,7 +126,7 @@ feature {NONE} -- Factory
 			end
 
 			video_properties := Audio_command.new_audio_properties (video_path)
-			l_info := new_song_info_input (video_properties.duration, video_path.base_sans_extension, artist)
+			l_info := new_song_info_input (video_properties.duration, video_path.base_name, artist)
 			Result := l_info.song
 			Result.set_genre (genre)
 			Result.set_artist (artist)

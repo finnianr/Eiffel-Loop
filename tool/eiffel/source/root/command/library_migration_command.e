@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "26"
+	date: "2023-01-09 10:04:02 GMT (Monday 9th January 2023)"
+	revision: "27"
 
 class
 	LIBRARY_MIGRATION_COMMAND
@@ -124,7 +124,7 @@ feature {NONE} -- Implementation
 		do
 			if not source_path.has_step (Excluded_imp_step) then
 				class_list.extend (create {LIBRARY_CLASS}.make (source_path))
-				name := source_path.base_sans_extension; name.to_upper
+				name := source_path.base_name; name.to_upper
 				class_path_table.extend (source_path, name)
 				library_set.put (name)
 			end

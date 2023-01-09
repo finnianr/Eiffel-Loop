@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:12:14 GMT (Monday 5th December 2022)"
-	revision: "11"
+	date: "2023-01-09 10:03:55 GMT (Monday 9th January 2023)"
+	revision: "12"
 
 class
 	CLASS_NOTES
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 		do
 			make_machine
 			file_path := a_file_path
-			class_name := a_file_path.base_sans_extension
+			class_name := a_file_path.base_name
 			class_name.to_upper
 			create fields.make (10)
 			create original_lines.make_empty

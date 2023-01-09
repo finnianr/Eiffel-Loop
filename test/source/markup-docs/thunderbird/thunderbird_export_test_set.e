@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-30 17:32:49 GMT (Friday 30th December 2022)"
-	revision: "13"
+	date: "2023-01-09 9:50:07 GMT (Monday 9th January 2023)"
+	revision: "14"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -83,7 +83,7 @@ feature -- Tests
 			create dir_set.make_from_array (<< "Home", "Libraries", "Tools" >>)
 			across OS.file_list (work_area_data_dir #+ "export", "*.body") as path loop
 				assert ("in directory set", dir_set.has (path.item.parent.base))
-				assert ("in file set", file_set.has (path.item.base_sans_extension))
+				assert ("in file set", file_set.has (path.item.base_name))
 				assert_valid_h2_file (new_root_node (path.item), path.item)
 			end
 		end
@@ -124,7 +124,7 @@ feature -- Tests
 				body_path := Export_dir + list.item
 				modification_table.put (body_path.modification_time, body_path)
 				assert (body_path.base + " exists", body_path.exists)
-				name := body_path.base_sans_extension
+				name := body_path.base_name
 				xdoc := new_root_node (body_path)
 
 				assert_valid_h2_file (xdoc, body_path)

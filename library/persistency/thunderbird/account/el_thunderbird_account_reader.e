@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:27:14 GMT (Monday 5th December 2022)"
-	revision: "25"
+	date: "2023-01-09 9:50:06 GMT (Monday 9th January 2023)"
+	revision: "26"
 
 deferred class
 	EL_THUNDERBIRD_ACCOUNT_READER
@@ -142,7 +142,7 @@ feature {NONE} -- Implementation
 		do
 			if path.ends_with_zstring (Dot_sbd_extension) then
 				folder_dir := path
-				Result := not folder_list.is_empty implies folder_list.has (folder_dir.base_sans_extension)
+				Result := not folder_list.is_empty implies folder_list.has (folder_dir.base_name)
 			end
 		end
 

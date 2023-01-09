@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 17:07:05 GMT (Thursday 29th December 2022)"
-	revision: "52"
+	date: "2023-01-09 9:58:22 GMT (Monday 9th January 2023)"
+	revision: "53"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -106,7 +106,7 @@ feature -- Tests
 					File_system.remove_file (crc_path)
 				end
 				base_name_list := "base.kernel.html, index.html"
-				base_name_list.extend (broadcaster_path.base_sans_extension + ".html")
+				base_name_list.extend (broadcaster_path.base_name + ".html")
 				base_name_list.append (sorted_base_names (cmd.path_list))
 				base_name_list.sort
 
@@ -206,7 +206,7 @@ feature {NONE} -- Implementation
 
 	html_path (a_path: FILE_PATH): FILE_PATH
 		do
-			Result := Kernel_event.html_dir + a_path.base_sans_extension
+			Result := Kernel_event.html_dir + a_path.base_name
 			Result.add_extension ("html")
 		end
 
