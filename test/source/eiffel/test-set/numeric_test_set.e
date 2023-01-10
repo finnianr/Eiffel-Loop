@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:30:52 GMT (Saturday 31st December 2022)"
-	revision: "11"
+	date: "2023-01-10 11:13:35 GMT (Tuesday 10th January 2023)"
+	revision: "12"
 
 class
 	NUMERIC_TEST_SET
@@ -27,6 +27,7 @@ feature -- Basic operations
 	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("negative_to_natural", agent test_negative_to_natural)
 			eval.call ("double_string_conversion", agent test_double_string_conversion)
 			eval.call ("truncated_natural_64", agent test_truncated_natural_64)
 		end
@@ -56,6 +57,15 @@ feature -- Tests
 				lio.put_new_line
 				n := n * 10
 			end
+		end
+
+	test_negative_to_natural
+		local
+			i: INTEGER; n: NATURAL
+		do
+			i := -2
+			n := i.to_natural_32
+			assert ("same as abs", n = 4294967294)
 		end
 
 	test_truncated_natural_64

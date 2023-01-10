@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 12:05:00 GMT (Saturday 3rd December 2022)"
-	revision: "21"
+	date: "2023-01-10 20:59:58 GMT (Tuesday 10th January 2023)"
+	revision: "22"
 
 deferred class
 	EL_LOGGABLE
@@ -59,7 +59,7 @@ feature {EL_CONSOLE_ONLY_LOG, EL_MODULE_LIO} -- Basic operations
 		deferred
 		end
 
-feature -- Query
+feature -- Measurement
 
 	call_stack_count: INTEGER
 			-- For use in routines that did not call enter to
@@ -129,6 +129,10 @@ feature -- Output
 
 	put_elapsed_time
 			-- Log time elapsed since set_timer called
+		deferred
+		end
+
+	put_field_list (max_line_count: INTEGER; list: ARRAY [like name_value_pair])
 		deferred
 		end
 
@@ -262,6 +266,11 @@ feature {NONE} -- Implementation
 			valid_logged_routine_call_stack: not routine_call_stack.is_empty
 		do
 			Result := routine_call_stack.item
+		end
+
+	name_value_pair: TUPLE [name: READABLE_STRING_GENERAL; value: ANY]
+		do
+			create Result
 		end
 
 	routine_call_stack: ARRAYED_STACK [EL_LOGGED_ROUTINE]

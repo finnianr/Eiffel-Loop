@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 10:02:35 GMT (Monday 9th January 2023)"
-	revision: "6"
+	date: "2023-01-09 10:36:54 GMT (Monday 9th January 2023)"
+	revision: "7"
 
 deferred class
 	EL_PATH_BASE_NAME
@@ -32,7 +32,7 @@ feature -- Access
 				Result := base
 			end
 		ensure
-			definition: Result ~ (base + "." + old extension)
+			definition: old has_dot_extension implies base ~ (Result + "." + old extension)
 		end
 
 	extension: ZSTRING
@@ -201,11 +201,26 @@ feature -- Element change
 		end
 
 	set_base (a_base: READABLE_STRING_GENERAL)
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
-			base := s.as_zstring (a_base)
+			if attached {like base} a_base as new then
+				base := new
+			else
+				base.wipe_out
+				base.append_string_general (a_base)
+			end
 			reset_hash
+		end
+
+	set_base_name (a_base_name: READABLE_STRING_GENERAL)
+		do
+			if has_dot_extension then
+				base.replace_substring_general (a_base_name, 1, dot_index - 1)
+				reset_hash
+			else
+				set_base (a_base_name)
+			end
+		ensure
+			base_name_set: base_name.same_string_general (a_base_name)
 		end
 
 	set_version_number (number: like version_number)

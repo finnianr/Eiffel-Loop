@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:33:52 GMT (Saturday 31st December 2022)"
-	revision: "32"
+	date: "2023-01-10 10:59:26 GMT (Tuesday 10th January 2023)"
+	revision: "33"
 
 class
 	GENERAL_TEST_SET
@@ -137,10 +137,10 @@ feature -- Tests
 
 	test_math_precision
 		local
-			math: EL_DOUBLE_MATH_ROUTINES
+			double: EL_DOUBLE_MATH
 		do
-			assert ("equal within 1 percent", math.approximately_equal (169, 170, 0.01))
-			assert ("not equal within 1 percent", not math.approximately_equal (168, 170, 0.01))
+			assert ("equal within 1 percent", double.approximately_equal (169, 170, 0.01))
+			assert ("not equal within 1 percent", not double.approximately_equal (168, 170, 0.01))
 		end
 
 	test_named_thread

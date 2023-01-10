@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-08 20:09:40 GMT (Sunday 8th January 2023)"
-	revision: "32"
+	date: "2023-01-10 20:42:33 GMT (Tuesday 10th January 2023)"
+	revision: "33"
 
 class
 	EL_TUPLE_ROUTINES
@@ -37,6 +37,12 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	all_readable_strings (tuple: TUPLE): BOOLEAN
+		-- True if all `tuple' items conform to `READABLE_STRING_GENERAL'
+		do
+			Result := type_array (tuple).all_conform_to ({READABLE_STRING_GENERAL})
+		end
+
 	closed_operands (a_procedure: PROCEDURE): TUPLE
 		do
 			procedure.set_from_other (a_procedure)
@@ -49,10 +55,85 @@ feature -- Access
 			Result := types_table.item ({ISE_RUNTIME}.dynamic_type (tuple))
 		end
 
-	all_readable_strings (tuple: TUPLE): BOOLEAN
-		-- True if all `tuple' items conform to `READABLE_STRING_GENERAL'
+feature -- Measurement
+
+	i_th_string_width (tuple: TUPLE; i: INTEGER): INTEGER
+		require
+			valid_index: tuple.valid_index (i)
+		local
+			double: EL_DOUBLE_MATH
 		do
-			Result := type_array (tuple).all_conform_to ({READABLE_STRING_GENERAL})
+			inspect tuple.item_code (i)
+				when {TUPLE}.Boolean_code then
+					if tuple.boolean_item (i) then
+						Result := 4
+					else
+						Result := 5
+					end
+				when {TUPLE}.Character_8_code, {TUPLE}.Character_32_code then
+					Result := 1
+
+				when {TUPLE}.Pointer_code then
+--					Hexadecimal number
+					Result := {PLATFORM}.pointer_bytes * 2 + 2
+
+--				Integers
+				when {TUPLE}.Integer_8_code then
+					Result := double.string_size (tuple.integer_8_item (i))
+
+				when {TUPLE}.Integer_16_code then
+					Result := double.string_size (tuple.integer_16_item (i))
+
+				when {TUPLE}.Integer_32_code then
+					Result := double.string_size (tuple.integer_32_item (i))
+
+				when {TUPLE}.Integer_64_code then
+					Result := double.string_size (tuple.integer_64_item (i))
+
+--				Naturals
+				when {TUPLE}.Natural_8_code then
+					Result := double.digit_count (tuple.natural_8_item (i))
+
+				when {TUPLE}.Natural_16_code then
+					Result := double.digit_count (tuple.natural_16_item (i))
+
+				when {TUPLE}.Natural_32_code then
+					Result := double.digit_count (tuple.natural_32_item (i))
+
+				when {TUPLE}.Natural_64_code then
+					Result := double.digit_count (tuple.natural_64_item (i))
+
+--				Reals
+				when {TUPLE}.Real_32_code then
+					Result := tuple.real_32_item (i).out.count
+
+				when {TUPLE}.Real_64_code then
+					Result := tuple.real_64_item (i).out.count
+
+				when {TUPLE}.Reference_code then
+					if attached tuple.reference_item (i) as ref_item then
+						if attached {READABLE_STRING_GENERAL} ref_item as general then
+							Result := general.count
+						elseif attached {EL_PATH} ref_item as path then
+							Result := path.count
+						elseif attached {PATH} ref_item as path then
+							Result := path.name.count
+						else
+							Result := ref_item.out.count
+						end
+					end
+			else
+			end
+		end
+
+	string_width (tuple: TUPLE): INTEGER
+		local
+			i: INTEGER
+		do
+			from i := 1 until i > tuple.count loop
+				Result := Result + i_th_string_width (tuple, i)
+				i := i + 1
+			end
 		end
 
 feature -- Conversion
@@ -204,6 +285,16 @@ feature -- Basic operations
 			filled:is_filled (tuple, start_index, start_index + csv_field_list.occurrences (','))
 		end
 
+	read (tuple: TUPLE; readable: EL_READABLE)
+		local
+			i: INTEGER
+		do
+			from i := 1 until i > tuple.count loop
+				set_i_th (tuple, i, readable, 0)
+				i := i + 1
+			end
+		end
+
 	set_i_th (tuple: TUPLE; i: INTEGER; readable: EL_READABLE; type_id: INTEGER)
 		require
 			valid_index: tuple.valid_index (i)
@@ -274,16 +365,6 @@ feature -- Basic operations
 						do_nothing -- exits recursion
 					end
 			else
-			end
-		end
-
-	read (tuple: TUPLE; readable: EL_READABLE)
-		local
-			i: INTEGER
-		do
-			from i := 1 until i > tuple.count loop
-				set_i_th (tuple, i, readable, 0)
-				i := i + 1
 			end
 		end
 

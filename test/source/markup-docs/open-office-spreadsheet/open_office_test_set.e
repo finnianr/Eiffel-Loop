@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 9:50:07 GMT (Monday 9th January 2023)"
-	revision: "28"
+	date: "2023-01-10 21:10:51 GMT (Tuesday 10th January 2023)"
+	revision: "29"
 
 class
 	OPEN_OFFICE_TEST_SET
@@ -45,7 +45,8 @@ feature -- Tests
 			testing: "covers/{EL_SPREAD_SHEET}.make", "covers/{EL_XPATH_NODE_CONTEXT}.do_query",
 						"covers/{EL_XML_DOC_CONTEXT}.new_namespace_table",
 						"covers/{EL_XPATH_NODE_CONTEXT}.context_list, covers/{EL_XPATH_NODE_CONTEXT}.find_node",
-						"covers/{EL_XPATH_NODE_CONTEXT}.query"
+						"covers/{EL_XPATH_NODE_CONTEXT}.query",
+						"covers/{EL_ROUTINE_LOG}.put_field_list"
 		local
 			xdoc: EL_XML_DOC_CONTEXT; file_path: FILE_PATH
 		do
@@ -54,7 +55,7 @@ feature -- Tests
 			across Namespace_list.split ('%N') as name loop
 				assert ("has namespace " + name.item, xdoc.namespace_table.has (name.item))
 			end
-			do_test ("print_spreadsheet", 4123041651, agent print_spreadsheet, [xdoc, file_path.base_name])
+			do_test ("print_spreadsheet", 70947134, agent print_spreadsheet, [xdoc, file_path.base_name])
 		end
 
 feature {NONE} -- Implementation
@@ -66,12 +67,12 @@ feature {NONE} -- Implementation
 			create spread_sheet.make_with_root_node (root_node, name, "")
 			across spread_sheet as table loop
 				across table.item as row loop
-					lio.put_integer_field ("Row", row.cursor_index)
-					lio.put_string_field (" Type", row.item.cell ("Type").text)
-					lio.put_string_field (" Title", row.item.cell ("Title").text)
-					lio.put_new_line
-					lio.put_integer_field ("Description paragraph count", row.item.cell ("Description").paragraphs.count)
-					lio.put_new_line
+					lio.put_field_list (100, <<
+						["Row", row.cursor_index],
+						["Type", row.item.cell ("Type").text],
+						["Paragraphs", row.item.cell ("Description").paragraphs.count],
+						["Title", row.item.cell ("Title").text]
+					>>)
 					lio.put_new_line
 				end
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-01-10 11:09:50 GMT (Tuesday 10th January 2023)"
+	revision: "10"
 
 class
 	EL_INTEGER_MATH
@@ -41,20 +41,11 @@ feature -- Access
 			end
 		end
 
-	digits (number: INTEGER): INTEGER
+	digits (n: INTEGER): INTEGER
+		local
+			double: EL_DOUBLE_MATH
 		do
-			if number = number.zero then
-				Result := 1
-			else
-				Result := Double_math.log10 (number.abs).floor + 1
-			end
-		end
-
-feature {NONE} -- Constants
-
-	Double_math: DOUBLE_MATH
-		once
-			create Result
+			Result := double.digit_count (n.to_natural_64)
 		end
 
 end

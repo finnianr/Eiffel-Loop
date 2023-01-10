@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:34:05 GMT (Saturday 31st December 2022)"
-	revision: "27"
+	date: "2023-01-10 11:00:37 GMT (Tuesday 10th January 2023)"
+	revision: "28"
 
 class
 	DATE_TIME_TEST_SET
@@ -18,8 +18,6 @@ inherit
 	EL_MODULE_DATE; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_TUPLE
 
 	TIME_VALIDITY_CHECKER undefine default_create end
-
-	EL_DOUBLE_MATH undefine default_create end
 
 feature -- Basic operations
 
@@ -49,13 +47,13 @@ feature -- Tests
 						"covers/{EL_TIME_ROUTINES}.set_from_compact_decimal",
 						"covers/{EL_TIME_ROUTINES}.same_time"
 		local
-			t1, t2: EL_TIME; time: EL_TIME_ROUTINES
+			t1, t2: EL_TIME; time: EL_TIME_ROUTINES; double: EL_DOUBLE_MATH
 		do
 			create t1.make_from_string ("3:08:01.947 PM")
 			create t2.make_by_compact_decimal (time.compact_decimal (t1))
 			assert ("same time", t1.compact_time = t2.compact_time)
 			assert ("same time", time.same_time (t1, t2))
-			assert ("same fractional second", approximately_equal (t1.fractional_second, t2.fractional_second, 0.000_000_1))
+			assert ("same fractional second", double.approximately_equal (t1.fractional_second, t2.fractional_second, 0.000_000_1))
 
 			create t1.make_by_seconds (0)
 			assert ("NATURAL_16 fraction is zero", time.fractional_secs_23_bit (t1) = 0)

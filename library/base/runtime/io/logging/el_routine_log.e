@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 12:05:11 GMT (Saturday 3rd December 2022)"
-	revision: "23"
+	date: "2023-01-10 21:08:48 GMT (Tuesday 10th January 2023)"
+	revision: "24"
 
 deferred class
 	EL_ROUTINE_LOG
 
 inherit
 	EL_LOGGABLE
+
+	EL_MODULE_TUPLE
 
 feature -- Status
 
@@ -145,6 +147,44 @@ feature -- Output
 			Timer.stop
 			put_labeled_string (once "TIME", Timer.elapsed_time.out)
 			put_new_line
+		end
+
+	put_field_list (max_line_count: INTEGER; list: ARRAY [like name_value_pair])
+		local
+			field: like name_value_pair; line_count, field_count, value_count: INTEGER
+			real_string: detachable STRING; quoted_string: detachable READABLE_STRING_GENERAL
+		do
+			across list as list_tuple loop
+				field := list_tuple.item
+				real_string := new_real_string (field)
+				if attached real_string as str then
+					value_count := str.count
+				else
+					value_count := Tuple.i_th_string_width (field, 2)
+				end
+				field_count := field.name.count + value_count + 2
+				if line_count > 0 then
+					field_count := field_count + 1 -- space
+					if field.item_code (2) = {TUPLE}.Reference_code
+						and then attached {READABLE_STRING_GENERAL} field.reference_item (2) as str
+						and then str.has (' ')
+					then
+						quoted_string := str
+						field_count := field_count + 2
+					else
+						quoted_string := Void
+					end
+				end
+				if line_count + field_count > max_line_count then
+					line_count := 0; field_count := field_count - 1 -- space
+					put_new_line
+				end
+				if line_count.to_boolean then
+					put_character (' ')
+				end
+				put_field (field, quoted_string, real_string)
+				line_count := line_count + field_count
+			end
 		end
 
 	put_new_line
@@ -425,8 +465,57 @@ feature -- Numeric output
 
 feature {NONE} -- Implementation
 
+	new_real_string (field: like name_value_pair): detachable STRING
+		do
+			inspect field.item_code (2)
+				when {TUPLE}.Real_32_code then
+					Result := field.real_32_item (2).out
+				when {TUPLE}.Real_64_code then
+					Result := field.real_64_item (2).out
+			else
+			end
+		end
+
 	output: EL_CONSOLE_LOG_OUTPUT
 		deferred
+		end
+
+	put_field (
+		field: like name_value_pair; quoted_string: detachable READABLE_STRING_GENERAL; real_string: detachable STRING
+	)
+		local
+			string_value: detachable READABLE_STRING_GENERAL
+		do
+			if attached quoted_string as str then
+				put_string_field (field.name, str)
+
+			elseif attached real_string as str then
+				put_labeled_string (field.name, str)
+			else
+				inspect field.item_code (2)
+					when {TUPLE}.Integer_32_code then
+						put_integer_field (field.name, field.integer_32_item (2))
+					when {TUPLE}.Natural_32_code then
+						put_natural_field (field.name, field.natural_32_item (2))
+					when {TUPLE}.Reference_code then
+						if attached field.reference_item (2) as ref_item then
+							if attached {READABLE_STRING_GENERAL} ref_item as str then
+								string_value := str
+							elseif attached {EL_PATH} ref_item as path then
+								put_path_field (field.name, path)
+							elseif attached {PATH} ref_item as path then
+								string_value := path.name
+							else
+								string_value := field.item (2).out
+							end
+						end
+				else
+					string_value := field.item (2).out
+				end
+				if attached string_value as value then
+					put_labeled_string (field.name, value)
+				end
+			end
 		end
 
 	substituted (template: READABLE_STRING_GENERAL; inserts: TUPLE): ZSTRING
@@ -447,7 +536,7 @@ feature {NONE} -- Constants
 
 	Ellipsis_dots: ZSTRING
 		once
-			Result := ".."
+			create Result.make_filled ('.', 2)
 		end
 
 	Single_quote: STRING = "'"

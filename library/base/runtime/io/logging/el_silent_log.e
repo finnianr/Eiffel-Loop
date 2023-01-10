@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 12:03:44 GMT (Saturday 3rd December 2022)"
-	revision: "16"
+	date: "2023-01-10 21:00:06 GMT (Tuesday 10th January 2023)"
+	revision: "17"
 
 class
 	EL_SILENT_LOG
@@ -123,6 +123,10 @@ feature -- Output
 
 	put_elapsed_time
 			-- Log time elapsed since set_timer called
+		do
+		end
+
+	put_field_list (max_line_length: INTEGER; list: ARRAY [like name_value_pair])
 		do
 		end
 

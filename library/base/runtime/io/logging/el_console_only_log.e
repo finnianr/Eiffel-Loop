@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 17:21:56 GMT (Saturday 31st December 2022)"
-	revision: "23"
+	date: "2023-01-10 21:07:44 GMT (Tuesday 10th January 2023)"
+	revision: "24"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -130,6 +130,11 @@ feature -- Output
 			-- Log time elapsed since set_timer called
 		do
 			log_sink.put_elapsed_time
+		end
+
+	put_field_list (max_line_length: INTEGER; list: ARRAY [like name_value_pair])
+		do
+			log_sink.put_field_list (max_line_length, list)
 		end
 
 	put_new_line

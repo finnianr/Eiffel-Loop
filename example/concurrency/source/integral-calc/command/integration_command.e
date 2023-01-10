@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-01-10 10:47:22 GMT (Tuesday 10th January 2023)"
+	revision: "4"
 
 deferred class
 	INTEGRATION_COMMAND
@@ -25,10 +25,10 @@ inherit
 	EL_MODULE_LOG
 
 	EL_DOUBLE_MATH
-
-	DOUBLE_MATH
 		rename
 			log as natural_log
+		export
+			{NONE} all
 		end
 
 feature {EL_COMMAND_CLIENT} -- Initialization

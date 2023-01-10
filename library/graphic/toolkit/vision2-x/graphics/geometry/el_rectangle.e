@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "27"
+	date: "2023-01-10 10:49:28 GMT (Tuesday 10th January 2023)"
+	revision: "28"
 
 class
 	EL_RECTANGLE
@@ -16,8 +16,6 @@ inherit
 	EV_RECTANGLE
 
 	EL_MODULE_SCREEN; EL_MODULE_ORIENTATION ; EL_MODULE_TEXT
-
-	EL_DOUBLE_MATH undefine out end
 
 create
 	default_create, make, make_cms, make_for_text,
@@ -164,8 +162,10 @@ feature -- Status query
 feature -- Comparison
 
 	same_aspect (other: EL_RECTANGLE): BOOLEAN
+		local
+			math: EL_DOUBLE_MATH
 		do
-			Result := approximately_equal (aspect_ratio, other.aspect_ratio, 0.01)
+			Result := math.approximately_equal (aspect_ratio, other.aspect_ratio, 0.01)
 		end
 
 	same_size (other: EL_RECTANGLE): BOOLEAN

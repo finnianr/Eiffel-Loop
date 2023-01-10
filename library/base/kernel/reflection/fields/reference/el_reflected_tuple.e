@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 10:01:49 GMT (Thursday 29th December 2022)"
-	revision: "28"
+	date: "2023-01-10 11:01:55 GMT (Tuesday 10th January 2023)"
+	revision: "29"
 
 class
 	EL_REFLECTED_TUPLE
@@ -28,8 +28,6 @@ inherit
 	EL_MODULE_REUSEABLE
 
 	EL_STRING_8_CONSTANTS
-
-	EL_DOUBLE_MATH undefine is_equal end
 
 	EL_SHARED_NEW_INSTANCE_TABLE
 
@@ -164,7 +162,7 @@ feature {NONE} -- Implementation
 		-- Example: 1.3 same as 1.3000000000002
 		local
 			list_1, list_2: EL_ZSTRING_LIST
-			item_1, item_2: ZSTRING
+			item_1, item_2: ZSTRING; double: EL_DOUBLE_MATH
 		do
 			create list_1.make_comma_split (csv_list_1)
 			create list_2.make_comma_split (csv_list_2)
@@ -176,7 +174,7 @@ feature {NONE} -- Implementation
 						Result := item_1.same_string (item_2)
 
 					elseif item_1.is_double and then item_2.is_double then
-						Result := approximately_equal (item_1.to_double, item_2.to_double, 0.00000000001)
+						Result := double.approximately_equal (item_1.to_double, item_2.to_double, 0.00000000001)
 					else
 						Result := False
 					end

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 16:55:55 GMT (Sunday 18th December 2022)"
-	revision: "28"
+	date: "2023-01-09 10:23:22 GMT (Monday 9th January 2023)"
+	revision: "29"
 
 class
 	CLASS_RENAMING_COMMAND
@@ -76,7 +76,7 @@ feature {NONE} -- Implementation
 				-- Check if `source_path' is class definition file
 				if source_path.base_matches (old_name, True) then
 					File_system.remove_path (source_path)
-					source_path.set_base (new_name.as_lower + Eiffel_extension)
+					source_path.set_base_name (new_name.as_lower)
 				end
 				create l_file.make_open_write (source_path)
 				across source_lines as list loop
@@ -141,9 +141,5 @@ feature {NONE} -- Internal attributes
 	new_name: STRING
 
 	old_name: STRING
-
-feature {NONE} -- Constants
-
-	Eiffel_extension: STRING = ".e"
 
 end
