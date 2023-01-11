@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-10 20:59:58 GMT (Tuesday 10th January 2023)"
-	revision: "22"
+	date: "2023-01-11 8:08:47 GMT (Wednesday 11th January 2023)"
+	revision: "23"
 
 deferred class
 	EL_LOGGABLE
@@ -30,6 +30,13 @@ feature -- Status
 			-- For use in routines that did not call enter to
 			-- push routine on to call stack
 		deferred
+		end
+
+feature -- Type definitions
+
+	NAME_VALUE_PAIR: TUPLE [name: READABLE_STRING_GENERAL; value: ANY]
+		once
+			create Result
 		end
 
 feature {EL_CONSOLE_ONLY_LOG, EL_MODULE_LIO} -- Basic operations
@@ -132,7 +139,7 @@ feature -- Output
 		deferred
 		end
 
-	put_field_list (max_line_count: INTEGER; list: ARRAY [like name_value_pair])
+	put_field_list (max_line_count: INTEGER; list: ARRAY [like NAME_VALUE_PAIR])
 		deferred
 		end
 
@@ -266,11 +273,6 @@ feature {NONE} -- Implementation
 			valid_logged_routine_call_stack: not routine_call_stack.is_empty
 		do
 			Result := routine_call_stack.item
-		end
-
-	name_value_pair: TUPLE [name: READABLE_STRING_GENERAL; value: ANY]
-		do
-			create Result
 		end
 
 	routine_call_stack: ARRAYED_STACK [EL_LOGGED_ROUTINE]

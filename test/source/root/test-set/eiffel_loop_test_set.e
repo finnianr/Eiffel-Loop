@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:43:58 GMT (Saturday 31st December 2022)"
-	revision: "15"
+	date: "2023-01-11 11:47:14 GMT (Wednesday 11th January 2023)"
+	revision: "16"
 
 deferred class
 	EIFFEL_LOOP_TEST_SET
@@ -34,6 +34,7 @@ feature {NONE} -- Events
 	on_clean
 		do
 			Execution_environment.pop_current_working
+			Precursor
 		end
 
 end

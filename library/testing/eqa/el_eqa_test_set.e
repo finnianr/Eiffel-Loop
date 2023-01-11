@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 8:49:27 GMT (Sunday 1st January 2023)"
-	revision: "12"
+	date: "2023-01-11 16:17:00 GMT (Wednesday 11th January 2023)"
+	revision: "13"
 
 deferred class
 	EL_EQA_TEST_SET
@@ -17,7 +17,7 @@ inherit
 		rename
 			file_system as ise_file_system
 		redefine
-			on_prepare
+			on_clean, on_prepare
 		end
 
 	EL_MODULE_LIO -- so test can still be run in AutoTest tool
@@ -81,7 +81,26 @@ feature {NONE} -- Implementation
 			create Result.make_from_memory (MD5_128, File.data (file_path))
 		end
 
+	set_test_path_value (path: EL_PATH; value: READABLE_STRING_GENERAL)
+		-- temporarily set value of `path' to be restored to original during `on_clean' event call
+		do
+			saved_path_list.extend (path, path.to_string)
+			path.set_path (value)
+		end
+
 feature {NONE} -- Event handling
+
+	on_clean
+		do
+			if attached saved_path_list as list then
+				from list.start until list.after loop
+					list.item_key.set_path (list.item_value)
+					list.remove
+				end
+			end
+		ensure then
+			saved_path_list_empty: saved_path_list.is_empty
+		end
 
 	on_prepare
 		local
@@ -92,7 +111,12 @@ feature {NONE} -- Event handling
 			if not global.is_created then
 				create logging.make (False)
 			end
+			create saved_path_list.make_empty
 		end
+
+feature {NONE} -- Internal attributes
+
+	saved_path_list: EL_ARRAYED_MAP_LIST [EL_PATH, ZSTRING]
 
 feature {NONE} -- Constants
 

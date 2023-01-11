@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-10 21:08:48 GMT (Tuesday 10th January 2023)"
-	revision: "24"
+	date: "2023-01-11 10:13:43 GMT (Wednesday 11th January 2023)"
+	revision: "25"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -155,28 +155,26 @@ feature -- Output
 			real_string: detachable STRING; quoted_string: detachable READABLE_STRING_GENERAL
 		do
 			across list as list_tuple loop
-				field := list_tuple.item
-				real_string := new_real_string (field)
-				if attached real_string as str then
+				field := list_tuple.item; quoted_string := Void; real_string := Void
+
+				if attached new_real_string (field) as str then
 					value_count := str.count
+					real_string := str
+				elseif field.item_code (2) = {TUPLE}.Reference_code
+					and then attached {READABLE_STRING_GENERAL} field.reference_item (2) as str
+					and then str.has (' ')
+				then
+					quoted_string := str
+					value_count := str.count + 2
 				else
 					value_count := Tuple.i_th_string_width (field, 2)
 				end
-				field_count := field.name.count + value_count + 2
+				field_count := field.name.count + value_count + 2 -- (": ").count
 				if line_count > 0 then
-					field_count := field_count + 1 -- space
-					if field.item_code (2) = {TUPLE}.Reference_code
-						and then attached {READABLE_STRING_GENERAL} field.reference_item (2) as str
-						and then str.has (' ')
-					then
-						quoted_string := str
-						field_count := field_count + 2
-					else
-						quoted_string := Void
-					end
+					field_count := field_count + 1 -- + space
 				end
 				if line_count + field_count > max_line_count then
-					line_count := 0; field_count := field_count - 1 -- space
+					line_count := 0; field_count := field_count - 1 -- remove space
 					put_new_line
 				end
 				if line_count.to_boolean then

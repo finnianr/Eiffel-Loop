@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "21"
+	date: "2023-01-11 11:23:50 GMT (Wednesday 11th January 2023)"
+	revision: "22"
 
 deferred class
 	EL_FILE_DATA_TEST_SET
@@ -29,6 +29,7 @@ feature {NONE} -- Events
 	on_clean
 		do
 			clean_work_area
+			Precursor
 		end
 
 	on_prepare

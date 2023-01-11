@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:30:09 GMT (Saturday 31st December 2022)"
-	revision: "11"
+	date: "2023-01-11 11:47:25 GMT (Wednesday 11th January 2023)"
+	revision: "12"
 
 class
 	EROS_TEST_SET
@@ -109,6 +109,7 @@ feature {NONE} -- Implementation
 		do
 			connection.close
 			server.wait_to_stop
+			Precursor
 		end
 
 feature {NONE} -- Internal attributes
