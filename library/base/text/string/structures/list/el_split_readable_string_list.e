@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 16:16:40 GMT (Sunday 18th December 2022)"
-	revision: "6"
+	date: "2023-01-22 17:08:04 GMT (Sunday 22nd January 2023)"
+	revision: "7"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -50,9 +50,10 @@ inherit
 		export
 			{NONE} all
 			{ANY} index, count, item_count, item_start_index, item_end_index, i_th_upper, i_th_lower,
-				back, remove, remove_head, remove_tail, go_i_th, is_empty, before, valid_index
+				back, remove, remove_head, remove_tail, go_i_th, is_empty, before, valid_index,
+				wipe_out, fill, fill_by_string, start, forth, after, valid_adjustments
 		redefine
-			is_equal, make_empty, make_by_string, make
+			is_equal, make_empty, make_by_string, make, fill, fill_by_string
 		end
 
 	ITERABLE [S]
@@ -71,7 +72,6 @@ feature {NONE} -- Initialization
 
 	make (a_target: S; delimiter: CHARACTER_32)
 		do
-			target := a_target
 			make_empty
 			fill (a_target, delimiter, 0)
 		end
@@ -80,7 +80,6 @@ feature {NONE} -- Initialization
 		require
 			valid_adjustments: valid_adjustments (a_adjustments)
 		do
-			target := a_target; adjustments := a_adjustments
 			make_empty
 			fill (a_target, delimiter, a_adjustments)
 		end
@@ -89,14 +88,12 @@ feature {NONE} -- Initialization
 		require
 			valid_adjustments: valid_adjustments (a_adjustments)
 		do
-			target := a_target; adjustments := a_adjustments
 			make_empty
 			fill_by_string (a_target, delimiter, a_adjustments)
 		end
 
 	make_by_string (a_target: S; delimiter: READABLE_STRING_GENERAL)
 		do
-			target := a_target
 			make_empty
 			fill_by_string (a_target, delimiter, 0)
 		end
@@ -168,6 +165,39 @@ feature -- Numeric items
 	natural_item: NATURAL
 		do
 			Result := item.to_natural
+		end
+
+feature -- Element change
+
+	fill (a_target: S; search_character: CHARACTER_32; a_adjustments: INTEGER)
+		do
+			wipe_out
+			target := a_target; adjustments := a_adjustments
+			fill_intervals (a_target, Empty_string_8, search_character, a_adjustments)
+		end
+
+	fill_by_string (a_target: S; search_string: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
+		do
+			wipe_out
+			target := a_target; adjustments := a_adjustments
+			Precursor (a_target, search_string, a_adjustments)
+		end
+
+	prune_enclosing (left, right: CHARACTER)
+		-- Remove pair of characters on `first_item [1]' and `last_item [last.count]' if they match
+		-- `left' and `right' characters
+		local
+			first_index, last_index: INTEGER
+		do
+			if count > 0 then
+				first_index := first_lower; last_index := last_upper
+				if target.valid_index (first_index) and then target.valid_index (last_index)
+					and then target [first_index] = left and then target [last_index] = right
+				then
+					put_i_th_interval (new_interval (first_index + 1, first_upper), 1)
+					put_i_th_interval (new_interval (last_lower, last_index - 1), count)
+				end
+			end
 		end
 
 feature -- Items

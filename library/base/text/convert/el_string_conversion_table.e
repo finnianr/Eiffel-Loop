@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-17 9:01:34 GMT (Saturday 17th December 2022)"
-	revision: "17"
+	date: "2023-01-22 17:19:15 GMT (Sunday 22nd January 2023)"
+	revision: "18"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -51,6 +51,7 @@ feature {NONE} -- Initialization
 					extend (converter, converter.type_id)
 				end
 			end
+			create split_list_cache.make (7, agent new_split_list)
 		end
 
 feature -- Access
@@ -74,6 +75,16 @@ feature -- Access
 			end
 		end
 
+	split_list (csv_list: READABLE_STRING_GENERAL; separator: CHARACTER_32; adjustments: INTEGER): like new_split_list
+		do
+			if attached split_list_cache.item (csv_list.generating_type) as list then
+				list.fill (csv_list, separator, adjustments)
+				Result := list
+			else
+				Result := new_split_list ({STRING_8})
+			end
+		end
+
 feature -- Status query
 
 	has_converter (type: TYPE [ANY]): BOOLEAN
@@ -88,11 +99,16 @@ feature -- Status query
 			Result := is_convertible_to_type (s, type.type_id)
 		end
 
-	is_convertible_list (item_type_id: INTEGER; csv_list: READABLE_STRING_GENERAL; left_adjusted: BOOLEAN): BOOLEAN
+	is_convertible_list (
+		item_type_id: INTEGER; value_list: READABLE_STRING_GENERAL; separator: CHARACTER_32; adjustments: INTEGER
+	): BOOLEAN
 		do
 			Result := True
-			across new_comma_splitter (csv_list, left_adjusted.to_integer) as list until not Result loop
-				Result := is_convertible_to_type (list.item, item_type_id)
+			if attached split_list (value_list, separator, adjustments) as list then
+				from list.start until not Result or else list.after loop
+					Result := is_convertible_to_type (list.item, item_type_id)
+					list.forth
+				end
 			end
 		end
 
@@ -113,15 +129,14 @@ feature -- Status query
 			if csv_list.occurrences (',') + 1 >= tuple.count then
 				type_array := Mod_tuple.type_array (tuple)
 				Result := True
-				across
-					new_comma_splitter (csv_list, left_adjusted.to_integer) as list
-				until
-					not Result or else list.cursor_index > tuple.count
-				loop
-					if attached list.item as item_str then
-						item_type := type_array [list.cursor_index]
-						type_id := item_type.type_id
-						Result := is_convertible_to_type (item_str, type_id)
+				if attached split_list (csv_list, ',', left_adjusted.to_integer) as list then
+					from list.start until list.after or else not Result or else list.index > tuple.count loop
+						if attached list.item as item_str then
+							item_type := type_array [list.index]
+							type_id := item_type.type_id
+							Result := is_convertible_to_type (item_str, type_id)
+						end
+						list.forth
 					end
 				end
 			end
@@ -141,13 +156,16 @@ feature -- Basic operations
 		item_type_id: INTEGER; chain: CHAIN [ANY]; csv_list: READABLE_STRING_GENERAL; left_adjusted: BOOLEAN
 	)
 		require
-			convertable: is_convertible_list (item_type_id, csv_list, left_adjusted)
+			convertable: is_convertible_list (item_type_id, csv_list, ',', left_adjusted.to_integer)
 		do
-			across new_comma_splitter (csv_list, left_adjusted.to_integer) as list loop
-				if attached list.item as item_str and then is_convertible_to_type (item_str, item_type_id) then
-					chain.extend (to_type_of_type (item_str.twin, item_type_id))
-				else
-					check i_th_type_convertible: True end
+			if attached split_list (csv_list, ',', left_adjusted.to_integer) as list then
+				from list.start until list.after loop
+					if attached list.item as item_str and then is_convertible_to_type (item_str, item_type_id) then
+						chain.extend (to_type_of_type (item_str.twin, item_type_id))
+					else
+						check i_th_type_convertible: True end
+					end
+					list.forth
 				end
 			end
 		ensure
@@ -160,24 +178,32 @@ feature -- Basic operations
 		-- items are left adjusted if `left_adjusted' is True
 		require
 			tuple_convertible: is_convertible_tuple (tuple, csv_list, left_adjusted)
+		do
+			fill_tuple_from_list (tuple, split_list (csv_list, ',', left_adjusted.to_integer))
+		end
+
+	fill_tuple_from_list (tuple: TUPLE; list: like split_list)
+		require
+			same_count: list.count = tuple.count
 		local
 			type_array: EL_TUPLE_TYPE_ARRAY; item_type: TYPE [ANY]; type_id: INTEGER
 		do
 			type_array := Mod_tuple.type_array (tuple)
-			across new_comma_splitter (csv_list, left_adjusted.to_integer) as list until list.cursor_index > tuple.count loop
+			from list.start until list.after or else list.index > tuple.count loop
 				if attached list.item as item_str then
-					item_type := type_array [list.cursor_index]
+					item_type := type_array [list.index]
 					type_id := item_type.type_id
 					if is_convertible_to_type (item_str, type_id) then
-						if tuple.is_reference_item (list.cursor_index) then
-							tuple.put_reference (to_type_of_type (item_str.twin, type_id), list.cursor_index)
+						if tuple.is_reference_item (list.index) then
+							tuple.put_reference (to_type_of_type (item_str.twin, type_id), list.index)
 						else
-							tuple.put (to_type_of_type (item_str, type_id), list.cursor_index)
+							tuple.put (to_type_of_type (item_str, type_id), list.index)
 						end
 					else
 						check i_th_type_convertible: True end
 					end
 				end
+				list.forth
 			end
 		ensure
 			filled: Mod_tuple.is_filled (tuple, 1, tuple.count)
@@ -247,16 +273,24 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	new_comma_splitter (csv_list: READABLE_STRING_GENERAL; adjustments: INTEGER): EL_SPLIT_ON_CHARACTER [READABLE_STRING_GENERAL]
+	new_split_list (type: TYPE [READABLE_STRING_GENERAL]): EL_SPLIT_READABLE_STRING_LIST [READABLE_STRING_GENERAL]
 		do
-			if attached {ZSTRING} csv_list as zstring_list then
-				create {EL_SPLIT_ZSTRING_ON_CHARACTER} Result.make_adjusted (zstring_list, ',', adjustments)
+			if type.conforms_to ({ZSTRING}) then
+				create {EL_SPLIT_ZSTRING_LIST} Result.make_empty
 
-			elseif csv_list.is_string_8 then
-				create {EL_SPLIT_ON_CHARACTER [STRING_8]} Result.make_adjusted (csv_list.as_string_8, ',', adjustments)
+			elseif type.conforms_to ({STRING_8}) then
+				create {EL_SPLIT_STRING_8_LIST} Result.make_empty
 
+			elseif type.conforms_to ({STRING_32}) then
+				create {EL_SPLIT_STRING_32_LIST} Result.make_empty
+
+			elseif type.conforms_to ({IMMUTABLE_STRING_8}) then
+				create {EL_SPLIT_STRING_8_LIST} Result.make_empty
+
+			elseif type.conforms_to ({IMMUTABLE_STRING_32}) then
+				create {EL_IMMUTABLE_STRING_32_SPLIT_LIST} Result.make_empty
 			else
-				create {EL_SPLIT_ON_CHARACTER [STRING_32]} Result.make_adjusted (csv_list.as_string_32, ',', adjustments)
+				create {EL_SPLIT_STRING_8_LIST} Result.make_empty
 			end
 		end
 
@@ -264,6 +298,10 @@ feature {NONE} -- Implementation
 		do
 			Result := ""
 		end
+
+feature {NONE} -- Internal attributes
+
+	split_list_cache: EL_CACHE_TABLE [like new_split_list, TYPE [READABLE_STRING_GENERAL]];
 
 note
 	notes: "[

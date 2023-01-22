@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-10 11:00:37 GMT (Tuesday 10th January 2023)"
-	revision: "28"
+	date: "2023-01-22 13:23:41 GMT (Sunday 22nd January 2023)"
+	revision: "29"
 
 class
 	DATE_TIME_TEST_SET
@@ -54,6 +54,7 @@ feature -- Tests
 			assert ("same time", t1.compact_time = t2.compact_time)
 			assert ("same time", time.same_time (t1, t2))
 			assert ("same fractional second", double.approximately_equal (t1.fractional_second, t2.fractional_second, 0.000_000_1))
+			assert_approximately_equal ("same fractional second", 7, t1.fractional_second, t2.fractional_second)
 
 			create t1.make_by_seconds (0)
 			assert ("NATURAL_16 fraction is zero", time.fractional_secs_23_bit (t1) = 0)
@@ -158,14 +159,18 @@ feature -- Tests
 
 	test_time_zone_designator
 		local
-			dt, dt_2: EL_DATE_TIME
+			dt, utc: EL_DATE_TIME
 		do
-			create dt_2.make (2016, 4, 10, 2, 35, 1)
+			create utc.make (2016, 4, 10, 2, 35, 1)
 			create dt.make_with_format ("19:35:01 Apr 09, 2016 PST+1", "[0]hh:[0]mi:[0]ss Mmm [0]dd, yyyy tzd")
-			assert ("same date", dt ~ dt_2)
+			assert ("same as UTC", dt ~ utc)
 
 			create dt.make_with_format ("Sun Apr 9 2016 19:35:01 GMT-0700 (GMT)", "Ddd Mmm dd yyyy [0]hh:[0]mi:[0]ss tzd (tzd)")
-			assert ("same GMT date", dt ~ dt_2)
+			assert ("same as UTC", dt ~ utc)
+
+			create dt.make_with_format ("Wed, 7 Jul 2021 13:11:02 +0100", "Ddd, dd Mmm yyyy [0]hh:[0]mi:[0]ss tzd")
+			create utc.make (2021, 7, 7, 12, 11, 2)
+			assert ("same as UTC", dt ~ utc)
 		end
 
 feature -- Observation Tests

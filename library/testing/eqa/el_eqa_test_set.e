@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-11 16:17:00 GMT (Wednesday 11th January 2023)"
-	revision: "13"
+	date: "2023-01-22 12:59:43 GMT (Sunday 22nd January 2023)"
+	revision: "14"
 
 deferred class
 	EL_EQA_TEST_SET
@@ -34,6 +34,18 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	assert_approximately_equal (a_tag: detachable STRING; decimal_places: INTEGER; a, b: DOUBLE)
+		local
+			tag: STRING; double: EL_DOUBLE_MATH
+		do
+			if attached a_tag as l_tag then
+				tag := l_tag
+			else
+				tag := "a almost equal to b with precision of 1e-" + decimal_places.out
+			end
+			assert (tag, double.approximately_equal (a, b, 10 ^ decimal_places.opposite))
+		end
 
 	assert_same_string (a_tag: detachable STRING; a, b: READABLE_STRING_GENERAL)
 		local

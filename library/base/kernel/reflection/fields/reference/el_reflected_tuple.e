@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-10 11:01:55 GMT (Tuesday 10th January 2023)"
-	revision: "29"
+	date: "2023-01-22 17:12:19 GMT (Sunday 22nd January 2023)"
+	revision: "30"
 
 class
 	EL_REFLECTED_TUPLE
@@ -21,11 +21,7 @@ inherit
 			write_crc, write_to_memory
 		end
 
-	EL_MODULE_TUPLE
-
-	EL_MODULE_CONVERT_STRING
-
-	EL_MODULE_REUSEABLE
+	EL_MODULE_CONVERT_STRING; EL_MODULE_TUPLE; EL_MODULE_REUSEABLE
 
 	EL_STRING_8_CONSTANTS
 
@@ -95,14 +91,9 @@ feature -- Basic operations
 			valid_comma_count: (csv_list.occurrences (',') + 1) = member_types.count
 		do
 			if attached value (a_object) as l_tuple then
-				if csv_list.count > 2 and then csv_list [1] = '[' and then csv_list [csv_list.count] = ']' then
-					across Reuseable.string as reuse loop
-						if attached reuse.substring_item (csv_list, 2, csv_list.count - 1) as stripped then
-							Convert_string.fill_tuple (l_tuple, stripped, True)
-						end
-					end
-				else
-					Convert_string.fill_tuple (l_tuple, csv_list, True)
+				if attached Convert_string.split_list (csv_list, ',', {EL_STRING_ADJUST}.Left) as list then
+					list.prune_enclosing ('[', ']')
+					Convert_string.fill_tuple_from_list (l_tuple, list)
 				end
 			end
 		ensure then

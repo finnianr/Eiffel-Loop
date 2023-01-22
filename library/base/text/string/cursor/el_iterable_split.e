@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-01-22 16:45:51 GMT (Sunday 22nd January 2023)"
+	revision: "7"
 
 deferred class
 	EL_ITERABLE_SPLIT [S -> READABLE_STRING_GENERAL, G]
@@ -67,8 +67,10 @@ feature -- Element change
 feature -- Contract Support
 
 	valid_adjustments (bitmap: INTEGER): BOOLEAN
+		local
+			adjust: EL_STRING_ADJUST
 		do
-			Result := 0 <= bitmap and then bitmap <= {EL_STRING_ADJUST}.Both
+			Result := adjust.valid (bitmap)
 		end
 
 feature {NONE} -- Internal attributes
