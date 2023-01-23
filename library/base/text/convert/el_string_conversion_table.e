@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-22 17:19:15 GMT (Sunday 22nd January 2023)"
-	revision: "18"
+	date: "2023-01-23 10:27:20 GMT (Monday 23rd January 2023)"
+	revision: "19"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -75,14 +75,9 @@ feature -- Access
 			end
 		end
 
-	split_list (csv_list: READABLE_STRING_GENERAL; separator: CHARACTER_32; adjustments: INTEGER): like new_split_list
+	split_list (value_list: READABLE_STRING_GENERAL; separator: CHARACTER_32; adjustments: INTEGER): like new_split_list
 		do
-			if attached split_list_cache.item (csv_list.generating_type) as list then
-				list.fill (csv_list, separator, adjustments)
-				Result := list
-			else
-				Result := new_split_list ({STRING_8})
-			end
+			Result := cached_split_list (value_list, separator, adjustments).twin
 		end
 
 feature -- Status query
@@ -104,7 +99,7 @@ feature -- Status query
 	): BOOLEAN
 		do
 			Result := True
-			if attached split_list (value_list, separator, adjustments) as list then
+			if attached cached_split_list (value_list, separator, adjustments) as list then
 				from list.start until not Result or else list.after loop
 					Result := is_convertible_to_type (list.item, item_type_id)
 					list.forth
@@ -129,7 +124,7 @@ feature -- Status query
 			if csv_list.occurrences (',') + 1 >= tuple.count then
 				type_array := Mod_tuple.type_array (tuple)
 				Result := True
-				if attached split_list (csv_list, ',', left_adjusted.to_integer) as list then
+				if attached cached_split_list (csv_list, ',', left_adjusted.to_integer) as list then
 					from list.start until list.after or else not Result or else list.index > tuple.count loop
 						if attached list.item as item_str then
 							item_type := type_array [list.index]
@@ -158,7 +153,7 @@ feature -- Basic operations
 		require
 			convertable: is_convertible_list (item_type_id, csv_list, ',', left_adjusted.to_integer)
 		do
-			if attached split_list (csv_list, ',', left_adjusted.to_integer) as list then
+			if attached cached_split_list (csv_list, ',', left_adjusted.to_integer) as list then
 				from list.start until list.after loop
 					if attached list.item as item_str and then is_convertible_to_type (item_str, item_type_id) then
 						chain.extend (to_type_of_type (item_str.twin, item_type_id))
@@ -244,6 +239,16 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	cached_split_list (csv_list: READABLE_STRING_GENERAL; separator: CHARACTER_32; adjustments: INTEGER): like new_split_list
+		do
+			if attached split_list_cache.item (csv_list.generating_type) as list then
+				list.fill (csv_list, separator, adjustments)
+				Result := list
+			else
+				Result := new_split_list ({STRING_8})
+			end
+		end
 
 	converter_types: TUPLE [
 			EL_STRING_TO_INTEGER_8,

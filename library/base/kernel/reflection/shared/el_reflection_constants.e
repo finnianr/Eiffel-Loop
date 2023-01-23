@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-26 14:47:16 GMT (Monday 26th December 2022)"
-	revision: "46"
+	date: "2023-01-23 11:49:42 GMT (Monday 23rd January 2023)"
+	revision: "47"
 
 deferred class
 	EL_REFLECTION_CONSTANTS
@@ -130,14 +130,14 @@ feature {NONE} -- Reference types
 				Result [Pointer_type] := {EL_REFLECTED_POINTER}
 			end
 
-	String_reference_types: EL_ARRAYED_LIST [INTEGER]
-		once
-			Result := Reference_field_list.string_type_id_list
-		end
-
 	Storable_reference_types: EL_ARRAYED_LIST [INTEGER]
 		once
 			Result := Reference_field_list.storable_types
+		end
+
+	String_reference_types: EL_ARRAYED_LIST [INTEGER]
+		once
+			Result := Reference_field_list.string_type_id_list
 		end
 
 end

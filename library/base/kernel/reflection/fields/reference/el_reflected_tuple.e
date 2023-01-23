@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-22 17:12:19 GMT (Sunday 22nd January 2023)"
-	revision: "30"
+	date: "2023-01-23 12:21:13 GMT (Monday 23rd January 2023)"
+	revision: "31"
 
 class
 	EL_REFLECTED_TUPLE
@@ -42,11 +42,11 @@ feature {EL_CLASS_META_DATA} -- Initialization
 
 feature -- Access
 
-	member_types: EL_TUPLE_TYPE_ARRAY
-		-- types of tuple members
-
 	field_name_list: detachable EL_STRING_8_LIST
 		-- names assigned to tuple members by redefining `{EL_REFLECTIVE}.new_tuple_field_names'
+
+	member_types: EL_TUPLE_TYPE_ARRAY
+		-- types of tuple members
 
 feature -- Status query
 
@@ -100,6 +100,11 @@ feature -- Basic operations
 			set: lists_match (csv_list, to_string (a_object))
 		end
 
+	set_new_split_list (a_new_split_list: like new_split_list)
+		do
+			new_split_list := a_new_split_list
+		end
+	
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITABLE)
 		do
 			if attached value (a_object) as l_tuple then
@@ -173,6 +178,27 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	new_factory_array: SPECIAL [detachable EL_FACTORY [ANY]]
+		local
+			i: INTEGER_32
+		do
+			create Result.make_filled (Void, member_types.count)
+			if attached member_types as l_types then
+				from i := 1 until i > l_types.count loop
+					if attached l_types [i] as i_th and then not i_th.is_expanded then
+						if attached factory_for_type (i_th.type_id) as item_factory then
+							if item_factory = Default_factory and then New_instance_table.has (i_th.type_id) then
+								Result [i - 1] := create {EL_AGENT_FACILITATED_FACTORY [ANY]}.make (i_th.type_id)
+							else
+								Result [i - 1] := item_factory.new_item_factory (i_th.type_id)
+							end
+						end
+					end
+					i := i + 1
+				end
+			end
+		end
+
 	new_instance: TUPLE
 		local
 			i, i_final: INTEGER_32; has_reference: BOOLEAN
@@ -197,30 +223,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_factory_array: SPECIAL [detachable EL_FACTORY [ANY]]
-		local
-			i: INTEGER_32
-		do
-			create Result.make_filled (Void, member_types.count)
-			if attached member_types as l_types then
-				from i := 1 until i > l_types.count loop
-					if attached l_types [i] as i_th and then not i_th.is_expanded then
-						if attached factory_for_type (i_th.type_id) as item_factory then
-							if item_factory = Default_factory and then New_instance_table.has (i_th.type_id) then
-								Result [i - 1] := create {EL_AGENT_FACILITATED_FACTORY [ANY]}.make (i_th.type_id)
-							else
-								Result [i - 1] := item_factory.new_item_factory (i_th.type_id)
-							end
-						end
-					end
-					i := i + 1
-				end
-			end
-		end
-
 feature {NONE} -- Internal attributes
 
 	factory_array: like new_factory_array
+
+	new_split_list: detachable FUNCTION [READABLE_STRING_GENERAL, EL_SPLIT_READABLE_STRING_LIST [READABLE_STRING_GENERAL]]
 
 feature {NONE} -- Constants
 

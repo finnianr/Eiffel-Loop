@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 18:10:55 GMT (Sunday 18th December 2022)"
-	revision: "14"
+	date: "2023-01-23 13:40:18 GMT (Monday 23rd January 2023)"
+	revision: "15"
 
 class
 	EL_STRING_32_LIST
@@ -15,7 +15,7 @@ class
 inherit
 	EL_STRING_LIST [STRING_32]
 		redefine
-			tab_string
+			new_string, tab_string
 		end
 
 create
@@ -27,6 +27,11 @@ convert
 	make_from_array ({ARRAY [STRING_32]}), make_from_tuple ({TUPLE}), make_comma_split ({STRING_32})
 
 feature {NONE} -- Implementation
+
+	new_string (general: READABLE_STRING_GENERAL): STRING_32
+		do
+			Result := general.to_string_32
+		end
 
 	tab_string (a_count: INTEGER): STRING_32
 		local

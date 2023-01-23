@@ -1,13 +1,13 @@
 note
-	description: "Test classes conforming to [$source EL_THUNDERBIRD_ACCOUNT_READER]"
+	description: "Test classes conforming to [$source TB_ACCOUNT_READER]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 17:30:57 GMT (Sunday 1st January 2023)"
-	revision: "18"
+	date: "2023-01-23 13:15:33 GMT (Monday 23rd January 2023)"
+	revision: "19"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
@@ -83,7 +83,7 @@ feature -- Tests
 
 feature {NONE} -- Factory
 
-	new_book_exporter: EL_ML_THUNDERBIRD_ACCOUNT_BOOK_EXPORTER
+	new_book_exporter: TB_MULTI_LANG_ACCOUNT_BOOK_EXPORTER
 		do
 			create Result.make_from_file (Config_path)
 		end

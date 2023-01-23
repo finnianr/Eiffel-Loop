@@ -19,11 +19,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 9:50:06 GMT (Monday 9th January 2023)"
-	revision: "26"
+	date: "2023-01-23 13:15:34 GMT (Monday 23rd January 2023)"
+	revision: "27"
 
 deferred class
-	EL_THUNDERBIRD_ACCOUNT_READER
+	TB_ACCOUNT_READER
 
 inherit
 	EL_APPLICATION_COMMAND

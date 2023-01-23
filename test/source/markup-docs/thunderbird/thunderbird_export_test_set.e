@@ -2,8 +2,8 @@
 	description: "[
 		Test classes
 
-			[$source EL_ML_THUNDERBIRD_ACCOUNT_XHTML_BODY_EXPORTER]
-			[$source EL_ML_THUNDERBIRD_ACCOUNT_BOOK_EXPORTER]
+			[$source TB_MULTI_LANG_ACCOUNT_XHTML_BODY_EXPORTER]
+			[$source TB_MULTI_LANG_ACCOUNT_BOOK_EXPORTER]
 			[$source THUNDERBIRD_WWW_EXPORTER]
 	]"
 
@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 9:50:07 GMT (Monday 9th January 2023)"
-	revision: "14"
+	date: "2023-01-23 14:21:32 GMT (Monday 23rd January 2023)"
+	revision: "15"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -69,7 +69,7 @@ feature -- Tests
 
 	test_www_exporter
 		local
-			command: EL_THUNDERBIRD_WWW_EXPORTER
+			command: TB_WWW_XHTML_CONTENT_EXPORTER; path: FILE_PATH
 			file_set, dir_set: EL_HASH_SET [ZSTRING]
 		do
 			write_config ("pop.eiffel-loop.com", Empty_string_8, Empty_lines)
@@ -81,16 +81,17 @@ feature -- Tests
 				file_set.put (line.item)
 			end
 			create dir_set.make_from_array (<< "Home", "Libraries", "Tools" >>)
-			across OS.file_list (work_area_data_dir #+ "export", "*.body") as path loop
-				assert ("in directory set", dir_set.has (path.item.parent.base))
-				assert ("in file set", file_set.has (path.item.base_name))
-				assert_valid_h2_file (new_root_node (path.item), path.item)
+			across OS.file_list (work_area_data_dir #+ "export", "*.body") as list loop
+				path := list.item
+				assert ("in directory set", dir_set.has (path.parent.base))
+				assert ("in file set", file_set.has (path.base_name))
+				assert_valid_h2_file (new_root_node (path), path)
 			end
 		end
 
 	test_xhtml_doc_exporter
 		local
-			command: EL_ML_THUNDERBIRD_ACCOUNT_XHTML_DOC_EXPORTER
+			command: TB_MULTI_LANG_ACCOUNT_XHTML_DOC_EXPORTER
 			count: INTEGER; xhtml_path: FILE_PATH; xdoc: like new_root_node
 		do
 			write_config ("pop.myching.software", Empty_string_8, new_folder_lines ("1.About"))
@@ -110,7 +111,7 @@ feature -- Tests
 
 	test_xhtml_exporter
 		local
-			command: EL_ML_THUNDERBIRD_ACCOUNT_XHTML_BODY_EXPORTER
+			command: TB_MULTI_LANG_ACCOUNT_XHTML_BODY_EXPORTER
 			body_path: FILE_PATH; modification_table: EL_HASH_TABLE [INTEGER, FILE_PATH]
 			name: ZSTRING; count: INTEGER; xdoc: like new_root_node
 		do
@@ -157,7 +158,7 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	test_page_rename (command: EL_ML_THUNDERBIRD_ACCOUNT_XHTML_BODY_EXPORTER)
+	test_page_rename (command: TB_MULTI_LANG_ACCOUNT_XHTML_BODY_EXPORTER)
 		local
 			en_file_path, output_path: FILE_PATH; en_text, subject_line: STRING
 			en_out: PLAIN_TEXT_FILE; pos_subject: INTEGER
@@ -242,3 +243,6 @@ feature {NONE} -- Constants
 			]")
 		end
 end
+
+
+

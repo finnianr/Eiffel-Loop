@@ -8,17 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 9:40:44 GMT (Thursday 5th January 2023)"
-	revision: "5"
+	date: "2023-01-23 11:34:13 GMT (Monday 23rd January 2023)"
+	revision: "6"
 
 deferred class
 	EL_CSV_CONVERTABLE
 
 inherit
 	EL_REFLECTIVE_I
-		undefine
-			is_equal
-		end
 
 feature -- Access
 

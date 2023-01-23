@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-01-23 14:44:28 GMT (Monday 23rd January 2023)"
+	revision: "10"
 
 class
-	EL_THUNDERBIRD_BOOK_EXPORTER
+	TB_BOOK_EXPORTER
 
 inherit
-	EL_THUNDERBIRD_XHTML_BODY_EXPORTER
+	TB_XHTML_BODY_EXPORTER
 		export
 			{EL_BOOK_CHAPTER} html_lines, last_header
 		redefine
@@ -36,7 +36,7 @@ feature -- Access
 
 	chapter_list: ARRAYED_LIST [EL_BOOK_CHAPTER]
 
-	config: EL_ML_THUNDERBIRD_ACCOUNT_BOOK_EXPORTER
+	config: TB_MULTI_LANG_ACCOUNT_BOOK_EXPORTER
 
 feature -- Basic operations
 
@@ -108,3 +108,5 @@ feature {NONE} -- Constants
 			Result.prepend_character (' ')
 		end
 end
+
+

@@ -2,7 +2,7 @@ note
 	description: "[
 		Export folders of Thunderbird HTML as XHTML bodies and recreating the folder structure.
 		
-		See class [$source EL_ML_THUNDERBIRD_ACCOUNT_XHTML_BODY_EXPORTER]
+		See class [$source TB_MULTI_LANG_ACCOUNT_XHTML_BODY_EXPORTER]
 	]"
 
 	author: "Finnian Reilly"
@@ -10,14 +10,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "23"
+	date: "2023-01-23 13:13:58 GMT (Monday 23rd January 2023)"
+	revision: "24"
 
 class
 	LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER_APP
 
 inherit
-	THUNDERBIRD_ACCOUNT_READER_APP [EL_ML_THUNDERBIRD_ACCOUNT_XHTML_BODY_EXPORTER]
+	THUNDERBIRD_ACCOUNT_READER_APP [TB_MULTI_LANG_ACCOUNT_XHTML_BODY_EXPORTER]
 		redefine
 			Option_name
 		end

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2023-01-23 14:44:28 GMT (Monday 23rd January 2023)"
+	revision: "16"
 
 class
-	EL_THUNDERBIRD_WWW_EXPORTER
+	TB_WWW_XHTML_CONTENT_EXPORTER
 
 inherit
-	EL_THUNDERBIRD_ACCOUNT_READER
+	TB_ACCOUNT_READER
 		export
 			{EL_COMMAND_CLIENT} make_from_file
 		end
@@ -31,7 +31,7 @@ feature -- Basic operations
 
 	execute
 		local
-			exporter: EL_THUNDERBIRD_WWW_XHTML_BODY_EXPORTER; file_path: FILE_PATH
+			exporter: TB_XHTML_BODY_EXPORTER; file_path: FILE_PATH
 			l_output_dir: DIR_PATH
 		do
 			across OS.file_list (mail_dir #+ WWW_dir_name, "*.msf") as path loop
@@ -40,6 +40,7 @@ feature -- Basic operations
 				lio.put_new_line
 				l_output_dir := export_dir #+ file_path.base
 				create exporter.make (Current)
+				exporter.set_export_steps_prune_count (1) -- prune "www" step
 				exporter.export_mails (file_path)
 			end
 		end
@@ -52,3 +53,6 @@ feature {NONE} -- Constants
 		end
 
 end
+
+
+

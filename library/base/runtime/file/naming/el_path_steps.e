@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
-	revision: "13"
+	date: "2023-01-23 13:33:55 GMT (Monday 23rd January 2023)"
+	revision: "14"
 
 class
 	EL_PATH_STEPS
@@ -177,6 +177,11 @@ feature -- Conversion
 	to_list: EL_ZSTRING_LIST
 		do
 			Result := filled_list.twin
+		end
+
+	to_list_32: EL_STRING_32_LIST
+		do
+			create Result.make_from_general (filled_list)
 		end
 
 	to_string: ZSTRING

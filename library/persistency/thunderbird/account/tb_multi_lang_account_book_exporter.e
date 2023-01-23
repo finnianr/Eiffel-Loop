@@ -1,6 +1,6 @@
 note
 	description: "[
-		Multi-lingual (ML) Thunderbird account book exporter.
+		Multi-language Thunderbird account book exporter.
 		
 		Merge localized folder of emails into a single HTML book with chapter numbers
 		and titled derived from subject line.
@@ -12,14 +12,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-01-23 14:46:44 GMT (Monday 23rd January 2023)"
+	revision: "8"
 
 class
-	EL_ML_THUNDERBIRD_ACCOUNT_BOOK_EXPORTER
+	TB_MULTI_LANG_ACCOUNT_BOOK_EXPORTER
 
 inherit
-	EL_ML_THUNDERBIRD_ACCOUNT_READER
+	TB_MULTI_LANG_ACCOUNT_READER
 		redefine
 			make_default, building_action_table
 		end
@@ -47,7 +47,7 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	new_reader: EL_THUNDERBIRD_BOOK_EXPORTER
+	new_reader: TB_BOOK_EXPORTER
 		do
 			create Result.make (Current)
 		end
@@ -98,3 +98,4 @@ note
 						"2018-12-01"
 	]"
 end
+

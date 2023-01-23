@@ -1,6 +1,6 @@
 note
 	description: "[
-		Multi-lingual (ML) Thunderbird email account reader.
+		Multi-language Thunderbird email account reader.
 
 		Reads Thunderbird HTML email documents from a selected account where content folders
 		are organized with sub-folders named as 2 letter language code to hold localized versions
@@ -14,7 +14,7 @@ note
 			bar/de
 			bar/fr
 			
-		Each document folder is read and processed by a class conforming to [$source EL_THUNDERBIRD_FOLDER_READER]
+		Each document folder is read and processed by a class conforming to [$source TB_FOLDER_READER]
 	]"
 
 	author: "Finnian Reilly"
@@ -22,14 +22,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2023-01-23 14:47:36 GMT (Monday 23rd January 2023)"
+	revision: "17"
 
 deferred class
-	EL_ML_THUNDERBIRD_ACCOUNT_READER
+	TB_MULTI_LANG_ACCOUNT_READER
 
 inherit
-	EL_THUNDERBIRD_ACCOUNT_READER
+	TB_ACCOUNT_READER
 		export
 			{EL_COMMAND_CLIENT} make_from_file
 		redefine
@@ -89,8 +89,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_reader: EL_THUNDERBIRD_FOLDER_READER
+	new_reader: TB_FOLDER_READER
 		deferred
 		end
 
 end
+

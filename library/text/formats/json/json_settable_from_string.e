@@ -16,14 +16,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 9:56:53 GMT (Thursday 5th January 2023)"
-	revision: "34"
+	date: "2023-01-23 11:34:26 GMT (Monday 23rd January 2023)"
+	revision: "35"
 
 deferred class
 	JSON_SETTABLE_FROM_STRING
 
 inherit
-	EL_REFLECTIVE_I undefine is_equal end
+	EL_REFLECTIVE_I
 
 	EL_REFLECTION_HANDLER
 

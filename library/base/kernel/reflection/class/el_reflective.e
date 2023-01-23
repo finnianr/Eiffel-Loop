@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-06 14:18:01 GMT (Friday 6th January 2023)"
-	revision: "66"
+	date: "2023-01-23 12:25:24 GMT (Monday 23rd January 2023)"
+	revision: "67"
 
 deferred class
 	EL_REFLECTIVE
@@ -26,8 +26,6 @@ inherit
 	EL_REFLECTION_HANDLER
 
 	EL_STRING_8_CONSTANTS
-
-	EL_SHARED_CLASS_ID
 
 feature {NONE} -- Initialization
 
@@ -212,73 +210,18 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 			valid_field_names: valid_table_field_names (Result)
 		end
 
-	new_tuple_field_name_table (field_names: like Default_tuple_field_names): HASH_TABLE [EL_STRING_8_LIST, INTEGER]
-		local
-			field_set: EL_FIELD_INDICES_SET; s: EL_STRING_8_ROUTINES
+	new_tuple_converters: like Default_tuple_converters
 		do
-			if field_names.count = 0 then
-				Result := Default_tuple_field_name_table
-			else
-				create field_set.make_from_reflective (Current, s.joined_with (field_names.current_keys, Comma_space))
-				create Result.make (field_names.count)
-				across field_names as table loop
-					Result.extend (table.item, field_set [table.cursor_index - 1])
-				end
-			end
+			Result := Default_tuple_converters
+		ensure
+			valid_field_names: valid_table_field_names (Result)
 		end
 
 	new_tuple_field_names: like Default_tuple_field_names
 		do
 			Result := Default_tuple_field_names
 		ensure
-			valid_field_names: valid_table_field_names (Result)
-			valid_tuple_field_names: valid_tuple_field_name_count (Result)
-		end
-
-feature -- Contract Support
-
-	valid_field_names (names: STRING): BOOLEAN
-		-- `True' if comma separated list of `names' are all valid field names
-		local
-			field_set: EL_FIELD_INDICES_SET
-		do
-			if names.is_empty then
-				Result := True
-			else
-				create field_set.make_from_reflective (Current, names)
-				Result := field_set.is_valid
-			end
-		end
-
-	valid_table_field_names (table: HASH_TABLE [ANY, STRING]): BOOLEAN
-		local
-			s: EL_STRING_8_ROUTINES
-		do
-			Result := valid_field_names (s.joined_with (table.current_keys, Comma_space))
-		end
-
-	valid_tuple_field_name_count (field_names: like Default_tuple_field_names): BOOLEAN
-		local
-			l_current: REFLECTED_REFERENCE_OBJECT
-			i, count, field_count, field_type: INTEGER
-			field_name_table: like new_tuple_field_name_table
-		do
-			field_name_table := new_tuple_field_name_table (field_names)
-			create l_current.make (Current)
-			count := l_current.field_count
-			Result := True
-			from i := 1 until i > count or not Result loop
-				if field_name_table.has_key (i) then
-					field_type := l_current.field_static_type (i)
-					if {ISE_RUNTIME}.type_conforms_to (field_type, Class_id.TUPLE) then
-						field_count := Eiffel.generic_count_of_type (field_type)
-						Result := field_name_table.found_item.count = field_count
-					else
-						Result := False
-					end
-				end
-				i := i + 1
-			end
+			valid_tuple_field_names: across Result as table all valid_tuple_field_names (table.key, table.item) end
 		end
 
 feature {EL_REFLECTIVE_I} -- Implementation

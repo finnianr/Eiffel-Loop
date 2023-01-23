@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-22 17:08:04 GMT (Sunday 22nd January 2023)"
-	revision: "7"
+	date: "2023-01-23 10:21:46 GMT (Monday 23rd January 2023)"
+	revision: "8"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -171,14 +171,12 @@ feature -- Element change
 
 	fill (a_target: S; search_character: CHARACTER_32; a_adjustments: INTEGER)
 		do
-			wipe_out
 			target := a_target; adjustments := a_adjustments
 			fill_intervals (a_target, Empty_string_8, search_character, a_adjustments)
 		end
 
 	fill_by_string (a_target: S; search_string: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
 		do
-			wipe_out
 			target := a_target; adjustments := a_adjustments
 			Precursor (a_target, search_string, a_adjustments)
 		end

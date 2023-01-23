@@ -1,19 +1,19 @@
 note
-	description: "Thunderbird folder to xhtml"
+	description: "Thunderbird folder to XHTML"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 9:50:07 GMT (Monday 9th January 2023)"
-	revision: "28"
+	date: "2023-01-23 13:47:17 GMT (Monday 23rd January 2023)"
+	revision: "29"
 
 deferred class
-	EL_THUNDERBIRD_XHTML_EXPORTER
+	TB_XHTML_FOLDER_EXPORTER
 
 inherit
-	EL_THUNDERBIRD_FOLDER_READER
+	TB_FOLDER_READER
 		rename
 			read_mails as export_mails
 		redefine

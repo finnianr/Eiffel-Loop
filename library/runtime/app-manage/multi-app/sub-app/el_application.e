@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 12:06:57 GMT (Saturday 3rd December 2022)"
-	revision: "64"
+	date: "2023-01-23 13:13:14 GMT (Monday 23rd January 2023)"
+	revision: "65"
 
 deferred class
 	EL_APPLICATION
@@ -486,7 +486,7 @@ note
 							[$source HTML_BODY_WORD_COUNTER_APP]
 							[$source PYXIS_ENCRYPTER_APP]
 							[$source PYXIS_TREE_TO_XML_COMPILER_APP]
-							[$source TESTABLE_LOCALIZED_THUNDERBIRD_SUB_APPLICATION]* [READER -> [$source EL_ML_THUNDERBIRD_ACCOUNT_READER] create make_from_file end]
+							[$source TESTABLE_LOCALIZED_THUNDERBIRD_SUB_APPLICATION]* [READER -> [$source TB_MULTI_LANG_ACCOUNT_READER] create make_from_file end]
 								[$source LOCALIZED_THUNDERBIRD_BOOK_EXPORTER_APP]
 								[$source LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER_APP]
 					[$source EL_COMMAND_SHELL_APPLICATION]* [C -> [$source EL_APPLICATION_COMMAND_SHELL]]

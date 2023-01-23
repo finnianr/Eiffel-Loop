@@ -12,14 +12,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2023-01-23 14:44:28 GMT (Monday 23rd January 2023)"
+	revision: "15"
 
 class
-	EL_THUNDERBIRD_XHTML_BODY_EXPORTER
+	TB_XHTML_BODY_EXPORTER
 
 inherit
-	EL_THUNDERBIRD_XHTML_EXPORTER
+	TB_XHTML_FOLDER_EXPORTER
 		redefine
 			make, check_paragraph_count, edit, write_html,
 			on_first_tag, on_last_tag,
@@ -158,3 +158,4 @@ feature {NONE} -- Constants
 			Tuple.fill (Result, "<a, </a>")
 		end
 end
+

@@ -10,11 +10,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 16:17:24 GMT (Sunday 18th December 2022)"
-	revision: "20"
+	date: "2023-01-23 14:40:23 GMT (Monday 23rd January 2023)"
+	revision: "21"
 
 deferred class
-	EL_THUNDERBIRD_FOLDER_READER
+	TB_FOLDER_READER
 
 inherit
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -53,6 +53,16 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	output_dir: DIR_PATH
+
+	export_steps_prune_count: INTEGER
+		-- number of steps to remove from tail of `export_steps'
+
+feature -- Element change
+
+	set_export_steps_prune_count (a_count: INTEGER)
+		do
+			export_steps_prune_count := a_count
+		end
 
 feature -- Basic operations
 
@@ -175,6 +185,9 @@ feature {NONE} -- Implementation
 	export_steps (mails_path: FILE_PATH): EL_PATH_STEPS
 		do
 			Result := config.export_steps (mails_path)
+			if export_steps_prune_count.to_boolean then
+				Result.remove_tail (export_steps_prune_count)
+			end
 		end
 
 	intervals (line, search_string: ZSTRING): like Occurrence_intervals
@@ -225,7 +238,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	config: EL_THUNDERBIRD_ACCOUNT_READER
+	config: TB_ACCOUNT_READER
 
 	field_table: EL_ZSTRING_HASH_TABLE [ZSTRING]
 

@@ -1,7 +1,7 @@
 note
 	description: "[
 		Table of actions to add XML element attribute to output string.
-		See class [$source EL_THUNDERBIRD_XHTML_EXPORTER]
+		See class [$source TB_XHTML_FOLDER_EXPORTER]
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 17:30:18 GMT (Sunday 1st January 2023)"
-	revision: "6"
+	date: "2023-01-23 13:22:20 GMT (Monday 23rd January 2023)"
+	revision: "7"
 
 class
 	EL_ATTRIBUTE_EDIT_TABLE

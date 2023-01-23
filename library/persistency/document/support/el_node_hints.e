@@ -8,17 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 13:39:01 GMT (Thursday 5th January 2023)"
-	revision: "1"
+	date: "2023-01-23 11:34:08 GMT (Monday 23rd January 2023)"
+	revision: "2"
 
 deferred class
 	EL_NODE_HINTS
 
 inherit
 	EL_REFLECTIVE_I
-		undefine
-			is_equal
-		end
 
 feature {NONE} -- Constants
 

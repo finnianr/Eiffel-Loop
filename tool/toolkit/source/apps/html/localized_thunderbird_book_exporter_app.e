@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-01-23 13:11:56 GMT (Monday 23rd January 2023)"
+	revision: "10"
 
 class
 	LOCALIZED_THUNDERBIRD_BOOK_EXPORTER_APP
 
 inherit
-	THUNDERBIRD_ACCOUNT_READER_APP [EL_ML_THUNDERBIRD_ACCOUNT_BOOK_EXPORTER]
+	THUNDERBIRD_ACCOUNT_READER_APP [TB_MULTI_LANG_ACCOUNT_BOOK_EXPORTER]
 		redefine
 			Option_name
 		end
