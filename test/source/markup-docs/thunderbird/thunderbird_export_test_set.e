@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 14:21:32 GMT (Monday 23rd January 2023)"
-	revision: "15"
+	date: "2023-01-23 18:16:00 GMT (Monday 23rd January 2023)"
+	revision: "16"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -31,12 +31,13 @@ feature -- Basic operations
 	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("book_exporter", agent test_book_exporter)
 			eval.call ("decode_iso_8859_15_subject_line", agent test_decode_iso_8859_15_subject_line)
 			eval.call ("decode_utf_8_subject_line", agent test_decode_utf_8_subject_line)
-			eval.call ("book_exporter", agent test_book_exporter)
+			eval.call ("email_list", agent test_email_list)
 			eval.call ("www_exporter", agent test_www_exporter)
-			eval.call ("xhtml_exporter", agent test_xhtml_exporter)
 			eval.call ("xhtml_doc_exporter", agent test_xhtml_doc_exporter)
+			eval.call ("xhtml_exporter", agent test_xhtml_exporter)
 		end
 
 feature -- Tests
@@ -48,7 +49,7 @@ feature -- Tests
 
 	test_decode_iso_8859_15_subject_line
 		local
-			subject: EL_SUBJECT_LINE_DECODER
+			subject: TB_SUBJECT_LINE_DECODER
 		do
 			create subject.make
 			subject.set_line ("=?ISO-8859-15?Q?=DCber_My_Ching?=")
@@ -57,7 +58,7 @@ feature -- Tests
 
 	test_decode_utf_8_subject_line
 		local
-			subject: EL_SUBJECT_LINE_DECODER
+			subject: TB_SUBJECT_LINE_DECODER
 		do
 			create subject.make
 			subject.set_line ("=?UTF-8?B?w5xiZXLigqwgTXkgQ2hpbmc=?=")
@@ -65,6 +66,15 @@ feature -- Tests
 
 			subject.set_line ("=?UTF-8?Q?Journaleintr=c3=a4ge_bearbeiten?=")
 			assert_same_string (Void, subject.decoded_line, "Journaleinträge bearbeiten")
+		end
+
+	test_email_list
+		local
+			command: TB_WWW_XHTML_CONTENT_EXPORTER; email_list: TB_EMAIL_LIST
+		do
+			write_config ("pop.eiffel-loop.com", Empty_string_8, Empty_lines)
+			create command.make_from_file (Config_path)
+			create email_list.make (command.mail_dir + "www.sbd/Tools")
 		end
 
 	test_www_exporter
@@ -191,24 +201,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	WWW_manifest: EL_STRING_8_LIST
-		once
-			create Result.make_with_lines ("[
-				Audio management
-				Client-server network
-				Digital Signal Processing
-				Development Tools
-				External Language integration
-				Graphical user interface
-				Installing Eiffel Loop
-				Miscellaneous
-				Multi-threading
-				Text processing
-				Toolkit functions
-				XML processing
-			]")
-		end
-
 	About_myching_manifest: EL_STRING_8_LIST
 		once
 			create Result.make_with_lines ("[
@@ -242,7 +234,24 @@ feature {NONE} -- Constants
 				en/Screenshots/Search Engine Screenshot.body
 			]")
 		end
-end
+	WWW_manifest: EL_STRING_8_LIST
+		once
+			create Result.make_with_lines ("[
+				Audio management
+				Client-server network
+				Digital Signal Processing
+				Development Tools
+				External Language integration
+				Graphical user interface
+				Installing Eiffel Loop
+				Miscellaneous
+				Multi-threading
+				Text processing
+				Toolkit functions
+				XML processing
+			]")
+		end
 
+end
 
 

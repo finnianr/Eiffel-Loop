@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-01-23 16:48:56 GMT (Monday 23rd January 2023)"
+	revision: "8"
 
 class
-	EL_SUBJECT_LIST
+	TB_SUBJECT_LIST
 
 inherit
 	EL_ZSTRING_LIST
@@ -59,6 +59,6 @@ feature {NONE} -- Internal attributes
 
 	line_set: EL_HASH_SET [ZSTRING]
 
-	decoder: EL_SUBJECT_LINE_DECODER
+	decoder: TB_SUBJECT_LINE_DECODER
 
 end

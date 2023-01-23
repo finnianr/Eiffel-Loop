@@ -14,11 +14,11 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:27:19 GMT (Monday 5th December 2022)"
-	revision: "15"
+	date: "2023-01-23 16:48:25 GMT (Monday 23rd January 2023)"
+	revision: "16"
 
 class
-	EL_SUBJECT_LINE_DECODER
+	TB_SUBJECT_LINE_DECODER
 
 inherit
 	EL_ENCODEABLE_AS_TEXT

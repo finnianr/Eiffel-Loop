@@ -9,11 +9,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 13:22:20 GMT (Monday 23rd January 2023)"
-	revision: "7"
+	date: "2023-01-23 16:48:00 GMT (Monday 23rd January 2023)"
+	revision: "8"
 
 class
-	EL_ATTRIBUTE_EDIT_TABLE
+	TB_ATTRIBUTE_EDIT_TABLE
 
 inherit
 	EL_ZSTRING_HASH_TABLE [PROCEDURE [ZSTRING, ZSTRING, ZSTRING]]

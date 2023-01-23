@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 13:47:17 GMT (Monday 23rd January 2023)"
-	revision: "29"
+	date: "2023-01-23 16:48:00 GMT (Monday 23rd January 2023)"
+	revision: "30"
 
 deferred class
 	TB_XHTML_FOLDER_EXPORTER
@@ -280,10 +280,10 @@ feature {NONE} -- Deferred
 
 feature {NONE} -- Internal attributes
 
-	edit_attributes_anchor_tag: EL_ATTRIBUTE_EDIT_TABLE
+	edit_attributes_anchor_tag: TB_ATTRIBUTE_EDIT_TABLE
 		-- cannot be once routines because of complications setting routine target
 
-	edit_attributes_image_tag: EL_ATTRIBUTE_EDIT_TABLE
+	edit_attributes_image_tag: TB_ATTRIBUTE_EDIT_TABLE
 
 	is_html_updated: BOOLEAN
 

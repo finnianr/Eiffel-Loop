@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 13:15:34 GMT (Monday 23rd January 2023)"
-	revision: "27"
+	date: "2023-01-23 17:16:48 GMT (Monday 23rd January 2023)"
+	revision: "28"
 
 deferred class
 	TB_ACCOUNT_READER
@@ -86,6 +86,11 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	account: STRING
+		-- account name
+
+	export_dir: DIR_PATH
+
 	export_steps (mails_path: FILE_PATH): EL_PATH_STEPS
 		local
 			account_index, i: INTEGER; dot_sbd_step: ZSTRING
@@ -114,13 +119,6 @@ feature -- Access
 			end
 		end
 
-	export_dir: DIR_PATH
-
-feature {NONE} -- Internal attributes
-
-	account: STRING
-		-- account name
-
 	folder_list: EL_ZSTRING_LIST
 		-- .sbd folders
 
@@ -128,11 +126,13 @@ feature {NONE} -- Internal attributes
 
 	language: STRING
 
+	mail_dir: DIR_PATH
+
+feature -- Status query
+
 	language_code_last: BOOLEAN
 		-- when true put the language code directory last in directory structure
 		-- example: help/en
-
-	mail_dir: DIR_PATH
 
 feature {NONE} -- Implementation
 

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 14:40:23 GMT (Monday 23rd January 2023)"
-	revision: "21"
+	date: "2023-01-23 16:49:30 GMT (Monday 23rd January 2023)"
+	revision: "22"
 
 deferred class
 	TB_FOLDER_READER
@@ -26,7 +26,7 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
-	EL_THUNDERBIRD_CONSTANTS
+	TB_CONSTANTS
 
 	EL_ZSTRING_CONSTANTS
 
@@ -248,7 +248,7 @@ feature {NONE} -- Internal attributes
 
 	line_source: EL_PLAIN_TEXT_LINE_SOURCE
 
-	subject_list: EL_SUBJECT_LIST
+	subject_list: TB_SUBJECT_LIST
 
 feature {NONE} -- Constants
 
