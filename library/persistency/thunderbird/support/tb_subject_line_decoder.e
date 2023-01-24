@@ -14,8 +14,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 16:48:25 GMT (Monday 23rd January 2023)"
-	revision: "16"
+	date: "2023-01-24 21:22:19 GMT (Tuesday 24th January 2023)"
+	revision: "17"
 
 class
 	TB_SUBJECT_LINE_DECODER
@@ -23,42 +23,24 @@ class
 inherit
 	EL_ENCODEABLE_AS_TEXT
 		rename
-			make as make_encodeable
+			make as make_encoding,
+			make_default as make
 		end
 
-	EL_SHARED_ZCODEC_FACTORY
-
-	EL_MODULE_BASE_64
+	EL_MODULE_BASE_64; EL_MODULE_TUPLE; EL_MODULE_REUSEABLE
 
 	STRING_HANDLER
 
 create
 	make
 
-feature {NONE} -- Initialization
-
-	make
-		do
-			make_encodeable (Latin_1)
-			set_codec
-			on_encoding_change.add_action (agent set_codec)
-			create line.make_empty
-		end
-
-feature -- Element change
-
-	set_line (a_line: like line)
-		do
-			line := a_line
-		end
-
 feature -- Access
 
-	decoded_line: ZSTRING
+	decoded (line: STRING): ZSTRING
 		local
-			parts: EL_ZSTRING_LIST; latin_str: STRING
+			parts: EL_STRING_8_LIST; latin_str: STRING
 		do
-			if line.starts_with_zstring (Encoded_begin) and then line.ends_with_zstring (Encoded_end) then
+			if line.starts_with (Marker.begin) and then line.ends_with (Marker.end_) then
 				create parts.make_split (line.substring (3, line.count - 2), '?')
 
 				set_encoding_from_name (parts.first)
@@ -72,20 +54,20 @@ feature -- Access
 				else
 					latin_str := unescaped (parts.last)
 				end
-				create Result.make_from_general (codec.as_unicode (latin_str, False))
 			else
-				Result := line
+				set_latin_encoding (1)
+				latin_str := line
+			end
+			across Reuseable.string as reuse loop
+				Result := reuse.item
+				Result.append_encoded (latin_str, encoding)
+				Result := Result.twin
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	set_codec
-		do
-			codec := Codec_factory.codec (Current)
-		end
-
-	unescaped (str: ZSTRING): STRING
+	unescaped (str: STRING): STRING
 		local
 			hex: EL_HEXADECIMAL_CONVERTER
 		do
@@ -105,22 +87,12 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Internal attributes
-
-	line: ZSTRING
-
-	codec: EL_ZCODEC
-
 feature {NONE} -- Constants
 
-	Encoded_begin: ZSTRING
+	Marker: TUPLE [begin, end_: STRING]
 		once
-			Result := "=?"
-		end
-
-	Encoded_end: ZSTRING
-		once
-			Result := "?="
+			create Result
+			Tuple.fill (Result, "=?, ?=")
 		end
 
 end

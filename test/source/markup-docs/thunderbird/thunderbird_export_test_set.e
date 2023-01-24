@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-24 19:03:45 GMT (Tuesday 24th January 2023)"
-	revision: "17"
+	date: "2023-01-24 21:27:21 GMT (Tuesday 24th January 2023)"
+	revision: "18"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -32,8 +32,7 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			eval.call ("book_exporter", agent test_book_exporter)
-			eval.call ("decode_iso_8859_15_subject_line", agent test_decode_iso_8859_15_subject_line)
-			eval.call ("decode_utf_8_subject_line", agent test_decode_utf_8_subject_line)
+			eval.call ("subject_line_decoding", agent test_subject_line_decoding)
 			eval.call ("email_list", agent test_email_list)
 			eval.call ("www_exporter", agent test_www_exporter)
 			eval.call ("xhtml_doc_exporter", agent test_xhtml_doc_exporter)
@@ -45,27 +44,6 @@ feature -- Tests
 	test_book_exporter
 		do
 			Precursor
-		end
-
-	test_decode_iso_8859_15_subject_line
-		local
-			subject: TB_SUBJECT_LINE_DECODER
-		do
-			create subject.make
-			subject.set_line ("=?ISO-8859-15?Q?=DCber_My_Ching?=")
-			assert ("same string", subject.decoded_line.to_latin_1 ~ "Über My Ching")
-		end
-
-	test_decode_utf_8_subject_line
-		local
-			subject: TB_SUBJECT_LINE_DECODER
-		do
-			create subject.make
-			subject.set_line ("=?UTF-8?B?w5xiZXLigqwgTXkgQ2hpbmc=?=")
-			assert_same_string (Void, subject.decoded_line, {STRING_32} "Über€ My Ching")
-
-			subject.set_line ("=?UTF-8?Q?Journaleintr=c3=a4ge_bearbeiten?=")
-			assert_same_string (Void, subject.decoded_line, "Journaleinträge bearbeiten")
 		end
 
 	test_email_list
@@ -82,6 +60,7 @@ feature -- Tests
 				assert_same_string (Void, email.FCC, "mailbox://finnian%%40eiffel-loop.com@pop.eiffel-loop.com/Sent")
 				assert_same_string (Void, email.content_type.mime, "text/html")
 				assert_same_string (Void, email.content_type.encoding_name, "iso-8859-15")
+				assert_same_string (Void, email.content_transfer_encoding, "7bit")
 				assert_same_string (Void, email.from_, "Finnian Reilly <finnian@eiffel-loop.com>")
 				assert_same_string (Void, email.message_id, "<4D94A700.1000105@eiffel-loop.com>")
 				assert_same_string (Void, email.mime_version, "1.0")
@@ -106,6 +85,20 @@ feature -- Tests
 				assert ("x_mozilla_status OK", email.x_mozilla_status = 1)
 				assert ("x_mozilla_status2 OK", email.x_mozilla_status2 = 2)
 			end
+		end
+
+	test_subject_line_decoding
+		local
+			line: ZSTRING
+		do
+			line := Subject_decoder.decoded ("=?UTF-8?B?w5xiZXLigqwgTXkgQ2hpbmc=?=")
+			assert_same_string (Void, line, {STRING_32} "Über€ My Ching")
+
+			line := Subject_decoder.decoded ("=?UTF-8?Q?Journaleintr=c3=a4ge_bearbeiten?=")
+			assert_same_string (Void, line, "Journaleinträge bearbeiten")
+
+			line := Subject_decoder.decoded ("=?ISO-8859-15?Q?=DCber_My_Ching?=")
+			assert_same_string (Void, line, "Über My Ching")
 		end
 
 	test_www_exporter
@@ -232,6 +225,18 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
+	Email_type: TB_EMAIL
+		once
+			create Result.make
+		end
+
+	Subject_decoder: TB_SUBJECT_LINE_DECODER
+		once
+			create Result.make
+		end
+
+feature {NONE} -- File Manifests
+
 	About_myching_manifest: EL_STRING_8_LIST
 		once
 			create Result.make_with_lines ("[
@@ -242,11 +247,6 @@ feature {NONE} -- Constants
 				en/1.About/2.The Developer.xhtml
 				en/1.About/3.Technology.xhtml
 			]")
-		end
-
-	Email_type: TB_EMAIL
-		once
-			create Result.make
 		end
 
 	Pop_myching_co_manifest: EL_ZSTRING_LIST
@@ -290,4 +290,3 @@ feature {NONE} -- Constants
 		end
 
 end
-

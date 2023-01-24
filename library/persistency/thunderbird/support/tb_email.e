@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-24 19:23:33 GMT (Tuesday 24th January 2023)"
-	revision: "3"
+	date: "2023-01-24 21:28:06 GMT (Tuesday 24th January 2023)"
+	revision: "4"
 
 class
 	TB_EMAIL
@@ -39,19 +39,28 @@ create
 
 feature -- Access
 
+	content_encoding: NATURAL
+		do
+			Result := Mod_encoding.name_to_encoding (content_type.encoding_name)
+		end
+
+	subject_decoded: ZSTRING
+		do
+			Result := Subject_line.decoded (subject)
+		end
+
+feature -- Thunderbird fields
+
 	FCC: STRING
 
 	from_: STRING
 
 	content: ZSTRING
 
-	content_encoding: NATURAL
-		do
-			Result := Mod_encoding.name_to_encoding (content_type.encoding_name)
-		end
-
 	content_type: TUPLE [mime, encoding_name: STRING]
 		-- Eg. text/html; charset=iso-8859-15
+
+	content_transfer_encoding: STRING
 
 	date: INTEGER
 
@@ -60,6 +69,7 @@ feature -- Access
 	mime_version: STRING
 
 	subject: STRING
+		-- raw subject line which maybe encoded
 
 	user_agent: STRING
 
@@ -102,7 +112,8 @@ feature {NONE} -- Factories
 	new_representations: like Default_representations
 		do
 			create Result.make (<<
-				["date", Date_representation]
+				["date", Date_representation],
+				["content_transfer_encoding", Transfer_encodings.to_representation]
 			>>)
 		end
 
@@ -126,5 +137,15 @@ feature {NONE} -- Constants
 	Kebab_case_title: EL_NAME_TRANSLATER
 		once
 			Result := kebab_case_translater (Case.Title)
+		end
+
+	Transfer_encodings: EL_HASH_SET [STRING]
+		once
+			create Result.make_from_array (<< "7bit", "8bit" >>)
+		end
+
+	Subject_line: TB_SUBJECT_LINE_DECODER
+		once
+			create Result.make
 		end
 end

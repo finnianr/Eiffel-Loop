@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-24 16:48:34 GMT (Tuesday 24th January 2023)"
-	revision: "2"
+	date: "2023-01-24 19:26:48 GMT (Tuesday 24th January 2023)"
+	revision: "3"
 
 class
 	TB_EMAIL_LIST
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 			if file_path.exists then
 				make_list (20)
 				do_with_lines (agent find_from_date, file_path)
-				find_from_date ("From - Sun Apr 03 12:25:48 2016") -- Force email to be appended
+				find_from_date ("From - Sun Apr 03 12:25:48 2016") -- Force last email to be appended
 			else
 				make_empty
 			end

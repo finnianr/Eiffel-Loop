@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 16:48:56 GMT (Monday 23rd January 2023)"
-	revision: "8"
+	date: "2023-01-24 21:23:53 GMT (Tuesday 24th January 2023)"
+	revision: "9"
 
 class
 	TB_SUBJECT_LIST
@@ -33,19 +33,14 @@ feature {NONE} -- Initialization
 		do
 			Precursor (n)
 			create line_set.make (n)
-			create decoder.make
 		end
 
 feature -- Element change
 
-	extend (encoded_line: ZSTRING)
-		local
-			line: ZSTRING
+	extend (encoded_line: STRING)
 		do
-			decoder.set_line (encoded_line)
-			line := decoder.decoded_line
-			extend_decoded (line)
-			line_set.put (line)
+			extend_decoded (Subject_line.decoded (encoded_line))
+			line_set.put (last)
 		end
 
 feature -- Status query
@@ -59,6 +54,9 @@ feature {NONE} -- Internal attributes
 
 	line_set: EL_HASH_SET [ZSTRING]
 
-	decoder: TB_SUBJECT_LINE_DECODER
+	Subject_line: TB_SUBJECT_LINE_DECODER
+		once
+			create Result.make
+		end
 
 end
