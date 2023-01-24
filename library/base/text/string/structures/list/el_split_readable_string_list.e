@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 10:21:46 GMT (Monday 23rd January 2023)"
-	revision: "8"
+	date: "2023-01-24 15:48:43 GMT (Tuesday 24th January 2023)"
+	revision: "9"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -50,7 +50,7 @@ inherit
 		export
 			{NONE} all
 			{ANY} index, count, item_count, item_start_index, item_end_index, i_th_upper, i_th_lower,
-				back, remove, remove_head, remove_tail, go_i_th, is_empty, before, valid_index,
+				back, remove, remove_head, remove_item_head, remove_tail, go_i_th, is_empty, before, valid_index,
 				wipe_out, fill, fill_by_string, start, forth, after, valid_adjustments
 		redefine
 			is_equal, make_empty, make_by_string, make, fill, fill_by_string
@@ -217,6 +217,18 @@ feature -- Items
 	i_th (i: INTEGER): S
 		do
 			Result := target_substring (i_th_interval (i))
+		end
+
+	item_index_of (c: CHARACTER_32): INTEGER
+		-- index of `c' relative to `item_start_index - 1'
+		-- 0 if `c' does not occurr within item bounds
+		local
+			l_index: INTEGER
+		do
+			l_index := target.index_of ('=', item_start_index)
+			if not (l_index = 0 or l_index > item_end_index) then
+				Result := l_index - item_start_index + 1
+			end
 		end
 
 	item: S

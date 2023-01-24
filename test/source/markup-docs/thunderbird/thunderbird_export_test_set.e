@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 18:16:00 GMT (Monday 23rd January 2023)"
-	revision: "16"
+	date: "2023-01-24 19:03:45 GMT (Tuesday 24th January 2023)"
+	revision: "17"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -71,10 +71,41 @@ feature -- Tests
 	test_email_list
 		local
 			command: TB_WWW_XHTML_CONTENT_EXPORTER; email_list: TB_EMAIL_LIST
+			email_date, date_time: EL_DATE_TIME; x_mozilla_draft_info: like Email_type.x_mozilla_draft_info
+			n: ARRAY [NATURAL_8]
 		do
 			write_config ("pop.eiffel-loop.com", Empty_string_8, Empty_lines)
 			create command.make_from_file (Config_path)
 			create email_list.make (command.mail_dir + "www.sbd/Tools")
+			assert ("email count OK", email_list.count = 2)
+			if attached email_list.first as email then
+				assert_same_string (Void, email.FCC, "mailbox://finnian%%40eiffel-loop.com@pop.eiffel-loop.com/Sent")
+				assert_same_string (Void, email.content_type.mime, "text/html")
+				assert_same_string (Void, email.content_type.encoding_name, "iso-8859-15")
+				assert_same_string (Void, email.from_, "Finnian Reilly <finnian@eiffel-loop.com>")
+				assert_same_string (Void, email.message_id, "<4D94A700.1000105@eiffel-loop.com>")
+				assert_same_string (Void, email.mime_version, "1.0")
+				assert_same_string (Void, email.subject, "Toolkit functions")
+				assert_same_string (Void, email.x_account_key, "account1")
+				assert_same_string (Void, email.x_identity_key, "id1")
+				assert_same_string (Void, email.x_mozilla_keys, create {STRING}.make_filled (' ', 80))
+
+				create email_date.make_from_epoch (email.date)
+				-- Sun, 3 Apr 2016 12:25:48 +0100
+				create date_time.make_fine (2016, 4, 3, 11, 25, 48)
+				assert ("date OK", date_time ~ email_date)
+				assert ("content OK", email.content.starts_with ("<html>") and email.content.ends_with ("</html>"))
+				assert ("user_agent", email.user_agent.starts_with ("Mozilla/5.0") and email.user_agent.ends_with ("38.6.0"))
+
+				n := << 1, 2, 3, 4, 5 >>
+				x_mozilla_draft_info := ["internal/draft", n [1], n [2], n [3], n [4], n [5]]
+				x_mozilla_draft_info.compare_objects
+				email.x_mozilla_draft_info.compare_objects
+				assert ("x_mozilla_draft_info OK", email.x_mozilla_draft_info ~ x_mozilla_draft_info)
+
+				assert ("x_mozilla_status OK", email.x_mozilla_status = 1)
+				assert ("x_mozilla_status2 OK", email.x_mozilla_status2 = 2)
+			end
 		end
 
 	test_www_exporter
@@ -213,6 +244,11 @@ feature {NONE} -- Constants
 			]")
 		end
 
+	Email_type: TB_EMAIL
+		once
+			create Result.make
+		end
+
 	Pop_myching_co_manifest: EL_ZSTRING_LIST
 		once
 			create Result.make_with_lines ({STRING_32} "[
@@ -234,6 +270,7 @@ feature {NONE} -- Constants
 				en/Screenshots/Search Engine Screenshot.body
 			]")
 		end
+
 	WWW_manifest: EL_STRING_8_LIST
 		once
 			create Result.make_with_lines ("[
@@ -253,5 +290,4 @@ feature {NONE} -- Constants
 		end
 
 end
-
 

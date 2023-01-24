@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-22 17:01:12 GMT (Sunday 22nd January 2023)"
-	revision: "3"
+	date: "2023-01-24 15:38:39 GMT (Tuesday 24th January 2023)"
+	revision: "4"
 
 class
 	EL_ARRAYED_INTERVAL_LIST
@@ -178,6 +178,14 @@ feature -- Element change
 	replace (a_lower, a_upper: INTEGER)
 		do
 			item_replace (a_lower.to_integer_64 |<< 32 | a_upper)
+		end
+
+	remove_item_head (n: INTEGER)
+		require
+			not_off: not off
+			within_limits: 0 <= n and n <= item_count
+		do
+			replace (item_lower + n, item_upper)
 		end
 
 feature -- Factory

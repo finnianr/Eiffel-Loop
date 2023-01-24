@@ -6,48 +6,34 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 18:25:57 GMT (Monday 23rd January 2023)"
-	revision: "1"
+	date: "2023-01-24 19:11:35 GMT (Tuesday 24th January 2023)"
+	revision: "2"
 
 class
 	EL_PLAIN_TEXT_FILE_STATE_MACHINE
 
-feature {NONE} -- Initialization
-
-	make
-		do
-			final := agent (s: STRING) do end
-			state := final
-		end
+inherit
+	EL_STATE_MACHINE [STRING]
 
 feature {NONE} -- Implementation
 
-	call (line: STRING)
-		do
-			state (line)
-		end
-
 	do_with_lines (initial: like final; file_path: FILE_PATH)
 		local
-			file: PLAIN_TEXT_FILE
+			file: PLAIN_TEXT_FILE; l_final: like final
 		do
+			item_number := 0; l_final := final
 			create file.make_open_read (file_path)
 
-			from state := initial until state = final loop
+			from state := initial until state = l_final loop
 				file.read_line
 				if file.end_of_file then
 					state := final
 				else
+					item_number := item_number + 1
 					call (file.last_string)
 				end
 			end
 			file.close
 		end
-
-feature {NONE} -- Internal attributes
-
-	final: PROCEDURE [STRING]
-
-	state: like final
 
 end

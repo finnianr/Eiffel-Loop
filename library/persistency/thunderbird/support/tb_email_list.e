@@ -1,13 +1,13 @@
 note
-	description: "List of [$source TB_EMAIL]"
+	description: "List of Thunderbird email content and headers of type [$source TB_EMAIL]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 18:29:33 GMT (Monday 23rd January 2023)"
-	revision: "1"
+	date: "2023-01-24 16:48:34 GMT (Tuesday 24th January 2023)"
+	revision: "2"
 
 class
 	TB_EMAIL_LIST
@@ -44,6 +44,7 @@ feature {NONE} -- Initialization
 			if file_path.exists then
 				make_list (20)
 				do_with_lines (agent find_from_date, file_path)
+				find_from_date ("From - Sun Apr 03 12:25:48 2016") -- Force email to be appended
 			else
 				make_empty
 			end
@@ -70,8 +71,7 @@ feature {NONE} -- Implementation
 			else
 				start_index := 1
 				name := s.substring_to (line, ':', $start_index)
-				start_index := start_index + 1 -- skip space
-				value := s.substring_to (line, ':', $start_index)
+				value := line.substring (start_index + 1, line.count)
 				field_list.extend (name, value)
 			end
 		end
@@ -91,6 +91,7 @@ feature {NONE} -- Implementation
 							list.forth
 						end
 					end
+					email.content.append_encoded (content_buffer, email.content_encoding)
 					extend (email)
 					field_list.wipe_out
 					content_buffer.wipe_out
@@ -98,7 +99,7 @@ feature {NONE} -- Implementation
 				state := agent find_empty_line
 			else
 				if content_buffer.count > 0 then
-					content_buffer.append_character (' ')
+					content_buffer.append_character ('%N')
 				end
 				content_buffer.append (line)
 			end

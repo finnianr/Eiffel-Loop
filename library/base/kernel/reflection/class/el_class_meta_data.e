@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 12:05:05 GMT (Monday 23rd January 2023)"
-	revision: "66"
+	date: "2023-01-24 16:15:33 GMT (Tuesday 24th January 2023)"
+	revision: "67"
 
 class
 	EL_CLASS_META_DATA
@@ -56,6 +56,7 @@ feature {NONE} -- Initialization
 			Reader_writer_table.merge (a_enclosing_object.new_extra_reader_writer_table)
 			create cached_field_indices_set.make_equal (3, agent new_field_indices_set)
 			tuple_field_names := a_enclosing_object.new_tuple_field_names
+			tuple_converters := a_enclosing_object.new_tuple_converters
 
 			field_list := new_field_list
 			field_table := field_list.to_table (a_enclosing_object)
@@ -181,8 +182,13 @@ feature {NONE} -- Factory
 						-- remove underscore used to distinguish field name from keyword
 						name.prune_all_trailing ('_')
 						Result.extend (new_reflected_field (i, name))
-						if attached {EL_REFLECTED_TUPLE} Result.last as tuple and then tuple_field_names.has_key (name) then
-							tuple.set_field_name_list (tuple_field_names.found_item)
+						if attached {EL_REFLECTED_TUPLE} Result.last as tuple then
+							if tuple_field_names.has_key (name) then
+								tuple.set_field_name_list (tuple_field_names.found_item)
+							end
+							if tuple_converters.has_key (name) then
+								tuple.set_split_list_function (tuple_converters.found_item)
+							end
 						end
 					end
 				end
@@ -319,7 +325,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	tuple_field_names: EL_STRING_8_TABLE [STRING]
+	tuple_field_names: like enclosing_object.new_tuple_field_names
+
+	tuple_converters: like enclosing_object.new_tuple_converters
 
 feature {NONE} -- Constants
 

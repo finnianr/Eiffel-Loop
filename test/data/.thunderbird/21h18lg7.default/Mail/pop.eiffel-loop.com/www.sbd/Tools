@@ -1,6 +1,6 @@
 From - Sun Apr 03 12:25:48 2016
 X-Mozilla-Status: 0001
-X-Mozilla-Status2: 00000000
+X-Mozilla-Status2: 00000002
 X-Mozilla-Keys:                                                                                 
 FCC: mailbox://finnian%40eiffel-loop.com@pop.eiffel-loop.com/Sent
 X-Identity-Key: id1
@@ -9,8 +9,8 @@ From: Finnian Reilly <finnian@eiffel-loop.com>
 Subject: Toolkit functions
 Message-ID: <4D94A700.1000105@eiffel-loop.com>
 Date: Sun, 3 Apr 2016 12:25:48 +0100
-X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0;
- attachmentreminder=0
+X-Mozilla-Draft-Info: internal/draft; vcard=1; receipt=2; DSN=3; uuencode=4;
+ attachmentreminder=5
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
  Thunderbird/38.6.0
 MIME-Version: 1.0

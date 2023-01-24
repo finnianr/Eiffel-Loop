@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 12:25:24 GMT (Monday 23rd January 2023)"
-	revision: "67"
+	date: "2023-01-24 15:54:33 GMT (Tuesday 24th January 2023)"
+	revision: "68"
 
 deferred class
 	EL_REFLECTIVE
@@ -211,10 +211,12 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 		end
 
 	new_tuple_converters: like Default_tuple_converters
+		-- agent function to convert `READABLE_STRING_GENERAL' to adjusted `EL_SPLIT_READABLE_STRING_LIST'
+		-- for initializing tuple field
 		do
 			Result := Default_tuple_converters
 		ensure
-			valid_field_names: valid_table_field_names (Result)
+			valid_names: Result.current_keys.for_all (agent is_tuple_field)
 		end
 
 	new_tuple_field_names: like Default_tuple_field_names

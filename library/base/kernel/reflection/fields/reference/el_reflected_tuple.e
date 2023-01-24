@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 12:21:13 GMT (Monday 23rd January 2023)"
-	revision: "31"
+	date: "2023-01-24 16:02:14 GMT (Tuesday 24th January 2023)"
+	revision: "32"
 
 class
 	EL_REFLECTED_TUPLE
@@ -58,6 +58,11 @@ feature -- Status query
 			end
 		end
 
+	default_string_separator: BOOLEAN
+		do
+			Result := new_split_list = Void
+		end
+
 feature -- Basic operations
 
 	reset (a_object: EL_REFLECTIVE)
@@ -86,25 +91,29 @@ feature -- Basic operations
 			end
 		end
 
-	set_from_string (a_object: EL_REFLECTIVE; csv_list: READABLE_STRING_GENERAL)
+	set_from_string (a_object: EL_REFLECTIVE; value_list: READABLE_STRING_GENERAL)
 		require else
-			valid_comma_count: (csv_list.occurrences (',') + 1) = member_types.count
+			valid_comma_count: default_string_separator implies (value_list.occurrences (',') + 1) = member_types.count
 		do
 			if attached value (a_object) as l_tuple then
-				if attached Convert_string.split_list (csv_list, ',', {EL_STRING_ADJUST}.Left) as list then
+				if attached new_split_list as new_list and then attached new_list (value_list) as list then
+					Convert_string.fill_tuple_from_list (l_tuple, list)
+
+				elseif attached Convert_string.split_list (value_list, ',', {EL_STRING_ADJUST}.Left) as list then
 					list.prune_enclosing ('[', ']')
 					Convert_string.fill_tuple_from_list (l_tuple, list)
 				end
 			end
 		ensure then
-			set: lists_match (csv_list, to_string (a_object))
+			set: default_string_separator implies lists_match (value_list, to_string (a_object))
 		end
 
-	set_new_split_list (a_new_split_list: like new_split_list)
+	set_split_list_function (function: like new_split_list)
+		-- set optional function for splitting string in `set_from_string'
 		do
-			new_split_list := a_new_split_list
+			new_split_list := function
 		end
-	
+
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITABLE)
 		do
 			if attached value (a_object) as l_tuple then
