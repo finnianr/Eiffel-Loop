@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-24 15:48:43 GMT (Tuesday 24th January 2023)"
-	revision: "9"
+	date: "2023-01-24 19:21:49 GMT (Tuesday 24th January 2023)"
+	revision: "10"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -179,6 +179,23 @@ feature -- Element change
 		do
 			target := a_target; adjustments := a_adjustments
 			Precursor (a_target, search_string, a_adjustments)
+		end
+
+	for_all_remove_up_to (uc: CHARACTER_32)
+		-- remove all characters up to `uc' for all items
+		-- except those in which `uc' does not occurr
+		local
+			uc_index: INTEGER
+		do
+			push_cursor
+			from start until after loop
+				uc_index := item_index_of (uc)
+				if uc_index > 0 then
+					remove_item_head (uc_index)
+				end
+				forth
+			end
+			pop_cursor
 		end
 
 	prune_enclosing (left, right: CHARACTER)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-24 19:05:48 GMT (Tuesday 24th January 2023)"
-	revision: "2"
+	date: "2023-01-24 19:23:33 GMT (Tuesday 24th January 2023)"
+	revision: "3"
 
 class
 	TB_EMAIL
@@ -81,7 +81,7 @@ feature {NONE} -- Factories
 	new_content_type (str: READABLE_STRING_GENERAL): like Convert_string.split_list
 		do
 			Result := Convert_string.split_list (str, ';', {EL_STRING_ADJUST}.Left)
-			remove_names (Result)
+			Result.for_all_remove_up_to ('=')
 		end
 
 	new_draft_info (str: READABLE_STRING_GENERAL): like Convert_string.split_list
@@ -96,7 +96,7 @@ feature {NONE} -- Factories
 			else
 				Result := Convert_string.split_list (str, ';', {EL_STRING_ADJUST}.Left)
 			end
-			remove_names (Result)
+			Result.for_all_remove_up_to ('=')
 		end
 
 	new_representations: like Default_representations
@@ -114,21 +114,6 @@ feature {NONE} -- Factories
 				["x_mozilla_draft_info", agent new_draft_info],
 				["content_type", agent new_content_type]
 			>>)
-		end
-
-feature {NONE} -- Implementation
-
-	remove_names (list: like Convert_string.split_list)
-		local
-			index: INTEGER
-		do
-			from list.start until list.after loop
-				index := list.item_index_of ('=')
-				if index > 0 then
-					list.remove_item_head (index)
-				end
-				list.forth
-			end
 		end
 
 feature {NONE} -- Constants
