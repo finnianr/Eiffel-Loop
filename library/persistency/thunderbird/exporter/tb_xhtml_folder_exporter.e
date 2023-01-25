@@ -6,18 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 16:48:00 GMT (Monday 23rd January 2023)"
-	revision: "30"
+	date: "2023-01-25 18:38:45 GMT (Wednesday 25th January 2023)"
+	revision: "31"
 
 deferred class
 	TB_XHTML_FOLDER_EXPORTER
 
 inherit
-	TB_FOLDER_READER
-		rename
-			read_mails as export_mails
+	TB_FOLDER_EXPORTER
 		redefine
-			make_default, export_mails, set_header_subject
+			make_default, export_mails, set_output_file_path
 		end
 
 	XML_ESCAPE_ROUTINES
@@ -35,7 +33,6 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			Precursor
-			create output_file_path
 			-- cannot be once routines because of complications setting routine target
 			create edit_attributes_image_tag.make (<<
 				["moz-do-not-send", 	agent omit],
@@ -53,10 +50,10 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	export_mails (mails_path: FILE_PATH)
+	export_mails (email_list: TB_EMAIL_LIST)
 		do
-			Precursor (mails_path)
-			remove_old_files
+			Precursor (email_list)
+			remove_old_files (email_list)
 		end
 
 feature {NONE} -- Implementation
@@ -111,22 +108,22 @@ feature {NONE} -- Implementation
 			Result := target [start_index] /= '>' implies target.is_space_item (start_index)
 		end
 
-	on_email_collected
+	write_lines (email: TB_EMAIL)
 		do
 			File_system.make_directory (output_file_path.parent)
 			is_html_updated := not output_file_path.exists
-										or else last_header.date > Date_time.modification_time (output_file_path)
+										or else email.date > File.modification_time (output_file_path)
 			if is_html_updated then
 				lio.put_path_field (file_out_extension + " %S", output_file_path)
 				lio.put_new_line
-				lio.put_string_field ("Character set", line_source.encoding_name)
+				lio.put_string_field ("Character set", email.content_type.encoding_name.as_upper)
 				lio.put_new_line
-				write_html
+				write_html (new_html_lines (email).joined_lines)
 			end
 			check_paragraph_count (File.plain_text (output_file_path))
 		end
 
-	remove_old_files
+	remove_old_files (email_list: TB_EMAIL_LIST)
 		local
 			l_dir: EL_DIRECTORY
 		do
@@ -134,7 +131,7 @@ feature {NONE} -- Implementation
 			create l_dir.make (output_dir)
 			across related_file_extensions as extension loop
 				across l_dir.files_with_extension (extension.item) as file_path loop
-					if not subject_list.has (file_path.item.base_name) then
+					if not email_list.has_subject (file_path.item.base_name) then
 						lio.put_path_field ("Removing %S", file_path.item)
 						lio.put_new_line
 						File_system.remove_file (file_path.item)
@@ -143,21 +140,18 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_header_subject
+	set_output_file_path (subject_line: ZSTRING)
 		do
-			Precursor
-			output_file_path := output_dir + last_header.subject
+			output_file_path := output_dir + subject_line
 			output_file_path.add_extension (file_out_extension)
 		end
 
-	write_html
-		local
-			html_doc: ZSTRING; xhtml: STRING
+	write_html (html_doc: ZSTRING)
 		do
-			html_doc := html_lines.joined_lines
 			edit (html_doc)
-			xhtml := html_doc.to_utf_8 (False)
-			File.write_text (output_file_path, xhtml)
+			if attached html_doc.to_utf_8 (False) as xhtml then
+				File.write_text (output_file_path, xhtml)
+			end
 		end
 
 feature {NONE} -- Editing
@@ -286,8 +280,6 @@ feature {NONE} -- Internal attributes
 	edit_attributes_image_tag: TB_ATTRIBUTE_EDIT_TABLE
 
 	is_html_updated: BOOLEAN
-
-	output_file_path: FILE_PATH
 
 feature {NONE} -- Constants
 

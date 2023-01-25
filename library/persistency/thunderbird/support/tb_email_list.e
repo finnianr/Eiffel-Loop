@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-24 19:26:48 GMT (Tuesday 24th January 2023)"
-	revision: "3"
+	date: "2023-01-25 17:52:29 GMT (Wednesday 25th January 2023)"
+	revision: "4"
 
 class
 	TB_EMAIL_LIST
@@ -16,6 +16,8 @@ inherit
 	EL_ARRAYED_LIST [TB_EMAIL]
 		rename
 			make as make_list
+		export
+			{NONE} wipe_out, remove, remove_head, prune
 		end
 
 	EL_PLAIN_TEXT_FILE_STATE_MACHINE
@@ -38,16 +40,30 @@ feature {NONE} -- Initialization
 		require
 			path_exists: file_path.exists
 		do
+			source_path := file_path
 			make_machine
 			create content_buffer.make_empty
 			create field_list.make_empty
 			if file_path.exists then
 				make_list (20)
+				create subject_set.make (20)
 				do_with_lines (agent find_from_date, file_path)
 				find_from_date ("From - Sun Apr 03 12:25:48 2016") -- Force last email to be appended
 			else
+				create subject_set.make (0)
 				make_empty
 			end
+		end
+
+feature -- Access
+
+	source_path: FILE_PATH
+
+feature -- Status query
+
+	has_subject (line: ZSTRING): BOOLEAN
+		do
+			Result := subject_set.has (line)
 		end
 
 feature {NONE} -- Implementation
@@ -92,7 +108,7 @@ feature {NONE} -- Implementation
 						end
 					end
 					email.content.append_encoded (content_buffer, email.content_encoding)
-					extend (email)
+					extend (email); subject_set.put (email.subject_decoded)
 					field_list.wipe_out
 					content_buffer.wipe_out
 				end
@@ -110,6 +126,8 @@ feature {NONE} -- Internal attributes
 	content_buffer: STRING
 
 	field_list: EL_ARRAYED_MAP_LIST [STRING, STRING]
+
+	subject_set: EL_HASH_SET [ZSTRING]
 
 feature {NONE} -- Constants
 

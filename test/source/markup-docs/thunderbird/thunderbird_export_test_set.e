@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-24 21:27:21 GMT (Tuesday 24th January 2023)"
-	revision: "18"
+	date: "2023-01-25 13:19:20 GMT (Wednesday 25th January 2023)"
+	revision: "19"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -32,8 +32,9 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			eval.call ("book_exporter", agent test_book_exporter)
-			eval.call ("subject_line_decoding", agent test_subject_line_decoding)
 			eval.call ("email_list", agent test_email_list)
+			eval.call ("email_list_encoding", agent test_email_list_encoding)
+			eval.call ("subject_line_decoding", agent test_subject_line_decoding)
 			eval.call ("www_exporter", agent test_www_exporter)
 			eval.call ("xhtml_doc_exporter", agent test_xhtml_doc_exporter)
 			eval.call ("xhtml_exporter", agent test_xhtml_exporter)
@@ -50,7 +51,7 @@ feature -- Tests
 		local
 			command: TB_WWW_XHTML_CONTENT_EXPORTER; email_list: TB_EMAIL_LIST
 			email_date, date_time: EL_DATE_TIME; x_mozilla_draft_info: like Email_type.x_mozilla_draft_info
-			n: ARRAY [NATURAL_8]
+			n: ARRAY [NATURAL_8]; s: EL_STRING_8_ROUTINES
 		do
 			write_config ("pop.eiffel-loop.com", Empty_string_8, Empty_lines)
 			create command.make_from_file (Config_path)
@@ -67,7 +68,6 @@ feature -- Tests
 				assert_same_string (Void, email.subject, "Toolkit functions")
 				assert_same_string (Void, email.x_account_key, "account1")
 				assert_same_string (Void, email.x_identity_key, "id1")
-				assert_same_string (Void, email.x_mozilla_keys, create {STRING}.make_filled (' ', 80))
 
 				create email_date.make_from_epoch (email.date)
 				-- Sun, 3 Apr 2016 12:25:48 +0100
@@ -76,14 +76,36 @@ feature -- Tests
 				assert ("content OK", email.content.starts_with ("<html>") and email.content.ends_with ("</html>"))
 				assert ("user_agent", email.user_agent.starts_with ("Mozilla/5.0") and email.user_agent.ends_with ("38.6.0"))
 
-				n := << 1, 2, 3, 4, 5 >>
-				x_mozilla_draft_info := ["internal/draft", n [1], n [2], n [3], n [4], n [5]]
+				n := << 1, 2, 3, 4, 5, 6 >>
+				x_mozilla_draft_info := ["internal/draft", n [1], n [2], n [3], n [4], n [5], n [6]]
 				x_mozilla_draft_info.compare_objects
 				email.x_mozilla_draft_info.compare_objects
 				assert ("x_mozilla_draft_info OK", email.x_mozilla_draft_info ~ x_mozilla_draft_info)
 
 				assert ("x_mozilla_status OK", email.x_mozilla_status = 1)
 				assert ("x_mozilla_status2 OK", email.x_mozilla_status2 = 2)
+
+				assert ("same instance from string set", email.x_mozilla_keys = s.n_character_string (' ', 80))
+			end
+		end
+
+	test_email_list_encoding
+		local
+			command: TB_WWW_XHTML_CONTENT_EXPORTER; email_list: TB_EMAIL_LIST; euro_fragment: STRING_32
+		do
+			write_config ("small.myching.co", Empty_string_8, new_folder_lines ("Purchase"))
+			create command.make_from_file (Config_path)
+			across << "en", "de" >> as lang loop
+				create email_list.make (command.mail_dir.joined_file_tuple (["Purchase.sbd", lang.item]))
+				assert ("count OK", email_list.count = 1)
+				inspect lang.cursor_index
+					when 1 then -- charset=ISO-8859-15
+						euro_fragment := {STRING_32} "6 months: €3.00"
+
+					when 2 then -- charset=windows-1252
+						euro_fragment := {STRING_32} "8,00 €"
+				end
+				assert ("euro encoding OK", email_list.first.content.has_substring (euro_fragment))
 			end
 		end
 

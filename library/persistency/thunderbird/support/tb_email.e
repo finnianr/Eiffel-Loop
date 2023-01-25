@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-24 21:28:06 GMT (Tuesday 24th January 2023)"
-	revision: "4"
+	date: "2023-01-25 13:18:57 GMT (Wednesday 25th January 2023)"
+	revision: "5"
 
 class
 	TB_EMAIL
@@ -44,9 +44,14 @@ feature -- Access
 			Result := Mod_encoding.name_to_encoding (content_type.encoding_name)
 		end
 
+	modification_time: EL_DATE_TIME
+		do
+			create Result.make_from_epoch (date)
+		end
+
 	subject_decoded: ZSTRING
 		do
-			Result := Subject_line.decoded (subject)
+			Result := Subject_decoder.decoded (subject)
 		end
 
 feature -- Thunderbird fields
@@ -77,8 +82,10 @@ feature -- Thunderbird fields
 
 	x_account_key: STRING
 
-	x_mozilla_draft_info: TUPLE [type: STRING; vcard, receipt, DSN, uu_encode, attachment_reminder: NATURAL_8]
-		-- Eg. internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0; attachmentreminder=0
+	x_mozilla_draft_info: TUPLE [
+		type: STRING; vcard, receipt, DSN, uu_encode, attachment_reminder, delivery_format: NATURAL_8
+	]
+		-- Eg. internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0; attachmentreminder=0; deliveryformat=4
 
 	x_mozilla_keys: STRING
 
@@ -113,7 +120,8 @@ feature {NONE} -- Factories
 		do
 			create Result.make (<<
 				["date", Date_representation],
-				["content_transfer_encoding", Transfer_encodings.to_representation]
+				["content_transfer_encoding", Transfer_encodings.to_representation],
+				["x_mozilla_keys", Mozilla_key_set.to_representation]
 			>>)
 		end
 
@@ -144,7 +152,14 @@ feature {NONE} -- Constants
 			create Result.make_from_array (<< "7bit", "8bit" >>)
 		end
 
-	Subject_line: TB_SUBJECT_LINE_DECODER
+	Mozilla_key_set: EL_HASH_SET [STRING]
+		local
+			s: EL_STRING_8_ROUTINES
+		once
+			create Result.make_from_array (<< s.n_character_string (' ', 80) >>)
+		end
+
+	Subject_decoder: TB_SUBJECT_LINE_DECODER
 		once
 			create Result.make
 		end

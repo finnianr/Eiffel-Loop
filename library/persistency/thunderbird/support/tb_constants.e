@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 16:49:30 GMT (Monday 23rd January 2023)"
-	revision: "11"
+	date: "2023-01-25 18:48:32 GMT (Wednesday 25th January 2023)"
+	revision: "12"
 
-class
+deferred class
 	TB_CONSTANTS
 
 inherit
-	ANY
-	
+	EL_ANY_SHARED
+
 	EL_MODULE_XML
 
 	EL_MODULE_TUPLE
@@ -30,13 +30,27 @@ feature {NONE} -- Implementation
 			Result := Text_tags [level]
 		end
 
-feature {NONE} -- Strings
+	intervals (line, search_string: ZSTRING): like Occurrence_intervals
+		do
+			Result := Occurrence_intervals
+			Result.fill_by_string (line, search_string, 0)
+		end
+
+feature {NONE} -- Tag Strings
 
 	Anchor_template: ZSTRING
 		once
 			Result := "[
 				<a id="#">#</a>
 			]"
+		end
+
+	Attribute_start: TUPLE [alt, href, src, title: ZSTRING]
+		once
+			create Result
+			Tuple.fill (Result, "[
+				alt=",href=",src=",title="
+			]")
 		end
 
 	Empty_tag_close: ZSTRING
@@ -54,21 +68,13 @@ feature {NONE} -- Strings
 			Result := "</"
 		end
 
-
-feature {NONE} -- Constants
-
-	Attribute_start: TUPLE [alt, href, src, title: ZSTRING]
+	Tag_start: TUPLE [anchor, body, image: ZSTRING]
 		once
 			create Result
-			Tuple.fill (Result, "[
-				alt=",href=",src=",title="
-			]")
+			Tuple.fill (Result, "<a, <body, <img")
 		end
 
-	Heading_levels: INTEGER_INTERVAL
-		once
-			Result := 1 |..| 5
-		end
+feature {NONE} -- HTML tags
 
 	List_tags: ARRAY [XML_TAG]
 		once
@@ -90,16 +96,22 @@ feature {NONE} -- Constants
 			Result.unordered_list := "ul"
 		end
 
-	Tag_start: TUPLE [anchor, body, image: ZSTRING]
-		once
-			create Result
-			Tuple.fill (Result, "<a, <body, <img")
-		end
-
 	Text_tags: ARRAYED_LIST [XML_TAG]
 		once
 			Result := XML.numbered_tag_list ("h", Heading_levels.lower, Heading_levels.upper) + Paragraph
 			Result.append (XML.tag_list ("li, ol"))
+		end
+
+feature {NONE} -- Constants
+
+	Occurrence_intervals: EL_OCCURRENCE_INTERVALS
+		once
+			create Result.make_empty
+		end
+
+	Heading_levels: INTEGER_INTERVAL
+		once
+			Result := 1 |..| 5
 		end
 
 end

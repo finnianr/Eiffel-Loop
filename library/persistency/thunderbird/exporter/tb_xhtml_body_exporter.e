@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 14:44:28 GMT (Monday 23rd January 2023)"
-	revision: "15"
+	date: "2023-01-25 19:14:34 GMT (Wednesday 25th January 2023)"
+	revision: "16"
 
 class
 	TB_XHTML_BODY_EXPORTER
@@ -21,9 +21,7 @@ class
 inherit
 	TB_XHTML_FOLDER_EXPORTER
 		redefine
-			make, check_paragraph_count, edit, write_html,
-			on_first_tag, on_last_tag,
-			First_doc_tag, Last_doc_tag
+			make_default, check_paragraph_count, edit, write_html, new_content_lines
 		end
 
 	EL_MODULE_HTML
@@ -33,32 +31,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_config: like config)
+	make_default
 			--
 		do
-			Precursor (a_config)
+			Precursor
 			create h2_list.make (5)
-		end
-
-feature {NONE} -- State handlers
-
-	on_first_tag (line: ZSTRING)
-		do
-			state := agent find_right_angle_bracket
-			find_right_angle_bracket (line)
-		end
-
-	on_last_tag (line: ZSTRING)
-		do
-			on_email_collected
-			state := agent find_first_header
-		end
-
-	find_right_angle_bracket (line: ZSTRING)
-		do
-			if line.ends_with_character ('>') then
-				state := agent find_last_tag
-			end
 		end
 
 feature {NONE} -- Implementation
@@ -88,11 +65,31 @@ feature {NONE} -- Implementation
 			Result := output_file_path.with_new_extension (Header_list_extension)
 		end
 
-	write_html
+	new_content_lines (email: TB_EMAIL): EL_ZSTRING_LIST
+		-- everything inside <body> </body> tags
+		local
+			collecting, done: BOOLEAN
+		do
+			create Result.make (email.content.occurrences ('%N') + 1)
+			across email.content.split ('%N') as line until done loop
+				if collecting then
+					if line.item.has_substring (Tag.body.close) then
+						done := True
+					else
+						Result.extend (line.item_copy)
+					end
+
+				elseif line.item.has_substring (Tag_start.body) then
+					collecting := True
+				end
+			end
+		end
+
+	write_html (html_doc: ZSTRING)
 		local
 			h2_file: EL_PLAIN_TEXT_FILE
 		do
-			Precursor
+			Precursor (html_doc)
 			if is_html_updated then
 				if h2_list.count > 0 then
 					lio.put_path_field ("Write H2", h2_list_file_path)
@@ -132,19 +129,9 @@ feature {NONE} -- Editing routines
 
 feature {NONE} -- Constants
 
-	First_doc_tag: ZSTRING
-		once
-			Result := Tag_start.body
-		end
-
 	Header_list_extension: ZSTRING
 		once
 			Result := "h2"
-		end
-
-	Last_doc_tag: ZSTRING
-		once
-			Result := Tag.body.close
 		end
 
 	Related_file_extensions: EL_ZSTRING_LIST
@@ -152,10 +139,4 @@ feature {NONE} -- Constants
 			Result := "body, h2, evc"
 		end
 
-	Anchor: TUPLE [left, right: ZSTRING]
-		once
-			create Result
-			Tuple.fill (Result, "<a, </a>")
-		end
 end
-

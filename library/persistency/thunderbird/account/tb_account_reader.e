@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 17:16:48 GMT (Monday 23rd January 2023)"
-	revision: "28"
+	date: "2023-01-25 17:46:05 GMT (Wednesday 25th January 2023)"
+	revision: "29"
 
 deferred class
 	TB_ACCOUNT_READER
@@ -144,6 +144,11 @@ feature {NONE} -- Implementation
 				folder_dir := path
 				Result := not folder_list.is_empty implies folder_list.has (folder_dir.base_name)
 			end
+		end
+
+	new_email_list (mails_path: FILE_PATH): TB_EMAIL_LIST
+		do
+			create Result.make (mails_path)
 		end
 
 feature {NONE} -- Build from XML

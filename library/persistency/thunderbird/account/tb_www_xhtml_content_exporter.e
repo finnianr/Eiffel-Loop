@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 14:44:28 GMT (Monday 23rd January 2023)"
-	revision: "16"
+	date: "2023-01-25 17:46:43 GMT (Wednesday 25th January 2023)"
+	revision: "17"
 
 class
 	TB_WWW_XHTML_CONTENT_EXPORTER
@@ -31,17 +31,17 @@ feature -- Basic operations
 
 	execute
 		local
-			exporter: TB_XHTML_BODY_EXPORTER; file_path: FILE_PATH
+			exporter: TB_XHTML_BODY_EXPORTER; mails_path: FILE_PATH
 			l_output_dir: DIR_PATH
 		do
 			across OS.file_list (mail_dir #+ WWW_dir_name, "*.msf") as path loop
-				file_path := path.item.without_extension
-				lio.put_path_field ("Content %S", file_path)
+				mails_path := path.item.without_extension
+				lio.put_path_field ("Content %S", mails_path)
 				lio.put_new_line
-				l_output_dir := export_dir #+ file_path.base
+				l_output_dir := export_dir #+ mails_path.base
 				create exporter.make (Current)
 				exporter.set_export_steps_prune_count (1) -- prune "www" step
-				exporter.export_mails (file_path)
+				exporter.export_mails (new_email_list (mails_path))
 			end
 		end
 
@@ -53,6 +53,5 @@ feature {NONE} -- Constants
 		end
 
 end
-
 
 

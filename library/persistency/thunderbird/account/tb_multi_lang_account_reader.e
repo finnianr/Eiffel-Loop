@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 14:47:36 GMT (Monday 23rd January 2023)"
-	revision: "17"
+	date: "2023-01-25 17:45:50 GMT (Wednesday 25th January 2023)"
+	revision: "18"
 
 deferred class
 	TB_MULTI_LANG_ACCOUNT_READER
@@ -66,7 +66,7 @@ feature -- Basic operations
 							if not language.is_empty implies mails_path.same_base (language) then
 								lio.put_path_field ("Reading", mails_path)
 								lio.put_new_line
-								new_reader.read_mails (mails_path)
+								new_reader.export_mails (new_email_list (mails_path))
 							end
 						end
 					end
@@ -89,9 +89,8 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_reader: TB_FOLDER_READER
+	new_reader: TB_FOLDER_EXPORTER
 		deferred
 		end
 
 end
-
