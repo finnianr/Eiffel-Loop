@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 14:26:08 GMT (Sunday 1st January 2023)"
-	revision: "17"
+	date: "2023-01-26 17:01:20 GMT (Thursday 26th January 2023)"
+	revision: "18"
 
 class
 	EL_SOFTWARE_VERSION
@@ -42,8 +42,11 @@ feature -- Initialization
 		end
 
 	make_parts (a_major, a_minor, a_release, a_build: NATURAL)
+		local
+			array: EL_VERSION_ARRAY
 		do
-			make (left_shift (a_major, 4) + left_shift (a_minor, 2) + a_release, a_build)
+			create array.make_from_array (2, << a_major, a_minor, a_release >>)
+			make (array.compact, a_build)
 		end
 
 	make_from_string (a_version: STRING)
@@ -57,33 +60,30 @@ feature -- Element change
 		require
 			valid_format: a_version.occurrences ('.') = 2
 		local
-			scalar: NATURAL; digits: EL_SPLIT_ON_CHARACTER [STRING]
+			array: EL_VERSION_ARRAY
 		do
-			compact_version := 0; scalar := 1_00_00
-			create digits.make (a_version, '.')
-			across digits as list loop
-				compact_version := list.item.to_natural * scalar + compact_version
-				scalar := scalar // 100
-			end
+			create array.make_from_string (2, a_version)
+			make (array.compact, 0)
 		end
 
 feature -- Access
 
 	out: STRING
 			--
-		local
-			template: ZSTRING
 		do
-			template := once "%S (%S)"
-			Result := (template #$ [string, build]).to_string_8
+			Result := string + " ("
+			Result.append_natural_32 (build)
+			Result.append_character (')')
 		end
 
 	string: STRING
-		local
-			list: EL_STRING_LIST [STRING]
 		do
-			create list.make_from_tuple ([major, minor, maintenance])
-			Result := list.joined ('.')
+			Result := to_array.out
+		end
+
+	to_array: EL_VERSION_ARRAY
+		do
+			create Result.make (3, 2, compact_version)
 		end
 
 feature -- Access
@@ -109,7 +109,7 @@ feature -- Access
 	minor: NATURAL
 			--
 		do
-			Result := compact_version  // 100 \\ 100
+			Result := compact_version // 100 \\ 100
 		end
 
 feature -- Comparison
@@ -117,26 +117,16 @@ feature -- Comparison
 	is_less alias "<" (other: like Current): BOOLEAN
 			-- Is current object less than `other'?
 		do
-			Result := compact_version < other.compact_version
+			if compact_version = other.compact_version then
+				Result := build < other.build
+			else
+				Result := compact_version < other.compact_version
+			end
 		end
 
 	is_equal (other: like Current): BOOLEAN
 		do
-			Result := compact_version = other.compact_version
-		end
-
-feature {NONE} -- Implementation
-
-	left_shift (value: NATURAL; n: INTEGER): NATURAL
-		-- left shifted `value' by n decimal places
-		local
-			i: INTEGER
-		do
-			Result := value
-			from i := 1 until i > n loop
-				Result := Result * 10
-				i := i + 1
-			end
+			Result := compact_version = other.compact_version and build = other.build
 		end
 
 end

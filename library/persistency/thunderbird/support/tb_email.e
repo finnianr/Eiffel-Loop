@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-25 13:18:57 GMT (Wednesday 25th January 2023)"
-	revision: "5"
+	date: "2023-01-26 9:47:59 GMT (Thursday 26th January 2023)"
+	revision: "6"
 
 class
 	TB_EMAIL
@@ -115,6 +115,8 @@ feature {NONE} -- Factories
 			end
 			Result.for_all_remove_up_to ('=')
 		end
+
+feature {NONE} -- Reflection hints
 
 	new_representations: like Default_representations
 		do

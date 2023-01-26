@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-10 10:59:26 GMT (Tuesday 10th January 2023)"
-	revision: "33"
+	date: "2023-01-26 16:45:50 GMT (Thursday 26th January 2023)"
+	revision: "34"
 
 class
 	GENERAL_TEST_SET
@@ -29,14 +29,15 @@ feature -- Basic operations
 			eval.call ("any_array_numeric_type_detection", agent test_any_array_numeric_type_detection)
 			eval.call ("base_64_codec", agent test_base_64_codec)
 			eval.call ("base_64_encode_decode", agent test_base_64_encode_decode)
-			eval.call ("integer_32_bit_routines", agent test_integer_32_bit_routines)
 			eval.call ("character_32_status_queries", agent test_character_32_status_queries)
 			eval.call ("environment_put", agent test_environment_put)
+			eval.call ("integer_32_bit_routines", agent test_integer_32_bit_routines)
 			eval.call ("math_precision", agent test_math_precision)
 			eval.call ("named_thread", agent test_named_thread)
 			eval.call ("naming", agent test_naming)
 			eval.call ("reusable_strings", agent test_reusable_strings)
 			eval.call ("reverse_managed_pointer", agent test_reverse_managed_pointer)
+			eval.call ("version_array", agent test_version_array)
 		end
 
 feature -- Tests
@@ -215,6 +216,31 @@ feature -- Tests
 			ptr.put_natural_64 (0x11_22_33_44_55_66_77_88, 0)
 			n_64 := reverse_ptr.read_natural_64 (0)
 			assert ("reversed", n_64 = 0x88_77_66_55_44_33_22_11)
+		end
+
+	test_version_array
+		-- GENERAL_TEST_SET.test_version_array
+		local
+			version, version_2: EL_VERSION_ARRAY
+		do
+			create version.make (2, 2, 1_02)
+			assert_same_string (Void, version.out, "1.2")
+			assert ("compact OK", version.compact = 1_02)
+
+			create version.make (3, 2, 01_02_03)
+			assert_same_string (Void, version.out, "1.2.3")
+			assert ("compact OK", version.compact = 01_02_03)
+
+			create version.make_from_string (2, "1.2.3")
+			assert ("compact OK", version.compact = 01_02_03)
+
+			create version_2.make_from_string (2, "1.2.4")
+
+			assert ("less than version_2", version < version_2)
+			assert ("not version_2 less than version", not (version_2 < version))
+
+			create version.make_from_array (2, << 1, 2, 4 >>)
+			assert ("versions equal", version ~ version_2)
 		end
 
 feature {NONE} -- Constants

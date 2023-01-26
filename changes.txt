@@ -550,3 +550,6 @@ Removed new_instance_functions and fixed meta_data caching
 Wed 11th Jan 2023, 17:10:11
 List of fields output to lio
 
+Wed 25th Jan 2023, 19:25:32
+Refactor of Thunderbird exporting
+
