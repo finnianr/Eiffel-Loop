@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-25 13:19:20 GMT (Wednesday 25th January 2023)"
-	revision: "19"
+	date: "2023-01-26 17:34:47 GMT (Thursday 26th January 2023)"
+	revision: "20"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -48,6 +48,7 @@ feature -- Tests
 		end
 
 	test_email_list
+		-- THUNDERBIRD_EXPORT_TEST_SET.test_email_list
 		local
 			command: TB_WWW_XHTML_CONTENT_EXPORTER; email_list: TB_EMAIL_LIST
 			email_date, date_time: EL_DATE_TIME; x_mozilla_draft_info: like Email_type.x_mozilla_draft_info
@@ -64,7 +65,7 @@ feature -- Tests
 				assert_same_string (Void, email.content_transfer_encoding, "7bit")
 				assert_same_string (Void, email.from_, "Finnian Reilly <finnian@eiffel-loop.com>")
 				assert_same_string (Void, email.message_id, "<4D94A700.1000105@eiffel-loop.com>")
-				assert_same_string (Void, email.mime_version, "1.0")
+				assert_same_string (Void, email.mime_version_string, "1.0")
 				assert_same_string (Void, email.subject, "Toolkit functions")
 				assert_same_string (Void, email.x_account_key, "account1")
 				assert_same_string (Void, email.x_identity_key, "id1")

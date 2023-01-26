@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-26 9:47:59 GMT (Thursday 26th January 2023)"
-	revision: "6"
+	date: "2023-01-26 17:41:48 GMT (Thursday 26th January 2023)"
+	revision: "7"
 
 class
 	TB_EMAIL
@@ -44,6 +44,12 @@ feature -- Access
 			Result := Mod_encoding.name_to_encoding (content_type.encoding_name)
 		end
 
+	mime_version_string: STRING
+		do
+			Mime_version_type.set_from_compact (mime_version)
+			Result := Mime_version_type.out
+		end
+
 	modification_time: EL_DATE_TIME
 		do
 			create Result.make_from_epoch (date)
@@ -71,7 +77,7 @@ feature -- Thunderbird fields
 
 	message_id: STRING
 
-	mime_version: STRING
+	mime_version: NATURAL
 
 	subject: STRING
 		-- raw subject line which maybe encoded
@@ -123,6 +129,7 @@ feature {NONE} -- Reflection hints
 			create Result.make (<<
 				["date", Date_representation],
 				["content_transfer_encoding", Transfer_encodings.to_representation],
+				["mime_version", Mime_version_type.to_representation],
 				["x_mozilla_keys", Mozilla_key_set.to_representation]
 			>>)
 		end
@@ -149,9 +156,10 @@ feature {NONE} -- Constants
 			Result := kebab_case_translater (Case.Title)
 		end
 
-	Transfer_encodings: EL_HASH_SET [STRING]
+	Mime_version_type: EL_VERSION_ARRAY
+		-- store 2 x 2 version. Eg. 1.2
 		once
-			create Result.make_from_array (<< "7bit", "8bit" >>)
+			create Result.make (2, 2, 0)
 		end
 
 	Mozilla_key_set: EL_HASH_SET [STRING]
@@ -159,6 +167,11 @@ feature {NONE} -- Constants
 			s: EL_STRING_8_ROUTINES
 		once
 			create Result.make_from_array (<< s.n_character_string (' ', 80) >>)
+		end
+
+	Transfer_encodings: EL_HASH_SET [STRING]
+		once
+			create Result.make_from_array (<< "7bit", "8bit" >>)
 		end
 
 	Subject_decoder: TB_SUBJECT_LINE_DECODER

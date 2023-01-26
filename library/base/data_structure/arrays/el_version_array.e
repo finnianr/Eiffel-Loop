@@ -1,5 +1,5 @@
 note
-	description: "An parts of decimals that can be compacted into a [$source NATURAL_32] number"
+	description: "An array of decimal version numbers that can be compacted into a [$source NATURAL_32] number"
 	notes: "[
 		**Permutations digit count and part count**
 		
@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-26 16:54:11 GMT (Thursday 26th January 2023)"
-	revision: "1"
+	date: "2023-01-26 17:36:59 GMT (Thursday 26th January 2023)"
+	revision: "2"
 
 class
 	EL_VERSION_ARRAY
@@ -54,46 +54,15 @@ inherit
 create
 	make, make_from_string, make_from_array
 
-feature {NONE} -- Initialization
+feature -- Initialization
 
 	make (part_count, a_digit_count: INTEGER; compact_version: NATURAL)
 		require
 			valid_counts: (2 |..| 8).has (part_count * a_digit_count)
-		local
-			denominator, version: NATURAL; i: INTEGER
 		do
 			make_filled (0, 1, part_count)
 			digit_count := a_digit_count
-			denominator := (10 ^ a_digit_count).rounded.to_natural_32
-			version := compact_version
-
-			from i := 1 until i > part_count loop
-				put (version \\ denominator, part_count - i + 1)
-				version := version // denominator
-				i := i + 1
-			end
-		ensure
-			reversible: compact = compact_version
-		end
-
-	make_from_string (a_digit_count: INTEGER; version: STRING)
-		require
-			valid_format: across version.split ('.') as n all n.item.is_natural_32 end
-			valid_part_size: across version.split ('.') as n all
-				n.item.to_natural_32 < (10 ^ a_digit_count).rounded.to_natural_32
-			end
-			valid_parts: (2 |..| 8).has (version.occurrences ('.'))
-		local
-			splitter: EL_SPLIT_ON_CHARACTER [STRING]
-		do
-			make_filled (0, 1, version.occurrences ('.') + 1)
-			digit_count := a_digit_count
-			create splitter.make (version, '.')
-			across splitter as split loop
-				put (split.item.to_natural_32, split.cursor_index)
-			end
-		ensure
-			reversible: out ~ version
+			set_from_compact (compact_version)
 		end
 
 	make_from_array (a_digit_count: INTEGER; parts: ARRAY [NATURAL_32])
@@ -105,6 +74,26 @@ feature {NONE} -- Initialization
 		do
 			make_from_natural_array (parts)
 			digit_count := a_digit_count
+		end
+
+	make_from_string (a_digit_count: INTEGER; version: STRING)
+		require
+			valid_format: across version.split ('.') as n all n.item.is_natural_32 end
+			valid_part_size: across version.split ('.') as n all
+				n.item.to_natural_32 < (10 ^ a_digit_count).rounded.to_natural_32
+			end
+			valid_parts: (2 |..| 8).has ((version.occurrences ('.') + 1) * a_digit_count)
+		local
+			splitter: EL_SPLIT_ON_CHARACTER [STRING]
+		do
+			make_filled (0, 1, version.occurrences ('.') + 1)
+			digit_count := a_digit_count
+			create splitter.make (version, '.')
+			across splitter as split loop
+				put (split.item.to_natural_32, split.cursor_index)
+			end
+		ensure
+			reversible: out ~ version
 		end
 
 feature -- Access
@@ -133,6 +122,11 @@ feature -- Access
 				Result.append_natural_32 (item (i))
 				i := i + 1
 			end
+		end
+
+	to_representation: EL_VERSION_REPRESENTATION
+		do
+			create Result.make (Current)
 		end
 
 feature -- Measurement
@@ -167,4 +161,24 @@ feature -- Comparison
 				end
 			end
 		end
+
+feature -- Element change
+
+	set_from_compact (compact_version: NATURAL)
+		local
+			denominator, version: NATURAL; i, part_count: INTEGER
+		do
+			part_count := count
+			denominator := (10 ^ digit_count).rounded.to_natural_32
+			version := compact_version
+
+			from i := 1 until i > part_count loop
+				put (version \\ denominator, part_count - i + 1)
+				version := version // denominator
+				i := i + 1
+			end
+		ensure
+			reversible: compact = compact_version
+		end
+
 end
