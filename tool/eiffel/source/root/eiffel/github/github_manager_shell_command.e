@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 6:27:43 GMT (Saturday 26th November 2022)"
-	revision: "19"
+	date: "2023-01-27 15:00:06 GMT (Friday 27th January 2023)"
+	revision: "21"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -27,13 +27,9 @@ inherit
 			make as make_shell
 		end
 
-	EL_MODULE_DIRECTORY
+	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_LIO; EL_MODULE_USER_INPUT
 
-	EL_MODULE_FILE
-
-	EL_MODULE_LIO
-
-	EL_MODULE_USER_INPUT
+	EL_STRING_8_CONSTANTS
 
 create
 	make
@@ -45,6 +41,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			make_shell ("GITHUB MENU", 10)
 			environ_variable.apply
 			create config.make (config_path)
+			create manifest.make_from_file (config.source_manifest_path)
 		end
 
 feature -- Constants
@@ -91,27 +88,18 @@ feature {NONE} -- Commands
 
 	rsync_to_github_dir
 		local
-			rsync_cmd: EL_OS_COMMAND
-			var: TUPLE [source_dir, destination_dir: STRING]
+			rsync_cmd: EL_OS_COMMAND; valid_arguments: BOOLEAN_REF
 		do
-			create rsync_cmd.make (config.rsync_template)
-			create var
-			if rsync_cmd.valid_tuple (var) then
-				rsync_cmd.fill_variables (var)
-				rsync_cmd.put_path (var.source_dir, config.source_dir)
-				rsync_cmd.put_path (var.destination_dir, config.github_dir.parent)
---				rsync_cmd.set_dry_run (True)
-				rsync_cmd.execute
-			end
-		end
+			update_notes
 
-	update_source_notes
-		local
-			editor: NOTE_EDITOR_COMMAND
-		do
-			create editor.make (config.source_dir + config.source_manifest_path, 100)
-			editor.execute
-			lio.put_new_line
+			if change_count > 0 then
+				create rsync_cmd.make (config.rsync_template)
+				create valid_arguments
+				set_rsync_arguments (rsync_cmd, Empty_string_8, valid_arguments)
+				if valid_arguments.item then
+					rsync_cmd.execute
+				end
+			end
 		end
 
 feature {NONE} -- Factory
@@ -119,16 +107,90 @@ feature {NONE} -- Factory
 	new_command_table: like command_table
 		do
 			create Result.make (<<
-				["update source notes", 		agent update_source_notes],
-				["rsync to github directory", agent rsync_to_github_dir],
+				["Update github directory",	agent rsync_to_github_dir],
 				["git add + commit",				agent git_commit],
 				["git push -u origin master", agent git_push_origin_master]
 			>>)
 		end
 
+feature {NONE} -- Implementation
+
+	edit_notes (source_path: FILE_PATH)
+		local
+			found: BOOLEAN; source_dir: DIR_PATH
+			editor: NOTE_EDITOR
+		do
+			if source_path.exists and then attached manifest.notes_table as table then
+				across table.current_keys as key until found loop
+					source_dir := key.item
+					if source_dir.is_parent_of (source_path) then
+						found := True
+					end
+				end
+				if found and then table.has_key (source_dir) then
+					create editor.make (table.found_item, Void)
+					editor.set_file_path (source_path)
+					editor.edit
+				end
+			end
+		end
+
+	set_rsync_arguments (rsync_cmd: EL_OS_COMMAND; dry_run_option: STRING; valid_arguments: BOOLEAN_REF)
+		local
+			var: TUPLE [dry_run, source_dir, destination_dir: STRING]
+		do
+			create var
+			if rsync_cmd.valid_tuple (var) then
+				rsync_cmd.fill_variables (var)
+				rsync_cmd.put_string (var.dry_run, dry_run_option)
+				rsync_cmd.put_path (var.source_dir, config.source_dir)
+				rsync_cmd.put_path (var.destination_dir, config.github_dir.parent)
+				valid_arguments.set_item (True)
+			else
+				valid_arguments.set_item (False)
+			end
+		end
+
+	update_notes
+		local
+			rsync_cmd: EL_CAPTURED_OS_COMMAND; path, source_path: FILE_PATH
+			valid_arguments: BOOLEAN_REF
+		do
+			change_count := 0
+
+			create rsync_cmd.make (config.rsync_template)
+			create valid_arguments
+			set_rsync_arguments (rsync_cmd, "--dry-run", valid_arguments)
+			if valid_arguments.item then
+				rsync_cmd.execute
+				across rsync_cmd.lines as line loop
+					if line.item.starts_with_zstring (config.source_dir.base) then
+						path := line.item
+						if path.has_extension ("e") then
+							source_path := config.source_dir.parent + path
+							lio.put_path_field ("Edit notes for %S", path)
+							lio.put_new_line
+							edit_notes (source_path)
+							change_count := change_count +1
+						end
+					elseif line.item.starts_with ("deleting ") then
+						change_count := change_count + 1
+					end
+				end
+			end
+			if change_count = 0 then
+				lio.put_line ("No changes found")
+			end
+			lio.put_new_line
+		end
+
 feature {NONE} -- Internal attributes
 
+	change_count: INTEGER
+
 	config: GITHUB_CONFIGURATION
+
+	manifest: SOURCE_MANIFEST
 
 feature {NONE} -- Constants
 

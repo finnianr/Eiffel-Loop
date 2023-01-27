@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-06 8:54:00 GMT (Friday 6th January 2023)"
-	revision: "13"
+	date: "2023-01-27 9:29:10 GMT (Friday 27th January 2023)"
+	revision: "14"
 
 class
 	GITHUB_CONFIGURATION
@@ -46,8 +46,14 @@ feature -- Access
 
 	source_dir: DIR_PATH
 
-	source_manifest_path: ZSTRING
+	manifest_path: ZSTRING
 		-- relative to `source_dir'
+
+	source_manifest_path: ZSTRING
+		-- absolute path to source manifest
+		do
+			Result := source_dir + manifest_path
+		end
 
 	user_name: STRING
 

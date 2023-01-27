@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2023-01-27 9:14:55 GMT (Friday 27th January 2023)"
+	revision: "17"
 
 class
 	SOURCE_TREE
@@ -33,7 +33,6 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			dir_path := a_dir_path
-			path_list := new_path_list
 		end
 
 	make_default
@@ -41,6 +40,7 @@ feature {NONE} -- Initialization
 		do
 			create name.make_empty
 			create dir_path
+			create path_list.make_empty
 			Precursor {EVOLICITY_EIFFEL_CONTEXT}
 		end
 
@@ -64,6 +64,11 @@ feature -- Access
 		end
 
 feature -- Element change
+
+	read_file_list
+		do
+			path_list := new_path_list
+		end
 
 	set_name (a_name: like name)
 		do

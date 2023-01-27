@@ -1,9 +1,10 @@
 note
 	description: "An array of decimal version numbers that can be compacted into a [$source NATURAL_32] number"
 	notes: "[
-		**Permutations digit count and part count**
+		**Permutations digit/part count**
 		
-		Using **max_value** of [$source NATURAL_32] (4_294_967_295) we have the following permutations
+		The maximum value of [$source NATURAL_32] is 4_294_967_295 which supports up to 9 decimal places.
+		This allows the following permutations:
 		
 			9_9_9_9_9_9_9_9 (8 parts with 1 decimal place each)
 
@@ -20,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-26 17:36:59 GMT (Thursday 26th January 2023)"
-	revision: "2"
+	date: "2023-01-27 7:43:37 GMT (Friday 27th January 2023)"
+	revision: "3"
 
 class
 	EL_VERSION_ARRAY
@@ -58,7 +59,7 @@ feature -- Initialization
 
 	make (part_count, a_digit_count: INTEGER; compact_version: NATURAL)
 		require
-			valid_counts: (2 |..| 8).has (part_count * a_digit_count)
+			valid_counts: Digit_range.has (part_count * a_digit_count)
 		do
 			make_filled (0, 1, part_count)
 			digit_count := a_digit_count
@@ -67,7 +68,7 @@ feature -- Initialization
 
 	make_from_array (a_digit_count: INTEGER; parts: ARRAY [NATURAL_32])
 		require
-			valid_counts: (2 |..| 8).has (parts.count * a_digit_count)
+			valid_counts: Digit_range.has (parts.count * a_digit_count)
 			valid_part_size: across parts as n all
 				n.item < (10 ^ a_digit_count).rounded.to_natural_32
 			end
@@ -82,7 +83,7 @@ feature -- Initialization
 			valid_part_size: across version.split ('.') as n all
 				n.item.to_natural_32 < (10 ^ a_digit_count).rounded.to_natural_32
 			end
-			valid_parts: (2 |..| 8).has ((version.occurrences ('.') + 1) * a_digit_count)
+			valid_parts: Digit_range.has ((version.occurrences ('.') + 1) * a_digit_count)
 		local
 			splitter: EL_SPLIT_ON_CHARACTER [STRING]
 		do
@@ -181,4 +182,10 @@ feature -- Element change
 			reversible: compact = compact_version
 		end
 
+feature -- Constants
+
+	Digit_range: INTEGER_INTERVAL
+		once
+			Result := 1 |..| 9
+		end
 end

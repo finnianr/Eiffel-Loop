@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-01-27 9:18:36 GMT (Friday 27th January 2023)"
+	revision: "9"
 
 class
 	CLASS_RENAMING_TEST_SET
@@ -33,6 +33,8 @@ feature -- Tests
 		do
 			digest_table := new_file_digest_table
 			create manifest.make_from_file (Manifest_path)
+			manifest.read_source_trees
+			
 			create command.make (manifest, "STRING", "STRING_8")
 			command.execute
 

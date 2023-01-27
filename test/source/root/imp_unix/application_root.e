@@ -111,7 +111,7 @@ inherit
 			create_singletons
 		end
 
-	INCLUDE_CLASSES
+	COMPILED_CLASSES
 
 create
 	make

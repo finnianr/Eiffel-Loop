@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-26 16:45:50 GMT (Thursday 26th January 2023)"
-	revision: "34"
+	date: "2023-01-27 7:50:12 GMT (Friday 27th January 2023)"
+	revision: "35"
 
 class
 	GENERAL_TEST_SET
@@ -221,7 +221,8 @@ feature -- Tests
 	test_version_array
 		-- GENERAL_TEST_SET.test_version_array
 		local
-			version, version_2: EL_VERSION_ARRAY
+			version, version_2: EL_VERSION_ARRAY; part_list: EL_STRING_8_LIST
+			digit_count, part_count, i: INTEGER; compact_version: NATURAL
 		do
 			create version.make (2, 2, 1_02)
 			assert_same_string (Void, version.out, "1.2")
@@ -241,6 +242,25 @@ feature -- Tests
 
 			create version.make_from_array (2, << 1, 2, 4 >>)
 			assert ("versions equal", version ~ version_2)
+
+			create part_list.make (4)
+			across 1 |..| 4 as n loop
+				digit_count := n.item; part_count := 9 // digit_count
+				part_list.wipe_out
+				from i := 1 until i > part_count loop
+					part_list.extend (create {STRING}.make_filled ('0' + i, digit_count))
+					i := i + 1
+				end
+				create version.make_from_string (digit_count, part_list.joined ('.'))
+				lio.put_labeled_string ("version " + part_count.out + " parts of " + digit_count.out + " digits", version.out)
+				lio.put_new_line
+
+				assert_same_string ("same version string", part_list.joined ('.'), version.out)
+
+				compact_version := version.compact
+				create version_2.make (part_count, digit_count, compact_version)
+				assert ("same version", version ~ version_2)
+			end
 		end
 
 feature {NONE} -- Constants

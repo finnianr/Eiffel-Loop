@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "25"
+	date: "2023-01-27 14:32:22 GMT (Friday 27th January 2023)"
+	revision: "26"
 
 class
 	NOTE_EDITOR_COMMAND
@@ -25,6 +25,8 @@ inherit
 		redefine
 			execute, iterate_files
 		end
+
+	EDIT_MANAGER
 
 create
 	make

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-26 17:41:48 GMT (Thursday 26th January 2023)"
-	revision: "7"
+	date: "2023-01-27 7:51:56 GMT (Friday 27th January 2023)"
+	revision: "8"
 
 class
 	TB_EMAIL
@@ -78,6 +78,7 @@ feature -- Thunderbird fields
 	message_id: STRING
 
 	mime_version: NATURAL
+		-- Eg. 1.0
 
 	subject: STRING
 		-- raw subject line which maybe encoded

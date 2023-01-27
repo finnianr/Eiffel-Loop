@@ -1,13 +1,16 @@
 note
-	description: "Source manifest"
+	description: "Eiffel source trees manifest"
+	notes: "[
+		Call **read_source_trees** to read all source tree file listings.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 9:57:23 GMT (Monday 9th January 2023)"
-	revision: "26"
+	date: "2023-01-27 9:43:10 GMT (Friday 27th January 2023)"
+	revision: "27"
 
 class
 	SOURCE_MANIFEST
@@ -38,13 +41,6 @@ feature {NONE} -- Initialization
 			Precursor
 		end
 
-	make_from_file (manifest_path: FILE_PATH)
-		do
-			parent_dir := manifest_path.parent
-			Precursor (manifest_path)
-			name.share (manifest_path.base_name)
-		end
-
 	make_from_directory (a_dir_path: DIR_PATH)
 		do
 			make_default
@@ -52,14 +48,25 @@ feature {NONE} -- Initialization
 			source_tree_list.extend (create {SOURCE_TREE}.make (a_dir_path))
 		end
 
+	make_from_file (manifest_path: FILE_PATH)
+		do
+			parent_dir := manifest_path.parent
+			Precursor (manifest_path)
+			name.share (manifest_path.base_name)
+		end
+
 feature -- Access
 
 	file_count: INTEGER
+		require
+			source_trees_read: source_trees_read
 		do
 			Result := source_tree_list.sum_integer (agent {SOURCE_TREE}.file_count)
 		end
 
 	file_list: EL_FILE_PATH_LIST
+		require
+			source_trees_read: source_trees_read
 		do
 			create Result.make_with_count (file_count)
 			across source_tree_list as list loop
@@ -75,8 +82,6 @@ feature -- Access
 	notes_table: HASH_TABLE [LICENSE_NOTES, DIR_PATH]
 		-- Eiffel source notes associated with `source_tree_list.item.dir_path'
 
-	source_tree_list: EL_ARRAYED_LIST [SOURCE_TREE]
-
 	sorted_file_list: like file_list
 		do
 			Result := file_list
@@ -86,6 +91,22 @@ feature -- Access
 	sorted_locations: EL_SORTABLE_ARRAYED_LIST [SOURCE_TREE]
 		do
 			create Result.make_sorted (source_tree_list)
+		end
+
+	source_tree_list: EL_ARRAYED_LIST [SOURCE_TREE]
+
+feature -- Status query
+
+	source_trees_read: BOOLEAN
+
+feature -- Basic operations
+
+	read_source_trees
+		do
+			across source_tree_list as list loop
+				list.item.read_file_list
+			end
+			source_trees_read := True
 		end
 
 feature {NONE} -- Build from Pyxis
@@ -99,6 +120,24 @@ feature {NONE} -- Build from Pyxis
 				["location/text()", agent extend_locations],
 				["notes", agent do set_next_context (notes) end]
 			>>)
+		end
+
+	extend_locations
+			--
+		local
+			l_path: DIR_PATH; tree: SOURCE_TREE
+		do
+			l_path := node.to_expanded_dir_path
+			if l_path.is_absolute then
+				create tree.make (l_path)
+			else
+				create tree.make (parent_dir #+ l_path)
+			end
+			tree.set_name (last_name)
+			source_tree_list.extend (tree)
+			if not notes.is_empty then
+				notes_table.extend (notes, tree.dir_path)
+			end
 		end
 
 	import_manifest
@@ -121,29 +160,11 @@ feature {NONE} -- Build from Pyxis
 			notes_table.merge (other.notes_table)
 		end
 
-	extend_locations
-			--
-		local
-			l_path: DIR_PATH; tree: SOURCE_TREE
-		do
-			l_path := node.to_expanded_dir_path
-			if l_path.is_absolute then
-				create tree.make (l_path)
-			else
-				create tree.make (parent_dir #+ l_path)
-			end
-			tree.set_name (last_name)
-			source_tree_list.extend (tree)
-			if not notes.is_empty then
-				notes_table.extend (notes, tree.dir_path)
-			end
-		end
-
 feature {NONE} -- Internal attributes
 
-	parent_dir: DIR_PATH
-
 	last_name: ZSTRING
+
+	parent_dir: DIR_PATH
 
 feature {NONE} -- Constants
 

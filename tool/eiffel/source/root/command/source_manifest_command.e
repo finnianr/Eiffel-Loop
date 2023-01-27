@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 5:56:10 GMT (Saturday 26th November 2022)"
-	revision: "18"
+	date: "2023-01-27 9:18:10 GMT (Friday 27th January 2023)"
+	revision: "19"
 
 deferred class
 	SOURCE_MANIFEST_COMMAND
@@ -80,6 +80,8 @@ feature -- Basic operations
 
 	execute
 		do
+			manifest.read_source_trees
+			
 			across manifest.source_tree_list as location loop
 				if location.item.dir_path.exists then
 					lio.put_line (location.item.dir_path)

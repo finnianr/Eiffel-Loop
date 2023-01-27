@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-23 17:09:27 GMT (Friday 23rd December 2022)"
-	revision: "38"
+	date: "2023-01-27 9:19:13 GMT (Friday 27th January 2023)"
+	revision: "39"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -52,6 +52,8 @@ feature {NONE} -- Initialization
 			make_machine
 			create file_out.make_with_name (file_list.first_path)
 			create manifest.make_from_file (Manifest_path)
+			manifest.read_source_trees
+			
 			create dummy.make (Manifest_path, 0)
 			create editor.make (manifest.notes, dummy)
 		end

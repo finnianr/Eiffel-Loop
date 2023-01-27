@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "22"
+	date: "2023-01-27 14:35:05 GMT (Friday 27th January 2023)"
+	revision: "23"
 
 class
 	NOTE_EDITOR
@@ -32,10 +32,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (license_notes: LICENSE_NOTES; a_command: like command)
+	make (license_notes: LICENSE_NOTES; a_manager: like manager)
 			--
 		do
-			author_name	:= license_notes.author; command := a_command
+			author_name	:= license_notes.author; manager := a_manager
 			create default_values.make_equal (5)
 			set_default_values (license_notes)
 			make_default
@@ -61,9 +61,11 @@ feature -- Basic operations
 
 				revised_lines := notes.revised_lines
 				if revised_lines /~ notes.original_lines then
-					command.report ("Revised", source_path)
-					if not notes.updated_fields.is_empty then
-						command.report ("Updated", notes.updated_fields.joined_with_string (", "))
+					if attached manager as m then
+						m.report ("Revised", source_path)
+						if not notes.updated_fields.is_empty then
+							m.report ("Updated", notes.updated_fields.joined_with_string (", "))
+						end
 					end
 					output_lines := revised_lines
 					Precursor
@@ -128,7 +130,7 @@ feature {NONE} -- Internal attributes
 
 	default_values: EL_HASH_TABLE [ZSTRING, STRING]
 
-	command: NOTE_EDITOR_COMMAND
+	manager: detachable EDIT_MANAGER
 
 feature {NONE} -- Fields
 
