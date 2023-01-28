@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 17:00:29 GMT (Monday 12th December 2022)"
-	revision: "5"
+	date: "2023-01-28 16:51:23 GMT (Saturday 28th January 2023)"
+	revision: "6"
 
 class
 	EL_BASE_64_ENCODER
@@ -22,6 +22,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			create triplet.make_empty (3)
+			create quartet.make_filled (Padding_code, 4)
 			create output_string.make_empty
 		ensure
 			triplet_capacity: triplet.capacity = 3
@@ -116,7 +117,7 @@ feature {NONE} -- Implementation
 		do
 			triplet.extend (c)
 			if triplet.count = 3 then
-				write_quartet (str)
+				write_quartet (str, triplet)
 			end
 		ensure
 			not_full: triplet.count < 3
@@ -128,7 +129,7 @@ feature {NONE} -- Implementation
 		do
 			if triplet.count /= 0 then
 					-- Padding will take place.
-				write_quartet (output_string)
+				write_quartet (output_string, triplet)
 			end
 		end
 
@@ -201,43 +202,43 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	write_quartet (str: STRING)
-			-- Write a quartet (padded, if necessary) to `str'.
+	write_quartet (str: STRING; area_3: like triplet)
+			-- Write a quartet (padded, if necessary) to `str'
+			-- See: https://en.wikipedia.org/wiki/Base64
 		require
-			triplet_not_empty: triplet.count /= 0
+			triplet_not_empty: area_3.count /= 0
 		local
-			a_code, another_code, a_remainder: INTEGER
+			area_4: like quartet; i, bitmap, sextet_count, l_count: INTEGER
 		do
-			a_code := triplet [0].code
-			a_remainder := a_code \\ shift_2_bits
-			another_code := a_code // shift_2_bits
-			write_character (another_code, str)
-			another_code := a_remainder * shift_4_bits
-			if triplet.count = 1 then
-				write_character (another_code, str)
-				write_character (padding, str)
-				write_character (padding, str)
-			else
-				a_code := triplet [1].code
-				a_remainder := a_code \\ shift_4_bits
-				another_code := another_code + a_code // shift_4_bits
-				write_character (another_code, str)
-				another_code := a_remainder * shift_2_bits
-				if triplet.count = 2 then
-					write_character (another_code, str)
-					write_character (padding, str)
-				else
-					a_code := triplet [2].code
-					a_remainder := a_code \\ shift_6_bits
-					another_code := another_code + a_code // shift_6_bits
-					write_character (another_code, str)
-					another_code := a_remainder
-					write_character (another_code, str)
-				end
+			area_4 := quartet
+			from i := 0 until i = 4 loop
+				area_4 [i] := Padding_code
+				i := i + 1
 			end
-			triplet.wipe_out
+--			Load triplet bytes in bitmap
+			l_count := area_3.count
+			from i := 0 until i = l_count loop
+				bitmap := (bitmap |<< 8) | area_3 [i].code
+				i := i + 1
+			end
+			sextet_count := area_3.count + 1
+--			Align octets with sextets
+			bitmap := bitmap |<< (sextet_count * 6 - l_count * 8)
+
+--			write sextets into quartet in reverse order
+			l_count := sextet_count - 1
+			from i := l_count until i < 0 loop
+				area_4 [i] := bitmap & Sextet_mask
+				bitmap := bitmap |>> 6
+				i := i - 1
+			end
+			from i := 0 until i = 4 loop
+				write_character (area_4 [i], str)
+				i := i + 1
+			end
+			area_3.wipe_out
 		ensure
-			triplet_empty: triplet.count = 0
+			triplet_empty: area_3.count = 0
 		end
 
 feature {NONE} -- Internal attributes
@@ -251,20 +252,19 @@ feature {NONE} -- Internal attributes
 	output_string: STRING
 
 	triplet: SPECIAL [CHARACTER]
-		-- Three characters to be encoded
+		-- 3 characters to be encoded
+
+	quartet: SPECIAL [INTEGER]
+		-- 4 characters to be written
 
 feature {NONE} -- Constants
 
 	Full_line_count: INTEGER = 76
 			-- Maximum line length
 
-	padding: INTEGER = 64
+	Padding_code: INTEGER = 64
 			-- Pad character ('=')
 
-	shift_2_bits: INTEGER = 4
-
-	shift_4_bits: INTEGER = 16
-
-	shift_6_bits: INTEGER = 64
+	Sextet_mask: INTEGER = 0x3F
 
 end
