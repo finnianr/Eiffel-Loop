@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 9:01:28 GMT (Monday 12th December 2022)"
-	revision: "7"
+	date: "2023-01-28 11:07:00 GMT (Saturday 28th January 2023)"
+	revision: "8"
 
 class
 	EL_BASE_64_DECODER
@@ -39,7 +39,7 @@ feature -- Access
 					area.copy_data (base_64.area, i, 0, i_final - i)
 					skip_count := append (area, 0, Result)
 
-					i_final := i + 4 -- exit loop
+					i_final := i + 4 + skip_count -- exit loop
 				else
 					skip_count := append (area, i, Result)
 				end

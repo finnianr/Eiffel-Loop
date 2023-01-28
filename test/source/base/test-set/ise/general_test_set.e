@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-27 7:50:12 GMT (Friday 27th January 2023)"
-	revision: "35"
+	date: "2023-01-28 11:47:59 GMT (Saturday 28th January 2023)"
+	revision: "36"
 
 class
 	GENERAL_TEST_SET
@@ -27,7 +27,8 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			eval.call ("any_array_numeric_type_detection", agent test_any_array_numeric_type_detection)
-			eval.call ("base_64_codec", agent test_base_64_codec)
+			eval.call ("base_64_codec_1", agent test_base_64_codec_1)
+			eval.call ("base_64_codec_2", agent test_base_64_codec_2)
 			eval.call ("base_64_encode_decode", agent test_base_64_encode_decode)
 			eval.call ("character_32_status_queries", agent test_character_32_status_queries)
 			eval.call ("environment_put", agent test_environment_put)
@@ -52,10 +53,9 @@ feature -- Tests
 			assert ("same types", array.item (3).generating_type ~ {INTEGER_64})
 		end
 
-	test_base_64_codec
+	test_base_64_codec_1
 		note
-			testing: "covers/{EL_BASE_64_CODEC}.joined, covers/{EL_BASE_64_CODEC}.decoded_special",
-						"covers/{EL_BASE_64_CODEC}.encoded_special"
+			testing: "covers/{EL_BASE_64_CODEC}.decoded_special", "covers/{EL_BASE_64_CODEC}.encoded_special"
 		local
 			list: ARRAYED_LIST [NATURAL_8]; decoded, gobo_decoded: SPECIAL [NATURAL_8]
 			encoded, gobo_encoded: STRING; r: RANDOM
@@ -74,6 +74,35 @@ feature -- Tests
 				assert ("same encoding", encoded ~ gobo_encoded)
 				assert ("same list", Base_64.decoded_special (encoded) ~ list.area)
 			end
+		end
+
+	test_base_64_codec_2
+		-- GENERAL_TEST_SET.test_base_64_codec
+		note
+			testing: "covers/{EL_BASE_64_CODEC}.decoded", "covers/{EL_BASE_64_CODEC}.encoded"
+		local
+			base_64_str, last_8_characters, trimmed, padding: STRING; zstr, zstr_2: ZSTRING
+			parts: EL_ZSTRING_LIST; padding_permutation_set: EL_HASH_SET [STRING]
+		do
+			create padding_permutation_set.make (3)
+			across Hexagram.String_arrays as array until padding_permutation_set.count = 3 loop
+				create parts.make_from_general (array.item)
+				zstr := parts.joined_words
+				base_64_str := Base_64.encoded (zstr.to_utf_8 (False), True)
+				last_8_characters := base_64_str.substring (base_64_str.count - 8 + 1, base_64_str.count)
+				last_8_characters.prune ('%N')
+				trimmed := last_8_characters.twin; trimmed.prune_all_trailing ('=')
+				create padding.make_filled ('=', last_8_characters.count - trimmed.count)
+				if not padding_permutation_set.has (padding) then
+					lio.put_labeled_string (parts.first, last_8_characters)
+					lio.put_new_line
+					create zstr_2.make_from_utf_8 (Base_64.decoded (base_64_str))
+					assert_same_string (Void, zstr, zstr_2)
+					padding_permutation_set.put (padding)
+				end
+			end
+--			Seems to be not possible to have ending === but not 100% sure
+			assert ("all == endings found", padding_permutation_set.count = 3 )
 		end
 
 	test_base_64_encode_decode
