@@ -8,21 +8,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-28 11:07:00 GMT (Saturday 28th January 2023)"
-	revision: "8"
+	date: "2023-01-29 12:54:47 GMT (Sunday 29th January 2023)"
+	revision: "11"
 
 class
 	EL_BASE_64_DECODER
 
+inherit
+	EL_BASE_64_ENCODE_DECODE
+
 create
 	make
-
-feature {NONE} -- Initialization
-
-	make
-		do
-			create code_buffer.make_empty (4)
-		end
 
 feature -- Access
 
@@ -51,11 +47,11 @@ feature {NONE} -- Implementation
 
 	append (area: SPECIAL [CHARACTER]; offset: INTEGER; output: SPECIAL [NATURAL_8]): INTEGER
 		local
-			i, code, skip_count: INTEGER; c: CHARACTER; invalid_padding, done: BOOLEAN
-			codes: like code_buffer
+			i, code, skip_count, l_count: INTEGER; c: CHARACTER; invalid_padding, done: BOOLEAN
+			area_4: like quartet
 		do
-			codes := code_buffer; codes.wipe_out
-			from i := 0 until codes.count = 4 or else done loop
+			area_4 := quartet; area_4.wipe_out
+			from i := 0 until area_4.count = 4 or else done loop
 				c := area [offset + i + skip_count]
 				if c = '=' then
 					-- Note: RFC 2045 says "Because it is used only for padding
@@ -75,24 +71,16 @@ feature {NONE} -- Implementation
 						when Bad_character, White_space then
 							skip_count := skip_count + 1
 					else
-						codes.extend (code)
+						area_4.extend (code)
 						i := i + 1
 					end
 				end
 			end
-			if not invalid_padding then
-				-- Bit-shift `codes' into 3 characters.
-				code := (codes [0] |<< 2) + (codes [1] |>> 4)
-				output.extend (code.to_natural_8)
-				if codes.count > 2 then
-					code := (codes [1] |<< 4) + (codes [2] |>> 2)
-					code := code \\ 256
-					output.extend (code.to_natural_8)
-					if codes.count > 3 then
-						code := (codes [2] |<< 6) + (codes [3])
-						code := code \\ 256
-						output.extend (code.to_natural_8)
-					end
+			if not invalid_padding and then attached to_triplet (area_4) as area_3 then
+				l_count := area_3.count
+				from i := 0 until i = l_count loop
+					output.extend (area_3 [i].to_natural_8)
+					i := i + 1
 				end
 			end
 			Result := skip_count
@@ -125,14 +113,28 @@ feature {NONE} -- Implementation
 			valid_decoded_character: Result >= Bad_character and Result < 64
 		end
 
-feature {NONE} -- Internal attributes
+	to_triplet (area_4: like quartet): like triplet
+		local
+			i, bitmap, sextet_count, octet_count: INTEGER
+		do
+			Result := triplet; Result.wipe_out
+			sextet_count := area_4.count; octet_count := sextet_count - 1
+--			fill triplet in reverse from bitmap
+			Result.fill_with (0, 0, octet_count - 1)
 
-	code_buffer: SPECIAL [INTEGER]
+--			load sextets into bitmap and align as octets
+			bitmap := new_compact_bytes (area_4, 6) |>> alignment_shift (sextet_count, octet_count)
+
+--			write `bitmap' octets into `Result'
+			fill_area (Result, octet_count, bitmap, 8, Octet_mask)
+		end
 
 feature {NONE} -- Constants
 
 	White_space: INTEGER = -1
 
 	Bad_character: INTEGER = -2
+
+	Octet_mask: INTEGER = 0xFF
 
 end

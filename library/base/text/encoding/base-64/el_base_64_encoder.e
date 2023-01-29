@@ -8,11 +8,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-28 16:51:23 GMT (Saturday 28th January 2023)"
-	revision: "6"
+	date: "2023-01-29 13:13:58 GMT (Sunday 29th January 2023)"
+	revision: "8"
 
 class
 	EL_BASE_64_ENCODER
+
+inherit
+	EL_BASE_64_ENCODE_DECODE
+		redefine
+			make
+		end
 
 create
 	make
@@ -21,11 +27,8 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			create triplet.make_empty (3)
-			create quartet.make_filled (Padding_code, 4)
+			Precursor
 			create output_string.make_empty
-		ensure
-			triplet_capacity: triplet.capacity = 3
 		end
 
 feature -- Access
@@ -48,22 +51,6 @@ feature -- Status report
 
 feature -- Output
 
-	put_string (a_string: STRING)
-			-- Write `a_string' to output_string stream.
-		local
-			i, nb: INTEGER
-		do
-			nb := a_string.count
-			start (nb)
-			if attached output_string as str then
-				from i := 1 until i > nb loop
-					put_character (a_string.item (i), str)
-					i := i + 1
-				end
-			end
-			finalize
-		end
-
 	put_memory (bytes: MANAGED_POINTER; nb: INTEGER)
 		require
 			valid_size: nb <= bytes.count
@@ -71,9 +58,9 @@ feature -- Output
 			i: INTEGER
 		do
 			start (nb)
-			if attached output_string as str then
+			if attached output_string as str and then attached triplet as area_3 then
 				from i := 0 until i = nb loop
-					put_character (bytes.read_character (i), str)
+					put_character (area_3, bytes.read_character (i), str)
 					i := i + 1
 				end
 			end
@@ -85,11 +72,26 @@ feature -- Output
 		local
 			i, nb: INTEGER
 		do
-			nb := array.count
-			start (nb)
-			if attached output_string as str then
+			nb := array.count; start (nb)
+			if attached output_string as str and then attached triplet as area_3 then
 				from i := 0 until i = nb loop
-					put_character (array [i].to_character_8, str)
+					put_character (area_3, array [i].to_character_8, str)
+					i := i + 1
+				end
+			end
+			finalize
+		end
+
+	put_string (a_string: STRING)
+			-- Write `a_string' to output_string stream.
+		local
+			i, nb: INTEGER
+		do
+			nb := a_string.count
+			start (nb)
+			if attached output_string as str and then attached triplet as area_3 then
+				from i := 1 until i > nb loop
+					put_character (area_3, a_string.item (i), str)
 					i := i + 1
 				end
 			end
@@ -110,17 +112,43 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	buffer_character (c: CHARACTER; str: STRING)
-			-- Write `c' to `triplet'.
+	encoded (code: INTEGER): CHARACTER
 		require
-			not_full: triplet.count < 3
+			valid_range: 0 <= code and code <= 64
 		do
-			triplet.extend (c)
-			if triplet.count = 3 then
-				write_quartet (str, triplet)
+			inspect code
+				when 0 .. 25 then
+					Result := 'A' + code
+				when 26 .. 51 then
+					Result := 'a' + (code - 26)
+				when 52 .. 61 then
+					Result := '0' + (code - 52)
+
+				when 62 then
+					Result := '+'
+				when 63 then
+					Result := '/'
+				when 64 then
+					Result := '='
+			else
+				check
+					valid_range: False
+				end
+			end
+		end
+
+	extend_triplet (area_3: like triplet; c: CHARACTER; str: STRING)
+			-- Write `c' to `area_3'.
+		require
+			not_full: area_3.count < 3
+		do
+			area_3.extend (c.code)
+			if area_3.count = 3 then
+				write_quartet (to_quartet (area_3), str)
+				area_3.wipe_out
 			end
 		ensure
-			not_full: triplet.count < 3
+			not_full: area_3.count < 3
 		end
 
 	finalize
@@ -128,37 +156,40 @@ feature {NONE} -- Implementation
 			-- `is_open_write' to false if operation was successful.
 		do
 			if triplet.count /= 0 then
-					-- Padding will take place.
-				write_quartet (output_string, triplet)
+				-- Padding will take place.
+				write_quartet (to_quartet (triplet), output_string)
+				triplet.wipe_out
 			end
+		ensure
+			triplet_empty: triplet.count = 0
 		end
 
-	put_character (c: CHARACTER; str: STRING)
+	put_character (area_3: like triplet; c: CHARACTER; str: STRING)
 			-- Write `c' to output_string stream.
+		local
+			c1, c2: CHARACTER
 		do
+			c1 := c
 			if is_normalizing then
 				if is_pending_line_break then
 					is_pending_line_break := False
 					if c = '%N' then
-						buffer_character ('%N', str)
+						c1 := '%N'
 					else
-						buffer_character ('%N', str)
-						buffer_character (c, str)
+						c1 := '%N'; c2 := c
 						if c = '%R' then
 							is_pending_line_break := True
 						end
 					end
 				elseif c = '%N' then
-					buffer_character ('%R', str)
-					buffer_character ('%N', str)
+					c1 := '%R'; c2 := '%N'
 				elseif c = '%R' then
-					buffer_character (c, str)
 					is_pending_line_break := True
-				else
-					buffer_character (c, str)
 				end
-			else
-				buffer_character (c, str)
+			end
+			extend_triplet (area_3, c1, str)
+			if c2 > '%U' then
+				extend_triplet (area_3, c2, str)
 			end
 		end
 
@@ -169,76 +200,41 @@ feature {NONE} -- Implementation
 			output_string.grow (byte_count // 3 * 4 + 4)
 		end
 
-	write_character (c: INTEGER; str: STRING)
-			-- Write `c' to the output_string stream.
-		require
-			valid_range: 0 <= c and c <= 64
-		do
-			inspect c
-				when 0 .. 25 then
-					str.extend ('A' + c)
-				when 26 .. 51 then
-					str.extend ('a' + (c - 26))
-				when 52 .. 61 then
-					str.extend ('0' + (c - 52))
-
-				when 62 then
-					str.extend ('+')
-				when 63 then
-					str.extend ('/')
-				when 64 then
-					str.extend ('=')
-			else
-				check
-					valid_range: False
-				end
-			end
-			if is_line_breaking then
-				line_count := line_count + 1
-				if line_count = Full_line_count then
-					line_count := 0
-					str.extend ('%N')
-				end
-			end
-		end
-
-	write_quartet (str: STRING; area_3: like triplet)
-			-- Write a quartet (padded, if necessary) to `str'
+	to_quartet (area_3: like triplet): like quartet
+			-- fill a quartet (padded, if necessary)
 			-- See: https://en.wikipedia.org/wiki/Base64
 		require
 			triplet_not_empty: area_3.count /= 0
 		local
-			area_4: like quartet; i, bitmap, sextet_count, l_count: INTEGER
+			bitmap, sextet_count, octet_count: INTEGER
 		do
-			area_4 := quartet
-			from i := 0 until i = 4 loop
-				area_4 [i] := Padding_code
-				i := i + 1
-			end
---			Load triplet bytes in bitmap
-			l_count := area_3.count
-			from i := 0 until i = l_count loop
-				bitmap := (bitmap |<< 8) | area_3 [i].code
-				i := i + 1
-			end
-			sextet_count := area_3.count + 1
---			Align octets with sextets
-			bitmap := bitmap |<< (sextet_count * 6 - l_count * 8)
+			Result := quartet
+--			padd entire quartet
+			Result.fill_with (Padding_code, 0, 3)
+			octet_count := area_3.count; sextet_count := octet_count + 1
 
---			write sextets into quartet in reverse order
-			l_count := sextet_count - 1
-			from i := l_count until i < 0 loop
-				area_4 [i] := bitmap & Sextet_mask
-				bitmap := bitmap |>> 6
-				i := i - 1
-			end
+--			load triplet octets in bitmap aligned as sextets
+			bitmap := new_compact_bytes (area_3, 8) |<< alignment_shift (sextet_count, octet_count)
+
+--			write `bitmap' sextets into `Result'
+			fill_area (Result, sextet_count, bitmap, 6, Sextet_mask)
+		end
+
+	write_quartet (area_4: like quartet; str: STRING)
+		local
+			i: INTEGER
+		do
 			from i := 0 until i = 4 loop
-				write_character (area_4 [i], str)
+				str.extend (encoded (area_4 [i]))
+				if is_line_breaking then
+					line_count := line_count + 1
+					if line_count = Full_line_count then
+						line_count := 0
+						str.extend ('%N')
+					end
+				end
 				i := i + 1
 			end
-			area_3.wipe_out
-		ensure
-			triplet_empty: area_3.count = 0
 		end
 
 feature {NONE} -- Internal attributes
@@ -251,19 +247,10 @@ feature {NONE} -- Internal attributes
 
 	output_string: STRING
 
-	triplet: SPECIAL [CHARACTER]
-		-- 3 characters to be encoded
-
-	quartet: SPECIAL [INTEGER]
-		-- 4 characters to be written
-
 feature {NONE} -- Constants
 
 	Full_line_count: INTEGER = 76
 			-- Maximum line length
-
-	Padding_code: INTEGER = 64
-			-- Pad character ('=')
 
 	Sextet_mask: INTEGER = 0x3F
 

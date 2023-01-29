@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-27 15:00:06 GMT (Friday 27th January 2023)"
-	revision: "21"
+	date: "2023-01-29 12:11:30 GMT (Sunday 29th January 2023)"
+	revision: "22"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -130,6 +130,8 @@ feature {NONE} -- Implementation
 				if found and then table.has_key (source_dir) then
 					create editor.make (table.found_item, Void)
 					editor.set_file_path (source_path)
+					lio.put_path_field ("Edit notes for %S", source_path)
+					lio.put_new_line
 					editor.edit
 				end
 			end
@@ -168,8 +170,6 @@ feature {NONE} -- Implementation
 						path := line.item
 						if path.has_extension ("e") then
 							source_path := config.source_dir.parent + path
-							lio.put_path_field ("Edit notes for %S", path)
-							lio.put_new_line
 							edit_notes (source_path)
 							change_count := change_count +1
 						end

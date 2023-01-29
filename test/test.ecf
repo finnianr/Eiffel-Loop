@@ -45,7 +45,6 @@
 		<library name = "ise_integer_x" location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"/>
 		<library name = "ise_encryption" location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"/>
 		<!--Other libraries-->
-		<library name = "gobo_base" location = "$EIFFEL_LOOP/library/gobo-base.ecf"/>
 		<library name = "nel_fft_math" location = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"/>
 		<!--EiffelLoop libraries-->
 		<library name = "EL_base" location = "$EIFFEL_LOOP/library/base/base.ecf" readonly = "false">
@@ -98,7 +97,6 @@
 				<platform value = "windows"/>
 			</condition>
 		</library>
-		<cluster name = "transcoder" location = "$ISE_LIBRARY/contrib/library/gobo/library/utility/src/transcoder"/>
 		<cluster name = "root" location = "source/root" recursive = "true">
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>

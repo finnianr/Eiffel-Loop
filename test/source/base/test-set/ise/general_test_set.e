@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-28 11:47:59 GMT (Saturday 28th January 2023)"
-	revision: "36"
+	date: "2023-01-29 13:17:19 GMT (Sunday 29th January 2023)"
+	revision: "38"
 
 class
 	GENERAL_TEST_SET
@@ -29,7 +29,6 @@ feature -- Basic operations
 			eval.call ("any_array_numeric_type_detection", agent test_any_array_numeric_type_detection)
 			eval.call ("base_64_codec_1", agent test_base_64_codec_1)
 			eval.call ("base_64_codec_2", agent test_base_64_codec_2)
-			eval.call ("base_64_encode_decode", agent test_base_64_encode_decode)
 			eval.call ("character_32_status_queries", agent test_character_32_status_queries)
 			eval.call ("environment_put", agent test_environment_put)
 			eval.call ("integer_32_bit_routines", agent test_integer_32_bit_routines)
@@ -55,24 +54,17 @@ feature -- Tests
 
 	test_base_64_codec_1
 		note
-			testing: "covers/{EL_BASE_64_CODEC}.decoded_special", "covers/{EL_BASE_64_CODEC}.encoded_special"
+			testing: "covers/{EL_BASE_64_CODEC}.decoded", "covers/{EL_BASE_64_CODEC}.encoded"
 		local
-			list: ARRAYED_LIST [NATURAL_8]; decoded, gobo_decoded: SPECIAL [NATURAL_8]
-			encoded, gobo_encoded: STRING; r: RANDOM
+			str, encoded: STRING; str_encoded: ARRAY [STRING]
 		do
-			gobo_decoded := Gobo_base_64.decoded_special (Base_64_data)
-			decoded := Base_64.decoded_special (Base_64_data)
-			assert ("same data", decoded ~ gobo_decoded)
-
-			create r.make
-			create list.make (100)
-			from until list.full loop
-				list.extend ((r.item \\ 100).to_natural_8)
-				r.forth
-				encoded := Base_64.encoded_special (list.area, False)
-				gobo_encoded := Gobo_base_64.encoded_special (list.area)
-				assert ("same encoding", encoded ~ gobo_encoded)
-				assert ("same list", Base_64.decoded_special (encoded) ~ list.area)
+--			Basic test from https://en.wikipedia.org/wiki/Base64
+			str_encoded := << "TQ==", "TWE=", "TWFu" >>
+			from str := "Man" until str.is_empty loop
+				encoded := Base_64.encoded (str, False)
+				assert ("encoding OK", encoded ~ str_encoded [str.count])
+				assert ("decoding OK", str ~  Base_64.decoded (encoded))
+				str.remove_tail (1)
 			end
 		end
 
@@ -85,7 +77,7 @@ feature -- Tests
 			parts: EL_ZSTRING_LIST; padding_permutation_set: EL_HASH_SET [STRING]
 		do
 			create padding_permutation_set.make (3)
-			across Hexagram.String_arrays as array until padding_permutation_set.count = 3 loop
+			across Hexagram.String_arrays as array loop
 				create parts.make_from_general (array.item)
 				zstr := parts.joined_words
 				base_64_str := Base_64.encoded (zstr.to_utf_8 (False), True)
@@ -93,33 +85,17 @@ feature -- Tests
 				last_8_characters.prune ('%N')
 				trimmed := last_8_characters.twin; trimmed.prune_all_trailing ('=')
 				create padding.make_filled ('=', last_8_characters.count - trimmed.count)
-				if not padding_permutation_set.has (padding) then
-					lio.put_labeled_string (parts.first, last_8_characters)
+				lio.put_labeled_string (parts.first, last_8_characters)
+				if array.cursor_index \\ 4 = 0 then
 					lio.put_new_line
-					create zstr_2.make_from_utf_8 (Base_64.decoded (base_64_str))
-					assert_same_string (Void, zstr, zstr_2)
-					padding_permutation_set.put (padding)
+				else
+					lio.put_character (' ')
 				end
+				create zstr_2.make_from_utf_8 (Base_64.decoded (base_64_str))
+				assert_same_string (Void, zstr, zstr_2)
+				padding_permutation_set.put (padding)
 			end
---			Seems to be not possible to have ending === but not 100% sure
 			assert ("all == endings found", padding_permutation_set.count = 3 )
-		end
-
-	test_base_64_encode_decode
-		-- GENERAL_TEST_SET.test_base_64_encode_decode
-		note
-			testing: "covers/{EL_BASE_64_CODEC}.decoded_special",
-						"covers/{EL_BASE_64_CODEC}.encoded_special"
-		local
-			conv: EL_UTF_8_CONVERTER; text_utf_8, text_base_64, decoded: STRING
-			i, l_count: INTEGER
-		do
-			text_utf_8 := conv.utf_32_string_to_string_8 (Hexagram.Chinese_text)
-			text_base_64 := Base_64.encoded (text_utf_8, True)
-			lio.put_string_field_to_max_length ("Base 64", text_base_64, 300)
-			lio.put_new_line
-			decoded := Base_64.decoded (text_base_64)
-			assert ("decoded OK", decoded ~ text_utf_8)
 		end
 
 	test_character_32_status_queries
@@ -290,23 +266,6 @@ feature -- Tests
 				create version_2.make (part_count, digit_count, compact_version)
 				assert ("same version", version ~ version_2)
 			end
-		end
-
-feature {NONE} -- Constants
-
-	Base_64_data: STRING
-		once
-			Result := "[
-				SAFweR4G0xAxjN11FNtzojS0rrJitfeQh9KUa9kuuk1/6Wk7wDBmDpTXx3hZ4e48ovkIs50w3YSFSsH1EyseOe
-				/OsvGW5ncCl3V08u0whToDEXDCQc3LAT4U6ULIYgw4+Kmx9Xoi9lINa4iS8ze/p2NPIvL61TDuYhocxX1ux7xu
-				OGXlvDw4mNhnNWMqT1671/XW+I+WMMO5JyA0Sw20LWGGAPbKm/gZj+X5qAuLAQKz7hoUYX0SCep8mrKgprDbdd
-				jxw4uSuCTvZtxyORmhrB4u6nwMPDx8Rq7ECzpMAGxsVFZh959BvwmtXhR7vs3tTYRZ7YBTwLopkCuhlGQXMQ==
-			]"
-		end
-
-	Gobo_base_64: GOBO_BASE_64_ROUTINES
-		once
-			create Result
 		end
 
 end
