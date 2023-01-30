@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-02 10:01:20 GMT (Friday 2nd December 2022)"
-	revision: "24"
+	date: "2023-01-30 13:04:10 GMT (Monday 30th January 2023)"
+	revision: "25"
 
 class
 	BENCHMARK_COMMAND_SHELL
@@ -23,38 +23,40 @@ create
 
 feature -- Constants
 
-	Description: STRING = "Menu driven benchmark tests"
+	Description: STRING = "Menu driven benchmark comparison tests"
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	Factory: EL_OBJECT_FACTORY [EL_BENCHMARK_COMPARISON]
-		once
-			create Result.make (<<
-				["call on expanded vs once ref object",			{ROUTINE_CALL_ON_ONCE_VS_EXPANDED}],
-				["filling linked VS arrayed list",					{ARRAYED_VS_LINKED_LIST}],
-				["finding files with extension",						{DIRECTORY_WALK_VS_FIND_COMMAND}],
-				["list iteration methods",								{SEVEN_LIST_ITERATION_METHODS}],
-				["hash-set vs linear search",							{ARRAYED_VS_HASH_SET_SEARCH}],
-				["hash-table vs nameables-list search",			{HASH_TABLE_VS_NAMEABLES_LIST_SEARCH}],
-				["string concatenation methods",						{THREE_WAYS_TO_CONCATENATE_STRINGS}],
-				["unencoded list generation",							{UNENCODED_CHARACTER_LIST_GENERATION}],
+	new_benchmarks: TUPLE [
+		APPEND_Z_CODE_VS_APPEND_CHARACTER,
+		ARRAYED_VS_LINKED_LIST,
+		ARRAYED_VS_HASH_SET_SEARCH,
 
-				["CSV parsing methods",									{THREE_LINE_STATE_COMPARISON_METHODS}],
-				["STRING split iteration methods",					{STRING_SPLIT_ITERATION_COMPARISON}],
-				["STRING_8 item vs item_8",							{STRING_ITEM_8_VS_ITEM}],
+		CACHED_VS_UNCACHED_SHIFT_COUNT,
+		DIRECTORY_WALK_VS_FIND_COMMAND,
+		HASH_TABLE_VS_NAMEABLES_LIST_SEARCH,
+		MAKE_GENERAL_COMPARISON,
 
-				["{L1_UC_STRING}.make_general",						{MAKE_GENERAL_COMPARISON}],
-				["{L1_UC_STRING}.unicode",								{UNICODE_ITEM_COMPARISON}],
-				["{ZSTRING}.append_zcode VS append_character",	{APPEND_Z_CODE_VS_APPEND_CHARACTER}],
-				["{ZSTRING}.replace_substring",						{REPLACE_SUBSTRING_ALL_VS_GENERAL}],
-				["{ZSTRING}.substring_index",							{SUBSTRING_INDEX_COMPARISON}],
-				["{ZSTRING}.split_intervals",							{ZSTRING_SPLIT_COMPARISON}]
-			>>)
+		THREE_LINE_STATE_COMPARISON_METHODS,
+		THREE_WAYS_TO_CONCATENATE_STRINGS,
+
+		SEVEN_LIST_ITERATION_METHODS,
+		STRING_SPLIT_ITERATION_COMPARISON,
+		STRING_ITEM_8_VS_ITEM,
+		SUBSTRING_INDEX_COMPARISON,
+
+		REPLACE_SUBSTRING_ALL_VS_GENERAL,
+		ROUTINE_CALL_ON_ONCE_VS_EXPANDED,
+
+		UNENCODED_CHARACTER_LIST_GENERATION,
+		UNICODE_ITEM_COMPARISON,
+		ZSTRING_SPLIT_COMPARISON
+	]
+		do
+			create Result
 		end
 
 end
-
-
 
 
 

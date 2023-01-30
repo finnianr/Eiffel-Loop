@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-01-30 12:32:57 GMT (Monday 30th January 2023)"
+	revision: "8"
 
 class
 	THREE_LINE_STATE_COMPARISON_METHODS
@@ -19,6 +19,10 @@ inherit
 
 create
 	make
+
+feature -- Access
+
+	Description: STRING = "CSV parsing methods"
 
 feature -- Basic operations
 

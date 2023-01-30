@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 16:24:05 GMT (Thursday 5th January 2023)"
-	revision: "3"
+	date: "2023-01-30 9:53:28 GMT (Monday 30th January 2023)"
+	revision: "4"
 
 class
 	EL_ESCAPE_TABLE
@@ -52,6 +52,15 @@ feature {NONE} -- Initialization
 			has_escape: has (escape_character)
 		end
 
+	make_inverted (other: EL_ESCAPE_TABLE)
+		do
+			escape_character := other.escape_character
+			make_table (other.count)
+			across other as table loop
+				extend (table.key, table.item)
+			end
+		end
+
 	make_simple (escape: CHARACTER_32; character_list: READABLE_STRING_GENERAL)
 		-- make table where characters are not transformed but merely prefixed by `escape_character'
 		local
@@ -67,15 +76,6 @@ feature {NONE} -- Initialization
 		ensure
 			same_keys_and_items: across current_keys as key all item (key.item) = key.item end
 			has_escape: has (escape_character)
-		end
-
-	make_inverted (other: EL_ESCAPE_TABLE)
-		do
-			escape_character := other.escape_character
-			make_table (other.count)
-			across other as table loop
-				extend (table.key, table.item)
-			end
 		end
 
 feature -- Access
@@ -94,6 +94,13 @@ feature -- Access
 		end
 
 	escape_character: CHARACTER_32
+
+feature -- Element change
+
+	set_escape_character (a_escape_character: CHARACTER_32)
+		do
+			escape_character := a_escape_character
+		end
 
 feature -- Conversion
 

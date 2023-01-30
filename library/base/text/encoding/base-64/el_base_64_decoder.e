@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-29 12:54:47 GMT (Sunday 29th January 2023)"
-	revision: "11"
+	date: "2023-01-29 17:59:58 GMT (Sunday 29th January 2023)"
+	revision: "12"
 
 class
 	EL_BASE_64_DECODER
@@ -115,7 +115,7 @@ feature {NONE} -- Implementation
 
 	to_triplet (area_4: like quartet): like triplet
 		local
-			i, bitmap, sextet_count, octet_count: INTEGER
+			bitmap, sextet_count, octet_count: INTEGER
 		do
 			Result := triplet; Result.wipe_out
 			sextet_count := area_4.count; octet_count := sextet_count - 1
@@ -123,7 +123,7 @@ feature {NONE} -- Implementation
 			Result.fill_with (0, 0, octet_count - 1)
 
 --			load sextets into bitmap and align as octets
-			bitmap := new_compact_bytes (area_4, 6) |>> alignment_shift (sextet_count, octet_count)
+			bitmap := new_area_bitmap (area_4, 6) |>> alignment_shift (sextet_count, octet_count)
 
 --			write `bitmap' octets into `Result'
 			fill_area (Result, octet_count, bitmap, 8, Octet_mask)

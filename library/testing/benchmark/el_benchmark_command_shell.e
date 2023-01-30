@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2023-01-30 14:24:30 GMT (Monday 30th January 2023)"
+	revision: "21"
 
 deferred class
 	EL_BENCHMARK_COMMAND_SHELL
@@ -28,29 +28,40 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (a_trial_duration: INTEGER)
 		do
-			trial_duration := a_trial_duration
-			make_shell ("BENCHMARK", 10)
+			trial_duration := a_trial_duration.to_reference
+			create benchmark_types.make_from_tuple (new_benchmarks)
+			if not benchmark_types.all_conform then
+				benchmark_types.log_error (lio, "Invalid benchmark class")
+			end
+			make_shell ("BENCHMARK COMPARISONS", 10)
 		end
 
 feature {NONE} -- Implementation
 
-	do_comparison (name: ZSTRING)
-		do
-			if attached factory.new_item_from_alias (name) as comparison then
-				comparison.make (trial_duration)
-				comparison.execute
-			end
-		end
-
-	factory: EL_OBJECT_FACTORY [EL_BENCHMARK_COMPARISON]
+	new_benchmarks: TUPLE
 		deferred
 		end
 
 	new_command_table: like command_table
+		local
+			factory: EL_OBJECT_FACTORY [EL_BENCHMARK_COMPARISON]
+			sortable_list: EL_ARRAYED_LIST [EL_BENCHMARK_COMPARISON]
+			s: EL_ZSTRING_ROUTINES
 		do
-			create Result.make_equal (Factory.count)
-			across Factory.alias_names as name loop
-				Result [Compare + name.item] := agent do_comparison (name.item)
+			create factory
+			create Result.make_equal (benchmark_types.count)
+			create sortable_list.make (benchmark_types.count)
+			across benchmark_types as type loop
+				if attached factory.new_item_from_type (type.item) as benchmark then
+					benchmark.make (trial_duration)
+					sortable_list.extend (benchmark)
+				end
+			end
+			sortable_list.order_by (agent {EL_BENCHMARK_COMPARISON}.description, True)
+			across sortable_list as list loop
+				if attached list.item as benchmark then
+					Result [s.as_zstring (benchmark.description)] := agent benchmark.execute
+				end
 			end
 		end
 
@@ -70,13 +81,10 @@ feature {NONE} -- Internal attributes
 
 	trial_duration: INTEGER_REF
 
+	benchmark_types: EL_TUPLE_TYPE_LIST [EL_BENCHMARK_COMPARISON]
+
 feature {NONE} -- Constants
 
 	Duration_prompt: STRING = "trial duration in millisecs"
-
-	Compare: ZSTRING
-		once
-			Result := "Compare "
-		end
 
 end

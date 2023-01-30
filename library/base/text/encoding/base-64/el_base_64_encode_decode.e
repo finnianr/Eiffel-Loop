@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-29 12:53:38 GMT (Sunday 29th January 2023)"
-	revision: "2"
+	date: "2023-01-29 14:15:18 GMT (Sunday 29th January 2023)"
+	revision: "3"
 
 class
 	EL_BASE_64_ENCODE_DECODE
@@ -32,6 +32,8 @@ feature {NONE} -- Implementation
 
 	fill_area (area: like quartet; count, a_bitmap, bit_count, part_mask: INTEGER)
 		-- fill `area' from `bitmap' parts of bit size `bit_count'
+		require
+			valid_count: area.valid_index (count - 1)
 		local
 			i, bitmap: INTEGER
 		do
@@ -43,7 +45,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_compact_bytes (area: like quartet; shift_count: INTEGER): INTEGER
+	new_area_bitmap (area: like quartet; shift_count: INTEGER): INTEGER
 		local
 			i, count: INTEGER
 		do

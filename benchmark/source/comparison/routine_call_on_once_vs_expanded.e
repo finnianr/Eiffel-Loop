@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-01-30 12:57:08 GMT (Monday 30th January 2023)"
+	revision: "5"
 
 class
 	ROUTINE_CALL_ON_ONCE_VS_EXPANDED
@@ -24,6 +24,10 @@ inherit
 
 create
 	make
+
+feature -- Access
+
+	Description: STRING = "Call on expanded vs once ref object"
 
 feature -- Basic operations
 

@@ -4,7 +4,7 @@
 		Passes over 1000 millisecs (in descending order)
 		
 			iterate_with_item_8 :  9975.4 times (100%)
-			iterate_with_item   :  3636.4 times (-63.5%)	
+			iterate_with_item   :  3636.4 times (-63.5%)
 	]"
 
 	author: "Finnian Reilly"
@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-02 10:02:59 GMT (Friday 2nd December 2022)"
-	revision: "9"
+	date: "2023-01-30 12:32:58 GMT (Monday 30th January 2023)"
+	revision: "10"
 
 class
 	STRING_ITEM_8_VS_ITEM
@@ -23,6 +23,10 @@ inherit
 
 create
 	make
+
+feature -- Access
+
+	Description: STRING = "STRING_8 item vs item_8"
 
 feature -- Basic operations
 

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 13:56:29 GMT (Sunday 1st January 2023)"
-	revision: "4"
+	date: "2023-01-30 9:54:38 GMT (Monday 30th January 2023)"
+	revision: "5"
 
 deferred class
 	TEST_STRINGS [S -> STRING_GENERAL create make end]
@@ -15,13 +15,14 @@ deferred class
 inherit
 	ANY
 
+	EL_MODULE_EIFFEL
+
 	SHARED_HEXAGRAM_STRINGS
 
 	BENCHMARK_CONSTANTS
 
-	EL_MODULE_EIFFEL
-
 	STRING_HANDLER
+
 
 feature {NONE} -- Initialization
 
@@ -309,15 +310,12 @@ feature {NONE} -- Implementation
 
 	set_escape_character (escape_character: CHARACTER_32)
 		do
-			C_escape_table.remove (escape_character)
-			C_escape_table [escape_character] := escape_character
+			C_escape_table.set_escape_character (escape_character)
 			unescaper.set_escape_character (escape_character)
 		end
-
 
 	unescaper: EL_STRING_GENERAL_UNESCAPER [READABLE_STRING_GENERAL, S]
 		deferred
 		end
-
 
 end

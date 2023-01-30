@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2023-01-30 9:50:05 GMT (Monday 30th January 2023)"
+	revision: "3"
 
 deferred class
 	BENCHMARK_CONSTANTS
@@ -17,16 +17,9 @@ inherit
 
 feature {NONE} -- Constants
 
-	C_escape_table: HASH_TABLE [CHARACTER_32, CHARACTER_32]
+	C_escape_table: EL_ESCAPE_TABLE
 		once
-			create Result.make (7)
-			Result ['n'] := '%N'
-			Result ['r'] := '%R'
-			Result ['t'] := '%T'
-
-			Result ['N'] := '%N'
-			Result ['R'] := '%R'
-			Result ['T'] := '%T'
+			create Result.make (Back_slash, "n:=%N, r:=%R, t:=%T, N:=%N, R:=%R, T:=%T")
  		end
 
 	Back_slash: CHARACTER = '\'

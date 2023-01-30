@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-01-30 12:32:58 GMT (Monday 30th January 2023)"
+	revision: "7"
 
 class
 	MAKE_GENERAL_COMPARISON
@@ -19,6 +19,10 @@ inherit
 
 create
 	make
+
+feature -- Access
+
+	Description: STRING = "{L1_UC_STRING}.make_general vs {ZSTRING}"
 
 feature -- Basic operations
 

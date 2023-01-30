@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-01-30 10:19:57 GMT (Monday 30th January 2023)"
+	revision: "7"
 
 class
 	EL_STRING_HASH_TABLE [G, K -> STRING_GENERAL create make end]
@@ -32,6 +32,11 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
+	force (value: G; a_key: READABLE_STRING_GENERAL)
+		do
+			force_key (value, new_key (a_key))
+		end
+
 	merge_array (array: ARRAY [like ASSIGNMENT])
 			--
 		local
@@ -45,19 +50,6 @@ feature -- Element change
 			end
 		end
 
-	force (value: G; a_key: READABLE_STRING_GENERAL)
-		local
-			l_key: K
-		do
-			if attached {K} a_key as key then
-				force_key (value, key)
-			else
-				create l_key.make (a_key.count)
-				l_key.append (a_key)
-				force_key (value, l_key)
-			end
-		end
-
 feature -- Type definitions
 
 	ASSIGNMENT: TUPLE [key: READABLE_STRING_GENERAL; value: G]
@@ -65,5 +57,17 @@ feature -- Type definitions
 			never_called: False
 		do
 			create Result
+		end
+
+feature {NONE} -- Implementation
+
+	new_key (general_key: READABLE_STRING_GENERAL): K
+		do
+			if attached {K} general_key as key then
+				Result := key
+			else
+				create Result.make (general_key.count)
+				Result.append (general_key)
+			end
 		end
 end

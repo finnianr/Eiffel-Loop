@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2023-01-30 9:51:07 GMT (Monday 30th January 2023)"
+	revision: "3"
 
 class
 	TEST_STRING_32
@@ -129,10 +129,10 @@ feature {NONE} -- Constants
 
 	Unescaper: EL_STRING_32_UNESCAPER
 		once
-			create Result.make (Back_slash, C_escape_table)
+			create Result.make (C_escape_table)
 		end
 
-	Xml_escaper: XML_STRING_32_ESCAPER
+	Xml_escaper: XML_ESCAPER [STRING_32]
 		once
 			create Result.make_128_plus
 		end

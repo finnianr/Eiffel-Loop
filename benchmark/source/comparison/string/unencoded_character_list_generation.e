@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-01-30 12:58:06 GMT (Monday 30th January 2023)"
+	revision: "7"
 
 class
 	UNENCODED_CHARACTER_LIST_GENERATION
@@ -32,6 +32,10 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 			create substring_list.make (0)
 			create substring_buffer.make (0)
 		end
+
+feature -- Access
+
+	Description: STRING = "Unencoded list generation"
 
 feature -- Basic operations
 

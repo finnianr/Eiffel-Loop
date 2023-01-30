@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-01-30 12:57:14 GMT (Monday 30th January 2023)"
+	revision: "7"
 
 class
 	HASH_TABLE_VS_NAMEABLES_LIST_SEARCH
@@ -36,6 +36,10 @@ inherit
 
 create
 	make
+
+feature -- Access
+
+	Description: STRING = "Hash-table vs nameables-list search"
 
 feature -- Basic operations
 

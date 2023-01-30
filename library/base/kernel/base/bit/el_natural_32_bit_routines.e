@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-26 16:05:05 GMT (Monday 26th December 2022)"
-	revision: "2"
+	date: "2023-01-30 17:55:49 GMT (Monday 30th January 2023)"
+	revision: "3"
 
 expanded class
 	EL_NATURAL_32_BIT_ROUTINES
@@ -43,22 +43,6 @@ feature -- Access
 
 feature -- Measurement
 
-	shift_count (mask: NATURAL_32): INTEGER
-		local
-			byte_position: INTEGER
-		do
-			if mask.to_boolean then
---				find first byte block overlapping mask
-				from until (mask & (Eight_ones |<< byte_position)).to_boolean loop
-					byte_position := byte_position + 8
-				end
---				search within byte block starting at `byte_position'
-				from Result := byte_position until (mask | (One |<< Result)) = mask loop
-					Result := Result + 1
-				end
-			end
-		end
-
 	leading_digit_position (bitmap: NATURAL_32): INTEGER
 		-- position of first binary digit 1 in `bitmap' going from high to low
 		-- zero if none
@@ -67,6 +51,24 @@ feature -- Measurement
 				Result := Natural_32_bits
 			until (One |<< (Result - 1) & bitmap).to_boolean or Result = 0 loop
 				Result := Result - 1
+			end
+		end
+
+	shift_count (mask: NATURAL_32): INTEGER
+		local
+			l_mask: NATURAL_32
+		do
+			if mask.to_boolean then
+				l_mask := mask |>> Natural_16_bits
+				if l_mask >= mask then
+					Result := Natural_16_bits
+				else
+					l_mask := mask
+				end
+				from until (l_mask & One).to_boolean loop
+					l_mask := l_mask |>> 1
+					Result := Result + 1
+				end
 			end
 		end
 
@@ -91,7 +93,6 @@ feature -- Contract Support
 
 feature {NONE} -- Constants
 
-	Eight_ones: NATURAL_32 = 0xFF
-
 	One: NATURAL_32 = 1
+
 end

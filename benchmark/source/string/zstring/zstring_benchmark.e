@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2023-01-29 17:59:33 GMT (Sunday 29th January 2023)"
+	revision: "17"
 
 class
 	ZSTRING_BENCHMARK
@@ -41,7 +41,7 @@ feature {NONE} -- Constants
 			create Result.make_empty (0)
 		end
 
-	Xml_escaper: XML_ZSTRING_ESCAPER
+	Xml_escaper: XML_ESCAPER [ZSTRING]
 		once
 			create Result.make_128_plus
 		end

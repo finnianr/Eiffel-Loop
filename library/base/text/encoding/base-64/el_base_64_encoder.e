@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-29 13:13:58 GMT (Sunday 29th January 2023)"
-	revision: "8"
+	date: "2023-01-29 17:55:40 GMT (Sunday 29th January 2023)"
+	revision: "9"
 
 class
 	EL_BASE_64_ENCODER
@@ -123,7 +123,6 @@ feature {NONE} -- Implementation
 					Result := 'a' + (code - 26)
 				when 52 .. 61 then
 					Result := '0' + (code - 52)
-
 				when 62 then
 					Result := '+'
 				when 63 then
@@ -214,7 +213,7 @@ feature {NONE} -- Implementation
 			octet_count := area_3.count; sextet_count := octet_count + 1
 
 --			load triplet octets in bitmap aligned as sextets
-			bitmap := new_compact_bytes (area_3, 8) |<< alignment_shift (sextet_count, octet_count)
+			bitmap := new_area_bitmap (area_3, 8) |<< alignment_shift (sextet_count, octet_count)
 
 --			write `bitmap' sextets into `Result'
 			fill_area (Result, sextet_count, bitmap, 6, Sextet_mask)
