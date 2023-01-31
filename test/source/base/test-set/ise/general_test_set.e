@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-31 9:58:01 GMT (Tuesday 31st January 2023)"
-	revision: "40"
+	date: "2023-01-31 13:56:38 GMT (Tuesday 31st January 2023)"
+	revision: "41"
 
 class
 	GENERAL_TEST_SET
@@ -267,6 +267,8 @@ feature -- Bit-routine Tests
 				i := i + 1
 			end
 
+			assert ("filled_bits OK", i32.filled_bits (4) = 0xF)
+
 			assert ("0xF fits in 0xF0", i32.compatible_value (0xF0, 0xF))
 			assert ("0x10 does not fit in 0xF0", not i32.compatible_value (0xF0, 0x10))
 
@@ -306,6 +308,8 @@ feature -- Bit-routine Tests
 				mask := mask |<< 1
 				i := i + 1
 			end
+
+			assert ("filled_bits OK", n32.filled_bits (4) = 0xF)
 
 			assert ("0xF fits in 0xF0", n32.compatible_value (0xF0, 0xF))
 			assert ("0x10 does not fit in 0xF0", not n32.compatible_value (0xF0, 0x10))

@@ -6,14 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-31 9:50:27 GMT (Tuesday 31st January 2023)"
-	revision: "4"
+	date: "2023-01-31 14:08:39 GMT (Tuesday 31st January 2023)"
+	revision: "5"
 
 expanded class
 	EL_NATURAL_32_BIT_ROUTINES
 
 inherit
 	EL_NUMERIC_BIT_ROUTINES
+		rename
+			bit_count as Natural_32_bits,
+			positive_bit_count as Natural_32_bits
+		end
 
 feature -- Access
 
@@ -26,13 +30,8 @@ feature -- Access
 
 	filled_bits (bit_count: INTEGER): NATURAL_32
 		-- number with `bit_count' bits set to 1 starting from LSB
-		local
-			i: INTEGER
 		do
-			from i := 0 until i = bit_count loop
-				Result := Result | (One |<< i)
-				i := i + 1
-			end
+			Result := Result.bit_not |>> (Natural_32_bits - bit_count)
 		end
 
 	isolated (combined_values, mask: NATURAL_32): NATURAL_32
