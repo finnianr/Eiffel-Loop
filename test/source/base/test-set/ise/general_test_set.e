@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 19:53:58 GMT (Monday 30th January 2023)"
-	revision: "39"
+	date: "2023-01-31 9:58:01 GMT (Tuesday 31st January 2023)"
+	revision: "40"
 
 class
 	GENERAL_TEST_SET
@@ -31,13 +31,14 @@ feature -- Basic operations
 			eval.call ("base_64_codec_2", agent test_base_64_codec_2)
 			eval.call ("character_32_status_queries", agent test_character_32_status_queries)
 			eval.call ("environment_put", agent test_environment_put)
-			eval.call ("integer_32_bit_routines", agent test_integer_32_bit_routines)
 			eval.call ("math_precision", agent test_math_precision)
 			eval.call ("named_thread", agent test_named_thread)
 			eval.call ("naming", agent test_naming)
 			eval.call ("reusable_strings", agent test_reusable_strings)
 			eval.call ("reverse_managed_pointer", agent test_reverse_managed_pointer)
 			eval.call ("version_array", agent test_version_array)
+			eval.call ("integer_32_bit_routines", agent test_integer_32_bit_routines)
+			eval.call ("natural_32_bit_routines", agent test_natural_32_bit_routines)
 		end
 
 feature -- Tests
@@ -118,38 +119,6 @@ feature -- Tests
 			Execution_environment.put ("eiffel-loop", name)
 			Execution_environment.put ("", name)
 			assert ("not attached", not attached Execution_environment.item (name))
-		end
-
-	test_integer_32_bit_routines
-		-- GENERAL_TEST_SET.test_integer_32_bit_routines
-		local
-			i32: EL_INTEGER_32_BIT_ROUTINES
-			i, value, initial_value, mask: INTEGER
-		do
-			assert ("0xF0 is shifted 4 bits to left", i32.shift_count (0xF0) = 4)
-
-			assert ("0xF fits in 0xF0", i32.compatible_value (0xF0, 0xF))
-			assert ("0x10 does not fit in 0xF0", not i32.compatible_value (0xF0, 0x10))
-
-			assert ("0xF0 has continous bits", i32.valid_mask (0xF0))
-			assert ("0x3 has continous bits", i32.valid_mask (0x3))
-			assert ("1001 bits are not continuous", not i32.valid_mask (0x90))
-
-			assert ("set 8 shifted right by 4", i32.inserted (0x000, 0x0F0, 8) = 0x080)
-			assert ("set 8 shifted right by 8", i32.inserted (0x080, 0xF00, 8) = 0x880)
-			assert ("set 8 shifted right by 24", i32.inserted (0x000, 0xF0_0000, 8) = 0x80_0000)
-
-			initial_value := 1; mask := 0x7 -- 0111
-			from i := 0  until i > 28 loop
-				assert ("insert OK", i32.inserted (0, mask, 1) = initial_value |<< i)
-				mask := mask |<< 1
-				i := i + 1
-			end
-
-			assert ("value in position 3 is 0x8", i32.isolated (0x881, 0xF00) = 0x08)
-			assert ("value in position 2 is 0x8", i32.isolated (0x881, 0x0F0) = 0x08)
-			assert ("value in position 1 is 0x1", i32.isolated (0x881, 0x00F) = 0x1)
-
 		end
 
 	test_math_precision
@@ -277,6 +246,88 @@ feature -- Tests
 				create version_2.make (part_count, digit_count, compact_version)
 				assert ("same version", version ~ version_2)
 			end
+		end
+
+feature -- Bit-routine Tests
+
+	test_integer_32_bit_routines
+		-- GENERAL_TEST_SET.test_integer_32_bit_routines
+		local
+			i32: EL_INTEGER_32_BIT_ROUTINES
+			i, value, initial_value, mask: INTEGER
+		do
+--			count trailing zeros
+			assert ("one has 0", i32.shift_count (1) = 0)
+			assert ("zero has 32", i32.shift_count (0) = 32)
+
+			initial_value := 1; mask := 0x7 -- 0111
+			from i := 0  until i > 28 loop
+				assert ("zero count OK", i32.shift_count (mask) = i)
+				mask := mask |<< 1
+				i := i + 1
+			end
+
+			assert ("0xF fits in 0xF0", i32.compatible_value (0xF0, 0xF))
+			assert ("0x10 does not fit in 0xF0", not i32.compatible_value (0xF0, 0x10))
+
+			assert ("0xF0 has continous bits", i32.valid_mask (0xF0))
+			assert ("0x3 has continous bits", i32.valid_mask (0x3))
+			assert ("1001 bits are not continuous", not i32.valid_mask (0x90))
+
+			assert ("set 8 shifted right by 4", i32.inserted (0x000, 0x0F0, 8) = 0x080)
+			assert ("set 8 shifted right by 8", i32.inserted (0x080, 0xF00, 8) = 0x880)
+			assert ("set 8 shifted right by 24", i32.inserted (0x000, 0xF0_0000, 8) = 0x80_0000)
+
+			initial_value := 1; mask := 0x7 -- 0111
+			from i := 0  until i > 28 loop
+				assert ("insert OK", i32.inserted (0, mask, 1) = initial_value |<< i)
+				mask := mask |<< 1
+				i := i + 1
+			end
+
+			assert ("value in position 3 is 0x8", i32.isolated (0x881, 0xF00) = 0x08)
+			assert ("value in position 2 is 0x8", i32.isolated (0x881, 0x0F0) = 0x08)
+			assert ("value in position 1 is 0x1", i32.isolated (0x881, 0x00F) = 0x1)
+		end
+
+	test_natural_32_bit_routines
+		-- GENERAL_TEST_SET.test_natural_32_bit_routines
+		local
+			n32: EL_NATURAL_32_BIT_ROUTINES
+			i: INTEGER; value, initial_value, mask: NATURAL_32
+		do
+--			count trailing zeros
+			assert ("one has 0", n32.shift_count (1) = 0)
+			assert ("zero has 32", n32.shift_count (0) = 32)
+
+			initial_value := 1; mask := 0x7 -- 0111
+			from i := 0  until i > 28 loop
+				assert ("zero count OK", n32.shift_count (mask) = i)
+				mask := mask |<< 1
+				i := i + 1
+			end
+
+			assert ("0xF fits in 0xF0", n32.compatible_value (0xF0, 0xF))
+			assert ("0x10 does not fit in 0xF0", not n32.compatible_value (0xF0, 0x10))
+
+			assert ("0xF0 has continous bits", n32.valid_mask (0xF0))
+			assert ("0x3 has continous bits", n32.valid_mask (0x3))
+			assert ("1001 bits are not continuous", not n32.valid_mask (0x90))
+
+			assert ("set 8 shifted right by 4", n32.inserted (0x000, 0x0F0, 8) = 0x080)
+			assert ("set 8 shifted right by 8", n32.inserted (0x080, 0xF00, 8) = 0x880)
+			assert ("set 8 shifted right by 24", n32.inserted (0x000, 0xF0_0000, 8) = 0x80_0000)
+
+			initial_value := 1; mask := 0x7 -- 0111
+			from i := 0  until i > 28 loop
+				assert ("insert OK", n32.inserted (0, mask, 1) = initial_value |<< i)
+				mask := mask |<< 1
+				i := i + 1
+			end
+
+			assert ("value in position 3 is 0x8", n32.isolated (0x881, 0xF00) = 0x08)
+			assert ("value in position 2 is 0x8", n32.isolated (0x881, 0x0F0) = 0x08)
+			assert ("value in position 1 is 0x1", n32.isolated (0x881, 0x00F) = 0x1)
 		end
 
 end

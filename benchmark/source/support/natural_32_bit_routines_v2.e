@@ -8,11 +8,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 17:54:54 GMT (Monday 30th January 2023)"
-	revision: "1"
+	date: "2023-01-31 8:43:58 GMT (Tuesday 31st January 2023)"
+	revision: "2"
 
 expanded class
-	NATURAL_32_BIT_ROUTINES
+	NATURAL_32_BIT_ROUTINES_V2
 
 inherit
 	EL_NATURAL_32_BIT_ROUTINES

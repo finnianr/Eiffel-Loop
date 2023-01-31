@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 17:55:49 GMT (Monday 30th January 2023)"
-	revision: "3"
+	date: "2023-01-31 9:50:27 GMT (Tuesday 31st January 2023)"
+	revision: "4"
 
 expanded class
 	EL_NATURAL_32_BIT_ROUTINES
@@ -55,20 +55,29 @@ feature -- Measurement
 		end
 
 	shift_count (mask: NATURAL_32): INTEGER
+		-- Use https://stackoverflow.com/questions/31601190/given-a-bit-mask-how-to-compute-bit-shift-count
 		local
 			l_mask: NATURAL_32
 		do
-			if mask.to_boolean then
-				l_mask := mask |>> Natural_16_bits
-				if l_mask >= mask then
-					Result := Natural_16_bits
-				else
-					l_mask := mask
-				end
-				from until (l_mask & One).to_boolean loop
-					l_mask := l_mask |>> 1
-					Result := Result + 1
-				end
+			Result := 32
+			l_mask := mask & (mask.bit_not + 1)
+			if l_mask.to_boolean then
+				Result := Result - 1
+			end
+			if (l_mask & 0x0000FFFF).to_boolean then
+				Result := Result - 16
+			end
+			if (l_mask & 0x00FF00FF).to_boolean then
+				Result := Result - 8
+			end
+			if (l_mask & 0x0F0F0F0F).to_boolean then
+				Result := Result - 4
+			end
+			if (l_mask & 0x33333333).to_boolean then
+				Result := Result - 2
+			end
+			if (l_mask & 0x55555555).to_boolean then
+				Result := Result - 1
 			end
 		end
 
