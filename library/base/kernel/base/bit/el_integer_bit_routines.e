@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-31 14:06:57 GMT (Tuesday 31st January 2023)"
-	revision: "3"
+	date: "2023-02-01 9:57:38 GMT (Wednesday 1st February 2023)"
+	revision: "4"
 
 deferred class
 	EL_INTEGER_BIT_ROUTINES
@@ -38,11 +38,6 @@ feature -- Contract Support
 
 	is_positive (v: like one): BOOLEAN
 		deferred
-		end
-
-	positive_bit_count: INTEGER
-		do
-			Result := bit_count - 1
 		end
 
 end

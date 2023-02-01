@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-31 14:14:16 GMT (Tuesday 31st January 2023)"
-	revision: "5"
+	date: "2023-02-01 9:59:02 GMT (Wednesday 1st February 2023)"
+	revision: "6"
 
 deferred class
 	EL_NUMERIC_BIT_ROUTINES
@@ -20,10 +20,15 @@ inherit
 
 feature -- Access
 
-	filled_bits (a_bit_count: INTEGER): like one
+	bit_count: INTEGER
+		-- number of bits in number
+		deferred
+		end
+
+	filled_bits (n: INTEGER): like one
 		-- number with `bit_count' bits set to 1 starting from LSB
 		require
-			valid_bit_count: a_bit_count <= bit_count
+			valid_bit_count: n <= bit_count
 		deferred
 		end
 
@@ -48,14 +53,6 @@ feature -- Contract Support
 
 	compatible_value (mask, value: like one): BOOLEAN
 		-- `True' if `value' is small enough to fit inside `mask' when shifted to the same position
-		deferred
-		end
-
-	bit_count: INTEGER
-		deferred
-		end
-
-	positive_bit_count: INTEGER
 		deferred
 		end
 

@@ -1,42 +1,39 @@
 note
-	description: "Multi-bit set and get routines for [$source INTEGER_32] numbers"
+	description: "Multi-bit set and get routines for [$source NATURAL_64] numbers"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-01 9:40:08 GMT (Wednesday 1st February 2023)"
+	date: "2023-02-01 9:52:32 GMT (Wednesday 1st February 2023)"
 	revision: "6"
 
 expanded class
-	EL_INTEGER_32_BIT_ROUTINES
+	EL_NATURAL_64_BIT_ROUTINES
 
 inherit
-	EL_INTEGER_BIT_ROUTINES
+	EL_NUMERIC_BIT_ROUTINES
 		rename
-			Integer_32_bits as Bit_count
+			Natural_64_bits as bit_count
 		end
 
 feature -- Access
 
-	filled_bits (n: INTEGER): INTEGER_32
-		-- number with `n' bits set to 1 starting from LSB
-		local
-			natural: NATURAL_32
-		do
-			natural := natural.bit_not |>> (Bit_count - n)
-			Result := natural.to_integer_32
-		end
-
-	inserted (combined_values, mask, value: INTEGER_32): INTEGER_32
-		-- `combined_values' with `value' set in the `mask' position
+	inserted (combined_values, mask, value: NATURAL_64): NATURAL_64
+		-- `combined_values' with `value' inserted at the `mask' position
 		do
 			Result := combined_values & mask.bit_not
 			Result := Result | (value |<< shift_count (mask))
 		end
 
-	isolated (combined_values, mask: INTEGER_32): INTEGER_32
+	filled_bits (n: INTEGER): NATURAL_64
+		-- number with `bit_count' bits set to 1 starting from LSB
+		do
+			Result := Result.bit_not |>> (bit_count - n)
+		end
+
+	isolated (combined_values, mask: NATURAL_64): NATURAL_64
 		-- value isolated from `combined_values' by mask
 		do
 			Result := (combined_values & mask) |>> shift_count (mask)
@@ -44,61 +41,59 @@ feature -- Access
 
 feature -- Measurement
 
-	leading_digit_position (bitmap: INTEGER_32): INTEGER
+	leading_digit_position (bitmap: NATURAL_64): INTEGER
 		-- position of first binary digit 1 in `bitmap' going from high to low
 		-- zero if none
 		do
 			from
-				Result := Bit_count
+				Result := bit_count
 			until (One |<< (Result - 1) & bitmap).to_boolean or Result = 0 loop
 				Result := Result - 1
 			end
 		end
 
-	shift_count (mask: INTEGER_32): INTEGER
+	shift_count (mask: NATURAL_64): INTEGER
 		-- Use https://stackoverflow.com/questions/31601190/given-a-bit-mask-how-to-compute-bit-shift-count
 		local
-			l_mask: INTEGER_32
+			l_mask: NATURAL_64
 		do
-			Result := 32
+			Result := 64
 			l_mask := mask & (mask.bit_not + 1)
 			if l_mask.to_boolean then
 				Result := Result - 1
 			end
-			if (l_mask & 0x0000FFFF).to_boolean then
+			if (l_mask & 0x00000000FFFFFFFF).to_boolean then
+				Result := Result - 32
+			end
+			if (l_mask & 0x0000FFFF0000FFFF).to_boolean then
 				Result := Result - 16
 			end
-			if (l_mask & 0x00FF00FF).to_boolean then
+			if (l_mask & 0x00FF00FF00FF00FF).to_boolean then
 				Result := Result - 8
 			end
-			if (l_mask & 0x0F0F0F0F).to_boolean then
+			if (l_mask & 0x0F0F0F0F0F0F0F0F).to_boolean then
 				Result := Result - 4
 			end
-			if (l_mask & 0x33333333).to_boolean then
+			if (l_mask & 0x3333333333333333).to_boolean then
 				Result := Result - 2
 			end
-			if (l_mask & 0x55555555).to_boolean then
+			if (l_mask & 0x5555555555555555).to_boolean then
 				Result := Result - 1
 			end
 		end
 
 feature -- Contract Support
 
-	compatible_value (mask, value: INTEGER_32): BOOLEAN
+	compatible_value (mask, value: NATURAL_64): BOOLEAN
 		-- `True' if `value' is small enough to fit inside `mask' when shifted to the same position
 		do
 			Result := value <= mask |>> shift_count (mask)
 		end
 
-	is_positive (v: INTEGER_32): BOOLEAN
-		do
-			Result := v >= v.zero
-		end
-
-	valid_mask (mask: INTEGER_32): BOOLEAN
+	valid_mask (mask: NATURAL_64): BOOLEAN
 		-- `True' if mask consists of continuous ones
 		local
-			adjusted_mask: INTEGER_32
+			adjusted_mask: NATURAL_64
 		do
 			if mask.to_boolean then
 				adjusted_mask := mask |>> shift_count (mask)
@@ -108,6 +103,6 @@ feature -- Contract Support
 
 feature {NONE} -- Constants
 
-	One: INTEGER_32 = 1
+	One: NATURAL_64 = 1
 
 end

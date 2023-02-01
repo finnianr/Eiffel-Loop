@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-31 9:42:57 GMT (Tuesday 31st January 2023)"
-	revision: "2"
+	date: "2023-02-01 9:46:39 GMT (Wednesday 1st February 2023)"
+	revision: "3"
 
 expanded class
 	NATURAL_32_BIT_ROUTINES_V1
@@ -27,9 +27,9 @@ feature -- Measurement
 			l_mask: NATURAL_32
 		do
 			if mask.to_boolean then
-				l_mask := mask |>> Natural_16_bits
+				l_mask := mask |>> 16
 				if l_mask >= mask then
-					Result := Natural_16_bits
+					Result := 16
 				else
 					l_mask := mask
 				end

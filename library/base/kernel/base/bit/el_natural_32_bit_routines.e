@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-31 14:08:39 GMT (Tuesday 31st January 2023)"
-	revision: "5"
+	date: "2023-02-01 9:39:22 GMT (Wednesday 1st February 2023)"
+	revision: "6"
 
 expanded class
 	EL_NATURAL_32_BIT_ROUTINES
@@ -15,8 +15,7 @@ expanded class
 inherit
 	EL_NUMERIC_BIT_ROUTINES
 		rename
-			bit_count as Natural_32_bits,
-			positive_bit_count as Natural_32_bits
+			Natural_32_bits as bit_count
 		end
 
 feature -- Access
@@ -28,10 +27,10 @@ feature -- Access
 			Result := Result | (value |<< shift_count (mask))
 		end
 
-	filled_bits (bit_count: INTEGER): NATURAL_32
+	filled_bits (n: INTEGER): NATURAL_32
 		-- number with `bit_count' bits set to 1 starting from LSB
 		do
-			Result := Result.bit_not |>> (Natural_32_bits - bit_count)
+			Result := Result.bit_not |>> (bit_count - n)
 		end
 
 	isolated (combined_values, mask: NATURAL_32): NATURAL_32
@@ -47,7 +46,7 @@ feature -- Measurement
 		-- zero if none
 		do
 			from
-				Result := Natural_32_bits
+				Result := bit_count
 			until (One |<< (Result - 1) & bitmap).to_boolean or Result = 0 loop
 				Result := Result - 1
 			end
