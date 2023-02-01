@@ -1,13 +1,14 @@
 note
 	description: "Multi-bit set and get routines for types conforming to [$source NUMERIC]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-01 9:59:02 GMT (Wednesday 1st February 2023)"
-	revision: "6"
+	date: "2023-02-01 11:26:23 GMT (Wednesday 1st February 2023)"
+	revision: "7"
 
 deferred class
 	EL_NUMERIC_BIT_ROUTINES
@@ -66,4 +67,16 @@ feature {NONE} -- Implemenation
 	one: NUMERIC
 		deferred
 		end
+
+
+note
+	descendants: "[
+			EL_NUMERIC_BIT_ROUTINES*
+				[$source EL_NATURAL_32_BIT_ROUTINES]
+				[$source EL_INTEGER_BIT_ROUTINES]*
+					[$source EL_INTEGER_32_BIT_ROUTINES]
+					[$source EL_INTEGER_64_BIT_ROUTINES]
+				[$source EL_NATURAL_64_BIT_ROUTINES]
+	]"
+
 end
