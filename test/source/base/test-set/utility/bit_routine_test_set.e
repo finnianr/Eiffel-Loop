@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-01 11:22:44 GMT (Wednesday 1st February 2023)"
-	revision: "1"
+	date: "2023-02-02 11:09:01 GMT (Thursday 2nd February 2023)"
+	revision: "2"
 
 class
 	BIT_ROUTINE_TEST_SET
@@ -20,6 +20,7 @@ feature -- Basic operations
 	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("de_brujin_generation", agent test_de_brujin_generation)
 			eval.call ("integer_32_bit_routines", agent test_integer_32_bit_routines)
 			eval.call ("integer_64_bit_routines", agent test_integer_64_bit_routines)
 			eval.call ("natural_32_bit_routines", agent test_natural_32_bit_routines)
@@ -27,6 +28,25 @@ feature -- Basic operations
 		end
 
 feature -- Tests
+
+	test_de_brujin_generation
+		local
+			answer: ARRAY [NATURAL_8]
+			i: INTEGER; n, mask_5_bit: NATURAL_32
+		do
+			answer := <<
+				0, 1, 2, 24, 3,19, 6,25, 22, 4, 20, 10, 16, 7, 12, 26, 31, 23, 18,
+				5, 21, 9, 15, 11, 30,17, 8, 14, 29, 13, 28, 27
+			>>
+			mask_5_bit := 0x1F
+			from until i = 32 loop
+				lio.put_natural_field (i.out, ((n.one |<< i) * De_Bruijn_number) |>> 27)
+				lio.put_new_line
+				n := (((n.one |<< i) * De_Bruijn_number) |>> 27) & mask_5_bit
+				assert ("same value", n.to_natural_8 = answer [i + 1])
+				i := i + 1
+			end
+		end
 
 	test_integer_32_bit_routines
 		-- GENERAL_TEST_SET.test_integer_32_bit_routines
@@ -240,6 +260,22 @@ feature -- Tests
 					expected_value := array.area [i * 3 + 2]
 					assert ("valid value", n64.isolated (combined_value, mask) = expected_value)
 				end
+				i := i + 1
+			end
+		end
+
+feature {NONE} -- Constants
+
+	De_Bruijn_number: NATURAL = 0x4D7651F
+
+	De_Bruijn_sequence: SPECIAL [NATURAL_8]
+		local
+			i: INTEGER; n: NATURAL_32
+		once
+			create Result.make_empty (32)
+			from until i = 32 loop
+				n := (((n.one |<< i) * De_Bruijn_number) |>> 27) & 0x1F
+				Result.extend (n.to_natural_8)
 				i := i + 1
 			end
 		end
