@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-01 11:26:23 GMT (Wednesday 1st February 2023)"
-	revision: "7"
+	date: "2023-02-03 13:14:22 GMT (Friday 3rd February 2023)"
+	revision: "8"
 
 deferred class
 	EL_NUMERIC_BIT_ROUTINES
@@ -20,11 +20,6 @@ inherit
 		end
 
 feature -- Access
-
-	bit_count: INTEGER
-		-- number of bits in number
-		deferred
-		end
 
 	filled_bits (n: INTEGER): like one
 		-- number with `bit_count' bits set to 1 starting from LSB
@@ -47,6 +42,20 @@ feature -- Access
 		-- value isolated from `combined_values' by mask
 		require
 			valid_mask: valid_mask (mask)
+		deferred
+		end
+
+feature -- Measurement
+
+	bit_count: INTEGER
+		-- number of bits in number
+		deferred
+		end
+
+	shift_count (mask: like one): INTEGER
+		-- count of trailing zeros in binary number
+		require
+			valid_mask: mask /= mask.zero
 		deferred
 		end
 

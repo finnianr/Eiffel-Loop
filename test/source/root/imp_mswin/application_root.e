@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 18:46:18 GMT (Monday 5th December 2022)"
-	revision: "68"
+	date: "2023-02-03 12:57:49 GMT (Friday 3rd February 2023)"
+	revision: "69"
 
 class
 	APPLICATION_ROOT
@@ -105,7 +105,7 @@ inherit
 		EROS_AUTOTEST_APP
 	]
 
-	INCLUDE_CLASSES
+	COMPILED_CLASSES
 
 create
 	make

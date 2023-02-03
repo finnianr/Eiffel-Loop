@@ -1,6 +1,8 @@
 note
 	description: "[
-		[$source EL_NATURAL_32_BIT_ROUTINES] that **shift_count** using a de Bruijn sequence
+		[$source EL_NATURAL_32_BIT_ROUTINES] that calculates **shift_count** using branching algorithm described on 
+		[https://stackoverflow.com/questions/31601190/given-a-bit-mask-how-to-compute-bit-shift-count Stackoverflow]
+		article
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-02 15:28:11 GMT (Thursday 2nd February 2023)"
-	revision: "3"
+	date: "2023-02-03 12:45:36 GMT (Friday 3rd February 2023)"
+	revision: "4"
 
 expanded class
 	NATURAL_32_BIT_ROUTINES_V3
@@ -23,18 +25,31 @@ inherit
 feature -- Measurement
 
 	shift_count (mask: NATURAL_32): INTEGER
+		-- Use https://stackoverflow.com/questions/31601190/given-a-bit-mask-how-to-compute-bit-shift-count
 		local
-			n: NATURAL_32
+			l_mask: NATURAL_32
 		do
-			if mask.to_boolean then
-				n := (mask & (mask.bit_not + 1)) * 0x04D7651F
-				Result := De_Bruijn_sequence [(n |>> 27).to_integer_32]
-			else
-				Result := Bit_count
+			Result := 32
+			l_mask := mask & (mask.bit_not + 1)
+			if l_mask.to_boolean then
+				Result := Result - 1
 			end
-		ensure then
-			same_result: Result = shift_count_precursor (mask)
-  		end
+			if (l_mask & 0x0000FFFF).to_boolean then
+				Result := Result - 16
+			end
+			if (l_mask & 0x00FF00FF).to_boolean then
+				Result := Result - 8
+			end
+			if (l_mask & 0x0F0F0F0F).to_boolean then
+				Result := Result - 4
+			end
+			if (l_mask & 0x33333333).to_boolean then
+				Result := Result - 2
+			end
+			if (l_mask & 0x55555555).to_boolean then
+				Result := Result - 1
+			end
+		end
 
 feature -- Contract Support
 
@@ -45,18 +60,4 @@ feature -- Contract Support
 			Result := n32.shift_count (mask)
 		end
 
-feature {NONE} -- Constants
-
-	De_Bruijn_number: NATURAL = 0x04D7651F
-
-	De_Bruijn_sequence: SPECIAL [NATURAL_8]
-		local
-			a: ARRAY [NATURAL_8]
-		once
-			a := <<
-				0, 1, 2, 24, 3, 19, 6, 25, 22, 4, 20, 10, 16, 7, 12, 26, 31, 23, 18,
-				5, 21, 9, 15, 11, 30, 17, 8, 14, 29, 13, 28, 27
-			>>
-			Result := a.area
-		end
 end

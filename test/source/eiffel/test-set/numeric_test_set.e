@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-10 11:13:35 GMT (Tuesday 10th January 2023)"
-	revision: "12"
+	date: "2023-02-03 10:48:11 GMT (Friday 3rd February 2023)"
+	revision: "13"
 
 class
 	NUMERIC_TEST_SET
@@ -66,6 +66,10 @@ feature -- Tests
 			i := -2
 			n := i.to_natural_32
 			assert ("same as abs", n = 4294967294)
+
+			-- reverse
+			i := n.to_integer_32
+			assert ("same as abs", i = -2)
 		end
 
 	test_truncated_natural_64

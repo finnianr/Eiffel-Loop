@@ -117,6 +117,18 @@ Kernel
 
 Fundamental base classes
 			</description>
+			<file_rule>
+				<exclude>/imp_mswin$</exclude>
+				<condition>
+					<platform value = "unix"/>
+				</condition>
+			</file_rule>
+			<file_rule>
+				<exclude>/imp_unix$</exclude>
+				<condition>
+					<platform value = "windows"/>
+				</condition>
+			</file_rule>
 		</cluster>
 		<cluster name = "reflection" location = "kernel/reflection" recursive = "true">
 			<description>

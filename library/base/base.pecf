@@ -123,6 +123,9 @@ system:
 					
 					Fundamental base classes
 				"""
+			platform_list:
+				"imp_mswin; imp_unix"
+
 		cluster_tree:
 			reflection = "kernel/reflection"
 			description:

@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_NATURAL_32_BIT_ROUTINES] that caches value of **shift_count** for each mask value
+		[$source EL_NATURAL_32_BIT_ROUTINES] that calculates **shift_count** using a de Bruijn sequence
 	]"
 
 	author: "Finnian Reilly"
@@ -8,36 +8,55 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-31 8:43:58 GMT (Tuesday 31st January 2023)"
-	revision: "2"
+	date: "2023-02-03 10:11:09 GMT (Friday 3rd February 2023)"
+	revision: "4"
 
 expanded class
 	NATURAL_32_BIT_ROUTINES_V2
 
 inherit
 	EL_NATURAL_32_BIT_ROUTINES
-		rename
-			shift_count as new_shift_count
-		export
-			{NONE} new_shift_count
+		redefine
+			shift_count
 		end
 
 feature -- Measurement
 
 	shift_count (mask: NATURAL_32): INTEGER
+		local
+			n: NATURAL_32
 		do
-			if attached Shift_table as table and then table.has_key (mask) then
-				Result := table.found_item
+			if mask.to_boolean then
+				n := (mask & (mask.bit_not + 1)) * 0x04D7651F
+				Result := De_Bruijn_sequence [(n |>> 27).to_integer_32]
 			else
-				Result := new_shift_count (mask)
-				Shift_table.extend (Result, mask)
+				Result := Bit_count
 			end
+		ensure then
+			same_result: Result = shift_count_precursor (mask)
+  		end
+
+feature -- Contract Support
+
+	shift_count_precursor (mask: NATURAL_32): INTEGER
+		local
+			n32: EL_NATURAL_32_BIT_ROUTINES
+		do
+			Result := n32.shift_count (mask)
 		end
 
 feature {NONE} -- Constants
 
-	Shift_table: HASH_TABLE [INTEGER_32, NATURAL_32]
+	De_Bruijn_number: NATURAL = 0x04D7651F
+
+	De_Bruijn_sequence: SPECIAL [NATURAL_8]
+		local
+			a: ARRAY [NATURAL_8]
 		once
-			create Result.make (11)
+			a := <<
+				0, 1, 2, 24, 3, 19, 6, 25, 22, 4, 20, 10, 16, 7, 12, 26, 31, 23, 18,
+				5, 21, 9, 15, 11, 30, 17, 8, 14, 29, 13, 28, 27
+			>>
+			Result := a.area
 		end
 end

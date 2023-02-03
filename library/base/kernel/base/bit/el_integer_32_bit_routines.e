@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-01 9:40:08 GMT (Wednesday 1st February 2023)"
-	revision: "6"
+	date: "2023-02-03 13:09:49 GMT (Friday 3rd February 2023)"
+	revision: "7"
 
 expanded class
 	EL_INTEGER_32_BIT_ROUTINES
@@ -56,29 +56,12 @@ feature -- Measurement
 		end
 
 	shift_count (mask: INTEGER_32): INTEGER
-		-- Use https://stackoverflow.com/questions/31601190/given-a-bit-mask-how-to-compute-bit-shift-count
+		-- count of trailing zeros in binary number
 		local
-			l_mask: INTEGER_32
+			b: EL_BIT_ROUTINES
 		do
-			Result := 32
-			l_mask := mask & (mask.bit_not + 1)
-			if l_mask.to_boolean then
-				Result := Result - 1
-			end
-			if (l_mask & 0x0000FFFF).to_boolean then
-				Result := Result - 16
-			end
-			if (l_mask & 0x00FF00FF).to_boolean then
-				Result := Result - 8
-			end
-			if (l_mask & 0x0F0F0F0F).to_boolean then
-				Result := Result - 4
-			end
-			if (l_mask & 0x33333333).to_boolean then
-				Result := Result - 2
-			end
-			if (l_mask & 0x55555555).to_boolean then
-				Result := Result - 1
+			if mask.to_boolean then
+				Result := b.trailing_zeros_count_32 (mask.to_natural_32)
 			end
 		end
 
