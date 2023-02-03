@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-03 13:11:15 GMT (Friday 3rd February 2023)"
-	revision: "7"
+	date: "2023-02-03 16:14:54 GMT (Friday 3rd February 2023)"
+	revision: "8"
 
 expanded class
 	EL_NATURAL_64_BIT_ROUTINES
@@ -23,8 +23,7 @@ feature -- Access
 	inserted (combined_values, mask, value: NATURAL_64): NATURAL_64
 		-- `combined_values' with `value' inserted at the `mask' position
 		do
-			Result := combined_values & mask.bit_not
-			Result := Result | (value |<< shift_count (mask))
+			Result := combined_values & mask.bit_not | (value |<< shift_count (mask))
 		end
 
 	filled_bits (n: INTEGER): NATURAL_64
