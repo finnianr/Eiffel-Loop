@@ -1,13 +1,21 @@
 note
 	description: "Windows implemenation of [$source EL_BIT_ROUTINES_I] interface"
+	notes: "[
+		Cannot use _popcnt on MS VC compiler because it says in manual:
+		
+		"If you run code that uses these intrinsics on hardware that doesn't support the popcnt instruction,
+		the results are unpredictable."
+		
+		So instead we use a workaround using bit-scan functions from `<intrin.h>'.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-04 16:45:03 GMT (Saturday 4th February 2023)"
-	revision: "2"
+	date: "2023-02-04 17:20:25 GMT (Saturday 4th February 2023)"
+	revision: "3"
 
 expanded class
 	EL_BIT_ROUTINES
@@ -41,22 +49,22 @@ feature -- Measurement
 		-- count of 1's in `bitmap'
 		local
 			bitmap, inverse: NATURAL_32
-			leading_count, trailing_count, zero_count: INTEGER; check_inverse: BOOLEAN
+			leading_count, trailing_count, zero_count: INTEGER; skip_ones: BOOLEAN
 		do
 			if a_bitmap.to_boolean then
 				leading_count := leading_zeros_count_32 (a_bitmap)
 				trailing_count := trailing_zeros_count_32 (a_bitmap)
-				bitmap := a_bitmap |>> trailing_count
 				Result := 32 - leading_count - trailing_count
-				check_inverse := True
+				skip_ones := True
+				bitmap := a_bitmap |>> trailing_count -- right align bitmap on 1st bit
 				from inverse := bitmap.bit_not until bitmap = bitmap.zero loop
-					if check_inverse then
+					if skip_ones then
 						zero_count := trailing_zeros_count_32 (inverse) -- skip ones
-						check_inverse := False
+						skip_ones := False
 					else
 						zero_count := trailing_zeros_count_32 (bitmap) -- skip zeros
 						Result := Result - zero_count
-						check_inverse := True
+						skip_ones := True
 					end
 					bitmap := bitmap |>> zero_count
 					inverse := inverse |>> zero_count
@@ -68,22 +76,22 @@ feature -- Measurement
 		-- count of 1's in `bitmap'
 		local
 			bitmap, inverse: NATURAL_64
-			leading_count, trailing_count, zero_count: INTEGER; check_inverse: BOOLEAN
+			leading_count, trailing_count, zero_count: INTEGER; skip_ones: BOOLEAN
 		do
 			if a_bitmap.to_boolean then
 				leading_count := leading_zeros_count_64 (a_bitmap)
 				trailing_count := trailing_zeros_count_64 (a_bitmap)
 				bitmap := a_bitmap |>> trailing_count
-				Result := 32 - leading_count - trailing_count
-				check_inverse := True
+				Result := 64 - leading_count - trailing_count
+				skip_ones := True
 				from inverse := bitmap.bit_not until bitmap = bitmap.zero loop
-					if check_inverse then
+					if skip_ones then
 						zero_count := trailing_zeros_count_64 (inverse) -- skip ones
-						check_inverse := False
+						skip_ones := False
 					else
 						zero_count := trailing_zeros_count_64 (bitmap) -- skip zeros
 						Result := Result - zero_count
-						check_inverse := True
+						skip_ones := True
 					end
 					bitmap := bitmap |>> zero_count
 					inverse := inverse |>> zero_count

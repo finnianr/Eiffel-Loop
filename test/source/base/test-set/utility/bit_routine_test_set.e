@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-04 16:48:21 GMT (Saturday 4th February 2023)"
-	revision: "4"
+	date: "2023-02-04 17:21:18 GMT (Saturday 4th February 2023)"
+	revision: "5"
 
 class
 	BIT_ROUTINE_TEST_SET
@@ -33,9 +33,11 @@ feature -- Tests
 		local
 			l_bit: EL_BIT_ROUTINES
 		do
+			assert ("ones count is 1", l_bit.ones_count_32 (0b01) = 1)
 			assert ("ones count is 4", l_bit.ones_count_32 (0b011001100) = 4)
 			assert ("ones count is 6", l_bit.ones_count_32 (0b011011001100) = 6)
-			
+
+			assert ("ones count is 1", l_bit.ones_count_64 (0b01) = 1)
 			assert ("ones count is 4", l_bit.ones_count_64 (0b011001100) = 4)
 			assert ("ones count is 6", l_bit.ones_count_64 (0b011011001100) = 6)
 		end
