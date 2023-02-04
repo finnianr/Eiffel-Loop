@@ -6,13 +6,33 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-03 13:04:27 GMT (Friday 3rd February 2023)"
-	revision: "4"
+	date: "2023-02-04 16:45:54 GMT (Saturday 4th February 2023)"
+	revision: "5"
 
 deferred class
 	EL_BIT_ROUTINES_I
 
 feature -- Measurement
+
+	leading_zeros_count_32 (n: NATURAL_32): INTEGER
+		-- number of trailing zeros before MSB
+		deferred
+		end
+
+	leading_zeros_count_64 (n: NATURAL_64): INTEGER
+		-- number of trailing zeros before MSB
+		deferred
+		end
+
+	ones_count_32 (a_bitmap: NATURAL_32): INTEGER
+		-- count of 1's in `bitmap'
+		deferred
+		end
+
+	ones_count_64 (a_bitmap: NATURAL_64): INTEGER
+		-- count of 1's in `bitmap'
+		deferred
+		end
 
 	trailing_zeros_count_32 (x: NATURAL_32): INTEGER
 		-- number of trailing zeros after LSB

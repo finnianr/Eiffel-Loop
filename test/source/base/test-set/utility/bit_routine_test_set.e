@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-03 13:50:17 GMT (Friday 3rd February 2023)"
-	revision: "3"
+	date: "2023-02-04 16:48:21 GMT (Saturday 4th February 2023)"
+	revision: "4"
 
 class
 	BIT_ROUTINE_TEST_SET
@@ -20,6 +20,7 @@ feature -- Basic operations
 	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("bit_routines", agent test_bit_routines)
 			eval.call ("integer_32_bit_routines", agent test_integer_32_bit_routines)
 			eval.call ("integer_64_bit_routines", agent test_integer_64_bit_routines)
 			eval.call ("natural_32_bit_routines", agent test_natural_32_bit_routines)
@@ -27,6 +28,17 @@ feature -- Basic operations
 		end
 
 feature -- Tests
+
+	test_bit_routines
+		local
+			l_bit: EL_BIT_ROUTINES
+		do
+			assert ("ones count is 4", l_bit.ones_count_32 (0b011001100) = 4)
+			assert ("ones count is 6", l_bit.ones_count_32 (0b011011001100) = 6)
+			
+			assert ("ones count is 4", l_bit.ones_count_64 (0b011001100) = 4)
+			assert ("ones count is 6", l_bit.ones_count_64 (0b011011001100) = 6)
+		end
 
 	test_integer_32_bit_routines
 		-- GENERAL_TEST_SET.test_integer_32_bit_routines

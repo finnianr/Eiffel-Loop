@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-03 13:14:22 GMT (Friday 3rd February 2023)"
-	revision: "8"
+	date: "2023-02-04 14:37:17 GMT (Saturday 4th February 2023)"
+	revision: "9"
 
 deferred class
 	EL_NUMERIC_BIT_ROUTINES
@@ -45,10 +45,20 @@ feature -- Access
 		deferred
 		end
 
+	right_justified (mask: like one): like one
+		-- mask right shifted until LSB is in position 0
+		deferred
+		end
+
 feature -- Measurement
 
 	bit_count: INTEGER
 		-- number of bits in number
+		deferred
+		end
+
+	mask_count (mask: like one): INTEGER
+		-- count of digits in mask (assuming all ones)
 		deferred
 		end
 
@@ -76,7 +86,6 @@ feature {NONE} -- Implemenation
 	one: NUMERIC
 		deferred
 		end
-
 
 note
 	descendants: "[

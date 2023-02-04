@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-03 16:14:46 GMT (Friday 3rd February 2023)"
-	revision: "8"
+	date: "2023-02-04 16:29:55 GMT (Saturday 4th February 2023)"
+	revision: "9"
 
 expanded class
 	EL_NATURAL_32_BIT_ROUTINES
@@ -40,14 +40,13 @@ feature -- Access
 
 feature -- Measurement
 
-	leading_digit_position (bitmap: NATURAL_32): INTEGER
-		-- position of first binary digit 1 in `bitmap' going from high to low
-		-- zero if none
+	mask_count (bitmap: NATURAL_32): INTEGER
+		-- count of digits in mask (assuming all ones)
+		local
+			b: EL_BIT_ROUTINES
 		do
-			from
-				Result := bit_count
-			until (One |<< (Result - 1) & bitmap).to_boolean or Result = 0 loop
-				Result := Result - 1
+			if bitmap.to_boolean then
+				Result := bit_count - b.leading_zeros_count_64 (bitmap) - b.trailing_zeros_count_64 (bitmap)
 			end
 		end
 
@@ -69,14 +68,17 @@ feature -- Contract Support
 			Result := value <= mask |>> shift_count (mask)
 		end
 
+	right_justified (mask: NATURAL_32): NATURAL_32
+		-- mask right shifted until LSB is in position 0
+		do
+			Result := mask |>> shift_count (mask)
+		end
+
 	valid_mask (mask: NATURAL_32): BOOLEAN
 		-- `True' if mask consists of continuous ones
-		local
-			adjusted_mask: NATURAL_32
 		do
 			if mask.to_boolean then
-				adjusted_mask := mask |>> shift_count (mask)
-				Result := adjusted_mask = filled_bits (leading_digit_position (adjusted_mask))
+				Result := right_justified (mask) = filled_bits (mask_count (mask))
 			end
 		end
 
