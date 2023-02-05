@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2023-02-05 15:45:41 GMT (Sunday 5th February 2023)"
+	revision: "21"
 
 deferred class
 	STRING_BENCHMARK
@@ -489,13 +489,16 @@ feature {NONE} -- Implementation
 		end
 
 	do_performance_test (routines, a_format: STRING; procedure: PROCEDURE)
+		local
+			count: DOUBLE
 		do
 			if routines.has_substring (routine_filter) then
 				lio.put_labeled_string (generator, routines); lio.put_labeled_string (" input", a_format)
 				lio.put_new_line
 				test := new_test (routines, a_format)
 				full_collect
-				performance_tests.extend ([routines, test.display_format, repetition_count (procedure, trial_duration_ms)])
+				count := application_count (procedure, trial_duration_ms).to_real_64
+				performance_tests.extend ([routines, test.display_format, count])
 			end
 		end
 

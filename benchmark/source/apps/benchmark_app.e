@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-02 8:30:55 GMT (Friday 2nd December 2022)"
-	revision: "22"
+	date: "2023-02-05 15:56:13 GMT (Sunday 5th February 2023)"
+	revision: "23"
 
 class
 	BENCHMARK_APP
@@ -28,7 +28,7 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make (1000)
+			Result := agent {like command}.make (0)
 		end
 
 	initialize

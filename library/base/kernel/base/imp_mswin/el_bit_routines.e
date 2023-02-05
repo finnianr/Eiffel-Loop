@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-04 17:20:25 GMT (Saturday 4th February 2023)"
-	revision: "3"
+	date: "2023-02-04 20:38:57 GMT (Saturday 4th February 2023)"
+	revision: "4"
 
 expanded class
 	EL_BIT_ROUTINES
@@ -48,53 +48,48 @@ feature -- Measurement
 	frozen ones_count_32 (a_bitmap: NATURAL_32): INTEGER
 		-- count of 1's in `bitmap'
 		local
-			bitmap, inverse: NATURAL_32
 			leading_count, trailing_count, zero_count: INTEGER; skip_ones: BOOLEAN
+			bitmap: NATURAL_32
 		do
 			if a_bitmap.to_boolean then
 				leading_count := leading_zeros_count_32 (a_bitmap)
 				trailing_count := trailing_zeros_count_32 (a_bitmap)
 				Result := 32 - leading_count - trailing_count
 				skip_ones := True
-				bitmap := a_bitmap |>> trailing_count -- right align bitmap on 1st bit
-				from inverse := bitmap.bit_not until bitmap = bitmap.zero loop
+				from bitmap := a_bitmap |>> trailing_count until bitmap = bitmap.zero loop
 					if skip_ones then
-						zero_count := trailing_zeros_count_32 (inverse) -- skip ones
-						skip_ones := False
+						zero_count := trailing_zeros_count_32 (bitmap.bit_not) -- skip ones
 					else
 						zero_count := trailing_zeros_count_32 (bitmap) -- skip zeros
 						Result := Result - zero_count
-						skip_ones := True
 					end
+					skip_ones := not skip_ones
 					bitmap := bitmap |>> zero_count
-					inverse := inverse |>> zero_count
 				end
 			end
 		end
 
+
 	frozen ones_count_64 (a_bitmap: NATURAL_64): INTEGER
 		-- count of 1's in `bitmap'
 		local
-			bitmap, inverse: NATURAL_64
 			leading_count, trailing_count, zero_count: INTEGER; skip_ones: BOOLEAN
+			bitmap: NATURAL_64
 		do
 			if a_bitmap.to_boolean then
 				leading_count := leading_zeros_count_64 (a_bitmap)
 				trailing_count := trailing_zeros_count_64 (a_bitmap)
-				bitmap := a_bitmap |>> trailing_count
 				Result := 64 - leading_count - trailing_count
 				skip_ones := True
-				from inverse := bitmap.bit_not until bitmap = bitmap.zero loop
+				from bitmap := a_bitmap |>> trailing_count until bitmap = bitmap.zero loop
 					if skip_ones then
-						zero_count := trailing_zeros_count_64 (inverse) -- skip ones
-						skip_ones := False
+						zero_count := trailing_zeros_count_64 (bitmap.bit_not) -- skip ones
 					else
 						zero_count := trailing_zeros_count_64 (bitmap) -- skip zeros
 						Result := Result - zero_count
-						skip_ones := True
 					end
+					skip_ones := not skip_ones
 					bitmap := bitmap |>> zero_count
-					inverse := inverse |>> zero_count
 				end
 			end
 		end

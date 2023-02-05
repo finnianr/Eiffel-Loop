@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 12:21:29 GMT (Monday 30th January 2023)"
-	revision: "13"
+	date: "2023-02-05 15:53:03 GMT (Sunday 5th February 2023)"
+	revision: "14"
 
 class
 	EL_BENCHMARK_ROUTINE_TABLE
@@ -43,27 +43,10 @@ feature {NONE} -- Initialization
 		do
 			make_table (routines)
 			label := a_label; trial_duration := Default_trial_duration
+			create application_count_list.make (count)
 		end
 
 feature -- Access
-
-	application_count_list: EL_VALUE_SORTABLE_ARRAYED_MAP_LIST [ZSTRING, DOUBLE]
-		-- list of number of times that `action' can be applied within the `trial_duration' in milliseconds
-		-- in descending order
-		local
-			benchmark: EL_BENCHMARK_ROUTINES
-		do
-			create Result.make (count)
-			across Current as routine loop
-				if is_lio_enabled then
-					lio.put_labeled_string ("Repeating for " + trial_duration.out + " millisecs", routine.key)
-					lio.put_new_line
-				end
-
-				Result.extend (routine.key, benchmark.repetition_count (routine.item, trial_duration))
-			end
-			Result.sort (False)
-		end
 
 	label: READABLE_STRING_GENERAL
 
@@ -85,16 +68,30 @@ feature -- Measurement
 
 feature -- Basic operations
 
+	perform
+		-- perform comparisons
+		local
+			benchmark: EL_BENCHMARK_ROUTINES; l_count: DOUBLE
+		do
+			application_count_list.wipe_out
+			across Current as routine loop
+				if is_lio_enabled then
+					lio.put_labeled_string ("Repeating for " + trial_duration.out + " millisecs", routine.key)
+					lio.put_new_line
+				end
+				l_count := benchmark.application_count (routine.item, trial_duration)
+				application_count_list.extend (routine.key, l_count)
+			end
+			application_count_list.sort (False)
+		end
+
 	print_comparison
 		local
-			count_list: like application_count_list; s: EL_ZSTRING_ROUTINES
 			description_width: INTEGER; highest_count, relative_difference: DOUBLE
-			l_label, formatted_value: STRING
-			l_double: FORMAT_DOUBLE
+			l_label, formatted_value: STRING; l_double: FORMAT_DOUBLE; s: EL_ZSTRING_ROUTINES
 		do
-			count_list := application_count_list
 			description_width := max_key_width
-			highest_count := count_list.first_value
+			highest_count := application_count_list.first_value
 			create l_double.make (log10 (highest_count).rounded + 3, 1)
 
 			lio.put_labeled_string ("Benchmark", label)
@@ -105,19 +102,21 @@ feature -- Basic operations
 				lio.put_substitution ("Passes over %S millisecs (in descending order)", [trial_duration])
 				lio.put_new_line
 			end
-			from count_list.start until count_list.after loop
-				l_label := count_list.item_key + s.n_character_string (' ', description_width - count_list.item_key.count + 1)
-				formatted_value := l_double.formatted (count_list.item_value)
-				if count_list.isfirst then
-					lio.put_labeled_string (l_label, formatted_value + " times (100%%)")
-				else
-					relative_difference := ((highest_count - count_list.item_value) / highest_count) * 100
-					lio.put_labeled_string (
-						l_label, Template_relative #$ [formatted_value, Percent.formatted (relative_difference)]
-					)
+			if attached application_count_list as list then
+				from list.start until list.after loop
+					l_label := list.item_key + s.n_character_string (' ', description_width - list.item_key.count + 1)
+					formatted_value := l_double.formatted (list.item_value)
+					if list.isfirst then
+						lio.put_labeled_string (l_label, formatted_value + " times (100%%)")
+					else
+						relative_difference := ((highest_count - list.item_value) / highest_count) * 100
+						lio.put_labeled_string (
+							l_label, Template_relative #$ [formatted_value, Percent.formatted (relative_difference)]
+						)
+					end
+					lio.put_new_line
+					list.forth
 				end
-				lio.put_new_line
-				count_list.forth
 			end
 		end
 
@@ -127,6 +126,12 @@ feature -- Element change
 		do
 			trial_duration := a_trial_duration
 		end
+
+feature {NONE} -- Internal attributes
+
+	application_count_list: EL_VALUE_SORTABLE_ARRAYED_MAP_LIST [ZSTRING, DOUBLE]
+		-- list of number of times that `action' can be applied within the `trial_duration' in milliseconds
+		-- in descending order
 
 feature {NONE} -- Constants
 

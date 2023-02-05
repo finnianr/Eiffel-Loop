@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2023-02-05 15:44:03 GMT (Sunday 5th February 2023)"
+	revision: "14"
 
 expanded class
 	EL_BENCHMARK_ROUTINES
@@ -57,7 +57,7 @@ feature -- Access
 			end
 		end
 
-	application_count (action: ROUTINE; trial_duration: INTEGER): INTEGER
+	application_count (action: ROUTINE; trial_duration: INTEGER): NATURAL_64
 		-- number of times that `action' can be applied within the `trial_duration' in milliseconds
 		local
 			timeout: EL_TIMEOUT_THREAD
@@ -66,19 +66,8 @@ feature -- Access
 			timeout.launch
 			from until timeout.is_finished loop
 				action.apply
-				Memory.full_collect
 				Result := Result + 1
 			end
-		end
-
-	repetition_count (action: ROUTINE; trial_duration: INTEGER): DOUBLE
-		local
-			count: INTEGER
-		do
-			Timer.start
-			count := application_count (action, trial_duration)
-			Timer.stop
-			Result := trial_duration * count / Timer.elapsed_millisecs
 		end
 
 feature {NONE} -- Constants
