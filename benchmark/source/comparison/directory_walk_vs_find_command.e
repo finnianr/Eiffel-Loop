@@ -1,13 +1,19 @@
 note
 	description: "Finding files with extension comparison"
+	notes: "[
+		Passes over 10000 millisecs (in descending order)
+
+			With EL_FIND_FILES_COMMAND_I : 19.0 times (100%)
+			With EL_DIRECTORY            :  9.0 times (-52.6%)
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 12:56:32 GMT (Monday 30th January 2023)"
-	revision: "7"
+	date: "2023-02-06 13:57:46 GMT (Monday 6th February 2023)"
+	revision: "8"
 
 class
 	DIRECTORY_WALK_VS_FIND_COMMAND

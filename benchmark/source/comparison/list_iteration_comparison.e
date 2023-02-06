@@ -1,16 +1,27 @@
 note
-	description: "Compare various ways of iterating a list"
+	description: "Compare 7 ways to iterate over a list"
+	notes: "[
+		Passes over 1000 millisecs (in descending order)
+
+			SPECIAL i := 0 until i = array.count    :  433066.0 times (100%)
+			SPECIAL i := 0 until i = count          :  421867.0 times (-2.6%)
+			across array as n loop                  :  371621.0 times (-14.2%)
+			from i := 1 until i > count loop        :   44563.0 times (-89.7%)
+			from i := 1 until i > array.count loop  :   43943.0 times (-89.9%)
+			array.do_all (agent increment (sum, ?)) :   42595.0 times (-90.2%)
+			from array.start until array.after loop :   41248.0 times (-90.5%)
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 12:56:24 GMT (Monday 30th January 2023)"
-	revision: "8"
+	date: "2023-02-06 11:16:07 GMT (Monday 6th February 2023)"
+	revision: "9"
 
 class
-	SEVEN_LIST_ITERATION_METHODS
+	LIST_ITERATION_COMPARISON
 
 inherit
 	EL_BENCHMARK_COMPARISON
@@ -22,7 +33,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "List iteration methods"
+	Description: STRING = "List iteration methods (x 7)"
 
 feature -- Basic operations
 

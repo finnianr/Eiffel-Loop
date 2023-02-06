@@ -1,13 +1,16 @@
 note
 	description: "Substring index comparison"
+	notes: "[
+
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 12:32:59 GMT (Monday 30th January 2023)"
-	revision: "8"
+	date: "2023-02-06 14:11:28 GMT (Monday 6th February 2023)"
+	revision: "9"
 
 class
 	SUBSTRING_INDEX_COMPARISON

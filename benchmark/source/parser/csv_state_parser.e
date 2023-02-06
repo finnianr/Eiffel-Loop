@@ -6,21 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 8:40:51 GMT (Sunday 1st January 2023)"
-	revision: "4"
+	date: "2023-02-06 10:43:05 GMT (Monday 6th February 2023)"
+	revision: "23"
 
-class
-	CSV_POINTER_STATE_PARSER
+deferred class
+	CSV_STATE_PARSER [S]
 
 inherit
 	ANY
-	
-	EL_REFLECTION_HANDLER
 
 	EL_ZSTRING_CONSTANTS
 
-create
-	make
+	EL_REFLECTION_HANDLER
 
 feature {NONE} -- Initialization
 
@@ -28,6 +25,7 @@ feature {NONE} -- Initialization
 		do
 			create fields.make (0)
 			create field_string.make_empty
+			set_states
 		end
 
 feature -- Access
@@ -41,23 +39,10 @@ feature -- Basic operations
 	parse (line: STRING)
 		do
 			count := count + 1
+			set_states
 			column := 0
-			traverse ($find_comma, line)
+			traverse (s_find_comma, line)
 			add_value
-		end
-
-	set_object (object: EL_REFLECTIVE)
-		local
-			table: EL_REFLECTED_FIELD_TABLE
-			field: like fields
-		do
-			table := object.field_table; field := fields
-			from field.start until field.after loop
-				if table.has_imported_key (field.item_key) then
-					table.found_item.set_from_string (object, field.item_value)
-				end
-				field.forth
-			end
 		end
 
 feature -- Element change
@@ -83,11 +68,11 @@ feature {NONE} -- State handlers
 				state := previous_state
 			else
 				field_string.append_character (Back_slash)
-				if c = Comma and then previous_state = $find_comma then
+				if c = Comma and then previous_state = s_find_comma then
 					find_comma (str, i, c)
-					state := $find_comma
+					state := s_find_comma
 
-				elseif c = Double_quote and then previous_state = $find_end_quote then
+				elseif c = Double_quote and then previous_state = s_find_end_quote then
 					find_end_quote (str, i, c)
 				else
 					field_string.append_character (c)
@@ -102,14 +87,14 @@ feature {NONE} -- State handlers
 			inspect c
 				when Comma then
 					add_value
-					state := $find_comma
+					state := s_find_comma
 
 				when Double_quote then
 					field_string.append_character (c)
-					state := $find_end_quote
+					state := s_find_end_quote
 
 			else -- last quote was end quote
-				state := $find_comma
+				state := s_find_comma
 			end
 		end
 
@@ -121,11 +106,11 @@ feature {NONE} -- State handlers
 					add_value
 
 				when Double_quote then
-					state := $find_end_quote
+					state := s_find_end_quote
 
 				when Back_slash then
-					previous_state := $find_comma
-					state := $check_back_slash
+					previous_state := s_find_comma
+					state := s_check_back_slash
 
 			else
 				field_string.append_character (c)
@@ -137,10 +122,10 @@ feature {NONE} -- State handlers
 		do
 			inspect c
 				when Double_quote then
-					state := $check_escaped_quote
+					state := s_check_escaped_quote
 				when Back_slash then
-					previous_state := $find_end_quote
-					state := $check_back_slash
+					previous_state := s_find_end_quote
+					state := s_check_back_slash
 			else
 				field_string.append_character (c)
 			end
@@ -154,42 +139,38 @@ feature {NONE} -- Implementation
 			if count = 1 then
 				fields.extend (field_string.twin, Empty_string)
 			else
-				fields.i_th (column).value := new_zstring
+				fields.i_th (column).value := new_string
 			end
 			field_string.wipe_out
 		end
 
+feature {NONE} -- Deferred
+
 	call (str: STRING; i: INTEGER; c: CHARACTER)
-		do
-			if state = $check_back_slash then
-				check_back_slash (str, i, c)
-
-			elseif state = $check_escaped_quote then
-				check_escaped_quote (str, i, c)
-
-			elseif state = $find_comma then
-				find_comma (str, i, c)
-
-			elseif state = $find_end_quote then
-				find_end_quote (str, i, c)
-			end
+		deferred
 		end
 
-	traverse (initial_state: POINTER; string: STRING)
+	set_states
+		deferred
+		end
+
+feature {NONE} -- Implementation
+
+	new_string: ZSTRING
+		do
+			create Result.make_from_general (field_string)
+		end
+
+	traverse (initial_state: like state; string: STRING)
 			--
 		local
 			l_final, i, l_count: INTEGER
 		do
 			l_count := string.count
-			from i := 1; state := initial_state until i > l_count or state = default_pointer loop
+			from i := 1; state := initial_state until i > l_count or state = s_final loop
 				call (string, i, string [i])
 				i := i + 1
 			end
-		end
-
-	new_zstring: ZSTRING
-		do
-			create Result.make_from_general (field_string)
 		end
 
 feature {NONE} -- Internal attributes
@@ -198,9 +179,19 @@ feature {NONE} -- Internal attributes
 
 	field_string: STRING
 
-	previous_state: POINTER
+	state: S
 
-	state: POINTER
+	previous_state: like state
+
+	s_check_escaped_quote: like state
+
+	s_check_back_slash: like state
+
+	s_find_comma: like state
+
+	s_find_end_quote: like state
+
+	s_final: like state
 
 feature {NONE} -- Constants
 
@@ -209,4 +200,5 @@ feature {NONE} -- Constants
 	Comma: CHARACTER = ','
 
 	Double_quote: CHARACTER = '"'
+
 end

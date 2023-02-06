@@ -3,7 +3,7 @@ note
 	notes: "[
 		Passes over 500 millisecs (in descending order)
 
-			gcc built-in                                  :  5749880.0 times (100%)
+			gcc built-in                                  :  7972126.0 times (100%)
 			emulated with leading and trailing zero count :        6.0 times (-100.0%)
 	]"
 
@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-05 16:03:08 GMT (Sunday 5th February 2023)"
-	revision: "5"
+	date: "2023-02-06 14:22:53 GMT (Monday 6th February 2023)"
+	revision: "6"
 
 class
 	BIT_POP_COUNT_COMPARISON

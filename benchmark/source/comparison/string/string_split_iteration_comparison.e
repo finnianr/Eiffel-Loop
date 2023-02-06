@@ -1,13 +1,20 @@
 note
 	description: "String split iteration comparison"
+	notes: "[
+		Passes over 500 millisecs (in descending order)
+
+			EL_SPLIT_ON_CHARACTER [STRING] : 1141.0 times (100%)
+			EL_SPLIT_STRING_8_LIST         : 1093.0 times (-4.2%)
+			{STRING}.split                 : 1002.0 times (-12.2%)
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 12:57:45 GMT (Monday 30th January 2023)"
-	revision: "3"
+	date: "2023-02-06 14:13:50 GMT (Monday 6th February 2023)"
+	revision: "4"
 
 class
 	STRING_SPLIT_ITERATION_COMPARISON

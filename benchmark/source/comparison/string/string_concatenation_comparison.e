@@ -1,16 +1,24 @@
 note
 	description: "Compare various ways of concatenating strings"
+	notes: "[
+		Passes over 500 millisecs (in descending order)
+
+			append strings to once string with local :  69986.0 times (100%)
+			append strings to once string            :  68342.0 times (-2.3%)
+			append strings to Result                 :  52602.0 times (-24.8%)
+
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 12:57:58 GMT (Monday 30th January 2023)"
-	revision: "8"
+	date: "2023-02-06 11:09:11 GMT (Monday 6th February 2023)"
+	revision: "9"
 
 class
-	THREE_WAYS_TO_CONCATENATE_STRINGS
+	STRING_CONCATENATION_COMPARISON
 
 inherit
 	EL_BENCHMARK_COMPARISON
@@ -32,7 +40,7 @@ feature -- Basic operations
 			from until array.full loop
 				array.extend (create {STRING}.make_filled (('A').plus (array.count), 100))
 			end
-			compare ("compare_list_iteration_methods", <<
+			compare (Description, <<
 				["append strings to Result", 							agent string_append (array)],
 				["append strings to once string", 					agent string_append_once_string (array)],
 				["append strings to once string with local",		agent string_append_once_string_with_local (array)]

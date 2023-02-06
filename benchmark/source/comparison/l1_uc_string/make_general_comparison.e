@@ -1,13 +1,19 @@
 note
 	description: "Compare `{L1_UC_STRING}.make_general' and `{ZSTRING}.make_general'"
+	notes: "[
+		Passes over 500 millisecs (in descending order)
+
+			{L1_UC_STRING}.make_general :  53956.0 times (100%)
+			{ZSTRING}.make_general      :  46847.0 times (-13.2%)
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 12:32:58 GMT (Monday 30th January 2023)"
-	revision: "7"
+	date: "2023-02-06 14:12:32 GMT (Monday 6th February 2023)"
+	revision: "8"
 
 class
 	MAKE_GENERAL_COMPARISON

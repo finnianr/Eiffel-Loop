@@ -1,13 +1,20 @@
 note
 	description: "Unencoded character list generation"
+	notes: "[
+		Passes over 500 millisecs (in descending order)
+
+			{EL_EXTENDABLE_UNENCODED_CHARACTERS}.extend :  34646.0 times (100%)
+			{EL_SUBSTRING_32_LIST}.put_unicode          :  26534.0 times (-23.4%)
+			{EL_SUBSTRING_32_BUFFER}.put_unicode        :  16433.0 times (-52.6%)
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 12:58:06 GMT (Monday 30th January 2023)"
-	revision: "7"
+	date: "2023-02-06 14:10:30 GMT (Monday 6th February 2023)"
+	revision: "8"
 
 class
 	UNENCODED_CHARACTER_LIST_GENERATION

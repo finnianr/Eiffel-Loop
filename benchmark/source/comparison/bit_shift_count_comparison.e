@@ -3,14 +3,20 @@ note
 		Compare methods to caculated shift count for a bit-mask in descendants of [EL_NUMERIC_BIT_ROUTINES]
 	]"
 	notes: "[
+		Passes over 500 millisecs (in descending order)
+
+			NATURAL de Bruijn method    : 1066.0 times (100%)
+			NATURAL built-in C function : 1062.0 times (-0.4%)
+			NATURAL branching method    :  209.0 times (-80.4%)
+			NATURAL iterative shift     :  108.0 times (-89.9%)
+
 		**Bit-routine classes**
 
 			EL_NUMERIC_BIT_ROUTINES*
-				[$source EL_INTEGER_BIT_ROUTINES]*
-					[$source EL_INTEGER_32_BIT_ROUTINES]
-				[$source EL_NATURAL_32_BIT_ROUTINES]
-					[$source NATURAL_32_BIT_ROUTINES_V2]
-					[$source NATURAL_32_BIT_ROUTINES_V1]
+				[$source EL_NATURAL_32_BIT_ROUTINES] (built-in C)
+					[$source NATURAL_32_BIT_ROUTINES_V1] (iterative shift)
+					[$source NATURAL_32_BIT_ROUTINES_V2] (De Bruijn)
+					[$source NATURAL_32_BIT_ROUTINES_V3] (branching)
 	]"
 
 	author: "Finnian Reilly"
@@ -18,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-03 10:12:31 GMT (Friday 3rd February 2023)"
-	revision: "4"
+	date: "2023-02-06 14:06:49 GMT (Monday 6th February 2023)"
+	revision: "5"
 
 class
 	BIT_SHIFT_COUNT_COMPARISON
@@ -42,7 +48,7 @@ feature -- Basic operations
 				["NATURAL branching method",	agent branching_method],
 				["NATURAL built-in C function", agent c_built_in],
 				["NATURAL de Bruijn method",	agent de_bruijn_sequence],
-				["NATURAL iterative method",	agent iterative_bit_shift]
+				["NATURAL iterative shift",	agent iterative_bit_shift]
 			>>)
 		end
 

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-05 9:25:22 GMT (Sunday 5th February 2023)"
-	revision: "27"
+	date: "2023-02-06 11:12:12 GMT (Monday 6th February 2023)"
+	revision: "28"
 
 class
 	BENCHMARK_COMMAND_SHELL
@@ -39,10 +39,10 @@ feature {NONE} -- Implementation
 		HASH_TABLE_VS_NAMEABLES_LIST_SEARCH,
 		MAKE_GENERAL_COMPARISON,
 
-		THREE_LINE_STATE_COMPARISON_METHODS,
-		THREE_WAYS_TO_CONCATENATE_STRINGS,
+		LINE_STATE_MACHINE_COMPARISON,
+		STRING_CONCATENATION_COMPARISON,
 
-		SEVEN_LIST_ITERATION_METHODS,
+		LIST_ITERATION_COMPARISON,
 		STRING_SPLIT_ITERATION_COMPARISON,
 		STRING_ITEM_8_VS_ITEM,
 		SUBSTRING_INDEX_COMPARISON,
@@ -59,4 +59,3 @@ feature {NONE} -- Implementation
 		end
 
 end
-

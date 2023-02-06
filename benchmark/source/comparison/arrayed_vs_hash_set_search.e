@@ -4,14 +4,30 @@ note
 		
 		Answer: count > 10
 	]"
+	notes: "[
+		Passes over 1000 millisecs (in descending order)
+
+			Compare for size = 10
+			ARRAYED_SET [INTEGER] : 1664446.0 times (100%)
+			EL_HASH_SET [INTEGER] : 1078065.0 times (-35.2%)
+
+
+			Compare for size = 20
+			ARRAYED_SET [INTEGER] :  822518.0 times (100%)
+			EL_HASH_SET [INTEGER] :  558498.0 times (-32.1%)
+
+			Compare for size = 200
+			EL_HASH_SET [INTEGER] :  58339.0 times (100%)
+			ARRAYED_SET [INTEGER] :  33487.0 times (-42.6%)
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 12:56:19 GMT (Monday 30th January 2023)"
-	revision: "9"
+	date: "2023-02-06 14:20:40 GMT (Monday 6th February 2023)"
+	revision: "10"
 
 class
 	ARRAYED_VS_HASH_SET_SEARCH
@@ -35,7 +51,8 @@ feature -- Basic operations
 			list: ARRAYED_SET [INTEGER]; hash_set: EL_HASH_SET [INTEGER]
 			i, size: INTEGER
 		do
-			from size := 10 until size > 500 loop
+			across << 10, 20, 200 >> as n loop
+				size := n.item
 				create list.make (size)
 				create hash_set.make (size)
 				from i := 1 until i > size loop
@@ -46,7 +63,6 @@ feature -- Basic operations
 					["EL_HASH_SET [INTEGER]",	agent do_search (hash_set)],
 					["ARRAYED_SET [INTEGER]",	agent do_search (list)]
 				>>)
-				size := size * 50
 			end
 		end
 

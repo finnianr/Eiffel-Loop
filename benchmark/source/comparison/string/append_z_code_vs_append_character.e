@@ -1,13 +1,19 @@
 note
 	description: "{ZSTRING}.append_zcode VS append_character"
+	notes: "[
+		Passes over 500 millisecs (in descending order)
+
+			append_zcode     : 1778.0 times (100%)
+			append_character : 1725.0 times (-3.0%)
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 12:32:22 GMT (Monday 30th January 2023)"
-	revision: "4"
+	date: "2023-02-06 14:14:44 GMT (Monday 6th February 2023)"
+	revision: "5"
 
 class
 	APPEND_Z_CODE_VS_APPEND_CHARACTER

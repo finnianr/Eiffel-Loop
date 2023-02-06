@@ -1,13 +1,19 @@
 ﻿note
 	description: "Replace substring comparison"
+	notes: "[
+		Passes over 500 millisecs (in descending order)
+
+			replace_substring_all         :  52352.0 times (100%)
+			replace_substring_general_all :  38986.0 times (-25.5%)
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 12:32:59 GMT (Monday 30th January 2023)"
-	revision: "9"
+	date: "2023-02-06 14:15:14 GMT (Monday 6th February 2023)"
+	revision: "10"
 
 class
 	REPLACE_SUBSTRING_ALL_VS_GENERAL

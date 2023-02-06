@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 9:54:38 GMT (Monday 30th January 2023)"
-	revision: "5"
+	date: "2023-02-06 13:04:24 GMT (Monday 6th February 2023)"
+	revision: "6"
 
 deferred class
 	TEST_STRINGS [S -> STRING_GENERAL create make end]
@@ -310,6 +310,8 @@ feature {NONE} -- Implementation
 
 	set_escape_character (escape_character: CHARACTER_32)
 		do
+			C_escape_table.remove (escape_character)
+			C_escape_table [escape_character] := escape_character
 			C_escape_table.set_escape_character (escape_character)
 			unescaper.set_escape_character (escape_character)
 		end

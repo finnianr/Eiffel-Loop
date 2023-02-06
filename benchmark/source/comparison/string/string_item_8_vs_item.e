@@ -1,10 +1,10 @@
 ﻿note
 	description: "Compare [$source STRING_8] item vs item_8"
 	notes: "[
-		Passes over 1000 millisecs (in descending order)
-		
-			iterate_with_item_8 :  9975.4 times (100%)
-			iterate_with_item   :  3636.4 times (-63.5%)
+		Passes over 500 millisecs (in descending order)
+
+			iterate_with_item_8 : 190267.0 times (100%)
+			iterate_with_item   :   2862.0 times (-98.5%)
 	]"
 
 	author: "Finnian Reilly"
@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 12:32:58 GMT (Monday 30th January 2023)"
-	revision: "10"
+	date: "2023-02-06 14:07:44 GMT (Monday 6th February 2023)"
+	revision: "11"
 
 class
 	STRING_ITEM_8_VS_ITEM

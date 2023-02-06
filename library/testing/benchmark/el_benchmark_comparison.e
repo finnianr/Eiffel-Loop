@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-05 15:54:40 GMT (Sunday 5th February 2023)"
-	revision: "11"
+	date: "2023-02-06 13:26:45 GMT (Monday 6th February 2023)"
+	revision: "12"
 
 deferred class
 	EL_BENCHMARK_COMPARISON
@@ -48,6 +48,9 @@ feature {NONE} -- Implementation
 			if trial_duration.item.to_boolean then
 				table.set_trial_duration (trial_duration.item)
 			end
+			lio.put_new_line
+			lio.put_labeled_string ("Class", generator)
+			lio.put_new_line
 			table.perform
 			table.print_comparison
 			lio.put_new_line

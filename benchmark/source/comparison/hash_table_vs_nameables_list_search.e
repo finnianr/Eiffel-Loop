@@ -3,17 +3,10 @@ note
 		Compare key search speed of [$source HASH_TABLE] and [$source EL_NAMEABLES_LIST]
 	]"
 	notes: "[
-		Performance is more or less identical in finalized executable
+		Passes over 500 millisecs (in descending order)
 
-			SELECTED: Compare hash-table vs nameables-list search
-			Benchmark: compare search with 23 items
-			Getting average time: Hash (of 10 runs)
-			Getting average time: Binary (of 10 runs)
-
-			Average execution times (in ascending order)
-			Hash   :  0.500 millisecs
-			Binary :  0.500 millisecs
-
+			Hash   :  82205.0 times (100%)
+			Binary :  77787.0 times (-5.4%)
 	]"
 
 	author: "Finnian Reilly"
@@ -21,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 12:57:14 GMT (Monday 30th January 2023)"
-	revision: "7"
+	date: "2023-02-06 11:11:32 GMT (Monday 6th February 2023)"
+	revision: "8"
 
 class
 	HASH_TABLE_VS_NAMEABLES_LIST_SEARCH
