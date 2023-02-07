@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-02-07 18:04:41 GMT (Tuesday 7th February 2023)"
+	revision: "1"
 
 class
 	EL_ISO_8859_7_ZCODEC
@@ -108,55 +108,49 @@ feature {NONE} -- Initialization
 
 feature -- Conversion
 
-	as_upper (code: NATURAL): NATURAL
-		local
-			offset: NATURAL
+	to_upper_offset (code: NATURAL): INTEGER
 		do
 			inspect code
 				when 97..122, 225..241, 243..251 then
-					offset := 32
+					Result := 32
 				when 192 then
-					offset := 26
+					Result := 26
 				when 220 then
-					offset := 38
+					Result := 38
 				when 221..223 then
-					offset := 37
+					Result := 37
 				when 224 then
-					offset := 5
+					Result := 5
 				when 242 then
-					offset := 31
+					Result := 31
 				when 252 then
-					offset := 64
+					Result := 64
 				when 253..254 then
-					offset := 63
-
+					Result := 63
 			else end
-			Result := code - offset
+			Result := Result.opposite
 		end
 
-	as_lower (code: NATURAL): NATURAL
-		local
-			offset: NATURAL
+	to_lower_offset (code: NATURAL): INTEGER
 		do
 			inspect code
 				when 65..90, 193..209, 211..219 then
-					offset := 32
+					Result := 32
 				when 182 then
-					offset := 38
+					Result := 38
 				when 184..186 then
-					offset := 37
+					Result := 37
 				when 188 then
-					offset := 64
+					Result := 64
 				when 190..191 then
-					offset := 63
+					Result := 63
 
 			else end
-			Result := code + offset
 		end
 
 	unicode_case_change_substitute (code: NATURAL): CHARACTER_32
-			-- Returns Unicode case change character if c does not have a latin case change
-			-- or else the Null character
+		-- Returns Unicode case change character if c does not have a latin case change
+		-- or else the Null character
 		do
 			inspect code
 				-- Ò -> ò
@@ -198,7 +192,7 @@ feature -- Character query
 
 	is_alpha (code: NATURAL): BOOLEAN
 		do
-			inspect code
+			inspect code 
 				when 65..90, 97..122, 182, 184..186, 188, 190..255 then
 					Result := True
 			else
@@ -207,7 +201,7 @@ feature -- Character query
 
 	is_lower (code: NATURAL): BOOLEAN
 		do
-			inspect code
+			inspect code 
 				when 97..122, 225..241, 243..251, 192, 220, 221..223, 224, 242, 252, 253..254 then
 					Result := True
 
@@ -219,9 +213,10 @@ feature -- Character query
 			end
 		end
 
+
 	is_upper (code: NATURAL): BOOLEAN
 		do
-			inspect code
+			inspect code 
 				when 65..90, 193..209, 211..219, 182, 184..186, 188, 190..191 then
 					Result := True
 			else
@@ -234,98 +229,98 @@ feature {NONE} -- Implementation
 			-- Unicode value indexed by ISO_8859_7 character values
 		do
 			Result := single_byte_unicode_chars
-			Result [0xA0] := ' ' --
-			Result [0xA1] := 'ʽ' --
-			Result [0xA2] := 'ʼ' --
-			Result [0xA3] := '£' --
+			Result [0xA0] := ' ' -- 
+			Result [0xA1] := 'ʽ' -- 
+			Result [0xA2] := 'ʼ' -- 
+			Result [0xA3] := '£' -- 
 			Result [0xA4] := '€' -- EURO SIGN
 			Result [0xA5] := '₯' -- DRACHMA SIGN
-			Result [0xA6] := '¦' --
-			Result [0xA7] := '§' --
-			Result [0xA8] := '¨' --
-			Result [0xA9] := '©' --
-			Result [0xAB] := '«' --
-			Result [0xAC] := '¬' --
-			Result [0xAD] := '­' --
-			Result [0xAF] := '―' --
-			Result [0xB0] := '°' --
-			Result [0xB1] := '±' --
-			Result [0xB2] := '²' --
-			Result [0xB3] := '³' --
-			Result [0xB4] := '΄' --
-			Result [0xB5] := '΅' --
-			Result [0xB6] := 'Ά' --
-			Result [0xB7] := '·' --
-			Result [0xB8] := 'Έ' --
-			Result [0xB9] := 'Ή' --
-			Result [0xBA] := 'Ί' --
-			Result [0xBB] := '»' --
-			Result [0xBC] := 'Ό' --
-			Result [0xBD] := '½' --
-			Result [0xBE] := 'Ύ' --
-			Result [0xBF] := 'Ώ' --
-			Result [0xC0] := 'ΐ' --
-			Result [0xC1] := 'Α' --
-			Result [0xC2] := 'Β' --
-			Result [0xC3] := 'Γ' --
-			Result [0xC4] := 'Δ' --
-			Result [0xC5] := 'Ε' --
-			Result [0xC6] := 'Ζ' --
-			Result [0xC7] := 'Η' --
-			Result [0xC8] := 'Θ' --
-			Result [0xC9] := 'Ι' --
-			Result [0xCA] := 'Κ' --
-			Result [0xCB] := 'Λ' --
-			Result [0xCC] := 'Μ' --
-			Result [0xCD] := 'Ν' --
-			Result [0xCE] := 'Ξ' --
-			Result [0xCF] := 'Ο' --
-			Result [0xD0] := 'Π' --
-			Result [0xD1] := 'Ρ' --
-			Result [0xD3] := 'Σ' --
-			Result [0xD4] := 'Τ' --
-			Result [0xD5] := 'Υ' --
-			Result [0xD6] := 'Φ' --
-			Result [0xD7] := 'Χ' --
-			Result [0xD8] := 'Ψ' --
-			Result [0xD9] := 'Ω' --
-			Result [0xDA] := 'Ϊ' --
-			Result [0xDB] := 'Ϋ' --
-			Result [0xDC] := 'ά' --
-			Result [0xDD] := 'έ' --
-			Result [0xDE] := 'ή' --
-			Result [0xDF] := 'ί' --
-			Result [0xE0] := 'ΰ' --
-			Result [0xE1] := 'α' --
-			Result [0xE2] := 'β' --
-			Result [0xE3] := 'γ' --
-			Result [0xE4] := 'δ' --
-			Result [0xE5] := 'ε' --
-			Result [0xE6] := 'ζ' --
-			Result [0xE7] := 'η' --
-			Result [0xE8] := 'θ' --
-			Result [0xE9] := 'ι' --
-			Result [0xEA] := 'κ' --
-			Result [0xEB] := 'λ' --
-			Result [0xEC] := 'μ' --
-			Result [0xED] := 'ν' --
-			Result [0xEE] := 'ξ' --
-			Result [0xEF] := 'ο' --
-			Result [0xF0] := 'π' --
-			Result [0xF1] := 'ρ' --
-			Result [0xF2] := 'ς' --
-			Result [0xF3] := 'σ' --
-			Result [0xF4] := 'τ' --
-			Result [0xF5] := 'υ' --
-			Result [0xF6] := 'φ' --
-			Result [0xF7] := 'χ' --
-			Result [0xF8] := 'ψ' --
-			Result [0xF9] := 'ω' --
-			Result [0xFA] := 'ϊ' --
-			Result [0xFB] := 'ϋ' --
-			Result [0xFC] := 'ό' --
-			Result [0xFD] := 'ύ' --
-			Result [0xFE] := 'ώ' --
+			Result [0xA6] := '¦' -- 
+			Result [0xA7] := '§' -- 
+			Result [0xA8] := '¨' -- 
+			Result [0xA9] := '©' -- 
+			Result [0xAB] := '«' -- 
+			Result [0xAC] := '¬' -- 
+			Result [0xAD] := '­' -- 
+			Result [0xAF] := '―' -- 
+			Result [0xB0] := '°' -- 
+			Result [0xB1] := '±' -- 
+			Result [0xB2] := '²' -- 
+			Result [0xB3] := '³' -- 
+			Result [0xB4] := '΄' -- 
+			Result [0xB5] := '΅' -- 
+			Result [0xB6] := 'Ά' -- 
+			Result [0xB7] := '·' -- 
+			Result [0xB8] := 'Έ' -- 
+			Result [0xB9] := 'Ή' -- 
+			Result [0xBA] := 'Ί' -- 
+			Result [0xBB] := '»' -- 
+			Result [0xBC] := 'Ό' -- 
+			Result [0xBD] := '½' -- 
+			Result [0xBE] := 'Ύ' -- 
+			Result [0xBF] := 'Ώ' -- 
+			Result [0xC0] := 'ΐ' -- 
+			Result [0xC1] := 'Α' -- 
+			Result [0xC2] := 'Β' -- 
+			Result [0xC3] := 'Γ' -- 
+			Result [0xC4] := 'Δ' -- 
+			Result [0xC5] := 'Ε' -- 
+			Result [0xC6] := 'Ζ' -- 
+			Result [0xC7] := 'Η' -- 
+			Result [0xC8] := 'Θ' -- 
+			Result [0xC9] := 'Ι' -- 
+			Result [0xCA] := 'Κ' -- 
+			Result [0xCB] := 'Λ' -- 
+			Result [0xCC] := 'Μ' -- 
+			Result [0xCD] := 'Ν' -- 
+			Result [0xCE] := 'Ξ' -- 
+			Result [0xCF] := 'Ο' -- 
+			Result [0xD0] := 'Π' -- 
+			Result [0xD1] := 'Ρ' -- 
+			Result [0xD3] := 'Σ' -- 
+			Result [0xD4] := 'Τ' -- 
+			Result [0xD5] := 'Υ' -- 
+			Result [0xD6] := 'Φ' -- 
+			Result [0xD7] := 'Χ' -- 
+			Result [0xD8] := 'Ψ' -- 
+			Result [0xD9] := 'Ω' -- 
+			Result [0xDA] := 'Ϊ' -- 
+			Result [0xDB] := 'Ϋ' -- 
+			Result [0xDC] := 'ά' -- 
+			Result [0xDD] := 'έ' -- 
+			Result [0xDE] := 'ή' -- 
+			Result [0xDF] := 'ί' -- 
+			Result [0xE0] := 'ΰ' -- 
+			Result [0xE1] := 'α' -- 
+			Result [0xE2] := 'β' -- 
+			Result [0xE3] := 'γ' -- 
+			Result [0xE4] := 'δ' -- 
+			Result [0xE5] := 'ε' -- 
+			Result [0xE6] := 'ζ' -- 
+			Result [0xE7] := 'η' -- 
+			Result [0xE8] := 'θ' -- 
+			Result [0xE9] := 'ι' -- 
+			Result [0xEA] := 'κ' -- 
+			Result [0xEB] := 'λ' -- 
+			Result [0xEC] := 'μ' -- 
+			Result [0xED] := 'ν' -- 
+			Result [0xEE] := 'ξ' -- 
+			Result [0xEF] := 'ο' -- 
+			Result [0xF0] := 'π' -- 
+			Result [0xF1] := 'ρ' -- 
+			Result [0xF2] := 'ς' -- 
+			Result [0xF3] := 'σ' -- 
+			Result [0xF4] := 'τ' -- 
+			Result [0xF5] := 'υ' -- 
+			Result [0xF6] := 'φ' -- 
+			Result [0xF7] := 'χ' -- 
+			Result [0xF8] := 'ψ' -- 
+			Result [0xF9] := 'ω' -- 
+			Result [0xFA] := 'ϊ' -- 
+			Result [0xFB] := 'ϋ' -- 
+			Result [0xFC] := 'ό' -- 
+			Result [0xFD] := 'ύ' -- 
+			Result [0xFE] := 'ώ' -- 
 		end
 
 	latin_set_1: SPECIAL [CHARACTER]

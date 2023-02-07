@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "28"
+	date: "2023-02-07 12:49:17 GMT (Tuesday 7th February 2023)"
+	revision: "29"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -313,7 +313,7 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 			buffer: like empty_unencoded_buffer; l_count, old_count: INTEGER
 		do
 			old_count := count
-			internal_replace_substring (s, start_index, end_index)
+			String_8.replace_substring (Current, s, start_index, end_index)
 			inspect respective_encoding (s)
 				when Both_have_mixed_encoding then
 					l_count := start_index - 1
@@ -372,7 +372,7 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 							if attached internal_substring_index_list (old_substring) as positions
 								and then positions.count > 0
 							then
-								internal_replace_substring_all (old_substring, new_substring)
+								String_8.replace_substring_all (Current, old_substring, new_substring)
 								internal_replace_done := True
 								substring_index_list := positions
 							end
@@ -380,7 +380,7 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 						elseif attached internal_substring_index_list (old_substring) as positions
 							and then positions.count > 0
 						then
-							internal_replace_substring_all (old_substring, new_substring)
+							String_8.replace_substring_all (Current, old_substring, new_substring)
 							buffer := empty_unencoded_buffer
 							from positions.start until positions.after loop
 								end_index := positions.item - 1
@@ -408,7 +408,7 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 							if attached internal_substring_index_list (old_substring) as positions
 								and then positions.count > 0
 							then
-								internal_replace_substring_all (old_substring, new_substring)
+								String_8.replace_substring_all (Current, old_substring, new_substring)
 								buffer := empty_unencoded_buffer
 								from positions.start until positions.after loop
 									end_index := positions.item - 1
@@ -424,7 +424,7 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 							end
 						else
 							-- Can use STRING_8 implemenation
-							internal_replace_substring_all (old_substring, new_substring)
+							String_8.replace_substring_all (Current, old_substring, new_substring)
 						end
 				else
 					substring_index_list := internal_substring_index_list (old_substring)

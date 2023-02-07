@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-02-07 18:04:41 GMT (Tuesday 7th February 2023)"
+	revision: "1"
 
 class
 	EL_ISO_8859_13_ZCODEC
@@ -115,37 +115,31 @@ feature {NONE} -- Initialization
 
 feature -- Conversion
 
-	as_upper (code: NATURAL): NATURAL
-		local
-			offset: NATURAL
+	to_upper_offset (code: NATURAL): INTEGER
 		do
 			inspect code
 				when 97..122, 224..246, 248..254 then
-					offset := 32
+					Result := 32
 				when 184, 186, 191 then
-					offset := 16
-
+					Result := 16
 			else end
-			Result := code - offset
+			Result := Result.opposite
 		end
 
-	as_lower (code: NATURAL): NATURAL
-		local
-			offset: NATURAL
+	to_lower_offset (code: NATURAL): INTEGER
 		do
 			inspect code
 				when 65..90, 192..214, 216..222 then
-					offset := 32
+					Result := 32
 				when 168, 170, 175 then
-					offset := 16
+					Result := 16
 
 			else end
-			Result := code + offset
 		end
 
 	unicode_case_change_substitute (code: NATURAL): CHARACTER_32
-			-- Returns Unicode case change character if c does not have a latin case change
-			-- or else the Null character
+		-- Returns Unicode case change character if c does not have a latin case change
+		-- or else the Null character
 		do
 			inspect code
 				-- µ -> Μ
@@ -214,7 +208,7 @@ feature -- Character query
 
 	is_alpha (code: NATURAL): BOOLEAN
 		do
-			inspect code
+			inspect code 
 				when 65..90, 97..122, 168, 170, 175, 181, 184, 186, 191..214, 216..246, 248..254 then
 					Result := True
 			else
@@ -223,7 +217,7 @@ feature -- Character query
 
 	is_lower (code: NATURAL): BOOLEAN
 		do
-			inspect code
+			inspect code 
 				when 97..122, 224..246, 248..254, 184, 186, 191 then
 					Result := True
 
@@ -235,9 +229,10 @@ feature -- Character query
 			end
 		end
 
+
 	is_upper (code: NATURAL): BOOLEAN
 		do
-			inspect code
+			inspect code 
 				when 65..90, 192..214, 216..222, 168, 170, 175 then
 					Result := True
 			else
@@ -250,37 +245,37 @@ feature {NONE} -- Implementation
 			-- Unicode value indexed by ISO_8859_13 character values
 		do
 			Result := single_byte_unicode_chars
-			Result [0xA0] := ' ' --
-			Result [0xA1] := '”' --
-			Result [0xA2] := '¢' --
-			Result [0xA3] := '£' --
-			Result [0xA4] := '¤' --
-			Result [0xA5] := '„' --
-			Result [0xA6] := '¦' --
-			Result [0xA7] := '§' --
-			Result [0xA8] := 'Ø' --
-			Result [0xA9] := '©' --
-			Result [0xAA] := 'Ŗ' --
-			Result [0xAB] := '«' --
-			Result [0xAC] := '¬' --
-			Result [0xAD] := '­' --
-			Result [0xAE] := '®' --
-			Result [0xAF] := 'Æ' --
-			Result [0xB0] := '°' --
-			Result [0xB1] := '±' --
-			Result [0xB2] := '²' --
-			Result [0xB3] := '³' --
-			Result [0xB4] := '“' --
-			Result [0xB5] := 'µ' --
-			Result [0xB6] := '¶' --
-			Result [0xB7] := '·' --
-			Result [0xB8] := 'ø' --
-			Result [0xB9] := '¹' --
+			Result [0xA0] := ' ' -- 
+			Result [0xA1] := '”' -- 
+			Result [0xA2] := '¢' -- 
+			Result [0xA3] := '£' -- 
+			Result [0xA4] := '¤' -- 
+			Result [0xA5] := '„' -- 
+			Result [0xA6] := '¦' -- 
+			Result [0xA7] := '§' -- 
+			Result [0xA8] := 'Ø' -- 
+			Result [0xA9] := '©' -- 
+			Result [0xAA] := 'Ŗ' -- 
+			Result [0xAB] := '«' -- 
+			Result [0xAC] := '¬' -- 
+			Result [0xAD] := '­' -- 
+			Result [0xAE] := '®' -- 
+			Result [0xAF] := 'Æ' -- 
+			Result [0xB0] := '°' -- 
+			Result [0xB1] := '±' -- 
+			Result [0xB2] := '²' -- 
+			Result [0xB3] := '³' -- 
+			Result [0xB4] := '“' -- 
+			Result [0xB5] := 'µ' -- 
+			Result [0xB6] := '¶' -- 
+			Result [0xB7] := '·' -- 
+			Result [0xB8] := 'ø' -- 
+			Result [0xB9] := '¹' -- 
 			Result [0xBA] := 'ŗ' -- LATIN SMALL LETTER R WITH CEDILLA
-			Result [0xBB] := '»' --
-			Result [0xBC] := '¼' --
-			Result [0xBD] := '½' --
-			Result [0xBE] := '¾' --
+			Result [0xBB] := '»' -- 
+			Result [0xBC] := '¼' -- 
+			Result [0xBD] := '½' -- 
+			Result [0xBE] := '¾' -- 
 			Result [0xBF] := 'æ' -- LATIN SMALL LETTER AE
 			Result [0xC0] := 'Ą' -- LATIN CAPITAL LETTER A WITH OGONEK
 			Result [0xC1] := 'Į' -- LATIN CAPITAL LETTER I WITH OGONEK
@@ -305,7 +300,7 @@ feature {NONE} -- Implementation
 			Result [0xD4] := 'Ō' -- LATIN CAPITAL LETTER O WITH MACRON
 			Result [0xD5] := 'Õ' -- LATIN CAPITAL LETTER O WITH TILDE
 			Result [0xD6] := 'Ö' -- LATIN CAPITAL LETTER O WITH DIAERESIS
-			Result [0xD7] := '×' --
+			Result [0xD7] := '×' -- 
 			Result [0xD8] := 'Ų' -- LATIN CAPITAL LETTER U WITH OGONEK
 			Result [0xD9] := 'Ł' -- LATIN CAPITAL LETTER L WITH STROKE
 			Result [0xDA] := 'Ś' -- LATIN CAPITAL LETTER S WITH ACUTE
@@ -337,7 +332,7 @@ feature {NONE} -- Implementation
 			Result [0xF4] := 'ō' -- LATIN SMALL LETTER O WITH MACRON
 			Result [0xF5] := 'õ' -- LATIN SMALL LETTER O WITH TILDE
 			Result [0xF6] := 'ö' -- LATIN SMALL LETTER O WITH DIAERESIS
-			Result [0xF7] := '÷' --
+			Result [0xF7] := '÷' -- 
 			Result [0xF8] := 'ų' -- LATIN SMALL LETTER U WITH OGONEK
 			Result [0xF9] := 'ł' -- LATIN SMALL LETTER L WITH STROKE
 			Result [0xFA] := 'ś' -- LATIN SMALL LETTER S WITH ACUTE
@@ -345,7 +340,7 @@ feature {NONE} -- Implementation
 			Result [0xFC] := 'ü' -- LATIN SMALL LETTER U WITH DIAERESIS
 			Result [0xFD] := 'ż' -- LATIN SMALL LETTER Z WITH DOT ABOVE
 			Result [0xFE] := 'ž' -- LATIN SMALL LETTER Z WITH CARON
-			Result [0xFF] := '’' --
+			Result [0xFF] := '’' -- 
 		end
 
 	latin_set_1: SPECIAL [CHARACTER]

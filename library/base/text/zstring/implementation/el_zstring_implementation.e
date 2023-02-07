@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-19 15:06:48 GMT (Saturday 19th November 2022)"
-	revision: "39"
+	date: "2023-02-07 12:52:54 GMT (Tuesday 7th February 2023)"
+	revision: "40"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -66,7 +66,6 @@ inherit
 
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
 		rename
-			ends_with as internal_ends_with,
 			fill_character as internal_fill_character,
 			has as internal_has,
 			hash_code as area_hash_code,
@@ -86,9 +85,6 @@ inherit
 			prune_all as internal_prune_all,
 			remove as internal_remove,
 			remove_substring as internal_remove_substring,
-			replace_substring as internal_replace_substring,
-			replace_substring_all as internal_replace_substring_all,
-			same_caseless_characters as internal_same_caseless_characters,
 			same_characters as internal_same_characters,
 			same_string as internal_same_string,
 			share as internal_share,
@@ -96,8 +92,6 @@ inherit
 			string as internal_string,
 			split as internal_split,
 			substring as internal_substring,
-			substring_index as internal_substring_index,
-			substring_index_in_bounds as internal_substring_index_in_bounds,
 			right_adjust as internal_right_adjust,
 			wipe_out as internal_wipe_out
 		export

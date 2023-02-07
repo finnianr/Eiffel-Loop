@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-22 12:59:43 GMT (Sunday 22nd January 2023)"
-	revision: "14"
+	date: "2023-02-07 18:37:56 GMT (Tuesday 7th February 2023)"
+	revision: "15"
 
 deferred class
 	EL_EQA_TEST_SET
@@ -68,7 +68,7 @@ feature {NONE} -- Implementation
 			elseif not a.same_string (b) then
 				lio.put_string_field_to_max_length (a.generator + " a", a, 200)
 				lio.put_new_line
-				lio.put_string_field_to_max_length (b.generator + " b", a, 200)
+				lio.put_string_field_to_max_length (b.generator + " b", b, 200)
 				lio.put_new_line
 				assert (tag, False)
 			end

@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:33:39 GMT (Saturday 31st December 2022)"
-	revision: "68"
+	date: "2023-02-07 18:35:55 GMT (Tuesday 7th February 2023)"
+	revision: "69"
 
 class
 	ZSTRING_TEST_SET
@@ -70,6 +70,7 @@ feature -- Basic operations
 			eval.call ("has", agent test_has)
 			eval.call ("is_canonically_spaced", agent test_is_canonically_spaced)
 			eval.call ("order_comparison", agent test_order_comparison)
+			eval.call ("same_caseless_characters", agent test_same_caseless_characters)
 			eval.call ("same_characters", agent test_same_characters)
 			eval.call ("sort", agent test_sort)
 			eval.call ("starts_with", agent test_starts_with)
@@ -412,9 +413,15 @@ feature -- Prepending tests
 feature -- Element change tests
 
 	test_case_changing
+		local
+			lower, upper: STRING_32
 		do
+			across Text.words as word loop
+				lower := word.item.as_lower
+				upper := lower.as_upper
+				change_case (lower, upper)
+			end
 			change_case (Text.Lower_case_characters, Text.Upper_case_characters)
-			change_case (Text.russian_and_english.as_lower, Text.russian_and_english.as_upper)
 --			change_case (Lower_case_mu, Upper_case_mu)
 		end
 
@@ -795,6 +802,24 @@ feature -- Status query tests
 			end
 		end
 
+	test_same_caseless_characters
+		local
+			line, word: ZSTRING; i: INTEGER
+			word_list: EL_ZSTRING_LIST
+		do
+			across Text.lines as l loop
+				line := l.item
+				create word_list.make_word_split (l.item)
+				i := 1
+				across word_list as w loop
+					word := w.item
+					i := line.substring_index (word, i)
+					word.to_upper
+					assert ("same characters", line.same_caseless_characters (word, 1, word.count, i))
+				end
+			end
+		end
+
 	test_same_characters
 		local
 			line, word: ZSTRING; i: INTEGER
@@ -992,6 +1017,7 @@ feature -- Access tests
 		end
 
 	test_substring_index
+		-- ZSTRING_TEST_SET.test_substring_index
 		note
 			testing: "covers/{ZSTRING}.substring", "covers/{ZSTRING}.substring_index"
 		local

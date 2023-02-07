@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:31:46 GMT (Saturday 31st December 2022)"
-	revision: "27"
+	date: "2023-02-07 11:05:57 GMT (Tuesday 7th February 2023)"
+	revision: "28"
 
 class
 	STRING_TEST_SET
@@ -32,9 +32,20 @@ feature -- Basic operations
 	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("expanded_string", agent test_expanded_string)
 		end
 
 feature -- Tests
+
+	test_expanded_string
+		-- STRING_TEST_SET.test_expanded_string
+		local
+			ex: EXPANDED_STRING; s: STRING
+		do
+			s := "abc"
+			ex.share (s)
+			assert ("same hash_code", ex.hash_code = 6382179)
+		end
 
 feature -- Basic operations
 
@@ -56,6 +67,17 @@ feature -- Basic operations
 			end
 		end
 
+	check_if_euro_is_space
+		local
+			euro: CHARACTER_32
+		do
+			euro := '€'
+			lio.put_labeled_string ("euro.is_space", euro.is_space.out)
+			lio.put_new_line
+			lio.put_labeled_string ("euro.is_space", C_properties.is_space (euro).out)
+			lio.put_new_line
+ 		end
+
 	check_if_type_name_unique
 		local
 			name_1, name_2: STRING
@@ -70,17 +92,6 @@ feature -- Basic operations
 				lio.put_line ("Not unique")
 			end
 		end
-
-	check_if_euro_is_space
-		local
-			euro: CHARACTER_32
-		do
-			euro := '€'
-			lio.put_labeled_string ("euro.is_space", euro.is_space.out)
-			lio.put_new_line
-			lio.put_labeled_string ("euro.is_space", C_properties.is_space (euro).out)
-			lio.put_new_line
- 		end
 
 	encode_string_for_console
 		do
@@ -151,15 +162,6 @@ feature -- Basic operations
 			lio.put_new_line
 		end
 
-	right_adjust
-		do
-			if attached ("abc%R") as str then
-				str.right_adjust
-				lio.put_integer_field ("str.count", str.count)
-				lio.put_new_line
-			end
-		end
-
 	index_of_empty
 		local
 			line: ZSTRING
@@ -223,6 +225,15 @@ feature -- Basic operations
 			end
 		end
 
+	right_adjust
+		do
+			if attached ("abc%R") as str then
+				str.right_adjust
+				lio.put_integer_field ("str.count", str.count)
+				lio.put_new_line
+			end
+		end
+
 	split_empty_count
 		do
 			lio.put_integer_field ("count", ("").split (',').count)
@@ -238,15 +249,6 @@ feature -- Basic operations
 			lio.put_boolean (str.is_integer)
 		end
 
-	substring_beyond_bounds
-		local
-			name: STRING
-		do
-			name := "Muller"
-			lio.put_string_field ("name", name.substring (1, name.count + 1))
-			lio.put_new_line
-		end
-
 	substitute_template_with_string_8
 		local
 			type: STRING
@@ -255,6 +257,15 @@ feature -- Basic operations
 			lio.put_string_field ("Content", Mime_type_template #$ [type, "UTF-8"])
 			lio.put_new_line
 			lio.put_string_field ("Content", Mime_type_template #$ [type, "UTF-8"])
+		end
+
+	substring_beyond_bounds
+		local
+			name: STRING
+		do
+			name := "Muller"
+			lio.put_string_field ("name", name.substring (1, name.count + 1))
+			lio.put_new_line
 		end
 
 	test_has_repeated_hexadecimal_digit
@@ -351,15 +362,15 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Mime_type_template, Text_charset_template: ZSTRING
-		once
-			Result := "text/%S; charset=%S"
-		end
-
 	C_properties: CHARACTER_PROPERTY
 			-- Property for Unicode characters.
 		once
 			create Result.make
+		end
+
+	Mime_type_template, Text_charset_template: ZSTRING
+		once
+			Result := "text/%S; charset=%S"
 		end
 
 end

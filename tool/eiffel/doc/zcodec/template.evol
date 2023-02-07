@@ -1,19 +1,16 @@
 ﻿note
 	description: "Codec for ${codec_name} automatically generated from decoder.c in VTD-XML source"
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
-
-	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-17 17:31:58 GMT (Wednesday 17th July 2013)"
-	revision: "2"
-
 class
 	EL_${codec_name}_ZCODEC
 
 inherit
 	EL_ZCODEC
+	#if $has_thai_numerals then
+		redefine
+			is_numeric
+		end
+	#end
 
 create
 	make
@@ -39,37 +36,31 @@ feature {NONE} -- Initialization
 
 feature -- Conversion
 
-	as_upper (code: NATURAL): NATURAL
-		local
-			offset: NATURAL
+	to_upper_offset (code: NATURAL): INTEGER
 		do
 			inspect code
 			#across $lower_case_offsets as $offsets loop
 				when $offsets.item then
-					offset := $offsets.key
+					Result := $offsets.key
 			#end
-
 			else end
-			Result := code - offset
+			Result := Result.opposite
 		end
 
-	as_lower (code: NATURAL): NATURAL
-		local
-			offset: NATURAL
+	to_lower_offset (code: NATURAL): INTEGER
 		do
 			inspect code
 			#across $upper_case_offsets as $offsets loop
 				when $offsets.item then
-					offset := $offsets.key
+					Result := $offsets.key
 			#end
 
 			else end
-			Result := code + offset
 		end
 
 	unicode_case_change_substitute (code: NATURAL): CHARACTER_32
-			-- Returns Unicode case change character if c does not have a latin case change
-			-- or else the Null character
+		-- Returns Unicode case change character if c does not have a latin case change
+		-- or else the Null character
 		do
 		#if not $single_case_character_set.is_empty then
 			inspect code
@@ -128,6 +119,7 @@ feature -- Character query
 			end
 		end
 
+#if $has_thai_numerals then
 	is_numeric (code: NATURAL): BOOLEAN
 		do
 			inspect code 
@@ -136,6 +128,7 @@ feature -- Character query
 			else
 			end
 		end
+#end
 
 	is_upper (code: NATURAL): BOOLEAN
 		do

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:26 GMT (Monday 12th December 2022)"
-	revision: "36"
+	date: "2023-02-07 19:14:35 GMT (Tuesday 7th February 2023)"
+	revision: "37"
 
 deferred class
 	EL_ZCODEC
@@ -373,16 +373,30 @@ feature -- Text conversion
 
 feature {EL_ZSTRING} -- Implementation
 
-	as_lower (code: NATURAL): NATURAL
+	to_lower_offset (code: NATURAL): INTEGER
 		deferred
-		ensure then
-			reversible: code /= Result implies code = as_upper (Result)
+		ensure
+			reversible: Result /= 0 implies as_upper ((code.to_character_8 + Result).natural_32_code) = code
 		end
 
-	as_upper (code: NATURAL): NATURAL
+	to_upper_offset (code: NATURAL): INTEGER
 		deferred
-		ensure then
-			reversible: code /= Result implies code = as_lower (Result)
+		ensure
+			reversible: Result /= 0 implies as_lower ((code.to_character_8 + Result).natural_32_code) = code
+		end
+
+	as_lower (upper_code: NATURAL): NATURAL
+		require
+			has_lower: to_lower_offset (upper_code).to_boolean
+		do
+			Result := (upper_code.to_character_8 + to_lower_offset (upper_code)).natural_32_code
+		end
+
+	as_upper (lower_code: NATURAL): NATURAL
+		require
+			has_upper: to_upper_offset (lower_code).to_boolean
+		do
+			Result := (lower_code.to_character_8 + to_upper_offset (lower_code)).natural_32_code
 		end
 
 	change_case (
@@ -390,23 +404,32 @@ feature {EL_ZSTRING} -- Implementation
 		unencoded_characters: EL_UNENCODED_CHARACTERS
 	)
 		local
-			unicode_substitute: CHARACTER_32; c, new_c: CHARACTER; i: INTEGER
+			unicode_substitute: CHARACTER_32; c, new_c: CHARACTER; i, case_offset: INTEGER
+			code: NATURAL
 		do
 
 			from i := start_index until i > end_index loop
 				c := latin_array [i]
 				if c /= Substitute then
+					code := c.natural_32_code
 					if change_to_upper then
-						new_c := as_upper (c.natural_32_code).to_character_8
+						case_offset := to_upper_offset (code)
 					else
-						new_c := as_lower (c.natural_32_code).to_character_8
+						case_offset := to_lower_offset (code)
 					end
-					if c >= '~' and then new_c = c then
-						unicode_substitute := unicode_case_change_substitute (c.natural_32_code)
-						if unicode_substitute.natural_32_code > 0 then
+					if case_offset.to_boolean then
+						new_c := c + case_offset
+
+					elseif (change_to_upper and then is_lower (code))
+						or else not change_to_upper and then is_upper (code)
+					then
+						unicode_substitute := unicode_case_change_substitute (code)
+						if unicode_substitute > '%U' then
 							new_c := Substitute
 							unencoded_characters.put (unicode_substitute, i + 1)
 						end
+					else
+						new_c := c
 					end
 					if new_c /= c then
 						latin_array [i] := new_c

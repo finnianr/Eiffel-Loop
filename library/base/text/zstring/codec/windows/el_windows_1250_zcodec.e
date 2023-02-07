@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-02-07 18:04:41 GMT (Tuesday 7th February 2023)"
+	revision: "1"
 
 class
 	EL_WINDOWS_1250_ZCODEC
@@ -131,45 +131,39 @@ feature {NONE} -- Initialization
 
 feature -- Conversion
 
-	as_upper (code: NATURAL): NATURAL
-		local
-			offset: NATURAL
+	to_upper_offset (code: NATURAL): INTEGER
 		do
 			inspect code
 				when 97..122, 224..246, 248..254 then
-					offset := 32
+					Result := 32
 				when 154, 156..159, 179, 186, 191 then
-					offset := 16
+					Result := 16
 				when 185 then
-					offset := 20
+					Result := 20
 				when 190 then
-					offset := 2
-
+					Result := 2
 			else end
-			Result := code - offset
+			Result := Result.opposite
 		end
 
-	as_lower (code: NATURAL): NATURAL
-		local
-			offset: NATURAL
+	to_lower_offset (code: NATURAL): INTEGER
 		do
 			inspect code
 				when 65..90, 192..214, 216..222 then
-					offset := 32
+					Result := 32
 				when 138, 140..143, 163, 170, 175 then
-					offset := 16
+					Result := 16
 				when 165 then
-					offset := 20
+					Result := 20
 				when 188 then
-					offset := 2
+					Result := 2
 
 			else end
-			Result := code + offset
 		end
 
 	unicode_case_change_substitute (code: NATURAL): CHARACTER_32
-			-- Returns Unicode case change character if c does not have a latin case change
-			-- or else the Null character
+		-- Returns Unicode case change character if c does not have a latin case change
+		-- or else the Null character
 		do
 			inspect code
 				-- µ -> Μ
@@ -242,7 +236,7 @@ feature -- Character query
 
 	is_alpha (code: NATURAL): BOOLEAN
 		do
-			inspect code
+			inspect code 
 				when 65..90, 97..122, 138, 140..143, 154, 156..159, 163, 165, 170, 175, 179, 181, 185..186, 188, 190..214, 216..246, 248..254 then
 					Result := True
 			else
@@ -251,7 +245,7 @@ feature -- Character query
 
 	is_lower (code: NATURAL): BOOLEAN
 		do
-			inspect code
+			inspect code 
 				when 97..122, 224..246, 248..254, 154, 156..159, 179, 186, 191, 185, 190 then
 					Result := True
 
@@ -263,9 +257,10 @@ feature -- Character query
 			end
 		end
 
+
 	is_upper (code: NATURAL): BOOLEAN
 		do
-			inspect code
+			inspect code 
 				when 65..90, 192..214, 216..222, 138, 140..143, 163, 170, 175, 165, 188 then
 					Result := True
 			else

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 8:42:59 GMT (Saturday 3rd December 2022)"
-	revision: "14"
+	date: "2023-02-07 17:06:04 GMT (Tuesday 7th February 2023)"
+	revision: "15"
 
 class
 	CODEC_INFO
@@ -382,6 +382,7 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make (<<
+				["has_thai_numerals",				agent: BOOLEAN_REF do Result := (codec_id = 11).to_reference end],
 				["codec_name", 						agent: ZSTRING do Result := codec_name.as_upper end],
 				["codec_base_name", 					agent: ZSTRING do Result := codec_base_name end],
 				["latin_characters", 				agent: ITERABLE [LATIN_CHARACTER] do Result := latin_characters end],

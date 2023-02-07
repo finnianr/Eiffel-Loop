@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 9:51:07 GMT (Monday 30th January 2023)"
-	revision: "3"
+	date: "2023-02-07 10:43:44 GMT (Tuesday 7th February 2023)"
+	revision: "4"
 
 class
 	TEST_ZSTRING
@@ -81,7 +81,6 @@ feature -- Basic operations
 		do
 			target.replace_substring_all (original, new)
 		end
-
 
 	to_lower (string: ZSTRING)
 		do

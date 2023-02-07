@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-06 10:13:51 GMT (Friday 6th January 2023)"
-	revision: "14"
+	date: "2023-02-07 12:53:24 GMT (Tuesday 7th February 2023)"
+	revision: "15"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -96,7 +96,7 @@ feature -- Start/End comparisons
 
  	ends_with_zstring (str: EL_READABLE_ZSTRING): BOOLEAN
 		do
-			Result := internal_ends_with (str)
+			Result := String_8.ends_with (Current, str)
 			if Result and then str.has_mixed_encoding then
 				Result := Result and same_unencoded_substring (str, count - str.count + 1)
 			end
@@ -200,7 +200,7 @@ feature {NONE} -- Implementation
 			if case_sensitive then
 				Result := internal_same_characters (other, start_pos, end_pos, index_pos)
 			else
-				Result := internal_same_caseless_characters (other, start_pos, end_pos, index_pos)
+				Result :=  String_8.same_caseless_characters (Current, other, start_pos, end_pos, index_pos)
 			end
 			if Result and then has_mixed_encoding then
 				unencoded := unencoded_indexable; o_unencoded := other.unencoded_indexable_other

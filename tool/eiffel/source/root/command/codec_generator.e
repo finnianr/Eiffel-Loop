@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:20:36 GMT (Monday 5th December 2022)"
-	revision: "21"
+	date: "2023-02-07 16:29:11 GMT (Tuesday 7th February 2023)"
+	revision: "22"
 
 class
 	CODEC_GENERATOR
@@ -64,6 +64,7 @@ feature {NONE} -- State handlers
 
 				source_out_path := Output_path_template #$ [codec_list.last.codec_name]
 				create source_file.make_open_write (source_out_path)
+				source_file.put_bom
 				Evolicity_templates.merge_to_file (template_path, codec_list.last, source_file)
 				state := agent find_void_function
 			end

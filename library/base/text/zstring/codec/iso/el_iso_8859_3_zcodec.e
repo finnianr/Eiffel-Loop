@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-02-07 18:04:40 GMT (Tuesday 7th February 2023)"
+	revision: "1"
 
 class
 	EL_ISO_8859_3_ZCODEC
@@ -72,41 +72,35 @@ feature {NONE} -- Initialization
 
 feature -- Conversion
 
-	as_upper (code: NATURAL): NATURAL
-		local
-			offset: NATURAL
+	to_upper_offset (code: NATURAL): INTEGER
 		do
 			inspect code
 				when 97..122, 224..246, 248..254 then
-					offset := 32
+					Result := 32
 				when 177, 182, 186..188, 191 then
-					offset := 16
+					Result := 16
 				when 185 then
-					offset := 112
-
+					Result := 112
 			else end
-			Result := code - offset
+			Result := Result.opposite
 		end
 
-	as_lower (code: NATURAL): NATURAL
-		local
-			offset: NATURAL
+	to_lower_offset (code: NATURAL): INTEGER
 		do
 			inspect code
 				when 65..90, 192..214, 216..222 then
-					offset := 32
+					Result := 32
 				when 161, 166, 170..172, 175 then
-					offset := 16
+					Result := 16
 				when 169 then
-					offset := 64
+					Result := 64
 
 			else end
-			Result := code + offset
 		end
 
 	unicode_case_change_substitute (code: NATURAL): CHARACTER_32
-			-- Returns Unicode case change character if c does not have a latin case change
-			-- or else the Null character
+		-- Returns Unicode case change character if c does not have a latin case change
+		-- or else the Null character
 		do
 			inspect code
 				-- µ -> Μ
@@ -145,7 +139,7 @@ feature -- Character query
 
 	is_alpha (code: NATURAL): BOOLEAN
 		do
-			inspect code
+			inspect code 
 				when 65..90, 97..122, 161, 166, 169..172, 175, 177, 181..182, 185..188, 191..214, 216..246, 248..254 then
 					Result := True
 			else
@@ -154,7 +148,7 @@ feature -- Character query
 
 	is_lower (code: NATURAL): BOOLEAN
 		do
-			inspect code
+			inspect code 
 				when 97..122, 224..246, 248..254, 177, 182, 186..188, 191, 185 then
 					Result := True
 
@@ -166,9 +160,10 @@ feature -- Character query
 			end
 		end
 
+
 	is_upper (code: NATURAL): BOOLEAN
 		do
-			inspect code
+			inspect code 
 				when 65..90, 192..214, 216..222, 161, 166, 170..172, 175, 169 then
 					Result := True
 			else
@@ -269,7 +264,7 @@ feature {NONE} -- Implementation
 			Result [0xFC] := 'ü' -- LATIN SMALL LETTER U WITH DIAERESIS
 			Result [0xFD] := 'ŭ' -- LATIN SMALL LETTER U WITH BREVE
 			Result [0xFE] := 'ŝ' -- LATIN SMALL LETTER S WITH CIRCUMFLEX
-			Result [0xFF] := '˙' --
+			Result [0xFF] := '˙' -- 
 		end
 
 	latin_set_1: SPECIAL [CHARACTER]

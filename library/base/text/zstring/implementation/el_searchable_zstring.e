@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2023-02-07 12:28:13 GMT (Tuesday 7th February 2023)"
+	revision: "16"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -22,14 +22,14 @@ feature -- Access
 			c: CHARACTER
 		do
 			if uc.code <= Max_7_bit_code then
-				c := uc.to_character_8
+				Result := internal_index_of (uc.to_character_8, start_index)
 			else
 				c := Codec.encoded_character (uc)
-			end
-			if c = Substitute then
-				Result := unencoded_index_of (uc, start_index)
-			else
-				Result := internal_index_of (c, start_index)
+				if c = Substitute then
+					Result := unencoded_index_of (uc, start_index)
+				else
+					Result := internal_index_of (c, start_index)
+				end
 			end
 		ensure then
 			valid_result: Result = 0 or (start_index <= Result and Result <= count)
@@ -61,14 +61,14 @@ feature -- Access
 			c: CHARACTER
 		do
 			if uc.code <= Max_7_bit_code then
-				c := uc.to_character_8
+				Result := internal_last_index_of (uc.to_character_8, start_index_from_end)
 			else
 				c := Codec.encoded_character (uc)
-			end
-			if c = Substitute then
-				Result := unencoded_last_index_of (uc, start_index_from_end)
-			else
-				Result := internal_last_index_of (c, start_index_from_end)
+				if c = Substitute then
+					Result := unencoded_last_index_of (uc, start_index_from_end)
+				else
+					Result := internal_last_index_of (c, start_index_from_end)
+				end
 			end
 		end
 
@@ -76,7 +76,8 @@ feature -- Access
 		do
 			inspect respective_encoding (other)
 				when Only_current, Neither then
-					Result := internal_substring_index (other, start_index)
+					Result := String_8.substring_index (Current, other, start_index)
+--					Result := internal_substring_index (other, start_index)
 
 				when Both_have_mixed_encoding then
 					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
@@ -104,7 +105,7 @@ feature -- Access
 					when Only_other then
 						Result := 0
 					when Only_current, Neither then
-						Result := internal_substring_index_in_bounds (other_zstr, start_pos, end_pos)
+						Result := String_8.substring_index_in_bounds (Current, other_zstr, start_pos, end_pos)
 				else
 				end
 			else
@@ -208,7 +209,7 @@ feature {NONE} -- Implementation
 
 					when Only_current, Neither then
 						from index := 1 until index = 0 or else index > l_count - str_count + 1 loop
-							index := internal_substring_index (str, index)
+							index := String_8.substring_index (Current, str, index)
 							if index > 0 then
 								Result.extend (index)
 								index := index + str_count

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-07 16:08:21 GMT (Saturday 7th January 2023)"
-	revision: "45"
+	date: "2023-02-07 16:19:05 GMT (Tuesday 7th February 2023)"
+	revision: "46"
 
 class
 	APPLICATION_ROOT
@@ -42,7 +42,7 @@ inherit
 		UPGRADE_LOG_FILTERS_APP,
 
 	-- Code generators
-		CODEC_GENERATOR_APP,
+		ZCODEC_GENERATOR_APP,
 		ID3_FRAME_CODE_CLASS_GENERATOR_APP,
 		LIBRARY_OVERRIDE_APP,
 

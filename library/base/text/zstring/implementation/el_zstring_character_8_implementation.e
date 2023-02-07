@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2023-02-07 12:52:44 GMT (Tuesday 7th February 2023)"
+	revision: "21"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
@@ -122,16 +122,6 @@ feature -- Access
 				not substring (Result + 1, start_index_from_end).has (c)
 		end
 
-	substring_index (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
-		do
-			Result := current_string_8.substring_index (string_8_argument (other, 1), start_index)
-		end
-
-	substring_index_in_bounds (other: EL_READABLE_ZSTRING; start_pos, end_pos: INTEGER): INTEGER
-		do
-			Result := current_string_8.substring_index_in_bounds (string_8_argument (other, 1), start_pos, end_pos)
-		end
-
 feature -- Measurement
 
 	capacity: INTEGER
@@ -154,14 +144,6 @@ feature -- Measurement
 		end
 
 feature -- Status query
-
-	ends_with (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION): BOOLEAN
-			-- Does string finish with `s'?
-		do
-			Result := current_string_8.ends_with (string_8_argument (s, 1))
-		ensure
-			definition: Result = s.string.same_string (substring (count - s.count + 1, count))
-		end
 
 	has (c: CHARACTER_8): BOOLEAN
 			-- Does string include `c'?
@@ -398,34 +380,6 @@ feature {NONE} -- Element change
 			-- removed: For every `i' in 1..`count', `item' (`i') /= `c'
 		end
 
-	replace_substring (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; start_index, end_index: INTEGER)
-			-- Replace characters from `start_index' to `end_index' with `s'.
-		require
-			valid_start_index: 1 <= start_index
-			valid_end_index: end_index <= count
-			meaningfull_interval: start_index <= end_index + 1
-		local
-			str: like current_string_8
-		do
-			str := current_string_8
-			str.replace_substring (string_8_argument (s, 1), start_index, end_index)
-			set_from_string_8 (str)
-		ensure
-			new_count: count = old count + old s.count - end_index + start_index - 1
-			replaced: elks_checking implies (string ~ (old (substring (1, start_index - 1) + s.string + substring (end_index + 1, count))))
-		end
-
-	replace_substring_all (original, new: EL_READABLE_ZSTRING)
-		local
-			str, l_original, l_new: like current_string_8
-		do
-			str := current_string_8
-			l_original := string_8_argument (original, 1)
-			l_new := string_8_argument (new, 2)
-			str.replace_substring_all (l_original, l_new)
-			set_from_string_8 (str)
-		end
-
 	right_adjust
 			-- Remove trailing whitespace.
 		local
@@ -502,7 +456,7 @@ feature -- Removal
 			same_capacity: capacity = old capacity
 		end
 
-feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION} -- Implementation
+feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION, EL_STRING_8_IMPLEMENTATION} -- Implementation
 
 	additional_space: INTEGER
 		deferred
@@ -576,25 +530,6 @@ feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION} -- Implementation
 		deferred
 		end
 
- 	same_caseless_characters (other: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
-			-- Are characters of `other' within bounds `start_pos' and `end_pos'
-			-- caseless identical to characters of current string starting at index `index_pos'.
-		require
-			other_not_void: other /= Void
-			valid_start_pos: other.valid_index (start_pos)
-			valid_end_pos: other.valid_index (end_pos)
-			valid_bounds: (start_pos <= end_pos) or (start_pos = end_pos + 1)
-			valid_index_pos: valid_index (index_pos)
-		do
-			if attached string_8_argument (other, 1) as l_other then
-				Result := current_string_8.same_caseless_characters (l_other, start_pos, end_pos, index_pos)
-			end
-		ensure
-			same_characters: Result = substring (index_pos, index_pos + end_pos - start_pos).is_case_insensitive_equal (
-				other.string.substring (start_pos, end_pos)
-			)
-		end
-
 	set_count (number: INTEGER)
 		deferred
 		end
@@ -633,4 +568,10 @@ feature -- Constants
 				Result.extend (create {EL_STRING_8}.make_empty)
 			end
 		end
+
+	String_8: EL_STRING_8_IMPLEMENTATION
+		once
+			create Result.make
+		end
+
 end

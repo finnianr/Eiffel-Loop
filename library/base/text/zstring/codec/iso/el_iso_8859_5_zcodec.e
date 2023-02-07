@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-02-07 18:04:40 GMT (Tuesday 7th February 2023)"
+	revision: "1"
 
 class
 	EL_ISO_8859_5_ZCODEC
@@ -126,37 +126,31 @@ feature {NONE} -- Initialization
 
 feature -- Conversion
 
-	as_upper (code: NATURAL): NATURAL
-		local
-			offset: NATURAL
+	to_upper_offset (code: NATURAL): INTEGER
 		do
 			inspect code
 				when 97..122, 208..239 then
-					offset := 32
+					Result := 32
 				when 241..252, 254..255 then
-					offset := 80
-
+					Result := 80
 			else end
-			Result := code - offset
+			Result := Result.opposite
 		end
 
-	as_lower (code: NATURAL): NATURAL
-		local
-			offset: NATURAL
+	to_lower_offset (code: NATURAL): INTEGER
 		do
 			inspect code
 				when 65..90, 176..207 then
-					offset := 32
+					Result := 32
 				when 161..172, 174..175 then
-					offset := 80
+					Result := 80
 
 			else end
-			Result := code + offset
 		end
 
 	unicode_case_change_substitute (code: NATURAL): CHARACTER_32
-			-- Returns Unicode case change character if c does not have a latin case change
-			-- or else the Null character
+		-- Returns Unicode case change character if c does not have a latin case change
+		-- or else the Null character
 		do
 		end
 
@@ -184,7 +178,7 @@ feature -- Character query
 
 	is_alpha (code: NATURAL): BOOLEAN
 		do
-			inspect code
+			inspect code 
 				when 65..90, 97..122, 161..172, 174..239, 241..252, 254..255 then
 					Result := True
 			else
@@ -193,7 +187,7 @@ feature -- Character query
 
 	is_lower (code: NATURAL): BOOLEAN
 		do
-			inspect code
+			inspect code 
 				when 97..122, 208..239, 241..252, 254..255 then
 					Result := True
 
@@ -201,9 +195,10 @@ feature -- Character query
 			end
 		end
 
+
 	is_upper (code: NATURAL): BOOLEAN
 		do
-			inspect code
+			inspect code 
 				when 65..90, 176..207, 161..172, 174..175 then
 					Result := True
 			else
@@ -216,102 +211,102 @@ feature {NONE} -- Implementation
 			-- Unicode value indexed by ISO_8859_5 character values
 		do
 			Result := single_byte_unicode_chars
-			Result [0xA0] := ' ' --
-			Result [0xA1] := 'Ё' --
-			Result [0xA2] := 'Ђ' --
-			Result [0xA3] := 'Ѓ' --
-			Result [0xA4] := 'Є' --
-			Result [0xA5] := 'Ѕ' --
-			Result [0xA6] := 'І' --
-			Result [0xA7] := 'Ї' --
-			Result [0xA8] := 'Ј' --
-			Result [0xA9] := 'Љ' --
-			Result [0xAA] := 'Њ' --
-			Result [0xAB] := 'Ћ' --
-			Result [0xAC] := 'Ќ' --
-			Result [0xAD] := '­' --
-			Result [0xAE] := 'Ў' --
-			Result [0xAF] := 'Џ' --
-			Result [0xB0] := 'А' --
-			Result [0xB1] := 'Б' --
-			Result [0xB2] := 'В' --
-			Result [0xB3] := 'Г' --
-			Result [0xB4] := 'Д' --
-			Result [0xB5] := 'Е' --
-			Result [0xB6] := 'Ж' --
-			Result [0xB7] := 'З' --
-			Result [0xB8] := 'И' --
-			Result [0xB9] := 'Й' --
-			Result [0xBA] := 'К' --
-			Result [0xBB] := 'Л' --
-			Result [0xBC] := 'М' --
-			Result [0xBD] := 'Н' --
-			Result [0xBE] := 'О' --
-			Result [0xBF] := 'П' --
-			Result [0xC0] := 'Р' --
-			Result [0xC1] := 'С' --
-			Result [0xC2] := 'Т' --
-			Result [0xC3] := 'У' --
-			Result [0xC4] := 'Ф' --
-			Result [0xC5] := 'Х' --
-			Result [0xC6] := 'Ц' --
-			Result [0xC7] := 'Ч' --
-			Result [0xC8] := 'Ш' --
-			Result [0xC9] := 'Щ' --
-			Result [0xCA] := 'Ъ' --
-			Result [0xCB] := 'Ы' --
-			Result [0xCC] := 'Ь' --
-			Result [0xCD] := 'Э' --
-			Result [0xCE] := 'Ю' --
-			Result [0xCF] := 'Я' --
-			Result [0xD0] := 'а' --
-			Result [0xD1] := 'б' --
-			Result [0xD2] := 'в' --
-			Result [0xD3] := 'г' --
-			Result [0xD4] := 'д' --
-			Result [0xD5] := 'е' --
-			Result [0xD6] := 'ж' --
-			Result [0xD7] := 'з' --
-			Result [0xD8] := 'и' --
-			Result [0xD9] := 'й' --
-			Result [0xDA] := 'к' --
-			Result [0xDB] := 'л' --
-			Result [0xDC] := 'м' --
-			Result [0xDD] := 'н' --
-			Result [0xDE] := 'о' --
-			Result [0xDF] := 'п' --
-			Result [0xE0] := 'р' --
-			Result [0xE1] := 'с' --
-			Result [0xE2] := 'т' --
-			Result [0xE3] := 'у' --
-			Result [0xE4] := 'ф' --
-			Result [0xE5] := 'х' --
-			Result [0xE6] := 'ц' --
-			Result [0xE7] := 'ч' --
-			Result [0xE8] := 'ш' --
-			Result [0xE9] := 'щ' --
-			Result [0xEA] := 'ъ' --
-			Result [0xEB] := 'ы' --
-			Result [0xEC] := 'ь' --
-			Result [0xED] := 'э' --
-			Result [0xEE] := 'ю' --
-			Result [0xEF] := 'я' --
-			Result [0xF0] := '№' --
-			Result [0xF1] := 'ё' --
-			Result [0xF2] := 'ђ' --
-			Result [0xF3] := 'ѓ' --
-			Result [0xF4] := 'є' --
-			Result [0xF5] := 'ѕ' --
-			Result [0xF6] := 'і' --
-			Result [0xF7] := 'ї' --
-			Result [0xF8] := 'ј' --
-			Result [0xF9] := 'љ' --
-			Result [0xFA] := 'њ' --
-			Result [0xFB] := 'ћ' --
-			Result [0xFC] := 'ќ' --
-			Result [0xFD] := '§' --
-			Result [0xFE] := 'ў' --
-			Result [0xFF] := 'џ' --
+			Result [0xA0] := ' ' -- 
+			Result [0xA1] := 'Ё' -- 
+			Result [0xA2] := 'Ђ' -- 
+			Result [0xA3] := 'Ѓ' -- 
+			Result [0xA4] := 'Є' -- 
+			Result [0xA5] := 'Ѕ' -- 
+			Result [0xA6] := 'І' -- 
+			Result [0xA7] := 'Ї' -- 
+			Result [0xA8] := 'Ј' -- 
+			Result [0xA9] := 'Љ' -- 
+			Result [0xAA] := 'Њ' -- 
+			Result [0xAB] := 'Ћ' -- 
+			Result [0xAC] := 'Ќ' -- 
+			Result [0xAD] := '­' -- 
+			Result [0xAE] := 'Ў' -- 
+			Result [0xAF] := 'Џ' -- 
+			Result [0xB0] := 'А' -- 
+			Result [0xB1] := 'Б' -- 
+			Result [0xB2] := 'В' -- 
+			Result [0xB3] := 'Г' -- 
+			Result [0xB4] := 'Д' -- 
+			Result [0xB5] := 'Е' -- 
+			Result [0xB6] := 'Ж' -- 
+			Result [0xB7] := 'З' -- 
+			Result [0xB8] := 'И' -- 
+			Result [0xB9] := 'Й' -- 
+			Result [0xBA] := 'К' -- 
+			Result [0xBB] := 'Л' -- 
+			Result [0xBC] := 'М' -- 
+			Result [0xBD] := 'Н' -- 
+			Result [0xBE] := 'О' -- 
+			Result [0xBF] := 'П' -- 
+			Result [0xC0] := 'Р' -- 
+			Result [0xC1] := 'С' -- 
+			Result [0xC2] := 'Т' -- 
+			Result [0xC3] := 'У' -- 
+			Result [0xC4] := 'Ф' -- 
+			Result [0xC5] := 'Х' -- 
+			Result [0xC6] := 'Ц' -- 
+			Result [0xC7] := 'Ч' -- 
+			Result [0xC8] := 'Ш' -- 
+			Result [0xC9] := 'Щ' -- 
+			Result [0xCA] := 'Ъ' -- 
+			Result [0xCB] := 'Ы' -- 
+			Result [0xCC] := 'Ь' -- 
+			Result [0xCD] := 'Э' -- 
+			Result [0xCE] := 'Ю' -- 
+			Result [0xCF] := 'Я' -- 
+			Result [0xD0] := 'а' -- 
+			Result [0xD1] := 'б' -- 
+			Result [0xD2] := 'в' -- 
+			Result [0xD3] := 'г' -- 
+			Result [0xD4] := 'д' -- 
+			Result [0xD5] := 'е' -- 
+			Result [0xD6] := 'ж' -- 
+			Result [0xD7] := 'з' -- 
+			Result [0xD8] := 'и' -- 
+			Result [0xD9] := 'й' -- 
+			Result [0xDA] := 'к' -- 
+			Result [0xDB] := 'л' -- 
+			Result [0xDC] := 'м' -- 
+			Result [0xDD] := 'н' -- 
+			Result [0xDE] := 'о' -- 
+			Result [0xDF] := 'п' -- 
+			Result [0xE0] := 'р' -- 
+			Result [0xE1] := 'с' -- 
+			Result [0xE2] := 'т' -- 
+			Result [0xE3] := 'у' -- 
+			Result [0xE4] := 'ф' -- 
+			Result [0xE5] := 'х' -- 
+			Result [0xE6] := 'ц' -- 
+			Result [0xE7] := 'ч' -- 
+			Result [0xE8] := 'ш' -- 
+			Result [0xE9] := 'щ' -- 
+			Result [0xEA] := 'ъ' -- 
+			Result [0xEB] := 'ы' -- 
+			Result [0xEC] := 'ь' -- 
+			Result [0xED] := 'э' -- 
+			Result [0xEE] := 'ю' -- 
+			Result [0xEF] := 'я' -- 
+			Result [0xF0] := '№' -- 
+			Result [0xF1] := 'ё' -- 
+			Result [0xF2] := 'ђ' -- 
+			Result [0xF3] := 'ѓ' -- 
+			Result [0xF4] := 'є' -- 
+			Result [0xF5] := 'ѕ' -- 
+			Result [0xF6] := 'і' -- 
+			Result [0xF7] := 'ї' -- 
+			Result [0xF8] := 'ј' -- 
+			Result [0xF9] := 'љ' -- 
+			Result [0xFA] := 'њ' -- 
+			Result [0xFB] := 'ћ' -- 
+			Result [0xFC] := 'ќ' -- 
+			Result [0xFD] := '§' -- 
+			Result [0xFE] := 'ў' -- 
+			Result [0xFF] := 'џ' -- 
 		end
 
 	latin_set_1: SPECIAL [CHARACTER]
