@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 12:53:41 GMT (Thursday 29th December 2022)"
-	revision: "41"
+	date: "2023-02-08 16:34:11 GMT (Wednesday 8th February 2023)"
+	revision: "42"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -164,7 +164,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 						if str.has_mixed_encoding then
 							buffer.append_substring (str, previous_index, end_index, count)
 						end
-						internal_append_substring (str, previous_index, end_index)
+						String_8.append_substring (Current, str, previous_index, end_index)
 					end
 					if new_substring.has_mixed_encoding then
 						buffer.append (new_substring, count)
@@ -178,7 +178,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 					if str.has_mixed_encoding then
 						buffer.append_substring (str, previous_index, end_index, count)
 					end
-					internal_append_substring (str, previous_index, end_index)
+					String_8.append_substring (Current, str, previous_index, end_index)
 				end
 				set_unencoded_from_buffer (buffer)
 			end
@@ -288,7 +288,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 			old_count: INTEGER; buffer: like empty_unencoded_buffer
 		do
 			old_count := count
-			internal_append_substring (s, start_index, end_index)
+			String_8.append_substring (Current, s, start_index, end_index)
 			if s.has_unencoded_between (start_index, end_index) then
 				buffer := empty_unencoded_buffer
 				buffer.append_substring (s, start_index, end_index, old_count)
@@ -560,7 +560,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Prepending
 			else
 				c := Codec.encoded_character (uc)
 			end
-			internal_prepend_character (c)
+			String_8.prepend_character (Current, c)
 			shift_unencoded (1)
 			if c = Substitute then
 				put_unencoded (uc, 1)
@@ -571,7 +571,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Prepending
 		local
 			offset: INTEGER; buffer: like empty_unencoded_buffer
 		do
-			internal_prepend_substring (s, start_index, end_index)
+			String_8.prepend_substring (Current, s, start_index, end_index)
 			inspect respective_encoding (s)
 				when Both_have_mixed_encoding then
 					offset := end_index - start_index + 1
@@ -649,23 +649,6 @@ feature {NONE} -- Implementation
 			appended: elks_checking implies internal_string.same_string (old (internal_string + s.string))
 		end
 
-	internal_append_substring (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; start_index, end_index: INTEGER)
-			-- Append characters of `s.substring (start_index, end_index)' at end.
-		require
-			start_index_valid: start_index >= 1
-			end_index_valid: end_index <= s.count
-			valid_bounds: start_index <= end_index + 1
-		do
-			if attached current_string_8 as l_current then
-				l_current.append_substring (string_8_argument (s, 1), start_index, end_index)
-				set_from_string_8 (l_current)
-			end
-		ensure
-			new_count: count = old count + (end_index - start_index + 1)
-			appended: elks_checking implies
-					internal_string.same_string (old (internal_string + s.substring (start_index, end_index)))
-		end
-
 	internal_append_tuple_item (tuple: TUPLE; i: INTEGER)
 		do
 			inspect tuple.item_code (i)
@@ -732,34 +715,6 @@ feature {NONE} -- Implementation
 		ensure
 			new_count: count = old (count + s.count)
 			inserted: elks_checking implies internal_string.same_string (old (s.string + internal_string))
-		end
-
-	internal_prepend_character (c: CHARACTER_8)
-			-- Add `c' at front.
-		do
-			if attached current_string_8 as l_current then
-				l_current.prepend_character (c)
-				set_from_string_8 (l_current)
-			end
-		ensure
-			new_count: count = old count + 1
-		end
-
-	internal_prepend_substring (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; start_index, end_index: INTEGER)
-			-- Append characters of `s.substring (start_index, end_index)' at end.
-		require
-			start_index_valid: start_index >= 1
-			end_index_valid: end_index <= s.count
-			valid_bounds: start_index <= end_index + 1
-		do
-			if attached current_string_8 as l_current then
-				l_current.prepend_substring (string_8_argument (s, 1), start_index, end_index)
-				set_from_string_8 (l_current)
-			end
-		ensure
-			new_count: count = old count + end_index - start_index + 1
-			prepended: elks_checking implies
-				internal_string.same_string (old (s.substring (start_index, end_index) + internal_string))
 		end
 
 end

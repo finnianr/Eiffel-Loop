@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-07 12:52:54 GMT (Tuesday 7th February 2023)"
-	revision: "40"
+	date: "2023-02-08 16:40:50 GMT (Wednesday 8th February 2023)"
+	revision: "41"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -22,6 +22,7 @@ inherit
 			area as unencoded_area,
 			buffer as unencoded_buffer,
 			code as unencoded_code,
+			combined_area as unencoded_combined_area,
 			count_greater_than_zero_flags as respective_encoding,
 			empty_buffer as empty_unencoded_buffer,
 			hash_code as unencoded_hash_code,
@@ -67,32 +68,21 @@ inherit
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
 		rename
 			fill_character as internal_fill_character,
-			has as internal_has,
 			hash_code as area_hash_code,
 			item as internal_item,
 			index_of as internal_index_of,
-			insert_character as internal_insert_character,
 			insert_string as internal_insert_string,
 			keep_head as internal_keep_head,
 			keep_tail as internal_keep_tail,
 			last_index_of as internal_last_index_of,
-			linear_representation as internal_linear_representation,
-			left_adjust as internal_left_adjust,
 			make as internal_make,
-			mirror as internal_mirror,
-			occurrences as internal_occurrences,
 			order_comparison as internal_order_comparison,
-			prune_all as internal_prune_all,
 			remove as internal_remove,
-			remove_substring as internal_remove_substring,
 			same_characters as internal_same_characters,
 			same_string as internal_same_string,
 			share as internal_share,
-			starts_with as internal_starts_with,
 			string as internal_string,
-			split as internal_split,
 			substring as internal_substring,
-			right_adjust as internal_right_adjust,
 			wipe_out as internal_wipe_out
 		export
 			{STRING_HANDLER} area, area_lower
@@ -200,14 +190,14 @@ feature -- Status query
 			if c = Substitute then
 				Result := unencoded_has (uc)
 			else
-				Result := internal_has (c)
+				Result := String_8.has (Current, c)
 			end
 		end
 
 	has_z_code (a_z_code: NATURAL): BOOLEAN
 		do
 			if a_z_code <= 0xFF then
-				Result := internal_has (a_z_code.to_character_8)
+				Result := String_8.has (Current, a_z_code.to_character_8)
 			else
 				Result := unencoded_has (z_code_to_unicode (a_z_code).to_character_32)
 			end
@@ -251,9 +241,9 @@ feature -- Contract Support
 					sum_count := sum_count + interval_count
 					i := i + interval_count + 2
 				end
-				Result := Result and internal_occurrences (Substitute) = sum_count
+				Result := Result and String_8.occurrences (Current, Substitute) = sum_count
 			else
-				Result := internal_occurrences (Substitute) = 0
+				Result := String_8.occurrences (Current, Substitute) = 0
 			end
 		end
 
@@ -458,7 +448,7 @@ feature {EL_READABLE_ZSTRING} -- Deferred Implementation
 		deferred
 		end
 
-	character_properties: CHARACTER_PROPERTY
+	unicode_property: EL_UNICODE_PROPERTY
 		deferred
 		end
 

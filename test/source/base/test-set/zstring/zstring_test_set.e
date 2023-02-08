@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-07 18:35:55 GMT (Tuesday 7th February 2023)"
-	revision: "69"
+	date: "2023-02-08 17:44:43 GMT (Wednesday 8th February 2023)"
+	revision: "70"
 
 class
 	ZSTRING_TEST_SET
@@ -51,7 +51,7 @@ feature -- Basic operations
 			eval.call ("fill_character", agent test_fill_character)
 			eval.call ("insert_character", agent test_insert_character)
 			eval.call ("insert_string", agent test_insert_string)
-			eval.call ("left_adjust", agent test_left_adjust)
+			eval.call ("adjustments", agent test_adjustments)
 			eval.call ("prepend", agent test_prepend)
 			eval.call ("prepend_substring", agent test_prepend_substring)
 			eval.call ("prune_all", agent test_prune_all)
@@ -62,7 +62,6 @@ feature -- Basic operations
 			eval.call ("replace_character", agent test_replace_character)
 			eval.call ("replace_substring", agent test_replace_substring)
 			eval.call ("replace_substring_all", agent test_replace_substring_all)
-			eval.call ("right_adjust", agent test_right_adjust)
 			eval.call ("to_utf_8", agent test_to_utf_8)
 			eval.call ("translate", agent test_translate)
 			eval.call ("ends_with", agent test_ends_with)
@@ -410,6 +409,86 @@ feature -- Prepending tests
 			end
 		end
 
+feature -- Removal tests
+
+	test_adjustments
+		note
+			testing:	"covers/{ZSTRING}.left_adjust"
+		do
+			do_pruning_test (Left_adjust)
+			do_pruning_test (Right_adjust)
+			do_pruning_test (Both_adjust)
+		end
+
+	test_prune_all
+		local
+			pair: STRING_PAIR; uc: CHARACTER_32
+		do
+			create pair
+			across Text.character_set as char loop
+				uc := char.item
+				across Text.lines as line loop
+					pair.set (line.item)
+					pair.s_32.prune_all (uc); pair.z_32.prune_all (uc)
+					assert ("prune_all OK", pair.is_same)
+				end
+			end
+			across Text.words as word loop
+				pair.set (word.item)
+				from until pair.s_32.is_empty loop
+					uc := pair.s_32 [1]
+					pair.s_32.prune_all (uc); pair.z_32.prune_all (uc)
+					assert ("prune_all OK", pair.is_same)
+				end
+			end
+		end
+
+	test_prune_leading
+		note
+			testing:	"covers/{ZSTRING}.prune_all_trailing"
+		do
+			do_pruning_test (Prune_leading)
+		end
+
+	test_prune_trailing
+		note
+			testing:	"covers/{ZSTRING}.prune_all_trailing"
+		do
+			do_pruning_test (Prune_trailing)
+		end
+
+	test_remove_substring
+		note
+			testing: "covers/{ZSTRING}.remove_substring"
+		local
+			pair: STRING_PAIR; substring: STRING_32
+			l_interval: INTEGER_INTERVAL; i, lower, upper, offset: INTEGER
+		do
+			create pair
+			across Text.word_intervals as interval loop
+				from offset := 0 until offset > (interval.item.count // 2).max (1) loop
+					l_interval := (interval.item.lower + offset) |..| (interval.item.upper + offset)
+					if Text.russian_and_english.valid_index (l_interval.lower)
+						and then Text.russian_and_english.valid_index (l_interval.upper)
+					then
+						substring := Text.russian_and_english.substring (l_interval.lower, l_interval.upper) -- Debug
+						pair.set (Text.russian_and_english.twin)
+						pair.s_32.remove_substring (l_interval.lower, l_interval.upper)
+						pair.z_32.remove_substring (l_interval.lower, l_interval.upper)
+						assert ("remove_substring OK", pair.is_same)
+					end
+					offset := offset + (interval.item.count // 2).max (1)
+				end
+			end
+			across Text.words as word loop
+				pair.set (word.item)
+				pair.z_32.remove_substring (1, pair.z_32.count)
+				pair.s_32.remove_substring (1, pair.s_32.count)
+				assert ("empty string", pair.s_32.is_empty)
+				assert ("same strings", pair.is_same)
+			end
+		end
+
 feature -- Element change tests
 
 	test_case_changing
@@ -506,50 +585,6 @@ feature -- Element change tests
 			end
 		end
 
-	test_left_adjust
-		note
-			testing:	"covers/{ZSTRING}.left_adjust"
-		do
-			do_pruning_test (Left_adjust)
-		end
-
-	test_prune_all
-		local
-			pair: STRING_PAIR; uc: CHARACTER_32
-		do
-			create pair
-			across Text.character_set as char loop
-				uc := char.item
-				across Text.lines as line loop
-					pair.set (line.item)
-					pair.s_32.prune_all (uc); pair.z_32.prune_all (uc)
-					assert ("prune_all OK", pair.is_same)
-				end
-			end
-			across Text.words as word loop
-				pair.set (word.item)
-				from until pair.s_32.is_empty loop
-					uc := pair.s_32 [1]
-					pair.s_32.prune_all (uc); pair.z_32.prune_all (uc)
-					assert ("prune_all OK", pair.is_same)
-				end
-			end
-		end
-
-	test_prune_leading
-		note
-			testing:	"covers/{ZSTRING}.prune_all_trailing"
-		do
-			do_pruning_test (Prune_leading)
-		end
-
-	test_prune_trailing
-		note
-			testing:	"covers/{ZSTRING}.prune_all_trailing"
-		do
-			do_pruning_test (Prune_trailing)
-		end
-
 	test_put_unicode
 		note
 			testing: "covers/{ZSTRING}.put_unicode"
@@ -565,38 +600,6 @@ feature -- Element change tests
 			--	Restore
 				pair.s_32.put (old_uc, i); pair.z_32.put (old_uc, i)
 				assert ("put_unicode OK", pair.is_same)
-			end
-		end
-
-	test_remove_substring
-		note
-			testing: "covers/{ZSTRING}.remove_substring"
-		local
-			pair: STRING_PAIR; substring: STRING_32
-			l_interval: INTEGER_INTERVAL; i, lower, upper, offset: INTEGER
-		do
-			create pair
-			across Text.word_intervals as interval loop
-				from offset := 0 until offset > (interval.item.count // 2).max (1) loop
-					l_interval := (interval.item.lower + offset) |..| (interval.item.upper + offset)
-					if Text.russian_and_english.valid_index (l_interval.lower)
-						and then Text.russian_and_english.valid_index (l_interval.upper)
-					then
-						substring := Text.russian_and_english.substring (l_interval.lower, l_interval.upper) -- Debug
-						pair.set (Text.russian_and_english.twin)
-						pair.s_32.remove_substring (l_interval.lower, l_interval.upper)
-						pair.z_32.remove_substring (l_interval.lower, l_interval.upper)
-						assert ("remove_substring OK", pair.is_same)
-					end
-					offset := offset + (interval.item.count // 2).max (1)
-				end
-			end
-			across Text.words as word loop
-				pair.set (word.item)
-				pair.z_32.remove_substring (1, pair.z_32.count)
-				pair.s_32.remove_substring (1, pair.s_32.count)
-				assert ("empty string", pair.s_32.is_empty)
-				assert ("same strings", pair.is_same)
 			end
 		end
 
@@ -672,13 +675,6 @@ feature -- Element change tests
 					previous_word_32 := word_32; previous_word := word
 				end
 			end
-		end
-
-	test_right_adjust
-		note
-			testing:	"covers/{ZSTRING}.right_adjust"
-		do
-			do_pruning_test (Right_adjust)
 		end
 
 	test_to_utf_8
@@ -805,17 +801,29 @@ feature -- Status query tests
 	test_same_caseless_characters
 		local
 			line, word: ZSTRING; i: INTEGER
-			word_list: EL_ZSTRING_LIST
+			word_list: EL_ZSTRING_LIST; is_upper: BOOLEAN
 		do
-			across Text.lines as l loop
-				line := l.item
-				create word_list.make_word_split (l.item)
-				i := 1
-				across word_list as w loop
-					word := w.item
-					i := line.substring_index (word, i)
-					word.to_upper
-					assert ("same characters", line.same_caseless_characters (word, 1, word.count, i))
+			across << False, True >> as bool loop
+				is_upper := bool.item
+				across Text.lines as l loop
+					if is_upper then
+						line := l.item.as_upper
+					else
+						line := l.item
+					end
+					create word_list.make_word_split (line)
+					i := 1
+					across word_list as w loop
+						word := w.item
+						i := line.substring_index (word, i)
+						assert ("found word", i.to_boolean)
+						if is_upper then
+							word.to_lower
+						else
+							word.to_upper
+						end
+						assert ("same characters", line.same_caseless_characters (word, 1, word.count, i))
+					end
 				end
 			end
 		end
@@ -1182,6 +1190,8 @@ feature {NONE} -- Implementation
 						pair.z_32.left_adjust; pair.s_32.left_adjust
 					elseif type = Right_adjust then
 						pair.z_32.right_adjust; pair.s_32.right_adjust
+					elseif type = Both_adjust then
+						pair.z_32.adjust; pair.s_32.adjust
 					elseif type = Prune_trailing then
 						pair.z_32.prune_all_trailing (c.item); pair.s_32.prune_all_trailing (c.item)
 					end
@@ -1241,6 +1251,8 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- String 8 constants
+
+	Both_adjust: STRING = "adjust"
 
 	Left_adjust: STRING = "left_adjust"
 

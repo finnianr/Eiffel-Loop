@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 16:54:54 GMT (Saturday 3rd December 2022)"
-	revision: "8"
+	date: "2023-02-08 10:10:49 GMT (Wednesday 8th February 2023)"
+	revision: "9"
 
 deferred class
 	TP_FACTORY
@@ -150,9 +150,13 @@ feature -- Character patterns
 		end
 
 	digit: TP_NUMERIC_CHAR
-			--
 		do
 			Result := core.new_digit
+		end
+
+	hexadecimal_digit: TP_HEXADECIMAL_CHAR
+		do
+			Result := core.new_hexadecimal
 		end
 
 	letter: TP_ALPHA_CHAR
@@ -243,7 +247,6 @@ feature {NONE} -- Type definition
 			Result := Void
 		end
 end
-
 
 
 

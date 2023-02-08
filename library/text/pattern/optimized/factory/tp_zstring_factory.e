@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-28 5:24:38 GMT (Monday 28th November 2022)"
-	revision: "6"
+	date: "2023-02-08 10:05:12 GMT (Wednesday 8th February 2023)"
+	revision: "7"
 
 class
 	TP_ZSTRING_FACTORY
@@ -22,7 +22,7 @@ inherit
 			new_string_literal, new_white_space, new_digits_string, new_end_of_line_character,
 			new_c_identifier, new_xml_identifier, new_c_quoted_string, new_eiffel_quoted_string,
 			new_eiffel_quoted_character, new_alphanumeric, new_quoted_string, new_character_in_range,
-			new_start_of_line, new_c_quoted_character
+			new_start_of_line, new_c_quoted_character, new_hexadecimal
 		end
 
 feature -- Access
@@ -122,6 +122,12 @@ feature -- Character
 			create Result
 		end
 
+	new_hexadecimal: TP_ZSTRING_HEXADECIMAL_CHAR
+			--
+		do
+			create Result
+		end
+
 	new_letter: TP_ZSTRING_ALPHA_CHAR
 			--
 		do
@@ -167,7 +173,6 @@ feature {NONE} -- Constants
 		end
 
 end
-
 
 
 

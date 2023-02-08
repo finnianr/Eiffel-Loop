@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 9:52:24 GMT (Thursday 1st December 2022)"
-	revision: "15"
+	date: "2023-02-08 15:55:25 GMT (Wednesday 8th February 2023)"
+	revision: "16"
 
 class
 	EL_STRING_8
@@ -15,14 +15,13 @@ class
 inherit
 	STRING_8
 		export
-			{STRING_HANDLER} make_from_string
 			{EL_ZSTRING_TO_BASIC_TYPES} is_valid_integer_or_natural
 		end
 
 	EL_SHARED_STRING_8_CURSOR
 
 create
-	make_from_zstring, make_empty, make
+	make_from_zstring, make_empty, make, make_from_string
 
 feature {NONE} -- Initialization
 

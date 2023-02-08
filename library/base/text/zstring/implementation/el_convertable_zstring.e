@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 10:59:02 GMT (Thursday 5th January 2023)"
-	revision: "35"
+	date: "2023-02-08 16:26:21 GMT (Wednesday 8th February 2023)"
+	revision: "36"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -242,7 +242,7 @@ feature -- To list
 			if separator = Substitute then
 				result_count := unencoded_occurrences (a_separator) + 1
 			else
-				result_count := internal_occurrences (separator) + 1
+				result_count := String_8.occurrences (Current, separator) + 1
 				call_index_of_8 := True
 			end
 			create l_list.make (result_count)

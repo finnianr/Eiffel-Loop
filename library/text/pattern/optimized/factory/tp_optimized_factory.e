@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-28 5:24:37 GMT (Monday 28th November 2022)"
-	revision: "6"
+	date: "2023-02-08 10:03:39 GMT (Wednesday 8th February 2023)"
+	revision: "7"
 
 class
 	TP_OPTIMIZED_FACTORY
@@ -69,6 +69,12 @@ feature -- Character
 		end
 
 	new_digit: TP_NUMERIC_CHAR
+			--
+		do
+			create Result
+		end
+
+	new_hexadecimal: TP_HEXADECIMAL_CHAR
 			--
 		do
 			create Result
@@ -159,7 +165,6 @@ feature {NONE} -- Constants
 		end
 
 end
-
 
 
 

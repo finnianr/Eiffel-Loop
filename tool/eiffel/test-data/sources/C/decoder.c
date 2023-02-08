@@ -154,118 +154,73 @@ void iso_8859_15_chars_init(){
 	}
 }
 
-void iso_8859_9_chars_init(){
+void iso_8859_6_chars_init(){
 	int i;
-	if (iso_8859_9_chars_ready)
+	if (iso_8859_6_chars_ready)
 		return;
 	else{
 		for (i = 0; i < 128; i++)
 		{
-			iso_8859_9_chars[i] = (char) i;
+			iso_8859_6_chars[i] = (char) i;
 		}
 		for (i = 128; i < 256; i++)
 		{
-			iso_8859_9_chars[i] = (char) (0xfffd);
+			iso_8859_6_chars[i] = (char) (0xfffd);
 		}
+		iso_8859_6_chars[0xA0] = (char) (0x00A0);
+		iso_8859_6_chars[0xA4] = (char) (0x00A4);
+		iso_8859_6_chars[0xAC] = (char) (0x060C);
+		iso_8859_6_chars[0xAD] = (char) (0x00AD);
+		iso_8859_6_chars[0xBB] = (char) (0x061B);
+		iso_8859_6_chars[0xBF] = (char) (0x061F);
+		iso_8859_6_chars[0xC1] = (char) (0x0621);
+		iso_8859_6_chars[0xC2] = (char) (0x0622);
+		iso_8859_6_chars[0xC3] = (char) (0x0623);
+		iso_8859_6_chars[0xC4] = (char) (0x0624);
+		iso_8859_6_chars[0xC5] = (char) (0x0625);
+		iso_8859_6_chars[0xC6] = (char) (0x0626);
+		iso_8859_6_chars[0xC7] = (char) (0x0627);
+		iso_8859_6_chars[0xC8] = (char) (0x0628);
+		iso_8859_6_chars[0xC9] = (char) (0x0629);
+		iso_8859_6_chars[0xCA] = (char) (0x062A);
+		iso_8859_6_chars[0xCB] = (char) (0x062B);
+		iso_8859_6_chars[0xCC] = (char) (0x062C);
+		iso_8859_6_chars[0xCD] = (char) (0x062D);
+		iso_8859_6_chars[0xCE] = (char) (0x062E);
+		iso_8859_6_chars[0xCF] = (char) (0x062F);
+		iso_8859_6_chars[0xD0] = (char) (0x0630);
+		iso_8859_6_chars[0xD1] = (char) (0x0631);
+		iso_8859_6_chars[0xD2] = (char) (0x0632);
+		iso_8859_6_chars[0xD3] = (char) (0x0633);
+		iso_8859_6_chars[0xD4] = (char) (0x0634);
+		iso_8859_6_chars[0xD5] = (char) (0x0635);
+		iso_8859_6_chars[0xD6] = (char) (0x0636);
+		iso_8859_6_chars[0xD7] = (char) (0x0637);
+		iso_8859_6_chars[0xD8] = (char) (0x0638);
+		iso_8859_6_chars[0xD9] = (char) (0x0639);
+		iso_8859_6_chars[0xDA] = (char) (0x063A);
+		iso_8859_6_chars[0xE0] = (char) (0x0640);
+		iso_8859_6_chars[0xE1] = (char) (0x0641);
+		iso_8859_6_chars[0xE2] = (char) (0x0642);
+		iso_8859_6_chars[0xE3] = (char) (0x0643);
+		iso_8859_6_chars[0xE4] = (char) (0x0644);
+		iso_8859_6_chars[0xE5] = (char) (0x0645);
+		iso_8859_6_chars[0xE6] = (char) (0x0646);
+		iso_8859_6_chars[0xE7] = (char) (0x0647);
+		iso_8859_6_chars[0xE8] = (char) (0x0648);
+		iso_8859_6_chars[0xE9] = (char) (0x0649);
+		iso_8859_6_chars[0xEA] = (char) (0x064A);
+		iso_8859_6_chars[0xEB] = (char) (0x064B);
+		iso_8859_6_chars[0xEC] = (char) (0x064C);
+		iso_8859_6_chars[0xED] = (char) (0x064D);
+		iso_8859_6_chars[0xEE] = (char) (0x064E);
+		iso_8859_6_chars[0xEF] = (char) (0x064F);
+		iso_8859_6_chars[0xF0] = (char) (0x0650);
+		iso_8859_6_chars[0xF1] = (char) (0x0651);
+		iso_8859_6_chars[0xF2] = (char) (0x0652);
 
-		iso_8859_9_chars[0xA0] = (char) (0x00A0);
-		iso_8859_9_chars[0xA1] = (char) (0x00A1);
-		iso_8859_9_chars[0xA2] = (char) (0x00A2);
-		iso_8859_9_chars[0xA3] = (char) (0x00A3);
-		iso_8859_9_chars[0xA4] = (char) (0x00A4);
-		iso_8859_9_chars[0xA5] = (char) (0x00A5);
-		iso_8859_9_chars[0xA6] = (char) (0x00A6);
-		iso_8859_9_chars[0xA7] = (char) (0x00A7);
-		iso_8859_9_chars[0xA8] = (char) (0x00A8);
-		iso_8859_9_chars[0xA9] = (char) (0x00A9);
-		iso_8859_9_chars[0xAA] = (char) (0x00AA);
-		iso_8859_9_chars[0xAB] = (char) (0x00AB);
-		iso_8859_9_chars[0xAC] = (char) (0x00AC);
-		iso_8859_9_chars[0xAD] = (char) (0x00AD);
-		iso_8859_9_chars[0xAE] = (char) (0x00AE);
-		iso_8859_9_chars[0xAF] = (char) (0x00AF);
-		iso_8859_9_chars[0xB0] = (char) (0x00B0);
-		iso_8859_9_chars[0xB1] = (char) (0x00B1);
-		iso_8859_9_chars[0xB2] = (char) (0x00B2);
-		iso_8859_9_chars[0xB3] = (char) (0x00B3);
-		iso_8859_9_chars[0xB4] = (char) (0x00B4);
-		iso_8859_9_chars[0xB5] = (char) (0x00B5);
-		iso_8859_9_chars[0xB6] = (char) (0x00B6);
-		iso_8859_9_chars[0xB7] = (char) (0x00B7);
-		iso_8859_9_chars[0xB8] = (char) (0x00B8);
-		iso_8859_9_chars[0xB9] = (char) (0x00B9);
-		iso_8859_9_chars[0xBA] = (char) (0x00BA);
-		iso_8859_9_chars[0xBB] = (char) (0x00BB);
-		iso_8859_9_chars[0xBC] = (char) (0x00BC);
-		iso_8859_9_chars[0xBD] = (char) (0x00BD);
-		iso_8859_9_chars[0xBE] = (char) (0x00BE);
-		iso_8859_9_chars[0xBF] = (char) (0x00BF);
-		iso_8859_9_chars[0xC0] = (char) (0x00C0);
-		iso_8859_9_chars[0xC1] = (char) (0x00C1);
-		iso_8859_9_chars[0xC2] = (char) (0x00C2);
-		iso_8859_9_chars[0xC3] = (char) (0x00C3);
-		iso_8859_9_chars[0xC4] = (char) (0x00C4);
-		iso_8859_9_chars[0xC5] = (char) (0x00C5);
-		iso_8859_9_chars[0xC6] = (char) (0x00C6);
-		iso_8859_9_chars[0xC7] = (char) (0x00C7);
-		iso_8859_9_chars[0xC8] = (char) (0x00C8);
-		iso_8859_9_chars[0xC9] = (char) (0x00C9);
-		iso_8859_9_chars[0xCA] = (char) (0x00CA);
-		iso_8859_9_chars[0xCB] = (char) (0x00CB);
-		iso_8859_9_chars[0xCC] = (char) (0x00CC);
-		iso_8859_9_chars[0xCD] = (char) (0x00CD);
-		iso_8859_9_chars[0xCE] = (char) (0x00CE);
-		iso_8859_9_chars[0xCF] = (char) (0x00CF);
-		iso_8859_9_chars[0xD0] = (char) (0x011E);
-		iso_8859_9_chars[0xD1] = (char) (0x00D1);
-		iso_8859_9_chars[0xD2] = (char) (0x00D2);
-		iso_8859_9_chars[0xD3] = (char) (0x00D3);
-		iso_8859_9_chars[0xD4] = (char) (0x00D4);
-		iso_8859_9_chars[0xD5] = (char) (0x00D5);
-		iso_8859_9_chars[0xD6] = (char) (0x00D6);
-		iso_8859_9_chars[0xD7] = (char) (0x00D7);
-		iso_8859_9_chars[0xD8] = (char) (0x00D8);
-		iso_8859_9_chars[0xD9] = (char) (0x00D9);
-		iso_8859_9_chars[0xDA] = (char) (0x00DA);
-		iso_8859_9_chars[0xDB] = (char) (0x00DB);
-		iso_8859_9_chars[0xDC] = (char) (0x00DC);
-		iso_8859_9_chars[0xDD] = (char) (0x0130);
-		iso_8859_9_chars[0xDE] = (char) (0x015E);
-		iso_8859_9_chars[0xDF] = (char) (0x00DF);
-		iso_8859_9_chars[0xE0] = (char) (0x00E0);
-		iso_8859_9_chars[0xE1] = (char) (0x00E1);
-		iso_8859_9_chars[0xE2] = (char) (0x00E2);
-		iso_8859_9_chars[0xE3] = (char) (0x00E3);
-		iso_8859_9_chars[0xE4] = (char) (0x00E4);
-		iso_8859_9_chars[0xE5] = (char) (0x00E5);
-		iso_8859_9_chars[0xE6] = (char) (0x00E6);
-		iso_8859_9_chars[0xE7] = (char) (0x00E7);
-		iso_8859_9_chars[0xE8] = (char) (0x00E8);
-		iso_8859_9_chars[0xE9] = (char) (0x00E9);
-		iso_8859_9_chars[0xEA] = (char) (0x00EA);
-		iso_8859_9_chars[0xEB] = (char) (0x00EB);
-		iso_8859_9_chars[0xEC] = (char) (0x00EC);
-		iso_8859_9_chars[0xED] = (char) (0x00ED);
-		iso_8859_9_chars[0xEE] = (char) (0x00EE);
-		iso_8859_9_chars[0xEF] = (char) (0x00EF);
-		iso_8859_9_chars[0xF0] = (char) (0x011F);
-		iso_8859_9_chars[0xF1] = (char) (0x00F1);
-		iso_8859_9_chars[0xF2] = (char) (0x00F2);
-		iso_8859_9_chars[0xF3] = (char) (0x00F3);
-		iso_8859_9_chars[0xF4] = (char) (0x00F4);
-		iso_8859_9_chars[0xF5] = (char) (0x00F5);
-		iso_8859_9_chars[0xF6] = (char) (0x00F6);
-		iso_8859_9_chars[0xF7] = (char) (0x00F7);
-		iso_8859_9_chars[0xF8] = (char) (0x00F8);
-		iso_8859_9_chars[0xF9] = (char) (0x00F9);
-		iso_8859_9_chars[0xFA] = (char) (0x00FA);
-		iso_8859_9_chars[0xFB] = (char) (0x00FB);
-		iso_8859_9_chars[0xFC] = (char) (0x00FC);
-		iso_8859_9_chars[0xFD] = (char) (0x0131);
-		iso_8859_9_chars[0xFE] = (char) (0x015F);
-		iso_8859_9_chars[0xFF] = (char) (0x00FF);
 
-		iso_8859_9_chars_ready = TRUE;
+		iso_8859_6_chars_ready = TRUE;
 	}
 }
 

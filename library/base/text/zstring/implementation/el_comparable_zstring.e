@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-07 12:53:24 GMT (Tuesday 7th February 2023)"
-	revision: "15"
+	date: "2023-02-08 14:21:06 GMT (Wednesday 8th February 2023)"
+	revision: "16"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -111,7 +111,7 @@ feature -- Start/End comparisons
 
  	starts_with_zstring (str: EL_READABLE_ZSTRING): BOOLEAN
 		do
-			Result := internal_starts_with (str)
+			Result := String_8.starts_with (Current, str)
 			if Result and then str.has_mixed_encoding then
 				Result := Result and same_unencoded_substring (str, 1)
 			end
@@ -144,7 +144,7 @@ feature -- Comparison
 		-- caseless identical to characters of current string starting at index `index_pos'.
 		do
  			if attached {EL_READABLE_ZSTRING} other as z_other then
- 				Result := matching_characters_in_bounds (z_other, start_pos, end_pos, index_pos, False)
+ 				Result := same_caseless_characters_in_bounds (z_other, start_pos, end_pos, index_pos)
  			else
  				Result := same_caseless_characters_general (other, start_pos, end_pos, index_pos)
  			end
@@ -155,7 +155,7 @@ feature -- Comparison
 			-- identical to characters of current string starting at index `index_pos'.
 		do
 			if attached {EL_READABLE_ZSTRING} other as z_other then
-				Result := matching_characters_in_bounds (z_other, start_pos, end_pos, index_pos, True)
+				Result := same_characters_in_bounds (z_other, start_pos, end_pos, index_pos)
 			else
 				Result := same_characters_general (other, start_pos, end_pos, index_pos)
 			end
@@ -187,36 +187,103 @@ feature {NONE} -- Deferred
 
 feature {NONE} -- Implementation
 
-	matching_characters_in_bounds (
-		other: EL_READABLE_ZSTRING; start_pos, end_pos, index_pos: INTEGER; case_sensitive: BOOLEAN
-	): BOOLEAN
+	same_caseless_characters_in_bounds (other: EL_READABLE_ZSTRING; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
 		-- Are characters of `other' within bounds `start_pos' and `end_pos'
-		-- matching characters of current string starting at index `index_pos'
+		-- caselessly matching characters of current string starting at index `index_pos'
 		local
-			i, i_final: INTEGER; l_area, o_area: like area
+			i, l_count: INTEGER; l_area, o_area: like area; l_codec: like codec
+			uc, uc_other: CHARACTER_32; c, c_other: CHARACTER; current_has_unencoded, other_has_unencoded: BOOLEAN
+			unencoded, o_unencoded: like unencoded_indexable; uc_prop: like unicode_property
+		do
+			l_count := end_pos - start_pos + 1
+			l_area := area; o_area := other.area; l_codec := codec; uc_prop := unicode_property
+
+			current_has_unencoded := has_unencoded_between (index_pos, index_pos + l_count - 1)
+			other_has_unencoded := other.has_unencoded_between (start_pos, end_pos)
+			Result := True
+			inspect current_other_bitmap (current_has_unencoded, other_has_unencoded)
+				when Both_have_mixed_encoding  then
+					unencoded := unencoded_indexable; o_unencoded := other.unencoded_indexable_other
+					from i := 0 until not Result or else i = l_count loop
+						c := l_area [index_pos + i - 1]; c_other := o_area [i]
+						if c = Substitute then
+							uc := unencoded.item (index_pos + i)
+							if c_other = Substitute then
+								uc_other := o_unencoded.item (start_pos + i)
+								Result := uc_prop.same_caseless (uc, uc_other)
+							else
+								Result := l_codec.same_caseless (c_other, c, uc)
+							end
+
+						elseif c_other = Substitute then
+							uc_other := o_unencoded.item (start_pos + i)
+							Result := l_codec.same_caseless (c, c_other, uc_other)
+						else
+							Result := l_codec.same_caseless (c, c_other, '%U')
+						end
+						i := i + 1
+					end
+
+				when Only_current then
+					unencoded := unencoded_indexable
+					from i := 0 until not Result or else i = l_count loop
+						c := l_area [index_pos + i - 1]; c_other := o_area [i]
+						if c = Substitute then
+							uc := unencoded.item (index_pos + i)
+							Result := l_codec.same_caseless (c_other, c, uc)
+						else
+							Result := l_codec.same_caseless (c, c_other, '%U')
+						end
+
+						i := i + 1
+					end
+
+				when Only_other then
+					o_unencoded := other.unencoded_indexable_other
+					from i := 0 until not Result or else i = l_count loop
+						c := l_area [index_pos + i - 1]; c_other := o_area [i]
+						if c_other = Substitute then
+							uc_other := o_unencoded.item (start_pos + i)
+							Result := l_codec.same_caseless (c, c_other, uc_other)
+						else
+							Result := l_codec.same_caseless (c, c_other, '%U')
+						end
+						i := i + 1
+					end
+
+				when Neither then
+					from i := 0 until not Result or else i = l_count loop
+						Result := l_codec.same_caseless (l_area [index_pos + i - 1], o_area [i], '%U')
+						i := i + 1
+					end
+			else
+			end
+		end
+
+	same_characters_in_bounds (other: EL_READABLE_ZSTRING; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
+		-- Are characters of `other' within bounds `start_pos' and `end_pos'
+		-- the same characters of current string starting at index `index_pos'
+		local
+			i, l_count: INTEGER; l_area, o_area: like area
 			unencoded, o_unencoded: like unencoded_indexable
 			uc, uc_other: CHARACTER_32
 		do
-			if case_sensitive then
-				Result := internal_same_characters (other, start_pos, end_pos, index_pos)
-			else
-				Result :=  String_8.same_caseless_characters (Current, other, start_pos, end_pos, index_pos)
-			end
-			if Result and then has_mixed_encoding then
-				unencoded := unencoded_indexable; o_unencoded := other.unencoded_indexable_other
-				l_area := area; o_area := other.area
-				i_final := end_pos - start_pos + 1
---				check substitutions
-				from i := 0 until not Result or else i = i_final loop
-					if l_area [index_pos + i - 1] = Substitute then
-						uc := unencoded.item (index_pos + i); uc_other := o_unencoded.item (start_pos + i)
-						if case_sensitive then
+			l_count := end_pos - start_pos + 1
+			Result := internal_same_characters (other, start_pos, end_pos, index_pos)
+			if Result and then has_unencoded_between (index_pos, index_pos + l_count - 1) then
+				if other.has_unencoded_between (start_pos, end_pos) then
+					unencoded := unencoded_indexable; o_unencoded := other.unencoded_indexable_other
+					l_area := area; o_area := other.area
+--					check substitutions
+					from i := 0 until not Result or else i = l_count loop
+						if l_area [index_pos + i - 1] = Substitute then
+							uc := unencoded.item (index_pos + i); uc_other := o_unencoded.item (start_pos + i)
 							Result := uc = uc_other
-						else
-							Result := uc.as_lower = uc_other.as_lower
 						end
+						i := i + 1
 					end
-					i := i + 1
+				else
+					Result := False
 				end
 			end
 		end

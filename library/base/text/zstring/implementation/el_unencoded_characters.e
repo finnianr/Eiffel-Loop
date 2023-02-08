@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-07 10:42:36 GMT (Tuesday 7th February 2023)"
-	revision: "31"
+	date: "2023-02-08 14:47:34 GMT (Wednesday 8th February 2023)"
+	revision: "32"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -111,15 +111,17 @@ feature -- Access
 			Result := item (index).natural_32_code
 		end
 
-	count_greater_than_zero_flags (other: EL_UNENCODED_CHARACTERS): INTEGER
+	count_greater_than_zero_flags (other: EL_UNENCODED_CHARACTERS): like current_other_bitmap
 		-- bitmap representing respective encodings
 		do
-			if other.area.count > 0 then
-				Result := 1
-			end
-			if area.count > 0 then
-				Result := Result + 2
-			end
+			Result := current_other_bitmap (area.count > 0, other.area.count > 0)
+		end
+
+	current_other_bitmap (is_current, is_other: BOOLEAN): INTEGER
+		-- combined booleans with values corresponding to
+		-- `Both_have_mixed_encoding', `Only_current', `Only_other', `Neither'
+		do
+			Result := is_current.to_integer |<< 1 | is_other.to_integer
 		end
 
 	first_lower: INTEGER
@@ -255,6 +257,23 @@ feature -- Access
 			l_area := area
 			if l_area.count >= 2 then
 				Result := upper_bound (l_area, last_index)
+			end
+		end
+
+	combined_area: like area
+		-- all sub areas combined into one monolithic area
+		local
+			i, j, lower, upper, i_final: INTEGER; l_area: like area
+		do
+			create Result.make_empty (character_count)
+			l_area := area; i_final := l_area.count
+			from i := 0 until i = i_final loop
+				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+				from j := lower until j > upper loop
+					Result.extend (l_area.item (i + 2 + j - lower).to_character_32)
+					j := j + 1
+				end
+				i := i + upper - lower + 3
 			end
 		end
 

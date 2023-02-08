@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-02-08 16:26:21 GMT (Wednesday 8th February 2023)"
+	revision: "13"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
@@ -90,7 +90,7 @@ feature -- Measurement
 				end
 			end
 		ensure then
-			substring_agrees: across substring (1, Result) as uc all character_properties.is_space (uc.item) end
+			substring_agrees: across substring (1, Result) as uc all unicode_property.is_space (uc.item) end
 		end
 
 	occurrences (uc: CHARACTER_32): INTEGER
@@ -105,7 +105,7 @@ feature -- Measurement
 			if c = Substitute then
 				Result := unencoded_occurrences (uc)
 			else
-				Result := internal_occurrences (c)
+				Result := String_8.occurrences (Current, c)
 			end
 		end
 
@@ -205,7 +205,7 @@ feature -- Measurement
 				end
 			end
 		ensure then
-			substring_agrees: across substring (count - Result + 1, count) as uc all character_properties.is_space (uc.item) end
+			substring_agrees: across substring (count - Result + 1, count) as uc all unicode_property.is_space (uc.item) end
 		end
 
 	utf_8_byte_count: INTEGER

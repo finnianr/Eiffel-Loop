@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-07 11:05:57 GMT (Tuesday 7th February 2023)"
-	revision: "28"
+	date: "2023-02-08 17:29:30 GMT (Wednesday 8th February 2023)"
+	revision: "29"
 
 class
 	STRING_TEST_SET
@@ -33,6 +33,7 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			eval.call ("expanded_string", agent test_expanded_string)
+			eval.call ("is_substitute_white", agent test_is_substitute_white)
 		end
 
 feature -- Tests
@@ -45,6 +46,15 @@ feature -- Tests
 			s := "abc"
 			ex.share (s)
 			assert ("same hash_code", ex.hash_code = 6382179)
+		end
+
+	test_is_substitute_white
+		-- STRING_TEST_SET.test_is_substitute_white
+		local
+			c: CHARACTER
+		do
+			c := (26).to_character_8
+			assert ("no space", not c.is_space)
 		end
 
 feature -- Basic operations

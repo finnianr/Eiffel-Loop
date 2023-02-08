@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-07 11:33:42 GMT (Tuesday 7th February 2023)"
-	revision: "99"
+	date: "2023-02-08 16:43:57 GMT (Wednesday 8th February 2023)"
+	revision: "100"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -18,6 +18,7 @@ inherit
 		rename
 			area as unencoded_area,
 			code as z_code,
+			Character_properties as Unicode_property,
 			has_code as has_unicode,
 			make_from_string_general as make_from_general,
 			split as split_list,
@@ -52,7 +53,9 @@ inherit
 --			Measurement
 			capacity, occurrences,
 --			Implementation
-			is_valid_integer_or_natural
+			is_valid_integer_or_natural,
+--			Constants
+			Unicode_property
 		redefine
 --			Initialization
 			make_from_string,
@@ -69,31 +72,31 @@ inherit
 	EL_COMPARABLE_ZSTRING
 		export
 			{STRING_HANDLER} empty_unencoded_buffer, unencoded_indexable, item_8, set_unencoded_from_buffer
-			{EL_ZSTRING_ITERATION_CURSOR, EL_STRING_8_ARGUMENTS} area_lower, area_upper, area, unencoded_area
+			{EL_ZSTRING_ITERATION_CURSOR, EL_STRING_8_IMPLEMENTATION} area_lower, area_upper, area, unencoded_area
 		redefine
-			make_from_string_8, unencoded_area
+			unencoded_area
 		end
 
 	EL_CONVERTABLE_ZSTRING
 		redefine
-			make_from_string_8, unencoded_area
+			unencoded_area
 		end
 
 	EL_MEASUREABLE_ZSTRING
 		redefine
-			make_from_string_8, unencoded_area
+			unencoded_area
 		end
 
 	EL_SEARCHABLE_ZSTRING
 		export
 			{EL_APPENDABLE_ZSTRING} internal_substring_index_list
 		redefine
-			make_from_string_8, unencoded_area
+			unencoded_area
 		end
 
 	EL_ZSTRING_TO_BASIC_TYPES
 		redefine
-			make_from_string_8, unencoded_area
+			unencoded_area
 		end
 
 	READABLE_INDEXABLE [CHARACTER_32]
@@ -192,7 +195,7 @@ feature {NONE} -- Initialization
 			must_not_have_reserved_substitute_character: not str.has ('%/026/')
 		do
 			make_unencoded
-			Precursor (str)
+			String_8.make_from_string (Current, str)
 		end
 
 	make_from_substring (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER)
@@ -619,7 +622,7 @@ feature -- Comparison
 		-- caseless identical to characters of current string starting at index `index_pos'.
 		do
  			if attached {EL_READABLE_ZSTRING} other as z_other then
- 				Result := matching_characters_in_bounds (z_other, start_pos, end_pos, index_pos, False)
+ 				Result := same_caseless_characters_in_bounds (z_other, start_pos, end_pos, index_pos)
  			else
  				Result := Precursor (other, start_pos, end_pos, index_pos)
  			end
@@ -630,7 +633,7 @@ feature -- Comparison
 			-- identical to characters of current string starting at index `index_pos'.
 		do
  			if attached {EL_READABLE_ZSTRING} other as z_other then
-				Result := matching_characters_in_bounds (z_other, start_pos, end_pos, index_pos, True)
+				Result := same_characters_in_bounds (z_other, start_pos, end_pos, index_pos)
 
 			elseif attached {READABLE_STRING_8} other as str_8
 				and then cursor_8 (str_8).is_ascii_substring (start_pos, end_pos)

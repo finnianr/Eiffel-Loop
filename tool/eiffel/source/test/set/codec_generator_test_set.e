@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 9:57:31 GMT (Monday 9th January 2023)"
-	revision: "6"
+	date: "2023-02-08 9:37:44 GMT (Wednesday 8th February 2023)"
+	revision: "7"
 
 class
 	CODEC_GENERATOR_TEST_SET
 
 inherit
-	EL_COPIED_DIRECTORY_DATA_TEST_SET
+	EL_FILE_DATA_TEST_SET
 
 feature -- Basic operations
 
@@ -27,40 +27,32 @@ feature -- Tests
 
 	test_generation
 		local
-			command: CODEC_GENERATOR
+			command: CODEC_GENERATOR; count: INTEGER
 		do
-			create command.make (Generation_dir + "test-decoder.c", Generation_dir + "template.evol")
+			create command.make ("test-data/sources/C/decoder.c", "doc/zcodec/template.evol")
 			command.execute
-			across OS.file_list (Generation_dir, "*.e") as path loop
+			across OS.file_list (Work_area_dir, "*.e") as path loop
 				if Digest_table.has_key (path.item.base_name) then
+					assert ("has BOM", File.has_utf_8_bom (path.item))
 					assert_same_digest (path.item, Digest_table.found_item)
+					count := count + 1
 				else
 					assert ("Source has digest", False)
 				end
 			end
-		end
-
-feature {NONE} -- Implementation
-
-	source_dir: DIR_PATH
-		do
-			Result := "test-data/codec-generation"
+			assert ("all codecs checked", count = Digest_table.count)
 		end
 
 feature {NONE} -- Constants
 
-	Digest_table: EL_HASH_TABLE [STRING, STRING]
+	Digest_table: EL_ZSTRING_HASH_TABLE [STRING]
 		once
 			create Result.make (<<
-				["el_iso_8859_11_zcodec", "AFdduU6rk+dVcaDM31gF1w=="],
+				["el_iso_8859_11_zcodec", "UTCBCoqxjIPcPpkPmCi4eA=="],
 				["el_iso_8859_15_zcodec", "CqV3Oaxh4j6Yy6fswHHulw=="],
 				["el_iso_8859_2_zcodec", "qc2+u7RQkKxCt5lLHlVe0g=="],
-				["el_iso_8859_9_zcodec", "E3VBhccDZ54Uu/lN8tDLuw=="]
+				["el_iso_8859_6_zcodec", "E3VBhccDZ54Uu/lN8tDLuw=="]
 			>>)
 		end
 
-	Generation_dir: DIR_PATH
-		do
-			Result := Work_area_dir #+ source_dir.base
-		end
 end

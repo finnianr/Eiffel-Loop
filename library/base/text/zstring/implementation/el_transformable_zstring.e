@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-07 12:49:17 GMT (Tuesday 7th February 2023)"
-	revision: "29"
+	date: "2023-02-08 18:02:42 GMT (Wednesday 8th February 2023)"
+	revision: "30"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -55,10 +55,10 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 						end
 						i := i - 1
 					end
-					internal_mirror
+					String_8.mirror (Current)
 					set_unencoded_from_buffer (buffer)
 				else
-					internal_mirror
+					String_8.mirror (Current)
 				end
 			end
 		ensure
@@ -81,6 +81,20 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 				append_substring (current_readable, 1, old_count)
 				i := i - 1
 			end
+		end
+
+	quote (type: INTEGER)
+		require
+			type_is_single_or_double: type = 1 or type = 2
+		local
+			c: CHARACTER_32
+		do
+			if type = 1 then
+				 c := '%''
+			else
+				 c := '"'
+			end
+			enclose (c, c)
 		end
 
 	to_canonically_spaced
@@ -120,20 +134,6 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			end
 		ensure
 			canonically_spaced: is_canonically_spaced
-		end
-
-	quote (type: INTEGER)
-		require
-			type_is_single_or_double: type = 1 or type = 2
-		local
-			c: CHARACTER_32
-		do
-			if type = 1 then
-				 c := '%''
-			else
-				 c := '"'
-			end
-			enclose (c, c)
 		end
 
 	to_lower
@@ -433,8 +433,8 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 					buffer := empty_unencoded_buffer
 
 					if not internal_replace_done then
-						current_8 := string_8_argument (Current, 1)
-						new_substring_8 := string_8_argument (new_substring, 2)
+						current_8 := String_8.injected (Current, 1)
+						new_substring_8 := String_8.injected (new_substring, 2)
 						create area.make_filled ('%U', old_count + size_difference * positions.count + 1)
 						set_count (0); replaced_8 := current_string_8
 					end
@@ -488,6 +488,22 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 
 feature {EL_READABLE_ZSTRING} -- Removal
 
+	adjust
+		-- remove whitespace at each end
+		local
+			index_substitute: INTEGER
+		do
+			if has_mixed_encoding then
+				index_substitute := internal_index_of (Substitute, 1)
+			end
+			String_8.adjust (Current)
+			if index_substitute > 0 then
+				shift_unencoded ((index_substitute - internal_index_of (Substitute, 1)).opposite)
+				remove_leading_white_space
+				remove_trailing_white_space
+			end
+		end
+
 	keep_head (n: INTEGER)
 			-- Remove all characters except for the first `n';
 			-- do nothing if `n' >= `count'.
@@ -530,6 +546,19 @@ feature {EL_READABLE_ZSTRING} -- Removal
 			valid_unencoded: is_valid
 		end
 
+	left_adjust
+		-- Remove leading whitespace.
+		local
+			old_count: INTEGER
+		do
+			old_count := count
+			String_8.left_adjust (Current)
+			if has_mixed_encoding then
+				shift_unencoded ((old_count - count).opposite)
+				remove_leading_white_space
+			end
+		end
+
 	remove_head (n: INTEGER)
 			-- Remove first `n' characters;
 			-- if `n' > `count', remove all.
@@ -565,26 +594,11 @@ feature {EL_READABLE_ZSTRING} -- Removal
 			removed: elks_checking implies current_readable ~ (old substring (1, count - n.min (count)))
 		end
 
-	left_adjust
-		-- Remove leading whitespace.
-		local
-			leading_count: INTEGER
-		do
-			leading_count := leading_white_space
-			if leading_count.to_boolean then
-				remove_head (leading_white_space)
-			end
-		end
-
 	right_adjust
 		-- Remove trailing whitespace.
-		local
-			trailing_count: INTEGER
 		do
-			trailing_count := trailing_white_space
-			if trailing_count.to_boolean then
-				remove_tail (trailing_count)
-			end
+			String_8.right_adjust (Current)
+			remove_trailing_white_space
 		end
 
 feature -- Contract Support
@@ -602,6 +616,30 @@ feature -- Contract Support
 		end
 
 feature {NONE} -- Implementation
+
+	remove_leading_white_space
+		local
+			leading_count: INTEGER
+		do
+			leading_count := leading_white_space
+			if leading_count.to_boolean then
+				remove_head (leading_white_space)
+			end
+		end
+
+	remove_trailing_white_space
+		local
+			trailing_count: INTEGER
+		do
+			if count > 0 and then area [count - 1] = Substitute then
+				trailing_count := trailing_white_space
+				if trailing_count.to_boolean then
+					remove_tail (trailing_count)
+				end
+			end
+		end
+
+feature {NONE} -- Deferred
 
 	internal_substring_index_list (str: EL_READABLE_ZSTRING): ARRAYED_LIST [INTEGER]
 		deferred

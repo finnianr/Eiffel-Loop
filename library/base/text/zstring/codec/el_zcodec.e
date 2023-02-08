@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-07 19:14:35 GMT (Tuesday 7th February 2023)"
-	revision: "37"
+	date: "2023-02-08 15:33:35 GMT (Wednesday 8th February 2023)"
+	revision: "38"
 
 deferred class
 	EL_ZCODEC
@@ -82,12 +82,53 @@ feature -- Character query
 		deferred
 		end
 
+	same_caseless (a, b: CHARACTER; b_unicode: CHARACTER_32): BOOLEAN
+		-- `True' if `a' and `b' are same character regardless of case
+		require
+			valid_caseless: valid_caseless_argument (b, b_unicode)
+		local
+			unicode_substitute: CHARACTER_32; case_offset: INTEGER
+			a_code: NATURAL; a_is_upper, a_is_lower: BOOLEAN
+		do
+			if a = b then
+				Result := True
+			else
+				a_code := a.natural_32_code
+				if is_lower (a_code) then
+					case_offset := to_upper_offset (a_code)
+					a_is_lower := True
+
+				elseif is_upper (a_code) then
+					case_offset := to_lower_offset (a_code)
+					a_is_upper := True
+				end
+				if case_offset.to_boolean then
+					Result := a + case_offset = b
+
+				elseif a_is_lower or a_is_upper then
+					unicode_substitute := unicode_case_change_substitute (a_code)
+					if unicode_substitute > '%U' then
+						Result := unicode_substitute = b_unicode
+					end
+				end
+			end
+		end
+
 feature -- Contract Support
 
 	valid_offset_and_count (source_count: INTEGER; encoded_out: SPECIAL [CHARACTER]; out_offset: INTEGER;): BOOLEAN
 		do
 			if encoded_out.count >= source_count then
 				Result := source_count > 0 implies encoded_out.valid_index (source_count + out_offset - 1)
+			end
+		end
+
+	valid_caseless_argument (b: CHARACTER; b_unicode: CHARACTER_32): BOOLEAN
+		do
+			if b = Substitute then
+				Result := b_unicode.code.to_boolean
+			else
+				Result := b_unicode = '%U'
 			end
 		end
 
@@ -405,24 +446,25 @@ feature {EL_ZSTRING} -- Implementation
 	)
 		local
 			unicode_substitute: CHARACTER_32; c, new_c: CHARACTER; i, case_offset: INTEGER
-			code: NATURAL
+			code: NATURAL; code_is_lower, code_is_upper: BOOLEAN
 		do
-
 			from i := start_index until i > end_index loop
 				c := latin_array [i]
 				if c /= Substitute then
 					code := c.natural_32_code
-					if change_to_upper then
-						case_offset := to_upper_offset (code)
+					if change_to_upper and then is_lower (code) then
+						case_offset := to_upper_offset (code); code_is_lower := True
+
+					elseif is_upper (code) then
+						case_offset := to_lower_offset (code); code_is_upper := True
 					else
-						case_offset := to_lower_offset (code)
+						case_offset := 0; code_is_upper := False; code_is_lower := False
 					end
 					if case_offset.to_boolean then
 						new_c := c + case_offset
 
-					elseif (change_to_upper and then is_lower (code))
-						or else not change_to_upper and then is_upper (code)
-					then
+					elseif code_is_lower or code_is_upper then
+--						not changeable by `case_offset'
 						unicode_substitute := unicode_case_change_substitute (code)
 						if unicode_substitute > '%U' then
 							new_c := Substitute

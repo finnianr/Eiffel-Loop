@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 9:55:34 GMT (Thursday 5th January 2023)"
-	revision: "64"
+	date: "2023-02-08 17:54:41 GMT (Wednesday 8th February 2023)"
+	revision: "65"
 
 class
 	EL_ZSTRING
@@ -51,7 +51,7 @@ inherit
 			to_canonically_spaced, to_lower, to_proper_case, to_upper, translate_deleting_null_characters,
 			unescape,
 --			Removal
-			keep_head, keep_tail, left_adjust, remove_head, remove_tail, right_adjust,
+			adjust, keep_head, keep_tail, left_adjust, remove_head, remove_tail, right_adjust,
 --			Contract support
 			Encoding
 		select
@@ -101,9 +101,10 @@ inherit
 			same_string as same_string_general,
 			split as split_list,
 			substring_index as substring_index_general,
-			starts_with as starts_with_general
+			starts_with as starts_with_general,
+			Character_properties as Unicode_property
 		undefine
-			copy, hash_code, out, index_of, last_index_of, occurrences,
+			adjust, copy, hash_code, out, index_of, last_index_of, occurrences,
 --			Status query
 			ends_with_general, has, has_unicode,
 			is_real, is_real_32, is_double, is_equal, is_real_64,
@@ -119,7 +120,9 @@ inherit
 --			Element change
 			append_string_general, append_substring_general, prepend_string_general,
 --			Implementation
-			is_valid_integer_or_natural
+			is_valid_integer_or_natural,
+--			Constants
+			Unicode_property
 		end
 
 	INDEXABLE [CHARACTER_32, INTEGER]
@@ -242,7 +245,7 @@ feature -- Element change
 			c: CHARACTER
 		do
 			c := encoded_character (uc)
-			internal_insert_character (c, i)
+			String_8.insert_character (Current, c, i)
 			shift_unencoded_from (i, 1)
 			if c = Substitute then
 				put_unencoded (uc, i)
@@ -343,32 +346,50 @@ feature -- Removal
 
 	prune_all (uc: CHARACTER_32)
 		local
-			i, i_final, pruned_count: INTEGER; i_th_uc: CHARACTER_32
-			c, c_i: CHARACTER; l_area: like area; unencoded: like unencoded_indexable
-			buffer: like empty_unencoded_buffer
+			i, i_final, removal_count, pruned_count, j: INTEGER
+			c: CHARACTER; l_area, new_area: like area buffer: like empty_unencoded_buffer
 		do
-			buffer := empty_unencoded_buffer; unencoded := unencoded_indexable
 			c := encoded_character (uc)
-			l_area := area; i_final := count
-			from i := 0 until i = i_final loop
-				c_i := l_area.item (i)
-				if c_i = Substitute then
-					i_th_uc := unencoded.item (i + 1)
-					if i_th_uc = uc then
-						pruned_count := pruned_count + 1
-					else
-						l_area [i - pruned_count] := Substitute
-						buffer.extend (i_th_uc, i + 1 - pruned_count)
+			if c = Substitute then
+				removal_count := unencoded_occurrences (uc)
+				if removal_count > 0 and then attached unencoded_combined_area as area_32 then
+					buffer := empty_unencoded_buffer
+					l_area := area; i_final := count
+					create new_area.make_empty (count - removal_count + 1)
+					from i := 0 until i = i_final loop
+						c := l_area [i]
+						if c = Substitute then
+							if area_32 [j] = uc then
+								pruned_count := pruned_count + 1
+							else
+								buffer.extend (area_32 [j], i + 1 - pruned_count)
+								new_area.extend (c)
+							end
+							j := j + 1
+						else
+							new_area.extend (c)
+						end
+						i := i + 1
 					end
-				elseif c_i = c then
-					pruned_count := pruned_count + 1
-				else
-					l_area.put (c_i, i - pruned_count)
+					new_area.extend ('%U'); area := new_area
+					set_count (count - removal_count)
+					set_unencoded_from_buffer (buffer)
 				end
-				i := i + 1
+			else
+				String_8.prune_all (Current, c)
+				if has_mixed_encoding and then attached unencoded_combined_area as area_32 then
+					buffer := empty_unencoded_buffer
+					l_area := area; i_final := count
+					from i := 0 until i = i_final loop
+						if l_area [i] = Substitute then
+							buffer.extend (area_32 [j], i + 1)
+							j := j + 1
+						end
+						i := i + 1
+					end
+					set_unencoded_from_buffer (buffer)
+				end
 			end
-			set_count (i - pruned_count); l_area [count] := '%U'
-			set_unencoded_from_buffer (buffer)
 		end
 
 	prune_all_leading (uc: CHARACTER_32)
@@ -400,7 +421,7 @@ feature -- Removal
 
 	remove_substring (start_index, end_index: INTEGER)
 		do
-			internal_remove_substring (start_index, end_index)
+			String_8.remove_substring (Current, start_index, end_index)
 			remove_unencoded_substring (start_index, end_index)
 		ensure
 			valid_unencoded: is_valid

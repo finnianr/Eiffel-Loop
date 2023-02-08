@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-07 12:52:44 GMT (Tuesday 7th February 2023)"
-	revision: "21"
+	date: "2023-02-08 16:40:39 GMT (Wednesday 8th February 2023)"
+	revision: "22"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
@@ -24,16 +24,6 @@ feature {NONE} -- Initialization
 		do
 			set_count (0)
 			create area.make_filled ('%/000/', n + 1)
-		end
-
-	make_from_string_8 (s: READABLE_STRING_8)
-		-- initialize with string that has the same encoding as codec
-		local
-			l_str: EL_STRING_8
-		do
-			l_str := String_8_args [0]
-			l_str.make_from_string (s)
-			set_from_string_8 (l_str)
 		end
 
 feature -- Access
@@ -135,32 +125,7 @@ feature -- Measurement
 		deferred
 		end
 
-	occurrences (c: CHARACTER_8): INTEGER
-			-- Number of times `c' appears in the string
-		do
-			Result := current_string_8.occurrences (c)
-		ensure
-			zero_if_empty: count = 0 implies Result = 0
-		end
-
 feature -- Status query
-
-	has (c: CHARACTER_8): BOOLEAN
-			-- Does string include `c'?
-		do
-			Result := current_string_8.has (c)
-		ensure then
-			false_if_empty: count = 0 implies not Result
-			true_if_first: count > 0 and then item (1) = c implies Result
-		end
-
-	starts_with (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION): BOOLEAN
-			-- Does string begin with `s'?
-		do
-			Result := current_string_8.starts_with (string_8_argument (s, 1))
-		ensure
-			definition: Result = s.string.same_string (substring (1, s.count))
-		end
 
 	valid_index (i: INTEGER): BOOLEAN
 		deferred
@@ -255,12 +220,6 @@ feature -- Conversion
 		deferred
 		end
 
-	linear_representation: LINEAR [CHARACTER_8]
-			-- Representation as a linear structure
-		do
-			Result := string.linear_representation
-		end
-
 	string: EL_STRING_8
 		do
 			create Result.make_from_zstring (Current)
@@ -287,23 +246,6 @@ feature {NONE} -- Element change
 			filled: count = capacity
 			same_size: capacity = old capacity
 			-- all_char: For every `i' in 1..`capacity', `item' (`i') = `c'
-		end
-
-	insert_character (c: CHARACTER_8; i: INTEGER)
-			-- Insert `c' at index `i', shifting characters between ranks
-			-- `i' and `count' rightwards.
-		require
-			valid_insertion_index: 1 <= i and i <= count + 1
-		local
-			str: like current_string_8
-		do
-			str := current_string_8; str.insert_character (c, i)
-			set_from_string_8 (str)
-		ensure
-			one_more_character: count = old count + 1
-			inserted: item (i) = c
-			stable_before_i: elks_checking implies substring (1, i - 1) ~ (old substring (1, i - 1))
-			stable_after_i: elks_checking implies substring (i + 1, count) ~ (old substring (i, count))
 		end
 
 	insert_string (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; i: INTEGER)
@@ -359,50 +301,7 @@ feature {NONE} -- Element change
 			end
 		end
 
-	left_adjust
-			-- Remove leading whitespace.
-		local
-			str: like current_string_8
-		do
-			str := current_string_8; str.left_adjust
-			set_from_string_8 (str)
-		end
-
-	prune_all (c: CHARACTER)
-			-- Remove all occurrences of `c'.
-		local
-			str: like current_string_8
-		do
-			str := current_string_8; str.prune_all (c)
-			set_from_string_8 (str)
-		ensure then
-			changed_count: count = (old count) - (old occurrences (c))
-			-- removed: For every `i' in 1..`count', `item' (`i') /= `c'
-		end
-
-	right_adjust
-			-- Remove trailing whitespace.
-		local
-			str: like current_string_8
-		do
-			str := current_string_8; str.right_adjust
-			set_from_string_8 (str)
-		end
-
 feature {NONE} -- Implementation
-
-	split (a_separator: CHARACTER): LIST [EL_STRING_8]
-		do
-			Result := current_string_8.split (a_separator)
-		end
-
-	mirror
-		local
-			str: like current_string_8
-		do
-			str := current_string_8; str.mirror
-			set_from_string_8 (str)
-		end
 
 	share (other: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION)
 			-- Make current string share the text of `other'.
@@ -428,23 +327,6 @@ feature -- Removal
 			area.overlapping_move (i, i - 1, l_count - i)
 				-- Update content.
 			set_count (l_count - 1)
-		end
-
-	remove_substring (start_index, end_index: INTEGER)
-			-- Remove all characters from `start_index'
-			-- to `end_index' inclusive.
-		require
-			valid_start_index: 1 <= start_index
-			valid_end_index: end_index <= count
-			meaningful_interval: start_index <= end_index + 1
-		local
-			str: like current_string_8
-		do
-			str := current_string_8
-			str.remove_substring (start_index, end_index)
-			set_from_string_8 (str)
-		ensure
-			removed: elks_checking implies string ~ (old substring (1, start_index - 1) + old substring (end_index + 1, count))
 		end
 
 	wipe_out
@@ -492,8 +374,7 @@ feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION, EL_STRING_8_IMPLEMENTATION} -- I
 
 	current_string_8: EL_STRING_8
 		do
-			Result := String_8_args [0]
-			Result.set_area_and_count (area, count)
+			Result := String_8.injected (Current, 0)
 		end
 
 	order_comparison (this, other: like area; this_index, other_index, n: INTEGER): INTEGER
@@ -550,24 +431,7 @@ feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION, EL_STRING_8_IMPLEMENTATION} -- I
 			area := str.area; set_count (str.count)
 		end
 
-	string_8_argument (zstr: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; index: INTEGER): EL_STRING_8
-		require
-			valid_index: 1 <= index and index <= 2
-		do
---			`String_8_args [0]' reserved for `current_string_8'
-			Result := String_8_args [index]
-			Result.set_area_and_count (zstr.area, zstr.count)
-		end
-
 feature -- Constants
-
-	String_8_args: SPECIAL [EL_STRING_8]
-		once
-			create Result.make_empty (3)
-			from until Result.count = 3 loop
-				Result.extend (create {EL_STRING_8}.make_empty)
-			end
-		end
 
 	String_8: EL_STRING_8_IMPLEMENTATION
 		once

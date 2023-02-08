@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-07 17:06:04 GMT (Tuesday 7th February 2023)"
-	revision: "15"
+	date: "2023-02-08 9:48:15 GMT (Wednesday 8th February 2023)"
+	revision: "16"
 
 class
 	CODEC_INFO
@@ -165,8 +165,7 @@ feature -- Basic operations
 
 	set_unicode_intervals
 		local
-			i, unicode: INTEGER
-			lc: LATIN_CHARACTER
+			i, unicode: INTEGER; lc: LATIN_CHARACTER
 			ascending_unicodes: SORTABLE_ARRAY [LATIN_CHARACTER]
 			differing_unicodes: ARRAYED_LIST [LATIN_CHARACTER]
 		do
@@ -246,8 +245,7 @@ feature {NONE} -- Match actions
 	on_unicode (start_index, end_index: INTEGER)
 			--
 		local
-			hex: EL_HEXADECIMAL_CONVERTER
-			unicode: NATURAL
+			hex: EL_HEXADECIMAL_CONVERTER; unicode: NATURAL
 		do
 			unicode := hex.to_natural_32 (source_substring (start_index, end_index, False))
 			latin_table.item (last_latin_code).set_unicode (unicode)
