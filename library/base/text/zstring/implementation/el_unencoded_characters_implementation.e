@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-08 13:00:29 GMT (Wednesday 8th February 2023)"
-	revision: "8"
+	date: "2023-02-09 16:04:22 GMT (Thursday 9th February 2023)"
+	revision: "9"
 
 deferred class
 	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
@@ -28,7 +28,7 @@ feature {NONE} -- Contract Support
 			l_area := area; i_final := l_area.count
 			Result := True
 			from i := 0 until not Result or else i = i_final loop
-				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+				lower := l_area [i].code; upper := l_area [i + 1].code
 				count := upper - lower + 1
 				Result := lower <= upper and then lower > previous_upper and then i + count + 2 <= i_final
 				previous_upper := upper
@@ -45,7 +45,7 @@ feature {NONE} -- Contract Support
 			create list.make (10)
 			l_area := area; i_final := l_area.count
 			from i := 0 until i = i_final loop
-				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+				lower := l_area [i].code; upper := l_area [i + 1].code
 				count := upper - lower + 1
 				create string.make (count + 8)
 				string.append_integer (lower)
@@ -72,13 +72,12 @@ feature {NONE} -- Implementation
 
 	change_case (as_lower_case: BOOLEAN)
 		local
-			i, j, index, lower, upper, count, i_final: INTEGER; l_area: like area
+			i, j, index, count, i_final: INTEGER; l_area: like area
 			c, new_c: CHARACTER_32
 		do
 			l_area := area; i_final := l_area.count
 			from i := 0 until i = i_final loop
-				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
-				count := upper - lower + 1
+				count := section_count (l_area, i)
 				from j := 1 until j > count loop
 					index := i + 1 + j
 					c := l_area.item (index).to_character_32
@@ -94,6 +93,16 @@ feature {NONE} -- Implementation
 				end
 				i := i + count + 2
 			end
+		end
+
+	copy_bounds (a_area: like area; i: INTEGER; lower_ptr, upper_ptr: POINTER)
+		local
+			lower_src: POINTER; n: INTEGER
+		do
+			n := {PLATFORM}.Character_32_bytes
+			lower_src := a_area.base_address + i * n
+			lower_ptr.memory_copy (lower_src, n)
+			upper_ptr.memory_copy (lower_src + n, n)
 		end
 
 	empty_buffer: EL_UNENCODED_CHARACTERS_BUFFER
@@ -137,20 +146,14 @@ feature {NONE} -- Implementation
 
 	index_list: ARRAYED_LIST [INTEGER]
 		local
-			i, lower, upper, i_final: INTEGER; l_area: like area
+			i, i_final: INTEGER; l_area: like area
 		do
 			Result := empty_index_list
 			l_area := area; i_final := l_area.count
 			from i := 0 until i = i_final loop
-				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				Result.extend (i)
-				i := i + upper - lower + 3
+				i := i + section_count (l_area, i) + 2
 			end
-		end
-
-	lower_bound (a_area: like area; i: INTEGER): INTEGER
-		do
-			Result := a_area.item (i).natural_32_code.to_integer_32
 		end
 
 	put_lower (a_area: like area; i, lower: INTEGER)
@@ -189,9 +192,9 @@ feature {NONE} -- Implementation
 			Result := count_to_remove
 		end
 
-	upper_bound (a_area: like area; i: INTEGER): INTEGER
+	section_count (a_area: like area; i: INTEGER): INTEGER
 		do
-			Result := a_area.item (i + 1).natural_32_code.to_integer_32
+			Result := a_area [i + 1].code - a_area [i].code + 1
 		end
 
 feature {NONE} -- `count_greater_than_zero_flags' values

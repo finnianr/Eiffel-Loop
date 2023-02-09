@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-08 9:37:44 GMT (Wednesday 8th February 2023)"
-	revision: "7"
+	date: "2023-02-09 18:03:27 GMT (Thursday 9th February 2023)"
+	revision: "8"
 
 class
 	CODEC_GENERATOR_TEST_SET
@@ -31,13 +31,18 @@ feature -- Tests
 		do
 			create command.make ("test-data/sources/C/decoder.c", "doc/zcodec/template.evol")
 			command.execute
+			lio.put_new_line
 			across OS.file_list (Work_area_dir, "*.e") as path loop
-				if Digest_table.has_key (path.item.base_name) then
-					assert ("has BOM", File.has_utf_8_bom (path.item))
-					assert_same_digest (path.item, Digest_table.found_item)
-					count := count + 1
-				else
-					assert ("Source has digest", False)
+				if attached path.item.base_name.split_list ('_')[4] as id then
+					lio.put_labeled_string ("Comparing content digest for id", id)
+					lio.put_new_line
+					if Digest_table.has_key (id.to_integer) then
+						assert ("has BOM", File.has_utf_8_bom (path.item))
+						assert_same_digest (path.item, Digest_table.found_item)
+						count := count + 1
+					else
+						assert ("Source has digest", False)
+					end
 				end
 			end
 			assert ("all codecs checked", count = Digest_table.count)
@@ -45,13 +50,13 @@ feature -- Tests
 
 feature {NONE} -- Constants
 
-	Digest_table: EL_ZSTRING_HASH_TABLE [STRING]
+	Digest_table: EL_HASH_TABLE [STRING, INTEGER]
 		once
 			create Result.make (<<
-				["el_iso_8859_11_zcodec", "UTCBCoqxjIPcPpkPmCi4eA=="],
-				["el_iso_8859_15_zcodec", "CqV3Oaxh4j6Yy6fswHHulw=="],
-				["el_iso_8859_2_zcodec", "qc2+u7RQkKxCt5lLHlVe0g=="],
-				["el_iso_8859_6_zcodec", "E3VBhccDZ54Uu/lN8tDLuw=="]
+				[11, "UTCBCoqxjIPcPpkPmCi4eA=="],
+				[15, "0TyUzFLqkhuPz7tcJfZwQg=="],
+				[2, "I0VjdRiMBXq0qm2uCDs9Lw=="],
+				[6, "x0i8Q2HQXTb2jyMebMzsLw=="]
 			>>)
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-08 9:48:15 GMT (Wednesday 8th February 2023)"
-	revision: "16"
+	date: "2023-02-09 16:31:05 GMT (Thursday 9th February 2023)"
+	revision: "17"
 
 class
 	CODEC_INFO
@@ -202,10 +202,10 @@ feature {NONE} -- Pattern definitions
 			--
 		do
 			Result := all_of (<<
-				string_literal ("%T%T"), identifier, string_literal ("[0x"),
-				alphanumeric #occurs (2 |..| 2) |to| agent on_latin_code,
-				string_literal ("] = (char) (0x"),
-				alphanumeric #occurs (4 |..| 4) |to| agent on_unicode,
+				string_literal ("%T%T"), identifier, character_literal ('['),
+				hexadecimal_constant |to| agent on_latin_code,
+				string_literal ("] = (char) ("),
+				hexadecimal_constant |to| agent on_unicode,
 				string_literal (");"),
 				optional (
 					all_of (<<
@@ -229,7 +229,7 @@ feature {NONE} -- Match actions
 			l_name.left_adjust
 			l_name.prune_all_trailing ('/')
 			l_name.prune_all_trailing ('*')
-			latin_table.item (last_latin_code).set_name(l_name)
+			latin_table.item (last_latin_code).set_name (l_name)
 		end
 
 	on_latin_code (start_index, end_index: INTEGER)

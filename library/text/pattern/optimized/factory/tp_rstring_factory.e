@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-08 10:04:38 GMT (Wednesday 8th February 2023)"
-	revision: "7"
+	date: "2023-02-09 16:23:15 GMT (Thursday 9th February 2023)"
+	revision: "8"
 
 class
 	TP_RSTRING_FACTORY
@@ -22,7 +22,7 @@ inherit
 			new_string_literal, new_white_space, new_digits_string, new_end_of_line_character,
 			new_c_identifier, new_xml_identifier, new_c_quoted_string, new_eiffel_quoted_string,
 			new_eiffel_quoted_character, new_alphanumeric, new_quoted_string, new_character_in_range,
-			new_start_of_line, new_c_quoted_character, new_hexadecimal
+			new_start_of_line, new_c_quoted_character, new_hexadecimal_string
 		end
 
 feature -- Access
@@ -122,12 +122,6 @@ feature -- Character
 			create Result
 		end
 
-	new_hexadecimal: TP_RSTRING_HEXADECIMAL_CHAR
-			--
-		do
-			create Result
-		end
-
 	new_letter: TP_RSTRING_ALPHA_CHAR
 			--
 		do
@@ -142,6 +136,17 @@ feature -- Character
 
 feature -- String
 
+	new_digits_string (a_minimum_match_count: INTEGER): TP_RSTRING_DIGITS
+		do
+			create Result.make (a_minimum_match_count)
+		end
+
+	new_hexadecimal_string (a_minimum_match_count: INTEGER): TP_RSTRING_HEXADECIMAL_DIGITS
+			--
+		do
+			create Result.make (a_minimum_match_count)
+		end
+
 	new_string_literal (a_text: READABLE_STRING_GENERAL): TP_RSTRING_LITERAL
 		do
 			create Result.make (a_text)
@@ -150,11 +155,6 @@ feature -- String
 	new_white_space (optional, nonbreaking: BOOLEAN): TP_RSTRING_WHITE_SPACE
 		do
 			create Result.make (optional, nonbreaking)
-		end
-
-	new_digits_string (a_minimum_match_count: INTEGER): TP_RSTRING_DIGITS
-		do
-			create Result.make (a_minimum_match_count)
 		end
 
 	new_quoted_string (
@@ -173,7 +173,6 @@ feature {NONE} -- Constants
 		end
 
 end
-
 
 
 

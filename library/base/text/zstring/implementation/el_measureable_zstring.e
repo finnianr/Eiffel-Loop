@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-08 16:26:21 GMT (Wednesday 8th February 2023)"
-	revision: "13"
+	date: "2023-02-09 18:22:22 GMT (Thursday 9th February 2023)"
+	revision: "14"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
@@ -56,41 +56,8 @@ feature -- Measurement
 		end
 
 	leading_white_space: INTEGER
-		local
-			i, l_count: INTEGER; l_area: like area; c_i: CHARACTER
-			c: EL_CHARACTER_32_ROUTINES; unencoded: like unencoded_indexable
 		do
-			l_area := area; l_count := count
-			if has_mixed_encoding then
-				unencoded := unencoded_indexable
-				from i := 0 until i = l_count loop
-					c_i := l_area [i]
-					-- `Unencoded_character' is space
-					if c_i = Substitute then
-						if c.is_space (unencoded.item (i + 1)) then
-							Result := Result + 1
-						else
-							i := l_count - 1 -- break out of loop
-						end
-					elseif c_i.is_space then
-						Result := Result + 1
-					else
-						i := l_count - 1 -- break out of loop
-					end
-					i := i + 1
-				end
-			else
-				from i := 0 until i = l_count loop
-					if l_area.item (i).is_space then
-						Result := Result + 1
-					else
-						i := l_count - 1 -- break out of loop
-					end
-					i := i + 1
-				end
-			end
-		ensure then
-			substring_agrees: across substring (1, Result) as uc all unicode_property.is_space (uc.item) end
+			Result := internal_leading_white_space (area, count)
 		end
 
 	occurrences (uc: CHARACTER_32): INTEGER
@@ -170,42 +137,8 @@ feature -- Measurement
 		end
 
 	trailing_white_space: INTEGER
-		local
-			i: INTEGER; l_area: like area; c_i: CHARACTER
-			c: EL_CHARACTER_32_ROUTINES; unencoded: like unencoded_indexable
 		do
-			l_area := area
-			if has_mixed_encoding then
-				unencoded := unencoded_indexable
-				from i := count - 1 until i < 0 loop
-					c_i := l_area [i]
-					-- `Unencoded_character' is space
-					if c_i = Substitute then
-						if c.is_space (unencoded.item (i + 1)) then
-							Result := Result + 1
-						else
-							i := 0 -- break out of loop
-						end
-					elseif c_i.is_space then
-						Result := Result + 1
-					else
-						i := 0 -- break out of loop
-					end
-					i := i - 1
-				end
-			else
-				from i := count - 1 until i < 0 loop
-					-- `Unencoded_character' is space
-					if l_area.item (i).is_space then
-						Result := Result + 1
-					else
-						i := 0 -- break out of loop
-					end
-					i := i - 1
-				end
-			end
-		ensure then
-			substring_agrees: across substring (count - Result + 1, count) as uc all unicode_property.is_space (uc.item) end
+			Result := internal_trailing_white_space (area)
 		end
 
 	utf_8_byte_count: INTEGER
@@ -227,6 +160,81 @@ feature -- Measurement
 		end
 
 feature {NONE} -- Implementation
+
+	internal_leading_white_space (a_area: like area; a_count: INTEGER): INTEGER
+		local
+			i: INTEGER; c_i: CHARACTER; c: EL_CHARACTER_32_ROUTINES
+		do
+			if has_mixed_encoding then
+				from i := 0 until i = a_count loop
+					c_i := a_area [i]
+					-- `Unencoded_character' is space
+					if c_i.is_space then
+						Result := Result + 1
+
+					elseif c_i = Substitute then
+						if c.is_space (unencoded_item (i + 1)) then
+							Result := Result + 1
+						else
+							i := a_count - 1 -- break out of loop
+						end
+					else
+						i := a_count - 1 -- break out of loop
+					end
+					i := i + 1
+				end
+			else
+				from i := 0 until i = a_count loop
+					if a_area.item (i).is_space then
+						Result := Result + 1
+					else
+						i := a_count - 1 -- break out of loop
+					end
+					i := i + 1
+				end
+			end
+		ensure then
+			substring_agrees: across substring (1, Result) as uc all unicode_property.is_space (uc.item) end
+		end
+
+	internal_trailing_white_space (a_area: like area): INTEGER
+		local
+			i: INTEGER; c_i: CHARACTER
+			c: EL_CHARACTER_32_ROUTINES; unencoded: like unencoded_indexable
+		do
+			if has_mixed_encoding then
+				unencoded := unencoded_indexable
+				from i := count - 1 until i < 0 loop
+					c_i := a_area [i]
+					-- `Unencoded_character' is space
+					if c_i.is_space then
+						Result := Result + 1
+
+					elseif c_i = Substitute then
+						if c.is_space (unencoded.item (i + 1)) then
+							Result := Result + 1
+						else
+							i := 0 -- break out of loop
+						end
+					else
+						i := 0 -- break out of loop
+					end
+					i := i - 1
+				end
+			else
+				from i := count - 1 until i < 0 loop
+					-- `Unencoded_character' is space
+					if a_area.item (i).is_space then
+						Result := Result + 1
+					else
+						i := 0 -- break out of loop
+					end
+					i := i - 1
+				end
+			end
+		ensure
+			substring_agrees: across substring (count - Result + 1, count) as uc all unicode_property.is_space (uc.item) end
+		end
 
 	substring_index_list (delimiter: READABLE_STRING_GENERAL): LIST [INTEGER]
 		deferred

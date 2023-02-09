@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-08 16:40:50 GMT (Wednesday 8th February 2023)"
-	revision: "41"
+	date: "2023-02-09 15:59:30 GMT (Thursday 9th February 2023)"
+	revision: "42"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -220,15 +220,15 @@ feature -- Contract Support
 	is_valid: BOOLEAN
 			-- True position and number of `Unencoded_character' in `area' consistent with `unencoded_area' substrings
 		local
-			i, j, lower, upper, l_count, interval_count, sum_count, i_final: INTEGER
+			i, j, lower, upper, l_count, interval_count, sum_count: INTEGER
 			l_unencoded: like unencoded_area; l_area: like area
 		do
 			if has_mixed_encoding then
 				l_count := count
-				l_area := area; l_unencoded := unencoded_area; i_final := l_unencoded.count
+				l_area := area; l_unencoded := unencoded_area
 				Result := True
-				from i := 0 until not Result or else i = i_final loop
-					lower := lower_bound (l_unencoded, i); upper := upper_bound (l_unencoded, i)
+				from i := 0 until not Result or else i = l_unencoded.count loop
+					lower := l_unencoded [i].code; upper := l_unencoded [i + 1].code
 					interval_count := upper - lower + 1
 					if upper <= l_count then
 						from j := lower until not Result or else j > upper loop

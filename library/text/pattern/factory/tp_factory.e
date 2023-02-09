@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-08 10:10:49 GMT (Wednesday 8th February 2023)"
-	revision: "9"
+	date: "2023-02-09 16:27:40 GMT (Thursday 9th February 2023)"
+	revision: "10"
 
 deferred class
 	TP_FACTORY
@@ -154,11 +154,6 @@ feature -- Character patterns
 			Result := core.new_digit
 		end
 
-	hexadecimal_digit: TP_HEXADECIMAL_CHAR
-		do
-			Result := core.new_hexadecimal
-		end
-
 	letter: TP_ALPHA_CHAR
 			--
 		do
@@ -213,6 +208,11 @@ feature -- Numeric strings
 			>>)
 		end
 
+	hexadecimal_constant: like all_of
+		do
+			Result := all_of (<< string_literal_caseless ("0x"), core.new_hexadecimal_string (1) >>)
+		end
+
 	natural_number: TP_DIGITS
 		do
 			Result := core.new_digits_string (1)
@@ -247,7 +247,6 @@ feature {NONE} -- Type definition
 			Result := Void
 		end
 end
-
 
 
 

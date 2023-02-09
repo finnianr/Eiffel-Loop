@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-08 18:02:42 GMT (Wednesday 8th February 2023)"
-	revision: "30"
+	date: "2023-02-09 18:53:55 GMT (Thursday 9th February 2023)"
+	revision: "31"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -546,7 +546,7 @@ feature {EL_READABLE_ZSTRING} -- Removal
 			valid_unencoded: is_valid
 		end
 
-	left_adjust
+	left_adjust_X
 		-- Remove leading whitespace.
 		local
 			old_count: INTEGER
@@ -556,6 +556,27 @@ feature {EL_READABLE_ZSTRING} -- Removal
 			if has_mixed_encoding then
 				shift_unencoded ((old_count - count).opposite)
 				remove_leading_white_space
+			end
+		end
+
+	left_adjust
+		-- Remove leading whitespace.
+		local
+			space_count, old_count: INTEGER; l_area: like area
+		do
+			l_area := area; old_count := count
+			space_count := internal_leading_white_space (l_area, old_count)
+
+			if space_count > 0 then
+				if has_unencoded_between (1, space_count) then
+					remove_head (space_count)
+				else
+					l_area.overlapping_move (space_count, 0, old_count - space_count)
+					if has_mixed_encoding then
+						shift_unencoded (space_count.opposite)
+					end
+					set_count (old_count - space_count)
+				end
 			end
 		end
 
@@ -640,6 +661,10 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Deferred
+
+	internal_leading_white_space (a_area: like area; a_count: INTEGER): INTEGER
+		deferred
+		end
 
 	internal_substring_index_list (str: EL_READABLE_ZSTRING): ARRAYED_LIST [INTEGER]
 		deferred

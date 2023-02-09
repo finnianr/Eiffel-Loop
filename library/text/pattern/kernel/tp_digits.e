@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:56 GMT (Monday 21st November 2022)"
-	revision: "3"
+	date: "2023-02-09 16:12:06 GMT (Thursday 9th February 2023)"
+	revision: "4"
 
 class
 	TP_DIGITS
@@ -24,7 +24,7 @@ create
 feature {NONE} -- Implementation
 
 	i_th_is_digit (i: INTEGER_32; text: READABLE_STRING_GENERAL): BOOLEAN
-			-- `True' if i'th character is white space
+			-- `True' if i'th character is a digit
 		do
 			Result := text [i].is_digit
 		end

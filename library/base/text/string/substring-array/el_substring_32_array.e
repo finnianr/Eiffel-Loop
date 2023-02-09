@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "22"
+	date: "2023-02-09 15:54:49 GMT (Thursday 9th February 2023)"
+	revision: "23"
 
 class
 	EL_SUBSTRING_32_ARRAY
@@ -73,23 +73,23 @@ feature {NONE} -- Initialization
 
 	make_from_unencoded (unencoded: EL_UNENCODED_CHARACTERS)
 		local
-			i, lower, upper, l_count, char_count, i_final, offset: INTEGER
+			i, lower, upper, l_count, char_count, offset: INTEGER
 			l_area: like area
 		do
 			l_count := unencoded.substring_count
 			create area.make_empty (l_count * 2 + unencoded.character_count + 1)
 			area.extend (l_count.to_character_32)
 
-			l_area := unencoded.area; i_final := l_area.count
-			from i := 0 until i = i_final loop
-				lower := unencoded.lower_bound (l_area, i); upper := unencoded.upper_bound (l_area, i)
+			l_area := unencoded.area
+			from i := 0 until i = l_area.count loop
+				lower := l_area [i].code; upper := l_area [i + 1].code
 				area.extend (lower.to_character_32); area.extend (upper.to_character_32);
 				char_count := upper - lower + 1
 				i := i + char_count + 2
 			end
 			offset := l_count * 2  + 1 -- substring offset
-			from i := 0 until i = i_final loop
-				lower := unencoded.lower_bound (l_area, i); upper := unencoded.upper_bound (l_area, i)
+			from i := 0 until i = l_area.count loop
+				lower := l_area [i].code; upper := l_area [i + 1].code
 				char_count := upper - lower + 1
 				area.copy_data (l_area, i + 2, offset, char_count)
 				offset := offset + char_count

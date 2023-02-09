@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-08 10:03:39 GMT (Wednesday 8th February 2023)"
-	revision: "7"
+	date: "2023-02-09 16:22:47 GMT (Thursday 9th February 2023)"
+	revision: "8"
 
 class
 	TP_OPTIMIZED_FACTORY
@@ -69,12 +69,6 @@ feature -- Character
 		end
 
 	new_digit: TP_NUMERIC_CHAR
-			--
-		do
-			create Result
-		end
-
-	new_hexadecimal: TP_HEXADECIMAL_CHAR
 			--
 		do
 			create Result
@@ -139,6 +133,12 @@ feature -- String
 			create Result.make (a_minimum_match_count)
 		end
 
+	new_hexadecimal_string (a_minimum_match_count: INTEGER): TP_HEXADECIMAL_DIGITS
+			--
+		do
+			create Result.make (a_minimum_match_count)
+		end
+
 	new_quoted_string (
 		quote: CHARACTER_32; unescaped_action: detachable PROCEDURE [STRING_GENERAL]
 
@@ -165,7 +165,6 @@ feature {NONE} -- Constants
 		end
 
 end
-
 
 
 

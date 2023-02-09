@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-02-09 17:39:53 GMT (Thursday 9th February 2023)"
+	revision: "7"
 
 class
 	LATIN_CHARACTER
@@ -48,8 +48,7 @@ feature -- Access
 
 	unicode_string: ZSTRING
 		do
-			create Result.make (1)
-			Result.append_unicode (unicode)
+			create Result.make_filled (unicode.to_character_32, 1)
 		end
 
 	inverse_case_unicode_string: ZSTRING
@@ -57,15 +56,14 @@ feature -- Access
 			c: CHARACTER_32
 		do
 			c := unicode.to_character_32
-			create Result.make (1)
 			if c.is_alpha then
 				if c.is_upper then
-					Result.append_unicode (c.as_lower.natural_32_code)
+					create Result.make_filled (c.as_lower, 1)
 				else
-					Result.append_unicode (c.as_upper.natural_32_code)
+					create Result.make_filled (c.as_upper, 1)
 				end
 			else
-				Result.append_unicode (unicode)
+				create Result.make_filled (c, 1)
 			end
 		end
 

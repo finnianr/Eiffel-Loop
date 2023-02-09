@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2023-02-09 16:03:03 GMT (Thursday 9th February 2023)"
+	revision: "17"
 
 class
 	EL_UNENCODED_CHARACTERS_BUFFER
@@ -51,7 +51,7 @@ feature -- Element change
 			lower, upper: INTEGER; l_area, current_area: like area
 		do
 			last_index := index
-			lower := lower_bound (a_area, index); upper := upper_bound (a_area, index)
+			lower := a_area [index].code; upper := a_area [index + 1].code
 			l_area := area; current_area := l_area
 			l_area := big_enough (l_area, index + upper - lower + 3)
 			l_area.copy_data (a_area, 0, 0, index + upper - lower + 3)
@@ -60,12 +60,12 @@ feature -- Element change
 
 	append_substring (other: EL_UNENCODED_CHARACTERS; start_index, end_index, offset: INTEGER)
 		local
-			i, lower, upper, count, i_final: INTEGER
+			i, lower, upper, count: INTEGER
 			o_area: like area
 		do
-			o_area := other.area; i_final := o_area.count
-			from i := 0 until i = i_final loop
-				lower := lower_bound (o_area, i); upper := upper_bound (o_area, i)
+			o_area := other.area
+			from i := 0 until i = o_area.count loop
+				lower := o_area [i].code; upper := o_area [i + 1].code
 				count := upper - lower + 1
 				if lower <= start_index and then end_index <= upper then
 					-- Append full interval
@@ -93,7 +93,7 @@ feature -- Element change
 		do
 			l_area := area; current_area := l_area; area_count := l_area.count
 			if l_area.count > 0 then
-				l_last_upper := upper_bound (l_area, last_index)
+				l_last_upper := l_area [last_index + 1].code
 			else
 				l_last_upper := (1).opposite
 			end
@@ -132,7 +132,7 @@ feature {NONE} -- Implementation
 			count, i: INTEGER; l_area, current_area: like area
 		do
 			l_area := area; current_area := l_area; i := last_index; count := a_upper - a_lower + 1
-			if l_area.count > 0 and then upper_bound (l_area, i) + 1 = a_lower + offset then
+			if l_area.count > 0 and then l_area [i + 1] + 1 = a_lower + offset then
 				-- merge intervals
 				l_area := big_enough (l_area, count)
 				l_area.copy_data (a_area, source_index, l_area.count, count)
@@ -149,12 +149,8 @@ feature {NONE} -- Implementation
 		end
 
 	valid_last_index: BOOLEAN
-		local
-			lower, upper: INTEGER
 		do
-			lower := lower_bound (area, last_index)
-			upper := upper_bound (area, last_index)
-			Result := area.count > 0 implies last_index + upper - lower + 3 = area.count
+			Result := area.count > 0 implies last_index + section_count (area, last_index) + 2 = area.count
 		end
 
 invariant
