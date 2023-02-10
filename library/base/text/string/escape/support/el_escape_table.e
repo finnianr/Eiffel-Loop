@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 9:53:28 GMT (Monday 30th January 2023)"
-	revision: "4"
+	date: "2023-02-10 11:27:43 GMT (Friday 10th February 2023)"
+	revision: "5"
 
 class
 	EL_ESCAPE_TABLE
@@ -41,14 +41,15 @@ feature {NONE} -- Initialization
 		do
 			escape_character := escape
 			make_table (character_map.count)
-			 across adjusted_list (character_map) as str loop
-			 	index := str.item.substring_index (":=", 1)
-			 	if index = 2 and then str.item.count = 4 then
-			 		extend (str.item [4], str.item [1])
-			 	end
-			 end
+			across adjusted_list (character_map) as str loop
+				index := str.item.substring_index (":=", 1)
+				if index = 2 and then str.item.count = 4 then
+					extend (str.item [4], str.item [1])
+				end
+			end
+			put (escape, escape)
 		ensure
-			full: count = character_map.occurrences (',') + 1
+			full: count - inserted.to_integer = character_map.occurrences (',') + 1
 			has_escape: has (escape_character)
 		end
 

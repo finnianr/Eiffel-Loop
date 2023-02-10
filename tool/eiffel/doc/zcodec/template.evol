@@ -36,6 +36,34 @@ feature {NONE} -- Initialization
 
 feature -- Conversion
 
+	as_upper (code: NATURAL): NATURAL
+		local
+			offset: NATURAL
+		do
+			inspect code
+			#across $lower_case_offsets as $offsets loop
+				when $offsets.item then
+					offset := $offsets.key
+			#end
+
+			else end
+			Result := code - offset
+		end
+
+	as_lower (code: NATURAL): NATURAL
+		local
+			offset: NATURAL
+		do
+			inspect code
+			#across $upper_case_offsets as $offsets loop
+				when $offsets.item then
+					offset := $offsets.key
+			#end
+
+			else end
+			Result := code + offset
+		end
+
 	to_upper_offset (code: NATURAL): INTEGER
 		do
 			inspect code

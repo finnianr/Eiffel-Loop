@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-08 14:21:06 GMT (Wednesday 8th February 2023)"
-	revision: "16"
+	date: "2023-02-10 15:13:24 GMT (Friday 10th February 2023)"
+	revision: "17"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -101,7 +101,7 @@ feature -- Start/End comparisons
 				Result := Result and same_unencoded_substring (str, count - str.count + 1)
 			end
 		ensure
-			definition: Result = str.same_string (substring (count - str.count + 1, count))
+			definition: Result implies str.same_string (substring (count - str.count + 1, count))
 		end
 
  	starts_with (str: READABLE_STRING_32): BOOLEAN
@@ -116,7 +116,7 @@ feature -- Start/End comparisons
 				Result := Result and same_unencoded_substring (str, 1)
 			end
 		ensure
-			definition: Result = str.same_string (substring (1, str.count))
+			definition: Result implies str.same_string (substring (1, str.count))
 		end
 
 	starts_with_general (str: READABLE_STRING_GENERAL): BOOLEAN
@@ -164,10 +164,14 @@ feature -- Comparison
 	same_substring (str: READABLE_STRING_GENERAL; i: INTEGER; case_insensitive: BOOLEAN): BOOLEAN
 		-- `True' if `str' occurs at position `i' with optional `case_insensitive' match
 		do
-			if case_insensitive then
-				Result := same_caseless_characters_general (str, 1, str.count, i)
+			if str.count = 0 then
+				Result := True
 			else
-				Result := same_characters_general (str, 1, str.count, i)
+				if case_insensitive then
+					Result := same_caseless_characters_general (str, 1, str.count, i)
+				else
+					Result := same_characters_general (str, 1, str.count, i)
+				end
 			end
 		end
 
@@ -198,8 +202,8 @@ feature {NONE} -- Implementation
 			l_count := end_pos - start_pos + 1
 			l_area := area; o_area := other.area; l_codec := codec; uc_prop := unicode_property
 
-			current_has_unencoded := has_unencoded_between (index_pos, index_pos + l_count - 1)
-			other_has_unencoded := other.has_unencoded_between (start_pos, end_pos)
+			current_has_unencoded := has_unencoded_between_optimal (l_area, index_pos, index_pos + l_count - 1)
+			other_has_unencoded := other.has_unencoded_between_optimal (o_area, start_pos, end_pos)
 			Result := True
 			inspect current_other_bitmap (current_has_unencoded, other_has_unencoded)
 				when Both_have_mixed_encoding  then
@@ -268,12 +272,12 @@ feature {NONE} -- Implementation
 			unencoded, o_unencoded: like unencoded_indexable
 			uc, uc_other: CHARACTER_32
 		do
+			l_area := area; o_area := other.area
 			l_count := end_pos - start_pos + 1
 			Result := internal_same_characters (other, start_pos, end_pos, index_pos)
-			if Result and then has_unencoded_between (index_pos, index_pos + l_count - 1) then
-				if other.has_unencoded_between (start_pos, end_pos) then
+			if Result and then has_unencoded_between_optimal (l_area, index_pos, index_pos + l_count - 1) then
+				if other.has_unencoded_between_optimal (o_area, start_pos, end_pos) then
 					unencoded := unencoded_indexable; o_unencoded := other.unencoded_indexable_other
-					l_area := area; o_area := other.area
 --					check substitutions
 					from i := 0 until not Result or else i = l_count loop
 						if l_area [index_pos + i - 1] = Substitute then

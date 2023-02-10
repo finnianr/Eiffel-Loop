@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-08 17:45:13 GMT (Wednesday 8th February 2023)"
-	revision: "2"
+	date: "2023-02-10 10:14:54 GMT (Friday 10th February 2023)"
+	revision: "3"
 
 class
 	EL_STRING_8_IMPLEMENTATION
@@ -128,22 +128,6 @@ feature -- Transformation
 
 feature -- Character removal
 
-	adjust (a_target: EL_TRANSFORMABLE_ZSTRING)
-		do
-			if attached injected (a_target, 0) as target then
-				target.adjust
-				a_target.set_from_string_8 (target)
-			end
-		end
-
-	left_adjust (a_target: EL_TRANSFORMABLE_ZSTRING)
-		do
-			if attached injected (a_target, 0) as target then
-				target.left_adjust
-				a_target.set_from_string_8 (target)
-			end
-		end
-
 	prune_all (a_target: ZSTRING; c: CHARACTER)
 		do
 			if attached injected (a_target, 0) as target then
@@ -157,14 +141,6 @@ feature -- Character removal
 		do
 			if attached injected (a_target, 0) as target then
 				target.remove_substring (start_index, end_index)
-				a_target.set_from_string_8 (target)
-			end
-		end
-
-	right_adjust (a_target: EL_TRANSFORMABLE_ZSTRING)
-		do
-			if attached injected (a_target, 0) as target then
-				target.right_adjust
 				a_target.set_from_string_8 (target)
 			end
 		end

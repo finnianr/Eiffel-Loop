@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-08 17:54:41 GMT (Wednesday 8th February 2023)"
-	revision: "65"
+	date: "2023-02-10 9:34:44 GMT (Friday 10th February 2023)"
+	revision: "66"
 
 class
 	EL_ZSTRING
@@ -51,7 +51,7 @@ inherit
 			to_canonically_spaced, to_lower, to_proper_case, to_upper, translate_deleting_null_characters,
 			unescape,
 --			Removal
-			adjust, keep_head, keep_tail, left_adjust, remove_head, remove_tail, right_adjust,
+			keep_head, keep_tail, left_adjust, remove_head, remove_tail, right_adjust,
 --			Contract support
 			Encoding
 		select
@@ -104,7 +104,7 @@ inherit
 			starts_with as starts_with_general,
 			Character_properties as Unicode_property
 		undefine
-			adjust, copy, hash_code, out, index_of, last_index_of, occurrences,
+			copy, hash_code, out, index_of, last_index_of, occurrences,
 --			Status query
 			ends_with_general, has, has_unicode,
 			is_real, is_real_32, is_double, is_equal, is_real_64,

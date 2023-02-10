@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-02-10 11:52:51 GMT (Friday 10th February 2023)"
+	revision: "4"
 
 class
 	STRING_PAIR
@@ -61,6 +61,14 @@ feature -- Status query
 	is_same: BOOLEAN
 		do
 			Result := z_32.same_string (s_32)
+		end
+
+	same_substring (start_index, end_index: INTEGER): BOOLEAN
+		local
+			substring: ZSTRING
+		do
+			substring := z_32.substring (start_index, end_index)
+			Result := substring.to_string_32 ~ s_32.substring (start_index, end_index)
 		end
 
 feature -- Basic operations

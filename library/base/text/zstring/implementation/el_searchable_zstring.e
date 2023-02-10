@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-07 12:28:13 GMT (Tuesday 7th February 2023)"
-	revision: "16"
+	date: "2023-02-10 14:17:30 GMT (Friday 10th February 2023)"
+	revision: "17"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -99,7 +99,7 @@ feature -- Access
 				inspect respective_encoding (other_zstr)
 					when Both_have_mixed_encoding then
 						-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
-						if has_unencoded_between (start_pos, end_pos) then
+						if has_unencoded_between_optimal (area, start_pos, end_pos) then
 							Result := String_searcher.substring_index (current_readable, other_zstr.as_expanded (1), start_pos, end_pos)
 						end
 					when Only_other then

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:33:27 GMT (Saturday 31st December 2022)"
-	revision: "22"
+	date: "2023-02-10 14:59:16 GMT (Friday 10th February 2023)"
+	revision: "23"
 
 class
 	URI_TEST_SET
@@ -63,6 +63,7 @@ feature -- Tests
 		end
 
 	test_uri_path_plus_joins
+		-- URI_TEST_SET.test_uri_path_plus_joins
 		note
 			testing:
 				"covers/{EL_PATH}.append_path, covers/{EL_DIR_URI_PATH}.hash_plus",

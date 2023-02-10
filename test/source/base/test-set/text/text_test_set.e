@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 16:20:16 GMT (Thursday 5th January 2023)"
-	revision: "14"
+	date: "2023-02-10 11:22:59 GMT (Friday 10th February 2023)"
+	revision: "15"
 
 class
 	TEXT_TEST_SET
@@ -131,6 +131,7 @@ feature -- Tests
 		end
 
 	test_unescape
+		-- TEXT_TEST_SET.test_unescape
 		note
 			testing:	"covers/{EL_ZSTRING_UNESCAPER}.unescape", "covers/{EL_STRING_32_UNESCAPER}.unescape"
 		local
@@ -192,7 +193,6 @@ feature {NONE} -- Implementation
 	new_escape_table (escape: CHARACTER_32): EL_ESCAPE_TABLE
 		do
 			create Result.make (escape, {STRING_32} "t:=%T, ь:=в, и:=N")
- 			Result [escape] := escape
 		end
 
 	output_type_descriptions (crc_check: detachable EL_CYCLIC_REDUNDANCY_CHECK_32)

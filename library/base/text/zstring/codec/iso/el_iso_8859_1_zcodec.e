@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-07 18:15:32 GMT (Tuesday 7th February 2023)"
-	revision: "11"
+	date: "2023-02-10 15:48:03 GMT (Friday 10th February 2023)"
+	revision: "12"
 
 class
 	EL_ISO_8859_1_ZCODEC
@@ -28,6 +28,30 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Conversion
+
+	as_upper (code: NATURAL): NATURAL
+		local
+			offset: NATURAL
+		do
+			inspect code
+				when 97..122, 224..246, 248..254 then
+					offset := 32
+
+			else end
+			Result := code - offset
+		end
+
+	as_lower (code: NATURAL): NATURAL
+		local
+			offset: NATURAL
+		do
+			inspect code
+				when 65..90, 192..214, 216..222 then
+					offset := 32
+
+			else end
+			Result := code + offset
+		end
 
 	to_upper_offset (code: NATURAL): INTEGER
 		do

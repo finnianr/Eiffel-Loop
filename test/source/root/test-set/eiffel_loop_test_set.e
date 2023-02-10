@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-11 11:47:14 GMT (Wednesday 11th January 2023)"
-	revision: "16"
+	date: "2023-02-10 11:33:33 GMT (Friday 10th February 2023)"
+	revision: "17"
 
 deferred class
 	EIFFEL_LOOP_TEST_SET
@@ -28,6 +28,7 @@ feature {NONE} -- Events
 
 	on_prepare
 		do
+			Precursor
 			Execution_environment.push_current_working (Dev_environ.EL_test_data_dir)
 		end
 

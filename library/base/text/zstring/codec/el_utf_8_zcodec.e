@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-07 18:16:18 GMT (Tuesday 7th February 2023)"
-	revision: "20"
+	date: "2023-02-10 15:49:18 GMT (Friday 10th February 2023)"
+	revision: "21"
 
 class
 	EL_UTF_8_ZCODEC
@@ -61,9 +61,14 @@ feature -- Basic operations
 
 feature -- Conversion
 
-	to_lower_offset (code: NATURAL): INTEGER
+	as_lower (code: NATURAL): NATURAL
 		do
-			Result := code.to_character_32.as_lower.code - code.to_integer_32
+			Result := code.to_character_32.as_lower.natural_32_code
+		end
+
+	as_upper (code: NATURAL): NATURAL
+		do
+			Result := code.to_character_32.as_upper.natural_32_code
 		end
 
 	as_unicode (a_utf_8: READABLE_STRING_8; keeping_ref: BOOLEAN): READABLE_STRING_GENERAL
@@ -92,14 +97,19 @@ feature -- Conversion
 			end
 		end
 
-	to_upper_offset (code: NATURAL): INTEGER
-		do
-			Result := code.to_character_32.as_upper.code - code.to_integer_32
-		end
-
 	latin_character (uc: CHARACTER_32): CHARACTER
 			--
 		do
+		end
+		
+	to_lower_offset (code: NATURAL): INTEGER
+		do
+			Result := code.to_character_32.as_lower.code - code.to_integer_32
+		end
+
+	to_upper_offset (code: NATURAL): INTEGER
+		do
+			Result := code.to_character_32.as_upper.code - code.to_integer_32
 		end
 
 feature -- Character query

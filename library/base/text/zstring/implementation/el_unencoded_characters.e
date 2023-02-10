@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-09 16:04:41 GMT (Thursday 9th February 2023)"
-	revision: "33"
+	date: "2023-02-10 13:51:38 GMT (Friday 10th February 2023)"
+	revision: "34"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -392,19 +392,22 @@ feature -- Status query
 	intersects (start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if some characters are between `start_index' and `end_index'
 		local
-			i, lower, upper: INTEGER; l_area: like area
+			i, lower, upper, l_count, start_end_count: INTEGER; l_area: like area
 		do
-			l_area := area
+			l_area := area; start_end_count := end_index - start_index + 1
 			if l_area.count > 0 and then end_index >= l_area [i].code then
 				from i := 0 until Result or else i = l_area.count loop
 					lower := l_area [i].code; upper := l_area [i + 1].code
-					if start_index <= lower and then lower <= end_index then
-						Result := True
+					l_count := upper - lower + 1
+					if start_end_count < l_count then
+						Result := (lower <= start_index and then start_index <= upper)
+										or else lower <= end_index and then end_index <= upper
 
-					elseif start_index <= upper and then upper <= end_index then
-						Result := True
+					else
+						Result := (start_index <= lower and then lower <= end_index)
+										or else start_index <= upper and then upper <= end_index
 					end
-					i := i + upper - lower + 3
+					i := i + l_count + 2
 				end
 			end
 		end

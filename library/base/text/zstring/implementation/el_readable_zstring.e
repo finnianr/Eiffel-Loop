@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-08 16:43:57 GMT (Wednesday 8th February 2023)"
-	revision: "100"
+	date: "2023-02-10 14:22:03 GMT (Friday 10th February 2023)"
+	revision: "101"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -517,7 +517,7 @@ feature -- Conversion
 			else
 				Result := new_string (0)
 			end
-			if has_unencoded_between (start_index, end_index) then
+			if has_unencoded_between_optimal (area, start_index, end_index) then
 				buffer := empty_unencoded_buffer
 				buffer.append_substring (Current, start_index, end_index, 0)
 				Result.set_unencoded_from_buffer (buffer)

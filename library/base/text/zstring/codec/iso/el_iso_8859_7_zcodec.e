@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-07 18:04:41 GMT (Tuesday 7th February 2023)"
+	date: "2023-02-10 15:47:10 GMT (Friday 10th February 2023)"
 	revision: "1"
 
 class
@@ -107,6 +107,52 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Conversion
+
+	as_upper (code: NATURAL): NATURAL
+		local
+			offset: NATURAL
+		do
+			inspect code
+				when 97..122, 225..241, 243..251 then
+					offset := 32
+				when 192 then
+					offset := 26
+				when 220 then
+					offset := 38
+				when 221..223 then
+					offset := 37
+				when 224 then
+					offset := 5
+				when 242 then
+					offset := 31
+				when 252 then
+					offset := 64
+				when 253..254 then
+					offset := 63
+
+			else end
+			Result := code - offset
+		end
+
+	as_lower (code: NATURAL): NATURAL
+		local
+			offset: NATURAL
+		do
+			inspect code
+				when 65..90, 193..209, 211..219 then
+					offset := 32
+				when 182 then
+					offset := 38
+				when 184..186 then
+					offset := 37
+				when 188 then
+					offset := 64
+				when 190..191 then
+					offset := 63
+
+			else end
+			Result := code + offset
+		end
 
 	to_upper_offset (code: NATURAL): INTEGER
 		do

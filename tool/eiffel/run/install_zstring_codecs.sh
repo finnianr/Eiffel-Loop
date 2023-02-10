@@ -10,6 +10,6 @@ echo Note\: \(class EL_ISO_8859_1_ZCODEC is not generated\)
 
 for name in iso windows; do
 	echo Installing classes\: workarea/el_${name}_\* 
-	#mv workarea/el_${name}_*.e $EIFFEL_LOOP/library/base/text/zstring/codec/$name
+	mv workarea/el_${name}_*.e $EIFFEL_LOOP/library/base/text/zstring/codec/$name
 done
 

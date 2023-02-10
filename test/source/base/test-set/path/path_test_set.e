@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:33:31 GMT (Saturday 31st December 2022)"
-	revision: "14"
+	date: "2023-02-10 14:27:07 GMT (Friday 10th February 2023)"
+	revision: "15"
 
 class
 	PATH_TEST_SET
@@ -157,6 +157,7 @@ feature -- Tests
 		end
 
 	test_parent_of
+		-- PATH_TEST_SET.test_parent_of
 		note
 			testing: "covers/{EL_PATH}.is_parent_of"
 		local

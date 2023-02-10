@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-09 15:59:30 GMT (Thursday 9th February 2023)"
-	revision: "42"
+	date: "2023-02-10 14:12:24 GMT (Friday 10th February 2023)"
+	revision: "43"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -61,8 +61,6 @@ inherit
 			is_valid as is_unencoded_valid
 		undefine
 			is_equal, copy, out
-		redefine
-			has_unencoded_between
 		end
 
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
@@ -253,20 +251,23 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
 		deferred
 		end
 
-	has_unencoded_between (start_index, end_index: INTEGER): BOOLEAN
-		local
-			i, i_final: INTEGER; l_area: like area
+	has_unencoded_between_optimal (a_area: like area; start_index, end_index: INTEGER): BOOLEAN
+		-- `has_unencoded_between' with optimal alternative method of
 		do
-			-- check which might be quicker: look for `Unencoded_character' or iterate `unencoded_area'
-			-- (assume average of 5 characters per interval, weighted in favor of `area' search)
-			if (end_index - start_index) < (unencoded_area.count // 7) * 3 then
-				l_area := area; i_final := end_index.min (count)
-				from i := start_index - 1 until Result or else i = i_final loop
-					Result := l_area [i] = Substitute
-					i := i + 1
-				end
+			if end_index - start_index < 50 then
+				Result := has_substitutes_between (a_area, start_index, end_index)
 			else
-				Result := Precursor (start_index, end_index)
+				Result := has_unencoded_between (start_index, end_index)
+			end
+		end
+
+	has_substitutes_between (a_area: like area; start_index, end_index: INTEGER): BOOLEAN
+		local
+			i: INTEGER
+		do
+			from i := start_index - 1 until Result or else i = end_index loop
+				Result := a_area [i] = Substitute
+				i := i + 1
 			end
 		end
 

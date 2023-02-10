@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-08 17:44:43 GMT (Wednesday 8th February 2023)"
-	revision: "70"
+	date: "2023-02-10 14:52:59 GMT (Friday 10th February 2023)"
+	revision: "71"
 
 class
 	ZSTRING_TEST_SET
@@ -492,6 +492,7 @@ feature -- Removal tests
 feature -- Element change tests
 
 	test_case_changing
+		-- ZSTRING_TEST_SET.test_case_changing
 		local
 			lower, upper: STRING_32
 		do
@@ -1091,17 +1092,35 @@ feature -- Access tests
 feature -- Duplication tests
 
 	test_substring
+		-- ZSTRING_TEST_SET.test_substring
 		note
 			testing: "covers/{ZSTRING}.substring"
 		local
-			pair: STRING_PAIR; i, count: INTEGER
+			line_pair: STRING_PAIR; intervals: EL_SPLIT_INTERVALS
+			start_index, end_index: INTEGER
 		do
-			create pair
-			pair.set (Text.russian_and_english)
-			count := pair.s_32.count
-			from i := 1 until (i + 4) > count loop
-				assert_same_string ("substring OK",  pair.z_32.substring (i, i + 4), pair.s_32.substring (i, i + 4))
-				i := i + 1
+			across Text.lines as line loop
+				create line_pair.make (line.item)
+				create intervals.make (line_pair.s_32, ' ')
+				if attached intervals as list then
+					from list.start until list.after loop
+						start_index := list.item_lower
+						end_index := list.item_upper
+						assert ("same substring", line_pair.same_substring (start_index, end_index))
+						-- test outside unencoded section
+						if line_pair.s_32.valid_index (start_index - 1) and line_pair.s_32.valid_index (end_index + 1) then
+							assert ("same substring", line_pair.same_substring (start_index - 1, end_index + 1))
+						end
+						-- test inside unencoded section
+						if list.item_count >=3 then
+							assert ("same substring", line_pair.same_substring (start_index + 1, end_index  - 1))
+						end
+						list.forth
+					end
+				end
+				across 0 |..| 7 as n loop
+					assert ("same substring", line_pair.same_substring (1, n.item))
+				end
 			end
 		end
 

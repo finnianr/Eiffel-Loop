@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-09 18:53:55 GMT (Thursday 9th February 2023)"
-	revision: "31"
+	date: "2023-02-10 11:13:50 GMT (Friday 10th February 2023)"
+	revision: "32"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -488,39 +488,19 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 
 feature {EL_READABLE_ZSTRING} -- Removal
 
-	adjust
-		-- remove whitespace at each end
-		local
-			index_substitute: INTEGER
-		do
-			if has_mixed_encoding then
-				index_substitute := internal_index_of (Substitute, 1)
-			end
-			String_8.adjust (Current)
-			if index_substitute > 0 then
-				shift_unencoded ((index_substitute - internal_index_of (Substitute, 1)).opposite)
-				remove_leading_white_space
-				remove_trailing_white_space
-			end
-		end
-
 	keep_head (n: INTEGER)
 			-- Remove all characters except for the first `n';
 			-- do nothing if `n' >= `count'.
 		local
-			old_count: INTEGER; buffer: like empty_unencoded_buffer
+			l_count: INTEGER
 		do
-			old_count := count
-			internal_keep_head (n)
-			if has_mixed_encoding and then unencoded_last_upper > n then
-				if n = 0 then
-					make_unencoded
-				else
-					buffer := empty_unencoded_buffer
-					buffer.append_substring (Current, 1, n, 0)
-					set_unencoded_from_buffer (buffer)
+			if has_mixed_encoding then
+				l_count := count
+				if has_substitutes_between (area, n + 1, l_count) then
+					remove_unencoded_substring (n + 1, l_count)
 				end
 			end
+			internal_keep_head (n)
 		ensure then
 			valid_unencoded: is_valid
 		end
@@ -529,34 +509,24 @@ feature {EL_READABLE_ZSTRING} -- Removal
 			-- Remove all characters except for the last `n';
 			-- do nothing if `n' >= `count'.
 		local
-			old_count: INTEGER; buffer: like empty_unencoded_buffer
+			leading_count: INTEGER
 		do
-			old_count := count
+			leading_count := count - n
 			internal_keep_tail (n)
-			if n < old_count and then has_mixed_encoding then
-				if n = 0 then
+			if has_mixed_encoding then
+				if count = 0 then
 					make_unencoded
 				else
-					buffer := empty_unencoded_buffer
-					buffer.append_substring (Current, old_count - n + 1, old_count, 0)
-					set_unencoded_from_buffer (buffer)
+					if has_unencoded_between (1, leading_count) then
+						remove_unencoded_substring (1, leading_count)
+
+					elseif has_unencoded_between (leading_count + 1, leading_count + n) then
+						shift_unencoded (leading_count.opposite)
+					end
 				end
 			end
 		ensure then
 			valid_unencoded: is_valid
-		end
-
-	left_adjust_X
-		-- Remove leading whitespace.
-		local
-			old_count: INTEGER
-		do
-			old_count := count
-			String_8.left_adjust (Current)
-			if has_mixed_encoding then
-				shift_unencoded ((old_count - count).opposite)
-				remove_leading_white_space
-			end
 		end
 
 	left_adjust
@@ -617,9 +587,13 @@ feature {EL_READABLE_ZSTRING} -- Removal
 
 	right_adjust
 		-- Remove trailing whitespace.
+		local
+			trailing_count: INTEGER
 		do
-			String_8.right_adjust (Current)
-			remove_trailing_white_space
+			trailing_count := trailing_white_space
+			if trailing_count.to_boolean then
+				keep_head (count - trailing_count)
+			end
 		end
 
 feature -- Contract Support
@@ -632,30 +606,6 @@ feature -- Contract Support
 				i := old_characters.index_of (uc.item, 1)
 				if i > 0 and then new_characters.z_code (i) = 0 then
 					Result := Result + 1
-				end
-			end
-		end
-
-feature {NONE} -- Implementation
-
-	remove_leading_white_space
-		local
-			leading_count: INTEGER
-		do
-			leading_count := leading_white_space
-			if leading_count.to_boolean then
-				remove_head (leading_white_space)
-			end
-		end
-
-	remove_trailing_white_space
-		local
-			trailing_count: INTEGER
-		do
-			if count > 0 and then area [count - 1] = Substitute then
-				trailing_count := trailing_white_space
-				if trailing_count.to_boolean then
-					remove_tail (trailing_count)
 				end
 			end
 		end
