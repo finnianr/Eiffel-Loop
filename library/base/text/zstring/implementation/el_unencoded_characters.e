@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 13:51:38 GMT (Friday 10th February 2023)"
-	revision: "34"
+	date: "2023-02-10 18:02:21 GMT (Friday 10th February 2023)"
+	revision: "35"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -817,18 +817,34 @@ feature -- Removal
 
 feature -- Basic operations
 
+	fill (str_32: STRING_32)
+			-- write substrings into expanded string 'str'
+		local
+			i, j, lower, upper: INTEGER; l_area: like area
+		do
+			l_area := area
+			from i := 0 until i = l_area.count loop
+				lower := l_area [i].code; upper := l_area [i + 1].code
+				from j := lower until j > upper loop
+					str_32.extend (l_area.item (i + 2 + j - lower))
+					j := j + 1
+				end
+				i := i + upper - lower + 3
+			end
+		end
+
 	write (area_out: SPECIAL [CHARACTER_32]; offset: INTEGER)
 			-- write substrings into expanded string 'str'
 		require
 			string_big_enough: last_upper + offset <= area_out.count
 		local
-			i, j, lower, upper, i_final: INTEGER; l_area: like area
+			i, j, lower, upper: INTEGER; l_area: like area
 		do
-			l_area := area; i_final := l_area.count
-			from i := 0 until i = i_final loop
+			l_area := area
+			from i := 0 until i = l_area.count loop
 				lower := l_area [i].code; upper := l_area [i + 1].code
 				from j := lower until j > upper loop
-					area_out [offset + j - 1] := l_area.item (i + 2 + j - lower).to_character_32
+					area_out [offset + j - 1] := l_area.item (i + 2 + j - lower)
 					j := j + 1
 				end
 				i := i + upper - lower + 3

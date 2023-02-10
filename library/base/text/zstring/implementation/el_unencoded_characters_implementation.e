@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-09 16:04:22 GMT (Thursday 9th February 2023)"
-	revision: "9"
+	date: "2023-02-10 17:42:08 GMT (Friday 10th February 2023)"
+	revision: "10"
 
 deferred class
 	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
@@ -93,16 +93,6 @@ feature {NONE} -- Implementation
 				end
 				i := i + count + 2
 			end
-		end
-
-	copy_bounds (a_area: like area; i: INTEGER; lower_ptr, upper_ptr: POINTER)
-		local
-			lower_src: POINTER; n: INTEGER
-		do
-			n := {PLATFORM}.Character_32_bytes
-			lower_src := a_area.base_address + i * n
-			lower_ptr.memory_copy (lower_src, n)
-			upper_ptr.memory_copy (lower_src + n, n)
 		end
 
 	empty_buffer: EL_UNENCODED_CHARACTERS_BUFFER

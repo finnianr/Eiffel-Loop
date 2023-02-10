@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 9:34:44 GMT (Friday 10th February 2023)"
-	revision: "66"
+	date: "2023-02-10 18:38:14 GMT (Friday 10th February 2023)"
+	revision: "67"
 
 class
 	EL_ZSTRING
@@ -345,51 +345,45 @@ feature -- Removal
 		end
 
 	prune_all (uc: CHARACTER_32)
+			-- Remove all occurrences of `c'.
 		local
-			i, i_final, removal_count, pruned_count, j: INTEGER
-			c: CHARACTER; l_area, new_area: like area buffer: like empty_unencoded_buffer
+			i, j, i_final: INTEGER; c, c_i: CHARACTER_8; uc_i: CHARACTER_32
+			l_area: like area; c_is_substitute: BOOLEAN
+			l_buffer: like empty_unencoded_buffer
 		do
-			c := encoded_character (uc)
-			if c = Substitute then
-				removal_count := unencoded_occurrences (uc)
-				if removal_count > 0 and then attached unencoded_combined_area as area_32 then
-					buffer := empty_unencoded_buffer
-					l_area := area; i_final := count
-					create new_area.make_empty (count - removal_count + 1)
-					from i := 0 until i = i_final loop
-						c := l_area [i]
-						if c = Substitute then
-							if area_32 [j] = uc then
-								pruned_count := pruned_count + 1
-							else
-								buffer.extend (area_32 [j], i + 1 - pruned_count)
-								new_area.extend (c)
-							end
+			l_area := area; i_final := count
+			c := encoded_character (uc); c_is_substitute := c = Substitute
+			if has_mixed_encoding and then attached unencoded_indexable as unencoded then
+				l_buffer := empty_unencoded_buffer
+				from until i = i_final loop
+					c_i := l_area.item (i)
+					if c_i = Substitute then
+						uc_i := unencoded.item (i + 1)
+						if c_is_substitute implies uc_i /= uc then
+							l_area.put (c_i, j)
+							l_buffer.extend (uc_i, j + 1)
 							j := j + 1
-						else
-							new_area.extend (c)
 						end
-						i := i + 1
+
+					elseif c /= c_i then
+						l_area.put (c_i, j)
+						j := j + 1
 					end
-					new_area.extend ('%U'); area := new_area
-					set_count (count - removal_count)
-					set_unencoded_from_buffer (buffer)
+					i := i + 1
 				end
+				set_unencoded_from_buffer (l_buffer)
+
 			else
-				String_8.prune_all (Current, c)
-				if has_mixed_encoding and then attached unencoded_combined_area as area_32 then
-					buffer := empty_unencoded_buffer
-					l_area := area; i_final := count
-					from i := 0 until i = i_final loop
-						if l_area [i] = Substitute then
-							buffer.extend (area_32 [j], i + 1)
-							j := j + 1
-						end
-						i := i + 1
+				from until i = i_final loop
+					c_i := l_area.item (i)
+					if c_i /= c then
+						l_area.put (c_i, j)
+						j := j + 1
 					end
-					set_unencoded_from_buffer (buffer)
+					i := i + 1
 				end
 			end
+			set_count (j)
 		end
 
 	prune_all_leading (uc: CHARACTER_32)

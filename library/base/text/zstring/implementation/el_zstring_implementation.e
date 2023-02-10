@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 14:12:24 GMT (Friday 10th February 2023)"
-	revision: "43"
+	date: "2023-02-10 18:03:01 GMT (Friday 10th February 2023)"
+	revision: "44"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -25,6 +25,7 @@ inherit
 			combined_area as unencoded_combined_area,
 			count_greater_than_zero_flags as respective_encoding,
 			empty_buffer as empty_unencoded_buffer,
+			fill as unencoded_fill,
 			hash_code as unencoded_hash_code,
 			has as unencoded_has,
 			index_of as unencoded_index_of,

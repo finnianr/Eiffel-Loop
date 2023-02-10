@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 14:52:59 GMT (Friday 10th February 2023)"
-	revision: "71"
+	date: "2023-02-10 18:33:18 GMT (Friday 10th February 2023)"
+	revision: "72"
 
 class
 	ZSTRING_TEST_SET
@@ -429,7 +429,7 @@ feature -- Removal tests
 				uc := char.item
 				across Text.lines as line loop
 					pair.set (line.item)
-					pair.s_32.prune_all (uc); pair.z_32.prune_all (uc)
+					pair.z_32.prune_all (uc); pair.s_32.prune_all (uc)
 					assert ("prune_all OK", pair.is_same)
 				end
 			end
