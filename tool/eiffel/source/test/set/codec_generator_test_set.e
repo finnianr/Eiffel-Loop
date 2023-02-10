@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-09 18:03:27 GMT (Thursday 9th February 2023)"
-	revision: "8"
+	date: "2023-02-10 16:11:42 GMT (Friday 10th February 2023)"
+	revision: "9"
 
 class
 	CODEC_GENERATOR_TEST_SET
@@ -53,10 +53,10 @@ feature {NONE} -- Constants
 	Digest_table: EL_HASH_TABLE [STRING, INTEGER]
 		once
 			create Result.make (<<
-				[11, "UTCBCoqxjIPcPpkPmCi4eA=="],
-				[15, "0TyUzFLqkhuPz7tcJfZwQg=="],
-				[2, "I0VjdRiMBXq0qm2uCDs9Lw=="],
-				[6, "x0i8Q2HQXTb2jyMebMzsLw=="]
+				[11, "JPRXGeJq0XmUlSs44SufLQ=="],
+				[15, "dGkEUQs4ARjX8c/3cqy+MA=="],
+				[2, "evDerblysNkTUZ9Kt3MlJQ=="],
+				[6, "+rBIvQqv5fyKNSVfHwnvXA=="]
 			>>)
 		end
 

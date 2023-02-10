@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-09 16:03:03 GMT (Thursday 9th February 2023)"
-	revision: "17"
+	date: "2023-02-10 16:03:37 GMT (Friday 10th February 2023)"
+	revision: "18"
 
 class
 	EL_UNENCODED_CHARACTERS_BUFFER
@@ -132,7 +132,7 @@ feature {NONE} -- Implementation
 			count, i: INTEGER; l_area, current_area: like area
 		do
 			l_area := area; current_area := l_area; i := last_index; count := a_upper - a_lower + 1
-			if l_area.count > 0 and then l_area [i + 1] + 1 = a_lower + offset then
+			if l_area.count > 0 and then l_area [i + 1].code + 1 = a_lower + offset then
 				-- merge intervals
 				l_area := big_enough (l_area, count)
 				l_area.copy_data (a_area, source_index, l_area.count, count)
