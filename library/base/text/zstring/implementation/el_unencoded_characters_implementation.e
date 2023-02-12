@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 17:42:08 GMT (Friday 10th February 2023)"
-	revision: "10"
+	date: "2023-02-11 14:47:04 GMT (Saturday 11th February 2023)"
+	revision: "11"
 
 deferred class
 	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
@@ -146,6 +146,15 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	new_substring (a_area: like area; offset, count: INTEGER): IMMUTABLE_STRING_32
+		do
+			if attached Immutable_32_manager as immutable then
+				create Result.make_empty
+				immutable.set_item (Result)
+				immutable.set_item_substring (a_area, offset, count)
+			end
+		end
+
 	put_lower (a_area: like area; i, lower: INTEGER)
 		do
 			a_area.put (lower.to_character_32, i)
@@ -182,6 +191,12 @@ feature {NONE} -- Implementation
 			Result := count_to_remove
 		end
 
+	shared_immutable: like Immutable_32_manager
+		do
+			Result := Immutable_32_manager
+			Result.set_item (Once_immutable_32)
+		end
+
 	section_count (a_area: like area; i: INTEGER): INTEGER
 		do
 			Result := a_area [i + 1].code - a_area [i].code + 1
@@ -209,7 +224,17 @@ feature {NONE} -- Constants
 			create Result.make_empty (0)
 		end
 
+	Immutable_32_manager: EL_IMMUTABLE_32_MANAGER
+		once
+			create Result
+		end
+
 	Minimum_capacity: INTEGER = 3
+
+	Once_immutable_32: IMMUTABLE_STRING_32
+		once
+			create Result.make_empty
+		end
 
 	Once_index_list: ARRAYED_LIST [INTEGER]
 		once

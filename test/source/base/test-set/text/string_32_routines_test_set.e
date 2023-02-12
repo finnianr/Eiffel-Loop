@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:35:22 GMT (Saturday 31st December 2022)"
-	revision: "18"
+	date: "2023-02-11 11:18:33 GMT (Saturday 11th February 2023)"
+	revision: "19"
 
 class
 	STRING_32_ROUTINES_TEST_SET
@@ -17,15 +17,18 @@ inherit
 
 	EL_SHARED_TEST_TEXT
 
+	EL_SHARED_STRING_32_CURSOR
+
 feature -- Basic operations
 
 	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("delimited_list", agent test_delimited_list)
+			eval.call ("immutable_32_manager", agent test_immutable_32_manager)
 		end
 
-feature -- Conversion tests
+feature -- Tests
 
 	test_delimited_list
 		note
@@ -62,6 +65,20 @@ feature -- Conversion tests
 			assert ("delimited_list OK", str ~ Text.Russian_and_english)
 		ensure
 			line_2_starts_with_W: Text.lines.i_th (2).item (1) = 'W'
+		end
+
+	test_immutable_32_manager
+		-- STRING_32_ROUTINES_TEST_SET.test_immutable_32_manager
+		local
+			manager: EL_IMMUTABLE_32_MANAGER
+			line_1: STRING_32
+		do
+			line_1 := Text.lines.first
+			create manager
+			if attached cursor_32 (line_1) as cursor then
+				manager.set_item_substring (cursor.area, 2, 5)
+				assert_same_string (Void, manager.item, line_1.split (' ')[2])
+			end
 		end
 
 end

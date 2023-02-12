@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 18:02:21 GMT (Friday 10th February 2023)"
-	revision: "35"
+	date: "2023-02-12 15:55:11 GMT (Sunday 12th February 2023)"
+	revision: "37"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -123,26 +123,6 @@ feature -- Access
 			Result := is_current.to_integer |<< 1 | is_other.to_integer
 		end
 
-	first_lower: INTEGER
-		local
-			l_area: like area
-		do
-			l_area := area
-			if l_area.count > 0 then
-				Result := l_area.item (0).natural_32_code.to_integer_32
-			end
-		end
-
-	first_upper: INTEGER
-		local
-			l_area: like area
-		do
-			l_area := area
-			if l_area.count > 0 then
-				Result := l_area.item (1).natural_32_code.to_integer_32
-			end
-		end
-
 	hash_code (seed: INTEGER): INTEGER
 			-- Hash code value
 		local
@@ -161,37 +141,46 @@ feature -- Access
 			end
 		end
 
-	index_of (uc: CHARACTER_32; start_index: INTEGER): INTEGER
+	i_th_substring (index: INTEGER): detachable IMMUTABLE_STRING_32
 		local
 			i, j, lower, upper, count: INTEGER; l_area: like area
 		do
+			create Result.make (3)
 			l_area := area
-			from i := 0 until Result > 0 or else i = l_area.count loop
+			from until j = index or i = l_area.count loop
 				lower := l_area [i].code; upper := l_area [i + 1].code
 				count := upper - lower + 1
-				if start_index <= lower or else start_index <= upper then
-					from j := lower.max (start_index) - lower + 1 until Result > 0 or else j > count loop
-						if l_area [i + 1 + j] = uc then
-							Result := lower + j - 1
-						end
-						j := j + 1
-					end
+				j := j + 1
+				if j = index then
+					Result := new_substring (l_area, i + 2, count)
 				end
 				i := i + count + 2
 			end
 		end
 
-	interval_sequence: EL_SEQUENTIAL_INTERVALS
+	interval_sequence (string_count: INTEGER): EL_SEQUENTIAL_INTERVALS
+		-- if `string_count' > 0 include the in-between intervals corresponding to encoded characters
 		local
-			i, lower, upper, count: INTEGER; l_area: like area
+			i, lower, upper: INTEGER; l_area: like area; fill_gaps: BOOLEAN
 		do
 			create Result.make (3)
-			l_area := area
+			l_area := area; fill_gaps := string_count.to_boolean
 			from i := 0 until i = l_area.count loop
 				lower := l_area [i].code; upper := l_area [i + 1].code
-				count := upper - lower + 1
+				if fill_gaps then
+					if i = 0 then
+						if lower > 1 then
+							Result.extend (1, lower - 1)
+						end
+					else
+						Result.extend (Result.last_upper + 1, lower - 1)
+					end
+				end
 				Result.extend (lower, upper)
-				i := i + count + 2
+				i := i + upper - lower + 3
+			end
+			if string_count > upper then
+				Result.extend (upper + 1, string_count)
 			end
 		end
 
@@ -207,54 +196,6 @@ feature -- Access
 					Result := l_area [i + index - lower + 2]
 				end
 				i := i + upper - lower + 3
-			end
-		end
-
-	last_index: INTEGER
-			-- index into `area' of last interval
-		local
-			i, lower, upper: INTEGER; l_area: like area
-		do
-			l_area := area
-			from i := 0 until i = l_area.count loop
-				lower := l_area [i].code; upper := l_area [i + 1].code
-				i := i + upper - lower + 3
-			end
-			if lower.to_boolean then
-				Result := i - (upper - lower + 3)
-			end
-		end
-
-	last_index_of (uc: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
-		local
-			i, j, k, lower, upper, count: INTEGER; l_area: like area
-			list: like index_list; index_area: SPECIAL [INTEGER]
-		do
-			l_area := area; list := index_list; index_area := list.area
-			from k := list.count - 1 until Result > 0 or else k < 0 loop
-				i := index_area [k]
-				lower := l_area [i].code; upper := l_area [i + 1].code
-				count := upper - lower + 1
-				if upper <= start_index_from_end or else lower <= start_index_from_end then
-					from j := upper.min (start_index_from_end) - lower + 1 until Result > 0 or else j = 0 loop
-						if l_area [i + 1 + j] = uc then
-							Result := lower + j - 1
-						end
-						j := j - 1
-					end
-				end
-				k := k - 1
-			end
-		end
-
-	last_upper: INTEGER
-			-- count when substrings are expanded to original source string
-		local
-			l_area: like area
-		do
-			l_area := area
-			if l_area.count >= 2 then
-				Result := l_area [last_index + 1].code
 			end
 		end
 
@@ -278,6 +219,98 @@ feature -- Access
 	z_code (index: INTEGER): NATURAL
 		do
 			Result := unicode_to_z_code (code (index))
+		end
+
+feature -- Index query
+
+	first_lower: INTEGER
+		local
+			l_area: like area
+		do
+			l_area := area
+			if l_area.count > 0 then
+				Result := l_area.item (0).natural_32_code.to_integer_32
+			end
+		end
+
+	first_upper: INTEGER
+		local
+			l_area: like area
+		do
+			l_area := area
+			if l_area.count > 0 then
+				Result := l_area.item (1).natural_32_code.to_integer_32
+			end
+		end
+
+	last_index: INTEGER
+			-- index into `area' of last interval
+		local
+			i, lower, upper: INTEGER; l_area: like area
+		do
+			l_area := area
+			from i := 0 until i = l_area.count loop
+				lower := l_area [i].code; upper := l_area [i + 1].code
+				i := i + upper - lower + 3
+			end
+			if lower.to_boolean then
+				Result := i - (upper - lower + 3)
+			end
+		end
+
+	last_upper: INTEGER
+			-- count when substrings are expanded to original source string
+		local
+			l_area: like area
+		do
+			l_area := area
+			if l_area.count >= 2 then
+				Result := l_area [last_index + 1].code
+			end
+		end
+
+feature -- Search index
+
+	index_of (uc: CHARACTER_32; start_index: INTEGER): INTEGER
+		local
+			i, j, lower, upper, count: INTEGER; l_area: like area
+		do
+			l_area := area
+			from i := 0 until Result > 0 or else i = l_area.count loop
+				lower := l_area [i].code; upper := l_area [i + 1].code
+				count := upper - lower + 1
+				if start_index <= lower or else start_index <= upper then
+					from j := lower.max (start_index) - lower + 1 until Result > 0 or else j > count loop
+						if l_area [i + 1 + j] = uc then
+							Result := lower + j - 1
+						end
+						j := j + 1
+					end
+				end
+				i := i + count + 2
+			end
+		end
+
+	last_index_of (uc: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
+		local
+			i, j, k, lower, upper, count: INTEGER; l_area: like area
+			list: like index_list; index_area: SPECIAL [INTEGER]
+		do
+			l_area := area; list := index_list; index_area := list.area
+			from k := list.count - 1 until Result > 0 or else k < 0 loop
+				i := index_area [k]
+				lower := l_area [i].code; upper := l_area [i + 1].code
+				count := upper - lower + 1
+				if upper <= start_index_from_end or else lower <= start_index_from_end then
+					from j := upper.min (start_index_from_end) - lower + 1 until Result > 0 or else j = 0 loop
+						if l_area [i + 1 + j] = uc then
+							Result := lower + j - 1
+						end
+						j := j - 1
+					end
+				end
+				k := k - 1
+			end
 		end
 
 feature -- Measurement
@@ -429,6 +462,36 @@ feature -- Comparison
 			end
 		end
 
+	same_string_sequence (list: LIST [IMMUTABLE_STRING_32]; a_start_index: INTEGER): BOOLEAN
+		-- index of first substring to match `str' from `a_start_index'
+		-- or zero if no match found
+		local
+			i, lower, upper, count: INTEGER; l_area: like area
+			immutable: like shared_immutable
+		do
+			l_area := area; immutable := shared_immutable
+			if list.is_empty then
+				Result := True
+			else
+				list.start
+				Result := True
+				from i := 0 until not Result or else list.after or else i = l_area.count loop
+					lower := l_area [i].code; upper := l_area [i + 1].code
+					count := upper - lower + 1
+					if lower >= a_start_index or else a_start_index <= upper then
+						if count = list.item.count then
+							immutable.set_item_substring (l_area, i + 2, count)
+							Result := list.item ~ immutable.item
+						else
+							Result := False
+						end
+						list.forth
+					end
+					i := i + count + 2
+				end
+			end
+		end
+
 feature -- Element change
 
 	append (other: EL_UNENCODED_CHARACTERS; offset: INTEGER)
@@ -472,7 +535,7 @@ feature -- Element change
 
 	insert (other: EL_UNENCODED_CHARACTERS)
 		require
-			no_overlap: not interval_sequence.overlaps (other.interval_sequence)
+			no_overlap: not interval_sequence (0).overlaps (other.interval_sequence (0))
 		local
 			i, previous_i, lower, upper, previous_upper, count, i_final: INTEGER
 			other_lower, other_last_upper, other_array_count: INTEGER
@@ -830,6 +893,19 @@ feature -- Basic operations
 					j := j + 1
 				end
 				i := i + upper - lower + 3
+			end
+		end
+
+	fill_list (list: LIST [IMMUTABLE_STRING_32])
+		local
+			i, lower, upper, count: INTEGER; l_area: like area
+		do
+			l_area := area
+			from i := 0 until i = l_area.count loop
+				lower := l_area [i].code; upper := l_area [i + 1].code
+				count := upper - lower + 1
+				list.extend (new_substring (l_area, i + 2, count))
+				i := i + count + 2
 			end
 		end
 

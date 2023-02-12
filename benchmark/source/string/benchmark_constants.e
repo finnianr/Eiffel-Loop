@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-06 11:32:46 GMT (Monday 6th February 2023)"
-	revision: "4"
+	date: "2023-02-12 17:24:33 GMT (Sunday 12th February 2023)"
+	revision: "5"
 
 deferred class
 	BENCHMARK_CONSTANTS
@@ -42,6 +42,8 @@ feature {NONE} -- Constants
 			create Result.make_filled (' ', 5)
 		end
 
+	Space: STRING = " "
+
 feature {NONE} -- Routine sets
 
 	Character_pair_tests: EL_STRING_8_LIST
@@ -51,8 +53,13 @@ feature {NONE} -- Routine sets
 
 	Substring_tests: EL_STRING_8_LIST
 		once
-			Result := "append_string, ends_with, insert_string, prepend_string, replace_substring_all,%
-						%replace_substring, substring_index, starts_with, translate"
+			Result := "append_string, insert_string, prepend_string, replace_substring_all,%
+						%replace_substring, starts_with, translate"
+		end
+
+	Search_string_tests: EL_STRING_8_LIST
+		once
+			Result := "ends_with, substring_index"
 		end
 
 	General_concat_tests: EL_STRING_8_LIST

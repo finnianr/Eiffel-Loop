@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 18:03:01 GMT (Friday 10th February 2023)"
-	revision: "44"
+	date: "2023-02-12 11:12:27 GMT (Sunday 12th February 2023)"
+	revision: "46"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -26,20 +26,26 @@ inherit
 			count_greater_than_zero_flags as respective_encoding,
 			empty_buffer as empty_unencoded_buffer,
 			fill as unencoded_fill,
+			fill_list as unencoded_fill_list,
+			first_lower as unencoded_first_lower,
+			first_upper as unencoded_first_upper,
 			hash_code as unencoded_hash_code,
 			has as unencoded_has,
 			index_of as unencoded_index_of,
 			interval_index_other as unencoded_indexable_other,
 			interval_index as unencoded_indexable,
+			interval_sequence as unencoded_interval_sequence,
 			insert as insert_unencoded,
 			intersects as has_unencoded_between,
 			item as unencoded_item,
+			i_th_substring as unencoded_i_th_substring,
 			last_index_of as unencoded_last_index_of,
 			last_upper as unencoded_last_upper,
 			make as make_unencoded,
 			make_filled as make_unencoded_filled,
 			make_from_other as make_unencoded_from_other,
 			minimal_increase as minimal_area_increase,
+			new_substring as new_unencoded_substring,
 			not_empty as has_mixed_encoding,
 			occurrences as unencoded_occurrences,
 			overlaps as overlaps_unencoded,
@@ -53,6 +59,7 @@ inherit
 			shift_from as shift_unencoded_from,
 			shifted as shifted_unencoded,
 			substring_list as unencoded_substring_list,
+			same_string_sequence as same_unencoded_string_sequence,
 			character_count as unencoded_count,
 			to_lower as unencoded_to_lower,
 			to_upper as unencoded_to_upper,

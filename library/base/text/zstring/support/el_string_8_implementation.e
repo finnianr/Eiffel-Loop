@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 10:14:54 GMT (Friday 10th February 2023)"
-	revision: "3"
+	date: "2023-02-12 16:37:03 GMT (Sunday 12th February 2023)"
+	revision: "4"
 
 class
 	EL_STRING_8_IMPLEMENTATION
@@ -23,6 +23,7 @@ feature {NONE} -- Initialization
 			from until area.count = 3 loop
 				area.extend (create {EL_STRING_8}.make_empty)
 			end
+			string_searcher := area [0].string_searcher
 		end
 
 feature -- Status query
@@ -148,19 +149,15 @@ feature -- Character removal
 feature -- Search
 
 	substring_index (target, other: EL_SEARCHABLE_ZSTRING; start_index: INTEGER): INTEGER
-		require
-			valid_content: target.has_mixed_encoding implies not other.has_mixed_encoding
-			valid_content: not (target.has_mixed_encoding and other.has_mixed_encoding)
 		do
-			Result := injected (target, 0).substring_index (injected (other, 1), start_index)
+			Result := string_searcher.substring_index (
+				injected (target, 0), injected (other, 1), start_index, target.count
+			)
 		end
 
 	substring_index_in_bounds (target, other: EL_SEARCHABLE_ZSTRING; start_pos, end_pos: INTEGER): INTEGER
-		require
-			valid_content: target.has_mixed_encoding implies not other.has_mixed_encoding
-			valid_content: not (target.has_mixed_encoding and other.has_mixed_encoding)
 		do
-			Result := injected (target, 0).substring_index_in_bounds (injected (other, 1), start_pos, end_pos)
+			Result := string_searcher.substring_index (injected (target, 0), injected (other, 1), start_pos, end_pos)
 		end
 
 feature -- Access
@@ -180,7 +177,9 @@ feature -- Contract Support
 			Result := area.valid_index (i)
 		end
 
-feature {NONE} -- Initialization
+feature {NONE} -- Internal attributes
 
 	area: SPECIAL [EL_STRING_8]
+
+	string_searcher: STRING_8_SEARCHER
 end

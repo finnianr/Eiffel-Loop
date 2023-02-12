@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-05 15:45:41 GMT (Sunday 5th February 2023)"
-	revision: "21"
+	date: "2023-02-12 17:30:20 GMT (Sunday 12th February 2023)"
+	revision: "22"
 
 deferred class
 	STRING_BENCHMARK
@@ -295,14 +295,14 @@ feature {NONE} -- Query tests
 
 	test_ends_with
 		require
-			valid_substring_list: test.substring_list.count = 64
+			valid_substring_list: test.search_string_list.count = 64
 		local
 			ending: STRING_GENERAL
 		do
 			across test.string_list as string loop
-				if attached test.substring_list [string.cursor_index] as substring then
-					across << substring.first_word, substring.last_word >> as word loop
-						call (string.item.ends_with (word.item))
+				if attached test.search_string_list [string.cursor_index] as string_list then
+					across string_list as list loop
+						call (string.item.ends_with (list.item))
 					end
 				end
 			end
@@ -391,11 +391,13 @@ feature {NONE} -- Query tests
 
 	test_substring_index
 		require
-			valid_substring_list: test.substring_list.count = 64
+			valid_substring_list: test.search_string_list.count = 64
 		do
 			across test.string_list as string loop
-				if attached test.substring_list [string.cursor_index] as substring then
-					call (string.item.substring_index (substring.last_word, 1))
+				if attached test.search_string_list [string.cursor_index] as string_list then
+					across string_list as list loop
+						call (string.item.substring_index (list.item, 1))
+					end
 				end
 			end
 		end

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-06 13:04:24 GMT (Monday 6th February 2023)"
-	revision: "6"
+	date: "2023-02-12 17:29:34 GMT (Sunday 12th February 2023)"
+	revision: "7"
 
 deferred class
 	TEST_STRINGS [S -> STRING_GENERAL create make end]
@@ -22,7 +22,6 @@ inherit
 	BENCHMARK_CONSTANTS
 
 	STRING_HANDLER
-
 
 feature {NONE} -- Initialization
 
@@ -47,6 +46,7 @@ feature {NONE} -- Initialization
 			create utf_8_string_list.make (64)
 			create string_list_twin.make (64)
 			create last_word_list.make (64)
+			create search_string_list.make (64)
 			create substring_list.make (64)
 			create character_pair_list.make (64)
 			create substitution_list.make (64)
@@ -79,6 +79,9 @@ feature {NONE} -- Initialization
 			end
 			across string_list as string loop
 				if attached string.item as str then
+					if across routines as name some Search_string_tests.has (name.item) end then
+						search_string_list.extend (new_search_strings (str))
+					end
 					if across routines as name some Substring_tests.has (name.item) end then
 						substring_list.extend (new_substrings (str))
 						if routines.has ("translate") and then attached substring_list.last as last then
@@ -143,6 +146,8 @@ feature -- Test strings
 	substitution_list: ARRAYED_LIST [TUPLE [old_characters, new_characters: S]]
 
 	substring_list: ARRAYED_LIST [like new_substrings]
+
+	search_string_list: ARRAYED_LIST [like new_search_strings]
 
 feature -- Measurement
 
@@ -272,6 +277,27 @@ feature {NONE} -- Factory
 				Result.last_word := words [words.count]
 				Result.first_character := str.substring (1, 1)
 				Result.last_character := str.substring (count, count)
+			end
+		end
+
+	new_search_strings (str: S): ARRAYED_LIST [S]
+		local
+			index: INTEGER
+		do
+			create Result.make (3)
+			if attached str.split (' ') as words then
+				from until Result.full loop
+					if Result.is_empty then
+						Result.extend (words.last)
+					else
+						index := words.count - Result.count
+						if words.valid_index (index) then
+							Result.extend (words [index] + Space + Result.last)
+						else
+							Result.extend (words.last + Space)
+						end
+					end
+				end
 			end
 		end
 

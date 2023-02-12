@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 11:52:51 GMT (Friday 10th February 2023)"
-	revision: "4"
+	date: "2023-02-12 15:35:57 GMT (Sunday 12th February 2023)"
+	revision: "6"
 
 class
 	STRING_PAIR
@@ -29,23 +29,33 @@ feature {NONE} -- Initialization
 
 	default_create
 		do
-			create s_32.make_empty; create z_32.make_empty
+			make_filled (' ', 0)
 		end
 
 	make (str: STRING_32)
 		do
 			set (str)
+			s_32_substring := s_32; zs_substring := zs
 		end
 
 	make_filled (c: CHARACTER_32; n: INTEGER)
 		do
 			create s_32.make_filled (c, n)
-			create z_32.make_filled (c, n)
+			create zs.make_filled (c, n)
+			s_32_substring := s_32; zs_substring := zs
 		end
 
-feature -- Access
+feature -- Strings
 
 	s_32: STRING_32
+
+	s_32_substring: STRING_32
+
+	zs: ZSTRING
+
+	zs_substring: ZSTRING
+
+feature -- Access
 
 	latin_1: detachable STRING_8
 		do
@@ -54,21 +64,41 @@ feature -- Access
 			end
 		end
 
-	z_32: ZSTRING
+	new_intervals (separator: CHARACTER_32): EL_SPLIT_INTERVALS
+		do
+			create Result.make (s_32, separator)
+		end
+
+	hash_code: INTEGER
+		do
+			Result := (s_32.hash_code + s_32_substring.hash_code).abs
+		end
 
 feature -- Status query
 
 	is_same: BOOLEAN
 		do
-			Result := z_32.same_string (s_32)
+			Result := zs.same_string (s_32)
 		end
 
 	same_substring (start_index, end_index: INTEGER): BOOLEAN
 		local
 			substring: ZSTRING
 		do
-			substring := z_32.substring (start_index, end_index)
+			substring := zs.substring (start_index, end_index)
 			Result := substring.to_string_32 ~ s_32.substring (start_index, end_index)
+		end
+
+	valid_index (i: INTEGER): BOOLEAN
+		do
+			Result := s_32.valid_index (i)
+		end
+
+feature -- Element change
+
+	set (str_32: STRING_32)
+		do
+			s_32 := str_32; zs := str_32
 		end
 
 feature -- Basic operations
@@ -76,23 +106,23 @@ feature -- Basic operations
 	append_character (c: CHARACTER_32)
 		do
 			s_32.append_character (c)
-			z_32.append_character (c)
-		end
-
-	set (str_32: STRING_32)
-		do
-			s_32 := str_32
-			z_32 := str_32
+			zs.append_character (c)
 		end
 
 	set_z_from_uc
 		do
-			z_32 := s_32
+			zs := s_32
+		end
+
+	set_substrings (start_index, end_index: INTEGER)
+		do
+			s_32_substring := s_32.substring (start_index, end_index)
+			zs_substring := zs.substring (start_index, end_index)
 		end
 
 	wipe_out
 		do
-			s_32.wipe_out; z_32.wipe_out
+			s_32.wipe_out; zs.wipe_out
 		end
 
 end
