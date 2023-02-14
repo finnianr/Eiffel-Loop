@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-24 19:19:25 GMT (Tuesday 24th January 2023)"
-	revision: "5"
+	date: "2023-02-13 15:24:03 GMT (Monday 13th February 2023)"
+	revision: "6"
 
 class
 	EL_ARRAYED_INTERVAL_LIST
@@ -45,6 +45,14 @@ feature -- Access
 	first_upper: INTEGER
 		do
 			Result := upper_integer (first)
+		end
+
+	i_th_count (i: INTEGER): INTEGER
+		local
+			l_item: like item
+		do
+			l_item := i_th (i)
+			Result := upper_integer (l_item) - lower_integer (l_item) + 1
 		end
 
 	i_th_lower (i: INTEGER): INTEGER

@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 15:13:24 GMT (Friday 10th February 2023)"
-	revision: "17"
+	date: "2023-02-14 14:43:34 GMT (Tuesday 14th February 2023)"
+	revision: "18"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
 
 inherit
 	EL_ZSTRING_IMPLEMENTATION
+
+	EL_SHARED_STRING_32_CURSOR
 
 feature -- Status query
 
@@ -76,21 +78,21 @@ feature -- Start/End comparisons
 			Result := ends_with_general (str)
 		end
 
-	ends_with_general (str: READABLE_STRING_GENERAL): BOOLEAN
+	ends_with_general (other: READABLE_STRING_GENERAL): BOOLEAN
 		local
-			str_count, l_count: INTEGER
+			other_count, l_count: INTEGER
 		do
-			str_count := str.count; l_count := count
-			if str = current_readable or else str_count = 0 then
+			other_count := other.count; l_count := count
+			if other = current_readable or else other_count = 0 then
 				Result := True
 
-			elseif attached {EL_READABLE_ZSTRING} str as z_str then
-				Result := ends_with_zstring (z_str)
+			elseif attached {EL_READABLE_ZSTRING} other as z_other then
+				Result := ends_with_zstring (z_other)
 
-			elseif str.count <= count and then item (l_count - str_count + 1) = str [1]
-				and then str_count > 1 implies item (l_count) = str [str_count]
+			elseif other.count <= count and then item (l_count - other_count + 1) = other [1]
+				and then other_count > 1 implies item (l_count) = other [other_count]
 			then
-				Result := ends_with_zstring (adapted_argument (str, 1))
+				Result := ends_with_zstring (adapted_argument (other, 1))
 			end
 		end
 
@@ -153,11 +155,77 @@ feature -- Comparison
  	same_characters (other: READABLE_STRING_32; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `index_pos'.
+		local
+			l_area: like area; intervals_area: SPECIAL [INTEGER_64]; l_codec: like Codec
+			i, start_index, l_count, offset_other_to_current, intervals_count, item_lower, item_upper: INTEGER
 		do
 			if attached {EL_READABLE_ZSTRING} other as z_other then
 				Result := same_characters_in_bounds (z_other, start_pos, end_pos, index_pos)
+
 			else
-				Result := same_characters_general (other, start_pos, end_pos, index_pos)
+				l_count := end_pos - start_pos + 1
+				Result := index_pos + l_count - 1 <= count
+				if Result and then attached cursor_32 (other) as cursor
+					and then attached shared_section_intervals (index_pos, index_pos + end_pos - start_pos) as list
+				then
+					l_area := area; intervals_area := list.area; intervals_count := list.count; l_codec := Codec
+					offset_other_to_current := start_pos - index_pos
+					start_index := (l_area [list.first_lower - 1] = Substitute).to_integer
+
+					from i := start_index until not Result or else i >= intervals_count loop
+						item_lower := (intervals_area [i] |>> 32).to_integer_32
+						item_upper := intervals_area [i].to_integer_32
+						l_count := item_upper - item_lower + 1
+						Result := l_codec.same_as_other_32 (l_area, l_count, item_lower - 1, offset_other_to_current, cursor)
+						i := i + 2 -- every second one is encoded
+					end
+					if Result then
+						start_index := (not start_index.to_boolean).to_integer
+						Result := same_unencoded_intervals_32 (list, start_index, offset_other_to_current, cursor)
+					end
+				end
+			end
+		end
+
+ 	same_characters_8 (other: READABLE_STRING_8; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
+			-- Are characters of `other' within bounds `start_pos' and `end_pos'
+			-- identical to characters of current string starting at index `index_pos'.
+		local
+			l_area: like area; intervals_area: SPECIAL [INTEGER_64]; l_codec: like Codec
+			i, start_index, l_count, offset_other_to_current, intervals_count, item_lower, item_upper: INTEGER
+		do
+			l_count := end_pos - start_pos + 1
+			Result := index_pos + l_count - 1 <= count
+			if Result and then attached cursor_8 (other) as cursor
+				and then attached shared_section_intervals (index_pos, index_pos + end_pos - start_pos) as list
+			then
+				l_area := area; intervals_area := list.area; intervals_count := list.count; l_codec := Codec
+				offset_other_to_current := start_pos - index_pos
+				start_index := (l_area [list.first_lower - 1] = Substitute).to_integer
+
+				from i := start_index until not Result or else i >= intervals_count loop
+					item_lower := (intervals_area [i] |>> 32).to_integer_32
+					item_upper := intervals_area [i].to_integer_32
+					l_count := item_upper - item_lower + 1
+					Result := l_codec.same_as_other_8 (l_area, l_count, item_lower - 1, offset_other_to_current, cursor)
+					i := i + 2 -- every second one is encoded
+				end
+				if Result then
+					start_index := (not start_index.to_boolean).to_integer
+					Result := same_unencoded_intervals_8 (list, start_index, offset_other_to_current, cursor)
+				end
+			end
+		end
+
+ 	same_characters_general (other: READABLE_STRING_GENERAL; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
+			-- Are characters of `other' within bounds `start_pos' and `end_pos'
+			-- identical to characters of current string starting at index `index_pos'.
+		do
+ 			if attached {READABLE_STRING_32} other as other_32 then
+				Result := same_characters (other_32, start_pos, end_pos, index_pos)
+
+			elseif attached {READABLE_STRING_8} other as str_8 then
+				Result := same_characters_8 (str_8, start_pos, end_pos, index_pos)
 			end
 		end
 
@@ -182,10 +250,6 @@ feature {NONE} -- Deferred
 		end
 
 	same_caseless_characters_general (other: READABLE_STRING_GENERAL; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
-		deferred
-		end
-
-	same_characters_general (other: READABLE_STRING_GENERAL; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
 		deferred
 		end
 

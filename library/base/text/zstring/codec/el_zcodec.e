@@ -7,34 +7,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 15:45:34 GMT (Friday 10th February 2023)"
-	revision: "39"
+	date: "2023-02-14 14:21:19 GMT (Tuesday 14th February 2023)"
+	revision: "40"
 
 deferred class
 	EL_ZCODEC
 
 inherit
-	EL_ENCODING_BASE
-		rename
-			make as make_encodeable,
-			set_default as set_default_encoding,
-			utf_8 as utf_8_encoding
-		redefine
-			set_default_encoding
-		end
-
-	EL_ZCODE_CONVERSION
-		rename
-			z_code_to_unicode as multi_byte_z_code_to_unicode
-		end
-
-	EL_MODULE_NAMING
-
-	EL_ZSTRING_CONSTANTS
-
-	STRING_HANDLER
-
-	EL_SHARED_STRING_8_CURSOR
+	EL_ZCODEC_IMPLEMENTATION
 
 feature {EL_ZCODEC_FACTORY} -- Initialization
 
@@ -44,14 +24,6 @@ feature {EL_ZCODEC_FACTORY} -- Initialization
 			create latin_characters.make_filled ('%U', 1)
 			unicode_table := new_unicode_table
 			initialize_latin_sets
-		end
-
-	set_default_encoding
-		-- derive encoding from generator class name
-		do
-			set_from_name (Naming.class_as_kebab_upper (Current, 1, 1))
-		ensure then
-			valid_encoding: encoding > 0
 		end
 
 feature -- Character query
@@ -114,7 +86,65 @@ feature -- Character query
 			end
 		end
 
+feature -- Comparison
+
+	same_as_other_32 (
+		area: SPECIAL [CHARACTER]; count, offset, a_other_offset: INTEGER; other: EL_STRING_32_ITERATION_CURSOR
+	): BOOLEAN
+		require
+			all_area_is_encoded: is_encoded_area (area, count, offset)
+		local
+			i, j, code, other_offset: INTEGER; c: CHARACTER; l_unicodes: like unicode_table
+			other_area: SPECIAL [CHARACTER_32]
+		do
+			l_unicodes := unicode_table; other_area := other.area
+			other_offset := other.area_first_index + a_other_offset
+			Result := True
+			from i := 0 until not Result or else i = count loop
+				j := i + offset
+				c := area [j]; code := c.code
+				if code <= Max_7_bit_code then
+					Result := code.to_character_32 = other_area [j + other_offset]
+				else
+					Result := l_unicodes [code] = other_area [j + other_offset]
+				end
+				i := i + 1
+			end
+		end
+
+	same_as_other_8 (
+		area: SPECIAL [CHARACTER]; count, offset, a_other_offset: INTEGER; other: EL_STRING_8_ITERATION_CURSOR
+	): BOOLEAN
+		require
+			all_area_is_encoded: is_encoded_area (area, count, offset)
+		local
+			i, j, code, other_offset: INTEGER; c: CHARACTER; l_unicodes: like unicode_table
+			other_area: SPECIAL [CHARACTER]
+		do
+			l_unicodes := unicode_table; other_area := other.area
+			other_offset := other.area_first_index + a_other_offset
+			Result := True
+			from i := 0 until not Result or else i = count loop
+				j := i + offset
+				c := area [j]; code := c.code
+				if code <= Max_7_bit_code then
+					Result := c = other_area [j + other_offset]
+				else
+					Result := l_unicodes [code].to_character_8 = other_area [j + other_offset]
+				end
+				i := i + 1
+			end
+		end
+
 feature -- Contract Support
+
+	is_encoded_area (area: SPECIAL [CHARACTER]; count, offset: INTEGER): BOOLEAN
+		local
+			index: INTEGER
+		do
+			index := area.index_of (Substitute, offset)
+			Result := not (offset <= index and index < offset + count - 1)
+		end
 
 	valid_offset_and_count (source_count: INTEGER; encoded_out: SPECIAL [CHARACTER]; out_offset: INTEGER;): BOOLEAN
 		do
@@ -412,19 +442,7 @@ feature -- Text conversion
 			end
 		end
 
-feature {EL_ZSTRING} -- Implementation
-
-	as_lower (code: NATURAL): NATURAL
-		deferred
-		ensure then
-			reversible: code /= Result implies code = as_upper (Result)
-		end
-
-	as_upper (code: NATURAL): NATURAL
-		deferred
-		ensure then
-			reversible: code /= Result implies code = as_lower (Result)
-		end
+feature {NONE} -- Implementation
 
 	change_case (
 		latin_array: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; change_to_upper: BOOLEAN
@@ -433,7 +451,6 @@ feature {EL_ZSTRING} -- Implementation
 		local
 			unicode_substitute: CHARACTER_32; c, new_c: CHARACTER; i: INTEGER
 		do
-
 			from i := start_index until i > end_index loop
 				c := latin_array [i]
 				if c /= Substitute then
@@ -457,32 +474,27 @@ feature {EL_ZSTRING} -- Implementation
 			end
 		end
 
-	initialize_latin_sets
+feature {EL_ZSTRING} -- Deferred implementation
+
+	as_lower (code: NATURAL): NATURAL
 		deferred
+		ensure then
+			reversible: code /= Result implies code = as_upper (Result)
 		end
 
-	latin_set_from_array (array: ARRAY [INTEGER]): SPECIAL [CHARACTER]
-		do
-			create Result.make_empty (array.count)
-			across array as c loop
-				Result.extend (c.item.to_character_8)
-			end
+	as_upper (code: NATURAL): NATURAL
+		deferred
+		ensure then
+			reversible: code /= Result implies code = as_lower (Result)
+		end
+
+	initialize_latin_sets
+		deferred
 		end
 
 	new_unicode_table: SPECIAL [CHARACTER_32]
 			-- map latin to unicode
 		deferred
-		end
-
-	single_byte_unicode_chars: SPECIAL [CHARACTER_32]
-		local
-			i: INTEGER
-		do
-			create Result.make_filled ('%U', 256)
-			from i := 0 until i > 255 loop
-				Result [i] := i.to_character_32
-				i := i + 1
-			end
 		end
 
 	to_lower_offset (code: NATURAL): INTEGER
@@ -501,17 +513,6 @@ feature {EL_ZSTRING} -- Implementation
 			-- Returns Unicode case change character if c does not have a latin case change
 			-- or else the Null character
 		deferred
-		end
-
-feature {NONE} -- Internal attributes
-
-	latin_characters: SPECIAL [CHARACTER]
-
-feature {NONE} -- Constants
-
-	Unicode_buffer: EL_STRING_32
-		once
-			create Result.make_empty
 		end
 
 end

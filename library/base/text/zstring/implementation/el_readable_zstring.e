@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-12 11:12:39 GMT (Sunday 12th February 2023)"
-	revision: "103"
+	date: "2023-02-14 14:41:25 GMT (Tuesday 14th February 2023)"
+	revision: "104"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -47,7 +47,7 @@ inherit
 			to_natural_8, to_natural_16, to_natural, to_natural_32, to_natural_64,
 			to_string_8, to_string_32,
 --			Comparison
-			same_caseless_characters, same_characters,
+			same_caseless_characters, same_characters, same_characters_general,
 --			Element change
 			fill_character,
 --			Measurement
@@ -64,7 +64,7 @@ inherit
 --			Status query
 			has_unicode,
 --			Comparison
-			is_equal, same_caseless_characters_general, same_characters_general,
+			is_equal, same_caseless_characters_general,
 --			Duplication
 			copy
 		end
@@ -632,22 +632,6 @@ feature -- Comparison
  				Result := Precursor (other, start_pos, end_pos, index_pos)
  			end
  		end
-
- 	same_characters_general (other: READABLE_STRING_GENERAL; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
-			-- Are characters of `other' within bounds `start_pos' and `end_pos'
-			-- identical to characters of current string starting at index `index_pos'.
-		do
- 			if attached {EL_READABLE_ZSTRING} other as z_other then
-				Result := same_characters_in_bounds (z_other, start_pos, end_pos, index_pos)
-
-			elseif attached {READABLE_STRING_8} other as str_8
-				and then cursor_8 (str_8).is_ascii_substring (start_pos, end_pos)
-			then
-				Result := current_string_8.same_characters (str_8, start_pos, end_pos, index_pos)
-			else
-				Result := Precursor (other, start_pos, end_pos, index_pos)
-			end
-		end
 
 feature {EL_READABLE_ZSTRING} -- Duplication
 

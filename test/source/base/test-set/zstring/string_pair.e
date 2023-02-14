@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-12 15:35:57 GMT (Sunday 12th February 2023)"
-	revision: "6"
+	date: "2023-02-14 14:44:08 GMT (Tuesday 14th February 2023)"
+	revision: "7"
 
 class
 	STRING_PAIR
@@ -87,6 +87,19 @@ feature -- Status query
 		do
 			substring := zs.substring (start_index, end_index)
 			Result := substring.to_string_32 ~ s_32.substring (start_index, end_index)
+		end
+
+	same_characters (index: INTEGER): BOOLEAN
+		local
+			b1, b2, b3: BOOLEAN
+		do
+			b1 := s_32.same_characters (s_32_substring, 1, s_32_substring.count, index)
+			b2 := zs.same_characters (s_32_substring, 1, s_32_substring.count, index)
+			Result := b1 = b2
+			if Result and then s_32.is_valid_as_string_8 then
+				b3 := zs.same_characters (s_32_substring.to_string_8, 1, s_32_substring.count, index)
+				Result := b1 = b3
+			end
 		end
 
 	valid_index (i: INTEGER): BOOLEAN

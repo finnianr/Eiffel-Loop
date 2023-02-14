@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-12 15:55:11 GMT (Sunday 12th February 2023)"
-	revision: "37"
+	date: "2023-02-14 14:34:37 GMT (Tuesday 14th February 2023)"
+	revision: "38"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -26,6 +26,8 @@ inherit
 		end
 
 	EL_ZCODE_CONVERSION
+
+	STRING_HANDLER
 
 create
 	make, make_from_other, make_joined
@@ -158,29 +160,16 @@ feature -- Access
 			end
 		end
 
-	interval_sequence (string_count: INTEGER): EL_SEQUENTIAL_INTERVALS
-		-- if `string_count' > 0 include the in-between intervals corresponding to encoded characters
+	interval_sequence: EL_SEQUENTIAL_INTERVALS
 		local
-			i, lower, upper: INTEGER; l_area: like area; fill_gaps: BOOLEAN
+			i, lower, upper: INTEGER; l_area: like area
 		do
 			create Result.make (3)
-			l_area := area; fill_gaps := string_count.to_boolean
+			l_area := area
 			from i := 0 until i = l_area.count loop
 				lower := l_area [i].code; upper := l_area [i + 1].code
-				if fill_gaps then
-					if i = 0 then
-						if lower > 1 then
-							Result.extend (1, lower - 1)
-						end
-					else
-						Result.extend (Result.last_upper + 1, lower - 1)
-					end
-				end
 				Result.extend (lower, upper)
 				i := i + upper - lower + 3
-			end
-			if string_count > upper then
-				Result.extend (upper + 1, string_count)
 			end
 		end
 
@@ -246,16 +235,14 @@ feature -- Index query
 	last_index: INTEGER
 			-- index into `area' of last interval
 		local
-			i, lower, upper: INTEGER; l_area: like area
+			i, count: INTEGER; l_area: like area
 		do
 			l_area := area
-			from i := 0 until i = l_area.count loop
-				lower := l_area [i].code; upper := l_area [i + 1].code
-				i := i + upper - lower + 3
+			from  until i = l_area.count loop
+				count := l_area [i + 1].code - l_area [i].code + 1
+				i := i + count + 2
 			end
-			if lower.to_boolean then
-				Result := i - (upper - lower + 3)
-			end
+			Result := i - count - 2
 		end
 
 	last_upper: INTEGER
@@ -358,18 +345,17 @@ feature -- Measurement
 		end
 
 	intersection_count (start_index, end_index: INTEGER): INTEGER
-		-- count of characters between `start_index'and `end_index'
+		-- count of characters between `start_index' and `end_index'
 		local
-			i, lower, upper, max_count: INTEGER
-			l_area: like area
+			i, lower, upper: INTEGER; l_area: like area
+			done: BOOLEAN
 		do
 			l_area := area
-			max_count := end_index - start_index + 1
-			from i := 0 until Result = max_count or else i = l_area.count loop
+			from i := 0 until done or else i = l_area.count loop
 				lower := l_area [i].code; upper := l_area [i + 1].code
 				if lower <= start_index and end_index <= upper then
 					-- Remove middle section
-					Result := max_count
+					Result := end_index - start_index + 1
 				elseif start_index <= lower and upper <= end_index then
 					-- Remove entire section
 					Result := Result + upper - lower + 1
@@ -380,6 +366,9 @@ feature -- Measurement
 				elseif lower <= start_index and start_index <= upper then
 					-- Remove trailing section
 					Result := Result + upper - start_index + 1
+
+				elseif end_index < lower then
+					done := True
 				end
 				i := i + upper - lower + 3
 			end
@@ -462,30 +451,115 @@ feature -- Comparison
 			end
 		end
 
-	same_string_sequence (list: LIST [IMMUTABLE_STRING_32]; a_start_index: INTEGER): BOOLEAN
-		-- index of first substring to match `str' from `a_start_index'
-		-- or zero if no match found
+	same_intervals_8 (
+		list: EL_SEQUENTIAL_INTERVALS; list_start_index, a_other_offset: INTEGER; other: EL_STRING_8_ITERATION_CURSOR
+	): BOOLEAN
+			-- Are characters of `other' within bounds `start_pos' and `end_pos'
+			-- identical to characters of current `list' starting at index `index_pos'.
 		local
-			i, lower, upper, count: INTEGER; l_area: like area
-			immutable: like shared_immutable
+			list_count, count, other_offset, overlap_status, comparison_count: INTEGER
+			i, j, list_i, start_index, end_index, lower, upper, other_i, current_i: INTEGER
+			l_area: like area; o_area: SPECIAL [CHARACTER]; intervals_area: SPECIAL [INTEGER_64]
+			ir: EL_INTERVAL_ROUTINES
 		do
-			l_area := area; immutable := shared_immutable
+			l_area := area
 			if list.is_empty then
 				Result := True
 			else
-				list.start
+				o_area := other.area; other_offset := a_other_offset + other.area_first_index
+
+				list_i := list_start_index; list_count := list.count; intervals_area := list.area
 				Result := True
-				from i := 0 until not Result or else list.after or else i = l_area.count loop
-					lower := l_area [i].code; upper := l_area [i + 1].code
+				from i := 0 until not Result or else list_i >= list.count or else i = l_area.count loop
+					start_index := (intervals_area [list_i] |>> 32).to_integer_32 -- A interval
+					end_index := intervals_area [list_i].to_integer_32 -- A interval
+					lower := l_area [i].code; upper := l_area [i + 1].code -- B interval
 					count := upper - lower + 1
-					if lower >= a_start_index or else a_start_index <= upper then
-						if count = list.item.count then
-							immutable.set_item_substring (l_area, i + 2, count)
-							Result := list.item ~ immutable.item
-						else
-							Result := False
+
+					overlap_status := ir.overlap_status (start_index, end_index, lower, upper)
+					if ir.is_overlapping (overlap_status) then
+						inspect overlap_status
+							when A_overlaps_B_left then
+								comparison_count := end_index - lower + 1
+								other_i := other_offset + lower - 1
+								current_i := i + 2 + lower - start_index
+
+							when A_overlaps_B_right then
+								comparison_count := upper - start_index + 1
+								other_i := other_offset + start_index - 1
+								current_i := i + 2 + start_index - lower
+
+							when A_contains_B then
+								comparison_count := count
+								other_i := other_offset + lower - 1
+								current_i := i + 2 + lower - start_index
+
+							when B_contains_A then
+								comparison_count := end_index - start_index + 1
+								other_i := other_offset + lower + (start_index - lower) - 1
+								current_i := i + 2 + start_index - lower
 						end
-						list.forth
+						from j := 0 until not Result or j = comparison_count loop
+							Result := o_area [other_i + j].to_character_32 = l_area [current_i + j]
+							j := j + 1
+						end
+
+						list_i := list_i + 2 -- every 2nd interval is unencoded
+					end
+					i := i + count + 2
+				end
+			end
+		end
+
+	same_intervals_32 (
+		list: EL_SEQUENTIAL_INTERVALS; list_start_index, a_other_offset: INTEGER; other: EL_STRING_32_ITERATION_CURSOR
+	): BOOLEAN
+			-- Are characters of `other' within bounds `start_pos' and `end_pos'
+			-- identical to characters of current `list' starting at index `index_pos'.
+		local
+			list_count, count, other_offset, overlap_status, comparison_count: INTEGER
+			i, list_i, start_index, end_index, lower, upper, other_i, current_i: INTEGER
+			l_area, o_area: like area; intervals_area: SPECIAL [INTEGER_64]; ir: EL_INTERVAL_ROUTINES
+		do
+			l_area := area
+			if list.is_empty then
+				Result := True
+			else
+				o_area := other.area; other_offset := a_other_offset + other.area_first_index
+
+				list_i := list_start_index; list_count := list.count; intervals_area := list.area
+				Result := True
+				from i := 0 until not Result or else list_i >= list.count or else i = l_area.count loop
+					start_index := (intervals_area [list_i] |>> 32).to_integer_32 -- A interval
+					end_index := intervals_area [list_i].to_integer_32 -- A interval
+					lower := l_area [i].code; upper := l_area [i + 1].code -- B interval
+					count := upper - lower + 1
+
+					overlap_status := ir.overlap_status (start_index, end_index, lower, upper)
+					if ir.is_overlapping (overlap_status) then
+						inspect overlap_status
+							when A_overlaps_B_left then
+								comparison_count := end_index - lower + 1
+								other_i := other_offset + lower - 1
+								current_i := i + 2 + lower - start_index
+
+							when A_overlaps_B_right then
+								comparison_count := upper - start_index + 1
+								other_i := other_offset + start_index - 1
+								current_i := i + 2 + start_index - lower
+
+							when A_contains_B then
+								comparison_count := count
+								other_i := other_offset + lower - 1
+								current_i := i + 2 + lower - start_index
+
+							when B_contains_A then
+								comparison_count := end_index - start_index + 1
+								other_i := other_offset + lower + (start_index - lower) - 1
+								current_i := i + 2 + start_index - lower
+						end
+						Result := area.same_items (o_area, other_i, current_i, comparison_count)
+						list_i := list_i + 2 -- every 2nd interval is unencoded
 					end
 					i := i + count + 2
 				end
@@ -535,7 +609,7 @@ feature -- Element change
 
 	insert (other: EL_UNENCODED_CHARACTERS)
 		require
-			no_overlap: not interval_sequence (0).overlaps (other.interval_sequence (0))
+			no_overlap: not interval_sequence.overlaps (other.interval_sequence)
 		local
 			i, previous_i, lower, upper, previous_upper, count, i_final: INTEGER
 			other_lower, other_last_upper, other_array_count: INTEGER

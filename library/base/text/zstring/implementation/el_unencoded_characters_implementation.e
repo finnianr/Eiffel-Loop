@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-11 14:47:04 GMT (Saturday 11th February 2023)"
-	revision: "11"
+	date: "2023-02-14 14:16:30 GMT (Tuesday 14th February 2023)"
+	revision: "12"
 
 deferred class
 	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
@@ -16,6 +16,11 @@ inherit
 	EL_EXTENDABLE_AREA [CHARACTER_32]
 		export
 			{ANY} area
+		end
+
+	EL_INTERVAL_CONSTANTS
+		export
+			{NONE} all
 		end
 
 feature {NONE} -- Contract Support
@@ -197,6 +202,57 @@ feature {NONE} -- Implementation
 			Result.set_item (Once_immutable_32)
 		end
 
+	shared_section_intervals (start_index, end_index: INTEGER): EL_SEQUENTIAL_INTERVALS
+		local
+			i, lower, upper, overlap_status: INTEGER; l_area: like area; searching, done: BOOLEAN
+			ir: EL_INTERVAL_ROUTINES
+		do
+			Result := Once_interval_sequence
+			Result.wipe_out
+			l_area := area
+			if l_area.count > 0 then
+				searching := True
+				from i := 0 until done or else i = l_area.count loop
+--					[start_index, end_index] is A interval
+					lower := l_area [i].code; upper := l_area [i + 1].code -- is B interval
+					overlap_status := ir.overlap_status (start_index, end_index, lower, upper)
+					if searching and then ir.is_overlapping (overlap_status) then
+						searching := False
+					end
+					if not searching then
+						if Result.is_empty then
+							if start_index < lower then
+								Result.extend (start_index, lower - 1)
+							end
+
+						elseif ir.is_overlapping (overlap_status) and then (lower - Result.last_upper) >= 1 then
+							Result.extend (Result.last_upper + 1, lower - 1)
+						end
+						inspect overlap_status
+							when A_overlaps_B_left then
+								Result.extend (lower, end_index)
+							when A_overlaps_B_right then
+								Result.extend (start_index, upper)
+							when A_contains_B then
+								Result.extend (lower, upper)
+							when B_contains_A then
+								Result.extend (start_index, end_index)
+						else
+							done := True
+						end
+					end
+					i := i + upper - lower + 3
+				end
+				if Result.is_empty then
+					Result.extend (start_index, end_index)
+				elseif end_index > Result.last_upper then
+					Result.extend (Result.last_upper + 1, end_index)
+				end
+			else
+				Result.extend (start_index, end_index)
+			end
+		end
+
 	section_count (a_area: like area; i: INTEGER): INTEGER
 		do
 			Result := a_area [i + 1].code - a_area [i].code + 1
@@ -249,6 +305,11 @@ feature {NONE} -- Constants
 	Once_interval_index_2: EL_UNENCODED_CHARACTERS_INDEX
 		once
 			create Result.make_default
+		end
+
+	Once_interval_sequence: EL_SEQUENTIAL_INTERVALS
+		once
+			create Result.make (10)
 		end
 
 	Unencoded_insert: SPECIAL [CHARACTER_32]

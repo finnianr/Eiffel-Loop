@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-12 17:08:01 GMT (Sunday 12th February 2023)"
-	revision: "19"
+	date: "2023-02-13 9:27:24 GMT (Monday 13th February 2023)"
+	revision: "20"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -76,13 +76,15 @@ feature -- Access
 		local
 			has_mixed_in_range: BOOLEAN
 		do
-			has_mixed_in_range := has_unencoded_between (start_index, count)
+			has_mixed_in_range := has_unencoded_between_optimal (area, start_index, count)
 			inspect current_other_bitmap (has_mixed_in_range, other.has_mixed_encoding)
 				when Only_current, Neither then
 					Result := String_8.substring_index (Current, other, start_index)
 
 				when Both_have_mixed_encoding then
-					Result := mixed_encoding_substring_index (other, start_index, count)
+--					Result := mixed_encoding_substring_index (other, start_index, count)
+					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
+					Result := String_searcher.substring_index (current_readable, other.as_expanded (1), start_index, count)
 
 				when Only_other then
 					Result := 0
@@ -99,11 +101,12 @@ feature -- Access
 		local
 			has_mixed_in_range: BOOLEAN
 		do
-			has_mixed_in_range := has_unencoded_between (start_pos, end_pos)
+			has_mixed_in_range := has_unencoded_between_optimal (area, start_pos, end_pos)
 
 			inspect current_other_bitmap (has_mixed_in_range, other.has_mixed_encoding)
 				when Both_have_mixed_encoding then
-					Result := mixed_encoding_substring_index (other, start_pos, end_pos)
+					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
+					Result := String_searcher.substring_index (current_readable, other.as_expanded (1), start_pos, end_pos)
 				when Only_current, Neither then
 					Result := String_8.substring_index_in_bounds (Current, other, start_pos, end_pos)
 				when Only_other then
@@ -223,51 +226,6 @@ feature {NONE} -- Implementation
 
 	is_alpha_numeric_item (i: INTEGER): BOOLEAN
 		deferred
-		end
-
-	mixed_encoding_substring_index (other: EL_READABLE_ZSTRING; start_pos, end_pos: INTEGER): INTEGER
-		local
-			other_count, index, list_count, offset_to_unencoded: INTEGER; other_intervals: EL_SEQUENTIAL_INTERVALS
-			other_unencoded_list: ARRAYED_LIST [IMMUTABLE_STRING_32]
-			other_leads_with_encoded, done: BOOLEAN
-		do
-			other_count := other.count
-			if other_count = 0 then
-				Result := start_pos
-
-			elseif other_count = 1 and other.item_8 (1) = Substitute then
-				Result := unencoded_index_of (other.item (1), start_pos)
-				if Result > end_pos then
-					Result := 0
-				end
-
-			else
-				other_leads_with_encoded := other.item_8 (1) /= Substitute
-				other_intervals := other.unencoded_interval_sequence (other_count)
-				if other_leads_with_encoded then
-					offset_to_unencoded := other_intervals.first_count
-				end
-				list_count := other_intervals.count // 2
-				if other_intervals.count \\ 2 = 1 and not other_leads_with_encoded then -- odd number
-					list_count := list_count + 1
-				end
-				create other_unencoded_list.make (list_count)
-				other.unencoded_fill_list (other_unencoded_list)
-
-				from index := start_pos until done loop
-					index := String_8.substring_index_in_bounds (Current, other, index, end_pos)
-					if index > 0 then
-						if same_unencoded_string_sequence (other_unencoded_list, index + offset_to_unencoded) then
-							done := True
-						else
-							index := index + other_intervals.first_count
-						end
-					else
-						done := True
-					end
-				end
-				Result := index
-			end
 		end
 
 	same_characters_in_bounds (other: EL_READABLE_ZSTRING; start_pos, end_pos, index_pos: INTEGER): BOOLEAN

@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-12 13:28:06 GMT (Sunday 12th February 2023)"
-	revision: "74"
+	date: "2023-02-14 14:45:27 GMT (Tuesday 14th February 2023)"
+	revision: "75"
 
 class
 	ZSTRING_TEST_SET
@@ -830,18 +830,52 @@ feature -- Status query tests
 		end
 
 	test_same_characters
+		note
+			testing: "covers/{EL_COMPARABLE_ZSTRING}.same_characters",
+						"covers/{EL_COMPARABLE_ZSTRING}.same_characters_8"
 		local
-			line, word: ZSTRING; i: INTEGER
-			word_list: EL_ZSTRING_LIST
+			pair: STRING_PAIR; assertion_OK: STRING
+			index, next_start_index, start_index, end_index, next_end_index, next_count: INTEGER
 		do
-			across Text.lines as l loop
-				line := l.item
-				create word_list.make_word_split (l.item)
-				i := 1
-				across word_list as w loop
-					word := w.item
-					i := line.substring_index (word, i)
-					assert ("same characters", line.same_characters (word, 1, word.count, i))
+			assertion_OK := "same_characters OK"
+			across Text.lines as line loop
+				create pair.make (line.item)
+				if attached pair.new_intervals (' ') as list then
+					from list.start until list.after loop
+						index := list.index
+						start_index := list.item_lower; end_index := list.item_upper
+						pair.set_substrings (start_index, end_index)
+						assert (assertion_OK, pair.same_characters (start_index))
+						if list.valid_index (list.index + 1) then
+							next_start_index := list.i_th_lower (index + 1)
+							next_end_index := list.i_th_upper (index + 1)
+							next_count := list.i_th_count (index + 1)
+							pair.set_substrings (start_index, next_end_index)
+							assert (assertion_OK, pair.same_characters (start_index))
+
+							if list.item_count >= 3 and next_count >= 3 then
+--								half way indices
+								pair.set_substrings ((start_index + end_index) // 2, (next_start_index + next_end_index) //2)
+								assert (assertion_OK, pair.same_characters ((start_index + end_index) // 2))
+							end
+						else
+							next_start_index := 0; next_end_index := 0; next_count := 0
+						end
+						assert (assertion_OK, pair.same_characters (start_index))
+
+						start_index := list.item_lower - 1; end_index := list.item_upper + 1
+						if pair.s_32.valid_index (start_index) and pair.s_32.valid_index (end_index) then
+							pair.set_substrings (start_index, end_index)
+							assert (assertion_OK, pair.same_characters (start_index))
+
+							next_end_index := list.i_th_upper (index + 1) + 1
+							if pair.s_32.valid_index (next_end_index) then
+								pair.set_substrings (start_index, next_end_index)
+								assert (assertion_OK, pair.same_characters (start_index))
+							end
+						end
+						list.forth
+					end
 				end
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-02-14 14:30:34 GMT (Tuesday 14th February 2023)"
+	revision: "6"
 
 class
 	EL_STRING_8_ITERATION_CURSOR
@@ -15,7 +15,7 @@ class
 inherit
 	STRING_8_ITERATION_CURSOR
 		export
-			{EL_SHARED_STRING_8_CURSOR} area, area_first_index, area_last_index, make
+			{EL_SHARED_STRING_8_CURSOR, STRING_HANDLER} area, area_first_index, area_last_index, make
 		end
 
 	EL_STRING_ITERATION_CURSOR
