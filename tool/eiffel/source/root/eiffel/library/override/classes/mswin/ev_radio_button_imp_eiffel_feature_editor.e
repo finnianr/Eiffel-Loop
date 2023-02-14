@@ -32,7 +32,7 @@ feature -- Basic operations
 			class_header.insert_line_right ("enable_select as set_checked", 3)
 
 			class_header.find_first_true (agent {ZSTRING}.has_substring (Class_WEL_RADIO_BUTTON))
-			class_header.find_next_true (agent {ZSTRING}.ends_with_zstring (Indented_keyword_end))
+			class_header.find_next_true (agent {ZSTRING}.ends_with (Indented_keyword_end))
 			class_header.back
 			class_header.put_right ("%T%Tselect")
 			class_header.forth

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:11:33 GMT (Monday 5th December 2022)"
-	revision: "18"
+	date: "2023-02-14 18:39:02 GMT (Tuesday 14th February 2023)"
+	revision: "19"
 
 class
 	EL_EIFFEL_SOURCE_LINE_STATE_MACHINE
@@ -130,7 +130,7 @@ feature {NONE} -- Implementation
 		do
 			if tab_count = indent_count then
 				cl := code_line
-				if cl.starts_with_zstring (a_keyword) then
+				if cl.starts_with (a_keyword) then
 					Result := cl.count > a_keyword.count implies cl [a_keyword.count + 1].is_space
 				end
 			end

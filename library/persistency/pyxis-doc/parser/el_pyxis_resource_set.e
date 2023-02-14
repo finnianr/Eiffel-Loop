@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:27:33 GMT (Monday 5th December 2022)"
-	revision: "12"
+	date: "2023-02-14 18:38:40 GMT (Tuesday 14th February 2023)"
+	revision: "13"
 
 class
 	EL_PYXIS_RESOURCE_SET
@@ -105,7 +105,7 @@ feature {NONE} -- Line states
 	find_root_element (line: ZSTRING; pyxis_out: PLAIN_TEXT_FILE; is_first: BOOLEAN)
 		do
 			if not line.is_empty
-				and then (not line.starts_with_zstring (Pyxis_doc) and line [1] /= '#' and line.item (line.count) = ':')
+				and then (not line.starts_with (Pyxis_doc) and line [1] /= '#' and line.item (line.count) = ':')
 			then
 				state := agent extend (?, pyxis_out)
 			end

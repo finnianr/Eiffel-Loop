@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 8:53:00 GMT (Thursday 29th December 2022)"
-	revision: "8"
+	date: "2023-02-14 18:47:47 GMT (Tuesday 14th February 2023)"
+	revision: "9"
 
 class
 	SCONS_PROJECT_PY_CONFIG
@@ -94,7 +94,7 @@ feature {NONE} -- Line states
 		local
 			pos_equal, pos_quote: INTEGER; found: BOOLEAN
 		do
-			if line.starts_with_zstring (Code.if_platform_system) and then line.has_substring (Code.windows) then
+			if line.starts_with (Code.if_platform_system) and then line.has_substring (Code.windows) then
 				if {PLATFORM}.is_windows then
 					-- Do not scan section B
 					finish_at_else := True
@@ -128,7 +128,7 @@ feature {NONE} -- Line states
 	find_else (line: ZSTRING)
 		-- find else: statement
 		do
-			if line.starts_with_zstring (Code.else_) then
+			if line.starts_with (Code.else_) then
 				state := agent do_with_line
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:27:28 GMT (Monday 5th December 2022)"
-	revision: "20"
+	date: "2023-02-14 18:39:06 GMT (Tuesday 14th February 2023)"
+	revision: "21"
 
 class
 	EL_SEARCH_TERM_PARSER [G -> EL_WORD_SEARCHABLE]
@@ -215,7 +215,7 @@ feature {NONE} -- Implementation
 			create word_variations.make (20)
 			word_list := word_token_table.word_list
 			from word_list.start until word_list.after loop
-				if word_list.item.starts_with_zstring (word_stem_lower) then
+				if word_list.item.starts_with (word_stem_lower) then
 					end_word_token := word_list.index.to_natural_32
 					word_variations.append_code (end_word_token)
 

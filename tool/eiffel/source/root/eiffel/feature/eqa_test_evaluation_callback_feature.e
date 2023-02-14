@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:18:53 GMT (Monday 5th December 2022)"
-	revision: "6"
+	date: "2023-02-14 18:47:30 GMT (Tuesday 14th February 2023)"
+	revision: "7"
 
 class
 	EQA_TEST_EVALUATION_CALLBACK_FEATURE
@@ -52,9 +52,9 @@ feature -- Element change
 			create do_end_list.make (20)
 			across feature_group_list as group loop
 				group_name := group.item.name.as_lower
-				if across Test_endings as ending some group_name.ends_with_zstring (ending.item) end then
+				if across Test_endings as ending some group_name.ends_with (ending.item) end then
 					across group.item.features as l_feature loop
-						if l_feature.item.name.starts_with_zstring (Test_prefix) then
+						if l_feature.item.name.starts_with (Test_prefix) then
 							test_name := l_feature.item.name.substring_end (Test_prefix.count + 1)
 							do_end_list.extend (Eval_template #$ [eval, test_name, test_name])
 						end
@@ -67,7 +67,7 @@ feature -- Element change
 				do_end_list.extend ("end")
 				do_end_list.indent (2)
 
-				from lines.start until lines.item.ends_with_zstring (Keyword.do_) or else lines.after loop
+				from lines.start until lines.item.ends_with (Keyword.do_) or else lines.after loop
 					lines.forth
 				end
 				if not lines.after then

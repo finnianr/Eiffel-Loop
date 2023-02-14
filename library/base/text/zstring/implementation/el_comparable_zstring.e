@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 14:43:34 GMT (Tuesday 14th February 2023)"
-	revision: "18"
+	date: "2023-02-14 18:36:53 GMT (Tuesday 14th February 2023)"
+	revision: "19"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -73,69 +73,68 @@ feature -- Start/End comparisons
 			end
 		end
 
-	ends_with (str: READABLE_STRING_32): BOOLEAN
+	ends_with (other: READABLE_STRING_32): BOOLEAN
+		local
+			other_count: INTEGER
 		do
-			Result := ends_with_general (str)
+			if attached {EL_READABLE_ZSTRING} other as z_other then
+				Result := String_8.ends_with (Current, z_other)
+				if Result and then z_other.has_mixed_encoding then
+					Result := Result and same_unencoded_substring (z_other, count - z_other.count + 1)
+				end
+			elseif attached {READABLE_STRING_32} other as str_32 then
+				other_count := str_32.count
+				if other_count <= count then
+					Result := same_characters (str_32, 1, other_count, count - other_count + 1)
+				end
+			end
 		end
 
 	ends_with_general (other: READABLE_STRING_GENERAL): BOOLEAN
 		local
-			other_count, l_count: INTEGER
+			other_count: INTEGER
 		do
-			other_count := other.count; l_count := count
-			if other = current_readable or else other_count = 0 then
-				Result := True
+			if attached {READABLE_STRING_32} other as str_32 then
+				Result := ends_with (str_32)
 
-			elseif attached {EL_READABLE_ZSTRING} other as z_other then
-				Result := ends_with_zstring (z_other)
-
-			elseif other.count <= count and then item (l_count - other_count + 1) = other [1]
-				and then other_count > 1 implies item (l_count) = other [other_count]
-			then
-				Result := ends_with_zstring (adapted_argument (other, 1))
+			elseif attached {READABLE_STRING_8} other as str_8 then
+				other_count := str_8.count
+				if other_count <= count then
+					Result := same_characters_8 (str_8, 1, other_count, count - other_count + 1)
+				end
 			end
 		end
 
- 	ends_with_zstring (str: EL_READABLE_ZSTRING): BOOLEAN
-		do
-			Result := String_8.ends_with (Current, str)
-			if Result and then str.has_mixed_encoding then
-				Result := Result and same_unencoded_substring (str, count - str.count + 1)
-			end
-		ensure
-			definition: Result implies str.same_string (substring (count - str.count + 1, count))
-		end
-
- 	starts_with (str: READABLE_STRING_32): BOOLEAN
-		do
-			Result := starts_with_general (str)
-		end
-
- 	starts_with_zstring (str: EL_READABLE_ZSTRING): BOOLEAN
-		do
-			Result := String_8.starts_with (Current, str)
-			if Result and then str.has_mixed_encoding then
-				Result := Result and same_unencoded_substring (str, 1)
-			end
-		ensure
-			definition: Result implies str.same_string (substring (1, str.count))
-		end
-
-	starts_with_general (str: READABLE_STRING_GENERAL): BOOLEAN
+ 	starts_with (other: READABLE_STRING_32): BOOLEAN
 		local
-			str_count: INTEGER
+			other_count: INTEGER
 		do
-			str_count := str.count
-			if str = current_readable or else str_count = 0 then
-				Result := True
+			if attached {EL_READABLE_ZSTRING} other as z_other then
+				Result := String_8.starts_with (Current, z_other)
+				if Result and then z_other.has_mixed_encoding then
+					Result := Result and same_unencoded_substring (z_other, 1)
+				end
 
-			elseif attached {EL_READABLE_ZSTRING} str as z_str then
-				Result := starts_with_zstring (z_str)
+			elseif attached {READABLE_STRING_32} other as str_32 then
+				other_count := str_32.count
+				if other_count <= count then
+					Result := same_characters (str_32, 1, other_count, 1)
+				end
+			end
+		end
 
-			elseif str.count <= count and then item (1) = str [1]
-				and then str_count > 1 implies item (str_count) = str [str_count]
-			then
-				Result := starts_with_zstring (adapted_argument (str, 1))
+	starts_with_general (other: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			other_count: INTEGER
+		do
+			if attached {READABLE_STRING_32} other as str_32 then
+				Result := starts_with (str_32)
+
+			elseif attached {READABLE_STRING_8} other as str_8 then
+				other_count := str_8.count
+				if other_count <= count then
+					Result := same_characters_8 (str_8, 1, other_count, 1)
+				end
 			end
 		end
 

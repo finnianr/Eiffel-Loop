@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-25 17:46:05 GMT (Wednesday 25th January 2023)"
-	revision: "29"
+	date: "2023-02-14 18:38:51 GMT (Tuesday 14th February 2023)"
+	revision: "30"
 
 deferred class
 	TB_ACCOUNT_READER
@@ -71,7 +71,7 @@ feature {NONE} -- Initialization
 				profile_lines.enable_shared_item
 
 				across profile_lines as line loop
-					if line.item.starts_with_zstring (Path_equals) then
+					if line.item.starts_with (Path_equals) then
 						mail_dir_path.append_step (line.item.split_list ('=').last)
 					end
 				end
@@ -101,7 +101,7 @@ feature -- Access
 				Result.remove_head (account_index)
 			end
 			from i := 1 until i > Result.count loop
-				if Result [i].ends_with_zstring (Dot_sbd_extension) then
+				if Result [i].ends_with (Dot_sbd_extension) then
 					dot_sbd_step := Result [i]
 					dot_sbd_step.remove_tail (Dot_sbd_extension.count)
 					Result [i] := dot_sbd_step
@@ -140,7 +140,7 @@ feature {NONE} -- Implementation
 		local
 			folder_dir: DIR_PATH
 		do
-			if path.ends_with_zstring (Dot_sbd_extension) then
+			if path.ends_with (Dot_sbd_extension) then
 				folder_dir := path
 				Result := not folder_list.is_empty implies folder_list.has (folder_dir.base_name)
 			end

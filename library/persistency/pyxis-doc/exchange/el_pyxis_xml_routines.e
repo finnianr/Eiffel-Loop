@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-04 11:46:21 GMT (Wednesday 4th January 2023)"
-	revision: "25"
+	date: "2023-02-14 18:38:27 GMT (Tuesday 14th February 2023)"
+	revision: "26"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -74,10 +74,10 @@ feature -- Access
 				from lines.start until done or lines.after loop
 					lines.item.right_adjust
 					if lines.index = 1 then
-						if not lines.item.starts_with_zstring (Pyxis_doc) then
+						if not lines.item.starts_with (Pyxis_doc) then
 							done := True
 						end
-					elseif lines.item.ends_with_zstring (s.character_string (':')) then
+					elseif lines.item.ends_with (s.character_string (':')) then
 						Result := lines.item
 						Result.remove_tail (1)
 						done := True

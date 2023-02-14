@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2023-02-14 19:07:25 GMT (Tuesday 14th February 2023)"
+	revision: "12"
 
 class
 	JAVA_DEPLOYMENT_PROPERTIES
@@ -172,10 +172,10 @@ feature {NONE} -- Constants
 
 	Escaped_characters: EL_ZSTRING_UNESCAPER
 		local
-			table: HASH_TABLE [CHARACTER_32, CHARACTER_32]
+			table: EL_ESCAPE_TABLE
 		once
-			create table.make (3); table [':'] := ':'
-			create Result.make ('\', table)
+			create table.make ('\', "::=:")
+			create Result.make (table)
 		end
 
 end

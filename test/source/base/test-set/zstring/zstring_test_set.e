@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 14:45:27 GMT (Tuesday 14th February 2023)"
-	revision: "75"
+	date: "2023-02-14 18:44:42 GMT (Tuesday 14th February 2023)"
+	revision: "76"
 
 class
 	ZSTRING_TEST_SET
@@ -735,8 +735,26 @@ feature -- Status query tests
 		note
 			testing: "covers/{ZSTRING}.ends_with", "covers/{ZSTRING}.remove_tail",
 						"covers/{EL_SUBSTRING_32_ARRAY}.same_substring"
+		local
+			pair: STRING_PAIR; assertion_OK: STRING
+			index, start_index, end_index: INTEGER
 		do
-			for_all_text_splits (agent compare_ends_with)
+			across Text.lines as line loop
+				create pair.make (line.item)
+				if attached pair.new_intervals (' ') as list then
+					from list.start until list.is_empty loop
+						start_index := list.item_lower; end_index := list.last_upper
+						pair.set_substrings (start_index, end_index)
+						assert ("ends_with OK", pair.ends_with)
+						start_index := start_index - 1
+						if pair.s_32.valid_index (start_index) then
+							pair.set_substrings (start_index, end_index)
+							assert ("ends_with OK", pair.ends_with)
+						end
+						list.remove
+					end
+				end
+			end
 		end
 
 	test_for_all_split
@@ -835,7 +853,7 @@ feature -- Status query tests
 						"covers/{EL_COMPARABLE_ZSTRING}.same_characters_8"
 		local
 			pair: STRING_PAIR; assertion_OK: STRING
-			index, next_start_index, start_index, end_index, next_end_index, next_count: INTEGER
+			index, next_end_index, next_start_index, start_index, end_index, next_count: INTEGER
 		do
 			assertion_OK := "same_characters OK"
 			across Text.lines as line loop
@@ -908,8 +926,28 @@ feature -- Status query tests
 		note
 			testing: "covers/{ZSTRING}.starts_with", "covers/{ZSTRING}.remove_head",
 						"covers/{EL_SUBSTRING_32_ARRAY}.same_substring"
+		local
+			pair: STRING_PAIR; assertion_OK: STRING
+			index, start_index, end_index: INTEGER
 		do
-			for_all_text_splits (agent compare_starts_with)
+			across Text.lines as line loop
+				create pair.make (line.item)
+				if attached pair.new_intervals (' ') as list then
+					from list.start until list.is_empty loop
+						list.start
+						start_index := list.item_lower; end_index := list.last_upper
+						pair.set_substrings (start_index, end_index)
+						assert ("starts_with OK", pair.starts_with)
+						start_index := start_index + 1
+						if pair.s_32.valid_index (start_index) then
+							pair.set_substrings (start_index, end_index)
+							assert ("starts_with OK", pair.starts_with)
+						end
+						list.finish
+						list.remove
+					end
+				end
+			end
 		end
 
 	test_there_exists_split
@@ -1064,38 +1102,44 @@ feature -- Access tests
 		note
 			testing: "covers/{ZSTRING}.substring", "covers/{ZSTRING}.substring_index"
 		local
-			pair: STRING_PAIR; index, next_index, start_index, end_index, from_index: INTEGER
+			index, next_end_index, next_start_index, next_count, next_index, start_index, end_index, from_index: INTEGER
+			pair: STRING_PAIR
 		do
 			across Text.lines as line loop
 				create pair.make (line.item)
 				if attached pair.new_intervals (' ') as list then
 					from list.start until list.after loop
+						index := list.index
 						start_index := list.item_lower; end_index := list.item_upper
 						pair.set_substrings (start_index, end_index)
 						from_index := (start_index - 5).max (1)
-						index := pair.zs.substring_index (pair.zs_substring, from_index)
-						assert ("substring_index OK", index = pair.s_32.substring_index (pair.s_32_substring, from_index))
+						assert ("substring_index OK", pair.substring_index (from_index))
 
 						if pair.valid_index (start_index - 1) and pair.valid_index (end_index + 1) then
 							pair.set_substrings (start_index - 1, end_index + 1)
 							from_index := (start_index - 5).max (1)
-							index := pair.zs.substring_index (pair.zs_substring, from_index)
-							assert ("substring_index OK", index = pair.s_32.substring_index (pair.s_32_substring, from_index))
+							assert ("substring_index OK", pair.substring_index (from_index))
 						end
-
-						next_index := list.index + 2
+						next_index := index + 2
 						if list.valid_index (next_index) then
-							end_index := list.i_th_upper (next_index)
-							pair.set_substrings (start_index, end_index)
+							next_start_index := list.i_th_lower (index + 1)
+							next_end_index := list.i_th_upper (index + 1)
+							next_count := list.i_th_count (index + 1)
+
+							pair.set_substrings (start_index, next_end_index)
 							from_index := (start_index - 5).max (1)
-							index := pair.zs.substring_index (pair.zs_substring, from_index)
-							assert ("substring_index OK", index = pair.s_32.substring_index (pair.s_32_substring, from_index))
+							assert ("substring_index OK", pair.substring_index (from_index))
+
+							if list.item_count >= 3 and next_count >= 3 then
+--								half way indices
+								pair.set_substrings ((start_index + end_index) // 2, (next_start_index + next_end_index) //2)
+								assert ("substring_index OK", pair.substring_index (1))
+							end
 
 							if pair.valid_index (start_index - 1) and pair.valid_index (end_index + 1) then
 								pair.set_substrings (start_index - 1, end_index + 1)
 								from_index := (start_index - 5).max (1)
-								index := pair.zs.substring_index (pair.zs_substring, from_index)
-								assert ("substring_index OK", index = pair.s_32.substring_index (pair.s_32_substring, from_index))
+								assert ("substring_index OK", pair.substring_index (from_index))
 							end
 						end
 						list.forth
@@ -1226,15 +1270,6 @@ feature {NONE} -- Implementation
 			ends_with := str_32.ends_with (right_32)
 			assert ("same result", ends_with = str.ends_with (right))
 			assert ("same result", ends_with = str.ends_with (right_32))
-		end
-
-	compare_starts_with (str_32, left_32, right_32: STRING_32; str, left, right: ZSTRING)
-		local
-			starts_with: BOOLEAN
-		do
-			starts_with := str_32.starts_with (left_32)
-			assert ("same result", starts_with = str.starts_with (left))
-			assert ("same result", starts_with = str.starts_with (left_32))
 		end
 
 	do_pruning_test (type: STRING)

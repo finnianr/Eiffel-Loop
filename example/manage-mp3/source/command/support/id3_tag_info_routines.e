@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-23 17:13:48 GMT (Friday 23rd December 2022)"
-	revision: "18"
+	date: "2023-02-14 15:20:21 GMT (Tuesday 14th February 2023)"
+	revision: "19"
 
 deferred class
 	ID3_TAG_INFO_ROUTINES
@@ -37,7 +37,7 @@ feature -- Basic operations
 				if album_artist.is_empty then
 					album_artist := id3_info.tag.artist
 
-				elseif not album_artist.ends_with_zstring (id3_info.tag.artist) then
+				elseif not album_artist.ends_with (id3_info.tag.artist) then
 					album_artist.append_string_general (once ", ")
 					album_artist.append (id3_info.tag.artist)
 				end

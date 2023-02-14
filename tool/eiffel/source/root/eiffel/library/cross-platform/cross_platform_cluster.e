@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 9:56:51 GMT (Monday 9th January 2023)"
-	revision: "8"
+	date: "2023-02-14 18:48:26 GMT (Tuesday 14th February 2023)"
+	revision: "9"
 
 class
 	CROSS_PLATFORM_CLUSTER
@@ -66,9 +66,9 @@ feature {NONE} -- Initialization
 			across path_list as source loop
 				if cluster_dir.is_parent_of (source.item) then
 					relative_path := source.item.relative_path (cluster_dir)
-					if relative_path.base.ends_with_zstring (Interface_ending) then
+					if relative_path.base.ends_with (Interface_ending) then
 						interface_list.extend (relative_path)
-					elseif relative_path.base.ends_with_zstring (Implementation_ending) then
+					elseif relative_path.base.ends_with (Implementation_ending) then
 						implementation_list.extend (relative_path)
 					end
 				end
@@ -160,7 +160,7 @@ feature {NONE} -- Implementation
 			create Result.make_with_count (2)
 			across implementation_list as path loop
 				imp_name := path.item.base_name
-				if imp_name.starts_with_zstring (interface_name)
+				if imp_name.starts_with (interface_name)
 					and then imp_name.substring_end (interface_name.count + 1) ~ MP_ending
 				then
 					Result.extend (path.item)

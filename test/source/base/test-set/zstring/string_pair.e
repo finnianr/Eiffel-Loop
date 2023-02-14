@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 14:44:08 GMT (Tuesday 14th February 2023)"
-	revision: "7"
+	date: "2023-02-14 18:40:59 GMT (Tuesday 14th February 2023)"
+	revision: "8"
 
 class
 	STRING_PAIR
@@ -74,11 +74,21 @@ feature -- Access
 			Result := (s_32.hash_code + s_32_substring.hash_code).abs
 		end
 
-feature -- Status query
+feature -- Test comparisons
 
-	is_same: BOOLEAN
+	ends_with: BOOLEAN
+		local
+			b1, b2, b3: BOOLEAN
 		do
-			Result := zs.same_string (s_32)
+			b1 := s_32.ends_with (s_32_substring)
+			b2 := zs.ends_with (s_32_substring)
+			b3 := zs.ends_with (zs_substring)
+			Result := b1 = b2
+			Result := Result and b1 = b3
+			if Result and then s_32.is_valid_as_string_8 then
+				b3 := zs.ends_with_general (s_32_substring.to_string_8)
+				Result := b1 = b3
+			end
 		end
 
 	same_substring (start_index, end_index: INTEGER): BOOLEAN
@@ -95,16 +105,49 @@ feature -- Status query
 		do
 			b1 := s_32.same_characters (s_32_substring, 1, s_32_substring.count, index)
 			b2 := zs.same_characters (s_32_substring, 1, s_32_substring.count, index)
+			b3 := zs.same_characters (zs_substring, 1, zs_substring.count, index)
 			Result := b1 = b2
+			Result := Result and b1 = b3
 			if Result and then s_32.is_valid_as_string_8 then
 				b3 := zs.same_characters (s_32_substring.to_string_8, 1, s_32_substring.count, index)
 				Result := b1 = b3
 			end
 		end
 
+	starts_with: BOOLEAN
+		local
+			b1, b2, b3: BOOLEAN
+		do
+			b1 := s_32.starts_with (s_32_substring)
+			b2 := zs.starts_with (s_32_substring)
+			b3 := zs.starts_with (zs_substring)
+			Result := b1 = b2
+			Result := Result and b1 = b3
+			if Result and then s_32.is_valid_as_string_8 then
+				b3 := zs.starts_with_general (s_32_substring.to_string_8)
+				Result := b1 = b3
+			end
+		end
+
+	substring_index (from_index: INTEGER): BOOLEAN
+		local
+			index_1, index_2: INTEGER
+		do
+			index_1 := s_32.substring_index (s_32_substring, from_index)
+			index_2 := zs.substring_index (zs_substring, from_index)
+			Result := index_1 = index_2
+		end
+
+feature -- Status query
+
 	valid_index (i: INTEGER): BOOLEAN
 		do
 			Result := s_32.valid_index (i)
+		end
+
+	is_same: BOOLEAN
+		do
+			Result := zs.same_string (s_32)
 		end
 
 feature -- Element change

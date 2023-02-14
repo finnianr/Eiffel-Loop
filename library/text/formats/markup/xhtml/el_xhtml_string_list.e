@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 11:06:07 GMT (Thursday 5th January 2023)"
-	revision: "22"
+	date: "2023-02-14 18:37:26 GMT (Tuesday 14th February 2023)"
+	revision: "23"
 
 class
 	EL_XHTML_STRING_LIST
@@ -117,22 +117,22 @@ feature {NONE} -- State handlers
 		do
 			trim_line := line.twin
 			trim_line.left_adjust
-			if trim_line.starts_with_zstring (Meta_tag_start) then
+			if trim_line.starts_with (Meta_tag_start) then
 				state := agent find_meta_tag_end
 				find_meta_tag_end (line)
 
-			elseif trim_line.starts_with_zstring (pre_tag) then
+			elseif trim_line.starts_with (pre_tag) then
 				state := agent find_pre_tag_end
 				find_pre_tag_end (line)
 
-			elseif trim_line.starts_with_zstring (Empty_paragraph_tags) then
+			elseif trim_line.starts_with (Empty_paragraph_tags) then
 				-- Ignore empty paragraph
 
-			elseif trim_line.starts_with_zstring (Close_paragraph_tag) then
+			elseif trim_line.starts_with (Close_paragraph_tag) then
 				extend (line)
 
 			else
-				if trim_line.starts_with_zstring (Sign_less_than) then
+				if trim_line.starts_with (Sign_less_than) then
 					extend (line)
 				else
 					last.append_character (' ')
@@ -144,7 +144,7 @@ feature {NONE} -- State handlers
 	find_meta_tag_end (line: ZSTRING)
 			--
 		do
-			if line.ends_with_zstring (Sign_greater_than) then
+			if line.ends_with (Sign_greater_than) then
 				line.remove_tail (1)
 				line.append (Empty_tag_marker)
 				extend (line)
@@ -157,7 +157,7 @@ feature {NONE} -- State handlers
 	find_pre_tag_end (line: ZSTRING)
 			--
 		do
-			if line.ends_with_zstring (closed_pre_tag) then
+			if line.ends_with (closed_pre_tag) then
 				last.append (line)
 				state := agent body
 			else

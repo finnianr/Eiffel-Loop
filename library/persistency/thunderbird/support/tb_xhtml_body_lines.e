@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-25 18:28:12 GMT (Wednesday 25th January 2023)"
-	revision: "1"
+	date: "2023-02-14 18:08:25 GMT (Tuesday 14th February 2023)"
+	revision: "2"
 
 class
 	TB_XHTML_BODY_LINES
@@ -63,7 +63,7 @@ feature {NONE} -- Line states
 	find_paragraph_close (line: ZSTRING; div_lines: EL_ZSTRING_LIST)
 		do
 			div_lines.extend (Spaces_4 + line)
-			if line.ends_with_zstring (Paragraph.close) then
+			if line.ends_with (Paragraph.close) then
 				div_lines.append (Image_divs.sub_list (5, 6))
 				append (div_lines)
 				state := agent append_html_line

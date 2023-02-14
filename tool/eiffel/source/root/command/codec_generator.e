@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-07 16:29:11 GMT (Tuesday 7th February 2023)"
-	revision: "22"
+	date: "2023-02-14 18:48:10 GMT (Tuesday 14th February 2023)"
+	revision: "23"
 
 class
 	CODEC_GENERATOR
@@ -58,7 +58,7 @@ feature {NONE} -- State handlers
 		do
 			if line.has_substring (codec_list.last.codec_name + "_chars[0x") then
 				codec_list.last.add_assignment (line)
-			elseif line.ends_with_zstring (Chars_ready_equals_true) then
+			elseif line.ends_with (Chars_ready_equals_true) then
 				codec_list.last.set_case_change_offsets
 				codec_list.last.set_unicode_intervals
 
@@ -75,7 +75,7 @@ feature {NONE} -- State handlers
 		local
 			codec_name: ZSTRING
 		do
-			if line.starts_with_zstring (Keyword_void) then
+			if line.starts_with (Keyword_void) then
 				codec_name := line.substring (6, line.substring_index (Chars_suffix, 1) - 1)
 				codec_list.extend (create {CODEC_INFO}.make (codec_name))
 				lio.put_new_line

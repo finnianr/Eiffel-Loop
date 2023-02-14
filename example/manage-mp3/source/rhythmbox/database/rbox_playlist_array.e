@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 10:05:05 GMT (Saturday 31st December 2022)"
-	revision: "18"
+	date: "2023-02-14 18:54:36 GMT (Tuesday 14th February 2023)"
+	revision: "19"
 
 class
 	RBOX_PLAYLIST_ARRAY
@@ -129,7 +129,7 @@ feature {NONE} -- State line procedures
 			else
 				non_static_playlist_lines.extend (line)
 			end
-			if l_line.starts_with_zstring (Playlist_end_tag) then
+			if l_line.starts_with (Playlist_end_tag) then
 				state := agent find_playlist
 			end
 		end
@@ -140,17 +140,17 @@ feature {NONE} -- State line procedures
 			l_line: ZSTRING; is_static: BOOLEAN
 		do
 			l_line := line.twin; l_line.left_adjust
-			if l_line.starts_with_zstring (Playlist_open_tag) then
+			if l_line.starts_with (Playlist_open_tag) then
 				if l_line.has_substring (Static_type_attribute) then
 					static_playlist_count := static_playlist_count + 1
 					is_static := True
 				end
 				append_playlist_lines (line, is_static)
-				if not l_line.ends_with_zstring (Tag_ending) then
+				if not l_line.ends_with (Tag_ending) then
 					state := agent append_playlist_lines (?, is_static)
 				end
 
-			elseif l_line.starts_with_zstring (Final_closing_tag) then
+			elseif l_line.starts_with (Final_closing_tag) then
 				append_to_xml (line)
 				state := final
 			else

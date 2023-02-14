@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 9:56:05 GMT (Monday 9th January 2023)"
-	revision: "28"
+	date: "2023-02-14 18:48:21 GMT (Tuesday 14th February 2023)"
+	revision: "29"
 
 class
 	CHECK_LOCALE_STRINGS_COMMAND
@@ -137,7 +137,7 @@ feature {NONE} -- State handlers
 				routine_lines.wipe_out
 				state := agent find_routine_end
 			elseif tab_count = 1
-				and then across English_prefixes as l_prefix some code_line.starts_with_zstring (l_prefix.item) end
+				and then across English_prefixes as l_prefix some code_line.starts_with (l_prefix.item) end
 			then
 				if code_line [code_line.count] = '"' then
 					-- eg: English_name: STRING = "&Backup"

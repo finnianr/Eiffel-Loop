@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:17:52 GMT (Monday 5th December 2022)"
-	revision: "12"
+	date: "2023-02-14 18:46:42 GMT (Tuesday 14th February 2023)"
+	revision: "13"
 
 class
 	MARKDOWN_TRANSLATER
@@ -62,7 +62,7 @@ feature {NONE} -- Line states
 		local
 			s: EL_ZSTRING_ROUTINES
 		do
-			if line.starts_with_zstring (s.character_string ('%T')) then
+			if line.starts_with (s.character_string ('%T')) then
 				translate (output.last)
 				output.extend (Code_block_delimiter.twin)
 				state := agent add_code_block
@@ -74,7 +74,7 @@ feature {NONE} -- Line states
 						output.last.append (Double_new_line)
 					elseif is_list_item (line) then
 						output.last.append (s.character_string ('%N'))
-					elseif not output.last.ends_with_zstring (Double_new_line) then
+					elseif not output.last.ends_with (Double_new_line) then
 						output.last.append_character (' ')
 					end
 				end
@@ -88,7 +88,7 @@ feature {NONE} -- Line states
 			s: EL_ZSTRING_ROUTINES
 		do
 			output.last.append (s.character_string ('%N'))
-			if line.starts_with_zstring (s.character_string ('%T')) then
+			if line.starts_with (s.character_string ('%T')) then
 				output.last.append (line.substring_end (2))
 			else
 				output.last.append (Code_block_delimiter)

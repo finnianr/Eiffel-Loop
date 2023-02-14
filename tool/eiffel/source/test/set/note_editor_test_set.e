@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-27 9:19:13 GMT (Friday 27th January 2023)"
-	revision: "39"
+	date: "2023-02-14 18:46:47 GMT (Tuesday 14th February 2023)"
+	revision: "40"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -53,7 +53,7 @@ feature {NONE} -- Initialization
 			create file_out.make_with_name (file_list.first_path)
 			create manifest.make_from_file (Manifest_path)
 			manifest.read_source_trees
-			
+
 			create dummy.make (Manifest_path, 0)
 			create editor.make (manifest.notes, dummy)
 		end
@@ -135,7 +135,7 @@ feature {NONE} -- Line states
 
 	find_class (line: ZSTRING)
 		do
-			if line.starts_with_zstring (Keyword.class_) then
+			if line.starts_with (Keyword.class_) then
 				state := agent find_end
 				find_end (line)
 			end

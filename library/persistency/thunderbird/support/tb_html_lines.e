@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-25 19:12:33 GMT (Wednesday 25th January 2023)"
-	revision: "1"
+	date: "2023-02-14 15:19:02 GMT (Tuesday 14th February 2023)"
+	revision: "2"
 
 class
 	TB_HTML_LINES
@@ -52,7 +52,7 @@ feature {NONE} -- State handlers
 				if is_heading (line) and then not is_empty then
 					line.left_adjust
 					last_line := last
-					if last_line.ends_with_zstring (Tag.break.open) then
+					if last_line.ends_with (Tag.break.open) then
 						last_line.replace_substring (line, last_line.count - Tag.break.open.count + 1 , last_line.count)
 					else
 						last_line.append (line)

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 9:50:06 GMT (Monday 9th January 2023)"
-	revision: "27"
+	date: "2023-02-14 18:37:34 GMT (Tuesday 14th February 2023)"
+	revision: "28"
 
 class
 	EVOLICITY_TEMPLATES
@@ -205,7 +205,7 @@ feature -- Factory
 			create Result.make_with_count (20)
 			across Locale.translation_keys as key loop
 				l_key := key.item
-				if l_key.enclosed_with (Braces) and then l_key.starts_with_zstring (Translation_key_prefix) then
+				if l_key.enclosed_with (Braces) and then l_key.starts_with (Translation_key_prefix) then
 					var_name := l_key.substring (Translation_key_prefix.count + 1, l_key.count - 1)
 					Result.extend (l_key, var_name)
 				end

@@ -29,7 +29,7 @@ feature {NONE} -- Implementation
 
 	set_implementation_minimum_size (class_feature: CLASS_FEATURE)
 		do
-			from class_feature.lines.finish until class_feature.lines.item.ends_with_zstring (Indented_keyword_end) loop
+			from class_feature.lines.finish until class_feature.lines.item.ends_with (Indented_keyword_end) loop
 				class_feature.lines.back
 			end
 			class_feature.lines.back

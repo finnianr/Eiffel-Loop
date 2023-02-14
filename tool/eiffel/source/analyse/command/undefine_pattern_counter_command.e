@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-06 10:45:59 GMT (Friday 6th January 2023)"
-	revision: "18"
+	date: "2023-02-14 18:46:52 GMT (Tuesday 14th February 2023)"
+	revision: "19"
 
 class
 	UNDEFINE_PATTERN_COUNTER_COMMAND
@@ -143,7 +143,7 @@ feature {NONE} -- Line state handlers
 
 	find_class_name (line: ZSTRING)
 		do
-			if code_line.starts_with_zstring (Keyword.feature_) then
+			if code_line.starts_with (Keyword.feature_) then
 				state := final
 
 			elseif code_line_is_type_identifier then

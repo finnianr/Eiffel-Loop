@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-29 12:11:30 GMT (Sunday 29th January 2023)"
-	revision: "22"
+	date: "2023-02-14 18:47:14 GMT (Tuesday 14th February 2023)"
+	revision: "23"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -166,7 +166,7 @@ feature {NONE} -- Implementation
 			if valid_arguments.item then
 				rsync_cmd.execute
 				across rsync_cmd.lines as line loop
-					if line.item.starts_with_zstring (config.source_dir.base) then
+					if line.item.starts_with (config.source_dir.base) then
 						path := line.item
 						if path.has_extension ("e") then
 							source_path := config.source_dir.parent + path

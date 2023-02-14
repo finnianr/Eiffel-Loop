@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:15:09 GMT (Monday 5th December 2022)"
-	revision: "5"
+	date: "2023-02-14 18:47:03 GMT (Tuesday 14th February 2023)"
+	revision: "6"
 
 class
 	FEATURE_GROUP_LIST
@@ -35,7 +35,7 @@ feature -- Element change
 			if pos_equals > 1 and then line [pos_equals - 1] /= '#' then
 				create {CONSTANT_FEATURE} l_feature.make (line)
 
-			elseif line.starts_with_zstring (Setter_shorthand) then
+			elseif line.starts_with (Setter_shorthand) then
 				create {SETTER_SHORTHAND_FEATURE} l_feature.make (line)
 
 			elseif line.has_substring (Insertion_symbol) then

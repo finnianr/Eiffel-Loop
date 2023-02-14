@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:28:11 GMT (Monday 5th December 2022)"
-	revision: "22"
+	date: "2023-02-14 18:37:43 GMT (Tuesday 14th February 2023)"
+	revision: "23"
 
 class
 	CODE_HIGHLIGHTING_WRITER
@@ -143,7 +143,7 @@ feature {NONE} -- Line procedure transitions for whole class
 	find_class_declaration (line: ZSTRING)
 			--
 		do
-			if line.starts_with_zstring (Keyword.class_) or else line.starts_with_zstring (Keyword.deferred_) then
+			if line.starts_with (Keyword.class_) or else line.starts_with (Keyword.deferred_) then
 				append_to_source_text (line)
 				state := agent append_to_source_text
 			end
@@ -154,7 +154,7 @@ feature {NONE} -- Line procedure transitions for selected features
 	find_feature_block (line: ZSTRING)
 			--
 		do
-			if line.starts_with_zstring (Keyword.feature_) then
+			if line.starts_with (Keyword.feature_) then
 				last_feature_block_line := line
 				state := agent find_selected_feature
 			end
@@ -182,7 +182,7 @@ feature {NONE} -- Line procedure transitions for selected features
 		local
 			trimmed_line: ZSTRING; tab_count: INTEGER; found: BOOLEAN
 		do
-			if line.starts_with_zstring (Keyword.feature_) then
+			if line.starts_with (Keyword.feature_) then
 				last_feature_block_line := line
 			else
 				create trimmed_line.make_from_other (line)
@@ -191,7 +191,7 @@ feature {NONE} -- Line procedure transitions for selected features
 				from selected_features.start until found or selected_features.after loop
 					if tab_count = 1
 						and then
-							trimmed_line.starts_with_zstring (selected_features.item)
+							trimmed_line.starts_with (selected_features.item)
 						and then
 							(trimmed_line.count > selected_features.item.count
 								implies not trimmed_line.item (selected_features.item.count + 1).is_alpha_numeric)

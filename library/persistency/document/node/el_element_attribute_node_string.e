@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:19:51 GMT (Monday 5th December 2022)"
-	revision: "7"
+	date: "2023-02-14 15:19:03 GMT (Tuesday 14th February 2023)"
+	revision: "8"
 
 class
 	EL_ELEMENT_ATTRIBUTE_NODE_STRING
@@ -60,7 +60,7 @@ feature -- Access
 				Result := Result.twin
 			end
 		ensure then
-			valid: Result.count = name.count + 1 and then Result.ends_with_zstring (name)
+			valid: Result.count = name.count + 1 and then Result.ends_with (name)
 		end
 
 feature {NONE} -- Internal attributes

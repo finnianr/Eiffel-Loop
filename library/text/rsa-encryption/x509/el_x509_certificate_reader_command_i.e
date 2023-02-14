@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-28 9:57:01 GMT (Wednesday 28th December 2022)"
-	revision: "18"
+	date: "2023-02-14 18:37:49 GMT (Tuesday 14th February 2023)"
+	revision: "19"
 
 deferred class
 	EL_X509_CERTIFICATE_READER_COMMAND_I
@@ -107,7 +107,7 @@ feature {NONE} -- State handlers
 		local
 			value: ZSTRING; hex_string: STRING
 		do
-			if line.starts_with_zstring (data_fields.last) then
+			if line.starts_with (data_fields.last) then
 				-- Remove colons from hex strings
 				across data_table as table loop
 					hex_string := table.item
@@ -117,7 +117,7 @@ feature {NONE} -- State handlers
 					hex_string.prune_all (':')
 				end
 				state := final
-			elseif line.starts_with_zstring (data_fields [index]) then
+			elseif line.starts_with (data_fields [index]) then
 				state := agent append_field_data (?, index + 1)
 				if data_fields [index] ~ Name.exponent then
 					value := line.substring_between (Bracket.left, Bracket.right, 1)
@@ -135,7 +135,7 @@ feature {NONE} -- State handlers
 		local
 			value: ZSTRING
 		do
-			if line.starts_with_zstring (Name.key_size) then
+			if line.starts_with (Name.key_size) then
 				value := line.substring_between (Bracket.left, Bracket.right, 1)
 				value.remove_tail (4)
 				key_size := value.to_integer

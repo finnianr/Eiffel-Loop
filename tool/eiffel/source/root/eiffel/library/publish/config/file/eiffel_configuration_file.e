@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:12:58 GMT (Monday 5th December 2022)"
-	revision: "51"
+	date: "2023-02-14 18:47:09 GMT (Tuesday 14th February 2023)"
+	revision: "52"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -186,7 +186,7 @@ feature -- Element change
 			from lines.start until lines.after loop
 				if lines.index = 1 then
 					name := lines.item
-				elseif lines.item.starts_with_zstring (See_details.begins)
+				elseif lines.item.starts_with (See_details.begins)
 					and then lines.item.has_substring (See_details.ends)
 				then
 					relative_doc_path := lines.item.substring_between (See_details.begins, See_details.ends, 1)
@@ -330,9 +330,9 @@ feature -- Factory
 				if cluster.node.has_attribute (Attribute_recursive) then
 					is_recursive := cluster.node [Attribute_recursive]
 				end
-				if location.starts_with_zstring (Symbol.parent_dir) then
+				if location.starts_with (Symbol.parent_dir) then
 					source_dir := parent_dir.parent #+ location.substring_end (4)
-				elseif location.starts_with_zstring (Symbol.relative_location) then
+				elseif location.starts_with (Symbol.relative_location) then
 					location.remove_head (Symbol.relative_location.count)
 					source_dir := parent_dir #+ location
 				else

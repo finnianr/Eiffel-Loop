@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:30:18 GMT (Monday 5th December 2022)"
-	revision: "8"
+	date: "2023-02-14 18:50:36 GMT (Tuesday 14th February 2023)"
+	revision: "9"
 
 class
 	DUPLICITY_COLLECTION_STATUS_OS_CMD
@@ -63,7 +63,7 @@ feature {NONE} -- Line states
 
 	find_end_of_backup_set (line: ZSTRING)
 		do
-			if line.starts_with_zstring (Dashed_line) then
+			if line.starts_with (Dashed_line) then
 				state := agent find_backup_set
 			else
 				line.remove_tail (1) -- remove volume number

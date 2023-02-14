@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:38:29 GMT (Monday 5th December 2022)"
-	revision: "6"
+	date: "2023-02-14 18:54:06 GMT (Tuesday 14th February 2023)"
+	revision: "7"
 
 class
 	EL_PASSPHRASE_FIELD
@@ -64,7 +64,7 @@ feature -- Status query
 		-- `True' if `text' starts with `mirror.text'
 		do
 			if attached mirror as m then
-				Result := text.starts_with_zstring (m.text)
+				Result := text.starts_with (m.text)
 			end
 		end
 

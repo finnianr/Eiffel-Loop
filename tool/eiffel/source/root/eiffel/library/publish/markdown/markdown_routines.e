@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:14:44 GMT (Monday 5th December 2022)"
-	revision: "6"
+	date: "2023-02-14 18:46:31 GMT (Tuesday 14th February 2023)"
+	revision: "7"
 
 class
 	MARKDOWN_ROUTINES
@@ -18,7 +18,7 @@ feature {NONE} -- Implementation
 		local
 			pos_dot: INTEGER
 		do
-			if line.starts_with_zstring (Bullet_point) then
+			if line.starts_with (Bullet_point) then
 				Result := True
 			else
 				pos_dot := line.index_of ('.', 1)
@@ -34,7 +34,7 @@ feature {NONE} -- Implementation
 		require
 			is_list_item: is_list_item (line)
 		do
-			if line.starts_with_zstring (Bullet_point) then
+			if line.starts_with (Bullet_point) then
 				Result := Type_unordered_list
 			else
 				Result := Type_ordered_list
@@ -45,7 +45,7 @@ feature {NONE} -- Implementation
 		require
 			is_list_item: is_list_item (line)
 		do
-			if line.starts_with_zstring (Bullet_point) then
+			if line.starts_with (Bullet_point) then
 				Result := 2
 			else
 				Result := line.index_of ('.', 1) + 1

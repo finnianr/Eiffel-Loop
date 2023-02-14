@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:30:04 GMT (Monday 5th December 2022)"
-	revision: "9"
+	date: "2023-02-14 18:50:42 GMT (Tuesday 14th February 2023)"
+	revision: "10"
 
 class
 	DUPLICITY_TARGET_INFO_OS_CMD
@@ -92,8 +92,8 @@ feature {NONE} -- Line states
 				state := agent backup_statistics.extend
 				backup_statistics.extend (line)
 
-			elseif line.starts_with_zstring (Substring.A_for_add)
-				or else line.starts_with_zstring (Substring.M_for_modify)
+			elseif line.starts_with (Substring.A_for_add)
+				or else line.starts_with (Substring.M_for_modify)
 			then
 				file_path := target_dir + line.substring_end (3)
 				Text_file.make_with_name (file_path)
@@ -105,7 +105,7 @@ feature {NONE} -- Line states
 
 	find_last_full_backup (line: ZSTRING)
 		do
-			if line.starts_with_zstring (Substring.last_full_backup) then
+			if line.starts_with (Substring.last_full_backup) then
 				state := agent collect_file_paths
 			end
 		end
