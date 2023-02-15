@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 14:21:19 GMT (Tuesday 14th February 2023)"
-	revision: "40"
+	date: "2023-02-15 14:35:48 GMT (Wednesday 15th February 2023)"
+	revision: "41"
 
 deferred class
 	EL_ZCODEC
@@ -86,65 +86,7 @@ feature -- Character query
 			end
 		end
 
-feature -- Comparison
-
-	same_as_other_32 (
-		area: SPECIAL [CHARACTER]; count, offset, a_other_offset: INTEGER; other: EL_STRING_32_ITERATION_CURSOR
-	): BOOLEAN
-		require
-			all_area_is_encoded: is_encoded_area (area, count, offset)
-		local
-			i, j, code, other_offset: INTEGER; c: CHARACTER; l_unicodes: like unicode_table
-			other_area: SPECIAL [CHARACTER_32]
-		do
-			l_unicodes := unicode_table; other_area := other.area
-			other_offset := other.area_first_index + a_other_offset
-			Result := True
-			from i := 0 until not Result or else i = count loop
-				j := i + offset
-				c := area [j]; code := c.code
-				if code <= Max_7_bit_code then
-					Result := code.to_character_32 = other_area [j + other_offset]
-				else
-					Result := l_unicodes [code] = other_area [j + other_offset]
-				end
-				i := i + 1
-			end
-		end
-
-	same_as_other_8 (
-		area: SPECIAL [CHARACTER]; count, offset, a_other_offset: INTEGER; other: EL_STRING_8_ITERATION_CURSOR
-	): BOOLEAN
-		require
-			all_area_is_encoded: is_encoded_area (area, count, offset)
-		local
-			i, j, code, other_offset: INTEGER; c: CHARACTER; l_unicodes: like unicode_table
-			other_area: SPECIAL [CHARACTER]
-		do
-			l_unicodes := unicode_table; other_area := other.area
-			other_offset := other.area_first_index + a_other_offset
-			Result := True
-			from i := 0 until not Result or else i = count loop
-				j := i + offset
-				c := area [j]; code := c.code
-				if code <= Max_7_bit_code then
-					Result := c = other_area [j + other_offset]
-				else
-					Result := l_unicodes [code].to_character_8 = other_area [j + other_offset]
-				end
-				i := i + 1
-			end
-		end
-
 feature -- Contract Support
-
-	is_encoded_area (area: SPECIAL [CHARACTER]; count, offset: INTEGER): BOOLEAN
-		local
-			index: INTEGER
-		do
-			index := area.index_of (Substitute, offset)
-			Result := not (offset <= index and index < offset + count - 1)
-		end
 
 	valid_offset_and_count (source_count: INTEGER; encoded_out: SPECIAL [CHARACTER]; out_offset: INTEGER;): BOOLEAN
 		do

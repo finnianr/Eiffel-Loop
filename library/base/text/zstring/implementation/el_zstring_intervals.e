@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-15 13:52:36 GMT (Wednesday 15th February 2023)"
-	revision: "1"
+	date: "2023-02-15 14:55:06 GMT (Wednesday 15th February 2023)"
+	revision: "2"
 
 deferred class
 	EL_ZSTRING_INTERVALS [G, H -> READABLE_INDEXABLE [G]]
@@ -16,6 +16,7 @@ inherit
 	EL_SEQUENTIAL_INTERVALS
 		rename
 			lower as lower_index,
+			make as make_sized,
 			upper as upper_index
 		end
 
@@ -27,12 +28,24 @@ inherit
 	STRING_HANDLER undefine copy, is_equal, out end
 
 	EL_SHARED_ZSTRING_CODEC
+		rename
+			Unicode_table as Shared_unicode_table
+		end
 
 	EL_ZCODE_CONVERSION
 		export
 			{NONE} all
 		undefine
 			copy, is_equal, out
+		end
+
+feature -- Initialization
+
+	make
+		do
+			make_sized (10)
+			unicode_table := Shared_unicode_table
+			create other_area.make_empty (0)
 		end
 
 feature -- Element change
@@ -87,19 +100,20 @@ feature -- Element change
 			end
 		end
 
+	set_other_area (a_cursor: like new_string_cursor)
+		deferred
+		end
+
 feature -- Status query
 
-	same_characters (
-		encoded_area: SPECIAL [CHARACTER_8]; other: like new_string_cursor; offset_other_to_current: INTEGER
-
-	): BOOLEAN
+	same_characters (encoded_area: SPECIAL [CHARACTER_8]; offset_other_to_current: INTEGER): BOOLEAN
 		require
 			not_empty: not is_empty
 		local
 			i, intervals_count, l_count, lower, upper, start_index: INTEGER
-			intervals_area: SPECIAL [INTEGER_64]; l_codec: like Codec
+			intervals_area: SPECIAL [INTEGER_64]
 		do
-			intervals_area := area; intervals_count := count; l_codec := Codec
+			intervals_area := area; intervals_count := count
 			start_index := (encoded_area [first_lower - 1] = Substitute).to_integer
 
 			Result := True
@@ -108,17 +122,17 @@ feature -- Status query
 				upper := intervals_area [i].to_integer_32
 				l_count := upper - lower + 1
 				Result := same_encoded_interval_characters (
-					l_codec, encoded_area, l_count, lower - 1, offset_other_to_current, other
+					encoded_area, l_count, lower - 1, offset_other_to_current
 				)
 				i := i + 2 -- every second one is encoded
 			end
 			if Result then
 				start_index := (not start_index.to_boolean).to_integer
-				Result := same_intervals (start_index, offset_other_to_current, other)
+				Result := same_intervals (start_index, offset_other_to_current)
 			end
 		end
 
-	same_intervals (list_start_index, a_other_offset: INTEGER; other: like new_string_cursor): BOOLEAN
+	same_intervals (list_start_index, a_other_offset: INTEGER): BOOLEAN
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current `list' starting at index `index_pos'.
 		local
@@ -131,7 +145,7 @@ feature -- Status query
 			if is_empty then
 				Result := True
 			else
-				o_area := cursor_area (other); other_offset := a_other_offset + area_first_index (other)
+				o_area := other_area; other_offset := a_other_offset + other_area_first_index
 
 				list_i := list_start_index; list_count := count; l_area := area
 				Result := True
@@ -172,29 +186,32 @@ feature -- Status query
 			end
 		end
 
+feature -- Contract Support
+
+	is_encoded_area (a_area: SPECIAL [CHARACTER]; a_count, offset: INTEGER): BOOLEAN
+		local
+			l_index: INTEGER
+		do
+			l_index := a_area.index_of (Substitute, offset)
+			Result := not (offset <= l_index and l_index < offset + a_count - 1)
+		end
+
 feature {NONE} -- Implementation
-
-	area_first_index (a_cursor: like new_string_cursor): INTEGER
-		deferred
-		end
-
-	cursor_area (a_cursor: like new_string_cursor): SPECIAL [G]
-		deferred
-		end
 
 	new_string_cursor: GENERAL_SPECIAL_ITERATION_CURSOR [G, H]
 		deferred
 		end
 
 	same_encoded_interval_characters (
-		a_codec: like codec; encoded_area: SPECIAL [CHARACTER]
-		a_count, offset, a_other_offset: INTEGER; other: like new_string_cursor
+		encoded_area: SPECIAL [CHARACTER]; a_count, offset, a_other_offset: INTEGER
 	): BOOLEAN
+		require
+			all_area_is_encoded: is_encoded_area (encoded_area, a_count, offset)
 		deferred
 		end
 
 	same_interval_characters (
-		current_area: like unencoded_area; other_area: SPECIAL [G]
+		current_area: like unencoded_area; a_other_area: SPECIAL [G]
 		other_i, current_i, comparison_count: INTEGER
 
 	): BOOLEAN
@@ -204,4 +221,10 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	unencoded_area: SPECIAL [CHARACTER_32]
+
+	unicode_table: SPECIAL [CHARACTER_32]
+
+	other_area: SPECIAL [G]
+
+	other_area_first_index: INTEGER
 end

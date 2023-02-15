@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-15 13:58:46 GMT (Wednesday 15th February 2023)"
-	revision: "21"
+	date: "2023-02-15 14:59:55 GMT (Wednesday 15th February 2023)"
+	revision: "22"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -181,11 +181,11 @@ feature -- Comparison
 				Result := same_characters_in_bounds (z_other, start_pos, end_pos, index_pos)
 
 			else
-				Result := index_pos + end_pos - start_pos <= count
-				if Result and then attached cursor_32 (other) as cursor
-					and then attached shared_section_intervals_32 (index_pos, index_pos + end_pos - start_pos) as list
+				if index_pos + end_pos - start_pos <= count and then
+					attached shared_section_intervals_32 (index_pos, index_pos + end_pos - start_pos) as list
 				then
-					Result := list.same_characters (area, cursor, start_pos - index_pos)
+					list.set_other_area (cursor_32 (other))
+					Result := list.same_characters (area, start_pos - index_pos)
 				end
 			end
 		end
@@ -194,11 +194,11 @@ feature -- Comparison
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `index_pos'.
 		do
-			Result := index_pos + end_pos - start_pos <= count
-			if Result and then attached cursor_8 (other) as cursor
-				and then attached shared_section_intervals_8 (index_pos, index_pos + end_pos - start_pos) as list
+			if index_pos + end_pos - start_pos <= count and then
+				attached shared_section_intervals_8 (index_pos, index_pos + end_pos - start_pos) as list
 			then
-				Result := list.same_characters (area, cursor, start_pos - index_pos)
+				list.set_other_area (cursor_8 (other))
+				Result := list.same_characters (area, start_pos - index_pos)
 			end
 		end
 
@@ -399,11 +399,11 @@ feature {NONE} -- Constants
 
 	Once_interval_sequence_32: EL_ZSTRING_INTERVALS_32
 		once
-			create Result.make (10)
+			create Result.make
 		end
 
 	Once_interval_sequence_8: EL_ZSTRING_INTERVALS_8
 		once
-			create Result.make (10)
+			create Result.make
 		end
 end
