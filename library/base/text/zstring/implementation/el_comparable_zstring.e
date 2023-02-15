@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:36:53 GMT (Tuesday 14th February 2023)"
-	revision: "19"
+	date: "2023-02-15 11:25:34 GMT (Wednesday 15th February 2023)"
+	revision: "20"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -54,9 +54,13 @@ feature -- Start/End comparisons
 		local
 			white_count: INTEGER
 		do
-			white_count := leading_white_space
-			if count - white_count >= str.count then
-				Result := same_characters_general (str, 1, str.count, white_count + 1)
+			if str.count = 0 then
+				Result := True
+			else
+				white_count := leading_white_space
+				if count - white_count >= str.count then
+					Result := same_characters_general (str, 1, str.count, white_count + 1)
+				end
 			end
 		end
 
@@ -82,9 +86,15 @@ feature -- Start/End comparisons
 				if Result and then z_other.has_mixed_encoding then
 					Result := Result and same_unencoded_substring (z_other, count - z_other.count + 1)
 				end
+				
 			elseif attached {READABLE_STRING_32} other as str_32 then
-				other_count := str_32.count
-				if other_count <= count then
+				other_count := other.count
+				if other_count = 0 then
+					Result := True
+
+				elseif other.count > count then
+					do_nothing
+				else
 					Result := same_characters (str_32, 1, other_count, count - other_count + 1)
 				end
 			end
@@ -99,7 +109,10 @@ feature -- Start/End comparisons
 
 			elseif attached {READABLE_STRING_8} other as str_8 then
 				other_count := str_8.count
-				if other_count <= count then
+				if other_count = 0 then
+					Result := True
+
+				elseif other_count <= count then
 					Result := same_characters_8 (str_8, 1, other_count, count - other_count + 1)
 				end
 			end
@@ -109,17 +122,21 @@ feature -- Start/End comparisons
 		local
 			other_count: INTEGER
 		do
-			if attached {EL_READABLE_ZSTRING} other as z_other then
+			other_count := other.count
+			if other_count = 0 then
+				Result := True
+
+			elseif other_count > count then
+				do_nothing
+
+			elseif attached {EL_READABLE_ZSTRING} other as z_other then
 				Result := String_8.starts_with (Current, z_other)
 				if Result and then z_other.has_mixed_encoding then
 					Result := Result and same_unencoded_substring (z_other, 1)
 				end
 
-			elseif attached {READABLE_STRING_32} other as str_32 then
-				other_count := str_32.count
-				if other_count <= count then
-					Result := same_characters (str_32, 1, other_count, 1)
-				end
+			else
+				Result := same_characters (other, 1, other_count, 1)
 			end
 		end
 
@@ -131,8 +148,13 @@ feature -- Start/End comparisons
 				Result := starts_with (str_32)
 
 			elseif attached {READABLE_STRING_8} other as str_8 then
-				other_count := str_8.count
-				if other_count <= count then
+				other_count := other.count
+				if other_count = 0 then
+					Result := True
+
+				elseif other.count > count then
+					do_nothing
+				else
 					Result := same_characters_8 (str_8, 1, other_count, 1)
 				end
 			end

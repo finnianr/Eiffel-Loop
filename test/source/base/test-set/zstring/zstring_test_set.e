@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:44:42 GMT (Tuesday 14th February 2023)"
-	revision: "76"
+	date: "2023-02-15 11:16:55 GMT (Wednesday 15th February 2023)"
+	revision: "77"
 
 class
 	ZSTRING_TEST_SET
@@ -1302,28 +1302,6 @@ feature {NONE} -- Implementation
 						pair.zs.prune_all_trailing (c.item); pair.s_32.prune_all_trailing (c.item)
 					end
 					assert (type + " OK", pair.is_same)
-				end
-			end
-		end
-
-	for_all_text_splits (test: PROCEDURE [STRING_32, STRING_32, STRING_32, ZSTRING, ZSTRING, ZSTRING])
-		local
-			str_32, left_32, right_32: STRING_32; str, left, right: ZSTRING; split_position: INTEGER
-		do
-			across Text.lines as line loop
-				str_32 := line.item; str := str_32
-				across 0 |..| 5 as n loop
-					if n.item = 5 then
-						split_position := str_32.count
-					elseif n.item = 0 then
-						split_position := 0
-					else
-						split_position := str_32.count * n.item // 5
-					end
-					left_32 := str_32.substring (1, split_position)
-					right_32 := str_32.substring (split_position.max (1), str_32.count)
-					left := left_32; right := right_32
-					test (str_32, left_32, right_32, str, left, right)
 				end
 			end
 		end

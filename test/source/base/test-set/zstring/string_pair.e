@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:40:59 GMT (Tuesday 14th February 2023)"
-	revision: "8"
+	date: "2023-02-15 11:34:58 GMT (Wednesday 15th February 2023)"
+	revision: "9"
 
 class
 	STRING_PAIR
@@ -51,6 +51,8 @@ feature -- Strings
 
 	s_32_substring: STRING_32
 
+	s_8_substring: detachable STRING_8
+
 	zs: ZSTRING
 
 	zs_substring: ZSTRING
@@ -85,8 +87,8 @@ feature -- Test comparisons
 			b3 := zs.ends_with (zs_substring)
 			Result := b1 = b2
 			Result := Result and b1 = b3
-			if Result and then s_32.is_valid_as_string_8 then
-				b3 := zs.ends_with_general (s_32_substring.to_string_8)
+			if Result and then attached s_8_substring as s_8 then
+				b3 := zs.ends_with_general (s_8)
 				Result := b1 = b3
 			end
 		end
@@ -108,8 +110,8 @@ feature -- Test comparisons
 			b3 := zs.same_characters (zs_substring, 1, zs_substring.count, index)
 			Result := b1 = b2
 			Result := Result and b1 = b3
-			if Result and then s_32.is_valid_as_string_8 then
-				b3 := zs.same_characters (s_32_substring.to_string_8, 1, s_32_substring.count, index)
+			if Result and then attached s_8_substring as s_8 then
+				b3 := zs.same_characters_general (s_8, 1, s_8.count, index)
 				Result := b1 = b3
 			end
 		end
@@ -123,8 +125,8 @@ feature -- Test comparisons
 			b3 := zs.starts_with (zs_substring)
 			Result := b1 = b2
 			Result := Result and b1 = b3
-			if Result and then s_32.is_valid_as_string_8 then
-				b3 := zs.starts_with_general (s_32_substring.to_string_8)
+			if Result and then attached s_8_substring as s_8 then
+				b3 := zs.starts_with_general (s_8)
 				Result := b1 = b3
 			end
 		end
@@ -157,6 +159,18 @@ feature -- Element change
 			s_32 := str_32; zs := str_32
 		end
 
+	set_substrings (start_index, end_index: INTEGER)
+		do
+			s_32_substring := s_32.substring (start_index, end_index)
+			zs_substring := zs.substring (start_index, end_index)
+
+			if s_32_substring.is_valid_as_string_8 then
+				s_8_substring := s_32_substring.to_string_8
+			else
+				s_8_substring := Void
+			end
+		end
+
 feature -- Basic operations
 
 	append_character (c: CHARACTER_32)
@@ -168,12 +182,6 @@ feature -- Basic operations
 	set_z_from_uc
 		do
 			zs := s_32
-		end
-
-	set_substrings (start_index, end_index: INTEGER)
-		do
-			s_32_substring := s_32.substring (start_index, end_index)
-			zs_substring := zs.substring (start_index, end_index)
 		end
 
 	wipe_out
