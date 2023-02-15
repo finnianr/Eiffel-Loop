@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-15 11:16:55 GMT (Wednesday 15th February 2023)"
-	revision: "77"
+	date: "2023-02-15 18:59:59 GMT (Wednesday 15th February 2023)"
+	revision: "78"
 
 class
 	ZSTRING_TEST_SET
@@ -817,85 +817,24 @@ feature -- Status query tests
 			end
 		end
 
-	test_same_caseless_characters
-		local
-			line, word: ZSTRING; i: INTEGER
-			word_list: EL_ZSTRING_LIST; is_upper: BOOLEAN
-		do
-			across << False, True >> as bool loop
-				is_upper := bool.item
-				across Text.lines as l loop
-					if is_upper then
-						line := l.item.as_upper
-					else
-						line := l.item
-					end
-					create word_list.make_word_split (line)
-					i := 1
-					across word_list as w loop
-						word := w.item
-						i := line.substring_index (word, i)
-						assert ("found word", i.to_boolean)
-						if is_upper then
-							word.to_lower
-						else
-							word.to_upper
-						end
-						assert ("same characters", line.same_caseless_characters (word, 1, word.count, i))
-					end
-				end
-			end
-		end
-
 	test_same_characters
 		note
 			testing: "covers/{EL_COMPARABLE_ZSTRING}.same_characters",
-						"covers/{EL_COMPARABLE_ZSTRING}.same_characters_8"
-		local
-			pair: STRING_PAIR; assertion_OK: STRING
-			index, next_end_index, next_start_index, start_index, end_index, next_count: INTEGER
+						"covers/{EL_COMPARABLE_ZSTRING}.same_characters_8",
+						"covers/{EL_COMPARABLE_ZSTRING}.same_characters_32"
+
 		do
-			assertion_OK := "same_characters OK"
-			across Text.lines as line loop
-				create pair.make (line.item)
-				if attached pair.new_intervals (' ') as list then
-					from list.start until list.after loop
-						index := list.index
-						start_index := list.item_lower; end_index := list.item_upper
-						pair.set_substrings (start_index, end_index)
-						assert (assertion_OK, pair.same_characters (start_index))
-						if list.valid_index (list.index + 1) then
-							next_start_index := list.i_th_lower (index + 1)
-							next_end_index := list.i_th_upper (index + 1)
-							next_count := list.i_th_count (index + 1)
-							pair.set_substrings (start_index, next_end_index)
-							assert (assertion_OK, pair.same_characters (start_index))
+			assert_same_characters ("same_characters OK", False)
+		end
 
-							if list.item_count >= 3 and next_count >= 3 then
---								half way indices
-								pair.set_substrings ((start_index + end_index) // 2, (next_start_index + next_end_index) //2)
-								assert (assertion_OK, pair.same_characters ((start_index + end_index) // 2))
-							end
-						else
-							next_start_index := 0; next_end_index := 0; next_count := 0
-						end
-						assert (assertion_OK, pair.same_characters (start_index))
+	test_same_caseless_characters
+		note
+			testing: "covers/{EL_COMPARABLE_ZSTRING}.same_caseless_characters",
+						"covers/{EL_COMPARABLE_ZSTRING}.same_characters_8",
+						"covers/{EL_COMPARABLE_ZSTRING}.same_characters_32"
 
-						start_index := list.item_lower - 1; end_index := list.item_upper + 1
-						if pair.s_32.valid_index (start_index) and pair.s_32.valid_index (end_index) then
-							pair.set_substrings (start_index, end_index)
-							assert (assertion_OK, pair.same_characters (start_index))
-
-							next_end_index := list.i_th_upper (index + 1) + 1
-							if pair.s_32.valid_index (next_end_index) then
-								pair.set_substrings (start_index, next_end_index)
-								assert (assertion_OK, pair.same_characters (start_index))
-							end
-						end
-						list.forth
-					end
-				end
-			end
+		do
+			assert_same_characters ("same_caseless_characters OK", True)
 		end
 
 	test_sort
@@ -1253,6 +1192,56 @@ feature -- Duplication tests
 		end
 
 feature {NONE} -- Implementation
+
+	assert_same_characters (assertion_OK: STRING; is_case_insenstive: BOOLEAN)
+		local
+			pair: STRING_PAIR
+			index, next_end_index, next_start_index, start_index, end_index, next_count: INTEGER
+		do
+			across Text.lines as line loop
+				if is_case_insenstive then
+					create {CASELESS_STRING_PAIR} pair.make (line.item)
+				else
+					create pair.make (line.item)
+				end
+				if attached pair.new_intervals (' ') as list then
+					from list.start until list.after loop
+						index := list.index
+						start_index := list.item_lower; end_index := list.item_upper
+						pair.set_substrings (start_index, end_index)
+						assert (assertion_OK, pair.same_characters (start_index))
+						if list.valid_index (list.index + 1) then
+							next_start_index := list.i_th_lower (index + 1)
+							next_end_index := list.i_th_upper (index + 1)
+							next_count := list.i_th_count (index + 1)
+							pair.set_substrings (start_index, next_end_index)
+							assert (assertion_OK, pair.same_characters (start_index))
+
+							if list.item_count >= 3 and next_count >= 3 then
+--								half way indices
+								pair.set_substrings ((start_index + end_index) // 2, (next_start_index + next_end_index) //2)
+								assert (assertion_OK, pair.same_characters ((start_index + end_index) // 2))
+							end
+						else
+							next_start_index := 0; next_end_index := 0; next_count := 0
+						end
+
+						start_index := list.item_lower - 1; end_index := list.item_upper + 1
+						if pair.s_32.valid_index (start_index) and pair.s_32.valid_index (end_index) then
+							pair.set_substrings (start_index, end_index)
+							assert (assertion_OK, pair.same_characters (start_index))
+
+							next_end_index := list.i_th_upper (index + 1) + 1
+							if pair.s_32.valid_index (next_end_index) then
+								pair.set_substrings (start_index, next_end_index)
+								assert (assertion_OK, pair.same_characters (start_index))
+							end
+						end
+						list.forth
+					end
+				end
+			end
+		end
 
 	change_case (lower_32, upper_32: STRING_32)
 		local

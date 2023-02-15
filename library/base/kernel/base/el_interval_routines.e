@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 10:44:27 GMT (Tuesday 14th February 2023)"
-	revision: "1"
+	date: "2023-02-15 17:38:33 GMT (Wednesday 15th February 2023)"
+	revision: "2"
 
 expanded class
 	EL_INTERVAL_ROUTINES
@@ -30,7 +30,7 @@ feature -- Access
 		end
 
 	overlap_status (lower_A, upper_A, lower_B, upper_B: INTEGER): INTEGER
-		-- status indicating how (and if) intervals [`lower_A' .. `upper_A'] and [`lower_B' .. `upper_B'] overlap
+		-- status indicating how (and if) intervals [`lower_A' : `upper_A'] and [`lower_B' : `upper_B'] overlap
 		require
 			valid_intervals: lower_A <= upper_A and lower_B <= upper_B
 		do
@@ -63,7 +63,7 @@ feature -- Access
 
 			elseif upper_A < lower_B then
 				-- A |---|
-				-- B       |--|
+				-- B         |--|
 				Result := A_left_of_B
 
 			elseif upper_B < lower_A then

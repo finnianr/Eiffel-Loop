@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-09 18:22:22 GMT (Thursday 9th February 2023)"
-	revision: "14"
+	date: "2023-02-15 17:00:09 GMT (Wednesday 15th February 2023)"
+	revision: "15"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
@@ -194,7 +194,7 @@ feature {NONE} -- Implementation
 				end
 			end
 		ensure then
-			substring_agrees: across substring (1, Result) as uc all unicode_property.is_space (uc.item) end
+			substring_agrees: substring (1, Result).is_space_filled
 		end
 
 	internal_trailing_white_space (a_area: like area): INTEGER
@@ -233,7 +233,7 @@ feature {NONE} -- Implementation
 				end
 			end
 		ensure
-			substring_agrees: across substring (count - Result + 1, count) as uc all unicode_property.is_space (uc.item) end
+			substring_agrees: substring (count - Result + 1, count).is_space_filled
 		end
 
 	substring_index_list (delimiter: READABLE_STRING_GENERAL): LIST [INTEGER]

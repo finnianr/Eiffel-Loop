@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-15 13:15:34 GMT (Wednesday 15th February 2023)"
-	revision: "48"
+	date: "2023-02-15 16:48:24 GMT (Wednesday 15th February 2023)"
+	revision: "49"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -453,10 +453,6 @@ feature {EL_READABLE_ZSTRING} -- Deferred Implementation
 		end
 
 	as_upper: like Current
-		deferred
-		end
-
-	unicode_property: EL_UNICODE_PROPERTY
 		deferred
 		end
 

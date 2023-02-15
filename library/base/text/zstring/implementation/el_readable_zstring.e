@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 14:41:25 GMT (Tuesday 14th February 2023)"
-	revision: "104"
+	date: "2023-02-15 17:52:24 GMT (Wednesday 15th February 2023)"
+	revision: "105"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -18,7 +18,6 @@ inherit
 		rename
 			area as unencoded_area,
 			code as z_code,
-			Character_properties as Unicode_property,
 			has_code as has_unicode,
 			make_from_string_general as make_from_general,
 			split as split_list,
@@ -47,15 +46,13 @@ inherit
 			to_natural_8, to_natural_16, to_natural, to_natural_32, to_natural_64,
 			to_string_8, to_string_32,
 --			Comparison
-			same_caseless_characters, same_characters, same_characters_general,
+			same_caseless_characters, same_characters, same_characters_general, same_caseless_characters_general,
 --			Element change
 			fill_character,
 --			Measurement
 			capacity, occurrences,
 --			Implementation
-			is_valid_integer_or_natural,
---			Constants
-			Unicode_property
+			is_valid_integer_or_natural
 		redefine
 --			Initialization
 			make_from_string,
@@ -64,7 +61,7 @@ inherit
 --			Status query
 			has_unicode,
 --			Comparison
-			is_equal, same_caseless_characters_general,
+			is_equal,
 --			Duplication
 			copy
 		end
@@ -113,7 +110,7 @@ inherit
 			new_cursor
 		end
 
-	EL_SHARED_ZSTRING_CODEC; EL_SHARED_UNICODE_PROPERTY
+	EL_SHARED_ZSTRING_CODEC
 
 feature {NONE} -- Initialization
 
@@ -302,11 +299,11 @@ feature -- Character status query
 		require
 			valid_index: valid_index (i)
 		local
-			c_i: CHARACTER; c: EL_CHARACTER_32_ROUTINES
+			c_i: CHARACTER; c32: EL_CHARACTER_32_ROUTINES
 		do
 			c_i := area [i - 1]
 			if c_i = Substitute then
-				Result := c.is_digit (unencoded_item (i))
+				Result := c32.is_digit (unencoded_item (i))
 			else
 				Result := Codec.is_numeric (c_i.natural_32_code)
 			end
@@ -316,12 +313,12 @@ feature -- Character status query
 		require
 			valid_index: valid_index (i)
 		local
-			c: CHARACTER
+			c: CHARACTER; c32: EL_CHARACTER_32_ROUTINES
 		do
 			c := area [i - 1]
 			if c = Substitute then
 				-- Because of a compiler bug we need `is_space_32'
-				Result := is_space_32 (unencoded_item (i))
+				Result := c32.is_space (unencoded_item (i))
 			else
 				Result := c.is_space
 			end
@@ -381,18 +378,27 @@ feature -- Status query
 			Result := count >= 2 and then z_code (1) = quote_code and then z_code (count) = quote_code
 		end
 
+	is_space_filled: BOOLEAN
+		do
+			if count = 0 then
+				Result := True
+			else
+				Result := is_substring_whitespace (1, count)
+			end
+		end
+
 	is_canonically_spaced: BOOLEAN
 		-- `True' if the longest substring of whitespace consists of one space character
 		local
 			c_i: CHARACTER; i, l_count, space_count: INTEGER; l_area: like area
-			is_space, is_space_state: BOOLEAN; c: EL_CHARACTER_32_ROUTINES
+			is_space, is_space_state: BOOLEAN; c32: EL_CHARACTER_32_ROUTINES
 		do
 			l_area := area; l_count := count
 			Result := True
 			from i := 0 until not Result or else i = l_count loop
 				c_i := l_area [i]
 				if c_i = Substitute then
-					is_space := c.is_space (unencoded_item (i + 1)) -- Work around for finalization bug
+					is_space := c32.is_space (unencoded_item (i + 1)) -- Work around for finalization bug
 				else
 					is_space := c_i.is_space
 				end
@@ -622,17 +628,6 @@ feature -- Comparison
 			end
 		end
 
-	same_caseless_characters_general (other: READABLE_STRING_GENERAL; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
-		-- Are characters of `other' within bounds `start_pos' and `end_pos'
-		-- caseless identical to characters of current string starting at index `index_pos'.
-		do
- 			if attached {EL_READABLE_ZSTRING} other as z_other then
- 				Result := same_caseless_characters_in_bounds (z_other, start_pos, end_pos, index_pos)
- 			else
- 				Result := Precursor (other, start_pos, end_pos, index_pos)
- 			end
- 		end
-
 feature {EL_READABLE_ZSTRING} -- Duplication
 
 	copy (other: like Current)
@@ -699,13 +694,6 @@ feature {NONE} -- Implementation
 				l_area_32 [i] := area_z_code (l_area, unencoded, i).to_character_32
 				i := i + 1
 			end
-		end
-
-	is_space_32 (uc: CHARACTER_32): BOOLEAN
-		do
---			Does not work in 16.05 compiler
---			Result := uc.is_space
-			Result := Unicode_property.is_space (uc)
 		end
 
 	pointer: EL_POINTER_ROUTINES

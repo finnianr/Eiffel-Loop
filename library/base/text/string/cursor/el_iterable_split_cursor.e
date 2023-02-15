@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-02-15 16:47:34 GMT (Wednesday 15th February 2023)"
+	revision: "9"
 
 deferred class
 	EL_ITERABLE_SPLIT_CURSOR [S -> READABLE_STRING_GENERAL, G]
@@ -17,8 +17,6 @@ inherit
 		rename
 			item as item_copy
 		end
-
-	EL_SHARED_UNICODE_PROPERTY
 
 feature {NONE} -- Initialization
 
@@ -200,8 +198,10 @@ feature -- Cursor movement
 feature {NONE} -- Implementation
 
 	is_white_space (a_target: like target; i: INTEGER): BOOLEAN
+		local
+			c32: EL_CHARACTER_32_ROUTINES
 		do
-			Result := Unicode_property.is_space (a_target [i])
+			Result := c32.is_space (a_target [i])
 		end
 
 	set_separator_start

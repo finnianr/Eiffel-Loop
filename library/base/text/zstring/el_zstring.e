@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 18:38:14 GMT (Friday 10th February 2023)"
-	revision: "67"
+	date: "2023-02-15 16:49:14 GMT (Wednesday 15th February 2023)"
+	revision: "68"
 
 class
 	EL_ZSTRING
@@ -101,8 +101,7 @@ inherit
 			same_string as same_string_general,
 			split as split_list,
 			substring_index as substring_index_general,
-			starts_with as starts_with_general,
-			Character_properties as Unicode_property
+			starts_with as starts_with_general
 		undefine
 			copy, hash_code, out, index_of, last_index_of, occurrences,
 --			Status query
@@ -120,9 +119,7 @@ inherit
 --			Element change
 			append_string_general, append_substring_general, prepend_string_general,
 --			Implementation
-			is_valid_integer_or_natural,
---			Constants
-			Unicode_property
+			is_valid_integer_or_natural
 		end
 
 	INDEXABLE [CHARACTER_32, INTEGER]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-15 14:55:06 GMT (Wednesday 15th February 2023)"
-	revision: "2"
+	date: "2023-02-15 16:45:42 GMT (Wednesday 15th February 2023)"
+	revision: "3"
 
 deferred class
 	EL_ZSTRING_INTERVALS [G, H -> READABLE_INDEXABLE [G]]
@@ -20,16 +20,11 @@ inherit
 			upper as upper_index
 		end
 
+	STRING_HANDLER undefine copy, is_equal, out end
+
 	EL_INTERVAL_CONSTANTS
 		export
 			{NONE} all
-		end
-
-	STRING_HANDLER undefine copy, is_equal, out end
-
-	EL_SHARED_ZSTRING_CODEC
-		rename
-			Unicode_table as Shared_unicode_table
 		end
 
 	EL_ZCODE_CONVERSION
@@ -39,29 +34,38 @@ inherit
 			copy, is_equal, out
 		end
 
+	EL_SHARED_ZSTRING_CODEC
+		rename
+			Unicode_table as Shared_unicode_table,
+			Codec as Shared_codec
+		end
+
 feature -- Initialization
 
 	make
 		do
 			make_sized (10)
+			codec := Shared_codec
 			unicode_table := Shared_unicode_table
-			create other_area.make_empty (0)
+			create default_other_area.make_empty (0)
+			other_area := default_other_area
 		end
 
 feature -- Element change
 
 	set (a_unencoded_area: like unencoded_area; start_index, end_index: INTEGER)
 		local
-			i, lower, upper, overlap_status: INTEGER; l_unencoded_area: like unencoded_area
+			i, lower, upper, overlap_status: INTEGER; l_unencoded: like unencoded_area
 			searching, done: BOOLEAN; ir: EL_INTERVAL_ROUTINES
 		do
 			wipe_out
-			unencoded_area := a_unencoded_area; l_unencoded_area := a_unencoded_area
-			if l_unencoded_area.count > 0 then
+			other_area := default_other_area
+			unencoded_area := a_unencoded_area; l_unencoded := a_unencoded_area
+			if l_unencoded.count > 0 then
 				searching := True
-				from i := 0 until done or else i = l_unencoded_area.count loop
-	--					[start_index, end_index] is A interval
-					lower := l_unencoded_area [i].code; upper := l_unencoded_area [i + 1].code -- is B interval
+				from i := 0 until done or else i = l_unencoded.count loop
+	--				[start_index, end_index] is A interval
+					lower := l_unencoded [i].code; upper := l_unencoded [i + 1].code -- is B interval
 					overlap_status := ir.overlap_status (start_index, end_index, lower, upper)
 					if searching and then ir.is_overlapping (overlap_status) then
 						searching := False
@@ -98,6 +102,8 @@ feature -- Element change
 			else
 				extend (start_index, end_index)
 			end
+		ensure
+			other_area_reset: other_area = default_other_area
 		end
 
 	set_other_area (a_cursor: like new_string_cursor)
@@ -109,6 +115,7 @@ feature -- Status query
 	same_characters (encoded_area: SPECIAL [CHARACTER_8]; offset_other_to_current: INTEGER): BOOLEAN
 		require
 			not_empty: not is_empty
+			other_area_set: is_other_area_set
 		local
 			i, intervals_count, l_count, lower, upper, start_index: INTEGER
 			intervals_area: SPECIAL [INTEGER_64]
@@ -132,16 +139,33 @@ feature -- Status query
 			end
 		end
 
+	is_other_area_set: BOOLEAN
+		do
+			Result := other_area /= default_other_area
+		end
+
+feature -- Contract Support
+
+	is_encoded_area (a_area: SPECIAL [CHARACTER]; a_count, offset: INTEGER): BOOLEAN
+		local
+			l_index: INTEGER
+		do
+			l_index := a_area.index_of (Substitute, offset)
+			Result := not (offset <= l_index and l_index < offset + a_count - 1)
+		end
+
+feature {NONE} -- Implementation
+
 	same_intervals (list_start_index, a_other_offset: INTEGER): BOOLEAN
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current `list' starting at index `index_pos'.
 		local
 			list_count, l_count, other_offset, overlap_status, comparison_count: INTEGER
 			i, list_i, start_index, end_index, lower, upper, other_i, current_i: INTEGER
-			l_unencoded_area: like unencoded_area; l_area: like area; ir: EL_INTERVAL_ROUTINES
+			l_unencoded: like unencoded_area; l_area: like area; ir: EL_INTERVAL_ROUTINES
 			o_area: SPECIAL [G]
 		do
-			l_unencoded_area := unencoded_area
+			l_unencoded := unencoded_area
 			if is_empty then
 				Result := True
 			else
@@ -149,10 +173,10 @@ feature -- Status query
 
 				list_i := list_start_index; list_count := count; l_area := area
 				Result := True
-				from i := 0 until not Result or else list_i >= list_count or else i = l_unencoded_area.count loop
+				from i := 0 until not Result or else list_i >= list_count or else i = l_unencoded.count loop
 					start_index := (l_area [list_i] |>> 32).to_integer_32 -- A interval
 					end_index := l_area [list_i].to_integer_32 -- A interval
-					lower := l_unencoded_area [i].code; upper := l_unencoded_area [i + 1].code -- B interval
+					lower := l_unencoded [i].code; upper := l_unencoded [i + 1].code -- B interval
 					l_count := upper - lower + 1
 
 					overlap_status := ir.overlap_status (start_index, end_index, lower, upper)
@@ -178,7 +202,7 @@ feature -- Status query
 								other_i := other_offset + lower + (start_index - lower) - 1
 								current_i := i + 2 + start_index - lower
 						end
-						Result := same_interval_characters (l_unencoded_area, o_area, other_i, current_i, comparison_count)
+						Result := same_interval_characters (l_unencoded, o_area, other_i, current_i, comparison_count)
 						list_i := list_i + 2 -- every 2nd interval is unencoded
 					end
 					i := i + l_count + 2
@@ -186,17 +210,7 @@ feature -- Status query
 			end
 		end
 
-feature -- Contract Support
-
-	is_encoded_area (a_area: SPECIAL [CHARACTER]; a_count, offset: INTEGER): BOOLEAN
-		local
-			l_index: INTEGER
-		do
-			l_index := a_area.index_of (Substitute, offset)
-			Result := not (offset <= l_index and l_index < offset + a_count - 1)
-		end
-
-feature {NONE} -- Implementation
+feature {NONE} -- Deferred
 
 	new_string_cursor: GENERAL_SPECIAL_ITERATION_CURSOR [G, H]
 		deferred
@@ -220,11 +234,16 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
+	codec: EL_ZCODEC
+
 	unencoded_area: SPECIAL [CHARACTER_32]
 
 	unicode_table: SPECIAL [CHARACTER_32]
 
 	other_area: SPECIAL [G]
 
+	default_other_area: SPECIAL [G]
+
 	other_area_first_index: INTEGER
+
 end

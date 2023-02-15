@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:26 GMT (Monday 12th December 2022)"
-	revision: "7"
+	date: "2023-02-15 16:54:24 GMT (Wednesday 15th February 2023)"
+	revision: "8"
 
 expanded class
 	EL_CHARACTER_32_ROUTINES
@@ -15,7 +15,7 @@ expanded class
 inherit
 	EL_EXPANDED_ROUTINES
 
-	CHARACTER_PROPERTY
+	EL_UNICODE_PROPERTY
 
 	EL_SHARED_UTF_8_SEQUENCE
 
