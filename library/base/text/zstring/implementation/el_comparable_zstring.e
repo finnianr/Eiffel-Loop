@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-15 11:25:34 GMT (Wednesday 15th February 2023)"
-	revision: "20"
+	date: "2023-02-15 13:58:46 GMT (Wednesday 15th February 2023)"
+	revision: "21"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -86,7 +86,7 @@ feature -- Start/End comparisons
 				if Result and then z_other.has_mixed_encoding then
 					Result := Result and same_unencoded_substring (z_other, count - z_other.count + 1)
 				end
-				
+
 			elseif attached {READABLE_STRING_32} other as str_32 then
 				other_count := other.count
 				if other_count = 0 then
@@ -176,34 +176,16 @@ feature -- Comparison
  	same_characters (other: READABLE_STRING_32; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `index_pos'.
-		local
-			l_area: like area; intervals_area: SPECIAL [INTEGER_64]; l_codec: like Codec
-			i, start_index, l_count, offset_other_to_current, intervals_count, item_lower, item_upper: INTEGER
 		do
 			if attached {EL_READABLE_ZSTRING} other as z_other then
 				Result := same_characters_in_bounds (z_other, start_pos, end_pos, index_pos)
 
 			else
-				l_count := end_pos - start_pos + 1
-				Result := index_pos + l_count - 1 <= count
+				Result := index_pos + end_pos - start_pos <= count
 				if Result and then attached cursor_32 (other) as cursor
-					and then attached shared_section_intervals (index_pos, index_pos + end_pos - start_pos) as list
+					and then attached shared_section_intervals_32 (index_pos, index_pos + end_pos - start_pos) as list
 				then
-					l_area := area; intervals_area := list.area; intervals_count := list.count; l_codec := Codec
-					offset_other_to_current := start_pos - index_pos
-					start_index := (l_area [list.first_lower - 1] = Substitute).to_integer
-
-					from i := start_index until not Result or else i >= intervals_count loop
-						item_lower := (intervals_area [i] |>> 32).to_integer_32
-						item_upper := intervals_area [i].to_integer_32
-						l_count := item_upper - item_lower + 1
-						Result := l_codec.same_as_other_32 (l_area, l_count, item_lower - 1, offset_other_to_current, cursor)
-						i := i + 2 -- every second one is encoded
-					end
-					if Result then
-						start_index := (not start_index.to_boolean).to_integer
-						Result := same_unencoded_intervals_32 (list, start_index, offset_other_to_current, cursor)
-					end
+					Result := list.same_characters (area, cursor, start_pos - index_pos)
 				end
 			end
 		end
@@ -211,30 +193,12 @@ feature -- Comparison
  	same_characters_8 (other: READABLE_STRING_8; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `index_pos'.
-		local
-			l_area: like area; intervals_area: SPECIAL [INTEGER_64]; l_codec: like Codec
-			i, start_index, l_count, offset_other_to_current, intervals_count, item_lower, item_upper: INTEGER
 		do
-			l_count := end_pos - start_pos + 1
-			Result := index_pos + l_count - 1 <= count
+			Result := index_pos + end_pos - start_pos <= count
 			if Result and then attached cursor_8 (other) as cursor
-				and then attached shared_section_intervals (index_pos, index_pos + end_pos - start_pos) as list
+				and then attached shared_section_intervals_8 (index_pos, index_pos + end_pos - start_pos) as list
 			then
-				l_area := area; intervals_area := list.area; intervals_count := list.count; l_codec := Codec
-				offset_other_to_current := start_pos - index_pos
-				start_index := (l_area [list.first_lower - 1] = Substitute).to_integer
-
-				from i := start_index until not Result or else i >= intervals_count loop
-					item_lower := (intervals_area [i] |>> 32).to_integer_32
-					item_upper := intervals_area [i].to_integer_32
-					l_count := item_upper - item_lower + 1
-					Result := l_codec.same_as_other_8 (l_area, l_count, item_lower - 1, offset_other_to_current, cursor)
-					i := i + 2 -- every second one is encoded
-				end
-				if Result then
-					start_index := (not start_index.to_boolean).to_integer
-					Result := same_unencoded_intervals_8 (list, start_index, offset_other_to_current, cursor)
-				end
+				Result := list.same_characters (area, cursor, start_pos - index_pos)
 			end
 		end
 
@@ -275,6 +239,48 @@ feature {NONE} -- Deferred
 		end
 
 feature {NONE} -- Implementation
+
+	order_comparison (other: EL_READABLE_ZSTRING; n: INTEGER): INTEGER
+			-- Compare `n' characters from `area' starting at `area_lower' with
+			-- `n' characters from and `other' starting at `other.area_lower'.
+			-- 0 if equal, < 0 if `Current' < `other', > 0 if `Current' > `other'
+		require
+			n_non_negative: n >= 0
+			n_valid: n <= (area.upper - other.area_lower + 1) and n <= (other.area.upper - area_lower + 1)
+		local
+			i, j, i_final, l_code: INTEGER; found: BOOLEAN
+			l_z_code, o_z_code: NATURAL; o_area, l_area: like area
+			unencoded, o_unencoded: like unencoded_indexable
+		do
+			l_area := area; o_area := other.area
+			if has_mixed_encoding or else other.has_mixed_encoding then
+				unencoded := unencoded_indexable; o_unencoded := other.unencoded_indexable_other
+				from i := area_lower; i_final := i + n; j := other.area_lower until found or else i = i_final loop
+					l_z_code := area_z_code (l_area, unencoded, i)
+					o_z_code := area_z_code (o_area, o_unencoded, j)
+					if l_z_code /= o_z_code then
+						found := True
+					else
+						i := i + 1; j := j + 1
+					end
+				end
+			else
+				from i := area_lower; i_final := i + n; j := other.area_lower until found or else i = i_final loop
+					if l_area [i] /= o_area [j] then
+						found := True
+					else
+						i := i + 1; j := j + 1
+					end
+				end
+				l_z_code := l_area.item (i).natural_32_code
+				o_z_code := o_area.item (j).natural_32_code
+			end
+			if found then
+				-- Comparison must be done as unicode and never Latin-15
+				l_code := Codec.z_code_as_unicode (l_z_code).to_integer_32
+				Result := Codec.z_code_as_unicode (o_z_code).to_integer_32 - l_code
+			end
+		end
 
 	same_caseless_characters_in_bounds (other: EL_READABLE_ZSTRING; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
 		-- Are characters of `other' within bounds `start_pos' and `end_pos'
@@ -377,46 +383,27 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	order_comparison (other: EL_READABLE_ZSTRING; n: INTEGER): INTEGER
-			-- Compare `n' characters from `area' starting at `area_lower' with
-			-- `n' characters from and `other' starting at `other.area_lower'.
-			-- 0 if equal, < 0 if `Current' < `other', > 0 if `Current' > `other'
-		require
-			n_non_negative: n >= 0
-			n_valid: n <= (area.upper - other.area_lower + 1) and n <= (other.area.upper - area_lower + 1)
-		local
-			i, j, i_final, l_code: INTEGER; found: BOOLEAN
-			l_z_code, o_z_code: NATURAL; o_area, l_area: like area
-			unencoded, o_unencoded: like unencoded_indexable
+	shared_section_intervals_8 (start_index, end_index: INTEGER): EL_ZSTRING_INTERVALS_8
 		do
-			l_area := area; o_area := other.area
-			if has_mixed_encoding or else other.has_mixed_encoding then
-				unencoded := unencoded_indexable; o_unencoded := other.unencoded_indexable_other
-				from i := area_lower; i_final := i + n; j := other.area_lower until found or else i = i_final loop
-					l_z_code := area_z_code (l_area, unencoded, i)
-					o_z_code := area_z_code (o_area, o_unencoded, j)
-					if l_z_code /= o_z_code then
-						found := True
-					else
-						i := i + 1; j := j + 1
-					end
-				end
-			else
-				from i := area_lower; i_final := i + n; j := other.area_lower until found or else i = i_final loop
-					if l_area [i] /= o_area [j] then
-						found := True
-					else
-						i := i + 1; j := j + 1
-					end
-				end
-				l_z_code := l_area.item (i).natural_32_code
-				o_z_code := o_area.item (j).natural_32_code
-			end
-			if found then
-				-- Comparison must be done as unicode and never Latin-15
-				l_code := Codec.z_code_as_unicode (l_z_code).to_integer_32
-				Result := Codec.z_code_as_unicode (o_z_code).to_integer_32 - l_code
-			end
+			Result := Once_interval_sequence_8
+			Result.set (unencoded_area, start_index, end_index)
 		end
 
+	shared_section_intervals_32 (start_index, end_index: INTEGER): EL_ZSTRING_INTERVALS_32
+		do
+			Result := Once_interval_sequence_32
+			Result.set (unencoded_area, start_index, end_index)
+		end
+
+feature {NONE} -- Constants
+
+	Once_interval_sequence_32: EL_ZSTRING_INTERVALS_32
+		once
+			create Result.make (10)
+		end
+
+	Once_interval_sequence_8: EL_ZSTRING_INTERVALS_8
+		once
+			create Result.make (10)
+		end
 end
