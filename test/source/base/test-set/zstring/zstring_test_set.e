@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-15 18:59:59 GMT (Wednesday 15th February 2023)"
-	revision: "78"
+	date: "2023-02-16 14:31:56 GMT (Thursday 16th February 2023)"
+	revision: "79"
 
 class
 	ZSTRING_TEST_SET
@@ -818,6 +818,7 @@ feature -- Status query tests
 		end
 
 	test_same_characters
+		-- ZSTRING_TEST_SET.test_same_characters
 		note
 			testing: "covers/{EL_COMPARABLE_ZSTRING}.same_characters",
 						"covers/{EL_COMPARABLE_ZSTRING}.same_characters_8",

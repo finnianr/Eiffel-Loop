@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-15 19:08:13 GMT (Wednesday 15th February 2023)"
-	revision: "11"
+	date: "2023-02-16 16:44:56 GMT (Thursday 16th February 2023)"
+	revision: "12"
 
 class
 	CASELESS_STRING_PAIR
@@ -33,12 +33,11 @@ feature -- Test comparisons
 	same_caseless_characters (index: INTEGER): BOOLEAN
 		local
 			s_32_upper, s_32_substring_upper: STRING_32; zs_upper, zs_substring_upper: ZSTRING
-			s_8_upper: STRING
-			result_array: ARRAYED_LIST [BOOLEAN]
+			s_8_upper: STRING; result_array: ARRAYED_LIST [BOOLEAN]
 		do
 			s_32_upper := s_32.as_upper; zs_upper := zs.as_upper
-			s_32_substring_upper := s_32_upper.as_upper
-			zs_substring_upper := zs_upper.as_upper
+			s_32_substring_upper := s_32_substring.as_upper
+			zs_substring_upper := s_32_substring_upper
 
 			create result_array.make_from_array (<<
 				s_32_upper.same_caseless_characters (s_32_substring, 1, s_32_substring.count, index),

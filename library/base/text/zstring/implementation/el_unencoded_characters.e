@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-16 11:18:19 GMT (Thursday 16th February 2023)"
-	revision: "40"
+	date: "2023-02-16 12:14:34 GMT (Thursday 16th February 2023)"
+	revision: "41"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -23,6 +23,7 @@ inherit
 	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
 		export
 			{EL_ZCODE_CONVERSION} is_valid, substring_list, Buffer
+			{ANY} interval_sequence
 		end
 
 	EL_ZCODE_CONVERSION
@@ -154,22 +155,9 @@ feature -- Access
 				count := upper - lower + 1
 				j := j + 1
 				if j = index then
-					Result := Immutable_32_manager.new_substring (l_area, i + 2, count)
+					Result := Immutable_32.new_substring (l_area, i + 2, count)
 				end
 				i := i + count + 2
-			end
-		end
-
-	interval_sequence: EL_SEQUENTIAL_INTERVALS
-		local
-			i, lower, upper: INTEGER; l_area: like area
-		do
-			create Result.make (3)
-			l_area := area
-			from i := 0 until i = l_area.count loop
-				lower := l_area [i].code; upper := l_area [i + 1].code
-				Result.extend (lower, upper)
-				i := i + upper - lower + 3
 			end
 		end
 
@@ -863,7 +851,7 @@ feature -- Basic operations
 			from i := 0 until i = l_area.count loop
 				lower := l_area [i].code; upper := l_area [i + 1].code
 				count := upper - lower + 1
-				list.extend (Immutable_32_manager.new_substring (l_area, i + 2, count))
+				list.extend (Immutable_32.new_substring (l_area, i + 2, count))
 				i := i + count + 2
 			end
 		end

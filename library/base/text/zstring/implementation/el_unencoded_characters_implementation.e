@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-16 11:17:35 GMT (Thursday 16th February 2023)"
-	revision: "14"
+	date: "2023-02-16 12:14:15 GMT (Thursday 16th February 2023)"
+	revision: "15"
 
 deferred class
 	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
@@ -22,6 +22,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_SHARED_IMMUTABLE_32_MANAGER
 
 feature {NONE} -- Contract Support
 
@@ -65,6 +67,19 @@ feature {NONE} -- Contract Support
 				i := i + count + 2
 			end
 			Result := list.area_v2
+		end
+
+	interval_sequence: EL_SEQUENTIAL_INTERVALS
+		local
+			i, lower, upper: INTEGER; l_area: like area
+		do
+			create Result.make (3)
+			l_area := area
+			from i := 0 until i = l_area.count loop
+				lower := l_area [i].code; upper := l_area [i + 1].code
+				Result.extend (lower, upper)
+				i := i + upper - lower + 3
+			end
 		end
 
 feature {NONE} -- Deferred
@@ -187,12 +202,6 @@ feature {NONE} -- Implementation
 			Result := count_to_remove
 		end
 
-	shared_immutable: like Immutable_32_manager
-		do
-			Result := Immutable_32_manager
---			Result.set_item (Once_immutable_32)
-		end
-
 	section_count (a_area: like area; i: INTEGER): INTEGER
 		do
 			Result := a_area [i + 1].code - a_area [i].code + 1
@@ -218,11 +227,6 @@ feature {NONE} -- Constants
 	Empty_unencoded: SPECIAL [CHARACTER_32]
 		once
 			create Result.make_empty (0)
-		end
-
-	Immutable_32_manager: EL_IMMUTABLE_32_MANAGER
-		once
-			create Result
 		end
 
 	Minimum_capacity: INTEGER = 3

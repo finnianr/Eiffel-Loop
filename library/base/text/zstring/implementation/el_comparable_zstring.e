@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-16 9:53:41 GMT (Thursday 16th February 2023)"
-	revision: "24"
+	date: "2023-02-16 16:35:43 GMT (Thursday 16th February 2023)"
+	revision: "25"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -188,8 +188,11 @@ feature -- Comparison
 			-- identical to characters of current string starting at index `start_index'.
 		do
 			if attached {EL_READABLE_ZSTRING} other as z_other then
-				Result := same_characters_in_bounds (z_other, start_pos, end_pos, start_index)
-
+				if has_mixed_encoding or else z_other.has_mixed_encoding then
+					Result := same_characters_zstring (z_other, start_pos, end_pos, start_index)
+				else
+					Result := internal_same_characters (z_other, start_pos, end_pos, start_index)
+				end
 			else
 				Result := same_characters_32 (other, start_pos, end_pos, start_index, False)
 			end
@@ -221,10 +224,12 @@ feature -- Comparison
 			end
 		end
 
-feature {NONE} -- Deferred
+feature {EL_COMPARABLE_ZSTRING} -- Implementation
 
-	leading_white_space: INTEGER
-		deferred
+	shared_interval_list (start_index, end_index: INTEGER): EL_ZSTRING_INTERVALS
+		do
+			Result := Once_interval_list
+			Result.set (unencoded_area, start_index, end_index)
 		end
 
 feature {NONE} -- Implementation
@@ -305,6 +310,38 @@ feature {NONE} -- Implementation
 				Result := list.same_characters (area, start_pos - start_index)
 			end
 
+		end
+
+	same_characters_zstring (other: EL_READABLE_ZSTRING; start_pos, end_pos, start_index: INTEGER): BOOLEAN
+		-- Are characters of `other' within bounds `start_pos' and `end_pos'
+		-- the same characters of current string starting at index `start_index'
+		local
+			i, l_count, end_index, current_i, other_i: INTEGER
+			l_unencoded_area, other_unencoded_area: like unencoded_area
+			intervals, other_intervals: EL_ZSTRING_INTERVALS
+			unencoded_sources, other_unencoded_sources: SPECIAL [INTEGER_64]
+		do
+			end_index := start_index + end_pos - start_pos
+			if end_index <= count then
+				other_intervals := other.shared_interval_list (start_pos, end_pos).twin
+				intervals := shared_interval_list (start_index, end_index)
+
+				if intervals.similar_to (other_intervals) then
+					Result := intervals.same_encoded_characters (area, other.area, other_intervals)
+				end
+				if Result then
+					l_unencoded_area := unencoded_area; other_unencoded_area := other.unencoded_area
+					unencoded_sources := intervals.new_unencoded_sources (start_index, end_index)
+					other_unencoded_sources := other_intervals.new_unencoded_sources (start_pos, end_pos)
+					from i := 0 until not Result or i = unencoded_sources.count loop
+						current_i := (unencoded_sources [i] |>> 32).to_integer_32
+						l_count := unencoded_sources [i].to_integer_32
+						other_i := (other_unencoded_sources [i] |>> 32).to_integer_32
+						Result := l_unencoded_area.same_items (other_unencoded_area, other_i, current_i, l_count)
+						i := i + 1
+					end
+				end
+			end
 		end
 
 	same_caseless_characters_in_bounds (other: EL_READABLE_ZSTRING; start_pos, end_pos, start_index: INTEGER): BOOLEAN
@@ -432,6 +469,12 @@ feature {NONE} -- Implementation
 			Result.set (unencoded_area, start_index, end_index)
 		end
 
+feature {NONE} -- Deferred
+
+	leading_white_space: INTEGER
+		deferred
+		end
+
 feature {NONE} -- Constants
 
 	Comparator_string_32: EL_COMPARE_ZSTRING_TO_STRING_32
@@ -450,6 +493,11 @@ feature {NONE} -- Constants
 		end
 
 	Caseless_comparator_string_8: EL_CASELESS_COMPARE_ZSTRING_TO_STRING_8
+		once
+			create Result.make
+		end
+
+	Once_interval_list: EL_ZSTRING_INTERVALS
 		once
 			create Result.make
 		end
