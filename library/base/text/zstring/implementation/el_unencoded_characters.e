@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-15 13:15:24 GMT (Wednesday 15th February 2023)"
-	revision: "39"
+	date: "2023-02-16 11:18:19 GMT (Thursday 16th February 2023)"
+	revision: "40"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -154,7 +154,7 @@ feature -- Access
 				count := upper - lower + 1
 				j := j + 1
 				if j = index then
-					Result := new_substring (l_area, i + 2, count)
+					Result := Immutable_32_manager.new_substring (l_area, i + 2, count)
 				end
 				i := i + count + 2
 			end
@@ -863,7 +863,7 @@ feature -- Basic operations
 			from i := 0 until i = l_area.count loop
 				lower := l_area [i].code; upper := l_area [i + 1].code
 				count := upper - lower + 1
-				list.extend (new_substring (l_area, i + 2, count))
+				list.extend (Immutable_32_manager.new_substring (l_area, i + 2, count))
 				i := i + count + 2
 			end
 		end

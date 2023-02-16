@@ -1,13 +1,13 @@
 note
-	description: "Manager to inject data into instance of [$source IMMUTABLE_STRING_32]"
+	description: "Forces shared string data into an instance of [$source IMMUTABLE_STRING_32]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-11 11:19:04 GMT (Saturday 11th February 2023)"
-	revision: "1"
+	date: "2023-02-16 11:40:34 GMT (Thursday 16th February 2023)"
+	revision: "2"
 
 class
 	EL_IMMUTABLE_32_MANAGER
@@ -30,29 +30,39 @@ feature {NONE} -- Initialization
 		do
 			create item.make_empty
 			make (item)
+			field_table := Shared_field_table
 		end
 
 feature -- Access
 
 	item: IMMUTABLE_STRING_32
 
-feature -- Element change
+feature -- Factory
 
-	set_item (a_item: like item)
+	new_substring (a_area: SPECIAL [CHARACTER_32]; offset, a_count: INTEGER): IMMUTABLE_STRING_32
 		do
-			item := a_item
-			make (a_item)
+			set_item (a_area, offset, a_count)
+			Result := item.twin
 		end
 
-	set_item_substring (a_area: SPECIAL [CHARACTER_32]; offset, a_count: INTEGER)
+feature -- Element change
+
+	set_item (a_area: SPECIAL [CHARACTER_32]; offset, a_count: INTEGER)
+		local
+			item_address: POINTER; field: like field_table
 		do
-			set_reference_field (Field [Area], a_area)
-			set_integer_32_field (Field [Area_lower], offset)
-			set_integer_32_field (Field [Count], a_count)
+			item_address := object_address; field := field_table
+			{ISE_RUNTIME}.set_reference_field (field [Area], item_address, 0, a_area)
+			{ISE_RUNTIME}.set_integer_32_field (field [Area_lower], item_address, 0, offset)
+			{ISE_RUNTIME}.set_integer_32_field (field [Count], item_address, 0, a_count)
 		ensure
 			same_substring:
 				attached cursor_32 (item) as c and then c.area.same_items (a_area, offset, c.area_first_index, count)
 		end
+
+feature {NONE} -- Internal attributes
+
+	field_table: SPECIAL [INTEGER]
 
 feature {NONE} -- Constants
 
@@ -62,7 +72,9 @@ feature {NONE} -- Constants
 
 	Count: INTEGER = 2
 
-	Field: SPECIAL [INTEGER]
+	Shared_field_table: SPECIAL [INTEGER]
+		require
+			item_set: enclosing_object = item
 		local
 			list: EL_STRING_8_LIST; i, index: INTEGER
 		once

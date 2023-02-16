@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-11 11:18:33 GMT (Saturday 11th February 2023)"
-	revision: "19"
+	date: "2023-02-16 11:25:49 GMT (Thursday 16th February 2023)"
+	revision: "20"
 
 class
 	STRING_32_ROUTINES_TEST_SET
@@ -71,13 +71,18 @@ feature -- Tests
 		-- STRING_32_ROUTINES_TEST_SET.test_immutable_32_manager
 		local
 			manager: EL_IMMUTABLE_32_MANAGER
-			line_1: STRING_32
+			line_1, word_1, word_2: STRING_32
 		do
 			line_1 := Text.lines.first
+			if attached line_1.split (' ') as words then
+				word_1 := words [1]
+				word_2 := words [2]
+			end
 			create manager
 			if attached cursor_32 (line_1) as cursor then
-				manager.set_item_substring (cursor.area, 2, 5)
-				assert_same_string (Void, manager.item, line_1.split (' ')[2])
+				manager.set_item (cursor.area, 2, 5)
+				assert_same_string (Void, manager.item, word_2)
+				assert_same_string (Void, manager.new_substring (cursor.area, 0, 1), word_1)
 			end
 		end
 

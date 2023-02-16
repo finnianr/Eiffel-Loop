@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-15 17:50:57 GMT (Wednesday 15th February 2023)"
-	revision: "23"
+	date: "2023-02-16 9:53:41 GMT (Thursday 16th February 2023)"
+	revision: "24"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -281,7 +281,7 @@ feature {NONE} -- Implementation
 		do
 			end_index := start_index + end_pos - start_pos
 			if end_index <= count and then
-				attached shared_section_intervals_8 (start_index, end_index, case_insensitive) as list
+				attached shared_comparator_string_8 (start_index, end_index, case_insensitive) as list
 			then
 				list.set_other_area (cursor_8 (other))
 				Result := list.same_characters (area, start_pos - start_index)
@@ -299,7 +299,7 @@ feature {NONE} -- Implementation
 		do
 			end_index := start_index + end_pos - start_pos
 			if end_index <= count and then
-				attached shared_section_intervals_32 (start_index, end_index, case_insensitive) as list
+				attached shared_comparator_string_32 (start_index, end_index, case_insensitive) as list
 			then
 				list.set_other_area (cursor_32 (other))
 				Result := list.same_characters (area, start_pos - start_index)
@@ -408,44 +408,48 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	shared_section_intervals_8 (start_index, end_index: INTEGER; case_insensitive: BOOLEAN): EL_ZSTRING_INTERVALS_8
+	shared_comparator_string_8 (
+		start_index, end_index: INTEGER; case_insensitive: BOOLEAN
+	): EL_COMPARE_ZSTRING_TO_STRING_8
 		do
 			if case_insensitive then
-				Result := Caseless_interval_sequence_8
+				Result := Caseless_comparator_string_8
 			else
-				Result := Interval_sequence_8
+				Result := Comparator_string_8
 			end
 			Result.set (unencoded_area, start_index, end_index)
 		end
 
-	shared_section_intervals_32 (start_index, end_index: INTEGER; case_insensitive: BOOLEAN): EL_ZSTRING_INTERVALS_32
+	shared_comparator_string_32 (
+		start_index, end_index: INTEGER; case_insensitive: BOOLEAN
+	): EL_COMPARE_ZSTRING_TO_STRING_32
 		do
 			if case_insensitive then
-				Result := Caseless_interval_sequence_32
+				Result := Caseless_comparator_string_32
 			else
-				Result := Interval_sequence_32
+				Result := Comparator_string_32
 			end
 			Result.set (unencoded_area, start_index, end_index)
 		end
 
 feature {NONE} -- Constants
 
-	Interval_sequence_32: EL_ZSTRING_INTERVALS_32
+	Comparator_string_32: EL_COMPARE_ZSTRING_TO_STRING_32
 		once
 			create Result.make
 		end
 
-	Interval_sequence_8: EL_ZSTRING_INTERVALS_8
+	Comparator_string_8: EL_COMPARE_ZSTRING_TO_STRING_8
 		once
 			create Result.make
 		end
 
-	Caseless_interval_sequence_32: EL_CASELESS_ZSTRING_INTERVALS_32
+	Caseless_comparator_string_32: EL_CASELESS_COMPARE_ZSTRING_TO_STRING_32
 		once
 			create Result.make
 		end
 
-	Caseless_interval_sequence_8: EL_CASELESS_ZSTRING_INTERVALS_8
+	Caseless_comparator_string_8: EL_CASELESS_COMPARE_ZSTRING_TO_STRING_8
 		once
 			create Result.make
 		end

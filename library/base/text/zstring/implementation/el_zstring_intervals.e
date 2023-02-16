@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-15 16:45:42 GMT (Wednesday 15th February 2023)"
-	revision: "3"
+	date: "2023-02-16 10:34:05 GMT (Thursday 16th February 2023)"
+	revision: "4"
 
-deferred class
-	EL_ZSTRING_INTERVALS [G, H -> READABLE_INDEXABLE [G]]
+class
+	EL_ZSTRING_INTERVALS
 
 inherit
 	EL_SEQUENTIAL_INTERVALS
@@ -20,35 +20,19 @@ inherit
 			upper as upper_index
 		end
 
-	STRING_HANDLER undefine copy, is_equal, out end
-
 	EL_INTERVAL_CONSTANTS
 		export
 			{NONE} all
 		end
 
-	EL_ZCODE_CONVERSION
-		export
-			{NONE} all
-		undefine
-			copy, is_equal, out
-		end
+create
+	make
 
-	EL_SHARED_ZSTRING_CODEC
-		rename
-			Unicode_table as Shared_unicode_table,
-			Codec as Shared_codec
-		end
-
-feature -- Initialization
+feature {NONE} -- Initialization
 
 	make
 		do
 			make_sized (10)
-			codec := Shared_codec
-			unicode_table := Shared_unicode_table
-			create default_other_area.make_empty (0)
-			other_area := default_other_area
 		end
 
 feature -- Element change
@@ -56,12 +40,12 @@ feature -- Element change
 	set (a_unencoded_area: like unencoded_area; start_index, end_index: INTEGER)
 		local
 			i, lower, upper, overlap_status: INTEGER; l_unencoded: like unencoded_area
-			searching, done: BOOLEAN; ir: EL_INTERVAL_ROUTINES
+			searching, done: BOOLEAN; ir: EL_INTERVAL_ROUTINES; l_area: like area
 		do
 			wipe_out
-			other_area := default_other_area
 			unencoded_area := a_unencoded_area; l_unencoded := a_unencoded_area
 			if l_unencoded.count > 0 then
+				l_area := area
 				searching := True
 				from i := 0 until done or else i = l_unencoded.count loop
 	--				[start_index, end_index] is A interval
@@ -71,23 +55,28 @@ feature -- Element change
 						searching := False
 					end
 					if not searching then
+--						ensure enough space for at least 3 more additions
+						if l_area.count + 3 > l_area.capacity then
+							l_area := l_area.aliased_resized_area (i + additional_space)
+							area_v2 := l_area
+						end
 						if is_empty then
 							if start_index < lower then
-								extend (start_index, lower - 1)
+								l_area.extend (new_item (start_index, lower - 1))
 							end
 
 						elseif ir.is_overlapping (overlap_status) and then (lower - last_upper) >= 1 then
-							extend (last_upper + 1, lower - 1)
+							l_area.extend (new_item (last_upper + 1, lower - 1))
 						end
 						inspect overlap_status
 							when A_overlaps_B_left then
-								extend (lower, end_index)
+								l_area.extend (new_item (lower, end_index))
 							when A_overlaps_B_right then
-								extend (start_index, upper)
+								l_area.extend (new_item (start_index, upper))
 							when A_contains_B then
-								extend (lower, upper)
+								l_area.extend (new_item (lower, upper))
 							when B_contains_A then
-								extend (start_index, end_index)
+								l_area.extend (new_item (start_index, end_index))
 						else
 							done := True
 						end
@@ -95,155 +84,45 @@ feature -- Element change
 					i := i + upper - lower + 3
 				end
 				if is_empty then
-					extend (start_index, end_index)
+					l_area.extend (new_item (start_index, end_index))
 				elseif end_index > last_upper then
-					extend (last_upper + 1, end_index)
+					l_area.extend (new_item (last_upper + 1, end_index))
 				end
 			else
 				extend (start_index, end_index)
 			end
-		ensure
-			other_area_reset: other_area = default_other_area
-		end
-
-	set_other_area (a_cursor: like new_string_cursor)
-		deferred
 		end
 
 feature -- Status query
 
-	same_characters (encoded_area: SPECIAL [CHARACTER_8]; offset_other_to_current: INTEGER): BOOLEAN
-		require
-			not_empty: not is_empty
-			other_area_set: is_other_area_set
+	same_as (other: EL_ZSTRING_INTERVALS): BOOLEAN
+		-- `True' if `Current' has the same count and size of intervals
+		-- and the same `unencoded_area' for each interval
 		local
-			i, intervals_count, l_count, lower, upper, start_index: INTEGER
-			intervals_area: SPECIAL [INTEGER_64]
+			l_area, o_area: like area; i, lower, upper, o_lower, o_upper: INTEGER
+			l_unencoded_area, o_unencoded_area: like unencoded_area
 		do
-			intervals_area := area; intervals_count := count
-			start_index := (encoded_area [first_lower - 1] = Substitute).to_integer
-
-			Result := True
-			from i := start_index until not Result or else i >= intervals_count loop
-				lower := (intervals_area [i] |>> 32).to_integer_32
-				upper := intervals_area [i].to_integer_32
-				l_count := upper - lower + 1
-				Result := same_encoded_interval_characters (
-					encoded_area, l_count, lower - 1, offset_other_to_current
-				)
-				i := i + 2 -- every second one is encoded
-			end
-			if Result then
-				start_index := (not start_index.to_boolean).to_integer
-				Result := same_intervals (start_index, offset_other_to_current)
-			end
-		end
-
-	is_other_area_set: BOOLEAN
-		do
-			Result := other_area /= default_other_area
-		end
-
-feature -- Contract Support
-
-	is_encoded_area (a_area: SPECIAL [CHARACTER]; a_count, offset: INTEGER): BOOLEAN
-		local
-			l_index: INTEGER
-		do
-			l_index := a_area.index_of (Substitute, offset)
-			Result := not (offset <= l_index and l_index < offset + a_count - 1)
-		end
-
-feature {NONE} -- Implementation
-
-	same_intervals (list_start_index, a_other_offset: INTEGER): BOOLEAN
-			-- Are characters of `other' within bounds `start_pos' and `end_pos'
-			-- identical to characters of current `list' starting at index `index_pos'.
-		local
-			list_count, l_count, other_offset, overlap_status, comparison_count: INTEGER
-			i, list_i, start_index, end_index, lower, upper, other_i, current_i: INTEGER
-			l_unencoded: like unencoded_area; l_area: like area; ir: EL_INTERVAL_ROUTINES
-			o_area: SPECIAL [G]
-		do
-			l_unencoded := unencoded_area
-			if is_empty then
-				Result := True
-			else
-				o_area := other_area; other_offset := a_other_offset + other_area_first_index
-
-				list_i := list_start_index; list_count := count; l_area := area
-				Result := True
-				from i := 0 until not Result or else list_i >= list_count or else i = l_unencoded.count loop
-					start_index := (l_area [list_i] |>> 32).to_integer_32 -- A interval
-					end_index := l_area [list_i].to_integer_32 -- A interval
-					lower := l_unencoded [i].code; upper := l_unencoded [i + 1].code -- B interval
-					l_count := upper - lower + 1
-
-					overlap_status := ir.overlap_status (start_index, end_index, lower, upper)
-					if ir.is_overlapping (overlap_status) then
-						inspect overlap_status
-							when A_overlaps_B_left then
-								comparison_count := end_index - lower + 1
-								other_i := other_offset + lower - 1
-								current_i := i + 2 + lower - start_index
-
-							when A_overlaps_B_right then
-								comparison_count := upper - start_index + 1
-								other_i := other_offset + start_index - 1
-								current_i := i + 2 + start_index - lower
-
-							when A_contains_B then
-								comparison_count := l_count
-								other_i := other_offset + lower - 1
-								current_i := i + 2 + lower - start_index
-
-							when B_contains_A then
-								comparison_count := end_index - start_index + 1
-								other_i := other_offset + lower + (start_index - lower) - 1
-								current_i := i + 2 + start_index - lower
-						end
-						Result := same_interval_characters (l_unencoded, o_area, other_i, current_i, comparison_count)
-						list_i := list_i + 2 -- every 2nd interval is unencoded
-					end
-					i := i + l_count + 2
+			l_area := area_v2; o_area := other.area_v2
+			Result := l_area.count = o_area.count
+			l_unencoded_area := unencoded_area; o_unencoded_area := other.unencoded_area
+			from i := 0 until not Result or i = l_area.count loop
+				lower := (l_area [i] |>> 32).to_integer_32
+				upper := l_area [i].to_integer_32
+				o_lower := (o_area [i] |>> 32).to_integer_32
+				o_upper := o_area [i].to_integer_32
+				Result := upper - lower = o_upper - o_lower
+				if Result then
+					Result := l_unencoded_area.same_items (o_unencoded_area, lower - 1, o_lower - 1, upper - lower + 1)
 				end
+				i := i + 1
 			end
+		ensure
+			same_intervals: Result implies count = other.count
+					and then across 1 |..| count as n all i_th_count (n.item) = other.i_th_count (n.item) end
 		end
 
-feature {NONE} -- Deferred
-
-	new_string_cursor: GENERAL_SPECIAL_ITERATION_CURSOR [G, H]
-		deferred
-		end
-
-	same_encoded_interval_characters (
-		encoded_area: SPECIAL [CHARACTER]; a_count, offset, a_other_offset: INTEGER
-	): BOOLEAN
-		require
-			all_area_is_encoded: is_encoded_area (encoded_area, a_count, offset)
-		deferred
-		end
-
-	same_interval_characters (
-		current_area: like unencoded_area; a_other_area: SPECIAL [G]
-		other_i, current_i, comparison_count: INTEGER
-
-	): BOOLEAN
-		deferred
-		end
-
-feature {NONE} -- Internal attributes
-
-	codec: EL_ZCODEC
+feature {EL_ZSTRING_INTERVALS} -- Internal attributes
 
 	unencoded_area: SPECIAL [CHARACTER_32]
-
-	unicode_table: SPECIAL [CHARACTER_32]
-
-	other_area: SPECIAL [G]
-
-	default_other_area: SPECIAL [G]
-
-	other_area_first_index: INTEGER
 
 end
