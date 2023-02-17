@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-16 11:17:40 GMT (Thursday 16th February 2023)"
-	revision: "50"
+	date: "2023-02-17 9:19:38 GMT (Friday 17th February 2023)"
+	revision: "51"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -52,6 +52,7 @@ inherit
 			remove as remove_unencoded,
 			remove_substring as remove_unencoded_substring,
 			replace_character as replace_unencoded_character,
+			same_characters as same_unencoded_characters,
 			same_string as same_unencoded_string,
 			set_from_buffer as set_unencoded_from_buffer,
 			shift as shift_unencoded,

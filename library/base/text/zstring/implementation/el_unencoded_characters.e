@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-16 12:14:34 GMT (Thursday 16th February 2023)"
-	revision: "41"
+	date: "2023-02-17 10:38:14 GMT (Friday 17th February 2023)"
+	revision: "42"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -428,6 +428,51 @@ feature -- Status query
 		end
 
 feature -- Comparison
+
+	same_characters (other: EL_UNENCODED_CHARACTERS_INDEX; lower_A, upper_A, other_offset: INTEGER): BOOLEAN
+		local
+			searching, done: BOOLEAN; ir: EL_INTERVAL_ROUTINES; l_area: like area
+			i, lower_B, upper_B, l_count, overlap_status, offset, comparison_count: INTEGER;
+		do
+			l_area := area
+			Result := True
+			from i := 0 until done or not Result or i = l_area.count loop
+--				[lower_A, upper_A] is A interval
+				lower_B := l_area [i].code; upper_B := l_area [i + 1].code -- is B interval
+				l_count := upper_B - lower_B + 1
+
+				overlap_status := ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
+				if searching and then ir.is_overlapping (overlap_status) then
+					searching := False
+				end
+				if not searching then
+					inspect overlap_status
+						when A_overlaps_B_left then
+							comparison_count := upper_A - lower_B + 1
+							offset := 0
+
+						when A_overlaps_B_right then
+							comparison_count := upper_B - lower_A + 1
+							offset := lower_A - lower_B
+
+						when A_contains_B then
+							comparison_count := upper_B - lower_B + 1
+							offset := 0
+
+						when B_contains_A then
+							comparison_count := upper_A - lower_A + 1
+							offset := lower_A - lower_B
+
+					else
+						done := True
+					end
+					if not done then
+						Result := other.same_characters (l_area, lower_B + offset + other_offset, i + 2 + offset, comparison_count)
+					end
+				end
+				i := i + l_count + 2
+			end
+		end
 
 	same_string (other: EL_UNENCODED_CHARACTERS): BOOLEAN
 		local

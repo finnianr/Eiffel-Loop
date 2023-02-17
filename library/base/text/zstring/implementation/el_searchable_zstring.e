@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-13 9:27:24 GMT (Monday 13th February 2023)"
-	revision: "20"
+	date: "2023-02-17 9:13:05 GMT (Friday 17th February 2023)"
+	revision: "21"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -228,7 +228,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	same_characters_in_bounds (other: EL_READABLE_ZSTRING; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
+	same_characters_zstring (other: EL_READABLE_ZSTRING; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
 		-- Are characters of `other' within bounds `start_pos' and `end_pos'
 		-- the same characters of current string starting at index `index_pos'
 		deferred

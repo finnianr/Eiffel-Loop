@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-16 16:25:31 GMT (Thursday 16th February 2023)"
-	revision: "5"
+	date: "2023-02-17 10:25:05 GMT (Friday 17th February 2023)"
+	revision: "6"
 
 class
 	EL_ZSTRING_INTERVALS
@@ -56,9 +56,9 @@ feature -- Access
 
 feature -- Element change
 
-	set (a_unencoded_area: like unencoded_area; A_lower, A_upper: INTEGER)
+	set (a_unencoded_area: like unencoded_area; lower_A, upper_A: INTEGER)
 		local
-			i, B_lower, B_upper, overlap_status: INTEGER; l_unencoded: like unencoded_area
+			i, lower_B, upper_B, overlap_status: INTEGER; l_unencoded: like unencoded_area
 			searching, done: BOOLEAN; ir: EL_INTERVAL_ROUTINES; l_area: like area
 		do
 			wipe_out
@@ -67,9 +67,9 @@ feature -- Element change
 				l_area := area
 				searching := True
 				from i := 0 until done or else i = l_unencoded.count loop
-	--				[A_lower, A_upper] is A interval
-					B_lower := l_unencoded [i].code; B_upper := l_unencoded [i + 1].code -- is B interval
-					overlap_status := ir.overlap_status (A_lower, A_upper, B_lower, B_upper)
+	--				[lower_A, upper_A] is A interval
+					lower_B := l_unencoded [i].code; upper_B := l_unencoded [i + 1].code -- is B interval
+					overlap_status := ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
 					if searching and then ir.is_overlapping (overlap_status) then
 						searching := False
 					end
@@ -80,35 +80,35 @@ feature -- Element change
 							area_v2 := l_area
 						end
 						if is_empty then
-							if A_lower < B_lower then
-								l_area.extend (new_item (A_lower, B_lower - 1))
+							if lower_A < lower_B then
+								l_area.extend (new_item (lower_A, lower_B - 1))
 							end
 
-						elseif ir.is_overlapping (overlap_status) and then (B_lower - last_upper) >= 1 then
-							l_area.extend (new_item (last_upper + 1, B_lower - 1))
+						elseif ir.is_overlapping (overlap_status) and then (lower_B - last_upper) >= 1 then
+							l_area.extend (new_item (last_upper + 1, lower_B - 1))
 						end
 						inspect overlap_status
 							when A_overlaps_B_left then
-								l_area.extend (new_item (B_lower, A_upper))
+								l_area.extend (new_item (lower_B, upper_A))
 							when A_overlaps_B_right then
-								l_area.extend (new_item (A_lower, B_upper))
+								l_area.extend (new_item (lower_A, upper_B))
 							when A_contains_B then
-								l_area.extend (new_item (B_lower, B_upper))
+								l_area.extend (new_item (lower_B, upper_B))
 							when B_contains_A then
-								l_area.extend (new_item (A_lower, A_upper))
+								l_area.extend (new_item (lower_A, upper_A))
 						else
 							done := True
 						end
 					end
-					i := i + B_upper - B_lower + 3
+					i := i + upper_B - lower_B + 3
 				end
 				if is_empty then
-					l_area.extend (new_item (A_lower, A_upper))
-				elseif A_upper > last_upper then
-					l_area.extend (new_item (last_upper + 1, A_upper))
+					l_area.extend (new_item (lower_A, upper_A))
+				elseif upper_A > last_upper then
+					l_area.extend (new_item (last_upper + 1, upper_A))
 				end
 			else
-				extend (A_lower, A_upper)
+				extend (lower_A, upper_A)
 			end
 		end
 
@@ -175,19 +175,19 @@ feature -- Duplication
 
 feature -- Factory
 
-	new_unencoded_sources (A_lower, A_upper: INTEGER): like area
+	new_unencoded_sources (lower_A, upper_A: INTEGER): like area
 		-- array of source and count indexes
 		local
-			i, l_index, B_lower, B_upper, l_count, overlap_status: INTEGER; l_unencoded: like unencoded_area
+			i, l_index, lower_B, upper_B, l_count, overlap_status: INTEGER; l_unencoded: like unencoded_area
 			searching, done: BOOLEAN; ir: EL_INTERVAL_ROUTINES; str: IMMUTABLE_STRING_32
 		do
 			create Result.make_empty (count // 2 + 1)
 			l_unencoded := unencoded_area
 			searching := True
 			from i := 0 until done or else i = l_unencoded.count loop
---				[A_lower, A_upper] is A interval
-				B_lower := l_unencoded [i].code; B_upper := l_unencoded [i + 1].code -- is B interval
-				overlap_status := ir.overlap_status (A_lower, A_upper, B_lower, B_upper)
+--				[lower_A, upper_A] is A interval
+				lower_B := l_unencoded [i].code; upper_B := l_unencoded [i + 1].code -- is B interval
+				overlap_status := ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
 				if searching then
 					searching := not ir.is_overlapping (overlap_status)
 				end
@@ -195,20 +195,20 @@ feature -- Factory
 					l_count := 0
 					inspect overlap_status
 						when A_overlaps_B_left then
-							l_count := A_upper - B_lower + 1
+							l_count := upper_A - lower_B + 1
 							l_index := 0
 
 						when A_overlaps_B_right then
-							l_count := B_upper - A_lower + 1
-							l_index := A_lower - B_lower
+							l_count := upper_B - lower_A + 1
+							l_index := lower_A - lower_B
 
 						when A_contains_B then
-							l_count := B_upper - B_lower + 1
+							l_count := upper_B - lower_B + 1
 							l_index := 0
 
 						when B_contains_A then
-							l_count := A_upper - A_lower + 1
-							l_index := A_lower - B_lower
+							l_count := upper_A - lower_A + 1
+							l_index := lower_A - lower_B
 					else
 						done := True
 					end
@@ -217,7 +217,7 @@ feature -- Factory
 						Result.extend (new_item (i + 2 + l_index, l_count))
 					end
 				end
-				i := i + B_upper - B_lower + 3
+				i := i + upper_B - lower_B + 3
 			end
 		end
 

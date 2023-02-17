@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-16 14:11:52 GMT (Thursday 16th February 2023)"
-	revision: "2"
+	date: "2023-02-17 10:10:59 GMT (Friday 17th February 2023)"
+	revision: "3"
 
 deferred class
 	EL_COMPARABLE_ZSTRING_INTERVALS [G, H -> READABLE_INDEXABLE [G]]
@@ -104,7 +104,7 @@ feature {NONE} -- Implementation
 			-- identical to characters of current `list' starting at index `index_pos'.
 		local
 			list_count, l_count, other_offset, overlap_status, comparison_count: INTEGER
-			i, list_i, start_index, end_index, lower, upper, other_i, current_i: INTEGER
+			i, list_i, lower_A, upper_A, lower_B, upper_B, other_i, current_i: INTEGER
 			l_unencoded: like unencoded_area; l_area: like area; ir: EL_INTERVAL_ROUTINES
 			o_area: SPECIAL [G]
 		do
@@ -117,41 +117,44 @@ feature {NONE} -- Implementation
 				list_i := list_start_index; list_count := count; l_area := area
 				Result := True
 				from i := 0 until not Result or else list_i >= list_count or else i = l_unencoded.count loop
-					start_index := (l_area [list_i] |>> 32).to_integer_32 -- A interval
-					end_index := l_area [list_i].to_integer_32 -- A interval
-					lower := l_unencoded [i].code; upper := l_unencoded [i + 1].code -- B interval
-					l_count := upper - lower + 1
+					lower_A := (l_area [list_i] |>> 32).to_integer_32 -- A interval
+					upper_A := l_area [list_i].to_integer_32 -- A interval
+					lower_B := l_unencoded [i].code; upper_B := l_unencoded [i + 1].code -- B interval
+					l_count := upper_B - lower_B + 1
 
-					overlap_status := ir.overlap_status (start_index, end_index, lower, upper)
+					overlap_status := ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
 					if ir.is_overlapping (overlap_status) then
 						inspect overlap_status
 							when A_overlaps_B_left then
-								comparison_count := end_index - lower + 1
-								other_i := other_offset + lower - 1
-								current_i := i + 2 + lower - start_index
+								comparison_count := upper_A - lower_B + 1
+								other_i := lower_B - 1
+								current_i := lower_B - lower_A
 
 							when A_overlaps_B_right then
-								comparison_count := upper - start_index + 1
-								other_i := other_offset + start_index - 1
-								current_i := i + 2 + start_index - lower
+								comparison_count := upper_B - lower_A + 1
+								other_i := lower_A - 1
+								current_i := lower_A - lower_B
 
 							when A_contains_B then
 								comparison_count := l_count
-								other_i := other_offset + lower - 1
-								current_i := i + 2 + lower - start_index
+								other_i := lower_B - 1
+								current_i := lower_B - lower_A
 
 							when B_contains_A then
-								comparison_count := end_index - start_index + 1
-								other_i := other_offset + lower + (start_index - lower) - 1
-								current_i := i + 2 + start_index - lower
+								comparison_count := upper_A - lower_A + 1
+								other_i := lower_B + (lower_A - lower_B) - 1
+								current_i := lower_A - lower_B
 						end
-						Result := same_interval_characters (l_unencoded, o_area, other_i, current_i, comparison_count)
+						Result := same_interval_characters (
+							l_unencoded, o_area, other_offset +  other_i, i + 2 + current_i, comparison_count
+						)
 						list_i := list_i + 2 -- every 2nd interval is unencoded
 					end
 					i := i + l_count + 2
 				end
 			end
 		end
+
 
 feature {NONE} -- Deferred
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-16 16:31:49 GMT (Thursday 16th February 2023)"
-	revision: "10"
+	date: "2023-02-17 10:29:09 GMT (Friday 17th February 2023)"
+	revision: "11"
 
 class
 	STRING_PAIR
@@ -107,7 +107,7 @@ feature -- Test comparisons
 		do
 			b1 := s_32.same_characters (s_32_substring, 1, s_32_substring.count, index)
 			b2 := zs.same_characters (s_32_substring, 1, s_32_substring.count, index)
-			b3 := zs.same_characters (zs_substring, 1, zs_substring.count, index)
+			b3 := zs.same_characters_zstring_1 (zs_substring, 1, zs_substring.count, index)
 			Result := b1 = b2
 			Result := Result and b1 = b3
 			if Result and then attached s_8_substring as s_8 then

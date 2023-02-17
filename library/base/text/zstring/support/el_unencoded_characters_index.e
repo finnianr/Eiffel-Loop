@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-02-17 10:39:50 GMT (Friday 17th February 2023)"
+	revision: "13"
 
 class
 	EL_UNENCODED_CHARACTERS_INDEX
@@ -45,25 +45,25 @@ feature -- Access
 	index_of (uc: CHARACTER_32; start_index: INTEGER): INTEGER
 		-- index of `unicode' starting from `start_index'
 		local
-			lower, upper, i, i_final, j: INTEGER
+			lower, upper, i, j: INTEGER
 			l_area: like area; found: BOOLEAN
 		do
-			l_area := area; i_final := l_area.count; i := area_index
-			lower := lower_bound (l_area, i)
+			l_area := area; i := area_index
+			lower := l_area [i].code
 			if start_index < lower then
 				i := 0
 			end
-			from until found or else i = i_final loop
-				upper := upper_bound (l_area, i)
+			from until found or else i = l_area.count loop
+				upper := l_area [i + 1].code
 				if start_index <= upper then
 					found := True
 				else
-					i := i + upper - lower_bound (l_area, i) + 3
+					i := i + upper - l_area [i].code + 3
 				end
 			end
 			if found then
-				from until Result > 0 or else i = i_final loop
-					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+				from until Result > 0 or else i = l_area.count loop
+					lower := l_area [i].code; upper := l_area [i + 1].code
 					from j := lower.max (start_index) until Result > 0 or else j > upper loop
 						if l_area [i + 2 + j - lower] = uc then
 							Result := j
@@ -74,7 +74,7 @@ feature -- Access
 						i := i + upper - lower + 3
 					end
 				end
-				if i = i_final then
+				if i = l_area.count then
 					area_index := 0
 				else
 					area_index := i
@@ -92,17 +92,17 @@ feature -- Access
 			l_area: like area
 		do
 			i := area_index ; l_area := area
-			lower := lower_bound (l_area, i)
+			lower := l_area [i].code
 			if index < lower then
 				i := 0
-				lower := lower_bound (l_area, i)
+				lower := l_area [i].code
 			end
-			upper := upper_bound (l_area, i)
+			upper := l_area [i + 1].code
 			if index > upper then
 				i_final := l_area.count
 				from until index <= upper or else i = i_final loop
 					i := i + upper - lower + 3
-					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+					lower := l_area [i].code; upper := l_area [i + 1].code
 				end
 			end
 			Result := l_area [2 + i + index - lower]
@@ -119,11 +119,11 @@ feature -- Measurement
 	occurrences (uc: CHARACTER_32): INTEGER
 		-- untested
 		local
-			i, j, lower, upper, i_final: INTEGER; l_area: like area
+			i, j, lower, upper: INTEGER; l_area: like area
 		do
-			l_area := area; i_final := l_area.count
-			from i := 0 until i = i_final loop
-				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+			l_area := area
+			from i := 0 until i = l_area.count loop
+				lower := l_area [i].code; upper := l_area [i + 1].code
 				from j := lower until j > upper loop
 					if l_area [2 + i + j - lower] = uc then
 						Result := Result + 1
@@ -136,13 +136,25 @@ feature -- Measurement
 
 feature -- Status query
 
+	same_characters (other_area: like area; index, other_i, comparison_count: INTEGER): BOOLEAN
+		local
+			lower, i: INTEGER; l_area: like area
+		do
+		--	`area_index' is set as side effect of calling `item (index)'
+			if item (index) = other_area [other_i] then
+				i := area_index
+				l_area := area; lower := l_area [i].code
+				Result := l_area.same_items (other_area, other_i, i + 2 + index - lower, comparison_count)
+			end
+		end
+
 	valid_index (index: INTEGER): BOOLEAN
 		local
 			i, lower, upper, i_final: INTEGER; l_area: like area
 		do
-			l_area := area; i_final := l_area.count
-			from i := 0 until Result or else i = i_final loop
-				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+			l_area := area
+			from i := 0 until Result or else i = l_area.count loop
+				lower := l_area [i].code; upper := l_area [i + 1].code
 				if lower <= index and then index <= upper then
 					Result := True
 				else
@@ -165,18 +177,6 @@ feature -- Basic operations
 		do
 			utf_8.set_area (code (index))
 			utf_8.append_to_string (utf_8_out)
-		end
-
-feature {NONE} -- Implementation
-
-	lower_bound (a_area: like area; i: INTEGER): INTEGER
-		do
-			Result := a_area [i].natural_32_code.to_integer_32
-		end
-
-	upper_bound (a_area: like area; i: INTEGER): INTEGER
-		do
-			Result := a_area [i + 1].natural_32_code.to_integer_32
 		end
 
 feature {EL_UNENCODED_CHARACTERS} -- Internal attributes
