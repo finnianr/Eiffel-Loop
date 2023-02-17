@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-17 14:13:28 GMT (Friday 17th February 2023)"
-	revision: "52"
+	date: "2023-02-17 17:17:04 GMT (Friday 17th February 2023)"
+	revision: "53"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -305,30 +305,6 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
 
 	is_right_adjustable: BOOLEAN
 		deferred
-		end
-
-	same_unencoded_substring (other: EL_READABLE_ZSTRING; start_index: INTEGER): BOOLEAN
-		-- True if characters in `other' are unencoded at the same
-		-- positions as `Current' starting at `start_index'
-		require
-			valid_start_index: start_index + other.count - 1 <= count
-		local
-			i, i_final: INTEGER; l_area: like area; c_i: CHARACTER
-			unencoded, unencoded_other: like unencoded_indexable
-		do
-			Result := True
-			l_area := area; i_final := other.count
-			unencoded := unencoded_indexable; unencoded_other := other.unencoded_indexable_other
-			from i := 0 until i = i_final or else not Result loop
-				c_i := l_area [i + start_index - 1]
-				check
-					same_unencoded_positions: c_i = Substitute implies c_i = other.area [i]
-				end
-				if c_i = Substitute then
-					Result := Result and unencoded.code (start_index + i) = unencoded_other.code (i + 1)
-				end
-				i := i + 1
-			end
 		end
 
 feature {NONE} -- Implementation

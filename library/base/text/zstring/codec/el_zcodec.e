@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-17 11:49:00 GMT (Friday 17th February 2023)"
-	revision: "42"
+	date: "2023-02-17 18:27:00 GMT (Friday 17th February 2023)"
+	revision: "43"
 
 deferred class
 	EL_ZCODEC
@@ -136,6 +136,12 @@ feature {EL_SHARED_ZSTRING_CODEC, EL_ENCODING_BASE, STRING_HANDLER} -- Access
 			if keep_ref then
 				Result := Result.twin
 			end
+		end
+
+	order_comparison (a_zcode, b_zcode: NATURAL): INTEGER
+		-- Comparison must be done as unicode and never Latin-X or Windows-X
+		do
+			Result := z_code_as_unicode (b_zcode).to_integer_32 - z_code_as_unicode (a_zcode).to_integer_32
 		end
 
 	unicode_table: like new_unicode_table

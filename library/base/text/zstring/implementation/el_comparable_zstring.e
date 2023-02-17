@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-17 14:40:28 GMT (Friday 17th February 2023)"
-	revision: "27"
+	date: "2023-02-17 18:27:53 GMT (Friday 17th February 2023)"
+	revision: "28"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -181,11 +181,7 @@ feature -- Comparison
 			-- identical to characters of current string starting at index `start_index'.
 		do
 			if attached {EL_READABLE_ZSTRING} other as z_other then
-				if has_mixed_encoding or else z_other.has_mixed_encoding then
-					Result := same_characters_zstring (z_other, start_pos, end_pos, start_index)
-				else
-					Result := internal_same_characters (z_other, start_pos, end_pos, start_index)
-				end
+				Result := same_characters_zstring (z_other, start_pos, end_pos, start_index)
 			else
 				Result := same_characters_32 (other, start_pos, end_pos, start_index, False)
 			end
@@ -227,37 +223,43 @@ feature {NONE} -- Implementation
 			n_non_negative: n >= 0
 			n_valid: n <= (area.upper - other.area_lower + 1) and n <= (other.area.upper - area_lower + 1)
 		local
-			i, j, i_final, l_code: INTEGER; found: BOOLEAN
-			l_z_code, o_z_code: NATURAL; o_area, l_area: like area
+			i, j, i_final: INTEGER; found: BOOLEAN; c_i, o_i: CHARACTER
+			l_code, o_code: NATURAL; o_area, l_area: like area
 			unencoded, o_unencoded: like unencoded_indexable
 		do
 			l_area := area; o_area := other.area
-			if has_mixed_encoding or else other.has_mixed_encoding then
-				unencoded := unencoded_indexable; o_unencoded := other.unencoded_indexable_other
-				from i := area_lower; i_final := i + n; j := other.area_lower until found or else i = i_final loop
-					l_z_code := area_z_code (l_area, unencoded, i)
-					o_z_code := area_z_code (o_area, o_unencoded, j)
-					if l_z_code /= o_z_code then
-						found := True
+			unencoded := unencoded_indexable; o_unencoded := other.unencoded_indexable_other
+			i_final := area_lower + n
+			from i := area_lower; j := other.area_lower until found or else i = i_final loop
+				c_i := l_area [i]; o_i := o_area [j]
+
+				if c_i = Substitute then
+					l_code := unencoded.z_code (i + 1)
+					if o_i = Substitute then
+						o_code := o_unencoded.z_code (j + 1)
 					else
-						i := i + 1; j := j + 1
+						o_code := o_i.natural_32_code
 					end
-				end
-			else
-				from i := area_lower; i_final := i + n; j := other.area_lower until found or else i = i_final loop
-					if l_area [i] /= o_area [j] then
-						found := True
+					found := l_code /= o_code
+
+				elseif o_i = Substitute then
+					o_code := o_unencoded.z_code (j + 1)
+					if c_i = Substitute then
+						l_code := unencoded.z_code (i + 1)
 					else
-						i := i + 1; j := j + 1
+						l_code := c_i.natural_32_code
 					end
+					found := l_code /= o_code
+
+				elseif c_i /= o_i then
+					l_code := c_i.natural_32_code
+					o_code := o_i.natural_32_code
+					found := True
 				end
-				l_z_code := l_area.item (i).natural_32_code
-				o_z_code := o_area.item (j).natural_32_code
+				i := i + 1; j := j + 1
 			end
 			if found then
-				-- Comparison must be done as unicode and never Latin-15
-				l_code := Codec.z_code_as_unicode (l_z_code).to_integer_32
-				Result := Codec.z_code_as_unicode (o_z_code).to_integer_32 - l_code
+				Result := Codec.order_comparison (l_code, o_code)
 			end
 		end
 

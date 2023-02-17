@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-17 13:42:02 GMT (Friday 17th February 2023)"
-	revision: "43"
+	date: "2023-02-17 17:15:22 GMT (Friday 17th February 2023)"
+	revision: "44"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -580,13 +580,13 @@ feature -- Element change
 
 	interval_index: EL_UNENCODED_CHARACTERS_INDEX
 		do
-			Result := Once_interval_index_1
+			Result := Once_interval_index_array [0]
 			Result.set_area (area)
 		end
 
 	interval_index_other: EL_UNENCODED_CHARACTERS_INDEX
 		do
-			Result := Once_interval_index_2
+			Result := Once_interval_index_array [1]
 			Result.set_area (area)
 		end
 

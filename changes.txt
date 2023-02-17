@@ -556,3 +556,6 @@ Refactor of Thunderbird exporting
 Sat 11th Feb 2023, 18:16:28
 Update to codecs
 
+Fri 17th Feb 2023, 15:51:04
+ZSTRING same_characters and same_caseless_characters performance improvements
+
