@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-15 22:45:26 GMT (Wednesday 15th February 2023)"
-	revision: "4"
+	date: "2023-02-17 13:38:40 GMT (Friday 17th February 2023)"
+	revision: "5"
 
 class
 	EL_CASELESS_COMPARE_ZSTRING_TO_STRING_32
@@ -53,13 +53,8 @@ feature {NONE} -- Implementation
 
 	): BOOLEAN
 		local
-			i: INTEGER; other_as_lower: CHARACTER_32; c32: EL_CHARACTER_32_ROUTINES
+			c32: EL_CHARACTER_32_ROUTINES
 		do
-			Result := True
-			from i := 0 until not Result or i = comparison_count loop
-				other_as_lower := c32.to_lower (a_other_area [other_i + i])
-				Result := c32.to_lower (current_area [current_i + i]) = other_as_lower
-				i := i + 1
-			end
+			Result := c32.same_caseless_sub_array (current_area, a_other_area, current_i, other_i, comparison_count)
 		end
 end

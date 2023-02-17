@@ -1,11 +1,13 @@
 note
-	description: "{ZSTRING}.same_characters_zstring_X"
+	description: "Once off benchmark to determine best algorithm for {ZSTRING}.same_characters_zstring"
 	notes: "[
-	Passes over 1000 millisecs (in descending order)
+		Passes over 1000 millisecs (in descending order)
 
-		same_characters_zstring_1 : 1257379.0 times (100%)
-		same_characters_zstring   :  952833.0 times (-24.2%)
-		same_characters_zstring_2 :  115465.0 times (-90.8%)
+			same_characters_zstring_1 : 1257379.0 times (100%)
+			same_characters_zstring   :  952833.0 times (-24.2%)
+			same_characters_zstring_2 :  115465.0 times (-90.8%)
+
+		See archived source: doc/code/el_comparable_zstring.e
 	]"
 
 	author: "Finnian Reilly"
@@ -13,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-17 11:09:24 GMT (Friday 17th February 2023)"
-	revision: "6"
+	date: "2023-02-17 11:18:37 GMT (Friday 17th February 2023)"
+	revision: "7"
 
 class
 	ZSTRING_SAME_CHARACTERS_COMPARISON
@@ -29,7 +31,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "{ZSTRING}.same_characters_zstring_X"
+	Description: STRING = "Find best {ZSTRING}.same_characters_zstring"
 
 feature -- Basic operations
 
@@ -58,24 +60,24 @@ feature {NONE} -- append_character
 	same_characters_zstring (str, end_string: ZSTRING; start_pos, end_pos: INTEGER)
 
 		do
-			if end_string.same_characters_zstring (str, start_pos, end_pos, 1) then
-				do_nothing
-			end
+--			if end_string.same_characters_zstring (str, start_pos, end_pos, 1) then
+--				do_nothing
+--			end
 		end
 
 	same_characters_zstring_1 (str, end_string: ZSTRING; start_pos, end_pos: INTEGER)
 
 		do
-			if end_string.same_characters_zstring_1 (str, start_pos, end_pos, 1) then
-				do_nothing
-			end
+--			if end_string.same_characters_zstring_1 (str, start_pos, end_pos, 1) then
+--				do_nothing
+--			end
 		end
 
 	same_characters_zstring_2 (str, end_string: ZSTRING; start_pos, end_pos: INTEGER)
 
 		do
-			if end_string.same_characters_zstring_2 (str, start_pos, end_pos, 1) then
-				do_nothing
-			end
+--			if end_string.same_characters_zstring_2 (str, start_pos, end_pos, 1) then
+--				do_nothing
+--			end
 		end
 end

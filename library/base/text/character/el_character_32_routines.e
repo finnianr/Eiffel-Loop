@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-15 16:54:24 GMT (Wednesday 15th February 2023)"
-	revision: "8"
+	date: "2023-02-17 13:36:15 GMT (Friday 17th February 2023)"
+	revision: "9"
 
 expanded class
 	EL_CHARACTER_32_ROUTINES
@@ -33,6 +33,22 @@ feature -- Status query
 				else
 					i := i + 1
 				end
+			end
+		end
+
+	same_caseless_sub_array (
+		area_1, area_2: SPECIAL [CHARACTER_32]; offset_1, offset_2, comparison_count: INTEGER
+	): BOOLEAN
+		require
+			valid_offset_1: area_1.valid_index (offset_1 + comparison_count - 1)
+			valid_offset_2: area_2.valid_index (offset_2 + comparison_count - 1)
+		local
+			i: INTEGER
+		do
+			Result := True
+			from i := 0 until not Result or i = comparison_count loop
+				Result := to_lower (area_1 [offset_1 + i]) = to_lower (area_2 [offset_2 + i])
+				i := i + 1
 			end
 		end
 

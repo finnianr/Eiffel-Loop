@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-08 16:40:39 GMT (Wednesday 8th February 2023)"
-	revision: "22"
+	date: "2023-02-17 14:14:24 GMT (Friday 17th February 2023)"
+	revision: "23"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
@@ -174,6 +174,18 @@ feature -- Contract support
 			Result := cursor_8 (str).all_ascii
 		end
 
+feature -- Conversion
+
+	string: EL_STRING_8
+		do
+			create Result.make_from_zstring (Current)
+		end
+
+	substring (start_index, end_index: INTEGER): like string
+		do
+			Result := string.substring (start_index, end_index)
+		end
+
 feature -- Comparison
 
  	same_characters (other: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
@@ -192,7 +204,9 @@ feature -- Comparison
 				Result := area.same_items (other.area, other.area_lower + start_pos - 1, area_lower + index_pos - 1, nb)
 			end
 		ensure
-			same_characters: Result = substring (index_pos, index_pos + end_pos - start_pos).same_string (other.substring (start_pos, end_pos))
+			same_characters:
+				attached substring (index_pos, index_pos + end_pos - start_pos) as current_substring
+					and then Result = current_substring.same_string (other.substring (start_pos, end_pos))
 		end
 
 	same_string (other: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION): BOOLEAN
@@ -212,22 +226,6 @@ feature -- Comparison
 			end
 		ensure
 			definition: Result = (string ~ other.string)
-		end
-
-feature -- Conversion
-
-	elks_checking: BOOLEAN
-		deferred
-		end
-
-	string: EL_STRING_8
-		do
-			create Result.make_from_zstring (Current)
-		end
-
-	substring (start_index, end_index: INTEGER): like string
-		do
-			Result := string.substring (start_index, end_index)
 		end
 
 feature {NONE} -- Element change
@@ -340,10 +338,6 @@ feature -- Removal
 
 feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION, EL_STRING_8_IMPLEMENTATION} -- Implementation
 
-	additional_space: INTEGER
-		deferred
-		end
-
 	area_lower: INTEGER
 			-- Minimum index
 		do
@@ -407,14 +401,6 @@ feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION, EL_STRING_8_IMPLEMENTATION} -- I
 			end
 		end
 
-	reset_hash
-		deferred
-		end
-
-	set_count (number: INTEGER)
-		deferred
-		end
-
 	set_from_ascii (str: READABLE_STRING_8)
 		require
 			is_7_bit: is_ascii_string_8 (str)
@@ -429,6 +415,24 @@ feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION, EL_STRING_8_IMPLEMENTATION} -- I
 	set_from_string_8 (str: EL_STRING_8)
 		do
 			area := str.area; set_count (str.count)
+		end
+
+feature {NONE} -- Deferred
+
+	additional_space: INTEGER
+		deferred
+		end
+
+	elks_checking: BOOLEAN
+		deferred
+		end
+
+	reset_hash
+		deferred
+		end
+
+	set_count (number: INTEGER)
+		deferred
 		end
 
 feature -- Constants

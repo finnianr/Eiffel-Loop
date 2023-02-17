@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-08 12:17:25 GMT (Wednesday 8th February 2023)"
-	revision: "1"
+	date: "2023-02-17 13:37:13 GMT (Friday 17th February 2023)"
+	revision: "2"
 
 class
 	EL_UNICODE_PROPERTY
@@ -24,13 +24,8 @@ feature -- Status query
 		do
 			if a = b then
 				Result := True
-
-			elseif is_lower (a) then
-				Result := a = b.as_lower
-
-			elseif is_upper (a) then
-				Result := a = b.as_upper
-
+			else
+				Result := to_lower (a) = to_lower (b)
 			end
 		end
 end

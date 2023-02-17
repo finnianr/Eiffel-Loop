@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-17 11:09:56 GMT (Friday 17th February 2023)"
-	revision: "26"
+	date: "2023-02-17 14:40:28 GMT (Friday 17th February 2023)"
+	revision: "27"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -81,22 +81,18 @@ feature -- Start/End comparisons
 		local
 			other_count: INTEGER
 		do
-			if attached {EL_READABLE_ZSTRING} other as z_other then
-				Result := String_8.ends_with (Current, z_other)
-				if Result and then z_other.has_mixed_encoding then
-					Result := Result and same_unencoded_substring (z_other, count - z_other.count + 1)
-				end
+			other_count := other.count
+			if other_count = 0 then
+				Result := True
+
+			elseif other.count > count then
+				do_nothing
+
+			elseif attached {EL_READABLE_ZSTRING} other as z_other then
+				Result := same_characters_zstring (z_other, 1, other.count, count - other_count + 1)
 
 			elseif attached {READABLE_STRING_32} other as str_32 then
-				other_count := other.count
-				if other_count = 0 then
-					Result := True
-
-				elseif other.count > count then
-					do_nothing
-				else
-					Result := same_characters (str_32, 1, other_count, count - other_count + 1)
-				end
+				Result := same_characters (str_32, 1, other_count, count - other_count + 1)
 			end
 		end
 
@@ -130,10 +126,7 @@ feature -- Start/End comparisons
 				do_nothing
 
 			elseif attached {EL_READABLE_ZSTRING} other as z_other then
-				Result := String_8.starts_with (Current, z_other)
-				if Result and then z_other.has_mixed_encoding then
-					Result := Result and same_unencoded_substring (z_other, 1)
-				end
+				Result := same_characters_zstring (z_other, 1, other.count, 1)
 
 			else
 				Result := same_characters (other, 1, other_count, 1)
@@ -167,7 +160,7 @@ feature -- Comparison
 		-- caseless identical to characters of current string starting at index `start_index'.
 		do
  			if attached {EL_READABLE_ZSTRING} other as z_other then
- 				Result := same_caseless_characters_in_bounds (z_other, start_pos, end_pos, start_index)
+ 				Result := same_caseless_characters_zstring (z_other, start_pos, end_pos, start_index)
  			else
  				Result := same_characters_32 (other, start_pos, end_pos, start_index, True)
  			end
@@ -210,78 +203,6 @@ feature -- Comparison
 			end
 		end
 
-	same_characters_zstring (other: EL_READABLE_ZSTRING; start_pos, end_pos, start_index: INTEGER): BOOLEAN
-		-- Are characters of `other' within bounds `start_pos' and `end_pos'
-		-- the same characters of current string starting at index `start_index'
-		local
-			i, l_count: INTEGER; l_area, o_area: like area
-			unencoded, o_unencoded: like unencoded_indexable
-			uc, uc_other: CHARACTER_32
-		do
-			l_area := area; o_area := other.area
-			l_count := end_pos - start_pos + 1
-			Result := internal_same_characters (other, start_pos, end_pos, start_index)
-			if Result and then has_unencoded_between_optimal (l_area, start_index, start_index + l_count - 1) then
-				if other.has_unencoded_between_optimal (o_area, start_pos, end_pos) then
-					unencoded := unencoded_indexable; o_unencoded := other.unencoded_indexable_other
---					check substitutions
-					from i := 0 until not Result or else i = l_count loop
-						if l_area [start_index + i - 1] = Substitute then
-							uc := unencoded.item (start_index + i); uc_other := o_unencoded.item (start_pos + i)
-							Result := uc = uc_other
-						end
-						i := i + 1
-					end
-				else
-					Result := False
-				end
-			end
-		end
-
-	same_characters_zstring_1 (other: EL_READABLE_ZSTRING; start_pos, end_pos, start_index: INTEGER): BOOLEAN
-		-- Are characters of `other' within bounds `start_pos' and `end_pos'
-		-- the same characters of current string starting at index `start_index'
-		local
-			end_index: INTEGER
-		do
-			end_index := start_index + end_pos - start_pos
-			if internal_same_characters (other, start_pos, end_pos, start_index) then
-				Result := same_unencoded_characters (other.unencoded_indexable_other, start_index, end_index, start_pos - start_index)
-			end
-		end
-
-	same_characters_zstring_2 (other: EL_READABLE_ZSTRING; start_pos, end_pos, start_index: INTEGER): BOOLEAN
-		-- Are characters of `other' within bounds `start_pos' and `end_pos'
-		-- the same characters of current string starting at index `start_index'
-		local
-			i, l_count, end_index, current_i, other_i: INTEGER
-			l_unencoded_area, other_unencoded_area: like unencoded_area
-			intervals, other_intervals: EL_ZSTRING_INTERVALS
-			unencoded_sources, other_unencoded_sources: SPECIAL [INTEGER_64]
-		do
-			end_index := start_index + end_pos - start_pos
-			if end_index <= count then
-				other_intervals := other.shared_interval_list (start_pos, end_pos).twin
-				intervals := shared_interval_list (start_index, end_index)
-
-				if intervals.similar_to (other_intervals) then
-					Result := intervals.same_encoded_characters (area, other.area, other_intervals)
-				end
-				if Result then
-					l_unencoded_area := unencoded_area; other_unencoded_area := other.unencoded_area
-					unencoded_sources := intervals.new_unencoded_sources (start_index, end_index)
-					other_unencoded_sources := other_intervals.new_unencoded_sources (start_pos, end_pos)
-					from i := 0 until not Result or i = unencoded_sources.count loop
-						current_i := (unencoded_sources [i] |>> 32).to_integer_32
-						l_count := unencoded_sources [i].to_integer_32
-						other_i := (other_unencoded_sources [i] |>> 32).to_integer_32
-						Result := l_unencoded_area.same_items (other_unencoded_area, other_i, current_i, l_count)
-						i := i + 1
-					end
-				end
-			end
-		end
-
 	same_substring (str: READABLE_STRING_GENERAL; i: INTEGER; case_insensitive: BOOLEAN): BOOLEAN
 		-- `True' if `str' occurs at position `i' with optional `case_insensitive' match
 		do
@@ -294,14 +215,6 @@ feature -- Comparison
 					Result := same_characters_general (str, 1, str.count, i)
 				end
 			end
-		end
-
-feature {EL_COMPARABLE_ZSTRING} -- Implementation
-
-	shared_interval_list (start_index, end_index: INTEGER): EL_ZSTRING_INTERVALS
-		do
-			Result := Once_interval_list
-			Result.set (unencoded_area, start_index, end_index)
 		end
 
 feature {NONE} -- Implementation
@@ -348,6 +261,22 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	same_caseless_characters_zstring (other: EL_READABLE_ZSTRING; start_pos, end_pos, start_index: INTEGER): BOOLEAN
+		-- Are characters of `other' within bounds `start_pos' and `end_pos'
+		-- caselessly matching characters of current string starting at index `start_index'
+		local
+			l_count: INTEGER
+		do
+			l_count := end_pos - start_pos + 1
+			if start_index + l_count - 1 <= count
+				and then codec.same_caseless_characters (area, other.area, start_pos - start_index, start_index - 1, l_count)
+			then
+				Result := same_unencoded_characters (
+					other.unencoded_indexable_other, start_index, start_index + l_count - 1, start_pos - start_index, True
+				)
+			end
+		end
+
  	same_characters_8 (
  		other: READABLE_STRING_8; start_pos, end_pos, start_index: INTEGER; case_insensitive: BOOLEAN
  	): BOOLEAN
@@ -384,76 +313,17 @@ feature {NONE} -- Implementation
 
 		end
 
-	same_caseless_characters_in_bounds (other: EL_READABLE_ZSTRING; start_pos, end_pos, start_index: INTEGER): BOOLEAN
+	same_characters_zstring (other: EL_READABLE_ZSTRING; start_pos, end_pos, start_index: INTEGER): BOOLEAN
 		-- Are characters of `other' within bounds `start_pos' and `end_pos'
-		-- caselessly matching characters of current string starting at index `start_index'
+		-- the same characters of current string starting at index `start_index'
 		local
-			i, l_count: INTEGER; l_area, o_area: like area; l_codec: like codec
-			uc, uc_other: CHARACTER_32; c, c_other: CHARACTER; current_has_unencoded, other_has_unencoded: BOOLEAN
-			unencoded, o_unencoded: like unencoded_indexable; c32: EL_CHARACTER_32_ROUTINES
+			end_index: INTEGER
 		do
-			l_count := end_pos - start_pos + 1
-			l_area := area; o_area := other.area; l_codec := codec
-
-			current_has_unencoded := has_unencoded_between_optimal (l_area, start_index, start_index + l_count - 1)
-			other_has_unencoded := other.has_unencoded_between_optimal (o_area, start_pos, end_pos)
-			Result := True
-			inspect current_other_bitmap (current_has_unencoded, other_has_unencoded)
-				when Both_have_mixed_encoding  then
-					unencoded := unencoded_indexable; o_unencoded := other.unencoded_indexable_other
-					from i := 0 until not Result or else i = l_count loop
-						c := l_area [start_index + i - 1]; c_other := o_area [i]
-						if c = Substitute then
-							uc := unencoded.item (start_index + i)
-							if c_other = Substitute then
-								uc_other := o_unencoded.item (start_pos + i)
-								Result := c32.same_caseless (uc, uc_other)
-							else
-								Result := l_codec.same_caseless (c_other, c, uc)
-							end
-
-						elseif c_other = Substitute then
-							uc_other := o_unencoded.item (start_pos + i)
-							Result := l_codec.same_caseless (c, c_other, uc_other)
-						else
-							Result := l_codec.same_caseless (c, c_other, '%U')
-						end
-						i := i + 1
-					end
-
-				when Only_current then
-					unencoded := unencoded_indexable
-					from i := 0 until not Result or else i = l_count loop
-						c := l_area [start_index + i - 1]; c_other := o_area [i]
-						if c = Substitute then
-							uc := unencoded.item (start_index + i)
-							Result := l_codec.same_caseless (c_other, c, uc)
-						else
-							Result := l_codec.same_caseless (c, c_other, '%U')
-						end
-
-						i := i + 1
-					end
-
-				when Only_other then
-					o_unencoded := other.unencoded_indexable_other
-					from i := 0 until not Result or else i = l_count loop
-						c := l_area [start_index + i - 1]; c_other := o_area [i]
-						if c_other = Substitute then
-							uc_other := o_unencoded.item (start_pos + i)
-							Result := l_codec.same_caseless (c, c_other, uc_other)
-						else
-							Result := l_codec.same_caseless (c, c_other, '%U')
-						end
-						i := i + 1
-					end
-
-				when Neither then
-					from i := 0 until not Result or else i = l_count loop
-						Result := l_codec.same_caseless (l_area [start_index + i - 1], o_area [i], '%U')
-						i := i + 1
-					end
-			else
+			end_index := start_index + end_pos - start_pos
+			if end_index <= count and then internal_same_characters (other, start_pos, end_pos, start_index) then
+				Result := same_unencoded_characters (
+					other.unencoded_indexable_other, start_index, end_index, start_pos - start_index, False
+				)
 			end
 		end
 
@@ -505,11 +375,6 @@ feature {NONE} -- Constants
 		end
 
 	Caseless_comparator_string_8: EL_CASELESS_COMPARE_ZSTRING_TO_STRING_8
-		once
-			create Result.make
-		end
-
-	Once_interval_list: EL_ZSTRING_INTERVALS
 		once
 			create Result.make
 		end

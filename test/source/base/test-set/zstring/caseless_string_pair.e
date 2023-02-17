@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-16 16:44:56 GMT (Thursday 16th February 2023)"
-	revision: "12"
+	date: "2023-02-17 14:40:42 GMT (Friday 17th February 2023)"
+	revision: "13"
 
 class
 	CASELESS_STRING_PAIR

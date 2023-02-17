@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-15 14:35:48 GMT (Wednesday 15th February 2023)"
-	revision: "41"
+	date: "2023-02-17 11:49:00 GMT (Friday 17th February 2023)"
+	revision: "42"
 
 deferred class
 	EL_ZCODEC
@@ -52,6 +52,23 @@ feature -- Character query
 
 	is_upper (code: NATURAL): BOOLEAN
 		deferred
+		end
+
+	same_caseless_characters (area, other_area: SPECIAL [CHARACTER]; other_offset, start_index, count: INTEGER): BOOLEAN
+		local
+			i, j: INTEGER; c: CHARACTER
+		do
+			Result := True
+			from i := 0 until not Result or i = count loop
+				j := start_index + i
+				c := area [j]
+				if c = Substitute then
+					Result := other_area [j + other_offset] = Substitute
+				else
+					Result := same_caseless (c, other_area [j + other_offset], '%U')
+				end
+				i := i + 1
+			end
 		end
 
 	same_caseless (a, b: CHARACTER; b_unicode: CHARACTER_32): BOOLEAN

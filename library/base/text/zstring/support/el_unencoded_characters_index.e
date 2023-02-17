@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-17 10:39:50 GMT (Friday 17th February 2023)"
-	revision: "13"
+	date: "2023-02-17 14:38:07 GMT (Friday 17th February 2023)"
+	revision: "14"
 
 class
 	EL_UNENCODED_CHARACTERS_INDEX
@@ -135,6 +135,18 @@ feature -- Measurement
 		end
 
 feature -- Status query
+
+	same_caseless_characters (other_area: like area; index, other_i, comparison_count: INTEGER): BOOLEAN
+		local
+			lower, i: INTEGER; l_area: like area; c32: EL_CHARACTER_32_ROUTINES
+		do
+		--	`area_index' is set as side effect of calling `item (index)'
+			if c32.to_lower (item (index)) = c32.to_lower (other_area [other_i]) then
+				i := area_index
+				l_area := area; lower := l_area [i].code
+				Result := c32.same_caseless_sub_array (l_area, other_area, i + 2 + index - lower, other_i, comparison_count)
+			end
+		end
 
 	same_characters (other_area: like area; index, other_i, comparison_count: INTEGER): BOOLEAN
 		local
