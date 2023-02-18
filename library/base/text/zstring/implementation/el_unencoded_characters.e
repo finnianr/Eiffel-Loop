@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-17 17:15:22 GMT (Friday 17th February 2023)"
-	revision: "44"
+	date: "2023-02-18 10:47:11 GMT (Saturday 18th February 2023)"
+	revision: "45"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -332,33 +332,34 @@ feature -- Measurement
 			end
 		end
 
-	intersection_count (start_index, end_index: INTEGER): INTEGER
-		-- count of characters between `start_index' and `end_index'
+	intersection_count (lower_A, upper_A: INTEGER): INTEGER
+		-- count of characters between `lower_A' and `upper_A'
 		local
-			i, lower, upper: INTEGER; l_area: like area
-			done: BOOLEAN
+			done, searching: BOOLEAN; ir: EL_INTERVAL_ROUTINES; l_area: like area
+			i, lower_B, upper_B, overlap_status: INTEGER
 		do
-			l_area := area
+			l_area := area; searching := True
 			from i := 0 until done or else i = l_area.count loop
-				lower := l_area [i].code; upper := l_area [i + 1].code
-				if lower <= start_index and end_index <= upper then
-					-- Remove middle section
-					Result := end_index - start_index + 1
-				elseif start_index <= lower and upper <= end_index then
-					-- Remove entire section
-					Result := Result + upper - lower + 1
-				elseif lower <= end_index and end_index <= upper then
-					-- Remove leading section
-					Result := Result + end_index - lower + 1
-
-				elseif lower <= start_index and start_index <= upper then
-					-- Remove trailing section
-					Result := Result + upper - start_index + 1
-
-				elseif end_index < lower then
-					done := True
+				lower_B := l_area [i].code; upper_B := l_area [i + 1].code
+				overlap_status := ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
+				if searching and then ir.is_overlapping (overlap_status) then
+					searching := False
 				end
-				i := i + upper - lower + 3
+				if not searching then
+					inspect overlap_status
+						when B_contains_A then
+							Result := upper_A - lower_A + 1
+						when A_contains_B then
+							Result := Result + upper_B - lower_B + 1
+						when A_overlaps_B_left then
+							Result := Result + upper_A - lower_B + 1
+						when A_overlaps_B_right then
+							Result := Result + upper_B - lower_A + 1
+					else
+						done := True
+					end
+				end
+				i := i + upper_B - lower_B + 3
 			end
 		end
 
@@ -399,25 +400,19 @@ feature -- Status query
 			Result := index_of (uc, 1) > 0
 		end
 
-	intersects (start_index, end_index: INTEGER): BOOLEAN
-		-- `True' if some characters are between `start_index' and `end_index'
+	intersects (lower_A, upper_A: INTEGER): BOOLEAN
+		-- `True' if some characters are between `lower_A' and `upper_A'
 		local
-			i, lower, upper, l_count, start_end_count: INTEGER; l_area: like area
+			i, lower_B, upper_B, start_end_count, overlap_status: INTEGER
+			ir: EL_INTERVAL_ROUTINES; l_area: like area
 		do
-			l_area := area; start_end_count := end_index - start_index + 1
-			if l_area.count > 0 and then end_index >= l_area [i].code then
+			l_area := area; start_end_count := upper_A - lower_A + 1
+			if l_area.count > 0 and then upper_A >= l_area [i].code then
 				from i := 0 until Result or else i = l_area.count loop
-					lower := l_area [i].code; upper := l_area [i + 1].code
-					l_count := upper - lower + 1
-					if start_end_count < l_count then
-						Result := (lower <= start_index and then start_index <= upper)
-										or else lower <= end_index and then end_index <= upper
-
-					else
-						Result := (start_index <= lower and then lower <= end_index)
-										or else start_index <= upper and then upper <= end_index
-					end
-					i := i + l_count + 2
+					lower_B := l_area [i].code; upper_B := l_area [i + 1].code
+					overlap_status := ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
+					Result := ir.is_overlapping (overlap_status)
+					i := i + upper_B - lower_B + 3
 				end
 			end
 		end
@@ -822,34 +817,41 @@ feature -- Removal
 			end
 		end
 
-	remove_substring (start_index, end_index: INTEGER)
+	remove_substring (lower_A, upper_A: INTEGER)
 		local
-			i, lower, upper, count, i_final, removed_count, deleted_count, previous_i, previous_upper: INTEGER
-			l_area: like area
+			i, lower_B, upper_B, i_final, overlap_status, previous_i, previous_upper: INTEGER
+			count, removed_count, deleted_count, start_index, end_index: INTEGER
+			ir: EL_INTERVAL_ROUTINES; l_area: like area
 		do
 			l_area := area; i_final := l_area.count
-			deleted_count := end_index - start_index + 1
+			deleted_count := upper_A - lower_A + 1
 			from i := 0 until i = i_final loop
-				lower := l_area [i].code; upper := l_area [i + 1].code
-				count := upper - lower + 1
+				lower_B := l_area [i].code; upper_B := l_area [i + 1].code
+				count := upper_B - lower_B + 1
 				removed_count := 0
-				if lower <= start_index and end_index <= upper then
-					-- Remove middle section
-					removed_count := remove_section (l_area, i, lower, upper, start_index, end_index, deleted_count)
-				elseif start_index <= lower and upper <= end_index then
-					-- Remove entire section
-					removed_count := remove_section (l_area, i, lower, upper, lower, upper, deleted_count)
-				elseif lower <= end_index and end_index <= upper then
-					-- Remove leading section
-					removed_count := remove_section (l_area, i, lower, upper, lower, end_index, deleted_count)
-
-				elseif lower <= start_index and start_index <= upper then
-					-- Remove trailing section
-					removed_count := remove_section (l_area, i, lower, upper, start_index, upper, deleted_count)
-
-				elseif lower > end_index then
-					l_area [i] := (lower - deleted_count).to_character_32
-					l_area [i + 1] := (upper - deleted_count).to_character_32
+				overlap_status := ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
+				inspect overlap_status
+					when B_contains_A then
+						-- Remove middle section
+						start_index := lower_A; end_index := upper_A
+					when A_contains_B then
+						-- Remove entire section
+						start_index := lower_B; end_index := upper_B
+					when A_overlaps_B_left then
+						-- Remove leading section
+						start_index := lower_B; end_index := upper_A
+					when A_overlaps_B_right then
+						-- Remove trailing section
+						start_index := lower_A; end_index := upper_B
+					when A_left_of_B then
+						l_area [i] := (lower_B - deleted_count).to_character_32
+						l_area [i + 1] := (upper_B - deleted_count).to_character_32
+						start_index := 0
+				else
+					start_index := 0
+				end
+				if start_index.to_boolean then
+					removed_count := remove_section (l_area, i, lower_B, upper_B, start_index, end_index, deleted_count)
 				end
 				if removed_count > 0 then
 					if removed_count = count + 2 then
@@ -859,15 +861,15 @@ feature -- Removal
 							area := Empty_unencoded
 						end
 					else
-						lower := l_area [i].code; upper := l_area [i + 1].code
-						if previous_upper > 0 and then previous_upper + 1 = lower then
+						lower_B := l_area [i].code; upper_B := l_area [i + 1].code
+						if previous_upper > 0 and then previous_upper + 1 = lower_B then
 							-- Merge interval with previous
 							l_area.overlapping_move (i + 2, i, l_area.count - i - 2)
 							l_area.remove_tail (2)
 							i := previous_i
-							lower := l_area [i].code
-							l_area.put (upper.to_character_32, i + 1)
-							count := upper - lower + 1
+							lower_B := l_area [i].code
+							l_area.put (upper_B.to_character_32, i + 1)
+							count := upper_B - lower_B + 1
 							i_final := i_final - removed_count - 2
 							removed_count := 0
 						else
@@ -875,7 +877,7 @@ feature -- Removal
 						end
 					end
 				end
-				previous_i := i; previous_upper := upper
+				previous_i := i; previous_upper := upper_B
 				i := i + count + 2 - removed_count
 			end
 		end

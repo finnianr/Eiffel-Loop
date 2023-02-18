@@ -13,8 +13,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-02 8:48:23 GMT (Friday 2nd December 2022)"
-	revision: "16"
+	date: "2023-02-18 12:25:19 GMT (Saturday 18th February 2023)"
+	revision: "17"
 
 class
 	HEXAGRAM_STRINGS
@@ -22,7 +22,7 @@ class
 inherit
 	ANY
 
-	EL_MODULE_TUPLE
+	EL_MODULE_FILE; EL_MODULE_TUPLE
 
 	SHARED_DEV_ENVIRON
 
@@ -59,19 +59,30 @@ feature -- Access
 			txt_file.close
 		end
 
+	Hexagram_1_array: ARRAYED_LIST [ARRAY [READABLE_STRING_GENERAL]]
+		once
+			create Result.make_from_array (<<
+				new_parts_array (1, File.line_one (Hexagrams_path))
+			>>)
+		end
+
 	String_arrays: ARRAYED_LIST [ARRAY [READABLE_STRING_GENERAL]]
-		local
-			index: INTEGER; chinese_name: like chinese_names.item
 		once
 			create Result.make (64)
 			across english_titles as title loop
-				index := title.cursor_index
-				chinese_name := chinese_names [index]
-				Result.extend (<< "Hex. #" + index.out, chinese_name.pinyin, chinese_name.characters, title.item >>)
+				Result.extend (new_parts_array (title.cursor_index, title.item))
 			end
 		end
 
 feature {NONE} -- Implementation
+
+	new_parts_array (index: INTEGER; title: STRING): ARRAY [READABLE_STRING_GENERAL]
+		local
+			chinese_name: like chinese_names.item
+		do
+			chinese_name := chinese_names [index]
+			Result := << "Hex. #" + index.out, chinese_name.pinyin, chinese_name.characters, title >>
+		end
 
 	new_chinese_title (csv_line: STRING_32): TUPLE [pinyin, characters: STRING_32; number: INTEGER]
 		do

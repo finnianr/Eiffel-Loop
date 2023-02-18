@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2023-02-18 15:51:52 GMT (Saturday 18th February 2023)"
+	revision: "12"
 
 deferred class
 	MIXED_ENCODING_STRING_BENCHMARK
@@ -33,7 +33,9 @@ feature -- Basic operations
 			do_performance_test ("code (z_code)", "$A $B $C $D", agent test_code)
 			do_performance_test ("code (z_code)", "$B $C", agent test_code)
 
-			do_performance_test ("ends_with", "$B $C", agent test_ends_with)
+			do_performance_test ("ends_with", "$A $B $C", agent test_ends_with)
+			do_performance_test ("ends_with_general", "$A $B $C", agent test_ends_with_general)
+
 			do_performance_test ("escaped (as XML)", "put_amp ($B $C)", agent test_xml_escape)
 
 			do_performance_test ("index_of", "$B $C", agent test_index_of)
@@ -58,7 +60,8 @@ feature -- Basic operations
 			do_performance_test ("right_adjust", "padded (C)", agent test_right_adjust)
 
 			do_performance_test ("split, substring", "$A $B $C $D", agent test_split)
-			do_performance_test ("starts_with", "$B $C", agent test_starts_with)
+			do_performance_test ("starts_with", "$B $C $A", agent test_starts_with)
+			do_performance_test ("starts_with_general", "$B $C $A", agent test_starts_with_general)
 			do_performance_test ("substring_index", "$A $B $C", agent test_substring_index)
 			do_performance_test ("substring_index", "$B $C $A", agent test_substring_index)
 
@@ -73,13 +76,19 @@ feature -- Basic operations
 	do_memory_tests
 		do
 			do_memory_test ("$B", 1)
-			do_memory_test ("$B", 64)
+			if test.strings_count > 1 then
+				do_memory_test ("$B", 64)
+			end
 
 			do_memory_test ("$C", 1)
-			do_memory_test ("$C", 64)
+			if test.strings_count > 1 then
+				do_memory_test ("$C", 64)
+			end
 
 			do_memory_test ("$A $B $C $D", 1)
-			do_memory_test ("$A $B $C $D", 64)
+			if test.strings_count > 1 then
+				do_memory_test ("$A $B $C $D", 64)
+			end
 		end
 
 end

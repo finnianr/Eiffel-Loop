@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-12 17:29:34 GMT (Sunday 12th February 2023)"
-	revision: "7"
+	date: "2023-02-18 15:30:12 GMT (Saturday 18th February 2023)"
+	revision: "8"
 
 deferred class
 	TEST_STRINGS [S -> STRING_GENERAL create make end]
@@ -35,21 +35,12 @@ feature {NONE} -- Initialization
 			parts_32: EL_STRING_LIST [S]; format_args: STRING; i, count: INTEGER
 			conv: EL_UTF_CONVERTER
 		do
+			make_default
 			format := a_format
 			format_args := new_input_arguments (a_format)
 			format_columns := new_format_columns (format_args)
 
 			set_escape_character (escape_character)
-
-			create string_list.make (64)
-			create character_set_list.make (64)
-			create utf_8_string_list.make (64)
-			create string_list_twin.make (64)
-			create last_word_list.make (64)
-			create search_string_list.make (64)
-			create substring_list.make (64)
-			create character_pair_list.make (64)
-			create substitution_list.make (64)
 
 			if not across General_concat_tests as name some routines.has (name.item) end then
 				across Hexagram.string_arrays as array loop
@@ -68,6 +59,12 @@ feature {NONE} -- Initialization
 					elseif routines.has ("replace_character") then
 						character_set_list.extend (new_character_set (string_list.last))
 					end
+					if across routines as name some name.item.starts_with ("ends") end then
+						tail_words_list.extend (new_tail_words (string_list.last))
+					end
+					if across routines as name some name.item.starts_with ("starts") end then
+						head_words_list.extend (new_head_words (string_list.last))
+					end
 				end
 			end
 			if a_format.starts_with (Padded) then
@@ -85,10 +82,7 @@ feature {NONE} -- Initialization
 					if across routines as name some Substring_tests.has (name.item) end then
 						substring_list.extend (new_substrings (str))
 						if routines.has ("translate") and then attached substring_list.last as last then
-							count := last.first_word.count.min (last.last_word.count)
-							substitution_list.extend ([last.first_word.twin, last.last_word.twin])
-							substitution_list.last.old_characters.keep_head (count)
-							substitution_list.last.new_characters.keep_head (count)
+							substitution_list.extend (new_substitution (last))
 						end
 					end
 					if across routines as name some Character_pair_tests.has (name.item) end then
@@ -96,6 +90,21 @@ feature {NONE} -- Initialization
 					end
 				end
 			end
+		end
+
+	make_default
+		do
+			create string_list.make (64)
+			create character_set_list.make (64)
+			create utf_8_string_list.make (64)
+			create string_list_twin.make (64)
+			create last_word_list.make (64)
+			create search_string_list.make (64)
+			create substring_list.make (64)
+			create character_pair_list.make (64)
+			create substitution_list.make (64)
+			create head_words_list.make (64)
+			create tail_words_list.make (64)
 		end
 
 feature -- Access
@@ -135,24 +144,33 @@ feature -- Access
 
 feature -- Test strings
 
-	utf_8_string_list: ARRAYED_LIST [STRING]
+	last_word_list: like string_list
+
+	head_words_list: ARRAYED_LIST [like new_head_words]
+
+	search_string_list: ARRAYED_LIST [like new_search_strings]
 
 	string_list: EL_STRING_LIST [S]
 
 	string_list_twin: like string_list
 
-	last_word_list: like string_list
-
-	substitution_list: ARRAYED_LIST [TUPLE [old_characters, new_characters: S]]
+	substitution_list: ARRAYED_LIST [like new_substitution]
 
 	substring_list: ARRAYED_LIST [like new_substrings]
 
-	search_string_list: ARRAYED_LIST [like new_search_strings]
+	tail_words_list: ARRAYED_LIST [like new_tail_words]
+
+	utf_8_string_list: ARRAYED_LIST [STRING]
 
 feature -- Measurement
 
 	storage_bytes (s: S): INTEGER
 		deferred
+		end
+
+	strings_count: INTEGER
+		do
+			Result := Hexagram.string_arrays.count
 		end
 
 feature -- Conversion
@@ -253,6 +271,16 @@ feature {NONE} -- Factory
 			end
 		end
 
+	new_head_words (str: S): TUPLE [first_two: S; first_two_32: STRING_32]
+		local
+			words: EL_STRING_LIST [S]
+		do
+			create words.make_word_split (str)
+			create Result
+			Result.first_two := words.sub_list (1, words.count.min (2)).joined_words
+			Result.first_two_32 := Result.first_two.to_string_32
+		end
+
 	new_input_arguments (a_format: STRING): STRING
 		local
 			pos_left_bracket: INTEGER
@@ -262,21 +290,6 @@ feature {NONE} -- Factory
 				Result := a_format.substring (pos_left_bracket + 1, a_format.count - 1)
 			else
 				Result := a_format
-			end
-		end
-
-	new_substrings (str: S): TUPLE [first_word, middle_word, last_word, first_character, last_character: S]
-		local
-			count: INTEGER
-		do
-			create Result
-			count := str.count
-			if attached str.split (' ') as words then
-				Result.first_word := words [1]
-				Result.middle_word := words [(words.count // 2) + 1]
-				Result.last_word := words [words.count]
-				Result.first_character := str.substring (1, 1)
-				Result.last_character := str.substring (count, count)
 			end
 		end
 
@@ -299,6 +312,41 @@ feature {NONE} -- Factory
 					end
 				end
 			end
+		end
+
+	new_substitution (substrings: like new_substrings): TUPLE [old_characters, new_characters: S]
+		local
+			count: INTEGER
+		do
+			count := substrings.first_word.count.min (substrings.last_word.count)
+			Result := [substrings.first_word.twin, substrings.last_word.twin]
+			Result.old_characters.keep_head (count)
+			Result.new_characters.keep_head (count)
+		end
+
+	new_substrings (str: S): TUPLE [first_word, middle_word, last_word, first_character, last_character: S]
+		local
+			count: INTEGER
+		do
+			create Result
+			count := str.count
+			if attached str.split (' ') as words then
+				Result.first_word := words [1]
+				Result.middle_word := words [(words.count // 2) + 1]
+				Result.last_word := words [words.count]
+				Result.first_character := str.substring (1, 1)
+				Result.last_character := str.substring (count, count)
+			end
+		end
+
+	new_tail_words (str: S): TUPLE [last_two: S; last_two_32: STRING_32]
+		local
+			words: EL_STRING_LIST [S]
+		do
+			create words.make_word_split (str)
+			create Result
+			Result.last_two := words.sub_list ((words.count - 1).max (1), words.count).joined_words
+			Result.last_two_32 := Result.last_two.to_string_32
 		end
 
 feature {NONE} -- Implementation

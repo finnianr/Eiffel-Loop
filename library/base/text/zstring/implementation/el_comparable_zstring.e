@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-17 18:27:53 GMT (Friday 17th February 2023)"
-	revision: "28"
+	date: "2023-02-17 18:30:16 GMT (Friday 17th February 2023)"
+	revision: "29"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -232,7 +232,6 @@ feature {NONE} -- Implementation
 			i_final := area_lower + n
 			from i := area_lower; j := other.area_lower until found or else i = i_final loop
 				c_i := l_area [i]; o_i := o_area [j]
-
 				if c_i = Substitute then
 					l_code := unencoded.z_code (i + 1)
 					if o_i = Substitute then

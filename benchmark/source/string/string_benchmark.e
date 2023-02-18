@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-12 17:30:20 GMT (Sunday 12th February 2023)"
-	revision: "22"
+	date: "2023-02-18 16:03:23 GMT (Saturday 18th February 2023)"
+	revision: "23"
 
 deferred class
 	STRING_BENCHMARK
@@ -55,7 +55,9 @@ feature {NONE} -- Implementation
 	do_memory_tests
 		do
 			do_memory_test ("$A $D", 1)
-			do_memory_test ("$A $D", 64)
+			if test.strings_count > 1 then
+				do_memory_test ("$A $D", 64)
+			end
 		end
 
 	do_performance_tests
@@ -72,6 +74,8 @@ feature {NONE} -- Implementation
 			do_performance_test ("code (z_code)", "$A $D", agent test_code)
 
 			do_performance_test ("ends_with", "D", agent test_ends_with)
+			do_performance_test ("ends_with_general", "D", agent test_ends_with_general)
+
 			do_performance_test ("escaped (as XML)", "put_amp (D)", agent test_xml_escape)
 
 			do_performance_test ("index_of", "D", agent test_index_of)
@@ -96,6 +100,7 @@ feature {NONE} -- Implementation
 
 			do_performance_test ("split, substring", "$A $D", agent test_split)
 			do_performance_test ("starts_with", "D", agent test_starts_with)
+			do_performance_test ("starts_with_general", "D", agent test_starts_with_general)
 			do_performance_test ("substring_index", "$A $D", agent test_substring_index)
 
 			do_performance_test ("to_utf_8", "$A $D", agent test_to_utf_8)
@@ -109,7 +114,7 @@ feature {NONE} -- Concatenation
 
 	test_append_string
 		require
-			valid_substring_list: test.substring_list.count = 64
+			valid_substring_list: test.substring_list.count = test.strings_count
 		do
 			concat_string (True)
 		end
@@ -123,7 +128,7 @@ feature {NONE} -- Concatenation
 
 	test_append_utf_8
 		require
-			valid_utf_8_string_list: test.utf_8_string_list.count = 64
+			valid_utf_8_string_list: test.utf_8_string_list.count = test.strings_count
 		do
 			across test.utf_8_string_list as utf_8 loop
 				test.append_utf_8 (test.new_string (0), utf_8.item)
@@ -132,7 +137,7 @@ feature {NONE} -- Concatenation
 
 	test_prepend_string
 		require
-			valid_substring_list: test.substring_list.count = 64
+			valid_substring_list: test.substring_list.count = test.strings_count
 		do
 			concat_string (False)
 		end
@@ -148,7 +153,7 @@ feature {NONE} -- Mutation tests
 
 	test_insert_string
 		require
-			valid_substring_list: test.substring_list.count = 64
+			valid_substring_list: test.substring_list.count = test.strings_count
 		local
 			i: INTEGER
 		do
@@ -171,7 +176,7 @@ feature {NONE} -- Mutation tests
 
 	test_prune_all
 		require
-			valid_character_pair_list: test.character_pair_list.count = 64
+			valid_character_pair_list: test.character_pair_list.count = test.strings_count
 		do
 			across test.string_list as str loop
 				test.prune_all (str.item, test.character_pair_list [str.cursor_index].last_character)
@@ -204,7 +209,7 @@ feature {NONE} -- Mutation tests
 
 	test_replace_substring
 		require
-			valid_substring_list: test.substring_list.count = 64
+			valid_substring_list: test.substring_list.count = test.strings_count
 		local
 			start_index, end_index: INTEGER; str: like test.new_string
 		do
@@ -218,7 +223,7 @@ feature {NONE} -- Mutation tests
 
 	test_replace_substring_all
 		require
-			valid_substring_list: test.substring_list.count = 64
+			valid_substring_list: test.substring_list.count = test.strings_count
 		do
 			across test.string_list as string loop
 				if attached test.substring_list [string.cursor_index] as substring then
@@ -250,8 +255,8 @@ feature {NONE} -- Mutation tests
 
 	test_translate
 		require
-			valid_substring_list: test.substring_list.count = 64
-			valid_substitution_list: test.substitution_list.count = 64
+			valid_substring_list: test.substring_list.count = test.strings_count
+			valid_substitution_list: test.substitution_list.count = test.strings_count
 		local
 			old_characters, new_characters: like test.new_string
 		do
@@ -295,14 +300,25 @@ feature {NONE} -- Query tests
 
 	test_ends_with
 		require
-			valid_substring_list: test.search_string_list.count = 64
-		local
-			ending: STRING_GENERAL
+			valid_substring_list: test.tail_words_list.count = test.strings_count
 		do
 			across test.string_list as string loop
-				if attached test.search_string_list [string.cursor_index] as string_list then
-					across string_list as list loop
-						call (string.item.ends_with (list.item))
+				if attached test.tail_words_list [string.cursor_index] as tail_words then
+					if string.item.ends_with (tail_words.last_two) then
+						do_nothing
+					end
+				end
+			end
+		end
+
+	test_ends_with_general
+		require
+			valid_substring_list: test.tail_words_list.count = test.strings_count
+		do
+			across test.string_list as string loop
+				if attached test.tail_words_list [string.cursor_index] as tail_words then
+					if string.item.ends_with (tail_words.last_two_32) then
+						do_nothing
 					end
 				end
 			end
@@ -310,7 +326,7 @@ feature {NONE} -- Query tests
 
 	test_index_of
 		require
-			valid_character_pair_list: test.character_pair_list.count = 64
+			valid_character_pair_list: test.character_pair_list.count = test.strings_count
 		local
 			uc: CHARACTER_32
 		do
@@ -335,16 +351,18 @@ feature {NONE} -- Query tests
 
 	test_is_equal
 		require
-			valid_string_list_twin: test.string_list_twin.count = 64
+			valid_string_list_twin: test.string_list_twin.count = test.strings_count
 		do
 			across test.string_list as str loop
-				call (str.item.is_equal (test.string_list_twin [str.cursor_index]))
+				if str.item.is_equal (test.string_list_twin [str.cursor_index]) then
+					do_nothing
+				end
 			end
 		end
 
 	test_last_index_of
 		require
-			valid_character_pair_list: test.character_pair_list.count = 64
+			valid_character_pair_list: test.character_pair_list.count = test.strings_count
 		local
 			str: like test.new_string; uc: CHARACTER_32
 		do
@@ -378,12 +396,25 @@ feature {NONE} -- Query tests
 
 	test_starts_with
 		require
-			valid_substring_list: test.substring_list.count = 64
+			valid_substring_list: test.head_words_list.count = test.strings_count
 		do
 			across test.string_list as string loop
-				if attached test.substring_list [string.cursor_index] as substring then
-					across << substring.first_word, substring.last_word >> as word loop
-						call (string.item.starts_with (word.item))
+				if attached test.head_words_list [string.cursor_index] as head_words then
+					if string.item.starts_with (head_words.first_two) then
+						do_nothing
+					end
+				end
+			end
+		end
+
+	test_starts_with_general
+		require
+			valid_substring_list: test.head_words_list.count = test.strings_count
+		do
+			across test.string_list as string loop
+				if attached test.head_words_list [string.cursor_index] as head_words then
+					if string.item.starts_with (head_words.first_two_32) then
+						do_nothing
 					end
 				end
 			end
@@ -391,7 +422,7 @@ feature {NONE} -- Query tests
 
 	test_substring_index
 		require
-			valid_substring_list: test.search_string_list.count = 64
+			valid_substring_list: test.search_string_list.count = test.strings_count
 		do
 			across test.string_list as string loop
 				if attached test.search_string_list [string.cursor_index] as string_list then
@@ -452,7 +483,7 @@ feature {NONE} -- Implementation
 
 	concat_string (append: BOOLEAN)
 		require
-			valid_substring_list: test.substring_list.count = 64
+			valid_substring_list: test.substring_list.count = test.strings_count
 		local
 			str: like test.new_string
 		do
@@ -480,7 +511,7 @@ feature {NONE} -- Implementation
 			end
 			lio.put_labeled_string (generator, l_description); lio.put_labeled_string (" input", a_format)
 			lio.put_new_line
-			test := new_test ("append_string", a_format)
+			test := new_test_strings ("append_string", a_format)
 			output_string := test.string_list.first.twin
 			from i := 2 until i > rows loop
 				output_string.append_code (32)
@@ -495,16 +526,17 @@ feature {NONE} -- Implementation
 			count: DOUBLE
 		do
 			if routines.has_substring (routine_filter) then
-				lio.put_labeled_string (generator, routines); lio.put_labeled_string (" input", a_format)
+				test := new_test_strings (routines, a_format)
+
+				lio.put_labeled_string (generator, routines);
+				lio.put_labeled_substitution (" input", "%"%S%" x %S", [a_format, test.strings_count])
 				lio.put_new_line
-				test := new_test (routines, a_format)
-				full_collect
 				count := application_count (procedure, trial_duration_ms).to_real_64
 				performance_tests.extend ([routines, test.display_format, count])
 			end
 		end
 
-	new_test (routines, a_format: STRING): TEST_STRINGS [STRING_GENERAL]
+	new_test_strings (routines, a_format: STRING): TEST_STRINGS [STRING_GENERAL]
 		deferred
 		end
 
@@ -512,7 +544,7 @@ feature {NONE} -- Internal attributes
 
 	escape_character: CHARACTER_32
 
-	test: like new_test
+	test: like new_test_strings
 
 	routine_filter: STRING
 

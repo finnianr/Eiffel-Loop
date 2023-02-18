@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-29 17:59:33 GMT (Sunday 29th January 2023)"
-	revision: "17"
+	date: "2023-02-18 16:03:23 GMT (Saturday 18th February 2023)"
+	revision: "18"
 
 class
 	ZSTRING_BENCHMARK
@@ -29,7 +29,7 @@ feature -- Access
 
 feature {NONE} -- Factory
 
-	new_test (routines, a_format: STRING): TEST_ZSTRING
+	new_test_strings (routines, a_format: STRING): TEST_ZSTRING
 		do
 			create Result.make (routines, a_format, escape_character)
 		end
