@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-16 14:31:56 GMT (Thursday 16th February 2023)"
-	revision: "79"
+	date: "2023-02-18 16:37:21 GMT (Saturday 18th February 2023)"
+	revision: "80"
 
 class
 	ZSTRING_TEST_SET
@@ -658,6 +658,7 @@ feature -- Element change tests
 		end
 
 	test_replace_substring_all
+		-- ZSTRING_TEST_SET.test_replace_substring_all
 		note
 			testing:	"covers/{ZSTRING}.replace_substring_all"
 		local

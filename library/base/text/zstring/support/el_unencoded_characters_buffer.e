@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 16:03:37 GMT (Friday 10th February 2023)"
-	revision: "18"
+	date: "2023-02-18 17:01:09 GMT (Saturday 18th February 2023)"
+	revision: "19"
 
 class
 	EL_UNENCODED_CHARACTERS_BUFFER
@@ -37,13 +37,6 @@ feature -- Status query
 
 	in_use: BOOLEAN
 
-feature -- Status change
-
---	set_in_use (state: BOOLEAN)
---		do
---			in_use := state
---		end
-
 feature -- Element change
 
 	append_from_area (a_area: like area; index: INTEGER)
@@ -58,32 +51,38 @@ feature -- Element change
 			set_if_changed (current_area, l_area)
 		end
 
-	append_substring (other: EL_UNENCODED_CHARACTERS; start_index, end_index, offset: INTEGER)
+	append_substring (other: EL_UNENCODED_CHARACTERS; lower_A, upper_A, offset: INTEGER)
 		local
-			i, lower, upper, count: INTEGER
-			o_area: like area
+			i, lower_B, upper_B, overlap_status, current_i, other_i: INTEGER
+			ir: EL_INTERVAL_ROUTINES; o_area: like area; done, searching: BOOLEAN
 		do
-			o_area := other.area
-			from i := 0 until i = o_area.count loop
-				lower := o_area [i].code; upper := o_area [i + 1].code
-				count := upper - lower + 1
-				if lower <= start_index and then end_index <= upper then
-					-- Append full interval
-					append_interval (o_area, i + 2 + (start_index - lower), 1, end_index - start_index + 1, offset)
-
-				elseif start_index <= lower and then upper <= end_index then
-					-- Append full interval
-					append_interval (o_area, i + 2, lower - start_index + 1, upper - start_index + 1, offset)
-
-				elseif lower <= end_index and then end_index <= upper then
-					-- Append left section
-					append_interval (o_area, i + 2, lower - start_index + 1, end_index - start_index + 1, offset)
-
-				elseif lower <= start_index and then start_index <= upper then
-					-- Append right section
-					append_interval (o_area, i + 2 + (start_index - lower), 1, upper - start_index + 1, offset)
+			o_area := other.area; searching := True
+			from i := 0 until done or i = o_area.count loop
+				lower_B := o_area [i].code; upper_B := o_area [i + 1].code
+				overlap_status := ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
+				
+				if searching and then ir.is_overlapping (overlap_status) then
+					searching := False
 				end
-				i := i + count + 2
+				if not searching then
+					inspect overlap_status
+						when B_contains_A then
+							-- Append full interval
+							append_interval (o_area, i + 2 + (lower_A - lower_B), 1, upper_A - lower_A + 1, offset)
+						when A_contains_B then
+							-- Append full interval
+							append_interval (o_area, i + 2, lower_B - lower_A + 1, upper_B - lower_A + 1, offset)
+						when A_overlaps_B_left then
+							-- Append left section
+							append_interval (o_area, i + 2, lower_B - lower_A + 1, upper_A - lower_A + 1, offset)
+						when A_overlaps_b_right then
+							-- Append right section
+							append_interval (o_area, i + 2 + (lower_A - lower_B), 1, upper_B - lower_A + 1, offset)
+					else
+						done := True
+					end
+				end
+				i := i + upper_B - lower_B + 3
 			end
 		end
 
