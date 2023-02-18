@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-06 14:11:28 GMT (Monday 6th February 2023)"
-	revision: "9"
+	date: "2023-02-18 19:41:48 GMT (Saturday 18th February 2023)"
+	revision: "10"
 
 class
 	SUBSTRING_INDEX_COMPARISON
@@ -23,34 +23,33 @@ create
 
 feature -- Access
 
-	Description: STRING = "{ZSTRING}.substring_index"
+	Description: STRING = "Compare {ZSTRING}.substring_index argument types"
 
 feature -- Basic operations
 
 	execute
+
 		do
 			compare ("compare_substring_index", <<
-				["substring_index", 						agent substring_index],
-				["substring_index_general",			agent substring_index_general]
+				["substring_index ({ZSTRING})", 		agent substring_index_1 (new_zstring (Chinese [1]))],
+				["substring_index ({STRING_32})",	agent substring_index_2 (Chinese [1])]
 			>>)
 		end
 
 feature {NONE} -- substring_index
 
-	substring_index
+	substring_index_1 (str: ZSTRING)
 		local
-			str: ZSTRING; pos: INTEGER
+			pos: INTEGER
 		do
-			str := Hexagram_1_description
-			pos := str.substring_index (new_zstring (Chinese [1]), 1)
+			pos := Hexagram_1_description.substring_index (str, 1)
 		end
 
-	substring_index_general
+	substring_index_2 (str: STRING_32)
 		local
-			str: ZSTRING; pos: INTEGER
+			pos: INTEGER
 		do
-			str := Hexagram_1_description
-			pos := str.substring_index_general (Chinese [1], 1)
+			pos := Hexagram_1_description.substring_index (str, 1)
 		end
 
 end

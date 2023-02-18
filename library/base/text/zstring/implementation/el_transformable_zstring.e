@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 11:13:50 GMT (Friday 10th February 2023)"
-	revision: "32"
+	date: "2023-02-18 18:40:48 GMT (Saturday 18th February 2023)"
+	revision: "33"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -621,10 +621,6 @@ feature {NONE} -- Deferred
 		end
 
 	occurrences (uc: CHARACTER_32): INTEGER
-		deferred
-		end
-
-	substring_index (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
 		deferred
 		end
 

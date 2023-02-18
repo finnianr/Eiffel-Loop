@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-17 9:13:05 GMT (Friday 17th February 2023)"
-	revision: "21"
+	date: "2023-02-18 19:34:14 GMT (Saturday 18th February 2023)"
+	revision: "22"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
 
 inherit
 	EL_ZSTRING_IMPLEMENTATION
+
+	EL_SHARED_STRING_32_CURSOR
 
 feature -- Access
 
@@ -72,29 +74,21 @@ feature -- Access
 			end
 		end
 
-	substring_index (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
-		local
-			has_mixed_in_range: BOOLEAN
+	substring_index (other: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
 		do
-			has_mixed_in_range := has_unencoded_between_optimal (area, start_index, count)
-			inspect current_other_bitmap (has_mixed_in_range, other.has_mixed_encoding)
-				when Only_current, Neither then
-					Result := String_8.substring_index (Current, other, start_index)
+			if attached {EL_READABLE_ZSTRING} other as z_other then
+				Result := substring_index_zstring (z_other, start_index)
 
-				when Both_have_mixed_encoding then
---					Result := mixed_encoding_substring_index (other, start_index, count)
-					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
-					Result := String_searcher.substring_index (current_readable, other.as_expanded (1), start_index, count)
+			elseif attached {READABLE_STRING_8} other as str_8 and then attached cursor_8 (str_8) as cursor then
+				if cursor.all_ascii then
+					Result := String_8.substring_index_ascii (Current, str_8, start_index)
+				else
+					Result := String_searcher.substring_index (current_readable, shared_expanded_8 (cursor), start_index, count)
+				end
 
-				when Only_other then
-					Result := 0
-			else
+			elseif attached {READABLE_STRING_32} other as str_32  then
+				Result := String_searcher.substring_index (current_readable, shared_expanded_32 (str_32), start_index, count)
 			end
-		end
-
-	substring_index_general (other: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
-		do
-			Result := substring_index (adapted_argument (other, 1), start_index)
 		end
 
 	substring_index_in_bounds (other: EL_READABLE_ZSTRING; start_pos, end_pos: INTEGER): INTEGER
@@ -131,7 +125,7 @@ feature -- Access
 
 	substring_right_index_general (other: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
 		do
-			Result := substring_index_general (other, start_index)
+			Result := substring_index (other, start_index)
 			if Result > 0 then
 				Result := Result + other.count
 			end
@@ -223,6 +217,62 @@ feature {NONE} -- Implementation
 				end
 			end
 		end
+
+	shared_expanded_8 (cursor: EL_STRING_8_ITERATION_CURSOR): STRING_32
+		--	`cursor.target' string expanded as z-code for `String_searcher'
+		local
+			l_area: like area; l_codec: like codec
+			i, i_final: INTEGER
+		do
+			Result := Buffer_32.empty; l_codec := codec; l_area := cursor.area
+			i_final := cursor.area_first_index + cursor.target_count
+			from i := cursor.area_first_index until i = i_final loop
+				Result.extend (l_codec.as_z_code (l_area [i]).to_character_32)
+				i := i + 1
+			end
+		ensure
+			same_count: Result.count = cursor.target_count
+		end
+
+	shared_expanded_32 (str_32: READABLE_STRING_32): STRING_32
+		--	`str_32' expanded as z-code for `String_searcher'
+		local
+			area_32: like unencoded_area; l_codec: like codec
+			i, i_final: INTEGER
+		do
+			if attached cursor_32 (str_32) as cursor then
+				Result := Buffer_32.empty; l_codec := codec; area_32 := cursor.area
+				i_final := cursor.area_first_index + str_32.count
+				from i := cursor.area_first_index until i = i_final loop
+					Result.extend (l_codec.as_z_code (area_32 [i]).to_character_32)
+					i := i + 1
+				end
+			end
+		ensure
+			same_count: Result.count = str_32.count
+		end
+
+	substring_index_zstring (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
+		local
+			has_mixed_in_range: BOOLEAN
+		do
+			has_mixed_in_range := has_unencoded_between_optimal (area, start_index, count)
+			inspect current_other_bitmap (has_mixed_in_range, other.has_mixed_encoding)
+				when Only_current, Neither then
+					Result := String_8.substring_index (Current, other, start_index)
+
+				when Both_have_mixed_encoding then
+--					Result := mixed_encoding_substring_index (other, start_index, count)
+					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
+					Result := String_searcher.substring_index (current_readable, other.as_expanded (1), start_index, count)
+
+				when Only_other then
+					Result := 0
+			else
+			end
+		end
+
+feature {NONE} -- Deferred
 
 	is_alpha_numeric_item (i: INTEGER): BOOLEAN
 		deferred

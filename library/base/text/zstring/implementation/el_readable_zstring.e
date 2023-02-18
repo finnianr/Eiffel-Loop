@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-15 17:52:24 GMT (Wednesday 15th February 2023)"
-	revision: "105"
+	date: "2023-02-18 18:34:13 GMT (Saturday 18th February 2023)"
+	revision: "106"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -21,7 +21,6 @@ inherit
 			has_code as has_unicode,
 			make_from_string_general as make_from_general,
 			split as split_list,
-			substring_index as substring_index_general,
 			string_searcher as string_32_searcher,
 			to_lower_area as unencoded_to_lower_area,
 			to_upper_area as unencoded_to_upper_area
@@ -32,7 +31,7 @@ inherit
 			make,
 --			Access
 			area_lower, area_upper, fuzzy_index, index_of, last_index_of, out,
-			substring_index_in_bounds, substring_index_general, string,
+			substring_index_in_bounds, substring_index, string,
 --			Status query			
 			has, ends_with, ends_with_general, starts_with, starts_with_general, is_less,
 			is_boolean, is_real, is_real_32, is_double, is_real_64,

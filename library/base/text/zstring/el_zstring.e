@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-15 16:49:14 GMT (Wednesday 15th February 2023)"
-	revision: "68"
+	date: "2023-02-18 18:33:37 GMT (Saturday 18th February 2023)"
+	revision: "69"
 
 class
 	EL_ZSTRING
@@ -100,7 +100,6 @@ inherit
 			same_characters as same_characters_general,
 			same_string as same_string_general,
 			split as split_list,
-			substring_index as substring_index_general,
 			starts_with as starts_with_general
 		undefine
 			copy, hash_code, out, index_of, last_index_of, occurrences,

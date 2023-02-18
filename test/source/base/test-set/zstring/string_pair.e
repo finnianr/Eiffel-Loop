@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-17 11:21:08 GMT (Friday 17th February 2023)"
-	revision: "12"
+	date: "2023-02-18 19:31:05 GMT (Saturday 18th February 2023)"
+	revision: "13"
 
 class
 	STRING_PAIR
@@ -138,6 +138,14 @@ feature -- Test comparisons
 			index_1 := s_32.substring_index (s_32_substring, from_index)
 			index_2 := zs.substring_index (zs_substring, from_index)
 			Result := index_1 = index_2
+			if Result then
+				index_2 := zs.substring_index (s_32_substring, from_index)
+				Result := index_1 = index_2
+			end
+			if Result and then attached s_8_substring as str_8 then
+				index_2 := zs.substring_index (s_8_substring, from_index)
+				Result := index_1 = index_2
+			end
 		end
 
 feature -- Status query

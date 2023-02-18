@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-17 14:38:07 GMT (Friday 17th February 2023)"
-	revision: "14"
+	date: "2023-02-18 19:18:50 GMT (Saturday 18th February 2023)"
+	revision: "15"
 
 class
 	EL_UNENCODED_CHARACTERS_INDEX
@@ -162,7 +162,7 @@ feature -- Status query
 
 	valid_index (index: INTEGER): BOOLEAN
 		local
-			i, lower, upper, i_final: INTEGER; l_area: like area
+			i, lower, upper: INTEGER; l_area: like area
 		do
 			l_area := area
 			from i := 0 until Result or else i = l_area.count loop
