@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2023-02-19 15:42:56 GMT (Sunday 19th February 2023)"
+	revision: "14"
 
 class
 	BENCHMARK_HTML
@@ -27,6 +27,8 @@ inherit
 	SHARED_HEXAGRAM_STRINGS
 
 	EL_SHARED_FIND_FILE_FILTER_FACTORY
+
+	EL_SHARED_ZSTRING_CODEC
 
 create
 	make
@@ -101,14 +103,24 @@ feature {NONE} -- Evolicity fields
 			Result := performance_tables.first.trial_duration_ms.to_reference
 		end
 
+	get_date: STRING
+		local
+			date: EL_DATE
+		do
+			create date.make_now
+			Result := date.formatted_out ("dd Mmm yyy")
+		end
+
 	getter_function_table: like getter_functions
 			--
 		do
 			create Result.make (<<
-				["performance_tables",	agent: like performance_tables do Result := performance_tables end],
-				["memory_tables", 		agent: like memory_tables do Result := memory_tables end],
+				["date", 					agent get_date],
 				["data_rows",				agent data_rows],
+				["encoding",				agent: STRING do Result := Codec.name end],
 				["github_link",			agent: STRING do Result := github_link end],
+				["memory_tables", 		agent: like memory_tables do Result := memory_tables end],
+				["performance_tables",	agent: like performance_tables do Result := performance_tables end],
 				["source_links",			agent source_links_table],
 				["trial_duration_ms",	agent get_trial_duration_ms]
 			>>)

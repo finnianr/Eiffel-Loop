@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-18 19:41:48 GMT (Saturday 18th February 2023)"
-	revision: "10"
+	date: "2023-02-19 17:44:38 GMT (Sunday 19th February 2023)"
+	revision: "11"
 
 class
 	SUBSTRING_INDEX_COMPARISON
@@ -23,7 +23,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "Compare {ZSTRING}.substring_index argument types"
+	Description: STRING = "{ZSTRING}.substring_index (s: STRING_32/ZSTRING)"
 
 feature -- Basic operations
 

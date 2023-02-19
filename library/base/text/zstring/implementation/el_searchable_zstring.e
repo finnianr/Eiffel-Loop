@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-18 19:34:14 GMT (Saturday 18th February 2023)"
-	revision: "22"
+	date: "2023-02-19 16:56:10 GMT (Sunday 19th February 2023)"
+	revision: "23"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -17,7 +17,7 @@ inherit
 
 	EL_SHARED_STRING_32_CURSOR
 
-feature -- Access
+feature -- Index position
 
 	index_of (uc: CHARACTER_32; start_index: INTEGER): INTEGER
 		local
@@ -155,7 +155,31 @@ feature -- Access
 			Result := word_index (adapted_argument (word, 1), start_index)
 		end
 
+feature -- Interval lists
+
+	substring_intervals (str: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): EL_OCCURRENCE_INTERVALS
+		do
+			Result := internal_substring_intervals (str)
+			if keep_ref then
+				Result := Result.twin
+			end
+		end
+
+	substring_index_list (delimiter: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): like internal_substring_index_list
+		do
+			Result := internal_substring_index_list (adapted_argument (delimiter, 1))
+			if keep_ref then
+				Result := Result.twin
+			end
+		end
+
 feature {NONE} -- Implementation
+
+	empty_occurrence_intervals (i: INTEGER): EL_OCCURRENCE_INTERVALS
+		do
+			Result := Occurrence_intervals [i]
+			Result.wipe_out
+		end
 
 	internal_substring_index_list (str: EL_READABLE_ZSTRING): ARRAYED_LIST [INTEGER]
 		-- shared list of indices of `str' occurring in `Current'
@@ -216,6 +240,13 @@ feature {NONE} -- Implementation
 				else
 				end
 			end
+		end
+
+	internal_substring_intervals (str: READABLE_STRING_GENERAL): EL_OCCURRENCE_INTERVALS
+		do
+			Result := Occurrence_intervals [0]
+			Result.wipe_out
+			Result.fill_by_string (current_readable, str, 0)
 		end
 
 	shared_expanded_8 (cursor: EL_STRING_8_ITERATION_CURSOR): STRING_32
@@ -289,6 +320,14 @@ feature {NONE} -- Constants
 	String_searcher: EL_ZSTRING_SEARCHER
 		once
 			create Result.make
+		end
+
+feature {NONE} -- Constants
+
+	Occurrence_intervals: SPECIAL [EL_OCCURRENCE_INTERVALS]
+		once
+			create Result.make_filled (create {EL_OCCURRENCE_INTERVALS}.make_empty, 2)
+			Result [1] := create {EL_OCCURRENCE_INTERVALS}.make_empty
 		end
 
 end

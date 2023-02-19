@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-18 18:34:13 GMT (Saturday 18th February 2023)"
-	revision: "106"
+	date: "2023-02-19 13:05:17 GMT (Sunday 19th February 2023)"
+	revision: "107"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -144,7 +144,7 @@ feature {NONE} -- Initialization
 	make_from_zcode_area (zcode_area: SPECIAL [NATURAL])
 		local
 			z_code_i: NATURAL; i, l_count: INTEGER
-			buffer: like empty_unencoded_buffer; l_area: like area
+			buffer: like Unencoded_buffer; l_area: like area
 		do
 			l_count := zcode_area.count
 			make (l_count)
@@ -518,7 +518,7 @@ feature -- Conversion
 			-- Copy of substring containing all characters at indices
 			-- between `start_index' and `end_index'
 		local
-			buffer: like empty_unencoded_buffer
+			buffer: like Unencoded_buffer
 		do
 			if (1 <= start_index) and (start_index <= end_index) and (end_index <= count) then
 				Result := new_string (end_index - start_index + 1)

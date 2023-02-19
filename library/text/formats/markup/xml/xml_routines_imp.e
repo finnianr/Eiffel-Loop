@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 11:05:06 GMT (Thursday 5th January 2023)"
-	revision: "21"
+	date: "2023-02-19 16:32:02 GMT (Sunday 19th February 2023)"
+	revision: "22"
 
 class
 	XML_ROUTINES_IMP
@@ -27,22 +27,23 @@ feature -- Measurement
 	data_payload_character_count (xml_text: ZSTRING): INTEGER
 		-- approximate count of text between tags
 		local
-			end_tag_list: EL_SEQUENTIAL_INTERVALS; data_from, data_to, i: INTEGER
+			data_from, data_to, i: INTEGER
 			has_data: BOOLEAN
 		do
-			end_tag_list := xml_text.substring_intervals (Close_tag_marker)
-			from end_tag_list.start until end_tag_list.after loop
-				data_to := end_tag_list.item_lower - 1
-				data_from := xml_text.last_index_of ('>', data_to) + 1
-				has_data := False
-				from i := data_from until has_data or i > data_to loop
-					has_data := not xml_text.is_space_item (i)
-					i := i + 1
+			if attached xml_text.substring_intervals (Close_tag_marker, False) as list then
+				from list.start until list.after loop
+					data_to := list.item_lower - 1
+					data_from := xml_text.last_index_of ('>', data_to) + 1
+					has_data := False
+					from i := data_from until has_data or i > data_to loop
+						has_data := not xml_text.is_space_item (i)
+						i := i + 1
+					end
+					if has_data then
+						Result := Result + data_to - (i - 1) + 1
+					end
+					list.forth
 				end
-				if has_data then
-					Result := Result + data_to - (i - 1) + 1
-				end
-				end_tag_list.forth
 			end
 		end
 

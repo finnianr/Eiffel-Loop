@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-18 17:01:09 GMT (Saturday 18th February 2023)"
-	revision: "19"
+	date: "2023-02-19 13:17:44 GMT (Sunday 19th February 2023)"
+	revision: "20"
 
 class
 	EL_UNENCODED_CHARACTERS_BUFFER
@@ -53,14 +53,14 @@ feature -- Element change
 
 	append_substring (other: EL_UNENCODED_CHARACTERS; lower_A, upper_A, offset: INTEGER)
 		local
-			i, lower_B, upper_B, overlap_status, current_i, other_i: INTEGER
+			i, lower_B, upper_B, overlap_status: INTEGER
 			ir: EL_INTERVAL_ROUTINES; o_area: like area; done, searching: BOOLEAN
 		do
 			o_area := other.area; searching := True
 			from i := 0 until done or i = o_area.count loop
 				lower_B := o_area [i].code; upper_B := o_area [i + 1].code
 				overlap_status := ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
-				
+
 				if searching and then ir.is_overlapping (overlap_status) then
 					searching := False
 				end

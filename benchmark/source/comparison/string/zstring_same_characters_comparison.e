@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-17 11:18:37 GMT (Friday 17th February 2023)"
-	revision: "7"
+	date: "2023-02-19 17:45:01 GMT (Sunday 19th February 2023)"
+	revision: "8"
 
 class
 	ZSTRING_SAME_CHARACTERS_COMPARISON
@@ -31,7 +31,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "Find best {ZSTRING}.same_characters_zstring"
+	Description: STRING = "{ZSTRING}.same_characters variations"
 
 feature -- Basic operations
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-18 9:20:44 GMT (Saturday 18th February 2023)"
-	revision: "3"
+	date: "2023-02-19 13:17:23 GMT (Sunday 19th February 2023)"
+	revision: "4"
 
 expanded class
 	EL_INTERVAL_ROUTINES
@@ -17,16 +17,28 @@ inherit
 
 	EL_INTERVAL_CONSTANTS
 
-feature -- Access
+feature -- Conversion
 
-	is_overlapping (status: INTEGER): BOOLEAN
+	to_lower (compact_interval: INTEGER_64): INTEGER
 		do
-			Result := (status & Overlapping_mask).to_boolean
+			Result := (compact_interval |>> 32).to_integer_32
 		end
+
+	to_upper (compact_interval: INTEGER_64): INTEGER
+		do
+			Result := compact_interval.to_integer_32
+		end
+
+feature -- Access
 
 	is_disjoint (status: INTEGER): BOOLEAN
 		do
 			Result := (status & Disjoint_mask).to_boolean
+		end
+
+	is_overlapping (status: INTEGER): BOOLEAN
+		do
+			Result := (status & Overlapping_mask).to_boolean
 		end
 
 	overlap_status (lower_A, upper_A, lower_B, upper_B: INTEGER): INTEGER

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-15 17:00:09 GMT (Wednesday 15th February 2023)"
-	revision: "15"
+	date: "2023-02-19 16:14:30 GMT (Sunday 19th February 2023)"
+	revision: "16"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
@@ -79,20 +79,20 @@ feature -- Measurement
 	substitution_marker_count: INTEGER
 		-- count of unescaped template substitution markers '%S' AKA '#'
 		local
-			l_index_list: like substring_index_list
 			index: INTEGER; escape_code: NATURAL
 		do
-			l_index_list := substring_index_list (Substitution_marker)
-			escape_code := ('%%').natural_32_code
-			from l_index_list.start until l_index_list.after loop
-				index := l_index_list.item
-				if index > 1 and then z_code (index - 1) = escape_code then
-					l_index_list.remove
-				else
-					l_index_list.forth
+			if attached internal_substring_index_list (Substitution_marker) as list then
+				escape_code := ('%%').natural_32_code
+				from list.start until list.after loop
+					index := list.item
+					if index > 1 and then z_code (index - 1) = escape_code then
+						list.remove
+					else
+						list.forth
+					end
 				end
+				Result := list.count
 			end
-			Result := l_index_list.count
 		end
 
 	trailing_occurrences (uc: CHARACTER_32): INTEGER
@@ -236,7 +236,7 @@ feature {NONE} -- Implementation
 			substring_agrees: substring (count - Result + 1, count).is_space_filled
 		end
 
-	substring_index_list (delimiter: READABLE_STRING_GENERAL): LIST [INTEGER]
+	internal_substring_index_list (delimiter: READABLE_STRING_GENERAL): LIST [INTEGER]
 		deferred
 		end
 

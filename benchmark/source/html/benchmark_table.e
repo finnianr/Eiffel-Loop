@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-18 15:52:40 GMT (Saturday 18th February 2023)"
-	revision: "16"
+	date: "2023-02-19 15:39:25 GMT (Sunday 19th February 2023)"
+	revision: "17"
 
 deferred class
 	BENCHMARK_TABLE
@@ -20,9 +20,7 @@ inherit
 
 	EL_BENCHMARK_ROUTINES
 
-	EL_MODULE_HTML
-
-	EL_MODULE_XML
+	EL_MODULE_HTML; EL_MODULE_XML
 
 feature {NONE} -- Initialization
 
@@ -110,10 +108,10 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make (<<
-				["column_title", 		agent: STRING do Result := column_title end],
-				["title", 				agent: ZSTRING do Result := title end],
-				["data_rows", 			agent: EL_ZSTRING_LIST do Result := data_rows end],
-				["table_id", 			agent next_table_id]
+				["column_title", 	agent: STRING do Result := column_title end],
+				["title", 			agent: ZSTRING do Result := title end],
+				["data_rows", 		agent: EL_ZSTRING_LIST do Result := data_rows end],
+				["table_id", 		agent next_table_id]
 			>>)
 		end
 

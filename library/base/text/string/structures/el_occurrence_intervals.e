@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-22 16:13:39 GMT (Sunday 22nd January 2023)"
-	revision: "16"
+	date: "2023-02-19 10:14:56 GMT (Sunday 19th February 2023)"
+	revision: "17"
 
 class
 	EL_OCCURRENCE_INTERVALS
@@ -18,13 +18,13 @@ class
 inherit
 	EL_SEQUENTIAL_INTERVALS
 		rename
-			make as make_intervals,
+			make as make_sized,
 			fill as fill_from,
 			first as first_interval,
 			last as last_interval,
 			new_item as new_interval
 		export
-			{NONE} extend, item_extend, item_replace
+			{NONE} item_extend, item_replace
 		redefine
 			make_empty
 		end
@@ -32,7 +32,7 @@ inherit
 	EL_STRING_8_CONSTANTS
 
 create
-	make, make_empty, make_by_string
+	make, make_empty, make_by_string, make_sized
 
 feature {NONE} -- Initialization
 
@@ -134,7 +134,7 @@ feature {NONE} -- Implementation
 				end
 			end
 			extend_buffer (a_target, buffer, search_index, search_string_count, adjustments, True)
-			make_intervals (buffer.count)
+			make_sized (buffer.count)
 			area.copy_data (buffer.area, 0, 0, buffer.count)
 		end
 

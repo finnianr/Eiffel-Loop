@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-18 18:41:22 GMT (Saturday 18th February 2023)"
-	revision: "37"
+	date: "2023-02-19 16:52:03 GMT (Sunday 19th February 2023)"
+	revision: "38"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -294,16 +294,6 @@ feature -- To list
 			create Result.make (current_zstring, a_separator)
 		end
 
-	substring_index_list (delimiter: READABLE_STRING_GENERAL): like internal_substring_index_list
-		do
-			Result := internal_substring_index_list (adapted_argument (delimiter, 1)).twin
-		end
-
-	substring_intervals (str: READABLE_STRING_GENERAL): EL_OCCURRENCE_INTERVALS
-		do
-			create Result.make_by_string (current_zstring, str)
-		end
-
 	substring_split (delimiter: EL_READABLE_ZSTRING): EL_STRING_LIST [ZSTRING]
 		-- split string on substring delimiter
 		do
@@ -516,10 +506,6 @@ feature -- Case changed
 feature {NONE} -- Deferred Implementation
 
 	current_zstring: ZSTRING
-		deferred
-		end
-
-	internal_substring_index_list (str: EL_READABLE_ZSTRING): ARRAYED_LIST [INTEGER]
 		deferred
 		end
 

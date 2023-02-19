@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-18 18:40:57 GMT (Saturday 18th February 2023)"
-	revision: "54"
+	date: "2023-02-19 13:06:51 GMT (Sunday 19th February 2023)"
+	revision: "55"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -336,7 +336,7 @@ feature {NONE} -- Implementation
 		require
 			valid_area_offset: valid_area_offset (a_unicode, start_index, end_index, area_offset)
 		local
-			buffer: like empty_unencoded_buffer
+			buffer: like Unencoded_buffer
 		do
 			buffer := empty_unencoded_buffer
 			codec.encode_substring (a_unicode, area, start_index, end_index, area_offset, buffer)

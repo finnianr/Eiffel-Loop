@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-18 18:33:37 GMT (Saturday 18th February 2023)"
-	revision: "69"
+	date: "2023-02-19 15:25:48 GMT (Sunday 19th February 2023)"
+	revision: "70"
 
 class
 	EL_ZSTRING
@@ -48,6 +48,7 @@ inherit
 --			Transformation
 			mirror, replace_character, replace_delimited_substring, replace_delimited_substring_general,
 			replace_substring, replace_substring_all, replace_substring_general, replace_substring_general_all,
+			replace_substring_all_X,
 			to_canonically_spaced, to_lower, to_proper_case, to_upper, translate_deleting_null_characters,
 			unescape,
 --			Removal
@@ -257,7 +258,7 @@ feature -- Element change
 		require
 			valid_insertion_index: 1 <= i and i <= count + 1
 		local
-			buffer: like empty_unencoded_buffer; l_count, old_count: INTEGER
+			buffer: like Unencoded_buffer; l_count, old_count: INTEGER
 		do
 			old_count := count
 			internal_insert_string (s, i)
@@ -344,8 +345,7 @@ feature -- Removal
 			-- Remove all occurrences of `c'.
 		local
 			i, j, i_final: INTEGER; c, c_i: CHARACTER_8; uc_i: CHARACTER_32
-			l_area: like area; c_is_substitute: BOOLEAN
-			l_buffer: like empty_unencoded_buffer
+			l_area: like area; c_is_substitute: BOOLEAN; l_buffer: like Unencoded_buffer
 		do
 			l_area := area; i_final := count
 			c := encoded_character (uc); c_is_substitute := c = Substitute

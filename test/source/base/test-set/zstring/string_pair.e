@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-18 19:31:05 GMT (Saturday 18th February 2023)"
-	revision: "13"
+	date: "2023-02-19 16:54:46 GMT (Sunday 19th February 2023)"
+	revision: "14"
 
 class
 	STRING_PAIR
@@ -51,9 +51,17 @@ feature -- Strings
 
 	s_32_substring: STRING_32
 
+	s_32_old: STRING_32
+
+	s_32_new: STRING_32
+
 	s_8_substring: detachable STRING_8
 
 	zs: ZSTRING
+
+	zs_old: ZSTRING
+
+	zs_new: ZSTRING
 
 	zs_substring: ZSTRING
 
@@ -91,6 +99,13 @@ feature -- Test comparisons
 				b3 := zs.ends_with_general (s_8)
 				Result := b1 = b3
 			end
+		end
+
+	replace_substring_all: BOOLEAN
+		do
+			s_32.replace_substring_all (s_32_old, s_32_new)
+			zs.replace_substring_all_x (zs_old, zs_new)
+			Result := zs.same_string (s_32)
 		end
 
 	same_substring (start_index, end_index: INTEGER): BOOLEAN
@@ -177,6 +192,12 @@ feature -- Element change
 			else
 				s_8_substring := Void
 			end
+		end
+
+	set_old_new (a_old, a_new: STRING_32)
+		do
+			s_32_old := a_old; s_32_new := a_new
+			zs_old := a_old; zs_new := a_new
 		end
 
 feature -- Basic operations

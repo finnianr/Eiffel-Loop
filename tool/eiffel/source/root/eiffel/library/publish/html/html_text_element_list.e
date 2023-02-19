@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "19"
+	date: "2023-02-19 16:10:21 GMT (Sunday 19th February 2023)"
+	revision: "20"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -193,7 +193,7 @@ feature {NONE} -- Implementation
 			Result := line.count
 			if line.has_substring (Source_variable) then
 				-- substract all extra characters from [$source MY_CLASS]
-				variable_count := line.substring_index_list (Source_variable).count
+				variable_count := line.substring_index_list (Source_variable, False).count
 				Result := Result - variable_count * (Source_variable.count + 3)
 			end
 		end

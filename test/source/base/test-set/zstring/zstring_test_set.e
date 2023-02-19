@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-18 16:37:21 GMT (Saturday 18th February 2023)"
-	revision: "80"
+	date: "2023-02-19 14:07:22 GMT (Sunday 19th February 2023)"
+	revision: "81"
 
 class
 	ZSTRING_TEST_SET
@@ -662,20 +662,52 @@ feature -- Element change tests
 		note
 			testing:	"covers/{ZSTRING}.replace_substring_all"
 		local
-			pair: STRING_PAIR
-			word_32, previous_word_32: STRING_32; word, previous_word: ZSTRING
+			pair: STRING_PAIR; word_list, s_32_words: EL_STRING_32_LIST
+			word: STRING_32; i: INTEGER
 		do
+			create word_list.make (20)
 			create pair
-			across Text.lines as line loop
-				pair.set (line.item)
-				create previous_word_32.make_empty; previous_word := previous_word_32
-				across Text.words as list loop
-					word_32 := list.item; word := word_32
-					pair.s_32.replace_substring_all (word_32, previous_word_32)
-					pair.zs.replace_substring_all (word, previous_word)
-					assert ("replace_substring_all OK", pair.is_same)
-					previous_word_32 := word_32; previous_word := word
+			from i := 1 until i > 4 loop
+				across Text.lines as line loop
+					pair.set (line.item.as_lower)
+
+					word_list.wipe_out
+					-- Replace each word with A, B, C letters
+					create s_32_words.make_word_split (pair.s_32)
+					across s_32_words as list loop
+						word := list.item
+						word.to_lower
+						if not list.is_last then
+							inspect i
+								when 2 then
+--									word plus a space
+									word.append_character (' ')
+								when 3 then
+--									2 words
+									word.append (s_32_words.i_th (list.cursor_index + 1).as_lower)
+								when 4 then
+--									2 split words
+									word.append (s_32_words.i_th (list.cursor_index + 1).as_lower)
+									word.remove_head (list.item.count // 2)
+									word.remove_tail (s_32_words.i_th (list.cursor_index + 1).count // 2)
+							else
+							end
+						end
+						if word.count > 1 then
+							pair.set_old_new (word, ('A' + word_list.count).out)
+							word_list.extend (word)
+							assert ("replace_substring_all OK", pair.replace_substring_all)
+						end
+					end
+					-- Reverse replacements
+					across word_list as list loop
+						word := list.item
+						pair.set_old_new (('A' + list.cursor_index - 1).out, word)
+						assert ("replace_substring_all OK", pair.replace_substring_all)
+					end
+					assert ("line restored", pair.s_32 ~ line.item.as_lower)
 				end
+				i := i + 1
 			end
 		end
 

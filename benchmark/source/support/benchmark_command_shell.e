@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-17 10:46:31 GMT (Friday 17th February 2023)"
-	revision: "29"
+	date: "2023-02-19 17:17:43 GMT (Sunday 19th February 2023)"
+	revision: "30"
 
 class
 	BENCHMARK_COMMAND_SHELL
@@ -52,6 +52,7 @@ feature {NONE} -- Implementation
 
 		UNENCODED_CHARACTER_LIST_GENERATION,
 		UNICODE_ITEM_COMPARISON,
+		ZSTRING_INTERVAL_SEARCH_COMPARISON,
 		ZSTRING_SAME_CHARACTERS_COMPARISON,
 		ZSTRING_SPLIT_COMPARISON
 	]

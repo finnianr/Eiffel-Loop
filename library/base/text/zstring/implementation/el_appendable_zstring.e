@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 14:20:47 GMT (Friday 10th February 2023)"
-	revision: "43"
+	date: "2023-02-19 13:04:55 GMT (Sunday 19th February 2023)"
+	revision: "44"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -98,7 +98,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 		require
 			valid_encoding: valid_encoding (str_encoding)
 		local
-			offset: INTEGER; buffer: like empty_unencoded_buffer
+			offset: INTEGER; buffer: like Unencoded_buffer
 			l_codec: EL_ZCODEC; u: UTF_CONVERTER
 		do
 			-- UTF-16 must be first to test as it can look like ascii
@@ -145,7 +145,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 		-- append `str' replacing any occurrences of `old_substring' with `new_substring'
 		local
 			original_count, previous_index, end_index, new_count, size_difference: INTEGER
-			positions: ARRAYED_LIST [INTEGER]; buffer: like empty_unencoded_buffer
+			positions: ARRAYED_LIST [INTEGER]; buffer: like Unencoded_buffer
 		do
 			original_count := old_substring.count
 			positions := str.internal_substring_index_list (old_substring)
@@ -285,7 +285,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
 	append_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
 		local
-			old_count: INTEGER; buffer: like empty_unencoded_buffer
+			old_count: INTEGER; buffer: like Unencoded_buffer
 		do
 			old_count := count
 			String_8.append_substring (Current, s, start_index, end_index)
@@ -569,7 +569,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Prepending
 
 	prepend_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
 		local
-			offset: INTEGER; buffer: like empty_unencoded_buffer
+			offset: INTEGER; buffer: like Unencoded_buffer
 		do
 			String_8.prepend_substring (Current, s, start_index, end_index)
 			inspect respective_encoding (s)
@@ -694,7 +694,7 @@ feature {NONE} -- Implementation
 			valid_utf_type: utf_type = 8 or utf_type = 16
 			valid_utf_16_input: utf_type = 16 implies utf_encoded_string.count \\ 2 = 0
 		local
-			offset: INTEGER; buffer: like empty_unencoded_buffer
+			offset: INTEGER; buffer: like Unencoded_buffer
 		do
 			if utf_type = 8 and then unicode_count = utf_encoded_string.count then
 				append_ascii (utf_encoded_string)
