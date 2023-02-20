@@ -38,7 +38,8 @@
 	</head>
 	<body>
 		<div id="content">
-		<h1>ZSTRING v STRING_32</h1>
+		<h1>ZSTRING (ISO-8859-1) v STRING_32</h1>
+		<h2>Date: 20 Feb 01</h2>
 		<h2>Benchmark Source Code</h2>
 		<h2>Input Test Data</h2>
 		<p>See <a href="#test_strings">table below</a></p>
@@ -108,7 +109,7 @@
 				<th>STRING_32</th>
 			</tr>
 			<tr>
-				<td>substring_index</td><td>&quot;$A $D&quot;</td><td>5521</td><td>+8%</td>
+				<td>replace_substring_all</td><td>D</td><td>4101</td><td>+8%</td>
 			</tr>
 		</table>
 		<h3>Mixed Latin-1 and Unicode Encoding</h3>
@@ -121,10 +122,7 @@
 				<th>STRING_32</th>
 			</tr>
 			<tr>
-				<td>substring_index</td><td>&quot;$B $C $A&quot;</td><td>7939</td><td>+11%</td>
-			</tr>
-			<tr>
-				<td>substring_index</td><td>&quot;$A $B $C&quot;</td><td>5255</td><td>+41%</td>
+				<td>replace_substring_all</td><td>&quot;$A $B $C&quot;</td><td>1483</td><td>+80%</td>
 			</tr>
 		</table>
 		<a name="test_strings"/>

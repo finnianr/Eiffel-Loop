@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-19 14:07:22 GMT (Sunday 19th February 2023)"
-	revision: "81"
+	date: "2023-02-20 10:06:42 GMT (Monday 20th February 2023)"
+	revision: "82"
 
 class
 	ZSTRING_TEST_SET
@@ -663,10 +663,20 @@ feature -- Element change tests
 			testing:	"covers/{ZSTRING}.replace_substring_all"
 		local
 			pair: STRING_PAIR; word_list, s_32_words: EL_STRING_32_LIST
-			word: STRING_32; i: INTEGER
+			word, word_A, first_word: STRING_32; i: INTEGER; s32: EL_STRING_32_ROUTINES
 		do
 			create word_list.make (20)
 			create pair
+			across Text.lines as line loop
+				first_word := s32.substring_to (line.item, ' ', default_pointer)
+				word_A := "A"
+				pair.set (line.item)
+				across << word_A, first_word + first_word >> as list loop
+					word := list.item
+					pair.set_old_new (first_word, word)
+					assert ("replace_substring_all OK", pair.replace_substring_all)
+				end
+			end
 			from i := 1 until i > 4 loop
 				across Text.lines as line loop
 					pair.set (line.item.as_lower)
@@ -693,7 +703,7 @@ feature -- Element change tests
 							else
 							end
 						end
-						if word.count > 1 then
+						if pair.zs.substring_index_list (word, False).count = 1 then
 							pair.set_old_new (word, ('A' + word_list.count).out)
 							word_list.extend (word)
 							assert ("replace_substring_all OK", pair.replace_substring_all)

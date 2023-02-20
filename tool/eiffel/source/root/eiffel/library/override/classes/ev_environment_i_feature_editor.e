@@ -28,7 +28,7 @@ feature {NONE} -- Implementation
 			lines := class_feature.lines
 			from lines.start until lines.after loop
 				if lines.item.has_substring ("{EV_APPLICATION_IMP}") then
-					lines.item.replace_substring_general_all ("{EV_", "{EL_")
+					lines.item.replace_substring_all ("{EV_", "{EL_")
 					lines.append_comment ("changed implementation type")
 				end
 				lines.forth

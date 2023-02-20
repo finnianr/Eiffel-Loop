@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-19 15:42:56 GMT (Sunday 19th February 2023)"
-	revision: "14"
+	date: "2023-02-20 11:34:18 GMT (Monday 20th February 2023)"
+	revision: "15"
 
 class
 	BENCHMARK_HTML
@@ -108,7 +108,7 @@ feature {NONE} -- Evolicity fields
 			date: EL_DATE
 		do
 			create date.make_now
-			Result := date.formatted_out ("dd Mmm yyy")
+			Result := date.formatted_out ("dd Mmm yyyy")
 		end
 
 	getter_function_table: like getter_functions

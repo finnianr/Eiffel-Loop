@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-30 17:58:44 GMT (Friday 30th December 2022)"
-	revision: "21"
+	date: "2023-02-20 12:22:29 GMT (Monday 20th February 2023)"
+	revision: "22"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -59,7 +59,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			pecf_exists: a_pecf_path.exists
 		do
 			make_from_file (a_config_path)
-			name_template.replace_substring_general_all ("%%S", "%S")
+			name_template.replace_substring_all ("%%S", "%S")
 
 			create software.make (a_pecf_path)
 			bit_count := 64

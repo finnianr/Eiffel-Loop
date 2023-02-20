@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-19 16:53:46 GMT (Sunday 19th February 2023)"
-	revision: "34"
+	date: "2023-02-20 18:36:25 GMT (Monday 20th February 2023)"
+	revision: "35"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -352,156 +352,33 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 			valid_unencoded: is_valid
 		end
 
-	replace_substring_all_X (old_substring, new_substring: EL_READABLE_ZSTRING)
-		local
-			old_count, l_count, new_substring_count, old_substring_count, previous_index, end_index, size_difference: INTEGER
-			buffer: like Unencoded_buffer; substring_index_list: detachable LIST [INTEGER]
-			replaced_8, current_8, new_substring_8: EL_STRING_8; internal_replace_done: BOOLEAN
-		do
-			if not old_substring.is_equal (new_substring) then
-				old_count := count; new_substring_count := new_substring.count; old_substring_count := old_substring.count
-				size_difference := new_substring_count - old_substring_count
-				previous_index := 1
-
-				inspect respective_encoding (old_substring)
-					when Both_have_mixed_encoding then
-						substring_index_list := internal_substring_index_list (old_substring)
-
-					when Only_current then
-						if new_substring.has_mixed_encoding then
-							if attached internal_substring_index_list (old_substring) as positions
-								and then positions.count > 0
-							then
-								String_8.replace_substring_all (Current, old_substring, new_substring)
-								internal_replace_done := True
-								substring_index_list := positions
-							end
-
-						elseif attached internal_substring_index_list (old_substring) as positions
-							and then positions.count > 0
-						then
-							String_8.replace_substring_all (Current, old_substring, new_substring)
-							buffer := empty_unencoded_buffer
-							from positions.start until positions.after loop
-								end_index := positions.item - 1
-								if end_index >= previous_index then
-									buffer.append_substring (Current, previous_index, end_index, l_count)
-									l_count := l_count + end_index - previous_index + 1
-								end
-								l_count := l_count + new_substring_count
-								previous_index := positions.item + old_substring_count
-								positions.forth
-							end
-							end_index := old_count
-							if previous_index <= end_index then
-								buffer.append_substring (Current, previous_index, end_index, l_count)
-							end
-							set_unencoded_from_buffer (buffer)
-						end
-
-					when Only_other then
-						-- since old_substring cannot match anything
-						do_nothing
-
-					when Neither then
-						if new_substring.has_mixed_encoding then
-							if attached internal_substring_index_list (old_substring) as positions
-								and then positions.count > 0
-							then
-								String_8.replace_substring_all (Current, old_substring, new_substring)
-								buffer := empty_unencoded_buffer
-								from positions.start until positions.after loop
-									end_index := positions.item - 1
-									if end_index >= previous_index then
-										l_count := l_count + end_index - previous_index + 1
-									end
-									buffer.append (new_substring, l_count)
-									l_count := l_count + new_substring_count
-									previous_index := positions.item + old_substring_count
-									positions.forth
-								end
-								set_unencoded_from_buffer (buffer)
-							end
-						else
-							-- Can use STRING_8 implemenation
-							String_8.replace_substring_all (Current, old_substring, new_substring)
-						end
-				else
-					substring_index_list := internal_substring_index_list (old_substring)
-				end
-				if attached substring_index_list as positions and then positions.count > 0 then
-					buffer := empty_unencoded_buffer
-
-					if not internal_replace_done then
-						current_8 := String_8.injected (Current, 1)
-						new_substring_8 := String_8.injected (new_substring, 2)
-						create area.make_filled ('%U', old_count + size_difference * positions.count + 1)
-						set_count (0); replaced_8 := current_string_8
-					end
-					from positions.start until positions.after loop
-						end_index := positions.item - 1
-						if end_index >= previous_index then
-							if has_mixed_encoding then
-								buffer.append_substring (Current, previous_index, end_index, l_count)
-							end
-							if not internal_replace_done then
-								replaced_8.append_substring (current_8, previous_index, end_index)
-							end
-							l_count := l_count + end_index - previous_index + 1
-						end
-						if new_substring.has_mixed_encoding then
-							buffer.append (new_substring, l_count)
-						end
-						if not internal_replace_done then
-							replaced_8.append (new_substring_8)
-						end
-						l_count := l_count + new_substring_count
-						previous_index := positions.item + old_substring_count
-						positions.forth
-					end
-					end_index := old_count
-					if previous_index <= end_index then
-						if has_mixed_encoding then
-							buffer.append_substring (Current, previous_index, end_index, l_count)
-						end
-						if not internal_replace_done then
-							replaced_8.append_substring (current_8, previous_index, end_index)
-						end
-					end
-					if not internal_replace_done then
-						set_from_string_8 (replaced_8)
-					end
-					set_unencoded_from_buffer (buffer)
-				end
-			end
-		end
-
 	replace_substring_all (old_substring, new_substring: READABLE_STRING_GENERAL)
 		local
-			intervals, new_intervals: EL_OCCURRENCE_INTERVALS; new: ZSTRING
-			new_count: INTEGER
+			new_count, count_delta: INTEGER; old_index_list: ARRAYED_LIST [INTEGER]
+			new: ZSTRING
 		do
-			intervals := internal_substring_intervals (old_substring)
-			if intervals.count > 0 then
+			old_index_list := internal_substring_index_list (old_substring)
+			if old_index_list.count > 0 then
+				count_delta := new_substring.count - old_substring.count
+
 				new := adapted_argument (new_substring, 1)
-				new_count := count - intervals.count_sum + intervals.count * new.count
-				new_intervals := replaced_intervals (intervals, new.count)
+				new_count := count + count_delta * old_index_list.count
 
 				inspect respective_encoding (new)
 					when Neither then
-						area := replaced_area (intervals, new_intervals, new_count, new)
+						area := replaced_area (old_index_list, count_delta, old_substring.count, new_count, new)
 
 					when Only_current then
-						set_replaced_unencoded (intervals, new_intervals, new_count, True, Void)
-						area := replaced_area (intervals, new_intervals, new_count, new)
+						set_replaced_unencoded (old_index_list, count_delta, old_substring.count, new_count, True, Void)
+						area := replaced_area (old_index_list, count_delta, old_substring.count, new_count, new)
 
 					when Only_other then
-						set_replaced_unencoded (intervals, new_intervals, new_count, False, new)
-						area := replaced_area (intervals, new_intervals, new_count, new)
+						set_replaced_unencoded (old_index_list, count_delta, old_substring.count, new_count, False, new)
+						area := replaced_area (old_index_list, count_delta, old_substring.count, new_count, new)
 
 					when Both_have_mixed_encoding then
-						set_replaced_unencoded (intervals, new_intervals, new_count, True, new)
-						area := replaced_area (intervals, new_intervals, new_count, new)
+						set_replaced_unencoded (old_index_list, count_delta, old_substring.count, new_count, True, new)
+						area := replaced_area (old_index_list, count_delta, old_substring.count, new_count, new)
 				else
 				end
 				set_count (new_count)
@@ -511,11 +388,6 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 	replace_substring_general (s: READABLE_STRING_GENERAL; start_index, end_index: INTEGER)
 		do
 			replace_substring (adapted_argument (s, 1), start_index, end_index)
-		end
-
-	replace_substring_general_all (old_substring, new_substring: READABLE_STRING_GENERAL)
-		do
-			replace_substring_all (adapted_argument (old_substring, 1), adapted_argument (new_substring, 2))
 		end
 
 feature {EL_READABLE_ZSTRING} -- Removal
@@ -645,103 +517,89 @@ feature -- Contract Support
 feature {NONE} -- Implementation
 
 	set_replaced_unencoded (
-		intervals, new_intervals: EL_OCCURRENCE_INTERVALS; new_count: INTEGER
+		a_index_list: ARRAYED_LIST [INTEGER]; count_delta, old_count, new_count: INTEGER
 		current_has_substitutes: BOOLEAN; a_new: detachable ZSTRING
 	)
-		require
-			same_size: intervals.count = new_intervals.count
 		local
-			previous_upper_plus_1, lower, upper, new_lower, new_upper, l_count: INTEGER; l_item: INTEGER_64
+			i, l_count, sum_count_delta, l_last_index: INTEGER
+			previous_upper_plus_1, lower, upper, new_lower, new_upper: INTEGER
 			unencoded, new_unencoded: like unencoded_indexable; buffer: like Unencoded_buffer
-			l_area, new_area: like area; ir: EL_INTERVAL_ROUTINES
+			l_area, new_area: like area; index_area: SPECIAL [INTEGER]; accumulator: SPECIAL [CHARACTER_32]
 		do
 			buffer := empty_unencoded_buffer; unencoded := unencoded_indexable; l_area := area
+			index_area := a_index_list.area; accumulator := codec.empty_accumulator
 			if attached a_new as new then
 				new_area := new.area; new_unencoded := new.unencoded_indexable_other
 			end
 			previous_upper_plus_1 := 1
-			from intervals.start until intervals.after loop
-				l_item := intervals.item; lower := ir.to_lower (l_item); upper := ir.to_upper (l_item)
-
-				l_item := new_intervals.i_th (intervals.index)
-				new_lower := ir.to_lower (l_item); new_upper := ir.to_upper (l_item)
+			from until i = index_area.count loop
+				lower := index_area [i]; upper := lower + old_count - 1
+				new_lower := lower + sum_count_delta; new_upper := lower + old_count + count_delta - 1
+				sum_count_delta := sum_count_delta + count_delta
 
 				l_count := lower - previous_upper_plus_1
 				if current_has_substitutes and then l_count > 0 then
-					copy_unencoded (
-						l_area, previous_upper_plus_1 - 1, new_lower - l_count - 1, l_count, unencoded, buffer
+					l_last_index := copy_unencoded (
+						l_area, previous_upper_plus_1 - 1, new_lower - l_count - 1, l_count, l_last_index, unencoded, buffer,
+						accumulator
 					)
 				end
 				if attached a_new as new then
-					copy_unencoded (new_area, 0, new_lower - 1, new.count, new_unencoded, buffer)
+					l_last_index := copy_unencoded (
+						new_area, 0, new_lower - 1, new.count, l_last_index, new_unencoded, buffer, accumulator
+					)
 				end
 				previous_upper_plus_1 := upper + 1
-				intervals.forth
+				i := i + 1
 			end
 			l_count := count - previous_upper_plus_1 + 1
 			if current_has_substitutes and then l_count > 0 then
-				copy_unencoded (l_area, previous_upper_plus_1 - 1, new_upper, l_count, unencoded, buffer)
+				l_last_index := copy_unencoded (
+					l_area, previous_upper_plus_1 - 1, new_upper, l_count, l_last_index, unencoded, buffer, accumulator
+				)
 			end
+			buffer.append_final (accumulator, l_last_index)
 			set_unencoded_from_buffer (buffer)
 		end
 
 	copy_unencoded (
-		a_area: like area; source_offset, destination_offset, a_count: INTEGER
-		unencoded: like unencoded_indexable; buffer: like Unencoded_buffer
-	)
+		a_area: like area; source_offset, destination_offset, a_count, a_last_index: INTEGER
+		unencoded: like unencoded_indexable; buffer: like Unencoded_buffer; accumulator: SPECIAL [CHARACTER_32]
+	): INTEGER
 			-- copy unencoded characters to `buffer'
 		local
 			i, j: INTEGER
 		do
+			Result := a_last_index
 			from i := 0 until i = a_count loop
 				j := i + source_offset
 				if a_area [j] = Substitute then
-					buffer.extend (unencoded.item (j + 1), i + destination_offset + 1)
+					Result := buffer.try_appending (accumulator, Result, i + destination_offset, unencoded.item (j + 1))
 				end
 				i := i + 1
 			end
 		end
 
-	replaced_intervals (intervals: EL_OCCURRENCE_INTERVALS; new_count: INTEGER): EL_OCCURRENCE_INTERVALS
-		require
-			not_empty: not intervals.is_empty
+	replaced_area (a_index_list: ARRAYED_LIST [INTEGER]; count_delta, old_count, new_count: INTEGER; new: ZSTRING): like area
 		local
-			delta, delta_sum: INTEGER; lower, upper: INTEGER
-			l_item: INTEGER_64; ir: EL_INTERVAL_ROUTINES
+			i, previous_upper_plus_1, lower, upper, new_lower, new_upper, l_count, sum_count_delta: INTEGER
+			l_area, new_area: like area; index_area: SPECIAL [INTEGER]
 		do
-			Result := empty_occurrence_intervals (1)
-			delta := new_count - intervals.first_count
-			from intervals.start until intervals.after loop
-				l_item := intervals.item
-				lower := ir.to_lower (l_item); upper := ir.to_upper (l_item)
-				Result.extend (lower + delta_sum, upper + delta_sum + delta)
-				delta_sum := delta_sum + delta
-				intervals.forth
-			end
-		end
-
-	replaced_area (intervals, new_intervals: EL_OCCURRENCE_INTERVALS; new_count: INTEGER; new: ZSTRING): like area
-		require
-			same_size: intervals.count = new_intervals.count
-		local
-			l_area, new_area: like area; previous_upper_plus_1, lower, upper, new_lower, new_upper, l_count: INTEGER
-			l_item: INTEGER_64; ir: EL_INTERVAL_ROUTINES
-		do
-			l_area := area; new_area := new.area
+			l_area := area; new_area := new.area; index_area := a_index_list.area
 			create Result.make_empty (new_count + 1)
 			previous_upper_plus_1 := 1
-			from intervals.start until intervals.after loop
-				l_item := intervals.item; lower := ir.to_lower (l_item); upper := ir.to_upper (l_item)
+			from until i = index_area.count loop
+				lower := index_area [i]; upper := lower + old_count - 1
+				new_lower := lower + sum_count_delta; new_upper := lower + old_count + count_delta - 1
+				sum_count_delta := sum_count_delta + count_delta
 
-				l_item := new_intervals.i_th (intervals.index)
-				new_lower := ir.to_lower (l_item); new_upper := ir.to_upper (l_item)
 				l_count := lower - previous_upper_plus_1
 				if l_count > 0 then
 					Result.copy_data (l_area, previous_upper_plus_1 - 1, new_lower - l_count - 1, l_count)
 				end
 				Result.copy_data (new_area, 0, new_lower - 1, new.count)
 				previous_upper_plus_1 := upper + 1
-				intervals.forth
+				i := i + 1
 			end
 			l_count := count - previous_upper_plus_1 + 1
 			if l_count > 0 then
@@ -764,7 +622,7 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	internal_substring_index_list (str: EL_READABLE_ZSTRING): ARRAYED_LIST [INTEGER]
+	internal_substring_index_list (str: READABLE_STRING_GENERAL): ARRAYED_LIST [INTEGER]
 		deferred
 		end
 

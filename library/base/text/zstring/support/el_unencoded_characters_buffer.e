@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-19 13:17:44 GMT (Sunday 19th February 2023)"
-	revision: "20"
+	date: "2023-02-20 14:41:57 GMT (Monday 20th February 2023)"
+	revision: "21"
 
 class
 	EL_UNENCODED_CHARACTERS_BUFFER
@@ -31,8 +31,6 @@ feature -- Access
 			Result.insert_data (area, 0, 0, area.count)
 		end
 
-	last_index: INTEGER
-
 feature -- Status query
 
 	in_use: BOOLEAN
@@ -49,6 +47,13 @@ feature -- Element change
 			l_area := big_enough (l_area, index + upper - lower + 3)
 			l_area.copy_data (a_area, 0, 0, index + upper - lower + 3)
 			set_if_changed (current_area, l_area)
+		end
+
+	append_final (accumulator: like area; index: INTEGER)
+		do
+			if accumulator.count > 0 then
+				append_accumulated (accumulator, index)
+			end
 		end
 
 	append_substring (other: EL_UNENCODED_CHARACTERS; lower_A, upper_A, offset: INTEGER)
@@ -115,6 +120,23 @@ feature -- Element change
 			extend (z_code_to_unicode (a_z_code).to_character_32, index)
 		end
 
+	try_appending (accumulator: like area; a_last_index, index: INTEGER; uc: CHARACTER_32): INTEGER
+		do
+			Result := a_last_index
+			if Result = 0 then
+				accumulator.extend (uc)
+				Result := index + 1
+
+			elseif accumulator.capacity = accumulator.count or Result /= index then
+				append_accumulated (accumulator, Result)
+				accumulator.wipe_out; accumulator.extend (uc)
+				Result := index + 1
+			else
+				accumulator.extend (uc)
+				Result := index + 1
+			end
+		end
+
 feature -- Removal
 
 	wipe_out
@@ -124,6 +146,28 @@ feature -- Removal
 		end
 
 feature {NONE} -- Implementation
+
+	append_accumulated (accumulator: like area; index: INTEGER)
+		local
+			lower, upper: INTEGER; l_area, current_area: like area
+		do
+			l_area := area; current_area := l_area
+			if last_index.to_boolean and then last_index = index - accumulator.count then
+				-- reaches here when `accumulator' is full and is about to be emptied
+				l_area := big_enough (l_area, accumulator.count)
+				l_area.copy_data (accumulator, 0, l_area.count, accumulator.count)
+				l_area [last_upper_index] := index.to_character_32
+			else
+				lower := index - accumulator.count + 1
+				upper := index
+				l_area := big_enough (l_area, accumulator.count + 2)
+				l_area.extend (lower.to_character_32); l_area.extend (upper.to_character_32)
+				last_upper_index := l_area.count - 1
+				l_area.copy_data (accumulator, 0, l_area.count, accumulator.count)
+			end
+			last_index := index
+			set_if_changed (current_area, l_area)
+		end
 
 	append_interval (a_area: like area; source_index, a_lower, a_upper, offset: INTEGER)
 		-- append interval from `a_lower' to `a_upper' shifted by `offset' to the right (left if negative)
@@ -151,6 +195,12 @@ feature {NONE} -- Implementation
 		do
 			Result := area.count > 0 implies last_index + section_count (area, last_index) + 2 = area.count
 		end
+
+feature {NONE} -- Internal attributes
+
+	last_index: INTEGER
+
+	last_upper_index: INTEGER
 
 invariant
 	valid_last_index: valid_last_index

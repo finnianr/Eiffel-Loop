@@ -39,7 +39,7 @@
 	<body>
 		<div id="content">
 		<h1>ZSTRING ($encoding) v STRING_32</h1>
-		<h2>Date: $date</h2>
+		<b>Date:</b> $date
 		<h2>Benchmark Source Code</h2>
 	#across $source_links as $link loop
 		#if $link.cursor_index > 1 then

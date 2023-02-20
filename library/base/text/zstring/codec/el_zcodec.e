@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-17 18:27:00 GMT (Friday 17th February 2023)"
-	revision: "43"
+	date: "2023-02-20 14:40:57 GMT (Monday 20th February 2023)"
+	revision: "44"
 
 deferred class
 	EL_ZCODEC
@@ -23,6 +23,7 @@ feature {EL_ZCODEC_FACTORY} -- Initialization
 			make_default
 			create latin_characters.make_filled ('%U', 1)
 			unicode_table := new_unicode_table
+			create accumulator.make_empty (25)
 			initialize_latin_sets
 		end
 
@@ -123,15 +124,20 @@ feature -- Contract Support
 
 feature {EL_SHARED_ZSTRING_CODEC, EL_ENCODING_BASE, STRING_HANDLER} -- Access
 
+	empty_accumulator: like accumulator
+		do
+			Result := accumulator
+			Result.wipe_out
+		end
+
 	encoded_string_8 (unicode_in: READABLE_STRING_GENERAL; count: INTEGER; keep_ref: BOOLEAN): STRING
 		local
-			buffer: EL_STRING_8_BUFFER_ROUTINES; unencoded_buffer: EL_UNENCODED_CHARACTERS_BUFFER
+			buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
 			Result := buffer.empty
 			Result.grow (count)
 			Result.set_count (count)
-			unencoded_buffer := Empty_string.empty_unencoded_buffer
-			encode (unicode_in, Result.area, 0, unencoded_buffer)
+			encode (unicode_in, Result.area, 0, Empty_string.empty_unencoded_buffer)
 --			unencoded_buffer.set_in_use (False)
 			if keep_ref then
 				Result := Result.twin
@@ -203,9 +209,11 @@ feature -- Basic operations
 		require
 			valid_offset_and_count: valid_offset_and_count (end_index - start_index + 1, encoded_out, out_offset)
 		local
-			i, out_i: INTEGER; uc: CHARACTER_32; c: CHARACTER; l_unicodes: like unicode_table
+			i, out_i, last_index: INTEGER; uc: CHARACTER_32; c: CHARACTER; l_unicodes: like unicode_table
+			buffer: like accumulator
 		do
-			l_unicodes := unicode_table
+			l_unicodes := unicode_table; buffer := empty_accumulator
+
 			from i := start_index until i > end_index loop
 				uc := unicode_in [i]; out_i := i + out_offset - start_index
 				if uc.code <= 255 and then l_unicodes [uc.code] = uc then
@@ -214,13 +222,14 @@ feature -- Basic operations
 					c := latin_character (uc)
 					if c.code = 0 then
 						encoded_out [out_i] := Substitute
-						unencoded_characters.extend (uc, out_i + 1)
+						last_index := unencoded_characters.try_appending (buffer, last_index, out_i, uc)
 					else
 						encoded_out [out_i] := c
 					end
 				end
 				i := i + 1
 			end
+			unencoded_characters.append_final (buffer, last_index)
 		end
 
 	encode_utf (

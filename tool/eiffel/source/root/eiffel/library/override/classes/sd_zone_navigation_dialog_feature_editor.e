@@ -31,7 +31,7 @@ feature {NONE} -- Implementation
 		do
 			class_feature.search_substring ("check_before_set_text")
 			if class_feature.found then
-				class_feature.found_line.replace_substring_general_all ("))", ".as_string_8))")
+				class_feature.found_line.replace_substring_all ("))", ".as_string_8))")
 				class_feature.lines.append_comment ("fix")
 			end
 		end

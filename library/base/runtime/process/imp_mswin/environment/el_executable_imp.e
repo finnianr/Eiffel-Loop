@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-02-20 12:22:36 GMT (Monday 20th February 2023)"
+	revision: "6"
 
 class
 	EL_EXECUTABLE_IMP
@@ -65,7 +65,7 @@ feature {NONE} -- Constants
 			csv_values := Executable_extensions_spec
 			csv_values.remove_head (1)
 			csv_values.to_lower
-			csv_values.replace_substring_general_all (";.", ",")
+			csv_values.replace_substring_all (";.", ",")
 			Result := csv_values
 		end
 

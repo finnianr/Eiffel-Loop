@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "60"
+	date: "2023-02-20 12:21:27 GMT (Monday 20th February 2023)"
+	revision: "61"
 
 class
 	REPOSITORY_PUBLISHER
@@ -323,7 +323,7 @@ feature {NONE} -- Build from Pyxis
 		local
 			table: ISE_CLASS_TABLE
 		do
-			ise_template.library.replace_substring_general_all ("%%S", "%S")
+			ise_template.library.replace_substring_all ("%%S", "%S")
 			create table.make (ise_template.library, ise_template.contrib)
 
 			templates.set_config_dir (config_path.parent)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:46:42 GMT (Tuesday 14th February 2023)"
-	revision: "13"
+	date: "2023-02-20 12:22:02 GMT (Monday 20th February 2023)"
+	revision: "14"
 
 class
 	MARKDOWN_TRANSLATER
@@ -104,7 +104,7 @@ feature {NONE} -- Implementation
 	translate (text: ZSTRING)
 		do
 			replace_links (text); replace_apostrophes (text)
-			text.replace_substring_general_all ("''", "*")
+			text.replace_substring_all ("''", "*")
 		end
 
 	new_string: ZSTRING

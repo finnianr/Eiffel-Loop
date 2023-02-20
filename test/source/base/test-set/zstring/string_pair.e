@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-19 16:54:46 GMT (Sunday 19th February 2023)"
-	revision: "14"
+	date: "2023-02-20 15:47:02 GMT (Monday 20th February 2023)"
+	revision: "15"
 
 class
 	STRING_PAIR
@@ -49,23 +49,29 @@ feature -- Strings
 
 	s_32: STRING_32
 
-	s_32_substring: STRING_32
+	s_32_new: STRING_32
 
 	s_32_old: STRING_32
 
-	s_32_new: STRING_32
+	s_32_substring: STRING_32
+
+	s_8_new: detachable STRING_8
+
+	s_8_old: detachable STRING_8
 
 	s_8_substring: detachable STRING_8
 
 	zs: ZSTRING
 
-	zs_old: ZSTRING
-
 	zs_new: ZSTRING
+
+	zs_old: ZSTRING
 
 	zs_substring: ZSTRING
 
 feature -- Access
+
+	hash_code: INTEGER
 
 	latin_1: detachable STRING_8
 		do
@@ -77,11 +83,6 @@ feature -- Access
 	new_intervals (separator: CHARACTER_32): EL_SPLIT_INTERVALS
 		do
 			create Result.make (s_32, separator)
-		end
-
-	hash_code: INTEGER
-		do
-			Result := (s_32.hash_code + s_32_substring.hash_code).abs
 		end
 
 feature -- Test comparisons
@@ -103,17 +104,20 @@ feature -- Test comparisons
 
 	replace_substring_all: BOOLEAN
 		do
+			hash_code := new_hash_code
 			s_32.replace_substring_all (s_32_old, s_32_new)
-			zs.replace_substring_all_x (zs_old, zs_new)
-			Result := zs.same_string (s_32)
-		end
+			if attached s_8_old as l_old and attached s_8_new as l_new then
+				zs.replace_substring_all (l_old, l_new)
 
-	same_substring (start_index, end_index: INTEGER): BOOLEAN
-		local
-			substring: ZSTRING
-		do
-			substring := zs.substring (start_index, end_index)
-			Result := substring.to_string_32 ~ s_32.substring (start_index, end_index)
+			elseif attached s_8_new as l_new then
+				zs.replace_substring_all (zs_old, l_new)
+
+			elseif attached s_8_old as l_old then
+				zs.replace_substring_all (l_old, zs_new)
+			else
+				zs.replace_substring_all (zs_old, zs_new)
+			end
+			Result := zs.same_string (s_32)
 		end
 
 	same_characters (index: INTEGER): BOOLEAN
@@ -129,6 +133,14 @@ feature -- Test comparisons
 				b3 := zs.same_characters_general (s_8, 1, s_8.count, index)
 				Result := b1 = b3
 			end
+		end
+
+	same_substring (start_index, end_index: INTEGER): BOOLEAN
+		local
+			substring: ZSTRING
+		do
+			substring := zs.substring (start_index, end_index)
+			Result := substring.to_string_32 ~ s_32.substring (start_index, end_index)
 		end
 
 	starts_with: BOOLEAN
@@ -165,14 +177,14 @@ feature -- Test comparisons
 
 feature -- Status query
 
-	valid_index (i: INTEGER): BOOLEAN
-		do
-			Result := s_32.valid_index (i)
-		end
-
 	is_same: BOOLEAN
 		do
 			Result := zs.same_string (s_32)
+		end
+
+	valid_index (i: INTEGER): BOOLEAN
+		do
+			Result := s_32.valid_index (i)
 		end
 
 feature -- Element change
@@ -180,6 +192,23 @@ feature -- Element change
 	set (str_32: STRING_32)
 		do
 			s_32 := str_32; zs := str_32
+		end
+
+	set_old_new (a_old, a_new: STRING_32)
+		do
+			s_32_old := a_old; s_32_new := a_new
+			zs_old := a_old; zs_new := a_new
+
+			if a_old.is_valid_as_string_8 then
+				s_8_old := a_old
+			else
+				s_8_old := Void
+			end
+			if a_new.is_valid_as_string_8 then
+				s_8_new := a_new
+			else
+				s_8_new := Void
+			end
 		end
 
 	set_substrings (start_index, end_index: INTEGER)
@@ -192,12 +221,6 @@ feature -- Element change
 			else
 				s_8_substring := Void
 			end
-		end
-
-	set_old_new (a_old, a_new: STRING_32)
-		do
-			s_32_old := a_old; s_32_new := a_new
-			zs_old := a_old; zs_new := a_new
 		end
 
 feature -- Basic operations
@@ -216,6 +239,16 @@ feature -- Basic operations
 	wipe_out
 		do
 			s_32.wipe_out; zs.wipe_out
+		end
+
+feature {NONE} -- Implementation
+
+	new_hash_code: INTEGER
+		do
+			across << s_32, s_32_substring, s_32_old, s_32_new >> as list loop
+				Result := Result + list.item.hash_code
+			end
+			Result := Result.abs
 		end
 
 end

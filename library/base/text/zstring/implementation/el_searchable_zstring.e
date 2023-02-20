@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-19 16:56:10 GMT (Sunday 19th February 2023)"
-	revision: "23"
+	date: "2023-02-20 18:37:37 GMT (Monday 20th February 2023)"
+	revision: "24"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -76,18 +76,24 @@ feature -- Index position
 
 	substring_index (other: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
 		do
-			if attached {EL_READABLE_ZSTRING} other as z_other then
-				Result := substring_index_zstring (z_other, start_index)
-
-			elseif attached {READABLE_STRING_8} other as str_8 and then attached cursor_8 (str_8) as cursor then
-				if cursor.all_ascii then
-					Result := String_8.substring_index_ascii (Current, str_8, start_index)
+			if attached {EL_READABLE_ZSTRING} other as z_str then
+				if z_str.count = 1 then
+					Result := index_of_z_code (z_str.z_code (1), start_index)
 				else
-					Result := String_searcher.substring_index (current_readable, shared_expanded_8 (cursor), start_index, count)
+					Result := substring_index_zstring (z_str, start_index)
 				end
 
-			elseif attached {READABLE_STRING_32} other as str_32  then
-				Result := String_searcher.substring_index (current_readable, shared_expanded_32 (str_32), start_index, count)
+			elseif other.count = 1 then
+				Result := index_of (other [1], start_index)
+
+			elseif attached shared_search_pattern (other) as pattern then
+				if attached {READABLE_STRING_8} pattern as str_8 then
+					Result := String_8.substring_index_ascii (Current, str_8, start_index)
+
+				elseif attached String_searcher as searcher then
+					searcher.initialize_deltas (pattern)
+					Result := searcher.substring_index_with_deltas (current_readable, pattern, start_index, count)
+				end
 			end
 		end
 
@@ -157,6 +163,14 @@ feature -- Index position
 
 feature -- Interval lists
 
+	substring_index_list (delimiter: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): like internal_substring_index_list
+		do
+			Result := internal_substring_index_list (adapted_argument (delimiter, 1))
+			if keep_ref then
+				Result := Result.twin
+			end
+		end
+
 	substring_intervals (str: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): EL_OCCURRENCE_INTERVALS
 		do
 			Result := internal_substring_intervals (str)
@@ -165,12 +179,34 @@ feature -- Interval lists
 			end
 		end
 
-	substring_index_list (delimiter: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): like internal_substring_index_list
+feature -- Basic operations
+
+	fill_index_list (list: ARRAYED_LIST [INTEGER]; a_pattern: READABLE_STRING_GENERAL)
+		-- fill `list' with all indices of `a_pattern' found in `Current'
+		local
+			pattern: READABLE_STRING_GENERAL; index, l_count, pattern_count: INTEGER
 		do
-			Result := internal_substring_index_list (adapted_argument (delimiter, 1))
-			if keep_ref then
-				Result := Result.twin
+			pattern_count := a_pattern.count; l_count := count
+			pattern := shared_search_pattern (a_pattern)
+
+			if attached {READABLE_STRING_8} pattern as ascii_pattern then
+				String_8.fill_index_list (list, Current, ascii_pattern)
+
+			elseif attached string_searcher as searcher then
+				searcher.initialize_deltas (pattern)
+				from index := 1 until index = 0 or else index > l_count - pattern_count + 1 loop
+					index := searcher.substring_index_with_deltas (current_readable, pattern, index, l_count)
+					if index > 0 then
+						list.extend (index)
+						index := index + pattern_count
+					end
+				end
 			end
+		end
+
+	fill_index_list_by_character (list: ARRAYED_LIST [INTEGER]; uc: CHARACTER_32)
+		do
+			fill_index_list_by_z_code (list, Codec.as_z_code (uc))
 		end
 
 feature {NONE} -- Implementation
@@ -181,63 +217,67 @@ feature {NONE} -- Implementation
 			Result.wipe_out
 		end
 
-	internal_substring_index_list (str: EL_READABLE_ZSTRING): ARRAYED_LIST [INTEGER]
+	fill_index_list_by_z_code (list: ARRAYED_LIST [INTEGER]; a_z_code: NATURAL)
+		-- fill `list' with all indices of `a_z_code' found in `Current'
+		local
+			unencoded: like unencoded_indexable; l_area: like area
+			uc: CHARACTER_32; c: CHARACTER; i, l_count, index: INTEGER
+		do
+			if a_z_code > 0xFF then
+				uc := z_code_to_unicode (a_z_code).to_character_32
+				unencoded := unencoded_indexable
+				from index := 1 until index = 0 loop
+					index := unencoded.index_of (uc, index)
+					if index > 0 then
+						list.extend (index)
+						index := index + 1
+					end
+				end
+			else
+				c := a_z_code.to_character_8
+				l_area := area; l_count := count
+				from i := 0 until i = l_count loop
+					if l_area [i] = c then
+						list.extend (i + 1)
+					end
+					i := i + 1
+				end
+			end
+		end
+
+	internal_substring_index_list (str: READABLE_STRING_GENERAL): ARRAYED_LIST [INTEGER]
 		-- shared list of indices of `str' occurring in `Current'
 		local
-			index, l_count, str_count: INTEGER; unencoded: like unencoded_indexable
-			str_z_code: NATURAL; str_character: CHARACTER; str_uc: CHARACTER_32
-			searcher: like String_searcher; pattern: READABLE_STRING_GENERAL
+			str_count: INTEGER
 		do
-			l_count := count; str_count := str.count
+			str_count := str.count
 			Result := Once_substring_indices; Result.wipe_out
 			if str = Current or else str_count = 0 then
 				Result.extend (1)
 
-			elseif str_count <= l_count then
-				inspect respective_encoding (str)
-					when Both_have_mixed_encoding then
-						if str_count = 1 then
-							str_z_code := str.z_code (1)
-							if str_z_code > 0xFF then
-								str_uc := z_code_to_unicode (str_z_code).to_character_32
-								unencoded := unencoded_indexable
+			elseif str_count <= count then
+				if attached {EL_READABLE_ZSTRING} str as z_str then
+					inspect respective_encoding (z_str)
+						when Both_have_mixed_encoding then
+							if str_count = 1 then
+								fill_index_list_by_z_code (Result, z_str.z_code (1))
 							else
-								str_character := str.area [0]
+								fill_index_list (Result, z_str)
 							end
-						else
-							searcher := String_searcher
-							pattern := str.as_expanded (1)
-							searcher.initialize_deltas (pattern)
-						end
-						from index := 1 until index = 0 or else index > l_count - str_count + 1 loop
-							if str_z_code.to_boolean then
-								if str_character /= '%U' then
-									index := internal_index_of (str_character, index)
-								else
-									index := unencoded.index_of (str_uc, index)
-								end
-							else
-								index := searcher.substring_index_with_deltas (current_readable, pattern, index, l_count)
-							end
-							if index > 0 then
-								Result.extend (index)
-								index := index + str_count
-							end
-						end
-					when Only_other then
-						-- cannot find `str'
-						do_nothing
 
-					when Only_current, Neither then
-						from index := 1 until index = 0 or else index > l_count - str_count + 1 loop
-							index := String_8.substring_index (Current, str, index)
-							if index > 0 then
-								Result.extend (index)
-								index := index + str_count
-							end
-						end
+						when Only_other then
+							-- cannot find `z_str'
+							do_nothing
 
+						when Only_current, Neither then
+							String_8.fill_index_list (Result, Current, String_8.injected (z_str, 1))
+
+					else
+					end
+				elseif str_count = 1 then
+					fill_index_list_by_character (Result, str [1])
 				else
+					fill_index_list (Result, str)
 				end
 			end
 		end
@@ -247,22 +287,6 @@ feature {NONE} -- Implementation
 			Result := Occurrence_intervals [0]
 			Result.wipe_out
 			Result.fill_by_string (current_readable, str, 0)
-		end
-
-	shared_expanded_8 (cursor: EL_STRING_8_ITERATION_CURSOR): STRING_32
-		--	`cursor.target' string expanded as z-code for `String_searcher'
-		local
-			l_area: like area; l_codec: like codec
-			i, i_final: INTEGER
-		do
-			Result := Buffer_32.empty; l_codec := codec; l_area := cursor.area
-			i_final := cursor.area_first_index + cursor.target_count
-			from i := cursor.area_first_index until i = i_final loop
-				Result.extend (l_codec.as_z_code (l_area [i]).to_character_32)
-				i := i + 1
-			end
-		ensure
-			same_count: Result.count = cursor.target_count
 		end
 
 	shared_expanded_32 (str_32: READABLE_STRING_32): STRING_32
@@ -281,6 +305,39 @@ feature {NONE} -- Implementation
 			end
 		ensure
 			same_count: Result.count = str_32.count
+		end
+
+	shared_expanded_8 (cursor: EL_STRING_8_ITERATION_CURSOR): STRING_32
+		--	`cursor.target' string expanded as z-code for `String_searcher'
+		local
+			l_area: like area; l_codec: like codec
+			i, i_final: INTEGER
+		do
+			Result := Buffer_32.empty; l_codec := codec; l_area := cursor.area
+			i_final := cursor.area_first_index + cursor.target_count
+			from i := cursor.area_first_index until i = i_final loop
+				Result.extend (l_codec.as_z_code (l_area [i]).to_character_32)
+				i := i + 1
+			end
+		ensure
+			same_count: Result.count = cursor.target_count
+		end
+
+	shared_search_pattern (str: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
+		do
+			if attached {EL_READABLE_ZSTRING} str as z_other then
+				Result := z_other.as_expanded (1)
+
+			elseif attached {READABLE_STRING_8} str as str_8 and then attached cursor_8 (str_8) as cursor then
+				if cursor.all_ascii then
+					Result := str_8
+				else
+					Result := shared_expanded_8 (cursor)
+				end
+
+			elseif attached {READABLE_STRING_32} str as str_32  then
+				Result := shared_expanded_32 (str_32)
+			end
 		end
 
 	substring_index_zstring (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER

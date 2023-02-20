@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-02-20 12:15:28 GMT (Monday 20th February 2023)"
+	revision: "9"
 
 class
 	EL_SPREAD_SHEET_DATA_CELL
@@ -113,7 +113,7 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			Result := text
-			Result.replace_substring_general_all ("'", "\'")
+			Result.replace_substring_all ("'", "\'")
 		end
 
 	getter_function_table: like getter_functions

@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-06 14:15:14 GMT (Monday 6th February 2023)"
-	revision: "10"
+	date: "2023-02-20 12:20:37 GMT (Monday 20th February 2023)"
+	revision: "11"
 
 class
 	REPLACE_SUBSTRING_ALL_VS_GENERAL
@@ -53,7 +53,7 @@ feature {NONE} -- replace_substring_all
 			str: ZSTRING
 		do
 			str := Hexagram_1_description
-			str.replace_substring_general_all (Chinese [1], Chinese [2])
+			str.replace_substring_all (Chinese [1], Chinese [2])
 		end
 
 feature {NONE} -- Constants

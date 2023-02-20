@@ -31,7 +31,7 @@ feature {NONE} -- Implementation
 		do
 			class_feature.search_substring ("ampersand_occurrences_doubled")
 			if class_feature.found then
-				class_feature.found_line.replace_substring_general_all (": s.as_string_32", ": Result.as_string_32")
+				class_feature.found_line.replace_substring_all (": s.as_string_32", ": Result.as_string_32")
 				class_feature.lines.append_comment ("fix")
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-18 18:44:17 GMT (Saturday 18th February 2023)"
-	revision: "5"
+	date: "2023-02-20 18:38:11 GMT (Monday 20th February 2023)"
+	revision: "6"
 
 class
 	EL_STRING_8_IMPLEMENTATION
@@ -147,6 +147,26 @@ feature -- Character removal
 		end
 
 feature -- Search
+
+	fill_index_list (
+		list: ARRAYED_LIST [INTEGER]; a_target: EL_SEARCHABLE_ZSTRING; pattern: READABLE_STRING_8
+	)
+		local
+			target: EL_STRING_8; index, count, pattern_count: INTEGER
+		do
+			target := injected (a_target, 0)
+			pattern_count := pattern.count; count := target.count
+			if attached string_searcher as searcher then
+				searcher.initialize_deltas (pattern)
+				from index := 1 until index = 0 or else index > count - pattern_count + 1 loop
+					index := searcher.substring_index_with_deltas (target, pattern, index, count)
+					if index > 0 then
+						list.extend (index)
+						index := index + pattern_count
+					end
+				end
+			end
+		end
 
 	substring_index (target, other: EL_SEARCHABLE_ZSTRING; start_index: INTEGER): INTEGER
 		do
