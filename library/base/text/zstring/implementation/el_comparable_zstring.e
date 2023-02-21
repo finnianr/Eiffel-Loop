@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-17 18:30:16 GMT (Friday 17th February 2023)"
-	revision: "29"
+	date: "2023-02-21 12:14:14 GMT (Tuesday 21st February 2023)"
+	revision: "30"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_ZSTRING_IMPLEMENTATION
 
-	EL_SHARED_STRING_32_CURSOR
+	EL_READABLE_ZSTRING_I
 
 feature -- Status query
 
@@ -350,12 +350,6 @@ feature {NONE} -- Implementation
 				Result := Comparator_string_32
 			end
 			Result.set (unencoded_area, start_index, end_index)
-		end
-
-feature {NONE} -- Deferred
-
-	leading_white_space: INTEGER
-		deferred
 		end
 
 feature {NONE} -- Constants

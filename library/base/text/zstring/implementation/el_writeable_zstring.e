@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:26 GMT (Monday 12th December 2022)"
-	revision: "3"
+	date: "2023-02-21 12:14:44 GMT (Tuesday 21st February 2023)"
+	revision: "4"
 
 deferred class
 	EL_WRITEABLE_ZSTRING
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_ZSTRING_IMPLEMENTATION
 
-	EL_SHARED_UTF_8_ZCODEC
+	EL_READABLE_ZSTRING_I
 
 feature -- Write to other
 

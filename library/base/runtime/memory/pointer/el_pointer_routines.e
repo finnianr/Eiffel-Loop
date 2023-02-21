@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-02-21 15:16:05 GMT (Tuesday 21st February 2023)"
+	revision: "9"
 
 expanded class
 	EL_POINTER_ROUTINES
@@ -27,9 +27,9 @@ feature -- Status query
 			Result := not a_pointer.is_default_pointer
 		end
 
-feature -- Basic operations
+feature -- Write to memory
 
-	put_integer (value: INTEGER; integer_ptr: POINTER)
+	put_integer_32 (value: INTEGER; integer_ptr: POINTER)
 		do
 			integer_ptr.memory_copy ($value, Integer_32_bytes)
 		end
@@ -39,9 +39,9 @@ feature -- Basic operations
 			real_ptr.memory_copy ($value, Real_32_bytes)
 		end
 
-feature -- Conversion
+feature -- Read from memory
 
-	read_integer (integer_ptr: POINTER): INTEGER
+	read_integer_32 (integer_ptr: POINTER): INTEGER
 		do
 			($Result).memory_copy (integer_ptr, Integer_32_bytes)
 		end

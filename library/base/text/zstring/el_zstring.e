@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-20 12:14:15 GMT (Monday 20th February 2023)"
-	revision: "71"
+	date: "2023-02-21 15:47:03 GMT (Tuesday 21st February 2023)"
+	revision: "72"
 
 class
 	EL_ZSTRING
@@ -41,7 +41,7 @@ inherit
 
 			prepend_boolean, prepend_character, prepend_integer, prepend_integer_32,
 			prepend_real_32, prepend_real, prepend_real_64, prepend_double, prepend_substring,
-			prepend, prepend_string, prepend_string_general,
+			prepend, prepend_string, prepend_string_general, prepend_ascii,
 
 			precede, put_unicode, quote,
 			translate, translate_general,
@@ -343,20 +343,21 @@ feature -- Removal
 	prune_all (uc: CHARACTER_32)
 			-- Remove all occurrences of `c'.
 		local
-			i, j, i_final: INTEGER; c, c_i: CHARACTER_8; uc_i: CHARACTER_32
+			i, j, i_final, block_index: INTEGER; c, c_i: CHARACTER_8; uc_i: CHARACTER_32
 			l_area: like area; c_is_substitute: BOOLEAN; l_buffer: like Unencoded_buffer
+			iter: EL_UNENCODED_CHARACTER_ITERATION; accumulator: like codec.empty_accumulator
 		do
 			l_area := area; i_final := count
 			c := encoded_character (uc); c_is_substitute := c = Substitute
-			if has_mixed_encoding and then attached unencoded_indexable as unencoded then
-				l_buffer := empty_unencoded_buffer
+			if attached unencoded_area as uc_area and then uc_area.count > 0 then
+				l_buffer := empty_unencoded_buffer; accumulator := codec.empty_accumulator
 				from until i = i_final loop
 					c_i := l_area.item (i)
 					if c_i = Substitute then
-						uc_i := unencoded.item (i + 1)
+						uc_i := iter.item ($block_index, uc_area, i + 1)
 						if c_is_substitute implies uc_i /= uc then
 							l_area.put (c_i, j)
-							l_buffer.extend (uc_i, j + 1)
+							l_buffer.try_appending (accumulator, j, uc_i)
 							j := j + 1
 						end
 
@@ -366,6 +367,7 @@ feature -- Removal
 					end
 					i := i + 1
 				end
+				l_buffer.append_final (accumulator)
 				set_unencoded_from_buffer (l_buffer)
 
 			else

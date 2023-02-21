@@ -1,13 +1,13 @@
 note
-	description: "Appendable/Prependable aspects of [$source ZSTRING] that use only 8-bit implemenation"
+	description: "Appendable aspects of [$source ZSTRING] that use only 8-bit implemenation"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-20 18:38:42 GMT (Monday 20th February 2023)"
-	revision: "45"
+	date: "2023-02-21 12:15:53 GMT (Tuesday 21st February 2023)"
+	revision: "46"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -18,16 +18,12 @@ inherit
 			{EL_READABLE_ZSTRING, STRING_HANDLER} Substitute
 		end
 
-	EL_SHARED_UTF_8_ZCODEC
+	EL_READABLE_ZSTRING_I
 
 	EL_MODULE_ENCODING
 		export
 			{ANY} Encoding
 		end
-
-	EL_SHARED_ENCODINGS
-
-	EL_SHARED_STRING_8_CURSOR
 
 feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
@@ -488,119 +484,6 @@ feature {STRING_HANDLER} -- Append REAL
 			append_rounded_double (n.to_double, place_count)
 		end
 
-feature {STRING_HANDLER} -- Prepend numeric
-
-	prepend_boolean (b: BOOLEAN)
-		do
-			if attached current_string_8 as l_current then
-				l_current.prepend_boolean (b)
-				set_from_string_8 (l_current)
-			end
-		end
-
-	prepend_integer, prepend_integer_32 (n: INTEGER)
-		do
-			if attached current_string_8 as l_current then
-				l_current.prepend_integer (n)
-				set_from_string_8 (l_current)
-			end
-		end
-
-	prepend_real_32, prepend_real (n: REAL_32)
-		do
-			if attached current_string_8 as l_current then
-				l_current.prepend_real (n)
-				set_from_string_8 (l_current)
-			end
-		end
-
-	prepend_real_64, prepend_double (n: REAL_64)
-		do
-			if attached current_string_8 as l_current then
-				l_current.prepend_double (n)
-				set_from_string_8 (l_current)
-			end
-		end
-
-feature {STRING_HANDLER} -- Prepend general
-
-	prepend, prepend_string (s: EL_READABLE_ZSTRING)
-		do
-			internal_prepend (s)
-			inspect respective_encoding (s)
-				when Both_have_mixed_encoding then
-					make_joined (s, Current, s.count)
-				when Only_current then
-					shift_unencoded (s.count)
-				when Only_other then
-					unencoded_area := s.unencoded_area.twin
-			else
-			end
-		ensure
-			unencoded_valid: is_valid
-			new_count: count = old (count + s.count)
-			inserted: elks_checking implies same_string (old (s + current_readable))
-		end
-
-	prepend_string_general (str: READABLE_STRING_GENERAL)
-		do
-			prepend_string (adapted_argument (str, 1))
-		ensure then
-			unencoded_valid: is_valid
-		end
-
-feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Prepending
-
-	precede, prepend_character (uc: CHARACTER_32)
-		local
-			c: CHARACTER
-		do
-			if uc.code <= Max_7_bit_code then
-				c := uc.to_character_8
-			else
-				c := Codec.encoded_character (uc)
-			end
-			String_8.prepend_character (Current, c)
-			shift_unencoded (1)
-			if c = Substitute then
-				put_unencoded (uc, 1)
-			end
-		end
-
-	prepend_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
-		local
-			offset: INTEGER; buffer: like Unencoded_buffer
-		do
-			String_8.prepend_substring (Current, s, start_index, end_index)
-			inspect respective_encoding (s)
-				when Both_have_mixed_encoding then
-					offset := end_index - start_index + 1
-					if s.has_unencoded_between_optimal (s.area, start_index, end_index) then
-						buffer := empty_unencoded_buffer
-						buffer.append_substring (s, start_index, end_index, 0)
-						if buffer.not_empty then
-							buffer.append (Current, offset)
-							set_unencoded_from_buffer (buffer)
-						else
-							shift_unencoded (offset)
---							buffer.set_in_use (False)
-						end
-					else
-						shift_unencoded (offset)
-					end
-				when Only_current then
-					shift_unencoded (end_index - start_index + 1)
-				when Only_other then
-					buffer := empty_unencoded_buffer
-					buffer.append_substring (s, start_index, end_index, 0)
-					set_unencoded_from_buffer (buffer)
-			else
-			end
-		ensure
-			new_count: count = old count + (end_index - start_index + 1)
-			appended: elks_checking implies same_string (old (s.substring (start_index, end_index) + current_readable))
-		end
-
 feature {STRING_HANDLER} -- Contract support
 
 	is_ascii_string (str: READABLE_STRING_8): BOOLEAN
@@ -708,13 +591,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	internal_prepend (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION)
-			-- Prepend characters of `s' at front.
-		do
-			internal_insert_string (s, 1)
-		ensure
-			new_count: count = old (count + s.count)
-			inserted: elks_checking implies internal_string.same_string (old (s.string + internal_string))
-		end
+
 
 end

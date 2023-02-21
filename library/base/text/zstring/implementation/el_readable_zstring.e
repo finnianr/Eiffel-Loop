@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-19 13:05:17 GMT (Sunday 19th February 2023)"
-	revision: "107"
+	date: "2023-02-21 15:18:16 GMT (Tuesday 21st February 2023)"
+	revision: "108"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -108,8 +108,6 @@ inherit
 		redefine
 			new_cursor
 		end
-
-	EL_SHARED_ZSTRING_CODEC
 
 feature {NONE} -- Initialization
 
@@ -536,19 +534,19 @@ feature -- Conversion
 			unencoded_valid: Result.is_valid
 		end
 
-	substring_to (uc: CHARACTER_32; start_index_ptr: POINTER): like Current
-		-- substring from INTEGER at memory location `start_index_ptr' up to but not including index of `uc'
+	substring_to (uc: CHARACTER_32; start_index_int32_ptr: POINTER): like Current
+		-- substring from INTEGER at memory location `start_index_int32_ptr' up to but not including index of `uc'
 		-- or else `substring_end (start_index)' if `uc' not found
-		-- `start_index' is 1 if `start_index_ptr = Default_pointer'
-		-- write new start_index back to `start_index_ptr'
+		-- `start_index' is 1 if `start_index_int32_ptr = Default_pointer'
+		-- write new start_index back to `start_index_int32_ptr'
 		-- if `uc' not found then new `start_index' is `count + 1'
 		local
 			start_index, index: INTEGER
 		do
-			if start_index_ptr = Default_pointer then
+			if start_index_int32_ptr = Default_pointer then
 				start_index := 1
 			else
-				start_index := pointer.read_integer (start_index_ptr)
+				start_index := pointer.read_integer_32 (start_index_int32_ptr)
 			end
 			index := index_of (uc, start_index)
 			if index > 0 then
@@ -558,8 +556,8 @@ feature -- Conversion
 				Result := substring_end (start_index)
 				start_index := count + 1
 			end
-			if start_index_ptr /= Default_pointer then
-				pointer.put_integer (start_index, start_index_ptr)
+			if start_index_int32_ptr /= Default_pointer then
+				pointer.put_integer_32 (start_index, start_index_int32_ptr)
 			end
 		end
 
@@ -572,7 +570,7 @@ feature -- Conversion
 			if start_index_from_end_ptr = Default_pointer then
 				start_index_from_end := count
 			else
-				start_index_from_end := pointer.read_integer (start_index_from_end_ptr)
+				start_index_from_end := pointer.read_integer_32 (start_index_from_end_ptr)
 			end
 			index := last_index_of (uc, start_index_from_end)
 			if index > 0 then
@@ -583,7 +581,7 @@ feature -- Conversion
 				start_index_from_end := 0
 			end
 			if start_index_from_end_ptr /= Default_pointer then
-				pointer.put_integer (start_index_from_end, start_index_from_end_ptr)
+				pointer.put_integer_32 (start_index_from_end, start_index_from_end_ptr)
 			end
 		end
 

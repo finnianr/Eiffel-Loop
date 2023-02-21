@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-20 18:37:37 GMT (Monday 20th February 2023)"
-	revision: "24"
+	date: "2023-02-21 12:14:31 GMT (Tuesday 21st February 2023)"
+	revision: "25"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_ZSTRING_IMPLEMENTATION
 
-	EL_SHARED_STRING_32_CURSOR
+	EL_READABLE_ZSTRING_I
 
 feature -- Index position
 
@@ -161,7 +161,7 @@ feature -- Index position
 			Result := word_index (adapted_argument (word, 1), start_index)
 		end
 
-feature -- Interval lists
+feature -- Occurrence index lists
 
 	substring_index_list (delimiter: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): like internal_substring_index_list
 		do
@@ -360,31 +360,17 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Deferred
-
-	is_alpha_numeric_item (i: INTEGER): BOOLEAN
-		deferred
-		end
-
-	same_characters_zstring (other: EL_READABLE_ZSTRING; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
-		-- Are characters of `other' within bounds `start_pos' and `end_pos'
-		-- the same characters of current string starting at index `index_pos'
-		deferred
-		end
-
-feature {NONE} -- Constants
-
-	String_searcher: EL_ZSTRING_SEARCHER
-		once
-			create Result.make
-		end
-
 feature {NONE} -- Constants
 
 	Occurrence_intervals: SPECIAL [EL_OCCURRENCE_INTERVALS]
 		once
 			create Result.make_filled (create {EL_OCCURRENCE_INTERVALS}.make_empty, 2)
 			Result [1] := create {EL_OCCURRENCE_INTERVALS}.make_empty
+		end
+
+	String_searcher: EL_ZSTRING_SEARCHER
+		once
+			create Result.make
 		end
 
 end

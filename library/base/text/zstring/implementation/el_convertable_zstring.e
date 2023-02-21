@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-20 18:38:43 GMT (Monday 20th February 2023)"
-	revision: "39"
+	date: "2023-02-21 12:20:05 GMT (Tuesday 21st February 2023)"
+	revision: "40"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -22,24 +22,6 @@ inherit
 	EL_WRITEABLE_ZSTRING
 
 	EL_MODULE_BUFFER_8
-
-	EL_SHARED_UTF_8_SEQUENCE
-
-	EL_SHARED_STRING_32_CURSOR
-
-	DEBUG_OUTPUT
-		-- This is not working in Workbench 16.05 so shorten to `db' for convenience
-		rename
-			debug_output as db
-		undefine
-			copy, is_equal, out
-		end
-
-feature -- Measurement
-
-	substitution_marker_count: INTEGER
-		deferred
-		end
 
 feature -- To Strings
 
@@ -501,24 +483,6 @@ feature -- Case changed
 		do
 			Result := twin
 			Result.to_upper
-		end
-
-feature {NONE} -- Deferred Implementation
-
-	current_zstring: ZSTRING
-		deferred
-		end
-
-	new_string (n: INTEGER): like Current
-		deferred
-		end
-
-	occurrences (uc: CHARACTER_32): INTEGER
-		deferred
-		end
-
-	substitution_marker: EL_ZSTRING
-		deferred
 		end
 
 feature {NONE} -- Implementation

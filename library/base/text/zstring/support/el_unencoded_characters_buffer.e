@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-20 14:41:57 GMT (Monday 20th February 2023)"
-	revision: "21"
+	date: "2023-02-21 16:47:11 GMT (Tuesday 21st February 2023)"
+	revision: "22"
 
 class
 	EL_UNENCODED_CHARACTERS_BUFFER
@@ -49,10 +49,10 @@ feature -- Element change
 			set_if_changed (current_area, l_area)
 		end
 
-	append_final (accumulator: like area; index: INTEGER)
+	append_final (accumulator: like area)
 		do
-			if accumulator.count > 0 then
-				append_accumulated (accumulator, index)
+			if accumulator.count - 1 > 0 then
+				append_accumulated (accumulator)
 			end
 		end
 
@@ -120,21 +120,20 @@ feature -- Element change
 			extend (z_code_to_unicode (a_z_code).to_character_32, index)
 		end
 
-	try_appending (accumulator: like area; a_last_index, index: INTEGER; uc: CHARACTER_32): INTEGER
+	try_appending (accumulator: like area; index: INTEGER; uc: CHARACTER_32)
+		-- first code of `accumulator' is the last index
+		-- `index' is zero based for `SPECIAL' array
 		do
-			Result := a_last_index
-			if Result = 0 then
-				accumulator.extend (uc)
-				Result := index + 1
+			if accumulator.count = 0 then
+				accumulator.extend ('%U')
 
-			elseif accumulator.capacity = accumulator.count or Result /= index then
-				append_accumulated (accumulator, Result)
-				accumulator.wipe_out; accumulator.extend (uc)
-				Result := index + 1
-			else
-				accumulator.extend (uc)
-				Result := index + 1
+			elseif accumulator.capacity = accumulator.count or accumulator [0].code /= index then
+				append_accumulated (accumulator)
+				accumulator.wipe_out
+				accumulator.extend ('%U')
 			end
+			accumulator.extend (uc)
+			accumulator [0] := (index + 1).to_character_32
 		end
 
 feature -- Removal
@@ -147,26 +146,29 @@ feature -- Removal
 
 feature {NONE} -- Implementation
 
-	append_accumulated (accumulator: like area; index: INTEGER)
+	append_accumulated (accumulator: like area)
 		local
-			lower, upper: INTEGER; l_area, current_area: like area
+			lower, upper, index: INTEGER; l_area, current_area: like area
 		do
+			index := accumulator [0].code
 			l_area := area; current_area := l_area
-			if last_index.to_boolean and then last_index = index - accumulator.count then
+			if last_index.to_boolean and then last_index = index - accumulator.count + 1 then
 				-- reaches here when `accumulator' is full and is about to be emptied
-				l_area := big_enough (l_area, accumulator.count)
-				l_area.copy_data (accumulator, 0, l_area.count, accumulator.count)
+				l_area := big_enough (l_area, accumulator.count - 1)
+				l_area.copy_data (accumulator, 1, l_area.count, accumulator.count - 1)
 				l_area [last_upper_index] := index.to_character_32
 			else
-				lower := index - accumulator.count + 1
+				lower := index - accumulator.count + 2
 				upper := index
-				l_area := big_enough (l_area, accumulator.count + 2)
+				l_area := big_enough (l_area, accumulator.count + 1)
 				l_area.extend (lower.to_character_32); l_area.extend (upper.to_character_32)
 				last_upper_index := l_area.count - 1
-				l_area.copy_data (accumulator, 0, l_area.count, accumulator.count)
+				l_area.copy_data (accumulator, 1, l_area.count, accumulator.count - 1)
 			end
 			last_index := index
 			set_if_changed (current_area, l_area)
+		ensure
+			is_valid: is_valid
 		end
 
 	append_interval (a_area: like area; source_index, a_lower, a_upper, offset: INTEGER)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-20 18:38:11 GMT (Monday 20th February 2023)"
-	revision: "6"
+	date: "2023-02-21 12:39:00 GMT (Tuesday 21st February 2023)"
+	revision: "7"
 
 class
 	EL_STRING_8_IMPLEMENTATION
@@ -57,7 +57,7 @@ feature -- Measurement
 			Result := injected (target, 0).occurrences (c)
 		end
 
-feature -- pre/append
+feature -- Concatenation
 
 	append_substring (a_target, s: EL_APPENDABLE_ZSTRING; start_index, end_index: INTEGER)
 		do
@@ -67,7 +67,7 @@ feature -- pre/append
 			end
 		end
 
-	prepend_character (a_target: EL_APPENDABLE_ZSTRING; c: CHARACTER_8)
+	prepend_character (a_target: EL_PREPENDABLE_ZSTRING; c: CHARACTER_8)
 		-- Add `c' at front.
 		do
 			if attached injected (a_target, 0) as target then
@@ -76,7 +76,15 @@ feature -- pre/append
 			end
 		end
 
-	prepend_substring (a_target, s: EL_APPENDABLE_ZSTRING; start_index, end_index: INTEGER)
+	prepend (a_target: EL_PREPENDABLE_ZSTRING; str: READABLE_STRING_8)
+		do
+			if attached injected (a_target, 0) as target then
+				target.prepend (str)
+				a_target.set_from_string_8 (target)
+			end
+		end
+
+	prepend_substring (a_target, s: EL_PREPENDABLE_ZSTRING; start_index, end_index: INTEGER)
 		do
 			if attached injected (a_target, 0) as target then
 				target.prepend_substring (injected (s, 1), start_index, end_index)

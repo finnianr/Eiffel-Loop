@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-20 14:40:57 GMT (Monday 20th February 2023)"
-	revision: "44"
+	date: "2023-02-21 16:49:51 GMT (Tuesday 21st February 2023)"
+	revision: "45"
 
 deferred class
 	EL_ZCODEC
@@ -209,7 +209,7 @@ feature -- Basic operations
 		require
 			valid_offset_and_count: valid_offset_and_count (end_index - start_index + 1, encoded_out, out_offset)
 		local
-			i, out_i, last_index: INTEGER; uc: CHARACTER_32; c: CHARACTER; l_unicodes: like unicode_table
+			i, out_i: INTEGER; uc: CHARACTER_32; c: CHARACTER; l_unicodes: like unicode_table
 			buffer: like accumulator
 		do
 			l_unicodes := unicode_table; buffer := empty_accumulator
@@ -222,14 +222,14 @@ feature -- Basic operations
 					c := latin_character (uc)
 					if c.code = 0 then
 						encoded_out [out_i] := Substitute
-						last_index := unencoded_characters.try_appending (buffer, last_index, out_i, uc)
+						unencoded_characters.try_appending (buffer, out_i, uc)
 					else
 						encoded_out [out_i] := c
 					end
 				end
 				i := i + 1
 			end
-			unencoded_characters.append_final (buffer, last_index)
+			unencoded_characters.append_final (buffer)
 		end
 
 	encode_utf (

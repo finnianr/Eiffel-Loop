@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 16:48:18 GMT (Thursday 29th December 2022)"
-	revision: "8"
+	date: "2023-02-21 15:17:29 GMT (Tuesday 21st February 2023)"
+	revision: "9"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -130,7 +130,7 @@ feature -- Substring
 			if start_index_ptr = Default_pointer then
 				start_index := 1
 			else
-				start_index := pointer.read_integer (start_index_ptr)
+				start_index := pointer.read_integer_32 (start_index_ptr)
 			end
 			index := str.index_of (uc, start_index)
 			if index > 0 then
@@ -154,7 +154,7 @@ feature -- Substring
 			if start_index_from_end_ptr = Default_pointer then
 				start_index_from_end := str.count
 			else
-				start_index_from_end := pointer.read_integer (start_index_from_end_ptr)
+				start_index_from_end := pointer.read_integer_32 (start_index_from_end_ptr)
 			end
 			index := last_index_of (str, uc, start_index_from_end)
 			if index > 0 then
@@ -165,7 +165,7 @@ feature -- Substring
 				start_index_from_end := 0
 			end
 			if start_index_from_end_ptr /= Default_pointer then
-				pointer.put_integer (start_index_from_end, start_index_from_end_ptr)
+				pointer.put_integer_32 (start_index_from_end, start_index_from_end_ptr)
 			end
 		end
 

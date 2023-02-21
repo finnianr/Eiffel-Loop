@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-20 18:37:18 GMT (Monday 20th February 2023)"
-	revision: "56"
+	date: "2023-02-21 12:18:59 GMT (Tuesday 21st February 2023)"
+	revision: "57"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -95,7 +95,13 @@ inherit
 			copy, is_equal, out
 		end
 
+	EL_SHARED_ENCODINGS
+
 	EL_SHARED_ZSTRING_CODEC
+
+	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR
+
+	EL_SHARED_UTF_8_ZCODEC; EL_SHARED_UTF_8_SEQUENCE
 
 feature -- Access
 
@@ -420,52 +426,7 @@ feature {NONE} -- Implementation
 
 feature {EL_READABLE_ZSTRING} -- Deferred Implementation
 
-	append_z_code (c: NATURAL)
-		deferred
-		end
-
-	as_lower: like Current
-		deferred
-		end
-
-	as_upper: like Current
-		deferred
-		end
-
-	current_readable: EL_READABLE_ZSTRING
-		deferred
-		end
-
-	leading_white_space: INTEGER
-		deferred
-		end
-
-	internal_substring_index_list (str: READABLE_STRING_GENERAL): ARRAYED_LIST [INTEGER]
-		deferred
-		end
-
-	internal_substring_intervals (str: READABLE_STRING_GENERAL): EL_OCCURRENCE_INTERVALS
-		deferred
-		end
-
-	make (n: INTEGER)
-		-- Allocate space for at least `n' characters.
-		deferred
-		end
-
-	make_from_other (other: EL_CONVERTABLE_ZSTRING)
-		deferred
-		end
-
-	make_from_zcode_area (zcode_area: SPECIAL [NATURAL])
-		deferred
-		end
-
 	reset_hash
-		deferred
-		end
-
-	same_string (other: READABLE_STRING_32): BOOLEAN
 		deferred
 		end
 
@@ -474,18 +435,6 @@ feature {EL_READABLE_ZSTRING} -- Deferred Implementation
 		end
 
 	substring_index (other: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
-		deferred
-		end
-
-	to_string_32: STRING_32
-		deferred
-		end
-
-	trailing_white_space: INTEGER
-		deferred
-		end
-
-	unescaped (unescaper: EL_ZSTRING_UNESCAPER): EL_CONVERTABLE_ZSTRING
 		deferred
 		end
 
