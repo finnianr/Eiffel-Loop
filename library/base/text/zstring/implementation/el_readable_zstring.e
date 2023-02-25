@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-21 15:18:16 GMT (Tuesday 21st February 2023)"
-	revision: "108"
+	date: "2023-02-25 9:43:57 GMT (Saturday 25th February 2023)"
+	revision: "110"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -122,8 +122,7 @@ feature {NONE} -- Initialization
 		local
 			latin: EL_STRING_8
 		do
-			latin := Latin_1_string
-			latin.set_from_c (latin_1_ptr)
+			latin := String_8.c_string (latin_1_ptr)
 			if latin.is_ascii then
 				make_unencoded
 				set_from_ascii (latin)
@@ -180,7 +179,7 @@ feature {NONE} -- Initialization
 
 	make_from_string (s: READABLE_STRING_32)
 		do
-			if attached {EL_ZSTRING} s as other then
+			if attached {EL_READABLE_ZSTRING} s as other then
 				make_from_other (other)
 			else
 				make_filled ('%U', s.count)
@@ -420,31 +419,16 @@ feature -- Status query
 	is_code_identifier: BOOLEAN
 		-- is C, Eiffel or other language identifier
 		local
-			i, j, l_count: INTEGER; l_area, charset: like area
-			c_i, c_lower, c_upper: CHARACTER; found: BOOLEAN
+			i, l_count: INTEGER; l_area: like area
 		do
-			charset := Identifier_characters.area
 			l_area := area; l_count := count
 			Result := True
 			from i := 0 until not Result or else i = l_count loop
-				c_i := l_area [i]
-				found := False
-				from j := 0 until j = 8 or found loop
-					c_lower := charset [j]; c_upper := charset [j + 1]
-					if c_lower <= c_i and c_i <= c_upper then
-						found := True
-					else
-						j := j + 1
-					end
-				end
-				inspect j
-					when 0 then -- a .. z
-						Result := True
-					when 2 then -- A .. Z
-						Result := True
-					when 4 then -- 0 .. 9
-						Result := i > 0
-					when 6 then -- _ .. _
+				inspect l_area [i]
+					when 'a' .. 'z', 'A' .. 'Z' then
+						do_nothing
+
+					when '0' .. '9', '_' then
 						Result := i > 0
 				else
 					Result := False
@@ -606,25 +590,6 @@ feature -- Comparison
 			end
 		end
 
-	is_less alias "<" (other: like Current): BOOLEAN
-			-- Is string lexicographically lower than `other'?
-		local
-			o_count, l_count: INTEGER
-		do
-			if other /= Current then
-				o_count := other.count; l_count := count
-				if o_count = l_count then
-					Result := order_comparison (other, o_count) > 0
-				else
-					if l_count < o_count then
-						Result := order_comparison (other, l_count) >= 0
-					else
-						Result := order_comparison (other, o_count) > 0
-					end
-				end
-			end
-		end
-
 feature {EL_READABLE_ZSTRING} -- Duplication
 
 	copy (other: like Current)
@@ -649,17 +614,6 @@ feature {EL_READABLE_ZSTRING} -- Duplication
 
 feature {EL_READABLE_ZSTRING, STRING_HANDLER, EL_ZSTRING_ITERATION_CURSOR} -- Access
 
-	unencoded_area: SPECIAL [CHARACTER_32]
-
-	as_expanded (index: INTEGER): STRING_32
-			-- Current expanded as `z_code' sequence
-		require
-			valid_index: 1 <= index and index <= 2
-		do
-			Result := Once_expanded_strings [index - 1]; Result.wipe_out
-			fill_expanded (Result)
-		end
-
 	frozen set_count (number: INTEGER)
 			-- Set `count' to `number' of characters.
 		do
@@ -676,21 +630,6 @@ feature {NONE} -- Implementation
 	current_readable: EL_READABLE_ZSTRING
 		do
 			Result := Current
-		end
-
-	fill_expanded (str: STRING_32)
-		local
-			i, l_count: INTEGER; l_area: like area; l_area_32: SPECIAL [CHARACTER_32]
-			unencoded: like unencoded_indexable
-		do
-			l_count := count
-			str.grow (l_count); str.set_count (l_count)
-
-			l_area := area; l_area_32 := str.area; unencoded := unencoded_indexable
-			from i := 0 until i = l_count loop
-				l_area_32 [i] := area_z_code (l_area, unencoded, i).to_character_32
-				i := i + 1
-			end
 		end
 
 	pointer: EL_POINTER_ROUTINES
@@ -711,22 +650,8 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Constants
+feature {EL_ZSTRING_IMPLEMENTATION, STRING_HANDLER} -- Internal attributes
 
-	Latin_1_string: EL_STRING_8
-		once
-			create Result.make_empty
-		end
-
-	Once_expanded_strings: SPECIAL [STRING_32]
-		once
-			create Result.make_filled (create {STRING_32}.make_empty, 2)
-			Result [1] := create {STRING_32}.make_empty
-		end
-
-	Identifier_characters: ZSTRING
-		once
-			Result := "azAZ09__"
-		end
+	unencoded_area: SPECIAL [CHARACTER_32]
 
 end

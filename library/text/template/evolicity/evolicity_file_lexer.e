@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:32:10 GMT (Monday 21st November 2022)"
-	revision: "14"
+	date: "2023-02-23 10:35:32 GMT (Thursday 23rd February 2023)"
+	revision: "15"
 
 class
 	EVOLICITY_FILE_LEXER
@@ -306,17 +306,21 @@ feature {NONE} -- Actions
 
 	on_evaluate, on_include (keyword_token: NATURAL_32; start_index, end_index: INTEGER)
 			--
+		local
+			lower, upper: INTEGER
 		do
 			tokens_text.append_code (keyword_token)
 			source_interval_list.extend (start_index, end_index)
 			tokens_text.append_code (Token.White_text)
-			source_interval_list.item_extend (leading_space_text)
+			lower := (leading_space_text |>> 32).to_integer_32
+			upper := leading_space_text.to_integer_32
+			source_interval_list.extend (lower, upper)
 		end
 
 	on_leading_white_space (start_index, end_index: INTEGER)
 			--
 		do
-			leading_space_text := source_interval_list.new_item (start_index, end_index)
+			leading_space_text := (start_index.to_integer_64 |<< 32) | end_index.to_integer_64
 		end
 
 feature {NONE} -- Factory

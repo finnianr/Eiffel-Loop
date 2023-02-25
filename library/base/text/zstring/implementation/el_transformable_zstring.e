@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-21 18:18:14 GMT (Tuesday 21st February 2023)"
-	revision: "36"
+	date: "2023-02-24 8:55:45 GMT (Friday 24th February 2023)"
+	revision: "37"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -358,7 +358,7 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 
 	replace_substring_all (old_substring, new_substring: READABLE_STRING_GENERAL)
 		local
-			old_index: INTEGER; l_old, new: ZSTRING
+			l_old, new: ZSTRING
 		do
 			if old_substring.count > 0 then
 				l_old := adapted_argument (old_substring, 1)

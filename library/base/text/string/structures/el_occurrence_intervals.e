@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-19 10:14:56 GMT (Sunday 19th February 2023)"
-	revision: "17"
+	date: "2023-02-23 15:31:54 GMT (Thursday 23rd February 2023)"
+	revision: "18"
 
 class
 	EL_OCCURRENCE_INTERVALS
@@ -19,12 +19,7 @@ inherit
 	EL_SEQUENTIAL_INTERVALS
 		rename
 			make as make_sized,
-			fill as fill_from,
-			first as first_interval,
-			last as last_interval,
-			new_item as new_interval
-		export
-			{NONE} item_extend, item_replace
+			fill as fill_from
 		redefine
 			make_empty
 		end
@@ -85,12 +80,12 @@ feature {NONE} -- Implementation
 
 	extend_buffer (
 		a_target: READABLE_STRING_GENERAL
-		buffer: like Intervals_buffer; search_index, search_string_count, adjustments: INTEGER
+		l_area: like Intervals_buffer; search_index, search_string_count, adjustments: INTEGER
 		final: BOOLEAN
 	)
 		do
 			if not final then
-				buffer.extend (new_interval (search_index, search_index + search_string_count - 1))
+				l_area.extend (search_index, search_index + search_string_count - 1)
 			end
 		end
 
@@ -102,11 +97,11 @@ feature {NONE} -- Implementation
 			valid_search_string: search_string.count /= 1
 		local
 			i, string_count, search_string_count, search_index: INTEGER
-			buffer: like Intervals_buffer; string_8_target: detachable STRING_8
+			l_area: like Intervals_buffer; string_8_target: detachable STRING_8
 			search_character_8: CHARACTER
 		do
-			buffer := Intervals_buffer
-			buffer.wipe_out
+			l_area := Intervals_buffer
+			l_area.wipe_out
 
 			string_count := a_target.count
 			if search_string.is_empty then
@@ -129,23 +124,23 @@ feature {NONE} -- Implementation
 				end
 				if i > 0 then
 					search_index := i
-					extend_buffer (a_target, buffer, search_index, search_string_count, adjustments, False)
+					extend_buffer (a_target, l_area, search_index, search_string_count, adjustments, False)
 					i := i + search_string_count
 				end
 			end
-			extend_buffer (a_target, buffer, search_index, search_string_count, adjustments, True)
-			make_sized (buffer.count)
-			area.copy_data (buffer.area, 0, 0, buffer.count)
+			extend_buffer (a_target, l_area, search_index, search_string_count, adjustments, True)
+			make_sized (l_area.count)
+			area.copy_data (l_area.area, 0, 0, l_area.count * 2)
 		end
 
 feature {NONE} -- Constants
 
-	Default_area: SPECIAL [INTEGER_64]
+	Default_area: SPECIAL [INTEGER]
 		once
 			create Result.make_empty (0)
 		end
 
-	Intervals_buffer: ARRAYED_LIST [INTEGER_64]
+	Intervals_buffer: EL_ARRAYED_INTERVAL_LIST
 		once
 			create Result.make (50)
 		end

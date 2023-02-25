@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-21 12:14:14 GMT (Tuesday 21st February 2023)"
-	revision: "30"
+	date: "2023-02-24 11:04:02 GMT (Friday 24th February 2023)"
+	revision: "31"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -155,6 +155,25 @@ feature -- Start/End comparisons
 
 feature -- Comparison
 
+	is_less alias "<" (other: like Current): BOOLEAN
+			-- Is string lexicographically lower than `other'?
+		local
+			o_count, l_count: INTEGER
+		do
+			if other /= Current then
+				o_count := other.count; l_count := count
+				if o_count = l_count then
+					Result := order_comparison (other, 1, 1, o_count) > 0
+				else
+					if l_count < o_count then
+						Result := order_comparison (other, 1, 1, l_count) >= 0
+					else
+						Result := order_comparison (other, 1, 1, o_count) > 0
+					end
+				end
+			end
+		end
+
 	same_caseless_characters (other: READABLE_STRING_32; start_pos, end_pos, start_index: INTEGER): BOOLEAN
 		-- Are characters of `other' within bounds `start_pos' and `end_pos'
 		-- caseless identical to characters of current string starting at index `start_index'.
@@ -215,13 +234,14 @@ feature -- Comparison
 
 feature {NONE} -- Implementation
 
-	order_comparison (other: EL_READABLE_ZSTRING; n: INTEGER): INTEGER
-			-- Compare `n' characters from `area' starting at `area_lower' with
-			-- `n' characters from and `other' starting at `other.area_lower'.
+	order_comparison (other: EL_COMPARABLE_ZSTRING; start_index, other_start_index, n: INTEGER): INTEGER
+			-- Compare `n' characters from `other' starting at `other_start_index' with
+			-- `n' characters from `Current' starting as `start_index'
 			-- 0 if equal, < 0 if `Current' < `other', > 0 if `Current' > `other'
 		require
 			n_non_negative: n >= 0
-			n_valid: n <= (area.upper - other.area_lower + 1) and n <= (other.area.upper - area_lower + 1)
+			valid_start_index: valid_index (start_index) and valid_index (other_start_index)
+			valid_n_count: valid_index (start_index + n - 1) and valid_index (other_start_index + n - 1)
 		local
 			i, j, i_final: INTEGER; found: BOOLEAN; c_i, o_i: CHARACTER
 			l_code, o_code: NATURAL; o_area, l_area: like area
@@ -229,31 +249,30 @@ feature {NONE} -- Implementation
 		do
 			l_area := area; o_area := other.area
 			unencoded := unencoded_indexable; o_unencoded := other.unencoded_indexable_other
-			i_final := area_lower + n
-			from i := area_lower; j := other.area_lower until found or else i = i_final loop
+			i_final := area_lower + other_start_index + n - 1
+			j := other.area_lower + other_start_index - 1
+			from i := area_lower + start_index - 1 until found or else i = i_final loop
 				c_i := l_area [i]; o_i := o_area [j]
-				if c_i = Substitute then
-					l_code := unencoded.z_code (i + 1)
-					if o_i = Substitute then
-						o_code := o_unencoded.z_code (j + 1)
-					else
-						o_code := o_i.natural_32_code
-					end
-					found := l_code /= o_code
+				inspect current_other_bitmap (c_i = Substitute, o_i = Substitute)
+					when Both_have_mixed_encoding then
+						if o_unencoded.item (j + 1) /= unencoded.item (i + 1) then
+							l_code := unencoded.z_code (i + 1); o_code := o_unencoded.z_code (j + 1)
+							found := True
+						end
+					when Only_current then
+						l_code := unencoded.z_code (i + 1); o_code := o_i.natural_32_code
+						found := True
 
-				elseif o_i = Substitute then
-					o_code := o_unencoded.z_code (j + 1)
-					if c_i = Substitute then
-						l_code := unencoded.z_code (i + 1)
-					else
-						l_code := c_i.natural_32_code
-					end
-					found := l_code /= o_code
+					when Only_other then
+						l_code := c_i.natural_32_code; o_code := o_unencoded.z_code (j + 1)
+						found := True
 
-				elseif c_i /= o_i then
-					l_code := c_i.natural_32_code
-					o_code := o_i.natural_32_code
-					found := True
+					when Neither then
+						if c_i /= o_i then
+							l_code := c_i.natural_32_code; o_code := o_i.natural_32_code
+							found := True
+						end
+				else
 				end
 				i := i + 1; j := j + 1
 			end

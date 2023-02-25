@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:54 GMT (Monday 21st November 2022)"
-	revision: "11"
+	date: "2023-02-23 10:20:47 GMT (Thursday 23rd February 2023)"
+	revision: "12"
 
 deferred class
 	EL_TOKEN_PARSER  [L -> EL_FILE_LEXER create make end]
@@ -71,11 +71,10 @@ feature {NONE} -- Implementation
 			-- source text corresponding to i'th token in matched_tokens
 		require
 			valid_array_index: source_interval_list.valid_index (i)
-		local
-			interval: INTEGER_64
 		do
-			interval := source_interval_list.i_th (i)
-			Result := source_text.substring ((interval |>> 32).to_integer_32, interval.to_integer_32)
+			if attached source_interval_list as list then
+				Result := source_text.substring (list.i_th_lower (i), list.i_th_upper (i))
+			end
 		end
 
 	token_occurrences (a_token: NATURAL; start_index, end_index: INTEGER): INTEGER

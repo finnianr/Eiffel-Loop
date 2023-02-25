@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-21 12:18:59 GMT (Tuesday 21st February 2023)"
-	revision: "57"
+	date: "2023-02-25 10:38:43 GMT (Saturday 25th February 2023)"
+	revision: "59"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -19,6 +19,7 @@ inherit
 	EL_UNENCODED_CHARACTERS
 		rename
 			append as append_unencoded,
+			append_intervals as append_unencoded_intervals,
 			area as unencoded_area,
 			buffer as unencoded_buffer,
 			code as unencoded_code,
@@ -98,8 +99,6 @@ inherit
 	EL_SHARED_ENCODINGS
 
 	EL_SHARED_ZSTRING_CODEC
-
-	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR
 
 	EL_SHARED_UTF_8_ZCODEC; EL_SHARED_UTF_8_SEQUENCE
 
@@ -313,6 +312,14 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
 		deferred
 		end
 
+feature {EL_ZCODEC} -- Implementation
+
+	empty_interval_list: EL_ARRAYED_INTERVAL_LIST
+		do
+			Result := Once_interval_list
+			Result.wipe_out
+		end
+
 feature {NONE} -- Implementation
 
 	adapted_argument (a_general: READABLE_STRING_GENERAL; index: INTEGER): EL_ZSTRING
@@ -342,17 +349,17 @@ feature {NONE} -- Implementation
 		require
 			valid_area_offset: valid_area_offset (a_unicode, start_index, end_index, area_offset)
 		local
-			buffer: like Unencoded_buffer
+			unencoded_intervals: like empty_interval_list
 		do
-			buffer := empty_unencoded_buffer
-			codec.encode_substring (a_unicode, area, start_index, end_index, area_offset, buffer)
+			unencoded_intervals := empty_interval_list
+			codec.encode_substring (a_unicode, area, start_index, end_index, area_offset, unencoded_intervals)
 
-			inspect respective_encoding (buffer)
-				when Both_have_mixed_encoding then
-					append_unencoded (buffer, 0)
-				when Only_other then
-					set_unencoded_from_buffer (buffer)
-			else
+			if unencoded_intervals.count > 0 and then attached shared_character_array (a_unicode) as unicode_array then
+				if has_mixed_encoding then
+					append_unencoded_intervals (unicode_array, unencoded_intervals, area_offset - start_index + 1)
+				else
+					make_from_intervals (unicode_array, unencoded_intervals, area_offset - start_index + 1)
+				end
 			end
 		end
 
@@ -460,6 +467,11 @@ feature {NONE} -- Constants
 	Once_substring_indices: ARRAYED_LIST [INTEGER]
 		do
 			create Result.make (5)
+		end
+
+	Once_interval_list: EL_ARRAYED_INTERVAL_LIST
+		once
+			create Result.make_empty
 		end
 
 end

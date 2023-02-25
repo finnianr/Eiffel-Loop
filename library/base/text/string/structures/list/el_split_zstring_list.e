@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 13:53:40 GMT (Monday 5th December 2022)"
-	revision: "13"
+	date: "2023-02-24 9:34:05 GMT (Friday 24th February 2023)"
+	revision: "14"
 
 class
 	EL_SPLIT_ZSTRING_LIST
@@ -21,7 +21,7 @@ inherit
 			append_code as append_z_code,
 			separator_code as separator_z_code
 		redefine
-			append_z_code, is_white_space, proper_cased, separator_z_code
+			append_z_code, is_white_space, proper_cased, separator_z_code, string_strict_cmp
 		end
 
 	EL_SHARED_ZSTRING_CODEC
@@ -50,6 +50,12 @@ feature {NONE} -- Implementation
 	separator_z_code (a_separator: CHARACTER_32): NATURAL
 		do
 			Result := codec.as_z_code (a_separator)
+		end
+
+	string_strict_cmp (left_index, right_index, n: INTEGER): INTEGER
+		do
+--			order `right_index', `left_index' is correct
+			Result := target.order_comparison (target, right_index, left_index, n)
 		end
 
 end

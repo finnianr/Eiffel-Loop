@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-02-23 10:17:34 GMT (Thursday 23rd February 2023)"
+	revision: "10"
 
 class
 	JSON_INTERVALS_OBJECT [FIELD_ENUM -> EL_ENUMERATION [NATURAL_16] create make end]
@@ -148,7 +148,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Default_area: SPECIAL [INTEGER_64]
+	Default_area: SPECIAL [INTEGER]
 		once
 			create Result.make_empty (0)
 		end

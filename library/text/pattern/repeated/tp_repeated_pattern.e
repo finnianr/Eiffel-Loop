@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:25:00 GMT (Monday 21st November 2022)"
-	revision: "4"
+	date: "2023-02-24 14:22:09 GMT (Friday 24th February 2023)"
+	revision: "5"
 
 deferred class
 	TP_REPEATED_PATTERN
@@ -25,10 +25,11 @@ inherit
 
 	EL_ARRAYED_INTERVAL_LIST
 		rename
+			area_v2 as interval_area,
+			index as interval_index,
 			make as make_event_list,
 			count as event_count,
-			extend as interval_extend,
-			item as interval_item
+			extend as extend_interval
 		export
 			{NONE} all
 		redefine
@@ -81,15 +82,14 @@ feature -- Element change
 		local
 			l_action_area: like action_area
 		do
-			interval_extend (start_index, end_index)
+			extend_interval (start_index, end_index)
 			l_action_area := action_area
-			if l_action_area.capacity < area_v2.capacity then
-				l_action_area := l_action_area.aliased_resized_area (area_v2.capacity)
+			if event_count > l_action_area.capacity then
+				l_action_area := l_action_area.aliased_resized_area (event_count + additional_space // 2)
 				action_area := l_action_area
 			end
 			l_action_area.extend (action)
 		ensure
-			same_capacity: area_v2.capacity = action_area.capacity
 			same_count: event_count = action_area.count
 		end
 
@@ -104,23 +104,18 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	action_item: PROCEDURE
-		do
-			Result := action_area [index - 1]
-		end
-
 	apply_events (a_repeated: detachable TP_REPEATED_PATTERN)
 		local
-			interval: INTEGER_64
+			l_area: like interval_area; i: INTEGER
 		do
-			from start until after loop
-				if attached action_item as action then
+			l_area := interval_area
+			from until i = l_area.count loop
+				if attached action_area [i // 2] as action then
 					if attached {like Default_action} action as on_substring_match then
-						interval := interval_item
 						if attached a_repeated as l_repeated then
-							l_repeated.extend (on_substring_match, lower_integer (interval), upper_integer (interval))
+							l_repeated.extend (on_substring_match, l_area [i], l_area [i + 1])
 						else
-							on_substring_match (lower_integer (interval), upper_integer (interval))
+							on_substring_match (l_area [i], l_area [i + 1])
 						end
 					else
 						if attached a_repeated as l_repeated then
@@ -130,7 +125,7 @@ feature {NONE} -- Implementation
 						end
 					end
 				end
-				forth
+				i := i + 2
 			end
 		end
 

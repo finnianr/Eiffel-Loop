@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 15:01:51 GMT (Sunday 18th December 2022)"
-	revision: "37"
+	date: "2023-02-23 15:54:00 GMT (Thursday 23rd February 2023)"
+	revision: "38"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -67,42 +67,58 @@ feature -- Basic operations
 feature -- Shared items
 
 	circular_i_th (i: INTEGER): S
+		local
+			j: INTEGER
 		do
 			Result := empty_item
-			append_substring (Result, circular_i_th_interval (i))
+			j := modulo (i, count) * 2
+			if count > 0 and then attached area_v2 as a then
+				append_substring (Result, a [j], a [j + 1])
+			end
 		end
 
 	first_item: S
 		do
 			Result := empty_item
-			if count > 0 then
-				append_substring (Result, first_interval)
+			if count > 0 and then attached area_v2 as a then
+				append_substring (Result, a [0], a [1])
 			end
 		end
 
 	i_th (i: INTEGER): S
+		local
+			j: INTEGER
 		do
 			Result := empty_item
-			append_substring (Result, i_th_interval (i))
+			j := (i - 1) * 2
+			if attached area_v2 as a then
+				append_substring (Result, a [j], a [j + 1])
+			end
 		end
 
 	item: S
 		-- current iteration split item
 		-- (DO NOT KEEP REFERENCES)
+		local
+			i: INTEGER
 		do
 			Result := empty_item
-			if not off then
-				append_substring (Result, interval_item)
+			if not off and then attached area_v2 as a then
+				i := (index - 1) * 2
+				append_substring (Result, a [i], a [i + 1])
 			end
 		end
 
 	last_item: S
 		-- last split item
 		-- (DO NOT KEEP REFERENCES)
+		local
+			i: INTEGER
 		do
 			Result := empty_item
-			if count > 0 then
-				append_substring (Result, last_interval)
+			if count > 0 and then attached area_v2 as a then
+				i := a.count - 2
+				append_substring (Result, a [i], a [i + 1])
 			end
 		end
 
@@ -159,9 +175,9 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	append_substring (str: S; interval: INTEGER_64)
+	append_substring (str: S; lower, upper: INTEGER)
 		do
-			str.append_substring (target, lower_integer (interval), upper_integer (interval))
+			str.append_substring (target, lower, upper)
 		end
 
 	empty_item: S

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-19 13:17:23 GMT (Sunday 19th February 2023)"
-	revision: "4"
+	date: "2023-02-23 18:01:18 GMT (Thursday 23rd February 2023)"
+	revision: "5"
 
 expanded class
 	EL_INTERVAL_ROUTINES
@@ -27,6 +27,11 @@ feature -- Conversion
 	to_upper (compact_interval: INTEGER_64): INTEGER
 		do
 			Result := compact_interval.to_integer_32
+		end
+
+	compact (lower, upper: INTEGER): INTEGER_64
+		do
+			Result := (lower.to_integer_64 |<< 32) | upper.to_integer_64
 		end
 
 feature -- Access

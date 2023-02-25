@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-20 15:47:02 GMT (Monday 20th February 2023)"
-	revision: "15"
+	date: "2023-02-25 10:50:39 GMT (Saturday 25th February 2023)"
+	revision: "17"
 
 class
 	STRING_PAIR
@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 			s_32_substring := s_32; zs_substring := zs
 		end
 
-feature -- Strings
+feature -- STRING_32
 
 	s_32: STRING_32
 
@@ -53,13 +53,19 @@ feature -- Strings
 
 	s_32_old: STRING_32
 
-	s_32_substring: STRING_32
+	s_32_substring: READABLE_STRING_32
+
+	s_8: detachable STRING_8
+
+feature -- STRING_8
 
 	s_8_new: detachable STRING_8
 
 	s_8_old: detachable STRING_8
 
-	s_8_substring: detachable STRING_8
+	s_8_substring: detachable READABLE_STRING_8
+
+feature -- ZSTRING
 
 	zs: ZSTRING
 
@@ -72,6 +78,12 @@ feature -- Strings
 feature -- Access
 
 	hash_code: INTEGER
+		do
+			across << s_32, s_32_substring, s_32_old, s_32_new >> as list loop
+				Result := Result + list.item.hash_code
+			end
+			Result := Result.abs
+		end
 
 	latin_1: detachable STRING_8
 		do
@@ -87,6 +99,34 @@ feature -- Access
 
 feature -- Test comparisons
 
+	append_string_general: BOOLEAN
+		do
+			if attached s_8_substring as str_8 then
+				zs.append_string_general (str_8)
+			else
+				zs.append_string_general (s_32_substring)
+			end
+			if zs.count = s_32.count then
+				Result := zs.to_string_32 ~ s_32
+			else
+				Result := s_32.starts_with (zs.to_string_32)
+			end
+		end
+
+	append_substring_general (start_index, end_index: INTEGER): BOOLEAN
+		do
+			if attached s_8 as s then
+				zs.append_substring_general (s, start_index, end_index)
+			else
+				zs.append_substring_general (s_32, start_index, end_index)
+			end
+			if zs.count = s_32.count then
+				Result := zs.to_string_32 ~ s_32
+			else
+				Result := s_32.starts_with (zs.to_string_32)
+			end
+		end
+
 	ends_with: BOOLEAN
 		local
 			b1, b2, b3: BOOLEAN
@@ -96,15 +136,14 @@ feature -- Test comparisons
 			b3 := zs.ends_with (zs_substring)
 			Result := b1 = b2
 			Result := Result and b1 = b3
-			if Result and then attached s_8_substring as s_8 then
-				b3 := zs.ends_with_general (s_8)
+			if Result and then attached s_8_substring as s then
+				b3 := zs.ends_with_general (s)
 				Result := b1 = b3
 			end
 		end
 
 	replace_substring_all: BOOLEAN
 		do
-			hash_code := new_hash_code
 			s_32.replace_substring_all (s_32_old, s_32_new)
 			if attached s_8_old as l_old and attached s_8_new as l_new then
 				zs.replace_substring_all (l_old, l_new)
@@ -129,8 +168,8 @@ feature -- Test comparisons
 			b3 := zs.same_characters (zs_substring, 1, zs_substring.count, index)
 			Result := b1 = b2
 			Result := Result and b1 = b3
-			if Result and then attached s_8_substring as s_8 then
-				b3 := zs.same_characters_general (s_8, 1, s_8.count, index)
+			if Result and then attached s_8_substring as s then
+				b3 := zs.same_characters_general (s, 1, s.count, index)
 				Result := b1 = b3
 			end
 		end
@@ -152,8 +191,8 @@ feature -- Test comparisons
 			b3 := zs.starts_with (zs_substring)
 			Result := b1 = b2
 			Result := Result and b1 = b3
-			if Result and then attached s_8_substring as s_8 then
-				b3 := zs.starts_with_general (s_8)
+			if Result and then attached s_8_substring as str_8 then
+				b3 := zs.starts_with_general (str_8)
 				Result := b1 = b3
 			end
 		end
@@ -175,6 +214,18 @@ feature -- Test comparisons
 			end
 		end
 
+	to_general: BOOLEAN
+		do
+			if attached s_8 as str_8 then
+				create zs.make_from_general (str_8)
+				if attached {STRING_8} zs.to_general as as_str_8 then
+					Result := as_str_8 ~ str_8
+				end
+			elseif attached {STRING_32} zs.to_general as str_32 then
+				Result := str_32 ~ s_32
+			end
+		end
+
 feature -- Status query
 
 	is_same: BOOLEAN
@@ -187,11 +238,21 @@ feature -- Status query
 			Result := s_32.valid_index (i)
 		end
 
+	is_same_size: BOOLEAN
+		do
+			Result := zs.count = s_32.count
+		end
+
 feature -- Element change
 
 	set (str_32: STRING_32)
 		do
 			s_32 := str_32; zs := str_32
+			if s_32.is_valid_as_string_8 then
+				s_8 := s_32.to_string_8
+			else
+				s_8 := Void
+			end
 		end
 
 	set_old_new (a_old, a_new: STRING_32)
@@ -214,7 +275,7 @@ feature -- Element change
 	set_substrings (start_index, end_index: INTEGER)
 		do
 			s_32_substring := s_32.substring (start_index, end_index)
-			zs_substring := zs.substring (start_index, end_index)
+			create zs_substring.make_from_string (s_32_substring)
 
 			if s_32_substring.is_valid_as_string_8 then
 				s_8_substring := s_32_substring.to_string_8
@@ -239,16 +300,6 @@ feature -- Basic operations
 	wipe_out
 		do
 			s_32.wipe_out; zs.wipe_out
-		end
-
-feature {NONE} -- Implementation
-
-	new_hash_code: INTEGER
-		do
-			across << s_32, s_32_substring, s_32_old, s_32_new >> as list loop
-				Result := Result + list.item.hash_code
-			end
-			Result := Result.abs
 		end
 
 end

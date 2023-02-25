@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-26 14:48:08 GMT (Monday 26th December 2022)"
-	revision: "18"
+	date: "2023-02-24 14:28:59 GMT (Friday 24th February 2023)"
+	revision: "19"
 
 class
 	TEST_STORABLE
@@ -44,6 +44,6 @@ feature -- Element change
 
 feature {NONE} -- Constants
 
-	Field_hash: NATURAL = 2952565099
+	Field_hash: NATURAL = 3452470618
 
 end

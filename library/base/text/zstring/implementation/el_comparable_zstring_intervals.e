@@ -8,11 +8,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-17 10:10:59 GMT (Friday 17th February 2023)"
-	revision: "3"
+	date: "2023-02-24 18:29:48 GMT (Friday 24th February 2023)"
+	revision: "4"
 
 deferred class
-	EL_COMPARABLE_ZSTRING_INTERVALS [G, H -> READABLE_INDEXABLE [G]]
+	EL_COMPARABLE_ZSTRING_INTERVALS [C, S -> READABLE_INDEXABLE [C]]
 
 inherit
 	EL_ZSTRING_INTERVALS
@@ -49,7 +49,7 @@ feature -- Element change
 			other_area_reset: other_area = default_other_area
 		end
 
-	set_other_area (a_cursor: like new_string_cursor)
+	set_other_area (a_cursor: like string_cursor)
 		deferred
 		end
 
@@ -61,20 +61,19 @@ feature -- Status query
 			other_area_set: is_other_area_set
 		local
 			i, intervals_count, l_count, lower, upper, start_index: INTEGER
-			intervals_area: SPECIAL [INTEGER_64]
+			l_area: like area_v2
 		do
-			intervals_area := area; intervals_count := count
+			l_area := area; intervals_count := count
 			start_index := (encoded_area [first_lower - 1] = Substitute).to_integer
 
 			Result := True
-			from i := start_index until not Result or else i >= intervals_count loop
-				lower := (intervals_area [i] |>> 32).to_integer_32
-				upper := intervals_area [i].to_integer_32
+			from i := start_index * 2 until not Result or else i >= intervals_count loop
+				lower := l_area [i]; upper := l_area [i + 1]
 				l_count := upper - lower + 1
 				Result := same_encoded_interval_characters (
 					encoded_area, l_count, lower - 1, offset_other_to_current
 				)
-				i := i + 2 -- every second one is encoded
+				i := i + 4 -- every second one is encoded
 			end
 			if Result then
 				start_index := (not start_index.to_boolean).to_integer
@@ -106,7 +105,7 @@ feature {NONE} -- Implementation
 			list_count, l_count, other_offset, overlap_status, comparison_count: INTEGER
 			i, list_i, lower_A, upper_A, lower_B, upper_B, other_i, current_i: INTEGER
 			l_unencoded: like unencoded_area; l_area: like area; ir: EL_INTERVAL_ROUTINES
-			o_area: SPECIAL [G]
+			o_area: SPECIAL [C]
 		do
 			l_unencoded := unencoded_area
 			if is_empty then
@@ -114,12 +113,11 @@ feature {NONE} -- Implementation
 			else
 				o_area := other_area; other_offset := a_other_offset + other_area_first_index
 
-				list_i := list_start_index; list_count := count; l_area := area
+				list_i := list_start_index * 2; list_count := count; l_area := area
 				Result := True
 				from i := 0 until not Result or else list_i >= list_count or else i = l_unencoded.count loop
-					lower_A := (l_area [list_i] |>> 32).to_integer_32 -- A interval
-					upper_A := l_area [list_i].to_integer_32 -- A interval
-					lower_B := l_unencoded [i].code; upper_B := l_unencoded [i + 1].code -- B interval
+					lower_A := l_area [list_i]; upper_A := l_area [list_i + 1]
+					lower_B := l_unencoded [i].code; upper_B := l_unencoded [i + 1].code
 					l_count := upper_B - lower_B + 1
 
 					overlap_status := ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
@@ -148,7 +146,7 @@ feature {NONE} -- Implementation
 						Result := same_interval_characters (
 							l_unencoded, o_area, other_offset +  other_i, i + 2 + current_i, comparison_count
 						)
-						list_i := list_i + 2 -- every 2nd interval is unencoded
+						list_i := list_i + 4 -- every 2nd interval is unencoded
 					end
 					i := i + l_count + 2
 				end
@@ -157,10 +155,6 @@ feature {NONE} -- Implementation
 
 
 feature {NONE} -- Deferred
-
-	new_string_cursor: GENERAL_SPECIAL_ITERATION_CURSOR [G, H]
-		deferred
-		end
 
 	same_encoded_interval_characters (
 		encoded_area: SPECIAL [CHARACTER]; a_count, offset, a_other_offset: INTEGER
@@ -171,10 +165,14 @@ feature {NONE} -- Deferred
 		end
 
 	same_interval_characters (
-		current_area: like unencoded_area; a_other_area: SPECIAL [G]
+		current_area: like unencoded_area; a_other_area: SPECIAL [C]
 		other_i, current_i, comparison_count: INTEGER
 
 	): BOOLEAN
+		deferred
+		end
+
+	string_cursor (str: S): GENERAL_SPECIAL_ITERATION_CURSOR [C, S]
 		deferred
 		end
 
@@ -184,9 +182,9 @@ feature {NONE} -- Internal attributes
 
 	unicode_table: SPECIAL [CHARACTER_32]
 
-	other_area: SPECIAL [G]
+	other_area: SPECIAL [C]
 
-	default_other_area: SPECIAL [G]
+	default_other_area: SPECIAL [C]
 
 	other_area_first_index: INTEGER
 

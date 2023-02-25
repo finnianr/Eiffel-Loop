@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 14:30:34 GMT (Tuesday 14th February 2023)"
-	revision: "6"
+	date: "2023-02-24 18:59:16 GMT (Friday 24th February 2023)"
+	revision: "7"
 
 class
 	EL_STRING_8_ITERATION_CURSOR
@@ -17,6 +17,8 @@ inherit
 		export
 			{EL_SHARED_STRING_8_CURSOR, STRING_HANDLER} area, area_first_index, area_last_index, make
 		end
+
+	EL_CHARACTER_ARRAY
 
 	EL_STRING_ITERATION_CURSOR
 
@@ -157,6 +159,21 @@ feature {NONE} -- Implementation
 	last_index_of (str: STRING_8; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
 		do
 			Result := str.last_index_of (c.to_character_8, start_index_from_end)
+		end
+
+feature {NONE} -- Implementation
+
+	append_to (destination: SPECIAL [CHARACTER_32]; source_index, n: INTEGER)
+		local
+			i, i_final: INTEGER
+		do
+			if attached area as l_area then
+				i_final := source_index + area_first_index + n
+				from i := source_index + area_first_index until i = i_final loop
+					destination.extend (l_area [i].to_character_32)
+					i := i + 1
+				end
+			end
 		end
 
 feature {NONE} -- Constants

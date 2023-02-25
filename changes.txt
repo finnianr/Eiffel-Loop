@@ -559,3 +559,6 @@ Update to codecs
 Fri 17th Feb 2023, 15:51:04
 ZSTRING same_characters and same_caseless_characters performance improvements
 
+Fri 24th Feb 2023, 19:50:17
+New cursor class EL_CHARACTER_ARRAY to make ZSTRING encoding more efficient
+

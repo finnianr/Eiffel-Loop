@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-02-23 9:58:38 GMT (Thursday 23rd February 2023)"
+	revision: "4"
 
 class
 	EL_IMMUTABLE_STRING_8_SPLIT_LIST
@@ -29,11 +29,11 @@ feature -- Access
 	item: IMMUTABLE_STRING_8
 		-- current iteration split item
 		local
-			interval: INTEGER_64
+			i: INTEGER
 		do
-			if not off then
-				interval := interval_item
-				Result := target.shared_substring (lower_integer (interval), upper_integer (interval))
+			if not off and then attached area_v2 as a then
+				i := (index - 1) * 2
+				Result := target.shared_substring (a [i], a [i + 1])
 			end
 		end
 

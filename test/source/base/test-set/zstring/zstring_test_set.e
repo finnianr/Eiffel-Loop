@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-20 10:06:42 GMT (Monday 20th February 2023)"
-	revision: "82"
+	date: "2023-02-25 10:08:55 GMT (Saturday 25th February 2023)"
+	revision: "84"
 
 class
 	ZSTRING_TEST_SET
@@ -163,6 +163,7 @@ feature -- Conversion tests
 		end
 
 	test_to_general
+		-- ZSTRING_TEST_SET.test_to_general
 		note
 			testing:	"covers/{ZSTRING}.to_general", "covers/{ZSTRING}.make_from_general"
 		local
@@ -171,10 +172,7 @@ feature -- Conversion tests
 			create pair
 			across Text.lines as line loop
 				pair.set (line.item)
-				if attached pair.zs.to_general as general then
-					assert_same_string (Void, general, pair.s_32)
-					assert ("both string 8", attached {STRING} general implies pair.s_32.is_valid_as_string_8)
-				end
+				assert ("to_general OK", pair.to_general)
 			end
 		end
 
@@ -239,24 +237,30 @@ feature -- Appending tests
 		note
 			testing: "covers/{ZSTRING}.append_string_general", "covers/{ZSTRING}.substring"
 		local
-			pair, word_pair: STRING_PAIR
+			pair: STRING_PAIR; substring_size, start_index, end_index: INTEGER
 		do
-			create pair; create word_pair
-			across Text.words as word loop
-				word_pair.wipe_out
-				word_pair.s_32.share (word.item)
-				if not pair.s_32.is_empty then
-					pair.append_character (' ')
-				end
-				pair.s_32.append (word_pair.s_32)
-				if attached word_pair.latin_1 as str_8 then
-					pair.zs.append_string_general (str_8)
+			across << False, True >> as boolean loop
+				if boolean.item then
+					create pair
 				else
-					pair.zs.append_string_general (word_pair.s_32)
+					create {IMMUTABLE_STRING_PAIR} pair
 				end
-				assert ("append_string_general OK", pair.is_same)
-				word_pair.zs.share (pair.zs.substring (pair.zs.count - word_pair.s_32.count + 1, pair.zs.count))
-				assert ("substring OK", word_pair.is_same)
+
+				across << 3, 5, 7 >> as n loop
+					substring_size := n.item
+					across Text.lines as line loop
+						pair.set (line.item)
+						pair.zs.wipe_out
+						end_index := 0
+						from start_index := 1 until end_index = pair.s_32.count loop
+							end_index := (start_index + substring_size - 1).min (pair.s_32.count)
+							pair.set_substrings (start_index, end_index)
+							assert ("append_string_general OK", pair.append_string_general)
+							start_index := start_index + substring_size
+						end
+						assert ("same size strings", pair.is_same_size)
+					end
+				end
 			end
 		end
 
@@ -307,27 +311,29 @@ feature -- Appending tests
 		note
 			testing: "covers/{ZSTRING}.append_substring_general", "covers/{ZSTRING}.substring"
 		local
-			line_32: STRING_32; list: EL_SPLIT_STRING_32_LIST; pair: STRING_PAIR
+			pair: STRING_PAIR; substring_size, start_index, end_index: INTEGER
 		do
-			create pair
-			across Text.lines as line loop
-				line_32 := line.item
-				create list.make (line_32, ' ')
-				pair.wipe_out
-				from list.start until list.after loop
-					if list.index > 1 then
-						pair.append_character (' ')
-					end
-					pair.s_32.append_substring_general (line_32, list.item_start_index, list.item_end_index)
-					if attached pair.latin_1 as str_8 then
-						pair.zs.append_substring_general (str_8, list.item_start_index, list.item_end_index)
-					else
-						pair.zs.append_substring_general (line_32, list.item_start_index, list.item_end_index)
-					end
-					list.forth
+			across << False, True >> as boolean loop
+				if boolean.item then
+					create pair
+				else
+					create {IMMUTABLE_STRING_PAIR} pair
 				end
-				assert ("reconstituted line", pair.s_32 ~ line_32)
-				assert ("same line", pair.is_same)
+
+				across << 3, 5, 7 >> as n loop
+					substring_size := n.item
+					across Text.lines as line loop
+						pair.set (line.item)
+						pair.zs.wipe_out
+						end_index := 0
+						from start_index := 1 until end_index = pair.s_32.count loop
+							end_index := (start_index + substring_size - 1).min (pair.s_32.count)
+							assert ("append_substring_general OK", pair.append_substring_general (start_index, end_index))
+							start_index := start_index + substring_size
+						end
+						assert ("same size strings", pair.is_same_size)
+					end
+				end
 			end
 		end
 
@@ -1086,8 +1092,9 @@ feature -- Access tests
 			testing: "covers/{ZSTRING}.substring", "covers/{ZSTRING}.substring_index"
 		local
 			index, next_end_index, next_start_index, next_count, next_index, start_index, end_index, from_index: INTEGER
-			pair: STRING_PAIR
+			pair: STRING_PAIR; assertion_ok: STRING
 		do
+			assertion_ok := "substring_index OK"
 			across Text.lines as line loop
 				create pair.make (line.item)
 				if attached pair.new_intervals (' ') as list then
@@ -1096,12 +1103,12 @@ feature -- Access tests
 						start_index := list.item_lower; end_index := list.item_upper
 						pair.set_substrings (start_index, end_index)
 						from_index := (start_index - 5).max (1)
-						assert ("substring_index OK", pair.substring_index (from_index))
+						assert (assertion_ok, pair.substring_index (from_index))
 
 						if pair.valid_index (start_index - 1) and pair.valid_index (end_index + 1) then
 							pair.set_substrings (start_index - 1, end_index + 1)
 							from_index := (start_index - 5).max (1)
-							assert ("substring_index OK", pair.substring_index (from_index))
+							assert (assertion_ok, pair.substring_index (from_index))
 						end
 						next_index := index + 2
 						if list.valid_index (next_index) then
@@ -1111,18 +1118,18 @@ feature -- Access tests
 
 							pair.set_substrings (start_index, next_end_index)
 							from_index := (start_index - 5).max (1)
-							assert ("substring_index OK", pair.substring_index (from_index))
+							assert (assertion_ok, pair.substring_index (from_index))
 
 							if list.item_count >= 3 and next_count >= 3 then
 --								half way indices
 								pair.set_substrings ((start_index + end_index) // 2, (next_start_index + next_end_index) //2)
-								assert ("substring_index OK", pair.substring_index (1))
+								assert (assertion_ok, pair.substring_index (1))
 							end
 
 							if pair.valid_index (start_index - 1) and pair.valid_index (end_index + 1) then
 								pair.set_substrings (start_index - 1, end_index + 1)
 								from_index := (start_index - 5).max (1)
-								assert ("substring_index OK", pair.substring_index (from_index))
+								assert (assertion_ok, pair.substring_index (from_index))
 							end
 						end
 						list.forth

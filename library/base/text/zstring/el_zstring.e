@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-21 15:47:03 GMT (Tuesday 21st February 2023)"
-	revision: "72"
+	date: "2023-02-24 11:18:13 GMT (Friday 24th February 2023)"
+	revision: "73"
 
 class
 	EL_ZSTRING
@@ -25,35 +25,36 @@ inherit
 			append_string_8 as append_raw_string_8
 		export
 			{ANY}
---			Element change
-			append_boolean, append_character,
+--				Element change
+				append_boolean, append_character,
 
-			append_double, append_real, append_integer, append_natural,
-			append_real_32, append_real_64, append_rounded_real, append_rounded_double,
-			append_integer_8, append_integer_16, append_integer_32, append_integer_64,
-			append_natural_8, append_natural_16, append_natural_32, append_natural_64,
+				append_double, append_real, append_integer, append_natural,
+				append_real_32, append_real_64, append_rounded_real, append_rounded_double,
+				append_integer_8, append_integer_16, append_integer_32, append_integer_64,
+				append_natural_8, append_natural_16, append_natural_32, append_natural_64,
 
-			append_replaced, append_raw_string_8,
-			append_string, append, append_string_general, append_substring, append_substring_general,
-			append_utf_8, append_utf_16_le, append_encoded, append_encodeable, append_encoded_any,
-			append_tuple_item, append_unicode,
-			extend, enclose, fill_character, multiply,
+				append_replaced, append_raw_string_8,
+				append_string, append, append_string_general, append_substring, append_substring_general,
+				append_utf_8, append_utf_16_le, append_encoded, append_encodeable, append_encoded_any,
+				append_tuple_item, append_unicode,
+				extend, enclose, fill_character, multiply,
 
-			prepend_boolean, prepend_character, prepend_integer, prepend_integer_32,
-			prepend_real_32, prepend_real, prepend_real_64, prepend_double, prepend_substring,
-			prepend, prepend_string, prepend_string_general, prepend_ascii,
+				prepend_boolean, prepend_character, prepend_integer, prepend_integer_32,
+				prepend_real_32, prepend_real, prepend_real_64, prepend_double, prepend_substring,
+				prepend, prepend_string, prepend_string_general, prepend_ascii,
 
-			precede, put_unicode, quote,
-			translate, translate_general,
---			Transformation
-			mirror, replace_character, replace_delimited_substring, replace_delimited_substring_general,
-			replace_substring, replace_substring_all, replace_substring_general,
-			to_canonically_spaced, to_lower, to_proper_case, to_upper, translate_deleting_null_characters,
-			unescape,
---			Removal
-			keep_head, keep_tail, left_adjust, remove_head, remove_tail, right_adjust,
---			Contract support
-			Encoding
+				precede, put_unicode, quote,
+				translate, translate_general,
+--				Transformation
+				mirror, replace_character, replace_delimited_substring, replace_delimited_substring_general,
+				replace_substring, replace_substring_all, replace_substring_general,
+				to_canonically_spaced, to_lower, to_proper_case, to_upper, translate_deleting_null_characters,
+				unescape,
+--				Removal
+				keep_head, keep_tail, left_adjust, remove_head, remove_tail, right_adjust,
+--				Contract support
+				Encoding
+			{EL_SHARED_ZSTRING_CODEC} order_comparison
 		select
 			String_searcher
 		end
@@ -308,8 +309,7 @@ feature -- Element change
 		local
 			latin: EL_STRING_8
 		do
-			latin := Latin_1_string
-			latin.set_from_c (latin_1_ptr)
+			latin := String_8.c_string (latin_1_ptr)
 			if latin.is_ascii then
 				set_from_ascii (latin)
 			else

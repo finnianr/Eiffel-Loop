@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-22 16:56:13 GMT (Sunday 22nd January 2023)"
-	revision: "16"
+	date: "2023-02-23 15:36:06 GMT (Thursday 23rd February 2023)"
+	revision: "17"
 
 class
 	EL_SPLIT_INTERVALS
@@ -47,7 +47,7 @@ feature {NONE} -- Implementation
 				if buffer.is_empty then
 					start_index := 1; end_index := search_index - 1
 				else
-					start_index := upper_integer (buffer.last) + search_string_count + 1
+					start_index := buffer.last_upper + search_string_count + 1
 					end_index := search_index - 1
 				end
 			end
@@ -70,7 +70,7 @@ feature {NONE} -- Implementation
 					end
 				end
 			end
-			buffer.extend (new_interval (start_index, end_index))
+			buffer.extend (start_index, end_index)
 		end
 
 	is_white_space (a_target: READABLE_STRING_GENERAL; i: INTEGER): BOOLEAN

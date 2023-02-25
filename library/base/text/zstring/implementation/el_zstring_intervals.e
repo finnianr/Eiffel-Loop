@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-17 10:25:05 GMT (Friday 17th February 2023)"
-	revision: "6"
+	date: "2023-02-24 10:45:37 GMT (Friday 24th February 2023)"
+	revision: "7"
 
 class
 	EL_ZSTRING_INTERVALS
@@ -15,9 +15,7 @@ class
 inherit
 	EL_SEQUENTIAL_INTERVALS
 		rename
-			lower as lower_index,
-			make as make_sized,
-			upper as upper_index
+			make as make_sized
 		redefine
 			copy
 		end
@@ -64,7 +62,7 @@ feature -- Element change
 			wipe_out
 			unencoded_area := a_unencoded_area; l_unencoded := a_unencoded_area
 			if l_unencoded.count > 0 then
-				l_area := area
+				l_area := area_v2
 				searching := True
 				from i := 0 until done or else i = l_unencoded.count loop
 	--				[lower_A, upper_A] is A interval
@@ -75,27 +73,27 @@ feature -- Element change
 					end
 					if not searching then
 --						ensure enough space for at least 3 more additions
-						if l_area.count + 3 > l_area.capacity then
-							l_area := l_area.aliased_resized_area (i + additional_space)
+						if l_area.count + 6 > l_area.capacity then
+							l_area := l_area.aliased_resized_area (l_area.count + 6 + additional_space)
 							area_v2 := l_area
 						end
 						if is_empty then
 							if lower_A < lower_B then
-								l_area.extend (new_item (lower_A, lower_B - 1))
+								l_area.extend (lower_A); l_area.extend (lower_B - 1)
 							end
 
 						elseif ir.is_overlapping (overlap_status) and then (lower_B - last_upper) >= 1 then
-							l_area.extend (new_item (last_upper + 1, lower_B - 1))
+							l_area.extend (last_upper + 1); l_area.extend (lower_B - 1)
 						end
 						inspect overlap_status
 							when A_overlaps_B_left then
-								l_area.extend (new_item (lower_B, upper_A))
+								l_area.extend (lower_B); l_area.extend (upper_A)
 							when A_overlaps_B_right then
-								l_area.extend (new_item (lower_A, upper_B))
+								l_area.extend (lower_A); l_area.extend (upper_B)
 							when A_contains_B then
-								l_area.extend (new_item (lower_B, upper_B))
+								l_area.extend (lower_B); l_area.extend (upper_B)
 							when B_contains_A then
-								l_area.extend (new_item (lower_A, upper_A))
+								l_area.extend (lower_A); l_area.extend (upper_A)
 						else
 							done := True
 						end
@@ -103,9 +101,9 @@ feature -- Element change
 					i := i + upper_B - lower_B + 3
 				end
 				if is_empty then
-					l_area.extend (new_item (lower_A, upper_A))
+					l_area.extend (lower_A); l_area.extend (upper_A)
 				elseif upper_A > last_upper then
-					l_area.extend (new_item (last_upper + 1, upper_A))
+					l_area.extend (last_upper + 1); l_area.extend (upper_A)
 				end
 			else
 				extend (lower_A, upper_A)
@@ -123,23 +121,19 @@ feature -- Status query
 			valid_encoded_area: encoded_area.valid_index (last_upper -  1)
 			valid_other_encoded_area: other_encoded_area.valid_index (other.last_upper -  1)
 		local
-			i, intervals_count, lower, upper, start_index, other_start_index: INTEGER
-			intervals_area, other_intervals_area: SPECIAL [INTEGER_64]
-			interval, other_interval: INTEGER_64
+			i, j, intervals_count, lower, upper, start_index, other_start_index: INTEGER
+			l_area, o_area: like area_v2
 		do
-			intervals_area := area; intervals_count := count
-			other_intervals_area := other.area
+			l_area := area; o_area := other.area; intervals_count := count
+
 			start_index := first_index_of_encoded (encoded_area)
 			other_start_index := other.first_index_of_encoded (other_encoded_area)
 
 			Result := start_index = other_start_index
 			from i := start_index until not Result or else i >= intervals_count loop
-				interval := intervals_area [i]; other_interval := other_intervals_area [i]
-				lower := lower_integer (interval); upper := upper_integer (interval)
-				Result := encoded_area.same_items (
-					other_encoded_area, lower_integer (other_interval) - 1, lower - 1, upper - lower + 1
-				)
-				i := i + 2 -- every second one is encoded
+				j := i * 2; lower := l_area [j]; upper := l_area [j + 1]
+				Result := encoded_area.same_items (other_encoded_area, o_area [i] - 1, lower - 1, upper - lower + 1)
+				i := i + 4 -- every second one is encoded
 			end
 		end
 
@@ -179,7 +173,7 @@ feature -- Factory
 		-- array of source and count indexes
 		local
 			i, l_index, lower_B, upper_B, l_count, overlap_status: INTEGER; l_unencoded: like unencoded_area
-			searching, done: BOOLEAN; ir: EL_INTERVAL_ROUTINES; str: IMMUTABLE_STRING_32
+			searching, done: BOOLEAN; ir: EL_INTERVAL_ROUTINES
 		do
 			create Result.make_empty (count // 2 + 1)
 			l_unencoded := unencoded_area
@@ -213,8 +207,8 @@ feature -- Factory
 						done := True
 					end
 					if l_count.to_boolean then
-						str := Immutable_32.new_substring (l_unencoded, i + 2 + l_index, l_count)
-						Result.extend (new_item (i + 2 + l_index, l_count))
+						Result.extend (i + 2 + l_index)
+						Result.extend (l_count)
 					end
 				end
 				i := i + upper_B - lower_B + 3

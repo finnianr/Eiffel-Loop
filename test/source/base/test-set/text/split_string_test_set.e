@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:34:24 GMT (Saturday 31st December 2022)"
-	revision: "26"
+	date: "2023-02-24 9:29:32 GMT (Friday 24th February 2023)"
+	revision: "27"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -227,19 +227,30 @@ feature -- Tests
 		end
 
 	test_split_sort
+		note
+			testing: "covers/{EL_SPLIT_READABLE_STRING_LIST}.sort", "covers/{EL_SPLIT_READABLE_STRING_LIST}.i_th",
+				"covers/{EL_SPLIT_ZSTRING_LIST}.string_strict_cmp", "covers/{ZSTRING}.order_comparison"
 		local
-			split: EL_SPLIT_STRING_LIST [STRING]
-			list: EL_STRING_8_LIST
+			split_list: EL_SPLIT_STRING_LIST [STRING]; copied_list: EL_STRING_8_LIST
+			split_zstring_list: EL_SPLIT_ZSTRING_LIST
+			csv_list: STRING
 		do
-			create split.make_by_string ("ZAB, ZAC, ZAC1, ZA, CAL, CON, CAT, CAN, CANOPY", Comma_space)
-			create list.make (split.count)
-			across split as animal loop
-				list.extend (animal.item_copy)
+			csv_list := "ZAB, ZAC, ZAC1, ZA, CAL, CON, CAT, CAN, CANOPY"
+			create split_list.make_by_string (csv_list, Comma_space)
+			create split_zstring_list.make_by_string (csv_list, Comma_space)
+			create copied_list.make (split_list.count)
+			across split_list as list loop
+				copied_list.extend (list.item_copy)
 			end
-			list.sort
-			split.sort (True)
-			across list as animal loop
-				assert ("same animal", animal.item ~ split.i_th (animal.cursor_index))
+			copied_list.sort
+			split_list.sort (True)
+			across copied_list as list loop
+				assert ("same substring", list.item ~ split_list.i_th (list.cursor_index))
+			end
+
+			split_zstring_list.sort (True)
+			across copied_list as list loop
+				assert ("same substring", list.item ~ split_zstring_list.i_th (list.cursor_index))
 			end
 		end
 
@@ -247,17 +258,19 @@ feature -- Tests
 		note
 			testing: "covers/{EL_SPLIT_STRING_LIST}.make", "covers/{EL_FILLED_STRING_8_TABLE}.item"
 		local
-			list: EL_SPLIT_STRING_LIST [STRING]; str_split: LIST [STRING]
+			split_list: EL_SPLIT_STRING_LIST [STRING]; str_split: LIST [STRING]
 		do
 			across Comma_separated_variations as csv_list loop
-				create list.make_adjusted (csv_list.item, ',', {EL_STRING_ADJUST}.Left)
+				create split_list.make_adjusted (csv_list.item, ',', {EL_STRING_ADJUST}.Left)
 				str_split := csv_list.item.split (',')
-				from list.start until list.after loop
-					str_split.go_i_th (list.index)
-					str_split.item.left_adjust
-					assert ("same_item_as", list.item_same_as (str_split.item))
-					assert ("equal items", list.item ~ str_split.item)
-					list.forth
+				if attached split_list as list then
+					from list.start until list.after loop
+						str_split.go_i_th (list.index)
+						str_split.item.left_adjust
+						assert ("same_item_as", list.item_same_as (str_split.item))
+						assert ("equal items", list.item ~ str_split.item)
+						list.forth
+					end
 				end
 			end
 		end

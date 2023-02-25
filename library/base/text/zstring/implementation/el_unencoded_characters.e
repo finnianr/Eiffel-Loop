@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-20 12:45:56 GMT (Monday 20th February 2023)"
-	revision: "46"
+	date: "2023-02-25 8:44:43 GMT (Saturday 25th February 2023)"
+	revision: "48"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -31,7 +31,7 @@ inherit
 	STRING_HANDLER
 
 create
-	make, make_from_other, make_joined
+	make, make_from_other, make_joined, make_from_intervals
 
 feature {NONE} -- Initialization
 
@@ -102,6 +102,23 @@ feature {NONE} -- Initialization
 			else
 				make
 			end
+		end
+
+	make_from_intervals (unicode_array: EL_CHARACTER_ARRAY; interval_list: EL_ARRAYED_INTERVAL_LIST; area_offset: INTEGER_32)
+		local
+			i, upper, lower: INTEGER; l_area: like area
+		do
+			create l_area.make_empty (interval_list.count_sum + interval_list.count * 2)
+			if attached interval_list.area as interval_area then
+				from until i = interval_area.count loop
+					lower := interval_area [i]; upper := interval_area [i + 1]
+					l_area.extend (lower.to_character_32)
+					l_area.extend (upper.to_character_32)
+					unicode_array.append_to (l_area, lower - area_offset - 1, upper - lower + 1)
+					i := i + 2
+				end
+			end
+			area := l_area
 		end
 
 feature -- Access
@@ -528,6 +545,38 @@ feature -- Element change
 			set_if_changed (current_area, l_area)
 		ensure
 			valid_count: character_count = old character_count + other.character_count
+		end
+
+	append_intervals (unicode_array: EL_CHARACTER_ARRAY; interval_list: EL_ARRAYED_INTERVAL_LIST; area_offset: INTEGER_32)
+		require
+			not_empty: area.count > 0
+			at_least_one_interval: interval_list.count > 0
+		local
+			i, l_last_index, upper, lower, additional_count: INTEGER; l_area: like area
+			merge_with_last: BOOLEAN
+		do
+			additional_count := interval_list.count_sum + interval_list.count * 2
+			l_last_index := last_index; l_area := area
+			upper := l_area [l_last_index + 1].code
+			if upper + 1 = interval_list.first_lower then
+				merge_with_last := True
+				additional_count := additional_count - 2
+				l_area [l_last_index + 1] := interval_list.first_upper.to_character_32
+			end
+			l_area := l_area.resized_area (l_area.count + additional_count)
+
+			if attached interval_list.area as interval_area then
+				from until i = interval_area.count loop
+					lower := interval_area [i]; upper := interval_area [i + 1]
+					if merge_with_last implies i > 0 then
+						l_area.extend (lower.to_character_32)
+						l_area.extend (upper.to_character_32)
+					end
+					unicode_array.append_to (l_area, lower - area_offset - 1, upper - lower + 1)
+					i := i + 2
+				end
+			end
+			area := l_area
 		end
 
 	insert (other: EL_UNENCODED_CHARACTERS)

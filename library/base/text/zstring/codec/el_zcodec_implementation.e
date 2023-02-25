@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-20 14:39:43 GMT (Monday 20th February 2023)"
-	revision: "2"
+	date: "2023-02-25 8:48:18 GMT (Saturday 25th February 2023)"
+	revision: "3"
 
 class
 	EL_ZCODEC_IMPLEMENTATION
@@ -34,6 +34,8 @@ inherit
 	STRING_HANDLER
 
 	EL_SHARED_STRING_8_CURSOR
+
+	EL_SHARED_STRING_32_CURSOR
 
 feature {NONE} -- Implementation
 

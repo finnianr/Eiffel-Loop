@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 14:31:16 GMT (Tuesday 6th December 2022)"
-	revision: "23"
+	date: "2023-02-23 10:25:40 GMT (Thursday 23rd February 2023)"
+	revision: "24"
 
 class
 	EVOLICITY_COMPILER
@@ -332,7 +332,7 @@ feature {NONE} -- Implementation
 	read_tokens_text (compiled_source_path: FILE_PATH)
 		local
 			l_tokens_text: like tokens_text; l_token_text_array: like source_interval_list
-			i, count: INTEGER
+			i, count, lower, upper: INTEGER
 		do
 			if attached open_raw (compiled_source_path, Read) as compiled_source then
 				-- skip software version
@@ -353,8 +353,9 @@ feature {NONE} -- Implementation
 				source_interval_list.grow (count)
 				l_token_text_array := source_interval_list
 				from i := 1 until i > count loop
-					compiled_source.read_integer_64
-					l_token_text_array.item_extend (compiled_source.last_integer_64)
+					compiled_source.read_integer; lower := compiled_source.last_integer
+					compiled_source.read_integer; upper := compiled_source.last_integer
+					l_token_text_array.extend (lower, upper)
 					i := i + 1
 				end
 				compiled_source.close

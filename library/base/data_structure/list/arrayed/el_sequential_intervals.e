@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-24 15:35:55 GMT (Tuesday 24th January 2023)"
-	revision: "12"
+	date: "2023-02-24 11:30:43 GMT (Friday 24th February 2023)"
+	revision: "13"
 
 class
 	EL_SEQUENTIAL_INTERVALS
@@ -29,58 +29,69 @@ create
 
 feature -- Access
 
-	between (other: like item): like item
+	between (a_lower, a_upper: INTEGER): INTEGER_INTERVAL
 			-- interval between `item' and `other' item
 		require
-			not_overlapping: not item_overlaps (other)
+			not_overlapping: not item_overlaps (a_lower, a_upper)
 		local
-			other_upper, l_lower: INTEGER; l_item: like item
+			l_lower, j: INTEGER
 		do
-			l_item := item
-			l_lower := lower_integer (l_item)
-			other_upper := upper_integer (other)
-			if other_upper < l_lower then
-				Result := new_item (other_upper + 1, l_lower - 1)
+			j := (index - 1) * 2
+			if attached area_v2 as a then
+				l_lower := a [j]
+
+				if a_upper < l_lower then
+					create Result.make (a_upper + 1, l_lower - 1)
+				else
+					create Result.make (a [j + 1] + 1, a_lower - 1)
+				end
 			else
-				Result := new_item (upper_integer (l_item) + 1, lower_integer (other) - 1)
+				create Result.make (1, 0)
 			end
 		ensure
-			other_before: upper_integer (other) < item_lower
-								implies upper_integer (other) + 1 = lower_integer (Result)
-											and upper_integer (Result) = item_lower - 1
+			other_before: a_upper < item_lower
+								implies a_upper + 1 = Result.lower and Result.upper = item_lower - 1
 
-			other_after: item_upper < lower_integer (other)
-								implies item_upper + 1 = lower_integer (Result)
-											and upper_integer (Result) = lower_integer (other) - 1
+			other_after: item_upper < a_lower
+								implies item_upper + 1 = Result.lower and Result.upper = a_lower - 1
 		end
 
 feature -- Status query
 
-	has_overlapping (interval: INTEGER_64): BOOLEAN
+	has_overlapping (lower, upper: INTEGER): BOOLEAN
 		local
-			l_index: INTEGER
+			i: INTEGER
 		do
-			l_index := index
-			from start until Result or else after loop
-				Result := item_has (lower_integer (interval.item)) or else item_has (upper_integer (interval.item))
-				forth
+			if attached area_v2 as l_area then
+				from until Result or i = l_area.count loop
+					Result := area_item_has (l_area, i, lower) or else area_item_has (l_area, i, upper)
+					i := i + 2
+				end
 			end
-			index := l_index
 		end
 
-	item_overlaps (other: like item): BOOLEAN
+	item_overlaps (a_lower, a_upper: INTEGER): BOOLEAN
 		local
-			other_lower, other_upper, l_lower, l_upper: INTEGER
+			l_lower, l_upper, j: INTEGER
 		do
-			other_lower := lower_integer (other); other_upper := upper_integer (other)
-			l_lower := item_lower; l_upper := item_upper
-			Result := (other_lower <= l_lower and l_lower <= other_upper) or else
-						  (other_lower <= l_upper and l_upper <= other_upper)
+			if attached area_v2 as a then
+				j := (index - 1) * 2
+				l_lower := a [j]; l_upper := a [j + 1]
+				Result := (a_lower <= l_lower and l_lower <= a_upper) or else
+							  (a_lower <= l_upper and l_upper <= a_upper)
+			end
 		end
 
 	overlaps (other: EL_SEQUENTIAL_INTERVALS): BOOLEAN
+		local
+			i: INTEGER
 		do
-			Result := there_exists (agent other.has_overlapping)
+			if attached area_v2 as l_area then
+				from until Result or i = l_area.count loop
+					Result := other.has_overlapping (l_area [i], l_area [i + 1])
+					i := i + 2
+				end
+			end
 		end
 
 feature -- Element change
@@ -121,7 +132,7 @@ feature -- Element change
 		require else
 			interval_after_last: not is_empty implies a_lower > last_upper
 		do
-			item_extend (new_item (a_lower, a_upper))
+			Precursor (a_lower, a_upper)
 		end
 
 end

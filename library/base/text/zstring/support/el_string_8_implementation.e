@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-21 12:39:00 GMT (Tuesday 21st February 2023)"
-	revision: "7"
+	date: "2023-02-24 11:16:48 GMT (Friday 24th February 2023)"
+	revision: "8"
 
 class
 	EL_STRING_8_IMPLEMENTATION
@@ -196,6 +196,12 @@ feature -- Search
 		end
 
 feature -- Access
+
+	c_string (latin_1_ptr: POINTER): EL_STRING_8
+		do
+			Result := area [0]
+			Result.set_from_c (latin_1_ptr)
+		end
 
 	injected (zstr: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; i: INTEGER): EL_STRING_8
 		require

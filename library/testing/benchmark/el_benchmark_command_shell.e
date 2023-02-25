@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 14:24:30 GMT (Monday 30th January 2023)"
-	revision: "21"
+	date: "2023-02-22 16:01:59 GMT (Wednesday 22nd February 2023)"
+	revision: "22"
 
 deferred class
 	EL_BENCHMARK_COMMAND_SHELL
@@ -33,7 +33,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			if not benchmark_types.all_conform then
 				benchmark_types.log_error (lio, "Invalid benchmark class")
 			end
-			make_shell ("BENCHMARK COMPARISONS", 10)
+			make_shell ("BENCHMARK COMPARISONS", 20)
 		end
 
 feature {NONE} -- Implementation

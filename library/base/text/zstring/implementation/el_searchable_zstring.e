@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-21 12:14:31 GMT (Tuesday 21st February 2023)"
-	revision: "25"
+	date: "2023-02-24 11:22:36 GMT (Friday 24th February 2023)"
+	revision: "26"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -209,12 +209,38 @@ feature -- Basic operations
 			fill_index_list_by_z_code (list, Codec.as_z_code (uc))
 		end
 
+feature {EL_ZSTRING_IMPLEMENTATION} -- Implementation
+
+	as_expanded (index: INTEGER): STRING_32
+			-- Current expanded as `z_code' sequence
+		require
+			valid_index: 1 <= index and index <= 2
+		do
+			Result := Once_expanded_strings [index - 1]; Result.wipe_out
+			fill_expanded (Result)
+		end
+
 feature {NONE} -- Implementation
 
 	empty_occurrence_intervals (i: INTEGER): EL_OCCURRENCE_INTERVALS
 		do
 			Result := Occurrence_intervals [i]
 			Result.wipe_out
+		end
+
+	fill_expanded (str: STRING_32)
+		local
+			i, l_count: INTEGER; l_area: like area; l_area_32: SPECIAL [CHARACTER_32]
+			unencoded: like unencoded_indexable
+		do
+			l_count := count
+			str.grow (l_count); str.set_count (l_count)
+
+			l_area := area; l_area_32 := str.area; unencoded := unencoded_indexable
+			from i := 0 until i = l_count loop
+				l_area_32 [i] := area_z_code (l_area, unencoded, i).to_character_32
+				i := i + 1
+			end
 		end
 
 	fill_index_list_by_z_code (list: ARRAYED_LIST [INTEGER]; a_z_code: NATURAL)
@@ -361,6 +387,12 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Once_expanded_strings: SPECIAL [STRING_32]
+		once
+			create Result.make_filled (create {STRING_32}.make_empty, 2)
+			Result [1] := create {STRING_32}.make_empty
+		end
 
 	Occurrence_intervals: SPECIAL [EL_OCCURRENCE_INTERVALS]
 		once

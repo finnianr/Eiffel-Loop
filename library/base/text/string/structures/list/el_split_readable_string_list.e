@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-24 19:21:49 GMT (Tuesday 24th January 2023)"
-	revision: "10"
+	date: "2023-02-24 8:49:49 GMT (Friday 24th February 2023)"
+	revision: "11"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -23,7 +23,6 @@ class
 inherit
 	EL_SPLIT_INTERVALS
 		rename
-			circular_i_th as circular_i_th_interval,
 			current_linear as current_intervals,
 			do_all as do_all_intervals,
 			do_if as do_if_intervals,
@@ -50,8 +49,8 @@ inherit
 		export
 			{NONE} all
 			{ANY} index, count, item_count, item_start_index, item_end_index, i_th_upper, i_th_lower,
-				back, remove, remove_head, remove_item_head, remove_tail, go_i_th, is_empty, before, valid_index,
-				wipe_out, fill, fill_by_string, start, forth, after, valid_adjustments
+				back, remove, remove_head, remove_tail, go_i_th, is_empty, before, valid_index,
+				wipe_out, fill, fill_by_string, start, forth, after, valid_adjustments, off
 		redefine
 			is_equal, make_empty, make_by_string, make, fill, fill_by_string
 		end
@@ -63,7 +62,7 @@ inherit
 			new_cursor
 		end
 
-	PART_COMPARATOR [INTEGER_64] undefine is_equal, copy, out end
+	PART_COMPARATOR [INTEGER] undefine is_equal, copy, out end
 
 create
 	make_by_string, make_adjusted, make_adjusted_by_string, make_empty, make
@@ -126,16 +125,20 @@ feature -- Status query
 		end
 
 	item_same_as (str: READABLE_STRING_GENERAL): BOOLEAN
+		require
+			valid_item: not off
 		local
-			interval: INTEGER_64; item_upper, item_lower: INTEGER
+			i: INTEGER; item_upper, item_lower: INTEGER
 		do
-			interval := interval_item
-			item_lower := lower_integer (interval); item_upper := upper_integer (interval)
-			if item_upper - item_lower + 1 = str.count then
-				if str.count = 0 then
-					Result := item_upper + 1 = item_lower
-				else
-					Result := target.same_characters (str, 1, str.count, item_lower)
+			if attached area_v2 as a then
+				i := (index - 1) * 2
+				item_lower := a [i]; item_upper := a [i + 1]
+				if item_upper - item_lower + 1 = str.count then
+					if str.count = 0 then
+						Result := item_upper + 1 = item_lower
+					else
+						Result := target.same_characters (str, 1, str.count, item_lower)
+					end
 				end
 			end
 		end
@@ -181,9 +184,11 @@ feature -- Element change
 			Precursor (a_target, search_string, a_adjustments)
 		end
 
+feature -- Removal
+
 	for_all_remove_up_to (uc: CHARACTER_32)
 		-- remove all characters up to `uc' for all items
-		-- except those in which `uc' does not occurr
+		-- except those in which `uc' does not occur
 		local
 			uc_index: INTEGER
 		do
@@ -204,13 +209,13 @@ feature -- Element change
 		local
 			first_index, last_index: INTEGER
 		do
-			if count > 0 then
-				first_index := first_lower; last_index := last_upper
+			if count > 0 and then attached area_v2 as a then
+				first_index := a [0]; last_index := a [a.count - 1]
 				if target.valid_index (first_index) and then target.valid_index (last_index)
 					and then target [first_index] = left and then target [last_index] = right
 				then
-					put_i_th_interval (new_interval (first_index + 1, first_upper), 1)
-					put_i_th_interval (new_interval (last_lower, last_index - 1), count)
+					a [0] := first_index + 1
+					a [a.count - 1] := last_index - 1
 				end
 			end
 		end
@@ -218,22 +223,32 @@ feature -- Element change
 feature -- Items
 
 	circular_i_th (i: INTEGER): S
+		local
+			j: INTEGER
 		do
-			Result := target_substring (circular_i_th_interval (i))
+			if attached area_v2 as a then
+				j := modulo (i, count) * 2
+				Result := target_substring (a [j], a [j + 1])
+			end
 		end
 
 	first_item: S
 		do
 			if count = 0 then
 				create Result.make (0)
-			else
-				Result := target_substring (first_interval)
+			elseif attached area_v2 as a then
+				Result := target_substring (a [0], a [1])
 			end
 		end
 
 	i_th (i: INTEGER): S
+		local
+			j: INTEGER
 		do
-			Result := target_substring (i_th_interval (i))
+			if attached area_v2 as a then
+				j := (i - 1) * 2
+				Result := target_substring (a [j], a [j + 1])
+			end
 		end
 
 	item_index_of (c: CHARACTER_32): INTEGER
@@ -249,20 +264,27 @@ feature -- Items
 		end
 
 	item: S
+		local
+			i: INTEGER
 		do
 			if off then
 				create Result.make (0)
-			else
-				Result := target_substring (interval_item)
+
+			elseif attached area_v2 as a then
+				i := (index - 1) * 2
+				Result := target_substring (a [i], a [i + 1])
 			end
 		end
 
 	last_item: S
+		local
+			i: INTEGER
 		do
 			if count = 0 then
 				create Result.make (0)
-			else
-				Result := target_substring (last_interval)
+			elseif attached area_v2 as a then
+				i := (count - 1) * 2
+				Result := target_substring (a [i], a [i + 1])
 			end
 		end
 
@@ -277,27 +299,47 @@ feature -- Basic operations
 
 	sort (ascending: BOOLEAN)
 		local
-			quick: QUICK_SORTER [INTEGER_64]
+			quick: QUICK_SORTER [INTEGER]; lower_index_array: ARRAY [INTEGER]; index_area: like area
+			i, j, l_count: INTEGER; sorted_area: like area
 		do
-			create quick.make (Current)
-			if ascending then
-				quick.sort (Current)
-			else
-				quick.reverse_sort (Current)
+			l_count := count
+			create index_area.make_empty (l_count)
+--			fill with indices of each lower
+			from i := 0 until i = l_count loop
+				index_area.extend (i * 2)
+				i := i + 1
 			end
+			create quick.make (Current)
+--			sort indices
+
+			create lower_index_array.make_from_special (index_area)
+			if ascending then
+				quick.sort (lower_index_array)
+			else
+				quick.reverse_sort (lower_index_array)
+			end
+--			copy to new positions
+			create sorted_area.make_empty (l_count * 2)
+			if attached area_v2 as a then
+				from i := 0 until i = l_count loop
+					j := index_area [i]
+					sorted_area.extend (a [j]); sorted_area.extend (a [j + 1])
+					i := i + 1
+				end
+			end
+			area_v2 := sorted_area
 		end
 
 feature {NONE} -- Implementation
 
-	less_than (left, right: INTEGER_64): BOOLEAN
+	less_than (i, j: INTEGER): BOOLEAN
 		local
 			left_index, right_index, left_count, right_count: INTEGER
 		do
-			left_index := lower_integer (left)
-			left_count := upper_integer (right) - left_index + 1
-			right_index := lower_integer (right)
-			right_count := upper_integer (right) - right_index + 1
-
+			if attached area_v2 as a then
+				left_index := a [i]; left_count := a [i + 1] - left_index + 1
+				right_index := a [j]; right_count := a [j + 1] - right_index + 1
+			end
 			if right_count = left_count then
 				Result := string_strict_cmp (right_index, left_index, right_count) > 0
 			else
@@ -328,9 +370,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	target_substring (interval: INTEGER_64): S
+	target_substring (lower, upper: INTEGER): S
 		do
-			Result := target.substring (lower_integer (interval), upper_integer (interval))
+			Result := target.substring (lower, upper)
 		end
 
 feature {EL_SPLIT_READABLE_STRING_LIST} -- Internal attributes

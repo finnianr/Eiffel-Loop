@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-20 12:44:45 GMT (Monday 20th February 2023)"
-	revision: "12"
+	date: "2023-02-25 9:31:54 GMT (Saturday 25th February 2023)"
+	revision: "13"
 
 class
 	EL_ZCODE_CONVERSION
@@ -57,9 +57,11 @@ feature {EL_ZCODEC} -- Implementation
 
 feature {EL_OUTPUT_MEDIUM} -- Constants
 
-	Max_7_bit_code: INTEGER = 127
+	Max_7_bit_code: INTEGER = 0x7F
 		-- After this point different Latin and Window character sets start to diverge
 		-- (Apart from some control characters)
+
+	Max_8_bit_code: INTEGER = 0xFF
 
 	Sign_bit: NATURAL = 0x8000_0000
 

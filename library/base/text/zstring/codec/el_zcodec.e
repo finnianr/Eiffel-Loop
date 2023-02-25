@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-21 16:49:51 GMT (Tuesday 21st February 2023)"
-	revision: "45"
+	date: "2023-02-25 11:00:45 GMT (Saturday 25th February 2023)"
+	revision: "47"
 
 deferred class
 	EL_ZCODEC
@@ -137,7 +137,7 @@ feature {EL_SHARED_ZSTRING_CODEC, EL_ENCODING_BASE, STRING_HANDLER} -- Access
 			Result := buffer.empty
 			Result.grow (count)
 			Result.set_count (count)
-			encode (unicode_in, Result.area, 0, Empty_string.empty_unencoded_buffer)
+			encode (unicode_in, Result.area, 0, Empty_string.empty_interval_list)
 --			unencoded_buffer.set_in_use (False)
 			if keep_ref then
 				Result := Result.twin
@@ -193,43 +193,89 @@ feature -- Basic operations
 
 	encode (
 		unicode_in: READABLE_STRING_GENERAL; encoded_out: SPECIAL [CHARACTER]; out_offset: INTEGER;
-		unencoded_characters: EL_UNENCODED_CHARACTERS_BUFFER
+		unencoded_intervals: EL_ARRAYED_INTERVAL_LIST
 	)
 		do
-			encode_substring (unicode_in, encoded_out, 1, unicode_in.count, out_offset, unencoded_characters)
+			encode_substring (unicode_in, encoded_out, 1, unicode_in.count, out_offset, unencoded_intervals)
 		end
 
 	encode_substring (
 		unicode_in: READABLE_STRING_GENERAL; encoded_out: SPECIAL [CHARACTER]
 		start_index, end_index, out_offset: INTEGER
-		unencoded_characters: EL_UNENCODED_CHARACTERS_BUFFER
+		unencoded_intervals: EL_ARRAYED_INTERVAL_LIST
 	)
-		-- encode unicode characters as latin
-		-- Set unencodeable characters as the Substitute character (26) and record location in unencoded_intervals
+		-- encode general `unicode_in' characters as current `encoding'
+		-- Set unencodeable characters as the `Substitute' character (26) and record location in `unencoded_intervals'
 		require
 			valid_offset_and_count: valid_offset_and_count (end_index - start_index + 1, encoded_out, out_offset)
 		local
-			i, out_i: INTEGER; uc: CHARACTER_32; c: CHARACTER; l_unicodes: like unicode_table
-			buffer: like accumulator
+			i, out_i, code_i, in_offset: INTEGER; c: CHARACTER
+			c_8_area: SPECIAL [CHARACTER_8]; unicode: like unicode_table
 		do
-			l_unicodes := unicode_table; buffer := empty_accumulator
+			if attached {READABLE_STRING_8} unicode_in as s_8 and then attached cursor_8 (s_8) as c_8 then
+				unicode := unicode_table; in_offset := c_8.area_first_index
+				c_8_area := c_8.area
+				from i := start_index until i > end_index loop
+					c := c_8_area [i + in_offset - 1]; code_i := c.code
+					out_i := i + out_offset - start_index
 
-			from i := start_index until i > end_index loop
-				uc := unicode_in [i]; out_i := i + out_offset - start_index
-				if uc.code <= 255 and then l_unicodes [uc.code] = uc then
-					encoded_out [out_i] := uc.to_character_8
-				else
-					c := latin_character (uc)
-					if c.code = 0 then
-						encoded_out [out_i] := Substitute
-						unencoded_characters.try_appending (buffer, out_i, uc)
-					else
+					if code_i <= Max_7_bit_code or else unicode [code_i].to_character_8 = c then
 						encoded_out [out_i] := c
+					else
+						c := latin_character (c)
+						if c = '%U' then
+							encoded_out [out_i] := Substitute
+							unencoded_intervals.extend_upper (out_i + 1)
+						else
+							encoded_out [out_i] := c
+						end
 					end
+					i := i + 1
 				end
-				i := i + 1
+
+			elseif attached {READABLE_STRING_32} unicode_in as str_32 then
+				encode_substring_32 (str_32, encoded_out, start_index, end_index, out_offset, unencoded_intervals)
 			end
-			unencoded_characters.append_final (buffer)
+		end
+
+	encode_substring_32 (
+		unicode_in: READABLE_STRING_32; encoded_out: SPECIAL [CHARACTER]
+		start_index, end_index, out_offset: INTEGER
+		unencoded_intervals: EL_ARRAYED_INTERVAL_LIST
+	)
+		-- encode `unicode_in' characters as current `encoding'
+		-- Set unencodeable characters as the `Substitute' character (26) and record location in `unencoded_intervals'
+		require
+			valid_offset_and_count: valid_offset_and_count (end_index - start_index + 1, encoded_out, out_offset)
+		local
+			i, out_i, code_i, in_offset: INTEGER; uc: CHARACTER_32; c: CHARACTER
+			unicode: like unicode_table
+		do
+			if attached cursor_32 (unicode_in) as c_32 and then attached c_32.area as c_32_area then
+				unicode := unicode_table; in_offset := c_32.area_first_index
+
+				from i := start_index until i > end_index loop
+					uc := c_32_area [i + in_offset - 1]; code_i := uc.code
+					out_i := i + out_offset - start_index
+
+					if code_i <= Max_7_bit_code then
+						encoded_out [out_i] := uc.to_character_8
+
+					elseif code_i <= Max_8_bit_code and then unicode [code_i] = uc then
+						encoded_out [out_i] := uc.to_character_8
+
+					else
+						c := latin_character (uc)
+						if c = '%U' then
+							encoded_out [out_i] := Substitute
+							unencoded_intervals.extend_upper (out_i + 1)
+						else
+							encoded_out [out_i] := c
+						end
+					end
+					i := i + 1
+				end
+			end
 		end
 
 	encode_utf (
@@ -262,11 +308,11 @@ feature -- Basic operations
 						unicode := utf_16_le.unicode (area, code_1, i, byte_count)
 					end
 					uc := unicode.to_character_32
-					if unicode <= 255 and then l_unicodes [uc.code] = uc then
+					if unicode <= 0xFF and then l_unicodes [uc.code] = uc then
 						encoded_out [j] := uc.to_character_8
 					else
 						c := latin_character (uc)
-						if c.code = 0 then
+						if c = '%U' then
 							encoded_out [j] := Substitute
 							unencoded_characters.extend (uc, j + 1)
 						else
