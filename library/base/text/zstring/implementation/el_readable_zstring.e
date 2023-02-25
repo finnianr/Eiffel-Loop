@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 9:43:57 GMT (Saturday 25th February 2023)"
-	revision: "110"
+	date: "2023-02-25 16:38:49 GMT (Saturday 25th February 2023)"
+	revision: "111"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -386,15 +386,18 @@ feature -- Status query
 	is_canonically_spaced: BOOLEAN
 		-- `True' if the longest substring of whitespace consists of one space character
 		local
-			c_i: CHARACTER; i, l_count, space_count: INTEGER; l_area: like area
-			is_space, is_space_state: BOOLEAN; c32: EL_CHARACTER_32_ROUTINES
+			c_i: CHARACTER; uc_i: CHARACTER_32; i, l_count, space_count, block_index: INTEGER
+			iter: EL_UNENCODED_CHARACTER_ITERATION; c32: EL_CHARACTER_32_ROUTINES
+			area_32: like unencoded_area; l_area: like area; is_space, is_space_state: BOOLEAN
 		do
-			l_area := area; l_count := count
+			l_area := area; l_count := count; area_32 := unencoded_area
 			Result := True
 			from i := 0 until not Result or else i = l_count loop
 				c_i := l_area [i]
 				if c_i = Substitute then
-					is_space := c32.is_space (unencoded_item (i + 1)) -- Work around for finalization bug
+					uc_i := iter.item ($block_index, area_32, i + 1)
+				-- `c32.is_space' is workaround for finalization bug
+					is_space := c32.is_space (uc_i)
 				else
 					is_space := c_i.is_space
 				end

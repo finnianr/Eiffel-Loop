@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 13:05:31 GMT (Saturday 25th February 2023)"
-	revision: "27"
+	date: "2023-02-25 16:49:49 GMT (Saturday 25th February 2023)"
+	revision: "28"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -28,7 +28,7 @@ feature -- Index position
 			else
 				c := Codec.encoded_character (uc)
 				if c = Substitute then
-					Result := unencoded_index_of (uc, start_index)
+					Result := unencoded_index_of (uc, start_index, default_pointer)
 				else
 					Result := internal_index_of (c, start_index)
 				end
@@ -46,7 +46,7 @@ feature -- Index position
 			if a_z_code <= 0xFF then
 				Result := internal_index_of (a_z_code.to_character_8, start_index)
 			else
-				Result := unencoded_index_of (z_code_to_unicode (a_z_code).to_character_32, start_index)
+				Result := unencoded_index_of (z_code_to_unicode (a_z_code).to_character_32, start_index, default_pointer)
 			end
 		ensure then
 			valid_result: Result = 0 or (start_index <= Result and Result <= count)
@@ -235,7 +235,7 @@ feature {NONE} -- Implementation
 			l_count := count
 			str.grow (l_count); str.set_count (l_count)
 			str_area := str.area
-			write_unencoded_z_codes (str_area, 0)
+			write_unencoded (str_area, 0, True)
 			if attached area as l_area then
 				from i := 0 until i = l_count loop
 					c_i := l_area [i]
@@ -250,14 +250,13 @@ feature {NONE} -- Implementation
 	fill_index_list_by_z_code (list: ARRAYED_LIST [INTEGER]; a_z_code: NATURAL)
 		-- fill `list' with all indices of `a_z_code' found in `Current'
 		local
-			unencoded: like unencoded_indexable; l_area: like area
-			uc: CHARACTER_32; c: CHARACTER; i, l_count, index: INTEGER
+			i, l_count, index, block_index: INTEGER
+			l_area: like area; uc: CHARACTER_32; c: CHARACTER
 		do
 			if a_z_code > 0xFF then
 				uc := z_code_to_unicode (a_z_code).to_character_32
-				unencoded := unencoded_indexable
 				from index := 1 until index = 0 loop
-					index := unencoded.index_of (uc, index)
+					index := unencoded_index_of (uc, index, $block_index)
 					if index > 0 then
 						list.extend (index)
 						index := index + 1

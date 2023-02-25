@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 13:01:05 GMT (Saturday 25th February 2023)"
-	revision: "49"
+	date: "2023-02-25 15:13:44 GMT (Saturday 25th February 2023)"
+	revision: "50"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -261,12 +261,17 @@ feature -- Index query
 
 feature -- Search index
 
-	index_of (uc: CHARACTER_32; start_index: INTEGER): INTEGER
+	index_of (uc: CHARACTER_32; start_index: INTEGER; block_index_ptr: POINTER): INTEGER
 		local
 			i, j, lower, upper, count: INTEGER; l_area: like area
+			pointer: EL_POINTER_ROUTINES; persistent_block_index: BOOLEAN
 		do
 			l_area := area
-			from i := 0 until Result > 0 or else i = l_area.count loop
+			persistent_block_index := not block_index_ptr.is_default_pointer
+			if persistent_block_index then
+				i := pointer.read_integer_32 (block_index_ptr)
+			end
+			from until Result > 0 or else i = l_area.count loop
 				lower := l_area [i].code; upper := l_area [i + 1].code
 				count := upper - lower + 1
 				if start_index <= lower or else start_index <= upper then
@@ -277,7 +282,12 @@ feature -- Search index
 						j := j + 1
 					end
 				end
-				i := i + count + 2
+				if Result = 0 then
+					i := i + count + 2
+				end
+			end
+			if persistent_block_index then
+				pointer.put_integer_32 (i, block_index_ptr)
 			end
 		end
 
@@ -412,7 +422,7 @@ feature -- Status query
 
 	has (uc: CHARACTER_32): BOOLEAN
 		do
-			Result := index_of (uc, 1) > 0
+			Result := index_of (uc, 1, default_pointer) > 0
 		end
 
 	intersects (lower_A, upper_A: INTEGER): BOOLEAN
@@ -960,39 +970,32 @@ feature -- Basic operations
 			end
 		end
 
-	write (area_out: SPECIAL [CHARACTER_32]; offset: INTEGER)
-			-- write substrings into expanded string 'str'
+	write (area_out: SPECIAL [CHARACTER_32]; offset: INTEGER; as_zcode: BOOLEAN)
+		-- write substrings into expanded string 'str'
+		-- if `as_zcode' is `True' write characters as `unicode_to_z_code'
 		require
 			string_big_enough: last_upper + offset <= area_out.count
 		local
 			i, j, lower, upper: INTEGER; l_area: like area
+			uc: CHARACTER_32
 		do
 			l_area := area
 			from i := 0 until i = l_area.count loop
 				lower := l_area [i].code; upper := l_area [i + 1].code
-				from j := lower until j > upper loop
-					area_out [offset + j - 1] := l_area.item (i + 2 + j - lower)
-					j := j + 1
-				end
-				i := i + upper - lower + 3
-			end
-		end
-
-	write_z_codes (area_out: SPECIAL [CHARACTER_32]; offset: INTEGER)
-			-- write substrings into expanded string 'str'
-		require
-			string_big_enough: last_upper + offset <= area_out.count
-		local
-			i, j, lower, upper: INTEGER; l_area: like area
-			unicode: NATURAL
-		do
-			l_area := area
-			from i := 0 until i = l_area.count loop
-				lower := l_area [i].code; upper := l_area [i + 1].code
-				from j := lower until j > upper loop
-					unicode := l_area.item (i + 2 + j - lower).natural_32_code
-					area_out [offset + j - 1] := unicode_to_z_code (unicode).to_character_32
-					j := j + 1
+				if as_zcode then
+					from j := lower until j > upper loop
+						uc := l_area.item (i + 2 + j - lower)
+						if uc <= '%/0xFF/' then
+							uc := (Sign_bit | uc.natural_32_code).to_character_32
+						end
+						area_out [offset + j - 1] := uc
+						j := j + 1
+					end
+				else
+					from j := lower until j > upper loop
+						area_out [offset + j - 1] := l_area.item (i + 2 + j - lower)
+						j := j + 1
+					end
 				end
 				i := i + upper - lower + 3
 			end

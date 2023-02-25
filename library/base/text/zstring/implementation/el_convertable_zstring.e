@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-21 12:20:05 GMT (Tuesday 21st February 2023)"
-	revision: "40"
+	date: "2023-02-25 13:12:46 GMT (Saturday 25th February 2023)"
+	revision: "41"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -96,7 +96,7 @@ feature -- To Strings
 			create Result.make_filled (' ', count)
 			if attached cursor_32 (Result) as immutable then
 				codec.decode (count, area, immutable.area, 0)
-				write_unencoded (immutable.area, 0)
+				write_unencoded (immutable.area, 0, False)
 			end
 		end
 

@@ -8,8 +8,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:34:29 GMT (Saturday 31st December 2022)"
-	revision: "24"
+	date: "2023-02-25 15:10:13 GMT (Saturday 25th February 2023)"
+	revision: "25"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -401,7 +401,7 @@ feature {NONE} -- Implementation
 			from i := 1 until i > zstr.count loop
 				if zstr.z_code (i) > 0xFF then
 					uc := zstr [i]
-					assert ("same index_of", to_array (zstr).index_of (uc, 1) = unencoded.index_of (uc, 1))
+					assert ("same index_of", to_array (zstr).index_of (uc, 1) = unencoded.index_of (uc, 1, default_pointer))
 					last_index := to_array (zstr).last_index_of (uc, zstr.count)
 					assert ("same last_index_of", last_index = unencoded.last_index_of (uc, zstr.count))
 				end
@@ -453,7 +453,7 @@ feature {NONE} -- Implementation
 					array.write (output_1.area, 0)
 
 					create output_2.make_filled (' ', unencoded.last_upper)
-					unencoded.write (output_2.area, 0)
+					unencoded.write (output_2.area, 0, False)
 
 					Result := output_1 ~ output_2
 				end

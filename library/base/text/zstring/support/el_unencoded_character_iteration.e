@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-21 15:20:36 GMT (Tuesday 21st February 2023)"
-	revision: "1"
+	date: "2023-02-25 17:06:00 GMT (Saturday 25th February 2023)"
+	revision: "2"
 
 expanded class
 	EL_UNENCODED_CHARACTER_ITERATION
@@ -18,14 +18,39 @@ inherit
 			{NONE} all
 		end
 
+	EL_ZCODE_CONVERSION
+
 feature -- Access
 
+	i_th_z_code (
+		integer_32_block_index_ptr: POINTER
+		area: SPECIAL [CHARACTER]; unencoded_area: SPECIAL [CHARACTER_32]; i: INTEGER
+	): NATURAL
+		local
+			c: CHARACTER
+		do
+			c := area [i]
+			if c = Substitute then
+				Result := item (integer_32_block_index_ptr, unencoded_area, i + 1).natural_32_code
+				Result := unicode_to_z_code (Result)
+			else
+				Result := c.natural_32_code
+			end
+		end
+
 	item (integer_32_block_index_ptr: POINTER; area: SPECIAL [CHARACTER_32]; index: INTEGER): CHARACTER_32
+		require
+			at_least_one_block: area.count >= 3
 		local
 			i, lower, upper, block_index: INTEGER; found: BOOLEAN
 		do
 			block_index := read_integer_32 (integer_32_block_index_ptr)
 			lower := area [block_index].code
+--			reset to beginning if `index' is prior to current block
+			if index < lower then
+				block_index := 0
+				lower := area [block_index].code
+			end
 			upper := area [block_index + 1].code
 			if index > upper then
 				i := block_index + upper - lower + 3

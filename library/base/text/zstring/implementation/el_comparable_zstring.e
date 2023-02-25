@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-24 11:04:02 GMT (Friday 24th February 2023)"
-	revision: "31"
+	date: "2023-02-25 15:34:14 GMT (Saturday 25th February 2023)"
+	revision: "32"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -243,28 +243,34 @@ feature {NONE} -- Implementation
 			valid_start_index: valid_index (start_index) and valid_index (other_start_index)
 			valid_n_count: valid_index (start_index + n - 1) and valid_index (other_start_index + n - 1)
 		local
-			i, j, i_final: INTEGER; found: BOOLEAN; c_i, o_i: CHARACTER
-			l_code, o_code: NATURAL; o_area, l_area: like area
-			unencoded, o_unencoded: like unencoded_indexable
+			i, j, i_final, block_index, other_block_index: INTEGER; found: BOOLEAN
+			uc_i, o_uc_i: CHARACTER_32; l_code, o_code: NATURAL; c_i, o_i: CHARACTER
+			o_unencoded, unencoded: like unencoded_area; o_area, l_area: like area
+			iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
 			l_area := area; o_area := other.area
-			unencoded := unencoded_indexable; o_unencoded := other.unencoded_indexable_other
+			unencoded := unencoded_area; o_unencoded := other.unencoded_area
 			i_final := area_lower + other_start_index + n - 1
 			j := other.area_lower + other_start_index - 1
 			from i := area_lower + start_index - 1 until found or else i = i_final loop
 				c_i := l_area [i]; o_i := o_area [j]
 				inspect current_other_bitmap (c_i = Substitute, o_i = Substitute)
 					when Both_have_mixed_encoding then
-						if o_unencoded.item (j + 1) /= unencoded.item (i + 1) then
-							l_code := unencoded.z_code (i + 1); o_code := o_unencoded.z_code (j + 1)
+						uc_i := iter.item ($block_index, unencoded, i + 1)
+						o_uc_i := iter.item ($other_block_index, o_unencoded, j + 1)
+						if uc_i /= o_uc_i then
+							l_code := unicode_to_z_code (uc_i.natural_32_code)
+							o_code := unicode_to_z_code (o_uc_i.natural_32_code)
 							found := True
 						end
 					when Only_current then
-						l_code := unencoded.z_code (i + 1); o_code := o_i.natural_32_code
+						uc_i := iter.item ($block_index, unencoded, i + 1)
+						l_code := unicode_to_z_code (uc_i.natural_32_code); o_code := o_i.natural_32_code
 						found := True
 
 					when Only_other then
-						l_code := c_i.natural_32_code; o_code := o_unencoded.z_code (j + 1)
+						o_uc_i := iter.item ($other_block_index, o_unencoded, j + 1)
+						l_code := c_i.natural_32_code; o_code := unicode_to_z_code (o_uc_i.natural_32_code)
 						found := True
 
 					when Neither then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-21 12:14:44 GMT (Tuesday 21st February 2023)"
-	revision: "4"
+	date: "2023-02-25 13:12:46 GMT (Saturday 25th February 2023)"
+	revision: "5"
 
 deferred class
 	EL_WRITEABLE_ZSTRING
@@ -60,7 +60,7 @@ feature -- Append to other
 			area_out := other.area
 
 			Codec.decode (count, area, area_out, old_count)
-			write_unencoded (area_out, old_count)
+			write_unencoded (area_out, old_count, False)
 
 			area_out [old_count + count] := '%U'
 			other.set_count (old_count + count)

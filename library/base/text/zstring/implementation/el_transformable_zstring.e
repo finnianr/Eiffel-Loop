@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-24 8:55:45 GMT (Friday 24th February 2023)"
-	revision: "37"
+	date: "2023-02-25 17:07:28 GMT (Saturday 25th February 2023)"
+	revision: "38"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -44,18 +44,17 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			-- Reverse the order of characters.
 			-- "Hello" -> "olleH".
 		local
-			c_i: CHARACTER; i, l_count: INTEGER; l_area: like area
-			buffer: like Unencoded_buffer; unencoded: like unencoded_indexable
+			c_i: CHARACTER; i, l_count, block_index: INTEGER; l_area: like area
+			buffer: like Unencoded_buffer; iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
 			l_count := count
 			if l_count > 1 then
-				if has_mixed_encoding then
-					buffer := empty_unencoded_buffer
-					l_area := area; unencoded := unencoded_indexable
+				if attached unencoded_area as area_32 and then area_32.count > 0 then
+					l_area := area; buffer := empty_unencoded_buffer
 					from i := l_count - 1 until i < 0 loop
 						c_i := l_area.item (i)
 						if c_i = Substitute then
-							buffer.extend (unencoded.item (i + 1), l_count - i)
+							buffer.extend (iter.item ($block_index, area_32, i + 1), l_count - i)
 						end
 						i := i - 1
 					end
@@ -104,18 +103,21 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 	to_canonically_spaced
 		-- adjust so that `is_canonically_spaced' becomes true
 		local
-			c_i: CHARACTER; i, l_count: INTEGER; l_area: like area
+			c_i: CHARACTER; uc_i: CHARACTER_32; i, l_count, block_index: INTEGER; l_area: like area
 			is_space, is_space_state: BOOLEAN; z_code_array: ARRAYED_LIST [NATURAL]; l_z_code: NATURAL
-			c: EL_CHARACTER_32_ROUTINES; unencoded: like unencoded_indexable
+			c: EL_CHARACTER_32_ROUTINES; area_32: like unencoded_area
+			iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
 			if not is_canonically_spaced then
-				l_area := area; l_count := count; unencoded := unencoded_indexable
+				l_area := area; l_count := count; area_32 := unencoded_area
 				create z_code_array.make (l_count)
 				from i := 0 until i = l_count loop
 					c_i := l_area [i]
 					if c_i = Substitute then
-						is_space := c.is_space (unencoded_item (i + 1)) -- Work around for finalization bug
-						l_z_code := unencoded.z_code (i + 1)
+						uc_i := iter.item ($block_index, area_32, i + 1)
+						 -- `c.is_space' is workaround for finalization bug
+						is_space := c.is_space (uc_i)
+						l_z_code := unicode_to_z_code (uc_i.natural_32_code)
 					else
 						is_space := c_i.is_space
 						l_z_code := c_i.natural_32_code
@@ -194,17 +196,18 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 		require
 			each_old_has_new: old_characters.count = new_characters.count
 		local
-			i, j, index, l_count: INTEGER; old_z_code, new_z_code: NATURAL
-			l_new_unencoded: like Unencoded_buffer; unencoded: like unencoded_indexable
-			l_area, new_characters_area: like area; old_expanded, new_expanded: STRING_32
+			i, j, index, l_count, block_index: INTEGER; old_z_code, new_z_code: NATURAL
+			l_new_unencoded: like Unencoded_buffer; old_expanded, new_expanded: STRING_32
+			l_area, new_characters_area: like area; area_32: like unencoded_area
+			iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
 			old_expanded := old_characters.as_expanded (1); new_expanded := new_characters.as_expanded (2)
 
 			l_area := area; new_characters_area := new_characters.area; l_count := count
-			l_new_unencoded := empty_unencoded_buffer
-			unencoded := unencoded_indexable -- must be assigned only after calls to `as_expanded'
+			l_new_unencoded := empty_unencoded_buffer; area_32 := unencoded_area
+
 			from until i = l_count loop
-				old_z_code := area_z_code (l_area, unencoded, i)
+				old_z_code := iter.i_th_z_code ($block_index, l_area, area_32, i)
 				index := old_expanded.index_of (old_z_code.to_character_32, 1)
 				if index > 0 then
 					new_z_code := new_expanded.code (index)
@@ -245,8 +248,8 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 
 	replace_character (uc_old, uc_new: CHARACTER_32)
 		local
-			c_old, c_new: CHARACTER; i, l_count: INTEGER; l_area: like area
-			unencoded: like unencoded_indexable; new_unencoded: CHARACTER_32
+			c_old, c_new: CHARACTER; i, l_count, block_index: INTEGER; l_area: like area
+			iter: EL_UNENCODED_CHARACTER_ITERATION; new_unencoded: CHARACTER_32
 		do
 			c_old := encoded_character (uc_old)
 			c_new := encoded_character (uc_new)
@@ -255,10 +258,9 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 			end
 			l_area := area; l_count := count
 			if c_old = Substitute then
-				if has_mixed_encoding then
-					unencoded := unencoded_indexable
+				if attached unencoded_area as area_32 and then area_32.count > 0 then
 					from i := 0 until i = l_count loop
-						if l_area [i] = Substitute and then uc_old = unencoded.item (i + 1) then
+						if l_area [i] = Substitute and then uc_old = iter.item ($block_index, area_32, i + 1) then
 							l_area [i] := c_new
 						end
 						i := i + 1
