@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-24 11:22:36 GMT (Friday 24th February 2023)"
-	revision: "26"
+	date: "2023-02-25 13:05:31 GMT (Saturday 25th February 2023)"
+	revision: "27"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -230,16 +230,20 @@ feature {NONE} -- Implementation
 
 	fill_expanded (str: STRING_32)
 		local
-			i, l_count: INTEGER; l_area: like area; l_area_32: SPECIAL [CHARACTER_32]
-			unencoded: like unencoded_indexable
+			i, l_count: INTEGER; str_area: SPECIAL [CHARACTER_32]; c_i: CHARACTER
 		do
 			l_count := count
 			str.grow (l_count); str.set_count (l_count)
-
-			l_area := area; l_area_32 := str.area; unencoded := unencoded_indexable
-			from i := 0 until i = l_count loop
-				l_area_32 [i] := area_z_code (l_area, unencoded, i).to_character_32
-				i := i + 1
+			str_area := str.area
+			write_unencoded_z_codes (str_area, 0)
+			if attached area as l_area then
+				from i := 0 until i = l_count loop
+					c_i := l_area [i]
+					if c_i /= Substitute then
+						str_area [i] := c_i
+					end
+					i := i + 1
+				end
 			end
 		end
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 10:38:43 GMT (Saturday 25th February 2023)"
-	revision: "59"
+	date: "2023-02-25 13:01:31 GMT (Saturday 25th February 2023)"
+	revision: "60"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -65,6 +65,7 @@ inherit
 			to_upper as unencoded_to_upper,
 			utf_8_byte_count as unencoded_utf_8_byte_count,
 			write as write_unencoded,
+			write_z_codes as write_unencoded_z_codes,
 			z_code as unencoded_z_code,
 			is_valid as is_unencoded_valid
 		undefine

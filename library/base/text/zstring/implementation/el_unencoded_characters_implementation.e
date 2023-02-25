@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-24 19:08:39 GMT (Friday 24th February 2023)"
-	revision: "17"
+	date: "2023-02-25 12:58:44 GMT (Saturday 25th February 2023)"
+	revision: "18"
 
 deferred class
 	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
@@ -28,6 +28,8 @@ inherit
 	EL_SHARED_STRING_8_CURSOR
 
 	EL_SHARED_STRING_32_CURSOR
+
+	EL_ZCODE_CONVERSION
 
 feature {NONE} -- Contract Support
 

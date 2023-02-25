@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 8:44:43 GMT (Saturday 25th February 2023)"
-	revision: "48"
+	date: "2023-02-25 13:01:05 GMT (Saturday 25th February 2023)"
+	revision: "49"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -25,8 +25,6 @@ inherit
 			{EL_ZCODE_CONVERSION} is_valid, substring_list, Buffer
 			{ANY} interval_sequence
 		end
-
-	EL_ZCODE_CONVERSION
 
 	STRING_HANDLER
 
@@ -974,6 +972,26 @@ feature -- Basic operations
 				lower := l_area [i].code; upper := l_area [i + 1].code
 				from j := lower until j > upper loop
 					area_out [offset + j - 1] := l_area.item (i + 2 + j - lower)
+					j := j + 1
+				end
+				i := i + upper - lower + 3
+			end
+		end
+
+	write_z_codes (area_out: SPECIAL [CHARACTER_32]; offset: INTEGER)
+			-- write substrings into expanded string 'str'
+		require
+			string_big_enough: last_upper + offset <= area_out.count
+		local
+			i, j, lower, upper: INTEGER; l_area: like area
+			unicode: NATURAL
+		do
+			l_area := area
+			from i := 0 until i = l_area.count loop
+				lower := l_area [i].code; upper := l_area [i + 1].code
+				from j := lower until j > upper loop
+					unicode := l_area.item (i + 2 + j - lower).natural_32_code
+					area_out [offset + j - 1] := unicode_to_z_code (unicode).to_character_32
 					j := j + 1
 				end
 				i := i + upper - lower + 3
