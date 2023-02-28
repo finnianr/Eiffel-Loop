@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 11:00:45 GMT (Saturday 25th February 2023)"
-	revision: "47"
+	date: "2023-02-28 10:39:41 GMT (Tuesday 28th February 2023)"
+	revision: "48"
 
 deferred class
 	EL_ZCODEC
@@ -106,6 +106,45 @@ feature -- Character query
 
 feature -- Contract Support
 
+	is_encodeable_as_string_8 (str: EL_READABLE_ZSTRING; start_index, end_index: INTEGER): BOOLEAN
+		-- `True' if contents of `str' is encodeable as a single-byte string
+		require
+			valid_start_index: str.valid_index (start_index) and str.valid_index (end_index)
+		local
+			i, code_i, in_offset, block_index: INTEGER; uc_i: CHARACTER_32; c_i: CHARACTER
+			unicode, zstring_unicode: like unicode_table; iter: EL_UNENCODED_CHARACTER_ITERATION
+		do
+			if attached str.area as area and then attached str.unencoded_area as area_32 then
+				unicode := unicode_table; zstring_unicode := str.codec.unicode_table
+				in_offset := str.area_lower
+				Result := True
+				if unicode = zstring_unicode then
+					Result := not str.has_mixed_encoding
+				else
+					from i := start_index until not Result or i > end_index loop
+						c_i := area [i + in_offset - 1]
+						if c_i = Substitute then
+							uc_i := iter.item ($block_index, area_32, i)
+						else
+							uc_i := zstring_unicode [c_i.code]
+						end
+						code_i := uc_i.code
+
+						if code_i <= Max_7_bit_code then
+							do_nothing
+
+						elseif code_i <= Max_8_bit_code and then unicode [code_i] = uc_i then
+							do_nothing
+
+						else
+							Result := latin_character (uc_i) /=  '%U'
+						end
+						i := i + 1
+					end
+				end
+			end
+		end
+
 	valid_offset_and_count (source_count: INTEGER; encoded_out: SPECIAL [CHARACTER]; out_offset: INTEGER;): BOOLEAN
 		do
 			if encoded_out.count >= source_count then
@@ -130,20 +169,6 @@ feature {EL_SHARED_ZSTRING_CODEC, EL_ENCODING_BASE, STRING_HANDLER} -- Access
 			Result.wipe_out
 		end
 
-	encoded_string_8 (unicode_in: READABLE_STRING_GENERAL; count: INTEGER; keep_ref: BOOLEAN): STRING
-		local
-			buffer: EL_STRING_8_BUFFER_ROUTINES
-		do
-			Result := buffer.empty
-			Result.grow (count)
-			Result.set_count (count)
-			encode (unicode_in, Result.area, 0, Empty_string.empty_interval_list)
---			unencoded_buffer.set_in_use (False)
-			if keep_ref then
-				Result := Result.twin
-			end
-		end
-
 	order_comparison (a_zcode, b_zcode: NATURAL): INTEGER
 		-- Comparison must be done as unicode and never Latin-X or Windows-X
 		do
@@ -153,7 +178,7 @@ feature {EL_SHARED_ZSTRING_CODEC, EL_ENCODING_BASE, STRING_HANDLER} -- Access
 	unicode_table: like new_unicode_table
 		-- map latin to unicode
 
-feature -- Basic operations
+feature -- Encoding operations
 
 	append_encoded_to (str: READABLE_STRING_8; output: ZSTRING)
 		-- append `str' encoded with `encoding' to `output'
@@ -167,28 +192,14 @@ feature -- Basic operations
 		end
 
 	append_encoded_to_string_8 (unicode_in: READABLE_STRING_GENERAL; output: STRING)
-		do
-			output.append (encoded_string_8 (unicode_in, unicode_in.count, False))
-		end
-
-	decode (a_count: INTEGER; latin_in: SPECIAL [CHARACTER]; unicode_out: SPECIAL [CHARACTER_32]; out_offset: INTEGER)
-			-- Replace Ctrl characters used as place holders for foreign characters with original unicode characters.
-			-- If 'a_decode' is true encode output as unicode
-			-- Result is count of unencodeable Unicode characters
-		require
-			enough_latin_characters: latin_in.count > a_count
-			unicode_out_big_enough: unicode_out.count > a_count + out_offset
 		local
-			i, code: INTEGER; c: CHARACTER; l_unicodes: like unicode_table
+			offset, new_count: INTEGER
 		do
-			l_unicodes := unicode_table
-			from i := 0 until i = a_count loop
-				c := latin_in [i]; code := c.code
-				if c /= Substitute then
-					unicode_out [i + out_offset] := l_unicodes [code]
-				end
-				i := i + 1
-			end
+			offset := output.count
+			new_count := offset + unicode_in.count
+			output.grow (new_count)
+			output.set_count (new_count)
+			encode_substring (unicode_in, output.area, 1, unicode_in.count, offset, Empty_string.empty_interval_list)
 		end
 
 	encode (
@@ -197,6 +208,11 @@ feature -- Basic operations
 	)
 		do
 			encode_substring (unicode_in, encoded_out, 1, unicode_in.count, out_offset, unencoded_intervals)
+		end
+
+	encode_as_string_8 (unicode_in: READABLE_STRING_GENERAL; encoded_out: SPECIAL [CHARACTER]; out_offset: INTEGER)
+		do
+			encode (unicode_in, encoded_out, out_offset, Empty_string.empty_interval_list)
 		end
 
 	encode_substring (
@@ -251,7 +267,10 @@ feature -- Basic operations
 			i, out_i, code_i, in_offset: INTEGER; uc: CHARACTER_32; c: CHARACTER
 			unicode: like unicode_table
 		do
-			if attached cursor_32 (unicode_in) as c_32 and then attached c_32.area as c_32_area then
+			if attached {EL_READABLE_ZSTRING} unicode_in as zstr then
+				encode_sub_zstring (zstr, encoded_out, start_index, end_index, out_offset, unencoded_intervals)
+
+			elseif attached cursor_32 (unicode_in) as c_32 and then attached c_32.area as c_32_area then
 				unicode := unicode_table; in_offset := c_32.area_first_index
 
 				from i := start_index until i > end_index loop
@@ -274,6 +293,68 @@ feature -- Basic operations
 						end
 					end
 					i := i + 1
+				end
+			end
+		end
+
+	encode_sub_zstring (
+		zstr_in: EL_READABLE_ZSTRING; encoded_out: SPECIAL [CHARACTER]
+		start_index, end_index, out_offset: INTEGER
+		unencoded_intervals: EL_ARRAYED_INTERVAL_LIST
+	)
+		-- encode `unicode_in' characters as current `encoding'
+		-- Set unencodeable characters as the `Substitute' character (26) and record location in `unencoded_intervals'
+		require
+			valid_offset_and_count: valid_offset_and_count (end_index - start_index + 1, encoded_out, out_offset)
+		local
+			i, out_i, code_i, in_offset, block_index, count: INTEGER; uc_i: CHARACTER_32; c_i: CHARACTER
+			unicode, zstring_unicode: like unicode_table; iter: EL_UNENCODED_CHARACTER_ITERATION
+		do
+			if attached zstr_in.area as area and then attached zstr_in.unencoded_area as area_32 then
+				unicode := unicode_table; zstring_unicode := zstr_in.codec.unicode_table
+				in_offset := zstr_in.area_lower
+				if unicode = zstring_unicode then
+					-- same encoding
+					count := end_index - start_index + 1
+					encoded_out.copy_data (area, start_index + in_offset - 1, out_offset, count)
+					if zstr_in.has_mixed_encoding then
+						from i := start_index until i > end_index loop
+							c_i := area [i + in_offset - 1]
+							if c_i = Substitute then
+								out_i := i + out_offset - start_index
+								unencoded_intervals.extend_upper (out_i + 1)
+							end
+							i := i + 1
+						end
+					end
+				else
+					from i := start_index until i > end_index loop
+						c_i := area [i + in_offset - 1]
+						if c_i = Substitute then
+							uc_i := iter.item ($block_index, area_32, i)
+						else
+							uc_i := zstring_unicode [c_i.code]
+						end
+						code_i := uc_i.code
+						out_i := i + out_offset - start_index
+
+						if code_i <= Max_7_bit_code then
+							encoded_out [out_i] := uc_i.to_character_8
+
+						elseif code_i <= Max_8_bit_code and then unicode [code_i] = uc_i then
+							encoded_out [out_i] := uc_i.to_character_8
+
+						else
+							c_i := latin_character (uc_i)
+							if c_i = '%U' then
+								encoded_out [out_i] := Substitute
+								unencoded_intervals.extend_upper (out_i + 1)
+							else
+								encoded_out [out_i] := c_i
+							end
+						end
+						i := i + 1
+					end
 				end
 			end
 		end
@@ -325,6 +406,95 @@ feature -- Basic operations
 			end
 		end
 
+	re_encode_substring (
+		other: EL_ZCODEC; str_8: READABLE_STRING_8; encoded_out: SPECIAL [CHARACTER]
+		start_index, end_index, out_offset: INTEGER; unencoded_intervals: EL_ARRAYED_INTERVAL_LIST
+	)
+		-- re-encode single-byte `str_8' characters encoded with `other' codec
+		-- Set unencodeable characters as the `Substitute' character (26) and record location in `unencoded_intervals'
+		require
+			valid_offset_and_count: valid_offset_and_count (end_index - start_index + 1, encoded_out, out_offset)
+		local
+			i, out_i, code_i, in_offset: INTEGER; c: CHARACTER; uc: CHARACTER_32
+			c_8_area: SPECIAL [CHARACTER_8]; o_unicode, unicode: like unicode_table
+		do
+			if attached cursor_8 (str_8) as c_8 then
+				in_offset := c_8.area_first_index; c_8_area := c_8.area
+				if id = other.id then
+					encoded_out.copy_data (c_8_area, start_index + in_offset - 1, out_offset, end_index - start_index + 1)
+				else
+					o_unicode := other.unicode_table; unicode := unicode_table
+					from i := start_index until i > end_index loop
+						c := c_8_area [i + in_offset - 1]; code_i := c.code
+						out_i := i + out_offset - start_index
+
+						if code_i <= Max_7_bit_code then -- ASCII characters are the same
+							encoded_out [out_i] := c
+						else
+							uc := o_unicode [code_i]; code_i := uc.code
+
+							if unicode.valid_index (code_i) and then unicode [code_i] = uc then
+								encoded_out [out_i] := uc.to_character_8
+							else
+								c := latin_character (uc)
+								if c = '%U' then
+									encoded_out [out_i] := Substitute
+									unencoded_intervals.extend_upper (out_i + 1)
+								else
+									encoded_out [out_i] := c
+								end
+							end
+						end
+						i := i + 1
+					end
+				end
+			end
+		end
+
+	write_encoded (unicode_in: READABLE_STRING_GENERAL; writeable: EL_WRITABLE)
+		local
+			i, count: INTEGER; string_8: STRING
+		do
+			count := unicode_in.count
+			across Reuseable.string_8 as reuse loop
+				string_8 := reuse.sized_item (count)
+				if attached string_8.area as l_area then
+					encode_as_string_8 (unicode_in, l_area, 0)
+					from i := 0 until i = count loop
+						writeable.write_raw_character_8 (l_area [i])
+						i := i + 1
+					end
+				end
+			end
+		end
+
+	write_encoded_character (uc: CHARACTER_32; writeable: EL_WRITABLE)
+		do
+			writeable.write_raw_character_8 (encoded_character (uc))
+		end
+
+feature -- Basic operations
+
+	decode (a_count: INTEGER; latin_in: SPECIAL [CHARACTER]; unicode_out: SPECIAL [CHARACTER_32]; out_offset: INTEGER)
+			-- Replace Ctrl characters used as place holders for foreign characters with original unicode characters.
+			-- If 'a_decode' is true encode output as unicode
+			-- Result is count of unencodeable Unicode characters
+		require
+			enough_latin_characters: latin_in.count > a_count
+			unicode_out_big_enough: unicode_out.count > a_count + out_offset
+		local
+			i, code: INTEGER; c: CHARACTER; unicode: like unicode_table
+		do
+			unicode := unicode_table
+			from i := 0 until i = a_count loop
+				c := latin_in [i]; code := c.code
+				if c /= Substitute then
+					unicode_out [i + out_offset] := unicode [code]
+				end
+				i := i + 1
+			end
+		end
+
 	to_lower (
 		characters: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; unencoded_characters: EL_UNENCODED_CHARACTERS
 	)
@@ -341,56 +511,6 @@ feature -- Basic operations
 			-- with their lower version when available.
 		do
 			change_case (characters, start_index, end_index, True, unencoded_characters)
-		end
-
-	re_encode (
-		other: EL_ZCODEC; encoded_in, encoded_out: SPECIAL [CHARACTER]; count, in_offset, out_offset: INTEGER
-		unencoded_characters: EL_UNENCODED_CHARACTERS_BUFFER
-	)
-		-- re-encode `count' characters of `encoded_in' encoded with `other' to `Current' encoding
-		-- content of  `encoded_in' starts at `in_offset'
-		local
-			i, unicode, code: INTEGER; uc: CHARACTER_32; c: CHARACTER
-			l_unicodes, l_other_unicodes: like unicode_table
-		do
-			l_unicodes := unicode_table; l_other_unicodes := other.unicode_table
-			from i := 0 until i = count loop
-				c := encoded_in [i + in_offset]; code := c.code
-				if c = Substitute then
-					encoded_out [i + out_offset] := c
-				else
-					uc := l_other_unicodes [code]; unicode := uc.code
-					if unicode <= 255 and then l_unicodes [unicode] = uc then
-						encoded_out [i + out_offset] := uc.to_character_8
-					else
-						c := latin_character (uc)
-						if c.code = 0 then
-							encoded_out [i + out_offset] := Substitute
-							unencoded_characters.extend (unicode.to_character_32, i + out_offset + 1)
-						else
-							encoded_out [i + out_offset] := c
-						end
-					end
-				end
-				i := i + 1
-			end
-		end
-
-	write_encoded (unicode_in: READABLE_STRING_GENERAL; writeable: EL_WRITABLE)
-		local
-			l_area: SPECIAL [CHARACTER]; i, count: INTEGER
-		do
-			count := unicode_in.count
-			l_area := encoded_string_8 (unicode_in, count, False).area
-			from i := 0 until i = count loop
-				writeable.write_raw_character_8 (l_area [i])
-				i := i + 1
-			end
-		end
-
-	write_encoded_character (uc: CHARACTER_32; writeable: EL_WRITABLE)
-		do
-			writeable.write_raw_character_8 (encoded_character (uc))
 		end
 
 feature -- Text conversion
@@ -410,24 +530,32 @@ feature -- Text conversion
 			end
 		end
 
+feature -- Character conversion
+
 	as_z_code (uc: CHARACTER_32): NATURAL
 			-- Returns hybrid code of latin and unicode
 			-- Single byte codes are reserved for latin encoding.
 			-- Unicode characters below 0xFF are shifted into the private use range: 0xE000 .. 0xF8FF
 			-- See https://en.wikipedia.org/wiki/Private_Use_Areas
 		local
-			c: CHARACTER
+			c: CHARACTER; uc_code: INTEGER
 		do
-			if uc.code <= 255 and then unicode_table [uc.code] = uc then
+			uc_code := uc.code
+			if uc_code <= Max_7_bit_code then
+				Result := uc.natural_32_code
+
+			elseif uc_code <= Max_8_bit_code and then unicode_table [uc_code] = uc then
 				Result := uc.natural_32_code
 			else
 				c := latin_character (uc)
-				if c.code = 0 then
+				if c = '%U' then
 					Result := unicode_to_z_code (uc.natural_32_code)
 				else
 					Result := c.natural_32_code
 				end
 			end
+		ensure
+			reversible: z_code_as_unicode (Result) = uc.natural_32_code
 		end
 
 	encoded_character (uc: CHARACTER_32): CHARACTER
@@ -435,15 +563,19 @@ feature -- Text conversion
 			unicode: INTEGER
 		do
 			unicode := uc.code
-			if unicode <= 255 and then unicode_table [unicode] = uc then
+			if unicode <= Max_7_bit_code then
+				Result := uc.to_character_8
+
+			elseif unicode <= Max_8_bit_code and then unicode_table [unicode] = uc then
 				Result := uc.to_character_8
 			else
 				Result := latin_character (uc)
-				if Result.code = 0 then
+				if Result = '%U' then
 					Result := Substitute
 				end
 			end
 		end
+
 
 	latin_character (uc: CHARACTER_32): CHARACTER
 			-- unicode to latin translation
@@ -458,7 +590,7 @@ feature -- Text conversion
 			if z_code > 0xFF then
 				Result := multi_byte_z_code_to_unicode (z_code)
 			else
-				Result := unicode_table.item (z_code.to_integer_32).natural_32_code
+				Result := unicode_table [z_code.to_integer_32].natural_32_code
 			end
 		end
 

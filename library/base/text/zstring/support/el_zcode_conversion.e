@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 9:31:54 GMT (Saturday 25th February 2023)"
-	revision: "13"
+	date: "2023-02-27 21:32:08 GMT (Monday 27th February 2023)"
+	revision: "14"
 
 class
 	EL_ZCODE_CONVERSION
@@ -62,6 +62,9 @@ feature {EL_OUTPUT_MEDIUM} -- Constants
 		-- (Apart from some control characters)
 
 	Max_8_bit_code: INTEGER = 0xFF
+
+	Replacement_character: CHARACTER_32 = '%/0xFFFD/'
+		-- used to replace an unknown, unrecognized, or unrepresentable character
 
 	Sign_bit: NATURAL = 0x8000_0000
 

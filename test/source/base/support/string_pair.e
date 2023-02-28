@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 10:50:39 GMT (Saturday 25th February 2023)"
-	revision: "17"
+	date: "2023-02-28 11:33:31 GMT (Tuesday 28th February 2023)"
+	revision: "18"
 
 class
 	STRING_PAIR
@@ -80,7 +80,9 @@ feature -- Access
 	hash_code: INTEGER
 		do
 			across << s_32, s_32_substring, s_32_old, s_32_new >> as list loop
-				Result := Result + list.item.hash_code
+				if attached list.item as str_32 then
+					Result := Result + str_32.hash_code
+				end
 			end
 			Result := Result.abs
 		end

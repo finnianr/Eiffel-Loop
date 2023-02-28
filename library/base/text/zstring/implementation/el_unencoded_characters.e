@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 15:13:44 GMT (Saturday 25th February 2023)"
-	revision: "50"
+	date: "2023-02-28 8:52:13 GMT (Tuesday 28th February 2023)"
+	revision: "51"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -102,7 +102,9 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_from_intervals (unicode_array: EL_CHARACTER_ARRAY; interval_list: EL_ARRAYED_INTERVAL_LIST; area_offset: INTEGER_32)
+	make_from_intervals (
+		a_cursor: EL_STRING_ITERATION_CURSOR; interval_list: EL_ARRAYED_INTERVAL_LIST; area_offset: INTEGER_32
+	)
 		local
 			i, upper, lower: INTEGER; l_area: like area
 		do
@@ -112,7 +114,7 @@ feature {NONE} -- Initialization
 					lower := interval_area [i]; upper := interval_area [i + 1]
 					l_area.extend (lower.to_character_32)
 					l_area.extend (upper.to_character_32)
-					unicode_array.append_to (l_area, lower - area_offset - 1, upper - lower + 1)
+					a_cursor.append_to (l_area, lower - area_offset - 1, upper - lower + 1)
 					i := i + 2
 				end
 			end
@@ -555,7 +557,7 @@ feature -- Element change
 			valid_count: character_count = old character_count + other.character_count
 		end
 
-	append_intervals (unicode_array: EL_CHARACTER_ARRAY; interval_list: EL_ARRAYED_INTERVAL_LIST; area_offset: INTEGER_32)
+	append_intervals (a_cursor: EL_STRING_ITERATION_CURSOR; interval_list: EL_ARRAYED_INTERVAL_LIST; area_offset: INTEGER_32)
 		require
 			not_empty: area.count > 0
 			at_least_one_interval: interval_list.count > 0
@@ -580,7 +582,7 @@ feature -- Element change
 						l_area.extend (lower.to_character_32)
 						l_area.extend (upper.to_character_32)
 					end
-					unicode_array.append_to (l_area, lower - area_offset - 1, upper - lower + 1)
+					a_cursor.append_to (l_area, lower - area_offset - 1, upper - lower + 1)
 					i := i + 2
 				end
 			end
@@ -967,6 +969,50 @@ feature -- Basic operations
 				count := upper - lower + 1
 				list.extend (Immutable_32.new_substring (l_area, i + 2, count))
 				i := i + count + 2
+			end
+		end
+
+	re_encode_intervals (codec: EL_ZCODEC; interval_list: EL_ARRAYED_INTERVAL_LIST)
+		require
+			contains_all_intervals: contains_all_intervals (interval_list)
+		local
+			i, j, k, lower_A, upper_A, lower_B, upper_B, overlap_status, j_upper: INTEGER
+			unicode: SPECIAL [CHARACTER_32]; ir: EL_INTERVAL_ROUTINES; l_area: like area
+			done, searching: BOOLEAN; uc: CHARACTER_32
+		do
+			if interval_list.count > 0 then
+				unicode := codec.unicode_table; l_area := area; searching := True
+				interval_list.start
+
+				from i := 0 until done or else i = l_area.count loop
+					lower_B := l_area [i].code; upper_B := l_area [i + 1].code
+					lower_A := interval_list.item_lower; upper_A := interval_list.item_upper
+
+					overlap_status := ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
+					if searching and then ir.is_overlapping (overlap_status) then
+						searching := overlap_status /= B_contains_A
+					end
+					if not searching then
+						if overlap_status = B_contains_A then
+							j_upper := i + 2 + upper_A - lower_B
+							from j := i + 2 + lower_A - lower_B until j > j_upper loop
+								uc := area [j]
+								k := uc.code
+								if unicode.valid_index (k) then
+									area [j] := unicode [k]
+								else
+									area [j] := Replacement_character
+								end
+								j := j + 1
+							end
+							interval_list.forth
+							done := interval_list.after
+						else
+							done := True
+						end
+					end
+					i := i + upper_B - lower_B + 3
+				end
 			end
 		end
 

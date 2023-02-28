@@ -1,16 +1,51 @@
 note
-	description: "String iteration cursor"
+	description: "[
+		Interface to classes [$source EL_STRING_8_ITERATION_CURSOR] and [$source EL_STRING_32_ITERATION_CURSOR]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2023-02-28 9:42:20 GMT (Tuesday 28th February 2023)"
+	revision: "3"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
+
+inherit
+	EL_ZCODE_CONVERSION
+
+	EL_SHARED_ZSTRING_CODEC
+
+	STRING_HANDLER
+
+feature -- Basic operations
+
+	append_to (destination: SPECIAL [CHARACTER_32]; source_index, n: INTEGER)
+		require
+			enough_space: n <= destination.capacity - destination.count
+		deferred
+		end
+
+	fill_z_codes (destination: SPECIAL [CHARACTER_32])
+		-- fill destination with z_codes
+		require
+			valid_size: destination.count >= target_count + 1
+		local
+			i, i_final: INTEGER; code: NATURAL
+		do
+			if attached area as l_area and then attached codec as l_codec then
+				i_final := target_count
+				from i := 0 until i = i_final loop
+					code := l_codec.as_z_code (i_th_character_32 (l_area, i + area_first_index))
+					destination [i] := code.to_character_32
+					i := i + 1
+				end
+				destination [i] := '%U'
+			end
+		end
 
 feature -- Status query
 
@@ -32,7 +67,25 @@ feature -- Measurement
 		deferred
 		end
 
+	target_count: INTEGER
+		deferred
+		end
+
 	trailing_white_count: INTEGER
+		deferred
+		end
+
+feature {NONE} -- Implementation
+
+	area_first_index: INTEGER
+		deferred
+		end
+
+	area: SPECIAL [ANY]
+		deferred
+		end
+
+	i_th_character_32 (a_area: like area; i: INTEGER): CHARACTER_32
 		deferred
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-11 11:23:50 GMT (Wednesday 11th January 2023)"
-	revision: "22"
+	date: "2023-02-28 13:55:06 GMT (Tuesday 28th February 2023)"
+	revision: "23"
 
 deferred class
 	EL_FILE_DATA_TEST_SET
@@ -59,23 +59,34 @@ feature {NONE} -- Implementation
 	assert_same_digest (file_path: FILE_PATH; md5_target: STRING)
 		-- assert plaintext from `file_path' has `md5_target' digest expressed as base-64 string
 		do
-			assert_same_digest_string (file_path.base, md5_target, Digest.md5_plain_text (file_path).to_base_64_string)
+			assert_same_md5_digest_strings (file_path.base, Digest.md5_plain_text (file_path).to_base_64_string, md5_target)
 		end
 
-	assert_same_digest_hexadecimal (file_path: FILE_PATH; md5_target: STRING)
+	assert_same_digest_hexadecimal (file_path: FILE_PATH; target: STRING)
 		-- assert plaintext from `file_path' has `md5_target' digest expressed as hexadecimal string
 		do
-			assert_same_digest_string (file_path.base, md5_target, Digest.md5_plain_text (file_path).to_hex_string)
+			assert_same_md5_digest_strings (file_path.base, Digest.md5_plain_text (file_path).to_hex_string, target)
 		end
 
-	assert_same_digest_string (name: READABLE_STRING_GENERAL; md5_target, md5_actual: STRING)
+	assert_same_md5_digest (a_name: detachable READABLE_STRING_GENERAL; md5_actual: EL_MD5_128; target: STRING)
+		do
+			assert_same_md5_digest_strings (a_name, md5_actual.digest_base_64, target)
+		end
+
+	assert_same_md5_digest_strings (a_name: detachable READABLE_STRING_GENERAL; actual, target: STRING)
 		-- assert plaintext from `file_path' has `md5_target' digest
 		local
-			label: ZSTRING
+			message: STRING
 		do
-			if md5_actual /~ md5_target then
-				label := "MD5 SUM (%"%S%")"
-				lio.put_labeled_string (label #$ [name], md5_actual)
+			if actual /~ target then
+				message := "MD5 digests differ"
+				if attached a_name as name then
+					lio.put_labeled_string (name, message)
+					lio.put_new_line
+				else
+					lio.put_line (message)
+				end
+				lio.put_string_field ("Actual", actual); lio.put_string_field (" Target", target)
 				lio.put_new_line
 				assert ("same digest", False)
 			end

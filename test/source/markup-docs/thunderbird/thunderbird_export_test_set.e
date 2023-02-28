@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-26 17:34:47 GMT (Thursday 26th January 2023)"
-	revision: "20"
+	date: "2023-02-27 12:23:42 GMT (Monday 27th February 2023)"
+	revision: "21"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -167,6 +167,7 @@ feature -- Tests
 		end
 
 	test_xhtml_exporter
+		-- THUNDERBIRD_EXPORT_TEST_SET.test_xhtml_exporter
 		local
 			command: TB_MULTI_LANG_ACCOUNT_XHTML_BODY_EXPORTER
 			body_path: FILE_PATH; modification_table: EL_HASH_TABLE [INTEGER, FILE_PATH]

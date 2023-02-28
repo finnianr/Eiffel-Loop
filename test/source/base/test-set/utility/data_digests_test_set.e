@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "23"
+	date: "2023-02-28 13:59:42 GMT (Tuesday 28th February 2023)"
+	revision: "24"
 
 class
 	DATA_DIGESTS_TEST_SET
@@ -70,7 +70,7 @@ feature -- Tests
 			create md5.make
 			across << zstr, Empty_string >> as str loop
 				md5.sink_string (str.item)
-				assert ("correct SHA-256", md5.digest_base_64 ~ "tGC3tVpZNZJKAxI/WFqDAg==")
+				assert_same_md5_digest ("All Russian and English", md5, "3XbFQvrHJALz0E89RUVykw==")
 			end
 
 			str_8 := Text.lines [2]
@@ -78,7 +78,7 @@ feature -- Tests
 			md5.reset
 			across << str_8, Empty_string_8 >> as str loop
 				md5.sink_string_8 (str.item)
-				assert ("correct SHA-256", md5.digest_base_64 ~ "KgHgTIwmLrcVEKchvY+zRg==")
+				assert_same_md5_digest ("Wanting (line)", md5, "KgHgTIwmLrcVEKchvY+zRg==")
 			end
 		end
 

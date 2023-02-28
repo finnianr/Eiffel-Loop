@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 13:12:00 GMT (Saturday 25th February 2023)"
-	revision: "61"
+	date: "2023-02-28 8:22:43 GMT (Tuesday 28th February 2023)"
+	revision: "62"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -354,11 +354,11 @@ feature {NONE} -- Implementation
 			unencoded_intervals := empty_interval_list
 			codec.encode_substring (a_unicode, area, start_index, end_index, area_offset, unencoded_intervals)
 
-			if unencoded_intervals.count > 0 and then attached shared_character_array (a_unicode) as unicode_array then
+			if unencoded_intervals.count > 0 and then attached shared_cursor (a_unicode) as l_cursor then
 				if has_mixed_encoding then
-					append_unencoded_intervals (unicode_array, unencoded_intervals, area_offset - start_index + 1)
+					append_unencoded_intervals (l_cursor, unencoded_intervals, area_offset - start_index + 1)
 				else
-					make_from_intervals (unicode_array, unencoded_intervals, area_offset - start_index + 1)
+					make_from_intervals (l_cursor, unencoded_intervals, area_offset - start_index + 1)
 				end
 			end
 		end

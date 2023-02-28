@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 8:41:04 GMT (Sunday 1st January 2023)"
-	revision: "8"
+	date: "2023-02-27 15:28:29 GMT (Monday 27th February 2023)"
+	revision: "9"
 
 deferred class
 	EL_LOCALIZATION_TEST
@@ -23,11 +23,11 @@ inherit
 
 feature {NONE} -- Deferred
 
-	assert (a_tag: STRING; a_condition: BOOLEAN)
+	assert (a_tag: READABLE_STRING_GENERAL; a_condition: BOOLEAN)
 		deferred
 		end
 
-	assert_same_string (tag: detachable STRING; a, b: READABLE_STRING_GENERAL)
+	assert_same_string (tag: detachable READABLE_STRING_GENERAL; a, b: READABLE_STRING_GENERAL)
 		deferred
 		end
 

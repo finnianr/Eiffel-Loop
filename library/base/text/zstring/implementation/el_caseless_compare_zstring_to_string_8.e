@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-15 22:45:41 GMT (Wednesday 15th February 2023)"
-	revision: "4"
+	date: "2023-02-28 13:19:23 GMT (Tuesday 28th February 2023)"
+	revision: "5"
 
 class
 	EL_CASELESS_COMPARE_ZSTRING_TO_STRING_8
@@ -23,25 +23,24 @@ create
 
 feature {NONE} -- Implementation
 
-	same_encoded_interval_characters (
-		encoded_area: SPECIAL [CHARACTER]; a_count, offset, a_other_offset: INTEGER
-	): BOOLEAN
+	same_encoded_interval_characters (encoded_area: SPECIAL [CHARACTER]; a_count, offset, a_other_offset: INTEGER): BOOLEAN
 		local
-			i, j, code, other_offset: INTEGER; c, other_as_lower: CHARACTER; l_unicodes: like unicode_table
-			l_other_area: SPECIAL [CHARACTER]
+			i, j, code_i, other_offset: INTEGER; l_unicodes: like unicode_table
+			l_other_area: SPECIAL [CHARACTER_8]; c_32: EL_CHARACTER_32_ROUTINES
+			uc_i, o_uc_i: CHARACTER_32
 		do
 			l_unicodes := unicode_table; l_other_area := other_area
 			other_offset := other_area_first_index + a_other_offset
 			Result := True
 			from i := 0 until not Result or else i = a_count loop
 				j := i + offset
-				c := encoded_area [j]; code := c.code
-				other_as_lower := l_other_area [j + other_offset].as_lower
-				if code <= Max_7_bit_code then
-					Result := c.as_lower = other_as_lower
-				else
-					Result := l_unicodes [code].to_character_8.as_lower = other_as_lower
+				-- converting to UCS4 because of issues with {CHARACTER_8}.as_lower
+				uc_i := encoded_area [j]; code_i := uc_i.code
+				o_uc_i := l_other_area [j + other_offset]
+				if code_i > Max_7_bit_code then
+					uc_i := l_unicodes [code_i]
 				end
+				Result := c_32.to_lower (uc_i) = c_32.to_lower (o_uc_i)
 				i := i + 1
 			end
 		end

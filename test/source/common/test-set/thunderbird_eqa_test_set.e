@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 13:15:33 GMT (Monday 23rd January 2023)"
-	revision: "19"
+	date: "2023-02-27 15:23:42 GMT (Monday 27th February 2023)"
+	revision: "20"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
@@ -158,9 +158,10 @@ feature {NONE} -- Implementation
 
 	assert_valid_h2_file (xdoc: EL_XML_DOC_CONTEXT; body_path: FILE_PATH)
 		local
-			h2_path: FILE_PATH; h2_set: EL_HASH_SET [ZSTRING]; title: ZSTRING
+			h2_path: FILE_PATH; h2_set: EL_HASH_SET [ZSTRING]; title, has_title: ZSTRING
 			count: INTEGER; h2_list: EL_XPATH_NODE_CONTEXT_LIST
 		do
+			has_title := "has title "
 			h2_path := body_path.with_new_extension ("h2")
 			h2_list := xdoc.context_list ("//h2")
 			if h2_list.count > 0 then
@@ -173,7 +174,7 @@ feature {NONE} -- Implementation
 				end
 				across h2_list as h2 loop
 					title := h2.node.as_full_string
-					assert ("has title " + title.to_latin_1, h2_set.has (title))
+					assert (has_title + title, h2_set.has (title))
 					count := count + 1
 				end
 				assert ("same h2 set count", h2_set.count = count)

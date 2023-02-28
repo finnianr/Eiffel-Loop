@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 9:37:28 GMT (Monday 12th December 2022)"
-	revision: "3"
+	date: "2023-02-27 10:20:49 GMT (Monday 27th February 2023)"
+	revision: "4"
 
 class
 	EL_BORROWED_STRING_32_CURSOR
@@ -23,7 +23,7 @@ class
 inherit
 	EL_BORROWED_STRING_CURSOR [STRING_32]
 		redefine
-			copied_item, substring_item
+			copied_item, sized_item, substring_item
 		end
 
 	EL_MODULE_REUSEABLE
@@ -44,6 +44,13 @@ feature -- Access
 			else
 				Result.append_string_general (general)
 			end
+		end
+
+	sized_item (n: INTEGER): STRING_32
+		do
+			Result := item
+			Result.grow (n)
+			Result.set_count (n)
 		end
 
 	substring_item (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): STRING_32

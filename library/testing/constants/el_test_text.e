@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-19 17:13:34 GMT (Sunday 19th February 2023)"
-	revision: "21"
+	date: "2023-02-28 10:50:11 GMT (Tuesday 28th February 2023)"
+	revision: "22"
 
 class
 	EL_TEST_TEXT
@@ -19,7 +19,29 @@ inherit
 
 	EL_SHARED_TEST_NUMBERS
 
+	EL_ENCODING_CONSTANTS
+
 feature -- Access
+
+	all_encodings: ARRAYED_LIST [NATURAL]
+		local
+			base: EL_ENCODING; encoding: NATURAL
+		do
+			create Result.make (15 + 9)
+			create base.make_default
+			across 1 |..| 15 as range loop
+				encoding := Latin | range.item.to_natural_32
+				if base.is_valid (encoding) then
+					Result.extend (encoding)
+				end
+			end
+			across 1250 |..| 1258 as range loop
+				encoding := Windows | range.item.to_natural_32
+				if base.is_valid (encoding) then
+					Result.extend (encoding)
+				end
+			end
+		end
 
 	doubles_array_manifest (upper: INTEGER_REF): STRING
 		do
@@ -138,6 +160,7 @@ feature -- STRING_32 contants
 	Russian_and_english: STRING_32 = "[
 		и рыбку съесть, и в воду не лезть
 		Wanting to eat a fish without first catching it from the waters
+		Dunboyne is Dún Búinne
 		Latin-1: ¼ + ¾ = 1
 		Latin-15: Slavoj Žižek
 		Le Quattro Stagioni ´L´Estate`- I. Allegro non molto
@@ -159,6 +182,21 @@ feature -- Constants
 		end
 
 	Escaped_substitution_marker: STRING = "%%%S"
+
+	Substituted_words: ARRAY [TUPLE]
+		once
+			Result := <<
+				[{STRING_32} "и", {STRING_32} "съесть",{STRING_32} "лезть"],
+				["eat", "fish", "catching"],
+				["Dún", 'ú'],
+				[1, 1],
+				[15],
+				['´'],
+				['€']
+			>>
+		ensure
+			same_number: Result.count = Russian_and_english.occurrences ('%N') + 1
+		end
 
 	Word_intervals: ARRAYED_LIST [INTEGER_INTERVAL]
 		local

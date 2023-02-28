@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 9:16:06 GMT (Sunday 18th December 2022)"
-	revision: "5"
+	date: "2023-02-27 12:18:53 GMT (Monday 27th February 2023)"
+	revision: "6"
 
 deferred class
 	COUNTRY_TEST_DATA
@@ -19,7 +19,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	assert (a_tag: STRING; a_condition: BOOLEAN)
+	assert (a_tag: READABLE_STRING_GENERAL; a_condition: BOOLEAN)
 		deferred
 		end
 

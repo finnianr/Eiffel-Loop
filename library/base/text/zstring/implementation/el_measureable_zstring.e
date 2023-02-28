@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 16:16:35 GMT (Saturday 25th February 2023)"
-	revision: "19"
+	date: "2023-02-25 17:25:23 GMT (Saturday 25th February 2023)"
+	revision: "20"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
@@ -20,9 +20,9 @@ inherit
 feature -- Measurement
 
 	leading_occurrences (uc: CHARACTER_32): INTEGER
-			-- Returns count of continous occurrences of `uc' or white space starting from the begining
+		-- Returns count of continous occurrences of `uc' or white space starting from the begining
 		local
-			i, l_count, block_index: INTEGER; l_area: like area; c: CHARACTER; uc_code: NATURAL
+			i, l_count, block_index: INTEGER; l_area: like area; c: CHARACTER
 			iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
 			if uc.code <= Max_7_bit_code then
@@ -30,21 +30,20 @@ feature -- Measurement
 			else
 				c := Codec.encoded_character (uc)
 			end
-			uc_code := uc.natural_32_code
 			l_area := area; l_count := count
-			if c /= Substitute then
+			if c = Substitute and then attached unencoded_area as area_32 and then area_32.count > 0 then
 				from i := 0 until i = l_count loop
-					-- `Unencoded_character' is space
-					if l_area [i] = c then
+					if l_area [i] = Substitute and then iter.item ($block_index, area_32, i + 1) = uc then
 						Result := Result + 1
 					else
 						i := l_count - 1 -- break out of loop
 					end
 					i := i + 1
 				end
-			elseif attached unencoded_area as area_32 and then area_32.count > 0 then
+			else
 				from i := 0 until i = l_count loop
-					if l_area [i] = Substitute and then iter.item ($block_index, area_32, i + 1) = uc_code then
+					-- `Unencoded_character' is space
+					if l_area [i] = c then
 						Result := Result + 1
 					else
 						i := l_count - 1 -- break out of loop

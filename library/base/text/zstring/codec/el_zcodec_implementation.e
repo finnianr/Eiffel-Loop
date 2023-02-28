@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 8:48:18 GMT (Saturday 25th February 2023)"
-	revision: "3"
+	date: "2023-02-27 11:34:09 GMT (Monday 27th February 2023)"
+	revision: "4"
 
 class
 	EL_ZCODEC_IMPLEMENTATION
@@ -27,7 +27,7 @@ inherit
 			z_code_to_unicode as multi_byte_z_code_to_unicode
 		end
 
-	EL_MODULE_NAMING
+	EL_MODULE_NAMING; EL_MODULE_REUSEABLE
 
 	EL_ZSTRING_CONSTANTS
 
@@ -36,6 +36,7 @@ inherit
 	EL_SHARED_STRING_8_CURSOR
 
 	EL_SHARED_STRING_32_CURSOR
+
 
 feature {NONE} -- Implementation
 

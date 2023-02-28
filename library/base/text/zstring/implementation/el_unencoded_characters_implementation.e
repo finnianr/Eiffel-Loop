@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 12:58:44 GMT (Saturday 25th February 2023)"
-	revision: "18"
+	date: "2023-02-28 8:22:10 GMT (Tuesday 28th February 2023)"
+	revision: "19"
 
 deferred class
 	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
@@ -31,7 +31,31 @@ inherit
 
 	EL_ZCODE_CONVERSION
 
-feature {NONE} -- Contract Support
+feature -- Contract Support
+
+	contains_interval (lower_A, upper_A: INTEGER): BOOLEAN
+		local
+			ir: EL_INTERVAL_ROUTINES; l_area: like area
+			i, lower_B, upper_B: INTEGER
+		do
+			l_area := area
+			from i := 0 until Result or else i = l_area.count loop
+				lower_B := l_area [i].code; upper_B := l_area [i + 1].code
+				Result := ir.overlap_status (lower_A, upper_A, lower_B, upper_B) = B_contains_A
+				i := i + upper_B - lower_B + 3
+			end
+		end
+
+	contains_all_intervals (interval_list: EL_ARRAYED_INTERVAL_LIST): BOOLEAN
+		do
+			if attached interval_list as list then
+				Result := True
+				from list.start until not Result or list.after loop
+					Result := contains_interval (list.item_lower, list.item_upper)
+					list.forth
+				end
+			end
+		end
 
 	is_valid: BOOLEAN
 		-- `True' if all intervals valid and in sequence and consistent with size of `area'
@@ -213,7 +237,7 @@ feature {NONE} -- Implementation
 			Result := a_area [i + 1].code - a_area [i].code + 1
 		end
 
-	shared_character_array (general: READABLE_STRING_GENERAL): EL_CHARACTER_ARRAY
+	shared_cursor (general: READABLE_STRING_GENERAL): EL_STRING_ITERATION_CURSOR
 		do
 			if attached {READABLE_STRING_32} general as str_32 then
 				Result := cursor_32 (str_32)

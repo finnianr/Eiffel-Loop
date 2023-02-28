@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 13:10:58 GMT (Thursday 29th December 2022)"
-	revision: "1"
+	date: "2023-02-27 17:29:34 GMT (Monday 27th February 2023)"
+	revision: "2"
 
 class
 	EIFFEL_GREP_COMMAND_TEST_SET
@@ -37,17 +37,19 @@ feature -- Tests
 					"covers/{EL_OS_COMMAND_I}.set_output_encoding"
 		local
 			cmd: EIFFEL_GREP_COMMAND; count: INTEGER
+			line: ZSTRING
 		do
 			create cmd.make
 			cmd.set_working_directory (Dev_environ.Eiffel_loop_dir #+ "test/source")
 			cmd.set_options ("assert_same_string")
 			cmd.execute
-			across cmd.lines as line loop
-				if line.item.has_substring (Line_tag.book_info) then
-					assert (Line_tag.book_info + " has euro symbol", line.item.has (Text.Euro_symbol))
+			across cmd.lines as list loop
+				line := list.item
+				if line.has_substring (Line_tag.book_info) then
+					assert (Line_tag.book_info + " has euro symbol", line.has (Text.Euro_symbol))
 					count := count + 1
-				elseif line.item.has_substring (Line_tag.city) then
-					assert (Line_tag.city + " has latin-1 characters > 127", line.item.has_substring ("Dún Búinne"))
+				elseif line.has_substring (Line_tag.city) then
+					assert (Line_tag.city + " has latin-1 characters > 127", line.has_substring ("Dún Búinne"))
 					count := count + 1
 				end
 			end

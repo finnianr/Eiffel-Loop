@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-07 17:05:19 GMT (Saturday 7th January 2023)"
-	revision: "6"
+	date: "2023-02-27 15:42:35 GMT (Monday 27th February 2023)"
+	revision: "7"
 
 class
 	EIFFEL_GREP_COMMAND
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	set_options (options: ZSTRING)
+	set_options (options: READABLE_STRING_GENERAL)
 		do
 			put_string (var.options, options)
 		end

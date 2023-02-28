@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 16:49:49 GMT (Saturday 25th February 2023)"
-	revision: "28"
+	date: "2023-02-28 11:40:15 GMT (Tuesday 28th February 2023)"
+	revision: "29"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -209,15 +209,15 @@ feature -- Basic operations
 			fill_index_list_by_z_code (list, Codec.as_z_code (uc))
 		end
 
-feature {EL_ZSTRING_IMPLEMENTATION} -- Implementation
+feature {EL_SHARED_ZSTRING_CODEC} -- Implementation
 
 	as_expanded (index: INTEGER): STRING_32
 			-- Current expanded as `z_code' sequence
 		require
 			valid_index: 1 <= index and index <= 2
 		do
-			Result := Once_expanded_strings [index - 1]; Result.wipe_out
-			fill_expanded (Result)
+			Result := expanded_of_size (index, count)
+			fill_expanded (Result.area)
 		end
 
 feature {NONE} -- Implementation
@@ -228,13 +228,23 @@ feature {NONE} -- Implementation
 			Result.wipe_out
 		end
 
-	fill_expanded (str: STRING_32)
+	expanded_of_size (index, a_count: INTEGER): STRING_32
+			-- Current expanded as `z_code' sequence
+		require
+			valid_index: 1 <= index and index <= 2
+		do
+			Result := Once_expanded_strings [index - 1]
+			Result.grow (a_count)
+			Result.set_count (a_count)
+		end
+
+	fill_expanded (str_area: SPECIAL [CHARACTER_32])
+		require
+			valid_size: str_area.count >= count + 1
 		local
-			i, l_count: INTEGER; str_area: SPECIAL [CHARACTER_32]; c_i: CHARACTER
+			i, l_count: INTEGER; c_i: CHARACTER
 		do
 			l_count := count
-			str.grow (l_count); str.set_count (l_count)
-			str_area := str.area
 			write_unencoded (str_area, 0, True)
 			if attached area as l_area then
 				from i := 0 until i = l_count loop
@@ -244,6 +254,7 @@ feature {NONE} -- Implementation
 					end
 					i := i + 1
 				end
+				str_area [i] := '%U'
 			end
 		end
 
@@ -281,7 +292,9 @@ feature {NONE} -- Implementation
 		do
 			str_count := str.count
 			Result := Once_substring_indices; Result.wipe_out
-			if str = Current or else str_count = 0 then
+			if (attached {EL_SEARCHABLE_ZSTRING} str as zstr and then zstr = Current)
+				or else str_count = 0
+			then
 				Result.extend (1)
 
 			elseif str_count <= count then
@@ -318,38 +331,10 @@ feature {NONE} -- Implementation
 			Result.fill_by_string (current_readable, str, 0)
 		end
 
-	shared_expanded_32 (str_32: READABLE_STRING_32): STRING_32
-		--	`str_32' expanded as z-code for `String_searcher'
-		local
-			area_32: like unencoded_area; l_codec: like codec
-			i, i_final: INTEGER
+	shared_expanded (cursor: EL_STRING_ITERATION_CURSOR): STRING_32
 		do
-			if attached cursor_32 (str_32) as cursor then
-				Result := Buffer_32.empty; l_codec := codec; area_32 := cursor.area
-				i_final := cursor.area_first_index + str_32.count
-				from i := cursor.area_first_index until i = i_final loop
-					Result.extend (l_codec.as_z_code (area_32 [i]).to_character_32)
-					i := i + 1
-				end
-			end
-		ensure
-			same_count: Result.count = str_32.count
-		end
-
-	shared_expanded_8 (cursor: EL_STRING_8_ITERATION_CURSOR): STRING_32
-		--	`cursor.target' string expanded as z-code for `String_searcher'
-		local
-			l_area: like area; l_codec: like codec
-			i, i_final: INTEGER
-		do
-			Result := Buffer_32.empty; l_codec := codec; l_area := cursor.area
-			i_final := cursor.area_first_index + cursor.target_count
-			from i := cursor.area_first_index until i = i_final loop
-				Result.extend (l_codec.as_z_code (l_area [i]).to_character_32)
-				i := i + 1
-			end
-		ensure
-			same_count: Result.count = cursor.target_count
+			Result := expanded_of_size (1, cursor.target_count)
+			cursor.fill_z_codes (Result.area)
 		end
 
 	shared_search_pattern (str: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
@@ -361,11 +346,11 @@ feature {NONE} -- Implementation
 				if cursor.all_ascii then
 					Result := str_8
 				else
-					Result := shared_expanded_8 (cursor)
+					Result := shared_expanded (cursor)
 				end
 
-			elseif attached {READABLE_STRING_32} str as str_32  then
-				Result := shared_expanded_32 (str_32)
+			elseif attached {READABLE_STRING_32} str as str_32 and then attached cursor_32 (str_32) as cursor then
+				Result := shared_expanded (cursor)
 			end
 		end
 

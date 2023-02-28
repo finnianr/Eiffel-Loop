@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 9:16:41 GMT (Sunday 1st January 2023)"
-	revision: "15"
+	date: "2023-02-27 12:17:36 GMT (Monday 27th February 2023)"
+	revision: "16"
 
 deferred class
 	EL_CRC_32_TESTABLE
@@ -30,7 +30,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	assert (a_tag: STRING; a_condition: BOOLEAN)
+	assert (a_tag: READABLE_STRING_GENERAL; a_condition: BOOLEAN)
 		deferred
 		end
 

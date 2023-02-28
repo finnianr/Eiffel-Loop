@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-21 12:15:53 GMT (Tuesday 21st February 2023)"
-	revision: "46"
+	date: "2023-02-28 8:23:06 GMT (Tuesday 28th February 2023)"
+	revision: "47"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -94,16 +94,12 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 		require
 			valid_encoding: valid_encoding (str_encoding)
 		local
-			offset: INTEGER; buffer: like Unencoded_buffer
+			offset: INTEGER; unencoded_intervals: like empty_interval_list
 			l_codec: EL_ZCODEC; u: UTF_CONVERTER
 		do
 			-- UTF-16 must be first to test as it can look like ascii
 			if str_encoding = {EL_ENCODING_CONSTANTS}.Utf_16 then
 				append_utf_16_le (str)
-
-			elseif cursor_8 (str).all_ascii then
-				-- <= 127 is all the same no matter which encoding
-				append_ascii (str)
 
 			elseif str_encoding = {EL_ENCODING_CONSTANTS}.Utf_8 then
 				append_utf_8 (str)
@@ -120,17 +116,17 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
 			elseif Codec_factory.valid_encoding (str_encoding) then
 				l_codec := Codec_factory.codec_by (str_encoding)
-				buffer := empty_unencoded_buffer
+				unencoded_intervals := empty_interval_list
 				offset := count; accommodate (str.count)
-				if attached cursor_8 (str) as c then
-					codec.re_encode (l_codec, c.area, area, str.count, c.area_first_index, offset, buffer)
-					inspect respective_encoding (buffer)
-						when Both_have_mixed_encoding then
-							append_unencoded (buffer, 0)
-						when Only_other then
-							set_unencoded_from_buffer (buffer)
+				codec.re_encode_substring (l_codec, str, area, 1, str.count, offset, unencoded_intervals)
+				if unencoded_intervals.count > 0 and then attached shared_cursor (str) as l_cursor then
+					if has_mixed_encoding then
+						append_unencoded_intervals (l_cursor, unencoded_intervals, offset)
 					else
+						make_from_intervals (l_cursor, unencoded_intervals, offset)
 					end
+					re_encode_intervals (l_codec, unencoded_intervals)
+--					l_codec.re_encode (unencoded_area, unencoded_intervals)
 				end
 			else
 				append_string_8 (str)
@@ -186,10 +182,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 		require else
 			not_has_reserved_substitute_character: not str.has (Substitute)
 		do
-			if attached current_string_8 as l_current then
-				l_current.append (str)
-				set_from_string_8 (l_current)
-			end
+			String_8.append_string_8 (Current, str)
 		end
 
 	append_string, append (s: EL_READABLE_ZSTRING)

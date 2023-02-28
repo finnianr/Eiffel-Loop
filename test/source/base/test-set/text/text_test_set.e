@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 11:22:59 GMT (Friday 10th February 2023)"
-	revision: "15"
+	date: "2023-02-28 13:21:05 GMT (Tuesday 28th February 2023)"
+	revision: "16"
 
 class
 	TEXT_TEST_SET
@@ -23,6 +23,10 @@ inherit
 
 	EL_SHARED_ESCAPE_TABLE
 
+	EL_SHARED_ZCODEC_FACTORY
+
+	STRING_HANDLER undefine default_create end
+
 feature -- Basic operations
 
 	do_all (eval: EL_TEST_SET_EVALUATOR)
@@ -30,9 +34,11 @@ feature -- Basic operations
 			eval.call ("bash_escape", agent test_bash_escape)
 			eval.call ("convert_string_to_makeable", agent test_convert_string_to_makeable)
 			eval.call ("convert_string_type_descriptions", agent test_convert_string_type_descriptions)
+			eval.call ("encoding_conversion", agent test_encoding_conversion)
 			eval.call ("integer_format", agent test_integer_format)
-			eval.call ("substitution_marker_unescape", agent test_substitution_marker_unescape)
+			eval.call ("encodeable_as_string_8", agent test_encodeable_as_string_8)
 			eval.call ("python_escape", agent test_python_escape)
+			eval.call ("substitution_marker_unescape", agent test_substitution_marker_unescape)
 			eval.call ("unescape", agent test_unescape)
 		end
 
@@ -79,6 +85,76 @@ feature -- Tests
 					assert ("Expected descriptions", True)
 				else
 					output_type_descriptions (Void)
+				end
+			end
+		end
+
+	test_encodeable_as_string_8
+		-- TEXT_TEST_SET.test_encodeable_as_string_8
+		local
+			zstr: ZSTRING; codec: EL_ZCODEC
+			first_latin, first_windows: BOOLEAN
+		do
+			if attached crc_generator as crc then
+				across Text.lines as line loop
+					zstr := line.item
+					crc.add_string (zstr)
+					lio.put_labeled_string ("LINE", zstr)
+					lio.put_new_line
+					first_latin := True; first_windows := True
+					across Text.all_encodings as encoding loop
+						codec := Codec_factory.codec_by (encoding.item)
+						if codec.is_encodeable_as_string_8 (zstr, 1, zstr.count) then
+							crc.add_natural (codec.id)
+							if first_latin and codec.id <= 15 then
+								lio.put_natural_field ("Latin", codec.id)
+								first_latin := False
+							elseif first_windows and codec.id > 1000 then
+								lio.put_new_line
+								lio.put_natural_field ("Windows", codec.id)
+								first_windows := False
+							else
+								lio.put_string (", ")
+								lio.put_natural (codec.id)
+							end
+						end
+					end
+					lio.put_new_line_x2
+				end
+				assert ("is_encodeable_as_string_8 OK", crc.checksum = 4117255750)
+			end
+		end
+
+	test_encoding_conversion
+		-- TEXT_TEST_SET.test_encoding_conversion
+		local
+			buffer: EL_STRING_8_IO_MEDIUM; encoding: EL_ENCODING
+			zstr, name: ZSTRING; latin_id: INTEGER
+		do
+			create buffer.make (100)
+			across Text.lines as line loop
+				if line.item.starts_with (Latin) then
+					zstr := line.item
+					name := zstr.substring_to (':', default_pointer)
+					name.replace_substring_general ("ISO-8859", 1, Latin.count)
+					create encoding.make_from_name (name)
+					buffer.wipe_out
+					if attached Codec_factory.codec (encoding) as codec then
+						lio.put_labeled_string ("Codec", codec.name)
+						lio.put_new_line
+						codec.write_encoded (zstr, buffer)
+						if zstr.count ~ buffer.text.count then
+							if codec.id = Codec_factory.zstring_codec.id then
+								assert ("same string_8", zstr.area.same_items (buffer.text.area, 0, 0, zstr.count))
+							else
+								assert ("same encoded string_8", zstr.as_encoded_8 (codec) ~ buffer.text)
+							end
+						else
+							assert ("same count", False)
+						end
+					else
+						assert ("Found matching codec", False)
+					end
 				end
 			end
 		end
@@ -208,6 +284,8 @@ feature {NONE} -- Implementation
 			end
 		end
 feature {NONE} -- Constants
+
+	Latin: STRING = "Latin"
 
 	Substitution_mark_unescaper: EL_ZSTRING_UNESCAPER
 		once

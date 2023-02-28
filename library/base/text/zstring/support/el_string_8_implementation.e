@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-24 11:16:48 GMT (Friday 24th February 2023)"
-	revision: "8"
+	date: "2023-02-27 6:42:50 GMT (Monday 27th February 2023)"
+	revision: "9"
 
 class
 	EL_STRING_8_IMPLEMENTATION
@@ -58,6 +58,14 @@ feature -- Measurement
 		end
 
 feature -- Concatenation
+
+	append_string_8 (a_target: EL_APPENDABLE_ZSTRING; str: READABLE_STRING_8)
+		do
+			if attached injected (a_target, 0) as target then
+				target.append (str)
+				a_target.set_from_string_8 (target)
+			end
+		end
 
 	append_substring (a_target, s: EL_APPENDABLE_ZSTRING; start_index, end_index: INTEGER)
 		do

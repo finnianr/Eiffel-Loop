@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-02-27 19:02:04 GMT (Monday 27th February 2023)"
+	revision: "13"
 
 frozen class
 	EL_ZSTRING_SEARCHER
@@ -36,10 +36,10 @@ feature -- Search
 			-- `a_string' with 0..`fuzzy' mismatches between `a_string' and `a_pattern'.
 			-- 0 if there are no fuzzy matches.
 		local
-			i, j, l_min_offset, l_end_pos, l_area_lower, l_pattern_count, l_nb_mismatched: INTEGER
+			i, j, l_min_offset, l_end_pos, l_area_lower, l_pattern_count, l_nb_mismatched, block_index: INTEGER
+			iter: EL_UNENCODED_CHARACTER_ITERATION; area_32: like String_type.unencoded_area
 			l_matched: BOOLEAN; l_deltas_array: like deltas_array
 			l_area: SPECIAL [CHARACTER]; l_char_code: NATURAL
-			unencoded: EL_UNENCODED_CHARACTERS_INDEX
 		do
 			if fuzzy = a_pattern.count then
 					-- More mismatches than the pattern length.
@@ -51,10 +51,9 @@ feature -- Search
 					initialize_fuzzy_deltas (a_pattern, fuzzy)
 					l_deltas_array := deltas_array
 					if l_deltas_array /= Void then
+						l_area := a_string.area; area_32 := a_string.unencoded_area
 						from
-							unencoded := a_string.unencoded_indexable
 							l_pattern_count := a_pattern.count
-							l_area := a_string.area
 							l_area_lower := a_string.area_lower
 							i := start_pos + l_area_lower
 							l_end_pos := end_pos + 1 + l_area_lower
@@ -68,7 +67,7 @@ feature -- Search
 							until
 								j = l_pattern_count
 							loop
-								l_char_code := area_z_code (l_area, unencoded, i + j - 1)
+								l_char_code := iter.i_th_z_code ($block_index, l_area, area_32, i + j - 1)
 								if l_char_code /= a_pattern.code (j + 1) then
 									l_nb_mismatched := l_nb_mismatched + 1;
 									if l_nb_mismatched > fuzzy then
@@ -93,7 +92,7 @@ feature -- Search
 									until
 										j > fuzzy
 									loop
-										l_char_code := area_z_code (l_area, unencoded, i + l_pattern_count - j - 1)
+										l_char_code := iter.i_th_z_code ($block_index, l_area, area_32, i + l_pattern_count - j - 1)
 										if l_char_code > Max_code_point_value then
 												-- No optimization for a characters above
 												-- `Max_code_point_value'.
@@ -122,9 +121,9 @@ feature -- Search
 			-- Position of first occurrence of `a_pattern' at or after `start_pos' in `a_string'.
 			-- 0 if there are no matches.
 		local
-			i, j, l_end_pos, l_pattern_count, l_area_lower: INTEGER; l_char_code: NATURAL
+			i, j, l_end_pos, l_pattern_count, l_area_lower, block_index: INTEGER; l_char_code: NATURAL
 			l_matched: BOOLEAN; l_deltas: like deltas; l_area: SPECIAL [CHARACTER]
-			unencoded: EL_UNENCODED_CHARACTERS_INDEX
+			iter: EL_UNENCODED_CHARACTER_ITERATION; area_32: like String_type.unencoded_area
 		do
 			if a_string = a_pattern then
 				if start_pos = 1 then
@@ -133,9 +132,8 @@ feature -- Search
 			else
 				l_pattern_count := a_pattern.count
 				check l_pattern_count_positive: l_pattern_count > 0 end
-				unencoded := a_string.unencoded_indexable
+				l_area := a_string.area; area_32 := a_string.unencoded_area
 				from
-					l_area := a_string.area
 					l_area_lower := a_string.area_lower
 					i := start_pos + l_area_lower
 					l_deltas := deltas
@@ -149,7 +147,7 @@ feature -- Search
 					until
 						j = l_pattern_count
 					loop
-						l_char_code := area_z_code (l_area, unencoded, i + j - 1)
+						l_char_code := iter.i_th_z_code ($block_index, l_area, area_32, i + j - 1)
 						if l_char_code /= a_pattern.code (j + 1) then
 								-- Mismatch, so we stop
 							j := l_pattern_count - 1	-- Jump out of loop
@@ -165,7 +163,7 @@ feature -- Search
 					else
 							-- Pattern was not found, shift to next location
 						if i + l_pattern_count <= end_pos then
-							l_char_code := area_z_code (l_area, unencoded, i + l_pattern_count - 1)
+							l_char_code := iter.i_th_z_code ($block_index, l_area, area_32, i + l_pattern_count - 1)
 							if l_char_code > Max_code_point_value then
 									-- Character is too big, we revert to a slow comparison
 								i := i + 1

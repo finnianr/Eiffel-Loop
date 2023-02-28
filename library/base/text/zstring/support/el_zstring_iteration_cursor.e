@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-24 13:38:18 GMT (Friday 24th February 2023)"
-	revision: "8"
+	date: "2023-02-28 9:13:56 GMT (Tuesday 28th February 2023)"
+	revision: "9"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -21,12 +21,12 @@ inherit
 		end
 
 	EL_STRING_ITERATION_CURSOR
-
-	EL_ZCODE_CONVERSION
-
-	EL_SHARED_ZSTRING_CODEC
-
-	STRING_HANDLER
+		rename
+			Unicode_table as Shared_unicode_table,
+			i_th_character_32 as i_th_unicode
+		export
+			{NONE} fill_z_codes
+		end
 
 create
 	make
@@ -38,6 +38,7 @@ feature {NONE} -- Initialization
 			Precursor (a_target)
 			area := a_target.area
 			create unencoded.make (a_target.unencoded_area)
+			unicode_table := Shared_unicode_table
 		end
 
 feature -- Access
@@ -95,6 +96,11 @@ feature -- Measurement
 			Result := target.leading_white_space
 		end
 
+	target_count: INTEGER
+		do
+			Result := target.count
+		end
+
 	trailing_white_count: INTEGER
 		do
 			Result := target.trailing_white_space
@@ -112,12 +118,51 @@ feature -- Status query
 			end
 		end
 
-feature {TYPED_INDEXABLE_ITERATION_CURSOR} -- Access
+feature -- Basic operations
 
-	target: EL_READABLE_ZSTRING
+	append_to (destination: SPECIAL [CHARACTER_32]; source_index, n: INTEGER)
+		local
+			i, i_final: INTEGER; c_i: CHARACTER; uc: CHARACTER_32; unicode: like codec.unicode_table
+		do
+			codec.decode (n, area, destination, 0)
+			unicode := codec.unicode_table
+			if attached area as l_area and then attached unencoded as l_unencoded then
+				i_final := source_index + area_first_index + n
+				from i := source_index + area_first_index until i = i_final loop
+					c_i := l_area [i]
+					if c_i = Substitute then
+						uc := l_unencoded.item (i - area_first_index + 1)
+					else
+						uc := unicode [c_i.code]
+					end
+					destination.extend (uc)
+					i := i + 1
+				end
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	i_th_unicode (a_area: SPECIAL [CHARACTER_8]; i: INTEGER): CHARACTER_32
+		local
+			c_i: CHARACTER
+		do
+			c_i := a_area [i]
+			if c_i = Substitute then
+				Result := unencoded.item (i - area_first_index + 1)
+			else
+				Result := unicode_table [c_i.code]
+			end
+		end
+
+feature {TYPED_INDEXABLE_ITERATION_CURSOR} -- Access
 
 	area: SPECIAL [CHARACTER]
 
+	target: EL_READABLE_ZSTRING
+
 	unencoded: EL_UNENCODED_CHARACTERS_INDEX
+
+	unicode_table: like codec.unicode_table
 
 end

@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 10:08:55 GMT (Saturday 25th February 2023)"
-	revision: "84"
+	date: "2023-02-28 12:55:23 GMT (Tuesday 28th February 2023)"
+	revision: "85"
 
 class
 	ZSTRING_TEST_SET
@@ -35,6 +35,7 @@ feature -- Basic operations
 	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("as_expanded", agent test_as_expanded)
 			eval.call ("mirror", agent test_mirror)
 			eval.call ("split", agent test_split)
 			eval.call ("substring_split", agent test_substring_split)
@@ -93,6 +94,30 @@ feature -- Basic operations
 		end
 
 feature -- Conversion tests
+
+	test_as_expanded
+		-- ZSTRING_TEST_SET.test_as_expanded
+		note
+			testing:	"covers/{ZSTRING}.mirror, covers/{ZSTRING}.mirrored"
+		local
+			pair: STRING_PAIR; i: INTEGER
+			z_code_string: STRING_32; general: READABLE_STRING_GENERAL
+		do
+			create pair
+		 	across Text.lines as line loop
+		 		pair.set (line.item)
+		 		z_code_string := pair.zs.as_expanded (1)
+		 		if z_code_string.count = pair.zs.count then
+		 			general := pair.zs
+		 			from i := 1 until i > z_code_string.count loop
+		 				assert ("same code", general.code (i) = z_code_string.code (i))
+		 				i := i + 1
+		 			end
+		 		else
+		 			assert ("expanded same length", False)
+		 		end
+		 	end
+		end
 
 	test_mirror
 		note
@@ -197,8 +222,9 @@ feature -- Appending tests
 		end
 
 	test_append_encoded
+		-- ZSTRING_TEST_SET.test_append_encoded
 		local
-			pair: STRING_PAIR; encoded: STRING; encoding_id, encoding: NATURAL
+			pair: STRING_PAIR; encoded: STRING; encoding_id: NATURAL
 			encodeable: EL_ENCODEABLE_AS_TEXT; uncovertable_count: INTEGER
 			unicode: ENCODING
 		do
@@ -207,30 +233,30 @@ feature -- Appending tests
 			unicode := Encodings.Unicode
 		 	across Text.lines as line loop
 		 		pair.set (line.item)
-				across << 1 |..| 15, 1250 |..| 1258 >> as range loop
-					across range.item as n loop
-						encoding_id := n.item.to_natural_32
-						pair.zs.wipe_out
-						if encoding_id <= 15 and then encodeable.valid_latin (encoding_id) then
-							encodeable.set_latin_encoding (encoding_id)
-						elseif encodeable.valid_windows (encoding_id) then
-							encodeable.set_windows_encoding (encoding_id)
-						end
-						encoding := encodeable.encoding
-						if encodeable.valid_encoding (encoding) then
-							unicode.convert_to (encodeable.as_encoding, pair.s_32)
-							if unicode.last_conversion_lost_data then
-								uncovertable_count := uncovertable_count + 1
-							else
-								encoded := unicode.last_converted_string_8
-								pair.zs.append_encoded (unicode.last_converted_string_8, encoding)
-								assert ("same string", pair.is_same)
-							end
-						end
+				across Text.all_encodings as encoding loop
+					encoding_id := encoding.item
+					pair.zs.wipe_out
+					encodeable.set_encoding (encoding_id)
+					unicode.convert_to (encodeable.as_encoding, pair.s_32)
+					if unicode.last_conversion_lost_data then
+						uncovertable_count := uncovertable_count + 1
+					else
+						encoded := unicode.last_converted_string_8
+						pair.zs.append_encoded (unicode.last_converted_string_8, encoding_id)
+						assert ("same string", pair.is_same)
 					end
 				end
 		 	end
-		 	assert ("76 not convertable", uncovertable_count = 76)
+		 	assert ("82 not convertable", uncovertable_count = 82)
+
+		 	across Text.lines as line loop
+		 		if line.item.is_valid_as_string_8 then
+			 		pair.set (line.item)
+			 		pair.zs.wipe_out
+			 		pair.zs.append_encoded (pair.s_32.to_string_8, {EL_ENCODING_CONSTANTS}.Latin_1)
+			 		assert ("same strings", pair.is_same)
+		 		end
+		 	end
 		end
 
 	test_append_string_general
@@ -278,7 +304,7 @@ feature -- Appending tests
 					str_32.replace_substring_all ({STRING_32} "воду", Text.Escaped_substitution_marker)
 				end
 				template_32 := str_32.twin
-				tuple := Substituted_words [line.cursor_index]
+				tuple := Text.Substituted_words [line.cursor_index]
 				index := 0
 				from i := 1 until i > tuple.count loop
 					inspect tuple.item_code (i)
@@ -878,6 +904,7 @@ feature -- Status query tests
 		end
 
 	test_same_caseless_characters
+		-- ZSTRING_TEST_SET.test_same_caseless_characters
 		note
 			testing: "covers/{EL_COMPARABLE_ZSTRING}.same_caseless_characters",
 						"covers/{EL_COMPARABLE_ZSTRING}.same_characters_8",
@@ -1091,50 +1118,12 @@ feature -- Access tests
 		note
 			testing: "covers/{ZSTRING}.substring", "covers/{ZSTRING}.substring_index"
 		local
-			index, next_end_index, next_start_index, next_count, next_index, start_index, end_index, from_index: INTEGER
 			pair: STRING_PAIR; assertion_ok: STRING
 		do
 			assertion_ok := "substring_index OK"
 			across Text.lines as line loop
 				create pair.make (line.item)
-				if attached pair.new_intervals (' ') as list then
-					from list.start until list.after loop
-						index := list.index
-						start_index := list.item_lower; end_index := list.item_upper
-						pair.set_substrings (start_index, end_index)
-						from_index := (start_index - 5).max (1)
-						assert (assertion_ok, pair.substring_index (from_index))
-
-						if pair.valid_index (start_index - 1) and pair.valid_index (end_index + 1) then
-							pair.set_substrings (start_index - 1, end_index + 1)
-							from_index := (start_index - 5).max (1)
-							assert (assertion_ok, pair.substring_index (from_index))
-						end
-						next_index := index + 2
-						if list.valid_index (next_index) then
-							next_start_index := list.i_th_lower (index + 1)
-							next_end_index := list.i_th_upper (index + 1)
-							next_count := list.i_th_count (index + 1)
-
-							pair.set_substrings (start_index, next_end_index)
-							from_index := (start_index - 5).max (1)
-							assert (assertion_ok, pair.substring_index (from_index))
-
-							if list.item_count >= 3 and next_count >= 3 then
---								half way indices
-								pair.set_substrings ((start_index + end_index) // 2, (next_start_index + next_end_index) //2)
-								assert (assertion_ok, pair.substring_index (1))
-							end
-
-							if pair.valid_index (start_index - 1) and pair.valid_index (end_index + 1) then
-								pair.set_substrings (start_index - 1, end_index + 1)
-								from_index := (start_index - 5).max (1)
-								assert (assertion_ok, pair.substring_index (from_index))
-							end
-						end
-						list.forth
-					end
-				end
+				assert_substring_index_ok (pair, assertion_ok, pair.new_intervals (' '))
 			end
 		end
 
@@ -1170,11 +1159,15 @@ feature -- Access tests
 		end
 
 	test_unicode_index_of
+		-- ZSTRING_TEST_SET.test_unicode_index_of
 		note
-			testing: "covers/{ZSTRING}.substring", "covers/{ZSTRING}.index_of"
+			testing: "covers/{ZSTRING}.index_of"
+		local
+			pair: STRING_PAIR
 		do
-			across << (' ').to_character_32, 'и' >> as c loop
-				unicode_index_of (Text.russian_and_english, c.item)
+			pair := Text.Russian_and_english
+			across Text.Character_set as c loop
+				assert ("same index", pair.zs.index_of (c.item, 1) = pair.s_32.index_of (c.item, 1))
 			end
 		end
 
@@ -1246,8 +1239,8 @@ feature {NONE} -- Implementation
 
 	assert_same_characters (assertion_OK: STRING; is_case_insenstive: BOOLEAN)
 		local
-			pair: STRING_PAIR
 			index, next_end_index, next_start_index, start_index, end_index, next_count: INTEGER
+			pair: STRING_PAIR
 		do
 			across Text.lines as line loop
 				if is_case_insenstive then
@@ -1291,6 +1284,48 @@ feature {NONE} -- Implementation
 						list.forth
 					end
 				end
+			end
+		end
+
+	assert_substring_index_ok (pair: STRING_PAIR; assertion_ok: STRING; list: EL_SPLIT_INTERVALS)
+		local
+			index, next_end_index, next_start_index, next_count, next_index, start_index, end_index, from_index: INTEGER
+		do
+			from list.start until list.after loop
+				index := list.index
+				start_index := list.item_lower; end_index := list.item_upper
+				pair.set_substrings (start_index, end_index)
+				from_index := (start_index - 5).max (1)
+				assert (assertion_ok, pair.substring_index (from_index))
+
+				if pair.valid_index (start_index - 1) and pair.valid_index (end_index + 1) then
+					pair.set_substrings (start_index - 1, end_index + 1)
+					from_index := (start_index - 5).max (1)
+					assert (assertion_ok, pair.substring_index (from_index))
+				end
+				next_index := index + 2
+				if list.valid_index (next_index) then
+					next_start_index := list.i_th_lower (index + 1)
+					next_end_index := list.i_th_upper (index + 1)
+					next_count := list.i_th_count (index + 1)
+
+					pair.set_substrings (start_index, next_end_index)
+					from_index := (start_index - 5).max (1)
+					assert (assertion_ok, pair.substring_index (from_index))
+
+					if list.item_count >= 3 and next_count >= 3 then
+--						half way indices
+						pair.set_substrings ((start_index + end_index) // 2, (next_start_index + next_end_index) //2)
+						assert (assertion_ok, pair.substring_index (1))
+					end
+
+					if pair.valid_index (start_index - 1) and pair.valid_index (end_index + 1) then
+						pair.set_substrings (start_index - 1, end_index + 1)
+						from_index := (start_index - 5).max (1)
+						assert (assertion_ok, pair.substring_index (from_index))
+					end
+				end
+				list.forth
 			end
 		end
 
@@ -1364,16 +1399,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	unicode_index_of (str_32: STRING_32; uc: CHARACTER_32)
-		local
-			str, part_a: ZSTRING; part_32: STRING_32
-		do
-			str := str_32
-			part_a := str.substring (1, str.index_of (uc, 1))
-			part_32 := str_32.substring (1, str_32.index_of (uc, 1))
-			assert_same_string ("unicode_index_of OK", part_a, part_32)
-		end
-
 feature {NONE} -- String 8 constants
 
 	Both_adjust: STRING = "adjust"
@@ -1386,20 +1411,5 @@ feature {NONE} -- String 8 constants
 
 	Right_adjust: STRING = "right_right"
 
-feature {NONE} -- Constants
-
-	Substituted_words: ARRAY [TUPLE]
-		once
-			Result := <<
-				[{STRING_32} "и", {STRING_32} "съесть",{STRING_32} "лезть"],
-				["eat", "fish", "catching"],
-				[1, 1],
-				[15],
-				['´'],
-				['€']
-			>>
-		ensure
-			same_number: Result.count = Text.russian_and_english.occurrences ('%N') + 1
-		end
 
 end

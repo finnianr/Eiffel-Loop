@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-07 18:37:56 GMT (Tuesday 7th February 2023)"
-	revision: "15"
+	date: "2023-02-27 12:22:45 GMT (Monday 27th February 2023)"
+	revision: "16"
 
 deferred class
 	EL_EQA_TEST_SET
@@ -15,7 +15,8 @@ deferred class
 inherit
 	EQA_TEST_SET
 		rename
-			file_system as ise_file_system
+			file_system as ise_file_system,
+			assert as eqa_assert
 		redefine
 			on_clean, on_prepare
 		end
@@ -47,9 +48,23 @@ feature {NONE} -- Implementation
 			assert (tag, double.approximately_equal (a, b, 10 ^ decimal_places.opposite))
 		end
 
-	assert_same_string (a_tag: detachable STRING; a, b: READABLE_STRING_GENERAL)
+	assert (a_tag: READABLE_STRING_GENERAL; a_condition: BOOLEAN)
 		local
-			tag: STRING
+			utf: EL_UTF_CONVERTER
+		do
+			if a_tag.is_valid_as_string_8 then
+				eqa_assert (a_tag.to_string_8, a_condition)
+
+			elseif attached {EL_READABLE_ZSTRING} a_tag as zstr then
+				eqa_assert (zstr.to_utf_8 (False), a_condition)
+			else
+				eqa_assert (utf.utf_32_string_to_utf_8_string_8 (a_tag), a_condition)
+			end
+		end
+
+	assert_same_string (a_tag: detachable READABLE_STRING_GENERAL; a, b: READABLE_STRING_GENERAL)
+		local
+			tag: READABLE_STRING_GENERAL
 		do
 			if attached a_tag as l_tag then
 				tag := l_tag

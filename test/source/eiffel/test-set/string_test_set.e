@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-08 17:29:30 GMT (Wednesday 8th February 2023)"
-	revision: "29"
+	date: "2023-02-28 12:54:29 GMT (Tuesday 28th February 2023)"
+	revision: "30"
 
 class
 	STRING_TEST_SET
@@ -32,11 +32,28 @@ feature -- Basic operations
 	do_all (eval: EL_TEST_SET_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("character_8_as_lower", agent test_character_8_as_lower)
 			eval.call ("expanded_string", agent test_expanded_string)
 			eval.call ("is_substitute_white", agent test_is_substitute_white)
 		end
 
 feature -- Tests
+
+	test_character_8_as_lower
+		-- STRING_TEST_SET.test_character_8_as_lower
+		local
+			i: INTEGER; c: CHARACTER; c32: EL_CHARACTER_32_ROUTINES
+			uc: CHARACTER_32
+		do
+			from i := 1 until i > 0xFF loop
+				c := i.to_character_8
+				if c.is_alpha and c.is_upper then
+					uc := c
+					assert ("as_lower OK", c.as_lower = c32.to_lower (uc).to_character_8)
+				end
+				i := i + 1
+			end
+		end
 
 	test_expanded_string
 		-- STRING_TEST_SET.test_expanded_string

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-02-27 10:21:43 GMT (Monday 27th February 2023)"
+	revision: "9"
 
 class
 	EL_BORROWED_STRING_CURSOR [S -> STRING_GENERAL create make end]
@@ -25,6 +25,8 @@ inherit
 		redefine
 			make
 		end
+
+	STRING_HANDLER
 
 create
 	make
@@ -55,6 +57,13 @@ feature -- Access
 		do
 			Result := item
 			Result.append (general)
+		end
+
+	sized_item (n: INTEGER): S
+		do
+			create Result.make (n)
+		ensure
+			size_is_n: Result.count = n
 		end
 
 	substring_item (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): S

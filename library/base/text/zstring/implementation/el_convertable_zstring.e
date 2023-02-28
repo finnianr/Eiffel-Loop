@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 13:12:46 GMT (Saturday 25th February 2023)"
-	revision: "41"
+	date: "2023-02-27 10:46:23 GMT (Monday 27th February 2023)"
+	revision: "42"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -26,46 +26,13 @@ inherit
 feature -- To Strings
 
 	as_encoded_8 (a_codec: EL_ZCODEC): STRING
-		local
-			char_8: EL_CHARACTER_8_ROUTINES; c: EL_UTF_CONVERTER; i_final, i: INTEGER
-			uc: CHARACTER_32; l_area_8: SPECIAL [CHARACTER]; l_area: SPECIAL [CHARACTER_32]
-			str_32: STRING_32; direct_copy, same_count: BOOLEAN
 		do
-			same_count := True
-			if not has_mixed_encoding and then char_8.is_ascii_area (area, 0, count - 1) then
-			-- ASCII same for all encodings
-				direct_copy := True
-
-			elseif a_codec.encoded_as_utf (8) then
-				str_32 := buffer_32.copied_general (current_readable)
-				create Result.make (c.utf_8_bytes_count (str_32, 1, count))
-				c.utf_32_string_into_utf_8_string_8 (str_32, Result)
-				same_count := False
-
-			elseif codec.same_as (a_codec) then
-				direct_copy := True
-
-			elseif a_codec.encoded_as_latin (1) then
-				str_32 := buffer_32.copied_general (current_readable)
-				-- conversion faster than `to_string_8'
-				create Result.make (count); i_final := count
-				l_area := str_32.area; l_area_8 := Result.area
-				from i := 0 until i = i_final loop
-					uc := l_area [i]
-					if uc.natural_32_code <= 0xFF then
-						l_area_8 [i] := uc.to_character_8
-					end
-					i := i + 1
-				end
+			if a_codec.encoded_as_utf (8) then
+				Result := current_readable.to_utf_8 (True)
 			else
-				Result := a_codec.encoded_string_8 (buffer_32.copied_general (current_readable), count, True)
-			end
-			if direct_copy then
 				create Result.make (count)
-				Result.area.copy_data (area, 0, 0, count)
-			end
-			if same_count then
 				Result.set_count (count)
+				a_codec.encode_as_string_8 (current_readable, Result.area, 0)
 			end
 		ensure
 			all_encoded: not Result.has (Substitute)

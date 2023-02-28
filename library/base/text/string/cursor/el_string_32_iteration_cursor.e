@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-24 19:01:04 GMT (Friday 24th February 2023)"
-	revision: "7"
+	date: "2023-02-28 9:07:52 GMT (Tuesday 28th February 2023)"
+	revision: "8"
 
 class
 	EL_STRING_32_ITERATION_CURSOR
@@ -17,8 +17,6 @@ inherit
 		export
 			{EL_SHARED_STRING_32_CURSOR, STRING_HANDLER} area, area_first_index, area_last_index, make
 		end
-
-	EL_CHARACTER_ARRAY
 
 	EL_STRING_ITERATION_CURSOR
 
@@ -92,6 +90,11 @@ feature -- Measurement
 			Result := i - area_first_index
 		end
 
+	target_count: INTEGER
+		do
+			Result := target.count
+		end
+
 	trailing_white_count: INTEGER
 		local
 			i, first_i: INTEGER; l_area: like area
@@ -110,6 +113,11 @@ feature {NONE} -- Implementation
 	append_to (destination: SPECIAL [CHARACTER_32]; source_index, n: INTEGER)
 		do
 			destination.copy_data (area, source_index + area_first_index, destination.count, n)
+		end
+
+	i_th_character_32 (a_area: SPECIAL [CHARACTER_32]; i: INTEGER): CHARACTER_32
+		do
+			Result := a_area [i]
 		end
 
 end

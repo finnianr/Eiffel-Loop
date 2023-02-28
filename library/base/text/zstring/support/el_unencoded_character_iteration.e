@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 17:06:00 GMT (Saturday 25th February 2023)"
-	revision: "2"
+	date: "2023-02-27 19:05:31 GMT (Monday 27th February 2023)"
+	revision: "3"
 
 expanded class
 	EL_UNENCODED_CHARACTER_ITERATION
@@ -67,6 +67,36 @@ feature -- Access
 				put_integer_32 (block_index, integer_32_block_index_ptr)
 			end
 			Result := area [block_index + 2 + index - lower]
+		end
+
+feature -- Contract Support
+
+	block_has (integer_32_block_index_ptr: POINTER; area: SPECIAL [CHARACTER_32]; index: INTEGER): BOOLEAN
+		-- `True' if `index' is inside the substring interval referenced by `integer_32_block_index_ptr'
+		require
+			area_has_at_least_one_block: area.count >= 3
+		local
+			i, upper, lower: INTEGER
+		do
+			i := read_integer_32 (integer_32_block_index_ptr)
+			lower := area [i].code; upper := area [i + 1].code
+			Result := lower <= index and index <= upper
+		end
+
+feature -- Basic operations
+
+	put (integer_32_block_index_ptr: POINTER; area: SPECIAL [CHARACTER_32]; uc: CHARACTER_32; index: INTEGER)
+		-- set character at `index' in block referenced by `integer_32_block_index_ptr'
+		require
+			valid_block_reference: block_has (integer_32_block_index_ptr, area, index)
+		local
+			i, lower: INTEGER
+		do
+			i := read_integer_32 (integer_32_block_index_ptr)
+			lower := area [i].code
+			area [i + 2 + index - lower] := uc
+		ensure
+			character_set: item (integer_32_block_index_ptr, area, index) = uc
 		end
 
 end
