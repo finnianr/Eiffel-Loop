@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-23 10:25:40 GMT (Thursday 23rd February 2023)"
-	revision: "24"
+	date: "2023-03-01 17:50:05 GMT (Wednesday 1st March 2023)"
+	revision: "25"
 
 class
 	EVOLICITY_COMPILER
@@ -374,7 +374,7 @@ feature {NONE} -- Implementation
 	write_tokens_text (compiled_source_path: FILE_PATH)
 		local
 			area: like tokens_text.area; array_area: like source_interval_list.area
-			i, count: INTEGER
+			i, i_final, count: INTEGER
 		do
 			if attached open_raw (compiled_source_path, Write) as compiled_source then
 				area := tokens_text.area
@@ -389,8 +389,9 @@ feature {NONE} -- Implementation
 				array_area := source_interval_list.area
 				count := source_interval_list.count
 				compiled_source.put_integer (count)
-				from i := 0 until i = count loop
-					compiled_source.put_integer_64 (array_area [i])
+				i_final := count * 2
+				from i := 0 until i = i_final loop
+					compiled_source.put_integer_32 (array_area [i])
 					i := i + 1
 				end
 				compiled_source.close
