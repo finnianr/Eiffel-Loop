@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-28 8:22:10 GMT (Tuesday 28th February 2023)"
-	revision: "19"
+	date: "2023-03-01 17:27:31 GMT (Wednesday 1st March 2023)"
+	revision: "20"
 
 deferred class
 	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
@@ -276,13 +276,6 @@ feature {NONE} -- Constants
 	Once_index_list: ARRAYED_LIST [INTEGER]
 		once
 			create Result.make (5)
-		end
-
-	Once_interval_index_array: SPECIAL [EL_UNENCODED_CHARACTERS_INDEX]
-		once
-			create Result.make_empty (2)
-			Result.extend (create {EL_UNENCODED_CHARACTERS_INDEX}.make_default)
-			Result.extend (create {EL_UNENCODED_CHARACTERS_INDEX}.make_default)
 		end
 
 	Unencoded_insert: SPECIAL [CHARACTER_32]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 15:57:52 GMT (Thursday 5th January 2023)"
-	revision: "18"
+	date: "2023-03-01 16:49:49 GMT (Wednesday 1st March 2023)"
+	revision: "19"
 
 class
 	EL_ZSTRING_UNESCAPER
@@ -34,16 +34,18 @@ feature -- Access
 
 	unescaped_array (str: EL_READABLE_ZSTRING): SPECIAL [NATURAL]
 		local
-			l_count, i, seq_count: INTEGER; z_code_i, esc_code: NATURAL
-			l_area: SPECIAL [CHARACTER_8]; unencoded: EL_UNENCODED_CHARACTERS_INDEX
+			l_count, i, seq_count, block_index: INTEGER; z_code_i, esc_code: NATURAL
+			l_area: SPECIAL [CHARACTER_8]; area_32: SPECIAL [CHARACTER_32]
+			iter: EL_UNENCODED_CHARACTER_ITERATION
+
 		do
 			l_count := str.count; l_area := str.area
 			esc_code := escape_code
 
 			create Result.make_empty (l_count)
-			unencoded := str.unencoded_indexable
+			area_32 := str.unencoded_area
 			from i := 0 until i = l_count loop
-				z_code_i := area_z_code (l_area, unencoded, i)
+				z_code_i := iter.i_th_z_code ($block_index, l_area, area_32, i)
 				if z_code_i = esc_code then
 					seq_count := sequence_count (str, i + 2)
 					if seq_count.to_boolean then

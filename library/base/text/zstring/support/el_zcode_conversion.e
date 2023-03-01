@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-27 21:32:08 GMT (Monday 27th February 2023)"
-	revision: "14"
+	date: "2023-03-01 16:50:29 GMT (Wednesday 1st March 2023)"
+	revision: "15"
 
 class
 	EL_ZCODE_CONVERSION
@@ -42,22 +42,13 @@ feature {EL_ZCODEC} -- Implementation
 			Result := z_code & Sign_bit_mask
 		end
 
-	frozen area_z_code (a_string_area: SPECIAL [CHARACTER]; unencoded: EL_UNENCODED_CHARACTERS_INDEX; i: INTEGER): NATURAL
-			-- code which can be latin or unicode depending on presence of unencoded characters
-		local
-			c_i: CHARACTER
-		do
-			c_i := a_string_area [i]
-			if c_i = Substitute then
-				Result := unencoded.z_code (i + 1)
-			else
-				Result := c_i.natural_32_code
-			end
-		end
-
 feature {EL_OUTPUT_MEDIUM} -- Constants
 
 	Max_7_bit_code: INTEGER = 0x7F
+		-- After this point different Latin and Window character sets start to diverge
+		-- (Apart from some control characters)
+
+	Max_7_bit_character: CHARACTER = '%/0x7F/'
 		-- After this point different Latin and Window character sets start to diverge
 		-- (Apart from some control characters)
 

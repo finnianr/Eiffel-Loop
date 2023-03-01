@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-01 10:52:49 GMT (Wednesday 1st March 2023)"
-	revision: "39"
+	date: "2023-03-01 11:12:56 GMT (Wednesday 1st March 2023)"
+	revision: "40"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -690,15 +690,16 @@ feature {NONE} -- Implementation
 		current_has_substitutes: BOOLEAN; a_new: detachable ZSTRING
 	)
 		local
-			i, l_count, sum_count_delta: INTEGER
+			i, l_count, sum_count_delta, block_index, block_index_new: INTEGER
 			previous_upper_plus_1, lower, upper, new_lower, new_upper: INTEGER
-			unencoded, new_unencoded: like unencoded_indexable; buffer: like Unencoded_buffer
-			l_area, new_area: like area; index_area: SPECIAL [INTEGER]; accumulator: SPECIAL [CHARACTER_32]
+			l_area, new_area: like area; index_area: SPECIAL [INTEGER]
+			accumulator, area_32, new_area_32: SPECIAL [CHARACTER_32]
+			buffer: like Unencoded_buffer
 		do
-			buffer := empty_unencoded_buffer; unencoded := unencoded_indexable; l_area := area
+			buffer := empty_unencoded_buffer; l_area := area; area_32 := unencoded_area
 			index_area := a_index_list.area; accumulator := codec.empty_accumulator
 			if attached a_new as new then
-				new_area := new.area; new_unencoded := new.unencoded_indexable_other
+				new_area := new.area; new_area_32 := new.unencoded_area
 			end
 			previous_upper_plus_1 := 1
 			from until i = index_area.count loop
@@ -709,12 +710,14 @@ feature {NONE} -- Implementation
 				l_count := lower - previous_upper_plus_1
 				if current_has_substitutes and then l_count > 0 then
 					buffer.append_substituted (
-						l_area, unencoded, previous_upper_plus_1 - 1, new_lower - l_count - 1, l_count,
-						accumulator
+						l_area, area_32, accumulator, $block_index, previous_upper_plus_1 - 1, new_lower - l_count - 1, l_count
 					)
 				end
 				if attached a_new as new then
-					buffer.append_substituted (new_area, new_unencoded, 0, new_lower - 1, new.count, accumulator)
+					block_index_new := 0
+					buffer.append_substituted (
+						new_area, new_area_32, accumulator, $block_index_new, 0, new_lower - 1, new.count
+					)
 				end
 				previous_upper_plus_1 := upper + 1
 				i := i + 1
@@ -722,7 +725,7 @@ feature {NONE} -- Implementation
 			l_count := count - previous_upper_plus_1 + 1
 			if current_has_substitutes and then l_count > 0 then
 				buffer.append_substituted (
-					l_area, unencoded, previous_upper_plus_1 - 1, new_upper, l_count, accumulator
+					l_area, area_32, accumulator, $block_index, previous_upper_plus_1 - 1, new_upper, l_count
 				)
 			end
 			buffer.append_final (accumulator)

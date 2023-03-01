@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-27 10:46:23 GMT (Monday 27th February 2023)"
-	revision: "42"
+	date: "2023-03-01 11:38:29 GMT (Wednesday 1st March 2023)"
+	revision: "43"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -103,21 +103,20 @@ feature -- To Strings
 		local
 			sequence: like Utf_8_sequence; buffer: like buffer_8
 			c_8: EL_CHARACTER_8_ROUTINES; l_area: like area
-			i, i_upper: INTEGER; l_codec: like codec; c_i: CHARACTER
-			unencoded: like unencoded_indexable
+			i, i_upper, block_index: INTEGER; l_codec: like codec; c_i: CHARACTER
+			area_32: like unencoded_area; iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
-			sequence := Utf_8_sequence; buffer := buffer_8
-			l_area := area
+			sequence := Utf_8_sequence; buffer := buffer_8; l_area := area
 			Result := buffer.empty
 			if has_mixed_encoding then
 				i_upper := area_upper
-				l_codec := codec; unencoded := unencoded_indexable
+				l_codec := codec; area_32 := unencoded_area
 				from i := area_lower until i > i_upper loop
 					c_i := l_area [i]
 					if c_i = Substitute then
-						sequence.set (unencoded.item (i + 1))
+						sequence.set (iter.item ($block_index, area_32, i + 1))
 						sequence.append_to_string (Result)
-					elseif c_i <= '%/127/' then
+					elseif c_i <= Max_7_bit_character then
 						Result.extend (c_i)
 					else
 						sequence.set (l_codec.unicode_table [c_i.code])
@@ -134,7 +133,7 @@ feature -- To Strings
 				i_upper := area_upper; l_codec := codec
 				from i := area_lower until i > i_upper loop
 					c_i := l_area [i]
-					if c_i <= '%/127/' then
+					if c_i <= Max_7_bit_character then
 						Result.extend (c_i)
 					else
 						sequence.set (l_codec.unicode_table [c_i.code])
@@ -181,9 +180,9 @@ feature -- To list
 	split_list (a_separator: CHARACTER_32): LIST [like Current]
 			-- Split on `a_separator'.
 		local
-			l_list: ARRAYED_LIST [like Current]; part: like Current; i, j, l_count, result_count: INTEGER
+			l_list: ARRAYED_LIST [like Current]; part: like Current; iter: EL_UNENCODED_CHARACTER_ITERATION
 			separator: CHARACTER; call_index_of_8: BOOLEAN
-			unencoded: like unencoded_indexable
+			i, j, l_count, result_count, block_index: INTEGER
 		do
 			separator := encoded_character (a_separator)
 			l_count := count
@@ -209,10 +208,9 @@ feature -- To list
 						l_list.extend (part)
 						i := j + 1
 					end
-				else
-					unencoded := unencoded_indexable
+				elseif attached unencoded_area as area_32 then
 					from i := 1 until i > l_count loop
-						j := unencoded.index_of (a_separator, i)
+						j := iter.index_of ($block_index, area_32, a_separator, i)
 						if j = 0 then
 							j := l_count + 1
 						end

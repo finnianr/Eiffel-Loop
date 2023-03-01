@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-27 15:20:08 GMT (Monday 27th February 2023)"
-	revision: "112"
+	date: "2023-03-01 16:52:41 GMT (Wednesday 1st March 2023)"
+	revision: "113"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -68,7 +68,7 @@ inherit
 	EL_COMPARABLE_ZSTRING
 		export
 			{STRING_HANDLER}
-				empty_unencoded_buffer, unencoded_indexable, item_8, set_unencoded_from_buffer
+				empty_unencoded_buffer, item_8, set_unencoded_from_buffer
 			{EL_ZSTRING_ITERATION_CURSOR, EL_STRING_8_IMPLEMENTATION}
 				area_lower, area_upper, area, unencoded_area
 			{EL_ZSTRING_IMPLEMENTATION}

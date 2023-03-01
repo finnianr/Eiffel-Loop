@@ -10,11 +10,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 12:41:04 GMT (Saturday 25th February 2023)"
-	revision: "1"
+	date: "2023-03-01 17:38:03 GMT (Wednesday 1st March 2023)"
+	revision: "2"
 
 class
 	UNENCODED_CHARACTER_ITERATION_COMPARISON
+
+obsolete
+	"Replaced by EL_UNENCODED_CHARACTER_ITERATION"
 
 inherit
 	STRING_BENCHMARK_COMPARISON
@@ -43,24 +46,6 @@ feature -- Basic operations
 
 feature {NONE} -- append_character
 
-	unencoded_characters_index (str: ZSTRING)
-		local
-			l_area: SPECIAL [CHARACTER]; uc: CHARACTER_32; c_i: CHARACTER
-			i, count: INTEGER; interval_index: EL_UNENCODED_CHARACTERS_INDEX
-		do
-			if attached {EL_UNENCODED_CHARACTERS} str as unencoded then
-				l_area := str.area; interval_index := unencoded.interval_index
-				count := str.count
-				from until i = count loop
-					c_i := l_area [i]
-					if c_i = Substitute then
-						uc := interval_index.item (i + 1)
-					end
-					i := i + 1
-				end
-			end
-		end
-
 	unencoded_character_iteration (str: ZSTRING)
 		local
 			iter: EL_UNENCODED_CHARACTER_ITERATION; block_index, i, count: INTEGER
@@ -78,6 +63,34 @@ feature {NONE} -- append_character
 					i := i + 1
 				end
 			end
+		end
+
+	unencoded_characters_index (str: ZSTRING)
+		local
+			l_area: SPECIAL [CHARACTER]; uc: CHARACTER_32; c_i: CHARACTER
+			i, count: INTEGER; interval_index: UNENCODED_CHARACTERS_INDEX
+		do
+			if attached {EL_UNENCODED_CHARACTERS} str as unencoded then
+				l_area := str.area;
+				interval_index := Once_unencoded_index
+				interval_index.set_area (str.unencoded_area)
+
+				count := str.count
+				from until i = count loop
+					c_i := l_area [i]
+					if c_i = Substitute then
+						uc := interval_index.item (i + 1)
+					end
+					i := i + 1
+				end
+			end
+		end
+
+feature {NONE} -- Constants
+
+	Once_unencoded_index: UNENCODED_CHARACTERS_INDEX
+		once
+			create Result.make_default
 		end
 
 end

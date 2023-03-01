@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 15:34:14 GMT (Saturday 25th February 2023)"
-	revision: "32"
+	date: "2023-03-01 16:43:27 GMT (Wednesday 1st March 2023)"
+	revision: "33"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -298,7 +298,7 @@ feature {NONE} -- Implementation
 				and then codec.same_caseless_characters (area, other.area, start_pos - start_index, start_index - 1, l_count)
 			then
 				Result := same_unencoded_characters (
-					other.unencoded_indexable_other, start_index, start_index + l_count - 1, start_pos - start_index, True
+					other.unencoded_area, start_index, start_index + l_count - 1, start_pos - start_index, True
 				)
 			end
 		end
@@ -348,7 +348,7 @@ feature {NONE} -- Implementation
 			end_index := start_index + end_pos - start_pos
 			if end_index <= count and then internal_same_characters (other, start_pos, end_pos, start_index) then
 				Result := same_unencoded_characters (
-					other.unencoded_indexable_other, start_index, end_index, start_pos - start_index, False
+					other.unencoded_area, start_index, end_index, start_pos - start_index, False
 				)
 			end
 		end

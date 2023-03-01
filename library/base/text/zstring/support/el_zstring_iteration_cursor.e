@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-28 9:13:56 GMT (Tuesday 28th February 2023)"
-	revision: "9"
+	date: "2023-03-01 17:25:42 GMT (Wednesday 1st March 2023)"
+	revision: "10"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -28,6 +28,13 @@ inherit
 			{NONE} fill_z_codes
 		end
 
+	DISPOSABLE
+		export
+			{NONE} all
+		undefine
+			copy, is_equal
+		end
+
 create
 	make
 
@@ -36,8 +43,8 @@ feature {NONE} -- Initialization
 	make (a_target: EL_READABLE_ZSTRING)
 		do
 			Precursor (a_target)
+			block_index_ptr := block_index_ptr.memory_calloc (1, {PLATFORM}.Integer_32_bytes)
 			area := a_target.area
-			create unencoded.make (a_target.unencoded_area)
 			unicode_table := Shared_unicode_table
 		end
 
@@ -45,12 +52,12 @@ feature -- Access
 
 	item: CHARACTER_32
 		local
-			code: INTEGER; i: INTEGER
+			code: INTEGER; i: INTEGER; iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
 			i := target_index
 			code := area [i - 1].code
 			if code = Substitute_code then
-				Result := unencoded.item (i)
+				Result := iter.item (block_index_ptr, unencoded_area, i)
 			elseif code <= Max_7_bit_code then
 				Result := code.to_character_32
 			else
@@ -60,15 +67,9 @@ feature -- Access
 
 	z_code: NATURAL
 		local
-			c: CHARACTER; i: INTEGER
+			iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
-			i := target_index
-			c := area [i - 1]
-			if c = Substitute then
-				Result := unencoded.z_code (i)
-			else
-				Result := c.natural_32_code
-			end
+			Result := iter.i_th_z_code (block_index_ptr, area, unencoded_area, target_index)
 		end
 
 feature -- Measurement
@@ -122,16 +123,17 @@ feature -- Basic operations
 
 	append_to (destination: SPECIAL [CHARACTER_32]; source_index, n: INTEGER)
 		local
-			i, i_final: INTEGER; c_i: CHARACTER; uc: CHARACTER_32; unicode: like codec.unicode_table
+			i, i_final, block_index: INTEGER; c_i: CHARACTER; uc: CHARACTER_32
+			iter: EL_UNENCODED_CHARACTER_ITERATION; unicode: like codec.unicode_table
 		do
 			codec.decode (n, area, destination, 0)
 			unicode := codec.unicode_table
-			if attached area as l_area and then attached unencoded as l_unencoded then
+			if attached area as l_area and then attached unencoded_area as area_32 then
 				i_final := source_index + area_first_index + n
 				from i := source_index + area_first_index until i = i_final loop
 					c_i := l_area [i]
 					if c_i = Substitute then
-						uc := l_unencoded.item (i - area_first_index + 1)
+						uc := iter.item ($block_index, area_32, i - area_first_index + 1)
 					else
 						uc := unicode [c_i.code]
 					end
@@ -143,25 +145,32 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
+	dispose
+			-- Release memory pointed by `item'.
+		do
+			block_index_ptr.memory_free
+		end
+
 	i_th_unicode (a_area: SPECIAL [CHARACTER_8]; i: INTEGER): CHARACTER_32
 		local
-			c_i: CHARACTER
+			c_i: CHARACTER; iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
 			c_i := a_area [i]
 			if c_i = Substitute then
-				Result := unencoded.item (i - area_first_index + 1)
+				Result := iter.item (block_index_ptr, unencoded_area, i - area_first_index + 1)
 			else
 				Result := unicode_table [c_i.code]
 			end
 		end
 
-feature {TYPED_INDEXABLE_ITERATION_CURSOR} -- Access
+feature {TYPED_INDEXABLE_ITERATION_CURSOR} -- Internal attriutes
 
 	area: SPECIAL [CHARACTER]
 
-	target: EL_READABLE_ZSTRING
+	block_index_ptr: POINTER
+		-- location of unencoded substring
 
-	unencoded: EL_UNENCODED_CHARACTERS_INDEX
+	target: EL_READABLE_ZSTRING
 
 	unicode_table: like codec.unicode_table
 

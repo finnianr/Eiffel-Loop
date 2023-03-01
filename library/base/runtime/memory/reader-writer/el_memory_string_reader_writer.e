@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-20 12:45:56 GMT (Monday 20th February 2023)"
-	revision: "9"
+	date: "2023-03-01 15:06:55 GMT (Wednesday 1st March 2023)"
+	revision: "10"
 
 deferred class
 	EL_MEMORY_STRING_READER_WRITER
@@ -214,12 +214,11 @@ feature -- Write operations
 		require else
 			valid_string: a_string.is_valid
 		local
-			i, l_count, pos: INTEGER; area: SPECIAL [CHARACTER]
-			unencoded: like read_string.unencoded_indexable
-			c: CHARACTER
+			i, l_count, pos, block_index: INTEGER
+			area: SPECIAL [CHARACTER]; area_32: SPECIAL [CHARACTER_32]
+			c: CHARACTER; iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
-			unencoded := a_string.unencoded_indexable
-			l_count := a_string.count; area := a_string.area
+			l_count := a_string.count; area := a_string.area; area_32 := a_string.unencoded_area
 
 			if attached big_enough_buffer (size_of_string (a_string)) as buf then
 				pos := count
@@ -232,7 +231,7 @@ feature -- Write operations
 					pos := pos + Character_8_bytes
 
 					if c = Substitute then
-						buf.put_natural_32 (unencoded.code (i + 1), pos)
+						buf.put_natural_32 (iter.code ($block_index, area_32, i + 1), pos)
 						pos := pos + Natural_32_bytes
 					end
 					i := i + 1

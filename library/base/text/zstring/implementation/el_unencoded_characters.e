@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-28 18:07:46 GMT (Tuesday 28th February 2023)"
-	revision: "52"
+	date: "2023-03-01 16:53:14 GMT (Wednesday 1st March 2023)"
+	revision: "53"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -451,12 +451,11 @@ feature -- Status query
 
 feature -- Comparison
 
-	same_characters (
-		other: EL_UNENCODED_CHARACTERS_INDEX; lower_A, upper_A, other_offset: INTEGER; case_insensitive: BOOLEAN
-	): BOOLEAN
+	same_characters (other_area: like area; lower_A, upper_A, other_offset: INTEGER; case_insensitive: BOOLEAN): BOOLEAN
 		local
-			searching, done: BOOLEAN; ir: EL_INTERVAL_ROUTINES; l_area: like area
-			i, lower_B, upper_B, l_count, overlap_status, offset, comparison_count: INTEGER;
+			searching, done: BOOLEAN; l_area: like area
+			i, lower_B, upper_B, l_count, overlap_status, offset, comparison_count, other_block_index: INTEGER
+			iter: EL_UNENCODED_CHARACTER_ITERATION; ir: EL_INTERVAL_ROUTINES
 		do
 			l_area := area
 			Result := True
@@ -492,12 +491,14 @@ feature -- Comparison
 					end
 					if not done then
 						if case_insensitive then
-							Result := other.same_caseless_characters (
-								l_area, lower_B + offset + other_offset, i + 2 + offset, comparison_count
+							Result := iter.same_caseless_characters (
+								$other_block_index, other_area, l_area,
+								lower_B + offset + other_offset, i + 2 + offset, comparison_count
 							)
 						else
-							Result := other.same_characters (
-								l_area, lower_B + offset + other_offset, i + 2 + offset, comparison_count
+							Result := iter.same_characters (
+								$other_block_index, other_area, l_area,
+								lower_B + offset + other_offset, i + 2 + offset, comparison_count
 							)
 						end
 					end
@@ -632,18 +633,6 @@ feature -- Element change
 			if not other_inserted then
 				append (other, 0)
 			end
-		end
-
-	interval_index: EL_UNENCODED_CHARACTERS_INDEX
-		do
-			Result := Once_interval_index_array [0]
-			Result.set_area (area)
-		end
-
-	interval_index_other: EL_UNENCODED_CHARACTERS_INDEX
-		do
-			Result := Once_interval_index_array [1]
-			Result.set_area (area)
 		end
 
 	put (uc: CHARACTER_32; index: INTEGER)

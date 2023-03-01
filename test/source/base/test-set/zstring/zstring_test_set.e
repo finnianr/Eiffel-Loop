@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-28 12:55:23 GMT (Tuesday 28th February 2023)"
-	revision: "85"
+	date: "2023-03-01 17:01:03 GMT (Wednesday 1st March 2023)"
+	revision: "86"
 
 class
 	ZSTRING_TEST_SET
@@ -1083,8 +1083,9 @@ feature -- Access tests
 		end
 
 	test_new_cursor
+		-- ZSTRING_TEST_SET.test_new_cursor
 		note
-			testing:	"covers/{EL_READABLE_ZSTRING}.new_cursor"
+			testing:	"covers/{EL_READABLE_ZSTRING}.new_cursor", "covers/{EL_ZSTRING_ITERATION_CURSOR}.item"
 		local
 			pair: STRING_PAIR
 		do
