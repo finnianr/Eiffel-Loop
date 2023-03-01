@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 17:07:28 GMT (Saturday 25th February 2023)"
-	revision: "38"
+	date: "2023-03-01 10:52:49 GMT (Wednesday 1st March 2023)"
+	revision: "39"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -310,7 +310,8 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 	)
 		do
 			replace_delimited_substring (
-				adapted_argument (left, 1), adapted_argument (right, 2), adapted_argument (new, 3), include_delimiter, start_index
+				adapted_argument (left, 1), adapted_argument (right, 2), adapted_argument (new, 3),
+				include_delimiter, start_index
 			)
 		end
 
@@ -505,23 +506,6 @@ feature -- Contract Support
 		end
 
 feature {NONE} -- Implementation
-
-	copy_unencoded (
-		a_area: like area; source_offset, destination_offset, a_count: INTEGER
-		unencoded: like unencoded_indexable; buffer: like Unencoded_buffer; accumulator: SPECIAL [CHARACTER_32]
-	)
-			-- copy unencoded characters to `buffer'
-		local
-			i, j: INTEGER
-		do
-			from i := 0 until i = a_count loop
-				j := i + source_offset
-				if a_area [j] = Substitute then
-					buffer.try_appending (accumulator, i + destination_offset, unencoded.item (j + 1))
-				end
-				i := i + 1
-			end
-		end
 
 	replace_substring_all_zstring (old_substring, new_substring: EL_READABLE_ZSTRING)
 		local
@@ -724,23 +708,21 @@ feature {NONE} -- Implementation
 
 				l_count := lower - previous_upper_plus_1
 				if current_has_substitutes and then l_count > 0 then
-					copy_unencoded (
-						l_area, previous_upper_plus_1 - 1, new_lower - l_count - 1, l_count, unencoded, buffer,
+					buffer.append_substituted (
+						l_area, unencoded, previous_upper_plus_1 - 1, new_lower - l_count - 1, l_count,
 						accumulator
 					)
 				end
 				if attached a_new as new then
-					copy_unencoded (
-						new_area, 0, new_lower - 1, new.count, new_unencoded, buffer, accumulator
-					)
+					buffer.append_substituted (new_area, new_unencoded, 0, new_lower - 1, new.count, accumulator)
 				end
 				previous_upper_plus_1 := upper + 1
 				i := i + 1
 			end
 			l_count := count - previous_upper_plus_1 + 1
 			if current_has_substitutes and then l_count > 0 then
-				copy_unencoded (
-					l_area, previous_upper_plus_1 - 1, new_upper, l_count, unencoded, buffer, accumulator
+				buffer.append_substituted (
+					l_area, unencoded, previous_upper_plus_1 - 1, new_upper, l_count, accumulator
 				)
 			end
 			buffer.append_final (accumulator)

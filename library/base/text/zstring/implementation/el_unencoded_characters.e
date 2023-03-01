@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-28 8:52:13 GMT (Tuesday 28th February 2023)"
-	revision: "51"
+	date: "2023-02-28 18:07:46 GMT (Tuesday 28th February 2023)"
+	revision: "52"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -401,17 +401,17 @@ feature -- Measurement
 				from j := 1 until j > count loop
 					l_code := l_area [i + 1 + j].natural_32_code
 					if l_code <= 0x7F then
-							-- 0xxxxxxx.
+					-- 0xxxxxxx.
 						Result := Result + 1
 					elseif l_code <= 0x7FF then
-							-- 110xxxxx 10xxxxxx
+					-- 110xxxxx 10xxxxxx
 						Result := Result + 2
 					elseif l_code <= 0xFFFF then
-							-- 1110xxxx 10xxxxxx 10xxxxxx
+					-- 1110xxxx 10xxxxxx 10xxxxxx
 						Result := Result + 3
 					else
-							-- l_code <= 1FFFFF - there are no higher code points
-							-- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+					-- l_code <= 1FFFFF - there are no higher code points
+					-- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
 						Result := Result + 4
 					end
 					j := j + 1
@@ -557,7 +557,9 @@ feature -- Element change
 			valid_count: character_count = old character_count + other.character_count
 		end
 
-	append_intervals (a_cursor: EL_STRING_ITERATION_CURSOR; interval_list: EL_ARRAYED_INTERVAL_LIST; area_offset: INTEGER_32)
+	append_intervals (
+		a_cursor: EL_STRING_ITERATION_CURSOR; interval_list: EL_ARRAYED_INTERVAL_LIST; area_offset: INTEGER_32
+	)
 		require
 			not_empty: area.count > 0
 			at_least_one_interval: interval_list.count > 0

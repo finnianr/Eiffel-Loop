@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-21 16:47:11 GMT (Tuesday 21st February 2023)"
-	revision: "22"
+	date: "2023-03-01 10:54:46 GMT (Wednesday 1st March 2023)"
+	revision: "23"
 
 class
 	EL_UNENCODED_CHARACTERS_BUFFER
@@ -88,6 +88,24 @@ feature -- Element change
 					end
 				end
 				i := i + upper_B - lower_B + 3
+			end
+		end
+
+	append_substituted (
+		a_area: SPECIAL [CHARACTER]; unencoded: EL_UNENCODED_CHARACTERS_INDEX
+		source_offset, destination_offset, a_count: INTEGER; accumulator: SPECIAL [CHARACTER_32]
+	)
+		-- append all unencoded characters in `a_area' in the range indicated by `source_offset'
+		-- and `a_count'. Requires external call to `append_final' to complete.
+		local
+			i, j: INTEGER
+		do
+			from i := 0 until i = a_count loop
+				j := i + source_offset
+				if a_area [j] = Substitute then
+					try_appending (accumulator, i + destination_offset, unencoded.item (j + 1))
+				end
+				i := i + 1
 			end
 		end
 
