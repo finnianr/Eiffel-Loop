@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-23 10:17:34 GMT (Thursday 23rd February 2023)"
-	revision: "10"
+	date: "2023-03-02 15:46:22 GMT (Thursday 2nd March 2023)"
+	revision: "11"
 
 class
 	JSON_INTERVALS_OBJECT [FIELD_ENUM -> EL_ENUMERATION [NATURAL_16] create make end]
@@ -24,9 +24,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_REUSEABLE
-
-	EL_MODULE_EIFFEL
+	EL_MODULE_EIFFEL; EL_MODULE_REUSEABLE
 
 create
 	make
@@ -43,7 +41,7 @@ feature {NONE} -- Initialization
 
 			if attached {FIELD_ENUM} Enumeration_by_type.item (Current) as enumeration then
 				field := enumeration
-				make_filled_area (0, field.count)
+				make_filled_area (0, field.count * 2)
 			end
 			create field_list.make (utf_8)
 			across Reuseable.string as reuse loop
@@ -81,14 +79,6 @@ feature {JSON_INTERVALS_OBJECT} -- Factory
 
 feature {NONE} -- Implementation
 
-	buffer: EL_ZSTRING_BUFFER_ROUTINES
-		do
-		end
-
-	buffer_8: EL_STRING_8_BUFFER_ROUTINES
-		do
-		end
-
 	boolean_value (i: NATURAL_16): BOOLEAN
 		require
 			valid_index: valid_index (i)
@@ -120,6 +110,8 @@ feature {NONE} -- Implementation
 	string_8_value (i: NATURAL_16): STRING
 		require
 			valid_index: valid_index (i)
+		local
+			buffer_8: EL_STRING_8_BUFFER_ROUTINES
 		do
 			Result := buffer_8.copied (buffer_string_value (i).to_latin_1).twin
 		end
@@ -127,17 +119,29 @@ feature {NONE} -- Implementation
 	string_value (i: NATURAL_16): ZSTRING
 		require
 			valid_index: valid_index (i)
+		local
+			j: INTEGER
 		do
-			go_i_th (i)
-			Result := text_values.substring (item_lower, item_upper)
+			if attached area_v2 as a then
+				j := (i - 1) * 2
+				Result := text_values.substring (a [j], a [j + 1])
+			else
+				create Result.make_empty
+			end
 		end
 
 	buffer_string_value (i: NATURAL_16): ZSTRING
 		require
 			valid_index: valid_index (i)
+		local
+			buffer: EL_ZSTRING_BUFFER_ROUTINES; j: INTEGER
 		do
-			go_i_th (i)
-			Result := buffer.copied_substring (text_values, item_lower, item_upper)
+			if attached area_v2 as a then
+				j := (i - 1) * 2
+				Result := buffer.copied_substring (text_values, a [j], a [j + 1])
+			else
+				create Result.make_empty
+			end
 		end
 
 feature {NONE} -- Internal attributes

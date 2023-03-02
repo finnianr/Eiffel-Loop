@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-04 18:31:10 GMT (Wednesday 4th January 2023)"
-	revision: "17"
+	date: "2023-03-02 15:50:48 GMT (Thursday 2nd March 2023)"
+	revision: "18"
 
 class
 	XML_ESCAPER_TEST_SET
@@ -43,11 +43,11 @@ feature -- Tests
 
 			create escaper_32.make; create escaper_plus_32.make_128_plus
 
-			do_test ("make", 3526221345, agent escape, [escaper])
-			do_test ("make_128_plus", 873448859, agent escape, [escaper_plus])
+			do_test ("make", 3127459384, agent escape, [escaper])
+			do_test ("make_128_plus", 4273345417, agent escape, [escaper_plus])
 
-			do_test ("make", 2973479053, agent escape, [escaper_32])
-			do_test ("make_128_plus", 2325183600, agent escape, [escaper_plus_32])
+			do_test ("make", 1874711133, agent escape, [escaper_32])
+			do_test ("make_128_plus", 4034299380, agent escape, [escaper_plus_32])
 		end
 
 feature {NONE} -- Implementation
