@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-28 10:39:41 GMT (Tuesday 28th February 2023)"
-	revision: "48"
+	date: "2023-03-02 11:12:17 GMT (Thursday 2nd March 2023)"
+	revision: "49"
 
 deferred class
 	EL_ZCODEC
@@ -476,19 +476,24 @@ feature -- Encoding operations
 feature -- Basic operations
 
 	decode (a_count: INTEGER; latin_in: SPECIAL [CHARACTER]; unicode_out: SPECIAL [CHARACTER_32]; out_offset: INTEGER)
-			-- Replace Ctrl characters used as place holders for foreign characters with original unicode characters.
-			-- If 'a_decode' is true encode output as unicode
-			-- Result is count of unencodeable Unicode characters
+		-- decode characters in `latin_in' to unicode outputting in `unicode_out', skipping `Substitute' characters
+		-- Relative output position determined by `out_offset'
 		require
 			enough_latin_characters: latin_in.count > a_count
-			unicode_out_big_enough: unicode_out.count > a_count + out_offset
+			unicode_out_big_enough: unicode_out.count >= a_count + out_offset
 		local
 			i, code: INTEGER; c: CHARACTER; unicode: like unicode_table
+			already_latin_1: BOOLEAN
 		do
-			unicode := unicode_table
+			unicode := unicode_table; already_latin_1 := encoded_as_latin (1)
 			from i := 0 until i = a_count loop
 				c := latin_in [i]; code := c.code
-				if c /= Substitute then
+				if c = Substitute then
+					do_nothing -- Filled in later by call to `{EL_UNENCODED_CHARACTERS}.write'
+
+				elseif already_latin_1 or else c <= Max_7_bit_character then
+					unicode_out [i + out_offset] := c.to_character_32
+				else
 					unicode_out [i + out_offset] := unicode [code]
 				end
 				i := i + 1

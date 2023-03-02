@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-01 17:01:03 GMT (Wednesday 1st March 2023)"
-	revision: "86"
+	date: "2023-03-02 9:41:15 GMT (Thursday 2nd March 2023)"
+	revision: "87"
 
 class
 	ZSTRING_TEST_SET
@@ -202,6 +202,7 @@ feature -- Conversion tests
 		end
 
 	test_to_string_32
+		-- ZSTRING_TEST_SET.test_to_string_32
 		note
 			testing:	"covers/{ZSTRING}.to_string_32", "covers/{ZSTRING}.make_from_general"
 		local

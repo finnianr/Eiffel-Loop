@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-28 9:07:42 GMT (Tuesday 28th February 2023)"
-	revision: "8"
+	date: "2023-03-02 9:55:03 GMT (Thursday 2nd March 2023)"
+	revision: "9"
 
 class
 	EL_STRING_8_ITERATION_CURSOR
@@ -124,7 +124,7 @@ feature -- Measurement
 			Result := area_last_index - i
 		end
 
-feature {NONE} -- Implementation
+feature -- Basic operations
 
 	append_to (destination: SPECIAL [CHARACTER_32]; source_index, n: INTEGER)
 		local
@@ -138,6 +138,8 @@ feature {NONE} -- Implementation
 				end
 			end
 		end
+
+feature {NONE} -- Implementation
 
 	i_th_character_32 (a_area: SPECIAL [CHARACTER_8]; i: INTEGER): CHARACTER_32
 		do

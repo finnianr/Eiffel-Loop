@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-01 11:38:29 GMT (Wednesday 1st March 2023)"
-	revision: "43"
+	date: "2023-03-02 11:03:34 GMT (Thursday 2nd March 2023)"
+	revision: "44"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -82,18 +82,46 @@ feature -- To Strings
 
 	to_unicode, to_general: READABLE_STRING_GENERAL
 		local
-			str_32: STRING_32
+			result_8: STRING; c_i: CHARACTER uc_i: CHARACTER_32
+			i, i_upper, block_index, lower, upper: INTEGER
+			l_area, result_area: like area; area_32: like unencoded_area
+			l_unicode_table: like unicode_table
+			iter: EL_UNENCODED_CHARACTER_ITERATION
+			encoding_to_latin_1_failed, already_latin_1: BOOLEAN
 		do
-			if is_ascii then
-				create {STRING_8} Result.make_from_string (current_string_8)
-			else
-				str_32 := buffer_32.empty
-				append_to_string_32 (str_32)
-				if str_32.is_valid_as_string_8 then
-					Result := str_32.as_string_8
+			l_area := area; area_32 := unencoded_area; l_unicode_table := unicode_table
+			already_latin_1 := Codec.same_as (Latin_1_codec)
+
+			create result_8.make (count)
+			result_8.set_count (count)
+			result_area := result_8.area
+
+			i_upper := area_upper
+			from i := area_lower until encoding_to_latin_1_failed or i > i_upper loop
+				c_i := l_area [i]
+				if c_i = Substitute then
+					uc_i := iter.item ($block_index, area_32, i + 1)
+					if uc_i.code <= Max_8_bit_code then
+						result_area [i] := uc_i.to_character_8
+					else
+						encoding_to_latin_1_failed := True
+					end
+				elseif already_latin_1 or else c_i < Max_7_bit_character then
+					result_area [i] := c_i
 				else
-					Result := str_32.twin
+					uc_i := l_unicode_table [c_i.code]
+					if uc_i.code <= Max_8_bit_code then
+						result_area [i] := uc_i.to_character_8
+					else
+						encoding_to_latin_1_failed := True
+					end
 				end
+				i := i + 1
+			end
+			if encoding_to_latin_1_failed then
+				Result := to_string_32
+			else
+				Result := result_8
 			end
 		end
 
@@ -151,14 +179,15 @@ feature -- To list
 
 	linear_representation: LIST [CHARACTER_32]
 		local
-			char_32_array: ARRAYED_LIST [CHARACTER_32]
-			str_32: STRING_32
+			result_array: ARRAY [CHARACTER_32]
 		do
-			create char_32_array.make_filled (count)
-			str_32 := buffer_32.empty
-			append_to_string_32 (str_32)
-			char_32_array.area.copy_data (str_32.area, 0, 0, count)
-			Result := char_32_array
+			create result_array.make_filled ('%U', 1, count)
+			Codec.decode (count, area, result_array.area, 0)
+			write_unencoded (result_array.area, 0, False)
+			create {ARRAYED_LIST [CHARACTER_32]} Result.make_from_array (result_array)
+		ensure
+			same_size: Result.count = count
+			same_ends: Result.count > 0 implies Result.first = item (1) and Result.last = item (count)
 		end
 
 	lines: like split_list

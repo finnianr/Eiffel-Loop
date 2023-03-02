@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-01 16:53:23 GMT (Wednesday 1st March 2023)"
-	revision: "64"
+	date: "2023-03-02 11:12:53 GMT (Thursday 2nd March 2023)"
+	revision: "65"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -444,11 +444,6 @@ feature {EL_READABLE_ZSTRING} -- Deferred Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Buffer_32: EL_STRING_32_BUFFER
-		once
-			create Result
-		end
 
 	Latin_1_codec: EL_ZCODEC
 		once

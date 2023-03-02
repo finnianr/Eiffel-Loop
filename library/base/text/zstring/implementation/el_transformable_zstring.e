@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-01 11:12:56 GMT (Wednesday 1st March 2023)"
-	revision: "40"
+	date: "2023-03-02 9:04:55 GMT (Thursday 2nd March 2023)"
+	revision: "41"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -644,16 +644,8 @@ feature {NONE} -- Implementation
 			if old_index_list.count > 0 then
 				new_current_count := count + count_delta * old_index_list.count
 
-				inspect respective_encoding (new)
-					when Only_current then
-						set_replaced_unencoded (old_index_list, count_delta, a_old.count, new_current_count, True, Void)
-
-					when Only_other then
-						set_replaced_unencoded (old_index_list, count_delta, a_old.count, new_current_count, False, new)
-
-					when Both_have_mixed_encoding then
-						set_replaced_unencoded (old_index_list, count_delta, a_old.count, new_current_count, True, new)
-				else
+				if has_mixed_encoding or new.has_mixed_encoding then
+					set_replaced_unencoded (old_index_list, count_delta, a_old.count, new_current_count, new)
 				end
 
 				l_area := area; new_area := new.area; index_area := old_index_list.area
@@ -685,22 +677,17 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_replaced_unencoded (
-		a_index_list: ARRAYED_LIST [INTEGER]; count_delta, old_count, new_count: INTEGER
-		current_has_substitutes: BOOLEAN; a_new: detachable ZSTRING
-	)
+	set_replaced_unencoded (a_index_list: ARRAYED_LIST [INTEGER]; count_delta, old_count, new_count: INTEGER; new: ZSTRING)
 		local
 			i, l_count, sum_count_delta, block_index, block_index_new: INTEGER
 			previous_upper_plus_1, lower, upper, new_lower, new_upper: INTEGER
-			l_area, new_area: like area; index_area: SPECIAL [INTEGER]
-			accumulator, area_32, new_area_32: SPECIAL [CHARACTER_32]
-			buffer: like Unencoded_buffer
+			l_area: like area; index_area: SPECIAL [INTEGER]; accumulator, area_32: SPECIAL [CHARACTER_32]
+			buffer: like Unencoded_buffer; current_has_substitutes, new_has_substitutes: BOOLEAN
 		do
 			buffer := empty_unencoded_buffer; l_area := area; area_32 := unencoded_area
 			index_area := a_index_list.area; accumulator := codec.empty_accumulator
-			if attached a_new as new then
-				new_area := new.area; new_area_32 := new.unencoded_area
-			end
+			current_has_substitutes := has_mixed_encoding
+			new_has_substitutes := new.has_mixed_encoding
 			previous_upper_plus_1 := 1
 			from until i = index_area.count loop
 				lower := index_area [i]; upper := lower + old_count - 1
@@ -713,10 +700,10 @@ feature {NONE} -- Implementation
 						l_area, area_32, accumulator, $block_index, previous_upper_plus_1 - 1, new_lower - l_count - 1, l_count
 					)
 				end
-				if attached a_new as new then
+				if new_has_substitutes then
 					block_index_new := 0
 					buffer.append_substituted (
-						new_area, new_area_32, accumulator, $block_index_new, 0, new_lower - 1, new.count
+						new.area, new.unencoded_area, accumulator, $block_index_new, 0, new_lower - 1, new.count
 					)
 				end
 				previous_upper_plus_1 := upper + 1
