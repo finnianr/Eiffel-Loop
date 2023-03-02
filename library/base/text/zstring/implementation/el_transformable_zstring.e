@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-02 9:04:55 GMT (Thursday 2nd March 2023)"
-	revision: "41"
+	date: "2023-03-02 13:21:20 GMT (Thursday 2nd March 2023)"
+	revision: "42"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -681,42 +681,70 @@ feature {NONE} -- Implementation
 		local
 			i, l_count, sum_count_delta, block_index, block_index_new: INTEGER
 			previous_upper_plus_1, lower, upper, new_lower, new_upper: INTEGER
-			l_area: like area; index_area: SPECIAL [INTEGER]; accumulator, area_32: SPECIAL [CHARACTER_32]
-			buffer: like Unencoded_buffer; current_has_substitutes, new_has_substitutes: BOOLEAN
+			l_area: like area; index_area: SPECIAL [INTEGER]; area_32, buffer_area_32: SPECIAL [CHARACTER_32]
+			buffer_32: STRING_32; current_has_substitutes, new_has_substitutes: BOOLEAN
+			interval_list: like empty_interval_list
 		do
-			buffer := empty_unencoded_buffer; l_area := area; area_32 := unencoded_area
-			index_area := a_index_list.area; accumulator := codec.empty_accumulator
+			l_area := area; area_32 := unencoded_area; interval_list := empty_interval_list
+			index_area := a_index_list.area
 			current_has_substitutes := has_mixed_encoding
 			new_has_substitutes := new.has_mixed_encoding
 			previous_upper_plus_1 := 1
-			from until i = index_area.count loop
-				lower := index_area [i]; upper := lower + old_count - 1
-				new_lower := lower + sum_count_delta; new_upper := lower + old_count + count_delta - 1
-				sum_count_delta := sum_count_delta + count_delta
+			across Reuseable.string_32 as reuse loop
+				buffer_32 := reuse.sized_item (new_count); buffer_area_32 := buffer_32.area
 
-				l_count := lower - previous_upper_plus_1
+				from until i = index_area.count loop
+					lower := index_area [i]; upper := lower + old_count - 1
+					new_lower := lower + sum_count_delta; new_upper := lower + old_count + count_delta - 1
+					sum_count_delta := sum_count_delta + count_delta
+
+					l_count := lower - previous_upper_plus_1
+					if current_has_substitutes and then l_count > 0 then
+						write_replaced_unencoded (
+							l_area, area_32, buffer_area_32, interval_list,
+							$block_index, previous_upper_plus_1 - 1,
+							new_lower - l_count - 1, l_count
+						)
+					end
+					if new_has_substitutes then
+						block_index_new := 0
+						write_replaced_unencoded (
+							new.area, new.unencoded_area, buffer_area_32,  interval_list,
+							$block_index_new, 0, new_lower - 1, new.count
+						)
+					end
+					previous_upper_plus_1 := upper + 1
+					i := i + 1
+				end
+				l_count := count - previous_upper_plus_1 + 1
 				if current_has_substitutes and then l_count > 0 then
-					buffer.append_substituted (
-						l_area, area_32, accumulator, $block_index, previous_upper_plus_1 - 1, new_lower - l_count - 1, l_count
+					write_replaced_unencoded (
+						l_area, area_32, buffer_area_32,  interval_list,
+						$block_index, previous_upper_plus_1 - 1, new_upper, l_count
 					)
 				end
-				if new_has_substitutes then
-					block_index_new := 0
-					buffer.append_substituted (
-						new.area, new.unencoded_area, accumulator, $block_index_new, 0, new_lower - 1, new.count
-					)
+				make_from_intervals (cursor_32 (buffer_32), interval_list, 0)
+
+			end -- recycle `reuse.item'
+		end
+
+	write_replaced_unencoded (
+		a_area: like area; area_32, a_unencoded_buffer: like unencoded_area
+		interval_list: like empty_interval_list
+		block_index_ptr: POINTER; source_offset, destination_offset, a_count: INTEGER
+	)
+		-- record all unencoded characters in `a_area' in the range indicated by `source_offset'
+		local
+			i, j, k: INTEGER; iter: EL_UNENCODED_CHARACTER_ITERATION
+		do
+			from i := 0 until i = a_count loop
+				j := i + source_offset; k := i + destination_offset
+				if a_area [j] = Substitute then
+					a_unencoded_buffer [k] := iter.item (block_index_ptr, area_32, j + 1)
+					interval_list.extend_upper (k + 1)
 				end
-				previous_upper_plus_1 := upper + 1
 				i := i + 1
 			end
-			l_count := count - previous_upper_plus_1 + 1
-			if current_has_substitutes and then l_count > 0 then
-				buffer.append_substituted (
-					l_area, area_32, accumulator, $block_index, previous_upper_plus_1 - 1, new_upper, l_count
-				)
-			end
-			buffer.append_final (accumulator)
-			set_unencoded_from_buffer (buffer)
 		end
 
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-02 11:12:53 GMT (Thursday 2nd March 2023)"
-	revision: "65"
+	date: "2023-03-02 12:12:17 GMT (Thursday 2nd March 2023)"
+	revision: "66"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -93,6 +93,8 @@ inherit
 		undefine
 			copy, is_equal, out
 		end
+
+	EL_MODULE_REUSEABLE
 
 	EL_SHARED_ENCODINGS
 
