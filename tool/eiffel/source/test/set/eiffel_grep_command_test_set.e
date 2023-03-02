@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-27 17:29:34 GMT (Monday 27th February 2023)"
-	revision: "2"
+	date: "2023-03-02 14:54:23 GMT (Thursday 2nd March 2023)"
+	revision: "3"
 
 class
 	EIFFEL_GREP_COMMAND_TEST_SET
@@ -33,8 +33,7 @@ feature -- Tests
 
 	test_mixed_utf_8_latin_1_encodings
 		note
-			testing:	"covers/{EL_APPENDABLE_ZSTRING}.append_encoded",
-					"covers/{EL_OS_COMMAND_I}.set_output_encoding"
+			testing:	"covers/{EL_APPENDABLE_ZSTRING}.append_encoded", "covers/{EL_OS_COMMAND_I}.set_output_encoding"
 		local
 			cmd: EIFFEL_GREP_COMMAND; count: INTEGER
 			line: ZSTRING

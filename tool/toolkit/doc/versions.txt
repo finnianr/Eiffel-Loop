@@ -1,3 +1,6 @@
+1.7.0
+* Revised ZSTRING class with many optimizations
+
 1.6.1
 * New more efficient parsing and pattern matching
 

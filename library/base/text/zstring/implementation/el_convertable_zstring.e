@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-02 11:03:34 GMT (Thursday 2nd March 2023)"
-	revision: "44"
+	date: "2023-03-02 13:35:28 GMT (Thursday 2nd March 2023)"
+	revision: "45"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -82,11 +82,9 @@ feature -- To Strings
 
 	to_unicode, to_general: READABLE_STRING_GENERAL
 		local
-			result_8: STRING; c_i: CHARACTER uc_i: CHARACTER_32
-			i, i_upper, block_index, lower, upper: INTEGER
+			result_8: STRING; c_i: CHARACTER uc_i: CHARACTER_32; i, i_upper, block_index: INTEGER
+			l_unicode_table: like unicode_table; iter: EL_UNENCODED_CHARACTER_ITERATION
 			l_area, result_area: like area; area_32: like unencoded_area
-			l_unicode_table: like unicode_table
-			iter: EL_UNENCODED_CHARACTER_ITERATION
 			encoding_to_latin_1_failed, already_latin_1: BOOLEAN
 		do
 			l_area := area; area_32 := unencoded_area; l_unicode_table := unicode_table
