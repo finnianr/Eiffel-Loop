@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-01 9:44:48 GMT (Wednesday 1st February 2023)"
-	revision: "42"
+	date: "2023-03-03 15:36:26 GMT (Friday 3rd March 2023)"
+	revision: "43"
 
 class
 	GENERAL_TEST_SET
@@ -37,6 +37,7 @@ feature -- Basic operations
 			eval.call ("reusable_strings", agent test_reusable_strings)
 			eval.call ("reverse_managed_pointer", agent test_reverse_managed_pointer)
 			eval.call ("version_array", agent test_version_array)
+			eval.call ("version_bump", agent test_version_bump)
 		end
 
 feature -- Tests
@@ -246,5 +247,22 @@ feature -- Tests
 			end
 		end
 
+	test_version_bump
+		-- GENERAL_TEST_SET.test_version_bump
+		local
+			software: EL_SOFTWARE_VERSION; assertion_ok: STRING
+		do
+			assertion_ok := "expected version"
+			create software.make_parts (1, 2, 3, 4)
+			software.bump_release
+
+			assert (assertion_ok, software.compact_version = 01_02_04)
+			software.bump_minor
+
+			assert (assertion_ok, software.compact_version = 01_03_00)
+			software.bump_major
+
+			assert (assertion_ok, software.compact_version = 02_00_00)
+		end
 
 end

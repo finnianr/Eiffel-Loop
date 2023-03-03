@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-02 14:49:33 GMT (Thursday 2nd March 2023)"
-	revision: "26"
+	date: "2023-03-02 19:21:08 GMT (Thursday 2nd March 2023)"
+	revision: "27"
 
 class
 	EL_UNENCODED_CHARACTERS_BUFFER
@@ -37,6 +37,13 @@ feature -- Status query
 
 feature -- Element change
 
+	append_final (accumulator: like area)
+		do
+			if accumulator.count - 1 > 0 then
+				append_accumulated (accumulator)
+			end
+		end
+
 	append_from_area (a_area: like area; index: INTEGER)
 		local
 			lower, upper: INTEGER; l_area, current_area: like area
@@ -49,10 +56,38 @@ feature -- Element change
 			set_if_changed (current_area, l_area)
 		end
 
-	append_final (accumulator: like area)
+	append_if_full (accumulator: like area; index: INTEGER; uc: CHARACTER_32)
+		-- append character `uc' to `accumulator' array, and append to `Current' buffer
+		-- only when  `accumulator' array is full.  (`index' is zero based for `SPECIAL' array)
+		-- The first character of `accumulator' is reserved for storing the most recent `index' value
 		do
-			if accumulator.count - 1 > 0 then
+			if accumulator.count = 0 then
+				accumulator.extend ('%U')
+
+			elseif accumulator.capacity = accumulator.count or accumulator [0].code /= index then
 				append_accumulated (accumulator)
+				accumulator.wipe_out
+				accumulator.extend ('%U')
+			end
+			accumulator.extend (uc)
+			accumulator [0] := (index + 1).to_character_32
+		end
+
+	append_substituted (
+		a_area: SPECIAL [CHARACTER]; unencoded_area, accumulator: SPECIAL [CHARACTER_32]
+		block_index_ptr: POINTER; source_offset, destination_offset, a_count: INTEGER;
+	)
+		-- append all unencoded characters in `a_area' in the range indicated by `source_offset'
+		-- and `a_count'. Requires external call to `append_final' to complete.
+		local
+			i, j: INTEGER; iter: EL_UNENCODED_CHARACTER_ITERATION
+		do
+			from i := 0 until i = a_count loop
+				j := i + source_offset
+				if a_area [j] = Substitute then
+					append_if_full (accumulator, i + destination_offset, iter.item (block_index_ptr, unencoded_area, j + 1))
+				end
+				i := i + 1
 			end
 		end
 
@@ -91,24 +126,6 @@ feature -- Element change
 			end
 		end
 
-	append_substituted (
-		a_area: SPECIAL [CHARACTER]; unencoded_area, accumulator: SPECIAL [CHARACTER_32]
-		block_index_ptr: POINTER; source_offset, destination_offset, a_count: INTEGER;
-	)
-		-- append all unencoded characters in `a_area' in the range indicated by `source_offset'
-		-- and `a_count'. Requires external call to `append_final' to complete.
-		local
-			i, j: INTEGER; iter: EL_UNENCODED_CHARACTER_ITERATION
-		do
-			from i := 0 until i = a_count loop
-				j := i + source_offset
-				if a_area [j] = Substitute then
-					try_appending (accumulator, i + destination_offset, iter.item (block_index_ptr, unencoded_area, j + 1))
-				end
-				i := i + 1
-			end
-		end
-		
 	extend (uc: CHARACTER_32; index: INTEGER)
 		local
 			area_count, l_last_upper: INTEGER; l_area, current_area: like area
@@ -136,22 +153,6 @@ feature -- Element change
 	extend_z_code (a_z_code: NATURAL; index: INTEGER)
 		do
 			extend (z_code_to_unicode (a_z_code).to_character_32, index)
-		end
-
-	try_appending (accumulator: like area; index: INTEGER; uc: CHARACTER_32)
-		-- first code of `accumulator' is the last index
-		-- `index' is zero based for `SPECIAL' array
-		do
-			if accumulator.count = 0 then
-				accumulator.extend ('%U')
-
-			elseif accumulator.capacity = accumulator.count or accumulator [0].code /= index then
-				append_accumulated (accumulator)
-				accumulator.wipe_out
-				accumulator.extend ('%U')
-			end
-			accumulator.extend (uc)
-			accumulator [0] := (index + 1).to_character_32
 		end
 
 feature -- Removal

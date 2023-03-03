@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 14:40:47 GMT (Sunday 1st January 2023)"
-	revision: "18"
+	date: "2023-03-03 13:49:42 GMT (Friday 3rd March 2023)"
+	revision: "19"
 
 deferred class
 	EL_EIF_OBJ_BUILDER_CONTEXT
@@ -94,7 +94,7 @@ feature {EL_EIF_OBJ_BUILDER_CONTEXT} -- Factory
 			action_table.compare_objects
 			add_builder_actions_for_xpaths_containing_attribute_value_predicates (action_table)
 
-			create Result.make (action_table.count)
+			create Result.make_size (action_table.count)
 			Result.compare_objects
 			from action_table.start until action_table.after loop
 				Result.extend (action_table.item_for_iteration , action_table.key_for_iteration.as_string_32)
@@ -104,7 +104,7 @@ feature {EL_EIF_OBJ_BUILDER_CONTEXT} -- Factory
 
 feature {EL_EIF_OBJ_ROOT_BUILDER_CONTEXT} -- Implementation attributes
 
-	building_actions: HASH_TABLE [PROCEDURE, ZSTRING] note option: transient attribute end
+	building_actions: EL_PROCEDURE_TABLE [STRING] note option: transient attribute end
 
 feature {NONE} -- Implementation
 
@@ -181,7 +181,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Building_actions_by_type: EL_FUNCTION_RESULT_TABLE [EL_EIF_OBJ_BUILDER_CONTEXT, HASH_TABLE [PROCEDURE, ZSTRING]]
+	Building_actions_by_type: EL_FUNCTION_RESULT_TABLE [EL_EIF_OBJ_BUILDER_CONTEXT, EL_PROCEDURE_TABLE [STRING]]
 			--
 		once
 			create Result.make (17, agent {EL_EIF_OBJ_BUILDER_CONTEXT}.new_building_actions)

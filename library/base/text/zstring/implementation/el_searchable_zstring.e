@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-28 11:40:15 GMT (Tuesday 28th February 2023)"
-	revision: "29"
+	date: "2023-03-03 10:59:04 GMT (Friday 3rd March 2023)"
+	revision: "30"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -97,27 +97,20 @@ feature -- Index position
 			end
 		end
 
-	substring_index_in_bounds (other: EL_READABLE_ZSTRING; start_pos, end_pos: INTEGER): INTEGER
-		local
-			has_mixed_in_range: BOOLEAN
+	substring_index_in_bounds (other: READABLE_STRING_GENERAL; start_pos, end_pos: INTEGER): INTEGER
 		do
-			has_mixed_in_range := has_unencoded_between_optimal (area, start_pos, end_pos)
+			if attached {EL_READABLE_ZSTRING} other as z_other then
+				Result := substring_index_in_bounds_zstring (z_other, start_pos, end_pos)
 
-			inspect current_other_bitmap (has_mixed_in_range, other.has_mixed_encoding)
-				when Both_have_mixed_encoding then
-					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
-					Result := String_searcher.substring_index (current_readable, other.as_expanded (1), start_pos, end_pos)
-				when Only_current, Neither then
-					Result := String_8.substring_index_in_bounds (Current, other, start_pos, end_pos)
-				when Only_other then
-					Result := 0
-			else
+			elseif attached shared_search_pattern (other) as pattern then
+				if attached {READABLE_STRING_8} pattern as str_8 then
+					Result := String_8.substring_index_in_bounds_ascii (Current, str_8, start_pos, end_pos)
+
+				elseif attached String_searcher as searcher then
+					searcher.initialize_deltas (pattern)
+					Result := searcher.substring_index_with_deltas (current_readable, pattern, start_pos, end_pos)
+				end
 			end
-		end
-
-	substring_index_in_bounds_general (other: READABLE_STRING_GENERAL; start_pos, end_pos: INTEGER): INTEGER
-		do
-			Result := substring_index_in_bounds (adapted_argument (other, 1), start_pos, end_pos)
 		end
 
 	substring_right_index (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
@@ -351,6 +344,24 @@ feature {NONE} -- Implementation
 
 			elseif attached {READABLE_STRING_32} str as str_32 and then attached cursor_32 (str_32) as cursor then
 				Result := shared_expanded (cursor)
+			end
+		end
+
+	substring_index_in_bounds_zstring (other: EL_READABLE_ZSTRING; start_pos, end_pos: INTEGER): INTEGER
+		local
+			has_mixed_in_range: BOOLEAN
+		do
+			has_mixed_in_range := has_unencoded_between_optimal (area, start_pos, end_pos)
+
+			inspect current_other_bitmap (has_mixed_in_range, other.has_mixed_encoding)
+				when Both_have_mixed_encoding then
+					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
+					Result := String_searcher.substring_index (current_readable, other.as_expanded (1), start_pos, end_pos)
+				when Only_current, Neither then
+					Result := String_8.substring_index_in_bounds (Current, other, start_pos, end_pos)
+				when Only_other then
+					Result := 0
+			else
 			end
 		end
 

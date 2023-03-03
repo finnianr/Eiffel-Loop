@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-28 11:33:31 GMT (Tuesday 28th February 2023)"
-	revision: "18"
+	date: "2023-03-03 11:06:00 GMT (Friday 3rd March 2023)"
+	revision: "19"
 
 class
 	STRING_PAIR
@@ -92,6 +92,67 @@ feature -- Access
 			if s_32.is_valid_as_string_8 then
 				Result := s_32.to_string_8
 			end
+		end
+
+feature -- s_32 intervals
+
+	all_word_interval_permutations: ARRAY [EL_SPLIT_INTERVALS]
+		do
+			Result := << word_intervals, double_word_intervals, split_word_intervals, sandwiched_word_intervals >>
+		end
+
+	double_word_intervals: EL_SPLIT_INTERVALS
+		-- pairs of words on boundary
+		do
+			if attached word_intervals as list then
+				create Result.make_sized (list.count)
+				from list.start until list.after loop
+					if not list.islast then
+						Result.extend (list.item_lower, list.i_th_upper (list.index + 1))
+					end
+					list.forth
+				end
+			end
+		end
+
+	sandwiched_word_intervals: EL_SPLIT_INTERVALS
+		-- words sandwiched by one space each end
+		do
+			if attached word_intervals as list then
+				create Result.make_sized (list.count)
+				from list.start until list.after loop
+					if not (list.isfirst or list.islast) then
+						Result.extend (list.item_lower - 1, list.item_upper + 1)
+					end
+					list.forth
+				end
+			end
+		end
+
+	split_word_intervals: EL_SPLIT_INTERVALS
+		-- intervals that go from mid-word to next mid-word for adjacent words greater than 3 in length
+		local
+			lower, next_lower, upper, l_count, next_count: INTEGER
+		do
+			if attached word_intervals as list then
+				create Result.make_sized (list.count)
+				from list.start until list.after loop
+					if not list.islast then
+						l_count := list.item_count; next_count := list.i_th_count (list.index + 1)
+						if l_count >= 3 and then next_count >= 3 then
+							lower := list.item_lower
+							next_lower := list.i_th_lower (list.index + 1)
+							Result.extend (lower + l_count // 2, next_lower + next_count // 2)
+						end
+					end
+					list.forth
+				end
+			end
+		end
+
+	word_intervals: EL_SPLIT_INTERVALS
+		do
+			Result := new_intervals (' ')
 		end
 
 	new_intervals (separator: CHARACTER_32): EL_SPLIT_INTERVALS
@@ -213,6 +274,22 @@ feature -- Test comparisons
 			if Result and then attached s_8_substring as str_8 then
 				index_2 := zs.substring_index (s_8_substring, from_index)
 				Result := index_1 = index_2
+			end
+		end
+
+	substring_index_in_bounds (target_32: STRING_32; target: ZSTRING; start_pos, end_pos: INTEGER): BOOLEAN
+		local
+			index: INTEGER
+		do
+			index := target_32.substring_index_in_bounds (s_32_substring, start_pos, end_pos)
+			if index > 0 then
+				Result := index = target.substring_index_in_bounds (zs_substring, start_pos, end_pos)
+				if Result then
+					Result := index = target.substring_index_in_bounds (s_32_substring, start_pos, end_pos)
+				end
+				if Result and attached s_8_substring as str_8 then
+					Result := index = target.substring_index_in_bounds (str_8, start_pos, end_pos)
+				end
 			end
 		end
 

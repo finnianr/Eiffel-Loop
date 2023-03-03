@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-27 12:23:42 GMT (Monday 27th February 2023)"
-	revision: "21"
+	date: "2023-03-03 13:43:04 GMT (Friday 3rd March 2023)"
+	revision: "22"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -43,6 +43,7 @@ feature -- Basic operations
 feature -- Tests
 
 	test_book_exporter
+		-- THUNDERBIRD_EXPORT_TEST_SET.test_book_exporter
 		do
 			Precursor
 		end

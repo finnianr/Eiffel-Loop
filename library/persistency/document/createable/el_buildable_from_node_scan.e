@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-30 11:06:29 GMT (Friday 30th December 2022)"
-	revision: "26"
+	date: "2023-03-03 13:49:42 GMT (Friday 3rd March 2023)"
+	revision: "27"
 
 deferred class
 	EL_BUILDABLE_FROM_NODE_SCAN
@@ -79,7 +79,7 @@ feature {EL_DOCUMENT_EIFFEL_OBJECT_BUILDER, EL_EIF_OBJ_ROOT_BUILDER_CONTEXT, EL_
 			action_table: like PI_building_action_table
 		do
 			action_table := PI_building_action_table
-			create Result.make (action_table.count)
+			create Result.make_size (action_table.count)
 			Result.compare_objects
 			from action_table.start until action_table.after loop
 				Result.extend (action_table.item_for_iteration , action_table.key_for_iteration.as_string_32)
@@ -113,7 +113,7 @@ feature {EL_EIF_OBJ_BUILDER_CONTEXT, EL_DOCUMENT_NODE_SCAN_SOURCE} -- Internal a
 
 feature {NONE} -- Constants
 
-	PI_building_actions_by_type: EL_FUNCTION_RESULT_TABLE [EL_BUILDABLE_FROM_NODE_SCAN, HASH_TABLE [PROCEDURE, ZSTRING]]
+	PI_building_actions_by_type: EL_FUNCTION_RESULT_TABLE [EL_BUILDABLE_FROM_NODE_SCAN, EL_PROCEDURE_TABLE [STRING]]
 			--
 		once
 			create Result.make (11, agent {EL_BUILDABLE_FROM_NODE_SCAN}.new_pi_building_actions)

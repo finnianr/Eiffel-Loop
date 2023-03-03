@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-24 8:49:49 GMT (Friday 24th February 2023)"
-	revision: "11"
+	date: "2023-03-03 9:42:53 GMT (Friday 3rd March 2023)"
+	revision: "12"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -122,6 +122,19 @@ feature -- Status query
 				forth
 			end
 			pop_cursor
+		end
+
+	item_has_substring (str: READABLE_STRING_GENERAL): BOOLEAN
+		require
+			valid_item: not off
+		local
+			i, l_index: INTEGER; item_upper, item_lower: INTEGER
+		do
+			if attached area_v2 as a then
+				i := (index - 1) * 2
+				item_lower := a [i]; item_upper := a [i + 1]
+				Result := target.substring_index_in_bounds (str, item_lower, item_upper).to_boolean
+			end
 		end
 
 	item_same_as (str: READABLE_STRING_GENERAL): BOOLEAN

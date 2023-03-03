@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 10:28:03 GMT (Thursday 29th December 2022)"
-	revision: "54"
+	date: "2023-03-03 12:02:42 GMT (Friday 3rd March 2023)"
+	revision: "55"
 
 class
 	AUTOTEST_APP
@@ -45,6 +45,7 @@ inherit
 		PYXIS_ECF_PARSER_TEST_SET,
 		REPOSITORY_PUBLISHER_TEST_SET,
 		REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET,
+		PYXIS_EIFFEL_CONFIG_TEST_SET,
 		TRANSLATION_TREE_COMPILER_TEST_SET,
 		UNDEFINE_PATTERN_COUNTER_TEST_SET,
 		UPGRADE_DEFAULT_POINTER_SYNTAX_TEST_SET

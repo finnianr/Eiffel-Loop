@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-02 9:41:15 GMT (Thursday 2nd March 2023)"
-	revision: "87"
+	date: "2023-03-03 11:07:20 GMT (Friday 3rd March 2023)"
+	revision: "88"
 
 class
 	ZSTRING_TEST_SET
@@ -817,7 +817,7 @@ feature -- Status query tests
 		do
 			across Text.lines as line loop
 				create pair.make (line.item)
-				if attached pair.new_intervals (' ') as list then
+				if attached pair.word_intervals as list then
 					from list.start until list.is_empty loop
 						start_index := list.item_lower; end_index := list.last_upper
 						pair.set_substrings (start_index, end_index)
@@ -949,7 +949,7 @@ feature -- Status query tests
 		do
 			across Text.lines as line loop
 				create pair.make (line.item)
-				if attached pair.new_intervals (' ') as list then
+				if attached pair.word_intervals as list then
 					from list.start until list.is_empty loop
 						list.start
 						start_index := list.item_lower; end_index := list.last_upper
@@ -1120,12 +1120,23 @@ feature -- Access tests
 		note
 			testing: "covers/{ZSTRING}.substring", "covers/{ZSTRING}.substring_index"
 		local
-			pair: STRING_PAIR; assertion_ok: STRING
+			pair: STRING_PAIR; start_index, end_index, from_index: INTEGER
+			assertion_ok: STRING
 		do
 			assertion_ok := "substring_index OK"
 			across Text.lines as line loop
 				create pair.make (line.item)
-				assert_substring_index_ok (pair, assertion_ok, pair.new_intervals (' '))
+				across pair.all_word_interval_permutations as permutation loop
+					if attached permutation.item as list then
+						from list.start until list.after loop
+							start_index := list.item_lower; end_index := list.item_upper
+							from_index := (start_index - 5).max (1)
+							pair.set_substrings (start_index, end_index)
+							assert (assertion_ok, pair.substring_index (from_index))
+							list.forth
+						end
+					end
+				end
 			end
 		end
 
@@ -1133,27 +1144,27 @@ feature -- Access tests
 		note
 			testing: "covers/{EL_SEARCHABLE_ZSTRING}.substring_index_in_bounds"
 		local
-			str_32, word_32: STRING_32; str, word: ZSTRING
-			i, count, index, start_pos, end_pos, substring_index, substring_index_32: INTEGER; word_list: EL_STRING_32_LIST
+			pair: STRING_PAIR; start_index, end_index, bound_start_pos, bound_end_pos: INTEGER
+			boundary_intervals: EL_SPLIT_INTERVALS; str_32: STRING_32; str: ZSTRING
+			assertion_ok: STRING
 		do
+			assertion_ok := "substring_index_in_bounds OK"
+			str_32 := Text.Russian_and_english; str := str_32
+
+			create boundary_intervals.make (str_32, '%N')
+
 			across Text.lines as line loop
-				str_32 := line.item; str := str_32
-				create word_list.make_word_split (str_32)
-				across word_list as list loop
-					word_32 := list.item; word := word_32
-					index := str_32.substring_index (word_32, 1)
-					if index = 1 then
-						start_pos := 1
-					else
-						start_pos := (index - 5).max (1)
-					end
-					end_pos := index + word_32.count - 1
-					across << end_pos, end_pos - 1 >> as n loop
-						end_pos := n.item
-						if end_pos > start_pos then
-							substring_index_32 := str_32.substring_index_in_bounds (word_32, start_pos, end_pos)
-							substring_index := str.substring_index_in_bounds (word, start_pos, end_pos)
-							assert ("same index", substring_index_32 = substring_index)
+				pair := line.item
+				bound_start_pos := boundary_intervals.i_th_lower (line.cursor_index)
+				bound_end_pos := boundary_intervals.i_th_upper (line.cursor_index)
+
+				across pair.all_word_interval_permutations as permutation loop
+					if attached permutation.item as list then
+						from list.start until list.after loop
+							start_index := list.item_lower; end_index := list.item_upper
+							pair.set_substrings (start_index, end_index)
+							assert (assertion_ok, pair.substring_index_in_bounds (str_32, str, bound_start_pos, bound_end_pos))
+							list.forth
 						end
 					end
 				end
@@ -1181,26 +1192,23 @@ feature -- Duplication tests
 			testing: "covers/{ZSTRING}.substring"
 		local
 			pair: STRING_PAIR; start_index, end_index: INTEGER
+			assertion_ok: STRING
 		do
+			assertion_ok := "substring OK"
 			across Text.lines as line loop
 				create pair.make (line.item)
-				if attached pair.new_intervals (' ') as list then
-					from list.start until list.after loop
-						start_index := list.item_lower; end_index := list.item_upper
-						assert ("same substring", pair.same_substring (start_index, end_index))
-						-- test outside unencoded section
-						if pair.s_32.valid_index (start_index - 1) and pair.s_32.valid_index (end_index + 1) then
-							assert ("same substring", pair.same_substring (start_index - 1, end_index + 1))
+				across pair.all_word_interval_permutations as permutation loop
+					if attached permutation.item as list then
+						from list.start until list.after loop
+							start_index := list.item_lower; end_index := list.item_upper
+							pair.set_substrings (start_index, end_index)
+							assert (assertion_OK, pair.same_substring (start_index, end_index))
+							list.forth
 						end
-						-- test inside unencoded section
-						if list.item_count >=3 then
-							assert ("same substring", pair.same_substring (start_index + 1, end_index  - 1))
-						end
-						list.forth
 					end
 				end
 				across 0 |..| 7 as n loop
-					assert ("same substring", pair.same_substring (1, n.item))
+					assert (assertion_ok, pair.same_substring (1, n.item))
 				end
 			end
 		end
@@ -1241,8 +1249,7 @@ feature {NONE} -- Implementation
 
 	assert_same_characters (assertion_OK: STRING; is_case_insenstive: BOOLEAN)
 		local
-			index, next_end_index, next_start_index, start_index, end_index, next_count: INTEGER
-			pair: STRING_PAIR
+			start_index, end_index: INTEGER; pair: STRING_PAIR
 		do
 			across Text.lines as line loop
 				if is_case_insenstive then
@@ -1250,84 +1257,16 @@ feature {NONE} -- Implementation
 				else
 					create pair.make (line.item)
 				end
-				if attached pair.new_intervals (' ') as list then
-					from list.start until list.after loop
-						index := list.index
-						start_index := list.item_lower; end_index := list.item_upper
-						pair.set_substrings (start_index, end_index)
-						assert (assertion_OK, pair.same_characters (start_index))
-						if list.valid_index (list.index + 1) then
-							next_start_index := list.i_th_lower (index + 1)
-							next_end_index := list.i_th_upper (index + 1)
-							next_count := list.i_th_count (index + 1)
-							pair.set_substrings (start_index, next_end_index)
-							assert (assertion_OK, pair.same_characters (start_index))
-
-							if list.item_count >= 3 and next_count >= 3 then
---								half way indices
-								pair.set_substrings ((start_index + end_index) // 2, (next_start_index + next_end_index) //2)
-								assert (assertion_OK, pair.same_characters ((start_index + end_index) // 2))
-							end
-						else
-							next_start_index := 0; next_end_index := 0; next_count := 0
-						end
-
-						start_index := list.item_lower - 1; end_index := list.item_upper + 1
-						if pair.s_32.valid_index (start_index) and pair.s_32.valid_index (end_index) then
+				across pair.all_word_interval_permutations as permutation loop
+					if attached permutation.item as list then
+						from list.start until list.after loop
+							start_index := list.item_lower; end_index := list.item_upper
 							pair.set_substrings (start_index, end_index)
 							assert (assertion_OK, pair.same_characters (start_index))
-
-							next_end_index := list.i_th_upper (index + 1) + 1
-							if pair.s_32.valid_index (next_end_index) then
-								pair.set_substrings (start_index, next_end_index)
-								assert (assertion_OK, pair.same_characters (start_index))
-							end
+							list.forth
 						end
-						list.forth
 					end
 				end
-			end
-		end
-
-	assert_substring_index_ok (pair: STRING_PAIR; assertion_ok: STRING; list: EL_SPLIT_INTERVALS)
-		local
-			index, next_end_index, next_start_index, next_count, next_index, start_index, end_index, from_index: INTEGER
-		do
-			from list.start until list.after loop
-				index := list.index
-				start_index := list.item_lower; end_index := list.item_upper
-				pair.set_substrings (start_index, end_index)
-				from_index := (start_index - 5).max (1)
-				assert (assertion_ok, pair.substring_index (from_index))
-
-				if pair.valid_index (start_index - 1) and pair.valid_index (end_index + 1) then
-					pair.set_substrings (start_index - 1, end_index + 1)
-					from_index := (start_index - 5).max (1)
-					assert (assertion_ok, pair.substring_index (from_index))
-				end
-				next_index := index + 2
-				if list.valid_index (next_index) then
-					next_start_index := list.i_th_lower (index + 1)
-					next_end_index := list.i_th_upper (index + 1)
-					next_count := list.i_th_count (index + 1)
-
-					pair.set_substrings (start_index, next_end_index)
-					from_index := (start_index - 5).max (1)
-					assert (assertion_ok, pair.substring_index (from_index))
-
-					if list.item_count >= 3 and next_count >= 3 then
---						half way indices
-						pair.set_substrings ((start_index + end_index) // 2, (next_start_index + next_end_index) //2)
-						assert (assertion_ok, pair.substring_index (1))
-					end
-
-					if pair.valid_index (start_index - 1) and pair.valid_index (end_index + 1) then
-						pair.set_substrings (start_index - 1, end_index + 1)
-						from_index := (start_index - 5).max (1)
-						assert (assertion_ok, pair.substring_index (from_index))
-					end
-				end
-				list.forth
 			end
 		end
 

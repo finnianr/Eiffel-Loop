@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-02 14:44:04 GMT (Thursday 2nd March 2023)"
-	revision: "75"
+	date: "2023-03-02 19:16:38 GMT (Thursday 2nd March 2023)"
+	revision: "76"
 
 class
 	EL_ZSTRING
@@ -357,7 +357,7 @@ feature -- Removal
 						uc_i := iter.item ($block_index, uc_area, i + 1)
 						if c_is_substitute implies uc_i /= uc then
 							l_area [j] := c_i
-							l_buffer.try_appending (accumulator, j, uc_i)
+							l_buffer.append_if_full (accumulator, j, uc_i)
 							j := j + 1
 						end
 

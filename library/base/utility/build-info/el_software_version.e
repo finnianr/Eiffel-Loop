@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-26 17:01:20 GMT (Thursday 26th January 2023)"
-	revision: "18"
+	date: "2023-03-03 15:40:49 GMT (Friday 3rd March 2023)"
+	revision: "19"
 
 class
 	EL_SOFTWARE_VERSION
@@ -41,6 +41,11 @@ feature -- Initialization
 			compact_version := a_compact_version; build := a_build
 		end
 
+	make_from_string (a_version: STRING)
+		do
+			set_from_string (a_version)
+		end
+
 	make_parts (a_major, a_minor, a_release, a_build: NATURAL)
 		local
 			array: EL_VERSION_ARRAY
@@ -49,12 +54,34 @@ feature -- Initialization
 			make (array.compact, a_build)
 		end
 
-	make_from_string (a_version: STRING)
+feature -- Element change
+
+	bump_major
 		do
-			set_from_string (a_version)
+			bump (1)
+		ensure
+			major_is_one_greater: major = old major + 1
+			minor_is_zero: minor = 0
+			maintenance_is_zero: maintenance = 0
 		end
 
-feature -- Element change
+	bump_minor
+		do
+			bump (2)
+		ensure
+			major_is_same: major = old major
+			minor_is_one_greater: minor = old minor + 1
+			maintenance_is_zero: maintenance = 0
+		end
+
+	bump_release
+		do
+			bump (3)
+		ensure
+			major_is_same: major = old major
+			minor_is_same: minor = old minor
+			maintenance_is_one_greater: maintenance = old maintenance + 1
+		end
 
 	set_from_string (a_version: STRING)
 		require
@@ -74,6 +101,11 @@ feature -- Access
 			Result := string + " ("
 			Result.append_natural_32 (build)
 			Result.append_character (')')
+		end
+
+	pyxis_attributes: STRING
+		do
+			Result := Pyxis_template #$ [major, minor, maintenance, build]
 		end
 
 	string: STRING
@@ -114,6 +146,11 @@ feature -- Access
 
 feature -- Comparison
 
+	is_equal (other: like Current): BOOLEAN
+		do
+			Result := compact_version = other.compact_version and build = other.build
+		end
+
 	is_less alias "<" (other: like Current): BOOLEAN
 			-- Is current object less than `other'?
 		do
@@ -124,9 +161,26 @@ feature -- Comparison
 			end
 		end
 
-	is_equal (other: like Current): BOOLEAN
+feature {NONE} -- Implementation
+
+	bump (index: INTEGER)
+		local
+			i: INTEGER
 		do
-			Result := compact_version = other.compact_version and build = other.build
+			if attached to_array as version_parts then
+				version_parts [index] := version_parts [index] + 1
+				from i := index + 1 until i > 3 loop
+					version_parts [i] := 0
+					i := i + 1
+				end
+				compact_version := version_parts.compact
+			end
 		end
 
+feature {NONE} -- Constants
+
+	Pyxis_template: ZSTRING
+		once
+			Result := "major = %S; minor = %S; release = %S; build = %S"
+		end
 end

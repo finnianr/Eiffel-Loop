@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-23 15:36:06 GMT (Thursday 23rd February 2023)"
-	revision: "17"
+	date: "2023-03-03 10:05:21 GMT (Friday 3rd March 2023)"
+	revision: "18"
 
 class
 	EL_SPLIT_INTERVALS
@@ -24,7 +24,7 @@ inherit
 	EL_SHARED_UNICODE_PROPERTY
 
 create
-	make, make_empty, make_by_string
+	make, make_empty, make_by_string, make_sized
 
 feature {NONE} -- Implementation
 

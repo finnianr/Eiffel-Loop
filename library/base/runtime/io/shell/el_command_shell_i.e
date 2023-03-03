@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2023-03-03 13:49:43 GMT (Friday 3rd March 2023)"
+	revision: "18"
 
 deferred class
 	EL_COMMAND_SHELL_I
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 	make_table
 		do
 			if attached new_command_table as table then
-				create command_table.make_equal (table.count + 1)
+				create command_table.make_size (table.count + 1)
 				set_standard_options (command_table)
 				across table as command loop
 					command_table [command.key] := command.item
