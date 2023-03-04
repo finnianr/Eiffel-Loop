@@ -1,3 +1,6 @@
+1.2.1
+* Added new version manager app
+
 1.2.0
 * ZSTRING now uses EL_UNENCODED_CHARACTER_ITERATION
 

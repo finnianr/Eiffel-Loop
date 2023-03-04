@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 9:59:27 GMT (Monday 9th January 2023)"
-	revision: "7"
+	date: "2023-03-04 15:21:32 GMT (Saturday 4th March 2023)"
+	revision: "8"
 
 class
 	EL_TRAFFIC_ANALYSIS_SHELL_MENU
@@ -65,7 +65,7 @@ feature {NONE} -- Factory
 	new_command_table: like command_table
 		do
 			if attached OS.file_pattern_list (config.archived_web_logs) as file_list then
-				create Result.make_equal (file_list.count)
+				create Result.make_size (file_list.count)
 				file_list.order_by (agent {FILE_PATH}.modification_time, False)
 				across file_list as list loop
 					if attached Date_time.modification_time (list.item) as date then

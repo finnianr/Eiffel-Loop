@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-22 16:01:59 GMT (Wednesday 22nd February 2023)"
-	revision: "22"
+	date: "2023-03-04 15:21:43 GMT (Saturday 4th March 2023)"
+	revision: "23"
 
 deferred class
 	EL_BENCHMARK_COMMAND_SHELL
@@ -49,7 +49,7 @@ feature {NONE} -- Implementation
 			s: EL_ZSTRING_ROUTINES
 		do
 			create factory
-			create Result.make_equal (benchmark_types.count)
+			create Result.make_size (benchmark_types.count)
 			create sortable_list.make (benchmark_types.count)
 			across benchmark_types as type loop
 				if attached factory.new_item_from_type (type.item) as benchmark then

@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:47:47 GMT (Tuesday 14th February 2023)"
-	revision: "9"
+	date: "2023-03-04 14:29:21 GMT (Saturday 4th March 2023)"
+	revision: "10"
 
 class
 	SCONS_PROJECT_PY_CONFIG
@@ -40,8 +40,6 @@ inherit
 
 	EL_MODULE_TUPLE
 
-	PACKAGE_BUILD_CONSTANTS
-
 create
 	make_from_file, make
 
@@ -61,8 +59,8 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			make_machine
-			left_adjusted := True
-			build_info_path := "source/build_info.e"
+			left_adjusted := True; bit_count := 64
+			create swapper.make (Project_py, "py32")
 		end
 
 	make_from_file (file_path: FILE_PATH)
@@ -73,20 +71,56 @@ feature {NONE} -- Initialization
 			if attached open_lines (file_path, Latin_1) as lines then
 				do_once_with_file_lines (agent do_with_line, lines)
 			end
-			if ecf.has ('.') then
-				pecf_path := ecf
-				pecf_path.replace_extension ("pecf")
-			end
 		end
 
 feature -- Access
 
+	bit_count: INTEGER
+
 	build_info_path: FILE_PATH
 
 	ecf: ZSTRING
-		-- source to create instance of `SOFTWARE_INFO'
+		-- source to create instance of `PYXIS_EIFFEL_CONFIG'
 
-	pecf_path: FILE_PATH
+	project_32_path: FILE_PATH
+		-- 32-bit project
+		do
+			Result := swapper.replacement_path
+		end
+
+	pyxis_ecf_path: FILE_PATH
+		do
+			Result := ecf
+			if ecf.has ('.') then
+				Result.replace_extension ("pecf")
+			end
+		end
+
+feature -- Basic operations
+
+	change_to_32
+		do
+			if bit_count = 64 then
+				swapper.swap
+				bit_count := 32
+			end
+		end
+
+	revert_to_64
+		do
+			if bit_count = 32 then
+				swapper.undo
+				bit_count := 64
+			end
+		end
+
+feature -- Status query
+
+	has_32_bit: BOOLEAN
+		-- `True' if 32-bit version of "project.py" exist
+		do
+			Result := project_32_path.exists
+		end
 
 feature {NONE} -- Line states
 
@@ -137,12 +171,20 @@ feature {NONE} -- Internal attributes
 
 	finish_at_else: BOOLEAN
 
+	swapper: EL_FILE_SWAPPER
+		-- swaps 64-bit with 32-bit project
+
 feature {NONE} -- Constants
 
 	Code: TUPLE [else_, if_platform_system, windows: ZSTRING]
 		once
 			create Result
 			Tuple.fill (Result, "else:, if platform.system, Windows")
+		end
+
+	Project_py: FILE_PATH
+		once
+			Result := "project.py"
 		end
 
 end

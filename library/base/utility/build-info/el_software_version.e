@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-03 15:40:49 GMT (Friday 3rd March 2023)"
-	revision: "19"
+	date: "2023-03-04 10:23:10 GMT (Saturday 4th March 2023)"
+	revision: "20"
 
 class
 	EL_SOFTWARE_VERSION
@@ -55,6 +55,13 @@ feature -- Initialization
 		end
 
 feature -- Element change
+
+	bump_build
+		do
+			build := build + 1
+		ensure
+			increased_by_one: build = old build + 1
+		end
 
 	bump_major
 		do

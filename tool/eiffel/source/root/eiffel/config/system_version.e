@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-03 15:01:09 GMT (Friday 3rd March 2023)"
-	revision: "17"
+	date: "2023-03-04 14:58:17 GMT (Saturday 4th March 2023)"
+	revision: "18"
 
 class
 	SYSTEM_VERSION
@@ -43,7 +43,7 @@ feature -- Version
 
 	release: NATURAL
 
-	software: EL_SOFTWARE_VERSION
+	version: EL_SOFTWARE_VERSION
 		do
 			create Result.make_parts (major, minor, release, build)
 		end

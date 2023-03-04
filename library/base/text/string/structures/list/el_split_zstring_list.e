@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-24 9:34:05 GMT (Friday 24th February 2023)"
-	revision: "14"
+	date: "2023-03-04 9:54:15 GMT (Saturday 4th March 2023)"
+	revision: "15"
 
 class
 	EL_SPLIT_ZSTRING_LIST
@@ -21,7 +21,8 @@ inherit
 			append_code as append_z_code,
 			separator_code as separator_z_code
 		redefine
-			append_z_code, is_white_space, proper_cased, separator_z_code, string_strict_cmp
+			append_z_code, is_white_space, is_valid_character, proper_cased, separator_z_code,
+			string_strict_cmp
 		end
 
 	EL_SHARED_ZSTRING_CODEC
@@ -35,6 +36,11 @@ feature {NONE} -- Implementation
 	append_z_code (str: ZSTRING; z_code: NATURAL)
 		do
 			str.append_z_code (z_code)
+		end
+
+	is_valid_character (uc: CHARACTER_32): BOOLEAN
+		do
+			Result := True
 		end
 
 	is_white_space (a_target: ZSTRING; i: INTEGER): BOOLEAN

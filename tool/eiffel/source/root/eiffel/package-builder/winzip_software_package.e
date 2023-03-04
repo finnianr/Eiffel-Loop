@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-20 12:22:29 GMT (Monday 20th February 2023)"
-	revision: "22"
+	date: "2023-03-04 14:58:17 GMT (Saturday 4th March 2023)"
+	revision: "23"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -35,8 +35,6 @@ inherit
 
 	WZIPSE32_ARGUMENTS undefine is_equal end
 
-	PACKAGE_BUILD_CONSTANTS
-
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_DEFERRED_LOCALE
@@ -52,16 +50,15 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_config_path: FILE_PATH; a_pecf_path: FILE_PATH)
+	make (a_config_path: FILE_PATH)
 			--
 		require
 			config_exists: a_config_path.exists
-			pecf_exists: a_pecf_path.exists
 		do
 			make_from_file (a_config_path)
 			name_template.replace_substring_all ("%%S", "%S")
 
-			create software.make (a_pecf_path)
+			create project_config.make_scons (project_py)
 			bit_count := 64
 			if not output_dir.is_absolute then
 				output_dir := Directory.current_working #+ output_dir
@@ -73,7 +70,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			Precursor
 			create architecture_list.make (2)
 			create language_list.make (2)
-			create project_py_swapper.make (Project_py, "py32")
+			create project_py.make
 		end
 
 feature -- Constants
@@ -91,11 +88,11 @@ feature -- Basic operations
 			if is_valid.item then
 				lio.put_path_field ("Output %S", output_dir)
 				lio.put_new_line
-				lio.put_path_field ("Project", software.pecf_path)
+				lio.put_path_field ("Project", project_config.pyxis_ecf_path)
 				lio.put_new_line
 				if architecture_list.count > 0 then
 					if build_exe and architecture_list.has (64) then
-						software.increment_build
+						project_config.bump_build
 					end
 					pass_phrase.share (User_input.line ("Signing pass phrase"))
 					lio.put_new_line
@@ -106,16 +103,16 @@ feature -- Basic operations
 				across reverse_list as count until has_build_error loop
 					bit_count := count.item
 					if build_exe then
-						if bit_count = 32 implies project_py_32_exists then
+						if bit_count = 32 implies project_py.has_32_bit then
 							build_executable
 						else
-							lio.put_labeled_string (project_py_swapper.replacement_path, " is missing")
+							lio.put_labeled_string (project_py.project_32_path, " is missing")
 							lio.put_new_line
 							has_build_error := True
 						end
 					end
 					if build_installers and then not has_build_error then
-						exe_path := Directory.current_working + Exe_path_template #$ [ise_platform, software.exe_name]
+						exe_path := Directory.current_working + relative_exe_path
 						sha_256_sign
 						across language_list as lang until has_build_error loop
 							build_installer (Locale.in (lang.item))
@@ -133,11 +130,6 @@ feature -- Status query
 		end
 
 	has_build_error: BOOLEAN
-
-	project_py_32_exists: BOOLEAN
-		do
-			Result := project_py_swapper.replacement_path.exists
-		end
 
 	valid_architectures: BOOLEAN
 		do
@@ -158,19 +150,19 @@ feature {NONE} -- Implementation
 
 	build_executable
 		require
-			has_32_bit_project: bit_count = 32 implies project_py_32_exists
+			has_32_bit_project: bit_count = 32 implies project_py.has_32_bit
 		local
 			build_command: EL_OS_COMMAND
 		do
 			if bit_count = 32 then
-				project_py_swapper.swap
+				project_py.change_to_32
 			end
 			create build_command.make (scons_cmd)
 			build_command.execute
 
 			has_build_error := build_command.has_error
 			if bit_count = 32 then
-				project_py_swapper.undo
+				project_py.revert_to_64
 			end
 		end
 
@@ -187,9 +179,9 @@ feature {NONE} -- Implementation
 
 			if not has_build_error then
 				create template.make_with_locale (a_locale)
-				text_dialog_message := template.installer_dialog_box #$ [software.product]
-				text_install := template.unzip_installation #$ [software.product]
-				title := template.installer_title #$ [software.product]
+				text_dialog_message := template.installer_dialog_box #$ [project_config.system.product]
+				text_install := template.unzip_installation #$ [project_config.system.product]
+				title := template.installer_title #$ [project_config.system.product]
 
 				if a_locale.language ~ "de" then
 					language_option := "-lg" -- German
@@ -247,11 +239,13 @@ feature {NONE} -- Implementation
 		local
 			inserts: TUPLE; platform_dir: ZSTRING
 		do
-			inspect name_template.occurrences ('%S')
-				when 2 then
-					inserts := [bit_count, software.version.string]
-			else
-				inserts := [language, bit_count, software.version.string]
+			if attached project_config.system.version as version then
+				inspect name_template.occurrences ('%S')
+					when 2 then
+						inserts := [bit_count, version.string]
+				else
+					inserts := [language, bit_count, version.string]
+				end
 			end
 			platform_dir := ISE_platform_table [bit_count]
 			Result := output_dir.joined_file_steps (<< platform_dir, name_template #$ inserts >>)
@@ -265,6 +259,11 @@ feature {NONE} -- Implementation
 	languages: STRING
 		do
 			Result := language_list.comma_separated_string
+		end
+
+	relative_exe_path: FILE_PATH
+		do
+			Result := Exe_path_template #$ [ise_platform, project_config.executable_name_full]
 		end
 
 	scons_cmd: STRING
@@ -317,9 +316,23 @@ feature {NONE} -- Implementation: attributes
 
 	bit_count: INTEGER
 
-	project_py_swapper: EL_FILE_SWAPPER
+	project_py: SCONS_PROJECT_PY_CONFIG
+		-- Python config "project.py"
 
-	software: SOFTWARE_INFO;
+	project_config: PYXIS_EIFFEL_CONFIG
+		-- Pyxis Eiffel configuration translateable to ecf XML
+
+feature {NONE} -- Constants
+
+	Exe_path_template: ZSTRING
+		once
+			Result := "build/%S/package/bin/%S"
+		end
+
+	ISE_platform_table: EL_HASH_TABLE [STRING, INTEGER]
+		once
+			create Result.make (<< [32, "windows"], [64, "win64"] >>)
+		end
 
 note
 	notes: "[

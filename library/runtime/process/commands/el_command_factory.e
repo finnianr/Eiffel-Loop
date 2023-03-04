@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2023-03-04 15:33:20 GMT (Saturday 4th March 2023)"
+	revision: "21"
 
 class
 	EL_COMMAND_FACTORY
@@ -23,7 +23,17 @@ feature -- Linux only commands
 			Result.fill_variables (var)
 			Result.put_path (var.path, script_path)
 		end
-		
+
+	launch_gedit (file_path: FILE_PATH)
+		local
+			gedit_cmd: EL_OS_COMMAND
+		do
+			create gedit_cmd.make ("gedit $path")
+			gedit_cmd.put_path ("path", file_path)
+			gedit_cmd.set_forking_mode (True)
+			gedit_cmd.execute
+		end
+
 	sudo_execute (cmd: EL_OS_COMMAND_I)
 		do
 			cmd.sudo.enable

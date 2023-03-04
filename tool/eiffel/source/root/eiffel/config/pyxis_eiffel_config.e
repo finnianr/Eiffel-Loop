@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-03 15:49:44 GMT (Friday 3rd March 2023)"
-	revision: "1"
+	date: "2023-03-04 16:30:01 GMT (Saturday 4th March 2023)"
+	revision: "2"
 
 class
 	PYXIS_EIFFEL_CONFIG
@@ -20,16 +20,26 @@ inherit
 
 	EL_MODULE_FILE
 
+	EL_FILE_OPEN_ROUTINES
+
 create
-	make
+	make, make_scons
 
 feature {NONE} -- Initialization
+
+	make_scons (scons: SCONS_PROJECT_PY_CONFIG)
+		do
+			make (scons.pyxis_ecf_path)
+			if not scons.build_info_path.is_empty then
+				build_info_path := scons.build_info_path
+			end
+		end
 
 	make (a_pecf_path: FILE_PATH)
 		do
 			make_default
 
-			pecf_path.copy (a_pecf_path)
+			pyxis_ecf_path.copy (a_pecf_path)
 			source_text := File.plain_text (a_pecf_path)
 			create line_intervals.make (source_text, '%N')
 			build_from_string (partial_source_text)
@@ -38,7 +48,8 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			Precursor
-			create pecf_path
+			build_info_path := Default_build_info_path
+			create pyxis_ecf_path
 			create source_text.make_empty
 			create executable_name.make_empty
 			create system.make_default
@@ -46,9 +57,20 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	build_info_path: FILE_PATH
+
 	executable_name: STRING
 
-	pecf_path: FILE_PATH
+	executable_name_full: STRING
+		do
+			if {PLATFORM}.is_windows then
+				Result := executable_name + ".exe"
+			else
+				Result := executable_name
+			end
+		end
+
+	pyxis_ecf_path: FILE_PATH
 
 	system: SYSTEM_VERSION
 
@@ -82,12 +104,21 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature -- Element change
+feature -- Basic operations
+
+	bump_build
+		-- increase build by one
+		do
+			if attached system.version as version then
+				version.bump_build
+				set_version (version)
+			end
+		end
 
 	set_version (a_version: EL_SOFTWARE_VERSION)
 		local
-			found: BOOLEAN; l_count, tab_count: INTEGER
-			item, new_version: STRING; s: EL_STRING_8_ROUTINES
+			found: BOOLEAN; tab_count: INTEGER
+			item, new_version: STRING
 		do
 			create item.make_empty
 			system.set_version (a_version)
@@ -106,16 +137,17 @@ feature -- Element change
 					end
 				end
 				if found then
-					l_count := item.count
-					item.prune_all_leading ('%T')
-					tab_count := l_count - item.count
-					new_version := s.n_character_string ('%T', tab_count) + a_version.pyxis_attributes
-					source_text.replace_substring (new_version, list.item_start_index, list.item_end_index)
-					File.write_text (pecf_path, source_text)
+					tab_count := list.item_leading_occurrences ('%T')
+					new_version := a_version.pyxis_attributes
+					source_text.replace_substring (new_version, list.item_start_index + tab_count, list.item_end_index)
+					File.write_text (pyxis_ecf_path, source_text)
+					write_xml_ecf
 					line_intervals.wipe_out
 					line_intervals.fill (source_text, '%N', 0)
 				end
 			end
+		ensure
+			version_set: system.version ~ a_version
 		end
 
 feature {NONE} -- Implementation
@@ -132,6 +164,17 @@ feature {NONE} -- Implementation
 						list.forth
 					end
 				end
+			end
+		end
+
+	write_xml_ecf
+		local
+			ecf_generator: ECF_XML_GENERATOR
+		do
+			if attached open (pyxis_ecf_path.with_new_extension ("ecf"), Write) as ecf_out then
+				create ecf_generator.make
+				ecf_generator.convert_text (source_text, ecf_out)
+				ecf_out.close
 			end
 		end
 
@@ -153,6 +196,11 @@ feature {NONE} -- Internal attributes
 	source_text: STRING
 
 feature {NONE} -- Constants
+
+	Default_build_info_path: ZSTRING
+		once
+			Result := "source/build_info.e"
+		end
 
 	Version_parts: EL_STRING_8_LIST
 		once

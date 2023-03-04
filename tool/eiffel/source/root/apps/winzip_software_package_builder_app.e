@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2023-03-04 12:19:28 GMT (Saturday 4th March 2023)"
+	revision: "18"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER_APP
@@ -44,18 +44,12 @@ feature {NONE} -- Implementation
 
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
-			Result := <<
-				config_argument ("Path to build configuration file"),
-				optional_argument ("pecf", "Path to Pyxis configuration file", << file_must_exist >>)
-			>>
+			Result := << config_argument ("Path to build configuration file") >>
 		end
 
 	default_make: PROCEDURE [like command]
-		local
-			project: SCONS_PROJECT_PY_CONFIG
 		do
-			create project.make
-			Result := agent {like command}.make ("", project.pecf_path)
+			Result := agent {like command}.make (create {FILE_PATH})
 		end
 
 	new_locale: EL_DEFAULT_LOCALE

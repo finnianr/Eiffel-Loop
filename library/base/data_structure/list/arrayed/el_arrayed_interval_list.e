@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-24 12:34:25 GMT (Friday 24th February 2023)"
-	revision: "7"
+	date: "2023-03-04 10:07:43 GMT (Saturday 4th March 2023)"
+	revision: "8"
 
 class
 	EL_ARRAYED_INTERVAL_LIST
@@ -55,9 +55,9 @@ feature -- Measurement
 		local
 			i: INTEGER
 		do
-			if attached area_v2 as l_area then
-				from until i = l_area.count loop
-					Result := Result + l_area [i + 1] - l_area [i] + 1
+			if attached area_v2 as a then
+				from until i = a.count loop
+					Result := Result + a [i + 1] - a [i] + 1
 					i := i + 2
 				end
 			end
@@ -185,9 +185,9 @@ feature -- Conversion
 			i: INTEGER; ir: EL_INTERVAL_ROUTINES
 		do
 			create Result.make_filled (0, 1, count)
-			if attached area_v2 as l_area then
-				from until i = l_area.count loop
-					Result [i // 2 + 1] := ir.compact (l_area [i], l_area [i + 1])
+			if attached area_v2 as a then
+				from until i = a.count loop
+					Result [i // 2 + 1] := ir.compact (a [i], a [i + 1])
 					i := i + 2
 				end
 			end
@@ -198,15 +198,15 @@ feature -- Conversion
 			i: INTEGER
 		do
 			create Result.make (8 * count)
-			if attached area_v2 as l_area then
-				from until i = l_area.count loop
+			if attached area_v2 as a then
+				from until i = a.count loop
 					if not Result.is_empty then
 						Result.append (", ")
 					end
 					Result.append_character ('[')
-					Result.append_integer (l_area [i])
+					Result.append_integer (a [i])
 					Result.append_character (':')
-					Result.append_integer (l_area [i + 1])
+					Result.append_integer (a [i + 1])
 					Result.append_character (']')
 					i := i + 2
 				end

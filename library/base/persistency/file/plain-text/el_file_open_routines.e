@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-03-04 15:18:08 GMT (Saturday 4th March 2023)"
+	revision: "10"
 
 deferred class
 	EL_FILE_OPEN_ROUTINES
@@ -33,7 +33,7 @@ feature {NONE} -- Basic operations
 	frozen open (path: READABLE_STRING_GENERAL; mode: NATURAL): EL_PLAIN_TEXT_FILE
 		require
 			valid_mode: valid_file_mode (mode)
-			parent_exists: (create {FILE_PATH}.make (path)).parent.exists
+			parent_exists: parent_path_exists (path)
 		do
 			if (mode & Notifying).to_boolean then
 				create {EL_NOTIFYING_PLAIN_TEXT_FILE} Result.make_with_name (path)
@@ -47,6 +47,7 @@ feature {NONE} -- Basic operations
 		-- open file for reading using LINEAR iterator
 		require
 			valid_encoding: Mod_encoding.is_valid (a_encoding)
+			parent_exists: parent_path_exists (path)
 		local
 			file_path: FILE_PATH
 		do
@@ -61,6 +62,7 @@ feature {NONE} -- Basic operations
 	frozen open_raw (path: READABLE_STRING_GENERAL; mode: NATURAL): RAW_FILE
 		require
 			valid_mode: valid_file_mode (mode)
+			parent_exists: parent_path_exists (path)
 		do
 			if (mode & Notifying).to_boolean then
 				create {EL_NOTIFYING_RAW_FILE} Result.make_with_name (path)
@@ -105,6 +107,14 @@ feature {NONE} -- Contract Support
 					Result := True
 			else
 			end
+		end
+
+	parent_path_exists (a_path: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			l_path: FILE_PATH
+		do
+			create l_path.make (a_path)
+			Result := l_path.has_parent implies l_path.parent.exists
 		end
 
 feature {NONE} -- Mode bitmaps

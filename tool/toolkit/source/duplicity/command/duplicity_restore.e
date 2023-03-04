@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "26"
+	date: "2023-03-04 15:19:42 GMT (Saturday 4th March 2023)"
+	revision: "27"
 
 class
 	DUPLICITY_RESTORE
@@ -149,7 +149,7 @@ feature {NONE} -- Factory
 				when 0, 1 then
 					Result := new_backup_shell (collection.backup_list)
 			else
-				create item_table.make_equal (year_group_table.count)
+				create item_table.make_size (year_group_table.count)
 				across year_group_table as table loop
 					backup_shell := new_backup_shell (table.item)
 					item_table [table.key] := agent backup_shell.run_command_loop
@@ -163,7 +163,7 @@ feature {NONE} -- Factory
 			item_table: EL_PROCEDURE_TABLE [ZSTRING]
 			year: ZSTRING
 		do
-			create item_table.make_equal (date_list.count)
+			create item_table.make_size (date_list.count)
 			if date_list.is_empty then
 				year := "0000"
 			else

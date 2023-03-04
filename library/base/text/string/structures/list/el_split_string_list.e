@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-23 15:54:00 GMT (Thursday 23rd February 2023)"
-	revision: "38"
+	date: "2023-03-04 10:05:15 GMT (Saturday 4th March 2023)"
+	revision: "39"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -36,7 +36,7 @@ inherit
 		rename
 			has as has_item
 		undefine
-			copy, is_equal, off, out
+			copy, character_count, is_equal, off, out
 		redefine
 			character_count, has_item
 		select
@@ -130,19 +130,6 @@ feature -- Conversion
 			push_cursor
 			from start until after loop
 				Result.extend (target.substring (item_start_index, item_end_index))
-				forth
-			end
-			pop_cursor
-		end
-
-feature -- Measurement
-
-	character_count: INTEGER
-			--
-		do
-			push_cursor
-			from start until after loop
-				Result := Result + item_count
 				forth
 			end
 			pop_cursor

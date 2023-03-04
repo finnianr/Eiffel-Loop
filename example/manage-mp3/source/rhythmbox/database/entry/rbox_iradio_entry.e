@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 11:31:02 GMT (Thursday 5th January 2023)"
-	revision: "56"
+	date: "2023-03-04 15:25:45 GMT (Saturday 4th March 2023)"
+	revision: "57"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -158,7 +158,7 @@ feature {NONE} -- Build from XML
 		local
 			l_xpath: STRING
 		do
-			create Result.make_equal (field_table.count)
+			create Result.make_size (field_table.count)
 			across Build_types as l_type loop
 				Result.merge (building_actions_for_type (l_type.item, element_node_field_set))
 			end

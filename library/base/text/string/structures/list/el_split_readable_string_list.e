@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-03 9:42:53 GMT (Friday 3rd March 2023)"
-	revision: "12"
+	date: "2023-03-04 16:32:16 GMT (Saturday 4th March 2023)"
+	revision: "13"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -23,6 +23,7 @@ class
 inherit
 	EL_SPLIT_INTERVALS
 		rename
+			count_sum as character_count,
 			current_linear as current_intervals,
 			do_all as do_all_intervals,
 			do_if as do_if_intervals,
@@ -48,7 +49,7 @@ inherit
 			there_exists as there_exists_interval
 		export
 			{NONE} all
-			{ANY} index, count, item_count, item_start_index, item_end_index, i_th_upper, i_th_lower,
+			{ANY} index, character_count, count, item_count, item_start_index, item_end_index, i_th_upper, i_th_lower,
 				back, remove, remove_head, remove_tail, go_i_th, is_empty, before, valid_index,
 				wipe_out, fill, fill_by_string, start, forth, after, valid_adjustments, off
 		redefine
@@ -112,6 +113,50 @@ feature -- Access
 			create Result.make (Current)
 		end
 
+feature -- Measurement
+
+	item_leading_occurrences (uc: CHARACTER_32): INTEGER
+		local
+			i, item_upper: INTEGER; c: CHARACTER_8; done: BOOLEAN
+		do
+			if is_valid_character (uc) and then attached target as l_target then
+				c := uc.to_character_8
+				i := (index - 1) * 2
+				if attached area_v2 as a then
+					item_upper := a [i + 1]
+					from i := a [i] until done or i > item_upper loop
+						if same_i_th_character (l_target, i, uc, c) then
+							Result := Result + 1
+						else
+							done := True
+						end
+						i := i + 1
+					end
+				end
+			end
+		end
+
+	item_trailing_occurrences (uc: CHARACTER_32): INTEGER
+		local
+			i, item_lower: INTEGER; c: CHARACTER_8; done: BOOLEAN
+		do
+			if is_valid_character (uc) and then attached target as l_target then
+				c := uc.to_character_8
+				i := (index - 1) * 2
+				if attached area_v2 as a then
+					item_lower := a [i]
+					from i := a [i + 1] until done or i < item_lower loop
+						if same_i_th_character (l_target, i, uc, c) then
+							Result := Result + 1
+						else
+							done := True
+						end
+						i := i - 1
+					end
+				end
+			end
+		end
+
 feature -- Status query
 
 	has (str: READABLE_STRING_GENERAL): BOOLEAN
@@ -128,12 +173,11 @@ feature -- Status query
 		require
 			valid_item: not off
 		local
-			i, l_index: INTEGER; item_upper, item_lower: INTEGER
+			i: INTEGER
 		do
 			if attached area_v2 as a then
 				i := (index - 1) * 2
-				item_lower := a [i]; item_upper := a [i + 1]
-				Result := target.substring_index_in_bounds (str, item_lower, item_upper).to_boolean
+				Result := target.substring_index_in_bounds (str, a [i], a [i + 1]).to_boolean
 			end
 		end
 
@@ -264,18 +308,6 @@ feature -- Items
 			end
 		end
 
-	item_index_of (c: CHARACTER_32): INTEGER
-		-- index of `c' relative to `item_start_index - 1'
-		-- 0 if `c' does not occurr within item bounds
-		local
-			l_index: INTEGER
-		do
-			l_index := target.index_of ('=', item_start_index)
-			if not (l_index = 0 or l_index > item_end_index) then
-				Result := l_index - item_start_index + 1
-			end
-		end
-
 	item: S
 		local
 			i: INTEGER
@@ -286,6 +318,18 @@ feature -- Items
 			elseif attached area_v2 as a then
 				i := (index - 1) * 2
 				Result := target_substring (a [i], a [i + 1])
+			end
+		end
+
+	item_index_of (c: CHARACTER_32): INTEGER
+		-- index of `c' relative to `item_start_index - 1'
+		-- 0 if `c' does not occurr within item bounds
+		local
+			l_index: INTEGER
+		do
+			l_index := target.index_of ('=', item_start_index)
+			if not (l_index = 0 or l_index > item_end_index) then
+				Result := l_index - item_start_index + 1
 			end
 		end
 
@@ -344,6 +388,17 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	is_valid_character (uc: CHARACTER_32): BOOLEAN
+		-- `True' if `uc' is valid for target type
+		do
+			Result := attached {READABLE_STRING_8} target implies uc.is_character_8
+		end
+
+	same_i_th_character (a_target: like target; i: INTEGER; uc: CHARACTER_32; c: CHARACTER): BOOLEAN
+		do
+			Result := a_target [i] = uc
+		end
 
 	less_than (i, j: INTEGER): BOOLEAN
 		local
