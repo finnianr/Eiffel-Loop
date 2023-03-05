@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 17:15:56 GMT (Sunday 5th March 2023)"
-	revision: "30"
+	date: "2023-03-05 17:39:10 GMT (Sunday 5th March 2023)"
+	revision: "31"
 
 class
 	CLASS_RENAMING_COMMAND
@@ -43,7 +43,7 @@ feature {EL_APPLICATION} -- Initialization
 	make_default
 		do
 			Precursor
-			create interval_list.make_empty
+			create renamer.make
 		end
 
 feature -- Constants
@@ -73,14 +73,14 @@ feature {NONE} -- Implementation
 
 	do_with_file (source_path: FILE_PATH)
 		do
-			interval_list.set_source_text (File.plain_text (source_path), old_name)
-			if interval_list.whole_identifier_count > 0 then
+			renamer.set_source_text (File.plain_text (source_path), old_name)
+			if renamer.whole_identifier_count > 0 then
 				-- Check if `source_path' is class definition file
 				if source_path.base_matches (old_name, True) then
 					File_system.remove_path (source_path)
 					source_path.set_base_name (new_name.as_lower)
 				end
-				File.write_text (source_path, interval_list.replaced_source (new_name))
+				File.write_text (source_path, renamer.replaced_source (new_name))
 			end
 		end
 
@@ -96,6 +96,6 @@ feature {NONE} -- Internal attributes
 
 	old_name: STRING
 
-	interval_list: CLASS_NAME_INTERVAL_LIST
+	renamer: CLASS_RENAMER
 
 end

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 9:56:43 GMT (Monday 9th January 2023)"
-	revision: "5"
+	date: "2023-03-05 17:59:16 GMT (Sunday 5th March 2023)"
+	revision: "6"
 
 class
 	CLASS_RENAMING_SHELL_COMMAND
@@ -122,14 +122,17 @@ feature {NONE} -- Implementation
 
 	loop_until_quit
 		local
-			command: CLASS_RENAMING_COMMAND
+			command: CLASS_RENAMING_COMMAND; eiffel: EL_EIFFEL_SOURCE_ROUTINES
 		do
 			new_name.wipe_out
 			-- run in a loop
 			from user_quit := False until user_quit loop
-				if new_name.count > 0 then
+				if eiffel.is_class_name (new_name) then
 					create command.make (manifest, old_name, new_name)
 					command.execute
+				else
+					lio.put_labeled_string ("Invalid class name", new_name)
+					lio.put_new_line
 				end
 				set_class_names
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:38:08 GMT (Tuesday 14th February 2023)"
-	revision: "8"
+	date: "2023-03-05 17:59:16 GMT (Sunday 5th March 2023)"
+	revision: "9"
 
 expanded class
 	EL_EIFFEL_SOURCE_ROUTINES
@@ -62,7 +62,7 @@ feature -- Status query
 
 	is_class_name (text: ZSTRING): BOOLEAN
 		do
-			Result := True
+			Result := text.count > 0
 			across text as c until not Result loop
 				inspect c.item
 					when 'A' .. 'Z'  then
