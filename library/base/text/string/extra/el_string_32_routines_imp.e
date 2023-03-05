@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-17 16:23:47 GMT (Saturday 17th December 2022)"
-	revision: "31"
+	date: "2023-03-05 11:10:19 GMT (Sunday 5th March 2023)"
+	revision: "32"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -165,11 +165,19 @@ feature {NONE} -- Implementation
 			Result := str.last_index_of (c, start_index_from_end)
 		end
 
-feature {NONE} -- Constants
+feature {EL_OCCURRENCE_INTERVALS} -- Constants
 
 	Character_string_table: EL_FILLED_STRING_32_TABLE
 		once
 			create Result.make
+		end
+
+	String_searcher: STRING_32_SEARCHER
+		local
+			s: EL_STRING_32
+		once
+			create s.make_empty
+			Result := s.string_searcher
 		end
 
 end

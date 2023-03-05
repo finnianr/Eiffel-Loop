@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-03 10:59:04 GMT (Friday 3rd March 2023)"
-	revision: "30"
+	date: "2023-03-05 13:32:24 GMT (Sunday 5th March 2023)"
+	revision: "31"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -76,24 +76,24 @@ feature -- Index position
 
 	substring_index (other: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
 		do
-			if attached {EL_READABLE_ZSTRING} other as z_str then
-				if z_str.count = 1 then
+			if other.count = 1 then
+				if attached {EL_READABLE_ZSTRING} other as z_str then
 					Result := index_of_z_code (z_str.z_code (1), start_index)
 				else
-					Result := substring_index_zstring (z_str, start_index)
+					Result := index_of (other [1], start_index)
 				end
 
-			elseif other.count = 1 then
-				Result := index_of (other [1], start_index)
+			elseif attached {EL_READABLE_ZSTRING} other as z_str then
+				Result := substring_index_zstring (z_str, start_index)
 
-			elseif attached shared_search_pattern (other) as pattern then
-				if attached {READABLE_STRING_8} pattern as str_8 then
-					Result := String_8.substring_index_ascii (Current, str_8, start_index)
+			elseif attached as_ascii_pattern (other) as ascii_str then
+				Result := String_8.substring_index_ascii (Current, ascii_str, start_index)
 
-				elseif attached String_searcher as searcher then
-					searcher.initialize_deltas (pattern)
-					Result := searcher.substring_index_with_deltas (current_readable, pattern, start_index, count)
-				end
+			elseif attached shared_z_code_pattern_general (other) as z_code_string
+				and then attached String_searcher as searcher
+			then
+				searcher.initialize_deltas (z_code_string)
+				Result := searcher.substring_index_with_deltas (current_readable, z_code_string, start_index, count)
 			end
 		end
 
@@ -102,14 +102,14 @@ feature -- Index position
 			if attached {EL_READABLE_ZSTRING} other as z_other then
 				Result := substring_index_in_bounds_zstring (z_other, start_pos, end_pos)
 
-			elseif attached shared_search_pattern (other) as pattern then
-				if attached {READABLE_STRING_8} pattern as str_8 then
-					Result := String_8.substring_index_in_bounds_ascii (Current, str_8, start_pos, end_pos)
+			elseif attached as_ascii_pattern (other) as ascii_str then
+				Result := String_8.substring_index_in_bounds_ascii (Current, ascii_str, start_pos, end_pos)
 
-				elseif attached String_searcher as searcher then
-					searcher.initialize_deltas (pattern)
-					Result := searcher.substring_index_with_deltas (current_readable, pattern, start_pos, end_pos)
-				end
+			elseif attached shared_z_code_pattern_general (other) as z_code_string
+				and then attached String_searcher as searcher
+			then
+				searcher.initialize_deltas (z_code_string)
+				Result := searcher.substring_index_with_deltas (current_readable, z_code_string, start_pos, end_pos)
 			end
 		end
 
@@ -177,18 +177,19 @@ feature -- Basic operations
 	fill_index_list (list: ARRAYED_LIST [INTEGER]; a_pattern: READABLE_STRING_GENERAL)
 		-- fill `list' with all indices of `a_pattern' found in `Current'
 		local
-			pattern: READABLE_STRING_GENERAL; index, l_count, pattern_count: INTEGER
+			index, l_count, pattern_count: INTEGER
 		do
 			pattern_count := a_pattern.count; l_count := count
-			pattern := shared_search_pattern (a_pattern)
 
-			if attached {READABLE_STRING_8} pattern as ascii_pattern then
-				String_8.fill_index_list (list, Current, ascii_pattern)
+			if attached as_ascii_pattern (a_pattern) as ascii_str then
+				String_8.fill_index_list (list, Current, ascii_str)
 
-			elseif attached string_searcher as searcher then
-				searcher.initialize_deltas (pattern)
+			elseif attached shared_z_code_pattern_general (a_pattern) as z_code_string
+				and then attached string_searcher as searcher
+			then
+				searcher.initialize_deltas (z_code_string)
 				from index := 1 until index = 0 or else index > l_count - pattern_count + 1 loop
-					index := searcher.substring_index_with_deltas (current_readable, pattern, index, l_count)
+					index := searcher.substring_index_with_deltas (current_readable, z_code_string, index, l_count)
 					if index > 0 then
 						list.extend (index)
 						index := index + pattern_count
@@ -202,36 +203,18 @@ feature -- Basic operations
 			fill_index_list_by_z_code (list, Codec.as_z_code (uc))
 		end
 
-feature {EL_SHARED_ZSTRING_CODEC} -- Implementation
+feature {EL_SHARED_ZSTRING_CODEC, EL_OCCURRENCE_INTERVALS} -- Implementation
 
-	as_expanded (index: INTEGER): STRING_32
-			-- Current expanded as `z_code' sequence
-		require
-			valid_index: 1 <= index and index <= 2
+	as_ascii_pattern (str: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
 		do
-			Result := expanded_of_size (index, count)
-			fill_expanded (Result.area)
+			if attached {READABLE_STRING_8} str as str_8 then
+				if attached cursor_8 (str_8) as cursor and then cursor.all_ascii then
+					Result := str_8
+				end
+			end
 		end
 
-feature {NONE} -- Implementation
-
-	empty_occurrence_intervals (i: INTEGER): EL_OCCURRENCE_INTERVALS
-		do
-			Result := Occurrence_intervals [i]
-			Result.wipe_out
-		end
-
-	expanded_of_size (index, a_count: INTEGER): STRING_32
-			-- Current expanded as `z_code' sequence
-		require
-			valid_index: 1 <= index and index <= 2
-		do
-			Result := Once_expanded_strings [index - 1]
-			Result.grow (a_count)
-			Result.set_count (a_count)
-		end
-
-	fill_expanded (str_area: SPECIAL [CHARACTER_32])
+	fill_with_z_codes (str_area: SPECIAL [CHARACTER_32])
 		require
 			valid_size: str_area.count >= count + 1
 		local
@@ -249,6 +232,40 @@ feature {NONE} -- Implementation
 				end
 				str_area [i] := '%U'
 			end
+		end
+
+	shared_z_code_pattern (index: INTEGER): STRING_32
+			-- Current expanded as `z_code' sequence
+		require
+			valid_index: 1 <= index and index <= 2
+		do
+			Result := resized_z_code_pattern (index, count)
+			fill_with_z_codes (Result.area)
+		end
+
+	shared_z_code_pattern_general (general: READABLE_STRING_GENERAL): STRING_32
+		do
+			if attached {EL_READABLE_ZSTRING} general as z_str then
+				Result := z_str.shared_z_code_pattern (1)
+
+			elseif attached {READABLE_STRING_8} general as str_8 and then attached cursor_8 (str_8) as c8 then
+				Result := resized_z_code_pattern (1, str_8.count)
+				c8.fill_z_codes (Result.area)
+
+			elseif attached {READABLE_STRING_32} general as str_32 and then attached cursor_32 (str_32) as c32 then
+				Result := resized_z_code_pattern (1, str_32.count)
+				c32.fill_z_codes (Result.area)
+			end
+		ensure
+			same_as_zstring: valid_general_z_code_pattern (general, Result)
+		end
+
+feature {NONE} -- Implementation
+
+	empty_occurrence_intervals (i: INTEGER): EL_OCCURRENCE_INTERVALS
+		do
+			Result := Occurrence_intervals [i]
+			Result.wipe_out
 		end
 
 	fill_index_list_by_z_code (list: ARRAYED_LIST [INTEGER]; a_z_code: NATURAL)
@@ -324,27 +341,14 @@ feature {NONE} -- Implementation
 			Result.fill_by_string (current_readable, str, 0)
 		end
 
-	shared_expanded (cursor: EL_STRING_ITERATION_CURSOR): STRING_32
+	resized_z_code_pattern (index, a_count: INTEGER): STRING_32
+			-- Current expanded as `z_code' sequence
+		require
+			valid_index: 1 <= index and index <= 2
 		do
-			Result := expanded_of_size (1, cursor.target_count)
-			cursor.fill_z_codes (Result.area)
-		end
-
-	shared_search_pattern (str: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
-		do
-			if attached {EL_READABLE_ZSTRING} str as z_other then
-				Result := z_other.as_expanded (1)
-
-			elseif attached {READABLE_STRING_8} str as str_8 and then attached cursor_8 (str_8) as cursor then
-				if cursor.all_ascii then
-					Result := str_8
-				else
-					Result := shared_expanded (cursor)
-				end
-
-			elseif attached {READABLE_STRING_32} str as str_32 and then attached cursor_32 (str_32) as cursor then
-				Result := shared_expanded (cursor)
-			end
+			Result := Z_code_pattern_array [index - 1]
+			Result.grow (a_count)
+			Result.set_count (a_count)
 		end
 
 	substring_index_in_bounds_zstring (other: EL_READABLE_ZSTRING; start_pos, end_pos: INTEGER): INTEGER
@@ -356,7 +360,7 @@ feature {NONE} -- Implementation
 			inspect current_other_bitmap (has_mixed_in_range, other.has_mixed_encoding)
 				when Both_have_mixed_encoding then
 					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
-					Result := String_searcher.substring_index (current_readable, other.as_expanded (1), start_pos, end_pos)
+					Result := String_searcher.substring_index (current_readable, other.shared_z_code_pattern (1), start_pos, end_pos)
 				when Only_current, Neither then
 					Result := String_8.substring_index_in_bounds (Current, other, start_pos, end_pos)
 				when Only_other then
@@ -377,7 +381,7 @@ feature {NONE} -- Implementation
 				when Both_have_mixed_encoding then
 --					Result := mixed_encoding_substring_index (other, start_index, count)
 					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
-					Result := String_searcher.substring_index (current_readable, other.as_expanded (1), start_index, count)
+					Result := String_searcher.substring_index (current_readable, other.shared_z_code_pattern (1), start_index, count)
 
 				when Only_other then
 					Result := 0
@@ -385,13 +389,21 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Constants
-
-	Once_expanded_strings: SPECIAL [STRING_32]
-		once
-			create Result.make_filled (create {STRING_32}.make_empty, 2)
-			Result [1] := create {STRING_32}.make_empty
+	valid_general_z_code_pattern (general: READABLE_STRING_GENERAL; a_z_code_string: STRING_32): BOOLEAN
+		local
+			zstr: EL_ZSTRING; z_code_string: STRING_32
+		do
+			if	attached {EL_READABLE_ZSTRING} general then
+				Result := True
+			else
+				create zstr.make_from_general (general)
+				create z_code_string.make_filled (' ', general.count)
+				zstr.fill_with_z_codes (z_code_string.area)
+				Result := z_code_string ~ a_z_code_string
+			end
 		end
+
+feature {NONE} -- Constants
 
 	Occurrence_intervals: SPECIAL [EL_OCCURRENCE_INTERVALS]
 		once
@@ -402,6 +414,12 @@ feature {NONE} -- Constants
 	String_searcher: EL_ZSTRING_SEARCHER
 		once
 			create Result.make
+		end
+
+	Z_code_pattern_array: SPECIAL [STRING_32]
+		once
+			create Result.make_filled (create {STRING_32}.make_empty, 2)
+			Result [1] := create {STRING_32}.make_empty
 		end
 
 end

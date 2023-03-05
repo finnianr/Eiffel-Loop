@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-02 14:46:28 GMT (Thursday 2nd March 2023)"
-	revision: "43"
+	date: "2023-03-05 12:13:28 GMT (Sunday 5th March 2023)"
+	revision: "44"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -201,7 +201,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			l_area, new_characters_area: like area; area_32: like unencoded_area
 			iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
-			old_expanded := old_characters.as_expanded (1); new_expanded := new_characters.as_expanded (2)
+			old_expanded := old_characters.shared_z_code_pattern (1); new_expanded := new_characters.shared_z_code_pattern (2)
 
 			l_area := area; new_characters_area := new_characters.area; l_count := count
 			l_new_unencoded := empty_unencoded_buffer; area_32 := unencoded_area

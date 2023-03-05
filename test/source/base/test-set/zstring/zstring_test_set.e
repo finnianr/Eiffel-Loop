@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-03 11:07:20 GMT (Friday 3rd March 2023)"
-	revision: "88"
+	date: "2023-03-05 12:13:27 GMT (Sunday 5th March 2023)"
+	revision: "89"
 
 class
 	ZSTRING_TEST_SET
@@ -106,7 +106,7 @@ feature -- Conversion tests
 			create pair
 		 	across Text.lines as line loop
 		 		pair.set (line.item)
-		 		z_code_string := pair.zs.as_expanded (1)
+		 		z_code_string := pair.zs.shared_z_code_pattern (1)
 		 		if z_code_string.count = pair.zs.count then
 		 			general := pair.zs
 		 			from i := 1 until i > z_code_string.count loop

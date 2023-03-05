@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-03 11:06:00 GMT (Friday 3rd March 2023)"
-	revision: "19"
+	date: "2023-03-05 13:33:43 GMT (Sunday 5th March 2023)"
+	revision: "20"
 
 class
 	STRING_PAIR
@@ -115,6 +115,11 @@ feature -- s_32 intervals
 			end
 		end
 
+	new_intervals (separator: CHARACTER_32): EL_SPLIT_INTERVALS
+		do
+			create Result.make (s_32, separator)
+		end
+
 	sandwiched_word_intervals: EL_SPLIT_INTERVALS
 		-- words sandwiched by one space each end
 		do
@@ -153,11 +158,6 @@ feature -- s_32 intervals
 	word_intervals: EL_SPLIT_INTERVALS
 		do
 			Result := new_intervals (' ')
-		end
-
-	new_intervals (separator: CHARACTER_32): EL_SPLIT_INTERVALS
-		do
-			create Result.make (s_32, separator)
 		end
 
 feature -- Test comparisons
@@ -202,6 +202,24 @@ feature -- Test comparisons
 			if Result and then attached s_8_substring as s then
 				b3 := zs.ends_with_general (s)
 				Result := b1 = b3
+			end
+		end
+
+	occurrence_intervals: BOOLEAN
+		local
+			intervals: EL_OCCURRENCE_INTERVALS; intervals_s_32: EL_SEQUENTIAL_INTERVALS
+			s: EL_STRING_32_ROUTINES
+		do
+			intervals_s_32 := s.occurrence_intervals (s_32, s_32_substring)
+			create intervals.make_by_string (zs, zs_substring)
+			Result := intervals.same_as (intervals_s_32)
+			if Result then
+				create intervals.make_by_string (zs, s_32_substring)
+				Result := intervals.same_as (intervals_s_32)
+			end
+			if Result and then attached s_8_substring as str_8 then
+				create intervals.make_by_string (zs, str_8)
+				Result := intervals.same_as (intervals_s_32)
 			end
 		end
 
@@ -312,14 +330,14 @@ feature -- Status query
 			Result := zs.same_string (s_32)
 		end
 
-	valid_index (i: INTEGER): BOOLEAN
-		do
-			Result := s_32.valid_index (i)
-		end
-
 	is_same_size: BOOLEAN
 		do
 			Result := zs.count = s_32.count
+		end
+
+	valid_index (i: INTEGER): BOOLEAN
+		do
+			Result := s_32.valid_index (i)
 		end
 
 feature -- Element change

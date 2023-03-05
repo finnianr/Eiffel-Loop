@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-04 10:07:43 GMT (Saturday 4th March 2023)"
-	revision: "8"
+	date: "2023-03-05 11:48:48 GMT (Sunday 5th March 2023)"
+	revision: "9"
 
 class
 	EL_ARRAYED_INTERVAL_LIST
@@ -68,6 +68,13 @@ feature -- Status query
 	item_has (n: INTEGER): BOOLEAN
 		do
 			Result := area_item_has (area_v2, (index - 1) * 2, n)
+		end
+
+	same_as (other: EL_ARRAYED_INTERVAL_LIST): BOOLEAN
+		do
+			if count = other.count then
+				Result := area_v2.same_items (other.area_v2, 0, 0, count * 2)
+			end
 		end
 
 feature -- First item

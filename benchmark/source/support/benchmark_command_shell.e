@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 12:16:46 GMT (Saturday 25th February 2023)"
-	revision: "32"
+	date: "2023-03-05 9:24:23 GMT (Sunday 5th March 2023)"
+	revision: "33"
 
 class
 	BENCHMARK_COMMAND_SHELL
@@ -32,6 +32,7 @@ feature {NONE} -- Implementation
 		ARRAYED_INTERVAL_LIST_COMPARISON,
 		ARRAYED_VS_LINKED_LIST,
 		ARRAYED_VS_HASH_SET_SEARCH,
+		ATTACH_TEST_VS_BOOLEAN_COMPARISON,
 
 		BIT_POP_COUNT_COMPARISON,
 		BIT_SHIFT_COUNT_COMPARISON,

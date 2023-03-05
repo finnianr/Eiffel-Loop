@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 10:37:36 GMT (Thursday 1st December 2022)"
-	revision: "6"
+	date: "2023-03-05 11:11:23 GMT (Sunday 5th March 2023)"
+	revision: "7"
 
 class
 	EL_STRING_32
 
 inherit
 	STRING_32
+		export
+			{EL_STRING_32_ROUTINES_IMP} String_searcher
+		end
 
 create
 	make_empty

@@ -8,14 +8,29 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-21 15:17:29 GMT (Tuesday 21st February 2023)"
-	revision: "9"
+	date: "2023-03-05 11:22:14 GMT (Sunday 5th March 2023)"
+	revision: "10"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL]
 
 inherit
 	STRING_HANDLER
+
+feature -- Access
+
+	occurrence_intervals (target: READABLE_STRING_X; pattern: READABLE_STRING_GENERAL): EL_SEQUENTIAL_INTERVALS
+		do
+			if attached string_searcher as searcher then
+				searcher.initialize_deltas (pattern)
+				if attached searcher.substring_index_list_with_deltas (target, pattern, 1, target.count) as list then
+					create Result.make (list.count)
+					list.do_all (agent extend_intervals (Result, pattern.count, ?))
+				else
+					create Result.make_empty
+				end
+			end
+		end
 
 feature -- Status query
 
@@ -185,7 +200,16 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	extend_intervals (intervals: EL_SEQUENTIAL_INTERVALS; count, index: INTEGER)
+		do
+			intervals.extend (index, index + count - 1)
+		end
+
 	last_index_of (str: READABLE_STRING_X; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
+		deferred
+		end
+
+	string_searcher: STRING_SEARCHER
 		deferred
 		end
 

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-24 9:29:32 GMT (Friday 24th February 2023)"
-	revision: "27"
+	date: "2023-03-05 13:39:04 GMT (Sunday 5th March 2023)"
+	revision: "28"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -20,6 +20,8 @@ inherit
 	EL_ENCODING_CONSTANTS
 
 	EL_MODULE_TUPLE
+
+	EL_SHARED_TEST_TEXT
 
 feature -- Basic operations
 
@@ -62,22 +64,29 @@ feature -- Tests
 		end
 
 	test_occurrence_intervals
+		-- SPLIT_STRING_TEST_SET.test_occurrence_intervals
 		local
-			intervals: EL_OCCURRENCE_INTERVALS
-			str: STRING; item_lower, item_upper: INTEGER
+			pair: STRING_PAIR; start_index, end_index, space_index: INTEGER
+			assertion_ok: STRING
 		do
-			create intervals.make_by_string (Api_string_list.joined_with_string (Comma_space), Comma_space)
-			create str.make (Api_string.count)
-			across Api_string_list as api loop
-				if not str.is_empty then
-					item_lower := str.count + 1
-					str.append (Comma_space)
-					item_upper := str.count
-					intervals.go_i_th (api.cursor_index - 1)
-					assert ("same item_lower", item_lower = intervals.item_lower)
-					assert ("same item_upper", item_upper = intervals.item_upper)
+			assertion_ok := "occurrence_intervals OK"
+			across Text.lines as line loop
+				create pair.make (line.item)
+				space_index := pair.s_32.index_of (' ', 1)
+				if space_index > 0 then
+					pair.set_substrings (space_index, space_index)
+					assert (assertion_ok, pair.occurrence_intervals)
 				end
-				str.append (api.item)
+				across pair.all_word_interval_permutations as permutation loop
+					if attached permutation.item as list then
+						from list.start until list.after loop
+							start_index := list.item_lower; end_index := list.item_upper
+							pair.set_substrings (start_index, end_index)
+							assert (assertion_ok, pair.occurrence_intervals)
+							list.forth
+						end
+					end
+				end
 			end
 		end
 

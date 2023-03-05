@@ -1,6 +1,6 @@
 note
 	description: "[
-		List of all occurrence intervals of a `search_string' in a string conforming to
+		List of all occurrence intervals of a pattern or character in a string conforming to
 		[$source READABLE_STRING_GENERAL]
 	]"
 
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-23 15:31:54 GMT (Thursday 23rd February 2023)"
-	revision: "18"
+	date: "2023-03-05 13:36:21 GMT (Sunday 5th March 2023)"
+	revision: "19"
 
 class
 	EL_OCCURRENCE_INTERVALS
@@ -26,22 +26,24 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
+	EL_ZSTRING_CONSTANTS
+
 create
 	make, make_empty, make_by_string, make_sized
 
 feature {NONE} -- Initialization
 
-	make (a_target: READABLE_STRING_GENERAL; search_character: CHARACTER_32)
+	make (a_target: READABLE_STRING_GENERAL; uc: CHARACTER_32)
 		do
 			make_empty
-			fill (a_target, search_character, 0)
+			fill (a_target, uc, 0)
 		end
 
-	make_by_string (a_target, search_string: READABLE_STRING_GENERAL)
+	make_by_string (a_target, a_pattern: READABLE_STRING_GENERAL)
 			-- Move to first position if any.
 		do
 			make_empty
-			fill_by_string (a_target, search_string, 0)
+			fill_by_string (a_target, a_pattern, 0)
 		end
 
 	make_empty
@@ -51,21 +53,33 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	fill (a_target: READABLE_STRING_GENERAL; search_character: CHARACTER_32; adjustments: INTEGER)
+	fill (a_target: READABLE_STRING_GENERAL; uc: CHARACTER_32; adjustments: INTEGER)
 		require
 			valid_adjustments: valid_adjustments (adjustments)
 		do
-			fill_intervals (a_target, Empty_string_8, search_character, adjustments)
+			fill_intervals (a_target, Empty_string_8, String_8_searcher, uc, adjustments)
 		end
 
-	fill_by_string (a_target, search_string: READABLE_STRING_GENERAL; adjustments: INTEGER)
+	fill_by_string (a_target, a_pattern: READABLE_STRING_GENERAL; adjustments: INTEGER)
 		require
 			valid_adjustments: valid_adjustments (adjustments)
 		do
-			if search_string.count = 1 then
-				fill_intervals (a_target, Empty_string_8, search_string [1], adjustments)
-			else
-				fill_intervals (a_target, search_string, '%U', adjustments)
+			if a_pattern.count = 1 then
+				fill_intervals (a_target, Empty_string_8, String_8_searcher, a_pattern [1], adjustments)
+
+			elseif attached {EL_READABLE_ZSTRING} a_target as zstr and then attached String_searcher as searcher then
+				if attached zstr.as_ascii_pattern (a_pattern) as ascii_pattern then
+					searcher.initialize_deltas (ascii_pattern)
+					fill_intervals (a_target, ascii_pattern, searcher, '%U', adjustments)
+
+				elseif attached zstr.shared_z_code_pattern_general (a_pattern) as z_code_pattern then
+					searcher.initialize_deltas (z_code_pattern)
+					fill_intervals (a_target, z_code_pattern, searcher, '%U', adjustments)
+				end
+
+			elseif attached shared_searcher (a_target) as searcher then
+				searcher.initialize_deltas (a_pattern)
+				fill_intervals (a_target, a_pattern, searcher, '%U', adjustments)
 			end
 		end
 
@@ -80,57 +94,75 @@ feature {NONE} -- Implementation
 
 	extend_buffer (
 		a_target: READABLE_STRING_GENERAL
-		l_area: like Intervals_buffer; search_index, search_string_count, adjustments: INTEGER
+		l_area: like Intervals_buffer; search_index, pattern_count, adjustments: INTEGER
 		final: BOOLEAN
 	)
 		do
 			if not final then
-				l_area.extend (search_index, search_index + search_string_count - 1)
+				l_area.extend (search_index, search_index + pattern_count - 1)
 			end
 		end
 
 	fill_intervals (
-		a_target, search_string: READABLE_STRING_GENERAL; search_character: CHARACTER_32
-		adjustments: INTEGER
+		a_target, a_pattern: READABLE_STRING_GENERAL; searcher: STRING_SEARCHER
+		uc: CHARACTER_32; adjustments: INTEGER
 	)
 		require
-			valid_search_string: search_string.count /= 1
+			valid_search_string: a_pattern.count /= 1
 		local
-			i, string_count, search_string_count, search_index: INTEGER
-			l_area: like Intervals_buffer; string_8_target: detachable STRING_8
-			search_character_8: CHARACTER
+			i, string_count, pattern_count, search_index, search_type: INTEGER
+			l_area: like Intervals_buffer; string_8_target: STRING_8
+			c: CHARACTER; character_outside_range: BOOLEAN
 		do
 			l_area := Intervals_buffer
 			l_area.wipe_out
 
 			string_count := a_target.count
-			if search_string.is_empty then
-				search_string_count := 1
+			if a_pattern.is_empty then
+				pattern_count := 1
+				search_type := Index_of_character_32
 			else
-				search_string_count := search_string.count
+				pattern_count := a_pattern.count
 			end
-			if search_string_count = 1 and then attached {READABLE_STRING_8} a_target as str_8 then
-				string_8_target := str_8; search_character_8 := search_character.to_character_8
+			if pattern_count = 1 and then attached {READABLE_STRING_8} a_target as str_8 then
+				character_outside_range := not uc.is_character_8
+				string_8_target := str_8; c := uc.to_character_8
+				search_type := Index_of_character_8
+			else
+				string_8_target := Empty_string_8
 			end
-			from i := 1 until i = 0 or else i > string_count - search_string_count + 1 loop
-				if search_string_count = 1 then
-					if attached string_8_target as str_8 then
-						i := str_8.index_of (search_character_8, i)
+			if not character_outside_range then
+				from i := 1 until i = 0 or else i > string_count - pattern_count + 1 loop
+					inspect search_type
+						when Index_of_character_8 then
+							i := string_8_target.index_of (c, i)
+
+						when Index_of_character_32 then
+							i := a_target.index_of (uc, i)
 					else
-						i := a_target.index_of (search_character, i)
+						i := searcher.substring_index_with_deltas (a_target, a_pattern, i, a_target.count)
 					end
-				else
-					i := a_target.substring_index (search_string, i)
-				end
-				if i > 0 then
-					search_index := i
-					extend_buffer (a_target, l_area, search_index, search_string_count, adjustments, False)
-					i := i + search_string_count
+					if i > 0 then
+						search_index := i
+						extend_buffer (a_target, l_area, search_index, pattern_count, adjustments, False)
+						i := i + pattern_count
+					end
 				end
 			end
-			extend_buffer (a_target, l_area, search_index, search_string_count, adjustments, True)
+			extend_buffer (a_target, l_area, search_index, pattern_count, adjustments, True)
 			make_sized (l_area.count)
 			area.copy_data (l_area.area, 0, 0, l_area.count * 2)
+		end
+
+	shared_searcher (a_target: READABLE_STRING_GENERAL): STRING_SEARCHER
+		local
+			s32: EL_STRING_32_ROUTINES
+		do
+			if attached {READABLE_STRING_8} a_target as str_8 then
+				Result := String_8_searcher
+			else
+				Result := s32.String_searcher
+			end
 		end
 
 feature {NONE} -- Constants
@@ -144,4 +176,21 @@ feature {NONE} -- Constants
 		once
 			create Result.make (50)
 		end
+
+	Index_of_character_8: INTEGER = 8
+
+	Index_of_character_32: INTEGER = 32
+
+	String_8_searcher: STRING_8_SEARCHER
+		local
+			s: EL_STRING_8_ROUTINES
+		once
+			Result := s.String_searcher
+		end
+
+	String_searcher: EL_ZSTRING_SEARCHER
+		once
+			Result := Empty_string.String_searcher
+		end
+
 end

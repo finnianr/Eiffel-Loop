@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-01 16:52:41 GMT (Wednesday 1st March 2023)"
-	revision: "113"
+	date: "2023-03-05 13:17:45 GMT (Sunday 5th March 2023)"
+	revision: "114"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -92,6 +92,7 @@ inherit
 	EL_SEARCHABLE_ZSTRING
 		export
 			{EL_APPENDABLE_ZSTRING} internal_substring_index_list
+			{EL_ZSTRING_ROUTINES_IMP, EL_OCCURRENCE_INTERVALS} String_searcher
 		redefine
 			unencoded_area
 		end

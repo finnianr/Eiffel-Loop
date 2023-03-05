@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-02 19:16:38 GMT (Thursday 2nd March 2023)"
-	revision: "76"
+	date: "2023-03-05 9:45:32 GMT (Sunday 5th March 2023)"
+	revision: "77"
 
 class
 	EL_ZSTRING
@@ -382,7 +382,7 @@ feature -- Removal
 			end
 			set_count (j)
 		end
-		
+
 	prune_all_leading (uc: CHARACTER_32)
 			-- Remove all leading occurrences of `c'.
 		do

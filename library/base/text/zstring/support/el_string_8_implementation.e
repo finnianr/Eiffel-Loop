@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-03 10:58:44 GMT (Friday 3rd March 2023)"
-	revision: "10"
+	date: "2023-03-05 10:47:32 GMT (Sunday 5th March 2023)"
+	revision: "11"
 
 class
 	EL_STRING_8_IMPLEMENTATION
@@ -233,7 +233,7 @@ feature -- Contract Support
 			Result := area.valid_index (i)
 		end
 
-feature {NONE} -- Internal attributes
+feature {EL_SEARCHABLE_ZSTRING} -- Internal attributes
 
 	area: SPECIAL [EL_STRING_8]
 
