@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 9:35:09 GMT (Sunday 5th March 2023)"
-	revision: "7"
+	date: "2023-03-05 15:54:28 GMT (Sunday 5th March 2023)"
+	revision: "8"
 
 class
 	ATTACH_TEST_VS_BOOLEAN_COMPARISON
@@ -38,7 +38,7 @@ feature -- Basic operations
 			>>)
 		end
 
-feature {NONE} -- el_os_routines_i
+feature {NONE} -- Implemenatation
 
 	test_boolean
 		local

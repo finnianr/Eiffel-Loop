@@ -1,3 +1,6 @@
+1.2.2
+* Revised class renaming command
+
 1.2.1
 * Added new version manager app
 
