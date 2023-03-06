@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 13:32:24 GMT (Sunday 5th March 2023)"
-	revision: "31"
+	date: "2023-03-06 9:24:35 GMT (Monday 6th March 2023)"
+	revision: "32"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -205,12 +205,12 @@ feature -- Basic operations
 
 feature {EL_SHARED_ZSTRING_CODEC, EL_OCCURRENCE_INTERVALS} -- Implementation
 
-	as_ascii_pattern (str: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
+	z_code_pattern (a_pattern: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
 		do
-			if attached {READABLE_STRING_8} str as str_8 then
-				if attached cursor_8 (str_8) as cursor and then cursor.all_ascii then
-					Result := str_8
-				end
+			if attached as_ascii_pattern (a_pattern) as ascii_pattern then
+				Result := ascii_pattern
+			else
+				Result := shared_z_code_pattern_general (a_pattern)
 			end
 		end
 
@@ -261,6 +261,15 @@ feature {EL_SHARED_ZSTRING_CODEC, EL_OCCURRENCE_INTERVALS} -- Implementation
 		end
 
 feature {NONE} -- Implementation
+
+	as_ascii_pattern (str: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
+		do
+			if attached {READABLE_STRING_8} str as str_8 then
+				if attached cursor_8 (str_8) as cursor and then cursor.all_ascii then
+					Result := str_8
+				end
+			end
+		end
 
 	empty_occurrence_intervals (i: INTEGER): EL_OCCURRENCE_INTERVALS
 		do

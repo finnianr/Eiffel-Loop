@@ -1,16 +1,18 @@
 note
-	description: "Forces shared string data into an instance of [$source IMMUTABLE_STRING_32]"
+	description: "[
+		Forces shared string data into an instance of a string conforming to [$source IMMUTABLE_STRING_GENERAL]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-16 11:40:34 GMT (Thursday 16th February 2023)"
-	revision: "2"
+	date: "2023-03-06 11:14:50 GMT (Monday 6th March 2023)"
+	revision: "3"
 
-class
-	EL_IMMUTABLE_32_MANAGER
+deferred class
+	EL_IMMUTABLE_STRING_MANAGER [C, S -> IMMUTABLE_STRING_GENERAL create make_empty end]
 
 inherit
 	REFLECTED_REFERENCE_OBJECT
@@ -22,8 +24,6 @@ inherit
 	 		default_create
 	 	end
 
-	EL_SHARED_STRING_32_CURSOR
-
 feature {NONE} -- Initialization
 
 	default_create
@@ -33,21 +33,9 @@ feature {NONE} -- Initialization
 			field_table := Shared_field_table
 		end
 
-feature -- Access
-
-	item: IMMUTABLE_STRING_32
-
-feature -- Factory
-
-	new_substring (a_area: SPECIAL [CHARACTER_32]; offset, a_count: INTEGER): IMMUTABLE_STRING_32
-		do
-			set_item (a_area, offset, a_count)
-			Result := item.twin
-		end
-
 feature -- Element change
 
-	set_item (a_area: SPECIAL [CHARACTER_32]; offset, a_count: INTEGER)
+	set_item (a_area: SPECIAL [C]; offset, a_count: INTEGER)
 		local
 			item_address: POINTER; field: like field_table
 		do
@@ -56,29 +44,32 @@ feature -- Element change
 			{ISE_RUNTIME}.set_integer_32_field (field [Area_lower], item_address, 0, offset)
 			{ISE_RUNTIME}.set_integer_32_field (field [Count], item_address, 0, a_count)
 		ensure
-			same_substring:
-				attached cursor_32 (item) as c and then c.area.same_items (a_area, offset, c.area_first_index, count)
+			same_substring: same_area_items (a_area, offset, a_count)
 		end
 
-feature {NONE} -- Internal attributes
+feature -- Factory
 
-	field_table: SPECIAL [INTEGER]
+	new_substring (a_area: SPECIAL [C]; offset, a_count: INTEGER): like item
+		do
+			set_item (a_area, offset, a_count)
+			Result := item.twin
+		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Contract Support
 
-	Area: INTEGER = 0
+	same_area_items (a_area: SPECIAL [C]; offset, a_count: INTEGER): BOOLEAN
+		deferred
+		end
 
-	Area_lower: INTEGER = 1
+feature {NONE} -- Implementation
 
-	Count: INTEGER = 2
-
-	Shared_field_table: SPECIAL [INTEGER]
+	new_field_table: SPECIAL [INTEGER]
 		require
 			item_set: enclosing_object = item
 		local
 			list: EL_STRING_8_LIST; i, index: INTEGER
-		once
-			list := "area, area_lower, count"
+		do
+			list := Field_names
 			create Result.make_filled (0, 3)
 			from i := 1 until i > field_count loop
 				index := list.index_of (field_name (i), 1)
@@ -88,5 +79,27 @@ feature {NONE} -- Constants
 				i := i + 1
 			end
 		end
+
+	shared_field_table: SPECIAL [INTEGER]
+		deferred
+		end
+
+feature {NONE} -- Internal attributes
+
+	field_table: SPECIAL [INTEGER]
+
+feature -- Access
+
+	item: S
+
+feature {NONE} -- Constants
+
+	Area: INTEGER = 0
+
+	Area_lower: INTEGER = 1
+
+	Count: INTEGER = 2
+
+	Field_names: STRING = "area, area_lower, count"
 
 end

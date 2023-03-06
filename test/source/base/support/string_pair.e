@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 13:33:43 GMT (Sunday 5th March 2023)"
-	revision: "20"
+	date: "2023-03-06 12:06:40 GMT (Monday 6th March 2023)"
+	revision: "21"
 
 class
 	STRING_PAIR
@@ -19,6 +19,7 @@ inherit
 	 	redefine
 	 		default_create
 	 	end
+
 create
 	default_create, make, make_filled
 
@@ -207,20 +208,19 @@ feature -- Test comparisons
 
 	occurrence_intervals: BOOLEAN
 		local
-			intervals: EL_OCCURRENCE_INTERVALS; intervals_s_32: EL_SEQUENTIAL_INTERVALS
-			s: EL_STRING_32_ROUTINES
+			intervals_s_32: EL_SEQUENTIAL_INTERVALS; s: EL_STRING_32_ROUTINES
+			intervals_list: ARRAYED_LIST [EL_OCCURRENCE_INTERVALS]
 		do
 			intervals_s_32 := s.occurrence_intervals (s_32, s_32_substring)
-			create intervals.make_by_string (zs, zs_substring)
-			Result := intervals.same_as (intervals_s_32)
-			if Result then
-				create intervals.make_by_string (zs, s_32_substring)
-				Result := intervals.same_as (intervals_s_32)
+
+			create intervals_list.make_from_array (<<
+				create {EL_OCCURRENCE_INTERVALS}.make_by_string (zs, zs_substring),
+				create {EL_OCCURRENCE_INTERVALS}.make_by_string (s_32, s_32_substring)
+			>>)
+			if attached s_8_substring as str_8 then
+				intervals_list.extend (create {EL_OCCURRENCE_INTERVALS}.make_by_string (zs, str_8))
 			end
-			if Result and then attached s_8_substring as str_8 then
-				create intervals.make_by_string (zs, str_8)
-				Result := intervals.same_as (intervals_s_32)
-			end
+			Result := across intervals_list as list all list.item.same_as (intervals_s_32) end
 		end
 
 	replace_substring_all: BOOLEAN
@@ -261,6 +261,32 @@ feature -- Test comparisons
 		do
 			substring := zs.substring (start_index, end_index)
 			Result := substring.to_string_32 ~ s_32.substring (start_index, end_index)
+		end
+
+	split_intervals: BOOLEAN
+		local
+			intervals_s_32: EL_SEQUENTIAL_INTERVALS; s: EL_STRING_32_ROUTINES
+			intervals_list: ARRAYED_LIST [EL_OCCURRENCE_INTERVALS]
+		do
+			intervals_s_32 := s.split_intervals (s_32, s_32_substring)
+
+			create intervals_list.make_from_array (<<
+				create {EL_SPLIT_INTERVALS}.make_by_string (zs, zs_substring),
+				create {EL_SPLIT_ZSTRING_LIST}.make_by_string (zs, zs_substring),
+				create {EL_SPLIT_INTERVALS}.make_by_string (s_32, s_32_substring),
+				create {EL_SPLIT_STRING_32_LIST}.make_by_string (s_32, s_32_substring),
+				create {EL_SPLIT_STRING_32_LIST}.make_by_string (s_32, zs_substring)
+			>>)
+			if attached s_8_substring as str_8 then
+				intervals_list.extend (create {EL_SPLIT_INTERVALS}.make_by_string (zs, str_8))
+				intervals_list.extend (create {EL_SPLIT_ZSTRING_LIST}.make_by_string (zs, str_8))
+
+				if attached s_8 as target_8 then
+					intervals_list.extend (create {EL_SPLIT_STRING_8_LIST}.make_by_string (target_8, str_8))
+					intervals_list.extend (create {EL_SPLIT_STRING_8_LIST}.make_by_string (target_8, zs_substring))
+				end
+			end
+			Result := across intervals_list as list all list.item.same_as (intervals_s_32) end
 		end
 
 	starts_with: BOOLEAN

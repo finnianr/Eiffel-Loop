@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-26 8:35:24 GMT (Sunday 26th February 2023)"
-	revision: "18"
+	date: "2023-03-06 12:15:30 GMT (Monday 6th March 2023)"
+	revision: "19"
 
 class
 	IMMUTABLE_STRING_PAIR
@@ -17,7 +17,17 @@ class
 inherit
 	STRING_PAIR
 		redefine
-			s_8_substring, s_32_substring, set, set_substrings
+			s_8_substring, s_32_substring, set, set_substrings, split_intervals
+		end
+
+	EL_SHARED_IMMUTABLE_8_MANAGER
+		rename
+			Immutable_8 as Immutable_manager_8
+		end
+
+	EL_SHARED_IMMUTABLE_32_MANAGER
+		rename
+			Immutable_32 as Immutable_manager_32
 		end
 
 create
@@ -41,13 +51,18 @@ feature -- Element change
 	set (str_32: STRING_32)
 		do
 			Precursor (str_32)
-			immutable_32 := s_32
+			Immutable_manager_32.set_item (str_32.area, 0, str_32.count)
+			immutable_32 := Immutable_manager_32.item.twin
 
-			if s_32.is_valid_as_string_8 then
-				immutable_8 := s_32.to_string_8
+			if s_32.is_valid_as_string_8 and then attached s_32.to_string_8 as str_8 then
+				Immutable_manager_8.set_item (str_8.area, 0, str_8.count)
+				immutable_8 := Immutable_manager_8.item.twin
 			else
 				immutable_8 := Void
 			end
+		ensure then
+			same_s_32: s_32.same_string (immutable_32)
+			same_s_8: attached s_8 as str_8 implies str_8.same_string (immutable_8)
 		end
 
 	set_substrings (start_index, end_index: INTEGER)
@@ -61,6 +76,28 @@ feature -- Element change
 			else
 				s_8_substring := Void
 			end
+		end
+
+feature -- Test comparisons
+
+	split_intervals: BOOLEAN
+		local
+			intervals_s_32: EL_SEQUENTIAL_INTERVALS; s: EL_STRING_32_ROUTINES
+			intervals_list: ARRAYED_LIST [EL_OCCURRENCE_INTERVALS]
+		do
+			intervals_s_32 := s.split_intervals (s_32, s_32_substring)
+
+			create intervals_list.make_from_array (<<
+				create {EL_SPLIT_INTERVALS}.make_by_string (s_32, s_32_substring),
+				create {EL_IMMUTABLE_STRING_32_SPLIT_LIST}.make_by_string (s_32, s_32_substring)
+			>>)
+			if attached s_8_substring as str_8 then
+
+				if attached s_8 as target_8 then
+					intervals_list.extend (create {EL_IMMUTABLE_STRING_8_SPLIT_LIST}.make_by_string (target_8, str_8))
+				end
+			end
+			Result := across intervals_list as list all list.item.same_as (intervals_s_32) end
 		end
 
 end

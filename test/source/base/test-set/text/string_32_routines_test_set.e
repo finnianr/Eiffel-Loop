@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-16 11:25:49 GMT (Thursday 16th February 2023)"
-	revision: "20"
+	date: "2023-03-06 11:48:11 GMT (Monday 6th March 2023)"
+	revision: "21"
 
 class
 	STRING_32_ROUTINES_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 	EL_SHARED_TEST_TEXT
 
-	EL_SHARED_STRING_32_CURSOR
+	EL_SHARED_STRING_32_CURSOR; EL_SHARED_STRING_8_CURSOR
 
 feature -- Basic operations
 
@@ -25,7 +25,7 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			eval.call ("delimited_list", agent test_delimited_list)
-			eval.call ("immutable_32_manager", agent test_immutable_32_manager)
+			eval.call ("immutable_string_manager", agent test_immutable_string_manager)
 		end
 
 feature -- Tests
@@ -67,22 +67,40 @@ feature -- Tests
 			line_2_starts_with_W: Text.lines.i_th (2).item (1) = 'W'
 		end
 
-	test_immutable_32_manager
-		-- STRING_32_ROUTINES_TEST_SET.test_immutable_32_manager
+	test_immutable_string_manager
+		-- STRING_32_ROUTINES_TEST_SET.test_immutable_string_manager
+		note
+			testing: "covers/{EL_IMMUTABLE_STRING_MANAGER}.set_item",
+						"covers/{EL_IMMUTABLE_STRING_MANAGER}.new_substring"
 		local
-			manager: EL_IMMUTABLE_32_MANAGER
-			line_1, word_1, word_2: STRING_32
+			manager_32: EL_IMMUTABLE_32_MANAGER; manager_8: EL_IMMUTABLE_8_MANAGER
+			word_8: STRING_8; word_32: STRING_32; word_index: INTEGER
 		do
-			line_1 := Text.lines.first
-			if attached line_1.split (' ') as words then
-				word_1 := words [1]
-				word_2 := words [2]
-			end
-			create manager
-			if attached cursor_32 (line_1) as cursor then
-				manager.set_item (cursor.area, 2, 5)
-				assert_same_string (Void, manager.item, word_2)
-				assert_same_string (Void, manager.new_substring (cursor.area, 0, 1), word_1)
+			create manager_32; create manager_8
+			across Text.lines as line loop
+				if line.item.is_valid_as_string_8 and then attached line.item.to_string_8 as line_item_8 then
+					if attached line_item_8.split (' ') as words then
+						word_8 := words [2]
+						word_index := line.item.substring_index (word_8, 1)
+						if attached cursor_8 (line_item_8) as cursor then
+							manager_8.set_item (cursor.area, word_index - 1, word_8.count)
+							assert_same_string (Void, manager_8.item, word_8)
+							word_8 := words [1]
+	--						same as first word
+							assert_same_string (Void, manager_8.new_substring (cursor.area, 0, word_8.count), word_8)
+						end
+					end
+				elseif attached line.item.split (' ') as words then
+					word_32 := words [2]
+					word_index := line.item.substring_index (word_32, 1)
+					if attached cursor_32 (line.item) as cursor then
+						manager_32.set_item (cursor.area, word_index - 1, word_32.count)
+						assert_same_string (Void, manager_32.item, word_32)
+						word_32 := words [1]
+--						same as first word
+						assert_same_string (Void, manager_32.new_substring (cursor.area, 0, word_32.count), word_32)
+					end
+				end
 			end
 		end
 

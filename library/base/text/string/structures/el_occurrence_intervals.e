@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 13:36:21 GMT (Sunday 5th March 2023)"
-	revision: "19"
+	date: "2023-03-06 9:32:38 GMT (Monday 6th March 2023)"
+	revision: "20"
 
 class
 	EL_OCCURRENCE_INTERVALS
@@ -51,7 +51,7 @@ feature {NONE} -- Initialization
 			area_v2 := Default_area
 		end
 
-feature -- Basic operations
+feature -- Element change
 
 	fill (a_target: READABLE_STRING_GENERAL; uc: CHARACTER_32; adjustments: INTEGER)
 		require
@@ -67,15 +67,11 @@ feature -- Basic operations
 			if a_pattern.count = 1 then
 				fill_intervals (a_target, Empty_string_8, String_8_searcher, a_pattern [1], adjustments)
 
-			elseif attached {EL_READABLE_ZSTRING} a_target as zstr and then attached String_searcher as searcher then
-				if attached zstr.as_ascii_pattern (a_pattern) as ascii_pattern then
-					searcher.initialize_deltas (ascii_pattern)
-					fill_intervals (a_target, ascii_pattern, searcher, '%U', adjustments)
-
-				elseif attached zstr.shared_z_code_pattern_general (a_pattern) as z_code_pattern then
-					searcher.initialize_deltas (z_code_pattern)
-					fill_intervals (a_target, z_code_pattern, searcher, '%U', adjustments)
-				end
+			elseif attached {EL_READABLE_ZSTRING} a_target as zstr
+				and then attached zstr.z_code_pattern (a_pattern) as z_code_pattern
+			then
+				String_searcher.initialize_deltas (z_code_pattern)
+				fill_intervals (a_target, z_code_pattern, String_searcher, '%U', adjustments)
 
 			elseif attached shared_searcher (a_target) as searcher then
 				searcher.initialize_deltas (a_pattern)
@@ -155,13 +151,11 @@ feature {NONE} -- Implementation
 		end
 
 	shared_searcher (a_target: READABLE_STRING_GENERAL): STRING_SEARCHER
-		local
-			s32: EL_STRING_32_ROUTINES
 		do
 			if attached {READABLE_STRING_8} a_target as str_8 then
 				Result := String_8_searcher
 			else
-				Result := s32.String_searcher
+				Result := String_32_searcher
 			end
 		end
 
@@ -184,6 +178,13 @@ feature {NONE} -- Constants
 	String_8_searcher: STRING_8_SEARCHER
 		local
 			s: EL_STRING_8_ROUTINES
+		once
+			Result := s.String_searcher
+		end
+
+	String_32_searcher: STRING_32_SEARCHER
+		local
+			s: EL_STRING_32_ROUTINES
 		once
 			Result := s.String_searcher
 		end

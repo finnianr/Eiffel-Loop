@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 13:39:04 GMT (Sunday 5th March 2023)"
-	revision: "28"
+	date: "2023-03-06 12:17:36 GMT (Monday 6th March 2023)"
+	revision: "29"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -36,6 +36,7 @@ feature -- Basic operations
 			eval.call ("split_and_join_1", agent test_split_and_join_1)
 			eval.call ("split_and_join_2", agent test_split_and_join_2)
 			eval.call ("split_and_join_3", agent test_split_and_join_3)
+			eval.call ("split_intervals", agent test_split_intervals)
 			eval.call ("split_iterator", agent test_split_iterator)
 			eval.call ("split_sort", agent test_split_sort)
 			eval.call ("split_string_8", agent test_split_string_8)
@@ -65,6 +66,8 @@ feature -- Tests
 
 	test_occurrence_intervals
 		-- SPLIT_STRING_TEST_SET.test_occurrence_intervals
+		note
+			testing: "covers/{EL_OCCURRENCE_INTERVALS}.make_by_string"
 		local
 			pair: STRING_PAIR; start_index, end_index, space_index: INTEGER
 			assertion_ok: STRING
@@ -187,6 +190,41 @@ feature -- Tests
 				list.forth
 			end
 			assert ("same string", Sales ~ list.joined_with_string (", "))
+		end
+
+	test_split_intervals
+		-- SPLIT_STRING_TEST_SET.test_split_intervals
+		note
+			testing: "covers/{EL_SPLIT_INTERVALS}.make_by_string"
+		local
+			pair: STRING_PAIR; start_index, end_index, space_index: INTEGER
+			assertion_ok: STRING
+		do
+			assertion_ok := "split_intervals OK"
+			across << False, True >> as test_immutables loop
+				across Text.lines as line loop
+					if test_immutables.item then
+						create {IMMUTABLE_STRING_PAIR} pair.make (line.item)
+					else
+						create pair.make (line.item)
+					end
+					space_index := pair.s_32.index_of (' ', 1)
+					if space_index > 0 then
+						pair.set_substrings (space_index, space_index)
+						assert (assertion_ok, pair.split_intervals)
+					end
+					across pair.all_word_interval_permutations as permutation loop
+						if attached permutation.item as list then
+							from list.start until list.after loop
+								start_index := list.item_lower; end_index := list.item_upper
+								pair.set_substrings (start_index, end_index)
+								assert (assertion_ok, pair.split_intervals)
+								list.forth
+							end
+						end
+					end
+				end
+			end
 		end
 
 	test_split_iterator

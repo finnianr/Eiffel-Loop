@@ -1,13 +1,13 @@
 note
-	description: "List of [$source EL_ZSTRING] strings"
+	description: "List of strings of type [$source ZSTRING]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 17:52:58 GMT (Sunday 18th December 2022)"
-	revision: "18"
+	date: "2023-03-06 9:49:08 GMT (Monday 6th March 2023)"
+	revision: "19"
 
 class
 	EL_ZSTRING_LIST

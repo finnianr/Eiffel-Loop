@@ -1,7 +1,7 @@
 note
 	description: "[
-		A virtual split-list of [$source ZSTRING] represented as an array of [$INTEGER_64]
-		substring intervals
+		A list of substring index intervals conforming to [$source EL_SPLIT_INTERVALS]
+		for a string of type [$source ZSTRING]
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-04 9:54:15 GMT (Saturday 4th March 2023)"
-	revision: "15"
+	date: "2023-03-06 10:08:06 GMT (Monday 6th March 2023)"
+	revision: "16"
 
 class
 	EL_SPLIT_ZSTRING_LIST
@@ -21,8 +21,8 @@ inherit
 			append_code as append_z_code,
 			separator_code as separator_z_code
 		redefine
-			append_z_code, is_white_space, is_valid_character, proper_cased, separator_z_code,
-			string_strict_cmp
+			append_z_code, fill_by_string, is_white_space, is_valid_character, proper_cased,
+			separator_z_code, string_strict_cmp
 		end
 
 	EL_SHARED_ZSTRING_CODEC
@@ -30,6 +30,21 @@ inherit
 create
 	make, make_empty, make_by_string, make_adjusted, make_adjusted_by_string,
 	make_from_for, make_from, make_from_if
+
+feature -- Element change
+
+	fill_by_string (a_target: ZSTRING; a_pattern: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
+		do
+			if a_pattern.count = 1 then
+				fill_intervals (a_target, Empty_string_8, String_8_searcher, a_pattern [1], a_adjustments)
+
+			elseif attached String_searcher as searcher then
+				if attached a_target.z_code_pattern (a_pattern) as z_code_pattern then
+					searcher.initialize_deltas (z_code_pattern)
+					fill_intervals (a_target, z_code_pattern, searcher, '%U', adjustments)
+				end
+			end
+		end
 
 feature {NONE} -- Implementation
 

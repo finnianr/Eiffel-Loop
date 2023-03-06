@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 11:22:14 GMT (Sunday 5th March 2023)"
-	revision: "10"
+	date: "2023-03-06 10:43:02 GMT (Monday 6th March 2023)"
+	revision: "11"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -26,6 +26,29 @@ feature -- Access
 				if attached searcher.substring_index_list_with_deltas (target, pattern, 1, target.count) as list then
 					create Result.make (list.count)
 					list.do_all (agent extend_intervals (Result, pattern.count, ?))
+				else
+					create Result.make_empty
+				end
+			end
+		end
+
+	split_intervals (target: READABLE_STRING_X; separator: READABLE_STRING_GENERAL): EL_SEQUENTIAL_INTERVALS
+		local
+			previous_lower, previous_upper, lower, upper: INTEGER
+		do
+			if attached string_searcher as searcher then
+				searcher.initialize_deltas (separator)
+				if attached searcher.substring_index_list_with_deltas (target, separator, 1, target.count) as list then
+					create Result.make (list.count + 1)
+					from list.start until list.after loop
+						lower := list.item; upper := list.item + separator.count - 1
+						previous_lower := previous_upper + 1
+						previous_upper := lower - 1
+						Result.extend (previous_lower, previous_upper)
+						previous_upper := upper
+						list.forth
+					end
+					Result.extend (upper + 1, target.count)
 				else
 					create Result.make_empty
 				end

@@ -1,7 +1,7 @@
 note
 	description: "[
-		A virtual split-list of [$source IMMUTABLE_STRING_8] represented as an array of [$INTEGER_64]
-		substring intervals.
+		A list of substring index intervals conforming to [$source EL_SPLIT_INTERVALS]
+		for a string of type [$source IMMUTABLE_STRING_8]
 	]"
 
 	author: "Finnian Reilly"
@@ -9,17 +9,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-23 9:58:38 GMT (Thursday 23rd February 2023)"
-	revision: "4"
+	date: "2023-03-06 10:02:51 GMT (Monday 6th March 2023)"
+	revision: "5"
 
 class
 	EL_IMMUTABLE_STRING_8_SPLIT_LIST
 
 inherit
 	EL_SPLIT_READABLE_STRING_LIST [IMMUTABLE_STRING_8]
+		undefine
+			fill_by_string
 		redefine
 			item
 		end
+
+	EL_SPLIT_READABLE_STRING_8_LIST_I [IMMUTABLE_STRING_8]
 
 create
 	make_by_string, make_adjusted, make_adjusted_by_string, make_empty, make

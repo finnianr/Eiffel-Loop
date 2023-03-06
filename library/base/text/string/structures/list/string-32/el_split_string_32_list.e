@@ -1,6 +1,7 @@
 note
 	description: "[
-		A virtual split-list of [$source STRING_32] represented as an array of [$INTEGER_64] intervals
+		A list of substring index intervals conforming to [$source EL_SPLIT_INTERVALS]
+		for a string of type [$source STRING_32]
 	]"
 
 	author: "Finnian Reilly"
@@ -8,17 +9,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-04 9:54:15 GMT (Saturday 4th March 2023)"
-	revision: "15"
+	date: "2023-03-06 9:57:56 GMT (Monday 6th March 2023)"
+	revision: "16"
 
 class
 	EL_SPLIT_STRING_32_LIST
 
 inherit
 	EL_SPLIT_STRING_LIST [STRING_32]
+		undefine
+			fill_by_string
 		redefine
 			is_valid_character
 		end
+
+	EL_SPLIT_READABLE_STRING_32_LIST_I [STRING_32]
 
 create
 	make, make_empty, make_by_string, make_adjusted, make_adjusted_by_string,

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 17:59:16 GMT (Sunday 5th March 2023)"
-	revision: "6"
+	date: "2023-03-06 12:29:20 GMT (Monday 6th March 2023)"
+	revision: "7"
 
 class
 	CLASS_RENAMING_SHELL_COMMAND
@@ -61,17 +61,17 @@ feature -- Constants
 
 feature {NONE} -- Commands
 
-	rename_classes
-		do
-			prefix_letters.wipe_out
-			loop_until_quit
-		end
-
 	remove_prefix
 		do
 			prefix_letters := User_input.line ("Enter prefix to remove")
 			prefix_letters.to_upper
 			lio.put_new_line
+			loop_until_quit
+		end
+
+	rename_classes
+		do
+			prefix_letters.wipe_out
 			loop_until_quit
 		end
 
@@ -120,6 +120,10 @@ feature {NONE} -- Commands
 
 feature {NONE} -- Implementation
 
+	do_with_file (source_path: FILE_PATH)
+		do
+		end
+
 	loop_until_quit
 		local
 			command: CLASS_RENAMING_COMMAND; eiffel: EL_EIFFEL_SOURCE_ROUTINES
@@ -138,19 +142,18 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	do_with_file (source_path: FILE_PATH)
-		do
-		end
-
 	set_class_names
 		local
 			input: EL_USER_INPUT_VALUE [FILE_PATH]; class_path: FILE_PATH
+			base_name: STRING
 		do
 			lio.put_new_line
 			lio.put_new_line
 			create input.make ("Drag and drop class file")
 			class_path := input.value
-			if class_path.base.as_upper.is_equal ("QUIT") then
+			base_name := class_path.base
+			base_name.adjust
+			if base_name.as_lower ~ Quit then
 				user_quit := true
 			else
 				old_name := class_path.base_name.as_upper
@@ -165,6 +168,7 @@ feature {NONE} -- Implementation
 				else
 					new_name := User_input.line ("New class name")
 					new_name.adjust
+					user_quit := new_name.as_lower ~ Quit
 				end
 				lio.put_new_line
 			end
@@ -183,12 +187,15 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Internal attributes
 
-	user_quit: BOOLEAN
-
 	new_name: STRING
 
 	old_name: STRING
 
 	prefix_letters: STRING
 
+	user_quit: BOOLEAN
+
+feature {NONE} -- Constants
+
+	Quit: STRING = "quit"
 end
