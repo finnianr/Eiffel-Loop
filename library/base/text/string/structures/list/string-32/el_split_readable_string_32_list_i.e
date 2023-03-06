@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 13:12:29 GMT (Monday 6th March 2023)"
-	revision: "17"
+	date: "2023-03-06 13:47:50 GMT (Monday 6th March 2023)"
+	revision: "18"
 
 deferred class
 	EL_SPLIT_READABLE_STRING_32_LIST_I [S -> READABLE_STRING_32]
@@ -21,6 +21,7 @@ feature -- Element change
 
 	fill_by_string (a_target: S; a_pattern: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
 		do
+			set_target (a_target, a_adjustments)
 			if a_pattern.count = 1 then
 				fill_intervals (a_target, Empty_string_32, String_32_searcher, a_pattern [1], a_adjustments)
 
@@ -44,6 +45,10 @@ feature {NONE} -- Implementation
 		a_target, a_pattern: READABLE_STRING_GENERAL; searcher: STRING_SEARCHER
 		uc: CHARACTER_32; adjustments: INTEGER
 	)
+		deferred
+		end
+
+	set_target (a_target: S; a_adjustments: INTEGER)
 		deferred
 		end
 

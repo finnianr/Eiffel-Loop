@@ -1,3 +1,6 @@
+1.5.1
+* Revised split string classes
+
 1.4.0
 * Revised ZSTRING class with many optimizations
 

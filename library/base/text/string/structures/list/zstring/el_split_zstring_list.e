@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 10:08:06 GMT (Monday 6th March 2023)"
-	revision: "16"
+	date: "2023-03-06 13:50:35 GMT (Monday 6th March 2023)"
+	revision: "17"
 
 class
 	EL_SPLIT_ZSTRING_LIST
@@ -35,6 +35,7 @@ feature -- Element change
 
 	fill_by_string (a_target: ZSTRING; a_pattern: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
 		do
+			set_target (a_target, a_adjustments)
 			if a_pattern.count = 1 then
 				fill_intervals (a_target, Empty_string_8, String_8_searcher, a_pattern [1], a_adjustments)
 

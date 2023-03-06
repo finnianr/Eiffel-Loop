@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 10:21:58 GMT (Sunday 5th March 2023)"
-	revision: "14"
+	date: "2023-03-06 13:45:46 GMT (Monday 6th March 2023)"
+	revision: "15"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -229,16 +229,16 @@ feature -- Numeric items
 
 feature -- Element change
 
-	fill (a_target: S; search_character: CHARACTER_32; a_adjustments: INTEGER)
+	fill (a_target: S; separator: CHARACTER_32; a_adjustments: INTEGER)
 		do
-			target := a_target; adjustments := a_adjustments
-			fill_intervals (a_target, Empty_string_8, String_8_searcher, search_character, a_adjustments)
+			set_target (a_target, a_adjustments)
+			fill_intervals (a_target, Empty_string_8, String_8_searcher, separator, a_adjustments)
 		end
 
-	fill_by_string (a_target: S; search_string: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
+	fill_by_string (a_target: S; separator: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
 		do
-			target := a_target; adjustments := a_adjustments
-			Precursor (a_target, search_string, a_adjustments)
+			set_target (a_target, a_adjustments)
+			Precursor (a_target, separator, a_adjustments)
 		end
 
 feature -- Removal
@@ -417,6 +417,11 @@ feature {NONE} -- Implementation
 					Result := string_strict_cmp (right_index, left_index, right_count) > 0
 				end
 			end
+		end
+
+	set_target (a_target: S; a_adjustments: INTEGER)
+		do
+			target := a_target; adjustments := a_adjustments
 		end
 
 	string_strict_cmp (left_index, right_index, n: INTEGER): INTEGER

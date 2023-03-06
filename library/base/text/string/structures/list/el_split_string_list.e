@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-04 10:05:15 GMT (Saturday 4th March 2023)"
-	revision: "39"
+	date: "2023-03-06 13:43:18 GMT (Monday 6th March 2023)"
+	revision: "40"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -133,24 +133,6 @@ feature -- Conversion
 				forth
 			end
 			pop_cursor
-		end
-
-feature -- Element change
-
-	set_target (a_target: like item; delimiter: CHARACTER_32; a_adjustments: INTEGER)
-		do
-			target := a_target; adjustments := a_adjustments
-			fill (a_target, delimiter, a_adjustments)
-		ensure then
-			reversible: a_adjustments = 0 implies as_list.joined (delimiter).same_string (a_target)
-		end
-
-	set_target_by_string (a_target: like item; delimiter: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
-		do
-			target := a_target; adjustments := a_adjustments
-			fill_by_string (a_target, delimiter, a_adjustments)
-		ensure then
-			reversible: a_adjustments = 0 implies as_list.joined_with_string (delimiter).same_string (a_target)
 		end
 
 feature -- Status query

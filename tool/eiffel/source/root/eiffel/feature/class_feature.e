@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "22"
+	date: "2023-03-06 13:44:13 GMT (Monday 6th March 2023)"
+	revision: "23"
 
 deferred class
 	CLASS_FEATURE
@@ -98,7 +98,7 @@ feature {NONE} -- Implementation
 			list: like Split_list
 		do
 			list := Split_list
-			list.set_target (lines.first, ' ', {EL_STRING_ADJUST}.Left)
+			list.fill (lines.first, ' ', {EL_STRING_ADJUST}.Left)
 			from list.start until list.after or else not list.item_same_as (Keyword.frozen_) loop
 				list.forth
 			end

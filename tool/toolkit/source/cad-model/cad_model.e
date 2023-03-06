@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2023-03-06 13:44:44 GMT (Monday 6th March 2023)"
+	revision: "14"
 
 class
 	CAD_MODEL
@@ -201,7 +201,7 @@ feature {NONE} -- Factory
 			create index_list.make (4)
 			create Result.make (tuple_list.count)
 			from tuple_list.start until tuple_list.after loop
-				index_split_string.set_target (tuple_list.item_copy, ',', {EL_STRING_ADJUST}.Left)
+				index_split_string.fill (tuple_list.item_copy, ',', {EL_STRING_ADJUST}.Left)
 				index_list.wipe_out
 				from index_split_string.start until index_split_string.after loop
 					index_list.extend (index_split_string.integer_item)
@@ -224,7 +224,7 @@ feature {NONE} -- Factory
 			create double_list.make_empty
 			create Result.make (tuple_list.count)
 			from tuple_list.start until tuple_list.after loop
-				double_list.set_target (tuple_list.item_copy, ',', 0)
+				double_list.fill (tuple_list.item_copy, ',', 0)
 				from double_list.start until double_list.after loop
 					if double_list.index = 1 then
 						create coordinate.make_empty (3)

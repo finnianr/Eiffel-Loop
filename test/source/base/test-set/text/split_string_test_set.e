@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 12:17:36 GMT (Monday 6th March 2023)"
-	revision: "29"
+	date: "2023-03-06 13:21:20 GMT (Monday 6th March 2023)"
+	revision: "30"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -96,19 +96,22 @@ feature -- Tests
 	test_path_split
 		local
 			list: LIST [STRING]; split_8_path: EL_SPLIT_STRING_LIST [STRING]
-			split_path: EL_SPLIT_ZSTRING_LIST; l_path: STRING
+			split_path: EL_SPLIT_ZSTRING_LIST; l_path: STRING; i: INTEGER
+			item: STRING
 		do
 			list := Unix_path.split ('/')
 			l_path := Unix_path.twin
 			across 1 |..| 2 as n loop
 				create split_path.make_by_string (l_path, "/")
 				across list as step loop
-					assert ("same step", step.item ~ split_path.i_th (step.cursor_index).to_string_8)
+					item := step.item; i := step.cursor_index
+					assert ("same step", item ~ split_path.i_th (i).to_string_8)
 				end
 
 				create split_8_path.make_by_string (l_path, "/")
 				across list as step loop
-					assert ("same step", step.item ~ split_path.i_th (step.cursor_index))
+					item := step.item; i := step.cursor_index
+					assert ("same step", item ~ split_path.i_th (i))
 				end
 				l_path.append_character ('/')
 			end
@@ -333,17 +336,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Api_string: STRING = "[
-		DTA1-HMAC-SHA256 SignedHeaders=content-length;content-type;host;x-amz-date
-		Credential=PUBLIC/20200124
-		Signature=B7387390DEC2CD5A515B67EE50D220A3EE4507DC2F71EA67F59BDB0DE9FF403B
-	]"
-
-	Api_string_list: EL_STRING_8_LIST
-		once
-			create Result.make_with_lines (Api_string)
-		end
 
 	Comma_separated_variations: ARRAY [STRING]
 		once
