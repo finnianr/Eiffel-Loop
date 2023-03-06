@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 10:27:20 GMT (Monday 23rd January 2023)"
-	revision: "19"
+	date: "2023-03-06 13:12:29 GMT (Monday 6th March 2023)"
+	revision: "20"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -293,7 +293,7 @@ feature {NONE} -- Implementation
 				create {EL_SPLIT_STRING_8_LIST} Result.make_empty
 
 			elseif type.conforms_to ({IMMUTABLE_STRING_32}) then
-				create {EL_IMMUTABLE_STRING_32_SPLIT_LIST} Result.make_empty
+				create {EL_SPLIT_IMMUTABLE_STRING_32_LIST} Result.make_empty
 			else
 				create {EL_SPLIT_STRING_8_LIST} Result.make_empty
 			end

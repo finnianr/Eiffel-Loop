@@ -1,6 +1,6 @@
 note
 	description: "[
-		Common routines for [$source EL_SPLIT_STRING_8_LIST] and [$source EL_IMMUTABLE_STRING_8_SPLIT_LIST]
+		Common routines for [$source EL_SPLIT_STRING_8_LIST] and [$source EL_SPLIT_IMMUTABLE_STRING_8_LIST]
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 10:01:19 GMT (Monday 6th March 2023)"
-	revision: "16"
+	date: "2023-03-06 13:11:01 GMT (Monday 6th March 2023)"
+	revision: "17"
 
 deferred class
 	EL_SPLIT_READABLE_STRING_8_LIST_I [S -> READABLE_STRING_8]

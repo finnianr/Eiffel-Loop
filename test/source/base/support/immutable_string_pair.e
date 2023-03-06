@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 12:15:30 GMT (Monday 6th March 2023)"
-	revision: "19"
+	date: "2023-03-06 13:12:28 GMT (Monday 6th March 2023)"
+	revision: "20"
 
 class
 	IMMUTABLE_STRING_PAIR
@@ -89,12 +89,12 @@ feature -- Test comparisons
 
 			create intervals_list.make_from_array (<<
 				create {EL_SPLIT_INTERVALS}.make_by_string (s_32, s_32_substring),
-				create {EL_IMMUTABLE_STRING_32_SPLIT_LIST}.make_by_string (s_32, s_32_substring)
+				create {EL_SPLIT_IMMUTABLE_STRING_32_LIST}.make_by_string (s_32, s_32_substring)
 			>>)
 			if attached s_8_substring as str_8 then
 
 				if attached s_8 as target_8 then
-					intervals_list.extend (create {EL_IMMUTABLE_STRING_8_SPLIT_LIST}.make_by_string (target_8, str_8))
+					intervals_list.extend (create {EL_SPLIT_IMMUTABLE_STRING_8_LIST}.make_by_string (target_8, str_8))
 				end
 			end
 			Result := across intervals_list as list all list.item.same_as (intervals_s_32) end
