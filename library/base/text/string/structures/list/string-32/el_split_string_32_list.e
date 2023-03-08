@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 9:57:56 GMT (Monday 6th March 2023)"
-	revision: "16"
+	date: "2023-03-08 14:26:14 GMT (Wednesday 8th March 2023)"
+	revision: "17"
 
 class
 	EL_SPLIT_STRING_32_LIST
@@ -18,12 +18,12 @@ class
 inherit
 	EL_SPLIT_STRING_LIST [STRING_32]
 		undefine
-			fill_by_string
+			fill_by_string, is_valid_character
 		redefine
-			is_valid_character
+			default_target
 		end
 
-	EL_SPLIT_READABLE_STRING_32_LIST_I [STRING_32]
+	EL_STRING_32_OCCURRENCE_IMPLEMENTATION [STRING_32]
 
 create
 	make, make_empty, make_by_string, make_adjusted, make_adjusted_by_string,
@@ -31,9 +31,9 @@ create
 
 feature {NONE} -- Implementation
 
-	is_valid_character (uc: CHARACTER_32): BOOLEAN
+	default_target: STRING_32
 		do
-			Result := True
+			Result := Empty_string_32
 		end
 
 end

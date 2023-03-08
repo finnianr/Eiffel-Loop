@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-03-08 18:25:56 GMT (Wednesday 8th March 2023)"
+	revision: "7"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
@@ -22,6 +22,7 @@ feature -- Basic operations
 		do
 			eval.call ("codebase_statistics", agent test_codebase_statistics)
 			eval.call ("find_and_replace", agent test_find_and_replace)
+			eval.call ("space_cleaner", agent test_space_cleaner)
 		end
 
 feature -- Tests
@@ -59,13 +60,29 @@ feature -- Tests
 			assert_valid_encodings
 		end
 
-feature {NONE} -- Constants
+	test_space_cleaner
+		-- EIFFEL_SOURCE_COMMAND_TEST_SET.test_space_cleaner
+		local
+			cleaner: SOURCE_LEADING_SPACE_CLEANER
+		do
+			create cleaner.make (Manifest_path)
+			cleaner.execute
+			if attached cleaner.edited_list as list
+				and then list.count = 1 and then list.first_path.base_matches ("ev_pixmap_imp_drawable", False)
+			then
+				assert_same_digest (list.first_path, "BGfhfW0ucYUTtNmjtmbBPQ==")
+			else
+				assert ("expected only ev_pixmap_imp_drawable", False)
+			end
+		end
 
-	Integer_32_type: STRING = "INTEGER_32 ="
+feature {NONE} -- Constants
 
 	Data_dir: DIR_PATH
 		once
 			Result := "test-data/sources"
 		end
+
+	Integer_32_type: STRING = "INTEGER_32 ="
 
 end

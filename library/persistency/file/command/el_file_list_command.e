@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 18:42:46 GMT (Sunday 4th December 2022)"
-	revision: "3"
+	date: "2023-03-07 9:40:55 GMT (Tuesday 7th March 2023)"
+	revision: "4"
 
 deferred class
 	EL_FILE_LIST_COMMAND
@@ -24,6 +24,7 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			sorted := False
+			progress_tracking := True
 		end
 
 feature -- Basic operations
@@ -39,7 +40,11 @@ feature -- Basic operations
 
 			lio.put_labeled_substitution ("Processsing", "%S files", [file_list.count])
 			lio.put_new_line
-			Track.progress (Console_display, file_list.count, agent iterate_files (file_list))
+			if progress_tracking.is_enabled then
+				Track.progress (Console_display, file_list.count, agent iterate_files (file_list))
+			else
+				iterate_files (file_list)
+			end
 			lio.put_new_line
 		end
 
@@ -47,6 +52,9 @@ feature -- Status query
 
 	sorted: EL_BOOLEAN_OPTION
 		-- enable to sort files before processing
+
+	progress_tracking: EL_BOOLEAN_OPTION
+		-- disable to turn off console progress tracking bar
 
 feature {NONE} -- Implementation
 

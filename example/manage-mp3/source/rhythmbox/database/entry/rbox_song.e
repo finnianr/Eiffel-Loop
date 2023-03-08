@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-23 17:15:25 GMT (Friday 23rd December 2022)"
-	revision: "56"
+	date: "2023-03-07 8:38:47 GMT (Tuesday 7th March 2023)"
+	revision: "57"
 
 class
 	RBOX_SONG
@@ -131,10 +131,10 @@ feature -- Access
 			destination_dir: DIR_PATH; destination_path: FILE_PATH
 			s: EL_ZSTRING_ROUTINES
 		do
- 			artists := lead_artist.twin
- 			if not album_artists.list.is_empty then
- 				artists.append (Bracket_template #$ [album_artist])
- 			end
+			artists := lead_artist.twin
+			if not album_artists.list.is_empty then
+				artists.append (Bracket_template #$ [album_artist])
+			end
 			if is_cortina then
 				create tanda_name.make_word_split (title)
 				tanda_name.start

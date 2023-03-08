@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-03-07 8:42:26 GMT (Tuesday 7th March 2023)"
+	revision: "13"
 
 class
 	CORTINA_SET
@@ -94,9 +94,9 @@ feature {NONE} -- Implementation
 				cortina_song.write_clip (source_offset_secs, cortina.fade_in, cortina.fade_out)
 				Result.extend (cortina_song)
 				source_offset_secs := source_offset_secs + clip_duration
- 				if source_offset_secs + clip_duration > source_song.duration then
- 					source_offset_secs := 0
- 				end
+				if source_offset_secs + clip_duration > source_song.duration then
+					source_offset_secs := 0
+				end
 			end
 		end
 

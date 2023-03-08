@@ -1,3 +1,6 @@
+1.3.0
+* New app for cleaning leading spaces from files
+
 1.2.2
 * Revised class renaming command
 

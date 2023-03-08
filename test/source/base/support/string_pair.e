@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 12:06:40 GMT (Monday 6th March 2023)"
-	revision: "21"
+	date: "2023-03-08 14:23:05 GMT (Wednesday 8th March 2023)"
+	revision: "22"
 
 class
 	STRING_PAIR
@@ -203,6 +203,31 @@ feature -- Test comparisons
 			if Result and then attached s_8_substring as s then
 				b3 := zs.ends_with_general (s)
 				Result := b1 = b3
+			end
+		end
+
+	occurrence_edit: BOOLEAN
+		local
+			double_spaced_32: STRING_32; editor_32: EL_STRING_32_OCCURRENCE_EDITOR
+			double_spaced_8: STRING_8; editor_8: EL_STRING_8_OCCURRENCE_EDITOR
+			double_spaced: ZSTRING; editor: EL_ZSTRING_OCCURRENCE_EDITOR
+		do
+			double_spaced_32 := s_32.twin
+			double_spaced_32.replace_substring_all (" ", "  ")
+			create editor_32.make (s_32, ' ')
+			editor_32.apply (agent double_substring_32)
+			Result := double_spaced_32 ~ s_32
+			if Result then
+				double_spaced := double_spaced_32
+				create editor.make (zs, ' ')
+				editor.apply (agent double_substring)
+				Result := double_spaced ~ zs
+			end
+			if Result and then attached s_8 as str_8 then
+				double_spaced_8 := double_spaced_32.as_string_8
+				create editor_8.make (str_8, ' ')
+				editor_8.apply (agent double_substring_8)
+				Result := double_spaced_8 ~ str_8
 			end
 		end
 
@@ -423,6 +448,26 @@ feature -- Basic operations
 	wipe_out
 		do
 			s_32.wipe_out; zs.wipe_out
+		end
+
+feature {NONE} -- Implementation
+
+	double_substring (input, output: ZSTRING; start_index, end_index: INTEGER)
+		do
+			output.append_substring (input, start_index, end_index)
+			output.append_substring (input, start_index, end_index)
+		end
+
+	double_substring_8 (input, output: STRING_8; start_index, end_index: INTEGER)
+		do
+			output.append_substring (input, start_index, end_index)
+			output.append_substring (input, start_index, end_index)
+		end
+
+	double_substring_32 (input, output: STRING_32; start_index, end_index: INTEGER)
+		do
+			output.append_substring (input, start_index, end_index)
+			output.append_substring (input, start_index, end_index)
 		end
 
 end

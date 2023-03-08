@@ -8,13 +8,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 13:47:50 GMT (Monday 6th March 2023)"
-	revision: "18"
+	date: "2023-03-08 14:34:03 GMT (Wednesday 8th March 2023)"
+	revision: "19"
 
 deferred class
-	EL_SPLIT_READABLE_STRING_32_LIST_I [S -> READABLE_STRING_32]
+	EL_STRING_32_OCCURRENCE_IMPLEMENTATION [S -> READABLE_STRING_32]
 
 inherit
+	EL_STRING_OCCURRENCE_IMPLEMENTATION [S]
+
 	EL_STRING_32_CONSTANTS
 
 feature -- Element change
@@ -40,17 +42,6 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
-
-	fill_intervals (
-		a_target, a_pattern: READABLE_STRING_GENERAL; searcher: STRING_SEARCHER
-		uc: CHARACTER_32; adjustments: INTEGER
-	)
-		deferred
-		end
-
-	set_target (a_target: S; a_adjustments: INTEGER)
-		deferred
-		end
 
 	string_32_searcher: STRING_32_SEARCHER
 		deferred

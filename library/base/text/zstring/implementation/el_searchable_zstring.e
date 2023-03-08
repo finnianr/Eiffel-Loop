@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 9:24:35 GMT (Monday 6th March 2023)"
-	revision: "32"
+	date: "2023-03-08 12:01:02 GMT (Wednesday 8th March 2023)"
+	revision: "33"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -203,7 +203,7 @@ feature -- Basic operations
 			fill_index_list_by_z_code (list, Codec.as_z_code (uc))
 		end
 
-feature {EL_SHARED_ZSTRING_CODEC, EL_OCCURRENCE_INTERVALS} -- Implementation
+feature {EL_SHARED_ZSTRING_CODEC} -- Implementation
 
 	z_code_pattern (a_pattern: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
 		do

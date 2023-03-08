@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 11:48:48 GMT (Sunday 5th March 2023)"
-	revision: "9"
+	date: "2023-03-08 17:42:27 GMT (Wednesday 8th March 2023)"
+	revision: "10"
 
 class
 	EL_ARRAYED_INTERVAL_LIST
@@ -19,6 +19,7 @@ inherit
 		rename
 			circular_i_th as list_circular_i_th,
 			extend as item_extend,
+			for_all as for_all_index,
 			first as item_first,
 			last as item_last,
 			lower as lower_index,
@@ -30,7 +31,7 @@ inherit
 		export
 			{NONE} item_extend, item, i_th, item_put_i_th
 		redefine
-			count, grow, make, out, remove
+			count, for_all_index, grow, make, out, remove
 		end
 
 create
@@ -64,6 +65,11 @@ feature -- Measurement
 		end
 
 feature -- Status query
+
+	for_all_index (test: FUNCTION [INTEGER, BOOLEAN]): BOOLEAN
+			-- Is `test' true for all items?
+		do
+		end
 
 	item_has (n: INTEGER): BOOLEAN
 		do

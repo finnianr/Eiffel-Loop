@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 13:11:01 GMT (Monday 6th March 2023)"
-	revision: "6"
+	date: "2023-03-08 10:07:44 GMT (Wednesday 8th March 2023)"
+	revision: "7"
 
 class
 	EL_SPLIT_IMMUTABLE_STRING_8_LIST
@@ -18,12 +18,12 @@ class
 inherit
 	EL_SPLIT_READABLE_STRING_LIST [IMMUTABLE_STRING_8]
 		undefine
-			fill_by_string
+			fill_by_string, is_valid_character, is_white_space, same_i_th_character
 		redefine
 			item
 		end
 
-	EL_SPLIT_READABLE_STRING_8_LIST_I [IMMUTABLE_STRING_8]
+	EL_STRING_8_OCCURRENCE_IMPLEMENTATION [IMMUTABLE_STRING_8]
 
 create
 	make_by_string, make_adjusted, make_adjusted_by_string, make_empty, make

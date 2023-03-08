@@ -10,8 +10,8 @@ class
 	EV_PIXMAP_IMP_DRAWABLE
 
 inherit
-	EV_PIXMAP_I
-		undefine
+   EV_PIXMAP_I -- 3 spaces
+      undefine -- 6 spaces
 			save_to_named_path
 		redefine
 			interface,

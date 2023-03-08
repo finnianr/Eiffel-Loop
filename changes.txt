@@ -562,3 +562,9 @@ ZSTRING same_characters and same_caseless_characters performance improvements
 Fri 24th Feb 2023, 19:50:17
 New cursor class EL_CHARACTER_ARRAY to make ZSTRING encoding more efficient
 
+Mon 6th Mar 2023, 15:06:41
+Improvements to ZSTRING and split lists
+
+Mon 6th Mar 2023, 15:08:14
+Improvements to ZSTRING and split lists
+

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 9:32:38 GMT (Monday 6th March 2023)"
-	revision: "20"
+	date: "2023-03-08 17:41:42 GMT (Wednesday 8th March 2023)"
+	revision: "21"
 
 class
 	EL_OCCURRENCE_INTERVALS
@@ -27,6 +27,8 @@ inherit
 	EL_STRING_8_CONSTANTS
 
 	EL_ZSTRING_CONSTANTS
+
+	EL_SHARED_ZSTRING_CODEC
 
 create
 	make, make_empty, make_by_string, make_sized

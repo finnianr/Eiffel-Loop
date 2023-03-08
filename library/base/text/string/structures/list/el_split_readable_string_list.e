@@ -14,14 +14,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 13:45:46 GMT (Monday 6th March 2023)"
-	revision: "15"
+	date: "2023-03-08 17:43:42 GMT (Wednesday 8th March 2023)"
+	revision: "16"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
 
 inherit
-	EL_SPLIT_INTERVALS
+	EL_APPLIED_SPLIT_INTERVALS [S]
 		rename
 			count_sum as character_count,
 			current_linear as current_intervals,
@@ -29,7 +29,6 @@ inherit
 			do_if as do_if_intervals,
 			find_first_equal as find_first_interval_equal,
 			find_next_item as find_next_interval,
-			for_all as for_all_intervals,
 			has as has_interval,
 			i_th as i_th_interval,
 			item as interval_item,
@@ -52,8 +51,6 @@ inherit
 			{ANY} index, character_count, count, item_count, item_start_index, item_end_index, i_th_upper, i_th_lower,
 				back, remove, remove_head, remove_tail, go_i_th, is_empty, before, valid_index,
 				wipe_out, fill, fill_by_string, start, forth, after, valid_adjustments, off
-		redefine
-			is_equal, make_empty, make_by_string, make, fill, fill_by_string
 		end
 
 	ITERABLE [S]
@@ -67,44 +64,6 @@ inherit
 
 create
 	make_by_string, make_adjusted, make_adjusted_by_string, make_empty, make
-
-feature {NONE} -- Initialization
-
-	make (a_target: S; delimiter: CHARACTER_32)
-		do
-			make_empty
-			fill (a_target, delimiter, 0)
-		end
-
-	make_adjusted (a_target: S; delimiter: CHARACTER_32; a_adjustments: INTEGER)
-		require
-			valid_adjustments: valid_adjustments (a_adjustments)
-		do
-			make_empty
-			fill (a_target, delimiter, a_adjustments)
-		end
-
-	make_adjusted_by_string (a_target: S; delimiter: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
-		require
-			valid_adjustments: valid_adjustments (a_adjustments)
-		do
-			make_empty
-			fill_by_string (a_target, delimiter, a_adjustments)
-		end
-
-	make_by_string (a_target: S; delimiter: READABLE_STRING_GENERAL)
-		do
-			make_empty
-			fill_by_string (a_target, delimiter, 0)
-		end
-
-	make_empty
-		do
-			Precursor
-			if not attached target then
-				create target.make (0)
-			end
-		end
 
 feature -- Access
 
@@ -227,20 +186,6 @@ feature -- Numeric items
 			Result := item.to_natural
 		end
 
-feature -- Element change
-
-	fill (a_target: S; separator: CHARACTER_32; a_adjustments: INTEGER)
-		do
-			set_target (a_target, a_adjustments)
-			fill_intervals (a_target, Empty_string_8, String_8_searcher, separator, a_adjustments)
-		end
-
-	fill_by_string (a_target: S; separator: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
-		do
-			set_target (a_target, a_adjustments)
-			Precursor (a_target, separator, a_adjustments)
-		end
-
 feature -- Removal
 
 	for_all_remove_up_to (uc: CHARACTER_32)
@@ -345,13 +290,6 @@ feature -- Items
 			end
 		end
 
-feature -- Comparison
-
-	is_equal (other: like Current): BOOLEAN
-		do
-			Result := target ~ other.target and then Precursor {EL_SPLIT_INTERVALS} (other)
-		end
-
 feature -- Basic operations
 
 	sort (ascending: BOOLEAN)
@@ -419,11 +357,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_target (a_target: S; a_adjustments: INTEGER)
-		do
-			target := a_target; adjustments := a_adjustments
-		end
-
 	string_strict_cmp (left_index, right_index, n: INTEGER): INTEGER
 		local
 			i, j, nb: INTEGER; i_code, j_code: NATURAL; done: BOOLEAN
@@ -447,11 +380,5 @@ feature {NONE} -- Implementation
 		do
 			Result := target.substring (lower, upper)
 		end
-
-feature {EL_SPLIT_READABLE_STRING_LIST} -- Internal attributes
-
-	adjustments: INTEGER
-
-	target: S
 
 end

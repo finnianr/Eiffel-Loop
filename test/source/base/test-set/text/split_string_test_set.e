@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 13:21:20 GMT (Monday 6th March 2023)"
-	revision: "30"
+	date: "2023-03-08 12:20:03 GMT (Wednesday 8th March 2023)"
+	revision: "31"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -29,6 +29,7 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			eval.call ("fill_tuple", agent test_fill_tuple)
+			eval.call ("occurrence_editor", agent test_occurrence_editor)
 			eval.call ("occurrence_intervals", agent test_occurrence_intervals)
 			eval.call ("path_split", agent test_path_split)
 			eval.call ("set_encoding_from_name", agent test_set_encoding_from_name)
@@ -62,6 +63,19 @@ feature -- Tests
 			lio.put_string_field ("SYMBOL " + t2.symbol.generator, t2.symbol)
 			lio.put_new_line
 			assert ("same symbol", t2.symbol ~ {STRING_32} "€")
+		end
+
+	test_occurrence_editor
+		note
+			testing: "covers/{EL_STRING_32_OCCURRENCE_EDITOR}.apply",
+				"covers/{EL_STRING_8_OCCURRENCE_EDITOR}.apply"
+		local
+			pair: STRING_PAIR
+		do
+			across Text.lines as line loop
+				pair := line.item
+				assert ("occurrence edit OK", pair.occurrence_edit)
+			end
 		end
 
 	test_occurrence_intervals
