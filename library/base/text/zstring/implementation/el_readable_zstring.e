@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 13:17:45 GMT (Sunday 5th March 2023)"
-	revision: "114"
+	date: "2023-03-09 10:15:08 GMT (Thursday 9th March 2023)"
+	revision: "115"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -111,6 +111,8 @@ inherit
 			new_cursor
 		end
 
+	EL_SHARED_IMMUTABLE_8_MANAGER
+
 feature {NONE} -- Initialization
 
 	make (n: INTEGER)
@@ -167,6 +169,24 @@ feature {NONE} -- Initialization
 
 	make_from_cil (a_system_string: detachable SYSTEM_STRING)
 		do
+		end
+
+	make_from_file (text: STRING)
+		-- make from full file `text' which may have a BOM mark indicating it is encoded as
+		-- either: UTF-8, little-endian UTF-16 or else Latin-1
+		local
+			utf: EL_UTF_CONVERTER
+		do
+			if utf.is_utf_8_file (text) then
+				make_from_utf_8 (utf.bomless_utf_8 (text))
+
+			elseif utf.is_utf_16_le_file (text) then
+				make_from_utf_16_le (utf.bomless_utf_16_le (text))
+
+			else
+				make_filled ('%U', text.count)
+				encode (text, 0)
+			end
 		end
 
 	make_from_general (s: READABLE_STRING_GENERAL)

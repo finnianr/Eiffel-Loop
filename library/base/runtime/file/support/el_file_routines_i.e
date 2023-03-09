@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 16:53:46 GMT (Tuesday 6th December 2022)"
-	revision: "10"
+	date: "2023-03-09 10:04:53 GMT (Thursday 9th March 2023)"
+	revision: "11"
 
 deferred class
 	EL_FILE_ROUTINES_I
 
 inherit
-	ANY
+	STRING_HANDLER
 
 	EL_FILE_OPEN_ROUTINES
 
@@ -127,12 +127,18 @@ feature -- File content
 			end
 		end
 
-	plain_text_bomless (file_path: FILE_PATH): STRING
+	plain_text_bomless (file_path: FILE_PATH): READABLE_STRING_8
 		-- file text without any byte-order mark
+		local
+			utf: EL_UTF_CONVERTER
 		do
 			Result := plain_text (file_path)
-			if Result.starts_with ({UTF_CONVERTER}.Utf_8_bom_to_string_8) then
-				Result.remove_head (3)
+			if utf.is_utf_8_file (Result) then
+				Result := utf.bomless_utf_8 (Result)
+
+			elseif utf.is_utf_16_le_file (Result) then
+				Result := utf.bomless_utf_16_le (Result)
+
 			end
 		end
 
@@ -162,9 +168,11 @@ feature -- File content
 		do
 			create file.make_open_read (file_path)
 			count := file.count
-			create Result.make_filled ('%U', count)
+			create Result.make (count)
+			Result.set_count (count)
 			read_count := file.read_to_string (Result, 1, count)
-			Result.keep_head (read_count)
+			Result.set_count (read_count)
+
 			if {PLATFORM}.is_windows then
 				-- which condition applies probably depends on whether the file has Unix or Windows line endings
 				check

@@ -29,7 +29,7 @@ system:
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true
 			assertions:
-				precondition = true; postcondition = true; check = true; invariant = false
+				precondition = true; postcondition = true; check = true; invariant = true
 
 		settings:
 			address_expression = false; array_optimization = false

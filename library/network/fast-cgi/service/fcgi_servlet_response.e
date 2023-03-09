@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "26"
+	date: "2023-03-09 10:05:49 GMT (Thursday 9th March 2023)"
+	revision: "27"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -94,7 +94,7 @@ feature -- Contract Support
 
 	is_string_8_content: BOOLEAN
 		do
-			Result := attached {STRING} content
+			Result := attached {READABLE_STRING_8} content
 		end
 
 feature -- Basic operations
@@ -195,7 +195,7 @@ feature -- Element change
 			end
 		end
 
-	set_encoded_content (text: STRING; type: EL_DOC_TYPE)
+	set_encoded_content (text: READABLE_STRING_8; type: EL_DOC_TYPE)
 		require
 			valid_utf_8: type.encoding.encoded_as_utf (8) implies is_valid_utf_8_string_8 (text)
 		do
@@ -205,7 +205,9 @@ feature -- Element change
 
 	set_content (text: READABLE_STRING_GENERAL; type: EL_DOC_TYPE)
 		do
-			if type.encoding.encoded_as_latin (1) and then attached {STRING} text as encoded_text then
+			if type.encoding.encoded_as_latin (1)
+				and then attached {READABLE_STRING_8} text as encoded_text
+			then
 				set_encoded_content (encoded_text, type)
 			else
 				content := text; content_type := type
@@ -255,7 +257,7 @@ feature {NONE} -- Implementation
 		local
 			buffer: like Encoding_buffer
 		do
-			if is_encoded and then attached {STRING} content as encoded then
+			if is_encoded and then attached {READABLE_STRING_8} content as encoded then
 				Result := encoded
 			else
 				buffer := Encoding_buffer

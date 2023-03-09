@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-03-09 13:49:15 GMT (Thursday 9th March 2023)"
+	revision: "7"
 
 deferred class
 	EL_EIFFEL_KEYWORDS
@@ -28,6 +28,8 @@ feature {NONE} -- Keywords
 				"class, deferred, do, end, expanded, feature, frozen, invariant, indexing,%
 				%inherit, note, once, undefine, redefine, rename"
 			)
+		ensure
+			end_ok: Result.end_.same_string_general ("end")
 		end
 
 feature {NONE} -- Keyword lists

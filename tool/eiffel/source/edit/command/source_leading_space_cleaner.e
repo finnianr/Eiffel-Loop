@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-08 18:19:40 GMT (Wednesday 8th March 2023)"
-	revision: "1"
+	date: "2023-03-09 8:57:51 GMT (Thursday 9th March 2023)"
+	revision: "2"
 
 class
 	SOURCE_LEADING_SPACE_CLEANER
@@ -66,7 +66,7 @@ feature {NONE} -- Implementation
 		local
 			source_text: STRING
 		do
-			editor.set_source_text (File.plain_text (source_path))
+			editor.set_source_text (File.raw_plain_text (source_path))
 
 			if editor.leading_space_count > 0 then
 				edited_list.extend (source_path)

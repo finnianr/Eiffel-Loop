@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-22 11:41:17 GMT (Tuesday 22nd November 2022)"
-	revision: "14"
+	date: "2023-03-09 12:45:19 GMT (Thursday 9th March 2023)"
+	revision: "15"
 
 class
 	SOURCE_MODEL
@@ -18,13 +18,16 @@ inherit
 			make as make_machine
 		end
 
-	EL_MODULE_LIO
+	EL_MODULE_FILE; EL_MODULE_LIO
 
 	FEATURE_CONSTANTS
 
 feature {NONE} -- Initialization
 
 	make (a_source_path: FILE_PATH)
+		local
+			source_text: ZSTRING; utf: EL_UTF_CONVERTER
+			space_editor: CLASS_LEADING_SPACE_EDITOR
 		do
 			make_machine
 			source_path := a_source_path
@@ -34,10 +37,25 @@ feature {NONE} -- Initialization
 			create group_header.make (3)
 			create feature_group_list.make (8)
 
-			if attached open_lines (source_path, Latin_1) as input_lines then
-				create encoding.make_from_other (input_lines)
+			create encoding.make_default
 
-				do_once_with_file_lines (agent find_class_declaration, input_lines)
+			if attached File.plain_text (a_source_path) as source_8 then
+				if utf.is_utf_8_file (source_8) then
+					encoding.set_utf (8)
+				else
+					encoding.set_latin (1)
+				end
+--				clean up any leading spaces at beginning of lines
+				create space_editor.make_empty
+				space_editor.set_source_text (source_8)
+				if space_editor.leading_space_count > 0 then
+					space_editor.replace_spaces
+				end
+				create source_text.make_from_file (source_8)
+--				make sure there is no new-line after final end keyword
+				source_text.right_adjust
+
+				do_with_iterable_lines (agent find_class_declaration, source_text.split_list ('%N'))
 			end
 		end
 

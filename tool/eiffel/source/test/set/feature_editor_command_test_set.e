@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2023-03-09 14:54:54 GMT (Thursday 9th March 2023)"
+	revision: "21"
 
 class
 	FEATURE_EDITOR_COMMAND_TEST_SET
@@ -30,7 +30,7 @@ feature {NONE} -- Constants
 	Checksum_table: EL_HASH_TABLE [NATURAL, ZSTRING]
 		once
 			create Result.make_equal (11)
-			Result [Name.copy_file_impl] := 3882863469
+			Result [Name.copy_file_impl] := 4276247644
 			Result [Name.mp3_convert_command] := 3362452
 
 --			Test insertions for: do_all (eval: EL_TEST_SET_EVALUATOR)
@@ -42,7 +42,9 @@ feature {NONE} -- Constants
 
 --			test frozen feature name sort
 			Result [Name.id3_tag_frame_cpp_api] := 118099087
-		end
 
+--			test clean-up of leading spaces after new-line
+			Result [Name.pixmap_imp_drawable] := 1395307592
+		end
 
 end

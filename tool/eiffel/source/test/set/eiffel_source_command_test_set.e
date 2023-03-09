@@ -6,14 +6,31 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-08 18:25:56 GMT (Wednesday 8th March 2023)"
-	revision: "7"
+	date: "2023-03-09 16:01:41 GMT (Thursday 9th March 2023)"
+	revision: "8"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
 
 inherit
 	COPIED_SOURCES_TEST_SET
+		redefine
+			make
+		end
+
+create
+	make
+
+feature {NONE} -- Initialization
+
+	make
+		do
+			make_named (<<
+				["codebase_statistics", agent test_codebase_statistics],
+				["find_and_replace", agent test_find_and_replace],
+				["space_cleaner", agent test_space_cleaner]
+			>>)
+		end
 
 feature -- Basic operations
 
@@ -35,7 +52,7 @@ feature -- Tests
 			command.execute
 			assert ("28 classes", command.class_count = 30)
 			assert ("10202 words", command.word_count = 10226)
-			assert ("Total size 96665 bytes", command.byte_count = 96943)
+			assert ("Total size 96665 bytes", command.byte_count = 96973)
 		end
 
 	test_find_and_replace

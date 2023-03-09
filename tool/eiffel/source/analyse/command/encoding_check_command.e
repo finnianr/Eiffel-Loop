@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "18"
+	date: "2023-03-09 10:21:11 GMT (Thursday 9th March 2023)"
+	revision: "19"
 
 class
 	ENCODING_CHECK_COMMAND
@@ -61,42 +61,28 @@ feature {NONE} -- Implementation
 
 	do_with_file (source_path: FILE_PATH)
 		local
-			source_32: STRING_32; source_utf_8: STRING
-			last_date: INTEGER; source_out: PLAIN_TEXT_FILE
-			c: EL_UTF_CONVERTER
+			source_text: STRING; last_date: INTEGER; source_out: PLAIN_TEXT_FILE
+			utf: EL_UTF_CONVERTER
 		do
-			if attached open_lines (source_path, Latin_1) as source_lines then
-				if source_lines.encoded_as_utf (8) then
-					source_utf_8 := File.plain_text_bomless (source_path)
-					if c.is_valid_utf_8_string_8 (source_utf_8) then
-						file_encoding_table.extend (source_path, once "UTF-8")
-						source_32 := c.utf_8_string_8_to_string_32 (source_utf_8)
-						if is_latin_1_encodeable (source_32) then
-							file_encoding_table.extend (source_path, once "and Latin-1 encodeable")
-							last_date := source_lines.date
-							create source_out.make_open_write (source_path)
-							source_out.put_string (source_32.to_string_8)
-							source_out.close
-							source_out.set_date (last_date)
-						end
-					else
-						file_encoding_table.extend (source_path, once "INVALID UTF-8")
+			source_text := File.raw_plain_text (source_path)
+			if utf.is_utf_8_file (source_text) then
+				if attached utf.bomless_utf_8 (source_text) as source_utf_8
+					and then utf.is_valid_utf_8_string_8 (source_utf_8)
+				then
+					file_encoding_table.extend (source_path, once "UTF-8")
+					if attached utf.utf_8_string_8_to_string_32 (source_utf_8) as source_32
+						and then source_32.is_valid_as_string_8
+					then
+						file_encoding_table.extend (source_path, once "and Latin-1 encodeable")
+						last_date := File.modification_time (source_path)
+						create source_out.make_open_write (source_path)
+						source_out.put_string (source_32.to_string_8)
+						source_out.close
+						source_out.set_date (last_date)
 					end
-					source_lines.close
+				else
+					file_encoding_table.extend (source_path, once "INVALID UTF-8")
 				end
-			end
-		end
-
-	is_latin_1_encodeable (source_32: STRING_32): BOOLEAN
-		local
-			i: INTEGER;
-		do
-			Result := True
-			from i := 1 until not Result or i > source_32.count loop
-				if source_32.code (i) > 0xFF then
-					Result := False
-				end
-				i := i + 1
 			end
 		end
 

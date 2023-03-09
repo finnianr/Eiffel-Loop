@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 9:58:30 GMT (Monday 9th January 2023)"
-	revision: "7"
+	date: "2023-03-09 12:58:09 GMT (Thursday 9th March 2023)"
+	revision: "8"
 
 deferred class
 	EDITOR_COMMAND_TEST_SET
@@ -83,14 +83,15 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Name: TUPLE [
-		copy_file_impl, mp3_convert_command, subject_line_decoder_test_set,
-		job_duration_parser, subscription_delivery_email, id3_tag_frame_cpp_api: ZSTRING
+		copy_file_impl, mp3_convert_command, subject_line_decoder_test_set, job_duration_parser,
+		subscription_delivery_email, id3_tag_frame_cpp_api, pixmap_imp_drawable: ZSTRING
 	]
 		do
 			create Result
 			Tuple.fill (Result,
 				"el_copy_file_impl, el_mp3_convert_command, el_subject_line_decoder_test_set,%
-				%job_duration_parser, subscription_delivery_email, tl_id3_tag_frame_cpp_api"
+				%job_duration_parser, subscription_delivery_email, tl_id3_tag_frame_cpp_api,%
+				%ev_pixmap_imp_drawable"
 			)
 		end
 

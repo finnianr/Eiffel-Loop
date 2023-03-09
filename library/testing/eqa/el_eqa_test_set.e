@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-27 12:22:45 GMT (Monday 27th February 2023)"
-	revision: "16"
+	date: "2023-03-09 16:01:41 GMT (Thursday 9th March 2023)"
+	revision: "17"
 
 deferred class
 	EL_EQA_TEST_SET
@@ -15,17 +15,33 @@ deferred class
 inherit
 	EQA_TEST_SET
 		rename
-			file_system as ise_file_system,
+			file_system as test_file_system,
 			assert as eqa_assert
 		redefine
 			on_clean, on_prepare
 		end
+
+	EL_MAKEABLE undefine default_create end
 
 	EL_MODULE_LIO -- so test can still be run in AutoTest tool
 
 	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM; EL_MODULE_OS
 
 	EL_SHARED_DIGESTS; EL_SHARED_TEST_CRC
+
+feature {NONE} -- Initialization
+
+	make
+		-- partial make to satisfy `EQA_TEST_SET' invariant
+		do
+			test_file_system := new_file_system
+		end
+
+	make_named (test_array: ARRAY [TUPLE [STRING, PROCEDURE]])
+		do
+			test_file_system := new_file_system
+			create test_table.make (test_array)
+		end
 
 feature -- Basic operations
 
@@ -34,19 +50,18 @@ feature -- Basic operations
 		deferred
 		end
 
-feature {NONE} -- Implementation
+feature -- Access
 
-	assert_approximately_equal (a_tag: detachable STRING; decimal_places: INTEGER; a, b: DOUBLE)
-		local
-			tag: STRING; double: EL_DOUBLE_MATH
+	test_table: detachable EL_PROCEDURE_TABLE [STRING]
+
+feature -- Factory
+
+	new_evaluator: EQA_TEST_EVALUATOR [like Current]
 		do
-			if attached a_tag as l_tag then
-				tag := l_tag
-			else
-				tag := "a almost equal to b with precision of 1e-" + decimal_places.out
-			end
-			assert (tag, double.approximately_equal (a, b, 10 ^ decimal_places.opposite))
+			create Result
 		end
+
+feature {NONE} -- Implementation
 
 	assert (a_tag: READABLE_STRING_GENERAL; a_condition: BOOLEAN)
 		local
@@ -60,6 +75,18 @@ feature {NONE} -- Implementation
 			else
 				eqa_assert (utf.utf_32_string_to_utf_8_string_8 (a_tag), a_condition)
 			end
+		end
+
+	assert_approximately_equal (a_tag: detachable STRING; decimal_places: INTEGER; a, b: DOUBLE)
+		local
+			tag: STRING; double: EL_DOUBLE_MATH
+		do
+			if attached a_tag as l_tag then
+				tag := l_tag
+			else
+				tag := "a almost equal to b with precision of 1e-" + decimal_places.out
+			end
+			assert (tag, double.approximately_equal (a, b, 10 ^ decimal_places.opposite))
 		end
 
 	assert_same_string (a_tag: detachable READABLE_STRING_GENERAL; a, b: READABLE_STRING_GENERAL)

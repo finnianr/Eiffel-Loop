@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-03-09 16:06:05 GMT (Thursday 9th March 2023)"
+	revision: "9"
 
 class
 	EL_TEST_SET_EVALUATOR
@@ -27,7 +27,7 @@ inherit
 
 	EL_MODULE_EXCEPTION
 
-	EL_MODULE_EIFFEL
+	EL_SHARED_FACTORIES
 
 create
 	make
@@ -39,15 +39,12 @@ feature {NONE} -- Initialization
 			valid_test_name: a_test_name.count >= 0
 		do
 			item_type := test_set_type; test_name := a_test_name
-			-- create a new instance of `item' without calling `default_create'
-			if attached {like item} Eiffel.new_instance_of (test_set_type.type_id) as new then
+			-- create a new instance of `item' calling `make' instead of `default_create'
+			if attached {like item} Makeable_factory.new_item_from_type_id (item_type.type_id) as new then
 				item := new
 			end
-			if attached {like evaluator} Eiffel.new_factory_instance ({like evaluator}, test_set_type) as new then
-				evaluator := new
-			else
-				create {EQA_TEST_EVALUATOR [EL_DEFAULT_TEST_SET]} evaluator
-			end
+			evaluator := item.new_evaluator
+
 			create failure_table.make_equal (3)
 		end
 
@@ -78,8 +75,26 @@ feature -- Basic operations
 		end
 
 	execute
+		local
+			test_exception: EQA_TEST_INVOCATION_EXCEPTION
 		do
-			print_name; item.do_all (Current)
+			print_name
+			if attached item.test_table as test_table then
+				if test_name.count > 0 then
+					if test_table.has_key (test_name) then
+						do_call (test_name, test_table.found_item)
+					else
+						create test_exception.make (Test_not_found_exception, item.generator, test_name)
+						failure_table.extend (test_exception, test_name)
+					end
+				else
+					across test_table as table loop
+						do_call (table.key, table.item)
+					end
+				end
+			else
+				item.do_all (Current)
+			end
 		end
 
 	print_failures
@@ -104,6 +119,12 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	apply (test_set: EQA_TEST_SET; a_test: PROCEDURE)
+		do
+			a_test.set_target (test_set)
+			a_test.apply
+		end
 
 	do_call (name: STRING; a_test: PROCEDURE)
 		local
@@ -137,12 +158,6 @@ feature {NONE} -- Implementation
 			lio.put_new_line
 		end
 
-	apply (test_set: EQA_TEST_SET; a_test: PROCEDURE)
-		do
-			a_test.set_target (test_set)
-			a_test.apply
-		end
-
 feature {NONE} -- Internal attributes
 
 	evaluator: EQA_TEST_EVALUATOR [EQA_TEST_SET]
@@ -152,5 +167,13 @@ feature {NONE} -- Internal attributes
 	item_type: TYPE [EL_EQA_TEST_SET]
 
 	test_name: STRING
+
+feature {NONE} -- Constants
+
+	Test_not_found_exception: EXCEPTION
+		once
+			create Result
+			Result.set_description ("No test matching that name")
+		end
 
 end

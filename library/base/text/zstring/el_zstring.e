@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 9:45:32 GMT (Sunday 5th March 2023)"
-	revision: "77"
+	date: "2023-03-09 10:15:31 GMT (Thursday 9th March 2023)"
+	revision: "78"
 
 class
 	EL_ZSTRING
@@ -140,7 +140,7 @@ inherit
 
 create
 	make, make_empty, make_from_string, make_from_general, make_from_utf_8, make_from_utf_16_le,
-	make_shared, make_from_other, make_filled, make_from_substring, make_from_latin_1_c,
+	make_shared, make_from_other, make_filled, make_from_file, make_from_substring, make_from_latin_1_c,
 	make_from_zcode_area
 
 convert

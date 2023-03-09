@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2023-03-09 10:04:24 GMT (Thursday 9th March 2023)"
+	revision: "15"
 
 expanded class
 	EL_UTF_CONVERTER
@@ -24,13 +24,26 @@ inherit
 
 	STRING_HANDLER
 
-feature -- Status query
+	EL_SHARED_STRING_8_CURSOR; EL_SHARED_IMMUTABLE_8_MANAGER
+
+feature -- Status report
+
+	is_utf_16_le_file (text: READABLE_STRING_8): BOOLEAN
+		-- `True' if file `text' is encoded as little-endian UTF-16
+		do
+			Result := text.starts_with (Utf_16le_bom_to_string_8)
+		end
+
+	is_utf_8_file (text: READABLE_STRING_8): BOOLEAN
+		-- `True' if file `text' is encoded as UTF-8
+		do
+			Result := text.starts_with (Utf_8_bom_to_string_8)
+		end
 
 	is_valid_utf_16 (s: SPECIAL [NATURAL_16]): BOOLEAN
 			-- Is `s' a valid UTF-16 Unicode sequence?
 		local
-			i, n: INTEGER
-			c1, c2: NATURAL_32
+			i, n: INTEGER; c1, c2: NATURAL_32
 		do
 			from
 				i := 0
@@ -62,6 +75,24 @@ feature -- Status query
 					end
 				end
 			end
+		end
+
+feature -- Conversion
+
+	bomless_utf_16_le (text: STRING_8): READABLE_STRING_8
+		-- file `text' without the little-endian UTF-16 byte-order-mark
+		require
+			has_16le_bom: is_utf_16_le_file (text)
+		do
+			Result := bomless_text (Utf_16le_bom_to_string_8, text)
+		end
+
+	bomless_utf_8 (text: STRING_8): READABLE_STRING_8
+		-- file `text' without the UTF-8 byte-order-mark
+		require
+			has_utf_8_bom: is_utf_8_file (text)
+		do
+			Result := bomless_text (Utf_8_bom_to_string_8, text)
 		end
 
 feature -- UTF-16 operations
@@ -116,4 +147,19 @@ feature -- UTF-16 operations
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	bomless_text (bom, text: STRING_8): READABLE_STRING_8
+		-- file `text' without the UTF-8 byte-order-mark
+		local
+			bom_count, remainder_count: INTEGER
+		do
+			bom_count := bom.count
+			remainder_count := text.count - bom_count
+			if remainder_count > 0 then
+				Result := Immutable_8.new_substring (text.area, bom_count, remainder_count)
+			else
+				Result := text
+			end
+		end
 end

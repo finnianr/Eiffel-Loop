@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:47:30 GMT (Tuesday 14th February 2023)"
-	revision: "7"
+	date: "2023-03-09 15:19:33 GMT (Thursday 9th March 2023)"
+	revision: "8"
 
 class
 	EQA_TEST_EVALUATION_CALLBACK_FEATURE
@@ -63,8 +63,8 @@ feature -- Element change
 			end
 			if not do_end_list.is_empty then
 				do_end_list.indent (1)
-				do_end_list.put_front ("do")
-				do_end_list.extend ("end")
+				do_end_list.put_front (Keyword.do_.twin)
+				do_end_list.extend (Keyword.end_.twin)
 				do_end_list.indent (2)
 
 				from lines.start until lines.item.ends_with (Keyword.do_) or else lines.after loop
