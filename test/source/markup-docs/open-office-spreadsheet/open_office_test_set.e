@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-10 21:10:51 GMT (Tuesday 10th January 2023)"
-	revision: "29"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "30"
 
 class
 	OPEN_OFFICE_TEST_SET
@@ -30,12 +30,17 @@ inherit
 
 	EL_CRC_32_TESTABLE
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("open_office_spreadsheet", agent test_open_office_spreadsheet)
+			make_named (<<
+				["open_office_spreadsheet", agent test_open_office_spreadsheet]
+			>>)
 		end
 
 feature -- Tests

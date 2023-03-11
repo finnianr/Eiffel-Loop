@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-03-10 10:10:54 GMT (Friday 10th March 2023)"
+	revision: "11"
 
 deferred class
 	FFT_COMPLEX_64_I
@@ -37,7 +37,7 @@ feature -- Access
 		end
 
 	output: COLUMN_VECTOR_COMPLEX_64
-   		--
+			--
 		deferred
 		end
 
@@ -59,7 +59,7 @@ feature -- Access
 feature -- Basic operations
 
 	do_transform
-   			--
+				--
 		deferred
 		end
 
@@ -70,13 +70,13 @@ feature -- Basic operations
 
 feature -- Element change
 
-   set_input (a_input: VECTOR_COMPLEX_64)
-   		--
+	set_input (a_input: VECTOR_COMPLEX_64)
+			--
 		deferred
 		end
 
 	 set_windower (a_windower: WINDOWER_DOUBLE)
-   		--
+			--
 		deferred
 		end
 

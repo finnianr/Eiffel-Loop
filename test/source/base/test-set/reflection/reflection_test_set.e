@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:33:58 GMT (Saturday 31st December 2022)"
-	revision: "38"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "39"
 
 class
 	REFLECTION_TEST_SET
@@ -25,25 +25,30 @@ inherit
 
 	EL_SHARED_FACTORIES
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("arrayed_list_initialization", agent test_arrayed_list_initialization)
-			eval.call ("default_tuple_initialization", agent test_default_tuple_initialization)
-			eval.call ("field_representation", agent test_field_representation)
-			eval.call ("initialized_object_factory", agent test_initialized_object_factory)
-			eval.call ("object_initialization_from_camel_case_table", agent test_object_initialization_from_camel_case_table)
-			eval.call ("object_initialization_from_table", agent test_object_initialization_from_table)
-			eval.call ("reference_field_list", agent test_reference_field_list)
-			eval.call ("reflected_collection_factory", agent test_reflected_collection_factory)
-			eval.call ("reflected_integer_list", agent test_reflected_integer_list)
-			eval.call ("reflection", agent test_reflection)
-			eval.call ("reflective_string_constants", agent test_reflective_string_constants)
-			eval.call ("set_from_other", agent test_set_from_other)
-			eval.call ("size_reporting", agent test_size_reporting)
-			eval.call ("substituted_type_name", agent test_substituted_type_name)
+			make_named (<<
+				["arrayed_list_initialization", agent test_arrayed_list_initialization],
+				["default_tuple_initialization", agent test_default_tuple_initialization],
+				["field_representation", agent test_field_representation],
+				["initialized_object_factory", agent test_initialized_object_factory],
+				["object_initialization_from_camel_case_table", agent test_object_initialization_from_camel_case_table],
+				["object_initialization_from_table", agent test_object_initialization_from_table],
+				["reference_field_list", agent test_reference_field_list],
+				["reflected_collection_factory", agent test_reflected_collection_factory],
+				["reflected_integer_list", agent test_reflected_integer_list],
+				["reflection", agent test_reflection],
+				["reflective_string_constants", agent test_reflective_string_constants],
+				["set_from_other", agent test_set_from_other],
+				["size_reporting", agent test_size_reporting],
+				["substituted_type_name", agent test_substituted_type_name]
+			>>)
 		end
 
 feature -- Tests

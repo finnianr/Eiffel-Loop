@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "7"
 
 class
 	EL_WIN_FILE_INFO_C_API
@@ -83,7 +83,7 @@ feature {NONE} -- C externals
 			--		_In_opt_ const FILETIME *lpLastAccessTime,
 			--		_In_opt_ const FILETIME *lpLastWriteTime
 			-- )
-  		external
+			external
 			"C signature (HANDLE, LPFILETIME, LPFILETIME, LPFILETIME): EIF_BOOLEAN use <Windows.h>"
 		alias
 			"SetFileTime"

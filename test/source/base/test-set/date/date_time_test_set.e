@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-22 13:23:41 GMT (Sunday 22nd January 2023)"
-	revision: "29"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "30"
 
 class
 	DATE_TIME_TEST_SET
@@ -19,23 +19,28 @@ inherit
 
 	TIME_VALIDITY_CHECKER undefine default_create end
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("compact_decimal_time", agent test_compact_decimal_time)
-			eval.call ("date_time", agent test_date_time)
-			eval.call ("date_time_proper_case", agent test_date_time_proper_case)
-			eval.call ("date_time_subtract", agent test_date_time_subtract)
-			eval.call ("epoch_date_time", agent test_epoch_date_time)
-			eval.call ("formatted_date", agent test_formatted_date)
-			eval.call ("from_canonical_iso_8601_formatted", agent test_from_canonical_iso_8601_formatted)
-			eval.call ("from_iso_8601_formatted", agent test_from_iso_8601_formatted)
-			eval.call ("time_input_formats", agent test_time_input_formats)
-			eval.call ("time_zone_designator", agent test_time_zone_designator)
-			eval.call ("execution_timer", agent test_execution_timer)
-			eval.call ("time_format_out", agent test_time_format_out)
+			make_named (<<
+				["compact_decimal_time", agent test_compact_decimal_time],
+				["date_time", agent test_date_time],
+				["date_time_proper_case", agent test_date_time_proper_case],
+				["date_time_subtract", agent test_date_time_subtract],
+				["epoch_date_time", agent test_epoch_date_time],
+				["formatted_date", agent test_formatted_date],
+				["from_canonical_iso_8601_formatted", agent test_from_canonical_iso_8601_formatted],
+				["from_iso_8601_formatted", agent test_from_iso_8601_formatted],
+				["time_input_formats", agent test_time_input_formats],
+				["time_zone_designator", agent test_time_zone_designator],
+				["execution_timer", agent test_execution_timer],
+				["time_format_out", agent test_time_format_out]
+			>>)
 		end
 
 feature -- Tests

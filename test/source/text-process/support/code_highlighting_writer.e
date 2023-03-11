@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:37:43 GMT (Tuesday 14th February 2023)"
-	revision: "23"
+	date: "2023-03-10 10:10:54 GMT (Friday 10th March 2023)"
+	revision: "24"
 
 class
 	CODE_HIGHLIGHTING_WRITER
@@ -53,9 +53,9 @@ feature {NONE} -- Initialization
 		do
 			make (a_output)
 
- 			file_path := a_file_path
- 			selected_features := a_selected_features
- 			if attached open_lines (file_path, Utf_8) as source_lines then
+			file_path := a_file_path
+			selected_features := a_selected_features
+			if attached open_lines (file_path, Utf_8) as source_lines then
 				create source_text.make (source_lines.byte_count)
 
 				if selected_features.is_empty then
@@ -63,7 +63,7 @@ feature {NONE} -- Initialization
 				else
 					do_once_with_file_lines (agent find_feature_block, source_lines)
 				end
- 			end
+			end
 			core := optimal_core (source_text)
 		end
 

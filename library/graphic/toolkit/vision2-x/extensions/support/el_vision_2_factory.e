@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "22"
+	date: "2023-03-10 9:57:55 GMT (Friday 10th March 2023)"
+	revision: "23"
 
 class
 	EL_VISION_2_FACTORY
@@ -113,7 +113,7 @@ feature -- Box containers
 	new_horizontal_box (a_border_cms, a_padding_cms: REAL; a_widgets: ARRAY [EV_WIDGET]): EL_HORIZONTAL_BOX
 			--
 		do
- 			create Result.make_unexpanded (a_border_cms, a_padding_cms, a_widgets)
+			create Result.make_unexpanded (a_border_cms, a_padding_cms, a_widgets)
 		end
 
 	new_horizontal_framed_box (
@@ -121,20 +121,20 @@ feature -- Box containers
 	): EL_FRAME [EL_HORIZONTAL_BOX]
 			--
 		do
- 			create Result.make_with_text (inner_border_cms, a_padding_cms, a_text)
- 			Result.box.append_unexpanded (a_widgets)
+			create Result.make_with_text (inner_border_cms, a_padding_cms, a_text)
+			Result.box.append_unexpanded (a_widgets)
 		end
 
 	new_vertical_box (a_border_cms, a_padding_cms: REAL; a_widgets: ARRAY [EV_WIDGET]): EL_VERTICAL_BOX
 			--
 		do
- 			create Result.make_unexpanded (a_border_cms, a_padding_cms, a_widgets)
+			create Result.make_unexpanded (a_border_cms, a_padding_cms, a_widgets)
 		end
 
 	new_vertical_centered_box (a_border_cms, a_padding_cms: REAL; a_widgets: ARRAY [EV_WIDGET]): EL_VERTICAL_BOX
 			--
 		do
- 			create Result.make_centered (a_border_cms, a_padding_cms, a_widgets)
+			create Result.make_centered (a_border_cms, a_padding_cms, a_widgets)
 		end
 
 	new_vertical_framed_box (
@@ -142,8 +142,8 @@ feature -- Box containers
 	): EL_FRAME [EL_VERTICAL_BOX]
 			--
 		do
- 			create Result.make_with_text (inner_border_cms, a_padding_cms, a_text)
- 			Result.box.append_unexpanded (a_widgets)
+			create Result.make_with_text (inner_border_cms, a_padding_cms, a_text)
+			Result.box.append_unexpanded (a_widgets)
 		end
 
 feature -- Other

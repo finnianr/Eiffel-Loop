@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-03-10 10:05:11 GMT (Friday 10th March 2023)"
+	revision: "11"
 
 deferred class
 	EL_CPP_ITERATOR [G -> EL_CPP_OBJECT]
@@ -112,30 +112,30 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
+	cpp_item: POINTER
+
 	function_create_iterator: FUNCTION [POINTER]
 		-- Current instance owns the resulting iterator and is responsible
 		-- for deleting it
 
-    cpp_item: POINTER
-
 feature {NONE} -- Externals
 
-   cpp_off (self: POINTER): BOOLEAN
-		deferred
-		end
-
 	cpp_delete (self: POINTER)
-            --
+				--
 		deferred
 		end
 
 	cpp_iterator_begin (iterator: POINTER): POINTER
-            --
+				--
 		deferred
 		end
 
 	cpp_iterator_next (iterator: POINTER): POINTER
-            --
+				--
+		deferred
+		end
+
+	cpp_off (self: POINTER): BOOLEAN
 		deferred
 		end
 

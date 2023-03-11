@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 8:51:37 GMT (Sunday 1st January 2023)"
-	revision: "44"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "45"
 
 class
 	TAGLIB_TEST_SET
@@ -34,23 +34,28 @@ inherit
 
 	EL_SHARED_TEST_TEXT
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("comments", agent test_comments)
-			eval.call ("musicbrainz", agent test_musicbrainz)
-			eval.call ("picture_edit", agent test_picture_edit)
-			eval.call ("picture_mime_types", agent test_picture_mime_types)
-			eval.call ("get_set_basic_fields", agent test_get_set_basic_fields)
-			eval.call ("read_frames_v2_x", agent test_read_v2_frames)
-			eval.call ("string_conversion", agent test_string_conversion)
-			eval.call ("string_list", agent test_string_list)
-			eval.call ("string_setting", agent test_string_setting)
-			eval.call ("ufid", agent test_ufid)
-			eval.call ("user_text", agent test_user_text)
-			eval.call ("major_version_change", agent test_major_version_change)
+			make_named (<<
+				["comments", agent test_comments],
+				["musicbrainz", agent test_musicbrainz],
+				["picture_edit", agent test_picture_edit],
+				["picture_mime_types", agent test_picture_mime_types],
+				["get_set_basic_fields", agent test_get_set_basic_fields],
+				["read_frames_v2_x", agent test_read_v2_frames],
+				["string_conversion", agent test_string_conversion],
+				["string_list", agent test_string_list],
+				["string_setting", agent test_string_setting],
+				["ufid", agent test_ufid],
+				["user_text", agent test_user_text],
+				["major_version_change", agent test_major_version_change]
+			>>)
 		end
 
 feature -- Tests

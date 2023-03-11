@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "11"
 
 class
 	EROS_SERVER_ACTIVITY_METERS
@@ -220,8 +220,8 @@ feature {NONE} -- UI building
 
 	create_meter_column (heading: STRING; meter_frames: ARRAY [like create_meter_frame]): EV_VERTICAL_BOX
 			--
-   		local
-   			label: EV_LABEL
+			local
+				label: EV_LABEL
 			i: INTEGER
 		do
 			create Result

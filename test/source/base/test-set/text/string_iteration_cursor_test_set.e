@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:35:07 GMT (Saturday 31st December 2022)"
-	revision: "4"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "5"
 
 class
 	STRING_ITERATION_CURSOR_TEST_SET
@@ -19,14 +19,19 @@ inherit
 
 	EL_SHARED_STRING_32_CURSOR
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("measurements", agent test_measurements)
-			eval.call ("status_query", agent test_status_query)
-			eval.call ("transforms", agent test_transforms)
+			make_named (<<
+				["measurements", agent test_measurements],
+				["status_query", agent test_status_query],
+				["transforms", agent test_transforms]
+			>>)
 		end
 
 feature -- Tests

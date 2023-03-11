@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "12"
 
 class
 	EROS_REMOTE_ROUTINE_CALL_SERVER_MAIN_WINDOW
@@ -36,11 +36,11 @@ create
 feature {NONE} -- Initialization
 
 	initialize
-   			-- Mark `Current' as initialized.
-   			-- This must be called during the creation procedure
-   			-- to satisfy the `is_initialized' invariant.
-   			-- Descendants may redefine initialize to perform
-   			-- additional setup tasks.
+				-- Mark `Current' as initialized.
+				-- This must be called during the creation procedure
+				-- to satisfy the `is_initialized' invariant.
+				-- Descendants may redefine initialize to perform
+				-- additional setup tasks.
 		do
 			Precursor
 			add_toolbar_components
@@ -50,8 +50,8 @@ feature {EV_APPLICATION} -- Initialization
 
 	prepare_to_show
 			--
-   		local
-   			l_box: EV_VERTICAL_BOX
+			local
+				l_box: EV_VERTICAL_BOX
 		do
 			create l_box
 			l_box.set_border_width (10)

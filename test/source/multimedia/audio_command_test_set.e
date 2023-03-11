@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2023-03-10 17:33:46 GMT (Friday 10th March 2023)"
+	revision: "15"
 
 class
 	AUDIO_COMMAND_TEST_SET
@@ -19,12 +19,17 @@ inherit
 
 	EL_MODULE_CONSOLE
 
-feature -- Basic operations
+create
+	make
 
-	do_all (evaluator: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			evaluator.call ("mp3_audio", agent test_mp3_audio)
+			make_named (<<
+				["mp3_audio", agent test_mp3_audio]
+			>>)
 		end
 
 feature -- Tests

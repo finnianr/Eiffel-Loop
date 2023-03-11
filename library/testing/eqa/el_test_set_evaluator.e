@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-09 16:06:05 GMT (Thursday 9th March 2023)"
-	revision: "9"
+	date: "2023-03-10 12:10:52 GMT (Friday 10th March 2023)"
+	revision: "10"
 
 class
 	EL_TEST_SET_EVALUATOR
@@ -92,8 +92,6 @@ feature -- Basic operations
 						do_call (table.key, table.item)
 					end
 				end
-			else
-				item.do_all (Current)
 			end
 		end
 

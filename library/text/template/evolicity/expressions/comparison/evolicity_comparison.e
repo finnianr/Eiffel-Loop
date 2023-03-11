@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
+	revision: "8"
 
 deferred class
 	EVOLICITY_COMPARISON
@@ -40,7 +40,7 @@ feature -- Basic operation
 				else
 					compare_integer_64 (to_integer_64 (left_numeric), to_integer_64 (right_numeric))
 				end
- 			end
+			end
 		end
 
 feature -- Element change

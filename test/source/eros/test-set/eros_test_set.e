@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-11 11:47:25 GMT (Wednesday 11th January 2023)"
-	revision: "12"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "13"
 
 class
 	EROS_TEST_SET
@@ -30,6 +30,9 @@ inherit
 			default_create
 		end
 
+create
+	make
+
 feature {NONE} -- Initiliazation
 
 	on_prepare
@@ -43,12 +46,14 @@ feature {NONE} -- Initiliazation
 			fft_array := << create {FFT_COMPLEX_64}.make, create {FFT_COMPLEX_64_PROXY}.make (connection) >>
 		end
 
-feature -- Basic operations
+feature {NONE} -- Initialization
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("fft", agent test_fft)
+			make_named (<<
+				["fft", agent test_fft]
+			>>)
 		end
 
 feature -- Tests

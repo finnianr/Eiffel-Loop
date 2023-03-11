@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
+	revision: "7"
 
 class
 	EL_ZLIB_API
@@ -26,7 +26,7 @@ feature {NONE} -- C externals
 
 	c_uncompress (dest, dest_len, source: POINTER; source_len: INTEGER_64): INTEGER
 			-- ZEXTERN int ZEXPORT uncompress OF((Bytef *dest,   uLongf *destLen,
-            --				                      const Bytef *source, uLong sourceLen));
+				--				                      const Bytef *source, uLong sourceLen));
 		external
 			"C (Bytef *, uLongf *, const Bytef *, uLong): EIF_INTEGER | <zlib.h>"
 		alias

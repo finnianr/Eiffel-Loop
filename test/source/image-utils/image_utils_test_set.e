@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "14"
 
 class
 	IMAGE_UTILS_TEST_SET
@@ -22,12 +22,17 @@ inherit
 
 	EL_MODULE_SVG
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("svg_to_png_conversion",	agent test_svg_to_png_conversion)
+			make_named (<<
+				["svg_to_png_conversion",	agent test_svg_to_png_conversion]
+			>>)
 		end
 
 feature -- Tests

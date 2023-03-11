@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-03 17:57:54 GMT (Tuesday 3rd January 2023)"
-	revision: "24"
+	date: "2023-03-10 11:28:17 GMT (Friday 10th March 2023)"
+	revision: "25"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -35,6 +35,7 @@ inherit
 			joined as joined_chain,
 			subchain as array_subchain
 		export
+			{ANY} insert
 			{NONE} array_subchain
 		redefine
 			make, make_from_array, make_from_tuple

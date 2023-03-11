@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:32:21 GMT (Saturday 31st December 2022)"
-	revision: "8"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "9"
 
 class
 	DATE_TIME_2_TEST_SET
@@ -17,11 +17,16 @@ inherit
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
+			make_named (<<
+			>>)
 		end
 
 feature -- Tests

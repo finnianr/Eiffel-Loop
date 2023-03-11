@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-09 12:58:09 GMT (Thursday 9th March 2023)"
-	revision: "8"
+	date: "2023-03-10 18:20:38 GMT (Friday 10th March 2023)"
+	revision: "9"
 
 deferred class
 	EDITOR_COMMAND_TEST_SET
@@ -24,17 +24,20 @@ inherit
 
 	EL_MODULE_TUPLE
 
-feature -- Basic operations
+feature {NONE} -- Initialization
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("file_editing", agent test_file_editing)
+			make_named (<<
+				["file_editing", agent test_file_editing]
+			>>)
 		end
 
 feature -- Tests
 
 	test_file_editing
+		-- EDITOR_COMMAND_TEST_SET.file_editing
 		do
 			across file_list as file_path loop
 				do_test ("edit_file", Checksum_table [file_path.item.base_name], agent edit_file, [file_path.item])

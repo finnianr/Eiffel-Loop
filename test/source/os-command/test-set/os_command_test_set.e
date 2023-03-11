@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 16:52:42 GMT (Tuesday 6th December 2022)"
-	revision: "23"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "24"
 
 class
 	OS_COMMAND_TEST_SET
@@ -19,14 +19,19 @@ inherit
 
 	SHARED_DEV_ENVIRON
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("cpu_info", agent test_cpu_info)
-			eval.call ("create_tar_command", agent test_create_tar_command)
-			eval.call ("user_list", agent test_user_list)
+			make_named (<<
+				["cpu_info", agent test_cpu_info],
+				["create_tar_command", agent test_create_tar_command],
+				["user_list", agent test_user_list]
+			>>)
 		end
 
 feature -- Tests

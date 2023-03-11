@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 8:51:24 GMT (Sunday 1st January 2023)"
-	revision: "49"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "50"
 
 class
 	PYXIS_TO_XML_TEST_SET
@@ -30,13 +30,18 @@ inherit
 
 	EL_SHARED_TEST_XDOC_DATA
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("attribute_parser", agent test_attribute_parser)
-			eval.call ("conversion_to_xml", agent test_conversion_to_xml)
+			make_named (<<
+				["attribute_parser", agent test_attribute_parser],
+				["conversion_to_xml", agent test_conversion_to_xml]
+			>>)
 		end
 
 feature -- Tests

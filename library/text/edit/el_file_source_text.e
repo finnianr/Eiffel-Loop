@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-19 18:00:00 GMT (Saturday 19th November 2022)"
-	revision: "4"
+	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
+	revision: "5"
 
 class
 	EL_FILE_SOURCE_TEXT
@@ -40,27 +40,27 @@ feature -- Element Change
 			source_text := a_source_text
 		end
 
-  	set_source_text_from_file (file_path: FILE_PATH)
- 			--
- 		do
- 			set_source_text_from_line_source (new_input_lines (file_path))
- 		end
+		set_source_text_from_file (file_path: FILE_PATH)
+			--
+		do
+			set_source_text_from_line_source (new_input_lines (file_path))
+		end
 
 	set_source_text_from_line_source (lines: EL_PLAIN_TEXT_LINE_SOURCE)
 			--
 		do
- 			source_file_path := lines.file_path
- 			set_encoding_from_other (lines) -- May have detected UTF-8 BOM
- 			set_source_text (lines.joined)
+			source_file_path := lines.file_path
+			set_encoding_from_other (lines) -- May have detected UTF-8 BOM
+			set_source_text (lines.joined)
 		end
 
 feature {NONE} -- Implementation
 
- 	new_input_lines (file_path: FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
- 		do
- 			create Result.make (encoding, file_path)
- 			Result.enable_shared_item
- 		end
+	new_input_lines (file_path: FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
+		do
+			create Result.make (encoding, file_path)
+			Result.enable_shared_item
+		end
 
 feature {NONE} -- Internal attributes
 

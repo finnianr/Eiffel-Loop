@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 16:51:17 GMT (Thursday 29th December 2022)"
-	revision: "57"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "58"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -29,21 +29,26 @@ inherit
 
 	SHARED_DEV_ENVIRON
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("cookies", agent test_cookies)
-			eval.call ("cached_documents", agent test_cached_documents)
-			eval.call ("download_document_and_headers", agent test_download_document_and_headers)
-			eval.call ("download_image_and_headers", agent test_download_image_and_headers)
-			eval.call ("ip_address_info", agent test_ip_address_info)
-			eval.call ("headers", agent test_headers)
-			eval.call ("http_hash_table", agent test_http_hash_table)
-			eval.call ("http_post", agent test_http_post)
-			eval.call ("image_headers", agent test_image_headers)
-			eval.call ("url_encoded", agent test_url_encoded)
+			make_named (<<
+				["cookies", agent test_cookies],
+				["cached_documents", agent test_cached_documents],
+				["download_document_and_headers", agent test_download_document_and_headers],
+				["download_image_and_headers", agent test_download_image_and_headers],
+				["ip_address_info", agent test_ip_address_info],
+				["headers", agent test_headers],
+				["http_hash_table", agent test_http_hash_table],
+				["http_post", agent test_http_post],
+				["image_headers", agent test_image_headers],
+				["url_encoded", agent test_url_encoded]
+			>>)
 		end
 
 feature -- Tests

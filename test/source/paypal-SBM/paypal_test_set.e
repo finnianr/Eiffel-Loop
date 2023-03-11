@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 16:28:53 GMT (Saturday 31st December 2022)"
-	revision: "18"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "19"
 
 class
 	PAYPAL_TEST_SET
@@ -25,14 +25,19 @@ inherit
 
 	EL_REFLECTION_HANDLER
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("pp_date_format", agent test_pp_date_format)
-			eval.call ("pp_transaction", agent test_pp_transaction)
-			eval.call ("uri_query_table_conversion", agent test_uri_query_table_conversion)
+			make_named (<<
+				["pp_date_format", agent test_pp_date_format],
+				["pp_transaction", agent test_pp_transaction],
+				["uri_query_table_conversion", agent test_uri_query_table_conversion]
+			>>)
 		end
 
 feature -- Test

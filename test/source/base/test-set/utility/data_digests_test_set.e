@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-28 13:59:42 GMT (Tuesday 28th February 2023)"
-	revision: "24"
+	date: "2023-03-10 17:33:46 GMT (Friday 10th March 2023)"
+	revision: "25"
 
 class
 	DATA_DIGESTS_TEST_SET
@@ -27,13 +27,18 @@ inherit
 
 	EL_SHARED_TEST_TEXT
 
-feature -- Basic operations
+create
+	make
 
-	do_all (evaluator: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			evaluator.call ("file_crc_32", agent test_file_crc_32)
-			evaluator.call ("md5_128", agent test_md5_128)
+			make_named (<<
+				["file_crc_32", agent test_file_crc_32],
+				["md5_128", agent test_md5_128]
+			>>)
 		end
 
 feature -- Tests

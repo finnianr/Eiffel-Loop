@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 16:53:10 GMT (Monday 12th December 2022)"
-	revision: "7"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "8"
 
 class
 	FTP_TEST_SET
@@ -15,12 +15,17 @@ class
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("reuse_authenticator", agent test_reuse_authenticator)
+			make_named (<<
+				["reuse_authenticator", agent test_reuse_authenticator]
+			>>)
 		end
 
 feature -- Tests

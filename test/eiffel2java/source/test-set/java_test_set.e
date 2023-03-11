@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 11:35:08 GMT (Sunday 1st January 2023)"
-	revision: "7"
+	date: "2023-03-10 17:40:40 GMT (Friday 10th March 2023)"
+	revision: "8"
 
 class
 	JAVA_TEST_SET
@@ -27,13 +27,18 @@ inherit
 
 	SHARED_JNI_ENVIRONMENT undefine default_create end
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("java", agent test_java)
-			eval.call ("deployment_properties", agent test_deployment_properties)
+			make_named (<<
+				["java", agent test_java],
+				["deployment_properties", agent test_deployment_properties]
+			>>)
 		end
 
 feature -- Tests

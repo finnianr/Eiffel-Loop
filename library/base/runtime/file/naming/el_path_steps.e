@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 13:33:55 GMT (Monday 23rd January 2023)"
-	revision: "14"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "15"
 
 class
 	EL_PATH_STEPS
@@ -49,8 +49,8 @@ convert
 	make_from_steps ({ARRAY [ZSTRING], ARRAY [STRING], ARRAY [STRING_32]}),
 	make ({STRING, STRING_32, IMMUTABLE_STRING_32, IMMUTABLE_STRING_8, ZSTRING}),
 
- 	as_string_32: {STRING_32, READABLE_STRING_GENERAL}, to_string: {ZSTRING},
- 	to_dir_path: {DIR_PATH}, to_file_path: {FILE_PATH}
+	as_string_32: {STRING_32, READABLE_STRING_GENERAL}, to_string: {ZSTRING},
+	to_dir_path: {DIR_PATH}, to_file_path: {FILE_PATH}
 
 feature -- Initialization
 

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-03-10 10:06:55 GMT (Friday 10th March 2023)"
+	revision: "10"
 
 class
 	EL_CONSOLE_MANAGER_TOOLBAR
@@ -46,42 +46,42 @@ create
 
 feature {NONE} -- Initialization
 
- 	make (keyboard_shortcuts: EL_KEYBOARD_SHORTCUTS; accelerator_keys_enabled: BOOLEAN)
- 			--
- 		local
- 			label: EV_LABEL; label_text: STRING; thread_list_box: EL_VERTICAL_BOX
- 		do
- 			make_console_manager
+	make (keyboard_shortcuts: EL_KEYBOARD_SHORTCUTS; accelerator_keys_enabled: BOOLEAN)
+			--
+		local
+			label: EV_LABEL; label_text: STRING; thread_list_box: EL_VERTICAL_BOX
+		do
+			make_console_manager
 			make_default_box
 			if accelerator_keys_enabled then
 				add_keyboard_shortcuts (keyboard_shortcuts)
 			end
 
- 			label_text := "Thread"
+			label_text := "Thread"
 			create label.make_with_text (label_text)
 			label.font.set_weight (Text.Weight_bold)
 			label.set_minimum_width (label.font.string_width (label_text) + 6)
 
- 			set_padding_width (Screen.horizontal_pixels (0.2))
+			set_padding_width (Screen.horizontal_pixels (0.2))
 
- 			create thread_name_drop_down_list
- 			thread_name_drop_down_list.select_actions.extend (agent on_selection)
- 			thread_name_drop_down_list.set_tooltip ("Set thread logging output to display in console")
- 			thread_name_drop_down_list.set_minimum_width (thread_name_drop_down_list.font.width * 40)
+			create thread_name_drop_down_list
+			thread_name_drop_down_list.select_actions.extend (agent on_selection)
+			thread_name_drop_down_list.set_tooltip ("Set thread logging output to display in console")
+			thread_name_drop_down_list.set_minimum_width (thread_name_drop_down_list.font.width * 40)
 
 			create thread_list_box
 			thread_list_box.extend (create {EV_CELL})
 			thread_list_box.extend_unexpanded (thread_name_drop_down_list)
 			thread_list_box.extend (create {EV_CELL})
 
- 			extend_unexpanded (new_navigation_toolbar)
+			extend_unexpanded (new_navigation_toolbar)
 
- 			extend_unexpanded (label)
+			extend_unexpanded (label)
 
- 			extend (thread_list_box)
+			extend (thread_list_box)
 
 			launch_thread_registration_consumer
- 		end
+		end
 
 feature {NONE} -- GUI component creation
 
@@ -139,7 +139,7 @@ feature {EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER} -- Implementation
 			thread_name_drop_down_list.extend (list_item)
 
 --			name_width := thread_name_drop_down_list.font.string_width (list_item.text)
- 			thread_name_drop_down_list.set_minimum_width_in_characters (list_item.text.count + 3)
+			thread_name_drop_down_list.set_minimum_width_in_characters (list_item.text.count + 3)
 		end
 
 	select_drop_down_list_item (an_index: INTEGER)

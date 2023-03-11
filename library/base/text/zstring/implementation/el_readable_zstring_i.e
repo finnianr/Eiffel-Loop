@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 15:59:55 GMT (Saturday 25th February 2023)"
-	revision: "2"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "3"
 
 deferred class
 	EL_READABLE_ZSTRING_I
@@ -94,7 +94,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
- 	same_characters_general (other: READABLE_STRING_GENERAL; start_pos, end_pos, start_index: INTEGER): BOOLEAN
+	same_characters_general (other: READABLE_STRING_GENERAL; start_pos, end_pos, start_index: INTEGER): BOOLEAN
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `start_index'.
 		deferred

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-03-10 10:10:54 GMT (Friday 10th March 2023)"
+	revision: "6"
 
 class
 	VECTOR_COMPLEX_64_ITERATION_CURSOR
@@ -47,13 +47,13 @@ feature -- Access
 
 	item: COMPLEX_64
 			-- Current item
-      local
-         i: INTEGER
-      do
-         i := 2 * index - 2
-         internal_item.set (component_area.item (i), component_area.item (i + 1) )
-         Result := internal_item
-      end
+		local
+			i: INTEGER
+		do
+			i := 2 * index - 2
+			internal_item.set (component_area.item (i), component_area.item (i + 1) )
+			Result := internal_item
+		end
 
 feature -- Basic operations
 

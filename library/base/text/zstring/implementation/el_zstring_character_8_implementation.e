@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-17 14:14:24 GMT (Friday 17th February 2023)"
-	revision: "23"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "24"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
@@ -188,7 +188,7 @@ feature -- Conversion
 
 feature -- Comparison
 
- 	same_characters (other: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
+	same_characters (other: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `index_pos'.
 		require

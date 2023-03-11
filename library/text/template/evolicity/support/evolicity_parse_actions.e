@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-20 7:53:54 GMT (Sunday 20th November 2022)"
-	revision: "9"
+	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
+	revision: "10"
 
 deferred class
 	EVOLICITY_PARSE_ACTIONS
@@ -78,28 +78,28 @@ feature {NONE} -- Actions
 		local
 			comparable: EVOLICITY_COMPARABLE; str: ZSTRING
 		do
-  			if type = Token.integer_64_constant then
+				if type = Token.integer_64_constant then
 				str := source_text_for_token (start_index)
 	  			create {EVOLICITY_INTEGER_64_COMPARABLE} comparable.make_from_string (str)
 
-  			elseif type = Token.double_constant then
+				elseif type = Token.double_constant then
 				str := source_text_for_token (start_index)
 				create {EVOLICITY_DOUBLE_COMPARABLE} comparable.make_from_string (str)
 			else
 				create {EVOLICITY_COMPARABLE_VARIABLE} comparable.make (tokens_to_variable_ref (start_index, end_index))
-  			end
-  			number_stack.put (comparable)
+				end
+				number_stack.put (comparable)
 		end
 
 	on_comparison_expression (start_index, end_index: INTEGER)
 			--
 		do
-  			numeric_comparison_stack.item.set_right_hand_expression (number_stack.item)
-  			number_stack.remove
-  			numeric_comparison_stack.item.set_left_hand_expression (number_stack.item)
-  			number_stack.remove
-  			boolean_expression_stack.put (numeric_comparison_stack.item)
-  			numeric_comparison_stack.remove
+				numeric_comparison_stack.item.set_right_hand_expression (number_stack.item)
+				number_stack.remove
+				numeric_comparison_stack.item.set_left_hand_expression (number_stack.item)
+				number_stack.remove
+				boolean_expression_stack.put (numeric_comparison_stack.item)
+				numeric_comparison_stack.remove
 		end
 
 	on_dollor_sign_escape (start_index, end_index: INTEGER)
@@ -374,14 +374,14 @@ feature {NONE} -- Implementation
 
 	valid_comparison_text (type: NATURAL; start_index, end_index: INTEGER): BOOLEAN
 		do
-  			if type = Token.integer_64_constant then
+				if type = Token.integer_64_constant then
 	  			Result := source_text_for_token (start_index).is_integer_64
 
-  			elseif type = Token.double_constant then
+				elseif type = Token.double_constant then
 	  			Result := source_text_for_token (start_index).is_double
 	  		else
 	  			Result := True
-  			end
+				end
 		end
 
 feature {NONE} -- Deferred

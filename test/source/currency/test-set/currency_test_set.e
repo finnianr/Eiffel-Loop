@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:30:26 GMT (Saturday 31st December 2022)"
-	revision: "4"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "5"
 
 class
 	CURRENCY_TEST_SET
@@ -19,12 +19,17 @@ inherit
 
 	EL_SHARED_CURRENCY_ENUM
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("locale_table", agent test_locale_table)
+			make_named (<<
+				["locale_table", agent test_locale_table]
+			>>)
 		end
 
 feature -- Tests

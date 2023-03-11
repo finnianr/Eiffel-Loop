@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:47:03 GMT (Tuesday 14th February 2023)"
-	revision: "6"
+	date: "2023-03-10 18:56:42 GMT (Friday 10th March 2023)"
+	revision: "7"
 
 class
 	FEATURE_GROUP_LIST
@@ -27,7 +27,7 @@ feature -- Access
 
 feature -- Element change
 
-	add_feature (line: ZSTRING)
+	add_feature (line: ZSTRING; is_test_set: BOOLEAN)
 		local
 			l_feature: CLASS_FEATURE; pos_equals: INTEGER
 		do
@@ -41,8 +41,8 @@ feature -- Element change
 			elseif line.has_substring (Insertion_symbol) then
 				create {MAKE_ROUTINE_FEATURE} l_feature.make (line)
 
-			elseif across Test_evaluator_do_all as str all line.has_substring (str.item) end then
-				create {EQA_TEST_EVALUATION_CALLBACK_FEATURE} l_feature.make (Current, line)
+			elseif is_test_set and then line.ends_with (Name_make) then
+				create {GENERATE_MAKE_ROUTINE_FOR_EQA_TEST_SET} l_feature.make (Current, line)
 			else
 				create {ROUTINE_FEATURE} l_feature.make (line)
 			end
@@ -66,9 +66,9 @@ feature {NONE} -- Constants
 			Result := "%T@set"
 		end
 
-	Test_evaluator_do_all: ARRAY [ZSTRING]
+	Name_make: ZSTRING
 		once
-			Result := << "do_all", Evaluator_class_name + ")" >>
+			Result := "make"
 		end
 
 end

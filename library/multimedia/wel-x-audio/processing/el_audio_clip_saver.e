@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "6"
 
 class
 	EL_AUDIO_CLIP_SAVER
@@ -99,7 +99,7 @@ feature {NONE} -- Implementation
 		local
 			clip_name: ZSTRING; audio_rms_energy: REAL
 		do
- 			audio_rms_energy := audio_clip.rms_energy
+			audio_rms_energy := audio_clip.rms_energy
 
 			if sound_level_listener /= Void then
 				sound_level_listener.set_signal_level (audio_rms_energy)

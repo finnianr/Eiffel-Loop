@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:35:27 GMT (Saturday 31st December 2022)"
-	revision: "30"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "31"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -30,22 +30,27 @@ inherit
 
 	EL_ENCODING_CONSTANTS
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("arrayed_map_list", agent test_arrayed_map_list)
-			eval.call ("arrayed_result_list", agent test_arrayed_result_list)
-			eval.call ("circular_indexing", agent test_circular_indexing)
-			eval.call ("el_linear", agent test_el_linear)
-			eval.call ("make_filtered_array", agent test_make_filtered_array)
-			eval.call ("order_by_color_name", agent test_order_by_color_name)
-			eval.call ("order_by_weight", agent test_order_by_weight)
-			eval.call ("query_and_map_list", agent test_query_and_map_list)
-			eval.call ("query_and_summator", agent test_query_and_summator)
-			eval.call ("string_list", agent test_string_list)
-			eval.call ("summator", agent test_summator)
+			make_named (<<
+				["arrayed_map_list", agent test_arrayed_map_list],
+				["arrayed_result_list", agent test_arrayed_result_list],
+				["circular_indexing", agent test_circular_indexing],
+				["el_linear", agent test_el_linear],
+				["make_filtered_array", agent test_make_filtered_array],
+				["order_by_color_name", agent test_order_by_color_name],
+				["order_by_weight", agent test_order_by_weight],
+				["query_and_map_list", agent test_query_and_map_list],
+				["query_and_summator", agent test_query_and_summator],
+				["string_list", agent test_string_list],
+				["summator", agent test_summator]
+			>>)
 		end
 
 feature -- Test

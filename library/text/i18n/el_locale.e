@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "34"
+	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
+	revision: "35"
 
 class
 	EL_LOCALE
@@ -52,17 +52,17 @@ create
 
 feature {NONE} -- Initialization
 
- 	make (a_language, a_default_language: STRING)
- 		do
- 			make_with_table (a_language, a_default_language, Void)
- 		end
-
- 	make_with_table (a_language, a_default_language: STRING; a_translation_table: detachable EL_TRANSLATION_TABLE)
- 		require
- 			locale_table_created: Singleton_table.has_type ({EL_LOCALE_TABLE})
+	make (a_language, a_default_language: STRING)
 		do
- 			make_default
- 			default_language := a_default_language
+			make_with_table (a_language, a_default_language, Void)
+		end
+
+	make_with_table (a_language, a_default_language: STRING; a_translation_table: detachable EL_TRANSLATION_TABLE)
+		require
+			locale_table_created: Singleton_table.has_type ({EL_LOCALE_TABLE})
+		do
+			make_default
+			default_language := a_default_language
 			if attached a_translation_table as table then
 				translation_table := table
 			else
@@ -95,10 +95,10 @@ feature -- Access
 			Result := translation_table.language
 		end
 
-  	substituted (template_key: READABLE_STRING_GENERAL; inserts: TUPLE): ZSTRING
-  		do
-  			Result := translation (template_key).substituted_tuple (inserts)
-  		end
+		substituted (template_key: READABLE_STRING_GENERAL; inserts: TUPLE): ZSTRING
+			do
+				Result := translation (template_key).substituted_tuple (inserts)
+			end
 
 	translation alias "*" (key: READABLE_STRING_GENERAL): ZSTRING
 			-- translation for source code string in current user language

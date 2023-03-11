@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-03-10 17:40:40 GMT (Friday 10th March 2023)"
+	revision: "5"
 
 class
 	SVG_TO_PNG_TEST_SET
@@ -28,12 +28,17 @@ inherit
 
 	SHARED_JNI_ENVIRONMENT undefine default_create end
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("svg_format_conversion", agent test_svg_format_conversion)
+			make_named (<<
+				["svg_format_conversion", agent test_svg_format_conversion]
+			>>)
 		end
 
 feature -- Tests

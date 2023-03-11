@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-03-10 9:55:22 GMT (Friday 10th March 2023)"
+	revision: "4"
 
 class
 	EL_X11_EXTENSIONS_API
@@ -17,14 +17,14 @@ inherit
 
 feature {NONE} -- C Externals: Xrandr.h
 
-	frozen XRR_get_screen_resources_current (display_ptr: POINTER; window_number: INTEGER): POINTER
-			-- XRRScreenResources *XRRGetScreenResourcesCurrent (Display *dpy, Window window);
+	frozen XRR_free_output_info (output_info_ptr: POINTER)
+			-- void XRRFreeOutputInfo (XRROutputInfo *outputInfo);
 		require
-			arg_attached: is_attached (display_ptr)
+			arg_attached: is_attached (output_info_ptr)
 		external
-			"C (Display*, Window): EIF_POINTER | <X11/extensions/Xrandr.h>"
+			"C (XRROutputInfo*) | <X11/extensions/Xrandr.h>"
 		alias
-			"XRRGetScreenResourcesCurrent"
+			"XRRFreeOutputInfo"
 		end
 
 	frozen XRR_free_screen_resources (resources_ptr: POINTER)
@@ -47,65 +47,55 @@ feature {NONE} -- C Externals: Xrandr.h
 			"XRRGetOutputInfo"
 		end
 
-    frozen XRR_output_info_connection (output_info_ptr: POINTER): INTEGER
-            --
+	frozen XRR_get_screen_resources_current (display_ptr: POINTER; window_number: INTEGER): POINTER
+			-- XRRScreenResources *XRRGetScreenResourcesCurrent (Display *dpy, Window window);
+		require
+			arg_attached: is_attached (display_ptr)
+		external
+			"C (Display*, Window): EIF_POINTER | <X11/extensions/Xrandr.h>"
+		alias
+			"XRRGetScreenResourcesCurrent"
+		end
+
+	frozen XRR_output_info_connection (output_info_ptr: POINTER): INTEGER
+				--
 		require
 			arg_attached: is_attached (output_info_ptr)
-      external
-      	"C [struct <X11/extensions/Xrandr.h>] (XRROutputInfo): EIF_INTEGER"
-      alias
+		external
+			"C [struct <X11/extensions/Xrandr.h>] (XRROutputInfo): EIF_INTEGER"
+		alias
 			"connection"
-      end
+		end
 
-    frozen XRR_output_info_mm_width (output_info_ptr: POINTER): INTEGER
-            --
+	frozen XRR_output_info_crtc (output_info_ptr: POINTER): POINTER
+				--
 		require
 			arg_attached: is_attached (output_info_ptr)
-      external
-      	"C [struct <X11/extensions/Xrandr.h>] (XRROutputInfo): EIF_INTEGER"
-      alias
-      	"mm_width"
-      end
+		external
+			"C [struct <X11/extensions/Xrandr.h>] (XRROutputInfo): EIF_INTEGER"
+		alias
+			"crtc"
+		end
 
-    frozen XRR_output_info_mm_height (output_info_ptr: POINTER): INTEGER
-            --
+	frozen XRR_output_info_mm_height (output_info_ptr: POINTER): INTEGER
+				--
 		require
 			arg_attached: is_attached (output_info_ptr)
-      external
-      	"C [struct <X11/extensions/Xrandr.h>] (XRROutputInfo): EIF_INTEGER"
+		external
+			"C [struct <X11/extensions/Xrandr.h>] (XRROutputInfo): EIF_INTEGER"
 		alias
 			"mm_height"
 		end
 
-    frozen XRR_output_info_crtc (output_info_ptr: POINTER): POINTER
-            --
-		require
-			arg_attached: is_attached (output_info_ptr)
-      external
-      	"C [struct <X11/extensions/Xrandr.h>] (XRROutputInfo): EIF_INTEGER"
-      alias
-      	"crtc"
-      end
-
-	frozen XRR_free_output_info (output_info_ptr: POINTER)
-			-- void XRRFreeOutputInfo (XRROutputInfo *outputInfo);
+	frozen XRR_output_info_mm_width (output_info_ptr: POINTER): INTEGER
+				--
 		require
 			arg_attached: is_attached (output_info_ptr)
 		external
-			"C (XRROutputInfo*) | <X11/extensions/Xrandr.h>"
+			"C [struct <X11/extensions/Xrandr.h>] (XRROutputInfo): EIF_INTEGER"
 		alias
-			"XRRFreeOutputInfo"
+			"mm_width"
 		end
-
-    frozen XRR_screen_resource_noutput (resource_ptr: POINTER): INTEGER
-            --
-		require
-			arg_attached: is_attached (resource_ptr)
-      external
-      	"C [struct <X11/extensions/Xrandr.h>] (XRRScreenResources): EIF_INTEGER"
-      alias
-      	"noutput"
-      end
 
 	frozen XRR_screen_resource_i_th_output (resource_ptr: POINTER; index: INTEGER): INTEGER
 		require
@@ -115,6 +105,16 @@ feature {NONE} -- C Externals: Xrandr.h
 			"C inline use <X11/extensions/Xrandr.h>"
 		alias
 			"((XRRScreenResources*) $resource_ptr)->outputs [$index]"
+		end
+
+	frozen XRR_screen_resource_noutput (resource_ptr: POINTER): INTEGER
+				--
+		require
+			arg_attached: is_attached (resource_ptr)
+		external
+			"C [struct <X11/extensions/Xrandr.h>] (XRRScreenResources): EIF_INTEGER"
+		alias
+			"noutput"
 		end
 
 feature {NONE}-- Constants

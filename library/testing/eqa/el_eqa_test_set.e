@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-09 16:01:41 GMT (Thursday 9th March 2023)"
-	revision: "17"
+	date: "2023-03-10 12:04:58 GMT (Friday 10th March 2023)"
+	revision: "18"
 
 deferred class
 	EL_EQA_TEST_SET
@@ -33,21 +33,13 @@ feature {NONE} -- Initialization
 
 	make
 		-- partial make to satisfy `EQA_TEST_SET' invariant
-		do
-			test_file_system := new_file_system
+		deferred
 		end
 
 	make_named (test_array: ARRAY [TUPLE [STRING, PROCEDURE]])
 		do
 			test_file_system := new_file_system
 			create test_table.make (test_array)
-		end
-
-feature -- Basic operations
-
-	do_all (evaluator: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
-		deferred
 		end
 
 feature -- Access

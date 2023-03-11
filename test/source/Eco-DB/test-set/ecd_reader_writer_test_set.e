@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 13:35:48 GMT (Thursday 5th January 2023)"
-	revision: "20"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "21"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -24,16 +24,21 @@ inherit
 
 	EL_SHARED_CURRENCY_ENUM
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("collection_read_write", agent test_collection_read_write)
-			eval.call ("print_fields", agent test_print_fields)
-			eval.call ("pyxis_export", agent test_pyxis_export)
-			eval.call ("read_write", agent test_read_write)
-			eval.call ("write_meta_data", agent test_write_meta_data)
+			make_named (<<
+				["collection_read_write", agent test_collection_read_write],
+				["print_fields", agent test_print_fields],
+				["pyxis_export", agent test_pyxis_export],
+				["read_write", agent test_read_write],
+				["write_meta_data", agent test_write_meta_data]
+			>>)
 		end
 
 feature -- Tests

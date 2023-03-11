@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "15"
 
 class
 	EL_HTTP_STATUS_ENUM
@@ -251,16 +251,16 @@ feature -- 5xx codes
 		-- temporary overloading or maintenance of server.
 
 	variant_also_negotiates: NATURAL_16
- 		-- Variant Also Negotiates
+		-- Variant Also Negotiates
 
 	insufficient_storage: NATURAL_16
- 		-- Insufficient Storage
+		-- Insufficient Storage
 
 	bandwidth_limit_exceeded: NATURAL_16
- 		-- Bandwidth Limit Exceeded
+		-- Bandwidth Limit Exceeded
 
 	not_extended: NATURAL_16
- 		-- Not Extended
+		-- Not Extended
 
 feature {NONE} -- Constants
 

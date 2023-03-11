@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:46:47 GMT (Tuesday 14th February 2023)"
-	revision: "40"
+	date: "2023-03-10 12:13:33 GMT (Friday 10th March 2023)"
+	revision: "41"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -42,6 +42,9 @@ inherit
 
 	EL_SHARED_FIND_FILE_FILTER_FACTORY
 
+create
+	make
+
 feature {NONE} -- Initialization
 
 	on_prepare
@@ -58,12 +61,14 @@ feature {NONE} -- Initialization
 			create editor.make (manifest.notes, dummy)
 		end
 
-feature -- Basic operations
+feature {NONE} -- Initialization
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("editor_with_new_class", agent test_editor_with_new_class)
+			make_named (<<
+				["editor_with_new_class", agent test_editor_with_new_class]
+			>>)
 		end
 
 feature -- Tests

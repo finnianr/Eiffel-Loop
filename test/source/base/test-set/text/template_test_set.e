@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:33:42 GMT (Saturday 31st December 2022)"
-	revision: "8"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "9"
 
 class
 	TEMPLATE_TEST_SET
@@ -15,16 +15,21 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("basic", agent test_basic)
-			eval.call ("date", agent test_date)
-			eval.call ("name_separation", agent test_name_separation)
-			eval.call ("dollor_escaping", agent test_dollor_escaping)
-			eval.call ("repeated_variable", agent test_repeated_variable)
+			make_named (<<
+				["basic", agent test_basic],
+				["date", agent test_date],
+				["name_separation", agent test_name_separation],
+				["dollor_escaping", agent test_dollor_escaping],
+				["repeated_variable", agent test_repeated_variable]
+			>>)
 		end
 
 feature -- Tests

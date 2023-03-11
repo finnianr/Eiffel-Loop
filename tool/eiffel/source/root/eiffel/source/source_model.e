@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-09 12:45:19 GMT (Thursday 9th March 2023)"
-	revision: "15"
+	date: "2023-03-11 9:28:53 GMT (Saturday 11th March 2023)"
+	revision: "16"
 
 class
 	SOURCE_MODEL
@@ -31,6 +31,7 @@ feature {NONE} -- Initialization
 		do
 			make_machine
 			source_path := a_source_path
+			is_test_set := a_source_path.base.ends_with (Test_set_ending)
 			create class_notes.make (10)
 			create class_header.make (20)
 			create class_footer.make (1)
@@ -59,6 +60,10 @@ feature {NONE} -- Initialization
 			end
 		end
 
+feature -- Status query
+
+	is_test_set: BOOLEAN
+
 feature {NONE} -- State handlers
 
 	fill_class_footer (line: ZSTRING)
@@ -77,13 +82,13 @@ feature {NONE} -- State handlers
 		end
 
 	find_first_feature (line: ZSTRING)
-			-- find first feature in feature group
+		-- find first feature in feature group
 		do
 			if code_line_is_feature_declaration then
 				feature_group_list.extend (create {FEATURE_GROUP}.make (group_header))
 				group_header.wipe_out
 
-				feature_group_list.add_feature (line)
+				feature_group_list.add_feature (line, is_test_set)
 				state := agent find_next_feature
 			else
 				group_header.extend (line)
@@ -115,7 +120,7 @@ feature {NONE} -- State handlers
 				state := agent find_first_feature
 
 			elseif code_line_is_feature_declaration then
-				feature_group_list.add_feature (line)
+				feature_group_list.add_feature (line, is_test_set)
 				state := agent find_next_feature
 			else
 				feature_group_list.last.append (line)
@@ -148,5 +153,12 @@ feature {CLASS_FEATURE} -- Implementation attributes
 	group_header: EL_ZSTRING_LIST
 
 	source_path: FILE_PATH
+
+feature {NONE} -- Constants
+
+	Test_set_ending: ZSTRING
+		once
+			Result := "_test_set.e"
+		end
 
 end

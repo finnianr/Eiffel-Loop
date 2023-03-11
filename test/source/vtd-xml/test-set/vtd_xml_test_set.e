@@ -16,8 +16,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 8:52:07 GMT (Sunday 1st January 2023)"
-	revision: "29"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "31"
 
 class
 	VTD_XML_TEST_SET
@@ -34,6 +34,9 @@ inherit
 
 	EL_MODULE_OS
 
+create
+	make
+
 feature {NONE} -- Initialization
 
 	on_prepare
@@ -42,15 +45,17 @@ feature {NONE} -- Initialization
 			create root_node
 		end
 
-feature -- Basic operations
+feature {NONE} -- Initialization
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("bioinfo_xpath_query", agent test_bioinfo_xpath_query)
-			eval.call ("cd_catalog_xpath_query", agent test_cd_catalog_xpath_query)
-			eval.call ("query_processing_instruction", agent test_query_processing_instruction)
-			eval.call ("svg_xpath_query", agent test_svg_xpath_query)
+			make_named (<<
+				["bioinfo_xpath_query", agent test_bioinfo_xpath_query],
+				["cd_catalog_xpath_query", agent test_cd_catalog_xpath_query],
+				["query_processing_instruction", agent test_query_processing_instruction],
+				["svg_xpath_query", agent test_svg_xpath_query]
+			>>)
 		end
 
 feature -- Tests
@@ -338,7 +343,7 @@ feature {NONE} -- Query results
 				BOOTVAL: 1000
 				bootseed: 987
 				jumbleseed: 987
- 			]"
+			]"
 		end
 
 	bioinfo_results_4: HASH_TABLE [INTEGER, STRING]
@@ -380,7 +385,7 @@ feature {NONE} -- Query results
 				ARTIST: "Bob Dylan"
 				PRICE: "€10.90"
 				TRACK DIGEST: "kM+gGMDNqjhFjs+jpFGL6g=="
-  			]"
+				]"
 			Result ["number (substring (PRICE, 2)) < 10"] := {STRING_32} "[
 				ALBUM: "Michael Raucheisen Vol. 12"
 				ARTIST: "Michael Raucheisen"

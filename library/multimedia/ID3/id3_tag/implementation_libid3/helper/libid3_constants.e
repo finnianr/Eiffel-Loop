@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "8"
 
 class
 	LIBID3_CONSTANTS
@@ -15,7 +15,7 @@ class
 feature {NONE} -- Field types
 
 	FN_data: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -25,7 +25,7 @@ feature {NONE} -- Field types
 feature {NONE} -- String fields
 
 	FN_description: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -33,7 +33,7 @@ feature {NONE} -- String fields
 		end
 
 	FN_text: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -41,7 +41,7 @@ feature {NONE} -- String fields
 		end
 
 	FN_filename: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -51,7 +51,7 @@ feature {NONE} -- String fields
 feature {NONE} -- Latin-1 fields
 
 	FN_language: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -59,7 +59,7 @@ feature {NONE} -- Latin-1 fields
 		end
 
 	FN_email: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -67,7 +67,7 @@ feature {NONE} -- Latin-1 fields
 		end
 
 	FN_image_format: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -75,7 +75,7 @@ feature {NONE} -- Latin-1 fields
 		end
 
 	FN_mime_type: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -83,7 +83,7 @@ feature {NONE} -- Latin-1 fields
 		end
 
 	FN_owner: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -91,7 +91,7 @@ feature {NONE} -- Latin-1 fields
 		end
 
 	FN_url: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -101,7 +101,7 @@ feature {NONE} -- Latin-1 fields
 feature {NONE} -- Integer fields
 
 	FN_counter: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -109,7 +109,7 @@ feature {NONE} -- Integer fields
 		end
 
 	FN_id: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -117,7 +117,7 @@ feature {NONE} -- Integer fields
 		end
 
 	FN_text_encoding: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -125,7 +125,7 @@ feature {NONE} -- Integer fields
 		end
 
 	FN_time_stamp_format: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -133,7 +133,7 @@ feature {NONE} -- Integer fields
 		end
 
 	FN_content_type: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -141,7 +141,7 @@ feature {NONE} -- Integer fields
 		end
 
 	FN_numbits: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -149,7 +149,7 @@ feature {NONE} -- Integer fields
 		end
 
 	FN_picture_type: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -157,7 +157,7 @@ feature {NONE} -- Integer fields
 		end
 
 	FN_rating: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -165,7 +165,7 @@ feature {NONE} -- Integer fields
 		end
 
 	FN_volume_change_left: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -173,7 +173,7 @@ feature {NONE} -- Integer fields
 		end
 
 	FN_volume_change_right: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -181,7 +181,7 @@ feature {NONE} -- Integer fields
 		end
 
 	FN_peak_volume_left: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -189,7 +189,7 @@ feature {NONE} -- Integer fields
 		end
 
 	FN_peak_volume_right: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -197,7 +197,7 @@ feature {NONE} -- Integer fields
 		end
 
 	FN_volume_adjust: INTEGER
-         --
+			--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -207,7 +207,7 @@ feature {NONE} -- Integer fields
 feature {NONE} -- Field data types
 
 	Field_type_binary: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -215,7 +215,7 @@ feature {NONE} -- Field data types
 		end
 
 	Field_type_integer: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -223,7 +223,7 @@ feature {NONE} -- Field data types
 		end
 
 	Field_type_none: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -231,7 +231,7 @@ feature {NONE} -- Field data types
 		end
 
 	Field_type_text_string: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -241,7 +241,7 @@ feature {NONE} -- Field data types
 feature {ID3_ENCODING_ENUM} -- Encoding types
 
 	Encoding_ISO8859_1: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -249,7 +249,7 @@ feature {ID3_ENCODING_ENUM} -- Encoding types
 		end
 
 	Encoding_NONE: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -257,7 +257,7 @@ feature {ID3_ENCODING_ENUM} -- Encoding types
 		end
 
 	Encoding_NUMENCODINGS: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -265,7 +265,7 @@ feature {ID3_ENCODING_ENUM} -- Encoding types
 		end
 
 	Encoding_UTF16: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -273,7 +273,7 @@ feature {ID3_ENCODING_ENUM} -- Encoding types
 		end
 
 	Encoding_UTF16BE: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -281,7 +281,7 @@ feature {ID3_ENCODING_ENUM} -- Encoding types
 		end
 
 	Encoding_UTF8: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -291,7 +291,7 @@ feature {ID3_ENCODING_ENUM} -- Encoding types
 feature {NONE} -- Encoding major types
 
 	Encoding_ASCII: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -299,7 +299,7 @@ feature {NONE} -- Encoding major types
 		end
 
 	Encoding_UNICODE: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -309,7 +309,7 @@ feature {NONE} -- Encoding major types
 feature {NONE} -- Major versions
 
 	ID3_all: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -317,7 +317,7 @@ feature {NONE} -- Major versions
 		end
 
 	ID3_none: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -325,7 +325,7 @@ feature {NONE} -- Major versions
 		end
 
 	ID3_v1: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -333,7 +333,7 @@ feature {NONE} -- Major versions
 		end
 
 	ID3_v2: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -343,7 +343,7 @@ feature {NONE} -- Major versions
 feature {NONE} -- Version specs
 
 	ID3v1_0: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -351,7 +351,7 @@ feature {NONE} -- Version specs
 		end
 
 	ID3v1_1: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -359,7 +359,7 @@ feature {NONE} -- Version specs
 		end
 
 	ID3v2_2: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -367,7 +367,7 @@ feature {NONE} -- Version specs
 		end
 
 	ID3v2_21: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -375,7 +375,7 @@ feature {NONE} -- Version specs
 		end
 
 	ID3v2_3: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -383,7 +383,7 @@ feature {NONE} -- Version specs
 		end
 
 	ID3v2_unknown: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -393,7 +393,7 @@ feature {NONE} -- Version specs
 feature {NONE} -- Other
 
 	FID_Year: INTEGER
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -401,7 +401,7 @@ feature {NONE} -- Other
 		end
 
 	Null_unicode: NATURAL_16
-            --
+				--
 		external
 			"C++ inline use %"id3/tag.h%""
 		alias
@@ -410,11 +410,11 @@ feature {NONE} -- Other
 
 	c_patch_version: INTEGER
 			-- const char * const ID3LIB_VERSION
-        external
-            "C inline use %"id3/globals.h%""
-        alias
-        	"return ID3LIB_PATCH_VERSION"
-        end
+			external
+				"C inline use %"id3/globals.h%""
+			alias
+				"return ID3LIB_PATCH_VERSION"
+			end
 
 feature {NONE} -- Conversion
 

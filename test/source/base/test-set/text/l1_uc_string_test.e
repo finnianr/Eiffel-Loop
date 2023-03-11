@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:12:55 GMT (Saturday 31st December 2022)"
-	revision: "9"
+	date: "2023-03-10 17:32:45 GMT (Friday 10th March 2023)"
+	revision: "10"
 
 class
 	L1_UC_STRING_TEST
@@ -21,13 +21,18 @@ inherit
 
 	EL_SHARED_TEST_TEXT
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("conversion", agent test_conversion)
-			eval.call ("unicode_by_index", agent test_unicode_by_index)
+			make_named (<<
+				["conversion", agent test_conversion],
+				["unicode_by_index", agent test_unicode_by_index]
+			>>)
 		end
 
 feature -- Tests

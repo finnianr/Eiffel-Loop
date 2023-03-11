@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "22"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "23"
 
 class
 	EL_EXPAT_XML_PARSER
@@ -342,8 +342,8 @@ feature {NONE} -- Expat callbacks
 
 	frozen on_xml_tag_declaration_parsed (a_version, a_encoding: POINTER; standalone: INTEGER)
 		-- const XML_Char *version, const XML_Char  *encoding, int standalone
-      local
-      	str: EL_STRING_8
+		local
+			str: EL_STRING_8
 		do
 			set_last_state (State_xml_declaration_call)
 			create str.make_empty
@@ -383,7 +383,7 @@ feature {NONE} -- Expat callbacks
 			scanner.on_end_tag
 		end
 
- 	frozen on_content_parsed (content_ptr: POINTER; a_count: INTEGER)
+	frozen on_content_parsed (content_ptr: POINTER; a_count: INTEGER)
 		do
 			if last_state /= State_content_call then
 				set_last_state (State_content_call)

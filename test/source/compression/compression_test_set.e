@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:29:50 GMT (Saturday 31st December 2022)"
-	revision: "12"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "13"
 
 class
 	COMPRESSION_TEST_SET
@@ -19,13 +19,18 @@ inherit
 
 	EL_MODULE_FILE; EL_MODULE_ZLIB
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("archive_file", agent test_archive_file)
-			eval.call ("zlib_compress", agent test_zlib_compress)
+			make_named (<<
+				["archive_file", agent test_archive_file],
+				["zlib_compress", agent test_zlib_compress]
+			>>)
 		end
 
 feature -- Tests

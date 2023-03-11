@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "4"
 
 class
 	LIBID3_ID3_FRAME_CPP_API
@@ -47,7 +47,7 @@ feature {LIBID3_FRAME_ITERATION_CURSOR} -- C++ Externals: ID3_Frame
 			"NumFields"
 		end
 
-   cpp_field_address (self: POINTER; field_id: INTEGER): POINTER
+	cpp_field_address (self: POINTER; field_id: INTEGER): POINTER
 			-- ID3_Field* GetField(ID3_FieldID name)
 		external
 			"C++ [ID3_Frame %"id3/tag.h%"] (ID3_FieldID): EIF_POINTER"

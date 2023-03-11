@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
-	date: "2023-01-09 9:55:45 GMT (Monday 9th January 2023)"
-	revision: "6"
+	date: "2023-03-10 17:51:13 GMT (Friday 10th March 2023)"
+	revision: "7"
 
 class
 	PROTEIN_FOLDING_TEST_SET
@@ -24,19 +24,24 @@ inherit
 
 	EL_MODULE_EIFFEL
 
-feature -- Basic operations
+create
+	make
 
-	do_all (evaluator: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			evaluator.call ("multi_core_2_1_with_grid_2_5", agent test_multi_core_2_1_with_grid_2_5)
-			evaluator.call ("one_core_1_0", agent test_one_core_1_0)
-			evaluator.call ("one_core_2_0_with_grid_2_2", agent test_one_core_2_0_with_grid_2_2)
-			evaluator.call ("one_core_2_0_with_grid_2_3", agent test_one_core_2_0_with_grid_2_3)
-			evaluator.call ("one_core_2_0_with_grid_2_4", agent test_one_core_2_0_with_grid_2_4)
-			evaluator.call ("one_core_2_0_with_grid_2_5", agent test_one_core_2_0_with_grid_2_5)
-			evaluator.call ("one_core_2_0_with_grid_2_6", agent test_one_core_2_0_with_grid_2_6)
-			evaluator.call ("one_core_2_0_with_grid_2_7", agent test_one_core_2_0_with_grid_2_7)
+			make_named (<<
+				["multi_core_2_1_with_grid_2_5", agent test_multi_core_2_1_with_grid_2_5],
+				["one_core_1_0", agent test_one_core_1_0],
+				["one_core_2_0_with_grid_2_2", agent test_one_core_2_0_with_grid_2_2],
+				["one_core_2_0_with_grid_2_3", agent test_one_core_2_0_with_grid_2_3],
+				["one_core_2_0_with_grid_2_4", agent test_one_core_2_0_with_grid_2_4],
+				["one_core_2_0_with_grid_2_5", agent test_one_core_2_0_with_grid_2_5],
+				["one_core_2_0_with_grid_2_6", agent test_one_core_2_0_with_grid_2_6],
+				["one_core_2_0_with_grid_2_7", agent test_one_core_2_0_with_grid_2_7]
+			>>)
 		end
 
 feature -- Tests

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:28:03 GMT (Saturday 31st December 2022)"
-	revision: "10"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "11"
 
 class
 	ARRAYED_LIST_TEST_SET
@@ -15,12 +15,17 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("shift", agent test_shift)
+			make_named (<<
+				["shift", agent test_shift]
+			>>)
 		end
 
 feature -- Tests

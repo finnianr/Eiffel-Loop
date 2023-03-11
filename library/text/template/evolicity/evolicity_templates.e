@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:37:34 GMT (Tuesday 14th February 2023)"
-	revision: "28"
+	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
+	revision: "29"
 
 class
 	EVOLICITY_TEMPLATES
@@ -133,12 +133,12 @@ feature -- String output
 feature -- Status query
 
 	has (a_name: FILE_PATH): BOOLEAN
- 		do
- 			if attached restricted_access (Mutex_compiler_table) as table then
+		do
+			if attached restricted_access (Mutex_compiler_table) as table then
 				Result := table.has (a_name)
 
 				end_restriction
- 			end
+			end
 		end
 
 	is_nested_output_indented: BOOLEAN
@@ -180,19 +180,19 @@ feature -- Removal
 	clear_all
 			-- Clear all parsed templates
 		do
- 			if attached restricted_access (Mutex_compiler_table) as table then
+			if attached restricted_access (Mutex_compiler_table) as table then
 				table.wipe_out
 				end_restriction
- 			end
+			end
 		end
 
 	remove (a_name: FILE_PATH)
 			-- remove template
 		do
- 			if attached restricted_access (Mutex_compiler_table) as table then
+			if attached restricted_access (Mutex_compiler_table) as table then
 				table.remove (a_name)
 				end_restriction
- 			end
+			end
 		end
 
 feature -- Factory
@@ -233,7 +233,7 @@ feature {NONE} -- Implementation
 			valid_key_path: not attached file_encoding implies (is_type_template (key_path) and not template_source.is_empty)
 		local
 			compiler: EVOLICITY_COMPILER; source_is_new_or_updated: BOOLEAN
- 		do
+		do
 			if attached restricted_access (Mutex_compiler_table) as table then
 				if table.has_key (key_path) then
 					if attached file_encoding then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:38:59 GMT (Tuesday 14th February 2023)"
-	revision: "34"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "35"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -21,27 +21,32 @@ inherit
 
 	EL_MODULE_EXECUTABLE
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("delete_content_with_action", agent test_delete_content_with_action)
-			eval.call ("delete_paths", agent test_delete_paths)
-			eval.call ("delete_with_action", agent test_delete_with_action)
-			eval.call ("dir_tree_delete", agent test_dir_tree_delete)
-			eval.call ("directory_info", agent test_directory_info)
-			eval.call ("directory_content_processor", agent test_directory_content_processor)
-			eval.call ("find_directories", agent test_find_directories)
-			eval.call ("find_directories_absolute", agent test_find_directories_absolute)
-			eval.call ("find_files", agent test_find_files)
-			eval.call ("find_files_absolute", agent test_find_files_absolute)
-			eval.call ("gnome_virtual_file_system", agent test_gnome_virtual_file_system)
-			eval.call ("read_directories", agent test_read_directories)
-			eval.call ("read_directory_files", agent test_read_directory_files)
-			eval.call ("file_move_and_copy", agent test_file_move_and_copy)
-			eval.call ("file_move_and_copy_absolute", agent test_file_move_and_copy_absolute)
-			eval.call ("search_path_list", agent test_search_path_list)
+			make_named (<<
+				["delete_content_with_action", agent test_delete_content_with_action],
+				["delete_paths", agent test_delete_paths],
+				["delete_with_action", agent test_delete_with_action],
+				["dir_tree_delete", agent test_dir_tree_delete],
+				["directory_info", agent test_directory_info],
+				["directory_content_processor", agent test_directory_content_processor],
+				["find_directories", agent test_find_directories],
+				["find_directories_absolute", agent test_find_directories_absolute],
+				["find_files", agent test_find_files],
+				["find_files_absolute", agent test_find_files_absolute],
+				["gnome_virtual_file_system", agent test_gnome_virtual_file_system],
+				["read_directories", agent test_read_directories],
+				["read_directory_files", agent test_read_directory_files],
+				["file_move_and_copy", agent test_file_move_and_copy],
+				["file_move_and_copy_absolute", agent test_file_move_and_copy_absolute],
+				["search_path_list", agent test_search_path_list]
+			>>)
 		end
 
 feature -- Tests

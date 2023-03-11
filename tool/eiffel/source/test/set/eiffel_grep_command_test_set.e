@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-02 14:54:23 GMT (Thursday 2nd March 2023)"
-	revision: "3"
+	date: "2023-03-10 12:08:16 GMT (Friday 10th March 2023)"
+	revision: "4"
 
 class
 	EIFFEL_GREP_COMMAND_TEST_SET
@@ -21,12 +21,17 @@ inherit
 
 	EL_SHARED_TEST_TEXT
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("mixed_utf_8_latin_1_encodings", agent test_mixed_utf_8_latin_1_encodings)
+			make_named (<<
+				["mixed_utf_8_latin_1_encodings", agent test_mixed_utf_8_latin_1_encodings]
+			>>)
 		end
 
 feature -- Tests

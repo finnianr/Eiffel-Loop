@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-12 17:24:33 GMT (Sunday 12th February 2023)"
-	revision: "5"
+	date: "2023-03-10 10:10:54 GMT (Friday 10th March 2023)"
+	revision: "6"
 
 deferred class
 	BENCHMARK_CONSTANTS
@@ -20,7 +20,7 @@ feature {NONE} -- Constants
 	C_escape_table: EL_ESCAPE_TABLE
 		once
 			create Result.make (Back_slash, "\:=\, n:=%N, r:=%R, t:=%T, N:=%N, R:=%R, T:=%T")
- 		end
+		end
 
 	Back_slash: CHARACTER = '\'
 

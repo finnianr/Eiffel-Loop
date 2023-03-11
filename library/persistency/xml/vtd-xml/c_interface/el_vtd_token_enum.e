@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "4"
 
 class
 	EL_VTD_TOKEN_ENUM
@@ -29,7 +29,7 @@ feature -- Access
 		end
 
 	attribute_name: INTEGER
- 		external
+		external
 			"C inline use <vtd_enumerations.h>"
 		alias
 			"return TOKEN_ATTR_NAME"
@@ -43,7 +43,7 @@ feature -- Access
 		end
 
 	attribute_value: INTEGER
- 		external
+		external
 			"C inline use <vtd_enumerations.h>"
 		alias
 			"return TOKEN_ATTR_VAL"
@@ -57,14 +57,14 @@ feature -- Access
 		end
 
 	character_data: INTEGER
- 		external
+		external
 			"C inline use <vtd_enumerations.h>"
 		alias
 			"return TOKEN_CHARACTER_DATA"
 		end
 
 	comment: INTEGER
- 		external
+		external
 			"C inline use <vtd_enumerations.h>"
 		alias
 			"return TOKEN_COMMENT"
@@ -78,7 +78,7 @@ feature -- Access
 		end
 
 	declaration_attribute_value: INTEGER
- 		external
+		external
 			"C inline use <vtd_enumerations.h>"
 		alias
 			"return TOKEN_DEC_ATTR_VAL"
@@ -92,14 +92,14 @@ feature -- Access
 		end
 
 	dtd_value: INTEGER
- 		external
+		external
 			"C inline use <vtd_enumerations.h>"
 		alias
 			"return TOKEN_DTD_VAL"
 		end
 
 	ending_tag: INTEGER
- 		external
+		external
 			"C inline use <vtd_enumerations.h>"
 		alias
 			"return TOKEN_ENDING_TAG"

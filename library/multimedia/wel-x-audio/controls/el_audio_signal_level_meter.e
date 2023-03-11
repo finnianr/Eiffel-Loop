@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "6"
 
 class
 	EL_AUDIO_SIGNAL_LEVEL_METER
@@ -40,11 +40,11 @@ feature -- Element change
 		do
 			log.enter_no_header ("set_signal_level")
 			level := (rms_energy * 4 * maximum).rounded
- 			if level <= maximum then
- 				new_level := level
- 			else
- 				new_level := maximum
- 			end
+			if level <= maximum then
+				new_level := level
+			else
+				new_level := maximum
+			end
 			if rms_energy <= signal_threshold then
 				new_level := 0
 			else
@@ -61,11 +61,10 @@ feature {NONE} -- Implementation
 
 	set_position (new_position: INTEGER)
 			-- Set the current position with `new_position'.
- 			-- Use cwin_post_message instead of cwin_send_message so it can safely be called from
- 			-- a thread separate from the window thread
+			-- Use cwin_post_message instead of cwin_send_message so it can safely be called from
+			-- a thread separate from the window thread
 		do
 			cwin_post_message (item, Pbm_setpos, to_wparam (new_position), to_lparam (0))
 		end
 
 end
-

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 18:42:50 GMT (Sunday 4th December 2022)"
-	revision: "8"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "9"
 
 deferred class
 	EL_FILE_PROCESSING_COMMAND
@@ -23,8 +23,8 @@ feature -- Basic operations
 
 feature -- Element change
 
- 	set_file_path (a_file_path: FILE_PATH)
- 		deferred
- 		end
+	set_file_path (a_file_path: FILE_PATH)
+		deferred
+		end
 
 end

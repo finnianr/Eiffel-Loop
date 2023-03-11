@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-07 9:04:30 GMT (Tuesday 7th March 2023)"
-	revision: "48"
+	date: "2023-03-11 10:08:38 GMT (Saturday 11th March 2023)"
+	revision: "50"
 
 class
 	APPLICATION_ROOT
@@ -27,7 +27,6 @@ inherit
 		ENCODING_CHECK_APP,
 		REGULAR_EXPRESSION_SEARCH_APP,
 		REPOSITORY_NOTE_LINK_CHECKER_APP,
-		UNDEFINE_PATTERN_COUNTER_APP,
 
 	-- Class editing
 		CLASS_RENAMING_APP,
@@ -39,8 +38,6 @@ inherit
 		SOURCE_FILE_NAME_NORMALIZER_APP,
 		SOURCE_LEADING_SPACE_CLEANER_APP,
 		SOURCE_LOG_LINE_REMOVER_APP,
-		UPGRADE_DEFAULT_POINTER_SYNTAX_APP,
-		UPGRADE_LOG_FILTERS_APP,
 
 	-- Code generators
 		ZCODEC_GENERATOR_APP,
@@ -63,23 +60,16 @@ inherit
 		REPOSITORY_SOURCE_LINK_EXPANDER_APP,
 
 		VERSION_MANAGER_APP,
-		WINZIP_SOFTWARE_PACKAGE_BUILDER_APP
+		WINZIP_SOFTWARE_PACKAGE_BUILDER_APP,
+
+	-- Obsolete once-off apps
+		UNDEFINE_PATTERN_COUNTER_APP,
+		UPGRADE_DEFAULT_POINTER_SYNTAX_APP,
+		UPGRADE_LOG_FILTERS_APP,
+		UPGRADE_TEST_SET_CALL_BACK_CODE_APP
 	]
 
 create
 	make
 
-note
-	notes: "[
-		Needs some work on EL_FTP_SYNC to ensure correct sync info is saved in case of network error.
-	]"
-	to_do: "[
-		* [Oct 2019] Fix "tests" note not appearing in published page
-	]"
-	ideas: "[
-		* use lftp to sync with ftp account
-		See https://www.linux.com/blog/using-lftp-synchronize-folders-ftp-account
-		
-		* Create a tool for automatic organisation of OS-specific class implementations
-	]"
 end

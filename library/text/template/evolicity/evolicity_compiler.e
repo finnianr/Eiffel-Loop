@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-01 17:50:05 GMT (Wednesday 1st March 2023)"
-	revision: "25"
+	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
+	revision: "26"
 
 class
 	EVOLICITY_COMPILER
@@ -66,9 +66,9 @@ feature -- Access
 
 feature -- Element change
 
- 	set_source_text_from_file (file_path: FILE_PATH)
- 		require else
- 			valid_encoding_set: valid_encoding (encoding_type | encoding_id)
+	set_source_text_from_file (file_path: FILE_PATH)
+		require else
+			valid_encoding_set: valid_encoding (encoding_type | encoding_id)
 		do
 			modification_time := file_path.modification_time
 			Precursor (file_path)
@@ -79,8 +79,8 @@ feature -- Element change
 		local
 			compiled_source_path: FILE_PATH
 		do
- 			source_file_path := lines.file_path
- 			set_encoding_from_other (lines) -- May have detected UTF-8 BOM
+			source_file_path := lines.file_path
+			set_encoding_from_other (lines) -- May have detected UTF-8 BOM
 
 			compiled_source_path := source_file_path.with_new_extension ("evc")
 			if compiled_source_path.exists

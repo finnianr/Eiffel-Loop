@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "8"
 
 class
 	TL_ID3_TAG_FRAME_CPP_API
@@ -54,9 +54,9 @@ feature {NONE} -- Element change
 		-- virtual void setText(const String &text);
 
 		-- If the frame type supports multiple text encodings, this will not
-      -- change the text encoding of the frame; the string will be converted to
-      -- that frame's encoding.  Please use the specific APIs of the frame types
-      -- to set the encoding if that is desired.
+		-- change the text encoding of the frame; the string will be converted to
+		-- that frame's encoding.  Please use the specific APIs of the frame types
+		-- to set the encoding if that is desired.
 
 		external
 			"C++ inline use <mpeg/id3v2/id3v2frame.h>"

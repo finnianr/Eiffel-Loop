@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-09 16:01:41 GMT (Thursday 9th March 2023)"
-	revision: "8"
+	date: "2023-03-11 10:01:04 GMT (Saturday 11th March 2023)"
+	revision: "10"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
@@ -32,27 +32,20 @@ feature {NONE} -- Initialization
 			>>)
 		end
 
-feature -- Basic operations
-
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
-		do
-			eval.call ("codebase_statistics", agent test_codebase_statistics)
-			eval.call ("find_and_replace", agent test_find_and_replace)
-			eval.call ("space_cleaner", agent test_space_cleaner)
-		end
-
 feature -- Tests
 
 	test_codebase_statistics
 		local
-			command: CODEBASE_STATISTICS_COMMAND
+			command: CODEBASE_STATISTICS_COMMAND; assertion_template: ZSTRING
+			actual_results, expected_results: EL_ARRAYED_LIST [INTEGER]
 		do
 			create command.make (Manifest_path, create {EL_DIR_PATH_ENVIRON_VARIABLE})
 			command.execute
-			assert ("28 classes", command.class_count = 30)
-			assert ("10202 words", command.word_count = 10226)
-			assert ("Total size 96665 bytes", command.byte_count = 96973)
+			create expected_results.make_from_array (<< 31, 10354, 98700 >>)
+			create actual_results.make_from_array (<< command.class_count, command.word_count, command.byte_count >>)
+			assertion_template := "%S classes %S words. Total size %S bytes"
+
+			assert (assertion_template #$ expected_results.to_tuple, expected_results ~ actual_results)
 		end
 
 	test_find_and_replace
@@ -84,16 +77,21 @@ feature -- Tests
 		do
 			create cleaner.make (Manifest_path)
 			cleaner.execute
-			if attached cleaner.edited_list as list
-				and then list.count = 1 and then list.first_path.base_matches ("ev_pixmap_imp_drawable", False)
-			then
-				assert_same_digest (list.first_path, "BGfhfW0ucYUTtNmjtmbBPQ==")
-			else
-				assert ("expected only ev_pixmap_imp_drawable", False)
+			assert ("expect edition count", cleaner.edited_list.count = Cleaned_file_table.count)
+			across cleaner.edited_list as list loop
+				assert_same_digest (list.item, Cleaned_file_table [list.item.base_name])
 			end
 		end
 
 feature {NONE} -- Constants
+
+	Cleaned_file_table: EL_HASH_TABLE [STRING, STRING]
+		once
+			create Result.make (<<
+				["ev_pixmap_imp_drawable", "BGfhfW0ucYUTtNmjtmbBPQ=="],
+				["el_x11_extensions_api", "K1NL9HUytsKAAorC63jBiA=="]
+			>>)
+		end
 
 	Data_dir: DIR_PATH
 		once

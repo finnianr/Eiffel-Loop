@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "11"
 
 class
 	EL_XPATH_CONSTANTS
@@ -49,9 +49,9 @@ feature {NONE} -- Step ID enumeration
 
 	Text_node_step_id: INTEGER = 4
 
-  	Num_step_id_constants: INTEGER
-  		once
-  			Result := Text_node_step_id
-  		end
+		Num_step_id_constants: INTEGER
+			once
+				Result := Text_node_step_id
+			end
 
 end

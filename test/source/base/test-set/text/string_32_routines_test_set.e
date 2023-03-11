@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 11:48:11 GMT (Monday 6th March 2023)"
-	revision: "21"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "22"
 
 class
 	STRING_32_ROUTINES_TEST_SET
@@ -19,13 +19,18 @@ inherit
 
 	EL_SHARED_STRING_32_CURSOR; EL_SHARED_STRING_8_CURSOR
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("delimited_list", agent test_delimited_list)
-			eval.call ("immutable_string_manager", agent test_immutable_string_manager)
+			make_named (<<
+				["delimited_list", agent test_delimited_list],
+				["immutable_string_manager", agent test_immutable_string_manager]
+			>>)
 		end
 
 feature -- Tests

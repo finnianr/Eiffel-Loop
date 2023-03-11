@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-04 17:21:18 GMT (Saturday 4th February 2023)"
-	revision: "5"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "6"
 
 class
 	BIT_ROUTINE_TEST_SET
@@ -15,16 +15,21 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("bit_routines", agent test_bit_routines)
-			eval.call ("integer_32_bit_routines", agent test_integer_32_bit_routines)
-			eval.call ("integer_64_bit_routines", agent test_integer_64_bit_routines)
-			eval.call ("natural_32_bit_routines", agent test_natural_32_bit_routines)
-			eval.call ("natural_64_bit_routines", agent test_natural_64_bit_routines)
+			make_named (<<
+				["bit_routines", agent test_bit_routines],
+				["integer_32_bit_routines", agent test_integer_32_bit_routines],
+				["integer_64_bit_routines", agent test_integer_64_bit_routines],
+				["natural_32_bit_routines", agent test_natural_32_bit_routines],
+				["natural_64_bit_routines", agent test_natural_64_bit_routines]
+			>>)
 		end
 
 feature -- Tests

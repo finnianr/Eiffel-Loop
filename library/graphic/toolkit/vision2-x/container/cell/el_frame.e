@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "9"
 
 class
 	EL_FRAME [B -> EL_BOX create make end]
@@ -16,16 +16,16 @@ inherit
 	EV_FRAME
 		rename
 			extend as set_item,
- 			make_with_text as make_frame_with_text
- 		undefine
- 			set_text
+			make_with_text as make_frame_with_text
+		undefine
+			set_text
 		redefine
 			implementation
 		end
 
 	EL_TEXTABLE
 		rename
- 			make_with_text as make_frame_with_text
+			make_with_text as make_frame_with_text
 		undefine
 			initialize, is_in_default_state
 		redefine

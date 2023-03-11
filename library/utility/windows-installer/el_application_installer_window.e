@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
+	revision: "8"
 
 class
 	EL_APPLICATION_INSTALLER_WINDOW [INSTALLER_TYPE -> EL_APPLICATION_INSTALLER create make end]
@@ -38,11 +38,11 @@ create
 feature {NONE} -- Initialization
 
 	initialize
-   			-- Mark `Current' as initialized.
-   			-- This must be called during the creation procedure
-   			-- to satisfy the `is_initialized' invariant.
-   			-- Descendants may redefine initialize to perform
-   			-- additional setup tasks.
+				-- Mark `Current' as initialized.
+				-- This must be called during the creation procedure
+				-- to satisfy the `is_initialized' invariant.
+				-- Descendants may redefine initialize to perform
+				-- additional setup tasks.
 		do
 			Precursor
 			set_close_request_actions

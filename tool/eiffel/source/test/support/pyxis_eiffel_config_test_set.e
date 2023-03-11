@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-04 14:58:17 GMT (Saturday 4th March 2023)"
-	revision: "9"
+	date: "2023-03-10 12:12:13 GMT (Friday 10th March 2023)"
+	revision: "10"
 
 class
 	PYXIS_EIFFEL_CONFIG_TEST_SET
@@ -19,14 +19,19 @@ inherit
 
 	EL_MODULE_BUILD_INFO
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("scons_initialization", agent test_scons_initialization)
-			eval.call ("version_bump", agent test_version_bump)
-			eval.call ("version_reading", agent test_version_reading)
+			make_named (<<
+				["scons_initialization", agent test_scons_initialization],
+				["version_bump", agent test_version_bump],
+				["version_reading", agent test_version_reading]
+			>>)
 		end
 
 feature -- Tests

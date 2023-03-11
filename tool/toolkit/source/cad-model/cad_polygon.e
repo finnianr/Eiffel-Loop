@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "12"
 
 class
 	CAD_POLYGON
@@ -93,14 +93,14 @@ feature -- Status query
 
 feature -- Comparison
 
-   is_approximately_equal (other: like Current; precision: DOUBLE ): BOOLEAN
-   	do
-   		if count = other.count then
-   			Result := across Current as coord all
-   				coord.item.is_approximately_equal (other [coord.cursor_index], precision)
-   			end
-   		end
-   	end
+	is_approximately_equal (other: like Current; precision: DOUBLE ): BOOLEAN
+		do
+			if count = other.count then
+				Result := across Current as coord all
+					coord.item.is_approximately_equal (other [coord.cursor_index], precision)
+				end
+			end
+		end
 
 feature -- Basic operations
 

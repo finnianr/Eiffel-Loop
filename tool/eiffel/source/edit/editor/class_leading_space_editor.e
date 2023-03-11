@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-09 10:46:26 GMT (Thursday 9th March 2023)"
-	revision: "2"
+	date: "2023-03-10 9:36:19 GMT (Friday 10th March 2023)"
+	revision: "3"
 
 class
 	CLASS_LEADING_SPACE_EDITOR
@@ -58,37 +58,20 @@ feature {NONE} -- Implementation
 
 	replace_leading_spaces (input, output: STRING_8; start_index, end_index: INTEGER)
 		local
-			next_i, space_count: INTEGER; s: EL_STRING_8_ROUTINES
+			next_i, space_count, space_count_plus_1, tab_count: INTEGER; s: EL_STRING_8_ROUTINES
 		do
 			next_i := end_index + 1
 			space_count := end_index - start_index
+			space_count_plus_1 := space_count + 1
 			output.append_character ('%N')
-			if next_i <= input.count and then input [next_i] = '%T' then
-				do_nothing
-
-			elseif space_count >= 3 then
-				output.append (s.n_character_string ('%T', tab_count (space_count)))
+			if space_count_plus_1 \\ 3 = 0 then
+				tab_count := space_count_plus_1 // 3
+			else
+				tab_count := space_count // 3
 			end
-		end
-
-	tab_count (a_space_count: INTEGER): INTEGER
-		local
-			space_count, divisor: INTEGER; divisible: BOOLEAN
-		do
-			space_count := a_space_count
-			from until divisible or space_count = 0 loop
-				from divisor := 3 until divisible or divisor > 4 loop
-					if space_count \\ divisor = 0 then
-						divisible := True
-					else
-						divisor := divisor + 1
-					end
-				end
-				if not divisible then
-					space_count := space_count - 1
-				end
+			if tab_count > 0 then
+				output.append (s.n_character_string ('%T', tab_count))
 			end
-			Result := space_count // divisor
 		end
 
 feature {NONE} -- Constants

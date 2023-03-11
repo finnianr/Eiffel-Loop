@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-25 18:38:45 GMT (Wednesday 25th January 2023)"
-	revision: "31"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "32"
 
 deferred class
 	TB_XHTML_FOLDER_EXPORTER
@@ -217,19 +217,19 @@ feature {NONE} -- Editing
 			end
 		end
 
- 	remove_trailing_breaks (start_index, end_index: INTEGER; target: ZSTRING)
- 		local
- 			pos_trailing: INTEGER; trailing: ZSTRING; s: EL_ZSTRING_ROUTINES
- 		do
- 			if is_tag_start (start_index, end_index, target) then
+	remove_trailing_breaks (start_index, end_index: INTEGER; target: ZSTRING)
+		local
+			pos_trailing: INTEGER; trailing: ZSTRING; s: EL_ZSTRING_ROUTINES
+		do
+			if is_tag_start (start_index, end_index, target) then
 	 			pos_trailing := target.substring_index (s.character_string ('>'), start_index) + 1
 	 			if target.substring_index (Tag.break.open, pos_trailing) > 0 then
 		 			trailing := target.substring (pos_trailing, end_index)
 		 			trailing.replace_substring_all (Tag.break.open, Empty_string)
 		 			target.replace_substring (trailing, pos_trailing, end_index)
 	 			end
- 			end
- 		end
+			end
+		end
 
 	substitute_html_entities (start_index, end_index: INTEGER; target: ZSTRING)
 		local

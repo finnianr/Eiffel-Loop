@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:56 GMT (Monday 21st November 2022)"
-	revision: "15"
+	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
+	revision: "16"
 
 deferred class
 	EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 
 feature -- Element Change
 
-  	set_source_path (a_source_path: FILE_PATH)
+		set_source_path (a_source_path: FILE_PATH)
 		do
 			source_path := a_source_path
 			set_source_text (File.plain_text (a_source_path))

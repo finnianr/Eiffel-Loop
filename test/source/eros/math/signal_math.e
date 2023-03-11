@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-03-10 10:10:54 GMT (Friday 10th March 2023)"
+	revision: "10"
 
 class
 	SIGNAL_MATH
@@ -23,8 +23,8 @@ create
 feature -- Basic operations
 
 	cosine_waveform (i_freq, log2_length: INTEGER; phase_fraction: DOUBLE): COLUMN_VECTOR_COMPLEX_64
-   			-- create a sinusoidal wave
-   			-- (From Greg Lee's Numeric Eiffel Library test suite)
+				-- create a sinusoidal wave
+				-- (From Greg Lee's Numeric Eiffel Library test suite)
 		local
 			c: COMPLEX_DOUBLE
 			i_period, i, n: INTEGER

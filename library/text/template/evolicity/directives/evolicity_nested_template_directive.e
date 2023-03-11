@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
+	revision: "9"
 
 deferred class
 	EVOLICITY_NESTED_TEMPLATE_DIRECTIVE
@@ -38,8 +38,8 @@ feature -- Element change
 	set_tab_indent (tab_indent: INTEGER)
 			--
 		do
- 			create tabs.make_filled ('%T', tab_indent)
- 		end
+			create tabs.make_filled ('%T', tab_indent)
+		end
 
 	set_template_name (a_name: ZSTRING)
 			--

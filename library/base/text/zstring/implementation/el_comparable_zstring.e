@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-01 16:43:27 GMT (Wednesday 1st March 2023)"
-	revision: "33"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "34"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -114,7 +114,7 @@ feature -- Start/End comparisons
 			end
 		end
 
- 	starts_with (other: READABLE_STRING_32): BOOLEAN
+	starts_with (other: READABLE_STRING_32): BOOLEAN
 		local
 			other_count: INTEGER
 		do
@@ -178,16 +178,16 @@ feature -- Comparison
 		-- Are characters of `other' within bounds `start_pos' and `end_pos'
 		-- caseless identical to characters of current string starting at index `start_index'.
 		do
- 			if attached {EL_READABLE_ZSTRING} other as z_other then
- 				Result := same_caseless_characters_zstring (z_other, start_pos, end_pos, start_index)
- 			else
- 				Result := same_characters_32 (other, start_pos, end_pos, start_index, True)
- 			end
- 		end
+			if attached {EL_READABLE_ZSTRING} other as z_other then
+				Result := same_caseless_characters_zstring (z_other, start_pos, end_pos, start_index)
+			else
+				Result := same_characters_32 (other, start_pos, end_pos, start_index, True)
+			end
+		end
 
 	same_caseless_characters_general (other: READABLE_STRING_GENERAL; start_pos, end_pos, start_index: INTEGER): BOOLEAN
 		do
- 			if attached {READABLE_STRING_32} other as other_32 then
+			if attached {READABLE_STRING_32} other as other_32 then
 				Result := same_caseless_characters (other_32, start_pos, end_pos, start_index)
 
 			elseif attached {READABLE_STRING_8} other as str_8 then
@@ -195,7 +195,7 @@ feature -- Comparison
 			end
 		end
 
- 	same_characters (other: READABLE_STRING_32; start_pos, end_pos, start_index: INTEGER): BOOLEAN
+	same_characters (other: READABLE_STRING_32; start_pos, end_pos, start_index: INTEGER): BOOLEAN
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `start_index'.
 		do
@@ -206,11 +206,11 @@ feature -- Comparison
 			end
 		end
 
- 	same_characters_general (other: READABLE_STRING_GENERAL; start_pos, end_pos, start_index: INTEGER): BOOLEAN
+	same_characters_general (other: READABLE_STRING_GENERAL; start_pos, end_pos, start_index: INTEGER): BOOLEAN
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `start_index'.
 		do
- 			if attached {READABLE_STRING_32} other as other_32 then
+			if attached {READABLE_STRING_32} other as other_32 then
 				Result := same_characters (other_32, start_pos, end_pos, start_index)
 
 			elseif attached {READABLE_STRING_8} other as str_8 then
@@ -303,9 +303,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
- 	same_characters_8 (
- 		other: READABLE_STRING_8; start_pos, end_pos, start_index: INTEGER; case_insensitive: BOOLEAN
- 	): BOOLEAN
+	same_characters_8 (
+		other: READABLE_STRING_8; start_pos, end_pos, start_index: INTEGER; case_insensitive: BOOLEAN
+	): BOOLEAN
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `start_index'.
 		local
@@ -321,9 +321,9 @@ feature {NONE} -- Implementation
 
 		end
 
- 	same_characters_32 (
- 		other: READABLE_STRING_32; start_pos, end_pos, start_index: INTEGER; case_insensitive: BOOLEAN
- 	): BOOLEAN
+	same_characters_32 (
+		other: READABLE_STRING_32; start_pos, end_pos, start_index: INTEGER; case_insensitive: BOOLEAN
+	): BOOLEAN
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `start_index'.
 		local

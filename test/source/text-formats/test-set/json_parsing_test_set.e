@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-04 13:15:00 GMT (Wednesday 4th January 2023)"
-	revision: "24"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "25"
 
 class
 	JSON_PARSING_TEST_SET
@@ -24,16 +24,21 @@ inherit
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32; EL_SHARED_ESCAPE_TABLE
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("json_across_iteration", agent test_json_across_iteration)
-			eval.call ("json_intervals_object", agent test_json_intervals_object)
-			eval.call ("json_reflection_1", agent test_json_reflection_1)
-			eval.call ("json_reflection_3", agent test_json_reflection_3)
-			eval.call ("parse", agent test_parse)
+			make_named (<<
+				["json_across_iteration", agent test_json_across_iteration],
+				["json_intervals_object", agent test_json_intervals_object],
+				["json_reflection_1", agent test_json_reflection_1],
+				["json_reflection_3", agent test_json_reflection_3],
+				["parse", agent test_parse]
+			>>)
 		end
 
 feature -- Tests

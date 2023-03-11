@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "37"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "39"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -24,6 +24,9 @@ inherit
 
 	AIA_SHARED_ENUMERATIONS
 
+create
+	make
+
 feature {NONE} -- Initialization
 
 	on_prepare
@@ -34,26 +37,28 @@ feature {NONE} -- Initialization
 			credential_list.extend (Credential)
 		end
 
-feature -- Basic operations
+feature {NONE} -- Initialization
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+	make
+		-- initialize `test_table'
 		do
+			make_named (<<
 			-- Account Linking
-			eval.call ("get_user_id", 					agent test_get_user_id)
-			eval.call ("get_user_id_health_check",	agent test_get_user_id_health_check)
+				["get_user_id", 					agent test_get_user_id],
+				["get_user_id_health_check",	agent test_get_user_id_health_check],
 
 			-- Authorization
-			eval.call ("credential_storage", 		agent test_credential_storage)
-			eval.call ("credential_id_equality", 	agent test_credential_id_equality)
-			eval.call ("header_selection", 			agent test_header_selection)
-			eval.call ("parse_header_1", 				agent test_parse_header_1)
-			eval.call ("sign_and_verify", 			agent test_sign_and_verify)
+				["credential_storage", 		agent test_credential_storage],
+				["credential_id_equality", 	agent test_credential_id_equality],
+				["header_selection", 			agent test_header_selection],
+				["parse_header_1", 				agent test_parse_header_1],
+				["sign_and_verify", 			agent test_sign_and_verify],
 
 			-- Purchase
-			eval.call ("purchase_fullfill", 			agent test_purchase_fullfill)
-			eval.call ("purchase_revoke", 			agent test_purchase_revoke)
-			eval.call ("response_code", 				agent test_response_code)
+				["purchase_fullfill", 			agent test_purchase_fullfill],
+				["purchase_revoke", 			agent test_purchase_revoke],
+				["response_code", 				agent test_response_code]
+			>>)
 		end
 
 feature -- Account Linking
@@ -131,7 +136,7 @@ feature -- Authorization
 			headers: HASH_TABLE [ZSTRING, STRING]
 			s: EL_STRING_8_ROUTINES
 		do
-         create http_table.make (5)
+			create http_table.make (5)
 			from Signed_headers.start until Signed_headers.after loop
 				http_name := "HTTP_" + Signed_headers.item.as_upper
 				s.replace_character (http_name, '-', '_')
@@ -150,17 +155,17 @@ feature -- Authorization
 		local
 			header: AIA_AUTHORIZATION_HEADER
 		do
-         create header.make_from_string (
+			create header.make_from_string (
 				"DTA1-HMAC-SHA256 %
 				%SignedHeaders=Content-Type;X-Amz-Date;X-Amz-Dta-Version;X-AMZ-REQUEST-ID, %
 	         %Credential=367caa91-cde5-48f2-91fe-bb95f546e9f0/20131207, %
 	        	%Signature=87729cb3475859a18b5d9cead0bba82f0f56a85c2a13bed3bc229c6c35e06628"
-         )
-         assert ("same algorithm", header.algorithm ~ "DTA1-HMAC-SHA256")
-         assert ("same Signed_headers", header.signed_headers_list ~ Signed_headers)
-         assert ("same credential.key", header.credential.key ~ "367caa91-cde5-48f2-91fe-bb95f546e9f0")
-         assert ("same credential.date", header.credential.date ~ "20131207")
-         assert ("same signature", header.signature ~ "87729cb3475859a18b5d9cead0bba82f0f56a85c2a13bed3bc229c6c35e06628")
+			)
+			assert ("same algorithm", header.algorithm ~ "DTA1-HMAC-SHA256")
+			assert ("same Signed_headers", header.signed_headers_list ~ Signed_headers)
+			assert ("same credential.key", header.credential.key ~ "367caa91-cde5-48f2-91fe-bb95f546e9f0")
+			assert ("same credential.date", header.credential.date ~ "20131207")
+			assert ("same signature", header.signature ~ "87729cb3475859a18b5d9cead0bba82f0f56a85c2a13bed3bc229c6c35e06628")
 		end
 
 	test_sign_and_verify

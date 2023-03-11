@@ -28,11 +28,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:38:40 GMT (Monday 21st November 2022)"
-	revision: "8"
+	date: "2023-03-11 10:05:10 GMT (Saturday 11th March 2023)"
+	revision: "9"
 
 class
 	LOG_FILTER_ARRAY_SOURCE_EDITOR
+
+obsolete
+	"Once off use"
 
 inherit
 	EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR

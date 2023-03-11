@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 18:06:47 GMT (Saturday 3rd December 2022)"
-	revision: "9"
+	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
+	revision: "10"
 
 deferred class
 	EL_PARSER
@@ -89,7 +89,7 @@ feature -- Element change
 			end
 			source_text := a_source_text
 			start_offset := 0
- 			reset
+			reset
 		end
 
 	set_substring_source_text (a_source_text: like default_source_text; start_index, end_index: INTEGER)

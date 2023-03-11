@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 14:59:16 GMT (Friday 10th February 2023)"
-	revision: "23"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "24"
 
 class
 	URI_TEST_SET
@@ -17,18 +17,23 @@ inherit
 
 	EL_MODULE_TUPLE
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("uri_assignments", agent test_uri_assignments)
-			eval.call ("uri_path_plus_joins", agent test_uri_path_plus_joins)
-			eval.call ("url", agent test_url)
-			eval.call ("url_parts", agent test_url_parts)
-			eval.call ("url_query_hash_table", agent test_url_query_hash_table)
-			eval.call ("url_query_part", agent test_url_query_part)
-			eval.call ("utf_8_sequence", agent test_utf_8_sequence)
+			make_named (<<
+				["uri_assignments", agent test_uri_assignments],
+				["uri_path_plus_joins", agent test_uri_path_plus_joins],
+				["url", agent test_url],
+				["url_parts", agent test_url_parts],
+				["url_query_hash_table", agent test_url_query_hash_table],
+				["url_query_part", agent test_url_query_part],
+				["utf_8_sequence", agent test_utf_8_sequence]
+			>>)
 		end
 
 feature -- Tests

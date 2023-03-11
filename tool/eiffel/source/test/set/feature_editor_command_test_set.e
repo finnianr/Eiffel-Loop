@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-09 14:54:54 GMT (Thursday 9th March 2023)"
-	revision: "21"
+	date: "2023-03-11 9:49:58 GMT (Saturday 11th March 2023)"
+	revision: "22"
 
 class
 	FEATURE_EDITOR_COMMAND_TEST_SET
@@ -18,6 +18,7 @@ inherit
 feature {NONE} -- Implementation
 
 	new_edit (file_path: FILE_PATH): PROCEDURE
+		-- FEATURE_EDITOR_COMMAND_TEST_SET.file_editing
 		local
 			command: FEATURE_EDITOR_COMMAND
 		do
@@ -33,9 +34,9 @@ feature {NONE} -- Constants
 			Result [Name.copy_file_impl] := 4276247644
 			Result [Name.mp3_convert_command] := 3362452
 
---			Test insertions for: do_all (eval: EL_TEST_SET_EVALUATOR)
+--			Test insertions for: make_named (<< ["name", agent test_<name>] >>))
 --			and test correct BOM marker for UTF-8 encoding
-			Result [Name.subject_line_decoder_test_set] := 2727929860
+			Result [Name.subject_line_decoder_test_set] := 1111299139
 
 			Result [Name.job_duration_parser] := 2651641799
 			Result [Name.subscription_delivery_email] := 1955610778

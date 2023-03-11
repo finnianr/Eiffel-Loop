@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "36"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "37"
 
 class
 	EL_HTTP_CONNECTION
@@ -299,8 +299,8 @@ feature -- Element change
 
 	set_ssl_hostname_verification (flag: BOOLEAN)
 			-- If the site you're connecting to uses a different host name that what
-     		-- they have mentioned in their server certificate's commonName (or
-     		-- subjectAltName) fields, libcurl will refuse to connect.
+				-- they have mentioned in their server certificate's commonName (or
+				-- subjectAltName) fields, libcurl will refuse to connect.
 		do
 			set_curl_boolean_option (CURLOPT_ssl_verifyhost, flag)
 		end

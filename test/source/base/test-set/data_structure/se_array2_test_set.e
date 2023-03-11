@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 8:53:52 GMT (Sunday 1st January 2023)"
-	revision: "8"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "9"
 
 class
 	SE_ARRAY2_TEST_SET
@@ -15,12 +15,17 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("array_read_write", agent test_array_read_write)
+			make_named (<<
+				["array_read_write", agent test_array_read_write]
+			>>)
 		end
 
 feature -- Tests

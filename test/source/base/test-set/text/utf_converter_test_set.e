@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 8:54:00 GMT (Sunday 1st January 2023)"
-	revision: "8"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "9"
 
 class
 	UTF_CONVERTER_TEST_SET
@@ -17,12 +17,17 @@ inherit
 
 	EL_SHARED_TEST_TEXT
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
+feature {NONE} -- Initialization
+
+	make
 		do
-			eval.call ("little_endian_utf_16_substring_conversion", agent test_little_endian_utf_16_substring_conversion)
-			eval.call ("utf_8_substring_conversion", agent test_utf_8_substring_conversion)
+			make_named (<<
+				["little_endian_utf_16_substring_conversion", agent test_little_endian_utf_16_substring_conversion],
+				["utf_8_substring_conversion", agent test_utf_8_substring_conversion]
+			>>)
 		end
 
 feature -- Test

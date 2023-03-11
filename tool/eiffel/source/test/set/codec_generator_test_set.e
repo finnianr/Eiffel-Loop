@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 16:11:42 GMT (Friday 10th February 2023)"
-	revision: "9"
+	date: "2023-03-10 12:08:46 GMT (Friday 10th March 2023)"
+	revision: "10"
 
 class
 	CODEC_GENERATOR_TEST_SET
@@ -15,12 +15,17 @@ class
 inherit
 	EL_FILE_DATA_TEST_SET
 
-feature -- Basic operations
+create
+	make
 
-	do_all (evaluator: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			evaluator.call ("generation", agent test_generation)
+			make_named (<<
+				["generation", agent test_generation]
+			>>)
 		end
 
 feature -- Tests

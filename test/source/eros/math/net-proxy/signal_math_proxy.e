@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-03-10 10:10:54 GMT (Friday 10th March 2023)"
+	revision: "10"
 
 class
 	SIGNAL_MATH_PROXY
@@ -25,7 +25,7 @@ feature -- Access
 	cosine_waveform (i_freq, log2_length: INTEGER; phase_fraction: DOUBLE): COLUMN_VECTOR_COMPLEX_64
 
 			-- Processing instruction example:
-   			-- 		<?call {SIGNAL_MATH}.cosine_waveform (4, 7, 0.5)?>
+				-- 		<?call {SIGNAL_MATH}.cosine_waveform (4, 7, 0.5)?>
 		local
 			l_result: EROS_MAKEABLE_RESULT [COLUMN_VECTOR_COMPLEX_64]
 		do

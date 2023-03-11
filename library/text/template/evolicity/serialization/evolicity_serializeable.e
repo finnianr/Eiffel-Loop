@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 10:31:39 GMT (Thursday 1st December 2022)"
-	revision: "34"
+	date: "2023-03-11 9:30:22 GMT (Saturday 11th March 2023)"
+	revision: "35"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -50,8 +50,7 @@ feature {NONE} -- Initialization
 		do
 			Precursor {EL_ENCODEABLE_AS_TEXT}
 			Precursor {EVOLICITY_EIFFEL_CONTEXT}
-			output_path := Default_file_path
-			template_path := Default_file_path
+			output_path := Default_file_path; template_path := Default_file_path
 			if has_string_template then
 				Evolicity_templates.put_source (template_name, stripped_template)
 			end

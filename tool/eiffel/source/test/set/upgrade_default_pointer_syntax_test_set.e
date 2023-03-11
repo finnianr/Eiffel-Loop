@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 16:57:15 GMT (Thursday 29th December 2022)"
-	revision: "5"
+	date: "2023-03-10 12:15:01 GMT (Friday 10th March 2023)"
+	revision: "6"
 
 class
 	UPGRADE_DEFAULT_POINTER_SYNTAX_TEST_SET
@@ -15,12 +15,17 @@ class
 inherit
 	COPIED_SOURCES_TEST_SET
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("syntax_change", agent test_syntax_change)
+			make_named (<<
+				["syntax_change", agent test_syntax_change]
+			>>)
 		end
 
 feature -- Tests

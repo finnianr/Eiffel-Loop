@@ -8,8 +8,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 15:10:13 GMT (Saturday 25th February 2023)"
-	revision: "25"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "26"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -21,29 +21,34 @@ inherit
 
 	EL_SHARED_TEST_TEXT
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
+feature {NONE} -- Initialization
+
+	make
 		do
-			eval.call ("append", agent test_append)
-			eval.call ("append_substring", agent test_append_substring)
-			eval.call ("character_count", agent test_character_count)
-			eval.call ("code", agent test_code)
-			eval.call ("first_interval", agent test_first_interval)
-			eval.call ("hash_code", agent test_hash_code)
-			eval.call ("index_of", agent test_index_of)
-			eval.call ("insert", agent test_insert)
-			eval.call ("occurrences", agent test_occurrences)
-			eval.call ("prepend", agent test_prepend)
-			eval.call ("put_code", agent test_put_code)
-			eval.call ("remove", agent test_remove)
-			eval.call ("remove_substring", agent test_remove_substring)
-			eval.call ("shift_from", agent test_shift_from)
-			eval.call ("sub_array", agent test_sub_array)
-			eval.call ("substring_32_list", agent test_substring_32_list)
-			eval.call ("zstring_indexable", agent test_zstring_indexable)
-			eval.call ("to_upper", agent test_to_upper)
-			eval.call ("write", agent test_write)
+			make_named (<<
+				["append", agent test_append],
+				["append_substring", agent test_append_substring],
+				["character_count", agent test_character_count],
+				["code", agent test_code],
+				["first_interval", agent test_first_interval],
+				["hash_code", agent test_hash_code],
+				["index_of", agent test_index_of],
+				["insert", agent test_insert],
+				["occurrences", agent test_occurrences],
+				["prepend", agent test_prepend],
+				["put_code", agent test_put_code],
+				["remove", agent test_remove],
+				["remove_substring", agent test_remove_substring],
+				["shift_from", agent test_shift_from],
+				["sub_array", agent test_sub_array],
+				["substring_32_list", agent test_substring_32_list],
+				["zstring_indexable", agent test_zstring_indexable],
+				["to_upper", agent test_to_upper],
+				["write", agent test_write]
+			>>)
 		end
 
 feature -- Test

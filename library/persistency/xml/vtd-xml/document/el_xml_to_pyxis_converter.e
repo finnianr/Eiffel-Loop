@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 16:07:37 GMT (Saturday 3rd December 2022)"
-	revision: "27"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "28"
 
 class
 	EL_XML_TO_PYXIS_CONVERTER
@@ -73,10 +73,10 @@ feature -- Access
 
 feature -- Element change
 
- 	set_source_path (a_source_path: like source_path)
- 			--
- 		do
- 			source_path := a_source_path
+	set_source_path (a_source_path: like source_path)
+			--
+		do
+			source_path := a_source_path
 			if source_path.has_extension ("ecf") then
 				output_path := source_path.with_new_extension ("pecf")
 			else
@@ -87,7 +87,7 @@ feature -- Element change
 			if attached xdoc.last_exception as exception and is_lio_enabled then
 				exception.put_error (lio)
 			end
- 		end
+		end
 
 feature -- Basic operations
 

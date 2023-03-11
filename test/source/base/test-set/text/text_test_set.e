@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-28 13:21:05 GMT (Tuesday 28th February 2023)"
-	revision: "16"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "17"
 
 class
 	TEXT_TEST_SET
@@ -27,19 +27,24 @@ inherit
 
 	STRING_HANDLER undefine default_create end
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
+feature {NONE} -- Initialization
+
+	make
 		do
-			eval.call ("bash_escape", agent test_bash_escape)
-			eval.call ("convert_string_to_makeable", agent test_convert_string_to_makeable)
-			eval.call ("convert_string_type_descriptions", agent test_convert_string_type_descriptions)
-			eval.call ("encoding_conversion", agent test_encoding_conversion)
-			eval.call ("integer_format", agent test_integer_format)
-			eval.call ("encodeable_as_string_8", agent test_encodeable_as_string_8)
-			eval.call ("python_escape", agent test_python_escape)
-			eval.call ("substitution_marker_unescape", agent test_substitution_marker_unescape)
-			eval.call ("unescape", agent test_unescape)
+			make_named (<<
+				["bash_escape", agent test_bash_escape],
+				["convert_string_to_makeable", agent test_convert_string_to_makeable],
+				["convert_string_type_descriptions", agent test_convert_string_type_descriptions],
+				["encoding_conversion", agent test_encoding_conversion],
+				["integer_format", agent test_integer_format],
+				["encodeable_as_string_8", agent test_encodeable_as_string_8],
+				["python_escape", agent test_python_escape],
+				["substitution_marker_unescape", agent test_substitution_marker_unescape],
+				["unescape", agent test_unescape]
+			>>)
 		end
 
 feature -- Tests

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "9"
 
 class
 	UNDERBIT_ID3_C_API
@@ -444,7 +444,7 @@ feature {NONE} -- C externals
 feature  {ID3_ENCODING_ENUM} -- Encodings
 
 	Encoding_ISO_8859_1: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -452,7 +452,7 @@ feature  {ID3_ENCODING_ENUM} -- Encodings
 		end
 
 	Encoding_UTF_16: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -460,7 +460,7 @@ feature  {ID3_ENCODING_ENUM} -- Encodings
 		end
 
 	Encoding_UTF_16_BE: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -468,7 +468,7 @@ feature  {ID3_ENCODING_ENUM} -- Encodings
 		end
 
 	Encoding_UTF_8: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias

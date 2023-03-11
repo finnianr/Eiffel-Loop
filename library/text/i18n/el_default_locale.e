@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "18"
+	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
+	revision: "19"
 
 deferred class
 	EL_DEFAULT_LOCALE
@@ -37,24 +37,24 @@ feature {NONE} -- Initialization
 			make_from_location (Resources_dir)
 		end
 
- 	make_from_location (locales_parent_dir: DIR_PATH)
- 		local
- 			table: EL_LOCALE_TABLE
- 		do
- 			create table.make (locales_parent_dir #+ Locales)
+	make_from_location (locales_parent_dir: DIR_PATH)
+		local
+			table: EL_LOCALE_TABLE
+		do
+			create table.make (locales_parent_dir #+ Locales)
 
- 			make_with_language (user_language_code, key_language)
- 		end
+			make_with_language (user_language_code, key_language)
+		end
 
- 	make_with_table (a_language: STRING; a_translation_table: detachable EL_TRANSLATION_TABLE)
- 		do
- 			make_locale_with_table (a_language, key_language, a_translation_table)
- 		end
+	make_with_table (a_language: STRING; a_translation_table: detachable EL_TRANSLATION_TABLE)
+		do
+			make_locale_with_table (a_language, key_language, a_translation_table)
+		end
 
 	make_default
 		do
 			Precursor
- 			create other_locales.make_equal (3, agent new_locale)
+			create other_locales.make_equal (3, agent new_locale)
 		end
 
 feature -- Access

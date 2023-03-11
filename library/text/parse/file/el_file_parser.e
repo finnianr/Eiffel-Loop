@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-19 18:04:00 GMT (Saturday 19th November 2022)"
-	revision: "4"
+	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
+	revision: "5"
 
 deferred class
 	EL_FILE_PARSER
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
- 	default_source_text: ZSTRING
+	default_source_text: ZSTRING
 		do
 			Result := Empty_string
 		end

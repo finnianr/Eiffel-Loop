@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 8:49:53 GMT (Sunday 1st January 2023)"
-	revision: "13"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "14"
 
 class
 	EVOLICITY_TEST_SET
@@ -26,14 +26,19 @@ inherit
 
 	EVOLICITY_SHARED_TEMPLATES
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("if_then", agent test_if_then)
-			eval.call ("iteration_loops", agent test_iteration_loops)
-			eval.call ("merge_template", agent test_merge_template)
+			make_named (<<
+				["if_then", agent test_if_then],
+				["iteration_loops", agent test_iteration_loops],
+				["merge_template", agent test_merge_template]
+			>>)
 		end
 
 feature -- Tests

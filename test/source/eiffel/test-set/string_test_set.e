@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-28 12:54:29 GMT (Tuesday 28th February 2023)"
-	revision: "30"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "32"
 
 class
 	STRING_TEST_SET
@@ -27,14 +27,19 @@ inherit
 
 	STRING_HANDLER undefine default_create end
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("character_8_as_lower", agent test_character_8_as_lower)
-			eval.call ("expanded_string", agent test_expanded_string)
-			eval.call ("is_substitute_white", agent test_is_substitute_white)
+			make_named (<<
+				["character_8_as_lower", agent test_character_8_as_lower],
+				["expanded_string", agent test_expanded_string],
+				["is_substitute_white", agent test_is_substitute_white]
+			>>)
 		end
 
 feature -- Tests
@@ -103,7 +108,7 @@ feature -- Basic operations
 			lio.put_new_line
 			lio.put_labeled_string ("euro.is_space", C_properties.is_space (euro).out)
 			lio.put_new_line
- 		end
+		end
 
 	check_if_type_name_unique
 		local

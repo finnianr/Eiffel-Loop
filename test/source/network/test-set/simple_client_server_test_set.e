@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 8:51:30 GMT (Sunday 1st January 2023)"
-	revision: "10"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "11"
 
 class
 	SIMPLE_CLIENT_SERVER_TEST_SET
@@ -26,12 +26,17 @@ inherit
 
 	SHARED_DEV_ENVIRON
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("client_server", agent test_client_server)
+			make_named (<<
+				["client_server", agent test_client_server]
+			>>)
 		end
 
 feature -- Tests

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:30:31 GMT (Saturday 31st December 2022)"
-	revision: "26"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "27"
 
 class
 	EIFFEL_TEST_SET
@@ -17,12 +17,17 @@ inherit
 
 	EL_MODULE_DIRECTORY; EL_MODULE_EIFFEL; EL_MODULE_EXECUTION_ENVIRONMENT
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("natural_constant", agent test_natural_constant)
+			make_named (<<
+				["natural_constant", agent test_natural_constant]
+			>>)
 		end
 
 feature -- Tests

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-08 12:20:03 GMT (Wednesday 8th March 2023)"
-	revision: "31"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "32"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -23,24 +23,29 @@ inherit
 
 	EL_SHARED_TEST_TEXT
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("fill_tuple", agent test_fill_tuple)
-			eval.call ("occurrence_editor", agent test_occurrence_editor)
-			eval.call ("occurrence_intervals", agent test_occurrence_intervals)
-			eval.call ("path_split", agent test_path_split)
-			eval.call ("set_encoding_from_name", agent test_set_encoding_from_name)
-			eval.call ("skip_empty_split", agent test_skip_empty_split)
-			eval.call ("split_and_join_1", agent test_split_and_join_1)
-			eval.call ("split_and_join_2", agent test_split_and_join_2)
-			eval.call ("split_and_join_3", agent test_split_and_join_3)
-			eval.call ("split_intervals", agent test_split_intervals)
-			eval.call ("split_iterator", agent test_split_iterator)
-			eval.call ("split_sort", agent test_split_sort)
-			eval.call ("split_string_8", agent test_split_string_8)
+			make_named (<<
+				["fill_tuple", agent test_fill_tuple],
+				["occurrence_editor", agent test_occurrence_editor],
+				["occurrence_intervals", agent test_occurrence_intervals],
+				["path_split", agent test_path_split],
+				["set_encoding_from_name", agent test_set_encoding_from_name],
+				["skip_empty_split", agent test_skip_empty_split],
+				["split_and_join_1", agent test_split_and_join_1],
+				["split_and_join_2", agent test_split_and_join_2],
+				["split_and_join_3", agent test_split_and_join_3],
+				["split_intervals", agent test_split_intervals],
+				["split_iterator", agent test_split_iterator],
+				["split_sort", agent test_split_sort],
+				["split_string_8", agent test_split_string_8]
+			>>)
 		end
 
 feature -- Tests

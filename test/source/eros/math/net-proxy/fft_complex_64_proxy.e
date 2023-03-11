@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2023-03-10 10:10:54 GMT (Friday 10th March 2023)"
+	revision: "12"
 
 class
 	FFT_COMPLEX_64_PROXY
@@ -33,7 +33,7 @@ feature -- Initialization
 			-- Processing instruction example:
 			--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.fft_make (128)?>
 		require else
-     		n_is_power_of_two: is_power_of_two (n)
+				n_is_power_of_two: is_power_of_two (n)
 		do
 			log.enter (R_fft_make)
 			call (R_fft_make, [n])
@@ -75,7 +75,7 @@ feature -- Basic operations
 			-- Processing instruction example:
 			--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.do_inverse_transform?>
 		require else
-     		valid_output_length: is_output_length_valid
+				valid_output_length: is_output_length_valid
 		do
 			log.enter (R_do_inverse_transform)
 			call (R_do_inverse_transform, [])
@@ -86,27 +86,27 @@ feature -- Basic operations
 			-- Processing instruction example:
 			--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.do_transform?>
 		require else
-     		valid_output_length: is_output_length_valid
-  		do
+				valid_output_length: is_output_length_valid
+			do
 			log.enter (R_do_transform)
 			call (R_do_transform, [])
 			log.exit
-  		end
+			end
 
 feature -- Element change
 
-   set_input (a_input: like input)
+	set_input (a_input: like input)
 		-- Processing instruction example:
 		--		 <?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.set_input ({COLUMN_VECTOR_COMPLEX_DOUBLE})?>
 		require else
-     		valid_input_length: is_valid_input_length (a_input.length)
+				valid_input_length: is_valid_input_length (a_input.length)
 		do
 			log.enter (R_set_input)
 			call (R_set_input, [a_input])
 			log.exit
 		end
 
-   set_windower (a_windower_id: STRING)
+	set_windower (a_windower_id: STRING)
 		-- Processing instruction example:
 		--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.set_windower (Rectangular_windower)?>
 		require

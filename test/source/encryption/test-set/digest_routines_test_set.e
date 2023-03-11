@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:32:55 GMT (Saturday 31st December 2022)"
-	revision: "12"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "13"
 
 class
 	DIGEST_ROUTINES_TEST_SET
@@ -17,15 +17,20 @@ inherit
 
 	EL_MODULE_DIGEST
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("hmac_sha_256_digest",	agent test_hmac_sha_256_digest)
-			eval.call ("sha_256_digest", 			agent test_sha_256_digest)
-			eval.call ("rfc_4231_2_ascii",	 	agent test_rfc_4231_2_ascii)
-			eval.call ("reset",						agent test_reset)
+			make_named (<<
+				["hmac_sha_256_digest",	agent test_hmac_sha_256_digest],
+				["sha_256_digest", 			agent test_sha_256_digest],
+				["rfc_4231_2_ascii",	 	agent test_rfc_4231_2_ascii],
+				["reset",						agent test_reset]
+			>>)
 		end
 
 feature -- Tests

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 9:57:44 GMT (Monday 9th January 2023)"
-	revision: "39"
+	date: "2023-03-10 12:13:54 GMT (Friday 10th March 2023)"
+	revision: "40"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -17,17 +17,22 @@ inherit
 
 	SHARED_DEV_ENVIRON
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("backwards_compatibility", agent test_backwards_compatibility)
-			eval.call ("c_externals_path", agent test_c_externals_path)
-			eval.call ("eiffel2java_pecf", agent test_eiffel2java_pecf)
-			eval.call ("eiffel_pecf", agent test_eiffel_pecf)
-			eval.call ("excluded_value_conditions", agent test_excluded_value_conditions)
-			eval.call ("graphical_pecf", agent test_graphical_pecf)
+			make_named (<<
+				["backwards_compatibility", agent test_backwards_compatibility],
+				["c_externals_path", agent test_c_externals_path],
+				["eiffel2java_pecf", agent test_eiffel2java_pecf],
+				["eiffel_pecf", agent test_eiffel_pecf],
+				["excluded_value_conditions", agent test_excluded_value_conditions],
+				["graphical_pecf", agent test_graphical_pecf]
+			>>)
 		end
 
 feature -- Tests

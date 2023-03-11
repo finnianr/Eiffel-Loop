@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:34:17 GMT (Saturday 31st December 2022)"
-	revision: "10"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "11"
 
 class
 	ZSTRING_EDITOR_TEST_SET
@@ -19,13 +19,18 @@ inherit
 
 	STRING_HANDLER undefine default_create end
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("for_each_balanced", agent test_for_each_balanced)
-			eval.call ("for_each", agent test_for_each)
+			make_named (<<
+				["for_each_balanced", agent test_for_each_balanced],
+				["for_each", agent test_for_each]
+			>>)
 		end
 
 feature -- Tests

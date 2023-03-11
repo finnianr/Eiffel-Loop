@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 11:31:07 GMT (Sunday 1st January 2023)"
-	revision: "15"
+	date: "2023-03-10 17:40:40 GMT (Friday 10th March 2023)"
+	revision: "16"
 
 class
 	ID3_TAG_INFO_TEST_SET
@@ -26,13 +26,18 @@ inherit
 
 	ID3_SHARED_FRAME_FIELD_TYPES
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
---			eval.call ("underbit_id3_info", agent test_underbit_id3_info)
-			eval.call ("libid3_info", 	agent test_libid3_info)
+			make_named (<<
+--				["underbit_id3_info", agent test_underbit_id3_info],
+				["libid3_info", 	agent test_libid3_info]
+			>>)
 		end
 
 feature -- Tests

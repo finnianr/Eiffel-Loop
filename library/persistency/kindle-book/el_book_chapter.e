@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-25 12:18:35 GMT (Wednesday 25th January 2023)"
-	revision: "17"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "18"
 
 class
 	EL_BOOK_CHAPTER
@@ -75,10 +75,10 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
- 	edit_heading_2 (start_index, end_index: INTEGER; target: ZSTRING)
- 		local
- 			key, h2_text: ZSTRING
- 		do
+	edit_heading_2 (start_index, end_index: INTEGER; target: ZSTRING)
+		local
+			key, h2_text: ZSTRING
+		do
 			key := Template.section_key #$ [number, section_table.count + 1]
 			h2_text := target.substring (start_index, end_index)
 			on_heading_2 (key, h2_text)
@@ -88,28 +88,28 @@ feature {NONE} -- Implementation
 			target.replace_substring (h2_text, start_index, end_index)
 			section_table.extend (h2_text, key)
 
- 			target.share (Anchor_template #$ [Section_prefix + key, target])
- 		end
+			target.share (Anchor_template #$ [Section_prefix + key, target])
+		end
 
- 	on_heading_2 (section_key, h2_text: ZSTRING)
- 		-- used for redefining href links within document to use template
- 		-- "chapter-%S.html%%#sect_%S"
- 		do
- 		end
+	on_heading_2 (section_key, h2_text: ZSTRING)
+		-- used for redefining href links within document to use template
+		-- "chapter-%S.html%%#sect_%S"
+		do
+		end
 
- 	on_src_attribute (start_index, end_index: INTEGER; target: ZSTRING)
- 		local
- 			image_path: FILE_PATH
- 		do
- 			image_path := new_image_path (target.substring (start_index, end_index))
+	on_src_attribute (start_index, end_index: INTEGER; target: ZSTRING)
+		local
+			image_path: FILE_PATH
+		do
+			image_path := new_image_path (target.substring (start_index, end_index))
 			target.replace_substring (image_path.to_string, start_index, end_index)
- 			image_list.extend (image_path)
- 		end
+			image_list.extend (image_path)
+		end
 
- 	new_image_path (src_text: ZSTRING): ZSTRING
- 		do
- 			Result := src_text
- 		end
+	new_image_path (src_text: ZSTRING): ZSTRING
+		do
+			Result := src_text
+		end
 
 feature {NONE} -- Evolicity fields
 

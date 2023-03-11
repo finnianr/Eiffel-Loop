@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "13"
 
 class
 	ID3_INFO
@@ -229,8 +229,8 @@ feature -- Basic fields
 			create Result.make_by_fine_seconds (field_integer (Tag.duration) / 1000)
 		end
 
- 	basic_fields: HASH_TABLE [ID3_FRAME, STRING]
- 		-- Basic field frames
+	basic_fields: HASH_TABLE [ID3_FRAME, STRING]
+		-- Basic field frames
 
 feature -- Access
 
@@ -331,7 +331,7 @@ feature -- Access
 
 	comment_table: EL_ZSTRING_HASH_TABLE [ID3_FRAME]
 
- 	user_text_table: EL_ZSTRING_HASH_TABLE [ID3_FRAME]
+	user_text_table: EL_ZSTRING_HASH_TABLE [ID3_FRAME]
 
 	unique_id_list: LINKED_LIST [ID3_UNIQUE_FILE_ID_FRAME]
 
@@ -361,7 +361,7 @@ feature -- Status report
 
 	duplicates_found: BOOLEAN
 
- feature -- Element change
+feature -- Element change
 
 	set_beats_per_minute (a_beats_per_minute: INTEGER)
 			--
@@ -563,20 +563,20 @@ feature -- Status report
 			create Result.make_by_compact_time (0)
 		end
 
- 	set_field_string (name: STRING; value: ZSTRING; a_encoding: INTEGER)
- 		do
- 			set_field_of_type (agent {ID3_FRAME}.set_string, name, value, a_encoding)
- 		end
+	set_field_string (name: STRING; value: ZSTRING; a_encoding: INTEGER)
+		do
+			set_field_of_type (agent {ID3_FRAME}.set_string, name, value, a_encoding)
+		end
 
- 	set_field_description (name: STRING; value: ZSTRING; a_encoding: INTEGER)
- 		do
- 			set_field_of_type (agent {ID3_FRAME}.set_description, name, value, a_encoding)
- 		end
+	set_field_description (name: STRING; value: ZSTRING; a_encoding: INTEGER)
+		do
+			set_field_of_type (agent {ID3_FRAME}.set_description, name, value, a_encoding)
+		end
 
- 	set_field_language (name: STRING; value: ZSTRING; a_encoding: INTEGER)
- 		do
- 			set_field_of_type (agent {ID3_FRAME}.set_language, name, value, a_encoding)
- 		end
+	set_field_language (name: STRING; value: ZSTRING; a_encoding: INTEGER)
+		do
+			set_field_of_type (agent {ID3_FRAME}.set_language, name, value, a_encoding)
+		end
 
 	append_unique_ids (id_list: ITERABLE [ID3_UNIQUE_FILE_ID_FRAME])
 			--
@@ -615,7 +615,7 @@ feature {NONE} -- Element change
 			a_field.set_string (a_text)
 		end
 
- 	set_field_of_type (set_id3_field: PROCEDURE; name: STRING; value: ZSTRING; a_encoding: INTEGER)
+	set_field_of_type (set_id3_field: PROCEDURE; name: STRING; value: ZSTRING; a_encoding: INTEGER)
 			--
 		local
 			field: ID3_FRAME

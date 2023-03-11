@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:34:32 GMT (Saturday 31st December 2022)"
-	revision: "10"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "11"
 
 class
 	HASH_TABLE_TEST_SET
@@ -19,15 +19,20 @@ inherit
 
 	EL_MODULE_TUPLE
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("compressed_table", agent test_compressed_table)
-			eval.call ("iteration_cursor", agent test_iteration_cursor)
-			eval.call ("readable_string_8_table", agent test_readable_string_8_table)
-			eval.call ("string_table", agent test_string_table)
+			make_named (<<
+				["compressed_table", agent test_compressed_table],
+				["iteration_cursor", agent test_iteration_cursor],
+				["readable_string_8_table", agent test_readable_string_8_table],
+				["string_table", agent test_string_table]
+			>>)
 		end
 
 feature -- Test

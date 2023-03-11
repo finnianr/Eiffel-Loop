@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 13:44:44 GMT (Monday 6th March 2023)"
-	revision: "14"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "15"
 
 class
 	CAD_MODEL
@@ -156,14 +156,14 @@ feature -- Basic operations
 
 feature -- Comparison
 
-   is_approximately_equal (other: like Current; precision: DOUBLE): BOOLEAN
-   	do
-   		if polygon_list.count = other.polygon_list.count then
-   			Result := across polygon_list as polygon all
-   				polygon.item.is_approximately_equal (other.polygon_list [polygon.cursor_index], precision)
-  				end
-   		end
-   	end
+	is_approximately_equal (other: like Current; precision: DOUBLE): BOOLEAN
+		do
+			if polygon_list.count = other.polygon_list.count then
+				Result := across polygon_list as polygon all
+					polygon.item.is_approximately_equal (other.polygon_list [polygon.cursor_index], precision)
+					end
+			end
+		end
 
 feature {NONE} -- Factory
 

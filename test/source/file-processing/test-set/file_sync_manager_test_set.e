@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 8:49:59 GMT (Sunday 1st January 2023)"
-	revision: "28"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "29"
 
 class
 	FILE_SYNC_MANAGER_TEST_SET
@@ -24,12 +24,17 @@ inherit
 
 	EL_MODULE_TRACK
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("file_transfer", agent test_file_transfer)
+			make_named (<<
+				["file_transfer", agent test_file_transfer]
+			>>)
 		end
 
 feature -- Tests

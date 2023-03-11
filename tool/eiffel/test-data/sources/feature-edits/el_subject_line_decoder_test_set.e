@@ -18,20 +18,22 @@ inherit
 			on_prepare
 		end
 
+create
+	make
+
 feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
+		do
+			make_named (<<
+				["iso", agent test_iso]
+			>>)
+		end
 
 	on_prepare
 		do
 			create subject.make
-		end
-
-feature -- Basic operations
-
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
-		do
-			eval.call ("iso",		agent test_iso)
-			eval.call ("utf_8",	agent test_utf_8)
 		end
 
 feature -- Tests

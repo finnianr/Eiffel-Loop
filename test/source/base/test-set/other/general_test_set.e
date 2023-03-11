@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-03 15:36:26 GMT (Friday 3rd March 2023)"
-	revision: "43"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "44"
 
 class
 	GENERAL_TEST_SET
@@ -21,23 +21,28 @@ inherit
 
 	SHARED_HEXAGRAM_STRINGS
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("any_array_numeric_type_detection", agent test_any_array_numeric_type_detection)
-			eval.call ("base_64_codec_1", agent test_base_64_codec_1)
-			eval.call ("base_64_codec_2", agent test_base_64_codec_2)
-			eval.call ("character_32_status_queries", agent test_character_32_status_queries)
-			eval.call ("environment_put", agent test_environment_put)
-			eval.call ("math_precision", agent test_math_precision)
-			eval.call ("named_thread", agent test_named_thread)
-			eval.call ("naming", agent test_naming)
-			eval.call ("reusable_strings", agent test_reusable_strings)
-			eval.call ("reverse_managed_pointer", agent test_reverse_managed_pointer)
-			eval.call ("version_array", agent test_version_array)
-			eval.call ("version_bump", agent test_version_bump)
+			make_named (<<
+				["any_array_numeric_type_detection", agent test_any_array_numeric_type_detection],
+				["base_64_codec_1", agent test_base_64_codec_1],
+				["base_64_codec_2", agent test_base_64_codec_2],
+				["character_32_status_queries", agent test_character_32_status_queries],
+				["environment_put", agent test_environment_put],
+				["math_precision", agent test_math_precision],
+				["named_thread", agent test_named_thread],
+				["naming", agent test_naming],
+				["reusable_strings", agent test_reusable_strings],
+				["reverse_managed_pointer", agent test_reverse_managed_pointer],
+				["version_array", agent test_version_array],
+				["version_bump", agent test_version_bump]
+			>>)
 		end
 
 feature -- Tests

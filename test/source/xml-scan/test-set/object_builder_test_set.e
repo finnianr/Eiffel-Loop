@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 8:51:10 GMT (Sunday 1st January 2023)"
-	revision: "19"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "20"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -34,6 +34,9 @@ inherit
 
 	SHARED_DEV_ENVIRON
 
+create
+	make
+
 feature {NONE} -- Initialization
 
 	on_prepare
@@ -44,14 +47,16 @@ feature {NONE} -- Initialization
 			>>
 		end
 
-feature -- Basic operations
+feature {NONE} -- Initialization
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("buildable_from_node_scan",			agent test_buildable_from_node_scan)
-			eval.call ("smart_buildable_from_node_scan",	agent test_smart_buildable_from_node_scan)
-			eval.call ("recursive_object_build",			agent test_recursive_object_build)
+			make_named (<<
+				["buildable_from_node_scan",			agent test_buildable_from_node_scan],
+				["smart_buildable_from_node_scan",	agent test_smart_buildable_from_node_scan],
+				["recursive_object_build",			agent test_recursive_object_build]
+			>>)
 		end
 
 feature -- Tests

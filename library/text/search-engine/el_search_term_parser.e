@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:39:06 GMT (Tuesday 14th February 2023)"
-	revision: "21"
+	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
+	revision: "22"
 
 class
 	EL_SEARCH_TERM_PARSER [G -> EL_WORD_SEARCHABLE]
@@ -75,13 +75,13 @@ feature -- Access
 
 feature -- Element Change
 
- 	set_query_condition (a_search_terms: ZSTRING; a_word_table: like word_token_table)
- 			--
- 		do
+	set_query_condition (a_search_terms: ZSTRING; a_word_table: like word_token_table)
+			--
+		do
 			word_token_table := a_word_table
- 			set_search_terms (a_search_terms.stripped)
+			set_search_terms (a_search_terms.stripped)
 			compile_conditions
- 		end
+		end
 
 feature -- Status query
 

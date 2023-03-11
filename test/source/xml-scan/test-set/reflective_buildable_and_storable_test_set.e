@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-21 21:37:28 GMT (Wednesday 21st December 2022)"
-	revision: "17"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "18"
 
 class
 	REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET
@@ -15,12 +15,17 @@ class
 inherit
 	EL_FILE_DATA_TEST_SET
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("reflective_buildable_and_storable_as_xml",	agent test_reflective_buildable_and_storable_as_xml)
+			make_named (<<
+				["reflective_buildable_and_storable_as_xml",	agent test_reflective_buildable_and_storable_as_xml]
+			>>)
 		end
 
 feature -- Tests

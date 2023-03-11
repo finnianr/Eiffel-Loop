@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-03 10:48:11 GMT (Friday 3rd February 2023)"
-	revision: "13"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "14"
 
 class
 	NUMERIC_TEST_SET
@@ -22,14 +22,19 @@ inherit
 			default_create
 		end
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("negative_to_natural", agent test_negative_to_natural)
-			eval.call ("double_string_conversion", agent test_double_string_conversion)
-			eval.call ("truncated_natural_64", agent test_truncated_natural_64)
+			make_named (<<
+				["negative_to_natural", agent test_negative_to_natural],
+				["double_string_conversion", agent test_double_string_conversion],
+				["truncated_natural_64", agent test_truncated_natural_64]
+			>>)
 		end
 
 feature -- Tests

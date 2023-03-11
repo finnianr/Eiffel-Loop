@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-03-10 17:40:40 GMT (Friday 10th March 2023)"
+	revision: "8"
 
 class
 	CAD_MODEL_TEST_SET
@@ -17,15 +17,20 @@ inherit
 
 	EL_MODULE_LIO
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("line_intersection",		agent test_line_intersection)
-			eval.call ("line_intersection_2",	agent test_line_intersection_2)
-			eval.call ("model_load_and_store",	agent test_model_load_and_store)
-			eval.call ("slicing",					agent test_slicing)
+			make_named (<<
+				["line_intersection",		agent test_line_intersection],
+				["line_intersection_2",	agent test_line_intersection_2],
+				["model_load_and_store",	agent test_model_load_and_store],
+				["slicing",					agent test_slicing]
+			>>)
 		end
 
 feature -- Test

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:30:57 GMT (Saturday 31st December 2022)"
-	revision: "18"
+	date: "2023-03-10 17:30:34 GMT (Friday 10th March 2023)"
+	revision: "19"
 
 class
 	ENCRYPTION_TEST_SET
@@ -15,25 +15,28 @@ class
 inherit
 	EIFFEL_LOOP_TEST_SET
 		redefine
-			on_prepare, do_all
+			make, on_prepare
 		end
 
 	EL_MODULE_OS
 
+create
+	make
+
 feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
+		do
+			make_named (<<
+				["aes_encryption", agent test_aes_encryption]
+			>>)
+		end
 
 	on_prepare
 		do
 			Precursor
 			create encrypter.make ("hanami", 256)
-		end
-
-feature -- Basic operations
-
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
-		do
-			eval.call ("aes_encryption", agent test_aes_encryption)
 		end
 
 feature -- Tests

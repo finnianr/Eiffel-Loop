@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 9:58:39 GMT (Monday 9th January 2023)"
-	revision: "6"
+	date: "2023-03-10 17:40:40 GMT (Friday 10th March 2023)"
+	revision: "7"
 
 class
 	VCF_CONTACT_TEST_SET
@@ -19,13 +19,18 @@ inherit
 
 	EL_MODULE_COMMAND; EL_MODULE_FILE
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("splitter", agent test_splitter)
-			eval.call ("switcher", agent test_switcher)
+			make_named (<<
+				["splitter", agent test_splitter],
+				["switcher", agent test_switcher]
+			>>)
 		end
 
 feature -- Tests

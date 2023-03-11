@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-03 13:43:04 GMT (Friday 3rd March 2023)"
-	revision: "22"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "23"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -26,18 +26,23 @@ inherit
 
 	EL_MODULE_FILE
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("book_exporter", agent test_book_exporter)
-			eval.call ("email_list", agent test_email_list)
-			eval.call ("email_list_encoding", agent test_email_list_encoding)
-			eval.call ("subject_line_decoding", agent test_subject_line_decoding)
-			eval.call ("www_exporter", agent test_www_exporter)
-			eval.call ("xhtml_doc_exporter", agent test_xhtml_doc_exporter)
-			eval.call ("xhtml_exporter", agent test_xhtml_exporter)
+			make_named (<<
+				["book_exporter", agent test_book_exporter],
+				["email_list", agent test_email_list],
+				["email_list_encoding", agent test_email_list_encoding],
+				["subject_line_decoding", agent test_subject_line_decoding],
+				["www_exporter", agent test_www_exporter],
+				["xhtml_doc_exporter", agent test_xhtml_doc_exporter],
+				["xhtml_exporter", agent test_xhtml_exporter]
+			>>)
 		end
 
 feature -- Tests

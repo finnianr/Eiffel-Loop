@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 17:31:20 GMT (Sunday 1st January 2023)"
-	revision: "26"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "28"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -36,26 +36,31 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("alpha_character_match", agent test_alpha_character_match)
-			eval.call ("back_reference_match", agent test_back_reference_match)
-			eval.call ("end_of_line", agent test_end_of_line)
-			eval.call ("find_all", agent test_find_all)
-			eval.call ("literal_find_all", agent test_literal_find_all)
-			eval.call ("integer_match", agent test_integer_match)
-			eval.call ("numbers_array_parsing", agent test_numbers_array_parsing)
-			eval.call ("numeric_match", agent test_numeric_match)
-			eval.call ("pyxis_attribute_parser", agent test_pyxis_attribute_parser)
-			eval.call ("quoted_character_array_parsing", agent test_quoted_character_array_parsing)
-			eval.call ("quoted_string", agent test_quoted_string)
-			eval.call ("recursive_match", agent test_recursive_match)
-			eval.call ("string_substitution", agent test_string_substitution)
-			eval.call ("text_matcher", agent test_text_matcher)
-			eval.call ("xpath_parser", agent test_xpath_parser)
+			make_named (<<
+				["alpha_character_match", agent test_alpha_character_match],
+				["back_reference_match", agent test_back_reference_match],
+				["end_of_line", agent test_end_of_line],
+				["find_all", agent test_find_all],
+				["literal_find_all", agent test_literal_find_all],
+				["integer_match", agent test_integer_match],
+				["numbers_array_parsing", agent test_numbers_array_parsing],
+				["numeric_match", agent test_numeric_match],
+				["pyxis_attribute_parser", agent test_pyxis_attribute_parser],
+				["quoted_character_array_parsing", agent test_quoted_character_array_parsing],
+				["quoted_string", agent test_quoted_string],
+				["recursive_match", agent test_recursive_match],
+				["string_substitution", agent test_string_substitution],
+				["text_matcher", agent test_text_matcher],
+				["xpath_parser", agent test_xpath_parser]
+			>>)
 		end
 
 feature -- Test
@@ -280,7 +285,7 @@ feature -- Test
 				assert_same_string (Void, output, "AA%N'")
 			else
 				assert ("matched", False)
- 			end
+			end
 		end
 
 	test_quoted_string

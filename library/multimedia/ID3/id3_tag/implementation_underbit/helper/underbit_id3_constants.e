@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "8"
 
 class
 	UNDERBIT_ID3_CONSTANTS
@@ -15,7 +15,7 @@ class
 feature {NONE} -- Constants
 
 	File_mode_read_and_write: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -23,7 +23,7 @@ feature {NONE} -- Constants
 		end
 
 	File_mode_read_only: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -31,7 +31,7 @@ feature {NONE} -- Constants
 		end
 
 	Tag_version: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -39,7 +39,7 @@ feature {NONE} -- Constants
 		end
 
 	Tag_option_ID3v1: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -49,7 +49,7 @@ feature {NONE} -- Constants
 feature -- Frame field types
 
 	Field_type_binary_data: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -57,7 +57,7 @@ feature -- Frame field types
 		end
 
 	Field_type_date: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -65,7 +65,7 @@ feature -- Frame field types
 		end
 
 	Field_type_frame_id: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -73,7 +73,7 @@ feature -- Frame field types
 		end
 
 	Field_type_full_latin1: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -81,7 +81,7 @@ feature -- Frame field types
 		end
 
 	Field_type_full_string: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -89,7 +89,7 @@ feature -- Frame field types
 		end
 
 	Field_type_int16: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -97,7 +97,7 @@ feature -- Frame field types
 		end
 
 	Field_type_int24: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -105,7 +105,7 @@ feature -- Frame field types
 		end
 
 	Field_type_int32: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -113,7 +113,7 @@ feature -- Frame field types
 		end
 
 	Field_type_int32_plus: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -121,7 +121,7 @@ feature -- Frame field types
 		end
 
 	Field_type_int8: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -129,7 +129,7 @@ feature -- Frame field types
 		end
 
 	Field_type_language: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -137,7 +137,7 @@ feature -- Frame field types
 		end
 
 	Field_type_latin1: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -145,7 +145,7 @@ feature -- Frame field types
 		end
 
 	Field_type_list_latin1: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -153,7 +153,7 @@ feature -- Frame field types
 		end
 
 	Field_type_list_string: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -161,7 +161,7 @@ feature -- Frame field types
 		end
 
 	Field_type_string: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias
@@ -169,7 +169,7 @@ feature -- Frame field types
 		end
 
 	Field_type_text_encoding: INTEGER
-            --
+				--
 		external
 			"C inline use %"id3tag.h%""
 		alias

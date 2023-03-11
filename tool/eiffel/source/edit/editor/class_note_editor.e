@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-23 17:05:31 GMT (Friday 23rd December 2022)"
-	revision: "16"
+	date: "2023-03-10 10:10:54 GMT (Friday 10th March 2023)"
+	revision: "17"
 
 class
 	CLASS_NOTE_EDITOR
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 			make_notes (class_lines)
 
 			create updated_fields.make (0)
- 			last_time_stamp := class_lines.date
+			last_time_stamp := class_lines.date
 
 			-- Add default values for missing fields
 			if default_values.has_key (Author) and then is_owned (default_values.found_item) then
@@ -53,9 +53,9 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	field_date: DATE_TIME
- 		local
- 			l_date: STRING; pos_gmt: INTEGER; date_string: STRING
- 		do
+		local
+			l_date: STRING; pos_gmt: INTEGER; date_string: STRING
+		do
 			create Result.make_from_epoch (0)
 			fields.find (Field.date)
 			if fields.found then
@@ -70,7 +70,7 @@ feature -- Access
 					end
 				end
 			end
- 		end
+		end
 
 	field_revision: INTEGER
 		local

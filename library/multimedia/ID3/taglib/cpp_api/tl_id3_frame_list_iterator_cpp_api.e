@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "7"
 
 class
 	TL_ID3_FRAME_LIST_ITERATOR_CPP_API
@@ -57,7 +57,7 @@ feature {NONE} -- Externals
 			]"
 		end
 
-   frozen cpp_next (self: POINTER)
+	frozen cpp_next (self: POINTER)
 		external
 			"C++ inline use <mpeg/id3v2/id3v2tag.h>"
 		alias

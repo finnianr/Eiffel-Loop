@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-03-10 17:40:40 GMT (Friday 10th March 2023)"
+	revision: "6"
 
 class
 	UNDATED_PHOTO_FINDER_TEST_SET
@@ -19,12 +19,17 @@ inherit
 
 	EL_MODULE_COMMAND; EL_MODULE_FILE
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("execute", agent test_execute)
+			make_named (<<
+				["execute", agent test_execute]
+			>>)
 		end
 
 feature -- Tests

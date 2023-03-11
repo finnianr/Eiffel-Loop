@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 11:31:33 GMT (Sunday 1st January 2023)"
-	revision: "5"
+	date: "2023-03-10 17:40:40 GMT (Friday 10th March 2023)"
+	revision: "6"
 
 class
 	FTP_TEST_SET
@@ -24,12 +24,17 @@ inherit
 
 	SHARED_DEV_ENVIRON
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("upload", agent test_upload)
+			make_named (<<
+				["upload", agent test_upload]
+			>>)
 		end
 
 feature -- Tests

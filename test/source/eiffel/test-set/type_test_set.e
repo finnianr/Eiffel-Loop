@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 14:30:39 GMT (Saturday 31st December 2022)"
-	revision: "13"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "14"
 
 class
 	TYPE_TEST_SET
@@ -19,13 +19,18 @@ inherit
 
 	EL_SHARED_FACTORIES
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("string_factory_creation", agent test_string_factory_creation)
-			eval.call ("type_and_type_name_caching", agent test_type_and_type_name_caching)
+			make_named (<<
+				["string_factory_creation", agent test_string_factory_creation],
+				["type_and_type_name_caching", agent test_type_and_type_name_caching]
+			>>)
 		end
 
 feature -- Tests

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "10"
 
 class
 	EL_CURL_API
@@ -60,12 +60,12 @@ feature -- Access
 	get_info (a_curl_handle: POINTER; a_info: INTEGER; a_data: CELL [detachable ANY]): INTEGER
 			-- `curl_getinfo'
 			-- Request internal information from the curl session with this function.  The
- 			-- third argument MUST be a pointer to a long, a pointer to a char * or a
- 			-- pointer to a double (as the documentation describes elsewhere).  The data
- 			-- pointed to will be filled in accordingly and can be relied upon only if the
- 			-- function returns CURLE_OK.  This function is intended to get used *AFTER* a
- 			-- performed transfer, all results from this function are undefined until the
- 			-- transfer is completed.
+			-- third argument MUST be a pointer to a long, a pointer to a char * or a
+			-- pointer to a double (as the documentation describes elsewhere).  The data
+			-- pointed to will be filled in accordingly and can be relied upon only if the
+			-- function returns CURLE_OK.  This function is intended to get used *AFTER* a
+			-- performed transfer, all results from this function are undefined until the
+			-- transfer is completed.
 		require
 			valid_handle: is_attached (a_curl_handle)
 		local

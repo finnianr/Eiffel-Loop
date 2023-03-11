@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 17:51:17 GMT (Thursday 29th December 2022)"
-	revision: "65"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "66"
 
 deferred class
 	EL_PATH
@@ -33,8 +33,8 @@ inherit
 	EL_SHARED_WORD
 
 convert
- 	to_string: {EL_ZSTRING}, as_string_32: {STRING_32, READABLE_STRING_GENERAL},
- 	steps: {EL_PATH_STEPS}, to_path: {PATH}, to_uri: {EL_URI}
+	to_string: {EL_ZSTRING}, as_string_32: {STRING_32, READABLE_STRING_GENERAL},
+	steps: {EL_PATH_STEPS}, to_path: {PATH}, to_uri: {EL_URI}
 
 feature {NONE} -- Initialization
 

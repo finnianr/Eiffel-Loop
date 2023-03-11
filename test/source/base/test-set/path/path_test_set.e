@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:38:02 GMT (Tuesday 14th February 2023)"
-	revision: "16"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "17"
 
 class
 	PATH_TEST_SET
@@ -17,25 +17,30 @@ inherit
 
 	EL_MODULE_COMMAND; EL_MODULE_DIRECTORY
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("comparisons", agent test_comparisons)
-			eval.call ("extension", agent test_extension)
-			eval.call ("first_step", agent test_first_step)
-			eval.call ("initialization", agent test_initialization)
-			eval.call ("joined_steps", agent test_joined_steps)
-			eval.call ("ntfs_translation", agent test_ntfs_translation)
-			eval.call ("parent", agent test_parent)
-			eval.call ("parent_of", agent test_parent_of)
-			eval.call ("path_sort", agent test_path_sort)
-			eval.call ("path_steps", agent test_path_steps)
-			eval.call ("relative_joins", agent test_relative_joins)
-			eval.call ("set_parent", agent test_set_parent)
-			eval.call ("universal_relative_path", agent test_universal_relative_path)
-			eval.call ("version_number", agent test_version_number)
+			make_named (<<
+				["comparisons", agent test_comparisons],
+				["extension", agent test_extension],
+				["first_step", agent test_first_step],
+				["initialization", agent test_initialization],
+				["joined_steps", agent test_joined_steps],
+				["ntfs_translation", agent test_ntfs_translation],
+				["parent", agent test_parent],
+				["parent_of", agent test_parent_of],
+				["path_sort", agent test_path_sort],
+				["path_steps", agent test_path_steps],
+				["relative_joins", agent test_relative_joins],
+				["set_parent", agent test_set_parent],
+				["universal_relative_path", agent test_universal_relative_path],
+				["version_number", agent test_version_number]
+			>>)
 		end
 
 feature -- Tests

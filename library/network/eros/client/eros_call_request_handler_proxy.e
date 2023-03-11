@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
+	revision: "11"
 
 class
 	EROS_CALL_REQUEST_HANDLER_PROXY
@@ -33,11 +33,11 @@ feature -- Basic operations
 			-- Shutdown the current session in the remote routine call request handler
 			-- Processing instruction example:
 			--		<?call {EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER}.set_stopping?>
-   	do
+		do
 			log.enter (R_set_stopping)
 			call (R_set_stopping, [])
 			log.exit
-   	end
+		end
 
 feature -- Status setting
 

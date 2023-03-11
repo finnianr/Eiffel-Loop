@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 11:28:21 GMT (Sunday 1st January 2023)"
-	revision: "19"
+	date: "2023-03-10 17:40:40 GMT (Friday 10th March 2023)"
+	revision: "20"
 
 deferred class
 	RBOX_MANAGEMENT_TASK_TEST_SET [T -> RBOX_MANAGEMENT_TASK create make end]
@@ -28,12 +28,14 @@ inherit
 
 	EL_MODULE_TUPLE
 
-feature -- Basic operations
+feature {NONE} -- Initialization
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("apply", agent test_apply)
+			make_named (<<
+				["apply", agent test_apply]
+			>>)
 		end
 
 feature -- Tests

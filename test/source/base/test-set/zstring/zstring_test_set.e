@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 12:13:27 GMT (Sunday 5th March 2023)"
-	revision: "89"
+	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
+	revision: "90"
 
 class
 	ZSTRING_TEST_SET
@@ -30,67 +30,72 @@ inherit
 
 	EL_SHARED_TEST_TEXT
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("as_expanded", agent test_as_expanded)
-			eval.call ("mirror", agent test_mirror)
-			eval.call ("split", agent test_split)
-			eval.call ("substring_split", agent test_substring_split)
-			eval.call ("append", agent test_append)
-			eval.call ("append_encoded", agent test_append_encoded)
-			eval.call ("append_string_general", agent test_append_string_general)
-			eval.call ("append_substring", agent test_append_substring)
-			eval.call ("append_substring_general", agent test_append_substring_general)
-			eval.call ("append_to_string_32", agent test_append_to_string_32)
-			eval.call ("append_unicode", agent test_append_unicode)
-			eval.call ("append_utf_8", agent test_append_utf_8)
-			eval.call ("case_changing", agent test_case_changing)
-			eval.call ("enclose", agent test_enclose)
-			eval.call ("fill_character", agent test_fill_character)
-			eval.call ("insert_character", agent test_insert_character)
-			eval.call ("insert_string", agent test_insert_string)
-			eval.call ("adjustments", agent test_adjustments)
-			eval.call ("prepend", agent test_prepend)
-			eval.call ("prepend_substring", agent test_prepend_substring)
-			eval.call ("prune_all", agent test_prune_all)
-			eval.call ("prune_leading", agent test_prune_leading)
-			eval.call ("prune_trailing", agent test_prune_trailing)
-			eval.call ("put_unicode", agent test_put_unicode)
-			eval.call ("remove_substring", agent test_remove_substring)
-			eval.call ("replace_character", agent test_replace_character)
-			eval.call ("replace_substring", agent test_replace_substring)
-			eval.call ("replace_substring_all", agent test_replace_substring_all)
-			eval.call ("to_utf_8", agent test_to_utf_8)
-			eval.call ("translate", agent test_translate)
-			eval.call ("ends_with", agent test_ends_with)
-			eval.call ("for_all_split", agent test_for_all_split)
-			eval.call ("has", agent test_has)
-			eval.call ("is_canonically_spaced", agent test_is_canonically_spaced)
-			eval.call ("order_comparison", agent test_order_comparison)
-			eval.call ("same_caseless_characters", agent test_same_caseless_characters)
-			eval.call ("same_characters", agent test_same_characters)
-			eval.call ("sort", agent test_sort)
-			eval.call ("starts_with", agent test_starts_with)
-			eval.call ("there_exists_split", agent test_there_exists_split)
-			eval.call ("remove", agent test_remove)
-			eval.call ("remove_head", agent test_remove_head)
-			eval.call ("remove_tail", agent test_remove_tail)
-			eval.call ("index_of", agent test_index_of)
-			eval.call ("joined", agent test_joined)
-			eval.call ("last_index_of", agent test_last_index_of)
-			eval.call ("new_cursor", agent test_new_cursor)
-			eval.call ("occurrences", agent test_occurrences)
-			eval.call ("substring_index", agent test_substring_index)
-			eval.call ("substring_index_in_bounds", agent test_substring_index_in_bounds)
-			eval.call ("unicode_index_of", agent test_unicode_index_of)
-			eval.call ("substring", agent test_substring)
-			eval.call ("substring_to", agent test_substring_to)
-			eval.call ("substring_to_reversed", agent test_substring_to_reversed)
-			eval.call ("to_general", agent test_to_general)
-			eval.call ("to_string_32", agent test_to_string_32)
+			make_named (<<
+				["as_expanded", agent test_as_expanded],
+				["mirror", agent test_mirror],
+				["split", agent test_split],
+				["substring_split", agent test_substring_split],
+				["append", agent test_append],
+				["append_encoded", agent test_append_encoded],
+				["append_string_general", agent test_append_string_general],
+				["append_substring", agent test_append_substring],
+				["append_substring_general", agent test_append_substring_general],
+				["append_to_string_32", agent test_append_to_string_32],
+				["append_unicode", agent test_append_unicode],
+				["append_utf_8", agent test_append_utf_8],
+				["case_changing", agent test_case_changing],
+				["enclose", agent test_enclose],
+				["fill_character", agent test_fill_character],
+				["insert_character", agent test_insert_character],
+				["insert_string", agent test_insert_string],
+				["adjustments", agent test_adjustments],
+				["prepend", agent test_prepend],
+				["prepend_substring", agent test_prepend_substring],
+				["prune_all", agent test_prune_all],
+				["prune_leading", agent test_prune_leading],
+				["prune_trailing", agent test_prune_trailing],
+				["put_unicode", agent test_put_unicode],
+				["remove_substring", agent test_remove_substring],
+				["replace_character", agent test_replace_character],
+				["replace_substring", agent test_replace_substring],
+				["replace_substring_all", agent test_replace_substring_all],
+				["to_utf_8", agent test_to_utf_8],
+				["translate", agent test_translate],
+				["ends_with", agent test_ends_with],
+				["for_all_split", agent test_for_all_split],
+				["has", agent test_has],
+				["is_canonically_spaced", agent test_is_canonically_spaced],
+				["order_comparison", agent test_order_comparison],
+				["same_caseless_characters", agent test_same_caseless_characters],
+				["same_characters", agent test_same_characters],
+				["sort", agent test_sort],
+				["starts_with", agent test_starts_with],
+				["there_exists_split", agent test_there_exists_split],
+				["remove", agent test_remove],
+				["remove_head", agent test_remove_head],
+				["remove_tail", agent test_remove_tail],
+				["index_of", agent test_index_of],
+				["joined", agent test_joined],
+				["last_index_of", agent test_last_index_of],
+				["new_cursor", agent test_new_cursor],
+				["occurrences", agent test_occurrences],
+				["substring_index", agent test_substring_index],
+				["substring_index_in_bounds", agent test_substring_index_in_bounds],
+				["unicode_index_of", agent test_unicode_index_of],
+				["substring", agent test_substring],
+				["substring_to", agent test_substring_to],
+				["substring_to_reversed", agent test_substring_to_reversed],
+				["to_general", agent test_to_general],
+				["to_string_32", agent test_to_string_32]
+			>>)
 		end
 
 feature -- Conversion tests

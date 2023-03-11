@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-27 9:18:36 GMT (Friday 27th January 2023)"
-	revision: "9"
+	date: "2023-03-10 12:13:39 GMT (Friday 10th March 2023)"
+	revision: "10"
 
 class
 	CLASS_RENAMING_TEST_SET
@@ -15,12 +15,17 @@ class
 inherit
 	COPIED_SOURCES_TEST_SET
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("renaming", agent test_renaming)
+			make_named (<<
+				["renaming", agent test_renaming]
+			>>)
 		end
 
 feature -- Tests

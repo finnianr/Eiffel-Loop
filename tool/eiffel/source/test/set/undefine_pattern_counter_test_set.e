@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-06 11:06:38 GMT (Friday 6th January 2023)"
-	revision: "21"
+	date: "2023-03-10 12:14:20 GMT (Friday 10th March 2023)"
+	revision: "22"
 
 class
 	UNDEFINE_PATTERN_COUNTER_TEST_SET
@@ -26,12 +26,17 @@ inherit
 
 	SHARED_DEV_ENVIRON
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("command", agent test_command)
+			make_named (<<
+				["command", agent test_command]
+			>>)
 		end
 
 feature -- Tests

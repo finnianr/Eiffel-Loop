@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-03-10 12:12:36 GMT (Friday 10th March 2023)"
+	revision: "4"
 
 class
 	CLASS_FILE_NAME_NORMALIZER_TEST_SET
@@ -15,12 +15,17 @@ class
 inherit
 	COPIED_SOURCES_TEST_SET
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("renaming", agent test_renaming)
+			make_named (<<
+				["renaming", agent test_renaming]
+			>>)
 		end
 
 feature -- Tests

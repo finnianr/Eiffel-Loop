@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-03 10:11:09 GMT (Friday 3rd February 2023)"
-	revision: "4"
+	date: "2023-03-10 10:10:54 GMT (Friday 10th March 2023)"
+	revision: "5"
 
 expanded class
 	NATURAL_32_BIT_ROUTINES_V2
@@ -34,7 +34,7 @@ feature -- Measurement
 			end
 		ensure then
 			same_result: Result = shift_count_precursor (mask)
-  		end
+			end
 
 feature -- Contract Support
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-03-10 10:10:54 GMT (Friday 10th March 2023)"
+	revision: "8"
 
 class
 	M3U_PLAYLIST
@@ -28,11 +28,11 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Attributes
 
- 	m3u_entry_list: EL_ZSTRING_LIST
+	m3u_entry_list: EL_ZSTRING_LIST
 
- 	is_nokia_phone: BOOLEAN
- 		do
- 		end
+	is_nokia_phone: BOOLEAN
+		do
+		end
 
 feature {NONE} -- Evolicity fields
 

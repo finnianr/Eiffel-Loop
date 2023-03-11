@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 18:48:23 GMT (Monday 5th December 2022)"
-	revision: "15"
+	date: "2023-03-10 12:09:57 GMT (Friday 10th March 2023)"
+	revision: "16"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	REPOSITORY_PUBLISHER_TEST_SET
 		redefine
-			do_all, new_publisher, on_prepare, generated_files
+			make, new_publisher, on_prepare, generated_files
 		end
 
 	SHARED_CLASS_PATH_TABLE
@@ -24,12 +24,17 @@ inherit
 
 	EL_MODULE_EXECUTABLE; EL_MODULE_FILE
 
-feature -- Basic operations
+create
+	make
 
-	do_all (eval: EL_TEST_SET_EVALUATOR)
-		-- evaluate all tests
+feature {NONE} -- Initialization
+
+	make
+		-- initialize `test_table'
 		do
-			eval.call ("link_expander", agent test_link_expander)
+			make_named (<<
+				["link_expander", agent test_link_expander]
+			>>)
 		end
 
 feature -- Tests
