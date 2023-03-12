@@ -568,3 +568,6 @@ Improvements to ZSTRING and split lists
 Mon 6th Mar 2023, 15:08:14
 Improvements to ZSTRING and split lists
 
+Sun 12th Mar 2023, 14:46:39
+Fixed bad spacing in source and new routine to spell integers
+
