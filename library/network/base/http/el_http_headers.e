@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "19"
+	date: "2023-03-12 10:25:59 GMT (Sunday 12th March 2023)"
+	revision: "20"
 
 class
 	EL_HTTP_HEADERS
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
-			field_included as is_any_field,
+			field_included as is_not_table_field,
 			foreign_naming as Http_header_naming
 		redefine
 			make_default
@@ -60,7 +60,6 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			create non_standard_table.make_equal (0)
-			create name_value.make_empty
 		end
 
 feature -- Header fields

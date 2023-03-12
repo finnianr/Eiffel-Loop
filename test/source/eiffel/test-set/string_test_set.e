@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "32"
+	date: "2023-03-12 8:50:07 GMT (Sunday 12th March 2023)"
+	revision: "33"
 
 class
 	STRING_TEST_SET
@@ -38,7 +38,8 @@ feature {NONE} -- Initialization
 			make_named (<<
 				["character_8_as_lower", agent test_character_8_as_lower],
 				["expanded_string", agent test_expanded_string],
-				["is_substitute_white", agent test_is_substitute_white]
+				["is_substitute_white", agent test_is_substitute_white],
+				["immutable_to_integer", agent test_immutable_to_integer]
 			>>)
 		end
 
@@ -68,6 +69,17 @@ feature -- Tests
 			s := "abc"
 			ex.share (s)
 			assert ("same hash_code", ex.hash_code = 6382179)
+		end
+
+	test_immutable_to_integer
+		-- STRING_TEST_SET.test_immutable_to_integer
+		local
+			str, value: IMMUTABLE_STRING_8
+		do
+			str := "value: 200"
+			value := str.shared_substring (str.count - 2, str.count)
+			assert ("value is 200", value.same_string ("200"))
+			assert ("is_integer is not working", not value.is_integer)
 		end
 
 	test_is_substitute_white

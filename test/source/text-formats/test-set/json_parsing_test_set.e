@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "25"
+	date: "2023-03-12 9:11:35 GMT (Sunday 12th March 2023)"
+	revision: "26"
 
 class
 	JSON_PARSING_TEST_SET
@@ -33,6 +33,7 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
+				["canonically_spaced_json", agent test_canonically_spaced_json],
 				["json_across_iteration", agent test_json_across_iteration],
 				["json_intervals_object", agent test_json_intervals_object],
 				["json_reflection_1", agent test_json_reflection_1],
@@ -43,9 +44,42 @@ feature {NONE} -- Initialization
 
 feature -- Tests
 
+	test_canonically_spaced_json
+		-- JSON_PARSING_TEST_SET.test_canonically_spaced_json
+		local
+			snapshots_list: JSON_ZNAME_VALUE_LIST; count: INTEGER
+			url: TUPLE [beginning, ending: STRING]
+		do
+			url := ["http://", "/lofting/bx101010.html"]
+			across << JSON_archived_snapshots.as_canonically_spaced, JSON_archived_snapshots >> as json loop
+				create snapshots_list.make (json.item.to_latin_1)
+				count := 0
+				if attached snapshots_list as list then
+					from list.start until list.after loop
+						if list.item_same_as ("url") then
+							assert ("url ending OK", list.item_immutable_value.ends_with (url.ending))
+							assert ("url beginning OK", list.item_immutable_value.starts_with (url.beginning))
+							count := count + 1
+						elseif list.item_same_as ("status") then
+							assert ("status OK", list.item_integer = 200)
+							count := count + 1
+						elseif list.item_same_as ("available") then
+							assert ("available OK", list.item_boolean)
+							count := count + 1
+						elseif list.item_same_as ("timestamp") then
+							assert ("timestamp OK", list.item_natural_64 = 20130124193934)
+							count := count + 1
+						end
+						list.forth
+					end
+					assert ("found 5 fields", count = 5)
+				end
+			end
+		end
+
 	test_json_across_iteration
 		note
-			testing: "covers/{JSON_FIELD_NAME_INTERVALS}.make, covers/{JSON_ZNAME_VALUE_LIST}.new_cursor"
+			testing: "covers/{JSON_PARSED_INTERVALS}.make, covers/{JSON_ZNAME_VALUE_LIST}.new_cursor"
 		local
 			list: JSON_ZNAME_VALUE_LIST; checksum_1: NATURAL
 			crc: like crc_generator
@@ -54,7 +88,7 @@ feature -- Tests
 			create list.make (JSON_price.to_utf_8 (True))
 			from list.start until list.after loop
 				crc.add_string (list.name_item (False))
-				crc.add_string (list.value_item (False))
+				crc.add_string (list.item_value (False))
 				list.forth
 			end
 			checksum_1 := crc.checksum
@@ -127,7 +161,7 @@ feature -- Tests
 	test_parse
 		-- JSON_PARSING_TEST_SET.test_parse
 		note
-			testing: "covers/{JSON_FIELD_NAME_INTERVALS}.make"
+			testing: "covers/{JSON_PARSED_INTERVALS}.make"
 		local
 			list: JSON_NAME_VALUE_LIST
 		do
@@ -135,11 +169,11 @@ feature -- Tests
 			from list.start until list.after loop
 				inspect list.index
 					when 1 then
-						assert ("valid name", list.name_item (False) ~ "name" and list.value_item (False) ~ My_ching.literal)
-						assert ("valid escaped", Escaper.escaped (list.value_item (False), True) ~ My_ching.escaped)
+						assert ("valid name", list.item_same_as ("name") and list.item_value (False) ~ My_ching.literal)
+						assert ("valid escaped", Escaper.escaped (list.item_value (False), True) ~ My_ching.escaped)
 					when 2 then
-						assert ("valid price", list.name_item (False) ~ "price" and list.value_item (False) ~ Price.literal)
-						assert ("valid escaped", Escaper.escaped (list.value_item (False), True) ~ Price.escaped)
+						assert ("valid price", list.item_same_as ("price") and list.item_value (False) ~ Price.literal)
+						assert ("valid escaped", Escaper.escaped (list.item_value (False), True) ~ Price.escaped)
 
 				else end
 				list.forth
@@ -168,5 +202,7 @@ feature {NONE} -- Constants
 			Result.literal := {STRING_32} "€%T3.00"
 			Result.escaped := {STRING_32} "€\t3.00"
 		end
+
+
 
 end

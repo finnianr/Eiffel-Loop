@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-06 14:01:35 GMT (Friday 6th January 2023)"
-	revision: "1"
+	date: "2023-03-12 10:25:47 GMT (Sunday 12th March 2023)"
+	revision: "2"
 
 deferred class
 	EL_FIELD_TYPE_QUERY_ROUTINES
@@ -46,6 +46,11 @@ feature {NONE} -- Field tests
 			if Eiffel.is_reference (basic_type) and then Arrayed_list_factory.is_valid_type (type_id) then
 				Result := Eiffel.is_type_convertable_from_string (basic_type, Eiffel.collection_item_type (type_id))
 			end
+		end
+
+	is_not_table_field (basic_type, type_id: INTEGER): BOOLEAN
+		do
+			Result := not Eiffel.is_table_type (basic_type, type_id)
 		end
 
 	is_string_or_expanded_field (basic_type, type_id: INTEGER): BOOLEAN

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "24"
+	date: "2023-03-11 14:43:12 GMT (Saturday 11th March 2023)"
+	revision: "25"
 
 class
 	URI_TEST_SET
@@ -29,6 +29,7 @@ feature {NONE} -- Initialization
 				["uri_assignments", agent test_uri_assignments],
 				["uri_path_plus_joins", agent test_uri_path_plus_joins],
 				["url", agent test_url],
+				["url_to_string", agent test_url_to_string],
 				["url_parts", agent test_url_parts],
 				["url_query_hash_table", agent test_url_query_hash_table],
 				["url_query_part", agent test_url_query_part],
@@ -233,6 +234,18 @@ feature -- Tests
 			end
 		end
 
+	test_url_to_string
+		-- URI_TEST_SET.test_url_to_string
+		local
+			url_string_8: STRING; url_string: ZSTRING
+			url: EL_URL
+		do
+			url_string_8 := "https://www.ichingmeditations.com/ching-hexagrams/hexagram-64-nearing-completion-wei-chi/"
+			url := url_string_8
+			url_string := url.to_string
+			assert_same_string ("same url", url_string, url_string_8)
+		end
+
 	test_utf_8_sequence
 		local
 			sequence: EL_UTF_8_SEQUENCE
@@ -317,15 +330,15 @@ feature {NONE} -- Constants
 			]")
 		end
 
-	Encoded_gunter_grass: STRING = "[
-		author_title=G%C3%BCnter+(Wilhelm)+Grass/The+Tin+Drum&price=%E2%82%AC+10.00&publisher=Barnes+%26+Noble&discount=10%25
-	]"
-
 	Currency_symbols: STRING_32
 		once
 			Result := {STRING_32} "$£€"
 			Result.append_code (0x20731)
 		end
+
+	Encoded_gunter_grass: STRING = "[
+		author_title=G%C3%BCnter+(Wilhelm)+Grass/The+Tin+Drum&price=%E2%82%AC+10.00&publisher=Barnes+%26+Noble&discount=10%25
+	]"
 
 	Field: TUPLE [author_title, price, publisher, discount: STRING]
 		do

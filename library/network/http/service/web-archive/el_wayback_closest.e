@@ -5,12 +5,12 @@ note
 			http://archive.org/wayback/available?url=<url>
 		
 			{
-			  "url": "http:\/\/www.at-dot-com.com\/iching\/hex06.html",
+			  "url": "http://www.at-dot-com.com/iching/hex06.html",
 			  "archived_snapshots": {
 			    "closest": {
 			      "status": "200",
 			      "available": true,
-			      "url": "http:\/\/web.archive.org\/web\/20100921094356\/http:\/\/www.at-dot-com.com:80\/iching\/hex06.html",
+			      "url": "http://web.archive.org/web/20100921094356/http://www.at-dot-com.com:80/iching/hex06.html",
 			      "timestamp": "20100921094356"
 			    }
 			  }
@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-03-12 11:41:24 GMT (Sunday 12th March 2023)"
+	revision: "8"
 
 class
 	EL_WAYBACK_CLOSEST
@@ -39,7 +39,7 @@ inherit
 
 	JSON_SETTABLE_FROM_STRING
 		rename
-			make_from_json as make
+			make_from_json_list as make
 		export
 			{NONE} all
 			{ANY} as_json

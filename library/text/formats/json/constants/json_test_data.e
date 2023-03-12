@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-03-11 19:06:24 GMT (Saturday 11th March 2023)"
+	revision: "5"
 
 deferred class
 	JSON_TEST_DATA
@@ -16,6 +16,23 @@ inherit
 	EL_ANY_SHARED
 
 feature {NONE} -- Constants
+
+	JSON_archived_snapshots: ZSTRING
+		once
+			Result := "[
+				{
+					"url": "http://www.emotionaliching.com/lofting/bx101010.html",
+					"archived_snapshots": {
+						"closest": {
+							"status": "200",
+							"available": true,
+							"url": "http://web.archive.org/web/20130124193934/http://www.emotionaliching.com:80/lofting/bx101010.html",
+							"timestamp": "20130124193934"
+						}
+					}
+				}
+			]"
+		end
 
 	JSON_eiffel_loop_ip: STRING = "[
 		{

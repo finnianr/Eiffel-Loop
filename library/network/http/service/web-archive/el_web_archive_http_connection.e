@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-03-12 9:53:20 GMT (Sunday 12th March 2023)"
+	revision: "9"
 
 class
 	EL_WEB_ARCHIVE_HTTP_CONNECTION
@@ -25,7 +25,7 @@ feature -- Access
 
 	wayback (a_url: STRING): EL_WAYBACK_CLOSEST
 		local
-			pos_closest, pos_left, pos_right: INTEGER; json: STRING
+			json_list: JSON_NAME_VALUE_LIST
 		do
 			Parameter_table [once "url"] := a_url
 			open_with_parameters (Wayback_available_url, Parameter_table)
@@ -33,14 +33,13 @@ feature -- Access
 			if has_error then
 				create Result.make_default
 			else
-				pos_closest := last_string.substring_index (Json_closest, 1)
-				if pos_closest > 0 then
-					pos_left := last_string.index_of ('{', pos_closest)
-					pos_right := last_string.index_of ('}', pos_left)
-					json := last_string.substring (pos_left, pos_right)
-					create Result.make (json)
-				else
+				create json_list.make (last_string)
+				json_list.find_field (Param_url)
+				if json_list.after then
 					create Result.make_default
+				else
+					json_list.remove -- the first url field because the 2nd is the wayback one
+					create Result.make (json_list)
 				end
 			end
 			close
@@ -61,7 +60,7 @@ feature {NONE} -- Implementation
 		local
 			json: ZSTRING
 		do
-			Parameter_table [once "url"] := a_url
+			Parameter_table [Param_url] := a_url
 			open_with_parameters (Wayback_available_url, Parameter_table)
 			read_string_get
 			if has_error then
@@ -86,14 +85,12 @@ feature {NONE} -- Constants
 			Result.quote (2)
 		end
 
-	Json_closest: STRING = "[
-		"closest":
-	]"
-
 	Parameter_table: HASH_TABLE [STRING, STRING]
 		once
 			create Result.make (1)
 		end
+
+	Param_url: STRING = "url"
 
 	Wayback_available_url: STRING = "http://archive.org/wayback/available"
 

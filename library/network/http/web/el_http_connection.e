@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "37"
+	date: "2023-03-11 15:23:09 GMT (Saturday 11th March 2023)"
+	revision: "38"
 
 class
 	EL_HTTP_CONNECTION
@@ -374,12 +374,10 @@ feature -- Element change
 
 	set_url_with_parameters (a_url: EL_URL; parameter_table: like new_parameter_table)
 		do
+			url.wipe_out
+			url.append (a_url)
 			if attached parameter_table as table then
-				url.wipe_out
-				url.append (a_url)
 				url.append_query_from_table (table)
-			else
-				url := a_url
 			end
 --			Curl already does url encoding
 			set_curl_string_8_option (CURLOPT_url, url)

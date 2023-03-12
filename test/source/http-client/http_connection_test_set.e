@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "58"
+	date: "2023-03-12 10:05:03 GMT (Sunday 12th March 2023)"
+	revision: "59"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -42,50 +42,17 @@ feature {NONE} -- Initialization
 				["cached_documents", agent test_cached_documents],
 				["download_document_and_headers", agent test_download_document_and_headers],
 				["download_image_and_headers", agent test_download_image_and_headers],
-				["ip_address_info", agent test_ip_address_info],
 				["headers", agent test_headers],
 				["http_hash_table", agent test_http_hash_table],
 				["http_post", agent test_http_post],
 				["image_headers", agent test_image_headers],
-				["url_encoded", agent test_url_encoded]
+				["ip_address_info", agent test_ip_address_info],
+				["url_encoded", agent test_url_encoded],
+				["web_archive", agent test_web_archive]
 			>>)
 		end
 
 feature -- Tests
-
-	test_cookies
-		local
-			city_location, json_fields: EL_URI_QUERY_ZSTRING_HASH_TABLE
-			url: STRING; cookies: EL_HTTP_COOKIE_TABLE
-		do
-			-- There is an issue with httpbin.org that prevents setting of 2 cookies with 1 call
-			-- so we do a loop instead
-			across new_city_location.query_string (True, False).split ('&') as nvp loop
-				url := Set_cookie_url + nvp.item
-				lio.put_labeled_string ("url", url)
-				lio.put_new_line
-
-				web.set_cookie_paths (Cookie_path)
-				web.open (url)
-				web.read_string_get
-				assert_same_string ("is redirection page", h1_text (web.last_string), "Redirecting...")
-				web.close
-			end
-
-			create cookies.make_from_file (Cookie_path)
-			web.open (Cookies_url)
-			web.read_string_get
-			json_fields := new_json_fields (web.last_string)
-
-			assert ("two cookies set", cookies.count = 2)
-			across cookies as cookie loop
-				lio.put_string_field (cookie.key, cookie.item); lio.put_string_field (" JSON", json_fields.item (cookie.key))
-				lio.put_new_line
-
-				assert ("json has cookie key", json_fields.has (cookie.key))
-				assert ("cookie equals json value", json_fields.item (cookie.key) ~ cookie.item)
-			end
-		end
 
 	test_cached_documents
 		note
@@ -118,6 +85,40 @@ feature -- Tests
 					end
 					lio.put_new_line
 				end
+			end
+		end
+
+	test_cookies
+		local
+			city_location, json_fields: EL_URI_QUERY_ZSTRING_HASH_TABLE
+			url: STRING; cookies: EL_HTTP_COOKIE_TABLE
+		do
+			-- There is an issue with httpbin.org that prevents setting of 2 cookies with 1 call
+			-- so we do a loop instead
+			across new_city_location.query_string (True, False).split ('&') as nvp loop
+				url := Set_cookie_url + nvp.item
+				lio.put_labeled_string ("url", url)
+				lio.put_new_line
+
+				web.set_cookie_paths (Cookie_path)
+				web.open (url)
+				web.read_string_get
+				assert_same_string ("is redirection page", h1_text (web.last_string), "Redirecting...")
+				web.close
+			end
+
+			create cookies.make_from_file (Cookie_path)
+			web.open (Cookies_url)
+			web.read_string_get
+			json_fields := new_json_fields (web.last_string)
+
+			assert ("two cookies set", cookies.count = 2)
+			across cookies as cookie loop
+				lio.put_string_field (cookie.key, cookie.item); lio.put_string_field (" JSON", json_fields.item (cookie.key))
+				lio.put_new_line
+
+				assert ("json has cookie key", json_fields.has (cookie.key))
+				assert ("cookie equals json value", json_fields.item (cookie.key) ~ cookie.item)
 			end
 		end
 
@@ -303,6 +304,27 @@ feature -- Tests
 			end
 		end
 
+	test_web_archive
+		-- HTTP_CONNECTION_TEST_SET.test_web_archive
+		local
+			url_parts: EL_STRING_8_LIST; archive: EL_WEB_ARCHIVE_HTTP_CONNECTION
+			url: STRING
+		do
+			create archive.make
+			url := "http://www.emotionaliching.com/lofting/bx101010.html"
+
+			create url_parts.make_split (url, '/')
+			url_parts [3].append (":80") -- append port number to domain
+
+			if attached Archive.wayback (url) as closest then
+				assert ("status OK", closest.status = 200)
+				assert ("available OK", closest.available)
+				assert ("timestamp OK", closest.timestamp = 20130124193934)
+				assert ("valid wayback ending", closest.url.ends_with (url_parts.joined ('/')))
+				assert ("valid wayback start", closest.url.starts_with ("http://web"))
+			end
+		end
+
 feature -- Problematic
 
 	test_open_url
@@ -401,9 +423,9 @@ feature {NONE} -- Factory
 			create pair_list.make (json_data)
 			create Result.make_equal (pair_list.count)
 			from pair_list.start until pair_list.after loop
-				create value.make_encoded (pair_list.value_item (False).to_latin_1)
+				create value.make_encoded (pair_list.item_value (False).to_latin_1)
 				if not s.is_character (value, '{') then
-					Result.set_string (pair_list.name_item (True), value.decoded)
+					Result.set_string (pair_list.item_name (True), value.decoded)
 				end
 				pair_list.forth
 			end
@@ -462,8 +484,6 @@ feature {NONE} -- Constants
 			>>)
 		end
 
-	www_eiffel_loop_com: STRING = "77.68.64.12"
-
 	Html_post_url: STRING = "://httpbin.org/post"
 
 	Http: STRING = "http"
@@ -475,5 +495,7 @@ feature {NONE} -- Constants
 	Image_url: STRING = "http://httpbin.org/image/"
 
 	Set_cookie_url: STRING = "http://httpbin.org/cookies/set?"
+
+	www_eiffel_loop_com: STRING = "77.68.64.12"
 
 end

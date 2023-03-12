@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-30 10:32:55 GMT (Friday 30th December 2022)"
-	revision: "21"
+	date: "2023-03-12 10:25:22 GMT (Sunday 12th March 2023)"
+	revision: "22"
 
 class
 	EL_INTERNAL
@@ -124,6 +124,13 @@ feature -- Type queries
 					-- Exclude pointer
 			else
 				Result := True
+			end
+		end
+
+	is_table_type (basic_type, type_id: INTEGER): BOOLEAN
+		do
+			if basic_type = Reference_type then
+				Result := type_conforms_to (type_id, ({HASH_TABLE [ANY, HASHABLE]}).type_id)
 			end
 		end
 

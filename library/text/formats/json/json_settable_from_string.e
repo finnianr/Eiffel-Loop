@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 11:34:26 GMT (Monday 23rd January 2023)"
-	revision: "35"
+	date: "2023-03-12 9:46:05 GMT (Sunday 12th March 2023)"
+	revision: "36"
 
 deferred class
 	JSON_SETTABLE_FROM_STRING
@@ -37,10 +37,16 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_from_json (utf_8: STRING)
+	make_from_json (utf_8: READABLE_STRING_8)
 		do
 			make_default
 			set_from_json (utf_8)
+		end
+
+	make_from_json_list (json_list: JSON_NAME_VALUE_LIST)
+		do
+			make_default
+			set_from_json_list (json_list)
 		end
 
 	make_default
@@ -80,43 +86,29 @@ feature -- Access
 
 feature -- Element change
 
-	set_from_json (utf_8_json: STRING)
+	set_from_json (utf_8_json: READABLE_STRING_8)
 		-- random access setting of object field corresponding to JSON field
-		local
-			utf_8_value: STRING; field_intervals: JSON_FIELD_NAME_INTERVALS
-			value: ZSTRING
 		do
-			create field_intervals.make (utf_8_json)
-			across Reuseable.string as reuse loop
-				value := reuse.item
-				across field_table as table loop
-					field_intervals.find_field (table.item.export_name)
-
-					if field_intervals.found then
-						utf_8_value := field_intervals.item_utf_8_value
-						if not utf_8_value.has ('\') and then cursor_8 (utf_8_value).all_ascii then
-							if attached {EL_REFLECTED_STRING_8} table.item as str_8_field then
-								str_8_field.set (current_reflective, utf_8_value.twin)
-							else
-								table.item.set_from_string (current_reflective, utf_8_value)
-							end
-						else
-	--						Has either a JSON escape sequence or UTF-8 sequence
-							value.wipe_out; value.append_utf_8 (utf_8_value)
-							value.unescape (Unescaper)
-							table.item.set_from_string (current_reflective, value)
-						end
-					end
-				end
-			end
+			set_from_json_list (create {JSON_NAME_VALUE_LIST}.make (utf_8_json))
 		end
 
 	set_from_json_list (json_list: JSON_NAME_VALUE_LIST)
 		do
 			if attached field_table as table then
 				from json_list.start until json_list.after loop
-					if table.has_imported_key (json_list.name_item (False)) then
-						table.found_item.set_from_string (current_reflective, json_list.value_item (True))
+					if table.has_imported_key (json_list.item_name (False))
+						and then attached table.found_item as field
+						and then attached json_list.item_value_utf_8 (False) as utf_8_value
+					then
+						if not utf_8_value.has ('\') and then cursor_8 (utf_8_value).all_ascii then
+							if attached {EL_REFLECTED_STRING_8} field as str_8_field then
+								str_8_field.set (current_reflective, utf_8_value.twin)
+							else
+								field.set_from_string (current_reflective, utf_8_value)
+							end
+						else
+							field.set_from_string (current_reflective, json_list.item_value (False))
+						end
 					end
 					json_list.forth
 				end

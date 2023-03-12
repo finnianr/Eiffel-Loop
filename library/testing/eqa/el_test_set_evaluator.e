@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 12:10:52 GMT (Friday 10th March 2023)"
-	revision: "10"
+	date: "2023-03-11 10:58:00 GMT (Saturday 11th March 2023)"
+	revision: "11"
 
 class
 	EL_TEST_SET_EVALUATOR

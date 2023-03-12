@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "32"
+	date: "2023-03-12 12:42:24 GMT (Sunday 12th March 2023)"
+	revision: "33"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -22,6 +22,8 @@ inherit
 	EL_MODULE_TUPLE
 
 	EL_SHARED_TEST_TEXT
+
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 create
 	make
@@ -38,6 +40,7 @@ feature {NONE} -- Initialization
 				["path_split", agent test_path_split],
 				["set_encoding_from_name", agent test_set_encoding_from_name],
 				["skip_empty_split", agent test_skip_empty_split],
+				["spell_numbers", agent test_spell_numbers],
 				["split_and_join_1", agent test_split_and_join_1],
 				["split_and_join_2", agent test_split_and_join_2],
 				["split_and_join_3", agent test_split_and_join_3],
@@ -179,6 +182,29 @@ feature -- Tests
 				end
 			end
 			assert ("same_list", same_list (split_list, "a,b,c"))
+		end
+
+	test_spell_numbers
+		-- SPLIT_STRING_TEST_SET.test_spell_numbers
+		local
+			i: INTEGER; format: EL_FORMAT_INTEGER
+			spelling: STRING
+		do
+			create format.make (1)
+			if attached crc_generator as crc then
+				from i := 0 until i > 99 loop
+					spelling := Format.spell (i)
+					crc.add_string_8 (spelling)
+					lio.put_integer_field (spelling, i)
+					if i > 1 and i \\ 5 = 0 then
+						lio.put_new_line
+					else
+						lio.put_character (' ')
+					end
+					i := i + 1
+				end
+				assert ("checksum OK", crc.checksum = 1339904257)
+			end
 		end
 
 	test_split_and_join_1

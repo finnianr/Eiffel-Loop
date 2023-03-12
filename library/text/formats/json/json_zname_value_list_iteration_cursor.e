@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-03-12 8:02:46 GMT (Sunday 12th March 2023)"
+	revision: "6"
 
 class
 	JSON_ZNAME_VALUE_LIST_ITERATION_CURSOR
@@ -33,13 +33,13 @@ feature -- Access
 	item: TUPLE [name, value: ZSTRING]
 		do
 			target.go_i_th (cursor_index)
-			Result := [target.name_item (False), target.value_item (False)]
+			Result := [target.name_item (False), target.item_value (False)]
 		end
 
 	item_copy: like item
 		do
 			target.go_i_th (cursor_index)
-			Result := [target.name_item (True), target.value_item (True)]
+			Result := [target.name_item (True), target.item_value (True)]
 		end
 
 	cursor_index: INTEGER

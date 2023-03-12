@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-03-12 7:24:03 GMT (Sunday 12th March 2023)"
+	revision: "4"
 
 class
 	JSON_ZNAME_VALUE_LIST
@@ -15,7 +15,7 @@ class
 inherit
 	JSON_NAME_VALUE_LIST
 		rename
-			name_item as name_item_8,
+			item_name as item_name_utf_8,
 			new_cursor as new_intervals_cursor
 		end
 
@@ -36,7 +36,7 @@ feature -- Access
 			valid_item: not off
 		do
 			Result := Name_buffer.empty
-			Result.append_utf_8 (name_item_8 (False))
+			Result.append_utf_8 (item_name_utf_8 (False))
 			Result.unescape (Unescaper)
 			if keep_ref then
 				Result := Result.twin
