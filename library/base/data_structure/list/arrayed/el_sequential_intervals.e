@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-24 11:30:43 GMT (Friday 24th February 2023)"
-	revision: "13"
+	date: "2023-03-13 10:24:02 GMT (Monday 13th March 2023)"
+	revision: "14"
 
 class
 	EL_SEQUENTIAL_INTERVALS
@@ -30,23 +30,19 @@ create
 feature -- Access
 
 	between (a_lower, a_upper: INTEGER): INTEGER_INTERVAL
-			-- interval between `item' and `other' item
+			-- interval between interval `item_lower' to `item_upper' and interval `a_lower' to `a_upper'
+			-- assuming the intervals are not overlapping
 		require
+			valid_item: not off
 			not_overlapping: not item_overlaps (a_lower, a_upper)
 		local
-			l_lower, j: INTEGER
+			lower, upper: INTEGER
 		do
-			j := (index - 1) * 2
-			if attached area_v2 as a then
-				l_lower := a [j]
-
-				if a_upper < l_lower then
-					create Result.make (a_upper + 1, l_lower - 1)
-				else
-					create Result.make (a [j + 1] + 1, a_lower - 1)
-				end
+			lower := i_th_lower_upper (index, $upper)
+			if a_upper < lower then
+				create Result.make (a_upper + 1, lower - 1)
 			else
-				create Result.make (1, 0)
+				create Result.make (upper + 1, lower - 1)
 			end
 		ensure
 			other_before: a_upper < item_lower
@@ -71,15 +67,14 @@ feature -- Status query
 		end
 
 	item_overlaps (a_lower, a_upper: INTEGER): BOOLEAN
+		-- `True' if interval at `index' overlaps with `a_lower' to `a_upper'
+		require
+			valid_item: not off
 		local
-			l_lower, l_upper, j: INTEGER
+			lower, upper: INTEGER; ir: EL_INTERVAL_ROUTINES
 		do
-			if attached area_v2 as a then
-				j := (index - 1) * 2
-				l_lower := a [j]; l_upper := a [j + 1]
-				Result := (a_lower <= l_lower and l_lower <= a_upper) or else
-							  (a_lower <= l_upper and l_upper <= a_upper)
-			end
+			lower := i_th_lower_upper (index, $upper)
+			Result := ir.is_overlapping (ir.overlap_status (lower, upper, a_lower, a_upper))
 		end
 
 	overlaps (other: EL_SEQUENTIAL_INTERVALS): BOOLEAN

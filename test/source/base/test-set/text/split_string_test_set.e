@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-12 12:42:24 GMT (Sunday 12th March 2023)"
-	revision: "33"
+	date: "2023-03-14 17:13:29 GMT (Tuesday 14th March 2023)"
+	revision: "34"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -35,6 +35,7 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["fill_tuple", agent test_fill_tuple],
+				["immutable_string_split", agent test_immutable_string_split],
 				["occurrence_editor", agent test_occurrence_editor],
 				["occurrence_intervals", agent test_occurrence_intervals],
 				["path_split", agent test_path_split],
@@ -73,6 +74,28 @@ feature -- Tests
 			assert ("same symbol", t2.symbol ~ {STRING_32} "€")
 		end
 
+	test_immutable_string_split
+		-- SPLIT_STRING_TEST_SET.test_immutable_string_split
+		local
+			i: INTEGER; i_ching: HEXAGRAM_NAMES
+			name: ZSTRING
+		do
+			if attached crc_generator as crc then
+				from i := 1 until i > 64 loop
+					name := i_ching.i_th_combined (i)
+					crc.add_string (name)
+					lio.put_labeled_string (i.out, name)
+					if i > 1 and i \\ 8 = 0 then
+						lio.put_new_line
+					else
+						lio.put_character (' ')
+					end
+					i := i + 1
+				end
+				lio.put_new_line
+				assert ("checksum OK", crc.checksum = 2937716648)
+			end
+		end
 	test_occurrence_editor
 		note
 			testing: "covers/{EL_STRING_32_OCCURRENCE_EDITOR}.apply",
@@ -186,6 +209,8 @@ feature -- Tests
 
 	test_spell_numbers
 		-- SPLIT_STRING_TEST_SET.test_spell_numbers
+		note
+			testing: "covers/{EL_SPLIT_STRING_LIST}.append_i_th_to"
 		local
 			i: INTEGER; format: EL_FORMAT_INTEGER
 			spelling: STRING
@@ -196,13 +221,14 @@ feature -- Tests
 					spelling := Format.spell (i)
 					crc.add_string_8 (spelling)
 					lio.put_integer_field (spelling, i)
-					if i > 1 and i \\ 5 = 0 then
+					if i > 1 and i \\ 7 = 0 then
 						lio.put_new_line
 					else
 						lio.put_character (' ')
 					end
 					i := i + 1
 				end
+				lio.put_new_line
 				assert ("checksum OK", crc.checksum = 1339904257)
 			end
 		end

@@ -13,19 +13,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-06 14:10:30 GMT (Monday 6th February 2023)"
-	revision: "8"
+	date: "2023-03-14 17:28:23 GMT (Tuesday 14th March 2023)"
+	revision: "9"
 
 class
 	UNENCODED_CHARACTER_LIST_GENERATION
 
 inherit
-	EL_BENCHMARK_COMPARISON
+	STRING_BENCHMARK_COMPARISON
 		redefine
 			make
 		end
-
-	SHARED_HEXAGRAM_STRINGS
 
 create
 	make
@@ -121,11 +119,11 @@ feature {NONE} -- Constants
 	String: STRING_32
 		once
 			create Result.make (100)
-			across Hexagram.chinese_names as chinese loop
+			across Hexagram.Name_list as chinese loop
 				Result.append_character (' ')
 				Result.append (chinese.item.pinyin)
 				Result.append_character (' ')
-				Result.append (chinese.item.characters)
+				Result.append (chinese.item.hanzi)
 			end
 		end
 

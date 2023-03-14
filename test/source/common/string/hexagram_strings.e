@@ -13,8 +13,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-18 12:25:19 GMT (Saturday 18th February 2023)"
-	revision: "17"
+	date: "2023-03-14 17:37:31 GMT (Tuesday 14th March 2023)"
+	revision: "18"
 
 class
 	HEXAGRAM_STRINGS
@@ -28,18 +28,23 @@ inherit
 
 feature -- Access
 
-	Chinese_characters: ARRAYED_LIST [STRING_GENERAL]
+	Hanzi_list: ARRAYED_LIST [READABLE_STRING_GENERAL]
 		once
 			create Result.make (64)
-			across chinese_names as name loop
-				Result.extend (name.item.characters)
+			across Name_list as name loop
+				Result.extend (name.item.hanzi)
 			end
 		end
 
-	chinese_names: EL_ARRAYED_RESULT_LIST [STRING_32, like new_chinese_title]
+	Name_list: EL_ARRAYED_LIST [TUPLE [pinyin, hanzi: IMMUTABLE_STRING_32; number: INTEGER]]
 			--
-		do
-			create Result.make (Chinese_text.split ('%N'), agent new_chinese_title)
+		once
+			create Result.make_filled (64, agent new_name)
+		end
+
+	English_titles_first: STRING
+		once
+			Result := File.line_one (Hexagrams_path)
 		end
 
 	English_titles: EL_STRING_8_LIST
@@ -59,11 +64,14 @@ feature -- Access
 			txt_file.close
 		end
 
-	Hexagram_1_array: ARRAYED_LIST [ARRAY [READABLE_STRING_GENERAL]]
+	Hexagram_1_array: ARRAY [READABLE_STRING_GENERAL]
 		once
-			create Result.make_from_array (<<
-				new_parts_array (1, File.line_one (Hexagrams_path))
-			>>)
+			Result := new_parts_array (1, English_titles_first)
+		end
+
+	String_arrays_first: ARRAYED_LIST [ARRAY [READABLE_STRING_GENERAL]]
+		once
+			create Result.make_from_array (<< Hexagram_1_array >>)
 		end
 
 	String_arrays: ARRAYED_LIST [ARRAY [READABLE_STRING_GENERAL]]
@@ -78,86 +86,20 @@ feature {NONE} -- Implementation
 
 	new_parts_array (index: INTEGER; title: STRING): ARRAY [READABLE_STRING_GENERAL]
 		local
-			chinese_name: like chinese_names.item
+			chinese_name: like Name_list.item
 		do
-			chinese_name := chinese_names [index]
-			Result := << "Hex. #" + index.out, chinese_name.pinyin, chinese_name.characters, title >>
+			chinese_name := Name_list [index]
+			Result := << "Hex. #" + index.out, chinese_name.pinyin, chinese_name.hanzi, title >>
 		end
 
-	new_chinese_title (csv_line: STRING_32): TUPLE [pinyin, characters: STRING_32; number: INTEGER]
+	new_name (i: INTEGER): like Name_list.item
+		local
+			names: HEXAGRAM_NAMES
 		do
-			create Result
-			Tuple.fill (Result, csv_line)
+			Result := [names.i_th_name (i, 2), names.i_th_name (i, 3), i]
 		end
 
 feature -- Constants
-
-	Chinese_text: STRING_32 = "[
-		Qián, 乾, 1
-		Kūn, 坤, 2
-		Zhūn, 屯, 3
-		Méng, 蒙, 4
-		Xū, 需, 5
-		Sòng, 訟, 6
-		Shī, 師, 7
-		Bǐ, 比, 8
-		Xiǎo Chù, 小畜, 9
-		Lǚ, 履, 10
-		Tài, 泰, 11
-		Pǐ, 否, 12
-		Tóng Rén, 同人, 13
-		Dà Yǒu, 大有, 14
-		Qiān, 謙, 15
-		Yù, 豫, 16
-		Suí, 隨, 17
-		Gŭ, 蠱, 18
-		Lín, 臨, 19
-		Guān, 觀, 20
-		Shì Kè, 噬嗑, 21
-		Bì, 賁, 22
-		Bō, 剝, 23
-		Fù, 復, 24
-		Wú Wàng, 無妄, 25
-		Dà Chù, 大畜, 26
-		Yí, 頤, 27
-		Dà Guò, 大過, 28
-		Kǎn, 坎, 29
-		Lí, 離, 30
-		Xián, 咸, 31
-		Héng, 恆, 32
-		Dùn, 遯, 33
-		Dà Zhuàng, 大壯, 34
-		Jìn, 晉, 35
-		Míng Yí, 明夷, 36
-		Jiā Rén, 家人, 37
-		Kuí, 睽, 38
-		Jiǎn, 蹇, 39
-		Xiè, 解, 40
-		Sǔn, 損, 41
-		Yì, 益, 42
-		Guài, 夬, 43
-		Gòu, 姤, 44
-		Cuì, 萃, 45
-		Shēng, 升, 46
-		Kùn, 困, 47
-		Jǐng, 井, 48
-		Gé, 革, 49
-		Dǐng, 鼎, 50
-		Zhèn, 震, 51
-		Gèn, 艮, 52
-		Jiàn, 漸, 53
-		Guī Mèi, 歸妹, 54
-		Fēng, 豐, 55
-		Lǚ, 履, 56
-		Xùn, 巽, 57
-		Duì, 兌, 58
-		Huàn, 渙, 59
-		Jié, 節, 60
-		Zhōng Fú, 中孚, 61
-		Xiǎo Guò, 小過, 62
-		Jì Jì, 既濟, 63
-		Wèi Jì, 未濟, 64
-	]"
 
 	Hexagrams_path: FILE_PATH
 		once

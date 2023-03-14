@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-08 17:43:42 GMT (Wednesday 8th March 2023)"
-	revision: "16"
+	date: "2023-03-14 15:24:32 GMT (Tuesday 14th March 2023)"
+	revision: "17"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -144,17 +144,14 @@ feature -- Status query
 		require
 			valid_item: not off
 		local
-			i: INTEGER; item_upper, item_lower: INTEGER
+			item_upper, item_lower: INTEGER
 		do
-			if attached area_v2 as a then
-				i := (index - 1) * 2
-				item_lower := a [i]; item_upper := a [i + 1]
-				if item_upper - item_lower + 1 = str.count then
-					if str.count = 0 then
-						Result := item_upper + 1 = item_lower
-					else
-						Result := target.same_characters (str, 1, str.count, item_lower)
-					end
+			item_lower := i_th_lower_upper (index, $item_upper)
+			if item_upper - item_lower + 1 = str.count then
+				if str.count = 0 then
+					Result := item_upper + 1 = item_lower
+				else
+					Result := target.same_characters (str, 1, str.count, item_lower)
 				end
 			end
 		end
@@ -245,24 +242,22 @@ feature -- Items
 
 	i_th (i: INTEGER): S
 		local
-			j: INTEGER
+			lower, upper: INTEGER
 		do
-			if attached area_v2 as a then
-				j := (i - 1) * 2
-				Result := target_substring (a [j], a [j + 1])
-			end
+			lower := i_th_lower_upper (i, $upper)
+			Result := target_substring (lower, upper)
 		end
 
 	item: S
 		local
-			i: INTEGER
+			lower, upper, i: INTEGER
 		do
-			if off then
+			i := index
+			if valid_index (i) then
+				lower := i_th_lower_upper (i, $upper)
+				Result := target_substring (lower, upper)
+			else
 				create Result.make (0)
-
-			elseif attached area_v2 as a then
-				i := (index - 1) * 2
-				Result := target_substring (a [i], a [i + 1])
 			end
 		end
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-08 10:06:04 GMT (Wednesday 8th March 2023)"
-	revision: "7"
+	date: "2023-03-14 15:25:20 GMT (Tuesday 14th March 2023)"
+	revision: "8"
 
 class
 	EL_SPLIT_IMMUTABLE_STRING_32_LIST
@@ -20,25 +20,63 @@ inherit
 		undefine
 			fill_by_string, is_valid_character
 		redefine
-			item
+			item, i_th
 		end
 
 	EL_STRING_32_OCCURRENCE_IMPLEMENTATION [IMMUTABLE_STRING_32]
 
+	EL_SHARED_IMMUTABLE_32_MANAGER
+
 create
-	make_by_string, make_adjusted, make_adjusted_by_string, make_empty, make
+	make_by_string, make_adjusted, make_adjusted_by_string,
+	make_shared_by_string, make_shared_adjusted, make_shared_adjusted_by_string,
+	make_empty, make
+
+feature {NONE} -- Initialization
+
+	make_shared (a_target: STRING_32; delimiter: CHARACTER_32)
+		do
+			make (new_shared (a_target), delimiter)
+		end
+
+	make_shared_adjusted (a_target: STRING_32; delimiter: CHARACTER_32; a_adjustments: INTEGER)
+		do
+			make_adjusted (new_shared (a_target), delimiter, a_adjustments)
+		end
+
+	make_shared_adjusted_by_string (a_target: STRING_32; delimiter: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
+		do
+			make_adjusted_by_string (new_shared (a_target), delimiter, a_adjustments)
+		end
+
+	make_shared_by_string (a_target: STRING_32; delimiter: READABLE_STRING_GENERAL)
+		do
+			make_by_string (new_shared (a_target), delimiter)
+		end
 
 feature -- Access
 
 	item: IMMUTABLE_STRING_32
 		-- current iteration split item
 		local
-			i: INTEGER
+			lower, upper: INTEGER
 		do
-			if not off and then attached area_v2 as a then
-				i := (index - 1) * 2
-				Result := target.shared_substring (a [i], a [i + 1])
-			end
+			lower := i_th_lower_upper (index, $upper)
+			Result := target.shared_substring (lower, upper)
 		end
 
+	i_th (i: INTEGER): IMMUTABLE_STRING_32
+		local
+			lower, upper: INTEGER
+		do
+			lower := i_th_lower_upper (i, $upper)
+			Result := target.shared_substring (lower, upper)
+		end
+
+feature {NONE} -- Implementation
+
+	new_shared (a_target: STRING_32): IMMUTABLE_STRING_32
+		do
+			Result := Immutable_32.new_substring (a_target.area, 0, a_target.count)
+		end
 end

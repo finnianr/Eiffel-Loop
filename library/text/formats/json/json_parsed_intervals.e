@@ -1,13 +1,14 @@
 note
-	description: "List of JSON name and value substring intervals"
+	description: "Basic JSON parser that finds intervals of data values and identifiers"
+	notes: "Group identifiers are ignored, so this is not a full recursive parser"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-12 18:27:34 GMT (Sunday 12th March 2023)"
-	revision: "7"
+	date: "2023-03-12 18:35:07 GMT (Sunday 12th March 2023)"
+	revision: "8"
 
 class
 	JSON_PARSED_INTERVALS
@@ -42,10 +43,8 @@ feature {NONE} -- Initialization
 			from i := 0 until i = l_area.count loop
 				colon_index := l_area [i]
 				upper := colon_index - 2
-				if a_utf_8_json.valid_index (upper)
-					and then c8.is_c_identifier (a_utf_8_json [upper], False)
-				then
-				-- is the last character of identifier
+				if upper >= 1 and then c8.is_c_identifier (a_utf_8_json [upper], False) then
+				-- is the last character of identifier followed by quote mark
 					valid_upper := a_utf_8_json [upper + 1] = '"'
 				else
 					valid_upper := False
@@ -170,8 +169,8 @@ feature {NONE} -- Constants
 	Standard_value_table: EL_HASH_TABLE [STRING, CHARACTER]
 		once
 			create Result.make (<<
-				['f', "false"],
 				['t', "true"],
+				['f', "false"],
 				['n', "null"]
 			>>)
 		end

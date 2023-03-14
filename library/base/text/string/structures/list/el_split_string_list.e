@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 13:43:18 GMT (Monday 6th March 2023)"
-	revision: "40"
+	date: "2023-03-13 9:14:44 GMT (Monday 13th March 2023)"
+	revision: "41"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -60,8 +60,20 @@ feature {NONE} -- Initialization
 feature -- Basic operations
 
 	append_item_to (str: like target)
+		require
+			valid_index: not off
 		do
-			str.append_substring (target, item_start_index, item_end_index)
+			append_i_th_to (index, str)
+		end
+
+	append_i_th_to (i: INTEGER; str: like target)
+		require
+			valid_index: valid_index (i)
+		local
+			lower, upper: INTEGER
+		do
+			lower := i_th_lower_upper (i, $upper)
+			str.append_substring (target, lower, upper)
 		end
 
 feature -- Shared items
@@ -80,45 +92,32 @@ feature -- Shared items
 	first_item: S
 		do
 			Result := empty_item
-			if count > 0 and then attached area_v2 as a then
-				append_substring (Result, a [0], a [1])
+			if count > 0 then
+				append_i_th_to (1, Result)
 			end
 		end
 
 	i_th (i: INTEGER): S
-		local
-			j: INTEGER
 		do
 			Result := empty_item
-			j := (i - 1) * 2
-			if attached area_v2 as a then
-				append_substring (Result, a [j], a [j + 1])
-			end
+			append_i_th_to (i, Result)
 		end
 
 	item: S
 		-- current iteration split item
 		-- (DO NOT KEEP REFERENCES)
-		local
-			i: INTEGER
 		do
 			Result := empty_item
-			if not off and then attached area_v2 as a then
-				i := (index - 1) * 2
-				append_substring (Result, a [i], a [i + 1])
-			end
+			append_item_to (Result)
 		end
 
 	last_item: S
 		-- last split item
 		-- (DO NOT KEEP REFERENCES)
-		local
-			i: INTEGER
 		do
 			Result := empty_item
-			if count > 0 and then attached area_v2 as a then
-				i := a.count - 2
-				append_substring (Result, a [i], a [i + 1])
+			if count > 0 then
+				append_i_th_to (count, Result)
 			end
 		end
 

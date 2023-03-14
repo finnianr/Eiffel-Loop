@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-08 17:42:27 GMT (Wednesday 8th March 2023)"
-	revision: "10"
+	date: "2023-03-14 12:47:43 GMT (Tuesday 14th March 2023)"
+	revision: "11"
 
 class
 	EL_ARRAYED_INTERVAL_LIST
@@ -87,19 +87,23 @@ feature -- First item
 
 	first_count: INTEGER
 		do
-			if attached area_v2 as a then
-				Result := a [1] - a [0] + 1
+			if count > 0 then
+				Result := i_th_count (1)
 			end
 		end
 
 	first_lower: INTEGER
 		do
-			Result := area_v2 [0]
+			if attached area_v2 as a and then a.count > 0 then
+				Result := area_v2 [0]
+			end
 		end
 
 	first_upper: INTEGER
 		do
-			Result := area_v2 [1]
+			if attached area_v2 as a and then a.count > 0 then
+				Result := area_v2 [1]
+			end
 		end
 
 feature -- i'th item
@@ -108,24 +112,20 @@ feature -- i'th item
 		require
 			valid_index: valid_index (i)
 		local
-			j: INTEGER; ir: EL_INTERVAL_ROUTINES
+			lower, upper: INTEGER; ir: EL_INTERVAL_ROUTINES
 		do
-			j := (i - 1) * 2
-			if attached area_v2 as a and then a.valid_index (j) then
-				Result := ir.compact (a [j], a [j + 1])
-			end
+			lower := i_th_lower_upper (i, $upper)
+			Result := ir.compact (lower, upper)
 		end
 
 	i_th_count (i: INTEGER): INTEGER
 		require
 			valid_index: valid_index (i)
 		local
-			j: INTEGER
+			lower, upper: INTEGER
 		do
-			j := (i - 1) * 2
-			if attached area_v2 as a then
-				Result := a [j + 1] - a [j] + 1
-			end
+			lower := i_th_lower_upper (i, $upper)
+			Result := upper - lower + 1
 		end
 
 	i_th_lower (i: INTEGER): INTEGER
@@ -133,6 +133,26 @@ feature -- i'th item
 			valid_index: valid_index (i)
 		do
 			Result := area_v2 [(i - 1) * 2]
+		end
+
+	i_th_lower_upper (i: INTEGER; upper_ptr: POINTER): INTEGER
+		-- i'th lower index setting integer at `upper_ptr' memory location as a side-effect
+		require
+			attached_upper: upper_ptr /= default_pointer
+		local
+			p: EL_POINTER_ROUTINES; j, k: INTEGER
+		do
+			if attached area_v2 as a then
+				j := (i - 1) * 2; k := j + 1
+				if k < a.count then
+					Result := a [j]
+					p.put_integer_32 (a [k], upper_ptr)
+				else
+					Result := 1
+				end
+			else
+				Result := 1
+			end
 		end
 
 	i_th_upper (i: INTEGER): INTEGER
@@ -144,14 +164,20 @@ feature -- i'th item
 
 feature -- Cursor item
 
-	item_count: INTEGER
-		local
-			j: INTEGER
+	item_compact: INTEGER_64
+		require
+			valid_item: not off
 		do
-			j := (index - 1) * 2
-			if attached area_v2 as a then
-				Result := a [j + 1] - a [j] + 1
+			if not off then
+				Result := i_th_compact (index)
 			end
+		end
+
+	item_count: INTEGER
+		require
+			valid_item: not off
+		do
+			Result := i_th_count (index)
 		end
 
 	item_interval: INTEGER_INTERVAL
@@ -172,23 +198,24 @@ feature -- Cursor item
 feature -- Last item
 
 	last_count: INTEGER
-		local
-			j: INTEGER
 		do
-			j := (count - 1) * 2
-			if attached area_v2 as a then
-				Result := a [j + 1] - a [j] + 1
+			if count > 0 then
+				Result := i_th_count (count)
 			end
 		end
 
 	last_lower: INTEGER
 		do
-			Result := area_v2 [(count - 1) * 2]
+			if count > 0 then
+				Result := i_th_lower (count)
+			end
 		end
 
 	last_upper: INTEGER
 		do
-			Result := area_v2 [(count - 1) * 2 + 1]
+			if count > 0 then
+				Result := i_th_upper (count)
+			end
 		end
 
 feature -- Conversion
@@ -308,7 +335,7 @@ feature -- Removal
 			moved_items: n < old count
 				implies old i_th_compact (n + 1) = i_th_compact (1) and old i_th_compact (count) = i_th_compact (count)
 
-			same_item: old i_th_compact (index) = i_th_compact (index)
+			same_item: old (not off and index > n) implies old item_compact = item_compact
 		end
 
 	remove_item_head (n: INTEGER)

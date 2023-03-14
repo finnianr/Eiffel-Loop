@@ -12,16 +12,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-06 14:12:32 GMT (Monday 6th February 2023)"
-	revision: "8"
+	date: "2023-03-13 14:56:52 GMT (Monday 13th March 2023)"
+	revision: "9"
 
 class
 	MAKE_GENERAL_COMPARISON
 
 inherit
-	EL_BENCHMARK_COMPARISON
-
-	EL_SHARED_TEST_TEXT
+	STRING_BENCHMARK_COMPARISON
 
 create
 	make

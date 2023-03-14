@@ -14,14 +14,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-06 11:00:41 GMT (Monday 6th February 2023)"
-	revision: "9"
+	date: "2023-03-13 15:19:07 GMT (Monday 13th March 2023)"
+	revision: "10"
 
 class
 	LINE_STATE_MACHINE_COMPARISON
 
 inherit
-	EL_BENCHMARK_COMPARISON
+	STRING_BENCHMARK_COMPARISON
 
 	EL_MODULE_FILE
 

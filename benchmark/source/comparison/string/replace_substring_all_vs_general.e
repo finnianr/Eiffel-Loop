@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-20 12:20:37 GMT (Monday 20th February 2023)"
-	revision: "11"
+	date: "2023-03-14 17:39:39 GMT (Tuesday 14th March 2023)"
+	revision: "12"
 
 class
 	REPLACE_SUBSTRING_ALL_VS_GENERAL
@@ -44,27 +44,16 @@ feature {NONE} -- replace_substring_all
 		local
 			str: ZSTRING
 		do
-			str := Hexagram_1_description
-			str.replace_substring_all (Chinese_1, Chinese_2)
+			str := hexagram_1_title
+			str.replace_substring_all (Hanzi_strings [1], Hanzi_strings [2])
 		end
 
 	replace_substring_general_all
 		local
 			str: ZSTRING
 		do
-			str := Hexagram_1_description
-			str.replace_substring_all (Chinese [1], Chinese [2])
+			str := hexagram_1_title
+			str.replace_substring_all (Hanzi_strings_32 [1], Hanzi_strings_32 [2])
 		end
 
-feature {NONE} -- Constants
-
-	Chinese_1: ZSTRING
-		once
-			Result := Chinese [1]
-		end
-
-	Chinese_2: ZSTRING
-		once
-			Result := Chinese [2]
-		end
 end

@@ -1,16 +1,13 @@
 note
 	description: "Substring index comparison"
-	notes: "[
-
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-19 17:44:38 GMT (Sunday 19th February 2023)"
-	revision: "11"
+	date: "2023-03-14 17:39:39 GMT (Tuesday 14th March 2023)"
+	revision: "12"
 
 class
 	SUBSTRING_INDEX_COMPARISON
@@ -31,8 +28,8 @@ feature -- Basic operations
 
 		do
 			compare ("compare_substring_index", <<
-				["substring_index ({ZSTRING})", 		agent substring_index_1 (new_zstring (Chinese [1]))],
-				["substring_index ({STRING_32})",	agent substring_index_2 (Chinese [1])]
+				["substring_index ({ZSTRING})", 		agent substring_index_1 (Hanzi_strings [1])],
+				["substring_index ({STRING_32})",	agent substring_index_2 (Hanzi_strings_32 [1])]
 			>>)
 		end
 
@@ -42,14 +39,14 @@ feature {NONE} -- substring_index
 		local
 			pos: INTEGER
 		do
-			pos := Hexagram_1_description.substring_index (str, 1)
+			pos := hexagram_1_title.substring_index (str, 1)
 		end
 
 	substring_index_2 (str: STRING_32)
 		local
 			pos: INTEGER
 		do
-			pos := Hexagram_1_description.substring_index (str, 1)
+			pos := hexagram_1_title.substring_index (str, 1)
 		end
 
 end

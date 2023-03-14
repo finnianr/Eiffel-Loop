@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 12:32:35 GMT (Saturday 25th February 2023)"
-	revision: "7"
+	date: "2023-03-14 17:50:20 GMT (Tuesday 14th March 2023)"
+	revision: "8"
 
 deferred class
 	STRING_BENCHMARK_COMPARISON
@@ -28,13 +28,34 @@ inherit
 
 feature {NONE} -- Constants
 
-	Chinese: ARRAY [STRING_32]
+	Hanzi_strings: ARRAY [ZSTRING]
+		local
+			names: HEXAGRAM_NAMES
 		once
-			Result := << {STRING_32} "(屯)", {STRING_32} "(乾)" >>
+			Result := << names.i_th_combined (1),names.i_th_combined (2) >>
+			across Result as list loop
+				list.item.keep_tail (3)
+			end
 		end
 
-	Hexagram_1_description: STRING_32 = "[
-		Hex. #1 - Qián (屯) - The Creative, Creating, Pure Yang, Inspiring Force, Dragon
-	]"
+	Hanzi_strings_32: ARRAY [STRING_32]
+		once
+			Result := << Hanzi_strings [1], Hanzi_strings [1] >>
+		end
+
+	Hexagram_1_title_list: EL_STRING_32_LIST
+		local
+			names: HEXAGRAM_NAMES
+		once
+			if attached Hexagram.Hexagram_1_array as a then
+				create Result.make_from_general (<< a [1], a [4], names.i_th_combined (1) >>)
+			end
+		end
+
+	Hexagram_1_title: STRING_32
+		-- Hex. #1 - The Creative, Creating, Pure Yang, Inspiring Force, Dragon - Qián (屯)
+		once
+			Result := Hexagram_1_title_list.joined_with_string (" - ")
+		end
 
 end

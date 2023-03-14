@@ -26,16 +26,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-24 13:40:22 GMT (Friday 24th February 2023)"
-	revision: "1"
+	date: "2023-03-13 14:16:51 GMT (Monday 13th March 2023)"
+	revision: "2"
 
 class
 	ARRAYED_INTERVAL_LIST_COMPARISON
 
 inherit
-	EL_BENCHMARK_COMPARISON
-
-	EL_SHARED_TEST_TEXT
+	STRING_BENCHMARK_COMPARISON
 
 create
 	make
