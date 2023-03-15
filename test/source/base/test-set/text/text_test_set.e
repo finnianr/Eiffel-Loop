@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "17"
+	date: "2023-03-15 17:00:43 GMT (Wednesday 15th March 2023)"
+	revision: "18"
 
 class
 	TEXT_TEST_SET
@@ -79,17 +79,22 @@ feature -- Tests
 		end
 
 	test_convert_string_type_descriptions
+		-- TEXT_TEST_SET.test_convert_string_type_descriptions
 		note
 			testing: "covers/{EL_READABLE_STRING_GENERAL_TO_TYPE}.new_type_description"
 		do
 			if attached crc_generator as crc then
-				output_type_descriptions (crc)
-				lio.put_natural_field ("Checksum", crc.checksum)
-				lio.put_new_line
-				if crc.checksum = 176473444 then
-					assert ("Expected descriptions", True)
-				else
-					output_type_descriptions (Void)
+				across Convert_string.type_list as list loop
+					if attached Convert_string.type_descripton (list.item) as description then
+						crc.add_string_8 (description)
+						lio.put_labeled_string (list.item.name, description)
+						lio.put_new_line
+					end
+				end
+				if crc.checksum /= 1956217266 then
+					lio.put_natural_field ("Actual checksum", crc.checksum)
+					lio.put_new_line
+					assert ("Expected descriptions", False)
 				end
 			end
 		end
@@ -276,18 +281,6 @@ feature {NONE} -- Implementation
 			create Result.make (escape, {STRING_32} "t:=%T, ь:=в, и:=N")
 		end
 
-	output_type_descriptions (crc_check: detachable EL_CYCLIC_REDUNDANCY_CHECK_32)
-		do
-			across Convert_string.type_list as list loop
-				if attached Convert_string.type_descripton (list.item) as description then
-					if attached crc_check as crc then
-						crc.add_string_8 (description)
-					else
-						lio.put_line (description)
-					end
-				end
-			end
-		end
 feature {NONE} -- Constants
 
 	Latin: STRING = "Latin"

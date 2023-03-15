@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 13:37:49 GMT (Wednesday 15th March 2023)"
-	revision: "1"
+	date: "2023-03-15 16:42:20 GMT (Wednesday 15th March 2023)"
+	revision: "2"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_TO_NUMERIC [N -> NUMERIC]
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_READABLE_STRING_GENERAL_TO_TYPE [N]
 		redefine
-			is_convertible
+			is_convertible, new_type_description
 		end
 
 	NUMERIC_INFORMATION
@@ -25,7 +25,7 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
-feature -- Contract Support
+feature -- Status query
 
 	is_convertible (str: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if `str' is convertible to type `N'
@@ -38,6 +38,11 @@ feature -- Contract Support
 			end
 		end
 
+	is_integer: BOOLEAN
+		do
+			Result := False
+		end
+
 feature {NONE} -- Implementation
 
 	converted (str: READABLE_STRING_GENERAL): STRING_TO_INTEGER_CONVERTOR
@@ -48,12 +53,25 @@ feature {NONE} -- Implementation
 			s.shared (str).parse (Result, Type_no_limitation)
 		end
 
+	new_type_description: STRING
+		-- terse English language description of type
+		do
+			if is_integer then
+				Result := Precursor
+			else
+				Result := Precursor + once " number"
+			end
+		end
+
 	numeric_type: INTEGER
 		deferred
 		end
+
+feature {NONE} -- Constants
 
 	Convertor: STRING_TO_INTEGER_CONVERTOR
 		once
 			Result := Accessible_string_8.Ctoi_convertor
 		end
+
 end

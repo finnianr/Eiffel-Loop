@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 16:19:57 GMT (Wednesday 15th March 2023)"
-	revision: "36"
+	date: "2023-03-15 16:23:25 GMT (Wednesday 15th March 2023)"
+	revision: "37"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -118,6 +118,7 @@ feature -- Tests
 				assert ("checksum OK", crc.checksum = 2937716648)
 			end
 		end
+		
 	test_occurrence_editor
 		note
 			testing: "covers/{EL_STRING_32_OCCURRENCE_EDITOR}.apply",

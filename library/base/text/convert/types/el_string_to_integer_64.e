@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 13:39:17 GMT (Wednesday 15th March 2023)"
-	revision: "5"
+	date: "2023-03-15 16:35:17 GMT (Wednesday 15th March 2023)"
+	revision: "6"
 
 class
 	EL_STRING_TO_INTEGER_64
@@ -16,6 +16,8 @@ inherit
 	EL_READABLE_STRING_GENERAL_TO_NUMERIC [INTEGER_64]
 		rename
 			numeric_type as type_integer_64
+		redefine
+			is_integer
 		end
 
 feature -- Basic operations
@@ -32,5 +34,9 @@ feature -- Conversion
 		do
 			Result := converted (str).parsed_integer_64
 		end
+
+feature -- Constants
+
+	is_integer: BOOLEAN = True
 
 end

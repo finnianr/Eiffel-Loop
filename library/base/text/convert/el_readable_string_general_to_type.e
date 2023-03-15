@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 13:11:56 GMT (Wednesday 15th March 2023)"
-	revision: "10"
+	date: "2023-03-15 16:41:48 GMT (Wednesday 15th March 2023)"
+	revision: "11"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_TO_TYPE [G]
@@ -48,15 +48,15 @@ feature -- Status query
 			Result := True
 		end
 
-	is_path: BOOLEAN
-		do
-			Result := False
-		end
-
 	is_latin_1: BOOLEAN
 		-- `True' if type can be always be represented by Latin-1 encoded string
 		do
 			Result := True
+		end
+
+	is_path: BOOLEAN
+		do
+			Result := False
 		end
 
 feature -- Conversion
@@ -108,9 +108,6 @@ feature {NONE} -- Implementation
 				if last_part.is_integer then
 					Result := last_part + "-bit " + name.substring (1, underscore_index - 1)
 					Result.to_lower
-					if across << "REAL", "NATURAL" >> as list some name.has_substring (list.item) end then
-						Result.append (" number")
-					end
 				else
 					Result := name
 					Result.to_lower
@@ -121,4 +118,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
+feature {NONE} -- Constants
+
+	Number_suffix: STRING = " number"
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 13:42:24 GMT (Wednesday 15th March 2023)"
-	revision: "1"
+	date: "2023-03-15 16:42:56 GMT (Wednesday 15th March 2023)"
+	revision: "2"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_TO_REAL [N -> NUMERIC]
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_READABLE_STRING_GENERAL_TO_TYPE [N]
 		redefine
-			is_convertible
+			is_convertible, new_type_description
 		end
 
 	NUMERIC_INFORMATION
@@ -50,6 +50,12 @@ feature {NONE} -- Implementation
 
 	is_real (a_convertor: like Convertor): BOOLEAN
 		deferred
+		end
+
+	new_type_description: STRING
+		-- terse English language description of type
+		do
+			Result := Precursor + once " number"
 		end
 
 	numeric_type: INTEGER
