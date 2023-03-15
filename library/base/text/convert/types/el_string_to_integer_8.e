@@ -6,24 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-03-15 13:39:40 GMT (Wednesday 15th March 2023)"
+	revision: "5"
 
 class
 	EL_STRING_TO_INTEGER_8
 
 inherit
-	EL_READABLE_STRING_GENERAL_TO_TYPE [INTEGER_8]
-		redefine
-			is_convertible
-		end
-
-feature -- Contract Support
-
-	is_convertible (str: READABLE_STRING_GENERAL): BOOLEAN
-		-- `True' if `str' is convertible to type `INTEGER_8'
-		do
-			Result := str.is_integer_8
+	EL_READABLE_STRING_GENERAL_TO_NUMERIC [INTEGER_8]
+		rename
+			numeric_type as type_integer_8
 		end
 
 feature -- Basic operations
@@ -38,7 +30,7 @@ feature -- Conversion
 
 	as_type (str: READABLE_STRING_GENERAL): INTEGER_8
 		do
-			Result := str.to_integer_8
+			Result := converted (str).parsed_integer_8
 		end
 
 end

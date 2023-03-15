@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-17 9:02:29 GMT (Saturday 17th December 2022)"
-	revision: "9"
+	date: "2023-03-15 13:11:56 GMT (Wednesday 15th March 2023)"
+	revision: "10"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_TO_TYPE [G]
@@ -19,6 +19,8 @@ inherit
 			new_item as new_type_description,
 			actual_item as actual_type_description
 		end
+
+	EL_TYPE_CONVERSION_HANDLER
 
 	EL_MODULE_TUPLE; EL_MODULE_REUSEABLE
 

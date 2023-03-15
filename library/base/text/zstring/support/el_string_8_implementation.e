@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 10:47:32 GMT (Sunday 5th March 2023)"
-	revision: "11"
+	date: "2023-03-15 11:06:01 GMT (Wednesday 15th March 2023)"
+	revision: "12"
 
 class
 	EL_STRING_8_IMPLEMENTATION
+
+inherit
+	ANY EL_SEARCH_HANDLER
 
 create
 	make

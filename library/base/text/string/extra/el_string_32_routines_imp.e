@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 11:10:19 GMT (Sunday 5th March 2023)"
-	revision: "32"
+	date: "2023-03-15 11:19:47 GMT (Wednesday 15th March 2023)"
+	revision: "33"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -19,6 +19,8 @@ inherit
 		rename
 			cursor_32 as cursor
 		end
+
+	EL_STRING_32_CONSTANTS
 
 feature -- Status query
 
@@ -165,7 +167,7 @@ feature {NONE} -- Implementation
 			Result := str.last_index_of (c, start_index_from_end)
 		end
 
-feature {EL_OCCURRENCE_INTERVALS} -- Constants
+feature {NONE} -- Constants
 
 	Character_string_table: EL_FILLED_STRING_32_TABLE
 		once
@@ -173,11 +175,8 @@ feature {EL_OCCURRENCE_INTERVALS} -- Constants
 		end
 
 	String_searcher: STRING_32_SEARCHER
-		local
-			s: EL_STRING_32
 		once
-			create s.make_empty
-			Result := s.string_searcher
+			Result := Accessible_string_32.string_searcher
 		end
 
 end

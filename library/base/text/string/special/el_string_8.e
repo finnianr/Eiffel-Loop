@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 11:12:30 GMT (Sunday 5th March 2023)"
-	revision: "18"
+	date: "2023-03-15 11:11:59 GMT (Wednesday 15th March 2023)"
+	revision: "19"
 
 class
 	EL_STRING_8
@@ -15,8 +15,9 @@ class
 inherit
 	STRING_8
 		export
-			{EL_ZSTRING_TO_BASIC_TYPES} is_valid_integer_or_natural
-			{EL_STRING_8_IMPLEMENTATION, EL_STRING_8_ROUTINES_IMP} string_searcher
+			{EL_SEARCH_HANDLER} String_searcher
+			{EL_TYPE_CONVERSION_HANDLER}
+				Ctoi_convertor, Ctor_convertor, is_valid_integer_or_natural
 		end
 
 	EL_SHARED_STRING_8_CURSOR

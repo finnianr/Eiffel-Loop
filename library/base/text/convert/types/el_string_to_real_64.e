@@ -6,24 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-03-15 15:47:00 GMT (Wednesday 15th March 2023)"
+	revision: "5"
 
 class
 	EL_STRING_TO_REAL_64
 
 inherit
-	EL_READABLE_STRING_GENERAL_TO_TYPE [REAL_64]
-		redefine
-			is_convertible
-		end
-
-feature -- Contract Support
-
-	is_convertible (str: READABLE_STRING_GENERAL): BOOLEAN
-		-- `True' if `str' is convertible to type `REAL_64'
-		do
-			Result := str.is_real_64
+	EL_READABLE_STRING_GENERAL_TO_REAL [REAL_64]
+		rename
+			numeric_type as type_double
 		end
 
 feature -- Basic operations
@@ -38,7 +30,14 @@ feature -- Conversion
 
 	as_type (str: READABLE_STRING_GENERAL): REAL_64
 		do
-			Result := str.to_real_64
+			Result := converted (str).parsed_double
+		end
+
+feature {NONE} -- Implementation
+
+	is_real (a_convertor: like Convertor): BOOLEAN
+		do
+			Result := a_convertor.is_integral_double
 		end
 
 end

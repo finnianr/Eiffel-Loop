@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-28 9:07:52 GMT (Tuesday 28th February 2023)"
-	revision: "8"
+	date: "2023-03-15 12:02:03 GMT (Wednesday 15th March 2023)"
+	revision: "9"
 
 class
 	EL_STRING_32_ITERATION_CURSOR
@@ -22,15 +22,13 @@ inherit
 
 	EL_SHARED_UNICODE_PROPERTY
 
+	EL_STRING_32_CONSTANTS
+		rename
+			empty_string_32 as empty_target
+		end
+
 create
 	make_empty
-
-feature {NONE} -- Initialization
-
-	make_empty
-		do
-			make ("")
-		end
 
 feature -- Transforms
 
@@ -39,6 +37,25 @@ feature -- Transforms
 			create Result.make (target.count)
 			area.do_if_in_bounds (agent Result.extend, included, area_first_index, area_last_index)
 			Result.trim
+		end
+
+feature -- Basic operations
+
+	append_to (destination: SPECIAL [CHARACTER_32]; source_index, n: INTEGER)
+		do
+			destination.copy_data (area, source_index + area_first_index, destination.count, n)
+		end
+
+	parse (convertor: STRING_TO_NUMERIC_CONVERTOR; type: INTEGER)
+		local
+			i, last_i: INTEGER; l_area: like area
+		do
+			convertor.reset (type)
+			last_i := area_last_index; l_area := area
+			from i := area_first_index until i > last_i loop
+				convertor.parse_character (l_area [i].to_character_8)
+				i := i + 1
+			end
 		end
 
 feature -- Status query
@@ -109,11 +126,6 @@ feature -- Measurement
 		end
 
 feature {NONE} -- Implementation
-
-	append_to (destination: SPECIAL [CHARACTER_32]; source_index, n: INTEGER)
-		do
-			destination.copy_data (area, source_index + area_first_index, destination.count, n)
-		end
 
 	i_th_character_32 (a_area: SPECIAL [CHARACTER_32]; i: INTEGER): CHARACTER_32
 		do

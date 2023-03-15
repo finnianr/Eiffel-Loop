@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 11:11:23 GMT (Sunday 5th March 2023)"
-	revision: "7"
+	date: "2023-03-15 11:11:59 GMT (Wednesday 15th March 2023)"
+	revision: "8"
 
 class
 	EL_STRING_32
@@ -15,7 +15,8 @@ class
 inherit
 	STRING_32
 		export
-			{EL_STRING_32_ROUTINES_IMP} String_searcher
+			{EL_SEARCH_HANDLER} String_searcher
+			{EL_TYPE_CONVERSION_HANDLER} Ctoi_convertor, Ctor_convertor
 		end
 
 create

@@ -8,14 +8,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 10:43:02 GMT (Monday 6th March 2023)"
-	revision: "11"
+	date: "2023-03-15 11:08:30 GMT (Wednesday 15th March 2023)"
+	revision: "12"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL]
 
 inherit
 	STRING_HANDLER
+
+	EL_SEARCH_HANDLER
 
 feature -- Access
 

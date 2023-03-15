@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 10:13:05 GMT (Wednesday 15th March 2023)"
-	revision: "21"
+	date: "2023-03-15 15:38:57 GMT (Wednesday 15th March 2023)"
+	revision: "22"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -249,7 +249,7 @@ feature {NONE} -- Implementation
 	cached_split_list (csv_list: READABLE_STRING_GENERAL; separator: CHARACTER_32; adjustments: INTEGER): like new_split_list
 		do
 			if attached split_list_cache.item (csv_list.generating_type) as list then
-				list.fill (csv_list, separator, adjustments)
+				list.fill_general (csv_list, separator, adjustments)
 				Result := list
 			else
 				Result := new_split_list ({STRING_8})
@@ -289,19 +289,10 @@ feature {NONE} -- Implementation
 			if type.conforms_to ({ZSTRING}) then
 				create {EL_SPLIT_ZSTRING_LIST} Result.make_empty
 
-			elseif type.conforms_to ({STRING_8}) then
-				create {EL_SPLIT_STRING_8_LIST} Result.make_empty
-
-			elseif type.conforms_to ({STRING_32}) then
-				create {EL_SPLIT_STRING_32_LIST} Result.make_empty
-
-			elseif type.conforms_to ({IMMUTABLE_STRING_8}) then
-				create {EL_SPLIT_STRING_8_LIST} Result.make_empty
-
-			elseif type.conforms_to ({IMMUTABLE_STRING_32}) then
+			elseif type.conforms_to ({READABLE_STRING_32}) then
 				create {EL_SPLIT_IMMUTABLE_STRING_32_LIST} Result.make_empty
 			else
-				create {EL_SPLIT_STRING_8_LIST} Result.make_empty
+				create {EL_SPLIT_IMMUTABLE_STRING_8_LIST} Result.make_empty
 			end
 		end
 

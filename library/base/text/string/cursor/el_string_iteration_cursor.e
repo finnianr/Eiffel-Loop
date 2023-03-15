@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-28 9:42:20 GMT (Tuesday 28th February 2023)"
-	revision: "3"
+	date: "2023-03-15 12:05:01 GMT (Wednesday 15th March 2023)"
+	revision: "4"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -20,6 +20,17 @@ inherit
 	EL_SHARED_ZSTRING_CODEC
 
 	STRING_HANDLER
+
+feature {NONE} -- Initialization
+
+	make (t: like target)
+		deferred
+		end
+
+	make_empty
+		do
+			make (empty_target)
+		end
 
 feature -- Basic operations
 
@@ -45,6 +56,10 @@ feature -- Basic operations
 				end
 				destination [i] := '%U'
 			end
+		end
+
+	parse (convertor: STRING_TO_NUMERIC_CONVERTOR; type: INTEGER)
+		deferred
 		end
 
 feature -- Status query
@@ -85,7 +100,15 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	empty_target: like target
+		deferred
+		end
+
 	i_th_character_32 (a_area: like area; i: INTEGER): CHARACTER_32
+		deferred
+		end
+
+	target: READABLE_STRING_GENERAL
 		deferred
 		end
 

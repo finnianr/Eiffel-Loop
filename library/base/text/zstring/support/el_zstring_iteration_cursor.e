@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-01 17:25:42 GMT (Wednesday 1st March 2023)"
-	revision: "10"
+	date: "2023-03-15 12:04:00 GMT (Wednesday 15th March 2023)"
+	revision: "11"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -28,6 +28,11 @@ inherit
 			{NONE} fill_z_codes
 		end
 
+	EL_ZSTRING_CONSTANTS
+		rename
+			empty_string as empty_target
+		end
+
 	DISPOSABLE
 		export
 			{NONE} all
@@ -36,14 +41,18 @@ inherit
 		end
 
 create
-	make
+	make, make_empty
 
-feature {NONE} -- Initialization
+feature {EL_SHARED_ZSTRING_CURSOR} -- Initialization
 
 	make (a_target: EL_READABLE_ZSTRING)
 		do
 			Precursor (a_target)
-			block_index_ptr := block_index_ptr.memory_calloc (1, {PLATFORM}.Integer_32_bytes)
+			if block_index_ptr = default_pointer then
+				block_index_ptr := block_index_ptr.memory_calloc (1, {PLATFORM}.Integer_32_bytes)
+			else
+				block_index_ptr.memory_set (0, {PLATFORM}.Integer_32_bytes)
+			end
 			area := a_target.area
 			unicode_table := Shared_unicode_table
 		end
@@ -140,6 +149,18 @@ feature -- Basic operations
 					destination.extend (uc)
 					i := i + 1
 				end
+			end
+		end
+
+	parse (convertor: STRING_TO_NUMERIC_CONVERTOR; type: INTEGER)
+		local
+			i, last_i: INTEGER; l_area: like area
+		do
+			convertor.reset (type)
+			last_i := area_last_index; l_area := area
+			from i := area_first_index until i > last_i loop
+				convertor.parse_character (l_area [i])
+				i := i + 1
 			end
 		end
 

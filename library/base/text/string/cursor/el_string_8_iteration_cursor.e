@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-02 9:55:03 GMT (Thursday 2nd March 2023)"
-	revision: "9"
+	date: "2023-03-15 12:02:26 GMT (Wednesday 15th March 2023)"
+	revision: "10"
 
 class
 	EL_STRING_8_ITERATION_CURSOR
@@ -20,15 +20,13 @@ inherit
 
 	EL_STRING_ITERATION_CURSOR
 
+	EL_STRING_8_CONSTANTS
+		rename
+			empty_string_8 as empty_target
+		end
+
 create
 	make_empty
-
-feature {NONE} -- Initialization
-
-	make_empty
-		do
-			make ("")
-		end
 
 feature -- Transforms
 
@@ -136,6 +134,18 @@ feature -- Basic operations
 					destination.extend (l_area [i].to_character_32)
 					i := i + 1
 				end
+			end
+		end
+
+	parse (convertor: STRING_TO_NUMERIC_CONVERTOR; type: INTEGER)
+		local
+			i, last_i: INTEGER; l_area: like area
+		do
+			convertor.reset (type)
+			last_i := area_last_index; l_area := area
+			from i := area_first_index until i > last_i loop
+				convertor.parse_character (l_area [i])
+				i := i + 1
 			end
 		end
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-08 17:45:30 GMT (Wednesday 8th March 2023)"
-	revision: "1"
+	date: "2023-03-15 15:29:25 GMT (Wednesday 15th March 2023)"
+	revision: "2"
 
 class
 	EL_APPLIED_OCCURRENCE_INTERVALS [S -> READABLE_STRING_GENERAL create make end]
@@ -60,6 +60,20 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Element change
+
+	fill_general (a_target: READABLE_STRING_GENERAL; pattern: CHARACTER_32; a_adjustments: INTEGER)
+		do
+			if attached {like target} a_target as l_target then
+				fill (l_target, pattern, a_adjustments)
+			end
+		end
+
+	fill_general_by_string (a_target, pattern: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
+		do
+			if attached {like target} a_target as l_target then
+				fill_by_string (l_target, pattern, a_adjustments)
+			end
+		end
 
 	fill (a_target: S; pattern: CHARACTER_32; a_adjustments: INTEGER)
 		do

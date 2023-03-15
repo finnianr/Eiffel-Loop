@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2023-03-15 10:55:44 GMT (Wednesday 15th March 2023)"
+	revision: "17"
 
 deferred class
 	EL_STRING_32_CONSTANTS
@@ -18,6 +18,12 @@ inherit
 feature {NONE} -- Constants
 
 	Empty_string_32: STRING_32
+		once
+			create Result.make_empty
+		end
+
+	Accessible_string_32: EL_STRING_32
+		-- to provide access to unexported constants
 		once
 			create Result.make_empty
 		end

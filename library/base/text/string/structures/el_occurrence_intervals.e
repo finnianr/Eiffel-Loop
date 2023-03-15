@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-08 17:41:42 GMT (Wednesday 8th March 2023)"
-	revision: "21"
+	date: "2023-03-15 11:17:50 GMT (Wednesday 15th March 2023)"
+	revision: "22"
 
 class
 	EL_OCCURRENCE_INTERVALS
@@ -24,7 +24,11 @@ inherit
 			make_empty
 		end
 
+	EL_SEARCH_HANDLER
+
 	EL_STRING_8_CONSTANTS
+
+	EL_STRING_32_CONSTANTS
 
 	EL_ZSTRING_CONSTANTS
 
@@ -178,17 +182,13 @@ feature {NONE} -- Constants
 	Index_of_character_32: INTEGER = 32
 
 	String_8_searcher: STRING_8_SEARCHER
-		local
-			s: EL_STRING_8_ROUTINES
 		once
-			Result := s.String_searcher
+			Result := Accessible_string_8.String_searcher
 		end
 
 	String_32_searcher: STRING_32_SEARCHER
-		local
-			s: EL_STRING_32_ROUTINES
 		once
-			Result := s.String_searcher
+			Result := Accessible_string_32.String_searcher
 		end
 
 	String_searcher: EL_ZSTRING_SEARCHER

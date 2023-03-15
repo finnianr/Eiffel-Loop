@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-14 17:09:10 GMT (Tuesday 14th March 2023)"
-	revision: "8"
+	date: "2023-03-15 15:33:24 GMT (Wednesday 15th March 2023)"
+	revision: "9"
 
 class
 	EL_SPLIT_IMMUTABLE_STRING_8_LIST
@@ -20,7 +20,7 @@ inherit
 		undefine
 			fill_by_string, is_valid_character, is_white_space, same_i_th_character
 		redefine
-			item, i_th
+			fill_general, fill_general_by_string, item, i_th
 		end
 
 	EL_STRING_8_OCCURRENCE_IMPLEMENTATION [IMMUTABLE_STRING_8]
@@ -71,6 +71,28 @@ feature -- Access
 		do
 			lower := i_th_lower_upper (i, $upper)
 			Result := target.shared_substring (lower, upper)
+		end
+
+feature -- Element change
+
+	fill_general (a_target: READABLE_STRING_GENERAL; pattern: CHARACTER_32; a_adjustments: INTEGER)
+		do
+			if attached {like target} a_target as l_target then
+				fill (l_target, pattern, a_adjustments)
+
+			elseif attached {STRING_8} a_target as str_8 then
+				fill (new_shared (str_8), pattern, a_adjustments)
+			end
+		end
+
+	fill_general_by_string (a_target, pattern: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
+		do
+			if attached {like target} a_target as l_target then
+				fill_by_string (l_target, pattern, a_adjustments)
+
+			elseif attached {STRING_8} a_target as str_8 then
+				fill_by_string (new_shared (str_8), pattern, a_adjustments)
+			end
 		end
 
 feature {NONE} -- Implementation
