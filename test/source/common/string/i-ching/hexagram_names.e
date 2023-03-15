@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-14 17:55:10 GMT (Tuesday 14th March 2023)"
-	revision: "14"
+	date: "2023-03-15 9:27:34 GMT (Wednesday 15th March 2023)"
+	revision: "15"
 
 expanded class
 	HEXAGRAM_NAMES
@@ -28,7 +28,7 @@ feature -- Access
 		require
 			valid_index: 1 <= i and i <= 64
 			valid_column: 1 <= column and column <= 3
-			valid_manifest_row: Name_split_list.i_th ((i - 1) * 3 + 1).to_string_8.to_integer = i
+			valid_manifest_row: i = Name_split_list.i_th ((i - 1) * 3 + 1).out.to_integer
 		local
 			j: INTEGER
 		do

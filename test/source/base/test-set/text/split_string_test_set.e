@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-14 17:13:29 GMT (Tuesday 14th March 2023)"
-	revision: "34"
+	date: "2023-03-15 10:07:37 GMT (Wednesday 15th March 2023)"
+	revision: "35"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -19,7 +19,7 @@ inherit
 
 	EL_ENCODING_CONSTANTS
 
-	EL_MODULE_TUPLE
+	EL_MODULE_CONVERT_STRING; EL_MODULE_TUPLE
 
 	EL_SHARED_TEST_TEXT
 
@@ -55,23 +55,38 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_fill_tuple
+		-- SPLIT_STRING_TEST_SET.test_fill_tuple
 		local
 			t1: TUPLE [animal: STRING; letter: CHARACTER; weight: DOUBLE; age: INTEGER]
 			t2: TUPLE [currency: STRING; symbol: STRING_32]
+			data_lines: STRING_32; data_str: READABLE_STRING_GENERAL
+			string_types: ARRAY [TYPE [ANY]]
 		do
-			create t1
-			Tuple.fill (t1, "cat, C, 6.5, 4")
-			assert ("cat", t1.animal ~ "cat")
-			assert ("C", t1.letter = 'C')
-			assert ("6.5 kg", t1.weight = 6.5)
-			assert ("4 years", t1.age = 4)
-
-			create t2
-			tuple.fill (t2, {STRING_32} "euro, €")
-			assert ("same currency", t2.currency ~ "euro")
-			lio.put_string_field ("SYMBOL " + t2.symbol.generator, t2.symbol)
-			lio.put_new_line
-			assert ("same symbol", t2.symbol ~ {STRING_32} "€")
+			data_lines := {STRING_32} "cat, C, 6.5, 4%Neuro, €"
+			string_types := << {STRING_8}, {STRING_32} >>
+			
+			across data_lines.split ('%N') as list loop
+				across string_types as type loop
+					if Convert_string.is_convertible (list.item, type.item) then
+						data_str := list.item
+						if data_str.occurrences (',') = 3 then
+							create t1
+							Tuple.fill (t1, data_str)
+							assert ("cat", t1.animal ~ "cat")
+							assert ("C", t1.letter = 'C')
+							assert ("6.5 kg", t1.weight = 6.5)
+							assert ("4 years", t1.age = 4)
+						else
+							create t2
+							tuple.fill (t2, data_str)
+							assert ("same currency", t2.currency ~ "euro")
+							lio.put_string_field ("SYMBOL " + t2.symbol.generator, t2.symbol)
+							lio.put_new_line
+							assert ("same symbol", t2.symbol ~ {STRING_32} "€")
+						end
+					end
+				end
+			end
 		end
 
 	test_immutable_string_split

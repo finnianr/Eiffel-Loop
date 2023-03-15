@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 13:12:29 GMT (Monday 6th March 2023)"
-	revision: "20"
+	date: "2023-03-15 10:13:05 GMT (Wednesday 15th March 2023)"
+	revision: "21"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -89,9 +89,9 @@ feature -- Status query
 			Result := has_key (type.type_id)
 		end
 
-	is_convertible (s: like readable_string; type: TYPE [ANY]): BOOLEAN
+	is_convertible (str: like readable_string; type: TYPE [ANY]): BOOLEAN
 		do
-			Result := is_convertible_to_type (s, type.type_id)
+			Result := is_convertible_to_type (str, type.type_id)
 		end
 
 	is_convertible_list (
@@ -107,11 +107,14 @@ feature -- Status query
 			end
 		end
 
-	is_convertible_to_type (s: like readable_string; type_id: INTEGER): BOOLEAN
+	is_convertible_to_type (str: like readable_string; type_id: INTEGER): BOOLEAN
 		-- `True' if `str' is convertible to type with `type_id'
 		do
-			if has_key (type_id) then
-				Result := found_item.is_convertible (s)
+			if {ISE_RUNTIME}.dynamic_type (str) = type_id then
+				Result := True
+
+			elseif has_key (type_id) then
+				Result := found_item.is_convertible (str)
 			else
 				Result := {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING)
 			end
@@ -217,7 +220,10 @@ feature -- Basic operations
 		require
 			convertible: is_convertible_to_type (str, type_id)
 		do
-			if has_key (type_id) then
+			if {ISE_RUNTIME}.dynamic_type (str) = type_id then
+				Result := str
+
+			elseif has_key (type_id) then
 				Result := found_item.as_type (str)
 
 			elseif {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING)

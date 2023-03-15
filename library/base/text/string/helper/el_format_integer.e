@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-13 8:42:54 GMT (Monday 13th March 2023)"
-	revision: "2"
+	date: "2023-03-15 9:36:10 GMT (Wednesday 15th March 2023)"
+	revision: "3"
 
 class
 	EL_FORMAT_INTEGER
@@ -31,13 +31,13 @@ feature -- Conversion
 			create Result.make (15)
 			inspect i
 				when 0 .. 12 then
-					Spell_0_to_12.append_i_th_to (i + 1, Result)
+					Result.append (Spell_0_to_12.i_th (i + 1))
 				when 13 .. 19 then
 					if i = 14 then
 					-- fourteen (not forteen)
-						Spell_0_to_12.append_i_th_to (5, Result)
+						Result.append (Spell_0_to_12.i_th (5))
 					else
-						Stems_20_upwards.append_i_th_to (i - 11, Result)
+						Result.append (Stems_20_upwards.i_th (i - 11))
 					end
 					Result.append (Suffix_teen)
 
@@ -48,7 +48,7 @@ feature -- Conversion
 
 					if remainder > 0 then
 						Result.append_character ('-')
-						Spell_0_to_12.append_i_th_to (remainder + 1, Result)
+						Result.append (Spell_0_to_12.i_th (remainder + 1))
 					end
 			else
 				Result.append_integer (i)
@@ -61,17 +61,17 @@ feature {NONE} -- Constants
 
 	Suffix_ty: STRING = "ty"
 
-	Spell_0_to_12: EL_SPLIT_STRING_8_LIST
+	Spell_0_to_12: EL_SPLIT_IMMUTABLE_STRING_8_LIST
 		once
-			create Result.make_adjusted (
+			create Result.make_shared_adjusted (
 				"zero, one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve",
 				',', {EL_STRING_ADJUST}.Left
 			)
 		end
 
-	Stems_20_upwards: EL_SPLIT_STRING_8_LIST
+	Stems_20_upwards: EL_SPLIT_IMMUTABLE_STRING_8_LIST
 		once
-			create Result.make_adjusted (
+			create Result.make_shared_adjusted (
 				"twen, thir, for, fif, six, seven, eigh, nine", ',', {EL_STRING_ADJUST}.Left
 			)
 		end
