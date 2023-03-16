@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 16:23:25 GMT (Wednesday 15th March 2023)"
-	revision: "37"
+	date: "2023-03-16 15:11:59 GMT (Thursday 16th March 2023)"
+	revision: "38"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -34,6 +34,7 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
+				["across_iteration", agent test_across_iteration],
 				["fill_tuple", agent test_fill_tuple],
 				["immutable_string_split", agent test_immutable_string_split],
 				["occurrence_editor", agent test_occurrence_editor],
@@ -53,6 +54,27 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Tests
+
+	test_across_iteration
+		-- SPLIT_STRING_TEST_SET.test_across_iteration
+		note
+			testing: "covers/{EL_ARRAYED_INTERVALS_CURSOR}.item"
+		local
+			word_split: EL_SPLIT_INTERVALS; i, lower, upper: INTEGER
+		do
+			create word_split.make (Text.latin_1_lines.first, ' ')
+			across word_split as split loop
+				i := split.cursor_index
+				lower := word_split.i_th_lower (i)
+				upper := word_split.i_th_upper (i)
+				assert ("same lower", split.item_lower = lower)
+				assert ("same upper", split.item_upper = upper)
+				if attached split.item as interval then
+					assert ("same lower", interval.lower = lower)
+					assert ("same upper", interval.upper = upper)
+				end
+			end
+		end
 
 	test_fill_tuple
 		-- SPLIT_STRING_TEST_SET.test_fill_tuple
@@ -118,7 +140,7 @@ feature -- Tests
 				assert ("checksum OK", crc.checksum = 2937716648)
 			end
 		end
-		
+
 	test_occurrence_editor
 		note
 			testing: "covers/{EL_STRING_32_OCCURRENCE_EDITOR}.apply",

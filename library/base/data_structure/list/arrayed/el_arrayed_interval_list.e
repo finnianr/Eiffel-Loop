@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-16 10:24:53 GMT (Thursday 16th March 2023)"
-	revision: "12"
+	date: "2023-03-16 15:09:11 GMT (Thursday 16th March 2023)"
+	revision: "13"
 
 class
 	EL_ARRAYED_INTERVAL_LIST
@@ -32,7 +32,7 @@ inherit
 		export
 			{NONE} item_extend, item, i_th, item_put_i_th
 		redefine
-			count, for_all_index, grow, make, out, remove, there_exists_index
+			count, for_all_index, grow, make, out, remove, there_exists_index, new_cursor, upper_index
 		end
 
 create
@@ -65,6 +65,12 @@ feature -- Measurement
 			end
 		end
 
+	upper_index: INTEGER
+			-- Number of items.
+		do
+			Result := count
+		end
+
 feature -- Iterative query
 
 	for_all_index (test: FUNCTION [INTEGER, BOOLEAN]): BOOLEAN
@@ -80,6 +86,12 @@ feature -- Iterative query
 				Result := test (i)
 				i := i + 1
 			end
+		end
+
+	new_cursor: EL_ARRAYED_INTERVALS_CURSOR
+			-- <Precursor>
+		do
+			create Result.make (Current)
 		end
 
 	some_interval_has (n: INTEGER): BOOLEAN
