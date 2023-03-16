@@ -1,13 +1,13 @@
 note
-	description: "Codec info"
+	description: "Codec information extracted from C source file"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-09 16:31:05 GMT (Thursday 9th February 2023)"
-	revision: "17"
+	date: "2023-03-16 11:25:01 GMT (Thursday 16th March 2023)"
+	revision: "18"
 
 class
 	CODEC_INFO
@@ -66,9 +66,9 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	alpha_set: ARRAYED_LIST [INTEGER_INTERVAL]
+	alpha_set: CODE_INTERVAL_LIST
 		do
-			Result := character_set (agent {LATIN_CHARACTER}.is_alpha)
+			create Result.make_latin_subset (latin_table, agent {LATIN_CHARACTER}.is_alpha)
 		end
 
 	codec_base_name: ZSTRING
@@ -87,16 +87,16 @@ feature -- Access
 
 	codec_name: ZSTRING
 
-	lower_case_offsets: HASH_TABLE [ARRAYED_LIST [INTEGER_INTERVAL], NATURAL]
+	lower_case_offsets: CASE_OFFSETS_TABLE
 
-	numeric_set: ARRAYED_LIST [INTEGER_INTERVAL]
+	numeric_set: CODE_INTERVAL_LIST
 		do
-			Result := character_set (agent {LATIN_CHARACTER}.is_digit)
+			create Result.make_latin_subset (latin_table, agent {LATIN_CHARACTER}.is_digit)
 		end
 
 	unicode_intervals: ARRAYED_LIST [UNICODE_INTERVAL]
 
-	upper_case_offsets: HASH_TABLE [ARRAYED_LIST [INTEGER_INTERVAL], NATURAL]
+	upper_case_offsets: CASE_OFFSETS_TABLE
 
 feature -- Element change
 
@@ -105,31 +105,15 @@ feature -- Element change
 		do
 			set_source_text (text)
 			parse
---			log.put_string ("Result [")
---			log.put_string (latin_characters.last.code.to_hex_string.substring (7, 8))
---			log.put_string ("] := ")
---			log.put_string (latin_characters.last.code.to_hex_string.substring (5, 8))
---			log.put_new_line
-		end
-
-feature -- Status query
-
-	changeable_case_set_has_character (code: INTEGER; case_set: like lower_case_offsets): BOOLEAN
-		do
-			Result :=	across case_set as interval_list some
-								across interval_list.item as interval some interval.item.has (code) end
-							end
 		end
 
 feature -- Basic operations
 
 	set_case_change_offsets
 		local
+			table: EL_ARRAYED_LIST [LATIN_CHARACTER]; latin_character: LATIN_CHARACTER
+			case_offsets: like lower_case_offsets; case_type: STRING
 			i: INTEGER; unicode, unicode_changed: CHARACTER_32
-			table: EL_ARRAYED_LIST [LATIN_CHARACTER]
-			case_offsets: like lower_case_offsets
-			case_type: STRING
-			latin_character: LATIN_CHARACTER
 		do
 			create table.make_from_array (latin_table)
 			from i := 0 until i = 256 loop
@@ -155,7 +139,7 @@ feature -- Basic operations
 							lio.put_string_field (" has no latin case change", latin_character.inverse_case_unicode_string)
 							lio.put_new_line
 						else
-							extend_offset_interval (case_offsets, i.to_character_8, (table.index - 1).to_character_8)
+							case_offsets.extend (i.to_character_8, (table.index - 1).to_character_8)
 						end
 					end
 				end
@@ -165,9 +149,9 @@ feature -- Basic operations
 
 	set_unicode_intervals
 		local
-			i, unicode: INTEGER; lc: LATIN_CHARACTER
 			ascending_unicodes: SORTABLE_ARRAY [LATIN_CHARACTER]
 			differing_unicodes: ARRAYED_LIST [LATIN_CHARACTER]
+			i, unicode: INTEGER; lc: LATIN_CHARACTER
 		do
 			create differing_unicodes.make (128)
 			from i := 0 until i = 256 loop
@@ -253,76 +237,10 @@ feature {NONE} -- Match actions
 
 feature {NONE} -- Implementation
 
-	case_change_offsets_string_table (case_offsets: like lower_case_offsets): HASH_TABLE [STRING, INTEGER_REF]
-			-- Eg. {32: "97..122, 224..246, 248..254"}
+	is_case_changeable (latin: LATIN_CHARACTER): BOOLEAN
 		do
-			create Result.make (case_offsets.count)
-			across case_offsets as code_intervals loop
-				Result [code_intervals.key.to_integer_32.to_reference] := code_intervals_string (code_intervals.item)
-			end
-		end
-
-	character_set (filter: PREDICATE): ARRAYED_LIST [INTEGER_INTERVAL]
-		local
-			i: INTEGER
-			interval: INTEGER_INTERVAL
-		do
-			create Result.make (10)
-			from i := 0 until i = 256 loop
-				if filter.item ([latin_table [i]]) then
-					if Result.is_empty or else interval.upper + 1 /= i then
-						interval := i |..| i
-						Result.extend (interval)
-					else
-						interval.extend (i)
-					end
-				end
-				i := i + 1
-			end
-		end
-
-	code_intervals_string (intervals_list: ARRAYED_LIST [INTEGER_INTERVAL]): STRING
-		do
-			create Result.make (10)
-			across intervals_list as interval loop
-				if interval.cursor_index > 1 then
-					Result.append (", ")
-				end
-				Result.append_integer (interval.item.lower)
-				if interval.item.count > 1 then
-					Result.append ("..")
-					Result.append_integer (interval.item.upper)
-				end
-			end
-		end
-
-	extend_offset_interval (case_offsets: like lower_case_offsets; c1, c2: CHARACTER)
-		local
-			interval_list: ARRAYED_LIST [INTEGER_INTERVAL]
-			code: INTEGER; offset: NATURAL
-		do
-			if c1 < c2 then
-				offset := c2.natural_32_code - c1.natural_32_code
-			elseif c1 > c2 then
-				offset := c1.natural_32_code - c2.natural_32_code
-			end
-			if offset > 0 then
-				case_offsets.search (offset)
-				if case_offsets.found then
-					interval_list := case_offsets.found_item
-				else
-					create interval_list.make (5)
-					case_offsets.extend (interval_list, offset)
-				end
-				code := c1.natural_32_code.to_integer_32
-				if interval_list.is_empty then
-					interval_list.extend (code |..| code)
-				elseif interval_list.last.upper + 1 = code then
-					interval_list.last.extend (code)
-				else
-					interval_list.extend (code |..| code)
-				end
-			end
+			Result := across lower_case_offsets as set some set.item.has_character (latin) end
+							or else across upper_case_offsets as set some set.item.has_character (latin) end
 		end
 
 	sorted_unicode_intervals (a_unicode_intervals: like unicode_intervals): like unicode_intervals
@@ -351,7 +269,7 @@ feature {NONE} -- Evolicity fields
 	get_case_set_string (case_offsets: like lower_case_offsets): STRING
 		do
 			create Result.make (80)
-			across case_change_offsets_string_table (case_offsets) as case_set loop
+			across case_offsets.to_string_table as case_set loop
 				if case_set.cursor_index > 1 then
 					Result.append (", ")
 				end
@@ -364,10 +282,7 @@ feature {NONE} -- Evolicity fields
 		do
 			create Result.make_empty
 			across latin_table as l_character loop
-				if l_character.item.is_alpha
-					and then not changeable_case_set_has_character (l_character.item.code.to_integer_32, lower_case_offsets)
-					and then not changeable_case_set_has_character (l_character.item.code.to_integer_32, upper_case_offsets)
-				then
+				if l_character.item.is_alpha and then not is_case_changeable (l_character.item) then
 					if not Result.is_empty then
 						Result.append (", ")
 					end
@@ -384,15 +299,13 @@ feature {NONE} -- Evolicity fields
 				["codec_name", 						agent: ZSTRING do Result := codec_name.as_upper end],
 				["codec_base_name", 					agent: ZSTRING do Result := codec_base_name end],
 				["latin_characters", 				agent: ITERABLE [LATIN_CHARACTER] do Result := latin_characters end],
-				["lower_case_offsets", 				agent: ITERABLE [STRING]
-																do Result := case_change_offsets_string_table (lower_case_offsets) end],
-				["upper_case_offsets", 				agent: ITERABLE [STRING]
-																do Result := case_change_offsets_string_table (upper_case_offsets) end],
+				["lower_case_offsets", 				agent: ITERABLE [STRING] do Result := lower_case_offsets.to_string_table end],
+				["upper_case_offsets", 				agent: ITERABLE [STRING] do Result := upper_case_offsets.to_string_table end],
 				["lower_case_set_string", 			agent: STRING do Result := get_case_set_string (lower_case_offsets) end],
 				["upper_case_set_string", 			agent: STRING do Result := get_case_set_string (upper_case_offsets) end],
 				["unchangeable_case_set_string", agent get_unchangeable_case_set_string],
-				["alpha_set_string", 				agent: STRING do Result := code_intervals_string (alpha_set) end],
-				["numeric_set_string",				agent: STRING do Result := code_intervals_string (numeric_set) end],
+				["alpha_set_string", 				agent: STRING do Result := alpha_set.to_string end],
+				["numeric_set_string",				agent: STRING do Result := numeric_set.to_string end],
 				["codec_id",							agent: INTEGER_REF do Result := codec_id.to_reference end],
 				["single_case_character_set", 	agent: ITERABLE [LATIN_CHARACTER] do Result := single_case_character_set end],
 				["unicode_intervals", 				agent: ITERABLE [UNICODE_INTERVAL] do Result := unicode_intervals end]

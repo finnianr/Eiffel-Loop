@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-09 8:57:51 GMT (Thursday 9th March 2023)"
-	revision: "2"
+	date: "2023-03-16 10:07:36 GMT (Thursday 16th March 2023)"
+	revision: "3"
 
 class
 	SOURCE_LEADING_SPACE_CLEANER
@@ -63,8 +63,6 @@ feature -- Basic operations
 feature {NONE} -- Implementation
 
 	do_with_file (source_path: FILE_PATH)
-		local
-			source_text: STRING
 		do
 			editor.set_source_text (File.raw_plain_text (source_path))
 

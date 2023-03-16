@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "34"
+	date: "2023-03-16 9:09:44 GMT (Thursday 16th March 2023)"
+	revision: "35"
 
 class
 	EL_TUPLE_ROUTINES
@@ -244,10 +244,10 @@ feature -- Basic operations
 		require
 			all_immutable_string_8: type_array (tuple).is_uniformly ({IMMUTABLE_STRING_8})
 		local
-			comma_splitter: EL_SPLIT_IMMUTABLE_STRING_8_ON_CHARACTER; tuple_types: EL_TUPLE_TYPE_ARRAY
+			comma_splitter: EL_SPLIT_IMMUTABLE_STRING_8_LIST; tuple_types: EL_TUPLE_TYPE_ARRAY
 		do
 			tuple_types := type_array (tuple)
-			create comma_splitter.make_adjusted (csv_list, ',', {EL_STRING_ADJUST}.Left)
+			create comma_splitter.make_shared_adjusted (csv_list, ',', {EL_STRING_ADJUST}.Left)
 			across comma_splitter as list until list.cursor_index > tuple.count loop
 				if tuple_types [list.cursor_index].type_id = Class_id.IMMUTABLE_STRING_8 then
 					tuple.put_reference (list.item_copy, list.cursor_index)

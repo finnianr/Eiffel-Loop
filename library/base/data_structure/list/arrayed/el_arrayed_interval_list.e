@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-14 12:47:43 GMT (Tuesday 14th March 2023)"
-	revision: "11"
+	date: "2023-03-16 10:24:53 GMT (Thursday 16th March 2023)"
+	revision: "12"
 
 class
 	EL_ARRAYED_INTERVAL_LIST
@@ -24,14 +24,15 @@ inherit
 			last as item_last,
 			lower as lower_index,
 			upper as upper_index,
+			put_i_th as item_put_i_th,
 			replace as item_replace,
 			remove_head as item_remove_head,
 			remove_tail as item_remove_tail,
-			put_i_th as item_put_i_th
+			there_exists as there_exists_index
 		export
 			{NONE} item_extend, item, i_th, item_put_i_th
 		redefine
-			count, for_all_index, grow, make, out, remove
+			count, for_all_index, grow, make, out, remove, there_exists_index
 		end
 
 create
@@ -64,16 +65,56 @@ feature -- Measurement
 			end
 		end
 
-feature -- Status query
+feature -- Iterative query
 
 	for_all_index (test: FUNCTION [INTEGER, BOOLEAN]): BOOLEAN
-			-- Is `test' true for all items?
+		-- Is `test' true for all item indices?
+		require else
+			target_is_list: test.target = Current
+		local
+			i, l_count: INTEGER
 		do
+			l_count := count
+			Result := True
+			from i := 1 until not Result or i > l_count loop
+				Result := test (i)
+				i := i + 1
+			end
 		end
 
-	item_has (n: INTEGER): BOOLEAN
+	some_interval_has (n: INTEGER): BOOLEAN
 		do
-			Result := area_item_has (area_v2, (index - 1) * 2, n)
+			Result := there_exists_index (agent i_th_has (?, n))
+		end
+
+	there_exists_index (test: FUNCTION [INTEGER, BOOLEAN]): BOOLEAN
+			-- Is `test' true for some item index?
+		require else
+			target_is_list: test.target = Current
+		local
+			i, l_count: INTEGER
+		do
+			l_count := count
+			from i := 1 until Result or i > l_count loop
+				Result := test (i)
+				i := i + 1
+			end
+		end
+
+feature -- Status query
+
+	item_has (n: INTEGER): BOOLEAN
+		-- `True' if interval at `index' contains `n'
+		require
+			valid_index: not off
+		do
+			Result := i_th_has (index, n)
+		end
+
+	i_th_has (i, n: INTEGER): BOOLEAN
+		-- `True' if i'th interval contains `n'
+		do
+			Result := area_item_has (area_v2, (i - 1) * 2, n)
 		end
 
 	same_as (other: EL_ARRAYED_INTERVAL_LIST): BOOLEAN

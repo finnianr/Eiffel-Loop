@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "11"
+	date: "2023-03-16 9:11:05 GMT (Thursday 16th March 2023)"
+	revision: "12"
 
 class
 	HASH_TABLE_TEST_SET
@@ -92,6 +92,7 @@ feature -- Test
 		end
 
 	test_readable_string_8_table
+		-- HASH_TABLE_TEST_SET.test_readable_string_8_table
 		note
 			testing: "covers/{EL_TUPLE_ROUTINES}.fill_immutable", "covers/{EL_STRING_8_TABLE}.same_keys"
 		local
