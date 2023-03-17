@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-16 10:59:18 GMT (Thursday 16th March 2023)"
-	revision: "1"
+	date: "2023-03-17 9:28:46 GMT (Friday 17th March 2023)"
+	revision: "2"
 
 class
 	CODE_INTERVAL_LIST
@@ -20,7 +20,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make_latin_subset (latin_table: ARRAY [LATIN_CHARACTER]; included: PREDICATE [LATIN_CHARACTER])
+	make_latin_subset (latin_table: SPECIAL [LATIN_CHARACTER]; included: PREDICATE [LATIN_CHARACTER])
 		local
 			i: INTEGER
 		do

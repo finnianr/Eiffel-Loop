@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-16 11:25:48 GMT (Thursday 16th March 2023)"
-	revision: "1"
+	date: "2023-03-17 10:32:15 GMT (Friday 17th March 2023)"
+	revision: "2"
 
 class
 	CASE_OFFSETS_TABLE
@@ -15,13 +15,37 @@ class
 inherit
 	HASH_TABLE [CODE_INTERVAL_LIST, NATURAL]
 		rename
-			extend as extend_table
+			extend as extend_table,
+			make as make_sized
 		end
 
 create
 	make
 
+feature {NONE} -- Initialization
+
+	make (a_name: STRING)
+		do
+			name := a_name
+			make_sized (11)
+		end
+
+feature -- Access
+
+	name: STRING
+
 feature -- Conversion
+
+	case_set_string: STRING
+		do
+			create Result.make (80)
+			across to_string_table as case_set loop
+				if case_set.cursor_index > 1 then
+					Result.append (", ")
+				end
+				Result.append (case_set.item)
+			end
+		end
 
 	to_string_table: HASH_TABLE [STRING, INTEGER_REF]
 			-- Eg. {32: "97..122, 224..246, 248..254"}

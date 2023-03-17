@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-16 11:25:01 GMT (Thursday 16th March 2023)"
-	revision: "18"
+	date: "2023-03-17 10:47:02 GMT (Friday 17th March 2023)"
+	revision: "19"
 
 class
 	CODEC_INFO
@@ -31,6 +31,8 @@ inherit
 
 	EL_MODULE_LIO
 
+	EL_SHARED_UNICODE_PROPERTY
+
 create
 	make
 
@@ -47,18 +49,18 @@ feature {NONE} -- Initialization
 		local
 			i: INTEGER
 		do
-			create default_unicode_info.make (0)
-			create latin_table.make_filled (default_unicode_info, 0, 255)
+			create latin_table.make_empty (0x100)
 			create latin_characters.make (128)
-			from i := 0 until i > 255 loop
-				latin_table [i] := create {LATIN_CHARACTER}.make_with_unicode (i.to_natural_32, i.to_natural_32)
+			from i := 0 until i > 0xFF loop
+				latin_table.extend (i.to_natural_32)
 				i := i + 1
 			end
-			create lower_case_offsets.make (7)
-			create upper_case_offsets.make (7)
+			create lower_case_offsets.make ("Lower")
+			create upper_case_offsets.make ("Upper")
+
 			create single_case_character_set.make (2)
 
-			create unicode_intervals.make (7)
+			create unicode_intervals.make_empty
 
 			Precursor {EL_FILE_PARSER}
 			Precursor {EVOLICITY_EIFFEL_CONTEXT}
@@ -87,16 +89,12 @@ feature -- Access
 
 	codec_name: ZSTRING
 
-	lower_case_offsets: CASE_OFFSETS_TABLE
-
 	numeric_set: CODE_INTERVAL_LIST
 		do
 			create Result.make_latin_subset (latin_table, agent {LATIN_CHARACTER}.is_digit)
 		end
 
-	unicode_intervals: ARRAYED_LIST [UNICODE_INTERVAL]
-
-	upper_case_offsets: CASE_OFFSETS_TABLE
+	unicode_intervals: EL_SORTABLE_ARRAYED_LIST [UNICODE_INTERVAL]
 
 feature -- Element change
 
@@ -112,20 +110,19 @@ feature -- Basic operations
 	set_case_change_offsets
 		local
 			table: EL_ARRAYED_LIST [LATIN_CHARACTER]; latin_character: LATIN_CHARACTER
-			case_offsets: like lower_case_offsets; case_type: STRING
+			case_offsets: like lower_case_offsets
 			i: INTEGER; unicode, unicode_changed: CHARACTER_32
 		do
-			create table.make_from_array (latin_table)
+			create table.make_from_special (latin_table)
+
 			from i := 0 until i = 256 loop
-				latin_character := latin_table.item (i)
-				unicode := latin_character.unicode.to_character_32
-				unicode_changed := '%U'
+				latin_character := latin_table [i]
 				if latin_character.is_alpha then
+					unicode := latin_character.unicode.to_character_32
+					unicode_changed := '%U'
 					if unicode.is_upper then
-						case_type := "Upper"
 						unicode_changed := unicode.as_lower; case_offsets := upper_case_offsets
 					elseif unicode.is_lower then
-						case_type := "Lower"
 						unicode_changed := unicode.as_upper; case_offsets := lower_case_offsets
 					end
 					if unicode_changed = '%U' then
@@ -135,7 +132,7 @@ feature -- Basic operations
 						table.find_first_equal (unicode_changed.natural_32_code, agent {LATIN_CHARACTER}.unicode)
 						if table.after then
 							single_case_character_set.extend (latin_character)
-							lio.put_string_field (case_type + " case character", latin_character.unicode_string)
+							lio.put_string_field (case_offsets.name + " case character", latin_character.unicode_string)
 							lio.put_string_field (" has no latin case change", latin_character.inverse_case_unicode_string)
 							lio.put_new_line
 						else
@@ -148,36 +145,8 @@ feature -- Basic operations
 		end
 
 	set_unicode_intervals
-		local
-			ascending_unicodes: SORTABLE_ARRAY [LATIN_CHARACTER]
-			differing_unicodes: ARRAYED_LIST [LATIN_CHARACTER]
-			i, unicode: INTEGER; lc: LATIN_CHARACTER
 		do
-			create differing_unicodes.make (128)
-			from i := 0 until i = 256 loop
-				lc := latin_table.item (i)
-				if lc.code /= lc.unicode then
-					differing_unicodes.extend (lc)
-				end
-				i := i + 1
-			end
-
-			create ascending_unicodes.make_from_array (differing_unicodes.to_array)
-			ascending_unicodes.sort
-			unicode := ascending_unicodes.item (1).unicode.to_integer_32
-			unicode_intervals.extend (unicode |..| unicode)
-			unicode_intervals.last.extend_latin (ascending_unicodes.item (1))
-			from i := 2 until i > ascending_unicodes.count loop
-				unicode := ascending_unicodes.item (i).unicode.to_integer_32
-				if unicode_intervals.last.upper + 1 = unicode then
-					unicode_intervals.last.extend (unicode)
-				else
-					unicode_intervals.extend (unicode |..| unicode)
-				end
-				unicode_intervals.last.extend_latin (ascending_unicodes.item (i))
-				i := i + 1
-			end
-			unicode_intervals := sorted_unicode_intervals (unicode_intervals)
+			unicode_intervals := new_unicode_intervals
 		end
 
 feature {NONE} -- Pattern definitions
@@ -222,7 +191,7 @@ feature {NONE} -- Match actions
 			hex: EL_HEXADECIMAL_CONVERTER
 		do
 			last_latin_code := hex.to_integer (source_substring (start_index, end_index, False))
-			latin_characters.extend (create {LATIN_CHARACTER}.make (last_latin_code.to_natural_32))
+			latin_characters.extend (last_latin_code.to_natural_32)
 			latin_table [last_latin_code] := latin_characters.last
 		end
 
@@ -237,56 +206,75 @@ feature {NONE} -- Match actions
 
 feature {NONE} -- Implementation
 
+	differing_unicodes: ARRAYED_LIST [LATIN_CHARACTER]
+		local
+			i: INTEGER
+		do
+			create Result.make (128)
+			from i := 0 until i = 256 loop
+				if attached latin_table [i] as lc and then lc.code /= lc.unicode then
+					Result.extend (lc)
+				end
+				i := i + 1
+			end
+		end
+
 	is_case_changeable (latin: LATIN_CHARACTER): BOOLEAN
 		do
 			Result := across lower_case_offsets as set some set.item.has_character (latin) end
 							or else across upper_case_offsets as set some set.item.has_character (latin) end
 		end
 
-	sorted_unicode_intervals (a_unicode_intervals: like unicode_intervals): like unicode_intervals
+	new_unicode_intervals: like unicode_intervals
 		local
-			sortable: SORTABLE_ARRAY [UNICODE_INTERVAL]
+			ascending_unicodes: SORTABLE_ARRAY [LATIN_CHARACTER]
+			i, unicode: INTEGER
 		do
-			create sortable.make_from_array (a_unicode_intervals.to_array)
-			sortable.sort
-			create Result.make_from_array (sortable)
+			create ascending_unicodes.make_from_array (differing_unicodes.to_array)
+			ascending_unicodes.sort
+			unicode := ascending_unicodes.item (1).unicode.to_integer_32
+			create Result.make (ascending_unicodes.count)
+			Result.extend (unicode |..| unicode)
+			Result.last.extend_latin (ascending_unicodes.item (1))
+			from i := 2 until i > ascending_unicodes.count loop
+				unicode := ascending_unicodes [i].unicode.to_integer_32
+				if Result.last.upper + 1 = unicode then
+					Result.last.extend (unicode)
+				else
+					Result.extend (unicode |..| unicode)
+				end
+				Result.last.extend_latin (ascending_unicodes [i])
+				i := i + 1
+			end
+			Result.sort
 		end
 
 feature {NONE} -- Internal attributes
-
-	default_unicode_info: LATIN_CHARACTER
 
 	last_latin_code: INTEGER
 
 	latin_characters: ARRAYED_LIST [LATIN_CHARACTER]
 
-	latin_table: ARRAY [LATIN_CHARACTER]
+	latin_table: SPECIAL [LATIN_CHARACTER]
+
+	lower_case_offsets: CASE_OFFSETS_TABLE
+
+	upper_case_offsets: CASE_OFFSETS_TABLE
 
 	single_case_character_set: ARRAYED_LIST [LATIN_CHARACTER]
 
 feature {NONE} -- Evolicity fields
 
-	get_case_set_string (case_offsets: like lower_case_offsets): STRING
-		do
-			create Result.make (80)
-			across case_offsets.to_string_table as case_set loop
-				if case_set.cursor_index > 1 then
-					Result.append (", ")
-				end
-				Result.append (case_set.item)
-			end
-		end
-
 	get_unchangeable_case_set_string: STRING
-			-- alpha characters which are only available in a single case
+		-- alpha characters which are only available in a single case
 		do
 			create Result.make_empty
-			across latin_table as l_character loop
-				if l_character.item.is_alpha and then not is_case_changeable (l_character.item) then
+			across latin_table as lc loop
+				if lc.item.is_alpha and then not is_case_changeable (lc.item) then
 					if not Result.is_empty then
 						Result.append (", ")
 					end
-					Result.append_natural_32 (l_character.item.code)
+					Result.append_natural_32 (lc.item.code)
 				end
 			end
 		end
@@ -301,8 +289,8 @@ feature {NONE} -- Evolicity fields
 				["latin_characters", 				agent: ITERABLE [LATIN_CHARACTER] do Result := latin_characters end],
 				["lower_case_offsets", 				agent: ITERABLE [STRING] do Result := lower_case_offsets.to_string_table end],
 				["upper_case_offsets", 				agent: ITERABLE [STRING] do Result := upper_case_offsets.to_string_table end],
-				["lower_case_set_string", 			agent: STRING do Result := get_case_set_string (lower_case_offsets) end],
-				["upper_case_set_string", 			agent: STRING do Result := get_case_set_string (upper_case_offsets) end],
+				["lower_case_set_string", 			agent: STRING do Result := lower_case_offsets.case_set_string end],
+				["upper_case_set_string", 			agent: STRING do Result := upper_case_offsets.case_set_string end],
 				["unchangeable_case_set_string", agent get_unchangeable_case_set_string],
 				["alpha_set_string", 				agent: STRING do Result := alpha_set.to_string end],
 				["numeric_set_string",				agent: STRING do Result := numeric_set.to_string end],

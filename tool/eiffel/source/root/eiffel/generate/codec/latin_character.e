@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-09 17:39:53 GMT (Thursday 9th February 2023)"
-	revision: "7"
+	date: "2023-03-17 9:12:52 GMT (Friday 17th March 2023)"
+	revision: "8"
 
 class
 	LATIN_CHARACTER
@@ -23,12 +23,15 @@ inherit
 create
 	make, make_with_unicode
 
+convert
+	make ({NATURAL})
+
 feature {NONE} -- Initialization
 
 	make (a_code: NATURAL)
 		do
 			make_default
-			code := a_code
+			code := a_code; unicode := a_code
 			create name.make_empty
 		end
 
