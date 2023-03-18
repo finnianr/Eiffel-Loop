@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-11 9:45:18 GMT (Wednesday 11th January 2023)"
-	revision: "28"
+	date: "2023-03-18 11:16:19 GMT (Saturday 18th March 2023)"
+	revision: "29"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -269,7 +269,7 @@ feature {NONE} -- Internal attributes
 
 	tab_repeat_count: INTEGER
 
-feature {NONE} -- Constants
+feature {EL_LOGGABLE} -- Constants
 
 	Line_separator: STRING
 		once

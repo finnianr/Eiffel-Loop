@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 9:56:59 GMT (Saturday 31st December 2022)"
-	revision: "6"
+	date: "2023-03-18 14:00:13 GMT (Saturday 18th March 2023)"
+	revision: "7"
 
 class
 	PARAMETER
@@ -69,16 +69,32 @@ feature -- Element change
 feature -- Basic operations
 
 	display
-			--
+		local
+			new_line: BOOLEAN; lower_class: STRING
 		do
 			log.enter_no_header ("display")
-			log.put_labeled_string ("class", generator.as_lower)
+			lower_class := generator.as_lower
+			log.put_labeled_string ("class", lower_class)
 			log.put_string_field (" id", id)
+			if lower_class.count + id.count + label.count + run_switch.count > 35 then
+				new_line := True
+			end
 			if not label.is_empty then
-				log.put_string_field (" label", label)
+				if new_line then
+					log.put_new_line
+				else
+					log.put_spaces (1)
+				end
+				new_line := False
+				log.put_string_field ("label", label)
 			end
 			if not run_switch.is_empty then
-				log.put_string_field (" Run switch", run_switch)
+				if new_line then
+					log.put_new_line
+				else
+					log.put_spaces (1)
+				end
+				log.put_string_field ("Run switch", run_switch)
 			end
 			display_item
 			log.exit_no_trailer

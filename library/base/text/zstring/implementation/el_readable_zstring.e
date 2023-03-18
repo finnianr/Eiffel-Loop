@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 11:19:10 GMT (Wednesday 15th March 2023)"
-	revision: "116"
+	date: "2023-03-18 9:21:08 GMT (Saturday 18th March 2023)"
+	revision: "117"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -374,6 +374,33 @@ feature -- Status query
 					Result := Result and condition (Unicode_table [code_i])
 				end
 				i := i + 1
+			end
+		end
+
+	has_between (uc: CHARACTER_32; start_index, end_index: INTEGER): BOOLEAN
+		-- `True' if `uc' occurs between `start_index' and `end_index'
+		require
+			valid_start_index: valid_index (start_index)
+			valid_end_index: end_index >= start_index and end_index <= count
+		local
+			interval_count, i, i_final, block_index: INTEGER; iter: EL_UNENCODED_CHARACTER_ITERATION
+			c_i, c: CHARACTER
+		do
+			c := codec.encoded_character (uc)
+			interval_count := count.min (end_index) - start_index + 1
+			if c = Substitute implies has_unencoded_between (start_index, start_index + interval_count - 1) then
+				i := start_index + area_lower - 1; i_final := i + interval_count
+				if attached area as l_area and then attached unencoded_area as area_32 then
+					from until i = i_final or Result loop
+						c_i := l_area [i]
+						if c_i = Substitute then
+							Result := uc = iter.item ($block_index, area_32, i - area_lower + 1)
+						else
+							Result := c_i = c
+						end
+						i := i + 1
+					end
+				end
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-12 7:24:03 GMT (Sunday 12th March 2023)"
-	revision: "4"
+	date: "2023-03-18 7:54:10 GMT (Saturday 18th March 2023)"
+	revision: "5"
 
 class
 	JSON_ZNAME_VALUE_LIST
@@ -31,7 +31,7 @@ create
 
 feature -- Access
 
-	name_item (keep_ref: BOOLEAN): ZSTRING
+	item_name (keep_ref: BOOLEAN): ZSTRING
 		require
 			valid_item: not off
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 15:22:20 GMT (Wednesday 15th March 2023)"
-	revision: "20"
+	date: "2023-03-18 9:54:38 GMT (Saturday 18th March 2023)"
+	revision: "21"
 
 deferred class
 	EL_ZSTRING_OCCURRENCE_IMPLEMENTATION
@@ -18,6 +18,11 @@ inherit
 	EL_SHARED_ZSTRING_CODEC
 
 	EL_ZSTRING_CONSTANTS
+
+	EL_SHARED_ZSTRING_CURSOR
+		rename
+			Cursor as Z_cursor
+		end
 
 feature -- Element change
 
@@ -40,6 +45,11 @@ feature {NONE} -- Implementation
 	default_target: ZSTRING
 		do
 			Result := Empty_string
+		end
+
+	shared_cursor: EL_STRING_ITERATION_CURSOR
+		do
+			Result := Z_cursor (target)
 		end
 
 	string_searcher: EL_ZSTRING_SEARCHER

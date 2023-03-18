@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 13:50:52 GMT (Monday 5th December 2022)"
-	revision: "49"
+	date: "2023-03-18 17:09:29 GMT (Saturday 18th March 2023)"
+	revision: "50"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -110,13 +110,12 @@ feature {NONE} -- Initialization
 
 	make_from_sub_list (list: EL_ARRAYED_LIST [G]; start_index, end_index: INTEGER)
 		require
-			valid_start_index: list.valid_index (start_index)
-			valid_end_index: list.valid_index (end_index)
+			valid_range: start_index <= end_index implies start_index >= 1 and end_index <= count
 		local
 			i: INTEGER
 		do
 			if end_index < start_index then
-				make (0)
+				make_empty
 			else
 				make (end_index - start_index + 1)
 				from i := start_index until i > end_index loop
@@ -172,6 +171,9 @@ feature -- Access
 	sub_list (start_index, end_index: INTEGER): like Current
 		do
 			create Result.make_from_sub_list (Current, start_index, end_index)
+			if object_comparison then
+				Result.compare_objects
+			end
 		end
 
 	tail (a_count: INTEGER): like Current
@@ -224,7 +226,7 @@ feature -- Removal
 			is_index_moveable: BOOLEAN
 		do
 			if n <= count then
-				is_index_moveable := index > n
+				is_index_moveable := index > n and n <= count
 				area.move_data (n, 0, count - n)
 				area.remove_tail (n)
 				if is_index_moveable then
@@ -232,8 +234,8 @@ feature -- Removal
 				end
 			end
 		ensure
-			moved_items: n < old count implies old i_th (n + 1) = first and old i_th (count) = i_th (count)
-			same_item: not off and old index /= index implies old area [index] = area [index]
+			items_removed: to_array ~ old tail_array (count - n)
+			same_item: old (index > n and index <= count) implies index - (old index - n) = 0
 		end
 
 	remove_tail (n: INTEGER)
@@ -246,7 +248,7 @@ feature -- Removal
 				index := count + 1
 			end
 		ensure
-			items_removed: to_array ~ old to_array.subarray (1, count - n)
+			items_removed: to_array ~ old head_array (count - n)
 		end
 
 feature -- Reorder items
@@ -305,6 +307,26 @@ feature -- Reorder items
 		end
 
 feature -- Contract Support
+
+	head_array (n: INTEGER): ARRAY [G]
+		do
+			if n > 0 then
+				Result := to_array.subarray (1, n)
+				Result.rebase (1)
+			else
+				create Result.make_empty
+			end
+		end
+
+	tail_array (n: INTEGER): ARRAY [G]
+		do
+			if n > 0 then
+				Result := to_array.subarray (count - n + 1, count)
+				Result.rebase (1)
+			else
+				create Result.make_empty
+			end
+		end
 
 	valid_shift (i, offset: INTEGER): BOOLEAN
 		-- `True' if `i_th (i)' item can be shifted `offset' positions to right

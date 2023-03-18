@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-03 17:57:54 GMT (Tuesday 3rd January 2023)"
-	revision: "29"
+	date: "2023-03-18 15:34:54 GMT (Saturday 18th March 2023)"
+	revision: "30"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -230,7 +230,7 @@ feature -- Element change
 				put_i_th (a_first, 1); put_i_th (a_last, count)
 			end
 		end
-		
+
 feature -- Removal
 
 	prune_all_empty
@@ -308,7 +308,6 @@ feature {NONE} -- Implementation
 		do
 			if attached {S} general as str then
 				Result := str
-
 			else
 				create Result.make (general.count)
 				Result.append (general)

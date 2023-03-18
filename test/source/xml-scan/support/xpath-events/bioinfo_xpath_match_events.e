@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 10:03:57 GMT (Thursday 29th December 2022)"
-	revision: "12"
+	date: "2023-03-18 15:01:19 GMT (Saturday 18th March 2023)"
+	revision: "13"
 
 class
 	BIOINFO_XPATH_MATCH_EVENTS
@@ -138,8 +138,9 @@ feature {NONE} -- Implementation
 	log_last_node (label: STRING)
 			--
 		do
-			lio.put_string_field (label, last_node.to_string)
-			lio.put_new_line
+			if attached last_node.to_string as str then
+				lio.put_string_field_to_max_length (label, str, str.count)
+			end
 			lio.put_new_line
 		end
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 15:16:47 GMT (Wednesday 15th March 2023)"
-	revision: "19"
+	date: "2023-03-18 9:55:19 GMT (Saturday 18th March 2023)"
+	revision: "20"
 
 class
 	EL_SPLIT_ZSTRING_LIST
@@ -21,7 +21,7 @@ inherit
 			append_code as append_z_code,
 			separator_code as separator_z_code
 		undefine
-			default_target, fill_by_string, is_valid_character
+			default_target, fill_by_string, is_valid_character, shared_cursor
 		redefine
 			append_z_code, fill_by_string, is_white_space, is_valid_character, proper_cased,
 			separator_z_code, string_strict_cmp

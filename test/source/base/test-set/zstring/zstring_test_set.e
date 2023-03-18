@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "90"
+	date: "2023-03-18 9:32:52 GMT (Saturday 18th March 2023)"
+	revision: "91"
 
 class
 	ZSTRING_TEST_SET
@@ -43,6 +43,8 @@ feature {NONE} -- Initialization
 				["mirror", agent test_mirror],
 				["split", agent test_split],
 				["substring_split", agent test_substring_split],
+				["to_general", agent test_to_general],
+				["to_string_32", agent test_to_string_32],
 				["append", agent test_append],
 				["append_encoded", agent test_append_encoded],
 				["append_string_general", agent test_append_string_general],
@@ -51,19 +53,20 @@ feature {NONE} -- Initialization
 				["append_to_string_32", agent test_append_to_string_32],
 				["append_unicode", agent test_append_unicode],
 				["append_utf_8", agent test_append_utf_8],
+				["prepend", agent test_prepend],
+				["prepend_substring", agent test_prepend_substring],
+				["adjustments", agent test_adjustments],
+				["prune_all", agent test_prune_all],
+				["prune_leading", agent test_prune_leading],
+				["prune_trailing", agent test_prune_trailing],
+				["remove_substring", agent test_remove_substring],
 				["case_changing", agent test_case_changing],
 				["enclose", agent test_enclose],
 				["fill_character", agent test_fill_character],
 				["insert_character", agent test_insert_character],
 				["insert_string", agent test_insert_string],
-				["adjustments", agent test_adjustments],
-				["prepend", agent test_prepend],
-				["prepend_substring", agent test_prepend_substring],
-				["prune_all", agent test_prune_all],
-				["prune_leading", agent test_prune_leading],
-				["prune_trailing", agent test_prune_trailing],
+				["joined", agent test_joined],
 				["put_unicode", agent test_put_unicode],
-				["remove_substring", agent test_remove_substring],
 				["replace_character", agent test_replace_character],
 				["replace_substring", agent test_replace_substring],
 				["replace_substring_all", agent test_replace_substring_all],
@@ -72,10 +75,11 @@ feature {NONE} -- Initialization
 				["ends_with", agent test_ends_with],
 				["for_all_split", agent test_for_all_split],
 				["has", agent test_has],
+				["has_between", agent test_has_between],
 				["is_canonically_spaced", agent test_is_canonically_spaced],
 				["order_comparison", agent test_order_comparison],
-				["same_caseless_characters", agent test_same_caseless_characters],
 				["same_characters", agent test_same_characters],
+				["same_caseless_characters", agent test_same_caseless_characters],
 				["sort", agent test_sort],
 				["starts_with", agent test_starts_with],
 				["there_exists_split", agent test_there_exists_split],
@@ -83,7 +87,6 @@ feature {NONE} -- Initialization
 				["remove_head", agent test_remove_head],
 				["remove_tail", agent test_remove_tail],
 				["index_of", agent test_index_of],
-				["joined", agent test_joined],
 				["last_index_of", agent test_last_index_of],
 				["new_cursor", agent test_new_cursor],
 				["occurrences", agent test_occurrences],
@@ -92,9 +95,7 @@ feature {NONE} -- Initialization
 				["unicode_index_of", agent test_unicode_index_of],
 				["substring", agent test_substring],
 				["substring_to", agent test_substring_to],
-				["substring_to_reversed", agent test_substring_to_reversed],
-				["to_general", agent test_to_general],
-				["to_string_32", agent test_to_string_32]
+				["substring_to_reversed", agent test_substring_to_reversed]
 			>>)
 		end
 
@@ -853,7 +854,7 @@ feature -- Status query tests
 
 	test_has
 		note
-			testing: "covers/{ZSTRING}.has"
+			testing: "covers/{EL_READABLE_ZSTRING}.has"
 		local
 			english: ZSTRING; english_32: STRING_32
 		do
@@ -862,6 +863,31 @@ feature -- Status query tests
 			across Text.lines as line loop
 				across line.item as uc loop
 					assert ("has OK", english.has (uc.item) ~ english_32.has (uc.item))
+				end
+			end
+		end
+
+	test_has_between
+		-- ZSTRING_TEST_SET.test_has_between
+		note
+			testing: "covers/{EL_READABLE_ZSTRING}.has_between"
+		local
+			interval_list: EL_SPLIT_INTERVALS; line: ZSTRING
+			i, lower, upper: INTEGER
+		do
+			across Text.lines as lines loop
+				line := lines.item
+				create interval_list.make (line, ' ')
+				if attached interval_list as list then
+					from list.start until list.after loop
+						lower := list.item_lower; upper := list.item_upper
+						assert ("does not have space", not line.has_between (' ', lower, upper))
+						from i := lower until i > upper loop
+							assert ("has interval character", line.has_between (line [i], lower, upper))
+							i := i + 1
+						end
+						list.forth
+					end
 				end
 			end
 		end
@@ -898,17 +924,6 @@ feature -- Status query tests
 			end
 		end
 
-	test_same_characters
-		-- ZSTRING_TEST_SET.test_same_characters
-		note
-			testing: "covers/{EL_COMPARABLE_ZSTRING}.same_characters",
-						"covers/{EL_COMPARABLE_ZSTRING}.same_characters_8",
-						"covers/{EL_COMPARABLE_ZSTRING}.same_characters_32"
-
-		do
-			assert_same_characters ("same_characters OK", False)
-		end
-
 	test_same_caseless_characters
 		-- ZSTRING_TEST_SET.test_same_caseless_characters
 		note
@@ -918,6 +933,17 @@ feature -- Status query tests
 
 		do
 			assert_same_characters ("same_caseless_characters OK", True)
+		end
+
+	test_same_characters
+		-- ZSTRING_TEST_SET.test_same_characters
+		note
+			testing: "covers/{EL_COMPARABLE_ZSTRING}.same_characters",
+						"covers/{EL_COMPARABLE_ZSTRING}.same_characters_8",
+						"covers/{EL_COMPARABLE_ZSTRING}.same_characters_32"
+
+		do
+			assert_same_characters ("same_characters OK", False)
 		end
 
 	test_sort

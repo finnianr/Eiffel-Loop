@@ -11,8 +11,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-12 10:55:27 GMT (Sunday 12th March 2023)"
-	revision: "17"
+	date: "2023-03-18 8:33:47 GMT (Saturday 18th March 2023)"
+	revision: "18"
 
 class
 	JSON_NAME_VALUE_LIST
@@ -72,6 +72,18 @@ feature -- Status query
 		end
 
 feature -- Numeric Iteration items
+
+	item_2D_double_array: JSON_2D_ARRAY [DOUBLE]
+		-- 2 dimensional DOUBLE array
+		do
+			create Result.make (item_immutable_value)
+		end
+
+	item_2D_integer_array: JSON_2D_ARRAY [INTEGER]
+		-- 2 dimensional INTEGER array of `width' columns
+		do
+			create Result.make (item_immutable_value)
+		end
 
 	item_integer: INTEGER
 		do

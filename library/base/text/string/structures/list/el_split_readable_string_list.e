@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-16 10:21:52 GMT (Thursday 16th March 2023)"
-	revision: "19"
+	date: "2023-03-18 10:09:39 GMT (Saturday 18th March 2023)"
+	revision: "20"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -32,6 +32,7 @@ inherit
 			has as has_interval,
 			i_th as i_th_interval,
 			item as interval_item,
+			item_has as interval_item_has,
 			index_of as index_of_interval,
 			intersection as interval_intersection,
 			item_lower as item_start_index,
@@ -127,6 +128,16 @@ feature -- Status query
 				forth
 			end
 			pop_cursor
+		end
+
+	item_has (uc: CHARACTER_32): BOOLEAN
+		require
+			valid_item: not off
+		local
+			item_upper, item_lower: INTEGER
+		do
+			item_lower := i_th_lower_upper (index, $item_upper)
+			Result := shared_cursor.has_character_in_bounds (uc, item_lower, item_upper)
 		end
 
 	item_has_substring (str: READABLE_STRING_GENERAL): BOOLEAN
@@ -351,6 +362,13 @@ feature {NONE} -- Implementation
 					Result := string_strict_cmp (right_index, left_index, right_count) > 0
 				end
 			end
+		end
+
+	shared_cursor: EL_STRING_ITERATION_CURSOR
+		local
+			c: EL_STRING_CURSOR_ROUTINES
+		do
+			Result := c.shared (target)
 		end
 
 	string_strict_cmp (left_index, right_index, n: INTEGER): INTEGER

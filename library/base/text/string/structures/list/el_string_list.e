@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 11:28:17 GMT (Friday 10th March 2023)"
-	revision: "25"
+	date: "2023-03-18 15:38:07 GMT (Saturday 18th March 2023)"
+	revision: "26"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -81,5 +81,43 @@ feature -- Access
 			end
 		end
 
+feature -- Removal
+
+	curtail (maximum_count: INTEGER)
+		-- curtail list to `maximum_count' characters inserting an ellipsis at the 80% mark
+		local
+			line_list: like Current
+			leading_80_percent, trailing_20_percent, line_count, start_index, end_index: INTEGER
+			last_line, first_line: like item; dots: like item
+		do
+			dots := new_string (Ellipsis_dots)
+			leading_80_percent := (maximum_count * 8 / 10).rounded
+			trailing_20_percent := (maximum_count * 2 / 10).rounded
+			line_list := twin
+			from until character_count < leading_80_percent loop
+				last_line := last
+				remove_last
+			end
+			line_count := leading_80_percent - character_count
+			extend (last_line.substring (1, line_count) + dots)
+
+			from until line_list.character_count < trailing_20_percent loop
+				first_line := line_list.first
+				line_list.remove_head (1)
+			end
+			line_count := trailing_20_percent - line_list.character_count
+			start_index := first_line.count - line_count + 1
+			end_index := first_line.count
+			line_list.put_front (dots + first_line.substring (start_index, end_index))
+
+			append (line_list)
+		end
+
+feature {NONE} -- Constants
+
+	Ellipsis_dots: STRING
+		once
+			create Result.make_filled ('.', 2)
+		end
 
 end

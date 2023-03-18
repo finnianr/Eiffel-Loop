@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:40:40 GMT (Friday 10th March 2023)"
-	revision: "8"
+	date: "2023-03-18 7:44:42 GMT (Saturday 18th March 2023)"
+	revision: "9"
 
 class
 	CAD_MODEL_TEST_SET
@@ -26,9 +26,9 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["line_intersection",		agent test_line_intersection],
+				["line_intersection",	agent test_line_intersection],
 				["line_intersection_2",	agent test_line_intersection_2],
-				["model_load_and_store",	agent test_model_load_and_store],
+				["model_load_and_store",agent test_model_load_and_store],
 				["slicing",					agent test_slicing]
 			>>)
 		end

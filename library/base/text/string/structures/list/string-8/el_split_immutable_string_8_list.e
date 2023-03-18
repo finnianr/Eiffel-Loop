@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 15:33:24 GMT (Wednesday 15th March 2023)"
-	revision: "9"
+	date: "2023-03-18 9:51:56 GMT (Saturday 18th March 2023)"
+	revision: "10"
 
 class
 	EL_SPLIT_IMMUTABLE_STRING_8_LIST
@@ -18,7 +18,7 @@ class
 inherit
 	EL_SPLIT_READABLE_STRING_LIST [IMMUTABLE_STRING_8]
 		undefine
-			fill_by_string, is_valid_character, is_white_space, same_i_th_character
+			fill_by_string, is_valid_character, is_white_space, same_i_th_character, shared_cursor
 		redefine
 			fill_general, fill_general_by_string, item, i_th
 		end

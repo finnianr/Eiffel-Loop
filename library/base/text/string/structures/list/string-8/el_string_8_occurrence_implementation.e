@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 15:22:08 GMT (Wednesday 15th March 2023)"
-	revision: "20"
+	date: "2023-03-18 9:51:37 GMT (Saturday 18th March 2023)"
+	revision: "21"
 
 deferred class
 	EL_STRING_8_OCCURRENCE_IMPLEMENTATION [S -> READABLE_STRING_8]
@@ -21,6 +21,8 @@ inherit
 		end
 
 	EL_STRING_8_CONSTANTS
+
+	EL_SHARED_STRING_8_CURSOR
 
 feature -- Element change
 
@@ -59,6 +61,11 @@ feature {NONE} -- Implementation
 	same_i_th_character (a_target: S; i: INTEGER; uc: CHARACTER_32; c: CHARACTER): BOOLEAN
 		do
 			Result := a_target [i] = c
+		end
+
+	shared_cursor: EL_STRING_ITERATION_CURSOR
+		do
+			Result := Cursor_8 (target)
 		end
 
 	string_8_searcher: STRING_8_SEARCHER

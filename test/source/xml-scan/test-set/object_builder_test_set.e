@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "20"
+	date: "2023-03-18 14:01:24 GMT (Saturday 18th March 2023)"
+	revision: "21"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -82,7 +82,7 @@ feature -- Tests
 	test_recursive_object_build
 		-- OBJECT_BUILDER_TEST_SET.test_recursive_object_build
 		do
-			do_test ("create_bioinformatic_commands", 4104321945, agent create_bioinformatic_commands, [])
+			do_test ("create_bioinformatic_commands", 2645587376, agent create_bioinformatic_commands, [])
 		end
 
 feature {NONE} -- Implementation

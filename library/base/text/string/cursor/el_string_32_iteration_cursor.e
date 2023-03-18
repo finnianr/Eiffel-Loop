@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 12:02:03 GMT (Wednesday 15th March 2023)"
-	revision: "9"
+	date: "2023-03-18 9:37:42 GMT (Saturday 18th March 2023)"
+	revision: "10"
 
 class
 	EL_STRING_32_ITERATION_CURSOR
@@ -66,6 +66,24 @@ feature -- Status query
 			c_32: EL_CHARACTER_32_ROUTINES
 		do
 			Result := c_32.is_ascii_area (area, area_first_index, area_last_index)
+		end
+
+	has_character_in_bounds (uc: CHARACTER_32; start_index, end_index: INTEGER): BOOLEAN
+		-- `True' if `uc' occurs between `start_index' and `end_index'
+		local
+			count, i, i_final: INTEGER
+		do
+			if target.valid_index (start_index) then
+				count := target.count.min (end_index) - start_index + 1
+				i := start_index + area_first_index - 1
+				i_final := i + count
+				if attached area as l_area then
+					from until i = i_final or Result loop
+						Result := l_area [i] = uc
+						i := i + 1
+					end
+				end
+			end
 		end
 
 feature -- Measurement

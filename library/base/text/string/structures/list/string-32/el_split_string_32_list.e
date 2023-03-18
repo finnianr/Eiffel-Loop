@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 15:15:26 GMT (Wednesday 15th March 2023)"
-	revision: "18"
+	date: "2023-03-18 9:46:18 GMT (Saturday 18th March 2023)"
+	revision: "19"
 
 class
 	EL_SPLIT_STRING_32_LIST
@@ -18,7 +18,7 @@ class
 inherit
 	EL_SPLIT_STRING_LIST [STRING_32]
 		undefine
-			fill_by_string, is_valid_character
+			fill_by_string, is_valid_character, shared_cursor
 		redefine
 			default_target
 		end

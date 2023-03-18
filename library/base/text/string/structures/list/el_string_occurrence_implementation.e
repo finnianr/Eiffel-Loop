@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-08 14:44:47 GMT (Wednesday 8th March 2023)"
-	revision: "19"
+	date: "2023-03-18 9:49:52 GMT (Saturday 18th March 2023)"
+	revision: "20"
 
 deferred class
 	EL_STRING_OCCURRENCE_IMPLEMENTATION [S -> READABLE_STRING_GENERAL]
@@ -41,6 +41,10 @@ feature {NONE} -- Implementation
 		end
 
 	set_target (a_target: S; a_adjustments: INTEGER)
+		deferred
+		end
+
+	target: S
 		deferred
 		end
 

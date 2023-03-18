@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 12:04:00 GMT (Wednesday 15th March 2023)"
-	revision: "11"
+	date: "2023-03-18 9:35:04 GMT (Saturday 18th March 2023)"
+	revision: "12"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -126,6 +126,12 @@ feature -- Status query
 			if not target.has_mixed_encoding then
 				Result := c_8.is_ascii_area (area, area_first_index, area_last_index)
 			end
+		end
+
+	has_character_in_bounds (uc: CHARACTER_32; start_index, end_index: INTEGER): BOOLEAN
+		-- `True' if `uc' occurrs between `start_index' and `end_index'
+		do
+			Result := target.has_between (uc, start_index, end_index)
 		end
 
 feature -- Basic operations

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-16 15:11:59 GMT (Thursday 16th March 2023)"
-	revision: "38"
+	date: "2023-03-18 15:17:53 GMT (Saturday 18th March 2023)"
+	revision: "39"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -35,6 +35,7 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["across_iteration", agent test_across_iteration],
+				["curtail_list", agent test_curtail_list],
 				["fill_tuple", agent test_fill_tuple],
 				["immutable_string_split", agent test_immutable_string_split],
 				["occurrence_editor", agent test_occurrence_editor],
@@ -72,6 +73,27 @@ feature -- Tests
 				if attached split.item as interval then
 					assert ("same lower", interval.lower = lower)
 					assert ("same upper", interval.upper = upper)
+				end
+			end
+		end
+
+	test_curtail_list
+		-- SPLIT_STRING_TEST_SET.test_curtail_list
+		note
+			testing: "covers/{EL_STRING_LIST}.curtail"
+		local
+			line_list: EL_ZSTRING_LIST
+		do
+			create line_list.make_empty
+			if attached Text.lines as text_lines then
+				line_list.wipe_out
+				across 1 |..| text_lines.count as count loop
+					across Text.lines as line until line.cursor_index > count.item loop
+						line_list.extend (line.item)
+					end
+					line_list.curtail (line_list.character_count // 2)
+					lio.put_labeled_lines ("Curtailed", line_list)
+					lio.put_new_line
 				end
 			end
 		end

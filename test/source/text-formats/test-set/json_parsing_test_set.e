@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-12 9:11:35 GMT (Sunday 12th March 2023)"
-	revision: "26"
+	date: "2023-03-18 13:20:25 GMT (Saturday 18th March 2023)"
+	revision: "27"
 
 class
 	JSON_PARSING_TEST_SET
@@ -19,6 +19,8 @@ inherit
 		end
 
 	EL_CRC_32_TESTABLE
+
+	EL_STRING_8_CONSTANTS
 
 	JSON_TEST_DATA
 
@@ -35,6 +37,7 @@ feature {NONE} -- Initialization
 			make_named (<<
 				["canonically_spaced_json", agent test_canonically_spaced_json],
 				["json_across_iteration", agent test_json_across_iteration],
+				["json_array_parsing", agent test_json_array_parsing],
 				["json_intervals_object", agent test_json_intervals_object],
 				["json_reflection_1", agent test_json_reflection_1],
 				["json_reflection_3", agent test_json_reflection_3],
@@ -87,7 +90,7 @@ feature -- Tests
 			crc := crc_generator
 			create list.make (JSON_price.to_utf_8 (True))
 			from list.start until list.after loop
-				crc.add_string (list.name_item (False))
+				crc.add_string (list.item_name (False))
 				crc.add_string (list.item_value (False))
 				list.forth
 			end
@@ -101,6 +104,34 @@ feature -- Tests
 				end
 			end
 			assert ("same checksums", checksum_1 = crc.checksum)
+		end
+
+	test_json_array_parsing
+		note
+			testing: "covers/{JSON_PARSED_INTERVALS}.make"
+		local
+			list: JSON_NAME_VALUE_LIST; data_list: EL_STRING_8_LIST
+		do
+			create list.make (JSON_vector_plane_data)
+			create data_list.make (JSON_vector_plane_data.occurrences ('%N') + 1)
+			from list.start until list.after loop
+				if list.item_same_as ("q") then
+					append_json (list.item_name (False), data_list, list.item_2d_integer_array)
+					data_list.last.append_character (',')
+				elseif list.item_same_as ("p") then
+					append_json (list.item_name (False), data_list, list.item_2d_double_array)
+				end
+				list.forth
+			end
+			data_list.indent (1)
+			data_list.put_front ("{") data_list.extend ("}")
+			if attached data_list.joined_lines as json_data then
+				lio.put_string_field_to_max_length ("JSON", json_data, 600)
+				lio.put_new_line
+--				force data to match with adjustment to DOUBLE rounding
+				json_data.replace_substring_all ("110399", "110396")
+				assert ("same data", JSON_vector_plane_data ~ json_data)
+			end
 		end
 
 	test_json_intervals_object
@@ -180,6 +211,31 @@ feature -- Tests
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	append_json (name: STRING; list: EL_STRING_8_LIST; array: ARRAY2 [ANY])
+		local
+			i, j: INTEGER
+		do
+			list.extend ("%"" + name + "%": [")
+			from i := 1 until i > array.height loop
+				if i > 1 then
+					list.last.append (",")
+				end
+				list.extend ("%T[")
+				from j := 1 until j > array.width loop
+					if j > 1 then
+						list.last.append (", ")
+					end
+					list.last.append (array [i, j].out)
+					j := j + 1
+				end
+				list.last.append_character (']')
+				i := i + 1
+			end
+			list.extend ("]")
+		end
+
 feature {NONE} -- Constants
 
 	Escaper: EL_STRING_ESCAPER [ZSTRING]
@@ -202,7 +258,5 @@ feature {NONE} -- Constants
 			Result.literal := {STRING_32} "€%T3.00"
 			Result.escaped := {STRING_32} "€\t3.00"
 		end
-
-
 
 end

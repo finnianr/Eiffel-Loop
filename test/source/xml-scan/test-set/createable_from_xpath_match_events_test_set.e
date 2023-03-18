@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "9"
+	date: "2023-03-18 15:04:53 GMT (Saturday 18th March 2023)"
+	revision: "10"
 
 class
 	CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET
@@ -39,7 +39,7 @@ feature -- Tests
 
 	test_match_events
 		do
-			do_test ("create_bioinfo", 729106667, agent create_bioinfo, [])
+			do_test ("create_bioinfo", 3460070361, agent create_bioinfo, [])
 			do_test ("create_smil", 2182301393, agent create_smil, [])
 			do_test ("create_xhtml", 2030572575, agent create_xhtml, ["XML/Hexagrams.xhtml"])
 			do_test ("create_xhtml", 507394204, agent create_xhtml, ["XML/Hexagrams.utf8.xhtml"])

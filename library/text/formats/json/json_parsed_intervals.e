@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-12 18:35:07 GMT (Sunday 12th March 2023)"
-	revision: "8"
+	date: "2023-03-18 8:27:48 GMT (Saturday 18th March 2023)"
+	revision: "9"
 
 class
 	JSON_PARSED_INTERVALS
@@ -71,6 +71,32 @@ feature {NONE} -- Initialization
 		end
 
 feature {NONE} -- Implementation
+
+	index_of_balanced_bracket (json: READABLE_STRING_8; start_index, json_count: INTEGER): INTEGER
+		local
+			i, open_count, offset: INTEGER; l_area: like cursor_8.area
+		do
+			if attached cursor_8 (json) as c then
+				l_area := c.area; offset := c.area_first_index
+				from i := start_index until i > json_count or Result > 0 loop
+					inspect l_area [i + offset - 1]
+						when '[' then
+							open_count := open_count + 1
+							i := i + 1
+							
+						when ']' then
+							if open_count = 0 then
+								Result := i - 1
+							else
+								open_count := open_count - 1
+								i := i + 1
+							end
+					else
+						i := i + 1
+					end
+				end
+			end
+		end
 
 	index_of_end_quote (json: READABLE_STRING_8; start_index, json_count: INTEGER): INTEGER
 		local
@@ -150,6 +176,11 @@ feature {NONE} -- Implementation
 						when '0' .. '9', '-' then -- numeric value
 							lower := j
 							upper := last_non_numeric_index (json, lower, json_count)
+
+						when '[' then
+							lower := j + 1
+							upper := index_of_balanced_bracket (json, lower, json_count)
+
 					else
 					end
 					if upper > 0 then

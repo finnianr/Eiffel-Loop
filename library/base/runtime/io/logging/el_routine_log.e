@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-11 10:13:43 GMT (Wednesday 11th January 2023)"
-	revision: "25"
+	date: "2023-03-18 15:02:41 GMT (Saturday 18th March 2023)"
+	revision: "26"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -16,6 +16,8 @@ inherit
 	EL_LOGGABLE
 
 	EL_MODULE_TUPLE
+
+	EL_MODULE_REUSEABLE
 
 feature -- Status
 
@@ -311,7 +313,7 @@ feature -- String output
 			end
 		end
 
-	put_string_field_to_max_length (
+	OLD_put_string_field_to_max_length (
 		label, field_value: READABLE_STRING_GENERAL; max_length: INTEGER
 	)
 			-- Put string to log file buffer edited to fit into max_length
@@ -348,6 +350,41 @@ feature -- String output
 					l_lines.append (l_field_value.lines)
 				end
 				op.put_lines (l_lines)
+				op.tab_left
+				op.put_new_line
+
+				op.set_text_color (Color.Yellow)
+				op.put_string (once "]%"")
+				op.set_text_color (Color.Default)
+
+				op.flush
+			end
+		end
+
+	put_string_field_to_max_length (label, field_value: READABLE_STRING_GENERAL; max_length: INTEGER)
+		-- Put string to log file buffer edited to fit into max_length
+		local
+			line_list: EL_ZSTRING_LIST
+		do
+			if not field_value.has ('%N') and field_value.count <= max_length then
+				put_string_field (label, field_value)
+
+			elseif attached output as op then
+				op.put_label (label)
+
+				op.set_text_color (Color.Yellow)
+				op.put_string (once "%"[")
+				op.set_text_color (Color.Default)
+
+				op.tab_right
+				op.put_new_line
+
+				create line_list.make_with_lines (field_value)
+				line_list.expand_tabs (op.Tab_string.count)
+				if line_list.character_count > max_length then
+					line_list.curtail (max_length)
+				end
+				op.put_lines (line_list)
 				op.tab_left
 				op.put_new_line
 
