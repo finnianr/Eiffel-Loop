@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 8:27:48 GMT (Saturday 18th March 2023)"
-	revision: "9"
+	date: "2023-03-19 15:49:53 GMT (Sunday 19th March 2023)"
+	revision: "10"
 
 class
 	JSON_PARSED_INTERVALS
@@ -25,11 +25,21 @@ inherit
 	EL_SHARED_STRING_8_CURSOR
 
 create
-	make
+	make, make_grouped, make_parsed
 
 feature {NONE} -- Initialization
 
 	make (a_utf_8_json: READABLE_STRING_8)
+		do
+			make_parsed (a_utf_8_json, False)
+		end
+
+	make_grouped (a_utf_8_json: READABLE_STRING_8)
+		do
+			make_parsed (a_utf_8_json, True)
+		end
+
+	make_parsed (a_utf_8_json: READABLE_STRING_8; with_group_tags: BOOLEAN)
 		local
 			i, j, index_quote, upper, json_count, colon_index: INTEGER
 			valid_upper: BOOLEAN; c8: EL_CHARACTER_8_ROUTINES
@@ -54,7 +64,7 @@ feature {NONE} -- Initialization
 						j := j + 1
 					end
 					-- if not a group identifier
-					if a_utf_8_json [j] /= '{' then
+					if not with_group_tags implies a_utf_8_json [j] /= '{' then
 						index_quote := previous_index_of_end_quote (a_utf_8_json, upper - 1)
 						if index_quote > 0 then
 							new_area.extend (index_quote + 1)
@@ -70,6 +80,11 @@ feature {NONE} -- Initialization
 			each_name_has_a_value: area_v2.count = data_intervals_area.count
 		end
 
+feature -- Status query
+
+	has_groups: BOOLEAN
+		-- intervals include block tag group names
+
 feature {NONE} -- Implementation
 
 	index_of_balanced_bracket (json: READABLE_STRING_8; start_index, json_count: INTEGER): INTEGER
@@ -83,7 +98,7 @@ feature {NONE} -- Implementation
 						when '[' then
 							open_count := open_count + 1
 							i := i + 1
-							
+
 						when ']' then
 							if open_count = 0 then
 								Result := i - 1
@@ -131,19 +146,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	previous_index_of_end_quote (json: READABLE_STRING_8; start_index: INTEGER): INTEGER
-		local
-			i, offset: INTEGER; l_area: like cursor_8.area
-		do
-			if attached cursor_8 (json) as c then
-				l_area := c.area; offset := c.area_first_index
-				from i := start_index until i = 0 or else l_area [i + offset - 1] = '"' loop
-					i := i - 1
-				end
-			end
-			Result := i
-		end
-
 	new_data_intervals (json: READABLE_STRING_8; intervals: like area; json_count: INTEGER): EL_ARRAYED_INTERVAL_LIST
 		local
 			i, j, lower, upper: INTEGER
@@ -181,6 +183,9 @@ feature {NONE} -- Implementation
 							lower := j + 1
 							upper := index_of_balanced_bracket (json, lower, json_count)
 
+						when '{' then
+							lower := j; upper := j
+
 					else
 					end
 					if upper > 0 then
@@ -189,6 +194,19 @@ feature {NONE} -- Implementation
 				end
 				i := i + 2
 			end
+		end
+
+	previous_index_of_end_quote (json: READABLE_STRING_8; start_index: INTEGER): INTEGER
+		local
+			i, offset: INTEGER; l_area: like cursor_8.area
+		do
+			if attached cursor_8 (json) as c then
+				l_area := c.area; offset := c.area_first_index
+				from i := start_index until i = 0 or else l_area [i + offset - 1] = '"' loop
+					i := i - 1
+				end
+			end
+			Result := i
 		end
 
 feature {NONE} -- Internal attributes

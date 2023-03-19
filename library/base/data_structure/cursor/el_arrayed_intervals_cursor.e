@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-16 15:10:46 GMT (Thursday 16th March 2023)"
-	revision: "1"
+	date: "2023-03-19 11:15:30 GMT (Sunday 19th March 2023)"
+	revision: "2"
 
 class
 	EL_ARRAYED_INTERVALS_CURSOR
@@ -32,6 +32,16 @@ feature -- Access
 			i := area_index * 2
 			if attached area as a then
 				create Result.make (a [i], a [i + 1])
+			end
+		end
+
+	item_compact: INTEGER_64
+		local
+			ir: EL_INTERVAL_ROUTINES; i: INTEGER
+		do
+			i := area_index * 2
+			if attached area as a then
+				Result := ir.compact (a [i], a [i + 1])
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-12 9:53:20 GMT (Sunday 12th March 2023)"
-	revision: "9"
+	date: "2023-03-19 16:00:01 GMT (Sunday 19th March 2023)"
+	revision: "10"
 
 class
 	EL_WEB_ARCHIVE_HTTP_CONNECTION
@@ -53,37 +53,7 @@ feature -- Status query
 			Result := wayback (a_url).available
 		end
 
-feature {NONE} -- Implementation
-
-	wayback_json_field (a_url: like url; field_name: ZSTRING): ZSTRING
-			-- archived URL of `a_url'. Returns empty string if not found.
-		local
-			json: ZSTRING
-		do
-			Parameter_table [Param_url] := a_url
-			open_with_parameters (Wayback_available_url, Parameter_table)
-			read_string_get
-			if has_error then
-				create Result.make_empty
-			else
-				json := last_string
-				Result := json.substring_between (Delimiter_template #$ [field_name], Json_comma_delimiter, 1)
-			end
-			close
-		end
-
 feature {NONE} -- Constants
-
-	Delimiter_template: ZSTRING
-		once
-			Result := "%"%S%":%""
-		end
-
-	Json_comma_delimiter: ZSTRING
-		once
-			Result := ","
-			Result.quote (2)
-		end
 
 	Parameter_table: HASH_TABLE [STRING, STRING]
 		once

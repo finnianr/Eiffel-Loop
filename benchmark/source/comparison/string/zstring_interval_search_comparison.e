@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-19 17:43:30 GMT (Sunday 19th February 2023)"
-	revision: "8"
+	date: "2023-03-19 11:12:11 GMT (Sunday 19th March 2023)"
+	revision: "9"
 
 class
 	ZSTRING_INTERVAL_SEARCH_COMPARISON
@@ -69,7 +69,7 @@ feature {NONE} -- append_character
 					end_string := line.item.substring_to_reversed (' ', default_pointer)
 				end
 				across line.item.substring_intervals (end_string, False) as list loop
-					l_item := list.item
+					l_item := list.item_compact
 					lower := ir.to_lower (l_item); upper := ir.to_upper (l_item)
 				end
 			end

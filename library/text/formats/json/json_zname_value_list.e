@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 7:54:10 GMT (Saturday 18th March 2023)"
-	revision: "5"
+	date: "2023-03-19 13:07:09 GMT (Sunday 19th March 2023)"
+	revision: "6"
 
 class
 	JSON_ZNAME_VALUE_LIST
@@ -27,7 +27,7 @@ inherit
 		end
 
 create
-	make
+	make, make_grouped, make_parsed
 
 feature -- Access
 

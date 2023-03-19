@@ -11,8 +11,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 8:33:47 GMT (Saturday 18th March 2023)"
-	revision: "18"
+	date: "2023-03-19 15:53:00 GMT (Sunday 19th March 2023)"
+	revision: "19"
 
 class
 	JSON_NAME_VALUE_LIST
@@ -20,7 +20,8 @@ class
 inherit
 	JSON_PARSED_INTERVALS
 		rename
-			remove as remove_interval
+			remove as remove_interval,
+			find_next as find_next_interval
 		redefine
 			make
 		end
@@ -35,25 +36,49 @@ inherit
 	EL_SHARED_IMMUTABLE_8_MANAGER
 
 create
-	make
+	make, make_grouped, make_parsed
 
 feature {NONE} -- Initialization
 
 	make (a_utf_8_json: READABLE_STRING_8)
 		do
-			utf_8_json := a_utf_8_json
+			if attached cursor_8 (a_utf_8_json) as json then
+				utf_8_json := Immutable_8.new_substring (json.area, json.area_first_index, a_utf_8_json.count)
+			end
 			create internal_utf_8_item.make (50)
 			create internal_name.make (20)
 
 			Precursor (a_utf_8_json)
 		end
 
-feature -- Basic operations
+feature -- Cursor movement
 
 	find_field (name: READABLE_STRING_8)
+		-- find first occurrence of `name' field starting from start
 		do
-			from start until after or else item_same_as (name) loop
+			start; field_search (name)
+		end
+
+	field_search (name: READABLE_STRING_8)
+		do
+			from until after or else item_same_as (name) loop
 				forth
+			end
+			if after then
+				found_index := 0
+			else
+				found_index := index
+			end
+		end
+
+	find_next
+		-- find next occurrence of previous `find_field' search
+		do
+			if valid_index (found_index) then
+				go_i_th (found_index)
+				if attached item_immutable_name as name then
+					forth; field_search (name)
+				end
 			end
 		end
 
@@ -63,11 +88,11 @@ feature -- Status query
 		require
 			valid_item: not off
 		local
-			i: INTEGER
+			lower, upper: INTEGER
 		do
-			if attached area_v2 as a then
-				i := (index - 1) * 2
-				Result := utf_8_json.same_characters (name, 1, name.count, a [i])
+			lower := i_th_lower_upper (index, $upper)
+			if name.count = upper - lower + 1 then
+				Result := utf_8_json.same_characters (name, 1, name.count, lower)
 			end
 		end
 
@@ -97,22 +122,43 @@ feature -- Numeric Iteration items
 
 feature -- Iteration items
 
+	item_immutable_name: IMMUTABLE_STRING_8
+		require
+			valid_item: not off
+		local
+			lower, upper: INTEGER
+		do
+			lower := i_th_lower_upper (index, $upper)
+			Result := utf_8_json.shared_substring (lower, upper)
+		end
+
+	item_immutable_value: IMMUTABLE_STRING_8
+		-- item value encoded as UTF-8
+		require
+			valid_item: not off
+		local
+			i: INTEGER
+		do
+			if attached data_intervals_area as a then
+				i := (index - 1) * 2
+				Result := utf_8_json.shared_substring (a [i], a [i + 1])
+			end
+		end
+
 	item_name (keep_ref: BOOLEAN): STRING
 		require
 			valid_item: not off
 		local
-			i, lower, upper: INTEGER
+			lower, upper: INTEGER
 		do
-			if attached area_v2 as a then
-				i := (index - 1) * 2; lower := a [i]; upper := a [i + 1]
-				if keep_ref then
-					create Result.make (upper - lower + 1)
-				else
-					Result := internal_name
-					Result.wipe_out
-				end
-				Result.append_substring (utf_8_json, a [i], a [i + 1])
+			lower := i_th_lower_upper (index, $upper)
+			if keep_ref then
+				create Result.make (upper - lower + 1)
+			else
+				Result := internal_name
+				Result.wipe_out
 			end
+			Result.append_substring (utf_8_json, lower, upper)
 		end
 
 	item_boolean: BOOLEAN
@@ -131,19 +177,6 @@ feature -- Iteration items
 				Result.append_utf_8 (item_immutable_value)
 			end
 			Result.unescape (Unescaper)
-		end
-
-	item_immutable_value: IMMUTABLE_STRING_8
-		-- item value encoded as UTF-8
-		require
-			valid_item: not off
-		local
-			i, lower, upper: INTEGER
-		do
-			if attached data_intervals_area as a and then attached cursor_8 (utf_8_json) as json then
-				i := (index - 1) * 2; lower := a [i]; upper := a [i + 1]
-				Result := Immutable_8.new_substring (json.area, json.area_first_index + lower - 1, upper - lower + 1)
-			end
 		end
 
 	item_value_utf_8 (keep_ref: BOOLEAN): STRING
@@ -186,11 +219,13 @@ feature -- Removal
 
 feature {NONE} -- Internal attributes
 
+	found_index: INTEGER
+
 	internal_name: STRING
 
 	internal_utf_8_item: STRING
 
-	utf_8_json: STRING
+	utf_8_json: IMMUTABLE_STRING_8
 
 feature {NONE} -- Constants
 
