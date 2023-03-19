@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-11 8:08:47 GMT (Wednesday 11th January 2023)"
-	revision: "23"
+	date: "2023-03-19 11:02:12 GMT (Sunday 19th March 2023)"
+	revision: "24"
 
 deferred class
 	EL_LOGGABLE
@@ -201,8 +201,9 @@ feature -- String output
 		deferred
 		end
 
-	put_string_field_to_max_length (label, field_value: READABLE_STRING_GENERAL; max_length: INTEGER)
-			-- Put string to log file edited to fit into max_length
+	put_curtailed_string_field (label, field_value: READABLE_STRING_GENERAL; max_length: INTEGER)
+		-- put curtailed version of `field_value' to log file edited to fit into `max_length', with ellipsis dots inserted
+		-- at 80% of `max_length'
 		deferred
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-03-19 11:04:39 GMT (Sunday 19th March 2023)"
+	revision: "6"
 
 class
 	EL_MATLAB_CONTEXT
@@ -73,7 +73,7 @@ feature -- Basic operations
 			end
 			matlab_output := output.string
 			matlab_output.prune_all_trailing (' ')
-			log.put_string_field_to_max_length ("MATLAB", matlab_output, matlab_output.count )
+			log.put_curtailed_string_field ("MATLAB", matlab_output, matlab_output.count )
 			log.exit
 		end
 

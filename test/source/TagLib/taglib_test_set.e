@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "45"
+	date: "2023-03-19 10:59:46 GMT (Sunday 19th March 2023)"
+	revision: "46"
 
 class
 	TAGLIB_TEST_SET
@@ -291,7 +291,7 @@ feature {NONE} -- Implementation
 				lio.put_string ("]%"")
 				lio.set_text_color (Color.Default)
 			elseif value.count >= 80 then
-				lio.put_string_field_to_max_length (name, value, 80)
+				lio.put_curtailed_string_field (name, value, 80)
 			else
 				lio.put_string_field (name, value)
 			end

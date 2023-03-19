@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-03-19 10:59:46 GMT (Sunday 19th March 2023)"
+	revision: "8"
 
 class
 	EL_XML_NETWORK_MESSENGER
@@ -46,7 +46,7 @@ feature {NONE} -- Implementation
 			end
 			data_socket.put_string (xml_message)
 			if is_lio_enabled then
-				lio.put_string_field_to_max_length ("XML", xml_message, 80 )
+				lio.put_curtailed_string_field ("XML", xml_message, 80 )
 				lio.put_new_line
 			end
 		rescue

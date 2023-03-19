@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-03-19 11:04:47 GMT (Sunday 19th March 2023)"
+	revision: "6"
 
 deferred class
 	EL_PRAAT_AUDIO_CLIP_ANALYZER [RESULT_TYPE]
@@ -102,7 +102,7 @@ feature {NONE} -- Basic operations
 		do
 			log.enter ("call_praat_script")
 			log.set_timer
-			log.put_string_field_to_max_length (
+			log.put_curtailed_string_field (
 				"SCRIPT:", initialized_praat_script, initialized_praat_script.count
 			)
 			log.put_new_line
@@ -223,7 +223,6 @@ invariant
 	Result_consumer_purely_for_reference_as_an_anchor_type: Result_consumer_type = Void
 
 end
-
 
 
 

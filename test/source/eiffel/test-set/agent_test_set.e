@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "9"
+	date: "2023-03-19 10:59:47 GMT (Sunday 19th March 2023)"
+	revision: "10"
 
 class
 	AGENT_TEST_SET
@@ -124,7 +124,7 @@ feature -- Basic operations
 			routine: PROCEDURE
 		do
 			routine := agent log_integer
-			lio.put_string_field_to_max_length ("routine", routine.tagged_out, 1000)
+			lio.put_curtailed_string_field ("routine", routine.tagged_out, 1000)
 			lio.put_new_line
 		end
 

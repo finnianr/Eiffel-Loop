@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-03-19 10:59:48 GMT (Sunday 19th March 2023)"
+	revision: "10"
 
 class
 	EL_DOCUMENT_NODE_LOGGER
@@ -103,7 +103,7 @@ feature {NONE} -- Parsing events
 			lio.put_line ("on_content")
 			add_xpath_step (last_node.xpath_name (False))
 			lio.put_line (xpath)
-			lio.put_string_field_to_max_length ("CONTENT", last_node.adjusted (False), 120)
+			lio.put_curtailed_string_field ("CONTENT", last_node.adjusted (False), 120)
 			remove_xpath_step
 			lio.put_new_line
 		end

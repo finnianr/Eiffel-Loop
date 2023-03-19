@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-10 21:00:06 GMT (Tuesday 10th January 2023)"
-	revision: "17"
+	date: "2023-03-19 10:59:47 GMT (Sunday 19th March 2023)"
+	revision: "18"
 
 class
 	EL_SILENT_LOG
@@ -187,7 +187,7 @@ feature -- String output
 		do
 		end
 
-	put_string_field_to_max_length (label, field_value: READABLE_STRING_GENERAL; max_length: INTEGER)
+	put_curtailed_string_field (label, field_value: READABLE_STRING_GENERAL; max_length: INTEGER)
 			-- Put string to log file edited to fit into max_length
 		do
 		end

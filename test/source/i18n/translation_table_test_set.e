@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "20"
+	date: "2023-03-19 10:59:48 GMT (Sunday 19th March 2023)"
+	revision: "21"
 
 class
 	TRANSLATION_TABLE_TEST_SET
@@ -72,7 +72,7 @@ feature {NONE} -- Implementation
 				across << "en", "de" >> as language loop
 					table := new_table (language.item, pyxis_file_path)
 					across table as translation loop
-						lio.put_string_field_to_max_length (translation.key, translation.item, 200)
+						lio.put_curtailed_string_field (translation.key, translation.item, 200)
 						lio.put_new_line
 					end
 				end

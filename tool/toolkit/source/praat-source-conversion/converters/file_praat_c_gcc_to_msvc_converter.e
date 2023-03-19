@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-19 10:19:02 GMT (Saturday 19th November 2022)"
-	revision: "6"
+	date: "2023-03-19 11:04:27 GMT (Sunday 19th March 2023)"
+	revision: "7"
 
 class
 	FILE_PRAAT_C_GCC_TO_MSVC_CONVERTER
@@ -73,7 +73,7 @@ feature {NONE} -- Match actions
 		do
 			log.enter ("on_praat_run_procedure_statement_block")
 			if attached source_substring (start_index, end_index, False) as text then
-				log.put_string_field_to_max_length ("text", text, 100)
+				log.put_curtailed_string_field ("text", text, 100)
 				log.put_new_line
 			end
 			praat_run_c_procedure_converter.set_source_text (source_substring (start_index, end_index, True))

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-19 9:38:50 GMT (Sunday 19th March 2023)"
-	revision: "15"
+	date: "2023-03-19 10:59:46 GMT (Sunday 19th March 2023)"
+	revision: "16"
 
 class
 	EVOLICITY_TEST_SET
@@ -76,7 +76,7 @@ feature {NONE} -- Implementation
 			if attached (work_area_data_dir + name) as template_path then
 				Evolicity_templates.put_file (template_path, Utf_8_encoding)
 
-				lio.put_string_field_to_max_length ("RESULT", Evolicity_templates.merged_to_string (template_path, context), 160)
+				lio.put_curtailed_string_field ("RESULT", Evolicity_templates.merged_to_string (template_path, context), 160)
 				lio.put_new_line
 			end
 		end

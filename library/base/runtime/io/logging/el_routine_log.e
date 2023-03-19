@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-19 9:25:20 GMT (Sunday 19th March 2023)"
-	revision: "27"
+	date: "2023-03-19 11:03:42 GMT (Sunday 19th March 2023)"
+	revision: "28"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -313,55 +313,7 @@ feature -- String output
 			end
 		end
 
-	OLD_put_string_field_to_max_length (
-		label, field_value: READABLE_STRING_GENERAL; max_length: INTEGER
-	)
-			-- Put string to log file buffer edited to fit into max_length
-		local
-			l_field_value: ZSTRING; l_lines: EL_ZSTRING_LIST; l_lines_2: LIST [ZSTRING]
-			count_trailing_characters: INTEGER
-		do
-			if attached output as op then
-				create l_field_value.make_from_general (field_value)
-				create l_lines.make (l_field_value.occurrences ('%N') + 2)
-
-				count_trailing_characters := 30
-				count_trailing_characters := count_trailing_characters.min (max_length // 3)
-
-				op.put_label (label)
-
-				op.set_text_color (Color.Yellow)
-				op.put_string (once "%"[")
-				op.set_text_color (Color.Default)
-
-				op.tab_right
-				op.put_new_line
-
-				if l_field_value.count > max_length then
-					l_lines.append (l_field_value.substring (1, max_length - count_trailing_characters).split_list ('%N'))
-					l_lines.last.append_string (Ellipsis_dots)
-
-					l_lines_2 := l_field_value.substring_end (l_field_value.count - count_trailing_characters + 1).lines
-
-					l_lines_2.first.prepend_string (Ellipsis_dots)
-					l_lines.append (l_lines_2)
-
-				else
-					l_lines.append (l_field_value.lines)
-				end
-				op.put_lines (l_lines)
-				op.tab_left
-				op.put_new_line
-
-				op.set_text_color (Color.Yellow)
-				op.put_string (once "]%"")
-				op.set_text_color (Color.Default)
-
-				op.flush
-			end
-		end
-
-	put_string_field_to_max_length (label, field_value: READABLE_STRING_GENERAL; max_length: INTEGER)
+	put_curtailed_string_field (label, field_value: READABLE_STRING_GENERAL; max_length: INTEGER)
 		-- Put string to log file buffer edited to fit into max_length
 		local
 			line_list: EL_ZSTRING_LIST
@@ -568,11 +520,6 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Double_quote: STRING = "%""
-
-	Ellipsis_dots: ZSTRING
-		once
-			create Result.make_filled ('.', 2)
-		end
 
 	Single_quote: STRING = "'"
 

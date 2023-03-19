@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 9:40:43 GMT (Monday 12th December 2022)"
-	revision: "38"
+	date: "2023-03-19 11:04:55 GMT (Sunday 19th March 2023)"
+	revision: "39"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -66,7 +66,7 @@ feature -- Basic operations
 			encrypter := new_encrypter (credential)
 
 			if User_input.approved_action_y_n ("Encrypt file") then
-				lio.put_string_field_to_max_length ("Key as base64", Base_64.encoded_special (encrypter.key_data, True), 300)
+				lio.put_curtailed_string_field ("Key as base64", Base_64.encoded_special (encrypter.key_data, True), 300)
 				lio.put_new_line
 
 				encrypt_file (encrypter, input_path, aes_path (input_path))
@@ -168,7 +168,7 @@ feature {NONE} -- Implementation
 			text.replace_substring_all (Escaped_new_line, s.character_string ('%N'))
 
 			if print_base_64 then
-				lio.put_string_field_to_max_length (
+				lio.put_curtailed_string_field (
 					"Key as base64", Base_64.encoded_special (encrypter.key_data, True), 300
 				)
 			else

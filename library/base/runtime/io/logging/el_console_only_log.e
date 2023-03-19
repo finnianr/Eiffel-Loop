@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-10 21:07:44 GMT (Tuesday 10th January 2023)"
-	revision: "24"
+	date: "2023-03-19 10:59:46 GMT (Sunday 19th March 2023)"
+	revision: "25"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -222,10 +222,10 @@ feature -- String output
 			log_sink.put_string_field (label, field_value)
 		end
 
-	put_string_field_to_max_length (label, field_value: READABLE_STRING_GENERAL; max_length: INTEGER)
+	put_curtailed_string_field (label, field_value: READABLE_STRING_GENERAL; max_length: INTEGER)
 			-- Put string to log file edited to fit into max_length
 		do
-			log_sink.put_string_field_to_max_length (label, field_value, max_length)
+			log_sink.put_curtailed_string_field (label, field_value, max_length)
 		end
 
 	put_substitution (template: READABLE_STRING_GENERAL; inserts: TUPLE)

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 13:20:25 GMT (Saturday 18th March 2023)"
-	revision: "27"
+	date: "2023-03-19 10:59:47 GMT (Sunday 19th March 2023)"
+	revision: "28"
 
 class
 	JSON_PARSING_TEST_SET
@@ -126,7 +126,7 @@ feature -- Tests
 			data_list.indent (1)
 			data_list.put_front ("{") data_list.extend ("}")
 			if attached data_list.joined_lines as json_data then
-				lio.put_string_field_to_max_length ("JSON", json_data, 600)
+				lio.put_curtailed_string_field ("JSON", json_data, 600)
 				lio.put_new_line
 --				force data to match with adjustment to DOUBLE rounding
 				json_data.replace_substring_all ("110399", "110396")

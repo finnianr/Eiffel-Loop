@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 14:58:43 GMT (Saturday 18th March 2023)"
-	revision: "6"
+	date: "2023-03-19 10:59:46 GMT (Sunday 19th March 2023)"
+	revision: "7"
 
 class
 	TITLE_PARAMETER
@@ -30,7 +30,7 @@ feature {NONE} -- Implementation
 			--
 		do
 			log.put_new_line
-			log.put_string_field_to_max_length ("title", title, 200)
+			log.put_curtailed_string_field ("title", title, 200)
 			log.put_new_line
 		end
 

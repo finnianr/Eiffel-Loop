@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 15:01:19 GMT (Saturday 18th March 2023)"
-	revision: "13"
+	date: "2023-03-19 10:59:48 GMT (Sunday 19th March 2023)"
+	revision: "14"
 
 class
 	BIOINFO_XPATH_MATCH_EVENTS
@@ -57,7 +57,7 @@ feature {NONE} -- XPath match event handlers
 		do
 			node_string := last_node.to_string
 			if node_string.starts_with_general ("Help") then
-				lio.put_string_field_to_max_length ("HELP LABEL", node_string, 100)
+				lio.put_curtailed_string_field ("HELP LABEL", node_string, 100)
 				lio.put_new_line
 				lio.put_new_line
 			end
@@ -139,7 +139,7 @@ feature {NONE} -- Implementation
 			--
 		do
 			if attached last_node.to_string as str then
-				lio.put_string_field_to_max_length (label, str, str.count)
+				lio.put_curtailed_string_field (label, str, str.count)
 			end
 			lio.put_new_line
 		end

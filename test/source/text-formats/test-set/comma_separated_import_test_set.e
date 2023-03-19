@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "22"
+	date: "2023-03-19 10:59:47 GMT (Sunday 19th March 2023)"
+	revision: "23"
 
 class
 	COMMA_SEPARATED_IMPORT_TEST_SET
@@ -64,7 +64,7 @@ feature {NONE} -- Implementation
 			create list.make_comma_split (job.comma_separated_values)
 			across list as value loop
 				if value.item.count > 140 then
-					lio.put_string_field_to_max_length ("LONG", value.item, 140)
+					lio.put_curtailed_string_field ("LONG", value.item, 140)
 					lio.put_new_line
 				else
 					lio.put_line (value.item)
