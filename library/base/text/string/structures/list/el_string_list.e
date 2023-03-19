@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 15:38:07 GMT (Saturday 18th March 2023)"
-	revision: "26"
+	date: "2023-03-19 9:05:36 GMT (Sunday 19th March 2023)"
+	revision: "27"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -60,16 +60,16 @@ feature {NONE} -- Initialization
 			Precursor {EL_SORTABLE_ARRAYED_LIST} (array); compare_objects
 		end
 
-	make_from_tuple (tuple: TUPLE)
-		do
-			make (tuple.count)
-			append_tuple (tuple)
-		end
-
 	make_from_general (list: ITERABLE [READABLE_STRING_GENERAL])
 		do
 			make (Iterable.count (list))
 			append_general (list)
+		end
+
+	make_from_tuple (tuple: TUPLE)
+		do
+			make (tuple.count)
+			append_tuple (tuple)
 		end
 
 feature -- Access
@@ -83,34 +83,77 @@ feature -- Access
 
 feature -- Removal
 
-	curtail (maximum_count: INTEGER)
-		-- curtail list to `maximum_count' characters inserting an ellipsis at the 80% mark
+	curtail (maximum_count, leading_percent: INTEGER)
+		-- curtail list to `maximum_count' characters keeping `leading_percent' of `maximum_count'
+		-- at the head and leaving `100 - leading_percent' at the tail
+		-- and inserting two ellipsis (..) at the head and tail boundary mark
 		local
-			line_list: like Current
-			leading_80_percent, trailing_20_percent, line_count, start_index, end_index: INTEGER
-			last_line, first_line: like item; dots: like item
+			line_list: like Current; dots: like item
 		do
-			dots := new_string (Ellipsis_dots)
-			leading_80_percent := (maximum_count * 8 / 10).rounded
-			trailing_20_percent := (maximum_count * 2 / 10).rounded
-			line_list := twin
-			from until character_count < leading_80_percent loop
+			if maximum_count < character_count then
+				dots := new_string (Ellipsis_dots)
+				line_list := twin
+				keep_character_head ((maximum_count * leading_percent / 100).rounded)
+				last.append (dots)
+
+				line_list.keep_character_tail ((maximum_count * (100 - leading_percent) / 100).rounded)
+				line_list.first.prepend (dots)
+				append (line_list)
+			end
+		end
+
+	keep_character_head (n: INTEGER)
+		-- remove `character_count - n' characters from end of list
+		local
+			new_count: INTEGER; last_line: detachable like item
+			head_count: INTEGER
+		do
+			new_count := n.min (character_count)
+
+			from until count = 0 or else character_count < new_count loop
 				last_line := last
 				remove_last
 			end
-			line_count := leading_80_percent - character_count
-			extend (last_line.substring (1, line_count) + dots)
-
-			from until line_list.character_count < trailing_20_percent loop
-				first_line := line_list.first
-				line_list.remove_head (1)
+			if attached last_line as line then
+				head_count := new_count - character_count
+				if head_count > 0 then
+					extend (line.substring (1, head_count))
+				end
 			end
-			line_count := trailing_20_percent - line_list.character_count
-			start_index := first_line.count - line_count + 1
-			end_index := first_line.count
-			line_list.put_front (dots + first_line.substring (start_index, end_index))
+		ensure
+			definition: old joined_strings.substring (1, n.min (character_count)) ~ joined_strings
+		end
 
-			append (line_list)
+	keep_character_tail (n: INTEGER)
+		-- remove `character_count - n' characters from end of list
+		local
+			new_count: INTEGER; first_line: detachable like item
+			tail_count: INTEGER
+		do
+			new_count := n.min (character_count)
+
+			from until count = 0 or else character_count < new_count loop
+				first_line := first
+				remove_head (1)
+			end
+			if attached first_line as line then
+				tail_count := new_count - character_count
+				if tail_count > 0 then
+					put_front (line.substring (line.count - tail_count + 1, line.count))
+				end
+			end
+		ensure
+			definition: joined_strings ~ old joined_tail (n.min (character_count))
+		end
+
+feature -- Contract Support
+
+	joined_tail (n: INTEGER): like item
+		local
+			l_count: INTEGER
+		do
+			l_count := character_count
+			Result := joined_strings.substring (l_count - n + 1, l_count)
 		end
 
 feature {NONE} -- Constants

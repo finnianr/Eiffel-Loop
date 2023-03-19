@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "15"
+	date: "2023-03-19 10:33:41 GMT (Sunday 19th March 2023)"
+	revision: "16"
 
 class
 	CAD_MODEL
@@ -47,14 +47,25 @@ feature {NONE} -- Initialization
 		end
 
 	make_from_json (json: STRING)
-
 		local
-			parts: like new_json_parts
-			vertices: like new_vertice_list
+			vertices: like new_vertice_list; polygons: like new_polygon_list
+			json_list: JSON_NAME_VALUE_LIST
 		do
-			parts := new_json_parts (json)
-			vertices := new_vertice_list (parts.p)
-			make (new_polygon_list (parts.q, vertices.area))
+			create json_list.make (json)
+			json_list.find_field ("p")
+			if json_list.found then
+				vertices := new_vertice_list (json_list.item_2d_double_array)
+				json_list.find_field ("q")
+				if json_list.found then
+					polygons := new_polygon_list (json_list.item_2d_integer_array, vertices.area)
+				else
+					create polygons.make (0)
+				end
+			else
+				create polygons.make (0)
+				create vertices.make (0)
+			end
+			make (polygons)
 		end
 
 	make_partial (other: like Current; included: PREDICATE [CAD_POLYGON]; new_part: FUNCTION [CAD_POLYGON, CAD_POLYGON])
@@ -167,79 +178,32 @@ feature -- Comparison
 
 feature {NONE} -- Factory
 
-	new_json_parts (json: STRING): TUPLE [q, p: STRING]
-		-- split json into q and p stripping double brackets: [[ ]]
-		require
-			all_on_one_line: not json.has ('%N')
+	new_polygon_list (index_array: ARRAY2 [INTEGER]; coordinate_array: SPECIAL [SPECIAL [DOUBLE]]): like polygon_list
 		local
-			index, start_index: INTEGER
+			row, i: INTEGER; index_list: ARRAYED_LIST [INTEGER]
 		do
-			Result := ["", ""]
-			index := 1
-			across << Field.quads, Field.points >> as marker loop
-				index := json.substring_index (marker.item, index)
-				if index > 0 then
-					index := json.substring_index (Double_brackets.left, index)
-					if index > 0 then
-						start_index := index + 2
-						index := json.substring_index (Double_brackets.right, start_index)
-						if index > 0 then
-							Result.put_reference (json.substring (start_index, index - 1), marker.cursor_index)
-						end
-					end
-				end
-			end
-		end
-
-	new_polygon_list (json: STRING; coordinate_array: SPECIAL [SPECIAL [DOUBLE]]): like polygon_list
-		local
-			tuple_list, index_split_string: EL_SPLIT_STRING_8_LIST
-			index_list: ARRAYED_LIST [INTEGER]
-		do
-			create tuple_list.make_by_string (json, Tuple_delimiter)
-			create index_split_string.make_empty
-			create index_list.make (4)
-			create Result.make (tuple_list.count)
-			from tuple_list.start until tuple_list.after loop
-				index_split_string.fill (tuple_list.item_copy, ',', {EL_STRING_ADJUST}.Left)
-				index_list.wipe_out
-				from index_split_string.start until index_split_string.after loop
-					index_list.extend (index_split_string.integer_item)
-					index_split_string.forth
-				end
+			create index_list.make_filled (4)
+			create Result.make (index_array.height)
+			from row := 1 until row > index_array.height loop
+				i := (row - 1) * index_array.width
+				index_list.area.copy_data (index_array.area, i, 0, index_array.width)
 				Result.extend (create {CAD_POLYGON}.make (index_list, coordinate_array))
-				tuple_list.forth
+				row := row + 1
 			end
-		ensure
-			consistent_with_left_bracket_count: json.occurrences ('[') + 1 = Result.count
-			consistent_with_right_bracket_count: json.occurrences (']') + 1 = Result.count
 		end
 
-	new_vertice_list (json: STRING): ARRAYED_LIST [SPECIAL [DOUBLE]]
+	new_vertice_list (array: ARRAY2 [DOUBLE]): ARRAYED_LIST [SPECIAL [DOUBLE]]
 		local
-			tuple_list, double_list: EL_SPLIT_STRING_8_LIST
-			coordinate: SPECIAL [DOUBLE]
+			row, i: INTEGER; coords_item: SPECIAL [DOUBLE]
 		do
-			create tuple_list.make_adjusted_by_string (json, Tuple_delimiter, {EL_STRING_ADJUST}.Left)
-			create double_list.make_empty
-			create Result.make (tuple_list.count)
-			from tuple_list.start until tuple_list.after loop
-				double_list.fill (tuple_list.item_copy, ',', 0)
-				from double_list.start until double_list.after loop
-					if double_list.index = 1 then
-						create coordinate.make_empty (3)
-					end
-					if coordinate.count <= 3 then
-						coordinate.extend (double_list.double_item)
-					end
-					double_list.forth
-				end
-				Result.extend (coordinate)
-				tuple_list.forth
+			create Result.make (array.height)
+			from row := 1 until row > array.height loop
+				create coords_item.make_empty (array.width)
+				i := (row - 1) * array.width
+				coords_item.copy_data (array.area, i, 0, array.width)
+				Result.extend (coords_item)
+				row := row + 1
 			end
-		ensure
-			consistent_with_left_bracket_count: json.occurrences ('[') + 1 = Result.count
-			consistent_with_right_bracket_count: json.occurrences (']') + 1 = Result.count
 		end
 
 	new_vertice_index_table: HASH_TABLE [INTEGER, COORDINATE_VECTOR]

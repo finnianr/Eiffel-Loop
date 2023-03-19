@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 15:02:41 GMT (Saturday 18th March 2023)"
-	revision: "26"
+	date: "2023-03-19 9:25:20 GMT (Sunday 19th March 2023)"
+	revision: "27"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -382,7 +382,7 @@ feature -- String output
 				create line_list.make_with_lines (field_value)
 				line_list.expand_tabs (op.Tab_string.count)
 				if line_list.character_count > max_length then
-					line_list.curtail (max_length)
+					line_list.curtail (max_length, 80) -- show 80% at start and remaining 20% at tail
 				end
 				op.put_lines (line_list)
 				op.tab_left

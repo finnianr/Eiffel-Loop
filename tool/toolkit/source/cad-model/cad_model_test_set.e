@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 7:44:42 GMT (Saturday 18th March 2023)"
-	revision: "9"
+	date: "2023-03-19 10:38:25 GMT (Sunday 19th March 2023)"
+	revision: "10"
 
 class
 	CAD_MODEL_TEST_SET
@@ -39,7 +39,7 @@ feature -- Test
 		local
 			model_1, model_2: CAD_MODEL; i: INTEGER
 		do
-			create model_1.make_from_json (Json_model_unwrapped)
+			create model_1.make_from_json (JSON_model_data)
 			across << "DDDD", "WDDW", "WWWW" >> as code loop
 				i := code.cursor_index
 				assert ("[" + i.out + "] is " + code.item, model_1.polygon_list.i_th (i).out ~ code.item)
@@ -54,7 +54,7 @@ feature -- Test
 			names: LIST [STRING]; list, dry_list, wet_list: LIST [CAD_POLYGON]
 			WDDW_polygon, DDBB_polygon, WWBB_polygon: CAD_POLYGON
 		do
-			create model.make_from_json (Json_model_unwrapped)
+			create model.make_from_json (JSON_model_data)
 			model_dry := model.dry_part; model_wet := model.wet_part
 			list := model.polygon_list; dry_list := model_dry.polygon_list; wet_list := model_wet.polygon_list
 
@@ -117,29 +117,29 @@ feature {NONE} -- Implementation
 			Result := Surface_plane.intersection_point (a, b)
 		end
 
-	json_model_data: STRING
-		-- line wrapped data
-		do
-			Result := "[
-				{"q": [[0, 1, 2, 3], [4, 0, 3, 5], [6, 4, 5, 7]]
-				, "p": [[-3.021211040636997, 0, 0.14217187491185729]
-				, [-2.9544233358350973, 0, 0.52094409745481851]
-				, [-2.909539006810594, 0.52094453300079102, 0.51302978605945249]
-				, [-2.9763267116124936, 0.52094453300079102, 0.13425756351649126]
-				, [-3.0879987454388971, 0, -0.23660034763110396]
-				, [-3.0431144164143937, 0.52094453300079102, -0.24451465902646999]
-				, [-3.1547864502407967, 0, -0.6153725701740651]
-				, [-3.1099021212162934, 0.52094453300079102, -0.62328688156943113]]}
-			]"
-		end
-
 feature {NONE} -- Constants
 
-	Json_model_unwrapped: STRING
-		-- JSON model as unwrapped line
+	JSON_model_data: STRING
 		once
-			Result := json_model_data
-			Result.prune_all ('%N')
+			Result := "[
+				{
+					"q": [
+						[0, 1, 2, 3],
+						[4, 0, 3, 5],
+						[6, 4, 5, 7]
+					],
+					"p": [
+						[-3.021211040636997, 0, 0.14217187491185729],
+						[-2.9544233358350973, 0, 0.52094409745481851],
+						[-2.909539006810594, 0.52094453300079102, 0.51302978605945249],
+						[-2.9763267116124936, 0.52094453300079102, 0.13425756351649126],
+						[-3.0879987454388971, 0, -0.23660034763110396],
+						[-3.0431144164143937, 0.52094453300079102, -0.24451465902646999],
+						[-3.1547864502407967, 0, -0.6153725701740651],
+						[-3.1099021212162934, 0.52094453300079102, -0.62328688156943113]
+					]
+				}
+			]"
 		end
 
 	Same_coordinates: STRING = "same coordinates"

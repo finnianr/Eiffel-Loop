@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "14"
+	date: "2023-03-19 9:38:50 GMT (Sunday 19th March 2023)"
+	revision: "15"
 
 class
 	EVOLICITY_TEST_SET
@@ -51,8 +51,8 @@ feature -- Tests
 
 	test_iteration_loops
 		do
-			do_test ("merge_context", 2402475313, agent merge_context, ["foreach.evol", new_container_context])
-			do_test ("merge_context", 3993563225, agent merge_context, ["across.evol", new_container_context])
+			do_test ("merge_context", 3227915363, agent merge_context, ["foreach.evol", new_container_context])
+			do_test ("merge_context", 1196563676, agent merge_context, ["across.evol", new_container_context])
 		end
 
 	test_merge_template

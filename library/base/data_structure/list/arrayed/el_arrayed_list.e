@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 17:09:29 GMT (Saturday 18th March 2023)"
-	revision: "50"
+	date: "2023-03-19 8:09:36 GMT (Sunday 19th March 2023)"
+	revision: "51"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -110,7 +110,7 @@ feature {NONE} -- Initialization
 
 	make_from_sub_list (list: EL_ARRAYED_LIST [G]; start_index, end_index: INTEGER)
 		require
-			valid_range: start_index <= end_index implies start_index >= 1 and end_index <= count
+			valid_range: start_index <= end_index implies start_index >= 1 and end_index <= list.count
 		local
 			i: INTEGER
 		do

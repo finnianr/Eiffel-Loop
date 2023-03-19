@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 7:48:15 GMT (Saturday 18th March 2023)"
-	revision: "6"
+	date: "2023-03-19 9:35:14 GMT (Sunday 19th March 2023)"
+	revision: "7"
 
 deferred class
 	JSON_TEST_DATA
@@ -88,7 +88,7 @@ feature {NONE} -- Constants
 		end
 
 	JSON_vector_plane_data: STRING
-		do
+		once
 			Result := "[
 				{
 					"q": [

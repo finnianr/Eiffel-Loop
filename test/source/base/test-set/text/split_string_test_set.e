@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 15:17:53 GMT (Saturday 18th March 2023)"
-	revision: "39"
+	date: "2023-03-19 9:21:38 GMT (Sunday 19th March 2023)"
+	revision: "40"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -80,20 +80,31 @@ feature -- Tests
 	test_curtail_list
 		-- SPLIT_STRING_TEST_SET.test_curtail_list
 		note
-			testing: "covers/{EL_STRING_LIST}.curtail"
+			testing: "covers/{EL_STRING_LIST}.curtail",
+				"covers/{EL_STRING_LIST}.keep_character_head",
+				"covers/{EL_STRING_LIST}.keep_character_tail"
 		local
-			line_list: EL_ZSTRING_LIST
+			line_list: EL_ZSTRING_LIST; dots_index, tail_index: INTEGER
+			meets_expectation: BOOLEAN
 		do
-			create line_list.make_empty
 			if attached Text.lines as text_lines then
-				line_list.wipe_out
 				across 1 |..| text_lines.count as count loop
-					across Text.lines as line until line.cursor_index > count.item loop
-						line_list.extend (line.item)
+					create line_list.make_from_general (Text.lines.sub_list (1, count.item))
+					line_list.curtail (100, 80)
+					if attached line_list.joined_strings as joined then
+						dots_index := joined.substring_index ("..", 1)
+						if dots_index > 0 then
+							tail_index := dots_index + 4
+							meets_expectation := (joined.count - tail_index + 1) + dots_index - 1 = 100
+						else
+							meets_expectation := joined.count <= 100
+						end
+						if not meets_expectation then
+							lio.put_labeled_lines ("Curtailed", line_list)
+							lio.put_new_line
+							assert ("curtailed to 100 characters leaving 80%% at head", False)
+						end
 					end
-					line_list.curtail (line_list.character_count // 2)
-					lio.put_labeled_lines ("Curtailed", line_list)
-					lio.put_new_line
 				end
 			end
 		end
