@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 9:36:10 GMT (Wednesday 15th March 2023)"
-	revision: "3"
+	date: "2023-03-20 9:58:03 GMT (Monday 20th March 2023)"
+	revision: "4"
 
 class
 	EL_FORMAT_INTEGER
@@ -65,14 +65,14 @@ feature {NONE} -- Constants
 		once
 			create Result.make_shared_adjusted (
 				"zero, one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve",
-				',', {EL_STRING_ADJUST}.Left
+				',', {EL_SIDE}.Left
 			)
 		end
 
 	Stems_20_upwards: EL_SPLIT_IMMUTABLE_STRING_8_LIST
 		once
 			create Result.make_shared_adjusted (
-				"twen, thir, for, fif, six, seven, eigh, nine", ',', {EL_STRING_ADJUST}.Left
+				"twen, thir, for, fif, six, seven, eigh, nine", ',', {EL_SIDE}.Left
 			)
 		end
 

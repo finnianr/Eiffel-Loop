@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-19 9:21:38 GMT (Sunday 19th March 2023)"
-	revision: "40"
+	date: "2023-03-20 9:58:02 GMT (Monday 20th March 2023)"
+	revision: "41"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -335,7 +335,7 @@ feature -- Tests
 		local
 			list: EL_SPLIT_STRING_32_LIST
 		do
-			create list.make_adjusted (Sales, ',', {EL_STRING_ADJUST}.Left)
+			create list.make_adjusted (Sales, ',', {EL_SIDE}.Left)
 			from list.start until list.after loop
 				lio.put_string_field (list.index.out, list.item)
 				lio.put_new_line
@@ -395,7 +395,7 @@ feature -- Tests
 			bracket_pair := "()"
 			across Comma_separated_variations as csv_list loop
 				if csv_list.item.has (' ') then
-					adjustments := {EL_STRING_ADJUST}.Both
+					adjustments := {EL_SIDE}.Both
 				else
 					adjustments := 0
 				end
@@ -460,7 +460,7 @@ feature -- Tests
 			split_list: EL_SPLIT_STRING_LIST [STRING]; str_split: LIST [STRING]
 		do
 			across Comma_separated_variations as csv_list loop
-				create split_list.make_adjusted (csv_list.item, ',', {EL_STRING_ADJUST}.Left)
+				create split_list.make_adjusted (csv_list.item, ',', {EL_SIDE}.Left)
 				str_split := csv_list.item.split (',')
 				if attached split_list as list then
 					from list.start until list.after loop

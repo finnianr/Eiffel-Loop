@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-11 10:09:20 GMT (Saturday 11th March 2023)"
-	revision: "20"
+	date: "2023-03-20 9:58:03 GMT (Monday 20th March 2023)"
+	revision: "21"
 
 class
 	UNDEFINE_PATTERN_COUNTER_COMMAND
@@ -130,7 +130,7 @@ feature {NONE} -- Line state handlers
 		local
 			feature_list: EL_SPLIT_ZSTRING_LIST
 		do
-			create feature_list.make_adjusted (code_line, ',', {EL_STRING_ADJUST}.Left)
+			create feature_list.make_adjusted (code_line, ',', {EL_SIDE}.Left)
 			if across feature_list as list all Common_undefines.has (list.item) end then
 				pattern_count := pattern_count + 1
 			end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 16:48:00 GMT (Monday 23rd January 2023)"
-	revision: "8"
+	date: "2023-03-20 9:58:04 GMT (Monday 20th March 2023)"
+	revision: "9"
 
 class
 	TB_ATTRIBUTE_EDIT_TABLE
@@ -46,7 +46,7 @@ feature -- Basic operations
 				if start_index < end_index then
 					across Reuseable.string as reuse loop
 						reuse.item.append_substring (element, start_index, end_index)
-						create quote_splitter.make_adjusted (reuse.item, '"', {EL_STRING_ADJUST}.Both)
+						create quote_splitter.make_adjusted (reuse.item, '"', {EL_SIDE}.Both)
 						ending := element.substring_end (end_index + 1)
 						element.keep_head (start_index - 1)
 						element.right_adjust

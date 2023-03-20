@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 10:44:04 GMT (Saturday 31st December 2022)"
-	revision: "16"
+	date: "2023-03-20 9:58:03 GMT (Monday 20th March 2023)"
+	revision: "17"
 
 class
 	EL_FIELD_INDICES_SET
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 				make_empty
 				is_valid := True
 			else
-				create field_list.make_adjusted (field_names, ',', {EL_STRING_ADJUST}.Left)
+				create field_list.make_adjusted (field_names, ',', {EL_SIDE}.Left)
 				from field_list.start until field_list.after loop
 					if field_list.item_count = 0 then
 						empty_count := empty_count + 1

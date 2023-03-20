@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 11:08:30 GMT (Wednesday 15th March 2023)"
-	revision: "12"
+	date: "2023-03-20 9:09:15 GMT (Monday 20th March 2023)"
+	revision: "13"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -18,6 +18,8 @@ inherit
 	STRING_HANDLER
 
 	EL_SEARCH_HANDLER
+
+	EL_STRING_8_CONSTANTS
 
 feature -- Access
 
@@ -237,9 +239,5 @@ feature {NONE} -- Implementation
 	string_searcher: STRING_SEARCHER
 		deferred
 		end
-
-feature -- Constants
-
-	Ellipsis_dots: STRING = ".."
 
 end

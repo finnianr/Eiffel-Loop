@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-22 16:45:51 GMT (Sunday 22nd January 2023)"
-	revision: "7"
+	date: "2023-03-20 10:26:17 GMT (Monday 20th March 2023)"
+	revision: "8"
 
 deferred class
 	EL_ITERABLE_SPLIT [S -> READABLE_STRING_GENERAL, G]
 
 inherit
 	ITERABLE [S]
+
+	EL_SIDE_ROUTINES
 
 feature {NONE} -- Initialization
 
@@ -24,7 +26,7 @@ feature {NONE} -- Initialization
 
 	make_adjusted (a_target: like target; a_separator: like separator; a_adjustments: INTEGER)
 		require
-			valid_adjustments: valid_adjustments (adjustments)
+			valid_adjustments: valid_sides (adjustments)
 		do
 			target := a_target; separator := a_separator; adjustments := a_adjustments
 		end
@@ -49,12 +51,12 @@ feature -- Status query
 
 	left_adjusted: BOOLEAN
 		do
-			Result := (adjustments & {EL_STRING_ADJUST}.Left).to_boolean
+			Result := has_left_side (adjustments)
 		end
 
 	right_adjusted: BOOLEAN
 		do
-			Result := (adjustments & {EL_STRING_ADJUST}.Right).to_boolean
+			Result := has_right_side (adjustments)
 		end
 
 feature -- Element change
@@ -62,15 +64,6 @@ feature -- Element change
 	set_target (a_target: like target)
 		do
 			target := a_target
-		end
-
-feature -- Contract Support
-
-	valid_adjustments (bitmap: INTEGER): BOOLEAN
-		local
-			adjust: EL_STRING_ADJUST
-		do
-			Result := adjust.valid (bitmap)
 		end
 
 feature {NONE} -- Internal attributes

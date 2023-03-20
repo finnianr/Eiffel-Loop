@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 11:17:50 GMT (Wednesday 15th March 2023)"
-	revision: "22"
+	date: "2023-03-20 10:34:21 GMT (Monday 20th March 2023)"
+	revision: "23"
 
 class
 	EL_OCCURRENCE_INTERVALS
@@ -33,6 +33,13 @@ inherit
 	EL_ZSTRING_CONSTANTS
 
 	EL_SHARED_ZSTRING_CODEC
+
+	EL_SIDE_ROUTINES
+		rename
+			valid_sides as valid_adjustments
+		export
+			{ANY} valid_adjustments
+		end
 
 create
 	make, make_empty, make_by_string, make_sized
@@ -83,13 +90,6 @@ feature -- Element change
 				searcher.initialize_deltas (a_pattern)
 				fill_intervals (a_target, a_pattern, searcher, '%U', adjustments)
 			end
-		end
-
-feature -- Contract Support
-
-	valid_adjustments (bitmap: INTEGER): BOOLEAN
-		do
-			Result := 0 <= bitmap and then bitmap <= {EL_STRING_ADJUST}.Both
 		end
 
 feature {NONE} -- Implementation

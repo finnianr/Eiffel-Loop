@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-14 18:21:04 GMT (Tuesday 14th March 2023)"
-	revision: "11"
+	date: "2023-03-20 9:58:02 GMT (Monday 20th March 2023)"
+	revision: "12"
 
 class
 	IMMUTABLE_STRING_SPLIT_COMPARISON
@@ -36,7 +36,7 @@ feature -- Basic operations
 		local
 			split_list: EL_SPLIT_STRING_32_LIST; names: HEXAGRAM_NAMES
 		do
-			create split_list.make_adjusted (names.Name_manifest, ',', {EL_STRING_ADJUST}.Left)
+			create split_list.make_adjusted (names.Name_manifest, ',', {EL_SIDE}.Left)
 
 			compare ("compare split list iteration", <<
 				["EL_SPLIT_STRING_32_LIST", agent changeable_split_list (split_list)],

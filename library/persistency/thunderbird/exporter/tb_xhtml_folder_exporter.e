@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "32"
+	date: "2023-03-20 9:58:04 GMT (Monday 20th March 2023)"
+	revision: "33"
 
 deferred class
 	TB_XHTML_FOLDER_EXPORTER
@@ -211,7 +211,7 @@ feature {NONE} -- Editing
 		local
 			list: EL_SPLIT_ZSTRING_LIST
 		do
-			create list.make_adjusted_by_string (target, Line_feed_entity, {EL_STRING_ADJUST}.Both)
+			create list.make_adjusted_by_string (target, Line_feed_entity, {EL_SIDE}.Both)
 			if list.count > 1 then
 				target.share (list.joined_words)
 			end

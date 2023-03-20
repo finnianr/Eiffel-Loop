@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 10:54:42 GMT (Wednesday 15th March 2023)"
-	revision: "17"
+	date: "2023-03-20 9:07:31 GMT (Monday 20th March 2023)"
+	revision: "18"
 
 deferred class
 	EL_STRING_8_CONSTANTS
@@ -20,6 +20,11 @@ feature {NONE} -- Constants
 	Comma_space: STRING = ", "
 
 	Comma_only: STRING = ","
+
+	Ellipsis_dots: STRING
+		once
+			create Result.make_filled ('.', 2)
+		end
 
 	Empty_string_8: STRING = ""
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-03 10:05:21 GMT (Friday 3rd March 2023)"
-	revision: "18"
+	date: "2023-03-20 9:58:03 GMT (Monday 20th March 2023)"
+	revision: "19"
 
 class
 	EL_SPLIT_INTERVALS
@@ -51,7 +51,7 @@ feature {NONE} -- Implementation
 					end_index := search_index - 1
 				end
 			end
-			if (a_adjustments & {EL_STRING_ADJUST}.Left).to_boolean then
+			if (a_adjustments & {EL_SIDE}.Left).to_boolean then
 				from until found_first or else start_index > end_index loop
 					if is_white_space (a_target, start_index) then
 						start_index := start_index + 1
@@ -60,7 +60,7 @@ feature {NONE} -- Implementation
 					end
 				end
 			end
-			if (a_adjustments & {EL_STRING_ADJUST}.Right).to_boolean then
+			if (a_adjustments & {EL_SIDE}.Right).to_boolean then
 				found_first := False
 				from until found_first or else end_index < start_index  loop
 					if is_white_space (a_target, end_index) then

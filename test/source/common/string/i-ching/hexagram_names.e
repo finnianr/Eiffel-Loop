@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 9:27:34 GMT (Wednesday 15th March 2023)"
-	revision: "15"
+	date: "2023-03-20 9:58:02 GMT (Monday 20th March 2023)"
+	revision: "16"
 
 expanded class
 	HEXAGRAM_NAMES
@@ -107,7 +107,7 @@ feature -- Constants
 
 	Name_split_list: EL_SPLIT_IMMUTABLE_STRING_32_LIST
 		once
-			create Result.make_shared_adjusted (Name_manifest, ',', {EL_STRING_ADJUST}.Left)
+			create Result.make_shared_adjusted (Name_manifest, ',', {EL_SIDE}.Left)
 		end
 
 	Combined: ZSTRING

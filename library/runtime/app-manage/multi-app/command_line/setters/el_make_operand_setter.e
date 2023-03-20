@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:38:23 GMT (Tuesday 14th February 2023)"
-	revision: "22"
+	date: "2023-03-20 9:58:04 GMT (Monday 20th March 2023)"
+	revision: "23"
 
 deferred class
 	EL_MAKE_OPERAND_SETTER [G]
@@ -96,7 +96,7 @@ feature {NONE} -- Factory
 					if not string_value.has (separator) then
 						separator := ','
 					end
-					create Result.make_adjusted_split (string_value, separator, {EL_STRING_ADJUST}.Left)
+					create Result.make_adjusted_split (string_value, separator, {EL_SIDE}.Left)
 				end
 			else
 				create Result.make_from_array (<< string_value >>)

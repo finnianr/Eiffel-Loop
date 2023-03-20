@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-28 5:40:48 GMT (Monday 28th November 2022)"
-	revision: "5"
+	date: "2023-03-20 9:10:13 GMT (Monday 20th March 2023)"
+	revision: "6"
 
 class
 	TP_ALL_IN_LIST
@@ -28,6 +28,8 @@ inherit
 			count as list_count,
 			do_all as do_for_each
 		end
+
+	EL_STRING_8_CONSTANTS
 
 create
 	make, make_from_other, make_default, make_separated
@@ -214,7 +216,7 @@ feature {NONE} -- Implementation
 
 	new_name_list (curtailed: BOOLEAN): EL_STRING_8_LIST
 		local
-			done: BOOLEAN; s: EL_STRING_8_ROUTINES
+			done: BOOLEAN
 		do
 			create Result.make (list_count)
 			across Current as list until done loop
@@ -226,7 +228,7 @@ feature {NONE} -- Implementation
 				if curtailed and then Result.character_count > 200 then
 					done := True
 					if not list.is_last then
-						Result.extend (s.Ellipsis_dots)
+						Result.extend (Ellipsis_dots)
 					end
 				end
 			end
@@ -240,4 +242,3 @@ feature {NONE} -- Constants
 		end
 
 end
-

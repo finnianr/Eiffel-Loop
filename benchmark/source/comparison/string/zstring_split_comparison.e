@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-13 14:17:48 GMT (Monday 13th March 2023)"
-	revision: "11"
+	date: "2023-03-20 11:15:36 GMT (Monday 20th March 2023)"
+	revision: "12"
 
 class
 	ZSTRING_SPLIT_COMPARISON
@@ -37,7 +37,7 @@ feature -- Basic operations
 			create csv_string.make (100)
 			across 1 |..| 1000 as n loop
 				if not csv_string.is_empty then
-					csv_string.append (Comma_space)
+					csv_string.append_string_general (Comma_space)
 				end
 				csv_string.append_string_general (n.item.out)
 			end
@@ -66,10 +66,4 @@ feature {NONE} -- String append variations
 			intervals := csv_string.split_intervals (Comma_space)
 		end
 
-feature {NONE} -- Constants
-
-	Comma_space: ZSTRING
-		once
-			Result := ", "
-		end
 end

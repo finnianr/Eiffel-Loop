@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 10:09:39 GMT (Saturday 18th March 2023)"
-	revision: "20"
+	date: "2023-03-20 10:30:16 GMT (Monday 20th March 2023)"
+	revision: "21"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -48,9 +48,9 @@ inherit
 			to_array as to_interval_array
 		export
 			{NONE} all
-			{ANY} index, character_count, count, item_count, item_start_index, item_end_index, i_th_upper, i_th_lower,
+			{ANY} index, character_count, count, item_count, item_start_index, item_end_index,
+				i_th_upper, i_th_lower, wipe_out, start, forth, after, valid_adjustments, off,
 				back, remove, remove_head, remove_tail, go_i_th, is_empty, before, valid_index,
-				wipe_out, start, forth, after, valid_adjustments, off,
 				fill_general, fill_general_by_string, fill, fill_by_string
 
 		end
@@ -170,12 +170,12 @@ feature -- Status query
 
 	left_adjusted: BOOLEAN
 		do
-			Result := (adjustments & {EL_STRING_ADJUST}.Left).to_boolean
+			Result := (adjustments & {EL_SIDE}.Left).to_boolean
 		end
 
 	right_adjusted: BOOLEAN
 		do
-			Result := (adjustments & {EL_STRING_ADJUST}.Right).to_boolean
+			Result := (adjustments & {EL_SIDE}.Right).to_boolean
 		end
 
 feature -- Numeric items

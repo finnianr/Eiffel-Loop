@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 13:18:59 GMT (Saturday 18th March 2023)"
-	revision: "1"
+	date: "2023-03-20 9:58:04 GMT (Monday 20th March 2023)"
+	revision: "2"
 
 class
 	JSON_2D_ARRAY [N -> NUMERIC]
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 			split_list: EL_SPLIT_IMMUTABLE_STRING_8_LIST
 			l_width, row, column, zero_index: INTEGER; value: IMMUTABLE_STRING_8
 		do
-			create split_list.make_adjusted (json, ',', {EL_STRING_ADJUST}.Both)
+			create split_list.make_adjusted (json, ',', {EL_SIDE}.Both)
 			if attached split_list as list then
 				from list.start until list.after or l_width > 0 loop
 					if list.item_has (']') then

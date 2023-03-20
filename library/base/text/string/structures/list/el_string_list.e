@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-19 9:05:36 GMT (Sunday 19th March 2023)"
-	revision: "27"
+	date: "2023-03-20 9:07:39 GMT (Monday 20th March 2023)"
+	revision: "28"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -40,6 +40,8 @@ inherit
 		redefine
 			make, make_from_array, make_from_tuple
 		end
+
+	EL_STRING_8_CONSTANTS
 
 create
 	make, make_empty, make_split, make_with_lines,
@@ -154,13 +156,6 @@ feature -- Contract Support
 		do
 			l_count := character_count
 			Result := joined_strings.substring (l_count - n + 1, l_count)
-		end
-
-feature {NONE} -- Constants
-
-	Ellipsis_dots: STRING
-		once
-			create Result.make_filled ('.', 2)
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 12:17:35 GMT (Wednesday 15th March 2023)"
-	revision: "48"
+	date: "2023-03-20 10:46:46 GMT (Monday 20th March 2023)"
+	revision: "49"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -130,6 +130,25 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 				end
 			else
 				append_string_8 (str)
+			end
+		end
+
+	append_from_right (str: EL_READABLE_ZSTRING; a_count: INTEGER)
+		do
+			if a_count >= str.count then
+				append (str)
+
+			else
+				append_substring (str, str.count - a_count + 1, str.count)
+			end
+		end
+
+	append_from_right_general (str: READABLE_STRING_GENERAL; a_count: INTEGER)
+		do
+			if a_count >= str.count then
+				append_string_general (str)
+			else
+				append_substring_general (str, str.count - a_count + 1, str.count)
 			end
 		end
 

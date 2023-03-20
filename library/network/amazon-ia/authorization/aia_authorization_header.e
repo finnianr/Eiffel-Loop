@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "23"
+	date: "2023-03-20 9:58:04 GMT (Monday 20th March 2023)"
+	revision: "24"
 
 class
 	AIA_AUTHORIZATION_HEADER
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 			modified.append (Algorithm_equals); modified.append (str)
 			modified.insert_character (',', modified.index_of (' ', Algorithm_equals.count))
 
-			create fields.make_adjusted_split (modified, ',', {EL_STRING_ADJUST}.Left)
+			create fields.make_adjusted_split (modified, ',', {EL_SIDE}.Left)
 			fields.do_all (agent set_field_from_nvp (?, '='))
 		end
 

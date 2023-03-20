@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-16 10:45:10 GMT (Thursday 16th February 2023)"
-	revision: "1"
+	date: "2023-03-20 9:58:03 GMT (Monday 20th March 2023)"
+	revision: "2"
 
 class
 	EL_FIELD_INDEX_TABLE
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 			field_list: EL_SPLIT_STRING_8_LIST; i, field_count: INTEGER
 			name: STRING
 		do
-			create field_list.make_adjusted (field_names, ',', {EL_STRING_ADJUST}.Left)
+			create field_list.make_adjusted (field_names, ',', {EL_SIDE}.Left)
 			make_table (field_list.count)
 			field_count := reflected.field_count
 			from i := 1 until i > field_count loop

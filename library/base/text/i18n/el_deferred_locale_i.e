@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "23"
+	date: "2023-03-20 9:58:03 GMT (Monday 20th March 2023)"
+	revision: "24"
 
 deferred class
 	EL_DEFERRED_LOCALE_I
@@ -106,7 +106,7 @@ feature -- Basic operations
 		local
 			s: EL_ZSTRING_ROUTINES; comma_split: EL_SPLIT_ZSTRING_ON_CHARACTER
 		do
-			create comma_split.make_adjusted (s.as_zstring (key_list), ',', {EL_STRING_ADJUST}.Left)
+			create comma_split.make_adjusted (s.as_zstring (key_list), ',', {EL_SIDE}.Left)
 			across comma_split as list until list.cursor_index > a_tuple.count loop
 				a_tuple.put_reference (translation_item (list.item), list.cursor_index)
 			end

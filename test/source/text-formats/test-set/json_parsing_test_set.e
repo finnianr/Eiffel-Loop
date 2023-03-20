@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-19 14:00:34 GMT (Sunday 19th March 2023)"
-	revision: "29"
+	date: "2023-03-19 16:04:26 GMT (Sunday 19th March 2023)"
+	revision: "30"
 
 class
 	JSON_PARSING_TEST_SET
@@ -147,8 +147,8 @@ feature -- Tests
 			assert ("found field", list.found)
 			uri := list.item_immutable_value
 			assert ("authority OK", uri.authority ~ "www.emotionaliching.com")
-			
-			list.find_next
+
+			list.find_next -- url
 			assert ("found field", list.found)
 			uri := list.item_immutable_value
 			assert ("authority OK", uri.authority ~ "web.archive.org")

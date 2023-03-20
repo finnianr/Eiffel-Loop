@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-19 10:59:46 GMT (Sunday 19th March 2023)"
-	revision: "46"
+	date: "2023-03-20 11:25:07 GMT (Monday 20th March 2023)"
+	revision: "47"
 
 class
 	TAGLIB_TEST_SET
@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 				["picture_edit", agent test_picture_edit],
 				["picture_mime_types", agent test_picture_mime_types],
 				["get_set_basic_fields", agent test_get_set_basic_fields],
-				["read_frames_v2_x", agent test_read_v2_frames],
+				["read_v2_frames", agent test_read_v2_frames],
 				["string_conversion", agent test_string_conversion],
 				["string_list", agent test_string_list],
 				["string_setting", agent test_string_setting],
@@ -145,6 +145,7 @@ feature -- Tests
 		end
 
 	test_read_v2_frames
+		-- TAGLIB_TEST_SET.test_read_v2_frames
 		do
 			across file_list as path loop
 				do_test (
@@ -169,7 +170,7 @@ feature -- Tests
 		local
 			list: EL_ZSTRING_LIST
 		do
-			create list.make_adjusted_split ("one, two, three", ',', {EL_STRING_ADJUST}.Left)
+			create list.make_adjusted_split ("one, two, three", ',', {EL_SIDE}.Left)
 			Once_string_list.wipe_out
 			Once_string_list.append (list)
 			assert ("same list", list ~ Once_string_list.to_list)
@@ -419,7 +420,7 @@ feature {NONE} -- Constants
 		once
 			create Result.make (11)
 			Result ["221-compressed.tag"] := checksums (3085819510, 3246236924)
-			Result ["230-compressed.tag"] := checksums (839599359, 3424301073)
+			Result ["230-compressed.tag"] := checksums (839599359, 2921631902)
 			Result ["230-syncedlyrics.tag"] := checksums (1669786640, 4124037141)
 			Result [Picture_230_tag] := checksums (1095970239, 32249346)
 			Result [Unicode_230_tag] := checksums (109896957, 3709611927)
@@ -453,7 +454,7 @@ feature {NONE} -- Constants
 
 	Get_set_names: EL_STRING_8_LIST
 		once
-			create Result.make_adjusted_split ("album, artist, comment, genre, title, track, year", ',', {EL_STRING_ADJUST}.Left)
+			create Result.make_adjusted_split ("album, artist, comment, genre, title, track, year", ',', {EL_SIDE}.Left)
 		end
 
 	Unicode_230_tag: ZSTRING

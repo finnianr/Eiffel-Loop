@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2023-03-20 9:58:04 GMT (Monday 20th March 2023)"
+	revision: "12"
 
 class
 	AIA_VERIFIER
@@ -91,7 +91,7 @@ feature -- Basic operations
 				else
 					lio.put_line ("ACTUAL AUTHORIZATION")
 				end
-				create lines.make_adjusted_split (header.item.as_string, ',', {EL_STRING_ADJUST}.Left)
+				create lines.make_adjusted_split (header.item.as_string, ',', {EL_SIDE}.Left)
 				across lines as line loop
 					lio.put_line (line.item)
 				end

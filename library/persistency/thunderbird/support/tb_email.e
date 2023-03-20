@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-27 7:51:56 GMT (Friday 27th January 2023)"
-	revision: "8"
+	date: "2023-03-20 9:58:04 GMT (Monday 20th March 2023)"
+	revision: "9"
 
 class
 	TB_EMAIL
@@ -104,7 +104,7 @@ feature {NONE} -- Factories
 
 	new_content_type (str: READABLE_STRING_GENERAL): like Convert_string.split_list
 		do
-			Result := Convert_string.split_list (str, ';', {EL_STRING_ADJUST}.Left)
+			Result := Convert_string.split_list (str, ';', {EL_SIDE}.Left)
 			Result.for_all_remove_up_to ('=')
 		end
 
@@ -116,9 +116,9 @@ feature {NONE} -- Factories
 			if l_count < x_mozilla_draft_info.count then
 				zero_fields := "; =0"
 				zero_fields.multiply (x_mozilla_draft_info.count - l_count)
-				Result := Convert_string.split_list (str + zero_fields, ';', {EL_STRING_ADJUST}.Left)
+				Result := Convert_string.split_list (str + zero_fields, ';', {EL_SIDE}.Left)
 			else
-				Result := Convert_string.split_list (str, ';', {EL_STRING_ADJUST}.Left)
+				Result := Convert_string.split_list (str, ';', {EL_SIDE}.Left)
 			end
 			Result.for_all_remove_up_to ('=')
 		end

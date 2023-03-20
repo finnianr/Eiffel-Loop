@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-19 11:03:42 GMT (Sunday 19th March 2023)"
-	revision: "28"
+	date: "2023-03-20 11:08:28 GMT (Monday 20th March 2023)"
+	revision: "29"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -316,7 +316,7 @@ feature -- String output
 	put_curtailed_string_field (label, field_value: READABLE_STRING_GENERAL; max_length: INTEGER)
 		-- Put string to log file buffer edited to fit into max_length
 		local
-			line_list: EL_ZSTRING_LIST
+			line_list: EL_ZSTRING_LIST; leading_count, trailing_count: INTEGER
 		do
 			if not field_value.has ('%N') and field_value.count <= max_length then
 				put_string_field (label, field_value)
@@ -331,11 +331,22 @@ feature -- String output
 				op.tab_right
 				op.put_new_line
 
-				create line_list.make_with_lines (field_value)
-				line_list.expand_tabs (op.Tab_string.count)
-				if line_list.character_count > max_length then
-					line_list.curtail (max_length, 80) -- show 80% at start and remaining 20% at tail
+				if field_value.count > max_length then
+					leading_count := (max_length * 0.8).rounded; trailing_count := (max_length * 0.2).rounded
+
+					across Reuseable.string as reuse loop
+						if attached reuse.substring_item (field_value, 1, leading_count) as str then
+							str.right_adjust
+							str.append_string (Ellipisis_break)
+							str.append_from_right_general (field_value, trailing_count)
+							create line_list.make_with_lines (str)
+						end
+					end
+				else
+					create line_list.make_with_lines (field_value)
 				end
+
+				line_list.expand_tabs (op.Tab_string.count)
 				op.put_lines (line_list)
 				op.tab_left
 				op.put_new_line
@@ -520,6 +531,11 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Double_quote: STRING = "%""
+
+	Ellipisis_break: ZSTRING
+		once
+			Result := "..%N%N.."
+		end
 
 	Single_quote: STRING = "'"
 

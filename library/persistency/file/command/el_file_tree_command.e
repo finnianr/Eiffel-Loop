@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 18:42:54 GMT (Sunday 4th December 2022)"
-	revision: "8"
+	date: "2023-03-20 9:58:04 GMT (Monday 20th March 2023)"
+	revision: "9"
 
 deferred class
 	EL_FILE_TREE_COMMAND
@@ -45,7 +45,7 @@ feature {NONE} -- Implementation
 			extension_list: ZSTRING
 		do
 			create extension_list.make_from_general (file_extensions)
-			create Result.make_adjusted (extension_list, ',', {EL_STRING_ADJUST}.Left)
+			create Result.make_adjusted (extension_list, ',', {EL_SIDE}.Left)
 		end
 
 feature {NONE} -- Internal attributes

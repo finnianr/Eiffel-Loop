@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "26"
+	date: "2023-03-20 9:58:04 GMT (Monday 20th March 2023)"
+	revision: "27"
 
 class
 	EL_XPATH_NODE_CONTEXT
@@ -119,7 +119,7 @@ feature -- Basic operations
 			tuple_type: TYPE [TUPLE]; xpath: STRING
 		do
 			tuple_type := tuple.generating_type
-			create xpath_splitter.make_adjusted (a_xpath_list, ',', {EL_STRING_ADJUST}.Left)
+			create xpath_splitter.make_adjusted (a_xpath_list, ',', {EL_SIDE}.Left)
 			across xpath_splitter as split loop
 				index := split.cursor_index
 				xpath := split.item

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-12 8:50:07 GMT (Sunday 12th March 2023)"
-	revision: "33"
+	date: "2023-03-20 9:58:02 GMT (Monday 20th March 2023)"
+	revision: "34"
 
 class
 	STRING_TEST_SET
@@ -104,7 +104,7 @@ feature -- Basic operations
 			s: ZSTRING; parts: EL_ZSTRING_LIST
 		do
 			s := "Stream #0.0(und): Audio: aac, 44100 Hz, stereo, fltp, 253 kb/s"
-			create parts.make_adjusted_split (s, ',', {EL_STRING_ADJUST}.Left)
+			create parts.make_adjusted_split (s, ',', {EL_SIDE}.Left)
 			across parts as part loop
 				lio.put_string_field (part.cursor_index.out, part.item)
 				lio.put_new_line

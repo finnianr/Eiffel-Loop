@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 15:34:54 GMT (Saturday 18th March 2023)"
-	revision: "30"
+	date: "2023-03-20 9:58:03 GMT (Monday 20th March 2023)"
+	revision: "31"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 
 	make_comma_split (a_string: READABLE_STRING_GENERAL)
 		do
-			make_adjusted_split (a_string, ',', {EL_STRING_ADJUST}.Left)
+			make_adjusted_split (a_string, ',', {EL_SIDE}.Left)
 		end
 
 	make_with_lines (a_string: READABLE_STRING_GENERAL)
@@ -299,7 +299,7 @@ feature -- Contract Support
 
 	valid_adjustments (bitmap: INTEGER): BOOLEAN
 		do
-			Result := 0 <= bitmap and then bitmap <= {EL_STRING_ADJUST}.Both
+			Result := 0 <= bitmap and then bitmap <= {EL_SIDE}.Both
 		end
 
 feature {NONE} -- Implementation

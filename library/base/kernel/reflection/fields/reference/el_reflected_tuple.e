@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-24 16:02:14 GMT (Tuesday 24th January 2023)"
-	revision: "32"
+	date: "2023-03-20 9:58:03 GMT (Monday 20th March 2023)"
+	revision: "33"
 
 class
 	EL_REFLECTED_TUPLE
@@ -99,7 +99,7 @@ feature -- Basic operations
 				if attached new_split_list as new_list and then attached new_list (value_list) as list then
 					Convert_string.fill_tuple_from_list (l_tuple, list)
 
-				elseif attached Convert_string.split_list (value_list, ',', {EL_STRING_ADJUST}.Left) as list then
+				elseif attached Convert_string.split_list (value_list, ',', {EL_SIDE}.Left) as list then
 					list.prune_enclosing ('[', ']')
 					Convert_string.fill_tuple_from_list (l_tuple, list)
 				end
