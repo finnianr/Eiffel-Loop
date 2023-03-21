@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:09:15 GMT (Monday 20th March 2023)"
-	revision: "13"
+	date: "2023-03-21 11:10:08 GMT (Tuesday 21st March 2023)"
+	revision: "14"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -20,6 +20,13 @@ inherit
 	EL_SEARCH_HANDLER
 
 	EL_STRING_8_CONSTANTS
+
+	EL_SIDE_ROUTINES
+		rename
+			valid_sides as valid_adjustments
+		export
+			{ANY} valid_adjustments
+		end
 
 feature -- Access
 
@@ -59,6 +66,43 @@ feature -- Access
 			end
 		end
 
+feature -- Lists
+
+	delimited_list (text, delimiter: READABLE_STRING_X): EL_ARRAYED_LIST [READABLE_STRING_X]
+		-- `text' split into arrayed list by `delimiter' string
+		do
+			if attached Split_intervals_buffer.empty_item as intervals then
+				intervals.fill_by_string (text, delimiter, 0)
+				Result := substring_list (text, intervals)
+			end
+		end
+
+	substring_list (text: READABLE_STRING_X; intervals: EL_ARRAYED_INTERVAL_LIST): like to_list
+		do
+			create Result.make (intervals.count)
+			from intervals.start until intervals.after loop
+				Result.extend (text.substring (intervals.item_lower, intervals.item_upper))
+				intervals.forth
+			end
+		end
+
+	to_csv_list (text: READABLE_STRING_X): like to_list
+		-- left adjusted comma separated list
+		do
+			Result := to_list (text, ',', {EL_SIDE}.Left)
+		end
+
+	to_list (text: READABLE_STRING_X; uc: CHARACTER_32; adjustments: INTEGER): EL_ARRAYED_LIST [READABLE_STRING_X]
+		-- `text' split by `uc' character and space adjusted according to `adjustments' (0 = None)
+		require
+			valid_adjustments: valid_adjustments (adjustments)
+		do
+			if attached Split_intervals_buffer.empty_item as intervals then
+				intervals.fill (text, uc, adjustments)
+				Result := substring_list (text, intervals)
+			end
+		end
+
 feature -- Status query
 
 	has_double_quotes (s: READABLE_STRING_X): BOOLEAN
@@ -87,6 +131,24 @@ feature -- Status query
 			--
 		do
 			Result := has_quotes (s, 1)
+		end
+
+	is_eiffel (s: READABLE_STRING_X): BOOLEAN
+		-- `True' if `target' is an Eiffel identifier
+		do
+			Result := cursor (s).is_eiffel
+		end
+
+	is_eiffel_lower (s: READABLE_STRING_X): BOOLEAN
+		-- `True' if `target' is a lower-case Eiffel identifier
+		do
+			Result := cursor (s).is_eiffel_lower
+		end
+
+	is_eiffel_upper (s: READABLE_STRING_X): BOOLEAN
+		-- `True' if `target' is an upper-case Eiffel identifier
+		do
+			Result := cursor (s).is_eiffel_upper
 		end
 
 	is_identifier_boundary (str: READABLE_STRING_X; lower, upper: INTEGER): BOOLEAN
@@ -238,6 +300,13 @@ feature {NONE} -- Implementation
 
 	string_searcher: STRING_SEARCHER
 		deferred
+		end
+
+feature {NONE} -- Constants
+
+	Split_intervals_buffer: EL_LIST_BUFFER [EL_SPLIT_INTERVALS, INTEGER]
+		once
+			create Result.make
 		end
 
 end

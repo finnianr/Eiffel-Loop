@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-11 9:30:22 GMT (Saturday 11th March 2023)"
-	revision: "35"
+	date: "2023-03-21 17:46:21 GMT (Tuesday 21st March 2023)"
+	revision: "36"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE

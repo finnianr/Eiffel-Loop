@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-02 11:12:17 GMT (Thursday 2nd March 2023)"
-	revision: "49"
+	date: "2023-03-21 15:45:18 GMT (Tuesday 21st March 2023)"
+	revision: "50"
 
 deferred class
 	EL_ZCODEC
@@ -23,6 +23,7 @@ feature {EL_ZCODEC_FACTORY} -- Initialization
 			make_default
 			create latin_characters.make_filled ('%U', 1)
 			unicode_table := new_unicode_table
+			intervals_buffer := Empty_string.Intervals_buffer
 			create accumulator.make_empty (25)
 			initialize_latin_sets
 		end
@@ -199,7 +200,7 @@ feature -- Encoding operations
 			new_count := offset + unicode_in.count
 			output.grow (new_count)
 			output.set_count (new_count)
-			encode_substring (unicode_in, output.area, 1, unicode_in.count, offset, Empty_string.empty_interval_list)
+			encode_substring (unicode_in, output.area, 1, unicode_in.count, offset, intervals_buffer)
 		end
 
 	encode (
@@ -212,7 +213,7 @@ feature -- Encoding operations
 
 	encode_as_string_8 (unicode_in: READABLE_STRING_GENERAL; encoded_out: SPECIAL [CHARACTER]; out_offset: INTEGER)
 		do
-			encode (unicode_in, encoded_out, out_offset, Empty_string.empty_interval_list)
+			encode (unicode_in, encoded_out, out_offset, intervals_buffer)
 		end
 
 	encode_substring (

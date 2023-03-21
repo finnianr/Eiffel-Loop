@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 9:37:05 GMT (Saturday 18th March 2023)"
-	revision: "5"
+	date: "2023-03-21 15:27:55 GMT (Tuesday 21st March 2023)"
+	revision: "6"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -76,6 +76,24 @@ feature -- Status query
 		deferred
 		end
 
+	is_eiffel: BOOLEAN
+		-- `True' if `target' is an Eiffel identifier
+		do
+			Result := is_area_eiffel_identifier (Case_lower | Case_upper)
+		end
+
+	is_eiffel_lower: BOOLEAN
+		-- `True' if `target' is a lower-case Eiffel identifier
+		do
+			Result := is_area_eiffel_identifier (Case_lower)
+		end
+
+	is_eiffel_upper: BOOLEAN
+		-- `True' if `target' is an upper-case Eiffel identifier
+		do
+			Result := is_area_eiffel_identifier (Case_upper)
+		end
+
 	valid_index (i: INTEGER): BOOLEAN
 		do
 			Result := target.valid_index (i)
@@ -105,11 +123,48 @@ feature -- Measurement
 
 feature {NONE} -- Implementation
 
+	is_area_eiffel_identifier (case_code: INTEGER): BOOLEAN
+		local
+			first_i: BOOLEAN; i, last_i: INTEGER; l_area: like area
+		do
+			last_i := area_last_index; l_area := area
+			Result := True; first_i := True
+			from i := area_first_index until i > last_i or not Result loop
+				Result := is_i_th_eiffel_identifier (l_area, i, case_code, first_i)
+				if first_i then
+					first_i := False
+				end
+				i := i + 1
+			end
+		end
+
+	is_i_th_eiffel_identifier_8 (a_area: SPECIAL [CHARACTER_8]; i, case_code: INTEGER; first_i: BOOLEAN): BOOLEAN
+		do
+			inspect a_area [i]
+				when 'a' .. 'z' then
+					Result := (case_code & Case_lower).to_boolean
+
+				when 'A' .. 'Z' then
+					Result := (case_code & Case_upper).to_boolean
+
+				when '0' .. '9', '_' then
+					Result := not first_i
+			else
+				Result := False
+			end
+		end
+
+feature {NONE} -- Deferred
+
+	area: SPECIAL [ANY]
+		deferred
+		end
+
 	area_first_index: INTEGER
 		deferred
 		end
 
-	area: SPECIAL [ANY]
+	area_last_index: INTEGER
 		deferred
 		end
 
@@ -121,8 +176,18 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	is_i_th_eiffel_identifier (a_area: like area; i, case_code: INTEGER; first_i: BOOLEAN): BOOLEAN
+		deferred
+		end
+
 	target: READABLE_STRING_GENERAL
 		deferred
 		end
+
+feature {NONE} -- Constants
+
+	Case_lower: INTEGER = 1
+
+	Case_upper: INTEGER = 2
 
 end

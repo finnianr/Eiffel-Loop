@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-01 17:27:31 GMT (Wednesday 1st March 2023)"
-	revision: "20"
+	date: "2023-03-21 15:43:37 GMT (Tuesday 21st March 2023)"
+	revision: "21"
 
 deferred class
 	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
@@ -154,12 +154,6 @@ feature {NONE} -- Implementation
 --			Result.set_in_use (True)
 		end
 
-	empty_index_list: ARRAYED_LIST [INTEGER]
-		do
-			Result := Once_index_list
-			Result.wipe_out
-		end
-
 	extend_bounds (a_area: like area; lower, upper: INTEGER)
 		do
 			a_area.extend (lower.to_character_32)
@@ -188,7 +182,7 @@ feature {NONE} -- Implementation
 		local
 			i, i_final: INTEGER; l_area: like area
 		do
-			Result := empty_index_list
+			Result := Index_list_buffer
 			l_area := area; i_final := l_area.count
 			from i := 0 until i = i_final loop
 				Result.extend (i)
@@ -273,9 +267,9 @@ feature {NONE} -- Constants
 
 	Minimum_capacity: INTEGER = 3
 
-	Once_index_list: ARRAYED_LIST [INTEGER]
+	Index_list_buffer: EL_LIST_BUFFER [ARRAYED_LIST [INTEGER], INTEGER]
 		once
-			create Result.make (5)
+			create Result.make
 		end
 
 	Unencoded_insert: SPECIAL [CHARACTER_32]

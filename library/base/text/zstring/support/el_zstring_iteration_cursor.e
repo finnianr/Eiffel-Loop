@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 9:35:04 GMT (Saturday 18th March 2023)"
-	revision: "12"
+	date: "2023-03-21 15:20:42 GMT (Tuesday 21st March 2023)"
+	revision: "13"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -23,6 +23,7 @@ inherit
 	EL_STRING_ITERATION_CURSOR
 		rename
 			Unicode_table as Shared_unicode_table,
+			is_i_th_eiffel_identifier_8 as is_i_th_eiffel_identifier,
 			i_th_character_32 as i_th_unicode
 		export
 			{NONE} fill_z_codes

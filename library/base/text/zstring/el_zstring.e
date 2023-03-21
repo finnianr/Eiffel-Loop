@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 10:45:52 GMT (Monday 20th March 2023)"
-	revision: "79"
+	date: "2023-03-21 10:24:00 GMT (Tuesday 21st March 2023)"
+	revision: "80"
 
 class
 	EL_ZSTRING
@@ -55,6 +55,7 @@ inherit
 --				Contract support
 				Encoding
 			{EL_SHARED_ZSTRING_CODEC} order_comparison
+			{EL_ZCODEC} Intervals_buffer
 		select
 			String_searcher
 		end

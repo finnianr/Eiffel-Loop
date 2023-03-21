@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 10:46:46 GMT (Monday 20th March 2023)"
-	revision: "49"
+	date: "2023-03-21 15:44:57 GMT (Tuesday 21st March 2023)"
+	revision: "50"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -94,7 +94,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 		require
 			valid_encoding: valid_encoding (str_encoding)
 		local
-			offset: INTEGER; unencoded_intervals: like empty_interval_list
+			offset: INTEGER; unencoded_intervals: like Intervals_buffer.item
 			l_codec: EL_ZCODEC; u: UTF_CONVERTER
 		do
 			-- UTF-16 must be first to test as it can look like ascii
@@ -116,7 +116,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
 			elseif Codec_factory.valid_encoding (str_encoding) then
 				l_codec := Codec_factory.codec_by (str_encoding)
-				unencoded_intervals := empty_interval_list
+				unencoded_intervals := Intervals_buffer
 				offset := count; accommodate (str.count)
 				codec.re_encode_substring (l_codec, str, area, 1, str.count, offset, unencoded_intervals)
 				if unencoded_intervals.count > 0 and then attached shared_cursor (str) as l_cursor then

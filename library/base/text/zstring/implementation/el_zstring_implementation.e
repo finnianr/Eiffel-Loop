@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-02 12:12:17 GMT (Thursday 2nd March 2023)"
-	revision: "66"
+	date: "2023-03-21 15:44:16 GMT (Tuesday 21st March 2023)"
+	revision: "67"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -312,14 +312,6 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
 		deferred
 		end
 
-feature {EL_ZCODEC} -- Implementation
-
-	empty_interval_list: EL_ARRAYED_INTERVAL_LIST
-		do
-			Result := Once_interval_list
-			Result.wipe_out
-		end
-
 feature {NONE} -- Implementation
 
 	adapted_argument (a_general: READABLE_STRING_GENERAL; index: INTEGER): EL_ZSTRING
@@ -349,9 +341,9 @@ feature {NONE} -- Implementation
 		require
 			valid_area_offset: valid_area_offset (a_unicode, start_index, end_index, area_offset)
 		local
-			unencoded_intervals: like empty_interval_list
+			unencoded_intervals: like Intervals_buffer.item
 		do
-			unencoded_intervals := empty_interval_list
+			unencoded_intervals := Intervals_buffer
 			codec.encode_substring (a_unicode, area, start_index, end_index, area_offset, unencoded_intervals)
 
 			if unencoded_intervals.count > 0 and then attached shared_cursor (a_unicode) as l_cursor then
@@ -459,14 +451,14 @@ feature {NONE} -- Constants
 			Result [2] := create {ZSTRING}.make_empty
 		end
 
-	Once_substring_indices: ARRAYED_LIST [INTEGER]
+	Substring_indices_buffer: EL_LIST_BUFFER [ARRAYED_LIST [INTEGER], INTEGER]
 		do
-			create Result.make (5)
+			create Result.make
 		end
 
-	Once_interval_list: EL_ARRAYED_INTERVAL_LIST
+	Intervals_buffer: EL_LIST_BUFFER [EL_ARRAYED_INTERVAL_LIST, INTEGER]
 		once
-			create Result.make_empty
+			create Result.make
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 9:37:30 GMT (Saturday 18th March 2023)"
-	revision: "11"
+	date: "2023-03-21 15:20:55 GMT (Tuesday 21st March 2023)"
+	revision: "12"
 
 class
 	EL_STRING_8_ITERATION_CURSOR
@@ -19,6 +19,9 @@ inherit
 		end
 
 	EL_STRING_ITERATION_CURSOR
+		rename
+			is_i_th_eiffel_identifier_8 as is_i_th_eiffel_identifier
+		end
 
 	EL_STRING_8_CONSTANTS
 		rename
@@ -74,24 +77,6 @@ feature -- Status query
 		do
 			l_last_index := area_last_index - (target.count - end_index)
 			Result := c_8.is_ascii_area (area, area_first_index + start_index - 1, l_last_index)
-		end
-
-	is_eiffel: BOOLEAN
-		-- `True' if `target' is an Eiffel identifier
-		do
-			Result := is_area_eiffel_identifier (Case_lower | Case_upper)
-		end
-
-	is_eiffel_lower: BOOLEAN
-		-- `True' if `target' is a lower-case Eiffel identifier
-		do
-			Result := is_area_eiffel_identifier (Case_lower)
-		end
-
-	is_eiffel_upper: BOOLEAN
-		-- `True' if `target' is an upper-case Eiffel identifier
-		do
-			Result := is_area_eiffel_identifier (Case_upper)
 		end
 
 feature -- Measurement
@@ -175,43 +160,9 @@ feature {NONE} -- Implementation
 			Result := a_area [i]
 		end
 
-	is_area_eiffel_identifier (case_code: INTEGER): BOOLEAN
-		local
-			i, last_i: INTEGER; c: CHARACTER; l_area: like area
-		do
-			last_i := area_last_index; l_area := area
-			Result := True
-			from i := area_last_index until i > last_i or not Result loop
-				c := l_area [i]
-				if i = 0 implies c.is_alpha then
-					inspect c
-						when 'a' .. 'z' then
-							Result := (case_code & Case_lower).to_boolean
-
-						when 'A' .. 'Z' then
-							Result := (case_code & Case_upper).to_boolean
-
-						when '0' .. '9', '_' then
-							Result := True
-					else
-						Result := False
-					end
-				else
-					Result := False
-				end
-				i := i + 1
-			end
-		end
-
 	last_index_of (str: STRING_8; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
 		do
 			Result := str.last_index_of (c.to_character_8, start_index_from_end)
 		end
-
-feature {NONE} -- Constants
-
-	Case_lower: INTEGER = 1
-
-	Case_upper: INTEGER = 2
 
 end

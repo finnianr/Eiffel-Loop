@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 16:32:48 GMT (Saturday 31st December 2022)"
-	revision: "14"
+	date: "2023-03-21 8:58:43 GMT (Tuesday 21st March 2023)"
+	revision: "15"
 
 class
 	EL_FILE_MANIFEST_ITEM
@@ -75,6 +75,11 @@ feature -- Access
 	byte_count: INTEGER
 
 	modification_time: INTEGER
+
+	modificiation_date_time: EL_DATE_TIME
+		do
+			create Result.make_from_epoch (modification_time)
+		end
 
 	name: ZSTRING
 

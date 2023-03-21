@@ -1,7 +1,7 @@
 note
 	description: "[
 		A virtual split-list of strings conforming to [$source READABLE_STRING_GENERAL] represented
-		as an array of [$INTEGER_64] substring intervals
+		as a 2-dimensional array of substring intervals
 	]"
 	notes: "[
 		This is a more efficient way to process split strings as it doesn't create a new string
@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 10:30:16 GMT (Monday 20th March 2023)"
-	revision: "21"
+	date: "2023-03-21 9:43:03 GMT (Tuesday 21st March 2023)"
+	revision: "22"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -170,12 +170,12 @@ feature -- Status query
 
 	left_adjusted: BOOLEAN
 		do
-			Result := (adjustments & {EL_SIDE}.Left).to_boolean
+			Result := has_left_side (adjustments)
 		end
 
 	right_adjusted: BOOLEAN
 		do
-			Result := (adjustments & {EL_SIDE}.Right).to_boolean
+			Result := has_right_side (adjustments)
 		end
 
 feature -- Numeric items

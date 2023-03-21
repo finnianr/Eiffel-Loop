@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 9:37:42 GMT (Saturday 18th March 2023)"
-	revision: "10"
+	date: "2023-03-21 15:23:20 GMT (Tuesday 21st March 2023)"
+	revision: "11"
 
 class
 	EL_STRING_32_ITERATION_CURSOR
@@ -148,6 +148,22 @@ feature {NONE} -- Implementation
 	i_th_character_32 (a_area: SPECIAL [CHARACTER_32]; i: INTEGER): CHARACTER_32
 		do
 			Result := a_area [i]
+		end
+
+	is_i_th_eiffel_identifier (a_area: like area; i, case_code: INTEGER; first_i: BOOLEAN): BOOLEAN
+		do
+			inspect a_area [i]
+				when 'a' .. 'z' then
+					Result := (case_code & Case_lower).to_boolean
+
+				when 'A' .. 'Z' then
+					Result := (case_code & Case_upper).to_boolean
+
+				when '0' .. '9', '_' then
+					Result := not first_i
+			else
+				Result := False
+			end
 		end
 
 end

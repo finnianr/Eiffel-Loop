@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 17:07:19 GMT (Sunday 18th December 2022)"
-	revision: "46"
+	date: "2023-03-21 9:23:18 GMT (Tuesday 21st March 2023)"
+	revision: "47"
 
 deferred class
 	EL_STRING_X_ROUTINES [STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -58,28 +58,6 @@ feature -- Factory
 				Result.append_code (32)
 				i := i + 1
 			end
-		end
-
-feature -- Lists
-
-	delimited_list (text, delimiter: STRING_X): LIST [STRING_X]
-			-- string delimited list
-		local
-			splits: EL_SPLIT_STRING_LIST [STRING_X]
-		do
-			create splits.make_by_string (text, delimiter)
-			Result := splits.as_string_list
-		end
-
-	to_list (text: STRING_X): LIST [STRING_X]
-		-- comma separated list
-		local
-			comma: STRING_X
-		do
-			create comma.make (1)
-			comma.append_code ((',').natural_32_code)
-			Result := delimited_list (text, comma)
-			Result.do_all (agent left_adjust)
 		end
 
 feature -- Transformed

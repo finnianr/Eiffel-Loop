@@ -23,14 +23,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:03 GMT (Monday 20th March 2023)"
-	revision: "21"
+	date: "2023-03-21 18:43:49 GMT (Tuesday 21st March 2023)"
+	revision: "22"
 
 class
 	UNDEFINE_PATTERN_COUNTER_COMMAND
-
-obsolete
-	"Once-off use"
 
 inherit
 	SOURCE_MANIFEST_COMMAND
