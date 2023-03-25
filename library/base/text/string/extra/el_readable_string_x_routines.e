@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-21 11:10:08 GMT (Tuesday 21st March 2023)"
-	revision: "14"
+	date: "2023-03-22 16:40:27 GMT (Wednesday 22nd March 2023)"
+	revision: "15"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -71,7 +71,7 @@ feature -- Lists
 	delimited_list (text, delimiter: READABLE_STRING_X): EL_ARRAYED_LIST [READABLE_STRING_X]
 		-- `text' split into arrayed list by `delimiter' string
 		do
-			if attached Split_intervals_buffer.empty_item as intervals then
+			if attached Once_split_intervals.emptied as intervals then
 				intervals.fill_by_string (text, delimiter, 0)
 				Result := substring_list (text, intervals)
 			end
@@ -97,7 +97,7 @@ feature -- Lists
 		require
 			valid_adjustments: valid_adjustments (adjustments)
 		do
-			if attached Split_intervals_buffer.empty_item as intervals then
+			if attached Once_split_intervals.emptied as intervals then
 				intervals.fill (text, uc, adjustments)
 				Result := substring_list (text, intervals)
 			end
@@ -304,9 +304,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Split_intervals_buffer: EL_LIST_BUFFER [EL_SPLIT_INTERVALS, INTEGER]
+	Once_split_intervals: EL_SPLIT_INTERVALS
 		once
-			create Result.make
+			create Result.make_empty
 		end
 
 end

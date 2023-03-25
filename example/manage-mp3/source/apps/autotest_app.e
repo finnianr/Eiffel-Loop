@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "23"
+	date: "2023-03-25 11:25:44 GMT (Saturday 25th March 2023)"
+	revision: "24"
 
 class
 	AUTOTEST_APP
@@ -54,7 +54,12 @@ create
 
 feature {NONE} -- Implementation
 
-	visible_types: TUPLE [EL_GVFS_OS_COMMAND, EL_GVFS_FILE_EXISTS_COMMAND]
+	visible_types: TUPLE [
+		EL_GVFS_COPY_COMMAND,
+		EL_GVFS_FILE_EXISTS_COMMAND,
+		EL_GVFS_MAKE_DIRECTORY_COMMAND,
+		EL_GVFS_MOVE_COMMAND
+	]
 		do
 			create Result
 		end

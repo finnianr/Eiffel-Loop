@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-11 10:18:36 GMT (Sunday 11th December 2022)"
-	revision: "21"
+	date: "2023-03-25 10:53:25 GMT (Saturday 25th March 2023)"
+	revision: "22"
 
 class
 	EL_OS_COMMAND
@@ -37,8 +37,6 @@ create
 feature {NONE} -- Initialization
 
 	make (a_template: READABLE_STRING_GENERAL)
-			--
-
 		local
 			space_index: INTEGER
 		do
@@ -46,7 +44,7 @@ feature {NONE} -- Initialization
 			if space_index > 0 then
 				make_with_name (a_template.substring (1, space_index - 1), a_template)
 			else
-				make_with_name (a_template, a_template)
+				make_with_name (default_name (a_template), a_template)
 			end
 		end
 
@@ -138,6 +136,19 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	default_name (a_template: READABLE_STRING_GENERAL): ZSTRING
+		local
+			space_index: INTEGER
+		do
+			space_index := a_template.index_of (' ', 1)
+			create Result.make (space_index.max (a_template.count))
+			if space_index > 0 then
+				Result.append_substring_general (a_template, 1, space_index - 1)
+			else
+				Result.append_string_general (a_template)
+			end
+		end
 
 	new_temporary_name: ZSTRING
 		do

@@ -571,3 +571,6 @@ Improvements to ZSTRING and split lists
 Sun 12th Mar 2023, 14:46:39
 Fixed bad spacing in source and new routine to spell integers
 
+Tue 21st Mar 2023, 19:24:44
+EL_LIST_BUFFER class
+

@@ -1,5 +1,5 @@
 note
-	description: "GVFS command to remove a file"
+	description: "GVFS command taking a single uri argument"
 	notes: "[
 		GVFS stands for [https://www.commandlinux.com/man-page/man7/gvfs.7.html GIO virtual file system]
 	]"
@@ -9,29 +9,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-25 11:52:39 GMT (Saturday 25th March 2023)"
+	date: "2023-03-25 10:21:52 GMT (Saturday 25th March 2023)"
 	revision: "8"
 
-class
-	EL_GVFS_REMOVE_FILE_COMMAND
+deferred class
+	EL_GVFS_URI_COMMAND
 
 inherit
-	EL_GVFS_URI_COMMAND
-		redefine
-			ignore
-		end
+	EL_GVFS_OS_COMMAND [TUPLE [uri: STRING]]
 
-create
-	make
+feature -- Element change
 
-feature {NONE} -- Implementation
-
-	ignore (a_error: ZSTRING): BOOLEAN
+	set_uri (uri: EL_URI)
 		do
-			Result := is_file_not_found (a_error)
+			put_uri (Var.uri, uri)
 		end
-
-feature {NONE} -- Constants
-
-	Template: STRING = "gvfs-rm $uri"
 end

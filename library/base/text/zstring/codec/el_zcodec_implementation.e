@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-21 10:39:44 GMT (Tuesday 21st March 2023)"
-	revision: "5"
+	date: "2023-03-22 16:35:13 GMT (Wednesday 22nd March 2023)"
+	revision: "6"
 
 class
 	EL_ZCODEC_IMPLEMENTATION
@@ -73,7 +73,8 @@ feature {NONE} -- Internal attributes
 
 	accumulator: SPECIAL [CHARACTER_32]
 
-	intervals_buffer: EL_LIST_BUFFER [EL_ARRAYED_INTERVAL_LIST, INTEGER]
+	shared_interval_list: EL_ARRAYED_INTERVAL_LIST
+		-- initialized from {EL_ZSTRING_IMPLEMENTATION}.Once_interval_list
 
 feature {NONE} -- Constants
 

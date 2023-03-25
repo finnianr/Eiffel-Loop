@@ -1,34 +1,28 @@
 note
-	description: "Gvfs file exists command"
+	description: "GVFS command to detect if file exists"
+	notes: "[
+		GVFS stands for [https://www.commandlinux.com/man-page/man7/gvfs.7.html GIO virtual file system]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 7:25:58 GMT (Saturday 26th November 2022)"
-	revision: "6"
+	date: "2023-03-25 11:54:26 GMT (Saturday 25th March 2023)"
+	revision: "7"
 
 class
 	EL_GVFS_FILE_EXISTS_COMMAND
 
 inherit
-	EL_GVFS_OS_COMMAND
-		rename
-			make as make_command
+	EL_GVFS_URI_COMMAND
 		redefine
 			ignore, find_line, reset
 		end
 
 create
 	make
-
-feature {NONE} -- Initialization
-
-	make
-		do
-			make_with_name ("gvfs-info.type", "gvfs-info -a standard::type $uri")
-		end
 
 feature -- Access
 
@@ -55,5 +49,9 @@ feature {NONE} -- Implementation
 		do
 			Result := is_file_not_found (a_error)
 		end
+
+feature {NONE} -- Constants
+
+	Template: STRING = "gvfs-info -a standard::type $uri"
 
 end

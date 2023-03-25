@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-21 15:42:18 GMT (Tuesday 21st March 2023)"
-	revision: "14"
+	date: "2023-03-22 16:37:54 GMT (Wednesday 22nd March 2023)"
+	revision: "15"
 
 class
 	EL_ZSTRING_TOKEN_TABLE
@@ -89,16 +89,16 @@ feature -- Access
 		-- strings represented by `a_tokens' joined with `separator'
 		local
 			i, i_final: INTEGER; area: SPECIAL [CHARACTER_32]; word_area: SPECIAL [ZSTRING]
-			list: like String_list_buffer.item
 		do
 			area := a_tokens.area; word_area := word_list.area
-			list := String_list_buffer
-			i_final := a_tokens.count
-			from i := 0 until i = i_final loop
-				list.extend (word_area [area.item (i).code - 1])
-				i := i + 1
+			if attached Once_string_list.emptied as list then
+				i_final := a_tokens.count
+				from i := 0 until i = i_final loop
+					list.extend (word_area [area.item (i).code - 1])
+					i := i + 1
+				end
+				Result := list.joined (separator)
 			end
-			Result := list.joined (separator)
 		end
 
 	last_token: CHARACTER_32
@@ -159,9 +159,9 @@ feature {STRING_HANDLER, EL_ZSTRING_TOKEN_TABLE} -- Implementation
 
 feature {NONE} -- Constants
 
-	String_list_buffer: EL_LIST_BUFFER [EL_ZSTRING_LIST, ZSTRING]
+	Once_string_list: EL_ZSTRING_LIST
 		once
-			create Result.make
+			create Result.make_empty
 		end
 
 end

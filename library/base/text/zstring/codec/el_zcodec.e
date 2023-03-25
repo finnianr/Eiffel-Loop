@@ -7,14 +7,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-21 15:45:18 GMT (Tuesday 21st March 2023)"
-	revision: "50"
+	date: "2023-03-22 16:33:47 GMT (Wednesday 22nd March 2023)"
+	revision: "51"
 
 deferred class
 	EL_ZCODEC
 
 inherit
 	EL_ZCODEC_IMPLEMENTATION
+		export
+			{EL_ZSTRING_IMPLEMENTATION} shared_interval_list
+		end
 
 feature {EL_ZCODEC_FACTORY} -- Initialization
 
@@ -23,7 +26,7 @@ feature {EL_ZCODEC_FACTORY} -- Initialization
 			make_default
 			create latin_characters.make_filled ('%U', 1)
 			unicode_table := new_unicode_table
-			intervals_buffer := Empty_string.Intervals_buffer
+			shared_interval_list := Empty_string.Once_interval_list
 			create accumulator.make_empty (25)
 			initialize_latin_sets
 		end
@@ -200,7 +203,7 @@ feature -- Encoding operations
 			new_count := offset + unicode_in.count
 			output.grow (new_count)
 			output.set_count (new_count)
-			encode_substring (unicode_in, output.area, 1, unicode_in.count, offset, intervals_buffer)
+			encode_substring (unicode_in, output.area, 1, unicode_in.count, offset, shared_interval_list.emptied)
 		end
 
 	encode (
@@ -213,7 +216,7 @@ feature -- Encoding operations
 
 	encode_as_string_8 (unicode_in: READABLE_STRING_GENERAL; encoded_out: SPECIAL [CHARACTER]; out_offset: INTEGER)
 		do
-			encode (unicode_in, encoded_out, out_offset, intervals_buffer)
+			encode (unicode_in, encoded_out, out_offset, shared_interval_list.emptied)
 		end
 
 	encode_substring (
@@ -225,6 +228,7 @@ feature -- Encoding operations
 		-- Set unencodeable characters as the `Substitute' character (26) and record location in `unencoded_intervals'
 		require
 			valid_offset_and_count: valid_offset_and_count (end_index - start_index + 1, encoded_out, out_offset)
+			empty_intervals: unencoded_intervals.is_empty
 		local
 			i, out_i, code_i, in_offset: INTEGER; c: CHARACTER
 			c_8_area: SPECIAL [CHARACTER_8]; unicode: like unicode_table

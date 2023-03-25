@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-21 15:44:36 GMT (Tuesday 21st March 2023)"
-	revision: "34"
+	date: "2023-03-22 16:12:08 GMT (Wednesday 22nd March 2023)"
+	revision: "35"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -310,7 +310,7 @@ feature {NONE} -- Implementation
 			str_count: INTEGER
 		do
 			str_count := str.count
-			Result := Substring_indices_buffer
+			Result := Once_substring_indices.emptied
 
 			if (attached {EL_SEARCHABLE_ZSTRING} str as zstr and then zstr = Current)
 				or else str_count = 0

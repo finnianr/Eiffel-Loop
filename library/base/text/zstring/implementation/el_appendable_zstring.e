@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-21 15:44:57 GMT (Tuesday 21st March 2023)"
-	revision: "50"
+	date: "2023-03-22 16:45:14 GMT (Wednesday 22nd March 2023)"
+	revision: "51"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -94,8 +94,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 		require
 			valid_encoding: valid_encoding (str_encoding)
 		local
-			offset: INTEGER; unencoded_intervals: like Intervals_buffer.item
-			l_codec: EL_ZCODEC; u: UTF_CONVERTER
+			offset: INTEGER; u: UTF_CONVERTER
 		do
 			-- UTF-16 must be first to test as it can look like ascii
 			if str_encoding = {EL_ENCODING_CONSTANTS}.Utf_16 then
@@ -114,9 +113,10 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 			elseif codec.encoding = str_encoding then
 				append_string_8 (str)
 
-			elseif Codec_factory.valid_encoding (str_encoding) then
-				l_codec := Codec_factory.codec_by (str_encoding)
-				unencoded_intervals := Intervals_buffer
+			elseif Codec_factory.valid_encoding (str_encoding)
+				and then attached Codec_factory.codec_by (str_encoding) as l_codec
+				and then attached Once_interval_list.emptied as unencoded_intervals
+			then
 				offset := count; accommodate (str.count)
 				codec.re_encode_substring (l_codec, str, area, 1, str.count, offset, unencoded_intervals)
 				if unencoded_intervals.count > 0 and then attached shared_cursor (str) as l_cursor then
@@ -126,7 +126,6 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 						make_from_intervals (l_cursor, unencoded_intervals, offset)
 					end
 					re_encode_intervals (l_codec, unencoded_intervals)
---					l_codec.re_encode (unencoded_area, unencoded_intervals)
 				end
 			else
 				append_string_8 (str)

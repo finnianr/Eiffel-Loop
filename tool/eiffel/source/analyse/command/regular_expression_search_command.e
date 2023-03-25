@@ -1,13 +1,14 @@
 note
 	description: "Shell to search for regular expressions in source manifest files"
+	to_do: "Escape any line with back quote character `' to fix gedit syntax highlighting"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 9:56:18 GMT (Monday 9th January 2023)"
-	revision: "14"
+	date: "2023-03-21 19:24:16 GMT (Tuesday 21st March 2023)"
+	revision: "15"
 
 class
 	REGULAR_EXPRESSION_SEARCH_COMMAND

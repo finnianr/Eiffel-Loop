@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-19 8:09:36 GMT (Sunday 19th March 2023)"
-	revision: "51"
+	date: "2023-03-22 16:11:02 GMT (Wednesday 22nd March 2023)"
+	revision: "52"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -159,6 +159,14 @@ feature -- Access
 				create Result.make_filled (item, 1, end_pos - index + 1)
 				Result.area.copy_data (area_v2, index - 1, 0, end_pos - index + 1)
 			end
+		end
+
+	emptied: like Current
+		do
+			wipe_out
+			Result := Current
+		ensure
+			empty: Result.is_empty
 		end
 
 	joined (list: ITERABLE [G]): like Current

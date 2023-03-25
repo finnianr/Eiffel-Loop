@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2023-03-22 16:59:22 GMT (Wednesday 22nd March 2023)"
+	revision: "21"
 
 class
 	DUPLICITY_RESTORE_APP
@@ -35,7 +35,12 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make (create {FILE_PATH})
 		end
 
-	visible_types: TUPLE [DUPLICITY_COLLECTION_STATUS_OS_CMD, DUPLICITY_LISTING_OS_CMD]
+	visible_types: TUPLE [
+		DUPLICITY_COLLECTION_STATUS_OS_CMD,
+		DUPLICITY_LISTING_OS_CMD,
+		DUPLICITY_RESTORE_ALL_OS_CMD,
+		DUPLICITY_RESTORE_FILE_OS_CMD
+	]
 		-- types with lio output visible in console
 		-- See: {EL_CONSOLE_MANAGER_I}.show_all
 		do

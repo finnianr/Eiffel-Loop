@@ -1,24 +1,26 @@
 note
-	description: "Gvfs file list command"
+	description: "GVFS command to obtain list of files in directory"
+	notes: "[
+		GVFS stands for [https://www.commandlinux.com/man-page/man7/gvfs.7.html GIO virtual file system]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-03-25 11:52:15 GMT (Saturday 25th March 2023)"
+	revision: "7"
 
 class
 	EL_GVFS_FILE_LIST_COMMAND
 
 inherit
-	EL_GVFS_OS_COMMAND
+	EL_GVFS_URI_COMMAND
 		rename
-			make as make_command,
 			find_line as read_file
 		redefine
-			read_file, reset
+			make_default, read_file, reset
 		end
 
 create
@@ -26,10 +28,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make
+	make_default
 		do
+			Precursor
 			create file_list.make_with_count (10)
-			make_command ("gvfs-ls $uri")
 		end
 
 feature -- Access
@@ -50,4 +52,7 @@ feature {NONE} -- Line states
 			file_list.extend (line)
 		end
 
+feature {NONE} -- Constants
+
+	Template: STRING = "gvfs-ls $uri"
 end

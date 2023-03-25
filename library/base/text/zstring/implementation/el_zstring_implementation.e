@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-21 15:44:16 GMT (Tuesday 21st March 2023)"
-	revision: "67"
+	date: "2023-03-22 16:43:10 GMT (Wednesday 22nd March 2023)"
+	revision: "68"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -340,17 +340,16 @@ feature {NONE} -- Implementation
 	encode_substring (a_unicode: READABLE_STRING_GENERAL; start_index, end_index, area_offset: INTEGER)
 		require
 			valid_area_offset: valid_area_offset (a_unicode, start_index, end_index, area_offset)
-		local
-			unencoded_intervals: like Intervals_buffer.item
 		do
-			unencoded_intervals := Intervals_buffer
-			codec.encode_substring (a_unicode, area, start_index, end_index, area_offset, unencoded_intervals)
+			if attached Once_interval_list.emptied as unencoded_intervals then
+				codec.encode_substring (a_unicode, area, start_index, end_index, area_offset, unencoded_intervals)
 
-			if unencoded_intervals.count > 0 and then attached shared_cursor (a_unicode) as l_cursor then
-				if has_mixed_encoding then
-					append_unencoded_intervals (l_cursor, unencoded_intervals, area_offset - start_index + 1)
-				else
-					make_from_intervals (l_cursor, unencoded_intervals, area_offset - start_index + 1)
+				if unencoded_intervals.count > 0 and then attached shared_cursor (a_unicode) as l_cursor then
+					if has_mixed_encoding then
+						append_unencoded_intervals (l_cursor, unencoded_intervals, area_offset - start_index + 1)
+					else
+						make_from_intervals (l_cursor, unencoded_intervals, area_offset - start_index + 1)
+					end
 				end
 			end
 		end
@@ -451,14 +450,13 @@ feature {NONE} -- Constants
 			Result [2] := create {ZSTRING}.make_empty
 		end
 
-	Substring_indices_buffer: EL_LIST_BUFFER [ARRAYED_LIST [INTEGER], INTEGER]
+	Once_substring_indices: EL_ARRAYED_LIST [INTEGER]
 		do
-			create Result.make
+			create Result.make (5)
 		end
 
-	Intervals_buffer: EL_LIST_BUFFER [EL_ARRAYED_INTERVAL_LIST, INTEGER]
+	Once_interval_list: EL_ARRAYED_INTERVAL_LIST
 		once
-			create Result.make
+			create Result.make_empty
 		end
-
 end

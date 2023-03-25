@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 7:38:53 GMT (Saturday 26th November 2022)"
-	revision: "8"
+	date: "2023-03-25 10:52:32 GMT (Saturday 25th March 2023)"
+	revision: "9"
 
 deferred class
 	EL_PARSED_OS_COMMAND [VARIABLES -> TUPLE create default_create end]
@@ -35,7 +35,7 @@ inherit
 			{ANY} set_working_directory, execute, is_valid_platform, has_error, print_error
 			{EL_FALLIBLE} error_list
 		redefine
-			execute, make_command
+			default_name, execute, make_command
 		end
 
 feature {NONE} -- Initialization
@@ -85,6 +85,12 @@ feature -- Status query
 		end
 
 feature {NONE} -- Implementation
+
+	default_name (a_template: READABLE_STRING_GENERAL): ZSTRING
+		do
+			Result := generator
+			Result.to_lower
+		end
 
 	name_list: EL_STRING_8_LIST
 		local

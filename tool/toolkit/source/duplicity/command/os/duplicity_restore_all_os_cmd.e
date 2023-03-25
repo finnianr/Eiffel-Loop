@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-03-22 16:50:59 GMT (Wednesday 22nd March 2023)"
+	revision: "7"
 
 class
 	DUPLICITY_RESTORE_ALL_OS_CMD
@@ -57,7 +57,7 @@ feature {NONE} -- Constants
 
 	Cmd_template: STRING
 		once
-			Result := "sudo -E duplicity $encryption --verbosity info --time $time $target_dir $restored_path"
+			Result := "sudo -E duplicity $encryption --verbosity notice --time $time $target_dir $restored_path"
 		end
 
 	Var: TUPLE [time, encryption, restored_path: STRING]

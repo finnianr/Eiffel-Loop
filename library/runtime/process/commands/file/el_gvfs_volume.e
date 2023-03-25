@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:39:22 GMT (Tuesday 14th February 2023)"
-	revision: "20"
+	date: "2023-03-25 10:58:53 GMT (Saturday 25th March 2023)"
+	revision: "21"
 
 class
 	EL_GVFS_VOLUME
@@ -80,19 +80,17 @@ feature -- File operations
 			is_relative_to_root: not dir_path.is_absolute
 		local
 			extension: ZSTRING; match_found: BOOLEAN
-			command: like File_list_command
 		do
-			command := File_list_command
-			if directory_exists (dir_path) then
+			if directory_exists (dir_path) and then attached File_list_command as cmd then
 				if wild_card.starts_with (Star_dot) then
 					extension := wild_card.substring_end (3)
 				else
 					create extension.make_empty
 				end
-				command.reset
-				command.put_uri (Var.uri, uri_root.joined (dir_path))
-				command.execute
-				across command.file_list as file_path loop
+				cmd.reset
+				cmd.set_uri (uri_root.joined (dir_path))
+				cmd.execute
+				across cmd.file_list as file_path loop
 					match_found := False
 					if not extension.is_empty then
 						match_found := file_path.item.extension ~ extension
@@ -160,13 +158,12 @@ feature -- Status query
 		end
 
 	is_directory_empty (dir_path: DIR_PATH): BOOLEAN
-		local
-			command: like Get_file_count_commmand
 		do
-			command := Get_file_count_commmand
-			command.put_uri (Var.uri, uri_root.joined (dir_path))
-			command.execute
-			Result := command.is_empty
+			if attached Get_file_count_commmand as cmd then
+				cmd.set_uri (uri_root.joined (dir_path))
+				cmd.execute
+				Result := cmd.is_empty
+			end
 		end
 
 	is_valid: BOOLEAN
@@ -209,19 +206,17 @@ feature -- Status change
 
 feature {NONE} -- Implementation
 
-	copy_file (source_path: EL_URI; destination_path: EL_URI)
-		local
-			command: like Copy_command
+	copy_file (source_path, destination_path: EL_URI)
 		do
-			command := Copy_command
-			command.put_uri (Var.source_path, source_path)
-			command.put_uri (Var.destination_path, destination_path)
-			command.execute
+			if attached Copy_command as cmd then
+				cmd.set_source_uri (source_path)
+				cmd.set_destination_uri (destination_path)
+				cmd.execute
+			end
 		end
 
 	make_uri_directory (a_uri: EL_URI)
 		local
-			command: like Make_directory_command
 			parent_uri: EL_URI
 		do
 			if not uri_exists (a_uri) then
@@ -230,9 +225,10 @@ feature {NONE} -- Implementation
 					if not uri_exists (parent_uri) then
 						make_uri_directory (parent_uri)
 					end
-					command := Make_directory_command
-					command.put_uri (Var.uri, a_uri)
-					command.execute
+					if attached Make_directory_command as cmd then
+						cmd.set_uri (a_uri)
+						cmd.execute
+					end
 				end
 			end
 		end
@@ -242,14 +238,13 @@ feature {NONE} -- Implementation
 			create Result.make
 		end
 
-	move_file (source_path: EL_PATH; destination_path: EL_PATH)
-		local
-			command: like Move_command
+	move_file (source_path, destination_path: EL_PATH)
 		do
-			command := Move_command
-			command.put_path (Var.source_path, source_path)
-			command.put_path (Var.uri, destination_path)
-			command.execute
+			if attached Move_command as cmd then
+				cmd.set_source_path (source_path)
+				cmd.set_destination_path (destination_path)
+				cmd.execute
+			end
 		end
 
 	new_uri_root (a_name: ZSTRING; table: like mount_table): like uri_root
@@ -266,40 +261,37 @@ feature {NONE} -- Implementation
 		end
 
 	remove_file (a_uri: EL_URI)
-			--
-		local
-			command: like Remove_command
 		do
-			command := Remove_command
-			command.put_uri (Var.uri, a_uri)
-			command.execute
+			if attached Remove_command as cmd then
+				cmd.set_uri (a_uri)
+				cmd.execute
+			end
 		end
 
 	uri_exists (a_uri: EL_URI): BOOLEAN
-		local
-			command: like get_file_type_commmand
 		do
-			command := get_file_type_commmand
-			command.put_uri (Var.uri, a_uri)
-			command.execute
-			Result := command.file_exists
+			if attached get_file_type_commmand as cmd then
+				cmd.set_uri (a_uri)
+				cmd.execute
+				Result := cmd.file_exists
+			end
 		end
 
 feature {NONE} -- Standard commands
 
-	Copy_command: EL_GVFS_OS_COMMAND
+	Copy_command: EL_GVFS_COPY_COMMAND
 		once
-			create Result.make ("gvfs-copy $source_path $destination_path")
+			create Result.make
 		end
 
-	Make_directory_command: EL_GVFS_OS_COMMAND
+	Make_directory_command: EL_GVFS_MAKE_DIRECTORY_COMMAND
 		once
-			create Result.make ("gvfs-mkdir $uri")
+			create Result.make
 		end
 
-	Move_command: EL_GVFS_OS_COMMAND
+	Move_command: EL_GVFS_MOVE_COMMAND
 		once
-			create Result.make ("gvfs-move $source_path $uri")
+			create Result.make
 		end
 
 	Remove_command: EL_GVFS_REMOVE_FILE_COMMAND
@@ -349,12 +341,6 @@ feature {NONE} -- Constants
 	Star_dot: ZSTRING
 		once
 			Result := "*."
-		end
-
-	Var: TUPLE [destination_path, source_path, uri: STRING]
-		once
-			create Result
-			Tuple.fill (Result, "destination_path, source_path, uri")
 		end
 
 end

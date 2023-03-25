@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "26"
+	date: "2023-03-25 9:15:22 GMT (Saturday 25th March 2023)"
+	revision: "27"
 
 class
 	STORAGE_DEVICE
@@ -143,8 +143,7 @@ feature {NONE} -- Volume file operations
 
 	 read_sync_table
 	 	local
-	 		backup_table_path: FILE_PATH
-	 		local_sync_table_dir: DIR_PATH
+	 		backup_table_path: FILE_PATH; local_sync_table_dir: DIR_PATH
 	 	do
 			lio.put_line ("Reading file sync info")
 			if local_sync_table_file_path.exists then
