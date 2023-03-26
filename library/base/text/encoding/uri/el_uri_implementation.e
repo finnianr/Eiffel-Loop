@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-03-26 13:25:44 GMT (Sunday 26th March 2023)"
+	revision: "4"
 
 deferred class
 	EL_URI_IMPLEMENTATION
@@ -139,8 +139,7 @@ feature {NONE} -- Implementation
 			if index_hash = 0 then
 				index_hash := str.count + 1
 
-			elseif attached Uri_fragment as l_fragment then
-				l_fragment.wipe_out
+			elseif attached Uri_fragment.emptied as l_fragment then
 				l_fragment.append_character ('#')
 				l_fragment.append_substring_general (str, index_hash + 1, str.count)
 				Result [2] := l_fragment
@@ -149,9 +148,8 @@ feature {NONE} -- Implementation
 			if index_qmark = 0 then
 				index_qmark := str.count + 1
 
-			elseif attached Uri_query as l_query then
+			elseif attached Uri_query.emptied as l_query then
 				Result [1] := l_query
-				l_query.wipe_out
 				l_query.append_character ('?')
 				across Reuseable.string_32 as reuse loop
 					reuse.item.append_substring_general (str, index_qmark + 1, index_hash - 1)
@@ -170,7 +168,7 @@ feature {NONE} -- Implementation
 		target: EL_URI_STRING_8; str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER
 	): EL_URI_STRING_8
 		do
-			Result := target; Result.wipe_out
+			Result := target.emptied
 			Result.append_substring_general (str, start_index, end_index)
 		end
 

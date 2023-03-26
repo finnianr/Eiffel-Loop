@@ -1,13 +1,13 @@
 note
-	description: "Ftp file sync medium"
+	description: "FTP file sync medium"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2023-03-26 9:35:40 GMT (Sunday 26th March 2023)"
+	revision: "3"
 
 class
 	EL_FTP_FILE_SYNC_MEDIUM

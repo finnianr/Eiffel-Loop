@@ -1,13 +1,15 @@
 note
-	description: "Gnome Virtual Filesystem volume"
+	description: "[
+		[https://www.commandlinux.com/man-page/man7/gvfs.7.html GIO virtual file system] volume
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-25 16:37:44 GMT (Saturday 25th March 2023)"
-	revision: "22"
+	date: "2023-03-26 13:43:18 GMT (Sunday 26th March 2023)"
+	revision: "23"
 
 class
 	EL_GVFS_VOLUME
@@ -18,9 +20,14 @@ inherit
 	EL_MODULE_TUPLE
 
 create
-	make, make_default, make_with_mounts
+	make, make_default
 
 feature {NONE} -- Initialization
+
+	make (a_name: like name; a_is_windows_format: BOOLEAN)
+		do
+			make_with_mounts (a_name, new_mount_table, a_is_windows_format)
+		end
 
 	make_default
 		do
@@ -28,12 +35,7 @@ feature {NONE} -- Initialization
 			uri_root := Default_uri_root
 		end
 
-	make (a_name: like name; a_is_windows_format: BOOLEAN)
-		do
-			make_with_mounts (a_name, mount_table, a_is_windows_format)
-		end
-
-	make_with_mounts (a_name: ZSTRING; a_table: like mount_table; a_is_windows_format: BOOLEAN)
+	make_with_mounts (a_name: ZSTRING; a_table: like new_mount_table; a_is_windows_format: BOOLEAN)
 		do
 			uri_root := new_uri_root (a_name, a_table); is_windows_format := a_is_windows_format
 			name := a_name
@@ -48,7 +50,7 @@ feature -- Access
 feature -- File operations
 
 	copy_file_from (volume_path: FILE_PATH; destination_dir: DIR_PATH)
-			-- copy file from volume to external
+			-- copy file from `volume_path' to external `destination_dir'
 		require
 			volume_path_relative_to_root: not volume_path.is_absolute
 			destination_not_on_volume: not uri_root.is_file implies not destination_dir.to_uri.starts_with (uri_root)
@@ -57,7 +59,7 @@ feature -- File operations
 		end
 
 	copy_file_to (source_path: FILE_PATH; volume_dir: DIR_PATH)
-			-- copy file from volume to external
+			-- copy file from external `source_path' to `volume_dir'
 		require
 			volume_dir_relative_to_root: not volume_dir.is_absolute
 			source_not_on_volume: not source_path.to_uri.starts_with (uri_root)
@@ -65,16 +67,24 @@ feature -- File operations
 			copy_file (source_path.to_uri, uri_root.joined (volume_dir))
 		end
 
-	delete_directory (dir_path: DIR_PATH)
+	make_directory (dir_path: DIR_PATH)
+			-- recursively create directory
+		require
+			relative_path: not dir_path.is_absolute
+		do
+			make_uri_directory (uri_root.joined (dir_path))
+		end
+
+	remove_directory (dir_path: DIR_PATH)
 			--
 		require
 			is_relative_to_root: not dir_path.is_absolute
 			is_directory_empty (dir_path)
 		do
-			remove_file (uri_root.joined (dir_path))
+			remove_file_uri (uri_root.joined (dir_path))
 		end
 
-	delete_directory_files (dir_path: DIR_PATH; wild_card: ZSTRING)
+	remove_directory_files (dir_path: DIR_PATH; wild_card: ZSTRING)
 			--
 		require
 			is_relative_to_root: not dir_path.is_absolute
@@ -98,47 +108,39 @@ feature -- File operations
 						match_found := True
 					end
 					if match_found then
-						delete_file (dir_path + file_path.item)
+						remove_file (dir_path + file_path.item)
 					end
 				end
 			end
 		end
 
-	delete_empty_branch (dir_path: DIR_PATH)
+	remove_empty_branch (dir_path: DIR_PATH)
 		require
 			is_relative_to_root: not dir_path.is_absolute
 		do
 			if attached dir_path.steps as steps then
 				from until steps.is_empty or else not is_directory_empty (steps) loop
-					delete_directory (steps)
+					remove_directory (steps)
 					steps.remove_tail (1)
 				end
 			end
 		end
 
-	delete_file (file_path: FILE_PATH)
+	remove_file (file_path: FILE_PATH)
 			--
 		require
 			is_relative_to_root: not file_path.is_absolute
 		do
-			remove_file (uri_root.joined (file_path))
+			remove_file_uri (uri_root.joined (file_path))
 		end
 
-	delete_if_empty (dir_path: DIR_PATH)
+	remove_if_empty (dir_path: DIR_PATH)
 		require
 			is_relative_to_root: not dir_path.is_absolute
 		do
 			if is_directory_empty (dir_path) then
-				delete_directory (dir_path)
+				remove_directory (dir_path)
 			end
-		end
-
-	make_directory (dir_path: DIR_PATH)
-			-- recursively create directory
-		require
-			relative_path: not dir_path.is_absolute
-		do
-			make_uri_directory (uri_root.joined (dir_path))
 		end
 
 feature -- Status query
@@ -189,7 +191,7 @@ feature -- Element change
 
 	reset_uri_root
 		do
-			uri_root := new_uri_root (name, mount_table)
+			uri_root := new_uri_root (name, new_mount_table)
 		end
 
 	set_uri_root (a_uri_root: like uri_root)
@@ -233,11 +235,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	mount_table: EL_GVFS_MOUNT_TABLE
-		do
-			create Result.make
-		end
-
 	move_file (source_path, destination_path: EL_PATH)
 		do
 			if attached Move_command as cmd then
@@ -247,7 +244,12 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_uri_root (a_name: ZSTRING; table: like mount_table): like uri_root
+	new_mount_table: EL_GVFS_MOUNT_TABLE
+		do
+			create Result.make
+		end
+
+	new_uri_root (a_name: ZSTRING; table: like new_mount_table): like uri_root
 		do
 			if a_name ~ Current_directory then
 				Result := Directory.current_working.to_uri
@@ -260,7 +262,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	remove_file (a_uri: EL_URI)
+	remove_file_uri (a_uri: EL_URI)
 		do
 			if attached Remove_command as cmd then
 				cmd.set_uri (a_uri)

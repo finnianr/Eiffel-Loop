@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-25 9:15:22 GMT (Saturday 25th March 2023)"
-	revision: "27"
+	date: "2023-03-26 10:10:06 GMT (Sunday 26th March 2023)"
+	revision: "28"
 
 class
 	STORAGE_DEVICE
@@ -169,7 +169,7 @@ feature {NONE} -- Volume file operations
 	 	do
 			lio.put_path_field ("Deleting %S", file_path)
 			lio.put_new_line
-			volume.delete_file (file_path)
+			volume.remove_file (file_path)
 		rescue
 			recover_from_error; retry
 		end

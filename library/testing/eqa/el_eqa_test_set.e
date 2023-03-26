@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-19 10:59:48 GMT (Sunday 19th March 2023)"
-	revision: "20"
+	date: "2023-03-26 13:18:38 GMT (Sunday 26th March 2023)"
+	revision: "21"
 
 deferred class
 	EL_EQA_TEST_SET
@@ -92,7 +92,7 @@ feature {NONE} -- Implementation
 				tag := "same string"
 			end
 			if a.count /= b.count then
-				lio.put_integer_field ("a.count", a.count); lio.put_integer_field (" b.count", a.count)
+				lio.put_integer_field ("a.count", a.count); lio.put_integer_field (" b.count", b.count)
 				lio.put_new_line
 				if attached a_tag then
 					assert (tag, False)

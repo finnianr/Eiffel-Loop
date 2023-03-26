@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-19 13:55:24 GMT (Sunday 19th March 2023)"
-	revision: "34"
+	date: "2023-03-26 13:32:55 GMT (Sunday 26th March 2023)"
+	revision: "35"
 
 class
 	EL_URI
@@ -140,12 +140,12 @@ feature -- Conversion
 
 	to_dir_path: DIR_PATH
 		do
-			create Result.make (once_path_copy.decoded_32 (False))
+			create Result.make (shared_path_copy.decoded_32 (False))
 		end
 
 	to_file_path: FILE_PATH
 		do
-			create Result.make (once_path_copy.decoded_32 (False))
+			create Result.make (shared_path_copy.decoded_32 (False))
 		end
 
 	to_string: ZSTRING
@@ -187,13 +187,14 @@ feature -- Element change
 	join (a_path: EL_PATH)
 		require
 			valid_path: not is_empty implies not a_path.is_absolute
-		local
-			encoded: like Uri_path
 		do
-			encoded := Uri_path; encoded.wipe_out
-			encoded.append_character (Separator)
-			a_path.append_to_uri (encoded)
-			insert_string (encoded, path_end_index (1) + 1)
+			if attached Uri_path.emptied as encoded then
+				if item (count) /= Separator then
+					encoded.append_character (Separator)
+				end
+				a_path.append_to_uri (encoded)
+				insert_string (encoded, path_end_index (1) + 1)
+			end
 		end
 
 	remove_step
@@ -332,9 +333,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	once_path_copy: EL_URI_STRING_8
+	shared_path_copy: EL_URI_STRING_8
 		do
-			Result := Uri_path; Result.wipe_out
+			Result := Uri_path.emptied
 			Result.append_raw_8 (internal_path (False))
 		end
 
@@ -382,7 +383,7 @@ feature {NONE} -- Implementation
 
 	to_uri_path: like Uri_path
 		do
-			Result := Uri_path; Result.wipe_out
+			Result := Uri_path.emptied
 			Result.append_substring (Current, 1, path_end_index (path_start_index))
 		end
 

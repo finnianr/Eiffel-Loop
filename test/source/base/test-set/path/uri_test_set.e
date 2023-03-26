@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-11 14:43:12 GMT (Saturday 11th March 2023)"
-	revision: "25"
+	date: "2023-03-26 13:27:26 GMT (Sunday 26th March 2023)"
+	revision: "26"
 
 class
 	URI_TEST_SET
@@ -27,12 +27,13 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["uri_assignments", agent test_uri_assignments],
+				["uri_join", agent test_uri_join],
 				["uri_path_plus_joins", agent test_uri_path_plus_joins],
 				["url", agent test_url],
-				["url_to_string", agent test_url_to_string],
 				["url_parts", agent test_url_parts],
 				["url_query_hash_table", agent test_url_query_hash_table],
 				["url_query_part", agent test_url_query_part],
+				["url_to_string", agent test_url_to_string],
 				["utf_8_sequence", agent test_utf_8_sequence]
 			>>)
 		end
@@ -66,6 +67,22 @@ feature -- Tests
 			end
 			create uri.make_file ("/home/finnian/Desktop")
 			assert_same_string (Void, uri.to_string, URI_list.first)
+		end
+
+	test_uri_join
+		-- URI_TEST_SET.test_uri_join
+		note
+			testing:
+				"covers/{EL_URI}.join"
+		local
+			uri: EL_URI; relative_dir: DIR_PATH
+			usb_uri: STRING
+		do
+			usb_uri := "mtp://[usb:003,007]/"
+			relative_dir := "Card/Music"
+			create uri.make (usb_uri)
+			uri.join (relative_dir)
+			assert_same_string (Void, uri.to_string_8, usb_uri + relative_dir.to_string.to_latin_1)
 		end
 
 	test_uri_path_plus_joins
