@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-25 10:58:53 GMT (Saturday 25th March 2023)"
-	revision: "21"
+	date: "2023-03-25 16:37:44 GMT (Saturday 25th March 2023)"
+	revision: "22"
 
 class
 	EL_GVFS_VOLUME
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 			make_with_mounts (a_name, mount_table, a_is_windows_format)
 		end
 
-	make_with_mounts (a_name: like name; a_table: like mount_table; a_is_windows_format: BOOLEAN)
+	make_with_mounts (a_name: ZSTRING; a_table: like mount_table; a_is_windows_format: BOOLEAN)
 		do
 			uri_root := new_uri_root (a_name, a_table); is_windows_format := a_is_windows_format
 			name := a_name

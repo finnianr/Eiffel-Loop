@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-25 10:59:46 GMT (Saturday 25th March 2023)"
-	revision: "18"
+	date: "2023-03-25 16:11:41 GMT (Saturday 25th March 2023)"
+	revision: "19"
 
 deferred class
 	EL_GVFS_OS_COMMAND [VARIABLES -> TUPLE create default_create end]
@@ -74,15 +74,18 @@ feature {NONE} -- Implementation
 			Result := Naming.class_as_snake_lower (Current, 1, 1)
 		end
 
+	ends_with (message, ending: ZSTRING): BOOLEAN
+		do
+			Result := message.ends_with (ending)
+		end
+
 	ignore (a_error: ZSTRING): BOOLEAN
 		do
 		end
 
 	is_file_not_found (message: ZSTRING): BOOLEAN
 		do
-			Result := across GVFS_file_not_found_errors as error_ending some
-							message.ends_with (error_ending.item)
-						end
+			Result := Possible_file_errors.there_exists (agent ends_with (message, ? ))
 		end
 
 	do_with_lines (a_lines: like new_output_lines)
@@ -92,8 +95,8 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	GVFS_file_not_found_errors: ARRAY [ZSTRING]
-		-- Possible "file not found" errors from gfvs commands
+	Possible_file_errors: ARRAY [ZSTRING]
+		-- Possible "file not found" errors from GFVS commands
 		once
 			Result := <<
 				"File does not exist",							-- Applies to MTP devices (gvfs-rm)
