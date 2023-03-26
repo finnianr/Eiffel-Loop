@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-25 16:52:33 GMT (Saturday 25th March 2023)"
-	revision: "1"
+	date: "2023-03-26 8:51:15 GMT (Sunday 26th March 2023)"
+	revision: "2"
 
 class
 	FILE_TRANSFER_COMMAND
@@ -32,7 +32,7 @@ inherit
 
 feature -- Pyxis configured
 
-	device: TUPLE [name, destination_dir: ZSTRING]
+	device: TUPLE [name: ZSTRING; destination_dir: DIR_PATH]
 
 	filter: ZSTRING
 
