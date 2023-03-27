@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-20 12:21:27 GMT (Monday 20th February 2023)"
-	revision: "61"
+	date: "2023-03-27 14:02:45 GMT (Monday 27th March 2023)"
+	revision: "62"
 
 class
 	REPOSITORY_PUBLISHER

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-21 19:24:16 GMT (Tuesday 21st March 2023)"
-	revision: "15"
+	date: "2023-03-27 17:33:09 GMT (Monday 27th March 2023)"
+	revision: "16"
 
 class
 	REGULAR_EXPRESSION_SEARCH_COMMAND
@@ -99,15 +99,15 @@ feature -- Basic operations
 						lio.put_line ("No matches found")
 					else
 						if output_file = Default_output_file then
-							results_list.do_all (agent write_result (?, Void))
+							results_list.do_all (agent write_result (?, ?, Void))
 							lio.put_integer_field ("Matches found", count)
 						else
 							lio.put_path_field (Count_template #$ [count], output_file.path)
 							output_file.open_write
-							results_list.do_all (agent write_result (?, output_file))
+							results_list.do_all (agent write_result (?, ?, output_file))
 							output_file.close
 						end
-							lio.put_new_line
+						lio.put_new_line
 					end
 				end
 			end
@@ -152,18 +152,17 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	write_result (a_line: TUPLE [source_dir: DIR_PATH; content: ZSTRING]; output: detachable EL_PLAIN_TEXT_FILE)
+	write_result (a_source_dir: DIR_PATH; line: ZSTRING; output: detachable EL_PLAIN_TEXT_FILE)
 		local
 			source_path: FILE_PATH; dir_line: detachable ZSTRING; index_colon, i: INTEGER
-			s: EL_ZSTRING_ROUTINES; line, class_line: ZSTRING
+			s: EL_ZSTRING_ROUTINES; class_line: ZSTRING
 		do
-			line := a_line.content
 			index_colon := 1
 			from i := 1 until i > 2 or else index_colon = 0 loop
 				index_colon := line.index_of (':', 1)
 				if index_colon > 0 then
 					if i = 1 then
-						source_path := a_line.source_dir + line.substring (1, index_colon - 1)
+						source_path := a_source_dir + line.substring (1, index_colon - 1)
 						line.remove_head (index_colon)
 					else
 						line.prepend (s.n_character_string (' ', 5 - index_colon))

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-06 10:43:05 GMT (Monday 6th February 2023)"
-	revision: "23"
+	date: "2023-03-27 18:25:08 GMT (Monday 27th March 2023)"
+	revision: "24"
 
 deferred class
 	CSV_STATE_PARSER [S]
@@ -139,7 +139,7 @@ feature {NONE} -- Implementation
 			if count = 1 then
 				fields.extend (field_string.twin, Empty_string)
 			else
-				fields.i_th (column).value := new_string
+				fields.put_i_th_value (new_string, column)
 			end
 			field_string.wipe_out
 		end

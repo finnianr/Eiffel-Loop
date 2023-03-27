@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:02 GMT (Monday 20th March 2023)"
-	revision: "41"
+	date: "2023-03-27 14:01:44 GMT (Monday 27th March 2023)"
+	revision: "42"
 
 class
 	SPLIT_STRING_TEST_SET

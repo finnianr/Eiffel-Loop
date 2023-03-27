@@ -7,19 +7,29 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-30 12:39:56 GMT (Friday 30th December 2022)"
-	revision: "20"
+	date: "2023-03-27 18:29:39 GMT (Monday 27th March 2023)"
+	revision: "21"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
 
 inherit
-	EL_ARRAYED_LIST [TUPLE [key: K; value: G]]
+	EL_ARRAYED_LIST [K]
 		rename
-			extend as map_extend,
-			put_front as map_put_front
+			do_all as do_all_keys,
+			extend as key_extend,
+			first as first_key,
+			last as last_key,
+			make_from_array as make_from_key_array,
+			item as item_key,
+			i_th as i_th_key,
+			has as has_key,
+			put_front as put_key_front,
+			search as key_search
+		export
+			{NONE} key_extend, put_key_front
 		redefine
-			compare_objects, compare_references, has
+			compare_objects, compare_references, make, new_cursor
 		end
 
 create
@@ -28,24 +38,32 @@ create
 
 feature {NONE} -- Initialization
 
+	make_from_array (array: ARRAY [like item_tuple])
+		do
+			make (array.count)
+			across array as list loop
+				extend (list.item.key, list.item.value)
+			end
+		end
+
 	make_from_keys (keys: CONTAINER [K]; to_value: FUNCTION [K, G])
 		-- make from container of `keys' using `to_value' to generate value for each key
 		require
 			valid_function: key_item (keys).is_valid_for (to_value)
 		local
-			wrapper: EL_CONTAINER_WRAPPER [K]; l_area: like area; l_count: INTEGER
+			i: INTEGER; wrapper: EL_CONTAINER_WRAPPER [K]
 		do
 			create wrapper.make (keys)
-			l_count := wrapper.count
-			if l_count > 0 then
-				create l_area.make_empty (l_count)
-				wrapper.do_for_all (agent extend_area_from_key (l_area, to_value, ?))
-				if l_area.count > 5 and then l_area.count / l_count < 0.9 then
-					l_area := l_area.aliased_resized_area (l_area.count)
+			make_from_special (wrapper.to_special)
+
+			create internal_value_list.make (count)
+			if attached internal_value_list.area_v2 as value_area
+				and then attached area_v2 as key_area
+			then
+				from until i = key_area.count loop
+					value_area.extend (to_value (key_area [i]))
+					i := i + 1
 				end
-				make_from_special (l_area)
-			else
-				make_empty
 			end
 		end
 
@@ -62,128 +80,117 @@ feature {NONE} -- Initialization
 		require
 			valid_function: value_item (values).is_valid_for (to_key)
 		local
-			wrapper: EL_CONTAINER_WRAPPER [G]; l_area: like area; l_count: INTEGER
+			i: INTEGER; wrapper: EL_CONTAINER_WRAPPER [G]
 		do
 			create wrapper.make (values)
-			l_count := wrapper.count
-			if l_count > 0 then
-				create l_area.make_empty (l_count)
-				make_from_special (l_area)
-				wrapper.do_for_all (agent extend_area_from_value (l_area, to_key, ?))
-				if l_area.count > 5 and then l_area.count / l_count < 0.9 then
-					l_area := l_area.aliased_resized_area (l_area.count)
+			create internal_value_list.make_from_special (wrapper.to_special)
+			create area_v2.make_empty (internal_value_list.count)
+
+			if attached internal_value_list.area_v2 as value_area
+				and then attached area_v2 as key_area
+			then
+				from until i = value_area.count loop
+					key_area.extend (to_key (value_area [i]))
+					i := i + 1
 				end
-			else
-				make_empty
 			end
+		end
+
+	make (n: INTEGER)
+		do
+			Precursor (n)
+			create internal_value_list.make (n)
 		end
 
 feature -- Access
 
-	first_key: K
+	item_tuple: TUPLE [key: K; value: G]
+		require
+			valid_item_key: not off
 		do
-			Result := first.key
-		end
-
-	first_value: G
-		do
-			Result := first.value
-		end
-
-	item_key: K
-		do
-			Result := item.key
-		end
-
-	item_value: G
-		do
-			Result := item.value
+			Result := [item_key, internal_value_list [index]]
 		end
 
 	key_list: EL_ARRAYED_LIST [K]
 		do
-			create Result.make (count)
-			do_all (agent extend_key_list (Result, ?))
+			create Result.make_from_special (area_v2.twin)
 		end
 
-	last_key: K
+	new_cursor: EL_ARRAYED_MAP_ITERATION_CURSOR [K, G]
 		do
-			Result := last.key
+			create Result.make (Current)
 		end
 
-	last_value: G
+feature -- Value items
+
+	first_value: like item_value
+		require
+			valid_count: count > 0
 		do
-			Result := last.value
+			Result := internal_value_list.first
+		end
+
+	item_value: G
+		require
+			valid_index: valid_index (index)
+		do
+			Result := internal_value_list [index]
+		end
+
+	i_th_value (i: INTEGER): like item_value
+		require
+			valid_index: valid_index (i)
+		do
+			Result := internal_value_list [i]
+		end
+
+	last_value: like item_value
+		require
+			valid_count: count > 0
+		do
+			Result := internal_value_list.last
 		end
 
 	value_list: EL_ARRAYED_LIST [G]
 		do
-			create Result.make (count)
-			do_all (agent extend_value_list (Result, ?))
+			create Result.make_from_special (internal_value_list.area.twin)
 		end
 
 feature -- Status query
 
-	has (v: like item): BOOLEAN
+	has (pair: like item_tuple): BOOLEAN
 		do
-			if v.object_comparison /= object_comparison then
-				if object_comparison then
-					v.compare_objects
-				else
-					v.compare_references
+			push_cursor
+				start; key_search (pair.key)
+				if found then
+					if object_comparison then
+						Result := internal_value_list [index] ~ pair.value
+					else
+						Result := internal_value_list [index] = pair.value
+					end
 				end
-				Result := Precursor (v)
-				-- restore
-				if object_comparison then
-					v.compare_references
-				else
-					v.compare_objects
-				end
-			end
-		end
-
-feature -- Cursor movement
-
-	key_search (key: K)
-		-- search next tuple with key `key' using either reference or object comparison
-		-- depending on `object_comparison'
-		local
-			l_area: like area_v2; i, nb: INTEGER; match_found: BOOLEAN
-		do
-			l_area := area_v2
-			from nb := count - 1; i := index - 1 until i > nb or match_found loop
-				if object_comparison then
-					match_found := key ~ l_area.item (i).key
-				else
-					match_found := key = l_area.item (i).key
-				end
-				if not match_found then
-					i := i + 1
-				end
-			end
-			index := i + 1
+			pop_cursor
 		end
 
 feature -- Element change
 
 	extend (key: K; value: G)
 		do
-			map_extend ([key, value])
-			if object_comparison then
-				last.compare_objects
-			else
-				last.compare_references
-			end
+			key_extend (key)
+			internal_value_list.extend (value)
 		end
 
 	put_front (key: K; value: G)
 		do
-			map_put_front ([key, value])
-			if object_comparison then
-				first.compare_objects
-			else
-				first.compare_references
-			end
+			put_key_front (key)
+			internal_value_list.put_front (value)
+		end
+
+	put_i_th_value (a_value: G; i: INTEGER)
+		require
+			valid_index: valid_index (i)
+		do
+			internal_value_list.put_i_th (a_value, i)
 		end
 
 	set_key_item (key: like item_key; value: like item_value)
@@ -193,11 +200,21 @@ feature -- Element change
 			push_cursor
 			start; key_search (key)
 			if found then
-				item.value := value
+				internal_value_list.put_i_th (value, index)
 			else
 				extend (key, value)
 			end
 			pop_cursor
+		end
+
+	set_last_value (a_value: G)
+		local
+			i: INTEGER
+		do
+			i := internal_value_list.count
+			if i > 0 then
+				internal_value_list.put_i_th (a_value, i)
+			end
 		end
 
 feature -- Status setting
@@ -205,51 +222,34 @@ feature -- Status setting
 	compare_objects
 			-- Ensure that future search operations will use `equal'
 			-- rather than `=' for comparing references.
-		local
-			l_area: like area; i, i_final: INTEGER
 		do
-			object_comparison := True
-			l_area := area
-			from i_final := count until i = i_final loop
-				l_area [i].compare_objects
-				i := i + 1
-			end
+			Precursor
+			internal_value_list.compare_objects
 		end
 
 	compare_references
 			-- Ensure that future search operations will use `='
 			-- rather than `equal' for comparing references.
-		local
-			l_area: like area; i, i_final: INTEGER
 		do
-			object_comparison := False
-			l_area := area
-			from i_final := count until i = i_final loop
-				l_area [i].compare_references
-				i := i + 1
+			Precursor
+			internal_value_list.compare_references
+		end
+
+feature -- Basic operations
+
+	do_all (action: PROCEDURE [K, G])
+		local
+			i: INTEGER
+		do
+			if attached internal_value_list.area_v2 as value_area
+				and then attached area_v2 as key_area
+			then
+				from until i = key_area.count loop
+					action (key_area [i], value_area [i])
+					i := i + 1
+				end
 			end
 		end
-
-feature -- Conversion
-
-	as_string_32_list (a_joined: FUNCTION [K, G, STRING_32]): EL_ARRAYED_LIST [STRING_32]
-		do
-			create Result.make (count)
-			do_all (agent extend_string_32_list (Result, a_joined, ?))
-		end
-
-	as_string_8_list (a_joined: FUNCTION [K, G, STRING_8]): EL_ARRAYED_LIST [STRING_8]
-		do
-			create Result.make (count)
-			do_all (agent extend_string_8_list (Result, a_joined, ?))
-		end
-
-	as_string_list (a_joined: FUNCTION [K, G, ZSTRING]): EL_ARRAYED_LIST [ZSTRING]
-		do
-			create Result.make (count)
-			do_all (agent extend_string_list (Result, a_joined, ?))
-		end
-
 feature -- Contract Support
 
 	key_item (keys: CONTAINER [K]): EL_CONTAINER_ITEM [K]
@@ -262,48 +262,12 @@ feature -- Contract Support
 			create Result.make (values)
 		end
 
-feature {NONE} -- Implementation
+feature {ARRAYED_LIST_ITERATION_CURSOR} -- Internal attributes
 
-	extend_area_from_key (a_area: like area; to_value: FUNCTION [K, G]; key: K)
-		do
-			a_area.extend ([key, to_value (key)])
-			if object_comparison then
-				a_area [a_area.count - 1].compare_objects
-			end
-		end
+	internal_value_list: EL_ARRAYED_LIST [G];
 
-	extend_area_from_value (a_area: like area; to_key: FUNCTION [G, K]; value: G)
-		do
-			a_area.extend ([to_key (value), value])
-			if object_comparison then
-				a_area [a_area.count - 1].compare_objects
-			end
-		end
-
-	extend_key_list (list: like key_list; a_item: like item)
-		do
-			list.extend (a_item.key)
-		end
-
-	extend_string_32_list (list: like as_string_32_list; a_joined: FUNCTION [K, G, STRING_32]; a_item: like item)
-		do
-			list.extend (a_joined (a_item.key, a_item.value))
-		end
-
-	extend_string_8_list (list: like as_string_8_list; a_joined: FUNCTION [K, G, STRING_8]; a_item: like item)
-		do
-			list.extend (a_joined (a_item.key, a_item.value))
-		end
-
-	extend_string_list (list: like as_string_list; a_joined: FUNCTION [K, G, ZSTRING]; a_item: like item)
-		do
-			list.extend (a_joined (a_item.key, a_item.value))
-		end
-
-	extend_value_list (list: like value_list; a_item: like item)
-		do
-			list.extend (a_item.value)
-		end
+invariant
+	same_key_value_counts: count = internal_value_list.count
 
 note
 	descendants: "[

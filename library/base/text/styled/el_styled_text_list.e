@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-03-27 17:42:47 GMT (Monday 27th March 2023)"
+	revision: "6"
 
 deferred class
 	EL_STYLED_TEXT_LIST [S -> STRING_GENERAL]
@@ -63,7 +63,7 @@ feature -- Transformation
 		-- indent first string in list by one space
 		do
 			if count > 0 then
-				first.value := n_character_string (' ', 1) + first_text
+				put_i_th_value (n_character_string (' ', 1) + first_text, 1)
 			end
 		end
 
@@ -71,18 +71,18 @@ feature -- Transformation
 		-- Recursively remove the last word from `last_text' and append the `ellipsis' string
 		-- if not already present
 		local
-			space_pos: INTEGER; text: S
+			space_pos: INTEGER
 		do
-			if count > 0 then
-				text := last_text
+			if count > 0 and then attached last_text as text then
 				if text ~ ellipsis then
 					remove_tail (1); trim_last_word -- Recurse
-				else
+
+				elseif count > 0 then
 					space_pos := text.last_index_of (' ', text.count)
 					if space_pos > 0 then
-						last.value := text.substring (1, space_pos) + ellipsis
+						set_last_value (text.substring (1, space_pos) + ellipsis)
 					else
-						last.value := ellipsis
+						set_last_value (ellipsis)
 					end
 				end
 			end

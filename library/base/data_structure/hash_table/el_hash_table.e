@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2023-03-27 15:46:35 GMT (Monday 27th March 2023)"
+	revision: "17"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 			make_equal (3)
 		end
 
-	make (array: ARRAY [like as_map_list.item])
+	make (array: ARRAY [like as_map_list.item_tuple])
 			--
 		do
 			make_equal (array.count)
@@ -76,10 +76,10 @@ feature -- Access
 
 feature -- Element change
 
-	append_tuples (array: ARRAY [like as_map_list.item])
+	append_tuples (array: ARRAY [like as_map_list.item_tuple])
 			--
 		local
-			i, new_count: INTEGER; map: like as_map_list.item
+			i, new_count: INTEGER; map: like as_map_list.item_tuple
 		do
 			new_count := count + array.count
 			if new_count > capacity then
@@ -92,7 +92,7 @@ feature -- Element change
 			end
 		end
 
-	plus alias "+" (tuple: like as_map_list.item): like Current
+	plus alias "+" (tuple: like as_map_list.item_tuple): like Current
 		do
 			force (tuple.value, tuple.key)
 			Result := Current

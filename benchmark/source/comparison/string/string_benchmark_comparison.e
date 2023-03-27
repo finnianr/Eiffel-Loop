@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-14 17:50:20 GMT (Tuesday 14th March 2023)"
-	revision: "8"
+	date: "2023-03-27 18:20:26 GMT (Monday 27th March 2023)"
+	revision: "9"
 
 deferred class
 	STRING_BENCHMARK_COMPARISON
@@ -15,16 +15,13 @@ deferred class
 inherit
 	EL_BENCHMARK_COMPARISON
 
-	EL_ZSTRING_ROUTINES
-		export
-			{NONE} all
-		end
-
 	EL_SHARED_TEST_TEXT
 
 	SHARED_HEXAGRAM_STRINGS
 
 	EL_ZCODE_CONVERSION
+
+	EL_STRING_8_CONSTANTS
 
 feature {NONE} -- Constants
 

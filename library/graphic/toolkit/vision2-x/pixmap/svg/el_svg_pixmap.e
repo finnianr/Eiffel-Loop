@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2023-03-27 18:31:02 GMT (Monday 27th March 2023)"
+	revision: "18"
 
 class
 	EL_SVG_PIXMAP
@@ -289,8 +289,8 @@ feature {EL_SVG_PIXMAP} -- Implementation
 				if modifier.cursor_index > 1 then
 					base.append_character ('.')
 				end
-				base.append_string_general (modifier.item.key)
-				hex_string := modifier.item.value.to_hex_string
+				base.append_string_general (modifier.key)
+				hex_string := modifier.value.to_hex_string
 				hex_string.prune_all_leading ('0')
 				if hex_string.is_empty then
 					base.append_character ('0')

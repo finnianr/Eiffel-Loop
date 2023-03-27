@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-01 17:38:03 GMT (Wednesday 1st March 2023)"
-	revision: "2"
+	date: "2023-03-27 18:21:00 GMT (Monday 27th March 2023)"
+	revision: "3"
 
 class
 	UNENCODED_CHARACTER_ITERATION_COMPARISON
@@ -23,6 +23,8 @@ inherit
 	STRING_BENCHMARK_COMPARISON
 
 	EL_SHARED_ZSTRING_CODEC
+
+	STRING_HANDLER
 
 create
 	make
@@ -71,7 +73,7 @@ feature {NONE} -- append_character
 			i, count: INTEGER; interval_index: UNENCODED_CHARACTERS_INDEX
 		do
 			if attached {EL_UNENCODED_CHARACTERS} str as unencoded then
-				l_area := str.area;
+				l_area := str.area
 				interval_index := Once_unencoded_index
 				interval_index.set_area (str.unencoded_area)
 

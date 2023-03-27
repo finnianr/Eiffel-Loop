@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:55:19 GMT (Tuesday 14th February 2023)"
-	revision: "18"
+	date: "2023-03-27 18:33:03 GMT (Monday 27th March 2023)"
+	revision: "19"
 
 class
 	EL_TRAFFIC_ANALYSIS_COMMAND
@@ -66,7 +66,7 @@ feature -- Basic operations
 
 			lio.put_line ("WEB CRAWLERS")
 			across bot_table.as_sorted_list (False) as map loop
-				lio.put_natural_field (map.item.key, map.item.value)
+				lio.put_natural_field (map.key, map.value)
 				lio.put_new_line
 			end
 			lio.put_new_line
@@ -144,7 +144,7 @@ feature {NONE} -- Implementation
 				across location_table.as_sorted_list (False) as map loop
 					lio.tab_right
 					lio.put_new_line
-					lio.put_natural_field (map.item.key, map.item.value)
+					lio.put_natural_field (map.key, map.value)
 					lio.tab_left
 				end
 				lio.put_new_line_x2

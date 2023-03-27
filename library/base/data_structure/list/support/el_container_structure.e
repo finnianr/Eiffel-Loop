@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-06 13:11:29 GMT (Friday 6th January 2023)"
-	revision: "10"
+	date: "2023-03-27 18:02:12 GMT (Monday 27th March 2023)"
+	revision: "11"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]
@@ -121,14 +121,19 @@ feature -- Measurement
 feature -- Conversion
 
 	to_array: ARRAY [G]
-		local
-			array: SPECIAL [G]; i, upper: INTEGER
 		do
-			create array.make_empty (current_count)
+			create Result.make_from_special (to_special)
+		end
+
+	to_special: SPECIAL [G]
+		local
+			i, upper: INTEGER
+		do
+			create Result.make_empty (current_count)
 			if attached {LINEAR [G]} current_container as list then
 				push_cursor
 				from list.start until list.after loop
-					array.extend (list.item)
+					Result.extend (list.item)
 					list.forth
 				end
 				pop_cursor
@@ -136,16 +141,15 @@ feature -- Conversion
 			elseif attached {READABLE_INDEXABLE [G]} current_container as indexable then
 				upper := indexable.upper
 				from i := indexable.lower until i > upper loop
-					array.extend (indexable [i])
+					Result.extend (indexable [i])
 					i := i + 1
 				end
 			elseif attached current_container.linear_representation as list then
 				from list.start until list.after loop
-					array.extend (list.item)
+					Result.extend (list.item)
 					list.forth
 				end
 			end
-			create Result.make_from_special (array)
 		end
 
 feature -- String result list

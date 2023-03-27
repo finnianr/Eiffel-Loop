@@ -18,14 +18,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-11 10:04:34 GMT (Saturday 11th March 2023)"
-	revision: "6"
+	date: "2023-03-27 17:25:55 GMT (Monday 27th March 2023)"
+	revision: "7"
 
 class
 	UPGRADE_DEFAULT_POINTER_SYNTAX_COMMAND
-
-obsolete
-	"Once off use"
 
 inherit
 	SOURCE_MANIFEST_EDITOR_COMMAND

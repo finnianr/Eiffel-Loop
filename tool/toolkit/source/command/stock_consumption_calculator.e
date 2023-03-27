@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-03-27 17:54:30 GMT (Monday 27th March 2023)"
+	revision: "10"
 
 class
 	STOCK_CONSUMPTION_CALCULATOR
@@ -74,7 +74,7 @@ feature -- Basic operations
 							found_first := True
 						end
 						if found_first and date.day > 1 then
-							monthly_use_list.last.value := monthly_use_list.last.value + average
+							monthly_use_list.set_last_value (monthly_use_list.last_value + average)
 							day_count := day_count + 1
 						end
 						date.day_forth
@@ -89,7 +89,7 @@ feature -- Basic operations
 			end
 			if attached open (output_path, Write) as file then
 				across monthly_use_list as list loop
-					file.put_line (Line_template #$ [list.item.key.year, list.item.key.month, list.item.value])
+					file.put_line (Line_template #$ [list.key.year, list.key.month, list.value])
 				end
 				file.close
 			end

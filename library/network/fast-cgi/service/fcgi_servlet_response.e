@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-09 10:05:49 GMT (Thursday 9th March 2023)"
-	revision: "27"
+	date: "2023-03-27 18:33:23 GMT (Monday 27th March 2023)"
+	revision: "28"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -120,8 +120,8 @@ feature -- Basic operations
 				list := header_list
 				list.sort (True)
 				from list.start until list.after loop
-					buffer.append (Header.name (list.item.key)); buffer.append (once ": ")
-					buffer.append (list.item.value)
+					buffer.append (Header.name (list.item_key)); buffer.append (once ": ")
+					buffer.append (list.item_value)
 					buffer.append (Carriage_return_new_line)
 					list.forth
 				end

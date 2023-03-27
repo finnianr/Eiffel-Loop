@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-03-27 15:27:31 GMT (Monday 27th March 2023)"
+	revision: "9"
 
 class
 	EL_KEY_SORTABLE_ARRAYED_MAP_LIST [K -> COMPARABLE, G]
 
 inherit
-	EL_SORTABLE_ARRAYED_MAP_LIST [K, G]
+	EL_ARRAYED_MAP_LIST [K, G]
 
 create
 	make, make_filled, make_from_array, make_empty, make_sorted, make_from_table
@@ -24,13 +24,6 @@ feature {NONE} -- Implementation
 		do
 			make_from_values (list, sort_key)
 			sort (in_ascending_order)
-		end
-
-feature {NONE} -- Implementation
-
-	less_than (a, b: like item): BOOLEAN
-		do
-			Result := a.key < b.key
 		end
 
 end

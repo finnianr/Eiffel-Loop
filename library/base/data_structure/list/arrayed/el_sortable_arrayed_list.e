@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 13:14:06 GMT (Monday 27th March 2023)"
-	revision: "12"
+	date: "2023-03-27 14:03:41 GMT (Monday 27th March 2023)"
+	revision: "13"
 
 class
 	EL_SORTABLE_ARRAYED_LIST [G -> COMPARABLE]
@@ -45,19 +45,13 @@ feature {NONE} -- Initialization
 feature -- Basic operations
 
 	reverse_sort
-		local
-			array: ARRAY [like item]; i: INTEGER
+		-- sort in descending order
 		do
-			sort
-			array := to_array
-			make (array.count)
-			from i := array.count until i = 0 loop
-				extend (array [i])
-				i := i - 1
-			end
+			sort; reverse_order
 		end
 
 	sort
+		-- sort in ascending order
 		local
 			array: SORTABLE_ARRAY [like item]
 		do

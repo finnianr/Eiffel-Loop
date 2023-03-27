@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 13:34:55 GMT (Monday 27th March 2023)"
-	revision: "54"
+	date: "2023-03-27 18:19:05 GMT (Monday 27th March 2023)"
+	revision: "55"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -275,6 +275,21 @@ feature -- Reorder items
 			end
 		end
 
+	reverse_order
+		-- reverse order of items
+		local
+			reversed_area: like area; i: INTEGER
+		do
+			if attached area_v2 as a then
+				create reversed_area.make_empty (a.count)
+				from i := a.count - 1 until i < 0 loop
+					reversed_area.extend (a [i])
+					i := i - 1
+				end
+				area_v2 := reversed_area
+			end
+		end
+
 	shift (offset: INTEGER)
 		-- shift item by `offset' positions to the right
 		-- or to the left if `offset' negative
@@ -363,7 +378,7 @@ feature -- Contract Support
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {EL_ARRAYED_LIST} -- Implementation
 
 	find_next_item (condition: EL_QUERY_CONDITION [G])
 			-- Find next `item' that meets `condition'
@@ -386,7 +401,7 @@ feature {NONE} -- Implementation
 		require
 			same_number: count = comparables.count
 		local
-			index_item: detachable like item; i: INTEGER
+			index_item: detachable like item
 			sorted: EL_SORTED_INDEX_LIST; sorted_area: like area
 		do
 			if count > 0 then
