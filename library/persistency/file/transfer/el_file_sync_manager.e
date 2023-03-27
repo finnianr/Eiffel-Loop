@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-03-27 10:38:52 GMT (Monday 27th March 2023)"
+	revision: "13"
 
 class
 	EL_FILE_SYNC_MANAGER
@@ -109,21 +109,20 @@ feature -- Basic operations
 		-- update with progress tracking
 		local
 			deleted_set, new_item_set: like current_set
-			make_directory_list: LIST [DIR_PATH]; update_action: PROCEDURE
+			update_action: PROCEDURE
 		do
 			deleted_set := previous_set.subset_exclude (agent current_set.has)
 			new_item_set := current_set.subset_exclude (agent previous_set.has)
-			make_directory_list := File_system.parent_set (new_file_list (new_item_set), True)
 			new_item_set.merge (current_set.subset_include (agent {EL_FILE_SYNC_ITEM}.is_modified))
 
 			if not medium.is_open then
 				medium.open
 			end
 			if display = Default_display then
-				do_update (medium, deleted_set, new_item_set, make_directory_list)
+				do_update (medium, deleted_set, new_item_set)
 			else
-				update_action := agent do_update (medium, deleted_set, new_item_set, make_directory_list)
-				Track.progress (display, 1 + new_item_set.count, update_action)
+				update_action := agent do_update (medium, deleted_set, new_item_set)
+				Track.progress (display, deleted_set.count + new_item_set.count, update_action)
 			end
 			medium.close
 			previous_set.wipe_out
@@ -138,37 +137,39 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	apply (medium: EL_FILE_SYNC_MEDIUM; action: PROCEDURE)
-		-- apply action to medium recovering from possible exceptions
-		require
-			valid_target: action.target = medium
+	do_copy_update (medium: EL_FILE_SYNC_MEDIUM; copy_item_set: like current_set)
+		-- copy in groups of files from same location starting with locations with
+		-- fewest number of steps (minimizes directory creation operations)
 		local
-			retry_count: INTEGER
+			dir_group_table: EL_FUNCTION_GROUP_TABLE [EL_FILE_SYNC_ITEM, DIR_PATH]
+			dir_list: EL_ARRAYED_LIST [DIR_PATH]
 		do
-			if retry_count > maximum_retry_count then
-				retry_count := 0
-				lio.put_labeled_string ("Operation", action.out)
-				lio.put_new_line
-				lio.put_substitution ("failed %S times", [maximum_retry_count])
-				User_input.press_enter
-			else
-				action.apply
+			create dir_group_table.make_from_list (agent {EL_FILE_SYNC_ITEM}.location_dir, copy_item_set.to_list)
+			create dir_list.make_from_array (dir_group_table.current_keys)
+			dir_list.order_by (agent {DIR_PATH}.step_count, True)
+
+			across dir_list as dir loop
+				if dir_group_table.has_key (dir.item) then
+					medium.make_directory (dir.item)
+					across dir_group_table.found_list as list loop
+						medium.copy_item (list.item)
+						list.item.store
+						progress_listener.notify_tick
+					end
+				end
 			end
-		rescue
-			retry_count := retry_count + 1
-			medium.reset
-			retry
 		end
 
-	do_update (
-		medium: EL_FILE_SYNC_MEDIUM; deleted_set, copy_item_set: like current_set; make_directory_list: LIST [DIR_PATH]
-	)
+	do_update (medium: EL_FILE_SYNC_MEDIUM; deleted_set, copy_item_set: like current_set)
 		local
 			local_dir, checksum_dir: DIR_PATH
 		do
+--			Do copy first because no point in removing directory only to immediately add back in again
+			do_copy_update (medium, copy_item_set)
+
 			-- remove files for deletion
 			across deleted_set as set loop
-				apply (medium, agent medium.remove_item (set.item))
+				medium.remove_item (set.item)
 				set.item.remove
 			end
 			-- remove empty directories
@@ -177,26 +178,15 @@ feature {NONE} -- Implementation
 				-- order of descending step count
 				local_dir := local_home_dir #+ list.item
 				if Directory.named (local_dir).is_empty then
-					apply (medium, agent medium.remove_directory (list.item))
+					medium.remove_directory (list.item)
 					File_system.remove_directory (local_dir)
+					progress_listener.notify_tick
 				end
 				-- Remove empty checksums directory
 				local_dir := checksum_dir #+ list.item
 				if Directory.named (local_dir).is_empty then
 					File_system.remove_directory (local_dir)
 				end
-			end
-			-- create new directories
-			across make_directory_list as list loop
-				-- order of ascending step count
-				apply (medium, agent medium.make_directory (list.item))
-			end
-			progress_listener.notify_tick -- One tick for completing all quick operations
-
-			across copy_item_set as set loop
-				apply (medium, agent medium.copy_item (set.item))
-				set.item.store
-				progress_listener.notify_tick
 			end
 		end
 

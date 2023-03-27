@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-26 13:43:18 GMT (Sunday 26th March 2023)"
-	revision: "23"
+	date: "2023-03-27 9:12:08 GMT (Monday 27th March 2023)"
+	revision: "24"
 
 class
 	EL_GVFS_VOLUME
@@ -72,7 +72,9 @@ feature -- File operations
 		require
 			relative_path: not dir_path.is_absolute
 		do
-			make_uri_directory (uri_root.joined (dir_path))
+			if not dir_path.is_empty then
+				make_uri_directory (uri_root.joined (dir_path))
+			end
 		end
 
 	remove_directory (dir_path: DIR_PATH)

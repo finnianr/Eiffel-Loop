@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "19"
+	date: "2023-03-26 15:14:49 GMT (Sunday 26th March 2023)"
+	revision: "20"
 
 class
 	EL_EXCEPTION_ROUTINES
@@ -102,15 +102,14 @@ feature -- Basic operations
 
 	raise (exception: EXCEPTION; a_template: READABLE_STRING_GENERAL; inserts: TUPLE)
 		local
-			message: STRING_32; template: ZSTRING; s: EL_ZSTRING_ROUTINES
+			message: ZSTRING; s: EL_ZSTRING_ROUTINES
 		do
 			if inserts.is_empty then
-				create message.make_from_string_general (a_template)
+				message := s.as_zstring (a_template)
 			else
-				template := s.as_zstring (a_template)
-				message := template #$ inserts
+				message := s.as_zstring (a_template) #$ inserts
 			end
-			exception.set_description (message)
+			exception.set_description (message.to_general)
 			exception.raise
 		end
 

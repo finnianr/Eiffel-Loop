@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-25 16:11:41 GMT (Saturday 25th March 2023)"
-	revision: "19"
+	date: "2023-03-27 10:19:51 GMT (Monday 27th March 2023)"
+	revision: "20"
 
 deferred class
 	EL_GVFS_OS_COMMAND [VARIABLES -> TUPLE create default_create end]
@@ -18,7 +18,7 @@ deferred class
 inherit
 	EL_PARSED_CAPTURED_OS_COMMAND [VARIABLES]
 		redefine
-			default_name, make_default, on_error, do_with_lines
+			default_name, execute, make_default, on_error, do_with_lines, reset
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -27,7 +27,7 @@ inherit
 			do_with_lines as parse_lines
 		end
 
-	EL_MODULE_EXCEPTION; EL_MODULE_NAMING
+	EL_MODULE_EXCEPTION; EL_MODULE_NAMING; EL_MODULE_USER_INPUT
 
 feature {NONE} -- Initialization
 
@@ -35,6 +35,16 @@ feature {NONE} -- Initialization
 		do
 			make_machine
 			Precursor
+		end
+
+feature -- Basic operations
+
+	execute
+		do
+			Precursor
+			from until not do_retry loop
+				Precursor
+			end
 		end
 
 feature {NONE} -- Line states
@@ -55,7 +65,13 @@ feature {NONE} -- Event handling
 			else
 				message := "Unknown error"
 			end
-			if not ignore (message) then
+			if message.starts_with (Dbus_connection_error) then
+				lio.put_new_line
+				lio.put_line (message)
+				do_retry := User_input.approved_action_y_n ("Retry")
+				lio.put_new_line
+
+			elseif not ignore (message) then
 				Exception.raise_developer (message, [])
 			end
 		end
@@ -74,6 +90,11 @@ feature {NONE} -- Implementation
 			Result := Naming.class_as_snake_lower (Current, 1, 1)
 		end
 
+	do_with_lines (a_lines: like new_output_lines)
+		do
+			parse_lines (initial_state, a_lines)
+		end
+
 	ends_with (message, ending: ZSTRING): BOOLEAN
 		do
 			Result := message.ends_with (ending)
@@ -88,21 +109,34 @@ feature {NONE} -- Implementation
 			Result := Possible_file_errors.there_exists (agent ends_with (message, ? ))
 		end
 
-	do_with_lines (a_lines: like new_output_lines)
+	reset
 		do
-			parse_lines (initial_state, a_lines)
+			Precursor
+			do_retry := False
 		end
 
+feature {NONE} -- Internal attributes
+
+	do_retry: BOOLEAN
+
 feature {NONE} -- Constants
+
+	Dbus_connection_error: ZSTRING
+		once
+			Result := "Error while getting peer-to-peer dbus connection"
+		end
 
 	Possible_file_errors: ARRAY [ZSTRING]
 		-- Possible "file not found" errors from GFVS commands
 		once
 			Result := <<
-				"File does not exist",							-- Applies to MTP devices (gvfs-rm)
-				"File not found", 								-- Applies to MTP devices
-				"The specified location is not mounted",	-- Applies to MTP devices
-				"No such file or directory"					-- Applies to FUSE file systems
+			-- MTP device errors
+				"File does not exist", -- (gvfs-rm)
+				"File not found",
+				"The specified location is not mounted",
+
+			-- FUSE file system errors
+				"No such file or directory"
 			>>
 		end
 

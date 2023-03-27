@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-26 10:12:47 GMT (Sunday 26th March 2023)"
-	revision: "13"
+	date: "2023-03-27 9:01:11 GMT (Monday 27th March 2023)"
+	revision: "14"
 
 class
 	EL_FILE_SYNC_ITEM
@@ -76,6 +76,12 @@ feature -- Access
 
 	file_path: FILE_PATH
 		-- relative path
+
+	location_dir: DIR_PATH
+		-- relative location of item
+		do
+			Result := file_path.parent
+		end
 
 	hash_code: INTEGER
 			-- Hash code value

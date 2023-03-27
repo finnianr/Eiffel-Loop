@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "66"
+	date: "2023-03-27 8:44:05 GMT (Monday 27th March 2023)"
+	revision: "67"
 
 deferred class
 	EL_PATH
@@ -149,9 +149,10 @@ feature -- Access
 
 	parent_string (keep_ref: BOOLEAN): ZSTRING
 		do
-			Result := parent_path
 			if keep_ref then
-				Result := Result.twin
+				create Result.make_from_other (parent_path)
+			else
+				Result := parent_path
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-26 13:50:01 GMT (Sunday 26th March 2023)"
-	revision: "3"
+	date: "2023-03-27 10:32:00 GMT (Monday 27th March 2023)"
+	revision: "4"
 
 class
 	FILE_TRANSFER_COMMAND
@@ -51,6 +51,8 @@ feature -- Basic operations
 			lio.put_labeled_string (device.name, device.destination_dir)
 			lio.put_new_line_x2
 
+			lio.put_substitution ("Reading %S file checksums", [extension.as_upper])
+			lio.put_new_line
 			if attached new_current_set as current_set then
 				if current_set.is_empty then
 					create sync_manager.make_empty (device.destination_dir, device.name, extension)
@@ -58,11 +60,14 @@ feature -- Basic operations
 					create sync_manager.make (current_set)
 				end
 				if sync_manager.has_changes and then attached new_medium as medium then
+					lio.put_labeled_string ("Updating", device.name)
+					lio.put_new_line
 					sync_manager.track_update (medium, Console_display)
 --					sync_manager.update (medium)
 					lio.put_line ("Synchronized")
 				else
-					lio.put_line ("No changes")
+					lio.put_labeled_string ("Synchronized with", device.name)
+					lio.put_new_line
 				end
 			end
 		end

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-26 13:32:55 GMT (Sunday 26th March 2023)"
-	revision: "35"
+	date: "2023-03-26 16:38:26 GMT (Sunday 26th March 2023)"
+	revision: "36"
 
 class
 	EL_URI
@@ -189,7 +189,7 @@ feature -- Element change
 			valid_path: not is_empty implies not a_path.is_absolute
 		do
 			if attached Uri_path.emptied as encoded then
-				if item (count) /= Separator then
+				if count > 0 and then item (count) /= Separator then
 					encoded.append_character (Separator)
 				end
 				a_path.append_to_uri (encoded)

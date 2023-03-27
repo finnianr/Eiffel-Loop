@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-26 13:45:21 GMT (Sunday 26th March 2023)"
-	revision: "1"
+	date: "2023-03-26 16:21:47 GMT (Sunday 26th March 2023)"
+	revision: "2"
 
 class
 	EL_GVFS_FILE_SYNC_MEDIUM
@@ -20,7 +20,8 @@ inherit
 
 	EL_GVFS_VOLUME
 		rename
-			extend_uri_root as set_remote_home
+			extend_uri_root as set_remote_home,
+			reset_uri_root as reset
 		export
 			{NONE} all
 			{ANY} directory_exists, remove_directory, set_remote_home
@@ -57,10 +58,6 @@ feature -- Basic operations
 		-- remove old item
 		do
 			remove_file (item.file_path)
-		end
-
-	reset
-		do
 		end
 
 end
