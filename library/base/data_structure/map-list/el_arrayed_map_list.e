@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 18:29:39 GMT (Monday 27th March 2023)"
-	revision: "21"
+	date: "2023-03-27 18:43:19 GMT (Monday 27th March 2023)"
+	revision: "22"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -27,9 +27,9 @@ inherit
 			put_front as put_key_front,
 			search as key_search
 		export
-			{NONE} key_extend, put_key_front
+			{NONE} append, key_extend, put_key_front, prune, prune_all, put_left, put_right, replace
 		redefine
-			compare_objects, compare_references, make, new_cursor
+			compare_objects, compare_references, make, new_cursor, remove
 		end
 
 create
@@ -250,6 +250,16 @@ feature -- Basic operations
 				end
 			end
 		end
+
+feature -- Removal
+
+	remove
+		do
+			internal_value_list.go_i_th (index)
+			internal_value_list.remove
+			Precursor
+		end
+
 feature -- Contract Support
 
 	key_item (keys: CONTAINER [K]): EL_CONTAINER_ITEM [K]
