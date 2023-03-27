@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "50"
+	date: "2023-03-27 12:55:06 GMT (Monday 27th March 2023)"
+	revision: "51"
 
 deferred class EL_CHAIN [G]
 
@@ -135,11 +135,12 @@ feature -- Conversion
 
 	ordered_by (sort_value: FUNCTION [G, COMPARABLE]; in_ascending_order: BOOLEAN): EL_ARRAYED_LIST [G]
 		-- ordered list of elements according to `sort_value' function
-		local
-			map_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [COMPARABLE, G]
 		do
-			create map_list.make_sorted (Current, sort_value, in_ascending_order)
-			Result := map_list.value_list
+			create Result.make_from (Current)
+			Result.order_by (sort_value, in_ascending_order)
+			if object_comparison then
+				Result.compare_objects
+			end
 		end
 
 feature -- Element change

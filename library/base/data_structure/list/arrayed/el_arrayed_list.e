@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-22 16:11:02 GMT (Wednesday 22nd March 2023)"
-	revision: "52"
+	date: "2023-03-27 12:48:28 GMT (Monday 27th March 2023)"
+	revision: "53"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -263,17 +263,30 @@ feature -- Reorder items
 
 	order_by (sort_value: FUNCTION [G, COMPARABLE]; in_ascending_order: BOOLEAN)
 		local
-			l_item: like item; comparison: BOOLEAN
+			index_item: detachable like item; comparison: BOOLEAN; i: INTEGER
+			sorted: EL_SORTED_INDEX_LIST; result_array: SPECIAL [COMPARABLE]
+			sorted_area: like area
 		do
-			if not off then
-				l_item := item
-			end
-			make_from_array (ordered_by (sort_value, in_ascending_order).to_array)
-			if attached l_item then
-				comparison := object_comparison
-				compare_references
-				start; search (l_item)
-				object_comparison := comparison
+			if attached area_v2 as a and then a.count > 0 then
+				if valid_index (index) then
+					index_item := item
+				end
+				create result_array.make_empty (a.count)
+				from until i = a.count loop
+					result_array.extend (sort_value (a [i]))
+					i := i + 1
+				end
+				create sorted.make (result_array, in_ascending_order)
+				create sorted_area.make_empty (count)
+				across sorted as list loop
+					if attached a [list.item - 1] as l_item then
+						sorted_area.extend (l_item)
+						if index_item = l_item then
+							index := sorted_area.count
+						end
+					end
+				end
+				area_v2 := sorted_area
 			end
 		end
 

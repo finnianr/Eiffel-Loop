@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-26 13:27:37 GMT (Sunday 26th March 2023)"
-	revision: "18"
+	date: "2023-03-27 12:57:59 GMT (Monday 27th March 2023)"
+	revision: "19"
 
 class
 	PATH_TEST_SET
@@ -184,6 +184,7 @@ feature -- Tests
 		end
 
 	test_path_sort
+		-- PATH_TEST_SET.test_path_sort
 		note
 			testing: "covers/{EL_PATH}.is_less"
 		local

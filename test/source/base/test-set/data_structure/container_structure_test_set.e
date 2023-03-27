@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "31"
+	date: "2023-03-27 11:31:02 GMT (Monday 27th March 2023)"
+	revision: "32"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -56,6 +56,7 @@ feature {NONE} -- Initialization
 feature -- Test
 
 	test_arrayed_map_list
+		-- CONTAINER_STRUCTURE_TEST_SET.test_arrayed_map_list
 		note
 			testing: "covers/{EL_ARRAYED_MAP_LIST}.make_from_keys",
 						"covers/{EL_ARRAYED_MAP_LIST}.make_from_values",
