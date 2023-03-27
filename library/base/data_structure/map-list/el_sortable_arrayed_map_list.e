@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-03-27 13:12:48 GMT (Monday 27th March 2023)"
+	revision: "5"
 
 deferred class
 	EL_SORTABLE_ARRAYED_MAP_LIST [K, G]
 
 inherit
 	EL_ARRAYED_MAP_LIST [K, G]
+		redefine
+			sort
+		end
 
 	PART_COMPARATOR [TUPLE [K, G]]
 		undefine

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-21 9:43:03 GMT (Tuesday 21st March 2023)"
-	revision: "22"
+	date: "2023-03-27 13:16:47 GMT (Monday 27th March 2023)"
+	revision: "23"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -52,7 +52,8 @@ inherit
 				i_th_upper, i_th_lower, wipe_out, start, forth, after, valid_adjustments, off,
 				back, remove, remove_head, remove_tail, go_i_th, is_empty, before, valid_index,
 				fill_general, fill_general_by_string, fill, fill_by_string
-
+		redefine
+			sort
 		end
 
 	ITERABLE [S]
@@ -299,7 +300,7 @@ feature -- Items
 
 feature -- Basic operations
 
-	sort (ascending: BOOLEAN)
+	sort (in_ascending_order: BOOLEAN)
 		local
 			quick: QUICK_SORTER [INTEGER]; lower_index_array: ARRAY [INTEGER]; index_area: like area
 			i, j, l_count: INTEGER; sorted_area: like area
@@ -315,7 +316,7 @@ feature -- Basic operations
 --			sort indices
 
 			create lower_index_array.make_from_special (index_area)
-			if ascending then
+			if in_ascending_order then
 				quick.sort (lower_index_array)
 			else
 				quick.reverse_sort (lower_index_array)
