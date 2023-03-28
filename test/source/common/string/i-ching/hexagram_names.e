@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:02 GMT (Monday 20th March 2023)"
-	revision: "16"
+	date: "2023-03-28 10:52:38 GMT (Tuesday 28th March 2023)"
+	revision: "17"
 
 expanded class
 	HEXAGRAM_NAMES
@@ -21,10 +21,10 @@ feature -- Access
 		-- combined pinyin and hanzi characters
 		-- Eg. "Qián (屯)"
 		do
-			Result := Combined #$ [i_th_name (i, 2), i_th_name (i, 3)]
+			Result := Combined #$ [i_th_cell (i, 2), i_th_cell (i, 3)]
 		end
 
-	i_th_name (i, column: INTEGER): IMMUTABLE_STRING_32
+	i_th_cell (i, column: INTEGER): IMMUTABLE_STRING_32
 		require
 			valid_index: 1 <= i and i <= 64
 			valid_column: 1 <= column and column <= 3
@@ -34,6 +34,16 @@ feature -- Access
 		do
 			j := (i - 1) * 3 + column
 			Result := Name_split_list.i_th (j)
+		end
+
+	i_th_pinyin_name (i: INTEGER): IMMUTABLE_STRING_32
+		do
+			Result := i_th_cell (i, 2)
+		end
+
+	i_th_hanzi_characters (i: INTEGER): IMMUTABLE_STRING_32
+		do
+			Result := i_th_cell (i, 3)
 		end
 
 feature -- Constants
@@ -94,7 +104,7 @@ feature -- Constants
 		53, Jiàn, 漸,
 		54, Guī Mèi, 歸妹,
 		55, Fēng, 豐,
-		56, Lǚ, 履,
+		56, Lǚ, 旅,
 		57, Xùn, 巽,
 		58, Duì, 兌,
 		59, Huàn, 渙,

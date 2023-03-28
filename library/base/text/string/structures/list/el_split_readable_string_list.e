@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 13:16:47 GMT (Monday 27th March 2023)"
-	revision: "23"
+	date: "2023-03-28 11:34:25 GMT (Tuesday 28th March 2023)"
+	revision: "24"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -50,7 +50,7 @@ inherit
 			{NONE} all
 			{ANY} index, character_count, count, item_count, item_start_index, item_end_index,
 				i_th_upper, i_th_lower, wipe_out, start, forth, after, valid_adjustments, off,
-				back, remove, remove_head, remove_tail, go_i_th, is_empty, before, valid_index,
+				back, remove, remove_head, remove_tail, go_i_th, is_empty, is_sortable, before, valid_index,
 				fill_general, fill_general_by_string, fill, fill_by_string
 		redefine
 			sort

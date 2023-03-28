@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2023-03-28 11:40:02 GMT (Tuesday 28th March 2023)"
+	revision: "3"
 
 class
 	EL_YOUTUBE_STREAM_TABLE
@@ -38,8 +38,7 @@ feature {NONE} -- Initialization
 		require
 			not_empty: not a_url.is_empty
 		local
-			stream: EL_YOUTUBE_STREAM
-			video_map: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [INTEGER, EL_YOUTUBE_STREAM]
+			stream: EL_YOUTUBE_STREAM; video_map: EL_ARRAYED_MAP_LIST [INTEGER, EL_YOUTUBE_STREAM]
 		do
 			make_table (17)
 			lio.put_labeled_string ("Fetching formats for", a_url)
@@ -57,7 +56,7 @@ feature {NONE} -- Initialization
 					video_map.extend (stream.resolution_x, stream)
 				end
 			end
-			video_map.sort (False)
+			video_map.sort_by_key (False)
 			from video_map.start until video_map.after or else video_map.index > maximum_video_count loop
 				extend (video_map.item_value, video_map.item_value.code)
 				video_map.forth

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-12 10:25:22 GMT (Sunday 12th March 2023)"
-	revision: "22"
+	date: "2023-03-28 11:22:03 GMT (Tuesday 28th March 2023)"
+	revision: "23"
 
 class
 	EL_INTERNAL
@@ -78,6 +78,11 @@ feature -- Type queries
 		-- True if `type_id' conforms to one of `types'
 		do
 			Result := is_reference (basic_type) and then conforms_to_one_of (type_id, types)
+		end
+
+	is_comparable_type (type_id: INTEGER): BOOLEAN
+		do
+			Result := field_conforms_to (type_id, Class_id.COMPARABLE)
 		end
 
 	is_reference (basic_type: INTEGER): BOOLEAN

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 15:21:06 GMT (Tuesday 14th February 2023)"
-	revision: "15"
+	date: "2023-03-28 11:38:39 GMT (Tuesday 28th March 2023)"
+	revision: "16"
 
 class
 	ID3_FRAME_CODE_CLASS_GENERATOR
@@ -50,7 +50,7 @@ feature -- Basic operations
 	execute
 		local
 			parts: EL_SPLIT_ZSTRING_LIST; version: INTEGER
-			map_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [STRING, like field_table.item]
+			map_list: EL_ARRAYED_MAP_LIST [STRING, like field_table.item]
 			code_class: ID3_CODE_CLASS
 		do
 			across os.file_list (id3v2_include_dir, "*.txt") as path loop
@@ -70,7 +70,7 @@ feature -- Basic operations
 			lio.put_line ("FRAMES TABLE")
 			lio.put_new_line
 			create map_list.make_from_table (field_table)
-			map_list.sort (True)
+			map_list.sort_by_key (True)
 			from map_list.start until map_list.after loop
 				lio.put_labeled_string (map_list.item_key, field_string (map_list.item_value))
 				lio.put_new_line

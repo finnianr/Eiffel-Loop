@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2023-03-28 11:44:14 GMT (Tuesday 28th March 2023)"
+	revision: "3"
 
 class
 	EL_COUNTER_TABLE [K -> HASHABLE]
@@ -26,14 +26,14 @@ create
 
 feature -- Access
 
-	as_sorted_list (in_ascending_order: BOOLEAN): EL_VALUE_SORTABLE_ARRAYED_MAP_LIST [K, NATURAL]
+	as_sorted_list (in_ascending_order: BOOLEAN): EL_ARRAYED_MAP_LIST [K, NATURAL]
 		do
 			create Result.make (count)
 			from start until after loop
 				Result.extend (key_for_iteration, item_for_iteration.item)
 				forth
 			end
-			Result.sort (in_ascending_order)
+			Result.sort_by_value (in_ascending_order)
 		end
 
 	sum_count: NATURAL

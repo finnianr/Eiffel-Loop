@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2023-03-28 11:31:39 GMT (Tuesday 28th March 2023)"
+	revision: "12"
 
 class
 	EL_BOOK_ASSEMBLY
 
 inherit
-	EL_KEY_SORTABLE_ARRAYED_MAP_LIST [NATURAL, EL_BOOK_CHAPTER]
+	EL_ARRAYED_MAP_LIST [NATURAL, EL_BOOK_CHAPTER]
 		rename
 			value_list as chapter_list,
 			make as make_with_count
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 			make_from_values (a_chapter_list, agent {EL_BOOK_CHAPTER}.number)
 			output_dir := a_output_dir
 			info := a_info
-			sort (True)
+			sort_by_key (True)
 		end
 
 feature -- Access

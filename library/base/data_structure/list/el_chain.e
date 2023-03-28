@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 12:55:06 GMT (Monday 27th March 2023)"
-	revision: "51"
+	date: "2023-03-28 11:47:30 GMT (Tuesday 28th March 2023)"
+	revision: "52"
 
 deferred class EL_CHAIN [G]
 
@@ -271,8 +271,6 @@ note
 							[$source EL_STYLED_ZSTRING_LIST]
 						[$source EL_DECOMPRESSED_DATA_LIST]
 						[$source EL_SORTABLE_ARRAYED_MAP_LIST]* [K, G]
-							[$source EL_KEY_SORTABLE_ARRAYED_MAP_LIST] [K -> [$source COMPARABLE], G]
-							[$source EL_VALUE_SORTABLE_ARRAYED_MAP_LIST] [K, G -> [$source COMPARABLE]]
 					[$source EL_TRANSLATION_ITEMS_LIST]
 					[$source EL_XDG_DESKTOP_ENTRY_STEPS]
 					[$source EL_ARRAYED_RESULT_LIST] [R, G]

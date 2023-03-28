@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 18:43:19 GMT (Monday 27th March 2023)"
-	revision: "22"
+	date: "2023-03-28 11:48:14 GMT (Tuesday 28th March 2023)"
+	revision: "23"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -23,13 +23,15 @@ inherit
 			make_from_array as make_from_key_array,
 			item as item_key,
 			i_th as i_th_key,
+			is_sortable as is_key_sortable,
 			has as has_key,
 			put_front as put_key_front,
-			search as key_search
+			sort as sort_by_key,
+			search as search_key
 		export
 			{NONE} append, key_extend, put_key_front, prune, prune_all, put_left, put_right, replace
 		redefine
-			compare_objects, compare_references, make, new_cursor, remove
+			make, new_cursor, remove, sort_by_key
 		end
 
 create
@@ -37,6 +39,12 @@ create
 	make_from_keys, make_from_table, make_from_values
 
 feature {NONE} -- Initialization
+
+	make (n: INTEGER)
+		do
+			Precursor (n)
+			create internal_value_list.make (n)
+		end
 
 	make_from_array (array: ARRAY [like item_tuple])
 		do
@@ -96,12 +104,6 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make (n: INTEGER)
-		do
-			Precursor (n)
-			create internal_value_list.make (n)
-		end
-
 feature -- Access
 
 	item_tuple: TUPLE [key: K; value: G]
@@ -114,6 +116,9 @@ feature -- Access
 	key_list: EL_ARRAYED_LIST [K]
 		do
 			create Result.make_from_special (area_v2.twin)
+			if object_comparison then
+				Result.compare_objects
+			end
 		end
 
 	new_cursor: EL_ARRAYED_MAP_ITERATION_CURSOR [K, G]
@@ -130,18 +135,18 @@ feature -- Value items
 			Result := internal_value_list.first
 		end
 
-	item_value: G
-		require
-			valid_index: valid_index (index)
-		do
-			Result := internal_value_list [index]
-		end
-
 	i_th_value (i: INTEGER): like item_value
 		require
 			valid_index: valid_index (i)
 		do
 			Result := internal_value_list [i]
+		end
+
+	item_value: G
+		require
+			valid_index: valid_index (index)
+		do
+			Result := internal_value_list [index]
 		end
 
 	last_value: like item_value
@@ -154,6 +159,9 @@ feature -- Value items
 	value_list: EL_ARRAYED_LIST [G]
 		do
 			create Result.make_from_special (internal_value_list.area.twin)
+			if value_object_comparison then
+				Result.compare_objects
+			end
 		end
 
 feature -- Status query
@@ -161,7 +169,7 @@ feature -- Status query
 	has (pair: like item_tuple): BOOLEAN
 		do
 			push_cursor
-				start; key_search (pair.key)
+				start; search_key (pair.key)
 				if found then
 					if object_comparison then
 						Result := internal_value_list [index] ~ pair.value
@@ -170,6 +178,16 @@ feature -- Status query
 					end
 				end
 			pop_cursor
+		end
+
+	is_value_sortable: BOOLEAN
+		do
+			Result := Eiffel.is_comparable_type (({G}).type_id)
+		end
+
+	value_object_comparison: BOOLEAN
+		do
+			Result := internal_value_list.object_comparison
 		end
 
 feature -- Element change
@@ -198,7 +216,7 @@ feature -- Element change
 		-- key comparison is either by object or reference depending on `object_comparison'
 		do
 			push_cursor
-			start; key_search (key)
+			start; search_key (key)
 			if found then
 				internal_value_list.put_i_th (value, index)
 			else
@@ -219,19 +237,17 @@ feature -- Element change
 
 feature -- Status setting
 
-	compare_objects
-			-- Ensure that future search operations will use `equal'
-			-- rather than `=' for comparing references.
+	compare_value_objects
+		-- Ensure that future search operations will use `equal'
+		-- rather than `=' for comparing references.
 		do
-			Precursor
 			internal_value_list.compare_objects
 		end
 
-	compare_references
-			-- Ensure that future search operations will use `='
-			-- rather than `equal' for comparing references.
+	compare_value_references
+		-- Ensure that future search operations will use `='
+		-- rather than `equal' for comparing references.
 		do
-			Precursor
 			internal_value_list.compare_references
 		end
 
@@ -248,6 +264,22 @@ feature -- Basic operations
 					action (key_area [i], value_area [i])
 					i := i + 1
 				end
+			end
+		end
+
+	sort_by_key (in_ascending_order: BOOLEAN)
+		do
+			if attached {SPECIAL [COMPARABLE]} area as comparables then
+				sort_comparables (comparables, in_ascending_order)
+			end
+		end
+
+	sort_by_value (in_ascending_order: BOOLEAN)
+		require
+			sortable_by_value: is_value_sortable
+		do
+			if attached {SPECIAL [COMPARABLE]} internal_value_list.area as comparables then
+				sort_comparables (comparables, in_ascending_order)
 			end
 		end
 
@@ -272,6 +304,17 @@ feature -- Contract Support
 			create Result.make (values)
 		end
 
+feature {NONE} -- Implementation
+
+	sort_comparables (comparables: SPECIAL [COMPARABLE]; in_ascending_order: BOOLEAN)
+		local
+			sorted: EL_SORTED_INDEX_LIST
+		do
+			create sorted.make (comparables, in_ascending_order)
+			reorder (sorted)
+			internal_value_list.reorder (sorted)
+		end
+
 feature {ARRAYED_LIST_ITERATION_CURSOR} -- Internal attributes
 
 	internal_value_list: EL_ARRAYED_LIST [G];
@@ -283,9 +326,6 @@ note
 	descendants: "[
 			EL_ARRAYED_MAP_LIST [K, G]
 				[$source EL_DECOMPRESSED_DATA_LIST]
-				[$source EL_SORTABLE_ARRAYED_MAP_LIST]* [K, G]
-					[$source EL_KEY_SORTABLE_ARRAYED_MAP_LIST] [K -> [$source COMPARABLE], G]
-					[$source EL_VALUE_SORTABLE_ARRAYED_MAP_LIST] [K, G -> [$source COMPARABLE]]
 				[$source EL_STYLED_TEXT_LIST]* [S -> [$source STRING_GENERAL]]
 					[$source EL_STYLED_ZSTRING_LIST]
 					[$source EL_STYLED_STRING_8_LIST]

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 11:31:02 GMT (Monday 27th March 2023)"
-	revision: "32"
+	date: "2023-03-28 11:54:04 GMT (Tuesday 28th March 2023)"
+	revision: "33"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -40,6 +40,7 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["arrayed_map_list", agent test_arrayed_map_list],
+				["arrayed_map_sort", agent test_arrayed_map_sort],
 				["arrayed_result_list", agent test_arrayed_result_list],
 				["circular_indexing", agent test_circular_indexing],
 				["el_linear", agent test_el_linear],
@@ -86,6 +87,50 @@ feature -- Test
 					across Character_string as str loop
 						assert ("has string->character pair", string_to_character_map.has ([str.item.out, str.item]))
 					end
+				end
+			end
+		end
+
+	test_arrayed_map_sort
+		-- CONTAINER_STRUCTURE_TEST_SET.test_arrayed_map_sort
+		local
+			names: HEXAGRAM_NAMES
+			name_list: EL_ARRAYED_MAP_LIST [IMMUTABLE_STRING_32, IMMUTABLE_STRING_32]
+			sorted_names: SORTABLE_ARRAY [IMMUTABLE_STRING_32]
+			name_table: HASH_TABLE [IMMUTABLE_STRING_32, IMMUTABLE_STRING_32]
+			i: INTEGER
+		do
+			create name_list.make (64)
+			create name_table.make_equal (64)
+--			hexagram 10 and 56 have the same pinyin name
+			from i := 1 until i > 64 loop
+				name_list.extend (names.i_th_hanzi_characters (i), names.i_th_pinyin_name (i))
+				name_table.extend (names.i_th_pinyin_name (i), names.i_th_hanzi_characters (i))
+				i := i + 1
+			end
+--			Test key sorting
+			create sorted_names.make_from_array (name_list.key_list.to_array)
+			sorted_names.sort
+
+			name_list.sort_by_key (True)
+			if attached name_list as list then
+				from list.start until list.after loop
+					assert ("same hanzi", list.item_key ~ sorted_names [list.index])
+					assert ("same pinyin", list.item_value ~ name_table [list.item_key])
+					list.forth
+				end
+			end
+
+--			Test value sorting
+			create sorted_names.make_from_array (name_list.value_list.to_array)
+			sorted_names.sort
+
+			name_list.sort_by_value (True)
+			if attached name_list as list then
+				from list.start until list.after loop
+					assert ("same pinyin", list.item_value ~ sorted_names [list.index])
+					assert ("same pinyin", list.item_value ~ name_table [list.item_key])
+					list.forth
 				end
 			end
 		end

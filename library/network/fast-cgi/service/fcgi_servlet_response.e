@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 18:33:23 GMT (Monday 27th March 2023)"
-	revision: "28"
+	date: "2023-03-28 11:45:46 GMT (Tuesday 28th March 2023)"
+	revision: "29"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -118,7 +118,7 @@ feature -- Basic operations
 				end
 				buffer := string_8_buffer.empty
 				list := header_list
-				list.sort (True)
+				list.sort_by_key (True)
 				from list.start until list.after loop
 					buffer.append (Header.name (list.item_key)); buffer.append (once ": ")
 					buffer.append (list.item_value)
@@ -295,7 +295,7 @@ feature {NONE} -- Internal attributes
 	cookie_list: ARRAYED_LIST [EL_HTTP_COOKIE]
 		-- The cookie_list that will be sent with this response.
 
-	header_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [NATURAL_8, STRING]
+	header_list: EL_ARRAYED_MAP_LIST [NATURAL_8, STRING]
 		-- list of mappings: header enumeration code -> value
 
 feature {NONE} -- Constants

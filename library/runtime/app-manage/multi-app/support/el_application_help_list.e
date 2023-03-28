@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 12:15:05 GMT (Saturday 3rd December 2022)"
-	revision: "12"
+	date: "2023-03-28 11:32:06 GMT (Tuesday 28th March 2023)"
+	revision: "13"
 
 class
 	EL_APPLICATION_HELP_LIST
 
 inherit
-	EL_KEY_SORTABLE_ARRAYED_MAP_LIST [
+	EL_ARRAYED_MAP_LIST [
 		READABLE_STRING_GENERAL, TUPLE [description: READABLE_STRING_GENERAL; default_value: ANY]
 	]
 		rename
@@ -36,7 +36,7 @@ feature -- Basic operations
 			lio.put_line ("COMMAND LINE OPTIONS:")
 			lio.put_new_line
 
-			sort (True)
+			sort_by_key (True)
 
 			from start until after loop
 				option := "-" + item_key

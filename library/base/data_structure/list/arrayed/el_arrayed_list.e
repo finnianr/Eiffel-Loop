@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 18:19:05 GMT (Monday 27th March 2023)"
-	revision: "55"
+	date: "2023-03-28 11:29:36 GMT (Tuesday 28th March 2023)"
+	revision: "56"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -36,6 +36,8 @@ inherit
 			find_next_item, joined
 		end
 
+	EL_MODULE_EIFFEL
+
 create
 	make, make_empty, make_default_filled, make_filled,
 	make_from_for, make_from, make_from_if,
@@ -58,6 +60,12 @@ feature {NONE} -- Initialization
 			from until full loop
 				extend (new_item (count + 1))
 			end
+		end
+
+	make_from (container: CONTAINER [G])
+		-- initialize from `container' items
+		do
+			make_from_for (container, create {EL_ANY_QUERY_CONDITION [G]})
 		end
 
 	make_from_for (container: CONTAINER [G]; condition: EL_QUERY_CONDITION [G])
@@ -84,18 +92,6 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_from (container: CONTAINER [G])
-		-- initialize from `container' items
-		do
-			make_from_for (container, create {EL_ANY_QUERY_CONDITION [G]})
-		end
-
-	make_joined (array_1, array_2: ARRAY [G])
-		do
-			make (array_1.count + array_2.count)
-			append (array_1); append (array_2)
-		end
-
 	make_from_list (list: ITERABLE [G])
 		do
 			if attached {ARRAYED_LIST [G]} list as arrayed_list then
@@ -106,6 +102,11 @@ feature {NONE} -- Initialization
 					extend (l_path.item)
 				end
 			end
+		end
+
+	make_from_special (a_area: like area)
+		do
+			area_v2 := a_area
 		end
 
 	make_from_sub_list (list: EL_ARRAYED_LIST [G]; start_index, end_index: INTEGER)
@@ -139,9 +140,10 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_from_special (a_area: like area)
+	make_joined (array_1, array_2: ARRAY [G])
 		do
-			area_v2 := a_area
+			make (array_1.count + array_2.count)
+			append (array_1); append (array_2)
 		end
 
 feature -- Access
@@ -220,6 +222,13 @@ feature -- Access
 			end
 		end
 
+feature -- Status query
+
+	is_sortable: BOOLEAN
+		do
+			Result := Eiffel.is_comparable_type (({like item}).type_id)
+		end
+
 feature -- Removal
 
 	keep_head (n: INTEGER)
@@ -264,6 +273,7 @@ feature -- Reorder items
 	order_by (sort_value: FUNCTION [G, COMPARABLE]; in_ascending_order: BOOLEAN)
 		local
 			i: INTEGER; result_array: SPECIAL [COMPARABLE]
+			sorted: EL_SORTED_INDEX_LIST
 		do
 			if attached area_v2 as a and then a.count > 0 then
 				create result_array.make_empty (a.count)
@@ -271,7 +281,8 @@ feature -- Reorder items
 					result_array.extend (sort_value (a [i]))
 					i := i + 1
 				end
-				reorder (result_array, in_ascending_order)
+				create sorted.make (result_array, in_ascending_order)
+				reorder (sorted)
 			end
 		end
 
@@ -328,9 +339,14 @@ feature -- Reorder items
 		end
 
 	sort (in_ascending_order: BOOLEAN)
+		require
+			sortable_items: is_sortable
+		local
+			sorted: EL_SORTED_INDEX_LIST
 		do
 			if attached {SPECIAL [COMPARABLE]} area_v2 as comparables then
-				reorder (comparables, in_ascending_order)
+				create sorted.make (comparables, in_ascending_order)
+				reorder (sorted)
 			end
 		end
 
@@ -396,19 +412,17 @@ feature {EL_ARRAYED_LIST} -- Implementation
 			index := i + 1
 		end
 
-	reorder (comparables: SPECIAL [COMPARABLE]; in_ascending_order: BOOLEAN)
+	reorder (sorted: EL_SORTED_INDEX_LIST)
 		-- reorder `Current' based on a sort of `comparables'
 		require
-			same_number: count = comparables.count
+			same_number: count = sorted.count
 		local
-			index_item: detachable like item
-			sorted: EL_SORTED_INDEX_LIST; sorted_area: like area
+			index_item: detachable like item; sorted_area: like area
 		do
 			if count > 0 then
 				if valid_index (index) then
 					index_item := item
 				end
-				create sorted.make (comparables, in_ascending_order)
 				create sorted_area.make_empty (count)
 				if attached area_v2 as l_area then
 					across sorted as list loop

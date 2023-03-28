@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2023-03-28 11:35:48 GMT (Tuesday 28th March 2023)"
+	revision: "16"
 
 class
 	EL_COMPRESSED_ARCHIVE_FILE
@@ -59,7 +59,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	file_list: EL_VALUE_SORTABLE_ARRAYED_MAP_LIST [INTEGER, FILE_PATH]
+	file_list: EL_ARRAYED_MAP_LIST [INTEGER, FILE_PATH]
 		require
 			open_read: is_open_read and then position = 0
 		local

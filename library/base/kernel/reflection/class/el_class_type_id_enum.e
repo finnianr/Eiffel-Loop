@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-26 9:04:56 GMT (Sunday 26th March 2023)"
-	revision: "23"
+	date: "2023-03-28 11:19:13 GMT (Tuesday 28th March 2023)"
+	revision: "24"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -146,6 +146,8 @@ feature -- Eiffel-Loop types
 	EL_STORABLE: INTEGER
 
 feature -- Other types
+
+	COMPARABLE: INTEGER
 
 	ANY: INTEGER
 

@@ -13,8 +13,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-14 17:37:31 GMT (Tuesday 14th March 2023)"
-	revision: "18"
+	date: "2023-03-28 10:48:39 GMT (Tuesday 28th March 2023)"
+	revision: "19"
 
 class
 	HEXAGRAM_STRINGS
@@ -96,7 +96,7 @@ feature {NONE} -- Implementation
 		local
 			names: HEXAGRAM_NAMES
 		do
-			Result := [names.i_th_name (i, 2), names.i_th_name (i, 3), i]
+			Result := [names.i_th_pinyin_name (i), names.i_th_hanzi_characters (i), i]
 		end
 
 feature -- Constants

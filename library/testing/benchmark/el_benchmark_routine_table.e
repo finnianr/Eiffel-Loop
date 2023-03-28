@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-05 15:53:03 GMT (Sunday 5th February 2023)"
-	revision: "14"
+	date: "2023-03-28 11:44:48 GMT (Tuesday 28th March 2023)"
+	revision: "15"
 
 class
 	EL_BENCHMARK_ROUTINE_TABLE
@@ -82,7 +82,7 @@ feature -- Basic operations
 				l_count := benchmark.application_count (routine.item, trial_duration)
 				application_count_list.extend (routine.key, l_count)
 			end
-			application_count_list.sort (False)
+			application_count_list.sort_by_value (False)
 		end
 
 	print_comparison
@@ -129,7 +129,7 @@ feature -- Element change
 
 feature {NONE} -- Internal attributes
 
-	application_count_list: EL_VALUE_SORTABLE_ARRAYED_MAP_LIST [ZSTRING, DOUBLE]
+	application_count_list: EL_ARRAYED_MAP_LIST [ZSTRING, DOUBLE]
 		-- list of number of times that `action' can be applied within the `trial_duration' in milliseconds
 		-- in descending order
 

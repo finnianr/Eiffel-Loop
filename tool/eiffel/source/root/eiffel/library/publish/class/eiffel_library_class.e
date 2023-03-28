@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2023-03-28 11:39:16 GMT (Tuesday 28th March 2023)"
+	revision: "15"
 
 class
 	EIFFEL_LIBRARY_CLASS
@@ -60,7 +60,7 @@ feature -- Element change
 				end
 			end
 			if not list.is_empty then
-				list.sort (True)
+				list.sort_by_key (True)
 				-- Remove duplicate names Eg. BUILD_INFO as example of using DIR_PATH
 				list.start
 				previous_name := list.item_key
@@ -105,7 +105,7 @@ feature {NONE} -- Constants
 			Result := 20
 		end
 
-	Name_to_class_map_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [EL_ZSTRING, EIFFEL_CLASS]
+	Name_to_class_map_list: EL_ARRAYED_MAP_LIST [EL_ZSTRING, EIFFEL_CLASS]
 		once
 			create result.make (Maximum_examples)
 		end
