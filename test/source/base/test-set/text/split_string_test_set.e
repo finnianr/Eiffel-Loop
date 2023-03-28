@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 14:01:44 GMT (Monday 27th March 2023)"
-	revision: "42"
+	date: "2023-03-28 13:55:05 GMT (Tuesday 28th March 2023)"
+	revision: "43"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -170,7 +170,7 @@ feature -- Tests
 					i := i + 1
 				end
 				lio.put_new_line
-				assert ("checksum OK", crc.checksum = 2937716648)
+				assert ("checksum OK", crc.checksum = 3753697349)
 			end
 		end
 

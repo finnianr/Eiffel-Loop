@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-28 11:48:14 GMT (Tuesday 28th March 2023)"
-	revision: "23"
+	date: "2023-03-28 13:33:12 GMT (Tuesday 28th March 2023)"
+	revision: "24"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -29,9 +29,11 @@ inherit
 			sort as sort_by_key,
 			search as search_key
 		export
-			{NONE} append, key_extend, put_key_front, prune, prune_all, put_left, put_right, replace
+			{NONE} append, duplicate, key_extend, merge_left, merge_right,
+				put_key_front, prune, prune_all, put_left, put_right,
+				remove_left, remove_right, replace, swap
 		redefine
-			make, new_cursor, remove, sort_by_key
+			make, new_cursor, remove, sort_by_key, wipe_out, grow, resize, trim
 		end
 
 create
@@ -59,19 +61,14 @@ feature {NONE} -- Initialization
 		require
 			valid_function: key_item (keys).is_valid_for (to_value)
 		local
-			i: INTEGER; wrapper: EL_CONTAINER_WRAPPER [K]
+			l_value_list: EL_ARRAYED_RESULT_LIST [K, G]
 		do
-			create wrapper.make (keys)
-			make_from_special (wrapper.to_special)
-
-			create internal_value_list.make (count)
-			if attached internal_value_list.area_v2 as value_area
-				and then attached area_v2 as key_area
-			then
-				from until i = key_area.count loop
-					value_area.extend (to_value (key_area [i]))
-					i := i + 1
-				end
+			if keys.is_empty then
+				make_empty
+			else
+				make_from (keys)
+				create l_value_list.make (keys, to_value)
+				create internal_value_list.make_from_special (l_value_list.area)
 			end
 		end
 
@@ -88,19 +85,14 @@ feature {NONE} -- Initialization
 		require
 			valid_function: value_item (values).is_valid_for (to_key)
 		local
-			i: INTEGER; wrapper: EL_CONTAINER_WRAPPER [G]
+			l_key_list: EL_ARRAYED_RESULT_LIST [G, K]
 		do
-			create wrapper.make (values)
-			create internal_value_list.make_from_special (wrapper.to_special)
-			create area_v2.make_empty (internal_value_list.count)
-
-			if attached internal_value_list.area_v2 as value_area
-				and then attached area_v2 as key_area
-			then
-				from until i = value_area.count loop
-					key_area.extend (to_key (value_area [i]))
-					i := i + 1
-				end
+			if values.is_empty then
+				make_empty
+			else
+				create internal_value_list.make_from (values)
+				create l_key_list.make (values, to_key)
+				make_from_special (l_key_list.area)
 			end
 		end
 
@@ -290,6 +282,35 @@ feature -- Removal
 			internal_value_list.go_i_th (index)
 			internal_value_list.remove
 			Precursor
+		end
+
+	wipe_out
+		do
+			Precursor
+			internal_value_list.wipe_out
+		end
+
+feature -- Resizing
+
+	grow (i: INTEGER)
+			-- Change the capacity to at least `i'.
+		do
+			Precursor (i)
+			internal_value_list.grow (i)
+		end
+
+	resize (new_capacity: INTEGER)
+			-- Resize list so that it can contain
+			-- at least `n' items. Do not lose any item.
+		do
+			Precursor (new_capacity)
+			internal_value_list.resize (new_capacity)
+		end
+
+	trim
+		do
+			Precursor
+			internal_value_list.trim
 		end
 
 feature -- Contract Support

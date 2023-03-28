@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-08 18:23:02 GMT (Thursday 8th December 2022)"
-	revision: "9"
+	date: "2023-03-28 12:53:15 GMT (Tuesday 28th March 2023)"
+	revision: "10"
 
 class
 	EL_ARRAYED_RESULT_LIST [G, R]
@@ -45,19 +45,25 @@ feature {NONE} -- Initialization
 		require
 			valid_function: operand_item (container).is_valid_for (to_item)
 		local
-			wrapper: EL_CONTAINER_WRAPPER [G]; l_area: like area; l_count: INTEGER
+			wrapper: EL_CONTAINER_WRAPPER [G]; i, l_count: INTEGER
+			argument: G
 		do
 			create wrapper.make (container)
 			l_count := wrapper.count
+			make_sized (l_count)
 			if l_count > 0 then
-				create l_area.make_empty (l_count)
-				wrapper.do_meeting (agent extend_area (l_area, to_item, ?), condition)
-				if l_area.count > 5 and then l_area.count / l_count < 0.9 then
-					l_area := l_area.aliased_resized_area (l_area.count)
+				if attached wrapper.to_special as container_area and then attached area as l_area then
+					from until i = l_count loop
+						argument := container_area [i]
+						if condition.met (argument) then
+							l_area.extend (to_item (argument))
+						end
+						i := i + 1
+					end
+					if l_area.count < l_count then
+						make_from_special (l_area.aliased_resized_area (l_area.count))
+					end
 				end
-				make_from_special (l_area)
-			else
-				make_empty
 			end
 		end
 

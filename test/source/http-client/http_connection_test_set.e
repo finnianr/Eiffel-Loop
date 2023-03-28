@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-12 10:05:03 GMT (Sunday 12th March 2023)"
-	revision: "59"
+	date: "2023-03-28 14:18:40 GMT (Tuesday 28th March 2023)"
+	revision: "60"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -158,26 +158,27 @@ feature -- Tests
 		end
 
 	test_download_image_and_headers
+		-- HTTP_CONNECTION_TEST_SET.test_download_image_and_headers
 		note
 			testing: "covers/{EL_HTTP_CONNECTION}.read_string_head"
 		local
-			headers: like web.last_headers
-			image_path: like new_image_path
+			headers: like web.last_headers; image_url: STRING
 		do
 			across << "png", "jpeg", "webp", "svg" >> as image loop
-				web.open (Image_url + image.item)
+				image_url := Image_url_stem + image.item
+				web.open (image_url)
 				web.read_string_head
 				print_lines (web)
 
-				image_path := new_image_path (image.item)
-				web.download (image_path)
+				if attached new_image_path (image.item) as image_path then
+					web.download (image_path)
 
-				headers := web.last_headers
-				assert_valid_headers (headers)
-				assert ("valid content_type", headers.mime_type.starts_with ("image/" + image.item))
-				assert ("valid content_length", headers.content_length = File.byte_count (image_path))
-				assert ("valid encoding_name", headers.encoding_name.is_empty)
-
+					headers := web.last_headers
+					assert_valid_headers (headers)
+					assert ("valid content_type", headers.mime_type.starts_with ("image/" + image.item))
+					assert ("valid content_length", headers.content_length = File.byte_count (image_path))
+					assert ("valid encoding_name", headers.encoding_name.is_empty)
+				end
 				web.close
 			end
 		end
@@ -243,10 +244,11 @@ feature -- Tests
 		note
 			testing: "covers/{EL_HTTP_CONNECTION}.read_string_head"
 		local
-			headers: like web.last_headers
+			headers: like web.last_headers; image_url: STRING
 		do
 			across << "png", "jpeg", "webp", "svg" >> as image loop
-				web.open (Image_url + image.item)
+				image_url := Image_url_stem + image.item
+				web.open (image_url)
 				web.read_string_head
 				print_lines (web)
 
@@ -492,7 +494,7 @@ feature {NONE} -- Constants
 
 	Https: STRING = "https"
 
-	Image_url: STRING = "http://httpbin.org/image/"
+	Image_url_stem: STRING = "http://httpbin.org/image/"
 
 	Set_cookie_url: STRING = "http://httpbin.org/cookies/set?"
 

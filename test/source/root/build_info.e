@@ -4,7 +4,7 @@ note
 
 	author: "Python module: eiffel_loop.eiffel.ecf.py"
 
-	date: "2023-03-28 9:37:57 GMT (Tuesday 28th March 2023)"
+	date: "2023-03-28 13:03:32 GMT (Tuesday 28th March 2023)"
 	revision: "1"
 
 class

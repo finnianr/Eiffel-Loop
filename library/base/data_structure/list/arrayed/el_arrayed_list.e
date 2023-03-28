@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-28 11:29:36 GMT (Tuesday 28th March 2023)"
-	revision: "56"
+	date: "2023-03-28 13:43:07 GMT (Tuesday 28th March 2023)"
+	revision: "57"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -352,10 +352,10 @@ feature -- Reorder items
 
 feature -- Contract Support
 
-	detachable_item: detachable like item
+	item_cell: detachable CELL [like item]
 		do
 			if not off then
-				Result := item
+				create Result.put (item)
 			end
 		end
 
@@ -437,7 +437,7 @@ feature {EL_ARRAYED_LIST} -- Implementation
 				area_v2 := sorted_area
 			end
 		ensure
-			same_item: attached old detachable_item as old_item implies old_item = item
+			same_item: attached old item_cell as old_item implies old_item.item = item
 		end
 
 end
