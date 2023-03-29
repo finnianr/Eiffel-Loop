@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-28 11:31:39 GMT (Tuesday 28th March 2023)"
-	revision: "12"
+	date: "2023-03-28 15:53:24 GMT (Tuesday 28th March 2023)"
+	revision: "13"
 
 class
 	EL_BOOK_ASSEMBLY
@@ -18,7 +18,11 @@ inherit
 	EL_ARRAYED_MAP_LIST [NATURAL, EL_BOOK_CHAPTER]
 		rename
 			value_list as chapter_list,
+			item_key as chapter_number,
 			make as make_with_count
+		export
+			{NONE} all
+			{ANY} chapter_list, chapter_number
 		end
 
 	EL_MODULE_EXECUTABLE

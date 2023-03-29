@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-28 13:33:12 GMT (Tuesday 28th March 2023)"
-	revision: "24"
+	date: "2023-03-28 15:56:55 GMT (Tuesday 28th March 2023)"
+	revision: "25"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -68,7 +68,7 @@ feature {NONE} -- Initialization
 			else
 				make_from (keys)
 				create l_value_list.make (keys, to_value)
-				create internal_value_list.make_from_special (l_value_list.area)
+				internal_value_list := l_value_list.to_list
 			end
 		end
 

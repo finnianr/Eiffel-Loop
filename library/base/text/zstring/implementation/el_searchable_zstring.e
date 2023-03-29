@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-22 16:12:08 GMT (Wednesday 22nd March 2023)"
-	revision: "35"
+	date: "2023-03-29 9:42:24 GMT (Wednesday 29th March 2023)"
+	revision: "36"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -130,7 +130,7 @@ feature -- Index position
 			end
 		end
 
-	word_index (word: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
+	word_index (word: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
 		local
 			has_left_boundary, has_right_boundary, found: BOOLEAN
 			index: INTEGER
@@ -147,11 +147,6 @@ feature -- Index position
 					end
 				end
 			end
-		end
-
-	word_index_general (word: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
-		do
-			Result := word_index (adapted_argument (word, 1), start_index)
 		end
 
 feature -- Occurrence index lists

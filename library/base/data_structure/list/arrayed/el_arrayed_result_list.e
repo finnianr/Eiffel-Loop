@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-28 12:53:15 GMT (Tuesday 28th March 2023)"
-	revision: "10"
+	date: "2023-03-28 15:55:18 GMT (Tuesday 28th March 2023)"
+	revision: "11"
 
 class
 	EL_ARRAYED_RESULT_LIST [G, R]
@@ -96,10 +96,4 @@ feature -- Contract Support
 			create Result.make (container)
 		end
 
-feature {NONE} -- Implementation
-
-	extend_area (a_area: like area; to_item: FUNCTION [G, R]; a_item: G)
-		do
-			a_area.extend (to_item (a_item))
-		end
 end
