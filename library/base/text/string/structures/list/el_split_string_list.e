@@ -1,7 +1,7 @@
 note
 	description: "[
 		A virtual split-list of strings conforming to [$source STRING_GENERAL] represented
-		as an array of [$INTEGER_64] substring intervals
+		as an array of substring intervals
 	]"
 	notes: "[
 		This is a more efficient way to process split strings as it doesn't create a new string
@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-13 9:14:44 GMT (Monday 13th March 2023)"
-	revision: "41"
+	date: "2023-03-29 10:53:26 GMT (Wednesday 29th March 2023)"
+	revision: "42"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]

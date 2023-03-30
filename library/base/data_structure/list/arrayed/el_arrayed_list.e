@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-28 13:43:07 GMT (Tuesday 28th March 2023)"
-	revision: "57"
+	date: "2023-03-30 11:45:00 GMT (Thursday 30th March 2023)"
+	revision: "58"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -418,20 +418,22 @@ feature {EL_ARRAYED_LIST} -- Implementation
 			same_number: count = sorted.count
 		local
 			index_item: detachable like item; sorted_area: like area
+			i: INTEGER
 		do
 			if count > 0 then
 				if valid_index (index) then
 					index_item := item
 				end
 				create sorted_area.make_empty (count)
-				if attached area_v2 as l_area then
-					across sorted as list loop
-						if attached l_area [list.item - 1] as l_item then
+				if attached area_v2 as l_area and then attached sorted.area as index_area then
+					from until i = index_area.count loop
+						if attached l_area [index_area [i] - 1] as l_item then
 							sorted_area.extend (l_item)
 							if index_item = l_item then
 								index := sorted_area.count
 							end
 						end
+						i := i + 1
 					end
 				end
 				area_v2 := sorted_area
