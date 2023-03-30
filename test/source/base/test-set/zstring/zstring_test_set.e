@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 13:59:05 GMT (Monday 27th March 2023)"
-	revision: "92"
+	date: "2023-03-30 12:16:24 GMT (Thursday 30th March 2023)"
+	revision: "93"
 
 class
 	ZSTRING_TEST_SET
@@ -918,7 +918,7 @@ feature -- Status query tests
 		do
 			list_32 := Text.words
 			create list.make_from_general (Text.words)
-			list_32.sort; list.sort
+			list_32.ascending_sort; list.ascending_sort
 			across list_32 as str_32 loop
 				assert ("same string", str_32.item ~ list.i_th (str_32.cursor_index).to_string_32)
 			end
@@ -961,7 +961,7 @@ feature -- Status query tests
 					word := w.item
 					sorted.extend (word); sorted_32.extend (w.item)
 				end
-				sorted.sort; sorted_32.sort
+				sorted.ascending_sort; sorted_32.ascending_sort
 				assert ("sorting OK",
 					across sorted as l_a all
 						l_a.item.same_string (sorted_32.i_th (l_a.cursor_index))

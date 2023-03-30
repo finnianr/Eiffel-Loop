@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-30 11:45:00 GMT (Thursday 30th March 2023)"
-	revision: "58"
+	date: "2023-03-30 14:40:31 GMT (Thursday 30th March 2023)"
+	revision: "59"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -270,6 +270,11 @@ feature -- Removal
 
 feature -- Reorder items
 
+	ascending_sort
+		do
+			sort (False)
+		end
+
 	order_by (sort_value: FUNCTION [G, COMPARABLE]; in_ascending_order: BOOLEAN)
 		local
 			i: INTEGER; result_array: SPECIAL [COMPARABLE]
@@ -299,6 +304,11 @@ feature -- Reorder items
 				end
 				area_v2 := reversed_area
 			end
+		end
+
+	reverse_sort
+		do
+			sort (False)
 		end
 
 	shift (offset: INTEGER)
@@ -427,7 +437,7 @@ feature {EL_ARRAYED_LIST} -- Implementation
 				create sorted_area.make_empty (count)
 				if attached area_v2 as l_area and then attached sorted.area as index_area then
 					from until i = index_area.count loop
-						if attached l_area [index_area [i] - 1] as l_item then
+						if attached l_area [index_area [i]] as l_item then
 							sorted_area.extend (l_item)
 							if index_item = l_item then
 								index := sorted_area.count

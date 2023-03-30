@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 13:58:53 GMT (Monday 27th March 2023)"
-	revision: "11"
+	date: "2023-03-30 12:16:24 GMT (Thursday 30th March 2023)"
+	revision: "12"
 
 class
 	EL_FILE_MANIFEST_GENERATOR
@@ -44,7 +44,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 				target_dir := a_target_dir
 			end
 			sorted_path_list := File_system.files_with_extension (target_dir, extension, False)
-			sorted_path_list.sort
+			sorted_path_list.ascending_sort
 			lio.put_integer_field ("File item count", sorted_path_list.count)
 			lio.put_new_line
 

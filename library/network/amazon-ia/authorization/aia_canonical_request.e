@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 14:01:59 GMT (Monday 27th March 2023)"
-	revision: "17"
+	date: "2023-03-30 12:16:23 GMT (Thursday 30th March 2023)"
+	revision: "18"
 
 class
 	AIA_CANONICAL_REQUEST
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 			extend (Empty_string_8) -- the Java SDK does not add the query string to the canonical form
 
 			create sorted_header_names.make_from_array (headers.current_keys)
-			sorted_header_names.sort
+			sorted_header_names.ascending_sort
 
 			across sorted_header_names as name loop
 				extend (canonical_nvp (name.item, headers [name.item]))

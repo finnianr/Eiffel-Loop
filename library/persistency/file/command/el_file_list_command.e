@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 13:58:57 GMT (Monday 27th March 2023)"
-	revision: "5"
+	date: "2023-03-30 12:16:25 GMT (Thursday 30th March 2023)"
+	revision: "6"
 
 deferred class
 	EL_FILE_LIST_COMMAND
@@ -35,7 +35,7 @@ feature -- Basic operations
 		do
 			file_list := new_file_list
 			if sorted.is_enabled then
-				file_list.sort
+				file_list.ascending_sort
 			end
 
 			lio.put_labeled_substitution ("Processsing", "%S files", [file_list.count])

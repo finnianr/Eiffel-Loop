@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 14:01:59 GMT (Monday 27th March 2023)"
-	revision: "27"
+	date: "2023-03-30 12:16:23 GMT (Thursday 30th March 2023)"
+	revision: "28"
 
 class
 	EL_OS_ROUTINES
@@ -202,7 +202,7 @@ feature -- File query
 			--
 		do
 			Result := file_list (a_dir_path, a_file_pattern)
-			Result.sort
+			Result.ascending_sort
 		end
 
 feature -- Contract Support

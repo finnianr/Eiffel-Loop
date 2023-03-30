@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 15:46:35 GMT (Monday 27th March 2023)"
-	revision: "17"
+	date: "2023-03-30 14:39:55 GMT (Thursday 30th March 2023)"
+	revision: "18"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -98,11 +98,49 @@ feature -- Element change
 			Result := Current
 		end
 
-feature -- Constants
+feature -- Conversion
 
 	as_map_list: EL_ARRAYED_MAP_LIST [K, G]
 		do
 	 		create Result.make_from_keys (current_keys, agent item)
 	 	end
 
+feature -- Contract Support
+
+	item_cell: detachable CELL [like item]
+		do
+			if not off then
+				create Result.put (item_for_iteration)
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	reorder (sorted: EL_SORTED_INDEX_LIST)
+		-- reorder table keys and items based on a sort of `comparables'
+		require
+			same_number: count = sorted.count
+		local
+			sorted_keys: like keys
+			i, old_iteration_position, new_index: INTEGER
+		do
+			if count > 0 then
+				old_iteration_position := old_iteration_position
+				create sorted_keys.make_empty (count)
+				if attached keys as l_keys and then attached sorted.area as index_area then
+					from until i = index_area.count loop
+--						if attached l_keys [index_area [i] - 1] as l_item then
+--							sorted_keys.extend (l_item)
+--							if index_item = old_iteration_position then
+--								iteration_position := index_item
+--							end
+--						end
+						i := i + 1
+					end
+				end
+				keys := sorted_keys
+			end
+		ensure
+			same_item: attached old item_cell as old_item implies old_item.item = item_for_iteration
+		end
 end

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-18 16:03:23 GMT (Saturday 18th February 2023)"
-	revision: "23"
+	date: "2023-03-30 12:27:27 GMT (Thursday 30th March 2023)"
+	revision: "24"
 
 deferred class
 	STRING_BENCHMARK
@@ -381,7 +381,7 @@ feature {NONE} -- Query tests
 			across test.string_list as string loop
 				sortable.extend (string.item)
 			end
-			sortable.sort
+			sortable.ascending_sort
 		end
 
 	test_split

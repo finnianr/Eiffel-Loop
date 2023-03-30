@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 14:02:21 GMT (Monday 27th March 2023)"
-	revision: "28"
+	date: "2023-03-30 12:23:15 GMT (Thursday 30th March 2023)"
+	revision: "29"
 
 class
 	SOURCE_MANIFEST
@@ -85,7 +85,7 @@ feature -- Access
 	sorted_file_list: like file_list
 		do
 			Result := file_list
-			Result.sort
+			Result.ascending_sort
 		end
 
 	sorted_locations: EL_SORTABLE_ARRAYED_LIST [SOURCE_TREE]

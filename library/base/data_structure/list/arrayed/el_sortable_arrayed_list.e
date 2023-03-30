@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 14:03:41 GMT (Monday 27th March 2023)"
-	revision: "13"
+	date: "2023-03-30 12:20:32 GMT (Thursday 30th March 2023)"
+	revision: "14"
 
 class
 	EL_SORTABLE_ARRAYED_LIST [G -> COMPARABLE]
@@ -15,31 +15,27 @@ class
 inherit
 	EL_ARRAYED_LIST [G]
 		rename
-			sort as sort_in
+			sort as sort_indirectly
+		redefine
+			reverse_sort, ascending_sort
 		end
 
 create
-	make, make_filled, make_sorted, make_empty,
---	Conversion
-	make_from_array, make_from, make_from_for, make_from_if
+	make, make_empty, make_sorted, make_default_filled, make_filled,
+	make_from_for, make_from, make_from_if,
+	make_joined, make_from_special, make_from_array,
+	make_from_sub_list, make_from_tuple
 
 convert
-	make_sorted ({FINITE [G]})
+	make_sorted ({CONTAINER [G]})
 
 feature {NONE} -- Initialization
 
-	make_sorted (finite: FINITE [G])
+	make_sorted (container: CONTAINER [G])
 		-- make sorted using object comparison
-		local
-			linear: LINEAR [G]
 		do
-			make (finite.count)
-			linear := finite.linear_representation
-			from linear.start until linear.after loop
-				extend (linear.item)
-				linear.forth
-			end
-			compare_objects; sort
+			make_from (container)
+			ascending_sort
 		end
 
 feature -- Basic operations
@@ -47,10 +43,10 @@ feature -- Basic operations
 	reverse_sort
 		-- sort in descending order
 		do
-			sort; reverse_order
+			ascending_sort; reverse_order
 		end
 
-	sort
+	ascending_sort
 		-- sort in ascending order
 		local
 			array: SORTABLE_ARRAY [like item]

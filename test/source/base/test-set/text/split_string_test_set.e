@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-28 13:55:05 GMT (Tuesday 28th March 2023)"
-	revision: "43"
+	date: "2023-03-30 12:16:23 GMT (Thursday 30th March 2023)"
+	revision: "44"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -441,7 +441,7 @@ feature -- Tests
 			across split_list as list loop
 				copied_list.extend (list.item_copy)
 			end
-			copied_list.sort
+			copied_list.ascending_sort
 			split_list.sort (True)
 			across copied_list as list loop
 				assert ("same substring", list.item ~ split_list.i_th (list.cursor_index))

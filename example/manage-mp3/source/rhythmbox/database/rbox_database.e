@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 16:55:05 GMT (Sunday 18th December 2022)"
-	revision: "47"
+	date: "2023-03-30 12:24:00 GMT (Thursday 30th March 2023)"
+	revision: "48"
 
 class
 	RBOX_DATABASE
@@ -156,7 +156,7 @@ feature -- Access
 			across songs as song loop
 				path_list.extend (song.item.mp3_relative_path)
 			end
-			path_list.sort
+			path_list.ascending_sort
 			across path_list as file_path loop
 				if last_dir /~ file_path.item.parent then
 					name_set.wipe_out

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 14:02:12 GMT (Monday 27th March 2023)"
-	revision: "15"
+	date: "2023-03-30 12:23:16 GMT (Thursday 30th March 2023)"
+	revision: "16"
 
 class
 	REPOSITORY_SITEMAP_PAGE
@@ -89,7 +89,7 @@ feature {NONE} -- Implementation
 			across ecf_pages as page loop
 				if category /~ page.item.category_index_title then
 					category := page.item.category_index_title
-					list.sort
+					list.ascending_sort
 					create list.make (10)
 					Result.extend (create {EVOLICITY_CONTEXT_IMP}.make)
 					Result.last.put_variable (list, Var.page_list)

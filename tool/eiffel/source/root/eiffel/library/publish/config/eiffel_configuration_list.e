@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 14:02:37 GMT (Monday 27th March 2023)"
-	revision: "10"
+	date: "2023-03-30 12:23:14 GMT (Thursday 30th March 2023)"
+	revision: "11"
 
 class
 	EIFFEL_CONFIGURATION_LIST [G -> EIFFEL_CONFIGURATION_FILE create make end]
@@ -18,7 +18,7 @@ inherit
 			make as make_list
 		export
 			{NONE} all
-			{ANY} count, sort, is_empty, do_all, extend
+			{ANY} count, ascending_sort, is_empty, do_all, extend
 		end
 
 	EL_MODULE_LIO
@@ -52,7 +52,7 @@ feature -- Access
 			across Current as tree loop
 				Result.extend (create {EIFFEL_CONFIGURATION_INDEX_PAGE}.make (repository, tree.item))
 			end
-			Result.sort
+			Result.ascending_sort
 		end
 
 feature -- Basic operations

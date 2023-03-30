@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 14:02:45 GMT (Monday 27th March 2023)"
-	revision: "62"
+	date: "2023-03-30 12:23:15 GMT (Thursday 30th March 2023)"
+	revision: "63"
 
 class
 	REPOSITORY_PUBLISHER
@@ -48,7 +48,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 			-- Necessary to sort examples to ensure routine `{LIBRARY_CLASS}.sink_source_subsitutions'
 			-- makes a consistent value for make `current_digest'
-			example_classes.sort
+			example_classes.ascending_sort
 		ensure then
 			has_name: not name.is_empty
 			has_at_least_one_source_tree: not ecf_list.is_empty

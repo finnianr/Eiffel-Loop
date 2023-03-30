@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 14:02:40 GMT (Monday 27th March 2023)"
-	revision: "18"
+	date: "2023-03-30 12:23:14 GMT (Thursday 30th March 2023)"
+	revision: "19"
 
 class
 	SOURCE_TREE
@@ -60,7 +60,7 @@ feature -- Access
 	sorted_path_list: EL_FILE_PATH_LIST
 		do
 			Result := path_list
-			Result.sort
+			Result.ascending_sort
 		end
 
 feature -- Element change

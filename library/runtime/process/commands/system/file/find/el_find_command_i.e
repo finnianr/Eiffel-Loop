@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 14:01:59 GMT (Monday 27th March 2023)"
-	revision: "22"
+	date: "2023-03-30 12:16:25 GMT (Thursday 30th March 2023)"
+	revision: "23"
 
 deferred class
 	EL_FIND_COMMAND_I
@@ -57,7 +57,7 @@ feature -- Access
 	sorted_path_list: like path_list
 		do
 			Result := path_list
-			Result.sort
+			Result.ascending_sort
 		end
 
 	path_list: like new_path_list note option: transient attribute end

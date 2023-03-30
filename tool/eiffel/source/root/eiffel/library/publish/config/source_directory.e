@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 14:02:08 GMT (Monday 27th March 2023)"
-	revision: "18"
+	date: "2023-03-30 12:23:16 GMT (Thursday 30th March 2023)"
+	revision: "19"
 
 class
 	SOURCE_DIRECTORY
@@ -86,7 +86,7 @@ feature -- Access
 				Result.extend (l_class.twin)
 				Result.last.notes.set_relative_class_dir (library_ecf.html_index_path.parent)
 			end
-			Result.sort
+			Result.ascending_sort
 		end
 
 feature -- Status query

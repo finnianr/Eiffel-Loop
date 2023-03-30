@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 14:02:16 GMT (Monday 27th March 2023)"
-	revision: "20"
+	date: "2023-03-30 12:23:15 GMT (Thursday 30th March 2023)"
+	revision: "21"
 
 class
 	CODEC_INFO
@@ -246,7 +246,7 @@ feature {NONE} -- Implementation
 				Result.last.extend_latin (ascending_unicodes [i])
 				i := i + 1
 			end
-			Result.sort
+			Result.ascending_sort
 		end
 
 feature {NONE} -- Internal attributes

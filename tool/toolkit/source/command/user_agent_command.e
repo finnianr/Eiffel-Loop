@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 14:02:53 GMT (Monday 27th March 2023)"
-	revision: "9"
+	date: "2023-03-30 12:23:53 GMT (Thursday 30th March 2023)"
+	revision: "10"
 
 class
 	USER_AGENT_COMMAND
@@ -48,7 +48,7 @@ feature -- Basic operations
 		do
 			Precursor
 			create list.make_from (user_agent_set)
-			list.sort
+			list.ascending_sort
 			across list as name loop
 				lio.put_line (name.item)
 			end

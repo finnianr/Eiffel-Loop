@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 14:02:33 GMT (Monday 27th March 2023)"
-	revision: "55"
+	date: "2023-03-30 12:23:15 GMT (Thursday 30th March 2023)"
+	revision: "56"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -113,7 +113,7 @@ feature -- Tests
 				base_name_list := "base.kernel.html, index.html"
 				base_name_list.extend (broadcaster_path.base_name + ".html")
 				base_name_list.append (sorted_base_names (cmd.path_list))
-				base_name_list.sort
+				base_name_list.ascending_sort
 
 				if Executable.Is_work_bench then
 					line := User_input.line ("Enter to continue")
@@ -232,7 +232,7 @@ feature {NONE} -- Implementation
 			across list as path loop
 				Result.extend (path.item.base)
 			end
-			Result.sort
+			Result.ascending_sort
 		end
 
 feature {NONE} -- Constants

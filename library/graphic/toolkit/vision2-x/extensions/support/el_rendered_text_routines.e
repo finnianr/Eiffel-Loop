@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "39"
+	date: "2023-03-30 12:31:11 GMT (Thursday 30th March 2023)"
+	revision: "40"
 
 class
 	EL_RENDERED_TEXT_ROUTINES
@@ -53,7 +53,7 @@ feature -- Font
 		once
 			create families.make (shared_environment.Font_families, agent new_zstring)
 			create Result.make_from_array (families.to_array)
-			Result.sort
+			Result.ascending_sort
 		end
 
 	Monospace_font_families: EL_ARRAYED_LIST [ZSTRING]

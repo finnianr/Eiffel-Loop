@@ -14,14 +14,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:02 GMT (Monday 20th March 2023)"
-	revision: "12"
+	date: "2023-03-30 12:30:49 GMT (Thursday 30th March 2023)"
+	revision: "13"
 
 class
 	IMMUTABLE_STRING_SPLIT_COMPARISON
 
 inherit
 	STRING_BENCHMARK_COMPARISON
+
+	HEXAGRAM_NAMES
+		export
+			{NONE} all
+		end
 
 create
 	make
@@ -34,13 +39,13 @@ feature -- Basic operations
 
 	execute
 		local
-			split_list: EL_SPLIT_STRING_32_LIST; names: HEXAGRAM_NAMES
+			split_list: EL_SPLIT_STRING_32_LIST
 		do
-			create split_list.make_adjusted (names.Name_manifest, ',', {EL_SIDE}.Left)
+			create split_list.make_adjusted (Name_manifest, ',', {EL_SIDE}.Left)
 
 			compare ("compare split list iteration", <<
 				["EL_SPLIT_STRING_32_LIST", agent changeable_split_list (split_list)],
-				["EL_SPLIT_IMMUTABLE_STRING_32_LIST", agent immutable_split_list (names.Name_split_list)]
+				["EL_SPLIT_IMMUTABLE_STRING_32_LIST", agent immutable_split_list (Name_grid)]
 			>>)
 		end
 

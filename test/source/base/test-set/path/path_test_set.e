@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 13:59:26 GMT (Monday 27th March 2023)"
-	revision: "20"
+	date: "2023-03-30 12:16:24 GMT (Thursday 30th March 2023)"
+	revision: "21"
 
 class
 	PATH_TEST_SET
@@ -195,7 +195,7 @@ feature -- Tests
 				Dev_eiffel, Documents_eiffel_pdf, Home_finnian, Mem_test_exe, Parent_dots
 			>>)
 			create sortable_2.make_from (sortable_1)
-			sortable_1.sort
+			sortable_1.ascending_sort
 			sortable_2.order_by (agent {FILE_PATH}.to_string, True)
 			assert ("same order", sortable_1.to_array ~ sortable_2.to_array)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 12:50:10 GMT (Monday 27th March 2023)"
-	revision: "1"
+	date: "2023-03-30 14:37:27 GMT (Thursday 30th March 2023)"
+	revision: "2"
 
 class
 	EL_SORTED_INDEX_LIST
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 			target := a_target
 			make_list (a_target.count)
 			if attached area as a then
-				from i := 1 until i > a_target.count loop
+				from i := 0 until i = a_target.count loop
 					a.extend (i)
 					i := i + 1
 				end
@@ -63,7 +63,7 @@ feature {NONE} -- Implementation
 	less_than (i_1, i_2: INTEGER): BOOLEAN
 		do
 			if attached target as t then
-				Result := t [i_1 - 1] < t [i_2 - 1]
+				Result := t [i_1] < t [i_2]
 			end
 		end
 
