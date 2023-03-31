@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-16 9:11:05 GMT (Thursday 16th March 2023)"
-	revision: "12"
+	date: "2023-03-31 17:24:32 GMT (Friday 31st March 2023)"
+	revision: "13"
 
 class
 	HASH_TABLE_TEST_SET
@@ -31,7 +31,8 @@ feature {NONE} -- Initialization
 				["compressed_table", agent test_compressed_table],
 				["iteration_cursor", agent test_iteration_cursor],
 				["readable_string_8_table", agent test_readable_string_8_table],
-				["string_table", agent test_string_table]
+				["string_table", agent test_string_table],
+				["table_sort", agent test_table_sort]
 			>>)
 		end
 
@@ -125,4 +126,68 @@ feature -- Test
 			assert ("same value", table [key_2] = 2)
 			assert ("same value", table [key_3] = 3)
 		end
+
+	test_table_sort
+		-- HASH_TABLE_TEST_SET.test_table_sort
+		local
+			names: HEXAGRAM_NAMES; hanzi: IMMUTABLE_STRING_32
+			name_list: EL_SORTABLE_ARRAYED_LIST [IMMUTABLE_STRING_32]
+			name_table: EL_HASH_TABLE [INTEGER, IMMUTABLE_STRING_32]
+			i, number: INTEGER
+		do
+			create name_table.make_equal (64)
+			create name_list.make (64)
+			from i := 1 until i > 64 loop
+				hanzi := names.i_th_hanzi_characters (i)
+				name_list.extend (hanzi)
+				name_table.extend (i, hanzi)
+				i := i + 1
+			end
+			name_list.ascending_sort
+			from name_table.start until name_table.item_for_iteration = 8 loop
+				name_table.forth
+			end
+			name_table.sort_by_key (True)
+			assert ("same iteration item", name_table.item_for_iteration = 8)
+
+			across name_table as table loop
+				number := table.item; i := table.cursor_index
+				hanzi := table.key
+				assert ("same hanzi by table cursor index", hanzi ~ name_list [i])
+				assert ("same hanzi by table key", hanzi ~ names.i_th_hanzi_characters (number))
+			end
+
+			from i := 1 until i > 64 loop
+				hanzi := names.i_th_hanzi_characters (i)
+				assert ("has key", name_table.has (hanzi))
+				i := i + 1
+			end
+			name_table.ascending_sort
+			across name_table as table loop
+				assert ("item same as cursor index", table.cursor_index = table.item)
+			end
+
+			-- Test with deletions
+			name_list.wipe_out
+			from i := 1 until i > 64 loop
+				hanzi := names.i_th_hanzi_characters (i)
+				if names.i_th_pinyin_name (i) [1] = 'S' then
+					name_table.remove (hanzi)
+				else
+					name_list.extend (hanzi)
+				end
+				i := i + 1
+			end
+			name_list.reverse_sort
+			name_table.sort_by_key (False)
+			assert ("same iteration item", name_table.item_for_iteration = 8)
+
+			assert ("same count", name_list.count = name_table.count)
+			across name_table as table loop
+				number := table.item; i := table.cursor_index
+				hanzi := table.key
+				assert ("same hanzi by table cursor index", hanzi ~ name_list [i])
+			end
+		end
+
 end

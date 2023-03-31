@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-30 14:39:55 GMT (Thursday 30th March 2023)"
-	revision: "18"
+	date: "2023-03-31 17:21:04 GMT (Friday 31st March 2023)"
+	revision: "19"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -20,7 +20,7 @@ inherit
 			default_create, new_cursor
 		end
 
-	EL_MODULE_ITERABLE
+	EL_MODULE_EIFFEL; EL_MODULE_ITERABLE
 
 create
 	 default_create, make, make_size, make_equal, make_from_map_list, make_from_values
@@ -74,6 +74,18 @@ feature -- Access
 			Result.start
 		end
 
+feature -- Status query
+
+	is_key_sortable: BOOLEAN
+		do
+			Result := Eiffel.is_comparable_type (({K}).type_id)
+		end
+
+	is_sortable: BOOLEAN
+		do
+			Result := Eiffel.is_comparable_type (({G}).type_id)
+		end
+
 feature -- Element change
 
 	append_tuples (array: ARRAY [like as_map_list.item_tuple])
@@ -98,6 +110,38 @@ feature -- Element change
 			Result := Current
 		end
 
+feature -- Basic operations
+
+	ascending_sort
+		-- sort items in ascending order
+		do
+			sort (True)
+		end
+
+	sort (in_ascending_order: BOOLEAN)
+		require
+			sortable_items: is_sortable
+		do
+			if attached {SPECIAL [COMPARABLE]} content as comparables then
+				sort_comparables (comparables, in_ascending_order)
+			end
+		end
+
+	reverse_sort
+		-- sort items in descending order
+		do
+			sort (False)
+		end
+
+	sort_by_key (in_ascending_order: BOOLEAN)
+		require
+			sortable_items: is_key_sortable
+		do
+			if attached {SPECIAL [COMPARABLE]} keys as comparables then
+				sort_comparables (comparables, in_ascending_order)
+			end
+		end
+
 feature -- Conversion
 
 	as_map_list: EL_ARRAYED_MAP_LIST [K, G]
@@ -116,29 +160,46 @@ feature -- Contract Support
 
 feature {NONE} -- Implementation
 
-	reorder (sorted: EL_SORTED_INDEX_LIST)
+	sort_comparables (comparables: SPECIAL [COMPARABLE]; in_ascending_order: BOOLEAN)
 		-- reorder table keys and items based on a sort of `comparables'
-		require
-			same_number: count = sorted.count
 		local
-			sorted_keys: like keys
-			i, old_iteration_position, new_index: INTEGER
+			sorted_keys: like keys; sorted_content: like content
+			i, new_index, new_iteration_position: INTEGER
+			sorted: EL_SORTED_INDEX_LIST; l_item, content_item: detachable like item
 		do
 			if count > 0 then
-				old_iteration_position := old_iteration_position
+				create sorted.make (comparables, in_ascending_order)
 				create sorted_keys.make_empty (count)
-				if attached keys as l_keys and then attached sorted.area as index_area then
+				create sorted_content.make_empty (count)
+				if not off then
+					l_item := item_for_iteration
+				end
+				if attached keys as l_keys and then attached content as l_content
+					and then attached indexes_map as map_area
+					and then attached sorted.area as index_area
+					and then attached deleted_marks as deleted_area
+
+				then
+					new_iteration_position := count
 					from until i = index_area.count loop
---						if attached l_keys [index_area [i] - 1] as l_item then
---							sorted_keys.extend (l_item)
---							if index_item = old_iteration_position then
---								iteration_position := index_item
---							end
---						end
+						new_index := index_area [i]
+						if not deleted_area [new_index] then
+							sorted_keys.extend (l_keys [new_index])
+							content_item := l_content [new_index]
+							sorted_content.extend (content_item)
+							if content_item = l_item then
+								new_iteration_position := sorted_content.count - 1
+							end
+						end
 						i := i + 1
 					end
+					wipe_out
+					from i := 0 until i = sorted_keys.count loop
+						extend (sorted_content [i], sorted_keys [i])
+						i := i + 1
+					end
+					iteration_position := new_iteration_position
 				end
-				keys := sorted_keys
 			end
 		ensure
 			same_item: attached old item_cell as old_item implies old_item.item = item_for_iteration

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-28 11:45:46 GMT (Tuesday 28th March 2023)"
-	revision: "29"
+	date: "2023-03-31 17:09:30 GMT (Friday 31st March 2023)"
+	revision: "30"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -24,6 +24,8 @@ inherit
 	EL_STRING_8_CONSTANTS
 
 	FCGI_SHARED_HEADER
+
+	EL_MODULE_REUSEABLE
 
 create
 	make
@@ -102,8 +104,7 @@ feature -- Basic operations
 	send
 		-- send response headers and content
 		local
-			list: like header_list; buffer, content_buffer: STRING
-			string_8_buffer: EL_STRING_8_BUFFER_ROUTINES
+			buffer, content_buffer: STRING
 		do
 			if not is_sent then
 				content_buffer := encoded_content
@@ -116,21 +117,25 @@ feature -- Basic operations
 				if status = Http_status.ok then
 					set_cookie_headers
 				end
-				buffer := string_8_buffer.empty
-				list := header_list
-				list.sort_by_key (True)
-				from list.start until list.after loop
-					buffer.append (Header.name (list.item_key)); buffer.append (once ": ")
-					buffer.append (list.item_value)
-					buffer.append (Carriage_return_new_line)
-					list.forth
-				end
-				buffer.append (Carriage_return_new_line) -- This is required even for HEAD requests
+				across Reuseable.string_8 as reuse loop
+					buffer := reuse.item
+					header_list.sort_by_key (True)
+					if attached header_list as list then
+						from list.start until list.after loop
+							buffer.append (Header.name (list.item_key)); buffer.append (Colon_space)
+							buffer.append (list.item_value)
+							buffer.append (Carriage_return_new_line)
+							list.forth
+						end
+					end
+					buffer.append (Carriage_return_new_line) -- This is required even for HEAD requests
 
-				if not is_head_request then
-					buffer.append (content_buffer)
+					if not is_head_request then
+						buffer.append (content_buffer)
+					end
+
+					broker.write_stdout (buffer)
 				end
-				broker.write_stdout (buffer)
 				write_ok := broker.write_ok
 				if write_ok then
 					content_length := content_buffer.count
@@ -301,6 +306,8 @@ feature {NONE} -- Internal attributes
 feature {NONE} -- Constants
 
 	Carriage_return_new_line: STRING = "%R%N"
+
+	Colon_space: STRING = ": "
 
 	Encoding_buffer: EL_STRING_8_IO_MEDIUM
 		once
