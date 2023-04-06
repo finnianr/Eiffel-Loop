@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-04-06 8:41:35 GMT (Thursday 6th April 2023)"
+	revision: "7"
 
 class
 	ISE_CLASS_TABLE
@@ -61,14 +61,14 @@ feature -- Status query
 
 	has_class (text: ZSTRING): BOOLEAN
 		local
-			file_name: ZSTRING; eiffel: EL_EIFFEL_SOURCE_ROUTINES
+			file_name: ZSTRING; eif: EL_EIFFEL_SOURCE_ROUTINES
 			relative_source_path: FILE_PATH
 		do
 			if text.is_empty then
 				last_name.wipe_out
 
 			elseif attached Find_ise_class as finder then
-				last_name := eiffel.parsed_class_name (text)
+				last_name := eif.parsed_class_name (text)
 				if has_key (last_name) then
 					Result := True
 				else

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-30 12:23:16 GMT (Thursday 30th March 2023)"
-	revision: "16"
+	date: "2023-04-06 8:27:38 GMT (Thursday 6th April 2023)"
+	revision: "17"
 
 class
 	REPOSITORY_SITEMAP_PAGE
@@ -73,8 +73,9 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor + 	["category_list",	agent: like category_list do Result := category_list end] +
-											["stats", 			agent: like stats_cmd do Result := stats_cmd end]
+			Result := Precursor +
+				["category_list",	agent: like category_list do Result := category_list end] +
+				["stats", 			agent: like stats_cmd do Result := stats_cmd end]
 		end
 
 feature {NONE} -- Implementation

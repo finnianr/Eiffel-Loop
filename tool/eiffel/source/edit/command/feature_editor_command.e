@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-09 15:19:51 GMT (Thursday 9th March 2023)"
-	revision: "19"
+	date: "2023-04-06 11:05:34 GMT (Thursday 6th April 2023)"
+	revision: "20"
 
 class
 	FEATURE_EDITOR_COMMAND
@@ -61,7 +61,10 @@ feature {NONE} -- Implementation
 
 	edit_feature_group (feature_list: EL_ARRAYED_LIST [CLASS_FEATURE])
 		do
-			feature_list.do_all (agent {CLASS_FEATURE}.expand_shorthand)
+			across feature_list as list loop
+				list.item.expand_shorthand
+				list.item.adjust_manifest_tuple_tabs
+			end
 			feature_list.order_by (agent {CLASS_FEATURE}.name, True)
 		end
 

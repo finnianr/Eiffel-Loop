@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-04-06 9:21:36 GMT (Thursday 6th April 2023)"
+	revision: "7"
 
 class
 	SOURCE_LINES
 
 inherit
 	EL_ZSTRING_LIST
-		redefine
-			tab_string
-		end
 
 create
 	make, make_with_lines, make_from
@@ -26,34 +23,27 @@ convert
 
 feature -- Element change
 
-	insert_line_right (line: ZSTRING; tab_count: INTEGER)
+	insert_line_right (a_line: STRING; tab_count: INTEGER)
 		local
-			l_line: ZSTRING
+			line: ZSTRING
 		do
-			put_right (tab_string (tab_count) + line)
-			l_line := i_th (index + 1)
-			l_line.append_character (' ')
-			l_line.append (Auto_edition_comment + "insertion")
+			put_right (tab_string (tab_count) + a_line)
+			line := i_th (index + 1)
+			line.append_character (' ')
+			line.append (Auto_edition_comment + "insertion")
 		end
 
-	put_auto_edit_comment_right (comment: ZSTRING; tab_count: INTEGER)
+	put_auto_edit_comment_right (comment: STRING; tab_count: INTEGER)
 		do
 			put_right (tab_string (tab_count) + Auto_edition_comment)
-			i_th (index + 1).append (comment)
+			i_th (index + 1).append_string_general (comment)
 		end
 
-	append_comment (comment: ZSTRING)
+	append_comment (comment: STRING)
 			-- append comment to current item
 		do
 			item.append_character (' ')
-			item.append (Auto_edition_comment + comment)
-		end
-
-feature {NONE} -- Implementation
-
-	tab_string (a_count: INTEGER): ZSTRING
-		do
-			create Result.make_filled (Tabulation.to_character_8, a_count)
+			item.append_string_general (Auto_edition_comment + comment)
 		end
 
 feature {NONE} -- Constants

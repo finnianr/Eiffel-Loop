@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:47:34 GMT (Tuesday 14th February 2023)"
-	revision: "6"
+	date: "2023-04-06 8:48:25 GMT (Thursday 6th April 2023)"
+	revision: "7"
 
 class
 	ROUTINE_FEATURE
@@ -73,18 +73,18 @@ feature {NONE} -- Implementation
 		do
 			create loop_code.make_empty
 			Loop_template.set_variable ("expression", until_expression)
-			if until_expression.ends_with (Dot_after)
-				or else until_expression.ends_with (Dot_before)
+			if until_expression.ends_with (Cursor.after)
+				or else until_expression.ends_with (Cursor.before)
 			then
 				pos_dot := until_expression.index_of ('.', 1)
 				if pos_dot > 0 then
 					l_name := until_expression.substring (1, pos_dot - 1)
-					if until_expression.ends_with (Dot_after) then
-						Loop_template.set_variable (Var_initial, l_name + ".start")
-						Loop_template.set_variable (Var_increment, l_name + ".forth")
+					if until_expression.ends_with (Cursor.after) then
+						Loop_template.set_variable (Var.initial, l_name + Cursor.start)
+						Loop_template.set_variable (Var.increment, l_name + Cursor.forth)
 					else
-						Loop_template.set_variable (Var_initial, l_name + ".finish")
-						Loop_template.set_variable (Var_increment, l_name + ".back")
+						Loop_template.set_variable (Var.initial, l_name + Cursor.finish)
+						Loop_template.set_variable (Var.increment, l_name + Cursor.back)
 					end
 					loop_code := Loop_template.substituted
 				end
@@ -92,8 +92,8 @@ feature {NONE} -- Implementation
 				pos_space := until_expression.index_of (' ', 1)
 				if pos_space > 0 then
 					l_name := until_expression.substring (1, pos_space - 1)
-					Loop_template.set_variable (Var_initial, l_name + " := 1")
-					Loop_template.set_variable (Var_increment, Numeric_increment #$ [l_name, l_name])
+					Loop_template.set_variable (Var.initial, l_name + " := 1")
+					Loop_template.set_variable (Var.increment, Numeric_increment #$ [l_name, l_name])
 					loop_code := Loop_template.substituted
 				end
 			end
@@ -134,14 +134,10 @@ feature {NONE} -- String Constants
 			Result := "%T%Tend"
 		end
 
-	Dot_after: ZSTRING
+	Cursor: TUPLE [after, back, before, finish, forth, start: ZSTRING]
 		once
-			Result := ".after"
-		end
-
-	Dot_before: ZSTRING
-		once
-			Result := ".before"
+			create Result
+			Tuple.fill (Result, ".after, .back, .before, .finish, .forth, .start")
 		end
 
 	From_shorthand: ZSTRING
@@ -163,14 +159,10 @@ feature {NONE} -- String Constants
 			Result := "%S := %S + 1"
 		end
 
-	Var_increment: ZSTRING
+	Var: TUPLE [increment, initial: ZSTRING]
 		once
-			Result := "increment"
-		end
-
-	Var_initial: ZSTRING
-		once
-			Result := "initial"
+			create Result
+			Tuple.fill (Result, "increment, initial")
 		end
 
 end

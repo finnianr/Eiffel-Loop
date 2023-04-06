@@ -12,19 +12,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2023-04-06 11:50:13 GMT (Thursday 6th April 2023)"
+	revision: "3"
 
 class
 	CONSTANT_FEATURE
 
 inherit
 	CLASS_FEATURE
+		redefine
+			adjust_manifest_tuple_tabs
+		end
 
 create
 	make
 
 feature -- Element change
+
+	adjust_manifest_tuple_tabs
+		do
+		end
 
 	expand_shorthand
 		do

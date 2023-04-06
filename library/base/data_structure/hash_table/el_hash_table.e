@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-31 17:21:04 GMT (Friday 31st March 2023)"
-	revision: "19"
+	date: "2023-03-31 17:28:53 GMT (Friday 31st March 2023)"
+	revision: "20"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -162,6 +162,7 @@ feature {NONE} -- Implementation
 
 	sort_comparables (comparables: SPECIAL [COMPARABLE]; in_ascending_order: BOOLEAN)
 		-- reorder table keys and items based on a sort of `comparables'
+		-- and removing any deleted items
 		local
 			sorted_keys: like keys; sorted_content: like content
 			i, new_index, new_iteration_position: INTEGER

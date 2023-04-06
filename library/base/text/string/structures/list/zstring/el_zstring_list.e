@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 9:49:08 GMT (Monday 6th March 2023)"
-	revision: "19"
+	date: "2023-04-06 9:21:21 GMT (Thursday 6th April 2023)"
+	revision: "20"
 
 class
 	EL_ZSTRING_LIST
@@ -64,11 +64,11 @@ feature {NONE} -- Implementation
 			Result := codec.as_z_code (a_separator)
 		end
 
-	tab_string (a_count: INTEGER): ZSTRING
+	tab_string (n: INTEGER): ZSTRING
 		local
 			s: EL_ZSTRING_ROUTINES
 		do
-			Result := s.n_character_string ('%T', a_count)
+			Result := s.n_character_string ('%T', n)
 		end
 
 end

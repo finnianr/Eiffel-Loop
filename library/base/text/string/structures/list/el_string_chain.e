@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:03 GMT (Monday 20th March 2023)"
-	revision: "31"
+	date: "2023-04-06 9:18:06 GMT (Thursday 6th April 2023)"
+	revision: "32"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -87,7 +87,7 @@ feature -- Access
 			i: INTEGER; done: BOOLEAN
 		do
 			from i := 1 until done or i > item.count loop
-				if item.code (i) = Tabulation then
+				if item [i] = '%T' then
 					Result := Result + 1
 				else
 					done := True
@@ -111,9 +111,7 @@ feature -- Status query
 
 	is_indented: BOOLEAN
 		 do
-		 	Result := across Current as str all
-		 		not str.item.is_empty and then str.item.code (1) = Tabulation
-		 	end
+		 	Result := across Current as str all str.item.starts_with (Tabulation) end
 		 end
 
 	same_items (a_list: ITERABLE [S]): BOOLEAN
@@ -314,16 +312,20 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	tab_string (a_count: INTEGER): S
+	tab_string (n: INTEGER): S
 		local
-			s: EL_STRING_8_ROUTINES
+			i: INTEGER
 		do
-			Result := new_string (s.n_character_string ('%T', a_count))
+			create Result.make (n)
+			from i := 1 until i > n loop
+				Result.append_code ({EL_ASCII}.Tab)
+				i := i + 1
+			end
 		end
 
 feature {NONE} -- Constants
 
-	Tabulation: NATURAL = 9
+	Tabulation: STRING = "%T"
 
 	Split_intervals: EL_SPLIT_INTERVALS
 		once

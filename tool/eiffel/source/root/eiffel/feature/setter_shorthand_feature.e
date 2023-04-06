@@ -17,19 +17,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-04-06 11:50:50 GMT (Thursday 6th April 2023)"
+	revision: "4"
 
 class
 	SETTER_SHORTHAND_FEATURE
 
 inherit
 	CLASS_FEATURE
+		redefine
+			adjust_manifest_tuple_tabs
+		end
 
 create
 	make
 
 feature -- Element change
+
+	adjust_manifest_tuple_tabs
+		do
+		end
 
 	expand_shorthand
 		-- expand setter shorthand notation
