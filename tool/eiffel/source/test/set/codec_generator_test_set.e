@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 12:08:46 GMT (Friday 10th March 2023)"
-	revision: "10"
+	date: "2023-04-07 12:57:03 GMT (Friday 7th April 2023)"
+	revision: "11"
 
 class
 	CODEC_GENERATOR_TEST_SET
@@ -32,7 +32,7 @@ feature -- Tests
 
 	test_generation
 		local
-			command: CODEC_GENERATOR; count: INTEGER
+			command: ZCODEC_GENERATOR; count: INTEGER
 		do
 			create command.make ("test-data/sources/C/decoder.c", "doc/zcodec/template.evol")
 			command.execute

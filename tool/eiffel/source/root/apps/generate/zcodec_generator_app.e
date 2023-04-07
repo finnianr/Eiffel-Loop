@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-07 16:19:05 GMT (Tuesday 7th February 2023)"
-	revision: "24"
+	date: "2023-04-07 12:57:03 GMT (Friday 7th April 2023)"
+	revision: "25"
 
 class
 	ZCODEC_GENERATOR_APP
 
 inherit
-	EL_COMMAND_LINE_APPLICATION [CODEC_GENERATOR]
+	EL_COMMAND_LINE_APPLICATION [ZCODEC_GENERATOR]
 
 	SHARED_DEV_ENVIRON
 

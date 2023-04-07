@@ -24,7 +24,7 @@ feature -- Access
 		#if $is_destination_a_normal_file then
 			--no-target-directory
 		#end 
-	
+		
 	 	"$source_path" "$destination_path"
 	]"
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-06 11:05:34 GMT (Thursday 6th April 2023)"
-	revision: "20"
+	date: "2023-04-07 13:45:05 GMT (Friday 7th April 2023)"
+	revision: "21"
 
 class
 	FEATURE_EDITOR_COMMAND
@@ -63,7 +63,7 @@ feature {NONE} -- Implementation
 		do
 			across feature_list as list loop
 				list.item.expand_shorthand
-				list.item.adjust_manifest_tuple_tabs
+				Alignment_editor.edit (list.item.lines) -- Right justify tuple items in array
 			end
 			feature_list.order_by (agent {CLASS_FEATURE}.name, True)
 		end
@@ -101,6 +101,11 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Alignment_editor: TUPLE_MANIFEST_ALIGNMENT_EDITOR
+		once
+			create Result.make
+		end
 
 	Comment_prefix: ZSTRING
 		once

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-07 8:07:21 GMT (Friday 7th April 2023)"
-	revision: "26"
+	date: "2023-04-07 13:35:11 GMT (Friday 7th April 2023)"
+	revision: "27"
 
 deferred class
 	CLASS_FEATURE
@@ -19,18 +19,10 @@ inherit
 
 	EL_EIFFEL_KEYWORDS
 
-	EL_MODULE_TUPLE
-
-	EL_PLAIN_TEXT_LINE_STATE_MACHINE
-		rename
-			make as make_machine
-		end
-
 feature {NONE} -- Initialization
 
 	make (first_line: ZSTRING)
 		do
-			make_machine
 			create lines.make (5)
 			lines.extend (first_line)
 			update_name
@@ -71,11 +63,6 @@ feature -- Status query
 
 feature -- Basic operations
 
-	adjust_manifest_tuple_tabs
-		do
-			do_with_lines (agent find_manifest_start, lines)
-		end
-
 	expand_shorthand
 			-- expand shorthand notation
 		deferred
@@ -104,107 +91,7 @@ feature -- Element change
 			lines.put_auto_edit_comment_right ("replacement", 3)
 		end
 
-feature {NONE} -- Line states
-
-	find_manifest_end (line: ZSTRING)
-		do
-			if line.ends_with (Manifest.array_end) then
-				adjust_tuple_item_spacing (maximum_comma_index)
-				state := agent find_manifest_start
-
-			elseif attached new_manifest_tuple_info (line) as tuple_info
-				and then tuple_info.comma_index > 0
-			then
-				Tuple_info_list.extend (tuple_info)
-			end
-		end
-
-	find_manifest_start (line: ZSTRING)
-		do
-			if line.ends_with (Manifest.array_start) then
-				Tuple_info_list.wipe_out
-				state := agent find_manifest_end
-			end
-		end
-
 feature {NONE} -- Implementation
-
-	adjust_tuple_item_spacing (a_maximum_comma_index: INTEGER)
-		local
-			target_column, comma_column, tab_insertion_count, i: INTEGER
-			intermediate_space_count, remainder_space_count: INTEGER
-			s: EL_ZSTRING_ROUTINES; white_space, line: ZSTRING
-			info: like Tuple_info_list.item
-		do
-			if a_maximum_comma_index > 0 then
-				target_column := column (a_maximum_comma_index) + 1
-
-				across Tuple_info_list as list loop
-					info := list.item
-					if info.comma_index > 0 then
-						comma_column := column (info.comma_index)
-						from
-							i := 0
-						until
-							(comma_column + i) \\ Spaces_per_tab = 0 or (comma_column + i) > target_column
-						loop
-							i := i + 1
-						end
-						if i = 0 then
-							tab_insertion_count := 0
-						else
-							tab_insertion_count := 1
-						end
-						intermediate_space_count := target_column - (comma_column + i)
-						tab_insertion_count := tab_insertion_count + intermediate_space_count // Spaces_per_tab
-						remainder_space_count := intermediate_space_count \\ Spaces_per_tab
-						line := lines [info.line_number]
-						create white_space.make_filled (' ', tab_insertion_count + remainder_space_count)
-						if tab_insertion_count > 0 then
-							white_space.replace_substring (s.n_character_string ('%T', tab_insertion_count), 1, tab_insertion_count)
-						end
-						line.replace_substring (white_space, info.comma_index + 1, info.item_index - 1)
-					end
-				end
-			end
-		end
-
-	column (index: INTEGER): INTEGER
-		do
-			Result := index - Manifest_tuple_indent + Manifest_tuple_indent * Spaces_per_tab
-		end
-
-	new_manifest_tuple_info (line: ZSTRING): like Tuple_info_list.item
-		local
-			index_end_quote, index_right_bracket, end_index, i: INTEGER
-		do
-			create Result
-			if line.starts_with (Open_bracket_quote) then
-				index_end_quote := line.index_of ('"', Open_bracket_quote.count + 1)
-				end_index := line.count
-				if line [end_index] = ',' then
-					end_index := end_index - 1
-				end
-				index_right_bracket := line.last_index_of (']', end_index)
-				if index_end_quote < index_right_bracket and then line [index_end_quote + 1] = ',' then
-					Result.comma_index := index_end_quote + 1
-					Result.line_number := line_number
-					from i := Result.comma_index + 1 until not line.is_space_item (i) loop
-						i := i + 1
-					end
-					Result.item_index := i
-				end
-			end
-		end
-
-	maximum_comma_index: INTEGER
-		do
-			across Tuple_info_list as list loop
-				if list.item.comma_index > Result then
-					Result := list.item.comma_index
-				end
-			end
-		end
 
 	update_name
 		local
@@ -223,31 +110,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Manifest: TUPLE [array_start, array_end: ZSTRING]
-		once
-			create Result
-			Tuple.fill (Result, "(<<, >>)")
-		end
-
-	Manifest_tuple_indent: INTEGER = 4
-
-	Open_bracket_quote: ZSTRING
-		local
-			s: EL_ZSTRING_ROUTINES
-		once
-			Result := s.n_character_string ('%T', Manifest_tuple_indent) + "[%""
-		end
-
 	Split_list: EL_SPLIT_ZSTRING_LIST
 		once
 			create Result.make_empty
-		end
-
-	Spaces_per_tab: INTEGER = 3
-
-	Tuple_info_list: EL_ARRAYED_LIST [TUPLE [comma_index, item_index, line_number: INTEGER]]
-		once
-			create Result.make (10)
 		end
 
 	Tab_code: NATURAL = 9
