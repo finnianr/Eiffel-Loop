@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-31 17:24:32 GMT (Friday 31st March 2023)"
-	revision: "13"
+	date: "2023-04-07 8:40:20 GMT (Friday 7th April 2023)"
+	revision: "14"
 
 class
 	HASH_TABLE_TEST_SET
@@ -28,11 +28,11 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["compressed_table", agent test_compressed_table],
-				["iteration_cursor", agent test_iteration_cursor],
+				["compressed_table",			 agent test_compressed_table],
+				["iteration_cursor",			 agent test_iteration_cursor],
 				["readable_string_8_table", agent test_readable_string_8_table],
-				["string_table", agent test_string_table],
-				["table_sort", agent test_table_sort]
+				["string_table",				 agent test_string_table],
+				["table_sort",					 agent test_table_sort]
 			>>)
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-06 12:20:54 GMT (Thursday 6th April 2023)"
-	revision: "25"
+	date: "2023-04-07 8:07:21 GMT (Friday 7th April 2023)"
+	revision: "26"
 
 deferred class
 	CLASS_FEATURE
@@ -131,31 +131,47 @@ feature {NONE} -- Implementation
 
 	adjust_tuple_item_spacing (a_maximum_comma_index: INTEGER)
 		local
-			tab_column, index_column, intermediate_space_count, tab_insertion_count: INTEGER
-			s: EL_ZSTRING_ROUTINES; tab_inserts, line: ZSTRING
+			target_column, comma_column, tab_insertion_count, i: INTEGER
+			intermediate_space_count, remainder_space_count: INTEGER
+			s: EL_ZSTRING_ROUTINES; white_space, line: ZSTRING
+			info: like Tuple_info_list.item
 		do
 			if a_maximum_comma_index > 0 then
-				from tab_column := comma_column (a_maximum_comma_index) + 2 until (tab_column - 1) \\ Spaces_per_tab = 0 loop
-					tab_column := tab_column + 1
-				end
+				target_column := column (a_maximum_comma_index) + 1
+
 				across Tuple_info_list as list loop
-					if attached list.item as info and then info.comma_index > 0 then
-						index_column := comma_column (info.comma_index) + 1
-						tab_insertion_count := 0
-						from until index_column + tab_insertion_count * Spaces_per_tab >= tab_column loop
-							tab_insertion_count := tab_insertion_count + 1
+					info := list.item
+					if info.comma_index > 0 then
+						comma_column := column (info.comma_index)
+						from
+							i := 0
+						until
+							(comma_column + i) \\ Spaces_per_tab = 0 or (comma_column + i) > target_column
+						loop
+							i := i + 1
 						end
+						if i = 0 then
+							tab_insertion_count := 0
+						else
+							tab_insertion_count := 1
+						end
+						intermediate_space_count := target_column - (comma_column + i)
+						tab_insertion_count := tab_insertion_count + intermediate_space_count // Spaces_per_tab
+						remainder_space_count := intermediate_space_count \\ Spaces_per_tab
 						line := lines [info.line_number]
-						tab_inserts := s.n_character_string ('%T', tab_insertion_count)
-						line.replace_substring (tab_inserts, info.comma_index + 1, info.item_index - 1)
+						create white_space.make_filled (' ', tab_insertion_count + remainder_space_count)
+						if tab_insertion_count > 0 then
+							white_space.replace_substring (s.n_character_string ('%T', tab_insertion_count), 1, tab_insertion_count)
+						end
+						line.replace_substring (white_space, info.comma_index + 1, info.item_index - 1)
 					end
 				end
 			end
 		end
 
-	comma_column (comma_index: INTEGER): INTEGER
+	column (index: INTEGER): INTEGER
 		do
-			Result := comma_index - Manifest_tuple_indent + Manifest_tuple_indent * Spaces_per_tab
+			Result := index - Manifest_tuple_indent + Manifest_tuple_indent * Spaces_per_tab
 		end
 
 	new_manifest_tuple_info (line: ZSTRING): like Tuple_info_list.item
