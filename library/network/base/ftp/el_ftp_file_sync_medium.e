@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-26 9:35:40 GMT (Sunday 26th March 2023)"
-	revision: "3"
+	date: "2023-04-09 8:28:35 GMT (Sunday 9th April 2023)"
+	revision: "4"
 
 class
 	EL_FTP_FILE_SYNC_MEDIUM
@@ -26,8 +26,6 @@ inherit
 			Max_login_attempts
 		end
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
-
 create
 	make_write
 
@@ -42,13 +40,6 @@ feature -- Basic operations
 		-- remove old item
 		do
 			delete_file (item.file_path)
-		end
-
-	reset
-		do
-			close; reset_error
-			execution.sleep (500)
-			login
 		end
 
 feature {NONE} -- Constants

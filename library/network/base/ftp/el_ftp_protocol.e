@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-19 12:05:07 GMT (Saturday 19th November 2022)"
-	revision: "31"
+	date: "2023-04-09 8:38:21 GMT (Sunday 9th April 2023)"
+	revision: "32"
 
 class
 	EL_FTP_PROTOCOL
@@ -32,11 +32,9 @@ inherit
 			Read as Read_from
 		end
 
-	EL_MODULE_EXCEPTION
+	EL_MODULE_EXCEPTION; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE_SYSTEM
 
-	EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_LIO
+	EL_MODULE_LIO; EL_MODULE_USER_INPUT
 
 	EL_FTP_CONSTANTS
 
@@ -154,29 +152,21 @@ feature -- Remote operations
 
 feature -- Basic operations
 
+	reset
+		do
+			close; reset_error
+			execution.sleep (500)
+			login; change_home_dir
+		end
+
 	upload (item: EL_FTP_UPLOAD_ITEM)
 		-- upload file to destination directory relative to home directory
 		require
 			binary_mode_set: is_binary_mode
 			file_to_upload_exists: item.source_path.exists
-		local
-			is_retry: BOOLEAN
 		do
-			if is_retry then
-				lio.put_new_line
-				login; change_home_dir
-			end
 			make_directory (item.destination_dir)
 			transfer_file (item.source_path, item.destination_file_path)
-		rescue
-			lio.put_new_line
-			lio.put_labeled_string ("Socket error", data_socket.error)
-			lio.put_new_line
-			lio.put_labeled_string ("Description", Exception.last_exception.description)
-			lio.put_new_line
-			close; reset_error
-			is_retry := True
-			retry
 		end
 
 feature -- Status report
@@ -363,7 +353,15 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 				transfer_file_data (source_path)
 				transfer_initiated := false
 			else
-				Exception.raise_developer ("Failed to initiate transfer: %S", [source_path.base])
+				lio.put_new_line
+				lio.put_labeled_string ("Socket error", data_socket.error)
+				lio.put_new_line
+				lio.put_labeled_string ("Description", Exception.last_exception.description)
+				lio.put_new_line
+				if User_input.approved_action_y_n ("Retry transfer") then
+					reset
+					transfer_file (source_path, destination_path)
+				end
 			end
 		ensure
 			data_socket_close: data_socket.is_closed
@@ -391,12 +389,11 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 				file.close
 			end
 			receive (main_socket)
-			if error then
-				if is_lio_enabled then
-					lio.put_new_line; lio.put_new_line
-					lio.put_string_field ("ERROR: Server replied", last_reply)
-					lio.put_new_line
-				end
+			if error and then is_lio_enabled then
+				lio.put_new_line
+				lio.put_line ("ERROR")
+				lio.put_string_field ("Server replied", last_reply)
+				lio.put_new_line
 			end
 		end
 
