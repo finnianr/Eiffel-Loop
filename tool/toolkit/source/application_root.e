@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-25 15:12:41 GMT (Saturday 25th March 2023)"
-	revision: "42"
+	date: "2023-04-10 12:20:37 GMT (Monday 10th April 2023)"
+	revision: "43"
 
 class
 	APPLICATION_ROOT
@@ -56,6 +56,7 @@ inherit
 		VCF_CONTACT_SPLITTER_APP,
 		VCF_CONTACT_NAME_SWITCHER_APP,
 
+		WEBSITE_MONITOR_APP,
 		XML_TO_PYXIS_APP,
 		YOUTUBE_VIDEO_DOWNLOADER_APP
 	]

@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-03 13:49:42 GMT (Friday 3rd March 2023)"
-	revision: "27"
+	date: "2023-04-11 8:40:51 GMT (Tuesday 11th April 2023)"
+	revision: "28"
 
 deferred class
 	EL_BUILDABLE_FROM_NODE_SCAN
@@ -41,6 +41,8 @@ inherit
 		redefine
 			make_default, new_building_actions
 		end
+
+	EL_MODULE_NAMING
 
 feature {EL_EIF_OBJ_ROOT_BUILDER_CONTEXT} -- Initialization
 
@@ -94,6 +96,23 @@ feature {EL_DOCUMENT_EIFFEL_OBJECT_BUILDER, EL_EIF_OBJ_ROOT_BUILDER_CONTEXT, EL_
 		end
 
 feature {EL_EIF_OBJ_BUILDER_CONTEXT, EL_DOCUMENT_NODE_SCAN_SOURCE} -- Implementation
+
+	class_prefix_word_count: INTEGER
+		-- number of words used as prefix for class name
+		do
+			inspect generator.index_of ('_', 1)
+			 	when 2, 3 then
+			 		Result := 1
+			 else
+			 	Result := 0
+			 end
+		end
+
+	default_root_node_name: STRING
+		-- `generator.as_lower' with `class_prefix_word_count' words pruned from start
+		do
+			Result := Naming.class_as_snake_lower (Current, class_prefix_word_count, 0)
+		end
 
 	PI_building_action_table: EL_PROCEDURE_TABLE [STRING]
 		-- building actions assigned to top level processing instructions

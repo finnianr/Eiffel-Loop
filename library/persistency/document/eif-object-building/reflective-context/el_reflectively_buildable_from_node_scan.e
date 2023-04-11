@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-06 10:25:55 GMT (Friday 6th January 2023)"
-	revision: "10"
+	date: "2023-04-11 8:40:51 GMT (Tuesday 11th April 2023)"
+	revision: "11"
 
 deferred class
 	EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN
@@ -25,8 +25,6 @@ inherit
 			make_default, Transient_fields
 		end
 
-	EL_MODULE_NAMING
-
 feature {NONE} -- Initialization
 
 	make_default
@@ -37,23 +35,6 @@ feature {NONE} -- Initialization
 		end
 
 feature {NONE} -- Implementation
-
-	class_prefix_word_count: INTEGER
-		-- number of words used as prefix for class name
-		do
-			inspect generator.index_of ('_', 1)
-			 	when 2, 3 then
-			 		Result := 1
-			 else
-			 	Result := 0
-			 end
-		end
-
-	default_root_node_name: STRING
-		-- `generator.as_lower' with `class_prefix_word_count' words pruned from start
-		do
-			Result := Naming.class_as_snake_lower (Current, class_prefix_word_count, 0)
-		end
 
 	root_node_name: STRING
 			--

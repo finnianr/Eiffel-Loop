@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 9:21:08 GMT (Saturday 18th March 2023)"
-	revision: "117"
+	date: "2023-04-11 12:18:50 GMT (Tuesday 11th April 2023)"
+	revision: "118"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -474,18 +474,20 @@ feature -- Status query
 			i, l_count: INTEGER; l_area: like area
 		do
 			l_area := area; l_count := count
-			Result := True
-			from i := 0 until not Result or else i = l_count loop
-				inspect l_area [i]
-					when 'a' .. 'z', 'A' .. 'Z' then
-						do_nothing
+			if l_count > 0 then
+				Result := True
+				from i := 0 until not Result or else i = l_count loop
+					inspect l_area [i]
+						when 'a' .. 'z', 'A' .. 'Z' then
+							do_nothing
 
-					when '0' .. '9', '_' then
-						Result := i > 0
-				else
-					Result := False
+						when '0' .. '9', '_' then
+							Result := i > 0
+					else
+						Result := False
+					end
+					i := i + 1
 				end
-				i := i + 1
 			end
 		end
 
