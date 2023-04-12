@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-04 15:19:42 GMT (Saturday 4th March 2023)"
-	revision: "27"
+	date: "2023-04-12 12:23:58 GMT (Wednesday 12th April 2023)"
+	revision: "28"
 
 class
 	DUPLICITY_RESTORE
@@ -96,7 +96,7 @@ feature {NONE} -- Implementation
 				path_list.extend (path.item)
 			end
 			across path_list as path loop
-				lio.put_labeled_string (Number_format.integer (path.cursor_index, 2), path.item)
+				lio.put_labeled_string (Number_format.padded_integer (path.cursor_index, 2), path.item)
 				lio.put_new_line
 			end
 			lio.put_new_line

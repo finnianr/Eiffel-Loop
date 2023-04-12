@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-04-12 12:23:59 GMT (Wednesday 12th April 2023)"
+	revision: "13"
 
 class
 	ARCHIVE_FILE
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 
 			if backup.max_versions > 0 then
 				save_version_no (backup.max_versions)
-				file_path.add_extension (Format.integer_zero (version_no, 2))
+				file_path.add_extension (Format.zero_padded_integer (version_no, 2))
 			end
 			file_path.add_extension ("tar.gz")
 

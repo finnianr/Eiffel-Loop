@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 17:00:43 GMT (Wednesday 15th March 2023)"
-	revision: "18"
+	date: "2023-04-12 12:22:51 GMT (Wednesday 12th April 2023)"
+	revision: "19"
 
 class
 	TEXT_TEST_SET
@@ -33,17 +33,18 @@ create
 feature {NONE} -- Initialization
 
 	make
+		-- initialize `test_table'
 		do
 			make_named (<<
-				["bash_escape", agent test_bash_escape],
-				["convert_string_to_makeable", agent test_convert_string_to_makeable],
+				["bash_escape",							 agent test_bash_escape],
+				["convert_string_to_makeable",		 agent test_convert_string_to_makeable],
 				["convert_string_type_descriptions", agent test_convert_string_type_descriptions],
-				["encoding_conversion", agent test_encoding_conversion],
-				["integer_format", agent test_integer_format],
-				["encodeable_as_string_8", agent test_encodeable_as_string_8],
-				["python_escape", agent test_python_escape],
-				["substitution_marker_unescape", agent test_substitution_marker_unescape],
-				["unescape", agent test_unescape]
+				["encodeable_as_string_8",				 agent test_encodeable_as_string_8],
+				["encoding_conversion",					 agent test_encoding_conversion],
+				["number_formatting",					 agent test_number_formatting],
+				["python_escape",							 agent test_python_escape],
+				["substitution_marker_unescape",		 agent test_substitution_marker_unescape],
+				["unescape",								 agent test_unescape]
 			>>)
 		end
 
@@ -169,26 +170,33 @@ feature -- Tests
 			end
 		end
 
-	test_integer_format
+	test_number_formatting
+		-- TEXT_TEST_SET.test_number_formatting
+		note
+			testing: "covers/{EL_FORMAT_ROUTINES}.internal_integer"
 		local
 			padding, formatted: STRING; width: INTEGER
 			zero_padded: BOOLEAN; padding_character: CHARACTER
+			pi: DOUBLE
 		do
+--			Integer formatting
 			across << True, False >> as bool loop
 				zero_padded := bool.item
 				across 1 |..| 10 as n loop
 					width := n.item
 					if zero_padded then
 						padding_character := '0'
-						formatted := Format.integer_zero (1, width)
+						formatted := Format.zero_padded_integer (1, width)
 					else
 						padding_character := ' '
-						formatted := Format.integer (1, width)
+						formatted := Format.padded_integer (1, width)
 					end
 					create padding.make_filled (padding_character, width - 1)
-					assert ("same string", formatted ~ padding + "1")
+					assert_same_string (Void, formatted, padding + "1")
 				end
 			end
+--			Double formatting
+			assert_same_string (Void, "3.142", Format.double ({DOUBLE_MATH}.Pi, 3, 3) )
 		end
 
 	test_python_escape

@@ -1,13 +1,13 @@
 note
-	description: "Format routines"
+	description: "Format routines for [$source INTEGER_32]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-04-12 12:22:00 GMT (Wednesday 12th April 2023)"
+	revision: "5"
 
 class
 	EL_FORMAT_ROUTINES
@@ -22,17 +22,23 @@ feature {NONE} -- Initialization
 			create format_table.make_equal (5, agent new_format)
 		end
 
-feature -- Access
+feature -- Real formatting
 
-	integer (n, width: INTEGER): STRING
+	double (d: DOUBLE; width, decimals: INTEGER): STRING
 		do
-			Result := internal_integer (n, width, False)
+			Result := double_string (d, width, decimals)
 		end
 
-	integer_zero (n, width: INTEGER): STRING
-		-- zero padded integer
+	padded_double (d: DOUBLE; decimals: INTEGER): STRING
 		do
-			Result := internal_integer (n, width, True)
+			Result := double_string (d, decimals, decimals)
+		end
+
+feature -- Integer formatting
+
+	integer (n: INTEGER): STRING
+		do
+			Result := integer_string (n, 1, False)
 		end
 
 	percentage (proportion: DOUBLE): STRING
@@ -42,23 +48,74 @@ feature -- Access
 
 	percent (n: INTEGER): STRING
 		do
-			Result := internal_integer (n, 3, False) + Percent_string
+			Result := integer_string (n, 1, False) + Percent_string
+		end
+
+	padded_integer (n, width: INTEGER): STRING
+		do
+			Result := integer_string (n, width, False)
+		end
+
+	zero_padded_integer (n, width: INTEGER): STRING
+		-- zero padded integer
+		do
+			Result := integer_string (n, width, True)
+		end
+
+	padded_percentage (proportion: DOUBLE; width: INTEGER): STRING
+		do
+			Result := padded_percent ((proportion * 100).rounded, width)
+		end
+
+	padded_percent (n, width: INTEGER): STRING
+		do
+			Result := integer_string (n, width, False) + Percent_string
 		end
 
 feature {NONE} -- Implementation
 
-	internal_integer (n, width: INTEGER; zero_padded: BOOLEAN): STRING
+	double_string (d: DOUBLE; width, decimals: INTEGER): STRING
+		local
+			key: INTEGER; i32: EL_INTEGER_32_BIT_ROUTINES
 		do
-			Result := format_table.item ((width |<< 1) | zero_padded.to_integer).formatted (n)
+			key := i32.inserted (key, Is_real_mask, 1)
+			key := i32.inserted (key, Width_mask, width)
+			key := i32.inserted (key, Decimal_count_mask, decimals)
+
+			if attached {FORMAT_DOUBLE} format_table.item (key) as format then
+				Result := format.formatted (d)
+			else
+				create Result.make_empty
+			end
+		end
+
+	integer_string (n, width: INTEGER; zero_padded: BOOLEAN): STRING
+		local
+			key: INTEGER; i32: EL_INTEGER_32_BIT_ROUTINES
+		do
+			key := i32.inserted (key, Zero_padded_mask, zero_padded.to_integer)
+			key := i32.inserted (key, Width_mask, width)
+
+			Result := format_table.item (key).formatted (n)
 		end
 
 	new_format (key: INTEGER): FORMAT_INTEGER
 		local
-			width: INTEGER
+			width, decimal_count: INTEGER; i32: EL_INTEGER_32_BIT_ROUTINES
+			zero_padded: BOOLEAN; is_real: BOOLEAN
 		do
-			width := key |>> 1
-			create Result.make (width)
-			if (key & Zero_padded_mask).to_boolean then
+			width := i32.isolated (key, Width_mask)
+			decimal_count := i32.isolated (key, Decimal_count_mask)
+			zero_padded := i32.isolated (key, Zero_padded_mask).to_boolean
+			is_real := i32.isolated (key, Is_real_mask).to_boolean
+
+			if is_real then
+				create {FORMAT_DOUBLE} Result.make (width, decimal_count)
+			else
+				create Result.make (width)
+			end
+
+			if zero_padded then
 				Result.zero_fill
 			end
 		end
@@ -69,10 +126,13 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Zero_padded_mask: INTEGER
-		once
-			Result := 1
-		end
+	Zero_padded_mask: INTEGER = 1
+
+	Is_real_mask: INTEGER = 2
+
+	Decimal_count_mask: INTEGER = 0xFFF0
+
+	Width_mask: INTEGER = 0xFFF_0000
 
 	Percent_string: STRING = "%%"
 
