@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-28 11:19:13 GMT (Tuesday 28th March 2023)"
-	revision: "24"
+	date: "2023-04-21 9:54:40 GMT (Friday 21st April 2023)"
+	revision: "25"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -97,6 +97,8 @@ feature -- Path types
 	EL_FILE_PATH: INTEGER
 
 	EL_PATH: INTEGER
+
+	EL_URI_PATH: INTEGER
 
 feature -- Class aliases
 

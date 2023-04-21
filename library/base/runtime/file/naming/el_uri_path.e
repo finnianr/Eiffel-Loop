@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 17:27:10 GMT (Thursday 29th December 2022)"
-	revision: "36"
+	date: "2023-04-21 15:35:25 GMT (Friday 21st April 2023)"
+	revision: "37"
 
 deferred class
 	EL_URI_PATH
@@ -38,7 +38,7 @@ inherit
 
 	EL_MODULE_URI
 
-	EL_MODULE_BUFFER
+	EL_MODULE_REUSEABLE
 
 	EL_STRING_8_CONSTANTS
 
@@ -59,15 +59,17 @@ feature -- Initialization
 			is_uri: is_uri_string (a_uri)
 			is_absolute: is_uri_absolute (a_uri)
 		local
-			l_path, l_scheme: ZSTRING; start_index, pos_separator: INTEGER
+			l_path: ZSTRING; start_index, pos_separator: INTEGER
 		do
 			l_path := temporary_copy (a_uri)
 			start_index := a_uri.substring_index (Colon_slash_x2, 1)
 			if start_index > 0 then
-				l_scheme := buffer.empty
-				l_scheme.append_substring_general (a_uri, 1, start_index - 1)
-				set_scheme (l_scheme)
+				across Reuseable.string_8 as reuse loop
+					set_scheme (reuse.substring_item (a_uri, 1, start_index - 1))
+				end
 				l_path.remove_head (start_index + Colon_slash_x2.count - 1)
+			else
+				set_scheme (Protocol.file)
 			end
 			if scheme ~ Protocol.file then
 				create authority.make_empty
@@ -177,8 +179,10 @@ feature -- Element change
 
 	set_authority (a_authority: READABLE_STRING_GENERAL)
 		do
-			Authority_set.put_copy (Buffer.copied_general (a_authority))
-			authority := Authority_set.found_item
+			across Reuseable.string as reuse loop
+				Authority_set.put_copy (reuse.copied_item (a_authority))
+				authority := Authority_set.found_item
+			end
 		end
 
 	set_scheme (a_scheme: STRING)

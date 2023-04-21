@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2023-04-21 15:49:04 GMT (Friday 21st April 2023)"
+	revision: "18"
 
 class
 	EL_YOUTUBE_VIDEO_DOWNLOADER
@@ -50,7 +50,13 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 				create input.make_drag_and_drop
 				a_url.copy (input.value)
 			end
-			create video.make (a_url.to_string)
+			if a_url.base_matches ("quit", True) then
+				create video.make_default
+
+			elseif attached User_input.line ("Enter a title") as title then
+				lio.put_new_line
+				create video.make (a_url.to_string, title)
+			end
 		end
 
 feature -- Basic operations
@@ -59,10 +65,14 @@ feature -- Basic operations
 		local
 			output_extension: ZSTRING; done: BOOLEAN
 		do
-			video.select_downloads
+			if video.stream_count > 0 then
+				video.select_downloads
 
-			output_extension := User_input.line ("Enter an output extension")
-			lio.put_new_line
+				output_extension := User_input.line ("Enter an output extension")
+				lio.put_new_line
+			else
+				done := True
+			end
 
 			from until done loop
 				video.download_streams

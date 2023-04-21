@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-12 13:08:19 GMT (Wednesday 12th April 2023)"
-	revision: "2"
+	date: "2023-04-15 8:11:15 GMT (Saturday 15th April 2023)"
+	revision: "3"
 
 class
 	WEBSITE_MONITOR
@@ -61,7 +61,7 @@ feature -- Basic operations
 
 	execute
 		local
-			has_fault: BOOLEAN; next_time: TIME
+			has_fault: BOOLEAN; next_time: EL_TIME
 		do
 			from until has_fault loop
 				across website_list as site until has_fault loop
@@ -77,7 +77,7 @@ feature -- Basic operations
 				else
 					create next_time.make_now
 					next_time.minute_add (minute_interval_count)
-					lio.put_labeled_string ("Next check at", next_time.formatted_out ("[0]hh:[0]mm"))
+					lio.put_labeled_string ("Next check at", next_time.formatted_out ("[0]hh:[0]mi"))
 					lio.put_new_line
 					execution.sleep (minute_interval_count * 60_000)
 				end

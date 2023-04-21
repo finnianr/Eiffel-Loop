@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
-	date: "2022-02-08 15:53:04 GMT (Tuesday 8th February 2022)"
-	revision: "4"
+	date: "2023-04-18 8:35:10 GMT (Tuesday 18th April 2023)"
+	revision: "5"
 
 deferred class
 	PROTEIN_FOLDING_COMMAND_2_0 [G -> GRID_2_X create make end]
@@ -154,7 +154,7 @@ feature {NONE} -- Implementation
 				Result.extend (fold_string (fold.item))
 			end
 			Result.compare_objects
-			Result.sort
+			Result.ascending_sort
 		end
 
 	update_minimum_loss (fold: like new_fold)

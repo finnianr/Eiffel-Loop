@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-04-21 15:30:28 GMT (Friday 21st April 2023)"
+	revision: "4"
 
 class
 	EL_USER_INPUT_VALUE [G]
@@ -15,13 +15,11 @@ class
 inherit
 	ANY
 
-	EL_MODULE_USER_INPUT
-
-	EL_MODULE_CONVERT_STRING
-
-	EL_MODULE_LIO
+	EL_MODULE_CONVERT_STRING; EL_MODULE_EIFFEL; EL_MODULE_LIO; EL_MODULE_USER_INPUT
 
 	EL_SHARED_CLASS_ID
+
+	EL_PROTOCOL_CONSTANTS
 
 create
 	make, make_valid, make_drag_and_drop
@@ -44,18 +42,18 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_valid (a_prompt, a_invalid_response: READABLE_STRING_GENERAL; is_value_valid: PREDICATE [G])
-		do
-			invalid_response := a_invalid_response; is_valid_value := is_value_valid
-			make (a_prompt)
-		end
-
 	make_drag_and_drop
 		require
 			valid_type: Convert_string.has_converter ({G}) and then Convert_string.found_item.is_path
 		do
 			make ("Drag and drop a ")
 			prompt.append_string_general (converter.type_description)
+		end
+
+	make_valid (a_prompt, a_invalid_response: READABLE_STRING_GENERAL; is_value_valid: PREDICATE [G])
+		do
+			invalid_response := a_invalid_response; is_valid_value := is_value_valid
+			make (a_prompt)
 		end
 
 feature -- Access
@@ -65,12 +63,7 @@ feature -- Access
 			line: ZSTRING; done: BOOLEAN; operands: TUPLE [G]
 		do
 			from until done loop
-				if is_path_type then
-					line := User_input.path (prompt)
-				else
-					line := User_input.line (prompt)
-				end
-				lio.put_new_line
+				line := line_input
 
 				if converter.is_convertible (line) and then attached converter.as_type (line) as v then
 					Result := v; operands := [v]
@@ -105,19 +98,24 @@ feature -- Access
 			end
 		end
 
-	value_type: TYPE [G]
-
 	value_description: STRING
 		-- Eg. 32-bit integer
 		do
 			Result := converter.type_description
 		end
 
+	value_type: TYPE [G]
+
 feature -- Status query
 
 	is_path_type: BOOLEAN
 		do
-			Result := Class_id.path_types.has (value_type.type_id)
+			Result := Eiffel.field_conforms_to (value_type.type_id, Class_id.EL_PATH)
+		end
+
+	is_uri_type: BOOLEAN
+		do
+			Result := Eiffel.field_conforms_to (value_type.type_id, Class_id.EL_URI_PATH)
 		end
 
 	path_must_exist: BOOLEAN
@@ -129,6 +127,25 @@ feature -- Status change
 			path_must_exist := True
 		ensure
 			appropriate_type: path_must_exist implies is_path_type
+		end
+
+feature {NONE} -- Implementation
+
+	line_input: ZSTRING
+		do
+			if is_path_type then
+				Result := User_input.path (prompt)
+--				Allow base to equal "quit" for URI paths by ensuring preconditions met
+				if is_uri_type and then not Result.has_substring (Colon_slash_x2) then
+					if not Result.has_first ('/') then
+						Result.prepend_character ('/')
+					end
+					Result.prepend_string_general (Protocol.file + Colon_slash_x2)
+				end
+			else
+				Result := User_input.line (prompt)
+			end
+			lio.put_new_line
 		end
 
 feature {NONE} -- Internal attributes
@@ -143,12 +160,12 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
+	Bad_input: STRING = "Bad input"
+
 	Does_not_exist: ZSTRING
 		once
 			Result := "The %S does not exist"
 		end
-
-	Bad_input: STRING = "Bad input"
 
 	Not_convertible: ZSTRING
 		once

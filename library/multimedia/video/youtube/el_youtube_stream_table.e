@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-28 11:40:02 GMT (Tuesday 28th March 2023)"
-	revision: "3"
+	date: "2023-04-21 15:42:39 GMT (Friday 21st April 2023)"
+	revision: "4"
 
 class
 	EL_YOUTUBE_STREAM_TABLE
@@ -15,7 +15,7 @@ class
 inherit
 	HASH_TABLE [EL_YOUTUBE_STREAM, NATURAL]
 		rename
-			make as make_table
+			make as make_size
 		redefine
 			item, at
 		end
@@ -25,7 +25,7 @@ inherit
 	EL_YOUTUBE_CONSTANTS
 
 create
-	make, make_all
+	make, make_all, make_size
 
 feature {NONE} -- Initialization
 
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 		local
 			stream: EL_YOUTUBE_STREAM; video_map: EL_ARRAYED_MAP_LIST [INTEGER, EL_YOUTUBE_STREAM]
 		do
-			make_table (17)
+			make_size (17)
 			lio.put_labeled_string ("Fetching formats for", a_url)
 			lio.put_new_line
 			Cmd_get_youtube_options.put_string (Var_url, a_url)

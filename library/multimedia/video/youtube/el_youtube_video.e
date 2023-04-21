@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2023-04-21 15:47:03 GMT (Friday 21st April 2023)"
+	revision: "14"
 
 class
 	EL_YOUTUBE_VIDEO
@@ -26,18 +26,25 @@ inherit
 	EL_MODULE_USER_INPUT
 
 create
-	make
+	make, make_default
 
 feature {NONE} -- Initialization
 
-	make (a_url: ZSTRING)
+	make (a_url, a_title: ZSTRING)
 		require
-			not_empty: not a_url.is_empty
+			not_empty: not url.is_empty
 		do
-			url := a_url; title := User_input.line ("Enter a title")
-			lio.put_new_line
-			create output_path
+			make_default
+			url := a_url; title := a_title
 			create stream_table.make (a_url, 6)
+		end
+
+	make_default
+		do
+			create url.make_empty
+			create title.make_empty
+			create output_path
+			create stream_table.make_size (0)
 			download := [Default_download, Default_download]
 		end
 
@@ -48,6 +55,13 @@ feature -- Access
 	title: ZSTRING
 
 	url: ZSTRING
+
+feature -- Measurement
+
+	stream_count: INTEGER
+		do
+			Result := stream_table.count
+		end
 
 feature -- Basic operations
 
@@ -93,6 +107,8 @@ feature -- Basic operations
 		end
 
 	select_downloads
+		require
+			has_streams: stream_count > 0
 		local
 			selector: EL_YOUTUBE_STREAM_SELECTOR
 		do
@@ -107,11 +123,6 @@ feature -- Basic operations
 
 feature -- Status query
 
-	valid_downloads: BOOLEAN
-		do
-			Result := not (download.audio.is_default or download.video.is_default)
-		end
-
 	downloads_exists: BOOLEAN
 		do
 			Result := download.audio.exists and download.video.exists
@@ -121,6 +132,11 @@ feature -- Status query
 		-- `True' if `output_path.exists'
 		do
 			Result := output_path.exists
+		end
+
+	valid_downloads: BOOLEAN
+		do
+			Result := not (download.audio.is_default or download.video.is_default)
 		end
 
 feature {NONE} -- Implementation
