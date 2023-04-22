@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-21 15:42:39 GMT (Friday 21st April 2023)"
-	revision: "4"
+	date: "2023-04-22 9:27:32 GMT (Saturday 22nd April 2023)"
+	revision: "5"
 
 class
 	EL_YOUTUBE_STREAM_TABLE
@@ -15,7 +15,7 @@ class
 inherit
 	HASH_TABLE [EL_YOUTUBE_STREAM, NATURAL]
 		rename
-			make as make_size
+			fill as fill_table
 		redefine
 			item, at
 		end
@@ -25,22 +25,21 @@ inherit
 	EL_YOUTUBE_CONSTANTS
 
 create
-	make, make_all, make_size
+	make
 
-feature {NONE} -- Initialization
+feature -- Element change
 
-	make_all (a_url: ZSTRING)
+	fill (a_url: ZSTRING)
 		do
-			make (a_url, 1000)
+			fill_to (a_url, 1000)
 		end
 
-	make (a_url: ZSTRING; maximum_video_count: INTEGER)
+	fill_to (a_url: ZSTRING; maximum_video_count: INTEGER)
 		require
 			not_empty: not a_url.is_empty
 		local
 			stream: EL_YOUTUBE_STREAM; video_map: EL_ARRAYED_MAP_LIST [INTEGER, EL_YOUTUBE_STREAM]
 		do
-			make_size (17)
 			lio.put_labeled_string ("Fetching formats for", a_url)
 			lio.put_new_line
 			Cmd_get_youtube_options.put_string (Var_url, a_url)
@@ -57,9 +56,11 @@ feature {NONE} -- Initialization
 				end
 			end
 			video_map.sort_by_key (False)
-			from video_map.start until video_map.after or else video_map.index > maximum_video_count loop
-				extend (video_map.item_value, video_map.item_value.code)
-				video_map.forth
+			if attached video_map as map then
+				from map.start until map.after or else map.index > maximum_video_count loop
+					extend (map.item_value, map.item_value.code)
+					map.forth
+				end
 			end
 		end
 

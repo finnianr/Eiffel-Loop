@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-04-22 9:52:25 GMT (Saturday 22nd April 2023)"
+	revision: "6"
 
 class
 	EL_YOUTUBE_STREAM_SELECTOR
@@ -76,7 +76,8 @@ feature {NONE} -- Implementation
 			lio.put_line (a_title)
 			across stream_table as stream loop
 				if included (stream.item) then
-					lio.put_line (stream.item.description)
+					lio.put_labeled_string (stream.item.name, stream.item.description)
+					lio.put_new_line
 				end
 			end
 			lio.put_new_line

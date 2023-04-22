@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-21 15:47:03 GMT (Friday 21st April 2023)"
-	revision: "14"
+	date: "2023-04-22 9:27:32 GMT (Saturday 22nd April 2023)"
+	revision: "15"
 
 class
 	EL_YOUTUBE_VIDEO
@@ -32,11 +32,11 @@ feature {NONE} -- Initialization
 
 	make (a_url, a_title: ZSTRING)
 		require
-			not_empty: not url.is_empty
+			not_empty: not a_url.is_empty
 		do
 			make_default
 			url := a_url; title := a_title
-			create stream_table.make (a_url, 6)
+			stream_table.fill_to (a_url, 6)
 		end
 
 	make_default
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 			create url.make_empty
 			create title.make_empty
 			create output_path
-			create stream_table.make_size (0)
+			create stream_table.make (17)
 			download := [Default_download, Default_download]
 		end
 
