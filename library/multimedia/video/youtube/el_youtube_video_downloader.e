@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-22 9:57:22 GMT (Saturday 22nd April 2023)"
-	revision: "19"
+	date: "2023-04-23 18:59:22 GMT (Sunday 23rd April 2023)"
+	revision: "20"
 
 class
 	EL_YOUTUBE_VIDEO_DOWNLOADER
@@ -77,9 +77,9 @@ feature -- Basic operations
 			from until done loop
 				video.download_streams
 				if video.downloads_exists then
-					if video.download.video.stream.extension ~ output_extension then
+					if video.download.stream.extension ~ output_extension then
 						video.merge_streams
-					elseif video.download.video.stream.extension ~ Mp4_extension then
+					elseif video.download.stream.extension ~ Mp4_extension then
 						video.convert_streams_to_mp4
 					end
 					if video.is_merge_complete then

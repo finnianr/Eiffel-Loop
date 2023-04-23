@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-22 9:52:25 GMT (Saturday 22nd April 2023)"
-	revision: "6"
+	date: "2023-04-23 18:20:53 GMT (Sunday 23rd April 2023)"
+	revision: "7"
 
 class
 	EL_YOUTUBE_STREAM_SELECTOR
@@ -24,24 +24,22 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_type: STRING; a_stream_table: like stream_table)
-		require
-			valid_type: Stream_predicate_table.has (a_type)
+	make (a_type: STRING; a_stream_list: like stream_list)
 		do
-			type := a_type; stream_table := a_stream_table
-			included := Stream_predicate_table.item (a_type)
+			type := a_type; stream_list := a_stream_list
 		end
 
 feature -- Access
 
-	code: NATURAL
+	index: INTEGER
+		-- selected stream index
 
-	download (output_dir: DIR_PATH; title: ZSTRING): EL_YOUTUBE_STREAM_DOWNLOAD
+	download (title, url: ZSTRING; output_dir: DIR_PATH): EL_YOUTUBE_STREAM_DOWNLOAD
 		require
 			valid_code: is_valid
 		do
-			if stream_table.has_key (code) then
-				create Result.make (stream_table.found_item, output_dir, title)
+			if stream_list.valid_index (index) then
+				create Result.make (title, url, stream_list [index], output_dir)
 			else
 				create Result.make_default
 			end
@@ -51,22 +49,22 @@ feature -- Status query
 
 	is_valid: BOOLEAN
 		do
-			Result := stream_table.has (code)
+			Result := stream_list.valid_index (index)
 		end
 
 feature -- Basic operations
 
-	get_code
-		-- get user `code' selection
+	get_stream_index
+		-- get user `index' selection
 		local
 			prompt_template, response_template, invalid_response: ZSTRING
-			code_input: EL_USER_INPUT_VALUE [NATURAL]
+			menu_input: EL_USER_INPUT_VALUE [INTEGER]
 		do
 			display (type + " STREAMS")
-			prompt_template := "Enter %S code"; response_template := "Code %S is not a valid %S stream"
+			prompt_template := "Enter %S number"; response_template := "Number %S is not a valid %S stream"
 			invalid_response := response_template #$ ['%S', type.as_lower]
-			create code_input.make_valid (prompt_template #$ [type.as_lower], invalid_response, agent valid_stream)
-			code := code_input.value
+			create menu_input.make_valid (prompt_template #$ [type.as_lower], invalid_response, agent stream_list.valid_index)
+			index := menu_input.value
 		end
 
 feature {NONE} -- Implementation
@@ -74,25 +72,17 @@ feature {NONE} -- Implementation
 	display (a_title: ZSTRING)
 		do
 			lio.put_line (a_title)
-			across stream_table as stream loop
-				if included (stream.item) then
-					lio.put_labeled_string (stream.item.name, stream.item.description)
-					lio.put_new_line
-				end
+			lio.put_new_line
+			across stream_list as list loop
+				lio.put_labeled_string (list.item.name, list.item.description)
+				lio.put_new_line
 			end
 			lio.put_new_line
 		end
 
-	valid_stream (a_code: NATURAL): BOOLEAN
-		do
-			Result := stream_table.has_key (a_code) and then included (stream_table.found_item)
-		end
-
 feature {NONE} -- Internal attributes
 
-	included: PREDICATE [EL_YOUTUBE_STREAM]
-
-	stream_table: EL_YOUTUBE_STREAM_TABLE
+	stream_list: EL_YOUTUBE_STREAM_LIST
 
 	type: STRING
 end

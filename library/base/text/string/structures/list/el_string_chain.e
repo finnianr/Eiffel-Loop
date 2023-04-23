@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-06 9:18:06 GMT (Thursday 6th April 2023)"
-	revision: "32"
+	date: "2023-04-23 10:36:34 GMT (Sunday 23rd April 2023)"
+	revision: "33"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -129,6 +129,87 @@ feature -- Status query
 			pop_cursor
 		end
 
+feature -- Format items
+
+	indent (tab_count: INTEGER)
+			-- prepend `tab_count' tab character to each line
+		require
+			valid_tab_count: tab_count >= 0
+		local
+			l_tab_string: like tab_string
+		do
+			if tab_count > 0 then
+				push_cursor
+				l_tab_string := tab_string (tab_count)
+				from start until after loop
+					item.prepend (l_tab_string)
+					forth
+				end
+				pop_cursor
+			end
+		ensure
+			indented: tab_count > 0 implies is_indented
+		end
+
+	indent_item (tab_count: INTEGER)
+			-- prepend one tab character to each line
+		require
+			not_off: not off
+			valid_tab_count: tab_count >= 0
+		do
+			if tab_count > 0 then
+				item.prepend (tab_string (tab_count))
+			end
+		ensure
+			tab_count_extra: old item_indent + tab_count = item_indent
+		end
+
+	left_adjust
+		-- left adjust all lines
+		do
+			push_cursor
+			from start until after loop
+				item.left_adjust
+				forth
+			end
+			pop_cursor
+		end
+
+	right_pad (column_widths: ARRAY [INTEGER])
+		do
+			push_cursor
+			from start until after or else index > column_widths.upper loop
+				from until item_count >= column_widths [index] loop
+					item.append_code (32)
+				end
+				forth
+			end
+			pop_cursor
+		end
+
+	right_adjust
+		do
+			push_cursor
+			from start until after loop
+				item.right_adjust
+				forth
+			end
+			pop_cursor
+		end
+
+	unindent
+			-- remove one tab character from each line
+		require
+			is_indented: is_indented
+		do
+			push_cursor
+			from start until after loop
+				item.keep_tail (item.count - 1)
+				forth
+			end
+			pop_cursor
+		end
+
 feature -- Element change
 
 	append_split (a_string: READABLE_STRING_GENERAL; delimiter: CHARACTER_32; adjustments: INTEGER)
@@ -178,50 +259,6 @@ feature -- Element change
 			end
 		end
 
-	indent (tab_count: INTEGER)
-			-- prepend `tab_count' tab character to each line
-		require
-			valid_tab_count: tab_count >= 0
-		local
-			l_tab_string: like tab_string
-		do
-			if tab_count > 0 then
-				push_cursor
-				l_tab_string := tab_string (tab_count)
-				from start until after loop
-					item.prepend (l_tab_string)
-					forth
-				end
-				pop_cursor
-			end
-		ensure
-			indented: tab_count > 0 implies is_indented
-		end
-
-	indent_item (tab_count: INTEGER)
-			-- prepend one tab character to each line
-		require
-			not_off: not off
-			valid_tab_count: tab_count >= 0
-		do
-			if tab_count > 0 then
-				item.prepend (tab_string (tab_count))
-			end
-		ensure
-			tab_count_extra: old item_indent + tab_count = item_indent
-		end
-
-	left_adjust
-		-- left adjust all lines
-		do
-			push_cursor
-			from start until after loop
-				item.left_adjust
-				forth
-			end
-			pop_cursor
-		end
-
 	set_first_and_last (a_first, a_last: S)
 		do
 			if not is_empty then
@@ -241,29 +278,6 @@ feature -- Removal
 					forth
 				end
 			end
-		end
-
-	right_adjust
-		do
-			push_cursor
-			from start until after loop
-				item.right_adjust
-				forth
-			end
-			pop_cursor
-		end
-
-	unindent
-			-- remove one tab character from each line
-		require
-			is_indented: is_indented
-		do
-			push_cursor
-			from start until after loop
-				item.keep_tail (item.count - 1)
-				forth
-			end
-			pop_cursor
 		end
 
 	wrap (line_width: INTEGER)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-04-23 18:07:44 GMT (Sunday 23rd April 2023)"
+	revision: "7"
 
 class
 	EL_YOUTUBE_STREAM_DOWNLOAD
@@ -21,18 +21,20 @@ inherit
 
 	EL_YOUTUBE_CONSTANTS
 
+	EL_ZSTRING_CONSTANTS
+
 create
 	make, make_default
 
 feature {NONE} -- Initialization
 
-	make (a_stream: EL_YOUTUBE_STREAM; output_dir: DIR_PATH; title: ZSTRING)
+	make (title, a_url: ZSTRING; a_stream: EL_YOUTUBE_STREAM; output_dir: DIR_PATH)
 		require
 			output_dir_exits: output_dir.exists
 		local
 			base_name: ZSTRING
 		do
-			stream := a_stream
+			url := a_url; stream := a_stream
 			base_name := title.as_lower
 			base_name.replace_character (' ', '-')
 			file_path := output_dir + base_name
@@ -42,6 +44,7 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
+			url := Empty_string
 			stream := Default_stream
 			create file_path
 		end
@@ -51,6 +54,8 @@ feature -- Access
 	file_path: FILE_PATH
 
 	stream: EL_YOUTUBE_STREAM
+
+	url: ZSTRING
 
 feature -- Status query
 
@@ -71,10 +76,10 @@ feature -- Basic operations
 			if stream = Default_stream then
 				lio.put_line ("No valid stream")
 			else
-				lio.put_substitution ("Downloading %S for %S", [stream.type, stream.url])
-				Cmd_download.put_path (Var_output_path, file_path)
-				Cmd_download.put_natural (Var_format, stream.code)
-				Cmd_download.put_string (Var_url, stream.url)
+				lio.put_substitution ("Downloading %S for %S", [stream.type, url])
+				Cmd_download.put_path (Var.output_path, file_path)
+				Cmd_download.put_string (Var.format, stream.code)
+				Cmd_download.put_string (Var.url, url)
 				Cmd_download.execute
 				lio.put_new_line
 			end
@@ -89,7 +94,7 @@ feature -- Basic operations
 
 feature {NONE} -- Constants
 
-	Default_stream: EL_YOUTUBE_STREAM
+	Default_stream: EL_YOUTUBE_VIDEO_STREAM
 		once
 			create Result.make_default
 		end

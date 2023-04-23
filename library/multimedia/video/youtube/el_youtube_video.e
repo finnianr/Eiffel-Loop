@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-22 9:27:32 GMT (Saturday 22nd April 2023)"
-	revision: "15"
+	date: "2023-04-23 18:59:37 GMT (Sunday 23rd April 2023)"
+	revision: "16"
 
 class
 	EL_YOUTUBE_VIDEO
@@ -36,7 +36,15 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			url := a_url; title := a_title
-			stream_table.fill_to (a_url, 6)
+
+			lio.put_labeled_string ("Fetching formats for", a_url)
+			lio.put_new_line_x2
+			Cmd_get_youtube_options.put_string (Var.url, a_url)
+			Cmd_get_youtube_options.execute
+
+			across stream_list_table as table loop
+				table.item.fill (Cmd_get_youtube_options.lines, table.key, 8)
+			end
 		end
 
 	make_default
@@ -44,23 +52,36 @@ feature {NONE} -- Initialization
 			create url.make_empty
 			create title.make_empty
 			create output_path
-			create stream_table.make (17)
-			download := [Default_download, Default_download]
+			create stream_list_table.make (<<
+				[Audio_only, create {EL_YOUTUBE_STREAM_LIST}.make (11)],
+				[Video_only, create {EL_YOUTUBE_STREAM_LIST}.make (11)]
+			>>)
+			create download_table
 		end
 
 feature -- Access
-
-	download: TUPLE [audio, video: EL_YOUTUBE_STREAM_DOWNLOAD]
 
 	title: ZSTRING
 
 	url: ZSTRING
 
+	download: EL_YOUTUBE_STREAM_DOWNLOAD
+		-- video stream download
+		do
+			if download_table.has_key (Video_only) then
+				Result := download_table.found_item
+			else
+				Result := Default_download
+			end
+		end
+
 feature -- Measurement
 
 	stream_count: INTEGER
 		do
-			Result := stream_table.count
+			across stream_list_table as table loop
+				Result := Result + table.item.count
+			end
 		end
 
 feature -- Basic operations
@@ -68,8 +89,9 @@ feature -- Basic operations
 	cleanup
 		do
 			if output_path.exists then
-				download.audio.remove
-				download.video.remove
+				across download_table as table loop
+					table.item.remove
+				end
 			end
 		end
 
@@ -87,8 +109,9 @@ feature -- Basic operations
 		require
 			valid_downloads: valid_downloads
 		do
-			download.audio.execute
-			download.video.execute
+			across download_table as table loop
+				table.item.execute
+			end
 		end
 
 	merge_streams
@@ -98,7 +121,7 @@ feature -- Basic operations
 		local
 			extension: ZSTRING
 		do
-			extension := download.video.file_path.extension
+			extension := download.file_path.extension
 			output_path := video_output_path
 			output_path.add_extension (extension)
 
@@ -112,10 +135,10 @@ feature -- Basic operations
 		local
 			selector: EL_YOUTUBE_STREAM_SELECTOR
 		do
-			across << Audio_stream, Video_stream >> as stream loop
-				create selector.make (stream.item, stream_table)
-				selector.get_code
-				download.put_reference (selector.download (output_dir, title), stream.cursor_index)
+			across stream_list_table as table loop
+				create selector.make (stream_name (table.key), table.item)
+				selector.get_stream_index
+				download_table [table.key] := selector.download (title, url, output_dir)
 			end
 		ensure
 			valid_downloads: valid_downloads
@@ -125,7 +148,9 @@ feature -- Status query
 
 	downloads_exists: BOOLEAN
 		do
-			Result := download.audio.exists and download.video.exists
+			if download_table.count = 2 then
+				Result := across download_table as table all table.item.exists end
+			end
 		end
 
 	is_merge_complete: BOOLEAN
@@ -136,7 +161,7 @@ feature -- Status query
 
 	valid_downloads: BOOLEAN
 		do
-			Result := not (download.audio.is_default or download.video.is_default)
+			Result := download_table.has (Audio_only) and download_table.has (Video_only)
 		end
 
 feature {NONE} -- Implementation
@@ -150,11 +175,15 @@ feature {NONE} -- Implementation
 			lio.put_labeled_string (description, output_path.to_string)
 			lio.put_new_line
 
-			command.put_path (Var_audio_path, download.audio.file_path)
-			command.put_path (Var_video_path, download.video.file_path)
-			command.put_path (Var_output_path, output_path)
-			command.put_path (Var_socket_path, Socket_path)
-			command.put_string (Var_title, title)
+			if download_table.has_key (Audio_only) then
+				command.put_path (Var.audio_path, download_table.found_item.file_path)
+			end
+			if download_table.has_key (Video_only) then
+				command.put_path (Var.video_path, download_table.found_item.file_path)
+			end
+			command.put_path (Var.output_path, output_path)
+			command.put_path (Var.socket_path, Socket_path)
+			command.put_string (Var.title, title)
 
 			create socket.make_server (Socket_path)
 			socket.listen (1)
@@ -188,16 +217,26 @@ feature {NONE} -- Implementation
 			create Result.make_from_string (time_string, once "[0]hh:[0]mi:[0]ss.ff3")
 		end
 
+	stream_name (selector: STRING): STRING
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			Result := s.substring_to (selector, ' ', default_pointer)
+			Result.to_upper
+		end
+
 	video_duration_fine_seconds: DOUBLE
 		do
-			Cmd_video_duration.put_path (Var_video_path, download.video.file_path)
+			Cmd_video_duration.put_path (Var.video_path, download.file_path)
 			Cmd_video_duration.execute
-			Result := new_time (Cmd_video_duration.lines.first.substring_between_general ("Duration: ", ", ", 1)).fine_seconds
+			Result := new_time (
+				Cmd_video_duration.lines.first.substring_between_general ("Duration: ", ", ", 1)
+			).fine_seconds
 		end
 
 	video_output_path: FILE_PATH
 		do
-			Result := download.video.file_path.without_extension
+			Result := download.file_path.without_extension
 			Result.remove_extension
 		end
 
@@ -205,7 +244,9 @@ feature {NONE} -- Internal attributes
 
 	output_path: FILE_PATH
 
-	stream_table: EL_YOUTUBE_STREAM_TABLE
+	stream_list_table: EL_HASH_TABLE [EL_YOUTUBE_STREAM_LIST, STRING]
+
+	download_table: EL_HASH_TABLE [EL_YOUTUBE_STREAM_DOWNLOAD, STRING]
 
 feature {NONE} -- OS commands
 
@@ -218,6 +259,11 @@ feature {NONE} -- OS commands
 				% -metadata title=%"$title%"%
 				% -movflags faststart -profile:v high -level 5.1 -c:a copy $output_path"
 			)
+		end
+
+	Cmd_get_youtube_options: EL_CAPTURED_OS_COMMAND
+		once
+			create Result.make_with_name ("get_youtube_options", "youtube-dl -F $url")
 		end
 
 	Cmd_merge: EL_OS_COMMAND
