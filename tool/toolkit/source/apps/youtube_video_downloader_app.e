@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2023-04-24 13:42:35 GMT (Monday 24th April 2023)"
+	revision: "17"
 
 class
 	YOUTUBE_VIDEO_DOWNLOADER_APP
@@ -36,15 +36,24 @@ feature {NONE} -- Implementation
 
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
-			Result := << optional_argument ("url", "youtube url", No_checks) >>
+			Result := <<
+				optional_argument ("url", "youtube url", No_checks),
+				optional_argument ("output", "Download output directory", << directory_must_exist >>)
+			>>
 		end
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make (create {EL_DIR_URI_PATH})
+			Result := agent {like command}.make (create {EL_DIR_URI_PATH}, Default_output_dir)
 		end
 
 feature {NONE} -- Constants
+
+	Default_output_dir: DIR_PATH
+		once
+			Result := "$HOME/Videos"
+			Result.expand
+		end
 
 	Option_name: STRING = "youtube_dl"
 
@@ -52,10 +61,10 @@ note
 	notes: "[
 		**Usage**
 
-			el_toolkit -youtube_dl [-url <URL>]
+			el_toolkit -youtube_dl [-url <URL>] [-output <download directory>]
 
 		If you do not use the `-url' option, you will be prompted to drag and drop a url from
-		a browser youtube search listing.
+		a browser youtube search listing. Default **output** directory is $HOME/Videos.
 
 		**Requirements**
 

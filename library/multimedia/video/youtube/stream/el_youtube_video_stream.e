@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-23 18:05:24 GMT (Sunday 23rd April 2023)"
-	revision: "1"
+	date: "2023-04-24 13:20:39 GMT (Monday 24th April 2023)"
+	revision: "2"
 
 class
 	EL_YOUTUBE_VIDEO_STREAM
 
 inherit
 	EL_YOUTUBE_STREAM
+		rename
+			type as video
 		redefine
 			make_default, new_info
 		end
@@ -93,7 +95,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Data_rate_digits: INTEGER = 5
-
-	Type: STRING = "video"
 
 end

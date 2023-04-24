@@ -6,14 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-23 18:59:37 GMT (Sunday 23rd April 2023)"
-	revision: "16"
+	date: "2023-04-24 13:35:45 GMT (Monday 24th April 2023)"
+	revision: "17"
 
 class
 	EL_YOUTUBE_VIDEO
 
 inherit
-	ANY
+	EL_HASH_TABLE [EL_YOUTUBE_STREAM_LIST, STRING]
+		rename
+			make as make_from_array,
+			item as stream_list
+		export
+			{NONE} all
+		end
 
 	EL_ZSTRING_CONSTANTS
 
@@ -30,20 +36,20 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_url, a_title: ZSTRING)
+	make (a_url: ZSTRING; a_output_dir: DIR_PATH)
 		require
 			not_empty: not a_url.is_empty
 		do
 			make_default
-			url := a_url; title := a_title
+			url := a_url; output_dir := a_output_dir
 
 			lio.put_labeled_string ("Fetching formats for", a_url)
 			lio.put_new_line_x2
 			Cmd_get_youtube_options.put_string (Var.url, a_url)
 			Cmd_get_youtube_options.execute
 
-			across stream_list_table as table loop
-				table.item.fill (Cmd_get_youtube_options.lines, table.key, 8)
+			across Current as table loop
+				table.item.fill (Cmd_get_youtube_options.lines)
 			end
 		end
 
@@ -51,106 +57,60 @@ feature {NONE} -- Initialization
 		do
 			create url.make_empty
 			create title.make_empty
+			create output_dir
 			create output_path
-			create stream_list_table.make (<<
-				[Audio_only, create {EL_YOUTUBE_STREAM_LIST}.make (11)],
-				[Video_only, create {EL_YOUTUBE_STREAM_LIST}.make (11)]
+			make_from_array (<<
+				[Audio, create {EL_YOUTUBE_STREAM_LIST}.make (Audio, 10)],
+				[Video, create {EL_YOUTUBE_STREAM_LIST}.make (Video, 10)]
 			>>)
-			create download_table
 		end
 
 feature -- Access
+
+	selected_download: detachable EL_YOUTUBE_STREAM_DOWNLOAD
+		-- selected video stream download
+		do
+			if attached stream_list (Video) as list
+				and then attached list.download as download
+			then
+				Result := download
+			end
+		end
+
+	selected_extension: STRING
+		do
+			if attached stream_list (Video) as list and then not list.off then
+				Result := list.selected.extension
+			else
+				create Result.make_empty
+			end
+		end
 
 	title: ZSTRING
 
 	url: ZSTRING
 
-	download: EL_YOUTUBE_STREAM_DOWNLOAD
-		-- video stream download
-		do
-			if download_table.has_key (Video_only) then
-				Result := download_table.found_item
-			else
-				Result := Default_download
-			end
-		end
-
 feature -- Measurement
 
 	stream_count: INTEGER
 		do
-			across stream_list_table as table loop
-				Result := Result + table.item.count
+			across Current as list loop
+				Result := Result + list.item.count
 			end
-		end
-
-feature -- Basic operations
-
-	cleanup
-		do
-			if output_path.exists then
-				across download_table as table loop
-					table.item.remove
-				end
-			end
-		end
-
-	convert_streams_to_mp4
-		require
-			valid_downloads: valid_downloads
-		do
-			output_path := video_output_path
-			output_path.add_extension (MP4_extension)
-			do_conversion (Cmd_convert_to_mp4, "Converting to")
-			lio.put_new_line
-		end
-
-	download_streams
-		require
-			valid_downloads: valid_downloads
-		do
-			across download_table as table loop
-				table.item.execute
-			end
-		end
-
-	merge_streams
-		-- merge audio and video streams using same video container
-		require
-			valid_downloads: valid_downloads
-		local
-			extension: ZSTRING
-		do
-			extension := download.file_path.extension
-			output_path := video_output_path
-			output_path.add_extension (extension)
-
-			do_conversion (Cmd_merge, "Merging audio and video streams to")
-			lio.put_new_line
-		end
-
-	select_downloads
-		require
-			has_streams: stream_count > 0
-		local
-			selector: EL_YOUTUBE_STREAM_SELECTOR
-		do
-			across stream_list_table as table loop
-				create selector.make (stream_name (table.key), table.item)
-				selector.get_stream_index
-				download_table [table.key] := selector.download (title, url, output_dir)
-			end
-		ensure
-			valid_downloads: valid_downloads
 		end
 
 feature -- Status query
 
 	downloads_exists: BOOLEAN
 		do
-			if download_table.count = 2 then
-				Result := across download_table as table all table.item.exists end
+			if attached download_list as list and then list.count = 2 then
+				Result := across list as download all download.item.exists end
 			end
+		end
+
+	downloads_selected: BOOLEAN
+		do
+			Result := download_list.count = 2
 		end
 
 	is_merge_complete: BOOLEAN
@@ -159,9 +119,76 @@ feature -- Status query
 			Result := output_path.exists
 		end
 
-	valid_downloads: BOOLEAN
+feature -- Element change
+
+	set_title (a_title: like title)
 		do
-			Result := download_table.has (Audio_only) and download_table.has (Video_only)
+			title := a_title
+			across download_list as download loop
+				download.item.set_file_path (a_title, output_dir)
+			end
+		end
+
+feature -- Basic operations
+
+	cleanup
+		do
+			if output_path.exists then
+				across download_list as download loop
+					download.item.remove
+				end
+			end
+		end
+
+	convert_streams_to_mp4
+		require
+			valid_downloads: downloads_selected
+		do
+			output_path := selected_output_path
+			if not output_path.is_empty then
+				output_path.add_extension (MP4_extension)
+				do_conversion (Cmd_convert_to_mp4, "Converting to")
+				lio.put_new_line
+			end
+		end
+
+	download_streams
+		require
+			valid_downloads: downloads_selected
+		do
+			across download_list as download loop
+				download.item.execute
+			end
+		end
+
+	merge_streams
+		-- merge audio and video streams using same video container
+		require
+			valid_downloads: downloads_selected
+		do
+			if attached selected_download as download then
+				output_path := selected_output_path
+				if not output_path.is_empty then
+					output_path.add_extension (download.file_path.extension)
+
+					do_conversion (Cmd_merge, "Merging audio and video streams to")
+					lio.put_new_line
+				end
+			end
+		end
+
+	select_downloads
+		require
+			has_streams: stream_count > 0
+		local
+			quit: BOOLEAN
+		do
+			across Current as table until quit loop
+				if attached table.item as list then
+					list.set_user_choice (url)
+					quit := list.off
+				end
+			end
 		end
 
 feature {NONE} -- Implementation
@@ -175,12 +202,10 @@ feature {NONE} -- Implementation
 			lio.put_labeled_string (description, output_path.to_string)
 			lio.put_new_line
 
-			if download_table.has_key (Audio_only) then
-				command.put_path (Var.audio_path, download_table.found_item.file_path)
+			across download_list as download loop
+				download.item.set_command_path (command)
 			end
-			if download_table.has_key (Video_only) then
-				command.put_path (Var.video_path, download_table.found_item.file_path)
-			end
+
 			command.put_path (Var.output_path, output_path)
 			command.put_path (Var.socket_path, Socket_path)
 			command.put_string (Var.title, title)
@@ -212,41 +237,47 @@ feature {NONE} -- Implementation
 			socket.close
 		end
 
+	download_list: EL_ARRAYED_LIST [EL_YOUTUBE_STREAM_DOWNLOAD]
+		do
+			create Result.make (count)
+			across Current as table loop
+				if attached table.item.download as download then
+					Result.extend (download)
+				end
+			end
+		end
+
 	new_time (time_string: STRING): TIME
 		do
 			create Result.make_from_string (time_string, once "[0]hh:[0]mi:[0]ss.ff3")
 		end
 
-	stream_name (selector: STRING): STRING
-		local
-			s: EL_STRING_8_ROUTINES
-		do
-			Result := s.substring_to (selector, ' ', default_pointer)
-			Result.to_upper
-		end
-
 	video_duration_fine_seconds: DOUBLE
 		do
-			Cmd_video_duration.put_path (Var.video_path, download.file_path)
-			Cmd_video_duration.execute
-			Result := new_time (
-				Cmd_video_duration.lines.first.substring_between_general ("Duration: ", ", ", 1)
-			).fine_seconds
+			if attached selected_download as download then
+				Cmd_video_duration.put_path (Var.video_path, download.file_path)
+				Cmd_video_duration.execute
+				if attached Cmd_video_duration.lines.first as first then
+					Result := new_time (first.substring_between_general ("Duration: ", ", ", 1)).fine_seconds
+				end
+			end
 		end
 
-	video_output_path: FILE_PATH
+	selected_output_path: FILE_PATH
 		do
-			Result := download.file_path.without_extension
-			Result.remove_extension
+			if attached selected_download as download then
+				Result := download.file_path.without_extension
+				Result.remove_extension
+			else
+				create Result
+			end
 		end
 
 feature {NONE} -- Internal attributes
 
+	output_dir: DIR_PATH
+
 	output_path: FILE_PATH
-
-	stream_list_table: EL_HASH_TABLE [EL_YOUTUBE_STREAM_LIST, STRING]
-
-	download_table: EL_HASH_TABLE [EL_YOUTUBE_STREAM_DOWNLOAD, STRING]
 
 feature {NONE} -- OS commands
 
@@ -282,20 +313,7 @@ feature {NONE} -- OS commands
 
 feature {NONE} -- Constants
 
-	Default_download: EL_YOUTUBE_STREAM_DOWNLOAD
-		once
-			create Result.make_default
-		end
-
-	Minimum_x_resolution: INTEGER = 1920
-
 	Out_time_field: STRING = "out_time="
-
-	Output_dir: DIR_PATH
-		once
-			Result := "$HOME/Videos"
-			Result.expand
-		end
 
 	Socket_path: FILE_PATH
 		once
