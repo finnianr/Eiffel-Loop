@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-24 13:27:51 GMT (Monday 24th April 2023)"
-	revision: "7"
+	date: "2023-04-25 13:05:31 GMT (Tuesday 25th April 2023)"
+	revision: "8"
 
 deferred class
 	EL_YOUTUBE_CONSTANTS
@@ -19,14 +19,11 @@ inherit
 
 feature {NONE} -- Constants
 
-	Audio: STRING = "audio"
+	Audio_type: STRING = "audio"
 
-	Video: STRING = "video"
+	Video_type: STRING = "video"
 
-	MP4_extension: ZSTRING
-		once
-			Result := "mp4"
-		end
+	MP4_extension: STRING = "mp4"
 
 feature {NONE} -- Variable names
 

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-24 13:34:51 GMT (Monday 24th April 2023)"
-	revision: "21"
+	date: "2023-04-26 12:52:23 GMT (Wednesday 26th April 2023)"
+	revision: "22"
 
 class
 	EL_YOUTUBE_VIDEO_DOWNLOADER
@@ -29,16 +29,11 @@ inherit
 			description
 		end
 
-	EL_MODULE_LIO
-
-	EL_MODULE_USER_INPUT
+	EL_MODULE_LIO; EL_MODULE_USER_INPUT
 
 	EL_ZSTRING_CONSTANTS
 
 	EL_YOUTUBE_CONSTANTS
-		rename
-			video as video_type
-		end
 
 create
 	make
@@ -52,6 +47,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			if a_url.is_empty then
 				create input.make_drag_and_drop
 				a_url.copy (input.value)
+				a_url.set_base (a_url.base.substring_to ('&', default_pointer))
 			end
 			if a_url.base_matches ("quit", True) then
 				create video.make_default
@@ -64,45 +60,32 @@ feature -- Basic operations
 
 	execute
 		local
-			output_extension: ZSTRING; done: BOOLEAN
+			output_extension: STRING; user_quit: BOOLEAN
 		do
 			if video.stream_count > 0 then
 				video.select_downloads
-
 				if video.downloads_selected then
-					output_extension := User_input.line ("Enter an output extension")
-					lio.put_new_line
-					if attached User_input.line ("Enter a title") as title then
+					output_extension := video.get_output_extension
+					if output_extension.is_empty then
+						user_quit := True
+
+					elseif attached User_input.line (Title_prompt) as title then
 						lio.put_new_line
+						title.adjust
 						video.set_title (title)
 					end
 				else
-					done := True
-					lio.put_line ("User quit")
+					user_quit := True
 				end
 			else
-				done := True
+				user_quit := True
 			end
-
-			from until done loop
-				video.download_streams
-				if video.downloads_exists and then attached video.selected_extension as extension then
-					if extension ~ output_extension then
-						video.merge_streams
-					elseif extension ~ Mp4_extension then
-						video.convert_streams_to_mp4
-					end
-					if video.is_merge_complete then
-						video.cleanup
-						lio.put_new_line
-						lio.put_line ("DONE")
-						done := True
-					else
-						done := not User_input.approved_action_y_n ("Merging of streams failed. Retry?")
-					end
-				else
-					done := not User_input.approved_action_y_n ("Download of streams failed. Retry?")
-				end
+			if user_quit then
+				lio.put_line ("User quit")
+			else
+				video.download_all (output_extension)
+				lio.put_new_line
+				lio.put_line ("DONE")
 			end
 		end
 
@@ -115,5 +98,7 @@ feature {NONE} -- Constants
 	Description: STRING = "[
 		Download selected video and audio stream from youtube video and merge to container
 	]"
+
+	Title_prompt: STRING = "Type a short title (Or press <enter> for default)"
 
 end

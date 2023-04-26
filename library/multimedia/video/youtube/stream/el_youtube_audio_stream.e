@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-24 13:20:48 GMT (Monday 24th April 2023)"
-	revision: "2"
+	date: "2023-04-26 8:20:29 GMT (Wednesday 26th April 2023)"
+	revision: "3"
 
 class
 	EL_YOUTUBE_AUDIO_STREAM
@@ -15,7 +15,7 @@ class
 inherit
 	EL_YOUTUBE_STREAM
 		rename
-			type as audio
+			type as Audio_type
 		redefine
 			new_info
 		end
@@ -27,7 +27,7 @@ feature {NONE} -- Implementation
 
 	name_parts: ARRAY [STRING]
 		do
-			Result := << index_string, extension_padded, video, data_rate_string >>
+			Result := << index_string, extension_padded, Audio_type, data_rate_string >>
 		end
 
 	new_description (basic_parts: EL_SPLIT_ZSTRING_LIST; detailed: ZSTRING): ZSTRING
@@ -50,7 +50,7 @@ feature {NONE} -- Implementation
 	new_info (line: ZSTRING): TUPLE [basic, detailed: ZSTRING]
 		do
 			Result := Precursor (line)
-			Result.basic.replace_substring_all ("audio only tiny", audio)
+			Result.basic.replace_substring_all ("audio only tiny", Audio_type)
 		end
 
 	parse_dimensions (list: EL_SPLIT_ZSTRING_LIST)
@@ -58,6 +58,11 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Extension_set: EL_HASH_SET [STRING]
+		once
+			create Result.make (3)
+		end
 
 	Data_rate_digits: INTEGER = 3
 

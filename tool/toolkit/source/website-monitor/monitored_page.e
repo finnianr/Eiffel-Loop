@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-11 9:39:43 GMT (Tuesday 11th April 2023)"
-	revision: "1"
+	date: "2023-04-25 14:53:57 GMT (Tuesday 25th April 2023)"
+	revision: "2"
 
 class
 	MONITORED_PAGE
@@ -44,7 +44,7 @@ feature -- Basic operations
 			Web.read_string_head
 			if attached web.last_headers as headers then
 				if not (headers.response_code = 200 and then headers.content_length >= min_count) then
-					has_fault := False
+					has_fault := True
 				end
 			end
 			Web.close

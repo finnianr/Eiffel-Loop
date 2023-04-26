@@ -6,16 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-24 13:31:15 GMT (Monday 24th April 2023)"
-	revision: "7"
+	date: "2023-04-26 13:43:51 GMT (Wednesday 26th April 2023)"
+	revision: "8"
 
-class
+deferred class
 	EL_YOUTUBE_STREAM_LIST
 
 inherit
 	EL_ARRAYED_LIST [EL_YOUTUBE_STREAM]
 		rename
-			make as make_list,
 			fill as fill_list,
 			item as selected
 		export
@@ -27,42 +26,31 @@ inherit
 
 	EL_YOUTUBE_CONSTANTS
 
-create
-	make
-
-feature {NONE} -- Initialization
-
-	make (a_type: STRING; maximum_count: INTEGER)
-		do
-			make_list (maximum_count)
-			type := a_type
-			selector := a_type + " only"
-		end
+	EL_STRING_8_CONSTANTS
 
 feature -- Access
 
-	download: detachable EL_YOUTUBE_STREAM_DOWNLOAD
-		-- user download choice
-
 	type: STRING
 		-- "audio" OR "video"
+		deferred
+		end
+
+	selected_index: INTEGER
 
 feature -- Element change
 
 	fill (line_list: EL_ZSTRING_LIST)
 		local
-			stream: EL_YOUTUBE_STREAM; stream_map: EL_ARRAYED_MAP_LIST [INTEGER, EL_YOUTUBE_STREAM]
-			line: ZSTRING
+			stream: like new_stream; stream_map: EL_ARRAYED_MAP_LIST [INTEGER, like new_stream]
+			line: ZSTRING; selector: STRING
 		do
+			selector := type + " only"
+
 			create stream_map.make (capacity * 2)
 			across line_list as list loop
 				line := list.item
 				if line.has_substring (selector) then
-					if type = Audio then
-						create {EL_YOUTUBE_AUDIO_STREAM} stream.make (line)
-					else
-						create {EL_YOUTUBE_VIDEO_STREAM} stream.make (line)
-					end
+					stream := new_stream (line)
 					if not stream.has_code_qualifier then
 						stream_map.extend (stream.data_rate, stream)
 					end
@@ -77,42 +65,42 @@ feature -- Element change
 
 feature -- Basic operations
 
-	set_user_choice (url: ZSTRING)
+	get_user_choice (url: ZSTRING; download_list: EL_YOUTUBE_STREAM_DOWNLOAD_LIST)
 		-- get user `download' selection
 		local
 			prompt_template, response_template, invalid_response: ZSTRING
-			menu_input: EL_USER_INPUT_VALUE [INTEGER]; i: INTEGER
+			menu_input: EL_USER_INPUT_VALUE [INTEGER]
 		do
-			display
-			prompt_template := "Enter %S number"; response_template := "Number %S is not a valid %S stream"
+			display_menu
+
+			prompt_template := "Select %S option"; response_template := "Number %S is not a valid %S option"
 			invalid_response := response_template #$ ['%S', type]
 			create menu_input.make_valid (prompt_template #$ [type], invalid_response, agent valid_input)
-			i := menu_input.value
-			if valid_index (i) then
-				go_i_th (i)
-				create download.make (url, selected)
-			else
-				download := Void
+			selected_index := menu_input.value
+			if valid_index (selected_index) then
+				go_i_th (selected_index)
+				download_list.extend (create {EL_YOUTUBE_STREAM_DOWNLOAD}.make (url, selected))
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	display
+	display_menu
 		local
-			s: EL_STRING_8_ROUTINES; padding: STRING
+			s: EL_STRING_8_ROUTINES; name_count: INTEGER
 		do
 			lio.put_line (type.as_upper + " STREAMS")
 			lio.put_new_line
 			across Current as list loop
 				if list.is_first then
-					padding := s.n_character_string (' ', list.item.name.count - 8)
-					lio.put_labeled_string (" 0. Quit" + padding, s.n_character_string ('-', 50))
+					name_count := list.item.name.count
+					lio.put_labeled_string (" 0. Quit" + s.n_character_string (' ', name_count - 8), Empty_string_8)
 					lio.put_new_line
 				end
 				lio.put_labeled_string (list.item.name, list.item.description)
 				lio.put_new_line
 			end
+			display_extra (name_count)
 			lio.put_new_line
 		end
 
@@ -121,7 +109,14 @@ feature {NONE} -- Implementation
 			Result := i = 0 or else valid_index (i)
 		end
 
-feature {NONE} -- Internal attributes
+feature {NONE} -- Deferred
 
-	selector: STRING
+	new_stream (info_line: ZSTRING): EL_YOUTUBE_STREAM
+		deferred
+		end
+
+	display_extra (name_count: INTEGER)
+		deferred
+		end
+
 end

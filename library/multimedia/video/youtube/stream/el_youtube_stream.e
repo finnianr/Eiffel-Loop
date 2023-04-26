@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-23 18:35:00 GMT (Sunday 23rd April 2023)"
-	revision: "13"
+	date: "2023-04-25 13:23:03 GMT (Tuesday 25th April 2023)"
+	revision: "14"
 
 deferred class
 	EL_YOUTUBE_STREAM
@@ -69,6 +69,10 @@ feature -- Access
 			Result.prepend (extension)
 		end
 
+	extension_set: EL_HASH_SET [STRING]
+		deferred
+		end
+
 	index: INTEGER
 
 	index_string: STRING
@@ -96,6 +100,12 @@ feature -- Status query
 		end
 
 feature -- Element change
+
+	set_extension (a_extension: STRING)
+		do
+			extension_set.put (a_extension)
+			extension := extension_set.found_item
+		end
 
 	set_index (a_index: like index)
 		do
@@ -139,7 +149,7 @@ feature {NONE} -- Implementation
 					when 1 then
 						code := list.item_copy
 					when 2 then
-						extension := list.item
+						set_extension (list.item)
 					when 3 then
 						parse_dimensions (list)
 

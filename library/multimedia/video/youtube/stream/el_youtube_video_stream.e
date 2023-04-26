@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-24 13:20:39 GMT (Monday 24th April 2023)"
-	revision: "2"
+	date: "2023-04-26 13:30:37 GMT (Wednesday 26th April 2023)"
+	revision: "3"
 
 class
 	EL_YOUTUBE_VIDEO_STREAM
@@ -15,7 +15,7 @@ class
 inherit
 	EL_YOUTUBE_STREAM
 		rename
-			type as video
+			type as Video_type
 		redefine
 			make_default, new_info
 		end
@@ -54,7 +54,7 @@ feature {NONE} -- Implementation
 
 	new_description (basic_parts: EL_SPLIT_ZSTRING_LIST; detailed: ZSTRING): ZSTRING
 		local
-			parts_list: EL_ZSTRING_LIST
+			parts_list: EL_ZSTRING_LIST; padding: ZSTRING
 		do
 			parts_list := detailed
 			parts_list.start
@@ -70,7 +70,8 @@ feature {NONE} -- Implementation
 					list.back
 				end
 			end
-			Result := parts_list.joined_with_string (", ")
+			create padding.make_filled (' ', 5 - parts_list.first.count)
+			Result := padding + parts_list.joined_with_string (", ")
 		end
 
 	new_info (line: ZSTRING): TUPLE [basic, detailed: ZSTRING]
@@ -95,5 +96,10 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Data_rate_digits: INTEGER = 5
+
+	Extension_set: EL_HASH_SET [STRING]
+		once
+			create Result.make (3)
+		end
 
 end

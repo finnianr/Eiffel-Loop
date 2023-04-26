@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-24 13:26:06 GMT (Monday 24th April 2023)"
-	revision: "8"
+	date: "2023-04-26 9:14:19 GMT (Wednesday 26th April 2023)"
+	revision: "9"
 
 class
 	EL_YOUTUBE_STREAM_DOWNLOAD
@@ -36,6 +36,13 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	base_output_path: FILE_PATH
+		-- base output path
+		do
+			Result := file_path.without_extension
+			Result.remove_extension
+		end
+
 	file_path: FILE_PATH
 
 	stream: EL_YOUTUBE_STREAM
@@ -53,12 +60,8 @@ feature -- Element change
 	set_file_path (title: ZSTRING; output_dir: DIR_PATH)
 		require
 			output_dir_exits: output_dir.exists
-		local
-			base_name: ZSTRING
 		do
-			base_name := title.as_lower
-			base_name.replace_character (' ', '-')
-			file_path := output_dir + base_name
+			file_path := output_dir + title
 			file_path.add_extension (stream.type)
 			file_path.add_extension (stream.extension)
 		end
@@ -86,7 +89,7 @@ feature -- Basic operations
 
 	set_command_path (command: EL_OS_COMMAND)
 		do
-			if stream.type = Audio then
+			if stream.type = Audio_type then
 				command.put_path (Var.audio_path, file_path)
 			else
 				command.put_path (Var.video_path, file_path)
