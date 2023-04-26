@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-26 12:39:04 GMT (Wednesday 26th April 2023)"
-	revision: "8"
+	date: "2023-04-26 17:23:57 GMT (Wednesday 26th April 2023)"
+	revision: "9"
 
 class
 	EL_YOUTUBE_AUDIO_STREAM_LIST
@@ -25,6 +25,7 @@ feature {NONE} -- Implementation
 
 	display_extra (name_count: INTEGER)
 		do
+			do_nothing
 		end
 
 	new_stream (info_line: ZSTRING): EL_YOUTUBE_AUDIO_STREAM

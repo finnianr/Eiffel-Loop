@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-26 13:53:55 GMT (Wednesday 26th April 2023)"
-	revision: "18"
+	date: "2023-04-26 17:20:08 GMT (Wednesday 26th April 2023)"
+	revision: "19"
 
 class
 	EL_YOUTUBE_VIDEO
@@ -86,18 +86,16 @@ feature -- Access
 
 	url: ZSTRING
 
-feature -- Measurement
-
-	stream_count: INTEGER
-		do
-			Result := audio_stream_list.count + video_stream_list.count
-		end
-
 feature -- Status query
 
 	downloads_selected: BOOLEAN
 		do
 			Result := download_list.count > 0
+		end
+
+	has_streams: BOOLEAN
+		do
+			Result := audio_stream_list.count + video_stream_list.count > 0
 		end
 
 	is_merge_complete: BOOLEAN
@@ -143,8 +141,9 @@ feature -- Basic operations
 						else
 							done := not User_input.approved_action_y_n ("Merging of streams failed. Retry?")
 						end
+
 					elseif attached download_list.audio as audio_download then
-					-- audio only
+--						audio only
 						audio_path := audio_download.base_output_path
 						audio_path.add_extension (audio_download.stream.extension)
 						File_system.rename_file (audio_download.file_path, audio_path)
@@ -158,7 +157,7 @@ feature -- Basic operations
 
 	select_downloads
 		require
-			has_streams: stream_count > 0
+			has_streams: has_streams
 		local
 			quit: BOOLEAN
 		do
@@ -313,43 +312,6 @@ feature {NONE} -- Internal attributes
 	output_path: FILE_PATH
 
 	video_stream_list: EL_YOUTUBE_VIDEO_STREAM_LIST
-
-feature {NONE} -- OS commands
-
-	Cmd_convert_to_mp4: EL_OS_COMMAND
-		-- -loglevel info
-		once
-			create Result.make_with_name (
-				"convert_to_mp4", "ffmpeg -i $audio_path -i $video_path%
-				% -loglevel quiet -nostats -progress unix:$socket_path%
-				% -metadata title=%"$title%"%
-				% -movflags faststart -profile:v high -level 5.1 -c:a copy $output_path"
-			)
-		end
-
-	Cmd_get_youtube_file_name: EL_CAPTURED_OS_COMMAND
-		once
-			create Result.make_with_name ("get_youtube_file_name", "youtube-dl --get-filename $url")
-		end
-
-	Cmd_get_youtube_options: EL_CAPTURED_OS_COMMAND
-		once
-			create Result.make_with_name ("get_youtube_options", "youtube-dl -F $url")
-		end
-
-	Cmd_merge: EL_OS_COMMAND
-		once
-			create Result.make_with_name (
-				"mp4_merge", "ffmpeg -i $audio_path -i $video_path%
-				% -loglevel quiet -nostats -progress unix:$socket_path%
-				% -metadata title=%"$title%" -c copy $output_path"
-			)
-		end
-
-	Cmd_video_duration: EL_CAPTURED_OS_COMMAND
-		once
-			create Result.make_with_name ("get_duration", "ffmpeg -i $video_path 2>&1 | grep Duration")
-		end
 
 feature {NONE} -- Constants
 
