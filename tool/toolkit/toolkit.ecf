@@ -18,7 +18,7 @@ See doc/toolkit.txt for details.
 	<!--&quot;Swiss army knife&quot; toolkit containing a suite of command line tools for Eiffel development-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
-		<version major = "1" minor = "9" release = "6" build = "627" company = "Eiffel-Loop" product = "toolkit" copyright = "Finnian Reilly"/>
+		<version major = "1" minor = "9" release = "6" build = "628" company = "Eiffel-Loop" product = "toolkit" copyright = "Finnian Reilly"/>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "false"/>
 		</option>
