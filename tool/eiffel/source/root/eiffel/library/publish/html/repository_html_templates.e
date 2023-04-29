@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-04-29 10:47:34 GMT (Saturday 29th April 2023)"
+	revision: "9"
 
 class
 	REPOSITORY_HTML_TEMPLATES
@@ -64,11 +64,11 @@ feature {NONE} -- Build from Pyxis
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
-				["@main",						agent do set_path_from_node (main) end],
-				["@eiffel-source",			agent do set_path_from_node (eiffel_source) end],
-				["@site-map-content",		agent do set_path_from_node (site_map_content) end],
-				["@directory-content",		agent do set_path_from_node (directory_content) end],
-				["@favicon-markup", 			agent do favicon_markup_path := config_dir + node.to_string  end]
+				["@main",					agent do set_path_from_node (main) end],
+				["@eiffel_source",		agent do set_path_from_node (eiffel_source) end],
+				["@site_map_content",	agent do set_path_from_node (site_map_content) end],
+				["@directory_content",	agent do set_path_from_node (directory_content) end],
+				["@favicon_markup", 		agent do favicon_markup_path := config_dir + node.to_string  end]
 			>>)
 		end
 

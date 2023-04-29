@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 13:12:28 GMT (Monday 6th March 2023)"
-	revision: "161"
+	date: "2023-04-29 17:08:09 GMT (Saturday 29th April 2023)"
+	revision: "162"
 
 class
 	BASE_AUTOTEST_APP
@@ -120,18 +120,16 @@ note
 		**Test Sets**
 
 			[$source ARRAYED_LIST_TEST_SET]
-			[$sourc BIT_ROUTINE_TEST_SET]
-			[$source CHAIN_TEST_SET]
+			[$source BIT_ROUTINE_TEST_SET]
+			[$source CONTAINER_STRUCTURE_TEST_SET]
 			[$source DATA_DIGESTS_TEST_SET]
 			[$source DATE_TIME_TEST_SET]
-			[$source ESCAPED_TEXT_TEST_SET]
 
 			[$source GENERAL_TEST_SET]
 			[$source HASH_TABLE_TEST_SET]
 			[$source L1_UC_STRING_TEST]
 
 			[$source PATH_TEST_SET]
-			[$source PATH_STEPS_TEST_SET]
 
 			[$source REFLECTION_TEST_SET]
 
@@ -142,9 +140,9 @@ note
 			[$source STRING_32_ROUTINES_TEST_SET]
 			[$source STRING_ITERATION_CURSOR_TEST_SET]
 			[$source SUBSTRING_32_ARRAY_TEST_SET]
-			[$source SUBSTITUTION_TEMPLATE_TEST_SET]
 
 			[$source TEMPLATE_TEST_SET]
+			[$source TEXT_TEST_SET],
 
 			[$source URI_TEST_SET]
 			[$source UTF_CONVERTER_TEST_SET]

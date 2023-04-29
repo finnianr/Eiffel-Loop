@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-24 15:54:33 GMT (Tuesday 24th January 2023)"
-	revision: "68"
+	date: "2023-04-29 15:09:42 GMT (Saturday 29th April 2023)"
+	revision: "69"
 
 deferred class
 	EL_REFLECTIVE
@@ -396,7 +396,6 @@ note
 						[$source AIA_PURCHASE_RESPONSE]
 							[$source AIA_REVOKE_RESPONSE]
 					[$source COUNTRY]
-						[$source STORABLE_COUNTRY]
 						[$source CAMEL_CASE_COUNTRY]
 					[$source EL_HTTP_HEADERS]
 					[$source PP_TRANSACTION]
@@ -512,7 +511,6 @@ note
 					[$source EL_COMMAND_LINE_OPTIONS]*
 						[$source EL_APPLICATION_COMMAND_OPTIONS]
 							[$source EROS_APPLICATION_COMMAND_OPTIONS]
-							[$source EL_AUTOTEST_COMMAND_OPTIONS]
 						[$source EL_BASE_COMMAND_OPTIONS]
 						[$source EL_LOG_COMMAND_OPTIONS]
 					[$source AIA_REQUEST]*
@@ -521,7 +519,6 @@ note
 							[$source AIA_REVOKE_REQUEST]
 					[$source FCGI_HTTP_HEADERS]
 					[$source EL_IP_ADDRESS_GEOLOCATION]
-						[$source EL_IP_ADDRESS_INFO]
 					[$source PP_ADDRESS]
 					[$source EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT]*
 						[$source EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN]*
@@ -544,7 +541,6 @@ note
 					[$source AIA_AUTHORIZATION_HEADER]
 					[$source EL_REFLECTIVELY_SETTABLE_STORABLE]*
 						[$source AIA_CREDENTIAL]
-						[$source STORABLE_COUNTRY]
 						[$source EL_UUID]
 						[$source TEST_STORABLE]
 						[$source EL_REFLECTIVE_RSA_KEY]*

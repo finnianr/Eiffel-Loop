@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:38:40 GMT (Monday 21st November 2022)"
-	revision: "12"
+	date: "2023-04-29 10:54:29 GMT (Saturday 29th April 2023)"
+	revision: "13"
 
 class
 	FIND_AND_REPLACE_EDITOR
@@ -23,10 +23,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_find_text, a_replacement_text: ZSTRING)
+	make (a_find_text, a_replacement_text: READABLE_STRING_GENERAL)
 			--
 		do
-			find_text := a_find_text; replacement_text := a_replacement_text
+			create find_text.make_from_general (a_find_text)
+			create replacement_text.make_from_general (a_replacement_text)
 			make_default
 		end
 

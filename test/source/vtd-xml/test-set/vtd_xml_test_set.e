@@ -7,8 +7,8 @@
 		* [$source EL_XPATH_NODE_CONTEXT_LIST]
 	]"
 	notes: "[
-		Test sets conforming to [$source EL_EQA_REGRESSION_TEST_SET] (like this one) can only be run
-		from a sub-application conforming to [$source EL_REGRESSION_AUTOTEST_SUB_APPLICATION]
+		Test sets conforming to [$source EL_CRC_32_TESTABLE] (like this one) can only be run
+		from a sub-application conforming to [$source EL_CRC_32_AUTOTEST_APPLICATION]
 	]"
 
 	author: "Finnian Reilly"
@@ -16,8 +16,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "31"
+	date: "2023-04-29 17:18:37 GMT (Saturday 29th April 2023)"
+	revision: "32"
 
 class
 	VTD_XML_TEST_SET

@@ -2,7 +2,7 @@ note
 	description: "Arrayed list"
 	tests: "[
 		1. [$source ARRAYED_LIST_TEST_SET]
-		2. [$source CHAIN_TEST_SET]
+		2. [$source CONTAINER_STRUCTURE_TEST_SET]
 	]"
 
 	author: "Finnian Reilly"
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-30 14:40:31 GMT (Thursday 30th March 2023)"
-	revision: "59"
+	date: "2023-04-29 15:09:01 GMT (Saturday 29th April 2023)"
+	revision: "60"
 
 class
 	EL_ARRAYED_LIST [G]

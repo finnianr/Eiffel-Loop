@@ -1,13 +1,13 @@
 note
-	description: "Unix implementation of [$source CAIRO_GLIB_I]"
+	description: "Windows implementation of [$source CAIRO_GLIB_C_API]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-04-29 8:40:38 GMT (Saturday 29th April 2023)"
+	revision: "11"
 
 class
 	CAIRO_GLIB_API

@@ -1,13 +1,13 @@
 note
-	description: "Modify or query the base name (last step) of path conforming to [$source EL_ZPATH]"
+	description: "Modify or query the base name (last step) of path conforming to [$source EL_PATH]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-12 12:22:19 GMT (Wednesday 12th April 2023)"
-	revision: "8"
+	date: "2023-04-29 8:16:49 GMT (Saturday 29th April 2023)"
+	revision: "9"
 
 deferred class
 	EL_PATH_BASE_NAME

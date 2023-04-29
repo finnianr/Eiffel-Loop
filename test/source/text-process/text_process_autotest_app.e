@@ -5,9 +5,10 @@ note
 		
 		**Test Sets**
 		
-			[$source EIFFEL_FAST_PARSING_TEST_SET]
+			[$source EIFFEL_PARSING_TEST_SET]
 			[$source PATTERN_MATCH_TEST_SET]
 			[$source STRING_32_PATTERN_MATCH_TEST_SET]
+			[$source STRING_EDITION_HISTORY_TEST_SET]
 			[$source ZSTRING_PATTERN_MATCH_TEST_SET]
 	]"
 
@@ -16,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 9:34:54 GMT (Thursday 1st December 2022)"
-	revision: "17"
+	date: "2023-04-29 17:20:47 GMT (Saturday 29th April 2023)"
+	revision: "18"
 
 class
 	TEXT_PROCESS_AUTOTEST_APP

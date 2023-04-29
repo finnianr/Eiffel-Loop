@@ -1,8 +1,8 @@
 note
 	description: "[
-		Sub-application to create an XML file manifest of a target directory using either the default Evolicity template
-		or an optional external Evolicity template.
-		See class [$source EL_FILE_MANIFEST_COMMAND] for details.
+		Sub-application to create an XML file manifest of a target directory using either the default
+		Evolicity template or an optional external Evolicity template.
+		See class [$source EL_FILE_MANIFEST_GENERATOR] for details.
 	]"
 
 	author: "Finnian Reilly"
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2023-04-29 17:04:15 GMT (Saturday 29th April 2023)"
+	revision: "16"
 
 class
 	FILE_MANIFEST_APP

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 9:57:15 GMT (Monday 9th January 2023)"
-	revision: "43"
+	date: "2023-04-29 13:57:42 GMT (Saturday 29th April 2023)"
+	revision: "44"
 
 class
 	EIFFEL_CLASS
@@ -80,6 +80,7 @@ feature {NONE} -- Initialization
 		do
 			create source_path
 			create name.make_empty
+			notes := Default_notes
 			Precursor
 		end
 
@@ -347,6 +348,11 @@ feature {NONE} -- Constants
 			across Class_declaration_keywords as word loop
 				Result.extend (s.character_string ('%N') + word.item)
 			end
+		end
+
+	Default_notes: EIFFEL_NOTES
+		once
+			create Result.make_default
 		end
 
 	Template: STRING = ""

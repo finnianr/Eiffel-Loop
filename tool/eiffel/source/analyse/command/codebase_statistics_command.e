@@ -1,14 +1,14 @@
 note
 	description: "Count classes, code words and combined source file size for Eiffel source trees"
-	tests: "[$source CODEBASE_STATISTICS_TEST_SET]"
+	tests: "[$source EIFFEL_SOURCE_COMMAND_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-16 8:40:28 GMT (Wednesday 16th November 2022)"
-	revision: "19"
+	date: "2023-04-29 8:58:06 GMT (Saturday 29th April 2023)"
+	revision: "20"
 
 class
 	CODEBASE_STATISTICS_COMMAND

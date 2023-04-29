@@ -1,13 +1,21 @@
 ﻿note
-	description: "Test objects conforming to [$source BASE_POWER_2_CONVERTER]"
+	description: "[
+		Test objects conforming to [$source EL_BASE_POWER_2_CONVERTER]
+
+			EL_BASE_POWER_2_CONVERTER*
+				[$source EL_OCTAL_CONVERTER]
+				[$source EL_BINARY_CONVERTER]
+				[$source EL_HEXADECIMAL_CONVERTER]
+		
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "5"
+	date: "2023-04-29 17:10:55 GMT (Saturday 29th April 2023)"
+	revision: "6"
 
 class
 	BASE_POWER_2_CONVERTER_TEST_SET

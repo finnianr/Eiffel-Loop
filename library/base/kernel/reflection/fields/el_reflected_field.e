@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-03 19:58:41 GMT (Tuesday 3rd January 2023)"
-	revision: "53"
+	date: "2023-04-29 15:10:12 GMT (Saturday 29th April 2023)"
+	revision: "54"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -281,16 +281,9 @@ note
 					[$source EL_REFLECTED_COLLECTION] [G]
 					[$source EL_REFLECTED_STRING]* [S -> [$source STRING_GENERAL]]
 						[$source EL_REFLECTED_ZSTRING]
-							[$source EL_REFLECTED_MEMBER_ZSTRING]
 						[$source EL_REFLECTED_STRING_8]
-							[$source EL_REFLECTED_MEMBER_STRING_8]
 						[$source EL_REFLECTED_STRING_32]
-							[$source EL_REFLECTED_MEMBER_STRING_32]
 						[$source EL_REFLECTED_URI]
-						[$source EL_REFLECTED_MEMBER_STRING]* [S -> [$source STRING_GENERAL]]
-							[$source EL_REFLECTED_MEMBER_ZSTRING]
-							[$source EL_REFLECTED_MEMBER_STRING_8]
-							[$source EL_REFLECTED_MEMBER_STRING_32]
 				[$source EL_REFLECTED_EXPANDED_FIELD]* [G]
 					[$source EL_REFLECTED_BOOLEAN]
 					[$source EL_REFLECTED_CHARACTER_32]

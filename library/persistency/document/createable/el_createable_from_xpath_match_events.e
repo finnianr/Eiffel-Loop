@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-04-29 8:45:18 GMT (Saturday 29th April 2023)"
+	revision: "11"
 
 deferred class
 	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
@@ -56,8 +56,7 @@ feature {NONE} -- Constants
 note
 	notes: "[
 		Although only a tiny subset of the xpath standard is implemented, it is still quite useful as this rudimentary
-		XHTML renderer, [$source EL_HTML_TEXT], illustrates. It is also used to reflectively import the contents of an
-		Pyxis format (XML analog) into a binary database using class [$source EL_PYXIS_TABLE_DATA_IMPORTER].
+		XHTML renderer, [$source EL_HTML_TEXT], illustrates.
 
 		The following xpath to agent map is from the example class
 		[http://www.eiffel-loop.com/test/source/xpath-events/bioinfo_xpath_match_events.html BIOINFO_XPATH_MATCH_EVENTS].

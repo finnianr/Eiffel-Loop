@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-04-29 17:23:30 GMT (Saturday 29th April 2023)"
+	revision: "11"
 
 class
 	REPOSITORY_NOTE_LINK_CHECKER
@@ -15,7 +15,7 @@ class
 inherit
 	REPOSITORY_PUBLISHER
 		redefine
-			execute
+			execute, building_action_table, make_default
 		end
 
 	EL_APPLICATION_COMMAND
@@ -25,15 +25,25 @@ inherit
 create
 	make
 
-feature -- Constants
+feature {NONE} -- Initialization
+
+	make_default
+		do
+			create invalid_names_output_path
+			Precursor
+		end
+
+feature -- Access
 
 	Description: STRING = "Checks for invalid class references in repository note links"
+
+	invalid_names_output_path: FILE_PATH
 
 feature -- Basic operations
 
 	execute
 		local
-			class_list: EL_STRING_8_LIST
+			file_out: EL_PLAIN_TEXT_FILE
 		do
 			lio.put_new_line
 			lio.put_line ("Checking $source links")
@@ -46,13 +56,52 @@ feature -- Basic operations
 				end
 			end
 			lio.put_new_line
-			across Invalid_source_name_table as table loop
-				lio.put_path_field ("Note source link in", table.key)
+			if Invalid_source_name_table.count > 0 then
+				lio.put_labeled_substitution ("Total", "%S classes contain invalid references", [Invalid_source_name_table.count])
 				lio.put_new_line
-				create class_list.make_from_general (table.item)
-				lio.put_labeled_string ("Cannot find classes", class_list.joined_with_string (", "))
-				lio.put_new_line_x2
+				lio.put_path_field ("See %S", invalid_names_output_path)
+				lio.put_new_line
+				create file_out.make_open_write (invalid_names_output_path)
+				file_out.byte_order_mark.enable
+
+				across Invalid_source_name_table as table loop
+					file_out.put_line ("class " + table.key.base_name.as_upper)
+					file_out.put_line (Source_file_comment + table.key.to_string)
+					file_out.put_line (Invalid_references_comment)
+					across table.item as class_name loop
+						file_out.put_line (Source_reference #$ [class_name.item])
+					end
+					file_out.put_new_line
+				end
+				file_out.close
+			else
+				lio.put_line ("All [$source XXX] class references OK")
 			end
+		end
+
+feature {NONE} -- Build from Pyxis
+
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
+		do
+			Result := Precursor +
+				["@invalid_names_output_path", agent do invalid_names_output_path := node.to_expanded_file_path end]
+		end
+
+feature {NONE} -- Constants
+
+	Invalid_references_comment: ZSTRING
+		once
+			Result := "-- Invalid references:"
+		end
+
+	Source_file_comment: ZSTRING
+		once
+			Result := "-- Source: "
+		end
+
+	Source_reference: ZSTRING
+		once
+			Result := "%T[$source %S]"
 		end
 
 end

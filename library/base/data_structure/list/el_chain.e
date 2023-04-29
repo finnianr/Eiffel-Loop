@@ -1,6 +1,6 @@
 note
 	description: "Sequence of items"
-	tests: "Class [$source CHAIN_TEST_SET]"
+	tests: "Class [$source CONTAINER_STRUCTURE_TEST_SET]"
 	descendants: "See end of class"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-28 11:47:30 GMT (Tuesday 28th March 2023)"
-	revision: "52"
+	date: "2023-04-29 15:08:37 GMT (Saturday 29th April 2023)"
+	revision: "53"
 
 deferred class EL_CHAIN [G]
 
@@ -270,7 +270,6 @@ note
 							[$source EL_STYLED_STRING_8_LIST]
 							[$source EL_STYLED_ZSTRING_LIST]
 						[$source EL_DECOMPRESSED_DATA_LIST]
-						[$source EL_SORTABLE_ARRAYED_MAP_LIST]* [K, G]
 					[$source EL_TRANSLATION_ITEMS_LIST]
 					[$source EL_XDG_DESKTOP_ENTRY_STEPS]
 					[$source EL_ARRAYED_RESULT_LIST] [R, G]

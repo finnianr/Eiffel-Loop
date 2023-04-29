@@ -2,7 +2,7 @@ note
 	description: "[
 		Descendant of [$source EL_WORK_DISTRIBUTER] specialized for functions.
 		`G' is the return type of functions you wish to execute. For an example on how to use see class
-		[$source WORK_DISTRIBUTER_TEST_APP]
+		[$source SINE_WAVE_INTEGRATION_APP]
 	]"
 
 	author: "Finnian Reilly"
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-04-29 8:10:46 GMT (Saturday 29th April 2023)"
+	revision: "10"
 
 class
 	EL_FUNCTION_DISTRIBUTER [G]

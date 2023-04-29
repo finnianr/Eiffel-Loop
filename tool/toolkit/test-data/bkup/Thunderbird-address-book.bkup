@@ -20,10 +20,7 @@ backup_config:
 
 backup-script:
 	ftp-site:
-		url:
-			"eiffel-loop.com"
-		user-home:
-			"/public/www"
+		url = "eiffel-loop.com"; user_home = "/public/www"
 	directory:
 		path:
 			"$HOME/.mozilla-thunderbird"

@@ -1,13 +1,17 @@
 note
 	description: "Command line interface to [$source EVOLICITY_TEST_SET]"
+	notes: "[
+		Test sets conforming to [$source EL_CRC_32_TESTABLE] (like this one) can only be run
+		from a sub-application conforming to [$source EL_CRC_32_AUTOTEST_APPLICATION]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 11:02:42 GMT (Saturday 31st December 2022)"
-	revision: "21"
+	date: "2023-04-29 17:18:50 GMT (Saturday 29th April 2023)"
+	revision: "22"
 
 class
 	EVOLICITY_AUTOTEST_APP

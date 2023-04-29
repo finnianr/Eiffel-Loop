@@ -1,13 +1,13 @@
 note
-	description: "Test [$source EL_FILE_MANIFEST_COMMAND]"
+	description: "Test [$source EL_FILE_MANIFEST_GENERATOR] command"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:40:40 GMT (Friday 10th March 2023)"
-	revision: "6"
+	date: "2023-04-29 17:05:37 GMT (Saturday 29th April 2023)"
+	revision: "7"
 
 class
 	FILE_MANIFEST_TEST_SET

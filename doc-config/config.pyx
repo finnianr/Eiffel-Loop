@@ -9,18 +9,19 @@ pyxis-doc:
 
 
 publish-repository:
-	name = "Eiffel-Loop"; root-dir = "$EIFFEL/library/Eiffel-Loop"; output-dir = "eiffel-loop.com"
-	web-address = "http://www.eiffel-loop.com"; github-url = "https://github.com/finnianr/eiffel-loop"
-	ise-library = "https://www.eiffel.org/files/doc/static/trunk/libraries/%S/%S_chart.html"
-	ise-contrib = "https://github.com/EiffelSoftware/EiffelStudio/blob/main/Src/contrib/"
+	name = "Eiffel-Loop"; root_dir = "$EIFFEL/library/Eiffel-Loop"; output_dir = "eiffel-loop.com"
+	web_address = "http://www.eiffel-loop.com"; github_url = "https://github.com/finnianr/eiffel-loop"
+	invalid_names_output_path = "$HOME/Desktop/Eiffel Apps/invalid-name-references.e"
+	ise_library = "https://www.eiffel.org/files/doc/static/trunk/libraries/%S/%S_chart.html"
+	ise_contrib = "https://github.com/EiffelSoftware/EiffelStudio/blob/main/Src/contrib/"
 
 	ftp-site:
-		url = "ftp.eiffel-loop.com"; user-home = "/htdocs"
+		url = "ftp.eiffel-loop.com"; user_home = "/htdocs"
 
 	templates:
-		main = "main-template.html.evol"; eiffel-source = "eiffel-source-code.html.evol"
-		site-map-content = "site-map-content.html.evol"; directory-content = "directory-tree-content.html.evol"
-		favicon-markup = "favicon.markup"
+		main = "main-template.html.evol"; eiffel_source = "eiffel-source-code.html.evol"
+		site_map_content = "site-map-content.html.evol"; directory_content = "directory-tree-content.html.evol"
+		favicon_markup = "favicon.markup"
 
 	include-notes:
 		note:

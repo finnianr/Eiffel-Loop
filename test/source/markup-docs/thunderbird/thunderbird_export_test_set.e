@@ -1,10 +1,13 @@
 ﻿note
 	description: "[
-		Test classes
+		Test classes conforming to [$source TB_ACCOUNT_READER]
 
-			[$source TB_MULTI_LANG_ACCOUNT_XHTML_BODY_EXPORTER]
-			[$source TB_MULTI_LANG_ACCOUNT_BOOK_EXPORTER]
-			[$source THUNDERBIRD_WWW_EXPORTER]
+			TB_ACCOUNT_READER*
+				[$source TB_WWW_XHTML_CONTENT_EXPORTER]
+				[$source TB_MULTI_LANG_ACCOUNT_READER]*
+					[$source TB_MULTI_LANG_ACCOUNT_XHTML_BODY_EXPORTER]
+					[$source TB_MULTI_LANG_ACCOUNT_XHTML_DOC_EXPORTER]
+					[$source TB_MULTI_LANG_ACCOUNT_BOOK_EXPORTER]
 	]"
 
 	author: "Finnian Reilly"
@@ -12,8 +15,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "23"
+	date: "2023-04-29 17:14:23 GMT (Saturday 29th April 2023)"
+	revision: "24"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET

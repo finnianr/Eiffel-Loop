@@ -14,7 +14,7 @@ note
 			bar/de
 			bar/fr
 			
-		Each document folder is read and processed by a class conforming to [$source TB_FOLDER_READER]
+		Each document folder is read and processed by a class conforming to [$source TB_FOLDER_EXPORTER]
 	]"
 
 	author: "Finnian Reilly"
@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-25 17:45:50 GMT (Wednesday 25th January 2023)"
-	revision: "18"
+	date: "2023-04-29 15:17:31 GMT (Saturday 29th April 2023)"
+	revision: "19"
 
 deferred class
 	TB_MULTI_LANG_ACCOUNT_READER

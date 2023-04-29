@@ -1,7 +1,7 @@
 note
 	description: "[
-		Table of [$source EL_IP_ADDRESS_INFO] objects for IP address keys.
-		Accessible via [$source EL_SHARED_IP_ADDRESS_INFO_TABLE]
+		Table of [$source EL_IP_ADDRESS_GEOGRAPHIC_INFO] objects for IP address keys.
+		Accessible via [$source EL_SHARED_GEOGRAPHIC_INFO_TABLE]
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-04-29 8:43:06 GMT (Saturday 29th April 2023)"
+	revision: "6"
 
 class
 	EL_GEOGRAPHIC_INFO_TABLE

@@ -1,5 +1,5 @@
 note
-	description: "OS operations based on command line utilities"
+	description: "OS operations based on command line utilities accessible via [$source EL_MODULE_OS]"
 	notes: "[
 		If you are creating an application on Windows with a graphical UI then these commands are not suitable
 		as they cause a command console to momentarily appear. This might be off-putting to some users.
@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-30 12:16:23 GMT (Thursday 30th March 2023)"
-	revision: "28"
+	date: "2023-04-29 8:54:27 GMT (Saturday 29th April 2023)"
+	revision: "29"
 
 class
 	EL_OS_ROUTINES

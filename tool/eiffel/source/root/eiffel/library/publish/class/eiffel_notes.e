@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:47:53 GMT (Tuesday 14th February 2023)"
-	revision: "28"
+	date: "2023-04-29 13:55:53 GMT (Saturday 29th April 2023)"
+	revision: "29"
 
 class
 	EIFFEL_NOTES
@@ -15,7 +15,9 @@ class
 inherit
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
-			make as make_machine
+			make as make_default
+		redefine
+			make_default
 		end
 
 	EL_EIFFEL_KEYWORDS
@@ -31,17 +33,24 @@ inherit
 	SHARED_INVALID_CLASSNAMES
 
 create
-	make
+	make, make_default
 
 feature {NONE} -- Initialization
 
 	make (a_relative_class_dir: like relative_class_dir; a_selected_fields: like selected_fields)
 		do
-			make_machine
+			make_default
+			relative_class_dir := a_relative_class_dir; selected_fields := a_selected_fields
+		end
+
+	make_default
+		do
+			Precursor
 			create fields.make_equal (3)
 			create last_field_name.make_empty
 			create note_lines.make (5)
-			relative_class_dir := a_relative_class_dir; selected_fields := a_selected_fields
+			create relative_class_dir
+			create selected_fields.make_empty
 		end
 
 feature -- Access

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 16:27:21 GMT (Saturday 31st December 2022)"
-	revision: "25"
+	date: "2023-04-29 8:28:53 GMT (Saturday 29th April 2023)"
+	revision: "26"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
@@ -288,33 +288,26 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 note
 	descendants: "[
 			EL_SETTABLE_FROM_STRING*
-				[$source EL_SETTABLE_FROM_STRING_32]*
-					[$source MY_DRY_CLASS]
-				[$source EL_SETTABLE_FROM_STRING_8]*
-					[$source AIA_CREDENTIAL_ID]
-					[$source AIA_AUTHORIZATION_HEADER]
-					[$source EL_REFLECTIVE_RSA_KEY]*
-						[$source EL_RSA_PRIVATE_KEY]
 				[$source EL_SETTABLE_FROM_ZSTRING]*
-					[$source FCGI_REQUEST_PARAMETERS]
-					[$source COUNTRY]
-						[$source CAMEL_CASE_COUNTRY]
-						[$source STORABLE_COUNTRY]
+					[$source EL_HTML_META_VALUES]
 					[$source PP_TRANSACTION]
 					[$source JOB]
-					[$source EL_SETTABLE_FROM_JSON_STRING]*
-						[$source AIA_RESPONSE]
-							[$source AIA_PURCHASE_RESPONSE]
-								[$source AIA_REVOKE_RESPONSE]
-							[$source AIA_GET_USER_ID_RESPONSE]
-							[$source AIA_FAIL_RESPONSE]
-						[$source JSON_CURRENCY]
-						[$source PERSON]
-						[$source AIA_REQUEST]*
-							[$source AIA_GET_USER_ID_REQUEST]
-							[$source AIA_PURCHASE_REQUEST]
-								[$source AIA_REVOKE_REQUEST]
-					[$source FCGI_HTTP_HEADERS]
+					[$source COUNTRY]
+						[$source CAMEL_CASE_COUNTRY]
+					[$source FCGI_REQUEST_PARAMETERS]
 					[$source EL_COMMA_SEPARATED_WORDS]
+					[$source PROVINCE]
+					[$source FCGI_HTTP_HEADERS]
+				[$source EL_SETTABLE_FROM_STRING_8]*
+					[$source EL_NETWORK_DEVICE_IMP]
+					[$source TB_EMAIL]
+					[$source AIA_AUTHORIZATION_HEADER]
+					[$source AIA_CREDENTIAL_ID]
+					[$source EL_HTTP_HEADERS]
+					[$source EL_REFLECTIVE_RSA_KEY]*
+						[$source EL_RSA_PRIVATE_KEY]
+						[$source EL_RSA_PUBLIC_KEY]
+				[$source EL_SETTABLE_FROM_STRING_32]*
+					[$source MY_DRY_CLASS]
 	]"
 end

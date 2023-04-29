@@ -5,10 +5,7 @@ pyxis-doc:
 
 backup-script:
 	ftp-site:
-		url:
-			"eiffel-loop.com"
-		user-home:
-			"/public/www"
+		url = "eiffel-loop.com"; user_home = "/public/www"
 	directory:
 		path:
 			"$EIFFEL_LOOP/projects.data/rhythmdb"

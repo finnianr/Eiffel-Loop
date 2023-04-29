@@ -1,13 +1,13 @@
 note
-	description: "A reflected [$source NATURAL_32] representing an IP 4 internet address [$source STRING]"
+	description: "A reflected [$source NATURAL_32] representing an IP 4 internet address [$source STRING_8]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-04-29 8:41:55 GMT (Saturday 29th April 2023)"
+	revision: "4"
 
 class
 	EL_IP_ADDRESS_REPRESENTATION

@@ -10,8 +10,6 @@ system:
 	description:
 		"""
 			Eiffel Development Utilities
-			
-			See doc/eiffel-utility.txt for details.
 		"""
 	
 	# "Swiss army knife" toolkit containing a suite of command line tools for Eiffel development
@@ -21,7 +19,7 @@ system:
 			class = APPLICATION_ROOT; feature = make
 		version:
 			# Special case: no automatic generation of ecf XML for this project
-			major = 1; minor = 3; release = 5; build = 527
+			major = 1; minor = 3; release = 6; build = 527
 			company = "Eiffel-Loop"; product = "eiffel"
 			copyright = "Finnian Reilly"
 

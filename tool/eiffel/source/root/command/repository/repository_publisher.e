@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-30 12:23:15 GMT (Thursday 30th March 2023)"
-	revision: "63"
+	date: "2023-04-29 9:31:51 GMT (Saturday 29th April 2023)"
+	revision: "64"
 
 class
 	REPOSITORY_PUBLISHER
@@ -263,13 +263,13 @@ feature {NONE} -- Build from Pyxis
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
-				["@output-dir",		 			agent do output_dir := node.to_expanded_dir_path end],
+				["@output_dir",		 			agent do output_dir := node.to_expanded_dir_path end],
 				["@name", 							agent do name := node.to_string end],
-				["@root-dir",	 					agent do root_dir := node.to_expanded_dir_path end],
-				["@github-url", 					agent do github_url := node.to_string end],
-				["@web-address", 					agent do web_address := node.to_string end],
-				["@ise-library",					agent do ise_template.library := node end],
-				["@ise-contrib",					agent do ise_template.contrib := node end],
+				["@root_dir",	 					agent do root_dir := node.to_expanded_dir_path end],
+				["@github_url", 					agent do github_url := node.to_string end],
+				["@web_address", 					agent do web_address := node.to_string end],
+				["@ise_library",					agent do ise_template.library := node end],
+				["@ise_contrib",					agent do ise_template.contrib := node end],
 
 				["templates",						agent set_template_context],
 				["ecf-list/ecf", 					agent do set_next_context (create {ECF_INFO}.make) end],

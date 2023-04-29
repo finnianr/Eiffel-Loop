@@ -1,16 +1,16 @@
 note
-	description: "Test class [$source CODEC_GENERATOR]"
+	description: "Test class [$source ZCODEC_GENERATOR]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-07 12:57:03 GMT (Friday 7th April 2023)"
-	revision: "11"
+	date: "2023-04-28 10:33:42 GMT (Friday 28th April 2023)"
+	revision: "12"
 
 class
-	CODEC_GENERATOR_TEST_SET
+	ZCODEC_GENERATOR_TEST_SET
 
 inherit
 	EL_FILE_DATA_TEST_SET

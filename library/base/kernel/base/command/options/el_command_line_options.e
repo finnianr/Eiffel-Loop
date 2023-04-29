@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "25"
+	date: "2023-04-29 8:19:51 GMT (Saturday 29th April 2023)"
+	revision: "26"
 
 deferred class
 	EL_COMMAND_LINE_OPTIONS
@@ -114,8 +114,7 @@ note
 				[$source EL_APPLICATION_COMMAND_OPTIONS]
 					[$source EROS_APPLICATION_COMMAND_OPTIONS]
 					[$source FTP_LOGIN_OPTIONS]
-					[$source TEST_WORK_DISTRIBUTER_COMMAND_OPTIONS]
-					[$source EL_AUTOTEST_COMMAND_OPTIONS]
+					[$source INTEGRATION_COMMAND_OPTIONS]
 				[$source EL_BASE_COMMAND_OPTIONS]
 				[$source EL_LOG_COMMAND_OPTIONS]
 	]"

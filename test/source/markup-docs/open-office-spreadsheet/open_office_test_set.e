@@ -6,18 +6,14 @@ note
 		* [$source EL_SPREAD_SHEET_TABLE]
 		* [$source EL_SPREAD_SHEET_ROW]
 	]"
-	notes: "[
-		Test sets conforming to [$source EL_EQA_REGRESSION_TEST_SET] (like this one) can only be run
-		from a sub-application conforming to [$source EL_REGRESSION_AUTOTEST_SUB_APPLICATION]
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "30"
+	date: "2023-04-29 17:12:05 GMT (Saturday 29th April 2023)"
+	revision: "31"
 
 class
 	OPEN_OFFICE_TEST_SET

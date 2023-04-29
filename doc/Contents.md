@@ -1631,7 +1631,7 @@ Command switch: `-class_descendants`
 
 Command switch: `-eiffel_view`
 
-[CODEC_GENERATOR_APP]($source) generates Eiffel classes conforming to [EL_ZCODEC](http://www.eiffel-loop.com/library/base/text/zstring/codec/el_zcodec.html) from VTD-XML C code
+[ZCODEC_GENERATOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/generate/zcodec_generator_app.html) generates Eiffel classes conforming to [EL_ZCODEC](http://www.eiffel-loop.com/library/base/text/zstring/codec/el_zcodec.html) from VTD-XML C code
 
 Command switch: `-generate_codecs`
 

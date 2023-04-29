@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-30 12:23:15 GMT (Thursday 30th March 2023)"
-	revision: "56"
+	date: "2023-04-29 14:53:46 GMT (Saturday 29th April 2023)"
+	revision: "57"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -43,6 +43,11 @@ inherit
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 	SHARED_INVALID_CLASSNAMES; SHARED_DEV_ENVIRON
+
+	EL_SHARED_DIRECTORY
+		rename
+			Directory as Shared_directory
+		end
 
 create
 	make
@@ -80,6 +85,7 @@ feature -- Tests
 				end
 			end
 			assert ("el_solitary.e found", found)
+			assert_same_digest (link_checker.invalid_names_output_path, "VhpuZXvPZub0tsM0ZGESKg==")
 		end
 
 	test_publisher
@@ -135,7 +141,7 @@ feature {NONE} -- Events
 
 	on_prepare
 		local
-			lib_dir: DIR_PATH; list: EL_STRING_8_LIST; steps: EL_PATH_STEPS
+			lib_dir, library_doc_dir: DIR_PATH; list: EL_STRING_8_LIST; steps: EL_PATH_STEPS
 		do
 			Precursor
 			OS.copy_tree (Dev_environ.Eiffel_loop_dir #+ "doc-config", Work_area_dir)
@@ -160,8 +166,15 @@ feature {NONE} -- Events
 				OS.copy_tree (Dev_environ.Eiffel_loop_dir #+ lib_dir, Work_area_dir #+ lib_dir.parent)
 			end
 			list := "library/base/base.ecf, library/Eco-DB.ecf, library/public-key-encryption.ecf"
-			across list as path loop
-				OS.copy_file (Dev_environ.Eiffel_loop_dir + path.item, (Work_area_dir + path.item).parent)
+			if attached Dev_environ.Eiffel_loop_dir as el_dir then
+				across list as path loop
+					OS.copy_file (el_dir + path.item, (Work_area_dir + path.item).parent)
+				end
+				library_doc_dir := Work_area_dir #+ "library/doc"
+				File_system.make_directory (library_doc_dir)
+				across Shared_directory.named (el_dir #+ "library").files_with_extension ("txt") as path loop
+					OS.copy_file (path.item, library_doc_dir)
+				end
 			end
 		end
 

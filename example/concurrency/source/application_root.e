@@ -3,7 +3,7 @@ note
 		Root for two concurrency demonstrations:
 		
 		1. [$source HORSE_RACE_APP]
-		2. [$source WORK_DISTRIBUTER_TEST_APP]
+		2. [$source SINE_WAVE_INTEGRATION_APP]
 	]"
 
 	author: "Finnian Reilly"
@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "62"
+	date: "2023-04-29 8:10:20 GMT (Saturday 29th April 2023)"
+	revision: "63"
 
 class
 	APPLICATION_ROOT

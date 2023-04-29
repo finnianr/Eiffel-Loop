@@ -11,7 +11,7 @@ See [https://www.eiffel.org/blog/Finnian%20Reilly/2018/10/eiffel-view-repository
 
 Command switch: `-eiffel_view'
 
-[$source CODEC_GENERATOR_APP] generates Eiffel classes conforming to [$source EL_ZCODEC] from VTD-XML C code
+[$source ZCODEC_GENERATOR_APP] generates Eiffel classes conforming to [$source EL_ZCODEC] from VTD-XML C code
 
 Command switch: `-generate_codecs'
 

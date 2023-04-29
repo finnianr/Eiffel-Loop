@@ -1,7 +1,7 @@
 note
 	description: "Factory to create new instances of text patterns"
 	notes: "[
-		Implement **core** feature using [$source TP_FACTORY_SELECTOR]
+		Implement **optimal_core** feature using [$source TP_SHARED_OPTIMIZED_FACTORY]
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-09 16:27:40 GMT (Thursday 9th February 2023)"
-	revision: "10"
+	date: "2023-04-29 15:21:51 GMT (Saturday 29th April 2023)"
+	revision: "11"
 
 deferred class
 	TP_FACTORY
@@ -247,7 +247,6 @@ feature {NONE} -- Type definition
 			Result := Void
 		end
 end
-
 
 
 

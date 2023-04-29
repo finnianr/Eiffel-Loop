@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 10:03:49 GMT (Friday 9th December 2022)"
-	revision: "5"
+	date: "2023-04-29 8:31:04 GMT (Saturday 29th April 2023)"
+	revision: "6"
 
 deferred class
 	EL_NAME_TRANSLATER
@@ -112,7 +112,7 @@ note
 	descendants: "[
 			EL_NAME_TRANSLATER*
 				[$source EL_KEBAB_CASE_TRANSLATER]
-					[$source EL_HEADER_NAME_TRANSLATER]
+					[$source EL_HTTP_HEADER_NAME_TRANSLATER]
 				[$source EL_SNAKE_CASE_TRANSLATER]
 				[$source EL_CAMEL_CASE_TRANSLATER]
 					[$source PP_NAME_TRANSLATER]

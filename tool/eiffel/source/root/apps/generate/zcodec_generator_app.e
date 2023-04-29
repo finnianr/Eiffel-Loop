@@ -1,13 +1,13 @@
 note
-	description: "Command-line interface to [$source CODEC_GENERATOR] command"
+	description: "Command-line interface to [$source ZCODEC_GENERATOR] command"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-07 12:57:03 GMT (Friday 7th April 2023)"
-	revision: "25"
+	date: "2023-04-29 8:55:38 GMT (Saturday 29th April 2023)"
+	revision: "26"
 
 class
 	ZCODEC_GENERATOR_APP

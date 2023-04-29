@@ -1,14 +1,14 @@
 note
 	description: "Base class for Latin, Windows and UTF-8 codecs"
-	notes: "Thread safe proven in repository publishing command"
+	notes: "Proven to be thread-safe in repository publishing command"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-22 16:33:47 GMT (Wednesday 22nd March 2023)"
-	revision: "51"
+	date: "2023-04-28 10:51:54 GMT (Friday 28th April 2023)"
+	revision: "52"
 
 deferred class
 	EL_ZCODEC

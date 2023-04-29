@@ -1,8 +1,8 @@
 note
 	description: "[
-		This class combines the functionality of classes [$source ECD_CHAIN] and
-		[$source ECD_CHAIN_EDITIONS]. The former class can store and load the complete state of
-		all chain items, while the latter immediately stores any of the following
+		A [$source ECD_CHAIN] that is recoverable despite write any errors. 
+		The former class can store and load the complete state of all chain items, 
+		while this class immediately stores any of the following
 		chain editions: `extend', `replace', `remove', `delete'.
 
 		When doing a file retrieval, the last complete state is loaded from `file_path' and then
@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-04 13:38:17 GMT (Wednesday 4th January 2023)"
-	revision: "31"
+	date: "2023-04-29 15:16:23 GMT (Saturday 29th April 2023)"
+	revision: "32"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]

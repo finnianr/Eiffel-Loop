@@ -2,7 +2,7 @@ note
 	description: "[
 		Sub app to compile tree of Pyxis translation files into multiple locale files named `locale.x'
 		where `x' is a 2 letter country code. Does nothing if source files are all older
-		than locale files. See class [$source EL_LOCALE_I]
+		than locale files. See class [$source EL_LOCALE]
 		
 		Syntax:
 		
@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "19"
+	date: "2023-04-29 17:03:22 GMT (Saturday 29th April 2023)"
+	revision: "20"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER_APP
