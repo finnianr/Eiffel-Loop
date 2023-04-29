@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-26 13:30:37 GMT (Wednesday 26th April 2023)"
-	revision: "3"
+	date: "2023-04-29 22:24:24 GMT (Saturday 29th April 2023)"
+	revision: "4"
 
 class
 	EL_YOUTUBE_VIDEO_STREAM
@@ -54,7 +54,7 @@ feature {NONE} -- Implementation
 
 	new_description (basic_parts: EL_SPLIT_ZSTRING_LIST; detailed: ZSTRING): ZSTRING
 		local
-			parts_list: EL_ZSTRING_LIST; padding: ZSTRING
+			parts_list: EL_ZSTRING_LIST; padding: ZSTRING; p_index: INTEGER
 		do
 			parts_list := detailed
 			parts_list.start
@@ -70,8 +70,16 @@ feature {NONE} -- Implementation
 					list.back
 				end
 			end
-			create padding.make_filled (' ', 5 - parts_list.first.count)
-			Result := padding + parts_list.joined_with_string (", ")
+			if attached parts_list.first as point_size then
+				p_index := point_size.index_of ('p', 1)
+				if p_index > 0 and p_index < point_size.count then
+					point_size.keep_head (p_index)
+				end
+				create padding.make_filled (' ', (5 - point_size.count).max (0))
+				Result := padding + parts_list.joined_with_string (", ")
+			else
+				create Result.make_empty
+			end
 		end
 
 	new_info (line: ZSTRING): TUPLE [basic, detailed: ZSTRING]
