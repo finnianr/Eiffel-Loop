@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:04 GMT (Monday 20th March 2023)"
-	revision: "24"
+	date: "2023-05-05 15:18:08 GMT (Friday 5th May 2023)"
+	revision: "25"
 
 class
 	AIA_AUTHORIZATION_HEADER
@@ -29,7 +29,7 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
-	EL_MODULE_DIGEST
+	EL_MODULE_DIGEST; EL_MODULE_REUSEABLE
 
 create
 	make, make_from_string, make_signed
@@ -38,16 +38,18 @@ feature {NONE} -- Initialization
 
 	make_from_string (str: STRING)
 		local
-			modified: STRING; fields: EL_STRING_8_LIST; buffer: EL_STRING_8_BUFFER_ROUTINES
+			modified: STRING; field_list: EL_STRING_8_LIST
 		do
 			make
-			modified := buffer.empty
-			-- Tweak `str' to make it splittable as series of assignments
-			modified.append (Algorithm_equals); modified.append (str)
-			modified.insert_character (',', modified.index_of (' ', Algorithm_equals.count))
+			across Reuseable.string_8 as reuse loop
+				modified := reuse.copied_item (Algorithm_equals)
+				-- Tweak `str' to make it splittable as series of assignments
+				modified.append (str)
+				modified.insert_character (',', modified.index_of (' ', Algorithm_equals.count))
 
-			create fields.make_adjusted_split (modified, ',', {EL_SIDE}.Left)
-			fields.do_all (agent set_field_from_nvp (?, '='))
+				create field_list.make_adjusted_split (modified, ',', {EL_SIDE}.Left)
+				field_list.do_all (agent set_field_from_nvp (?, '='))
+			end
 		end
 
 	make_signed (signer: AIA_SIGNER; canonical_request: AIA_CANONICAL_REQUEST)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-25 11:28:51 GMT (Saturday 25th March 2023)"
-	revision: "14"
+	date: "2023-05-01 7:53:22 GMT (Monday 1st May 2023)"
+	revision: "15"
 
 class
 	EXPORT_MUSIC_TO_DEVICE_TASK_TEST_SET
@@ -88,7 +88,7 @@ feature {NONE} -- Constants
 
 	Checksum: NATURAL
 		once
-			Result := 3344332054
+			Result := 1524347212
 		end
 
 	Export_dir: DIR_PATH

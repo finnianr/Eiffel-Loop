@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:33:46 GMT (Friday 10th March 2023)"
-	revision: "25"
+	date: "2023-05-07 8:26:05 GMT (Sunday 7th May 2023)"
+	revision: "26"
 
 class
 	DATA_DIGESTS_TEST_SET
@@ -15,17 +15,13 @@ class
 inherit
 	EL_FILE_DATA_TEST_SET
 
-	EL_MODULE_CHECKSUM
-
-	EL_MODULE_DIGEST
+	EL_MODULE_CHECKSUM; EL_MODULE_DIGEST
 
 	EL_FILE_OPEN_ROUTINES
 
-	EL_ZSTRING_CONSTANTS
+	EL_STRING_8_CONSTANTS; EL_ZSTRING_CONSTANTS
 
-	EL_STRING_8_CONSTANTS
-
-	EL_SHARED_TEST_TEXT
+	EL_SHARED_TEST_TEXT; EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 create
 	make
@@ -36,12 +32,27 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["file_crc_32", agent test_file_crc_32],
-				["md5_128", agent test_md5_128]
+				["add_file_first", agent test_add_file_first],
+				["file_crc_32",	 agent test_file_crc_32],
+				["md5_128",			 agent test_md5_128]
 			>>)
 		end
 
 feature -- Tests
+
+	test_add_file_first
+		-- DATA_DIGESTS_TEST_SET.test_add_file_first
+		local
+			file_path: FILE_PATH; sum_1, sum_2: NATURAL
+			crc: like crc_generator
+		do
+			file_path := "test.ecf"
+			sum_1 := Checksum.file_content (file_path)
+			crc := crc_generator
+			crc.add_file_first (file_path, File.byte_count (file_path))
+			sum_2 := crc.checksum
+			assert ("sames sum", sum_1 = sum_2)
+		end
 
 	test_file_crc_32
 		note

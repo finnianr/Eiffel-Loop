@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-11 12:29:19 GMT (Tuesday 11th April 2023)"
-	revision: "1"
+	date: "2023-05-05 12:56:07 GMT (Friday 5th May 2023)"
+	revision: "2"
 
 class
 	EL_XDG_DESKTOP
@@ -16,7 +16,7 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_any_field,
-			foreign_naming as eiffel_naming
+			foreign_naming as Snake_case_title
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
@@ -33,12 +33,8 @@ feature {NONE} -- Initialization
 			str: ZSTRING; assignment: EL_ASSIGNMENT_ROUTINES
 		do
 			make_default
-			across open_lines (desktop_path, Utf_8) as line loop
-				str := line.item
-				if attached assignment.name (str) as field_name and then field_name.is_code_identifier then
-					field_name.to_lower
-					set_field (field_name, assignment.value (str))
-				end
+			if desktop_path.exists then
+				set_from_lines (open_lines (desktop_path, Utf_8), '=')
 			end
 		end
 
@@ -56,4 +52,10 @@ feature -- Access
 
 	type: STRING
 
+feature {NONE} -- Constants
+
+	Snake_case_title: EL_SNAKE_CASE_TRANSLATER
+		once
+			Result := {EL_CASE}.Title
+		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 9:37:01 GMT (Monday 9th January 2023)"
-	revision: "29"
+	date: "2023-05-07 9:01:52 GMT (Sunday 7th May 2023)"
+	revision: "30"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -103,7 +103,16 @@ feature -- Add file content
 		require
 			path_exists: file_path.exists
 		do
-			add_data (File.data (file_path))
+			File.do_with_all_blocks (file_path, agent add_data, File_block_size)
+		end
+
+	add_file_first (file_path: FILE_PATH; max_byte_count: INTEGER)
+		-- add first `max_byte_count' bytes of content from file at `file_path'
+		-- or entire file if `max_byte_count = 0'
+		require
+			path_exists: file_path.exists
+		do
+			File.do_with_blocks (file_path, agent add_data, max_byte_count, File_block_size)
 		end
 
 feature -- Add basic types
@@ -126,10 +135,10 @@ feature -- Add basic types
 			add_to_checksum ($c, 1, Character_8_bytes)
 		end
 
-	add_data (data: MANAGED_POINTER)
+	add_data (block: MANAGED_POINTER)
 			--
 		do
-			add_to_checksum (data.item, data.count, 1)
+			add_to_checksum (block.item, block.count, 1)
 		end
 
 	add_pointer (b: POINTER)
@@ -322,4 +331,8 @@ feature {NONE} -- Internal attributes
 
 	crc_table: SPECIAL [NATURAL]
 
+feature {NONE} -- Constants
+
+	File_block_size: INTEGER = 0x1000
+		-- 4096 bytes
 end

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-21 15:27:55 GMT (Tuesday 21st March 2023)"
-	revision: "6"
+	date: "2023-05-05 12:49:51 GMT (Friday 5th May 2023)"
+	revision: "7"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -128,7 +128,7 @@ feature {NONE} -- Implementation
 			first_i: BOOLEAN; i, last_i: INTEGER; l_area: like area
 		do
 			last_i := area_last_index; l_area := area
-			Result := True; first_i := True
+			Result := target_count > 0; first_i := True
 			from i := area_first_index until i > last_i or not Result loop
 				Result := is_i_th_eiffel_identifier (l_area, i, case_code, first_i)
 				if first_i then

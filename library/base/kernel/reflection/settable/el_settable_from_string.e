@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 8:28:53 GMT (Saturday 29th April 2023)"
-	revision: "26"
+	date: "2023-05-05 13:05:22 GMT (Friday 5th May 2023)"
+	revision: "27"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
@@ -110,16 +110,27 @@ feature -- Element change
 			set_table_field (field_table, name, value)
 		end
 
-	set_field_from_nvp (nvp: like new_string; delimiter: CHARACTER_32)
-		-- Set field from name-value pair `nvp' delimited by `delimiter'. For eg. "var=value" or "var: value"
-		require
-			has_one_equal_sign: nvp.has (delimiter)
-		local
-			pair: like Name_value_pair
+	set_field_from_line (line: like new_string; delimiter: CHARACTER_32)
+		-- if `line' has `delimiter' set named field from name-value pair `nvp' delimited by `delimiter'.
+		-- For eg. "var=value" or "var: value"
 		do
-			pair := Name_value_pair
-			pair.set_from_string (nvp, delimiter)
-			set_field (pair.name, pair.value)
+			if line.has (delimiter) then
+				set_field_from_nvp (line, delimiter)
+			end
+		end
+
+	set_field_from_nvp (nvp_line: like new_string; delimiter: CHARACTER_32)
+		-- set field from name-value pair `nvp_line' delimited by `delimiter' if name is Eiffel code identifier
+		-- For eg. "var=value" or "var: value"
+		require
+			has_delimiter: nvp_line.has (delimiter)
+		do
+			if attached name_value_pair as pair then
+				pair.set_from_string (nvp_line, delimiter)
+				if is_code_identifier (pair.name) then
+					set_field (pair.name, pair.value)
+				end
+			end
 		end
 
 	set_from_converted_map_list (
@@ -140,18 +151,19 @@ feature -- Element change
 			end
 		end
 
-	set_from_lines (lines: LINEAR [like new_string]; delimiter: CHARACTER_32; is_comment: PREDICATE [like new_string])
-			-- set fields from `lines' formatted as `<name>: <value>'
-			-- but ignoring lines where `is_comment (lines.item)' is True
-		local
-			line: like new_string
+	set_from_lines (lines: CONTAINER [like new_string]; delimiter: CHARACTER_32)
+		-- set fields from `lines' formatted as `<name>: <value>'
 		do
-			from lines.start until lines.after loop
-				line := lines.item
-				if not is_comment (line) and then line.has (delimiter) then
-					set_field_from_nvp (line, delimiter)
+			if attached {ITERABLE [like new_string]} lines as iterable_lines then
+				across iterable_lines as line loop
+					set_field_from_line (line.item, delimiter)
 				end
-				lines.forth
+
+			elseif attached {LINEAR [like new_string]} lines.linear_representation as list then
+				from list.start until list.after loop
+					set_field_from_line (list.item, delimiter)
+					list.forth
+				end
 			end
 		end
 
@@ -226,6 +238,10 @@ feature {NONE} -- Implementation
 		end
 
 	field_table: EL_REFLECTED_FIELD_TABLE
+		deferred
+		end
+
+	is_code_identifier (name: like new_string): BOOLEAN
 		deferred
 		end
 

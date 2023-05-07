@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-09 10:04:53 GMT (Thursday 9th March 2023)"
-	revision: "11"
+	date: "2023-05-07 9:01:29 GMT (Sunday 7th May 2023)"
+	revision: "12"
 
 deferred class
 	EL_FILE_ROUTINES_I
@@ -92,10 +92,10 @@ feature -- File content
 		require
 			file_exists: file_path.exists
 		do
-			if attached open_raw (file_path, Read) as l_file then
-				create Result.make (l_file.count)
-				l_file.read_to_managed_pointer (Result, 0, l_file.count)
-				l_file.close
+			if attached open_raw (file_path, Read) as file then
+				create Result.make (file.count)
+				file.read_to_managed_pointer (Result, 0, file.count)
+				file.close
 			end
 		end
 
@@ -196,9 +196,9 @@ feature -- Status report
 	has_content (file_path: FILE_PATH): BOOLEAN
 			-- True if file not empty
 		do
-			if attached open_raw (file_path, Read) as l_file then
-				Result := not l_file.is_empty
-				l_file.close
+			if attached open_raw (file_path, Read) as file then
+				Result := not file.is_empty
+				file.close
 			end
 		end
 
@@ -326,6 +326,49 @@ feature -- Basic operations
 			copy_contents (source_file, destination_path)
 		end
 
+	do_with_all_blocks (file_path: FILE_PATH; action: PROCEDURE [MANAGED_POINTER]; block_size: INTEGER)
+		-- call `action' with consective data blocks of maximum `block_size' bytes for entire file at `file_path'
+		do
+			do_with_blocks (file_path, action, 0, block_size)
+		end
+
+	do_with_blocks (file_path: FILE_PATH; action: PROCEDURE [MANAGED_POINTER]; max_byte_count, block_size: INTEGER)
+		-- call `action' with consective data blocks of maximum `block_size' bytes for entire file at `file_path'
+		-- but if `max_byte_count > 0' then limit to first `max_byte_count' bytes
+		require
+			path_exists: file_path.exists
+		local
+			maximum_count, file_count, block_count, remainder_count, i: INTEGER
+			block: MANAGED_POINTER; file: RAW_FILE
+		do
+			file_count := byte_count (file_path)
+
+			if max_byte_count.to_boolean then
+				maximum_count := max_byte_count.min (file_count)
+			else
+				maximum_count := file_count
+			end
+
+			block_count := maximum_count // block_size
+			remainder_count := maximum_count \\ block_size
+			create block.make (block_size)
+			create file.make_open_read (file_path)
+			from i := 1 until i > block_count loop
+				file.read_to_managed_pointer (block, 0, block.count)
+				action (block)
+				i := i + 1
+			end
+			if remainder_count.to_boolean then
+				block.resize (remainder_count)
+				file.read_to_managed_pointer (block, 0, remainder_count)
+				check
+					byte_read_agrees: file.bytes_read = remainder_count
+				end
+				action (block)
+			end
+			file.close
+		end
+
 	write_text (file_path: FILE_PATH; text: STRING)
 		-- write plain text
 		local
@@ -355,24 +398,24 @@ feature {NONE} -- Implementation
 			-- Add read, write, execute or setuid permission
 			-- for `who' ('u', 'g' or 'o') to `what'.
 		local
-			l_file: FILE; l_who: STRING
+			file: FILE; l_who: STRING
 		do
-			l_file := info (path, False)
+			file := info (path, False)
 			create l_who.make (1)
 			across who as c loop
 				l_who.wipe_out
 				l_who.append_character (c.item)
-				change (l_file, l_who, what)
+				change (file, l_who, what)
 			end
 		end
 
 	notify_progress (a_file: FILE; final: BOOLEAN)
 		do
-			if attached {EL_NOTIFYING_FILE} a_file as l_file then
+			if attached {EL_NOTIFYING_FILE} a_file as file then
 				if final then
-					l_file.notify_final
+					file.notify_final
 				else
-					l_file.notify
+					file.notify
 				end
 			end
 		end

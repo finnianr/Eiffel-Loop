@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2023-05-05 12:52:02 GMT (Friday 5th May 2023)"
+	revision: "15"
 
 deferred class
 	EL_SETTABLE_FROM_ZSTRING
@@ -45,6 +45,11 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 			else
 				create Result.make_from_general (str)
 			end
+		end
+
+	is_code_identifier (name: ZSTRING): BOOLEAN
+		do
+			Result := name.is_code_identifier
 		end
 
 	new_string: ZSTRING

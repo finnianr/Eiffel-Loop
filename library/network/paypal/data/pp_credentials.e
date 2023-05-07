@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2023-05-05 12:51:18 GMT (Friday 5th May 2023)"
+	revision: "17"
 
 class
 	PP_CREDENTIALS
@@ -41,7 +41,7 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			create lines.make (credentials_path, decrypter)
-			set_from_lines (lines, ':', agent is_comment)
+			set_from_lines (lines, ':')
 			lines.close
 			http_parameters := to_parameter_list
 		ensure
@@ -59,12 +59,5 @@ feature -- Credentials
 	signature: ZSTRING
 
 	user: ZSTRING
-
-feature {NONE} -- Implementation
-
-	is_comment (str: ZSTRING): BOOLEAN
-		do
-			Result := not str.is_empty and then str [1] = '#'
-		end
 
 end
