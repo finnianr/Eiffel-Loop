@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 10:38:52 GMT (Monday 27th March 2023)"
-	revision: "13"
+	date: "2023-05-08 6:28:04 GMT (Monday 8th May 2023)"
+	revision: "14"
 
 class
 	EL_FILE_SYNC_MANAGER
@@ -26,17 +26,13 @@ class
 inherit
 	EL_FILE_SYNC_ROUTINES
 
-	EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_LIO
-
-	EL_SHARED_DIRECTORY
-
-	EL_SHARED_PROGRESS_LISTENER
+	EL_SHARED_DIRECTORY; EL_MODULE_FILE_SYSTEM; EL_MODULE_LIO; EL_MODULE_USER_INPUT
 
 	EL_MODULE_TRACK
 
-	EL_MODULE_USER_INPUT
+	EL_SHARED_PROGRESS_LISTENER
+
+	EL_ZSTRING_CONSTANTS
 
 create
 	make, make_empty
@@ -46,13 +42,17 @@ feature {NONE} -- Initialization
 	make (a_current_set: like current_set)
 		require
 			at_least_one_item: a_current_set.count > 0
-		local
-			first_item: EL_FILE_SYNC_ITEM
 		do
 			current_set := a_current_set
-			a_current_set.start; first_item := a_current_set.iteration_item
-			local_home_dir := first_item.home_dir ; destination_name := first_item.destination_name
-			extension := first_item.file_path.extension
+			a_current_set.start
+			if not a_current_set.off and then attached a_current_set.iteration_item as first_item then
+				local_home_dir := first_item.home_dir ; destination_name := first_item.destination_name
+				extension := first_item.file_path.extension
+				crc_block_size := first_item.crc_block_size
+			else
+				create local_home_dir
+				destination_name := Empty_string; extension := Empty_string
+			end
 
 			previous_set := new_previous_set
 			maximum_retry_count := Default_maximum_retry_count
@@ -68,6 +68,9 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	crc_block_size: INTEGER
+		-- count of leading bytes in file to add to CRC checksum
 
 	current_list: ARRAYED_LIST [EL_FILE_SYNC_ITEM]
 		do
@@ -203,6 +206,7 @@ feature {NONE} -- Factory
 	new_previous_set: like current_set
 		local
 			file_path: FILE_PATH; current_table: HASH_TABLE [EL_FILE_SYNC_ITEM, FILE_PATH]
+			sync_item: EL_FILE_SYNC_ITEM
 		do
 			create current_table.make_equal (current_set.count)
 			across current_set as set loop
@@ -220,7 +224,8 @@ feature {NONE} -- Factory
 						else
 							file_path := path.item.relative_path (checksum_dir)
 							file_path.replace_extension (extension)
-							Result.put (create {EL_FILE_SYNC_ITEM}.make (local_home_dir, destination_name, file_path))
+							create sync_item.make (local_home_dir, destination_name, file_path, crc_block_size)
+							Result.put (sync_item)
 						end
 					end
 				else

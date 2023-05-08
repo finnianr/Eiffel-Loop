@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 11:08:28 GMT (Monday 20th March 2023)"
-	revision: "29"
+	date: "2023-05-08 11:06:45 GMT (Monday 8th May 2023)"
+	revision: "30"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -231,6 +231,22 @@ feature -- String output
 		do
 			if attached output as op then
 				op.put_classname (a_name)
+				op.flush
+			end
+		end
+
+	put_index_labeled_string (indexable: ANY; label: detachable READABLE_STRING_GENERAL; str: READABLE_STRING_GENERAL)
+		-- output integer index value associated with `indexable' object that may conform to one of:
+		--		`LINEAR', `INDEXABLE_ITERATION_CURSOR', `INTEGER_32_REF', `NATURAL_32_REF'
+
+		-- An optional formatting `label' that may contain an index substitution character '%S' (Eg. "item [%S]")
+		-- otherwise `label' is used to prefix index value
+		do
+			if attached output as op then
+				op.put_index_label (indexable, label)
+				op.set_text_color (Color.Yellow)
+				op.put_string_general (str)
+				op.set_text_color (Color.Default)
 				op.flush
 			end
 		end

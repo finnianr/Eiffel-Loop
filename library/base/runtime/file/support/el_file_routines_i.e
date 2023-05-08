@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-07 9:01:29 GMT (Sunday 7th May 2023)"
-	revision: "12"
+	date: "2023-05-07 9:06:37 GMT (Sunday 7th May 2023)"
+	revision: "13"
 
 deferred class
 	EL_FILE_ROUTINES_I
@@ -335,6 +335,8 @@ feature -- Basic operations
 	do_with_blocks (file_path: FILE_PATH; action: PROCEDURE [MANAGED_POINTER]; max_byte_count, block_size: INTEGER)
 		-- call `action' with consective data blocks of maximum `block_size' bytes for entire file at `file_path'
 		-- but if `max_byte_count > 0' then limit to first `max_byte_count' bytes
+
+		-- NOTE: clone each `MANAGED_POINTER' block if keeping a reference
 		require
 			path_exists: file_path.exists
 		local

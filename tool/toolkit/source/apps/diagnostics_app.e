@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2023-05-08 11:08:38 GMT (Monday 8th May 2023)"
+	revision: "3"
 
 class
 	DIAGNOSTICS_APP
@@ -32,7 +32,7 @@ feature -- Basic operations
 				lio.put_path_field ("XML files", desktop.item)
 				lio.put_new_line
 				across File_system.files_with_extension (desktop.item, "xml", False) as path loop
-					lio.put_path_field (path.cursor_index.out, path.item)
+					lio.put_index_labeled_string (path, Void, path.item.to_string)
 					lio.put_new_line
 				end
 				lio.put_new_line

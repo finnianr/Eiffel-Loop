@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-19 10:59:47 GMT (Sunday 19th March 2023)"
-	revision: "18"
+	date: "2023-05-08 10:54:44 GMT (Monday 8th May 2023)"
+	revision: "19"
 
 class
 	EL_SILENT_LOG
@@ -152,6 +152,10 @@ feature -- Output
 feature -- String output
 
 	put_classname (a_name: READABLE_STRING_8)
+		do
+		end
+
+	put_index_labeled_string (indexable: ANY; label: detachable READABLE_STRING_GENERAL; str: READABLE_STRING_GENERAL)
 		do
 		end
 

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "25"
+	date: "2023-05-08 11:25:27 GMT (Monday 8th May 2023)"
+	revision: "26"
 
 class
 	PP_TEST_COMMAND_SHELL
@@ -122,7 +122,7 @@ feature -- Basic operations
 			search_results := paypal.button_search_results
 			if search_results.is_ok then
 				across search_results.button_list as button loop
-					lio.put_labeled_string (button.cursor_index.out, button.item.l_hosted_button_id)
+					lio.put_index_labeled_string (button, Void, button.item.l_hosted_button_id)
 					lio.put_new_line
 				end
 				lio.put_new_line

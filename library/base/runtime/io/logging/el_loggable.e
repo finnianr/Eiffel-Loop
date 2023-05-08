@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-19 11:02:12 GMT (Sunday 19th March 2023)"
-	revision: "24"
+	date: "2023-05-08 11:21:48 GMT (Monday 8th May 2023)"
+	revision: "25"
 
 deferred class
 	EL_LOGGABLE
@@ -15,7 +15,7 @@ deferred class
 inherit
 	ANY
 
-	EL_SHARED_CONSOLE_COLORS
+	EL_LOGGABLE_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -168,6 +168,23 @@ feature -- String output
 		deferred
 		end
 
+	put_curtailed_string_field (label, field_value: READABLE_STRING_GENERAL; max_length: INTEGER)
+		-- put curtailed version of `field_value' to log file edited to fit into `max_length', with ellipsis dots inserted
+		-- at 80% of `max_length'
+		deferred
+		end
+
+	put_index_labeled_string (indexable: ANY; label: detachable READABLE_STRING_GENERAL; str: READABLE_STRING_GENERAL)
+		-- output integer index value associated with `indexable' object that may conform to one of:
+		--		`LINEAR', `INDEXABLE_ITERATION_CURSOR', `INTEGER_32_REF', `NATURAL_32_REF'
+
+		-- An optional formatting `label' that may contain an index substitution character '%S' (Eg. "item [%S]")
+		-- otherwise `label' is used to prefix index value
+		require
+			is_indexable: is_indexable (indexable)
+		deferred
+		end
+
 	put_keyword (keyword: READABLE_STRING_8)
 		deferred
 		end
@@ -198,12 +215,6 @@ feature -- String output
 
 	put_string_field (label, field_value: READABLE_STRING_GENERAL)
 			--
-		deferred
-		end
-
-	put_curtailed_string_field (label, field_value: READABLE_STRING_GENERAL; max_length: INTEGER)
-		-- put curtailed version of `field_value' to log file edited to fit into `max_length', with ellipsis dots inserted
-		-- at 80% of `max_length'
 		deferred
 		end
 

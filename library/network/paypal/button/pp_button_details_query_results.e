@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 11:04:12 GMT (Saturday 31st December 2022)"
-	revision: "11"
+	date: "2023-05-08 11:25:17 GMT (Monday 8th May 2023)"
+	revision: "12"
 
 class
 	PP_BUTTON_DETAILS_QUERY_RESULTS
@@ -48,7 +48,7 @@ feature -- Basic operations
 				print_fields (lio)
 				lio.put_new_line
 				across options_list as option loop
-					lio.put_string (option.cursor_index.out + ". ")
+					lio.put_index_labeled_string (option, Void, Empty_string_8)
 					option.item.print_fields (lio)
 				end
 			else

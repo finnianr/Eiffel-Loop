@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:02 GMT (Monday 20th March 2023)"
-	revision: "34"
+	date: "2023-05-08 10:36:15 GMT (Monday 8th May 2023)"
+	revision: "35"
 
 class
 	STRING_TEST_SET
@@ -15,9 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_CONSOLE; EL_MODULE_EIFFEL
-
-	EL_MODULE_USER_INPUT
+	EL_MODULE_CONSOLE; EL_MODULE_EIFFEL; EL_MODULE_USER_INPUT
 
 	EL_SHARED_ENCODINGS
 
@@ -100,13 +98,14 @@ feature -- Basic operations
 		end
 
 	audio_info_parsing
+		-- STRING_TEST_SET.
 		local
 			s: ZSTRING; parts: EL_ZSTRING_LIST
 		do
 			s := "Stream #0.0(und): Audio: aac, 44100 Hz, stereo, fltp, 253 kb/s"
 			create parts.make_adjusted_split (s, ',', {EL_SIDE}.Left)
 			across parts as part loop
-				lio.put_string_field (part.cursor_index.out, part.item)
+				lio.put_index_labeled_string (part.cursor_index, Void, part.item)
 				lio.put_new_line
 			end
 		end
@@ -250,7 +249,7 @@ feature -- Basic operations
 				i := i + 1
 			end
 			from i := 0 until i = ptr.count loop
-				lio.put_integer_field (i.out, ptr.read_natural_8 (i))
+				lio.put_index_labeled_string (i, Void, ptr.read_natural_8 (i).out)
 				lio.put_new_line
 				i := i + 1
 			end

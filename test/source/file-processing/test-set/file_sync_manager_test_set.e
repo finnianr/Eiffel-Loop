@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "29"
+	date: "2023-05-08 7:50:42 GMT (Monday 8th May 2023)"
+	revision: "30"
 
 class
 	FILE_SYNC_MANAGER_TEST_SET
@@ -56,7 +56,7 @@ feature -- Tests
 			lio.put_new_line
 			create current_set.make (7)
 			across File_system.files_with_extension (Workarea_help_pages_dir, Text_extension, True) as path loop
-				create sync_item.make (Workarea_help_pages_dir, Ftp_name, path.item)
+				create sync_item.make (Workarea_help_pages_dir, Ftp_name, path.item, 0)
 				current_set.put (sync_item)
 			end
 			create manager.make (current_set)
@@ -83,7 +83,7 @@ feature -- Tests
 
 			lio.put_labeled_string ("Test", "add back 1 file to docs directory")
 			lio.put_new_line
-			create sync_item.make (Workarea_help_pages_dir, Ftp_name, Help_pages_grub_error.relative_path (Help_pages_dir))
+			create sync_item.make (Workarea_help_pages_dir, Ftp_name, Help_pages_grub_error.relative_path (Help_pages_dir), 0)
 			current_set.put (sync_item)
 
 			File_system.make_directory (Work_area_dir #+ Help_pages_mint_docs_dir)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 11:25:07 GMT (Monday 20th March 2023)"
-	revision: "47"
+	date: "2023-05-08 11:20:35 GMT (Monday 8th May 2023)"
+	revision: "48"
 
 class
 	TAGLIB_TEST_SET
@@ -24,7 +24,7 @@ inherit
 
 	EL_MODULE_NAMING; EL_MODULE_TUPLE
 
-	EL_SHARED_CONSOLE_COLORS
+	EL_LOGGABLE_CONSTANTS
 
 	TL_SHARED_PICTURE_TYPE_ENUM
 

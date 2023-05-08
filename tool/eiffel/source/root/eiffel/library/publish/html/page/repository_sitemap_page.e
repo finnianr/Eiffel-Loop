@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-06 8:27:38 GMT (Thursday 6th April 2023)"
-	revision: "17"
+	date: "2023-05-08 8:42:29 GMT (Monday 8th May 2023)"
+	revision: "18"
 
 class
 	REPOSITORY_SITEMAP_PAGE
@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 				end
 			end
 			make_sync_item (
-				repository.output_dir, repository.ftp_url, output_path.relative_path (repository.output_dir)
+				repository.output_dir, repository.ftp_url, output_path.relative_path (repository.output_dir), 0
 			)
 		end
 

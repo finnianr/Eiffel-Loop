@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 10:32:00 GMT (Monday 27th March 2023)"
-	revision: "4"
+	date: "2023-05-08 11:09:27 GMT (Monday 8th May 2023)"
+	revision: "5"
 
 class
 	FILE_TRANSFER_COMMAND
@@ -38,6 +38,8 @@ feature -- Pyxis configured
 
 	source_dir: DIR_PATH
 
+	crc_block_size: INTEGER
+
 feature -- Access
 
 	Description: STRING = "USB file transfer using MTP protocol and GVFS"
@@ -51,8 +53,6 @@ feature -- Basic operations
 			lio.put_labeled_string (device.name, device.destination_dir)
 			lio.put_new_line_x2
 
-			lio.put_substitution ("Reading %S file checksums", [extension.as_upper])
-			lio.put_new_line
 			if attached new_current_set as current_set then
 				if current_set.is_empty then
 					create sync_manager.make_empty (device.destination_dir, device.name, extension)
@@ -79,11 +79,18 @@ feature {NONE} -- Implementation
 			file: EL_FILE_SYNC_ITEM
 		do
 			if attached OS.file_list (source_dir, "*." + extension) as file_list then
+				file_list.sort_by_base (True)
 				create Result.make (file_list.count)
+				lio.put_substitution ("Reading %S %S file checksums", [file_list.count, extension.as_upper])
+				lio.put_new_line_x2
+
 				across file_list as list loop
-					create file.make (source_dir, device.name, list.item)
+					lio.put_index_labeled_string (list, "Score [%S]", list.item.base)
+					lio.put_new_line
+					create file.make (source_dir, device.name, list.item, crc_block_size)
 					Result.put (file)
 				end
+				lio.put_new_line
 			end
 		end
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 13:57:42 GMT (Saturday 29th April 2023)"
-	revision: "44"
+	date: "2023-05-08 8:42:39 GMT (Monday 8th May 2023)"
+	revision: "45"
 
 class
 	EIFFEL_CLASS
@@ -66,7 +66,7 @@ feature {NONE} -- Initialization
 			name := source_path.base_name.as_upper
 			code_text := new_code_text (File.plain_text (source_path))
 			make_sync_item (
-				repository.output_dir, repository.ftp_url, html_output_path.relative_path (repository.output_dir)
+				repository.output_dir, repository.ftp_url, html_output_path.relative_path (repository.output_dir), 0
 			)
 			create notes.make (relative_source_path.parent, a_repository.note_fields)
 

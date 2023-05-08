@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "27"
+	date: "2023-05-08 9:14:01 GMT (Monday 8th May 2023)"
+	revision: "28"
 
 class
 	EIFFEL_TEST_SET
@@ -278,7 +278,7 @@ feature -- Basic operations
 		do
 			field_count := Eiffel.field_count (Current)
 			from i := 1 until i > field_count loop
-				lio.put_labeled_string (i.out, Eiffel.field_name (i, Current))
+				lio.put_index_labeled_string (i, Void, Eiffel.field_name (i, Current))
 				lio.put_character (' '); lio.put_boolean (Eiffel.is_field_transient (i, Current))
 				lio.put_new_line
 				i := i + 1

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "35"
+	date: "2023-05-08 8:27:45 GMT (Monday 8th May 2023)"
+	revision: "36"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -303,7 +303,7 @@ feature {NONE} -- Implementation
 					lio.put_integer_field ("entries", entries.cursor_index)
 					lio.put_new_line
 					across entries.item as entry loop
-						lio.put_path_field ("entry " + entry.cursor_index.out, entry.item)
+						lio.put_index_labeled_string (entry.cursor_index, "entry ", entry.item.to_string)
 						lio.put_new_line
 					end
 				end

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-16 10:07:36 GMT (Thursday 16th March 2023)"
-	revision: "3"
+	date: "2023-05-08 11:01:06 GMT (Monday 8th May 2023)"
+	revision: "4"
 
 class
 	SOURCE_LEADING_SPACE_CLEANER
@@ -22,7 +22,7 @@ inherit
 			execute, make_default
 		end
 
-	EL_MODULE_FILE
+	EL_MODULE_DIRECTORY; EL_MODULE_FILE
 
 create
 	make
@@ -53,7 +53,7 @@ feature -- Basic operations
 				lio.put_substitution ("Cleaned %S files", edited_list.count)
 				lio.put_new_line
 				across edited_list as list loop
-					lio.put_labeled_string (list.cursor_index.out, list.item.to_string)
+					lio.put_index_labeled_string (list, Void, list.item.relative_path (Directory.working).to_string)
 					lio.put_new_line
 				end
 				lio.put_new_line

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-05-08 11:11:07 GMT (Monday 8th May 2023)"
+	revision: "8"
 
 class
 	EXPORT_MUSIC_TO_DEVICE_TASK
@@ -38,7 +38,7 @@ feature -- Basic operations
 			else
 				across selected_genres as genre loop
 					if Database.is_valid_genre (genre.item) then
-						lio.put_string_field ("Genre " + genre.cursor_index.out, genre.item)
+						lio.put_index_labeled_string (genre, "Genre [%S]", genre.item)
 					else
 						lio.put_string_field ("Invalid genre", genre.item)
 					end

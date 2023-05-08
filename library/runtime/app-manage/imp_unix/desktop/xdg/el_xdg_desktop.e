@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-05 12:56:07 GMT (Friday 5th May 2023)"
-	revision: "2"
+	date: "2023-05-08 6:18:02 GMT (Monday 8th May 2023)"
+	revision: "3"
 
 class
 	EL_XDG_DESKTOP
@@ -29,8 +29,6 @@ create
 feature {NONE} -- Initialization
 
 	make (desktop_path: FILE_PATH)
-		local
-			str: ZSTRING; assignment: EL_ASSIGNMENT_ROUTINES
 		do
 			make_default
 			if desktop_path.exists then

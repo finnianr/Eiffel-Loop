@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-19 10:59:46 GMT (Sunday 19th March 2023)"
-	revision: "25"
+	date: "2023-05-08 11:06:36 GMT (Monday 8th May 2023)"
+	revision: "26"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -181,6 +181,16 @@ feature -- String output
 	put_classname (a_name: READABLE_STRING_8)
 		do
 			log_sink.put_classname (a_name)
+		end
+
+	put_index_labeled_string (indexable: ANY; label: detachable READABLE_STRING_GENERAL; str: READABLE_STRING_GENERAL)
+		-- output integer index value associated with `indexable' object that may conform to one of:
+		--		`LINEAR', `INDEXABLE_ITERATION_CURSOR', `INTEGER_32_REF', `NATURAL_32_REF'
+
+		-- An optional formatting `label' that may contain an index substitution character '%S' (Eg. "item [%S]")
+		-- otherwise `label' is used to prefix index value
+		do
+			log_sink.put_index_labeled_string (indexable, label, str)
 		end
 
 	put_keyword (keyword: READABLE_STRING_8)

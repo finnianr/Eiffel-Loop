@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 11:16:19 GMT (Saturday 18th March 2023)"
-	revision: "29"
+	date: "2023-05-08 11:38:55 GMT (Monday 8th May 2023)"
+	revision: "30"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -15,15 +15,13 @@ class
 inherit
 	ANY
 
-	EL_MODULE_CONSOLE
-
-	EL_MODULE_ENVIRONMENT
+	EL_MODULE_CONSOLE; EL_MODULE_ENVIRONMENT; EL_MODULE_REUSEABLE
 
 	EL_SHARED_UTF_8_ZCODEC
 
-	EL_SHARED_CONSOLE_COLORS
+	EL_LOGGABLE_CONSTANTS
 
-	EL_MODULE_REUSEABLE
+	EL_STRING_8_CONSTANTS
 
 create
 	make
@@ -37,6 +35,7 @@ feature -- Initialization
 				string_pool := pool
 			end
 			string_pool.start_scope
+			create index_label_table.make (7)
 			create new_line_prompt.make_from_string ("%N")
 			std_output := io.Output
 		end
@@ -100,6 +99,56 @@ feature -- Output
 			set_text_color (Color.Default)
 		end
 
+	put_index_label (indexable: ANY; a_name: detachable READABLE_STRING_GENERAL)
+		-- output integer index value associated with `indexable' object that may conform to one of:
+		--		`LINEAR', `INDEXABLE_ITERATION_CURSOR', `INTEGER_32_REF', `NATURAL_32_REF'
+
+		-- `a_name' is an optional formatting `label' that may contain an index substitution character '%S'
+		-- (Eg. "item [%S]"). Otherwise `a_name' is used to prefix index value
+		require
+			is_indexable: is_indexable (indexable)
+		local
+			substitution_index, index: INTEGER; leading, trailing: READABLE_STRING_GENERAL
+		do
+			if attached {INDEXABLE_ITERATION_CURSOR [ANY]} indexable as list then
+				index := list.cursor_index
+
+			elseif attached {LINEAR [ANY]} indexable as list then
+				index := list.index
+
+			elseif attached {INTEGER_32_REF} indexable as integer then
+				index := integer.item
+
+			elseif attached {NATURAL_32_REF} indexable as natural then
+				index := natural.item.to_integer_32
+			end
+			leading := Empty_string_8; trailing := Empty_string_8
+			if attached a_name as name then
+				if index_label_table.has_key (name) and then attached index_label_table.found_item as pair then
+					leading := pair.leading; trailing := pair.trailing
+				else
+					substitution_index := name.index_of ('%S', 1)
+					if substitution_index > 0 then
+						leading := name.substring (1, substitution_index - 1)
+						trailing := name.substring (substitution_index + 1, name.count)
+					else
+						leading := name
+					end
+					index_label_table.extend ([leading, trailing], name)
+				end
+			end
+			set_text_color_light (Color.Purple)
+			if leading.count > 0 then
+				put_string_general (leading)
+			end
+			extended_buffer_last.append_integer (index)
+			if trailing.count > 0 then
+				put_string_general (trailing)
+			end
+			set_text_color (Color.Default)
+			put_string (Dot_space)
+		end
+
 	put_keyword (keyword: READABLE_STRING_8)
 		do
 			set_text_color_light (Color.Red)
@@ -112,7 +161,7 @@ feature -- Output
 			set_text_color_light (Color.Purple)
 			put_string_general (a_name)
 			set_text_color (Color.Default)
-			put_string (once ": ")
+			put_string (Colon_space)
 		end
 
 	put_lines (lines: LIST [ZSTRING])
@@ -214,8 +263,8 @@ feature -- Basic operations
 		end
 
 	flush
-			-- Write contents of buffer to file if it is free (not locked by another thread)
-			-- Return strings of type {STRING_32} to recyle pool
+		-- Write contents of buffer to file if it is free (not locked by another thread)
+		-- Return strings of type {STRING_32} to recyle pool
 		do
 			buffer.do_all (agent flush_string_general)
 			buffer.wipe_out
@@ -260,6 +309,8 @@ feature {NONE} -- Internal attributes
 
 	buffer: ARRAYED_LIST [READABLE_STRING_GENERAL]
 
+	index_label_table: STRING_TABLE [TUPLE [leading, trailing: READABLE_STRING_GENERAL]]
+
 	new_line_prompt: STRING
 
 	std_output: PLAIN_TEXT_FILE
@@ -270,6 +321,10 @@ feature {NONE} -- Internal attributes
 	tab_repeat_count: INTEGER
 
 feature {EL_LOGGABLE} -- Constants
+
+	Colon_space: STRING = ": "
+
+	Dot_space: STRING = ". "
 
 	Line_separator: STRING
 		once

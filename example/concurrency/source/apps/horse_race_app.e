@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 8:10:29 GMT (Saturday 29th April 2023)"
-	revision: "7"
+	date: "2023-05-08 11:20:35 GMT (Monday 8th May 2023)"
+	revision: "8"
 
 class
 	HORSE_RACE_APP
@@ -31,7 +31,7 @@ inherit
 			make_default as make_thread_access
 		end
 
-	EL_SHARED_CONSOLE_COLORS
+	EL_LOGGABLE_CONSTANTS
 
 create
 	make

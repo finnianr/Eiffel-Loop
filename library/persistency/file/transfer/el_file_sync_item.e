@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 9:01:11 GMT (Monday 27th March 2023)"
-	revision: "14"
+	date: "2023-05-08 6:28:54 GMT (Monday 8th May 2023)"
+	revision: "15"
 
 class
 	EL_FILE_SYNC_ITEM
@@ -31,7 +31,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_home_dir: DIR_PATH; a_destination_name: READABLE_STRING_GENERAL; a_file_path: FILE_PATH)
+	make (a_home_dir: DIR_PATH; a_destination_name: READABLE_STRING_GENERAL; a_file_path: FILE_PATH; a_crc_block_size: INTEGER)
 		require
 			valid_file_path: a_file_path.is_absolute implies a_home_dir.is_parent_of (a_file_path)
 		do
@@ -67,6 +67,9 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	crc_block_size: INTEGER
+		-- count of leading bytes in file to add to CRC checksum
 
 	current_digest: NATURAL
 
@@ -164,7 +167,7 @@ feature {NONE} -- Implementation
 	sink_content (crc: like crc_generator)
 		do
 			if attached source_path as path and then path.exists then
-				crc.add_file (path)
+				crc.add_file_first (path, crc_block_size)
 			end
 		end
 
