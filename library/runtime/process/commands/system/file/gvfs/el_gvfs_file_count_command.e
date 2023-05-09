@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-25 11:52:01 GMT (Saturday 25th March 2023)"
-	revision: "5"
+	date: "2023-05-09 16:44:57 GMT (Tuesday 9th May 2023)"
+	revision: "6"
 
 class
 	EL_GVFS_FILE_COUNT_COMMAND
@@ -30,12 +30,8 @@ create
 
 feature -- Access
 
-	is_empty: BOOLEAN
-		do
-			Result := count = 0
-		end
-
 	count: INTEGER
+		-- file count
 
 feature -- Element change
 

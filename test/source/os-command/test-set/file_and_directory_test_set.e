@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-08 8:27:45 GMT (Monday 8th May 2023)"
-	revision: "36"
+	date: "2023-05-09 17:54:37 GMT (Tuesday 9th May 2023)"
+	revision: "37"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -15,11 +15,9 @@ class
 inherit
 	HELP_PAGES_TEST_SET
 
-	EL_MODULE_OS
+	EL_MODULE_COMMAND; EL_MODULE_EXECUTABLE; EL_MODULE_OS
 
-	EL_MODULE_COMMAND
-
-	EL_MODULE_EXECUTABLE
+	EL_GVFS_ROUTINES
 
 create
 	make
@@ -316,14 +314,13 @@ feature {NONE} -- Implementation
 
 	do_test_gnome_virtual_file_system
 		local
-			mount_table: EL_GVFS_MOUNT_TABLE; volume: EL_GVFS_VOLUME
+			mount_table: like new_uri_table; volume: EL_GVFS_VOLUME
 			found_volume: BOOLEAN; a_file_set: like new_file_set; file_path_string, volume_name: ZSTRING
 			volume_root_path, volume_workarea_dir, volume_workarea_copy_dir, volume_destination_dir: DIR_PATH
 			relative_file_path: FILE_PATH
 		do
 			a_file_set := new_file_set (True); a_file_set.start
-			create mount_table.make
-			across mount_table as root until found_volume loop
+			across new_uri_table as root until found_volume loop
 				lio.put_labeled_string (root.key, root.item)
 				lio.put_new_line
 				if root.item.scheme ~ File_protocol then

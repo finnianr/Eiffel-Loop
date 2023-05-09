@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-05 13:05:22 GMT (Friday 5th May 2023)"
-	revision: "27"
+	date: "2023-05-09 17:56:52 GMT (Tuesday 9th May 2023)"
+	revision: "28"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
@@ -127,7 +127,7 @@ feature -- Element change
 		do
 			if attached name_value_pair as pair then
 				pair.set_from_string (nvp_line, delimiter)
-				if is_code_identifier (pair.name) then
+				if is_ascii_identifier (pair.name) then
 					set_field (pair.name, pair.value)
 				end
 			end
@@ -241,7 +241,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	is_code_identifier (name: like new_string): BOOLEAN
+	is_ascii_identifier (name: like new_string): BOOLEAN
 		deferred
 		end
 

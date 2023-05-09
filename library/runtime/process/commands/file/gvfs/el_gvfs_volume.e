@@ -8,16 +8,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 9:12:08 GMT (Monday 27th March 2023)"
-	revision: "24"
+	date: "2023-05-09 17:17:12 GMT (Tuesday 9th May 2023)"
+	revision: "25"
 
 class
 	EL_GVFS_VOLUME
 
 inherit
 	ANY
-	EL_MODULE_DIRECTORY
-	EL_MODULE_TUPLE
+
+	EL_GVFS_ROUTINES
+
+	EL_MODULE_DIRECTORY; EL_MODULE_TUPLE
 
 create
 	make, make_default
@@ -26,16 +28,16 @@ feature {NONE} -- Initialization
 
 	make (a_name: like name; a_is_windows_format: BOOLEAN)
 		do
-			make_with_mounts (a_name, new_mount_table, a_is_windows_format)
+			make_with_mounts (a_name, new_uri_table, a_is_windows_format)
 		end
 
 	make_default
 		do
 			create name.make_empty
-			uri_root := Default_uri_root
+			uri_root := Empty_uri
 		end
 
-	make_with_mounts (a_name: ZSTRING; a_table: like new_mount_table; a_is_windows_format: BOOLEAN)
+	make_with_mounts (a_name: ZSTRING; a_table: like new_uri_table; a_is_windows_format: BOOLEAN)
 		do
 			uri_root := new_uri_root (a_name, a_table); is_windows_format := a_is_windows_format
 			name := a_name
@@ -46,6 +48,37 @@ feature -- Access
 	name: ZSTRING
 
 	uri_root: EL_URI
+
+	file_list (dir_path: DIR_PATH; extension: detachable STRING): EL_FILE_PATH_LIST
+			--
+		require
+			is_relative_to_root: not dir_path.is_absolute
+		do
+			if directory_exists (dir_path) and then attached File_list_command as cmd then
+				if attached extension as ext then
+					cmd.set_extension (ext)
+				else
+					cmd.remove_extension
+				end
+				cmd.set_directory (uri_root, dir_path)
+				cmd.execute
+
+				Result := cmd.file_list
+			else
+				create Result.make_empty
+			end
+		end
+
+	file_size (volume_path: FILE_PATH): INTEGER
+		require
+			volume_path_relative_to_root: not volume_path.is_absolute
+		do
+			if attached File_info_command as cmd then
+				cmd.set_uri (uri_root.joined (volume_path))
+				cmd.execute
+				Result := cmd.file_size
+			end
+		end
 
 feature -- File operations
 
@@ -86,33 +119,21 @@ feature -- File operations
 			remove_file_uri (uri_root.joined (dir_path))
 		end
 
-	remove_directory_files (dir_path: DIR_PATH; wild_card: ZSTRING)
+	remove_directory_files (dir_path: DIR_PATH; wild_card: STRING)
 			--
 		require
 			is_relative_to_root: not dir_path.is_absolute
 		local
-			extension: ZSTRING; match_found: BOOLEAN
+			extension: STRING
 		do
-			if directory_exists (dir_path) and then attached File_list_command as cmd then
-				if wild_card.starts_with (Star_dot) then
-					extension := wild_card.substring_end (3)
-				else
-					create extension.make_empty
-				end
-				cmd.reset
-				cmd.set_uri (uri_root.joined (dir_path))
-				cmd.execute
-				across cmd.file_list as file_path loop
-					match_found := False
-					if not extension.is_empty then
-						match_found := file_path.item.extension ~ extension
-					else
-						match_found := True
-					end
-					if match_found then
-						remove_file (dir_path + file_path.item)
-					end
-				end
+			if wild_card.starts_with ("*.") then
+				extension := wild_card.twin
+				extension.remove_head (2)
+			else
+				create extension.make_empty
+			end
+			across file_list (dir_path, extension) as list loop
+				remove_file (list.item)
 			end
 		end
 
@@ -166,13 +187,13 @@ feature -- Status query
 			if attached Get_file_count_commmand as cmd then
 				cmd.set_uri (uri_root.joined (dir_path))
 				cmd.execute
-				Result := cmd.is_empty
+				Result := cmd.count = 0
 			end
 		end
 
 	is_valid: BOOLEAN
 		do
-			Result := uri_root /= Default_uri_root
+			Result := uri_root /= Empty_uri
 		end
 
 	is_windows_format: BOOLEAN
@@ -193,7 +214,7 @@ feature -- Element change
 
 	reset_uri_root
 		do
-			uri_root := new_uri_root (name, new_mount_table)
+			uri_root := new_uri_root (name, new_uri_table)
 		end
 
 	set_uri_root (a_uri_root: like uri_root)
@@ -246,21 +267,19 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_mount_table: EL_GVFS_MOUNT_TABLE
+	new_uri_root (a_name: ZSTRING; table: like new_uri_table): like uri_root
 		do
-			create Result.make
-		end
-
-	new_uri_root (a_name: ZSTRING; table: like new_mount_table): like uri_root
-		do
-			if a_name ~ Current_directory then
+			if a_name.is_character ('.') then
 				Result := Directory.current_working.to_uri
-			elseif a_name ~ Home_directory then
+
+			elseif a_name.is_character ('~') then
 				Result := Directory.home.to_uri
+
 			elseif table.has_key (a_name) then
 				Result := table.found_item
+
 			else
-				Result := Default_uri_root
+				Result := Empty_uri
 			end
 		end
 
@@ -281,70 +300,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Standard commands
-
-	Copy_command: EL_GVFS_COPY_COMMAND
-		once
-			create Result.make
-		end
-
-	Make_directory_command: EL_GVFS_MAKE_DIRECTORY_COMMAND
-		once
-			create Result.make
-		end
-
-	Move_command: EL_GVFS_MOVE_COMMAND
-		once
-			create Result.make
-		end
-
-	Remove_command: EL_GVFS_REMOVE_FILE_COMMAND
-		once
-			create Result.make
-		end
-
-feature {NONE} -- Special commands
-
-	File_list_command: EL_GVFS_FILE_LIST_COMMAND
-		once
-			create Result.make
-		end
-
-	Get_file_count_commmand: EL_GVFS_FILE_COUNT_COMMAND
-		once
-			create Result.make
-		end
-
-	Get_file_type_commmand: EL_GVFS_FILE_EXISTS_COMMAND
-		once
-			create Result.make
-		end
-
 feature {NONE} -- Constants
 
-	Current_directory: ZSTRING
-		once
-			Result := "."
-		end
-
-	Default_uri_root: EL_URI
+	Empty_uri: EL_URI
 		once
 			create Result.make_empty
-		end
-
-	Home_directory: ZSTRING
-		once
-			Result := "~"
-		end
-
-	Root_dir: ZSTRING
-		once
-			Result := "/"
-		end
-
-	Star_dot: ZSTRING
-		once
-			Result := "*."
 		end
 
 end

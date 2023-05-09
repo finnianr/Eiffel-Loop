@@ -9,14 +9,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-05 12:55:25 GMT (Friday 5th May 2023)"
-	revision: "9"
+	date: "2023-05-09 18:00:42 GMT (Tuesday 9th May 2023)"
+	revision: "10"
 
 deferred class
 	EL_SETTABLE_FROM_STRING_32
 
 inherit
 	EL_SETTABLE_FROM_STRING
+
+	EL_SHARED_STRING_32_CURSOR
 
 feature {EL_REFLECTION_HANDLER} -- Implementation
 
@@ -25,11 +27,11 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 			Result := a_field.to_string (current_reflective).to_string_32
 		end
 
-	is_code_identifier (name: STRING_32): BOOLEAN
-		local
-			s: EL_STRING_32_ROUTINES
+	is_ascii_identifier (name: STRING_32): BOOLEAN
 		do
-			Result := s.is_eiffel (name)
+			if attached cursor_32 (name) as cursor then
+				Result := cursor.all_ascii
+			end
 		end
 
 	new_string: STRING_32

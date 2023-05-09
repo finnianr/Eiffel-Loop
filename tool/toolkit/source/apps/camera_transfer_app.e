@@ -1,8 +1,8 @@
 note
-	description: "Command line interface to [$source FILE_TRANSFER_COMMAND]"
+	description: "Command line interface to [$source CAMERA_TRANSFER_COMMAND]"
 	notes: "[
 		Usage:
-			el_toolkit -file_transfer -config <config-path>
+			el_toolkit -camera_transfer -config <config-path>
 	]"
 
 	author: "Finnian Reilly"
@@ -10,14 +10,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-26 13:49:22 GMT (Sunday 26th March 2023)"
-	revision: "2"
+	date: "2023-05-09 15:28:36 GMT (Tuesday 9th May 2023)"
+	revision: "3"
 
 class
-	FILE_TRANSFER_APP
+	CAMERA_TRANSFER_APP
 
 inherit
-	EL_COMMAND_LINE_APPLICATION [FILE_TRANSFER_COMMAND]
+	EL_COMMAND_LINE_APPLICATION [CAMERA_TRANSFER_COMMAND]
 
 create
 	make

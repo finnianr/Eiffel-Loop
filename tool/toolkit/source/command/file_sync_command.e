@@ -1,16 +1,16 @@
 note
-	description: "USB file transfer using MTP protocol and GVFS"
+	description: "File synchronization with USB connected device using MTP protocol and GVFS"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-08 11:09:27 GMT (Monday 8th May 2023)"
-	revision: "5"
+	date: "2023-05-09 15:03:23 GMT (Tuesday 9th May 2023)"
+	revision: "6"
 
 class
-	FILE_TRANSFER_COMMAND
+	FILE_SYNC_COMMAND
 
 inherit
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
@@ -42,7 +42,7 @@ feature -- Pyxis configured
 
 feature -- Access
 
-	Description: STRING = "USB file transfer using MTP protocol and GVFS"
+	Description: STRING = "File synchronization with USB connected device using MTP protocol"
 
 feature -- Basic operations
 
@@ -76,7 +76,7 @@ feature {NONE} -- Implementation
 
 	new_current_set: EL_MEMBER_SET [EL_FILE_SYNC_ITEM]
 		local
-			file: EL_FILE_SYNC_ITEM
+			sync_item: EL_FILE_SYNC_ITEM
 		do
 			if attached OS.file_list (source_dir, "*." + extension) as file_list then
 				file_list.sort_by_base (True)
@@ -87,8 +87,8 @@ feature {NONE} -- Implementation
 				across file_list as list loop
 					lio.put_index_labeled_string (list, "Score [%S]", list.item.base)
 					lio.put_new_line
-					create file.make (source_dir, device.name, list.item, crc_block_size)
-					Result.put (file)
+					create sync_item.make (source_dir, device.name, list.item, crc_block_size)
+					Result.put (sync_item)
 				end
 				lio.put_new_line
 			end
@@ -111,5 +111,5 @@ feature {NONE} -- Constants
 
 	Element_node_fields: STRING = "device"
 
-	Root_node_name: STRING = "file_transfer"
+	Root_node_name: STRING = "file_sync"
 end
