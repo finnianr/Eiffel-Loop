@@ -1,3 +1,6 @@
+1.10.0
+* New application to transfer photos/videos from camera device
+
 1.9.8
 * Updated -file_transfer to use crc_block_size
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-09 17:17:12 GMT (Tuesday 9th May 2023)"
-	revision: "25"
+	date: "2023-05-10 6:19:32 GMT (Wednesday 10th May 2023)"
+	revision: "26"
 
 class
 	EL_GVFS_VOLUME
@@ -69,15 +69,25 @@ feature -- Access
 			end
 		end
 
+	file_info (volume_path: FILE_PATH): like File_info_command.info
+		require
+			volume_path_relative_to_root: not volume_path.is_absolute
+		do
+			Result := info_command (volume_path).info
+		end
+
 	file_size (volume_path: FILE_PATH): INTEGER
 		require
 			volume_path_relative_to_root: not volume_path.is_absolute
 		do
-			if attached File_info_command as cmd then
-				cmd.set_uri (uri_root.joined (volume_path))
-				cmd.execute
-				Result := cmd.file_size
-			end
+			Result := info_command (volume_path).file_size
+		end
+
+	file_modified (volume_path: FILE_PATH): INTEGER
+		require
+			volume_path_relative_to_root: not volume_path.is_absolute
+		do
+			Result := info_command (volume_path).file_modified
 		end
 
 feature -- File operations
@@ -238,6 +248,13 @@ feature {NONE} -- Implementation
 				cmd.set_destination_uri (destination_path)
 				cmd.execute
 			end
+		end
+
+	info_command (volume_path: FILE_PATH): like File_info_command
+		do
+			Result := File_info_command
+			Result.set_uri (uri_root.joined (volume_path))
+			Result.execute
 		end
 
 	make_uri_directory (a_uri: EL_URI)

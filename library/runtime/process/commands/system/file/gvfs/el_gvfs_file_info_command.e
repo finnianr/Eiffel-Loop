@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-09 18:13:43 GMT (Tuesday 9th May 2023)"
-	revision: "8"
+	date: "2023-05-10 6:29:27 GMT (Wednesday 10th May 2023)"
+	revision: "9"
 
 class
 	EL_GVFS_FILE_INFO_COMMAND
@@ -40,11 +40,9 @@ feature -- Access
 
 	file_size: INTEGER
 
-feature -- Element change
-
-	reset
+	info: TUPLE [exists: BOOLEAN; type: NATURAL_8; content_type: STRING; modified, size: INTEGER]
 		do
-			file_exists := False
+			Result := [file_exists, file_type, file_content_type, file_modified, file_size]
 		end
 
 feature {NONE} -- Line states
@@ -69,6 +67,11 @@ feature {NONE} -- Implementation
 	ignore (a_error: ZSTRING): BOOLEAN
 		do
 			Result := is_file_not_found (a_error)
+		end
+
+	reset
+		do
+			file_exists := False
 		end
 
 feature {NONE} -- Constants
