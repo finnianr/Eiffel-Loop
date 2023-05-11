@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 16:27:50 GMT (Saturday 31st December 2022)"
-	revision: "27"
+	date: "2023-05-11 12:58:01 GMT (Thursday 11th May 2023)"
+	revision: "28"
 
 class
 	EL_REFLECTED_FIELD_TABLE
@@ -118,7 +118,7 @@ feature -- Status query
 		-- `True' if translated `foreign_name' is present
 		-- If `True' then `found_item' is set to the field
 		do
-			Result := internal_has_imported (foreign_name, False)
+			Result := internal_has_imported (foreign_name, True)
 		end
 
 feature {NONE} -- Implementation

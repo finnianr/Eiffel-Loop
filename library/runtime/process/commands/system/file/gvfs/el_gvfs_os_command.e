@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 10:19:51 GMT (Monday 27th March 2023)"
-	revision: "20"
+	date: "2023-05-10 14:28:37 GMT (Wednesday 10th May 2023)"
+	revision: "21"
 
 deferred class
 	EL_GVFS_OS_COMMAND [VARIABLES -> TUPLE create default_create end]
@@ -143,15 +143,16 @@ feature {NONE} -- Constants
 note
 	descendants: "[
 			EL_GVFS_OS_COMMAND* [VARIABLES -> TUPLE create default_create end]
-				[$source EL_GVFS_MOUNT_TABLE]
 				[$source EL_GVFS_URI_COMMAND]*
 					[$source EL_GVFS_FILE_EXISTS_COMMAND]
-					[$source EL_GVFS_REMOVE_FILE_COMMAND]
-					[$source EL_GVFS_FILE_LIST_COMMAND]
-					[$source EL_GVFS_FILE_COUNT_COMMAND]
 					[$source EL_GVFS_MAKE_DIRECTORY_COMMAND]
+					[$source EL_GVFS_REMOVE_FILE_COMMAND]
+					[$source EL_GVFS_FILE_COUNT_COMMAND]
+					[$source EL_GVFS_FILE_LIST_COMMAND]
+					[$source EL_GVFS_FILE_INFO_COMMAND]
 				[$source EL_GVFS_URI_TRANSFER_COMMAND]*
 					[$source EL_GVFS_COPY_COMMAND]
 					[$source EL_GVFS_MOVE_COMMAND]
+				[$source EL_GVFS_MOUNT_LIST_COMMAND]
 	]"
 end

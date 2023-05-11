@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-10 8:30:22 GMT (Wednesday 10th May 2023)"
-	revision: "7"
+	date: "2023-05-11 8:50:49 GMT (Thursday 11th May 2023)"
+	revision: "8"
 
 class
 	CAMERA_TRANSFER_COMMAND
@@ -62,7 +62,7 @@ feature -- Basic operations
 			lio.put_new_line_x2
 
 			create volume.make (device.name, device.is_windows_format)
-			if volume.is_valid then
+			if volume.is_mounted then
 				if attached volume.file_list (source_dir, extension) as file_list
 					and then file_list.count > 0
 				then
@@ -108,11 +108,10 @@ feature {NONE} -- Implementation
 
 	transfer (volume: EL_GVFS_VOLUME; file_list: EL_FILE_PATH_LIST)
 		local
-			file_size, copied_file_size: INTEGER; sorted_dir: DIR_PATH
+			copied_file_size: INTEGER; sorted_dir: DIR_PATH; file_path: FILE_PATH
 		do
 			across file_list as list loop
-				if is_valid_name (list.item.base) then
-					file_size := volume.file_size (list.item)
+				if is_valid_name (list.item.base) and then attached volume.file_info (list.item) as info then
 					lio.put_index_labeled_string (list, "Transfering %S", list.item.to_string)
 					lio.put_new_line
 					sorted_dir := destination_dir #+ new_date_sort (list.item.base)
@@ -121,13 +120,15 @@ feature {NONE} -- Implementation
 
 					File_system.make_directory (sorted_dir)
 					Volume.copy_file_from (list.item, sorted_dir)
-					copied_file_size :=  File.byte_count (sorted_dir + list.item.base)
-					if file_size = copied_file_size then
+					file_path := sorted_dir + list.item.base
+					copied_file_size :=  File.byte_count (file_path)
+					if info.size = copied_file_size then
+						File.set_modification_time (file_path, info.modified)
 						lio.put_line ("Copy OK")
 						volume.remove_file (list.item)
 					else
 						lio.put_labeled_substitution (
-							"Differing", "Actual: %S, Copied %S", [file_size, copied_file_size]
+							"Differing", "Actual: %S, Copied %S", [info.size, copied_file_size]
 						)
 						lio.put_new_line
 					end

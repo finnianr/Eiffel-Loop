@@ -1,3 +1,7 @@
+1.11.0
+* New application to correct modification times not matching Exif.Image.DateTime
+* Fixed photo transfer has correct modification time
+
 1.10.0
 * New application to transfer photos/videos from camera device
 

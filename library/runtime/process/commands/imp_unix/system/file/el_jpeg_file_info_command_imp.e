@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-05-11 11:13:33 GMT (Thursday 11th May 2023)"
+	revision: "8"
 
 class
 	EL_JPEG_FILE_INFO_COMMAND_IMP
@@ -21,8 +21,10 @@ inherit
 		end
 
 	EL_OS_COMMAND_IMP
+		rename
+			eiffel_naming as camel_case_naming
 		undefine
-			do_command, new_command_parts, set_has_error
+			camel_case_naming, do_command, new_command_parts, reset, set_has_error, new_representations
 		redefine
 			is_valid_platform
 		end
@@ -39,6 +41,6 @@ feature {NONE} -- Status query
 
 feature {NONE} -- Implementation
 
-	Template: STRING = "exiv2 -g Exif.Photo.DateTimeOriginal $file_path"
+	Template: STRING = "exiv2 -p a $file_path"
 
 end

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-10 6:19:32 GMT (Wednesday 10th May 2023)"
-	revision: "26"
+	date: "2023-05-10 10:45:53 GMT (Wednesday 10th May 2023)"
+	revision: "27"
 
 class
 	EL_GVFS_VOLUME
@@ -201,7 +201,7 @@ feature -- Status query
 			end
 		end
 
-	is_valid: BOOLEAN
+	is_mounted: BOOLEAN
 		do
 			Result := uri_root /= Empty_uri
 		end
@@ -216,7 +216,7 @@ feature -- Element change
 
 	extend_uri_root (relative_dir: DIR_PATH)
 		require
-			valid_volume: is_valid
+			valid_volume: is_mounted
 		do
 			make_directory (relative_dir)
 			uri_root.join (relative_dir)

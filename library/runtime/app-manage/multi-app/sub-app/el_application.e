@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 8:52:54 GMT (Saturday 29th April 2023)"
-	revision: "66"
+	date: "2023-05-10 14:27:00 GMT (Wednesday 10th May 2023)"
+	revision: "67"
 
 deferred class
 	EL_APPLICATION
@@ -455,6 +455,7 @@ note
 							[$source AUTOTEST_APP]
 
 		**toolkit.ecf**
+	descendants: "[
 			EL_APPLICATION*
 				[$source BINARY_DECODE_APP]
 				[$source DIAGNOSTICS_APP]
@@ -463,11 +464,12 @@ note
 					[$source STOCK_CONSUMPTION_CALCULATOR_APP]
 					[$source UNDATED_PHOTO_FINDER_APP]
 					[$source USER_AGENT_APP]
+					[$source WEBSITE_MONITOR_APP]
 					[$source XML_TO_PYXIS_APP]
+					[$source YOUTUBE_VIDEO_DOWNLOADER_APP]
 					[$source EL_DEBIAN_PACKAGER_APP]
 					[$source DUPLICITY_BACKUP_APP]
 					[$source DUPLICITY_RESTORE_APP]
-					[$source FILE_TRANSFER_APP]
 					[$source FILE_TREE_TRANSFORM_SCRIPT_APP]
 					[$source FTP_BACKUP_APP]
 					[$source FILE_MANIFEST_APP]
@@ -491,8 +493,8 @@ note
 						[$source VCF_CONTACT_NAME_SWITCHER_APP]
 					[$source EL_COMMAND_SHELL_APPLICATION]* [C -> [$source EL_APPLICATION_COMMAND_SHELL]]
 						[$source CRYPTO_COMMAND_SHELL_APP]
-					[$source WEBSITE_MONITOR_APP]
-					[$source YOUTUBE_VIDEO_DOWNLOADER_APP]
+					[$source FILE_SYNC_APP]
+					[$source CAMERA_TRANSFER_APP]
 				[$source EL_VERSION_APP]
 				[$source EL_LOGGED_APPLICATION]*
 					[$source EL_LOGGED_COMMAND_LINE_APPLICATION]* [C -> [$source EL_APPLICATION_COMMAND]]
@@ -501,23 +503,5 @@ note
 							[$source AUTOTEST_APP]
 							[$source FTP_AUTOTEST_APP]
 				[$source EL_STANDARD_UNINSTALL_APP]
-						
-		**manage-mp3.ecf**
-				[$source EL_COMMAND_LINE_APPLICATION]* [C -> [$source EL_APPLICATION_COMMAND]]
-					[$source TANGO_MP3_FILE_COLLATOR_APP]
-					[$source EL_DEBIAN_PACKAGER_APP]
-					[$source GENERATE_RBOX_DATABASE_FIELD_ENUM_APP]
-					[$source ID3_EDITOR_APP]
-					[$source EL_LOGGED_COMMAND_LINE_APPLICATION]* [C -> [$source EL_APPLICATION_COMMAND]]
-						[$source MP3_AUDIO_SIGNATURE_READER_APP]
-						[$source RHYTHMBOX_MUSIC_MANAGER_APP]
-				[$source EL_VERSION_APP]
-				[$source EL_LOGGED_APPLICATION]*
-					[$source EL_LOGGED_COMMAND_LINE_APPLICATION]* [C -> [$source EL_APPLICATION_COMMAND]]
-					[$source EL_AUTOTEST_APPLICATION]* [EQA_TYPES -> [$source TUPLE] create default_create end]
-						[$source EL_CRC_32_AUTOTEST_APPLICATION]* [EQA_TYPES -> [$source TUPLE] create default_create end]
-							[$source AUTOTEST_APP]
-				[$source EL_STANDARD_UNINSTALL_APP]
-
 	]"
 end

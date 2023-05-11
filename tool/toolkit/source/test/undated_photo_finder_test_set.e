@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:40:40 GMT (Friday 10th March 2023)"
-	revision: "6"
+	date: "2023-05-11 13:59:03 GMT (Thursday 11th May 2023)"
+	revision: "7"
 
 class
 	UNDATED_PHOTO_FINDER_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
-	EL_MODULE_COMMAND; EL_MODULE_FILE
+	EL_MODULE_FILE
 
 create
 	make
@@ -37,12 +37,10 @@ feature -- Tests
 	test_execute
 		local
 			finder: UNDATED_PHOTO_FINDER
-			output_path: FILE_PATH
-			undated_set: EL_HASH_SET [FILE_PATH]
-			jpeg_info: like command.new_jpeg_info
-			dated_count: INTEGER
+			output_path, jpeg_path: FILE_PATH; undated_set: EL_HASH_SET [FILE_PATH]
+			jpeg_info: EL_JPEG_FILE_INFO_COMMAND_I; dated_count: INTEGER
 		do
-			jpeg_info := Command.new_jpeg_info ("")
+			create {EL_JPEG_FILE_INFO_COMMAND_IMP} jpeg_info.make_default
 			output_path := work_area_dir + "undated-photos.txt"
 			create finder.make (work_area_dir, output_path)
 			finder.execute
@@ -53,13 +51,17 @@ feature -- Tests
 
 			assert ("at least 30 undated", undated_set.count > 30)
 			across file_list as path loop
-				if not undated_set.has (path.item) then
-					jpeg_info.set_file_path (path.item)
-					assert ("is pulpit.jpg", jpeg_info.has_date_time and then path.item.same_base ("pulpit.jpg"))
+				jpeg_path := path.item
+				jpeg_info.set_file_path (jpeg_path)
+
+				if undated_set.has (jpeg_path) then
+					assert ("is not dated", not jpeg_info.has_date_time)
+				else
+					assert ("has EXIF date_time", jpeg_info.has_date_time)
 					dated_count := dated_count + 1
 				end
 			end
-			assert ("1 dated", dated_count = 1)
+			assert ("2 have EXIF date_time", dated_count = 2)
 		end
 
 feature {NONE} -- Implementation
@@ -67,9 +69,7 @@ feature {NONE} -- Implementation
 	source_file_list: EL_FILE_PATH_LIST
 		do
 			create Result.make_empty
-			across ("jpeg,jpg").split (',') as extension loop
-				Result.append_sequence (OS.file_list (Data_dir, "*." + extension.item))
-			end
+			Result.append_sequence (OS.file_list (Data_dir, "*.jpg"))
 		end
 
 feature {NONE} -- Constants

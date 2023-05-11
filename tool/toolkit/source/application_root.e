@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-09 15:27:46 GMT (Tuesday 9th May 2023)"
-	revision: "44"
+	date: "2023-05-11 10:33:28 GMT (Thursday 11th May 2023)"
+	revision: "45"
 
 class
 	APPLICATION_ROOT
@@ -34,6 +34,8 @@ inherit
 
 		CURRENCY_EXCHANGE_HISTORY_APP,
 		HTML_BODY_WORD_COUNTER_APP,
+
+		JPEG_FILE_TIME_STAMPER_APP,
 
 		PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP,
 		PYXIS_ENCRYPTER_APP,

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 15:20:12 GMT (Saturday 29th April 2023)"
-	revision: "53"
+	date: "2023-05-10 14:27:48 GMT (Wednesday 10th May 2023)"
+	revision: "54"
 
 deferred class
 	EL_COMMAND_LINE_APPLICATION [C -> EL_APPLICATION_COMMAND]
@@ -298,16 +298,18 @@ note
 					[$source SOURCE_LOG_LINE_REMOVER_APP]
 				
 		**toolkit.ecf**
+	descendants: "[
 			EL_COMMAND_LINE_APPLICATION* [C -> EL_APPLICATION_COMMAND]
 				[$source SLIDE_SHOW_APP]
 				[$source STOCK_CONSUMPTION_CALCULATOR_APP]
 				[$source UNDATED_PHOTO_FINDER_APP]
 				[$source USER_AGENT_APP]
+				[$source WEBSITE_MONITOR_APP]
 				[$source XML_TO_PYXIS_APP]
+				[$source YOUTUBE_VIDEO_DOWNLOADER_APP]
 				[$source EL_DEBIAN_PACKAGER_APP]
 				[$source DUPLICITY_BACKUP_APP]
 				[$source DUPLICITY_RESTORE_APP]
-				[$source FILE_TRANSFER_APP]
 				[$source FILE_TREE_TRANSFORM_SCRIPT_APP]
 				[$source FTP_BACKUP_APP]
 				[$source FILE_MANIFEST_APP]
@@ -331,7 +333,7 @@ note
 					[$source VCF_CONTACT_NAME_SWITCHER_APP]
 				[$source EL_COMMAND_SHELL_APPLICATION]* [C -> [$source EL_APPLICATION_COMMAND_SHELL]]
 					[$source CRYPTO_COMMAND_SHELL_APP]
-				[$source WEBSITE_MONITOR_APP]
-				[$source YOUTUBE_VIDEO_DOWNLOADER_APP]
+				[$source FILE_SYNC_APP]
+				[$source CAMERA_TRANSFER_APP]
 	]"
 end

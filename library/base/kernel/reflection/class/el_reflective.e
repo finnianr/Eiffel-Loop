@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 15:09:42 GMT (Saturday 29th April 2023)"
-	revision: "69"
+	date: "2023-05-10 14:25:23 GMT (Wednesday 10th May 2023)"
+	revision: "70"
 
 deferred class
 	EL_REFLECTIVE
@@ -414,7 +414,7 @@ note
 							[$source EL_OS_COMMAND]
 								[$source EL_CAPTURED_OS_COMMAND]
 									[$source EL_GVFS_OS_COMMAND]
-										[$source EL_GVFS_MOUNT_TABLE]
+										[$source EL_GVFS_FILE_INFO_COMMAND]
 										[$source EL_GVFS_REMOVE_FILE_COMMAND]
 										[$source EL_GVFS_FILE_LIST_COMMAND]
 										[$source EL_GVFS_FILE_COUNT_COMMAND]

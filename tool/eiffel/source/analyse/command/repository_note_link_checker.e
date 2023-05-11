@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 17:23:30 GMT (Saturday 29th April 2023)"
-	revision: "11"
+	date: "2023-05-10 14:32:14 GMT (Wednesday 10th May 2023)"
+	revision: "12"
 
 class
 	REPOSITORY_NOTE_LINK_CHECKER
@@ -17,6 +17,8 @@ inherit
 		redefine
 			execute, building_action_table, make_default
 		end
+
+	EL_MODULE_FILE_SYSTEM
 
 	EL_APPLICATION_COMMAND
 
@@ -76,6 +78,9 @@ feature -- Basic operations
 				file_out.close
 			else
 				lio.put_line ("All [$source XXX] class references OK")
+				if invalid_names_output_path.exists then
+					File_system.remove_file (invalid_names_output_path)
+				end
 			end
 		end
 
