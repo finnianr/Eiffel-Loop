@@ -1,5 +1,6 @@
 note
-	description: "Command to parse output of **exiv2** command for JPEG files"
+	description: "Command to parse JPEG metadata fields from output of **exiv2** command"
+	tests: "Class [$source JPEG_FILE_INFO_COMMAND_TEST_SET]"
 	notes: "See end of class"
 
 	author: "Finnian Reilly"
@@ -7,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-11 15:34:16 GMT (Thursday 11th May 2023)"
-	revision: "11"
+	date: "2023-05-11 17:01:55 GMT (Thursday 11th May 2023)"
+	revision: "12"
 
 deferred class
 	EL_JPEG_FILE_INFO_COMMAND_I
@@ -39,10 +40,6 @@ inherit
 
 feature -- Exiv2 fields
 
-	date_time: INTEGER
-
-	date_time_original: INTEGER
-
 	device_make: STRING
 
 	model: STRING
@@ -55,9 +52,22 @@ feature -- Exiv2 fields
 
 feature -- Exiv2 measurements
 
+	date_time: INTEGER
+
+	date_time_original: INTEGER
+
+	image_height: INTEGER
+		do
+			Result := image_length
+		end
+
 	image_width: INTEGER
 
 	image_length: INTEGER
+
+	pixel_x_dimension: INTEGER
+
+	pixel_y_dimension: INTEGER
 
 	x_resolution: INTEGER
 
@@ -69,6 +79,8 @@ feature -- Status query
 		do
 			Result := date_time.to_boolean
 		end
+
+	has_meta_data: BOOLEAN
 
 feature -- Factory
 
@@ -88,11 +100,16 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
+	camel_case_naming: EL_NAME_TRANSLATER
+		do
+			Result := camel_case_translater ({EL_CASE}.lower)
+		end
+
 	do_with_lines (line_list: like new_output_lines)
 			--
 		local
 			line, value, field_name, qualifier: ZSTRING
-			found: BOOLEAN; value_column: INTEGER
+			found: BOOLEAN; value_column, count: INTEGER
 		do
 			across line_list as list loop
 				line := list.item
@@ -115,34 +132,52 @@ feature {NONE} -- Implementation
 							end
 							if field_table.has_imported (field_name) then
 								value := line.substring_end (value_column)
+								value.right_adjust
 								field_table.found_item.set_from_string (Current, value)
-								
+
 --								Nokio 300 phone may have bad Exif.Photo.MakerNote that causes infinite loop in UTF-8 parsing
-								if field_name ~ Name.model and then is_bad_make (field_name) then
+--								Forcing `Mixed_utf_8_latin_1' encoding causes UTF-8 validity check, defaulting to Latin-1 string
+								if field_name ~ Name.model and then is_bad_make_model then
 									line_list.set_encoding (Mixed_utf_8_latin_1)
 								end
 							end
 							found := True
 						end
 					end
+					count := count + 1
 				end
 			end
+			has_meta_data := count.to_boolean
 			if date_time = 0 then
 				date_time := date_time_original
 			end
+			if image_width = 0 then
+				image_width := pixel_x_dimension
+			end
+			if image_length = 0 then
+				image_length := pixel_y_dimension
+			end
 		end
 
-	is_bad_make (field_name: ZSTRING): BOOLEAN
+	is_bad_make_model: BOOLEAN
 		do
-			Result := Bad_device.make ~ device_make and then Bad_device.model ~ model
+			Result := Nokia_300.make ~ device_make and then Nokia_300.model ~ model
 		end
 
 	reset
 		do
-			date_time := 0; image_width := 0; image_length := 0
+			has_meta_data := False
+
+			date_time := 0; date_time_original := 0
+			image_width := 0; image_length := 0
+			x_resolution := 0; y_resolution := 0
+			pixel_x_dimension := 0; pixel_y_dimension := 0
+
 			create device_make.make_empty
 			create model.make_empty
+			create orientation.make_empty
 			create resolution_unit.make_empty
+			create software.make_empty
 		end
 
 	set_has_error (return_code: INTEGER)
@@ -163,11 +198,6 @@ feature {NONE} -- Reflection hints
 
 feature {NONE} -- Constants
 
-	Camel_case_naming: EL_NAME_TRANSLATER
-		once
-			Result := camel_case_translater ({EL_CASE}.Title)
-		end
-
 	Date_representation: EL_DATE_TIME_REPRESENTATION
 		once
 			create Result.make ("yyyy:[0]mm:[0]dd [0]hh:[0]mi:[0]ss")
@@ -179,7 +209,7 @@ feature {NONE} -- Constants
 			Tuple.fill (Result, "Exif, DateTimeOriginal, Image, Make, Model, Photo, Thumbnail")
 		end
 
-	Bad_device: TUPLE [make, model: STRING]
+	Nokia_300: TUPLE [make, model: STRING]
 		once
 			create Result
 			Tuple.fill (Result, "Nokia, 300")

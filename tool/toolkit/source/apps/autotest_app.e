@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "23"
+	date: "2023-05-11 16:03:42 GMT (Thursday 11th May 2023)"
+	revision: "24"
 
 class
 	AUTOTEST_APP
@@ -22,7 +22,7 @@ inherit
 		MONTHLY_STOCK_USE_TEST_SET,
 		PYXIS_TREE_TO_XML_COMPILER_TEST_SET,
 		PYXIS_ENCRYPTER_TEST_SET,
-		UNDATED_PHOTO_FINDER_TEST_SET,
+		JPEG_FILE_INFO_COMMAND_TEST_SET,
 		VCF_CONTACT_TEST_SET
 	]
 		redefine

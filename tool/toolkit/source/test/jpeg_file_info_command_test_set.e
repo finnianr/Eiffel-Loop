@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-11 13:59:03 GMT (Thursday 11th May 2023)"
-	revision: "7"
+	date: "2023-05-11 16:53:04 GMT (Thursday 11th May 2023)"
+	revision: "8"
 
 class
-	UNDATED_PHOTO_FINDER_TEST_SET
+	JPEG_FILE_INFO_COMMAND_TEST_SET
 
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
@@ -28,13 +28,42 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["execute", agent test_execute]
+				["undated_photo_finder", agent test_undated_photo_finder],
+				["jpeg_info",				 agent test_jpeg_info]
 			>>)
 		end
 
 feature -- Tests
 
-	test_execute
+	test_jpeg_info
+		-- JPEG_FILE_INFO_COMMAND_TEST_SET.test_jpeg_info
+		local
+			jpeg_path: FILE_PATH; jpeg_info: EL_JPEG_FILE_INFO_COMMAND_I
+			meta_data_count: INTEGER
+		do
+			create {EL_JPEG_FILE_INFO_COMMAND_IMP} jpeg_info.make_default
+			across file_list as path loop
+				jpeg_path := path.item
+				jpeg_info.set_file_path (jpeg_path)
+				if jpeg_info.has_meta_data then
+					lio.put_labeled_string ("File", jpeg_path.base)
+					lio.put_new_line
+					if jpeg_path.base_matches ("template276", False) then
+						assert ("width OK", jpeg_info.image_width = 775)
+						assert ("height OK", jpeg_info.image_height = 700)
+
+					elseif jpeg_path.base_matches ("pulpit", False) then
+						assert_same_string ("make OK", jpeg_info.device_make, "CASIO COMPUTER CO.,LTD")
+						assert ("width OK", jpeg_info.image_width = 3072)
+						assert ("height OK", jpeg_info.image_height = 2304)
+					end
+					meta_data_count := meta_data_count + 1
+				end
+			end
+			assert ("2 have meta data", meta_data_count = 2)
+		end
+
+	test_undated_photo_finder
 		local
 			finder: UNDATED_PHOTO_FINDER
 			output_path, jpeg_path: FILE_PATH; undated_set: EL_HASH_SET [FILE_PATH]
