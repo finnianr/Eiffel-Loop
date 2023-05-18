@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-10 14:27:00 GMT (Wednesday 10th May 2023)"
-	revision: "67"
+	date: "2023-05-14 10:02:26 GMT (Sunday 14th May 2023)"
+	revision: "68"
 
 deferred class
 	EL_APPLICATION
@@ -246,7 +246,7 @@ feature {NONE} -- Implementation
 				end
 				read_command_options
 				if has_error then
-					print_errors
+					print_errors (lio)
 				else
 					call (new_configuration)
 					initialize; run

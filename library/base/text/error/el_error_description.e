@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 16:59:23 GMT (Saturday 26th November 2022)"
-	revision: "2"
+	date: "2023-05-14 10:45:44 GMT (Sunday 14th May 2023)"
+	revision: "3"
 
 class
 	EL_ERROR_DESCRIPTION
@@ -20,14 +20,16 @@ inherit
 			first as first_line,
 			last as last_line,
 			item as line
+		export
+			{NONE} all
+			{ANY} first_line, last_line, append, append_sequence,
+				line_count, line, new_cursor, forth, start, after
 		end
-
-	EL_MODULE_LIO
 
 	EL_STRING_8_CONSTANTS
 
 create
-	make, make_default
+	make, make_code, make_default
 
 feature {NONE} -- Initialization
 
@@ -35,6 +37,12 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			id := a_id
+		end
+
+	make_code (a_code: INTEGER)
+		do
+			make_default
+			code := a_code
 		end
 
 	make_default
@@ -45,13 +53,16 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	code: INTEGER
+		-- return code
+
 	id: READABLE_STRING_GENERAL
 
 feature -- Element change
 
-	set_lines (a_string: READABLE_STRING_GENERAL)
+	set_code (a_code: INTEGER)
 		do
-			make_with_lines (a_string)
+			code := a_code
 		end
 
 	set_id (a_id: like id)
@@ -59,13 +70,22 @@ feature -- Element change
 			id := a_id
 		end
 
+	set_lines (a_string: READABLE_STRING_GENERAL)
+		do
+			make_with_lines (a_string)
+		end
+
+	set_list (a_list: ARRAYED_LIST [ZSTRING])
+		do
+			area_v2 := a_list.area
+		end
+
 feature -- Basic operations
 
-	print_to_lio
+	print_to (log: EL_LOGGABLE)
 		do
-			lio.put_new_line
 			across Current as list loop
-				lio.put_line (list.item)
+				log.put_line (list.item)
 			end
 		end
 

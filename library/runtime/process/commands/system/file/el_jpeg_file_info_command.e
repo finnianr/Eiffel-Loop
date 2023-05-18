@@ -1,42 +1,65 @@
 note
-	description: "Command to parse JPEG metadata fields from output of **exiv2** command"
+	description: "[
+		Command to parse JPEG metadata fields from output of [https://exiv2.org/ Exiv2] command-line tool
+		using command form:
+			
+			exiv2 -p a <$file_path>
+
+		**Example Output**
+
+			Exif.Image.ImageWidth                        Long        1  3264
+			Exif.Image.ImageLength                       Long        1  2448
+			Exif.Image.Make                              Ascii       8  samsung
+			Exif.Photo.DateTimeOriginal                  Ascii      20  2023:01:14 14:44:57
+			Exif.Thumbnail.ImageWidth                    Long        1  512
+			Exif.Thumbnail.ImageLength                   Long        1  384
+	]"
 	tests: "Class [$source JPEG_FILE_INFO_COMMAND_TEST_SET]"
-	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-11 17:01:55 GMT (Thursday 11th May 2023)"
-	revision: "12"
+	date: "2023-05-18 12:05:21 GMT (Thursday 18th May 2023)"
+	revision: "14"
 
-deferred class
-	EL_JPEG_FILE_INFO_COMMAND_I
+class
+	EL_JPEG_FILE_INFO_COMMAND
 
 inherit
-	EL_FILE_PATH_OPERAND_COMMAND_I
+	EL_PARSED_CAPTURED_OS_COMMAND [TUPLE [file_path: STRING]]
 		rename
 			eiffel_naming as camel_case_naming
 		export
 			{NONE} all
-		undefine
-			do_command, new_command_parts
 		redefine
-			camel_case_naming, new_representations, reset, set_file_path, set_has_error
-		end
-
-	EL_CAPTURED_OS_COMMAND_I
-		rename
-			eiffel_naming as camel_case_naming
-		undefine
-			camel_case_naming, getter_function_table, new_representations, reset, set_has_error,
-			Transient_fields
+			camel_case_naming, do_with_lines, new_representations, reset,
+			set_has_error, make_default
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
 
 	EL_MODULE_FILE; EL_MODULE_TUPLE
+
+create
+	make
+
+feature {NONE} -- Initialization
+
+	make_default
+		do
+			Precursor
+--			Some devices like the Nokio 300 phone may have bad Exif.Photo.MakerNote field causing an infinite loop
+--			in UTF-8 parsing. Treating output as encoding `Mixed_utf_8_latin_1' prevents this by forcing a UTF-8
+--			validity check on each line. If UTF-8 is invalid it defaults to Latin-1 encoding.
+
+			output_encoding := Mixed_utf_8_latin_1
+		end
+
+feature -- Access
+
+	file_path: FILE_PATH
 
 feature -- Exiv2 fields
 
@@ -61,9 +84,9 @@ feature -- Exiv2 measurements
 			Result := image_length
 		end
 
-	image_width: INTEGER
-
 	image_length: INTEGER
+
+	image_width: INTEGER
 
 	pixel_x_dimension: INTEGER
 
@@ -94,7 +117,8 @@ feature -- Element change
 	set_file_path (a_file_path: like file_path)
 			--
 		do
-			Precursor (a_file_path)
+			file_path := a_file_path
+			put_path (var.file_path, a_file_path)
 			execute
 		end
 
@@ -134,12 +158,6 @@ feature {NONE} -- Implementation
 								value := line.substring_end (value_column)
 								value.right_adjust
 								field_table.found_item.set_from_string (Current, value)
-
---								Nokio 300 phone may have bad Exif.Photo.MakerNote that causes infinite loop in UTF-8 parsing
---								Forcing `Mixed_utf_8_latin_1' encoding causes UTF-8 validity check, defaulting to Latin-1 string
-								if field_name ~ Name.model and then is_bad_make_model then
-									line_list.set_encoding (Mixed_utf_8_latin_1)
-								end
 							end
 							found := True
 						end
@@ -159,13 +177,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	is_bad_make_model: BOOLEAN
-		do
-			Result := Nokia_300.make ~ device_make and then Nokia_300.model ~ model
-		end
-
 	reset
 		do
+			Precursor
 			has_meta_data := False
 
 			date_time := 0; date_time_original := 0
@@ -191,8 +205,8 @@ feature {NONE} -- Reflection hints
 	new_representations: like Default_representations
 		do
 			create Result.make (<<
-				["date_time", Date_representation],
-				["date_time_original", Date_representation]
+				["date_time",			  Date_representation],
+				["date_time_original",Date_representation]
 			>>)
 		end
 
@@ -209,27 +223,11 @@ feature {NONE} -- Constants
 			Tuple.fill (Result, "Exif, DateTimeOriginal, Image, Make, Model, Photo, Thumbnail")
 		end
 
-	Nokia_300: TUPLE [make, model: STRING]
-		once
-			create Result
-			Tuple.fill (Result, "Nokia, 300")
-		end
-
 	Name_part_list: EL_ZSTRING_LIST
 		once
 			create Result.make_from_tuple (Name)
 		end
 
-note
-	notes: "[
-		Exiv2 Data Example
-
-			Exif.Image.ImageWidth                        Long        1  3264
-			Exif.Image.ImageLength                       Long        1  2448
-			Exif.Image.Make                              Ascii       8  samsung
-			Exif.Photo.DateTimeOriginal                  Ascii      20  2023:01:14 14:44:57
-			Exif.Thumbnail.ImageWidth                    Long        1  512
-			Exif.Thumbnail.ImageLength                   Long        1  384
-	]"
+	Template: STRING = "exiv2 -p a $file_path"
 
 end

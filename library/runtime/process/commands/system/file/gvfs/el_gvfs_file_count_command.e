@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-09 16:44:57 GMT (Tuesday 9th May 2023)"
-	revision: "6"
+	date: "2023-05-14 9:44:55 GMT (Sunday 14th May 2023)"
+	revision: "7"
 
 class
 	EL_GVFS_FILE_COUNT_COMMAND
@@ -37,6 +37,7 @@ feature -- Element change
 
 	reset
 		do
+			Precursor
 			count := 0
 		end
 

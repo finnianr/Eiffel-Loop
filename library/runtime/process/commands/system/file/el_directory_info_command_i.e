@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-05-14 9:46:23 GMT (Sunday 14th May 2023)"
+	revision: "8"
 
 deferred class
 	EL_DIRECTORY_INFO_COMMAND_I
@@ -49,7 +49,7 @@ feature {NONE} -- Implementation
 
 	reset
 		do
-			Precursor {EL_CAPTURED_OS_COMMAND_I}
+			Precursor
 			file_count := 0
 			size := 0
 		end

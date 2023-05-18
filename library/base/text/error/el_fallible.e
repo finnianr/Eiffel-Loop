@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 7:57:32 GMT (Saturday 26th November 2022)"
-	revision: "1"
+	date: "2023-05-14 10:40:42 GMT (Sunday 14th May 2023)"
+	revision: "2"
 
 class
 	EL_FALLIBLE
@@ -54,9 +54,12 @@ feature -- Element change
 
 feature -- Basic operations
 
-	print_errors
+	print_errors (log: EL_LOGGABLE)
 		do
-			error_list.do_all (agent {EL_ERROR_DESCRIPTION}.print_to_lio)
+			across error_list as list loop
+				log.put_new_line
+				list.item.print_to (log)
+			end
 		end
 
 feature {NONE} -- Internal attributes

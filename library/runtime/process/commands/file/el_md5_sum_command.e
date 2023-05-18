@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-05-18 11:50:37 GMT (Thursday 18th May 2023)"
+	revision: "5"
 
 class
 	EL_MD5_SUM_COMMAND
@@ -19,7 +19,7 @@ inherit
 		end
 
 create
-	execute, make
+	make
 
 feature -- Access
 

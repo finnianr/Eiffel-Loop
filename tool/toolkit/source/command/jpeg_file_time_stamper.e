@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-11 13:26:50 GMT (Thursday 11th May 2023)"
-	revision: "14"
+	date: "2023-05-18 11:55:44 GMT (Thursday 18th May 2023)"
+	revision: "16"
 
 class
 	JPEG_FILE_TIME_STAMPER
@@ -35,7 +35,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 	make (a_jpeg_tree_dir: DIR_PATH)
 		do
 			make_command (a_jpeg_tree_dir)
-			create {EL_JPEG_FILE_INFO_COMMAND_IMP} jpeg_info.make_default
+			create jpeg_info.make
 		end
 
 feature -- Basic operations
@@ -66,13 +66,13 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	jpeg_info: EL_JPEG_FILE_INFO_COMMAND_I
+	jpeg_info: EL_JPEG_FILE_INFO_COMMAND
 
 	updated_count: INTEGER
 
 feature {NONE} -- Constants
 
-	File_extensions: STRING = "jpeg, jpg"
+	File_extensions: STRING = "jpeg, jpg, JPEG, JPG"
 
 	Description: STRING = "[
 		Ensures JPEG file modified time corresponds to EXIF meta-data

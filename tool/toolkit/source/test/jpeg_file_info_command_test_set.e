@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-11 16:53:04 GMT (Thursday 11th May 2023)"
-	revision: "8"
+	date: "2023-05-18 11:56:11 GMT (Thursday 18th May 2023)"
+	revision: "9"
 
 class
 	JPEG_FILE_INFO_COMMAND_TEST_SET
@@ -38,10 +38,10 @@ feature -- Tests
 	test_jpeg_info
 		-- JPEG_FILE_INFO_COMMAND_TEST_SET.test_jpeg_info
 		local
-			jpeg_path: FILE_PATH; jpeg_info: EL_JPEG_FILE_INFO_COMMAND_I
+			jpeg_path: FILE_PATH; jpeg_info: EL_JPEG_FILE_INFO_COMMAND
 			meta_data_count: INTEGER
 		do
-			create {EL_JPEG_FILE_INFO_COMMAND_IMP} jpeg_info.make_default
+			create jpeg_info.make
 			across file_list as path loop
 				jpeg_path := path.item
 				jpeg_info.set_file_path (jpeg_path)
@@ -67,9 +67,9 @@ feature -- Tests
 		local
 			finder: UNDATED_PHOTO_FINDER
 			output_path, jpeg_path: FILE_PATH; undated_set: EL_HASH_SET [FILE_PATH]
-			jpeg_info: EL_JPEG_FILE_INFO_COMMAND_I; dated_count: INTEGER
+			jpeg_info: EL_JPEG_FILE_INFO_COMMAND; dated_count: INTEGER
 		do
-			create {EL_JPEG_FILE_INFO_COMMAND_IMP} jpeg_info.make_default
+			create jpeg_info.make
 			output_path := work_area_dir + "undated-photos.txt"
 			create finder.make (work_area_dir, output_path)
 			finder.execute

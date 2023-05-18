@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-28 7:49:33 GMT (Monday 28th November 2022)"
-	revision: "15"
+	date: "2023-05-14 10:03:55 GMT (Sunday 14th May 2023)"
+	revision: "16"
 
 class
 	CURRENCY_EXCHANGE_HISTORY_COMMAND
@@ -94,7 +94,7 @@ feature -- Basic operations
 				append_rates
 			end
 			if has_error then
-				print_errors
+				print_errors (lio)
 
 			elseif attached exchange_rate_table as table then
 				create csv_file.make_open_write (output_path)

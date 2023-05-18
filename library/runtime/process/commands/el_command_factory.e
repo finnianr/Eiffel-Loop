@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-04 15:33:20 GMT (Saturday 4th March 2023)"
-	revision: "21"
+	date: "2023-05-18 11:55:33 GMT (Thursday 18th May 2023)"
+	revision: "22"
 
 class
 	EL_COMMAND_FACTORY
@@ -55,9 +55,10 @@ feature -- Informational
 			-- make calls execute
 		end
 
-	new_jpeg_info (file_path: FILE_PATH): EL_JPEG_FILE_INFO_COMMAND_I
+	new_jpeg_info (file_path: FILE_PATH): EL_JPEG_FILE_INFO_COMMAND
 		do
-			create {EL_JPEG_FILE_INFO_COMMAND_IMP} Result.make (file_path)
+			create Result.make
+			Result.set_file_path (file_path)
 		end
 
 feature -- File management

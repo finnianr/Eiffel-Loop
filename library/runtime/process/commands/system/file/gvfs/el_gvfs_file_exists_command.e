@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-25 11:54:26 GMT (Saturday 25th March 2023)"
-	revision: "7"
+	date: "2023-05-14 9:45:22 GMT (Sunday 14th May 2023)"
+	revision: "8"
 
 class
 	EL_GVFS_FILE_EXISTS_COMMAND
@@ -32,6 +32,7 @@ feature -- Element change
 
 	reset
 		do
+			Precursor
 			file_exists := False
 		end
 

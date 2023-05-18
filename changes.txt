@@ -577,3 +577,6 @@ EL_LIST_BUFFER class
 Sat 29th Apr 2023, 18:24:28
 Removed bad $source class links
 
+Thu 18th May 2023, 11:31:23
+Photo time stamp correction from EXIF
+

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:39:10 GMT (Tuesday 14th February 2023)"
-	revision: "43"
+	date: "2023-05-14 10:47:58 GMT (Sunday 14th May 2023)"
+	revision: "44"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -158,11 +158,12 @@ feature -- Basic operations
 	print_error (a_description: detachable READABLE_STRING_GENERAL)
 		do
 			if attached error_list as list then
+				lio.put_new_line
 				if attached a_description as description then
-					list.first.set_id (description)
+					lio.put_labeled_string ("ERROR", description)
+					lio.put_new_line
 				end
-				lio.put_labeled_string ("ERROR", list.first.id)
-				list.first.print_to_lio
+				list.first.print_to (lio)
 			end
 		end
 
@@ -281,7 +282,7 @@ feature {NONE} -- Implementation
 				end
 				if has_error and then attached new_error as error then
 					if error_path.exists then
-						error.append_sequence (new_output_lines (error_path).as_list)
+						error.set_list (new_output_lines (error_path).as_list)
 					end
 					put_error (error); on_error (error)
 				end
@@ -331,7 +332,7 @@ feature {EL_OS_COMMAND_I} -- Factory
 
 	new_error: EL_ERROR_DESCRIPTION
 		do
-			create Result.make (Execution_environment.return_code.out)
+			create Result.make_code (Execution_environment.return_code)
 		end
 
 	new_temporary_file_path (a_extension: STRING): FILE_PATH

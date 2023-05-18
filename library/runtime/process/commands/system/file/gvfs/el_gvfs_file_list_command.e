@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-09 16:11:26 GMT (Tuesday 9th May 2023)"
-	revision: "8"
+	date: "2023-05-14 9:45:51 GMT (Sunday 14th May 2023)"
+	revision: "9"
 
 class
 	EL_GVFS_FILE_LIST_COMMAND
@@ -50,6 +50,7 @@ feature -- Element change
 
 	reset
 		do
+			Precursor
 			file_list.wipe_out
 		end
 
