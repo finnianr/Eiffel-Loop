@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-18 11:56:11 GMT (Thursday 18th May 2023)"
-	revision: "9"
+	date: "2023-05-19 8:44:20 GMT (Friday 19th May 2023)"
+	revision: "10"
 
 class
 	JPEG_FILE_INFO_COMMAND_TEST_SET
@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["undated_photo_finder", agent test_undated_photo_finder],
-				["jpeg_info",				 agent test_jpeg_info]
+				["Jpeg_info",				 agent test_jpeg_info]
 			>>)
 		end
 
@@ -38,24 +38,22 @@ feature -- Tests
 	test_jpeg_info
 		-- JPEG_FILE_INFO_COMMAND_TEST_SET.test_jpeg_info
 		local
-			jpeg_path: FILE_PATH; jpeg_info: EL_JPEG_FILE_INFO_COMMAND
-			meta_data_count: INTEGER
+			jpeg_path: FILE_PATH; meta_data_count: INTEGER
 		do
-			create jpeg_info.make
 			across file_list as path loop
 				jpeg_path := path.item
-				jpeg_info.set_file_path (jpeg_path)
-				if jpeg_info.has_meta_data then
+				Jpeg_info.set_file_path (jpeg_path)
+				if Jpeg_info.has_meta_data then
 					lio.put_labeled_string ("File", jpeg_path.base)
 					lio.put_new_line
 					if jpeg_path.base_matches ("template276", False) then
-						assert ("width OK", jpeg_info.image_width = 775)
-						assert ("height OK", jpeg_info.image_height = 700)
+						assert ("width OK", Jpeg_info.image_width = 775)
+						assert ("height OK", Jpeg_info.image_height = 700)
 
 					elseif jpeg_path.base_matches ("pulpit", False) then
-						assert_same_string ("make OK", jpeg_info.device_make, "CASIO COMPUTER CO.,LTD")
-						assert ("width OK", jpeg_info.image_width = 3072)
-						assert ("height OK", jpeg_info.image_height = 2304)
+						assert_same_string ("make OK", Jpeg_info.device_make, "CASIO COMPUTER CO.,LTD")
+						assert ("width OK", Jpeg_info.image_width = 3072)
+						assert ("height OK", Jpeg_info.image_height = 2304)
 					end
 					meta_data_count := meta_data_count + 1
 				end
@@ -65,11 +63,9 @@ feature -- Tests
 
 	test_undated_photo_finder
 		local
-			finder: UNDATED_PHOTO_FINDER
-			output_path, jpeg_path: FILE_PATH; undated_set: EL_HASH_SET [FILE_PATH]
-			jpeg_info: EL_JPEG_FILE_INFO_COMMAND; dated_count: INTEGER
+			finder: UNDATED_PHOTO_FINDER; undated_set: EL_HASH_SET [FILE_PATH]
+			output_path, jpeg_path: FILE_PATH; dated_count: INTEGER
 		do
-			create jpeg_info.make
 			output_path := work_area_dir + "undated-photos.txt"
 			create finder.make (work_area_dir, output_path)
 			finder.execute
@@ -81,12 +77,12 @@ feature -- Tests
 			assert ("at least 30 undated", undated_set.count > 30)
 			across file_list as path loop
 				jpeg_path := path.item
-				jpeg_info.set_file_path (jpeg_path)
+				Jpeg_info.set_file_path (jpeg_path)
 
 				if undated_set.has (jpeg_path) then
-					assert ("is not dated", not jpeg_info.has_date_time)
+					assert ("is not dated", not Jpeg_info.has_date_time)
 				else
-					assert ("has EXIF date_time", jpeg_info.has_date_time)
+					assert ("has EXIF date_time", Jpeg_info.has_date_time)
 					dated_count := dated_count + 1
 				end
 			end
@@ -111,6 +107,11 @@ feature {NONE} -- Constants
 	Data_dir: DIR_PATH
 		once
 			Result := Contrib_library_dir #+ "network/server/nino/example/SimpleWebServer/webroot"
+		end
+
+	Jpeg_info: EL_JPEG_FILE_INFO_COMMAND_I
+		once
+			create {EL_JPEG_FILE_INFO_COMMAND_IMP} Result.make
 		end
 
 end

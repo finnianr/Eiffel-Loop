@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-18 11:46:57 GMT (Thursday 18th May 2023)"
-	revision: "31"
+	date: "2023-05-19 8:35:31 GMT (Friday 19th May 2023)"
+	revision: "32"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE
@@ -147,7 +147,7 @@ note
 								[$source EL_X509_PUBLIC_READER_COMMAND_IMP]
 						[$source EL_CPU_INFO_COMMAND_I]*
 							[$source EL_CPU_INFO_COMMAND_IMP]
-						[$source EL_JPEG_FILE_INFO_COMMAND]*
+						[$source EL_JPEG_FILE_INFO_COMMAND_I]*
 							[$source EL_JPEG_FILE_INFO_COMMAND_IMP]
 						[$source EL_SEND_MAIL_COMMAND_I]*
 							[$source EL_SEND_MAIL_COMMAND_IMP]
@@ -193,7 +193,7 @@ note
 							[$source EL_X509_CERTIFICATE_READER_COMMAND_I]*
 							[$source EL_DELETE_FILE_COMMAND_I]*
 								[$source EL_DELETE_FILE_COMMAND_IMP]
-							[$source EL_JPEG_FILE_INFO_COMMAND]*
+							[$source EL_JPEG_FILE_INFO_COMMAND_I]*
 				[$source EL_COMMAND_LINE_OPTIONS]*
 					[$source EL_APPLICATION_COMMAND_OPTIONS]
 						[$source EROS_APPLICATION_COMMAND_OPTIONS]

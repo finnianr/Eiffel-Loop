@@ -21,33 +21,34 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-18 12:05:21 GMT (Thursday 18th May 2023)"
-	revision: "14"
+	date: "2023-05-19 8:35:32 GMT (Friday 19th May 2023)"
+	revision: "15"
 
-class
-	EL_JPEG_FILE_INFO_COMMAND
+deferred class
+	EL_JPEG_FILE_INFO_COMMAND_I
 
 inherit
-	EL_PARSED_CAPTURED_OS_COMMAND [TUPLE [file_path: STRING]]
+	EL_CAPTURED_OS_COMMAND_I
 		rename
+			make_default as make,
 			eiffel_naming as camel_case_naming
 		export
 			{NONE} all
 		redefine
 			camel_case_naming, do_with_lines, new_representations, reset,
-			set_has_error, make_default
+			set_has_error, make
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
+		rename
+			make_default as make
+		end
 
 	EL_MODULE_FILE; EL_MODULE_TUPLE
 
-create
-	make
-
 feature {NONE} -- Initialization
 
-	make_default
+	make
 		do
 			Precursor
 --			Some devices like the Nokio 300 phone may have bad Exif.Photo.MakerNote field causing an infinite loop
@@ -118,7 +119,7 @@ feature -- Element change
 			--
 		do
 			file_path := a_file_path
-			put_path (var.file_path, a_file_path)
+--			put_path (var.file_path, a_file_path)
 			execute
 		end
 
@@ -205,8 +206,8 @@ feature {NONE} -- Reflection hints
 	new_representations: like Default_representations
 		do
 			create Result.make (<<
-				["date_time",			  Date_representation],
-				["date_time_original",Date_representation]
+				["date_time",				Date_representation],
+				["date_time_original",	Date_representation]
 			>>)
 		end
 
@@ -217,10 +218,10 @@ feature {NONE} -- Constants
 			create Result.make ("yyyy:[0]mm:[0]dd [0]hh:[0]mi:[0]ss")
 		end
 
-	Name: TUPLE [exif, date_time_original, image, make, model, photo, thumbnail: ZSTRING]
+	Name: TUPLE [exif, image, make, photo, thumbnail: ZSTRING]
 		once
 			create Result
-			Tuple.fill (Result, "Exif, DateTimeOriginal, Image, Make, Model, Photo, Thumbnail")
+			Tuple.fill (Result, "Exif, Image, Make, Photo, Thumbnail")
 		end
 
 	Name_part_list: EL_ZSTRING_LIST

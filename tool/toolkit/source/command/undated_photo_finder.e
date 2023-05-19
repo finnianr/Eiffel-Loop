@@ -8,15 +8,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2023-05-19 8:38:59 GMT (Friday 19th May 2023)"
+	revision: "14"
 
 class
 	UNDATED_PHOTO_FINDER
 
 inherit
 	EL_APPLICATION_COMMAND
-	
+
 	EL_FILE_TREE_COMMAND
 		rename
 			make as make_command,
@@ -38,7 +38,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			make_command (a_jpeg_tree_dir)
 			create output.make_with_path (output_file_path)
-			jpeg_info := Command.new_jpeg_info ("")
+			jpeg_info := Command.new_jpeg_info
 		end
 
 feature -- Basic operations
