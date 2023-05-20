@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-05-20 9:20:15 GMT (Saturday 20th May 2023)"
+	revision: "8"
 
 class
 	EL_EXTRACT_MP3_INFO_COMMAND_IMP
@@ -20,9 +20,9 @@ inherit
 			is_valid_platform
 		end
 
-	EL_OS_COMMAND_IMP
+	EL_OS_CAPTURED_COMMAND_IMP
 		undefine
-			do_command, new_command_parts
+			make_default
 		redefine
 			is_valid_platform
 		end

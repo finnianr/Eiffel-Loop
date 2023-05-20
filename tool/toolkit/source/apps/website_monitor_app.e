@@ -11,14 +11,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-11 8:53:22 GMT (Tuesday 11th April 2023)"
-	revision: "29"
+	date: "2023-05-20 10:10:42 GMT (Saturday 20th May 2023)"
+	revision: "30"
 
 class
 	WEBSITE_MONITOR_APP
 
 inherit
 	EL_COMMAND_LINE_APPLICATION [WEBSITE_MONITOR]
+		undefine
+			is_valid_platform
+		end
+
+	EL_UNIX_APPLICATION
 
 create
 	make

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-19 8:35:32 GMT (Friday 19th May 2023)"
-	revision: "1"
+	date: "2023-05-20 9:18:43 GMT (Saturday 20th May 2023)"
+	revision: "2"
 
 class
 	EL_JPEG_FILE_INFO_COMMAND_IMP
@@ -15,12 +15,12 @@ class
 inherit
 	EL_JPEG_FILE_INFO_COMMAND_I
 
-	EL_OS_COMMAND_IMP
+	EL_OS_CAPTURED_COMMAND_IMP
 		rename
 			make_default as make,
 			eiffel_naming as camel_case_naming
 		undefine
-			camel_case_naming, do_command, new_command_parts, new_representations, reset, set_has_error
+			camel_case_naming, make, new_representations, reset, set_has_error
 		end
 
 create

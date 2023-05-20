@@ -69,7 +69,20 @@ See doc/toolkit.txt for details.
 		<library name = "EL_vtd_xml" location = "$EIFFEL_LOOP/library/vtd-xml.ecf" readonly = "false"/>
 		<library name = "EL_xml_scan" location = "$EIFFEL_LOOP/library/xml-scan.ecf" readonly = "false"/>
 		<library name = "EL_doc_scan" location = "$EIFFEL_LOOP/library/document-scan.ecf" readonly = "false"/>
-		<cluster name = "project" location = "source" recursive = "true"/>
+		<cluster name = "project" location = "source" recursive = "true">
+			<file_rule>
+				<exclude>/imp_mswin$</exclude>
+				<condition>
+					<platform value = "unix"/>
+				</condition>
+			</file_rule>
+			<file_rule>
+				<exclude>/imp_unix$</exclude>
+				<condition>
+					<platform value = "windows"/>
+				</condition>
+			</file_rule>
+		</cluster>
 		<cluster name = "test_common" location = "$EIFFEL_LOOP/test/source/common">
 			<cluster name = "support" location = "$|support"/>
 		</cluster>

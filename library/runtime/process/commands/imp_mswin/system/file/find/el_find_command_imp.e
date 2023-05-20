@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2023-05-20 9:17:07 GMT (Saturday 20th May 2023)"
+	revision: "18"
 
 deferred class
 	EL_FIND_COMMAND_IMP
@@ -20,11 +20,11 @@ inherit
 			get_escaped_path
 		end
 
-	EL_OS_COMMAND_IMP
+	EL_OS_CAPTURED_COMMAND_IMP
 		export
 			{NONE} all
 		undefine
-			do_command, get_escaped_path, new_command_parts, reset
+			get_escaped_path, getter_function_table, make_default, reset
 		redefine
 			new_output_lines
 		end

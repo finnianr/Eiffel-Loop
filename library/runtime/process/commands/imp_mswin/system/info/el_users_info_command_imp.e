@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 13:45:15 GMT (Monday 5th December 2022)"
-	revision: "14"
+	date: "2023-05-20 9:21:24 GMT (Saturday 20th May 2023)"
+	revision: "15"
 
 class
 	EL_USERS_INFO_COMMAND_IMP
@@ -20,9 +20,9 @@ inherit
 			make, do_with_lines
 		end
 
-	EL_OS_COMMAND_IMP
+	EL_OS_CAPTURED_COMMAND_IMP
 		undefine
-			do_command, new_command_parts
+			make_default
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -31,6 +31,7 @@ inherit
 		redefine
 			make
 		end
+
 create
 	make
 

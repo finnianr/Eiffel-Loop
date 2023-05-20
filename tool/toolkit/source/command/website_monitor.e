@@ -1,13 +1,14 @@
 note
 	description: "Monitor multiple websites for operational faults"
+	notes: "This is a Unix only application"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-15 8:11:15 GMT (Saturday 15th April 2023)"
-	revision: "3"
+	date: "2023-05-20 10:05:46 GMT (Saturday 20th May 2023)"
+	revision: "4"
 
 class
 	WEBSITE_MONITOR
@@ -43,7 +44,7 @@ feature {NONE} -- Initialization
 
 feature -- Pyxis configured
 
-	website_list: EL_ARRAYED_LIST [MONITORED_WEBSITE]
+	website_list: EL_ARRAYED_LIST [MONITORED_WEBSITE_I]
 
 	checks_per_day: INTEGER
 
@@ -95,9 +96,9 @@ feature {NONE} -- Build from XML
 			>>)
 		end
 
-	new_site: MONITORED_WEBSITE
+	new_site: MONITORED_WEBSITE_I
 		do
-			create Result.make
+			create {MONITORED_WEBSITE_IMP} Result.make
 		end
 
 end

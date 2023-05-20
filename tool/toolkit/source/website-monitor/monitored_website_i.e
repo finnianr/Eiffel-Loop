@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-11 12:40:45 GMT (Tuesday 11th April 2023)"
-	revision: "1"
+	date: "2023-05-20 10:02:17 GMT (Saturday 20th May 2023)"
+	revision: "2"
 
-class
-	MONITORED_WEBSITE
+deferred class
+	MONITORED_WEBSITE_I
 
 inherit
 	EL_EIF_OBJ_BUILDER_CONTEXT
@@ -21,9 +21,6 @@ inherit
 		end
 
 	EL_MODULE_LIO
-
-create
-	make
 
 feature {NONE} -- Initialization
 
@@ -76,14 +73,7 @@ feature {NONE} -- Build from XML
 		end
 
 	set_terminal_command
-		local
-			desktop_ssh_path: FILE_PATH; desktop: EL_XDG_DESKTOP
-		do
-			desktop_ssh_path := node.to_expanded_file_path
-			if desktop_ssh_path.exists then
-				create desktop.make (desktop_ssh_path)
-				terminal_command := desktop.exec
-			end
+		deferred
 		end
 
 end

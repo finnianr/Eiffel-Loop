@@ -100,6 +100,8 @@ system:
 
 		cluster_tree:
 			project = source
+			platform_list:
+				"imp_mswin; imp_unix"
 
 		cluster:
 			test_common = "$EIFFEL_LOOP/test/source/common"

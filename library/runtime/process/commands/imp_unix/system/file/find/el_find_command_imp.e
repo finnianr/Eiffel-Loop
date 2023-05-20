@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-05-20 9:15:53 GMT (Saturday 20th May 2023)"
+	revision: "11"
 
 deferred class
 	EL_FIND_COMMAND_IMP
 
 inherit
-	EL_OS_COMMAND_IMP
+	EL_OS_CAPTURED_COMMAND_IMP
 		undefine
-			do_command, new_command_parts, reset
+			getter_function_table, make_default, reset
 		redefine
 			new_output_lines
 		end
