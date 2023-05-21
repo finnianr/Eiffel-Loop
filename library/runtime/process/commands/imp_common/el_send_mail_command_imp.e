@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-20 9:09:22 GMT (Saturday 20th May 2023)"
-	revision: "12"
+	date: "2023-05-21 7:49:06 GMT (Sunday 21st May 2023)"
+	revision: "13"
 
 class
 	EL_SEND_MAIL_COMMAND_IMP
@@ -18,7 +18,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_OS_CAPTURED_COMMAND_IMP
+	EL_CAPTURED_OS_COMMAND_IMP
 		undefine
 			getter_function_table, execute
 		end

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:54:00 GMT (Tuesday 14th February 2023)"
-	revision: "19"
+	date: "2023-05-21 7:49:06 GMT (Sunday 21st May 2023)"
+	revision: "20"
 
 class
 	EL_NETWORK_DEVICE_LIST_IMP
@@ -19,7 +19,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_CAPTURED_OS_COMMAND_I
+	EL_CAPTURED_OS_COMMAND_IMP
 		rename
 			make_default as make
 		export
@@ -28,15 +28,6 @@ inherit
 			copy, is_equal
 		redefine
 			do_with_lines, make, is_valid_platform
-		end
-
-	EL_OS_COMMAND_IMP
-		rename
-			make_default as make
-		undefine
-			new_command_parts, do_command, copy, is_equal
-		redefine
-			is_valid_platform
 		end
 
 create

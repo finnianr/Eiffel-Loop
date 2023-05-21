@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-09 9:47:31 GMT (Tuesday 9th May 2023)"
-	revision: "19"
+	date: "2023-05-21 8:45:28 GMT (Sunday 21st May 2023)"
+	revision: "20"
 
 class
 	EL_GVFS_MOUNT_LIST_COMMAND
@@ -34,7 +34,7 @@ inherit
 			{NONE} all
 			{ANY} execute
 		redefine
-			make_default, find_volume, reset
+			call, make_default, find_volume, reset
 		end
 
 	EL_MODULE_TUPLE
@@ -47,6 +47,7 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			create uri_table.make_equal (3)
+			left_adjusted := True
 			Precursor
 		end
 
@@ -56,21 +57,15 @@ feature -- Access
 
 feature {NONE} -- Line states
 
-	find_volume (line: ZSTRING)
-		local
-			f: EL_COLON_FIELD_ROUTINES
-		do
-			if line.starts_with (Text.volume) then
-				state := agent find_mount (?, f.value (line))
-			end
-		end
-
-	find_mount (line, volume: ZSTRING)
+	find_mount (line, volume: ZSTRING; indent: INTEGER)
 		local
 			f: EL_COLON_FIELD_ROUTINES; split_list: EL_SPLIT_ZSTRING_LIST
 		do
-			line.left_adjust
-			if line.starts_with (Text.mount) then
+			if line_indent <= indent then
+				state := agent find_volume
+				find_volume (line)
+
+			elseif line.starts_with (Text.mount) then
 				create split_list.make_by_string (f.value (line), Text.map_arrow)
 				if split_list.count = 2 then
 					if split_list.first_item ~ volume then
@@ -81,13 +76,33 @@ feature {NONE} -- Line states
 			end
 		end
 
+	find_volume (line: ZSTRING)
+		local
+			f: EL_COLON_FIELD_ROUTINES
+		do
+			if line.starts_with (Text.volume) then
+				state := agent find_mount (?, f.value (line), line_indent)
+			end
+		end
+
 feature {NONE} -- Implementation
+
+	call (line: ZSTRING)
+		local
+		do
+			line_indent := line.leading_white_space // 2
+			Precursor (line)
+		end
 
 	reset
 		do
 			Precursor
 			uri_table.wipe_out
 		end
+
+feature {NONE} -- Internal attributes
+
+	line_indent: INTEGER
 
 feature {NONE} -- Constants
 

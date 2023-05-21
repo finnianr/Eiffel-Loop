@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-20 9:22:30 GMT (Saturday 20th May 2023)"
-	revision: "10"
+	date: "2023-05-21 7:49:07 GMT (Sunday 21st May 2023)"
+	revision: "11"
 
 class
 	EL_X509_PRIVATE_READER_COMMAND_IMP
@@ -18,7 +18,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_OS_CAPTURED_COMMAND_IMP
+	EL_CAPTURED_OS_COMMAND_IMP
 		undefine
 			do_command, make_default
 		end

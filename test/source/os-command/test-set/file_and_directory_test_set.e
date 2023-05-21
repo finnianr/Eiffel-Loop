@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-09 17:54:37 GMT (Tuesday 9th May 2023)"
-	revision: "37"
+	date: "2023-05-21 8:02:05 GMT (Sunday 21st May 2023)"
+	revision: "38"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -171,6 +171,7 @@ feature -- Tests
 		end
 
 	test_gnome_virtual_file_system
+		-- FILE_AND_DIRECTORY_TEST_SET.test_gnome_virtual_file_system
 		do
 			if {PLATFORM}.is_unix then
 				do_test_gnome_virtual_file_system

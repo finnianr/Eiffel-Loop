@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-05-21 7:35:24 GMT (Sunday 21st May 2023)"
+	revision: "10"
 
 deferred class
 	EXPORT_TO_DEVICE_TASK
@@ -26,7 +26,7 @@ feature {RBOX_MUSIC_MANAGER} -- Initialization
 		do
 			Precursor (a_file_path)
 			device := new_device
-			if not device.volume.is_valid then
+			if not device.volume.is_mounted then
 				error_message := Volume_error #$ [volume.name]
 			end
 		end

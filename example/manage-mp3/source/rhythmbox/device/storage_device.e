@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-26 10:10:06 GMT (Sunday 26th March 2023)"
-	revision: "28"
+	date: "2023-05-21 7:35:24 GMT (Sunday 21st May 2023)"
+	revision: "29"
 
 class
 	STORAGE_DEVICE
@@ -69,7 +69,7 @@ feature -- Element change
 	set_volume (a_volume: like volume)
 		do
 			volume := a_volume
-			if volume.is_valid then
+			if volume.is_mounted then
 				volume.extend_uri_root (task.volume.destination_dir)
 			end
 		end
@@ -199,7 +199,7 @@ feature {NONE} -- Volume file operations
 					-- User reconnect device if disconnected
 					-- Might have different usb port number in url
 					volume.reset_uri_root
-					if volume.is_valid then
+					if volume.is_mounted then
 						volume.extend_uri_root (task.volume.destination_dir)
 						volume_is_valid := True
 					else
