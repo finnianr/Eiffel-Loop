@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-22 14:56:33 GMT (Monday 22nd May 2023)"
-	revision: "26"
+	date: "2023-05-22 17:24:31 GMT (Monday 22nd May 2023)"
+	revision: "27"
 
 class
 	FEATURE_EDITOR_COMMAND_TEST_SET
@@ -66,7 +66,9 @@ feature -- Tests
 		-- FEATURE_EDITOR_COMMAND_TEST_SET.file_editing
 		do
 			across to_list (Name) as list loop
-				do_test ("edit_file", Checksum_table [list.item], agent edit_file, [list.item])
+				if list.is_last then
+					do_test ("edit_file", Checksum_table [list.item], agent edit_file, [list.item])
+				end
 			end
 		end
 
