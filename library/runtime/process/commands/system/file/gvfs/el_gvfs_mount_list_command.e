@@ -3,38 +3,30 @@ note
 		Parse mount uri's from result of command:
 		
 			gvfs-mount --list
-			
-		Example:
-			
-			Volume(0): SAMSUNG Android
-				Type: GProxyVolume (GProxyVolumeMonitorMTP)
-				Mount(0): SAMSUNG Android -> mtp://[usb:003,008]/
-					Type: GProxyShadowMount (GProxyVolumeMonitorMTP)
+
 	]"
-	notes: "[
-		GVFS stands for [https://www.commandlinux.com/man-page/man7/gvfs.7.html GIO virtual file system]
-	]"
+	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-21 8:45:28 GMT (Sunday 21st May 2023)"
-	revision: "20"
+	date: "2023-05-22 7:34:11 GMT (Monday 22nd May 2023)"
+	revision: "21"
 
 class
 	EL_GVFS_MOUNT_LIST_COMMAND
 
 inherit
-	EL_GVFS_OS_COMMAND [TUPLE]
+	EL_GVFS_OS_COMMAND
 		rename
 			find_line as find_volume
 		export
 			{NONE} all
 			{ANY} execute
 		redefine
-			call, make_default, find_volume, reset
+			make_default, find_volume, reset
 		end
 
 	EL_MODULE_TUPLE
@@ -87,22 +79,16 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Implementation
 
-	call (line: ZSTRING)
-		local
-		do
-			line_indent := line.leading_white_space // 2
-			Precursor (line)
-		end
-
 	reset
 		do
 			Precursor
 			uri_table.wipe_out
 		end
 
-feature {NONE} -- Internal attributes
-
 	line_indent: INTEGER
+		do
+			Result := left_count // 2
+		end
 
 feature {NONE} -- Constants
 
@@ -113,5 +99,23 @@ feature {NONE} -- Constants
 			create Result
 			Tuple.fill_adjusted (Result, " -> ,Mount(,Volume(", False)
 		end
+
+note
+	notes: "[
+		GVFS stands for [https://www.commandlinux.com/man-page/man7/gvfs.7.html GIO virtual file system]
+
+		Example Data:
+
+			Drive(1): OCZ-VERTEX3
+				Type: GProxyDrive (GProxyVolumeMonitorUDisks2)
+				Volume(0): Development
+					Type: GProxyVolume (GProxyVolumeMonitorUDisks2)
+					Mount(0): Development -> file:///home/finnian/dev
+						Type: GProxyMount (GProxyVolumeMonitorUDisks2)
+			Volume(0): SAMSUNG Android
+				Type: GProxyVolume (GProxyVolumeMonitorMTP)
+				Mount(0): SAMSUNG Android -> mtp://[usb:003,008]/
+					Type: GProxyShadowMount (GProxyVolumeMonitorMTP)
+	]"
 
 end

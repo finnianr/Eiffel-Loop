@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-25 16:04:12 GMT (Saturday 25th March 2023)"
-	revision: "2"
+	date: "2023-05-22 7:50:17 GMT (Monday 22nd May 2023)"
+	revision: "3"
 
 deferred class
 	EL_GVFS_URI_TRANSFER_COMMAND
@@ -42,13 +42,15 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	template: STRING
-		local
-			name: STRING
-		do
+	operation_name: STRING
 --			Eg. EL_GVFS_MOVE_COMMAND -> move
-			name := Naming.class_as_snake_lower (Current, 2, 1)
-			Result := "gvfs-" + name + " $source_path $destination_path"
+		do
+			Result := Naming.class_as_snake_lower (Current, 2, 1)
+		end
+
+	template: STRING
+		do
+			Result := "gvfs-" + operation_name + " $source_path $destination_path"
 		end
 
 end

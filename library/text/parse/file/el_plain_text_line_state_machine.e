@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 9:13:57 GMT (Monday 5th December 2022)"
-	revision: "25"
+	date: "2023-05-21 15:12:37 GMT (Sunday 21st May 2023)"
+	revision: "26"
 
 class
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -50,10 +50,19 @@ feature {NONE} -- Implementation
 
 	call (item: ZSTRING)
 		-- call state procedure with item
+		local
+			item_count: INTEGER
 		do
 			if left_adjusted then
+				item_count := item.count
 				item.left_adjust
+				left_count := item_count - item.count
+			else
+				left_count := 0
 			end
 			state (item)
 		end
+
+	left_count: INTEGER
+		-- count of characters removed by `item.left_adjust' if `left_adjusted' is True
 end

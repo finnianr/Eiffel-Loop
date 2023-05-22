@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "24"
+	date: "2023-05-21 15:46:07 GMT (Sunday 21st May 2023)"
+	revision: "25"
 
 class
 	OS_COMMAND_TEST_SET
@@ -28,9 +28,10 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["cpu_info", agent test_cpu_info],
+				["cpu_info",			  agent test_cpu_info],
 				["create_tar_command", agent test_create_tar_command],
-				["user_list", agent test_user_list]
+				["file_md5_sum",		  agent test_file_md5_sum],
+				["user_list",			  agent test_user_list]
 			>>)
 		end
 
@@ -74,6 +75,17 @@ feature -- Tests
 			cmd.set_target_dir (work_area_data_dir)
 			cmd.execute
 			assert ("created", tar_path.exists)
+		end
+
+	test_file_md5_sum
+		do
+			if {PLATFORM}.is_unix and then attached file_path ("help-files.txt") as help_path
+				and then attached OS.file_md5_digest (help_path).as_upper as str
+			then
+				lio.put_labeled_string (help_path.base, str)
+				lio.put_new_line
+				assert_same_string (Void, Digest.md5_plain_text (help_path).to_hex_string, str)
+			end
 		end
 
 	test_user_list

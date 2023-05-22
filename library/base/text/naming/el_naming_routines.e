@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 15:37:09 GMT (Sunday 18th December 2022)"
-	revision: "35"
+	date: "2023-05-22 9:11:08 GMT (Monday 22nd May 2023)"
+	revision: "36"
 
 class
 	EL_NAMING_ROUTINES
@@ -25,14 +25,14 @@ inherit
 
 feature -- Constants
 
-	No_words: EL_STRING_8_LIST
-		once
-			create Result.make_empty
-		end
-
 	Empty_word_set: EL_HASH_SET [STRING]
 		once
 			create Result.make (0)
+		end
+
+	No_words: EL_STRING_8_LIST
+		once
+			create Result.make_empty
 		end
 
 feature -- Class name derivations
@@ -68,45 +68,7 @@ feature -- Class name derivations
 			Result := class_with_separator (object_or_type, '_', head_count, tail_count)
 		end
 
-	class_with_separator (object_or_type: ANY; separator: CHARACTER; head_count, tail_count: INTEGER): STRING
-		-- class name of `object_or_type' (object if not conforming to TYPE [ANY])
-		-- with `head_count' words removed from head and `tail_count' words removed from tail
-		local
-			split_string: EL_SPLIT_STRING_LIST [STRING]
-		do
-			if attached {TYPE [ANY]} object_or_type as type then
-				Result := type.name
-			else
-				Result := object_or_type.generator
-			end
-			if head_count + tail_count > 0 then
-				create split_string.make (Result, '_')
-				if head_count > 0 then
-					split_string.remove_head (head_count)
-				end
-				if tail_count > 0 then
-					split_string.remove_tail (tail_count)
-				end
-				Result := split_string.joined (separator)
-			end
-		end
-
-	class_with_separator_as_lower (object_or_type: ANY; separator: CHARACTER; head_count, tail_count: INTEGER): STRING
-		do
-			Result := class_with_separator (object_or_type, separator, head_count, tail_count)
-			Result.to_lower
-		end
-
-	class_description_from (object_or_type: ANY; excluded_words: EL_STRING_8_LIST): STRING
-		do
-			if attached {TYPE [ANY]} object_or_type as type then
-				Result := class_description (type.name, excluded_words)
-			else
-				Result := class_description (object_or_type.generator, excluded_words)
-			end
-		end
-
-	class_description (type_name: STRING; excluded_words: EL_STRING_8_LIST): STRING
+	class_description (a_type_name: STRING; excluded_words: EL_STRING_8_LIST): STRING
 		-- derive English description from object or object type
 		-- Words <= 3 are left capitalized
 		-- Class parameters result in suffix " for type X"
@@ -116,7 +78,7 @@ feature -- Class name derivations
 			word_split: EL_SPLIT_ON_CHARACTER [STRING]
 			word, name: STRING; s: EL_STRING_8_ROUTINES
 		do
-			name := s.substring_to (type_name, '[', default_pointer)
+			name := s.substring_to (a_type_name, '[', default_pointer)
 			name.right_adjust
 
 			create word_split.make (name, '_')
@@ -138,12 +100,60 @@ feature -- Class name derivations
 				end
 			end
 			Result [1] := Result [1].as_upper
-			if name.count < type_name.count then
-				name := s.substring_to_reversed (type_name, '[', default_pointer)
+			if name.count < a_type_name.count then
+				name := s.substring_to_reversed (a_type_name, '[', default_pointer)
 				name.remove_tail (1)
 				Result.append (" for type ")
 				Result.append (name)
 			end
+		end
+
+	class_description_from (object_or_type: ANY; excluded_words: EL_STRING_8_LIST): STRING
+		do
+			Result := class_description (type_name (object_or_type), excluded_words)
+		end
+
+	class_with_separator (object_or_type: ANY; separator: CHARACTER; head_count, tail_count: INTEGER): STRING
+		-- class name of `object_or_type' (object if not conforming to TYPE [ANY])
+		-- with `head_count' words removed from head and `tail_count' words removed from tail
+		require
+			valid_head_tail_count: head_count + tail_count <= type_name (object_or_type).occurrences ('_') + 1
+		local
+			s: EL_STRING_8_ROUTINES; name: STRING
+			start_index, end_index, index, first_cursor_index, last_cursor_index: INTEGER
+		do
+			name := type_name (object_or_type)
+			if head_count + tail_count > 0 then
+				last_cursor_index := name.occurrences ('_') + 1 - tail_count
+				first_cursor_index := head_count + 1
+
+				Underscore_split.set_target (name)
+				across Underscore_split as list loop
+					index := list.cursor_index
+					if index = first_cursor_index then
+						start_index := list.item_lower
+					end
+					if index = last_cursor_index then
+						end_index := list.item_upper
+					end
+				end
+				if start_index > 0 and end_index > 0 then
+					Result := name.substring (start_index, end_index)
+				else
+					Result := name
+				end
+			else
+				Result := name
+			end
+			if separator /= '_' then
+				s.replace_character (Result, '_', separator)
+			end
+		end
+
+	class_with_separator_as_lower (object_or_type: ANY; separator: CHARACTER; head_count, tail_count: INTEGER): STRING
+		do
+			Result := class_with_separator (object_or_type, separator, head_count, tail_count)
+			Result.to_lower
 		end
 
 feature -- Import names
@@ -380,6 +390,18 @@ feature -- Export names
 						s.set_upper (title_out, list.item_lower)
 					end
 				end
+			end
+		end
+
+feature -- Contract Support
+
+	type_name (object_or_type: ANY): STRING
+		-- type name of object or object type
+		do
+			if attached {TYPE [ANY]} object_or_type as type then
+				Result := {ISE_RUNTIME}.generator_of_type (type.type_id)
+			else
+				Result := object_or_type.generator
 			end
 		end
 

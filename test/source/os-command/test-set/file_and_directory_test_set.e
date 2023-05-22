@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-21 8:02:05 GMT (Sunday 21st May 2023)"
-	revision: "38"
+	date: "2023-05-22 7:27:06 GMT (Monday 22nd May 2023)"
+	revision: "39"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -28,22 +28,22 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["delete_content_with_action", agent test_delete_content_with_action],
-				["delete_paths", agent test_delete_paths],
-				["delete_with_action", agent test_delete_with_action],
-				["dir_tree_delete", agent test_dir_tree_delete],
-				["directory_info", agent test_directory_info],
-				["directory_content_processor", agent test_directory_content_processor],
-				["find_directories", agent test_find_directories],
-				["find_directories_absolute", agent test_find_directories_absolute],
-				["find_files", agent test_find_files],
-				["find_files_absolute", agent test_find_files_absolute],
-				["gnome_virtual_file_system", agent test_gnome_virtual_file_system],
-				["read_directories", agent test_read_directories],
-				["read_directory_files", agent test_read_directory_files],
-				["file_move_and_copy", agent test_file_move_and_copy],
-				["file_move_and_copy_absolute", agent test_file_move_and_copy_absolute],
-				["search_path_list", agent test_search_path_list]
+				["delete_content_with_action",  agent test_delete_content_with_action],
+				["delete_paths",					  agent test_delete_paths],
+				["delete_with_action",			  agent test_delete_with_action],
+				["dir_tree_delete",				  agent test_dir_tree_delete],
+				["directory_content_processor",agent test_directory_content_processor],
+				["directory_info",				  agent test_directory_info],
+				["file_move_and_copy",			  agent test_file_move_and_copy],
+				["file_move_and_copy_absolute",agent test_file_move_and_copy_absolute],
+				["find_directories",				  agent test_find_directories],
+				["find_directories_absolute",	  agent test_find_directories_absolute],
+				["find_files",						  agent test_find_files],
+				["find_files_absolute",			  agent test_find_files_absolute],
+				["gio_virtual_file_system",	  agent test_gio_virtual_file_system],
+				["read_directories",				  agent test_read_directories],
+				["read_directory_files",		  agent test_read_directory_files],
+				["search_path_list",				  agent test_search_path_list]
 			>>)
 		end
 
@@ -170,11 +170,11 @@ feature -- Tests
 			find_files (new_file_set (True), Work_area_absolute_dir)
 		end
 
-	test_gnome_virtual_file_system
-		-- FILE_AND_DIRECTORY_TEST_SET.test_gnome_virtual_file_system
+	test_gio_virtual_file_system
+		-- FILE_AND_DIRECTORY_TEST_SET.test_gio_virtual_file_system
 		do
 			if {PLATFORM}.is_unix then
-				do_test_gnome_virtual_file_system
+				test_unix_gio_virtual_file_system
 			end
 		end
 
@@ -243,6 +243,11 @@ feature {NONE} -- Events
 
 feature {NONE} -- Filters
 
+	base_contains (path: FILE_PATH; str: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := path.base.has_substring (str)
+		end
+
 	base_ends_with (path: FILE_PATH; str: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := path.base.ends_with_general (str)
@@ -251,11 +256,6 @@ feature {NONE} -- Filters
 	base_starts_with (path: FILE_PATH; str: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := path.base.starts_with_general (str)
-		end
-
-	base_contains (path: FILE_PATH; str: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := path.base.has_substring (str)
 		end
 
 	directory_path_contains (path: DIR_PATH; str: ZSTRING): BOOLEAN
@@ -289,6 +289,14 @@ feature {NONE} -- Filters
 
 feature {NONE} -- Implementation
 
+	add_to_set (input_file_path, output_file_path: FILE_PATH; a_set: EL_HASH_SET [FILE_PATH])
+		local
+			relative_path: FILE_PATH
+		do
+			relative_path := output_file_path.relative_path (Workarea_help_pages_dir #+ "output")
+			a_set.put (Workarea_help_pages_dir + relative_path)
+		end
+
 	all_files_cmd (dir_path: DIR_PATH): like OS.find_files_command
 		do
 			Result := OS.find_files_command (dir_path, "*")
@@ -313,7 +321,7 @@ feature {NONE} -- Implementation
 			assert ("all 2nd in 1st", across entries_2 as entry all entries_1.has (entry.item) end)
 		end
 
-	do_test_gnome_virtual_file_system
+	test_unix_gio_virtual_file_system
 		local
 			mount_table: like new_uri_table; volume: EL_GVFS_VOLUME
 			found_volume: BOOLEAN; a_file_set: like new_file_set; file_path_string, volume_name: ZSTRING
@@ -350,14 +358,6 @@ feature {NONE} -- Implementation
 				a_file_set.put (volume_root_path + (volume_destination_dir + relative_file_path.base))
 			end
 			execute_and_assert (OS.find_files_command (Work_area_absolute_dir, "*"), a_file_set)
-		end
-
-	add_to_set (input_file_path, output_file_path: FILE_PATH; a_set: EL_HASH_SET [FILE_PATH])
-		local
-			relative_path: FILE_PATH
-		do
-			relative_path := output_file_path.relative_path (Workarea_help_pages_dir #+ "output")
-			a_set.put (Workarea_help_pages_dir + relative_path)
 		end
 
 	execute_all (commands: ARRAY [EL_COMMAND])

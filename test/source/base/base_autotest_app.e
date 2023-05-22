@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 17:08:09 GMT (Saturday 29th April 2023)"
-	revision: "162"
+	date: "2023-05-22 7:56:34 GMT (Monday 22nd May 2023)"
+	revision: "163"
 
 class
 	BASE_AUTOTEST_APP
@@ -20,7 +20,7 @@ inherit
 		CONTAINER_STRUCTURE_TEST_SET,
 		DATA_DIGESTS_TEST_SET,
 		DATE_TIME_TEST_SET,
-		TEXT_TEST_SET,
+		EIFFEL_NAME_TRANSLATEABLE_TEST_SET,
 
 		GENERAL_TEST_SET,
 		HASH_TABLE_TEST_SET,
@@ -38,6 +38,7 @@ inherit
 		SUBSTRING_32_ARRAY_TEST_SET,
 
 		TEMPLATE_TEST_SET,
+		TEXT_TEST_SET,
 
 		URI_TEST_SET,
 		UTF_CONVERTER_TEST_SET,
@@ -124,6 +125,7 @@ note
 			[$source CONTAINER_STRUCTURE_TEST_SET]
 			[$source DATA_DIGESTS_TEST_SET]
 			[$source DATE_TIME_TEST_SET]
+			[$source EIFFEL_NAME_TRANSLATEABLE_TEST_SET]
 
 			[$source GENERAL_TEST_SET]
 			[$source HASH_TABLE_TEST_SET]
