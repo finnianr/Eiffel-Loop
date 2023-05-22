@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-07 13:45:05 GMT (Friday 7th April 2023)"
-	revision: "21"
+	date: "2023-05-22 11:22:58 GMT (Monday 22nd May 2023)"
+	revision: "22"
 
 class
 	FEATURE_EDITOR_COMMAND
@@ -70,8 +70,7 @@ feature {NONE} -- Implementation
 
 	expand (line: ZSTRING)
 		local
-			old_line, code: ZSTRING
-			parts: EL_ZSTRING_LIST
+			old_line, code: ZSTRING; parts: EL_ZSTRING_LIST
 		do
 			create parts.make_word_split (line)
 			if parts.first ~ Feature_abbreviation and parts.count = 2 then

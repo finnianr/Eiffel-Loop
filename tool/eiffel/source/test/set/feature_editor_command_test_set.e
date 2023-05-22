@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-07 13:11:37 GMT (Friday 7th April 2023)"
-	revision: "25"
+	date: "2023-05-22 14:56:33 GMT (Monday 22nd May 2023)"
+	revision: "26"
 
 class
 	FEATURE_EDITOR_COMMAND_TEST_SET
@@ -124,10 +124,10 @@ feature {NONE} -- File sets
 			Result := "tl_id3_tag_frame_cpp_api"
 		end
 
-	Name: TUPLE [copy_file_impl, job_duration_parser: ZSTRING]
+	Name: TUPLE [copy_file_impl, job_duration_parser, os_command_test_set: ZSTRING]
 		do
 			create Result
-			Tuple.fill (Result, "el_copy_file_impl, job_duration_parser")
+			Tuple.fill (Result, "el_copy_file_impl, job_duration_parser, os_command_test_set")
 		end
 
 	Pixmap_imp_drawable: ZSTRING
@@ -154,6 +154,7 @@ feature {NONE} -- Constants
 			create Result.make_equal (11)
 			Result [Name.copy_file_impl] := 2668348354
 			Result [Name.job_duration_parser] := 3823255307
+			Result [Name.os_command_test_set] := 2264292625
 
 			Result [Tuple_manifest_file.mp3_convert_command] := 80484821
 			Result [Tuple_manifest_file.subscription_delivery_email] := 1320393160

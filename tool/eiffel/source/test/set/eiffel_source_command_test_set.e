@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-09 8:48:24 GMT (Sunday 9th April 2023)"
-	revision: "11"
+	date: "2023-05-22 15:14:55 GMT (Monday 22nd May 2023)"
+	revision: "12"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
@@ -41,7 +41,7 @@ feature -- Tests
 		do
 			create command.make (Manifest_path, create {EL_DIR_PATH_ENVIRON_VARIABLE})
 			command.execute
-			create expected_results.make_from_array (<< 31, 10354, 98642 >>)
+			create expected_results.make_from_array (<< 32, 10426, 99491 >>)
 			create actual_results.make_from_array (<< command.class_count, command.word_count, command.byte_count >>)
 			assertion_template := "%S classes %S words. Total size %S bytes"
 

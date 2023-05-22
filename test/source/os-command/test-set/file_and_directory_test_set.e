@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-22 7:27:06 GMT (Monday 22nd May 2023)"
-	revision: "39"
+	date: "2023-05-22 15:27:08 GMT (Monday 22nd May 2023)"
+	revision: "40"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -32,10 +32,10 @@ feature {NONE} -- Initialization
 				["delete_paths",					  agent test_delete_paths],
 				["delete_with_action",			  agent test_delete_with_action],
 				["dir_tree_delete",				  agent test_dir_tree_delete],
-				["directory_content_processor",agent test_directory_content_processor],
+				["directory_content_processor", agent test_directory_content_processor],
 				["directory_info",				  agent test_directory_info],
 				["file_move_and_copy",			  agent test_file_move_and_copy],
-				["file_move_and_copy_absolute",agent test_file_move_and_copy_absolute],
+				["file_move_and_copy_absolute", agent test_file_move_and_copy_absolute],
 				["find_directories",				  agent test_find_directories],
 				["find_directories_absolute",	  agent test_find_directories_absolute],
 				["find_files",						  agent test_find_files],
@@ -321,45 +321,6 @@ feature {NONE} -- Implementation
 			assert ("all 2nd in 1st", across entries_2 as entry all entries_1.has (entry.item) end)
 		end
 
-	test_unix_gio_virtual_file_system
-		local
-			mount_table: like new_uri_table; volume: EL_GVFS_VOLUME
-			found_volume: BOOLEAN; a_file_set: like new_file_set; file_path_string, volume_name: ZSTRING
-			volume_root_path, volume_workarea_dir, volume_workarea_copy_dir, volume_destination_dir: DIR_PATH
-			relative_file_path: FILE_PATH
-		do
-			a_file_set := new_file_set (True); a_file_set.start
-			across new_uri_table as root until found_volume loop
-				lio.put_labeled_string (root.key, root.item)
-				lio.put_new_line
-				if root.item.scheme ~ File_protocol then
-					create file_path_string.make_from_general (root.item)
-					file_path_string.remove_head (File_protocol.count + 3)
-					if a_file_set.iteration_item.to_string.starts_with (file_path_string) then
-						volume_name := root.key
-						volume_root_path := file_path_string
-						volume_workarea_dir := Work_area_absolute_dir.relative_path (volume_root_path)
-						found_volume := True
-					end
-				end
-			end
-			lio.put_labeled_string ("volume_name", volume_name)
-			lio.put_new_line
-			create volume.make (volume_name, False)
-			volume_workarea_copy_dir := volume_workarea_dir #+ "copy"
-			volume.make_directory (volume_workarea_copy_dir)
-			across file_set as path loop
-				relative_file_path := path.item.relative_path (Work_area_dir)
-				volume_destination_dir := volume_workarea_copy_dir #+ relative_file_path.parent
-				volume.make_directory (volume_destination_dir)
-				volume.copy_file_from (
-					volume_workarea_dir + relative_file_path, volume_root_path #+ volume_destination_dir
-				)
-				a_file_set.put (volume_root_path + (volume_destination_dir + relative_file_path.base))
-			end
-			execute_and_assert (OS.find_files_command (Work_area_absolute_dir, "*"), a_file_set)
-		end
-
 	execute_all (commands: ARRAY [EL_COMMAND])
 		do
 			commands.do_all (agent {EL_COMMAND}.execute)
@@ -491,6 +452,45 @@ feature {NONE} -- Implementation
 					upper := upper + 1
 				end
 			end
+		end
+
+	test_unix_gio_virtual_file_system
+		local
+			mount_table: like new_uri_table; volume: EL_GVFS_VOLUME
+			found_volume: BOOLEAN; a_file_set: like new_file_set; file_path_string, volume_name: ZSTRING
+			volume_root_path, volume_workarea_dir, volume_workarea_copy_dir, volume_destination_dir: DIR_PATH
+			relative_file_path: FILE_PATH
+		do
+			a_file_set := new_file_set (True); a_file_set.start
+			across new_uri_table as root until found_volume loop
+				lio.put_labeled_string (root.key, root.item)
+				lio.put_new_line
+				if root.item.scheme ~ File_protocol then
+					create file_path_string.make_from_general (root.item)
+					file_path_string.remove_head (File_protocol.count + 3)
+					if a_file_set.iteration_item.to_string.starts_with (file_path_string) then
+						volume_name := root.key
+						volume_root_path := file_path_string
+						volume_workarea_dir := Work_area_absolute_dir.relative_path (volume_root_path)
+						found_volume := True
+					end
+				end
+			end
+			lio.put_labeled_string ("volume_name", volume_name)
+			lio.put_new_line
+			create volume.make (volume_name, False)
+			volume_workarea_copy_dir := volume_workarea_dir #+ "copy"
+			volume.make_directory (volume_workarea_copy_dir)
+			across file_set as path loop
+				relative_file_path := path.item.relative_path (Work_area_dir)
+				volume_destination_dir := volume_workarea_copy_dir #+ relative_file_path.parent
+				volume.make_directory (volume_destination_dir)
+				volume.copy_file_from (
+					volume_workarea_dir + relative_file_path, volume_root_path #+ volume_destination_dir
+				)
+				a_file_set.put (volume_root_path + (volume_destination_dir + relative_file_path.base))
+			end
+			execute_and_assert (OS.find_files_command (Work_area_absolute_dir, "*"), a_file_set)
 		end
 
 feature {NONE} -- Constants

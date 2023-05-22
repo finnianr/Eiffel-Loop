@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 14:53:46 GMT (Saturday 29th April 2023)"
-	revision: "57"
+	date: "2023-05-22 15:18:22 GMT (Monday 22nd May 2023)"
+	revision: "58"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -66,6 +66,7 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_link_checker
+		-- REPOSITORY_PUBLISHER_TEST_SET.test_link_checker
 		local
 			link_checker: like new_link_checker
 			found: BOOLEAN; rbox_classes: EL_STRING_8_LIST
@@ -85,7 +86,7 @@ feature -- Tests
 				end
 			end
 			assert ("el_solitary.e found", found)
-			assert_same_digest (link_checker.invalid_names_output_path, "VhpuZXvPZub0tsM0ZGESKg==")
+			assert_same_digest (link_checker.invalid_names_output_path, "GfEoZuhsYrG7sgFMH3vw1g==")
 		end
 
 	test_publisher

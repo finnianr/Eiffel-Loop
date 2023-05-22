@@ -1,7 +1,7 @@
 note
 	description: "[
-		Edit the alignment of an array of tuples in some [$source SOURCE_LINES] so the named item
-		in right column is left-justified
+		Align the right columns of an array of name-value tuples in some [$source SOURCE_LINES] so the
+		value item is left-justified.
 	]"
 	notes: "See end of class"
 
@@ -10,14 +10,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-07 13:43:12 GMT (Friday 7th April 2023)"
-	revision: "1"
+	date: "2023-05-22 15:00:13 GMT (Monday 22nd May 2023)"
+	revision: "2"
 
 class
 	TUPLE_MANIFEST_ALIGNMENT_EDITOR
 
 inherit
-	EL_ARRAYED_LIST [TUPLE [comma_index, item_index, line_number: INTEGER]]
+	EL_ARRAYED_LIST [TUPLE [comma_column, comma_index, item_index, line_number: INTEGER]]
 		rename
 			append as list_append,
 			make as make_sized
@@ -59,7 +59,7 @@ feature {NONE} -- Line states
 	find_manifest_end (line: ZSTRING)
 		do
 			if line.ends_with (Manifest.array_end) then
-				adjust_tuple_item_spacing (maximum_comma_index)
+				adjust_tuple_item_spacing (maximum_comma_column)
 				state := agent find_manifest_start
 
 			elseif attached new_manifest_tuple_info (line) as tuple_info
@@ -79,67 +79,77 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Implementation
 
-	adjust_tuple_item_spacing (a_maximum_comma_index: INTEGER)
+	adjust_tuple_item_spacing (a_maximum_comma_column: INTEGER)
 		local
-			target_column, comma_column, tab_insertion_count, i: INTEGER
-			intermediate_space_count, remainder_space_count: INTEGER
-			s: EL_ZSTRING_ROUTINES; white_space, line: ZSTRING
+			target_column, comma_column, aligned_column, remainder_count: INTEGER
+			space_insertion_count, tab_insertion_count: INTEGER
+			s: EL_ZSTRING_ROUTINES; remainder_spaces, line, tabbed_space: ZSTRING
 			info: like item
 		do
-			if a_maximum_comma_index > 0 then
-				target_column := column (a_maximum_comma_index) + 1
+			if a_maximum_comma_column > 0 then
+				target_column := a_maximum_comma_column + 1
 
 				across Current as list loop
 					info := list.item
+					space_insertion_count := 0; tab_insertion_count := 0
 					if info.comma_index > 0 then
-						comma_column := column (info.comma_index)
-						from
-							i := 0
-						until
-							(comma_column + i) \\ Spaces_per_tab = 0 or (comma_column + i) > target_column
-						loop
-							i := i + 1
-						end
-						if i = 0 then
-							tab_insertion_count := 0
-						else
-							tab_insertion_count := 1
-						end
-						intermediate_space_count := target_column - (comma_column + i)
-						tab_insertion_count := tab_insertion_count + intermediate_space_count // Spaces_per_tab
-						remainder_space_count := intermediate_space_count \\ Spaces_per_tab
+						comma_column := info.comma_column
 						line := lines [info.line_number]
-						create white_space.make_filled (' ', tab_insertion_count + remainder_space_count)
-						if tab_insertion_count > 0 then
-							white_space.replace_substring (s.n_character_string ('%T', tab_insertion_count), 1, tab_insertion_count)
+
+						aligned_column := tab_aligned_column (comma_column)
+						if aligned_column > target_column then
+							space_insertion_count := target_column - comma_column
+
+						else
+							if aligned_column > comma_column then
+								tab_insertion_count := 1
+							end
+							remainder_count := target_column - aligned_column
+							tab_insertion_count := tab_insertion_count + remainder_count // Spaces_per_tab
+							space_insertion_count := remainder_count \\ Spaces_per_tab
 						end
-						line.replace_substring (white_space, info.comma_index + 1, info.item_index - 1)
+
+						tabbed_space := s.n_character_string ('%T', tab_insertion_count)
+						remainder_spaces := s.n_character_string (' ', space_insertion_count)
+
+						line.replace_substring (tabbed_space + remainder_spaces, info.comma_index + 1, info.item_index - 1)
 					end
 				end
 			end
 		end
 
-	column (a_index: INTEGER): INTEGER
+	tab_aligned_column (column: INTEGER): INTEGER
+		local
+			remainder: INTEGER
 		do
-			Result := a_index - Manifest_tuple_indent + Manifest_tuple_indent * Spaces_per_tab
+			remainder := column \\ Spaces_per_tab
+			if remainder > 0 then
+				Result := ((column // Spaces_per_tab) + 1) * Spaces_per_tab
+			else
+				Result := column
+			end
 		end
 
-	maximum_comma_index: INTEGER
+	maximum_comma_column: INTEGER
+		local
+			l_column: INTEGER
 		do
 			across Current as list loop
-				if list.item.comma_index > Result then
-					Result := list.item.comma_index
+				l_column := list.item.comma_column
+				if l_column > Result then
+					Result := l_column
 				end
 			end
 		end
 
 	new_manifest_tuple_info (line: ZSTRING): like item
 		local
-			index_end_quote, index_right_bracket, end_index, i: INTEGER
+			index_end_quote, index_right_bracket, end_index, i, tab_count: INTEGER
 		do
 			create Result
-			if line.starts_with (Open_bracket_quote) then
-				index_end_quote := line.index_of ('"', Open_bracket_quote.count + 1)
+			tab_count := line.leading_occurrences ('%T')
+			if starts_with_tuple_manifest_string (line, tab_count) then
+				index_end_quote := line.index_of ('"', tab_count + 3)
 				end_index := line.count
 				if line [end_index] = ',' then
 					end_index := end_index - 1
@@ -147,6 +157,8 @@ feature {NONE} -- Implementation
 				index_right_bracket := line.last_index_of (']', end_index)
 				if index_end_quote < index_right_bracket and then line [index_end_quote + 1] = ',' then
 					Result.comma_index := index_end_quote + 1
+					Result.comma_column := Result.comma_index - tab_count + tab_count * Spaces_per_tab
+
 					Result.line_number := line_number
 					from i := Result.comma_index + 1 until not line.is_space_item (i) loop
 						i := i + 1
@@ -156,32 +168,33 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	starts_with_tuple_manifest_string (line: ZSTRING; tab_count: INTEGER): BOOLEAN
+		-- `True' if `line' matches something like: %T%T%T["id", ..],
+		do
+			if tab_count + 5 <= line.count then
+				Result := line.same_substring (Manifest.tuple_start, tab_count + 1, False)
+			end
+		end
+
 feature {NONE} -- Internal attributes
 
 	lines: SOURCE_LINES
 
 feature {NONE} -- Constants
 
-	Manifest: TUPLE [array_start, array_end: ZSTRING]
+	Manifest: TUPLE [array_start, array_end, tuple_start: ZSTRING]
 		once
 			create Result
-			Tuple.fill (Result, "(<<, >>)")
+			Tuple.fill (Result, "(<<, >>), [%"")
 		end
 
 	Manifest_tuple_indent: INTEGER = 4
-
-	Open_bracket_quote: ZSTRING
-		local
-			s: EL_ZSTRING_ROUTINES
-		once
-			Result := s.n_character_string ('%T', Manifest_tuple_indent) + "[%""
-		end
 
 	Spaces_per_tab: INTEGER = 3
 
 note
 	notes: "[
-		Example:
+		Unaligned tuple array:
 
 			Getter_functions: EVOLICITY_GETTER_FUNCTION_TABLE
 					--
@@ -194,7 +207,7 @@ note
 					>>)
 				end
 
-		when aligned:
+		Aligned tuple array:
 
 			Getter_functions: EVOLICITY_GETTER_FUNCTION_TABLE
 					--

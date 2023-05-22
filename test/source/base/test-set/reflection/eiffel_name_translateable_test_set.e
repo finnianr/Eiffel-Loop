@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-22 9:10:11 GMT (Monday 22nd May 2023)"
-	revision: "9"
+	date: "2023-05-22 9:19:44 GMT (Monday 22nd May 2023)"
+	revision: "10"
 
 class
 	EIFFEL_NAME_TRANSLATEABLE_TEST_SET
@@ -47,12 +47,13 @@ feature -- Tests
 					head_count := word.cursor_index - 1
 					tail_count := word_list.count - word.cursor_index
 					name := word.item.as_lower
-					assert_same_string (
-						Void, Naming.class_as_snake_lower (Current, head_count, tail_count), name
-					)
-					assert_same_string (
-						Void, Naming.class_as_snake_lower (generating_type, head_count, tail_count), name
-					)
+					lio.put_index_labeled_string (head_count, "head_count = ", name)
+					lio.put_new_line
+					across << Current, generating_type >> as object loop
+						assert_same_string (
+							Void, Naming.class_as_snake_lower (object.item, head_count, tail_count), name
+						)
+					end
 				end
 			end
 		end
