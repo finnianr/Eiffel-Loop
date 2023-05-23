@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-28 14:18:40 GMT (Tuesday 28th March 2023)"
-	revision: "60"
+	date: "2023-05-23 15:02:03 GMT (Tuesday 23rd May 2023)"
+	revision: "61"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -23,9 +23,9 @@ inherit
 
 	EL_MODULE_HTML; EL_MODULE_IP_ADDRESS; EL_MODULE_WEB
 
-	EL_SHARED_GEOGRAPHIC_INFO_TABLE
+	EL_SHARED_GEOGRAPHIC_INFO_TABLE; EL_SHARED_IP_ADDRESS_GEOLOCATION
 
-	EL_SHARED_IP_ADDRESS_GEOLOCATION
+	EL_SHARED_HTTP_STATUS
 
 	SHARED_DEV_ENVIRON
 
@@ -359,7 +359,11 @@ feature {NONE} -- Implementation
 	assert_valid_headers (headers: like web.last_headers)
 		do
 			assert ("valid date_stamp", headers.date_stamp.date ~ create {DATE}.make_now)
-			assert ("valid response_code", headers.response_code = 200)
+			if headers.response_code /= 200 then
+				lio.put_integer_field (Http_status.name (headers.response_code.to_natural_16), headers.response_code)
+				lio.put_new_line
+				assert ("valid response_code", False)
+			end
 			assert ("valid server", is_server_name (headers.server))
 		end
 
