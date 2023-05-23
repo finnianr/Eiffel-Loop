@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-22 9:11:08 GMT (Monday 22nd May 2023)"
-	revision: "36"
+	date: "2023-05-23 10:02:43 GMT (Tuesday 23rd May 2023)"
+	revision: "37"
 
 class
 	EL_NAMING_ROUTINES
@@ -119,32 +119,9 @@ feature -- Class name derivations
 		require
 			valid_head_tail_count: head_count + tail_count <= type_name (object_or_type).occurrences ('_') + 1
 		local
-			s: EL_STRING_8_ROUTINES; name: STRING
-			start_index, end_index, index, first_cursor_index, last_cursor_index: INTEGER
+			s: EL_STRING_8_ROUTINES
 		do
-			name := type_name (object_or_type)
-			if head_count + tail_count > 0 then
-				last_cursor_index := name.occurrences ('_') + 1 - tail_count
-				first_cursor_index := head_count + 1
-
-				Underscore_split.set_target (name)
-				across Underscore_split as list loop
-					index := list.cursor_index
-					if index = first_cursor_index then
-						start_index := list.item_lower
-					end
-					if index = last_cursor_index then
-						end_index := list.item_upper
-					end
-				end
-				if start_index > 0 and end_index > 0 then
-					Result := name.substring (start_index, end_index)
-				else
-					Result := name
-				end
-			else
-				Result := name
-			end
+			Result := s.sandwiched_parts (type_name (object_or_type), '_', head_count, tail_count)
 			if separator /= '_' then
 				s.replace_character (Result, '_', separator)
 			end
@@ -413,7 +390,7 @@ feature {NONE} -- Constants
 
 	State_upper: INTEGER = 1
 
-	Underscore_split: EL_SPLIT_ON_CHARACTER [STRING]
+	Underscore_split: EL_SPLIT_ON_CHARACTER_8 [STRING]
 		once
 			create Result.make (Empty_string_8, '_')
 		end

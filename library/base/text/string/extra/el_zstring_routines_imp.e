@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 11:11:56 GMT (Sunday 5th March 2023)"
-	revision: "7"
+	date: "2023-05-23 9:56:31 GMT (Tuesday 23rd May 2023)"
+	revision: "8"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -375,6 +375,11 @@ feature {NONE} -- Constants
 	Substitution_mark_unescaper: EL_ZSTRING_UNESCAPER
 		once
 			create Result.make (Escape_table.Substitution)
+		end
+
+	Split_on_character: EL_SPLIT_ZSTRING_ON_CHARACTER
+		once
+			create Result.make (Empty_string, '_')
 		end
 
 	String_searcher: EL_ZSTRING_SEARCHER

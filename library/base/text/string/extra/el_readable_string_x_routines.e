@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-22 16:40:27 GMT (Wednesday 22nd March 2023)"
-	revision: "15"
+	date: "2023-05-23 10:29:54 GMT (Tuesday 23rd May 2023)"
+	revision: "16"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -222,6 +222,39 @@ feature -- Substring
 			end
 		end
 
+	sandwiched_parts (str: READABLE_STRING_X; separator: CHARACTER_32; head_count, tail_count: INTEGER): READABLE_STRING_X
+		-- joined substring of split list defined by `separator' after `head_count' and `tail_count' parts
+		-- have been removed from head and tail of list respectively
+		local
+			start_index, end_index, index, first_cursor_index, last_cursor_index: INTEGER
+		do
+			if head_count + tail_count > 0 then
+				if attached split_on_character as split_list then
+					split_list.set_target (str); split_list.set_separator (separator)
+
+					first_cursor_index := head_count + 1
+					last_cursor_index := split_list.count - tail_count
+
+					across split_list as list loop
+						index := list.cursor_index
+						if index = first_cursor_index then
+							start_index := list.item_lower
+						end
+						if index = last_cursor_index then
+							end_index := list.item_upper
+						end
+					end
+					if start_index > 0 and end_index > 0 then
+						Result := str.substring (start_index, end_index)
+					else
+						Result := str
+					end
+				end
+			else
+				Result := str
+			end
+		end
+
 	substring_to (str: READABLE_STRING_X; uc: CHARACTER_32; start_index_ptr: POINTER): READABLE_STRING_X
 		-- substring from INTEGER at memory location `start_index_ptr' up to but not including index of `uc'
 		-- or else `substring_end (start_index)' if `uc' not found
@@ -299,6 +332,10 @@ feature {NONE} -- Implementation
 		end
 
 	string_searcher: STRING_SEARCHER
+		deferred
+		end
+
+	split_on_character: EL_SPLIT_ON_CHARACTER [READABLE_STRING_X]
 		deferred
 		end
 

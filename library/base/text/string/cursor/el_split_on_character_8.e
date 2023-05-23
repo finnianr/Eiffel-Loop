@@ -1,6 +1,6 @@
 note
 	description: "[
-		Split `target' string conforming to [$source READABLE_STRING_GENERAL] with
+		Split `target' string conforming to [$source READABLE_STRING_8] with
 		`separator' of type [$source CHARACTER_32]
 	]"
 
@@ -9,16 +9,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-23 9:33:07 GMT (Tuesday 23rd May 2023)"
+	date: "2023-05-23 10:26:11 GMT (Tuesday 23rd May 2023)"
 	revision: "6"
 
 class
-	EL_SPLIT_ON_CHARACTER [S -> READABLE_STRING_GENERAL]
+	EL_SPLIT_ON_CHARACTER_8 [S -> READABLE_STRING_8]
 
 inherit
-	EL_ITERABLE_SPLIT [S, CHARACTER_32]
+	EL_SPLIT_ON_CHARACTER [S]
 		redefine
-			count
+			count, new_cursor
 		end
 
 create
@@ -26,7 +26,7 @@ create
 
 feature -- Access
 
-	new_cursor: EL_SPLIT_ON_CHARACTER_CURSOR [S]
+	new_cursor: EL_SPLIT_ON_CHARACTER_8_CURSOR [S]
 			-- Fresh cursor associated with current structure
 		do
 			create Result.make (target, separator, left_adjusted, right_adjusted)
@@ -34,6 +34,6 @@ feature -- Access
 
 	count: INTEGER
 		do
-			Result := target.occurrences (separator) + 1
+			Result := target.occurrences (separator.to_character_8) + 1
 		end
 end

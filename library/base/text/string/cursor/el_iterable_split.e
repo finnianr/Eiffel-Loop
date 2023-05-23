@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 10:26:17 GMT (Monday 20th March 2023)"
-	revision: "8"
+	date: "2023-05-23 9:44:58 GMT (Tuesday 23rd May 2023)"
+	revision: "9"
 
 deferred class
 	EL_ITERABLE_SPLIT [S -> READABLE_STRING_GENERAL, G]
@@ -33,16 +33,16 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	new_cursor: EL_ITERABLE_SPLIT_CURSOR [S, G]
-			-- Fresh cursor associated with current structure
-		deferred
-		end
-
 	count: INTEGER
 		do
 			across Current as item loop
 				Result := Result + 1
 			end
+		end
+
+	new_cursor: EL_ITERABLE_SPLIT_CURSOR [S, G]
+			-- Fresh cursor associated with current structure
+		deferred
 		end
 
 	target: S
@@ -61,6 +61,11 @@ feature -- Status query
 
 feature -- Element change
 
+	set_separator (a_separator: like separator)
+		do
+			separator := a_separator
+		end
+	
 	set_target (a_target: like target)
 		do
 			target := a_target

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-15 16:47:34 GMT (Wednesday 15th February 2023)"
-	revision: "9"
+	date: "2023-05-23 10:16:05 GMT (Tuesday 23rd May 2023)"
+	revision: "10"
 
 deferred class
 	EL_ITERABLE_SPLIT_CURSOR [S -> READABLE_STRING_GENERAL, G]
@@ -36,7 +36,7 @@ feature -- Access
 
 	cursor_index: INTEGER
 
-	item: S
+	item: like target
 		-- dynamic singular substring of `target' at current split position if the
 		-- `target' conforms to `STRING_GENERAL' else the value of `item_copy'
 		-- use `item_copy' if you intend to keep a reference to `item' beyond the scope of the
@@ -56,7 +56,7 @@ feature -- Access
 			end
 		end
 
-	item_copy: S
+	item_copy: like target
 		-- new substring of `target' at current split position
 		do
 			Result := target.substring (item_lower, item_upper)
@@ -116,34 +116,34 @@ feature -- Status query
 			Result := item_upper < item_lower
 		end
 
-	item_same_as (str: S): BOOLEAN
+	item_same_as (str: like target): BOOLEAN
 		do
 			if item_upper - item_lower + 1 = str.count then
 				if str.count = 0 then
 					Result := item_upper + 1 = item_lower
 				else
-					Result := target.same_characters (str, 1, str.count, item_lower)
+					Result := same_characters (target, str, 1, str.count, item_lower)
 				end
 			end
 		end
 
-	item_same_caseless_as (str: S): BOOLEAN
+	item_same_caseless_as (str: like target): BOOLEAN
 		do
 			if item_upper - item_lower + 1 = str.count then
 				if str.count = 0 then
 					Result := item_upper + 1 = item_lower
 				else
-					Result := target.same_caseless_characters (str, 1, str.count, item_lower)
+					Result := same_caseless_characters (target, str, 1, str.count, item_lower)
 				end
 			end
 		end
 
-	item_starts_with (str: S): BOOLEAN
+	item_starts_with (str: like target): BOOLEAN
 		do
 			if str.count = 0 then
 				Result := True
 			elseif item_upper - item_lower + 1 >= str.count then
-				Result := target.same_characters (str, 1, str.count, item_lower)
+				Result := same_characters (target, str, 1, str.count, item_lower)
 			end
 		end
 
@@ -202,6 +202,20 @@ feature {NONE} -- Implementation
 			c32: EL_CHARACTER_32_ROUTINES
 		do
 			Result := c32.is_space (a_target [i])
+		end
+
+ 	same_caseless_characters (a_target, other: like target; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
+			-- Are characters of `other' within bounds `start_pos' and `end_pos'
+			-- caseless identical to characters of current string starting at index `index_pos'.
+		do
+			Result := a_target.same_caseless_characters (other, start_pos, end_pos, index_pos)
+		end
+
+ 	same_characters (a_target, other: like target; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
+			-- Are characters of `other' within bounds `start_pos' and `end_pos'
+			-- identical to characters of current string starting at index `index_pos'.
+		do
+			Result := a_target.same_characters (other, start_pos, end_pos, index_pos)
 		end
 
 	set_separator_start

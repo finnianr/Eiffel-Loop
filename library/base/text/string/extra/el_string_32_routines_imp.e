@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 11:19:47 GMT (Wednesday 15th March 2023)"
-	revision: "33"
+	date: "2023-05-23 10:20:49 GMT (Tuesday 23rd May 2023)"
+	revision: "34"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -172,6 +172,11 @@ feature {NONE} -- Constants
 	Character_string_table: EL_FILLED_STRING_32_TABLE
 		once
 			create Result.make
+		end
+
+	Split_on_character: EL_SPLIT_ON_CHARACTER_32 [STRING_32]
+		once
+			create Result.make (Empty_string_32, '_')
 		end
 
 	String_searcher: STRING_32_SEARCHER

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-19 15:39:25 GMT (Sunday 19th February 2023)"
-	revision: "17"
+	date: "2023-05-22 18:07:05 GMT (Monday 22nd May 2023)"
+	revision: "18"
 
 deferred class
 	BENCHMARK_TABLE
@@ -108,10 +108,10 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make (<<
-				["column_title", 	agent: STRING do Result := column_title end],
-				["title", 			agent: ZSTRING do Result := title end],
-				["data_rows", 		agent: EL_ZSTRING_LIST do Result := data_rows end],
-				["table_id", 		agent next_table_id]
+				["column_title", agent: STRING do Result := column_title end],
+				["title",		  agent: ZSTRING do Result := title end],
+				["data_rows",	  agent: EL_ZSTRING_LIST do Result := data_rows end],
+				["table_id",	  agent next_table_id]
 			>>)
 		end
 
@@ -133,8 +133,7 @@ feature {NONE} -- Constants
 			create Result
 		end
 
-	Template: STRING =
-	"[
+	Template: STRING = "[
 		<h3>$title</h3>
 		<caption>Table $table_id (In ascending order of relative STRING_32 performance)</caption>
 		<table>
