@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-23 10:02:43 GMT (Tuesday 23rd May 2023)"
-	revision: "37"
+	date: "2023-05-23 10:45:46 GMT (Tuesday 23rd May 2023)"
+	revision: "38"
 
 class
 	EL_NAMING_ROUTINES
@@ -75,7 +75,7 @@ feature -- Class name derivations
 		require
 			using_no_words_for_empty: excluded_words.is_empty implies excluded_words = No_words
 		local
-			word_split: EL_SPLIT_ON_CHARACTER [STRING]
+			word_split: EL_SPLIT_ON_CHARACTER_8 [STRING]
 			word, name: STRING; s: EL_STRING_8_ROUTINES
 		do
 			name := s.substring_to (a_type_name, '[', default_pointer)
@@ -119,9 +119,10 @@ feature -- Class name derivations
 		require
 			valid_head_tail_count: head_count + tail_count <= type_name (object_or_type).occurrences ('_') + 1
 		local
-			s: EL_STRING_8_ROUTINES
+			s: EL_STRING_8_ROUTINES; name: STRING
 		do
-			Result := s.sandwiched_parts (type_name (object_or_type), '_', head_count, tail_count)
+			name := s.substring_to (type_name (object_or_type), ' ', default_pointer) -- Removes any generic parameters
+			Result := s.sandwiched_parts (name, '_', head_count, tail_count)
 			if separator /= '_' then
 				s.replace_character (Result, '_', separator)
 			end
@@ -376,7 +377,7 @@ feature -- Contract Support
 		-- type name of object or object type
 		do
 			if attached {TYPE [ANY]} object_or_type as type then
-				Result := {ISE_RUNTIME}.generator_of_type (type.type_id)
+				Result := {ISE_RUNTIME}.generating_type_of_type (type.type_id)
 			else
 				Result := object_or_type.generator
 			end
