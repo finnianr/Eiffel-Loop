@@ -1,11 +1,19 @@
 note
 	description: "String split iteration comparison"
 	notes: "[
+		RESULTS: counting list items
 		Passes over 500 millisecs (in descending order)
 
-			EL_SPLIT_ON_CHARACTER [STRING] : 1141.0 times (100%)
-			EL_SPLIT_STRING_8_LIST         : 1093.0 times (-4.2%)
-			{STRING}.split                 : 1002.0 times (-12.2%)
+			EL_SPLIT_ON_CHARACTER_8 [STRING] :  8357.0 times (100%)
+			EL_SPLIT_STRING_8_LIST           :  2420.0 times (-71.0%)
+			{STRING_8}.split                 :  1075.0 times (-87.1%)
+
+		RESULTS: finding specific list item
+		Passes over 500 millisecs (in descending order)
+
+			EL_SPLIT_ON_CHARACTER_8 [STRING] :  4184.0 times (100%)
+			EL_SPLIT_STRING_8_LIST           :   970.0 times (-76.8%)
+			{STRING_8}.split                 :   935.0 times (-77.7%)
 	]"
 
 	author: "Finnian Reilly"
@@ -13,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-13 14:17:52 GMT (Monday 13th March 2023)"
-	revision: "5"
+	date: "2023-05-24 9:31:45 GMT (Wednesday 24th May 2023)"
+	revision: "6"
 
 class
 	STRING_SPLIT_ITERATION_COMPARISON
@@ -42,15 +50,15 @@ feature -- Basic operations
 				end
 				csv_string.append (n.item.to_hex_string)
 			end
-			compare ("compare count items", <<
-				["{STRING}.split",						agent string_dot_split (csv_string, Op_count_items)],
-				["EL_SPLIT_STRING_8_LIST", 			agent el_split_string_8_list (csv_string, Op_count_items)],
-				["EL_SPLIT_ON_CHARACTER [STRING]",	agent el_split_on_character (csv_string, Op_count_items)]
+			compare ("counting list items", <<
+				["{STRING_8}.split",						 agent string_dot_split (csv_string, Op_count_items)],
+				["EL_SPLIT_STRING_8_LIST",				 agent el_split_string_8_list (csv_string, Op_count_items)],
+				["EL_SPLIT_ON_CHARACTER_8 [STRING]", agent el_split_on_character (csv_string, Op_count_items)]
 			>>)
-			compare ("compare find item", <<
-				["{STRING}.split",						agent string_dot_split (csv_string, Op_find)],
-				["EL_SPLIT_STRING_8_LIST", 			agent el_split_string_8_list (csv_string, Op_find)],
-				["EL_SPLIT_ON_CHARACTER [STRING]",	agent el_split_on_character (csv_string, Op_find)]
+			compare ("finding specific list item", <<
+				["{STRING_8}.split",						 agent string_dot_split (csv_string, Op_find)],
+				["EL_SPLIT_STRING_8_LIST",				 agent el_split_string_8_list (csv_string, Op_find)],
+				["EL_SPLIT_ON_CHARACTER_8 [STRING]", agent el_split_on_character (csv_string, Op_find)]
 			>>)
 		end
 
@@ -58,7 +66,7 @@ feature {NONE} -- String split iteration
 
 	el_split_on_character (csv_string: STRING; operation: INTEGER)
 		local
-			character_split: EL_SPLIT_ON_CHARACTER [STRING]
+			character_split: EL_SPLIT_ON_CHARACTER_8 [STRING]
 			count: INTEGER; found: BOOLEAN
 		do
 			create character_split.make (csv_string, ',')
@@ -112,15 +120,15 @@ feature {NONE} -- String split iteration
 
 feature {NONE} -- Constants
 
-	Start_value: INTEGER = 0xFFFF_FFFF
-
-	Op_find: INTEGER = 1
-
-	Op_count_items: INTEGER = 2
-
 	Four_hundred: STRING
 		once
 			Result := (Start_value + 400).to_hex_string
 		end
+
+	Op_count_items: INTEGER = 2
+
+	Op_find: INTEGER = 1
+
+	Start_value: INTEGER = 0xFFFF_FFFF
 
 end

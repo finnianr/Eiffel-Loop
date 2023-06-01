@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-15 20:07:16 GMT (Wednesday 15th September 2021)"
-	revision: "7"
+	date: "2023-05-31 14:01:23 GMT (Wednesday 31st May 2023)"
+	revision: "8"
 
 class
 	EL_CURL_C_API
@@ -166,6 +166,20 @@ feature {NONE} -- C externals
 			"[
 				(FUNCTION_CAST(void *, (struct curl_slist *)) $function)
 											((struct curl_slist *)$a_list_ptr);
+			]"
+		end
+
+	c_str_error (function: POINTER; error_num: INTEGER): POINTER
+			-- const char *curl_easy_strerror (CURLcode errornum);
+		require
+			function_attached: is_attached (function)
+		external
+			"C inline use <curl/curl.h>"
+		alias
+			"[
+			{
+				return (FUNCTION_CAST(const char *, (CURLcode)) $function) ((CURLcode)$error_num);
+			}
 			]"
 		end
 end

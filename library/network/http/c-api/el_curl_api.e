@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "10"
+	date: "2023-05-31 14:12:45 GMT (Wednesday 31st May 2023)"
+	revision: "11"
 
 class
 	EL_CURL_API
@@ -100,6 +100,11 @@ feature -- Access
 	new_pointer: POINTER
 		do
 			Result := c_init (api.init)
+		end
+
+	error_string (error_code: INTEGER): POINTER
+		do
+			Result := c_str_error (api.strerror, error_code)
 		end
 
 feature -- Basic operations

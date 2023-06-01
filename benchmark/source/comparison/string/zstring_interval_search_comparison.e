@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-19 11:12:11 GMT (Sunday 19th March 2023)"
-	revision: "9"
+	date: "2023-05-24 17:42:12 GMT (Wednesday 24th May 2023)"
+	revision: "10"
 
 class
 	ZSTRING_INTERVAL_SEARCH_COMPARISON
@@ -46,16 +46,32 @@ feature -- Basic operations
 			russian := lines.sub_list (1, 1)
 
 			compare ("compare interval search", <<
-				["substring_intervals",	agent substring_intervals (lines, False)],
-				["substring_index_list", agent substring_index_list (lines, False)],
-				["substring_intervals (space)",	agent substring_intervals (lines, True)],
-				["substring_index_list (space)", agent substring_index_list (lines, True)],
-				["substring_intervals (Russian)", agent substring_intervals (russian, False)],
+				["substring_intervals",				  agent substring_intervals (lines, False)],
+				["substring_index_list",			  agent substring_index_list (lines, False)],
+				["substring_intervals (space)",	  agent substring_intervals (lines, True)],
+				["substring_index_list (space)",	  agent substring_index_list (lines, True)],
+				["substring_intervals (Russian)",  agent substring_intervals (russian, False)],
 				["substring_index_list (Russian)", agent substring_index_list (russian, False)]
 			>>)
 		end
 
 feature {NONE} -- append_character
+
+	substring_index_list (lines: EL_ZSTRING_LIST; use_space: BOOLEAN)
+		local
+			end_string: STRING_32; lower, upper: INTEGER
+		do
+			across lines as line loop
+				if use_space then
+					create end_string.make_filled (' ', 1)
+				else
+					end_string := line.item.substring_to_reversed (' ', default_pointer)
+				end
+				across line.item.substring_index_list (end_string, False) as list loop
+					lower := list.item; upper := lower + end_string.count - 1
+				end
+			end
+		end
 
 	substring_intervals (lines: EL_ZSTRING_LIST; use_space: BOOLEAN)
 		local
@@ -71,22 +87,6 @@ feature {NONE} -- append_character
 				across line.item.substring_intervals (end_string, False) as list loop
 					l_item := list.item_compact
 					lower := ir.to_lower (l_item); upper := ir.to_upper (l_item)
-				end
-			end
-		end
-
-	substring_index_list (lines: EL_ZSTRING_LIST; use_space: BOOLEAN)
-		local
-			end_string: STRING_32; lower, upper: INTEGER
-		do
-			across lines as line loop
-				if use_space then
-					create end_string.make_filled (' ', 1)
-				else
-					end_string := line.item.substring_to_reversed (' ', default_pointer)
-				end
-				across line.item.substring_index_list (end_string, False) as list loop
-					lower := list.item; upper := lower + end_string.count - 1
 				end
 			end
 		end

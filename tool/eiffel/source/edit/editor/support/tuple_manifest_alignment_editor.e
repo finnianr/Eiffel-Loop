@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-22 17:58:47 GMT (Monday 22nd May 2023)"
-	revision: "3"
+	date: "2023-05-24 8:54:35 GMT (Wednesday 24th May 2023)"
+	revision: "4"
 
 class
 	TUPLE_MANIFEST_ALIGNMENT_EDITOR
@@ -75,10 +75,16 @@ feature {NONE} -- Line states
 		end
 
 	find_manifest_start (line: ZSTRING)
+		local
+			index_lbracket, index_array_start: INTEGER
 		do
-			if line.ends_with (Manifest.array_start) then
-				wipe_out
-				state := agent find_manifest_end
+			index_lbracket := line.index_of ('(', 1)
+			if index_lbracket > 0 then
+				index_array_start := line.substring_index (Manifest.array_start, index_lbracket + 1)
+				if index_array_start > 0 and then index_array_start + 1 = line.count then
+					wipe_out
+					state := agent find_manifest_end
+				end
 			end
 		end
 
@@ -87,7 +93,7 @@ feature {NONE} -- Constants
 	Manifest: TUPLE [array_start, array_end: ZSTRING]
 		once
 			create Result
-			Tuple.fill (Result, "(<<, >>)")
+			Tuple.fill (Result, "<<, >>)")
 		end
 
 note

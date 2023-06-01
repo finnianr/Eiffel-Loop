@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-06 14:07:44 GMT (Monday 6th February 2023)"
-	revision: "11"
+	date: "2023-05-24 8:35:43 GMT (Wednesday 24th May 2023)"
+	revision: "12"
 
 class
 	STRING_ITEM_8_VS_ITEM
@@ -33,16 +33,16 @@ feature -- Basic operations
 	execute
 		do
 			compare ("compare_item", <<
-				["iterate_with_item_8", 	agent iterate_with_item_8 (Hexagram.English_titles.joined_lines)],
-				["iterate_with_item",		agent iterate_with_item (Hexagram.English_titles.joined_lines)]
+				["iterate_with_item_8", agent iterate_with_item_8 (Hexagram.English_titles.joined_lines)],
+				["iterate_with_item",	agent iterate_with_item (Hexagram.English_titles.joined_lines)]
 			>>)
 		end
 
 feature {NONE} -- replace_substring_all
 
-	iterate_with_item_8 (str: STRING)
+	iterate_with_item (str: READABLE_STRING_GENERAL)
 		local
-			i, count: INTEGER; c: CHARACTER
+			i, count: INTEGER; c: CHARACTER_32
 		do
 			count := str.count
 			from i := 1  until i > count loop
@@ -51,9 +51,9 @@ feature {NONE} -- replace_substring_all
 			end
 		end
 
-	iterate_with_item (str: READABLE_STRING_GENERAL)
+	iterate_with_item_8 (str: STRING)
 		local
-			i, count: INTEGER; c: CHARACTER_32
+			i, count: INTEGER; c: CHARACTER
 		do
 			count := str.count
 			from i := 1  until i > count loop

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-11 15:23:09 GMT (Saturday 11th March 2023)"
-	revision: "38"
+	date: "2023-05-31 14:12:27 GMT (Wednesday 31st May 2023)"
+	revision: "39"
 
 class
 	EL_HTTP_CONNECTION
@@ -53,6 +53,15 @@ feature -- Access
 
 	error_code: INTEGER
 		-- curl error code
+
+	error_string: STRING
+		do
+			if has_error then
+				create Result.make_from_c (Curl.error_string (error_code))
+			else
+				create Result.make_empty
+			end
+		end
 
 	http_version: DOUBLE
 

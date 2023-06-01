@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 15:54:28 GMT (Sunday 5th March 2023)"
-	revision: "8"
+	date: "2023-05-24 10:39:38 GMT (Wednesday 24th May 2023)"
+	revision: "9"
 
 class
 	ATTACH_TEST_VS_BOOLEAN_COMPARISON
@@ -32,7 +32,7 @@ feature -- Basic operations
 
 	execute
 		do
-			compare ("Boolean test VS attachment testE", <<
+			compare ("Boolean test VS attachment test", <<
 				["Test boolean", agent test_boolean],
 				["Test attachment", agent test_attachment]
 			>>)

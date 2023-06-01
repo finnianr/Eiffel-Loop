@@ -26,8 +26,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-06 14:20:40 GMT (Monday 6th February 2023)"
-	revision: "10"
+	date: "2023-05-24 10:37:55 GMT (Wednesday 24th May 2023)"
+	revision: "11"
 
 class
 	ARRAYED_VS_HASH_SET_SEARCH
@@ -59,7 +59,7 @@ feature -- Basic operations
 					list.extend (i); hash_set.put (i)
 					i := i + 1
 				end
-				compare ("compare INTEGER set searchs for size=" + size.out, <<
+				compare ("check if set of integers has: " + size.out, <<
 					["EL_HASH_SET [INTEGER]",	agent do_search (hash_set)],
 					["ARRAYED_SET [INTEGER]",	agent do_search (list)]
 				>>)

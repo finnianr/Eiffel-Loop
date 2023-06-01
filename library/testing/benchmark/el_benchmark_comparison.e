@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-06 13:26:45 GMT (Monday 6th February 2023)"
-	revision: "12"
+	date: "2023-05-24 9:24:41 GMT (Wednesday 24th May 2023)"
+	revision: "13"
 
 deferred class
 	EL_BENCHMARK_COMPARISON
@@ -50,7 +50,10 @@ feature {NONE} -- Implementation
 			end
 			lio.put_new_line
 			lio.put_labeled_string ("Class", generator)
-			lio.put_new_line
+			lio.put_new_line_x2
+			lio.put_labeled_string ("BENCHMARKING", table.label)
+			lio.put_new_line_x2
+
 			table.perform
 			table.print_comparison
 			lio.put_new_line

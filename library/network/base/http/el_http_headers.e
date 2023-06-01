@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-12 10:25:59 GMT (Sunday 12th March 2023)"
-	revision: "20"
+	date: "2023-06-01 10:21:40 GMT (Thursday 1st June 2023)"
+	revision: "21"
 
 class
 	EL_HTTP_HEADERS
@@ -27,6 +27,8 @@ inherit
 		end
 
 	EL_STRING_8_CONSTANTS
+
+	EL_SHARED_HTTP_STATUS
 
 create
 	make, make_default
@@ -145,6 +147,11 @@ feature -- Access
 		end
 
 	response_code: INTEGER
+
+	response_message: STRING
+		do
+			Result := Http_status.name (response_code.to_natural_16)
+		end
 
 	x_field (name: STRING): STRING
 		do

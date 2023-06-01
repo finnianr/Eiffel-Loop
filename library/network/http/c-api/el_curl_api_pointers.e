@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-05-31 13:52:32 GMT (Wednesday 31st May 2023)"
+	revision: "5"
 
 class
 	EL_CURL_API_POINTERS
@@ -29,5 +29,7 @@ feature {EL_DYNAMIC_MODULE} -- Access
 	getinfo: POINTER
 
 	setopt: POINTER
+
+	strerror: POINTER
 
 end

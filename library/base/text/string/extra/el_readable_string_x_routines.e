@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-23 10:29:54 GMT (Tuesday 23rd May 2023)"
-	revision: "16"
+	date: "2023-06-01 8:14:55 GMT (Thursday 1st June 2023)"
+	revision: "17"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -247,7 +247,7 @@ feature -- Substring
 					if start_index > 0 and end_index > 0 then
 						Result := str.substring (start_index, end_index)
 					else
-						Result := str
+						Result := str.substring (1, 0)
 					end
 				end
 			else

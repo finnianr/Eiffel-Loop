@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-28 11:44:48 GMT (Tuesday 28th March 2023)"
-	revision: "15"
+	date: "2023-05-24 9:22:10 GMT (Wednesday 24th May 2023)"
+	revision: "16"
 
 class
 	EL_BENCHMARK_ROUTINE_TABLE
@@ -94,13 +94,12 @@ feature -- Basic operations
 			highest_count := application_count_list.first_value
 			create l_double.make (log10 (highest_count).rounded + 3, 1)
 
-			lio.put_labeled_string ("Benchmark", label)
-			lio.put_new_line
-
 			if is_lio_enabled then
 				lio.put_new_line
-				lio.put_substitution ("Passes over %S millisecs (in descending order)", [trial_duration])
+				lio.put_labeled_string ("RESULTS", label)
 				lio.put_new_line
+				lio.put_substitution ("Passes over %S millisecs (in descending order)", [trial_duration])
+				lio.put_new_line_x2
 			end
 			if attached application_count_list as list then
 				from list.start until list.after loop

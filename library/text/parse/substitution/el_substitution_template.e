@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 10:27:17 GMT (Thursday 1st December 2022)"
-	revision: "4"
+	date: "2023-06-01 10:54:06 GMT (Thursday 1st June 2023)"
+	revision: "5"
 
 deferred class
 	EL_SUBSTITUTION_TEMPLATE
@@ -43,13 +43,9 @@ feature {NONE} -- Initialization
 
 	make (a_template: READABLE_STRING_GENERAL)
 			--
-		local
-			new_template: like string.new
 		do
 			make_default
-			new_template := string.new (a_template.count)
-			new_template.append (a_template)
-			set_template (new_template)
+			set_template (a_template)
 		end
 
 	make_default
@@ -110,10 +106,11 @@ feature -- Element change
 			place_holder_table.wipe_out
 		end
 
-	set_template (a_template: like string.new)
+	set_template (a_template: READABLE_STRING_GENERAL)
 			--
 		do
-			actual_template := a_template
+			string.wipe_out (actual_template)
+			actual_template.append (a_template)
 			set_parser_text (actual_template)
 			parse
 		end
