@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-07 11:47:02 GMT (Saturday 7th January 2023)"
-	revision: "19"
+	date: "2023-06-02 8:21:38 GMT (Friday 2nd June 2023)"
+	revision: "20"
 
 class
 	EL_HTML_TEXT
@@ -268,19 +268,17 @@ feature {NONE} -- Xpath event handlers
 		end
 
 	on_text
-		local
-			l_text: ZSTRING
 		do
 			if not last_node.is_empty then
 				if attached {EL_FORMATTED_MONOSPACE_TEXT} text_blocks.last as preformatted then
 					preformatted.append_text (last_node.raw_string (False))
-				else
-					l_text := last_node.to_trim_lines.joined_words
+
+				elseif attached last_node.to_adjusted_lines as lines then
 					if is_hyper_link_active then
 						text_blocks.last.enable_blue
-						link_stack.item.append_text (l_text)
+						link_stack.item.append_text (lines)
 					end
-					text_blocks.last.append_text (l_text)
+					text_blocks.last.append_text (lines)
 					if is_hyper_link_active then
 						text_blocks.last.disable_blue
 					end
@@ -368,7 +366,7 @@ feature {EL_HTML_TEXT_HYPERLINK_AREA} -- Implementation
 
 				[on_open, "//a",  				agent do link_stack.put (create {EL_HYPERLINK}.make_default) end],
 				[on_open, "//a/@id",  			agent do link_stack.item.set_id (last_node) end],
-				[on_open, "//a/@href",  		agent do link_stack.item.set_href (last_node) end],
+				[on_open, "//a/@href",  		agent do link_stack.item.set_href (last_node.to_string_8) end],
 				[on_close, "//a",  				agent on_anchor_close],
 
 				[on_open, "//blockquote", 		agent on_block_quote],

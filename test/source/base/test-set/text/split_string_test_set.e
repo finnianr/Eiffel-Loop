@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-30 12:16:23 GMT (Thursday 30th March 2023)"
-	revision: "44"
+	date: "2023-06-02 8:54:32 GMT (Friday 2nd June 2023)"
+	revision: "45"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -34,23 +34,25 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["across_iteration", agent test_across_iteration],
-				["curtail_list", agent test_curtail_list],
-				["fill_tuple", agent test_fill_tuple],
-				["immutable_string_split", agent test_immutable_string_split],
-				["occurrence_editor", agent test_occurrence_editor],
-				["occurrence_intervals", agent test_occurrence_intervals],
-				["path_split", agent test_path_split],
-				["set_encoding_from_name", agent test_set_encoding_from_name],
-				["skip_empty_split", agent test_skip_empty_split],
-				["spell_numbers", agent test_spell_numbers],
-				["split_and_join_1", agent test_split_and_join_1],
-				["split_and_join_2", agent test_split_and_join_2],
-				["split_and_join_3", agent test_split_and_join_3],
-				["split_intervals", agent test_split_intervals],
-				["split_iterator", agent test_split_iterator],
-				["split_sort", agent test_split_sort],
-				["split_string_8", agent test_split_string_8]
+				["across_iteration",			agent test_across_iteration],
+				["adjusted_line_split",		agent test_adjusted_line_split],
+				["append_item_to",			agent test_append_item_to],
+				["curtail_list",				agent test_curtail_list],
+				["fill_tuple",					agent test_fill_tuple],
+				["immutable_string_split",	agent test_immutable_string_split],
+				["occurrence_editor",		agent test_occurrence_editor],
+				["occurrence_intervals",	agent test_occurrence_intervals],
+				["path_split",					agent test_path_split],
+				["set_encoding_from_name",	agent test_set_encoding_from_name],
+				["skip_empty_split",			agent test_skip_empty_split],
+				["spell_numbers",				agent test_spell_numbers],
+				["split_and_join_1",			agent test_split_and_join_1],
+				["split_and_join_2",			agent test_split_and_join_2],
+				["split_and_join_3",			agent test_split_and_join_3],
+				["split_intervals",			agent test_split_intervals],
+				["split_iterator",			agent test_split_iterator],
+				["split_sort",					agent test_split_sort],
+				["split_string_8",			agent test_split_string_8]
 			>>)
 		end
 
@@ -75,6 +77,39 @@ feature -- Tests
 					assert ("same upper", interval.upper = upper)
 				end
 			end
+		end
+
+	test_adjusted_line_split
+		-- SPLIT_STRING_TEST_SET.test_adjusted_line_split
+		local
+			line_split: EL_SPLIT_ON_CHARACTER_8 [STRING]
+			list: EL_STRING_8_LIST; line_str: STRING
+		do
+			line_str := "one %N two %N three"
+			create line_split.make_adjusted (line_str, '%N', {EL_SIDE}.Both)
+			create list.make (3)
+			across line_split as split loop
+				list.extend (split.item_copy)
+			end
+			line_str.prune_all (' ')
+			assert_same_string (Void, line_str, list.joined_lines)
+		end
+
+	test_append_item_to
+		note
+			testing: "covers/{EL_SPLIT_ZSTRING_ON_CHARACTER_CURSOR}.append_item_to"
+		local
+			str: ZSTRING; str_32: STRING_32
+		do
+			str := Text.Russian_and_english
+			create str_32.make (str.count)
+			across str.split ('%N') as line loop
+				if line.cursor_index > 1 then
+					str_32.append_character ('%N')
+				end
+				line.append_item_to (str_32)
+			end
+			assert_same_string (Void, str_32, Text.Russian_and_english)
 		end
 
 	test_curtail_list
@@ -387,7 +422,7 @@ feature -- Tests
 						%covers/{EL_ITERABLE_SPLIT_CURSOR}.item_same_as,%
 						%covers/{EL_ITERABLE_SPLIT_CURSOR}.item_same_caseless_as"
 		local
-			string_split: EL_SPLIT_ON_STRING [STRING]; character_split: EL_SPLIT_ON_CHARACTER [STRING]
+			string_split: EL_SPLIT_ON_STRING [STRING]; character_split: EL_SPLIT_ON_CHARACTER_8 [STRING]
 			splitter_array: ARRAY [EL_ITERABLE_SPLIT [STRING, ANY]]
 			split_list: EL_STRING_8_LIST; str_list, bracket_pair, first_item: STRING
 			adjustments: INTEGER

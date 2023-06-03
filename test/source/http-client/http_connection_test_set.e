@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-23 15:02:03 GMT (Tuesday 23rd May 2023)"
-	revision: "61"
+	date: "2023-06-03 11:06:27 GMT (Saturday 3rd June 2023)"
+	revision: "62"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -294,6 +294,7 @@ feature -- Tests
 		end
 
 	test_url_encoded
+		-- HTTP_CONNECTION_TEST_SET.test_url_encoded
 		local
 			url: STRING; s: EL_STRING_8_ROUTINES
 		do

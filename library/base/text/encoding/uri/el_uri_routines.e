@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2023-06-03 11:32:46 GMT (Saturday 3rd June 2023)"
+	revision: "15"
 
 frozen class
 	EL_URI_ROUTINES
@@ -19,8 +19,6 @@ inherit
 		end
 
 	EL_PROTOCOL_CONSTANTS
-
-	EL_SHARED_STRING_8_CURSOR
 
 feature -- Status query
 
@@ -130,15 +128,5 @@ feature -- Access
 			end
 		end
 
-feature -- Factory
-
-	new_url (a_url: READABLE_STRING_GENERAL): EL_URL
-		do
-			if attached {READABLE_STRING_8} a_url as str_8 and then cursor_8 (str_8).all_ascii then
-				create Result.make (str_8)
-			else
-				create Result.make_from_general (a_url)
-			end
-		end
 
 end

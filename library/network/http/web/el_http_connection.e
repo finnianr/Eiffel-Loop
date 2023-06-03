@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-31 14:12:27 GMT (Wednesday 31st May 2023)"
-	revision: "39"
+	date: "2023-06-03 11:33:19 GMT (Saturday 3rd June 2023)"
+	revision: "40"
 
 class
 	EL_HTTP_CONNECTION
@@ -135,7 +135,7 @@ feature -- Basic operations
 
 	open (a_url: READABLE_STRING_GENERAL)
 		do
-			open_url (URI.new_url (a_url))
+			open_url (create {EL_URL}.make_from_general (a_url))
 		end
 
 	open_with_parameters (a_url: EL_URL; parameter_table: like new_parameter_table)

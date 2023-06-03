@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-26 16:38:26 GMT (Sunday 26th March 2023)"
-	revision: "36"
+	date: "2023-06-03 11:43:29 GMT (Saturday 3rd June 2023)"
+	revision: "37"
 
 class
 	EL_URI
@@ -27,14 +27,13 @@ inherit
 	STRING
 		rename
 			make as make_with_size,
-			make_from_string as make,
 			substring as uri_substring
 		export
 			{NONE} all
 			{ANY} hash_code, to_string_8, is_empty, starts_with, has_substring
 			{STRING_HANDLER} append, wipe_out, share, prune_all_trailing
 		redefine
-			make, to_string_32
+			to_string_32
 		end
 
 	EL_URI_IMPLEMENTATION
@@ -53,13 +52,26 @@ convert
 feature {NONE} -- Initialization
 
 	make (uri: READABLE_STRING_8)
-		require else
-			valid_uri: uri.substring_index (Colon_slash_x2, 1) > 1 and then is_unencoded (uri)
+		require
+			valid_uri: uri.substring_index (Colon_slash_x2, 1) > 1
 		do
-			Precursor (uri)
+			if cursor_8 (uri).all_ascii then
+				make_from_string (uri)
+			else
+				make_from_unencoded (uri)
+			end
 		end
 
-	make_from_general (unencoded: READABLE_STRING_GENERAL)
+	make_from_general (str: READABLE_STRING_GENERAL)
+		do
+			if str.is_valid_as_string_8 then
+				make (str.as_string_8)
+			else
+				make_from_unencoded (str)
+			end
+		end
+
+	make_from_unencoded (unencoded: READABLE_STRING_GENERAL)
 		do
 			if attached new_encoded_parts (unencoded) as encoded then
 				make_with_size (parts_count (encoded))

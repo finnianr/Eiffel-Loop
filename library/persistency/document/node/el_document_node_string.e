@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-17 16:08:01 GMT (Saturday 17th December 2022)"
-	revision: "28"
+	date: "2023-06-02 8:27:02 GMT (Friday 2nd June 2023)"
+	revision: "29"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -371,12 +371,18 @@ feature -- Conversion
 		do
 		end
 
-	to_trim_lines: EL_ZSTRING_LIST
+	to_adjusted_lines: ZSTRING
 		-- left and right adjusted list of line strings
+		local
+			line_split: EL_SPLIT_ZSTRING_ON_CHARACTER
 		do
-			create Result.make_with_lines (adjusted (False))
-			across Result as line loop
-				line.item.adjust
+			create line_split.make_adjusted (adjusted (False), '%N', {EL_SIDE}.Both)
+			create Result.make (line_split.target.count)
+			across line_split as list loop
+				if list.cursor_index > 1 then
+					Result.append_character ('%N')
+				end
+				list.append_item_to (Result)
 			end
 		end
 
