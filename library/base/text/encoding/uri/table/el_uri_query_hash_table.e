@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-06-07 13:06:41 GMT (Wednesday 7th June 2023)"
+	revision: "8"
 
 deferred class
 	EL_URI_QUERY_HASH_TABLE [S -> STRING_GENERAL create make end]
@@ -86,9 +86,9 @@ feature -- Conversion
 		-- utf-8 encoded name value pairs
 		-- `keep_ref' must be true if you wish to keep the reference (forces a clone of shared EL_URL_QUERY_STRING_8)
 		local
-			uri: like Once_uri_string
+			uri: EL_URI_QUERY_STRING_8; factory: EL_URI_ROUTINES
 		do
-			uri := empty_query_string (is_url)
+			uri := factory.new_uri_string (is_url)
 			across Current as table loop
 				if not table.is_first then
 					uri.append_character ('&')

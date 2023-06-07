@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 10:33:22 GMT (Thursday 1st December 2022)"
-	revision: "1"
+	date: "2023-06-07 13:55:52 GMT (Wednesday 7th June 2023)"
+	revision: "2"
 
 class
 	EL_ASCII
@@ -24,7 +24,11 @@ feature -- Control
 
 feature -- Symbol
 
+	Ampersand: NATURAL = 38
+
 	Dollar: NATURAL = 36
+
+	Equals_sign: NATURAL = 61
 
 feature -- Separator
 

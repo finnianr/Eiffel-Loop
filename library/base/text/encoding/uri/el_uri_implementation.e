@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-26 13:25:44 GMT (Sunday 26th March 2023)"
-	revision: "4"
+	date: "2023-06-07 12:13:08 GMT (Wednesday 7th June 2023)"
+	revision: "5"
 
 deferred class
 	EL_URI_IMPLEMENTATION
@@ -195,6 +195,8 @@ feature {NONE} -- Deferred
 		end
 
 feature {NONE} -- Constants
+
+	Ampersand_code: STRING = "%%26"
 
 	Qmark_and_hash: STRING = "?#"
 

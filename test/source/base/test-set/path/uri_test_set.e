@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-26 13:27:26 GMT (Sunday 26th March 2023)"
-	revision: "26"
+	date: "2023-06-07 14:21:42 GMT (Wednesday 7th June 2023)"
+	revision: "27"
 
 class
 	URI_TEST_SET
@@ -133,12 +133,12 @@ feature -- Tests
 
 	test_url
 		local
-			book_info: like new_book_info
-			url_string: ZSTRING; url: EL_URL
-			encoded_author_title, title_fragment: STRING; s: EL_STRING_8_ROUTINES
+			book_info: like new_book_info; url_string: ZSTRING; url: EL_URL
+			amazon_query, encoded_author_title, title_fragment: STRING; s: EL_STRING_8_ROUTINES
 		do
-			book_info := new_book_info (Gunter_grass)
-			url_string := Amazon_query
+			amazon_query := "http://www.amazon.com/query"
+			book_info := new_book_info (Book_data.values)
+			url_string := amazon_query
 			create url.make_from_general (url_string)
 			assert_same_string (Void, url_string, url)
 
@@ -148,20 +148,20 @@ feature -- Tests
 			url_string.append_string (book_info.author_title)
 			create url.make_from_general (url_string)
 
-			encoded_author_title := s.substring_to (Encoded_gunter_grass, '&', Default_pointer)
-			assert_same_string (Void, Amazon_query + "?" + encoded_author_title, url)
+			encoded_author_title := s.substring_to (Book_data.encoded, '&', Default_pointer)
+			assert_same_string (Void, amazon_query + "?" + encoded_author_title, url)
 
 			title_fragment := "#title"
 			url_string.append_string_general (title_fragment)
 			create url.make_from_general (url_string)
-			assert_same_string (Void, Amazon_query + "?" + encoded_author_title + title_fragment, url)
+			assert_same_string (Void, amazon_query + "?" + encoded_author_title + title_fragment, url)
 		end
 
 	test_url_parts
 		local
 			end_index, index: INTEGER; table: EL_URI_QUERY_ZSTRING_HASH_TABLE
 			url: EL_URL; scheme, authority, path, query, s, base_uri, uri_string: STRING
-			name, value: ZSTRING
+			name, value: ZSTRING; trade_mark_path: STRING_32
 		do
 			across << "", "?name=ferret", "#nose", "?name=ferret#nose" >> as tail loop
 				uri_string := "foo://example.com:8042/over/there" + tail.item
@@ -185,10 +185,11 @@ feature -- Tests
 				end
 				assert ("fragment ok", url.fragment ~ fragment_string (uri_string, s.count))
 
-				url.set_path (Trade_mark_path)
-				assert ("same path", url.to_file_path.as_string_32 ~ Trade_mark_path)
+				trade_mark_path := {STRING_32} "/trade/mark™.txt"
+				url.set_path (trade_mark_path)
+				assert ("same path", url.to_file_path.as_string_32 ~ trade_mark_path)
 
-				if attached new_book_table (Gunter_grass) as book_table then
+				if attached new_book_table (Book_data.values) as book_table then
 					url.set_query_from_table (book_table)
 					table := url.query_table
 					assert ("same count", table.count = book_table.count)
@@ -209,11 +210,11 @@ feature -- Tests
 		local
 			book: EL_URI_QUERY_ZSTRING_HASH_TABLE; book_query_string: STRING
 		do
-			if attached new_book_info (Gunter_grass) as book_info then
+			if attached new_book_info (Book_data.values) as book_info then
 				assert_same_string ("price correct", book_info.price, {STRING_32} "€ 10.00")
 			end
 
-			if attached new_book_table (Gunter_grass) as book_table then
+			if attached new_book_table (Book_data.values) as book_table then
 				create book.make_equal (book_table.count)
 				across book_table as info loop
 					book.set_name_value (info.key, info.item)
@@ -223,32 +224,44 @@ feature -- Tests
 			book_query_string := book.url_query
 			lio.put_string_field ("book_query_string", book_query_string)
 			lio.put_new_line
-			assert_same_string (Void, book_query_string, Encoded_gunter_grass)
+			assert_same_string (Void, book_query_string, Book_data.encoded)
 
-			create book.make_url (Encoded_gunter_grass)
-			across new_book_table (Gunter_grass) as info loop
+			create book.make_url (Book_data.encoded)
+			across new_book_table (Book_data.values) as info loop
 				assert ("valid " + info.key, book.item (info.key) ~ info.item)
 			end
 			book_query_string := book.url_query
 			lio.put_string_field ("book_query_string", book_query_string)
 			lio.put_new_line
-			assert_same_string (Void, book_query_string, Encoded_gunter_grass)
+			assert_same_string (Void, book_query_string, Book_data.encoded)
 		end
 
 	test_url_query_part
 		local
-			url: EL_URL; currency_uri: EL_URI_STRING_8
-			symbol_32: STRING_32
+			url: EL_URL; currency_html: STRING; currency_uri: EL_URI_STRING_8
+			symbol_32: STRING_32; l_table: EL_HASH_TABLE [STRING, STRING]
 		do
-			across Currency_symbols as symbol loop
-				symbol_32 := Currency_symbols.substring (symbol.cursor_index, symbol.cursor_index)
+			currency_html := "http://shop.com/currency.html"
+			across Escaped_currency_table as table loop
+				create symbol_32.make_filled (table.key, 1)
 
 				create currency_uri.make (10)
 				currency_uri.append_general (symbol_32)
-				assert_same_string ("same sequence", Currency_list.i_th (symbol.cursor_index), currency_uri)
-				url := "http://shop.com/currency.html?symbol=" + currency_uri
+				assert_same_string ("same sequence", table.item, currency_uri)
+				url := currency_html + "?symbol=" + currency_uri
 				assert ("same string", symbol_32 ~ url.query_table.item ("symbol").to_string_32)
 			end
+
+			create l_table.make (<<
+				[Field.company, "Dun & Bradstreet"]
+			>>)
+			url.set_query_from_table (l_table)
+			lio.put_labeled_string ("query", url.query)
+			lio.put_new_line
+			if attached url.query_table as query_table and then query_table.has_key (Field.company) then
+				assert_same_string (Void, query_table.found_item, l_table [Field.company])
+			end
+			assert_same_string (Void, url.to_string, currency_html + "?company=Dun %%26 Bradstreet")
 		end
 
 	test_url_to_string
@@ -338,44 +351,38 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Amazon_query: STRING = "http://www.amazon.com/query"
-
-	Currency_list: EL_STRING_8_LIST
+	Book_data: TUPLE [encoded: STRING; values: STRING_32]
+		local
+			s: EL_STRING_8_ROUTINES
 		once
-			create Result.make_comma_split ("[
-				%24, %C2%A3, %E2%82%AC, %F0%A0%9C%B1
-			]")
+			create Result
+			Result.encoded := "[
+				author_title=G%C3%BCnter+(Wilhelm)+Grass/The+Tin+Drum
+				price=%E2%82%AC+10.00
+				publisher=Barnes+%26+Noble&discount=10%25
+			]"
+			s.replace_character (Result.encoded, '%N', '&')
+			Result.values := {STRING_32} "Günter (Wilhelm) Grass/The Tin Drum, € 10.00, Barnes & Noble, 10%%"
 		end
 
-	Currency_symbols: STRING_32
+	Escaped_currency_table: EL_HASH_TABLE [STRING, CHARACTER_32]
+		local
+			escape_list: EL_STRING_8_LIST
 		once
-			Result := {STRING_32} "$£€"
-			Result.append_code (0x20731)
+			Escape_list := "[
+				%24, %C2%A3, %E2%82%AC
+			]"
+			create Result.make (<<
+				[('$').to_character_32, escape_list [1]],
+				[('£').to_character_32, escape_list [2]],
+				[('€').to_character_32, escape_list [3]]
+			>>)
 		end
 
-	Encoded_gunter_grass: STRING = "[
-		author_title=G%C3%BCnter+(Wilhelm)+Grass/The+Tin+Drum&price=%E2%82%AC+10.00&publisher=Barnes+%26+Noble&discount=10%25
-	]"
-
-	Field: TUPLE [author_title, price, publisher, discount: STRING]
+	Field: TUPLE [author_title, company, price, publisher, discount: STRING]
 		do
 			create Result
-			Tuple.fill (Result, "author_title, price, publisher, discount")
-		end
-
-	Gunter_grass: STRING_32
-		once
-			Result := {STRING_32} "Günter (Wilhelm) Grass/The Tin Drum, € 10.00, Barnes & Noble, 10%%"
-		end
-
-	SD_card: ZSTRING
-		once
-			Result := "SD Card/Music"
-		end
-
-	Trade_mark_path: STRING_32
-		once
-			Result := {STRING_32} "/trade/mark™.txt"
+			Tuple.fill (Result, "author_title, company, price, publisher, discount")
 		end
 
 	URI_list: EL_STRING_8_LIST

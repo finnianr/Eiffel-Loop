@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-06-07 13:39:07 GMT (Wednesday 7th June 2023)"
+	revision: "6"
 
 class
 	EL_URL
@@ -31,7 +31,7 @@ inherit
 		rename
 			Uri_query as Url_query
 		redefine
-			Url_query
+			is_url, Url_query
 		end
 
 create
@@ -39,6 +39,10 @@ create
 
 convert
 	make ({STRING_8})
+
+feature -- Status query
+
+	Is_url: BOOLEAN = True
 
 feature {NONE} -- Constants
 

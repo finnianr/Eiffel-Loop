@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "26"
+	date: "2023-06-05 8:43:57 GMT (Monday 5th June 2023)"
+	revision: "27"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G]
@@ -261,9 +261,17 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_formatted_date (date: DATE): STRING
+	new_formatted_date (date: DATE): READABLE_STRING_GENERAL
 		do
 			Result := Locale.date_text.formatted (date, style.date_format)
+		end
+
+	new_styled_date (result_item: G): EL_STYLED_ZSTRING_LIST
+		do
+			create Result.make (1)
+			if attached {EL_DATEABLE} result_item as l_item and then style.is_date_shown then
+				Result.extend ({EL_TEXT_STYLE}.Monospaced, new_formatted_date (l_item.date))
+			end
 		end
 
 	new_page_results: ARRAYED_LIST [EL_BOX]

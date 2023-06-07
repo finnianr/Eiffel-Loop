@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "18"
+	date: "2023-06-04 9:56:44 GMT (Sunday 4th June 2023)"
+	revision: "19"
 
 deferred class
 	EL_WORD_SEARCHABLE
@@ -93,8 +93,7 @@ feature {EL_WORD_SEARCHABLE} -- Implementation
 	keywords_in_bold (keyword_tokens, searchable_tokens: EL_WORD_TOKEN_LIST): EL_STYLED_TEXT_LIST [STRING_GENERAL]
 			--
 		local
-			pos_match, start_index, end_index: INTEGER
-			token_list: EL_WORD_TOKEN_LIST
+			token_list: EL_WORD_TOKEN_LIST; pos_match, start_index, end_index: INTEGER
 		do
 			create {EL_STYLED_ZSTRING_LIST} Result.make (3) -- Prevent catcall by leaving Result as general string
 			pos_match := searchable_tokens.substring_index (keyword_tokens, 1)

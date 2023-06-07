@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-03 11:43:29 GMT (Saturday 3rd June 2023)"
-	revision: "37"
+	date: "2023-06-07 14:42:39 GMT (Wednesday 7th June 2023)"
+	revision: "38"
 
 class
 	EL_URI
@@ -41,7 +41,11 @@ inherit
 			{STRING_HANDLER} Colon_slash_x2
 		end
 
+	EL_MODULE_REUSEABLE
+
 	EL_SHARED_STRING_8_CURSOR
+
+	EL_ZSTRING_CONSTANTS
 
 create
 	make_empty, make, make_from_general, make_with_size
@@ -164,12 +168,22 @@ feature -- Conversion
 		-- decoded string
 		do
 			Result := to_uri_path.decoded
+			if query_start_index > 0 then
+				Result.append_character ('?')
+				Result.append (decoded_query)
+			end
 		end
 
 	to_string_32: STRING_32
 		-- decoded unicode string
 		do
-			Result := to_uri_path.decoded_32 (True)
+			if query_start_index > 0  and then attached to_uri_path.decoded_32 (False) as decoded then
+				decoded.append_character ('?')
+				decoded_query.append_to_string_32 (decoded)
+				Result := decoded.twin
+			else
+				Result := to_uri_path.decoded_32 (True)
+			end
 		end
 
 feature -- Basic operations
@@ -177,6 +191,17 @@ feature -- Basic operations
 	append_to (general: STRING_GENERAL)
 		do
 			general.append (to_uri_path.decoded_32 (False))
+		end
+
+	decoded_query: ZSTRING
+		local
+			pair_split: EL_URI_QUERY_PAIRS_SPLIT
+		do
+			create pair_split.make (query, is_url)
+			across Reuseable.string as reuse loop
+				pair_split.append_as_unencoded (reuse.item)
+				Result := reuse.item.twin
+			end
 		end
 
 feature -- Element change
@@ -309,6 +334,11 @@ feature -- Status query
 	is_https: BOOLEAN
 		do
 			Result := scheme ~ Protocol.https
+		end
+
+	is_url: BOOLEAN
+		do
+			Result := False
 		end
 
 feature -- Contract Support
