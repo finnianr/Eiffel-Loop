@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-07 12:13:08 GMT (Wednesday 7th June 2023)"
-	revision: "5"
+	date: "2023-06-08 13:35:15 GMT (Thursday 8th June 2023)"
+	revision: "6"
 
 deferred class
 	EL_URI_IMPLEMENTATION
@@ -15,11 +15,13 @@ deferred class
 inherit
 	EL_PROTOCOL_CONSTANTS
 
-	EL_STRING_8_CONSTANTS
-
-	EL_STRING_32_CONSTANTS
-
 	EL_MODULE_REUSEABLE
+
+	EL_STRING_8_CONSTANTS; EL_STRING_32_CONSTANTS; EL_ZSTRING_CONSTANTS
+
+	EL_SHARED_STRING_8_CURSOR
+
+	STRING_HANDLER
 
 feature {NONE} -- Part index
 
@@ -130,6 +132,42 @@ feature {NONE} -- Part index
 
 feature {NONE} -- Implementation
 
+	internal_path (keep_ref: BOOLEAN): STRING
+		local
+			start_index, index, end_index: INTEGER
+		do
+			index := path_start_index
+			if index > 0 then
+				start_index := index; end_index := path_end_index (start_index)
+			end
+			if start_index > 0 then
+				Result := substring (start_index, end_index, keep_ref)
+			else
+				Result := substring (1, 0, keep_ref)
+			end
+		end
+
+	shared_path_copy: EL_URI_STRING_8
+		do
+			Result := Uri_path.emptied
+			Result.append_raw_8 (internal_path (False))
+		end
+
+	substring (start_index, end_index: INTEGER; keep_ref: BOOLEAN): STRING
+		do
+			Result := Buffer.empty
+			Result.append_substring (current_string, start_index, end_index)
+			if keep_ref then
+				Result := Result.twin
+			end
+		end
+
+	to_uri_path: like Uri_path
+		do
+			Result := Uri_path.emptied
+			Result.append_substring (current_string, 1, path_end_index (path_start_index))
+		end
+
 	new_encoded_parts (str: READABLE_STRING_GENERAL): SPECIAL [STRING]
 		local
 			index_qmark, index_hash: INTEGER
@@ -178,6 +216,10 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
+	current_string: STRING
+		deferred
+		end
+
 	index_of (c: CHARACTER_8; start_index: INTEGER): INTEGER
 		deferred
 		end
@@ -197,6 +239,11 @@ feature {NONE} -- Deferred
 feature {NONE} -- Constants
 
 	Ampersand_code: STRING = "%%26"
+
+	Buffer: EL_STRING_8_BUFFER
+		once
+			create Result
+		end
 
 	Qmark_and_hash: STRING = "?#"
 

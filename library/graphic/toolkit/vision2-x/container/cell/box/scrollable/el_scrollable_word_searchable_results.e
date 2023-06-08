@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-06-08 10:06:53 GMT (Thursday 8th June 2023)"
+	revision: "8"
 
 class
 	EL_SCROLLABLE_WORD_SEARCHABLE_RESULTS [G -> EL_WORD_SEARCHABLE]
@@ -43,29 +43,8 @@ feature -- Element change
 feature {NONE} -- Factory
 
 	new_detail_lines (result_item: G): ARRAYED_LIST [EL_STYLED_TEXT_LIST [STRING_GENERAL]]
-		local
-			date_line: EL_STYLED_TEXT_LIST [STRING_GENERAL]
 		do
-			Result := Precursor (result_item)
-			if Result.is_empty then -- No date present
-				Result := result_item.word_match_extracts (search_words)
-
-			elseif Result.count = 1 then -- has date
-				across result_item.word_match_extracts (search_words) as line loop
-					if line.is_first then
-						-- append first line of match extracts to date
-						date_line := line.item
-						from date_line.start until date_line.after loop
-							Result.first.extend (date_line.item_style, date_line.item_text)
-							date_line.forth
-						end
-					else
-						Result.extend (line.item)
-					end
-				end
-			else
-				Result.append (result_item.word_match_extracts (search_words))
-			end
+			Result := result_item.word_match_extracts (search_words)
 		end
 
 feature {NONE} -- Implementation: attributes

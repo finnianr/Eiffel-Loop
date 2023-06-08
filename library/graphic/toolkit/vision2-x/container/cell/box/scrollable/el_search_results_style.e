@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-06-08 10:46:28 GMT (Thursday 8th June 2023)"
+	revision: "4"
 
 class
 	EL_SEARCH_RESULTS_STYLE
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 			links_per_page := 20
 			link_text_color := Color.Blue
 			border_cms := 0.5
-			set_date_format (Dd_mmm_yyyy)
+			set_date_format (Yyyy_mmm_dd)
 		end
 
 feature -- Access

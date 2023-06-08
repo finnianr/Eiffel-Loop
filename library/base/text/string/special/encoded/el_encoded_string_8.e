@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 8:43:00 GMT (Saturday 3rd December 2022)"
-	revision: "20"
+	date: "2023-06-08 13:49:53 GMT (Thursday 8th June 2023)"
+	revision: "21"
 
 deferred class
 	EL_ENCODED_STRING_8
@@ -45,6 +45,11 @@ feature -- Conversion
 	decoded_8: STRING_8
 		do
 			Result := decoded_32 (False).to_string_8
+		end
+
+	decode_to (output: STRING_32)
+		do
+			decoded_substring_to (1, count, output)
 		end
 
 	to_utf_8, to_latin_1: STRING
@@ -166,11 +171,19 @@ feature {NONE} -- Implementation
 		end
 
 	decoded_32_substring (start_index, end_index: INTEGER; keep_ref: BOOLEAN): STRING_32
-		local
-			l_area: like area; i, step: INTEGER; c: CHARACTER
-			sequence: like Utf_8_sequence; buffer: EL_STRING_32_BUFFER_ROUTINES
 		do
 			Result := buffer.empty
+			decoded_substring_to (start_index, end_index, Result)
+			if keep_ref then
+				Result := Result.twin
+			end
+		end
+
+	decoded_substring_to (start_index, end_index: INTEGER; output: STRING_32)
+		local
+			l_area: like area; i, step: INTEGER; c: CHARACTER
+			sequence: like Utf_8_sequence
+		do
 			sequence := Utf_8_sequence; sequence.wipe_out
 			l_area := area
 			from i := start_index until i > end_index loop
@@ -178,18 +191,15 @@ feature {NONE} -- Implementation
 				if c = escape_character and then is_sequence (l_area, i) then
 					sequence.extend (sequence_code (l_area, i))
 					if sequence.full then
-						Result.append_code (sequence.to_unicode)
+						output.append_code (sequence.to_unicode)
 						sequence.wipe_out
 					end
 					step := sequence_count + 1
 				else
-					Result.append_character (adjusted_character (c))
+					output.append_character (adjusted_character (c))
 					step := 1
 				end
 				i := i + step
-			end
-			if keep_ref then
-				Result := Result.twin
 			end
 		end
 
@@ -255,6 +265,11 @@ feature {NONE} -- Deferred implementation
 		end
 
 feature {NONE} -- Constants
+
+	Buffer: EL_STRING_32_BUFFER
+		once
+			create Result
+		end
 
 	Unencoded_character: CHARACTER = '%/026/'
 		-- The substitute character SUB

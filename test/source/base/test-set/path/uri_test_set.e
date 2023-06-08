@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-07 14:21:42 GMT (Wednesday 7th June 2023)"
-	revision: "27"
+	date: "2023-06-08 13:15:53 GMT (Thursday 8th June 2023)"
+	revision: "28"
 
 class
 	URI_TEST_SET
@@ -222,8 +222,8 @@ feature -- Tests
 			end
 
 			book_query_string := book.url_query
-			lio.put_string_field ("book_query_string", book_query_string)
-			lio.put_new_line
+			put_query ("book_query_string", book_query_string)
+
 			assert_same_string (Void, book_query_string, Book_data.encoded)
 
 			create book.make_url (Book_data.encoded)
@@ -231,17 +231,15 @@ feature -- Tests
 				assert ("valid " + info.key, book.item (info.key) ~ info.item)
 			end
 			book_query_string := book.url_query
-			lio.put_string_field ("book_query_string", book_query_string)
-			lio.put_new_line
+			put_query ("book_query_string", book_query_string)
 			assert_same_string (Void, book_query_string, Book_data.encoded)
 		end
 
 	test_url_query_part
 		local
-			url: EL_URL; currency_html: STRING; currency_uri: EL_URI_STRING_8
-			symbol_32: STRING_32; l_table: EL_HASH_TABLE [STRING, STRING]
+			url: EL_URL; currency_uri: EL_URI_STRING_8
+			symbol_32: STRING_32
 		do
-			currency_html := "http://shop.com/currency.html"
 			across Escaped_currency_table as table loop
 				create symbol_32.make_filled (table.key, 1)
 
@@ -251,29 +249,38 @@ feature -- Tests
 				url := currency_html + "?symbol=" + currency_uri
 				assert ("same string", symbol_32 ~ url.query_table.item ("symbol").to_string_32)
 			end
+		end
 
-			create l_table.make (<<
-				[Field.company, "Dun & Bradstreet"]
-			>>)
+	test_url_to_string
+		-- URI_TEST_SET.test_url_to_string
+		local
+			url_string_8: STRING; url_string, value: ZSTRING
+			url: EL_URL; l_table: HASH_TABLE [ZSTRING, STRING]
+		do
+			url_string_8 := "https://www.ichingmeditations.com/ching-hexagrams/hexagram-64-nearing-completion-wei-chi/"
+			url := url_string_8
+			url_string := url.to_string
+			assert_same_string ("same url", url_string, url_string_8)
+
+			url := currency_html
+			create l_table.make (2)
+			l_table [Field.company] := "Dun & Bradstreet"
+			l_table [Field.price] := {STRING_32} "€=10.00"
+
 			url.set_query_from_table (l_table)
 			lio.put_labeled_string ("query", url.query)
 			lio.put_new_line
 			if attached url.query_table as query_table and then query_table.has_key (Field.company) then
 				assert_same_string (Void, query_table.found_item, l_table [Field.company])
 			end
-			assert_same_string (Void, url.to_string, currency_html + "?company=Dun %%26 Bradstreet")
-		end
+			url_string := currency_html + "?company=Dun %%26 Bradstreet"
+			value := l_table [Field.price]
+			value.replace_substring_all ("=", "%%3D")
+			url_string.append_string_general ("&price=")
+			url_string.append_string (value)
 
-	test_url_to_string
-		-- URI_TEST_SET.test_url_to_string
-		local
-			url_string_8: STRING; url_string: ZSTRING
-			url: EL_URL
-		do
-			url_string_8 := "https://www.ichingmeditations.com/ching-hexagrams/hexagram-64-nearing-completion-wei-chi/"
-			url := url_string_8
-			url_string := url.to_string
-			assert_same_string ("same url", url_string, url_string_8)
+			assert_same_string (Void, url.to_string, url_string)
+			assert_same_string (Void, url.to_string_32, url_string)
 		end
 
 	test_utf_8_sequence
@@ -285,19 +292,7 @@ feature -- Tests
 			assert ("same string", sequence.to_hexadecimal_escaped ('%%') ~ "%%E2%%82%%AC" )
 		end
 
-feature {NONE} -- Implementation
-
-	fragment_string (uri_string: STRING; a_index: INTEGER): STRING
-		local
-			index: INTEGER
-		do
-			index := uri_string.index_of ('#', a_index + 1)
-			if index > 0 then
-				Result := uri_string.substring (index + 1, uri_string.count)
-			else
-				Result := ""
-			end
-		end
+feature {NONE} -- Factory
 
 	new_book_info (list: READABLE_STRING_GENERAL): TUPLE [author_title, price, publisher, discount: ZSTRING]
 		do
@@ -318,6 +313,25 @@ feature {NONE} -- Implementation
 			>>)
 		end
 
+feature {NONE} -- Implementation
+
+	currency_html: STRING
+		do
+			Result := Uri_list [4]
+		end
+
+	fragment_string (uri_string: STRING; a_index: INTEGER): STRING
+		local
+			index: INTEGER
+		do
+			index := uri_string.index_of ('#', a_index + 1)
+			if index > 0 then
+				Result := uri_string.substring (index + 1, uri_string.count)
+			else
+				Result := ""
+			end
+		end
+
 	path_string (uri_string: STRING; a_index: INTEGER): STRING
 		local
 			end_index: INTEGER
@@ -331,6 +345,16 @@ feature {NONE} -- Implementation
 				end_index := uri_string.count
 			end
 			Result := uri_string.substring (a_index + 1, end_index)
+		end
+
+	put_query (name, string: STRING)
+		do
+			lio.put_line (name)
+			across string.split ('&') as part loop
+				lio.put_index_labeled_string (part, Void, part.item)
+				lio.put_new_line
+			end
+			lio.put_new_line
 		end
 
 	query_string (uri_string: STRING; index: INTEGER): STRING
@@ -391,6 +415,7 @@ feature {NONE} -- Constants
 				file:///home/finnian/Desktop
 				http://myching.software/
 				http://myching.software/en/home/my-ching.html
+				http://shop.com/currency.html
 				mtp://[usb:003,006]/
 			]")
 		end

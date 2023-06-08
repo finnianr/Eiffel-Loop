@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-07 14:42:39 GMT (Wednesday 7th June 2023)"
-	revision: "38"
+	date: "2023-06-08 13:52:00 GMT (Thursday 8th June 2023)"
+	revision: "39"
 
 class
 	EL_URI
@@ -39,13 +39,9 @@ inherit
 	EL_URI_IMPLEMENTATION
 		export
 			{STRING_HANDLER} Colon_slash_x2
+		undefine
+			copy, is_equal, out
 		end
-
-	EL_MODULE_REUSEABLE
-
-	EL_SHARED_STRING_8_CURSOR
-
-	EL_ZSTRING_CONSTANTS
 
 create
 	make_empty, make, make_from_general, make_with_size
@@ -177,10 +173,15 @@ feature -- Conversion
 	to_string_32: STRING_32
 		-- decoded unicode string
 		do
-			if query_start_index > 0  and then attached to_uri_path.decoded_32 (False) as decoded then
-				decoded.append_character ('?')
-				decoded_query.append_to_string_32 (decoded)
-				Result := decoded.twin
+			if query_start_index > 0 then
+				across Reuseable.string_32 as reuse loop
+					if attached reuse.item as decoded then
+						to_uri_path.decode_to (decoded)
+						decoded.append_character ('?')
+						decoded_query.append_to_string_32 (decoded)
+						Result := decoded.twin
+					end
+				end
 			else
 				Result := to_uri_path.decoded_32 (True)
 			end
@@ -360,25 +361,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	internal_path (keep_ref: BOOLEAN): STRING
-		local
-			start_index, index, end_index: INTEGER
+	current_string: STRING
 		do
-			index := path_start_index
-			if index > 0 then
-				start_index := index; end_index := path_end_index (start_index)
-			end
-			if start_index > 0 then
-				Result := substring (start_index, end_index, keep_ref)
-			else
-				Result := substring (1, 0, keep_ref)
-			end
-		end
-
-	shared_path_copy: EL_URI_STRING_8
-		do
-			Result := Uri_path.emptied
-			Result.append_raw_8 (internal_path (False))
+			Result := Current
 		end
 
 	parts_count (parts: like new_encoded_parts): INTEGER
@@ -410,23 +395,6 @@ feature {NONE} -- Implementation
 				end
 				set_encoded_query (l_query)
 			end
-		end
-
-	substring (start_index, end_index: INTEGER; keep_ref: BOOLEAN): STRING
-		local
-			buffer: EL_STRING_8_BUFFER_ROUTINES
-		do
-			Result := buffer.empty
-			Result.append_substring (Current, start_index, end_index)
-			if keep_ref then
-				Result := Result.twin
-			end
-		end
-
-	to_uri_path: like Uri_path
-		do
-			Result := Uri_path.emptied
-			Result.append_substring (Current, 1, path_end_index (path_start_index))
 		end
 
 end

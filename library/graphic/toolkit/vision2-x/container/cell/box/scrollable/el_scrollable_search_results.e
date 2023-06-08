@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-05 8:43:57 GMT (Monday 5th June 2023)"
-	revision: "27"
+	date: "2023-06-08 10:03:40 GMT (Thursday 8th June 2023)"
+	revision: "28"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G]
@@ -266,12 +266,10 @@ feature {NONE} -- Factory
 			Result := Locale.date_text.formatted (date, style.date_format)
 		end
 
-	new_styled_date (result_item: G): EL_STYLED_ZSTRING_LIST
+	new_styled_date (a_item: EL_DATEABLE): EL_STYLED_ZSTRING_LIST
 		do
 			create Result.make (1)
-			if attached {EL_DATEABLE} result_item as l_item and then style.is_date_shown then
-				Result.extend ({EL_TEXT_STYLE}.Monospaced, new_formatted_date (l_item.date))
-			end
+			Result.extend ({EL_TEXT_STYLE}.Monospaced, new_formatted_date (a_item.date))
 		end
 
 	new_page_results: ARRAYED_LIST [EL_BOX]
@@ -291,6 +289,7 @@ feature {NONE} -- Factory
 		do
 			create {EL_VERTICAL_BOX} Result
 			Result.set_background_color (background_color)
+			add_date_heading (Result, i)
 			add_navigable_heading (Result, i)
 			add_details (Result, i)
 			add_supplementary (Result, i)
@@ -325,6 +324,18 @@ feature {NONE} -- Factory
 		end
 
 feature {NONE} -- Implementation
+
+	add_date_heading (result_link_box: EL_BOX; i: INTEGER)
+		-- add date for `i' th `result_item' to `result_link_box' if available
+		local
+			style_labels: EL_MIXED_STYLE_FIXED_LABELS; lines: like new_detail_lines
+		do
+			if attached {EL_DATEABLE} result_set [i] as l_item and then style.is_date_shown then
+				create lines.make_from_array (<< new_styled_date (l_item) >>)
+				create style_labels.make_with_styles (lines, 0, style.font_table, background_color)
+				result_link_box.extend_unexpanded (style_labels)
+			end
+		end
 
 	add_details (result_link_box: EL_BOX; i: INTEGER)
 		-- add details for `i' th `result_item' to `result_link_box'

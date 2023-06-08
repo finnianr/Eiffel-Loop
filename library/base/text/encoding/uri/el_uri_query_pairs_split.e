@@ -1,13 +1,13 @@
 note
-	description: "Split URI query string on `&' character"
+	description: "Splits query part of URI string on `&' character to get decoded name value pairs"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-07 15:00:19 GMT (Wednesday 7th June 2023)"
-	revision: "1"
+	date: "2023-06-08 8:05:03 GMT (Thursday 8th June 2023)"
+	revision: "2"
 
 class
 	EL_URI_QUERY_PAIRS_SPLIT
@@ -71,8 +71,10 @@ feature {NONE} -- Implementation
 
 			query.append_code ({EL_ASCII}.Equals_sign)
 			if attached value.decoded_32 (False) as decoded then
-				if decoded.has ('&') then
-					decoded.replace_substring_all (Reserved.text, Reserved.code_text)
+				across Reserved_table as table loop
+					if decoded.has (table.key [1]) then
+						decoded.replace_substring_all (table.key, table.item)
+					end
 				end
 				append_unencoded (query, decoded)
 			end
@@ -97,9 +99,10 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Reserved: TUPLE [text, code_text: STRING_32]
+	Reserved_table: HASH_TABLE [STRING_32, STRING_32]
 		once
-			create Result
-			Tuple.fill (Result, "&, %%26")
+			create Result.make (2)
+			Result ["&"] := "%%26"
+			Result ["="] := "%%3D"
 		end
 end

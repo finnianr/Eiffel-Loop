@@ -9,14 +9,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-26 13:22:04 GMT (Sunday 26th March 2023)"
-	revision: "11"
+	date: "2023-06-08 13:31:46 GMT (Thursday 8th June 2023)"
+	revision: "12"
 
 class
 	EL_URI_STRING_8
 
 inherit
 	EL_ENCODED_STRING_8
+		export
+			{STRING_HANDLER} append_raw_8
 		redefine
 			new_string
 		end
