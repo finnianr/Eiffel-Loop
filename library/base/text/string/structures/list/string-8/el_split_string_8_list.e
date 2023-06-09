@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 9:52:03 GMT (Saturday 18th March 2023)"
-	revision: "19"
+	date: "2023-06-09 7:35:50 GMT (Friday 9th June 2023)"
+	revision: "20"
 
 class
 	EL_SPLIT_STRING_8_LIST
@@ -28,6 +28,24 @@ inherit
 create
 	make, make_empty, make_by_string, make_adjusted, make_adjusted_by_string,
 	make_from_for, make_from, make_from_if
+
+feature -- Element change
+
+	append_string (str: STRING_8)
+		do
+			if target = default_target then
+				target := str.twin
+				extend (1, str.count)
+			else
+				target.append (str)
+				extend (last_upper + 1, target.count)
+			end
+		end
+
+	trim_string
+		do
+			target.trim
+		end
 
 feature {NONE} -- Implementation
 

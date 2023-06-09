@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-02 8:54:32 GMT (Friday 2nd June 2023)"
-	revision: "45"
+	date: "2023-06-09 7:45:06 GMT (Friday 9th June 2023)"
+	revision: "46"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -37,6 +37,7 @@ feature {NONE} -- Initialization
 				["across_iteration",			agent test_across_iteration],
 				["adjusted_line_split",		agent test_adjusted_line_split],
 				["append_item_to",			agent test_append_item_to],
+				["append_string",				agent test_append_string],
 				["curtail_list",				agent test_curtail_list],
 				["fill_tuple",					agent test_fill_tuple],
 				["immutable_string_split",	agent test_immutable_string_split],
@@ -110,6 +111,22 @@ feature -- Tests
 				line.append_item_to (str_32)
 			end
 			assert_same_string (Void, str_32, Text.Russian_and_english)
+		end
+
+	test_append_string
+		-- SPLIT_STRING_TEST_SET.test_append_string
+		note
+			testing: "covers/{EL_SPLIT_STRING_8_LIST}.append_string"
+		local
+			joined: EL_SPLIT_STRING_8_LIST
+		do
+			create joined.make_empty
+			across << Number.one, Empty_string_8, Number.two >> as entry loop
+				joined.append_string (entry.item)
+			end
+			across << Number.one, Empty_string_8, Number.two >> as entry loop
+				assert_same_string (Void, joined.i_th (entry.cursor_index), entry.item)
+			end
 		end
 
 	test_curtail_list
@@ -524,6 +541,12 @@ feature {NONE} -- Constants
 	Comma_separated_variations: ARRAY [STRING]
 		once
 			Result := << ",a,b,c,", "a,b,c", " a, b , c ", "" >>
+		end
+
+	Number: TUPLE [one, two, three: STRING]
+		once
+			create Result
+			Tuple.fill (Result, Numbers)
 		end
 
 	Numbers: STRING = "one,two,three"
