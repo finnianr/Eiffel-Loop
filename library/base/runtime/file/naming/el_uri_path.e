@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-21 15:35:25 GMT (Friday 21st April 2023)"
-	revision: "37"
+	date: "2023-06-09 11:18:18 GMT (Friday 9th June 2023)"
+	revision: "38"
 
 deferred class
 	EL_URI_PATH
@@ -114,18 +114,14 @@ feature -- Initialization
 			Precursor {EL_PATH} (other)
 		end
 
-	make_from_encoded (a_uri: STRING)
-		local
-			qmark_index: INTEGER; l_path: like empty_uri_path
+	make_from_encoded (a_uri: READABLE_STRING_8)
 		do
-			l_path := empty_uri_path
-			qmark_index := a_uri.index_of ('?', 1)
-			if qmark_index > 0 then
-				l_path.append_substring (a_uri, 1, qmark_index - 1)
-			else
-				l_path.append_raw_8 (a_uri)
-			end
-			make (l_path.decoded_32 (False))
+			make_from_uri (create {EL_URI}.make (a_uri))
+		end
+
+	make_from_uri (a_uri: EL_URI)
+		do
+			make (a_uri.to_string)
 		end
 
 	make_scheme (a_scheme: STRING; a_path: EL_PATH)

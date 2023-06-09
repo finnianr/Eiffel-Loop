@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-06-09 10:22:20 GMT (Friday 9th June 2023)"
+	revision: "6"
 
 class
 	EL_HYPERLINK
@@ -17,10 +17,15 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_id: ZSTRING; a_href: STRING)
+	make (a_id: READABLE_STRING_GENERAL; optional_text: detachable READABLE_STRING_GENERAL; a_href: STRING)
 		do
 			make_default
-			id.share (a_id); href.share (a_href)
+			id.append_string_general (a_id); href.share (a_href)
+			if attached optional_text as general then
+				text.append_string_general (general)
+			else
+				text.append_string_general (a_href)
+			end
 		end
 
 	make_default

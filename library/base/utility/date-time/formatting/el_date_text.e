@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "23"
+	date: "2023-06-09 13:01:29 GMT (Friday 9th June 2023)"
+	revision: "24"
 
 class
 	EL_DATE_TEXT
 
 inherit
 	EL_DATE_TIME_TOOLS
+		export
+			{NONE} all
+		end
+
+	EL_DATE_FORMATS
 		export
 			{NONE} all
 		end
@@ -180,17 +185,18 @@ feature {NONE} -- Implementation
 	new_function_table: EL_DATE_FUNCTION_TABLE
 		do
 			create Result.make (<<
-				["long_day_name", 				agent long_day_name],
-				["numeric_day",					agent numeric_day],
-				["short_day_name", 				agent short_day_name],
+				[Var.canonical_numeric_day,	agent canonical_numeric_day],
+				[Var.numeric_day,					agent numeric_day],
+				[Var.numeric_month,				agent numeric_month],
 
-				["long_month_name", 				agent long_month_name],
-				["numeric_month",					agent numeric_month],
-				["canonical_numeric_month", 	agent canonical_numeric_day],
-				["short_month_name", 			agent short_month_name],
+				[Var.short_day_name,				agent short_day_name],
+				[Var.short_month_name,			agent short_month_name],
 
-				["year", 							agent year],
-				["short_year", 					agent short_year]
+				[Var.long_month_name,			agent long_month_name],
+				[Var.long_day_name,				agent long_day_name],
+
+				[Var.year,							agent year],
+				[Var.short_year,					agent short_year]
 			>>)
 		end
 
@@ -244,13 +250,13 @@ feature -- Contract Support
 
 feature {NONE} -- Internal attributes
 
-	function_table: like new_function_table
+	day: EL_DAY_OF_WEEK_TEXTS
 
-	template_table: EL_CACHE_TABLE [like template, STRING]
+	function_table: like new_function_table
 
 	month: EL_MONTH_TEXTS
 
-	day: EL_DAY_OF_WEEK_TEXTS
+	template_table: EL_CACHE_TABLE [like template, STRING]
 
 feature {NONE} -- Constants
 

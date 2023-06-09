@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "26"
+	date: "2023-06-09 11:21:19 GMT (Friday 9th June 2023)"
+	revision: "27"
 
 class
 	EL_DIR_URI_PATH
@@ -41,13 +41,15 @@ inherit
 		end
 
 create
-	default_create, make, make_file, make_scheme, make_from_path, make_from_dir_path, make_from_encoded
+	default_create, make, make_file, make_scheme, make_from_path, make_from_dir_path,
+	make_from_encoded, make_from_uri
 
 convert
 	make ({ZSTRING, STRING_32}),
 	make_from_path ({PATH}),
 	make_from_dir_path ({EL_DIR_PATH}),
-	make_from_encoded ({STRING}),
+	make_from_encoded ({STRING, IMMUTABLE_STRING_8, EL_STRING_8}),
+	make_from_uri ({EL_URI, EL_URL}),
 
 	to_string: {ZSTRING}, as_string_32: {STRING_32, READABLE_STRING_GENERAL}, steps: {EL_PATH_STEPS}, to_path: {PATH}
 

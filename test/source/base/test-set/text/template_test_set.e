@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "9"
+	date: "2023-06-09 13:20:05 GMT (Friday 9th June 2023)"
+	revision: "10"
 
 class
 	TEMPLATE_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
+
+	EL_SHARED_DATE_FORMAT
 
 create
 	make
@@ -65,7 +67,7 @@ feature -- Tests
 			template: EL_TEMPLATE [ZSTRING]
 		do
 --			canonical: STRING = "$long_day_name $canonical_numeric_month $long_month_name $year"
-			create template.make ({EL_DATE_FORMATS}.Canonical)
+			create template.make (Date_format.Canonical)
 			template.put ("long_day_name", "Thursday")
 			template.put ("canonical_numeric_month", "23rd")
 			template.put ("long_month_name", "November")

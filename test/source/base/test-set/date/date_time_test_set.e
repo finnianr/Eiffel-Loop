@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "30"
+	date: "2023-06-09 13:20:33 GMT (Friday 9th June 2023)"
+	revision: "31"
 
 class
 	DATE_TIME_TEST_SET
@@ -18,6 +18,8 @@ inherit
 	EL_MODULE_DATE; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_TUPLE
 
 	TIME_VALIDITY_CHECKER undefine default_create end
+
+	EL_SHARED_DATE_FORMAT
 
 create
 	make
@@ -118,7 +120,7 @@ feature -- Tests
 			date_text: EL_DATE_TEXT; canonical_format: ZSTRING
 		do
 			create date_text.make_default
-			canonical_format := date_text.formatted (Date_time.date, {EL_DATE_FORMATS}.canonical)
+			canonical_format := date_text.formatted (Date_time.date, Date_format.canonical)
 			assert ("Same date string", canonical_format.same_string_general (Date_2017.spelled))
 		end
 

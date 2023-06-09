@@ -6,23 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-08 10:46:28 GMT (Thursday 8th June 2023)"
-	revision: "4"
+	date: "2023-06-09 13:18:38 GMT (Friday 9th June 2023)"
+	revision: "5"
 
 class
 	EL_SEARCH_RESULTS_STYLE
 
 inherit
-	EL_DATE_FORMATS
-		rename
-			short_canonical as date_short_canonical,
-			canonical as date_canonical
-		export
-			{NONE} all
-			{ANY} Date_formats
-		end
+	ANY; EL_MODULE_COLOR
 
-	EL_MODULE_COLOR
+	EL_SHARED_DATE_FORMAT
+		rename
+			Date_format as Format
+		end
 
 create
 	make
@@ -40,7 +36,7 @@ feature {NONE} -- Initialization
 			links_per_page := 20
 			link_text_color := Color.Blue
 			border_cms := 0.5
-			set_date_format (Yyyy_mmm_dd)
+			set_date_format (Format.YYYY_MMM_DD)
 		end
 
 feature -- Access
@@ -78,11 +74,11 @@ feature -- Status change
 
 feature -- Element change
 
-	set_date_format (a_date_format: like date_format)
+	set_date_format (a_format: STRING)
 		require
-			valid_format: not a_date_format.is_empty implies Date_formats.has (a_date_format)
+			valid_format: not a_format.is_empty implies valid_format (a_format)
 		do
-			date_format := a_date_format
+			date_format := a_format
 		end
 
 	set_details_indent (a_details_indent: INTEGER)
