@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-09 13:20:05 GMT (Friday 9th June 2023)"
-	revision: "10"
+	date: "2023-06-09 13:44:39 GMT (Friday 9th June 2023)"
+	revision: "11"
 
 class
 	TEMPLATE_TEST_SET
@@ -68,10 +68,10 @@ feature -- Tests
 		do
 --			canonical: STRING = "$long_day_name $canonical_numeric_month $long_month_name $year"
 			create template.make (Date_format.Canonical)
-			template.put ("long_day_name", "Thursday")
-			template.put ("canonical_numeric_month", "23rd")
-			template.put ("long_month_name", "November")
-			template.put ("year", "2017")
+			template.put (Date_format.Var.long_day_name, "Thursday")
+			template.put (Date_format.Var.canonical_numeric_day, "23rd")
+			template.put (Date_format.Var.long_month_name, "November")
+			template.put (Date_format.Var.year, "2017")
 			assert ("same date", Date_string ~ template.substituted)
 		end
 

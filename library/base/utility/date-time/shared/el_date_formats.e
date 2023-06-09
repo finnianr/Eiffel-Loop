@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-09 13:11:16 GMT (Friday 9th June 2023)"
-	revision: "8"
+	date: "2023-06-09 13:27:21 GMT (Friday 9th June 2023)"
+	revision: "9"
 
 class
 	EL_DATE_FORMATS
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_TUPLE
 
-feature -- Format strings
+feature -- Constants
 
 	All_formats: ARRAY [STRING]
 		once
@@ -28,6 +28,7 @@ feature -- Format strings
 		canonical_numeric_day, long_day_name, long_month_name, numeric_day, numeric_month,
 		short_day_name, short_month_name, short_year, year: STRING
 	]
+		-- Template variable names
 		once
 			create Result
 			Tuple.fill (Result,
@@ -35,6 +36,8 @@ feature -- Format strings
 				%short_day_name, short_month_name, short_year, year"
 			)
 		end
+
+feature -- Format strings
 
 	Canonical: STRING
 		once

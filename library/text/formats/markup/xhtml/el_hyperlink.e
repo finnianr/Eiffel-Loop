@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-09 10:22:20 GMT (Friday 9th June 2023)"
-	revision: "6"
+	date: "2023-06-09 13:39:57 GMT (Friday 9th June 2023)"
+	revision: "7"
 
 class
 	EL_HYPERLINK
@@ -20,7 +20,7 @@ feature {NONE} -- Initialization
 	make (a_id: READABLE_STRING_GENERAL; optional_text: detachable READABLE_STRING_GENERAL; a_href: STRING)
 		do
 			make_default
-			id.append_string_general (a_id); href.share (a_href)
+			id.append_string_general (a_id); href.append (a_href)
 			if attached optional_text as general then
 				text.append_string_general (general)
 			else
