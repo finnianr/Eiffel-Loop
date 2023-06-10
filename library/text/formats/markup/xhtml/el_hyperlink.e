@@ -6,25 +6,28 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-09 13:39:57 GMT (Friday 9th June 2023)"
-	revision: "7"
+	date: "2023-06-10 9:30:41 GMT (Saturday 10th June 2023)"
+	revision: "8"
 
 class
 	EL_HYPERLINK
+
+inherit
+	ANY; EL_MODULE_URI
 
 create
 	make, make_default
 
 feature {NONE} -- Initialization
 
-	make (a_id: READABLE_STRING_GENERAL; optional_text: detachable READABLE_STRING_GENERAL; a_href: STRING)
+	make (a_href: READABLE_STRING_8; optional_text: detachable READABLE_STRING_GENERAL)
 		do
 			make_default
-			id.append_string_general (a_id); href.append (a_href)
+			set_href (a_href)
 			if attached optional_text as general then
-				text.append_string_general (general)
+				set_text (general)
 			else
-				text.append_string_general (a_href)
+				set_text (a_href)
 			end
 		end
 
@@ -40,6 +43,8 @@ feature -- Access
 	href: STRING
 
 	href_url: EL_URL
+		require
+			is_absolute: is_absolute
 		do
 			Result := href
 		end
@@ -50,6 +55,11 @@ feature -- Access
 
 feature -- Status query
 
+	is_absolute: BOOLEAN
+		do
+			Result := URI.is_http_any (href)
+		end
+
 	is_navigable: BOOLEAN
 		do
 			Result := not href.is_empty
@@ -57,29 +67,30 @@ feature -- Status query
 
 feature -- Element change
 
-	append_text (a_text: like text)
+	append_text (a_text: READABLE_STRING_GENERAL)
 		do
-			if text.is_empty then
-				text.share (a_text)
-			else
+			if text.count > 0 then
 				text.append_character (' ')
-				text.append (a_text)
 			end
+			text.append_string_general (a_text)
 		end
 
-	set_href (a_href: like href)
+	set_href (a_href: READABLE_STRING_8)
 		do
-			href := a_href
+			href.wipe_out
+			href.append (a_href)
 		end
 
-	set_id (a_id: like id)
+	set_id (a_id: READABLE_STRING_GENERAL)
 		do
-			id := a_id
+			id.wipe_out
+			id.append_string_general (a_id)
 		end
 
-	set_text (a_text: like text)
+	set_text (a_text: READABLE_STRING_GENERAL)
 		do
-			text := a_text
+			text.wipe_out
+			text.append_string_general (a_text)
 		end
 
 end

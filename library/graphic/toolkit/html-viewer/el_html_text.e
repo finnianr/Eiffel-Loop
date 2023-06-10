@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-02 8:21:38 GMT (Friday 2nd June 2023)"
-	revision: "20"
+	date: "2023-06-10 10:00:02 GMT (Saturday 10th June 2023)"
+	revision: "21"
 
 class
 	EL_HTML_TEXT
@@ -273,12 +273,12 @@ feature {NONE} -- Xpath event handlers
 				if attached {EL_FORMATTED_MONOSPACE_TEXT} text_blocks.last as preformatted then
 					preformatted.append_text (last_node.raw_string (False))
 
-				elseif attached last_node.to_adjusted_lines as lines then
+				elseif attached last_node.to_canonically_spaced as node_text then
 					if is_hyper_link_active then
 						text_blocks.last.enable_blue
-						link_stack.item.append_text (lines)
+						link_stack.item.append_text (node_text)
 					end
-					text_blocks.last.append_text (lines)
+					text_blocks.last.append_text (node_text)
 					if is_hyper_link_active then
 						text_blocks.last.disable_blue
 					end
@@ -365,8 +365,8 @@ feature {EL_HTML_TEXT_HYPERLINK_AREA} -- Implementation
 				[on_close, "//i",  				agent do text_blocks.last.disable_italic end],
 
 				[on_open, "//a",  				agent do link_stack.put (create {EL_HYPERLINK}.make_default) end],
-				[on_open, "//a/@id",  			agent do link_stack.item.set_id (last_node) end],
-				[on_open, "//a/@href",  		agent do link_stack.item.set_href (last_node.to_string_8) end],
+				[on_open, "//a/@id",  			agent do link_stack.item.set_id (last_node.adjusted (False)) end],
+				[on_open, "//a/@href",  		agent do link_stack.item.set_href (last_node.adjusted_8 (False)) end],
 				[on_close, "//a",  				agent on_anchor_close],
 
 				[on_open, "//blockquote", 		agent on_block_quote],

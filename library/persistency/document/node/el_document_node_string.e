@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-02 8:27:02 GMT (Friday 2nd June 2023)"
-	revision: "29"
+	date: "2023-06-10 10:03:42 GMT (Saturday 10th June 2023)"
+	revision: "30"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -310,6 +310,18 @@ feature -- String conversion
 
 feature -- Conversion
 
+	to_adjusted_lines: ZSTRING
+		-- left and right adjusted list of line strings with line breaks
+		do
+			Result := new_adjusted_lines ('%N')
+		end
+
+	to_canonically_spaced: ZSTRING
+		-- left and right adjusted list of lines merged as one line
+		do
+			Result := new_adjusted_lines (' ')
+		end
+
 	to_character_32: CHARACTER_32
 		local
 			str_32: STRING_32; i, l_count: INTEGER; c: CHARACTER_32
@@ -371,7 +383,16 @@ feature -- Conversion
 		do
 		end
 
-	to_adjusted_lines: ZSTRING
+feature -- Element change
+
+	set_type (a_type: INTEGER)
+		do
+			type := a_type
+		end
+
+feature {NONE} -- Implementation
+
+	new_adjusted_lines (separator: CHARACTER_32): ZSTRING
 		-- left and right adjusted list of line strings
 		local
 			line_split: EL_SPLIT_ZSTRING_ON_CHARACTER
@@ -380,17 +401,10 @@ feature -- Conversion
 			create Result.make (line_split.target.count)
 			across line_split as list loop
 				if list.cursor_index > 1 then
-					Result.append_character ('%N')
+					Result.append_character (separator)
 				end
 				list.append_item_to (Result)
 			end
-		end
-
-feature -- Element change
-
-	set_type (a_type: INTEGER)
-		do
-			type := a_type
 		end
 
 feature {EL_DOCUMENT_CLIENT} -- Internal attributes
