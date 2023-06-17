@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-27 8:03:48 GMT (Friday 27th January 2023)"
-	revision: "76"
+	date: "2023-06-17 10:22:13 GMT (Saturday 17th June 2023)"
+	revision: "77"
 
 class
 	APPLICATION_ROOT
@@ -58,9 +58,6 @@ inherit
 	-- Test evolicity.ecf
 		EVOLICITY_AUTOTEST_APP,
 
-	-- Test http-client.ecf
-		HTTP_CLIENT_AUTOTEST_APP,
-
 	-- Test i18n.ecf
 		I18N_AUTOTEST_APP,
 
@@ -104,8 +101,13 @@ inherit
 	-- Test xml-scan.ecf
 		XML_SCAN_AUTOTEST_APP,
 
-	-- Test eros.ecf (Run last to give time for socket address to be released from `SIMPLE_CLIENT_SERVER_TEST_APP')
-		EROS_AUTOTEST_APP
+	-- Test eros.ecf
+	--	(Run 2nd last to give time for socket address to be released from `SIMPLE_CLIENT_SERVER_TEST_APP')
+		EROS_AUTOTEST_APP,
+
+	-- Test http-client.ecf
+	-- (Run last as some tests may fail due to httpbin.org test server availability)
+		HTTP_CLIENT_AUTOTEST_APP
 	]
 		redefine
 			create_singletons
