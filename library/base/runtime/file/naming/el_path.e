@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 8:44:05 GMT (Monday 27th March 2023)"
-	revision: "67"
+	date: "2023-06-12 9:59:35 GMT (Monday 12th June 2023)"
+	revision: "68"
 
 deferred class
 	EL_PATH
@@ -70,13 +70,13 @@ feature {NONE} -- Initialization
 			parent_path := other.parent_path
 			internal_hash_code := other.internal_hash_code
 		ensure
-			same_string: to_string ~ other.to_string
+			same_string: same_as (other.to_string)
 		end
 
 	make (a_path: READABLE_STRING_GENERAL)
 			--
 		local
-			pos_last_separator: INTEGER l_path: ZSTRING
+			pos_last_separator: INTEGER; l_path: ZSTRING
 		do
 			l_path := normalized_copy (a_path)
 			if not l_path.is_empty then

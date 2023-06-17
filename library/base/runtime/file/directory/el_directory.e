@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 11:33:24 GMT (Monday 5th December 2022)"
-	revision: "24"
+	date: "2023-06-17 8:45:59 GMT (Saturday 17th June 2023)"
+	revision: "25"
 
 class
 	EL_DIRECTORY
@@ -206,6 +206,12 @@ feature -- Element change
 
 feature -- Status query
 
+	has_directory_with_extension (extension: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if at least one directory exists with extension `extension'
+		do
+			Result := has_entry_with_extension (Type_directory, extension)
+		end
+
 	has_executable (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		local
 			s_32: EL_STRING_32_ROUTINES
@@ -218,6 +224,12 @@ feature -- Status query
 			s_32: EL_STRING_32_ROUTINES
 		do
 			Result := has_entry_of_type (s_32.from_general (a_name, False), Type_file)
+		end
+
+	has_file_with_extension (extension: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if at least one file exists with extension `extension'
+		do
+			Result := has_entry_with_extension (Type_file, extension)
 		end
 
 	is_following_symlinks: BOOLEAN
@@ -303,6 +315,19 @@ feature {EL_SHARED_DIRECTORY} -- Access
 
 feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 
+	extension_matches (name: STRING_32; extension: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			dot_position: INTEGER
+		do
+			if extension.is_empty then
+				Result := True
+
+			elseif name.count > extension.count then
+				dot_position := name.count - extension.count
+				Result := name [dot_position] = '.' and then name.ends_with_general (extension)
+			end
+		end
+
 	has_entry_of_type (a_name: STRING_32; a_type: INTEGER): BOOLEAN
 		do
 			across Current as entry until Result loop
@@ -316,6 +341,20 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 							Result := entry.is_plain and then entry.is_executable
 						else
 					end
+				end
+			end
+		end
+
+	has_entry_with_extension (type: INTEGER; extension: READABLE_STRING_GENERAL): BOOLEAN
+		require
+			is_open: true
+		do
+			across Current as entry until Result loop
+				if not entry.is_current_or_parent and then entry.exists
+					and then extension_matches (entry.item, extension)
+					and then matches_type (entry, type)
+				then
+					Result := True
 				end
 			end
 		end
@@ -364,6 +403,21 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 			end
 		end
 
+	matches_type (entry: FILE_INFO; type: INTEGER): BOOLEAN
+		do
+			inspect type
+				when Type_directory then
+					Result := entry.is_directory
+
+				when Type_file then
+					Result := not entry.is_directory
+
+				when Type_any then
+					Result := True
+			else
+			end
+		end
+
 	new_cursor: EL_DIRECTORY_ITERATION_CURSOR
 		do
 			create Result.make (Current)
@@ -372,31 +426,19 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 	read_entries (list: LIST [EL_PATH]; type: INTEGER; extension: READABLE_STRING_GENERAL)
 		require
 			is_open: true
-		local
-			name: STRING_32; extension_matches: BOOLEAN; dot_position: INTEGER
 		do
 			list.compare_objects
 			across Current as entry loop
-				if not entry.is_current_or_parent then
-					name := entry.item
-					if entry.exists then
-						if extension.is_empty then
-							extension_matches := True
-						elseif name.count > extension.count then
-							dot_position := name.count - extension.count
-							extension_matches := name [dot_position] = '.' and then name.ends_with_general (extension)
-						else
-							extension_matches := False
+				if not entry.is_current_or_parent and then entry.exists
+					and then extension_matches (entry.item, extension)
+					and then matches_type (entry, type)
+				then
+					if entry.is_directory then
+						if (type = Type_any or type = Type_directory) then
+							list.extend (entry.item_dir_path)
 						end
-						if extension_matches then
-							if entry.is_directory then
-								if (type = Type_any or type = Type_directory) then
-									list.extend (entry.item_dir_path)
-								end
-							elseif (type = Type_any or type = Type_file) then
-								list.extend (entry.item_file_path)
-							end
-						end
+					elseif (type = Type_any or type = Type_file) then
+						list.extend (entry.item_file_path)
 					end
 				end
 			end

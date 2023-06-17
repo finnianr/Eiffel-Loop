@@ -1,13 +1,13 @@
 note
-	description: "Svg template pixmap"
+	description: "SVG template pixmap"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "18"
+	date: "2023-06-12 8:41:46 GMT (Monday 12th June 2023)"
+	revision: "19"
 
 class
 	EL_SVG_TEMPLATE_PIXMAP

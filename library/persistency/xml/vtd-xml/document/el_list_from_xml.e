@@ -1,13 +1,13 @@
 note
-	description: "List from xml"
+	description: "List from XML"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-06-16 13:54:51 GMT (Friday 16th June 2023)"
+	revision: "11"
 
 deferred class
 	EL_LIST_FROM_XML [G -> EL_XML_CREATEABLE_OBJECT create make end]

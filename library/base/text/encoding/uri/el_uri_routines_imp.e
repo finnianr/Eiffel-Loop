@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-07 13:24:04 GMT (Wednesday 7th June 2023)"
-	revision: "16"
+	date: "2023-06-17 9:11:27 GMT (Saturday 17th June 2023)"
+	revision: "17"
 
 class
 	EL_URI_ROUTINES_IMP
@@ -78,6 +78,24 @@ feature -- Status query
 
 feature -- Access
 
+	encoded_path (str: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): EL_URI_PATH_STRING_8
+		do
+			Result := Uri_path.emptied
+			Result.append_general (str)
+			if keep_ref then
+				Result := Result.twin
+			end
+		end
+
+	encoded_path_element (str: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): EL_URI_PATH_ELEMENT_STRING_8
+		do
+			Result := Uri_path_element.emptied
+			Result.append_general (str)
+			if keep_ref then
+				Result := Result.twin
+			end
+		end
+
 	path (uri: READABLE_STRING_GENERAL): ZSTRING
 		local
 			index: INTEGER
@@ -138,4 +156,17 @@ feature -- Factory
 				create Result.make_empty
 			end
 		end
+
+feature {NONE} -- Constants
+
+	Uri_path: EL_URI_PATH_STRING_8
+		once
+			create Result.make_empty
+		end
+
+	Uri_path_element: EL_URI_PATH_ELEMENT_STRING_8
+		once
+			create Result.make_empty
+		end
+
 end
