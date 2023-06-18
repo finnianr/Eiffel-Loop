@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-06-18 9:36:16 GMT (Sunday 18th June 2023)"
+	revision: "4"
 
 deferred class
 	EL_HTTP_CONNECTION_IMPLEMENTATION
 
 inherit
+	EL_C_API_ROUTINES
+
 	EL_CURL_OPTION_CONSTANTS
 		export
 			{NONE} all
@@ -47,6 +49,73 @@ inherit
 
 	EL_SHARED_UTF_8_ZCODEC
 
+feature {NONE} -- Initialization
+
+	make
+		do
+			create last_string.make_empty
+			create http_response.make_empty
+			create headers.make_equal (0)
+			create post_data.make (0)
+		end
+
+feature -- Access
+
+	cookie_load_path: detachable FILE_PATH
+
+	cookie_store_path: detachable FILE_PATH
+
+	error_code: INTEGER
+		-- curl error code
+
+	last_headers: EL_HTTP_HEADERS
+		do
+			create Result.make (last_string)
+		end
+
+	last_string: STRING
+
+	page_error_code: NATURAL_16
+		-- http error code parsed from document page
+		local
+			bracket_split: EL_SPLIT_ON_CHARACTER_8 [STRING]; s: EL_STRING_8_ROUTINES
+			found: BOOLEAN
+		do
+			if is_html_response then
+				create bracket_split.make (last_string, '>')
+				across bracket_split as split until Result > 0 loop
+					if last_string [split.item_lower].is_digit
+						and then attached s.substring_to (split.item, ' ', default_pointer) as code_string
+					then
+						Result := code_string.to_natural_16
+					end
+				end
+			end
+		end
+
+	page_error_name: STRING
+		-- English name for `page_error_code'
+		do
+			Result := Http_status.name (page_error_code)
+		end
+
+feature -- Status query
+
+	has_error: BOOLEAN
+		do
+			Result := error_code /= 0
+		end
+
+feature -- Basic operations
+
+	put_error (log: EL_LOGGABLE)
+		require
+			has_error: has_error
+		do
+			log.put_labeled_substitution ("CURL ERROR", "%S %S", [error_code, error_string])
+			log.put_new_line
+		end
+
 feature {EL_HTTP_COMMAND} -- Implementation
 
 	enable_get_method
@@ -75,14 +144,14 @@ feature {EL_HTTP_COMMAND} -- Implementation
 			Curl.setopt_integer (self_ptr, a_option, flag.to_integer)
 		end
 
-	set_curl_option_with_data (a_option: INTEGER; a_data_ptr: POINTER)
-		do
-			Curl.setopt_void_star (self_ptr, a_option, a_data_ptr)
-		end
-
 	set_curl_integer_option (a_option: INTEGER; option: INTEGER)
 		do
 			Curl.setopt_integer (self_ptr, a_option, option)
+		end
+
+	set_curl_option_with_data (a_option: INTEGER; a_data_ptr: POINTER)
+		do
+			Curl.setopt_void_star (self_ptr, a_option, a_data_ptr)
 		end
 
 	set_curl_string_32_option (a_option: INTEGER; string: STRING_32)
@@ -124,41 +193,107 @@ feature {NONE} -- Implementation
 			create Result.make_from_utf_8 (last_string)
 		end
 
-	http_error_code: NATURAL_16
-		local
-			pos_title, pos_space: INTEGER
-			code_string: STRING
-		do
-			if last_string.starts_with (Doctype_declaration) then
-				pos_title := last_string.substring_index (Title_tag, 1)
-				if pos_title > 0 then
-					pos_space := last_string.index_of (' ', pos_title)
-					if pos_space > 0 then
-						code_string := last_string.substring (pos_title + Title_tag.count, pos_space - 1)
-						if code_string.is_natural_16 then
-							Result := code_string.to_natural_16
-						end
-					end
-				end
-			end
-		end
-
-	http_error_name: STRING
-		do
-			Result := Http_status.name (http_error_code)
-		end
-
-	last_headers: EL_HTTP_HEADERS
-		do
-			create Result.make (last_string)
-		end
-
 	new_parameter_table: detachable HASH_TABLE [READABLE_STRING_GENERAL, READABLE_STRING_GENERAL]
 		do
 			create {HASH_TABLE [STRING, STRING]} Result.make (0)
 		end
 
+feature {NONE} -- Experimental
+
+	read_string_experiment
+			-- Failed experiment. Might come back to it again
+		local
+			form_post, form_last: CURL_FORM
+		do
+			create form_post.make; create form_last.make
+			set_form_parameters (form_post, form_last)
+
+			create http_response.make_empty
+--			set_write_function (self_ptr)
+			set_curl_integer_option (CURLOPT_writedata, http_response.object_id)
+			error_code := Curl.perform (self_ptr)
+			last_string.share (http_response)
+		end
+
+	redirection_url: STRING
+			-- Fails because Curlinfo_redirect_url will not satisfy contract CURL_INFO_CONSTANTS.is_valid
+			-- For some reason Curlinfo_redirect_url is missing from CURL_INFO_CONSTANTS
+		require
+			no_error: not has_error
+		local
+			result_cell: CELL [STRING]
+			status: INTEGER
+		do
+			create Result.make_empty
+			create result_cell.put (Result)
+			status := Curl.get_info (self_ptr, Curlinfo_redirect_url, result_cell)
+			if status = 0 then
+				Result := result_cell.item
+			end
+		end
+
+	set_form_parameters (form_post, form_last: CURL_FORM)
+			-- Haven't worked out how to use this yet
+		do
+--			across parameters as parameter loop
+--				Curl.formadd_string_string (
+--					form_post, form_last,
+--					CURLFORM_COPYNAME, parameter.key,
+--					CURLFORM_COPYCONTENTS, parameter.item,
+--					CURLFORM_END
+--				)
+--			end
+			Curl.setopt_form (self_ptr, CURLOPT_httppost, form_post)
+		end
+
+feature {EL_HTTP_COMMAND} -- Implementation
+
+	do_command (command: EL_DOWNLOAD_HTTP_COMMAND)
+		do
+			command.execute
+			if attached {EL_STRING_DOWNLOAD_HTTP_COMMAND} command as string_download then
+				if has_error then
+					last_string.wipe_out
+				else
+					last_string.share (string_download.string)
+				end
+			end
+		end
+
+	do_transfer
+			-- do data transfer to/from host
+		local
+			string_list: POINTER
+		do
+			string_list := headers.to_curl_string_list
+			if is_attached (string_list) then
+				set_curl_option_with_data (CURLOPT_httpheader, string_list)
+			end
+			error_code := Curl.perform (self_ptr)
+			if is_attached (string_list) then
+				curl.free_string_list (string_list)
+			end
+			if has_error and then is_lio_enabled then
+				put_error (lio)
+			end
+		end
+
+	set_cookie_options
+		do
+			if attached cookie_store_path as store_path then
+				set_curl_string_option (CURLOPT_cookiejar, store_path)
+			end
+			if attached cookie_load_path as load_path then
+				set_curl_string_option (CURLOPT_cookiefile, load_path)
+			end
+		end
+
 feature {NONE} -- Implementation attributes
+
+	headers: EL_CURL_HEADER_TABLE
+		-- request headers to send
+
+	http_response: CURL_STRING
 
 	post_data: MANAGED_POINTER
 
@@ -166,11 +301,16 @@ feature {NONE} -- Implementation attributes
 
 feature {NONE} -- Deferred
 
-	self_ptr: POINTER
+	error_string: STRING
 		deferred
 		end
 
-	last_string: STRING
+	is_html_response: BOOLEAN
+		-- `True' if `last_string' is html
+		deferred
+		end
+
+	self_ptr: POINTER
 		deferred
 		end
 
@@ -179,7 +319,5 @@ feature {NONE} -- Constants
 	Doctype_declaration: STRING = "<!DOCTYPE"
 
 	Max_post_data_count: INTEGER = 1024
-
-	Title_tag: STRING = "<title>"
 
 end

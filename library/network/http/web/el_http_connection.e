@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-03 11:33:19 GMT (Saturday 3rd June 2023)"
-	revision: "40"
+	date: "2023-06-18 9:36:02 GMT (Sunday 18th June 2023)"
+	revision: "41"
 
 class
 	EL_HTTP_CONNECTION
@@ -26,8 +26,9 @@ inherit
 		rename
 			is_valid as is_valid_option_constant
 		export
-			{ANY} content, is_valid_http_command, http_error_code, http_error_name, last_headers,
-				set_certificate_authority_info
+			{ANY} content, is_valid_http_command, set_certificate_authority_info
+		redefine
+			make
 		end
 
 create
@@ -37,22 +38,12 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			create last_string.make_empty
-			create http_response.make_empty
-			create headers.make_equal (0)
-			create post_data.make (0)
+			Precursor
 			create user_agent.make_empty
 			create url.make_empty
 		end
 
 feature -- Access
-
-	cookie_load_path: detachable FILE_PATH
-
-	cookie_store_path: detachable FILE_PATH
-
-	error_code: INTEGER
-		-- curl error code
 
 	error_string: STRING
 		do
@@ -65,46 +56,49 @@ feature -- Access
 
 	http_version: DOUBLE
 
-	last_string: STRING
-
 	url: EL_URL
 
 	user_agent: STRING
 
 feature -- Status query
 
-	has_error: BOOLEAN
+	has_page_error (code: NATURAL_16): BOOLEAN
 		do
-			Result := error_code /= 0
-		end
-
-	has_http_error (code: NATURAL): BOOLEAN
-		do
-			Result := http_error_code = code
+			Result := page_error_code = code
 		end
 
 	has_some_http_error: BOOLEAN
 		do
-			Result := (400 |..| 510).has (http_error_code.to_integer_32)
+			Result := (400 |..| 510).has (page_error_code.to_integer_32)
 		end
 
 	is_certificate_verified: BOOLEAN
 
-	is_gateway_timeout: BOOLEAN
-		do
-			 Result := has_http_error (504)
-		end
-
 	is_host_verified: BOOLEAN
+
+	is_html_response: BOOLEAN
+		-- `True' if `last_string' is html
+		do
+			if last_string.starts_with (Doctype_declaration) then
+				Result := last_string.same_caseless_characters ("html", 1, 4, Doctype_declaration.count + 2)
+			end
+		end
 
 	is_open: BOOLEAN
 		do
 			Result := is_attached (self_ptr)
 		end
 
+feature -- HTTP error status
+
+	is_gateway_timeout: BOOLEAN
+		do
+			 Result := has_page_error (Http_status.gateway_timeout)
+		end
+
 	is_service_unavailable: BOOLEAN
 		do
-			Result := has_http_error (503)
+			Result := has_page_error (Http_status.service_unavailable)
 		end
 
 feature -- Basic operations
@@ -414,105 +408,5 @@ feature {NONE} -- Disposal
 				Curl.clean_up (self_ptr)
 			end
 		end
-
-feature {NONE} -- Experimental
-
-	read_string_experiment
-			-- Failed experiment. Might come back to it again
-		local
-			form_post, form_last: CURL_FORM
-		do
-			create form_post.make; create form_last.make
-			set_form_parameters (form_post, form_last)
-
-			create http_response.make_empty
---			set_write_function (self_ptr)
-			set_curl_integer_option (CURLOPT_writedata, http_response.object_id)
-			error_code := Curl.perform (self_ptr)
-			last_string.share (http_response)
-		end
-
-	redirection_url: STRING
-			-- Fails because Curlinfo_redirect_url will not satisfy contract CURL_INFO_CONSTANTS.is_valid
-			-- For some reason Curlinfo_redirect_url is missing from CURL_INFO_CONSTANTS
-		require
-			no_error: not has_error
-		local
-			result_cell: CELL [STRING]
-			status: INTEGER
-		do
-			create Result.make_empty
-			create result_cell.put (Result)
-			status := Curl.get_info (self_ptr, Curlinfo_redirect_url, result_cell)
-			if status = 0 then
-				Result := result_cell.item
-			end
-		end
-
-	set_form_parameters (form_post, form_last: CURL_FORM)
-			-- Haven't worked out how to use this yet
-		do
---			across parameters as parameter loop
---				Curl.formadd_string_string (
---					form_post, form_last,
---					CURLFORM_COPYNAME, parameter.key,
---					CURLFORM_COPYCONTENTS, parameter.item,
---					CURLFORM_END
---				)
---			end
-			Curl.setopt_form (self_ptr, CURLOPT_httppost, form_post)
-		end
-
-feature {EL_HTTP_COMMAND} -- Implementation
-
-	do_transfer
-			-- do data transfer to/from host
-		local
-			string_list: POINTER
-		do
-			string_list := headers.to_curl_string_list
-			if is_attached (string_list) then
-				set_curl_option_with_data (CURLOPT_httpheader, string_list)
-			end
-			error_code := Curl.perform (self_ptr)
-			if is_attached (string_list) then
-				curl.free_string_list (string_list)
-			end
-			if has_error and then is_lio_enabled then
-				lio.put_integer_field ("CURL error code", error_code)
-				lio.put_new_line
-			end
-		end
-
-	set_cookie_options
-		do
-			if attached cookie_store_path as store_path then
-				set_curl_string_option (CURLOPT_cookiejar, store_path)
-			end
-			if attached cookie_load_path as load_path then
-				set_curl_string_option (CURLOPT_cookiefile, load_path)
-			end
-		end
-
-feature {NONE} -- Implementation
-
-	do_command (command: EL_DOWNLOAD_HTTP_COMMAND)
-		do
-			command.execute
-			if attached {EL_STRING_DOWNLOAD_HTTP_COMMAND} command as string_download then
-				if has_error then
-					last_string.wipe_out
-				else
-					last_string.share (string_download.string)
-				end
-			end
-		end
-
-feature {NONE} -- Implementation attributes
-
-	headers: EL_CURL_HEADER_TABLE
-		-- request headers to send
-
-	http_response: CURL_STRING
 
 end

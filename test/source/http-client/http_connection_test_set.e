@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-03 11:06:27 GMT (Saturday 3rd June 2023)"
-	revision: "62"
+	date: "2023-06-18 9:46:34 GMT (Sunday 18th June 2023)"
+	revision: "63"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -38,17 +38,17 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["cookies", agent test_cookies],
-				["cached_documents", agent test_cached_documents],
+				["cached_documents",					 agent test_cached_documents],
+				["cookies",								 agent test_cookies],
 				["download_document_and_headers", agent test_download_document_and_headers],
-				["download_image_and_headers", agent test_download_image_and_headers],
-				["headers", agent test_headers],
-				["http_hash_table", agent test_http_hash_table],
-				["http_post", agent test_http_post],
-				["image_headers", agent test_image_headers],
-				["ip_address_info", agent test_ip_address_info],
-				["url_encoded", agent test_url_encoded],
-				["web_archive", agent test_web_archive]
+				["download_image_and_headers",	 agent test_download_image_and_headers],
+				["headers",								 agent test_headers],
+				["http_hash_table",					 agent test_http_hash_table],
+				["http_post",							 agent test_http_post],
+				["image_headers",						 agent test_image_headers],
+				["ip_address_info",					 agent test_ip_address_info],
+				["url_encoded",						 agent test_url_encoded],
+				["web_archive",						 agent test_web_archive]
 			>>)
 		end
 
@@ -328,7 +328,7 @@ feature -- Tests
 			end
 		end
 
-feature -- Problematic
+feature -- Unused
 
 	test_open_url
 		local
@@ -347,6 +347,22 @@ feature -- Problematic
 			web.close
 		end
 
+	test_http_errors
+		local
+			url: STRING
+		do
+			url := "http://localhost/en/home/my-ching.html"
+			web.open (url)
+			web.read_string_get
+			if web.has_error then
+				web.put_error (lio)
+			end
+			lio.put_labeled_substitution ("PAGE ERROR", "%S %S", [web.page_error_code, web.page_error_name])
+			lio.put_new_line
+
+			web.close
+		end
+
 feature {NONE} -- Events
 
 	on_prepare
@@ -360,12 +376,13 @@ feature {NONE} -- Implementation
 	assert_valid_headers (headers: like web.last_headers)
 		do
 			assert ("valid date_stamp", headers.date_stamp.date ~ create {DATE}.make_now)
-			if headers.response_code /= 200 then
+			if headers.response_code = 200 then
+				assert ("valid server", is_server_name (headers.server))
+			else
 				lio.put_integer_field (Http_status.name (headers.response_code.to_natural_16), headers.response_code)
 				lio.put_new_line
 				assert ("valid response_code", False)
 			end
-			assert ("valid server", is_server_name (headers.server))
 		end
 
 	element_text (name: STRING; a_text: STRING): ZSTRING
@@ -400,6 +417,21 @@ feature {NONE} -- Implementation
 				lio.put_line (line.item)
 			end
 			lio.put_new_line
+		end
+
+	read_string_head_x_3
+		-- try 3 times if error is gateway timeout
+		local
+			done: BOOLEAN
+		do
+			across 1 |..| 3 as n until done loop
+				web.read_string_head
+				if web.has_error then
+					done := not web.is_gateway_timeout
+				else
+					done := (web.last_headers.response_code) = 200
+				end
+			end
 		end
 
 	title_text (text: ZSTRING): ZSTRING
@@ -485,9 +517,9 @@ feature {NONE} -- Constants
 		-- table of predicates to test if document was retrieved
 		once
 			create Result.make (<<
-				["html", ["<!DOCTYPE html>", 14]],
-				["links/10/0", ["<html><head><title>Links", 1]],
-				["xml", ["<?xml version='1.0'", 24]]
+				["html",			["<!DOCTYPE html>", 14]],
+				["links/10/0",	["<html><head><title>Links", 1]],
+				["xml",			["<?xml version='1.0'", 24]]
 			>>)
 		end
 

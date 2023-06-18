@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 17:22:07 GMT (Sunday 1st January 2023)"
-	revision: "13"
+	date: "2023-06-18 8:25:19 GMT (Sunday 18th June 2023)"
+	revision: "14"
 
 class
 	EL_MARKUP_ROUTINES
@@ -51,19 +51,19 @@ feature -- Access
 feature -- Mark up
 
 	closed_tag (name: READABLE_STRING_GENERAL): ZSTRING
-			-- closed tag markup
+			-- closed tag markup: </%S>
 		do
 			Result := Tag_template.close #$ [name]
 		end
 
 	empty_tag (name: READABLE_STRING_GENERAL): ZSTRING
-			-- empty tag markup
+			-- empty tag markup: <%S/>
 		do
 			Result := Tag_template.empty #$ [name]
 		end
 
 	open_tag (name: READABLE_STRING_GENERAL): ZSTRING
-			-- open tag markup
+			-- open tag markup: <%S>
 		do
 			Result := Tag_template.open #$ [name]
 		end
