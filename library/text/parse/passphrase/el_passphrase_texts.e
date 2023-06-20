@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-06-20 17:05:20 GMT (Tuesday 20th June 2023)"
+	revision: "6"
 
 class
 	EL_PASSPHRASE_TEXTS
@@ -23,6 +23,8 @@ feature -- Templates
 	minimum_score: ZSTRING
 
 	passphrase_strength: ZSTRING
+
+	secure_file_prompt: ZSTRING
 
 feature -- Phrases
 
@@ -51,6 +53,8 @@ feature {NONE} -- Implementation
 					(Minimum to continue is %S)
 				passphrase_strength:
 					Passphrase strength (%S / 6)
+				secure_file_prompt:
+					Enter a passphrase to secure file "%S"
 			]"
 		end
 

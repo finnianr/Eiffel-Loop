@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-19 15:17:33 GMT (Monday 19th June 2023)"
-	revision: "25"
+	date: "2023-06-20 17:17:41 GMT (Tuesday 20th June 2023)"
+	revision: "26"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -33,7 +33,7 @@ inherit
 
 	EL_EVENT_LISTENER
 		rename
-			notify as notify_error
+			notify as notify_error -- from {SIGN_TOOL}.sign_exe
 		undefine
 			is_equal
 		end
@@ -47,8 +47,6 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 
 	EL_MODULE_LIO
-
-	EL_MODULE_USER_INPUT
 
 create
 	make
@@ -99,8 +97,7 @@ feature -- Basic operations
 					if build_exe and architecture_list.has (64) then
 						project_config.bump_build
 					end
-					sign_tool.pass_phrase.share (User_input.line ("Signing pass phrase"))
-					lio.put_new_line
+					sign_tool.unlock_certificate
 				end
 				has_build_error := False
 				create reverse_list.make_from_array (architecture_list.to_array)
@@ -117,13 +114,14 @@ feature -- Basic operations
 						end
 					end
 					if build_installers and then not has_build_error then
-						sign_tool.exe_path.share (Directory.current_working + relative_exe_path)
+						sign_tool.set_exe_path (Directory.current_working + relative_exe_path)
 						sign_tool.sign_exe (Current)
 						across language_list as lang until has_build_error loop
 							build_installer (Locale.in (lang.item))
 						end
 					end
 				end
+				sign_tool.lock_certificate
 			end
 		end
 
@@ -178,7 +176,7 @@ feature {NONE} -- Implementation
 			if not output_dir.exists then
 				File_system.make_directory (output_dir)
 			end
-			sign_tool.exe_path.share (installer_exe_path (a_locale.language))
+			sign_tool.set_exe_path (installer_exe_path (a_locale.language))
 			zip_archive_path := sign_tool.exe_path.with_new_extension ("zip")
 			build_zip_archive (a_locale)
 

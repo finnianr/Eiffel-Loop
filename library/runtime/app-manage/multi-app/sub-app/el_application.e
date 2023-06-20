@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-20 8:32:09 GMT (Tuesday 20th June 2023)"
-	revision: "70"
+	date: "2023-06-20 16:39:04 GMT (Tuesday 20th June 2023)"
+	revision: "71"
 
 deferred class
 	EL_APPLICATION
@@ -74,7 +74,7 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 		do
 			make_solitary
 
-			Directory.set_sub_application (option_name)
+			Directory.set_sub_app_option_name (option_name)
 
 			-- Necessary to redefine `Build_info' as type `BUILD_INFO' if the project root class is `Current'
 			call (Build_info)

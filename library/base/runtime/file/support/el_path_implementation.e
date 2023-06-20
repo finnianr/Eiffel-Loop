@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 17:26:37 GMT (Thursday 29th December 2022)"
-	revision: "30"
+	date: "2023-06-20 17:38:23 GMT (Tuesday 20th June 2023)"
+	revision: "31"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -54,6 +54,13 @@ feature -- Measurement
 		end
 
 feature -- Conversion
+
+	to_general: READABLE_STRING_GENERAL
+		do
+			Result := temporary_path.to_general
+		ensure
+			same_as_to_string: to_string.same_string_general (Result)
+		end
 
 	as_string_32: STRING_32
 		do

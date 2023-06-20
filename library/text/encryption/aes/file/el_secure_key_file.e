@@ -1,13 +1,16 @@
 note
 	description: "Secure encrypted file that can be temporarily unlocked as plain text file"
+	notes: "[
+		Password salt and digest is kept in the sub-application configuration directory
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-20 15:38:57 GMT (Tuesday 20th June 2023)"
-	revision: "2"
+	date: "2023-06-20 16:53:37 GMT (Tuesday 20th June 2023)"
+	revision: "3"
 
 class
 	EL_SECURE_KEY_FILE
@@ -22,6 +25,8 @@ inherit
 		end
 
 	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_TUPLE; EL_MODULE_USER_INPUT
+	
+	EL_SHARED_PASSPHRASE_TEXTS
 
 create
 	make
@@ -45,7 +50,7 @@ feature {NONE} -- Initialization
 				make_from_file (xml_path)
 			else
 				make_default
-				phrase := User_input.line ("Enter a new passphrase")
+				phrase := User_input.line (Text.secure_file_prompt #$ [a_key_path.base])
 				create credential.make (phrase)
 				File_system.make_directory (xml_path.parent)
 				file_path := xml_path

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-20 15:21:15 GMT (Tuesday 20th June 2023)"
-	revision: "21"
+	date: "2023-06-20 16:54:30 GMT (Tuesday 20th June 2023)"
+	revision: "22"
 
 class
 	ENCRYPTION_TEST_SET
@@ -63,10 +63,11 @@ feature -- Tests
 			key_file: EL_SECURE_KEY_FILE; key_path: FILE_PATH
 			target_digest: STRING
 		do
-			User_input.preinput_line ("Enter a new passphrase", Phrase)
+			key_path := file_path_abs ("words.txt")
+
+			User_input.preinput_line (Text.secure_file_prompt #$ [key_path.base], Phrase)
 			User_input.preinput_line (Text.enter_passphrase, Phrase)
 
-			key_path := file_path_abs ("words.txt")
 			create key_file.make (key_path)
 
 			key_file.unlock

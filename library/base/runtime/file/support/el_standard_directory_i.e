@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-20 8:33:30 GMT (Tuesday 20th June 2023)"
-	revision: "26"
+	date: "2023-06-20 16:44:06 GMT (Tuesday 20th June 2023)"
+	revision: "27"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I
@@ -46,9 +46,9 @@ inherit
 
 feature -- Element change
 
-	set_sub_application (a_sub_application: READABLE_STRING_GENERAL)
+	set_sub_app_option_name (a_sub_app_option_name: READABLE_STRING_GENERAL)
 		do
-			sub_application := a_sub_application
+			Sub_app_option_name.put (a_sub_app_option_name)
 		end
 
 feature -- Factory
@@ -182,17 +182,17 @@ feature -- Application
 
 	Sub_app_cache: DIR_PATH
 		once
-			Result := new_sub_application_dir (App_cache)
+			Result := new_sub_app_dir_path (App_cache)
 		end
 
 	Sub_app_configuration: DIR_PATH
 		once
-			Result := new_sub_application_dir (App_configuration)
+			Result := new_sub_app_dir_path (App_configuration)
 		end
 
 	Sub_app_data: DIR_PATH
 		once
-			Result := new_sub_application_dir (App_data)
+			Result := new_sub_app_dir_path (App_data)
 		end
 
 	app_all_list: EL_ARRAYED_LIST [DIR_PATH]
@@ -250,19 +250,24 @@ feature -- Constants
 			Result := user_local.relative_path (home)
 		end
 
-	sub_application: detachable READABLE_STRING_GENERAL
-		-- sub-application option name: `{EL_APPLICATION}.option_name'
-
 feature {NONE} -- Implementation
 
-	new_sub_application_dir (dir_path: DIR_PATH): DIR_PATH
+	new_sub_app_dir_path (dir_path: DIR_PATH): DIR_PATH
 		do
-			if attached sub_application as step then
+			if attached Sub_app_option_name.item as step then
 				Result := dir_path.twin
 				Result.append_step (step)
 			else
 				Result := dir_path
 			end
+		end
+
+feature {NONE} -- Constants
+
+	Sub_app_option_name: CELL [READABLE_STRING_GENERAL]
+		-- sub-application option name: `{EL_APPLICATION}.option_name'
+		once ("PROCESS")
+			create Result.put (Void)
 		end
 
 end
