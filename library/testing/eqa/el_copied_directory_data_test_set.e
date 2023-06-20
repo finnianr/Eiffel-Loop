@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-06-20 7:12:01 GMT (Tuesday 20th June 2023)"
+	revision: "7"
 
 deferred class
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
@@ -39,6 +39,11 @@ feature {NONE} -- Implementation
 			Result := work_area_data_dir + path
 		end
 
+	new_file_list (a_file_pattern: READABLE_STRING_GENERAL): EL_FILE_PATH_LIST
+		do
+			Result := OS.file_list (work_area_data_dir, a_file_pattern)
+		end
+
 	source_dir: DIR_PATH
 		deferred
 		end
@@ -46,4 +51,8 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	work_area_data_dir: DIR_PATH
+
+feature {NONE} -- Constants
+
+	Any_file: STRING = "*"
 end

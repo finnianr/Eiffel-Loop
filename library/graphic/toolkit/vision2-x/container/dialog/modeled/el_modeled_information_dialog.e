@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2023-06-18 19:06:15 GMT (Sunday 18th June 2023)"
+	revision: "3"
 
 class
 	EL_MODELED_INFORMATION_DIALOG
@@ -39,7 +39,7 @@ feature -- Element change
 
 feature {NONE} -- Components
 
-	components: ARRAY [ARRAY [EV_WIDGET]]
+	new_widget_grid: ARRAY [ARRAY [EV_WIDGET]]
 		do
 			Result := <<
 				<< Vision_2.new_vertical_centered_box (0, 0, << model.new_icon_cell >>), paragraph_box >>

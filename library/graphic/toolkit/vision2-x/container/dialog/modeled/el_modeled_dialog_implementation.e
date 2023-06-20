@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-06-18 19:06:15 GMT (Sunday 18th June 2023)"
+	revision: "9"
 
 deferred class
 	EL_MODELED_DIALOG_IMPLEMENTATION
@@ -58,9 +58,9 @@ feature {NONE} -- Box Factory
 
 	new_box_section_list: ARRAYED_LIST [EL_BOX]
 		local
-			list: like components; i: INTEGER
+			list: like new_widget_grid; i: INTEGER
 		do
-			list := components
+			list := new_widget_grid
 			create Result.make (Iterable.count (list))
 			across list as row loop
 				i := i + 1
@@ -209,7 +209,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Unimplementated
 
-	components: ITERABLE [ARRAY [EV_WIDGET]]
+	new_widget_grid: ITERABLE [ARRAY [EV_WIDGET]]
 		deferred
 		end
 

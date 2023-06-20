@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-06-20 8:00:13 GMT (Tuesday 20th June 2023)"
+	revision: "10"
 
 deferred class
 	EL_APPLICATION_CONFIGURATION
@@ -71,7 +71,9 @@ feature {NONE} -- Implementation
 
 	installation_config_dir: DIR_PATH
 		do
-			Result := Directory.Application_installation.joined_dir_tuple ([Standard_option.config, Application.option_name])
+			Result := Directory.Application_installation.joined_dir_tuple (
+				[Standard_option.config, Application.option_name]
+			)
 		end
 
 end

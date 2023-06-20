@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-18 9:36:16 GMT (Sunday 18th June 2023)"
-	revision: "4"
+	date: "2023-06-18 10:47:53 GMT (Sunday 18th June 2023)"
+	revision: "5"
 
 deferred class
 	EL_HTTP_CONNECTION_IMPLEMENTATION
@@ -75,33 +75,10 @@ feature -- Access
 
 	last_string: STRING
 
-	page_error_code: NATURAL_16
-		-- http error code parsed from document page
-		local
-			bracket_split: EL_SPLIT_ON_CHARACTER_8 [STRING]; s: EL_STRING_8_ROUTINES
-			found: BOOLEAN
-		do
-			if is_html_response then
-				create bracket_split.make (last_string, '>')
-				across bracket_split as split until Result > 0 loop
-					if last_string [split.item_lower].is_digit
-						and then attached s.substring_to (split.item, ' ', default_pointer) as code_string
-					then
-						Result := code_string.to_natural_16
-					end
-				end
-			end
-		end
-
-	page_error_name: STRING
-		-- English name for `page_error_code'
-		do
-			Result := Http_status.name (page_error_code)
-		end
-
 feature -- Status query
 
 	has_error: BOOLEAN
+		-- `True' if CURL operation returned with an error
 		do
 			Result := error_code /= 0
 		end

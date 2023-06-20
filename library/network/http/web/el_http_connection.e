@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-18 9:36:02 GMT (Sunday 18th June 2023)"
-	revision: "41"
+	date: "2023-06-18 10:46:57 GMT (Sunday 18th June 2023)"
+	revision: "42"
 
 class
 	EL_HTTP_CONNECTION
@@ -60,6 +60,29 @@ feature -- Access
 
 	user_agent: STRING
 
+	page_error_code: NATURAL_16
+		-- http error code parsed from document page
+		local
+			bracket_split: EL_SPLIT_ON_CHARACTER_8 [STRING]; s: EL_STRING_8_ROUTINES
+			found: BOOLEAN
+		do
+			if is_html_response then
+				create bracket_split.make (last_string, '>')
+				across bracket_split as split until Result > 0 loop
+					if last_string [split.item_lower].is_digit
+						and then attached s.substring_to (split.item, ' ', default_pointer) as code_string
+					then
+						Result := code_string.to_natural_16
+					end
+				end
+			end
+		end
+
+	page_error_name: STRING
+		-- English name for `page_error_code'
+		do
+			Result := Http_status.name (page_error_code)
+		end
 feature -- Status query
 
 	has_page_error (code: NATURAL_16): BOOLEAN
@@ -77,7 +100,8 @@ feature -- Status query
 	is_host_verified: BOOLEAN
 
 	is_html_response: BOOLEAN
-		-- `True' if `last_string' is html
+		-- `True' if `last_string' starts with <!DOCTYPE html..
+		-- case insensitive
 		do
 			if last_string.starts_with (Doctype_declaration) then
 				Result := last_string.same_caseless_characters ("html", 1, 4, Doctype_declaration.count + 2)

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-22 10:19:55 GMT (Tuesday 22nd November 2022)"
-	revision: "6"
+	date: "2023-06-20 7:20:47 GMT (Tuesday 20th June 2023)"
+	revision: "7"
 
 class
 	ENCRYPTION_AUTOTEST_APP

@@ -33,6 +33,7 @@ Extensions to Colin Le Mahieu&apos;s encryption library.
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
 		<library name = "EL_file_process" location = "file-processing.ecf"/>
 		<library name = "EL_text_process" location = "text-process.ecf"/>
+		<library name = "EL_xml_scan" location = "xml-scan.ecf"/>
 		<cluster name = "encryption" location = "text/encryption" recursive = "true"/>
 	</target>
 </system>

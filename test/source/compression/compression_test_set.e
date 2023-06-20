@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "13"
+	date: "2023-06-20 7:12:19 GMT (Tuesday 20th June 2023)"
+	revision: "14"
 
 class
 	COMPRESSION_TEST_SET
@@ -43,7 +43,7 @@ feature -- Tests
 			decompressed_data: MANAGED_POINTER
 		do
 			output_path := work_area_dir + "XML.archive"
-			file_list := File_system.files (work_area_data_dir, True)
+			file_list := new_file_list (Any_file)
 			create archive.make_open_write (output_path)
 
 			archive.append_file_list (file_list)

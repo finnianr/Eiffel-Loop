@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 14:02:27 GMT (Monday 27th March 2023)"
-	revision: "24"
+	date: "2023-06-19 15:17:33 GMT (Monday 19th June 2023)"
+	revision: "25"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -31,7 +31,12 @@ inherit
 			make_default
 		end
 
-	SIGN_TOOL_ARGUMENTS undefine is_equal end
+	EL_EVENT_LISTENER
+		rename
+			notify as notify_error
+		undefine
+			is_equal
+		end
 
 	WZIPSE32_ARGUMENTS undefine is_equal end
 
@@ -94,7 +99,7 @@ feature -- Basic operations
 					if build_exe and architecture_list.has (64) then
 						project_config.bump_build
 					end
-					pass_phrase.share (User_input.line ("Signing pass phrase"))
+					sign_tool.pass_phrase.share (User_input.line ("Signing pass phrase"))
 					lio.put_new_line
 				end
 				has_build_error := False
@@ -112,8 +117,8 @@ feature -- Basic operations
 						end
 					end
 					if build_installers and then not has_build_error then
-						exe_path := Directory.current_working + relative_exe_path
-						sha_256_sign
+						sign_tool.exe_path.share (Directory.current_working + relative_exe_path)
+						sign_tool.sign_exe (Current)
 						across language_list as lang until has_build_error loop
 							build_installer (Locale.in (lang.item))
 						end
@@ -173,8 +178,8 @@ feature {NONE} -- Implementation
 			if not output_dir.exists then
 				File_system.make_directory (output_dir)
 			end
-			exe_path := installer_exe_path (a_locale.language)
-			zip_archive_path := exe_path.with_new_extension ("zip")
+			sign_tool.exe_path.share (installer_exe_path (a_locale.language))
+			zip_archive_path := sign_tool.exe_path.with_new_extension ("zip")
 			build_zip_archive (a_locale)
 
 			if not has_build_error then
@@ -192,7 +197,7 @@ feature {NONE} -- Implementation
 				create command.make (Current)
 				command.execute
 				File_system.remove_file (zip_archive_path)
-				sha_256_sign
+				sign_tool.sign_exe (Current)
 			end
 		end
 
@@ -266,32 +271,16 @@ feature {NONE} -- Implementation
 			Result := Exe_path_template #$ [ise_platform, project_config.executable_name_full]
 		end
 
+	notify_error
+		do
+			has_build_error := True
+		end
+
 	scons_cmd: STRING
 		do
 			Result := "scons action=finalize"
 			if bit_count = 64 and then has_alternative_root_class then
 				Result.append (" root_class=" + root_class_path.escaped)
-			end
-		end
-
-	sha_256_sign
-		-- sign the file `exe_path'
-		local
-			sign_cmd: EL_OS_COMMAND
-		do
-			create sign_cmd.make ("[
-				signtool sign
-					/f $signing_certificate_path /p "$pass_phrase"
-					/fd sha256 /tr $time_stamp_url/?td=sha256 /td sha256 /as /v $exe_path
-			]")
-			if not signtool_dir.is_empty then
-				sign_cmd.set_working_directory (signtool_dir)
-			end
-			sign_cmd.put_object (Current)
-			sign_cmd.execute
-			if sign_cmd.has_error then
-				has_build_error := True
-				sign_cmd.print_error ("signing")
 			end
 		end
 
@@ -321,6 +310,8 @@ feature {NONE} -- Implementation: attributes
 
 	project_config: PYXIS_EIFFEL_CONFIG
 		-- Pyxis Eiffel configuration translateable to ecf XML
+
+	sign_tool: SIGN_TOOL
 
 feature {NONE} -- Constants
 

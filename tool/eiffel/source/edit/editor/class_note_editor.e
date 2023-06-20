@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:54 GMT (Friday 10th March 2023)"
-	revision: "17"
+	date: "2023-06-19 14:05:06 GMT (Monday 19th June 2023)"
+	revision: "18"
 
 class
 	CLASS_NOTE_EDITOR
@@ -21,6 +21,8 @@ inherit
 	EL_MODULE_DATE
 
 	EL_ZSTRING_CONSTANTS
+
+	EL_SHARED_DATE_FORMAT
 
 create
 	make
@@ -160,7 +162,7 @@ feature {NONE} -- Implementation
 			create last_date_time.make_from_epoch (last_time_stamp)
 			Result := Time_template #$ [
 				last_date_time.formatted_out (Date_time_format),
-				Date.formatted (last_date_time.date, {EL_DATE_FORMATS}.canonical)
+				Date.formatted (last_date_time.date, Date_format.canonical)
 			]
 		end
 

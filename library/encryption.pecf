@@ -53,6 +53,7 @@ system:
 			EL_evolicity = "evolicity.ecf"
 			EL_file_process = "file-processing.ecf"
 			EL_text_process = "text-process.ecf"
+			EL_xml_scan = "xml-scan.ecf"
 
 		cluster_tree:
 			encryption = "text/encryption"

@@ -6,19 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:30:34 GMT (Friday 10th March 2023)"
-	revision: "19"
+	date: "2023-06-20 7:25:30 GMT (Tuesday 20th June 2023)"
+	revision: "20"
 
 class
 	ENCRYPTION_TEST_SET
 
 inherit
-	EIFFEL_LOOP_TEST_SET
+	EL_COPIED_DIRECTORY_DATA_TEST_SET
 		redefine
 			make, on_prepare
 		end
 
-	EL_MODULE_OS
+	SHARED_DEV_ENVIRON
 
 create
 	make
@@ -29,7 +29,8 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["aes_encryption", agent test_aes_encryption]
+				["aes_encryption", agent test_aes_encryption],
+				["secure_file",	 agent test_secure_file]
 			>>)
 		end
 
@@ -44,14 +45,23 @@ feature -- Tests
 	test_aes_encryption
 			--
 		do
-			across OS.file_list ("encryption", "*.txt") as file_path loop
-				encrypt (file_path.item)
+			across new_file_list ("*.txt") as txt_path loop
+				encrypt (txt_path.item)
 			end
+		end
+
+	test_secure_file
+		local
+			key_file: EL_SECURE_KEY_FILE
+			target_path: FILE_PATH
+		do
+			target_path := file_path ("words.txt")
+			create key_file.make (target_path)
 		end
 
 feature {NONE} -- Implementation
 
-	encrypt (file_path: FILE_PATH)
+	encrypt (target_path: FILE_PATH)
 			--
 		local
 			lines: PLAIN_TEXT_FILE; encrypted_lines: LINKED_LIST [STRING]
@@ -61,7 +71,7 @@ feature {NONE} -- Implementation
 			create encrypted_lines.make
 
 			across 1 |..| 2 as n loop
-				create lines.make_open_read (file_path)
+				create lines.make_open_read (target_path)
 				from i := 1; lines.read_line until lines.after loop
 					if n.item = 1 then
 						encrypted_lines.extend (encrypter.base_64_encrypted (lines.last_string))
@@ -73,6 +83,11 @@ feature {NONE} -- Implementation
 				end
 				lines.close
 			end
+		end
+
+	source_dir: DIR_PATH
+		do
+			Result := Dev_environ.EL_test_data_dir #+ "encryption"
 		end
 
 feature {NONE} -- Internal attributes

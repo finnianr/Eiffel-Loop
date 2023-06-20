@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-14 10:02:26 GMT (Sunday 14th May 2023)"
-	revision: "68"
+	date: "2023-06-20 7:58:14 GMT (Tuesday 20th June 2023)"
+	revision: "69"
 
 deferred class
 	EL_APPLICATION
@@ -123,11 +123,21 @@ feature -- Access
 			Result.replace_character ('%N', ' ')
 		end
 
-	user_config_dir: DIR_PATH
-		local
-			s: EL_ZSTRING_ROUTINES
+feature -- Directory paths
+
+	user_config_dir, configuration_dir: DIR_PATH
 		do
-			Result := Directory.App_configuration #+ s.as_zstring (option_name)
+			Result := new_option_sub_dir (Directory.App_configuration)
+		end
+
+	cache_dir: DIR_PATH
+		do
+			Result := new_option_sub_dir (Directory.App_cache)
+		end
+
+	data_dir: DIR_PATH
+		do
+			Result := new_option_sub_dir (Directory.App_data)
 		end
 
 feature -- Basic operations
@@ -211,6 +221,12 @@ feature {EL_APPLICATION} -- Factory routines
 			create Result.make_from_general (option_name)
 		end
 
+	new_option_sub_dir (dir_path: DIR_PATH): DIR_PATH
+		do
+			Result := dir_path.twin
+			Result.append_step (option_name)
+		end
+
 feature {NONE} -- Implementation
 
 	call (object: ANY)
@@ -218,18 +234,18 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	create_app_directory (data_dir: DIR_PATH)
+	create_app_directory (a_data_dir: DIR_PATH)
 		-- create cache, configuration and data user directories
 		local
 			legacy: like Directory.Legacy_table
 		do
 			legacy := Directory.Legacy_table
 			-- If a differing legacy data directory exists already, move it to standard location
-			if legacy.has_key (data_dir) and then legacy.found_item.exists and then legacy.found_item /~ data_dir then
+			if legacy.has_key (a_data_dir) and then legacy.found_item.exists and then legacy.found_item /~ a_data_dir then
 				-- migrate from legacy directories
-				migrate (legacy.found_item, data_dir)
+				migrate (legacy.found_item, a_data_dir)
 			else
-				File_system.make_directory (data_dir)
+				File_system.make_directory (a_data_dir)
 			end
 		end
 
@@ -334,7 +350,7 @@ feature {NONE} -- Implementation
 			timer_data: RAW_FILE; data_version: NATURAL; i, data_count: INTEGER
 			sum_elapsed_times: DOUBLE; file_path: FILE_PATH
 		do
-			file_path := Directory.App_data.joined_file_tuple ([option_name, "show_benchmarks.dat"])
+			file_path := data_dir + "show_benchmarks.dat"
 			timer.stop
 			across (";Average ").split (';') as l_prefix loop
 				lio.put_labeled_string (l_prefix.item + "Execution time", timer.elapsed_time.out)

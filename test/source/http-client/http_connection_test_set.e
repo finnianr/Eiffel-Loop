@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-18 9:46:34 GMT (Sunday 18th June 2023)"
-	revision: "63"
+	date: "2023-06-18 10:38:41 GMT (Sunday 18th June 2023)"
+	revision: "64"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -167,7 +167,7 @@ feature -- Tests
 			across << "png", "jpeg", "webp", "svg" >> as image loop
 				image_url := Image_url_stem + image.item
 				web.open (image_url)
-				web.read_string_head
+				try_read_string_head
 				print_lines (web)
 
 				if attached new_image_path (image.item) as image_path then
@@ -249,7 +249,7 @@ feature -- Tests
 			across << "png", "jpeg", "webp", "svg" >> as image loop
 				image_url := Image_url_stem + image.item
 				web.open (image_url)
-				web.read_string_head
+				try_read_string_head
 				print_lines (web)
 
 				headers := web.last_headers
@@ -419,12 +419,14 @@ feature {NONE} -- Implementation
 			lio.put_new_line
 		end
 
-	read_string_head_x_3
+	try_read_string_head
 		-- try 3 times if error is gateway timeout
 		local
 			done: BOOLEAN
 		do
 			across 1 |..| 3 as n until done loop
+				lio.put_integer_field ("Try number", n.item)
+				lio.put_new_line
 				web.read_string_head
 				if web.has_error then
 					done := not web.is_gateway_timeout
