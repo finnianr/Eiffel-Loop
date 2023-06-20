@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-30 9:23:50 GMT (Friday 30th December 2022)"
-	revision: "21"
+	date: "2023-06-20 10:24:12 GMT (Tuesday 20th June 2023)"
+	revision: "22"
 
 deferred class
 	EVOLICITY_EIFFEL_CONTEXT
@@ -96,7 +96,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Internal attributes
+feature {EVOLICITY_CLIENT} -- Internal attributes
 
 	getter_functions: EVOLICITY_OBJECT_TABLE [FUNCTION [ANY]]
 

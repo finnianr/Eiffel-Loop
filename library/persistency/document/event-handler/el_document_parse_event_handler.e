@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-06-20 11:23:05 GMT (Tuesday 20th June 2023)"
+	revision: "8"
 
 deferred class
 	EL_DOCUMENT_PARSE_EVENT_HANDLER
 
 inherit
-	EL_DOCUMENT_CLIENT
+	ANY; EL_DOCUMENT_CLIENT
 
 feature {EL_DOCUMENT_CLIENT} -- Parsing events
 

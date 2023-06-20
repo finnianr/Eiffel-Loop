@@ -6,27 +6,32 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2023-06-20 9:42:19 GMT (Tuesday 20th June 2023)"
+	revision: "18"
 
 class
 	EL_USER_INPUT
 
 inherit
-	ANY; EL_MODULE_CONSOLE; EL_MODULE_LIO
+	EL_ZSTRING_ROUTINES_IMP
+		export
+			{NONE} all
+		end
+
+	EL_MODULE_CONSOLE; EL_MODULE_LIO
 
 feature -- Status query
-
-	approved_action_y_n (prompt: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := approved_action (prompt + Yes_no_choices, 'y')
-		end
 
 	approved_action (prompt: READABLE_STRING_GENERAL; confirm_letter: CHARACTER_32): BOOLEAN
 		do
 			lio.put_string (prompt)
 			Result := entered_letter (confirm_letter)
 			lio.put_new_line
+		end
+
+	approved_action_y_n (prompt: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := approved_action (prompt + Yes_no_choices, 'y')
 		end
 
 	entered_letter (a_letter: CHARACTER_32): BOOLEAN
@@ -43,12 +48,22 @@ feature -- Status query
 
 feature -- Basic operations
 
+	preinput_line (prompt, value: READABLE_STRING_GENERAL)
+		do
+			Preinput_table [as_zstring (prompt)] := as_zstring (value)
+		end
+
 	press_enter
 		local
 			l: ZSTRING
 		do
 			l := line ("Press <ENTER> to continue")
 			lio.put_new_line
+		end
+
+	wipe_out_preinputs
+		do
+			Preinput_table.wipe_out
 		end
 
 feature -- Input
@@ -77,8 +92,13 @@ feature -- Input
 			--
 		do
 			lio.put_labeled_string (prompt, "")
-			io.read_line
-			Result := Console.decoded (io.last_string)
+			if Preinput_table.has_key (as_zstring (prompt)) then
+				Result := Preinput_table.found_item
+				lio.put_new_line
+			else
+				io.read_line
+				Result := Console.decoded (io.last_string)
+			end
 		end
 
 	path (prompt: READABLE_STRING_GENERAL): ZSTRING
@@ -94,6 +114,12 @@ feature -- Input
 		end
 
 feature {NONE} -- Constants
+
+	Preinput_table: EL_ZSTRING_HASH_TABLE [ZSTRING]
+		-- used for auto-testing to avoid user prompts on calling `line'
+		once
+			create Result.make_size (3)
+		end
 
 	Yes_no_choices: STRING
 		once

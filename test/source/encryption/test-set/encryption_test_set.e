@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-20 7:25:30 GMT (Tuesday 20th June 2023)"
-	revision: "20"
+	date: "2023-06-20 15:21:15 GMT (Tuesday 20th June 2023)"
+	revision: "21"
 
 class
 	ENCRYPTION_TEST_SET
@@ -15,10 +15,10 @@ class
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
 		redefine
-			make, on_prepare
+			make, on_prepare, on_clean
 		end
 
-	SHARED_DEV_ENVIRON
+	SHARED_DEV_ENVIRON; EL_SHARED_PASSPHRASE_TEXTS
 
 create
 	make
@@ -34,10 +34,18 @@ feature {NONE} -- Initialization
 			>>)
 		end
 
+feature {NONE} -- Event handling
+
 	on_prepare
 		do
 			Precursor
-			create encrypter.make ("hanami", 256)
+			create encrypter.make (Phrase, 256)
+		end
+
+	on_clean
+		do
+			Precursor
+			User_input.wipe_out_preinputs
 		end
 
 feature -- Tests
@@ -52,11 +60,28 @@ feature -- Tests
 
 	test_secure_file
 		local
-			key_file: EL_SECURE_KEY_FILE
-			target_path: FILE_PATH
+			key_file: EL_SECURE_KEY_FILE; key_path: FILE_PATH
+			target_digest: STRING
 		do
-			target_path := file_path ("words.txt")
-			create key_file.make (target_path)
+			User_input.preinput_line ("Enter a new passphrase", Phrase)
+			User_input.preinput_line (Text.enter_passphrase, Phrase)
+
+			key_path := file_path_abs ("words.txt")
+			create key_file.make (key_path)
+
+			key_file.unlock
+			target_digest := Digest.md5_plain_text (key_path).to_base_64_string
+			key_file.lock
+			assert ("key_file gone", not key_path.exists)
+
+			create key_file.make (key_path)
+			key_file.unlock
+			assert ("key_file recreated", key_path.exists)
+			assert_same_digest (key_path, target_digest)
+			key_file.lock
+			assert ("key_file gone", not key_path.exists)
+
+			key_file.remove_config
 		end
 
 feature {NONE} -- Implementation
@@ -93,5 +118,9 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	encrypter: EL_AES_ENCRYPTER
+
+feature {NONE} -- Constants
+
+	Phrase: STRING = "hanami"
 
 end

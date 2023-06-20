@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "25"
+	date: "2023-06-20 8:33:30 GMT (Tuesday 20th June 2023)"
+	revision: "26"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I
@@ -43,6 +43,13 @@ inherit
 	EL_MODULE_ENVIRONMENT
 
 	EL_MODULE_BUILD_INFO
+
+feature -- Element change
+
+	set_sub_application (a_sub_application: READABLE_STRING_GENERAL)
+		do
+			sub_application := a_sub_application
+		end
 
 feature -- Factory
 
@@ -83,16 +90,16 @@ feature -- Access
 
 feature -- System
 
-	applications: DIR_PATH
-			-- In Windows this is "Program Files"
-		deferred
-		end
-
 	Users: DIR_PATH
 		-- On Unix: /home
 		-- On windows 7: C:\Users
 		once
 			Result := Home.parent
+		end
+
+	applications: DIR_PATH
+			-- In Windows this is "Program Files"
+		deferred
 		end
 
 	system_command: DIR_PATH
@@ -158,13 +165,6 @@ feature -- User
 
 feature -- Application
 
-	app_all_list: EL_ARRAYED_LIST [DIR_PATH]
-		-- list of all application directories
-		do
-			create Result.make_from_array (<< App_cache, App_configuration, App_data >>)
-			Result.compare_objects
-		end
-
 	App_cache: DIR_PATH
 		once
 			Result := cache #+ App_install_sub
@@ -178,6 +178,28 @@ feature -- Application
 	App_data: DIR_PATH
 		once
 			Result := user_local #+ App_install_sub
+		end
+
+	Sub_app_cache: DIR_PATH
+		once
+			Result := new_sub_application_dir (App_cache)
+		end
+
+	Sub_app_configuration: DIR_PATH
+		once
+			Result := new_sub_application_dir (App_configuration)
+		end
+
+	Sub_app_data: DIR_PATH
+		once
+			Result := new_sub_application_dir (App_data)
+		end
+
+	app_all_list: EL_ARRAYED_LIST [DIR_PATH]
+		-- list of all application directories
+		do
+			create Result.make_from_array (<< App_cache, App_configuration, App_data >>)
+			Result.compare_objects
 		end
 
 feature -- Installed locations
@@ -202,6 +224,20 @@ feature -- Constants
 			Result := Build_info.installation_sub_directory.to_string
 		end
 
+	Legacy: EL_LEGACY_DIRECTORY_I
+		-- values for `app_data' and `configuration' prior to April 2020
+		once
+			create {EL_LEGACY_DIRECTORY_IMP} Result
+		end
+
+	Legacy_table: EL_HASH_TABLE [DIR_PATH, DIR_PATH]
+		once
+			create Result.make (<<
+				[App_configuration, Legacy.app_configuration],
+				[App_data, Legacy.app_data]
+			>>)
+		end
+
 	Parent: ZSTRING
 		once
 			Result := "/.."
@@ -214,18 +250,19 @@ feature -- Constants
 			Result := user_local.relative_path (home)
 		end
 
-	Legacy_table: EL_HASH_TABLE [DIR_PATH, DIR_PATH]
-		once
-			create Result.make (<<
-				[App_configuration, Legacy.app_configuration],
-				[App_data, Legacy.app_data]
-			>>)
-		end
+	sub_application: detachable READABLE_STRING_GENERAL
+		-- sub-application option name: `{EL_APPLICATION}.option_name'
 
-	Legacy: EL_LEGACY_DIRECTORY_I
-		-- values for `app_data' and `configuration' prior to April 2020
-		once
-			create {EL_LEGACY_DIRECTORY_IMP} Result
+feature {NONE} -- Implementation
+
+	new_sub_application_dir (dir_path: DIR_PATH): DIR_PATH
+		do
+			if attached sub_application as step then
+				Result := dir_path.twin
+				Result.append_step (step)
+			else
+				Result := dir_path
+			end
 		end
 
 end

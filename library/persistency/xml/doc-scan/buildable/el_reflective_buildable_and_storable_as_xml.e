@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-06 13:36:39 GMT (Friday 6th January 2023)"
-	revision: "28"
+	date: "2023-06-20 10:02:04 GMT (Tuesday 20th June 2023)"
+	revision: "29"
 
 deferred class
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML

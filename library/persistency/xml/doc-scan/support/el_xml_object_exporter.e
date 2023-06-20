@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 17:36:39 GMT (Sunday 1st January 2023)"
-	revision: "2"
+	date: "2023-06-20 13:55:01 GMT (Tuesday 20th June 2023)"
+	revision: "3"
 
 class
 	EL_XML_OBJECT_EXPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
@@ -15,11 +15,15 @@ class
 inherit
 	ANY
 
+	EVOLICITY_CLIENT
+
+	EL_DOCUMENT_CLIENT
+
 	EL_REFLECTION_HANDLER
 
 	EL_MODULE_REUSEABLE; EL_MODULE_TUPLE
 
-	XML_ZSTRING_CONSTANTS
+--	XML_ZSTRING_CONSTANTS
 
 create
 	make, make_default
@@ -75,7 +79,7 @@ feature -- Basic operations
 							if attribute_count = 0 then
 								output.put_new_line
 							end
-							output.put_indent (tab_count + 1); output.put_string_8 (field.item.name)
+							output.put_indent (tab_count + 1); output.put_string_8 (l_name)
 							output.put_string_8 (XML_string.attribute_start)
 							put_value (output, value, attached {EL_REFLECTED_STRING [STRING_GENERAL]} field.item)
 							output.put_character_8 ('"')
@@ -96,23 +100,98 @@ feature -- Basic operations
 			end
 		end
 
+	put_evolicity_element (
+		output: EL_OUTPUT_MEDIUM; name: STRING; building_actions: EL_PROCEDURE_TABLE [STRING]
+		context: EVOLICITY_EIFFEL_CONTEXT; tab_count: INTEGER
+	)
+		-- output a non-reflective `EL_EIF_OBJ_BUILDER_CONTEXT' context which also conforms to
+		-- `EVOLICITY_EIFFEL_CONTEXT'
+		local
+			function: FUNCTION [ANY]; field_name: STRING; element_table: like Element_value_table
+			attribute_count: INTEGER
+		do
+			element_table := Element_value_table
+			element_table.wipe_out
+
+			output.put_indent (tab_count); output.put_character_8 ('<')
+			output.put_string_8 (name)
+			across context.getter_functions as table loop
+				function := table.item
+				if function.open_count = 0 then
+					function.set_target (context); function.apply
+					if attached {READABLE_STRING_GENERAL} function.last_result as value then
+						field_name := table.key
+						if is_xml_element (field_name, building_actions) then
+							element_table.extend (value, field_name)
+						else
+							output.put_new_line
+							output.put_indent (tab_count + 1)
+							output.put_string_8 (field_name)
+							output.put_string_8 (XML_string.attribute_start)
+							put_value (output, value, True)
+							output.put_character_8 ('"')
+							attribute_count := attribute_count + 1
+						end
+					end
+				end
+			end
+			if attribute_count > 0 then
+				output.put_new_line
+				output.put_indent (tab_count)
+			end
+			if element_table.count > 0 then
+				output.put_character_8 ('>')
+				output.put_new_line
+				across element_table as table loop
+					field_name := table.key
+					put_tag_open (output, field_name, tab_count + 1, Null)
+					put_value (output, table.item, True)
+					put_tag_close (output, field_name, 0, Null)
+					output.put_new_line
+				end
+				put_tag_close (output, name, tab_count, New_line)
+			else
+				output.put_string_8 (XML_string.element_close)
+			end
+		end
+
 feature {NONE} -- Implementation
+
+	is_xml_element (name: STRING; building_actions: EL_PROCEDURE_TABLE [STRING]): BOOLEAN
+		local
+			xpath: STRING
+		do
+			across building_actions as table until Result loop
+				xpath := table.key
+				if name.count + Text_node.count = xpath.count then
+					Result := xpath.starts_with (name) and then xpath.ends_with (Text_node)
+				end
+			end
+		end
 
 	put_child_elements (
 		output: EL_OUTPUT_MEDIUM; field_list: LIST [EL_REFLECTED_FIELD]; value: ZSTRING; tab_count: INTEGER
 	)
 		local
-			needs_escaping: BOOLEAN
+			needs_escaping: BOOLEAN; name: STRING; building_actions: EL_PROCEDURE_TABLE [STRING]
 		do
 			across field_list as field loop
+				name := field.item.name
 				if attached {EL_REFLECTED_REFERENCE [EL_EIF_OBJ_BUILDER_CONTEXT]} field.item as context_field then
-					if attached {EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT} context_field.value (object) as context then
-						if attached object as previous_object then
-							object := context
-							put_element (output, field.item.name, tab_count + 1)
-							object := previous_object
+					if attached {EL_EIF_OBJ_BUILDER_CONTEXT} context_field.value (object) as context then
+						building_actions := context.building_actions
+
+						if attached {EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT} context as reflective_context then
+							if attached object as previous_object then
+								object := reflective_context
+								put_element (output, name, tab_count + 1)
+								object := previous_object
+							end
+						elseif attached {EVOLICITY_EIFFEL_CONTEXT} context as evolicity then
+							put_evolicity_element (output, name, building_actions, evolicity, tab_count + 1)
 						end
 					end
+
 				elseif attached {EL_REFLECTED_COLLECTION [EL_EIF_OBJ_BUILDER_CONTEXT]} field.item as collection_field then
 					if attached {COLLECTION [EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT]}
 						collection_field.collection (object) as collection
@@ -146,12 +225,19 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	put_value (output: EL_OUTPUT_MEDIUM; value: ZSTRING; escape: BOOLEAN)
+	put_value (output: EL_OUTPUT_MEDIUM; general_value: READABLE_STRING_GENERAL; escape: BOOLEAN)
 		do
 			if escape then
-				output.put_string_general (Xml_escaper.escaped (value, False))
+				if attached {ZSTRING} general_value as value then
+					output.put_string_general (Xml_escaper.escaped (value, False))
+
+				elseif attached {STRING} general_value as value then
+					output.put_string_general (Xml_escaper_8.escaped (value, False))
+				else
+					put_value (output, Buffer.copied_general (general_value), escape)
+				end
 			else
-				output.put_string_general (value)
+				output.put_string_general (general_value)
 			end
 		end
 
@@ -185,12 +271,35 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
+	Buffer: EL_ZSTRING_BUFFER
+		once
+			create Result
+		end
+
+	Element_value_table: HASH_TABLE [READABLE_STRING_GENERAL, STRING]
+		once
+			create Result.make (3)
+		end
+
 	Item_name: STRING = "item"
 		-- list item name
 
 	New_line: CHARACTER = '%N'
 
 	Null: CHARACTER = '%/0/'
+
+	Text_node: STRING = "/text()"
+		-- list item name
+
+	Xml_escaper: XML_ESCAPER [ZSTRING]
+		once
+			create Result.make
+		end
+
+	Xml_escaper_8: XML_ESCAPER [STRING_8]
+		once
+			create Result.make
+		end
 
 	XML_string: TUPLE [attribute_start, element_close: STRING]
 		once

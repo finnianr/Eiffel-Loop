@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-19 8:35:31 GMT (Friday 19th May 2023)"
-	revision: "72"
+	date: "2023-06-20 12:43:10 GMT (Tuesday 20th June 2023)"
+	revision: "73"
 
 deferred class
 	EL_REFLECTIVE
@@ -341,7 +341,7 @@ note
 		If no adaptation is need rename it to `import_default'. Rename `export_name' in a similar manner
 		as required. Name exporting routines are named `to_*'.
 
-		**Transisent and Hidden fields**
+		**Transient and Hidden fields**
 
 		When redefining `Transient_fields' or `Hidden_fields', always include the precursor regardless of
 		whether you think the precursor is empty. An empty leading field will do no harm:

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-03 13:49:42 GMT (Friday 3rd March 2023)"
-	revision: "19"
+	date: "2023-06-20 11:29:52 GMT (Tuesday 20th June 2023)"
+	revision: "20"
 
 deferred class
 	EL_EIF_OBJ_BUILDER_CONTEXT
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 			building_actions := Building_actions_by_type.item (Current)
 		end
 
-feature -- Basic operations
+feature {EL_EIF_OBJ_BUILDER_CONTEXT} -- Basic operations
 
 	apply_building_action_for_xpath
 			-- Apply building action if xpath has one assigned
@@ -51,7 +51,7 @@ feature -- Basic operations
 			end
 		end
 
-feature -- Element change
+feature {EL_EIF_OBJ_BUILDER_CONTEXT} -- Element change
 
 	modify_xpath_to_select_element_by_attribute_value
 			-- Change xpath from: /AAA/BBB/@name to: /AAA/BBB[@name='x']/@name
@@ -102,7 +102,7 @@ feature {EL_EIF_OBJ_BUILDER_CONTEXT} -- Factory
 			end
 		end
 
-feature {EL_EIF_OBJ_ROOT_BUILDER_CONTEXT} -- Implementation attributes
+feature {EL_DOCUMENT_CLIENT} -- Implementation attributes
 
 	building_actions: EL_PROCEDURE_TABLE [STRING] note option: transient attribute end
 

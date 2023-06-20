@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-20 7:12:01 GMT (Tuesday 20th June 2023)"
-	revision: "7"
+	date: "2023-06-20 15:20:24 GMT (Tuesday 20th June 2023)"
+	revision: "8"
 
 deferred class
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
@@ -26,7 +26,8 @@ feature {NONE} -- Events
 		do
 			Precursor
 			OS.copy_tree (source_dir, work_area_dir)
-			work_area_data_dir := work_area_dir.joined_dir_tuple ([source_dir.base])
+			work_area_data_dir := work_area_dir.twin
+			work_area_data_dir.append_step (source_dir.base)
 		end
 
 feature {NONE} -- Implementation
@@ -37,6 +38,11 @@ feature {NONE} -- Implementation
 		do
 			create path.make (relative_path)
 			Result := work_area_data_dir + path
+		end
+
+	file_path_abs (relative_path: READABLE_STRING_GENERAL): FILE_PATH
+		do
+			Result := Directory.current_working + file_path (relative_path)
 		end
 
 	new_file_list (a_file_pattern: READABLE_STRING_GENERAL): EL_FILE_PATH_LIST

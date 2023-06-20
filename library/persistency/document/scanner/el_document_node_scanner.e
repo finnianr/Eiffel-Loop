@@ -25,13 +25,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2023-06-20 11:20:40 GMT (Tuesday 20th June 2023)"
+	revision: "21"
 
 deferred class
 	EL_DOCUMENT_NODE_SCANNER
 
 inherit
+	ANY
+	
 	EL_MODULE_LIO
 
 	EL_DOCUMENT_CLIENT

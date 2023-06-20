@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 11:26:12 GMT (Saturday 3rd December 2022)"
-	revision: "22"
+	date: "2023-06-20 14:59:03 GMT (Tuesday 20th June 2023)"
+	revision: "23"
 
 deferred class
 	EL_LOGGED_APPLICATION
@@ -182,7 +182,7 @@ feature {NONE} -- Constants
 
 	Log_output_directory: DIR_PATH
 		once
-			Result := Directory.App_data.joined_dir_tuple ([option_name, "logs"])
+			Result := Directory.Sub_app_data #+ "logs"
 		end
 
 end
