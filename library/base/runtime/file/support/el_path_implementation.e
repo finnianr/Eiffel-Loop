@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-20 17:38:23 GMT (Tuesday 20th June 2023)"
-	revision: "31"
+	date: "2023-06-21 8:46:00 GMT (Wednesday 21st June 2023)"
+	revision: "32"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -400,10 +400,10 @@ feature {NONE} -- Constants
 		once
 			create Result.make_empty
 		end
-		-- Greatest prime lower than 2^23
-		-- so that this magic number shifted to the left does not exceed 2^31.
 
 	Magic_number: INTEGER = 8388593
+		-- Greatest prime lower than 2^23
+		-- so that this magic number shifted to the left does not exceed 2^31.
 
 	Parent_set: EL_HASH_SET [ZSTRING]
 			--

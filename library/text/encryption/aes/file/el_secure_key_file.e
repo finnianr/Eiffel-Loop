@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-20 16:53:37 GMT (Tuesday 20th June 2023)"
-	revision: "3"
+	date: "2023-06-21 8:47:20 GMT (Wednesday 21st June 2023)"
+	revision: "4"
 
 class
 	EL_SECURE_KEY_FILE
@@ -24,8 +24,10 @@ inherit
 			Transient_fields
 		end
 
-	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_TUPLE; EL_MODULE_USER_INPUT
-	
+	EL_MODULE_CHECKSUM; EL_MODULE_DIRECTORY; EL_MODULE_FILE
+
+	EL_MODULE_TUPLE; EL_MODULE_USER_INPUT
+
 	EL_SHARED_PASSPHRASE_TEXTS
 
 create
@@ -37,14 +39,15 @@ feature {NONE} -- Initialization
 		require
 			absolute_path: a_key_path.is_absolute
 		local
-			xml_path: FILE_PATH; phrase: ZSTRING
+			xml_path: FILE_PATH; phrase: ZSTRING; location_digest: STRING
 		do
 			key_path := a_key_path
-			xml_path := Directory.Sub_app_configuration + a_key_path.base
-			xml_path.add_extension (Extension.xml)
+--			Make base name unique
+			location_digest := Checksum.string (a_key_path).to_hex_string
+			xml_path := Directory.Sub_app_configuration + Base_template #$ [a_key_path.base_name, location_digest]
 
 			secure_path := a_key_path.twin
-			secure_path.add_extension (Extension.secure)
+			secure_path.add_extension (Secure)
 
 			if xml_path.exists then
 				make_from_file (xml_path)
@@ -74,18 +77,18 @@ feature -- Basic operations
 
 	lock
 		local
-			cipher_file: EL_ENCRYPTED_FILE; key_file: RAW_FILE; i, byte_count: INTEGER
+			secure_file: EL_ENCRYPTED_FILE; key_file: RAW_FILE; i, byte_count: INTEGER
 		do
 			if not secure_path.exists then
 				if not credential.is_phrase_set then
 					credential.ask_user
 				end
-				create cipher_file.make_open_write (secure_path, credential.new_aes_encrypter (256))
-				cipher_file.put_data (File.data (key_path))
-				cipher_file.close
+				create secure_file.make_open_write (secure_path, credential.new_aes_encrypter (256))
+				secure_file.put_data (File.data (key_path))
+				secure_file.close
 			end
 			byte_count := File.byte_count (key_path)
-			-- Over write file
+			-- Overwrite file with zeroes
 			create key_file.make_open_write (key_path)
 			from i := 1  until i >= byte_count loop
 				key_file.put_character ('%U')
@@ -99,17 +102,17 @@ feature -- Basic operations
 
 	unlock
 		local
-			cipher_file: EL_ENCRYPTED_FILE; key_file: RAW_FILE
+			secure_file: EL_ENCRYPTED_FILE; key_file: RAW_FILE
 		do
 			if is_locked then
 				credential.ask_user
-				create cipher_file.make_open_read (secure_path, credential.new_aes_encrypter (256))
+				create secure_file.make_open_read (secure_path, credential.new_aes_encrypter (256))
 				create key_file.make_open_write (key_path)
-				if attached cipher_file.plain_data as data then
+				if attached secure_file.plain_data as data then
 					key_file.put_managed_pointer (data, 0, data.count)
 					key_file.close
 				end
-				cipher_file.close
+				secure_file.close
 			end
 		ensure
 			unlocked: is_unlocked
@@ -132,10 +135,14 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Extension: TUPLE [secure, xml: ZSTRING]
+	Base_template: ZSTRING
 		once
-			create Result
-			Tuple.fill (Result, "secure, xml")
+			Result := "%S-%S.xml"
+		end
+
+	Secure: ZSTRING
+		once
+			Result := "secure"
 		end
 
 	Transient_fields: STRING

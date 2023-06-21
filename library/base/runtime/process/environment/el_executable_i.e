@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2023-06-21 8:35:27 GMT (Wednesday 21st June 2023)"
+	revision: "14"
 
 deferred class
 	EL_EXECUTABLE_I
@@ -21,7 +21,7 @@ inherit
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
-	EL_MODULE_CHECKSUM
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 	EL_SHARED_DIRECTORY
 		rename
@@ -132,7 +132,7 @@ feature -- Access
 			Result := Once_search_path_list
 
 			l_search_path := search_path_32
-			if attached Checksum.crc_generator as crc then
+			if attached crc_generator as crc then
 				crc.add_string_32 (l_search_path)
 				-- Check if PATH has changed since last call
 				if path_check_sum /= crc.checksum then

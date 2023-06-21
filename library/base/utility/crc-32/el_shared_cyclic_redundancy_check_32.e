@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-17 16:58:21 GMT (Saturday 17th December 2022)"
-	revision: "9"
+	date: "2023-06-21 8:32:15 GMT (Wednesday 21st June 2023)"
+	revision: "10"
 
 deferred class
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_ANY_SHARED
 
-feature -- Factory
+feature {NONE} -- Implementation
 
 	crc_generator: like Once_crc_generator
 		do

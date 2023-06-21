@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-06-21 8:40:48 GMT (Wednesday 21st June 2023)"
+	revision: "13"
 
 class
 	EL_CRC_32_CHECKSUM_ROUTINES
@@ -46,41 +46,59 @@ feature -- Measurement
 
 	data (pointer: MANAGED_POINTER): NATURAL
 			--
-		local
-			crc: like crc_generator
 		do
-			crc := crc_generator
-			crc.add_data (pointer)
-			Result := crc.checksum
+			if attached crc_generator as crc then
+				crc.add_data (pointer)
+				Result := crc.checksum
+			end
 		end
 
 	file_content (path: FILE_PATH): NATURAL
-		local
-			crc: like crc_generator
 		do
-			if path.exists then
-				crc := crc_generator
+			if path.exists and then attached crc_generator as crc then
 				crc.add_file (path)
 				Result := crc.checksum
 			end
 		end
 
-	string_list (list: ITERABLE [READABLE_STRING_GENERAL]): NATURAL
-		local
-			crc: like crc_generator
+	string (str: ZSTRING): NATURAL
 		do
-			crc := crc_generator
-			crc.add_string_list (list)
-			Result := crc.checksum
+			if attached crc_generator as crc then
+				crc.add_string (str)
+				Result := crc.checksum
+			end
+		end
+
+	string_8 (str: READABLE_STRING_8): NATURAL
+		do
+			if attached crc_generator as crc then
+				crc.add_string_8 (str)
+				Result := crc.checksum
+			end
+		end
+
+	string_32 (str: READABLE_STRING_32): NATURAL
+		do
+			if attached crc_generator as crc then
+				crc.add_string_8 (str)
+				Result := crc.checksum
+			end
+		end
+
+	string_list (list: ITERABLE [READABLE_STRING_GENERAL]): NATURAL
+		do
+			if attached crc_generator as crc then
+				crc.add_string_list (list)
+				Result := crc.checksum
+			end
 		end
 
 	tuple (a_tuple: TUPLE): NATURAL
-		local
-			crc: like crc_generator
 		do
-			crc := crc_generator
-			crc.add_tuple (a_tuple)
-			Result := crc.checksum
+			if attached crc_generator as crc then
+				crc.add_tuple (a_tuple)
+				Result := crc.checksum
+			end
 		end
 
 	utf_8_file_content (file_path: FILE_PATH): NATURAL
