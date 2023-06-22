@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-04 12:19:28 GMT (Saturday 4th March 2023)"
-	revision: "18"
+	date: "2023-06-22 12:34:32 GMT (Thursday 22nd June 2023)"
+	revision: "19"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER_APP
@@ -44,12 +44,15 @@ feature {NONE} -- Implementation
 
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
-			Result := << config_argument ("Path to build configuration file") >>
+			Result := <<
+				config_argument ("Path to build configuration file"),
+				optional_argument ("dry_run", "Display commands without executing", No_checks)
+			>>
 		end
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make (create {FILE_PATH})
+			Result := agent {like command}.make (create {FILE_PATH}, False)
 		end
 
 	new_locale: EL_DEFAULT_LOCALE

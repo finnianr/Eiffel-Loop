@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-14 10:03:55 GMT (Sunday 14th May 2023)"
-	revision: "25"
+	date: "2023-06-22 13:07:39 GMT (Thursday 22nd June 2023)"
+	revision: "26"
 
 class
 	DUPLICITY_BACKUP
@@ -26,6 +26,7 @@ inherit
 			description
 		end
 
+	EL_SHARED_DATE_FORMAT
 create
 	make
 
@@ -156,7 +157,7 @@ feature {NONE} -- Implementation
 			comment := User_input.line ("Enter comment for changes.txt")
 			if not comment.is_empty then
 				create stamp.make_now_utc
-				date_line := Date.formatted (stamp.date, {EL_DATE_FORMATS}.short_canonical)
+				date_line := Date.formatted (stamp.date, Date_format.short_canonical)
 									+ ", " + stamp.time.formatted_out ("hh:[0]mi:[0]ss")
 				lio.put_new_line
 				create file.make_open_append (target_dir + "changes.txt")

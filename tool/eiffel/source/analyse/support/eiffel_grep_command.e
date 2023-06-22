@@ -1,13 +1,18 @@
 note
 	description: "Use Unix **grep** command to recursively search directories of Eiffel source code"
+	notes: "[
+		grep distributed as part of Eiffel Studio for Windows lacks `--include' option
+		
+			D:\Program Files\Eiffel_16.05\gcc\win64\msys\1.0\bin
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-27 15:42:35 GMT (Monday 27th February 2023)"
-	revision: "7"
+	date: "2023-06-21 12:35:24 GMT (Wednesday 21st June 2023)"
+	revision: "8"
 
 class
 	EIFFEL_GREP_COMMAND

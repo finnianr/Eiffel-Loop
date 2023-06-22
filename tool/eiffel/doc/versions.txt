@@ -1,3 +1,6 @@
+1.3.9
+* Fixed bug in extracting exe name from Pyxis pecf file
+
 1.3.8
 * Make manifest alignment skip argument before array manifest start
 

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-18 10:46:57 GMT (Sunday 18th June 2023)"
-	revision: "42"
+	date: "2023-06-22 13:07:09 GMT (Thursday 22nd June 2023)"
+	revision: "43"
 
 class
 	EL_HTTP_CONNECTION
@@ -64,7 +64,6 @@ feature -- Access
 		-- http error code parsed from document page
 		local
 			bracket_split: EL_SPLIT_ON_CHARACTER_8 [STRING]; s: EL_STRING_8_ROUTINES
-			found: BOOLEAN
 		do
 			if is_html_response then
 				create bracket_split.make (last_string, '>')

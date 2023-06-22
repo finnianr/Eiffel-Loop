@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-20 17:17:41 GMT (Tuesday 20th June 2023)"
-	revision: "26"
+	date: "2023-06-22 13:19:43 GMT (Thursday 22nd June 2023)"
+	revision: "27"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -53,7 +53,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_config_path: FILE_PATH)
+	make (a_config_path: FILE_PATH; a_dry_run: BOOLEAN)
 			--
 		require
 			config_exists: a_config_path.exists
@@ -66,6 +66,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			if not output_dir.is_absolute then
 				output_dir := Directory.current_working #+ output_dir
 			end
+			dry_run := a_dry_run
 		end
 
 	make_default
@@ -94,7 +95,7 @@ feature -- Basic operations
 				lio.put_path_field ("Project", project_config.pyxis_ecf_path)
 				lio.put_new_line
 				if architecture_list.count > 0 then
-					if build_exe and architecture_list.has (64) then
+					if build_exe and architecture_list.has (64) and not dry_run then
 						project_config.bump_build
 					end
 					sign_tool.unlock_certificate
@@ -115,7 +116,7 @@ feature -- Basic operations
 					end
 					if build_installers and then not has_build_error then
 						sign_tool.set_exe_path (Directory.current_working + relative_exe_path)
-						sign_tool.sign_exe (Current)
+						sign_tool.sign_exe (Current, dry_run)
 						across language_list as lang until has_build_error loop
 							build_installer (Locale.in (lang.item))
 						end
@@ -140,8 +141,12 @@ feature -- Status query
 		end
 
 	valid_languages: BOOLEAN
+		local
+			c: EL_CHARACTER_8_ROUTINES
 		do
-			Result := across language_list as list all Locale.all_languages.has (list.item) end
+			Result := across language_list as list all
+				attached list.item as s and then s.count = 2 and then (c.is_a_to_z_lower (s [1]) and c.is_a_to_z_lower (s [2]))
+			end
 		end
 
 	valid_name_template: BOOLEAN
@@ -161,6 +166,7 @@ feature {NONE} -- Implementation
 				project_py.change_to_32
 			end
 			create build_command.make (scons_cmd)
+			build_command.dry_run.set_state (dry_run)
 			build_command.execute
 
 			has_build_error := build_command.has_error
@@ -193,9 +199,11 @@ feature {NONE} -- Implementation
 				end
 
 				create command.make (Current)
-				command.execute
-				File_system.remove_file (zip_archive_path)
-				sign_tool.sign_exe (Current)
+				if not dry_run then
+					command.execute
+					File_system.remove_file (zip_archive_path)
+				end
+				sign_tool.sign_exe (Current, dry_run)
 			end
 		end
 
@@ -207,6 +215,7 @@ feature {NONE} -- Implementation
 			create zip_cmd.make ("wzzip -a -rP $zip_archive_path package\*")
 			zip_cmd.put_object (Current)
 			zip_cmd.set_working_directory ("build/" + ise_platform)
+			zip_cmd.dry_run.set_state (dry_run)
 			zip_cmd.execute
 			has_build_error := zip_cmd.has_error
 		end
@@ -302,6 +311,8 @@ feature {NONE} -- Configuration parameters
 feature {NONE} -- Implementation: attributes
 
 	bit_count: INTEGER
+
+	dry_run: BOOLEAN
 
 	project_py: SCONS_PROJECT_PY_CONFIG
 		-- Python config "project.py"

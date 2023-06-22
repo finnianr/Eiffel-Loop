@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-06-22 12:41:21 GMT (Thursday 22nd June 2023)"
+	revision: "8"
 
 class
 	WINZIP_CREATE_SELF_EXTRACT_COMMAND
@@ -21,7 +21,7 @@ inherit
 			make as make_command
 		export
 			{NONE} all
-			{ANY} is_valid_platform
+			{ANY} is_valid_platform, dry_run
 		redefine
 			execute
 		end

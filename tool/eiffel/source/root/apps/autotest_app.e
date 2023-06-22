@@ -26,8 +26,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 9:01:01 GMT (Saturday 29th April 2023)"
-	revision: "56"
+	date: "2023-06-21 12:09:18 GMT (Wednesday 21st June 2023)"
+	revision: "57"
 
 class
 	AUTOTEST_APP
@@ -69,6 +69,7 @@ feature {NONE} -- Implementation
 		end
 
 	visible_types: TUPLE [
+		EIFFEL_GREP_COMMAND,
 		FEATURE_EDITOR_COMMAND,
 		PYXIS_TRANSLATION_TREE_COMPILER,
 		REPOSITORY_TEST_PUBLISHER,

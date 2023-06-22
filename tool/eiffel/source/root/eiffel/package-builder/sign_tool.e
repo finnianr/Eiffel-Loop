@@ -2,14 +2,30 @@ note
 	description: "[
 		Wrapper for [https://learn.microsoft.com/en-us/windows/win32/seccrypto/signtool Microsoft signtool]
 	]"
+	notes: "[
+		Example section from package configuration
+		
+			# signtool arguments (from PSDK for win8.1 ver 6.3.9600, file stamp: 24/10/2014)
+			sign_tool:
+				bin_dir = "$MSDK/v8.1/signtool"
+				# Encrypted: master_key.txt.secure
+				master_key_path = "$USERPROFILE/Documents/Certificates/ssl.com/master_key.txt"
+
+				# signtool sign + options
+				options_template:
+					"""
+						/v /fd sha256 /tr http://ts.ssl.com /td sha256
+						/sha1 2f6a5ee25017c2d36dbc8f929e1ca67b0f905031 $exe_path
+					"""
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-20 17:20:37 GMT (Tuesday 20th June 2023)"
-	revision: "2"
+	date: "2023-06-22 13:20:31 GMT (Thursday 22nd June 2023)"
+	revision: "3"
 
 class
 	SIGN_TOOL
@@ -67,19 +83,20 @@ feature -- Status change
 
 			elseif has_master_key then
 				create master_key_file.make (master_key_path)
-
+				master_key_file.unlock -- decrypt secure file
 			end
 		end
 
 feature -- Basic operations
 
-	sign_exe (on_error: EL_EVENT_LISTENER)
+	sign_exe (on_error: EL_EVENT_LISTENER; dry_run: BOOLEAN)
 		do
 			if attached new_signtool_command as cmd then
 				if not bin_dir.is_empty then
 					cmd.set_working_directory (bin_dir)
 				end
 				cmd.put_object (Current)
+				cmd.dry_run.set_state (dry_run)
 				cmd.execute
 				if cmd.has_error then
 					on_error.notify
@@ -95,7 +112,7 @@ feature {NONE} -- Implementation
 			lines: EL_STRING_8_LIST
 		do
 			create lines.make_with_lines (options_template)
-			lines.put_front (Signtool_prefix)
+			lines.put_front (Signtool_sign)
 			create Result.make (lines.joined_words)
 		end
 
@@ -117,6 +134,6 @@ feature {NONE} -- Constants
 
 	Element_node_fields: STRING = "options_template"
 
-	signtool_prefix: STRING = "signtool sign"
+	Signtool_sign: STRING = "signtool sign"
 
 end

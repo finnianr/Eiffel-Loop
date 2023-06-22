@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-10 14:32:14 GMT (Wednesday 10th May 2023)"
-	revision: "12"
+	date: "2023-06-21 14:17:37 GMT (Wednesday 21st June 2023)"
+	revision: "13"
 
 class
 	REPOSITORY_NOTE_LINK_CHECKER
@@ -68,7 +68,7 @@ feature -- Basic operations
 
 				across Invalid_source_name_table as table loop
 					file_out.put_line ("class " + table.key.base_name.as_upper)
-					file_out.put_line (Source_file_comment + table.key.to_string)
+					file_out.put_line (Source_file_comment + table.key.to_unix)
 					file_out.put_line (Invalid_references_comment)
 					across table.item as class_name loop
 						file_out.put_line (Source_reference #$ [class_name.item])

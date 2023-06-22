@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-14 10:47:58 GMT (Sunday 14th May 2023)"
-	revision: "44"
+	date: "2023-06-22 13:17:25 GMT (Thursday 22nd June 2023)"
+	revision: "45"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -60,6 +60,7 @@ feature {NONE} -- Initialization
 			Precursor {EL_REFLECTIVELY_SETTABLE}
 			Precursor {EVOLICITY_SERIALIZEABLE_AS_ZSTRING}
 			output_encoding := Utf_8
+			create dry_run
 		end
 
 feature -- Access
@@ -82,7 +83,7 @@ feature -- Status query
 			Result := not {PLATFORM}.is_windows
 		end
 
-	dry_run_enabled: BOOLEAN
+	dry_run: EL_BOOLEAN_OPTION
 		-- when `true' command will just print to screen without executing
 
 	has_error: BOOLEAN
@@ -125,11 +126,6 @@ feature -- Status change
 			is_forked := forked
 		end
 
-	set_dry_run (enabled: BOOLEAN)
-		do
-			dry_run_enabled := enabled
-		end
-
 feature -- Basic operations
 
 	execute
@@ -145,10 +141,10 @@ feature -- Basic operations
 				lio.put_string_field ("Error in command template", generator)
 				lio.put_new_line
 			else
-				if dry_run_enabled or else is_lio_enabled then
+				if dry_run.is_enabled or else is_lio_enabled then
 					display (l_command.lines)
 				end
-				if not dry_run_enabled then
+				if dry_run.is_disabled then
 					l_command.translate_and_delete (Tab_and_new_line, Null_and_space)
 					do_command (l_command)
 				end
@@ -390,7 +386,7 @@ feature {NONE} -- Constants
 	Transient_fields: STRING
 		once
 			Result := Precursor +
-				", dry_run_enabled, getter_functions, internal_error_list, is_forked,%
+				", dry_run, getter_functions, internal_error_list, is_forked,%
 				%has_error, on_encoding_change, other_encoding, output_path, template_path"
 		end
 

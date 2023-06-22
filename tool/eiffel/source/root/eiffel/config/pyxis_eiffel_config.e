@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-04 16:30:01 GMT (Saturday 4th March 2023)"
-	revision: "2"
+	date: "2023-06-22 13:31:25 GMT (Thursday 22nd June 2023)"
+	revision: "3"
 
 class
 	PYXIS_EIFFEL_CONFIG
@@ -185,7 +185,7 @@ feature {NONE} -- Build from XML
 		do
 			create Result.make (<<
 				["target/version", agent do set_next_context (system) end],
-				["@name", agent do executable_name.share (node) end]
+				["@name", agent do executable_name := node.to_string_8 end]
 			>>)
 		end
 
