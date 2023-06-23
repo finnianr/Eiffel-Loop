@@ -1,13 +1,21 @@
 note
 	description: "Eiffel object xpath context"
+	notes: "[
+		**WARNING**
+
+		Be careful not to allow node itself to be a assigned to a fields of type [$source STRING_8].
+		Use explict conversion:
+
+			str := node.to_string_8
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 10:06:36 GMT (Saturday 31st December 2022)"
-	revision: "19"
+	date: "2023-06-23 7:30:26 GMT (Friday 23rd June 2023)"
+	revision: "20"
 
 deferred class
 	EL_EIF_OBJ_XPATH_CONTEXT

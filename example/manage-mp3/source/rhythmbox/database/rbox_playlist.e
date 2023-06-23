@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 11:54:37 GMT (Monday 5th December 2022)"
-	revision: "33"
+	date: "2023-06-22 17:04:28 GMT (Thursday 22nd June 2023)"
+	revision: "34"
 
 class
 	RBOX_PLAYLIST
@@ -156,7 +156,7 @@ feature -- Element change
 			end
 		end
 
-	set_name (a_name: like name)
+	set_name (a_name: ZSTRING)
 		do
 			name := a_name
 			if a_name.is_empty then

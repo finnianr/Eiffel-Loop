@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-10 10:03:42 GMT (Saturday 10th June 2023)"
-	revision: "30"
+	date: "2023-06-23 17:47:45 GMT (Friday 23rd June 2023)"
+	revision: "31"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -29,9 +29,9 @@ inherit
 					has, has_substring, starts_with,
 					is_boolean, is_double, is_integer, is_real, is_valid_as_string_8, is_raw_empty
 		redefine
-			adjusted, adjusted_8, adjusted_32,
+			adjusted, adjusted_8, adjusted_32, append_to_string, append_to_string_32,
 			as_string_32, to_string_32, as_string_8, to_string_8, to_string,
-			raw_string, raw_string_8, raw_string_32
+			raw_string, raw_string_8, raw_string_32, unicode_count
 		end
 
 	EL_READABLE
@@ -73,7 +73,7 @@ inherit
 			encoding as encoding_code
 		export
 			{NONE} all
-			{EL_DOCUMENT_CLIENT} set_encoding_from_other
+			{EL_DOCUMENT_CLIENT} set_encoding_from_other, set_encoding, set_latin_encoding, set_utf_encoding
 		undefine
 			copy, is_equal, out
 		end
@@ -166,6 +166,17 @@ feature -- Access
 			end
 			if keep_ref then
 				Result := Result.twin
+			end
+		end
+
+feature -- Measurement
+
+	unicode_count: INTEGER
+		do
+			if encoded_as_utf (8) then
+				Result := Precursor
+			else
+				Result := count
 			end
 		end
 
@@ -391,6 +402,34 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
+
+	append_to_string (zstr: ZSTRING; str_8: READABLE_STRING_8)
+		do
+			zstr.append_encoded (str_8, encoding_code)
+		end
+
+	append_to_string_32 (str_32: STRING_32; start_index, end_index: INTEGER)
+		do
+			if encoded_as_utf (8) then
+				Precursor (str_32, start_index, end_index)
+
+			elseif encoded_as_latin (1) then
+				str_32.append_substring_general (Current, start_index, end_index)
+
+			elseif attached as_encoding as encoding then
+				Immutable_8.set_item (area, start_index - 1, end_index - start_index + 1)
+				encoding.convert_to (Encodings.Unicode, Immutable_8.item)
+
+				if encoding.last_conversion_successful then
+					check
+						no_lost_data: not encoding.last_conversion_lost_data
+					end
+					str_32.append_string_general (encoding.last_converted_string)
+				else
+					str_32.append_string_general (Immutable_8.item)
+				end
+			end
+		end
 
 	new_adjusted_lines (separator: CHARACTER_32): ZSTRING
 		-- left and right adjusted list of line strings

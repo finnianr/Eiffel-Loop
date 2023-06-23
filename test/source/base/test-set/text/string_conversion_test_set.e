@@ -1,16 +1,16 @@
 ﻿note
-	description: "Test string escaping and other text related tests"
+	description: "Test string escaping and other string conversion tests"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-12 12:22:51 GMT (Wednesday 12th April 2023)"
-	revision: "19"
+	date: "2023-06-23 9:04:16 GMT (Friday 23rd June 2023)"
+	revision: "20"
 
 class
-	TEXT_TEST_SET
+	STRING_CONVERSION_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
@@ -41,6 +41,7 @@ feature {NONE} -- Initialization
 				["convert_string_type_descriptions", agent test_convert_string_type_descriptions],
 				["encodeable_as_string_8",				 agent test_encodeable_as_string_8],
 				["encoding_conversion",					 agent test_encoding_conversion],
+				["immutable_to_integer",				 agent test_immutable_to_integer],
 				["number_formatting",					 agent test_number_formatting],
 				["python_escape",							 agent test_python_escape],
 				["substitution_marker_unescape",		 agent test_substitution_marker_unescape],
@@ -51,7 +52,7 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_bash_escape
-		-- TEXT_TEST_SET.test_bash_escape
+		-- STRING_CONVERSION_TEST_SET.test_bash_escape
 		local
 			escaper: EL_STRING_ESCAPER [ZSTRING]; escaper_32: EL_STRING_ESCAPER [STRING_32]
 		do
@@ -60,7 +61,7 @@ feature -- Tests
 		end
 
 	test_convert_string_to_makeable
-		-- TEXT_TEST_SET.test_convert_string_to_makeable
+		-- STRING_CONVERSION_TEST_SET.test_convert_string_to_makeable
 		note
 			testing:	"covers/{EL_STRING_CONVERSION_TABLE}.is_convertible",
 			 	"covers/{EL_STRING_CONVERSION_TABLE}.make_from_zcode_area"
@@ -80,7 +81,7 @@ feature -- Tests
 		end
 
 	test_convert_string_type_descriptions
-		-- TEXT_TEST_SET.test_convert_string_type_descriptions
+		-- STRING_CONVERSION_TEST_SET.test_convert_string_type_descriptions
 		note
 			testing: "covers/{EL_READABLE_STRING_GENERAL_TO_TYPE}.new_type_description"
 		do
@@ -101,7 +102,7 @@ feature -- Tests
 		end
 
 	test_encodeable_as_string_8
-		-- TEXT_TEST_SET.test_encodeable_as_string_8
+		-- STRING_CONVERSION_TEST_SET.test_encodeable_as_string_8
 		local
 			zstr: ZSTRING; codec: EL_ZCODEC
 			first_latin, first_windows: BOOLEAN
@@ -137,7 +138,7 @@ feature -- Tests
 		end
 
 	test_encoding_conversion
-		-- TEXT_TEST_SET.test_encoding_conversion
+		-- STRING_CONVERSION_TEST_SET.test_encoding_conversion
 		local
 			buffer: EL_STRING_8_IO_MEDIUM; encoding: EL_ENCODING
 			zstr, name: ZSTRING; latin_id: INTEGER
@@ -170,8 +171,19 @@ feature -- Tests
 			end
 		end
 
+	test_immutable_to_integer
+		-- TEXT_DATA_TEST_SET.test_immutable_to_integer
+		local
+			str, value: IMMUTABLE_STRING_8
+		do
+			str := "value: 200"
+			value := str.shared_substring (str.count - 2, str.count)
+			assert ("value is 200", value.same_string ("200"))
+			assert ("is_integer is not working", not value.is_integer)
+		end
+
 	test_number_formatting
-		-- TEXT_TEST_SET.test_number_formatting
+		-- STRING_CONVERSION_TEST_SET.test_number_formatting
 		note
 			testing: "covers/{EL_FORMAT_ROUTINES}.internal_integer"
 		local
@@ -200,7 +212,7 @@ feature -- Tests
 		end
 
 	test_python_escape
-		-- TEXT_TEST_SET.test_python_escape
+		-- STRING_CONVERSION_TEST_SET.test_python_escape
 		local
 			escaper: EL_STRING_ESCAPER [ZSTRING]
 			str: STRING; zstr: STRING
@@ -225,7 +237,7 @@ feature -- Tests
 		end
 
 	test_unescape
-		-- TEXT_TEST_SET.test_unescape
+		-- STRING_CONVERSION_TEST_SET.test_unescape
 		note
 			testing:	"covers/{EL_ZSTRING_UNESCAPER}.unescape", "covers/{EL_STRING_32_UNESCAPER}.unescape"
 		local

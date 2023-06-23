@@ -14,7 +14,7 @@
 * Changes to file sync to group files by location
 
 1.3.3
-* Automatic generation of EL_EQA_TEST_SET.make implemenation
+* Automatic generation of EL_EQA_TEST_SET.make implementation
 
 1.3.2
 * New app to upgrade EQA test sets to use `make_named' routine

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-21 9:23:18 GMT (Tuesday 21st March 2023)"
-	revision: "47"
+	date: "2023-06-23 14:46:34 GMT (Friday 23rd June 2023)"
+	revision: "48"
 
 deferred class
 	EL_STRING_X_ROUTINES [STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -30,6 +30,18 @@ feature -- Basic operations
 		end
 
 feature -- Factory
+
+	character_string (uc: CHARACTER_32): STRING_X
+		-- shared instance of string with `uc' character
+		deferred
+		end
+
+	n_character_string (uc: CHARACTER_32; n: INTEGER): STRING_X
+		-- shared instance of string with `n' times `uc' character
+		deferred
+		ensure
+			valid_result: Result.occurrences (uc) = n.to_integer_32
+		end
 
 	new (n: INTEGER): STRING_X
 			-- width * count spaces

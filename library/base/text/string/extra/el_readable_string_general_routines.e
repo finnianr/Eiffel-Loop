@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 16:49:03 GMT (Thursday 29th December 2022)"
-	revision: "6"
+	date: "2023-06-23 14:49:09 GMT (Friday 23rd June 2023)"
+	revision: "7"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES
@@ -34,7 +34,7 @@ feature -- Status query
 		do
 			Result := str.count = 1 and then str [1] = uc
 		ensure
-			definition: Result implies str.same_string (uc.out)
+			definition: Result implies str.occurrences (uc) = 1
 		end
 
 	is_convertible (s: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): BOOLEAN

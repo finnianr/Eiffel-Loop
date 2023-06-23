@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-23 10:05:42 GMT (Tuesday 23rd May 2023)"
-	revision: "7"
+	date: "2023-06-23 14:47:33 GMT (Friday 23rd June 2023)"
+	revision: "8"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -15,7 +15,9 @@ class
 inherit
 	EL_STRING_X_ROUTINES [STRING_8, READABLE_STRING_8]
 		rename
-			replace_character as replace_character_32
+			replace_character as replace_character_32,
+			character_string as character_32_string,
+			n_character_string as n_character_32_string
 		redefine
 			replace_character_32, is_character
 		end
@@ -122,16 +124,28 @@ feature -- Conversion
 
 feature -- Factory
 
-	character_string (c: CHARACTER): STRING
+	character_string (c: CHARACTER): STRING_8
 		-- shared instance of string with `uc' character
 		do
 			Result := n_character_string (c, 1)
 		end
 
-	n_character_string (c: CHARACTER; n: INTEGER): STRING
+	n_character_string (c: CHARACTER; n: INTEGER): STRING_8
 		-- shared instance of string with `n' times `uc' character
 		do
 			Result := Character_string_table.item (c, n)
+		end
+
+	character_32_string (uc: CHARACTER_32): STRING_8
+		-- shared instance of string with `uc' character
+		do
+			Result := character_string (uc.to_character_8)
+		end
+
+	n_character_32_string (uc: CHARACTER_32; n: INTEGER): STRING_8
+		-- shared instance of string with `n' times `uc' character
+		do
+			Result := n_character_string (uc.to_character_8, n)
 		end
 
 	new_list (n: INTEGER): EL_STRING_8_LIST

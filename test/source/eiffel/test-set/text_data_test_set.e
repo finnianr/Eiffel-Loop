@@ -1,16 +1,16 @@
 ﻿note
-	description: "String experiments"
+	description: "General string and character experiments"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-08 10:36:15 GMT (Monday 8th May 2023)"
-	revision: "35"
+	date: "2023-06-23 9:04:16 GMT (Friday 23rd June 2023)"
+	revision: "36"
 
 class
-	STRING_TEST_SET
+	TEXT_DATA_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
@@ -34,60 +34,12 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["character_8_as_lower", agent test_character_8_as_lower],
-				["expanded_string", agent test_expanded_string],
-				["is_substitute_white", agent test_is_substitute_white],
-				["immutable_to_integer", agent test_immutable_to_integer]
 			>>)
 		end
 
 feature -- Tests
 
-	test_character_8_as_lower
-		-- STRING_TEST_SET.test_character_8_as_lower
-		local
-			i: INTEGER; c: CHARACTER; c32: EL_CHARACTER_32_ROUTINES
-			uc: CHARACTER_32
-		do
-			from i := 1 until i > 0xFF loop
-				c := i.to_character_8
-				if c.is_alpha and c.is_upper then
-					uc := c
-					assert ("as_lower OK", c.as_lower = c32.to_lower (uc).to_character_8)
-				end
-				i := i + 1
-			end
-		end
 
-	test_expanded_string
-		-- STRING_TEST_SET.test_expanded_string
-		local
-			ex: EXPANDED_STRING; s: STRING
-		do
-			s := "abc"
-			ex.share (s)
-			assert ("same hash_code", ex.hash_code = 6382179)
-		end
-
-	test_immutable_to_integer
-		-- STRING_TEST_SET.test_immutable_to_integer
-		local
-			str, value: IMMUTABLE_STRING_8
-		do
-			str := "value: 200"
-			value := str.shared_substring (str.count - 2, str.count)
-			assert ("value is 200", value.same_string ("200"))
-			assert ("is_integer is not working", not value.is_integer)
-		end
-
-	test_is_substitute_white
-		-- STRING_TEST_SET.test_is_substitute_white
-		local
-			c: CHARACTER
-		do
-			c := (26).to_character_8
-			assert ("no space", not c.is_space)
-		end
 
 feature -- Basic operations
 
@@ -98,7 +50,7 @@ feature -- Basic operations
 		end
 
 	audio_info_parsing
-		-- STRING_TEST_SET.
+		-- TEXT_DATA_TEST_SET.
 		local
 			s: ZSTRING; parts: EL_ZSTRING_LIST
 		do

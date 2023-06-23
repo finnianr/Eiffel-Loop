@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-23 10:35:09 GMT (Tuesday 23rd May 2023)"
-	revision: "45"
+	date: "2023-06-23 8:54:44 GMT (Friday 23rd June 2023)"
+	revision: "46"
 
 class
 	GENERAL_TEST_SET
@@ -33,11 +33,9 @@ feature {NONE} -- Initialization
 				["any_array_numeric_type_detection", agent test_any_array_numeric_type_detection],
 				["base_64_codec_1", agent test_base_64_codec_1],
 				["base_64_codec_2", agent test_base_64_codec_2],
-				["character_32_status_queries", agent test_character_32_status_queries],
 				["environment_put", agent test_environment_put],
 				["math_precision", agent test_math_precision],
 				["named_thread", agent test_named_thread],
-				["reusable_strings", agent test_reusable_strings],
 				["reverse_managed_pointer", agent test_reverse_managed_pointer],
 				["version_array", agent test_version_array],
 				["version_bump", agent test_version_bump]
@@ -103,17 +101,6 @@ feature -- Tests
 			assert ("all == endings found", padding_permutation_set.count = 3 )
 		end
 
-	test_character_32_status_queries
-		do
---			Bug in finalized exe for compiler version 16.05
---			assert ("not is_space", not ({CHARACTER_32}'€').is_space)
---			assert ("not is_digit ", not ({CHARACTER_32}'€').is_digit)
-
-			assert ("not is_alpha", not ({CHARACTER_32}'€').is_alpha)
-			assert ("not is_punctuation", not ({CHARACTER_32}'€').is_punctuation)
-			assert ("not is_control", not ({CHARACTER_32}'€').is_control)
-		end
-
 	test_environment_put
 		local
 			name: STRING
@@ -138,30 +125,6 @@ feature -- Tests
 		do
 			create t
 			assert ("same string", t.name.same_string ("Named Thread"))
-		end
-
-	test_reusable_strings
-		local
-			s1, s2, s3, s4: ZSTRING
-		do
-			across Reuseable.string as reuse loop
-				s1 := reuse.item
-				assert ("empty string", s1.is_empty)
-				s1.append_string_general ("abc")
-				across Reuseable.string as reuse2 loop
-					s3 := reuse2.item
-					assert ("s3 is new instance", s1 /= s3)
-				end
-			end
-			across Reuseable.string as reuse loop
-				s2 := reuse.item
-				assert ("empty string", s2.is_empty)
-				across Reuseable.string as reuse2 loop
-					s4 := reuse2.item
-				end
-			end
-			assert ("instance recycled", s1 = s2)
-			assert ("nested instances recycled", s3 = s4)
 		end
 
 	test_reverse_managed_pointer

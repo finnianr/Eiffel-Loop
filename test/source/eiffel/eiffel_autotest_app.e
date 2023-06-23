@@ -10,8 +10,8 @@ note
 			[$source EIFFEL_TEST_SET]
 			[$source FILE_TEST_SET]
 			[$source NUMERIC_TEST_SET]
-			[$source STRING_TEST_SET]
 			[$source STRUCTURE_TEST_SET]
+			[$source TEXT_DATA_TEST_SET]
 			[$source TUPLE_TEST_SET]
 			[$source TYPE_TEST_SET]
 	]"
@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 11:20:31 GMT (Tuesday 6th December 2022)"
-	revision: "2"
+	date: "2023-06-23 9:05:25 GMT (Friday 23rd June 2023)"
+	revision: "3"
 
 class
 	EIFFEL_AUTOTEST_APP
@@ -34,8 +34,8 @@ inherit
 		EIFFEL_TEST_SET,
 		FILE_TEST_SET,
 		NUMERIC_TEST_SET,
-		STRING_TEST_SET,
 		STRUCTURE_TEST_SET,
+		TEXT_DATA_TEST_SET,
 		TUPLE_TEST_SET,
 		TYPE_TEST_SET
 	]

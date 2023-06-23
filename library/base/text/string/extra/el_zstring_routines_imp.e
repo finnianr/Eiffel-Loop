@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-23 9:56:31 GMT (Tuesday 23rd May 2023)"
-	revision: "8"
+	date: "2023-06-23 14:46:23 GMT (Friday 23rd June 2023)"
+	revision: "9"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -65,8 +65,6 @@ feature -- Factory
 		-- shared instance of string with `n' times `uc' character
 		do
 			Result := Character_string_table.item (uc, n)
-		ensure
-			valid_result: Result.occurrences (uc) = n.to_integer_32
 		end
 
 	new_list (n: INTEGER): EL_ZSTRING_LIST
