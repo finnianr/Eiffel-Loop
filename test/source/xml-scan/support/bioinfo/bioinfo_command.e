@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-06-24 7:04:55 GMT (Saturday 24th June 2023)"
+	revision: "6"
 
 class
 	BIOINFO_COMMAND
@@ -30,6 +30,8 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			create parameter_list.make (10)
+			create id.make_empty
+			create menu.make_empty
 		end
 
 feature -- Access
@@ -65,8 +67,8 @@ feature {NONE} -- Build from XML
 		do
 			-- Call precursor to include xmlns attribute
 			create Result.make (<<
-				["id/text()", agent do id := node.to_string end],
-				["menu/text()", agent do menu := node.to_string end],
+				["id/text()", agent do node.set_8 (id) end],
+				["menu/text()", agent do node.set_8 (menu) end],
 				["parlist", agent do set_next_context (parameter_list) end]
 			>>)
 		end

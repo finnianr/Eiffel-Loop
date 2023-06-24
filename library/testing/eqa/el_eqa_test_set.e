@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-26 13:18:38 GMT (Sunday 26th March 2023)"
-	revision: "21"
+	date: "2023-06-24 4:19:05 GMT (Saturday 24th June 2023)"
+	revision: "22"
 
 deferred class
 	EL_EQA_TEST_SET
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EQA_TEST_SET
 		rename
-			file_system as test_file_system,
+			file_system as eqa_file_system,
 			assert as eqa_assert
 		redefine
 			on_clean, on_prepare
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 
 	make_named (test_array: ARRAY [TUPLE [STRING, PROCEDURE]])
 		do
-			test_file_system := new_file_system
+			eqa_file_system := new_file_system
 			create test_table.make (test_array)
 		end
 

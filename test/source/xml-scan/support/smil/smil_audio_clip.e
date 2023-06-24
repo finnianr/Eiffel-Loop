@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-06-24 7:02:49 GMT (Saturday 24th June 2023)"
+	revision: "9"
 
 class
 	SMIL_AUDIO_CLIP
@@ -40,6 +40,8 @@ feature {NONE} -- Initialization
 		do
 			Precursor {EVOLICITY_EIFFEL_CONTEXT}
 			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
+			create source.make_empty
+			create title.make_empty
 		end
 
 feature -- Access
@@ -84,8 +86,8 @@ feature {NONE} -- Build from XML
 		do
 			create Result.make (<<
 				["@id", agent do id := node_as_integer_suffix end],
-				["@src", agent do source := node.to_string end],
-				["@title", agent do title := node.to_string end],
+				["@src", agent do node.set (source) end],
+				["@title", agent do node.set (title) end],
 				["@clipBegin", agent do onset := node_as_real_secs end],
 				["@clipEnd", agent do offset := node_as_real_secs end]
 			>>)

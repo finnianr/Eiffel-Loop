@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-23 14:30:58 GMT (Friday 23rd June 2023)"
-	revision: "24"
+	date: "2023-06-24 4:30:07 GMT (Saturday 24th June 2023)"
+	revision: "25"
 
 class
 	EL_TEST_TEXT
@@ -117,6 +117,8 @@ feature -- Characters
 			 Result := {STRING_32}"𝄞"
 		end
 
+	Mu_symbol: CHARACTER_32 = 'µ'
+
 	Ogham_space_mark: CHARACTER_32
 		once
 			Result := (0x1680).to_character_32
@@ -202,7 +204,7 @@ feature -- Constants
 				[1, 1],
 				[15],
 				['´'],
-				['€']
+				[Euro_symbol]
 			>>
 		ensure
 			same_number: Result.count = Russian_and_english.occurrences ('%N') + 1

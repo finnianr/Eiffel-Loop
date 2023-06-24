@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-06-24 7:14:11 GMT (Saturday 24th June 2023)"
+	revision: "11"
 
 class
 	WEB_FORM
@@ -32,6 +32,8 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			create component_list.make (7)
+			create title.make_empty
+			create language.make_empty
 		end
 
 feature -- Access
@@ -55,15 +57,15 @@ feature {NONE} -- Element change
 	set_title_from_node
 			--
 		do
-			title := node.to_string
-			log_assignment ("title", node.to_string)
+			node.set_8 (title)
+			log_assignment ("title", title)
 		end
 
 	set_language_from_node
 			--
 		do
-			language := node.to_string
-			log_assignment ("language", node.to_string)
+			node.set_8 (language)
+			log_assignment ("language", language)
 		end
 
 	add_text

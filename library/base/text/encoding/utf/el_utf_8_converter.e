@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-06-24 5:17:03 GMT (Saturday 24th June 2023)"
+	revision: "4"
 
 expanded class
 	EL_UTF_8_CONVERTER
@@ -100,26 +100,42 @@ feature -- Basic operations
 
 	string_8_into_string_32 (s: READABLE_STRING_8; a_result: STRING_32)
 		do
-			substring_8_into_string_32 (s, 1, s.count, a_result)
+			substring_8_into_string_general (s, 1, s.count, a_result)
 		end
 
-	substring_8_into_string_32 (s: READABLE_STRING_8; start_index, end_index: INTEGER; a_result: STRING_32)
+	substring_8_into_string_general (s: READABLE_STRING_8; start_index, end_index: INTEGER; a_result: STRING_GENERAL)
 			-- Copy STRING_32 corresponding to UTF-8 sequence `s.substring (start_index, end_index)' appended into `a_result'.
 		local
 			i, i_final, n, offset, byte_count: INTEGER; code: NATURAL_32
-			area: SPECIAL [CHARACTER_8]
+			area: SPECIAL [CHARACTER_8]; area_32: SPECIAL [CHARACTER_32]
+			s8: EL_STRING_8_ROUTINES; s32: EL_STRING_32_ROUTINES; sz: EL_ZSTRING_ROUTINES
 		do
 			if attached cursor_8 (s) as cursor then
 				area := cursor.area; offset := cursor.area_first_index
 			end
 			n := end_index - start_index + 1
 			i_final := offset + start_index + n - 1
-			a_result.grow (a_result.count + n)
+			create area_32.make_empty (n)
 			from i := offset + start_index - 1 until i >= i_final loop
 				code := area [i].natural_32_code
 				byte_count := sequence_count (code)
-				a_result.append_code (unicode (area, code, i, byte_count))
+				area_32.extend (unicode (area, code, i, byte_count).to_character_32)
 				i := i + byte_count
+			end
+			if attached {STRING_32} a_result as str_32 then
+				s32.append_area_32 (str_32, area_32)
+
+			elseif attached {STRING_8} a_result as str_8 then
+				s8.append_area_32 (str_8, area_32)
+				
+			elseif attached {ZSTRING} a_result as zstr then
+				sz.append_area_32 (zstr, area_32)
+			else
+				i_final := area_32.count
+				from i := 0 until i = i_final loop
+					a_result.append_code (area_32 [i].natural_32_code)
+					i := i + 1
+				end
 			end
 		ensure
 			roundtrip: attached s.substring (start_index, end_index) as str and then

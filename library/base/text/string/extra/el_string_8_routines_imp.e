@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-23 14:47:33 GMT (Friday 23rd June 2023)"
-	revision: "8"
+	date: "2023-06-24 6:11:04 GMT (Saturday 24th June 2023)"
+	revision: "9"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -30,6 +30,29 @@ inherit
 	EL_STRING_8_CONSTANTS
 
 feature -- Basic operations
+
+	append_area_32 (str: STRING_8; area_32: SPECIAL [CHARACTER_32])
+		local
+			i, i_final, offset, new_count: INTEGER; area: SPECIAL [CHARACTER_8]
+			uc: CHARACTER_32
+		do
+			new_count := str.count + area_32.count
+			offset := str.count
+			str.grow (new_count)
+			area := str.area
+			i_final := area_32.count
+			from i := 0 until i = i_final loop
+				uc := area_32 [i]
+				if uc.is_character_8 then
+					area [i + offset] := uc.to_character_8
+				else
+					area [i + offset] := '%/26/'
+				end
+				i := i + 1
+			end
+			area [new_count] := '%U'
+			str.set_count (new_count)
+		end
 
 	append_to (str: STRING_8; extra: READABLE_STRING_GENERAL)
 		do

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-23 14:46:23 GMT (Friday 23rd June 2023)"
-	revision: "9"
+	date: "2023-06-24 5:28:10 GMT (Saturday 24th June 2023)"
+	revision: "10"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -23,9 +23,7 @@ inherit
 
 	EL_MODULE_REUSEABLE
 
-	STRING_HANDLER
-
-	EL_SHARED_ESCAPE_TABLE
+	EL_SHARED_ESCAPE_TABLE; EL_SHARED_IMMUTABLE_32_MANAGER
 
 	EL_ZSTRING_CONSTANTS
 
@@ -304,6 +302,12 @@ feature -- Status query
 		end
 
 feature -- Basic operations
+
+	append_area_32 (str: ZSTRING; area: SPECIAL [CHARACTER_32])
+		do
+			Immutable_32.set_item (area, 0, area.count)
+			str.append_string_general (Immutable_32.item)
+		end
 
 	append_to (str: ZSTRING; extra: READABLE_STRING_GENERAL)
 		do

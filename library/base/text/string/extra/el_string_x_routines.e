@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-23 14:46:34 GMT (Friday 23rd June 2023)"
-	revision: "48"
+	date: "2023-06-24 5:02:37 GMT (Saturday 24th June 2023)"
+	revision: "49"
 
 deferred class
 	EL_STRING_X_ROUTINES [STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -18,6 +18,10 @@ inherit
 	EL_READABLE_STRING_GENERAL_ROUTINES
 
 feature -- Basic operations
+
+	append_area_32 (str: STRING_X; area: SPECIAL [CHARACTER_32])
+		deferred
+		end
 
 	append_to (str: STRING_X; extra: READABLE_STRING_GENERAL)
 		deferred

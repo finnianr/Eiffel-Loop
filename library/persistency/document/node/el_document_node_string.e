@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-23 17:47:45 GMT (Friday 23rd June 2023)"
-	revision: "31"
+	date: "2023-06-24 7:01:29 GMT (Saturday 24th June 2023)"
+	revision: "32"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -21,17 +21,19 @@ inherit
 			{NONE} all
 			{EL_DOCUMENT_CLIENT} set_from_c, set_from_c_with_count, right_adjust
 
-			{ANY} count, wipe_out, share, set_from_general, append_adjusted_to, unescape,
+			{ANY} count, wipe_out, share, set_from_general, unescape,
+					-- Basic operations
+					set, set_8, set_32, append_adjusted_to,
 					-- Element change
 					append, append_character, append_count_from_c, append_substring,
 					prepend, prepend_character,
 					-- Status query
-					has, has_substring, starts_with,
+					has, has_substring, starts_with, raw_string, raw_string_8, raw_string_32,
 					is_boolean, is_double, is_integer, is_real, is_valid_as_string_8, is_raw_empty
 		redefine
-			adjusted, adjusted_8, adjusted_32, append_to_string, append_to_string_32,
+			append_to_string, append_to_string_8, append_to_string_32,
 			as_string_32, to_string_32, as_string_8, to_string_8, to_string,
-			raw_string, raw_string_8, raw_string_32, unicode_count
+			unicode_count
 		end
 
 	EL_READABLE
@@ -123,7 +125,8 @@ feature -- Access
 
 	once_name: ZSTRING
 		do
-			Result := buffer.empty
+			Result := buffer
+			Result.wipe_out
 			if encoded_as_utf (8) then
 				Result.append_utf_8 (raw_name)
 			else
@@ -137,7 +140,8 @@ feature -- Access
 	xpath_name (keep_ref: BOOLEAN): ZSTRING
 			--
 		do
-			Result := buffer.empty
+			Result := buffer
+			buffer.wipe_out
 			inspect type
 				when Node_type_element then
 					if encoded_as_utf (8) then
@@ -194,115 +198,6 @@ feature -- Status query
 		end
 
 feature -- String conversion
-
-	adjusted (keep_ref: BOOLEAN): ZSTRING
-		-- string with adjusted whitespace
-		do
-			if encoded_as_utf (8) then
-				Result := Precursor (keep_ref)
-			else
-				Result := buffer.empty
-				Result.append_encodeable (buffer_8.adjusted (Current), Current)
-				if keep_ref then
-					Result := Result.twin
-				end
-			end
-		end
-
-	adjusted_32 (keep_ref: BOOLEAN): STRING_32
-		do
-			if encoded_as_utf (8) then
-				Result := Precursor (keep_ref)
-			else
-				Result := buffer_32.empty
-				if attached buffer_8.adjusted (Current) as str_8 then
-					if encoded_as_latin (1) then
-						Result.append_string_general (str_8)
-
-					elseif attached as_encoding as encoding then
-						encoding.convert_to (Encodings.Unicode, str_8)
-						if encoding.last_conversion_successful then
-							check
-								no_lost_data: not encoding.last_conversion_lost_data
-							end
-							Result.append_string_general (encoding.last_converted_string)
-						else
-							Result.append_string_general (str_8)
-						end
-					end
-				end
-				if keep_ref then
-					Result := Result.twin
-				end
-			end
-		end
-
-	adjusted_8 (keep_ref: BOOLEAN): STRING_8
-		-- string with adjusted whitespace
-		local
-			l_buffer: EL_STRING_8_BUFFER_ROUTINES
-		do
-			if encoded_as_utf (8) then
-				Result := Precursor (keep_ref)
-			else
-				if attached l_buffer.adjusted (Current) as str_8 then
-					if encoded_as_latin (1) then
-						Result := str_8
-
-					elseif attached as_encoding as encoding then
-						encoding.convert_to (Encodings.Latin_1, str_8)
-						if encoding.last_conversion_successful then
-							check
-								no_lost_data: not encoding.last_conversion_lost_data
-							end
-							Result.append (encoding.last_converted_string_8)
-						else
-							Result := str_8
-						end
-					end
-				end
-				if keep_ref then
-					Result := Result.twin
-				end
-			end
-		end
-
-	raw_string (keep_ref: BOOLEAN): ZSTRING
-		-- string with unadjusted whitespace
-		do
-			if encoded_as_utf (8) then
-				Result := Precursor (keep_ref)
-			else
-				Result := buffer.copied_general (Current)
-			end
-		end
-
-	raw_string_32 (keep_ref: BOOLEAN): STRING_32
-		-- string with unadjusted whitespace
-		local
-			l_buffer: EL_STRING_32_BUFFER_ROUTINES
-		do
-			if encoded_as_utf (8) then
-				Result := Precursor (keep_ref)
-			else
-				Result := l_buffer.copied_general (Current)
-			end
-		end
-
-	raw_string_8 (keep_ref: BOOLEAN): STRING_8
-		-- string with unadjusted whitespace
-		local
-			l_buffer: EL_STRING_8_BUFFER_ROUTINES
-		do
-			if encoded_as_utf (8) then
-				Result := Precursor (keep_ref)
-			else
-				Result := l_buffer.copied (Current)
-			end
-			if keep_ref then
-				Result := Result.twin
-			end
-		end
 
 	to_string: ZSTRING
 		do
@@ -406,6 +301,28 @@ feature {NONE} -- Implementation
 	append_to_string (zstr: ZSTRING; str_8: READABLE_STRING_8)
 		do
 			zstr.append_encoded (str_8, encoding_code)
+		end
+
+	append_to_string_8 (str_8: STRING_8; start_index, end_index: INTEGER)
+		do
+			if encoded_as_utf (8) then
+				Precursor (str_8, start_index, end_index)
+
+			elseif encoded_as_latin (1) then
+				str_8.append_substring (Current, start_index, end_index)
+
+			elseif attached as_encoding as encoding then
+				Immutable_8.set_item (area, start_index - 1, end_index - start_index + 1)
+				encoding.convert_to (Encodings.Latin_1, Immutable_8.item)
+				if encoding.last_conversion_successful then
+					check
+						no_lost_data: not encoding.last_conversion_lost_data
+					end
+					str_8.append (encoding.last_converted_string_8)
+				else
+					str_8.append_substring (Current, start_index, end_index)
+				end
+			end
 		end
 
 	append_to_string_32 (str_32: STRING_32; start_index, end_index: INTEGER)

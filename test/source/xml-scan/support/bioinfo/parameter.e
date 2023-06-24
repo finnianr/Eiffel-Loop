@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 14:00:13 GMT (Saturday 18th March 2023)"
-	revision: "7"
+	date: "2023-06-24 7:08:20 GMT (Saturday 24th June 2023)"
+	revision: "8"
 
 class
 	PARAMETER
@@ -148,9 +148,9 @@ feature {NONE} -- Build from XML
 			-- Nodes relative to element: par
 		do
 			create Result.make (<<
-				["id/text()", agent do id := node.to_string_8 end],
-				["label/text()", agent do label := node.to_string_8 end],
-				["runSwitch/text()", agent do run_switch := node.to_string_8 end],
+				["id/text()", agent do node.set_8 (id) end],
+				["label/text()", agent do node.set_8 (label) end],
+				["runSwitch/text()", agent do node.set_8 (run_switch) end],
 
 			-- Recursive
 				["value[@type='container']", agent do set_descendant_context (create {CONTAINER_PARAMETER}.make) end],

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 11:10:10 GMT (Monday 20th March 2023)"
-	revision: "23"
+	date: "2023-06-24 6:35:40 GMT (Saturday 24th June 2023)"
+	revision: "24"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -53,9 +53,9 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["buildable_from_node_scan",			agent test_buildable_from_node_scan],
-				["smart_buildable_from_node_scan",	agent test_smart_buildable_from_node_scan],
-				["recursive_object_build",			agent test_recursive_object_build]
+				["buildable_from_node_scan",		  agent test_buildable_from_node_scan],
+				["smart_buildable_from_node_scan", agent test_smart_buildable_from_node_scan],
+				["recursive_object_build",			  agent test_recursive_object_build]
 			>>)
 		end
 
@@ -70,19 +70,20 @@ feature -- Tests
 			end
 		end
 
+	test_recursive_object_build
+		-- OBJECT_BUILDER_TEST_SET.test_recursive_object_build
+		do
+			do_test ("create_bioinformatic_commands", 2238350059, agent create_bioinformatic_commands, [])
+		end
+
 	test_smart_buildable_from_node_scan
+		-- OBJECT_BUILDER_TEST_SET.test_smart_buildable_from_node_scan
 		-- object type determined by `create' XML processing instruction in document
 		-- 10 Feb 2020
 		do
 			across factory_types as type loop
 				smart_build (type.item)
 			end
-		end
-
-	test_recursive_object_build
-		-- OBJECT_BUILDER_TEST_SET.test_recursive_object_build
-		do
-			do_test ("create_bioinformatic_commands", 2238350059, agent create_bioinformatic_commands, [])
 		end
 
 feature {NONE} -- Implementation

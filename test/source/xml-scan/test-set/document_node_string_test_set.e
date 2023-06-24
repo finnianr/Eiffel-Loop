@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "8"
+	date: "2023-06-24 6:32:47 GMT (Saturday 24th June 2023)"
+	revision: "9"
 
 class
 	DOCUMENT_NODE_STRING_TEST_SET
@@ -16,6 +16,10 @@ inherit
 	EL_EQA_TEST_SET
 
 	EL_SHARED_TEST_TEXT
+
+	EL_SHARED_ZCODEC_FACTORY
+
+	EL_DOCUMENT_CLIENT
 
 create
 	make
@@ -26,35 +30,62 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["adjusted_strings", agent test_adjusted_strings]
+				["utf_8_set_string",	agent test_utf_8_set_string]
 			>>)
 		end
 
-feature -- Conversion tests
+feature -- Tests
 
-	test_adjusted_strings
+	test_utf_8_set_string
+		-- DOCUMENT_NODE_STRING_TEST_SET.test_utf_8_set_string
+		note
+			testing: "covers/{EL_UTF_8_STRING}.set_string, covers/{EL_UTF_8_STRING}.set_string_32",
+						"covers/{EL_UTF_8_STRING}.adjusted, covers/{EL_UTF_8_STRING}.unicode_count",
+						"covers/{EL_DOCUMENT_NODE_STRING}.set_string, covers/{EL_DOCUMENT_NODE_STRING}.set_string_32"
 		local
-			padded, str_32: STRING_32; node: EL_DOCUMENT_NODE_STRING
-			str: ZSTRING
+			utf_8, encoded: EL_UTF_8_STRING; padded_string: ZSTRING; latin_15: EL_DOCUMENT_NODE_STRING
+			s32: EL_STRING_32_ROUTINES; s8: EL_STRING_8_ROUTINES; latin_15_codec: EL_ZCODEC
 		do
-			create padded.make_filled (' ', 3)
-			create node.make_default
-			across << Text.Dollor_symbol, Text.Euro_symbol >> as symbol loop
-				padded [2] := symbol.item
-				node.set_from_general (padded)
-				check_string (node.to_string, symbol.item, 1, 1)
-				check_string (node.to_string_32, symbol.item, 1, 1)
-				check_string (node.raw_string (True), symbol.item, 2, 3)
-				check_string (node.raw_string_32 (True), symbol.item, 2, 3)
+			create latin_15.make_default
+			latin_15.set_latin_encoding (15)
+			latin_15_codec := Codec_factory.codec (latin_15)
+			create utf_8.make (0)
+
+			across << create {ZSTRING}.make (0), create {STRING_32}.make (0), create {STRING_8}.make (0) >> as type loop
+				across << Text.Dollor_symbol, Text.Mu_symbol, Text.Euro_symbol >> as symbol loop
+					across << 1, 3 >> as length loop
+						create padded_string.make_filled (' ', length.item)
+						padded_string [length.item // 2 + 1] := symbol.item
+						across << utf_8, latin_15 >> as list loop
+							encoded := list.item
+							encoded.wipe_out
+							if encoded = Utf_8 then
+								encoded.append (padded_string.to_utf_8 (True))
+
+							elseif attached padded_string.as_encoded_8 (latin_15_codec) as str_8 then
+								encoded.append (str_8)
+							end
+							assert ("is length", encoded.unicode_count = length.item)
+
+							if attached {ZSTRING} type.item as str then
+								encoded.set_string (str, True)
+								assert ("is same symbol", str.is_character (symbol.item))
+								assert_same_string (Void, str, encoded.adjusted (False))
+
+							elseif attached {STRING_32} type.item as str then
+								encoded.set_string_32 (str, True)
+								assert ("is same symbol", s32.is_character (str, symbol.item))
+								assert_same_string (Void, str, encoded.adjusted_32 (False))
+
+							elseif symbol.item.is_character_8 and then attached {STRING_8} type.item as str then
+								encoded.set_string_8 (str, True)
+								assert ("is same symbol", s8.is_character (str, symbol.item))
+								assert_same_string (Void, str, encoded.adjusted_8 (False))
+							end
+						end
+					end
+				end
 			end
-		end
-
-feature {NONE} -- Implementation
-
-	check_string (str: READABLE_STRING_GENERAL; symbol: CHARACTER_32; index, count: INTEGER)
-		do
-			assert ("valid count", str.count = count)
-			assert ("valid str", str [index] = symbol)
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 15:19:03 GMT (Tuesday 14th February 2023)"
-	revision: "8"
+	date: "2023-06-24 5:51:23 GMT (Saturday 24th June 2023)"
+	revision: "9"
 
 class
 	EL_ELEMENT_ATTRIBUTE_NODE_STRING
@@ -50,7 +50,8 @@ feature -- Access
 				cached_xpath_name.replace_substring (raw_name, 2, cached_xpath_name.count)
 			end
 
-			Result := Buffer.empty
+			Result := Buffer
+			Result.wipe_out
 			if encoded_as_utf (8) then
 				Result.append_utf_8 (cached_xpath_name)
 			else

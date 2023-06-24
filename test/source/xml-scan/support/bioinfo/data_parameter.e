@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-06-24 7:10:45 GMT (Saturday 24th June 2023)"
+	revision: "6"
 
 class
 	DATA_PARAMETER
@@ -58,38 +58,14 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Build from XML
 
-	set_flow_from_node
-			--
-		do
-			flow := node.to_string
-		end
-
-	set_type_from_node
-			--
-		do
-			type := node.to_string
-		end
-
-	set_flavor_from_node
-			--
-		do
-			flavor := node.to_string
-		end
-
-	set_filename_from_node
-			--
-		do
-			filename := node.to_string
-		end
-
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to element: value
 		do
 			create Result.make (<<
-				["dataflow/text()", agent set_flow_from_node],
-				["datatype/text()", agent set_type_from_node],
-				["flavor/text()", agent set_flavor_from_node],
-				["filename/text()", agent set_filename_from_node]
+				["dataflow/text()", agent do node.set_8 (flow) end],
+				["datatype/text()", agent do node.set_8 (type) end],
+				["flavor/text()", agent do node.set_8 (flavor) end],
+				["filename/text()", agent do node.set_8 (filename) end]
 			>>)
 		end
 

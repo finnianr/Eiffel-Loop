@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "9"
+	date: "2023-06-24 4:46:50 GMT (Saturday 24th June 2023)"
+	revision: "10"
 
 class
 	UTF_CONVERTER_TEST_SET
@@ -51,7 +51,7 @@ feature {NONE} -- Implementation
 		do
 			utf_8_string := utf_8.string_32_to_string_8 (str_32)
 			create substring_32.make_empty
-			utf_8.substring_8_into_string_32 (
+			utf_8.substring_8_into_string_general (
 				utf_8_string, leading_count + 1, utf_8_string.count - trailing_count, substring_32
 			)
 			assert ("same string", str_32.substring (leading_count + 1, str_32.count - trailing_count) ~ substring_32)

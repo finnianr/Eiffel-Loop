@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-06-24 6:52:54 GMT (Saturday 24th June 2023)"
+	revision: "10"
 
 class
 	SMIL_XPATH_MATCH_EVENTS
@@ -39,14 +39,14 @@ feature {NONE} -- XPath match event handlers
 	on_audio_title
 			--
 		do
-			log.put_string_field ("AUDIO TITLE", last_node.to_string)
+			log.put_string_field ("AUDIO TITLE", last_node.adjusted (False))
 			log.put_new_line
 		end
 
 	on_meta_tag
 			--
 		do
-			log.put_string_field ("META NAME", last_node.to_string)
+			log.put_string_field ("META NAME", last_node.adjusted (False))
 			log.put_new_line
 		end
 
