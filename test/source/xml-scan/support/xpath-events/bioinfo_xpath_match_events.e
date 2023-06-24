@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 6:50:24 GMT (Saturday 24th June 2023)"
-	revision: "15"
+	date: "2023-06-24 7:29:14 GMT (Saturday 24th June 2023)"
+	revision: "16"
 
 class
 	BIOINFO_XPATH_MATCH_EVENTS
@@ -63,7 +63,7 @@ feature {NONE} -- XPath match event handlers
 	on_par_id
 			--
 		do
-			if last_node.to_string_8 ~ "globalrules" then
+			if last_node.same_as_8 ("globalrules") then
 				par_id_globalrules_count := par_id_globalrules_count + 1
 			end
 		end
@@ -71,14 +71,14 @@ feature {NONE} -- XPath match event handlers
 	on_parameter_list_value_type
 			--
 		do
-			is_type_url := last_node.to_string_8 ~ "url"
+			is_type_url := last_node.same_as_8 ("url")
 			log_last_node ("TYPE")
 		end
 
 	on_parameter_list_value
 			--
 		do
-			if is_type_url and then last_node.to_string_8.starts_with ("http:") then
+			if is_type_url and then last_node.adjusted_8 (False).starts_with ("http:") then
 				log_last_node ("HTTP URL")
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2023-06-24 7:32:08 GMT (Saturday 24th June 2023)"
+	revision: "12"
 
 class
 	EL_BINARY_ENCODED_DOCUMENT_SCANNER

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 7:01:29 GMT (Saturday 24th June 2023)"
-	revision: "32"
+	date: "2023-06-24 7:34:51 GMT (Saturday 24th June 2023)"
+	revision: "33"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -87,6 +87,11 @@ inherit
 
 	EL_SHARED_ENCODINGS
 
+	EL_MODULE_BUFFER
+		rename
+			Buffer as Name_buffer
+		end
+
 create
 	make, make_default
 
@@ -125,8 +130,7 @@ feature -- Access
 
 	once_name: ZSTRING
 		do
-			Result := buffer
-			Result.wipe_out
+			Result := Name_buffer.empty
 			if encoded_as_utf (8) then
 				Result.append_utf_8 (raw_name)
 			else
@@ -140,8 +144,7 @@ feature -- Access
 	xpath_name (keep_ref: BOOLEAN): ZSTRING
 			--
 		do
-			Result := buffer
-			buffer.wipe_out
+			Result := Name_buffer.empty
 			inspect type
 				when Node_type_element then
 					if encoded_as_utf (8) then
@@ -195,6 +198,16 @@ feature -- Status query
 	same_as (a_string: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := adjusted (False).same_string_general (a_string)
+		end
+
+	same_as_8 (str_8: READABLE_STRING_8): BOOLEAN
+		do
+			Result := adjusted_8 (False).same_string (str_8)
+		end
+
+	same_as_32 (str_32: READABLE_STRING_32): BOOLEAN
+		do
+			Result := adjusted_32 (False).same_string (str_32)
 		end
 
 feature -- String conversion
