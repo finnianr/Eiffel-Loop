@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 6:58:52 GMT (Saturday 24th June 2023)"
-	revision: "13"
+	date: "2023-06-24 7:41:09 GMT (Saturday 24th June 2023)"
+	revision: "14"
 
 class
 	EL_UTF_8_STRING
@@ -134,19 +134,19 @@ feature -- Element change
 feature -- String setting
 
 	set (other: ZSTRING)
-		-- set `other' from `Current' UTF-8 string
+		-- set `other' from adjusted `Current' UTF-8 string
 		do
 			set_string (other, True)
 		end
 
 	set_8 (other: STRING_8)
-		-- set `other' from `Current' UTF-8 string
+		-- set `other' from adjusted `Current' UTF-8 string
 		do
 			set_string_8 (other, True)
 		end
 
 	set_32 (other: STRING_32)
-		-- set `other' from `Current' UTF-8 string
+		-- set `other' from adjusted `Current' UTF-8 string
 		do
 			set_string_32 (other, True)
 		end

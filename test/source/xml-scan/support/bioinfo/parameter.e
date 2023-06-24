@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 7:08:20 GMT (Saturday 24th June 2023)"
-	revision: "8"
+	date: "2023-06-24 15:02:17 GMT (Saturday 24th June 2023)"
+	revision: "9"
 
 class
 	PARAMETER
@@ -158,7 +158,7 @@ feature {NONE} -- Build from XML
 
 			-- Non-recursive
 				["value[@type='title']", agent do set_descendant_context (create {TITLE_PARAMETER}.make) end],
-				["value[@type='string']", agent do set_descendant_context (create {STRING_PARAMETER}.make) end],
+				["value[@type='string']", agent do set_descendant_context (create {VALUE_PARAMETER}.make) end],
 				["value[@type='url']", agent do set_descendant_context (create {URL_PARAMETER}.make) end],
 				["value[@type='rules']", agent set_rules_list_parameter_descendant],
 				["value[@type='data']", agent do set_descendant_context (create {DATA_PARAMETER}.make) end],
@@ -175,10 +175,11 @@ feature {NONE} -- Build from XML
 
 feature {NONE} -- Constants
 
-	Default_descendant: PARAMETER
+	Default_descendant: DEFAULT_PARAMETER
 			--
 		once
 			create Result.make
 		end
 
+	Text_node: STRING = "text()"
 end

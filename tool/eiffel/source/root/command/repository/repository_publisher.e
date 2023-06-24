@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 9:31:51 GMT (Saturday 29th April 2023)"
-	revision: "64"
+	date: "2023-06-24 8:37:09 GMT (Saturday 24th June 2023)"
+	revision: "65"
 
 class
 	REPOSITORY_PUBLISHER
@@ -264,10 +264,10 @@ feature {NONE} -- Build from Pyxis
 		do
 			create Result.make (<<
 				["@output_dir",		 			agent do output_dir := node.to_expanded_dir_path end],
-				["@name", 							agent do name := node.to_string end],
+				["@name", 							agent do node.set (name) end],
 				["@root_dir",	 					agent do root_dir := node.to_expanded_dir_path end],
 				["@github_url", 					agent do github_url := node.to_string end],
-				["@web_address", 					agent do web_address := node.to_string end],
+				["@web_address", 					agent do node.set (web_address) end],
 				["@ise_library",					agent do ise_template.library := node end],
 				["@ise_contrib",					agent do ise_template.contrib := node end],
 

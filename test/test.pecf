@@ -17,7 +17,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 5; release = 1; build = 295
+			major = 1; minor = 5; release = 1; build = 301
 			company = "Eiffel-Loop"; product = "test"
 			copyright = "Finnian Reilly"
 

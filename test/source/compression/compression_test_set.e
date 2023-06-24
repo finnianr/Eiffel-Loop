@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-20 7:12:19 GMT (Tuesday 20th June 2023)"
-	revision: "14"
+	date: "2023-06-24 10:38:14 GMT (Saturday 24th June 2023)"
+	revision: "15"
 
 class
 	COMPRESSION_TEST_SET
@@ -55,15 +55,15 @@ feature -- Tests
 			archive.close
 
 			assert ("all files restored", decompressed_list.full)
-			from decompressed_list.start until decompressed_list.after loop
-				assert ("valid file path", file_list.has (decompressed_list.item_path))
-				lio.put_path_field ("XML", decompressed_list.item_path)
-				lio.put_new_line
-				create decompressed_data.share_from_pointer (
-					decompressed_list.item_data.base_address, decompressed_list.item_data.count
-				)
-				assert ("same data", decompressed_data ~ File.data (decompressed_list.item_path))
-				decompressed_list.forth
+			if attached decompressed_list as list then
+				from list.start until list.after loop
+					lio.put_path_field ("XML", list.item_path)
+					lio.put_new_line
+					assert ("valid file path", file_list.has (list.item_path))
+					create decompressed_data.share_from_pointer (list.item_data.base_address, list.item_data.count)
+					assert ("same data", decompressed_data ~ File.data (list.item_path))
+					list.forth
+				end
 			end
 		end
 

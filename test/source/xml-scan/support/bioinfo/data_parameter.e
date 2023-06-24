@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 7:10:45 GMT (Saturday 24th June 2023)"
-	revision: "6"
+	date: "2023-06-24 14:10:36 GMT (Saturday 24th June 2023)"
+	revision: "7"
 
 class
 	DATA_PARAMETER
@@ -15,7 +15,7 @@ class
 inherit
 	PARAMETER
 		redefine
-			default_create, building_action_table, display_item
+			make, building_action_table, display_item
 		end
 
 create
@@ -23,14 +23,14 @@ create
 
 feature {NONE} -- Initialization
 
-	default_create
+	make
 			--
 		do
 			Precursor {PARAMETER}
 			create flow.make_empty
 			create type.make_empty
 			create flavor.make_empty
-			create flavor.make_empty
+			create filename.make_empty
 		end
 
 feature -- Access

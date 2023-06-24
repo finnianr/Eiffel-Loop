@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-28 11:35:48 GMT (Tuesday 28th March 2023)"
-	revision: "16"
+	date: "2023-06-24 10:47:09 GMT (Saturday 24th June 2023)"
+	revision: "17"
 
 class
 	EL_COMPRESSED_ARCHIVE_FILE
@@ -276,8 +276,7 @@ feature {NONE} -- Implementation
 		require
 			open_read: is_open_read
 		local
-			file_name_count: INTEGER
-			l_file_path: ZSTRING
+			file_name_count: INTEGER; l_file_path: ZSTRING
 		do
 			if (count - position) > {PLATFORM}.Integer_32_bytes then
 				read_integer

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 13:28:41 GMT (Sunday 4th December 2022)"
-	revision: "24"
+	date: "2023-06-24 10:50:32 GMT (Saturday 24th June 2023)"
+	revision: "25"
 
 class
 	EL_FILE_PATH_LIST
@@ -21,7 +21,7 @@ inherit
 			item as path,
 			last as last_path
 		redefine
-			make_from_tuple
+			make_from_tuple, make_with_count
 		end
 
 	EL_MODULE_FILE
@@ -53,6 +53,12 @@ feature {NONE} -- Initialization
 				end
 				i := i + 1
 			end
+		end
+
+	make_with_count (n: INTEGER)
+		do
+			Precursor (n)
+			compare_objects
 		end
 
 feature -- Conversion

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "24"
+	date: "2023-06-24 7:58:37 GMT (Saturday 24th June 2023)"
+	revision: "25"
 
 class
 	EL_TRANSLATION_TABLE
@@ -159,7 +159,7 @@ feature {NONE} -- Build from XML
 			--
 		do
 			create Result.make (<<
-				["item/@id",				 agent do last_id := node end],
+				["item/@id",				 agent do last_id := node.to_string end],
 				[translation_text_xpath, agent do put (node, last_id) end]
 			>>)
 		end

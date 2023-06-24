@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 11:43:18 GMT (Thursday 5th January 2023)"
-	revision: "5"
+	date: "2023-06-24 10:47:57 GMT (Saturday 24th June 2023)"
+	revision: "6"
 
 class
 	EL_DECOMPRESSED_DATA_LIST
@@ -17,6 +17,8 @@ inherit
 		rename
 			item_key as item_path,
 			item_value as item_data
+		redefine
+			make
 		end
 
 	EL_FILE_DECOMPRESS_HANDLER
@@ -26,6 +28,14 @@ inherit
 
 create
 	make
+
+feature {NONE} -- Initialization
+
+	make (n: INTEGER)
+		do
+			Precursor (n)
+			compare_objects
+		end
 
 feature {NONE} -- Event handling
 

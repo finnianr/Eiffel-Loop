@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 7:05:56 GMT (Saturday 24th June 2023)"
-	revision: "6"
+	date: "2023-06-24 14:53:01 GMT (Saturday 24th June 2023)"
+	revision: "7"
 
 class
 	BOOLEAN_PARAMETER
 
 inherit
-	PARAMETER
-		redefine
-			display_item, building_action_table
-		end
+	TEXT_NODE_PARAMETER [BOOLEAN]
 
 create
 	make
@@ -30,18 +27,11 @@ feature -- Basic operations
 			log.put_new_line
 		end
 
-feature -- Access
-
-	item: BOOLEAN
-
 feature {NONE} -- Build from XML
 
-	building_action_table: EL_PROCEDURE_TABLE [STRING]
-			-- Nodes relative to element: value
+	set_item_from_node
 		do
-			create Result.make (<<
-				["text()", agent do item := node end]
-			>>)
+			item := node
 		end
 
 end

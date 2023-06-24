@@ -1,22 +1,24 @@
 note
-	description: "String parameter"
+	description: "String value parameter"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-06-24 14:58:42 GMT (Saturday 24th June 2023)"
+	revision: "6"
 
 class
-	STRING_PARAMETER
+	VALUE_PARAMETER
 
 inherit
-	PARAMETER
+	TEXT_NODE_PARAMETER [STRING]
 		redefine
-			make, building_action_table, display_item
+			make
 		end
+
+	EL_MODULE_NAMING
 
 create
 	make
@@ -32,7 +34,10 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	item: STRING
+	type: STRING
+		do
+			Result := Naming.class_as_kebab_lower (Current, 0, 1)
+		end
 
 feature {NONE} -- Implementation
 
@@ -40,24 +45,15 @@ feature {NONE} -- Implementation
 			--
 		do
 			log.put_new_line
-			log.put_string_field ("value", item)
+			log.put_string_field (type, item)
 			log.put_new_line
 		end
 
 feature {NONE} -- Build from XML
 
 	set_item_from_node
-			--
 		do
-			item := node.to_string
-		end
-
-	building_action_table: EL_PROCEDURE_TABLE [STRING]
-			-- Nodes relative to element: value
-		do
-			create Result.make (<<
-				["text()", agent set_item_from_node]
-			>>)
+			node.set_8 (item)
 		end
 
 end

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 9:55:27 GMT (Monday 9th January 2023)"
-	revision: "23"
+	date: "2023-06-24 9:31:02 GMT (Saturday 24th June 2023)"
+	revision: "24"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -75,9 +75,9 @@ feature {NONE} -- Initialization
 		do
 			make_playlist (20)
 			create unplayed.make (Unplayed_name); unplayed.compare_objects
-			title := Empty_string
-			venue := Empty_string
-			dj_name := Empty_string
+			create title.make_empty
+			create venue.make_empty
+			create dj_name.make_empty
 			create start_time.make (0, 0, 0)
 			create date.make_by_days (0)
 			is_publishable := True
@@ -222,9 +222,9 @@ feature {NONE} -- Building from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
-				["@title", 				agent do title := node.to_string end],
-				["@DJ_name",			agent do dj_name := node.to_string end],
-				["@venue",				agent do venue := node.to_string end],
+				["@title", 				agent do node.set (title) end],
+				["@DJ_name",			agent do node.set (dj_name) end],
+				["@venue",				agent do node.set (venue) end],
 				["@date", 				agent set_date_from_node],
 				["@start_time", 		agent set_start_time_from_node],
 				["@ignore", 			agent do is_publishable := not node.to_boolean end],
@@ -257,8 +257,8 @@ feature {NONE} -- Building from XML
 
 	set_date_from_node
 		do
-			if Date_checker.date_valid (node, Date_format) then
-				create date.make_from_string (node, Date_format)
+			if attached node.adjusted_8 (False) as str_8 and then Date_checker.date_valid (str_8, Date_format) then
+				create date.make_from_string (str_8, Date_format)
 			end
 		end
 
@@ -266,8 +266,8 @@ feature {NONE} -- Building from XML
 		local
 			time: EL_TIME_ROUTINES
 		do
-			if time.is_valid (node) then
-				create start_time.make_from_string (node, "hh:mi")
+			if attached node.adjusted_8 (False) as str_8 and then time.is_valid (str_8) then
+				create start_time.make_from_string (str_8, "hh:mi")
 			end
 		end
 

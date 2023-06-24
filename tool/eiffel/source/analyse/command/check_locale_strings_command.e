@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:48:21 GMT (Tuesday 14th February 2023)"
-	revision: "29"
+	date: "2023-06-24 8:39:45 GMT (Saturday 24th June 2023)"
+	revision: "30"
 
 class
 	CHECK_LOCALE_STRINGS_COMMAND
@@ -302,7 +302,8 @@ feature {NONE} -- Build from Pyxis
 			-- Nodes relative to root element: bix
 		do
 			create Result.make (<<
-				["localized-file-names/@extension",			agent do last_localized_file_name_extension := node end],
+				["evolicity-template/ignore-key/text()",	agent do evolicity_parser_list.last.ignored_keys.put (node) end],
+				["localized-file-names/@extension",			agent do node.set (last_localized_file_name_extension) end],
 				["source-dir/text()",							agent do source_dir := node.to_expanded_dir_path end],
 				["include/@name",									agent do additional_keys_table.put (new_empty_list, node) end],
 
@@ -310,7 +311,6 @@ feature {NONE} -- Build from Pyxis
 				["localized-file-names/text()",				agent extend_localized_file_name_list],
 				["localized-www-content/text()",				agent extend_localized_www_content],
 				["evolicity-template/@path",					agent extend_evolicity_parser_list],
-				["evolicity-template/ignore-key/text()",	agent do evolicity_parser_list.last.ignored_keys.put (node) end],
 				["include/keys/text()",							agent extend_additional_keys_table_item]
 			>>)
 		end

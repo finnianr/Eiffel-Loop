@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 7:34:51 GMT (Saturday 24th June 2023)"
-	revision: "33"
+	date: "2023-06-24 14:56:47 GMT (Saturday 24th June 2023)"
+	revision: "34"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -96,7 +96,7 @@ create
 	make, make_default
 
 convert
-	to_boolean: {BOOLEAN},
+	to_boolean: {BOOLEAN}, to_real: {REAL_32},
 	to_integer: {INTEGER}, to_integer_64: {INTEGER_64},
 	to_natural: {NATURAL}, to_natural_64: {NATURAL_64},
 	to_string_32: {STRING_32}, to_string: {ZSTRING}

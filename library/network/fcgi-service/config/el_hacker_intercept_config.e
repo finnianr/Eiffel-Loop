@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:55:09 GMT (Tuesday 14th February 2023)"
-	revision: "9"
+	date: "2023-06-24 8:08:58 GMT (Saturday 24th June 2023)"
+	revision: "10"
 
 class
 	EL_HACKER_INTERCEPT_CONFIG
@@ -73,7 +73,7 @@ feature {NONE} -- Build from XML
 
 	append_filter (a_predicate: STRING)
 		do
-			across node.to_string.lines as line loop
+			across node.adjusted (False).lines as line loop
 				across line.item.split (';') as split loop
 					filter_table.extend (a_predicate, split.item_copy)
 				end

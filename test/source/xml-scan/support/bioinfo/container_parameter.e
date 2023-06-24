@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-06-24 14:26:14 GMT (Saturday 24th June 2023)"
+	revision: "5"
 
 class
 	CONTAINER_PARAMETER
@@ -40,25 +40,18 @@ feature -- Basic operations
 			--
 		do
 			log.put_new_line
-			from parameter_list.start until parameter_list.after loop
-				parameter_list.item.display
-				parameter_list.forth
+			across parameter_list as list loop
+				list.item.display
 			end
 		end
 
 feature {NONE} -- Build from XML
 
-	build_parameter_list
-			--
-		do
-			set_next_context (parameter_list)
-		end
-
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to element: value
 		do
 			create Result.make (<<
-				["parlist", agent build_parameter_list]
+				["parlist", agent do set_next_context (parameter_list) end]
 			>>)
 		end
 end

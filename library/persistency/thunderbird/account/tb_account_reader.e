@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:38:51 GMT (Tuesday 14th February 2023)"
-	revision: "30"
+	date: "2023-06-24 8:11:21 GMT (Saturday 24th June 2023)"
+	revision: "31"
 
 deferred class
 	TB_ACCOUNT_READER
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			create account.make (0)
+			create account.make_empty
 			create language.make_empty
 			create folder_list.make (5)
 			folder_list.compare_objects
@@ -159,8 +159,8 @@ feature {NONE} -- Build from XML
 			--
 		do
 			create Result.make (<<
-				["@account",				agent do account := node.to_string_8 end],
-				["@language",				agent do language := node.to_string_8 end],
+				["@account",				agent do node.set_8 (account) end],
+				["@language",				agent do node.set_8 (language) end],
 				["@home_dir",				agent do home_dir := node.to_expanded_dir_path end],
 				["@export_dir",			agent do export_dir := node.to_expanded_dir_path end],
 				["@language_code_last", agent do language_code_last := node end],

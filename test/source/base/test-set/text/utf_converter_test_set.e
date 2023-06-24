@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 4:46:50 GMT (Saturday 24th June 2023)"
-	revision: "10"
+	date: "2023-06-24 9:49:17 GMT (Saturday 24th June 2023)"
+	revision: "11"
 
 class
 	UTF_CONVERTER_TEST_SET
@@ -23,10 +23,11 @@ create
 feature {NONE} -- Initialization
 
 	make
+		-- initialize `test_table'
 		do
 			make_named (<<
 				["little_endian_utf_16_substring_conversion", agent test_little_endian_utf_16_substring_conversion],
-				["utf_8_substring_conversion", agent test_utf_8_substring_conversion]
+				["utf_8_substring_conversion",					 agent test_utf_8_substring_conversion]
 			>>)
 		end
 
@@ -39,35 +40,12 @@ feature -- Test
 		end
 
 	test_utf_8_substring_conversion
+		-- UTF_CONVERTER_TEST_SET.test_utf_8_substring_conversion
 		do
 			do_test (agent test_utf_8)
 		end
 
 feature {NONE} -- Implementation
-
-	test_utf_8 (str_32: STRING_32; leading_count, trailing_count: INTEGER)
-		local
-			utf_8_string: STRING_8; utf_8: EL_UTF_8_CONVERTER; substring_32: STRING_32
-		do
-			utf_8_string := utf_8.string_32_to_string_8 (str_32)
-			create substring_32.make_empty
-			utf_8.substring_8_into_string_general (
-				utf_8_string, leading_count + 1, utf_8_string.count - trailing_count, substring_32
-			)
-			assert ("same string", str_32.substring (leading_count + 1, str_32.count - trailing_count) ~ substring_32)
-		end
-
-	test_utf_16_le (str_32: STRING_32; leading_count, trailing_count: INTEGER)
-		local
-			utf_16_le_string: STRING_8; utf_16_le: EL_UTF_16_LE_CONVERTER; substring_32: STRING_32
-		do
-			utf_16_le_string := utf_16_le.string_32_to_string_8 (str_32)
-			create substring_32.make_empty
-			utf_16_le.substring_8_into_string_32 (
-				utf_16_le_string, leading_count * 2 + 1, utf_16_le_string.count - trailing_count * 2, substring_32
-			)
-			assert ("same string", str_32.substring (leading_count + 1, str_32.count - trailing_count) ~ substring_32)
-		end
 
 	do_test (test_utf: PROCEDURE [STRING_32, INTEGER, INTEGER])
 		local
@@ -85,6 +63,30 @@ feature {NONE} -- Implementation
 				trailing_count := str_32.count - i
 				test_utf (str_32, leading_count, trailing_count)
 			end
+		end
+
+	test_utf_16_le (str_32: STRING_32; leading_count, trailing_count: INTEGER)
+		local
+			utf_16_le_string: STRING_8; utf_16_le: EL_UTF_16_LE_CONVERTER; substring_32: STRING_32
+		do
+			utf_16_le_string := utf_16_le.string_32_to_string_8 (str_32)
+			create substring_32.make_empty
+			utf_16_le.substring_8_into_string_32 (
+				utf_16_le_string, leading_count * 2 + 1, utf_16_le_string.count - trailing_count * 2, substring_32
+			)
+			assert ("same string", str_32.substring (leading_count + 1, str_32.count - trailing_count) ~ substring_32)
+		end
+
+	test_utf_8 (str_32: STRING_32; leading_count, trailing_count: INTEGER)
+		local
+			utf_8_string: STRING_8; utf_8: EL_UTF_8_CONVERTER; substring_32: STRING_32
+		do
+			utf_8_string := utf_8.string_32_to_string_8 (str_32)
+			create substring_32.make_empty
+			utf_8.substring_8_into_string_general (
+				utf_8_string, leading_count + 1, utf_8_string.count - trailing_count, substring_32
+			)
+			assert ("same string", str_32.substring (leading_count + 1, str_32.count - trailing_count) ~ substring_32)
 		end
 
 end
