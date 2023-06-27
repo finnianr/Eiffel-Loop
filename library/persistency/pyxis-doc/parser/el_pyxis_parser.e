@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "47"
+	date: "2023-06-26 9:15:48 GMT (Monday 26th June 2023)"
+	revision: "48"
 
 class
 	EL_PYXIS_PARSER
@@ -109,13 +109,12 @@ feature -- Basic operations
 		end
 
 	parse_from_string (a_string: STRING)
-			-- Parse document from `a_string'.
+		-- Parse document from `a_string'.
 		local
-			line_splitter: EL_SPLIT_ON_CHARACTER [STRING_8]
+			line_splitter: EL_SPLIT_ON_CHARACTER_8 [STRING_8]
 		do
 			reset
 			scanner.on_start_document
-
 			create line_splitter.make (a_string, '%N')
 			across line_splitter as split loop
 				call_state_procedure (split.item)

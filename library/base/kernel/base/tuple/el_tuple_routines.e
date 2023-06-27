@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:03 GMT (Monday 20th March 2023)"
-	revision: "36"
+	date: "2023-06-26 9:15:08 GMT (Monday 26th June 2023)"
+	revision: "37"
 
 class
 	EL_TUPLE_ROUTINES
@@ -265,7 +265,7 @@ feature -- Basic operations
 			valid_list: csv_field_list.count > 0 and then start_index + csv_field_list.occurrences (',') <= tuple.count
 			not_filled:	not is_filled (tuple, start_index, start_index + csv_field_list.occurrences (','))
 		local
-			result_type_id: INTEGER; comma_splitter: EL_SPLIT_ON_CHARACTER [STRING_8]
+			result_type_id: INTEGER; comma_splitter: EL_SPLIT_ON_CHARACTER_8 [STRING_8]
 			tuple_types: EL_TUPLE_TYPE_ARRAY; index: INTEGER
 		do
 			result_type_id := a_new_item.generating_type.generic_parameter_type (2).type_id

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "23"
+	date: "2023-06-26 7:50:36 GMT (Monday 26th June 2023)"
+	revision: "24"
 
 deferred class
 	EL_DEBIAN_PACKAGER_I
@@ -49,7 +49,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create package.make_empty
 
 			create configuration_file_list.make_empty
-			do_once_with_file_lines (agent find_package, open_lines (debian_dir + Control, Utf_8))
+			do_once_with_file_lines (agent find_package, open_lines (debian_dir + Name.control, Utf_8))
 			versioned_package := package_name_parts.joined ('-')
 			versioned_package_dir := Directory.temporary.joined_dir_tuple ([versioned_package])
 		end
@@ -68,7 +68,9 @@ feature -- Basic operations
 
 			-- needed to prevent erroneous error message "line too long in conffiles"
 			configuration_file_list.extend (Empty_string)
-			if attached open (versioned_package_dir.joined_file_tuple ([Debian, Conffiles]), Write) as l_file then
+			if attached versioned_package_dir.joined_file_tuple ([Name.DEBIAN, Name.Conffiles]) as package_path
+				and then attached open (package_path, Write) as l_file
+			then
 				l_file.put_lines (configuration_file_list)
 				l_file.close
 			end
@@ -102,9 +104,11 @@ feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
 			dir_name: ZSTRING
 		do
 			dir_name := path.parent.base
-			if dir_name ~ Bin and then (path.has_extension (Bash_extension) or else path.base ~ Executable.name) then
+			if dir_name ~ Name.Bin
+				and then (path.has_extension (Bash_extension) or else path.base ~ Executable.name)
+			then
 				Result := True
-			elseif dir_name ~ Debian and then File.line_one (path).starts_with (once "#!/bin") then
+			elseif dir_name ~ Name.DEBIAN and then File.line_one (path).starts_with (once "#!/bin") then
 				Result := True
 			end
 		end
@@ -133,8 +137,8 @@ feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
 			control_file: EL_DEBIAN_CONTROL; destination_path: FILE_PATH
 		do
 			across Shared_directory.named (debian_dir).files as file_path loop
-				destination_path := versioned_package_dir.joined_file_tuple ([Debian, file_path.item.base])
-				if file_path.item.base ~ Control then
+				destination_path := versioned_package_dir.joined_file_tuple ([Name.DEBIAN, file_path.item.base])
+				if file_path.item.base ~ Name.control then
 					create control_file.make (file_path.item, destination_path)
 					control_file.set_installed_size (installed_size)
 					control_file.serialize

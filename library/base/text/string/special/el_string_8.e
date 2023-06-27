@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 11:11:59 GMT (Wednesday 15th March 2023)"
-	revision: "19"
+	date: "2023-06-25 10:43:08 GMT (Sunday 25th June 2023)"
+	revision: "20"
 
 class
 	EL_STRING_8
@@ -40,6 +40,14 @@ feature -- Staus query
 			c: EL_CHARACTER_8_ROUTINES
 		do
 			Result := c.is_ascii_area (area, area_lower, area_upper)
+		end
+
+	has_padding: BOOLEAN
+		-- `True' if `leading_white_count > 0' or `trailing_white_count > 0'
+		do
+			if count > 0 and then attached area as l_area then
+				Result := l_area [0].is_space or else l_area [count - 1].is_space
+			end
 		end
 
 feature -- Measurement

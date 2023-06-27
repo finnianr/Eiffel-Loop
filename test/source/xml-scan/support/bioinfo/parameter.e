@@ -1,13 +1,14 @@
 note
 	description: "Parameter"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 15:02:17 GMT (Saturday 24th June 2023)"
-	revision: "9"
+	date: "2023-06-24 15:44:39 GMT (Saturday 24th June 2023)"
+	revision: "10"
 
 class
 	PARAMETER
@@ -182,4 +183,24 @@ feature {NONE} -- Constants
 		end
 
 	Text_node: STRING = "text()"
-end
+
+note
+	descendants: "[
+			PARAMETER
+				[$source CONTAINER_PARAMETER]
+					[$source CHOICE_PARAMETER]
+				[$source DATA_PARAMETER]
+				[$source LIST_PARAMETER]* [G]
+					[$source INTEGER_RANGE_LIST_PARAMETER]
+					[$source REAL_RANGE_LIST_PARAMETER]
+					[$source RULES_LIST_PARAMETER]
+					[$source STRING_LIST_PARAMETER]
+				[$source DEFAULT_PARAMETER]
+				[$source TEXT_NODE_PARAMETER]* [G]
+					[$source REAL_PARAMETER]
+					[$source BOOLEAN_PARAMETER]
+					[$source INTEGER_PARAMETER]
+					[$source VALUE_PARAMETER]
+						[$source TITLE_PARAMETER]
+						[$source URL_PARAMETER]
+	]"end

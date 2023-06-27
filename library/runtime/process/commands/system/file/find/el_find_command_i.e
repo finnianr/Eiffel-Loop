@@ -1,13 +1,13 @@
 note
-	description: "Find command i"
+	description: "Find command abstraction"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-30 12:16:25 GMT (Thursday 30th March 2023)"
-	revision: "23"
+	date: "2023-06-27 8:32:59 GMT (Tuesday 27th June 2023)"
+	revision: "24"
 
 deferred class
 	EL_FIND_COMMAND_I
@@ -54,13 +54,13 @@ feature -- Access
 
 	name_pattern: ZSTRING
 
+	path_list: like new_path_list note option: transient attribute end
+
 	sorted_path_list: like path_list
 		do
 			Result := path_list
 			Result.ascending_sort
 		end
-
-	path_list: like new_path_list note option: transient attribute end
 
 	type: STRING
 			-- Unix find type or Windows attribute /A
@@ -78,12 +78,6 @@ feature -- Status
 
 feature -- Status change
 
-	set_follow_symbolic_links (flag: like follow_symbolic_links)
-			--
-		do
-			follow_symbolic_links := flag
-		end
-
 	set_default_filter
 		do
 			filter := Default_filter
@@ -94,6 +88,12 @@ feature -- Status change
 			filter := condition
 		end
 
+	set_follow_symbolic_links (flag: like follow_symbolic_links)
+			--
+		do
+			follow_symbolic_links := flag
+		end
+
 	set_predicate_filter (condition: EL_PREDICATE_FIND_CONDITION)
 		-- set agent predicate filter
 		do
@@ -101,6 +101,12 @@ feature -- Status change
 		end
 
 feature -- Element change
+
+	set_default_depths
+		do
+			min_depth := 0
+			max_depth := max_depth.Max_value
+		end
 
 	set_defaults
 		-- set default settings
@@ -114,12 +120,6 @@ feature -- Element change
 	set_depth (interval: INTEGER_INTERVAL)
 		do
 			min_depth := interval.lower; max_depth := interval.upper
-		end
-
-	set_default_depths
-		do
-			min_depth := 0
-			max_depth := max_depth.Max_value
 		end
 
 	set_max_depth (a_max_depth: like max_depth)
@@ -171,11 +171,20 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor +
-				["name_pattern", 	agent: ZSTRING do Result := name_pattern end] +
-				["max_depth", 		agent: INTEGER_REF do Result := max_depth.to_reference end] +
-				["min_depth", 		agent: INTEGER_REF do Result := min_depth.to_reference end] +
-				["type",				agent: STRING do Result := type end]
+			Result := Precursor
+			Result.append_tuples (<<
+				["name_pattern",		agent: ZSTRING do Result := name_pattern end],
+				["use_name_pattern",	agent use_name_pattern],
+
+				["type",					agent: STRING do Result := type end],
+				["max_depth",			agent: INTEGER_REF do Result := max_depth.to_reference end],
+				["min_depth",			agent: INTEGER_REF do Result := min_depth.to_reference end]
+			>>)
+		end
+
+	use_name_pattern: BOOLEAN_REF
+		do
+			Result := not (name_pattern.is_empty or name_pattern.is_character ('*'))
 		end
 
 feature {NONE} -- Implementation

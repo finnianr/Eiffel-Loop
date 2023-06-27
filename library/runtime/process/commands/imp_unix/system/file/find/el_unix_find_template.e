@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-06-27 8:29:09 GMT (Tuesday 27th June 2023)"
+	revision: "8"
 
 class
 	EL_UNIX_FIND_TEMPLATE
@@ -25,7 +25,7 @@ feature {NONE} -- Constants
 			-maxdepth $max_depth
 		#end
 		-type $type
-		#if not $name_pattern.is_empty then
+		#if $use_name_pattern then
 			-name "$name_pattern"
 		#end
 	]"

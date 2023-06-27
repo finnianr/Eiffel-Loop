@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 14:56:47 GMT (Saturday 24th June 2023)"
-	revision: "34"
+	date: "2023-06-25 10:02:10 GMT (Sunday 25th June 2023)"
+	revision: "35"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -118,6 +118,24 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	document_dir: DIR_PATH
+
+	code_value_8 (current_code: NATURAL_8; enumeration: EL_ENUMERATION [NATURAL_8]): NATURAL_8
+		-- enumeration value for current node name or `current_code' if name is invalid
+		do
+			Result := current_code
+			if attached adjusted_8 (False) as code_name and then enumeration.is_valid_name (code_name) then
+				Result := enumeration.value (code_name)
+			end
+		end
+
+	code_value_16 (current_code: NATURAL_16; enumeration: EL_ENUMERATION [NATURAL_16]): NATURAL_16
+		-- enumeration value for current node name or `current_code' if name is invalid
+		do
+			Result := current_code
+			if attached adjusted_8 (False) as code_name and then enumeration.is_valid_name (code_name) then
+				Result := enumeration.value (code_name)
+			end
+		end
 
 	name: ZSTRING
 		do

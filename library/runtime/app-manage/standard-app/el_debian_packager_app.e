@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-20 10:10:09 GMT (Saturday 20th May 2023)"
-	revision: "14"
+	date: "2023-06-26 7:48:18 GMT (Monday 26th June 2023)"
+	revision: "15"
 
 class
 	EL_DEBIAN_PACKAGER_APP
@@ -42,7 +42,7 @@ feature {NONE} -- Implementation
 
 	control_exists (path: DIR_PATH): BOOLEAN
 		do
-			Result := (path + Control).exists
+			Result := (path + Name.control).exists
 		end
 
 	default_make: PROCEDURE [like command]

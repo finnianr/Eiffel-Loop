@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-06-27 7:47:54 GMT (Tuesday 27th June 2023)"
+	revision: "9"
 
 class
 	EL_FORMATTED_TEXT_BLOCK
@@ -87,12 +87,12 @@ feature -- Element change
 
 	append_text (a_text: ZSTRING)
 		local
-			text: ZSTRING
+			text: ZSTRING; s: EL_STRING_8_ROUTINES
 		do
-			text := a_text
-			if text.item (text.count) /= '%N' then
-				text := a_text.twin
-				text.append_character (' ')
+			if a_text [a_text.count] = '%N' then
+				text := a_text
+			else
+				text := a_text + s.character_string (' ')
 			end
 			paragraphs.extend ([text, format.character])
 			count := count + text.count

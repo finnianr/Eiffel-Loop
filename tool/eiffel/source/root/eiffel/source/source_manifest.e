@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-30 12:23:15 GMT (Thursday 30th March 2023)"
-	revision: "29"
+	date: "2023-06-25 8:39:22 GMT (Sunday 25th June 2023)"
+	revision: "30"
 
 class
 	SOURCE_MANIFEST
@@ -115,10 +115,10 @@ feature {NONE} -- Build from Pyxis
 			-- Nodes relative to root element: bix
 		do
 			create Result.make (<<
-				["import/text()", agent import_manifest],
-				["location/@name", agent do last_name := node.to_string end],
+				["import/text()",	  agent import_manifest],
+				["location/@name",  agent do node.set (last_name) end],
 				["location/text()", agent extend_locations],
-				["notes", agent do set_next_context (notes) end]
+				["notes",			  agent do set_next_context (notes) end]
 			>>)
 		end
 

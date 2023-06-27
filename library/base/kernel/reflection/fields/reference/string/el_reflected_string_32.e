@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
-	revision: "12"
+	date: "2023-06-25 9:16:55 GMT (Sunday 25th June 2023)"
+	revision: "13"
 
 class
 	EL_REFLECTED_STRING_32
@@ -34,7 +34,14 @@ feature -- Basic operations
 
 	set_from_node (a_object: EL_REFLECTIVE; node: EL_STRING_NODE)
 		do
-			set (a_object, node.as_string_32 (not is_value_cached))
+			if is_value_cached then
+				set (a_object, node.as_string_32 (False))
+
+			elseif attached value (a_object) as str_32 then
+				node.set_32 (str_32)
+			else
+				set (a_object, node.as_string_32 (True))
+			end
 		end
 
 	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)

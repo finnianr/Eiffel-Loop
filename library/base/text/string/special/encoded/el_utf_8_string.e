@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 7:41:09 GMT (Saturday 24th June 2023)"
-	revision: "14"
+	date: "2023-06-25 10:50:49 GMT (Sunday 25th June 2023)"
+	revision: "15"
 
 class
 	EL_UTF_8_STRING
@@ -166,10 +166,10 @@ feature -- String setting
 
 	set_string_32 (str_32: STRING_32; adjust_whitespace: BOOLEAN)
 		local
-			start_index, end_index, l_trimmed_count: INTEGER
+			start_index, end_index, l_count: INTEGER
 		do
 			str_32.wipe_out
-			l_trimmed_count := trimmed_count ($start_index, $end_index, adjust_whitespace)
+			l_count := trimmed_count ($start_index, $end_index, adjust_whitespace)
 			if has_multi_byte_character then
 				append_to_string_32 (str_32, start_index, end_index)
 			else
@@ -179,10 +179,10 @@ feature -- String setting
 
 	set_string_8 (str_8: STRING_8; adjust_whitespace: BOOLEAN)
 		local
-			start_index, end_index, l_trimmed_count: INTEGER
+			start_index, end_index, l_count: INTEGER
 		do
 			str_8.wipe_out
-			l_trimmed_count := trimmed_count ($start_index, $end_index, adjust_whitespace)
+			l_count := trimmed_count ($start_index, $end_index, adjust_whitespace)
 			if has_multi_byte_character then
 				append_to_string_8 (str_8, start_index, end_index)
 			else
@@ -212,12 +212,14 @@ feature {NONE} -- Implementation
 		end
 
 	trimmed_count (p_start_index, p_end_index: POINTER; adjust_whitespace: BOOLEAN): INTEGER
+		-- count of whitespace characters trimmed from ends and set values of supplied
+		-- integer parameters `$start_index' and `$end_index'
 		local
 			 start_index, end_index, trailing_count, leading_count: INTEGER
 			 p: EL_POINTER_ROUTINES
 		do
 			start_index := 1; end_index := count
-			if adjust_whitespace then
+			if adjust_whitespace and then has_padding then
 				trailing_count := trailing_white_count; leading_count := leading_white_count
 				if leading_count > 0 or else trailing_count > 0 then
 					start_index := start_index + leading_count

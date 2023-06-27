@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 9:31:02 GMT (Saturday 24th June 2023)"
-	revision: "24"
+	date: "2023-06-25 10:30:46 GMT (Sunday 25th June 2023)"
+	revision: "25"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -29,7 +29,12 @@ inherit
 			make_default, make_from_file, building_action_table, getter_function_table, Is_bom_enabled
 		end
 
-	EL_ZSTRING_CONSTANTS
+	EL_DATE_FORMATS
+		export
+			{NONE} all
+		undefine
+			copy, is_equal
+		end
 
 	EL_MODULE_LOG
 
@@ -38,11 +43,9 @@ inherit
 			Date as Mod_date
 		end
 
-	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
+	EL_SHARED_ESCAPE_TABLE; EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 	SHARED_DATABASE
-
-	EL_SHARED_ESCAPE_TABLE
 
 create
 	make, make_from_file
@@ -99,7 +102,7 @@ feature -- Access
 	formatted_month_date: ZSTRING
 			--
 		do
-			Result := Mod_date.formatted (date, once "$long_month_name $canonical_numeric_month &nbsp;<i>($long_day_name)</i>")
+			Result := Mod_date.formatted (date, Html_date_format)
 		end
 
 	html_page_name: ZSTRING
@@ -132,7 +135,7 @@ feature -- Access
 	spell_date: ZSTRING
 			--
 		do
-			Result := Mod_date.formatted (date, once "$short_day_name $canonical_numeric_month $long_month_name $year")
+			Result := Mod_date.formatted (date, Spell_date_format)
 		end
 
 	start_time: TIME
@@ -275,6 +278,25 @@ feature {NONE} -- Internal attributes
 
 	checksum: NATURAL
 
+feature {NONE} -- Formats
+
+	Date_format: STRING = "dd/mm/yyyy"
+
+	Html_date_format: ZSTRING
+		local
+			markup: ZSTRING
+		once
+			markup := "$%S $%S &nbsp;<i>($%S)</i>"
+			Result := markup #$ [Var.long_month_name, Var.canonical_numeric_day, Var.long_day_name]
+		end
+
+	Name_date_format: STRING = "yyyy-mm-dd"
+
+	Spell_date_format: STRING
+		once
+			Result := new_format (<< Var.short_day_name, Var.canonical_numeric_day, Var.long_month_name, Var.year >>)
+		end
+
 feature {NONE} -- Constants
 
 	Date_checker: DATE_VALIDITY_CHECKER
@@ -282,11 +304,7 @@ feature {NONE} -- Constants
 			create Result
 		end
 
-	Date_format: STRING = "dd/mm/yyyy"
-
 	Is_bom_enabled: BOOLEAN = False
-
-	Name_date_format: STRING = "yyyy-mm-dd"
 
 	Python: EL_STRING_ESCAPER [ZSTRING]
 		once

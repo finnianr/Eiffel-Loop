@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-20 16:39:04 GMT (Tuesday 20th June 2023)"
-	revision: "71"
+	date: "2023-06-25 11:57:21 GMT (Sunday 25th June 2023)"
+	revision: "72"
 
 deferred class
 	EL_APPLICATION
@@ -128,7 +128,7 @@ feature -- Access
 
 	user_config_dir: DIR_PATH
 		do
-			Result := Directory.Sub_app_configuration
+			Result := Directory.app_configuration #+ new_option_name
 		end
 
 feature -- Basic operations

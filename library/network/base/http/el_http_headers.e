@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-01 10:21:40 GMT (Thursday 1st June 2023)"
-	revision: "21"
+	date: "2023-06-26 9:15:39 GMT (Monday 26th June 2023)"
+	revision: "22"
 
 class
 	EL_HTTP_HEADERS
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 
 	make (string: STRING)
 		local
-			lines, parts: EL_SPLIT_ON_CHARACTER [STRING_8]
+			lines, parts: EL_SPLIT_ON_CHARACTER_8 [STRING_8]
 			part_count: INTEGER
 		do
 			make_default
