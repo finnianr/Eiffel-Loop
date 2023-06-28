@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-06-28 13:03:00 GMT (Wednesday 28th June 2023)"
+	revision: "6"
 
 class
 	EL_UNINSTALL_DIALOG
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_dialog
 		redefine
-			destroy, on_default
+			on_default
 		end
 
 	EL_MODULE_SCREEN
@@ -33,7 +33,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (app: EL_UNINSTALL_APP)
+	make (app: EL_UNINSTALL_APP [EL_STOCK_PIXMAPS])
 		do
 			if attached new_model (app.name) as m then
 				m.set_text (app.Text.uninstall_warning + "%N%N" + Text.uninstall_proceed)
@@ -55,16 +55,11 @@ feature {NONE} -- Implementation
 			set_default_to_close
 		end
 
-	destroy
-		do
-			Precursor
-			ev_application.destroy
-		end
-
 	new_model (a_title: READABLE_STRING_GENERAL): EL_DIALOG_MODEL
 		do
 			create Result.make (a_title)
 			Result.set_buttons (Word.yes, Word.no)
 			Result.set_icon (Pixmaps.Question_pixmap)
+			Result.enable_application
 		end
 end

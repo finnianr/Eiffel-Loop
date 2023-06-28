@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-06-28 12:52:31 GMT (Wednesday 28th June 2023)"
+	revision: "5"
 
 deferred class
 	EL_MODELED_DIALOG
@@ -21,6 +21,8 @@ inherit
 	EL_MODULE_ORIENTATION
 
 	EL_MODULE_SCREEN
+
+	EV_SHARED_APPLICATION
 
 feature {NONE} -- Initialization
 
@@ -227,12 +229,18 @@ feature {NONE} -- Event handling
 		do
 			window.destroy
 			is_cancelled := True
+			if model.is_application then
+				ev_application.destroy
+			end
 		end
 
 	on_default
 		do
 			if attached default_action as l_action then
 				l_action.apply
+			end
+			if model.is_application then
+				ev_application.destroy
 			end
 		end
 

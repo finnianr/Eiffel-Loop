@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:38:27 GMT (Tuesday 14th February 2023)"
-	revision: "26"
+	date: "2023-06-28 9:52:35 GMT (Wednesday 28th June 2023)"
+	revision: "27"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -52,6 +52,11 @@ feature -- Basic operations
 		end
 
 feature -- Access
+
+	declaration: STRING
+		do
+			Result := Pyxis_doc
+		end
 
 	escaped (str: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): ZSTRING
 		local
@@ -154,6 +159,8 @@ feature -- Measurement
 
 feature {NONE} -- Constants
 
+	Pyxis_doc: STRING = "pyxis-doc:"
+
 	Python: EL_STRING_ESCAPER [ZSTRING]
 		once
 			create Result.make (Escape_table.Python_1)
@@ -165,11 +172,6 @@ feature {NONE} -- Constants
 				pyxis-doc:
 					version = 1.0; encoding = "#"
 			]"
-		end
-
-	Pyxis_doc: ZSTRING
-		once
-			Result := "pyxis-doc:"
 		end
 
 end

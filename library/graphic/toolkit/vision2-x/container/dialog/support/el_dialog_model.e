@@ -8,25 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 8:35:07 GMT (Saturday 29th April 2023)"
-	revision: "18"
+	date: "2023-06-28 19:15:51 GMT (Wednesday 28th June 2023)"
+	revision: "19"
 
 class
 	EL_DIALOG_MODEL
 
 inherit
-	ANY
-
-	EL_MODULE_ITERABLE; EL_MODULE_SCREEN
-
-	EL_MODULE_TEXT
-		rename
-			Text as Rendered
-		end
-
-	EL_STRING_8_CONSTANTS
-
-	EL_SHARED_DEFAULT_PIXMAPS; EL_SHARED_WORD
+	EL_DIALOG_MODEL_IMPLEMENTATION
 
 create
 	make, make_default
@@ -62,15 +51,16 @@ feature -- Text
 	default_button_text: READABLE_STRING_GENERAL
 		-- button text of dialog `default_button'
 
-	paragraph_list: EL_ZSTRING_LIST
+	paragraph_list: like new_paragraph_list
 		-- paragraphs explictly set with `set_paragraph_list' or else `text' split into paragraphs
 		local
-			s: EL_ZSTRING_ROUTINES
+			s: EL_ZSTRING_ROUTINES; paragraph_split: EL_SPLIT_ZSTRING_LIST
 		do
 			if attached internal_paragraph_list as list then
 				Result := list
 			else
-				Result := new_paragraph_list (create {EL_SPLIT_ZSTRING_LIST}.make_by_string (s.as_zstring (text), Paragraph_separator))
+				create paragraph_split.make_by_string (s.as_zstring (text), s.n_character_string ('%N', 2))
+				Result := new_paragraph_list (paragraph_split)
 				internal_paragraph_list := Result
 			end
 		end
@@ -120,6 +110,11 @@ feature -- Status change
 			escape_key_enabled := False
 		end
 
+	enable_application
+		do
+			is_application := True
+		end
+
 feature -- Status query
 
 	escape_key_enabled: BOOLEAN
@@ -144,6 +139,9 @@ feature -- Status query
 		do
 			Result := title.count > 0
 		end
+
+	is_application: BOOLEAN
+		-- `True' if dialog is main application window
 
 feature -- Set text
 
@@ -186,6 +184,16 @@ feature -- Element change
 			icon.set_minimum_size (a_icon.width, a_icon.height)
 		end
 
+	set_transparent_icon (a_icon: CAIRO_DRAWING_AREA; width_cms: REAL)
+		local
+			area: CAIRO_DRAWING_AREA; adjusted: EL_PIXMAP
+			width: INTEGER
+		do
+			width := Screen.horizontal_pixels (width_cms)
+			create area.make_filled_scaled_to_width (a_icon, style.color.content_area, width)
+			icon := area.to_pixmap
+		end
+
 	set_layout (a_layout: like layout)
 		do
 			layout := a_layout
@@ -221,50 +229,6 @@ feature -- Basic operations
 			create dialog.make_info (Current)
 			dialog.position_center (parent)
 			dialog.show_modal_to_window (parent)
-		end
-
-feature {NONE} -- Implementation
-
-	default_layout: EL_DIALOG_LAYOUT
-		do
-			create Result.make
-		end
-
-	default_style: EL_DIALOG_STYLE
-		do
-			create Result.make
-		end
-
-	new_paragraph_list (list_general: ITERABLE [READABLE_STRING_GENERAL]): like paragraph_list
-		local
-			lines: EL_ZSTRING_LIST; l_text: ZSTRING; s: EL_ZSTRING_ROUTINES
-		do
-			create Result.make (Iterable.count (list_general))
-			across list_general as paragraph loop
-				l_text := s.as_zstring (paragraph.item)
-				if text.has ('%N') then
-					create lines.make_with_lines (l_text)
-					Result.extend (lines.joined_words)
-				else
-					Result.extend (l_text)
-				end
-			end
-		end
-
-feature {NONE} -- Internal attributes
-
-	internal_paragraph_list: detachable EL_ZSTRING_LIST
-
-feature {NONE} -- Constants
-
-	Default_icon: EV_PIXMAP
-		once
-			Result := Pixmaps.Information_pixmap
-		end
-
-	Paragraph_separator: ZSTRING
-		once
-			Result := "%N%N"
 		end
 
 end

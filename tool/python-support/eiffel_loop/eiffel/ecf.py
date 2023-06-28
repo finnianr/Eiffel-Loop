@@ -543,7 +543,7 @@ class FREEZE_BUILD (object):
 		preserve_list = list ()
 		if self.preserve_resources:
 			for resource_path in self.preserve_resources:
-				resource_path_abs = path.join (installation_dir, resource_path)
+				resource_path_abs = path.join (installation_dir, path.normpath (resource_path))
 				if path.exists (resource_path_abs):
 					preserve_list.append (resource_path_abs)
 

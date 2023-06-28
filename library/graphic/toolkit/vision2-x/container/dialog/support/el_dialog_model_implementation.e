@@ -1,0 +1,74 @@
+note
+	description: "Implementation classes and routines for [$source EL_DIALOG_MODEL]"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2023-06-28 12:55:10 GMT (Wednesday 28th June 2023)"
+	revision: "1"
+
+deferred class
+	EL_DIALOG_MODEL_IMPLEMENTATION
+
+inherit
+	ANY
+
+	EL_MODULE_ITERABLE; EL_MODULE_SCREEN
+
+	EL_MODULE_TEXT
+		rename
+			Text as Rendered
+		end
+
+	EL_STRING_8_CONSTANTS
+
+	EL_SHARED_DEFAULT_PIXMAPS; EL_SHARED_WORD
+
+feature {NONE} -- Implementation
+
+	default_layout: EL_DIALOG_LAYOUT
+		do
+			create Result.make
+		end
+
+	default_style: EL_DIALOG_STYLE
+		do
+			create Result.make
+		end
+
+	new_paragraph_list (list_general: ITERABLE [READABLE_STRING_GENERAL]): EL_ZSTRING_LIST
+		local
+			lines: EL_ZSTRING_LIST; l_text: ZSTRING; s: EL_ZSTRING_ROUTINES
+		do
+			create Result.make (Iterable.count (list_general))
+			across list_general as paragraph loop
+				l_text := s.as_zstring (paragraph.item)
+				if text.has ('%N') then
+					create lines.make_with_lines (l_text)
+					Result.extend (lines.joined_words)
+				else
+					Result.extend (l_text)
+				end
+			end
+		end
+
+feature {NONE} -- Deferred
+
+	text: READABLE_STRING_GENERAL
+		deferred
+		end
+
+feature {NONE} -- Internal attributes
+
+	internal_paragraph_list: detachable like new_paragraph_list
+
+feature {NONE} -- Constants
+
+	Default_icon: EV_PIXMAP
+		once
+			Result := Pixmaps.Information_pixmap
+		end
+
+end

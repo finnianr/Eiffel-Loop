@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-06-28 10:43:56 GMT (Wednesday 28th June 2023)"
+	revision: "6"
 
 deferred class
-	EL_UNINSTALL_APP
+	EL_UNINSTALL_APP [PIXMAPS -> EL_STOCK_PIXMAPS create make end]
 
 inherit
 	EL_STANDARD_UNINSTALL_APP
 		export
-			{EL_MODELED_DIALOG} Text
+			{EL_MODELED_DIALOG} Text, do_uninstall
 		undefine
 			Desktop_menu_path
 		redefine
@@ -46,12 +46,6 @@ feature -- Basic operations
 
 feature {EL_MODELED_DIALOG} -- Implementation
 
-	do_uninstall
-		do
-			Application_list.uninstall
-			exit_code := 0 -- uninstall script will continue to call directory delete script
-		end
-
 	new_confirm_dialog: EL_UNINSTALL_DIALOG
 		do
 			create Result.make (Current)
@@ -59,7 +53,7 @@ feature {EL_MODELED_DIALOG} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	gui: EL_VISION_2_APPLICATION [EL_STOCK_PIXMAPS]
+	gui: EL_VISION_2_APPLICATION [PIXMAPS]
 
 feature {NONE} -- Installer constants
 

@@ -1,13 +1,13 @@
 note
-	description: "Pixmap"
+	description: "Extended [$source EV_PIXMAP]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 9:59:14 GMT (Monday 9th January 2023)"
-	revision: "29"
+	date: "2023-06-28 12:13:58 GMT (Wednesday 28th June 2023)"
+	revision: "30"
 
 class
 	EL_PIXMAP

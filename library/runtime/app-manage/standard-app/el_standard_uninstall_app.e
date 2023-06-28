@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "28"
+	date: "2023-06-28 10:48:54 GMT (Wednesday 28th June 2023)"
+	revision: "29"
 
 class
 	EL_STANDARD_UNINSTALL_APP
@@ -68,7 +68,7 @@ feature -- Basic operations
 				lio.put_new_line
 				lio.put_line (Text.uninstalling)
 
-				Application_list.uninstall
+				do_uninstall
 			else
 				-- let the uninstall script know the user changed her mind
 				exit_code := 1
@@ -77,14 +77,14 @@ feature -- Basic operations
 
 feature -- Access
 
-	name: ZSTRING
-		do
-			Result := Text.uninstall_x #$ [Application_list.Main_launcher.name]
-		end
-
 	Option_name: IMMUTABLE_STRING_8
 		once
 			Result := Standard_option.uninstall
+		end
+
+	name: ZSTRING
+		do
+			Result := Text.uninstall_x #$ [Application_list.Main_launcher.name]
 		end
 
 feature -- Installer constants
@@ -106,6 +106,14 @@ feature -- Installer constants
 	Desktop_menu_path: ARRAY [EL_DESKTOP_MENU_ITEM]
 		once
 			Result := << new_category ("System") >>
+		end
+
+feature {NONE} -- Implementation
+
+	do_uninstall
+		do
+			Application_list.uninstall
+			exit_code := 0 -- uninstall script will continue to call directory delete script
 		end
 
 feature {NONE} -- Application constants

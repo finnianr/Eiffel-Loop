@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
-	revision: "19"
+	date: "2023-06-28 9:42:06 GMT (Wednesday 28th June 2023)"
+	revision: "20"
 
 deferred class
 	EL_DEFAULT_LOCALE
@@ -38,6 +38,8 @@ feature {NONE} -- Initialization
 		end
 
 	make_from_location (locales_parent_dir: DIR_PATH)
+		-- make from location `locales_parent_dir' with optional Pyxis source `a_adhoc_translations'
+		-- (Useful for supplying decrypted credits for "about dialog")
 		local
 			table: EL_LOCALE_TABLE
 		do

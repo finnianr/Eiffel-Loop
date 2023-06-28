@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
-	revision: "35"
+	date: "2023-06-28 9:54:00 GMT (Wednesday 28th June 2023)"
+	revision: "36"
 
 class
 	EL_LOCALE
@@ -43,9 +43,9 @@ inherit
 			actual_item as actual_date_text
 		end
 
-	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE_SYSTEM
+	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE_SYSTEM; EL_MODULE_PYXIS
 
-	EL_SHARED_SINGLETONS
+	EL_SHARED_SINGLETONS; EL_SHARED_ADHOC_TRANSLATIONS
 
 create
 	make, make_with_table
@@ -245,6 +245,7 @@ feature {EL_LOCALE_CONSTANTS} -- Factory
 	new_translation_table (a_language: STRING): EL_TRANSLATION_TABLE
 		local
 			items_list: EL_TRANSLATION_ITEMS_LIST; l_language: STRING
+			adhoc_table: EL_TRANSLATION_TABLE
 		do
 			restrict_access
 				if Locale_table.has (a_language) then
@@ -255,6 +256,15 @@ feature {EL_LOCALE_CONSTANTS} -- Factory
 				create items_list.make_from_file (Locale_table [l_language])
 				items_list.retrieve
 				Result := items_list.to_table (l_language)
+				if attached Adhoc_translation_source_factory.item as factory then
+					factory.apply
+					if attached factory.last_result as pyxis_source
+						and then pyxis_source.starts_with (Pyxis.declaration)
+					then
+						create adhoc_table.make_from_pyxis_source (l_language, pyxis_source)
+						Result.merge (adhoc_table)
+					end
+				end
 			end_restriction
 		end
 

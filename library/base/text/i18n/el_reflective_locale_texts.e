@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "26"
+	date: "2023-06-28 7:29:40 GMT (Wednesday 28th June 2023)"
+	revision: "27"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -110,7 +110,7 @@ feature -- Access
 			Result := locale.language
 		end
 
-	missing_keys_list: detachable ARRAYED_LIST [ZSTRING] note option: transient attribute end
+	missing_keys_list: detachable EL_ZSTRING_LIST note option: transient attribute end
 		-- list of keys not found
 
 	text_list: EL_ZSTRING_LIST

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-06-28 19:17:25 GMT (Wednesday 28th June 2023)"
+	revision: "13"
 
 class
 	CAIRO_DRAWING_AREA
@@ -35,7 +35,8 @@ inherit
 create
 	default_create, make_with_size, make_with_rectangle,
 	make_with_path, make_with_png, make_with_pixmap, make_with_svg_image,
-	make_with_scaled_pixmap, make_scaled_to_width, make_scaled_to_height
+	make_with_scaled_pixmap, make_scaled_to_width, make_scaled_to_height,
+	make_filled_scaled_to_width, make_filled_scaled_to_height
 
 convert
 	make_with_path ({FILE_PATH}), make_with_pixmap ({EV_PIXMAP, EL_PIXMAP}),
@@ -43,22 +44,37 @@ convert
 
 feature {NONE} -- Initialization
 
-	make_scaled (dimension: NATURAL_8; size: INTEGER; other: CAIRO_DRAWING_AREA)
+	make_filled_scaled_to_height (other: CAIRO_DRAWING_AREA; background: EV_COLOR; a_height: INTEGER)
+		-- draw `other' scaled to `a_height' with transparent areas filled by `background' color
+		do
+			make_scaled (Orientation.By_height, a_height, other, background)
+		end
+
+	make_filled_scaled_to_width (other: CAIRO_DRAWING_AREA; background: EV_COLOR; a_width: INTEGER)
+		-- draw `other' scaled to `a_width' with transparent areas filled by `background' color
+		do
+			make_scaled (Orientation.By_width, a_width, other, background)
+		end
+
+	make_scaled (dimension: NATURAL_8; size: INTEGER; other: CAIRO_DRAWING_AREA; fill_color: detachable EV_COLOR)
 		require
 			valid_dimension: Orientation.is_valid_dimension (dimension)
 		do
 			make_with_rectangle (other.scaled_dimensions (dimension, size))
+			if attached fill_color as background then
+				set_color (background); fill
+			end
 			draw_scaled_area (dimension, 0, 0, size, other)
 		end
 
 	make_scaled_to_height (other: CAIRO_DRAWING_AREA; a_height: INTEGER)
 		do
-			make_scaled (Orientation.By_height, a_height, other)
+			make_scaled (Orientation.By_height, a_height, other, Void)
 		end
 
 	make_scaled_to_width (other: CAIRO_DRAWING_AREA; a_width: INTEGER)
 		do
-			make_scaled (Orientation.By_width, a_width, other)
+			make_scaled (Orientation.By_width, a_width, other, Void)
 		end
 
 	make_with_path (image_path: FILE_PATH)
