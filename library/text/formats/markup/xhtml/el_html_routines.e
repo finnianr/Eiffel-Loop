@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-29 15:20:52 GMT (Thursday 29th June 2023)"
-	revision: "16"
+	date: "2023-06-29 16:27:36 GMT (Thursday 29th June 2023)"
+	revision: "17"
 
 class
 	EL_HTML_ROUTINES
@@ -15,7 +15,7 @@ class
 inherit
 	EL_MARKUP_ROUTINES
 
-	EL_MODULE_TUPLE; EL_MODULE_REUSEABLE
+	EL_MODULE_FILE; EL_MODULE_TUPLE; EL_MODULE_REUSEABLE
 
 feature -- Access
 
@@ -110,12 +110,19 @@ feature -- Access
 
 feature -- Query
 
-	is_document (line: STRING): BOOLEAN
+	is_document (text: STRING): BOOLEAN
 		-- `True' if `line' starts with <!DOCTYPE html..
 		-- html is case insensitive
 		do
-			if line.starts_with (Doctype_declaration) then
-				Result := line.same_caseless_characters ("html", 1, 4, Doctype_declaration.count + 2)
+			if text.starts_with (Doctype_declaration) then
+				Result := text.same_caseless_characters ("html", 1, 4, Doctype_declaration.count + 2)
+			end
+		end
+
+	is_document_file (path: FILE_PATH): BOOLEAN
+		do
+			if path.exists then
+				Result := is_document (File.line_one (path))
 			end
 		end
 
