@@ -10,17 +10,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 17:19:46 GMT (Saturday 29th April 2023)"
-	revision: "20"
+	date: "2023-06-29 12:11:46 GMT (Thursday 29th June 2023)"
+	revision: "21"
 
 class
-	XML_ESCAPER_TEST_SET
+	MARKUP_ESCAPE_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
 		undefine
 			new_lio
 		end
+
+	EL_MODULE_HTML
 
 	EL_CRC_32_TESTABLE
 
@@ -37,11 +39,22 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["xml_escape", agent test_xml_escape]
+				["html_entity_substitution", agent test_html_entity_substitution],
+				["xml_escape",					  agent test_xml_escape]
 			>>)
 		end
 
 feature -- Tests
+
+	test_html_entity_substitution
+		-- MARKUP_ESCAPE_TEST_SET.html_entity_substitution
+		local
+			markup: ZSTRING
+		do
+			markup := "cent: &cent; & yen: &yen; & copyright: &copy;"
+			Html.unescape_character_entities (markup)
+			assert_same_string (Void, markup, "cent: ¢ & yen: ¥ & copyright: ©")
+		end
 
 	test_xml_escape
 		local

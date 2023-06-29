@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-22 13:07:09 GMT (Thursday 22nd June 2023)"
-	revision: "43"
+	date: "2023-06-29 10:14:14 GMT (Thursday 29th June 2023)"
+	revision: "44"
 
 class
 	EL_HTTP_CONNECTION
@@ -30,6 +30,8 @@ inherit
 		redefine
 			make
 		end
+
+	EL_MODULE_HTML
 
 create
 	make
@@ -102,9 +104,7 @@ feature -- Status query
 		-- `True' if `last_string' starts with <!DOCTYPE html..
 		-- case insensitive
 		do
-			if last_string.starts_with (Doctype_declaration) then
-				Result := last_string.same_caseless_characters ("html", 1, 4, Doctype_declaration.count + 2)
-			end
+			Result := HTML.is_document (last_string)
 		end
 
 	is_open: BOOLEAN

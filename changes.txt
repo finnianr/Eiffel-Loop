@@ -583,3 +583,6 @@ Photo time stamp correction from EXIF
 Sun 18th Jun 2023, 11:03:44
 Improved HTTP error handling
 
+Wed 28th Jun 2023, 19:38:26
+Improvements to EL_DOCUMENT_NODE_STRING
+

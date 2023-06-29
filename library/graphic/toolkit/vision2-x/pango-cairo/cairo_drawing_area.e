@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-28 19:17:25 GMT (Wednesday 28th June 2023)"
-	revision: "13"
+	date: "2023-06-29 7:46:07 GMT (Thursday 29th June 2023)"
+	revision: "14"
 
 class
 	CAIRO_DRAWING_AREA
@@ -35,20 +35,13 @@ inherit
 create
 	default_create, make_with_size, make_with_rectangle,
 	make_with_path, make_with_png, make_with_pixmap, make_with_svg_image,
-	make_with_scaled_pixmap, make_scaled_to_width, make_scaled_to_height,
-	make_filled_scaled_to_width, make_filled_scaled_to_height
+	make_with_scaled_pixmap, make_scaled_to_width, make_scaled_to_height
 
 convert
 	make_with_path ({FILE_PATH}), make_with_pixmap ({EV_PIXMAP, EL_PIXMAP}),
 	dimensions: {EL_RECTANGLE}, to_buffer: {EV_PIXEL_BUFFER}
 
 feature {NONE} -- Initialization
-
-	make_filled_scaled_to_height (other: CAIRO_DRAWING_AREA; background: EV_COLOR; a_height: INTEGER)
-		-- draw `other' scaled to `a_height' with transparent areas filled by `background' color
-		do
-			make_scaled (Orientation.By_height, a_height, other, background)
-		end
 
 	make_filled_scaled_to_width (other: CAIRO_DRAWING_AREA; background: EV_COLOR; a_width: INTEGER)
 		-- draw `other' scaled to `a_width' with transparent areas filled by `background' color
@@ -67,14 +60,15 @@ feature {NONE} -- Initialization
 			draw_scaled_area (dimension, 0, 0, size, other)
 		end
 
-	make_scaled_to_height (other: CAIRO_DRAWING_AREA; a_height: INTEGER)
+	make_scaled_to_height (other: CAIRO_DRAWING_AREA; a_height: INTEGER; fill_color: detachable EV_COLOR)
+		-- draw `other' scaled to `a_height' with transparent areas filled by optional `background' color
 		do
-			make_scaled (Orientation.By_height, a_height, other, Void)
+			make_scaled (Orientation.By_height, a_height, other, fill_color)
 		end
 
-	make_scaled_to_width (other: CAIRO_DRAWING_AREA; a_width: INTEGER)
+	make_scaled_to_width (other: CAIRO_DRAWING_AREA; a_width: INTEGER; fill_color: detachable EV_COLOR)
 		do
-			make_scaled (Orientation.By_width, a_width, other, Void)
+			make_scaled (Orientation.By_width, a_width, other, fill_color)
 		end
 
 	make_with_path (image_path: FILE_PATH)
@@ -180,6 +174,16 @@ feature -- Conversion
 		-- don't forget to call destroy on result for Windows
 		do
 			Result := implementation.to_surface
+		end
+
+	to_scaled_to_height (a_height: INTEGER; fill_color: detachable EV_COLOR): CAIRO_DRAWING_AREA
+		do
+			create Result.make_scaled_to_height (Current, a_height, fill_color)
+		end
+
+	to_scaled_to_width (a_width: INTEGER; fill_color: detachable EV_COLOR): CAIRO_DRAWING_AREA
+		do
+			create Result.make_scaled_to_width (Current, a_width, fill_color)
 		end
 
 feature -- Basic operations

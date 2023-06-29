@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-28 19:15:51 GMT (Wednesday 28th June 2023)"
-	revision: "19"
+	date: "2023-06-29 7:46:43 GMT (Thursday 29th June 2023)"
+	revision: "20"
 
 class
 	EL_DIALOG_MODEL
@@ -186,12 +186,10 @@ feature -- Element change
 
 	set_transparent_icon (a_icon: CAIRO_DRAWING_AREA; width_cms: REAL)
 		local
-			area: CAIRO_DRAWING_AREA; adjusted: EL_PIXMAP
 			width: INTEGER
 		do
 			width := Screen.horizontal_pixels (width_cms)
-			create area.make_filled_scaled_to_width (a_icon, style.color.content_area, width)
-			icon := area.to_pixmap
+			icon := a_icon.to_scaled_to_width (width, style.color.content_area).to_pixmap
 		end
 
 	set_layout (a_layout: like layout)

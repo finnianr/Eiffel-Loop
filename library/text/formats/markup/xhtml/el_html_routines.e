@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2023-06-29 13:01:11 GMT (Thursday 29th June 2023)"
+	revision: "14"
 
 class
 	EL_HTML_ROUTINES
@@ -15,7 +15,7 @@ class
 inherit
 	EL_MARKUP_ROUTINES
 
-	EL_MODULE_TUPLE
+	EL_MODULE_TUPLE; EL_MODULE_REUSEABLE
 
 feature -- Access
 
@@ -76,130 +76,151 @@ feature -- Access
 
 	unescape_character_entities (line: ZSTRING)
 		local
-			pos_ampersand, pos_semicolon: INTEGER
-			table: like Character_entity_table; entity_name: STRING
+			table: like Character_entity_table; entity_name, section: ZSTRING
+			pos_semicolon: INTEGER
 		do
 			table := Character_entity_table
-			from pos_ampersand := 1 until pos_ampersand = 0 loop
-				pos_ampersand := line.index_of ('&', pos_ampersand)
-				if pos_ampersand > 0 then
-					pos_semicolon := line.index_of (';', pos_ampersand + 1)
-					if pos_semicolon > 0 then
-						entity_name := line.substring (pos_ampersand + 1, pos_semicolon - 1).to_string_8
-						if table.has_key (entity_name) then
-							line.put_unicode (table.found_item.natural_32_code, pos_ampersand)
-							line.remove_substring (pos_ampersand + 1, pos_semicolon)
+			if line.has ('&') and line.has (';') then
+				across Reuseable.string_pool as pool loop
+					entity_name := pool.borrowed_item
+					across pool.filled_borrowed_item (line).split ('&') as split loop
+						if split.cursor_index = 1 then
+							line.wipe_out
 						else
-							pos_ampersand := pos_semicolon + 1
+							line.append_character ('&')
+						end
+						section := split.item
+						pos_semicolon := section.index_of (';', 1)
+						if pos_semicolon > 0 then
+							entity_name.wipe_out
+							entity_name.append_substring (section, 1, pos_semicolon - 1)
+							if table.has_key (entity_name) then
+								line [line.count] := table.found_item -- overwrite '&'
+								line.append_substring (section, pos_semicolon + 1, section.count)
+							else
+								line.append (section)
+							end
+						else
+							line.append (section)
 						end
 					end
 				end
 			end
 		end
 
+feature -- Query
+
+	is_document (line: STRING): BOOLEAN
+		-- `True' if `line' starts with <!DOCTYPE html..
+		-- html is case insensitive
+		do
+			if line.starts_with (Doctype_declaration) then
+				Result := line.same_caseless_characters ("html", 1, 4, Doctype_declaration.count + 2)
+			end
+		end
+
 feature {NONE} -- Implementation
 
-	character_entities: ARRAY [TUPLE [character: CHARACTER_32; name: STRING]]
+	character_entity_manifest: STRING_32
 		do
-			Result := <<
-				[{CHARACTER_32} '–', "ndash"],
-				[{CHARACTER_32} '—', "mdash"],
-				[{CHARACTER_32} ' ', "nbsp"],
-				[{CHARACTER_32} '¡', "iexcl"],
-				[{CHARACTER_32} '¢', "cent"],
-				[{CHARACTER_32} '£', "pound"],
-				[{CHARACTER_32} '¤', "curren"],
-				[{CHARACTER_32} '¥', "yen"],
-				[{CHARACTER_32} '¦', "brvbar"],
-				[{CHARACTER_32} '§', "sect"],
-				[{CHARACTER_32} '¨', "uml"],
-				[{CHARACTER_32} '©', "copy"],
-				[{CHARACTER_32} 'ª', "ordf"],
-				[{CHARACTER_32} '«', "laquo"],
-				[{CHARACTER_32} '¬', "not"],
-				[{CHARACTER_32} '­', "shy"],
-				[{CHARACTER_32} '®', "reg"],
-				[{CHARACTER_32} '¯', "macr"],
-				[{CHARACTER_32} '°', "deg"],
-				[{CHARACTER_32} '±', "plusmn"],
-				[{CHARACTER_32} '²', "sup2"],
-				[{CHARACTER_32} '³', "sup3"],
-				[{CHARACTER_32} '´', "acute"],
-				[{CHARACTER_32} 'µ', "micro"],
-				[{CHARACTER_32} '¶', "para"],
-				[{CHARACTER_32} '·', "middot"],
-				[{CHARACTER_32} '¸', "cedil"],
-				[{CHARACTER_32} '¹', "sup1"],
-				[{CHARACTER_32} 'º', "ordm"],
-				[{CHARACTER_32} '»', "raquo"],
-				[{CHARACTER_32} '¼', "frac14"],
-				[{CHARACTER_32} '½', "frac12"],
-				[{CHARACTER_32} '¾', "frac34"],
-				[{CHARACTER_32} '¿', "iquest"],
-				[{CHARACTER_32} 'À', "Agrave"],
-				[{CHARACTER_32} 'Á', "Aacute"],
-				[{CHARACTER_32} 'Â', "Acirc"],
-				[{CHARACTER_32} 'Ã', "Atilde"],
-				[{CHARACTER_32} 'Ä', "Auml"],
-				[{CHARACTER_32} 'Å', "Aring"],
-				[{CHARACTER_32} 'Æ', "AElig"],
-				[{CHARACTER_32} 'Ç', "Ccedil"],
-				[{CHARACTER_32} 'È', "Egrave"],
-				[{CHARACTER_32} 'É', "Eacute"],
-				[{CHARACTER_32} 'Ê', "Ecirc"],
-				[{CHARACTER_32} 'Ë', "Euml"],
-				[{CHARACTER_32} 'Ì', "Igrave"],
-				[{CHARACTER_32} 'Í', "Iacute"],
-				[{CHARACTER_32} 'Î', "Icirc"],
-				[{CHARACTER_32} 'Ï', "Iuml"],
-				[{CHARACTER_32} 'Ð', "ETH"],
-				[{CHARACTER_32} 'Ñ', "Ntilde"],
-				[{CHARACTER_32} 'Ò', "Ograve"],
-				[{CHARACTER_32} 'Ó', "Oacute"],
-				[{CHARACTER_32} 'Ô', "Ocirc"],
-				[{CHARACTER_32} 'Õ', "Otilde"],
-				[{CHARACTER_32} 'Ö', "Ouml"],
-				[{CHARACTER_32} '×', "times"],
-				[{CHARACTER_32} 'Ø', "Oslash"],
-				[{CHARACTER_32} 'Ù', "Ugrave"],
-				[{CHARACTER_32} 'Ú', "Uacute"],
-				[{CHARACTER_32} 'Û', "Ucirc"],
-				[{CHARACTER_32} 'Ü', "Uuml"],
-				[{CHARACTER_32} 'Ý', "Yacute"],
-				[{CHARACTER_32} 'Þ', "THORN"],
-				[{CHARACTER_32} 'ß', "szlig"],
-				[{CHARACTER_32} 'à', "agrave"],
-				[{CHARACTER_32} 'á', "aacute"],
-				[{CHARACTER_32} 'â', "acirc"],
-				[{CHARACTER_32} 'ã', "atilde"],
-				[{CHARACTER_32} 'ä', "auml"],
-				[{CHARACTER_32} 'å', "aring"],
-				[{CHARACTER_32} 'æ', "aelig"],
-				[{CHARACTER_32} 'ç', "ccedil"],
-				[{CHARACTER_32} 'è', "egrave"],
-				[{CHARACTER_32} 'é', "eacute"],
-				[{CHARACTER_32} 'ê', "ecirc"],
-				[{CHARACTER_32} 'ë', "euml"],
-				[{CHARACTER_32} 'ì', "igrave"],
-				[{CHARACTER_32} 'í', "iacute"],
-				[{CHARACTER_32} 'î', "icirc"],
-				[{CHARACTER_32} 'ï', "iuml"],
-				[{CHARACTER_32} 'ð', "eth"],
-				[{CHARACTER_32} 'ñ', "ntilde"],
-				[{CHARACTER_32} 'ò', "ograve"],
-				[{CHARACTER_32} 'ó', "oacute"],
-				[{CHARACTER_32} 'ô', "ocirc"],
-				[{CHARACTER_32} 'õ', "otilde"],
-				[{CHARACTER_32} 'ö', "ouml"],
-				[{CHARACTER_32} '÷', "divide"],
-				[{CHARACTER_32} 'ø', "oslash"],
-				[{CHARACTER_32} 'ù', "ugrave"],
-				[{CHARACTER_32} 'ú', "uacute"],
-				[{CHARACTER_32} 'û', "ucirc"],
-				[{CHARACTER_32} 'ü', "uuml"],
-				[{CHARACTER_32} 'ý', "yacute"],
-				[{CHARACTER_32} 'þ', "thorn"]
-			>>
+			Result := {STRING_32} "[
+				–, ndash, 
+				—, mdash, 
+				¡, iexcl, 
+				¢, cent, 
+				£, pound, 
+				¤, curren, 
+				¥, yen, 
+				¦, brvbar, 
+				§, sect, 
+				¨, uml, 
+				©, copy, 
+				ª, ordf, 
+				«, laquo, 
+				¬, not, 
+				­, shy, 
+				®, reg, 
+				¯, macr, 
+				°, deg, 
+				±, plusmn, 
+				², sup2, 
+				³, sup3, 
+				´, acute, 
+				µ, micro, 
+				¶, para, 
+				·, middot, 
+				¸, cedil, 
+				¹, sup1, 
+				º, ordm, 
+				», raquo, 
+				¼, frac14, 
+				½, frac12, 
+				¾, frac34, 
+				¿, iquest, 
+				À, Agrave, 
+				Á, Aacute, 
+				Â, Acirc, 
+				Ã, Atilde, 
+				Ä, Auml, 
+				Å, Aring, 
+				Æ, AElig, 
+				Ç, Ccedil, 
+				È, Egrave, 
+				É, Eacute, 
+				Ê, Ecirc, 
+				Ë, Euml, 
+				Ì, Igrave, 
+				Í, Iacute, 
+				Î, Icirc, 
+				Ï, Iuml, 
+				Ð, ETH, 
+				Ñ, Ntilde, 
+				Ò, Ograve, 
+				Ó, Oacute, 
+				Ô, Ocirc, 
+				Õ, Otilde, 
+				Ö, Ouml, 
+				×, times, 
+				Ø, Oslash, 
+				Ù, Ugrave, 
+				Ú, Uacute, 
+				Û, Ucirc, 
+				Ü, Uuml, 
+				Ý, Yacute, 
+				Þ, THORN, 
+				ß, szlig, 
+				à, agrave, 
+				á, aacute, 
+				â, acirc, 
+				ã, atilde, 
+				ä, auml, 
+				å, aring, 
+				æ, aelig, 
+				ç, ccedil, 
+				è, egrave, 
+				é, eacute, 
+				ê, ecirc, 
+				ë, euml, 
+				ì, igrave, 
+				í, iacute, 
+				î, icirc, 
+				ï, iuml, 
+				ð, eth, 
+				ñ, ntilde, 
+				ò, ograve, 
+				ó, oacute, 
+				ô, ocirc, 
+				õ, otilde, 
+				ö, ouml, 
+				÷, divide, 
+				ø, oslash, 
+				ù, ugrave, 
+				ú, uacute, 
+				û, ucirc, 
+				ü, uuml, 
+				ý, yacute, 
+				þ, thorn
+			]"
 		end
 
 feature {NONE} -- Constants
@@ -209,14 +230,20 @@ feature {NONE} -- Constants
 			create Result.make ("<a id=%"$id%">$text</a>")
 		end
 
-	Character_entity_table: EL_HASH_TABLE [CHARACTER_32, STRING]
+	Character_entity_table: EL_HASH_TABLE [CHARACTER_32, ZSTRING]
 		local
-			entities: like Character_entities
+			entity_grid: EL_IMMUTABLE_STRING_32_GRID; row: INTEGER
+			s: EL_ZSTRING_ROUTINES
 		once
-			entities := Character_entities
-			create Result.make_equal (entities.count)
-			across entities as entity loop
-				Result.extend (entity.item.character, entity.item.name)
+			create entity_grid.make (2, character_entity_manifest)
+			create Result.make_equal (entity_grid.height + 1)
+
+--			Not in manifest as space would be adjusted
+			Result [s.as_zstring ("nbsp")] := {EL_ASCII}.space.to_character_32
+
+			from row := 1 until row > entity_grid.height loop
+				Result.extend (entity_grid.i_th_cell (row, 1) [1], entity_grid.i_th_cell (row, 2))
+				row := row + 1
 			end
 		end
 
@@ -226,6 +253,8 @@ feature {NONE} -- Constants
 				<a href="$url" title="$title">$text</a>
 			]")
 		end
+
+	Doctype_declaration: STRING = "<!DOCTYPE"
 
 	Image_template: EL_ZSTRING_TEMPLATE
 		once

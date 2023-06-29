@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-18 10:47:53 GMT (Sunday 18th June 2023)"
-	revision: "5"
+	date: "2023-06-29 10:09:41 GMT (Thursday 29th June 2023)"
+	revision: "6"
 
 deferred class
 	EL_HTTP_CONNECTION_IMPLEMENTATION
@@ -292,8 +292,6 @@ feature {NONE} -- Deferred
 		end
 
 feature {NONE} -- Constants
-
-	Doctype_declaration: STRING = "<!DOCTYPE"
 
 	Max_post_data_count: INTEGER = 1024
 

@@ -7,7 +7,7 @@ note
 		
 			[$source COMMA_SEPARATED_IMPORT_TEST_SET]
 			[$source JSON_PARSING_TEST_SET]
-			[$source XML_ESCAPER_TEST_SET]
+			[$source MARKUP_ESCAPE_TEST_SET]
 	]"
 
 	author: "Finnian Reilly"
@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2023-06-29 12:03:22 GMT (Thursday 29th June 2023)"
+	revision: "18"
 
 class
 	TEXT_FORMATS_AUTOTEST_APP
@@ -25,7 +25,7 @@ inherit
 	EL_CRC_32_AUTOTEST_APPLICATION [
 		COMMA_SEPARATED_IMPORT_TEST_SET,
 		JSON_PARSING_TEST_SET,
-		XML_ESCAPER_TEST_SET
+		MARKUP_ESCAPE_TEST_SET
 	]
 
 create

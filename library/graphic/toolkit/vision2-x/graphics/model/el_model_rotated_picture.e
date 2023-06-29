@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "24"
+	date: "2023-06-29 7:46:23 GMT (Thursday 29th June 2023)"
+	revision: "25"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -163,7 +163,7 @@ feature {NONE} -- Implementation
 			if scaled_width = drawing_area.width then
 				Result := drawing_area
 			else
-				create Result.make_scaled_to_width (drawing_area, scaled_width)
+				create Result.make_scaled_to_width (drawing_area, scaled_width, Void)
 			end
 		end
 
