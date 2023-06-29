@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-29 13:01:11 GMT (Thursday 29th June 2023)"
-	revision: "14"
+	date: "2023-06-29 15:20:52 GMT (Thursday 29th June 2023)"
+	revision: "16"
 
 class
 	EL_HTML_ROUTINES
@@ -119,108 +119,121 @@ feature -- Query
 			end
 		end
 
+	display_map (log: EL_LOGGABLE)
+		do
+			across Character_entity_table as table loop
+				log.put_substitution ("%S := %S", [table.key, table.item])
+				log.put_new_line
+			end
+		end
+
 feature {NONE} -- Implementation
 
-	character_entity_manifest: STRING_32
+	entity_name_map: STRING_32
 		do
 			Result := {STRING_32} "[
-				–, ndash, 
-				—, mdash, 
-				¡, iexcl, 
-				¢, cent, 
-				£, pound, 
-				¤, curren, 
-				¥, yen, 
-				¦, brvbar, 
-				§, sect, 
-				¨, uml, 
-				©, copy, 
-				ª, ordf, 
-				«, laquo, 
-				¬, not, 
-				­, shy, 
-				®, reg, 
-				¯, macr, 
-				°, deg, 
-				±, plusmn, 
-				², sup2, 
-				³, sup3, 
-				´, acute, 
-				µ, micro, 
-				¶, para, 
-				·, middot, 
-				¸, cedil, 
-				¹, sup1, 
-				º, ordm, 
-				», raquo, 
-				¼, frac14, 
-				½, frac12, 
-				¾, frac34, 
-				¿, iquest, 
-				À, Agrave, 
-				Á, Aacute, 
-				Â, Acirc, 
-				Ã, Atilde, 
-				Ä, Auml, 
-				Å, Aring, 
-				Æ, AElig, 
-				Ç, Ccedil, 
-				È, Egrave, 
-				É, Eacute, 
-				Ê, Ecirc, 
-				Ë, Euml, 
-				Ì, Igrave, 
-				Í, Iacute, 
-				Î, Icirc, 
-				Ï, Iuml, 
-				Ð, ETH, 
-				Ñ, Ntilde, 
-				Ò, Ograve, 
-				Ó, Oacute, 
-				Ô, Ocirc, 
-				Õ, Otilde, 
-				Ö, Ouml, 
-				×, times, 
-				Ø, Oslash, 
-				Ù, Ugrave, 
-				Ú, Uacute, 
-				Û, Ucirc, 
-				Ü, Uuml, 
-				Ý, Yacute, 
-				Þ, THORN, 
-				ß, szlig, 
-				à, agrave, 
-				á, aacute, 
-				â, acirc, 
-				ã, atilde, 
-				ä, auml, 
-				å, aring, 
-				æ, aelig, 
-				ç, ccedil, 
-				è, egrave, 
-				é, eacute, 
-				ê, ecirc, 
-				ë, euml, 
-				ì, igrave, 
-				í, iacute, 
-				î, icirc, 
-				ï, iuml, 
-				ð, eth, 
-				ñ, ntilde, 
-				ò, ograve, 
-				ó, oacute, 
-				ô, ocirc, 
-				õ, otilde, 
-				ö, ouml, 
-				÷, divide, 
-				ø, oslash, 
-				ù, ugrave, 
-				ú, uacute, 
-				û, ucirc, 
-				ü, uuml, 
-				ý, yacute, 
-				þ, thorn
+				ndash := –
+				mdash := —
+				iexcl := ¡
+				cent := ¢
+				pound := £
+				curren := ¤
+				yen := ¥
+				brvbar := ¦
+				sect := §
+				uml := ¨
+				copy := ©
+				ordf := ª
+				laquo := «
+				not := ¬
+				shy := ­
+				reg := ®
+				macr := ¯
+				deg := °
+				plusmn := ±
+				sup2 := ²
+				sup3 := ³
+				acute := ´
+				micro := µ
+				para := ¶
+				middot := ·
+				cedil := ¸
+				sup1 := ¹
+				ordm := º
+				raquo := »
+				frac14 := ¼
+				frac12 := ½
+				frac34 := ¾
+				iquest := ¿
+				Agrave := À
+				Aacute := Á
+				Acirc := Â
+				Atilde := Ã
+				Auml := Ä
+				Aring := Å
+				AElig := Æ
+				Ccedil := Ç
+				Egrave := È
+				Eacute := É
+				Ecirc := Ê
+				Euml := Ë
+				Igrave := Ì
+				Iacute := Í
+				Icirc := Î
+				Iuml := Ï
+				ETH := Ð
+				Ntilde := Ñ
+				Ograve := Ò
+				Oacute := Ó
+				Ocirc := Ô
+				Otilde := Õ
+				Ouml := Ö
+				times := ×
+				Oslash := Ø
+				Ugrave := Ù
+				Uacute := Ú
+				Ucirc := Û
+				Uuml := Ü
+				Yacute := Ý
+				THORN := Þ
+				szlig := ß
+				agrave := à
+				aacute := á
+				acirc := â
+				atilde := ã
+				auml := ä
+				aring := å
+				aelig := æ
+				ccedil := ç
+				egrave := è
+				eacute := é
+				ecirc := ê
+				euml := ë
+				igrave := ì
+				iacute := í
+				icirc := î
+				iuml := ï
+				eth := ð
+				ntilde := ñ
+				ograve := ò
+				oacute := ó
+				ocirc := ô
+				otilde := õ
+				ouml := ö
+				divide := ÷
+				oslash := ø
+				ugrave := ù
+				uacute := ú
+				ucirc := û
+				uuml := ü
+				yacute := ý
+				thorn := þ
 			]"
+		end
+
+	new_zstring (str: IMMUTABLE_STRING_32): ZSTRING
+		do
+			create Result.make_from_general (str)
 		end
 
 feature {NONE} -- Constants
@@ -231,20 +244,13 @@ feature {NONE} -- Constants
 		end
 
 	Character_entity_table: EL_HASH_TABLE [CHARACTER_32, ZSTRING]
-		local
-			entity_grid: EL_IMMUTABLE_STRING_32_GRID; row: INTEGER
-			s: EL_ZSTRING_ROUTINES
+		-- map entity name to character
 		once
-			create entity_grid.make (2, character_entity_manifest)
-			create Result.make_equal (entity_grid.height + 1)
-
---			Not in manifest as space would be adjusted
-			Result [s.as_zstring ("nbsp")] := {EL_ASCII}.space.to_character_32
-
-			from row := 1 until row > entity_grid.height loop
-				Result.extend (entity_grid.i_th_cell (row, 1) [1], entity_grid.i_th_cell (row, 2))
-				row := row + 1
-			end
+			create Result.make_from_manifest_32 (
+				agent new_zstring, agent {IMMUTABLE_STRING_32}.item (1), True, entity_name_map
+			)
+--			Not in manifest
+			Result ["nbsp"] := {EL_ASCII}.space.to_character_32
 		end
 
 	Hyperlink_template: EL_ZSTRING_TEMPLATE

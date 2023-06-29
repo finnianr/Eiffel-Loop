@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-22 16:45:14 GMT (Wednesday 22nd March 2023)"
-	revision: "51"
+	date: "2023-06-29 13:27:18 GMT (Thursday 29th June 2023)"
+	revision: "52"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -303,7 +303,6 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 				if buffer.not_empty then
 					append_unencoded (buffer, 0)
 				end
---				buffer.set_in_use (False)
 			end
 		ensure
 			new_count: count = old count + (end_index - start_index + 1)

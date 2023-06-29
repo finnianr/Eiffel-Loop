@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-23 10:16:05 GMT (Tuesday 23rd May 2023)"
-	revision: "10"
+	date: "2023-06-29 13:19:35 GMT (Thursday 29th June 2023)"
+	revision: "11"
 
 deferred class
 	EL_ITERABLE_SPLIT_CURSOR [S -> READABLE_STRING_GENERAL, G]
@@ -65,6 +65,20 @@ feature -- Access
 	item_count: INTEGER
 		do
 			Result := item_upper - item_lower + 1
+		end
+
+	item_index_of (uc: CHARACTER_32; start_index: INTEGER): INTEGER
+		local
+			i: INTEGER
+		do
+			if start_index <= item_count then
+				from i := item_lower + start_index - 1 until i > item_upper or else Result > 0 loop
+					if target [i] = uc then
+						Result := i - item_lower + 1
+					end
+					i := i + 1
+				end
+			end
 		end
 
 	item_upper: INTEGER
