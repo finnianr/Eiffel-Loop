@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 12:02:09 GMT (Saturday 24th June 2023)"
-	revision: "34"
+	date: "2023-06-30 8:21:00 GMT (Friday 30th June 2023)"
+	revision: "35"
 
 class
 	EL_DIR_PATH
@@ -69,7 +69,7 @@ feature -- Access
 
 feature -- Aliased joins
 
-	hash_plus alias "#+" (a_dir_path: EL_DIR_PATH): like Current
+	plus_dir alias "#+" (a_dir_path: EL_DIR_PATH): like Current
 		do
 			create Result.make_from_other (Current)
 			Result.append_dir_path (a_dir_path)

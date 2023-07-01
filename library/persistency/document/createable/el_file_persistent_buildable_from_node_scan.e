@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-06-30 9:49:20 GMT (Friday 30th June 2023)"
+	revision: "13"
 
 deferred class
 	EL_FILE_PERSISTENT_BUILDABLE_FROM_NODE_SCAN
@@ -35,7 +35,6 @@ feature {EL_EIF_OBJ_ROOT_BUILDER_CONTEXT} -- Initialization
 
 	make_default
 		do
-			-- NOT THIS:
 			Precursor {EL_BUILDABLE_FROM_NODE_SCAN}
 			Precursor {EVOLICITY_SERIALIZEABLE_AS_XML}
 		end

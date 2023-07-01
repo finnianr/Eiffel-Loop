@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-28 12:52:31 GMT (Wednesday 28th June 2023)"
-	revision: "5"
+	date: "2023-07-01 18:02:55 GMT (Saturday 1st July 2023)"
+	revision: "6"
 
 deferred class
 	EL_MODELED_DIALOG
@@ -20,7 +20,7 @@ inherit
 
 	EL_MODULE_ORIENTATION
 
-	EL_MODULE_SCREEN
+	EL_MODULE_SCREEN; EL_MODULE_TUPLE
 
 	EV_SHARED_APPLICATION
 
@@ -55,6 +55,14 @@ feature {NONE} -- Initialization
 				shortcuts.add_unmodified_key_action (Key.Key_escape, agent on_cancel)
 			end
 			window.show_actions.extend (agent on_show)
+			if a_model.cancel_on_focus_out then
+				if {PLATFORM}.is_windows then
+				--	workaround to satisfy post-condition `window.is_destroyed'
+					window.focus_out_actions.extend (agent Action.do_once_on_idle (agent on_cancel))
+				else
+					window.focus_out_actions.extend (agent on_cancel)
+				end
+			end
 			if {PLATFORM}.is_windows then
 				-- Word around for obscured close button
 				window.enable_user_resize
@@ -131,8 +139,6 @@ feature -- Element change
 			default_button := new_default
 			window.set_default_push_button (new_default)
 		end
-
-feature -- Element change
 
 	set_title (a_title: separate READABLE_STRING_GENERAL)
 		do
@@ -227,7 +233,7 @@ feature {NONE} -- Event handling
 
 	on_cancel
 		do
-			window.destroy
+			destroy
 			is_cancelled := True
 			if model.is_application then
 				ev_application.destroy

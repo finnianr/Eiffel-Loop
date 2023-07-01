@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2023-07-01 13:44:34 GMT (Saturday 1st July 2023)"
+	revision: "14"
 
 deferred class
 	EL_RESOURCE_INSTALL_MANAGER
@@ -62,7 +62,7 @@ feature -- Basic operations
 	download
 		local
 			web: like new_connection; file_path: FILE_PATH
-			done: BOOLEAN; i: INTEGER
+			done: BOOLEAN; i: INTEGER; uri: EL_URI_ROUTINES
 		do
 			File_system.make_directory (target_dir)
 			web := new_connection
@@ -70,7 +70,7 @@ feature -- Basic operations
 				progress_listener.display.set_text (progress_template #$ [l_file.item.name])
 				file_path := target_dir + l_file.item.name
 				from i := 1; done := false until done or i > Maximum_tries loop
-					web.open (url_file_item (l_file.item.name))
+					web.open (url_file_item (uri.encoded_path_element (l_file.item.name, True)))
 					if is_lio_enabled then
 						lio.put_path_field ("Downloading %S", file_path)
 						lio.put_new_line
@@ -140,13 +140,14 @@ feature {NONE} -- Implementation
 
 	clean_up
 		-- remove files not in manifest
-		local
-			name_set: like manifest.name_set
 		do
-			name_set := manifest.name_set
-			across File_system.files_with_extension (target_dir, file_extension, False) as path loop
-				if not name_set.has (path.item.base) then
-					File_system.remove_file (path.item)
+			if attached resource_set.file_extension as extension
+				and then attached manifest.name_set as name_set
+			then
+				across File_system.files_with_extension (target_dir, extension, False) as path loop
+					if not name_set.has (path.item.base) then
+						File_system.remove_file (path.item)
+					end
 				end
 			end
 		end
@@ -172,11 +173,6 @@ feature {NONE} -- Implementation
 			Result := item.modification_time > existing_modification_time (item)
 		end
 
-	manifest_name: ZSTRING
-		do
-			Result := resource_set.Manifest_name
-		end
-
 	manifest_xml: STRING
 		local
 			web: like new_connection
@@ -197,9 +193,7 @@ feature {NONE} -- Implementation
 			path: FILE_PATH
 		do
 			path := dir_path + item.name
-			if path.exists then
-				Result := path.modification_time
-			end
+			Result := path.modification_time
 		end
 
 	new_connection: EL_HTTP_CONNECTION
@@ -228,23 +222,19 @@ feature {NONE} -- Implementation
 			Result := resource_set.updated_dir
 		end
 
-	url_file_item (name: ZSTRING): ZSTRING
+	url_file_item (encoded_name: READABLE_STRING_8): ZSTRING
 		do
-			Result := url_template #$ [domain_name, name]
+			Result := url_template #$ [domain_name, encoded_name]
 		end
 
 	url_manifest: ZSTRING
 		do
-			Result := url_template #$ [domain_name, manifest_name]
+			Result := url_template #$ [domain_name, resource_set.Manifest_name]
 		end
 
 feature {NONE} -- Deferred implementation
 
 	domain_name: STRING
-		deferred
-		end
-
-	file_extension: STRING
 		deferred
 		end
 

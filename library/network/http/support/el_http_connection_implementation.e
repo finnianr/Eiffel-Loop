@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-29 10:09:41 GMT (Thursday 29th June 2023)"
-	revision: "6"
+	date: "2023-07-01 13:36:28 GMT (Saturday 1st July 2023)"
+	revision: "7"
 
 deferred class
 	EL_HTTP_CONNECTION_IMPLEMENTATION
@@ -37,9 +37,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_LIO
-
-	EL_MODULE_URI
+	EL_MODULE_LIO; EL_MODULE_URI
 
 	STRING_HANDLER
 
@@ -227,6 +225,10 @@ feature {EL_HTTP_COMMAND} -- Implementation
 
 	do_command (command: EL_DOWNLOAD_HTTP_COMMAND)
 		do
+			if is_lio_enabled then
+				lio.put_labeled_string (command.type + once " request", url)
+				lio.put_new_line
+			end
 			command.execute
 			if attached {EL_STRING_DOWNLOAD_HTTP_COMMAND} command as string_download then
 				if has_error then
@@ -288,6 +290,10 @@ feature {NONE} -- Deferred
 		end
 
 	self_ptr: POINTER
+		deferred
+		end
+
+	url: EL_URL
 		deferred
 		end
 

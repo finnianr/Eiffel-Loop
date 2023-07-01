@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-06-30 14:48:42 GMT (Friday 30th June 2023)"
+	revision: "9"
 
 class
 	EL_UPDATEABLE_RESOURCE_SET
@@ -20,31 +20,57 @@ inherit
 
 	EL_MODULE_DIRECTORY
 
+	EL_MODULE_DEFERRED_LOCALE
+
 create
-	make, make_standard
+	make, make_for_locale
 
 feature {NONE} -- Initialization
 
-	make (installed_base_dir, updated_base_dir, relative_path: DIR_PATH)
-		local
-			manifest_path: FILE_PATH
+	make (
+		a_installed_base_dir, a_updated_base_dir: detachable DIR_PATH
+		relative_path: DIR_PATH; extension: READABLE_STRING_GENERAL
+	)
 		do
-			installed_dir := installed_base_dir #+ relative_path
-			updated_dir := updated_base_dir #+ relative_path
-			manifest_path := new_item_path (Manifest_name)
-			if manifest_path.exists then
+			installed_dir := installed_base_dir (a_installed_base_dir) #+ relative_path
+			updated_dir := updated_base_dir (a_updated_base_dir) #+ relative_path
+
+			create file_extension.make_from_general (extension)
+
+			if attached first_existing (manifest_location_list) as manifest_path
+				and then manifest_path.exists
+			then
 				make_from_file (manifest_path)
 			else
 				make_empty
 			end
 		end
 
-	make_standard (installed_base_dir, relative_path: DIR_PATH)
+	make_for_locale (
+		a_installed_base_dir, a_updated_base_dir: detachable DIR_PATH
+		locale_template: ZSTRING; extension: READABLE_STRING_GENERAL
+	)
+		require
+			has_one_substitution: locale_template.occurrences ('%S') = 1
+		local
+			exists: BOOLEAN; localized_path: DIR_PATH
 		do
-			make (installed_base_dir, Directory.app_configuration, relative_path)
+			across << Locale.language, Locale.default_language >> as lang until exists loop
+				localized_path := locale_template #$ [lang.item]
+				across
+					<< updated_base_dir (a_updated_base_dir), installed_base_dir (a_installed_base_dir) >> as base_dir
+				until
+					exists
+				loop
+					exists := base_dir.item.plus_dir (localized_path).exists
+				end
+			end
+			make (a_installed_base_dir, a_updated_base_dir, localized_path, extension)
 		end
 
 feature -- Access
+
+	file_extension: ZSTRING
 
 	i_th_path (i: INTEGER): FILE_PATH
 		do
@@ -63,12 +89,14 @@ feature -- Access
 			Result := new_item_path (item.name)
 		end
 
+	manifest_name: ZSTRING
+		do
+			Result := file_extension + "-manifest.xml"
+		end
+
 	new_item_path (name: ZSTRING): FILE_PATH
 		do
-			Result := updated_dir + name
-			if not Result.exists then
-				Result := installed_dir + name
-			end
+			Result := first_existing (<< updated_dir + name, installed_dir + name >>)
 		end
 
 	updated_dir: DIR_PATH
@@ -81,11 +109,39 @@ feature -- Element change
 			installed_dir := a_installed_dir
 		end
 
-feature {EL_RESOURCE_INSTALL_MANAGER} -- Constants
+feature {NONE} -- Implementation
 
-	Manifest_name: ZSTRING
-		once
-			Result := "manifest.xml"
+	first_existing (path_list: ITERABLE [FILE_PATH]): FILE_PATH
+		local
+			exists: BOOLEAN
+		do
+			across path_list as list until exists loop
+				Result := list.item
+				exists := Result.exists
+			end
+		end
+
+	installed_base_dir (base_dir: detachable DIR_PATH): DIR_PATH
+		do
+			if attached base_dir as dir then
+				Result := dir
+			else
+				Result := Directory.Application_installation
+			end
+		end
+
+	updated_base_dir (base_dir: detachable DIR_PATH): DIR_PATH
+		do
+			if attached base_dir as dir then
+				Result := dir
+			else
+				Result := Directory.App_configuration
+			end
+		end
+
+	manifest_location_list: EL_FILE_PATH_LIST
+		do
+			create Result.make_from_array (<< updated_dir + manifest_name, installed_dir + manifest_name >>)
 		end
 
 end

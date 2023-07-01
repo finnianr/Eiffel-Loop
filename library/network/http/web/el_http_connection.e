@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-29 10:14:14 GMT (Thursday 29th June 2023)"
-	revision: "44"
+	date: "2023-07-01 13:25:29 GMT (Saturday 1st July 2023)"
+	revision: "45"
 
 class
 	EL_HTTP_CONNECTION
@@ -161,9 +161,6 @@ feature -- Basic operations
 			make_from_pointer (Curl.new_pointer)
 			set_url_with_parameters (a_url, parameter_table)
 			set_curl_boolean_option (CURLOPT_verbose, False)
-			if is_lio_enabled then
-				lio.put_labeled_string ("open", url); lio.put_new_line
-			end
 			if not user_agent.is_empty then
 				set_curl_string_8_option (CURLOPT_useragent, user_agent)
 			end

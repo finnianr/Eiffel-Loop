@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "7"
+	date: "2023-07-01 11:14:13 GMT (Saturday 1st July 2023)"
+	revision: "8"
 
 class
 	EL_WIN_FILE_INFO_C_API
 
 feature {NONE} -- C externals
 
-	frozen default_handle: NATURAL
+	frozen invalid_handle_value: NATURAL
 		external
 			"C [macro %"Windows.h%"]"
 		alias

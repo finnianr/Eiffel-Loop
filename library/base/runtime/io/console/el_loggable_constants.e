@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-09 12:42:09 GMT (Tuesday 9th May 2023)"
-	revision: "4"
+	date: "2023-06-30 8:11:26 GMT (Friday 30th June 2023)"
+	revision: "5"
 
 deferred class
 	EL_LOGGABLE_CONSTANTS
@@ -42,10 +42,9 @@ feature {NONE} -- Implementation
 
 	Indexable_types: ARRAY [TYPE [ANY]]
 		-- types that maybe converted to an integer index
-		once
+		once ("PROCESS")
 			Result := <<
-				{INDEXABLE_ITERATION_CURSOR [ANY]}, {LINEAR [ANY]},
-				{INTEGER_32_REF}, {NATURAL_32_REF}
+				{INDEXABLE_ITERATION_CURSOR [ANY]}, {LINEAR [ANY]}, {INTEGER_32_REF}, {NATURAL_32_REF}
 			>>
 		end
 

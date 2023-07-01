@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2023-07-01 14:17:39 GMT (Saturday 1st July 2023)"
+	revision: "15"
 
 class
 	EL_FILE_ROUTINES_IMP
@@ -21,6 +21,11 @@ create
 	make
 
 feature {NONE} -- Implementation
+
+	is_writable (a_path: FILE_PATH): BOOLEAN
+		do
+			Result := info (a_path, False).is_writable
+		end
 
 	set_modification_time (file_path: FILE_PATH; date_time: INTEGER)
 		do

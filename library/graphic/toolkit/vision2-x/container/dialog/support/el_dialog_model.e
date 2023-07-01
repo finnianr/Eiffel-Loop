@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-29 7:46:43 GMT (Thursday 29th June 2023)"
-	revision: "20"
+	date: "2023-07-01 18:07:24 GMT (Saturday 1st July 2023)"
+	revision: "21"
 
 class
 	EL_DIALOG_MODEL
@@ -103,7 +103,7 @@ feature -- Factory
 			Result.put (icon)
 		end
 
-feature -- Status change
+feature -- Behaviour change
 
 	disable_escape_key
 		do
@@ -111,14 +111,29 @@ feature -- Status change
 		end
 
 	enable_application
+		-- cause application to close when dialog closes
 		do
 			is_application := True
 		end
 
+	enable_cancel_on_focus_out
+		-- cause dialog to close if it looses focus by clicking outside area
+		do
+			cancel_on_focus_out := True
+		end
+
+feature -- Closing status
+
+	cancel_on_focus_out: BOOLEAN
+		-- when `True' clicking outside the dialog will cancel it
+
+	is_application: BOOLEAN
+		-- when `True' causes application to close when destroyed
+
 feature -- Status query
 
 	escape_key_enabled: BOOLEAN
-		-- `True' is escape key enabled even when `not has_cancel_button_text'
+		-- when `True' escape key enabled even when `not has_cancel_button_text'
 
 	has_buttons: BOOLEAN
 		do
@@ -139,9 +154,6 @@ feature -- Status query
 		do
 			Result := title.count > 0
 		end
-
-	is_application: BOOLEAN
-		-- `True' if dialog is main application window
 
 feature -- Set text
 
@@ -229,4 +241,6 @@ feature -- Basic operations
 			dialog.show_modal_to_window (parent)
 		end
 
+invariant
+	never_application_and_cancel_on_focus_out: is_application implies not cancel_on_focus_out
 end

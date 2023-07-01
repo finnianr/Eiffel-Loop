@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-07-01 13:36:29 GMT (Saturday 1st July 2023)"
+	revision: "9"
 
 deferred class
 	EL_HTTP_COMMAND
@@ -17,6 +17,8 @@ inherit
 		rename
 			make as make_callable
 		end
+
+	EL_MODULE_NAMING
 
 	EL_CURL_OPTION_CONSTANTS
 		rename
@@ -34,6 +36,13 @@ feature {NONE} -- Initialization
 			make_callable
 			connection := a_connection
 			listener := progress_listener
+		end
+
+feature -- Access
+
+	type: STRING
+		do
+			Result := Naming.class_as_snake_upper (Current, 1, 2)
 		end
 
 feature -- Basic operations

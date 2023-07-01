@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2023-07-01 16:04:00 GMT (Saturday 1st July 2023)"
+	revision: "16"
 
 class
 	EL_FILE_ROUTINES_IMP
 
 inherit
 	EL_FILE_ROUTINES_I
+		rename
+			info as info_raw
 		redefine
 			make
 		end
@@ -29,29 +31,63 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			create win_file_info.make
+			create native_windows_path.make (0)
 		end
 
 feature {NONE} -- Implementation
 
-	set_stamp (file_path: FILE_PATH; date_time: INTEGER)
-			-- Stamp file with `time' (for both access and modification).
+	is_writable (file_path: FILE_PATH): BOOLEAN
 		do
-			win_file_info.open_write (file_path)
-			win_file_info.set_unix_last_access_time (date_time)
-			win_file_info.set_unix_last_write_time (date_time)
-			win_file_info.close
+			if attached writable_info (file_path) as info then
+				Result := info.is_open_write
+				info.close
+			end
+		end
+
+	set_stamp (file_path: FILE_PATH; date_time: INTEGER)
+		-- Stamp file with `time' (for both access and modification).
+		do
+			if attached writable_info (file_path) as info then
+				info.set_unix_last_access_time (date_time)
+				info.set_unix_last_write_time (date_time)
+				info.close
+			end
+		end
+
+	set_creation_time (file_path: FILE_PATH; date_time: INTEGER)
+		-- set modification time with date_time as secs since Unix epoch
+		do
+			if attached writable_info (file_path) as info then
+				info.set_unix_creation_time (date_time)
+				info.close
+			end
 		end
 
 	set_modification_time (file_path: FILE_PATH; date_time: INTEGER)
-			-- set modification time with date_time as secs since Unix epoch
+		-- set modification time with date_time as secs since Unix epoch
 		do
-			win_file_info.open_write (file_path)
-			win_file_info.set_unix_last_write_time (date_time)
-			win_file_info.close
+			if attached writable_info (file_path) as info then
+				info.set_unix_last_write_time (date_time)
+				info.close
+			end
+		end
+
+	shared_native_path (file_path: FILE_PATH): MANAGED_POINTER
+		do
+			Result := native_windows_path
+			internal_info_file.fill_native_path (Result, file_path)
+		end
+
+	writable_info (file_path: FILE_PATH): EL_WIN_FILE_INFO
+		do
+			Result := win_file_info
+			Result.open_write (shared_native_path (file_path))
 		end
 
 feature {NONE} -- Internal attributes
 
 	win_file_info: EL_WIN_FILE_INFO
+
+	native_windows_path: MANAGED_POINTER
 
 end

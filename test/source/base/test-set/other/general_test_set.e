@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-23 8:54:44 GMT (Friday 23rd June 2023)"
-	revision: "46"
+	date: "2023-07-01 9:53:13 GMT (Saturday 1st July 2023)"
+	revision: "47"
 
 class
 	GENERAL_TEST_SET
@@ -15,9 +15,9 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_BASE_64; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_NAMING
+	EL_MODULE_BASE_64; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_DIRECTORY
 
-	EL_MODULE_REUSEABLE
+	EL_MODULE_NAMING; EL_MODULE_REUSEABLE
 
 	SHARED_HEXAGRAM_STRINGS
 
@@ -31,14 +31,15 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["any_array_numeric_type_detection", agent test_any_array_numeric_type_detection],
-				["base_64_codec_1", agent test_base_64_codec_1],
-				["base_64_codec_2", agent test_base_64_codec_2],
-				["environment_put", agent test_environment_put],
-				["math_precision", agent test_math_precision],
-				["named_thread", agent test_named_thread],
-				["reverse_managed_pointer", agent test_reverse_managed_pointer],
-				["version_array", agent test_version_array],
-				["version_bump", agent test_version_bump]
+				["base_64_codec_1",						 agent test_base_64_codec_1],
+				["base_64_codec_2",						 agent test_base_64_codec_2],
+				["environment_put",						 agent test_environment_put],
+				["math_precision",						 agent test_math_precision],
+				["is_file_writable",						 agent test_is_file_writable],
+				["named_thread",							 agent test_named_thread],
+				["reverse_managed_pointer",			 agent test_reverse_managed_pointer],
+				["version_array",							 agent test_version_array],
+				["version_bump",							 agent test_version_bump]
 			>>)
 		end
 
@@ -109,6 +110,22 @@ feature -- Tests
 			Execution_environment.put ("eiffel-loop", name)
 			Execution_environment.put ("", name)
 			assert ("not attached", not attached Execution_environment.item (name))
+		end
+
+	test_is_file_writable
+		-- GENERAL_TEST_SET.test_is_file_writable
+		local
+			ec_path, test_ecf: FILE_PATH
+		do
+			ec_path := "$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/bin/ec"
+			ec_path.expand
+			if {PLATFORM}.is_windows then
+				ec_path.add_extension ("exe")
+			end
+			test_ecf := Directory.current_working + "test.ecf"
+
+			assert ("ec.exe is not writable", not File.is_writable (ec_path))
+			assert ("test.ecf is writable", File.is_writable (test_ecf))
 		end
 
 	test_math_precision

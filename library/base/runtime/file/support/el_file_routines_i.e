@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 11:58:59 GMT (Saturday 24th June 2023)"
-	revision: "14"
+	date: "2023-07-01 15:59:47 GMT (Saturday 1st July 2023)"
+	revision: "15"
 
 deferred class
 	EL_FILE_ROUTINES_I
 
 inherit
+	NATIVE_STRING_HANDLER
+
 	STRING_HANDLER
 
 	EL_FILE_OPEN_ROUTINES
@@ -81,8 +83,8 @@ feature -- Measurement
 
 	modification_time (file_path: FILE_PATH): INTEGER
 		do
-			if file_path.exists then
-				Result := info (file_path, False).date
+			if attached info (file_path, False) as l_info and then l_info.exists then
+				Result := l_info.date
 			end
 		end
 
@@ -188,7 +190,7 @@ feature -- File content
 
 feature -- Status report
 
-	exists (a_path: FILE_PATH): BOOLEAN
+	exists (a_path: EL_PATH): BOOLEAN
 		do
 			Result := info (a_path, False).exists
 		end
@@ -234,6 +236,16 @@ feature -- Status report
 			Result := index > 1 and then content [index - 1] = '%R'
 		end
 
+	is_access_owner (a_path: EL_PATH): BOOLEAN
+		do
+			Result := info (a_path, False).is_access_owner
+		end
+
+	is_access_writable (a_path: FILE_PATH): BOOLEAN
+		do
+			Result := info (a_path, False).is_access_writable
+		end
+
 	is_newer_than (path_1, path_2: FILE_PATH): BOOLEAN
 		-- `True' if either A or B is true
 		-- A. `path_1' modification time is greater than `path_2' modification time
@@ -244,13 +256,20 @@ feature -- Status report
 			Result := not path_2.exists or else modification_time (path_1) > modification_time (path_2)
 		end
 
+	is_owner (a_path: FILE_PATH): BOOLEAN
+		do
+			Result := info (a_path, False).is_owner
+		end
+
 	is_symlink (path: EL_PATH): BOOLEAN
 		-- `True' if file is a symbolic link
 		-- (Does not seem to work for "C:\Users\Default User" on 16.05)
 		do
-			if attached info (path, False) as l_info then
-				Result := l_info.is_symlink
-			end
+			Result := info (path, False).is_symlink
+		end
+
+	is_writable (a_path: FILE_PATH): BOOLEAN
+		deferred
 		end
 
 feature -- Property change
@@ -266,6 +285,17 @@ feature -- Property change
 			change_permission (path, who, what, agent {FILE}.add_permission)
 		end
 
+	remove_permission (path: FILE_PATH; who, what: STRING)
+			-- remove read, write, execute or setuid permission
+			-- for `who' ('u', 'g' or 'o') to `what'.
+		require
+			file_exists: path.exists
+			valid_who: valid_who (who)
+			valid_what: valid_what (what)
+		do
+			change_permission (path, who, what, agent {FILE}.remove_permission)
+		end
+
 	set_modification_time (file_path: FILE_PATH; date_time: INTEGER)
 			-- set modification time with date_time as secs since Unix epoch
 		deferred
@@ -279,17 +309,6 @@ feature -- Property change
 		ensure
 			file_access_time_set: access_time (file_path) = date_time
 			modification_time_set: modification_time (file_path) = date_time
-		end
-
-	remove_permission (path: FILE_PATH; who, what: STRING)
-			-- remove read, write, execute or setuid permission
-			-- for `who' ('u', 'g' or 'o') to `what'.
-		require
-			file_exists: path.exists
-			valid_who: valid_who (who)
-			valid_what: valid_what (what)
-		do
-			change_permission (path, who, what, agent {FILE}.remove_permission)
 		end
 
 feature -- Basic operations
