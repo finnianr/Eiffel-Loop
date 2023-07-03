@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-07-03 8:33:42 GMT (Monday 3rd July 2023)"
+	revision: "13"
 
 class
 	SMIL_PRESENTATION
@@ -87,7 +87,7 @@ feature {NONE} -- Build from XML
 			lio.put_line ("on_context_exit")
 			lio.put_string_field ("Presentation", title); lio.put_new_line
 			lio.put_string_field ("author", author); lio.put_new_line
-			lio.put_path_field ("location %S", location.to_dir_path)
+			lio.put_string_field ("location %S", location.to_dir_path)
 			lio.put_new_line_x2
 		end
 

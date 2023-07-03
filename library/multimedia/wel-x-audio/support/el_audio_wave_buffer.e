@@ -6,20 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-07-03 8:18:07 GMT (Monday 3rd July 2023)"
+	revision: "8"
 
 class
 	EL_AUDIO_WAVE_BUFFER
 
 inherit
-	MANAGED_POINTER
+	EL_ALLOCATED_C_OBJECT
 		rename
-			make as make_pointer,
-			integer_16_bytes as sample_bytes,
-			item as current_item
-		export
-			{NONE} all
+			c_size_of as c_size_of_WAVEHDR,
+			integer_16_bytes as sample_bytes
 		redefine
 			dispose
 		end
@@ -38,14 +35,14 @@ feature {NONE} -- Initialization
 		local
 			status: INTEGER
 		do
-			make_pointer (c_size_of_WAVEHDR)
+			make_default
 			device_handle := a_device_handle
 			audio_data := some_audio_data
 			sample_block_size := block_size
 			samples_per_sec := a_samples_per_sec
-			c_set_data (current_item, audio_data.item)
-			c_set_buffer_length (current_item, audio_data.count)
-			status := c_wave_out_prepare_header (device_handle.item, current_item)
+			c_set_data (self_ptr, audio_data.item)
+			c_set_buffer_length (self_ptr, audio_data.count)
+			status := c_wave_out_prepare_header (device_handle.item, self_ptr)
 			check
 				no_error_preparing_header: status = cdef_MMSYSERR_NOERROR
 			end
@@ -79,7 +76,7 @@ feature -- Basic operations
 			status: INTEGER
 		do
 			log.enter ("queue_to_play")
-			status := c_wave_out_write (device_handle.item, current_item)
+			status := c_wave_out_write (device_handle.item, self_ptr)
 			check
 				no_device_error_occured: status = cdef_MMSYSERR_NOERROR
 			end
@@ -94,7 +91,7 @@ feature -- Basic operations
 		local
 			status: INTEGER
 		do
-			status := c_wave_out_unprepare_header (device_handle.item, current_item)
+			status := c_wave_out_unprepare_header (device_handle.item, self_ptr)
 			is_prepared_for_disposal := status = cdef_MMSYSERR_NOERROR
 		ensure
 			prepared_for_disposal: is_prepared_for_disposal
@@ -115,13 +112,13 @@ feature -- Status query
 	is_prepared: BOOLEAN
 			--
 		do
-			Result := c_dw_flags (current_item).bit_and (cdef_WHDR_PREPARED) /= 0
+			Result := c_dw_flags (self_ptr).bit_and (cdef_WHDR_PREPARED) /= 0
 		end
 
 	is_done: BOOLEAN
 			--
 		do
-			Result := c_dw_flags (current_item).bit_and (cdef_WHDR_DONE) /= 0
+			Result := c_dw_flags (self_ptr).bit_and (cdef_WHDR_DONE) /= 0
 		end
 
 feature {NONE} -- Disposal

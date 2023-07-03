@@ -6,27 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-07-03 8:12:33 GMT (Monday 3rd July 2023)"
+	revision: "8"
 
 deferred class
 	EL_AUDIO_PCM_SAMPLE
 
 inherit
-	MANAGED_POINTER
+	EL_ALLOCATED_C_OBJECT
 		rename
-			make as make_bytes
-		export
-			{NONE} all
-			{ANY} item
-		end
-
-feature {NONE} -- Initialization
-
-	make
-			--
-		do
-			make_bytes (Bytes)
+			make_default as make
 		end
 
 feature -- Access
@@ -92,11 +81,6 @@ feature {NONE} -- Implementation
 		end
 
 feature -- Constants
-
-	Bytes: INTEGER
-			-- Number of bytes
-		deferred
-		end
 
 	Max_value: INTEGER_64
 			--

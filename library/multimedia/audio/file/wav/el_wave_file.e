@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-07-03 8:15:26 GMT (Monday 3rd July 2023)"
+	revision: "6"
 
 class
 	EL_WAVE_FILE
@@ -39,6 +39,8 @@ inherit
 			sample_count as sample_block_count,
 			num_channels as num_sample_source_channels
 		end
+
+	EL_C_API_ROUTINES
 
 	EL_MODULE_LIO
 
@@ -189,7 +191,7 @@ feature -- Input
 			i: INTEGER
 		do
 			from i := 1 until i > num_channels loop
-				read_to_managed_pointer (internal_sample, 0, internal_sample.bytes)
+				read_to_managed_pointer (internal_sample, 0, internal_sample.c_size_of)
 				last_sample_block_integer [i] := internal_sample.value
 				i := i + 1
 			end
@@ -201,7 +203,7 @@ feature -- Input
 			i: INTEGER
 		do
 			from i := 1 until i > num_channels loop
-				read_to_managed_pointer (internal_sample, 0, internal_sample.bytes)
+				read_to_managed_pointer (internal_sample, 0, internal_sample.c_size_of)
 				last_sample_block_double [i] := internal_sample.to_double_unit
 				i := i + 1
 			end
@@ -213,7 +215,7 @@ feature -- Input
 			i: INTEGER
 		do
 			from i := 1 until i > num_channels loop
-				read_to_managed_pointer (internal_sample, 0, internal_sample.bytes)
+				read_to_managed_pointer (internal_sample, 0, internal_sample.c_size_of)
 				last_sample_block_real [i] := internal_sample.to_real_unit
 				i := i + 1
 			end
@@ -262,7 +264,7 @@ feature -- Access
 	sample_block_size: INTEGER
 			-- Combined size of samples for all channels
 		do
-			Result := internal_sample.Bytes * num_channels
+			Result := internal_sample.c_size_of * num_channels
 		end
 
 	last_sample_block_integer: ARRAY [INTEGER]
@@ -346,11 +348,11 @@ feature -- Element change
 				right_position: header.size + (samples.lower - 1) * sample_block_size = position
 			end
 
-			move ((channel - 1) * internal_sample.bytes)
+			move ((channel - 1) * internal_sample.c_size_of)
 			from i := samples.lower until i > samples.upper loop
 				internal_sample.set_from_double_unit (samples [i])
-				put_managed_pointer (internal_sample, 0, internal_sample.bytes)
-				move ((num_channels - 1) * internal_sample.bytes)
+				put_managed_pointer (internal_sample, 0, internal_sample.c_size_of)
+				move ((num_channels - 1) * internal_sample.c_size_of)
 				i := i + 1
 			end
 			sample_block_count := samples.upper
@@ -365,7 +367,7 @@ feature -- Element change
 		do
 			from channel := 1 until channel > num_channels loop
 				internal_sample.set_from_real_unit (sample_block [channel])
-				put_managed_pointer (internal_sample, 0, internal_sample.bytes)
+				put_managed_pointer (internal_sample, 0, internal_sample.c_size_of)
 				channel := channel + 1
 			end
 			sample_block_count := sample_block_count + 1
@@ -380,7 +382,7 @@ feature -- Element change
 		do
 			from channel := 1 until channel > num_channels loop
 				internal_sample.set_from_double_unit (sample_block [channel])
-				put_managed_pointer (internal_sample, 0, internal_sample.bytes)
+				put_managed_pointer (internal_sample, 0, internal_sample.c_size_of)
 				channel := channel + 1
 			end
 			sample_block_count := sample_block_count + 1
@@ -395,7 +397,7 @@ feature -- Element change
 		do
 			from channel := 1 until channel > num_channels loop
 				internal_sample.set_value (sample_block [channel])
-				put_managed_pointer (internal_sample, 0, internal_sample.bytes)
+				put_managed_pointer (internal_sample, 0, internal_sample.c_size_of)
 				channel := channel + 1
 			end
 			sample_block_count := sample_block_count + 1
@@ -472,7 +474,7 @@ feature {EL_WAVE_FILE} -- Implementation
 	sample_bytes: INTEGER
 			--
 		do
-			Result := internal_sample.Bytes
+			Result := internal_sample.c_size_of
 		end
 
 end

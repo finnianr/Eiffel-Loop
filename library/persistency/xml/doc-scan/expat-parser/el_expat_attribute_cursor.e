@@ -14,25 +14,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-20 11:18:47 GMT (Tuesday 20th June 2023)"
-	revision: "7"
+	date: "2023-07-03 8:00:30 GMT (Monday 3rd July 2023)"
+	revision: "8"
 
 class
 	EL_EXPAT_ATTRIBUTE_CURSOR
 
 inherit
-	MANAGED_POINTER
+	EL_ALLOCATED_C_OBJECT
 		rename
-			make as make_pointer
-		export
-			{NONE} all
-		end
-
-	EL_C_API_ROUTINES
-		export
-			{ANY} is_attached
-		undefine
-			is_equal, copy
+			c_size_of as Size_of_attribute_struct
 		end
 
 	EL_DOCUMENT_CLIENT
@@ -76,7 +67,7 @@ feature -- Status change
 
 	forth
 		do
-			item := item + Size_of_attribute_struct
+			self_ptr := self_ptr + Size_of_attribute_struct
 		end
 
 feature {NONE} -- Implementation

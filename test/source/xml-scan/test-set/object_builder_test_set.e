@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 6:35:40 GMT (Saturday 24th June 2023)"
-	revision: "24"
+	date: "2023-07-03 8:41:16 GMT (Monday 3rd July 2023)"
+	revision: "25"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -94,10 +94,12 @@ feature {NONE} -- Implementation
 		do
 			lio.enter_with_args ("build", [type])
 			l_name := Routine_name
-			do_test (l_name, 561488628,
+			do_test (l_name, os_checksum (561488628, 1575710143),
 				agent build_and_serialize_file, [Name.smil_presentation, agent type.new_smil_presentation]
 			)
-			do_test (l_name, 3086032535, agent build_and_serialize_file, [Name.web_form, agent type.new_web_form] )
+			do_test (l_name, os_checksum (3086032535, 3664224275),
+				agent build_and_serialize_file, [Name.web_form, agent type.new_web_form]
+			)
 			do_test (l_name, 1024683824, agent build_and_serialize_file, [Name.matrix_average, agent type.new_matrix])
 			do_test (l_name, 2770913439, agent build_and_serialize_file, [Name.matrix_sum, agent type.new_matrix])
 			lio.exit
@@ -133,8 +135,12 @@ feature {NONE} -- Implementation
 		do
 			lio.enter_with_args ("smart_build", [type])
 			l_name := Routine_name
-			do_test (l_name, 944788983, agent build_and_serialize_file, [Name.smil_presentation, agent type.new_serializeable])
-			do_test (l_name, 540764938, agent build_and_serialize_file, [Name.web_form, agent type.new_serializeable])
+			do_test (l_name, os_checksum (944788983, 271881259),
+				agent build_and_serialize_file, [Name.smil_presentation, agent type.new_serializeable]
+			)
+			do_test (l_name, os_checksum (540764938, 1303238030),
+				agent build_and_serialize_file, [Name.web_form, agent type.new_serializeable]
+			)
 			do_test (l_name, 4129507502, agent build_and_serialize_file, [Name.matrix_average, agent type.new_serializeable])
 			do_test (l_name, 345614884, agent build_and_serialize_file, [Name.matrix_sum, agent type.new_serializeable])
 			lio.exit

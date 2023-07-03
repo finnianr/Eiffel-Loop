@@ -6,19 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-07-03 8:03:11 GMT (Monday 3rd July 2023)"
+	revision: "7"
 
 class
 	EL_WAVEFORM_FORMAT
 
 inherit
-	MANAGED_POINTER
+	EL_ALLOCATED_C_OBJECT
 		rename
-			make as make_pointer
-		export
-			{NONE} all
-			{ANY} item
+			c_size_of as c_size_of_wave_formatex
 		end
 
 	EL_WAVEFORM_FORMAT_ABS undefine copy, is_equal end
@@ -29,12 +26,6 @@ create
 	make, make_default, make_16_bit_mono_PCM
 
 feature {NONE} -- Initialization
-
-	make_default
-			--
-		do
-			make_pointer (c_size_of_wave_formatex)
-		end
 
 	make (header: EL_AUDIO_WAVE_HEADER)
 		do
@@ -85,37 +76,37 @@ feature -- Access
 	format: INTEGER_16
 			--
 		do
-			Result := c_format (item).to_integer_16
+			Result := c_format (self_ptr).to_integer_16
 		end
 
 	num_channels : INTEGER
 			--
 		do
-			Result := c_num_channels (item)
+			Result := c_num_channels (self_ptr)
 		end
 
 	samples_per_sec: INTEGER
 			--
 		do
-			Result := c_samples_per_sec (item)
+			Result := c_samples_per_sec (self_ptr)
 		end
 
 	bits_per_sample: INTEGER
 			--
 		do
-			Result := c_bits_per_sample (item)
+			Result := c_bits_per_sample (self_ptr)
 		end
 
 	average_bytes_per_sec: INTEGER
 			--
 		do
-			Result := c_average_bytes_per_sec (item)
+			Result := c_average_bytes_per_sec (self_ptr)
 		end
 
 	block_align: INTEGER
 			--
 		do
-			Result := c_block_align (item)
+			Result := c_block_align (self_ptr)
 		end
 
 feature -- Element change
@@ -125,49 +116,48 @@ feature -- Element change
 		require
 			valid_format: is_valid_format (a_format)
 		do
-			c_set_format (item, a_format)
+			c_set_format (self_ptr, a_format)
 		end
 
 	set_num_channels (number: INTEGER)
 			--
 		do
-			c_set_num_channels (item, number)
+			c_set_num_channels (self_ptr, number)
 		end
 
 	set_samples_per_sec (samples_per_sec_count: INTEGER)
 			--
 		do
-			c_set_samples_per_sec (item, samples_per_sec_count)
+			c_set_samples_per_sec (self_ptr, samples_per_sec_count)
 		end
 
 	set_bits_per_sample (bits: INTEGER)
 			--
 		do
-			c_set_bits_per_sample (item, bits)
+			c_set_bits_per_sample (self_ptr, bits)
 		end
 
 	set_extra_format_info_size (size_byte_count: INTEGER)
 			--
 		do
-			c_set_cb_size (item, size_byte_count)
+			c_set_cb_size (self_ptr, size_byte_count)
 		end
 
 	set_block_align
 			--
 		do
-			c_set_block_align (item, num_channels * bits_per_sample // 8)
+			c_set_block_align (self_ptr, num_channels * bits_per_sample // 8)
 		end
 
 	set_average_bytes_per_sec
 			--
 		do
-			c_set_average_bytes_per_sec (item, samples_per_sec * block_align)
+			c_set_average_bytes_per_sec (self_ptr, samples_per_sec * block_align)
 		end
 
 invariant
+	valid_average_bytes_per_sec: c_average_bytes_per_sec (self_ptr) = c_samples_per_sec (self_ptr) * c_block_align (self_ptr)
 
-	valid_average_bytes_per_sec: c_average_bytes_per_sec (item) = c_samples_per_sec (item) * c_block_align (item)
-
-	valid_block_align: c_block_align (item) = c_num_channels (item) * c_bits_per_sample (item) // 8
+	valid_block_align: c_block_align (self_ptr) = c_num_channels (self_ptr) * c_bits_per_sample (self_ptr) // 8
 
 end

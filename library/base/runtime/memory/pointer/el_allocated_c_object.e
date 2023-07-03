@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-07-03 8:14:26 GMT (Monday 3rd July 2023)"
+	revision: "5"
 
 deferred class
 	EL_ALLOCATED_C_OBJECT
@@ -39,14 +39,14 @@ feature {NONE} -- Initialization
 			make_with_size (c_size_of)
 		end
 
-feature {NONE} -- Implementation
+feature {EL_C_API_ROUTINES} -- Implementation
 
 	c_size_of: INTEGER
 		-- size of C struct to allocate
 		deferred
 		end
 
-feature {NONE} -- Internal attributes
+feature {EL_C_API_ROUTINES} -- Internal attributes
 
 	self_ptr: POINTER
 		-- allocated memory

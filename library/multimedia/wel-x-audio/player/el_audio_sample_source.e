@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-07-03 8:14:48 GMT (Monday 3rd July 2023)"
+	revision: "5"
 
 deferred class
 	EL_AUDIO_SAMPLE_SOURCE [SAMPLE_TYPE -> EL_AUDIO_PCM_SAMPLE create make end]
@@ -19,6 +19,8 @@ inherit
 		rename
 			item as data_item
 		end
+
+	EL_C_API_ROUTINES
 
 feature {NONE} -- Initialization
 
@@ -63,15 +65,15 @@ feature {NONE} -- Element change
 			sample_block: ARRAY [DOUBLE]
 			sample_ptr: POINTER
 		do
-			create data_item.make (block_array.count * num_channels * internal_sample.bytes)
+			create data_item.make (block_array.count * num_channels * internal_sample.c_size_of)
 			sample_ptr := data_item.item
 			from i := block_array.lower until i > block_array.upper loop
 				sample_block := block_array.item (i)
 				from ch_i := 1 until ch_i > block_array.num_channels loop
 					internal_sample.set_from_double_unit (sample_block [ch_i])
-					sample_ptr.memory_copy (internal_sample.item, internal_sample.Bytes)
+					sample_ptr.memory_copy (internal_sample.self_ptr, internal_sample.c_size_of)
 					ch_i := ch_i + 1
-					sample_ptr := sample_ptr + internal_sample.Bytes
+					sample_ptr := sample_ptr + internal_sample.c_size_of
 				end
 				i := i + 1
 			end
@@ -82,20 +84,18 @@ feature {NONE} -- Element change
 		require
 			same_number_of_channels: segment_channels.count = num_channels
 		local
-			i, ch_i: INTEGER
-			sample_ptr: POINTER
-			sample_interval: INTEGER_INTERVAL
+			i, ch_i: INTEGER; sample_ptr: POINTER; sample_interval: INTEGER_INTERVAL
 		do
-			create data_item.make (segment_channels.sample_count * num_channels * internal_sample.bytes)
+			create data_item.make (segment_channels.sample_count * num_channels * internal_sample.c_size_of)
 			sample_ptr := data_item.item
 			sample_interval := segment_channels.sample_interval
 
 			from i := sample_interval.lower until i > sample_interval.upper loop
 				from ch_i := 1 until ch_i > num_channels loop
 					internal_sample.set_from_double_unit (segment_channels [ch_i].item (i))
-					sample_ptr.memory_copy (internal_sample.item, internal_sample.Bytes)
+					sample_ptr.memory_copy (internal_sample.self_ptr, internal_sample.c_size_of)
 					ch_i := ch_i + 1
-					sample_ptr := sample_ptr + internal_sample.Bytes
+					sample_ptr := sample_ptr + internal_sample.c_size_of
 				end
 				i := i + 1
 			end

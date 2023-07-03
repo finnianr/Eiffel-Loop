@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-07-03 8:03:23 GMT (Monday 3rd July 2023)"
+	revision: "6"
 
 class
 	EL_AUDIO_OUTPUT_DEVICE
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 			status := c_wave_out_open (
 				device_handle.item,
 				cdef_WAVE_MAPPER,
-				waveform_format.item,
+				waveform_format.self_ptr,
 				c_wave_out_procedure,
 				Default_pointer,
 				cdef_CALLBACK_FUNCTION

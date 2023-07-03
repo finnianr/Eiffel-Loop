@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-07-03 7:31:39 GMT (Monday 3rd July 2023)"
+	revision: "11"
 
 deferred class
 	EL_C_OBJECT
@@ -32,7 +32,7 @@ feature -- Status query
 			Result := is_attached (self_ptr)
 		end
 
-feature {EL_CPP_ITERATOR} -- Implementation
+feature {EL_C_API_ROUTINES} -- Implementation
 
 	self_ptr: POINTER
 

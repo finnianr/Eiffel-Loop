@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-21 8:58:43 GMT (Tuesday 21st March 2023)"
-	revision: "15"
+	date: "2023-07-03 10:13:21 GMT (Monday 3rd July 2023)"
+	revision: "16"
 
 class
 	EL_FILE_MANIFEST_ITEM
@@ -73,6 +73,11 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	byte_count: INTEGER
+
+	named_path_modification_time (location_dir: DIR_PATH): INTEGER
+		do
+			Result := (location_dir + name).modification_time
+		end
 
 	modification_time: INTEGER
 

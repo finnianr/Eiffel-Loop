@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-07-03 8:08:44 GMT (Monday 3rd July 2023)"
+	revision: "5"
 
 class
 	EL_8_BIT_AUDIO_PCM_SAMPLE
@@ -24,7 +24,7 @@ class
 inherit
 	EL_AUDIO_PCM_SAMPLE
 		rename
-			Integer_8_bytes as bytes
+			c_size_of as Integer_8_bytes
 		end
 
 create

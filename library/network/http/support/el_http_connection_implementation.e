@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-01 13:36:28 GMT (Saturday 1st July 2023)"
-	revision: "7"
+	date: "2023-07-03 9:25:28 GMT (Monday 3rd July 2023)"
+	revision: "8"
 
 deferred class
 	EL_HTTP_CONNECTION_IMPLEMENTATION
@@ -226,10 +226,12 @@ feature {EL_HTTP_COMMAND} -- Implementation
 	do_command (command: EL_DOWNLOAD_HTTP_COMMAND)
 		do
 			if is_lio_enabled then
-				lio.put_labeled_string (command.type + once " request", url)
-				lio.put_new_line
+				lio.put_labeled_string ("Sending " + command.type + " request", url)
 			end
 			command.execute
+			if is_lio_enabled then
+				lio.put_new_line
+			end
 			if attached {EL_STRING_DOWNLOAD_HTTP_COMMAND} command as string_download then
 				if has_error then
 					last_string.wipe_out
