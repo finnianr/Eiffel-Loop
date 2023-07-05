@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-03 15:30:43 GMT (Monday 3rd July 2023)"
-	revision: "16"
+	date: "2023-07-03 15:39:12 GMT (Monday 3rd July 2023)"
+	revision: "17"
 
 deferred class
 	EL_RESOURCE_INSTALL_MANAGER
@@ -132,7 +132,7 @@ feature -- Basic operations
 			end
 		end
 
-	extend (download_list: LIST [EL_DOWNLOADEABLE_RESOURCE])
+	append_to (download_list: LIST [EL_DOWNLOADEABLE_RESOURCE])
 		do
 			download_manifest
 			if not has_error then

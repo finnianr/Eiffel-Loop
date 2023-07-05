@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-07-03 16:10:00 GMT (Monday 3rd July 2023)"
+	revision: "9"
 
 class
 	EL_X11_API
@@ -106,6 +106,43 @@ feature {NONE} -- C Externals
 			"C (Display*, int): EIF_INTEGER | <X11/Xlib.h>"
 		alias
 			"XRootWindow"
+		end
+
+feature {NONE} -- XColor
+
+	frozen c_blue (this: POINTER): NATURAL_16
+		external
+			"C [struct <X11/Xlib.h>] (XColor): EIF_NATURAL_16"
+		alias
+			"blue"
+		end
+
+	frozen c_green (this: POINTER): NATURAL_16
+		external
+			"C [struct <X11/Xlib.h>] (XColor): EIF_NATURAL_16"
+		alias
+			"green"
+		end
+
+	frozen c_red (this: POINTER): NATURAL_16
+		external
+			"C [struct <X11/Xlib.h>] (XColor): EIF_NATURAL_16"
+		alias
+			"red"
+		end
+
+	frozen c_set_pixel (this: POINTER; pixel: NATURAL)
+		external
+			"C [struct <X11/Xlib.h>] (XColor, unsigned long)"
+		alias
+			"pixel"
+		end
+
+	frozen c_size_of_XColor: INTEGER
+		external
+			"C [macro <X11/Xlib.h>]"
+		alias
+			"sizeof (XColor)"
 		end
 
 end

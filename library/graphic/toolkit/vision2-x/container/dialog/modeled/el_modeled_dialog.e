@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-01 18:02:55 GMT (Saturday 1st July 2023)"
-	revision: "6"
+	date: "2023-07-04 11:24:40 GMT (Tuesday 4th July 2023)"
+	revision: "7"
 
 deferred class
 	EL_MODELED_DIALOG
@@ -56,12 +56,7 @@ feature {NONE} -- Initialization
 			end
 			window.show_actions.extend (agent on_show)
 			if a_model.cancel_on_focus_out then
-				if {PLATFORM}.is_windows then
-				--	workaround to satisfy post-condition `window.is_destroyed'
-					window.focus_out_actions.extend (agent Action.do_once_on_idle (agent on_cancel))
-				else
-					window.focus_out_actions.extend (agent on_cancel)
-				end
+				window.focus_out_actions.extend (cancel_action)
 			end
 			if {PLATFORM}.is_windows then
 				-- Word around for obscured close button
@@ -260,6 +255,16 @@ feature {NONE} -- Event handling
 		end
 
 feature {NONE} -- Implementation
+
+	cancel_action: PROCEDURE
+		do
+			if {PLATFORM}.is_windows then
+			--	workaround to satisfy post-condition `window.is_destroyed'
+				Result := agent Action.do_once_on_idle (agent on_cancel)
+			else
+				Result := agent on_cancel
+			end
+		end
 
 	create_interface_objects
 		do

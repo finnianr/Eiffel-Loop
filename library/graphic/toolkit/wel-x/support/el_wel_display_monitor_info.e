@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-07-03 17:06:07 GMT (Monday 3rd July 2023)"
+	revision: "13"
 
 class
 	EL_WEL_DISPLAY_MONITOR_INFO
@@ -22,13 +22,7 @@ inherit
 
 	EL_WEL_CONVERSION undefine copy, is_equal end
 
-	EL_MODULE_DIRECTORY
-
-	EL_MODULE_LIO
-
-	EL_MODULE_WIN_REGISTRY
-
-	EL_MODULE_REG_KEY
+	EL_MODULE_DIRECTORY; EL_MODULE_LIO; EL_MODULE_REG_KEY; EL_MODULE_WIN_REGISTRY
 
 create
 	make

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-07-03 16:14:32 GMT (Monday 3rd July 2023)"
+	revision: "4"
 
 class
 	EL_X11_COLOR
@@ -24,9 +24,13 @@ class
 inherit
 	EL_ALLOCATED_C_OBJECT
 		rename
+			c_size_of as c_size_of_XColor,
 			make_default as make
-		export
-			{EL_X11_IMAGE, EL_X11_DISPLAY} self_ptr
+		end
+
+	EL_X11_API
+		undefine
+			copy, is_equal
 		end
 
 create
@@ -41,7 +45,7 @@ feature -- Access
 
 	blue_proportion: REAL
 		do
-			Result := (blue / Sixteen_bits.Max_value).truncated_to_real
+			Result := (blue / Max_value).truncated_to_real
 		end
 
 	green: NATURAL_16
@@ -51,7 +55,7 @@ feature -- Access
 
 	green_proportion: REAL
 		do
-			Result := (green / Sixteen_bits.Max_value).truncated_to_real
+			Result := (green / Max_value).truncated_to_real
 		end
 
 	red: NATURAL_16
@@ -61,7 +65,7 @@ feature -- Access
 
 	red_proportion: REAL
 		do
-			Result := (red / Sixteen_bits.Max_value).truncated_to_real
+			Result := (red / Max_value).truncated_to_real
 		end
 
 feature -- Element change
@@ -71,44 +75,10 @@ feature -- Element change
 			c_set_pixel (self_ptr, pixel)
 		end
 
-feature {NONE} -- C Externals
-
-	frozen c_blue (this: POINTER): NATURAL_16
-		external
-			"C [struct <X11/Xlib.h>] (XColor): EIF_NATURAL_16"
-		alias
-			"blue"
-		end
-
-	frozen c_green (this: POINTER): NATURAL_16
-		external
-			"C [struct <X11/Xlib.h>] (XColor): EIF_NATURAL_16"
-		alias
-			"green"
-		end
-
-	frozen c_red (this: POINTER): NATURAL_16
-		external
-			"C [struct <X11/Xlib.h>] (XColor): EIF_NATURAL_16"
-		alias
-			"red"
-		end
-
-	frozen c_set_pixel (this: POINTER; pixel: NATURAL)
-		external
-			"C [struct <X11/Xlib.h>] (XColor, unsigned long)"
-		alias
-			"pixel"
-		end
-
-	frozen c_size_of: INTEGER
-		external
-			"C [macro <X11/Xlib.h>]"
-		alias
-			"sizeof (XColor)"
-		end
-
 feature {NONE} -- Constants
 
-	Sixteen_bits: NATURAL_16
+	Max_value: NATURAL_16
+		once
+			Result := Result.Max_value
+		end
 end
