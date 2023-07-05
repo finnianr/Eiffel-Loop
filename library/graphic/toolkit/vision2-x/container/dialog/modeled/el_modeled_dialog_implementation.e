@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-01 17:23:29 GMT (Saturday 1st July 2023)"
-	revision: "10"
+	date: "2023-07-05 13:30:44 GMT (Wednesday 5th July 2023)"
+	revision: "11"
 
 deferred class
 	EL_MODELED_DIALOG_IMPLEMENTATION
@@ -20,6 +20,8 @@ inherit
 	EL_MODULE_KEY; EL_MODULE_SCREEN; EL_MODULE_VISION_2;  EL_MODULE_WIDGET
 
 	EL_SHARED_WORD
+
+	EV_SHARED_APPLICATION
 
 feature -- Access
 
@@ -34,6 +36,20 @@ feature -- Access
 		do
 			Result := model.style
 		end
+
+feature -- Status query
+
+	has_title_pixmap: BOOLEAN
+		do
+			Result := style.has_title_background_pixmap
+		end
+
+	has_title: BOOLEAN
+		do
+			Result := model.has_title
+		end
+
+	is_cancelled: BOOLEAN
 
 feature {NONE} -- Box Factory
 
@@ -58,13 +74,16 @@ feature {NONE} -- Box Factory
 
 	new_box_section_list: ARRAYED_LIST [EL_BOX]
 		local
-			list: like new_widget_grid; i: INTEGER
+			i: INTEGER
 		do
-			list := new_widget_grid
-			create Result.make (Iterable.count (list))
-			across list as row loop
-				i := i + 1
-				Result.extend (new_section_box (row.item, i))
+			if attached new_widget_grid as list then
+				create Result.make (Iterable.count (list))
+				across list as row loop
+					i := i + 1
+					Result.extend (new_section_box (row.item, i))
+				end
+			else
+				create Result.make (0)
 			end
 		end
 
@@ -133,6 +152,9 @@ feature {EL_STANDARD_DIALOG} -- Factory
 		do
 			Result := new_button (model.default_button_text)
 			Result.select_actions.extend (agent on_default)
+			if model.is_application then
+				Result.select_actions.extend (agent ev_application.destroy)
+			end
 		end
 
 	new_label (a_text: READABLE_STRING_GENERAL): EL_LABEL
@@ -164,15 +186,51 @@ feature {EL_STANDARD_DIALOG} -- Factory
 			create Result.make_to_width (a_text, style.label_font, a_width)
 		end
 
+feature {NONE} -- Event handling
+
+	on_cancel
+		do
+			if not window.is_destroyed then
+				destroy
+			end
+			is_cancelled := True
+		end
+
+	on_default
+		do
+			if attached default_action as l_action then
+				l_action.apply
+			end
+		end
+
+	on_show
+		do
+		end
+
 feature {NONE} -- Implementation
+
+	cancel_action: PROCEDURE
+		do
+			if {PLATFORM}.is_windows then
+			--	workaround to satisfy post-condition `window.is_destroyed'
+				Result := agent Action.do_once_on_idle (agent on_cancel)
+			else
+				Result := agent on_cancel
+			end
+		end
 
 	create_implementation
 		do
-			if model.title.is_empty or else style.has_title_background_pixmap then
+			if has_title_pixmap or not has_title then
 				create {EL_CUSTOM_TITLED_DIALOG} window.make (model)
 			else
 				create window.make (model)
 			end
+		end
+
+	destroy
+		do
+			window.destroy
 		end
 
 	expanded_widgets: ARRAY [EV_WIDGET]
@@ -207,25 +265,21 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Unimplementated
+feature {NONE} -- Deferred
 
 	new_widget_grid: ITERABLE [ARRAY [EV_WIDGET]]
 		deferred
 		end
 
-	on_default
-		deferred
-		end
-
 feature {EV_ANY_HANDLER} -- Implementation: attributes
-
-	window: EL_STANDARD_DIALOG
-
-feature {NONE} -- Implementation: attributes
 
 	cancel_button: like new_button
 
 	default_button: like new_button
+
+	default_action: PROCEDURE
+
+	window: EL_STANDARD_DIALOG
 
 feature {NONE} -- Constants
 

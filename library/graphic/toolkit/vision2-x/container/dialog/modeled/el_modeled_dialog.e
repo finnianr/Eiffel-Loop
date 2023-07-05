@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-04 11:24:40 GMT (Tuesday 4th July 2023)"
-	revision: "7"
+	date: "2023-07-05 14:22:49 GMT (Wednesday 5th July 2023)"
+	revision: "8"
 
 deferred class
 	EL_MODELED_DIALOG
@@ -18,11 +18,7 @@ deferred class
 inherit
 	EL_MODELED_DIALOG_IMPLEMENTATION
 
-	EL_MODULE_ORIENTATION
-
-	EL_MODULE_SCREEN; EL_MODULE_TUPLE
-
-	EV_SHARED_APPLICATION
+	EL_MODULE_ORIENTATION; EL_MODULE_TUPLE
 
 feature {NONE} -- Initialization
 
@@ -37,16 +33,17 @@ feature {NONE} -- Initialization
 			if a_model.minimum_width_cms > 0.0 then
 				window.set_width (Screen.horizontal_pixels (a_model.minimum_width_cms))
 			end
-
-			-- both of these lines are necessary as workaround Windows bug of over-extended border on bottom
-			-- https://www2.eiffel.com/support/report_detail/19319
-			window.disable_user_resize; window.disable_border
+			if not window.has_title_bar then
+			-- workaround for cropping of dialog on close button when using standard OS title bar
+				window.disable_user_resize
+			end
+			window.disable_border
 
 			if style.has_application_icon_pixmap then
 				window.set_icon_pixmap (style.application_icon_pixmap)
 			end
 			dialog_box := new_dialog_box
-			window.put (dialog_box)
+			window.extend (dialog_box)
 			set_dialog_buttons
 
 			-- make sure escape key works even without any buttons
@@ -54,13 +51,20 @@ feature {NONE} -- Initialization
 				create shortcuts.make (window)
 				shortcuts.add_unmodified_key_action (Key.Key_escape, agent on_cancel)
 			end
-			window.show_actions.extend (agent on_show)
+			if attached window.show_actions as sequence then
+				if {PLATFORM}.is_windows then
+				-- workaround for over-extended border on bottom
+				-- Bug report: https://www2.eiffel.com/support/report_detail/19319
+					sequence.extend (agent window.set_height (window.height))
+				end
+				sequence.extend (agent on_show)
+			end
+
 			if a_model.cancel_on_focus_out then
 				window.focus_out_actions.extend (cancel_action)
 			end
-			if {PLATFORM}.is_windows then
-				-- Word around for obscured close button
-				window.enable_user_resize
+			if window.has_title_bar then
+				window.disable_user_resize
 			end
 		end
 
@@ -109,8 +113,6 @@ feature -- Status change
 		end
 
 feature -- Status query
-
-	is_cancelled: BOOLEAN
 
 	is_destroyed: BOOLEAN
 		do
@@ -214,57 +216,13 @@ feature {NONE} -- Factory
 
 	new_dialog_box: EL_VERTICAL_BOX
 		do
-			create Result.make_unexpanded (layout.dialog_border_width_cms, 0, << >>)
-			if attached {EL_CUSTOM_TITLED_DIALOG} window as custom
-				and then attached custom.title_label as title_label
-			then
-				Result.extend_unexpanded (title_label)
-			end
+			create Result.make_unexpanded (layout.dialog_border_width_cms, 0, Empty_set)
+			window.add_title_to (Result)
 			Result.extend (new_border_box)
 			Result.set_background_color (style.border_color)
 		end
 
-feature {NONE} -- Event handling
-
-	on_cancel
-		do
-			destroy
-			is_cancelled := True
-			if model.is_application then
-				ev_application.destroy
-			end
-		end
-
-	on_default
-		do
-			if attached default_action as l_action then
-				l_action.apply
-			end
-			if model.is_application then
-				ev_application.destroy
-			end
-		end
-
-	on_show
-		do
-			-- make sure to call `Precursor' in redefinition
-			if {PLATFORM}.is_windows then
-				-- Word around for obscured close button
-				window.disable_user_resize
-			end
-		end
-
 feature {NONE} -- Implementation
-
-	cancel_action: PROCEDURE
-		do
-			if {PLATFORM}.is_windows then
-			--	workaround to satisfy post-condition `window.is_destroyed'
-				Result := agent Action.do_once_on_idle (agent on_cancel)
-			else
-				Result := agent on_cancel
-			end
-		end
 
 	create_interface_objects
 		do
@@ -275,15 +233,15 @@ feature {NONE} -- Implementation
 			end
 			if model.has_cancel_button_text then
 				cancel_button := new_button (model.cancel_button_text)
-				cancel_button.select_actions.extend (agent on_cancel)
+				if attached cancel_button.select_actions as sequence then
+					sequence.extend (agent on_cancel)
+					if model.is_application then
+						sequence.extend (agent ev_application.destroy)
+					end
+				end
 			else
 				create cancel_button
 			end
-		end
-
-	destroy
-		do
-			window.destroy
 		end
 
 	set_dialog_buttons
@@ -297,8 +255,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Implementation: attributes
-
-	default_action: PROCEDURE
 
 	dialog_box: like new_dialog_box
 

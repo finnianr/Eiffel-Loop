@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-07-05 14:03:04 GMT (Wednesday 5th July 2023)"
+	revision: "5"
 
 class
 	EL_STANDARD_DIALOG
@@ -32,7 +32,20 @@ feature {NONE} -- Initialization
 			end
 		end
 
+feature -- Status query
+
+	has_title_bar: BOOLEAN
+		-- `True' if dialog has standard OS title bar
+		do
+			Result := True
+		end
+
 feature -- Basic operations
+
+	add_title_to (content_box: EL_VERTICAL_BOX)
+		do
+			do_nothing
+		end
 
 	show_modal_to_window (a_window: EV_WINDOW)
 		do

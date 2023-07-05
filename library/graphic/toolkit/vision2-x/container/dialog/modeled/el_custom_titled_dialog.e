@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-07-05 14:03:22 GMT (Wednesday 5th July 2023)"
+	revision: "5"
 
 class
 	EL_CUSTOM_TITLED_DIALOG
@@ -23,44 +23,64 @@ inherit
 	EL_STANDARD_DIALOG
 		undefine
 			set_title, create_implementation
+		redefine
+			add_title_to, has_title_bar
 		end
 
 create
 	make
 
-feature -- Access
+feature -- Status query
 
-	title_label: detachable EL_LABEL_PIXMAP
+	has_title_bar: BOOLEAN
+		-- `True' if dialog has standard OS title bar
+		do
+			Result := False
+		end
+
+feature -- Basic operations
+
+	add_title_to (content_box: EL_VERTICAL_BOX)
+		do
+			if attached pixmaped_title as l_title then
+				content_box.extend_unexpanded (l_title.label)
+			end
+		end
 
 feature -- Element change
 
-	set_title (a_title: separate READABLE_STRING_GENERAL)
+	set_title (text: separate READABLE_STRING_GENERAL)
 		do
-			Precursor (a_title)
-			if attached title_label as label then
-				if not label.text.same_string (a_title) then
-					label.set_text (a_title)
-				end
-			elseif a_title.count > 0 then
-				title_label := new_title_label
-				create title_bar_drag.make (Current, title_label)
+			Precursor (text)
+			if text.count = 0 then
+				pixmaped_title := Void
+
+			elseif attached pixmaped_title as l_title then
+				l_title.label.set_text (text)
+			else
+				pixmaped_title := new_pixmaped_title (text)
 			end
 		end
 
 feature {NONE} -- Factory
 
-	new_title_label: EL_LABEL_PIXMAP
+	new_pixmaped_title (text: READABLE_STRING_GENERAL): TUPLE [label: EL_LABEL_PIXMAP; drag_bar: EL_WINDOW_DRAG]
+		local
+			label: EL_LABEL_PIXMAP; drag_bar: EL_WINDOW_DRAG
 		do
-			create Result.make_with_text_and_font (model.title, style.title_font)
-			Result.set_width_for_border (model.layout.border_inner_width_cms)
+			create label.make_with_text_and_font (text, style.title_font)
+			label.set_width_for_border (model.layout.border_inner_width_cms)
 			if style.has_title_background_pixmap then
-				Result.set_tile_pixmap (style.title_background_pixmap)
+				label.set_tile_pixmap (style.title_background_pixmap)
 			end
-			Result.align_text_center
+			label.align_text_center
+			create drag_bar.make (Current, label)
+
+			Result := [label, drag_bar]
 		end
 
 feature {NONE} -- Internal attributes
 
-	title_bar_drag: detachable EL_WINDOW_DRAG
+	pixmaped_title: detachable like new_pixmaped_title
 
 end

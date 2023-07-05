@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-10 10:49:28 GMT (Tuesday 10th January 2023)"
-	revision: "28"
+	date: "2023-07-05 7:51:48 GMT (Wednesday 5th July 2023)"
+	revision: "29"
 
 class
 	EL_RECTANGLE
@@ -23,8 +23,7 @@ create
 	make_scaled_for_widget, make_size
 
 convert
-	make_from_cms_tuple ({TUPLE [DOUBLE, DOUBLE]}),
-	make_from_other ({EV_RECTANGLE}),
+	make_from_cms_tuple ({TUPLE [DOUBLE, DOUBLE]}), make_from_other ({EV_RECTANGLE}),
 	make_for_widget ({EV_POSITIONED})
 
 feature {EV_ANY_HANDLER} -- Initialization
