@@ -1,13 +1,13 @@
 note
-	description: "Dialog with optional title bar decorated by pixmap"
+	description: "Dialog with an optional faux-title bar decorated by a background pixmap"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-05 14:03:22 GMT (Wednesday 5th July 2023)"
-	revision: "5"
+	date: "2023-07-05 19:02:15 GMT (Wednesday 5th July 2023)"
+	revision: "6"
 
 class
 	EL_CUSTOM_TITLED_DIALOG
@@ -42,8 +42,8 @@ feature -- Basic operations
 
 	add_title_to (content_box: EL_VERTICAL_BOX)
 		do
-			if attached pixmaped_title as l_title then
-				content_box.extend_unexpanded (l_title.label)
+			if attached title_bar as bar then
+				content_box.extend_unexpanded (bar)
 			end
 		end
 
@@ -53,34 +53,31 @@ feature -- Element change
 		do
 			Precursor (text)
 			if text.count = 0 then
-				pixmaped_title := Void
+				title_bar := Void
 
-			elseif attached pixmaped_title as l_title then
-				l_title.label.set_text (text)
+			elseif attached title_bar as bar then
+				bar.set_text (text)
 			else
-				pixmaped_title := new_pixmaped_title (text)
+				title_bar := new_title_bar (text)
 			end
 		end
 
 feature {NONE} -- Factory
 
-	new_pixmaped_title (text: READABLE_STRING_GENERAL): TUPLE [label: EL_LABEL_PIXMAP; drag_bar: EL_WINDOW_DRAG]
-		local
-			label: EL_LABEL_PIXMAP; drag_bar: EL_WINDOW_DRAG
+	new_title_bar (text: READABLE_STRING_GENERAL): EL_LABEL_PIXMAP
 		do
-			create label.make_with_text_and_font (text, style.title_font)
-			label.set_width_for_border (model.layout.border_inner_width_cms)
-			if style.has_title_background_pixmap then
-				label.set_tile_pixmap (style.title_background_pixmap)
-			end
-			label.align_text_center
-			create drag_bar.make (Current, label)
+			create Result.make_with_text_and_font (text, style.title_font)
+			Result.use_as_drag_bar (Current)
 
-			Result := [label, drag_bar]
+			Result.set_width_for_border (model.layout.border_inner_width_cms)
+			if style.has_title_background_pixmap then
+				Result.set_tile_pixmap (style.title_background_pixmap)
+			end
+			Result.align_text_center
 		end
 
 feature {NONE} -- Internal attributes
 
-	pixmaped_title: detachable like new_pixmaped_title
+	title_bar: detachable like new_title_bar
 
 end

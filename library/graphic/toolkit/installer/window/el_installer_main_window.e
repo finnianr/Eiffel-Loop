@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-07-06 9:27:54 GMT (Thursday 6th July 2023)"
+	revision: "10"
 
 deferred class
 	EL_INSTALLER_MAIN_WINDOW
@@ -122,7 +122,7 @@ feature {NONE} -- Implementation
 
 	show_install_dialog
 		local
-			a5_dialog: EL_RESIZEABLE_A5_PAPER_DIALOG; installer_dialog: EL_INSTALLER_DIALOG
+			a5_dialog: EL_PAPER_SIZE_MATCHING_DIALOG; installer_dialog: EL_INSTALLER_DIALOG
 		do
 			create a5_dialog.make (updates_info.latest_version)
 			cover_window (a5_dialog);

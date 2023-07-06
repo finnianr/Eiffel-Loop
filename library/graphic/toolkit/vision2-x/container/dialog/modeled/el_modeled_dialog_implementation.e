@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-05 13:30:44 GMT (Wednesday 5th July 2023)"
-	revision: "11"
+	date: "2023-07-05 19:10:53 GMT (Wednesday 5th July 2023)"
+	revision: "12"
 
 deferred class
 	EL_MODELED_DIALOG_IMPLEMENTATION
@@ -155,6 +155,14 @@ feature {EL_STANDARD_DIALOG} -- Factory
 			if model.is_application then
 				Result.select_actions.extend (agent ev_application.destroy)
 			end
+		end
+
+	new_dialog_box: EL_VERTICAL_BOX
+		do
+			create Result.make_unexpanded (layout.dialog_border_width_cms, 0, Empty_set)
+			window.add_title_to (Result)
+			Result.extend (new_border_box)
+			Result.set_background_color (style.border_color)
 		end
 
 	new_label (a_text: READABLE_STRING_GENERAL): EL_LABEL

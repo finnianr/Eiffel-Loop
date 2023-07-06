@@ -6,39 +6,30 @@ pyxis-doc:
 translations:
 	# Templates
 	item:
-		id = "{a5_instructions_template}"
+		id = "{matching_instruction_template}"
 		translation:
 			lang = de; check = true
 			"""
-				Legen Sie ein Blatt Papier im Format A5 über
-				dieses Fenster um dann mit der Maus die Ränder
-				des Fensters zu ziehen, bis die Größen genau
-				übereinstimmen. (Sie können auch ein A4-Blatt
-				einmal falten)
+				Legen Sie ein Blatt A4-Papier über dieses Fenster und ziehen
+				Sie dann mit der Maus die Ränder des Fensters, bis die Größen
+				genau übereinstimmen.
 
-				Durch diese Anpassung wird die Größe des Displays
-				genau bestimmt und Sie stellen sicher,
-				dass Text und Grafiken in der
-				richtigen Größe angezeigt werden.
-
-				Beachten Sie, dass das Anwendungsfenster von
-				%S wesentlich größer als A5-Papier ist.
+				Durch diese Anpassung können Sie Ihre Größe anpassen
+				Anzeige genau bestimmt und sichergestellt werden
+				dass der Bewerbungstext und die Grafiken vorliegen
+				in der richtigen Größe angezeigt.
 			"""
 		translation:
 			lang = en
 			"""
-				Place a sheet of A5 paper over this window and
+				Place a sheet of %S paper over this window and
 				then use the mouse to drag the edges of the
-				window until the sizes match exactly. (Or you
-				can fold an A4 sheet in two)
+				window until the sizes match exactly.
 				
 				This adjustment will allow the size of your
 				display to be accurately determined and ensure
 				that the application text and graphics are 
 				displayed at the correct size.
-				
-				Note that the %S application window
-				is considerably bigger than A5 paper.
 			"""
 
 	item:
@@ -60,10 +51,19 @@ translations:
 		id = "{setup_title_template}"
 		translation:
 			lang = de; check = true
-			"%S Setup"
+			"%S Geometrie Setup"
 		translation:
 			lang = en
-			"%S Setup"
+			"%S Geometry Setup"
+
+	item:
+		id = "{size_template}"
+		translation:
+			lang = de; check = true
+			"(%S cm x %S cm)"
+		translation:
+			lang = en
+			"(%S cm x %S cm)"
 
 	item:
 		id = "{unable_to_connect_template}"
@@ -97,13 +97,19 @@ translations:
 
 	# Installing
 	item:
-		id = "{a5_dimensions}"
+		id = "{a5_tip}"
 		translation:
 			lang = de; check = true
-			"(21 cm x 14.8 cm)"
+			"""
+				TIPP: Wenn Sie kein A5-Blatt haben, falten Sie ein A4-Blatt in zwei Teile.
+				Es funktioniert genauso.
+			"""
 		translation:
 			lang = en
-			"(21 cm x 14.8 cm)"
+			"""
+				TIP: If you don't have an A5 sheet, fold an A4 size in two.
+				It works the same.
+			"""
 
 	item:
 		id = "Installing files"
@@ -118,6 +124,15 @@ translations:
 		translation:
 			lang = de; check = true
 			"Installation abgeschlossen"
+		translation:
+			lang = en
+			"$id"
+
+	item:
+		id = "Landscape orientation"
+		translation:
+			lang = de; check = true
+			"Landschaftsorientierung"
 		translation:
 			lang = en
 			"$id"

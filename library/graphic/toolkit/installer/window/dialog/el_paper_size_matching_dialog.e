@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2023-07-06 10:37:37 GMT (Thursday 6th July 2023)"
+	revision: "15"
 
 class
-	EL_RESIZEABLE_A5_PAPER_DIALOG
+	EL_PAPER_SIZE_MATCHING_DIALOG
 
 inherit
 	EL_UNTITLED_INSTALLER_DIALOG
@@ -35,20 +35,25 @@ feature {NONE} -- Initialization
 
 	make (a_latest_version: NATURAL)
 		do
+			latest_version := a_latest_version
+			paper_code := best_paper_size
+
 			default_create
 			enable_border
-			latest_version := a_latest_version
-			original_size := [A5_landscape.width.to_double, A5_landscape.height.to_double]
+
+			if attached real_dimension (paper_code) as paper then
+				original_size := [paper.width.to_double, paper.height.to_double]
+			end
 			set_size (original_size.width, original_size.height)
 			pixel_area := original_size.width * original_size.height
 			set_background_color (Color.White)
 			show_actions.extend (agent on_show)
 
-			create a5_paper_box.make (Current)
-			put (a5_paper_box)
+			create paper_box.make (Current, paper_code)
+			put (paper_box)
 			propagate_background_color
-			set_default_cancel_button (a5_paper_box.cancel_button)
-			set_default_push_button (a5_paper_box.next_button)
+			set_default_cancel_button (paper_box.cancel_button)
+			set_default_push_button (paper_box.next_button)
 		end
 
 feature {EL_INSTALLER_BOX} -- Event handling
@@ -74,14 +79,16 @@ feature {EL_INSTALLER_BOX} -- Event handling
 	on_resize (a_x, a_y, a_width, a_height: INTEGER)
 		local
 			l_width, l_height, l_pixel_area, percent_change: INTEGER
+			paper: like real_dimension
 		do
+			paper := real_dimension (paper_code)
 			if a_height > a_width then
 				l_width := a_height; l_height := a_width
 			else
 				l_width := a_width; l_height := a_height
 			end
 			Screen.set_dimensions (
-				Screen.width / (l_width / A5_landscape.width),  Screen.height / (l_height / A5_landscape.height)
+				Screen.width / (l_width / paper.width), Screen.height / (l_height / paper.height)
 			)
 			l_pixel_area := l_width * l_height
 			percent_change := ((pixel_area - l_pixel_area).abs * 100 / pixel_area).rounded
@@ -119,12 +126,14 @@ feature {NONE} -- Implementation
 
 	redraw_a5_paper_box
 		do
-			a5_paper_box.text_area.redraw
+			paper_box.text_area.redraw
 		end
 
 feature {NONE} -- Internal attributes
 
-	a5_paper_box: EL_A5_PAPER_INSTALLER_BOX
+	paper_box: EL_PAPER_MATCHING_INSTALLER_BOX
+
+	paper_code: NATURAL_8
 
 	is_final_resize_set: BOOLEAN
 

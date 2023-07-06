@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2023-07-06 10:29:25 GMT (Thursday 6th July 2023)"
+	revision: "12"
 
 deferred class
 	EL_UNTITLED_INSTALLER_DIALOG
@@ -23,11 +23,9 @@ inherit
 			default_create, copy
 		end
 
-	EL_MODULE_SCREEN
+	EL_MODULE_ACTION; EL_MODULE_LIO
 
-	EL_MODULE_ACTION
-
-	EL_MODULE_LIO
+	EL_PAPER_SIZE_ROUTINES
 
 feature -- Status query
 
@@ -42,14 +40,6 @@ feature {EL_INSTALLER_BOX} -- Event handling
 
 	on_next
 		deferred
-		end
-
-feature {NONE} -- Constants
-
-	A5_landscape: TUPLE [width, height: REAL]
-		once
-			create Result
-			Result.width := 21; Result.height := 14.8
 		end
 
 end

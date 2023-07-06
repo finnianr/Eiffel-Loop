@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-05 14:22:49 GMT (Wednesday 5th July 2023)"
-	revision: "8"
+	date: "2023-07-05 19:12:14 GMT (Wednesday 5th July 2023)"
+	revision: "9"
 
 deferred class
 	EL_MODELED_DIALOG
@@ -212,16 +212,6 @@ feature -- Screen positioning
 			Screen.set_y_position (window, y)
 		end
 
-feature {NONE} -- Factory
-
-	new_dialog_box: EL_VERTICAL_BOX
-		do
-			create Result.make_unexpanded (layout.dialog_border_width_cms, 0, Empty_set)
-			window.add_title_to (Result)
-			Result.extend (new_border_box)
-			Result.set_background_color (style.border_color)
-		end
-
 feature {NONE} -- Implementation
 
 	create_interface_objects
@@ -254,7 +244,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Implementation: attributes
+feature {NONE} -- Internal attributes
 
 	dialog_box: like new_dialog_box
 
