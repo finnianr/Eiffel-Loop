@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-06 10:37:37 GMT (Thursday 6th July 2023)"
-	revision: "15"
+	date: "2023-07-07 8:46:49 GMT (Friday 7th July 2023)"
+	revision: "16"
 
 class
 	EL_PAPER_SIZE_MATCHING_DIALOG
@@ -36,20 +36,18 @@ feature {NONE} -- Initialization
 	make (a_latest_version: NATURAL)
 		do
 			latest_version := a_latest_version
-			paper_code := best_paper_size
+			create paper.make_best_fit
 
 			default_create
 			enable_border
 
-			if attached real_dimension (paper_code) as paper then
-				original_size := [paper.width.to_double, paper.height.to_double]
-			end
+			original_size := [paper.width_cms.to_double, paper.height_cms.to_double]
 			set_size (original_size.width, original_size.height)
 			pixel_area := original_size.width * original_size.height
 			set_background_color (Color.White)
 			show_actions.extend (agent on_show)
 
-			create paper_box.make (Current, paper_code)
+			create paper_box.make (Current, paper)
 			put (paper_box)
 			propagate_background_color
 			set_default_cancel_button (paper_box.cancel_button)
@@ -79,16 +77,14 @@ feature {EL_INSTALLER_BOX} -- Event handling
 	on_resize (a_x, a_y, a_width, a_height: INTEGER)
 		local
 			l_width, l_height, l_pixel_area, percent_change: INTEGER
-			paper: like real_dimension
 		do
-			paper := real_dimension (paper_code)
 			if a_height > a_width then
 				l_width := a_height; l_height := a_width
 			else
 				l_width := a_width; l_height := a_height
 			end
 			Screen.set_dimensions (
-				Screen.width / (l_width / paper.width), Screen.height / (l_height / paper.height)
+				Screen.width / (l_width / paper.width_cms), Screen.height / (l_height / paper.height_cms)
 			)
 			l_pixel_area := l_width * l_height
 			percent_change := ((pixel_area - l_pixel_area).abs * 100 / pixel_area).rounded
@@ -133,7 +129,7 @@ feature {NONE} -- Internal attributes
 
 	paper_box: EL_PAPER_MATCHING_INSTALLER_BOX
 
-	paper_code: NATURAL_8
+	paper: EL_PAPER_DIMENSIONS
 
 	is_final_resize_set: BOOLEAN
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-07-07 8:57:19 GMT (Friday 7th July 2023)"
+	revision: "7"
 
 class
 	EL_FILE_DOWNLOAD_HTTP_COMMAND
@@ -30,18 +30,23 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_connection: like connection; a_file_path: like file_path)
+	make (a_connection: like connection; a_file_path: FILE_PATH)
 		do
 			make_command (a_connection)
-			file_path := a_file_path
-			create file_out.make_with_path (file_path)
+			create file_out.make_with_name (a_file_path)
+		end
+
+feature -- Access
+
+	file_path: FILE_PATH
+		do
+			Result := file_out.path
 		end
 
 feature -- Basic operations
 
 	execute
 		do
-			file_path := file_out.path
 			File_system.make_directory (file_path.parent)
 			file_out.open_write
 			Precursor
@@ -64,7 +69,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	file_out: RAW_FILE
-
-	file_path: FILE_PATH
 
 end

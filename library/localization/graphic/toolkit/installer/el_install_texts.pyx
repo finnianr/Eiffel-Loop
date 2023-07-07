@@ -6,6 +6,15 @@ pyxis-doc:
 translations:
 	# Templates
 	item:
+		id = "{install_title_template}"
+		translation:
+			lang = de; check = true
+			"%S-Installation"
+		translation:
+			lang = en
+			"%S Installation"
+
+	item:
 		id = "{matching_instruction_template}"
 		translation:
 			lang = de; check = true

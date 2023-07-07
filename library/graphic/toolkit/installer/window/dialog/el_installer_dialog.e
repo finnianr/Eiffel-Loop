@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-06 10:40:00 GMT (Thursday 6th July 2023)"
-	revision: "7"
+	date: "2023-07-07 8:46:20 GMT (Friday 7th July 2023)"
+	revision: "8"
 
 class
 	EL_INSTALLER_DIALOG
@@ -24,18 +24,17 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			paper_code: NATURAL_8
+			paper: EL_PAPER_DIMENSIONS
 		do
 			default_create
 			enable_border
 			disable_user_resize
-			paper_code := best_paper_size
-			if attached real_dimension (paper_code) as paper then
-				set_size (
-					Screen.horizontal_pixels (paper.width * 1.3).min (Screen.useable_area.width),
-					Screen.vertical_pixels (paper.height)
-				)
-			end
+			create paper.make_best_fit
+			set_size (
+				Screen.horizontal_pixels (paper.width_cms * 1.3).min (Screen.useable_area.width),
+				Screen.vertical_pixels (paper.height_cms)
+			)
+
 			show_actions.extend (agent on_show)
 			file_copy_box := Main.new_file_copy_box (Current)
 			put (file_copy_box)

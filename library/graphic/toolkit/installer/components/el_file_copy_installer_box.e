@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "21"
+	date: "2023-07-07 10:10:16 GMT (Friday 7th July 2023)"
+	revision: "22"
 
 class
 	EL_FILE_COPY_INSTALLER_BOX
@@ -32,17 +32,11 @@ inherit
 
 	EL_APPLICATION_CONSTANTS; EL_STRING_8_CONSTANTS
 
-	EL_SHARED_APPLICATION_OPTION
+	EL_SHARED_APPLICATION_OPTION; EL_SHARED_APPLICATION_LIST
 
-	EL_SHARED_APPLICATION_LIST
+	EL_SHARED_INSTALL_TEXTS; EL_SHARED_INSTALLER_MAIN_WINDOW
 
-	EL_SHARED_INSTALL_TEXTS
-
-	EL_SHARED_INSTALLER_MAIN_WINDOW
-
-	EL_SHARED_PACKAGE_IMAGES_SCOPE
-
-	EL_SHARED_EV_APPLICATION
+	EL_SHARED_PACKAGE_IMAGES_SCOPE; EL_SHARED_EV_APPLICATION
 
 create
 	make
@@ -115,7 +109,7 @@ feature {NONE} -- Factory
 
 	new_title_frame: EL_LABEL_PIXMAP
 		do
-			create Result.make_with_text_and_font (Text.setup_title, new_font (Size.medium))
+			create Result.make_with_text_and_font (Text.install_title, new_font (Size.medium))
 			Result.align_text_center
 			across Use_package_images as package loop
 				Result.set_tile_pixmap (Image.of_height_cms (Main.png_title_background, 1.5))

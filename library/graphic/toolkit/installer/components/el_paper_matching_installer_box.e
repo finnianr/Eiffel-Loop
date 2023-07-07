@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-06 9:32:09 GMT (Thursday 6th July 2023)"
-	revision: "10"
+	date: "2023-07-07 8:24:02 GMT (Friday 7th July 2023)"
+	revision: "11"
 
 class
 	EL_PAPER_MATCHING_INSTALLER_BOX
@@ -27,11 +27,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_dialog: like dialog; a_paper_code: NATURAL_8)
+	make (a_dialog: like dialog; a_paper: like paper)
 		local
 			w: INTEGER
 		do
-			paper_code := a_paper_code
+			paper := a_paper
 			make_installer_box (a_dialog, 0.7, 0)
 			next_button := new_button (Word.next, agent dialog.on_next)
 			text_area := new_text_area
@@ -50,7 +50,7 @@ feature -- Access
 
 	text_area: like new_text_area
 
-	paper_code: NATURAL_8
+	paper: EL_PAPER_DIMENSIONS
 
 feature {NONE} -- Factory
 
@@ -64,7 +64,7 @@ feature {NONE} -- Factory
 
 	new_text_area: EL_PAPER_SHEET_DRAWING_AREA
 		do
-			create Result.make (paper_code)
+			create Result.make (paper)
 		end
 
 end

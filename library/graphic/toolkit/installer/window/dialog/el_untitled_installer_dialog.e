@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-06 10:29:25 GMT (Thursday 6th July 2023)"
-	revision: "12"
+	date: "2023-07-07 8:47:44 GMT (Friday 7th July 2023)"
+	revision: "13"
 
 deferred class
 	EL_UNTITLED_INSTALLER_DIALOG
@@ -23,9 +23,7 @@ inherit
 			default_create, copy
 		end
 
-	EL_MODULE_ACTION; EL_MODULE_LIO
-
-	EL_PAPER_SIZE_ROUTINES
+	EL_MODULE_ACTION; EL_MODULE_LIO; EL_MODULE_SCREEN
 
 feature -- Status query
 

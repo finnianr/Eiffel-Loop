@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-06 11:33:32 GMT (Thursday 6th July 2023)"
-	revision: "6"
+	date: "2023-07-07 10:09:24 GMT (Friday 7th July 2023)"
+	revision: "7"
 
 class
 	EL_INSTALL_TEXTS
@@ -20,21 +20,14 @@ inherit
 
 	EL_MODULE_BUILD_INFO
 
-	EL_PAPER_SIZE_ROUTINES
-
 create
 	make
 
 feature -- Access
 
-	paper_instructions (paper_code: NATURAL_8): EL_ZSTRING_LIST
-		local
-			s: EL_ZSTRING_ROUTINES
+	install_title: ZSTRING
 		do
-			Result := s.new_paragraph_list (matching_instruction_template #$ [code_name (paper_code)])
-			if paper_code = A5_code then
-				Result.append (s.new_paragraph_list (a5_tip))
-			end
+			Result := install_title_template #$ [Build_info.product]
 		end
 
 	newer_version (version: EL_SOFTWARE_VERSION): ZSTRING
@@ -64,6 +57,8 @@ feature -- Templates
 	newer_version_template: ZSTRING
 
 	setup_title_template: ZSTRING
+
+	install_title_template: ZSTRING
 
 	unable_to_connect_template: ZSTRING
 
@@ -99,8 +94,10 @@ feature {NONE} -- Implementation
 				a5_tip:
 					TIP: If you don't have an A5 sheet, fold an A4 size in two.
 					It works the same.
-				size_template:
-					(%S cm x %S cm)
+				close_uninstall:
+					Close to complete uninstall
+				install_title_template:
+					%S Installation
 				matching_instruction_template:
 					Place a sheet of %S paper over this window and
 					then use the mouse to drag the edges of the
@@ -110,13 +107,13 @@ feature {NONE} -- Implementation
 					display to be accurately determined and ensure
 					that the application text and graphics are 
 					displayed at the correct size.
-				close_uninstall:
-					Close to complete uninstall
 				newer_version_template:
 					A newer version of %S is available.
 					Please consider downloading version %S
 				setup_title_template:
 					%S Geometry Setup
+				size_template:
+					(%S cm x %S cm)
 				unable_to_connect_template:
 					Unable to connect to http://%S
 					The site may be down. Please try again later.
