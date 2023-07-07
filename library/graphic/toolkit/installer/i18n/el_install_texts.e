@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-07 10:09:24 GMT (Friday 7th July 2023)"
-	revision: "7"
+	date: "2023-07-07 14:15:01 GMT (Friday 7th July 2023)"
+	revision: "8"
 
 class
 	EL_INSTALL_TEXTS
@@ -69,6 +69,8 @@ feature -- Phrases
 	A5_tip: ZSTRING
 
 	size_template: ZSTRING
+
+	contacting_server: ZSTRING
 
 	close_uninstall: ZSTRING
 

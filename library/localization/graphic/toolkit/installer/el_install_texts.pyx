@@ -121,6 +121,14 @@ translations:
 			"""
 
 	item:
+		id = "Contacting server"
+		translation:
+			lang = de; check = true
+			"Server wird kontaktiert"
+		translation:
+			lang = en
+			"$id"
+	item:
 		id = "Installing files"
 		translation:
 			lang = de; check = true

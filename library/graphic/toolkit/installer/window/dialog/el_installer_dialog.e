@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-07 8:46:20 GMT (Friday 7th July 2023)"
-	revision: "8"
+	date: "2023-07-07 11:57:47 GMT (Friday 7th July 2023)"
+	revision: "9"
 
 class
 	EL_INSTALLER_DIALOG
@@ -23,13 +23,10 @@ create
 feature {NONE} -- Initialization
 
 	make
-		local
-			paper: EL_PAPER_DIMENSIONS
 		do
 			default_create
 			enable_border
 			disable_user_resize
-			create paper.make_best_fit
 			set_size (
 				Screen.horizontal_pixels (paper.width_cms * 1.3).min (Screen.useable_area.width),
 				Screen.vertical_pixels (paper.height_cms)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-07 8:27:38 GMT (Friday 7th July 2023)"
-	revision: "13"
+	date: "2023-07-07 11:59:24 GMT (Friday 7th July 2023)"
+	revision: "14"
 
 class
 	EL_PAPER_SHEET_DRAWING_AREA
@@ -22,16 +22,15 @@ inherit
 
 	EL_MODULE_ACTION; EL_MODULE_SCREEN
 
-	EL_SHARED_INSTALL_TEXTS
+	EL_SHARED_INSTALL_TEXTS; EL_SHARED_PAPER_DIMENSIONS
 
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (a_paper: like paper)
+	make
 		do
-			paper := a_paper
 			default_create
 			set_expose_actions
 		end
@@ -101,8 +100,5 @@ feature {NONE} -- Implementation
 			Result := Text.size_template #$ paper.as_tuple
 		end
 
-feature {NONE} -- Internal attributes
-
-	paper: EL_PAPER_DIMENSIONS
 
 end

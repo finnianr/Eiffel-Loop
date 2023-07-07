@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-06 9:27:54 GMT (Thursday 6th July 2023)"
-	revision: "10"
+	date: "2023-07-07 12:17:01 GMT (Friday 7th July 2023)"
+	revision: "11"
 
 deferred class
 	EL_INSTALLER_MAIN_WINDOW
@@ -77,7 +77,8 @@ feature {NONE} -- Event handler
 	on_show
 			--
 		do
-			hide
+			minimize -- hide while still showing application in task switcher
+
 			if updates_info.is_valid then
 				show_install_dialog
 			else
@@ -125,7 +126,7 @@ feature {NONE} -- Implementation
 			a5_dialog: EL_PAPER_SIZE_MATCHING_DIALOG; installer_dialog: EL_INSTALLER_DIALOG
 		do
 			create a5_dialog.make (updates_info.latest_version)
-			cover_window (a5_dialog);
+			cover_window (a5_dialog)
 			Screen.center (a5_dialog)
 
 			a5_dialog.show_modal_to_window (Current)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-07 10:10:16 GMT (Friday 7th July 2023)"
-	revision: "22"
+	date: "2023-07-07 14:18:56 GMT (Friday 7th July 2023)"
+	revision: "23"
 
 class
 	EL_FILE_COPY_INSTALLER_BOX
@@ -54,7 +54,7 @@ feature {NONE} -- Initialization
 			file_path_label := Vision_2.new_label_with_font (Empty_string_8, new_font (Size.small))
 			action_label := Vision_2.new_label_with_font ("", new_font (Size.small))
 
-			set_label (action_label, Text.installing_files)
+			set_label (action_label, Text.contacting_server)
 
 			extend_unexpanded (new_title_frame)
 			extend (new_components_box)
@@ -93,6 +93,8 @@ feature -- Basic operations
 
 	install
 		do
+			ev_application.process_events -- Ensure dialog becomes visible on GTK
+
 			across new_stage_actions as list loop
 				is_final_stage := list.is_last
 				current_stage := list.key

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-07 8:46:49 GMT (Friday 7th July 2023)"
-	revision: "16"
+	date: "2023-07-07 12:00:38 GMT (Friday 7th July 2023)"
+	revision: "17"
 
 class
 	EL_PAPER_SIZE_MATCHING_DIALOG
@@ -18,15 +18,11 @@ inherit
 			on_cancel
 		end
 
-	EL_MODULE_BUILD_INFO
-
-	EL_MODULE_COLOR
-
-	EL_MODULE_DESKTOP_MENU_ICON
+	EL_MODULE_BUILD_INFO; EL_MODULE_COLOR; EL_MODULE_DESKTOP_MENU_ICON
 
 	EL_APPLICATION_CONSTANTS
 
-	EL_SHARED_INSTALL_TEXTS
+	EL_SHARED_INSTALL_TEXTS; EL_SHARED_PAPER_DIMENSIONS
 
 create
 	make
@@ -36,7 +32,6 @@ feature {NONE} -- Initialization
 	make (a_latest_version: NATURAL)
 		do
 			latest_version := a_latest_version
-			create paper.make_best_fit
 
 			default_create
 			enable_border
@@ -47,7 +42,7 @@ feature {NONE} -- Initialization
 			set_background_color (Color.White)
 			show_actions.extend (agent on_show)
 
-			create paper_box.make (Current, paper)
+			create paper_box.make (Current)
 			put (paper_box)
 			propagate_background_color
 			set_default_cancel_button (paper_box.cancel_button)
@@ -60,6 +55,12 @@ feature {EL_INSTALLER_BOX} -- Event handling
 		do
 			is_cancelled := True
 			destroy
+		end
+
+	on_final_resize
+		do
+			redraw_a5_paper_box
+			is_final_resize_set := False
 		end
 
 	on_next
@@ -98,12 +99,6 @@ feature {EL_INSTALLER_BOX} -- Event handling
 			end
 		end
 
-	on_final_resize
-		do
-			redraw_a5_paper_box
-			is_final_resize_set := False
-		end
-
 	on_show
 		local
 			dialog: like new_info_dialog; version: EL_SOFTWARE_VERSION
@@ -127,15 +122,13 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	paper_box: EL_PAPER_MATCHING_INSTALLER_BOX
-
-	paper: EL_PAPER_DIMENSIONS
-
 	is_final_resize_set: BOOLEAN
 
 	latest_version: NATURAL
 
 	original_size: EL_RECTANGLE
+
+	paper_box: EL_PAPER_MATCHING_INSTALLER_BOX
 
 	pixel_area: INTEGER
 		-- current pixel area
