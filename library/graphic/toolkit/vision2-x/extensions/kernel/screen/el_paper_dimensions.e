@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-07 12:01:36 GMT (Friday 7th July 2023)"
-	revision: "2"
+	date: "2023-07-07 20:17:27 GMT (Friday 7th July 2023)"
+	revision: "3"
 
 class
 	EL_PAPER_DIMENSIONS
@@ -21,6 +21,21 @@ create
 	make, make_best_fit
 
 feature {NONE} -- Initialization
+
+	make (a_code: INTEGER; width_cms_height_cms: STRING)
+		require
+			comma_separated: width_cms_height_cms.occurrences (',') = 1
+		do
+			create as_tuple
+			Tuple.fill (as_tuple, width_cms_height_cms)
+			width_cms := as_tuple.width_cms.to_real
+			height_cms := as_tuple.height_cms.to_real
+
+			create id.make_filled ('A', 2)
+			id.put('0' + a_code, 2)
+		ensure
+			reversible: code = a_code
+		end
 
 	make_best_fit
 		-- best paper size fit for reported size of display
@@ -37,26 +52,35 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make (code: INTEGER; width_cms_height_cms: STRING)
-		require
-			comma_separated: width_cms_height_cms.occurrences (',') = 1
-		do
-			create as_tuple
-			Tuple.fill (as_tuple, width_cms_height_cms)
-			width_cms := as_tuple.width_cms.to_real
-			height_cms := as_tuple.height_cms.to_real
-
-			create id.make_filled ('A', 2)
-			id.put('0' + code, 2)
-		end
-
 feature -- Access
 
 	as_tuple: TUPLE [width_cms, height_cms: STRING]
 
-	width_cms: REAL
+	as_rectangle: EL_RECTANGLE
+		do
+			Result := [width_cms.to_double, height_cms.to_double]
+		end
 
 	height_cms: REAL
 
 	id: STRING
+
+	width_cms: REAL
+
+	code: INTEGER
+		do
+			Result := id [2].code - ('0').code
+		end
+
+feature -- Status query
+
+	is_A4: BOOLEAN
+		do
+			Result := code = 4
+		end
+
+	is_A5: BOOLEAN
+		do
+			Result := code = 5
+		end
 end

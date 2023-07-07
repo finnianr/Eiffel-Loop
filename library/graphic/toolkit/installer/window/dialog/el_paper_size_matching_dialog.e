@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-07 12:00:38 GMT (Friday 7th July 2023)"
-	revision: "17"
+	date: "2023-07-07 20:33:54 GMT (Friday 7th July 2023)"
+	revision: "18"
 
 class
 	EL_PAPER_SIZE_MATCHING_DIALOG
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 			default_create
 			enable_border
 
-			original_size := [paper.width_cms.to_double, paper.height_cms.to_double]
+			original_size := paper.as_rectangle
 			set_size (original_size.width, original_size.height)
 			pixel_area := original_size.width * original_size.height
 			set_background_color (Color.White)
@@ -84,9 +84,7 @@ feature {EL_INSTALLER_BOX} -- Event handling
 			else
 				l_width := a_width; l_height := a_height
 			end
-			Screen.set_dimensions (
-				Screen.width / (l_width / paper.width_cms), Screen.height / (l_height / paper.height_cms)
-			)
+			Screen.set_dimensions_by_paper (Paper, l_width, l_height)
 			l_pixel_area := l_width * l_height
 			percent_change := ((pixel_area - l_pixel_area).abs * 100 / pixel_area).rounded
 			if percent_change > 2 then
