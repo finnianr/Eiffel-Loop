@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-21 17:46:21 GMT (Tuesday 21st March 2023)"
-	revision: "36"
+	date: "2023-07-08 9:36:57 GMT (Saturday 8th July 2023)"
+	revision: "37"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -129,13 +129,7 @@ feature -- Status query
 			Result := False
 		end
 
-feature {NONE} -- Implementation
-
-	file_must_exist: BOOLEAN
-			-- True if output file always exists after creation
-		do
-			Result := False
-		end
+feature {NONE} -- Factory
 
 	new_file (file_path: like output_path): PLAIN_TEXT_FILE
 		do
@@ -165,6 +159,14 @@ feature {NONE} -- Implementation
 		do
 			create Result
 			Result.set_base (Template_name_template #$ [Eiffel.type_of_type (type_id).name])
+		end
+
+feature {NONE} -- Implementation
+
+	file_must_exist: BOOLEAN
+			-- True if output file always exists after creation
+		do
+			Result := False
 		end
 
 	stored_successfully (a_file: like new_file): BOOLEAN
@@ -209,17 +211,17 @@ feature {EVOLICITY_DIRECTIVE} -- Internal attributes
 
 feature {NONE} -- Constants
 
+	Default_file_path: FILE_PATH
+			--
+		once
+			create Result
+		end
+
 	Default_variable: TUPLE [encoding_name, template_name, current_object: ZSTRING]
 			-- built-in variables
 		once
 			create Result
 			Tuple.fill (Result, "encoding_name, template_name, current")
-		end
-
-	Default_file_path: FILE_PATH
-			--
-		once
-			create Result
 		end
 
 	New_line: ZSTRING

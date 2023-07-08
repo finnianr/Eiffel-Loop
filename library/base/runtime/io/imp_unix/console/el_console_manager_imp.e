@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-07-08 15:19:05 GMT (Saturday 8th July 2023)"
+	revision: "9"
 
 class
 	EL_CONSOLE_MANAGER_IMP
@@ -32,12 +32,12 @@ feature -- Status query
 
 	is_utf_8_encoded: BOOLEAN
 		do
-			if Executable.is_work_bench and then code_page ~ Default_workbench_codepage then
+			if Executable.is_work_bench and then Encoding.code_page ~ Default_workbench_codepage then
 				-- If LANG is not set in execution parameters assume that
 				-- developers have their console set to UTF-8
 				Result := True
 			else
-				Result := code_page ~ Utf_8.code_page
+				Result := Encoding.code_page ~ Utf_8.code_page
 			end
 		end
 

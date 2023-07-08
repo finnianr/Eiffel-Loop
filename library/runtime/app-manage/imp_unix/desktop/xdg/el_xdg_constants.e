@@ -1,19 +1,19 @@
 note
-	description: "Xdg constants"
+	description: "XDG constants"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-07-08 18:20:02 GMT (Saturday 8th July 2023)"
+	revision: "4"
 
 deferred class
 	EL_XDG_CONSTANTS
 
 inherit
-	EL_INSTALLER_DEBUG
+	EL_SHARED_INSTALL_UNINSTALL_TESTER
 
 feature {NONE} -- Constants
 
@@ -21,14 +21,14 @@ feature {NONE} -- Constants
 			--
 		once
 			Result := "/usr/share/applications"
-			if_installer_debug_enabled (Result)
+			Test_aware.adjust_parent (Result)
 			-- Workbench debug: "$HOME/.local/share/applications"
 		end
 
 	Applications_merged_dir: DIR_PATH
 		once
 			Result := "/etc/xdg/menus/applications-merged"
-			if_installer_debug_enabled (Result)
+			Test_aware.adjust_parent (Result)
 		end
 
 	Applications_menu: EL_XDG_DESKTOP_MENU
@@ -41,7 +41,7 @@ feature {NONE} -- Constants
 			--
 		once
 			Result := "/usr/share/desktop-directories"
-			if_installer_debug_enabled (Result)
+			Test_aware.adjust_parent (Result)
 			-- Workbench debug: $HOME/.local/share/desktop-directories
 		end
 

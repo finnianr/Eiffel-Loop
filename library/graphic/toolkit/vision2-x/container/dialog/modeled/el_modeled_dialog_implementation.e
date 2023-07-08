@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-05 19:10:53 GMT (Wednesday 5th July 2023)"
-	revision: "12"
+	date: "2023-07-08 12:00:03 GMT (Saturday 8th July 2023)"
+	revision: "13"
 
 deferred class
 	EL_MODELED_DIALOG_IMPLEMENTATION
@@ -152,9 +152,6 @@ feature {EL_STANDARD_DIALOG} -- Factory
 		do
 			Result := new_button (model.default_button_text)
 			Result.select_actions.extend (agent on_default)
-			if model.is_application then
-				Result.select_actions.extend (agent ev_application.destroy)
-			end
 		end
 
 	new_dialog_box: EL_VERTICAL_BOX
@@ -198,7 +195,11 @@ feature {NONE} -- Event handling
 
 	on_cancel
 		do
-			if not window.is_destroyed then
+			if window.is_destroyed then
+				if model.is_application then
+					ev_application.destroy
+				end
+			else
 				destroy
 			end
 			is_cancelled := True
@@ -239,6 +240,9 @@ feature {NONE} -- Implementation
 	destroy
 		do
 			window.destroy
+			if model.is_application then
+				ev_application.destroy
+			end
 		end
 
 	expanded_widgets: ARRAY [EV_WIDGET]

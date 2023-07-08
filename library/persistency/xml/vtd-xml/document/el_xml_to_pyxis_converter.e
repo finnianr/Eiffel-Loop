@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "28"
+	date: "2023-07-08 18:20:28 GMT (Saturday 8th July 2023)"
+	revision: "29"
 
 class
 	EL_XML_TO_PYXIS_CONVERTER
@@ -165,7 +165,7 @@ feature {NONE} -- Parser state actions
 		require
 			is_first_node: i = 1
 		do
-			out_file.put_string ("pyxis-doc:")
+			out_file.put_string_8 ("pyxis-doc:")
 			out_file.put_new_line
 			next_node_action := agent call_action_for_type
 		end
@@ -227,7 +227,7 @@ feature {NONE} -- Node events
 					out_file.put_new_line
 				else
 					put_indent (node_depth + 1)
-					out_file.put_string ("# ")
+					out_file.put_string_8 ("# ")
 					put_line (line.item)
 				end
 			end

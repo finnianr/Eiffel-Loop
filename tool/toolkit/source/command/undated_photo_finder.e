@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-19 8:38:59 GMT (Friday 19th May 2023)"
-	revision: "14"
+	date: "2023-07-08 18:28:41 GMT (Saturday 8th July 2023)"
+	revision: "15"
 
 class
 	UNDATED_PHOTO_FINDER
@@ -56,7 +56,7 @@ feature {NONE} -- Implementation
 		do
 			jpeg_info.set_file_path (file_path)
 			if not jpeg_info.has_date_time then
-				output.put_string (file_path)
+				output.put_string (file_path.to_string)
 				output.put_new_line
 			end
 		end

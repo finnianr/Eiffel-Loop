@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 12:43:05 GMT (Thursday 29th December 2022)"
-	revision: "20"
+	date: "2023-07-08 17:46:42 GMT (Saturday 8th July 2023)"
+	revision: "21"
 
 deferred class
 	EL_ENCODING_BASE
@@ -60,7 +60,15 @@ feature -- Access
 			--
 		do
 			if encoding = Other_class then
-				Result := other_encoding.code_page
+				if attached other_encoding.code_page as code then
+					if code.is_natural then
+						Result := "cp" + other_encoding.code_page
+					else
+						Result := other_encoding.code_page
+					end
+				else
+					Result := Name_unknown
+				end
 			else
 				create Result.make (12)
 				across Class_table as table until Result.count > 0 loop

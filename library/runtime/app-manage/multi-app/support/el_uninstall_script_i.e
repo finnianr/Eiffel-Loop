@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2023-07-08 15:00:11 GMT (Saturday 8th July 2023)"
+	revision: "21"
 
 deferred class
 	EL_UNINSTALL_SCRIPT_I
@@ -30,58 +30,43 @@ deferred class
 inherit
 	EVOLICITY_SERIALIZEABLE
 
+	EL_MODULE_CONSOLE; EL_MODULE_DIRECTORY; EL_MODULE_EXECUTABLE; EL_MODULE_FILE_SYSTEM
 
-	EL_MODULE_CONSOLE; EL_MODULE_EXECUTABLE; EL_MODULE_FILE_SYSTEM
+	EL_MODULE_SYSTEM
 
-	EL_INSTALLER_DEBUG; EL_MODULE_SYSTEM
+	EL_SHARED_APPLICATION_LIST; EL_SHARED_PHRASE; EL_SHARED_UNINSTALL_TEXTS
 
-	EL_SHARED_APPLICATION_LIST
-
-	EL_SHARED_PHRASE
-
-	EL_SHARED_UNINSTALL_TEXTS
+	EL_SHARED_INSTALL_UNINSTALL_TESTER
 
 feature {NONE} -- Initialization
 
 	make (a_uninstall_app: like uninstall_app)
 		require
 			has_main: Application_list.has_main
-		local
-			l_template: ZSTRING
 		do
 			uninstall_app := a_uninstall_app
 			Console.show_all (Lio_visible_types)
 			-- For Linux this is: /opt/Uninstall
 			-- For Windows: C:\Program Files\Uninstall
 
-			output_path := Directory.Applications + ("Uninstall/uninstall-" + menu_name)
-			if_installer_debug_enabled (output_path)
-			output_path.add_extension (dot_extension)
+			output_path := Test_aware.absolute_path (Directory.Applications, relative_output_path)
+
 			make_from_file (output_path)
-			create script.make_with_name (output_path)
-
-			l_template := "remove_%S_user_files." + dot_extension
-			remove_files_script_path := output_path.parent + l_template #$ [menu_name]
-			remove_files_script_path.base.translate_general (" ", "_")
 		end
-
-feature -- Access
-
-	remove_files_script_path: FILE_PATH
 
 feature -- Basic operations
 
-	write_remove_directories_script
-			-- create script to remove application data and configuration directories for all users
+	create_remove_directories_script
+		-- create script to remove application data and configuration directories for all users
 		do
-			File_system.make_directory (remove_files_script_path.parent)
-			script.make_open_write (remove_files_script_path)
-
-			across System.user_permutation_list (Directory.app_all_list) as list loop
-				write_remove_directory (list.item)
+			if attached remove_files_script_path as script_path then
+				File_system.make_directory (script_path.parent)
+				if attached new_script (script_path) as script then
+					script.open_write
+					write_remove_directory_lines (script)
+					script.close
+				end
 			end
-			write_remove_directory (Directory.Application_installation)
-			script.close
 		end
 
 feature {NONE} -- Implementation
@@ -105,6 +90,12 @@ feature {NONE} -- Implementation
 			Result := path.escaped
 		end
 
+	remove_files_script_path: FILE_PATH
+		do
+			Result := output_path.parent + Remove_user_files_template #$ [menu_name, dot_extension]
+			Result.base.translate_general (" ", "_")
+		end
+
 	lio_visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
 		deferred
 		end
@@ -118,12 +109,32 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	new_script (path: FILE_PATH): EL_PLAIN_TEXT_FILE
+		do
+			create Result.make_with_name (path)
+		end
+
+	relative_output_path: FILE_PATH
+		do
+			Result := "Uninstall/uninstall-"
+			Result.base.append (menu_name)
+			Result.add_extension (dot_extension)
+		end
+
 	remove_dir_and_parent_commands: ZSTRING
 		-- command lines to remove directory and parent if empty
 		deferred
 		end
 
-	write_remove_directory (dir_path: DIR_PATH)
+	write_remove_directory_lines (script: like new_script)
+		do
+			across System.user_permutation_list (Directory.app_all_list) as list loop
+				write_remove_directory (script, list.item)
+			end
+			write_remove_directory (script, Directory.Application_installation)
+		end
+
+	write_remove_directory (script: like new_script; dir_path: DIR_PATH)
 		do
 			script.put_string (remove_dir_and_parent_commands #$ [dir_path.escaped, dir_path.parent.escaped])
 			script.put_new_line
@@ -134,8 +145,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Internal attributes
-
-	script: EL_PLAIN_TEXT_FILE
 
 	uninstall_app: EL_STANDARD_UNINSTALL_APP
 
@@ -173,6 +182,11 @@ feature {NONE} -- Constants
 	Application_path: FILE_PATH
 		once
 			Result := Directory.Application_bin + Executable.name
+		end
+
+	Remove_user_files_template: ZSTRING
+		once
+			Result := "remove_%S_user_files.%S"
 		end
 
 end

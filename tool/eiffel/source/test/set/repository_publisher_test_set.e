@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-22 15:18:22 GMT (Monday 22nd May 2023)"
-	revision: "58"
+	date: "2023-07-08 7:48:01 GMT (Saturday 8th July 2023)"
+	revision: "59"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -90,6 +90,7 @@ feature -- Tests
 		end
 
 	test_publisher
+		-- REPOSITORY_PUBLISHER_TEST_SET.test_publisher
 		local
 			publisher: like new_publisher; editor: FIND_AND_REPLACE_EDITOR
 			line: ZSTRING; base_name_list: EL_ZSTRING_LIST

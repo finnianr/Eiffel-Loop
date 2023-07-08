@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-05 19:12:14 GMT (Wednesday 5th July 2023)"
-	revision: "9"
+	date: "2023-07-08 11:35:59 GMT (Saturday 8th July 2023)"
+	revision: "10"
 
 deferred class
 	EL_MODELED_DIALOG
@@ -225,9 +225,6 @@ feature {NONE} -- Implementation
 				cancel_button := new_button (model.cancel_button_text)
 				if attached cancel_button.select_actions as sequence then
 					sequence.extend (agent on_cancel)
-					if model.is_application then
-						sequence.extend (agent ev_application.destroy)
-					end
 				end
 			else
 				create cancel_button

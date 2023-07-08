@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 10:34:21 GMT (Saturday 29th April 2023)"
-	revision: "24"
+	date: "2023-07-08 18:26:50 GMT (Saturday 8th July 2023)"
+	revision: "25"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -109,7 +109,7 @@ feature {NONE} -- Implementation
 			file_out.put_raw_character_8 ('[')
 			file_out.put_string (web_address)
 			file_out.put_raw_character_8 ('/')
-			file_out.put_string (html_path)
+			file_out.put_string (html_path.to_string)
 			file_out.put_string (link_text)
 		end
 

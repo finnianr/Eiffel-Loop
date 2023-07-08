@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2023-07-08 18:21:48 GMT (Saturday 8th July 2023)"
+	revision: "14"
 
 deferred class
 	EL_CONSOLE_MANAGER_I
@@ -18,8 +18,11 @@ inherit
 	EL_SHARED_BASE_OPTION
 
 	EL_SYSTEM_ENCODINGS
+		rename
+			Console as Encoding
 		export
 			{NONE} all
+			{ANY} Encoding
 		end
 
 feature {NONE} -- Initialization
@@ -28,12 +31,14 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			create visible_types.make (20)
-			code_page := Console.code_page
 		end
 
 feature -- Access
 
-	code_page: STRING
+	code_page: STRING_8
+		do
+			Result := Encoding.code_page
+		end
 
 	decoded (input: STRING_8): ZSTRING
 		-- console `input' to `ZSTRING'
@@ -41,37 +46,39 @@ feature -- Access
 			if is_utf_8_encoded then
 				create Result.make_from_utf_8 (input)
 			else
-				Console.convert_to (Unicode, input)
-				Result := Console.last_converted_string_32
+				Encoding.convert_to (Unicode, input)
+				Result := Encoding.last_converted_string_32
 			end
 		end
 
-	encoded (a_str: READABLE_STRING_GENERAL): STRING_8
+	encoded (str: READABLE_STRING_GENERAL): STRING_8
 		-- string encoded for console
 		local
-			l_encoding: ENCODING; done: BOOLEAN; buffer: EL_STRING_32_BUFFER_ROUTINES
-			l_str: READABLE_STRING_GENERAL
+			l_encoding: ENCODING; done: BOOLEAN
 		do
-			if attached {ZSTRING} a_str then
-				l_str := buffer.copied_general (a_str)
-			else
-				l_str := a_str
-			end
-			if is_utf_8_encoded then
-				l_encoding := Utf_8
-			else
-				l_encoding := Console
-			end
-			-- Fix for bug where LANG=C in Nautilus F10 terminal caused a crash
-			from until done loop
-				Unicode.convert_to (l_encoding, l_str)
-				if Unicode.last_conversion_successful then
-					done := True
+			if attached {EL_READABLE_ZSTRING} str as zstr then
+				if is_utf_8_encoded then
+					Result := zstr.to_utf_8 (True)
 				else
-					l_encoding := Utf_8
+					Result := encoded (zstr.to_general)
 				end
+			else
+				if is_utf_8_encoded then
+					l_encoding := Utf_8
+				else
+					l_encoding := Encoding
+				end
+				-- Fix for bug where LANG=C in Nautilus F10 terminal caused a crash
+				from until done loop
+					Unicode.convert_to (l_encoding, str)
+					if Unicode.last_conversion_successful then
+						done := True
+					else
+						l_encoding := Utf_8
+					end
+				end
+				Result := Unicode.last_converted_string_8
 			end
-			Result := Unicode.last_converted_string_8
 		end
 
 feature -- Status change

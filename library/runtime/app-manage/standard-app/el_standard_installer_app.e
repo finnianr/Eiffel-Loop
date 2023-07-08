@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2023-07-08 9:59:48 GMT (Saturday 8th July 2023)"
+	revision: "21"
 
 class
 	EL_STANDARD_INSTALLER_APP
@@ -25,13 +25,11 @@ inherit
 			option_name, visible_types, do_application
 		end
 
-	EL_SHARED_APPLICATION_LIST
+	EL_MODULE_OS
 
 	EL_APPLICATION_CONSTANTS
 
-	EL_MODULE_OS
-
-	EL_INSTALLER_DEBUG
+	EL_SHARED_APPLICATION_LIST; EL_SHARED_INSTALL_UNINSTALL_TESTER
 
 	EL_SHARED_DIRECTORY
 		rename
@@ -103,7 +101,7 @@ feature {NONE} -- Implementation
 			destination_dir: DIR_PATH
 		do
 			destination_dir := Directory.Application_installation
-			if_installer_debug_enabled (destination_dir)
+			Test_aware.adjust_parent (destination_dir)
 
 			lio.put_labeled_string ("Installing program", Executable.name); lio.put_new_line
 			lio.put_path_field ("Source", Package_dir); lio.put_new_line

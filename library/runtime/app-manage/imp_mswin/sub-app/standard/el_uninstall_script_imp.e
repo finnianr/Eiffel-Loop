@@ -6,19 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-07-08 17:35:30 GMT (Saturday 8th July 2023)"
+	revision: "10"
 
 class
 	EL_UNINSTALL_SCRIPT_IMP
 
 inherit
 	EL_UNINSTALL_SCRIPT_I
+		rename
+			new_script as new_batch_script
 		redefine
-			serialize, script
+			new_batch_script, serialize, write_remove_directory_lines
 		end
 
 	EL_OS_IMPLEMENTATION
+
+	EL_MODULE_CONSOLE
 
 create
 	make
@@ -28,12 +32,20 @@ feature -- Basic operations
 	serialize
 		do
 			File_system.make_directory (output_path.parent)
-			script.make_open_write (output_path)
-			serialize_to_stream (script)
-			script.close
+			if attached new_batch_script (output_path) as script then
+				script.open_write
+				serialize_to_stream (script)
+				script.close
+			end
 		end
 
 feature {NONE} -- Implementation
+
+	new_batch_script (path: FILE_PATH): EL_PLAIN_TEXT_FILE
+		do
+			create Result.make_with_name (path)
+			Result.set_other_encoding (Console.Encoding)
+		end
 
 	uninstall_base_list: EL_ZSTRING_LIST
 		do
@@ -42,9 +54,13 @@ feature {NONE} -- Implementation
 			Result.extend (Executable.name)
 		end
 
-feature {NONE} -- Internal attributes
-
-	script: EL_BATCH_SCRIPT_FILE
+	write_remove_directory_lines (script: like new_batch_script)
+		do
+			script.put_string_8 ("Rem encoding: " + script.encoding_name)
+			script.put_new_line
+			script.put_new_line
+			Precursor (script)
+		end
 
 feature {NONE} -- Constants
 

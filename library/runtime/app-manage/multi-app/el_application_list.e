@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-08 9:10:32 GMT (Monday 8th May 2023)"
-	revision: "25"
+	date: "2023-07-08 14:59:56 GMT (Saturday 8th July 2023)"
+	revision: "26"
 
 class
 	EL_APPLICATION_LIST
@@ -167,7 +167,7 @@ feature -- Basic operations
 				app.item.uninstall
 			end
 			if has_main and then attached uninstall_script as script then
-				script.write_remove_directories_script
+				script.create_remove_directories_script
 			end
 		end
 

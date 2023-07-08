@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-06 8:41:03 GMT (Thursday 6th April 2023)"
-	revision: "9"
+	date: "2023-07-08 7:13:26 GMT (Saturday 8th July 2023)"
+	revision: "10"
 
 class
 	CLASS_HTML_PATH_TABLE
@@ -39,6 +39,19 @@ feature -- Access
 	last_name: ZSTRING
 
 feature -- Element change
+
+	append_alias (alias_table: EL_ZSTRING_HASH_TABLE [ZSTRING])
+		-- Add alias names like `ZSTRING' to `Class_path_table'
+		local
+			actual_name, alias_name: ZSTRING
+		do
+			across alias_table as table loop
+				alias_name := table.key; actual_name := table.item
+				if has_key (actual_name) then
+					put (found_item, alias_name)
+				end
+			end
+		end
 
 	put_class (e_class: EIFFEL_CLASS)
 		do

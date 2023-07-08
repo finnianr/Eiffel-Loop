@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-28 10:48:54 GMT (Wednesday 28th June 2023)"
-	revision: "29"
+	date: "2023-07-08 11:52:52 GMT (Saturday 8th July 2023)"
+	revision: "30"
 
 class
 	EL_STANDARD_UNINSTALL_APP
@@ -29,20 +29,14 @@ inherit
 			name
 		end
 
-	EL_MODULE_ENVIRONMENT
+	EL_MODULE_ENVIRONMENT; EL_MODULE_DEFERRED_LOCALE; EL_MODULE_OS; EL_MODULE_USER_INPUT
 
-	EL_MODULE_OS; EL_MODULE_USER_INPUT; EL_MODULE_DEFERRED_LOCALE
+	EL_SHARED_WORD; EL_SHARED_UNINSTALL_TEXTS
 
 	EL_SHARED_APPLICATION_LIST
 		export
 			{ANY} Application_list
 		end
-
-	EL_SHARED_APPLICATION_OPTION
-
-	EL_SHARED_WORD
-
-	EL_SHARED_UNINSTALL_TEXTS
 
 feature {NONE} -- Initialization
 
@@ -52,6 +46,12 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Basic operations
+
+	do_uninstall
+		do
+			Application_list.uninstall
+			exit_code := 0 -- uninstall script will continue to call directory delete script
+		end
 
 	run
 			--
@@ -106,14 +106,6 @@ feature -- Installer constants
 	Desktop_menu_path: ARRAY [EL_DESKTOP_MENU_ITEM]
 		once
 			Result := << new_category ("System") >>
-		end
-
-feature {NONE} -- Implementation
-
-	do_uninstall
-		do
-			Application_list.uninstall
-			exit_code := 0 -- uninstall script will continue to call directory delete script
 		end
 
 feature {NONE} -- Application constants

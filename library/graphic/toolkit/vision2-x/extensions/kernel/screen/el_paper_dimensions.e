@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-07 20:17:27 GMT (Friday 7th July 2023)"
-	revision: "3"
+	date: "2023-07-07 20:38:27 GMT (Friday 7th July 2023)"
+	revision: "4"
 
 class
 	EL_PAPER_DIMENSIONS
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 		end
 
 	make_best_fit
-		-- best paper size fit for reported size of display
+		-- best paper size fit for reported size of useable display area
 		local
 			useable_height_cms: REAL; useable_proportion: DOUBLE
 		do

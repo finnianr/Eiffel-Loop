@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 13:33:01 GMT (Saturday 29th April 2023)"
-	revision: "53"
+	date: "2023-07-08 7:10:29 GMT (Saturday 8th July 2023)"
+	revision: "54"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -229,12 +229,7 @@ feature -- Basic operations
 				end
 				parser.apply
 			end
-			-- Add alias names like `ZSTRING' to `Class_path_table'
-			across alias_table as table loop
-				if Class_path_table.has_key (table.item) then
-					Class_path_table.extend (Class_path_table.found_item, table.key)
-				end
-			end
+			Class_path_table.append_alias (alias_table)
 		end
 
 	update_source_files (update_checker: EIFFEL_CLASS_UPDATE_CHECKER)

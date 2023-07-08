@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
-	revision: "27"
+	date: "2023-07-08 18:06:25 GMT (Saturday 8th July 2023)"
+	revision: "28"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -48,7 +48,7 @@ inherit
 			put_string_general
 		end
 
-	EL_SHARED_ZCODEC_FACTORY
+	EL_SHARED_ENCODINGS; EL_SHARED_ZCODEC_FACTORY
 
 	EL_STRING_8_CONSTANTS
 
@@ -72,12 +72,17 @@ feature -- Output
 
 	put_character_32 (c: CHARACTER_32)
 		do
-			if encoded_as_latin (1) then
-				if c.is_character_8 then
-					put_raw_character_8 (c.to_character_8)
-				else
-					put_raw_character_8 ({EL_ZCODE_CONVERSION}.Substitute)
-				end
+			inspect encoding
+				when Other_class then
+					One_character [1] := c
+					put_other (One_character)
+
+				when Latin_1 then
+					if c.is_character_8 then
+						put_raw_character_8 (c.to_character_8)
+					else
+						put_raw_character_8 ({EL_ZCODE_CONVERSION}.Substitute)
+					end
 			else
 				codec.write_encoded_character (c, Current)
 			end
@@ -85,8 +90,13 @@ feature -- Output
 
 	put_character_8 (c: CHARACTER)
 		do
-			if encoded_as_latin (1) then
-				put_raw_character_8 (c)
+			inspect encoding
+				when Other_class then
+					One_character [1] := c
+					put_other (One_character)
+
+				when Latin_1 then
+					put_raw_character_8 (c)
 			else
 				codec.write_encoded_character (c, Current)
 			end
@@ -163,12 +173,39 @@ feature -- String output
 		deferred
 		end
 
-	put_string (str: ZSTRING)
+	put_string (str: EL_READABLE_ZSTRING)
 		require else
 			valid_encoding: str.has_mixed_encoding implies encoded_as_utf (8)
 		do
-			if str.encoded_with (codec) then
+			if encoding = Other_class then
+				put_other (str)
+
+			elseif str.encoded_with (codec) then
 				str.write_latin (Current)
+			else
+				codec.write_encoded (str, Current) -- Call back to `put_raw_character_8'
+			end
+		end
+
+	put_string_32 (str: READABLE_STRING_32)
+		require else
+			valid_encoding: not str.is_valid_as_string_8 implies encoded_as_utf (8)
+		do
+			if encoding = Other_class then
+				put_other (str)
+			else
+				codec.write_encoded (str, Current)
+			end
+		end
+
+	put_string_8, put_latin_1 (str: READABLE_STRING_8)
+		do
+			inspect encoding
+				when Other_class then
+					put_other (str)
+
+				when Latin_1 then
+					put_raw_string_8 (str)
 			else
 				codec.write_encoded (str, Current) -- Call back to `put_raw_character_8'
 			end
@@ -178,22 +215,10 @@ feature -- String output
 		require else
 			valid_encoding: not str.is_valid_as_string_8 implies encoded_as_utf (8)
 		do
-			codec.write_encoded (str, Current)
-		end
-
-	put_string_32 (str: READABLE_STRING_32)
-		require else
-			valid_encoding: not str.is_valid_as_string_8 implies encoded_as_utf (8)
-		do
-			codec.write_encoded (str, Current)
-		end
-
-	put_string_8, put_latin_1 (str: READABLE_STRING_8)
-		do
-			if encoded_as_latin (1) then
-				put_raw_string_8 (str)
+			if encoding = Other_class then
+				put_other (str)
 			else
-				codec.write_encoded (str, Current) -- Call back to `put_raw_character_8'
+				codec.write_encoded (str, Current)
 			end
 		end
 
@@ -231,6 +256,30 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
+	put_other (str: READABLE_STRING_GENERAL)
+		require
+			encoding_class_other: encoding = Other_class
+		local
+			l_encoding: ENCODING; done: BOOLEAN
+		do
+			if attached Encodings.Unicode as unicode then
+				-- Fix for bug where LANG=C in Nautilus F10 terminal caused a crash
+				from l_encoding := other_encoding until done loop
+					if attached {EL_READABLE_ZSTRING} str as zstr then
+						unicode.convert_to (l_encoding, zstr.to_general)
+					else
+						unicode.convert_to (l_encoding, str)
+					end
+					if unicode.last_conversion_successful then
+						done := True
+					else
+						l_encoding := Encodings.Utf_8
+					end
+				end
+				put_raw_string_8 (Unicode.last_converted_string_8)
+			end
+		end
+
 	set_codec
 			--
 		do
@@ -243,7 +292,14 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	codec: EL_ZCODEC;
+	codec: EL_ZCODEC
+
+feature {NONE} -- Constants
+
+	One_character: STRING_32
+		once
+			create Result.make_filled ('-', 1)
+		end
 
 note
 	descendants: "[

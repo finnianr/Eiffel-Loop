@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-07 20:32:46 GMT (Friday 7th July 2023)"
-	revision: "15"
+	date: "2023-07-07 20:37:46 GMT (Friday 7th July 2023)"
+	revision: "16"
 
 class
 	EL_SCREEN
@@ -94,7 +94,7 @@ feature -- Element change
 
 	set_dimensions_by_paper (paper: EL_PAPER_DIMENSIONS; a_width, a_height: INTEGER)
 		-- set display dimensions by user supplied `a_width' and `a_height' in pixels of a sheet of
-		-- A4 paper (or A5 for smaller screens)
+		-- A4 `paper' (or A5 for smaller screens)
 		do
 			set_dimensions (width / (a_width / paper.width_cms), height / (a_height / paper.height_cms))
 		end

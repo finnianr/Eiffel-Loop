@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-07-08 15:18:10 GMT (Saturday 8th July 2023)"
+	revision: "8"
 
 class
 	EL_CONSOLE_MANAGER_IMP
@@ -27,7 +27,7 @@ feature -- Status query
 
 	is_utf_8_encoded: BOOLEAN
 		do
-			Result := code_page ~ Utf_8.code_page
+			Result := Encoding.code_page ~ Utf_8.code_page
 		end
 
 end
