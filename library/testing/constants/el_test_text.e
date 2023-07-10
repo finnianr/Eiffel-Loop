@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 4:30:07 GMT (Saturday 24th June 2023)"
-	revision: "25"
+	date: "2023-07-09 10:09:43 GMT (Sunday 9th July 2023)"
+	revision: "26"
 
 class
 	EL_TEST_TEXT
@@ -74,7 +74,7 @@ feature -- Eiffel
 
 feature -- Lists
 
-	latin_1_lines: EL_STRING_32_LIST
+	latin_1_lines: EL_STRING_8_LIST
 		do
 			create Result.make (5)
 			across lines as list loop

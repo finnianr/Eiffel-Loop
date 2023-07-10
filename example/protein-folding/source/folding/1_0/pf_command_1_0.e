@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
-	date: "2022-02-08 15:50:42 GMT (Tuesday 8th February 2022)"
-	revision: "3"
+	date: "2023-07-08 18:39:36 GMT (Saturday 8th July 2023)"
+	revision: "4"
 
 class
 	PF_COMMAND_1_0
@@ -170,7 +170,7 @@ feature -- Basic operations
 			output.put_character_8 ('#')
 			output.put_integer (number)
 			output.put_character_8 (' ')
-			output.put_string (item.string)
+			output.put_string_8 (item.string)
 			output.put_character_8 ('%N')
 		end -- print_item
 

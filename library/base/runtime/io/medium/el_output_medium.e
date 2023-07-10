@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-08 18:06:25 GMT (Saturday 8th July 2023)"
-	revision: "28"
+	date: "2023-07-10 9:54:30 GMT (Monday 10th July 2023)"
+	revision: "29"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -102,6 +102,15 @@ feature -- Output
 			end
 		end
 
+	put_new_line
+		deferred
+		end
+
+	put_new_line_x2
+		do
+			put_new_line; put_new_line
+		end
+
 	put_pointer (p: POINTER)
 		do
 			put_raw_string_8 (p.out)
@@ -167,10 +176,6 @@ feature -- String output
 	put_lines (lines: ITERABLE [READABLE_STRING_GENERAL])
 		do
 			put_indented_lines (Empty_string_8, lines)
-		end
-
-	put_new_line
-		deferred
 		end
 
 	put_string (str: EL_READABLE_ZSTRING)
@@ -264,7 +269,12 @@ feature {NONE} -- Implementation
 		do
 			if attached Encodings.Unicode as unicode then
 				-- Fix for bug where LANG=C in Nautilus F10 terminal caused a crash
-				from l_encoding := other_encoding until done loop
+				if attached encoding_other as other then
+					l_encoding := other
+				else
+					l_encoding := Encodings.Utf_8
+				end
+				from  until done loop
 					if attached {EL_READABLE_ZSTRING} str as zstr then
 						unicode.convert_to (l_encoding, zstr.to_general)
 					else
@@ -276,7 +286,7 @@ feature {NONE} -- Implementation
 						l_encoding := Encodings.Utf_8
 					end
 				end
-				put_raw_string_8 (Unicode.last_converted_string_8)
+				put_raw_string_8 (unicode.last_converted_string_8)
 			end
 		end
 

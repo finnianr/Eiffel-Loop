@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-08 18:21:48 GMT (Saturday 8th July 2023)"
-	revision: "14"
+	date: "2023-07-09 21:37:03 GMT (Sunday 9th July 2023)"
+	revision: "15"
 
 deferred class
 	EL_CONSOLE_MANAGER_I
@@ -35,12 +35,12 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	code_page: STRING_8
+	code_page: STRING
 		do
 			Result := Encoding.code_page
 		end
 
-	decoded (input: STRING_8): ZSTRING
+	decoded (input: READABLE_STRING_8): ZSTRING
 		-- console `input' to `ZSTRING'
 		do
 			if is_utf_8_encoded then
@@ -51,33 +51,17 @@ feature -- Access
 			end
 		end
 
-	encoded (str: READABLE_STRING_GENERAL): STRING_8
+	encoded (str: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): STRING
 		-- string encoded for console
-		local
-			l_encoding: ENCODING; done: BOOLEAN
 		do
-			if attached {EL_READABLE_ZSTRING} str as zstr then
-				if is_utf_8_encoded then
-					Result := zstr.to_utf_8 (True)
+			if attached Once_buffer as buffer then
+				buffer.wipe_out
+				buffer.put_string_general (str)
+				if keep_ref then
+					create Result.make_from_string (buffer.text)
 				else
-					Result := encoded (zstr.to_general)
+					Result := buffer.text
 				end
-			else
-				if is_utf_8_encoded then
-					l_encoding := Utf_8
-				else
-					l_encoding := Encoding
-				end
-				-- Fix for bug where LANG=C in Nautilus F10 terminal caused a crash
-				from until done loop
-					Unicode.convert_to (l_encoding, str)
-					if Unicode.last_conversion_successful then
-						done := True
-					else
-						l_encoding := Utf_8
-					end
-				end
-				Result := Unicode.last_converted_string_8
 			end
 		end
 
@@ -140,4 +124,12 @@ feature -- Status query
 feature {NONE} -- Internal attributes
 
 	visible_types: EL_HASH_SET [INTEGER]
+
+feature {NONE} -- Constants
+
+	Once_buffer: EL_STRING_8_IO_MEDIUM
+		once
+			create Result.make (0)
+			Result.set_encoding_other (Encoding)
+		end
 end

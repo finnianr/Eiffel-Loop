@@ -1,6 +1,7 @@
 note
 	description: "[
-		Object for testing [$source ZSTRING] against [$source STRING_32] in [$source ZSTRING_TEST_SET]
+		Compare result of [$source ZSTRING] routines with [$source STRING_32] and [$source STRING_8].
+		See test set [$source ZSTRING_TEST_SET].
 	]"
 
 	author: "Finnian Reilly"
@@ -8,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-08 14:23:05 GMT (Wednesday 8th March 2023)"
-	revision: "22"
+	date: "2023-07-10 13:10:05 GMT (Monday 10th July 2023)"
+	revision: "23"
 
 class
-	STRING_PAIR
+	STRING_TEST
 
 inherit
-	ANY
+	STRING_TEST_FIELDS
 	 	redefine
 	 		default_create
 	 	end
@@ -46,37 +47,12 @@ feature {NONE} -- Initialization
 			s_32_substring := s_32; zs_substring := zs
 		end
 
-feature -- STRING_32
-
-	s_32: STRING_32
-
-	s_32_new: STRING_32
-
-	s_32_old: STRING_32
-
-	s_32_substring: READABLE_STRING_32
-
-	s_8: detachable STRING_8
-
-feature -- STRING_8
-
-	s_8_new: detachable STRING_8
-
-	s_8_old: detachable STRING_8
-
-	s_8_substring: detachable READABLE_STRING_8
-
-feature -- ZSTRING
-
-	zs: ZSTRING
-
-	zs_new: ZSTRING
-
-	zs_old: ZSTRING
-
-	zs_substring: ZSTRING
-
 feature -- Access
+
+	append_type_name (type: INTEGER): STRING
+		do
+			Result := Extension_routines [type]
+		end
 
 	hash_code: INTEGER
 		do
@@ -93,6 +69,11 @@ feature -- Access
 			if s_32.is_valid_as_string_8 then
 				Result := s_32.to_string_8
 			end
+		end
+
+	prune_type_name (type: INTEGER): STRING
+		do
+			Result := Pruning_routines [type]
 		end
 
 feature -- s_32 intervals
@@ -393,6 +374,46 @@ feature -- Status query
 
 feature -- Element change
 
+	extend_strings (type: INTEGER; other: STRING_TEST)
+		do
+			inspect type
+				when Append then
+					zs.append (other.zs);  s_32.append (other.s_32)
+			else
+				zs.prepend (other.zs);  s_32.prepend (other.s_32)
+			end
+		end
+
+	prune (type: INTEGER; c: CHARACTER_32)
+		do
+			inspect type
+				when Left_adjust then
+					zs.left_adjust
+				-- Workaround for failing post-conditions on euro symbol
+				-- new_count: not is_empty implies not item (1).is_space
+					euro_swap_32 (agent s_32.left_adjust)
+
+				when Right_adjust then
+					zs.right_adjust
+				-- Workaround for failing post-conditions on euro symbol
+				-- 	new_count: not is_empty implies not item (count).is_space
+					euro_swap_32 (agent s_32.right_adjust)
+
+				when Both_adjust then
+				-- Workaround for failing post-conditions on euro symbol
+				--		new_count_left: not is_empty implies not item (1).is_space
+				--		new_count_right: not is_empty implies not item (count).is_space
+					euro_swap (agent zs.adjust)
+					euro_swap_32 (agent s_32.adjust)
+
+				when Prune_leading then
+					zs.prune_all_leading (c); s_32.prune_all_leading (c)
+
+				when Prune_trailing then
+					zs.prune_all_trailing (c); s_32.prune_all_trailing (c)
+			end
+		end
+
 	set (str_32: STRING_32)
 		do
 			s_32 := str_32; zs := str_32
@@ -450,24 +471,5 @@ feature -- Basic operations
 			s_32.wipe_out; zs.wipe_out
 		end
 
-feature {NONE} -- Implementation
-
-	double_substring (input, output: ZSTRING; start_index, end_index: INTEGER)
-		do
-			output.append_substring (input, start_index, end_index)
-			output.append_substring (input, start_index, end_index)
-		end
-
-	double_substring_8 (input, output: STRING_8; start_index, end_index: INTEGER)
-		do
-			output.append_substring (input, start_index, end_index)
-			output.append_substring (input, start_index, end_index)
-		end
-
-	double_substring_32 (input, output: STRING_32; start_index, end_index: INTEGER)
-		do
-			output.append_substring (input, start_index, end_index)
-			output.append_substring (input, start_index, end_index)
-		end
 
 end

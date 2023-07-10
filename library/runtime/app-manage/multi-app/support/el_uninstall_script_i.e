@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-08 15:00:11 GMT (Saturday 8th July 2023)"
-	revision: "21"
+	date: "2023-07-10 9:05:54 GMT (Monday 10th July 2023)"
+	revision: "22"
 
 deferred class
 	EL_UNINSTALL_SCRIPT_I
@@ -52,6 +52,7 @@ feature {NONE} -- Initialization
 			output_path := Test_aware.absolute_path (Directory.Applications, relative_output_path)
 
 			make_from_file (output_path)
+			set_encoding_from_other (script_encoding)
 		end
 
 feature -- Basic operations
@@ -69,35 +70,31 @@ feature -- Basic operations
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	completion_message: ZSTRING
-		do
-			Result := Text.app_removed_template #$ [menu_name]
-		end
-
-	description: ZSTRING
-		do
-			Result := Text.removing_program_files
-		end
+feature {NONE} -- Deferred		
 
 	dot_extension: STRING
 		deferred
 		end
 
-	escaped (path: EL_PATH): ZSTRING
-		do
-			Result := path.escaped
+	lio_visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
+		deferred
 		end
+
+	remove_dir_and_parent_commands: ZSTRING
+		-- command lines to remove directory and parent if empty
+		deferred
+		end
+
+	script_encoding: EL_ENCODEABLE_AS_TEXT
+		deferred
+		end
+
+feature {NONE} -- Implementation
 
 	remove_files_script_path: FILE_PATH
 		do
 			Result := output_path.parent + Remove_user_files_template #$ [menu_name, dot_extension]
 			Result.base.translate_general (" ", "_")
-		end
-
-	lio_visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
-		deferred
 		end
 
 	menu_name: ZSTRING
@@ -112,6 +109,7 @@ feature {NONE} -- Implementation
 	new_script (path: FILE_PATH): EL_PLAIN_TEXT_FILE
 		do
 			create Result.make_with_name (path)
+			Result.set_encoding_from_other (script_encoding)
 		end
 
 	relative_output_path: FILE_PATH
@@ -119,11 +117,6 @@ feature {NONE} -- Implementation
 			Result := "Uninstall/uninstall-"
 			Result.base.append (menu_name)
 			Result.add_extension (dot_extension)
-		end
-
-	remove_dir_and_parent_commands: ZSTRING
-		-- command lines to remove directory and parent if empty
-		deferred
 		end
 
 	write_remove_directory_lines (script: like new_script)
@@ -140,8 +133,19 @@ feature {NONE} -- Implementation
 			script.put_new_line
 		end
 
-	uninstall_base_list: EL_ZSTRING_LIST
-		deferred
+	uninstall_command: EL_ZSTRING_LIST
+		do
+			create Result.make_from_array (<< Application_path.escaped, uninstall_option >>)
+			if attached uninstall_app.Desktop.command_line_options as options and then options.count > 0 then
+				Result.extend (options)
+			end
+		end
+
+	uninstall_option: ZSTRING
+		local
+			s: EL_ZSTRING_ROUTINES
+		do
+			Result := s.character_string ('-') + uninstall_app.Option_name
 		end
 
 feature {NONE} -- Internal attributes
@@ -150,30 +154,18 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Evolicity fields
 
-	get_uninstall_command: ZSTRING
-		local
-			list: like uninstall_base_list
-		do
-			list := uninstall_base_list
-			list.extend (uninstall_app.Option_name)
-			if attached uninstall_app.Desktop.command_line_options as options and then options.count > 0 then
-				list.extend (options)
-			end
-			Result := list.joined_words
-		end
-
 	getter_function_table: like getter_functions
 			--
 		do
 			create Result.make (<<
-				["uninstall_command",			agent get_uninstall_command],
+				["completion_message",			agent: ZSTRING do Result := Text.app_removed_template #$ [menu_name] end],
+				["description",					agent: ZSTRING do Result := Text.removing_program_files end],
+				["encoding_name",					agent: STRING do Result := script_encoding.encoding_name end],
 				["script_path",					agent: ZSTRING do Result := output_path.escaped end],
-				["remove_files_script_path",	agent: ZSTRING do Result := remove_files_script_path.escaped end],
-
-				["completion_message",			agent completion_message],
-				["description",					agent description],
 				["title",							agent: ZSTRING do Result := uninstall_app.Name end],
-				["return_prompt",					agent: ZSTRING do Result := Phrase.hit_return_to_finish.as_upper end]
+				["remove_files_script_path",	agent: ZSTRING do Result := remove_files_script_path.escaped end],
+				["return_prompt",					agent: ZSTRING do Result := Phrase.hit_return_to_finish.as_upper end],
+				["uninstall_command",			agent: ZSTRING do Result := uninstall_command.joined_words end]
 			>>)
 		end
 

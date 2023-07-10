@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-08 17:46:42 GMT (Saturday 8th July 2023)"
-	revision: "21"
+	date: "2023-07-10 13:27:40 GMT (Monday 10th July 2023)"
+	revision: "22"
 
 deferred class
 	EL_ENCODING_BASE
@@ -21,6 +21,7 @@ inherit
 			Windows as Windows_class
 		export
 			{NONE} all
+			{ANY} Other_class
 		end
 
 	EL_SHARED_ENCODING_TABLE
@@ -39,13 +40,15 @@ feature {NONE} -- Initialization
 		-- make UTF-8
 		do
 			set_default
-			other_encoding := Encoding_table.item (Name_unknown)
 		end
 
 feature -- Access
 
 	encoding: NATURAL
 		-- bitwise OR of `type' and `id'
+
+	encoding_other: detachable ENCODING
+		-- encoding not covered by Latin, UTF or Windows
 
 	id: NATURAL
 		-- A 12-bit code suffix that qualifies the `type'
@@ -60,12 +63,8 @@ feature -- Access
 			--
 		do
 			if encoding = Other_class then
-				if attached other_encoding.code_page as code then
-					if code.is_natural then
-						Result := "cp" + other_encoding.code_page
-					else
-						Result := other_encoding.code_page
-					end
+				if attached encoding_other as l_encoding then
+					Result := canonical_name (l_encoding)
 				else
 					Result := Name_unknown
 				end
@@ -88,8 +87,6 @@ feature -- Access
 				end
 			end
 		end
-
-	other_encoding: ENCODING
 
 	type: NATURAL
 		-- a 4-bit code left-shifted by 12 representing the encoding type: UTF, WINDOWS or ISO-8859
@@ -143,8 +140,12 @@ feature -- Status query
 	same_as (other: EL_ENCODING_BASE): BOOLEAN
 		do
 			Result := encoding = other.encoding
-			if encoding = Other_class then
-				Result := Result and other_encoding ~ other.other_encoding
+			if Result and then encoding = Other_class then
+				if attached encoding_other as l_encoding
+					and then attached other.encoding_other as l_other
+				then
+					Result := l_encoding ~ l_other
+				end
 			end
 		end
 
@@ -158,12 +159,17 @@ feature -- Element change
 	set_encoding (a_encoding: NATURAL)
 			--
 		require
-			valid_encoding: valid_encoding (a_encoding)
+			valid_encoding: a_encoding /= Other_class implies valid_encoding (a_encoding)
 		do
 			encoding := a_encoding
-			if a_encoding = Other_class then
-				set_other_encoding (Encoding_table.item (Name_unknown))
+			if a_encoding /= Other_class then
+				encoding_other := Void
 			end
+		end
+
+	set_encoding_other (a_encoding: ENCODING)
+		do
+			set_from_name (canonical_name (a_encoding))
 		end
 
 	set_from_name (a_name: READABLE_STRING_GENERAL)
@@ -172,8 +178,9 @@ feature -- Element change
 			l_encoding: NATURAL
 		do
 			l_encoding := name_to_encoding (a_name)
-			if encoding = Other_class then
-				set_other_encoding (Encoding_table.item (a_name.as_string_8))
+			if l_encoding = Other_class then
+				encoding := l_encoding
+				encoding_other := Encoding_table.item (a_name.as_string_8)
 
 			elseif valid_encoding (l_encoding) then
 				set_encoding (l_encoding)
@@ -181,13 +188,13 @@ feature -- Element change
 				encoding := 0
 			end
 		ensure
-			reversible: encoding > 0 implies a_name.as_upper.same_string (name)
+			reversible: encoding > 0 implies same_as_name (a_name)
 		end
 
 	set_from_other (other: EL_ENCODING_BASE)
 		do
-			other_encoding := other.other_encoding
 			set_encoding (other.encoding)
+			encoding_other := other.encoding_other
 		ensure
 			same_encoding: encoding = other.encoding
 		end
@@ -199,10 +206,9 @@ feature -- Element change
 			set_encoding (Latin_class | a_id)
 		end
 
-	set_other_encoding (a_encoding: ENCODING)
+	set_mixed_utf_8_latin_1
 		do
-			other_encoding := a_encoding
-			encoding := Other_class
+			set_encoding (Mixed_utf_8_latin_1)
 		end
 
 	set_utf (a_id: NATURAL)
@@ -210,11 +216,6 @@ feature -- Element change
 			valid_utf (a_id)
 		do
 			set_encoding (Utf_class | a_id)
-		end
-
-	set_mixed_utf_8_latin_1
-		do
-			set_encoding (Mixed_utf_8_latin_1)
 		end
 
 	set_windows (a_id: NATURAL)
@@ -267,10 +268,11 @@ feature -- Conversion
 
 feature -- Contract Support
 
-	valid_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
-		-- `True' if valid Windows, UTF or Latin encoding name
+	same_as_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			s: EL_STRING_8_ROUTINES
 		do
-			Result := a_name.count > 0 and then valid_encoding (name_to_encoding (a_name))
+			Result := s.same_caseless (name, a_name.to_string_8)
 		end
 
 	frozen valid_encoding (a_encoding: NATURAL): BOOLEAN
@@ -298,6 +300,12 @@ feature -- Contract Support
 			end
 		end
 
+	valid_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if valid Windows, UTF or Latin encoding name
+		do
+			Result := a_name.count > 0 and then valid_encoding (name_to_encoding (a_name))
+		end
+
 	frozen valid_utf (a_id: NATURAL): BOOLEAN
 		do
 			inspect a_id
@@ -319,13 +327,27 @@ feature -- Contract Support
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	canonical_name (a_encoding: ENCODING): STRING
+		-- prepend "cp" to Windows code page numbers
+		do
+			if attached a_encoding.code_page as code then
+				if code.is_natural then
+					Result := Prefix_cp + code
+				else
+					Result := code
+				end
+			end
+		end
+
 feature {NONE} -- Strings
 
 	Name_iso: STRING = "ISO"
 
-	Name_utf: STRING = "UTF"
-
 	Name_unknown: STRING = "Unknown"
+
+	Name_utf: STRING = "UTF"
 
 	Name_windows: STRING = "WINDOWS"
 

@@ -19,7 +19,7 @@ translations:
 		translation:
 			lang = de; check = true
 			"""
-				Legen Sie ein Blatt A4-Papier über dieses Fenster und ziehen
+				Legen Sie ein Blatt %S-Papier über dieses Fenster und ziehen
 				Sie dann mit der Maus die Ränder des Fensters, bis die Größen
 				genau übereinstimmen.
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-07-10 9:03:43 GMT (Monday 10th July 2023)"
+	revision: "10"
 
 class
 	EL_UNINSTALL_SCRIPT_IMP
@@ -33,9 +33,9 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	uninstall_base_list: EL_ZSTRING_LIST
+	script_encoding: EL_ENCODEABLE_AS_TEXT
 		do
-			create Result.make_from_array (<< escaped (application_path) >>)
+			create Result.make_default
 		end
 
 feature {NONE} -- Constants

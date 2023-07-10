@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-26 15:48:44 GMT (Monday 26th June 2023)"
-	revision: "37"
+	date: "2023-07-09 10:33:47 GMT (Sunday 9th July 2023)"
+	revision: "38"
 
 class
 	TEXT_DATA_TEST_SET
@@ -15,9 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_CONSOLE; EL_MODULE_EIFFEL; EL_MODULE_USER_INPUT
-
-	EL_SHARED_ENCODINGS
+	EL_MODULE_EIFFEL; EL_MODULE_USER_INPUT
 
 	EL_SHARED_ZCODEC_FACTORY
 
@@ -88,31 +86,9 @@ feature -- Basic operations
 			end
 		end
 
-	encode_string_for_console
-		do
-			across <<
-				Encodings.System, Encodings.Console, Encodings.Utf_8, Encodings.Latin_1
-			>> as encoding loop
-				lio.put_line (encoding.item.code_page)
-			end
-			io.put_string (Console.encoded ({STRING_32} "Dún Búinne"))
-		end
-
 	escaping_text
 		do
 			lio.put_string_field ("&aa&bb&", escaped_text ("&aa&bb&").as_string_8)
-		end
-
-	find_console_encoding
-		local
-			system: SYSTEM_ENCODINGS; message: STRING_32
-		do
-			create system
-			lio.put_string (system.console_encoding.code_page)
-			lio.put_new_line
-			message := "Euro sign: "
-			message.append_code (0x20AC)
-			lio.put_line (message)
 		end
 
 	find_highest_common_character
@@ -185,7 +161,7 @@ feature -- Basic operations
 			lio.put_labeled_string ("Euro", str)
 			lio.put_new_line
 			create euro.make_filled ((0x20AC).to_character_32, 1)
-			assert ("Console.encoded (euro) ~ io.last_string", Console.encoded (euro) ~ io.last_string)
+			assert ("Console.encoded (euro) ~ io.last_string", Console.encoded (euro, False) ~ io.last_string)
 			assert ("Console.decoded (io.last_string) ~ euro", Console.decoded (io.last_string) ~ euro)
 		end
 

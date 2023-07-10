@@ -1,6 +1,6 @@
 note
 	description: "[
-		Same as [$source STRING_PAIR] but with shared immutable substrings
+		Same as [$source STRING_TEST] but with shared immutable substrings
 	]"
 
 	author: "Finnian Reilly"
@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-14 17:09:44 GMT (Tuesday 14th March 2023)"
-	revision: "21"
+	date: "2023-07-10 11:26:06 GMT (Monday 10th July 2023)"
+	revision: "22"
 
 class
-	IMMUTABLE_STRING_PAIR
+	IMMUTABLE_STRING_TEST
 
 inherit
-	STRING_PAIR
+	STRING_TEST
 		redefine
 			s_8_substring, s_32_substring, set, set_substrings, split_intervals
 		end

@@ -6,18 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-08 17:35:30 GMT (Saturday 8th July 2023)"
-	revision: "10"
+	date: "2023-07-10 9:07:24 GMT (Monday 10th July 2023)"
+	revision: "11"
 
 class
 	EL_UNINSTALL_SCRIPT_IMP
 
 inherit
 	EL_UNINSTALL_SCRIPT_I
-		rename
-			new_script as new_batch_script
 		redefine
-			new_batch_script, serialize, write_remove_directory_lines
+			write_remove_directory_lines
 		end
 
 	EL_OS_IMPLEMENTATION
@@ -27,38 +25,18 @@ inherit
 create
 	make
 
-feature -- Basic operations
-
-	serialize
-		do
-			File_system.make_directory (output_path.parent)
-			if attached new_batch_script (output_path) as script then
-				script.open_write
-				serialize_to_stream (script)
-				script.close
-			end
-		end
-
 feature {NONE} -- Implementation
 
-	new_batch_script (path: FILE_PATH): EL_PLAIN_TEXT_FILE
+	script_encoding: EL_ENCODEABLE_AS_TEXT
 		do
-			create Result.make_with_name (path)
-			Result.set_other_encoding (Console.Encoding)
+			create Result.make_default
+			Result.set_encoding_other (Console.Encoding)
 		end
 
-	uninstall_base_list: EL_ZSTRING_LIST
-		do
-			create Result.make_comma_split ("start, /WAIT, /D")
-			Result.extend (Directory.Application_bin.escaped)
-			Result.extend (Executable.name)
-		end
-
-	write_remove_directory_lines (script: like new_batch_script)
+	write_remove_directory_lines (script: like new_script)
 		do
 			script.put_string_8 ("Rem encoding: " + script.encoding_name)
-			script.put_new_line
-			script.put_new_line
+			script.put_new_line_x2
 			Precursor (script)
 		end
 
@@ -81,9 +59,10 @@ feature {NONE} -- Constants
 		end
 
 	Template: STRING = "[
+		Rem encoding: $encoding_name
 		@echo off
 		title $title
-		$uninstall_command
+		start /WAIT /D $uninstall_command
 		if %ERRORLEVEL% neq 0 goto Cancelled
 		call $remove_files_script_path
 		del $remove_files_script_path

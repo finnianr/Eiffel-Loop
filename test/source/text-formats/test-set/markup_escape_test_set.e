@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-29 15:31:00 GMT (Thursday 29th June 2023)"
-	revision: "23"
+	date: "2023-07-10 13:20:32 GMT (Monday 10th July 2023)"
+	revision: "24"
 
 class
 	MARKUP_ESCAPE_TEST_SET
@@ -57,6 +57,7 @@ feature -- Tests
 		end
 
 	test_xml_escape
+		-- MARKUP_ESCAPE_TEST_SET.test_xml_escape
 		local
 			escaper, escaper_plus: XML_ESCAPER [ZSTRING]
 			escaper_32, escaper_plus_32: XML_ESCAPER [STRING_32]
@@ -65,11 +66,11 @@ feature -- Tests
 
 			create escaper_32.make; create escaper_plus_32.make_128_plus
 
-			do_test ("make", 3127459384, agent escape, [escaper])
-			do_test ("make_128_plus", 4273345417, agent escape, [escaper_plus])
+			do_test ("make", 2332585244, agent escape, [escaper])
+			do_test ("make_128_plus", 2753570162, agent escape, [escaper_plus])
 
-			do_test ("make", 1874711133, agent escape, [escaper_32])
-			do_test ("make_128_plus", 4034299380, agent escape, [escaper_plus_32])
+			do_test ("make", 1066722462, agent escape, [escaper_32])
+			do_test ("make_128_plus", 1313344937, agent escape, [escaper_plus_32])
 		end
 
 feature {NONE} -- Implementation

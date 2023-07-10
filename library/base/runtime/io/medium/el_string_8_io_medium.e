@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2023-07-09 10:13:33 GMT (Sunday 9th July 2023)"
+	revision: "12"
 
 class
 	EL_STRING_8_IO_MEDIUM
@@ -41,10 +41,10 @@ feature -- Output
 			text.append_character (c)
 		end
 
-	put_raw_string_8 (a_utf_8: STRING)
+	put_raw_string_8 (a_encoded: STRING)
 		-- put encoded string
 		do
-			text.append (a_utf_8)
+			text.append (a_encoded)
 		end
 
 	put_real, putreal (r: REAL)

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-22 13:17:25 GMT (Thursday 22nd June 2023)"
-	revision: "45"
+	date: "2023-07-10 9:59:33 GMT (Monday 10th July 2023)"
+	revision: "46"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -387,7 +387,7 @@ feature {NONE} -- Constants
 		once
 			Result := Precursor +
 				", dry_run, getter_functions, internal_error_list, is_forked,%
-				%has_error, on_encoding_change, other_encoding, output_path, template_path"
+				%has_error, on_encoding_change, encoding_other, output_path, template_path"
 		end
 
 note

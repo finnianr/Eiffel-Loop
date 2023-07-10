@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-08 11:38:55 GMT (Monday 8th May 2023)"
-	revision: "30"
+	date: "2023-07-09 10:35:34 GMT (Sunday 9th July 2023)"
+	revision: "31"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -302,7 +302,7 @@ feature {NONE} -- Implementation
 
 	write_console (str: READABLE_STRING_GENERAL)
 		do
-			std_output.put_string (Console.encoded (str))
+			std_output.put_string (Console.encoded (str, False))
 		end
 
 feature {NONE} -- Internal attributes

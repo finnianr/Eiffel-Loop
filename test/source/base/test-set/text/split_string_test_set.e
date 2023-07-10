@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-09 7:45:06 GMT (Friday 9th June 2023)"
-	revision: "46"
+	date: "2023-07-10 11:26:06 GMT (Monday 10th July 2023)"
+	revision: "47"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -231,7 +231,7 @@ feature -- Tests
 			testing: "covers/{EL_STRING_32_OCCURRENCE_EDITOR}.apply",
 				"covers/{EL_STRING_8_OCCURRENCE_EDITOR}.apply"
 		local
-			pair: STRING_PAIR
+			pair: STRING_TEST
 		do
 			across Text.lines as line loop
 				pair := line.item
@@ -244,7 +244,7 @@ feature -- Tests
 		note
 			testing: "covers/{EL_OCCURRENCE_INTERVALS}.make_by_string"
 		local
-			pair: STRING_PAIR; start_index, end_index, space_index: INTEGER
+			pair: STRING_TEST; start_index, end_index, space_index: INTEGER
 			assertion_ok: STRING
 		do
 			assertion_ok := "occurrence_intervals OK"
@@ -401,14 +401,14 @@ feature -- Tests
 		note
 			testing: "covers/{EL_SPLIT_INTERVALS}.make_by_string"
 		local
-			pair: STRING_PAIR; start_index, end_index, space_index: INTEGER
+			pair: STRING_TEST; start_index, end_index, space_index: INTEGER
 			assertion_ok: STRING
 		do
 			assertion_ok := "split_intervals OK"
 			across << False, True >> as test_immutables loop
 				across Text.lines as line loop
 					if test_immutables.item then
-						create {IMMUTABLE_STRING_PAIR} pair.make (line.item)
+						create {IMMUTABLE_STRING_TEST} pair.make (line.item)
 					else
 						create pair.make (line.item)
 					end

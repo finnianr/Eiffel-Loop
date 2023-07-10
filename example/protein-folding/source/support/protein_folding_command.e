@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
-	date: "2022-02-16 16:37:54 GMT (Wednesday 16th February 2022)"
-	revision: "3"
+	date: "2023-07-08 18:39:36 GMT (Saturday 8th July 2023)"
+	revision: "4"
 
 deferred class
 	PROTEIN_FOLDING_COMMAND
@@ -67,7 +67,7 @@ feature -- Basic operations
 			print_min_fold
 
 			output.put_new_line
-			output.put_string ("%NMinimal losses: ")
+			output.put_string_8 ("%NMinimal losses: ")
 			output.put_integer (minimum_loss)
 
 			output.close

@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source STRING_PAIR] for testing **same_caseless_characters**
+		[$source STRING_TEST] for testing **same_caseless_characters**
 	]"
 
 	author: "Finnian Reilly"
@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-28 11:46:10 GMT (Tuesday 28th February 2023)"
-	revision: "15"
+	date: "2023-07-10 11:25:25 GMT (Monday 10th July 2023)"
+	revision: "16"
 
 class
-	CASELESS_STRING_PAIR
+	CASELESS_STRING_TEST
 
 inherit
-	STRING_PAIR
+	STRING_TEST
 		rename
 			same_characters as same_caseless_characters
 	 	redefine

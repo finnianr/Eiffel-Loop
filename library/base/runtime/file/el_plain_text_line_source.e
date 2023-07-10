@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-14 16:59:59 GMT (Wednesday 14th December 2022)"
-	revision: "31"
+	date: "2023-07-09 9:13:04 GMT (Sunday 9th July 2023)"
+	revision: "32"
 
 class
 	EL_PLAIN_TEXT_LINE_SOURCE
@@ -56,8 +56,8 @@ feature {NONE} -- Initialization
 				on_encoding_update
 
 			elseif attached a_encoding as l_encoding then
-				file.set_other_encoding (l_encoding)
-				set_other_encoding (l_encoding)
+				file.set_encoding_other (l_encoding)
+				set_encoding_other (l_encoding)
 			else
 				file.set_encoding (encoding_code)
 				set_encoding (encoding_code)
