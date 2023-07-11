@@ -14,8 +14,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-24 21:22:19 GMT (Tuesday 24th January 2023)"
-	revision: "17"
+	date: "2023-07-10 14:31:16 GMT (Monday 10th July 2023)"
+	revision: "18"
 
 class
 	TB_SUBJECT_LINE_DECODER

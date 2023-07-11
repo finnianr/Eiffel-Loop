@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 9:59:33 GMT (Monday 10th July 2023)"
-	revision: "46"
+	date: "2023-07-10 14:14:27 GMT (Monday 10th July 2023)"
+	revision: "47"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -102,9 +102,9 @@ feature -- Status query
 
 feature -- Element change
 
-	set_success_code (code: INTEGER)
+	set_success_code (a_code: INTEGER)
 		do
-			success_code := code
+			success_code := a_code
 		end
 
 	set_working_directory (a_working_directory: like working_directory)

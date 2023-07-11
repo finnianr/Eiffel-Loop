@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-07 8:40:20 GMT (Friday 7th April 2023)"
-	revision: "14"
+	date: "2023-07-11 16:47:10 GMT (Tuesday 11th July 2023)"
+	revision: "15"
 
 class
 	HASH_TABLE_TEST_SET
@@ -29,6 +29,7 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["compressed_table",			 agent test_compressed_table],
+				["hash_set",					 agent test_hash_set],
 				["iteration_cursor",			 agent test_iteration_cursor],
 				["readable_string_8_table", agent test_readable_string_8_table],
 				["string_table",				 agent test_string_table],
@@ -66,6 +67,16 @@ feature -- Test
 			end
 			geo_info_table.put (geo_info, geo_info.ip)
 			assert ("same value", geo_info ~ geo_info_table.found_item)
+		end
+
+	test_hash_set
+		-- HASH_TABLE_TEST_SET.test_hash_set
+		local
+			set: EL_HASH_SET [CHARACTER]
+		do
+			create set.make (20)
+			set.put ('a')
+			assert ("is stupid", not set.inserted)
 		end
 
 	test_iteration_cursor

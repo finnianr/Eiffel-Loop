@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2023-07-10 14:28:49 GMT (Monday 10th July 2023)"
+	revision: "15"
 
 class
 	EL_ENCODEABLE_AS_TEXT
@@ -29,7 +29,6 @@ inherit
 			set_iso_8859 as set_iso_8859_encoding,
 			set_utf as set_utf_encoding,
 			set_windows as set_windows_encoding
-
 		redefine
 			set_encoding, make_default
 		end

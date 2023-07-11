@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-25 10:02:10 GMT (Sunday 25th June 2023)"
-	revision: "35"
+	date: "2023-07-10 14:29:27 GMT (Monday 10th July 2023)"
+	revision: "36"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -70,9 +70,9 @@ inherit
 
 	EL_ENCODEABLE_AS_TEXT
 		rename
+			encoding as encoding_code,
 			make as make_with_encoding,
-			make_default as make_encodeable,
-			encoding as encoding_code
+			make_default as make_encodeable
 		export
 			{NONE} all
 			{EL_DOCUMENT_CLIENT} set_encoding_from_other, set_encoding, set_latin_encoding, set_utf_encoding
