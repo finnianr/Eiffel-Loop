@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-07-12 10:48:33 GMT (Wednesday 12th July 2023)"
+	revision: "9"
 
 class
 	PP_HTTP_CONNECTION
@@ -46,7 +46,7 @@ feature -- Basic operations
 			set_ssl_certificate_verification (True)
 			set_ssl_hostname_verification (True)
 			set_certificate_authority_info (Configuration.cert_authority_info_path)
-			headers ["Connection"] := "Close"
+			request_headers ["Connection"] := "Close"
 		end
 
 end

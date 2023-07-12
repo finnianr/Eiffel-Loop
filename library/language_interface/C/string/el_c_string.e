@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-07-12 7:56:35 GMT (Wednesday 12th July 2023)"
+	revision: "13"
 
 deferred class
 	EL_C_STRING
@@ -32,6 +32,8 @@ inherit
 		undefine
 			default_create, is_equal, copy
 		end
+
+	EL_SHARED_IMMUTABLE_32_MANAGER
 
 feature -- Initialization
 
@@ -191,9 +193,10 @@ feature -- Set external strings
 	fill_string (string: STRING_GENERAL)
 			-- Fill string argument with all characters
 		local
-			i: INTEGER
+			i, l_count: INTEGER
 		do
-			from i := 1 until i > count loop
+			l_count := count
+			from i := 1 until i > l_count loop
 				string.append_code (item (i))
 				i := i + 1
 			end
@@ -232,33 +235,54 @@ feature -- Status query
 
 feature -- Conversion
 
+	as_array: SPECIAL [CHARACTER_32]
+		-- character array with terminating NULL character
+		local
+			i, l_count: INTEGER
+		do
+			l_count := count
+			create Result.make_empty (l_count + 1)
+			from i := 1 until i > l_count loop
+				Result.extend (item (i).to_character_32)
+				i := i + 1
+			end
+			Result.extend ('%U')
+		end
+
+	as_immutable_32: IMMUTABLE_STRING_32
+			--
+		do
+			Result := shared_immutable_32.twin
+		end
+
 	as_string: ZSTRING
 			--
 		do
-			create Result.make_from_general (filled_string_32)
+			create Result.make_from_general (shared_immutable_32)
 		end
 
 	as_string_32: STRING_32
 			--
 		do
-			Result := filled_string_32.twin
+			create Result.make_from_string (shared_immutable_32)
 		end
 
 	as_string_8: STRING
 			--
 		do
-			Result := filled_string_32.to_string_8
+			Result := shared_immutable_32.to_string_8
 		end
 
 feature {NONE} -- Implementation
 
-	filled_string_32: STRING_32
-		local
-			buffer: EL_STRING_32_BUFFER_ROUTINES
+	shared_immutable_32: IMMUTABLE_STRING_32
+			--
 		do
-			Result := buffer.empty
-			fill_string (Result)
+			Immutable_32.set_item (as_array, 0, count)
+			Result := Immutable_32.item
 		end
+
+feature {NONE} -- Deferred
 
 	is_item_zero (address: POINTER): BOOLEAN
 			--

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-08 18:41:04 GMT (Thursday 8th December 2022)"
-	revision: "12"
+	date: "2023-07-12 9:39:38 GMT (Wednesday 12th July 2023)"
+	revision: "13"
 
 deferred class
 	EL_LINEAR_STRINGS [S -> STRING_GENERAL create make end]
@@ -164,6 +164,13 @@ feature -- Basic operations
 				forth
 			end
 			pop_cursor
+		end
+
+	find_first_same (general: READABLE_STRING_GENERAL)
+		do
+			from start until after or else item.same_string (general) loop
+				forth
+			end
 		end
 
 feature -- Measurement

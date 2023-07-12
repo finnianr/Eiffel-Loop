@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-01 13:25:29 GMT (Saturday 1st July 2023)"
-	revision: "45"
+	date: "2023-07-12 15:38:08 GMT (Wednesday 12th July 2023)"
+	revision: "46"
 
 class
 	EL_HTTP_CONNECTION
@@ -112,6 +112,45 @@ feature -- Status query
 			Result := is_attached (self_ptr)
 		end
 
+	resource_exists (a_url: EL_URL; on_error_action: detachable PROCEDURE [STRING]): BOOLEAN
+		do
+			open_url (a_url)
+			set_user_agent (Firefox_agent_59)
+			read_string_head
+			close
+			if has_error then
+				if is_lio_enabled then
+					lio.put_new_line
+					lio.put_line (error_string)
+				end
+				if attached on_error_action as on_error then
+					on_error (error_string)
+				end
+
+			elseif attached last_headers as headers then
+				if headers.response_code /= 200 or else not valid_mime_type (a_url, headers.mime_type) then
+					if is_lio_enabled then
+						lio.put_labeled_string ("response", headers.response_message)
+						lio.put_string_field (" content type", headers.content_type)
+						lio.put_new_line
+					end
+					if attached on_error_action as on_error then
+						on_error (headers.response_message)
+					end
+				else
+					if is_lio_enabled then
+						lio.put_labeled_string ("Request", "OK")
+						lio.put_labeled_string (" Type", headers.content_type)
+						if headers.content_length > 0 then
+							lio.put_integer_field (" Content length", headers.content_length)
+						end
+						lio.put_new_line
+					end
+					Result := True
+				end
+			end
+		end
+
 feature -- HTTP error status
 
 	is_gateway_timeout: BOOLEAN
@@ -130,7 +169,7 @@ feature -- Basic operations
 			-- write any cookies if `cookie_store_path' is set and closes connection
 		do
 			url.wipe_out
-			headers.wipe_out; post_data_count := 0
+			request_headers.wipe_out; post_data_count := 0
 			if post_data.count > Max_post_data_count then
 				post_data.resize (Max_post_data_count)
 			end

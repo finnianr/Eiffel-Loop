@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-03 9:25:28 GMT (Monday 3rd July 2023)"
-	revision: "8"
+	date: "2023-07-12 10:30:31 GMT (Wednesday 12th July 2023)"
+	revision: "9"
 
 deferred class
 	EL_HTTP_CONNECTION_IMPLEMENTATION
@@ -37,15 +37,11 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_LIO; EL_MODULE_URI
-
 	STRING_HANDLER
 
-	EL_SHARED_CURL_API
+	EL_MODULE_LIO; EL_MODULE_TUPLE; EL_MODULE_URI
 
-	EL_SHARED_HTTP_STATUS
-
-	EL_SHARED_UTF_8_ZCODEC
+	EL_SHARED_CURL_API; EL_SHARED_HTTP_STATUS; EL_SHARED_UTF_8_ZCODEC
 
 feature {NONE} -- Initialization
 
@@ -53,7 +49,7 @@ feature {NONE} -- Initialization
 		do
 			create last_string.make_empty
 			create http_response.make_empty
-			create headers.make_equal (0)
+			create request_headers.make_equal (0)
 			create post_data.make (0)
 		end
 
@@ -246,7 +242,7 @@ feature {EL_HTTP_COMMAND} -- Implementation
 		local
 			string_list: POINTER
 		do
-			string_list := headers.to_curl_string_list
+			string_list := request_headers.to_curl_string_list
 			if is_attached (string_list) then
 				set_curl_option_with_data (CURLOPT_httpheader, string_list)
 			end
@@ -269,9 +265,38 @@ feature {EL_HTTP_COMMAND} -- Implementation
 			end
 		end
 
+	url_extension (a_url: EL_URL): STRING
+		local
+			dot_index: INTEGER
+		do
+			dot_index := a_url.last_index_of ('.', a_url.count)
+			if dot_index > 0 then
+				create Result.make (a_url.count - dot_index)
+				Result.append_substring (a_url, dot_index + 1, a_url.count)
+				Result.to_lower
+			else
+				create Result.make_empty
+			end
+		end
+
+	valid_mime_type (a_url: EL_URL; mime_type: STRING): BOOLEAN
+		local
+			extension: STRING
+		do
+			extension := url_extension (a_url)
+			if extension ~ once "jpg" then
+				extension.insert_character ('e', 3)
+			end
+			if Image_types.has (extension) then
+				Result := mime_type ~ Mime.image + extension
+			else
+				Result := mime_type ~ Mime.text_html
+			end
+		end
+
 feature {NONE} -- Implementation attributes
 
-	headers: EL_CURL_HEADER_TABLE
+	request_headers: EL_CURL_HEADER_TABLE
 		-- request headers to send
 
 	http_response: CURL_STRING
@@ -301,6 +326,19 @@ feature {NONE} -- Deferred
 
 feature {NONE} -- Constants
 
+	Image_types: EL_STRING_8_LIST
+		once
+			Result := "gif, png, jpeg"
+		end
+
+	Mime: TUPLE [image, text_html: STRING]
+		once
+			create Result
+			Tuple.fill (Result, "image/, text/html")
+		end
+
 	Max_post_data_count: INTEGER = 1024
+
+	Firefox_agent_59: STRING = "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0"
 
 end

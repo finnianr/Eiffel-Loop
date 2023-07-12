@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-17 8:49:04 GMT (Saturday 17th June 2023)"
-	revision: "40"
+	date: "2023-07-12 10:25:37 GMT (Wednesday 12th July 2023)"
+	revision: "41"
 
 class
 	EL_URI
@@ -30,7 +30,7 @@ inherit
 			substring as uri_substring
 		export
 			{NONE} all
-			{ANY} hash_code, to_string_8, is_empty, starts_with, has_substring
+			{ANY} hash_code, to_string_8, is_empty, starts_with, has_substring, last_index_of, count
 			{STRING_HANDLER} append, wipe_out, share, prune_all_trailing
 		redefine
 			to_string_32
