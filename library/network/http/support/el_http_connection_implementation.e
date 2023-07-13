@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-12 10:30:31 GMT (Wednesday 12th July 2023)"
-	revision: "9"
+	date: "2023-07-13 11:39:37 GMT (Thursday 13th July 2023)"
+	revision: "10"
 
 deferred class
 	EL_HTTP_CONNECTION_IMPLEMENTATION
@@ -42,6 +42,13 @@ inherit
 	EL_MODULE_LIO; EL_MODULE_TUPLE; EL_MODULE_URI
 
 	EL_SHARED_CURL_API; EL_SHARED_HTTP_STATUS; EL_SHARED_UTF_8_ZCODEC
+
+	EL_SHARED_PROGRESS_LISTENER
+		rename
+			progress_listener as close_listener,
+			is_progress_tracking as is_close_tracking,
+			Progress_listener_cell as Close_listener_cell
+		end
 
 feature {NONE} -- Initialization
 
@@ -290,7 +297,7 @@ feature {EL_HTTP_COMMAND} -- Implementation
 			if Image_types.has (extension) then
 				Result := mime_type ~ Mime.image + extension
 			else
-				Result := mime_type ~ Mime.text_html
+				Result := mime_type.starts_with (Mime.text)
 			end
 		end
 
@@ -331,14 +338,12 @@ feature {NONE} -- Constants
 			Result := "gif, png, jpeg"
 		end
 
-	Mime: TUPLE [image, text_html: STRING]
+	Mime: TUPLE [image, text: STRING]
 		once
 			create Result
-			Tuple.fill (Result, "image/, text/html")
+			Tuple.fill (Result, "image/, text/")
 		end
 
 	Max_post_data_count: INTEGER = 1024
-
-	Firefox_agent_59: STRING = "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0"
 
 end

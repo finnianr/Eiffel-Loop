@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-26 9:15:39 GMT (Monday 26th June 2023)"
-	revision: "22"
+	date: "2023-07-13 11:09:29 GMT (Thursday 13th July 2023)"
+	revision: "23"
 
 class
 	EL_HTTP_HEADERS
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 					across parts as p loop
 						part_count := part_count + 1
 						if part_count = 2 then
-							response_code := p.item.to_integer
+							response_code := p.item.to_natural_16
 						end
 					end
 				elseif line.item_has (':') then
@@ -146,11 +146,11 @@ feature -- Access
 			Result := s.substring_to (content_type, ';', Default_pointer)
 		end
 
-	response_code: INTEGER
+	response_code: NATURAL_16
 
 	response_message: STRING
 		do
-			Result := Http_status.name (response_code.to_natural_16)
+			Result := Http_status.name (response_code)
 		end
 
 	x_field (name: STRING): STRING

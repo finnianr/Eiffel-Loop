@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-07-13 7:07:53 GMT (Thursday 13th July 2023)"
+	revision: "7"
 
 class
 	EL_XPATH_NODE_CONTEXT_LIST
@@ -75,9 +75,7 @@ feature -- Measurement
 	count: INTEGER
 			--
 		do
-			Count_xpath [2].wipe_out
-			Count_xpath [2].append_string_general (xpath)
-			Result := parent_context.query (Count_xpath.joined_strings).as_integer
+			Result := parent_context.query (Count_template #$ [xpath]).as_integer
 		end
 
 feature -- Status report
@@ -107,9 +105,9 @@ feature {NONE} -- Unused
 
 feature {NONE} -- Constants
 
-	Count_xpath: EL_ZSTRING_LIST
+	Count_template: ZSTRING
 		once
-			Result := "count (,,)"
+			Result := "count (%S)"
 		end
 
 end

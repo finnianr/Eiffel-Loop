@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-18 10:38:41 GMT (Sunday 18th June 2023)"
-	revision: "64"
+	date: "2023-07-13 17:20:09 GMT (Thursday 13th July 2023)"
+	revision: "65"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -56,8 +56,7 @@ feature -- Tests
 
 	test_cached_documents
 		note
-			testing: "covers/{EL_CACHED_HTTP_FILE}.make",
-				"covers/{EL_HTTP_CONNECTION}.download"
+			testing: "covers/{EL_CACHED_HTTP_FILE}.make", "covers/{EL_HTTP_CONNECTION}.download"
 		local
 			url: STRING; cached_file: EL_CACHED_HTTP_FILE; line_count: INTEGER
 			first_line: STRING
@@ -184,11 +183,12 @@ feature -- Tests
 		end
 
 	test_headers
+		-- HTTP_CONNECTION_TEST_SET.test_headers
 		local
 			headers: EL_HTTP_HEADERS
 		do
 			create headers.make (Headers_text)
-			assert ("same code", headers.response_code = 200)
+			assert ("same code", headers.response_code = Http_status.ok)
 			assert ("same string", headers.mime_type ~ "text/html")
 			assert ("same string", headers.encoding_name ~ "UTF-8")
 			assert ("", headers.x_field ("powered_by") ~ "PHP/7.2.34")
@@ -302,7 +302,7 @@ feature -- Tests
 				url := "http://myching.software/de/manual/" + name.item
 				web.open (url)
 				web.read_string_head
-				assert ("Response 200", web.last_headers.response_code = 200)
+				assert ("Response OK", web.last_headers.response_code = Http_status.ok)
 				web.close
 			end
 		end
@@ -320,7 +320,7 @@ feature -- Tests
 			url_parts [3].append (":80") -- append port number to domain
 
 			if attached Archive.wayback (url) as closest then
-				assert ("status OK", closest.status = 200)
+				assert ("status OK", closest.status = Http_status.ok)
 				assert ("available OK", closest.available)
 				assert ("timestamp OK", closest.timestamp = 20130124193934)
 				assert ("valid wayback ending", closest.url.ends_with (url_parts.joined ('/')))
@@ -376,10 +376,10 @@ feature {NONE} -- Implementation
 	assert_valid_headers (headers: like web.last_headers)
 		do
 			assert ("valid date_stamp", headers.date_stamp.date ~ create {DATE}.make_now)
-			if headers.response_code = 200 then
+			if headers.response_code = Http_status.ok then
 				assert ("valid server", is_server_name (headers.server))
 			else
-				lio.put_integer_field (Http_status.name (headers.response_code.to_natural_16), headers.response_code)
+				lio.put_integer_field (Http_status.name (headers.response_code), headers.response_code)
 				lio.put_new_line
 				assert ("valid response_code", False)
 			end
@@ -431,7 +431,7 @@ feature {NONE} -- Implementation
 				if web.has_error then
 					done := not web.is_gateway_timeout
 				else
-					done := (web.last_headers.response_code) = 200
+					done := (web.last_headers.response_code) = Http_status.ok
 				end
 			end
 		end

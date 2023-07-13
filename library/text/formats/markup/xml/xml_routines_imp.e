@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-19 16:32:02 GMT (Sunday 19th February 2023)"
-	revision: "22"
+	date: "2023-07-13 9:10:10 GMT (Thursday 13th July 2023)"
+	revision: "23"
 
 class
 	XML_ROUTINES_IMP
@@ -49,10 +49,13 @@ feature -- Measurement
 
 feature -- Access
 
-	document_text (enclosing_elements: EL_STRING_8_LIST; encoding_name, text: STRING): STRING
+	document_text (doc_xpath, encoding_name, text: STRING): STRING
+		-- create XML document with text enclosed by nested elements specified by `doc_xpath'
+		-- Eg. "body", "html/body"
 		local
-			lines: EL_STRING_8_LIST
+			lines, enclosing_elements: EL_STRING_8_LIST
 		do
+			create enclosing_elements.make_split (doc_xpath, '/')
 			create lines.make (3 + enclosing_elements.count * 2)
 			lines.extend (header (1.0, encoding_name))
 			across enclosing_elements as element loop

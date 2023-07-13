@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-12 15:38:08 GMT (Wednesday 12th July 2023)"
-	revision: "46"
+	date: "2023-07-13 17:21:58 GMT (Thursday 13th July 2023)"
+	revision: "47"
 
 class
 	EL_HTTP_CONNECTION
@@ -115,7 +115,6 @@ feature -- Status query
 	resource_exists (a_url: EL_URL; on_error_action: detachable PROCEDURE [STRING]): BOOLEAN
 		do
 			open_url (a_url)
-			set_user_agent (Firefox_agent_59)
 			read_string_head
 			close
 			if has_error then
@@ -128,7 +127,15 @@ feature -- Status query
 				end
 
 			elseif attached last_headers as headers then
-				if headers.response_code /= 200 or else not valid_mime_type (a_url, headers.mime_type) then
+				if headers.response_code = Http_status.see_other then
+					if headers.location.count > 0 then
+						Result := resource_exists (headers.location, on_error_action)
+
+					elseif attached on_error_action as on_error then
+						on_error ("303 response but other location is empty")
+					end
+
+				elseif headers.response_code /= Http_status.ok or else not valid_mime_type (a_url, headers.mime_type) then
 					if is_lio_enabled then
 						lio.put_labeled_string ("response", headers.response_message)
 						lio.put_string_field (" content type", headers.content_type)
@@ -149,6 +156,7 @@ feature -- Status query
 					Result := True
 				end
 			end
+
 		end
 
 feature -- HTTP error status
@@ -175,6 +183,8 @@ feature -- Basic operations
 			end
 			post_data.item.memory_set (0, post_data.count)
 			dispose
+
+			close_listener.notify_tick -- Used with `EL_MODULE_TRACK' to track progress of `open', `close' cycles
 
 			-- Workaround for a weird bug where a second call to read_string would hang
 --			full_collect
@@ -281,6 +291,14 @@ feature -- Element change
 			url.wipe_out
 			post_data_count := 0
 			error_code := 0
+		end
+
+	remove_user_agent
+		do
+			create user_agent.make_empty
+			if is_open then
+				set_curl_string_8_option (CURLOPT_useragent, user_agent)
+			end
 		end
 
 	set_cookie_load_path (a_cookie_load_path: FILE_PATH)
