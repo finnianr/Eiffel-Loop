@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-13 9:10:10 GMT (Thursday 13th July 2023)"
-	revision: "23"
+	date: "2023-07-14 8:48:25 GMT (Friday 14th July 2023)"
+	revision: "24"
 
 class
 	XML_ROUTINES_IMP
@@ -108,9 +108,31 @@ feature -- Access
 			end
 		end
 
-feature -- Constants
+feature -- Binary status
 
-	Non_breaking_space: STRING = "&#xA0;"
+	is_namespace_aware (xml: READABLE_STRING_8): BOOLEAN
+		local
+			tag_splitter: EL_SPLIT_ON_CHARACTER_8 [READABLE_STRING_8]
+			end_index, index_xml_ns: INTEGER
+		do
+			create tag_splitter.make (xml, '<')
+			-- look for xmlns name in document root element
+			across tag_splitter as split until end_index.to_boolean loop
+				if attached split.item as section
+					and then section.count > 0 and then section [1].is_alpha
+				then
+					end_index := section.index_of ('>', 1) - 1
+					index_xml_ns := section.substring_index (XMLNS, 1)
+					if index_xml_ns > 0 and then section.valid_index (index_xml_ns + XMLNS.count) then
+						inspect section [index_xml_ns + XMLNS.count]
+							when ' ', '=', ':' then
+								Result := True
+						else
+						end
+					end
+				end
+			end
+		end
 
 feature -- Conversion
 
@@ -140,6 +162,19 @@ feature -- Basic operations
 				element.append_character ('"')
 			end
 		end
+
+feature -- Constants
+
+	Default_doc: EL_DEFAULT_SERIALIZEABLE_XML
+		-- <?xml version="1.0" encoding="UTF-8"?>
+		-- <default/>
+		once
+			create Result
+		end
+
+	Non_breaking_space: STRING = "&#xA0;"
+
+	XMLNS: STRING = "xmlns"
 
 feature {NONE} -- Implementation
 

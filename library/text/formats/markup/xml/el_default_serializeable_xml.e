@@ -1,13 +1,20 @@
 note
-	description: "Default serializeable XML"
+	description: "[
+		Default implementation of [$source EL_SERIALIZEABLE_AS_XML]
+		
+		**to_xml:**
+		
+			<?xml version="1.0" encoding="UTF-8"?>
+			<default/>
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-07-14 8:50:02 GMT (Friday 14th July 2023)"
+	revision: "8"
 
 class
 	EL_DEFAULT_SERIALIZEABLE_XML
@@ -25,9 +32,7 @@ feature -- Conversion
 
 feature {NONE} -- Constants
 
-	Default_xml: STRING =
-		--
-	"[
+	Default_xml: STRING = "[
 		<?xml version="1.0" encoding="UTF-8"?>
 		<default/>
 	]"

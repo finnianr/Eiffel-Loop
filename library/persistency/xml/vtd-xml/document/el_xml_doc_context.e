@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "19"
+	date: "2023-07-14 8:47:49 GMT (Friday 14th July 2023)"
+	revision: "20"
 
 class
 	EL_XML_DOC_CONTEXT
@@ -49,19 +49,24 @@ inherit
 			default_create
 		end
 
-	EL_MODULE_EXCEPTION; EL_MODULE_FILE
+	EL_MODULE_EXCEPTION; EL_MODULE_FILE; EL_MODULE_XML
+
+	EL_MODULE_HTML
+		export
+			{ANY} Html
+		end
 
 create
-	default_create, make_from_file, make_from_string, make_from_fragment
+	default_create, make_from_file, make_from_string, make_from_fragment, make_from_xhtml
 
 convert
 	make_from_file ({FILE_PATH})
 
-feature {NONE} -- Initaliazation
+feature {NONE} -- Initialization
 
 	default_create
 		do
-			make_from_string (default_xml)
+			make_from_string (XML.Default_doc.to_xml)
 		end
 
 	make_from_file (a_file_path: FILE_PATH)
@@ -73,40 +78,27 @@ feature {NONE} -- Initaliazation
 
 	make_from_fragment (xml_fragment: STRING; a_encoding: STRING)
 		do
-			make_from_string (Header_template.substituted_tuple (a_encoding).to_latin_1 + xml_fragment)
+			make_from_string (XML.header (1.0, a_encoding) + xml_fragment)
 		end
 
 	make_from_string (a_xml: STRING)
 			--
 		local
-			l_context_pointer: POINTER; l_encoding_name: STRING; tag_splitter: EL_SPLIT_ON_CHARACTER [STRING]
-			section: STRING; end_index, index_xml_ns: INTEGER; is_namespace_aware: BOOLEAN
+			l_context_pointer: POINTER; l_encoding_name: STRING
 		do
 			make_default
 			create file_path
 
 			if parse_failed then
-				document_xml := default_xml
+				document_xml := XML.Default_doc.to_xml
 				if attached {EL_VTD_EXCEPTION} Exception.last_exception as last then
 					last_exception := last
 				end
+				l_context_pointer := Parser.root_context_pointer (document_xml, False)
 			else
 				document_xml := a_xml
-				create tag_splitter.make (a_xml, '<')
-				-- look for xmlns name in document root element
-				across tag_splitter as tag until end_index.to_boolean loop
-					section := tag.item
-					if section.count > 0 and section [1].is_alpha then
-						end_index := section.index_of ('>', 1) - 1
-						index_xml_ns := section.substring_index (XMLNS, 1)
-						if index_xml_ns > 0 and then section.valid_index (index_xml_ns + XMLNS.count) then
-							is_namespace_aware := (" =:").has (section [index_xml_ns + XMLNS.count])
-						end
-					end
-				end
+				l_context_pointer := Parser.root_context_pointer (document_xml, XML.is_namespace_aware (a_xml))
 			end
-
-			l_context_pointer := Parser.root_context_pointer (document_xml, is_namespace_aware)
 
 			if is_attached (l_context_pointer) then
 				make (l_context_pointer, Current)
@@ -120,9 +112,20 @@ feature {NONE} -- Initaliazation
 			retry
 		end
 
+	make_from_xhtml (xhtml: STRING)
+		do
+
+		end
+
 feature -- Token access
 
-	token_string_8 (index: INTEGER): STRING
+	new_cursor: EL_DOCUMENT_TOKEN_ITERATOR
+		do
+			create Result.make (Current)
+			Result.start
+		end
+
+	token_string (index: INTEGER): ZSTRING
 			--
 		do
 			Result := wide_string_at_index (index)
@@ -134,16 +137,10 @@ feature -- Token access
 			Result := wide_string_at_index (index)
 		end
 
-	token_string (index: INTEGER): ZSTRING
+	token_string_8 (index: INTEGER): STRING
 			--
 		do
 			Result := wide_string_at_index (index)
-		end
-
-	new_cursor: EL_DOCUMENT_TOKEN_ITERATOR
-		do
-			create Result.make (Current)
-			Result.start
 		end
 
 	token_type (index: INTEGER): INTEGER
@@ -177,6 +174,14 @@ feature -- Access
 
 feature -- Measurement
 
+	token_depth (index: INTEGER): INTEGER
+			--
+		require
+			valid_index: index >= 1 and index <= token_index_upper
+		do
+			Result := c_evx_get_token_depth (self_ptr, index - 1)
+		end
+
 	token_index_lower: INTEGER
 		do
 			Result := 1
@@ -186,14 +191,6 @@ feature -- Measurement
 			--
 		do
 			Result := c_evx_get_token_count (self_ptr)
-		end
-
-	token_depth (index: INTEGER): INTEGER
-			--
-		require
-			valid_index: index >= 1 and index <= token_index_upper
-		do
-			Result := c_evx_get_token_depth (self_ptr, index - 1)
 		end
 
 	word_count (exclude_variable_reference: BOOLEAN; included_attributes: EL_STRING_8_LIST): INTEGER
@@ -232,14 +229,6 @@ feature -- Status query
 
 feature {EL_DOCUMENT_TOKEN_ITERATOR} -- Implementation
 
-	default_xml: STRING
-		local
-			default_doc: EL_DEFAULT_SERIALIZEABLE_XML
-		do
-			create default_doc
-			Result := default_doc.to_xml
-		end
-
 	new_namespace_table: HASH_TABLE [STRING, STRING]
 		local
 			stage, last_token: INTEGER; s: EL_STRING_8_ROUTINES
@@ -254,7 +243,7 @@ feature {EL_DOCUMENT_TOKEN_ITERATOR} -- Implementation
 					when 2 then -- root element attributes
 						if token.is_attribute_name_space then
 							if attached token.item_string_8 as ns_name then
-								if ns_name ~ xmlns then
+								if ns_name ~ XML.xmlns then
 									Result.put (create {STRING}.make_empty, Default_name)
 								else
 									Result.put (create {STRING}.make_empty, s.substring_to_reversed (ns_name, ':', default_pointer))
@@ -281,21 +270,12 @@ feature {EL_DOCUMENT_TOKEN_ITERATOR} -- Implementation
 
 feature {NONE} -- Constants
 
-	Header_template: ZSTRING
-		once
-			Result := "[
-				<?xml version="1.0" encoding="#"?>
-			]"
-		end
+	Default_name: STRING = "default"
 
 	Parser: EL_VTD_XML_PARSER
 			--
 		once
 			create Result.make
 		end
-
-	XMLNS: STRING = "xmlns"
-
-	Default_name: STRING = "default"
 
 end
