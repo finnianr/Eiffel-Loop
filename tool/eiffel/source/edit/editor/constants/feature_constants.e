@@ -6,51 +6,56 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-07-14 11:55:31 GMT (Friday 14th July 2023)"
+	revision: "8"
 
 class
 	FEATURE_CONSTANTS
 
+feature {NONE} -- Implementation
+
+	new_feature_manifest: EL_IMMUTABLE_STRING_8_GRID
+		do
+			create Result.make (2, "[
+				Access, ac,
+				Access attributes, aa,
+				Attributes, at,
+				Basic operations, bo,
+				Comparison, com,
+				Constants, co,
+				Contract Support, cs,
+				Conversion, con,
+				Cursor movement, cm,
+				Deferred, de,
+				Dimensions, di,
+				Disposal, dis,
+				Duplication, du,
+				Element change, ec,
+				Event handling, eh,
+				Evolicity reflection, er,
+				Factory, fa,
+				Implementation, im,
+				Inapplicable, ina,
+				Initialization, in,
+				Internal attributes, ia,
+				Measurement, me,
+				Miscellaneous, mi,
+				Obsolete, ob,
+				Removal, re,
+				Status change, sc,
+				Status query, sq,
+				Tests, te,
+				Transformation, tr,
+				Type definitions, td,
+				Unimplemented, un
+			]")
+		end
+
 feature {NONE} -- Constants
 
-	Feature_catagories: EL_ZSTRING_HASH_TABLE [ZSTRING]
+	Feature_expansion_table: HASH_TABLE [IMMUTABLE_STRING_8, IMMUTABLE_STRING_8]
 		once
-			create Result.make_equal (20)
-
---			One word
-			Result ["ac"] := "Access"
-			Result ["at"] := "Attributes"
-			Result ["co"] := "Constants"
-			Result ["com"] := "Comparison"
-			Result ["con"] := "Conversion"
-			Result ["di"] := "Dimensions"
-			Result ["dis"] := "Disposal"
-			Result ["du"] := "Duplication"
-			Result ["fa"] := "Factory"
-			Result ["im"] := "Implementation"
-			Result ["in"] := "Initialization"
-			Result ["ina"] := "Inapplicable"
-			Result ["me"] := "Measurement"
-			Result ["mi"] := "Miscellaneous"
-			Result ["ob"] := "Obsolete"
-			Result ["re"] := "Removal"
-			Result ["te"] := "Tests"
-			Result ["tr"] := "Transformation"
-			Result ["un"] := "Unimplemented"
-
---			Two words
-			Result ["aa"] := "Access attributes"
-			Result ["bo"] := "Basic operations"
-			Result ["cs"] := "Contract Support"
-			Result ["cm"] := "Cursor movement"
-			Result ["ec"] := "Element change"
-			Result ["eh"] := "Event handling"
-			Result ["er"] := "Evolicity reflection"
-			Result ["ia"] := "Internal attributes"
-			Result ["sc"] := "Status change"
-			Result ["sq"] := "Status query"
-			Result ["td"] := "Type definitions"
+			Result := new_feature_manifest.to_table (2)
 		end
 
 end

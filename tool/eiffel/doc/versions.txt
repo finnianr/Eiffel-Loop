@@ -1,3 +1,6 @@
+1.3.11
+* Optimized EL_XML_DOC_CONTEXT for memory
+
 1.3.10
 * Fixed extending class name table with alias in EiffelView publisher
 

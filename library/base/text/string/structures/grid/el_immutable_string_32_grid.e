@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-29 10:28:37 GMT (Wednesday 29th March 2023)"
-	revision: "1"
+	date: "2023-07-14 11:50:56 GMT (Friday 14th July 2023)"
+	revision: "2"
 
 class
 	EL_IMMUTABLE_STRING_32_GRID
@@ -31,4 +31,11 @@ inherit
 
 create
 	make
+
+feature {NONE} -- Implementation
+
+	new_table: HASH_TABLE [IMMUTABLE_STRING_32, IMMUTABLE_STRING_32]
+		do
+			create Result.make_equal (height)
+		end
 end

@@ -28,6 +28,7 @@ system:
 		libraries:
 			location = "$ISE_LIBRARY/library"
 			base = "base/base.ecf"
+			encoding = "encoding/encoding.ecf"
 			ise_testing = "testing/testing.ecf"
 			time = "time/time.ecf"
 

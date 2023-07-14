@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-07-14 12:01:43 GMT (Friday 14th July 2023)"
+	revision: "4"
 
 deferred class
 	EL_XPATH_NODE_CONTEXT_IMPLEMENTATION
@@ -26,13 +26,17 @@ inherit
 			{EL_VTD_XML_ATTRIBUTE_API} exception_callbacks_c_struct
 		end
 
+	EL_CALLBACK_C_API
+
 	EL_STRING_8_CONSTANTS
 
 	EL_VTD_CONSTANTS
 
-	EL_MODULE_LIO
+	EL_MODULE_EXCEPTION; EL_MODULE_EIFFEL; EL_MODULE_FILE; EL_MODULE_HTML
 
-	EL_MODULE_EIFFEL
+	EL_MODULE_LIO; EL_MODULE_XML
+
+	EL_SHARED_STRING_8_CURSOR; EL_SHARED_IMMUTABLE_8_MANAGER
 
 	EL_SHARED_CLASS_ID
 

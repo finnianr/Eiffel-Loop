@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-29 10:30:25 GMT (Wednesday 29th March 2023)"
-	revision: "1"
+	date: "2023-07-14 11:50:42 GMT (Friday 14th July 2023)"
+	revision: "2"
 
 deferred class
 	EL_IMMUTABLE_STRING_GRID [S -> STRING_GENERAL]
@@ -46,6 +46,10 @@ feature -- Access
 
 feature -- Measurement
 
+	cell_count: INTEGER
+		deferred
+		end
+
 	height: INTEGER
 		do
 			Result := cell_count // width
@@ -53,8 +57,26 @@ feature -- Measurement
 
 	width: INTEGER
 
-	cell_count: INTEGER
-		deferred
+feature -- Conversion
+
+	to_table (key_column: INTEGER): like new_table
+		require
+			two_columns: width = 2
+			valid_key_column: key_column = 1 or key_column = 2
+		local
+			row, l_height, item_column: INTEGER
+		do
+			Result := new_table
+			if key_column = 1 then
+				item_column := 2
+			else
+				item_column := 1
+			end
+			l_height := height
+			from row := 1 until row > l_height loop
+				Result.extend (i_th_cell (row, item_column), i_th_cell (row, key_column))
+				row := row + 1
+			end
 		end
 
 feature {NONE} -- Implementation
@@ -63,4 +85,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	new_table: HASH_TABLE [like i_th, like i_th]
+		deferred
+		end
 end

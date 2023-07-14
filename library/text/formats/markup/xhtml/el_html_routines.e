@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-29 16:27:36 GMT (Thursday 29th June 2023)"
-	revision: "17"
+	date: "2023-07-14 13:34:44 GMT (Friday 14th July 2023)"
+	revision: "18"
 
 class
 	EL_HTML_ROUTINES
@@ -15,21 +15,21 @@ class
 inherit
 	EL_MARKUP_ROUTINES
 
-	EL_MODULE_FILE; EL_MODULE_TUPLE; EL_MODULE_REUSEABLE
+	EL_MODULE_FILE; EL_MODULE_TUPLE; EL_MODULE_REUSEABLE; EL_MODULE_XML
 
 feature -- Access
-
-	anchor_reference (name: ZSTRING): ZSTRING
-		do
-			Result := anchor_name (name)
-			Result.prepend_character ('#')
-		end
 
 	anchor_name (name: ZSTRING): ZSTRING
 		local
 			s: EL_ZSTRING_ROUTINES
 		do
 			Result := name.translated (s.character_string (' '), s.character_string ('_'))
+		end
+
+	anchor_reference (name: ZSTRING): ZSTRING
+		do
+			Result := anchor_name (name)
+			Result.prepend_character ('#')
 		end
 
 	book_mark_anchor_markup (id, text: ZSTRING): ZSTRING
@@ -39,6 +39,22 @@ feature -- Access
 				[Variable.text, text]
 			>>)
 			Result := Bookmark_template.substituted
+		end
+
+	hyperlink (url, title, text: ZSTRING): ZSTRING
+		do
+			Hyperlink_template.set_variables_from_array (<<
+				[Variable.url, url], [Variable.title, title], [Variable.text, text]
+			>>)
+			Result := Hyperlink_template.substituted
+		end
+
+	image (url, description: ZSTRING): ZSTRING
+		do
+			Image_template.set_variables_from_array (<<
+				[Variable.url, url], [Variable.description, description]
+			>>)
+			Result := Image_template.substituted
 		end
 
 	table_data (data: ZSTRING): ZSTRING
@@ -56,22 +72,6 @@ feature -- Access
 		do
 			create Result.make_empty (name)
 			Result.set_attributes_from_pairs (<< "class=" + class_name >>)
-		end
-
-	hyperlink (url, title, text: ZSTRING): ZSTRING
-		do
-			Hyperlink_template.set_variables_from_array (<<
-				[Variable.url, url], [Variable.title, title], [Variable.text, text]
-			>>)
-			Result := Hyperlink_template.substituted
-		end
-
-	image (url, description: ZSTRING): ZSTRING
-		do
-			Image_template.set_variables_from_array (<<
-				[Variable.url, url], [Variable.description, description]
-			>>)
-			Result := Image_template.substituted
 		end
 
 	unescape_character_entities (line: ZSTRING)
@@ -108,9 +108,53 @@ feature -- Access
 			end
 		end
 
+feature -- Conversion
+
+	to_xml (xhtml: READABLE_STRING_8): STRING
+		local
+			encoding_name, header: STRING; index, i: INTEGER; s: EL_STRING_8_ROUTINES
+			cr: EL_CHARACTER_8_ROUTINES; c: CHARACTER_8
+		do
+			index := xhtml.substring_index (Charset, 1)
+			-- Works for parsing either of examples:
+			-- 	1. <meta charset="UTF-8" />
+			-- 	2. <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+			if index > 0 and then s.is_identifier_boundary (xhtml, index, index + Charset.count - 1) then
+				create encoding_name.make (10)
+
+				from i := index + Charset.count until encoding_name.count > 3 and xhtml [i] = '"' loop
+					c := xhtml [i]
+					if cr.is_c_identifier (c, False) or else c = '-' then
+						encoding_name.extend (c)
+					end
+					i := i + 1
+				end
+			else
+				encoding_name := {CODE_PAGE_CONSTANTS}.Utf8
+			end
+			header := XML.header (1.0, encoding_name)
+			if is_document (xhtml) then
+				index := xhtml.index_of ('>', 1)
+				create Result.make (xhtml.count - index + header.count)
+				Result.append (header); Result.append_substring (xhtml, index + 1, xhtml.count)
+			else
+				header.append_character ('%N')
+				Result := header + xhtml
+			end
+		end
+
 feature -- Query
 
-	is_document (text: STRING): BOOLEAN
+	display_map (log: EL_LOGGABLE)
+		do
+			across Character_entity_table as table loop
+				log.put_substitution ("%S := %S", [table.key, table.item])
+				log.put_new_line
+			end
+		end
+
+	is_document (text: READABLE_STRING_8): BOOLEAN
 		-- `True' if `line' starts with <!DOCTYPE html..
 		-- html is case insensitive
 		do
@@ -123,14 +167,6 @@ feature -- Query
 		do
 			if path.exists then
 				Result := is_document (File.line_one (path))
-			end
-		end
-
-	display_map (log: EL_LOGGABLE)
-		do
-			across Character_entity_table as table loop
-				log.put_substitution ("%S := %S", [table.key, table.item])
-				log.put_new_line
 			end
 		end
 
@@ -260,14 +296,16 @@ feature {NONE} -- Constants
 			Result ["nbsp"] := {EL_ASCII}.space.to_character_32
 		end
 
+	Charset: STRING = "charset"
+
+	Doctype_declaration: STRING = "<!DOCTYPE"
+
 	Hyperlink_template: EL_ZSTRING_TEMPLATE
 		once
 			create Result.make ("[
 				<a href="$url" title="$title">$text</a>
 			]")
 		end
-
-	Doctype_declaration: STRING = "<!DOCTYPE"
 
 	Image_template: EL_ZSTRING_TEMPLATE
 		once

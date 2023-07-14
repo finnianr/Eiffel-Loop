@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-14 8:47:49 GMT (Friday 14th July 2023)"
-	revision: "20"
+	date: "2023-07-14 13:47:16 GMT (Friday 14th July 2023)"
+	revision: "21"
 
 class
 	EL_XML_DOC_CONTEXT
@@ -16,10 +16,12 @@ inherit
 	EL_XPATH_NODE_CONTEXT
 		rename
 			Token as Token_enum
+		export
+			{ANY} Html
 		undefine
 			namespace_table
 		redefine
-			default_create
+			default_create, dispose
 		end
 
 	EL_LAZY_ATTRIBUTE
@@ -49,13 +51,6 @@ inherit
 			default_create
 		end
 
-	EL_MODULE_EXCEPTION; EL_MODULE_FILE; EL_MODULE_XML
-
-	EL_MODULE_HTML
-		export
-			{ANY} Html
-		end
-
 create
 	default_create, make_from_file, make_from_string, make_from_fragment, make_from_xhtml
 
@@ -76,35 +71,39 @@ feature {NONE} -- Initialization
 			file_path.share (a_file_path)
 		end
 
-	make_from_fragment (xml_fragment: STRING; a_encoding: STRING)
+	make_from_fragment (xml_fragment: READABLE_STRING_8; a_encoding: STRING)
+		local
+			header: STRING
 		do
-			make_from_string (XML.header (1.0, a_encoding) + xml_fragment)
+			header := XML.header (1.0, a_encoding)
+			header.append_character ('%N')
+			make_from_string (header + xml_fragment)
 		end
 
-	make_from_string (a_xml: STRING)
+	make_from_string (a_xml: READABLE_STRING_8)
 			--
 		local
-			l_context_pointer: POINTER; l_encoding_name: STRING
+			p_root_context: POINTER; l_encoding_name: STRING
 		do
 			make_default
 			create file_path
 
 			if parse_failed then
-				document_xml := XML.Default_doc.to_xml
+				set_xml_area (XML.Default_doc.to_xml)
 				if attached {EL_VTD_EXCEPTION} Exception.last_exception as last then
 					last_exception := last
 				end
-				l_context_pointer := Parser.root_context_pointer (document_xml, False)
+				p_root_context := Parser.new_root_context (Current, False)
 			else
-				document_xml := a_xml
-				l_context_pointer := Parser.root_context_pointer (document_xml, XML.is_namespace_aware (a_xml))
+				set_xml_area (a_xml)
+				p_root_context := Parser.new_root_context (Current, XML.is_namespace_aware (a_xml))
 			end
 
-			if is_attached (l_context_pointer) then
-				make (l_context_pointer, Current)
-				create l_encoding_name.make_from_c (c_node_context_encoding_type (l_context_pointer))
+			if is_attached (p_root_context) then
+				make (p_root_context, Current)
+				create l_encoding_name.make_from_c (c_node_context_encoding_type (p_root_context))
 				l_encoding_name.append_character ('-')
-				l_encoding_name.append_integer (c_node_context_encoding (l_context_pointer))
+				l_encoding_name.append_integer (c_node_context_encoding (p_root_context))
 				set_encoding_from_name (l_encoding_name)
 			end
 		rescue
@@ -112,9 +111,23 @@ feature {NONE} -- Initialization
 			retry
 		end
 
-	make_from_xhtml (xhtml: STRING)
+	make_from_xhtml (xhtml: READABLE_STRING_8)
 		do
+			make_from_string (HTML.to_xml (xhtml))
+		end
 
+feature -- Basic operations
+
+	store_as (a_file_path: like file_path)
+			--
+		local
+			l_file: PLAIN_TEXT_FILE
+		do
+			create l_file.make_open_write (a_file_path)
+			if attached document_pointer as pointer then
+				l_file.put_managed_pointer (pointer, 0, pointer.count)
+			end
+			l_file.close
 		end
 
 feature -- Token access
@@ -151,7 +164,16 @@ feature -- Token access
 
 feature -- Access
 
-	document_xml: EL_C_STRING_8
+	document_pointer: MANAGED_POINTER
+		do
+			create Result.share_from_pointer (xml_area.base_address + xml_offset, xml_count)
+		end
+
+	document_xml: IMMUTABLE_STRING_8
+		do
+			Immutable_8.set_item (xml_area, xml_offset, xml_count)
+			Result := Immutable_8.item.twin
+		end
 
 	file_path: FILE_PATH
 
@@ -229,6 +251,14 @@ feature -- Status query
 
 feature {EL_DOCUMENT_TOKEN_ITERATOR} -- Implementation
 
+	dispose
+		do
+			Precursor
+			if is_attached (adopted_xml_area) then
+				eif_wean (adopted_xml_area)
+			end
+		end
+
 	new_namespace_table: HASH_TABLE [STRING, STRING]
 		local
 			stage, last_token: INTEGER; s: EL_STRING_8_ROUTINES
@@ -260,6 +290,19 @@ feature {EL_DOCUMENT_TOKEN_ITERATOR} -- Implementation
 			end
 		end
 
+	set_xml_area (a_xml: READABLE_STRING_8)
+		do
+			if is_attached (adopted_xml_area) then
+				eif_wean (adopted_xml_area)
+			end
+			if attached cursor_8 (a_xml) as c then
+				xml_area := c.area; xml_offset := c.area_first_index
+				xml_count := a_xml.count
+			end
+--			Prevent garbage collector from moving or collecting xml_area
+			adopted_xml_area := eif_adopt (xml_area)
+		end
+
 	wide_string_at_index (index: INTEGER): EL_C_WIDE_CHARACTER_STRING
 			--
 		require
@@ -267,6 +310,16 @@ feature {EL_DOCUMENT_TOKEN_ITERATOR} -- Implementation
 		do
 			Result := wide_string (c_node_text_at_index (self_ptr, index - 1))
 		end
+
+feature {EL_OWNED_C_OBJECT} -- Internal attributes
+
+	adopted_xml_area: POINTER
+
+	xml_area: SPECIAL [CHARACTER]
+
+	xml_count: INTEGER
+
+	xml_offset: INTEGER
 
 feature {NONE} -- Constants
 
