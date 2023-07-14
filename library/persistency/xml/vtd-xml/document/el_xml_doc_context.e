@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-14 13:47:16 GMT (Friday 14th July 2023)"
-	revision: "21"
+	date: "2023-07-14 14:02:10 GMT (Friday 14th July 2023)"
+	revision: "22"
 
 class
 	EL_XML_DOC_CONTEXT
@@ -293,13 +293,13 @@ feature {EL_DOCUMENT_TOKEN_ITERATOR} -- Implementation
 	set_xml_area (a_xml: READABLE_STRING_8)
 		do
 			if is_attached (adopted_xml_area) then
-				eif_wean (adopted_xml_area)
+				eif_wean (adopted_xml_area) -- allow `xml_area' to be collected by GC
 			end
 			if attached cursor_8 (a_xml) as c then
 				xml_area := c.area; xml_offset := c.area_first_index
 				xml_count := a_xml.count
 			end
---			Prevent garbage collector from moving or collecting xml_area
+--			Prevent garbage collector from moving or collecting `xml_area'
 			adopted_xml_area := eif_adopt (xml_area)
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-23 8:34:24 GMT (Tuesday 23rd May 2023)"
-	revision: "28"
+	date: "2023-07-14 17:25:14 GMT (Friday 14th July 2023)"
+	revision: "29"
 
 class
 	FEATURE_EDITOR_COMMAND_TEST_SET
@@ -42,6 +42,7 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_adjust_manifest_tuple_tabs
+		-- FEATURE_EDITOR_COMMAND_TEST_SET.test_adjust_manifest_tuple_tabs
 		note
 			testing: "covers/{CONSTANT_FEATURE}.expand_shorthand",
 						"covers/{SETTER_SHORTHAND_FEATURE}.expand_shorthand",

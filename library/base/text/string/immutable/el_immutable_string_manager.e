@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 11:14:50 GMT (Monday 6th March 2023)"
-	revision: "3"
+	date: "2023-07-14 16:17:51 GMT (Friday 14th July 2023)"
+	revision: "4"
 
 deferred class
 	EL_IMMUTABLE_STRING_MANAGER [C, S -> IMMUTABLE_STRING_GENERAL create make_empty end]

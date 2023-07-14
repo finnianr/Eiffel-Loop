@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:48:09 GMT (Monday 5th December 2022)"
-	revision: "5"
+	date: "2023-07-14 16:53:11 GMT (Friday 14th July 2023)"
+	revision: "6"
 
 class
 	EL_SPLIT_STRING_LIST_ITERATION_CURSOR [S -> READABLE_STRING_GENERAL create make end]
@@ -50,6 +50,11 @@ feature -- Status report
 		-- Are there no more items to iterate over?
 		do
 			Result := not target.valid_index (cursor_index)
+		end
+
+	is_last: BOOLEAN
+		do
+			Result := cursor_index = target.count
 		end
 
 feature -- Cursor movement

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-14 11:50:42 GMT (Friday 14th July 2023)"
-	revision: "2"
+	date: "2023-07-14 16:06:29 GMT (Friday 14th July 2023)"
+	revision: "3"
 
 deferred class
 	EL_IMMUTABLE_STRING_GRID [S -> STRING_GENERAL]
@@ -79,9 +79,13 @@ feature -- Conversion
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {EL_IMMUTABLE_STRING_TABLE} -- Implementation
 
 	i_th (i: INTEGER): IMMUTABLE_STRING_GENERAL
+		deferred
+		end
+
+	target: IMMUTABLE_STRING_GENERAL
 		deferred
 		end
 

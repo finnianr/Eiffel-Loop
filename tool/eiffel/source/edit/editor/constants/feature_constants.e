@@ -6,17 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-14 11:55:31 GMT (Friday 14th July 2023)"
-	revision: "8"
+	date: "2023-07-14 17:34:38 GMT (Friday 14th July 2023)"
+	revision: "9"
 
 class
 	FEATURE_CONSTANTS
 
-feature {NONE} -- Implementation
+feature {NONE} -- Constants
 
-	new_feature_manifest: EL_IMMUTABLE_STRING_8_GRID
-		do
-			create Result.make (2, "[
+	Feature_expansion_table: EL_IMMUTABLE_STRING_8_TABLE
+		once
+			create Result.make ("[
 				Access, ac,
 				Access attributes, aa,
 				Attributes, at,
@@ -49,13 +49,6 @@ feature {NONE} -- Implementation
 				Type definitions, td,
 				Unimplemented, un
 			]")
-		end
-
-feature {NONE} -- Constants
-
-	Feature_expansion_table: HASH_TABLE [IMMUTABLE_STRING_8, IMMUTABLE_STRING_8]
-		once
-			Result := new_feature_manifest.to_table (2)
 		end
 
 end

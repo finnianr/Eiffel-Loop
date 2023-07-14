@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "14"
+	date: "2023-07-14 14:49:34 GMT (Friday 14th July 2023)"
+	revision: "15"
 
 class
 	NUMERIC_TEST_SET
@@ -31,9 +31,9 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["negative_to_natural", agent test_negative_to_natural],
 				["double_string_conversion", agent test_double_string_conversion],
-				["truncated_natural_64", agent test_truncated_natural_64]
+				["negative_to_natural",		  agent test_negative_to_natural],
+				["truncated_natural_64",	  agent test_truncated_natural_64]
 			>>)
 		end
 
