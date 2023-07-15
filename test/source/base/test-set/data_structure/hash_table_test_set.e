@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-15 10:18:36 GMT (Saturday 15th July 2023)"
-	revision: "16"
+	date: "2023-07-15 11:35:47 GMT (Saturday 15th July 2023)"
+	revision: "17"
 
 class
 	HASH_TABLE_TEST_SET
@@ -99,7 +99,6 @@ feature -- Test
 			lio.put_integer_field (" Immutable size", immutable_size)
 			lio.put_new_line
 			assert ("53 %% less memory", 100 - (immutable_size * 100 / standard_size).rounded = 53)
-
 
 			item_count := Feature_expansion_table.count
 			table_object_count := 5; objects_per_string := 2; objects_per_immutable := 1

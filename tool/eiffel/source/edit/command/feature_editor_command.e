@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-14 11:35:44 GMT (Friday 14th July 2023)"
-	revision: "23"
+	date: "2023-07-15 11:51:08 GMT (Saturday 15th July 2023)"
+	revision: "24"
 
 class
 	FEATURE_EDITOR_COMMAND
@@ -86,7 +86,7 @@ feature {NONE} -- Implementation
 					code.remove_head (1)
 				end
 				line.append_string (Comment_prefix)
-				if Feature_expansion_table.has_key (code.to_latin_1) then
+				if Feature_expansion_table.has_key_general (code) then
 					line.append_string_general (Feature_expansion_table.found_item)
 				else
 					line.append (code)

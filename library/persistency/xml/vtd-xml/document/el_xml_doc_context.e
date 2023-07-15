@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-14 14:02:10 GMT (Friday 14th July 2023)"
-	revision: "22"
+	date: "2023-07-15 11:33:11 GMT (Saturday 15th July 2023)"
+	revision: "23"
 
 class
 	EL_XML_DOC_CONTEXT
@@ -171,8 +171,7 @@ feature -- Access
 
 	document_xml: IMMUTABLE_STRING_8
 		do
-			Immutable_8.set_item (xml_area, xml_offset, xml_count)
-			Result := Immutable_8.item.twin
+			Result := Immutable_8.new_substring (xml_area, xml_offset, xml_count)
 		end
 
 	file_path: FILE_PATH

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Forces shared string data into an instance of a string conforming to [$source IMMUTABLE_STRING_GENERAL]
+		Injects shared string data into an instance of a string conforming to [$source IMMUTABLE_STRING_GENERAL]
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-14 16:17:51 GMT (Friday 14th July 2023)"
-	revision: "4"
+	date: "2023-07-15 11:35:28 GMT (Saturday 15th July 2023)"
+	revision: "5"
 
 deferred class
 	EL_IMMUTABLE_STRING_MANAGER [C, S -> IMMUTABLE_STRING_GENERAL create make_empty end]

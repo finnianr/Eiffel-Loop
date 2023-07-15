@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-15 9:33:58 GMT (Saturday 15th July 2023)"
-	revision: "2"
+	date: "2023-07-15 11:50:15 GMT (Saturday 15th July 2023)"
+	revision: "3"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -50,6 +50,24 @@ feature {NONE} -- Initialization
 					end
 					list.forth
 				end
+			end
+		end
+
+feature -- Status query
+
+	has_key_general (a_key: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			if attached {IMMUTABLE} a_key as key then
+				Result := has_key (key)
+
+			elseif attached {GENERAL} a_key as key then
+				Result := has_key (new_shared (key))
+
+			elseif manifest.is_string_8 and then attached {GENERAL} a_key.to_string_8 as key then
+				Result := has_key (new_shared (key))
+
+			elseif manifest.is_string_32 and then attached {GENERAL} a_key.to_string_32 as key then
+				Result := has_key (new_shared (key))
 			end
 		end
 
