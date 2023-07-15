@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-29 15:43:44 GMT (Thursday 29th June 2023)"
-	revision: "22"
+	date: "2023-07-15 16:28:13 GMT (Saturday 15th July 2023)"
+	revision: "23"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -45,25 +45,25 @@ feature {NONE} -- Initialization
 
 	make_from_manifest_32 (
 		to_key: FUNCTION [IMMUTABLE_STRING_32, K]; to_item: FUNCTION [IMMUTABLE_STRING_32, G]
-		equal_comparison: BOOLEAN; manifest_str: STRING_32
+		equal_comparison: BOOLEAN; a_manifest: STRING_32
 	)
 		require
-			valid_manifest: valid_manifest (manifest_str)
+			valid_manifest: valid_manifest (a_manifest)
 		local
 			line, key_string, item_string: IMMUTABLE_STRING_32; start_index, end_index: INTEGER
 			line_split: EL_SPLIT_IMMUTABLE_STRING_32_ON_CHARACTER
+			rs: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
-			Immutable_32.set_item (manifest_str.area, 0, manifest_str.count)
+			Immutable_32.set_item (a_manifest.area, 0, a_manifest.count)
 			create line_split.make (Immutable_32.item, '%N')
 			if equal_comparison then
 				make_equal (line_split.count)
 			else
 				make_size (line_split.count)
 			end
-
 			across line_split as split loop
 				line := split.item
-				start_index := start_plus_end_assignment_indices (line, $end_index)
+				start_index := rs.start_plus_end_assignment_indices (line, $end_index)
 				if end_index > 0 and start_index > 0 then
 					key_string := line.shared_substring (1, end_index)
 					item_string := line.shared_substring (start_index, line.count)
@@ -74,15 +74,16 @@ feature {NONE} -- Initialization
 
 	make_from_manifest_8 (
 		to_key: FUNCTION [IMMUTABLE_STRING_8, K]; to_item: FUNCTION [IMMUTABLE_STRING_8, G]
-		equal_comparison: BOOLEAN; manifest_str: STRING_8
+		equal_comparison: BOOLEAN; a_manifest: STRING_8
 	)
 		require
-			valid_manifest: valid_manifest (manifest_str)
+			valid_manifest: valid_manifest (a_manifest)
 		local
 			line, key_string, item_string: IMMUTABLE_STRING_8; end_index, start_index: INTEGER
 			line_split: EL_SPLIT_IMMUTABLE_STRING_8_ON_CHARACTER
+			rs: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
-			Immutable_8.set_item (manifest_str.area, 0, manifest_str.count)
+			Immutable_8.set_item (a_manifest.area, 0, a_manifest.count)
 			create line_split.make (Immutable_8.item, '%N')
 			if equal_comparison then
 				make_equal (line_split.count)
@@ -92,7 +93,7 @@ feature {NONE} -- Initialization
 
 			across line_split as split loop
 				line := split.item
-				start_index := start_plus_end_assignment_indices (line, $end_index)
+				start_index := rs.start_plus_end_assignment_indices (line, $end_index)
 				if end_index > 0 and start_index > 0 then
 					key_string := line.shared_substring (1, end_index)
 					item_string := line.shared_substring (start_index, line.count)
@@ -219,35 +220,14 @@ feature -- Contract Support
 			end
 		end
 
-	valid_manifest (manifest_str: READABLE_STRING_GENERAL): BOOLEAN
+	valid_manifest (a_manifest: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			rs: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
-			Result := across manifest_str.split ('%N') as str all str.item.has_substring (Assign_symbol) end
+			Result := rs.valid_assignments (a_manifest)
 		end
 
 feature {NONE} -- Implementation
-
-	start_plus_end_assignment_indices (line: READABLE_STRING_GENERAL; p_end_index: POINTER): INTEGER
-		local
-			p: EL_POINTER_ROUTINES; assign_index, end_index: INTEGER
-		do
-			assign_index := line.substring_index (assign_symbol, 1)
-
-			if assign_index > 0 and line.valid_index (assign_index - 1) then
-				if line [assign_index - 1] = ' ' then
-					end_index := assign_index - 2
-				else
-					end_index := assign_index - 1
-				end
-			end
-			if assign_index > 0 and line.valid_index (assign_index + 2) then
-				if line [assign_index + 2] = ' ' then
-					Result := assign_index + 3
-				else
-					Result := assign_index + 2
-				end
-			end
-			p.put_integer_32 (end_index, p_end_index)
-		end
 
 	sort_comparables (comparables: SPECIAL [COMPARABLE]; in_ascending_order: BOOLEAN)
 		-- reorder table keys and items based on a sort of `comparables'
@@ -295,7 +275,4 @@ feature {NONE} -- Implementation
 			same_item: attached old item_cell as old_item implies old_item.item = item_for_iteration
 		end
 
-feature {NONE} -- Constants
-
-	Assign_symbol: STRING = ":="
 end

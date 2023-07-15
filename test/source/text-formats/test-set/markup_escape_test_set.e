@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 13:20:32 GMT (Monday 10th July 2023)"
-	revision: "24"
+	date: "2023-07-15 17:31:16 GMT (Saturday 15th July 2023)"
+	revision: "25"
 
 class
 	MARKUP_ESCAPE_TEST_SET
@@ -51,9 +51,9 @@ feature -- Tests
 		local
 			markup: ZSTRING
 		do
-			markup := "cent: &cent; & yen: &yen; & copy: &copy;"
+			markup := "cent: &cent; & yen: &yen; & copy: &copy; & nbsp: &nbsp;"
 			Html.unescape_character_entities (markup)
-			assert_same_string (Void, markup, "cent: ¢ & yen: ¥ & copy: ©")
+			assert_same_string (Void, markup, "cent: ¢ & yen: ¥ & copy: © & nbsp:  ")
 		end
 
 	test_xml_escape

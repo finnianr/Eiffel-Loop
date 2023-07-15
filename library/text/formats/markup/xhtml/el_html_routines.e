@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-14 13:34:44 GMT (Friday 14th July 2023)"
-	revision: "18"
+	date: "2023-07-15 17:50:24 GMT (Saturday 15th July 2023)"
+	revision: "19"
 
 class
 	EL_HTML_ROUTINES
@@ -76,13 +76,14 @@ feature -- Access
 
 	unescape_character_entities (line: ZSTRING)
 		local
-			table: like Character_entity_table; entity_name, section: ZSTRING
-			pos_semicolon: INTEGER
+			entity_name, entity, section: ZSTRING; pos_semicolon: INTEGER
 		do
-			table := Character_entity_table
-			if line.has ('&') and line.has (';') then
+			if line.has ('&') and then line.has (';')
+				and then attached Utf_8_character_entity_table as table
+			then
 				across Reuseable.string_pool as pool loop
 					entity_name := pool.borrowed_item
+					entity :=  pool.borrowed_item
 					across pool.filled_borrowed_item (line).split ('&') as split loop
 						if split.cursor_index = 1 then
 							line.wipe_out
@@ -94,8 +95,9 @@ feature -- Access
 						if pos_semicolon > 0 then
 							entity_name.wipe_out
 							entity_name.append_substring (section, 1, pos_semicolon - 1)
-							if table.has_key (entity_name) then
-								line [line.count] := table.found_item -- overwrite '&'
+							if table.has_key_general (entity_name) then
+								set_character_entity (entity, table.found_item)
+								line [line.count] := entity [1] -- overwrite '&'
 								line.append_substring (section, pos_semicolon + 1, section.count)
 							else
 								line.append (section)
@@ -147,9 +149,13 @@ feature -- Conversion
 feature -- Query
 
 	display_map (log: EL_LOGGABLE)
+		local
+			entity: ZSTRING
 		do
-			across Character_entity_table as table loop
-				log.put_substitution ("%S := %S", [table.key, table.item])
+			create entity.make_empty
+			across Utf_8_character_entity_table as table loop
+				set_character_entity (entity, table.item)
+				log.put_substitution ("%S := %S", [table.key, entity])
 				log.put_new_line
 			end
 		end
@@ -172,111 +178,14 @@ feature -- Query
 
 feature {NONE} -- Implementation
 
-	entity_name_map: STRING_32
+	set_character_entity (entity: ZSTRING; utf_8_entity: IMMUTABLE_STRING_8)
 		do
-			Result := {STRING_32} "[
-				ndash := –
-				mdash := —
-				iexcl := ¡
-				cent := ¢
-				pound := £
-				curren := ¤
-				yen := ¥
-				brvbar := ¦
-				sect := §
-				uml := ¨
-				copy := ©
-				ordf := ª
-				laquo := «
-				not := ¬
-				shy := ­
-				reg := ®
-				macr := ¯
-				deg := °
-				plusmn := ±
-				sup2 := ²
-				sup3 := ³
-				acute := ´
-				micro := µ
-				para := ¶
-				middot := ·
-				cedil := ¸
-				sup1 := ¹
-				ordm := º
-				raquo := »
-				frac14 := ¼
-				frac12 := ½
-				frac34 := ¾
-				iquest := ¿
-				Agrave := À
-				Aacute := Á
-				Acirc := Â
-				Atilde := Ã
-				Auml := Ä
-				Aring := Å
-				AElig := Æ
-				Ccedil := Ç
-				Egrave := È
-				Eacute := É
-				Ecirc := Ê
-				Euml := Ë
-				Igrave := Ì
-				Iacute := Í
-				Icirc := Î
-				Iuml := Ï
-				ETH := Ð
-				Ntilde := Ñ
-				Ograve := Ò
-				Oacute := Ó
-				Ocirc := Ô
-				Otilde := Õ
-				Ouml := Ö
-				times := ×
-				Oslash := Ø
-				Ugrave := Ù
-				Uacute := Ú
-				Ucirc := Û
-				Uuml := Ü
-				Yacute := Ý
-				THORN := Þ
-				szlig := ß
-				agrave := à
-				aacute := á
-				acirc := â
-				atilde := ã
-				auml := ä
-				aring := å
-				aelig := æ
-				ccedil := ç
-				egrave := è
-				eacute := é
-				ecirc := ê
-				euml := ë
-				igrave := ì
-				iacute := í
-				icirc := î
-				iuml := ï
-				eth := ð
-				ntilde := ñ
-				ograve := ò
-				oacute := ó
-				ocirc := ô
-				otilde := õ
-				ouml := ö
-				divide := ÷
-				oslash := ø
-				ugrave := ù
-				uacute := ú
-				ucirc := û
-				uuml := ü
-				yacute := ý
-				thorn := þ
-			]"
-		end
-
-	new_zstring (str: IMMUTABLE_STRING_32): ZSTRING
-		do
-			create Result.make_from_general (str)
+			entity.wipe_out
+			if utf_8_entity.count = 3 and then utf_8_entity [2] = ' ' then
+				entity.append_character (' ')
+			else
+				entity.append_utf_8 (utf_8_entity)
+			end
 		end
 
 feature {NONE} -- Constants
@@ -284,16 +193,6 @@ feature {NONE} -- Constants
 	Bookmark_template: EL_ZSTRING_TEMPLATE
 		once
 			create Result.make ("<a id=%"$id%">$text</a>")
-		end
-
-	Character_entity_table: EL_HASH_TABLE [CHARACTER_32, ZSTRING]
-		-- map entity name to character
-		once
-			create Result.make_from_manifest_32 (
-				agent new_zstring, agent {IMMUTABLE_STRING_32}.item (1), True, entity_name_map
-			)
---			Not in manifest
-			Result ["nbsp"] := {EL_ASCII}.space.to_character_32
 		end
 
 	Charset: STRING = "charset"
@@ -312,6 +211,112 @@ feature {NONE} -- Constants
 			create Result.make ("[
 				<img src="$url" alt="$description">
 			]")
+		end
+
+	Utf_8_character_entity_table: EL_IMMUTABLE_STRING_8_TABLE
+		local
+			utf_8: EL_UTF_8_CONVERTER
+		once
+--			note: nbsp requires quotes ' '
+			create Result.make_by_assignment (utf_8.string_32_to_string_8 ({STRING_32} "[
+				aacute := á
+				Aacute := Á
+				acirc := â
+				Acirc := Â
+				acute := ´
+				aelig := æ
+				AElig := Æ
+				agrave := à
+				Agrave := À
+				aring := å
+				Aring := Å
+				atilde := ã
+				Atilde := Ã
+				auml := ä
+				Auml := Ä
+				brvbar := ¦
+				ccedil := ç
+				Ccedil := Ç
+				cedil := ¸
+				cent := ¢
+				copy := ©
+				curren := ¤
+				deg := °
+				divide := ÷
+				eacute := é
+				Eacute := É
+				ecirc := ê
+				Ecirc := Ê
+				egrave := è
+				Egrave := È
+				eth := ð
+				ETH := Ð
+				euml := ë
+				Euml := Ë
+				frac12 := ½
+				frac14 := ¼
+				frac34 := ¾
+				iacute := í
+				Iacute := Í
+				icirc := î
+				Icirc := Î
+				iexcl := ¡
+				igrave := ì
+				Igrave := Ì
+				iquest := ¿
+				iuml := ï
+				Iuml := Ï
+				laquo := «
+				macr := ¯
+				mdash := —
+				micro := µ
+				middot := ·
+				nbsp := ' '
+				ndash := –
+				not := ¬
+				ntilde := ñ
+				Ntilde := Ñ
+				oacute := ó
+				Oacute := Ó
+				ocirc := ô
+				Ocirc := Ô
+				ograve := ò
+				Ograve := Ò
+				ordf := ª
+				ordm := º
+				oslash := ø
+				Oslash := Ø
+				otilde := õ
+				Otilde := Õ
+				ouml := ö
+				Ouml := Ö
+				para := ¶
+				plusmn := ±
+				pound := £
+				raquo := »
+				reg := ®
+				sect := §
+				shy := ­
+				sup1 := ¹
+				sup2 := ²
+				sup3 := ³
+				szlig := ß
+				thorn := þ
+				THORN := Þ
+				times := ×
+				uacute := ú
+				Uacute := Ú
+				ucirc := û
+				Ucirc := Û
+				ugrave := ù
+				Ugrave := Ù
+				uml := ¨
+				uuml := ü
+				Uuml := Ü
+				yacute := ý
+				Yacute := Ý
+				yen := ¥
+			]"))
 		end
 
 	Variable: TUPLE [id, description, text, title, url: ZSTRING]

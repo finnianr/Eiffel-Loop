@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
-	revision: "29"
+	date: "2023-07-15 16:01:50 GMT (Saturday 15th July 2023)"
+	revision: "30"
 
 class
 	EVOLICITY_TEMPLATES
@@ -25,7 +25,7 @@ inherit
 
 	EL_ZSTRING_CONSTANTS
 
-	EL_ZSTRING_ROUTINES
+	EL_ZSTRING_ROUTINES_IMP
 		export
 			{NONE} all
 		end

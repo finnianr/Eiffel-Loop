@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 5:02:37 GMT (Saturday 24th June 2023)"
-	revision: "49"
+	date: "2023-07-15 15:58:11 GMT (Saturday 15th July 2023)"
+	revision: "50"
 
 deferred class
 	EL_STRING_X_ROUTINES [STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X]
 
-	EL_READABLE_STRING_GENERAL_ROUTINES
+	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
 
 feature -- Basic operations
 

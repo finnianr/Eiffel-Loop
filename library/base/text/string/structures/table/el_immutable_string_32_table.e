@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-15 10:37:39 GMT (Saturday 15th July 2023)"
-	revision: "2"
+	date: "2023-07-15 16:17:25 GMT (Saturday 15th July 2023)"
+	revision: "3"
 
 class
 	EL_IMMUTABLE_STRING_32_TABLE
@@ -21,7 +21,7 @@ inherit
 	EL_SHARED_IMMUTABLE_32_MANAGER
 
 create
-	make
+	make, make_by_assignment
 
 feature {NONE} -- Implementation
 

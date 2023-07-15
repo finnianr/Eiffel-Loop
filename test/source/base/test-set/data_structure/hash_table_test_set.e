@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-15 11:35:47 GMT (Saturday 15th July 2023)"
-	revision: "17"
+	date: "2023-07-15 17:44:49 GMT (Saturday 15th July 2023)"
+	revision: "18"
 
 class
 	HASH_TABLE_TEST_SET
@@ -30,17 +30,31 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["compressed_table",			 agent test_compressed_table],
-				["hash_set",					 agent test_hash_set],
-				["immutable_string_table",	 agent test_immutable_string_table],
-				["iteration_cursor",			 agent test_iteration_cursor],
-				["readable_string_8_table", agent test_readable_string_8_table],
-				["string_table",				 agent test_string_table],
-				["table_sort",					 agent test_table_sort]
+				["character_32_table",				 agent test_character_32_table],
+				["compressed_table",					 agent test_compressed_table],
+				["hash_set",							 agent test_hash_set],
+				["immutable_string_table",			 agent test_immutable_string_table],
+				["immutable_string_table_memory", agent test_immutable_string_table_memory],
+				["iteration_cursor",					 agent test_iteration_cursor],
+				["readable_string_8_table",		 agent test_readable_string_8_table],
+				["string_table",						 agent test_string_table],
+				["table_sort",							 agent test_table_sort]
 			>>)
 		end
 
 feature -- Test
+
+	test_character_32_table
+		note
+			testing: "covers/{EL_HASH_TABLE}.make_from_manifest_32"
+		do
+			if attached new_character_entity_table as table then
+				assert ("is pound", table ["pound"] = '£')
+				assert ("is curren", table ["curren"] = '¤')
+				assert ("is yen", table ["yen"] = '¥')
+				assert ("is copy", table ["copy"] = '©')
+			end
+		end
 
 	test_compressed_table
 		note
@@ -84,6 +98,35 @@ feature -- Test
 
 	test_immutable_string_table
 		-- HASH_TABLE_TEST_SET.test_immutable_string_table
+		note
+			testing:
+				"covers/{EL_IMMUTABLE_STRING_TABLE}.make",
+				"covers/{EL_IMMUTABLE_STRING_TABLE}.make_by_assignment"
+		local
+			assigment_manifest: EL_STRING_8_LIST; feature_expansion_table_2: EL_IMMUTABLE_STRING_8_TABLE
+		do
+			create assigment_manifest.make (Feature_expansion_table.count)
+			across Feature_expansion_table as table loop
+				assigment_manifest.extend (table.key + " := " + table.item)
+			end
+			create feature_expansion_table_2.make_by_assignment (assigment_manifest.joined_lines)
+			if Feature_expansion_table.count = feature_expansion_table_2.count then
+				across Feature_expansion_table as table loop
+					if feature_expansion_table_2.has_key (table.key) then
+						assert ("same item value", table.item ~ feature_expansion_table_2.found_item)
+					else
+						assert ("missing key " + table.key, False)
+					end
+				end
+			else
+				assert ("same count", False)
+			end
+		end
+
+	test_immutable_string_table_memory
+		-- HASH_TABLE_TEST_SET.test_immutable_string_table_memory
+		note
+			testing: "covers/{EL_IMMUTABLE_STRING_TABLE}.make"
 		local
 			standard_table: HASH_TABLE [STRING, STRING]
 			item_count, table_object_count, objects_per_string, objects_per_immutable,
@@ -233,6 +276,25 @@ feature -- Test
 				hanzi := table.key
 				assert ("same hanzi by table cursor index", hanzi ~ name_list [i])
 			end
+		end
+
+feature {NONE} -- Implementation
+
+	new_character_entity_table: EL_HASH_TABLE [CHARACTER_32, ZSTRING]
+		-- map entity name to character
+		do
+			create Result.make_from_manifest_32 (
+				agent new_zstring, agent {IMMUTABLE_STRING_32}.item (1), True, {STRING_32} "[
+				pound := £
+				curren := ¤
+				yen := ¥
+				copy := ©
+			]")
+		end
+
+	new_zstring (str: IMMUTABLE_STRING_32): ZSTRING
+		do
+			create Result.make_from_general (str)
 		end
 
 end

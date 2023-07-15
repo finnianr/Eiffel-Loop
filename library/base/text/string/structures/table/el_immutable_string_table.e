@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-15 11:50:15 GMT (Saturday 15th July 2023)"
-	revision: "3"
+	date: "2023-07-15 16:55:20 GMT (Saturday 15th July 2023)"
+	revision: "4"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -40,13 +40,37 @@ feature {NONE} -- Initialization
 		do
 			manifest := new_shared (a_manifest)
 			if attached new_split_list as list then
-				make_equal (list.count // 2)
 				list.fill (manifest, ',', {EL_SIDE}.Left)
+				make_equal (list.count // 2)
+
 				from list.start until list.after loop
 					if list.index \\ 2 = 1 then
 						last_interval := ir.compact (list.item_start_index, list.item_end_index)
 					else
 						extend (last_interval, list.item)
+					end
+					list.forth
+				end
+			end
+		end
+
+	make_by_assignment (a_manifest: GENERAL)
+		require
+			valid_manifest: valid_manifest_assignments (a_manifest)
+		local
+			start_index, end_index, offset: INTEGER; rs: EL_READABLE_STRING_GENERAL_ROUTINES
+			ir: EL_INTERVAL_ROUTINES; interval: INTEGER_64
+		do
+			manifest := new_shared (a_manifest)
+			if attached new_split_list as list then
+				list.fill (manifest, '%N', 0)
+				make_equal (list.count // 2)
+				from list.start until list.after loop
+					start_index := rs.start_plus_end_assignment_indices (list.item, $end_index)
+					if end_index > 0 and start_index > 0 then
+						offset := list.item_start_index - 1
+						interval := ir.compact (start_index + offset, list.item_end_index)
+						extend (interval, new_substring (1 + offset, end_index + offset))
 					end
 					list.forth
 				end
@@ -114,6 +138,15 @@ feature -- Contract Support
 					Result := str.occurrences (',') = 2 and then str [str.count] = ','
 				end
 			end
+		end
+
+	valid_manifest_assignments (a_manifest: GENERAL): BOOLEAN
+		-- `True' if each line contains a ":=" substring with optional
+		-- whitespace padding either side
+		local
+			rs: EL_READABLE_STRING_GENERAL_ROUTINES
+		do
+			Result := rs.valid_assignments (a_manifest)
 		end
 
 feature {EL_IMMUTABLE_STRING_TABLE_CURSOR} -- Implementation
