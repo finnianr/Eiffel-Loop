@@ -1,7 +1,7 @@
 note
 	description: "[
-		A table of [$source IMMUTABLE_STRING_8] strings based on a single shared character area 
-		with virtual items of type [$source IMMUTABLE_STRING_8] that are created on demand.
+		Implementation of [$source EL_IMMUTABLE_STRING_TABLE] for keys and virtual items of type
+		[$source IMMUTABLE_STRING_8] and initialized by a manifest string of type [$source STRING_8]
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-14 17:39:07 GMT (Friday 14th July 2023)"
-	revision: "1"
+	date: "2023-07-15 10:37:08 GMT (Saturday 15th July 2023)"
+	revision: "2"
 
 class
 	EL_IMMUTABLE_STRING_8_TABLE
