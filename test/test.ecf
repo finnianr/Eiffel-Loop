@@ -97,6 +97,8 @@
 				<platform value = "windows"/>
 			</condition>
 		</library>
+		<!--FEATURE_CONSTANTS-->
+		<cluster name = "feature_names" location = "$EIFFEL_LOOP/tool/eiffel/source/edit/editor/constants"/>
 		<cluster name = "root" location = "source/root" recursive = "true">
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>

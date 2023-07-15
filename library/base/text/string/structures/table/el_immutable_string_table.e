@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-14 18:04:06 GMT (Friday 14th July 2023)"
-	revision: "1"
+	date: "2023-07-15 9:33:58 GMT (Saturday 15th July 2023)"
+	revision: "2"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -22,7 +22,12 @@ inherit
 		rename
 			found_item as found_interval,
 			item as interval_item,
+			item_for_iteration as interval_item_for_iteration,
 			make as make_size
+		export
+			{NONE} found_interval, interval_item, interval_item_for_iteration
+		redefine
+			new_cursor
 		end
 
 feature {NONE} -- Initialization
@@ -51,18 +56,25 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	found_item: IMMUTABLE
-		local
-			ir: EL_INTERVAL_ROUTINES
 		do
-			Result := new_substring (ir.to_lower (found_interval), ir.to_upper (found_interval))
+			Result := new_item_substring (found_interval)
 		end
 
 	item (key: IMMUTABLE): IMMUTABLE
-		local
-			ir: EL_INTERVAL_ROUTINES; interval: INTEGER_64
 		do
-			interval := interval_item (key)
-			Result := new_substring (ir.to_lower (interval), ir.to_upper (interval))
+			Result := new_item_substring (interval_item (key))
+		end
+
+	item_for_iteration: IMMUTABLE
+		do
+			Result := new_item_substring (interval_item_for_iteration)
+		end
+
+	new_cursor: EL_IMMUTABLE_STRING_TABLE_CURSOR [IMMUTABLE]
+			-- <Precursor>
+		do
+			create Result.make (Current)
+			Result.start
 		end
 
 feature -- Contract Support
@@ -86,7 +98,16 @@ feature -- Contract Support
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {EL_IMMUTABLE_STRING_TABLE_CURSOR} -- Implementation
+
+	new_item_substring (interval: INTEGER_64): IMMUTABLE
+		local
+			ir: EL_INTERVAL_ROUTINES
+		do
+			Result := new_substring (ir.to_lower (interval), ir.to_upper (interval))
+		end
+
+feature {NONE} -- Deferred
 
 	new_shared (a_manifest: GENERAL): IMMUTABLE
 		deferred

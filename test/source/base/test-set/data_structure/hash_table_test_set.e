@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-11 16:47:10 GMT (Tuesday 11th July 2023)"
-	revision: "15"
+	date: "2023-07-15 10:18:36 GMT (Saturday 15th July 2023)"
+	revision: "16"
 
 class
 	HASH_TABLE_TEST_SET
@@ -17,7 +17,9 @@ inherit
 
 	JSON_TEST_DATA
 
-	EL_MODULE_TUPLE
+	FEATURE_CONSTANTS
+
+	EL_MODULE_EIFFEL; EL_MODULE_TUPLE
 
 create
 	make
@@ -30,6 +32,7 @@ feature {NONE} -- Initialization
 			make_named (<<
 				["compressed_table",			 agent test_compressed_table],
 				["hash_set",					 agent test_hash_set],
+				["immutable_string_table",	 agent test_immutable_string_table],
 				["iteration_cursor",			 agent test_iteration_cursor],
 				["readable_string_8_table", agent test_readable_string_8_table],
 				["string_table",				 agent test_string_table],
@@ -77,6 +80,38 @@ feature -- Test
 			create set.make (20)
 			set.put ('a')
 			assert ("is stupid", not set.inserted)
+		end
+
+	test_immutable_string_table
+		-- HASH_TABLE_TEST_SET.test_immutable_string_table
+		local
+			standard_table: HASH_TABLE [STRING, STRING]
+			item_count, table_object_count, objects_per_string, objects_per_immutable,
+			standard_size, immutable_size, standard_object_count, immutable_object_count: INTEGER
+		do
+			create standard_table.make_equal (Feature_expansion_table.count)
+			across Feature_expansion_table as table loop
+				standard_table.extend (table.item, table.key)
+			end
+			immutable_size := Eiffel.deep_physical_size (Feature_expansion_table)
+			standard_size := Eiffel.deep_physical_size (standard_table)
+			lio.put_integer_field ("Standard size", standard_size)
+			lio.put_integer_field (" Immutable size", immutable_size)
+			lio.put_new_line
+			assert ("53 %% less memory", 100 - (immutable_size * 100 / standard_size).rounded = 53)
+
+
+			item_count := Feature_expansion_table.count
+			table_object_count := 5; objects_per_string := 2; objects_per_immutable := 1
+
+			standard_object_count := table_object_count + objects_per_string * 2 * item_count
+			immutable_object_count := (table_object_count + objects_per_string) + objects_per_immutable * item_count
+			lio.put_integer_field ("Table item count", item_count)
+			lio.put_integer_field (" Standard object count", standard_object_count)
+			lio.put_integer_field (" Immutable object count", immutable_object_count)
+			lio.put_new_line
+
+			assert ("71 %% fewer objects", 100 - (immutable_object_count * 100 / standard_object_count).rounded = 71)
 		end
 
 	test_iteration_cursor

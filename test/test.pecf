@@ -121,6 +121,10 @@ system:
 			condition:
 				platform = windows
 
+		# FEATURE_CONSTANTS
+		cluster:
+			name = feature_names; location = "$EIFFEL_LOOP/tool/eiffel/source/edit/editor/constants"
+
 		cluster_tree:
 			root = "source/root"
 			platform_list:

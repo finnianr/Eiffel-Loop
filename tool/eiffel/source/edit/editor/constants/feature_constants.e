@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-14 17:34:38 GMT (Friday 14th July 2023)"
-	revision: "9"
+	date: "2023-07-15 9:08:58 GMT (Saturday 15th July 2023)"
+	revision: "10"
 
-class
+deferred class
 	FEATURE_CONSTANTS
+
+inherit
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 

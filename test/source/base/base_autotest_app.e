@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-23 9:00:07 GMT (Friday 23rd June 2023)"
-	revision: "164"
+	date: "2023-07-15 9:11:59 GMT (Saturday 15th July 2023)"
+	revision: "165"
 
 class
 	BASE_AUTOTEST_APP
@@ -62,6 +62,7 @@ feature {NONE} -- Compile classes
 
 		EL_ESCAPED_STRING_FIELD_VALUE_TABLE [STRING_GENERAL],
 
+		EL_IMMUTABLE_STRING_32_TABLE,
 		EL_LINKED_STRING_LIST [STRING_GENERAL],
 		EL_SPLIT_IMMUTABLE_STRING_8_LIST, EL_SPLIT_IMMUTABLE_STRING_32_LIST,
 
