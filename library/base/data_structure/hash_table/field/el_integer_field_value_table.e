@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 9:33:51 GMT (Friday 9th December 2022)"
-	revision: "7"
+	date: "2023-07-16 16:13:50 GMT (Sunday 16th July 2023)"
+	revision: "8"
 
 class
 	EL_INTEGER_FIELD_VALUE_TABLE
@@ -23,7 +23,7 @@ create
 
 feature {NONE} -- Implementation
 
-	set_value (key: STRING; value: INTEGER)
+	set_value (key: READABLE_STRING_8; value: INTEGER)
 		do
 			set_conditional_value (key, value)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-15 16:35:54 GMT (Saturday 15th July 2023)"
-	revision: "8"
+	date: "2023-07-16 16:42:11 GMT (Sunday 16th July 2023)"
+	revision: "9"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
@@ -16,6 +16,16 @@ inherit
 	EL_MODULE_CONVERT_STRING
 
 feature -- Measurement
+
+	character_count (list: ITERABLE [READABLE_STRING_GENERAL]; separator_count: INTEGER): INTEGER
+		do
+			across list as ln loop
+				if Result > 0 then
+					Result := Result + separator_count
+				end
+				Result := Result + ln.item.count
+			end
+		end
 
 	maximum_count (strings: ITERABLE [READABLE_STRING_GENERAL]): INTEGER
 			--

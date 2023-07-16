@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-07-16 17:02:42 GMT (Sunday 16th July 2023)"
+	revision: "11"
 
 deferred class
 	PP_SUB_PARAMETER_LIST
@@ -57,12 +57,16 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	extend (name, value: ZSTRING)
+	extend (name: READABLE_STRING_8; value: ZSTRING)
 		local
-			nvp: EL_NAME_VALUE_PAIR [ZSTRING]
+			nvp: ZSTRING
 		do
-			create nvp.make_pair (name, value)
-			extend_list (create {EL_HTTP_NAME_VALUE_PARAMETER}.make (new_name, nvp.as_assignment))
+			create nvp.make (name.count + value.count + 1)
+			nvp.append_string_general (name)
+			nvp.append_character ('=')
+			nvp.append_string (value)
+
+			extend_list (create {EL_HTTP_NAME_VALUE_PARAMETER}.make (new_name, nvp))
 		end
 
 end

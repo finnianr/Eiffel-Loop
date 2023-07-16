@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-07-16 17:28:27 GMT (Sunday 16th July 2023)"
+	revision: "8"
 
 class
 	TL_MUSICBRAINZ_MPEG_FILE
@@ -120,7 +120,7 @@ feature {NONE} -- Implementation
 	set_mb_field (enum: NATURAL_8; text: READABLE_STRING_GENERAL)
 		-- set double fields
 		do
-			across << Musicbrainz.name (enum), Musicbrainz.identifier (enum) >> as id loop
+			across << Musicbrainz.name (enum).to_string_8, Musicbrainz.identifier (enum) >> as id loop
 				if text.is_empty then
 					tag.remove_user_text (id.item)
 				else

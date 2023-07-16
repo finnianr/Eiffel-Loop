@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 12:31:30 GMT (Sunday 16th July 2023)"
-	revision: "48"
+	date: "2023-07-16 17:56:57 GMT (Sunday 16th July 2023)"
+	revision: "49"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -111,13 +111,13 @@ feature -- Access
 			end
 		end
 
-	name (a_value: N): STRING
+	name (a_value: N): IMMUTABLE_STRING_8
 		-- exported name
 		do
 			if name_by_value.has_key (as_hashable (a_value)) then
 				Result := name_by_value.found_item
 			else
-				Result := Empty_string_8
+				create Result.make_empty
 			end
 		end
 
@@ -204,7 +204,7 @@ feature {NONE} -- Implementation
 			Result := agent {EL_REFLECTED_FIELD}.name
 		end
 
-	new_field_name_by_value: like name_by_value
+	new_field_name_by_value: HASH_TABLE [STRING_8, like as_hashable]
 		do
 			create Result.make_equal (count)
 			across field_table as table loop
@@ -237,7 +237,8 @@ feature {NONE} -- Deferred
 
 feature {NONE} -- Internal attributes
 
-	name_by_value: HASH_TABLE [STRING_8, like as_hashable];
+	name_by_value: HASH_TABLE [IMMUTABLE_STRING_8, like as_hashable];
+		-- exported name table by value
 
 note
 	instructions: "[

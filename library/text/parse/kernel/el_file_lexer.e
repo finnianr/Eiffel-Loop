@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 11:54:07 GMT (Sunday 16th July 2023)"
-	revision: "12"
+	date: "2023-07-16 17:07:16 GMT (Sunday 16th July 2023)"
+	revision: "13"
 
 deferred class
 	EL_FILE_LEXER
@@ -99,7 +99,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	token_name (token_value: NATURAL): STRING
+	token_name (token_value: NATURAL): IMMUTABLE_STRING_8
 		do
 			Result := token.name (token_value)
 		end

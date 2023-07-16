@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 11:44:48 GMT (Sunday 16th July 2023)"
-	revision: "7"
+	date: "2023-07-16 16:31:24 GMT (Sunday 16th July 2023)"
+	revision: "8"
 
 class
 	TL_MUSICBRAINZ_ENUM
@@ -36,13 +36,11 @@ feature -- Enum codes
 feature -- Access
 
 	identifier (a_value: NATURAL_8): STRING_8
-		local
-			table: like name_by_value
 		do
 			if a_value = release_track_id then
 				Result := Musicbrainz_trackid
-			else
-				table := field_name_by_value
+
+			elseif attached field_name_by_value as table then
 				if table.has_key (a_value) then
 					Result := Musicbrainz_ + Id_translater.exported (table.found_item)
 				else

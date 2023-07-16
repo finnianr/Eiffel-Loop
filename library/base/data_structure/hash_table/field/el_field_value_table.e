@@ -13,16 +13,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 9:33:24 GMT (Friday 9th December 2022)"
-	revision: "6"
+	date: "2023-07-16 16:16:05 GMT (Sunday 16th July 2023)"
+	revision: "7"
 
 deferred class
 	EL_FIELD_VALUE_TABLE [G]
 
 inherit
-	HASH_TABLE [G, STRING]
+	EL_STRING_8_TABLE [G]
 		rename
-			make as make_with_count,
+			make as make_from_array,
 			make_equal as make
 		redefine
 			make
@@ -54,14 +54,14 @@ feature -- Element change
 
 feature -- Element change
 
-	set_conditional_value (key: STRING; new: like item)
+	set_conditional_value (key: READABLE_STRING_8; new: like item)
 		do
 			if condition /= default_condition implies condition (new) then
 				extend (new, key)
 			end
 		end
 
-	set_value (key: STRING; value: ANY)
+	set_value (key: READABLE_STRING_8; value: ANY)
 		deferred
 		end
 

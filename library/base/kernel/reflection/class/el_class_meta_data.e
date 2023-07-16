@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-24 16:15:33 GMT (Tuesday 24th January 2023)"
-	revision: "67"
+	date: "2023-07-16 15:54:13 GMT (Sunday 16th July 2023)"
+	revision: "68"
 
 class
 	EL_CLASS_META_DATA
@@ -59,6 +59,9 @@ feature {NONE} -- Initialization
 			tuple_converters := a_enclosing_object.new_tuple_converters
 
 			field_list := new_field_list
+			if attached a_enclosing_object.foreign_naming as translater then
+				field_list.set_export_names (translater)
+			end
 			field_table := field_list.to_table (a_enclosing_object)
 			if attached a_enclosing_object.foreign_naming as foreign_naming then
 				across field_table as table loop

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-15 15:58:11 GMT (Saturday 15th July 2023)"
-	revision: "50"
+	date: "2023-07-16 16:46:57 GMT (Sunday 16th July 2023)"
+	revision: "51"
 
 deferred class
 	EL_STRING_X_ROUTINES [STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -97,29 +97,43 @@ feature -- Transformed
 			Result.append_code (right.natural_32_code)
 		end
 
+	joined (a, b: READABLE_STRING_X): STRING_X
+		do
+			create Result.make (a.count + b.count)
+			Result.append (a); Result.append (b)
+		end
+
 	joined_lines (list: ITERABLE [READABLE_STRING_GENERAL]): STRING_X
 		do
-			Result := joined_with (list, once "%N")
+			Result := joined_by (list, '%N')
+		end
+
+	joined_by (list: ITERABLE [READABLE_STRING_GENERAL]; delimiter: CHARACTER_32): STRING_X
+		local
+			char_count: INTEGER; code: NATURAL_32
+		do
+			code := delimiter.natural_32_code
+			char_count := character_count (list, 1)
+			create Result.make (char_count)
+			across list as ln loop
+				if Result.count > 0 then
+					Result.append_code (code)
+				end
+				append_to (Result, ln.item)
+			end
 		end
 
 	joined_with (list: ITERABLE [READABLE_STRING_GENERAL]; delimiter: READABLE_STRING_GENERAL): STRING_X
 		local
-			char_count, count: INTEGER
+			char_count: INTEGER
 		do
+			char_count := character_count (list, delimiter.count)
+			create Result.make (char_count)
 			across list as ln loop
-				char_count := char_count + ln.item.count
-				count := count + 1
-			end
-			if count > 0 then
-				create Result.make (char_count + (count - 1) * delimiter.count)
-				across list as ln loop
-					if Result.count > 0 then
-						append_to (Result, delimiter)
-					end
-					append_to (Result, ln.item)
+				if Result.count > 0 then
+					append_to (Result, delimiter)
 				end
-			else
-				create Result.make (0)
+				append_to (Result, ln.item)
 			end
 		end
 

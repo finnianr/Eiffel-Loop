@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-07-16 17:50:41 GMT (Sunday 16th July 2023)"
+	revision: "8"
 
 deferred class
 	EL_VTD_NATIVE_XPATH_I [T]
@@ -17,6 +17,8 @@ inherit
 		export
 			{NONE} area
 		end
+
+	EL_MODULE_REUSEABLE
 
 	EL_STRING_32_CONSTANTS
 
@@ -28,19 +30,8 @@ feature {NONE} -- Initialization
 		end
 
 	make (xpath: READABLE_STRING_GENERAL)
-		local
-			buffer: EL_STRING_32_BUFFER_ROUTINES
 		do
-			if attached {STRING_32} xpath as str_32 then
-				share_area (str_32)
-
-			elseif attached buffer.copied_general (xpath) as str_32 then
-				if {PLATFORM}.is_windows then
-					share_area (str_32)
-				else
-					share_area (str_32.twin)
-				end
-			end
+			share_area (xpath.to_string_32)
 		end
 
 feature -- Element change

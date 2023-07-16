@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 5:28:10 GMT (Saturday 24th June 2023)"
-	revision: "10"
+	date: "2023-07-16 16:25:33 GMT (Sunday 16th July 2023)"
+	revision: "11"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -144,7 +144,7 @@ feature -- Conversion
 			end
 		end
 
-	joined (separator: CHARACTER_32; a_list: ITERABLE [READABLE_STRING_GENERAL]): ZSTRING
+	joined_list (a_list: ITERABLE [READABLE_STRING_GENERAL]; separator: CHARACTER_32): ZSTRING
 		local
 			count: INTEGER
 		do

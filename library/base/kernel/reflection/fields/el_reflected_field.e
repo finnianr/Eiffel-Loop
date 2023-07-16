@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 15:10:12 GMT (Saturday 29th April 2023)"
-	revision: "54"
+	date: "2023-07-16 15:59:02 GMT (Sunday 16th July 2023)"
+	revision: "55"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -27,15 +27,6 @@ inherit
 			is_equal, enclosing_object
 		end
 
-	EL_LAZY_ATTRIBUTE
-		rename
-			item as export_name,
-			new_item as new_export_name,
-			actual_item as actual_export_name
-		undefine
-			is_equal
-		end
-
 	EL_NAMEABLE [STRING] undefine is_equal end
 
 	EL_REFLECTION_CONSTANTS
@@ -44,18 +35,20 @@ inherit
 
 	EL_MODULE_EIFFEL
 
+	EL_SHARED_IMMUTABLE_8_MANAGER
+
 feature {EL_CLASS_META_DATA} -- Initialization
 
 	make (a_object: like enclosing_object; a_index: INTEGER; a_name: STRING)
 		do
 			make_reflected (a_object)
 			index := a_index; name := a_name
-			translater := a_object.foreign_naming
 			type_id := field_static_type (index)
 			type := Eiffel.type_of_type (type_id)
+			export_name := Immutable_8.new_substring (a_name.area, 0, a_name.count)
 		end
 
-feature -- Access
+feature -- Names
 
 	category_id: INTEGER
 		-- abstract type of field corresponding to `REFLECTOR_CONSTANTS' type constants
@@ -68,9 +61,13 @@ feature -- Access
 			Result := type.name
 		end
 
-	index: INTEGER
+	export_name: IMMUTABLE_STRING_8
 
 	name: STRING
+
+feature -- Access
+
+	index: INTEGER
 
 	reference_value (a_object: EL_REFLECTIVE): ANY
 		deferred
@@ -214,7 +211,12 @@ feature -- Basic operations
 
 feature -- Element change
 
-	set_index (a_index: like index)
+	set_export_name (a_name: IMMUTABLE_STRING_8)
+		do
+			export_name := a_name
+		end
+
+	set_index (a_index: INTEGER)
 		do
 			index := a_index
 		end
@@ -229,16 +231,6 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	new_export_name: STRING
-		-- factory for lazy attribute 'export_name'
-		do
-			if attached translater as t then
-				Result := t.exported (name)
-			else
-				Result := name
-			end
-		end
-
 	write_crc (crc: EL_CYCLIC_REDUNDANCY_CHECK_32)
 		do
 			crc.add_string_8 (name)
@@ -249,8 +241,6 @@ feature {EL_REFLECTION_HANDLER} -- Internal attributes
 
 	enclosing_object: separate EL_REFLECTIVE
 		-- Enclosing object containing `object' or a reference to `object.
-
-	translater: detachable EL_NAME_TRANSLATER
 
 feature {NONE} -- Constants
 

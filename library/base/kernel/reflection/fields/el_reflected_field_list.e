@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 16:29:15 GMT (Saturday 31st December 2022)"
-	revision: "22"
+	date: "2023-07-16 16:18:07 GMT (Sunday 16th July 2023)"
+	revision: "23"
 
 class
 	EL_REFLECTED_FIELD_LIST
@@ -15,9 +15,9 @@ class
 inherit
 	EL_ARRAYED_LIST [EL_REFLECTED_FIELD]
 
-	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
-
 	EL_REFLECTION_HANDLER
+
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 create
 	make
@@ -57,6 +57,18 @@ feature -- Conversion
 		end
 
 feature -- Basic operations
+
+	set_export_names (translater: EL_NAME_TRANSLATER)
+		local
+			list: EL_SPLIT_IMMUTABLE_STRING_8_LIST
+		do
+		-- Join exported names into one comma-separated `IMMUTABLE_STRING_8'
+			create list.make (string_8_list (agent new_exported_name (?, translater)).joined (',') , ',')
+			from list.start until list.after loop
+				i_th (list.index).set_export_name (list.item)
+				list.forth
+			end
+		end
 
 	set_order (meta_data: EL_CLASS_META_DATA)
 		-- reorder fields according to class `meta_data'
@@ -127,4 +139,12 @@ feature -- Basic operations
 				end
 			end
 		end
+
+feature {NONE} -- Implementation
+
+	new_exported_name (field: EL_REFLECTED_FIELD; translater: EL_NAME_TRANSLATER): STRING
+		do
+			Result := translater.exported (field.name)
+		end
+
 end

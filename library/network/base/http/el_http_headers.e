@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-13 11:09:29 GMT (Thursday 13th July 2023)"
-	revision: "23"
+	date: "2023-07-16 17:25:30 GMT (Sunday 16th July 2023)"
+	revision: "24"
 
 class
 	EL_HTTP_HEADERS
@@ -148,7 +148,7 @@ feature -- Access
 
 	response_code: NATURAL_16
 
-	response_message: STRING
+	response_message: IMMUTABLE_STRING_8
 		do
 			Result := Http_status.name (response_code)
 		end

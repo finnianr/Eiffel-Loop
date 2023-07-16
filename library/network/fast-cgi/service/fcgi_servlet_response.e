@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-31 17:09:30 GMT (Friday 31st March 2023)"
-	revision: "30"
+	date: "2023-07-16 17:24:59 GMT (Sunday 16th July 2023)"
+	revision: "31"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -149,7 +149,7 @@ feature -- Basic operations
 			-- status code and descriptive message. The server generally
 			-- creates the response to look like a normal server error page.
 		local
-			code_name: STRING; html: ZSTRING
+			code_name: IMMUTABLE_STRING_8; html: ZSTRING
 		do
 			code_name := Http_status.name (sc)
 			content_type := a_content_type

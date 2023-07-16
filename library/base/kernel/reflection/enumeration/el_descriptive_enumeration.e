@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 11:41:33 GMT (Sunday 16th July 2023)"
-	revision: "4"
+	date: "2023-07-16 17:26:43 GMT (Sunday 16th July 2023)"
+	revision: "5"
 
 deferred class
 	EL_DESCRIPTIVE_ENUMERATION [N -> NUMERIC]
@@ -48,7 +48,7 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	name (a_value: N): STRING
+	name (a_value: N): IMMUTABLE_STRING_8
 		deferred
 		end
 

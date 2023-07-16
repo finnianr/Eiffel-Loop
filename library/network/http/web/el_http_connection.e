@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-13 17:21:58 GMT (Thursday 13th July 2023)"
-	revision: "47"
+	date: "2023-07-16 17:26:03 GMT (Sunday 16th July 2023)"
+	revision: "48"
 
 class
 	EL_HTTP_CONNECTION
@@ -79,7 +79,7 @@ feature -- Access
 			end
 		end
 
-	page_error_name: STRING
+	page_error_name: IMMUTABLE_STRING_8
 		-- English name for `page_error_code'
 		do
 			Result := Http_status.name (page_error_code)
@@ -112,7 +112,7 @@ feature -- Status query
 			Result := is_attached (self_ptr)
 		end
 
-	resource_exists (a_url: EL_URL; on_error_action: detachable PROCEDURE [STRING]): BOOLEAN
+	resource_exists (a_url: EL_URL; on_error_action: detachable PROCEDURE [READABLE_STRING_8]): BOOLEAN
 		do
 			open_url (a_url)
 			read_string_head

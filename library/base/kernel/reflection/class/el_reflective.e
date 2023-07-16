@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-20 12:43:10 GMT (Tuesday 20th June 2023)"
-	revision: "73"
+	date: "2023-07-16 17:12:21 GMT (Sunday 16th July 2023)"
+	revision: "74"
 
 deferred class
 	EL_REFLECTIVE
@@ -278,7 +278,7 @@ feature {EL_CLASS_META_DATA} -- Implementation
 		deferred
 		end
 
-	set_reference_fields (type: TYPE [ANY]; new_object: FUNCTION [STRING, ANY])
+	set_reference_fields (type: TYPE [ANY]; new_object: FUNCTION [IMMUTABLE_STRING_8, ANY])
 		-- set reference fields of `type' with `new_object' taking a exported name
 		require
 			reference_type: not type.is_expanded

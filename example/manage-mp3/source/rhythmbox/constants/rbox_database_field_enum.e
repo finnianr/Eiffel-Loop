@@ -17,14 +17,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-07-16 15:44:53 GMT (Sunday 16th July 2023)"
+	revision: "13"
 
 class
 	RBOX_DATABASE_FIELD_ENUM
 
 inherit
-	EL_ENUMERATION [NATURAL_16]
+	EL_ENUMERATION_NATURAL_16
 		rename
 			foreign_naming as kebab_case
 		redefine
@@ -37,79 +37,82 @@ create
 feature {NONE} -- Initialization
 
 	initialize_fields
+		-- number is order in C source file: rhythmdb.c
 		do
-			-- order is the same as in C source file: rhythmdb.c
-			title := (1).to_natural_16 |<< 8 | G_type_string
-			genre := (2).to_natural_16 |<< 8 | G_type_string
-			artist := (3).to_natural_16 |<< 8 | G_type_string
-			album := (4).to_natural_16 |<< 8 | G_type_string
-			track_number := (5).to_natural_16 |<< 8 | G_type_ulong
-			disc_number := (6).to_natural_16 |<< 8 | G_type_ulong
-			duration := (7).to_natural_16 |<< 8 | G_type_ulong
-			file_size := (8).to_natural_16 |<< 8 | G_type_uint64
-			location := (9).to_natural_16 |<< 8 | G_type_string
-			mountpoint := (10).to_natural_16 |<< 8 | G_type_string
-			mtime := (11).to_natural_16 |<< 8 | G_type_ulong
-			first_seen := (12).to_natural_16 |<< 8 | G_type_ulong
-			last_seen := (13).to_natural_16 |<< 8 | G_type_ulong
-			rating := (14).to_natural_16 |<< 8 | G_type_double
-			play_count := (15).to_natural_16 |<< 8 | G_type_ulong
-			last_played := (16).to_natural_16 |<< 8 | G_type_ulong
-			bitrate := (17).to_natural_16 |<< 8 | G_type_ulong
-			date := (18).to_natural_16 |<< 8 | G_type_ulong
-			replaygain_track_gain := (19).to_natural_16 |<< 8 | G_type_double
-			replaygain_track_peak := (20).to_natural_16 |<< 8 | G_type_double
-			replaygain_album_gain := (21).to_natural_16 |<< 8 | G_type_double
-			replaygain_album_peak := (22).to_natural_16 |<< 8 | G_type_double
-			media_type := (23).to_natural_16 |<< 8 | G_type_string
-			title_sort_key := (24).to_natural_16 |<< 8 | G_type_string
-			genre_sort_key := (25).to_natural_16 |<< 8 | G_type_string
-			artist_sort_key := (26).to_natural_16 |<< 8 | G_type_string
-			album_sort_key := (27).to_natural_16 |<< 8 | G_type_string
-			title_folded := (28).to_natural_16 |<< 8 | G_type_string
-			genre_folded := (29).to_natural_16 |<< 8 | G_type_string
-			artist_folded := (30).to_natural_16 |<< 8 | G_type_string
-			album_folded := (31).to_natural_16 |<< 8 | G_type_string
-			last_played_str := (32).to_natural_16 |<< 8 | G_type_string
-			hidden := (33).to_natural_16 |<< 8 | G_type_boolean
-			playback_error := (34).to_natural_16 |<< 8 | G_type_string
-			first_seen_str := (35).to_natural_16 |<< 8 | G_type_string
-			last_seen_str := (36).to_natural_16 |<< 8 | G_type_string
-			search_match := (37).to_natural_16 |<< 8 | G_type_string
-			year := (38).to_natural_16 |<< 8 | G_type_ulong
-			keyword := (39).to_natural_16 |<< 8 | G_type_string
-			status := (40).to_natural_16 |<< 8 | G_type_ulong
-			description := (41).to_natural_16 |<< 8 | G_type_string
-			subtitle := (42).to_natural_16 |<< 8 | G_type_string
-			summary := (43).to_natural_16 |<< 8 | G_type_string
-			lang := (44).to_natural_16 |<< 8 | G_type_string
-			copyright := (45).to_natural_16 |<< 8 | G_type_string
-			image := (46).to_natural_16 |<< 8 | G_type_string
-			post_time := (47).to_natural_16 |<< 8 | G_type_ulong
-			mb_trackid := (48).to_natural_16 |<< 8 | G_type_string
-			mb_artistid := (49).to_natural_16 |<< 8 | G_type_string
-			mb_albumid := (50).to_natural_16 |<< 8 | G_type_string
-			mb_albumartistid := (51).to_natural_16 |<< 8 | G_type_string
-			mb_artistsortname := (52).to_natural_16 |<< 8 | G_type_string
-			album_sortname := (53).to_natural_16 |<< 8 | G_type_string
-			artist_sortname_sort_key := (54).to_natural_16 |<< 8 | G_type_string
-			artist_sortname_folded := (55).to_natural_16 |<< 8 | G_type_string
-			album_sortname_sort_key := (56).to_natural_16 |<< 8 | G_type_string
-			album_sortname_folded := (57).to_natural_16 |<< 8 | G_type_string
-			comment := (58).to_natural_16 |<< 8 | G_type_string
-			album_artist := (59).to_natural_16 |<< 8 | G_type_string
-			album_artist_sort_key := (60).to_natural_16 |<< 8 | G_type_string
-			album_artist_folded := (61).to_natural_16 |<< 8 | G_type_string
-			album_artist_sortname := (62).to_natural_16 |<< 8 | G_type_string
-			album_artist_sortname_sort_key := (63).to_natural_16 |<< 8 | G_type_string
-			album_artist_sortname_folded := (64).to_natural_16 |<< 8 | G_type_string
-			beats_per_minute := (65).to_natural_16 |<< 8 | G_type_double
-			composer := (66).to_natural_16 |<< 8 | G_type_string
-			composer_sort_key := (67).to_natural_16 |<< 8 | G_type_string
-			composer_folded := (68).to_natural_16 |<< 8 | G_type_string
-			composer_sortname := (69).to_natural_16 |<< 8 | G_type_string
-			composer_sortname_sort_key := (70).to_natural_16 |<< 8 | G_type_string
-			composer_sortname_folded := (71).to_natural_16 |<< 8 | G_type_string
+			album_artist_folded := numbered_string (61)
+			album_artist := numbered_string (59)
+			album_artist_sort_key := numbered_string (60)
+			album_artist_sortname_folded := numbered_string (64)
+			album_artist_sortname := numbered_string (62)
+			album_artist_sortname_sort_key := numbered_string (63)
+			album_folded := numbered_string (31)
+			album := numbered_string (4)
+			album_sort_key := numbered_string (27)
+			album_sortname_folded := numbered_string (57)
+			album_sortname := numbered_string (53)
+			album_sortname_sort_key := numbered_string (56)
+			artist_folded := numbered_string (30)
+			artist := numbered_string (3)
+			artist_sort_key := numbered_string (26)
+			artist_sortname_folded := numbered_string (55)
+			artist_sortname_sort_key := numbered_string (54)
+			comment := numbered_string (58)
+			composer_folded := hi_byte (68)
+			composer := hi_byte (66)
+			composer_sort_key := hi_byte (67)
+			composer_sortname_folded := hi_byte (71)
+			composer_sortname := hi_byte (69)
+			composer_sortname_sort_key := hi_byte (70)
+			copyright := numbered_string (45)
+			description := numbered_string (41)
+			first_seen_str := numbered_string (35)
+			genre_folded := numbered_string (29)
+			genre := numbered_string (2)
+			genre_sort_key := numbered_string (25)
+			image := numbered_string (46)
+			keyword := numbered_string (39)
+			lang := numbered_string (44)
+			last_played_str := numbered_string (32)
+			last_seen_str := numbered_string (36)
+			location := numbered_string (9)
+			mb_albumartistid := numbered_string (51)
+			mb_albumid := numbered_string (50)
+			mb_artistid := numbered_string (49)
+			mb_artistsortname := numbered_string (52)
+			mb_trackid := numbered_string (48)
+			media_type := numbered_string (23)
+			mountpoint := numbered_string (10)
+			playback_error := numbered_string (34)
+			search_match := numbered_string (37)
+			subtitle := numbered_string (42)
+			summary := numbered_string (43)
+			title_folded := numbered_string (28)
+			title := numbered_string (1)
+			title_sort_key := numbered_string (24)
+
+			bitrate := numbered_ulong (17)
+			date := numbered_ulong (18)
+			disc_number := numbered_ulong (6)
+			duration := numbered_ulong (7)
+			first_seen := numbered_ulong (12)
+			last_played := numbered_ulong (16)
+			last_seen := numbered_ulong (13)
+			mtime := numbered_ulong (11)
+			play_count := numbered_ulong (15)
+			post_time := numbered_ulong (47)
+			status := numbered_ulong (40)
+			track_number := numbered_ulong (5)
+			year := numbered_ulong (38)
+
+			beats_per_minute := numbered_double (65)
+			rating := numbered_double (14)
+			replaygain_track_gain := numbered_double (19)
+			replaygain_track_peak := numbered_double (20)
+			replaygain_album_gain := numbered_double (21)
+			replaygain_album_peak := numbered_double (22)
+
+			file_size := numbered_uint64 (8)
+			hidden := numbered_boolean (33)
 		end
 
 	make
@@ -316,6 +319,36 @@ feature {NONE} -- Constants
 	G_type_ulong: NATURAL_16 = 0x8
 
 feature {NONE} -- Implementation
+
+	numbered_boolean (n: INTEGER): NATURAL_16
+		do
+			Result := (n.to_natural_16 |<< 8) | G_type_boolean
+		end
+
+	numbered_double (n: INTEGER): NATURAL_16
+		do
+			Result := (n.to_natural_16 |<< 8) | G_type_double
+		end
+
+	numbered_string (n: INTEGER): NATURAL_16
+		do
+			Result := (n.to_natural_16 |<< 8) | G_type_string
+		end
+
+	numbered_uint64 (n: INTEGER): NATURAL_16
+		do
+			Result := (n.to_natural_16 |<< 8) | G_type_uint64
+		end
+
+	numbered_ulong (n: INTEGER): NATURAL_16
+		do
+			Result := (n.to_natural_16 |<< 8) | G_type_ulong
+		end
+
+	hi_byte (n: INTEGER): NATURAL_16
+		do
+			Result := n.to_natural_16 |<< 8
+		end
 
 	new_element (field_code: NATURAL_16): XML_TEXT_ELEMENT
 		do
