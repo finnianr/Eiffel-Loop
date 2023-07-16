@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-07-16 11:48:08 GMT (Sunday 16th July 2023)"
+	revision: "8"
 
 class
 	FCGI_HEADER_ENUMERATION
 
 inherit
-	EL_ENUMERATION [NATURAL_8]
+	EL_ENUMERATION_NATURAL_8
 		rename
 			foreign_naming as Http_header_naming
 		end

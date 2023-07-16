@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 14:29:27 GMT (Monday 10th July 2023)"
-	revision: "36"
+	date: "2023-07-16 11:53:47 GMT (Sunday 16th July 2023)"
+	revision: "37"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -119,7 +119,7 @@ feature -- Access
 
 	document_dir: DIR_PATH
 
-	code_value_8 (current_code: NATURAL_8; enumeration: EL_ENUMERATION [NATURAL_8]): NATURAL_8
+	code_value_8 (current_code: NATURAL_8; enumeration: EL_ENUMERATION_NATURAL_8): NATURAL_8
 		-- enumeration value for current node name or `current_code' if name is invalid
 		do
 			Result := current_code
@@ -128,7 +128,7 @@ feature -- Access
 			end
 		end
 
-	code_value_16 (current_code: NATURAL_16; enumeration: EL_ENUMERATION [NATURAL_16]): NATURAL_16
+	code_value_16 (current_code: NATURAL_16; enumeration: EL_ENUMERATION_NATURAL_16): NATURAL_16
 		-- enumeration value for current node name or `current_code' if name is invalid
 		do
 			Result := current_code

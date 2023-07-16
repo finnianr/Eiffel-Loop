@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "15"
+	date: "2023-07-16 11:42:23 GMT (Sunday 16th July 2023)"
+	revision: "16"
 
 class
 	EL_HTTP_STATUS_ENUM
 
 inherit
-	EL_ENUMERATION [NATURAL_16]
+	EL_ENUMERATION_NATURAL_16
 		rename
 			foreign_naming as English
 		redefine

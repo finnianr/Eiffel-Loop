@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:56 GMT (Monday 21st November 2022)"
-	revision: "11"
+	date: "2023-07-16 11:54:07 GMT (Sunday 16th July 2023)"
+	revision: "12"
 
 deferred class
 	EL_FILE_LEXER
@@ -95,7 +95,7 @@ feature {NONE} -- Implementation
 			Result := core.new_string_literal (word) |to| add_token_action (id)
 		end
 
-	token: EL_ENUMERATION [NATURAL]
+	token: EL_ENUMERATION_NATURAL_32
 		deferred
 		end
 

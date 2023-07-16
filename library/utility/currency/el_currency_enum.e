@@ -11,14 +11,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2023-07-16 11:32:53 GMT (Sunday 16th July 2023)"
+	revision: "16"
 
 class
 	EL_CURRENCY_ENUM
 
 inherit
-	EL_ENUMERATION [NATURAL_8]
+	EL_ENUMERATION_NATURAL_8
 		rename
 			foreign_naming as Snake_case_upper
 		redefine

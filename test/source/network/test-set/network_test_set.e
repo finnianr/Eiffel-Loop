@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "6"
+	date: "2023-07-16 12:11:33 GMT (Sunday 16th July 2023)"
+	revision: "7"
 
 class
 	NETWORK_TEST_SET
@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["enumerations", agent test_enumerations],
+				["enumerations",			  agent test_enumerations],
 				["ip_address_conversion", agent test_ip_address_conversion]
 			>>)
 		end
@@ -34,10 +34,7 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_enumerations
-		local
-			enum_array: ARRAY [EL_ENUMERATION [NUMERIC]]
 		do
-			enum_array := << create {EL_HTTP_STATUS_ENUM}.make, create {EL_NETWORK_DEVICE_TYPE_ENUM}.make >>
 			across enum_array as enum loop
 				assert ("name and value consistent for " + enum.item.generator, enum.item.name_and_values_consistent)
 			end
@@ -46,6 +43,13 @@ feature -- Tests
 	test_ip_address_conversion
 		do
 			assert ("same string", IP_address.to_string (IP_address.Loop_back_address) ~ "127.0.0.1")
+		end
+
+feature {NONE} -- Implementation
+
+	enum_array: ARRAY [EL_ENUMERATION [NUMERIC]]
+		do
+			Result := << create {EL_HTTP_STATUS_ENUM}.make, create {EL_NETWORK_DEVICE_TYPE_ENUM}.make >>
 		end
 
 end

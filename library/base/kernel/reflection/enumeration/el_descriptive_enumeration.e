@@ -9,18 +9,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-07-16 11:41:33 GMT (Sunday 16th July 2023)"
+	revision: "4"
 
 deferred class
-	EL_DESCRIPTIVE_ENUMERATION [N -> {NUMERIC, HASHABLE}]
+	EL_DESCRIPTIVE_ENUMERATION [N -> NUMERIC]
 
 inherit
-	EL_ENUMERATION [N]
-		redefine
-			make
-		end
-
 	EL_REFLECTIVE_DESCRIPTIONS
 		rename
 			description_table as new_description_table
@@ -32,7 +27,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			Precursor
+			make_enumeration
 			description_table := new_description_table
 		end
 
@@ -45,6 +40,16 @@ feature -- Access
 			else
 				create Result.make_empty
 			end
+		end
+
+feature {NONE} -- Deferred
+
+	make_enumeration
+		deferred
+		end
+
+	name (a_value: N): STRING
+		deferred
 		end
 
 feature {NONE} -- Internal attributes

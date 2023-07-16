@@ -9,11 +9,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-12 8:14:39 GMT (Sunday 12th March 2023)"
-	revision: "12"
+	date: "2023-07-16 11:52:28 GMT (Sunday 16th July 2023)"
+	revision: "13"
 
 class
-	JSON_INTERVALS_OBJECT [FIELD_ENUM -> EL_ENUMERATION [NATURAL_16] create make end]
+	JSON_INTERVALS_OBJECT [FIELD_ENUM -> EL_ENUMERATION_NATURAL_16 create make end]
 
 inherit
 	EL_SEQUENTIAL_INTERVALS
@@ -72,7 +72,7 @@ feature -- Measurement
 
 feature {JSON_INTERVALS_OBJECT} -- Factory
 
-	new_enumeration: EL_ENUMERATION [NATURAL_16]
+	new_enumeration: EL_ENUMERATION_NATURAL_16
 		do
 			create {FIELD_ENUM} Result.make
 		end
@@ -158,10 +158,10 @@ feature {NONE} -- Constants
 		end
 
 	Enumeration_by_type: EL_FUNCTION_RESULT_TABLE [
-		JSON_INTERVALS_OBJECT [EL_ENUMERATION [NATURAL_16]], EL_ENUMERATION [NATURAL_16]
+		JSON_INTERVALS_OBJECT [EL_ENUMERATION_NATURAL_16], EL_ENUMERATION_NATURAL_16
 	]
 		once
-			create Result.make (11, agent {JSON_INTERVALS_OBJECT [EL_ENUMERATION [NATURAL_16]]}.new_enumeration)
+			create Result.make (11, agent {JSON_INTERVALS_OBJECT [EL_ENUMERATION_NATURAL_16]}.new_enumeration)
 		end
 
 end

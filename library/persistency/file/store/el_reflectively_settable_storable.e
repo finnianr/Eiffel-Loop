@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-28 9:50:24 GMT (Wednesday 28th December 2022)"
-	revision: "69"
+	date: "2023-07-16 12:07:10 GMT (Sunday 16th July 2023)"
+	revision: "70"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -52,9 +52,8 @@ feature -- Basic operations
 
 	write_meta_data (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
 		local
-			field_definition: STRING; enumeration_list: ARRAYED_LIST [EL_ENUMERATION [NUMERIC]]
-			collection_item_list: ARRAYED_LIST [EL_REFLECTIVELY_SETTABLE_STORABLE]
-			field: EL_REFLECTED_FIELD
+			field_definition: STRING; collection_item_list: ARRAYED_LIST [EL_REFLECTIVELY_SETTABLE_STORABLE]
+			enumeration_list: ARRAYED_LIST [EL_ENUMERATION [NUMERIC]]; field: EL_REFLECTED_FIELD
 		do
 			create enumeration_list.make (5)
 			create collection_item_list.make (0)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "39"
+	date: "2023-07-16 12:14:25 GMT (Sunday 16th July 2023)"
+	revision: "40"
 
 class
 	REFLECTION_TEST_SET
@@ -34,20 +34,20 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["arrayed_list_initialization", agent test_arrayed_list_initialization],
-				["default_tuple_initialization", agent test_default_tuple_initialization],
-				["field_representation", agent test_field_representation],
-				["initialized_object_factory", agent test_initialized_object_factory],
-				["object_initialization_from_camel_case_table", agent test_object_initialization_from_camel_case_table],
-				["object_initialization_from_table", agent test_object_initialization_from_table],
-				["reference_field_list", agent test_reference_field_list],
-				["reflected_collection_factory", agent test_reflected_collection_factory],
-				["reflected_integer_list", agent test_reflected_integer_list],
-				["reflection", agent test_reflection],
-				["reflective_string_constants", agent test_reflective_string_constants],
-				["set_from_other", agent test_set_from_other],
-				["size_reporting", agent test_size_reporting],
-				["substituted_type_name", agent test_substituted_type_name]
+				["arrayed_list_initialization",						agent test_arrayed_list_initialization],
+				["default_tuple_initialization",						agent test_default_tuple_initialization],
+				["field_representation",								agent test_field_representation],
+				["initialized_object_factory",						agent test_initialized_object_factory],
+				["object_initialization_from_camel_case_table",	agent test_object_initialization_from_camel_case_table],
+				["object_initialization_from_table",				agent test_object_initialization_from_table],
+				["reference_field_list",								agent test_reference_field_list],
+				["reflected_collection_factory",						agent test_reflected_collection_factory],
+				["reflected_integer_list",								agent test_reflected_integer_list],
+				["reflection",												agent test_reflection],
+				["reflective_string_constants",						agent test_reflective_string_constants],
+				["set_from_other",										agent test_set_from_other],
+				["size_reporting",										agent test_size_reporting],
+				["substituted_type_name",								agent test_substituted_type_name]
 			>>)
 		end
 

@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 12:31:30 GMT (Sunday 16th July 2023)"
-	revision: "48"
+	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
+	revision: "47"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -46,12 +46,7 @@ inherit
 			is_equal
 		end
 
-	REFLECTOR_CONSTANTS
-		export
-			{NONE} all
-		undefine
-			is_equal
-		end
+	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -65,14 +60,16 @@ feature {NONE} -- Initialization
 
 	make
 		do
+			field_type_id := ({N}).type_id.to_character_32
 			Precursor
 			create name_by_value.make (field_table.count)
-			across field_table as table loop
-				if attached {like ENUM_FIELD} table.item as field then
-					name_by_value.put (field.export_name, as_hashable (enum_value (field)))
+			across field_table as field loop
+				if attached {HASHABLE} field.item.value (Current) as key then
+					name_by_value.put (field.item.export_name, key)
 					check
 						no_conflict: not name_by_value.conflict
 					end
+					internal_count := internal_count.next
 				end
 			end
 		ensure then
@@ -84,7 +81,7 @@ feature -- Measurement
 
 	count: INTEGER
 		do
-			Result := field_table.count
+			Result := internal_count.code
 		end
 
 feature -- Access
@@ -92,10 +89,10 @@ feature -- Access
 	field_name (a_value: N): STRING
 		-- exported field name from field value `a_value'
 		do
-			if attached field_name_by_value as table and then table.has_key (as_hashable (a_value)) then
-				Result := table.found_item
+			if attached {HASHABLE} a_value as key and then field_name_by_value.has_key (key) then
+				Result := field_name_by_value.found_item
 			else
-				Result := Empty_string_8
+				create Result.make_empty
 			end
 		ensure
 			not_empty: not Result.is_empty
@@ -103,10 +100,10 @@ feature -- Access
 
 	list: EL_ARRAYED_LIST [N]
 		do
-			create Result.make (count)
-			across field_table as table loop
-				if attached {like ENUM_FIELD} table.item as field then
-					Result.extend (enum_value (field))
+			create Result.make (field_table.count)
+			across field_table as field loop
+				if attached {N} field.item.value (Current) as l_value then
+					Result.extend (l_value)
 				end
 			end
 		end
@@ -114,22 +111,22 @@ feature -- Access
 	name (a_value: N): STRING
 		-- exported name
 		do
-			if name_by_value.has_key (as_hashable (a_value)) then
+			if attached {HASHABLE} a_value as key and then name_by_value.has_key (key) then
 				Result := name_by_value.found_item
 			else
-				Result := Empty_string_8
+				create Result.make_empty
 			end
 		end
 
-	value (a_name: STRING_8): like enum_value
+	value (a_name: STRING_8): N
 		-- enumuration value from `a_name'
 		require
 			valid_name: is_valid_name (a_name)
 			do
 			if field_table.has_imported_key (a_name)
-				and then attached {like ENUM_FIELD} field_table.found_item as field
+				and then attached {N} field_table.found_item.value (Current) as enum_value
 			then
-				Result := enum_value (field)
+				Result := enum_value
 			else
 				check
 					value_found: False
@@ -160,7 +157,9 @@ feature -- Status query
 
 	is_valid_value (a_value: N): BOOLEAN
 		do
-			Result := name_by_value.has (as_hashable (a_value))
+			if attached {HASHABLE} a_value as key then
+				Result := name_by_value.has (key)
+			end
 		end
 
 feature -- Basic operations
@@ -187,7 +186,7 @@ feature -- Contract Support
 		-- `True' if all `value' results can be looked up from `name_by_value' items
 		do
 			Result := across name_by_value as table all
-				 table.key = as_hashable (value (table.item))
+				attached {HASHABLE} value (table.item) as hash_value and then hash_value = table.key
 			end
 		end
 
@@ -195,7 +194,7 @@ feature {NONE} -- Implementation
 
 	field_included (basic_type, type_id: INTEGER_32): BOOLEAN
 		do
-			Result := basic_type = enumeration_type
+			Result := field_type_id.natural_32_code = type_id.to_natural_32
 		end
 
 	field_order: like Default_field_order
@@ -206,38 +205,23 @@ feature {NONE} -- Implementation
 
 	new_field_name_by_value: like name_by_value
 		do
-			create Result.make_equal (count)
-			across field_table as table loop
-				if attached {like ENUM_FIELD} table.item as field then
-					Result.extend (field.name, as_hashable (enum_value (field)))
+			create Result.make_equal (field_table.count)
+			across field_table as field loop
+				if attached {HASHABLE} field.item.value (Current) as key then
+					Result.extend (field.item.name, key)
 				end
 			end
 		end
 
-feature {NONE} -- Deferred
-
-	as_hashable (a_value: N): HASHABLE
-		deferred
-		end
-
-	enum_value (field: like ENUM_FIELD): N
-		deferred
-		end
-
-	enumeration_type: INTEGER
-		deferred
-		end
-
-	ENUM_FIELD: EL_REFLECTED_INTEGER_FIELD [NUMERIC]
-		-- Type definition
-		require
-			never_called: False
-		deferred
-		end
-
 feature {NONE} -- Internal attributes
 
-	name_by_value: HASH_TABLE [STRING_8, like as_hashable];
+	field_type_id: CHARACTER_32
+		-- using CHARACTER_32 so it won't be included as part of enumeration
+
+	internal_count: CHARACTER_32
+		-- using CHARACTER_32 so it won't be included as part of enumeration
+
+	name_by_value: HASH_TABLE [STRING_8, HASHABLE];
 
 note
 	instructions: "[
