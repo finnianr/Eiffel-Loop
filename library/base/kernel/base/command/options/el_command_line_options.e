@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 8:19:51 GMT (Saturday 29th April 2023)"
-	revision: "26"
+	date: "2023-07-17 16:35:07 GMT (Monday 17th July 2023)"
+	revision: "27"
 
 deferred class
 	EL_COMMAND_LINE_OPTIONS
@@ -53,14 +53,6 @@ feature {NONE} -- Initialization
 			Args.set_attributes (Current)
 		ensure
 			valid_help: not help_text.is_empty implies valid_help_table
-			valid_names: Tuple.to_string_8_list (Name).for_all (agent is_option)
-		end
-
-feature -- Status query
-
-	is_option (a_name: STRING): BOOLEAN
-		do
-			Result := field_table.has_key (a_name)
 		end
 
 feature {NONE} -- Implementation
@@ -69,17 +61,7 @@ feature {NONE} -- Implementation
 		local
 			s: EL_STRING_8_ROUTINES
 		do
-			Result := precursor_lines + s.character_string ('%N') + lines
-		end
-
-feature {NONE} -- Constants
-
-	Name: TUPLE
-		-- accessible names for attributes
-		once
-			create Result
-		ensure
-			valid_names: Tuple.to_string_8_list (Result).for_all (agent is_option)
+			Result := s.joined_by (<< precursor_lines, lines >>,'%N')
 		end
 
 note

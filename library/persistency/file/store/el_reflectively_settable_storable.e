@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 12:07:10 GMT (Sunday 16th July 2023)"
-	revision: "70"
+	date: "2023-07-18 16:32:45 GMT (Tuesday 18th July 2023)"
+	revision: "71"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -216,9 +216,9 @@ note
 		**3.** [$source TUPLE] with type members that are either basic types or string references
 
 		Fields which have a note option marking them as ''transient'' are excluded from the `field_table'
-		Also any fields listed in the `Transient_fields' string will be treated the same.
+		Also any fields listed in the `new_transient_fields' string will be treated the same.
 
-			Transient_fields: STRING
+			new_transient_fields: STRING
 				once
 					Result := Precursor + ", foo_bar"
 				end

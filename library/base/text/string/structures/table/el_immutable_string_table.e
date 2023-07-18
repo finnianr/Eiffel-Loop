@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-15 16:55:20 GMT (Saturday 15th July 2023)"
-	revision: "4"
+	date: "2023-07-18 19:20:07 GMT (Tuesday 18th July 2023)"
+	revision: "5"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -32,9 +32,14 @@ inherit
 
 feature {NONE} -- Initialization
 
+	make_empty
+		do
+			make_equal (0)
+		end
+
 	make (a_manifest: GENERAL)
 		require
-			valid_manifest: valid_manifest (a_manifest)
+			valid_manifest: valid_comma_separated (a_manifest)
 		local
 			ir: EL_INTERVAL_ROUTINES; last_interval: INTEGER_64
 		do
@@ -56,21 +61,66 @@ feature {NONE} -- Initialization
 
 	make_by_assignment (a_manifest: GENERAL)
 		require
-			valid_manifest: valid_manifest_assignments (a_manifest)
+			valid_manifest: valid_assignments (a_manifest)
 		local
-			start_index, end_index, offset: INTEGER; rs: EL_READABLE_STRING_GENERAL_ROUTINES
-			ir: EL_INTERVAL_ROUTINES; interval: INTEGER_64
+			start_index, end_index, offset: INTEGER; ir: EL_INTERVAL_ROUTINES; interval: INTEGER_64
 		do
 			manifest := new_shared (a_manifest)
 			if attached new_split_list as list then
 				list.fill (manifest, '%N', 0)
 				make_equal (list.count // 2)
 				from list.start until list.after loop
-					start_index := rs.start_plus_end_assignment_indices (list.item, $end_index)
+					start_index := string.start_plus_end_assignment_indices (list.item, $end_index)
 					if end_index > 0 and start_index > 0 then
 						offset := list.item_start_index - 1
 						interval := ir.compact (start_index + offset, list.item_end_index)
 						extend (interval, new_substring (1 + offset, end_index + offset))
+					end
+					list.forth
+				end
+			end
+		end
+
+	make_by_indented (a_manifest: GENERAL)
+		-- make from manifest formatted as:
+		-- key_1:
+		--		line 1..
+		--		line 2..
+		-- key_2:
+		--		line 1..
+		--		line 2..
+		-- ..
+		require
+			valid_manifest: valid_indented (a_manifest)
+		local
+			ir: EL_INTERVAL_ROUTINES; interval: INTEGER_64; colon_index: INTEGER
+			name, line: IMMUTABLE
+		do
+			manifest := new_shared (a_manifest)
+			name := new_substring (1, 0)
+			if attached new_split_list as list then
+				list.fill (manifest, '%N', 0)
+				make_equal (a_manifest.occurrences (':'))
+				from list.start until list.after loop
+					line := list.item
+					if line.count = 0 or else line [1] = '%T' then
+						if has_key (name) then
+							interval := found_interval
+							if interval.to_boolean then
+								interval := ir.compact (ir.to_lower (interval), list.item_end_index)
+							else
+								interval := ir.compact (list.item_start_index, list.item_end_index)
+							end
+							force (interval, name)
+						end
+					else
+						colon_index := line.index_of (':', 1)
+						if colon_index > 0 then
+							name := new_substring (1, colon_index - 1)
+							if name.count > 0 and string.is_eiffel_lower (name) then
+								extend (0, name)
+							end
+						end
 					end
 					list.forth
 				end
@@ -121,32 +171,59 @@ feature -- Access
 
 feature -- Contract Support
 
-	valid_manifest (a_manifest: GENERAL): BOOLEAN
+	valid_indented (a_manifest: GENERAL): BOOLEAN
+		-- `True' if each line is either tab-indented or a name key ending with ':'
+		local
+			line_list: EL_SPLIT_STRING_LIST [GENERAL]; str: GENERAL
+			is_first_line_name: BOOLEAN
+		do
+			Result := True
+			if a_manifest.count > 0 then
+				create line_list.make (a_manifest, '%N')
+				across line_list as list until not Result loop
+					str := list.item
+					if str.count > 0 and then str [1] /= '%T' then
+						Result := str.has (':')
+						if Result and then attached string.substring_to (str, ':', default_pointer) as name then
+							Result := string.is_eiffel_lower (name)
+							if Result and then list.cursor_index = 1 then
+								is_first_line_name := True
+							end
+						end
+					end
+				end
+				Result := Result and is_first_line_name
+			end
+		end
+
+	valid_comma_separated (a_manifest: GENERAL): BOOLEAN
 		-- `True' if each line has 2 commas and ends with a comma
 		-- except for the last line which only has one comma
 		local
 			line_list: EL_SPLIT_STRING_LIST [GENERAL]; str: GENERAL
 		do
-			create line_list.make (a_manifest, '%N')
-			Result := True
-			across line_list as list until not Result loop
-				str := list.item
-				if list.is_last then
-					Result := str.occurrences (',') = 1
+			if a_manifest.has ('%N') then
+				create line_list.make (a_manifest, '%N')
+				Result := True
+				across line_list as list until not Result loop
+					str := list.item
+					if list.is_last then
+						Result := str.occurrences (',') = 1
 
-				else
-					Result := str.occurrences (',') = 2 and then str [str.count] = ','
+					else
+						Result := str.occurrences (',') = 2 and then str [str.count] = ','
+					end
 				end
+			else
+				Result := (a_manifest.occurrences (',') + 1) \\ 2 = 0
 			end
 		end
 
-	valid_manifest_assignments (a_manifest: GENERAL): BOOLEAN
+	valid_assignments (a_manifest: GENERAL): BOOLEAN
 		-- `True' if each line contains a ":=" substring with optional
 		-- whitespace padding either side
-		local
-			rs: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
-			Result := rs.valid_assignments (a_manifest)
+			Result := string.valid_assignments (a_manifest)
 		end
 
 feature {EL_IMMUTABLE_STRING_TABLE_CURSOR} -- Implementation
@@ -171,6 +248,10 @@ feature {NONE} -- Deferred
 		end
 
 	new_substring (start_index, end_index: INTEGER): IMMUTABLE
+		deferred
+		end
+
+	string: EL_STRING_X_ROUTINES [GENERAL, READABLE_STRING_GENERAL]
 		deferred
 		end
 

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2023-07-18 15:29:06 GMT (Tuesday 18th July 2023)"
+	revision: "18"
 
 deferred class
 	EL_USERS_INFO_COMMAND_I
@@ -29,7 +29,7 @@ inherit
 
 	EL_CAPTURED_OS_COMMAND_I
 		undefine
-			getter_function_table, Transient_fields
+			getter_function_table, new_transient_fields
 		redefine
 			make_default, do_with_lines
 		end

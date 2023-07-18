@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 11:04:17 GMT (Saturday 31st December 2022)"
-	revision: "13"
+	date: "2023-07-18 15:33:09 GMT (Tuesday 18th July 2023)"
+	revision: "14"
 
 class
 	PP_HTTP_RESPONSE
@@ -22,7 +22,7 @@ inherit
 
 	PP_SETTABLE_FROM_UPPER_CAMEL_CASE
 		redefine
-			Hidden_fields
+			new_hidden_fields
 		end
 
 	EL_MODULE_LIO
@@ -115,6 +115,13 @@ feature {NONE} -- Implementation
 			Result := url.decoded
 		end
 
+	new_hidden_fields: STRING
+			-- Fields that will not be output by `print_fields'
+			-- Must be comma-separated names
+		do
+			Result := Precursor + ", time_stamp"
+		end
+
 feature {NONE} -- Constants
 
 	Once_variable: PP_L_VARIABLE
@@ -123,14 +130,5 @@ feature {NONE} -- Constants
 		end
 
 	Success: STRING = "Success"
-
-feature {NONE} -- Constants
-
-	Hidden_fields: STRING
-			-- Fields that will not be output by `print_fields'
-			-- Must be comma-separated names
-		once
-			Result := Precursor + ", time_stamp"
-		end
 
 end

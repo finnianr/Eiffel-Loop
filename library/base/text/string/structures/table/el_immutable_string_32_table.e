@@ -9,19 +9,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-15 16:17:25 GMT (Saturday 15th July 2023)"
-	revision: "3"
+	date: "2023-07-18 19:20:43 GMT (Tuesday 18th July 2023)"
+	revision: "4"
 
 class
 	EL_IMMUTABLE_STRING_32_TABLE
 
 inherit
 	EL_IMMUTABLE_STRING_TABLE [STRING_32, IMMUTABLE_STRING_32]
+		rename
+			string as string_32
+		end
+
+	EL_MODULE_STRING_32
 
 	EL_SHARED_IMMUTABLE_32_MANAGER
 
 create
-	make, make_by_assignment
+	make, make_by_assignment, make_by_indented, make_empty
 
 feature {NONE} -- Implementation
 

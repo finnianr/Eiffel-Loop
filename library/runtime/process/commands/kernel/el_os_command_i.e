@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 14:14:27 GMT (Monday 10th July 2023)"
-	revision: "47"
+	date: "2023-07-18 15:26:08 GMT (Tuesday 18th July 2023)"
+	revision: "48"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -43,7 +43,7 @@ inherit
 		undefine
 			is_equal
 		redefine
-			make_default, Transient_fields
+			make_default, new_transient_fields
 		end
 
 	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTABLE; EL_MODULE_LIO
@@ -366,6 +366,13 @@ feature {NONE} -- Deferred implementation
 		deferred
 		end
 
+	new_transient_fields: STRING
+		do
+			Result := Precursor +
+				", dry_run, getter_functions, internal_error_list, is_forked,%
+				%has_error, on_encoding_change, encoding_other, output_path, template_path"
+		end
+
 	template: READABLE_STRING_GENERAL
 			--
 		deferred
@@ -381,13 +388,6 @@ feature {NONE} -- Constants
 	Temporary_error_path_by_type: EL_FUNCTION_RESULT_TABLE [EL_OS_COMMAND_I, FILE_PATH]
 		once
 			create Result.make (17, agent {EL_OS_COMMAND_I}.new_temporary_file_path ("err"))
-		end
-
-	Transient_fields: STRING
-		once
-			Result := Precursor +
-				", dry_run, getter_functions, internal_error_list, is_forked,%
-				%has_error, on_encoding_change, encoding_other, output_path, template_path"
 		end
 
 note

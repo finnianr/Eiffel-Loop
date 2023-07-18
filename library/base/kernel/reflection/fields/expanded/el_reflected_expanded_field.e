@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-13 16:24:21 GMT (Tuesday 13th December 2022)"
-	revision: "21"
+	date: "2023-07-17 16:16:13 GMT (Monday 17th July 2023)"
+	revision: "22"
 
 deferred class
 	EL_REFLECTED_EXPANDED_FIELD [G]
@@ -29,6 +29,12 @@ feature -- Basic operations
 		end
 
 feature -- Access
+
+	address (a_object: EL_REFLECTIVE): POINTER
+		do
+			enclosing_object := a_object
+			Result := object_address + field_offset (index)
+		end
 
 	value (a_object: EL_REFLECTIVE): G
 		do

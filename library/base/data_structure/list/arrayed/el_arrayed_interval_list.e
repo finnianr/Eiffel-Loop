@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-16 15:09:11 GMT (Thursday 16th March 2023)"
-	revision: "13"
+	date: "2023-07-18 14:01:41 GMT (Tuesday 18th July 2023)"
+	revision: "14"
 
 class
 	EL_ARRAYED_INTERVAL_LIST
@@ -65,10 +65,30 @@ feature -- Measurement
 			end
 		end
 
+	non_zero_count: INTEGER
+		do
+			Result := count - zero_count
+		end
+
 	upper_index: INTEGER
 			-- Number of items.
 		do
 			Result := count
+		end
+
+	zero_count: INTEGER
+		-- count of all items with `item_count = 0'
+		local
+			i: INTEGER
+		do
+			if attached area_v2 as a then
+				from until i = a.count loop
+					if a [i + 1] - a [i] + 1 = 0 then
+						Result := Result + 1
+					end
+					i := i + 2
+				end
+			end
 		end
 
 feature -- Iterative query

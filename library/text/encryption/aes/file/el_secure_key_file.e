@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-21 8:47:20 GMT (Wednesday 21st June 2023)"
-	revision: "4"
+	date: "2023-07-18 15:27:06 GMT (Tuesday 18th July 2023)"
+	revision: "5"
 
 class
 	EL_SECURE_KEY_FILE
@@ -21,7 +21,7 @@ inherit
 			field_included as is_any_field,
 			xml_naming as eiffel_naming
 		redefine
-			Transient_fields
+			new_transient_fields
 		end
 
 	EL_MODULE_CHECKSUM; EL_MODULE_DIRECTORY; EL_MODULE_FILE
@@ -63,14 +63,14 @@ feature {NONE} -- Initialization
 
 feature -- Status query
 
-	is_unlocked: BOOLEAN
-		do
-			Result := key_path.exists
-		end
-
 	is_locked: BOOLEAN
 		do
 			Result := not is_unlocked
+		end
+
+	is_unlocked: BOOLEAN
+		do
+			Result := key_path.exists
 		end
 
 feature -- Basic operations
@@ -125,6 +125,13 @@ feature -- Basic operations
 			File_system.remove_file (file_path)
 		end
 
+feature {NONE} -- Implementation
+
+	new_transient_fields: STRING
+		do
+			Result := Precursor + ", key_path, secure_path"
+		end
+
 feature {NONE} -- Internal attributes
 
 	credential: EL_BUILDABLE_AES_CREDENTIAL
@@ -145,8 +152,4 @@ feature {NONE} -- Constants
 			Result := "secure"
 		end
 
-	Transient_fields: STRING
-		once
-			Result := Precursor + ", key_path, secure_path"
-		end
 end

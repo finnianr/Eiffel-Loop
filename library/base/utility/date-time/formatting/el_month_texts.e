@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 10:49:13 GMT (Saturday 31st December 2022)"
-	revision: "5"
+	date: "2023-07-18 15:27:35 GMT (Tuesday 18th July 2023)"
+	revision: "6"
 
 class
 	EL_MONTH_TEXTS
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REFLECTIVE_LOCALE_TEXTS
 		redefine
-			initialize_fields, Transient_fields
+			initialize_fields, new_transient_fields
 		end
 
 create
@@ -113,10 +113,10 @@ feature {NONE} -- Implementation
 			]"
 		end
 
-	Transient_fields: STRING
+	new_transient_fields: STRING
 		-- comma-separated list of fields that will be treated as if they are transient attributes and
 		-- excluded from `field_table'
-		once
+		do
 			Result := Precursor + ", full_names, short_names"
 		end
 

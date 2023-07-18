@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 15:38:57 GMT (Wednesday 15th March 2023)"
-	revision: "22"
+	date: "2023-07-18 15:39:49 GMT (Tuesday 18th July 2023)"
+	revision: "23"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -45,8 +45,13 @@ feature {NONE} -- Initialization
 		do
 			create type_array.make_from_tuple (converter_types)
 			make_size (type_array.count)
+			create integer_converter
+
 			across type_array as type loop
-				if attached {like item} Eiffel.new_object (type.item) as converter then
+				if type.item ~ integer_converter.type then
+					extend (integer_converter, integer_converter.type_id)
+
+				elseif attached {like item} Eiffel.new_object (type.item) as converter then
 					converter.make
 					extend (converter, converter.type_id)
 				end
@@ -55,6 +60,11 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	split_list (value_list: READABLE_STRING_GENERAL; separator: CHARACTER_32; adjustments: INTEGER): like new_split_list
+		do
+			Result := cached_split_list (value_list, separator, adjustments).twin
+		end
 
 	type_descripton (type: TYPE [ANY]): STRING
 		do
@@ -75,9 +85,11 @@ feature -- Access
 			end
 		end
 
-	split_list (value_list: READABLE_STRING_GENERAL; separator: CHARACTER_32; adjustments: INTEGER): like new_split_list
+feature -- Conversion
+
+	to_integer (str: READABLE_STRING_GENERAL): INTEGER
 		do
-			Result := cached_split_list (value_list, separator, adjustments).twin
+			Result := integer_converter.as_type (str)
 		end
 
 feature -- Status query
@@ -302,6 +314,8 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Internal attributes
+
+	integer_converter: EL_STRING_TO_INTEGER_32
 
 	split_list_cache: EL_CACHE_TABLE [like new_split_list, TYPE [READABLE_STRING_GENERAL]];
 

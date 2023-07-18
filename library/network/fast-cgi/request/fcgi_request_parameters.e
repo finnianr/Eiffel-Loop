@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 10:50:47 GMT (Saturday 31st December 2022)"
-	revision: "29"
+	date: "2023-07-18 15:24:37 GMT (Tuesday 18th July 2023)"
+	revision: "30"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -25,7 +25,7 @@ inherit
 			make_default as make,
 			field_included as is_any_field
 		redefine
-			make, Transient_fields
+			make, new_transient_fields
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
@@ -204,6 +204,11 @@ feature -- ZSTRING parameters
 
 feature {NONE} -- Implementation
 
+	new_transient_fields: STRING
+		do
+			Result := Precursor + ", content, headers"
+		end
+
 	set_table_field (table: like field_table; name: STRING; value: ZSTRING)
 
 		do
@@ -225,11 +230,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Transient_fields: STRING
-		once
-			Result := Precursor + ", content, headers"
-		end
 
 	Snake_case_upper: EL_SNAKE_CASE_TRANSLATER
 		once

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-11 12:58:01 GMT (Thursday 11th May 2023)"
-	revision: "28"
+	date: "2023-07-17 16:24:56 GMT (Monday 17th July 2023)"
+	revision: "29"
 
 class
 	EL_REFLECTED_FIELD_TABLE
@@ -106,6 +106,21 @@ feature -- Basic operations
 		end
 
 feature -- Status query
+
+	has_address (enclosing_object: EL_REFLECTIVE; field_address: POINTER): BOOLEAN
+		-- `True' if `enclosing_object' has value with `value_address'
+		-- If `True' then `found_item' is set to the field
+		do
+			control := Not_found_constant
+			from start until Result or after loop
+				if item_for_iteration.address (enclosing_object) = field_address then
+					Result := True
+					found_item := item_for_iteration
+					control := found_constant
+				end
+				forth
+			end
+		end
 
 	has_imported_key (foreign_name: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if translated `foreign_name' is present

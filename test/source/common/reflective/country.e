@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 12:13:44 GMT (Monday 23rd January 2023)"
-	revision: "35"
+	date: "2023-07-18 19:07:45 GMT (Tuesday 18th July 2023)"
+	revision: "36"
 
 class
 	COUNTRY
@@ -162,11 +162,12 @@ feature {NONE} -- Reflection
 			>>)
 		end
 
-	new_tuple_field_names: like Default_tuple_field_names
+	new_tuple_field_names: STRING
 		do
-			create Result.make (<<
-				["temperature_range", "winter, summer, unit_name"]
-			>>)
+			Result := "[
+				temperature_range:
+					winter, summer, unit_name
+			]"
 		end
 
 feature {NONE} -- Constants

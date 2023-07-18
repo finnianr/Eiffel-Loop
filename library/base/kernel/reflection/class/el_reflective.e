@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 17:12:21 GMT (Sunday 16th July 2023)"
-	revision: "74"
+	date: "2023-07-18 19:25:53 GMT (Tuesday 18th July 2023)"
+	revision: "76"
 
 deferred class
 	EL_REFLECTIVE
@@ -190,6 +190,19 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 			end
 		end
 
+	new_field_indices_table: EL_FIELD_INDICES_TABLE
+		do
+			create Result.make (Current)
+		end
+
+	new_hidden_fields: STRING
+		-- comma-separated list of fields that will not be output by `print_fields'
+		do
+			create Result.make_empty
+		ensure
+			valid_field_names: valid_field_names (Result)
+		end
+
 	new_instance_functions: like Default_initial_values
 		-- array of functions returning a new value for result type
 		do
@@ -210,6 +223,15 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 			valid_field_names: valid_table_field_names (Result)
 		end
 
+	new_transient_fields: STRING
+		-- comma-separated list of fields that will be treated as if they are transient attributes and
+		-- excluded from `field_table'
+		do
+			create Result.make_empty
+		ensure
+			valid_field_names: valid_field_names (Result)
+		end
+
 	new_tuple_converters: like Default_tuple_converters
 		-- agent function to convert `READABLE_STRING_GENERAL' to adjusted `EL_SPLIT_READABLE_STRING_LIST'
 		-- for initializing tuple field
@@ -219,11 +241,17 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 			valid_names: Result.current_keys.for_all (agent is_tuple_field)
 		end
 
-	new_tuple_field_names: like Default_tuple_field_names
+	new_tuple_field_names: STRING
+		-- tuple field name table manifest formatted as:
+		-- field_1:
+		--		name_1, name_2 ..
+		-- field_2:
+		--		name_1, name_2 ..
+		-- ..
 		do
-			Result := Default_tuple_field_names
+			create Result.make_empty
 		ensure
-			valid_tuple_field_names: across Result as table all valid_tuple_field_names (table.key, table.item) end
+			valid_tuple_field_names: Result.count > 0 implies valid_tuple_field_names (Result)
 		end
 
 feature {EL_REFLECTIVE_I} -- Implementation
@@ -264,6 +292,14 @@ feature {EL_REFLECTIVE_I} -- Implementation
 			end
 		end
 
+	field_name_for_address (field_address: POINTER): STRING
+		do
+			if field_table.has_address (Current, field_address) then
+				Result := field_table.found_item.name
+			else
+				Result := Empty_string_8
+			end
+		end
 
 feature {EL_CLASS_META_DATA} -- Implementation
 
@@ -276,6 +312,11 @@ feature {EL_CLASS_META_DATA} -- Implementation
 		-- when True, include field of this type in `field_table' and `meta_data'
 		-- except when the name is one of those listed in `Except_fields'.
 		deferred
+		end
+
+	field_indices_table: EL_FIELD_INDICES_TABLE
+		do
+			Result := Field_indices_table_by_type.item (Current)
 		end
 
 	set_reference_fields (type: TYPE [ANY]; new_object: FUNCTION [IMMUTABLE_STRING_8, ANY])
@@ -302,26 +343,14 @@ feature {NONE} -- Internal attributes
 
 feature {EL_CLASS_META_DATA} -- Constants
 
-	Hidden_fields: STRING
-		-- comma-separated list of fields that will not be output by `print_fields'
+	Field_indices_table_by_type: EL_FUNCTION_RESULT_TABLE [EL_REFLECTIVE, EL_FIELD_INDICES_TABLE]
 		once
-			create Result.make_empty
-		ensure
-			valid_field_names: valid_field_names (Result)
+			create Result.make (19, agent {EL_REFLECTIVE}.new_field_indices_table)
 		end
 
 	Meta_data_table: EL_FUNCTION_RESULT_TABLE [EL_REFLECTIVE, EL_CLASS_META_DATA]
 		once
 			create Result.make (19, agent {EL_REFLECTIVE}.new_meta_data)
-		end
-
-	Transient_fields: STRING
-		-- comma-separated list of fields that will be treated as if they are transient attributes and
-		-- excluded from `field_table'
-		once
-			create Result.make_empty
-		ensure
-			valid_field_names: valid_field_names (Result)
 		end
 
 note
@@ -343,13 +372,13 @@ note
 
 		**Transient and Hidden fields**
 
-		When redefining `Transient_fields' or `Hidden_fields', always include the precursor regardless of
+		When redefining `new_transient_fields' or `new_hidden_fields', always include the precursor regardless of
 		whether you think the precursor is empty. An empty leading field will do no harm:
 
 		For example:
 
-			Transient_fields: STRING
-				once
+			new_transient_fields: STRING
+				do
 					Result := Precursor + ", file_path"
 				end
 

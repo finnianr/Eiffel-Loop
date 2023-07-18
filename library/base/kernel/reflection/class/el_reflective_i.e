@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-24 18:32:16 GMT (Tuesday 24th January 2023)"
-	revision: "13"
+	date: "2023-07-18 19:30:00 GMT (Tuesday 18th July 2023)"
+	revision: "14"
 
 deferred class
 	EL_REFLECTIVE_I
@@ -44,6 +44,10 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
+	field_indices_table: EL_FIELD_INDICES_TABLE
+		deferred
+		end
+
 	field_table: EL_REFLECTED_FIELD_TABLE
 		deferred
 		end
@@ -57,20 +61,21 @@ feature -- Contract Support
 			end
 		end
 
-	valid_field_names (names: STRING): BOOLEAN
+	valid_field_names (name_list: STRING): BOOLEAN
 		-- `True' if comma separated list of `names' are all valid field names
-		local
-			field_set: EL_FIELD_INDICES_SET
 		do
-			if names.is_empty then
-				Result := True
-			else
-				create field_set.make_from_reflective (current_reflective, names)
-				Result := field_set.is_valid
-			end
+			Result := field_indices_table.has_all_names (name_list)
 		end
 
-	valid_tuple_field_names (field_name, name_list: STRING): BOOLEAN
+	valid_tuple_field_names (tuple_field_name_manifest: STRING): BOOLEAN
+		local
+			table: EL_IMMUTABLE_STRING_8_TABLE
+		do
+			create table.make_by_indented (tuple_field_name_manifest)
+			Result := across table as t all valid_tuple_name_list (t.key, t.item) end
+		end
+
+	valid_tuple_name_list (field_name, name_list: IMMUTABLE_STRING_8): BOOLEAN
 		local
 			field_count: INTEGER
 		do
@@ -113,11 +118,6 @@ feature {NONE} -- Constants
 	frozen Default_tuple_converters: EL_HASH_TABLE [
 		FUNCTION [READABLE_STRING_GENERAL, EL_SPLIT_READABLE_STRING_LIST [READABLE_STRING_GENERAL]], STRING
 	]
-		once
-			create Result.make_size (0)
-		end
-
-	frozen Default_tuple_field_names: EL_HASH_TABLE [STRING, STRING]
 		once
 			create Result.make_size (0)
 		end

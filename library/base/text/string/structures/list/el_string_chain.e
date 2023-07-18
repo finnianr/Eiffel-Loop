@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-23 10:36:34 GMT (Sunday 23rd April 2023)"
-	revision: "33"
+	date: "2023-07-18 11:23:27 GMT (Tuesday 18th July 2023)"
+	revision: "34"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -211,6 +211,11 @@ feature -- Format items
 		end
 
 feature -- Element change
+
+	append_comma_separated (a_string: READABLE_STRING_GENERAL)
+		do
+			append_split (a_string, ',', {EL_SIDE}.Left)
+		end
 
 	append_split (a_string: READABLE_STRING_GENERAL; delimiter: CHARACTER_32; adjustments: INTEGER)
 		require

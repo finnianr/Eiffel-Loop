@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 10:49:06 GMT (Saturday 31st December 2022)"
-	revision: "4"
+	date: "2023-07-18 15:28:09 GMT (Tuesday 18th July 2023)"
+	revision: "5"
 
 class
 	EL_DAY_OF_WEEK_TEXTS
@@ -17,7 +17,7 @@ inherit
 		rename
 			english_table as Empty_table
 		redefine
-			initialize_fields, Transient_fields
+			initialize_fields, new_transient_fields
 		end
 
 create
@@ -75,12 +75,12 @@ feature -- Short days of week
 
 	wed: ZSTRING
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	Transient_fields: STRING
+	new_transient_fields: STRING
 		-- comma-separated list of fields that will be treated as if they are transient attributes and
 		-- excluded from `field_table'
-		once
+		do
 			Result := Precursor + ", full_names, short_names"
 		end
 

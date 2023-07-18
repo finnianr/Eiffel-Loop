@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:50:25 GMT (Tuesday 14th February 2023)"
-	revision: "11"
+	date: "2023-07-18 15:36:42 GMT (Tuesday 18th July 2023)"
+	revision: "12"
 
 deferred class
 	EL_SLIDE_SHOW
@@ -24,7 +24,7 @@ inherit
 			field_included as is_any_field,
 			make_from_file as make
 		redefine
-			make, Transient_fields, Root_node_name
+			make, new_transient_fields, Root_node_name
 		end
 
 	EL_MODULE_LIO; EL_MODULE_OS
@@ -198,6 +198,13 @@ feature {NONE} -- Implementation
 			Result := l_path.base
 		end
 
+	new_transient_fields: STRING
+		-- comma-separated list of fields that will be treated as if they are transient attributes and
+		-- excluded from `field_table'
+		do
+			Result := Precursor + ", config_name, dimensions, integer, group_list, pixmap, counter"
+		end
+
 	sequence_path: FILE_PATH
 		do
 			Result := output_dir + counter.zero_padded (digit_count)
@@ -220,13 +227,6 @@ feature {NONE} -- Constants
 	Sub_title_template: ZSTRING
 		once
 			Result := "~ %S ~"
-		end
-
-	Transient_fields: STRING
-		-- comma-separated list of fields that will be treated as if they are transient attributes and
-		-- excluded from `field_table'
-		once
-			Result := Precursor + ", config_name, dimensions, integer, group_list, pixmap, counter"
 		end
 
 note

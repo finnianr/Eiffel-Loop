@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-11 8:40:51 GMT (Tuesday 11th April 2023)"
-	revision: "11"
+	date: "2023-07-18 15:28:43 GMT (Tuesday 18th July 2023)"
+	revision: "12"
 
 deferred class
 	EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN
@@ -22,7 +22,7 @@ inherit
 
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
 		redefine
-			make_default, Transient_fields
+			make_default, new_transient_fields
 		end
 
 feature {NONE} -- Initialization
@@ -45,12 +45,10 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Constants
-
-	Transient_fields: STRING
+	new_transient_fields: STRING
 		-- comma-separated list of fields that will be treated as if they are transient attributes and
 		-- excluded from `field_table'
-		once
+		do
 			Result := Precursor + ", actual_node_source"
 		end
 

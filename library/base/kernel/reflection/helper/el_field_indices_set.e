@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:03 GMT (Monday 20th March 2023)"
-	revision: "17"
+	date: "2023-07-18 13:35:01 GMT (Tuesday 18th July 2023)"
+	revision: "18"
 
 class
 	EL_FIELD_INDICES_SET
@@ -17,12 +17,13 @@ inherit
 		export
 			{NONE} all
 			{ANY} item
+			{EL_FIELD_INDICES_TABLE} area
 		end
 
 	EL_STRING_8_CONSTANTS
 
 create
-	make, make_empty, make_from_reflective, make_for_any
+	make, make_empty, make_from_reflective, make_for_any, make_empty_area
 
 feature {NONE} -- Initialization
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 11:03:12 GMT (Saturday 31st December 2022)"
-	revision: "10"
+	date: "2023-07-18 15:25:33 GMT (Tuesday 18th July 2023)"
+	revision: "11"
 
 deferred class
 	EVOLICITY_REFLECTIVE_SERIALIZEABLE
@@ -27,7 +27,7 @@ inherit
 
 	EL_REFLECTIVELY_SETTABLE
 		redefine
-			make_default, Transient_fields
+			make_default, new_transient_fields
 		end
 
 feature {NONE} -- Initialization
@@ -38,11 +38,11 @@ feature {NONE} -- Initialization
 			Precursor {EVOLICITY_SERIALIZEABLE}
 		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	Transient_fields: STRING
+	new_transient_fields: STRING
 		-- comma-separated list of fields to be excluded from `field_table'
-		once
+		do
 			Result := Precursor + ", encoding, output_path, template_path"
 		end
 end

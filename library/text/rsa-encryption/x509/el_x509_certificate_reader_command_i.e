@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:37:49 GMT (Tuesday 14th February 2023)"
-	revision: "19"
+	date: "2023-07-18 15:29:20 GMT (Tuesday 18th July 2023)"
+	revision: "20"
 
 deferred class
 	EL_X509_CERTIFICATE_READER_COMMAND_I
@@ -57,7 +57,7 @@ inherit
 
 	EL_CAPTURED_OS_COMMAND_I
 		undefine
-			getter_function_table, make_default, Transient_fields
+			getter_function_table, make_default, new_transient_fields
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE

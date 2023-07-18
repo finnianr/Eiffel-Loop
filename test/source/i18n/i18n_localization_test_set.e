@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 11:19:29 GMT (Monday 20th March 2023)"
-	revision: "22"
+	date: "2023-07-18 10:44:40 GMT (Tuesday 18th July 2023)"
+	revision: "23"
 
 class
-	TRANSLATION_TABLE_TEST_SET
+	I18N_LOCALIZATION_TEST_SET
 
 inherit
 	EIFFEL_LOOP_TEST_SET
+		undefine
+			new_lio
+		end
+
+	EL_LOCALIZATION_TEST
 		undefine
 			new_lio
 		end
@@ -29,8 +34,9 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["reading_from_file", agent test_reading_from_file],
-				["reading_from_source", agent test_reading_from_source]
+				["reading_from_file",		 agent test_reading_from_file],
+				["reading_from_source",		 agent test_reading_from_source],
+				["reflective_locale_texts", agent test_reflective_locale_texts]
 			>>)
 		end
 
@@ -49,7 +55,13 @@ feature -- Tests
 			do_test ("test_reading_from_source", 3437504583, agent test_reading, [agent new_table_from_source])
 		end
 
-feature {NONE} -- Implementation
+	test_reflective_locale_texts
+		-- I18N_LOCALIZATION_TEST_SET.test_reflective_locale_texts
+		do
+			check_reflective_locale_texts
+		end
+
+feature {NONE} -- Factory
 
 	new_table_from_file (language: STRING; file_path: FILE_PATH): EL_TRANSLATION_TABLE
 		do
@@ -59,6 +71,24 @@ feature {NONE} -- Implementation
 	new_table_from_source (language: STRING; file_path: FILE_PATH): EL_TRANSLATION_TABLE
 		do
 			create Result.make_from_pyxis_source (language, File.plain_text (file_path))
+		end
+
+feature {NONE} -- Implementation
+
+	locale_texts_types: TUPLE [
+		EL_DAY_OF_WEEK_TEXTS,
+		EL_CURRENCY_TEXTS,
+		EL_MONTH_TEXTS,
+
+		EL_PHRASE_TEXTS,
+		EL_PASSPHRASE_ATTRIBUTES,
+		EL_PASSPHRASE_TEXTS,
+
+		EL_UNINSTALL_TEXTS,
+		EL_WORD_TEXTS
+	]
+		do
+			create Result
 		end
 
 	test_reading (new_table: FUNCTION [STRING, FILE_PATH, EL_TRANSLATION_TABLE])

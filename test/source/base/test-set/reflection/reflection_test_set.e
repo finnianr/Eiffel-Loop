@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 12:14:25 GMT (Sunday 16th July 2023)"
-	revision: "40"
+	date: "2023-07-17 16:34:19 GMT (Monday 17th July 2023)"
+	revision: "41"
 
 class
 	REFLECTION_TEST_SET
@@ -23,7 +23,7 @@ inherit
 
 	EL_REFLECTION_CONSTANTS
 
-	EL_SHARED_FACTORIES
+	EL_SHARED_FACTORIES; EL_SHARED_LOG_OPTION
 
 create
 	make
@@ -36,6 +36,7 @@ feature {NONE} -- Initialization
 			make_named (<<
 				["arrayed_list_initialization",						agent test_arrayed_list_initialization],
 				["default_tuple_initialization",						agent test_default_tuple_initialization],
+				["field_name_search_by_address",						agent test_field_name_search_by_address],
 				["field_representation",								agent test_field_representation],
 				["initialized_object_factory",						agent test_initialized_object_factory],
 				["object_initialization_from_camel_case_table",	agent test_object_initialization_from_camel_case_table],
@@ -76,6 +77,14 @@ feature -- Tests
 			else
 				assert ("temperature_range /= Void", False)
 			end
+		end
+
+	test_field_name_search_by_address
+		-- REFLECTION_TEST_SET.test_field_name_search_by_address
+		note
+			testing: "covers/{EL_REFLECTED_FIELD_TABLE}.has_address"
+		do
+			assert_same_string (Void, "logging", Log_option.Name_logging)
 		end
 
 	test_field_representation

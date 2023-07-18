@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 15:54:13 GMT (Sunday 16th July 2023)"
-	revision: "68"
+	date: "2023-07-18 19:33:23 GMT (Tuesday 18th July 2023)"
+	revision: "69"
 
 class
 	EL_CLASS_META_DATA
@@ -52,10 +52,18 @@ feature {NONE} -- Initialization
 		do
 			Precursor (a_enclosing_object)
 
+			field_indices_table := a_enclosing_object.field_indices_table
+
 			New_instance_table.extend_from_list (a_enclosing_object.new_instance_functions)
 			Reader_writer_table.merge (a_enclosing_object.new_extra_reader_writer_table)
-			create cached_field_indices_set.make_equal (3, agent new_field_indices_set)
-			tuple_field_names := a_enclosing_object.new_tuple_field_names
+			create cached_field_indices_set.make_equal (3, agent field_indices_table.new_sub_set)
+			if attached a_enclosing_object.new_tuple_field_names as tuple_field_manifest then
+				if tuple_field_manifest.count = 0 then
+					tuple_field_table := Default_tuple_field_table
+				else
+					create tuple_field_table.make_by_indented (tuple_field_manifest)
+				end
+			end
 			tuple_converters := a_enclosing_object.new_tuple_converters
 
 			field_list := new_field_list
@@ -96,7 +104,7 @@ feature -- Basic operations
 			line_length: INTEGER_REF
 		do
 			create line_length
-			if attached cached_field_indices_set.item (enclosing_object.Hidden_fields) as hidden then
+			if attached cached_field_indices_set.item (enclosing_object.new_hidden_fields) as hidden then
 				across field_list as list loop
 					if not hidden.has (list.item.index) then
 						print_field_value (a_object, list.item, line_length, a_lio)
@@ -160,21 +168,13 @@ feature {NONE} -- Factory
 			create {EL_REFLECTED_REFERENCE_ANY} Result.make (enclosing_object, index, name)
 		end
 
-	new_field_indices_set (field_names: detachable STRING): EL_FIELD_INDICES_SET
-		do
-			if field_names.is_empty then
-				Result := Empty_field_indices_set
-			else
-				create Result.make (Current, field_names)
-			end
-		end
-
 	new_field_list: EL_REFLECTED_FIELD_LIST
 		-- list of field names with empty strings in place of excluded fields
 		local
 			i, count: INTEGER; excluded_fields: EL_FIELD_INDICES_SET
+			field_name_list: EL_STRING_8_LIST
 		do
-			excluded_fields := new_field_indices_set (enclosing_object.Transient_fields)
+			excluded_fields := field_indices_table.new_sub_set (enclosing_object.new_transient_fields)
 			count := field_count
 			create Result.make (count - excluded_fields.count)
 			from i := 1 until i > count loop
@@ -186,8 +186,9 @@ feature {NONE} -- Factory
 						name.prune_all_trailing ('_')
 						Result.extend (new_reflected_field (i, name))
 						if attached {EL_REFLECTED_TUPLE} Result.last as tuple then
-							if tuple_field_names.has_key (name) then
-								tuple.set_field_name_list (tuple_field_names.found_item)
+							if tuple_field_table.has_key_general (name) then
+								field_name_list := tuple_field_table.found_item.to_string_8
+								tuple.set_field_name_list (field_name_list)
 							end
 							if tuple_converters.has_key (name) then
 								tuple.set_split_list_function (tuple_converters.found_item)
@@ -328,13 +329,16 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	tuple_field_names: like enclosing_object.new_tuple_field_names
+	tuple_field_table: EL_IMMUTABLE_STRING_8_TABLE
 
 	tuple_converters: like enclosing_object.new_tuple_converters
 
+	field_indices_table: EL_FIELD_INDICES_TABLE
+		-- complete table of object field indices by name
+
 feature {NONE} -- Constants
 
-	Empty_field_indices_set: EL_FIELD_INDICES_SET
+	Default_tuple_field_table: EL_IMMUTABLE_STRING_8_TABLE
 		once
 			create Result.make_empty
 		end

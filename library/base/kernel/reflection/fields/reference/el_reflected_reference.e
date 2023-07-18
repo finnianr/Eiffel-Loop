@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 14:55:31 GMT (Saturday 29th April 2023)"
-	revision: "38"
+	date: "2023-07-17 16:16:13 GMT (Monday 17th July 2023)"
+	revision: "39"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -37,6 +37,16 @@ feature {EL_CLASS_META_DATA} -- Initialization
 		end
 
 feature -- Access
+
+	address (a_object: EL_REFLECTIVE): POINTER
+		do
+			if attached value (a_object) as field_object
+				and then attached Once_reference as field_reference
+			then
+				field_reference.set_object (field_object)
+				Result := field_reference.object_address
+			end
+		end
 
 	size_of (a_object: EL_REFLECTIVE): INTEGER
 		-- size of field object
@@ -202,6 +212,13 @@ feature {NONE} -- Internal attributes
 
 	reader_writer_extra: detachable EL_READER_WRITER_INTERFACE [G];
 		-- reader writer for supplementary types like `INTEGER_X' for example
+
+feature {NONE} -- Constants
+
+	Once_reference: REFLECTED_REFERENCE_OBJECT
+		once
+			create Result.make (create {ANY})
+		end
 
 note
 	descendants: "[

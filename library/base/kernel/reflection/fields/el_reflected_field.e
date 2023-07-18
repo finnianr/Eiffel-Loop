@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 15:59:02 GMT (Sunday 16th July 2023)"
-	revision: "55"
+	date: "2023-07-17 16:16:06 GMT (Monday 17th July 2023)"
+	revision: "56"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -66,6 +66,10 @@ feature -- Names
 	name: STRING
 
 feature -- Access
+
+	address (a_object: EL_REFLECTIVE): POINTER
+		deferred
+		end
 
 	index: INTEGER
 

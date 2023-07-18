@@ -5,7 +5,7 @@ note
 		
 		**Test Sets**
 		
-			[$source TRANSLATION_TABLE_TEST_SET]
+			[$source I18N_LOCALIZATION_TEST_SET]
 	]"
 
 	author: "Finnian Reilly"
@@ -13,14 +13,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 17:43:17 GMT (Saturday 31st December 2022)"
-	revision: "71"
+	date: "2023-07-18 10:36:28 GMT (Tuesday 18th July 2023)"
+	revision: "72"
 
 class
 	I18N_AUTOTEST_APP
 
 inherit
-	EL_CRC_32_AUTOTEST_APPLICATION [TRANSLATION_TABLE_TEST_SET]
+	EL_CRC_32_AUTOTEST_APPLICATION [I18N_LOCALIZATION_TEST_SET]
+		undefine
+			make_solitary
+		end
+
+	EL_LOCALIZED_APPLICATION
 
 create
 	make

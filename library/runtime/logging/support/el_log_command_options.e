@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 11:23:02 GMT (Saturday 3rd December 2022)"
-	revision: "10"
+	date: "2023-07-17 16:35:50 GMT (Monday 17th July 2023)"
+	revision: "11"
 
 class
 	EL_LOG_COMMAND_OPTIONS
 
 inherit
 	EL_COMMAND_LINE_OPTIONS
-		redefine
-			Name
-		end
 
 create
 	make, make_default
@@ -37,10 +34,14 @@ feature -- Access
 
 feature -- Constants
 
-	Name: TUPLE [logging, thread_toolbar: STRING]
+	Name_logging: STRING
 		once
-			create Result
-			Tuple.fill (Result, "logging, thread_toolbar")
+			Result := field_name_for_address ($logging)
+		end
+
+	Name_thread_toolbar: STRING
+		once
+			Result := field_name_for_address ($thread_toolbar)
 		end
 
 feature {NONE} -- Constants

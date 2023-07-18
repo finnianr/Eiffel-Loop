@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-06 12:04:05 GMT (Friday 6th January 2023)"
-	revision: "24"
+	date: "2023-07-18 15:40:53 GMT (Tuesday 18th July 2023)"
+	revision: "25"
 
 deferred class
 	RBOX_MANAGEMENT_TASK
@@ -22,7 +22,7 @@ inherit
 		export
 			{RBOX_MUSIC_MANAGER} make
 		redefine
-			make, make_default, Transient_fields, root_node_name
+			make, make_default, new_transient_fields, root_node_name
 		end
 
 	SONG_QUERY_CONDITIONS undefine is_equal end
@@ -89,6 +89,11 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
+	new_transient_fields: STRING
+		do
+			Result := Precursor + ", file_path"
+		end
+
 	root_node_name: STRING
 		do
 			Result := Naming.class_as_snake_lower (Current, 0, tail_count)
@@ -125,11 +130,6 @@ feature {NONE} -- Constants
 	Drag_and_drop_template: ZSTRING
 		once
 			Result := "Drag and drop %S here"
-		end
-
-	Transient_fields: STRING
-		once
-			Result := Precursor + ", file_path"
 		end
 
 note

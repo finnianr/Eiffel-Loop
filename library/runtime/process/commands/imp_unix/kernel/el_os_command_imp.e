@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2023-07-18 15:29:34 GMT (Tuesday 18th July 2023)"
+	revision: "16"
 
 deferred class
 	EL_OS_COMMAND_IMP
@@ -17,7 +17,7 @@ inherit
 		export
 			{NONE} all
 		undefine
-			getter_function_table, is_equal, make_default, Transient_fields
+			getter_function_table, is_equal, make_default, new_transient_fields
 		end
 
 	EL_OS_IMPLEMENTATION

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 10:49:00 GMT (Saturday 31st December 2022)"
-	revision: "20"
+	date: "2023-07-18 15:25:13 GMT (Tuesday 18th July 2023)"
+	revision: "21"
 
 deferred class
 	AIA_REQUEST
@@ -28,7 +28,7 @@ inherit
 			{NONE} all
 			{AIA_REQUEST_MANAGER} wipe_out
 		redefine
-			Transient_fields
+			new_transient_fields
 		end
 
 	JSON_SETTABLE_FROM_STRING
@@ -73,15 +73,14 @@ feature {AIA_REQUEST} -- Implementation
 		deferred
 		end
 
+	new_transient_fields: STRING
+		do
+			Result := Precursor + ", new_response"
+		end
+
 feature {NONE} -- Internal attributes
 
 	new_response: FUNCTION [like Current, like default_response]
 		-- callback function
 
-feature {NONE} -- Constants
-
-	Transient_fields: STRING
-		once
-			Result := Precursor + ", new_response"
-		end
 end

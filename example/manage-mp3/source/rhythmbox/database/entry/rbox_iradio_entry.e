@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-04 15:25:45 GMT (Saturday 4th March 2023)"
-	revision: "57"
+	date: "2023-07-18 15:41:55 GMT (Tuesday 18th July 2023)"
+	revision: "58"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -20,7 +20,7 @@ inherit
 			element_node_fields as All_fields,
 			xml_naming as kebab_case
 		redefine
-			make, building_action_table, new_representations, Transient_fields
+			make, building_action_table, new_representations, new_transient_fields
 		end
 
 	EVOLICITY_SERIALIZEABLE
@@ -134,6 +134,12 @@ feature {NONE} -- Implementation
 			create Result.make_from_string (Encoded_location)
 		end
 
+	new_transient_fields: STRING
+		-- fields that are treated as transient and not stored in Rhythmbox database
+		do
+			Result := Precursor + " encoding"
+		end
+
 	new_representations: like Default_representations
 		do
 			create Result.make (<<
@@ -238,7 +244,7 @@ feature {NONE} -- Evolicity fields
 			>>)
 		end
 
-feature {NONE} -- Initialization
+feature {NONE} -- Internal attributes
 
 	string_field_table: like Default_string_table
 		-- extra string fields
@@ -258,12 +264,6 @@ feature {NONE} -- Constants
 	Element_list: EL_STRING_8_LIST
 		once
 			create Result.make (0)
-		end
-
-	Transient_fields: STRING
-		-- fields that are treated as transient and not stored in Rhythmbox database
-		once
-			Result := Precursor + " encoding"
 		end
 
 	Type: STRING

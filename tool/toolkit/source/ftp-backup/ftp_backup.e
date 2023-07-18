@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 10:47:42 GMT (Saturday 31st December 2022)"
-	revision: "14"
+	date: "2023-07-18 16:31:36 GMT (Tuesday 18th July 2023)"
+	revision: "15"
 
 class
 	FTP_BACKUP
@@ -19,7 +19,7 @@ inherit
 			field_included as is_any_field,
 			xml_naming as eiffel_naming
 		redefine
-			on_context_exit, Transient_fields
+			on_context_exit, new_transient_fields
 		end
 
 	EL_MODULE_FILE_SYSTEM
@@ -92,6 +92,11 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
+	new_transient_fields: STRING
+		do
+			Result := Precursor + ", total_byte_count, config"
+		end
+
 	on_context_exit
 		do
 			if name.is_empty then
@@ -105,11 +110,6 @@ feature {NONE} -- Internal attributes
 	config: FTP_BACKUP_COMMAND
 
 feature {NONE} -- Constants
-
-	Transient_fields: STRING
-		once
-			Result := Precursor + ", total_byte_count, config"
-		end
 
 	Tar_gz: ZSTRING
 		once

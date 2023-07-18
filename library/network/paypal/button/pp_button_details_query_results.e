@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-08 11:25:17 GMT (Monday 8th May 2023)"
-	revision: "12"
+	date: "2023-07-18 15:33:53 GMT (Tuesday 18th July 2023)"
+	revision: "13"
 
 class
 	PP_BUTTON_DETAILS_QUERY_RESULTS
@@ -15,7 +15,7 @@ class
 inherit
 	PP_BUTTON_QUERY_RESULTS
 		redefine
-			make_default, make, set_indexed_value, set_name_value, Hidden_fields, print_values
+			make_default, make, set_indexed_value, set_name_value, new_hidden_fields, print_values
 		end
 
 	PP_SHARED_L_VARIABLE_ENUM
@@ -80,6 +80,13 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
+	new_hidden_fields: STRING
+		-- Fields that will not be output by `print_fields'
+		-- Must be comma-separated names
+		do
+			Result := Precursor + ", options_list, detail"
+		end
+
 	set_name_value (key, value: EL_ZSTRING)
 		do
 			if value.has_quotes (2) then
@@ -95,15 +102,6 @@ feature {NONE} -- Implementation
 			elseif var_key.code = L_variable.l_button_var and then a_value.has (Assignment) then
 				detail.set_field_from_nvp (a_value, Assignment)
 			end
-		end
-
-feature {NONE} -- Constants
-
-	Hidden_fields: STRING
-		-- Fields that will not be output by `print_fields'
-		-- Must be comma-separated names
-		once
-			Result := Precursor + ", options_list, detail"
 		end
 
 end
