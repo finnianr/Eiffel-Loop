@@ -14,36 +14,28 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-23 7:30:26 GMT (Friday 23rd June 2023)"
-	revision: "20"
+	date: "2023-08-12 11:43:12 GMT (Saturday 12th August 2023)"
+	revision: "23"
 
 deferred class
 	EL_EIF_OBJ_XPATH_CONTEXT
 
 inherit
-	EL_MAKEABLE
+	EL_XPATH_CONTEXT
 		rename
 			make as make_default
 		end
 
-feature {NONE} -- Initialization
-
-	make_default
-			--
-		do
-			set_default_attributes
-		end
-
 feature {EL_DOCUMENT_CLIENT} -- Event handler
+
+	on_context_exit
+			-- Called when the parser leaves the current context
+		do
+		end
 
 	on_context_return (context: EL_EIF_OBJ_XPATH_CONTEXT)
 		-- Called each time the XML parser returns from the context set by 'set_next_context'
 		-- Can be used to carry out processing on an object passed to 'set_next_context'
-		do
-		end
-
-	on_context_exit
-			-- Called when the parser leaves the current context
 		do
 		end
 
@@ -61,10 +53,10 @@ feature -- Basic operations
 
 feature -- Element change
 
-	set_node (a_node: EL_DOCUMENT_NODE_STRING)
+	reset_next_context
 			--
 		do
-			node := a_node
+			next_context := Void
 		end
 
 	set_collection_context (collection: COLLECTION [EL_EIF_OBJ_XPATH_CONTEXT]; new_item: EL_EIF_OBJ_XPATH_CONTEXT)
@@ -79,85 +71,6 @@ feature -- Element change
 		do
 			next_context := context
 			context.set_node (node)
-		end
-
-	add_xpath_step (tag_name: ZSTRING)
-			--
-		do
-			if not xpath.is_empty then
-				xpath.append_character (xpath_step_separator)
-			end
-			xpath.append (tag_name)
-		end
-
-	remove_xpath_step
-			--
-		require
-			xpath_prunable: is_xpath_prunable
-		local
-			separator_pos: INTEGER
-		do
-			separator_pos := xpath.last_index_of (xpath_step_separator, xpath.count)
-			if separator_pos > 0 then
-				xpath.remove_tail (xpath.count - (separator_pos - 1))
-
-			else
-				xpath.wipe_out
-			end
-		end
-
-	reset_next_context
-			--
-		do
-			next_context := Void
-		end
-
-feature -- Status query
-
-	is_xpath_prunable: BOOLEAN
-			--
-		do
-			Result := not xpath.is_empty
-		end
-
-	is_xpath_attribute: BOOLEAN
-			--
-		local
-			separator_pos: INTEGER
-		do
-			separator_pos := xpath.last_index_of (xpath_step_separator, xpath.count)
-			if xpath.count > 0 and then
-				xpath.item (1) = '@' or (separator_pos > 0 and then xpath.item (separator_pos + 1) = '@')
-			then
-				Result := true
-			end
-		end
-
-	xpath_has_at_least_one_element: BOOLEAN
-			--
-		do
-			Result := xpath.has (xpath_step_separator)
-		end
-
-feature {EL_EIF_OBJ_XPATH_CONTEXT} -- Implementation
-
-	set_default_attributes
-		do
-			node := Default_node
-			create xpath.make_empty
-		end
-
-	node: EL_DOCUMENT_NODE_STRING note option: transient attribute end
-
-	xpath: ZSTRING note option: transient attribute end
-
-feature {NONE} -- Constant
-
-	Xpath_step_separator: CHARACTER_32 = '/'
-
-	Default_node: EL_DOCUMENT_NODE_STRING
-		once
-			create Result.make_default
 		end
 
 end

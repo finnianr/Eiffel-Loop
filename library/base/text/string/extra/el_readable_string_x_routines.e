@@ -8,18 +8,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-01 8:14:55 GMT (Thursday 1st June 2023)"
-	revision: "17"
+	date: "2023-08-11 15:17:35 GMT (Friday 11th August 2023)"
+	revision: "22"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL]
 
 inherit
+	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
+
+	EL_STRING_BIT_COUNTABLE [READABLE_STRING_X]
+
 	STRING_HANDLER
 
-	EL_SEARCH_HANDLER
-
-	EL_STRING_8_CONSTANTS
+	EL_STRING_8_CONSTANTS; EL_CHARACTER_CONSTANTS
 
 	EL_SIDE_ROUTINES
 		rename
@@ -197,6 +199,10 @@ feature -- Comparison
 			end
 		end
 
+	same_strings (a, b: READABLE_STRING_X): BOOLEAN
+		deferred
+		end
+
 feature -- Character query
 
 	is_identifier_character (str: READABLE_STRING_X; i: INTEGER): BOOLEAN
@@ -312,7 +318,7 @@ feature -- Substring
 			if str.count <= max_count then
 				Result := str
 			else
-				Result := str.substring (1, max_count - 2) + Ellipsis_dots
+				Result := str.substring (1, max_count - 2) + Dot * 2
 			end
 		end
 

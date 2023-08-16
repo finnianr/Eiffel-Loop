@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-09 11:18:18 GMT (Friday 9th June 2023)"
-	revision: "38"
+	date: "2023-08-16 10:33:10 GMT (Wednesday 16th August 2023)"
+	revision: "39"
 
 deferred class
 	EL_URI_PATH
@@ -197,7 +197,7 @@ feature -- Status query
 	is_absolute: BOOLEAN
 		do
 			if has_scheme (Protocol.file) and then attached parent_path as str then
-				Result := str.count > 0 and then str [1] = Separator
+				Result := str.starts_with_character (Separator)
 			else
 				Result := True
 			end

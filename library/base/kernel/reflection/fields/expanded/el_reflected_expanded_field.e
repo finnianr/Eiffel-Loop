@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-17 16:16:13 GMT (Monday 17th July 2023)"
-	revision: "22"
+	date: "2023-07-27 12:21:36 GMT (Thursday 27th July 2023)"
+	revision: "23"
 
 deferred class
 	EL_REFLECTED_EXPANDED_FIELD [G]
@@ -33,7 +33,8 @@ feature -- Access
 	address (a_object: EL_REFLECTIVE): POINTER
 		do
 			enclosing_object := a_object
-			Result := object_address + field_offset (index)
+			Result := {ISE_RUNTIME}.raw_reference_field_at_offset ($enclosing_object, physical_offset)
+			Result := Result + field_offset (index)
 		end
 
 	value (a_object: EL_REFLECTIVE): G
@@ -70,6 +71,19 @@ feature {NONE} -- Implementation
 	field_value (i: INTEGER): G
 		deferred
 		end
+
+feature {NONE} -- C External
+
+--	field_class_name (i: INTEGER object_ptr: POINTER): POINTER
+--		-- rt_private rt_inline char *ei_exp_type(long i, EIF_REFERENCE object)
+--		-- Returns the class name of the i-th expanded field of `object'.
+--		-- Workaround for eif_internal.h not being included in inlined code for `address' routine
+
+--		external
+--			"C (long, EIF_POINTER): EIF_POINTER | <eif_internal.h>"
+--		alias
+--			"ei_exp_type"
+--		end
 
 note
 	descendants: "[

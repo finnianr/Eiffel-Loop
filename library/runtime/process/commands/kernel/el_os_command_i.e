@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-18 15:26:08 GMT (Tuesday 18th July 2023)"
-	revision: "48"
+	date: "2023-07-22 12:16:27 GMT (Saturday 22nd July 2023)"
+	revision: "49"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -89,6 +89,12 @@ feature -- Status query
 	has_error: BOOLEAN
 		-- True if the command returned an error code on exit
 
+	is_captured: BOOLEAN
+		-- `True' if command output is being captured
+		do
+			do_nothing
+		end
+
 	is_forked: BOOLEAN
 		-- `true' if command executes asynchronously in another system process
 
@@ -122,6 +128,8 @@ feature -- Status change
 
 	set_forking_mode (forked: BOOLEAN)
 		-- when `forked' is `True', execution happens in another process
+		require
+			no_capture: not is_captured
 		do
 			is_forked := forked
 		end
@@ -253,18 +261,22 @@ feature {NONE} -- Implementation
 		local
 			command_parts: EL_ZSTRING_LIST; error_path: FILE_PATH
 		do
-			if is_forked then
-				Execution_environment.launch (a_system_command)
-			else
-				if not working_directory.is_empty then
-					Execution_environment.push_current_working (working_directory)
-				end
-				create command_parts.make_from_array (new_command_parts (a_system_command))
-				if {PLATFORM}.is_unix and then sudo.is_enabled then
-					command_parts.put_front (Sudo_command)
-				end
-				command_parts.prune_all_empty -- `command_prefix' is empty on Unix
+			if not working_directory.is_empty then
+				Execution_environment.push_current_working (working_directory)
+			end
+			create command_parts.make_from_array (new_command_parts (a_system_command))
+			if {PLATFORM}.is_unix and then sudo.is_enabled then
+				command_parts.put_front (Sudo_command)
+			end
+			command_parts.prune_all_empty -- `command_prefix' is empty on Unix
 
+			if is_forked then
+				Execution_environment.launch (command_parts.joined_words)
+
+				if not working_directory.is_empty then
+					Execution_environment.pop_current_working
+				end
+			else
 				error_path := temporary_error_file_path
 				File_system_mutex.lock
 					File_system.make_directory (error_path.parent)
@@ -321,9 +333,13 @@ feature {EL_OS_COMMAND_I} -- Factory
 
 	new_command_parts (a_system_command: like system_command): ARRAY [ZSTRING]
 		do
-			Result := <<
-				command_prefix, a_system_command, Error_redirection_operator, temporary_error_file_path
-			>>
+			if is_forked then
+				Result := << command_prefix, a_system_command, Null_redirection >>
+			else
+				Result := <<
+					command_prefix, a_system_command, Error_redirection_operator, temporary_error_file_path
+				>>
+			end
 		end
 
 	new_error: EL_ERROR_DESCRIPTION
@@ -352,6 +368,13 @@ feature {EL_OS_COMMAND_I} -- Factory
 			Result.enclose ('{', '}')
 		end
 
+	new_transient_fields: STRING
+		do
+			Result := Precursor +
+				", dry_run, getter_functions, internal_error_list, is_forked,%
+				%has_error, on_encoding_change, encoding_other, output_path, template_path"
+		end
+
 feature {NONE} -- Deferred implementation
 
 	command_prefix: STRING_32
@@ -360,17 +383,14 @@ feature {NONE} -- Deferred implementation
 		deferred
 		end
 
+	null_redirection: ZSTRING
+		deferred
+		end
+
 	new_output_lines (file_path: FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
 		require
 			path_exists: file_path.exists
 		deferred
-		end
-
-	new_transient_fields: STRING
-		do
-			Result := Precursor +
-				", dry_run, getter_functions, internal_error_list, is_forked,%
-				%has_error, on_encoding_change, encoding_other, output_path, template_path"
 		end
 
 	template: READABLE_STRING_GENERAL

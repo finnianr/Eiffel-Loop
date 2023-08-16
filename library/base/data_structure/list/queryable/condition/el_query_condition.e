@@ -7,13 +7,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 8:15:54 GMT (Saturday 29th April 2023)"
-	revision: "11"
+	date: "2023-08-08 11:35:23 GMT (Tuesday 8th August 2023)"
+	revision: "12"
 
 deferred class
 	EL_QUERY_CONDITION [G]
 
-feature -- Access
+feature -- Status query
 
 	met (item: G): BOOLEAN
 		-- True if condition is met for `item`

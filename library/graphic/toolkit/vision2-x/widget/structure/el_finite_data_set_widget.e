@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-08-02 9:50:20 GMT (Wednesday 2nd August 2023)"
+	revision: "13"
 
 deferred class
 	EL_FINITE_DATA_SET_WIDGET [G]
@@ -26,6 +26,7 @@ feature {NONE} -- Initialization
 	make (initial_value: G; value_list: ITERABLE [G]; change_action: PROCEDURE [G])
 		do
 			value_change_action := change_action
+			create listeners.make
 			make_widget (new_value_list (initial_value, value_list))
 		end
 
@@ -37,6 +38,7 @@ feature {NONE} -- Initialization
 			list: like new_value_list
 		do
 			value_change_action := change_action
+			create listeners.make
 			list := new_value_list (initial_value, value_list)
 			create quick.make (Current)
 			if in_ascending_order then
@@ -51,6 +53,11 @@ feature {NONE} -- Initialization
 		deferred
 		end
 
+feature -- Access
+
+	listeners: EL_EVENT_BROADCASTER
+		-- event listeners that will be notified after `on_select_value' is called
+
 feature {NONE} -- Implementation
 
 	displayed_value (value: G): ZSTRING
@@ -60,6 +67,7 @@ feature {NONE} -- Implementation
 	do_change_action (value: G)
 		do
 			value_change_action.call ([value])
+			listeners.notify
 		end
 
 	less_than (a, b: EL_WIDGET_VALUE [G]): BOOLEAN

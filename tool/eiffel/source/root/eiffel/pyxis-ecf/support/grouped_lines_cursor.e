@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-23 9:33:06 GMT (Tuesday 23rd May 2023)"
-	revision: "4"
+	date: "2023-08-16 9:03:53 GMT (Wednesday 16th August 2023)"
+	revision: "5"
 
 class
 	GROUPED_LINES_CURSOR
@@ -19,6 +19,8 @@ inherit
 		redefine
 			item
 		end
+
+	EL_CHARACTER_CONSTANTS
 
 create
 	make
@@ -35,10 +37,8 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	item: STRING
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			Result := Buffer.copied (s.n_character_string ('%T', tab_count))
+			Result := Buffer.copied (Tab * tab_count)
 			Result.append_substring (target, item_lower, item_upper)
 		end
 

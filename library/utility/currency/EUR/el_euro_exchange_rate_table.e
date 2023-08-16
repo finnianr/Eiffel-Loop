@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2023-08-14 19:48:59 GMT (Monday 14th August 2023)"
+	revision: "17"
 
 class
 	EL_EURO_EXCHANGE_RATE_TABLE
@@ -81,8 +81,8 @@ feature {NONE} -- Implementation
 				create root_node.make_from_string (xml)
 				across root_node.context_list ("//Cube[boolean(@currency)]") as rate loop
 					code_name := rate.node [Name_currency]
-					if Currency_enum.is_valid_name (code_name) then
-						extend (rate.node [Name_rate], Currency_enum.value (code_name))
+					if Currency_enum.has_name (code_name) then
+						extend (rate.node [Name_rate], Currency_enum.found_value)
 					end
 				end
 			end

@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-02 13:17:50 GMT (Friday 2nd December 2022)"
-	revision: "10"
+	date: "2023-07-27 6:15:34 GMT (Thursday 27th July 2023)"
+	revision: "11"
 
 deferred class
 	EL_STRING_8_BUFFER_I
 
 inherit
 	EL_STRING_BUFFER [STRING_8, READABLE_STRING_8]
+		undefine
+			bit_count
+		end
+
+	EL_STRING_8_BIT_COUNTABLE [READABLE_STRING_8]
 
 	EL_SHARED_STRING_8_CURSOR
 

@@ -1,13 +1,13 @@
 note
-	description: "C string 16"
+	description: "16-bit C string"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-08-01 16:22:55 GMT (Tuesday 1st August 2023)"
+	revision: "8"
 
 class
 	EL_C_STRING_16
@@ -18,6 +18,8 @@ inherit
 			Natural_16_bytes as width
 		end
 
+	EL_16_BIT_IMPLEMENTATION
+
 create
 	default_create, make_owned, make_shared, make_owned_of_size, make_shared_of_size, make, make_from_string
 
@@ -26,7 +28,7 @@ convert
 
 feature -- Access
 
-	item (index: INTEGER): NATURAL_32
+	code (index: INTEGER): NATURAL_32
 			--
 		do
 			Result := read_natural_16 ((index - 1) * width)

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-22 16:28:07 GMT (Wednesday 22nd March 2023)"
-	revision: "81"
+	date: "2023-08-16 11:23:34 GMT (Wednesday 16th August 2023)"
+	revision: "86"
 
 class
 	EL_ZSTRING
@@ -44,9 +44,9 @@ inherit
 				prepend, prepend_string, prepend_string_general, prepend_ascii,
 
 				precede, put_unicode, quote,
-				translate, translate_general,
+				translate,
 --				Transformation
-				mirror, replace_character, replace_delimited_substring, replace_delimited_substring_general,
+				expand_tabs, mirror, replace_character, replace_delimited_substring, replace_delimited_substring_general,
 				replace_substring, replace_substring_all, replace_substring_general,
 				to_canonically_spaced, to_lower, to_proper_case, to_upper, translate_deleting_null_characters,
 				unescape,
@@ -298,12 +298,12 @@ feature -- Element change
 
 	left_pad (uc: CHARACTER_32; a_count: INTEGER)
 		do
-			prepend_string (once_padding (uc, a_count))
+			prepend_string (new_padding (uc, a_count))
 		end
 
 	right_pad (uc: CHARACTER_32; a_count: INTEGER)
 		do
-			append_string (once_padding (uc, a_count))
+			append_string (new_padding (uc, a_count))
 		end
 
 	set_from_latin_1_c (latin_1_ptr: POINTER)
@@ -466,17 +466,16 @@ feature {NONE} -- Implementation
 			create Result.make (n)
 		end
 
-	once_padding (uc: CHARACTER_32; a_count: INTEGER): like Current
+	new_padding (uc: CHARACTER_32; a_count: INTEGER): like Current
 		local
-			i, difference: INTEGER; pad_code: NATURAL
+			delta: INTEGER
 		do
-			pad_code := Codec.as_z_code (uc)
-			Result := Once_adapted_argument [0]
-			Result.wipe_out
-			difference := a_count - count
-			from i := 1 until i > difference loop
-				Result.append_z_code (pad_code)
-				i := i + 1
+			delta := a_count - count
+			if delta > 0 then
+				create Result.make_filled (uc, delta)
+			else
+				Result := Once_adapted_argument [0]
+				Result.wipe_out
 			end
 		end
 

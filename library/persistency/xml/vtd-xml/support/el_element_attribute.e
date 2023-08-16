@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-08-02 13:43:26 GMT (Wednesday 2nd August 2023)"
+	revision: "5"
 
 class
 	EL_ELEMENT_ATTRIBUTE
@@ -182,7 +182,7 @@ feature -- Status query
 			if s.count = value.count then
 				Result := True
 				from i := 1 until not Result or i > s.count loop
-					Result := s.item (i).to_character_32 = value [i]
+					Result := s.item (i) = value [i]
 					i := i + 1
 				end
 			end

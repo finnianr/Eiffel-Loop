@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 7:35:09 GMT (Saturday 24th June 2023)"
-	revision: "10"
+	date: "2023-07-27 9:14:26 GMT (Thursday 27th July 2023)"
+	revision: "12"
 
 class
 	EL_ELEMENT_ATTRIBUTE_NODE_STRING
@@ -17,7 +17,7 @@ inherit
 		export
 			{NONE} set_type
 		redefine
-			make, xpath_name
+			extend_xpath, make
 		end
 
 create
@@ -29,42 +29,16 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor (a_document_dir)
-			create cached_xpath_name.make_filled ('@', 1)
-			type := Node_type_attribute
+			type := Type_attribute
 		end
 
-feature -- Access
+feature -- Basic operations
 
-	xpath_name (keep_ref: BOOLEAN): ZSTRING
-		--
-		local
-			name_count: INTEGER
+	extend_xpath (xpath: STRING)
+			--
 		do
-			name_count := cached_xpath_name.count - 1
-			if name_count = 0 then
-				cached_xpath_name.append (raw_name)
-
-			elseif name_count /= raw_name.count
-				or else not cached_xpath_name.same_characters (raw_name, 1, raw_name.count, 2)
-			then
-				cached_xpath_name.replace_substring (raw_name, 2, cached_xpath_name.count)
-			end
-
-			Result := Name_buffer.empty
-			if encoded_as_utf (8) then
-				Result.append_utf_8 (cached_xpath_name)
-			else
-				Result.append_string_general (cached_xpath_name)
-			end
-			if keep_ref then
-				Result := Result.twin
-			end
-		ensure then
-			valid: Result.count = name.count + 1 and then Result.ends_with (name)
+			xpath.append_character ('@')
+			xpath.append (raw_name)
 		end
-
-feature {NONE} -- Internal attributes
-
-	cached_xpath_name: EL_UTF_8_STRING
 
 end

@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-25 10:52:47 GMT (Saturday 25th March 2023)"
-	revision: "7"
+	date: "2023-07-31 11:23:30 GMT (Monday 31st July 2023)"
+	revision: "9"
 
 deferred class
 	EL_PARSED_CAPTURED_OS_COMMAND [VARIABLES -> TUPLE create default_create end]
@@ -25,13 +25,14 @@ deferred class
 inherit
 	EL_PARSED_OS_COMMAND [VARIABLES]
 		undefine
-			do_command, make_default, new_command_parts
+			do_command, is_captured, make_default, new_command_parts
 		end
 
 	EL_CAPTURED_OS_COMMAND
 		rename
 			template as command_template,
-			make as make_command
+			make as make_command,
+			Var as Standard_var
 		export
 			{NONE} all
 			{ANY} set_working_directory, execute, is_valid_platform, has_error, lines, print_error,

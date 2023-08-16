@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-09 15:03:23 GMT (Tuesday 9th May 2023)"
-	revision: "6"
+	date: "2023-07-22 19:36:04 GMT (Saturday 22nd July 2023)"
+	revision: "7"
 
 class
 	FILE_SYNC_COMMAND
@@ -20,7 +20,7 @@ inherit
 		export
 			{EL_COMMAND_CLIENT} make
 		redefine
-			new_tuple_field_names, root_node_name
+			new_tuple_field_table, root_node_name
 		end
 
 	EL_APPLICATION_COMMAND
@@ -100,11 +100,12 @@ feature {NONE} -- Implementation
 			Result.set_remote_home (device.destination_dir)
 		end
 
-	new_tuple_field_names: like Default_tuple_field_names
+	new_tuple_field_table: like Default_tuple_field_table
 		do
-			create Result.make (<<
-				["device", "name, destination_dir, is_windows_format"]
-			>>)
+			Result := "[
+				device:
+					name, destination_dir, is_windows_format
+			]"
 		end
 
 feature {NONE} -- Constants

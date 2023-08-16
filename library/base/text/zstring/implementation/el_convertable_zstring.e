@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-02 13:35:28 GMT (Thursday 2nd March 2023)"
-	revision: "45"
+	date: "2023-08-15 10:00:40 GMT (Tuesday 15th August 2023)"
+	revision: "52"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -17,11 +17,14 @@ inherit
 		export
 			{STRING_HANDLER} empty_unencoded_buffer
 			{EL_CONVERTABLE_ZSTRING} all
+			{ANY} is_valid_as_string_8
 		end
 
 	EL_WRITEABLE_ZSTRING
 
 	EL_MODULE_BUFFER_8
+
+	EL_SHARED_IMMUTABLE_8_MANAGER
 
 feature -- To Strings
 
@@ -36,6 +39,15 @@ feature -- To Strings
 			end
 		ensure
 			all_encoded: not Result.has (Substitute)
+		end
+
+	db, debug_out: READABLE_STRING_GENERAL
+		do
+			if is_ascii then
+				Result := Immutable_8.new_substring (area, 0, count)
+			else
+				Result := to_general
+			end
 		end
 
 	out: STRING
@@ -58,6 +70,14 @@ feature -- To Strings
 			end
 		end
 
+	to_shared_immutable_8: IMMUTABLE_STRING_8
+		-- immutable string that shares same `area' as `Current'
+		require
+			valid_as_string_8: is_valid_as_string_8
+		do
+			Result := Immutable_8.new_substring (area, 0, count)
+		end
+
 	to_immutable_32: IMMUTABLE_STRING_32
 		do
 			create Result.make_filled (' ', count)
@@ -67,7 +87,7 @@ feature -- To Strings
 			end
 		end
 
-	to_string_32, as_string_32, string, db: STRING_32
+	to_string_32, as_string_32, string: STRING_32
 			-- UCS-4
 		do
 			create Result.make (count)
@@ -198,7 +218,13 @@ feature -- To list
 			create Result.make (current_zstring, a_separator)
 		end
 
-	split_intervals (delimiter: READABLE_STRING_GENERAL): EL_SPLIT_ZSTRING_LIST
+--	split_intervals (delimiter: READABLE_STRING_GENERAL): EL_ZSTRING_SPLIT_INTERVALS [ZSTRING]
+--			-- substring intervals of `Current' split with `delimiter'
+--		do
+--			create Result.make_by_string (current_zstring, delimiter)
+--		end
+
+	split_intervals (delimiter: READABLE_STRING_GENERAL): EL_ZSTRING_SPLIT_INTERVALS
 			-- substring intervals of `Current' split with `delimiter'
 		do
 			create Result.make_by_string (current_zstring, delimiter)
@@ -268,10 +294,16 @@ feature -- To list
 			create Result.make (current_zstring, a_separator)
 		end
 
-	substring_split (delimiter: EL_READABLE_ZSTRING): EL_STRING_LIST [ZSTRING]
-		-- split string on substring delimiter
+	substring_split (delimiter: EL_READABLE_ZSTRING): EL_ZSTRING_LIST
+		-- split string on `delimiter' substring
 		do
-			Result := split_intervals (delimiter).as_list
+			if attached split_intervals (delimiter) as list then
+				create Result.make (list.count)
+				from list.start until list.after loop
+					Result.extend (current_zstring.substring (list.item_lower, list.item_upper))
+					list.forth
+				end
+			end
 		end
 
 feature -- To substring
@@ -350,8 +382,13 @@ feature -- Conversion
 
 	enclosed (left, right: CHARACTER_32): like Current
 		do
-			Result := twin
-			Result.enclose (left, right)
+			Result := new_string (count + 2)
+			Result.append_character (left)
+			Result.append (current_readable)
+			Result.append_character (right)
+		ensure
+			first_and_last: Result [1] = left and Result [Result.count] = right
+			old_sandwiched: Result.substring (2, Result.count - 1) ~ current_readable
 		end
 
 	escaped (escaper: EL_STRING_ESCAPER [ZSTRING]): like Current
@@ -383,16 +420,41 @@ feature -- Conversion
 		end
 
 	multiplied (n: INTEGER): like Current
+		-- duplicate `Current' string `n' times
+		-- ("hello").multiplied (3) => "hellohellohello"
+		require
+			meaningful_multiplier: n >= 1
+		local
+			i: INTEGER
 		do
-			Result := twin
-			Result.multiply (n)
+			Result := new_string (n * count)
+			from i := 1 until i > n loop
+				Result.append (current_readable)
+				i := i + 1
+			end
 		end
 
 	quoted (type: INTEGER): like Current
+		require
+			type_is_single_double_or_appropriate: 1 <= type and type <= 3
+		local
+			c: CHARACTER_32
 		do
-			Result := twin
-			Result.quote (type)
+			inspect type
+				when 1 then
+					c := '%''
+				when 2 then
+					c := '"'
+				when 3 then -- appropriate for content
+					if has ('"') then
+						c := '%''
+					else
+						c := '"'
+					end
+			end
+			Result := enclosed (c, c)
 		end
+
 
 	stripped: like Current
 		do
@@ -429,16 +491,10 @@ feature -- Conversion
 			Result.append_substring (current_readable, previous_marker_pos + 1, count)
 		end
 
-	translated (old_characters, new_characters: EL_READABLE_ZSTRING): like Current
+	translated (old_characters, new_characters: READABLE_STRING_GENERAL): like Current
 		do
 			Result := twin
 			Result.translate (old_characters, new_characters)
-		end
-
-	translated_general (old_characters, new_characters: READABLE_STRING_GENERAL): like Current
-		do
-			Result := twin
-			Result.translate_general (old_characters, new_characters)
 		end
 
 	unescaped (unescaper: EL_ZSTRING_UNESCAPER): like Current

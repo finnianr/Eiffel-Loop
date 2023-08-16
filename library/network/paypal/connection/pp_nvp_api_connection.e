@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "19"
+	date: "2023-07-20 7:51:51 GMT (Thursday 20th July 2023)"
+	revision: "20"
 
 class
 	PP_NVP_API_CONNECTION
@@ -133,9 +133,9 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	is_button_parameter (basic_type, type_id: INTEGER_32): BOOLEAN
+	is_button_parameter (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		do
-			Result := type_id = Button_parameter_type
+			Result := field.static_type = Button_parameter_type
 		end
 
 feature {PP_BUTTON_METHOD} -- Paypal parameters

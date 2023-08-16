@@ -6,16 +6,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 16:46:57 GMT (Sunday 16th July 2023)"
-	revision: "51"
+	date: "2023-08-11 13:28:19 GMT (Friday 11th August 2023)"
+	revision: "53"
 
 deferred class
 	EL_STRING_X_ROUTINES [STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL]
 
 inherit
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X]
-
-	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
 
 feature -- Basic operations
 
@@ -82,7 +80,7 @@ feature -- Transformed
 		-- `str' curtailed to `max_count' with added ellipsis where `max_count' is exceeded
 		do
 			if str.count > max_count - 2 then
-				Result := str.substring (1, max_count - 2) + Ellipsis_dots
+				Result := str.substring (1, max_count - 2) + Dot * 2
 			else
 				Result := str
 			end

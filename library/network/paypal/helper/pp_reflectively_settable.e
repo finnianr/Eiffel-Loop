@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-07-20 7:53:33 GMT (Thursday 20th July 2023)"
+	revision: "5"
 
 deferred class
 	PP_REFLECTIVELY_SETTABLE
@@ -20,9 +20,9 @@ inherit
 
 feature {NONE} -- Implementation
 
-	is_paypal_field (basic_type, type_id: INTEGER_32): BOOLEAN
+	is_paypal_field (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		do
-			Result := is_string_or_expanded_field (basic_type, type_id) or else is_date_field (basic_type, type_id)
+			Result := field.is_string_or_expanded or else field.conforms_to_date_time
 		end
 
 end

@@ -6,17 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-04 14:38:58 GMT (Saturday 4th February 2023)"
-	revision: "9"
+	date: "2023-07-27 4:55:11 GMT (Thursday 27th July 2023)"
+	revision: "10"
 
 expanded class
 	EL_NATURAL_64_BIT_ROUTINES
 
 inherit
 	EL_NUMERIC_BIT_ROUTINES
-		rename
-			Natural_64_bits as bit_count
-		end
+
+	EL_64_BIT_IMPLEMENTATION
 
 feature -- Access
 
@@ -81,7 +80,7 @@ feature -- Contract Support
 				Result := right_justified (mask) = filled_bits (mask_count (mask))
 			end
 		end
-		
+
 feature {NONE} -- Constants
 
 	One: NATURAL_64 = 1

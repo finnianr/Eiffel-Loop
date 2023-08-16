@@ -1,4 +1,4 @@
-note
+ï»¿note
 	description: "Hash table test set"
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 12:22:34 GMT (Sunday 16th July 2023)"
-	revision: "19"
+	date: "2023-08-15 10:15:59 GMT (Tuesday 15th August 2023)"
+	revision: "23"
 
 class
 	HASH_TABLE_TEST_SET
@@ -19,7 +19,7 @@ inherit
 
 	FEATURE_CONSTANTS
 
-	EL_MODULE_EIFFEL; EL_MODULE_TUPLE
+	EL_MODULE_EIFFEL; EL_MODULE_EXECUTABLE; EL_MODULE_TUPLE
 
 create
 	make
@@ -35,6 +35,7 @@ feature {NONE} -- Initialization
 				["hash_set",							 agent test_hash_set],
 				["immutable_string_table",			 agent test_immutable_string_table],
 				["immutable_string_table_memory", agent test_immutable_string_table_memory],
+				["immutable_utf_8_table",			 agent test_immutable_utf_8_table],
 				["iteration_cursor",					 agent test_iteration_cursor],
 				["readable_string_8_table",		 agent test_readable_string_8_table],
 				["string_table",						 agent test_string_table],
@@ -49,10 +50,10 @@ feature -- Test
 			testing: "covers/{EL_HASH_TABLE}.make_from_manifest_32"
 		do
 			if attached new_character_entity_table as table then
-				assert ("is pound", table ["pound"] = '£')
-				assert ("is curren", table ["curren"] = '¤')
-				assert ("is yen", table ["yen"] = '¥')
-				assert ("is copy", table ["copy"] = '©')
+				assert ("is pound", table ["pound"] = 'Â£')
+				assert ("is curren", table ["curren"] = 'Â¤')
+				assert ("is yen", table ["yen"] = 'Â¥')
+				assert ("is copy", table ["copy"] = 'Â©')
 			end
 		end
 
@@ -80,7 +81,7 @@ feature -- Test
 			if geo_info_table.has_key (geo_info.ip) then
 				assert ("same value", geo_info ~ geo_info_table.found_item)
 			else
-				assert ("table has geo_info", False)
+				failed ("table has geo_info")
 			end
 			geo_info_table.put (geo_info, geo_info.ip)
 			assert ("same value", geo_info ~ geo_info_table.found_item)
@@ -91,17 +92,20 @@ feature -- Test
 		local
 			set: EL_HASH_SET [CHARACTER]
 		do
-			create set.make (20)
-			set.put ('a')
-			assert ("is stupid", not set.inserted)
+			if Executable.Is_work_bench then
+				create set.make (20)
+				set.put ('a')
+				assert ("is stupid", not set.inserted)
+			end
 		end
 
 	test_immutable_string_table
 		-- HASH_TABLE_TEST_SET.test_immutable_string_table
 		note
-			testing:
-				"covers/{EL_IMMUTABLE_STRING_TABLE}.make",
-				"covers/{EL_IMMUTABLE_STRING_TABLE}.make_by_assignment"
+			testing: "[
+				covers/{EL_IMMUTABLE_STRING_TABLE}.make,
+				covers/{EL_IMMUTABLE_STRING_TABLE}.make_by_assignment
+			]"
 		local
 			assigment_manifest: EL_STRING_8_LIST; feature_expansion_table_2: EL_IMMUTABLE_STRING_8_TABLE
 		do
@@ -112,14 +116,14 @@ feature -- Test
 			create feature_expansion_table_2.make_by_assignment (assigment_manifest.joined_lines)
 			if Feature_expansion_table.count = feature_expansion_table_2.count then
 				across Feature_expansion_table as table loop
-					if feature_expansion_table_2.has_key (table.key) then
+					if feature_expansion_table_2.has_immutable_key (table.key) then
 						assert ("same item value", table.item ~ feature_expansion_table_2.found_item)
 					else
-						assert ("missing key " + table.key, False)
+						failed ("missing key " + table.key)
 					end
 				end
 			else
-				assert ("same count", False)
+				failed ("same count")
 			end
 		end
 
@@ -156,6 +160,43 @@ feature -- Test
 			assert ("71 %% fewer objects", 100 - (immutable_object_count * 100 / standard_object_count).rounded = 71)
 		end
 
+	test_immutable_utf_8_table
+		-- HASH_TABLE_TEST_SET.test_immutable_utf_8_table
+		note
+			testing: "[
+				covers/{EL_IMMUTABLE_UTF_8_TABLE}.make,
+				covers/{EL_IMMUTABLE_UTF_8_TABLE}.found_item_list,
+				covers/{EL_IMMUTABLE_STRING_TABLE}.make_by_assignment,
+				covers/{EL_IMMUTABLE_STRING_TABLE}.found_item
+			]"
+		local
+			table_utf_8: EL_IMMUTABLE_UTF_8_TABLE; value: ZSTRING
+			zstring_table: EL_ZSTRING_TABLE; currency_table: EL_IMMUTABLE_STRING_32_TABLE
+		do
+			create table_utf_8.make (Table_manifest)
+			create zstring_table.make (Table_manifest)
+			across zstring_table as table loop
+				if table_utf_8.has_key_general (table.key) then
+					value := table.item
+					assert ("equal values", value ~ table_utf_8.found_item)
+				else
+					failed ("has immutable key")
+				end
+			end
+			if table_utf_8.has_key_8 ("currency_symbols") then
+				create currency_table.make_by_assignment (table_utf_8.found_item.to_string_32)
+				if currency_table.has_key_general ("euro") and then
+					attached currency_table.found_item as symbol
+				then
+					assert ("is euro symbol", symbol.count = 1 and then symbol [1] = 'â‚¬')
+				else
+					failed ("found euro")
+				end
+			else
+				failed ("found currency_symbols")
+			end
+		end
+
 	test_iteration_cursor
 		local
 			table: EL_HASH_TABLE [INTEGER, INTEGER]
@@ -183,7 +224,10 @@ feature -- Test
 	test_readable_string_8_table
 		-- HASH_TABLE_TEST_SET.test_readable_string_8_table
 		note
-			testing: "covers/{EL_TUPLE_ROUTINES}.fill_immutable", "covers/{EL_STRING_8_TABLE}.same_keys"
+			testing: "[
+				covers/{EL_TUPLE_ROUTINES}.fill_immutable,
+				covers/{EL_STRING_8_TABLE}.same_keys
+			]"
 		local
 			value_table: EL_STRING_8_TABLE [INTEGER]
 			name: TUPLE [one, two, three: IMMUTABLE_STRING_8]
@@ -285,10 +329,10 @@ feature {NONE} -- Implementation
 		do
 			create Result.make_from_manifest_32 (
 				agent new_zstring, agent {IMMUTABLE_STRING_32}.item (1), True, {STRING_32} "[
-				pound := £
-				curren := ¤
-				yen := ¥
-				copy := ©
+				pound := Â£
+				curren := Â¤
+				yen := Â¥
+				copy := Â©
 			]")
 		end
 
@@ -296,5 +340,17 @@ feature {NONE} -- Implementation
 		do
 			create Result.make_from_general (str)
 		end
+
+feature {NONE} -- Constants
+
+	Table_manifest: STRING_32 = "[
+		is_boolean:
+			True
+		currency_symbols:
+			any := Â¤
+			euro := â‚¬
+			pound := Â£
+			yen := Â¥
+	]"
 
 end

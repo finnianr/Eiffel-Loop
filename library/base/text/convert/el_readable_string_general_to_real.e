@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 16:42:56 GMT (Wednesday 15th March 2023)"
-	revision: "2"
+	date: "2023-07-31 9:16:55 GMT (Monday 31st July 2023)"
+	revision: "3"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_TO_REAL [N -> NUMERIC]
@@ -66,6 +66,6 @@ feature {NONE} -- Constants
 
 	Convertor: STRING_TO_REAL_CONVERTOR
 		once
-			Result := Accessible_string_8.Ctor_convertor
+			Result := EL_string_8.Ctor_convertor
 		end
 end

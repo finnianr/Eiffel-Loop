@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-07 13:55:52 GMT (Wednesday 7th June 2023)"
-	revision: "2"
+	date: "2023-08-10 8:04:08 GMT (Thursday 10th August 2023)"
+	revision: "3"
 
 class
 	EL_ASCII
@@ -21,6 +21,8 @@ feature -- Punctuation
 feature -- Control
 
 	Ctrl_j, Newline, Line_feed: NATURAL = 10
+
+	Escape: NATURAL = 27
 
 feature -- Symbol
 

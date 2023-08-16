@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-07-22 19:48:41 GMT (Saturday 22nd July 2023)"
+	revision: "10"
 
 class
 	CONSOLE_LOGGING_FOURIER_MATH_SERVER_APP
@@ -37,7 +37,7 @@ feature {NONE} -- Installer constants
 		once
 			Result := new_console_app_menu_desktop_environment
 			Result.set_command_line_options (<<
-				Log_option.Name.logging, Log_option.Name.thread_toolbar, "max_threads 3"
+				Log_option.Name_logging, Log_option.Name_thread_toolbar, "max_threads 3"
 			>>)
 		end
 

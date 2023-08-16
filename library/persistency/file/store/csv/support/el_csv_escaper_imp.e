@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 15:48:57 GMT (Thursday 5th January 2023)"
-	revision: "2"
+	date: "2023-08-02 14:36:21 GMT (Wednesday 2nd August 2023)"
+	revision: "3"
 
 deferred class
 	EL_CSV_ESCAPER_IMP [S -> STRING_GENERAL create make end]

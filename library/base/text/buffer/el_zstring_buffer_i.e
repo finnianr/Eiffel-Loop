@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-07-27 6:15:12 GMT (Thursday 27th July 2023)"
+	revision: "5"
 
 deferred class
 	EL_ZSTRING_BUFFER_I
 
 inherit
 	EL_STRING_BUFFER [ZSTRING, EL_READABLE_ZSTRING]
+		undefine
+			bit_count
+		end
+
+	EL_STRING_32_BIT_COUNTABLE [EL_READABLE_ZSTRING]
 
 feature -- Access
 

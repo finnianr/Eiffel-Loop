@@ -39,6 +39,7 @@ See project cluster for details
 		<!--Eiffel Loop libraries-->
 		<library name = "EL_app_manage" location = "$EIFFEL_LOOP/library/app-manage.ecf" readonly = "false"/>
 		<library name = "EL_c_api" location = "$EIFFEL_LOOP/library/C-language-interface.ecf" readonly = "false"/>
+		<library name = "EL_doc_scan" location = "$EIFFEL_LOOP/library/document-scan.ecf" readonly = "false"/>
 		<library name = "EL_evolicity" location = "$EIFFEL_LOOP/library/evolicity.ecf" readonly = "false"/>
 		<library name = "EL_fast_cgi" location = "$EIFFEL_LOOP/library/fast-cgi.ecf" readonly = "false"/>
 		<library name = "EL_logging" location = "$EIFFEL_LOOP/library/logging.ecf" readonly = "false"/>
@@ -46,11 +47,15 @@ See project cluster for details
 		<library name = "EL_testing" location = "$EIFFEL_LOOP/library/testing.ecf" readonly = "false"/>
 		<library name = "EL_text_formats" location = "$EIFFEL_LOOP/library/text-formats.ecf" readonly = "false"/>
 		<library name = "EL_vtd_xml" location = "$EIFFEL_LOOP/library/vtd-xml.ecf" readonly = "false"/>
+		<library name = "EL_xml_scan" location = "$EIFFEL_LOOP/library/xml-scan.ecf" readonly = "false"/>
 		<library name = "EL_base" location = "$EIFFEL_LOOP/library/base/base.ecf" readonly = "false">
 			<option>
 				<assertions precondition = "true" postcondition = "true" check = "true"/>
 			</option>
 		</library>
+		<!--clusters in common with other project-->
+		<cluster name = "test_common" location = "$EIFFEL_LOOP/test/source/common" recursive = "true"/>
+		<cluster name = "rhythmbox" location = "$EIFFEL_LOOP/example/manage-mp3/source/rhythmbox/constants/common"/>
 		<!--Source-->
 		<cluster name = "project" location = "source" recursive = "true">
 			<description>
@@ -65,6 +70,5 @@ The benchmarks are run from a menu shell.
 See doc/benchmark.txt for details
 			</description>
 		</cluster>
-		<cluster name = "test_common" location = "$EIFFEL_LOOP/test/source/common" recursive = "true"/>
 	</target>
 </system>

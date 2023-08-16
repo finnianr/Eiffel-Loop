@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 15:08:37 GMT (Saturday 29th April 2023)"
-	revision: "53"
+	date: "2023-08-14 8:32:56 GMT (Monday 14th August 2023)"
+	revision: "54"
 
 deferred class EL_CHAIN [G]
 
@@ -231,7 +231,7 @@ note
 	descendants: "[
 			EL_CHAIN* [G]
 				[$source EL_ARRAYED_LIST] [G]
-					[$source EL_REFLECTED_FIELD_LIST]
+					[$source EL_FIELD_LIST]
 					[$source EL_APPLICATION_LIST]
 					[$source EL_TUPLE_TYPE_LIST] [T]
 					[$source EL_DEFAULT_COMMAND_OPTION_LIST]

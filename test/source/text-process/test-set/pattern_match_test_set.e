@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "28"
+	date: "2023-08-15 10:26:15 GMT (Tuesday 15th August 2023)"
+	revision: "30"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -95,14 +95,14 @@ feature -- Test
 			across xml_text_element_list as list loop
 				xml_text_element := list.item
 				across << Empty_string_8, Name_susan >> as name loop
-					set_source_text (XML.value_element_markup ("name", name.item))
+					set_source_text (XML.value_element ("name", name.item, Void))
 					output.wipe_out
 					pattern := xml_text_element (agent output.append_substring_general (source_text, ?, ?))
 					pattern.parse (source_text)
 					if pattern.is_matched then
 						assert ("match_count OK", name.item ~ output)
 					else
-						assert ("parse OK", False)
+						failed ("parse OK")
 					end
 				end
 			end
@@ -129,11 +129,11 @@ feature -- Test
 					if line_list.valid_index (line.cursor_index) then
 						assert_same_string ("text reconstructed", line_list [line.cursor_index], line.item)
 					else
-						assert ("same item count", False)
+						failed ("same item count")
 					end
 				end
 			else
-				assert ("matched", False)
+				failed ("matched")
 			end
 		end
 
@@ -263,7 +263,7 @@ feature -- Test
 							assert ("same value", table.item.out ~ parser.table.found_item)
 						end
 					else
-						assert ("has key " + table.key, False)
+						failed ("has key " + table.key)
 					end
 				end
 			end
@@ -284,7 +284,7 @@ feature -- Test
 			if pattern.is_matched then
 				assert_same_string (Void, output, "AA%N'")
 			else
-				assert ("matched", False)
+				failed ("matched")
 			end
 		end
 
@@ -324,7 +324,7 @@ feature -- Test
 						assert_same_string (Void, output, "-%N-%"-%%-A")
 					end
 				else
-					assert ("matched", False)
+					failed ("matched")
 				end
 			end
 		end
@@ -488,7 +488,7 @@ feature {NONE} -- Implementation
 					end
 					assert ("parsed Eiffel numeric array OK", number_list ~ actual_number_list)
 				else
-					assert ("numeric_array_pattern: is_full_match OK", False)
+					failed ("numeric_array_pattern: is_full_match OK")
 				end
 			end
 		end

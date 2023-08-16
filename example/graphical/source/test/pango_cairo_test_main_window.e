@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "22"
+	date: "2023-08-09 7:53:09 GMT (Wednesday 9th August 2023)"
+	revision: "25"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -56,7 +56,7 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			size_drop_down: EL_DROP_DOWN_BOX [REAL]; font_list_drop_down: EL_ZSTRING_DROP_DOWN_BOX
+			size_drop_down: EL_DROP_DOWN_BOX [REAL]; font_list_drop_down: EL_FONT_FAMILY_DROP_DOWN_BOX
 			text_angle_drop_down: EL_DROP_DOWN_BOX [INTEGER]
 			cell: EV_CELL; l_pixmap: EL_PIXMAP
 		do
@@ -69,7 +69,7 @@ feature {NONE} -- Initialization
 			font_family := "Verdana"
 --			font_family := "Courier 10 Pitch"
 --			font_family := "Garuda"
-			create font_list_drop_down.make (font_family, Text.General_font_families, agent set_font_family)
+			create font_list_drop_down.make_system (font_family, agent set_font_family)
 
 			text_angle := 0
 			create text_angle_drop_down.make (text_angle, << 0, 90 >>, agent set_text_angle)
@@ -99,9 +99,9 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Element change
 
-	set_font_family (a_font_family: like font_family)
+	set_font_family (a_font_family: ZSTRING)
 		do
-			font_family := a_font_family
+			font_family := a_font_family.to_string_8
 			Action.do_once_on_idle (agent replace_pixmap)
 		end
 
@@ -124,7 +124,7 @@ feature {NONE} -- Factory
 			name_rect: EL_RECTANGLE; l_pixmap: EL_PIXMAP
 			l_title: STRING
 		do
-			l_title := "Font: " + title_font.name
+			l_title := "Aa: " + title_font.name
 			create name_rect.make_for_text (l_title, title_font)
 			if text_angle = 90 then
 				create name_rect.make (0, 0, name_rect.height, name_rect.width)
@@ -167,7 +167,7 @@ feature {NONE} -- Factory
 
 	new_pixmap: EL_PIXMAP
 		do
-			Result := new_drawing_area (Vision_2.new_font_regular (font_family.to_latin_1, font_size)).to_pixmap
+			Result := new_drawing_area (Vision_2.new_font_regular (font_family, font_size)).to_pixmap
 		end
 
 	new_pixmap_cell (a_pixmap: EV_PIXMAP): EV_CELL
@@ -210,7 +210,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	font_family: ZSTRING
+	font_family: STRING
 
 	font_size: REAL
 

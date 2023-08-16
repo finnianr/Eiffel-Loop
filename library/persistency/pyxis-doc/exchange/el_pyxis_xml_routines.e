@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-28 9:52:35 GMT (Wednesday 28th June 2023)"
-	revision: "27"
+	date: "2023-08-16 10:02:19 GMT (Wednesday 16th August 2023)"
+	revision: "30"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -72,7 +72,7 @@ feature -- Access
 
 	root_element (file_path: FILE_PATH): ZSTRING
 		local
-			done: BOOLEAN; s: EL_ZSTRING_ROUTINES
+			done: BOOLEAN
 		do
 			create Result.make_empty
 			if attached open_lines (file_path, {EL_ENCODING_CONSTANTS}.Latin_1) as lines then
@@ -82,7 +82,7 @@ feature -- Access
 						if not lines.item.starts_with (Pyxis_doc) then
 							done := True
 						end
-					elseif lines.item.ends_with (s.character_string (':')) then
+					elseif lines.item.ends_with_character (':') then
 						Result := lines.item
 						Result.remove_tail (1)
 						done := True
@@ -144,10 +144,10 @@ feature -- Measurement
 
 	element_count (file_path: FILE_PATH; name: STRING; tab_count: INTEGER): INTEGER
 		local
-			element_line: STRING; s: EL_STRING_8_ROUTINES
+			element_line: STRING
 		do
 			if file_path.exists then
-				element_line := s.n_character_string ('%T', tab_count) + name
+				element_line := Tab * tab_count + name
 				element_line.append_character (':')
 				across File.plain_text_lines (file_path) as line loop
 					if line.item_starts_with (element_line) then
@@ -164,6 +164,11 @@ feature {NONE} -- Constants
 	Python: EL_STRING_ESCAPER [ZSTRING]
 		once
 			create Result.make (Escape_table.Python_1)
+		end
+
+	Tab: EL_CHARACTER_8
+		once
+			Result := '%T'
 		end
 
 	Header_template: ZSTRING

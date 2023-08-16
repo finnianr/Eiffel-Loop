@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 8:41:14 GMT (Sunday 1st January 2023)"
-	revision: "13"
+	date: "2023-08-14 8:32:57 GMT (Monday 14th August 2023)"
+	revision: "14"
 
 class
 	EL_HTTP_PARAMETER_LIST
@@ -54,7 +54,7 @@ feature -- Element change
 
 	append_object (object: EL_REFLECTIVE)
 		local
-			field_array: EL_REFLECTED_FIELD_LIST; l_item: EL_HTTP_NAME_VALUE_PARAMETER
+			field_array: EL_FIELD_LIST; l_item: EL_HTTP_NAME_VALUE_PARAMETER
 			value: ZSTRING; i: INTEGER
 		do
 			field_array := object.meta_data.field_list

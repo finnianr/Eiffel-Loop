@@ -9,26 +9,38 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-14 16:06:29 GMT (Friday 14th July 2023)"
-	revision: "3"
+	date: "2023-08-06 14:41:49 GMT (Sunday 6th August 2023)"
+	revision: "5"
 
 deferred class
-	EL_IMMUTABLE_STRING_GRID [S -> STRING_GENERAL]
+	EL_IMMUTABLE_STRING_GRID [GENERAL -> STRING_GENERAL, IMMUTABLE -> IMMUTABLE_STRING_GENERAL create make end]
+
+inherit
+	EL_SPLIT_READABLE_STRING_LIST [IMMUTABLE]
+		rename
+			make as make_split,
+			count as cell_count
+		export
+			{NONE} all
+			{ANY} cell_count
+		end
+
+	EL_STRING_BIT_COUNTABLE [IMMUTABLE]
 
 feature {NONE} -- Initialization
 
-	make (a_width: INTEGER; str: S)
+	make (a_width: INTEGER; str: GENERAL)
 		require
 			cell_count_divisible_by_width: (str.occurrences (',') + 1) \\ a_width = 0
 		do
 			width := a_width
-			make_shared_adjusted (str, ',', {EL_SIDE}.Left)
+			make_empty
+			if attached new_split_list (str) as list then
+				area := list.area
+				target_string := list.target_string
+			end
 		ensure
 			cell_count_divisible_by_width: cell_count \\ width = 0
-		end
-
-	make_shared_adjusted (str: S; delimiter: CHARACTER_32; a_adjustments: INTEGER)
-		deferred
 		end
 
 feature -- Access
@@ -45,10 +57,6 @@ feature -- Access
 		end
 
 feature -- Measurement
-
-	cell_count: INTEGER
-		deferred
-		end
 
 	height: INTEGER
 		do
@@ -81,15 +89,12 @@ feature -- Conversion
 
 feature {EL_IMMUTABLE_STRING_TABLE} -- Implementation
 
-	i_th (i: INTEGER): IMMUTABLE_STRING_GENERAL
-		deferred
-		end
-
-	target: IMMUTABLE_STRING_GENERAL
+	new_split_list (str: GENERAL): EL_SPLIT_IMMUTABLE_STRING_LIST [GENERAL, IMMUTABLE]
 		deferred
 		end
 
 	new_table: HASH_TABLE [like i_th, like i_th]
 		deferred
 		end
+
 end

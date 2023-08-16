@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 9:28:19 GMT (Monday 12th December 2022)"
-	revision: "23"
+	date: "2023-08-16 8:03:00 GMT (Wednesday 16th August 2023)"
+	revision: "24"
 
 class
 	EL_AES_CREDENTIAL
@@ -28,13 +28,7 @@ inherit
 			{ANY} valid_key_bit_count
 		end
 
-	EL_MODULE_USER_INPUT
-
-	EL_MODULE_LIO
-
 	EL_MODULE_BASE_64
-
-	EL_SHARED_PASSPHRASE_TEXTS
 
 create
 	make, make_default
@@ -64,34 +58,31 @@ feature -- Access
 			Result := Base_64.encoded_special (digest, False)
 		end
 
+	phrase: ZSTRING
+		-- pass phrase
+
 	salt_base_64: STRING
 		do
 			Result := Base_64.encoded_special (salt, False)
 		end
 
-	phrase: ZSTRING
-		-- pass phrase
+feature -- Basic operations
+
+	display (log: EL_LOGGABLE)
+		do
+			log.put_labeled_string ("Salt", salt_base_64)
+			log.put_new_line
+			log.put_labeled_string ("Digest", digest_base_64)
+			log.put_new_line
+			log.put_labeled_string ("Is valid", is_valid.out)
+			log.put_new_line
+		end
 
 feature -- Element change
 
-	ask_user
-		local
-			done: BOOLEAN
+	set_digest (a_digest_base_64: STRING)
 		do
-			from until done loop
-				phrase := User_input.line (Text.enter_passphrase)
-				lio.put_new_line
-				if is_salt_set then
-					if is_valid then
-						done := True
-					else
-						lio.put_line (Text.passphrase_is_invalid)
-					end
-				else
-					validate
-					done := True
-				end
-			end
+			digest := Base_64.decoded_special (a_digest_base_64)
 		end
 
 	set_from_other (other: EL_AES_CREDENTIAL)
@@ -111,11 +102,6 @@ feature -- Element change
 			salt := Base_64.decoded_special (a_salt_base_64)
 		end
 
-	set_digest (a_digest_base_64: STRING)
-		do
-			digest := Base_64.decoded_special (a_digest_base_64)
-		end
-
 	validate
 		-- set `salt' and `digest'
 		require
@@ -129,9 +115,9 @@ feature -- Element change
 
 feature -- Status query
 
-	is_valid: BOOLEAN
+	is_phrase_set: BOOLEAN
 		do
-			Result := is_salt_set and then digest ~ actual_digest
+			Result := phrase.count > 0
 		end
 
 	is_salt_set: BOOLEAN
@@ -139,9 +125,9 @@ feature -- Status query
 			Result := salt.count = Salt_count
 		end
 
-	is_phrase_set: BOOLEAN
+	is_valid: BOOLEAN
 		do
-			Result := phrase.count > 0
+			Result := is_salt_set and then digest ~ actual_digest
 		end
 
 feature -- Factory
@@ -205,9 +191,9 @@ feature {NONE} -- Implementation
 
 feature {EL_AES_CREDENTIAL} -- Internal attributes
 
-	salt: SPECIAL [NATURAL_8]
-
 	digest: like salt
+
+	salt: SPECIAL [NATURAL_8]
 
 feature {NONE} -- Evolicity fields
 
@@ -215,8 +201,8 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make (<<
-				["digest", 	agent digest_base_64],
-				["salt", 	agent salt_base_64]
+				["digest", agent digest_base_64],
+				["salt",	  agent salt_base_64]
 			>>)
 		end
 

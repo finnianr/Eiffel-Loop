@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 11:08:24 GMT (Thursday 5th January 2023)"
-	revision: "25"
+	date: "2023-08-16 9:10:36 GMT (Wednesday 16th August 2023)"
+	revision: "27"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -20,13 +20,9 @@ inherit
 			make_default, on_meta_data
 		end
 
-	EL_MODULE_LIO
+	EL_MODULE_LIO; EL_MODULE_REUSEABLE
 
-	XML_STRING_8_CONSTANTS
-
-	EL_STRING_8_CONSTANTS
-
-	EL_MODULE_REUSEABLE
+	EL_CHARACTER_CONSTANTS; EL_STRING_8_CONSTANTS; XML_STRING_8_CONSTANTS
 
 create
 	make
@@ -83,25 +79,27 @@ feature {NONE} -- Parsing events
 			--
 		do
 			put_last_tag (True)
-			output.put_string (tabs (output_stack.count))
+			output.put_string (Tab * output_stack.count)
 			output.put_string (Comment_open)
-			if last_node.has (New_line_character) then
-				output.put_new_line
-				put_node_content_lines (True)
-				output.put_string (tabs (output_stack.count))
-			else
-				put_node_content_single
+			if attached last_node as node then
+				if node.has (New_line_character) then
+					output.put_new_line
+					put_content_lines (node, True)
+					output.put_string (Tab * output_stack.count)
+				else
+					put_single_line (node)
+				end
 			end
 			output.put_string (Comment_close)
 			output.put_new_line
 			last_state := State_comment
 		end
 
-	on_content
+	on_content (node: EL_DOCUMENT_NODE_STRING)
 			--
 		do
 			put_last_tag (False)
-			put_node_content
+			put_content (node)
 		end
 
 	on_end_document
@@ -157,20 +155,22 @@ feature {NONE} -- Parsing events
 	on_start_tag
 			--
 		local
-			tag_output: EL_STRING_8_LIST
+			tag_output: EL_STRING_8_LIST; i: INTEGER
 		do
 			put_last_tag (True)
 			create tag_output.make (attribute_list.count + 5)
 
-			tag_output.extend (tabs (output_stack.count))
+			tag_output.extend (Tab * output_stack.count)
 			tag_output.extend (Left_angle_bracket)
 
 			tag_output.extend (pool.borrowed_item)
 			tag_output.last.append (last_node_name)
 
-			from attribute_list.start until attribute_list.after loop
-				tag_output.extend (new_reusable_name_value_pair (attribute_list.node))
-				attribute_list.forth
+			if attached attribute_list.area as area and then area.count > 0 then
+				from until i = area.count loop
+					tag_output.extend (new_reusable_name_value_pair (area [i]))
+					i := i + 1
+				end
 			end
 			tag_output.extend (Empty_tag_marker)
 
@@ -188,31 +188,31 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	put_node_content
+	put_content (node: EL_DOCUMENT_NODE_STRING)
 			--
 		do
-			if last_node.has (New_line_character) then
+			if node.has (New_line_character) then
 				output.put_new_line
-				put_node_content_lines (False)
+				put_content_lines (node, False)
 				last_state := State_multi_line_content
 			else
-				put_node_content_single
+				put_single_line (node)
 				last_state := State_content
 			end
 		end
 
-	put_node_content_lines (tabbed: BOOLEAN)
+	put_content_lines (node: EL_DOCUMENT_NODE_STRING; tabbed: BOOLEAN)
 		local
 			text: STRING
 		do
 			across Reuseable.string_8 as reuse loop
 				text := reuse.item
-				last_node.append_adjusted_to (text)
+				node.append_adjusted_to (text)
 
 				Line_splitter.set_target (Xml_escaper.escaped (text, False))
 				across Line_splitter as list loop
 					if tabbed then
-						output.put_string (tabs (output_stack.count + 1))
+						output.put_string (Tab * (output_stack.count + 1))
 					end
 					output.put_string (list.item)
 					output.put_new_line
@@ -220,11 +220,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	put_node_content_single
+	put_single_line (node: EL_DOCUMENT_NODE_STRING)
 		do
 			across Reuseable.string_8 as reuse loop
 				if attached reuse.item as text then
-					Xml_escaper.escape_into (last_node, text)
+					Xml_escaper.escape_into (node, text)
 					output.put_string (text)
 				end
 			end
@@ -267,13 +267,6 @@ feature {NONE} -- Implementation
 			Result.append (Value_equals_separator)
 			XML_escaper.escape_into (node, Result)
 			Result.append_character ('"')
-		end
-
-	tabs (tab_count: INTEGER): STRING_8
-		local
-			s: EL_STRING_8_ROUTINES
-		do
-			Result := s.n_character_string ('%T', tab_count)
 		end
 
 feature {NONE} -- Internal attributes

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2023-08-08 11:34:59 GMT (Tuesday 8th August 2023)"
+	revision: "3"
 
 class
 	EL_FUNCTION_VALUE_QUERY_CONDITION [G]
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 			target_value := a_target_value
 		end
 
-feature -- Access
+feature -- Status query
 
 	met (item: G): BOOLEAN
 		-- True if `value' applied to `item' is equal to `target_value'

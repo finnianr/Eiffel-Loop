@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-18 9:55:19 GMT (Saturday 18th March 2023)"
-	revision: "20"
+	date: "2023-08-07 10:51:12 GMT (Monday 7th August 2023)"
+	revision: "22"
 
 class
 	EL_SPLIT_ZSTRING_LIST
@@ -21,28 +21,46 @@ inherit
 			append_code as append_z_code,
 			separator_code as separator_z_code
 		undefine
-			default_target, fill_by_string, is_valid_character, shared_cursor
+			bit_count
 		redefine
-			append_z_code, fill_by_string, is_white_space, is_valid_character, proper_cased,
-			separator_z_code, string_strict_cmp
+			append_z_code, proper_cased,
+			separator_z_code, default_target, new_intervals, trim_string
 		end
 
-	EL_ZSTRING_OCCURRENCE_IMPLEMENTATION
+	EL_STRING_32_BIT_COUNTABLE [ZSTRING]
+
+	EL_ZSTRING_CONSTANTS
+
+	EL_SHARED_ZSTRING_CODEC
 
 create
 	make, make_empty, make_by_string, make_adjusted, make_adjusted_by_string,
 	make_from_for, make_from, make_from_if
+
+feature -- Element change
+
+	trim_string
+		do
+			target_string.trim
+		end
+
+feature {NONE} -- Implementation
+
+	default_target: ZSTRING
+		do
+			Result := Empty_string
+		end
+
+	new_intervals: EL_ZSTRING_SPLIT_INTERVALS
+		do
+			create Result.make_empty
+		end
 
 feature {NONE} -- Implementation
 
 	append_z_code (str: ZSTRING; z_code: NATURAL)
 		do
 			str.append_z_code (z_code)
-		end
-
-	is_white_space (a_target: ZSTRING; i: INTEGER): BOOLEAN
-		do
-			Result := a_target.is_space_item (i)
 		end
 
 	proper_cased (word: ZSTRING): ZSTRING
@@ -53,12 +71,6 @@ feature {NONE} -- Implementation
 	separator_z_code (a_separator: CHARACTER_32): NATURAL
 		do
 			Result := codec.as_z_code (a_separator)
-		end
-
-	string_strict_cmp (left_index, right_index, n: INTEGER): INTEGER
-		do
---			order `right_index', `left_index' is correct
-			Result := target.order_comparison (target, right_index, left_index, n)
 		end
 
 end

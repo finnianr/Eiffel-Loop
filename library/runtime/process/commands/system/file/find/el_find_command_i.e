@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-18 15:29:27 GMT (Tuesday 18th July 2023)"
-	revision: "25"
+	date: "2023-07-22 12:18:51 GMT (Saturday 22nd July 2023)"
+	revision: "26"
 
 deferred class
 	EL_FIND_COMMAND_I
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_DIR_PATH_OPERAND_COMMAND_I
 		undefine
-			do_command, new_command_parts, reset
+			do_command, is_captured, new_command_parts, reset
 		redefine
 			getter_function_table, make_default
 		end

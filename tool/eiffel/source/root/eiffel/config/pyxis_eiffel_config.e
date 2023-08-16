@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-25 8:37:51 GMT (Sunday 25th June 2023)"
-	revision: "4"
+	date: "2023-08-16 10:26:53 GMT (Wednesday 16th August 2023)"
+	revision: "8"
 
 class
 	PYXIS_EIFFEL_CONFIG
@@ -18,7 +18,7 @@ inherit
 			make_default
 		end
 
-	EL_MODULE_FILE
+	EL_MODULE_DIRECTORY; EL_MODULE_FILE
 
 	EL_FILE_OPEN_ROUTINES
 
@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 		do
 			make_default
 
-			pyxis_ecf_path.copy (a_pecf_path)
+			ecf_pyxis_path.copy (a_pecf_path)
 			source_text := File.plain_text (a_pecf_path)
 			create line_intervals.make (source_text, '%N')
 			build_from_string (partial_source_text)
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			build_info_path := Default_build_info_path
-			create pyxis_ecf_path
+			create ecf_pyxis_path
 			create source_text.make_empty
 			create executable_name.make_empty
 			create system.make_default
@@ -58,6 +58,42 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	build_info_path: FILE_PATH
+
+	company: ZSTRING
+		do
+			Result := system.company
+		end
+
+	app_cache_path: DIR_PATH
+		do
+			Result := application_path (Directory.App_cache)
+		end
+
+	app_configuration_path: DIR_PATH
+		do
+			Result := application_path (Directory.App_configuration)
+		end
+
+	app_data_path: DIR_PATH
+		do
+			Result := application_path (Directory.App_data)
+		end
+
+	ecf_pyxis_path: FILE_PATH
+
+	ecf_xml_path: FILE_PATH
+		do
+			Result := ecf_pyxis_path.with_new_extension ("ecf")
+		end
+
+	product: ZSTRING
+		do
+			Result := system.product
+		end
+
+	system: SYSTEM_VERSION
+
+feature -- Executable
 
 	executable_name: STRING
 
@@ -70,9 +106,10 @@ feature -- Access
 			end
 		end
 
-	pyxis_ecf_path: FILE_PATH
-
-	system: SYSTEM_VERSION
+	usr_local_executable_path: FILE_PATH
+		do
+			Result := "/usr/local/bin/" + executable_name
+		end
 
 feature {NONE} -- Implementation
 
@@ -87,7 +124,7 @@ feature {NONE} -- Implementation
 				from until found or list.after loop
 					if attached list.item as item then
 						item.adjust
-						if item.count > 0 and then item [item.count] = ':' then
+						if s.ends_with_character (item, ':') then
 							found := s.is_identifier_boundary (item, 1, item.count - 1)
 						end
 					end
@@ -97,7 +134,7 @@ feature {NONE} -- Implementation
 				end
 				if found then
 					list.back
-					Result := source_text.substring (1, list.item_end_index)
+					Result := source_text.substring (1, list.item_upper)
 				else
 					create Result.make_empty
 				end
@@ -139,8 +176,8 @@ feature -- Basic operations
 				if found then
 					tab_count := list.item_leading_occurrences ('%T')
 					new_version := a_version.pyxis_attributes
-					source_text.replace_substring (new_version, list.item_start_index + tab_count, list.item_end_index)
-					File.write_text (pyxis_ecf_path, source_text)
+					source_text.replace_substring (new_version, list.item_lower + tab_count, list.item_upper)
+					File.write_text (ecf_pyxis_path, source_text)
 					write_xml_ecf
 					line_intervals.wipe_out
 					line_intervals.fill (source_text, '%N', 0)
@@ -152,12 +189,24 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
+	application_path (base_dir: DIR_PATH): DIR_PATH
+		local
+			steps: EL_PATH_STEPS
+		do
+			steps := base_dir
+			steps.remove_tail (2)
+			across << company, product >> as list loop
+				steps.extend (list.item)
+			end
+			Result := steps.to_dir_path
+		end
+
 	version_element_index: INTEGER
 		do
 			if attached line_intervals as list then
 				from list.start until Result > 0 or list.after loop
 					if list.item_has_substring (Version_element)
-						and then source_text [list.item_end_index] = ':'
+						and then source_text [list.item_upper] = ':'
 					then
 						Result := list.index
 					else
@@ -171,7 +220,7 @@ feature {NONE} -- Implementation
 		local
 			ecf_generator: ECF_XML_GENERATOR
 		do
-			if attached open (pyxis_ecf_path.with_new_extension ("ecf"), Write) as ecf_out then
+			if attached open (ecf_pyxis_path.with_new_extension ("ecf"), Write) as ecf_out then
 				create ecf_generator.make
 				ecf_generator.convert_text (source_text, ecf_out)
 				ecf_out.close

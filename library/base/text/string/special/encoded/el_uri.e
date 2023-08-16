@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-12 10:25:37 GMT (Wednesday 12th July 2023)"
-	revision: "41"
+	date: "2023-08-03 10:18:46 GMT (Thursday 3rd August 2023)"
+	revision: "42"
 
 class
 	EL_URI
@@ -27,7 +27,8 @@ inherit
 	STRING
 		rename
 			make as make_with_size,
-			substring as uri_substring
+			substring as uri_substring,
+			String_searcher as String_8_searcher
 		export
 			{NONE} all
 			{ANY} hash_code, to_string_8, is_empty, starts_with, has_substring, last_index_of, count
@@ -40,7 +41,7 @@ inherit
 		export
 			{STRING_HANDLER} Colon_slash_x2
 		undefine
-			copy, is_equal, out
+			copy, is_equal, out, String_8_searcher
 		end
 
 create

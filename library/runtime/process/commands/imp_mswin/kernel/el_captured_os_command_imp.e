@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-21 7:49:06 GMT (Sunday 21st May 2023)"
-	revision: "2"
+	date: "2023-07-23 17:50:20 GMT (Sunday 23rd July 2023)"
+	revision: "3"
 
 deferred class
 	EL_CAPTURED_OS_COMMAND_IMP
@@ -17,7 +17,7 @@ inherit
 
 	EL_OS_COMMAND_IMP
 		undefine
-			do_command, new_command_parts
+			do_command, is_captured, new_command_parts
 		end
 
 end

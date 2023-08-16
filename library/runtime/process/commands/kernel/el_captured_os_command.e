@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2023-07-31 13:29:44 GMT (Monday 31st July 2023)"
+	revision: "13"
 
 class
 	EL_CAPTURED_OS_COMMAND
@@ -15,7 +15,7 @@ class
 inherit
 	EL_OS_COMMAND
 		undefine
-			make_default, do_command, new_command_parts
+			make_default, is_captured, do_command, new_command_parts
 		end
 
 	EL_CAPTURED_OS_COMMAND_I
@@ -23,7 +23,7 @@ inherit
 			template as Empty_string
 		undefine
 			getter_function_table, has_variable, system_command, template_name, new_temporary_name,
-			temporary_error_file_path, put_variable
+			temporary_error_file_path, put_any
 		redefine
 			make_default, do_command
 		end

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 7:29:14 GMT (Saturday 24th June 2023)"
-	revision: "16"
+	date: "2023-07-26 17:33:07 GMT (Wednesday 26th July 2023)"
+	revision: "17"
 
 class
 	BIOINFO_XPATH_MATCH_EVENTS
@@ -89,6 +89,12 @@ feature {NONE} -- XPath match event handlers
 			data_value_field_set.put (last_node.name)
 		end
 
+	on_procedure
+		do
+			lio.put_labeled_string ("PROCEDURE", last_node.adjusted_8 (False))
+			lio.put_new_line
+		end
+
 	log_results
 			--
 		do
@@ -115,6 +121,7 @@ feature {NONE} -- Implementation
 		do
 			Result := <<
 				-- Fixed paths
+				[On_open, "/bix/processing-instruction ('procedure')", agent on_procedure],
 				[on_open, "/bix/package/env/text()", agent on_package_env],
 				[on_open, "/bix/package/command/action/text()", agent on_command_action],
 				[on_open, "/bix/package/command/parlist/par/value/@type", agent on_parameter_list_value_type],
@@ -129,6 +136,7 @@ feature {NONE} -- Implementation
 				[on_open, "//par/id", agent increment (par_id_count)],
 
 				[on_open, "//par/id/text()", agent on_par_id]
+
 			>>
 		end
 

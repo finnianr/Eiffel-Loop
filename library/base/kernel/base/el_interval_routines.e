@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-23 18:01:18 GMT (Thursday 23rd February 2023)"
-	revision: "5"
+	date: "2023-08-11 17:50:28 GMT (Friday 11th August 2023)"
+	revision: "6"
 
 expanded class
 	EL_INTERVAL_ROUTINES
@@ -18,6 +18,11 @@ inherit
 	EL_INTERVAL_CONSTANTS
 
 feature -- Conversion
+
+	count (compact_interval: INTEGER_64): INTEGER
+		do
+			Result := to_upper (compact_interval) - to_lower (compact_interval) + 1
+		end
 
 	to_lower (compact_interval: INTEGER_64): INTEGER
 		do

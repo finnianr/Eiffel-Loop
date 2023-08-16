@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 8:15:44 GMT (Saturday 29th April 2023)"
-	revision: "11"
+	date: "2023-08-08 11:35:18 GMT (Tuesday 8th August 2023)"
+	revision: "12"
 
 class
 	EL_PREDICATE_QUERY_CONDITION [G]
@@ -27,7 +27,7 @@ create
 convert
 	make ({PREDICATE [G]})
 
-feature -- Access
+feature -- Status query
 
 	met (item: G): BOOLEAN
 		-- True if `predicate' applied to `item' is true

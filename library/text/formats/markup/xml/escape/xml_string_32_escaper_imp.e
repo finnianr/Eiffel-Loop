@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-04 17:59:14 GMT (Wednesday 4th January 2023)"
-	revision: "16"
+	date: "2023-08-02 14:36:02 GMT (Wednesday 2nd August 2023)"
+	revision: "18"
 
 class
 	XML_STRING_32_ESCAPER_IMP
@@ -15,7 +15,7 @@ class
 inherit
 	XML_ESCAPER_IMP [STRING_32]
 		undefine
-			make, to_code, to_unicode
+			bit_count, make, to_code, to_unicode
 		end
 
 	EL_STRING_32_ESCAPER_IMP

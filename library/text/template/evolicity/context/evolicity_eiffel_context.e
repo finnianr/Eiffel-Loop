@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-20 10:24:12 GMT (Tuesday 20th June 2023)"
-	revision: "22"
+	date: "2023-07-31 13:28:39 GMT (Monday 31st July 2023)"
+	revision: "23"
 
 deferred class
 	EVOLICITY_EIFFEL_CONTEXT
@@ -17,7 +17,7 @@ inherit
 		rename
 			object_table as getter_functions
 		redefine
-			context_item, put_variable
+			context_item, put_any
 		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	put_variable (object: ANY; variable_name: STRING)
+	put_any (variable_name: READABLE_STRING_8; object: ANY)
 			-- the order (value, variable_name) is special case due to function_item assign
 		do
 			getter_functions [variable_name] := agent get_context_item (object)
@@ -63,31 +63,16 @@ feature {NONE} -- Implementation
 	context_item (key: STRING; function_args: TUPLE): ANY
 			--
 		require else
-			valid_function_args: getter_functions.has_key (key)
-											implies getter_functions.found_item.open_count = function_args.count
-		local
-			template: ZSTRING; getter_action: FUNCTION [ANY]
+			valid_function_args: getter_functions.valid_function_args (key, function_args)
 		do
 			if getter_functions.has_key (key) then
-				getter_action := getter_functions.found_item
-				getter_action.set_target (Current)
-				if getter_action.open_count = 0 then
-					getter_action.apply
-					Result := getter_action.last_result
-
-				elseif getter_action.valid_operands (function_args) then
-					Result := getter_action.flexible_item (function_args)
-				else
-					template := "Cannot set %S operands for: {%S}.%S"
-					Result := template #$ [getter_action.open_count, generator, key]
-				end
+				Result := getter_functions.found_item_result (Current, key, function_args)
 
 			elseif key.same_caseless_characters (Var_current, 1, Var_current.count, 1) then
 				Result := Current
 
 			else
-				template := "($%S undefined)"
-				Result := template #$ [key]
+				Result := Undefined_template #$ [key]
 			end
 		end
 
@@ -98,17 +83,21 @@ feature {NONE} -- Implementation
 
 feature {EVOLICITY_CLIENT} -- Internal attributes
 
-	getter_functions: EVOLICITY_OBJECT_TABLE [FUNCTION [ANY]]
+	getter_functions: EVOLICITY_FUNCTION_TABLE
 
 feature {NONE} -- Constants
 
 	Var_current: STRING = "Current"
 
 	Getter_functions_by_type: EL_FUNCTION_RESULT_TABLE [
-		EVOLICITY_EIFFEL_CONTEXT, EVOLICITY_OBJECT_TABLE [FUNCTION [ANY]]
+		EVOLICITY_EIFFEL_CONTEXT, EVOLICITY_FUNCTION_TABLE
 	]
 		once
 			create Result.make (19, agent {EVOLICITY_EIFFEL_CONTEXT}.new_getter_functions)
 		end
 
+	Undefined_template: ZSTRING
+		once
+			Result := "($%S undefined)"
+		end
 end

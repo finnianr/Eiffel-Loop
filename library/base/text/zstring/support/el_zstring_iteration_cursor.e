@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-21 15:20:42 GMT (Tuesday 21st March 2023)"
-	revision: "13"
+	date: "2023-07-31 8:59:33 GMT (Monday 31st July 2023)"
+	revision: "15"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -23,11 +23,12 @@ inherit
 	EL_STRING_ITERATION_CURSOR
 		rename
 			Unicode_table as Shared_unicode_table,
-			is_i_th_eiffel_identifier_8 as is_i_th_eiffel_identifier,
 			i_th_character_32 as i_th_unicode
 		export
 			{NONE} fill_z_codes
 		end
+
+	EL_32_BIT_IMPLEMENTATION
 
 	EL_ZSTRING_CONSTANTS
 		rename
@@ -177,6 +178,13 @@ feature {NONE} -- Implementation
 			-- Release memory pointed by `item'.
 		do
 			block_index_ptr.memory_free
+		end
+
+	is_i_th_eiffel_identifier (a_area: like area; i: INTEGER; case_code: NATURAL; first_i: BOOLEAN): BOOLEAN
+		local
+			c8: EL_CHARACTER_8_ROUTINES
+		do
+			Result := c8.is_i_th_eiffel_identifier (a_area, i, case_code, first_i)
 		end
 
 	i_th_unicode (a_area: SPECIAL [CHARACTER_8]; i: INTEGER): CHARACTER_32

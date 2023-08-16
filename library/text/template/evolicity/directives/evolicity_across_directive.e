@@ -6,17 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-07-31 13:50:34 GMT (Monday 31st July 2023)"
+	revision: "10"
 
 class
 	EVOLICITY_ACROSS_DIRECTIVE
 
 inherit
 	EVOLICITY_FOREACH_DIRECTIVE
+		rename
+			var_loop_index as var_cursor_index
 		redefine
 			has_key_item, item_name, make, put_loop_index, put_table_key, put_iteration_object,
-			Loop_index_var_name
+			var_cursor_index
 		end
 
 create
@@ -46,31 +48,27 @@ feature {NONE} -- Implementation
 
 	put_iteration_object (a_context: EVOLICITY_CONTEXT; cursor_item: ANY)
 		do
-			iterater_context.put_variable (cursor_item, Iteration_object_name)
-			a_context.put_variable (iterater_context, item_name)
+			iterater_context.put_any (Var.item_, cursor_item)
+			a_context.put_any (item_name, iterater_context)
 		end
 
 	put_table_key (a_context: EVOLICITY_CONTEXT; key_item: ANY)
 		do
-			iterater_context.put_variable (key_item, Iteration_key_object_name)
+			iterater_context.put_any (Var.key, key_item)
 		end
 
 	put_loop_index (a_context: EVOLICITY_CONTEXT; a_loop_index: INTEGER_REF)
 		do
-			iterater_context.put_variable (a_loop_index, Loop_index_var_name)
+			iterater_context.put_any (var_cursor_index, a_loop_index)
 		end
+
+	var_cursor_index: IMMUTABLE_STRING_8
+	 	do
+	 		Result := Var.cursor_index
+	 	end
 
 feature {NONE} -- Internal attributes
 
 	iterater_context: EVOLICITY_CONTEXT_IMP
-
-feature {NONE} -- Constants
-
-	Iteration_key_object_name: STRING = "key"
-		-- Hash table iterator key name
-
-	Iteration_object_name: STRING = "item"
-
-	Loop_index_var_name: STRING = "cursor_index"
 
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-18 19:20:43 GMT (Tuesday 18th July 2023)"
-	revision: "4"
+	date: "2023-08-14 10:49:36 GMT (Monday 14th August 2023)"
+	revision: "8"
 
 class
 	EL_IMMUTABLE_STRING_32_TABLE
@@ -18,8 +18,13 @@ class
 inherit
 	EL_IMMUTABLE_STRING_TABLE [STRING_32, IMMUTABLE_STRING_32]
 		rename
+			has_key_x as has_key_32,
 			string as string_32
+		undefine
+			bit_count
 		end
+
+	EL_STRING_32_BIT_COUNTABLE [STRING_32]
 
 	EL_MODULE_STRING_32
 
@@ -27,6 +32,22 @@ inherit
 
 create
 	make, make_by_assignment, make_by_indented, make_empty
+
+feature -- Status query
+
+	has_key_32 (a_key: READABLE_STRING_32): BOOLEAN
+		do
+			Result := has_immutable_key (Immutable_32.as_shared (a_key))
+		end
+
+	has_key_general (a_key: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			if attached {READABLE_STRING_32} a_key as key_32 then
+				Result := has_key_32 (key_32)
+			else
+				Result := has_key_32 (a_key.to_string_32)
+			end
+		end
 
 feature {NONE} -- Implementation
 

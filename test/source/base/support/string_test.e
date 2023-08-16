@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 13:10:05 GMT (Monday 10th July 2023)"
-	revision: "23"
+	date: "2023-08-16 10:17:10 GMT (Wednesday 16th August 2023)"
+	revision: "25"
 
 class
 	STRING_TEST
@@ -177,7 +177,9 @@ feature -- Test comparisons
 			b1, b2, b3: BOOLEAN
 		do
 			b1 := s_32.ends_with (s_32_substring)
-			b2 := zs.ends_with (s_32_substring)
+			if zs.ends_with (s_32_substring) then
+				b2 := zs.ends_with_character (s_32_substring [s_32_substring.count])
+			end
 			b3 := zs.ends_with (zs_substring)
 			Result := b1 = b2
 			Result := Result and b1 = b3
@@ -278,21 +280,33 @@ feature -- Test comparisons
 
 			create intervals_list.make_from_array (<<
 				create {EL_SPLIT_INTERVALS}.make_by_string (zs, zs_substring),
-				create {EL_SPLIT_ZSTRING_LIST}.make_by_string (zs, zs_substring),
-				create {EL_SPLIT_INTERVALS}.make_by_string (s_32, s_32_substring),
-				create {EL_SPLIT_STRING_32_LIST}.make_by_string (s_32, s_32_substring),
-				create {EL_SPLIT_STRING_32_LIST}.make_by_string (s_32, zs_substring)
+				create {EL_SPLIT_INTERVALS}.make_by_string (s_32, s_32_substring) --,
 			>>)
 			if attached s_8_substring as str_8 then
 				intervals_list.extend (create {EL_SPLIT_INTERVALS}.make_by_string (zs, str_8))
-				intervals_list.extend (create {EL_SPLIT_ZSTRING_LIST}.make_by_string (zs, str_8))
-
-				if attached s_8 as target_8 then
-					intervals_list.extend (create {EL_SPLIT_STRING_8_LIST}.make_by_string (target_8, str_8))
-					intervals_list.extend (create {EL_SPLIT_STRING_8_LIST}.make_by_string (target_8, zs_substring))
-				end
 			end
 			Result := across intervals_list as list all list.item.same_as (intervals_s_32) end
+		end
+
+	split_lists: BOOLEAN
+		local
+			s: EL_STRING_32_ROUTINES; item_32: STRING_32
+		do
+			Result := True
+			if attached new_split_list_array as split_list_array
+				and then attached s.split_intervals (s_32, s_32_substring) as interval
+			then
+				from interval.start until not Result or interval.after loop
+					item_32 := s_32.substring (interval.item_lower, interval.item_upper)
+					across split_list_array as array until not Result loop
+						if attached array.item as split_list then
+							split_list.go_i_th (interval.index)
+							Result := split_list.item_same_as (item_32)
+						end
+					end
+					interval.forth
+				end
+			end
 		end
 
 	starts_with: BOOLEAN
@@ -300,7 +314,9 @@ feature -- Test comparisons
 			b1, b2, b3: BOOLEAN
 		do
 			b1 := s_32.starts_with (s_32_substring)
-			b2 := zs.starts_with (s_32_substring)
+			if zs.starts_with (s_32_substring) then
+				b2 := s_32_substring.count > 0 implies zs.starts_with_character (s_32_substring [1])
+			end
 			b3 := zs.starts_with (zs_substring)
 			Result := b1 = b2
 			Result := Result and b1 = b3
@@ -469,6 +485,25 @@ feature -- Basic operations
 	wipe_out
 		do
 			s_32.wipe_out; zs.wipe_out
+		end
+
+feature {NONE} -- Implementation
+
+	new_split_list_array: ARRAYED_LIST [EL_SPLIT_READABLE_STRING_LIST [READABLE_STRING_GENERAL]]
+		do
+			create Result.make_from_array (<<
+				create {EL_SPLIT_ZSTRING_LIST}.make_by_string (zs, zs_substring),
+				create {EL_SPLIT_STRING_32_LIST}.make_by_string (s_32, s_32_substring),
+				create {EL_SPLIT_STRING_32_LIST}.make_by_string (s_32, zs_substring)
+			>>)
+			if attached s_8_substring as str_8 then
+				Result.extend (create {EL_SPLIT_ZSTRING_LIST}.make_by_string (zs, str_8))
+
+				if attached s_8 as target_8 then
+					Result.extend (create {EL_SPLIT_STRING_8_LIST}.make_by_string (target_8, str_8))
+					Result.extend (create {EL_SPLIT_STRING_8_LIST}.make_by_string (target_8, zs_substring))
+				end
+			end
 		end
 
 

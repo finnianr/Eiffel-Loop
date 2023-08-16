@@ -3,7 +3,7 @@ note
 		X11 color structure
 		
 			typedef struct {
-				unsigned long pixel;			/* pixel value */
+				unsigned long pixel;	/* pixel value */
 				unsigned short red, green, blue;	/* rgb values */
 				char flags;				/* DoRed, DoGreen, DoBlue */	
 				char pad;
@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-03 16:14:32 GMT (Monday 3rd July 2023)"
-	revision: "4"
+	date: "2023-08-07 11:31:26 GMT (Monday 7th August 2023)"
+	revision: "5"
 
 class
 	EL_X11_COLOR

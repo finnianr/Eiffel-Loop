@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-14 8:48:25 GMT (Friday 14th July 2023)"
-	revision: "24"
+	date: "2023-08-02 14:10:01 GMT (Wednesday 2nd August 2023)"
+	revision: "26"
 
 class
 	XML_ROUTINES_IMP
@@ -30,7 +30,7 @@ feature -- Measurement
 			data_from, data_to, i: INTEGER
 			has_data: BOOLEAN
 		do
-			if attached xml_text.substring_intervals (Close_tag_marker, False) as list then
+			if attached xml_text.substring_intervals (Bracket.left_slash, False) as list then
 				from list.start until list.after loop
 					data_to := list.item_lower - 1
 					data_from := xml_text.last_index_of ('>', data_to) + 1
@@ -87,20 +87,20 @@ feature -- Access
 			Result.left_adjust
 		end
 
-	root_element_name (xml: READABLE_STRING_GENERAL): STRING
+	root_element_name (a_xml: READABLE_STRING_GENERAL): STRING
 			--
 		local
 			left_bracket_index, i: INTEGER
 		do
-			left_bracket_index := xml.last_index_of ('<', xml.count)
+			left_bracket_index := a_xml.last_index_of ('<', a_xml.count)
 			if left_bracket_index > 0 then
-				create Result.make (xml.count - left_bracket_index - 3)
+				create Result.make (a_xml.count - left_bracket_index - 3)
 				i := left_bracket_index + 1
-				if xml [i] = '/' then
+				if a_xml [i] = '/' then
 					i := i + 1
 				end
-				from until i > xml.count or else not is_identifier (xml [i]) loop
-					Result.append_character (xml [i].to_character_8)
+				from until i > a_xml.count or else not is_identifier (a_xml [i]) loop
+					Result.append_character (a_xml [i].to_character_8)
 					i := i + 1
 				end
 			else
@@ -108,14 +108,19 @@ feature -- Access
 			end
 		end
 
-feature -- Binary status
+feature -- Document status
 
-	is_namespace_aware (xml: READABLE_STRING_8): BOOLEAN
+	is_xml_declaration (text: READABLE_STRING_8): BOOLEAN
+		do
+			Result := text.count >= 5 and then text [2] = '?' and then text.same_caseless_characters (Xml, 1, 3, 3)
+		end
+
+	is_namespace_aware (a_xml: READABLE_STRING_8): BOOLEAN
 		local
 			tag_splitter: EL_SPLIT_ON_CHARACTER_8 [READABLE_STRING_8]
 			end_index, index_xml_ns: INTEGER
 		do
-			create tag_splitter.make (xml, '<')
+			create tag_splitter.make (a_xml, '<')
 			-- look for xmlns name in document root element
 			across tag_splitter as split until end_index.to_boolean loop
 				if attached split.item as section
@@ -175,6 +180,8 @@ feature -- Constants
 	Non_breaking_space: STRING = "&#xA0;"
 
 	XMLNS: STRING = "xmlns"
+
+	Xml: STRING = "xml"
 
 feature {NONE} -- Implementation
 

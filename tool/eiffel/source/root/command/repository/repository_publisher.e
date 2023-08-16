@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 8:37:09 GMT (Saturday 24th June 2023)"
-	revision: "65"
+	date: "2023-08-10 18:35:51 GMT (Thursday 10th August 2023)"
+	revision: "66"
 
 class
 	REPOSITORY_PUBLISHER
@@ -105,6 +105,14 @@ feature -- Access
 
 feature -- Basic operations
 
+	ask_user
+		local
+			response: ZSTRING
+		do
+			response := User_input.line ("Press <Enter> to update " + User_input.ESC_to_quit)
+			user_quit := response.is_character ('%/27/')
+		end
+
 	execute
 		local
 			github_contents: GITHUB_REPOSITORY_CONTENTS_MARKDOWN
@@ -176,6 +184,8 @@ feature -- Status query
 		end
 
 	is_logged_in: BOOLEAN
+
+	user_quit: BOOLEAN
 
 feature {NONE} -- Implementation
 

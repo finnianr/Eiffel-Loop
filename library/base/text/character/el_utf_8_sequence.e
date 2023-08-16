@@ -1,13 +1,16 @@
 note
-	description: "UTF-8 sequence for single unicode character `uc'"
+	description: "[
+		UTF-8 sequence for single unicode [$source CHARACTER_32].
+		Accessible via [$source EL_SHARED_UTF_8_SEQUENCE]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:26 GMT (Monday 12th December 2022)"
-	revision: "10"
+	date: "2023-08-06 17:57:56 GMT (Sunday 6th August 2023)"
+	revision: "12"
 
 class
 	EL_UTF_8_SEQUENCE
@@ -72,7 +75,34 @@ feature -- Status query
 			end
 		end
 
+	same_sequence (a_area: SPECIAL [CHARACTER]; offset: INTEGER): BOOLEAN
+		local
+			l_count, i: INTEGER
+		do
+			l_count := count
+			Result := True
+			if attached area as l_area then
+				from i := 0 until i = l_count or not Result loop
+					Result := a_area [i + offset].natural_32_code = l_area [i]
+					i := i + 1
+				end
+			end
+		end
+
 feature -- Element change
+
+	fill (a_area: SPECIAL [CHARACTER]; offset: INTEGER)
+		local
+			l_count, i: INTEGER; c: EL_UTF_8_CONVERTER
+		do
+			wipe_out
+			l_count := c.sequence_count (a_area [offset].natural_32_code)
+			from until i = l_count loop
+				area [i] := a_area [offset + i].natural_32_code
+				i := i + 1
+			end
+			count := l_count
+		end
 
 	set (uc: CHARACTER_32)
 		do
@@ -120,26 +150,27 @@ feature -- Measurement
 			i: INTEGER
 		do
 			from i := start_index until i > end_index loop
-				Result := Result + byte_count (str.item (i).natural_32_code)
+				Result := Result + byte_count (str [i].natural_32_code)
 				i := i + 1
 			end
 		end
 
-	byte_count (code: NATURAL): INTEGER
+	byte_count (unicode: NATURAL): INTEGER
+		-- number of bytes required to represent `unicode'
 		do
-			if code <= 0x7F then
+			if unicode <= 0x7F then
 					-- 0xxxxxxx
 				Result := 1
 
-			elseif code <= 0x7FF then
+			elseif unicode <= 0x7FF then
 					-- 110xxxxx 10xxxxxx
 				Result := 2
 
-			elseif code <= 0xFFFF then
+			elseif unicode <= 0xFFFF then
 					-- 1110xxxx 10xxxxxx 10xxxxxx
 				Result := 3
 			else
-					-- code <= 1FFFFF - there are no higher code points
+					-- unicode <= 1FFFFF - there are no higher code points
 					-- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
 				Result := 4
 			end

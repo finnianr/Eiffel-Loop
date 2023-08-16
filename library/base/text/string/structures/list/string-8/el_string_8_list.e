@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 9:48:56 GMT (Monday 6th March 2023)"
-	revision: "17"
+	date: "2023-08-16 9:04:51 GMT (Wednesday 16th August 2023)"
+	revision: "18"
 
 class
 	EL_STRING_8_LIST
@@ -34,10 +34,8 @@ feature {NONE} -- Implementation
 		end
 
 	tab_string (a_count: INTEGER): STRING_8
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			Result := s.n_character_string ('%T', a_count)
+			Result := Tab * a_count
 		end
 
 end

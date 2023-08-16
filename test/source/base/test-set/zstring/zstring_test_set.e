@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 13:10:31 GMT (Monday 10th July 2023)"
-	revision: "94"
+	date: "2023-08-16 10:14:47 GMT (Wednesday 16th August 2023)"
+	revision: "97"
 
 class
 	ZSTRING_TEST_SET
@@ -120,7 +120,7 @@ feature -- Conversion tests
 		 				i := i + 1
 		 			end
 		 		else
-		 			assert ("expanded same length", False)
+		 			failed ("expanded same length")
 		 		end
 		 	end
 		end
@@ -545,6 +545,7 @@ feature -- Element change tests
 		end
 
 	test_enclose
+		-- ZSTRING_TEST_SET.test_enclose
 		note
 			testing:	"covers/{ZSTRING}.enclose", "covers/{ZSTRING}.quote"
 		local
@@ -602,8 +603,8 @@ feature -- Element change tests
 				create word_list.make_by_string (test.s_32, " ")
 				from word_list.start until word_list.after loop
 					insert := word_list.item
-					test.zs.remove_substring (word_list.item_start_index, word_list.item_end_index)
-					test.zs.insert_string (insert, word_list.item_start_index)
+					test.zs.remove_substring (word_list.item_lower, word_list.item_upper)
+					test.zs.insert_string (insert, word_list.item_lower)
 					assert ("insert_string OK", test.is_same)
 					word_list.forth
 				end
@@ -814,9 +815,14 @@ feature -- Element change tests
 feature -- Status query tests
 
 	test_ends_with
+		-- ZSTRING_TEST_SET.test_ends_with
 		note
-			testing: "covers/{ZSTRING}.ends_with", "covers/{ZSTRING}.remove_tail",
-						"covers/{EL_SUBSTRING_32_ARRAY}.same_substring"
+			testing: "[
+				covers/{ZSTRING}.ends_with,
+				covers/{ZSTRING}.ends_with_character,
+				covers/{ZSTRING}.remove_tail,
+				covers/{EL_SUBSTRING_32_ARRAY}.same_substring
+			]"
 		local
 			test: STRING_TEST; assertion_OK: STRING
 			index, start_index, end_index: INTEGER
@@ -972,8 +978,12 @@ feature -- Status query tests
 
 	test_starts_with
 		note
-			testing: "covers/{ZSTRING}.starts_with", "covers/{ZSTRING}.remove_head",
-						"covers/{EL_SUBSTRING_32_ARRAY}.same_substring"
+			testing: "[
+				covers/{ZSTRING}.starts_with,
+				covers/{ZSTRING}.starts_with_character,
+				covers/{ZSTRING}.remove_head,
+				covers/{EL_SUBSTRING_32_ARRAY}.same_substring
+			]"
 		local
 			test: STRING_TEST; assertion_OK: STRING
 			index, start_index, end_index: INTEGER

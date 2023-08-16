@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 10:11:31 GMT (Friday 9th December 2022)"
-	revision: "4"
+	date: "2023-07-20 7:38:26 GMT (Thursday 20th July 2023)"
+	revision: "5"
 
 deferred class
 	EL_REFLECTIVE_STRING_CONSTANTS
@@ -20,8 +20,6 @@ inherit
 			default_create
 		end
 
-	EL_SHARED_CLASS_ID
-
 feature {NONE} -- Initialization
 
 	default_create
@@ -33,11 +31,9 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	is_readable_string_8 (basic_type, type_id: INTEGER): BOOLEAN
+	is_readable_string_8 (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		do
-			if Eiffel.is_reference (basic_type) then
-				Result := Class_id.readable_string_8_types.has (type_id)
-			end
+			Result := field.is_readable_string_8
 		end
 
 end

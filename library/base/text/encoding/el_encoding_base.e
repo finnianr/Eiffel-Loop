@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 13:27:40 GMT (Monday 10th July 2023)"
-	revision: "22"
+	date: "2023-07-27 11:25:22 GMT (Thursday 27th July 2023)"
+	revision: "23"
 
 deferred class
 	EL_ENCODING_BASE
@@ -47,7 +47,7 @@ feature -- Access
 	encoding: NATURAL
 		-- bitwise OR of `type' and `id'
 
-	encoding_other: detachable ENCODING
+	encoding_other: detachable ENCODING note option: transient attribute end
 		-- encoding not covered by Latin, UTF or Windows
 
 	id: NATURAL

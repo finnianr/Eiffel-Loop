@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 10:03:38 GMT (Friday 9th December 2022)"
-	revision: "5"
+	date: "2023-08-15 15:21:02 GMT (Tuesday 15th August 2023)"
+	revision: "6"
 
 class
 	EL_CAMEL_CASE_TRANSLATER
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 
 feature -- Conversion
 
-	exported (eiffel_name: STRING): STRING
+	exported (eiffel_name: READABLE_STRING_8): STRING
 		-- `eiffel_name' exported to a foreign naming convention
 		do
 			create Result.make (eiffel_name.count - eiffel_name.occurrences ('_'))
@@ -52,7 +52,7 @@ feature -- Conversion
 			end
 		end
 
-	imported (foreign_name: STRING): STRING
+	imported (foreign_name: READABLE_STRING_8): STRING
 		-- `foreign_name' translated to Eiffel attribute-naming convention
 		do
 			inspect foreign_case
@@ -80,9 +80,9 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	new_camel_name (eiffel_name: STRING): STRING
+	new_camel_name (eiffel_name: READABLE_STRING_8): STRING
 		do
-			Result := eiffel_name.twin
+			create Result.make_from_string (eiffel_name)
 			Result.prune_all ('_')
 		end
 

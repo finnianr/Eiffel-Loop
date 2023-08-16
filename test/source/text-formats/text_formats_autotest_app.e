@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-29 12:03:22 GMT (Thursday 29th June 2023)"
-	revision: "18"
+	date: "2023-08-13 10:03:48 GMT (Sunday 13th August 2023)"
+	revision: "19"
 
 class
 	TEXT_FORMATS_AUTOTEST_APP
@@ -35,9 +35,10 @@ feature {NONE} -- Implementation
 
 	compile: TUPLE [
 		EL_HTML_META_VALUE_READER [EL_HTML_META_VALUES],
+		EL_REFLECTIVE_XML_ELEMENT_LIST [ANY],
 		EL_XHTML_STRING_LIST,
 		EL_XHTML_UTF_8_SOURCE,
-		XML_TAG_LIST,
+		XML_TAG_LIST, XML_LIST_ELEMENT, XML_TEXT_NODE,
 		XML_PARENT_TAG_LIST
 	]
 		do

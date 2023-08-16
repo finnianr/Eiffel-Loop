@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "18"
+	date: "2023-08-12 20:31:22 GMT (Saturday 12th August 2023)"
+	revision: "19"
 
 class
 	FILE_TEST_SET
@@ -16,6 +16,8 @@ inherit
 	EL_EQA_TEST_SET
 
 	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT
+
+	EL_MODULE_ARGS
 
 	EL_MODULE_OS; EL_MODULE_SYSTEM
 
@@ -28,11 +30,33 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
+--				["ftp_directory_exists", agent test_ftp_directory_exists]
 			>>)
 		end
 
 feature -- Tests
 
+	test_ftp_directory_exists
+		-- FILE_TEST_SET.test_ftp_directory_exists
+		local
+			ftp: EL_FTP_PROTOCOL; home_dir: DIR_PATH
+			domain: STRING
+		do
+			home_dir := Args.directory_path ("home")
+			domain := Args.value ("ftp")
+			create ftp.make_write ([domain, home_dir])
+			ftp.open
+			if attached ftp.authenticator as a then
+				a.username.share (domain.substring (5, domain.count))
+				a.password.share (Args.value ("pp"))
+				a.force_authenticated
+			end
+			ftp.login
+			assert ("logged in", ftp.is_logged_in)
+			ftp.change_home_dir
+			assert ("directory exists", ftp.directory_exists ("example"))
+			ftp.close
+		end
 
 feature -- Basic operations
 

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 15:39:01 GMT (Monday 27th March 2023)"
-	revision: "23"
+	date: "2023-08-14 13:11:58 GMT (Monday 14th August 2023)"
+	revision: "24"
 
 class
 	CSV_LINE_PARSER
@@ -55,8 +55,7 @@ feature -- Basic operations
 
 	set_object (object: EL_REFLECTIVE)
 		local
-			table: EL_REFLECTED_FIELD_TABLE
-			field: like fields
+			table: EL_FIELD_TABLE; field: like fields
 		do
 			table := object.field_table; field := fields
 			from field.start until field.after loop

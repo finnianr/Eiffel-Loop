@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-08 9:14:01 GMT (Monday 8th May 2023)"
-	revision: "28"
+	date: "2023-08-15 9:50:06 GMT (Tuesday 15th August 2023)"
+	revision: "30"
 
 class
 	EIFFEL_TEST_SET
@@ -26,11 +26,30 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["natural_constant", agent test_natural_constant]
+				["natural_constant",	agent test_natural_constant],
+				["array_sizes",		agent test_array_sizes]
 			>>)
 		end
 
 feature -- Tests
+
+	test_array_sizes
+		-- EIFFEL_TEST_SET.test_array_sizes
+		local
+			object_array: SPECIAL [STRING]; pointer_array: SPECIAL [POINTER]
+			c_1: SPECIAL [CHARACTER]; c_1_size: INTEGER
+		do
+			create object_array.make_empty (100)
+			create pointer_array.make_empty (100)
+			if Eiffel.physical_size (object_array) = Eiffel.physical_size (pointer_array) then
+				do_nothing
+			else
+				failed ("object array same size as pointer array")
+			end
+			create c_1.make_empty (64)
+			c_1_size := Eiffel.physical_size (c_1) - 64
+			assert ("special overhead is 32 bytes", c_1_size - c_1.capacity = 32)
+		end
 
 	test_natural_constant
 		do
@@ -150,19 +169,6 @@ feature -- Basic operations
 			s1 := "abc"; s2 := "abc"
 			s1_equal_to_s2 := s1 ~ s2
 			lio.put_labeled_string ("s1 is equal to s2", s1_equal_to_s2.out)
-		end
-
-	ftp_directory_exists
-		local
-			ftp: EL_FTP_PROTOCOL; home_dir: DIR_PATH
-		do
-			home_dir := "/public/www"
-			create ftp.make_write (["eiffel-loop.com", home_dir])
-			ftp.open; ftp.login
-			ftp.change_home_dir
-			lio.put_labeled_string ("ftp.directory_exists (%"example%")", ftp.directory_exists ("/public/www/example").out)
-			lio.put_new_line
-			ftp.close
 		end
 
 	once_order_test (a_first: BOOLEAN)

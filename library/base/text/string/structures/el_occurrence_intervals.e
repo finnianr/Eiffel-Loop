@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 10:34:21 GMT (Monday 20th March 2023)"
-	revision: "23"
+	date: "2023-08-07 6:24:25 GMT (Monday 7th August 2023)"
+	revision: "26"
 
 class
 	EL_OCCURRENCE_INTERVALS
@@ -24,16 +24,6 @@ inherit
 			make_empty
 		end
 
-	EL_SEARCH_HANDLER
-
-	EL_STRING_8_CONSTANTS
-
-	EL_STRING_32_CONSTANTS
-
-	EL_ZSTRING_CONSTANTS
-
-	EL_SHARED_ZSTRING_CODEC
-
 	EL_SIDE_ROUTINES
 		rename
 			valid_sides as valid_adjustments
@@ -41,15 +31,21 @@ inherit
 			{ANY} valid_adjustments
 		end
 
+	EL_STRING_8_CONSTANTS; EL_STRING_32_CONSTANTS; EL_ZSTRING_CONSTANTS
+
+	EL_SHARED_ZSTRING_CODEC
+
+	EL_SHARED_UNICODE_PROPERTY
+
 create
 	make, make_empty, make_by_string, make_sized
 
 feature {NONE} -- Initialization
 
-	make (a_target: READABLE_STRING_GENERAL; uc: CHARACTER_32)
+	make (a_target: READABLE_STRING_GENERAL; delimiter: CHARACTER_32)
 		do
 			make_empty
-			fill (a_target, uc, 0)
+			fill (a_target, delimiter, 0)
 		end
 
 	make_by_string (a_target, a_pattern: READABLE_STRING_GENERAL)
@@ -66,11 +62,11 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	fill (a_target: READABLE_STRING_GENERAL; uc: CHARACTER_32; adjustments: INTEGER)
+	fill (a_target: READABLE_STRING_GENERAL; delimiter: CHARACTER_32; adjustments: INTEGER)
 		require
 			valid_adjustments: valid_adjustments (adjustments)
 		do
-			fill_intervals (a_target, Empty_string_8, String_8_searcher, uc, adjustments)
+			fill_intervals (a_target, Empty_string_8, String_8_searcher, delimiter, adjustments)
 		end
 
 	fill_by_string (a_target, a_pattern: READABLE_STRING_GENERAL; adjustments: INTEGER)
@@ -119,39 +115,41 @@ feature {NONE} -- Implementation
 			l_area := Intervals_buffer
 			l_area.wipe_out
 
-			string_count := a_target.count
-			if a_pattern.is_empty then
-				pattern_count := 1
-				search_type := Index_of_character_32
-			else
-				pattern_count := a_pattern.count
-			end
-			if pattern_count = 1 and then attached {READABLE_STRING_8} a_target as str_8 then
-				character_outside_range := not uc.is_character_8
-				string_8_target := str_8; c := uc.to_character_8
-				search_type := Index_of_character_8
-			else
-				string_8_target := Empty_string_8
-			end
-			if not character_outside_range then
-				from i := 1 until i = 0 or else i > string_count - pattern_count + 1 loop
-					inspect search_type
-						when Index_of_character_8 then
-							i := string_8_target.index_of (c, i)
+			if a_target.count > 0 then
+				string_count := a_target.count
+				if a_pattern.is_empty then
+					pattern_count := 1
+					search_type := Index_of_character_32
+				else
+					pattern_count := a_pattern.count
+				end
+				if pattern_count = 1 and then attached {READABLE_STRING_8} a_target as str_8 then
+					character_outside_range := not uc.is_character_8
+					string_8_target := str_8; c := uc.to_character_8
+					search_type := Index_of_character_8
+				else
+					string_8_target := Empty_string_8
+				end
+				if not character_outside_range then
+					from i := 1 until i = 0 or else i > string_count - pattern_count + 1 loop
+						inspect search_type
+							when Index_of_character_8 then
+								i := string_8_target.index_of (c, i)
 
-						when Index_of_character_32 then
-							i := a_target.index_of (uc, i)
-					else
-						i := searcher.substring_index_with_deltas (a_target, a_pattern, i, a_target.count)
-					end
-					if i > 0 then
-						search_index := i
-						extend_buffer (a_target, l_area, search_index, pattern_count, adjustments, False)
-						i := i + pattern_count
+							when Index_of_character_32 then
+								i := a_target.index_of (uc, i)
+						else
+							i := searcher.substring_index_with_deltas (a_target, a_pattern, i, a_target.count)
+						end
+						if i > 0 then
+							search_index := i
+							extend_buffer (a_target, l_area, search_index, pattern_count, adjustments, False)
+							i := i + pattern_count
+						end
 					end
 				end
+				extend_buffer (a_target, l_area, search_index, pattern_count, adjustments, True)
 			end
-			extend_buffer (a_target, l_area, search_index, pattern_count, adjustments, True)
 			make_sized (l_area.count)
 			area.copy_data (l_area.area, 0, 0, l_area.count * 2)
 		end
@@ -180,20 +178,5 @@ feature {NONE} -- Constants
 	Index_of_character_8: INTEGER = 8
 
 	Index_of_character_32: INTEGER = 32
-
-	String_8_searcher: STRING_8_SEARCHER
-		once
-			Result := Accessible_string_8.String_searcher
-		end
-
-	String_32_searcher: STRING_32_SEARCHER
-		once
-			Result := Accessible_string_32.String_searcher
-		end
-
-	String_searcher: EL_ZSTRING_SEARCHER
-		once
-			Result := Empty_string.String_searcher
-		end
 
 end

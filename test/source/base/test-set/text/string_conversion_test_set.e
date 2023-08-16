@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-23 9:04:16 GMT (Friday 23rd June 2023)"
-	revision: "20"
+	date: "2023-08-15 10:23:20 GMT (Tuesday 15th August 2023)"
+	revision: "23"
 
 class
 	STRING_CONVERSION_TEST_SET
@@ -39,6 +39,7 @@ feature {NONE} -- Initialization
 				["bash_escape",							 agent test_bash_escape],
 				["convert_string_to_makeable",		 agent test_convert_string_to_makeable],
 				["convert_string_type_descriptions", agent test_convert_string_type_descriptions],
+				["eiffel_string_escaped",				 agent test_eiffel_string_escaped],
 				["encodeable_as_string_8",				 agent test_encodeable_as_string_8],
 				["encoding_conversion",					 agent test_encoding_conversion],
 				["immutable_to_integer",				 agent test_immutable_to_integer],
@@ -96,10 +97,22 @@ feature -- Tests
 				if crc.checksum /= 1956217266 then
 					lio.put_natural_field ("Actual checksum", crc.checksum)
 					lio.put_new_line
-					assert ("Expected descriptions", False)
+					failed ("Expected descriptions")
 				end
 			end
 		end
+
+	test_eiffel_string_escaped
+		-- STRING_CONVERSION_TEST_SET.test_eiffel_string_escaped
+		local
+			escaper: EL_STRING_ESCAPER [ZSTRING]; street: ZSTRING
+		do
+			create escaper.make (Escape_table.Eiffel)
+
+			street := "line1%R%Nline2"
+			assert_same_string ("Eiffel escaped", street.escaped (escaper), "line1%%R%%Nline2")
+		end
+
 
 	test_encodeable_as_string_8
 		-- STRING_CONVERSION_TEST_SET.test_encodeable_as_string_8
@@ -162,10 +175,10 @@ feature -- Tests
 								assert ("same encoded string_8", zstr.as_encoded_8 (codec) ~ buffer.text)
 							end
 						else
-							assert ("same count", False)
+							failed ("same count")
 						end
 					else
-						assert ("Found matching codec", False)
+						failed ("Found matching codec")
 					end
 				end
 			end
@@ -275,7 +288,9 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	escape_test (name: STRING; escaper: EL_STRING_ESCAPER [ZSTRING]; escaper_32: EL_STRING_ESCAPER [STRING_32])
+	escape_test (
+		name: STRING; escaper: EL_STRING_ESCAPER [ZSTRING]; escaper_32: EL_STRING_ESCAPER [STRING_32]
+	)
 		local
 			str_32, escaped_32: STRING_32; str, escaped: ZSTRING
 			s: EL_STRING_32_ROUTINES

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-18 19:20:07 GMT (Tuesday 18th July 2023)"
-	revision: "5"
+	date: "2023-08-16 10:38:34 GMT (Wednesday 16th August 2023)"
+	revision: "11"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -21,6 +21,8 @@ inherit
 	HASH_TABLE [INTEGER_64, IMMUTABLE]
 		rename
 			found_item as found_interval,
+			has as has_immutable,
+			has_key as has_immutable_key,
 			item as interval_item,
 			item_for_iteration as interval_item_for_iteration,
 			make as make_size
@@ -29,6 +31,8 @@ inherit
 		redefine
 			new_cursor
 		end
+
+	EL_STRING_BIT_COUNTABLE [GENERAL]
 
 feature {NONE} -- Initialization
 
@@ -50,7 +54,7 @@ feature {NONE} -- Initialization
 
 				from list.start until list.after loop
 					if list.index \\ 2 = 1 then
-						last_interval := ir.compact (list.item_start_index, list.item_end_index)
+						last_interval := ir.compact (list.item_lower, list.item_upper)
 					else
 						extend (last_interval, list.item)
 					end
@@ -72,8 +76,8 @@ feature {NONE} -- Initialization
 				from list.start until list.after loop
 					start_index := string.start_plus_end_assignment_indices (list.item, $end_index)
 					if end_index > 0 and start_index > 0 then
-						offset := list.item_start_index - 1
-						interval := ir.compact (start_index + offset, list.item_end_index)
+						offset := list.item_lower - 1
+						interval := ir.compact (start_index + offset, list.item_upper)
 						extend (interval, new_substring (1 + offset, end_index + offset))
 					end
 					list.forth
@@ -93,7 +97,7 @@ feature {NONE} -- Initialization
 		require
 			valid_manifest: valid_indented (a_manifest)
 		local
-			ir: EL_INTERVAL_ROUTINES; interval: INTEGER_64; colon_index: INTEGER
+			ir: EL_INTERVAL_ROUTINES; interval: INTEGER_64; colon_index, start_index: INTEGER
 			name, line: IMMUTABLE
 		do
 			manifest := new_shared (a_manifest)
@@ -104,20 +108,21 @@ feature {NONE} -- Initialization
 				from list.start until list.after loop
 					line := list.item
 					if line.count = 0 or else line [1] = '%T' then
-						if has_key (name) then
+						if has_immutable_key (name) then
 							interval := found_interval
 							if interval.to_boolean then
-								interval := ir.compact (ir.to_lower (interval), list.item_end_index)
+								interval := ir.compact (ir.to_lower (interval), list.item_upper)
 							else
-								interval := ir.compact (list.item_start_index, list.item_end_index)
+								interval := ir.compact (list.item_lower, list.item_upper)
 							end
 							force (interval, name)
 						end
 					else
 						colon_index := line.index_of (':', 1)
 						if colon_index > 0 then
-							name := new_substring (1, colon_index - 1)
-							if name.count > 0 and string.is_eiffel_lower (name) then
+							start_index := list.item_lower
+							name := new_substring (start_index, start_index + colon_index - 2)
+							if string.is_eiffel_lower (name) then
 								extend (0, name)
 							end
 						end
@@ -129,23 +134,22 @@ feature {NONE} -- Initialization
 
 feature -- Status query
 
+	has_key_x (a_key: READABLE_STRING_GENERAL): BOOLEAN
+		deferred
+		end
+
 	has_key_general (a_key: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			if attached {IMMUTABLE} a_key as key then
-				Result := has_key (key)
-
-			elseif attached {GENERAL} a_key as key then
-				Result := has_key (new_shared (key))
-
-			elseif manifest.is_string_8 and then attached {GENERAL} a_key.to_string_8 as key then
-				Result := has_key (new_shared (key))
-
-			elseif manifest.is_string_32 and then attached {GENERAL} a_key.to_string_32 as key then
-				Result := has_key (new_shared (key))
-			end
+		deferred
 		end
 
 feature -- Access
+
+	found_count: INTEGER
+		local
+			ir: EL_INTERVAL_ROUTINES
+		do
+			Result := ir.count (found_interval)
+		end
 
 	found_item: IMMUTABLE
 		do

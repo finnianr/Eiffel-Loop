@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "3"
+	date: "2023-07-19 14:08:12 GMT (Wednesday 19th July 2023)"
+	revision: "4"
 
 deferred class
 	EL_READABLE_ZSTRING_I
@@ -66,6 +66,10 @@ feature {NONE} -- Implementation
 		end
 
 	is_alpha_numeric_item (i: INTEGER): BOOLEAN
+		deferred
+		end
+
+	is_valid_as_string_8: BOOLEAN
 		deferred
 		end
 

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 8:31:04 GMT (Saturday 29th April 2023)"
-	revision: "6"
+	date: "2023-08-15 15:17:13 GMT (Tuesday 15th August 2023)"
+	revision: "8"
 
 deferred class
 	EL_NAME_TRANSLATER
@@ -60,14 +60,14 @@ feature -- Element change
 
 feature -- Conversion
 
-	exported (eiffel_name: STRING): STRING
+	exported (eiffel_name: READABLE_STRING_8): STRING
 		-- `eiffel_name' exported to a foreign naming convention
 		deferred
 		ensure
 			new_instance: Result /= eiffel_name
 		end
 
-	imported (foreign_name: STRING): STRING
+	imported (foreign_name: READABLE_STRING_8): STRING
 		-- `foreign_name' translated to Eiffel attribute-naming convention
 		deferred
 		ensure

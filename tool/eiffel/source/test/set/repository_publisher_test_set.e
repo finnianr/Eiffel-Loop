@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-08 7:48:01 GMT (Saturday 8th July 2023)"
-	revision: "59"
+	date: "2023-08-16 10:19:53 GMT (Wednesday 16th August 2023)"
+	revision: "60"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -86,7 +86,7 @@ feature -- Tests
 				end
 			end
 			assert ("el_solitary.e found", found)
-			assert_same_digest (link_checker.invalid_names_output_path, "GfEoZuhsYrG7sgFMH3vw1g==")
+			assert_same_digest (link_checker.invalid_names_output_path, "aORypbmPwaZ2N6btTvcFIw==")
 		end
 
 	test_publisher

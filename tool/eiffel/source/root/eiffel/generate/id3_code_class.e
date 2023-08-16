@@ -1,13 +1,20 @@
 note
 	description: "Id3 code class"
+	notes: "[
+		**Note on 21 July 2023**
+		
+		It looks perhaps as though this class was never used as there were missing lines of code.
+		The target class [$source TL_FRAME_ID_ENUM] was likely created manually instead.
+		Missing code completed on above date with update of code for [$source EVOLICITY_TUPLE_CONTEXT]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-07-22 6:17:40 GMT (Saturday 22nd July 2023)"
+	revision: "6"
 
 class
 	ID3_CODE_CLASS
@@ -15,22 +22,39 @@ class
 inherit
 	EVOLICITY_SERIALIZEABLE
 
+	EL_STRING_8_CONSTANTS
+
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (a_generator: ID3_FRAME_CODE_CLASS_GENERATOR; version: INTEGER; output_dir: DIR_PATH)
+	make (a_generator: ID3_FRAME_CODE_CLASS_GENERATOR; a_version: INTEGER; output_dir: DIR_PATH)
 		local
-			l_file_path: FILE_PATH
+			l_file_path: FILE_PATH; s: EL_STRING_8_ROUTINES
 		do
-			name := Class_name_root + version.out
-			l_file_path := output_dir + name.as_lower
+			version := a_version
+			l_file_path := output_dir + class_name.as_lower
 			l_file_path.add_extension ("e")
-			create field_table.make (a_generator.field_table.count)
-			across field_table as field loop
+			create field_list.make (a_generator.field_table.count)
+			across a_generator.field_table as table loop
+				if attached s.joined_with (table.item, Empty_string_8) as code then
+					field_list.extend (new_context (code, table.key))
+				end
 			end
 			make_from_file (l_file_path)
+		end
+
+feature -- Implementation
+
+	class_name: STRING
+		do
+			Result := "TL_FRAME_CODES_2_" + version.out
+		end
+
+	new_context (code, description: STRING): EVOLICITY_TUPLE_CONTEXT
+		do
+			create Result.make ([code, description], once "code, description")
 		end
 
 feature {NONE} -- Evolicity reflection
@@ -39,38 +63,29 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make (<<
-				["name", agent: ZSTRING do Result :=  name end],
-				["field_table", agent: like field_table do Result := field_table end ]
+				["class_name",			agent class_name],
+				["field_list",	agent: like field_list do Result := field_list end]
 			>>)
 		end
 
 feature {NONE} -- Internal attributes
 
-	name: ZSTRING
+	field_list: ARRAYED_LIST [like new_context]
 
-	field_table: HASH_TABLE [EVOLICITY_TUPLE_CONTEXT, STRING]
+	version: INTEGER
 
 feature {NONE} -- Constants
 
-	Class_name_root: ZSTRING
-		once
-			Result := "TL_FRAME_CODES_2_"
-		end
-
 	Template: STRING = "[
 		class
-			$name
+			$class_name
 		
 		feature -- Access
 		
-		#across $field_table as $field loop
-			$field.key = "$field.item.code"
-			#across $field.item.description as $line loop
-				-- $line.item
-			#end
-			
+		#across $field_list as $list loop
+			$field.item.code: NATURAL_8
+				-- $list.item.description
 		#end
 	]"
 
-	Tuple_fields: STRING = "code, description"
 end

@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 14:31:53 GMT (Monday 10th July 2023)"
-	revision: "22"
+	date: "2023-08-13 12:46:39 GMT (Sunday 13th August 2023)"
+	revision: "23"
 
 deferred class
 	EL_DOCUMENT_NODE_SCANNER
@@ -135,7 +135,7 @@ feature {EL_PARSE_EVENT_SOURCE} -- Parsing events
 		deferred
 		end
 
-	on_content
+	on_content (node: EL_DOCUMENT_NODE_STRING)
 			--
 		deferred
 		end

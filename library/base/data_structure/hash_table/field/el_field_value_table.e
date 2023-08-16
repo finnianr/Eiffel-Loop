@@ -1,75 +1,69 @@
 note
-	description: "Table of field value"
-	notes: "[
-		The original intention was to use this class with objects implementing class [$source EL_REFLECTIVE]
-		The table that can be filled with fields values using the `fill_field_value_table' procedure.
-		The type of fields that can be filled is specified by generic paramter `G'. 
-		An optional condition predicated can be set that filters the table content according to the value
-		of the field.
-	]"
+	description: "Table of field values of type **G** from an object conforming to [$source EL_REFLECTIVE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 16:16:05 GMT (Sunday 16th July 2023)"
-	revision: "7"
+	date: "2023-07-30 15:20:43 GMT (Sunday 30th July 2023)"
+	revision: "8"
 
-deferred class
+class
 	EL_FIELD_VALUE_TABLE [G]
 
 inherit
 	EL_STRING_8_TABLE [G]
 		rename
-			make as make_from_array,
-			make_equal as make
-		redefine
-			make
+			make as make_from_array
 		end
+
+create
+	make, make_exported, make_conforming, make_conforming_exported
 
 feature {NONE} -- Initialization
 
-	make (n: INTEGER)
+	make (object: EL_REFLECTIVE)
 		do
-			Precursor (n)
-			value_type := {G}
-			value_type_id := value_type.type_id
-			default_condition := agent (v: G): BOOLEAN do end
-			condition := default_condition
+			make_with_criteria (object, False, False)
 		end
 
-feature -- Access
-
-	value_type: TYPE [G]
-
-	value_type_id: INTEGER
-
-feature -- Element change
-
-	set_condition (a_condition: like condition)
+	make_conforming (object: EL_REFLECTIVE)
 		do
-			condition := a_condition
+			make_with_criteria (object, True, False)
 		end
 
-feature -- Element change
-
-	set_conditional_value (key: READABLE_STRING_8; new: like item)
+	make_conforming_exported (object: EL_REFLECTIVE)
 		do
-			if condition /= default_condition implies condition (new) then
-				extend (new, key)
+			make_with_criteria (object, True, True)
+		end
+
+	make_exported (object: EL_REFLECTIVE)
+		do
+			make_with_criteria (object, False, True)
+		end
+
+	make_with_criteria (object: EL_REFLECTIVE; conforming_types, exported_name: BOOLEAN)
+		local
+			type_query: EL_FIELD_TYPE_QUERY [G]
+		do
+			create type_query.make (object, conforming_types)
+			if attached type_query.reference_fields as field_list then
+				make_equal (field_list.count)
+				across field_list as list loop
+					if attached list.item as field and then attached {G} field.value (object) as value then
+						extend (value, type_query.field_name (field, exported_name))
+					end
+				end
+
+			elseif attached type_query.expanded_fields as field_list then
+				make_equal (field_list.count)
+				across field_list as list loop
+					if attached list.item as field then
+						extend (field.value (object), type_query.field_name (field, exported_name))
+					end
+				end
 			end
 		end
 
-	set_value (key: READABLE_STRING_8; value: ANY)
-		deferred
-		end
-
-feature {NONE} -- Implementation
-
-	default_condition: like condition
-
-feature {NONE} -- Internal attributes
-
-	condition: PREDICATE [G]
 end

@@ -3,6 +3,7 @@ note
 		Object that can read and write itself to a memory buffer of type [$source EL_MEMORY_READER_WRITER].
 		Field reading, writing and object comparison is handled using class reflection.
 	]"
+	descendants: "See end of class"
 	notes: "See end of class"
 
 	author: "Finnian Reilly"
@@ -10,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-18 16:32:45 GMT (Tuesday 18th July 2023)"
-	revision: "71"
+	date: "2023-08-13 9:28:59 GMT (Sunday 13th August 2023)"
+	revision: "74"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -134,21 +135,14 @@ feature {NONE} -- Implementation
 			Result := True
 			across field_table as table until not Result loop
 				if attached {EL_REFLECTED_REFERENCE [ANY]} table.item as ref_item then
-					Result := is_storable_field (ref_item.category_id, ref_item.type_id)
+					Result := is_storable_field (ref_item.type_info)
 				end
 			end
 		end
 
-	is_storable_field (basic_type, type_id: INTEGER): BOOLEAN
+	is_storable_field (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		do
-			if Eiffel.is_storable_type (basic_type, type_id) then
-				Result := True
-
-			elseif {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.ARRAYED_LIST_ANY) then
-				if Arrayed_list_factory.is_valid_type (type_id) then
-					Result := Eiffel.is_storable_collection_type (type_id)
-				end
-			end
+			Result := field.is_storable
 		end
 
 	new_field_definition (field: EL_REFLECTED_FIELD): STRING
@@ -206,6 +200,23 @@ feature {NONE} -- Implementation
 		end
 
 note
+	descendants: "[
+			EL_REFLECTIVELY_SETTABLE_STORABLE*
+				[$source COUNTRY]
+					[$source CAMEL_CASE_COUNTRY]
+				[$source AIA_CREDENTIAL]
+				[$source TEST_STORABLE]
+				[$source EL_UUID]
+				[$source EL_REFLECTIVE_RSA_KEY]*
+					[$source EL_RSA_PRIVATE_KEY]
+					[$source EL_RSA_PUBLIC_KEY]
+				[$source EL_COMMA_SEPARATED_WORDS]
+				[$source PROVINCE]
+				[$source EL_IP_ADDRESS_GEOLOCATION]
+					[$source EL_IP_ADDRESS_GEOGRAPHIC_INFO]
+				[$source EL_TRANSLATION_ITEM]
+	]"
+
 	notes: "[
 		There is support for automatic serialization fo the following types of field:
 

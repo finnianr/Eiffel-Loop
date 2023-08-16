@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 5:07:05 GMT (Saturday 24th June 2023)"
-	revision: "35"
+	date: "2023-07-31 9:25:09 GMT (Monday 31st July 2023)"
+	revision: "37"
 
 class
 	EL_STRING_32_ROUTINES_IMP
 
 inherit
 	EL_STRING_X_ROUTINES [STRING_32, READABLE_STRING_32]
+		undefine
+			bit_count
+		end
+
+	EL_STRING_32_BIT_COUNTABLE [READABLE_STRING_32]
 
 	EL_SHARED_STRING_32_CURSOR
 		rename
@@ -50,6 +55,11 @@ feature -- Comparison
 		-- `True' if `small' string occurs in `big' string at `index' regardless of case
 		do
 			Result := big.same_caseless_characters (small, 1, small.count, index)
+		end
+
+	same_strings (a, b: READABLE_STRING_32): BOOLEAN
+		do
+			Result := EL_string_32.same_strings (a, b)
 		end
 
 feature -- Basic operations
@@ -192,7 +202,7 @@ feature {NONE} -- Constants
 
 	String_searcher: STRING_32_SEARCHER
 		once
-			Result := Accessible_string_32.string_searcher
+			Result := EL_string_32.string_searcher
 		end
 
 end

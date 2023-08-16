@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-18 13:35:01 GMT (Tuesday 18th July 2023)"
-	revision: "18"
+	date: "2023-08-14 11:44:41 GMT (Monday 14th August 2023)"
+	revision: "20"
 
 class
 	EL_FIELD_INDICES_SET
@@ -17,39 +17,36 @@ inherit
 		export
 			{NONE} all
 			{ANY} item
-			{EL_FIELD_INDICES_TABLE} area
+			{EL_OBJECT_FIELDS_TABLE} area
 		end
 
 	EL_STRING_8_CONSTANTS
 
 create
-	make, make_empty, make_from_reflective, make_for_any, make_empty_area
+	make, make_empty, make_for_any, make_empty_area
 
 feature {NONE} -- Initialization
 
-	make (reflected: REFLECTED_REFERENCE_OBJECT; field_names: STRING)
+	make (field_info_table: EL_OBJECT_FIELDS_TABLE; field_names: STRING)
 		local
-			field_list: EL_SPLIT_STRING_8_LIST; i, field_count, empty_count: INTEGER
+			field_list: EL_SPLIT_IMMUTABLE_STRING_8_LIST; empty_count: INTEGER
 		do
 			if field_names.is_empty then
 				make_empty
 				is_valid := True
 			else
-				create field_list.make_adjusted (field_names, ',', {EL_SIDE}.Left)
+				create field_list.make_shared_adjusted (field_names, ',', {EL_SIDE}.Left)
 				from field_list.start until field_list.after loop
 					if field_list.item_count = 0 then
 						empty_count := empty_count + 1
 					end
 					field_list.forth
 				end
-
 				make_empty_area (field_list.count)
-				field_count := reflected.field_count
-				from i := 1 until i > field_count loop
-					if field_list.has (reflected.field_name (i)) then
-						area.extend (i)
+				across field_list as list loop
+					if field_info_table.has_immutable_key (list.item) then
+						area.extend (field_info_table.found_index)
 					end
-					i := i + 1
 				end
 				is_valid := count = field_list.count - empty_count
 			end
@@ -60,17 +57,12 @@ feature {NONE} -- Initialization
 			make_empty_area (0)
 		end
 
-	make_for_any (field_table: EL_REFLECTED_FIELD_TABLE)
+	make_for_any (field_table: EL_FIELD_TABLE)
 		do
 			make_empty_area (field_table.count)
 			across field_table as table loop
 				area.extend (table.item.index)
 			end
-		end
-
-	make_from_reflective (object: EL_REFLECTIVE; field_names: STRING)
-		do
-			make (create {REFLECTED_REFERENCE_OBJECT}.make (object), field_names)
 		end
 
 feature -- Measurement

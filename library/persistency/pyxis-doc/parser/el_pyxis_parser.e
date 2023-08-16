@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-26 9:15:48 GMT (Monday 26th June 2023)"
-	revision: "48"
+	date: "2023-08-13 12:49:42 GMT (Sunday 13th August 2023)"
+	revision: "51"
 
 class
 	EL_PYXIS_PARSER
@@ -21,15 +21,15 @@ inherit
 			make
 		end
 
+	EL_MODULE_BUFFER_8; EL_MODULE_LIO
+
+	EL_SHARED_STRING_8_CURSOR
+
 	EL_PYXIS_UNESCAPE_CONSTANTS
 
 	EL_PYXIS_PARSER_CONSTANTS
 
-	EL_MODULE_LIO
-
-	EL_MODULE_BUFFER_8
-
-	EL_SHARED_STRING_8_CURSOR
+	EL_CHARACTER_CONSTANTS
 
 create
 	make
@@ -223,7 +223,7 @@ feature {NONE} -- Parse events
 			last_node.wipe_out
 			comment_string.right_adjust
 			last_node.append (comment_string)
-			last_node.set_type (Node_type_comment)
+			last_node.set_type (Type_comment)
 			scanner.on_comment
 			last_node.wipe_out
 			comment_string.wipe_out
@@ -232,7 +232,7 @@ feature {NONE} -- Parse events
 	on_content_line (line: EL_PYXIS_LINE; quote_count: INTEGER)
 			--
 		do
-			last_node.set_type (Node_type_text)
+			last_node.set_type (Type_text)
 			inspect quote_count
 				when 1, 2 then
 					line.append_quoted_to_node (last_node)
@@ -246,7 +246,7 @@ feature {NONE} -- Parse events
 	on_declaration
 			--
 		local
-			attribute_name: EL_UTF_8_STRING; s_8: EL_STRING_8_ROUTINES
+			attribute_name: EL_UTF_8_STRING
 		do
 			across attribute_list as list loop
 				attribute_name := list.item.raw_name
@@ -261,7 +261,7 @@ feature {NONE} -- Parse events
 			attribute_list.reset
 			if attached declaration_comment as comment then
 				if not comment_string.is_empty then
-					comment_string.prepend_string (s_8.n_character_string ('%N', 2))
+					comment_string.prepend_string (New_line * 2)
 				end
 				comment_string.prepend (comment)
 			end
@@ -271,20 +271,22 @@ feature {NONE} -- Parse events
 	on_end_tag (name: STRING)
 		do
 			set_last_node_name (name)
-			last_node.set_type (Node_type_element)
+			last_node.set_type (Type_element)
 			scanner.on_end_tag
 		end
 
 	on_start_tag (name: STRING)
 			--
 		do
-			last_node.set_type (Node_type_element)
-			set_last_node_name (name)
-			scanner.on_start_tag
-			if last_node.count > 0 then
-				last_node.set_type (Node_type_text)
-				scanner.on_content
-				last_node.wipe_out
+			if attached last_node as node then
+				node.set_type (Type_element)
+				set_last_node_name (name)
+				scanner.on_start_tag
+				if node.count > 0 then
+					node.set_type (Type_text)
+					scanner.on_content (node)
+					node.wipe_out
+				end
 			end
 			attribute_list.reset
 		end

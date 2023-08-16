@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-08-06 15:59:49 GMT (Sunday 6th August 2023)"
+	revision: "12"
 
 class
 	EL_TOKENIZED_XPATH
 
 inherit
-	ARRAYED_STACK [INTEGER_16]
+	ARRAYED_STACK [NATURAL_16]
 		rename
 			make as stack_make
 		export
@@ -26,12 +26,14 @@ inherit
 			out
 		end
 
-	EL_XPATH_CONSTANTS
+	EL_XPATH_NODE_CONSTANTS
+
+	HASHABLE
 		undefine
 			is_equal, copy, out
 		end
 
-	HASHABLE
+	DEBUG_OUTPUT
 		undefine
 			is_equal, copy, out
 		end
@@ -41,36 +43,33 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_token_table: like token_table)
-			--
+	make
 		do
-			token_table := a_token_table
 			stack_make (13)
 		end
 
 feature -- Element change
 
-	remove
+	append_step (step_name: READABLE_STRING_8; a_type: INTEGER)
 			--
+		local
+			code: NATURAL_16
 		do
-			Precursor
-			internal_hash_code := 0
-			is_path_to_element := true
-		end
+			type := a_type
+			inspect type
+				when Type_comment, Type_text then
+					put (a_type.to_natural_16)
 
-	append_step (step_name: ZSTRING)
-			--
-		do
-			if step_name.count > 0 then
-				put (token (step_name))
-				if step_name [1] = '@' then
-					is_path_to_element := false
-				else
-					inspect last.to_integer
-						when Comment_node_step_id, Text_node_step_id then
-							is_path_to_element := false
+				when Type_processing_instruction then
+					put (a_type.to_natural_16)
+					put (token_table.code (step_name))
+			else
+				if step_name.count > 0 then
+					code := token_table.code (step_name)
+					if a_type = Type_attribute then
+						put (Attribute_flag | code)
 					else
-						is_path_to_element := true
+						put (code)
 					end
 				end
 			end
@@ -81,29 +80,53 @@ feature -- Element change
 			-- eg. "/publisher/author/book" -> {1,2,3}
 			-- 1 = publisher, 2 = author, 3 = book
 		local
-			steps: LIST [STRING]
+			empty_count, item_count: INTEGER; step: IMMUTABLE_STRING_8
+			steps, pi_parts: EL_SPLIT_IMMUTABLE_STRING_8_LIST
 		do
-			steps := xpath.split ('/')
-			if steps.count >= 2 and then steps.i_th (1).is_empty and then steps.i_th (2).is_empty then
-				steps [2] := Node_descendant_or_self
+			if xpath.has_substring (Node_name [Type_processing_instruction]) then
 			end
+			create steps.make_shared_adjusted (xpath, '/', 0)
 			from steps.start until steps.after loop
-				if not steps.item.is_empty then
-					append_step (steps.item)
+				item_count := steps.item_count
+				if item_count = 0 then
+					empty_count := empty_count + 1
+					if steps.index = 2 and then empty_count = 2 then
+--						matched //
+						append_step (Node_name [Type_descendant_or_self], Type_descendant_or_self)
+					end
+
+				elseif xpath [steps.item_lower] = '@' then
+					step := steps.item
+					append_step (step.shared_substring (2, item_count), Type_attribute)
+
+				elseif steps.item.starts_with (Node_name [Type_processing_instruction]) then
+					create pi_parts.make (steps.item, '%'')
+					append_step (pi_parts.i_th (2), Type_processing_instruction)
+
+				elseif token_table.has_key (xpath) and then token_table.found_item <= Type_text then
+					append_step (steps.item, token_table.found_item)
+
+				else
+					append_step (steps.item, Type_element)
 				end
 				steps.forth
 			end
 		end
 
-feature -- Access
+	remove
+			--
+		do
+			Precursor
+			internal_hash_code := 0
+			type := Type_element
+		end
 
-	is_path_to_element: BOOLEAN
+feature -- Access
 
 	hash_code: INTEGER
 			-- Hash code value
 		local
-			i, nb: INTEGER
-			l_area: like area
+			i, nb: INTEGER; l_area: like area
 		do
 			Result := internal_hash_code
 			if Result = 0 then
@@ -116,46 +139,61 @@ feature -- Access
 				until
 					i = nb
 				loop
-					Result := ((Result \\ 8388593) |<< 8) + l_area.item (i)
+					Result := ((Result \\ 8388593) |<< 8) + l_area [i].as_integer_32
 					i := i + 1
 				end
 				internal_hash_code := Result
 			end
 		end
 
-	out: STRING
+	is_path_to_element: BOOLEAN
+		do
+			inspect type
+				when Type_element, Type_descendant_or_self then
+					Result := True
+			else
+			end
+		end
+
+	debug_output, out: STRING
 			--
 		local
-			pos: INTEGER
+			i: INTEGER; token: NATURAL_16
 		do
 			create Result.make (count * 3)
-			from
-				pos := 1
-			until
-				pos > count
-			loop
-				if pos > 1 then
-					Result.append_character ('-')
+			if attached area as l_area then
+				from until i = l_area.count loop
+					if i > 0 then
+						Result.append_character ('-')
+					end
+					token := l_area [i]
+					if (Attribute_flag & token).to_boolean then
+						Result.append_character ('@')
+						token := token - Attribute_flag
+					end
+					Result.append_natural_16 (token)
+					i := i + 1
 				end
-				Result.append_string (i_th (pos).out)
-				pos := pos + 1
 			end
-			start
 		end
 
 feature -- Status report
 
 	has_wild_cards: BOOLEAN
 			--
+		local
+			i: INTEGER
 		do
-			Result := false
-			from start until after or Result = true loop
-				if item = Child_element_step_id or item = Descendant_or_self_node_step_id then
-					 Result := true
+			if attached area as l_area then
+				from until i = l_area.count or Result loop
+					inspect l_area [i].as_integer_32
+						when Type_any, Type_descendant_or_self then
+							 Result := True
+					else
+					end
+					i := i + 1
 				end
-				forth
 			end
-			start
 		end
 
 	matches_wildcard (wildcard_xpath: like Current): BOOLEAN
@@ -163,30 +201,30 @@ feature -- Status report
 			valid_wildcard: wildcard_xpath.has_wild_cards
 		local
 			i, j, from_pos, wildcard_from_pos, l_count: INTEGER
-			l_area, wildcard_area: like area; wildcard_token: INTEGER_16
+			l_area, wildcard_area: like area; wildcard_token: NATURAL_16
 		do
-			Result := true
-			if wildcard_xpath.last = Child_element_step_id and not is_path_to_element then
-				Result := false
+			Result := True
+			if wildcard_xpath.last.as_integer_32 = Type_any and not is_path_to_element then
+				Result := False
 			else
 				from_pos := 1
 				wildcard_from_pos := 1
-				if wildcard_xpath.first = Descendant_or_self_node_step_id then
+				if wildcard_xpath.first.as_integer_32 = Type_descendant_or_self then
 					from_pos := count - (wildcard_xpath.count - 1) + 1
 					wildcard_from_pos := 2
 				end
 				if from_pos < 1 then
-					Result := false
+					Result := False
 				else
 					l_count := count; l_area := area; wildcard_area := wildcard_xpath.area
 					from
 						i := from_pos - 1; j := wildcard_from_pos - 1
 					until
-						i = l_count or Result = false
+						not Result or i = l_count
 					loop
 						wildcard_token := wildcard_area [j]
-						if wildcard_token /= Child_element_step_id and then l_area [i] /= wildcard_token then
-							Result := false
+						if wildcard_token.as_integer_32 /= Type_any and then l_area [i] /= wildcard_token then
+							Result := False
 						end
 						i := i + 1; j := j + 1
 					end
@@ -196,23 +234,25 @@ feature -- Status report
 
 feature {NONE} -- Implementation
 
-	token_table: EL_XPATH_TOKEN_TABLE
-
-	internal_hash_code: INTEGER
-
-	token (xpath_step: ZSTRING): INTEGER_16
-			-- token value of xpath step
-		do
-			token_table.put ((token_table.count + 1).to_integer_16, xpath_step)
-			Result := token_table.found_item
-		ensure
-			not_using_reserved_id: token_table.inserted implies Result > Num_step_id_constants
-		end
-
 	put (v: like item)
 		do
 			Precursor (v)
 			internal_hash_code := 0
+		end
+
+feature {NONE} -- Internal attributes
+
+	internal_hash_code: INTEGER
+
+	type: INTEGER
+
+feature {NONE} -- Constants
+
+	Attribute_flag: NATURAL_16 = 0x8000
+
+	Token_table: EL_XPATH_TOKEN_TABLE
+		once
+			create Result.make (23)
 		end
 
 end

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-08 18:26:50 GMT (Saturday 8th July 2023)"
-	revision: "25"
+	date: "2023-08-16 11:28:15 GMT (Wednesday 16th August 2023)"
+	revision: "27"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -29,11 +29,11 @@ inherit
 
 	EL_APPLICATION_COMMAND
 
-	SHARED_CLASS_PATH_TABLE
-
-	SHARED_ISE_CLASS_TABLE
-
 	EL_FILE_OPEN_ROUTINES
+
+	SHARED_CLASS_PATH_TABLE; SHARED_ISE_CLASS_TABLE
+
+	EL_CHARACTER_CONSTANTS
 
 create
 	make
@@ -58,26 +58,24 @@ feature -- Access
 feature -- Basic operations
 
 	execute
-		local
-			line: ZSTRING
 		do
 			log_cpu_percentage
 
-			from create line.make_empty until line.same_string_general (Quit) loop
+			from until user_quit loop
 				if attached open (expanded_file_path, Write) as file_out then
 					open_lines (file_path, Utf_8).do_all (agent expand_links (?, file_out))
 					file_out.close
 				end
-				line := user_response
+				ask_user
 			end
 		end
 
 	expand_links (line: ZSTRING; file_out: EL_PLAIN_TEXT_FILE)
 		local
-			link: EL_OCCURRENCE_INTERVALS; s: EL_ZSTRING_ROUTINES
-			pos_right_bracket, previous_pos: INTEGER; link_text, inside_text: ZSTRING
+			link: EL_OCCURRENCE_INTERVALS; link_text, inside_text: ZSTRING
+			pos_right_bracket, previous_pos: INTEGER
 		do
-			line.replace_substring_all (s.character_string ('%T'), Triple_space)
+			line.expand_tabs (3)
 			previous_pos := 1
 			create link.make_by_string (line, Wiki_source_link)
 			from link.start until link.after loop
@@ -120,24 +118,11 @@ feature {NONE} -- Implementation
 			file_out.put_string (link_text)
 		end
 
-	user_response: STRING
-		do
-			Result := User_input.line ("Press <Enter> to update (or quit)")
-			Result.to_lower
-		end
-
 feature {NONE} -- Internal attributes
 
 	file_path: FILE_PATH
 
 feature {NONE} -- Constants
-
-	Quit: STRING = "quit"
-
-	Triple_space: ZSTRING
-		once
-			create Result.make_filled (' ', 3)
-		end
 
 	Wiki_source_link: ZSTRING
 		once

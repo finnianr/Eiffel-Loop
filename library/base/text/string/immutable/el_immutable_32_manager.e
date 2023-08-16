@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 11:14:50 GMT (Monday 6th March 2023)"
-	revision: "3"
+	date: "2023-07-27 6:13:37 GMT (Thursday 27th July 2023)"
+	revision: "5"
 
 class
 	EL_IMMUTABLE_32_MANAGER
 
 inherit
-	EL_IMMUTABLE_STRING_MANAGER [CHARACTER_32, IMMUTABLE_STRING_32]
+	EL_IMMUTABLE_STRING_MANAGER [CHARACTER_32, READABLE_STRING_32, IMMUTABLE_STRING_32]
+		undefine
+			bit_count
+		end
+
+	EL_STRING_32_BIT_COUNTABLE [IMMUTABLE_STRING_32]
 
 	EL_SHARED_STRING_32_CURSOR
 
@@ -23,6 +28,17 @@ feature {NONE} -- Contract Support
 		do
 			if attached cursor_32 (item) as c then
 				Result := c.area.same_items (a_area, offset, c.area_first_index, a_count)
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	string_area (str: READABLE_STRING_32): SPECIAL [CHARACTER_32]
+		do
+			if attached {STRING_32} str as str_32 then
+				Result := str_32.area
+			else
+				Result := str.as_string_32.area
 			end
 		end
 

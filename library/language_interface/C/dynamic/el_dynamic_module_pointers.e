@@ -32,8 +32,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2023-07-20 7:38:26 GMT (Thursday 20th July 2023)"
+	revision: "16"
 
 class
 	EL_DYNAMIC_MODULE_POINTERS
@@ -88,9 +88,9 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	field_included (basic_type, type_id: INTEGER): BOOLEAN
+	field_included (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		do
-			Result := basic_type = {REFLECTOR_CONSTANTS}.Pointer_type
+			Result := field.is_pointer
 		end
 
 	function_names_with_upper: ARRAY [STRING]

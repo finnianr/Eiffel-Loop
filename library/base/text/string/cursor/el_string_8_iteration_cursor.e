@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-21 15:20:55 GMT (Tuesday 21st March 2023)"
-	revision: "12"
+	date: "2023-07-31 8:59:25 GMT (Monday 31st July 2023)"
+	revision: "14"
 
 class
 	EL_STRING_8_ITERATION_CURSOR
@@ -19,9 +19,8 @@ inherit
 		end
 
 	EL_STRING_ITERATION_CURSOR
-		rename
-			is_i_th_eiffel_identifier_8 as is_i_th_eiffel_identifier
-		end
+
+	EL_8_BIT_IMPLEMENTATION
 
 	EL_STRING_8_CONSTANTS
 		rename
@@ -158,6 +157,13 @@ feature {NONE} -- Implementation
 	i_th_character_32 (a_area: SPECIAL [CHARACTER_8]; i: INTEGER): CHARACTER_32
 		do
 			Result := a_area [i]
+		end
+
+	is_i_th_eiffel_identifier (a_area: like area; i: INTEGER; case_code: NATURAL; first_i: BOOLEAN): BOOLEAN
+		local
+			c8: EL_CHARACTER_8_ROUTINES
+		do
+			Result := c8.is_i_th_eiffel_identifier (a_area, i, case_code, first_i)
 		end
 
 	last_index_of (str: STRING_8; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER

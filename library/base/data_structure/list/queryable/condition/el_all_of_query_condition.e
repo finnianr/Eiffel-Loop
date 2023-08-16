@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-08-08 11:34:39 GMT (Tuesday 8th August 2023)"
+	revision: "8"
 
 class
 	EL_ALL_OF_QUERY_CONDITION [G]
@@ -25,7 +25,7 @@ feature {NONE} -- Initialization
 			conditions := a_conditions
 		end
 
-feature -- Access
+feature -- Status query
 
 	met (item: G): BOOLEAN
 		-- True if `item' meets all of the `conditions'

@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-25 11:25:44 GMT (Saturday 25th March 2023)"
-	revision: "24"
+	date: "2023-08-14 17:35:32 GMT (Monday 14th August 2023)"
+	revision: "25"
 
 class
 	AUTOTEST_APP
@@ -34,6 +34,7 @@ inherit
 	EL_CRC_32_AUTOTEST_APPLICATION [
 		ADD_ALBUM_ART_TASK_TEST_SET,
 		COLLATE_SONGS_TASK_TEST_SET,
+		DISPLAY_MUSIC_BRAINZ_INFO_TASK_TEST_SET,
 		EXPORT_MUSIC_TO_DEVICE_TASK_TEST_SET,
 		EXPORT_PLAYLISTS_TO_DEVICE_TASK_TEST_SET,
 		IMPORT_M3U_PLAYLISTS_TASK_TEST_SET,
@@ -58,7 +59,8 @@ feature {NONE} -- Implementation
 		EL_GVFS_COPY_COMMAND,
 		EL_GVFS_FILE_EXISTS_COMMAND,
 		EL_GVFS_MAKE_DIRECTORY_COMMAND,
-		EL_GVFS_MOVE_COMMAND
+		EL_GVFS_MOVE_COMMAND,
+		DISPLAY_MUSIC_BRAINZ_INFO_TASK
 	]
 		do
 			create Result

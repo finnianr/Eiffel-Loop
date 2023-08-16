@@ -1,56 +1,27 @@
 note
-	description: "Character 32 routines"
+	description: "Expanded class of [$source CHARACTER_32] routines"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-17 13:36:15 GMT (Friday 17th February 2023)"
-	revision: "9"
+	date: "2023-08-07 9:34:26 GMT (Monday 7th August 2023)"
+	revision: "12"
 
 expanded class
 	EL_CHARACTER_32_ROUTINES
 
 inherit
+	EL_CHARACTER_ROUTINES [CHARACTER_32]
+
+	EL_32_BIT_IMPLEMENTATION
+
 	EL_EXPANDED_ROUTINES
 
 	EL_UNICODE_PROPERTY
 
 	EL_SHARED_UTF_8_SEQUENCE
-
-feature -- Status query
-
-	is_ascii_area (area: SPECIAL [CHARACTER_32]; start_index, end_index: INTEGER): BOOLEAN
-		-- `True' if all characters in `area' are in the ASCII character set range: 0 .. 127
-		local
-			i: INTEGER
-		do
-			Result := True
-			from i := start_index until not Result or else i > end_index loop
-				if area [i] > Max_ascii_character then
-					Result := False
-				else
-					i := i + 1
-				end
-			end
-		end
-
-	same_caseless_sub_array (
-		area_1, area_2: SPECIAL [CHARACTER_32]; offset_1, offset_2, comparison_count: INTEGER
-	): BOOLEAN
-		require
-			valid_offset_1: area_1.valid_index (offset_1 + comparison_count - 1)
-			valid_offset_2: area_2.valid_index (offset_2 + comparison_count - 1)
-		local
-			i: INTEGER
-		do
-			Result := True
-			from i := 0 until not Result or i = comparison_count loop
-				Result := to_lower (area_1 [offset_1 + i]) = to_lower (area_2 [offset_2 + i])
-				i := i + 1
-			end
-		end
 
 feature -- Basic operations
 
@@ -61,6 +32,25 @@ feature -- Basic operations
 			sequence := Utf_8_sequence
 			sequence.set (uc)
 			sequence.write (writeable)
+		end
+
+feature -- Area query
+
+	is_i_th_eiffel_identifier (area: SPECIAL [CHARACTER_32]; i: INTEGER; case_code: NATURAL; first_i: BOOLEAN): BOOLEAN
+		local
+			uc: CHARACTER_32
+		do
+			uc := area [i]
+			if uc.is_character_8 then
+				Result := is_valid_eiffel_case (uc.to_character_8, case_code, first_i)
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	same_caseless_character (a, b: CHARACTER_32): BOOLEAN
+		do
+			Result := to_lower (a) = to_lower (b)
 		end
 
 feature {NONE} -- Constants

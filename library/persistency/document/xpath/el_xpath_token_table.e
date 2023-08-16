@@ -1,65 +1,51 @@
 note
-	description: "Xpath token table"
+	description: "Xpath step token table"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-07-26 18:41:07 GMT (Wednesday 26th July 2023)"
+	revision: "11"
 
 class
 	EL_XPATH_TOKEN_TABLE
 
 inherit
-	HASH_TABLE [INTEGER_16, ZSTRING]
-		redefine
-			default_create --, extend, put
+	EL_STRING_8_TABLE [NATURAL_16]
+		rename
+			make as make_table
 		end
 
-	EL_XPATH_CONSTANTS
-		undefine
-			default_create, is_equal, copy
-		end
+	EL_XPATH_NODE_CONSTANTS
 
 create
-	default_create
+	make
 
 feature {NONE} -- Initialization
 
-	default_create
+	make (n: INTEGER)
 		do
-			make_equal (23)
-			extend (Child_element_step_id, Node_any)
-			extend (Descendant_or_self_node_step_id, Node_descendant_or_self)
-			extend (Comment_node_step_id.to_integer_16, Node_comment)
-			extend (Text_node_step_id.to_integer_16, Node_text)
+			make_equal (n)
+			across 1 |..| Type_processing_instruction as type loop
+				extend (type.item.to_natural_16, Node_name [type.item])
+			end
 		end
 
-feature -- Element change
+feature -- Access
 
---	extend (new: INTEGER_16; key: STRING_32)
---		local
---			template: EL_ASTRING
---		do
---			log.enter ("extend")
---			template := "extend (%S,%"%S%")"
---			log.put_line (template #$ [new, key])
---			Precursor (new, key)
---			log.exit
---		end
-
---	put (new: INTEGER_16; key: STRING_32)
---		local
---			template: EL_ASTRING
---		do
---			log.enter ("put")
---			template := "put (%S,%"%S%")"
---			log.put_line (template #$ [new, key])
---			Precursor (new, key)
---			log.put_integer_field ("count", count)
---			log.exit
---		end
+	code (xpath_step: READABLE_STRING_8): NATURAL_16
+			-- token value of xpath step
+		do
+			if has_key (xpath_step) then
+				Result := found_item
+			else
+				Result := (count + 1).to_natural_16
+				extend (Result, xpath_step.twin)
+			end
+		ensure
+			not_using_reserved_id: inserted implies Result.as_integer_32 > Type_processing_instruction
+		end
 
 end

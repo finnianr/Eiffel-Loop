@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-11 12:18:50 GMT (Tuesday 11th April 2023)"
-	revision: "118"
+	date: "2023-08-14 15:38:56 GMT (Monday 14th August 2023)"
+	revision: "123"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -67,8 +67,8 @@ inherit
 
 	EL_COMPARABLE_ZSTRING
 		export
-			{STRING_HANDLER}
-				empty_unencoded_buffer, item_8, set_unencoded_from_buffer
+			{STRING_HANDLER, EL_OCCURRENCE_INTERVALS}
+				empty_unencoded_buffer, item_8, set_unencoded_from_buffer, order_comparison
 			{EL_ZSTRING_ITERATION_CURSOR, EL_STRING_8_IMPLEMENTATION}
 				area_lower, area_upper, area, unencoded_area
 			{EL_ZSTRING_IMPLEMENTATION}
@@ -92,7 +92,7 @@ inherit
 	EL_SEARCHABLE_ZSTRING
 		export
 			{EL_APPENDABLE_ZSTRING} internal_substring_index_list
-			{EL_SEARCH_HANDLER} String_searcher
+			{EL_ZSTRING_CONSTANTS} String_searcher
 		redefine
 			unencoded_area
 		end
@@ -638,7 +638,7 @@ feature -- Comparison
 			end
 		end
 
-feature {EL_READABLE_ZSTRING} -- Duplication
+feature {EL_ZSTRING_IMPLEMENTATION} -- Duplication
 
 	copy (other: like Current)
 			-- Reinitialize by copying the characters of `other'.
@@ -688,6 +688,7 @@ feature {NONE} -- Implementation
 	reset_hash
 		do
 			internal_hash_code := 0
+			internal_case_insensitive_hash_code := 0
 		end
 
 	sum_count (cursor: ITERATION_CURSOR [READABLE_STRING_GENERAL]): INTEGER

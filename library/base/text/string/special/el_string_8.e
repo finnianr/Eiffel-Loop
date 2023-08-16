@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-25 10:43:08 GMT (Sunday 25th June 2023)"
-	revision: "20"
+	date: "2023-08-03 10:20:49 GMT (Thursday 3rd August 2023)"
+	revision: "22"
 
 class
 	EL_STRING_8
@@ -15,10 +15,12 @@ class
 inherit
 	STRING_8
 		export
-			{EL_SEARCH_HANDLER} String_searcher
+			{EL_STRING_8_CONSTANTS} String_searcher
 			{EL_TYPE_CONVERSION_HANDLER}
 				Ctoi_convertor, Ctor_convertor, is_valid_integer_or_natural
 		end
+
+	EL_STRING_BIT_COUNTABLE [STRING_8]
 
 	EL_SHARED_STRING_8_CURSOR
 
@@ -34,6 +36,14 @@ feature {NONE} -- Initialization
 
 feature -- Staus query
 
+	has_padding: BOOLEAN
+		-- `True' if `leading_white_count > 0' or `trailing_white_count > 0'
+		do
+			if count > 0 and then attached area as l_area then
+				Result := l_area [0].is_space or else l_area [count - 1].is_space
+			end
+		end
+
 	is_ascii: BOOLEAN
 		-- `True' if all characters in `Current' are in the ASCII character set: 0 .. 127
 		local
@@ -42,11 +52,13 @@ feature -- Staus query
 			Result := c.is_ascii_area (area, area_lower, area_upper)
 		end
 
-	has_padding: BOOLEAN
-		-- `True' if `leading_white_count > 0' or `trailing_white_count > 0'
+feature -- Comparison
+
+	same_strings (a, b: READABLE_STRING_8): BOOLEAN
+		-- work around for bug in `{SPECIAL}.same_items' affecting `{IMMUTABLE_STRING_8}.same_string'
 		do
-			if count > 0 and then attached area as l_area then
-				Result := l_area [0].is_space or else l_area [count - 1].is_space
+			if a.count = b.count then
+				Result := same_area_items (a.area, b.area, a.area_lower, b.area_lower, a.count)
 			end
 		end
 
@@ -155,4 +167,43 @@ feature -- Element change
 				append (str)
 			end
 		end
+
+feature {NONE} -- Implementation
+
+	same_area_items (a, b: like area; a_offset, b_offset, n: INTEGER): BOOLEAN
+			-- Are the `n' characters of `b' from `b_offset' position the same as
+			-- the `n' characters of `a' from `a_offset'?
+		require
+			other_not_void: b /= Void
+			source_index_non_negative: b_offset >= 0
+			destination_index_non_negative: a_offset >= 0
+			n_non_negative: n >= 0
+			n_is_small_enough_for_source: b_offset + n <= b.count
+			n_is_small_enough_for_destination: a_offset + n <= a.count
+		local
+			i, j, nb: INTEGER
+		do
+			if a = b and a_offset = b_offset then
+				Result := True
+			else
+				Result := True
+				from
+					i := b_offset
+					j := a_offset
+					nb := b_offset + n
+				until
+					i = nb
+				loop
+					if b [i] /= a [j] then
+						Result := False
+						i := nb - 1
+					end
+					i := i + 1
+					j := j + 1
+				end
+			end
+		ensure
+			valid_on_empty_area: (n = 0) implies Result
+		end
+
 end

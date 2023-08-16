@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-18 14:01:41 GMT (Tuesday 18th July 2023)"
-	revision: "14"
+	date: "2023-08-11 17:14:44 GMT (Friday 11th August 2023)"
+	revision: "17"
 
 class
 	EL_ARRAYED_INTERVAL_LIST
@@ -31,8 +31,15 @@ inherit
 			there_exists as there_exists_index
 		export
 			{NONE} item_extend, item, i_th, item_put_i_th
+		undefine
+			count, upper_index
 		redefine
-			count, for_all_index, grow, make, out, remove, there_exists_index, new_cursor, upper_index
+			for_all_index, grow, make, out, remove, there_exists_index, new_cursor
+		end
+
+	EL_INTERVAL_LIST
+		rename
+			area as area_v2
 		end
 
 create
@@ -43,52 +50,6 @@ feature {NONE} -- Initialization
 	make (n: INTEGER)
 		do
 			Precursor (n * 2)
-		end
-
-feature -- Measurement
-
-	count: INTEGER
-			-- Number of items.
-		do
-			Result := area_v2.count // 2
-		end
-
-	count_sum: INTEGER
-		local
-			i: INTEGER
-		do
-			if attached area_v2 as a then
-				from until i = a.count loop
-					Result := Result + a [i + 1] - a [i] + 1
-					i := i + 2
-				end
-			end
-		end
-
-	non_zero_count: INTEGER
-		do
-			Result := count - zero_count
-		end
-
-	upper_index: INTEGER
-			-- Number of items.
-		do
-			Result := count
-		end
-
-	zero_count: INTEGER
-		-- count of all items with `item_count = 0'
-		local
-			i: INTEGER
-		do
-			if attached area_v2 as a then
-				from until i = a.count loop
-					if a [i + 1] - a [i] + 1 = 0 then
-						Result := Result + 1
-					end
-					i := i + 2
-				end
-			end
 		end
 
 feature -- Iterative query
@@ -153,141 +114,6 @@ feature -- Status query
 		do
 			if count = other.count then
 				Result := area_v2.same_items (other.area_v2, 0, 0, count * 2)
-			end
-		end
-
-feature -- First item
-
-	first_count: INTEGER
-		do
-			if count > 0 then
-				Result := i_th_count (1)
-			end
-		end
-
-	first_lower: INTEGER
-		do
-			if attached area_v2 as a and then a.count > 0 then
-				Result := area_v2 [0]
-			end
-		end
-
-	first_upper: INTEGER
-		do
-			if attached area_v2 as a and then a.count > 0 then
-				Result := area_v2 [1]
-			end
-		end
-
-feature -- i'th item
-
-	i_th_compact (i: INTEGER): INTEGER_64
-		require
-			valid_index: valid_index (i)
-		local
-			lower, upper: INTEGER; ir: EL_INTERVAL_ROUTINES
-		do
-			lower := i_th_lower_upper (i, $upper)
-			Result := ir.compact (lower, upper)
-		end
-
-	i_th_count (i: INTEGER): INTEGER
-		require
-			valid_index: valid_index (i)
-		local
-			lower, upper: INTEGER
-		do
-			lower := i_th_lower_upper (i, $upper)
-			Result := upper - lower + 1
-		end
-
-	i_th_lower (i: INTEGER): INTEGER
-		require
-			valid_index: valid_index (i)
-		do
-			Result := area_v2 [(i - 1) * 2]
-		end
-
-	i_th_lower_upper (i: INTEGER; upper_ptr: POINTER): INTEGER
-		-- i'th lower index setting integer at `upper_ptr' memory location as a side-effect
-		require
-			attached_upper: upper_ptr /= default_pointer
-		local
-			p: EL_POINTER_ROUTINES; j, k: INTEGER
-		do
-			if attached area_v2 as a then
-				j := (i - 1) * 2; k := j + 1
-				if k < a.count then
-					Result := a [j]
-					p.put_integer_32 (a [k], upper_ptr)
-				else
-					Result := 1
-				end
-			else
-				Result := 1
-			end
-		end
-
-	i_th_upper (i: INTEGER): INTEGER
-		require
-			valid_index: valid_index (i)
-		do
-			Result := area_v2 [(i - 1) * 2 + 1]
-		end
-
-feature -- Cursor item
-
-	item_compact: INTEGER_64
-		require
-			valid_item: not off
-		do
-			if not off then
-				Result := i_th_compact (index)
-			end
-		end
-
-	item_count: INTEGER
-		require
-			valid_item: not off
-		do
-			Result := i_th_count (index)
-		end
-
-	item_interval: INTEGER_INTERVAL
-		do
-			Result := item_lower |..| item_upper
-		end
-
-	item_lower: INTEGER
-		do
-			Result := area_v2 [(index - 1) * 2]
-		end
-
-	item_upper: INTEGER
-		do
-			Result := area_v2 [(index - 1) * 2 + 1]
-		end
-
-feature -- Last item
-
-	last_count: INTEGER
-		do
-			if count > 0 then
-				Result := i_th_count (count)
-			end
-		end
-
-	last_lower: INTEGER
-		do
-			if count > 0 then
-				Result := i_th_lower (count)
-			end
-		end
-
-	last_upper: INTEGER
-		do
-			if count > 0 then
-				Result := i_th_upper (count)
 			end
 		end
 
@@ -365,18 +191,6 @@ feature -- Element change
 			end
 		end
 
-	replace (a_lower, a_upper: INTEGER)
-		require
-			valid_item: not off
-		local
-			j: INTEGER
-		do
-			j := (index - 1) * 2
-			if attached area_v2 as a then
-				a [j] := a_lower; a [j + 1] := a_upper
-			end
-		end
-
 feature -- Removal
 
 	remove
@@ -392,7 +206,7 @@ feature -- Removal
 			end
 			area_v2.remove_tail (2)
 		ensure then
-			shifted_by_one: old (index < count) implies i_th_compact (index) = old i_th_compact (index + 1)
+			shifted_by_one: not off implies i_th_compact (index) = old next_compact_item
 		end
 
 	remove_head (n: INTEGER)
@@ -409,21 +223,6 @@ feature -- Removal
 				implies old i_th_compact (n + 1) = i_th_compact (1) and old i_th_compact (count) = i_th_compact (count)
 
 			same_item: old (not off and index > n) implies old item_compact = item_compact
-		end
-
-	remove_item_head (n: INTEGER)
-		require
-			valid_item: not off
-			within_limits: 0 <= n and n <= item_count
-		local
-			j: INTEGER
-		do
-			j := (index - 1) * 2
-			if attached area_v2 as a then
-				a [j] := a [j] + n
-			end
-		ensure
-			valid_item_count: item_count = old item_count - n
 		end
 
 	remove_tail (n: INTEGER)

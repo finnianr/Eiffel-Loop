@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 8:16:49 GMT (Saturday 29th April 2023)"
-	revision: "9"
+	date: "2023-08-06 16:03:19 GMT (Sunday 6th August 2023)"
+	revision: "10"
 
 deferred class
 	EL_PATH_BASE_NAME
@@ -67,7 +67,7 @@ feature -- Access
 			if attached version_interval as interval then
 				if interval.off then
 					Result := -1
-				elseif attached base.substring (interval.item_start_index, interval.item_end_index) as number then
+				elseif attached base.substring (interval.item_lower, interval.item_upper) as number then
 					number.prune_all_leading ('0')
 					if number.is_empty then
 						Result := 0
@@ -229,7 +229,7 @@ feature -- Element change
 		do
 			if attached version_interval as interval and then not interval.off then
 				base.replace_substring_general (
-					Format.zero_padded_integer (number, interval.item_count), interval.item_start_index, interval.item_end_index
+					Format.zero_padded_integer (number, interval.item_count), interval.item_lower, interval.item_upper
 				)
 			end
 			reset_hash

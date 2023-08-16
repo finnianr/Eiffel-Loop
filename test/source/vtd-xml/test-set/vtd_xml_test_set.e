@@ -16,8 +16,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 17:18:37 GMT (Saturday 29th April 2023)"
-	revision: "32"
+	date: "2023-08-15 10:26:33 GMT (Tuesday 15th August 2023)"
+	revision: "33"
 
 class
 	VTD_XML_TEST_SET
@@ -235,7 +235,7 @@ feature {NONE} -- Implementation
 			if attached root_node.processing_instruction ("call") as pi_call then
 				assert ("expected instruction", pi_call ~ instruction)
 			else
-				assert ("instruction found", False)
+				failed ("instruction found")
 			end
 		end
 

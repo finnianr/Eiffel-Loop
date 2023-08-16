@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "14"
+	date: "2023-08-15 10:24:32 GMT (Tuesday 15th August 2023)"
+	revision: "15"
 
 class
 	TYPE_TEST_SET
@@ -48,11 +48,11 @@ feature -- Tests
 					lio.put_new_line
 					assert ("is empty string", str.count = 0)
 				else
-					assert ("new string created", False)
+					failed ("new string created")
 				end
 
 			else
-				assert ("created", False)
+				failed ("created")
 			end
 		end
 
@@ -69,7 +69,7 @@ feature -- Tests
 			if attached {TYPE [READABLE_STRING_32]} Eiffel.type_of_type (t1.type_id) as t3 then
 				assert ("same instance", t1 = t3)
 			else
-				assert ("same type", False)
+				failed ("same type")
 			end
 		end
 

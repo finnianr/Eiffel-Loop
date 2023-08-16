@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-06 11:11:32 GMT (Monday 6th February 2023)"
-	revision: "8"
+	date: "2023-08-14 8:37:38 GMT (Monday 14th August 2023)"
+	revision: "9"
 
 class
 	HASH_TABLE_VS_NAMEABLES_LIST_SEARCH
@@ -40,7 +40,7 @@ feature -- Basic operations
 		local
 			parameters: FCGI_REQUEST_PARAMETERS
 			nameables_list: EL_NAMEABLES_LIST [EL_REFLECTED_FIELD]
-			field_table: EL_REFLECTED_FIELD_TABLE
+			field_table: EL_FIELD_TABLE
 		do
 			create parameters.make
 			field_table := parameters.field_table
@@ -64,7 +64,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	do_hash_search (field_names: ARRAY [STRING]; field_table: EL_REFLECTED_FIELD_TABLE)
+	do_hash_search (field_names: ARRAY [STRING]; field_table: EL_FIELD_TABLE)
 		local
 			i: INTEGER
 		do

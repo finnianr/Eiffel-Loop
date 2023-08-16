@@ -1,13 +1,13 @@
 note
-	description: "Constants for class STRING"
+	description: "Constants related to class [$source STRING_8]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:07:31 GMT (Monday 20th March 2023)"
-	revision: "18"
+	date: "2023-08-11 15:10:38 GMT (Friday 11th August 2023)"
+	revision: "21"
 
 deferred class
 	EL_STRING_8_CONSTANTS
@@ -19,19 +19,17 @@ feature {NONE} -- Constants
 
 	Comma_space: STRING = ", "
 
-	Comma_only: STRING = ","
-
-	Ellipsis_dots: STRING
+	EL_string_8: EL_STRING_8
+		-- provides access to unexported attributes and constants
 		once
-			create Result.make_filled ('.', 2)
+			create Result.make_empty
 		end
 
 	Empty_string_8: STRING = ""
 
-	accessible_string_8: EL_STRING_8
-		-- to provide access to unexported constants
+	String_8_searcher: STRING_8_SEARCHER
 		once
-			create Result.make_empty
+			Result := EL_string_8.String_searcher
 		end
 
 invariant

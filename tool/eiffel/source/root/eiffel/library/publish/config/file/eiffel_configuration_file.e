@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-08 7:10:29 GMT (Saturday 8th July 2023)"
-	revision: "54"
+	date: "2023-08-16 9:57:15 GMT (Wednesday 16th August 2023)"
+	revision: "55"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -27,7 +27,7 @@ inherit
 
 	EL_MODULE_DIRECTORY
 
-	ECF_CONSTANTS
+	ECF_CONSTANTS; EL_CHARACTER_CONSTANTS
 
 create
 	make
@@ -99,13 +99,11 @@ feature -- Access
 
 	category_title: ZSTRING
 		-- displayed category title
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
 			if sub_category.is_empty then
 				Result := category
 			else
-				Result := sub_category + s.character_string (' ') + category
+				Result := sub_category + Space #* 1 + category
 			end
 		end
 

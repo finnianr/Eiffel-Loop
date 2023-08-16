@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 15:49:43 GMT (Thursday 5th January 2023)"
-	revision: "16"
+	date: "2023-08-02 14:33:18 GMT (Wednesday 2nd August 2023)"
+	revision: "17"
 
 class
 	EL_STRING_ESCAPER [S -> STRING_GENERAL create make end]
@@ -125,13 +125,13 @@ feature {NONE} -- Implementation
 
 	set_implementation
 		do
-			if attached {like implementation} Zstring_imp as imp then
+			if attached {like implementation} ZSTRING_imp as imp then
 				implementation := imp
 
-			elseif attached {like implementation} String_32_imp as imp then
+			elseif attached {like implementation} STRING_32_imp as imp then
 				implementation := imp
 
-			elseif attached {like implementation} String_8_imp as imp then
+			elseif attached {like implementation} STRING_8_imp as imp then
 				implementation := imp
 			end
 		ensure
@@ -140,16 +140,17 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	String_32_imp: EL_STRING_32_ESCAPER_IMP
-		once
-			create Result.make
-		end
-	String_8_imp: EL_STRING_8_ESCAPER_IMP
+	STRING_32_imp: EL_STRING_32_ESCAPER_IMP
 		once
 			create Result.make
 		end
 
-	Zstring_imp: EL_ZSTRING_ESCAPER_IMP
+	STRING_8_imp: EL_STRING_8_ESCAPER_IMP
+		once
+			create Result.make
+		end
+
+	ZSTRING_imp: EL_ZSTRING_ESCAPER_IMP
 		once
 			create Result.make
 		end

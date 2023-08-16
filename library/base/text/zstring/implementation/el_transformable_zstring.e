@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 12:13:28 GMT (Sunday 5th March 2023)"
-	revision: "44"
+	date: "2023-08-16 11:22:37 GMT (Wednesday 16th August 2023)"
+	revision: "47"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -21,11 +21,13 @@ inherit
 
 	EL_PREPENDABLE_ZSTRING
 
+	EL_CHARACTER_CONSTANTS
+
 feature {EL_READABLE_ZSTRING} -- Basic operations
 
 	enclose (left, right: CHARACTER_32)
 		do
-			grow (count + 2); prepend_character (left); append_character (right)
+			current_readable.copy (current_readable.enclosed (left, right))
 		end
 
 	fill_character (uc: CHARACTER_32)
@@ -75,29 +77,15 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			-- ("hello").multiply(3) => "hellohellohello"
 		require
 			meaningful_multiplier: n >= 1
-		local
-			i, old_count: INTEGER
 		do
-			old_count := count
-			grow (n * count)
-			from i := n until i = 1 loop
-				append_substring (current_readable, 1, old_count)
-				i := i - 1
-			end
+			current_readable.copy (current_readable.multiplied (n))
 		end
 
 	quote (type: INTEGER)
 		require
-			type_is_single_or_double: type = 1 or type = 2
-		local
-			c: CHARACTER_32
+			type_is_single_double_or_appropriate: 1 <= type and type <= 3
 		do
-			if type = 1 then
-				 c := '%''
-			else
-				 c := '"'
-			end
-			enclose (c, c)
+			current_readable.copy (current_readable.quoted (type))
 		end
 
 	to_canonically_spaced
@@ -184,9 +172,11 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			length_and_content: elks_checking implies Current ~ (old as_upper)
 		end
 
-	translate (old_characters, new_characters: EL_READABLE_ZSTRING)
+	translate (old_characters, new_characters: READABLE_STRING_GENERAL)
 		do
-			translate_deleting_null_characters (old_characters, new_characters, False)
+			translate_deleting_null_characters (
+				adapted_argument (old_characters, 1), adapted_argument (new_characters, 2), False
+			)
 		end
 
 	translate_deleting_null_characters (old_characters, new_characters: EL_READABLE_ZSTRING; delete_null: BOOLEAN)
@@ -234,17 +224,18 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			changed_count: delete_null implies count = old (count - deleted_count (old_characters, new_characters))
 		end
 
-	translate_general (old_characters, new_characters: READABLE_STRING_GENERAL)
-		do
-			translate (adapted_argument (old_characters, 1), adapted_argument (new_characters, 2))
-		end
-
 	unescape (unescaper: EL_ZSTRING_UNESCAPER)
 		do
 			make_from_zcode_area (unescaper.unescaped_array (current_readable))
 		end
 
 feature {EL_READABLE_ZSTRING} -- Replacement
+
+	expand_tabs (space_count: INTEGER)
+		-- replace tabs with spaces
+		do
+			replace_substring_all (Tab #* 1, Space #* space_count)
+		end
 
 	replace_character (uc_old, uc_new: CHARACTER_32)
 		local

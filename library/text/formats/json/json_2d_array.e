@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:04 GMT (Monday 20th March 2023)"
-	revision: "2"
+	date: "2023-08-06 16:03:51 GMT (Sunday 6th August 2023)"
+	revision: "3"
 
 class
 	JSON_2D_ARRAY [N -> NUMERIC]
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 				if l_width > 0 and then list.count \\ l_width = 0 then
 					make_filled (({N}).default, list.count // l_width, l_width)
 					from list.start until list.after loop
-						value := pruned_value (json, list.item_start_index, list.item_end_index)
+						value := pruned_value (json, list.item_lower, list.item_upper)
 						zero_index := list.index - 1
 						row := zero_index // l_width + 1
 						column := zero_index \\ l_width + 1

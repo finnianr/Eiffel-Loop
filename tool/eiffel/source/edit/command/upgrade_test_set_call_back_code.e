@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-11 10:07:22 GMT (Saturday 11th March 2023)"
-	revision: "4"
+	date: "2023-08-16 9:07:25 GMT (Wednesday 16th August 2023)"
+	revision: "6"
 
 class
 	UPGRADE_TEST_SET_CALL_BACK_CODE
@@ -24,6 +24,8 @@ inherit
 		redefine
 			make_default, new_file_list
 		end
+
+	EL_CHARACTER_CONSTANTS
 
 	EL_MODULE_FILE; EL_MODULE_TUPLE
 
@@ -56,7 +58,7 @@ feature {NONE} -- Implementation
 					if scan.cursor_index = 1 then
 						from list.start until found or else list.after loop
 							if list.item_has_substring (Code.evaluator_arg) then
-								start_index := list.item_start_index; end_index := list.item_end_index
+								start_index := list.item_lower; end_index := list.item_upper
 								old_code := source_text.substring (start_index, end_index)
 								source_text.replace_substring (new_make_routine_code (old_code), start_index, end_index)
 								found := True
@@ -67,8 +69,8 @@ feature {NONE} -- Implementation
 --						insert "create make" before first feature block if class is not deferred
 						list.start
 						if not list.item_has_substring ("deferred class") then
-							end_index := list.item_end_index
-							source_text.insert_string ("%N%Ncreate%N%Tmake", list.item_end_index)
+							end_index := list.item_upper
+							source_text.insert_string ("%N%Ncreate%N%Tmake", list.item_upper)
 						end
 					end
 				end
@@ -85,8 +87,8 @@ feature {NONE} -- Implementation
 
 	new_make_routine_code (old_code: STRING): STRING
 		local
-			code_lines: EL_STRING_8_LIST; line: STRING; s: EL_STRING_8_ROUTINES
-			do_line_index, end_line_index, index: INTEGER; editing_routine: BOOLEAN
+			code_lines: EL_STRING_8_LIST; line: STRING; editing_routine: BOOLEAN
+			do_line_index, end_line_index, index: INTEGER;
 		do
 			create code_lines.make_with_lines (old_code)
 			across code_lines as list until end_line_index > 0 loop
@@ -118,8 +120,8 @@ feature {NONE} -- Implementation
 				end
 			end
 			code_lines [end_line_index - 1].prune_all_trailing (',')
-			code_lines.insert (s.n_character_string ('%T', 3) + Code.close_array, end_line_index)
-			code_lines.insert (s.n_character_string ('%T', 3) + Code.make_named, do_line_index + 1)
+			code_lines.insert (Tab * 3 + Code.close_array, end_line_index)
+			code_lines.insert (Tab * 3 + Code.make_named, do_line_index + 1)
 
 			Result := code_lines.joined_lines
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-09 13:20:33 GMT (Friday 9th June 2023)"
-	revision: "31"
+	date: "2023-08-15 10:22:16 GMT (Tuesday 15th August 2023)"
+	revision: "32"
 
 class
 	DATE_TIME_TEST_SET
@@ -160,7 +160,7 @@ feature -- Tests
 					assert ("Bug in `time_valid' precondition routine", True)
 				end
 			else
-				assert ("Invalid time format", False)
+				failed ("Invalid time format")
 			end
 		end
 

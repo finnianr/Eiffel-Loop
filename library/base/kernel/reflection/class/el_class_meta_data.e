@@ -10,20 +10,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-18 19:33:23 GMT (Tuesday 18th July 2023)"
-	revision: "69"
+	date: "2023-08-14 11:44:40 GMT (Monday 14th August 2023)"
+	revision: "73"
 
 class
 	EL_CLASS_META_DATA
 
 inherit
-	REFLECTED_REFERENCE_OBJECT
-		export
-			{NONE} all
-		redefine
-			make, enclosing_object
-		end
-
 	EL_LAZY_ATTRIBUTE
 		rename
 			item as alphabetical_list,
@@ -31,7 +24,7 @@ inherit
 			actual_item as actual_alphabetical_list
 		end
 
-	EL_MODULE_EIFFEL; EL_MODULE_NAMING; EL_MODULE_REUSEABLE
+	EL_MODULE_EIFFEL; EL_MODULE_NAMING
 
 	EL_REFLECTION_CONSTANTS
 
@@ -41,43 +34,41 @@ inherit
 
 	EL_SHARED_NEW_INSTANCE_TABLE; EL_SHARED_READER_WRITER_TABLE
 
-	EL_SHARED_CLASS_ID; EL_SHARED_FACTORIES
+	EL_SHARED_CLASS_ID; EL_SHARED_FACTORIES; EL_SHARED_IMMUTABLE_8_MANAGER
 
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (a_enclosing_object: like enclosing_object)
+	make (a_target: like target)
 		do
-			Precursor (a_enclosing_object)
+			target := a_target
+			field_info_table := a_target.field_info_table
 
-			field_indices_table := a_enclosing_object.field_indices_table
+			New_instance_table.extend_from_list (a_target.new_instance_functions)
+			Reader_writer_table.merge (a_target.new_extra_reader_writer_table)
 
-			New_instance_table.extend_from_list (a_enclosing_object.new_instance_functions)
-			Reader_writer_table.merge (a_enclosing_object.new_extra_reader_writer_table)
-			create cached_field_indices_set.make_equal (3, agent field_indices_table.new_sub_set)
-			if attached a_enclosing_object.new_tuple_field_names as tuple_field_manifest then
-				if tuple_field_manifest.count = 0 then
-					tuple_field_table := Default_tuple_field_table
-				else
-					create tuple_field_table.make_by_indented (tuple_field_manifest)
-				end
-			end
-			tuple_converters := a_enclosing_object.new_tuple_converters
+			tuple_field_table := a_target.new_tuple_field_table
 
 			field_list := new_field_list
-			if attached a_enclosing_object.foreign_naming as translater then
+			if attached a_target.foreign_naming as translater then
 				field_list.set_export_names (translater)
 			end
-			field_table := field_list.to_table (a_enclosing_object)
-			if attached a_enclosing_object.foreign_naming as foreign_naming then
+			field_table := field_list.to_table (a_target)
+
+			field_printer := a_target.new_field_printer
+			if attached field_indices_subset (field_printer.hidden_fields) as hidden_fields then
+				field_printer.set_displayable_fields (field_table.new_field_subset (hidden_fields))
+			end
+
+			if attached a_target.foreign_naming as foreign_naming then
 				across field_table as table loop
 					foreign_naming.inform (table.key)
 				end
 			end
-			across enclosing_object.new_representations as representation loop
-				if field_table.has_key (representation.key) then
+			across target.new_representations as representation loop
+				if field_table.has_key_8 (representation.key) then
 					field_table.found_item.set_representation (representation.item)
 				end
 			end
@@ -89,30 +80,19 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	cached_field_indices_set: EL_CACHE_TABLE [EL_FIELD_INDICES_SET, STRING]
-
-	enclosing_object: EL_REFLECTIVE
-
-	field_list: EL_REFLECTED_FIELD_LIST
-
-	field_table: EL_REFLECTED_FIELD_TABLE
-
-feature -- Basic operations
-
-	print_fields (a_object: EL_REFLECTIVE; a_lio: EL_LOGGABLE)
-		local
-			line_length: INTEGER_REF
+	field_indices_subset (name_list: STRING): EL_FIELD_INDICES_SET
 		do
-			create line_length
-			if attached cached_field_indices_set.item (enclosing_object.new_hidden_fields) as hidden then
-				across field_list as list loop
-					if not hidden.has (list.item.index) then
-						print_field_value (a_object, list.item, line_length, a_lio)
-					end
-				end
-			end
-			a_lio.put_new_line
+			Result := field_info_table.field_indices_subset (name_list)
 		end
+
+	field_printer: EL_REFLECTIVE_CONSOLE_PRINTER
+
+	target: EL_REFLECTIVE
+		-- reflective target object
+
+	field_list: EL_FIELD_LIST
+
+	field_table: EL_FIELD_TABLE
 
 feature -- Status query
 
@@ -126,7 +106,7 @@ feature -- Status query
 		-- `True' if all fields in `name_list' have same value
 		do
 			Result := True
-			if attached cached_field_indices_set.item (name_list) as field_set and then attached field_list as list then
+			if attached field_indices_subset (name_list) as field_set and then attached field_list as list then
 				from list.start until not Result or list.after loop
 					if field_set.has (list.item.index) then
 						Result := list.item.are_equal (a_current, other)
@@ -165,57 +145,46 @@ feature {NONE} -- Factory
 		require
 			never_called: False
 		do
-			create {EL_REFLECTED_REFERENCE_ANY} Result.make (enclosing_object, index, name)
+			create {EL_REFLECTED_REFERENCE_ANY} Result.make (target, index, name)
 		end
 
-	new_field_list: EL_REFLECTED_FIELD_LIST
+	new_field_list: EL_FIELD_LIST
 		-- list of field names with empty strings in place of excluded fields
-		local
-			i, count: INTEGER; excluded_fields: EL_FIELD_INDICES_SET
-			field_name_list: EL_STRING_8_LIST
 		do
-			excluded_fields := field_indices_table.new_sub_set (enclosing_object.new_transient_fields)
-			count := field_count
-			create Result.make (count - excluded_fields.count)
-			from i := 1 until i > count loop
-				if not (is_field_transient (i) or else excluded_fields.has (i))
-					and then enclosing_object.field_included (field_type (i), field_static_type (i))
-				then
-					if attached field_name (i) as name and then not is_once_object (name) then
-						-- remove underscore used to distinguish field name from keyword
-						name.prune_all_trailing ('_')
-						Result.extend (new_reflected_field (i, name))
-						if attached {EL_REFLECTED_TUPLE} Result.last as tuple then
-							if tuple_field_table.has_key_general (name) then
-								field_name_list := tuple_field_table.found_item.to_string_8
-								tuple.set_field_name_list (field_name_list)
-							end
-							if tuple_converters.has_key (name) then
-								tuple.set_split_list_function (tuple_converters.found_item)
-							end
-						end
+			if attached field_info_table.new_not_transient_subset (target.new_transient_fields) as name_list then
+				create Result.make (name_list.count)
+				across name_list as list loop
+					if field_info_table.has_immutable_key (list.item)
+						and then attached field_info_table.found_type_info as field
+						and then target.field_included (field)
+					then
+						Result.extend (new_reflected_field (field, list.item))
 					end
 				end
-				i := i + 1
+				Result.set_order (target.new_field_sorter, field_info_table)
+			else
+				create Result.make (0)
 			end
-			Result.set_order (Current)
 		end
 
-	new_reference_field (index: INTEGER; name: STRING): EL_REFLECTED_FIELD
+	new_reference_field (field: EL_FIELD_TYPE_PROPERTIES; name: IMMUTABLE_STRING_8): EL_REFLECTED_FIELD
 		local
-			type_id: INTEGER
+			type_id, index: INTEGER
 		do
-			type_id := field_static_type (index)
+			type_id := field.static_type; index := field.index
 			if Non_abstract_field_type_table.has_key (type_id) then
-				Result := Field_factory.new_item (Non_abstract_field_type_table.found_item, enclosing_object, index, name)
+				Result := Field_factory.new_item (Non_abstract_field_type_table.found_item, target, index, name)
 
 			elseif attached matched_field_type (type_id) as matched_type then
-				Result := Field_factory.new_item (matched_type, enclosing_object, index, name)
+				Result := Field_factory.new_item (matched_type, target, index, name)
 
 			elseif attached matched_collection_factory (type_id) as collection then
-				Result := collection.new_field (enclosing_object, index, name)
+				Result := collection.new_field (target, index, name)
 			else
-				create {EL_REFLECTED_REFERENCE_ANY} Result.make (enclosing_object, index, name)
+				create {EL_REFLECTED_REFERENCE_ANY} Result.make (target, index, name)
+			end
+			if attached {EL_REFLECTED_TUPLE} Result as tuple then
+				tuple_field_table.initialize_field (tuple)
 			end
 		end
 
@@ -228,19 +197,19 @@ feature {NONE} -- Factory
 			create Result.make_from_list (agent {EL_REFLECTED_REFERENCE [ANY]}.group_type, Reference_field_list)
 		end
 
-	new_reflected_field (index: INTEGER; name: STRING): EL_REFLECTED_FIELD
-		local
-			type: INTEGER
+	new_reflected_field (field: EL_FIELD_TYPE_PROPERTIES; name: IMMUTABLE_STRING_8): EL_REFLECTED_FIELD
 		do
-			type := field_type (index)
-			inspect type
+			inspect field.abstract_type
 				when Reference_type then
-					Result := new_reference_field (index, name)
+					Result := new_reference_field (field, name)
 
 				when Expanded_type then
-					Result := new_expanded_field (index, name)
+					Result := new_expanded_field (field.index, name)
+
 			else
-				Result := Field_factory.new_item (Standard_field_types [type], enclosing_object, index, name)
+				if attached Standard_field_types [field.abstract_type] as field_type then
+					Result := Field_factory.new_item (field_type, target, field.index, name)
+				end
 			end
 		end
 
@@ -263,12 +232,6 @@ feature {NONE} -- Implementation
 			if Group_type_order_table.has_key (a_field.group_type)  then
 				Result := Group_type_order_table.found_item
 			end
-		end
-
-	is_once_object (name: STRING): BOOLEAN
-		-- `True' if `name' is a once ("OBJECT") field name
-		do
-			Result := name.count > 0 and then name [1] = '_'
 		end
 
 	matched_collection_factory (type_id: INTEGER): detachable like Collection_field_factory_factory.new_item_factory
@@ -296,61 +259,18 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	print_field_value (a_object: EL_REFLECTIVE; a_field: EL_REFLECTED_FIELD; line_length: INTEGER_REF; a_lio: EL_LOGGABLE)
-		local
-			length: INTEGER; value: ZSTRING; exceeded_maximum: BOOLEAN
-		do
-			if attached {EL_REFLECTED_COLLECTION [ANY]} a_field as collection
-				and then {ISE_RUNTIME}.type_conforms_to (collection.item_type_id, Class_id.EL_REFLECTIVE)
-			then
-				line_length.set_item (0)
-				a_lio.put_new_line
-				collection.print_items (a_object, a_lio)
-			else
-				across Reuseable.string as reuse loop
-					value := reuse.item
-					a_field.append_to_string (a_object, value)
-					length := a_field.name.count + value.count + 2
-					if line_length.item > 0 then
-						exceeded_maximum := line_length.item + length > Info_line_length
-						if not exceeded_maximum then
-							a_lio.put_character (';'); a_lio.put_character (' ')
-						end
-						if exceeded_maximum then
-							a_lio.put_new_line
-							line_length.set_item (0)
-						end
-					end
-					a_lio.put_labeled_string (a_field.name, value)
-					line_length.set_item (line_length.item + length)
-				end
-			end
-		end
+feature {EL_REFLECTION_HANDLER} -- Internal attributes
 
-feature {NONE} -- Internal attributes
+	tuple_field_table: EL_TUPLE_FIELD_TABLE
 
-	tuple_field_table: EL_IMMUTABLE_STRING_8_TABLE
-
-	tuple_converters: like enclosing_object.new_tuple_converters
-
-	field_indices_table: EL_FIELD_INDICES_TABLE
+	field_info_table: EL_OBJECT_FIELDS_TABLE
 		-- complete table of object field indices by name
 
 feature {NONE} -- Constants
 
-	Default_tuple_field_table: EL_IMMUTABLE_STRING_8_TABLE
-		once
-			create Result.make_empty
-		end
-
 	Field_factory: EL_INITIALIZED_FIELD_FACTORY
 		once
 			create Result
-		end
-
-	Info_line_length: INTEGER
-		once
-			Result := 100
 		end
 
 	Reference_group_table: EL_FUNCTION_GROUP_TABLE [EL_REFLECTED_REFERENCE [ANY], TYPE [ANY]]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 9:49:46 GMT (Thursday 5th January 2023)"
-	revision: "1"
+	date: "2023-08-02 14:36:39 GMT (Wednesday 2nd August 2023)"
+	revision: "3"
 
 class
 	EL_CSV_ZSTRING_ESCAPER_IMP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_CSV_ESCAPER_IMP [ZSTRING]
 		undefine
-			make, to_code, to_unicode
+			bit_count, make, to_code, to_unicode
 		end
 
 	EL_ZSTRING_ESCAPER_IMP

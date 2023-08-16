@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2023-08-13 13:13:43 GMT (Sunday 13th August 2023)"
+	revision: "17"
 
 class
 	EL_DOCUMENT_EIFFEL_OBJECT_BUILDER
@@ -41,10 +41,10 @@ feature {NONE} -- Parsing events
 			apply_building_action_for_node (last_node)
 		end
 
-	on_content
+	on_content (node: EL_DOCUMENT_NODE_STRING)
 			--
 		do
-			apply_building_action_for_node (last_node)
+			apply_building_action_for_node (node)
 		end
 
 	on_end_document
@@ -81,33 +81,31 @@ feature {NONE} -- Parsing events
 	on_start_tag
 			--
 		local
-			current_index: INTEGER
+			i, j: INTEGER
 		do
 			if attached context_stack.item as top_item then
 				top_item.set_node (last_node)
-				top_item.add_xpath_step (last_node.xpath_name (False))
+				top_item.extend_xpath (last_node)
 				top_item.do_with_xpath
 
 				if attached top_item.next_context as next_context then
 					change_context (next_context)
 				end
-				if attached attribute_list as list then
-					from list.start until list.after loop
-						apply_building_action_for_node (list.node)
+				if attached attribute_list.area as area and then area.count > 0 then
+					from until i = area.count loop
+						apply_building_action_for_node (area [i])
 
 						if attached context_stack.item.next_context as next_context then
 							change_context (next_context)
 
-							current_index := list.index
-							from list.start until list.after loop
-								if list.index /= current_index then
-									apply_building_action_for_node (list.node)
+							from j := 0 until j = area.count loop
+								if i /= j then
+									apply_building_action_for_node (area [j])
 								end
-								list.forth
+								j := j + 1
 							end
-							list.go_i_th (current_index)
 						end
-						list.forth
+						i := i + 1
 					end
 				end
 			end
@@ -141,7 +139,7 @@ feature {NONE} -- Implementation
 		do
 			if attached context_stack.item as top_item then
 				top_item.set_node (node)
-				top_item.add_xpath_step (node.xpath_name (False))
+				top_item.extend_xpath (node)
 				top_item.do_with_xpath
 				top_item.remove_xpath_step
 			end

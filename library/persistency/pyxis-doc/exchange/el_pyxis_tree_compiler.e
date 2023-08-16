@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:48:13 GMT (Tuesday 14th February 2023)"
-	revision: "20"
+	date: "2023-08-16 10:44:47 GMT (Wednesday 16th August 2023)"
+	revision: "21"
 
 deferred class
 	EL_PYXIS_TREE_COMPILER
@@ -108,7 +108,7 @@ feature {NONE} -- Implementation
 			if manifest_path.exists then
 				across open_lines (manifest_path, Utf_8) as list loop
 					line := list.item
-					if line.count > 0 and then line [1] /= '#' then
+					if not line.starts_with_character ('#') then
 						if line.ends_with_character ('/') then
 							line.remove_tail (1)
 							create {DIR_PATH} path.make (line)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-23 7:31:18 GMT (Friday 23rd June 2023)"
-	revision: "21"
+	date: "2023-07-29 10:14:55 GMT (Saturday 29th July 2023)"
+	revision: "23"
 
 deferred class
 	EL_EIF_OBJ_BUILDER_CONTEXT
@@ -56,24 +56,31 @@ feature {EL_EIF_OBJ_BUILDER_CONTEXT} -- Element change
 	modify_xpath_to_select_element_by_attribute_value
 			-- Change xpath from: /AAA/BBB/@name to: /AAA/BBB[@name='x']/@name
 			-- where x is the current value of @name
+			-- (method does not require any new string to be created)
 		require
 			valid_xpath: is_xpath_attribute
 			xpath_has_at_least_one_element: xpath_has_at_least_one_element
 		local
-			separator_pos: INTEGER; attribute_name: ZSTRING
+			index_at, name_count: INTEGER
 		do
-			separator_pos := xpath.last_index_of (xpath_step_separator, xpath.count)
-			attribute_name := xpath.substring (separator_pos + 1, xpath.count)
-			remove_xpath_step
-			xpath.append_character ('[')
-			xpath.append (attribute_name)
-			xpath.append_string_general ("='")
-			xpath.append (node.to_string)
-			xpath.append_string_general ("']")
+			index_at := xpath.last_index_of ('@', xpath.count)
+			name_count := xpath.count - index_at
 
-			-- In case /AAA/BBB[@name='x'] has an action assigned to it
+			if index_at - 1 > 0 then
+				xpath [index_at - 1] := '['
+			else
+				xpath.insert_character ('[', index_at)
+				index_at := index_at + 1
+			end
+			xpath.append (Equal_to_literal) -- ='']
+			xpath.insert_string (node.adjusted_8 (False), xpath.count - 1)
+
+			-- First trying applying match action for: /AAA/BBB[@name='x']
 			apply_building_action_for_xpath
-			add_xpath_step (attribute_name)
+
+			xpath.append_character ('/')
+			xpath.append_substring (xpath, index_at, index_at + name_count) -- /AAA/BBB[@name='x']/@name
+
 		end
 
 	refresh_building_actions
@@ -92,7 +99,7 @@ feature {EL_EIF_OBJ_BUILDER_CONTEXT} -- Factory
 		do
 			action_table := building_action_table
 			action_table.compare_objects
-			add_builder_actions_for_xpaths_containing_attribute_value_predicates (action_table)
+			add_builder_actions_for_xpaths_selectors (action_table)
 
 			create Result.make_size (action_table.count)
 			Result.compare_objects
@@ -108,22 +115,24 @@ feature {EL_DOCUMENT_CLIENT} -- Implementation attributes
 
 feature {NONE} -- Implementation
 
-	add_builder_actions_for_xpaths_containing_attribute_value_predicates (a_building_actions: EL_PROCEDURE_TABLE [STRING])
-			--
+	add_builder_actions_for_xpaths_selectors (a_building_actions: like building_actions)
+		-- add builder actions for xpaths containing attribute value predicates
+		-- /AAA/BBB[@name='x']/@name
 		local
-			xpath_array: ARRAY [STRING]
-			i: INTEGER
+			xpath_array: ARRAY [STRING]; i: INTEGER
 		do
 			xpath_array := a_building_actions.current_keys
 			from i := 1 until i > xpath_array.count loop
 				XPath_parser.set_source_text (xpath_array [i])
 				XPath_parser.parse
 
-				if XPath_parser.path_contains_attribute_value_predicate then
-					across xpaths_ending_with_attribute_value_predicate (XPath_parser.step_list) as xpath_to_selecting_attribute loop
-						a_building_actions.put (
-							agent modify_xpath_to_select_element_by_attribute_value, xpath_to_selecting_attribute.item
-						)
+				if XPath_parser.path_contains_attribute_value_predicate
+					and then attached xpaths_ending_with_attribute_value_predicate (XPath_parser.step_list) as xpath_list
+				then
+					across xpath_list as list loop
+						if attached list.item as l_xpath then
+							a_building_actions.put (agent modify_xpath_to_select_element_by_attribute_value, l_xpath)
+						end
 					end
 				end
 				i := i + 1
@@ -192,5 +201,7 @@ feature {NONE} -- Constants
 		once
 			create Result.make
 		end
+
+	Equal_to_literal: STRING = "='']"
 
 end

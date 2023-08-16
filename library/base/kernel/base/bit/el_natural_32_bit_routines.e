@@ -6,17 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-04 16:29:55 GMT (Saturday 4th February 2023)"
-	revision: "9"
+	date: "2023-07-27 4:56:25 GMT (Thursday 27th July 2023)"
+	revision: "10"
 
 expanded class
 	EL_NATURAL_32_BIT_ROUTINES
 
 inherit
 	EL_NUMERIC_BIT_ROUTINES
-		rename
-			Natural_32_bits as bit_count
-		end
+
+	EL_32_BIT_IMPLEMENTATION
 
 feature -- Access
 

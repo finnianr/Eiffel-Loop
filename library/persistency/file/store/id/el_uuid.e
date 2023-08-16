@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 11:11:27 GMT (Monday 5th December 2022)"
-	revision: "23"
+	date: "2023-07-20 11:17:35 GMT (Thursday 20th July 2023)"
+	revision: "24"
 
 class
 	EL_UUID
@@ -27,7 +27,7 @@ inherit
 		undefine
 			out
 		redefine
-			field_order
+			new_field_sorter
 		end
 
 	EL_MAKEABLE_FROM_STRING [STRING_8]
@@ -110,10 +110,11 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	field_order: like Default_field_order
+	new_field_sorter: like Default_field_order
 		-- read/write fields in alphabetical order
 		do
-			Result := agent {EL_REFLECTED_FIELD}.name
+			create Result.make_default
+			Result.set_alphabetical_sort
 		end
 
 feature -- Constants

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-19 10:59:48 GMT (Sunday 19th March 2023)"
-	revision: "10"
+	date: "2023-08-13 13:21:15 GMT (Sunday 13th August 2023)"
+	revision: "12"
 
 class
 	EL_DOCUMENT_NODE_LOGGER
@@ -72,18 +72,21 @@ feature {NONE} -- Parsing events
 	on_start_tag
 			--
 		local
-			i: INTEGER; attribute_node: EL_ELEMENT_ATTRIBUTE_NODE_STRING
+			i: INTEGER
 		do
 			lio.put_line ("on_start_tag")
-			add_xpath_step (last_node.xpath_name (False))
+			extend_xpath (last_node)
 			lio.put_line (xpath)
-			from i := 1  until i > attribute_list.count loop
-				attribute_node := attribute_list [i]
-				add_xpath_step (attribute_node.xpath_name (False))
-				lio.put_string_field (xpath, attribute_node.to_string)
-				lio.put_new_line
-				remove_xpath_step
-				i := i + 1
+			if attached attribute_list.area as area and then area.count > 0 then
+				from until i = area.count loop
+					if attached area [i] as attribute_node then
+						extend_xpath (attribute_node)
+						lio.put_string_field (xpath, attribute_node.to_string)
+						lio.put_new_line
+						remove_xpath_step
+					end
+					i := i + 1
+				end
 			end
 			lio.put_new_line
 		end
@@ -97,13 +100,13 @@ feature {NONE} -- Parsing events
 			lio.put_new_line
 		end
 
-	on_content
+	on_content (a_node: EL_DOCUMENT_NODE_STRING)
 			--
 		do
 			lio.put_line ("on_content")
-			add_xpath_step (last_node.xpath_name (False))
+			extend_xpath (a_node)
 			lio.put_line (xpath)
-			lio.put_curtailed_string_field ("CONTENT", last_node.adjusted (False), 120)
+			lio.put_curtailed_string_field ("CONTENT", a_node.adjusted (False), 120)
 			remove_xpath_step
 			lio.put_new_line
 		end
@@ -112,7 +115,7 @@ feature {NONE} -- Parsing events
 			--
 		do
 			lio.put_line ("on_comment")
-			add_xpath_step (last_node.xpath_name (False))
+			extend_xpath (last_node)
 			lio.put_line (xpath)
 			lio.put_line (last_node.adjusted (False))
 			remove_xpath_step

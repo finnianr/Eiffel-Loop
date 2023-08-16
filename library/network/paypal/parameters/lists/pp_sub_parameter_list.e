@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 17:02:42 GMT (Sunday 16th July 2023)"
-	revision: "11"
+	date: "2023-08-14 8:32:57 GMT (Monday 14th August 2023)"
+	revision: "12"
 
 deferred class
 	PP_SUB_PARAMETER_LIST
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 
 	make_from_object (object: EL_REFLECTIVE)
 		local
-			field_list: EL_REFLECTED_FIELD_LIST
+			field_list: EL_FIELD_LIST
 			value: ZSTRING; i: INTEGER
 		do
 			field_list := object.meta_data.field_list

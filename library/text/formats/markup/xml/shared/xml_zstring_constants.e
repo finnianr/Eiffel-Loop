@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 11:12:30 GMT (Thursday 5th January 2023)"
-	revision: "14"
+	date: "2023-08-02 14:41:07 GMT (Wednesday 2nd August 2023)"
+	revision: "15"
 
 deferred class
 	XML_ZSTRING_CONSTANTS
 
 inherit
 	EL_ANY_SHARED
+
+	EL_MODULE_TUPLE
 
 feature {NONE} -- Constants
 
@@ -24,24 +26,10 @@ feature {NONE} -- Constants
 			]"
 		end
 
-	Close_tag_marker: ZSTRING
+	Bracket: TUPLE [left, left_slash, right, slash_right: ZSTRING]
 		once
-			Result := "</"
-		end
-
-	Empty_tag_marker: ZSTRING
-		once
-			Result := "/>"
-		end
-
-	Sign_less_than: ZSTRING
-		once
-			Result := "<"
-		end
-
-	Sign_greater_than: ZSTRING
-		once
-			Result := ">"
+			create Result
+			Tuple.fill (Result, "<, </, >, />")
 		end
 
 feature {NONE} -- Escaping

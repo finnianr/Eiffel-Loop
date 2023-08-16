@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-13 17:20:09 GMT (Thursday 13th July 2023)"
-	revision: "65"
+	date: "2023-08-15 10:24:44 GMT (Tuesday 15th August 2023)"
+	revision: "67"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -21,7 +21,7 @@ inherit
 			on_prepare
 		end
 
-	EL_MODULE_HTML; EL_MODULE_IP_ADDRESS; EL_MODULE_WEB
+	EL_MODULE_HTML; EL_MODULE_IP_ADDRESS; EL_MODULE_WEB; EL_MODULE_XML
 
 	EL_SHARED_GEOGRAPHIC_INFO_TABLE; EL_SHARED_IP_ADDRESS_GEOLOCATION
 
@@ -58,8 +58,7 @@ feature -- Tests
 		note
 			testing: "covers/{EL_CACHED_HTTP_FILE}.make", "covers/{EL_HTTP_CONNECTION}.download"
 		local
-			url: STRING; cached_file: EL_CACHED_HTTP_FILE; line_count: INTEGER
-			first_line: STRING
+			url: STRING; cached_file: EL_CACHED_HTTP_FILE
 		do
 			across << Http >> as protocol loop -- Https
 				across Document_table as table loop
@@ -67,20 +66,9 @@ feature -- Tests
 					lio.put_labeled_string ("url", url)
 					lio.put_new_line
 					create cached_file.make (url, 24)
-					cached_file.open_read
-					line_count := 0
-					across cached_file.lines as line loop
-						line_count := line_count + 1
-						if line_count = 1 then
-							first_line := line.item
-						end
-					end
-					cached_file.close
-					lio.put_integer_field (first_line, line_count)
-					lio.put_new_line
 
-					if attached table.item as info then
-						assert ("retrieved", first_line.starts_with (info.leading) and line_count = info.line_count)
+					if attached value_at_xpath (File.plain_text (cached_file.path), table.item.xpath) as value then
+						assert ("xpath matches", value.starts_with (table.item.first_words))
 					end
 					lio.put_new_line
 				end
@@ -101,14 +89,14 @@ feature -- Tests
 
 				web.set_cookie_paths (Cookie_path)
 				web.open (url)
-				web.read_string_get
+				try_3_times (agent web.read_string_get)
 				assert_same_string ("is redirection page", h1_text (web.last_string), "Redirecting...")
 				web.close
 			end
 
 			create cookies.make_from_file (Cookie_path)
 			web.open (Cookies_url)
-			web.read_string_get
+			try_3_times (agent web.read_string_get)
 			json_fields := new_json_fields (web.last_string)
 
 			assert ("two cookies set", cookies.count = 2)
@@ -124,7 +112,6 @@ feature -- Tests
 	test_download_document_and_headers
 		local
 			url: STRING; headers: like web.last_headers
-			line_count: INTEGER
 		do
 			across << Http >> as protocol loop -- Https
 				across Document_table as table loop
@@ -133,7 +120,7 @@ feature -- Tests
 					lio.put_new_line
 					web.open (url)
 
-					web.read_string_head
+					try_3_times (agent web.read_string_head)
 					headers := web.last_headers
 					print_lines (web)
 					assert_valid_headers (headers)
@@ -143,10 +130,9 @@ feature -- Tests
 						assert ("valid content_type", headers.mime_type ~ "text/html")
 						assert ("valid encoding_name", headers.encoding_name ~ "utf-8")
 					end
-					web.read_string_get
-					line_count := web.last_string.occurrences ('%N') + 1
-					if attached table.item as info then
-						assert ("retrieved", web.last_string.starts_with (info.leading) and line_count = info.line_count)
+					try_3_times (agent web.read_string_get)
+					if attached value_at_xpath (web.last_string, table.item.xpath) as value then
+						assert ("xpath matches", value.starts_with (table.item.first_words))
 					end
 					assert ("valid content_length", headers.content_length = web.last_string.count)
 
@@ -166,11 +152,11 @@ feature -- Tests
 			across << "png", "jpeg", "webp", "svg" >> as image loop
 				image_url := Image_url_stem + image.item
 				web.open (image_url)
-				try_read_string_head
+				try_3_times (agent web.read_string_head)
 				print_lines (web)
 
 				if attached new_image_path (image.item) as image_path then
-					web.download (image_path)
+					try_3_times (agent web.download (image_path))
 
 					headers := web.last_headers
 					assert_valid_headers (headers)
@@ -249,7 +235,7 @@ feature -- Tests
 			across << "png", "jpeg", "webp", "svg" >> as image loop
 				image_url := Image_url_stem + image.item
 				web.open (image_url)
-				try_read_string_head
+				try_3_times (agent web.read_string_head)
 				print_lines (web)
 
 				headers := web.last_headers
@@ -381,8 +367,17 @@ feature {NONE} -- Implementation
 			else
 				lio.put_integer_field (Http_status.name (headers.response_code), headers.response_code)
 				lio.put_new_line
-				assert ("valid response_code", False)
+				failed ("valid response_code")
 			end
+		end
+
+	assert_document_retrieved (expected_leading_string_and_count: IMMUTABLE_STRING_8; doc_text: STRING; line_count: INTEGER)
+		local
+			list: EL_STRING_8_LIST
+		do
+			list := expected_leading_string_and_count.to_string_8
+			assert ("2 items", list.count = 2)
+			assert ("retrieved", doc_text.starts_with (list.first) and line_count = list.last.to_integer)
 		end
 
 	element_text (name: STRING; a_text: STRING): ZSTRING
@@ -411,6 +406,22 @@ feature {NONE} -- Implementation
 			Result := parts.count = 2 and then across parts.last.split ('.') as n all n.item.is_natural end
 		end
 
+	value_at_xpath (text, xpath: STRING): ZSTRING
+		local
+			xdoc: EL_XML_DOC_CONTEXT
+		do
+			if XML.is_xml_declaration (text) then
+				create xdoc.make_from_string (text)
+
+			elseif HTML.is_document (text) then
+				create xdoc.make_from_xhtml (text)
+			else
+				create xdoc.make_from_fragment (text, {CODE_PAGE_CONSTANTS}.Utf8)
+			end
+			Result := xdoc @ xpath
+			Result.left_adjust
+		end
+
 	print_lines (a_web: like web)
 		do
 			across a_web.last_string.split ('%N') as line loop
@@ -419,15 +430,17 @@ feature {NONE} -- Implementation
 			lio.put_new_line
 		end
 
-	try_read_string_head
+	try_3_times (web_operation: PROCEDURE)
 		-- try 3 times if error is gateway timeout
+		require
+			target_is_web: web_operation.target = web
 		local
 			done: BOOLEAN
 		do
 			across 1 |..| 3 as n until done loop
 				lio.put_integer_field ("Try number", n.item)
 				lio.put_new_line
-				web.read_string_head
+				web_operation.apply
 				if web.has_error then
 					done := not web.is_gateway_timeout
 				else
@@ -515,13 +528,13 @@ feature {NONE} -- Constants
 
 	Cookies_url: STRING = "http://httpbin.org/cookies"
 
-	Document_table: EL_HASH_TABLE [TUPLE [leading: STRING; line_count: INTEGER], STRING]
+	Document_table: EL_HASH_TABLE [TUPLE [xpath, first_words: STRING], STRING]
 		-- table of predicates to test if document was retrieved
 		once
 			create Result.make (<<
-				["html",			["<!DOCTYPE html>", 14]],
-				["links/10/0",	["<html><head><title>Links", 1]],
-				["xml",			["<?xml version='1.0'", 24]]
+				["html",			["/html/body/div/p", "Availing himself"]],
+				["links/10/0",	["/html/body/a", "1"]],
+				["xml",			["/slideshow/slide[1]/title", "Wake up"]]
 			>>)
 		end
 

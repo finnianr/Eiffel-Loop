@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:03 GMT (Monday 20th March 2023)"
-	revision: "19"
+	date: "2023-08-07 6:24:23 GMT (Monday 7th August 2023)"
+	revision: "21"
 
 class
 	EL_SPLIT_INTERVALS
@@ -21,10 +21,8 @@ inherit
 			extend_buffer
 		end
 
-	EL_SHARED_UNICODE_PROPERTY
-
 create
-	make, make_empty, make_by_string, make_sized
+	make, make_empty, make_by_string, make_sized, make_from_special
 
 feature {NONE} -- Implementation
 

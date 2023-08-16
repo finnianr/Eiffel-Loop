@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-22 13:19:43 GMT (Thursday 22nd June 2023)"
-	revision: "27"
+	date: "2023-07-22 19:56:33 GMT (Saturday 22nd July 2023)"
+	revision: "28"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -92,7 +92,7 @@ feature -- Basic operations
 			if is_valid.item then
 				lio.put_path_field ("Output %S", output_dir)
 				lio.put_new_line
-				lio.put_path_field ("Project", project_config.pyxis_ecf_path)
+				lio.put_path_field ("Project", project_config.ecf_pyxis_path)
 				lio.put_new_line
 				if architecture_list.count > 0 then
 					if build_exe and architecture_list.has (64) and not dry_run then

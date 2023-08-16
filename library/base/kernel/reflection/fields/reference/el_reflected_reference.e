@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-17 16:16:13 GMT (Monday 17th July 2023)"
-	revision: "39"
+	date: "2023-08-14 11:10:29 GMT (Monday 14th August 2023)"
+	revision: "41"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -27,7 +27,7 @@ inherit
 
 feature {EL_CLASS_META_DATA} -- Initialization
 
-	make (a_object: like enclosing_object; a_index: INTEGER; a_name: STRING)
+	make (a_object: like enclosing_object; a_index: INTEGER; a_name: IMMUTABLE_STRING_8)
 		do
 			Precursor (a_object, a_index, a_name)
 			if attached {EL_READER_WRITER_INTERFACE [G]} Reader_writer_table.item (type_id) as extra then
@@ -165,13 +165,10 @@ feature -- Comparison
 
 	are_equal (a_current, other: EL_REFLECTIVE): BOOLEAN
 		do
-			if attached value (a_current) as v then
-				if attached value (other) as o then
-					Result := v.is_equal (o)
-				end
+			if attached value (a_current) as this_value and then attached value (other) as other_value then
+				Result := this_value.is_equal (other_value)
 			else
---				Both void
-				Result := not attached value (other)
+				Result := True -- Both fields are Void so they are equal
 			end
 		end
 

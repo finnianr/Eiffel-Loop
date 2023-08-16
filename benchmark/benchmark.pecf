@@ -53,6 +53,7 @@ system:
 			location = "$EIFFEL_LOOP/library"
 			EL_app_manage = "app-manage.ecf"
 			EL_c_api = "C-language-interface.ecf"
+			EL_doc_scan = "document-scan.ecf"
 			EL_evolicity = "evolicity.ecf"
 			EL_fast_cgi = "fast-cgi.ecf"
 			EL_logging = "logging.ecf"
@@ -60,11 +61,19 @@ system:
 			EL_testing = "testing.ecf"
 			EL_text_formats = "text-formats.ecf"
 			EL_vtd_xml = "vtd-xml.ecf"
+			EL_xml_scan = "xml-scan.ecf"
 
 			EL_base = "base/base.ecf"
 			option:
 				assertions:
 					precondition = true; postcondition = true; check = true
+
+		# clusters in common with other project
+		cluster_tree:
+			test_common = "$EIFFEL_LOOP/test/source/common"
+
+		cluster:
+			name = rhythmbox; location = "$EIFFEL_LOOP/example/manage-mp3/source/rhythmbox/constants/common"
 			
 		# Source
 		cluster_tree:
@@ -81,7 +90,5 @@ system:
 
 					See doc/benchmark.txt for details
 				"""
-		cluster_tree:
-			test_common = "$EIFFEL_LOOP/test/source/common"
 
 

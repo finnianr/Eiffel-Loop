@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 13:55:53 GMT (Saturday 29th April 2023)"
-	revision: "29"
+	date: "2023-07-31 15:08:09 GMT (Monday 31st July 2023)"
+	revision: "30"
 
 class
 	EIFFEL_NOTES
@@ -65,16 +65,14 @@ feature -- Access
 			end
 		end
 
-	field_list: EL_ARRAYED_LIST [EVOLICITY_CONTEXT]
+	field_list: EL_ARRAYED_LIST [EVOLICITY_TUPLE_CONTEXT]
 		local
-			context: EVOLICITY_CONTEXT_IMP; element_list: NOTE_HTML_TEXT_ELEMENT_LIST
+			context: EVOLICITY_TUPLE_CONTEXT; element_list: NOTE_HTML_TEXT_ELEMENT_LIST
 		do
 			create Result.make (fields.count)
 			across fields as l_field loop
 				create element_list.make (l_field.item, relative_class_dir)
-				create context.make
-				context.put_variable (element_list, Var_element_list)
-				context.put_variable (new_title (l_field.key), Var_title)
+				create context.make ([element_list, l_field.key], once "element_list, title")
 				if l_field.key ~ Field_description then
 					Result.put_front (context)
 				else
@@ -335,9 +333,5 @@ feature {NONE} -- Constants
 		once
 			Result := << "Summary description for",  "Objects that ..." >>
 		end
-
-	Var_element_list: STRING = "element_list"
-
-	Var_title: STRING = "title"
 
 end

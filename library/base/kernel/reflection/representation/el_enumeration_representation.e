@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 12:02:32 GMT (Sunday 16th July 2023)"
-	revision: "7"
+	date: "2023-08-14 9:37:28 GMT (Monday 14th August 2023)"
+	revision: "10"
 
 class
 	EL_ENUMERATION_REPRESENTATION [N -> NUMERIC]
@@ -51,35 +51,27 @@ feature -- Basic operations
 
 	append_to_string (a_value: like to_value; str: ZSTRING)
 		do
-			str.append_string_general (enumeration.name (a_value))
+			if enumeration.is_valid_value (a_value) then
+				str.append_string_general (enumeration.name (a_value))
+			else
+				enumeration.write_value (str, a_value)
+			end
 		end
 
-	to_value (str: READABLE_STRING_GENERAL): N
+	to_value (a_name: READABLE_STRING_GENERAL): N
 		do
-			if attached {STRING} str as string_8 then
-				Result := enumeration.value (string_8.to_string_8)
+			if a_name.is_natural_32 then
+				Result := enumeration.to_compatible (a_name.to_natural_32)
+
 			else
-				Result := enumeration.value (Buffer_8.copied_general (str))
+				Result := enumeration.value (a_name)
 			end
 		end
 
 	write_crc (crc: EL_CYCLIC_REDUNDANCY_CHECK_32)
 		do
 			Precursor (crc)
-			across enumeration.field_table as table loop
-				crc.add_string_8 (table.key)
-				if attached {N} table.item.value (enumeration) as enum_value then
-					if attached {NATURAL_8} enum_value as natural_8 then
-						crc.add_natural_8 (natural_8)
-					elseif attached {NATURAL_16} enum_value as natural_16 then
-						crc.add_natural_16 (natural_16)
-					else
-						check
-							added_to_crc: False
-						end
-					end
-				end
-			end
+			enumeration.write_crc (crc)
 		end
 
 end

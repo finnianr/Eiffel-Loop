@@ -10,11 +10,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-22 18:02:01 GMT (Monday 22nd May 2023)"
-	revision: "1"
+	date: "2023-08-16 9:24:29 GMT (Wednesday 16th August 2023)"
+	revision: "2"
 
 class
 	MANIFEST_TUPLE_LINE
+
+inherit
+	ANY
+
+	EL_CHARACTER_CONSTANTS
 
 create
 	make
@@ -66,7 +71,6 @@ feature -- Element change
 		-- with tabs expanded to `Spaces_per_tab' spaces
 		local
 			aligned_column, remainder_count, space_insertion_count, tab_insertion_count: INTEGER
-			s: EL_ZSTRING_ROUTINES; remainder_spaces, tabbed_space: ZSTRING
 		do
 			if comma_index > 0 then
 				aligned_column := tab_aligned_column (comma_column)
@@ -82,10 +86,9 @@ feature -- Element change
 					space_insertion_count := remainder_count \\ Spaces_per_tab
 				end
 
-				tabbed_space := s.n_character_string ('%T', tab_insertion_count)
-				remainder_spaces := s.n_character_string (' ', space_insertion_count)
-
-				text.replace_substring (tabbed_space + remainder_spaces, comma_index + 1, item_index - 1)
+				text.replace_substring (
+					Tab #* tab_insertion_count + Space #* space_insertion_count, comma_index + 1, item_index - 1
+				)
 			end
 		end
 

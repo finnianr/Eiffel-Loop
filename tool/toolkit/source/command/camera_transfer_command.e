@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-11 8:50:49 GMT (Thursday 11th May 2023)"
-	revision: "8"
+	date: "2023-07-22 19:35:59 GMT (Saturday 22nd July 2023)"
+	revision: "9"
 
 class
 	CAMERA_TRANSFER_COMMAND
@@ -22,7 +22,7 @@ inherit
 		export
 			{EL_COMMAND_CLIENT} make
 		redefine
-			new_tuple_field_names, root_node_name
+			new_tuple_field_table, root_node_name
 		end
 
 	EL_APPLICATION_COMMAND
@@ -99,11 +99,12 @@ feature {NONE} -- Implementation
 			Result := Date_sort_template #$ [alias_name, year, Format.zero_padded_integer (month, 2), month_name]
 		end
 
-	new_tuple_field_names: like Default_tuple_field_names
+	new_tuple_field_table: like Default_tuple_field_table
 		do
-			create Result.make (<<
-				["device","name, is_windows_format"]
-			>>)
+			Result := "[
+				device:
+					name, is_windows_format
+			]"
 		end
 
 	transfer (volume: EL_GVFS_VOLUME; file_list: EL_FILE_PATH_LIST)

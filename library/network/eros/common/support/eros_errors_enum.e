@@ -1,13 +1,13 @@
 note
-	description: "Eros errors enum"
+	description: "Enumeration EROS server error"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 11:46:22 GMT (Sunday 16th July 2023)"
-	revision: "6"
+	date: "2023-08-13 8:24:44 GMT (Sunday 13th August 2023)"
+	revision: "7"
 
 class
 	EROS_ERRORS_ENUM
@@ -15,11 +15,10 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
-			foreign_naming as eiffel_naming,
-			make as make_enumeration
+			foreign_naming as eiffel_naming
+		redefine
+			Description_table
 		end
-
-	EL_DESCRIPTIVE_ENUMERATION [NATURAL_8]
 
 create
 	make
@@ -42,20 +41,23 @@ feature -- Access
 
 feature {NONE} -- Constants
 
-	Descriptions: STRING = "[
-		argument_type_mismatch:
-			Argument type in processing instruction call and routine tuple do not match
-		invalid_type:
-			Class name is empty or not a valid type
-		invalid_result:
-			Call result is void
-		syntax_error_in_routine_call:
-			Syntax error in routine call
-		routine_not_found:
-			The named routine was not found
-		once_function_not_found:
-			Named once function not found in class
-		wrong_number_of_arguments:
-			Wrong number of arguments to routine
-	]"
+	Description_table: EL_IMMUTABLE_UTF_8_TABLE
+		once
+			create Result.make ("[
+				argument_type_mismatch:
+					Argument type in processing instruction call and routine tuple do not match
+				invalid_type:
+					Class name is empty or not a valid type
+				invalid_result:
+					Call result is void
+				syntax_error_in_routine_call:
+					Syntax error in routine call
+				routine_not_found:
+					The named routine was not found
+				once_function_not_found:
+					Named once function not found in class
+				wrong_number_of_arguments:
+					Wrong number of arguments to routine
+			]")
+		end
 end

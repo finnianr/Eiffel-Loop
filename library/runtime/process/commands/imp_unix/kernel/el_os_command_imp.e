@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-18 15:29:34 GMT (Tuesday 18th July 2023)"
-	revision: "16"
+	date: "2023-07-22 12:13:33 GMT (Saturday 22nd July 2023)"
+	revision: "17"
 
 deferred class
 	EL_OS_COMMAND_IMP
@@ -37,6 +37,11 @@ feature {NONE} -- Constants
 	Command_prefix: STRING_32
 		once
 			create Result.make_empty
+		end
+
+	Null_redirection: ZSTRING
+		once
+			Result := "> /dev/null 2>&1"
 		end
 
 end

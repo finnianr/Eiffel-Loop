@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-27 15:28:29 GMT (Monday 27th February 2023)"
-	revision: "9"
+	date: "2023-08-11 12:53:55 GMT (Friday 11th August 2023)"
+	revision: "10"
 
 deferred class
 	EL_LOCALIZATION_TEST
@@ -44,11 +44,6 @@ feature {NONE} -- Deferred
 		end
 
 feature {NONE} -- Implementation
-
-	assert_valid_tuple (name: STRING; a_tuple: TUPLE; key_list: READABLE_STRING_GENERAL)
-		do
-			assert ("valid " + name + " tuple", Locale.valid_tuple (a_tuple, key_list))
-		end
 
 	assert_all_keys_ok (texts: EL_REFLECTIVE_LOCALE_TEXTS)
 		do
@@ -104,6 +99,11 @@ feature {NONE} -- Implementation
 
 		end
 
+	assert_valid_tuple (name: STRING; a_tuple: TUPLE; key_list: READABLE_STRING_GENERAL)
+		do
+			assert ("valid " + name + " tuple", Locale.valid_tuple (a_tuple, key_list))
+		end
+
 	check_reflective_locale_texts
 		local
 			default_texts, texts: EL_REFLECTIVE_LOCALE_TEXTS
@@ -143,7 +143,7 @@ feature {NONE} -- Implementation
 	display_difference (a_text_value, a_default_value: READABLE_STRING_GENERAL)
 		local
 			text_value, default_value: EL_ZSTRING_LIST; lines_differ: BOOLEAN
-			index: INTEGER; s: EL_STRING_8_ROUTINES
+			index: INTEGER
 		do
 			create text_value.make_with_lines (a_text_value)
 			create default_value.make_with_lines (a_default_value)
@@ -160,13 +160,22 @@ feature {NONE} -- Implementation
 				else
 					lio.put_line ("English_text")
 				end
-				lio.put_line (s.n_character_string ('-', 100))
+				lio.put_line (Hyphen * 100)
 				across value.item as line loop
 					if index >= line.cursor_index then
 						lio.put_line (line.item)
 					end
 				end
-				lio.put_line (s.n_character_string ('-', 100))
+				lio.put_line (Hyphen * 100)
+			end
+		end
+
+	new_locale_text (type: TYPE [EL_REFLECTIVE_LOCALE_TEXTS]; a_locale: EL_DEFERRED_LOCALE_I): EL_REFLECTIVE_LOCALE_TEXTS
+
+		do
+			if attached {EL_REFLECTIVE_LOCALE_TEXTS} Eiffel.new_object (type) as new then
+				new.make_with_locale (a_locale)
+				Result := new
 			end
 		end
 
@@ -184,13 +193,10 @@ feature {NONE} -- Implementation
 			create Result.make_from_tuple (locale_texts_types)
 		end
 
-	new_locale_text (type: TYPE [EL_REFLECTIVE_LOCALE_TEXTS]; a_locale: EL_DEFERRED_LOCALE_I): EL_REFLECTIVE_LOCALE_TEXTS
+feature {NONE} -- Constants
 
-		do
-			if attached {EL_REFLECTIVE_LOCALE_TEXTS} Eiffel.new_object (type) as new then
-				new.make_with_locale (a_locale)
-				Result := new
-			end
+	Hyphen: EL_CHARACTER_8
+		once
+			Result := '-'
 		end
-
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-08-15 15:22:03 GMT (Tuesday 15th August 2023)"
+	revision: "5"
 
 class
 	EL_HTTP_HEADER_NAME_TRANSLATER
@@ -23,7 +23,7 @@ create
 
 feature -- Conversion
 
-	exported (eiffel_name: STRING): STRING
+	exported (eiffel_name: READABLE_STRING_8): STRING
 		-- `eiffel_name' exported to a foreign naming convention
 		local
 			s: EL_STRING_8_ROUTINES

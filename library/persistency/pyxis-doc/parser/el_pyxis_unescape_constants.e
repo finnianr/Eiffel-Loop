@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 16:06:30 GMT (Thursday 5th January 2023)"
-	revision: "14"
+	date: "2023-07-20 17:19:07 GMT (Thursday 20th July 2023)"
+	revision: "15"
 
 class
 	EL_PYXIS_UNESCAPE_CONSTANTS
@@ -16,7 +16,7 @@ feature {NONE} -- Implementation
 
 	new_escape_table (quote_mark: CHARACTER_32): EL_ESCAPE_TABLE
 		do
-			create Result.make (Escape_character, "\:=\, n:=%N, t:=%T")
+			create Result.make (Escape_character, "\:=\, n:=%N, r:=%R, t:=%T")
 			Result [quote_mark] := quote_mark
 		end
 

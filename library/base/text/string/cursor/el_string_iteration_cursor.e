@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-05 12:49:51 GMT (Friday 5th May 2023)"
-	revision: "7"
+	date: "2023-08-07 9:37:23 GMT (Monday 7th August 2023)"
+	revision: "10"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -20,6 +20,8 @@ inherit
 	EL_SHARED_ZSTRING_CODEC
 
 	STRING_HANDLER
+
+	EL_BIT_COUNTABLE
 
 feature {NONE} -- Initialization
 
@@ -79,19 +81,25 @@ feature -- Status query
 	is_eiffel: BOOLEAN
 		-- `True' if `target' is an Eiffel identifier
 		do
-			Result := is_area_eiffel_identifier (Case_lower | Case_upper)
+			Result := is_area_eiffel_identifier ({EL_CASE}.Lower | {EL_CASE}.Upper)
 		end
 
 	is_eiffel_lower: BOOLEAN
 		-- `True' if `target' is a lower-case Eiffel identifier
 		do
-			Result := is_area_eiffel_identifier (Case_lower)
+			Result := is_area_eiffel_identifier ({EL_CASE}.Lower)
+		end
+
+	is_eiffel_title: BOOLEAN
+		-- `True' if `target' is an title-case Eiffel identifier
+		do
+			Result := is_area_eiffel_identifier ({EL_CASE}.Title | {EL_CASE}.Lower)
 		end
 
 	is_eiffel_upper: BOOLEAN
 		-- `True' if `target' is an upper-case Eiffel identifier
 		do
-			Result := is_area_eiffel_identifier (Case_upper)
+			Result := is_area_eiffel_identifier ({EL_CASE}.Upper)
 		end
 
 	valid_index (i: INTEGER): BOOLEAN
@@ -123,7 +131,7 @@ feature -- Measurement
 
 feature {NONE} -- Implementation
 
-	is_area_eiffel_identifier (case_code: INTEGER): BOOLEAN
+	is_area_eiffel_identifier (case_code: NATURAL): BOOLEAN
 		local
 			first_i: BOOLEAN; i, last_i: INTEGER; l_area: like area
 		do
@@ -135,22 +143,6 @@ feature {NONE} -- Implementation
 					first_i := False
 				end
 				i := i + 1
-			end
-		end
-
-	is_i_th_eiffel_identifier_8 (a_area: SPECIAL [CHARACTER_8]; i, case_code: INTEGER; first_i: BOOLEAN): BOOLEAN
-		do
-			inspect a_area [i]
-				when 'a' .. 'z' then
-					Result := (case_code & Case_lower).to_boolean
-
-				when 'A' .. 'Z' then
-					Result := (case_code & Case_upper).to_boolean
-
-				when '0' .. '9', '_' then
-					Result := not first_i
-			else
-				Result := False
 			end
 		end
 
@@ -176,18 +168,12 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	is_i_th_eiffel_identifier (a_area: like area; i, case_code: INTEGER; first_i: BOOLEAN): BOOLEAN
+	is_i_th_eiffel_identifier (a_area: like area; i: INTEGER; case_code: NATURAL; first_i: BOOLEAN): BOOLEAN
 		deferred
 		end
 
 	target: READABLE_STRING_GENERAL
 		deferred
 		end
-
-feature {NONE} -- Constants
-
-	Case_lower: INTEGER = 1
-
-	Case_upper: INTEGER = 2
 
 end

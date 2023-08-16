@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-18 15:39:49 GMT (Tuesday 18th July 2023)"
-	revision: "23"
+	date: "2023-08-13 17:27:12 GMT (Sunday 13th August 2023)"
+	revision: "25"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -19,10 +19,11 @@ class
 inherit
 	EL_HASH_TABLE [EL_READABLE_STRING_GENERAL_TO_TYPE [ANY], INTEGER]
 		rename
-			make as make_table
+			make as make_table,
+			has_key as has_type
 		export
 			{NONE} all
-			{ANY} has, found_item
+			{ANY} has, has_type, found_item
 		end
 
 	EL_MODULE_EIFFEL; EL_MODULE_NAMING; EL_MODULE_REUSEABLE
@@ -68,7 +69,7 @@ feature -- Access
 
 	type_descripton (type: TYPE [ANY]): STRING
 		do
-			if has_key (type.type_id) then
+			if has_type (type.type_id) then
 				Result := found_item.type_description
 			else
 				Result := Naming.class_description_from (type, Naming.No_words)
@@ -79,7 +80,7 @@ feature -- Access
 		do
 			create Result.make (count)
 			across current_keys as key loop
-				if has_key (key.item) then
+				if has_type (key.item) then
 					Result.extend (found_item.type)
 				end
 			end
@@ -98,7 +99,7 @@ feature -- Status query
 		-- `True' if table has converter for `type'
 		-- set `found_item' as converter if found
 		do
-			Result := has_key (type.type_id)
+			Result := has_type (type.type_id)
 		end
 
 	is_convertible (str: like readable_string; type: TYPE [ANY]): BOOLEAN
@@ -125,7 +126,7 @@ feature -- Status query
 			if {ISE_RUNTIME}.dynamic_type (str) = type_id then
 				Result := True
 
-			elseif has_key (type_id) then
+			elseif has_type (type_id) then
 				Result := found_item.is_convertible (str)
 			else
 				Result := {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING)
@@ -155,7 +156,7 @@ feature -- Status query
 	is_latin_1 (type: TYPE [ANY]): BOOLEAN
 		-- `True' if type can be always be represented by Latin-1 encoded string
 		do
-			if has_key (type.type_id) then
+			if has_type (type.type_id) then
 				Result := found_item.is_latin_1
 			end
 		end
@@ -235,7 +236,7 @@ feature -- Basic operations
 			if {ISE_RUNTIME}.dynamic_type (str) = type_id then
 				Result := str
 
-			elseif has_key (type_id) then
+			elseif has_type (type_id) then
 				Result := found_item.as_type (str)
 
 			elseif {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:03 GMT (Monday 20th March 2023)"
-	revision: "27"
+	date: "2023-08-14 11:11:04 GMT (Monday 14th August 2023)"
+	revision: "28"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -32,7 +32,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_object: EL_REFLECTIVE; a_index: INTEGER_32; a_name: STRING_8)
+	make (a_object: EL_REFLECTIVE; a_index: INTEGER_32; a_name: IMMUTABLE_STRING_8)
 		require else
 			is_string_convertible: Convert_string.has (({G}).type_id)
 		do

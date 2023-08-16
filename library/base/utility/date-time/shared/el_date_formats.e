@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-09 13:27:21 GMT (Friday 9th June 2023)"
-	revision: "9"
+	date: "2023-08-11 14:50:44 GMT (Friday 11th August 2023)"
+	revision: "10"
 
 class
 	EL_DATE_FORMATS
@@ -74,10 +74,14 @@ feature {NONE} -- Implementation
 		local
 			s: EL_STRING_8_ROUTINES
 		do
-			Result := s.character_string ('$') + s.joined_with (parts, Space_dollor)
+			create Result.make (s.character_count (parts, 2) + 1)
+
+			across parts as p loop
+				if p.cursor_index > 1 then
+					Result.append_character (' ')
+				end
+				Result.append_character ('$')
+				Result.append (p.item)
+			end
 		end
-
-feature {NONE} -- Constants
-
-	Space_dollor: STRING = " $"
 end

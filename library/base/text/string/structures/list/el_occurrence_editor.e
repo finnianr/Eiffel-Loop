@@ -6,16 +6,29 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-08 17:46:34 GMT (Wednesday 8th March 2023)"
-	revision: "1"
+	date: "2023-08-07 7:27:19 GMT (Monday 7th August 2023)"
+	revision: "2"
 
 deferred class
 	EL_OCCURRENCE_EDITOR [S -> STRING_GENERAL create make end]
 
 inherit
-	EL_APPLIED_OCCURRENCE_INTERVALS [S]
+	EL_STRING_SPLIT_CONTAINER [S]
+		undefine
+			is_equal
+		redefine
+			make_empty
+		end
 
 	EL_MODULE_REUSEABLE
+
+feature {NONE} -- Initialization
+
+	make_empty
+		do
+			make_intervals
+			Precursor
+		end
 
 feature -- Basic operations
 
@@ -26,7 +39,7 @@ feature -- Basic operations
 			previous_lower, previous_upper, lower, upper, i: INTEGER
 			buffer: S
 		do
-			if attached area_v2 as a and then attached target as l_target then
+			if attached area as a and then attached target as l_target then
 				across reuseable_scope as reuse loop
 					buffer := reuse.item
 					from until i = a.count loop
@@ -45,20 +58,44 @@ feature -- Basic operations
 					end
 					wipe_out_target
 					l_target.append (buffer)
-					wipe_out
+					wipe_out_intervals
 				end
 			end
 		ensure
 			is_empty: is_empty
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Deferred
 
-	wipe_out_target
+	area: SPECIAL [INTEGER]
+		deferred
+		end
+
+	is_empty: BOOLEAN
+		deferred
+		end
+
+	make_intervals
 		deferred
 		end
 
 	reuseable_scope: EL_BORROWED_STRING_SCOPE [S, EL_BORROWED_STRING_CURSOR [S]]
 		deferred
 		end
+
+	wipe_out_target
+		deferred
+		end
+
+	wipe_out_intervals
+		deferred
+		end
+
+feature {NONE} -- Implementation
+
+	item: S
+		do
+			Result := default_target
+		end
+
 end

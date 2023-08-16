@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-13 15:19:57 GMT (Monday 13th March 2023)"
-	revision: "34"
+	date: "2023-08-08 8:44:53 GMT (Tuesday 8th August 2023)"
+	revision: "37"
 
 class
 	BENCHMARK_COMMAND_SHELL
@@ -35,11 +35,14 @@ feature {NONE} -- Implementation
 		BIT_POP_COUNT_COMPARISON,
 		BIT_SHIFT_COUNT_COMPARISON,
 
+		CLASS_ID_ENUM_VS_TYPE_OBJECT,
 		DIRECTORY_WALK_VS_FIND_COMMAND,
 		HASH_TABLE_VS_NAMEABLES_LIST_SEARCH,
 
 		LIST_ITERATION_COMPARISON,
-		ROUTINE_CALL_ON_ONCE_VS_EXPANDED
+		P_I_TH_LOWER_UPPER_VS_INLINE_CODE,
+		ROUTINE_CALL_ON_ONCE_VS_EXPANDED,
+		TOKENIZED_STEPS_VS_XPATH_STRING
 	]
 		do
 			create Result

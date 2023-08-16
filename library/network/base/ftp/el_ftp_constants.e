@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-08-12 16:41:45 GMT (Saturday 12th August 2023)"
+	revision: "9"
 
 deferred class
 	EL_FTP_CONSTANTS
@@ -32,12 +32,6 @@ feature {NONE} -- Numeric constants
 
 feature {NONE} -- Constants
 
-	Command: TUPLE [print_working_directory, quit: ZSTRING]
-		once
-			create Result
-			Tuple.fill (Result, "PWD, QUIT")
-		end
-
 	Default_url: STRING = "default"
 
 	Directory_separator: CHARACTER = '/'
@@ -49,10 +43,13 @@ feature {NONE} -- Constants
 
 	Not_regular_file: STRING = "not a regular file"
 
-	Template: TUPLE [change_working_directory, delete_file, make_directory, remove_directory, size: ZSTRING]
+	Command: TUPLE [
+		change_working_directory, delete_file, make_directory,
+		print_working_directory, quit, remove_directory, size: STRING
+	]
 		once
 			create Result
-			Tuple.fill (Result, "CWD %S, DELE %S, MKD %S, RMD %S, SIZE %S")
+			Tuple.fill (Result, "CWD %S, DELE %S, MKD %S, PWD, QUIT, RMD %S, SIZE %S")
 		end
 
 end

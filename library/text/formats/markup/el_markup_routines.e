@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-18 8:25:19 GMT (Sunday 18th June 2023)"
-	revision: "14"
+	date: "2023-08-02 15:24:49 GMT (Wednesday 2nd August 2023)"
+	revision: "15"
 
 class
 	EL_MARKUP_ROUTINES
@@ -15,10 +15,9 @@ class
 inherit
 	ANY
 
-	EL_MARKUP_TEMPLATES
-		rename
-			Tag as Tag_template
-		end
+	XML_ZSTRING_CONSTANTS
+
+	EL_MODULE_REUSEABLE
 
 feature -- Access
 
@@ -48,34 +47,54 @@ feature -- Access
 			end
 		end
 
+feature -- Basic operations
+
+	append_open_tag (output: ZSTRING; name: READABLE_STRING_GENERAL)
+		do
+			output.append (Bracket.left)
+			output.append_string_general (name)
+			output.append (Bracket.right)
+		end
+
+	append_close_tag (output: ZSTRING; name: READABLE_STRING_GENERAL)
+		do
+			output.append (Bracket.left_slash) -- </
+			output.append_string_general (name)
+			output.append (Bracket.right)
+		end
+
 feature -- Mark up
 
 	closed_tag (name: READABLE_STRING_GENERAL): ZSTRING
 			-- closed tag markup: </%S>
 		do
-			Result := Tag_template.close #$ [name]
+			create Result.make (name.count + 3)
+			append_close_tag (Result, name)
 		end
 
 	empty_tag (name: READABLE_STRING_GENERAL): ZSTRING
 			-- empty tag markup: <%S/>
 		do
-			Result := Tag_template.empty #$ [name]
+			create Result.make (name.count + 3)
+			append_open_tag (Result, name)
+			Result.insert_character ('/', Result.count)
 		end
 
 	open_tag (name: READABLE_STRING_GENERAL): ZSTRING
 			-- open tag markup: <%S>
 		do
-			Result := Tag_template.open #$ [name]
+			create Result.make (name.count + 2)
+			append_open_tag (Result, name)
 		end
 
 	parent_element_markup (name, element_list: READABLE_STRING_GENERAL): ZSTRING
 			-- Wrap a list of elements with a parent element
 		do
 			create Result.make (name.count + element_list.count + 7)
-			Result.append (open_tag (name))
+			append_open_tag (Result, name)
 			Result.append_character ('%N')
 			Result.append_string_general (element_list)
-			Result.append (closed_tag (name))
+			append_close_tag (Result, name)
 			Result.append_character ('%N')
 		end
 
@@ -84,13 +103,40 @@ feature -- Mark up
 			create Result.make (name)
 		end
 
-	value_element_markup (name, value: READABLE_STRING_GENERAL): ZSTRING
+	expanded_field_element (
+		name: READABLE_STRING_GENERAL; object: EL_REFLECTIVE; field: EL_REFLECTED_EXPANDED_FIELD [ANY]
+	): ZSTRING
+			-- Enclose a value inside matching element tags
+		local
+			count: INTEGER
+		do
+			create Result.make (name.count + 20)
+			count := Result.count
+			Result.append (open_tag (name))
+			field.append_to_string (object, Result)
+			if Result.count = count then
+				Result.insert_character ('/', Result.count)
+			end
+		end
+
+	value_element (
+		name, value: READABLE_STRING_GENERAL; a_escaper: detachable EL_STRING_ESCAPER [ZSTRING]
+	): ZSTRING
 			-- Enclose a value inside matching element tags
 		do
 			create Result.make (name.count + value.count + 6)
 			Result.append (open_tag (name))
-			Result.append_string_general (value)
-			Result.append (closed_tag (name))
+			if value.count > 0 then
+				if attached a_escaper as escaper then
+					escaper.escape_into (value, Result)
+
+				else
+					Result.append_string_general (value)
+				end
+				Result.append (closed_tag (name))
+			else
+				Result.insert_character ('/', Result.count)
+			end
 		end
 
 end

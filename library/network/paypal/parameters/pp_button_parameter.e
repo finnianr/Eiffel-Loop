@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-08-07 10:29:17 GMT (Monday 7th August 2023)"
+	revision: "7"
 
 class
 	PP_BUTTON_PARAMETER
@@ -25,16 +25,15 @@ feature {NONE} -- Initialization
 
 	make (field_name: STRING)
 		-- use last part as value, remainder as name
-		local
-			parts: EL_SPLIT_STRING_LIST [STRING]
 		do
-			create parts.make (field_name, '_')
-			parts.finish
-			value := parts.item
+			name := field_name
+			value := name.substring_to_reversed ('_', default_pointer)
 			value.to_upper
-			parts.remove
-			name := parts.joined_strings
+
+			name.remove_tail (value.count + 1)
 			name.to_upper
+		ensure
+			reversible: field_name.as_upper ~ (name + "_" + value).to_latin_1
 		end
 
 end

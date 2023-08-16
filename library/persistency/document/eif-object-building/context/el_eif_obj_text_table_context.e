@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-07-26 18:41:08 GMT (Wednesday 26th July 2023)"
+	revision: "7"
 
 class
 	EL_EIF_OBJ_TEXT_TABLE_CONTEXT
@@ -27,10 +27,7 @@ inherit
 			copy, is_equal
 		end
 
-	EL_XPATH_CONSTANTS
-		undefine
-			copy, is_equal
-		end
+	EL_XPATH_NODE_CONSTANTS
 
 create
 	make
@@ -49,7 +46,7 @@ feature {NONE} -- Implementation
 	put_text_value
 			-- Put element text value with element name key
 		do
-			if xpath.occurrences ('/') = 1 and then xpath.ends_with_general (Node_text) then
+			if xpath.occurrences ('/') = 1 and then xpath.ends_with_general (Node_name [Type_text]) then
 				put (node.to_string, xpath.substring (1, xpath.index_of ('/', 1) - 1))
 			end
 		end

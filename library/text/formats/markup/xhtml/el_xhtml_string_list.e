@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:37:26 GMT (Tuesday 14th February 2023)"
-	revision: "23"
+	date: "2023-08-11 15:48:49 GMT (Friday 11th August 2023)"
+	revision: "25"
 
 class
 	EL_XHTML_STRING_LIST
@@ -29,6 +29,8 @@ inherit
 
 	XML_ZSTRING_CONSTANTS
 
+	EL_CHARACTER_CONSTANTS
+
 create
 	make_from_file
 
@@ -38,6 +40,7 @@ feature {NONE} -- Initialization
 			--
 		local
 			line_source: EL_PLAIN_TEXT_LINE_SOURCE; XML: XML_ROUTINES
+			s: EL_ZSTRING_ROUTINES
 		do
 			make_sized (10)
 			create text_group_end_tags.make_from_array (<< "</p>" >>)
@@ -45,15 +48,14 @@ feature {NONE} -- Initialization
 				text_group_end_tags.extend ("</h" + level.item.out + ">")
 			end
 
-			space_entity := XML.entity (' ')
 			closed_pre_tag := XML.closed_tag ("pre")
 			pre_tag := XML.open_tag ("pre")
 			break_tag := XML.empty_tag ("br")
 
-			create substitutions.make_from_array (<<
-				[Non_breaking_space,	space_entity],
-				[Tab, 					XML.entity ('%T')],
-				[Line_break, 			break_tag]
+			create substitution_list.make_from_array (<<
+				[s.as_zstring ("&nbsp;"), XML.entity (' ')],
+				[Tab #* 1,					  XML.entity (Tab.item)],
+				[s.as_zstring ("<br>"),   break_tag]
 			>>)
 			create line_source.make_utf_8 (file_path)
 			do_with_lines (agent initial, line_source)
@@ -132,7 +134,7 @@ feature {NONE} -- State handlers
 				extend (line)
 
 			else
-				if trim_line.starts_with (Sign_less_than) then
+				if trim_line.starts_with (Bracket.left) then
 					extend (line)
 				else
 					last.append_character (' ')
@@ -144,9 +146,9 @@ feature {NONE} -- State handlers
 	find_meta_tag_end (line: ZSTRING)
 			--
 		do
-			if line.ends_with (Sign_greater_than) then
+			if line.ends_with (Bracket.right) then
 				line.remove_tail (1)
-				line.append (Empty_tag_marker)
+				line.append (Bracket.slash_right)
 				extend (line)
 				state := agent body
 			else
@@ -170,9 +172,8 @@ feature {NONE} -- Implementation
 	call (line: ZSTRING)
 		-- call state procedure with item
 		do
-			from substitutions.start until substitutions.after loop
-				line.replace_substring_all (substitutions.item.original, substitutions.item.new)
-				substitutions.forth
+			across substitution_list as list loop
+				line.replace_substring_all (list.key, list.value)
 			end
 			Precursor (line)
 		end
@@ -183,11 +184,10 @@ feature {NONE} -- Implementation
 
 	closed_pre_tag: ZSTRING
 
-	space_entity: ZSTRING
-
 	text_group_end_tags: ARRAYED_LIST [ZSTRING]
 
-	substitutions: ARRAYED_LIST [TUPLE [original, new: ZSTRING]]
+	substitution_list: EL_ARRAYED_MAP_LIST [ZSTRING, ZSTRING]
+		-- map original -> new
 
 feature {NONE} -- Constants
 
@@ -204,21 +204,6 @@ feature {NONE} -- Constants
 	Meta_tag_start: ZSTRING
 		once
 			Result := "<meta "
-		end
-
-	Non_breaking_space: ZSTRING
-		once
-			Result := "&nbsp;"
-		end
-
-	Tab: ZSTRING
-		once
-			Result := "%T"
-		end
-
-	Line_break: ZSTRING
-		once
-			Result := "<br>"
 		end
 
 	XML_header: STRING = "[

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 8:43:00 GMT (Saturday 3rd December 2022)"
-	revision: "7"
+	date: "2023-08-02 11:15:00 GMT (Wednesday 2nd August 2023)"
+	revision: "8"
 
 deferred class
 	EL_STOCK_COLORS_I
@@ -43,8 +43,7 @@ feature -- Color code
 
 	html_code_to_rgb_code (html_code: STRING): INTEGER
 		require
-			starts_with_hash: html_code.item (1) = '#'
-			has_six_digits: html_code.count = 7
+			valid_html_code: valid_html_code (html_code)
 		local
 			hex: EL_HEXADECIMAL_CONVERTER
 		do
@@ -57,6 +56,25 @@ feature -- Color code
 			Result := rgb_code.to_hex_string
 			Result.put ('#', 2)
 			Result.remove_head (1)
+		end
+
+feature -- Contract Support
+
+	valid_html_code (color_code: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			if color_code.count = 7 and then color_code.is_valid_as_string_8 then
+				Result := True
+				across color_code.as_string_8 as c until not Result loop
+					inspect c.item
+						when '0' .. '9', 'A' .. 'F', 'a' .. 'f' then
+							Result := c.cursor_index > 1
+						when '#' then
+							Result := c.cursor_index = 1
+					else
+						Result := False
+					end
+				end
+			end
 		end
 
 feature {NONE} -- Constants

@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2023-07-31 13:52:22 GMT (Monday 31st July 2023)"
+	revision: "12"
 
 class
 	EVOLICITY_FOREACH_DIRECTIVE
@@ -33,6 +33,8 @@ inherit
 		redefine
 			execute, make
 		end
+
+	EL_MODULE_TUPLE
 
 create
 	make
@@ -44,7 +46,7 @@ feature -- Initialization
 		do
 			Precursor
 			create outer_loop_variables.make_equal (3)
-			create local_scope_variable_names.make_from_array (<< Loop_index_var_name >>)
+			create local_scope_variable_names.make_from_array (<< var_loop_index >>)
 		end
 
 feature -- Element change
@@ -138,17 +140,17 @@ feature {NONE} -- Implementation
 
 	put_iteration_object (a_context: EVOLICITY_CONTEXT; cursor_item: ANY)
 		do
-			a_context.put_variable (cursor_item, item_name)
+			a_context.put_any (item_name, cursor_item)
 		end
 
 	put_table_key (a_context: EVOLICITY_CONTEXT; key_item: ANY)
 		do
-			a_context.put_variable (key_item, key_item_name)
+			a_context.put_any (key_item_name, key_item)
 		end
 
 	put_loop_index (a_context: EVOLICITY_CONTEXT; a_loop_index: INTEGER_REF)
 		do
-			a_context.put_variable (a_loop_index, Loop_index_var_name)
+			a_context.put_any (var_loop_index, a_loop_index)
 		end
 
 	restore_outer_loop_variables (name_space: like outer_loop_variables)
@@ -181,11 +183,16 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	var_loop_index: IMMUTABLE_STRING_8
+		do
+			Result := Var.loop_index
+		end
+
 feature {NONE} -- Internal attributes
 
 	local_scope_variable_names: EL_STRING_8_LIST
 
-	outer_loop_variables: HASH_TABLE [ANY, STRING]
+	outer_loop_variables: EL_STRING_8_TABLE [ANY]
 		-- Variables in outer loop that may have names clashing with this loop
 
 	iterable_variable_ref: EVOLICITY_VARIABLE_REFERENCE
@@ -197,9 +204,9 @@ feature -- Constants
 			Result := "{%S} [%S]"
 		end
 
-	Loop_index_var_name: STRING
+	Var: TUPLE [cursor_index, item_, key, loop_index: IMMUTABLE_STRING_8]
 		once
-			Result := "loop_index"
+			create Result
+			Tuple.fill_immutable (Result, "cursor_index, item, key, loop_index")
 		end
-
 end

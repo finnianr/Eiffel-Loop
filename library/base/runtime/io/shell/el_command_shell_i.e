@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-03 13:49:43 GMT (Friday 3rd March 2023)"
-	revision: "18"
+	date: "2023-08-11 7:17:16 GMT (Friday 11th August 2023)"
+	revision: "19"
 
 deferred class
 	EL_COMMAND_SHELL_I
@@ -18,7 +18,7 @@ deferred class
 inherit
 	ANY
 
-	EL_MODULE_LIO
+	EL_MODULE_LIO; EL_MODULE_USER_INPUT
 
 feature {NONE} -- Initialization
 
@@ -56,23 +56,23 @@ feature -- Basic operations
 
 	run_command_loop
 		local
-			choice: INTEGER; option_input: EL_USER_INPUT_VALUE [INTEGER]
-			invalid_option: ZSTRING
+			choice: INTEGER
 		do
-			invalid_option := "No such option number: '%S'"
-			create option_input.make_valid ("Enter option number", invalid_option, agent menu.valid_option)
-
 			from until user_exit loop
 				display_menu
-				choice := option_input.value
+				choice := user_choice
+				if choice.to_boolean then
+					lio.put_labeled_string ("SELECTED", menu.option_key (choice))
+					lio.put_new_line
 
-				lio.put_labeled_string ("SELECTED", menu.option_key (choice))
-				lio.put_new_line
-
-				if command_table.has_key (menu.option_key (choice)) then
-					command_table.found_item.apply
+					if command_table.has_key (menu.option_key (choice)) then
+						command_table.found_item.apply
+					end
+				else
+					force_exit
 				end
 			end
+			on_user_quit
 		end
 
 feature -- Element change
@@ -95,7 +95,34 @@ feature {NONE} -- Implementation
 
 	set_standard_options (table: like new_command_table)
 		do
-			table [Default_zero_option] := agent force_exit
+		end
+
+	user_choice: INTEGER
+		local
+			option_input: ZSTRING; valid_input: BOOLEAN
+		do
+			from until valid_input loop
+				option_input := User_input.line ("Enter option number")
+				if option_input.is_character ('%/27/') then
+					Result := 0; valid_input := True
+				else
+					if option_input.is_integer then
+						Result := option_input.to_integer
+					end
+					if menu.valid_option (Result) then
+						valid_input := True
+					else
+						lio.put_labeled_substitution ("Error", "no such option number: '%S'", [option_input])
+						lio.put_new_line
+					end
+				end
+			end
+		end
+
+feature {NONE} -- Event handling
+
+	on_user_quit
+		do
 		end
 
 feature {NONE} -- Internal attributes
@@ -105,12 +132,5 @@ feature {NONE} -- Internal attributes
 	menu: EL_COMMAND_MENU
 
 	user_exit: BOOLEAN
-
-feature {NONE} -- Constants
-
-	Default_zero_option: ZSTRING
-		once
-			Result := "Quit"
-		end
 
 end

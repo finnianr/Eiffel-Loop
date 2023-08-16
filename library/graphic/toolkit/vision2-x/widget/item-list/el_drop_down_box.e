@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2023-08-02 9:49:18 GMT (Wednesday 2nd August 2023)"
+	revision: "12"
 
 class
 	EL_DROP_DOWN_BOX [G]
@@ -120,6 +120,7 @@ feature {NONE} -- Event handling
 	on_select_value
 		do
 			value_change_action.call ([selected_value])
+			listeners.notify
 		end
 
 feature {NONE} -- Implementation

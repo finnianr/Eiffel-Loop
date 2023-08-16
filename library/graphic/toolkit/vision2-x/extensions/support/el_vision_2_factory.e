@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 9:57:55 GMT (Friday 10th March 2023)"
-	revision: "23"
+	date: "2023-08-02 6:39:57 GMT (Wednesday 2nd August 2023)"
+	revision: "24"
 
 class
 	EL_VISION_2_FACTORY
@@ -30,18 +30,18 @@ inherit
 
 feature -- Fonts
 
-	new_font_bold (a_families_list: STRING; a_height_cms: REAL): EL_FONT
+	new_font_bold (a_families_list: READABLE_STRING_GENERAL; a_height_cms: REAL): EL_FONT
 			-- families separated by ';'
 		do
 			Result := new_font_regular (a_families_list, a_height_cms)
 			Result.set_weight (Weight_bold)
 		end
 
-	new_font_regular (a_families_list: STRING; a_height_cms: REAL): EL_FONT
+	new_font_regular (a_families_list: READABLE_STRING_GENERAL; a_height_cms: REAL): EL_FONT
 			-- families separated by ';'
 		do
 			create Result.make_regular ("", a_height_cms) -- Adds to preferred_families
-			across a_families_list.split (';') as family loop
+			across a_families_list.to_string_32.split (';') as family loop
 				Result.preferred_families.extend (family.item)
 			end
 		end

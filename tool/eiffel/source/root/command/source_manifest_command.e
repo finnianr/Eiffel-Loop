@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-27 9:18:10 GMT (Friday 27th January 2023)"
-	revision: "19"
+	date: "2023-08-16 9:18:23 GMT (Wednesday 16th August 2023)"
+	revision: "20"
 
 deferred class
 	SOURCE_MANIFEST_COMMAND
@@ -27,6 +27,8 @@ inherit
 		end
 
 	EL_MODULE_FILE_SYSTEM
+
+	EL_CHARACTER_CONSTANTS
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
@@ -60,13 +62,12 @@ feature -- Basic operations
 		-- check for errors before execution
 		local
 			error: EL_ERROR_DESCRIPTION; missing_list: EL_ZSTRING_LIST
-			s: EL_ZSTRING_ROUTINES
 		do
 			create missing_list.make (5)
 			across manifest.source_tree_list as list loop
 				if not list.item.dir_path.exists then
 					missing_list.extend (list.item.dir_path)
-					missing_list.last.prepend (s.n_character_string (' ', 2))
+					missing_list.last.prepend (Space #* 2)
 				end
 			end
 			if missing_list.count > 0 then
@@ -81,7 +82,7 @@ feature -- Basic operations
 	execute
 		do
 			manifest.read_source_trees
-			
+
 			across manifest.source_tree_list as location loop
 				if location.item.dir_path.exists then
 					lio.put_line (location.item.dir_path)

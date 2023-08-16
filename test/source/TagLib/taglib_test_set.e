@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-08 11:20:35 GMT (Monday 8th May 2023)"
-	revision: "48"
+	date: "2023-08-15 10:21:29 GMT (Tuesday 15th August 2023)"
+	revision: "49"
 
 class
 	TAGLIB_TEST_SET
@@ -116,7 +116,7 @@ feature -- Tests
 				create mp3.make (file_list.path)
 				assert ("same picture", picture ~ mp3.tag.picture)
 			else
-				assert (Picture_230_tag + " not found", False)
+				failed (Picture_230_tag + " not found")
 			end
 		end
 

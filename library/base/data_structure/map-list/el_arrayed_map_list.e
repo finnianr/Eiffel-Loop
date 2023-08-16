@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-28 15:56:55 GMT (Tuesday 28th March 2023)"
-	revision: "25"
+	date: "2023-07-21 19:21:11 GMT (Friday 21st July 2023)"
+	revision: "26"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 			create internal_value_list.make (n)
 		end
 
-	make_from_array (array: ARRAY [like item_tuple])
+	make_from_array (array: like MANIFEST_ARRAY)
 		do
 			make (array.count)
 			across array as list loop
@@ -323,6 +323,16 @@ feature -- Contract Support
 	value_item (values: CONTAINER [G]): EL_CONTAINER_ITEM [G]
 		do
 			create Result.make (values)
+		end
+
+feature -- Type definitions
+
+	MANIFEST_ARRAY: ARRAY [like item_tuple]
+		-- type of array used to initialize `Current' in `make_from_array' routine
+		require
+			never_called: False
+		do
+			create Result.make_empty
 		end
 
 feature {NONE} -- Implementation

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-30 12:16:24 GMT (Thursday 30th March 2023)"
-	revision: "21"
+	date: "2023-08-11 15:40:19 GMT (Friday 11th August 2023)"
+	revision: "22"
 
 class
 	PATH_TEST_SET
@@ -57,7 +57,7 @@ feature -- Tests
 			assert ("same string", eiffel_pdf.same_extension ("PDF", True))
 			assert ("base matches", eiffel_pdf.base_matches ("Eiffel-spec", False))
 			assert ("same path", eiffel_pdf.same_as (Documents_eiffel_pdf))
-			assert ("not same path", not eiffel_pdf.same_as (Documents_eiffel_pdf.translated_general ("f", "_")))
+			assert ("not same path", not eiffel_pdf.same_as (Documents_eiffel_pdf.translated ("f", "_")))
 		end
 
 	test_extension

@@ -15,8 +15,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 17:14:23 GMT (Saturday 29th April 2023)"
-	revision: "24"
+	date: "2023-08-15 10:20:52 GMT (Tuesday 15th August 2023)"
+	revision: "26"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -28,6 +28,8 @@ inherit
 		end
 
 	EL_MODULE_FILE
+
+	EL_CHARACTER_CONSTANTS
 
 create
 	make
@@ -61,7 +63,7 @@ feature -- Tests
 		local
 			command: TB_WWW_XHTML_CONTENT_EXPORTER; email_list: TB_EMAIL_LIST
 			email_date, date_time: EL_DATE_TIME; x_mozilla_draft_info: like Email_type.x_mozilla_draft_info
-			n: ARRAY [NATURAL_8]; s: EL_STRING_8_ROUTINES
+			n: ARRAY [NATURAL_8]
 		do
 			write_config ("pop.eiffel-loop.com", Empty_string_8, Empty_lines)
 			create command.make_from_file (Config_path)
@@ -95,7 +97,7 @@ feature -- Tests
 				assert ("x_mozilla_status OK", email.x_mozilla_status = 1)
 				assert ("x_mozilla_status2 OK", email.x_mozilla_status2 = 2)
 
-				assert ("same instance from string set", email.x_mozilla_keys = s.n_character_string (' ', 80))
+				assert ("same instance from string set", email.x_mozilla_keys = space * 80)
 			end
 		end
 
@@ -216,7 +218,7 @@ feature -- Tests
 					if modification_table.has_key (path.item) then
 						assert ("unchanged after 2nd execution", path.item.modification_time = modification_table.found_item)
 					else
-						assert (path.item.base + " present", False)
+						failed (path.item.base + " present")
 					end
 				end
 			end

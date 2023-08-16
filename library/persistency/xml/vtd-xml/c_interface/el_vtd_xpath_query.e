@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2023-08-01 16:30:11 GMT (Tuesday 1st August 2023)"
+	revision: "15"
 
 class
 	EL_VTD_XPATH_QUERY
@@ -19,6 +19,29 @@ inherit
 		end
 
 	EL_VTD_XML_API
+
+	EL_READABLE
+		rename
+			read_character_8 as as_character_8,
+			read_character_32 as as_character_32,
+			read_integer_8 as as_integer_8,
+			read_integer_16 as as_integer_16,
+			read_integer_32 as as_integer,
+			read_integer_64 as as_integer_64,
+			read_natural_8 as as_natural_8,
+			read_natural_16 as as_natural_16,
+			read_natural_32 as as_natural,
+			read_natural_64 as as_natural_64,
+			read_real_32 as as_real,
+			read_real_64 as as_double,
+			read_string as as_string,
+			read_string_8 as as_string_8,
+			read_string_32 as as_string_32,
+			read_boolean as as_boolean,
+			read_pointer as as_pointer
+--		undefine
+--			copy, is_equal, out
+		end
 
 create
 	make, make_xpath, make_xpath_for_namespace
@@ -94,6 +117,18 @@ feature -- Access
 --			Result := c_evaluate_xpath_to_boolean (context.self_ptr, self_ptr)
 		end
 
+	as_character_8: CHARACTER_8
+		do
+			Result := as_character_32.to_character_8
+		end
+
+	as_character_32: CHARACTER_32
+		do
+			if attached as_wide_string as string and then string.count > 0 then
+				Result := string.item (1)
+			end
+		end
+
 	as_date: DATE
 			--
 		require
@@ -120,26 +155,52 @@ feature -- Access
 			Result := as_string
 		end
 
+feature -- Integer
+
+	as_integer_8: INTEGER_8
+		do
+			Result := as_integer_32.to_integer_8
+		end
+
+	as_integer_16: INTEGER_16
+		do
+			Result := as_integer_32.to_integer_16
+		end
+
 	as_integer, as_integer_32: INTEGER
 		do
-			Result := as_double.rounded
+			Result := as_double.truncated_to_integer
 		end
 
 	as_integer_64: INTEGER_64
 		do
-			Result := as_double.rounded_real_64.truncated_to_integer_64
+			Result := as_double.truncated_to_integer_64
+		end
+
+feature -- Natural
+
+	as_natural_8: NATURAL_8
+			--
+		do
+			Result := as_integer_32.to_natural_8
+		end
+
+	as_natural_16: NATURAL_16
+			--
+		do
+			Result := as_integer_32.to_natural_16
 		end
 
 	as_natural, as_natural_32: NATURAL
 			--
 		do
-			Result := as_double.rounded_real_64.truncated_to_integer_64.to_natural_32
+			Result := as_integer_64.to_natural_32
 		end
 
 	as_natural_64: NATURAL_64
 			--
 		do
-			Result := as_double.rounded_real_64.truncated_to_integer_64.to_natural_64
+			Result := as_integer_64.to_natural_64
 		end
 
 	as_real, as_real_32: REAL
@@ -147,6 +208,8 @@ feature -- Access
 		do
 			Result := as_double.truncated_to_real
 		end
+
+feature -- String
 
 	as_string: ZSTRING
 			--
@@ -206,6 +269,11 @@ feature -- Status query
 		end
 
 feature {NONE} -- Implementation
+
+	as_pointer: POINTER
+		do
+			do_nothing
+		end
 
 	C_namespaces: HASH_TABLE [ARRAY [EL_C_WIDE_CHARACTER_STRING], STRING]
 			--

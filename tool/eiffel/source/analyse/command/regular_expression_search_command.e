@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 17:33:09 GMT (Monday 27th March 2023)"
-	revision: "16"
+	date: "2023-08-16 9:19:56 GMT (Wednesday 16th August 2023)"
+	revision: "21"
 
 class
 	REGULAR_EXPRESSION_SEARCH_COMMAND
@@ -22,9 +22,11 @@ inherit
 			execute, make_default
 		end
 
-	EL_MODULE_FILE_SYSTEM; EL_MODULE_DIRECTORY; EL_MODULE_USER_INPUT
+	EL_MODULE_FILE_SYSTEM; EL_MODULE_COMMAND; EL_MODULE_DIRECTORY
 
-	EL_ENCODING_CONSTANTS
+	EL_MODULE_STRING_8; EL_MODULE_USER_INPUT
+
+	EL_ENCODING_CONSTANTS; EL_CHARACTER_CONSTANTS
 
 	GREP_RESULT_CONSTANTS
 
@@ -59,30 +61,35 @@ feature -- Basic operations
 
 	execute
 		local
-			user_quit: BOOLEAN; count: INTEGER; previous_options, grep_options: ZSTRING
+			user_quit, not_opened_result_file: BOOLEAN; count: INTEGER
+			previous_options, grep_options: ZSTRING
 		do
 			lio.put_integer_field ("Manifest source file count", manifest.file_count)
 			lio.put_new_line_x2
-			lio.put_labeled_string ("TIP", "to repeat a search use ditto symbol %"")
-			lio.put_new_line
-
+			lio.put_line ("TIPS")
+			across << User_input.ESC_to_quit, "to repeat a search use ditto symbol %"" >>  as tip loop
+				lio.put_index_labeled_string (tip, Void, tip.item)
+				lio.put_new_line
+			end
 			create grep_options.make_empty
 			create previous_options.make_empty
+			create user_quit
 
 			from until user_quit loop
-				from grep_options.wipe_out until grep_options.count > 0 loop
-					grep_options := User_input.line ("Grep arguments")
-				end
-				grep_options.adjust
-				if grep_options.is_character ('"') then
-					if previous_options.count > 0 then
-						grep_options := previous_options.twin
+				grep_options := User_input.line ("Grep arguments")
+
+				if grep_options.is_character ('%/27/') then
+					user_quit := True
+
+				elseif grep_options.count > 0 then
+					grep_options.adjust
+					if grep_options.is_character ('"') then
+						if previous_options.count > 0 then
+							grep_options := previous_options.twin
+						end
+					else
+						previous_options := grep_options.twin
 					end
-				else
-					previous_options := grep_options.twin
-				end
-				user_quit := grep_options.same_string_general ("quit")
-				if not user_quit then
 					lio.put_new_line
 					grep_command.set_options (grep_options)
 					results_list.wipe_out
@@ -106,6 +113,10 @@ feature -- Basic operations
 							output_file.open_write
 							results_list.do_all (agent write_result (?, ?, output_file))
 							output_file.close
+							if not_opened_result_file then
+								Command.launch_gedit (output_file.path)
+								not_opened_result_file := True
+							end
 						end
 						lio.put_new_line
 					end
@@ -155,17 +166,18 @@ feature {NONE} -- Implementation
 	write_result (a_source_dir: DIR_PATH; line: ZSTRING; output: detachable EL_PLAIN_TEXT_FILE)
 		local
 			source_path: FILE_PATH; dir_line: detachable ZSTRING; index_colon, i: INTEGER
-			s: EL_ZSTRING_ROUTINES; class_line: ZSTRING
+			class_line: ZSTRING
 		do
 			index_colon := 1
 			from i := 1 until i > 2 or else index_colon = 0 loop
 				index_colon := line.index_of (':', 1)
 				if index_colon > 0 then
+					line.replace_character ('`', '%'')
 					if i = 1 then
 						source_path := a_source_dir + line.substring (1, index_colon - 1)
 						line.remove_head (index_colon)
 					else
-						line.prepend (s.n_character_string (' ', 5 - index_colon))
+						line.prepend (Space.as_zstring (5 - index_colon))
 					end
 				end
 				i := i + 1

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 11:26:06 GMT (Monday 10th July 2023)"
-	revision: "47"
+	date: "2023-08-15 10:22:33 GMT (Tuesday 15th August 2023)"
+	revision: "53"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -34,26 +34,30 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["across_iteration",			agent test_across_iteration],
-				["adjusted_line_split",		agent test_adjusted_line_split],
-				["append_item_to",			agent test_append_item_to],
-				["append_string",				agent test_append_string],
-				["curtail_list",				agent test_curtail_list],
-				["fill_tuple",					agent test_fill_tuple],
-				["immutable_string_split",	agent test_immutable_string_split],
-				["occurrence_editor",		agent test_occurrence_editor],
-				["occurrence_intervals",	agent test_occurrence_intervals],
-				["path_split",					agent test_path_split],
-				["set_encoding_from_name",	agent test_set_encoding_from_name],
-				["skip_empty_split",			agent test_skip_empty_split],
-				["spell_numbers",				agent test_spell_numbers],
-				["split_and_join_1",			agent test_split_and_join_1],
-				["split_and_join_2",			agent test_split_and_join_2],
-				["split_and_join_3",			agent test_split_and_join_3],
-				["split_intervals",			agent test_split_intervals],
-				["split_iterator",			agent test_split_iterator],
-				["split_sort",					agent test_split_sort],
-				["split_string_8",			agent test_split_string_8]
+				["across_iteration",				 agent test_across_iteration],
+				["adjusted_line_split",			 agent test_adjusted_line_split],
+				["append_item_to",				 agent test_append_item_to],
+				["append_string",					 agent test_append_string],
+				["compact_zstring_list",		 agent test_compact_zstring_list],
+				["curtail_list",					 agent test_curtail_list],
+				["fill_tuple",						 agent test_fill_tuple],
+				["immutable_grid_32",			 agent test_immutable_grid_32],
+				["immutable_string_32_split",	 agent test_immutable_string_32_split],
+				["item_count",						 agent test_item_count],
+				["occurrence_editor",			 agent test_occurrence_editor],
+				["occurrence_intervals",		 agent test_occurrence_intervals],
+				["path_split",						 agent test_path_split],
+				["set_encoding_from_name",		 agent test_set_encoding_from_name],
+				["skip_empty_split",				 agent test_skip_empty_split],
+				["spell_numbers",					 agent test_spell_numbers],
+				["split_and_join_1",				 agent test_split_and_join_1],
+				["split_and_join_2",				 agent test_split_and_join_2],
+				["split_and_join_3",				 agent test_split_and_join_3],
+				["split_immutable_utf_8_list", agent test_split_immutable_utf_8_list],
+				["split_intervals",				 agent test_split_intervals],
+				["split_iterator",				 agent test_split_iterator],
+				["split_sort",						 agent test_split_sort],
+				["split_string_8",				 agent test_split_string_8]
 			>>)
 		end
 
@@ -129,6 +133,55 @@ feature -- Tests
 			end
 		end
 
+	test_compact_zstring_list
+		-- SPLIT_STRING_TEST_SET.test_compact_zstring_list
+		note
+			testing: "[
+				covers/{EL_COMPACT_ZSTRING_LIST}.make,
+				covers/{EL_COMPACT_ZSTRING_LIST}.query_if,
+				covers/{EL_COMPACT_ZSTRING_LIST}.do_with,
+				covers/{EL_SPLIT_IMMUTABLE_UTF_8_LIST}.make,
+				covers/{EL_SPLIT_IMMUTABLE_UTF_8_LIST}.utf_8_strict_comparison,
+				covers/{EL_COMPACT_ZSTRING_ITERATION_CURSOR}.item
+			]"
+		local
+			compact_list: EL_COMPACT_ZSTRING_LIST; s32: EL_STRING_32_ROUTINES
+			string_32_list: EL_STRING_32_LIST; i: INTEGER
+			sub_list: EL_ZSTRING_LIST
+		do
+			string_32_list := Text.symbol_32_list
+			create compact_list.make (string_32_list)
+			assert ("same count", string_32_list.count = compact_list.count)
+
+			if attached compact_list.query_if (agent is_control) as short_list then
+				assert ("count = 1", short_list.count = 1)
+				assert ("is tab", short_list.first.is_character ('%T'))
+			end
+			create sub_list.make_from_general (string_32_list.sub_list (1, 3))
+			if attached compact_list.query_not_in (sub_list) as short_list then
+				assert ("count = 2", short_list.count = 2)
+				assert ("is tab", short_list.last.is_character ('%T'))
+				assert ("is dollor", short_list.first.is_character ('$'))
+			end
+
+			across 1 |..| 2 as n loop
+				across string_32_list as list loop
+					i := list.cursor_index
+					assert_same_string ("same i_th " + i.out, list.item, compact_list [i])
+					compact_list.go_i_th (i)
+					assert ("index_of = 1", compact_list.item_index_of (list.item [1]) = 1)
+				end
+				if n.item = 1 then
+					compact_list.sort (True)
+					string_32_list.sort_indirectly (True)
+				end
+			end
+			across compact_list as list loop
+				i := list.cursor_index
+				assert_same_string ("same i_th " + i.out, list.item, string_32_list [i])
+			end
+		end
+
 	test_curtail_list
 		-- SPLIT_STRING_TEST_SET.test_curtail_list
 		note
@@ -154,7 +207,7 @@ feature -- Tests
 						if not meets_expectation then
 							lio.put_labeled_lines ("Curtailed", line_list)
 							lio.put_new_line
-							assert ("curtailed to 100 characters leaving 80%% at head", False)
+							failed ("curtailed to 100 characters leaving 80%% at head")
 						end
 					end
 				end
@@ -203,11 +256,10 @@ feature -- Tests
 			end
 		end
 
-	test_immutable_string_split
-		-- SPLIT_STRING_TEST_SET.test_immutable_string_split
+	test_immutable_grid_32
+		-- SPLIT_STRING_TEST_SET.test_immutable_grid_32
 		local
-			i: INTEGER; i_ching: HEXAGRAM_NAMES
-			name: ZSTRING
+			i: INTEGER; i_ching: HEXAGRAM_NAMES; name: ZSTRING
 		do
 			if attached crc_generator as crc then
 				from i := 1 until i > 64 loop
@@ -226,10 +278,49 @@ feature -- Tests
 			end
 		end
 
+	test_immutable_string_32_split
+		note
+			testing: "covers/{EL_SPLIT_IMMUTABLE_STRING_LIST}.make_shared_adjusted"
+		local
+			split_list: EL_SPLIT_IMMUTABLE_STRING_32_LIST
+			csv_list: EL_STRING_32_LIST
+		do
+			create split_list.make_shared_adjusted (Sales, ',', {EL_SIDE}.Left)
+			csv_list := Sales
+			assert ("same count", split_list.count = csv_list.count)
+			if attached split_list as list then
+				from list.start until list.after loop
+					assert ("same item", list.item.same_string (csv_list [list.index]))
+					list.forth
+				end
+			end
+		end
+
+	test_item_count
+		local
+			str: ZSTRING; has_item_count_zero: BOOLEAN
+			list: EL_SEQUENTIAL_INTERVALS; s: EL_ZSTRING_ROUTINES
+		do
+			str := "A B C "
+			list := str.split_intervals (s.character_string (' '))
+			assert ("count is 4", list.count = 4)
+			list.finish
+			assert ("last item is empty", str.substring (list.item_lower, list.item_upper).is_empty)
+			from list.start until has_item_count_zero or list.after loop
+				if list.item_count = 0 then
+					has_item_count_zero := True
+				end
+				list.forth
+			end
+			assert ("has_item_count_zero", has_item_count_zero)
+		end
+
 	test_occurrence_editor
 		note
-			testing: "covers/{EL_STRING_32_OCCURRENCE_EDITOR}.apply",
-				"covers/{EL_STRING_8_OCCURRENCE_EDITOR}.apply"
+			testing: "[
+				covers/{EL_STRING_32_OCCURRENCE_EDITOR}.apply,
+				covers/{EL_STRING_8_OCCURRENCE_EDITOR}.apply
+			]"
 		local
 			pair: STRING_TEST
 		do
@@ -396,10 +487,29 @@ feature -- Tests
 			assert ("same string", Sales ~ list.joined_with_string (", "))
 		end
 
+	test_split_immutable_utf_8_list
+		-- SPLIT_STRING_TEST_SET.test_split_immutable_utf_8_list
+		note
+			testing: "[
+				covers/{EL_SPLIT_IMMUTABLE_UTF_8_LIST}.make,
+				covers/{EL_SPLIT_STRING_32_LIST}.character_count
+			]"
+		local
+			utf_8_list: EL_SPLIT_IMMUTABLE_UTF_8_LIST
+			symbol_32_list: EL_STRING_32_LIST
+		do
+			symbol_32_list := Text.symbol_32_list
+			create utf_8_list.make (symbol_32_list)
+			assert ("same count", utf_8_list.character_count = symbol_32_list.count)
+		end
+
 	test_split_intervals
 		-- SPLIT_STRING_TEST_SET.test_split_intervals
 		note
-			testing: "covers/{EL_SPLIT_INTERVALS}.make_by_string"
+			testing: "[
+				covers/{EL_SPLIT_INTERVALS}.make_by_string,
+				covers/{EL_SPLIT_STRING_32_LIST}.make_by_string
+			]"
 		local
 			pair: STRING_TEST; start_index, end_index, space_index: INTEGER
 			assertion_ok: STRING
@@ -422,6 +532,7 @@ feature -- Tests
 							from list.start until list.after loop
 								start_index := list.item_lower; end_index := list.item_upper
 								pair.set_substrings (start_index, end_index)
+								assert (assertion_ok, pair.split_lists)
 								assert (assertion_ok, pair.split_intervals)
 								list.forth
 							end
@@ -433,11 +544,14 @@ feature -- Tests
 
 	test_split_iterator
 		note
-			testing: "covers/{EL_ITERABLE_SPLIT_CURSOR}.forth, covers/{EL_ITERABLE_SPLIT_CURSOR}.item,%
-						%covers/{EL_ITERABLE_SPLIT_CURSOR}.item_is_empty,%
-						%covers/{EL_ITERABLE_SPLIT_CURSOR}.item_copy,%
-						%covers/{EL_ITERABLE_SPLIT_CURSOR}.item_same_as,%
-						%covers/{EL_ITERABLE_SPLIT_CURSOR}.item_same_caseless_as"
+			testing: "[
+				covers/{EL_ITERABLE_SPLIT_CURSOR}.forth,
+				covers/{EL_ITERABLE_SPLIT_CURSOR}.item,
+				covers/{EL_ITERABLE_SPLIT_CURSOR}.item_is_empty,
+				covers/{EL_ITERABLE_SPLIT_CURSOR}.item_copy,
+				covers/{EL_ITERABLE_SPLIT_CURSOR}.item_same_as,
+				covers/{EL_ITERABLE_SPLIT_CURSOR}.item_same_caseless_as
+			]"
 		local
 			string_split: EL_SPLIT_ON_STRING [STRING]; character_split: EL_SPLIT_ON_CHARACTER_8 [STRING]
 			splitter_array: ARRAY [EL_ITERABLE_SPLIT [STRING, ANY]]
@@ -478,6 +592,7 @@ feature -- Tests
 		end
 
 	test_split_sort
+		-- SPLIT_STRING_TEST_SET.test_split_sort
 		note
 			testing: "covers/{EL_SPLIT_READABLE_STRING_LIST}.sort", "covers/{EL_SPLIT_READABLE_STRING_LIST}.i_th",
 				"covers/{EL_SPLIT_ZSTRING_LIST}.string_strict_cmp", "covers/{ZSTRING}.order_comparison"
@@ -506,11 +621,11 @@ feature -- Tests
 		end
 
 	test_split_string_8
-		note
-			testing: "covers/{EL_SPLIT_STRING_LIST}.make", "covers/{EL_FILLED_STRING_8_TABLE}.item"
 		local
-			split_list: EL_SPLIT_STRING_LIST [STRING]; str_split: LIST [STRING]
+			split_list: EL_SPLIT_READABLE_STRING_LIST [STRING]; str_split: LIST [STRING]
+			list_2: EL_SPLIT_STRING_LIST [STRING_32]
 		do
+			create split_list.make_empty
 			across Comma_separated_variations as csv_list loop
 				create split_list.make_adjusted (csv_list.item, ',', {EL_SIDE}.Left)
 				str_split := csv_list.item.split (',')
@@ -527,6 +642,12 @@ feature -- Tests
 		end
 
 feature {NONE} -- Implementation
+
+	is_control (str: ZSTRING): BOOLEAN
+		-- Is `item' a control character?
+		do
+			Result := str.count = 1 and then str [1].is_control
+		end
 
 	same_list (split_list: EL_STRING_8_LIST; str: STRING): BOOLEAN
 		do

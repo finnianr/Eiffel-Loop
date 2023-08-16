@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-25 10:53:25 GMT (Saturday 25th March 2023)"
-	revision: "22"
+	date: "2023-08-14 8:37:39 GMT (Monday 14th August 2023)"
+	revision: "24"
 
 class
 	EL_OS_COMMAND
@@ -18,7 +18,7 @@ inherit
 			template as Empty_string
 		redefine
 			getter_function_table, has_variable, system_command, template_name,
-			new_temporary_name, temporary_error_file_path, put_variable
+			new_temporary_name, temporary_error_file_path, put_any
 		end
 
 	EL_OS_COMMAND_IMP
@@ -26,7 +26,7 @@ inherit
 			template as Empty_string
 		redefine
 			has_variable, system_command, template_name, new_temporary_name,
-			temporary_error_file_path, put_variable
+			temporary_error_file_path, put_any
 		end
 
 	EL_REFLECTION_HANDLER
@@ -66,7 +66,7 @@ feature -- Element change
 
 	put_object (object: EL_REFLECTIVE)
 		local
-			table: EL_REFLECTED_FIELD_TABLE; field: EL_REFLECTED_FIELD
+			table: EL_FIELD_TABLE; field: EL_REFLECTED_FIELD
 		do
 			table := object.field_table
 			from table.start until table.after loop
@@ -96,7 +96,7 @@ feature -- Element change
 			template.set_variable (variable_name, File_system.escaped_path (uri))
 		end
 
-	put_variable (object: ANY; variable_name: STRING)
+	put_any (variable_name: READABLE_STRING_8; object: ANY)
 		do
 			if attached {EL_PATH} object as path then
 				put_path (variable_name, path)

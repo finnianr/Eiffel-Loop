@@ -7,17 +7,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-04 14:37:17 GMT (Saturday 4th February 2023)"
-	revision: "9"
+	date: "2023-07-27 5:02:36 GMT (Thursday 27th July 2023)"
+	revision: "10"
 
 deferred class
 	EL_NUMERIC_BIT_ROUTINES
 
 inherit
-	PLATFORM
-		export
-			{NONE} all
-		end
+	ANY
+	
+	EL_BIT_COUNTABLE
 
 feature -- Access
 
@@ -51,11 +50,6 @@ feature -- Access
 		end
 
 feature -- Measurement
-
-	bit_count: INTEGER
-		-- number of bits in number
-		deferred
-		end
 
 	mask_count (mask: like one): INTEGER
 		-- count of digits in mask (assuming all ones)

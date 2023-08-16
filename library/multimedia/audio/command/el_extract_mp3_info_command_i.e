@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-18 15:29:11 GMT (Tuesday 18th July 2023)"
-	revision: "12"
+	date: "2023-07-22 12:24:21 GMT (Saturday 22nd July 2023)"
+	revision: "13"
 
 deferred class
 	EL_EXTRACT_MP3_INFO_COMMAND_I
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_SINGLE_PATH_OPERAND_COMMAND_I
 		undefine
-			do_command, make_default, new_command_parts
+			do_command, is_captured, make_default, new_command_parts
 		redefine
 			path
 		end

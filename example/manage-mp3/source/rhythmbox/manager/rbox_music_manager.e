@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 15:33:53 GMT (Monday 5th December 2022)"
-	revision: "35"
+	date: "2023-07-27 8:28:40 GMT (Thursday 27th July 2023)"
+	revision: "36"
 
 class
 	RBOX_MUSIC_MANAGER
@@ -99,7 +99,7 @@ feature {NONE} -- Implementation
 			database: RBOX_DATABASE
 		do
 			if not shared_database.is_created then
-				create database.make (User_config_dir + "rhythmdb.xml", task.music_dir)
+				create database.make (Rhythmbox_db_path, task.music_dir)
 			end
 
 			lio.put_labeled_string ("Executing", task_name)

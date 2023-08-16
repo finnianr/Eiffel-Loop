@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-07-31 11:23:57 GMT (Monday 31st July 2023)"
+	revision: "10"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE_AS_XML
@@ -48,7 +48,7 @@ feature {NONE} -- Implementation
 			--
 		do
 			Result := Precursor
-			Result [Variable_to_xml] :=  agent to_xml
+			Result [Var.to_xml] :=  agent to_xml
 		end
 
 	stored_successfully (a_file: like new_file): BOOLEAN
@@ -61,13 +61,6 @@ feature {NONE} -- Implementation
 			a_file.go (a_file.count - closing_tag.count)
 			a_file.read_line
 			Result := closing_tag ~ a_file.last_string
-		end
-
-feature {NONE} -- Constants
-
-	Variable_to_xml: ZSTRING
-		once
-			Result := "to_xml"
 		end
 
 end

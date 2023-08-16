@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-30 12:31:11 GMT (Thursday 30th March 2023)"
-	revision: "40"
+	date: "2023-08-02 6:00:04 GMT (Wednesday 2nd August 2023)"
+	revision: "41"
 
 class
 	EL_RENDERED_TEXT_ROUTINES
@@ -46,20 +46,9 @@ feature {NONE} -- Initialization
 
 feature -- Font
 
-	General_font_families: EL_SORTABLE_ARRAYED_LIST [ZSTRING]
-		-- monospace + proportional
-		local
-			families: EL_ARRAYED_RESULT_LIST [STRING_32, ZSTRING]
+	Font_families: EL_FONT_FAMILIES_I
 		once
-			create families.make (shared_environment.Font_families, agent new_zstring)
-			create Result.make_from_array (families.to_array)
-			Result.ascending_sort
-		end
-
-	Monospace_font_families: EL_ARRAYED_LIST [ZSTRING]
-		--
-		once
-			Result := General_font_families.query_if (agent is_monospace)
+			create {EL_FONT_FAMILIES_IMP} Result
 		end
 
 	scale_font (font: EV_FONT; proportion: REAL)
@@ -136,18 +125,18 @@ feature -- Measurement
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {EL_FONT_FAMILIES_I} -- Implementation
 
 	all_words_fit_width (line: ZSTRING; a_font: EV_FONT; a_width: INTEGER): BOOLEAN
 		do
 			Result := across line.split (' ') as word all word_fits_width (word.item, a_font, a_width) end
 		end
 
-	is_monospace (font_family: ZSTRING): BOOLEAN
+	is_monospace (font_family: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			if attached internal_font as l_font then
 				l_font.preferred_families.wipe_out
-				l_font.preferred_families.extend (font_family.to_latin_1)
+				l_font.preferred_families.extend (font_family.to_string_32)
 				Result := l_font.string_width (letter.narrow) = l_font.string_width (letter.wide)
 			end
 		end

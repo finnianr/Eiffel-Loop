@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-12 7:56:35 GMT (Wednesday 12th July 2023)"
-	revision: "13"
+	date: "2023-08-01 16:23:07 GMT (Tuesday 1st August 2023)"
+	revision: "15"
 
 deferred class
 	EL_C_STRING
@@ -32,6 +32,8 @@ inherit
 		undefine
 			default_create, is_equal, copy
 		end
+
+	EL_BIT_COUNTABLE
 
 	EL_SHARED_IMMUTABLE_32_MANAGER
 
@@ -137,11 +139,19 @@ feature -- Measurement
 
 feature -- Access
 
-	item (index: INTEGER): NATURAL_32
+	code (index: INTEGER): NATURAL_32
 			--
 		require
 			valid_index: index >= 1 and index <= count
 		deferred
+		end
+
+	item (index: INTEGER): CHARACTER_32
+			--
+		require
+			valid_index: index >= 1 and index <= count
+		do
+			Result := code (index).to_character_32
 		end
 
 feature -- Conversion
@@ -149,7 +159,7 @@ feature -- Conversion
 	to_boolean: BOOLEAN
 		do
 			if count = 4 then
-				Result := item (1).to_character_32.as_upper = 'T'
+				Result := code (1).to_character_32.as_upper = 'T'
 			end
 		end
 
@@ -197,7 +207,7 @@ feature -- Set external strings
 		do
 			l_count := count
 			from i := 1 until i > l_count loop
-				string.append_code (item (i))
+				string.append_code (code (i))
 				i := i + 1
 			end
 		end
@@ -218,7 +228,7 @@ feature -- Status query
 	is_empty: BOOLEAN
 			--
 		do
-			Result := count = 0 or else count = 1 and item (1) = 0
+			Result := count = 0 or else count = 1 and code (1) = 0
 		end
 
 	is_owned: BOOLEAN
@@ -243,7 +253,7 @@ feature -- Conversion
 			l_count := count
 			create Result.make_empty (l_count + 1)
 			from i := 1 until i > l_count loop
-				Result.extend (item (i).to_character_32)
+				Result.extend (code (i).to_character_32)
 				i := i + 1
 			end
 			Result.extend ('%U')

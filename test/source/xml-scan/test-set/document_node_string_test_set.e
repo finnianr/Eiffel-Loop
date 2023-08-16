@@ -6,14 +6,19 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 14:31:16 GMT (Monday 10th July 2023)"
-	revision: "10"
+	date: "2023-08-12 12:33:30 GMT (Saturday 12th August 2023)"
+	revision: "11"
 
 class
 	DOCUMENT_NODE_STRING_TEST_SET
 
 inherit
-	EL_EQA_TEST_SET
+	EIFFEL_LOOP_TEST_SET
+		undefine
+			new_lio
+		end
+
+	EL_CRC_32_TESTABLE
 
 	EL_SHARED_TEST_TEXT
 
@@ -30,7 +35,8 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["utf_8_set_string",	agent test_utf_8_set_string]
+				["utf_8_set_string",		agent test_utf_8_set_string],
+				["xpath_set_node_scan",	agent test_xpath_set_node_scan]
 			>>)
 		end
 
@@ -39,9 +45,14 @@ feature -- Tests
 	test_utf_8_set_string
 		-- DOCUMENT_NODE_STRING_TEST_SET.test_utf_8_set_string
 		note
-			testing: "covers/{EL_UTF_8_STRING}.set_string, covers/{EL_UTF_8_STRING}.set_string_32",
-						"covers/{EL_UTF_8_STRING}.adjusted, covers/{EL_UTF_8_STRING}.unicode_count",
-						"covers/{EL_DOCUMENT_NODE_STRING}.set_string, covers/{EL_DOCUMENT_NODE_STRING}.set_string_32"
+			testing: "[
+				covers/{EL_UTF_8_STRING}.set_string,
+				covers/{EL_UTF_8_STRING}.set_string_32,
+				covers/{EL_UTF_8_STRING}.adjusted,
+				covers/{EL_UTF_8_STRING}.unicode_count,
+				covers/{EL_DOCUMENT_NODE_STRING}.set_string,
+				covers/{EL_DOCUMENT_NODE_STRING}.set_string_32
+			]"
 		local
 			utf_8, encoded: EL_UTF_8_STRING; padded_string: ZSTRING; latin_15: EL_DOCUMENT_NODE_STRING
 			s32: EL_STRING_32_ROUTINES; s8: EL_STRING_8_ROUTINES; latin_15_codec: EL_ZCODEC
@@ -88,4 +99,22 @@ feature -- Tests
 			end
 		end
 
+	test_xpath_set_node_scan
+		-- DOCUMENT_NODE_STRING_TEST_SET.test_xpath_set_node_scan
+		do
+			do_test ("display_xpath_set", 1110527184, agent display_xpath_set, ["linguistic-analysis.smil"])
+			do_test ("display_xpath_set", 133799911, agent display_xpath_set, ["download-page.xhtml"])
+		end
+
+feature {NONE} -- Implementation
+
+	display_xpath_set (file_name: STRING)
+		local
+			compiler: EL_XML_XPATH_SET_COMPILER
+		do
+			create compiler.make_from_file ("XML/creatable/" + file_name)
+			across compiler.sorted_xpath_set as list loop
+				lio.put_line (list.item)
+			end
+		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-27 9:29:10 GMT (Friday 27th January 2023)"
-	revision: "14"
+	date: "2023-08-16 8:17:34 GMT (Wednesday 16th August 2023)"
+	revision: "15"
 
 class
 	GITHUB_CONFIGURATION
@@ -61,11 +61,11 @@ feature -- Factory
 
 	new_credentials_text (plain_text: BOOLEAN): STRING
 		local
-			decrypter: EL_AES_ENCRYPTER
+			decrypter: EL_AES_ENCRYPTER; user: EL_USER_CRYPTO_OPERATIONS
 		do
 			if plain_text then
 				if not credential.is_phrase_set then
-					credential.ask_user
+					user.validate (credential)
 				end
 				decrypter := credential.new_aes_encrypter (256)
 				Result := Credential_template #$ [user_name, decrypter.decrypted_base_64 (encrypted_access_token)]

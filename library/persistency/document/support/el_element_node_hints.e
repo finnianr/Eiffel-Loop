@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-18 12:55:02 GMT (Tuesday 18th July 2023)"
-	revision: "3"
+	date: "2023-07-19 17:14:24 GMT (Wednesday 19th July 2023)"
+	revision: "4"
 
 deferred class
 	EL_ELEMENT_NODE_HINTS
@@ -57,7 +57,7 @@ feature {EL_ELEMENT_NODE_HINTS} -- Factory
 			elseif element_node_fields.is_empty then
 				Result := Empty_field_set
 			else
-				create Result.make_from_reflective (current_reflective, element_node_fields)
+				create Result.make (current_reflective.field_info_table, element_node_fields)
 			end
 		end
 

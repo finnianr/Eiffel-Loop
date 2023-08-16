@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 8:57:18 GMT (Saturday 29th April 2023)"
-	revision: "21"
+	date: "2023-07-22 10:00:07 GMT (Saturday 22nd July 2023)"
+	revision: "22"
 
 class
 	OPEN_GREP_RESULT_COMMAND
@@ -110,7 +110,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Gedit_command: GEDIT_COMMAND
+	Gedit_command: GEDIT_AT_LINE_COMMAND
 		once
 			create Result.make
 		end

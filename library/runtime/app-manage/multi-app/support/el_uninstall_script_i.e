@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 9:05:54 GMT (Monday 10th July 2023)"
-	revision: "22"
+	date: "2023-08-11 15:39:58 GMT (Friday 11th August 2023)"
+	revision: "23"
 
 deferred class
 	EL_UNINSTALL_SCRIPT_I
@@ -36,7 +36,7 @@ inherit
 
 	EL_SHARED_APPLICATION_LIST; EL_SHARED_PHRASE; EL_SHARED_UNINSTALL_TEXTS
 
-	EL_SHARED_INSTALL_UNINSTALL_TESTER
+	EL_SHARED_INSTALL_UNINSTALL_TESTER; EL_CHARACTER_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -94,7 +94,7 @@ feature {NONE} -- Implementation
 	remove_files_script_path: FILE_PATH
 		do
 			Result := output_path.parent + Remove_user_files_template #$ [menu_name, dot_extension]
-			Result.base.translate_general (" ", "_")
+			Result.base.translate (Space #* 1, Underscore #* 1)
 		end
 
 	menu_name: ZSTRING
@@ -142,10 +142,8 @@ feature {NONE} -- Implementation
 		end
 
 	uninstall_option: ZSTRING
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
-			Result := s.character_string ('-') + uninstall_app.Option_name
+			Result := Hyphen.as_zstring (1) + uninstall_app.Option_name
 		end
 
 feature {NONE} -- Internal attributes

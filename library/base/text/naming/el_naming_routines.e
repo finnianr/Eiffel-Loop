@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-23 10:45:46 GMT (Tuesday 23rd May 2023)"
-	revision: "38"
+	date: "2023-08-16 8:14:46 GMT (Wednesday 16th August 2023)"
+	revision: "40"
 
 class
 	EL_NAMING_ROUTINES
@@ -22,6 +22,8 @@ inherit
 	ANY
 
 	EL_STRING_8_CONSTANTS
+
+	EL_SHARED_STRING_8_CURSOR
 
 feature -- Constants
 
@@ -136,47 +138,48 @@ feature -- Class name derivations
 
 feature -- Import names
 
-	from_camel_case (name_in, name_out: STRING)
+	from_camel_case (name_in: READABLE_STRING_8; name_out: STRING)
 		-- Eg. "fromCamelCase"
 		require
 			empty_name_out: name_out.is_empty
 		local
-			i, count, state: INTEGER; area: SPECIAL [CHARACTER]; c: CHARACTER
+			i, state, first_index, last_index: INTEGER; c: CHARACTER
 		do
-			count := name_in.count; area := name_in.area
-
-			if count > 0 then
-				c := area.item (0)
-				if c.is_digit then
-					state := State_numeric
-				elseif c.is_upper then
-					state := State_upper
-				else
-					state := State_lower
-				end
-			end
-			from i := 0 until i = count loop
-				c := area.item (i)
-				if state = State_numeric and not c.is_digit then
-					if c.is_lower then
-						state := State_lower
-					else
+			if attached cursor_8 (name_in) as c8 and then attached c8.area as area then
+				first_index := c8.area_first_index; last_index := c8.area_last_index
+				if name_in.count > 0 then
+					c := area.item (first_index)
+					if c.is_digit then
+						state := State_numeric
+					elseif c.is_upper then
 						state := State_upper
+					else
+						state := State_lower
 					end
-					name_out.append_character ('_')
-
-				elseif state = State_lower and then c.is_upper or c.is_digit then
-					state := State_upper; name_out.append_character ('_')
-
-				elseif state = State_upper and then c.is_lower or c.is_digit then
-					state := State_lower
 				end
-				name_out.append_character (c.as_lower)
-				i := i + 1
+				from i := first_index until i > last_index loop
+					c := area.item (i)
+					if state = State_numeric and not c.is_digit then
+						if c.is_lower then
+							state := State_lower
+						else
+							state := State_upper
+						end
+						name_out.append_character ('_')
+
+					elseif state = State_lower and then c.is_upper or c.is_digit then
+						state := State_upper; name_out.append_character ('_')
+
+					elseif state = State_upper and then c.is_lower or c.is_digit then
+						state := State_lower
+					end
+					name_out.append_character (c.as_lower)
+					i := i + 1
+				end
 			end
 		end
 
-	from_camel_case_upper (name_in, name_out: STRING; boundary_hints: ARRAY [STRING])
+	from_camel_case_upper (name_in: READABLE_STRING_8; name_out: STRING; boundary_hints: ARRAY [STRING])
 		-- Convert from UPPERCASECAMEL using word boundaries hints `boundary_hints'
 		-- For example `<< "sub" >>' is sufficient to convert BUTTONSUBTYPE to
 		-- button_sub_type.
@@ -204,13 +207,13 @@ feature -- Import names
 			end
 		end
 
-	from_kebab_case (name_in, name_out: STRING)
+	from_kebab_case (name_in: READABLE_STRING_8; name_out: STRING)
 		-- Eg. "from-kebab-case"
 		do
 			from_separated (name_in, name_out, '-')
 		end
 
-	from_separated (name_in, name_out: STRING; separator: CHARACTER)
+	from_separated (name_in: READABLE_STRING_8; name_out: STRING; separator: CHARACTER)
 		-- from words separated by `separator'
 		require
 			empty_name_out: name_out.is_empty
@@ -222,14 +225,14 @@ feature -- Import names
 			s.replace_character (name_out, separator, '_')
 		end
 
-	from_snake_case_lower (name_in, name_out: STRING)
+	from_snake_case_lower (name_in: READABLE_STRING_8; name_out: STRING)
 		require
 			empty_name_out: name_out.is_empty
 		do
 			name_out.append (name_in)
 		end
 
-	from_snake_case_upper (name_in, name_out: STRING)
+	from_snake_case_upper (name_in: READABLE_STRING_8; name_out: STRING)
 		-- Eg. "FROM_UPPER_SNAKE_CASE"
 		require
 			empty_name_out: name_out.is_empty
@@ -240,20 +243,19 @@ feature -- Import names
 
 feature -- Export names
 
-	to_camel_case (name_in, name_out: STRING; is_title: BOOLEAN)
+	to_camel_case (name_in: READABLE_STRING_8; name_out: STRING; is_title: BOOLEAN)
 		require
 			empty_name_out: name_out.is_empty
 		local
-			i, count: INTEGER; area: SPECIAL [CHARACTER]; c: CHARACTER
-			s: EL_STRING_8_ROUTINES
+			i, first_index, last_index: INTEGER; c: CHARACTER; s: EL_STRING_8_ROUTINES
 		do
-			if name_in.has ('_') then
-				count := name_in.count; area := name_in.area
-				from i := 0 until i = count loop
+			if name_in.has ('_') and then attached cursor_8 (name_in) as c8 and then attached c8.area as area then
+				first_index := c8.area_first_index; last_index := c8.area_last_index
+				from i := first_index until i > last_index loop
 					c := area [i]
 					if c = '_' then
 						i := i + 1
-						if i < count then
+						if i <= last_index then
 							name_out.append_character (area.item (i).as_upper)
 						end
 					else
@@ -269,19 +271,19 @@ feature -- Export names
 			end
 		end
 
-	to_camel_case_lower (name_in, name_out: STRING)
+	to_camel_case_lower (name_in: READABLE_STRING_8; name_out: STRING)
 		do
 			to_camel_case (name_in, name_out, False)
 			name_out.to_lower
 		end
 
-	to_camel_case_upper (name_in, name_out: STRING)
+	to_camel_case_upper (name_in: READABLE_STRING_8; name_out: STRING)
 		do
 			to_camel_case (name_in, name_out, False)
 			name_out.to_upper
 		end
 
-	to_english (name_in, english_out: STRING; upper_case_words: like empty_word_set)
+	to_english (name_in: READABLE_STRING_8; english_out: STRING; upper_case_words: like empty_word_set)
 		require
 			empty_name_out: english_out.is_empty
 		local
@@ -307,7 +309,7 @@ feature -- Export names
 			end
 		end
 
-	to_kebab_case (name_in, name_out: STRING)
+	to_kebab_case (name_in: READABLE_STRING_8; name_out: STRING)
 		require
 			empty_name_out: name_out.is_empty
 		local
@@ -317,26 +319,26 @@ feature -- Export names
 			s.replace_character (name_out, '_', '-')
 		end
 
-	to_kebab_case_lower (name_in, name_out: STRING)
+	to_kebab_case_lower (name_in: READABLE_STRING_8; name_out: STRING)
 		do
 			to_kebab_case (name_in, name_out)
 			name_out.to_lower
 		end
 
-	to_kebab_case_upper (name_in, name_out: STRING)
+	to_kebab_case_upper (name_in: READABLE_STRING_8; name_out: STRING)
 		do
 			to_kebab_case (name_in, name_out)
 			name_out.to_upper
 		end
 
-	to_snake_case_lower (name_in, name_out: STRING)
+	to_snake_case_lower (name_in: READABLE_STRING_8; name_out: STRING)
 		require
 			empty_name_out: name_out.is_empty
 		do
 			name_out.append (name_in)
 		end
 
-	to_snake_case_upper (name_in, name_out: STRING)
+	to_snake_case_upper (name_in: READABLE_STRING_8; name_out: STRING)
 		require
 			empty_name_out: name_out.is_empty
 		do
@@ -344,7 +346,7 @@ feature -- Export names
 			name_out.to_upper
 		end
 
-	to_title (name_in, title_out: STRING; separator_out: CHARACTER; uppercase_exception_set: EL_HASH_SET [STRING])
+	to_title (name_in: READABLE_STRING_8; title_out: STRING; separator_out: CHARACTER; uppercase_exception_set: EL_HASH_SET [STRING])
 		require
 			empty_title_out: title_out.is_empty
 		local

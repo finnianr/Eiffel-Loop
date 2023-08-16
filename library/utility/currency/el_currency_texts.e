@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-08-14 10:42:25 GMT (Monday 14th August 2023)"
+	revision: "5"
 
 class
 	EL_CURRENCY_TEXTS
@@ -33,7 +33,7 @@ feature -- Access
 	information (code: NATURAL_8): ZSTRING
 		-- name and format in brackets
 		do
-			if field_table.has_key (Currency_enum.name (code).as_lower)
+			if field_table.has_immutable_key (Currency_enum.name (code).as_lower)
 				and then attached {EL_REFLECTED_ZSTRING} field_table.found_item as field
 			then
 				Result := field.value (Current)

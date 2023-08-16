@@ -1,3 +1,15 @@
+1.4.1
+* Update personal access token on github config
+
+1.4.0
+* New style menu with ESC key to exit
+
+1.3.13
+* Separate sub-menu for version management in PROJECT_MANAGER_SHELL
+
+1.3.12
+* New PROJECT_MANAGER_APP
+
 1.3.11
 * Optimized EL_XML_DOC_CONTEXT for memory
 

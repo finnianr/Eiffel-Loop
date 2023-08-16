@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2023-07-31 13:32:42 GMT (Monday 31st July 2023)"
+	revision: "16"
 
 deferred class
 	EVOLICITY_CONTEXT
 
 feature -- Access
 
-	context_item (variable_name: STRING; function_args: TUPLE): ANY
+	context_item (variable_name: READABLE_STRING_8; function_args: TUPLE): ANY
 			--
 		do
 			Result := object_table [variable_name]
@@ -30,7 +30,7 @@ feature -- Access
 
 feature -- Status query
 
-	has_variable (variable_name: STRING): BOOLEAN
+	has_variable (variable_name: READABLE_STRING_8): BOOLEAN
 			--
 		do
 			Result := object_table.has (variable_name)
@@ -38,54 +38,54 @@ feature -- Status query
 
 feature -- Element change
 
-	put_boolean (variable_name: STRING; value: BOOLEAN)
+	put_boolean (variable_name: READABLE_STRING_8; value: BOOLEAN)
 			--
 		do
-			put_variable (value.to_reference, variable_name)
+			put_any (variable_name, value.to_reference)
 		end
 
-	put_double (variable_name: STRING; value: DOUBLE)
+	put_double (variable_name: READABLE_STRING_8; value: DOUBLE)
 			--
 		do
-			put_variable (value.to_reference, variable_name)
+			put_any (variable_name, value.to_reference)
 		end
 
-	put_integer (variable_name: STRING; value: INTEGER)
+	put_integer (variable_name: READABLE_STRING_8; value: INTEGER)
 			--
 		do
-			put_variable (value.to_reference, variable_name)
+			put_any (variable_name, value.to_reference)
 		end
 
-	put_variable (object: ANY; variable_name: STRING)
-			-- the order (value, variable_name) is special case due to function_item assign in descendant
-		do
-			object_table [variable_name] := object
-		end
-
-	put_natural (variable_name: STRING; value: NATURAL)
+	put_natural (variable_name: READABLE_STRING_8; value: NATURAL)
 			--
 		do
-			put_variable (value.to_reference, variable_name)
+			put_any (variable_name, value.to_reference)
 		end
 
-	put_quoted_string (variable_name: STRING; a_string: READABLE_STRING_GENERAL; count: INTEGER)
+	put_quoted_string (variable_name: READABLE_STRING_8; a_string: READABLE_STRING_GENERAL; count: INTEGER)
 		local
 			s: EL_ZSTRING_ROUTINES
 		do
 			put_string (variable_name, s.new_zstring (a_string).quoted (count))
 		end
 
-	put_real (variable_name: STRING; value: REAL)
+	put_real (variable_name: READABLE_STRING_8; value: REAL)
 			--
 		do
-			put_variable (value.to_reference, variable_name)
+			put_any (variable_name, value.to_reference)
 		end
 
-	put_string (variable_name: STRING; value: READABLE_STRING_GENERAL)
+	put_string (variable_name: READABLE_STRING_8; value: READABLE_STRING_GENERAL)
 		local
 			s: EL_ZSTRING_ROUTINES
 		do
-			put_variable (s.new_zstring (value), variable_name)
+			put_any (variable_name, s.new_zstring (value))
+		end
+
+	put_any (variable_name: READABLE_STRING_8; object: ANY)
+			-- the order (value, variable_name) is special case due to function_item assign in descendant
+		do
+			object_table [variable_name] := object
 		end
 
 	put_variables (name_value_pair_list: ARRAY [TUPLE])
@@ -95,61 +95,62 @@ feature -- Element change
 				across name_value_pair_list as tuple all
 					tuple.item.count = 2 and then attached {READABLE_STRING_GENERAL} tuple.item.reference_item (1)
 				end
-		local
-			variable_name: STRING; ref_item: ANY
 		do
-			across name_value_pair_list as pair loop
-				if attached {READABLE_STRING_GENERAL} pair.item.reference_item (1) as general_string then
-					variable_name := general_string.to_string_8
-				end
-				inspect pair.item.item_code (2)
-					when {TUPLE}.Character_8_code then
-						put_variable (pair.item.character_8_item (2).out, variable_name)
+			across name_value_pair_list as list loop
+				if attached list.item as pair
+					and then attached {READABLE_STRING_GENERAL} pair.reference_item (1) as general
+					and then attached general.to_string_8 as variable_name
+				then
+					inspect pair.item_code (2)
+						when {TUPLE}.Character_8_code then
+							put_any (variable_name, pair.character_8_item (2).out)
 
-					when {TUPLE}.Character_32_code then
-						put_variable (pair.item.character_32_item (2).out, variable_name)
+						when {TUPLE}.Character_32_code then
+							put_any (variable_name, pair.character_32_item (2).out)
 
-					when {TUPLE}.Boolean_code then
-						put_boolean (variable_name, pair.item.boolean_item (2))
+						when {TUPLE}.Boolean_code then
+							put_boolean (variable_name, pair.boolean_item (2))
 
-					when {TUPLE}.Integer_8_code then
-						put_integer (variable_name, pair.item.integer_8_item (2))
+						when {TUPLE}.Integer_8_code then
+							put_integer (variable_name, pair.integer_8_item (2))
 
-					when {TUPLE}.Integer_16_code then
-						put_integer (variable_name, pair.item.integer_16_item (2))
+						when {TUPLE}.Integer_16_code then
+							put_integer (variable_name, pair.integer_16_item (2))
 
-					when {TUPLE}.Integer_32_code then
-						put_integer (variable_name, pair.item.integer_32_item (2))
+						when {TUPLE}.Integer_32_code then
+							put_integer (variable_name, pair.integer_32_item (2))
 
-					when {TUPLE}.Integer_64_code then
-						put_variable (pair.item.integer_64_item (2).to_reference, variable_name)
+						when {TUPLE}.Integer_64_code then
+							put_any (variable_name, pair.integer_64_item (2).to_reference)
 
-					when {TUPLE}.Natural_8_code then
-						put_natural (variable_name, pair.item.natural_8_item (2))
+						when {TUPLE}.Natural_8_code then
+							put_natural (variable_name, pair.natural_8_item (2))
 
-					when {TUPLE}.Natural_16_code then
-						put_natural (variable_name, pair.item.natural_16_item (2))
+						when {TUPLE}.Natural_16_code then
+							put_natural (variable_name, pair.natural_16_item (2))
 
-					when {TUPLE}.Natural_32_code then
-						put_natural (variable_name, pair.item.natural_32_item (2))
+						when {TUPLE}.Natural_32_code then
+							put_natural (variable_name, pair.natural_32_item (2))
 
-					when {TUPLE}.Natural_64_code then
-						put_variable (pair.item.natural_64_item (2).to_reference, variable_name)
+						when {TUPLE}.Natural_64_code then
+							put_any (variable_name, pair.natural_64_item (2).to_reference)
 
-					when {TUPLE}.Real_32_code then
-						put_real (variable_name, pair.item.real_32_item (2))
+						when {TUPLE}.Real_32_code then
+							put_real (variable_name, pair.real_32_item (2))
 
-					when {TUPLE}.Real_64_code then
-						put_double (variable_name, pair.item.real_64_item (2))
+						when {TUPLE}.Real_64_code then
+							put_double (variable_name, pair.real_64_item (2))
 
-					when {TUPLE}.Reference_code then
-						ref_item := pair.item.reference_item (2)
-						if attached {READABLE_STRING_GENERAL} ref_item as general then
-							 put_string (variable_name, general)
-						else
-							put_variable (ref_item, variable_name)
-						end
-				else
+						when {TUPLE}.Reference_code then
+							if attached pair.reference_item (2) as ref_item then
+								if attached {READABLE_STRING_GENERAL} ref_item as str then
+									 put_string (variable_name, str)
+								else
+									put_any (variable_name, ref_item)
+								end
+							end
+					else
+					end
 				end
 			end
 		end
@@ -205,23 +206,6 @@ feature {EVOLICITY_CONTEXT} -- Implementation
 
 feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
 
-	is_valid_type (object: ANY): BOOLEAN
-			-- object conforms to one of following types
-		do
-			if attached {EVOLICITY_CONTEXT} object
-				or else attached {READABLE_STRING_GENERAL} object
-				or else attached {BOOLEAN_REF} object
-				or else attached {EL_PATH} object
-				or else attached {NUMERIC} object
-				or else attached {EVOLICITY_OBJECT_TABLE [EVOLICITY_CONTEXT]} object
-				or else attached {ITERABLE [ANY]} object
-				or else attached {FINITE [ANY]} object
-				or else attached {READABLE_INDEXABLE [ANY]} object
-			then
-				Result := true
-			end
-		end
-
 	is_valid_iterable (iterable: ITERABLE [ANY]): BOOLEAN
 		-- `True' if iterable object has valid items
 		local
@@ -243,11 +227,30 @@ feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
 			end
 		end
 
-	object_table: HASH_TABLE [ANY, STRING]
+	is_valid_type (object: ANY): BOOLEAN
+			-- object conforms to one of following types
+		do
+			Result := Valid_types.has_conforming (object)
+		end
+
+	object_table: EL_STRING_8_TABLE [ANY]
 		deferred
 		end
 
-feature {NONE} -- Constants
+	valid_types_tuple: TUPLE [
+		EVOLICITY_CONTEXT,
+		READABLE_STRING_GENERAL,
+		BOOLEAN_REF, EL_PATH, NUMERIC,
+		EL_STRING_8_TABLE [EVOLICITY_CONTEXT],
+		EVOLICITY_FUNCTION_TABLE,
+--		Collections
+		ITERABLE [ANY], FINITE [ANY], READABLE_INDEXABLE [ANY]
+	]
+		do
+			create Result
+		end
+
+feature {NONE} -- Enumeration
 
 	Feature_count: INTEGER = 1
 
@@ -257,14 +260,21 @@ feature {NONE} -- Constants
 
 	Feature_upper: INTEGER = 4
 
+feature {NONE} -- Constants
+
 	Feature_table: EL_HASH_TABLE [INTEGER, STRING]
 		once
 			create Result.make (<<
-				["count", Feature_count],
+				["count",	 Feature_count],
 				["is_empty", Feature_is_empty],
-				["lower", Feature_lower],
-				["upper", Feature_upper]
+				["lower",	 Feature_lower],
+				["upper",	 Feature_upper]
 			>>)
+		end
+
+	Valid_types: EL_TYPE_ID_ARRAY
+		once
+			create Result.make_from_tuple (valid_types_tuple)
 		end
 
 end

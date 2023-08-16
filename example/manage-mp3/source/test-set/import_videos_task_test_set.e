@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-08-15 15:44:50 GMT (Tuesday 15th August 2023)"
+	revision: "8"
 
 class
 	IMPORT_VIDEOS_TASK_TEST_SET
@@ -60,7 +60,7 @@ feature {NONE} -- Constants
 			]")
 		end
 
-	Checksum: NATURAL = 580537844
+	Checksum: NATURAL = 838701835
 
 	Task_config: STRING = "[
 		import_videos:

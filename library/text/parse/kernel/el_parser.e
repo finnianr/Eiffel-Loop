@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
-	revision: "10"
+	date: "2023-07-19 20:15:16 GMT (Wednesday 19th July 2023)"
+	revision: "11"
 
 deferred class
 	EL_PARSER
@@ -97,9 +97,14 @@ feature -- Element change
 			s_8: EL_STRING_8_ROUTINES; s_32: EL_STRING_32_ROUTINES
 			z: EL_ZSTRING_ROUTINES
 		do
-			if attached {STRING_8} a_source_text as str_8 then
-				set_source_text (s_8.shared_substring (str_8, end_index))
-				start_offset := start_index - 1
+			if a_source_text.is_string_8 then
+				if attached {STRING_8} a_source_text as str_8 then
+					set_source_text (s_8.shared_substring (str_8, end_index))
+					start_offset := start_index - 1
+					
+				elseif attached {IMMUTABLE_STRING_8} a_source_text as str_8 then
+					set_source_text (str_8.shared_substring (start_index, end_index))
+				end
 
 			elseif attached {ZSTRING} a_source_text as z_str then
 				set_source_text (z.shared_substring (z_str, end_index))
@@ -109,8 +114,6 @@ feature -- Element change
 				set_source_text (s_32.shared_substring (str_32, end_index))
 				start_offset := start_index - 1
 
-			elseif attached {IMMUTABLE_STRING_8} a_source_text as str_8 then
-				set_source_text (str_8.shared_substring (start_index, end_index))
 
 			elseif attached {IMMUTABLE_STRING_32} a_source_text as str_32 then
 				set_source_text (str_32.shared_substring (start_index, end_index))

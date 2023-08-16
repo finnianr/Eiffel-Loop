@@ -3,6 +3,7 @@ note
 		Reflective initialization of localized string fields based on deferred `Locale'
 		conforming to [$source EL_DEFERRED_LOCALE_I]
 	]"
+	descendants: "See end of class"
 	notes: "See end of class"
 
 	author: "Finnian Reilly"
@@ -10,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-28 7:29:40 GMT (Wednesday 28th June 2023)"
-	revision: "27"
+	date: "2023-08-14 10:41:41 GMT (Monday 14th August 2023)"
+	revision: "30"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -38,7 +39,7 @@ inherit
 
 	EL_SHARED_CLASS_ID
 
-	EL_LOCALE_CONSTANTS
+	EL_CHARACTER_CONSTANTS; EL_LOCALE_CONSTANTS
 
 feature {EL_MODULE_EIFFEL} -- Initialization
 
@@ -128,7 +129,7 @@ feature -- Contract Support
 
 	valid_english_table: BOOLEAN
 		do
-			Result := across new_english_table as table all field_table.has (table.key) end
+			Result := across new_english_table as table all field_table.has_8 (table.key) end
 		end
 
 	valid_special_keys: BOOLEAN
@@ -189,7 +190,7 @@ feature {NONE} -- Factory
 				end
 			end
 		ensure
-			all_keys_match_a_field_name: across Result as table all field_table.has (table.key) end
+			all_keys_match_a_field_name: across Result as table all field_table.has_8 (table.key) end
 		end
 
 	new_quantity_table (text: ZSTRING): EL_ZSTRING_TABLE
@@ -248,10 +249,8 @@ feature {NONE} -- Implementation
 		end
 
 	joined (precursor_lines, lines: STRING): STRING
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			Result := precursor_lines + s.character_string ('%N') + lines
+			Result := precursor_lines + New_line * 1 + lines
 		end
 
 	set_as_paragraph (str: ZSTRING)
@@ -368,6 +367,17 @@ feature {NONE} -- Constants
 		end
 
 note
+	descendants: "[
+			EL_REFLECTIVE_LOCALE_TEXTS*
+				[$source EL_PASSPHRASE_ATTRIBUTES]
+				[$source EL_DAY_OF_WEEK_TEXTS]
+				[$source EL_CURRENCY_TEXTS]
+				[$source EL_MONTH_TEXTS]
+				[$source EL_PHRASE_TEXTS]
+				[$source EL_PASSPHRASE_TEXTS]
+				[$source EL_UNINSTALL_TEXTS]
+				[$source EL_WORD_TEXTS]
+	]"
 	notes: "[
 		Inherit this class and then string fields will be initialized with a localized value. 
 		See library [./library/i18n.html i18n.ecf] By using the library, it over-rides the deferred Locale
@@ -408,5 +418,4 @@ note
 
 		See [$source EL_UNINSTALL_TEXTS] as an example.
 	]"
-
 end

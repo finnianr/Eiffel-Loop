@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:54 GMT (Friday 10th March 2023)"
-	revision: "24"
+	date: "2023-08-16 11:27:32 GMT (Wednesday 16th August 2023)"
+	revision: "25"
 
 class
 	CODE_HIGHLIGHTING_WRITER
@@ -135,8 +135,8 @@ feature {NONE} -- Line procedure transitions for whole class
 			if not source_text.is_empty then
 				source_text.append_character ('%N')
 			end
-			line.grow (line.count + line.occurrences ('%T') * (Tab_spaces.count - 1))
-			line.replace_substring_all (Tab_character_string, Tab_spaces)
+			line.grow (line.count + line.occurrences ('%T') * (Tab_space_count - 1))
+			line.expand_tabs (Tab_space_count)
 			source_text.append (line)
 		end
 
@@ -257,15 +257,6 @@ feature {NONE} -- Constants
 			Result := "</em>"
 		end
 
-	Tab_character_string: ZSTRING
-		once
-			Result := "%T"
-		end
-
-	Tab_spaces: ZSTRING
-			--
-		once
-			create Result.make_filled (' ', 4)
-		end
+	Tab_space_count: INTEGER = 4
 
 end

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 8:45:18 GMT (Saturday 29th April 2023)"
-	revision: "11"
+	date: "2023-07-23 16:04:32 GMT (Sunday 23rd July 2023)"
+	revision: "12"
 
 deferred class
 	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
@@ -24,6 +24,8 @@ inherit
 		redefine
 			new_node_source
 		end
+
+	EL_NODE_CONSTANTS
 
 feature {EL_XPATH_MATCH_SCAN_SOURCE} -- Implementation
 
@@ -38,20 +40,14 @@ feature {EL_XPATH_MATCH_SCAN_SOURCE} -- Implementation
 			last_node := node
 		end
 
-	xpath_match_events: ARRAY [EL_XPATH_TO_AGENT_MAP]
+	xpath_match_events: ITERABLE [EL_XPATH_TO_AGENT_MAP]
 			--
 		deferred
 		end
 
 feature {NONE} -- Internal attributes
 
-	last_node: EL_DOCUMENT_NODE_STRING
-
-feature {NONE} -- Constants
-
-	on_close: BOOLEAN = False
-
-	on_open: BOOLEAN = True
+	last_node: EL_DOCUMENT_NODE_STRING;
 
 note
 	notes: "[

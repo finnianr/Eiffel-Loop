@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "39"
+	date: "2023-08-15 10:14:42 GMT (Tuesday 15th August 2023)"
+	revision: "40"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -220,7 +220,7 @@ feature -- Purchase
 				assert ("no error", not Request_manager.has_error)
 				assert ("expected response", purchase.as_json.to_latin_1 ~ json_response)
 			else
-				assert ("returned AIA_PURCHASE_RESPONSE", False)
+				failed ("returned AIA_PURCHASE_RESPONSE")
 			end
 		end
 
@@ -252,7 +252,7 @@ feature -- Purchase
 				assert ("no error", not Request_manager.has_error)
 				assert ("expected response", l_response.as_json.to_latin_1 ~ json_response)
 			else
-				assert ("returned AIA_REVOKE_RESPONSE", False)
+				failed ("returned AIA_REVOKE_RESPONSE")
 			end
 		end
 
@@ -330,10 +330,10 @@ feature {NONE} -- Implementation
 			elseif attached {AIA_FAIL_RESPONSE} response then
 				lio.put_labeled_string ("Failure", Request_manager.error_message)
 				lio.put_new_line
-				assert ("returned AIA_GET_USER_ID_RESPONSE", False)
+				failed ("returned AIA_GET_USER_ID_RESPONSE")
 			else
 				lio.put_line ("response not attached")
-				assert ("returned AIA_GET_USER_ID_RESPONSE", False)
+				failed ("returned AIA_GET_USER_ID_RESPONSE")
 			end
 		end
 

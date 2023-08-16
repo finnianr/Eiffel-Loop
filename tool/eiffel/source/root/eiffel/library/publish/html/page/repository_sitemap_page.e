@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-08 8:42:29 GMT (Monday 8th May 2023)"
-	revision: "18"
+	date: "2023-07-31 15:06:03 GMT (Monday 31st July 2023)"
+	revision: "19"
 
 class
 	REPOSITORY_SITEMAP_PAGE
@@ -15,7 +15,8 @@ class
 inherit
 	REPOSITORY_HTML_PAGE
 		rename
-			make as make_page
+			make as make_page,
+			Var as Standard_var
 		redefine
 			make_default, getter_function_table, sink_content
 		end
@@ -80,9 +81,10 @@ feature {NONE} -- Evolicity fields
 
 feature {NONE} -- Implementation
 
-	category_list: ARRAYED_LIST [EVOLICITY_CONTEXT]
+	category_list: ARRAYED_LIST [EVOLICITY_TUPLE_CONTEXT]
 		local
 			category: ZSTRING; list: EL_SORTABLE_ARRAYED_LIST [EIFFEL_CONFIGURATION_INDEX_PAGE]
+			context: EVOLICITY_TUPLE_CONTEXT
 		do
 			create Result.make (ecf_pages.count // 10 + 1)
 			create category.make_empty
@@ -92,10 +94,8 @@ feature {NONE} -- Implementation
 					category := page.item.category_index_title
 					list.ascending_sort
 					create list.make (10)
-					Result.extend (create {EVOLICITY_CONTEXT_IMP}.make)
-					Result.last.put_variable (list, Var.page_list)
-					Result.last.put_variable (page.item.category_id, Var.id)
-					Result.last.put_variable (category, Var.name)
+					create context.make ([page.item.category_id, category, list], once "id, name, page_list")
+					Result.extend (context)
 				end
 				list.extend (page.item)
 			end
@@ -133,11 +133,5 @@ feature -- Constants
 		end
 
 	Step_count: INTEGER = 0
-
-	Var: TUPLE [id, name, page_list: ZSTRING]
-		once
-			create Result
-			Tuple.fill (Result, "id, name, page_list")
-		end
 
 end

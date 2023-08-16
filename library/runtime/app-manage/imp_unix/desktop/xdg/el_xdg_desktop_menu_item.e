@@ -6,19 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-08-11 15:38:06 GMT (Friday 11th August 2023)"
+	revision: "14"
 
 deferred class
 	EL_XDG_DESKTOP_MENU_ITEM
 
 inherit
 	EVOLICITY_SERIALIZEABLE
+		rename
+			Var as Standard_var
 		redefine
 			getter_function_table
 		end
 
 	EL_MODULE_DEFERRED_LOCALE; EL_MODULE_LIO; EL_MODULE_TUPLE
+
+	EL_CHARACTER_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -33,7 +37,7 @@ feature -- Access
 
 	file_name: ZSTRING
 		do
-			Result := item.name.translated_general (" ", "-") + "." + file_name_extension
+			Result := item.name.translated (Space #* 1, Hyphen #* 1) + "." + file_name_extension
 		end
 
 	name: ZSTRING
@@ -101,19 +105,19 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Evolicity reflection
 
-	get_locale_table: HASH_TABLE [EVOLICITY_CONTEXT_IMP, STRING]
+	get_locale_table: HASH_TABLE [EVOLICITY_TUPLE_CONTEXT, STRING]
 		local
-			context: EVOLICITY_CONTEXT_IMP
+			context: EVOLICITY_TUPLE_CONTEXT; comment: ZSTRING
 		do
 			create Result.make_equal (Locale.all_languages.count)
 			across Locale.all_languages as lang loop
-				create context.make
-				context.put_string (Var.name, Locale.in (lang.item) * item.name)
 				if item.comment.is_empty then
-					context.put_string (Var.comment, Empty_string)
+					comment := Empty_string
 				else
-					context.put_string (Var.comment, Locale.in (lang.item) * item.comment)
+					comment := Locale.in (lang.item) * item.comment
 				end
+				create context.make ([Locale.in (lang.item) * item.name, comment], once "name, comment")
+
 				Result.extend (context, lang.item)
 			end
 		end
@@ -129,12 +133,6 @@ feature {NONE} -- Evolicity reflection
 		end
 
 feature {NONE} -- Constants
-
-	Var: TUPLE [name, comment: STRING]
-		once
-			create Result
-			Tuple.fill (Result, "name, comment")
-		end
 
 	Eng_code: STRING = "en"
 end

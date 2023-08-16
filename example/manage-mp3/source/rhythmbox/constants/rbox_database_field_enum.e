@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 15:44:53 GMT (Sunday 16th July 2023)"
-	revision: "13"
+	date: "2023-08-14 10:54:09 GMT (Monday 14th August 2023)"
+	revision: "15"
 
 class
 	RBOX_DATABASE_FIELD_ENUM
@@ -26,6 +26,7 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_16
 		rename
+			description as field_description,
 			foreign_naming as kebab_case
 		redefine
 			initialize_fields, make
@@ -243,7 +244,7 @@ feature -- Fields H to P
 
 	post_time: NATURAL_16
 
-feature -- Fields R to Z
+feature -- Fields R
 
 	rating: NATURAL_16
 
@@ -254,6 +255,8 @@ feature -- Fields R to Z
 	replaygain_track_gain: NATURAL_16
 
 	replaygain_track_peak: NATURAL_16
+
+feature -- Fields S to Z
 
 	search_match: NATURAL_16
 

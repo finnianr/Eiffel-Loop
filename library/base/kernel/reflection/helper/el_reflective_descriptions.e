@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 11:34:21 GMT (Monday 23rd January 2023)"
-	revision: "7"
+	date: "2023-08-14 10:34:44 GMT (Monday 14th August 2023)"
+	revision: "8"
 
 deferred class
 	EL_REFLECTIVE_DESCRIPTIONS
@@ -44,7 +44,7 @@ feature -- Access
 				create help_table.make (descriptions)
 				create Result.make_equal (help_table.count)
 				across help_table as table loop
-					if field_table.has_key (table.key) then
+					if field_table.has_key_8 (table.key) then
 						Result.extend ([table.item, field_table.found_item.value (l_current)], table.key)
 					end
 				end
@@ -70,7 +70,7 @@ feature {NONE} -- Deferred implementation
 		deferred
 		end
 
-	field_table: EL_REFLECTED_FIELD_TABLE
+	field_table: EL_FIELD_TABLE
 		deferred
 		end
 

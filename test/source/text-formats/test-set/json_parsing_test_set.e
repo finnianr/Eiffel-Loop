@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-19 16:04:26 GMT (Sunday 19th March 2023)"
-	revision: "30"
+	date: "2023-08-15 10:21:42 GMT (Tuesday 15th August 2023)"
+	revision: "32"
 
 class
 	JSON_PARSING_TEST_SET
@@ -99,7 +99,7 @@ feature -- Tests
 				if JSON_vector_plane_data /~ json_data then
 					lio.put_curtailed_string_field ("JSON", json_data, json_data.count)
 					lio.put_new_line
-					assert ("same data except for rounding difference", False)
+					failed ("same data except for rounding difference")
 				end
 			end
 		end
@@ -155,6 +155,7 @@ feature -- Tests
 		end
 
 	test_intervals_object
+		-- JSON_PARSING_TEST_SET.test_intervals_object
 		note
 			testing: "covers/{JSON_INTERVALS_OBJECT}.make"
 		local

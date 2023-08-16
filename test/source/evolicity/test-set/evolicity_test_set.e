@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-19 10:59:46 GMT (Sunday 19th March 2023)"
-	revision: "16"
+	date: "2023-07-31 14:37:36 GMT (Monday 31st July 2023)"
+	revision: "17"
 
 class
 	EVOLICITY_TEST_SET
@@ -45,8 +45,8 @@ feature -- Tests
 
 	test_if_then
 		do
-			do_test ("merge_context", 1832220265, agent merge_context, ["if_then.evol", new_context (2, 2, "")])
-			do_test ("merge_context", 2957896903, agent merge_context, ["if_then.evol", new_context (1, 2, "abc")])
+			do_test ("merge_context", 2851934917, agent merge_context, ["if_then.evol", new_tuple_context (2, 2, "")])
+			do_test ("merge_context", 1728344681, agent merge_context, ["if_then.evol", new_tuple_context (1, 2, "abc")])
 		end
 
 	test_iteration_loops
@@ -115,16 +115,13 @@ feature {NONE} -- Factory
 			create table.make (<<
 				["one", 1], ["two", 2], ["three", 3]
 			>>)
-			Result.put_variable (table, "value_table")
-			Result.put_variable (table.current_keys, "string_list")
+			Result.put_any ("value_table", table)
+			Result.put_any ("string_list", table.current_keys)
 		end
 
-	new_context (x, y: INTEGER; str: STRING): EVOLICITY_CONTEXT_IMP
+	new_tuple_context (x, y: INTEGER; str: STRING): EVOLICITY_TUPLE_CONTEXT
 		do
-			create Result.make
-			Result.put_integer ("x", x)
-			Result.put_integer ("y", y)
-			Result.put_string ("str", str)
+			create Result.make ([x, y, str], "x, y, str")
 		end
 
 	new_job_info (job_list: like new_job_list): EVOLICITY_CONTEXT_IMP
@@ -136,14 +133,14 @@ feature {NONE} -- Factory
 			-- #set ($page.title = "Jobserve results" )
 			create Result.make
 			create title_context.make
-			title_context.put_variable ("Jobserve results", "title")
-			Result.put_variable (title_context, "page")
+			title_context.put_any ("title", "Jobserve results")
+			Result.put_any ("page", title_context)
 
 			create job_search_context.make
-			job_search_context.put_variable (job_list ,"result_set")
+			job_search_context.put_any ("result_set", job_list)
 			create query_context.make
-			query_context.put_variable (job_search_context, "job_search")
-			Result.put_variable (query_context, "query")
+			query_context.put_any ("job_search", job_search_context)
+			Result.put_any ("query", query_context)
 		end
 
 	new_job_list: ARRAYED_LIST [JOB_INFORMATION]

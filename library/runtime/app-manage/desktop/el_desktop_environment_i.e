@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:04 GMT (Monday 20th March 2023)"
-	revision: "17"
+	date: "2023-08-16 10:46:39 GMT (Wednesday 16th August 2023)"
+	revision: "18"
 
 deferred class
 	EL_DESKTOP_ENVIRONMENT_I
@@ -105,7 +105,7 @@ feature -- Element change
 		do
 			create option_list.make_from_general (options)
 			across option_list as option loop
-				if not (option.item.count > 0 and then option.item [1] = '%%') then
+				if not option.item.starts_with_character ('%%') then
 					option.item.prepend_character ('-')
 				end
 			end

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 17:13:27 GMT (Sunday 18th December 2022)"
-	revision: "7"
+	date: "2023-08-15 15:17:47 GMT (Tuesday 15th August 2023)"
+	revision: "9"
 
 class
 	EL_ENGLISH_NAME_TRANSLATER
@@ -25,7 +25,7 @@ convert
 
 feature -- Conversion
 
-	exported (eiffel_name: STRING): STRING
+	exported (eiffel_name: READABLE_STRING_8): STRING
 		-- `eiffel_name' exported to a foreign naming convention
 		local
 			s: EL_STRING_8_ROUTINES
@@ -53,7 +53,7 @@ feature -- Conversion
 			end
 		end
 
-	imported (foreign_name: STRING): STRING
+	imported (foreign_name: READABLE_STRING_8): STRING
 		-- `foreign_name' translated to Eiffel attribute-naming convention
 		local
 			s: EL_STRING_8_ROUTINES

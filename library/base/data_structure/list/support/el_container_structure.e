@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 18:02:12 GMT (Monday 27th March 2023)"
-	revision: "11"
+	date: "2023-07-21 9:43:41 GMT (Friday 21st July 2023)"
+	revision: "12"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]
@@ -36,16 +36,17 @@ feature -- Queries
 	query (condition: EL_QUERY_CONDITION [G]): EL_ARRAYED_LIST [G]
 			-- all item meeting condition
 		local
-			area: SPECIAL [G]; l_count: INTEGER
+			l_count: INTEGER
 		do
 			l_count := current_count
 			if l_count > 0 then
-				create area.make_empty (l_count)
-				do_meeting (agent area.extend, condition)
-				if area.count > 5 and then (area.count / l_count) < 0.95 then
-					area := area.aliased_resized_area (area.count)
+				create Result.make (l_count)
+				if attached Result.area as area then
+					do_meeting (agent area.extend, condition)
 				end
-				create Result.make_from_special (area)
+				if Result.count > 5 and then (Result.count / l_count) < 0.95 then
+					Result.trim
+				end
 			else
 				create Result.make_empty
 			end
@@ -255,16 +256,26 @@ feature -- Basic operations
 
 	pop_cursor
 		-- restore cursor position from stack
-		local
-			index: INTEGER
 		do
-			if attached {CURSOR_STRUCTURE [G]} current_container as structure then
-				restore_cursor (structure)
-
-			elseif attached {LINEAR [G]} current_container as linear then
-				index := Index_stack.item
+--			Try LINEAR first because `push_cursor' tried it first
+			if attached {LINEAR [G]} current_container as linear then
+				restore_index (Index_stack.item, linear)
 				Index_stack.remove
-				from linear.start until linear.index = index or linear.after loop
+
+			elseif attached {CURSOR_STRUCTURE [G]} current_container as structure then
+				structure.go_to (Cursor_stack.item)
+				Cursor_stack.remove
+			end
+		end
+
+	restore_index (original_index: INTEGER; linear: LINEAR [G])
+		do
+			if attached {CHAIN [G]} linear as chain then
+				chain.move (original_index - chain.index)
+
+			elseif original_index > 0 then
+--				cannot go backwards with LINEAR
+				from linear.start until linear.index = original_index or linear.after loop
 					linear.forth
 				end
 			end
@@ -273,11 +284,12 @@ feature -- Basic operations
 	push_cursor
 		-- push cursor position on to stack
 		do
-			if attached {CURSOR_STRUCTURE [G]} current_container as structure then
-				save_cursor (structure)
-
-			elseif attached {LINEAR [G]} current_container as linear then
+--			Try LINEAR first because it doesn't create an object
+			if attached {LINEAR [G]} current_container as linear then
 				Index_stack.put (linear.index)
+
+			elseif attached {CURSOR_STRUCTURE [G]} current_container as structure then
+				Cursor_stack.put (structure.cursor)
 			end
 		end
 
@@ -319,26 +331,6 @@ feature {NONE} -- Implementation
 				across current_iterable as list loop
 					Result := Result + 1
 				end
-			end
-		end
-
-	restore_cursor (structure: CURSOR_STRUCTURE [G])
-		do
-			if attached {CHAIN [G]} structure as chain then
-				chain.go_i_th (Index_stack.item)
-				Index_stack.remove
-			else
-				structure.go_to (Cursor_stack.item)
-				Cursor_stack.remove
-			end
-		end
-
-	save_cursor (structure: CURSOR_STRUCTURE [G])
-		do
-			if attached {CHAIN [G]} structure as chain then
-				Index_stack.put (chain.index)
-			else
-				Cursor_stack.put (structure.cursor)
 			end
 		end
 

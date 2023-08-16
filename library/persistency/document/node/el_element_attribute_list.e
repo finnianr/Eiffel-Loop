@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 14:30:28 GMT (Monday 10th July 2023)"
-	revision: "16"
+	date: "2023-07-24 19:40:06 GMT (Monday 24th July 2023)"
+	revision: "17"
 
 class
 	EL_ELEMENT_ATTRIBUTE_LIST
@@ -23,6 +23,7 @@ inherit
 			{NONE} all
 			{ANY} default_pointer,
 				start, after, forth, count, node, is_empty, i_th, first, last, index, go_i_th, reset
+			{EL_DOCUMENT_NODE_SCANNER} area
 
 		redefine
 			all_default

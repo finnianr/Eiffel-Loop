@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-08-15 15:18:01 GMT (Tuesday 15th August 2023)"
+	revision: "4"
 
 class
 	TL_MUSICBRAINZ_TRANSLATER
@@ -23,13 +23,13 @@ create
 
 feature -- Conversion
 
-	exported (eiffel_name: STRING): STRING
+	exported (eiffel_name: READABLE_STRING_8): STRING
 		-- `eiffel_name' exported to a foreign naming convention
 		do
 			Result := Musicbrainz + Precursor (eiffel_name)
 		end
 
-	imported (foreign_name: STRING): STRING
+	imported (foreign_name: READABLE_STRING_8): STRING
 		-- `foreign_name' translated to Eiffel attribute-naming convention
 		do
 			Result := Precursor (foreign_name)

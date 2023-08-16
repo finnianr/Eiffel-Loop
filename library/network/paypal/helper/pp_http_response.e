@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-18 15:33:09 GMT (Tuesday 18th July 2023)"
-	revision: "14"
+	date: "2023-07-21 19:26:45 GMT (Friday 21st July 2023)"
+	revision: "15"
 
 class
 	PP_HTTP_RESPONSE
@@ -22,7 +22,7 @@ inherit
 
 	PP_SETTABLE_FROM_UPPER_CAMEL_CASE
 		redefine
-			new_hidden_fields
+			new_field_printer
 		end
 
 	EL_MODULE_LIO
@@ -115,11 +115,11 @@ feature {NONE} -- Implementation
 			Result := url.decoded
 		end
 
-	new_hidden_fields: STRING
+	new_field_printer: EL_REFLECTIVE_CONSOLE_PRINTER
 			-- Fields that will not be output by `print_fields'
 			-- Must be comma-separated names
 		do
-			Result := Precursor + ", time_stamp"
+			create Result.make_with_hidden ("time_stamp")
 		end
 
 feature {NONE} -- Constants

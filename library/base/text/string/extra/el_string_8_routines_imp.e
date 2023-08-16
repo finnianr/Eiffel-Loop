@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 6:11:04 GMT (Saturday 24th June 2023)"
-	revision: "9"
+	date: "2023-08-16 10:26:01 GMT (Wednesday 16th August 2023)"
+	revision: "12"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -18,9 +18,13 @@ inherit
 			replace_character as replace_character_32,
 			character_string as character_32_string,
 			n_character_string as n_character_32_string
+		undefine
+			bit_count
 		redefine
 			replace_character_32, is_character
 		end
+
+	EL_STRING_8_BIT_COUNTABLE [READABLE_STRING_8]
 
 	EL_SHARED_STRING_8_CURSOR
 		rename
@@ -70,6 +74,14 @@ feature -- Basic operations
 
 feature -- Status query
 
+	ends_with_character (s: READABLE_STRING_8; c: CHARACTER): BOOLEAN
+		local
+			i: INTEGER
+		do
+			i := s.count
+			Result := i > 0 and then s [i] = c
+		end
+
 	has_enclosing (s: READABLE_STRING_8; c_first, c_last: CHARACTER_32): BOOLEAN
 			--
 		do
@@ -90,6 +102,11 @@ feature -- Status query
 			Result := c.is_alpha_numeric or else c = '_'
 		end
 
+	starts_with_character (s: READABLE_STRING_8; c: CHARACTER): BOOLEAN
+		do
+			Result := s.count > 0 and then s [1] = c
+		end
+
 feature -- Comparison
 
 	occurs_at (big, small: READABLE_STRING_8; index: INTEGER): BOOLEAN
@@ -102,6 +119,11 @@ feature -- Comparison
 		-- `True' if `small' string occurs in `big' string at `index' regardless of case
 		do
 			Result := big.same_caseless_characters (small, 1, small.count, index)
+		end
+
+	same_strings (a, b: READABLE_STRING_8): BOOLEAN
+		do
+			Result := EL_string_8.same_strings (a, b)
 		end
 
 feature -- Conversion
@@ -274,7 +296,7 @@ feature {NONE} -- Constants
 
 	String_searcher: STRING_8_SEARCHER
 		once
-			Result := Accessible_string_8.string_searcher
+			Result := EL_string_8.string_searcher
 		end
 
 end

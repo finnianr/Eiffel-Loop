@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:04 GMT (Monday 20th March 2023)"
-	revision: "6"
+	date: "2023-07-31 14:19:54 GMT (Monday 31st July 2023)"
+	revision: "9"
 
 class
 	EVOLICITY_TUPLE_CONTEXT
@@ -18,51 +18,73 @@ inherit
 			make as make_context
 		end
 
-	EL_MODULE_EIFFEL
-
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (tuple: TUPLE; field_names: STRING)
+	make (tuple: TUPLE; a_field_names: STRING)
 		require
-			enough_field_names: tuple.count = field_names.occurrences (',') + 1
+			enough_field_names: tuple.count = a_field_names.occurrences (',') + 1
 		local
-			name_list: EL_STRING_8_LIST; type, index: INTEGER
+			index, hash_code: INTEGER
 		do
 			make_context
-			type := Eiffel.dynamic_type (tuple)
-			if Name_list_table.has_key (type) then
-				name_list := Name_list_table.found_item
-			else
-				create name_list.make_adjusted_split (field_names, ',', {EL_SIDE}.Left)
-				Name_list_table.extend (name_list, type)
-			end
-			across name_list as name loop
-				index := name.cursor_index
-				inspect tuple.item_code (index)
-					when {TUPLE}.Integer_32_code then
-						put_integer (name.item, tuple.integer_32_item (index))
-					when {TUPLE}.Natural_32_code then
-						put_natural (name.item, tuple.natural_32_item (index))
-					when {TUPLE}.Real_32_code then
-						put_real (name.item, tuple.real_32_item (index))
-					when {TUPLE}.Real_64_code then
-						put_double (name.item, tuple.real_64_item (index))
-					when {TUPLE}.Boolean_code then
-						put_boolean (name.item, tuple.boolean_item (index))
-					when {TUPLE}.Reference_code then
-						put_variable (tuple.reference_item (index), name.item)
-				else
+			field_names := a_field_names
+
+--			digest for tuple types and field names
+			hash_code := ((a_field_names.hash_code \\ 8388593) |<< 8) + {ISE_RUNTIME}.dynamic_type (tuple)
+
+			Name_list_cache.set_new_item_target (Current)
+
+			across Name_list_cache.item (hash_code) as list loop
+				index := list.cursor_index
+				if attached list.item as name then
+					inspect tuple.item_code (index)
+						when {TUPLE}.Boolean_code then
+							put_boolean (name, tuple.boolean_item (index))
+
+						when {TUPLE}.Real_64_code then
+							put_double (name, tuple.real_64_item (index))
+
+						when {TUPLE}.Integer_32_code then
+							put_integer (name, tuple.integer_32_item (index))
+
+						when {TUPLE}.Natural_32_code then
+							put_natural (name, tuple.natural_32_item (index))
+
+						when {TUPLE}.Real_32_code then
+							put_real (name, tuple.real_32_item (index))
+
+						when {TUPLE}.Reference_code then
+							if attached tuple.reference_item (index) as ref then
+								if attached {READABLE_STRING_GENERAL} ref as general then
+									put_string (name, general)
+								else
+									put_any (name, ref)
+								end
+							end
+					else
+					end
 				end
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	new_name_list (hash_code: INTEGER): EL_SPLIT_IMMUTABLE_STRING_8_LIST
+		do
+			create Result.make_shared_adjusted (field_names, ',', {EL_SIDE}.Left)
+		end
+
+feature {NONE} -- Internal attributes
+
+	field_names: STRING
+
 feature {NONE} -- Constants
 
-	Name_list_table: HASH_TABLE [EL_STRING_8_LIST, INTEGER]
+	Name_list_cache: EL_CACHE_TABLE [EL_SPLIT_IMMUTABLE_STRING_8_LIST, INTEGER]
 		once
-			 create Result.make (3)
+			 create Result.make (11, agent new_name_list)
 		end
 end

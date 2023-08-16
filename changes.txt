@@ -586,3 +586,48 @@ Improved HTTP error handling
 Wed 28th Jun 2023, 19:38:26
 Improvements to EL_DOCUMENT_NODE_STRING
 
+Wed 19th Jul 2023, 17:50:03
+Major reflective refactor using class EL_OBJECT_FIELDS_TABLE
+
+Thu 20th Jul 2023, 17:26:47
+Refactor of reflection EL_OBJECT_FIELDS_TABLE
+
+Fri 21st Jul 2023, 21:53:57
+Major refactor of EL_REFLECTIVE
+
+Sat 22nd Jul 2023, 19:24:23
+New class PROJECT_MANAGER_SHELL
+
+Wed 26th Jul 2023, 17:45:18
+Optimized EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
+
+Sun 30th Jul 2023, 20:39:36
+New class EL_FIELD_TYPE_QUERY
+
+Sun 30th Jul 2023, 20:42:23
+New class EL_FIELD_TYPE_QUERY
+
+Wed 2nd Aug 2023, 15:39:28
+Reflective XML element generation
+
+Sun 6th Aug 2023, 20:52:23
+New EL_STRING_SPLIT_CONTAINER heirarchy
+
+Mon 7th Aug 2023, 12:07:47
+EL_COMPACT_ZSTRING_LIST now iterable
+
+Wed 9th Aug 2023, 12:12:08
+Added listener to el_multi_mode_html_color_selector_box
+
+Fri 11th Aug 2023, 18:42:52
+New class EL_IMMUTABLE_UTF_8_TABLE
+
+Sat 12th Aug 2023, 12:37:36
+Compile xpath sets using EL_XPATH_SET_COMPILER
+
+Sun 13th Aug 2023, 17:53:14
+Optimized node scanning for on_content event
+
+Tue 15th Aug 2023, 18:51:10
+ARRAY lookup of enumeration name from value
+

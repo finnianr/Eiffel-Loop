@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2023-07-22 12:16:45 GMT (Saturday 22nd July 2023)"
+	revision: "16"
 
 deferred class
 	EL_CAPTURED_OS_COMMAND_I
@@ -15,8 +15,12 @@ deferred class
 inherit
 	EL_OS_COMMAND_I
 		redefine
-			do_command, new_command_parts
+			do_command, is_captured, new_command_parts
 		end
+
+feature -- Status query
+
+	is_captured: BOOLEAN = True
 
 feature {NONE} -- Factory
 

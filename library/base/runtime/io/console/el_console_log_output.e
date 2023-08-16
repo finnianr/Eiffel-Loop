@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-09 10:35:34 GMT (Sunday 9th July 2023)"
-	revision: "31"
+	date: "2023-08-11 13:34:21 GMT (Friday 11th August 2023)"
+	revision: "32"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -48,7 +48,7 @@ feature -- Status change
 			tab_repeat_count := previous_stack_count
 		end
 
-	tab (offset: INTEGER)
+	set_tab_plus (offset: INTEGER)
 			--
 		do
 			tab_repeat_count := tab_repeat_count.item + offset
@@ -57,13 +57,13 @@ feature -- Status change
 	tab_left
 			--
 		do
-			tab_repeat_count := tab_repeat_count.item - 1
+			set_tab_plus (-1)
 		end
 
 	tab_right
 			--
 		do
-			tab_repeat_count := tab_repeat_count.item + 1
+			set_tab_plus (1)
 		end
 
 	set_text_color (code: INTEGER)

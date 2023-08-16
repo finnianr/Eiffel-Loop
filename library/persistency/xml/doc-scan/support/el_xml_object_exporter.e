@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-20 13:55:01 GMT (Tuesday 20th June 2023)"
-	revision: "3"
+	date: "2023-08-02 14:42:22 GMT (Wednesday 2nd August 2023)"
+	revision: "4"
 
 class
 	EL_XML_OBJECT_EXPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]

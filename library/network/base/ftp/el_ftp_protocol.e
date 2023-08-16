@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-09 8:38:21 GMT (Sunday 9th April 2023)"
-	revision: "32"
+	date: "2023-08-12 17:34:03 GMT (Saturday 12th August 2023)"
+	revision: "33"
 
 class
 	EL_FTP_PROTOCOL
@@ -23,7 +23,7 @@ inherit
 		export
 			{EL_FTP_AUTHENTICATOR} send_username, send_password
 		redefine
-			close, open, initialize, config
+			close, open, initialize, config, reply_code_ok
 		end
 
 	EL_FILE_OPEN_ROUTINES
@@ -36,7 +36,7 @@ inherit
 
 	EL_MODULE_LIO; EL_MODULE_USER_INPUT
 
-	EL_FTP_CONSTANTS
+	EL_FTP_CONSTANTS; EL_STRING_8_CONSTANTS
 
 create
 	make_write, make_read
@@ -92,7 +92,7 @@ feature -- Element change
 
 	set_current_directory (a_current_directory: DIR_PATH)
 		do
-			send (Template.change_working_directory #$ [absolute_unix_dir (a_current_directory)], << 200, 250 >>)
+			send (Command.change_working_directory, absolute_unix_dir (a_current_directory), << 200, 250 >>)
 			if last_succeeded then
 				if a_current_directory.is_absolute then
 					current_directory := a_current_directory
@@ -120,7 +120,7 @@ feature -- Remote operations
 
 	delete_file (file_path: FILE_PATH)
 		do
-			send (Template.delete_file #$ [file_path.to_unix], << 250 >>)
+			send (Command.delete_file, file_path.to_unix, << 250 >>)
 		end
 
 	make_directory (dir_path: DIR_PATH)
@@ -147,7 +147,7 @@ feature -- Remote operations
 
 	remove_directory (dir_path: DIR_PATH)
 		do
-			send (Template.remove_directory #$ [absolute_unix_dir (dir_path)], << 250 >>)
+			send (Command.remove_directory, absolute_unix_dir (dir_path), << 250 >>)
 		end
 
 feature -- Basic operations
@@ -177,7 +177,8 @@ feature -- Status report
 			if dir_path.is_empty then
 				Result := True
 			else
-				send (Template.size #$ [absolute_unix_dir (dir_path)], << 550 >>)
+				send (Command.size, absolute_unix_dir (dir_path), << 550 >>)
+			-- Fasthost server: 150 accepted data connection
 				Result := last_succeeded and then last_reply_utf_8.has_substring (Not_regular_file)
 			end
 		end
@@ -188,7 +189,7 @@ feature -- Status report
 			if file_path.is_empty then
 				Result := True
 			else
-				send (Template.size #$ [absolute_unix_file_path (file_path)], << 213 >>)
+				send (Command.size, absolute_unix_file_path (file_path), << 213 >>)
 				Result := last_succeeded
 			end
 		end
@@ -274,7 +275,7 @@ feature -- Status change
 	quit
 			--
 		do
-			send (Command.quit, << 221 >>)
+			send (Command.quit, Void, << 221 >>)
 			if is_lio_enabled then
 				lio.put_new_line
 			end
@@ -322,7 +323,7 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 
 	get_current_directory: DIR_PATH
 		do
-			send (Command.print_working_directory, << >>)
+			send (Command.print_working_directory, Void, << >>)
 			Result := last_reply
 			reply_parser.set_source_text (last_reply)
 			reply_parser.parse
@@ -333,15 +334,39 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 		require
 			parent_exists: directory_exists (dir_path.parent)
 		do
-			send (Template.make_directory #$ [dir_path.to_unix], << 257 >>)
+			send (Command.make_directory, dir_path.to_unix, << 257 >>)
 		end
 
-	send (str: ZSTRING; codes: ARRAY [INTEGER])
+	reply_code_ok (a_reply: STRING; codes: ARRAY [INTEGER]): BOOLEAN
+		local
+			s: EL_STRING_8_ROUTINES
 		do
-			send_to_socket (main_socket, str.to_utf_8 (False))
-			last_reply_utf_8.right_adjust
-			last_reply_utf_8.to_lower
-			last_succeeded := reply_code_ok (last_reply_utf_8, codes)
+			if attached s.substring_to (a_reply, ' ', default_pointer) as part then
+				Result := codes.has (part.to_integer)
+			end
+		end
+
+	send (cmd: STRING; a_path: detachable ZSTRING; codes: ARRAY [INTEGER])
+		require
+			valid_path: cmd [cmd.count] = '%S' implies attached a_path
+		local
+			utf_8_cmd: STRING; substitute_index: INTEGER
+		do
+			utf_8_cmd := Empty_string_8
+			substitute_index := cmd.index_of ('%S', 1)
+			if substitute_index > 0 then
+				if attached a_path as path then
+					utf_8_cmd := cmd.substring (1, substitute_index - 1) + path.to_utf_8 (False)
+				end
+			else
+				utf_8_cmd := cmd
+			end
+			if utf_8_cmd /= Empty_string_8 then
+				send_to_socket (main_socket, utf_8_cmd)
+				last_reply_utf_8.adjust
+				last_reply_utf_8.to_lower
+				last_succeeded := reply_code_ok (last_reply_utf_8, codes)
+			end
 		end
 
 	transfer_file (source_path, destination_path: FILE_PATH)

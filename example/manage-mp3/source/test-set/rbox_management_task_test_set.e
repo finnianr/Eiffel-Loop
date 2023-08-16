@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:40:40 GMT (Friday 10th March 2023)"
-	revision: "20"
+	date: "2023-08-15 15:36:13 GMT (Tuesday 15th August 2023)"
+	revision: "21"
 
 deferred class
 	RBOX_MANAGEMENT_TASK_TEST_SET [T -> RBOX_MANAGEMENT_TASK create make end]
@@ -87,7 +87,10 @@ feature {NONE} -- Implementation
 			text: ZSTRING
 		do
 			text := entry_node.query (name).as_string
-			if not text.is_empty then
+			if text.has (' ') then
+				text.quote (3)
+			end
+			if text.count > 0 then
 				if character_count.item + name.count + text.count + 4 > 100 then
 					character_count.set_item (0)
 					log.put_new_line
@@ -103,8 +106,7 @@ feature {NONE} -- Implementation
 
 	print_playlist_xml
 		local
-			root_node: EL_XML_DOC_CONTEXT
-			xpath: STRING
+			root_node: EL_XML_DOC_CONTEXT; xpath: STRING; text: ZSTRING
 		do
 			log.enter ("print_playlist_xml")
 			create root_node.make_from_file (Database.playlists_xml_path)
@@ -117,7 +119,11 @@ feature {NONE} -- Implementation
 					if name.cursor_index > 1 then
 						log.put_string ("; ")
 					end
-					log.put_labeled_string (name.item, (playlist.node [name.item]).as_string)
+					text := playlist.node [name.item]
+					if text.has (' ') then
+						text.quote (3)
+					end
+					log.put_labeled_string (name.item, text)
 				end
 				log.put_new_line
 				across playlist.node.context_list (Tag.location) as location loop

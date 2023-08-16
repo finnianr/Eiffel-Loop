@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-20 11:21:25 GMT (Tuesday 20th June 2023)"
-	revision: "9"
+	date: "2023-08-13 13:02:43 GMT (Sunday 13th August 2023)"
+	revision: "10"
 
 class
 	EL_XML_NODE_EVENT_GENERATOR
@@ -55,10 +55,10 @@ feature {NONE} -- Parsing events
 			handler.on_end_tag (last_node)
 		end
 
-	on_content
+	on_content (node: EL_DOCUMENT_NODE_STRING)
 			--
 		do
-			handler.on_content (last_node)
+			handler.on_content (node)
 		end
 
 	on_comment

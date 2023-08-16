@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-29 10:53:26 GMT (Wednesday 29th March 2023)"
-	revision: "42"
+	date: "2023-08-08 9:31:40 GMT (Tuesday 8th August 2023)"
+	revision: "47"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -27,23 +27,21 @@ inherit
 			first_item as first_item_copy,
 			i_th as i_th_copy,
 			item as item_copy,
+			joined as joined_list,
 			last_item as last_item_copy
+		undefine
+			do_all, do_if, find_first_equal, find_next_item, for_all, to_array, there_exists, search
 		redefine
-			make_empty
+			make_empty, new_cursor
 		end
 
 	EL_LINEAR_STRINGS [S]
 		rename
-			has as has_item
+			item as item_copy
 		undefine
-			copy, character_count, is_equal, off, out
+			copy, character_count, do_meeting, has, is_equal, off, out, occurrences, push_cursor, pop_cursor
 		redefine
-			character_count, has_item
-		select
-			index_of, occurrences, to_array, do_if, search, inverse_query_if,
-			query_if, query_not_in, query_in, intersection, has_item,
-			current_linear, find_first_equal, find_next_item, do_all, for_all, item,
-			there_exists
+			character_count
 		end
 
 create
@@ -57,23 +55,32 @@ feature {NONE} -- Initialization
 			create internal_item.make (0)
 		end
 
+feature -- Access
+
+	new_cursor: EL_SPLIT_STRING_ITERATION_CURSOR [S]
+		do
+			create Result.make (Current)
+		end
+
 feature -- Basic operations
 
-	append_item_to (str: like target)
+	append_i_th_to (a_i: INTEGER; str: like target_string)
+		require
+			valid_index: valid_index (a_i)
+		local
+			i: INTEGER
+		do
+			i := (a_i - 1) * 2
+			if attached area as a then
+				str.append_substring (target_string, a [i], a [i + 1])
+			end
+		end
+
+	append_item_to (str: like target_string)
 		require
 			valid_index: not off
 		do
 			append_i_th_to (index, str)
-		end
-
-	append_i_th_to (i: INTEGER; str: like target)
-		require
-			valid_index: valid_index (i)
-		local
-			lower, upper: INTEGER
-		do
-			lower := i_th_lower_upper (i, $upper)
-			str.append_substring (target, lower, upper)
 		end
 
 feature -- Shared items
@@ -84,7 +91,7 @@ feature -- Shared items
 		do
 			Result := empty_item
 			j := modulo (i, count) * 2
-			if count > 0 and then attached area_v2 as a then
+			if count > 0 and then attached area as a then
 				append_substring (Result, a [j], a [j + 1])
 			end
 		end
@@ -121,31 +128,49 @@ feature -- Shared items
 			end
 		end
 
+feature -- Element change
+
+	append_string (str: S)
+		do
+			if attached area.aliased_resized_area (area.count + 2) as intervals then
+				if target_string = default_target then
+					target_string := str.twin
+					intervals.extend (1); intervals.extend (str.count)
+				else
+					target_string.append (str)
+					intervals.extend (last_upper + 1); intervals.extend (target_string.count)
+				end
+				area := intervals
+			end
+		end
+
+	trim_string
+		do
+		end
+
 feature -- Conversion
 
 	as_list: EL_STRING_LIST [S]
+		local
+			i: INTEGER
 		do
 			create Result.make (count)
 			push_cursor
-			from start until after loop
-				Result.extend (target.substring (item_start_index, item_end_index))
-				forth
+			if attached area as a then
+				from start until after loop
+					i := (index - 1) * 2
+					Result.extend (target_string.substring (a [i], a [i + 1]))
+					forth
+				end
 			end
 			pop_cursor
-		end
-
-feature -- Status query
-
-	has_item (str: like item): BOOLEAN
-		do
-			Result := has (str)
 		end
 
 feature {NONE} -- Implementation
 
 	append_substring (str: S; lower, upper: INTEGER)
 		do
-			str.append_substring (target, lower, upper)
+			str.append_substring (target_string, lower, upper)
 		end
 
 	empty_item: S

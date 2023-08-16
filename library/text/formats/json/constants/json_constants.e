@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 10:02:58 GMT (Thursday 5th January 2023)"
-	revision: "4"
+	date: "2023-08-02 14:41:09 GMT (Wednesday 2nd August 2023)"
+	revision: "5"
 
 deferred class
 	JSON_CONSTANTS

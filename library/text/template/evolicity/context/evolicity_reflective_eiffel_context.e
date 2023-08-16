@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-08-14 10:36:13 GMT (Monday 14th August 2023)"
+	revision: "9"
 
 deferred class
 	EVOLICITY_REFLECTIVE_EIFFEL_CONTEXT
@@ -31,17 +31,17 @@ feature -- Status query
 	has_variable (variable_name: STRING): BOOLEAN
 			--
 		do
-			Result := getter_functions.has (variable_name) or else field_table.has (variable_name)
+			Result := getter_functions.has (variable_name) or else field_table.has_8 (variable_name)
 		end
 
 feature {NONE} -- Implementation
 
 	context_item (key: STRING; function_args: TUPLE): ANY
 		local
-			table: EL_REFLECTED_FIELD_TABLE
+			table: EL_FIELD_TABLE
 		do
 			table := field_table
-			if table.has_key (key) then
+			if table.has_key_8 (key) then
 				if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} table.found_item as field then
 					Result := field.reference_value (current_reflective)
 				else

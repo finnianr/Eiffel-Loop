@@ -9,17 +9,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 16:25:33 GMT (Sunday 16th July 2023)"
-	revision: "11"
+	date: "2023-08-03 10:17:02 GMT (Thursday 3rd August 2023)"
+	revision: "14"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
 
 inherit
 	EL_STRING_X_ROUTINES [ZSTRING, EL_READABLE_ZSTRING]
+		undefine
+			bit_count
 		redefine
 			adjusted
 		end
+
+	EL_STRING_32_BIT_COUNTABLE [EL_READABLE_ZSTRING]
 
 	EL_MODULE_REUSEABLE
 
@@ -82,6 +86,11 @@ feature -- Comparison
 		-- `True' if `small' string occurs in `big' string at `index' regardless of case
 		do
 			Result := big.same_caseless_characters (small, 1, small.count, index)
+		end
+
+	same_strings (a, b: EL_READABLE_ZSTRING): BOOLEAN
+		do
+			Result := a.same_string (b)
 		end
 
 feature -- Substring
@@ -382,11 +391,6 @@ feature {NONE} -- Constants
 	Split_on_character: EL_SPLIT_ZSTRING_ON_CHARACTER
 		once
 			create Result.make (Empty_string, '_')
-		end
-
-	String_searcher: EL_ZSTRING_SEARCHER
-		once
-			Result := Empty_string.String_searcher
 		end
 
 end

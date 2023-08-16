@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "13"
+	date: "2023-08-15 10:20:18 GMT (Tuesday 15th August 2023)"
+	revision: "14"
 
 class
 	EROS_TEST_SET
@@ -99,13 +99,13 @@ feature {NONE} -- Implementation
 					if fft.is_output_length_valid then
 						fft.do_transform
 					else
-						assert ("is_output_length_valid (wave_form.count)", False)
+						failed ("is_output_length_valid (wave_form.count)")
 					end
 				else
-					assert ("is_valid_input_length (wave_form.count)", False)
+					failed ("is_valid_input_length (wave_form.count)")
 				end
 			else
-				assert ("is_power_of_two (wave_form.count)", False)
+				failed ("is_power_of_two (wave_form.count)")
 			end
 			lio.exit
 		end

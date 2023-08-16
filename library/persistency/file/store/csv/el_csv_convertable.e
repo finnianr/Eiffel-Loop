@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 11:34:13 GMT (Monday 23rd January 2023)"
-	revision: "6"
+	date: "2023-08-14 11:25:52 GMT (Monday 14th August 2023)"
+	revision: "8"
 
 deferred class
 	EL_CSV_CONVERTABLE
@@ -17,12 +17,16 @@ deferred class
 inherit
 	EL_REFLECTIVE_I
 
+	EL_CHARACTER_CONSTANTS
+
 feature -- Access
 
 	comma_separated_names: STRING
 		--
+		local
+			s: EL_STRING_8_ROUTINES
 		do
-			Result := field_name_list.joined (',')
+			Result := s.joined_with (field_name_list, Comma * 1)
 		end
 
 feature -- Basic operations

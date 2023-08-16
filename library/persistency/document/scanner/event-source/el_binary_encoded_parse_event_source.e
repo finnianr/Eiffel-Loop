@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "22"
+	date: "2023-08-13 13:05:54 GMT (Sunday 13th August 2023)"
+	revision: "24"
 
 class
 	EL_BINARY_ENCODED_PARSE_EVENT_SOURCE
@@ -100,9 +100,11 @@ feature {NONE} -- Parse action handlers
 		do
 			check_for_last_start_tag
 
-			set_string_from_stream (last_node, count)
-			last_node.set_type (Node_type_text)
-			scanner.on_content
+			if attached last_node as node then
+				set_string_from_stream (node, count)
+				last_node.set_type (Type_text)
+				scanner.on_content (node)
+			end
 		end
 
 	on_comment_code (count: INTEGER)
@@ -110,9 +112,11 @@ feature {NONE} -- Parse action handlers
 		do
 			check_for_last_start_tag
 
-			set_string_from_stream (last_node, count)
-			last_node.set_type (Node_type_comment)
-			scanner.on_content
+			if attached last_node as node then
+				set_string_from_stream (node, count)
+				node.set_type (Type_comment)
+				scanner.on_content (node)
+			end
 		end
 
 	on_processing_instruction_code (index_or_count: INTEGER; is_index: BOOLEAN)
@@ -123,7 +127,7 @@ feature {NONE} -- Parse action handlers
 			set_name_from_stream (last_node.raw_name, index_or_count, is_index)
 			input.read_natural_16
 			set_string_from_stream (last_node, input.last_natural_16)
-			last_node.set_type (Node_type_processing_instruction)
+			last_node.set_type (Type_processing_instruction)
 			scanner.on_processing_instruction
 		end
 
@@ -206,7 +210,7 @@ feature {NONE} -- Implementation
 		do
 			inspect last_parse_event_code
 				when PE_new_start_tag, PE_existing_start_tag, PE_attribute_text then
-					last_node.set_type (Node_type_element)
+					last_node.set_type (Type_element)
 					scanner.on_start_tag
 
 			else

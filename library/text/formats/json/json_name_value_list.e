@@ -11,8 +11,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-19 15:53:00 GMT (Sunday 19th March 2023)"
-	revision: "19"
+	date: "2023-08-14 18:08:05 GMT (Monday 14th August 2023)"
+	revision: "22"
 
 class
 	JSON_NAME_VALUE_LIST
@@ -88,11 +88,14 @@ feature -- Status query
 		require
 			valid_item: not off
 		local
-			lower, upper: INTEGER
+			i, start_index, end_index: INTEGER
 		do
-			lower := i_th_lower_upper (index, $upper)
-			if name.count = upper - lower + 1 then
-				Result := utf_8_json.same_characters (name, 1, name.count, lower)
+			i := (index - 1) * 2
+			if attached area as a then
+				start_index := a [i]; end_index := a [i + 1]
+			end
+			if name.count = end_index - start_index + 1 then
+				Result := utf_8_json.same_characters (name, 1, name.count, start_index)
 			end
 		end
 
@@ -122,14 +125,26 @@ feature -- Numeric Iteration items
 
 feature -- Iteration items
 
+	compact_data_interval: INTEGER_64
+		local
+			ir: EL_INTERVAL_ROUTINES; i: INTEGER
+		do
+			if attached data_intervals_area as a then
+				i := (index - 1) * 2
+				Result := ir.compact (a [i], a [i + 1])
+			end
+		end
+
 	item_immutable_name: IMMUTABLE_STRING_8
 		require
 			valid_item: not off
 		local
-			lower, upper: INTEGER
+			i: INTEGER
 		do
-			lower := i_th_lower_upper (index, $upper)
-			Result := utf_8_json.shared_substring (lower, upper)
+			i := (index - 1) * 2
+			if attached area as a then
+				Result := utf_8_json.shared_substring (a [i], a [i + 1])
+			end
 		end
 
 	item_immutable_value: IMMUTABLE_STRING_8
@@ -149,16 +164,20 @@ feature -- Iteration items
 		require
 			valid_item: not off
 		local
-			lower, upper: INTEGER
+			start_index, end_index, i: INTEGER
 		do
-			lower := i_th_lower_upper (index, $upper)
+			i := (index - 1) * 2
+			if attached area as a then
+				start_index := a [i]; end_index := a [i + 1]
+			end
+
 			if keep_ref then
-				create Result.make (upper - lower + 1)
+				create Result.make (end_index - start_index + 1)
 			else
 				Result := internal_name
 				Result.wipe_out
 			end
-			Result.append_substring (utf_8_json, lower, upper)
+			Result.append_substring (utf_8_json, start_index, end_index)
 		end
 
 	item_boolean: BOOLEAN

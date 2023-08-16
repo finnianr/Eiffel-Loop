@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "23"
+	date: "2023-08-13 12:48:50 GMT (Sunday 13th August 2023)"
+	revision: "25"
 
 class
 	EL_EXPAT_XML_PARSER
@@ -276,9 +276,9 @@ feature {EL_PARSER_OUTPUT_MEDIUM} -- Implementation
 	set_last_state (next_state: like last_state)
 		do
 			if last_state = State_content_call and then next_state /= last_state then
-				if last_node.count > 0 then
-					last_node.set_type (Node_type_text)
-					scanner.on_content
+				if attached last_node as node and then node.count > 0 then
+					node.set_type (Type_text)
+					scanner.on_content (node)
 				end
 			end
 			last_state := next_state
@@ -364,7 +364,7 @@ feature {NONE} -- Expat callbacks
 		do
 			set_last_state (State_start_tag_call)
 			last_node_name.set_from_c (tag_name_ptr)
-			last_node.set_type (Node_type_element)
+			last_node.set_type (Type_element)
 
 			l_cursor := attribute_cursor; attribute_list.reset
 			from l_cursor.start (attribute_array_ptr) until l_cursor.after loop
@@ -401,7 +401,7 @@ feature {NONE} -- Expat callbacks
 			last_node.right_adjust -- Wipe out whitespace
 			if last_node.count > 0 then
 				last_node_name.wipe_out
-				last_node.set_type (Node_type_comment)
+				last_node.set_type (Type_comment)
 				scanner.on_comment
 			end
 		end
@@ -411,7 +411,7 @@ feature {NONE} -- Expat callbacks
 		do
 			set_last_state (State_processing_instruction_call)
 			last_node_name.set_from_c (name_ptr)
-			last_node.set_type (Node_type_processing_instruction)
+			last_node.set_type (Type_processing_instruction)
 
 			last_node.set_from_c (string_data_ptr)
 			scanner.on_processing_instruction

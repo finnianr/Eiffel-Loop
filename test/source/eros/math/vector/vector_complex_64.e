@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-08-11 15:20:18 GMT (Friday 11th August 2023)"
+	revision: "13"
 
 deferred class
 	VECTOR_COMPLEX_64
@@ -42,6 +42,7 @@ inherit
 
 	EROS_XML_RESULT
 		rename
+			Dot as Dot_character,
 			put_real as put_real_variable,
 			make as make_default
 		undefine

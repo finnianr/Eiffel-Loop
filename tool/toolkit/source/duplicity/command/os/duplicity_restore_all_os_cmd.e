@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-22 16:50:59 GMT (Wednesday 22nd March 2023)"
-	revision: "7"
+	date: "2023-07-31 15:10:42 GMT (Monday 31st July 2023)"
+	revision: "8"
 
 class
 	DUPLICITY_RESTORE_ALL_OS_CMD
@@ -22,6 +22,7 @@ class
 inherit
 	EL_OS_COMMAND
 		rename
+			Var as Standard_var,
 			make as make_command
 		export
 			{NONE} all

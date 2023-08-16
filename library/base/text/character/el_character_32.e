@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2023-08-10 8:01:57 GMT (Thursday 10th August 2023)"
+	revision: "3"
 
 class
 	EL_CHARACTER_32
@@ -16,14 +16,19 @@ inherit
 	CHARACTER_32_REF
 
 create
-	make
+	make_8, make_32
 
 convert
-	make ({CHARACTER})
+	make_8 ({CHARACTER_8}), make_32 ({CHARACTER_32}), item: {CHARACTER_32}
 
 feature {NONE} -- Initialization
 
-	make (uc: CHARACTER)
+	make_8 (c: CHARACTER_8)
+		do
+			make_32 (c)
+		end
+
+	make_32 (uc: CHARACTER_32)
 		do
 			set_item (uc)
 		end

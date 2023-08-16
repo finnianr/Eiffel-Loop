@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-08-13 13:03:23 GMT (Sunday 13th August 2023)"
+	revision: "8"
 
 class
 	EL_PARSE_EVENT_GENERATOR
@@ -76,11 +76,11 @@ feature {NONE} -- Implementation
 			output.put_string (last_node)
 		end
 
-	on_content
+	on_content (node: EL_DOCUMENT_NODE_STRING)
 			--
 		do
-			put_parse_event (last_node.count, PE_text)
-			output.put_string (last_node)
+			put_parse_event (node.count, PE_text)
+			output.put_string (node)
 		end
 
 	on_end_document

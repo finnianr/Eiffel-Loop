@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-08-15 15:21:27 GMT (Tuesday 15th August 2023)"
+	revision: "4"
 
 class
 	PP_NAME_TRANSLATER
@@ -23,7 +23,7 @@ create
 
 feature -- Conversion
 
-	exported (eiffel_name: STRING): STRING
+	exported (eiffel_name: READABLE_STRING_8): STRING
 		do
 			Result := Precursor (eiffel_name)
 			if eiffel_name.starts_with (L_) then
@@ -33,9 +33,9 @@ feature -- Conversion
 
 feature {NONE} -- Implementation
 
-	new_camel_name (eiffel_name: STRING): STRING
+	new_camel_name (eiffel_name: READABLE_STRING_8): STRING
 		do
-			Result := eiffel_name.twin
+			create Result.make_from_string (eiffel_name)
 			Result.prune_all ('_')
 			if eiffel_name.starts_with (L_) then
 				Result.insert_character ('_', 2)

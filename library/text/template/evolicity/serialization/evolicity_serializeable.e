@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-08 9:36:57 GMT (Saturday 8th July 2023)"
-	revision: "37"
+	date: "2023-08-11 15:49:31 GMT (Friday 11th August 2023)"
+	revision: "39"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -35,11 +35,9 @@ inherit
 
 	EVOLICITY_SHARED_TEMPLATES
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE_SYSTEM; EL_MODULE_TUPLE
 
-	EL_MODULE_TUPLE
-
-	EL_ZSTRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS; EL_CHARACTER_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -140,9 +138,9 @@ feature {NONE} -- Factory
 			--
 		do
 			Result := Precursor
-			Result [Default_variable.template_name] := agent template_name
-			Result [Default_variable.encoding_name] := agent encoding_name
-			Result [Default_variable.current_object] := agent: EVOLICITY_CONTEXT do Result := Current end
+			Result [Var.template_name] := agent template_name
+			Result [Var.encoding_name] := agent encoding_name
+			Result [Var.current_object] := agent: EVOLICITY_CONTEXT do Result := Current end
 		end
 
 	new_open_write_file (file_path: like output_path): EL_PLAIN_TEXT_FILE
@@ -177,13 +175,13 @@ feature {NONE} -- Implementation
 	stripped_template: ZSTRING
 			-- template stripped of any leading tabs
 		local
-			tab_count: INTEGER; s: EL_ZSTRING_ROUTINES
+			tab_count: INTEGER
 		do
 			create Result.make_from_general (template)
 			tab_count := Result.leading_occurrences ('%T')
 			if tab_count > 1 then
 				Result.prepend_character ('%N')
-				Result.replace_substring_all (New_line + s.n_character_string ('%T', tab_count), New_line)
+				Result.replace_substring_all (New_line #* 1 + Tab #* tab_count, New_line #* 1)
 				Result.remove_head (1)
 			end
 		end
@@ -217,18 +215,11 @@ feature {NONE} -- Constants
 			create Result
 		end
 
-	Default_variable: TUPLE [encoding_name, template_name, current_object: ZSTRING]
+	Var: TUPLE [encoding_name, template_name, to_xml, current_object: IMMUTABLE_STRING_8]
 			-- built-in variables
 		once
 			create Result
-			Tuple.fill (Result, "encoding_name, template_name, current")
-		end
-
-	New_line: ZSTRING
-		local
-			s: EL_ZSTRING_ROUTINES
-		once
-			Result := s.character_string ('%N')
+			Tuple.fill_immutable (Result, "encoding_name, template_name, to_xml, current")
 		end
 
 	Template_name_template: ZSTRING

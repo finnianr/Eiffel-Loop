@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-12 10:25:47 GMT (Sunday 12th March 2023)"
-	revision: "2"
+	date: "2023-07-20 7:38:26 GMT (Thursday 20th July 2023)"
+	revision: "3"
 
 deferred class
 	EL_FIELD_TYPE_QUERY_ROUTINES
@@ -19,43 +19,43 @@ inherit
 
 feature {NONE} -- Field tests
 
-	is_any_field (basic_type, type_id: INTEGER): BOOLEAN
+	is_any_field (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		do
 			Result := True
 		end
 
-	is_collection_field (basic_type, type_id: INTEGER): BOOLEAN
+	is_collection_field (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		do
-			Result := Eiffel.field_conforms_to_collection (basic_type, type_id)
+			Result := field.conforms_to_collection
 		end
 
-	is_date_field (basic_type, type_id: INTEGER): BOOLEAN
+	is_date_field (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		do
-			Result := Eiffel.field_conforms_to_date_time (basic_type, type_id)
+			Result := field.conforms_to_date_time
 		end
 
-	is_field_convertable_from_string (basic_type, type_id: INTEGER): BOOLEAN
+	is_field_convertable_from_string (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		-- True if field is either an expanded type (with the exception of POINTER) or conforms to one of following types
 		-- 	STRING_GENERAL, EL_DATE_TIME, EL_MAKEABLE_FROM_STRING_GENERAL, BOOLEAN_REF, EL_PATH
 		do
-			Result := Eiffel.is_type_convertable_from_string (basic_type, type_id)
+			Result := field.is_convertable_from_string
 		end
 
-	is_initializeable_collection_field (basic_type, type_id: INTEGER): BOOLEAN
+	is_initializeable_collection_field (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		do
-			if Eiffel.is_reference (basic_type) and then Arrayed_list_factory.is_valid_type (type_id) then
-				Result := Eiffel.is_type_convertable_from_string (basic_type, Eiffel.collection_item_type (type_id))
+			if field.is_reference and then Arrayed_list_factory.is_valid_type (field.static_type) then
+				Result := field.is_convertable_from_string
 			end
 		end
 
-	is_not_table_field (basic_type, type_id: INTEGER): BOOLEAN
+	is_not_table_field (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		do
-			Result := not Eiffel.is_table_type (basic_type, type_id)
+			Result := not field.is_table
 		end
 
-	is_string_or_expanded_field (basic_type, type_id: INTEGER): BOOLEAN
+	is_string_or_expanded_field (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		do
-			Result := Eiffel.is_string_or_expanded_type (basic_type, type_id)
+			Result := field.is_string_or_expanded
 		end
 
 end

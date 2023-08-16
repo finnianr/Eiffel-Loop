@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "12"
+	date: "2023-08-15 10:25:13 GMT (Tuesday 15th August 2023)"
+	revision: "13"
 
 class
 	RSA_PUBLIC_KEY_ENCRYPTION_TEST_SET
@@ -49,7 +49,7 @@ feature -- Tests
 			key_1, key_2: EL_RSA_PRIVATE_KEY
 		do
 			if file_list.is_empty then
-				assert ("key file found", False)
+				failed ("key file found")
 			else
 				lio.put_path_field ("Reading", file_list.first_path)
 				lio.put_new_line
@@ -89,7 +89,7 @@ feature {NONE} -- Implementation
 	new_key_reader: EL_X509_PRIVATE_READER_COMMAND_I
 		do
 			if file_list.is_empty then
-				assert ("key file found", False)
+				failed ("key file found")
 			else
 				lio.put_path_field ("Reading", file_list.first_path)
 				lio.put_new_line

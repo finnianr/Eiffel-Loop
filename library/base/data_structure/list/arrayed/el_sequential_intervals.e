@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-13 10:24:02 GMT (Monday 13th March 2023)"
-	revision: "14"
+	date: "2023-08-08 9:37:33 GMT (Tuesday 8th August 2023)"
+	revision: "16"
 
 class
 	EL_SEQUENTIAL_INTERVALS
@@ -36,9 +36,12 @@ feature -- Access
 			valid_item: not off
 			not_overlapping: not item_overlaps (a_lower, a_upper)
 		local
-			lower, upper: INTEGER
+			i, lower, upper: INTEGER
 		do
-			lower := i_th_lower_upper (index, $upper)
+			i := (index - 1) * 2
+			if attached area as a then
+				lower := a [i]; upper := a [i + 1]
+			end
 			if a_upper < lower then
 				create Result.make (a_upper + 1, lower - 1)
 			else
@@ -71,10 +74,12 @@ feature -- Status query
 		require
 			valid_item: not off
 		local
-			lower, upper: INTEGER; ir: EL_INTERVAL_ROUTINES
+			i: INTEGER; ir: EL_INTERVAL_ROUTINES
 		do
-			lower := i_th_lower_upper (index, $upper)
-			Result := ir.is_overlapping (ir.overlap_status (lower, upper, a_lower, a_upper))
+			i := (index - 1) * 2
+			if attached area as a then
+				Result := ir.is_overlapping (ir.overlap_status (a [i], a [i + 1], a_lower, a_upper))
+			end
 		end
 
 	overlaps (other: EL_SEQUENTIAL_INTERVALS): BOOLEAN

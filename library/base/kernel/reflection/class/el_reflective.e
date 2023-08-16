@@ -8,22 +8,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-18 19:25:53 GMT (Tuesday 18th July 2023)"
-	revision: "76"
+	date: "2023-08-14 11:45:06 GMT (Monday 14th August 2023)"
+	revision: "83"
 
 deferred class
 	EL_REFLECTIVE
 
 inherit
+	ANY -- Needed to compile My Ching for some strange reason
+
 	EL_REFLECTIVE_I
 
-	EL_REFLECTIVE_FIELD_ORDER
+	EL_REFLECTION_HANDLER
 
 	EL_NAMING_CONVENTIONS
-
-	EL_FIELD_TYPE_QUERY_ROUTINES
-
-	EL_REFLECTION_HANDLER
 
 	EL_STRING_8_CONSTANTS
 
@@ -44,18 +42,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	field_indices_set (field_names: detachable STRING): EL_FIELD_INDICES_SET
-		require
-			valid_names: attached field_names as names implies valid_field_names (names)
-		do
-			if attached field_names as names then
-				Result := meta_data.cached_field_indices_set.item (names)
-			else
-				Result := meta_data.cached_field_indices_set.item (Empty_string_8)
-			end
-		end
-
-	field_name_list: EL_STRING_LIST [STRING]
+	field_name_list: EL_ARRAYED_LIST [IMMUTABLE_STRING_8]
 		do
 			Result := meta_data.field_list.name_list
 		end
@@ -91,7 +78,7 @@ feature -- Status query
 
 feature {EL_REFLECTION_HANDLER} -- Access
 
-	field_table: EL_REFLECTED_FIELD_TABLE
+	field_table: EL_FIELD_TABLE
 		do
 			if attached internal_field_table as table then
 				Result := table
@@ -132,7 +119,7 @@ feature -- Basic operations
 
 	print_fields (lio: EL_LOGGABLE)
 		do
-			meta_data.print_fields (Current, lio)
+			meta_data.field_printer.print_fields (Current, lio)
 		end
 
 feature -- Element change
@@ -148,25 +135,30 @@ feature -- Element change
 
 	set_from_other (other: EL_REFLECTIVE; other_except_list: detachable STRING)
 		-- set fields in `Current' with identical fields from `other' except for
-		-- other fields listed in comma-separated `other_except_list'
+		-- optional other fields listed in comma-separated `other_except_list'. (`Void' if none)
 		require
 			valid_names: attached other_except_list as names implies other.valid_field_names (names)
+		local
+			other_field_set: SPECIAL [EL_REFLECTED_FIELD]; other_field: EL_REFLECTED_FIELD
+			other_except_set: EL_FIELD_INDICES_SET; i: INTEGER
 		do
-			if attached meta_data.field_table as table
-				and then attached other.meta_data.field_list as other_list
-				and then attached other.field_indices_set (other_except_list) as except_indices
-			then
-				from other_list.start until other_list.after loop
-					if attached other_list.item as other_field
-						and then not except_indices.has (other_field.index)
+			if attached other_except_list as except_list then
+				other_except_set := other.field_info_table.field_indices_subset (except_list)
+			else
+				other_except_set := Empty_field_set
+			end
+			other_field_set := other.field_table.new_field_subset (other_except_set)
+			if attached field_table as table then
+				from until i = other_field_set.count loop
+					other_field := other_field_set [i]
+					if attached table.has_key_8 (other_field.name)
+						and then attached table.found_item as field
+						and then other_field.same_type (field)
+						and then other_field.type_id = field.type_id
 					then
-						if table.has_key (other_field.name) and then attached table.found_item as field then
-							if other_field.type_id = field.type_id then
-								field.set (Current, other_field.value (other))
-							end
-						end
+						field.set (Current, other_field.value (other))
 					end
-					other_list.forth
+					i := i + 1
 				end
 			end
 		end
@@ -190,17 +182,27 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 			end
 		end
 
-	new_field_indices_table: EL_FIELD_INDICES_TABLE
+	new_field_printer: EL_REFLECTIVE_CONSOLE_PRINTER
 		do
-			create Result.make (Current)
+			create Result.make_default
+		ensure
+			valid_field_names: valid_field_names (Result.hidden_fields)
+			valid_value_append_fields:
+				across Result.escape_fields as name all
+					field_info_table.has_8 (name.item)
+				end
 		end
 
-	new_hidden_fields: STRING
-		-- comma-separated list of fields that will not be output by `print_fields'
+	new_field_info_table: EL_OBJECT_FIELDS_TABLE
 		do
-			create Result.make_empty
+			create Result.make (Current, True, True)
+		end
+
+	new_field_sorter: like Default_field_order
+		do
+			Result := Default_field_order
 		ensure
-			valid_field_names: valid_field_names (Result)
+			valid_field_names: valid_field_names (Result.reordered_fields)
 		end
 
 	new_instance_functions: like Default_initial_values
@@ -220,7 +222,7 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 		do
 			Result := Default_representations
 		ensure
-			valid_field_names: valid_table_field_names (Result)
+			valid_field_names: field_info_table.valid_field_names (Result.current_keys)
 		end
 
 	new_transient_fields: STRING
@@ -232,34 +234,28 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 			valid_field_names: valid_field_names (Result)
 		end
 
-	new_tuple_converters: like Default_tuple_converters
-		-- agent function to convert `READABLE_STRING_GENERAL' to adjusted `EL_SPLIT_READABLE_STRING_LIST'
-		-- for initializing tuple field
+	new_tuple_field_table: like Default_tuple_field_table
 		do
-			Result := Default_tuple_converters
-		ensure
-			valid_names: Result.current_keys.for_all (agent is_tuple_field)
-		end
+--			Initialization Example:
 
-	new_tuple_field_names: STRING
-		-- tuple field name table manifest formatted as:
-		-- field_1:
-		--		name_1, name_2 ..
-		-- field_2:
-		--		name_1, name_2 ..
-		-- ..
-		do
-			create Result.make_empty
+--				Result := "[
+--					field_1:
+--						name_1, name_2, ..
+--					field_2:
+--						name_1, name_2, ..
+--					..
+--				]"
+
+			Result := Default_tuple_field_table
 		ensure
-			valid_tuple_field_names: Result.count > 0 implies valid_tuple_field_names (Result)
+			valid_tuple_field_names:
+				across Result as table all
+					field_info_table.valid_tuple_name_list (table.key, table.item)
+				end
+			valid_converters: Result.valid_converters (field_info_table)
 		end
 
 feature {EL_REFLECTIVE_I} -- Implementation
-
-	current_object: like Once_current_object
-		do
-			Result := Once_current_object; Result.set_object (Current)
-		end
 
 	eiffel_naming: detachable EL_NAME_TRANSLATER
 		-- Void translater
@@ -277,21 +273,6 @@ feature {EL_REFLECTIVE_I} -- Implementation
 			create Result
 		end
 
-	fill_field_value_table (value_table: EL_FIELD_VALUE_TABLE [ANY])
-		-- fill
-		local
-			query_results: LIST [EL_REFLECTED_FIELD]
-		do
-			if attached meta_data.field_table as table then
-				table.query_by_type (value_table.value_type)
-				query_results := table.last_query
-				from query_results.start until query_results.after loop
-					value_table.set_value (query_results.item.export_name, query_results.item.value (Current))
-					query_results.forth
-				end
-			end
-		end
-
 	field_name_for_address (field_address: POINTER): STRING
 		do
 			if field_table.has_address (Current, field_address) then
@@ -301,40 +282,23 @@ feature {EL_REFLECTIVE_I} -- Implementation
 			end
 		end
 
-feature {EL_CLASS_META_DATA} -- Implementation
+feature {EL_CLASS_META_DATA, EL_REFLECTIVE_I} -- Implementation
 
 	current_reflective: like Current
 		do
 			Result := Current
 		end
 
-	field_included (basic_type, type_id: INTEGER): BOOLEAN
+	field_included (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		-- when True, include field of this type in `field_table' and `meta_data'
 		-- except when the name is one of those listed in `Except_fields'.
 		deferred
 		end
 
-	field_indices_table: EL_FIELD_INDICES_TABLE
+	field_info_table: EL_OBJECT_FIELDS_TABLE
+		-- information on complete set of fields for `Current'
 		do
-			Result := Field_indices_table_by_type.item (Current)
-		end
-
-	set_reference_fields (type: TYPE [ANY]; new_object: FUNCTION [IMMUTABLE_STRING_8, ANY])
-		-- set reference fields of `type' with `new_object' taking a exported name
-		require
-			reference_type: not type.is_expanded
-			type_same_as_function_result_type: new_object.generating_type.generic_parameter_type (2) ~ type
-		do
-			if attached meta_data.field_table as table then
-				from table.start until table.after loop
-					if attached {EL_REFLECTED_REFERENCE [ANY]} table.item_for_iteration as ref_field
-						and then ref_field.type_id = type.type_id
-					then
-						ref_field.set (Current, new_object (ref_field.export_name))
-					end
-					table.forth
-				end
-			end
+			Result := Field_info_table_by_type.item (Current)
 		end
 
 feature {NONE} -- Internal attributes
@@ -343,9 +307,9 @@ feature {NONE} -- Internal attributes
 
 feature {EL_CLASS_META_DATA} -- Constants
 
-	Field_indices_table_by_type: EL_FUNCTION_RESULT_TABLE [EL_REFLECTIVE, EL_FIELD_INDICES_TABLE]
+	Field_info_table_by_type: EL_FUNCTION_RESULT_TABLE [EL_REFLECTIVE, EL_OBJECT_FIELDS_TABLE]
 		once
-			create Result.make (19, agent {EL_REFLECTIVE}.new_field_indices_table)
+			create Result.make (19, agent {EL_REFLECTIVE}.new_field_info_table)
 		end
 
 	Meta_data_table: EL_FUNCTION_RESULT_TABLE [EL_REFLECTIVE, EL_CLASS_META_DATA]
@@ -358,7 +322,7 @@ note
 		Any fields that are marked as being transient are not included in `field_table'. For example in
 		[$source EL_REFLECTIVELY_SETTABLE], the field `field_table' is marked as transient.
 
-			field_table: EL_REFLECTED_FIELD_TABLE note option: transient attribute end
+			field_table: EL_FIELD_TABLE note option: transient attribute end
 
 		When inheriting this class, rename `field_included' as either `is_any_field' or `is_string_or_expanded_field'.
 
@@ -370,10 +334,10 @@ note
 		If no adaptation is need rename it to `import_default'. Rename `export_name' in a similar manner
 		as required. Name exporting routines are named `to_*'.
 
-		**Transient and Hidden fields**
+		**Transient**
 
-		When redefining `new_transient_fields' or `new_hidden_fields', always include the precursor regardless of
-		whether you think the precursor is empty. An empty leading field will do no harm:
+		When redefining `new_transient_fields', always include the precursor regardless of
+		whether or not you think the precursor is empty. An empty leading field will do no harm:
 
 		For example:
 
@@ -400,23 +364,6 @@ note
 			EL_REFLECTIVE*
 				[$source EL_REFLECTIVELY_SETTABLE]*
 					[$source MY_DRY_CLASS]
-					[$source EL_ENUMERATION]* [N -> [$source NUMERIC]]
-						[$source AIA_RESPONSE_ENUM]
-						[$source AIA_REASON_ENUM]
-						[$source EL_CURRENCY_ENUM]
-						[$source EL_BOOLEAN_ENUMERATION]*
-							[$source PP_ADDRESS_STATUS_ENUM]
-						[$source PP_PAYMENT_STATUS_ENUM]
-						[$source PP_PAYMENT_PENDING_REASON_ENUM]
-						[$source PP_TRANSACTION_TYPE_ENUM]
-						[$source TL_PICTURE_TYPE_ENUM]
-						[$source EL_IPAPI_CO_JSON_FIELD_ENUM]
-						[$source EL_DESCRIPTIVE_ENUMERATION]* [N -> {[$source NUMERIC], [$source HASHABLE]}]
-							[$source EROS_ERRORS_ENUM]
-						[$source TL_STRING_ENCODING_ENUM]
-						[$source TL_MUSICBRAINZ_ENUM]
-						[$source EL_HTTP_STATUS_ENUM]
-						[$source TL_FRAME_ID_ENUM]
 					[$source AIA_CREDENTIAL_ID]
 					[$source FCGI_REQUEST_PARAMETERS]
 					[$source AIA_RESPONSE]
@@ -431,117 +378,6 @@ note
 					[$source JOB]
 					[$source JSON_CURRENCY]
 					[$source PERSON]
-					[$source EL_OS_COMMAND_I]*
-						[$source EL_AVCONV_OS_COMMAND_I]*
-							[$source EL_VIDEO_TO_MP3_COMMAND_I]*
-							[$source EL_AUDIO_PROPERTIES_COMMAND_I]*
-								[$source EL_AUDIO_PROPERTIES_COMMAND_IMP]
-							[$source EL_MP3_TO_WAV_CLIP_SAVER_COMMAND_I]*
-								[$source EL_MP3_TO_WAV_CLIP_SAVER_COMMAND_IMP]
-						[$source EL_OS_COMMAND_IMP]*
-							[$source EL_COPY_TREE_COMMAND_IMP]
-							[$source EL_OS_COMMAND]
-								[$source EL_CAPTURED_OS_COMMAND]
-									[$source EL_GVFS_OS_COMMAND]
-										[$source EL_GVFS_FILE_INFO_COMMAND]
-										[$source EL_GVFS_REMOVE_FILE_COMMAND]
-										[$source EL_GVFS_FILE_LIST_COMMAND]
-										[$source EL_GVFS_FILE_COUNT_COMMAND]
-										[$source EL_GVFS_FILE_EXISTS_COMMAND]
-									[$source EL_PARSED_CAPTURED_OS_COMMAND]* [VARIABLES -> [$source TUPLE] create default_create end]
-										[$source EL_MD5_SUM_COMMAND]
-								[$source EL_PARSED_OS_COMMAND]* [VARIABLES -> [$source TUPLE] create default_create end]
-									[$source EL_CREATE_TAR_COMMAND]
-									[$source EL_PARSED_CAPTURED_OS_COMMAND]* [VARIABLES -> [$source TUPLE] create default_create end]
-							[$source EL_DELETE_FILE_COMMAND_IMP]
-							[$source EL_COPY_FILE_COMMAND_IMP]
-							[$source EL_CREATE_LINK_COMMAND_IMP]
-							[$source EL_DELETE_TREE_COMMAND_IMP]
-							[$source EL_FIND_DIRECTORIES_COMMAND_IMP]
-							[$source EL_FIND_FILES_COMMAND_IMP]
-							[$source EL_MAKE_DIRECTORY_COMMAND_IMP]
-							[$source EL_MOVE_FILE_COMMAND_IMP]
-							[$source EL_MOVE_TO_DIRECTORY_COMMAND_IMP]
-							[$source EL_SEND_MAIL_COMMAND_IMP]
-							[$source EL_CPU_INFO_COMMAND_IMP]
-							[$source EL_JPEG_FILE_INFO_COMMAND_IMP]
-							[$source EL_USERS_INFO_COMMAND_IMP]
-							[$source EL_DIRECTORY_INFO_COMMAND_IMP]
-							[$source EL_WAV_TO_MP3_COMMAND_IMP]
-							[$source EL_EXTRACT_MP3_INFO_COMMAND_IMP]
-							[$source EL_AUDIO_PROPERTIES_COMMAND_IMP]
-							[$source EL_MP3_TO_WAV_CLIP_SAVER_COMMAND_IMP]
-							[$source EL_WAV_FADER_IMP]
-							[$source EL_WAV_GENERATION_COMMAND_IMP]
-							[$source EL_X509_PUBLIC_READER_COMMAND_IMP]
-							[$source EL_X509_PRIVATE_READER_COMMAND_IMP]
-						[$source EL_OS_COMMAND]
-						[$source EL_CAPTURED_OS_COMMAND_I]*
-							[$source EL_CAPTURED_OS_COMMAND]
-							[$source EL_FIND_COMMAND_I]*
-								[$source EL_FIND_DIRECTORIES_COMMAND_I]*
-									[$source EL_FIND_DIRECTORIES_COMMAND_IMP]
-								[$source EL_FIND_FILES_COMMAND_I]*
-									[$source EL_FIND_FILES_COMMAND_IMP]
-							[$source EL_X509_CERTIFICATE_READER_COMMAND_I]*
-								[$source EL_X509_PRIVATE_READER_COMMAND_I]*
-									[$source EL_X509_PRIVATE_READER_COMMAND_IMP]
-								[$source EL_X509_PUBLIC_READER_COMMAND_I]*
-									[$source EL_X509_PUBLIC_READER_COMMAND_IMP]
-							[$source EL_CPU_INFO_COMMAND_I]*
-								[$source EL_CPU_INFO_COMMAND_IMP]
-							[$source EL_JPEG_FILE_INFO_COMMAND_I]*
-								[$source EL_JPEG_FILE_INFO_COMMAND_IMP]
-							[$source EL_SEND_MAIL_COMMAND_I]*
-								[$source EL_SEND_MAIL_COMMAND_IMP]
-							[$source EL_USERS_INFO_COMMAND_I]*
-								[$source EL_USERS_INFO_COMMAND_IMP]
-							[$source EL_DIRECTORY_INFO_COMMAND_I]*
-								[$source EL_DIRECTORY_INFO_COMMAND_IMP]
-							[$source EL_EXTRACT_MP3_INFO_COMMAND_I]*
-								[$source EL_EXTRACT_MP3_INFO_COMMAND_IMP]
-						[$source EL_SINGLE_PATH_OPERAND_COMMAND_I]*
-							[$source EL_DOUBLE_PATH_OPERAND_COMMAND_I]*
-								[$source EL_FILE_CONVERSION_COMMAND_I]*
-									[$source EL_VIDEO_TO_MP3_COMMAND_I]*
-									[$source EL_MP3_TO_WAV_CLIP_SAVER_COMMAND_I]*
-									[$source EL_WAV_FADER_I]*
-										[$source EL_WAV_FADER_IMP]
-									[$source EL_WAV_TO_MP3_COMMAND_I]*
-										[$source EL_WAV_TO_MP3_COMMAND_IMP]
-								[$source EL_FILE_RELOCATION_COMMAND_I]*
-									[$source EL_COPY_TREE_COMMAND_I]*
-										[$source EL_COPY_TREE_COMMAND_IMP]
-									[$source EL_COPY_FILE_COMMAND_I]*
-										[$source EL_COPY_FILE_COMMAND_IMP]
-									[$source EL_MOVE_FILE_COMMAND_I]*
-										[$source EL_MOVE_FILE_COMMAND_IMP]
-								[$source EL_CREATE_LINK_COMMAND_I]*
-									[$source EL_CREATE_LINK_COMMAND_IMP]
-								[$source EL_MOVE_TO_DIRECTORY_COMMAND_I]*
-									[$source EL_MOVE_TO_DIRECTORY_COMMAND_IMP]
-							[$source EL_DIR_PATH_OPERAND_COMMAND_I]*
-								[$source EL_FIND_COMMAND_I]*
-								[$source EL_DELETE_TREE_COMMAND_I]*
-									[$source EL_DELETE_TREE_COMMAND_IMP]
-								[$source EL_MAKE_DIRECTORY_COMMAND_I]*
-									[$source EL_MAKE_DIRECTORY_COMMAND_IMP]
-								[$source EL_USERS_INFO_COMMAND_I]*
-								[$source EL_DIRECTORY_INFO_COMMAND_I]*
-							[$source EL_EXTRACT_MP3_INFO_COMMAND_I]*
-							[$source EL_AUDIO_PROPERTIES_COMMAND_I]*
-							[$source EL_WAV_GENERATION_COMMAND_I]*
-								[$source EL_WAV_GENERATION_COMMAND_IMP]
-							[$source EL_FILE_PATH_OPERAND_COMMAND_I]*
-								[$source EL_X509_CERTIFICATE_READER_COMMAND_I]*
-								[$source EL_DELETE_FILE_COMMAND_I]*
-									[$source EL_DELETE_FILE_COMMAND_IMP]
-								[$source EL_JPEG_FILE_INFO_COMMAND_I]*
-					[$source EL_COMMAND_LINE_OPTIONS]*
-						[$source EL_APPLICATION_COMMAND_OPTIONS]
-							[$source EROS_APPLICATION_COMMAND_OPTIONS]
-						[$source EL_BASE_COMMAND_OPTIONS]
-						[$source EL_LOG_COMMAND_OPTIONS]
 					[$source AIA_REQUEST]*
 						[$source AIA_GET_USER_ID_REQUEST]
 						[$source AIA_PURCHASE_REQUEST]
@@ -556,29 +392,18 @@ note
 							[$source EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS]*
 						[$source TEST_VALUES]
 						[$source EL_FILE_MANIFEST_ITEM]
-					[$source EL_REFLECTIVE_LOCALE_TEXTS]*
-						[$source EL_MONTH_TEXTS]
-						[$source EL_DAY_OF_WEEK_TEXTS]
-						[$source EL_CURRENCY_TEXTS]
-						[$source EL_WORD_TEXTS]
-						[$source EL_UNINSTALL_TEXTS]
-						[$source EL_PASSPHRASE_TEXTS]
-						[$source EL_PHRASE_TEXTS]
 					[$source EL_DYNAMIC_MODULE_POINTERS]
 						[$source EL_IMAGE_UTILS_API_POINTERS]
 						[$source EL_CURL_API_POINTERS]
 					[$source AIA_AUTHORIZATION_HEADER]
-					[$source EL_REFLECTIVELY_SETTABLE_STORABLE]*
-						[$source AIA_CREDENTIAL]
-						[$source EL_UUID]
-						[$source TEST_STORABLE]
-						[$source EL_REFLECTIVE_RSA_KEY]*
-							[$source EL_RSA_PRIVATE_KEY]
-							[$source EL_RSA_PUBLIC_KEY]
-						[$source EL_COMMA_SEPARATED_WORDS]
-						[$source EL_STORABLE_IMPL]
-						[$source EL_TRANSLATION_ITEM]
 				[$source EL_REFLECTIVE_BOOLEAN_REF]
+				
+		See also:
+		
+		1. descendants of [$source EL_ENUMERATION]
+		2. descendants of [$source EL_REFLECTIVE_LOCALE_TEXTS]
+		3. descendants of [$source EL_COMMAND_LINE_OPTIONS]
+		4. descendants of [$source EL_REFLECTIVELY_SETTABLE_STORABLE]
 	]"
 
 end

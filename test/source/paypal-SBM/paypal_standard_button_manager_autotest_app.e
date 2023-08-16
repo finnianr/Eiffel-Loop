@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "67"
+	date: "2023-08-06 13:30:28 GMT (Sunday 6th August 2023)"
+	revision: "68"
 
 class
 	PAYPAL_STANDARD_BUTTON_MANAGER_AUTOTEST_APP
@@ -29,7 +29,7 @@ create
 
 feature {NONE} -- Implementation
 
-	compile: TUPLE [PP_NAME_TRANSLATER]
+	compile: TUPLE [PP_NAME_TRANSLATER, PP_BUTTON_PARAMETER]
 		do
 			create Result
 		end

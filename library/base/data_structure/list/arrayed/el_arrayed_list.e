@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 15:09:01 GMT (Saturday 29th April 2023)"
-	revision: "60"
+	date: "2023-07-21 9:28:38 GMT (Friday 21st July 2023)"
+	revision: "61"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -33,7 +33,7 @@ inherit
 			i_th, at, last, first, valid_index, is_inserted, move, start, finish, go_i_th, put_i_th,
 			force, append_sequence, prune, prune_all, remove, swap, new_cursor, to_array, order_by
 		redefine
-			find_next_item, joined
+			find_next_item, joined, push_cursor, pop_cursor
 		end
 
 	EL_MODULE_EIFFEL
@@ -222,11 +222,30 @@ feature -- Access
 			end
 		end
 
+	trimmed_area: like area
+		do
+			trim
+			Result := area_v2
+		end
+
 feature -- Status query
 
 	is_sortable: BOOLEAN
 		do
 			Result := Eiffel.is_comparable_type (({like item}).type_id)
+		end
+
+	pop_cursor
+		-- restore cursor position from stack
+		do
+			index := Index_stack.item
+			Index_stack.remove
+		end
+
+	push_cursor
+		-- push cursor position on to stack
+		do
+			Index_stack.put (index)
 		end
 
 feature -- Removal

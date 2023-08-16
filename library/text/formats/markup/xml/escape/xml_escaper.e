@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 15:46:42 GMT (Thursday 5th January 2023)"
-	revision: "16"
+	date: "2023-08-02 14:34:28 GMT (Wednesday 2nd August 2023)"
+	revision: "17"
 
 class
 	XML_ESCAPER [S -> STRING_GENERAL create make end]
@@ -57,17 +57,17 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	String_32_imp: XML_STRING_32_ESCAPER_IMP
+	STRING_32_imp: XML_STRING_32_ESCAPER_IMP
 		once
 			create Result.make
 		end
 
-	String_8_imp: XML_STRING_8_ESCAPER_IMP
+	STRING_8_imp: XML_STRING_8_ESCAPER_IMP
 		once
 			create Result.make
 		end
 
-	Zstring_imp: XML_ZSTRING_ESCAPER_IMP
+	ZSTRING_imp: XML_ZSTRING_ESCAPER_IMP
 		once
 			create Result.make
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-15 16:28:13 GMT (Saturday 15th July 2023)"
-	revision: "23"
+	date: "2023-08-15 11:04:11 GMT (Tuesday 15th August 2023)"
+	revision: "25"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 			make_equal (3)
 		end
 
-	make (array: ARRAY [like as_map_list.item_tuple])
+	make (array: like MANIFEST_ARRAY)
 			--
 		do
 			make_equal (array.count)
@@ -150,8 +150,7 @@ feature -- Status query
 
 feature -- Element change
 
-	append_tuples (array: ARRAY [like as_map_list.item_tuple])
-			--
+	append_tuples (array: like MANIFEST_ARRAY)
 		local
 			i, new_count: INTEGER; map: like as_map_list.item_tuple
 		do
@@ -225,6 +224,16 @@ feature -- Contract Support
 			rs: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
 			Result := rs.valid_assignments (a_manifest)
+		end
+
+feature -- Type definitions
+
+	MANIFEST_ARRAY: like as_map_list.MANIFEST_ARRAY
+		-- type of array used to initialize `Current' in `make' routine
+		require
+			never_called: False
+		do
+			create Result.make_empty
 		end
 
 feature {NONE} -- Implementation

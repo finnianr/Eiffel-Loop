@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-08-11 15:16:07 GMT (Friday 11th August 2023)"
+	revision: "11"
 
 class
 	DJ_EVENTS_HTML_INDEX
@@ -23,9 +23,7 @@ inherit
 			Empty_string_8 as Template
 		end
 
-	EL_MODULE_LOG
-
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_FILE_SYSTEM; EL_MODULE_LOG
 
 create
 	make
@@ -60,8 +58,8 @@ feature {NONE} -- Evolicity fields
 					create events_for_year.make (20)
 					create year_context.make
 					year := event.item.date.year
-					year_context.put_variable (year.to_reference, once "year")
-					year_context.put_variable (events_for_year, once "list")
+					year_context.put_any (once "year", year.to_reference)
+					year_context.put_any (once "list", events_for_year)
 					Result.extend (year_context)
 				end
 				events_for_year.extend (event.item)

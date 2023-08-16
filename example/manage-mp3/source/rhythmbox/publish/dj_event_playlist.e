@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-25 10:30:46 GMT (Sunday 25th June 2023)"
-	revision: "25"
+	date: "2023-08-02 14:51:07 GMT (Wednesday 2nd August 2023)"
+	revision: "26"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -23,6 +23,8 @@ inherit
 		end
 
 	EL_FILE_PERSISTENT_BUILDABLE_FROM_PYXIS
+		rename
+			Var as Standard_var
 		undefine
 			copy, is_equal
 		redefine

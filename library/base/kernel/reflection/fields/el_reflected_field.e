@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-17 16:16:06 GMT (Monday 17th July 2023)"
-	revision: "56"
+	date: "2023-08-14 11:10:14 GMT (Monday 14th August 2023)"
+	revision: "58"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -27,7 +27,7 @@ inherit
 			is_equal, enclosing_object
 		end
 
-	EL_NAMEABLE [STRING] undefine is_equal end
+	EL_NAMEABLE [IMMUTABLE_STRING_8] undefine is_equal end
 
 	EL_REFLECTION_CONSTANTS
 
@@ -39,13 +39,13 @@ inherit
 
 feature {EL_CLASS_META_DATA} -- Initialization
 
-	make (a_object: like enclosing_object; a_index: INTEGER; a_name: STRING)
+	make (a_object: like enclosing_object; a_index: INTEGER; a_name: IMMUTABLE_STRING_8)
 		do
 			make_reflected (a_object)
 			index := a_index; name := a_name
 			type_id := field_static_type (index)
 			type := Eiffel.type_of_type (type_id)
-			export_name := Immutable_8.new_substring (a_name.area, 0, a_name.count)
+			export_name := a_name
 		end
 
 feature -- Names
@@ -63,7 +63,7 @@ feature -- Names
 
 	export_name: IMMUTABLE_STRING_8
 
-	name: STRING
+	name: IMMUTABLE_STRING_8
 
 feature -- Access
 
@@ -84,6 +84,11 @@ feature -- Access
 		end
 
 	type: TYPE [ANY]
+
+	type_info: EL_FIELD_TYPE_PROPERTIES
+		do
+			create Result.make (index, dynamic_type)
+		end
 
 	type_id: INTEGER
 		-- generating type

@@ -12,15 +12,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-07-31 14:03:06 GMT (Monday 31st July 2023)"
+	revision: "7"
 
 class
 	EVOLICITY_CONTEXT_IMP
 
 inherit
 	ANY
-	
+
 	EVOLICITY_CONTEXT
 
 create
@@ -36,25 +36,25 @@ feature {NONE} -- Initialization
 		end
 
 
-	make_from_object_table (table: HASH_TABLE [ANY, STRING])
+	make_from_object_table (table: EL_STRING_8_TABLE [ANY])
 			--
 		do
-			create object_table.make_equal (table.capacity)
+			create object_table.make_equal (table.count)
 			object_table.merge (table)
 		end
 
-	make_from_string_table (table: HASH_TABLE [READABLE_STRING_GENERAL, STRING])
+	make_from_string_table (table: EL_STRING_8_TABLE [READABLE_STRING_GENERAL])
 
 		do
-			create object_table.make_equal (table.capacity)
+			create object_table.make_equal (table.count)
 			from table.start until table.after loop
-				put_variable (table.item_for_iteration, table.key_for_iteration)
+				put_any (table.key_for_iteration, table.item_for_iteration)
 				table.forth
 			end
 		end
 
 feature {NONE} -- Internal attributes
 
-	object_table: EVOLICITY_OBJECT_TABLE [ANY]
+	object_table: EL_STRING_8_TABLE [ANY]
 
 end

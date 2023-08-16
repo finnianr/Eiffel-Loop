@@ -1,6 +1,6 @@
 note
 	description: "[
-		Object with `field_table' attribute of field getter-setter's. See class [$source EL_REFLECTED_FIELD_TABLE]
+		Object with `field_table' attribute of field getter-setter's. See class [$source EL_FIELD_TABLE]
 	]"
 	notes: "[
 		When inheriting this class, rename `field_included' as either `is_any_field' or `is_string_or_expanded_field'.
@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-19 8:35:31 GMT (Friday 19th May 2023)"
-	revision: "32"
+	date: "2023-08-14 8:37:39 GMT (Monday 14th August 2023)"
+	revision: "34"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE
@@ -247,8 +247,7 @@ note
 					[$source PP_TRANSACTION_TYPE_ENUM]
 					[$source TL_PICTURE_TYPE_ENUM]
 					[$source EL_IPAPI_CO_JSON_FIELD_ENUM]
-					[$source EL_DESCRIPTIVE_ENUMERATION]* [N -> {[$source NUMERIC], [$source HASHABLE]}]
-						[$source EROS_ERRORS_ENUM]
+					[$source EROS_ERRORS_ENUM]
 					[$source TL_STRING_ENCODING_ENUM]
 					[$source TL_MUSICBRAINZ_ENUM]
 					[$source EL_HTTP_STATUS_ENUM]

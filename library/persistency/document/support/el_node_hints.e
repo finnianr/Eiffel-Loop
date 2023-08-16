@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 11:34:08 GMT (Monday 23rd January 2023)"
-	revision: "2"
+	date: "2023-07-22 18:57:46 GMT (Saturday 22nd July 2023)"
+	revision: "3"
 
 deferred class
 	EL_NODE_HINTS
@@ -21,10 +21,5 @@ feature {NONE} -- Constants
 
 	Empty_set: STRING = ""
 		-- rename `element_node_fields' as this to exclude all
-
-	Empty_field_set: EL_FIELD_INDICES_SET
-		once
-			create Result.make_empty
-		end
 
 end

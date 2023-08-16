@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "21"
+	date: "2023-08-15 14:45:12 GMT (Tuesday 15th August 2023)"
+	revision: "22"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -57,7 +57,7 @@ feature -- Tests
 				if attached {COUNTRY} restored_object (country, Country_reader_writer) as restored then
 					check_values (restored)
 				else
-					assert ("country restored", False)
+					failed ("country restored")
 				end
 			end
 		end
@@ -65,7 +65,7 @@ feature -- Tests
 	test_print_fields
 		do
 			if attached new_country as country then
-				do_test ("print_fields", 4263234204, agent country.print_fields (lio), [])
+				do_test ("print_fields", 3471811015, agent country.print_fields (lio), [])
 			end
 		end
 
@@ -114,7 +114,7 @@ feature -- Tests
 						assert ("same time", t.same_time (storable.time, restored.time))
 						assert ("same integer_list", storable.integer_list ~ restored.integer_list)
 					else
-						assert ("restored OK", False)
+						failed ("restored OK")
 					end
 				end
 			end

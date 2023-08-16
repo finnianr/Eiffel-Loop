@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2023-07-21 8:28:08 GMT (Friday 21st July 2023)"
+	revision: "19"
 
 class
 	ECD_ARRAYED_LIST [G -> EL_STORABLE create make_default end]
@@ -39,23 +39,20 @@ feature {NONE} -- Initialization
 
 	make (n: INTEGER)
 		local
-			i: INTEGER; index_list: ARRAYED_LIST [like index_tables.item]
-			reflected: REFLECTED_REFERENCE_OBJECT
+			index_list: EL_ARRAYED_LIST [like index_tables.item]
+			field_table: EL_OBJECT_FIELDS_TABLE
 		do
 			Precursor (n)
 			create_index_tables
 
-			create reflected.make (Current)
+			create field_table.make (Current, True, True)
 			create index_list.make (5)
-			from i := 1 until i > reflected.field_count loop
-				if reflected.field_type (i) = reflected.Reference_type
-					and then attached {like index_tables.item} reflected.reference_field (i) as index_field
-				then
+			across field_table.conforming_type_info_list ({like index_tables.item}) as list loop
+				if attached {like index_tables.item} list.item.value_for (Current) as index_field then
 					index_list.extend (index_field)
 				end
-				i := i + 1
 			end
-			index_tables := index_list.area.resized_area (index_list.count)
+			index_tables := index_list.trimmed_area
 		end
 
 feature -- Element change

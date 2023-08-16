@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-21 8:46:00 GMT (Wednesday 21st June 2023)"
-	revision: "32"
+	date: "2023-08-16 10:34:39 GMT (Wednesday 16th August 2023)"
+	revision: "33"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -361,7 +361,7 @@ feature {EL_PATH} -- Implementation
 
 	remove_step_right (a_path: ZSTRING)
 		require
-			has_step:  a_path.count > 0 and then a_path [a_path.count] = Separator
+			has_step:  a_path.ends_with_character (Separator)
 		local
 			previous_pos: INTEGER
 		do

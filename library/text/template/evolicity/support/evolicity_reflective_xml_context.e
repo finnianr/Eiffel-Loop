@@ -1,13 +1,13 @@
 note
-	description: "Evolicity xml escaped context"
+	description: "Evolicity XML escaped context"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 11:10:14 GMT (Thursday 5th January 2023)"
-	revision: "8"
+	date: "2023-08-02 14:46:33 GMT (Wednesday 2nd August 2023)"
+	revision: "9"
 
 deferred class
 	EVOLICITY_REFLECTIVE_XML_CONTEXT
@@ -23,7 +23,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	escaped_field (a_string: READABLE_STRING_GENERAL; type_id: INTEGER): READABLE_STRING_GENERAL
+	escaped_field (a_string: READABLE_STRING_GENERAL; type_id: INTEGER): STRING_GENERAL
 		do
 			if XML_escaper_by_type.has_key (type_id) then
 				Result := XML_escaper_by_type.found_item.escaped (a_string, False)
@@ -39,7 +39,7 @@ feature {NONE} -- Implementation
 			create list.make (current_reflective.field_table.count)
 			across current_reflective.field_table as table loop
 				if attached table.item.export_name as tag_name then
-					list.extend (Element_template #$ [tag_name, table.key, tag_name])
+--					list.extend (Element_template #$ [tag_name, table.key, tag_name])
 				end
 			end
 			Result := list.joined_lines
@@ -54,11 +54,6 @@ feature {NONE} -- Constants
 				[Class_id.STRING_8, create {XML_ESCAPER [STRING_8]}.make],
 				[Class_id.STRING_32, create {XML_ESCAPER [STRING_32]}.make]
 			>>)
-		end
-
-	Element_template: ZSTRING
-		once
-			Result := "<%S>$%S</%S>"
 		end
 
 end

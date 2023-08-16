@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 11:53:47 GMT (Sunday 16th July 2023)"
-	revision: "37"
+	date: "2023-08-14 19:44:45 GMT (Monday 14th August 2023)"
+	revision: "40"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -80,10 +80,7 @@ inherit
 			copy, is_equal, out
 		end
 
-	EL_XPATH_CONSTANTS
-		undefine
-			copy, is_equal, out
-		end
+	EL_XPATH_NODE_CONSTANTS
 
 	EL_SHARED_ENCODINGS
 
@@ -117,25 +114,27 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	document_dir: DIR_PATH
+	code_value_16 (current_code: NATURAL_16; enumeration: EL_ENUMERATION_NATURAL_16): NATURAL_16
+		-- enumeration value for current node name or `current_code' if name is invalid
+		do
+			if enumeration.has_name (as_enumeration_name) then
+				Result := enumeration.found_value
+			else
+				Result := current_code
+			end
+		end
 
 	code_value_8 (current_code: NATURAL_8; enumeration: EL_ENUMERATION_NATURAL_8): NATURAL_8
 		-- enumeration value for current node name or `current_code' if name is invalid
 		do
-			Result := current_code
-			if attached adjusted_8 (False) as code_name and then enumeration.is_valid_name (code_name) then
-				Result := enumeration.value (code_name)
+			if enumeration.has_name (as_enumeration_name) then
+				Result := enumeration.found_value
+			else
+				Result := current_code
 			end
 		end
 
-	code_value_16 (current_code: NATURAL_16; enumeration: EL_ENUMERATION_NATURAL_16): NATURAL_16
-		-- enumeration value for current node name or `current_code' if name is invalid
-		do
-			Result := current_code
-			if attached adjusted_8 (False) as code_name and then enumeration.is_valid_name (code_name) then
-				Result := enumeration.value (code_name)
-			end
-		end
+	document_dir: DIR_PATH
 
 	name: ZSTRING
 		do
@@ -159,36 +158,13 @@ feature -- Access
 	type: INTEGER
 		-- Node type id
 
+feature -- Access
+
 	xpath_name (keep_ref: BOOLEAN): ZSTRING
-			--
+		--
 		do
 			Result := Name_buffer.empty
-			inspect type
-				when Node_type_element then
-					if encoded_as_utf (8) then
-						Result.append_utf_8 (raw_name)
-					else
-						Result.append_string_general (raw_name)
-					end
-
-				when Node_type_text then
-					Result.append_raw_string_8 (Node_text)
-
-				when Node_type_comment then
-					Result.append_raw_string_8 (Node_comment)
-
-				when Node_type_processing_instruction then
-					Result.append_raw_string_8 (Node_processing_instruction)
-					if encoded_as_utf (8) then
-						Result.append_utf_8 (raw_name)
-					else
-						Result.append_string_general (raw_name)
-					end
-					Result.append_raw_string_8 (Node_processing_instruction_end)
-
-			else
-				Result.append_string_general (raw_name)
-			end
+			extend_xpath (Result)
 			if keep_ref then
 				Result := Result.twin
 			end
@@ -218,14 +194,14 @@ feature -- Status query
 			Result := adjusted (False).same_string_general (a_string)
 		end
 
-	same_as_8 (str_8: READABLE_STRING_8): BOOLEAN
-		do
-			Result := adjusted_8 (False).same_string (str_8)
-		end
-
 	same_as_32 (str_32: READABLE_STRING_32): BOOLEAN
 		do
 			Result := adjusted_32 (False).same_string (str_32)
+		end
+
+	same_as_8 (str_8: READABLE_STRING_8): BOOLEAN
+		do
+			Result := adjusted_8 (False).same_string (str_8)
 		end
 
 feature -- String conversion
@@ -327,33 +303,45 @@ feature -- Element change
 			type := a_type
 		end
 
+feature -- Basic operations
+
+	extend_xpath (xpath: STRING)
+			--
+		do
+			inspect type
+				when Type_element then
+					xpath.append (raw_name)
+
+				when Type_text, Type_comment then
+					xpath.append (Node_name [type])
+
+				when Type_processing_instruction then
+					xpath.append (Node_name [Type_processing_instruction])
+					xpath.append (once "('")
+					xpath.append (raw_name)
+					xpath.append (once "')")
+
+			else
+				xpath.append (raw_name)
+			end
+		end
+
 feature {NONE} -- Implementation
+
+	as_enumeration_name: STRING
+		do
+			if is_empty then
+				Result := Current
+			elseif is_ascii and then not (item (1).is_space or item (count).is_space) then
+				Result := Current
+			else
+				Result := adjusted_8 (False)
+			end
+		end
 
 	append_to_string (zstr: ZSTRING; str_8: READABLE_STRING_8)
 		do
 			zstr.append_encoded (str_8, encoding_code)
-		end
-
-	append_to_string_8 (str_8: STRING_8; start_index, end_index: INTEGER)
-		do
-			if encoded_as_utf (8) then
-				Precursor (str_8, start_index, end_index)
-
-			elseif encoded_as_latin (1) then
-				str_8.append_substring (Current, start_index, end_index)
-
-			elseif attached as_encoding as encoding then
-				Immutable_8.set_item (area, start_index - 1, end_index - start_index + 1)
-				encoding.convert_to (Encodings.Latin_1, Immutable_8.item)
-				if encoding.last_conversion_successful then
-					check
-						no_lost_data: not encoding.last_conversion_lost_data
-					end
-					str_8.append (encoding.last_converted_string_8)
-				else
-					str_8.append_substring (Current, start_index, end_index)
-				end
-			end
 		end
 
 	append_to_string_32 (str_32: STRING_32; start_index, end_index: INTEGER)
@@ -375,6 +363,28 @@ feature {NONE} -- Implementation
 					str_32.append_string_general (encoding.last_converted_string)
 				else
 					str_32.append_string_general (Immutable_8.item)
+				end
+			end
+		end
+
+	append_to_string_8 (str_8: STRING_8; start_index, end_index: INTEGER)
+		do
+			if encoded_as_utf (8) then
+				Precursor (str_8, start_index, end_index)
+
+			elseif encoded_as_latin (1) then
+				str_8.append_substring (Current, start_index, end_index)
+
+			elseif attached as_encoding as encoding then
+				Immutable_8.set_item (area, start_index - 1, end_index - start_index + 1)
+				encoding.convert_to (Encodings.Latin_1, Immutable_8.item)
+				if encoding.last_conversion_successful then
+					check
+						no_lost_data: not encoding.last_conversion_lost_data
+					end
+					str_8.append (encoding.last_converted_string_8)
+				else
+					str_8.append_substring (Current, start_index, end_index)
 				end
 			end
 		end

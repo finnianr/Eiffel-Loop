@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-09 7:35:50 GMT (Friday 9th June 2023)"
-	revision: "20"
+	date: "2023-08-07 10:50:10 GMT (Monday 7th August 2023)"
+	revision: "23"
 
 class
 	EL_SPLIT_STRING_8_LIST
@@ -18,12 +18,14 @@ class
 inherit
 	EL_SPLIT_STRING_LIST [STRING_8]
 		undefine
-			fill_by_string, is_valid_character, is_white_space, same_i_th_character, shared_cursor
+			bit_count
 		redefine
-			default_target, target
+			default_target, new_intervals, same_i_th_character, trim_string
 		end
 
-	EL_STRING_8_OCCURRENCE_IMPLEMENTATION [STRING_8]
+	EL_STRING_8_BIT_COUNTABLE [STRING_8]
+
+	EL_STRING_8_CONSTANTS
 
 create
 	make, make_empty, make_by_string, make_adjusted, make_adjusted_by_string,
@@ -31,20 +33,9 @@ create
 
 feature -- Element change
 
-	append_string (str: STRING_8)
-		do
-			if target = default_target then
-				target := str.twin
-				extend (1, str.count)
-			else
-				target.append (str)
-				extend (last_upper + 1, target.count)
-			end
-		end
-
 	trim_string
 		do
-			target.trim
+			target_string.trim
 		end
 
 feature {NONE} -- Implementation
@@ -54,7 +45,14 @@ feature {NONE} -- Implementation
 			Result := Empty_string_8
 		end
 
-feature {NONE} -- Internal attributes
+	new_intervals: EL_STRING_8_SPLIT_INTERVALS
+		do
+			create Result.make_empty
+		end
 
-	target: STRING_8
+	same_i_th_character (a_target: STRING_8; i: INTEGER; uc: CHARACTER_32): BOOLEAN
+		do
+			Result := a_target [i] = uc.to_character_8
+		end
+
 end

@@ -26,8 +26,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-13 14:16:51 GMT (Monday 13th March 2023)"
-	revision: "2"
+	date: "2023-08-08 8:25:21 GMT (Tuesday 8th August 2023)"
+	revision: "3"
 
 class
 	ARRAYED_INTERVAL_LIST_COMPARISON
@@ -129,7 +129,7 @@ feature {NONE} -- Implementation
 			create Result.make (words.count)
 			if attached words as str then
 				from str.start until str.after loop
-					Result.extend (str.item_start_index, str.item_end_index)
+					Result.extend (str.item_lower, str.item_upper)
 					str.forth
 				end
 			end
@@ -140,7 +140,7 @@ feature {NONE} -- Implementation
 			create Result.make (words.count)
 			if attached words as str then
 				from str.start until str.after loop
-					Result.extend (str.item_start_index, str.item_end_index)
+					Result.extend (str.item_lower, str.item_upper)
 					str.forth
 				end
 			end

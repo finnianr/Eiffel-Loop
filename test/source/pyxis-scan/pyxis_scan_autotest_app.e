@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-22 10:45:14 GMT (Thursday 22nd December 2022)"
-	revision: "24"
+	date: "2023-08-16 10:43:54 GMT (Wednesday 16th August 2023)"
+	revision: "26"
 
 class
 	PYXIS_SCAN_AUTOTEST_APP
@@ -37,7 +37,8 @@ feature {NONE} -- Implementation
 
 		EL_FILE_MANIFEST_GENERATOR,
 		EL_FILE_PERSISTENT_BUILDABLE_FROM_PYXIS,
-		EL_PYXIS_RESOURCE_SET,
+		EL_PYXIS_RESOURCE_SET, EL_PYXIS_XPATH_SET_COMPILER, EL_PYXIS_TREE_COMPILER,
+		EL_PYXIS_OBJECT_IMPORTER [EL_REFLECTIVELY_SETTABLE],
 		EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS,
 		EL_DOCUMENT_NODE_LOGGER,
 		EL_XHTML_WORD_COUNTER,

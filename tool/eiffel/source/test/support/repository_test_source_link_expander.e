@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-08-10 18:36:08 GMT (Thursday 10th August 2023)"
+	revision: "9"
 
 class
 	REPOSITORY_TEST_SOURCE_LINK_EXPANDER
@@ -17,7 +17,7 @@ inherit
 		undefine
 			make_default, new_medium
 		redefine
-			user_response
+			ask_user
 		end
 
 	REPOSITORY_TEST_PUBLISHER
@@ -25,6 +25,8 @@ inherit
 			make as make_publisher
 		undefine
 			execute, ok_to_synchronize
+		redefine
+			ask_user
 		end
 
 create
@@ -32,9 +34,9 @@ create
 
 feature {NONE} -- Implementation
 
-	user_response: STRING
+	ask_user
 		do
-			Result := Quit
+			user_quit := True
 		end
 
 end

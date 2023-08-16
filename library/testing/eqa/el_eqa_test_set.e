@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 4:19:05 GMT (Saturday 24th June 2023)"
-	revision: "22"
+	date: "2023-08-15 9:16:58 GMT (Tuesday 15th August 2023)"
+	revision: "23"
 
 deferred class
 	EL_EQA_TEST_SET
@@ -107,6 +107,11 @@ feature {NONE} -- Implementation
 				lio.put_new_line
 				assert (tag, False)
 			end
+		end
+
+	failed (a_tag: READABLE_STRING_GENERAL)
+		do
+			assert (a_tag, False)
 		end
 
 	os_checksum (unix, windows: NATURAL): NATURAL

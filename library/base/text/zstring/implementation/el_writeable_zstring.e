@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-27 10:52:18 GMT (Monday 27th February 2023)"
-	revision: "6"
+	date: "2023-07-19 20:12:55 GMT (Wednesday 19th July 2023)"
+	revision: "7"
 
 deferred class
 	EL_WRITEABLE_ZSTRING
@@ -40,14 +40,15 @@ feature -- Append to other
 
 	append_to_general (other: STRING_GENERAL)
 		do
-			if attached {EL_ZSTRING} other as str_z then
+			if other.is_string_8 and then attached {STRING_8} other as str_8 then
+				append_to_string_8 (str_8)
+				
+			elseif attached {EL_ZSTRING} other as str_z then
 				append_to (str_z)
 
 			elseif attached {STRING_32} other as str_32 then
 				append_to_string_32 (str_32)
 
-			elseif attached {STRING_8} other as str_8 then
-				append_to_string_8 (str_8)
 			end
 		end
 

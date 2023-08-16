@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 11:26:06 GMT (Monday 10th July 2023)"
-	revision: "22"
+	date: "2023-08-06 14:41:48 GMT (Sunday 6th August 2023)"
+	revision: "23"
 
 class
 	IMMUTABLE_STRING_TEST
@@ -17,7 +17,7 @@ class
 inherit
 	STRING_TEST
 		redefine
-			s_8_substring, s_32_substring, set, set_substrings, split_intervals
+			s_8_substring, s_32_substring, set, set_substrings, new_split_list_array, split_intervals
 		end
 
 	EL_SHARED_IMMUTABLE_8_MANAGER
@@ -69,8 +69,7 @@ feature -- Element change
 		do
 			s_32_substring := immutable_32.shared_substring (start_index, end_index)
 
-			create zs_substring.make_from_string (immutable_32)
-
+			create zs_substring.make_from_string (s_32_substring)
 			if attached immutable_8 as str_8 then
 				s_8_substring := str_8.shared_substring (start_index, end_index)
 			else
@@ -88,16 +87,22 @@ feature -- Test comparisons
 			intervals_s_32 := s.split_intervals (s_32, s_32_substring)
 
 			create intervals_list.make_from_array (<<
-				create {EL_SPLIT_INTERVALS}.make_by_string (s_32, s_32_substring),
-				create {EL_SPLIT_IMMUTABLE_STRING_32_LIST}.make_shared_by_string (s_32, s_32_substring)
+				create {EL_SPLIT_INTERVALS}.make_by_string (s_32, s_32_substring)
 			>>)
-			if attached s_8_substring as str_8 then
-
-				if attached s_8 as target_8 then
-					intervals_list.extend (create {EL_SPLIT_IMMUTABLE_STRING_8_LIST}.make_shared_by_string (target_8, str_8))
-				end
-			end
 			Result := across intervals_list as list all list.item.same_as (intervals_s_32) end
 		end
 
+feature {NONE} -- Implementation
+
+	new_split_list_array: ARRAYED_LIST [EL_SPLIT_READABLE_STRING_LIST [READABLE_STRING_GENERAL]]
+		do
+			create Result.make_from_array (<<
+				create {EL_SPLIT_IMMUTABLE_STRING_32_LIST}.make_shared_by_string (s_32, s_32_substring)
+			>>)
+			if attached s_8_substring as str_8 then
+				if attached s_8 as target_8 then
+					Result.extend (create {EL_SPLIT_IMMUTABLE_STRING_8_LIST}.make_shared_by_string (target_8, str_8))
+				end
+			end
+		end
 end

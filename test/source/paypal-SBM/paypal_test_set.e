@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "19"
+	date: "2023-08-14 10:36:46 GMT (Monday 14th August 2023)"
+	revision: "21"
 
 class
 	PAYPAL_TEST_SET
@@ -104,7 +104,7 @@ feature -- Test
 			if attached transaction.field_table as field_table then
 				across value_table as table loop
 					name := table.key
-					if field_table.has_key (name) then
+					if field_table.has_key_8 (name) then
 						count := count + 1
 						if attached {EL_REFLECTED_DATE_TIME} field_table.found_item as real then
 							date_count := date_count + 1

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-08-11 15:00:05 GMT (Friday 11th August 2023)"
+	revision: "10"
 
 deferred class
 	EL_STREAM_SOCKET
@@ -98,7 +98,7 @@ feature -- Input
 				if count > 0 then
 					packet.set_count (count)
 					packet.fill_string (internal_last_string)
-					transmission_complete := packet.item (count) = End_of_string_delimiter_code
+					transmission_complete := packet.code (count) = End_of_string_delimiter_code
 				else
 					transmission_complete := true
 				end

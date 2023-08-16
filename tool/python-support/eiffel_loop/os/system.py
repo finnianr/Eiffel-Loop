@@ -11,13 +11,13 @@ import sys, os, platform
 
 from os import path
 from eiffel_loop import osprocess
+from subprocess import Popen
 
 def launch_program (command_table, a_path):
 	if path.exists (a_path):
 		cmd_path = command_table [platform.system()]
-		os.spawnv (os.P_NOWAIT, path.normpath (cmd_path), [path.basename (cmd_path), a_path])
-		if os.name == 'posix':
-			os.wait ()
+		pid = Popen ([cmd_path, a_path])
+
 	else:
 		print "Executable path not found:", a_path
 
@@ -27,7 +27,7 @@ def edit_file (file_path):
 		"Linux" : "/usr/bin/gedit"
 	}
 	steps = file_path.split (os.sep)[-3:]
-	print "Editing", os.sep.join (steps)
+	print "Editing:", os.sep.join (steps)
 	launch_program (command_table, file_path)
 
 def open_directory (dir_path):

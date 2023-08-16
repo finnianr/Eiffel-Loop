@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "5"
+	date: "2023-08-07 9:22:22 GMT (Monday 7th August 2023)"
+	revision: "6"
 
 class
 	STRING_ITERATION_CURSOR_TEST_SET
@@ -63,6 +63,7 @@ feature -- Tests
 		end
 
 	test_status_query
+		-- STRING_ITERATION_CURSOR_TEST_SET.test_status_query
 		note
 			testing:
 				"covers/{EL_STRING_8_ITERATION_CURSOR}.is_ascii_substring",
@@ -80,7 +81,10 @@ feature -- Tests
 			if attached padded_8 ('%T').shared_substring (2, 4) as abc then
 				assert ("abc", abc.same_string ("abc"))
 				assert ("is eiffel lower", cursor_8 (abc).is_eiffel_lower)
-				assert ("not is eiffel upper", not cursor_8 (abc).is_eiffel_upper)
+				assert ("is not eiffel upper", not cursor_8 (abc).is_eiffel_upper)
+				assert ("is not eiffel title", not cursor_8 (abc).is_eiffel_title)
+				assert ("is not eiffel title", not cursor_8 (abc.as_upper).is_eiffel_title)
+				assert ("is eiffel title", cursor_8 ("Abc").is_eiffel_title)
 			end
 		end
 

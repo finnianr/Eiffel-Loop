@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-24 9:24:41 GMT (Wednesday 24th May 2023)"
-	revision: "13"
+	date: "2023-08-08 8:52:53 GMT (Tuesday 8th August 2023)"
+	revision: "14"
 
 deferred class
 	EL_BENCHMARK_COMPARISON
@@ -24,6 +24,7 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 	make (a_trial_duration: INTEGER_REF)
 		do
 			trial_duration := a_trial_duration
+			initialize
 		end
 
 feature -- Access
@@ -57,6 +58,11 @@ feature {NONE} -- Implementation
 			table.perform
 			table.print_comparison
 			lio.put_new_line
+		end
+
+	initialize
+		do
+			do_nothing
 		end
 
 feature {NONE} -- Internal attributes

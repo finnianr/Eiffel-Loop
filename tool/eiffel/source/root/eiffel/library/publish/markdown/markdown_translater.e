@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-20 12:22:02 GMT (Monday 20th February 2023)"
-	revision: "14"
+	date: "2023-08-16 9:44:34 GMT (Wednesday 16th August 2023)"
+	revision: "15"
 
 class
 	MARKDOWN_TRANSLATER
@@ -26,6 +26,8 @@ inherit
 
 	SHARED_ISE_CLASS_TABLE
 
+	EL_CHARACTER_CONSTANTS
+
 create
 	make
 
@@ -42,14 +44,12 @@ feature -- Basic operations
 
 	to_github_markdown (markdown: EL_ZSTRING_LIST): ZSTRING
 		-- return Eiffel-View publisher markdown lines as Github markdown
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
 			output.wipe_out; output.extend (new_string)
 			do_with_lines (agent add_normal_text, markdown)
 			if not is_code_block then
 				if last_is_line_item then
-					output.last.append (s.character_string ('%N'))
+					output.last.append (New_line #* 1)
 				end
 				translate (output.last)
 			end
@@ -59,10 +59,8 @@ feature -- Basic operations
 feature {NONE} -- Line states
 
 	add_normal_text (line: ZSTRING)
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
-			if line.starts_with (s.character_string ('%T')) then
+			if line.starts_with (Tab #* 1) then
 				translate (output.last)
 				output.extend (Code_block_delimiter.twin)
 				state := agent add_code_block
@@ -73,7 +71,7 @@ feature {NONE} -- Line states
 					if line.is_empty then
 						output.last.append (Double_new_line)
 					elseif is_list_item (line) then
-						output.last.append (s.character_string ('%N'))
+						output.last.append (New_line #* 1)
 					elseif not output.last.ends_with (Double_new_line) then
 						output.last.append_character (' ')
 					end
@@ -84,11 +82,9 @@ feature {NONE} -- Line states
 		end
 
 	add_code_block (line: ZSTRING)
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
-			output.last.append (s.character_string ('%N'))
-			if line.starts_with (s.character_string ('%T')) then
+			output.last.append (New_line #* 1)
+			if line.starts_with_character ('%T') then
 				output.last.append (line.substring_end (2))
 			else
 				output.last.append (Code_block_delimiter)
@@ -142,8 +138,7 @@ feature {NONE} -- Implementation
 
 	to_github_link (start_index, end_index: INTEGER; substring: ZSTRING)
 		local
-			link_address, link_text: ZSTRING
-			space_index: INTEGER
+			link_address, link_text: ZSTRING; space_index: INTEGER
 		do
 			substring.to_canonically_spaced
 			space_index := substring.index_of (' ', 1)

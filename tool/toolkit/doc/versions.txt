@@ -1,3 +1,6 @@
+1.11.1
+* ESC key on menus
+
 1.11.0
 * New application making modification time match Exif.Image.DateTime
 * Fixed photo transfer has correct modification time

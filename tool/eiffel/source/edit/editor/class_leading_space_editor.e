@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 9:36:19 GMT (Friday 10th March 2023)"
-	revision: "3"
+	date: "2023-08-16 9:08:09 GMT (Wednesday 16th August 2023)"
+	revision: "4"
 
 class
 	CLASS_LEADING_SPACE_EDITOR
@@ -21,6 +21,8 @@ inherit
 			{NONE} all
 			{ANY} source_text, leading_space_count
 		end
+
+	EL_CHARACTER_CONSTANTS
 
 create
 	make_empty
@@ -58,7 +60,7 @@ feature {NONE} -- Implementation
 
 	replace_leading_spaces (input, output: STRING_8; start_index, end_index: INTEGER)
 		local
-			next_i, space_count, space_count_plus_1, tab_count: INTEGER; s: EL_STRING_8_ROUTINES
+			next_i, space_count, space_count_plus_1, tab_count: INTEGER
 		do
 			next_i := end_index + 1
 			space_count := end_index - start_index
@@ -70,7 +72,7 @@ feature {NONE} -- Implementation
 				tab_count := space_count // 3
 			end
 			if tab_count > 0 then
-				output.append (s.n_character_string ('%T', tab_count))
+				output.append (Tab * tab_count)
 			end
 		end
 

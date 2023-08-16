@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-13 16:56:53 GMT (Tuesday 13th December 2022)"
-	revision: "17"
+	date: "2023-08-14 11:10:40 GMT (Monday 14th August 2023)"
+	revision: "18"
 
 deferred class
 	EL_REFLECTED_MAKEABLE_FROM_STRING [MAKEABLE -> EL_MAKEABLE_FROM_STRING [STRING_GENERAL]]
@@ -25,7 +25,7 @@ inherit
 
 feature {EL_CLASS_META_DATA} -- Initialization
 
-	make (a_object: EL_REFLECTIVE; a_index: INTEGER; a_name: STRING)
+	make (a_object: EL_REFLECTIVE; a_index: INTEGER; a_name: IMMUTABLE_STRING_8)
 		do
 			Precursor (a_object, a_index, a_name)
 			makeable_from_string_type_id := ({MAKEABLE}).type_id

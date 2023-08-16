@@ -1,13 +1,13 @@
 note
-	description: "C string 8"
+	description: "8-bit C string"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-12 10:40:43 GMT (Wednesday 12th July 2023)"
-	revision: "7"
+	date: "2023-08-01 16:27:18 GMT (Tuesday 1st August 2023)"
+	revision: "9"
 
 class
 	EL_C_STRING_8
@@ -16,11 +16,14 @@ inherit
 	EL_C_STRING
 		rename
 			Natural_8_bytes as width,
+			item as item_32,
 			as_array as as_array_32,
 			make_from_string as make_from_string_general
 		redefine
-			as_string_8
+			as_string_8, item_32
 		end
+
+	EL_8_BIT_IMPLEMENTATION
 
 	EL_SHARED_IMMUTABLE_8_MANAGER
 
@@ -44,10 +47,24 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	item (index: INTEGER): NATURAL_32
+	code (index: INTEGER): NATURAL_32
 			--
 		do
-			Result := read_natural_8 ((index - 1) * width)
+			Result := read_natural_8 (index - 1)
+		end
+
+	item_32 (index: INTEGER): CHARACTER_32
+			--
+		do
+			Result := read_character (index - 1)
+		end
+
+	item (index: INTEGER): CHARACTER_8
+			--
+		require
+			valid_index: index >= 1 and index <= count
+		do
+			Result := read_character (index - 1)
 		end
 
 	is_item_zero (address: POINTER): BOOLEAN
@@ -77,7 +94,7 @@ feature -- Element change
 	put_item (value: NATURAL_32; index: INTEGER)
 			--
 		do
-			put_natural_8 (value.to_natural_8, (index - 1) * width)
+			put_natural_8 (value.to_natural_8, index - 1)
 		end
 
 feature {NONE} -- Implementation

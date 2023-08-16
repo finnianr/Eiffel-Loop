@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 10:03:45 GMT (Friday 9th December 2022)"
-	revision: "5"
+	date: "2023-08-15 15:18:09 GMT (Tuesday 15th August 2023)"
+	revision: "6"
 
 class
 	EL_KEBAB_CASE_TRANSLATER
@@ -23,7 +23,7 @@ convert
 
 feature -- Conversion
 
-	exported (eiffel_name: STRING): STRING
+	exported (eiffel_name: READABLE_STRING_8): STRING
 		-- `eiffel_name' exported to a foreign naming convention
 		do
 			create Result.make (eiffel_name.count)
@@ -38,7 +38,7 @@ feature -- Conversion
 			end
 		end
 
-	imported (foreign_name: STRING): STRING
+	imported (foreign_name: READABLE_STRING_8): STRING
 		-- `foreign_name' translated to Eiffel attribute-naming convention
 		do
 			create Result.make (foreign_name.count)

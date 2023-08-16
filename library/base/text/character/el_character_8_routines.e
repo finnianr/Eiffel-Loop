@@ -1,23 +1,36 @@
 note
-	description: "expanded class of character routines"
+	description: "Expanded class of [$source CHARACTER_8] routines"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 10:03:43 GMT (Thursday 1st December 2022)"
-	revision: "22"
+	date: "2023-08-07 9:34:18 GMT (Monday 7th August 2023)"
+	revision: "25"
 
 expanded class
 	EL_CHARACTER_8_ROUTINES
 
 inherit
+	EL_CHARACTER_ROUTINES [CHARACTER_8]
+
+	EL_8_BIT_IMPLEMENTATION
+
 	EL_EXPANDED_ROUTINES
 
 	EL_LATIN_1
 
 feature -- Status query
+
+	is_a_to_z_caseless (c: CHARACTER): BOOLEAN
+		do
+			inspect c
+				when 'a' .. 'z', 'A' .. 'Z' then
+					Result := True
+			else
+			end
+		end
 
 	is_a_to_z_lower (c: CHARACTER): BOOLEAN
 		do
@@ -37,15 +50,6 @@ feature -- Status query
 			end
 		end
 
-	is_a_to_z_caseless (c: CHARACTER): BOOLEAN
-		do
-			inspect c
-				when 'a' .. 'z', 'A' .. 'Z' then
-					Result := True
-			else
-			end
-		end
-
 	is_c_identifier (c: CHARACTER; is_first: BOOLEAN): BOOLEAN
 		-- `True' if `c' is valid character in C language identifier
 		-- where `is_first' indicates if `c' is first character in identifer
@@ -58,6 +62,11 @@ feature -- Status query
 					Result := not is_first
 			else
 			end
+		end
+
+	is_i_th_eiffel_identifier (area: SPECIAL [CHARACTER_8]; i: INTEGER; case_code: NATURAL; first_i: BOOLEAN): BOOLEAN
+		do
+			Result := is_valid_eiffel_case (area [i], case_code, first_i)
 		end
 
 	is_latin1_alpha (c: CHARACTER): BOOLEAN
@@ -107,21 +116,6 @@ feature -- Status query
 						Result := True
 
 				else
-				end
-			end
-		end
-
-	is_ascii_area (area: SPECIAL [CHARACTER]; start_index, end_index: INTEGER): BOOLEAN
-		-- `True' if all characters in `area' are in the ASCII character set range: 0 .. 127
-		local
-			i: INTEGER
-		do
-			Result := True
-			from i := start_index until not Result or else i > end_index loop
-				if area [i] > Max_ascii_character then
-					Result := False
-				else
-					i := i + 1
 				end
 			end
 		end
@@ -189,6 +183,13 @@ feature -- Conversion
 			else
 				Result := c
 			end
+		end
+
+feature {NONE} -- Implementation
+
+	same_caseless_character (a, b: CHARACTER_8): BOOLEAN
+		do
+			Result := a.as_lower = b.as_lower
 		end
 
 feature {NONE} -- Constants

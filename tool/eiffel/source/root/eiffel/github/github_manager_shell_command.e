@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:47:14 GMT (Tuesday 14th February 2023)"
-	revision: "23"
+	date: "2023-08-16 11:40:00 GMT (Wednesday 16th August 2023)"
+	revision: "24"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -27,7 +27,9 @@ inherit
 			make as make_shell
 		end
 
-	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_LIO; EL_MODULE_USER_INPUT
+	EL_MODULE_COMMAND; EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_LIO
+
+	EL_MODULE_USER_INPUT
 
 	EL_STRING_8_CONSTANTS
 
@@ -36,11 +38,12 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (config_path: FILE_PATH; environ_variable: EL_DIR_PATH_ENVIRON_VARIABLE)
+	make (a_config_path: FILE_PATH; environ_variable: EL_DIR_PATH_ENVIRON_VARIABLE)
 		do
 			make_shell ("GITHUB MENU", 10)
 			environ_variable.apply
-			create config.make (config_path)
+			config_path := a_config_path
+			create config.make (a_config_path)
 			create manifest.make_from_file (config.source_manifest_path)
 		end
 
@@ -102,14 +105,38 @@ feature {NONE} -- Commands
 			end
 		end
 
+	update_personal_access_token
+		local
+			user: EL_USER_CRYPTO_OPERATIONS; new_token, pyxis_fragment: ZSTRING
+			credential: EL_AES_CREDENTIAL; encrypted_token: STRING
+		do
+			new_token := User_input.line ("Cut and paste access token")
+			create credential.make_default
+			user.validate (credential)
+
+			encrypted_token := credential.new_aes_encrypter (256).base_64_encrypted (new_token.to_utf_8 (False))
+
+			pyxis_fragment := Access_token_template #$ [encrypted_token, credential.salt_base_64, credential.digest_base_64]
+
+			lio.put_labeled_string ("Cut and paste lines", "")
+			lio.put_new_line
+			across pyxis_fragment.lines as line loop
+				lio.put_line (line.item)
+			end
+			lio.put_new_line
+			lio.put_line ("Restart github manager")
+			Command.launch_gedit (config_path)
+		end
+
 feature {NONE} -- Factory
 
 	new_command_table: like command_table
 		do
 			create Result.make (<<
-				["Update github directory",	agent rsync_to_github_dir],
-				["git add + commit",				agent git_commit],
-				["git push -u origin master", agent git_push_origin_master]
+				["Update github directory",		agent rsync_to_github_dir],
+				["Update personal access token",	agent update_personal_access_token],
+				["git add + commit",					agent git_commit],
+				["git push -u origin master",		agent git_push_origin_master]
 			>>)
 		end
 
@@ -190,6 +217,8 @@ feature {NONE} -- Internal attributes
 
 	config: GITHUB_CONFIGURATION
 
+	config_path: FILE_PATH
+
 	manifest: SOURCE_MANIFEST
 
 feature {NONE} -- Constants
@@ -205,6 +234,20 @@ feature {NONE} -- Constants
 				git add -u
 				git add .
 				git commit -m "#"
+			]"
+		end
+
+	Access_token_template: ZSTRING
+		once
+			Result := "[
+				encrypted_access_token:
+					"#"
+				
+				credential:
+					salt:
+						"#"
+					digest:
+						"#"
 			]"
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-18 15:41:55 GMT (Tuesday 18th July 2023)"
-	revision: "58"
+	date: "2023-08-14 13:25:10 GMT (Monday 14th August 2023)"
+	revision: "60"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -106,14 +106,14 @@ feature -- Contract Support
 	all_non_string_fields_are_class_attributes: BOOLEAN
 		do
 			Result := across DB_field.sorted as field all
-				not DB_field.is_string_type (field.item) implies field_table.has (DB_field.field_name (field.item))
+				not DB_field.is_string_type (field.item) implies field_table.has_immutable (DB_field.field_name (field.item))
 			end
 		end
 
 	valid_string_field (field_code: NATURAL_16): BOOLEAN
 		-- valid extra field
 		do
-			if not field_table.has (Db_field.name (field_code)) then
+			if not field_table.has_immutable (DB_field.name (field_code)) then
 				Result := DB_field.is_string_type (field_code)
 			end
 		end
@@ -205,7 +205,7 @@ feature {NONE} -- Evolicity fields
 				if enum.item = DB_field.location then
 					element.text.append_raw_string_8 (get_location_uri)
 
-				elseif field_table.has_key (DB_field.field_name (enum.item)) then
+				elseif field_table.has_immutable_key (DB_field.field_name (enum.item)) then
 					if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} field_table.found_item as numeric then
 						if always_saved or else not numeric.is_zero (Current) then
 							numeric.write (Current, element.text)

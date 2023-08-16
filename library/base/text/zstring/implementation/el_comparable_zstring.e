@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "34"
+	date: "2023-08-16 9:51:09 GMT (Wednesday 16th August 2023)"
+	revision: "35"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -32,7 +32,14 @@ feature -- Character comparison
 			i: INTEGER
 		do
 			i := count
-			Result := i > 0 and then item (i) = uc
+			if i > 0 then
+				if uc.natural_32_code <= 0x7F then
+				-- ASCII
+					Result := area [i - 1] = uc.to_character_8
+				else
+					Result := item (i) = uc
+				end
+			end
 		end
 
 	has_first (uc: CHARACTER_32): BOOLEAN
@@ -45,6 +52,19 @@ feature -- Character comparison
 		-- `True' if string is same as single character `uc'
 		do
 			Result := count = 1 and then item (1) = uc
+		end
+
+	starts_with_character (uc: CHARACTER_32): BOOLEAN
+		-- `True' if last character in string is same as `uc'
+		do
+			if count > 0 then
+				if uc.natural_32_code <= 0x7F then
+				-- ASCII
+					Result := area [0] = uc.to_character_8
+				else
+					Result := item (1) = uc
+				end
+			end
 		end
 
 feature -- Start/End comparisons

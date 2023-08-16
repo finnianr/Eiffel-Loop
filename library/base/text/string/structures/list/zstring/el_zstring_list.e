@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-06 9:21:21 GMT (Thursday 6th April 2023)"
-	revision: "20"
+	date: "2023-08-16 11:30:19 GMT (Wednesday 16th August 2023)"
+	revision: "22"
 
 class
 	EL_ZSTRING_LIST
@@ -34,17 +34,9 @@ convert
 feature -- Element change
 
 	expand_tabs (space_count: INTEGER)
-			-- Expand tab characters as `space_count' spaces
-		local
-			l_index: INTEGER; tab, spaces: ZSTRING
+		-- Expand tab characters as `space_count' spaces
 		do
-			l_index := index
-			tab := tab_string (1); create spaces.make_filled (' ', space_count)
-			from start until after loop
-				item.replace_substring_all (tab, spaces)
-				forth
-			end
-			index := l_index
+			do_all (agent {ZSTRING}.expand_tabs (space_count))
 		end
 
 feature {NONE} -- Implementation
@@ -65,10 +57,8 @@ feature {NONE} -- Implementation
 		end
 
 	tab_string (n: INTEGER): ZSTRING
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
-			Result := s.n_character_string ('%T', n)
+			Result := Tab #* n
 		end
 
 end

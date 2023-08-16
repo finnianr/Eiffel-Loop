@@ -5,7 +5,7 @@ note
 	]"
 	notes: "[
 		See `representation' attribute in class
-		[$source EL_REFLECTED_EXPANDED_FIELD [G]] and `new_representations' function in class [$source EL_REFLECTIVE]	
+		[$source EL_REFLECTED_EXPANDED_FIELD [G]] and `new_representations' function in class [$source EL_REFLECTIVE]
 	]"
 
 	author: "Finnian Reilly"
@@ -13,14 +13,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 12:18:32 GMT (Friday 9th December 2022)"
-	revision: "7"
+	date: "2023-08-14 9:37:46 GMT (Monday 14th August 2023)"
+	revision: "9"
 
 deferred class
 	EL_STRING_FIELD_REPRESENTATION [G, H]
 
 inherit
 	EL_FIELD_REPRESENTATION [G, H]
+
+	EL_MODULE_CONVERT_STRING
 
 feature -- Access
 

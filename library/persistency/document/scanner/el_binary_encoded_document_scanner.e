@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 7:32:08 GMT (Saturday 24th June 2023)"
-	revision: "12"
+	date: "2023-08-13 13:17:35 GMT (Sunday 13th August 2023)"
+	revision: "14"
 
 class
 	EL_BINARY_ENCODED_DOCUMENT_SCANNER
@@ -63,17 +63,23 @@ feature {NONE} -- Parsing events
 
 	on_start_tag
 			--
+		local
+			i: INTEGER
 		do
 			if is_lio_enabled then
 				Lio.put_labeled_string ("on_start_tag", last_node_name)
 				lio.put_new_line
 			end
 			name_stack.extend (last_node_name.string)
-			if is_lio_enabled then
-				from attribute_list.start until attribute_list.after loop
-					lio.put_string_field (attribute_list.node.xpath_name (False), attribute_list.node.to_string)
-					lio.put_new_line
-					attribute_list.forth
+			if is_lio_enabled and then attached attribute_list.area as area
+				and then area.count > 0
+			then
+				from until i = area.count loop
+					if attached area [i] as node then
+						lio.put_string_field (node.xpath_name (False), node.adjusted (False))
+						lio.put_new_line
+					end
+					i := i + 1
 				end
 			end
 		end
@@ -88,11 +94,11 @@ feature {NONE} -- Parsing events
 			name_stack.remove
 		end
 
-	on_content
+	on_content (node: EL_DOCUMENT_NODE_STRING)
 			--
 		do
 			if is_lio_enabled then
-				lio.put_labeled_string ("on_content", last_node.adjusted (False))
+				lio.put_labeled_string ("on_content", node.adjusted (False))
 				lio.put_new_line
 			end
 		end

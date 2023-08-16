@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-01 10:54:06 GMT (Thursday 1st June 2023)"
-	revision: "5"
+	date: "2023-08-14 8:37:40 GMT (Monday 14th August 2023)"
+	revision: "6"
 
 deferred class
 	EL_SUBSTITUTION_TEMPLATE
@@ -150,7 +150,7 @@ feature -- Element change
 	set_variables_from_object (object: ANY)
 		-- set variables in template that match field names of `object'
 		local
-			meta_object: like new_current_object; table: EL_REFLECTED_FIELD_TABLE
+			meta_object: like new_current_object; table: EL_FIELD_TABLE
 			i, field_count: INTEGER
 		do
 			if attached {EL_REFLECTIVE} object as reflective then

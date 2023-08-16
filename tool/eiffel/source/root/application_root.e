@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-11 10:08:38 GMT (Saturday 11th March 2023)"
-	revision: "50"
+	date: "2023-07-22 8:39:19 GMT (Saturday 22nd July 2023)"
+	revision: "51"
 
 class
 	APPLICATION_ROOT
@@ -59,7 +59,7 @@ inherit
 
 		REPOSITORY_SOURCE_LINK_EXPANDER_APP,
 
-		VERSION_MANAGER_APP,
+		PROJECT_MANAGER_APP,
 		WINZIP_SOFTWARE_PACKAGE_BUILDER_APP,
 
 	-- Obsolete once-off apps

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-17 16:34:19 GMT (Monday 17th July 2023)"
-	revision: "41"
+	date: "2023-08-15 14:07:18 GMT (Tuesday 15th August 2023)"
+	revision: "45"
 
 class
 	REFLECTION_TEST_SET
@@ -23,7 +23,7 @@ inherit
 
 	EL_REFLECTION_CONSTANTS
 
-	EL_SHARED_FACTORIES; EL_SHARED_LOG_OPTION
+	EL_SHARED_FACTORIES; EL_SHARED_LOG_OPTION; EL_SHARED_HTTP_STATUS
 
 create
 	make
@@ -36,12 +36,14 @@ feature {NONE} -- Initialization
 			make_named (<<
 				["arrayed_list_initialization",						agent test_arrayed_list_initialization],
 				["default_tuple_initialization",						agent test_default_tuple_initialization],
+				["enumeration",											agent test_enumeration],
 				["field_name_search_by_address",						agent test_field_name_search_by_address],
 				["field_representation",								agent test_field_representation],
+				["field_value_setter",									agent test_field_value_setter],
+				["field_value_table",									agent test_field_value_table],
 				["initialized_object_factory",						agent test_initialized_object_factory],
 				["object_initialization_from_camel_case_table",	agent test_object_initialization_from_camel_case_table],
 				["object_initialization_from_table",				agent test_object_initialization_from_table],
-				["reference_field_list",								agent test_reference_field_list],
 				["reflected_collection_factory",						agent test_reflected_collection_factory],
 				["reflected_integer_list",								agent test_reflected_integer_list],
 				["reflection",												agent test_reflection],
@@ -72,17 +74,43 @@ feature -- Tests
 				if attached temperature_range.unit_name as unit_name then
 					assert ("unit_name.is_empty", unit_name.is_empty)
 				else
-					assert ("unit_name /= Void", False)
+					failed ("unit_name /= Void")
 				end
 			else
-				assert ("temperature_range /= Void", False)
+				failed ("temperature_range /= Void")
+			end
+		end
+
+	test_enumeration
+		-- REFLECTION_TEST_SET.test_enumeration
+		note
+			testing: "[
+				covers/{EL_ENUMERATION}.description,
+				covers/{EL_ENUMERATION}.has_field_name,
+				covers/{EL_ENUMERATION}.field_name,
+				covers/{EL_ENUMERATION}.value,
+				covers/{EL_ENUMERATION}.field_name
+			]"
+		do
+			if Http_status.valid_description_keys then
+				assert_same_string (Void, Http_status.description (Http_status.continue), "Client can continue.")
+			else
+				failed ("valid_description_keys")
+			end
+			assert_same_string ("404 is not found", Http_status.field_name (404), "not_found")
+			assert_same_string ("404 is not found", Http_status.name (404), "Not found")
+			assert ("Not found = 404", Http_status.value ("Not found") = 404)
+			if Http_status.has_field_name ("not_found") then
+				assert ("is 404", Http_status.found_value = 404)
+			else
+				failed ("has_field_name")
 			end
 		end
 
 	test_field_name_search_by_address
 		-- REFLECTION_TEST_SET.test_field_name_search_by_address
 		note
-			testing: "covers/{EL_REFLECTED_FIELD_TABLE}.has_address"
+			testing: "covers/{EL_FIELD_TABLE}.has_address"
 		do
 			assert_same_string (Void, "logging", Log_option.Name_logging)
 		end
@@ -93,6 +121,52 @@ feature -- Tests
 		do
 			representation := Currency_enum.to_representation
 			assert ("EURO is 9", representation.to_value ("EUR") = (9).to_natural_8)
+		end
+
+	test_field_value_setter
+		-- REFLECTION_TEST_SET.test_field_value_setter
+		local
+			string_setter: EL_FIELD_TYPE_QUERY [STRING]
+		do
+			if attached new_country as country then
+				create string_setter.make (country, False)
+				string_setter.set_values (country, agent to_upper, True)
+				assert ("upper code", country.code ~ "CODE")
+				assert ("upper continent", country.continent ~ "CONTINENT")
+			end
+		end
+
+	test_field_value_table
+		-- REFLECTION_TEST_SET.test_field_value_table
+		local
+			string_table: EL_FIELD_VALUE_TABLE [STRING]
+			integer_table: EL_FIELD_VALUE_TABLE [INTEGER]
+
+			string_values: ARRAY [TUPLE [name, value: STRING]]
+			integer_values: ARRAY [TUPLE [name: STRING; value: INTEGER]]
+		do
+			if attached new_country as country then
+				create string_table.make (country)
+				string_values := << ["code", "IE"], ["continent", "Europe"] >>
+				assert ("same field count", string_table.count = string_values.count)
+				across string_values as list loop
+					if string_table.has_key (list.item.name) then
+						assert ("expected value", string_table.found_item ~ list.item.value)
+					else
+						failed ("has name " + list.item.name)
+					end
+				end
+				create integer_table.make (country)
+				integer_values := << ["population", country.population], ["date_founded", country.date_founded] >>
+				assert ("same field count", integer_table.count = integer_values.count)
+				across integer_values as list loop
+					if integer_table.has_key (list.item.name) then
+						assert ("expected value", integer_table.found_item ~ list.item.value)
+					else
+						failed ("has name " + list.item.name)
+					end
+				end
+			end
 		end
 
 	test_initialized_object_factory
@@ -114,7 +188,7 @@ feature -- Tests
 					lio.put_new_line
 					assert ("same type", str.generating_type ~ list.item)
 				else
-					assert ("created", False)
+					failed ("created")
 				end
 			end
 			if attached Default_factory.new_item_from_type ({BOOLEAN_REF}) as bool then
@@ -122,7 +196,7 @@ feature -- Tests
 				lio.put_new_line
 				assert ("same type", bool.generating_type ~ {BOOLEAN_REF})
 			else
-				assert ("created BOOLEAN_REF", False)
+				failed ("created BOOLEAN_REF")
 			end
 			create arrayed_type_list.make_from_array (<<
 				{ARRAYED_LIST [STRING]}, {EL_STRING_8_LIST}, {EL_ARRAYED_LIST [INTEGER]}
@@ -133,7 +207,7 @@ feature -- Tests
 					lio.put_new_line
 					assert ("same type", new.generating_type ~ list.item)
 				else
-					assert ("created " + list.item.name, False)
+					failed ("created " + list.item.name)
 				end
 			end
 		end
@@ -159,14 +233,6 @@ feature -- Tests
 			testing: "covers/{EL_SETTABLE_FROM_STRING}.make_from_table"
 		do
 			check_values (new_country)
-		end
-
-	test_reference_field_list
-		-- REFLECTION_TEST_SET.test_reference_field_list
-		do
-			across Reference_field_list as list loop
-				lio.put_line (list.item.value_type.name)
-			end
 		end
 
 	test_reflected_collection_factory
@@ -227,6 +293,7 @@ feature -- Tests
 		end
 
 	test_set_from_other
+		-- REFLECTION_TEST_SET.test_set_from_other
 		note
 			testing: "covers/{EL_REFLECTIVE}.set_from_other"
 		local
@@ -275,6 +342,14 @@ feature -- Tests
 		do
 			type_name := Eiffel.substituted_type_name ({EL_MAKEABLE_FACTORY [EL_MAKEABLE]}, {EL_MAKEABLE}, {EL_UUID})
 			assert ("same string", type_name ~ "EL_MAKEABLE_FACTORY [EL_UUID]")
+		end
+
+feature {NONE} -- Implementation
+
+	to_upper (name: READABLE_STRING_8): STRING
+		do
+			Result := name
+			Result.to_upper
 		end
 
 feature {NONE} -- Constants

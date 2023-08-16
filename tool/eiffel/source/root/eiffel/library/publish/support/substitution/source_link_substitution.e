@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-08-16 10:00:39 GMT (Wednesday 16th August 2023)"
+	revision: "7"
 
 class
 	SOURCE_LINK_SUBSTITUTION
@@ -21,11 +21,9 @@ inherit
 			substitute_html, expand_as_source_link, new_expanded_link, A_href_template
 		end
 
-	PUBLISHER_CONSTANTS
+	PUBLISHER_CONSTANTS; EL_CHARACTER_CONSTANTS
 
-	SHARED_CLASS_PATH_TABLE
-
-	SHARED_ISE_CLASS_TABLE
+	SHARED_CLASS_PATH_TABLE; SHARED_ISE_CLASS_TABLE
 
 create
 	make
@@ -60,11 +58,11 @@ feature {NONE} -- Implementation
 
 	new_expanded_link (path, text: ZSTRING): ZSTRING
 		local
-			l_path, link_text: ZSTRING; s: EL_ZSTRING_ROUTINES
+			l_path, link_text: ZSTRING
 		do
 			if text.has (' ') then
 				create link_text.make (text.count + text.occurrences (' ') * None_breaking_space.count)
-				link_text.append_replaced (text, s.character_string (' '), None_breaking_space)
+				link_text.append_replaced (text, Space #* 1, None_breaking_space)
 			else
 				link_text := text
 			end

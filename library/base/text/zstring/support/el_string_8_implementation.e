@@ -6,14 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 11:06:01 GMT (Wednesday 15th March 2023)"
-	revision: "12"
+	date: "2023-08-03 10:22:15 GMT (Thursday 3rd August 2023)"
+	revision: "13"
 
 class
 	EL_STRING_8_IMPLEMENTATION
 
 inherit
-	ANY EL_SEARCH_HANDLER
+	ANY
+	EL_STRING_8_CONSTANTS
 
 create
 	make
@@ -26,7 +27,7 @@ feature {NONE} -- Initialization
 			from until area.count = 3 loop
 				area.extend (create {EL_STRING_8}.make_empty)
 			end
-			string_searcher := area [0].string_searcher
+			string_searcher := String_8_searcher
 		end
 
 feature -- Status query

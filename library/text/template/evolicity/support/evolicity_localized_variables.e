@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-07-31 11:26:47 GMT (Monday 31st July 2023)"
+	revision: "8"
 
 deferred class
 	EVOLICITY_LOCALIZED_VARIABLES
@@ -27,7 +27,7 @@ inherit
 
 feature {NONE} -- Evolicity fields
 
-	translated_variables_table: EVOLICITY_OBJECT_TABLE [FUNCTION [ANY]]
+	translated_variables_table: EVOLICITY_FUNCTION_TABLE
 		-- table of variables which have a localization translation of the form "{$<variable-name>}"
 		local
 			translation_key_table: EL_ZSTRING_TABLE

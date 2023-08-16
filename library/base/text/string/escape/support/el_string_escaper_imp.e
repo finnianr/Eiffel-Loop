@@ -6,11 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 15:47:38 GMT (Thursday 5th January 2023)"
-	revision: "16"
+	date: "2023-08-02 14:38:39 GMT (Wednesday 2nd August 2023)"
+	revision: "17"
 
 deferred class
 	EL_STRING_ESCAPER_IMP [S -> STRING_GENERAL create make end]
+
+inherit
+	ANY
+	EL_STRING_BIT_COUNTABLE [S]
 
 feature {NONE} -- Initialization
 

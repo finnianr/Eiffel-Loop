@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-09 17:56:52 GMT (Tuesday 9th May 2023)"
-	revision: "28"
+	date: "2023-08-14 8:37:39 GMT (Monday 14th August 2023)"
+	revision: "29"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
@@ -237,7 +237,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	field_table: EL_REFLECTED_FIELD_TABLE
+	field_table: EL_FIELD_TABLE
 		deferred
 		end
 

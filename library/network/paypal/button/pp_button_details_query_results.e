@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-18 15:33:53 GMT (Tuesday 18th July 2023)"
-	revision: "13"
+	date: "2023-07-21 19:27:17 GMT (Friday 21st July 2023)"
+	revision: "14"
 
 class
 	PP_BUTTON_DETAILS_QUERY_RESULTS
@@ -15,7 +15,7 @@ class
 inherit
 	PP_BUTTON_QUERY_RESULTS
 		redefine
-			make_default, make, set_indexed_value, set_name_value, new_hidden_fields, print_values
+			make_default, make, set_indexed_value, set_name_value, new_field_printer, print_values
 		end
 
 	PP_SHARED_L_VARIABLE_ENUM
@@ -80,11 +80,12 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	new_hidden_fields: STRING
+	new_field_printer: EL_REFLECTIVE_CONSOLE_PRINTER
 		-- Fields that will not be output by `print_fields'
 		-- Must be comma-separated names
 		do
-			Result := Precursor + ", options_list, detail"
+			Result := Precursor
+			Result.hidden_fields.append (", options_list, detail")
 		end
 
 	set_name_value (key, value: EL_ZSTRING)

@@ -14,17 +14,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-27 10:20:59 GMT (Monday 27th February 2023)"
-	revision: "3"
+	date: "2023-07-27 6:10:24 GMT (Thursday 27th July 2023)"
+	revision: "4"
 
 class
 	EL_BORROWED_ZSTRING_CURSOR
 
 inherit
 	EL_BORROWED_STRING_CURSOR [ZSTRING]
+		undefine
+			bit_count
 		redefine
 			copied_item, sized_item, substring_item
 		end
+
+	EL_STRING_32_BIT_COUNTABLE [ZSTRING]
 
 create
 	make

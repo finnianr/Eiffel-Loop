@@ -9,14 +9,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-21 17:44:50 GMT (Wednesday 21st December 2022)"
-	revision: "6"
+	date: "2023-07-27 6:18:17 GMT (Thursday 27th July 2023)"
+	revision: "7"
 
 class
 	EL_STRING_32_READER_WRITER
 
 inherit
 	EL_STRING_GENERAL_READER_WRITER [STRING_32]
+		undefine
+			bit_count
+		end
+
+	EL_STRING_32_BIT_COUNTABLE [STRING_32]
 
 feature -- Basic operations
 

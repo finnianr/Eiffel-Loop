@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "18"
+	date: "2023-08-08 8:22:49 GMT (Tuesday 8th August 2023)"
+	revision: "20"
 
 class
 	EL_TEXT_RECTANGLE
@@ -242,7 +242,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	hypenate_word (words: EL_SEQUENTIAL_INTERVALS; line, line_out: ZSTRING)
+	hypenate_word (words: EL_INTERVAL_LIST; line, line_out: ZSTRING)
 		local
 			old_count, i: INTEGER; outside_bounds: BOOLEAN
 		do

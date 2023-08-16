@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 6:32:08 GMT (Saturday 24th June 2023)"
-	revision: "12"
+	date: "2023-07-31 10:05:25 GMT (Monday 31st July 2023)"
+	revision: "14"
 
 class
 	STRING_TEST_SET
@@ -29,6 +29,7 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["expanded_string",					 agent test_expanded_string],
+				["immutable_comparison",			 agent test_immutable_comparison],
 				["reusable_zstrings",				 agent test_reusable_zstrings],
 				["l1_uc_string_conversion",		 agent test_l1_uc_string_conversion],
 				["l1_uc_string_unicode_by_index", agent test_l1_uc_string_unicode_by_index]
@@ -45,6 +46,24 @@ feature -- Tests
 			s := "abc"
 			ex.share (s)
 			assert ("same hash_code", ex.hash_code = 6382179)
+		end
+
+	test_immutable_comparison
+		-- STRING_TEST_SET.test_immutable_comparison
+		-- found bug in `SPECIAL.same_items' affecting `{IMMUTABLE_STRING_8}.same_string'
+		local
+			csv, foreground, background: IMMUTABLE_STRING_8; comma_index: INTEGER
+			s8: EL_STRING_8_ROUTINES; foreground_2: STRING
+		do
+			create csv.make_from_string ("foreground, background")
+			comma_index := csv.index_of (',', 1)
+			foreground := csv.shared_substring (1, comma_index - 1)
+			background := csv.shared_substring (comma_index + 2, csv.count)
+
+--			assert ("bug in SPECIAL.same_items", foreground.same_string (background))
+			assert ("strings differ", not s8.same_strings (foreground, background))
+
+			assert ("strings are the same", s8.same_strings (background, background.to_string_8))
 		end
 
 	test_reusable_zstrings

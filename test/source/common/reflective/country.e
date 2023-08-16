@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-18 19:07:45 GMT (Tuesday 18th July 2023)"
-	revision: "36"
+	date: "2023-07-21 17:21:58 GMT (Friday 21st July 2023)"
+	revision: "38"
 
 class
 	COUNTRY
@@ -22,7 +22,7 @@ inherit
 		export
 			{ANY} field_table
 		redefine
-			make_default, new_representations, new_tuple_field_names
+			make_default, new_representations, new_tuple_field_table
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
@@ -162,7 +162,7 @@ feature {NONE} -- Reflection
 			>>)
 		end
 
-	new_tuple_field_names: STRING
+	new_tuple_field_table: like Default_tuple_field_table
 		do
 			Result := "[
 				temperature_range:

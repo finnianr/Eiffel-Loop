@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:04 GMT (Monday 20th March 2023)"
-	revision: "9"
+	date: "2023-08-11 15:21:41 GMT (Friday 11th August 2023)"
+	revision: "11"
 
 class
 	TB_EMAIL
@@ -19,7 +19,7 @@ inherit
 			field_included as is_any_field,
 			make_default as make
 		redefine
-			new_tuple_converters, new_representations
+			new_tuple_field_table, new_representations
 		end
 
 	EL_SETTABLE_FROM_STRING_8
@@ -33,6 +33,8 @@ inherit
 		rename
 			Encoding as Mod_encoding
 		end
+
+	EL_CHARACTER_CONSTANTS
 
 create
 	make
@@ -135,11 +137,12 @@ feature {NONE} -- Reflection hints
 			>>)
 		end
 
-	new_tuple_converters: like Default_tuple_converters
+	new_tuple_field_table: like Default_tuple_field_table
 		-- agent function to convert `READABLE_STRING_GENERAL' to adjusted `EL_SPLIT_READABLE_STRING_LIST'
 		-- for initializing tuple field
 		do
-			create Result.make (<<
+			create Result.make_empty
+			Result.append_converters (<<
 				["x_mozilla_draft_info", agent new_draft_info],
 				["content_type", agent new_content_type]
 			>>)
@@ -164,10 +167,8 @@ feature {NONE} -- Constants
 		end
 
 	Mozilla_key_set: EL_HASH_SET [STRING]
-		local
-			s: EL_STRING_8_ROUTINES
 		once
-			create Result.make_from_array (<< s.n_character_string (' ', 80) >>)
+			create Result.make_from_array (<< Space * 80 >>)
 		end
 
 	Transfer_encodings: EL_HASH_SET [STRING]

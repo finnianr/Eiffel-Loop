@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-20 9:42:19 GMT (Tuesday 20th June 2023)"
-	revision: "18"
+	date: "2023-08-10 18:17:28 GMT (Thursday 10th August 2023)"
+	revision: "19"
 
 class
 	EL_USER_INPUT
@@ -113,17 +113,21 @@ feature -- Input
 			end
 		end
 
+feature -- Constants
+
+	Yes_no_choices: STRING
+		once
+			Result := " (y/n) "
+		end
+
+	ESC_to_quit: STRING = "(To quit press ESC + <Enter>)"
+
 feature {NONE} -- Constants
 
 	Preinput_table: EL_ZSTRING_HASH_TABLE [ZSTRING]
 		-- used for auto-testing to avoid user prompts on calling `line'
 		once
 			create Result.make_size (3)
-		end
-
-	Yes_no_choices: STRING
-		once
-			Result := " (y/n) "
 		end
 
 end

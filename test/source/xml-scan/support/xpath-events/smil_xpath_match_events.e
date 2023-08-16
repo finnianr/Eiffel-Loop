@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 6:52:54 GMT (Saturday 24th June 2023)"
-	revision: "10"
+	date: "2023-07-26 17:39:17 GMT (Wednesday 26th July 2023)"
+	revision: "11"
 
 class
 	SMIL_XPATH_MATCH_EVENTS
@@ -43,6 +43,12 @@ feature {NONE} -- XPath match event handlers
 			log.put_new_line
 		end
 
+	on_create
+		do
+			lio.put_labeled_string ("create", last_node.adjusted_8 (False))
+			lio.put_new_line
+		end
+
 	on_meta_tag
 			--
 		do
@@ -66,13 +72,14 @@ feature {NONE} -- Implementation
 		do
 			Result := <<
 				-- Fixed paths
-				[on_open, "/smil/body/seq/audio/@title", agent on_audio_title],
+				[On_open, "/processing-instruction ('create')", agent on_create],
+				[On_open, "/smil/body/seq/audio/@title", agent on_audio_title],
 
-				[on_close, "/smil", agent on_smil_end],
+				[On_close, "/smil", agent on_smil_end],
 
 				-- Wild card paths
-				[on_open, "//audio", agent increment_audio_count],
-				[on_open, "//meta/@name", agent on_meta_tag]
+				[On_open, "//audio", agent increment_audio_count],
+				[On_open, "//meta/@name", agent on_meta_tag]
 			>>
 		end
 

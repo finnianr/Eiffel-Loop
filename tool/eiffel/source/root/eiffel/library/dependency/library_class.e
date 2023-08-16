@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 9:56:58 GMT (Monday 9th January 2023)"
-	revision: "4"
+	date: "2023-08-16 10:40:28 GMT (Wednesday 16th August 2023)"
+	revision: "5"
 
 class
 	LIBRARY_CLASS
@@ -69,7 +69,7 @@ feature {NONE} -- Line state
 			create splitter.make (line, ' ')
 			across splitter as split loop
 				word := split.item
-				if word.count > 0 and then cursor_8 (word).is_eiffel_upper and then word /~ name then
+				if cursor_8 (word).is_eiffel_upper and then word /~ name then
 					if not class_reference_set.has (word) then
 						class_reference_set.put (word.twin)
 					end

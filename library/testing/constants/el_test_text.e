@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-09 10:09:43 GMT (Sunday 9th July 2023)"
-	revision: "26"
+	date: "2023-08-12 6:27:44 GMT (Saturday 12th August 2023)"
+	revision: "27"
 
 class
 	EL_TEST_TEXT
@@ -94,6 +94,17 @@ feature -- Lists
 			s: EL_STRING_32_ROUTINES
 		do
 			Result := s.substring_to (Russian_and_english, '%N', default_pointer)
+		end
+
+	symbol_32_list: EL_STRING_32_LIST
+		local
+			uc: EL_CHARACTER_32
+		do
+			create Result.make (5)
+			across << Euro_symbol, G_clef [1], Mu_symbol, Dollor_symbol, Tab_character >> as c loop
+				uc := c.item
+				Result.extend (uc * 1)
+			end
 		end
 
 	words: EL_STRING_32_LIST

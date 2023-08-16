@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:07:39 GMT (Monday 20th March 2023)"
-	revision: "28"
+	date: "2023-08-16 9:05:15 GMT (Wednesday 16th August 2023)"
+	revision: "32"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -28,6 +28,8 @@ inherit
 			do_all, for_all, do_if, search,
 			force, put_i_th, append_sequence, swap,
 			pop_cursor, push_cursor, order_by
+		redefine
+			hash_code, is_equal
 		end
 
 	EL_SORTABLE_ARRAYED_LIST [S]
@@ -38,13 +40,11 @@ inherit
 			{ANY} insert
 			{NONE} array_subchain
 		redefine
-			make, make_from_array, make_from_tuple
+			is_equal, make, make_from_array, make_from_tuple
 		end
 
-	EL_STRING_8_CONSTANTS
-
 create
-	make, make_empty, make_split, make_with_lines,
+	make, make_empty, make_filled, make_split, make_with_lines,
 	make_word_split, make_from_array, make_from, make_from_tuple, make_from_general
 
 convert
@@ -76,10 +76,45 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	hash_code: INTEGER
+			-- Hash code value
+		local
+			i: INTEGER
+		do
+			-- The magic number `8388593' below is the greatest prime lower than
+			-- 2^23 so that this magic number shifted to the left does not exceed 2^31.
+			if attached area_v2 as l_area then
+				from until i = l_area.count loop
+					Result := ((Result \\ 8388593) |<< 8) + l_area [i].hash_code
+					i := i + 1
+				end
+			end
+		end
+
 	subchain (index_from, index_to: INTEGER ): EL_STRING_LIST [S]
 		do
 			if attached {EL_ARRAYED_LIST [S]} array_subchain (index_from, index_to) as l_list then
 				create Result.make_from_array (l_list.to_array)
+			end
+		end
+
+feature -- Comparison
+
+	is_equal (other: like Current): BOOLEAN
+			-- Is array made of the same items as `other'?
+		local
+			i: INTEGER
+		do
+			if other = Current then
+				Result := True
+			elseif count = other.count and then object_comparison = other.object_comparison then
+				if attached area_v2 as l_area and then attached other.area_v2 as o_area then
+					Result := True
+					from until i = l_area.count or not Result loop
+						Result := l_area [i] ~ o_area [i]
+						i := i + 1
+					end
+				end
 			end
 		end
 
@@ -93,7 +128,7 @@ feature -- Removal
 			line_list: like Current; dots: like item
 		do
 			if maximum_count < character_count then
-				dots := new_string (Ellipsis_dots)
+				dots := new_string (Dot * 2)
 				line_list := twin
 				keep_character_head ((maximum_count * leading_percent / 100).rounded)
 				last.append (dots)

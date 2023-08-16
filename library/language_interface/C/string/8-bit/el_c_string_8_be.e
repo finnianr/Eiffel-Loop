@@ -1,13 +1,13 @@
 note
-	description: "C string 8 be"
+	description: "8-bit big-endian C string"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-08-01 16:28:15 GMT (Tuesday 1st August 2023)"
+	revision: "8"
 
 class
 	EL_C_STRING_8_BE
@@ -15,7 +15,7 @@ class
 inherit
 	EL_C_STRING_8
 		redefine
-			item, put_item
+			code, put_item
 		end
 
 create
@@ -23,10 +23,10 @@ create
 
 feature -- Access
 
-	item (index: INTEGER): NATURAL_32
+	code (index: INTEGER): NATURAL_32
 			--
 		do
-			Result := read_natural_8_be ((index - 1) * width)
+			Result := read_natural_8_be (index - 1)
 		end
 
 feature -- Element change	
@@ -34,7 +34,7 @@ feature -- Element change
 	put_item (value: NATURAL_32; index: INTEGER)
 			--
 		do
-			put_natural_8_be (value.to_natural_8, (index - 1) * width)
+			put_natural_8_be (value.to_natural_8, index - 1)
 		end
 
 end

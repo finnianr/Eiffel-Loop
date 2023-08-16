@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 11:42:23 GMT (Sunday 16th July 2023)"
-	revision: "16"
+	date: "2023-08-15 14:01:21 GMT (Tuesday 15th August 2023)"
+	revision: "18"
 
 class
 	EL_HTTP_STATUS_ENUM
@@ -19,7 +19,7 @@ inherit
 		rename
 			foreign_naming as English
 		redefine
-			initialize_fields
+			initialize_fields, Description_table
 		end
 
 create
@@ -161,7 +161,7 @@ feature -- 4xx codes
 
 	gone: NATURAL_16
 		-- Requested resource no longer available at server and no
-		--  forwarding address is known.
+		-- forwarding address is known.
 
 	length_required: NATURAL_16
 		-- Server refuses to accept request without a defined Content-Length.
@@ -263,6 +263,122 @@ feature -- 5xx codes
 		-- Not Extended
 
 feature {NONE} -- Constants
+
+	Description_table: EL_IMMUTABLE_UTF_8_TABLE
+		once
+			create Result.make ("[
+				continue:
+					Client can continue.
+				switching_protocols:
+					The server is switching protocols according to Upgrade header.
+				accepted:
+					Request accepted, but processing not completed.
+				ok:
+					Request succeeded normally.
+				created:
+					Request succeeded and created a new resource on the server.
+				non_authoritative_information:
+					Metainformation in header not definitive.
+				no_content:
+					Request succeeded but no content is returned.
+				partial_content:
+					Partial GET request fulfilled.
+				reset_content:
+					Resquest succeeded. User agent should clear document.
+				found:
+					Resource has been moved temporarily.
+				moved_permanently:
+					Requested resource assigned new permanent URI.
+				multiple_choices:
+					Requested resource has multiple presentations.
+				see_other:
+					Response to request can be found under a different URI, and
+					SHOULD be retrieved using a GET method on that resource.
+				temporary_redirect:
+					Requested resource resides temporarily under a different URI.
+				use_proxy:
+					Requested resource MUST be accessed through proxy given by Location field.
+				bad_request:
+					The request could not be understood by the server due to malformed syntax.
+					The client SHOULD NOT repeat the request without modifications.
+				conflict:
+					Request could not be completed due to a conflict with current
+					state of the resource.
+				expectation_failed:
+					Expectation given in Expect request-header field could not be met.
+				forbidden:
+					Server understood request, but is refusing to fulfill it.
+				gone:
+					Requested resource no longer available at server and no
+					forwarding address is known.
+				length_required:
+					Server refuses to accept request without a defined Content-Length.
+				method_not_allowed:
+					Method in Request-Line not allowed for resource identified by Request-URI.
+				not_acceptable:
+					Resource identified by request is only capable of generating
+					response entities which have content characteristics not acceptable
+					according to accept headers sent in request.
+				not_found:
+					Resource could not be found.
+				not_modified:
+					No body, as resource not modified.
+				payment_required:
+					Reserved for future use.
+				precondition_failed:
+					Precondition given in one or more of request-header fields
+					evaluated to false when it was tested on server.
+				proxy_authentication_required:
+					Client must first authenticate itself with the proxy.
+				range_not_satisfiable:
+					Range request-header conditions could not be satisfied.
+				request_entity_too_large:
+					Server is refusing to process a request because request
+					entity is larger than server is willing or able to process.
+				request_time_out:
+					Cient did not produce a request within time server prepared to wait.
+				request_uri_too_large:
+					Server is refusing to service request because Request-URI
+					is longer than server is willing to interpret.
+				unauthorized:
+					Request requires user authentication.
+				unsupported_media_type:
+					Unsupported media-type
+				unprocessable_entity:
+					Unprocessable Entity
+				locked:
+					Locked
+				failed_dependency:
+					Failed Dependency
+				unordered_collection:
+					Unordered Collection
+				upgrade_required:
+					Upgrade Required
+				retry_with:
+					Retry With
+				bad_gateway:
+					Server received an invalid response from upstream server
+				gateway_timeout:
+					Server did not receive timely response from upstream server
+				http_version_not_supported:
+					Server does not support HTTP protocol version that was used in the request message.
+				internal_server_error:
+					Internal server failure.
+				not_implemented:
+					Server does not support functionality required to service request.
+				service_unavailable:
+					Server is currently unable to handle request due to temporary overloading
+					or maintenance of server.
+				variant_also_negotiates:
+					Variant also negotiates
+				insufficient_storage:
+					Insufficient Storage
+				bandwidth_limit_exceeded:
+					Bandwidth limit exceeded
+				not_extended:
+					Not extended
+			]")
+		end
 
 	English: EL_ENGLISH_NAME_TRANSLATER
 		once

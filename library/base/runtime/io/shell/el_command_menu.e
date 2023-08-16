@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-08-10 9:05:46 GMT (Thursday 10th August 2023)"
+	revision: "11"
 
 class
 	EL_COMMAND_MENU
@@ -33,7 +33,7 @@ class
 inherit
 	SINGLE_MATH
 
-	EL_MODULE_LIO
+	EL_MODULE_LIO; EL_MODULE_USER_INPUT
 
 create
 	make
@@ -51,20 +51,20 @@ feature -- Access
 
 	name: ZSTRING
 
-	option_key (n: INTEGER): ZSTRING
+	option_key (i: INTEGER): ZSTRING
 		require
-			valid_option: valid_option (n)
+			valid_option: valid_option (i)
 		do
-			Result := options [n + 1]
+			Result := options [i]
 		end
 
 	row_count: INTEGER
 
 feature -- Status query
 
-	valid_option (n: INTEGER): BOOLEAN
+	valid_option (i: INTEGER): BOOLEAN
 		do
-			Result := options.valid_index (n + 1)
+			Result := options.valid_index (i)
 		end
 
 feature -- Basic operations
@@ -74,7 +74,9 @@ feature -- Basic operations
 			row, column, index: INTEGER
 		do
 			lio.put_labeled_string ("MENU", name)
-			lio.put_new_line_x2
+			lio.put_new_line
+			lio.put_line (User_input.ESC_to_quit)
+			lio.put_new_line
 			from row := 0 until row > options.count.min (row_count - 1) loop
 				from column := 1 until column > (full_column_count + 1) loop
 					index := (column - 1) * row_count + row + 1
@@ -82,7 +84,7 @@ feature -- Basic operations
 						if column > 1 then
 							lio.put_string (padding (row, column - 1))
 						end
-						lio.put_labeled_string (option_number.formatted (index - 1), options [index])
+						lio.put_labeled_string (option_number.formatted (index), options [index])
 					end
 					column := column + 1
 				end

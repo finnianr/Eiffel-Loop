@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 8:43:00 GMT (Saturday 3rd December 2022)"
-	revision: "13"
+	date: "2023-08-02 10:59:33 GMT (Wednesday 2nd August 2023)"
+	revision: "14"
 
 class
 	EL_COLOR
@@ -17,6 +17,8 @@ inherit
 		redefine
 			rgb_24_bit, set_rgb_with_24_bit
 		end
+
+	EL_MODULE_COLOR
 
 create
 	default_create,
@@ -64,9 +66,7 @@ feature -- Access
 
 	html_color: STRING
 		do
-			Result := rgb_24_bit.to_hex_string
-			Result.put ('#', 2)
-			Result.remove_head (1)
+			Result := Color.rgb_code_to_html_code (rgb_24_bit)
 		end
 
 	rgb_24_bit: INTEGER

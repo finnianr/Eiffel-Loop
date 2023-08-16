@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 8:11:21 GMT (Saturday 24th June 2023)"
-	revision: "31"
+	date: "2023-07-27 9:09:19 GMT (Thursday 27th July 2023)"
+	revision: "32"
 
 deferred class
 	TB_ACCOUNT_READER
