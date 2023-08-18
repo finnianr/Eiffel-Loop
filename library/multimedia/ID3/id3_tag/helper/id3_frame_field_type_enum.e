@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-22 19:49:17 GMT (Saturday 22nd July 2023)"
-	revision: "5"
+	date: "2023-08-17 21:46:19 GMT (Thursday 17th August 2023)"
+	revision: "6"
 
 class
 	ID3_FRAME_FIELD_TYPE_ENUM
@@ -15,7 +15,8 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
-			default as default_any
+			default as default_any,
+			description as field_description
 		redefine
 			foreign_naming
 		end

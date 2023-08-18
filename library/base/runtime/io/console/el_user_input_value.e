@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-21 15:30:28 GMT (Friday 21st April 2023)"
-	revision: "4"
+	date: "2023-08-17 15:41:12 GMT (Thursday 17th August 2023)"
+	revision: "5"
 
 class
 	EL_USER_INPUT_VALUE [G]
@@ -62,12 +62,19 @@ feature -- Access
 		local
 			line: ZSTRING; done: BOOLEAN; operands: TUPLE [G]
 		do
+			escape_pressed := False
 			from until done loop
 				line := line_input
-
+				if line.is_character ({EL_ASCII}.Escape.to_character_8) then
+					line := Zero
+					escape_pressed := True
+				end
 				if converter.is_convertible (line) and then attached converter.as_type (line) as v then
 					Result := v; operands := [v]
-					if attached {EL_PATH} v as path
+					if line = Zero then
+						done := True
+
+					elseif attached {EL_PATH} v as path
 						and then path_must_exist and then not path.exists
 					then
 						lio.put_labeled_string (Bad_input, Does_not_exist #$ [value_description])
@@ -129,6 +136,8 @@ feature -- Status change
 			appropriate_type: path_must_exist implies is_path_type
 		end
 
+	escape_pressed: BOOLEAN
+
 feature {NONE} -- Implementation
 
 	line_input: ZSTRING
@@ -165,6 +174,11 @@ feature {NONE} -- Constants
 	Does_not_exist: ZSTRING
 		once
 			Result := "The %S does not exist"
+		end
+
+	Zero: ZSTRING
+		once
+			Result := "0"
 		end
 
 	Not_convertible: ZSTRING

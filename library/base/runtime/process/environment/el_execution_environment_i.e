@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "27"
+	date: "2023-08-17 21:12:48 GMT (Thursday 17th August 2023)"
+	revision: "28"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -21,21 +21,14 @@ inherit
 			item, launch, put, system
 		end
 
-	EL_MODULE_ARGS
-		export
-			{NONE} all
-		end
+	EL_STRING_GENERAL_ROUTINES
+
+	EL_MODULE_ARGS; EL_MODULE_EXECUTABLE; EL_MODULE_EXCEPTION; EL_MODULE_DIRECTORY
 
 	EL_SHARED_OPERATING_ENVIRON
 		export
 			{NONE} all
 		end
-
-	EL_MODULE_DIRECTORY
-
-	EL_MODULE_EXECUTABLE
-
-	EL_MODULE_EXCEPTION
 
 	EL_SHARED_DIRECTORY
 		rename
@@ -65,10 +58,8 @@ feature -- Access
 		end
 
 	item (key: READABLE_STRING_GENERAL): detachable STRING_32
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
-			if attached Precursor (s.to_unicode_general (key)) as value and then not value.is_empty then
+			if attached Precursor (to_unicode_general (key)) as value and then not value.is_empty then
 				Result := value
 			end
 			-- returns void if value is empty in order to satisfy postcondition on `put'
@@ -114,11 +105,9 @@ feature -- Basic operations
 		end
 
 	launch (cmd: READABLE_STRING_GENERAL)
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
 			-- NATIVE_STRING calls {READABLE_STRING_GENERAL}.code
-			Precursor (s.to_unicode_general (cmd))
+			Precursor (to_unicode_general (cmd))
 		end
 
 	open_url (url: EL_FILE_URI_PATH)
@@ -152,11 +141,9 @@ feature -- Basic operations
 		end
 
 	system (cmd: READABLE_STRING_GENERAL)
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
 			-- NATIVE_STRING calls {READABLE_STRING_GENERAL}.code
-			Precursor (s.to_unicode_general (cmd))
+			Precursor (to_unicode_general (cmd))
 		end
 
 feature -- Status report
@@ -169,10 +156,8 @@ feature -- Status report
 feature -- Status setting
 
 	put (value, key: READABLE_STRING_GENERAL)
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
-			Precursor (s.to_unicode_general (value), s.to_unicode_general (key))
+			Precursor (to_unicode_general (value), to_unicode_general (key))
 		end
 
 	restore_last_code_page

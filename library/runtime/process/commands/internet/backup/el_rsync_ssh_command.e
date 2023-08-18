@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 10:45:29 GMT (Sunday 4th December 2022)"
-	revision: "4"
+	date: "2023-08-17 16:27:26 GMT (Thursday 17th August 2023)"
+	revision: "5"
 
 class
 	EL_RSYNC_SSH_COMMAND
@@ -18,6 +18,8 @@ inherit
 			set_target_dir
 		end
 
+	EL_CHARACTER_32_CONSTANTS
+
 create
 	 make
 
@@ -25,12 +27,12 @@ feature -- Element change
 
 	set_target_dir (target_dir: DIR_PATH)
 		local
-			escaped_path: ZSTRING; s: EL_ZSTRING_ROUTINES
+			escaped_path: ZSTRING
 		do
 			escaped_path := target_dir.escaped
 			-- Double escape for target
 			if {PLATFORM}.is_unix and then escaped_path.has ('\') then
-				escaped_path.replace_substring_all (s.character_string ('\'), s.n_character_string ('\', 2))
+				escaped_path.replace_substring_all (char ('\') * 1, char ('\') * 2)
 			end
 			put_string (var.target_dir, escaped_path)
 		end

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 15:38:56 GMT (Monday 14th August 2023)"
-	revision: "123"
+	date: "2023-08-18 11:01:44 GMT (Friday 18th August 2023)"
+	revision: "124"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -377,6 +377,25 @@ feature -- Status query
 			end
 		end
 
+	has_alpha_numeric: BOOLEAN
+		-- `True' if `str' has an alpha numeric character
+		local
+			c_i: CHARACTER; uc_i: CHARACTER_32; i, block_index, i_final: INTEGER
+			iter: EL_UNENCODED_CHARACTER_ITERATION;  area_32: like unencoded_area; l_area: like area
+		do
+			l_area := area; i_final := count; area_32 := unencoded_area
+			from i := 0 until Result or else i = i_final loop
+				c_i := l_area [i]
+				if c_i = Substitute then
+					uc_i := iter.item ($block_index, area_32, i + 1)
+					Result := uc_i.is_alpha_numeric
+				else
+					Result := Codec.is_alphanumeric (c_i.natural_32_code)
+				end
+				i := i + 1
+			end
+		end
+
 	has_between (uc: CHARACTER_32; start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if `uc' occurs between `start_index' and `end_index'
 		require
@@ -660,7 +679,7 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Duplication
 			-- same_characters: For every `i' in 1..`count', `item' (`i') = `other'.`item' (`i')
 		end
 
-feature {EL_READABLE_ZSTRING, STRING_HANDLER, EL_ZSTRING_ITERATION_CURSOR} -- Access
+feature {STRING_HANDLER} -- Access
 
 	frozen set_count (number: INTEGER)
 			-- Set `count' to `number' of characters.

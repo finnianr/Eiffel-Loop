@@ -6,17 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-10 18:17:28 GMT (Thursday 10th August 2023)"
-	revision: "19"
+	date: "2023-08-17 21:30:00 GMT (Thursday 17th August 2023)"
+	revision: "20"
 
 class
 	EL_USER_INPUT
 
 inherit
-	EL_ZSTRING_ROUTINES_IMP
-		export
-			{NONE} all
-		end
+	ANY
+
+	EL_STRING_GENERAL_ROUTINES
 
 	EL_MODULE_CONSOLE; EL_MODULE_LIO
 

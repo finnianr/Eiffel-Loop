@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2023-08-17 14:46:38 GMT (Thursday 17th August 2023)"
+	revision: "3"
 
 class
 	EL_FORMATTED_BULLETED_PARAGRAPHS
@@ -36,15 +36,15 @@ feature -- Element change
 
 	append_text (a_text: ZSTRING)
 		do
-			if paragraphs.is_empty then
-				Precursor (bullet_text)
+			if count = 0 then
+				Precursor (new_bullet_text)
 			end
 			Precursor (a_text)
 		end
 
 feature {NONE} -- Implementation
 
-	bullet_text: ZSTRING
+	new_bullet_text: ZSTRING
 		do
 			create Result.make (2)
 			Result.append_unicode (Bullet_code)

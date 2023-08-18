@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 11:30:19 GMT (Wednesday 16th August 2023)"
-	revision: "22"
+	date: "2023-08-17 6:56:55 GMT (Thursday 17th August 2023)"
+	revision: "23"
 
 class
 	EL_ZSTRING_LIST
@@ -18,10 +18,12 @@ inherit
 			append_code as append_z_code,
 			separator_code as separator_z_code
 		redefine
-			append_z_code, proper_cased, tab_string, separator_z_code
+			append_z_code, item_indent, proper_cased, tab_string, separator_z_code
 		end
 
 	EL_SHARED_ZSTRING_CODEC
+
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make, make_empty, make_with_lines, make_filled,
@@ -30,6 +32,13 @@ create
 
 convert
 	make_from_array ({ARRAY [ZSTRING]}), make_comma_split ({STRING, STRING_32, ZSTRING}), make_from_tuple ({TUPLE})
+
+feature -- Access
+
+	item_indent: INTEGER
+		do
+			Result := item.leading_occurrences ('%T')
+		end
 
 feature -- Element change
 
@@ -58,7 +67,7 @@ feature {NONE} -- Implementation
 
 	tab_string (n: INTEGER): ZSTRING
 		do
-			Result := Tab #* n
+			Result := tab * n
 		end
 
 end

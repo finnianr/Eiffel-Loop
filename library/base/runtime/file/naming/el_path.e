@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-12 9:59:35 GMT (Monday 12th June 2023)"
-	revision: "68"
+	date: "2023-08-18 13:03:27 GMT (Friday 18th August 2023)"
+	revision: "69"
 
 deferred class
 	EL_PATH
@@ -245,9 +245,9 @@ feature -- Status Query
 			-- true if path has directory step
 		local
 			pos_left_separator, pos_right_separator: INTEGER
-			step: ZSTRING; s: EL_ZSTRING_ROUTINES
+			step: ZSTRING
 		do
-			step := s.as_zstring (a_step)
+			step := as_zstring (a_step)
 			pos_left_separator := parent_path.substring_index (step, 1) - 1
 			pos_right_separator := pos_left_separator + step.count + 1
 			if 0 <= pos_left_separator and pos_right_separator <= parent_path.count then
@@ -259,11 +259,11 @@ feature -- Status Query
 
 	is_absolute: BOOLEAN
 		local
-			str: ZSTRING; s: EL_ZSTRING_ROUTINES
+			str: ZSTRING
 		do
 			str := parent_path
 			if {PLATFORM}.is_windows then
-				Result := s.starts_with_drive (str)
+				Result := starts_with_drive (str)
 			else
 				Result := not str.is_empty and then is_separator (str, 1)
 			end
@@ -326,10 +326,10 @@ feature -- Conversion
 	to_ntfs_compatible (c: CHARACTER): like Current
 		-- NT file system compatible path string using `c' to substitue invalid characters
 		local
-			nt: EL_NT_FILE_SYSTEM_ROUTINES; s: EL_ZSTRING_ROUTINES; substitutes: ZSTRING
+			nt: EL_NT_FILE_SYSTEM_ROUTINES; substitutes: ZSTRING
 			step_list: EL_ZSTRING_LIST
 		do
-			substitutes := s.n_character_string (c, Invalid_NTFS_characters.count)
+			substitutes := n_character_string (c, Invalid_NTFS_characters.count)
 			create step_list.make_split (to_string, Separator)
 			across step_list as list loop
 				if not nt.is_valid_step_at (list.item, list.cursor_index) then

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 9:07:25 GMT (Wednesday 16th August 2023)"
-	revision: "6"
+	date: "2023-08-17 6:16:34 GMT (Thursday 17th August 2023)"
+	revision: "7"
 
 class
 	UPGRADE_TEST_SET_CALL_BACK_CODE
@@ -24,8 +24,6 @@ inherit
 		redefine
 			make_default, new_file_list
 		end
-
-	EL_CHARACTER_CONSTANTS
 
 	EL_MODULE_FILE; EL_MODULE_TUPLE
 
@@ -120,8 +118,8 @@ feature {NONE} -- Implementation
 				end
 			end
 			code_lines [end_line_index - 1].prune_all_trailing (',')
-			code_lines.insert (Tab * 3 + Code.close_array, end_line_index)
-			code_lines.insert (Tab * 3 + Code.make_named, do_line_index + 1)
+			code_lines.insert (tab * 3 + Code.close_array, end_line_index)
+			code_lines.insert (tab * 3 + Code.make_named, do_line_index + 1)
 
 			Result := code_lines.joined_lines
 		end

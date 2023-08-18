@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 10:22:38 GMT (Monday 30th January 2023)"
-	revision: "12"
+	date: "2023-08-18 12:48:11 GMT (Friday 18th August 2023)"
+	revision: "13"
 
 class
 	EL_ZSTRING_HASH_TABLE [G]
@@ -20,8 +20,22 @@ inherit
 			search as table_search
 		export
 			{NONE} table_has_key, table_has, table_search
-		redefine
+		undefine
 			new_key
+		end
+
+	EL_ZSTRING_ROUTINES_IMP
+		rename
+			 as_zstring as new_key,
+			 cursor as string_cursor,
+			 wipe_out as string_wipe_out,
+			 occurrences as string_occurrences,
+			 replace as string_replace,
+			 word_count as string_word_count
+		export
+			{NONE} all
+		undefine
+			is_equal, copy, default_create
 		end
 
 create
@@ -62,19 +76,4 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	new_key (general: READABLE_STRING_GENERAL): ZSTRING
-		local
-			z: EL_ZSTRING_ROUTINES
-		do
-			Result := z.as_zstring (general)
-		end
-
-feature {NONE} -- Constants
-
-	Buffer: EL_ZSTRING_BUFFER
-		once
-			create Result
-		end
 end

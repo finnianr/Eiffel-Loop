@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-08-17 21:05:55 GMT (Thursday 17th August 2023)"
+	revision: "11"
 
 deferred class
 	EL_UNDOABLE_TEXT_COMPONENT_I
 
 inherit
 	EV_TEXT_COMPONENT_I
+
+	EL_STRING_GENERAL_ROUTINES
 
 feature {NONE} -- Initialization
 
@@ -37,12 +39,10 @@ feature {EL_UNDOABLE_TEXT_COMPONENT, EL_UNDOABLE_TEXT_COMPONENT_I} -- Access
 feature {EL_UNDOABLE_TEXT_COMPONENT} -- Element change
 
 	set_initial_text (a_text: READABLE_STRING_GENERAL)
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
 			is_restoring := True
 			edit_history.set_string_from_general (a_text)
-			set_text (s.to_unicode_general (a_text))
+			set_text (to_unicode_general (a_text))
 			is_restoring := False
 		end
 

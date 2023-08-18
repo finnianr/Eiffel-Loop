@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 9:57:56 GMT (Wednesday 16th August 2023)"
-	revision: "13"
+	date: "2023-08-17 7:39:31 GMT (Thursday 17th August 2023)"
+	revision: "14"
 
 class
 	EIFFEL_LIBRARY_CONFIGURATION_FILE
@@ -18,7 +18,7 @@ inherit
 			category_index_title, new_class, new_sub_category, new_sort_category, type
 		end
 
-	EL_ZSTRING_CONSTANTS; EL_CHARACTER_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 create
 	make
@@ -45,7 +45,7 @@ feature {EIFFEL_CLASS_PARSER} -- Factory
 
 	new_sort_category: ZSTRING
 		do
-			Result := category + Space #* 1 + sub_category
+			Result := space.joined (category, sub_category)
 		end
 
 	new_sub_category: ZSTRING

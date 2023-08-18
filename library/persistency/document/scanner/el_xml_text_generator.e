@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 9:10:36 GMT (Wednesday 16th August 2023)"
-	revision: "27"
+	date: "2023-08-17 5:53:15 GMT (Thursday 17th August 2023)"
+	revision: "28"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -22,7 +22,7 @@ inherit
 
 	EL_MODULE_LIO; EL_MODULE_REUSEABLE
 
-	EL_CHARACTER_CONSTANTS; EL_STRING_8_CONSTANTS; XML_STRING_8_CONSTANTS
+	EL_CHARACTER_8_CONSTANTS; EL_STRING_8_CONSTANTS; XML_STRING_8_CONSTANTS
 
 create
 	make
@@ -79,13 +79,13 @@ feature {NONE} -- Parsing events
 			--
 		do
 			put_last_tag (True)
-			output.put_string (Tab * output_stack.count)
+			output.put_string (tab * output_stack.count)
 			output.put_string (Comment_open)
 			if attached last_node as node then
 				if node.has (New_line_character) then
 					output.put_new_line
 					put_content_lines (node, True)
-					output.put_string (Tab * output_stack.count)
+					output.put_string (tab * output_stack.count)
 				else
 					put_single_line (node)
 				end
@@ -160,7 +160,7 @@ feature {NONE} -- Parsing events
 			put_last_tag (True)
 			create tag_output.make (attribute_list.count + 5)
 
-			tag_output.extend (Tab * output_stack.count)
+			tag_output.extend (tab * output_stack.count)
 			tag_output.extend (Left_angle_bracket)
 
 			tag_output.extend (pool.borrowed_item)
@@ -212,7 +212,7 @@ feature {NONE} -- Implementation
 				Line_splitter.set_target (Xml_escaper.escaped (text, False))
 				across Line_splitter as list loop
 					if tabbed then
-						output.put_string (Tab * (output_stack.count + 1))
+						output.put_string (tab * (output_stack.count + 1))
 					end
 					output.put_string (list.item)
 					output.put_new_line

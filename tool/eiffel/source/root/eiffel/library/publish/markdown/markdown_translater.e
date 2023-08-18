@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 9:44:34 GMT (Wednesday 16th August 2023)"
-	revision: "15"
+	date: "2023-08-17 7:35:02 GMT (Thursday 17th August 2023)"
+	revision: "16"
 
 class
 	MARKDOWN_TRANSLATER
@@ -26,7 +26,7 @@ inherit
 
 	SHARED_ISE_CLASS_TABLE
 
-	EL_CHARACTER_CONSTANTS
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make
@@ -49,7 +49,7 @@ feature -- Basic operations
 			do_with_lines (agent add_normal_text, markdown)
 			if not is_code_block then
 				if last_is_line_item then
-					output.last.append (New_line #* 1)
+					output.last.append (New_line * 1)
 				end
 				translate (output.last)
 			end
@@ -60,7 +60,7 @@ feature {NONE} -- Line states
 
 	add_normal_text (line: ZSTRING)
 		do
-			if line.starts_with (Tab #* 1) then
+			if line.starts_with_character ('%T') then
 				translate (output.last)
 				output.extend (Code_block_delimiter.twin)
 				state := agent add_code_block
@@ -69,10 +69,10 @@ feature {NONE} -- Line states
 			else
 				if not output.last.is_empty then
 					if line.is_empty then
-						output.last.append (Double_new_line)
+						output.last.append (new_line * 2)
 					elseif is_list_item (line) then
-						output.last.append (New_line #* 1)
-					elseif not output.last.ends_with (Double_new_line) then
+						output.last.append (New_line * 1)
+					elseif not output.last.ends_with (new_line * 2) then
 						output.last.append_character (' ')
 					end
 				end
@@ -83,7 +83,7 @@ feature {NONE} -- Line states
 
 	add_code_block (line: ZSTRING)
 		do
-			output.last.append (New_line #* 1)
+			output.last.append_character ('%N')
 			if line.starts_with_character ('%T') then
 				output.last.append (line.substring_end (2))
 			else
@@ -182,11 +182,6 @@ feature {NONE} -- Constants
 	Code_block_delimiter: ZSTRING
 		once
 			create Result.make_filled ('`', 4)
-		end
-
-	Double_new_line: ZSTRING
-		once
-			Result := "%N%N"
 		end
 
 	Github_link: ZSTRING

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-08 8:22:49 GMT (Tuesday 8th August 2023)"
-	revision: "20"
+	date: "2023-08-17 21:30:52 GMT (Thursday 17th August 2023)"
+	revision: "21"
 
 class
 	EL_TEXT_RECTANGLE
@@ -39,6 +39,8 @@ inherit
 		undefine
 			out
 		end
+
+	EL_STRING_GENERAL_ROUTINES
 
 	EL_ZSTRING_CONSTANTS
 
@@ -141,13 +143,11 @@ feature -- Element change
 
 	append_line (a_line: READABLE_STRING_GENERAL)
 			-- append line without wrapping
-		local
-			zstring: EL_ZSTRING_ROUTINES
 		do
 			if is_text_squeezable then
-				squeeze_line (zstring.as_zstring (a_line))
+				squeeze_line (as_zstring (a_line))
 			else
-				extend_lines (zstring.as_zstring (a_line))
+				extend_lines (as_zstring (a_line))
 			end
 		end
 
@@ -349,9 +349,9 @@ feature {NONE} -- Implementation
 	word_wrapped_lines (a_line: READABLE_STRING_GENERAL): EL_ZSTRING_LIST
 		local
 			line_out: ZSTRING; old_count: INTEGER; words: EL_SPLIT_ZSTRING_LIST
-			line: ZSTRING; zstring: EL_ZSTRING_ROUTINES
+			line: ZSTRING
 		do
-			create Result.make (0); create line_out.make_empty; line := zstring.as_zstring (a_line)
+			create Result.make (0); create line_out.make_empty; line := as_zstring (a_line)
 
 			create words.make (line, ' ')
 			if is_lio_enabled then

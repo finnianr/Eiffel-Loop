@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 16:42:11 GMT (Sunday 16th July 2023)"
-	revision: "9"
+	date: "2023-08-17 5:02:10 GMT (Thursday 17th August 2023)"
+	revision: "10"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
 
 inherit
 	EL_MODULE_CONVERT_STRING
+
+	EL_SHARED_FILLED_STRING_TABLES
 
 feature -- Measurement
 

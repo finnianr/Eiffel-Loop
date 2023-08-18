@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-11 15:47:08 GMT (Friday 11th August 2023)"
-	revision: "3"
+	date: "2023-08-17 6:31:54 GMT (Thursday 17th August 2023)"
+	revision: "4"
 
 class
 	EL_CHARACTER_8
@@ -15,8 +15,12 @@ class
 inherit
 	CHARACTER_8_REF
 
+	EL_8_BIT_IMPLEMENTATION
+
+	EL_SHARED_FILLED_STRING_TABLES
+
 create
-	make
+	make, default_create
 
 convert
 	make ({CHARACTER_8}), item: {CHARACTER_8}
@@ -31,25 +35,28 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	multiplied alias "*" (n: INTEGER): STRING_8
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			Result := s.n_character_string (item, n)
+			Result := Character_string_8_table.item (item, n)
 		end
 
-	as_zstring alias "#*" (n: INTEGER): ZSTRING
-		-- multiplied as shared `ZSTRING'
-		local
-			s: EL_ZSTRING_ROUTINES
+	joined (a, b: READABLE_STRING_8): STRING_8
+		-- `a' and `b' strings joined by `item' character
 		do
-			Result := s.n_character_string (item, n)
+			create Result.make (a.count + b.count + 1)
+			Result.append_string_general (a)
+			Result.append_character (item)
+			Result.append_string_general (b)
+		end
+
+	as_zstring (n: INTEGER): ZSTRING
+		-- multiplied as shared `ZSTRING'
+		do
+			Result := Character_string_table.item (item, n)
 		end
 
 	as_string_32 (n: INTEGER): STRING_32
 		-- multiplied as shared `STRING_32'
-		local
-			s: EL_STRING_32_ROUTINES
 		do
-			Result := s.n_character_string (item, n)
+			Result := Character_string_32_table.item (item, n)
 		end
 end

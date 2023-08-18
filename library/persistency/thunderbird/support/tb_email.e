@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-11 15:21:41 GMT (Friday 11th August 2023)"
-	revision: "11"
+	date: "2023-08-17 6:28:43 GMT (Thursday 17th August 2023)"
+	revision: "12"
 
 class
 	TB_EMAIL
@@ -34,7 +34,7 @@ inherit
 			Encoding as Mod_encoding
 		end
 
-	EL_CHARACTER_CONSTANTS
+	EL_CHARACTER_8_CONSTANTS
 
 create
 	make
@@ -168,7 +168,7 @@ feature {NONE} -- Constants
 
 	Mozilla_key_set: EL_HASH_SET [STRING]
 		once
-			create Result.make_from_array (<< Space * 80 >>)
+			create Result.make_from_array (<< space * 80 >>)
 		end
 
 	Transfer_encodings: EL_HASH_SET [STRING]

@@ -1,19 +1,35 @@
 note
-	description: "Formatted text block"
+	description: "[
+		List of formatted paragraph texts of type [$source ZSTRING] with format
+		of type [$source EV_CHARACTER_FORMAT]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-27 7:47:54 GMT (Tuesday 27th June 2023)"
-	revision: "9"
+	date: "2023-08-17 14:55:01 GMT (Thursday 17th August 2023)"
+	revision: "10"
 
 class
 	EL_FORMATTED_TEXT_BLOCK
 
 inherit
-	ANY
+	EL_ARRAYED_MAP_LIST [ZSTRING, EV_CHARACTER_FORMAT]
+		rename
+			first_key as first_text,
+			item_key as item_text,
+			item_value as item_format,
+			make as make_sized,
+			last_key as last_text,
+			replace_key as replace_text
+		export
+			{NONE} all
+			{ANY} first_text, start, after, forth, item_text, item_format
+		redefine
+			is_empty
+		end
 
 	EL_MODULE_COLOR; EL_MODULE_VISION_2
 
@@ -21,6 +37,8 @@ inherit
 		rename
 			Text as Rendered
 		end
+
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make
@@ -30,7 +48,7 @@ feature {NONE} -- Initialization
 	make (a_styles: like styles; a_block_indent: INTEGER)
 		do
 			styles := a_styles; block_indent := a_block_indent
-			create paragraphs.make (4)
+			make_sized (4)
 			set_format
 			font := format.character.font
 			if block_indent > 0 then
@@ -44,7 +62,7 @@ feature -- Access
 	interval: INTEGER_INTERVAL
 		-- page text substring interval
 		do
-			create Result.make (offset + 1, offset + count)
+			create Result.make (offset + 1, offset + character_count)
 		end
 
 	block_indent: INTEGER
@@ -53,9 +71,6 @@ feature -- Access
 
 	styles: EL_TEXT_FORMATTING_STYLES
 
-	paragraphs: ARRAYED_LIST [TUPLE [text: ZSTRING; format: EV_CHARACTER_FORMAT]]
-		-- paragraph with applied character formatting
-
 	text_style: EV_CHARACTER_FORMAT
 		do
 			Result := format.character
@@ -63,7 +78,7 @@ feature -- Access
 
 feature -- Measurement
 
-	count: INTEGER
+	character_count: INTEGER
 
 	offset: INTEGER
 
@@ -87,25 +102,26 @@ feature -- Element change
 
 	append_text (a_text: ZSTRING)
 		local
-			text: ZSTRING; s: EL_STRING_8_ROUTINES
+			text: ZSTRING
 		do
-			if a_text [a_text.count] = '%N' then
+			if a_text.ends_with_character ('%N') then
 				text := a_text
 			else
-				text := a_text + s.character_string (' ')
+				text := a_text + space * 1
 			end
-			paragraphs.extend ([text, format.character])
-			count := count + text.count
+			extend (text, format.character)
+			character_count := character_count + text.count
 		end
 
 	append_new_line
 		do
-			if not paragraphs.is_empty and then paragraphs.last.text = New_line then
-				paragraphs.last.text := Double_new_line
+			if count > 0 and then last_text = new_line * 1 then
+				finish
+				replace_text (new_line * 2)
 			else
-				paragraphs.extend ([New_line, New_line_format])
+				extend (New_line * 1, New_line_format)
 			end
-			count := count + 1
+			character_count := character_count + 1
 		end
 
 	set_offset (a_offset: like offset)
@@ -117,7 +133,7 @@ feature -- Status query
 
 	is_empty: BOOLEAN
 		do
-			Result := count = 0
+			Result := character_count = 0
 		end
 
 feature -- Basic operations
@@ -209,16 +225,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	New_line: ZSTRING
-		once
-			create Result.make_filled ('%N', 1)
-		end
-
-	Double_new_line: ZSTRING
-		once
-			create Result.make_filled ('%N', 2)
-		end
 
 	New_line_format: EV_CHARACTER_FORMAT
 		do

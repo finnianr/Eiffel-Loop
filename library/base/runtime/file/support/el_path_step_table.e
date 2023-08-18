@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-08-17 21:18:21 GMT (Thursday 17th August 2023)"
+	revision: "7"
 
 class
 	EL_PATH_STEP_TABLE
@@ -30,6 +30,8 @@ inherit
 		undefine
 			copy, is_equal
 		end
+
+	EL_STRING_GENERAL_ROUTINES
 
 create
 	make
@@ -143,8 +145,6 @@ feature -- Basic operations
 		end
 
 	put_tokens (list: ITERABLE [READABLE_STRING_GENERAL]; tokens: SPECIAL [INTEGER])
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
 			restrict_access
 				if attached {EL_SPLIT_ZSTRING_ON_CHARACTER} list as splitter then
@@ -153,7 +153,7 @@ feature -- Basic operations
 					end
 				else
 					across list as str loop
-						extend_tokens (s.as_zstring (str.item), tokens)
+						extend_tokens (as_zstring (str.item), tokens)
 					end
 				end
 			end_restriction

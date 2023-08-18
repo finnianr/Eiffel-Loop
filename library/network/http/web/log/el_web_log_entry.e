@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-30 8:33:38 GMT (Friday 30th December 2022)"
-	revision: "9"
+	date: "2023-08-18 8:25:25 GMT (Friday 18th August 2023)"
+	revision: "10"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -30,7 +30,6 @@ feature {NONE} -- Initialization
 			valid_line: line.occurrences (Quote) = 6
 		local
 			index: INTEGER; address: STRING; part: ZSTRING
-			s: EL_ZSTRING_ROUTINES
 		do
 			across line.split (Quote) as list loop
 				part := list.item
@@ -57,7 +56,7 @@ feature {NONE} -- Initialization
 						byte_count := part.substring_end (index + 1).to_natural
 					when 4 then
 						referer := part.twin
-						if s.is_character (referer, '-') then
+						if referer.is_character ('-') then
 							referer.wipe_out
 						end
 					when 6 then

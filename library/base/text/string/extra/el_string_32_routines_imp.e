@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-31 9:25:09 GMT (Monday 31st July 2023)"
-	revision: "37"
+	date: "2023-08-17 15:58:57 GMT (Thursday 17th August 2023)"
+	revision: "38"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -132,13 +132,13 @@ feature -- Factory
 	character_string (uc: CHARACTER_32): STRING_32
 		-- shared instance of string with `uc' character
 		do
-			Result := n_character_string (uc, 1)
+			Result := Character_string_32_table.item (uc, 1)
 		end
 
 	n_character_string (uc: CHARACTER_32; n: INTEGER): STRING_32
 		-- shared instance of string with `n' times `uc' character
 		do
-			Result := Character_string_table.item (uc, n)
+			Result := Character_string_32_table.item (uc, n)
 		end
 
 	new_list (n: INTEGER): EL_STRING_32_LIST
@@ -189,11 +189,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Character_string_table: EL_FILLED_STRING_32_TABLE
-		once
-			create Result.make
-		end
 
 	Split_on_character: EL_SPLIT_ON_CHARACTER_32 [STRING_32]
 		once

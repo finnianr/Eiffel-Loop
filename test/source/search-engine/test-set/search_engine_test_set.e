@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "14"
+	date: "2023-08-18 12:37:40 GMT (Friday 18th August 2023)"
+	revision: "15"
 
 class
 	SEARCH_ENGINE_TEST_SET
@@ -36,16 +36,27 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_persistent_word_table
+		note
+			testing: "[
+				covers/{EL_WORD_TOKEN_TABLE}.valid_token_list,
+				covers/{EL_ZSTRING_ROUTINES_IMP}.last_word_start_index
+			]"
+
 		local
-			word_list: like new_word_list
+			word_list: like new_word_list; paragraph_list: EL_ZSTRING_LIST
 			i: INTEGER; tokens: EL_WORD_TOKEN_LIST
 			l_token_table: like token_table
 		do
 			word_list := new_word_list
+			create paragraph_list.make (1)
 			from i := 1 until i > 64 loop
 				lio.put_integer_field ("hexagram", i)
 				lio.put_new_line
-				tokens := token_table.paragraph_tokens (Hexagram.english_titles [i])
+				paragraph_list.extend (Hexagram.english_titles [i])
+				tokens := token_table.paragraph_tokens (paragraph_list.last)
+				assert ("valid_token_list", token_table.valid_token_list (tokens, paragraph_list))
+				paragraph_list.wipe_out
+
 				if i \\ 8 = 0 then
 					l_token_table := token_table
 					create token_table.make (l_token_table.count)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 9:48:45 GMT (Monday 6th March 2023)"
-	revision: "16"
+	date: "2023-08-17 7:26:56 GMT (Thursday 17th August 2023)"
+	revision: "17"
 
 class
 	EL_STRING_32_LIST
@@ -15,8 +15,12 @@ class
 inherit
 	EL_STRING_LIST [STRING_32]
 		redefine
-			new_string, tab_string
+			item_indent, new_string, tab_string
 		end
+
+	EL_SHARED_STRING_32_CURSOR
+
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make, make_empty, make_with_lines, make_filled,
@@ -26,6 +30,15 @@ create
 convert
 	make_from_array ({ARRAY [STRING_32]}), make_from_tuple ({TUPLE}), make_comma_split ({STRING_32})
 
+feature -- Access
+
+	item_indent: INTEGER
+		do
+			if attached cursor_32 (item) as c32 then
+				Result := c32.leading_occurrences ('%T')
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	new_string (general: READABLE_STRING_GENERAL): STRING_32
@@ -34,9 +47,7 @@ feature {NONE} -- Implementation
 		end
 
 	tab_string (a_count: INTEGER): STRING_32
-		local
-			s: EL_STRING_32_ROUTINES
 		do
-			Result := s.n_character_string ('%T', a_count)
+			Result := tab.as_string_32 (a_count)
 		end
 end

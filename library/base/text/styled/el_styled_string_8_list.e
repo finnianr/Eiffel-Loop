@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-08-17 13:33:12 GMT (Thursday 17th August 2023)"
+	revision: "5"
 
 class
 	EL_STYLED_STRING_8_LIST
 
 inherit
 	EL_STYLED_TEXT_LIST [STRING_8]
-		redefine
-			ellipsis
-		end
 
 create
 	make, make_filled, make_from, make_empty, make_from_array, make_regular
@@ -27,10 +24,8 @@ convert
 feature {NONE} -- Implementation
 
 	n_character_string (c: CHARACTER; n: INTEGER): STRING_8
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			Result := s.n_character_string (c, 2)
+			Result := Character_string_8_table.item (c, 2)
 		end
 
 	new_text (text: READABLE_STRING_GENERAL): STRING_8
@@ -38,10 +33,4 @@ feature {NONE} -- Implementation
 			Result := text.as_string_8
 		end
 
-feature -- Constants
-
-	Ellipsis: STRING_8
-		once
-			Result := n_character_string ('.', 2)
-		end
 end

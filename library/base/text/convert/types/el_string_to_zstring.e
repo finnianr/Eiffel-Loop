@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-10 15:38:53 GMT (Saturday 10th December 2022)"
-	revision: "6"
+	date: "2023-08-17 21:24:41 GMT (Thursday 17th August 2023)"
+	revision: "7"
 
 class
 	EL_STRING_TO_ZSTRING
@@ -18,18 +18,16 @@ inherit
 			is_latin_1
 		end
 
+	EL_STRING_GENERAL_ROUTINES
+		rename
+			as_zstring as as_type
+		export
+			{ANY} as_type
+		end
+
 feature -- Status query
 
 	is_latin_1: BOOLEAN = False
 		-- `True' if type can be always be represented by Latin-1 encoded string
-
-feature -- Conversion
-
-	as_type (str: READABLE_STRING_GENERAL): ZSTRING
-		local
-			s: EL_ZSTRING_ROUTINES
-		do
-			Result := s.as_zstring (str)
-		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-08-17 15:05:05 GMT (Thursday 17th August 2023)"
+	revision: "9"
 
 class
 	JAVA_CLASS_REFERENCE
@@ -29,6 +29,8 @@ inherit
 			obsolete_object_attribute
 		end
 
+	EL_CHARACTER_8_CONSTANTS
+
 create
 	make
 
@@ -40,7 +42,7 @@ feature {NONE} -- Initialization
 			s: EL_STRING_8_ROUTINES
 		do
 			if package_name.count > 0 then
-				qualified_class_name := s.joined_with (<< package_name, jclass_name >>, s.character_string ('.'))
+				qualified_class_name := Dot.joined (package_name, jclass_name)
 			else
 				qualified_class_name := jclass_name
 			end

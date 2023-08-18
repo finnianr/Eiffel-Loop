@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 11:24:38 GMT (Wednesday 16th August 2023)"
-	revision: "25"
+	date: "2023-08-17 5:20:38 GMT (Thursday 17th August 2023)"
+	revision: "26"
 
 class
 	FEATURE_EDITOR_COMMAND
@@ -24,7 +24,7 @@ inherit
 			call
 		end
 
-	EL_CHARACTER_CONSTANTS
+	EL_CHARACTER_8_CONSTANTS
 
 create
 	make

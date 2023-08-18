@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-18 15:24:37 GMT (Tuesday 18th July 2023)"
-	revision: "30"
+	date: "2023-08-17 17:11:18 GMT (Thursday 17th August 2023)"
+	revision: "31"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -35,9 +35,9 @@ inherit
 			set_table_field
 		end
 
-	EL_MODULE_IP_ADDRESS
+	EL_MODULE_IP_ADDRESS; EL_MODULE_TUPLE
 
-	EL_MODULE_TUPLE
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make, make_from_table
@@ -104,10 +104,10 @@ feature -- Access
 
 	server_software_version: NATURAL
 		local
-			scalar: NATURAL; s: EL_ZSTRING_ROUTINES
+			scalar: NATURAL
 		do
 			scalar := 1_000_000
-			if attached server_software.substring_between (Forward_slash, s.character_string (' '), 1) as substring then
+			if attached server_software.substring_between (char ('/') * 1, space * 1, 1) as substring then
 				across substring.split ('.') as list loop
 					Result := Result + scalar * list.item.to_natural
 					scalar := scalar // 1000
@@ -234,11 +234,6 @@ feature {NONE} -- Constants
 	Snake_case_upper: EL_SNAKE_CASE_TRANSLATER
 		once
 			Result := {EL_CASE}.Upper
-		end
-
-	Forward_slash: ZSTRING
-		once
-			Result := "/"
 		end
 
 	Header_prefix: TUPLE [content, http: STRING]

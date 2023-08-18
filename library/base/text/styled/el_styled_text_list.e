@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 17:42:47 GMT (Monday 27th March 2023)"
-	revision: "6"
+	date: "2023-08-17 13:32:02 GMT (Thursday 17th August 2023)"
+	revision: "7"
 
 deferred class
 	EL_STYLED_TEXT_LIST [S -> STRING_GENERAL]
@@ -48,6 +48,8 @@ inherit
 		undefine
 			copy, is_equal
 		end
+
+	EL_SHARED_FILLED_STRING_TABLES
 
 feature {NONE} -- Initialization
 

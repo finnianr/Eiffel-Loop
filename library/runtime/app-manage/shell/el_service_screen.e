@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-06 12:24:20 GMT (Friday 6th January 2023)"
-	revision: "9"
+	date: "2023-08-17 16:22:38 GMT (Thursday 17th August 2023)"
+	revision: "10"
 
 class
 	EL_SERVICE_SCREEN
@@ -22,6 +22,8 @@ inherit
 		end
 
 	EL_MODULE_EXECUTABLE; EL_MODULE_TUPLE
+
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make_default
@@ -43,9 +45,9 @@ feature -- Access
 
 	menu_name (longest_name_count: INTEGER): ZSTRING
 		local
-			s: EL_ZSTRING_ROUTINES; left_adjust: ZSTRING
+			left_adjust: ZSTRING
 		do
-			left_adjust := s.n_character_string (' ', longest_name_count - name.count)
+			left_adjust := space * (longest_name_count - name.count)
 			Result := Name_template #$ [name, left_adjust, transition_name]
 		end
 

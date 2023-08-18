@@ -15,8 +15,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 10:20:52 GMT (Tuesday 15th August 2023)"
-	revision: "26"
+	date: "2023-08-17 5:20:38 GMT (Thursday 17th August 2023)"
+	revision: "27"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -29,7 +29,7 @@ inherit
 
 	EL_MODULE_FILE
 
-	EL_CHARACTER_CONSTANTS
+	EL_CHARACTER_8_CONSTANTS
 
 create
 	make

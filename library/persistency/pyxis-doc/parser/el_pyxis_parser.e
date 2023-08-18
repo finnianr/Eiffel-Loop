@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-13 12:49:42 GMT (Sunday 13th August 2023)"
-	revision: "51"
+	date: "2023-08-17 6:26:48 GMT (Thursday 17th August 2023)"
+	revision: "52"
 
 class
 	EL_PYXIS_PARSER
@@ -29,7 +29,7 @@ inherit
 
 	EL_PYXIS_PARSER_CONSTANTS
 
-	EL_CHARACTER_CONSTANTS
+	EL_CHARACTER_8_CONSTANTS
 
 create
 	make
@@ -261,7 +261,7 @@ feature {NONE} -- Parse events
 			attribute_list.reset
 			if attached declaration_comment as comment then
 				if not comment_string.is_empty then
-					comment_string.prepend_string (New_line * 2)
+					comment_string.prepend_string (new_line * 2)
 				end
 				comment_string.prepend (comment)
 			end

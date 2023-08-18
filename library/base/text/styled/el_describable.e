@@ -1,6 +1,6 @@
 note
 	description: "[
-		Object that is describeable by a [$source EL_STYLED_TEXT_LIST] list of strings where each string is
+		Object that is describable by a [$source EL_STYLED_TEXT_LIST] list of strings where each string is
 		mapped to a text style defined by class [$source EL_TEXT_STYLE].
 	]"
 
@@ -9,11 +9,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-08-17 13:18:57 GMT (Thursday 17th August 2023)"
+	revision: "9"
 
 deferred class
-	EL_DESCRIBEABLE
+	EL_DESCRIBABLE
 
 feature -- Access
 

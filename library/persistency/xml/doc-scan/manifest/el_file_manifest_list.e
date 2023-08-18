@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-30 12:15:10 GMT (Friday 30th June 2023)"
-	revision: "20"
+	date: "2023-08-17 16:21:36 GMT (Thursday 17th August 2023)"
+	revision: "21"
 
 class
 	EL_FILE_MANIFEST_LIST
@@ -28,14 +28,14 @@ inherit
 			make_empty
 		end
 
-	EL_ZSTRING_CONSTANTS
-
-	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
-
 	EL_FILE_OPEN_ROUTINES
 		rename
 			Append as Append_mode
 		end
+
+	EL_ZSTRING_CONSTANTS; EL_CHARACTER_32_CONSTANTS
+
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 create
 	make_empty, make_from_template_and_output, make_from_file, make_from_string
@@ -55,14 +55,14 @@ feature -- Access
 
 	manifest_digest: NATURAL
 		local
-			l_found: BOOLEAN; s: EL_ZSTRING_ROUTINES
+			l_found: BOOLEAN
 		do
 			if output_path.exists then
 				if attached open_lines (output_path, Utf_8) as lines then
 					lines.enable_shared_item
 					across lines as line until l_found loop
 						if line.item.has_substring (Digest_attribute) then
-							Result := line.item.substring_between (Digest_attribute, s.character_string ('"'), 1).to_natural_32
+							Result := line.item.substring_between (Digest_attribute, char ('"') * 1, 1).to_natural_32
 							l_found := True
 						end
 					end

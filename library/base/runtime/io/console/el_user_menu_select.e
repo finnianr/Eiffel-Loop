@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-25 14:30:05 GMT (Tuesday 25th April 2023)"
-	revision: "1"
+	date: "2023-08-17 15:52:12 GMT (Thursday 17th August 2023)"
+	revision: "2"
 
 class
 	EL_USER_MENU_SELECT
@@ -30,13 +30,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (
-		a_prompt: READABLE_STRING_GENERAL; a_option_list: like option_list
-		a_escape_option: like escape_option
-	)
+	make (a_prompt: READABLE_STRING_GENERAL; a_option_list: like option_list)
 		do
-			option_list := a_option_list; escape_option := a_escape_option
-			make_valid (a_prompt, "Invalid option number", agent valid_option)
+			option_list := a_option_list
+			make_valid (a_prompt, "Invalid option number", agent a_option_list.valid_index)
 		end
 
 feature -- Basic operations
@@ -46,13 +43,13 @@ feature -- Basic operations
 			index: INTEGER
 		do
 			index := value
-			if option_list.valid_index (index) then
-				option_list.go_i_th (index)
-			else
+			if escape_pressed or else not option_list.valid_index (index) then
 				option_list.start
 				if not option_list.off then
 					option_list.back
 				end
+			else
+				option_list.go_i_th (index)
 			end
 		end
 
@@ -60,10 +57,8 @@ feature {NONE} -- Implementation
 
 	line_input: ZSTRING
 		do
-			if attached escape_option as str then
-				lio.put_labeled_string (" 0", str)
-				lio.put_new_line
-			end
+			lio.put_line (User_input.Esc_to_quit)
+			lio.put_new_line
 			across option_list as list loop
 				lio.put_labeled_string (Format.padded_integer (list.cursor_index, 2), list.item)
 				lio.put_new_line
@@ -72,18 +67,7 @@ feature {NONE} -- Implementation
 			Result := Precursor
 		end
 
-	valid_option (index: INTEGER): BOOLEAN
-		do
-			if attached escape_option then
-				Result := index = 0 or else option_list.valid_index (index)
-			else
-				Result := option_list.valid_index (index)
-			end
-		end
-
 feature {NONE} -- Internal attributes
-
-	escape_option: detachable READABLE_STRING_GENERAL
 
 	option_list: LIST [READABLE_STRING_GENERAL]
 

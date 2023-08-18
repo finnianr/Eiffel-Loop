@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 17:07:16 GMT (Sunday 16th July 2023)"
-	revision: "13"
+	date: "2023-08-17 21:32:12 GMT (Thursday 17th August 2023)"
+	revision: "14"
 
 deferred class
 	EL_FILE_LEXER
@@ -21,16 +21,16 @@ inherit
 			make_default
 		end
 
+	EL_STRING_GENERAL_ROUTINES
+
 	TP_SHARED_OPTIMIZED_FACTORY
 
 feature {NONE} -- Initialization
 
 	make (a_source_text: READABLE_STRING_GENERAL)
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
 			make_default
-			set_source_text (s.as_zstring (a_source_text))
+			set_source_text (as_zstring (a_source_text))
 			fill_tokens_text
 		end
 

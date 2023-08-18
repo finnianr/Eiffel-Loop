@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2023-08-17 14:58:34 GMT (Thursday 17th August 2023)"
+	revision: "12"
 
 class
 	EL_FILE_SAVE_DIALOG
@@ -20,16 +20,9 @@ inherit
 			show_modal_to_window
 		end
 
-	EL_ZSTRING_ROUTINES
-		export
-			{NONE} all
-		undefine
-			copy, default_create
-		end
-
 	EL_MODULE_ACTION
 
-	EL_ZSTRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS; EL_CHARACTER_32_CONSTANTS
 
 create
 	make
@@ -63,7 +56,7 @@ feature -- Element change
 			filter_extensions.last.to_lower
 			wild_card := "*."
 			wild_card.append_string_general (extension)
-			l_description := l_extension.as_upper + character_string (' ') + description
+			l_description := space.joined (l_extension.as_upper, description)
 			filters.extend ([wild_card, Filter_template.substituted_tuple ([l_description, extension]).to_unicode])
 		end
 

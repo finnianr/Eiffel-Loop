@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-11 15:17:35 GMT (Friday 11th August 2023)"
-	revision: "22"
+	date: "2023-08-18 10:56:19 GMT (Friday 18th August 2023)"
+	revision: "23"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -21,7 +21,7 @@ inherit
 
 	STRING_HANDLER
 
-	EL_STRING_8_CONSTANTS; EL_CHARACTER_CONSTANTS
+	EL_STRING_8_CONSTANTS
 
 	EL_SIDE_ROUTINES
 		rename
@@ -318,7 +318,7 @@ feature -- Substring
 			if str.count <= max_count then
 				Result := str
 			else
-				Result := str.substring (1, max_count - 2) + Dot * 2
+				Result := str.substring (1, max_count - 2) + Character_string_8_table.item ('.', 2)
 			end
 		end
 

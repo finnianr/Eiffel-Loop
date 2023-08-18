@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 10:01:45 GMT (Wednesday 16th August 2023)"
-	revision: "22"
+	date: "2023-08-17 7:49:46 GMT (Thursday 17th August 2023)"
+	revision: "23"
 
 class
 	EL_HTML_ROUTINES
@@ -17,13 +17,12 @@ inherit
 
 	EL_MODULE_FILE; EL_MODULE_TUPLE; EL_MODULE_REUSEABLE; EL_MODULE_XML
 
-	EL_CHARACTER_CONSTANTS
-
 feature -- Access
 
 	anchor_name (name: ZSTRING): ZSTRING
 		do
-			Result := name.translated (Space #* 1, Underscore #* 1)
+			Result := name.twin
+			Result.replace_character (' ', '_')
 		end
 
 	anchor_reference (name: ZSTRING): ZSTRING

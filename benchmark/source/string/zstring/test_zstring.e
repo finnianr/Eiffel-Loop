@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-07 10:43:44 GMT (Tuesday 7th February 2023)"
-	revision: "4"
+	date: "2023-08-17 17:13:21 GMT (Thursday 17th August 2023)"
+	revision: "5"
 
 class
 	TEST_ZSTRING
@@ -99,7 +99,7 @@ feature -- Basic operations
 
 	translate_general (str: ZSTRING; old_characters, new_characters: READABLE_STRING_GENERAL)
 		do
-			str.translate_general (old_characters, new_characters)
+			str.translate (old_characters, new_characters)
 		end
 
 	wipe_out (str: ZSTRING)

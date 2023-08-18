@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-31 15:08:09 GMT (Monday 31st July 2023)"
-	revision: "30"
+	date: "2023-08-18 13:26:00 GMT (Friday 18th August 2023)"
+	revision: "31"
 
 class
 	EIFFEL_NOTES
@@ -22,15 +22,9 @@ inherit
 
 	EL_EIFFEL_KEYWORDS
 
-	EL_MODULE_USER_INPUT
+	EL_MODULE_STRING; EL_MODULE_USER_INPUT; EL_MODULE_XML
 
-	EL_MODULE_XML
-
-	SHARED_CLASS_PATH_TABLE
-
-	SHARED_ISE_CLASS_TABLE
-
-	SHARED_INVALID_CLASSNAMES
+	SHARED_CLASS_PATH_TABLE; SHARED_ISE_CLASS_TABLE; SHARED_INVALID_CLASSNAMES
 
 create
 	make, make_default
@@ -150,7 +144,7 @@ feature {NONE} -- Line states
 
 	find_field_text_start (line: ZSTRING)
 		local
-			pos_quote: INTEGER; text: ZSTRING; s: EL_ZSTRING_ROUTINES
+			pos_quote: INTEGER; text: ZSTRING
 		do
 			pos_quote := line.index_of ('"', 1)
 			if pos_quote > 0 then
@@ -159,7 +153,7 @@ feature {NONE} -- Line states
 					when '"' then
 						text.remove_tail (1)
 						if last_field_name ~ Field_description
-							and then Standard_descriptions.there_exists (agent s.starts_with (text, ?))
+							and then Standard_descriptions.there_exists (agent String.starts_with (text, ?))
 						then
 							text.wipe_out
 						end
@@ -201,7 +195,7 @@ feature {NONE} -- Line states
 
 	find_note_section_end (line: ZSTRING)
 		local
-			s: EL_ZSTRING_ROUTINES; field: EL_COLON_FIELD_ROUTINES
+			field: EL_COLON_FIELD_ROUTINES
 		do
 			if not note_lines.is_empty then
 				if selected_fields.has (last_field_name) or else last_field_name ~ Field_description then
@@ -209,7 +203,7 @@ feature {NONE} -- Line states
 				end
 				note_lines.wipe_out
 			end
-			Note_end_keywords.find_first_true (agent s.starts_with (line, ?))
+			Note_end_keywords.find_first_true (agent String.starts_with (line, ?))
 			if Note_end_keywords.found then
 				state := agent find_note_section
 

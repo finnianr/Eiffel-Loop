@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-04 9:56:44 GMT (Sunday 4th June 2023)"
-	revision: "19"
+	date: "2023-08-17 16:44:24 GMT (Thursday 17th August 2023)"
+	revision: "20"
 
 deferred class
 	EL_WORD_SEARCHABLE
+
+inherit
+	EL_CHARACTER_32_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -100,7 +103,7 @@ feature {EL_WORD_SEARCHABLE} -- Implementation
 			start_index := (pos_match - Keyword_quote_leeway).max (1)
 			end_index := (pos_match + keyword_tokens.count - 1 + Keyword_quote_leeway).min (searchable_tokens.count)
 			if start_index > 1 then
-				Result.extend ({EL_TEXT_STYLE}.Regular, Ellipsis)
+				Result.extend ({EL_TEXT_STYLE}.Regular, Dot * 2)
 			end
 			if start_index < pos_match then
 				token_list := searchable_tokens.substring (start_index, pos_match - 1)
@@ -112,7 +115,7 @@ feature {EL_WORD_SEARCHABLE} -- Implementation
 				Result.extend ({EL_TEXT_STYLE}.Regular, word_table.tokens_to_string (token_list))
 			end
 			if end_index < searchable_tokens.count then
-				Result.extend ({EL_TEXT_STYLE}.Regular, Ellipsis)
+				Result.extend ({EL_TEXT_STYLE}.Regular, Dot * 2)
 			end
 		end
 
@@ -147,14 +150,6 @@ feature {NONE} -- Constants
 	Once_searchable_paragraphs: EL_ZSTRING_LIST
 		once
 			create Result.make_empty
-		end
-
-	Ellipsis: ZSTRING
-			--
-		local
-			s: EL_ZSTRING_ROUTINES
-		once
-			Result := s.n_character_string ('.', 2)
 		end
 
 end

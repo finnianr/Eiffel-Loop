@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-17 10:35:20 GMT (Saturday 17th December 2022)"
-	revision: "26"
+	date: "2023-08-17 21:31:15 GMT (Thursday 17th August 2023)"
+	revision: "27"
 
 class
 	EL_OBJECT_FACTORY [G]
@@ -27,6 +27,8 @@ inherit
 		redefine
 			default_create
 		end
+
+	EL_STRING_GENERAL_ROUTINES
 
 	EL_MODULE_EIFFEL
 
@@ -45,12 +47,12 @@ feature {NONE} -- Initialization
 		require
 			not_empty: not mapping_table.is_empty
 		local
-			key: ZSTRING; s: EL_ZSTRING_ROUTINES
+			key: ZSTRING
 		do
 			default_create
 			types_indexed_by_name.accommodate (mapping_table.count)
 			across mapping_table as map loop
-				key := s.as_zstring (map.item.name)
+				key := as_zstring (map.item.name)
 				if map.cursor_index = 1 then
 					default_alias := key
 				end

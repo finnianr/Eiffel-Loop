@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-11 15:18:03 GMT (Friday 11th August 2023)"
-	revision: "7"
+	date: "2023-08-17 5:45:41 GMT (Thursday 17th August 2023)"
+	revision: "8"
 
 class
 	TP_ALL_IN_LIST
@@ -29,7 +29,7 @@ inherit
 			do_all as do_for_each
 		end
 
-	EL_CHARACTER_CONSTANTS
+	EL_CHARACTER_8_CONSTANTS
 
 create
 	make, make_from_other, make_default, make_separated
@@ -228,7 +228,7 @@ feature {NONE} -- Implementation
 				if curtailed and then Result.character_count > 200 then
 					done := True
 					if not list.is_last then
-						Result.extend (Dot * 2)
+						Result.extend (dot * 2)
 					end
 				end
 			end

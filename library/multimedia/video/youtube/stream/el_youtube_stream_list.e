@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-26 13:43:51 GMT (Wednesday 26th April 2023)"
-	revision: "8"
+	date: "2023-08-17 16:04:13 GMT (Thursday 17th August 2023)"
+	revision: "9"
 
 deferred class
 	EL_YOUTUBE_STREAM_LIST
@@ -22,11 +22,11 @@ inherit
 			{ANY} count, valid_index, selected, off
 		end
 
-	EL_MODULE_LIO
+	EL_MODULE_LIO; EL_MODULE_USER_INPUT
 
 	EL_YOUTUBE_CONSTANTS
 
-	EL_STRING_8_CONSTANTS
+	EL_STRING_8_CONSTANTS; EL_CHARACTER_8_CONSTANTS
 
 feature -- Access
 
@@ -87,15 +87,14 @@ feature {NONE} -- Implementation
 
 	display_menu
 		local
-			s: EL_STRING_8_ROUTINES; name_count: INTEGER
+			name_count: INTEGER
 		do
 			lio.put_line (type.as_upper + " STREAMS")
+			lio.put_line (User_input.Esc_to_quit)
 			lio.put_new_line
 			across Current as list loop
 				if list.is_first then
 					name_count := list.item.name.count
-					lio.put_labeled_string (" 0. Quit" + s.n_character_string (' ', name_count - 8), Empty_string_8)
-					lio.put_new_line
 				end
 				lio.put_labeled_string (list.item.name, list.item.description)
 				lio.put_new_line
@@ -106,7 +105,7 @@ feature {NONE} -- Implementation
 
 	valid_input (i: INTEGER): BOOLEAN
 		do
-			Result := i = 0 or else valid_index (i)
+			Result := valid_index (i)
 		end
 
 feature {NONE} -- Deferred

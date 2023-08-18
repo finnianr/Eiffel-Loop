@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-08-17 16:37:18 GMT (Thursday 17th August 2023)"
+	revision: "11"
 
 class
 	EL_GET_GNOME_SETTING_COMMAND
@@ -19,6 +19,8 @@ inherit
 		end
 
 	EL_GNOME_SETTING_COMMAND
+
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make
@@ -67,8 +69,8 @@ feature -- Setting values
 			put_string (Var.key, key_name)
 			execute
 			if lines.count > 0 then
-				if lines.first.occurrences (''') = 2 then
-					Result := lines.first.substring_between (Single_quote, Single_quote, 1)
+				if lines.first.occurrences ('%'') = 2 and then attached (char ('%'') * 1) as single_quote then
+					Result := lines.first.substring_between (single_quote, single_quote, 1)
 				else
 					Result := lines.first
 				end
@@ -78,13 +80,6 @@ feature -- Setting values
 		end
 
 feature {NONE} -- Constants
-
-	Single_quote: ZSTRING
-		local
-			zstring: EL_ZSTRING_ROUTINES
-		once
-			Result := zstring.character_string (''')
-		end
 
 	Template: STRING
 		once

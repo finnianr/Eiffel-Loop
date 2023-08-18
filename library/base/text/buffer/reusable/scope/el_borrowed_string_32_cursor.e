@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-27 6:09:49 GMT (Thursday 27th July 2023)"
-	revision: "5"
+	date: "2023-08-18 8:08:11 GMT (Friday 18th August 2023)"
+	revision: "6"
 
 class
 	EL_BORROWED_STRING_32_CURSOR
@@ -43,8 +43,6 @@ feature -- Access
 			if attached {ZSTRING} general as zstr then
 				zstr.append_to_string_32 (Result)
 
-			elseif attached {READABLE_STRING_32} general as str_32 then
-				Result.append (str_32)
 			else
 				Result.append_string_general (general)
 			end

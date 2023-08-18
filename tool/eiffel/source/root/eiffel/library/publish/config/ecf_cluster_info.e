@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 9:42:30 GMT (Wednesday 16th August 2023)"
-	revision: "16"
+	date: "2023-08-17 6:10:48 GMT (Thursday 17th August 2023)"
+	revision: "17"
 
 class
 	ECF_CLUSTER_INFO
@@ -20,7 +20,7 @@ inherit
 			cluster_xpath, description, description_xpath, type_qualifier, html_index_path
 		end
 
-	EL_CHARACTER_CONSTANTS
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make
@@ -74,7 +74,7 @@ feature -- Access
 	html_index_path: FILE_PATH
 		-- relative path to html index for ECF, and qualified with cluster name when specified in config.pyx
 		do
-			Result := path.with_new_extension (name + Dot #* 1 + Html)
+			Result := path.with_new_extension (dot.joined (name, Html))
 		end
 
 	name: ZSTRING

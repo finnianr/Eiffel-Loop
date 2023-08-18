@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 9:33:44 GMT (Wednesday 16th August 2023)"
-	revision: "28"
+	date: "2023-08-17 5:53:54 GMT (Thursday 17th August 2023)"
+	revision: "29"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I
@@ -44,7 +44,7 @@ inherit
 
 	EL_MODULE_BUILD_INFO
 
-	EL_CHARACTER_CONSTANTS
+	EL_CHARACTER_32_CONSTANTS
 
 feature -- Element change
 
@@ -75,7 +75,7 @@ feature -- Access
 		-- and so forth
 		do
 			if step_count = 0 then
-				Result := Dot #* 1
+				Result := dot * 1
 			else
 				Result := Parent.twin
 				Result.multiply (step_count)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:04 GMT (Monday 20th March 2023)"
-	revision: "33"
+	date: "2023-08-17 21:38:06 GMT (Thursday 17th August 2023)"
+	revision: "34"
 
 deferred class
 	TB_XHTML_FOLDER_EXPORTER
@@ -23,10 +23,10 @@ inherit
 			entity as xml_entity
 		end
 
-	EL_HTML_CONSTANTS
-
 	EL_MODULE_BUFFER; EL_MODULE_DATE_TIME; EL_MODULE_FILE
 	EL_MODULE_LIO; EL_MODULE_DIRECTORY; EL_MODULE_EXCEPTION
+
+	EL_CHARACTER_32_CONSTANTS; EL_HTML_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -71,8 +71,6 @@ feature {NONE} -- Implementation
 		end
 
 	edit (html_doc: ZSTRING)
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
 			-- Remove surplus breaks
 			across Text_tags as l_tag loop
@@ -88,13 +86,13 @@ feature {NONE} -- Implementation
 
 			-- Change <br> to <br/>
 			across Unclosed_tags as l_tag loop
-				html_doc.edit (l_tag.item, s.character_string ('>'), agent close_empty_tag)
+				html_doc.edit (l_tag.item, char ('>') * 1, agent close_empty_tag)
 			end
-			html_doc.edit (s.character_string ('&'), s.character_string (';'), agent substitute_html_entities)
-			html_doc.edit (Tag_start.image, s.character_string ('>'), agent edit_image_tag)
-			html_doc.edit (Tag_start.anchor, s.character_string ('>'), agent edit_anchor_tag)
+			html_doc.edit (char ('&') * 1, char (';') * 1, agent substitute_html_entities)
+			html_doc.edit (Tag_start.image, char ('>') * 1, agent edit_image_tag)
+			html_doc.edit (Tag_start.anchor, char ('>') * 1, agent edit_anchor_tag)
 			across << Attribute_start.alt, Attribute_start.title >> as start loop
-				html_doc.edit (start.item, s.character_string ('"'), agent normalize_attribute_text)
+				html_doc.edit (start.item, char ('"') * 1, agent normalize_attribute_text)
 			end
 		end
 
@@ -219,10 +217,10 @@ feature {NONE} -- Editing
 
 	remove_trailing_breaks (start_index, end_index: INTEGER; target: ZSTRING)
 		local
-			pos_trailing: INTEGER; trailing: ZSTRING; s: EL_ZSTRING_ROUTINES
+			pos_trailing: INTEGER; trailing: ZSTRING
 		do
 			if is_tag_start (start_index, end_index, target) then
-	 			pos_trailing := target.substring_index (s.character_string ('>'), start_index) + 1
+	 			pos_trailing := target.substring_index (char ('>') * 1, start_index) + 1
 	 			if target.substring_index (Tag.break.open, pos_trailing) > 0 then
 		 			trailing := target.substring (pos_trailing, end_index)
 		 			trailing.replace_substring_all (Tag.break.open, Empty_string)

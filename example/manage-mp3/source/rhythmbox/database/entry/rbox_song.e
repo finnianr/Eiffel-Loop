@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-07 8:38:47 GMT (Tuesday 7th March 2023)"
-	revision: "57"
+	date: "2023-08-18 13:11:08 GMT (Friday 18th August 2023)"
+	revision: "58"
 
 class
 	RBOX_SONG
@@ -41,7 +41,7 @@ inherit
 
 	EL_ZSTRING_CONSTANTS
 
-	EL_MODULE_FILE; EL_MODULE_OS
+	EL_MODULE_FILE; EL_MODULE_OS; EL_MODULE_STRING
 
 create
 	make
@@ -129,7 +129,6 @@ feature -- Access
 		local
 			artists, info: ZSTRING; tanda_name: EL_ZSTRING_LIST
 			destination_dir: DIR_PATH; destination_path: FILE_PATH
-			s: EL_ZSTRING_ROUTINES
 		do
 			artists := lead_artist.twin
 			if not album_artists.list.is_empty then
@@ -154,7 +153,7 @@ feature -- Access
 			if is_nokia_phone then
 				Result := destination_path.as_windows
 			else
-				Result := M3U.extinf + info + s.character_string ('%N') + destination_path
+				Result := M3U.extinf + new_line.joined (info, destination_path)
 			end
 		end
 
@@ -280,7 +279,7 @@ feature -- Element change
 	set_album_artists (text: ZSTRING)
 			--
 		local
-			s: EL_ZSTRING_ROUTINES; csv_list: EL_ZSTRING_LIST; l_type: ZSTRING
+			csv_list: EL_ZSTRING_LIST; l_type: ZSTRING
 			field: EL_COLON_FIELD_ROUTINES
 		do
 			if not (text.is_empty or text ~ Unknown_string) then
@@ -290,7 +289,7 @@ feature -- Element change
 					album_artists := [Unknown_string, csv_list]
 				else
 					csv_list := field.value (text)
-					Artist_type_list.find_first_true (agent s.starts_with (l_type, ?))
+					Artist_type_list.find_first_true (agent String.starts_with (l_type, ?))
 					if Artist_type_list.after then
 						album_artists := [l_type, csv_list]
 					else

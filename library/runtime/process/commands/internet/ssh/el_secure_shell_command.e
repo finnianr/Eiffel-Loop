@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-08-17 16:28:35 GMT (Thursday 17th August 2023)"
+	revision: "8"
 
 deferred class
 	EL_SECURE_SHELL_COMMAND
 
 inherit
 	EL_SHARED_OPERATING_ENVIRON
+
+	EL_CHARACTER_32_CONSTANTS
 
 feature -- Access
 
@@ -60,8 +62,7 @@ feature {NONE} -- Implementation
 		require
 			is_absolute: a_path.is_absolute
 		local
-			s: EL_ZSTRING_ROUTINES; start_index: INTEGER
-			local_user, remote_user: ZSTRING
+			start_index: INTEGER; local_user, remote_user: ZSTRING
 		do
 			Result := a_path.escaped
 			local_user := Operating_environ.user_name; remote_user := user_name
@@ -73,7 +74,7 @@ feature {NONE} -- Implementation
 				end
 			end
 			if {PLATFORM}.is_unix and then Result.has ('\') then
-				Result.replace_substring_all (s.character_string ('\'), s.n_character_string ('\', 2))
+				Result.replace_substring_all (char ('\') * 1, char ('\') * 2)
 			end
 		end
 

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 9:19:56 GMT (Wednesday 16th August 2023)"
-	revision: "21"
+	date: "2023-08-17 7:38:01 GMT (Thursday 17th August 2023)"
+	revision: "22"
 
 class
 	REGULAR_EXPRESSION_SEARCH_COMMAND
@@ -26,7 +26,7 @@ inherit
 
 	EL_MODULE_STRING_8; EL_MODULE_USER_INPUT
 
-	EL_ENCODING_CONSTANTS; EL_CHARACTER_CONSTANTS
+	EL_ENCODING_CONSTANTS
 
 	GREP_RESULT_CONSTANTS
 
@@ -177,7 +177,7 @@ feature {NONE} -- Implementation
 						source_path := a_source_dir + line.substring (1, index_colon - 1)
 						line.remove_head (index_colon)
 					else
-						line.prepend (Space.as_zstring (5 - index_colon))
+						line.prepend (space * (5 - index_colon))
 					end
 				end
 				i := i + 1

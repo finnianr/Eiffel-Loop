@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
-	revision: "22"
+	date: "2023-08-17 21:32:32 GMT (Thursday 17th August 2023)"
+	revision: "23"
 
 class
 	EL_SEARCH_TERM_PARSER [G -> EL_WORD_SEARCHABLE]
@@ -29,6 +29,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_STRING_GENERAL_ROUTINES
 
 	STRING_HANDLER
 
@@ -191,9 +193,8 @@ feature {NONE} -- Match actions
 			--
 		local
 			word_tokens: EL_WORD_TOKEN_LIST; text: ZSTRING
-			s: EL_ZSTRING_ROUTINES
 		do
-			text := s.as_zstring (general)
+			text := as_zstring (general)
 			if not text.is_empty and then text [text.count] = '*' then
 				text.remove_tail (1); add_wildcard_term (text)
 			else

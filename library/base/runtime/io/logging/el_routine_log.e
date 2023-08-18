@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-11 15:17:02 GMT (Friday 11th August 2023)"
-	revision: "31"
+	date: "2023-08-17 5:49:22 GMT (Thursday 17th August 2023)"
+	revision: "32"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -19,7 +19,7 @@ inherit
 
 	EL_MODULE_REUSEABLE
 
-	EL_CHARACTER_CONSTANTS
+	EL_CHARACTER_8_CONSTANTS
 
 feature -- Status
 
@@ -220,7 +220,7 @@ feature -- Output
 			--
 		do
 			if attached output as op then
-				op.put_string (Space * n)
+				op.put_string (space * n)
 				op.flush
 			end
 		end

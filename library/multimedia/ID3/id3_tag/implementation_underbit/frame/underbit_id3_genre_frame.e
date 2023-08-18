@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2023-08-18 7:57:55 GMT (Friday 18th August 2023)"
+	revision: "3"
 
 class
 	UNDERBIT_ID3_GENRE_FRAME
@@ -18,6 +18,8 @@ inherit
 			string
 		end
 
+	UNDERBIT_ID3_STRING_ROUTINES
+	
 create
 	make, make_new
 
@@ -33,15 +35,14 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	genre_string (index: INTEGER): STRING
+	genre_string (index: INTEGER): ZSTRING
 			--
 		local
-			ucs4_ptr: POINTER; latin1: EL_C_STRING_8
+			ucs4_ptr: POINTER
 		do
 			ucs4_ptr := c_id3_genre_index (index)
 			if is_attached (ucs4_ptr) then
-				create latin1.make_owned (c_id3_ucs4_latin1duplicate (ucs4_ptr))
-				Result := latin1.as_string_8
+				Result := from_ucs_4 (ucs4_ptr)
 			else
 				create Result.make_empty
 			end

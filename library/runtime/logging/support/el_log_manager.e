@@ -10,24 +10,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "18"
+	date: "2023-08-17 21:22:29 GMT (Thursday 17th August 2023)"
+	revision: "19"
 
 class
 	EL_LOG_MANAGER
 
 inherit
+	EL_STRING_GENERAL_ROUTINES
+
 	EL_MODULE_LOGGING
 
 	EL_SINGLE_THREAD_ACCESS
 
-	EL_MODULE_CONSOLE
-
-	EL_MODULE_DIRECTORY
-
-	EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_ARGS
+	EL_MODULE_ARGS; EL_MODULE_CONSOLE; EL_MODULE_DIRECTORY; EL_MODULE_FILE_SYSTEM
 
 	EL_SHARED_DIRECTORY
 		rename
@@ -321,12 +317,12 @@ feature {NONE} -- Implementation
 	log_file_path (name: READABLE_STRING_GENERAL): FILE_PATH
 			--
 		local
-			version_path: FILE_PATH; s: EL_ZSTRING_ROUTINES
+			version_path: FILE_PATH
 		do
 			if not output_directory.exists then
 				File_system.make_directory (output_directory)
 			end
-			version_path := output_directory + (s.as_zstring (name) + ".001." + Default_log_file_extension)
+			version_path := output_directory + (as_zstring (name) + ".001." + Default_log_file_extension)
 			Result := version_path.next_version_path
 		end
 

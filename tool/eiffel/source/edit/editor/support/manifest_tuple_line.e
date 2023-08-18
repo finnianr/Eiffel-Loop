@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 9:24:29 GMT (Wednesday 16th August 2023)"
-	revision: "2"
+	date: "2023-08-17 7:42:36 GMT (Thursday 17th August 2023)"
+	revision: "3"
 
 class
 	MANIFEST_TUPLE_LINE
@@ -19,7 +19,7 @@ class
 inherit
 	ANY
 
-	EL_CHARACTER_CONSTANTS
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make
@@ -86,9 +86,9 @@ feature -- Element change
 					space_insertion_count := remainder_count \\ Spaces_per_tab
 				end
 
-				text.replace_substring (
-					Tab #* tab_insertion_count + Space #* space_insertion_count, comma_index + 1, item_index - 1
-				)
+				if attached (tab * tab_insertion_count + space * space_insertion_count) as white_space then
+					text.replace_substring (white_space, comma_index + 1, item_index - 1)
+				end
 			end
 		end
 

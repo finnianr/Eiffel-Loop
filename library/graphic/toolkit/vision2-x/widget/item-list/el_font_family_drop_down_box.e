@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-07 8:22:47 GMT (Monday 7th August 2023)"
-	revision: "2"
+	date: "2023-08-17 21:28:08 GMT (Thursday 17th August 2023)"
+	revision: "3"
 
 class
 	EL_FONT_FAMILY_DROP_DOWN_BOX
@@ -27,10 +27,8 @@ feature {NONE} -- Initialization
 		a_initial_value: READABLE_STRING_GENERAL; a_value_list: ITERABLE [ZSTRING]
 		change_action: PROCEDURE [ZSTRING]
 	)
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
-			make_drop_down (s.as_zstring (a_initial_value), a_value_list, change_action)
+			make_drop_down (as_zstring (a_initial_value), a_value_list, change_action)
 		end
 
 	make_system (a_initial_value: READABLE_STRING_GENERAL; change_action: PROCEDURE [ZSTRING])

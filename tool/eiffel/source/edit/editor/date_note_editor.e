@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 9:29:34 GMT (Wednesday 16th August 2023)"
-	revision: "14"
+	date: "2023-08-17 7:43:23 GMT (Thursday 17th August 2023)"
+	revision: "15"
 
 class
 	DATE_NOTE_EDITOR
@@ -25,7 +25,7 @@ inherit
 			edit as file_edit
 		end
 
-	EL_CHARACTER_CONSTANTS
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make
@@ -65,7 +65,7 @@ feature {NONE} -- Implementation
 
 	correct (line: ZSTRING)
 		do
-			line.replace_substring_all (Space #* 2, Space #* 1)
+			line.replace_substring_all (space * 2, space * 1)
 		end
 
 feature {NONE} -- Constants

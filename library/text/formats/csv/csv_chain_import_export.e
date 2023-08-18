@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 11:24:17 GMT (Monday 14th August 2023)"
-	revision: "2"
+	date: "2023-08-17 5:44:22 GMT (Thursday 17th August 2023)"
+	revision: "3"
 
 deferred class
 	CSV_CHAIN_IMPORT_EXPORT [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -27,7 +27,7 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
-	EL_CHARACTER_CONSTANTS
+	EL_CHARACTER_8_CONSTANTS
 
 feature -- Basic operations
 
@@ -43,7 +43,7 @@ feature -- Basic operations
 			across Current as list loop
 				if attached {EL_STORABLE} list.item as item implies not item.is_deleted then
 					if file.position = 0 then
-						file.put_string_8 (s.joined_with (list.item.field_name_list, Comma * 1))
+						file.put_string_8 (s.joined_with (list.item.field_name_list, comma * 1))
 						file.put_new_line
 					end
 					line.wipe_out

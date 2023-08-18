@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-26 13:27:03 GMT (Wednesday 26th April 2023)"
-	revision: "8"
+	date: "2023-08-17 15:40:28 GMT (Thursday 17th August 2023)"
+	revision: "9"
 
 class
 	EL_YOUTUBE_VIDEO_STREAM_LIST
@@ -43,7 +43,7 @@ feature {NONE} -- Implementation
 
 	valid_input (i: INTEGER): BOOLEAN
 		do
-			Result := i = count + 1 or else precursor (i)
+			Result := i = count + 1 or else valid_index (i)
 		end
 
 end

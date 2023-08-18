@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 9:05:24 GMT (Wednesday 16th August 2023)"
-	revision: "37"
+	date: "2023-08-17 7:23:18 GMT (Thursday 17th August 2023)"
+	revision: "38"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -28,8 +28,6 @@ inherit
 	EL_MODULE_ITERABLE; EL_MODULE_CONVERT_STRING
 
 	EL_SHARED_CLASS_ID
-
-	EL_CHARACTER_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -219,14 +217,19 @@ feature -- Format items
 			pop_cursor
 		end
 
-	unindent
-			-- remove one tab character from each line
+	unindent (tab_count: INTEGER)
+		-- remove maximum of `tab_count' tab characters from the start of each line `item'
 		require
 			is_indented: is_indented
+		local
+			smaller_count: INTEGER
 		do
 			push_cursor
 			from start until after loop
-				item.keep_tail (item.count - 1)
+				smaller_count := tab_count.min (item_indent)
+				if smaller_count > 0 then
+					item.keep_tail (item.count - smaller_count)
+				end
 				forth
 			end
 			pop_cursor

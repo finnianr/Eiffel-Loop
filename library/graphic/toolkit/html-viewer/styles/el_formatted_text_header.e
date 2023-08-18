@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-08-17 14:49:44 GMT (Thursday 17th August 2023)"
+	revision: "7"
 
 class
 	EL_FORMATTED_TEXT_HEADER
@@ -15,7 +15,8 @@ class
 inherit
 	EL_FORMATTED_TEXT_BLOCK
 		rename
-			make as make_paragraph
+			make as make_paragraph,
+			first_text as text
 		redefine
 			set_format, separate_from_previous
 		end
@@ -34,11 +35,6 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	level: INTEGER
-
-	text: ZSTRING
-		do
-			Result := paragraphs.first.text
-		end
 
 feature -- Basic operations
 

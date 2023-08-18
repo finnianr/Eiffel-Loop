@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 10:02:19 GMT (Wednesday 16th August 2023)"
-	revision: "30"
+	date: "2023-08-17 21:34:33 GMT (Thursday 17th August 2023)"
+	revision: "31"
 
 class
 	EL_PYXIS_XML_ROUTINES
 
 inherit
 	ANY
+
+	EL_STRING_GENERAL_ROUTINES
 
 	EL_MODULE_FILE
 
@@ -59,10 +61,8 @@ feature -- Access
 		end
 
 	escaped (str: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): ZSTRING
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
-			Result := Python.escaped (s.as_zstring (str), keep_ref)
+			Result := Python.escaped (as_zstring (str), keep_ref)
 		end
 
 	encoding (file_path: FILE_PATH): EL_MARKUP_ENCODING

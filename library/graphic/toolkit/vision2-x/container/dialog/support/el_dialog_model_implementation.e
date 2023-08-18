@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-28 12:55:10 GMT (Wednesday 28th June 2023)"
-	revision: "1"
+	date: "2023-08-17 21:35:06 GMT (Thursday 17th August 2023)"
+	revision: "2"
 
 deferred class
 	EL_DIALOG_MODEL_IMPLEMENTATION
 
 inherit
 	ANY
+
+	EL_STRING_GENERAL_ROUTINES
 
 	EL_MODULE_ITERABLE; EL_MODULE_SCREEN
 
@@ -40,11 +42,11 @@ feature {NONE} -- Implementation
 
 	new_paragraph_list (list_general: ITERABLE [READABLE_STRING_GENERAL]): EL_ZSTRING_LIST
 		local
-			lines: EL_ZSTRING_LIST; l_text: ZSTRING; s: EL_ZSTRING_ROUTINES
+			lines: EL_ZSTRING_LIST; l_text: ZSTRING
 		do
 			create Result.make (Iterable.count (list_general))
 			across list_general as paragraph loop
-				l_text := s.as_zstring (paragraph.item)
+				l_text := as_zstring (paragraph.item)
 				if text.has ('%N') then
 					create lines.make_with_lines (l_text)
 					Result.extend (lines.joined_words)

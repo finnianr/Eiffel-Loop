@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-21 19:21:11 GMT (Friday 21st July 2023)"
-	revision: "26"
+	date: "2023-08-17 14:16:25 GMT (Thursday 17th August 2023)"
+	revision: "27"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -26,12 +26,13 @@ inherit
 			is_sortable as is_key_sortable,
 			has as has_key,
 			put_front as put_key_front,
+			replace as replace_key,
 			sort as sort_by_key,
 			search as search_key
 		export
 			{NONE} append, duplicate, key_extend, merge_left, merge_right,
 				put_key_front, prune, prune_all, put_left, put_right,
-				remove_left, remove_right, replace, swap
+				remove_left, remove_right, swap
 		redefine
 			make, new_cursor, remove, sort_by_key, wipe_out, grow, resize, trim
 		end
@@ -201,6 +202,12 @@ feature -- Element change
 			valid_index: valid_index (i)
 		do
 			internal_value_list.put_i_th (a_value, i)
+		end
+
+	replace (key: K; value: G)
+		do
+			replace_key (key)
+			internal_value_list.put_i_th (value, index)
 		end
 
 	set_key_item (key: like item_key; value: like item_value)

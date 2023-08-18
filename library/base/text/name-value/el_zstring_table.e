@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 11:17:15 GMT (Sunday 18th December 2022)"
-	revision: "13"
+	date: "2023-08-17 21:15:41 GMT (Thursday 17th August 2023)"
+	revision: "14"
 
 class
 	EL_ZSTRING_TABLE
@@ -29,17 +29,17 @@ inherit
 			make as make_with_count
 		end
 
+	EL_STRING_GENERAL_ROUTINES
+
 create
 	make, make_with_count
 
 feature {NONE} -- Initialization
 
 	make (general: READABLE_STRING_GENERAL)
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
 			make_equal (general.occurrences (':'))
-			across s.as_zstring (general).split ('%N') as split loop
+			across as_zstring (general).split ('%N') as split loop
 				add_line (split.item_copy)
 			end
 		end

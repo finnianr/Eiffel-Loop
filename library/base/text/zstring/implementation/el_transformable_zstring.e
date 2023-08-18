@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 11:22:37 GMT (Wednesday 16th August 2023)"
-	revision: "47"
+	date: "2023-08-17 6:16:00 GMT (Thursday 17th August 2023)"
+	revision: "48"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -21,7 +21,7 @@ inherit
 
 	EL_PREPENDABLE_ZSTRING
 
-	EL_CHARACTER_CONSTANTS
+	EL_CHARACTER_32_CONSTANTS
 
 feature {EL_READABLE_ZSTRING} -- Basic operations
 
@@ -234,7 +234,7 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 	expand_tabs (space_count: INTEGER)
 		-- replace tabs with spaces
 		do
-			replace_substring_all (Tab #* 1, Space #* space_count)
+			replace_substring_all (tab * 1, space * space_count)
 		end
 
 	replace_character (uc_old, uc_new: CHARACTER_32)

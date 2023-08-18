@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-08-17 15:06:04 GMT (Thursday 17th August 2023)"
+	revision: "8"
 
 class
 	J_OBJECT_ARRAY [G -> JAVA_OBJECT_REFERENCE create make, make_from_pointer end]
@@ -26,6 +26,8 @@ inherit
 		end
 
 	EL_MODULE_EIFFEL
+
+	EL_CHARACTER_8_CONSTANTS
 
 create
 	make, default_create
@@ -85,10 +87,8 @@ feature {NONE} -- Implementation
 
 	jni_type_signature: STRING
 			--
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			Result := s.character_string ('[') + new_item.jni_type_signature
+			Result := char ('[') * 1 + new_item.jni_type_signature
 		end
 
 	new_item: G

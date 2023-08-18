@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "18"
+	date: "2023-08-17 16:12:14 GMT (Thursday 17th August 2023)"
+	revision: "19"
 
 class
 	EL_BOOK_CHAPTER
@@ -23,7 +23,7 @@ inherit
 
 	EL_MODULE_DATE_TIME; EL_MODULE_XML
 
-	EL_ZSTRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS; EL_CHARACTER_32_CONSTANTS
 
 create
 	make
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 
 	make (a_title: ZSTRING; a_number: NATURAL; modification_date: EL_DATE_TIME; a_text: EL_ZSTRING output_dir: DIR_PATH)
 		local
-			h_tag: like XML.tag; base_name: ZSTRING; s: EL_ZSTRING_ROUTINES
+			h_tag: like XML.tag; base_name: ZSTRING
 		do
 			create image_list.make (5)
 			create section_table.make_equal (5)
@@ -56,7 +56,7 @@ feature {NONE} -- Initialization
 
 			h_tag := XML.tag ("h2")
 			text.edit (h_tag.open, h_tag.close, agent edit_heading_2)
-			text.edit (Src_attribute, s.character_string ('"'), agent on_src_attribute)
+			text.edit (Src_attribute, char ('"') * 1, agent on_src_attribute)
 		end
 
 feature -- Access

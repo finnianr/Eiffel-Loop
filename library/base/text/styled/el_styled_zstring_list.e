@@ -6,16 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-04 9:55:53 GMT (Sunday 4th June 2023)"
-	revision: "7"
+	date: "2023-08-17 21:19:31 GMT (Thursday 17th August 2023)"
+	revision: "8"
 
 class
 	EL_STYLED_ZSTRING_LIST
 
 inherit
 	EL_STYLED_TEXT_LIST [ZSTRING]
-		redefine
-			ellipsis
+
+	EL_STRING_GENERAL_ROUTINES
+		rename
+			as_zstring as new_text
 		end
 
 create
@@ -27,23 +29,8 @@ convert
 feature {NONE} -- Implementation
 
 	n_character_string (c: CHARACTER; n: INTEGER): ZSTRING
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
-			Result := s.n_character_string (c, 2)
+			Result := Character_string_table.item (c, 2)
 		end
 
-	new_text (text: READABLE_STRING_GENERAL): ZSTRING
-		local
-			s: EL_ZSTRING_ROUTINES
-		do
-			Result := s.as_zstring (text)
-		end
-
-feature -- Constants
-
-	Ellipsis: ZSTRING
-		once
-			Result := n_character_string ('.', 2)
-		end
 end

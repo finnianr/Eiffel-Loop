@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 9:04:51 GMT (Wednesday 16th August 2023)"
-	revision: "18"
+	date: "2023-08-17 7:03:37 GMT (Thursday 17th August 2023)"
+	revision: "19"
 
 class
 	EL_STRING_8_LIST
@@ -15,8 +15,12 @@ class
 inherit
 	EL_STRING_LIST [STRING]
 		redefine
-			new_string, tab_string
+			item_indent, new_string, tab_string
 		end
+
+	EL_CHARACTER_8_CONSTANTS
+
+	EL_SHARED_STRING_8_CURSOR
 
 create
 	make, make_empty, make_with_lines, make_filled,
@@ -25,6 +29,15 @@ create
 
 convert
 	make_from_array ({ARRAY [STRING]}), make_comma_split ({STRING}), make_from_tuple ({TUPLE})
+
+feature -- Access
+
+	item_indent: INTEGER
+		do
+			if attached cursor_8 (item) as c8 then
+				Result := c8.leading_occurrences ('%T')
+			end
+		end
 
 feature {NONE} -- Implementation
 
@@ -35,7 +48,7 @@ feature {NONE} -- Implementation
 
 	tab_string (a_count: INTEGER): STRING_8
 		do
-			Result := Tab * a_count
+			Result := tab * a_count
 		end
 
 end

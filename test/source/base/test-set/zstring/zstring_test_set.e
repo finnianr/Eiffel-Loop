@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 10:14:47 GMT (Wednesday 16th August 2023)"
-	revision: "97"
+	date: "2023-08-18 13:15:15 GMT (Friday 18th August 2023)"
+	revision: "98"
 
 class
 	ZSTRING_TEST_SET
@@ -20,7 +20,7 @@ inherit
 
 	EL_ZSTRING_CONSTANTS
 
-	EL_STRING_32_CONSTANTS
+	EL_STRING_32_CONSTANTS; EL_CHARACTER_32_CONSTANTS
 
 	EL_SHARED_ZSTRING_CODEC
 
@@ -464,8 +464,8 @@ feature -- Removal tests
 			test: STRING_TEST; uc: CHARACTER_32
 		do
 			create test
-			across Text.character_set as char loop
-				uc := char.item
+			across Text.character_set as set loop
+				uc := set.item
 				across Text.lines as line loop
 					test.set (line.item)
 					test.zs.prune_all (uc); test.s_32.prune_all (uc)
@@ -849,12 +849,12 @@ feature -- Status query tests
 		note
 			testing: "covers/{ZSTRING}.for_all_split"
 		local
-			line: ZSTRING; word_list: EL_ZSTRING_LIST; s: EL_ZSTRING_ROUTINES
+			line: ZSTRING; word_list: EL_ZSTRING_LIST
 		do
 			across Text.lines as line_32 loop
 				line := line_32.item
 				create word_list.make_word_split (line)
-				assert ("word is in word_list", line.for_all_split (s.character_string (' '), agent word_list.has))
+				assert ("word is in word_list", line.for_all_split (space * 1, agent word_list.has))
 			end
 		end
 
@@ -1013,7 +1013,6 @@ feature -- Status query tests
 			testing: "covers/{ZSTRING}.there_exists_split"
 		local
 			line: ZSTRING; word_list: EL_ZSTRING_LIST
-			s: EL_ZSTRING_ROUTINES
 		do
 			across Text.lines as line_32 loop
 				line := line_32.item
@@ -1021,7 +1020,7 @@ feature -- Status query tests
 				across word_list as word loop
 					assert (
 						"word is in word_list",
-						line.there_exists_split (s.character_string (' '), agent (word.item).is_equal)
+						line.there_exists_split (space * 1, agent (word.item).is_equal)
 					)
 				end
 			end
@@ -1094,8 +1093,8 @@ feature -- Access tests
 			create test
 			across Text.lines as line loop
 				test.set (line.item)
-				across Text.character_set as char loop
-					uc := char.item
+				across Text.character_set as set loop
+					uc := set.item
 					across << 1, test.s_32.count // 2 >> as value loop
 						i := value.item
 						assert ("index_of OK", test.zs.index_of (uc, i) = test.s_32.index_of (uc, i))
@@ -1114,8 +1113,8 @@ feature -- Access tests
 			create test
 			across Text.lines as line loop
 				test.set (line.item)
-				across Text.character_set as char loop
-					uc := char.item
+				across Text.character_set as set loop
+					uc := set.item
 					across << test.s_32.count, test.s_32.count // 2 >> as value loop
 						i := value.item
 						assert ("last_index_of OK", test.zs.last_index_of (uc, i) = test.s_32.last_index_of (uc, i))
@@ -1149,8 +1148,8 @@ feature -- Access tests
 			create test
 			across Text.lines as line loop
 				test.set (line.item)
-				across Text.character_set as char loop
-					uc := char.item
+				across Text.character_set as set loop
+					uc := set.item
 				end
 				assert ("occurrences OK", test.zs.occurrences (uc) ~ test.s_32.occurrences (uc))
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "9"
+	date: "2023-08-18 6:45:30 GMT (Friday 18th August 2023)"
+	revision: "10"
 
 class
 	UNDERBIT_ID3_C_API
@@ -21,26 +21,6 @@ inherit
 
 feature {NONE} -- Frames
 
-	c_id3_frame_field (frame_ptr: POINTER; index: INTEGER): POINTER
-			-- union id3_field *id3_frame_field(struct id3_frame const *, unsigned int);
-		require
-			argument_attached: is_attached (frame_ptr)
-		external
-			"C (struct id3_frame const *, unsigned int): EIF_POINTER | %"id3tag.h%""
-		alias
-			"id3_frame_field"
-		end
-
-	c_id3_frame_new (id_ptr: POINTER): POINTER
-			-- struct id3_frame *id3_frame_new(char const *);
-		require
-			argument_attached: is_attached (id_ptr)
-		external
-			"C (char const *): EIF_POINTER | %"id3tag.h%""
-		alias
-			"id3_frame_new"
-		end
-
 	c_id3_frame_addref (frame_ptr: POINTER)
 			-- void id3_frame_addref(struct id3_frame *frame)
 		require
@@ -49,16 +29,6 @@ feature {NONE} -- Frames
 			"C (struct id3_frame const *) | %"id3tag.h%""
 		alias
 			"id3_frame_addref"
-		end
-
-	c_id3_frame_delref (frame_ptr: POINTER)
-			-- void id3_frame_delref(struct id3_frame *frame)
-		require
-			argument_attached: is_attached (frame_ptr)
-		external
-			"C (struct id3_frame const *) | %"id3tag.h%""
-		alias
-			"id3_frame_delref"
 		end
 
 	c_id3_frame_delete (frame_ptr: POINTER)
@@ -71,6 +41,26 @@ feature {NONE} -- Frames
 			"id3_frame_delete"
 		end
 
+	c_id3_frame_delref (frame_ptr: POINTER)
+			-- void id3_frame_delref(struct id3_frame *frame)
+		require
+			argument_attached: is_attached (frame_ptr)
+		external
+			"C (struct id3_frame const *) | %"id3tag.h%""
+		alias
+			"id3_frame_delref"
+		end
+
+	c_id3_frame_field (frame_ptr: POINTER; index: INTEGER): POINTER
+			-- union id3_field *id3_frame_field(struct id3_frame const *, unsigned int);
+		require
+			argument_attached: is_attached (frame_ptr)
+		external
+			"C (struct id3_frame const *, unsigned int): EIF_POINTER | %"id3tag.h%""
+		alias
+			"id3_frame_field"
+		end
+
 	c_id3_frame_id (frame_ptr: POINTER): POINTER
 			-- Access field y of struct pointed by `p'.
 		require
@@ -79,6 +69,16 @@ feature {NONE} -- Frames
 			"C [struct %"id3tag.h%"] (struct id3_frame): EIF_POINTER"
 		alias
 			"id"
+		end
+
+	c_id3_frame_new (id_ptr: POINTER): POINTER
+			-- struct id3_frame *id3_frame_new(char const *);
+		require
+			argument_attached: is_attached (id_ptr)
+		external
+			"C (char const *): EIF_POINTER | %"id3tag.h%""
+		alias
+			"id3_frame_new"
 		end
 
 	c_id3_frame_nfields (frame_ptr: POINTER): INTEGER
@@ -93,24 +93,15 @@ feature {NONE} -- Frames
 
 feature {NONE} -- Field getters
 
-	c_id3_field_getstrings (field_ptr: POINTER; index: INTEGER): POINTER
-			-- id3_ucs4_t const *id3_field_getstrings(union id3_field const *field, unsigned int index)
-		require
-			argument_attached: is_attached (field_ptr)
-		external
-			"C (union id3_field const *, unsigned int): EIF_POINTER | %"id3tag.h%""
-		alias
-			"id3_field_getstrings"
-		end
+	c_id3_field_getbinarydata (field_ptr, length_ptr: POINTER): POINTER
+			-- id3_byte_t const *id3_field_getbinarydata(union id3_field const *field, id3_length_t *length)
 
-	c_id3_field_getstring (field_ptr: POINTER): POINTER
-			-- id3_ucs4_t const *id3_field_getstring(union id3_field const *field)
 		require
 			argument_attached: is_attached (field_ptr)
 		external
-			"C (union id3_field const *): EIF_POINTER | %"id3tag.h%""
+			"C (union id3_field const *, id3_length_t *): EIF_POINTER | %"id3tag.h%""
 		alias
-			"id3_field_getstring"
+			"id3_field_getbinarydata"
 		end
 
 	c_id3_field_getframeid (field_ptr: POINTER): POINTER
@@ -123,6 +114,16 @@ feature {NONE} -- Field getters
 			"id3_field_getframeid"
 		end
 
+	c_id3_field_getfulllatin1 (field_ptr: POINTER): POINTER
+			-- id3_latin1_t const *id3_field_getlatin1(union id3_field const *field)
+		require
+			argument_attached: is_attached (field_ptr)
+		external
+			"C (union id3_field const *): EIF_POINTER | %"id3tag.h%""
+		alias
+			"id3_field_getfulllatin1"
+		end
+
 	c_id3_field_getfullstring (field_ptr: POINTER): POINTER
 			-- id3_ucs4_t const *id3_field_getfullstring(union id3_field const *field)
 		require
@@ -131,6 +132,16 @@ feature {NONE} -- Field getters
 			"C (union id3_field const *): EIF_POINTER | %"id3tag.h%""
 		alias
 			"id3_field_getfullstring"
+		end
+
+	c_id3_field_getint (field_ptr: POINTER): INTEGER
+			-- signed long id3_field_getint(union id3_field const *);
+		require
+			argument_attached: is_attached (field_ptr)
+		external
+			"C (union id3_field const *): EIF_INTEGER | %"id3tag.h%""
+		alias
+			"id3_field_getint"
 		end
 
 	c_id3_field_getlatin1 (field_ptr: POINTER): POINTER
@@ -143,35 +154,34 @@ feature {NONE} -- Field getters
 			"id3_field_getlatin1"
 		end
 
-	c_id3_field_getfulllatin1 (field_ptr: POINTER): POINTER
-			-- id3_latin1_t const *id3_field_getlatin1(union id3_field const *field)
-		require
-			argument_attached: is_attached (field_ptr)
-		external
-			"C (union id3_field const *): EIF_POINTER | %"id3tag.h%""
-		alias
-			"id3_field_getfulllatin1"
-		end
-
-	c_id3_field_getbinarydata (field_ptr, length_ptr: POINTER): POINTER
-			-- id3_byte_t const *id3_field_getbinarydata(union id3_field const *field, id3_length_t *length)
-
-		require
-			argument_attached: is_attached (field_ptr)
-		external
-			"C (union id3_field const *, id3_length_t *): EIF_POINTER | %"id3tag.h%""
-		alias
-			"id3_field_getbinarydata"
-		end
-
-	c_id3_field_getint (field_ptr: POINTER): INTEGER
-			-- signed long id3_field_getint(union id3_field const *);
+	c_id3_field_getnstrings (field_ptr: POINTER): INTEGER
+			-- unsigned int id3_field_getnstrings(union id3_field const *field)
 		require
 			argument_attached: is_attached (field_ptr)
 		external
 			"C (union id3_field const *): EIF_INTEGER | %"id3tag.h%""
 		alias
-			"id3_field_getint"
+			"id3_field_getnstrings"
+		end
+
+	c_id3_field_getstring (field_ptr: POINTER): POINTER
+			-- id3_ucs4_t const *id3_field_getstring(union id3_field const *field)
+		require
+			argument_attached: is_attached (field_ptr)
+		external
+			"C (union id3_field const *): EIF_POINTER | %"id3tag.h%""
+		alias
+			"id3_field_getstring"
+		end
+
+	c_id3_field_getstrings (field_ptr: POINTER; index: INTEGER): POINTER
+			-- id3_ucs4_t const *id3_field_getstrings(union id3_field const *field, unsigned int index)
+		require
+			argument_attached: is_attached (field_ptr)
+		external
+			"C (union id3_field const *, unsigned int): EIF_POINTER | %"id3tag.h%""
+		alias
+			"id3_field_getstrings"
 		end
 
 	c_id3_field_gettextencoding (field_ptr: POINTER): INTEGER
@@ -194,16 +204,6 @@ feature {NONE} -- Field getters
 			"id3_field_type"
 		end
 
-	c_id3_field_getnstrings (field_ptr: POINTER): INTEGER
-			-- unsigned int id3_field_getnstrings(union id3_field const *field)
-		require
-			argument_attached: is_attached (field_ptr)
-		external
-			"C (union id3_field const *): EIF_INTEGER | %"id3tag.h%""
-		alias
-			"id3_field_getnstrings"
-		end
-
 	c_id3_field_value (field_ptr: POINTER): POINTER
 		external
 			"C inline use %"id3tag.h%""
@@ -213,24 +213,15 @@ feature {NONE} -- Field getters
 
 feature {NONE} -- Field setters
 
-	c_id3_field_setstrings (field_ptr: POINTER; count: INTEGER; str_ptr_array_ptr: POINTER): INTEGER
-			-- int id3_field_setstrings(union id3_field *, unsigned int, id3_ucs4_t **);
-		require
-			argument_attached: is_attached (field_ptr) and is_attached (str_ptr_array_ptr)
-		external
-			"C (union id3_field const *, unsigned int, id3_ucs4_t **): EIF_INTEGER | %"id3tag.h%""
-		alias
-			"id3_field_setstrings"
-		end
+	c_id3_field_setbinarydata (field_ptr, data_ptr: POINTER; length: INTEGER): INTEGER
+			-- int id3_field_setbinarydata(union id3_field *, id3_byte_t const *, id3_length_t);
 
-	c_id3_field_setlatin1 (field_ptr: POINTER; str_ptr: POINTER): INTEGER
-			-- int id3_field_setlatin1(union id3_field *, id3_latin1_t const *);
 		require
-			argument_attached: is_attached (field_ptr) and is_attached (str_ptr)
+			argument_attached: is_attached (field_ptr) and is_attached (data_ptr)
 		external
-			"C (union id3_field const *, id3_latin1_t const *): EIF_INTEGER | %"id3tag.h%""
+			"C (union id3_field const *, id3_byte_t const *, id3_length_t): EIF_INTEGER | %"id3tag.h%""
 		alias
-			"id3_field_setlatin1"
+			"id3_field_setbinarydata"
 		end
 
 	c_id3_field_setframeid (field_ptr: POINTER; str_ptr: POINTER): INTEGER
@@ -253,6 +244,16 @@ feature {NONE} -- Field setters
 			"id3_field_setfulllatin1"
 		end
 
+	c_id3_field_setfullstring (field_ptr: POINTER; str_ptr: POINTER): INTEGER
+			-- int id3_field_setstring(union id3_field *, id3_ucs4_t const *);
+		require
+			argument_attached: is_attached (field_ptr) and is_attached (str_ptr)
+		external
+			"C (union id3_field const *, id3_ucs4_t const *): EIF_INTEGER | %"id3tag.h%""
+		alias
+			"id3_field_setfullstring"
+		end
+
 	c_id3_field_setint (field_ptr: POINTER; number: INTEGER): INTEGER
 			-- int id3_field_setint(union id3_field *field, signed long number)
 		require
@@ -273,6 +274,16 @@ feature {NONE} -- Field setters
 			"id3_field_setlanguage"
 		end
 
+	c_id3_field_setlatin1 (field_ptr: POINTER; str_ptr: POINTER): INTEGER
+			-- int id3_field_setlatin1(union id3_field *, id3_latin1_t const *);
+		require
+			argument_attached: is_attached (field_ptr) and is_attached (str_ptr)
+		external
+			"C (union id3_field const *, id3_latin1_t const *): EIF_INTEGER | %"id3tag.h%""
+		alias
+			"id3_field_setlatin1"
+		end
+
 	c_id3_field_setstring (field_ptr: POINTER; str_ptr: POINTER): INTEGER
 			-- int id3_field_setstring(union id3_field *, id3_ucs4_t const *);
 		require
@@ -283,25 +294,14 @@ feature {NONE} -- Field setters
 			"id3_field_setstring"
 		end
 
-	c_id3_field_setfullstring (field_ptr: POINTER; str_ptr: POINTER): INTEGER
-			-- int id3_field_setstring(union id3_field *, id3_ucs4_t const *);
+	c_id3_field_setstrings (field_ptr: POINTER; count: INTEGER; str_ptr_array_ptr: POINTER): INTEGER
+			-- int id3_field_setstrings(union id3_field *, unsigned int, id3_ucs4_t **);
 		require
-			argument_attached: is_attached (field_ptr) and is_attached (str_ptr)
+			argument_attached: is_attached (field_ptr) and is_attached (str_ptr_array_ptr)
 		external
-			"C (union id3_field const *, id3_ucs4_t const *): EIF_INTEGER | %"id3tag.h%""
+			"C (union id3_field const *, unsigned int, id3_ucs4_t **): EIF_INTEGER | %"id3tag.h%""
 		alias
-			"id3_field_setfullstring"
-		end
-
-	c_id3_field_setbinarydata (field_ptr, data_ptr: POINTER; length: INTEGER): INTEGER
-			-- int id3_field_setbinarydata(union id3_field *, id3_byte_t const *, id3_length_t);
-
-		require
-			argument_attached: is_attached (field_ptr) and is_attached (data_ptr)
-		external
-			"C (union id3_field const *, id3_byte_t const *, id3_length_t): EIF_INTEGER | %"id3tag.h%""
-		alias
-			"id3_field_setbinarydata"
+			"id3_field_setstrings"
 		end
 
 	c_id3_field_settextencoding (field_ptr: POINTER; code: INTEGER): INTEGER
@@ -337,101 +337,7 @@ feature {NONE} -- Field create/destroy
 			"id3_field_init"
 		end
 
-feature {NONE} -- C externals: TO UCS4
-
-	c_id3_latin1_ucs4duplicate (str_ptr: POINTER): POINTER
-			-- id3_ucs4_t *id3_latin1_ucs4duplicate(id3_latin1_t const *)
-		require
-			pointer_not_null: is_attached (str_ptr)
-		external
-			"C (id3_latin1_t const *): EIF_POINTER | %"id3tag.h%""
-		alias
-			"id3_latin1_ucs4duplicate"
-		end
-
-	c_id3_utf8_ucs4duplicate (utf8_ptr: POINTER): POINTER
-			-- id3_ucs4_t *id3_utf8_ucs4duplicate(id3_utf8_t const *);
-		require
-			pointer_not_null: is_attached (utf8_ptr)
-		external
-			"C (id3_utf8_t const *): EIF_POINTER | %"id3tag.h%""
-		alias
-			"id3_utf8_ucs4duplicate"
-		end
-
-	c_id3_utf16_ucs4duplicate (utf16_ptr: POINTER): POINTER
-			-- id3_ucs4_t *id3_utf16_ucs4duplicate(id3_utf16_t const *);
-		require
-			pointer_not_null: is_attached (utf16_ptr)
-		external
-			"C (id3_utf16_t const *): EIF_POINTER | %"id3tag.h%""
-		alias
-			"id3_utf16_ucs4duplicate"
-		end
-
-feature {NONE} -- C externals: FROM UCS4
-
-	c_id3_ucs4_latin1duplicate (ucs4_ptr: POINTER): POINTER
-			-- id3_latin1_t *id3_ucs4_latin1duplicate(id3_ucs4_t const *);
-		require
-			pointer_not_null: is_attached (ucs4_ptr)
-		external
-			"C (id3_ucs4_t const *): EIF_POINTER | %"id3tag.h%""
-		alias
-			"id3_ucs4_latin1duplicate"
-		end
-
-	c_id3_ucs4_utf8duplicate (ucs4_ptr: POINTER): POINTER
-			-- id3_utf8_t *id3_ucs4_utf8duplicate(id3_ucs4_t const *);
-		require
-			pointer_not_null: is_attached (ucs4_ptr)
-		external
-			"C (id3_ucs4_t const *): EIF_POINTER | %"id3tag.h%""
-		alias
-			"id3_ucs4_utf8duplicate"
-		end
-
-	c_id3_ucs4_utf16duplicate (ucs4_ptr: POINTER): POINTER
-			-- id3_utf16_t *id3_ucs4_utf16duplicate(id3_ucs4_t const *);
-		require
-			pointer_not_null: is_attached (ucs4_ptr)
-		external
-			"C (id3_ucs4_t const *): EIF_POINTER | %"id3tag.h%""
-		alias
-			"id3_ucs4_utf16duplicate"
-		end
-
-	c_id3_ucs4_duplicate (ucs4_ptr: POINTER): POINTER
-			-- id3_ucs4_t *id3_ucs4_duplicate(id3_ucs4_t const *)
-		require
-			pointer_not_null: is_attached (ucs4_ptr)
-		external
-			"C (id3_ucs4_t const *): EIF_POINTER | %"id3tag.h%""
-		alias
-			"id3_ucs4_duplicate"
-		end
-
 feature {NONE} -- C externals
-
-	c_id3_ucs4_getnumber (ucs4_ptr: POINTER): INTEGER
-			-- unsigned long id3_ucs4_getnumber(id3_ucs4_t const *);
-		require
-			pointer_not_null: is_attached (ucs4_ptr)
-		external
-			"C (id3_ucs4_t const *): EIF_INTEGER | %"id3tag.h%""
-		alias
-			"id3_ucs4_getnumber"
-		end
-
-	c_id3_ucs4_size (ucs4_ptr: POINTER): INTEGER
-			-- id3_length_t id3_ucs4_size(id3_ucs4_t const *ucs4)
-		require
-			pointer_not_null: is_attached (ucs4_ptr)
-		external
-			"C (id3_ucs4_t const *): EIF_INTEGER | %"id3tag.h%""
-		alias
-			"id3_ucs4_size"
-		end
 
 	c_id3_genre_index (index: INTEGER): POINTER
 			-- id3_ucs4_t const *id3_genre_index(unsigned int)
@@ -441,38 +347,14 @@ feature {NONE} -- C externals
 			"id3_genre_index"
 		end
 
-feature  {ID3_ENCODING_ENUM} -- Encodings
-
-	Encoding_ISO_8859_1: INTEGER
-				--
+	c_id3_ucs4_getnumber (ucs4_ptr: POINTER): INTEGER
+			-- unsigned long id3_ucs4_getnumber(id3_ucs4_t const *);
+		require
+			pointer_not_null: is_attached (ucs4_ptr)
 		external
-			"C inline use %"id3tag.h%""
+			"C (id3_ucs4_t const *): EIF_INTEGER | %"id3tag.h%""
 		alias
-			"return ID3_FIELD_TEXTENCODING_ISO_8859_1"
-		end
-
-	Encoding_UTF_16: INTEGER
-				--
-		external
-			"C inline use %"id3tag.h%""
-		alias
-			"return ID3_FIELD_TEXTENCODING_UTF_16"
-		end
-
-	Encoding_UTF_16_BE: INTEGER
-				--
-		external
-			"C inline use %"id3tag.h%""
-		alias
-			"return ID3_FIELD_TEXTENCODING_UTF_16BE"
-		end
-
-	Encoding_UTF_8: INTEGER
-				--
-		external
-			"C inline use %"id3tag.h%""
-		alias
-			"return ID3_FIELD_TEXTENCODING_UTF_8"
+			"id3_ucs4_getnumber"
 		end
 
 end

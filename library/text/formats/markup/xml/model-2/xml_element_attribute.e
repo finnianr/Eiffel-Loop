@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-02 14:34:48 GMT (Wednesday 2nd August 2023)"
-	revision: "7"
+	date: "2023-08-17 21:14:56 GMT (Thursday 17th August 2023)"
+	revision: "8"
 
 class
 	XML_ELEMENT_ATTRIBUTE
@@ -15,16 +15,16 @@ class
 inherit
 	EL_NAME_VALUE_PAIR [ZSTRING]
 
+	EL_STRING_GENERAL_ROUTINES
+
 create
 	make_from_string
 
 feature {NONE} -- Initialization
 
 	make_from_string (nvp_pair: READABLE_STRING_GENERAL)
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
-			make (s.as_zstring (nvp_pair), '=')
+			make (as_zstring (nvp_pair), '=')
 			if value.enclosed_with ("%"%"") then
 				value.remove_head (1)
 				value.remove_tail (1)

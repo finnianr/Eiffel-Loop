@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-04 15:21:43 GMT (Saturday 4th March 2023)"
-	revision: "23"
+	date: "2023-08-17 21:42:22 GMT (Thursday 17th August 2023)"
+	revision: "24"
 
 deferred class
 	EL_BENCHMARK_COMMAND_SHELL
@@ -20,6 +20,8 @@ inherit
 			set_standard_options
 		end
 
+	EL_STRING_GENERAL_ROUTINES
+	
 	EL_FACTORY_CLIENT
 
 	EL_MODULE_USER_INPUT
@@ -46,7 +48,6 @@ feature {NONE} -- Implementation
 		local
 			factory: EL_OBJECT_FACTORY [EL_BENCHMARK_COMPARISON]
 			sortable_list: EL_ARRAYED_LIST [EL_BENCHMARK_COMPARISON]
-			s: EL_ZSTRING_ROUTINES
 		do
 			create factory
 			create Result.make_size (benchmark_types.count)
@@ -60,7 +61,7 @@ feature {NONE} -- Implementation
 			sortable_list.order_by (agent {EL_BENCHMARK_COMPARISON}.description, True)
 			across sortable_list as list loop
 				if attached list.item as benchmark then
-					Result [s.as_zstring (benchmark.description)] := agent benchmark.execute
+					Result [as_zstring (benchmark.description)] := agent benchmark.execute
 				end
 			end
 		end

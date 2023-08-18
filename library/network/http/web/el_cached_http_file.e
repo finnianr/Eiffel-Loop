@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-28 19:41:26 GMT (Friday 28th July 2023)"
-	revision: "5"
+	date: "2023-08-17 16:09:37 GMT (Thursday 17th August 2023)"
+	revision: "6"
 
 class
 	EL_CACHED_HTTP_FILE
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 
 	make (a_url: READABLE_STRING_GENERAL; refresh_period_hours: REAL)
 		local
-			part_list: EL_ZSTRING_LIST; part: ZSTRING; s: EL_ZSTRING_ROUTINES
+			part_list: EL_ZSTRING_LIST; part: ZSTRING
 			url_path: FILE_PATH
 		do
 			url := a_url
@@ -54,7 +54,7 @@ feature {NONE} -- Initialization
 					if list.isfirst then
 						part.prune_all_trailing (':')
 					end
-					if part.is_empty or else part.same_string_general (s.character_string (':')) then
+					if part.is_empty or else part.is_character (':') then
 						list.remove
 					else
 						list.forth

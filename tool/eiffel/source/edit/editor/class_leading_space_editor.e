@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 9:08:09 GMT (Wednesday 16th August 2023)"
-	revision: "4"
+	date: "2023-08-17 5:20:38 GMT (Thursday 17th August 2023)"
+	revision: "5"
 
 class
 	CLASS_LEADING_SPACE_EDITOR
@@ -22,7 +22,7 @@ inherit
 			{ANY} source_text, leading_space_count
 		end
 
-	EL_CHARACTER_CONSTANTS
+	EL_CHARACTER_8_CONSTANTS
 
 create
 	make_empty

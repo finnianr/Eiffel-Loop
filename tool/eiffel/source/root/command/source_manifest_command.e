@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 9:18:23 GMT (Wednesday 16th August 2023)"
-	revision: "20"
+	date: "2023-08-17 7:37:35 GMT (Thursday 17th August 2023)"
+	revision: "21"
 
 deferred class
 	SOURCE_MANIFEST_COMMAND
@@ -28,7 +28,7 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
-	EL_CHARACTER_CONSTANTS
+	EL_CHARACTER_32_CONSTANTS
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
@@ -67,7 +67,7 @@ feature -- Basic operations
 			across manifest.source_tree_list as list loop
 				if not list.item.dir_path.exists then
 					missing_list.extend (list.item.dir_path)
-					missing_list.last.prepend (Space #* 2)
+					missing_list.last.prepend (space * 2)
 				end
 			end
 			if missing_list.count > 0 then

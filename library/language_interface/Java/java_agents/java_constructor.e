@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-08-17 15:03:23 GMT (Thursday 17th August 2023)"
+	revision: "7"
 
 class
 	JAVA_CONSTRUCTOR
@@ -22,6 +22,8 @@ inherit
 		end
 
 	JAVA_SHARED_ORB
+
+	EL_CHARACTER_8_CONSTANTS
 
 create
 	make
@@ -47,10 +49,8 @@ feature {NONE} -- Implementation
 
 	return_type_signature: STRING
 			-- Routines return type void
-		local
-			c: EL_STRING_8_ROUTINES
 		do
-			Result := c.character_string ('V')
+			Result := char ('V') * 1
 		end
 
 end

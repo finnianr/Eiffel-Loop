@@ -8,14 +8,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-01 18:07:24 GMT (Saturday 1st July 2023)"
-	revision: "21"
+	date: "2023-08-17 21:35:25 GMT (Thursday 17th August 2023)"
+	revision: "22"
 
 class
 	EL_DIALOG_MODEL
 
 inherit
 	EL_DIALOG_MODEL_IMPLEMENTATION
+
+	EL_STRING_GENERAL_ROUTINES
+
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make, make_default
@@ -54,12 +58,12 @@ feature -- Text
 	paragraph_list: like new_paragraph_list
 		-- paragraphs explictly set with `set_paragraph_list' or else `text' split into paragraphs
 		local
-			s: EL_ZSTRING_ROUTINES; paragraph_split: EL_SPLIT_ZSTRING_LIST
+			paragraph_split: EL_SPLIT_ZSTRING_LIST
 		do
 			if attached internal_paragraph_list as list then
 				Result := list
 			else
-				create paragraph_split.make_by_string (s.as_zstring (text), s.n_character_string ('%N', 2))
+				create paragraph_split.make_by_string (as_zstring (text), New_line * 2)
 				Result := new_paragraph_list (paragraph_split)
 				internal_paragraph_list := Result
 			end

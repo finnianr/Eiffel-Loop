@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-11 15:48:49 GMT (Friday 11th August 2023)"
-	revision: "25"
+	date: "2023-08-17 21:38:07 GMT (Thursday 17th August 2023)"
+	revision: "26"
 
 class
 	EL_XHTML_STRING_LIST
@@ -27,9 +27,9 @@ inherit
 			call
 		end
 
+	EL_STRING_GENERAL_ROUTINES
+	
 	XML_ZSTRING_CONSTANTS
-
-	EL_CHARACTER_CONSTANTS
 
 create
 	make_from_file
@@ -40,7 +40,6 @@ feature {NONE} -- Initialization
 			--
 		local
 			line_source: EL_PLAIN_TEXT_LINE_SOURCE; XML: XML_ROUTINES
-			s: EL_ZSTRING_ROUTINES
 		do
 			make_sized (10)
 			create text_group_end_tags.make_from_array (<< "</p>" >>)
@@ -53,9 +52,9 @@ feature {NONE} -- Initialization
 			break_tag := XML.empty_tag ("br")
 
 			create substitution_list.make_from_array (<<
-				[s.as_zstring ("&nbsp;"), XML.entity (' ')],
-				[Tab #* 1,					  XML.entity (Tab.item)],
-				[s.as_zstring ("<br>"),   break_tag]
+				[as_zstring ("&nbsp;"), XML.entity (' ')],
+				[Tab * 1,					XML.entity (Tab.item)],
+				[as_zstring ("<br>"),   break_tag]
 			>>)
 			create line_source.make_utf_8 (file_path)
 			do_with_lines (agent initial, line_source)

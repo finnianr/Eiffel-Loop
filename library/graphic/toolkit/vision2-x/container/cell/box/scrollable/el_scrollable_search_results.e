@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-08 10:03:40 GMT (Thursday 8th June 2023)"
-	revision: "28"
+	date: "2023-08-17 13:18:57 GMT (Thursday 17th August 2023)"
+	revision: "29"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G]
@@ -303,7 +303,7 @@ feature {NONE} -- Factory
 	new_styled_description (result_item: G): EL_STYLED_TEXT_LIST [STRING_GENERAL]
 		-- hyperlink description of result item
 		do
-			if attached {EL_DESCRIBEABLE} result_item as l_item then
+			if attached {EL_DESCRIBABLE} result_item as l_item then
 				Result := l_item.text
 
 			elseif attached {EL_STYLED_TEXT_LIST [STRING_GENERAL]} result_item as styled then

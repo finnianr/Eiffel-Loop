@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-11 13:36:17 GMT (Friday 11th August 2023)"
-	revision: "15"
+	date: "2023-08-17 7:32:18 GMT (Thursday 17th August 2023)"
+	revision: "16"
 
 deferred class
 	EL_EMAIL
@@ -22,7 +22,7 @@ inherit
 
 	EL_FILE_OPEN_ROUTINES
 
-	EL_STRING_8_CONSTANTS
+	EL_STRING_8_CONSTANTS; EL_CHARACTER_8_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 			Precursor
 			create date_time.make_now_utc
 			boundary := date_time.time.compact_time + ($Current).to_integer_32
-			multipart_boundary := Hyphen * 12 + boundary.to_hex_string
+			multipart_boundary := hyphen * 12 + boundary.to_hex_string
 		end
 
 feature -- Basic operations

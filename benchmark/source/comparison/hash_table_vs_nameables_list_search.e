@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 8:37:38 GMT (Monday 14th August 2023)"
-	revision: "9"
+	date: "2023-08-17 17:13:11 GMT (Thursday 17th August 2023)"
+	revision: "10"
 
 class
 	HASH_TABLE_VS_NAMEABLES_LIST_SEARCH
@@ -54,7 +54,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	do_binary_search (field_names: ARRAY [STRING]; list: EL_NAMEABLES_LIST [EL_REFLECTED_FIELD])
+	do_binary_search (field_names: ARRAY [IMMUTABLE_STRING_8]; list: EL_NAMEABLES_LIST [EL_REFLECTED_FIELD])
 		local
 			i: INTEGER
 		do
@@ -64,7 +64,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	do_hash_search (field_names: ARRAY [STRING]; field_table: EL_FIELD_TABLE)
+	do_hash_search (field_names: ARRAY [IMMUTABLE_STRING_8]; field_table: EL_FIELD_TABLE)
 		local
 			i: INTEGER
 		do

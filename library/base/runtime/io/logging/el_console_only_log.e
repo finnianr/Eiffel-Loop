@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-08 11:06:36 GMT (Monday 8th May 2023)"
-	revision: "26"
+	date: "2023-08-17 21:31:52 GMT (Thursday 17th August 2023)"
+	revision: "27"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -23,6 +23,8 @@ inherit
 		redefine
 			make
 		end
+
+	EL_STRING_GENERAL_ROUTINES
 
 	EL_MODULE_CONSOLE
 
@@ -153,10 +155,10 @@ feature -- Output
 	put_path_field (label: READABLE_STRING_GENERAL; a_path: EL_PATH)
 		--
 		local
-			l_label: ZSTRING; s: EL_ZSTRING_ROUTINES; index: INTEGER
+			l_label: ZSTRING; index: INTEGER
 		do
 			if label.has ('%S') then
-				l_label := s.as_zstring (label) #$ [a_path.type_alias]
+				l_label := as_zstring (label) #$ [a_path.type_alias]
 				if not attached {EL_URI_PATH} a_path then
 					index := l_label.substring_index (a_path.type_alias, 1)
 					-- Lower-case it if not not at start

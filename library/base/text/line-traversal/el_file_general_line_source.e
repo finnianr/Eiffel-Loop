@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 9:28:14 GMT (Wednesday 16th August 2023)"
-	revision: "6"
+	date: "2023-08-17 5:51:03 GMT (Thursday 17th August 2023)"
+	revision: "7"
 
 deferred class
 	EL_FILE_GENERAL_LINE_SOURCE [S -> STRING_GENERAL create make end]
@@ -37,7 +37,7 @@ inherit
 			notify as on_encoding_update
 		end
 
-	EL_CHARACTER_CONSTANTS
+	EL_CHARACTER_32_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -151,12 +151,12 @@ feature -- Output
 				create line.make_from_general (ln.item)
 				tab_count := line.leading_occurrences ('%T')
 				if tab_count > 0 then
-					line.replace_substring (Space.as_zstring (tab_count * 3), 1, tab_count)
+					line.replace_substring (space * (tab_count * 3), 1, tab_count)
 				end
 				log.put_line (line)
 			end
 			if not after then
-				log.put_line (Dot * 2)
+				log.put_line (dot * 2)
 			end
 		end
 

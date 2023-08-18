@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-11 13:28:19 GMT (Friday 11th August 2023)"
-	revision: "53"
+	date: "2023-08-18 10:48:55 GMT (Friday 18th August 2023)"
+	revision: "54"
 
 deferred class
 	EL_STRING_X_ROUTINES [STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -80,7 +80,7 @@ feature -- Transformed
 		-- `str' curtailed to `max_count' with added ellipsis where `max_count' is exceeded
 		do
 			if str.count > max_count - 2 then
-				Result := str.substring (1, max_count - 2) + Dot * 2
+				Result := str.substring (1, max_count - 2) + Character_string_8_table.item ('.', 2)
 			else
 				Result := str
 			end

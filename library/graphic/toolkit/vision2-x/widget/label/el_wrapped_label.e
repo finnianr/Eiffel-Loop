@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-08-17 21:27:47 GMT (Thursday 17th August 2023)"
+	revision: "7"
 
 class
 	EL_WRAPPED_LABEL
@@ -34,6 +34,8 @@ inherit
 			align_text_top, align_text_vertical_center, align_text_bottom
 		end
 
+	EL_STRING_GENERAL_ROUTINES
+
 	EL_MODULE_SCREEN
 
 create
@@ -57,13 +59,11 @@ feature {NONE} -- Initialization
 		end
 
 	make_to_width (a_text: READABLE_STRING_GENERAL; a_font: EV_FONT; a_width: INTEGER)
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
 			default_create
 			set_minimum_width (a_width)
 			set_font (a_font)
-			unwrapped_text := s.as_zstring (a_text)
+			unwrapped_text := as_zstring (a_text)
 			wrap_text
 		end
 
@@ -75,20 +75,16 @@ feature -- Element change
 
 	set_text (a_text: READABLE_STRING_GENERAL)
 		-- wraps during component resizing
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
-			unwrapped_text := s.as_zstring (a_text)
+			unwrapped_text := as_zstring (a_text)
 			resize_actions.resume
 		end
 
 	set_text_to_width (a_text: READABLE_STRING_GENERAL; a_width: INTEGER)
 			-- does an immediate wrap
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
 			set_minimum_width (a_width)
-			unwrapped_text := s.as_zstring (a_text)
+			unwrapped_text := as_zstring (a_text)
 			wrap_text
 		end
 

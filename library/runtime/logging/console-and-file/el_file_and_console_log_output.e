@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2023-08-17 21:35:48 GMT (Thursday 17th August 2023)"
+	revision: "17"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -37,6 +37,8 @@ inherit
 			{EL_LOG_MANAGER} close, name, delete, wipe_out, open_write, flush_file, path
 		end
 
+	EL_STRING_GENERAL_ROUTINES
+
 	EL_SINGLE_THREAD_ACCESS
 		rename
 			mutex as write_mutex
@@ -49,15 +51,13 @@ feature -- Initialization
 
 	make (log_path: FILE_PATH; a_thread_name: READABLE_STRING_GENERAL; a_index: INTEGER)
 			-- Create file object with `fn' as file name.
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
 			make_default
 			make_output
 			index := a_index
 			make_open_write (log_path)
 
-			thread_name := s.as_zstring (a_thread_name)
+			thread_name := as_zstring (a_thread_name)
 			create new_line_prompt.make_from_string ("%N " + index.out + "> ")
 			is_directed_to_console := index = 1
 		end

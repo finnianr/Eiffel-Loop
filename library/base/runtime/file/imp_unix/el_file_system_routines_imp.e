@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-02 14:41:09 GMT (Wednesday 2nd August 2023)"
-	revision: "16"
+	date: "2023-08-17 21:22:55 GMT (Thursday 17th August 2023)"
+	revision: "17"
 
 class
 	EL_FILE_SYSTEM_ROUTINES_IMP
 
 inherit
 	EL_FILE_SYSTEM_ROUTINES_I
+
+	EL_STRING_GENERAL_ROUTINES
+		rename
+			copy as copy_object
+		end
 
 	EL_OS_IMPLEMENTATION
 		rename
@@ -28,10 +33,8 @@ inherit
 feature {NONE} -- Implementation
 
 	escaped_path (path: READABLE_STRING_GENERAL): ZSTRING
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
-			Result := Path_escaper.escaped (s.as_zstring (path), True)
+			Result := Path_escaper.escaped (as_zstring (path), True)
 		end
 
 feature {NONE} -- Constants

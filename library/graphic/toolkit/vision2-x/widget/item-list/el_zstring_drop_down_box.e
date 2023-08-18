@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-07 8:19:28 GMT (Monday 7th August 2023)"
-	revision: "8"
+	date: "2023-08-17 21:28:34 GMT (Thursday 17th August 2023)"
+	revision: "9"
 
 class
 	EL_ZSTRING_DROP_DOWN_BOX
@@ -23,6 +23,8 @@ inherit
 		redefine
 			displayed_text
 		end
+
+	EL_STRING_GENERAL_ROUTINES
 
 create
 	default_create, make, make_unadjusted, make_sorted, make_unadjusted_sorted

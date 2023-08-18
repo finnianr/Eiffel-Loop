@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 8:48:31 GMT (Wednesday 16th August 2023)"
-	revision: "1"
+	date: "2023-08-17 5:59:41 GMT (Thursday 17th August 2023)"
+	revision: "2"
 
 expanded class
 	EL_USER_CRYPTO_OPERATIONS
@@ -23,7 +23,7 @@ inherit
 
 	EL_MODULE_TUPLE; EL_MODULE_USER_INPUT
 
-	STRING_HANDLER; EL_ZSTRING_CONSTANTS; EL_CHARACTER_CONSTANTS
+	STRING_HANDLER; EL_ZSTRING_CONSTANTS; EL_CHARACTER_32_CONSTANTS
 
 	EL_SHARED_PASSPHRASE_TEXTS
 
@@ -44,7 +44,7 @@ feature -- Basic operations
 		do
 			if attached new_validated_credential as credential then
 				display_cipher_text (new_encrypter (credential), User_input.line ("Enter text"), eiffel_array_output)
-				
+
 				if User_input.approved_action_y_n ("Show salt and digest") then
 					credential.display (lio)
 				end
@@ -106,7 +106,7 @@ feature {NONE} -- Implementation
 
 	display_cipher_text (encrypter: like new_encrypter; a_text: ZSTRING; eiffel_array_output: BOOLEAN)
 		do
-			a_text.replace_substring_all (Escaped_new_line, New_line * 1)
+			a_text.replace_substring_all (Escaped_new_line, new_line * 1)
 
 			if eiffel_array_output then
 				lio.put_labeled_string ("Key array", encrypter.out)

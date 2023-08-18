@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-08-17 14:47:58 GMT (Thursday 17th August 2023)"
+	revision: "8"
 
 class
 	EL_FORMATTED_NUMBERED_PARAGRAPHS
@@ -16,9 +16,10 @@ inherit
 	EL_FORMATTED_BULLETED_PARAGRAPHS
 		rename
 			make as make_paragraph,
-			bullet_text as numbered_text
+			new_bullet_text as new_numbered_text,
+			index as item_index
 		redefine
-			numbered_text
+			new_numbered_text
 		end
 
 create
@@ -45,8 +46,8 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	numbered_text: ZSTRING
+	new_numbered_text: ZSTRING
 		do
-			Result := index.out + "."
+			Result := index.out + Dot * 1
 		end
 end

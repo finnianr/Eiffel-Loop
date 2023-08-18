@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 14:21:17 GMT (Monday 5th December 2022)"
-	revision: "18"
+	date: "2023-08-17 13:16:41 GMT (Thursday 17th August 2023)"
+	revision: "19"
 
 class
 	APPLICATION_ROOT
@@ -33,7 +33,8 @@ feature {NONE} -- Compiled classes
 
 	compile: TUPLE [
 		EL_ACTION_EXCEPTION_MANAGER [EL_MODELED_INFORMATION_DIALOG],
-		EL_SEPARATE_PROGRESS_DISPLAY
+		EL_SEPARATE_PROGRESS_DISPLAY,
+		EL_STYLED_STRING_8_LIST, EL_STYLED_STRING_32_LIST
 	]
 		do
 			create Result

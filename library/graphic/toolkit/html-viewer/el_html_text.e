@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-23 15:35:18 GMT (Sunday 23rd July 2023)"
-	revision: "22"
+	date: "2023-08-17 14:54:25 GMT (Thursday 17th August 2023)"
+	revision: "23"
 
 class
 	EL_HTML_TEXT
@@ -236,8 +236,11 @@ feature {NONE} -- Xpath event handlers
 				block_previous.append_new_line
 			end
 			across text_blocks as block loop
-				across block.item.paragraphs as paragraph loop
-					buffered_append (paragraph.item.text.to_unicode, paragraph.item.format)
+				if attached block.item as list then
+					from list.start until list.after loop
+						buffered_append (list.item_text.to_unicode, list.item_format)
+						list.forth
+					end
 				end
 			end
 			flush_buffer
@@ -245,7 +248,7 @@ feature {NONE} -- Xpath event handlers
 				block.item.set_offset (offset)
 				interval := block.item.interval
 				format_paragraph (interval.lower, interval.upper, block.item.format.paragraph)
-				offset := offset + block.item.count
+				offset := offset + block.item.character_count
 			end
 			external_links.order_by (agent link_name_as_lower, True)
 		end

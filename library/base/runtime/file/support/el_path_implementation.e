@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 10:34:39 GMT (Wednesday 16th August 2023)"
-	revision: "33"
+	date: "2023-08-18 13:02:43 GMT (Friday 18th August 2023)"
+	revision: "34"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -19,15 +19,24 @@ inherit
 			{ANY} Separator
 		end
 
+	EL_ZSTRING_ROUTINES_IMP
+		rename
+			append_to as string_append_to,
+			translate as string_translate,
+			wipe_out as string_wipe_out
+		export
+			{NONE} all
+		undefine
+			copy, default_create, is_equal, out
+		end
+
 	DEBUG_OUTPUT
 
 	STRING_HANDLER
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_DIRECTORY; EL_MODULE_FILE_SYSTEM; EL_MODULE_FORMAT
 
-	EL_MODULE_DIRECTORY
 
-	EL_MODULE_FORMAT
 
 feature -- Measurement
 
@@ -72,9 +81,9 @@ feature -- Conversion
 
 	to_path: PATH
 		local
-			str: STRING_32; buffer: EL_STRING_32_BUFFER_ROUTINES
+			str: STRING_32; buffer_32: EL_STRING_32_BUFFER_ROUTINES
 		do
-			str := buffer.empty
+			str := buffer_32.empty
 			append_to_32 (str)
 			create Result.make_from_string (str)
 		end
@@ -111,9 +120,9 @@ feature -- Conversion
 	to_utf_8: STRING
 		local
 			i: INTEGER; i_th_part: READABLE_STRING_GENERAL
-			c: EL_UTF_CONVERTER; buffer: EL_STRING_8_BUFFER_ROUTINES
+			c: EL_UTF_CONVERTER; buffer_8: EL_STRING_8_BUFFER_ROUTINES
 		do
-			Result := buffer.empty
+			Result := buffer_8.empty
 			from i := 1 until i > part_count loop
 				i_th_part := part_string (i)
 				if attached {ZSTRING} i_th_part as zstr then

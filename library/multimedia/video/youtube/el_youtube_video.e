@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-26 17:20:08 GMT (Wednesday 26th April 2023)"
-	revision: "19"
+	date: "2023-08-17 15:52:36 GMT (Thursday 17th August 2023)"
+	revision: "20"
 
 class
 	EL_YOUTUBE_VIDEO
@@ -72,7 +72,7 @@ feature -- Access
 				when 2 then
 					if attached download_list.video as video then
 						option_list := video.stream.extension_set.to_list
-						create menu_select.make ("Select container type", option_list, "Quit")
+						create menu_select.make ("Select container type", option_list)
 						menu_select.select_index
 						if not option_list.off then
 							Result := option_list.item

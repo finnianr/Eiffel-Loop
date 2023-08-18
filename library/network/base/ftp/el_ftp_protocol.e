@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-12 17:34:03 GMT (Saturday 12th August 2023)"
-	revision: "33"
+	date: "2023-08-18 13:55:34 GMT (Friday 18th August 2023)"
+	revision: "34"
 
 class
 	EL_FTP_PROTOCOL
@@ -92,7 +92,10 @@ feature -- Element change
 
 	set_current_directory (a_current_directory: DIR_PATH)
 		do
-			send (Command.change_working_directory, absolute_unix_dir (a_current_directory), << 200, 250 >>)
+			send (
+				Command.change_working_directory, absolute_unix_dir (a_current_directory),
+				<< Reply.success, Reply.file_action_ok >>
+			)
 			if last_succeeded then
 				if a_current_directory.is_absolute then
 					current_directory := a_current_directory
@@ -120,7 +123,7 @@ feature -- Remote operations
 
 	delete_file (file_path: FILE_PATH)
 		do
-			send (Command.delete_file, file_path.to_unix, << 250 >>)
+			send (Command.delete_file, file_path.to_unix, << Reply.file_action_ok >>)
 		end
 
 	make_directory (dir_path: DIR_PATH)
@@ -147,7 +150,7 @@ feature -- Remote operations
 
 	remove_directory (dir_path: DIR_PATH)
 		do
-			send (Command.remove_directory, absolute_unix_dir (dir_path), << 250 >>)
+			send (Command.remove_directory, absolute_unix_dir (dir_path), << Reply.file_action_ok >>)
 		end
 
 feature -- Basic operations
@@ -177,8 +180,7 @@ feature -- Status report
 			if dir_path.is_empty then
 				Result := True
 			else
-				send (Command.size, absolute_unix_dir (dir_path), << 550 >>)
-			-- Fasthost server: 150 accepted data connection
+				send (Command.size, absolute_unix_dir (dir_path), << Reply.action_not_taken >>)
 				Result := last_succeeded and then last_reply_utf_8.has_substring (Not_regular_file)
 			end
 		end
@@ -189,7 +191,7 @@ feature -- Status report
 			if file_path.is_empty then
 				Result := True
 			else
-				send (Command.size, absolute_unix_file_path (file_path), << 213 >>)
+				send (Command.size, absolute_unix_file_path (file_path), << Reply.file_status >>)
 				Result := last_succeeded
 			end
 		end
@@ -275,7 +277,7 @@ feature -- Status change
 	quit
 			--
 		do
-			send (Command.quit, Void, << 221 >>)
+			send (Command.quit, Void, << Reply.closing_control_connection >>)
 			if is_lio_enabled then
 				lio.put_new_line
 			end
@@ -334,7 +336,7 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 		require
 			parent_exists: directory_exists (dir_path.parent)
 		do
-			send (Command.make_directory, dir_path.to_unix, << 257 >>)
+			send (Command.make_directory, dir_path.to_unix, << Reply.PATHNAME_created >>)
 		end
 
 	reply_code_ok (a_reply: STRING; codes: ARRAY [INTEGER]): BOOLEAN
@@ -350,7 +352,7 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 		require
 			valid_path: cmd [cmd.count] = '%S' implies attached a_path
 		local
-			utf_8_cmd: STRING; substitute_index: INTEGER
+			utf_8_cmd: STRING; substitute_index, try_count: INTEGER
 		do
 			utf_8_cmd := Empty_string_8
 			substitute_index := cmd.index_of ('%S', 1)
@@ -362,10 +364,16 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 				utf_8_cmd := cmd
 			end
 			if utf_8_cmd /= Empty_string_8 then
-				send_to_socket (main_socket, utf_8_cmd)
-				last_reply_utf_8.adjust
-				last_reply_utf_8.to_lower
-				last_succeeded := reply_code_ok (last_reply_utf_8, codes)
+				last_succeeded := False
+				from try_count := 1 until try_count > 3 or last_succeeded loop
+					send_to_socket (main_socket, utf_8_cmd)
+					last_reply_utf_8.adjust
+					last_reply_utf_8.to_lower
+					last_succeeded := reply_code_ok (last_reply_utf_8, codes)
+					try_count := try_count + 1
+				end
+			else
+				last_succeeded := False
 			end
 		end
 
@@ -425,5 +433,12 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 feature {NONE} -- Internal attributes
 
 	reply_parser: EL_FTP_REPLY_PARSER
+
+feature {NONE} -- Constants
+
+	Reply: EL_FTP_SERVER_REPLY_ENUM
+		once
+			create Result.make
+		end
 
 end

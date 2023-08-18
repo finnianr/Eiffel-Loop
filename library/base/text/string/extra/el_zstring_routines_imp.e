@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-03 10:17:02 GMT (Thursday 3rd August 2023)"
-	revision: "14"
+	date: "2023-08-18 12:53:11 GMT (Friday 18th August 2023)"
+	revision: "15"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -21,6 +21,13 @@ inherit
 			bit_count
 		redefine
 			adjusted
+		end
+
+	EL_STRING_GENERAL_ROUTINES
+		rename
+			to_unicode_general as to_unicode
+		export
+			{ANY} as_zstring, new_zstring, to_unicode
 		end
 
 	EL_STRING_32_BIT_COUNTABLE [EL_READABLE_ZSTRING]
@@ -60,7 +67,7 @@ feature -- Factory
 	character_string (uc: CHARACTER_32): ZSTRING
 		-- shared instance of string with `uc' character
 		do
-			Result := n_character_string (uc, 1)
+			Result := Character_string_table.item (uc, 1)
 		end
 
 	n_character_string (uc: CHARACTER_32; n: INTEGER): ZSTRING
@@ -112,44 +119,43 @@ feature -- Substring
 			end
 		end
 
-	last_word (str: ZSTRING): ZSTRING
-		-- last alpha-numeric word in `str'
+	last_word_start_index (str: ZSTRING; end_index_ptr: POINTER): INTEGER
+		-- start index of last alpha-numeric word in `str' and end index
+		-- written to `end_index_ptr' if not equal to `default_pointer'
 		local
-			i: INTEGER
+			i: INTEGER; found: BOOLEAN; p: EL_POINTER_ROUTINES
 		do
-			create Result.make (20)
-			from i := str.count until i < 1 or else str.is_alpha_numeric_item (i) loop
+			from i := str.count until i = 0 or found loop
+				if str.is_alpha_numeric_item (i) then
+					if end_index_ptr /= default_pointer then
+						p.put_integer_32 (i, end_index_ptr)
+					end
+					found := True
+				end
 				i := i - 1
 			end
-			from until i < 1 or else not str.is_alpha_numeric_item (i) loop
-				Result.append_character (str.item (i))
+			found := False
+			from until i = 0 or found loop
+				if str.is_alpha_numeric_item (i) then
+					Result := i
+				else
+					found := True
+				end
 				i := i - 1
 			end
-			Result.mirror
 		end
 
 feature -- Conversion
 
-	as_zstring (general: READABLE_STRING_GENERAL): ZSTRING
-		do
-			if attached {ZSTRING} general as str then
-				Result := str
-			else
-				create Result.make_from_general (general)
-			end
-		end
-
 	from_general (str: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): ZSTRING
-		local
-			buffer: EL_ZSTRING_BUFFER_ROUTINES
 		do
 			if attached {ZSTRING} str as z_str then
 				Result := z_str
+
+			elseif keep_ref then
+				create Result.make_from_general (str)
 			else
-				Result := buffer.copied_general (str)
-				if keep_ref then
-					Result := Result.twin
-				end
+				Result := Buffer.copied_general (str)
 			end
 		end
 
@@ -169,11 +175,7 @@ feature -- Conversion
 				if Result.count > 0 then
 					Result.append_character (separator)
 				end
-				if attached {ZSTRING} list.item as zstr then
-					Result.append (zstr)
-				else
-					Result.append_string_general (list.item)
-				end
+				Result.append_string_general (list.item)
 			end
 		end
 
@@ -198,20 +200,6 @@ feature -- Conversion
 			end
 		end
 
-	new_zstring (general: READABLE_STRING_GENERAL): ZSTRING
-		do
-			create Result.make_from_general (general)
-		end
-
-	to_unicode_general (general: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
-		do
-			if attached {ZSTRING} general as zstr then
-				Result := zstr.to_unicode
-			else
-				Result := general
-			end
-		end
-
 	shared_substring (s: ZSTRING; new_count: INTEGER): ZSTRING
 		do
 			create Result.make (0)
@@ -220,17 +208,6 @@ feature -- Conversion
 		end
 
 feature -- Status query
-
-	has_alpha_numeric (str: ZSTRING): BOOLEAN
-		-- `True' if `str' has an alpha numeric character
-		local
-			i: INTEGER
-		do
-			from i := 1 until Result or i > str.count loop
-				Result := str.is_alpha_numeric_item (i)
-				i := i + 1
-			end
-		end
 
 	has_enclosing (s: EL_READABLE_ZSTRING; c_first, c_last: CHARACTER_32): BOOLEAN
 			--
@@ -378,9 +355,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Character_string_table: EL_FILLED_ZSTRING_TABLE
+	Buffer: EL_ZSTRING_BUFFER
 		once
-			create Result.make
+			create Result
 		end
 
 	Substitution_mark_unescaper: EL_ZSTRING_UNESCAPER

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-24 9:22:10 GMT (Wednesday 24th May 2023)"
-	revision: "16"
+	date: "2023-08-17 16:40:19 GMT (Thursday 17th August 2023)"
+	revision: "17"
 
 class
 	EL_BENCHMARK_ROUTINE_TABLE
@@ -28,11 +28,9 @@ inherit
 			is_equal, copy, default_create
 		end
 
-	EL_MODULE_LIO
+	EL_MODULE_LIO; EL_MODULE_EXECUTABLE; EL_MODULE_MEMORY
 
-	EL_MODULE_EXECUTABLE
-
-	EL_MODULE_MEMORY
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make
@@ -88,7 +86,7 @@ feature -- Basic operations
 	print_comparison
 		local
 			description_width: INTEGER; highest_count, relative_difference: DOUBLE
-			l_label, formatted_value: STRING; l_double: FORMAT_DOUBLE; s: EL_ZSTRING_ROUTINES
+			l_label, formatted_value: STRING; l_double: FORMAT_DOUBLE
 		do
 			description_width := max_key_width
 			highest_count := application_count_list.first_value
@@ -103,7 +101,7 @@ feature -- Basic operations
 			end
 			if attached application_count_list as list then
 				from list.start until list.after loop
-					l_label := list.item_key + s.n_character_string (' ', description_width - list.item_key.count + 1)
+					l_label := list.item_key + space * (description_width - list.item_key.count + 1)
 					formatted_value := l_double.formatted (list.item_value)
 					if list.isfirst then
 						lio.put_labeled_string (l_label, formatted_value + " times (100%%)")

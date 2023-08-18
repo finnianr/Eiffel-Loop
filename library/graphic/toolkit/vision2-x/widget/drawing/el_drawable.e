@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2023-08-17 21:01:56 GMT (Thursday 17th August 2023)"
+	revision: "18"
 
 deferred class
 	EL_DRAWABLE
@@ -23,14 +23,9 @@ inherit
 
 	EL_MODULE_COLOR
 
-	EL_ZSTRING_ROUTINES
-		export
-			{NONE} all
-		undefine
-			copy, default_create
-		end
-
 	EL_RECTANGULAR
+
+	EL_STRING_GENERAL_ROUTINES
 
 feature -- Drawing operations
 

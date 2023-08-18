@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "15"
+	date: "2023-08-17 21:27:04 GMT (Thursday 17th August 2023)"
+	revision: "16"
 
 class
 	EL_PATH_STEPS
@@ -41,6 +41,8 @@ inherit
 		undefine
 			default_create, is_equal
 		end
+
+	EL_STRING_GENERAL_ROUTINES
 
 create
 	default_create, make, make_from_path, make_from_steps, make_from_tuple, make_steps
@@ -233,11 +235,9 @@ feature -- Measurement
 		end
 
 	index_of (step: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
 			if attached token_list as list then
-				Result := list.sequential_index_of (Step_table.to_token (s.as_zstring (step)), start_index)
+				Result := list.sequential_index_of (Step_table.to_token (as_zstring (step)), start_index)
 			end
 		end
 
@@ -273,10 +273,8 @@ feature -- Status query
 		end
 
 	has_step (step: READABLE_STRING_GENERAL): BOOLEAN
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
-			Result := has (Step_table.to_token (s.as_zstring (step)))
+			Result := has (Step_table.to_token (as_zstring (step)))
 		end
 
 	has_sub_steps (other: EL_PATH_STEPS): BOOLEAN
@@ -477,10 +475,8 @@ feature -- Element change
 		end
 
 	put_general (step: READABLE_STRING_GENERAL; a_index: INTEGER)
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
-			put (s.as_zstring (step), a_index)
+			put (as_zstring (step), a_index)
 		end
 
 	put (step: ZSTRING; a_index: INTEGER)
@@ -492,22 +488,18 @@ feature -- Element change
 		end
 
 	put_front (step: READABLE_STRING_GENERAL)
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
-			put_token_front (Step_table.to_token (s.as_zstring (step)))
+			put_token_front (Step_table.to_token (as_zstring (step)))
 		ensure
 			is_set: internal_i_th_step (1).same_string_general (step)
 		end
 
 	set_base (a_base: READABLE_STRING_GENERAL)
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
 			if count = 0 then
 				extend (a_base)
 			else
-				put_base (s.as_zstring (a_base))
+				put_base (as_zstring (a_base))
 				internal_hash_code := 0
 			end
 		ensure
@@ -531,9 +523,9 @@ feature -- Removal
 	prune_until (last_step: READABLE_STRING_GENERAL)
 		-- prune until last step value is `last_step' or else is empty
 		local
-			s: EL_ZSTRING_ROUTINES; token: INTEGER
+			token: INTEGER
 		do
-			token := Step_table.to_token (s.as_zstring (last_step))
+			token := Step_table.to_token (as_zstring (last_step))
 			from until is_empty or else last_token = token loop
 				area.remove_tail (1)
 			end

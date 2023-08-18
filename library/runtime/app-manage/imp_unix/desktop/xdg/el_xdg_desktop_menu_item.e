@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-11 15:38:06 GMT (Friday 11th August 2023)"
-	revision: "14"
+	date: "2023-08-17 7:46:10 GMT (Thursday 17th August 2023)"
+	revision: "15"
 
 deferred class
 	EL_XDG_DESKTOP_MENU_ITEM
@@ -22,7 +22,7 @@ inherit
 
 	EL_MODULE_DEFERRED_LOCALE; EL_MODULE_LIO; EL_MODULE_TUPLE
 
-	EL_CHARACTER_CONSTANTS
+	EL_CHARACTER_32_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -37,7 +37,7 @@ feature -- Access
 
 	file_name: ZSTRING
 		do
-			Result := item.name.translated (Space #* 1, Hyphen #* 1) + "." + file_name_extension
+			Result := dot.joined (item.name.translated (space * 1, hyphen * 1), file_name_extension)
 		end
 
 	name: ZSTRING

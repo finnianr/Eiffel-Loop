@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-08-18 8:07:06 GMT (Friday 18th August 2023)"
+	revision: "5"
 
 class
 	UNDERBIT_ID3_STRING_FIELD
@@ -22,6 +22,8 @@ inherit
 
 	UNDERBIT_ID3_STRING_ROUTINES
 
+	EL_MODULE_REUSEABLE
+
 create
 	make
 
@@ -30,7 +32,7 @@ feature -- Access
 	string: ZSTRING
 			--
 		do
-			Result := string_at_address (c_id3_field_getstring (self_ptr))
+			Result := as_zstring (c_id3_field_getstring (self_ptr))
 		end
 
 	as_description: UNDERBIT_ID3_DESCRIPTION_FIELD
@@ -46,10 +48,12 @@ feature -- Element change
 
 	set_string (str: ZSTRING)
 		local
-			to_c: ANY; buffer: EL_STRING_32_BUFFER_ROUTINES
+			to_c: ANY
 		do
-			to_c := buffer.copied_general (str).to_c
-			set_underbit_string ($to_c)
+			across Reuseable.string_32 as reuse loop
+				to_c := reuse.copied_item (str).to_c
+				set_underbit_string ($to_c)
+			end
 		end
 
 feature {NONE} -- Implementation

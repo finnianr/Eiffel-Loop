@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-21 7:49:06 GMT (Sunday 21st May 2023)"
-	revision: "16"
+	date: "2023-08-17 16:25:39 GMT (Thursday 17th August 2023)"
+	revision: "17"
 
 class
 	EL_USERS_INFO_COMMAND_IMP
@@ -31,6 +31,8 @@ inherit
 		redefine
 			make
 		end
+
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make
@@ -59,10 +61,8 @@ feature {NONE} -- State handlers
 		end
 
 	find_dashed_line (line: ZSTRING)
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
-			if line.starts_with (s.n_character_string ('-', 3)) then
+			if line.starts_with (Hyphen * 3) then
 				state := agent find_command_completed
 			end
 		end

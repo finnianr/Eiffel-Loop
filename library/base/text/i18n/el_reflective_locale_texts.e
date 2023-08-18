@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 10:41:41 GMT (Monday 14th August 2023)"
-	revision: "30"
+	date: "2023-08-17 6:27:51 GMT (Thursday 17th August 2023)"
+	revision: "31"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -39,7 +39,7 @@ inherit
 
 	EL_SHARED_CLASS_ID
 
-	EL_CHARACTER_CONSTANTS; EL_LOCALE_CONSTANTS
+	EL_CHARACTER_8_CONSTANTS; EL_LOCALE_CONSTANTS
 
 feature {EL_MODULE_EIFFEL} -- Initialization
 
@@ -250,7 +250,7 @@ feature {NONE} -- Implementation
 
 	joined (precursor_lines, lines: STRING): STRING
 		do
-			Result := precursor_lines + New_line * 1 + lines
+			Result := new_line.joined (precursor_lines, lines)
 		end
 
 	set_as_paragraph (str: ZSTRING)

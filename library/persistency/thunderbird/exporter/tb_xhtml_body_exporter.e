@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-25 19:14:34 GMT (Wednesday 25th January 2023)"
-	revision: "16"
+	date: "2023-08-17 16:14:08 GMT (Thursday 17th August 2023)"
+	revision: "17"
 
 class
 	TB_XHTML_BODY_EXPORTER
@@ -25,6 +25,8 @@ inherit
 		end
 
 	EL_MODULE_HTML
+
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make
@@ -108,13 +110,13 @@ feature {NONE} -- Editing routines
 
 	check_h2_tag (start_index, end_index: INTEGER; target: ZSTRING)
 		local
-			s: EL_ZSTRING_ROUTINES; h2_content: ZSTRING
+			h2_content: ZSTRING
 		do
 			h2_content := target.substring (start_index, target.count - 5)
 			h2_content.replace_character ('%N', ' ')
 			if h2_content.has ('<') then
 --				Remove formatting markup from headers like: <h2>Introduction to <i>My Ching</i></h2>
-				h2_content.edit (s.character_string ('<'), s.character_string ('>'), agent remove_markup)
+				h2_content.edit (char ('<') * 1, char ('>') * 1, agent remove_markup)
 			end
 			target.replace_substring (h2_content, start_index, target.count - 5)
 			target.share (Anchor_template #$ [Html.anchor_name (h2_content), target])
