@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-12 6:27:44 GMT (Saturday 12th August 2023)"
-	revision: "27"
+	date: "2023-08-19 10:08:46 GMT (Saturday 19th August 2023)"
+	revision: "28"
 
 class
 	EL_TEST_TEXT
@@ -123,10 +123,7 @@ feature -- Characters
 
 	Euro_symbol: CHARACTER_32 = '€'
 
-	G_clef: STRING_32
-		once
-			 Result := {STRING_32}"𝄞"
-		end
+	G_clef: STRING_32 = "𝄞"
 
 	Mu_symbol: CHARACTER_32 = 'µ'
 

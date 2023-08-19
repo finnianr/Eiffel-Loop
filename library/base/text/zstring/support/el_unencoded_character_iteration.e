@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-01 15:51:06 GMT (Wednesday 1st March 2023)"
-	revision: "4"
+	date: "2023-08-19 9:39:01 GMT (Saturday 19th August 2023)"
+	revision: "5"
 
 expanded class
 	EL_UNENCODED_CHARACTER_ITERATION
@@ -19,6 +19,8 @@ inherit
 		end
 
 	EL_ZCODE_CONVERSION
+
+	EL_SHARED_IMMUTABLE_32_MANAGER
 
 feature -- Access
 
@@ -114,6 +116,33 @@ feature -- Access
 				put_integer_32 (block_index, block_index_ptr)
 			end
 			Result := area [block_index + 2 + index - lower]
+		end
+
+	block_string (block_index: INTEGER; area: SPECIAL [CHARACTER_32]): IMMUTABLE_STRING_32
+		-- Shared sub string from `area' at block index pointed to by  `block_index_ptr',
+		-- Returns empty string if block index out of bounds of `area'
+		note
+			uses: "Can't think of a use for this yet, but potentially could speed up some loop"
+		require
+			at_least_one_block: area.count >= 3
+		local
+			count, lower, upper: INTEGER
+		do
+			if block_index >= area.count then
+				create Result.make_empty
+			else
+				lower := area [block_index].code
+				upper := area [block_index + 1].code
+				count := upper - lower + 1
+				Immutable_32.set_item (area, block_index + 2, count)
+				Result := Immutable_32.item
+			end
+		end
+
+	next_index (block_index: INTEGER; str: IMMUTABLE_STRING_32): INTEGER
+		-- next `block_index' for string returned by `block_string'
+		do
+			Result := block_index + 2 + str.count
 		end
 
 feature -- Comparison

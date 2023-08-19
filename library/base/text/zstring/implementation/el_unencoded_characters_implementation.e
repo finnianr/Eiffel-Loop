@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-22 16:15:14 GMT (Wednesday 22nd March 2023)"
-	revision: "22"
+	date: "2023-08-19 9:03:24 GMT (Saturday 19th August 2023)"
+	revision: "23"
 
 deferred class
 	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
@@ -176,6 +176,30 @@ feature {NONE} -- Implementation
 			end
 			Result := big_enough (a_area, l_insert.count)
 			Result.insert_data (l_insert, 0, destination_index, l_insert.count)
+		end
+
+	index_of_overlapping (a_area: like area; lower_A, upper_A: INTEGER): INTEGER
+		-- index of first substring overlapping interval `lower_A .. upper_A'
+		-- or else `a_area.count' if not found
+		local
+			found: BOOLEAN; ir: EL_INTERVAL_ROUTINES
+			i, lower_B, upper_B, overlap_status: INTEGER
+		do
+			if a_area.count > 0 and then upper_A >= a_area [0].code then
+				from i := 0 until found or i = a_area.count loop
+					lower_B := a_area [i].code; upper_B := a_area [i + 1].code
+
+					overlap_status := ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
+					if ir.is_overlapping (overlap_status) then
+						found := True
+					else
+						i := i + upper_B - lower_B + 3
+					end
+				end
+			else
+				Result := a_area.count
+			end
+			Result := i
 		end
 
 	index_list: ARRAYED_LIST [INTEGER]

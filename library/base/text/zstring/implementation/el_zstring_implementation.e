@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-22 16:43:10 GMT (Wednesday 22nd March 2023)"
-	revision: "68"
+	date: "2023-08-19 7:31:07 GMT (Saturday 19th August 2023)"
+	revision: "69"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -32,6 +32,7 @@ inherit
 			first_upper as unencoded_first_upper,
 			hash_code as unencoded_hash_code,
 			has as unencoded_has,
+			has_between as unencoded_has_between,
 			index_of as unencoded_index_of,
 			interval_sequence as unencoded_interval_sequence,
 			insert as insert_unencoded,

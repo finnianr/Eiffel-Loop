@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-10 18:35:51 GMT (Thursday 10th August 2023)"
-	revision: "66"
+	date: "2023-08-19 14:22:56 GMT (Saturday 19th August 2023)"
+	revision: "67"
 
 class
 	REPOSITORY_PUBLISHER
@@ -76,7 +76,7 @@ feature -- Access
 
 	ftp_url: STRING
 		do
-			Result := ftp_configuration.url
+			Result := ftp_configuration.url.location
 		end
 
 	ecf_list: EIFFEL_CONFIGURATION_LIST [EIFFEL_CONFIGURATION_FILE]
@@ -150,7 +150,7 @@ feature -- Basic operations
 			else
 				create sync_manager.make (current_set)
 			end
-			if sync_manager.has_changes and then (ok_to_synchronize or attached authenticator) then
+			if sync_manager.has_changes and then ok_to_synchronize then
 				if attached new_medium as medium then
 					login (medium)
 					if is_logged_in then
@@ -204,13 +204,10 @@ feature {NONE} -- Implementation
 	login (medium: EL_FILE_SYNC_MEDIUM)
 		do
 			if attached {EL_FTP_FILE_SYNC_MEDIUM} medium as ftp then
-				if attached authenticator as previous then
-					ftp.set_authenticator (previous)
-					ftp.login
-				else
-					ftp.login
-					authenticator := ftp.authenticator
+				if not ftp_configuration.is_authenticated then
+					ftp_configuration.authenticate
 				end
+				ftp.login
 				is_logged_in := ftp.is_logged_in
 			else
 				is_logged_in := True
@@ -341,8 +338,6 @@ feature {NONE} -- Build from Pyxis
 		end
 
 feature {EIFFEL_CONFIGURATION_FILE} -- Internal attributes
-
-	authenticator: detachable EL_FTP_AUTHENTICATOR
 
 	ise_template: TUPLE [library, contrib: ZSTRING]
 

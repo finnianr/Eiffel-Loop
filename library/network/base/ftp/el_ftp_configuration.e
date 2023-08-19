@@ -6,71 +6,68 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-27 9:09:36 GMT (Thursday 27th July 2023)"
-	revision: "11"
+	date: "2023-08-19 14:04:54 GMT (Saturday 19th August 2023)"
+	revision: "12"
 
 class
 	EL_FTP_CONFIGURATION
 
 inherit
-	FTP_URL
-		rename
-			make as make_url
-		end
-
 	EL_EIF_OBJ_BUILDER_CONTEXT
-		rename
-			make_default as make_context,
-			on_context_exit as analyze
 		export
 			{NONE} all
-		undefine
-			analyze, is_equal
+		redefine
+			make_default
 		end
 
-	EL_FTP_CONSTANTS
+	EL_FTP_CONSTANTS; EL_CHARACTER_8_CONSTANTS; EL_STRING_8_CONSTANTS
 
 create
-	make, make_default, make_from_tuple
+	make, make_default
 
 convert
-	make_from_tuple ({TUPLE [STRING, DIR_PATH]})
+	make ({FTP_URL})
 
 feature {NONE} -- Initialization
 
-	make_from_tuple (args: TUPLE [address: STRING; user_home_dir: DIR_PATH])
+	make (a_url: FTP_URL)
 		do
-			make (args.address, args.user_home_dir)
-		end
-
-	make (a_address: STRING; a_user_home_dir: DIR_PATH)
-		do
-			make_url (a_address)
-			user_home_dir := a_user_home_dir
-			make_context
+			make_default
+			url.copy (a_url)
 		end
 
 	make_default
 		do
-			make (Default_url, "/")
+			Precursor
+			create credential.make_default
+			create encrypted_url.make_empty
+			create url.make (Empty_string_8)
 		end
 
 feature -- Access
 
-	user_home_dir: DIR_PATH
+	credential: EL_BUILDABLE_AES_CREDENTIAL
 
-	url: STRING
+	url: FTP_URL
+
+	user_home_dir: DIR_PATH
 		do
-			Result := address
+			Result := char ('/') * 1 + url.path
 		end
+
+feature -- Status query
+
+	is_authenticated: BOOLEAN
 
 feature -- Element change
 
-	set_user_home_dir (a_user_home_dir: DIR_PATH)
-		require
-			is_absolute: a_user_home_dir.to_unix.starts_with_general ("/")
+	authenticate
+		local
+			crypto: EL_USER_CRYPTO_OPERATIONS
 		do
-			user_home_dir := a_user_home_dir
+			crypto.validate (credential)
+			create url.make (credential.new_aes_encrypter (256).decrypted_base_64 (encrypted_url))
+			is_authenticated := True
 		end
 
 feature {NONE} -- Build from XML
@@ -78,9 +75,13 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
-				["@url", 		agent do node.set_8 (address) end],
-				["@user", 		agent do node.set_8 (username) end],
-				["@user_home", agent do set_user_home_dir (node.to_expanded_dir_path) end]
+				["encrypted_url/text()", agent do node.set_8 (encrypted_url) end],
+				["credential",				 agent do set_next_context (credential) end]
 			>>)
 		end
+
+feature {NONE} -- Internal attributes
+
+	encrypted_url: STRING
+
 end

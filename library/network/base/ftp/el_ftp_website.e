@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2023-08-19 14:39:07 GMT (Saturday 19th August 2023)"
+	revision: "17"
 
 class
 	EL_FTP_WEBSITE
 
 inherit
 	EL_FTP_PROTOCOL
-		rename
-			make as make_ftp
-		end
 
 	EL_MODULE_LIO
 
@@ -31,7 +28,7 @@ feature -- Element change
 		do
 			make_write (a_config)
 			if is_lio_enabled then
-				lio.put_string_field ("url", a_config.path)
+				lio.put_string_field ("url", a_config.url.path)
 				lio.put_new_line
 				lio.put_path_field ("user-home", a_config.user_home_dir)
 				lio.put_new_line

@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-18 13:15:15 GMT (Friday 18th August 2023)"
-	revision: "98"
+	date: "2023-08-19 10:44:50 GMT (Saturday 19th August 2023)"
+	revision: "99"
 
 class
 	ZSTRING_TEST_SET
@@ -878,21 +878,21 @@ feature -- Status query tests
 		note
 			testing: "covers/{EL_READABLE_ZSTRING}.has_between"
 		local
-			interval_list: EL_SPLIT_INTERVALS; line: ZSTRING
-			i, lower, upper: INTEGER
+			word_intervals: EL_SPLIT_INTERVALS; line: ZSTRING
+			i, start_index, lower, upper: INTEGER; uc: CHARACTER_32
 		do
 			across Text.lines as lines loop
 				line := lines.item
-				create interval_list.make (line, ' ')
-				if attached interval_list as list then
-					from list.start until list.after loop
-						lower := list.item_lower; upper := list.item_upper
-						assert ("does not have space", not line.has_between (' ', lower, upper))
-						from i := lower until i > upper loop
-							assert ("has interval character", line.has_between (line [i], lower, upper))
-							i := i + 1
-						end
-						list.forth
+				create word_intervals.make (line, ' ')
+				if attached word_intervals as word then
+					from word.start until word.after loop
+						lower := word.item_lower; upper := word.item_upper
+						uc := line [lower + (upper - lower + 1) // 2]
+						start_index := (lower - 10).max (1)
+						assert ("has middle character", line.has_between (uc, start_index, upper))
+						assert ("not has bar character", not line.has_between ('|', start_index, upper))
+						assert ("not has G-clef character", not line.has_between (Text.G_clef [1], start_index, upper))
+						word.forth
 					end
 				end
 			end
@@ -902,17 +902,23 @@ feature -- Status query tests
 		note
 			testing: "covers/{ZSTRING}.is_canonically_spaced"
 		local
-			str: ZSTRING
+			str, line: ZSTRING; space_index: INTEGER
+			canonically_spaced: STRING
 		do
-			str := " one two "
-			assert ("is_canonically_spaced", str.is_canonically_spaced)
-			str [5] := '%T'
-			assert ("not is_canonically_spaced", not str.is_canonically_spaced)
-			assert ("is_canonically_spaced", str.as_canonically_spaced.is_canonically_spaced)
-			str [5] := ' '
-			str.insert_character (' ', 5)
-			assert ("not is_canonically_spaced", not str.is_canonically_spaced)
-			assert ("is_canonically_spaced", str.as_canonically_spaced.is_canonically_spaced)
+			canonically_spaced := "canonically spaced"
+			across Text.lines as list loop
+				line := list.item
+				assert (canonically_spaced, line.is_canonically_spaced)
+				space_index := line.index_of (' ', 1)
+				if space_index > 0 then
+					across << Text.Tab_character, Text.Ogham_space_mark >> as c loop
+						line [space_index] := c.item
+						assert ("not " + canonically_spaced, not line.is_canonically_spaced)
+					end
+					line.replace_substring_general (space * 2, space_index, space_index)
+					assert ("not " + canonically_spaced, not line.is_canonically_spaced)
+				end
+			end
 		end
 
 	test_order_comparison

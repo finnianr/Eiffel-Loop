@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-19 8:35:32 GMT (Friday 19th May 2023)"
-	revision: "15"
+	date: "2023-08-19 12:38:47 GMT (Saturday 19th August 2023)"
+	revision: "16"
 
 deferred class
 	EL_JPEG_FILE_INFO_COMMAND_I
@@ -155,7 +155,7 @@ feature {NONE} -- Implementation
 							if field_name ~ Name.make then
 								field_name.prepend_ascii ("Device")
 							end
-							if field_table.has_imported (field_name) then
+							if field_table.has_imported_key (field_name) then
 								value := line.substring_end (value_column)
 								value.right_adjust
 								field_table.found_item.set_from_string (Current, value)

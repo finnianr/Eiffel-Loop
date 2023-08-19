@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 8:14:46 GMT (Wednesday 16th August 2023)"
-	revision: "40"
+	date: "2023-08-19 13:24:56 GMT (Saturday 19th August 2023)"
+	revision: "41"
 
 class
 	EL_NAMING_ROUTINES
@@ -22,6 +22,9 @@ inherit
 	ANY
 
 	EL_STRING_8_CONSTANTS
+		rename
+			Empty_string_8 as Empty_name
+		end
 
 	EL_SHARED_STRING_8_CURSOR
 
@@ -395,7 +398,7 @@ feature {NONE} -- Constants
 
 	Underscore_split: EL_SPLIT_ON_CHARACTER_8 [STRING]
 		once
-			create Result.make (Empty_string_8, '_')
+			create Result.make (Empty_name, '_')
 		end
 
 end

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 15:17:13 GMT (Tuesday 15th August 2023)"
-	revision: "8"
+	date: "2023-08-19 13:20:01 GMT (Saturday 19th August 2023)"
+	revision: "9"
 
 deferred class
 	EL_NAME_TRANSLATER
@@ -76,7 +76,7 @@ feature -- Conversion
 
 feature -- Element change
 
-	inform (eiffel_name: STRING)
+	inform (eiffel_name: IMMUTABLE_STRING_8)
 		-- useful for camelCase descendant
 		do
 		end

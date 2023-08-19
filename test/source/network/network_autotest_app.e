@@ -13,15 +13,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 18:20:05 GMT (Thursday 1st December 2022)"
-	revision: "28"
+	date: "2023-08-19 14:41:44 GMT (Saturday 19th August 2023)"
+	revision: "29"
 
 class
 	NETWORK_AUTOTEST_APP
 
 inherit
 	EL_CRC_32_AUTOTEST_APPLICATION [
---		FTP_TEST_SET,
+		FTP_TEST_SET,
 		SIMPLE_CLIENT_SERVER_TEST_SET,
 		NETWORK_TEST_SET
 	]

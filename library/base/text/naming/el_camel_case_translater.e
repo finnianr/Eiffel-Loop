@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 15:21:02 GMT (Tuesday 15th August 2023)"
-	revision: "6"
+	date: "2023-08-19 13:24:56 GMT (Saturday 19th August 2023)"
+	revision: "7"
 
 class
 	EL_CAMEL_CASE_TRANSLATER
@@ -59,6 +59,8 @@ feature -- Conversion
 				when {EL_CASE}.lower, {EL_CASE}.upper then
 					if eiffel_table.has_key (Name_buffer.copied_lower (foreign_name)) then
 						Result := eiffel_table.found_item
+					else
+						Result := Empty_name
 					end
 			else
 				Result := Name_buffer.empty
@@ -69,7 +71,7 @@ feature -- Conversion
 
 feature -- Element change
 
-	inform (eiffel_name: STRING)
+	inform (eiffel_name: IMMUTABLE_STRING_8)
 		do
 			inspect foreign_case
 				when {EL_CASE}.lower, {EL_CASE}.upper then

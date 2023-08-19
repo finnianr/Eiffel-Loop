@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-18 13:55:34 GMT (Friday 18th August 2023)"
-	revision: "34"
+	date: "2023-08-19 14:33:26 GMT (Saturday 19th August 2023)"
+	revision: "35"
 
 class
 	EL_FTP_PROTOCOL
@@ -15,15 +15,15 @@ class
 inherit
 	FTP_PROTOCOL
 		rename
-			address as config,
 			exception as exception_code,
+			make as make_ftp,
 			send as send_to_socket,
 			login as ftp_login,
 			last_reply as last_reply_utf_8
 		export
 			{EL_FTP_AUTHENTICATOR} send_username, send_password
 		redefine
-			close, open, initialize, config, reply_code_ok
+			close, open, initialize, reply_code_ok
 		end
 
 	EL_FILE_OPEN_ROUTINES
@@ -46,27 +46,28 @@ feature {NONE} -- Initialization
 	initialize
 		do
 			Precursor
-			create authenticator.make
 			create current_directory
 			set_binary_mode
 			create reply_parser.make
 		end
 
 	make_read (a_config: EL_FTP_CONFIGURATION)
+		require
+			authenticated: a_config.is_authenticated
 		do
-			make (a_config)
+			make_ftp (a_config.url)
 			set_read_mode
 		end
 
 	make_write (a_config: EL_FTP_CONFIGURATION)
+		require
+			authenticated: a_config.is_authenticated
 		do
-			make (a_config)
+			make_ftp (a_config.url)
 			set_write_mode
 		end
 
 feature -- Access
-
-	authenticator: EL_FTP_AUTHENTICATOR
 
 	config: EL_FTP_CONFIGURATION
 
@@ -85,11 +86,6 @@ feature -- Access
 
 feature -- Element change
 
-	set_authenticator (a_authenticator: like authenticator)
-		do
-			authenticator := a_authenticator
-		end
-
 	set_current_directory (a_current_directory: DIR_PATH)
 		do
 			send (
@@ -105,13 +101,6 @@ feature -- Element change
 			end
 		ensure
 			changed: get_current_directory ~ current_directory
-		end
-
-	set_login_prompts (user_name_and_password: READABLE_STRING_GENERAL)
-		require
-			comma_separated: user_name_and_password.has (',')
-		do
-			authenticator.set_input_prompts (user_name_and_password)
 		end
 
 feature -- Remote operations
@@ -203,7 +192,7 @@ feature -- Status report
 
 	is_default_state: BOOLEAN
 		do
-			Result := config.url ~ Default_url
+			Result := config.url.host.is_empty
 		end
 
 	last_succeeded: BOOLEAN
@@ -233,7 +222,7 @@ feature -- Status change
 			from attempts := 1 until is_logged_in or attempts > Max_login_attempts loop
 				reset_error
 				if is_open then
-					authenticator.try_login (Current)
+					authenticate
 					if is_logged_in then
 						if send_transfer_mode_command then
 							bytes_transferred := 0
@@ -379,12 +368,12 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 
 	transfer_file (source_path, destination_path: FILE_PATH)
 		do
-			config.path.share (destination_path.to_unix.to_utf_8 (True))
+			address.path.share (destination_path.to_unix.to_utf_8 (True))
 			set_passive_mode
 			initiate_transfer
 			if transfer_initiated then
 				transfer_file_data (source_path)
-				transfer_initiated := false
+				transfer_initiated := False
 			else
 				lio.put_new_line
 				lio.put_labeled_string ("Socket error", data_socket.error)

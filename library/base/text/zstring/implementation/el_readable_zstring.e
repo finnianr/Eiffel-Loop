@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-18 11:01:44 GMT (Friday 18th August 2023)"
-	revision: "124"
+	date: "2023-08-19 10:36:23 GMT (Saturday 19th August 2023)"
+	revision: "125"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -360,18 +360,20 @@ feature -- Status query
 			end_index_small_enough: end_index <= count
 			consistent_indexes: start_index - 1 <= end_index
 		local
-			code_i, i: INTEGER; l_area: like area
+			i: INTEGER; l_area: like area; c: CHARACTER
 		do
 			l_area := area
 			Result := True
 			from i := start_index until not Result or else i > end_index loop
-				code_i := l_area [i - 1].code
-				if code_i = Substitute_code then
+				c := l_area [i - 1]
+				if c = Substitute then
 					Result := Result and condition (unencoded_item (i))
-				elseif code_i <= Max_7_bit_code then
-					Result := Result and condition (code_i.to_character_32)
+
+				elseif c <= Max_7_bit_character then
+					Result := Result and condition (c.to_character_32)
+
 				else
-					Result := Result and condition (Unicode_table [code_i])
+					Result := Result and condition (Unicode_table [c.code])
 				end
 				i := i + 1
 			end
@@ -402,23 +404,16 @@ feature -- Status query
 			valid_start_index: valid_index (start_index)
 			valid_end_index: end_index >= start_index and end_index <= count
 		local
-			interval_count, i, i_final, block_index: INTEGER; iter: EL_UNENCODED_CHARACTER_ITERATION
-			c_i, c: CHARACTER
+			i: INTEGER; c_i, c: CHARACTER
 		do
 			c := codec.encoded_character (uc)
-			interval_count := count.min (end_index) - start_index + 1
-			if c = Substitute implies has_unencoded_between (start_index, start_index + interval_count - 1) then
-				i := start_index + area_lower - 1; i_final := i + interval_count
-				if attached area as l_area and then attached unencoded_area as area_32 then
-					from until i = i_final or Result loop
-						c_i := l_area [i]
-						if c_i = Substitute then
-							Result := uc = iter.item ($block_index, area_32, i - area_lower + 1)
-						else
-							Result := c_i = c
-						end
-						i := i + 1
-					end
+			if c = Substitute then
+				Result := unencoded_has_between (uc, start_index, end_index)
+
+			elseif attached area as l_area then
+				from i := start_index - 1 until i = end_index or Result loop
+					Result := l_area [i] = c
+					i := i + 1
 				end
 			end
 		end

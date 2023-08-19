@@ -1,3 +1,6 @@
+1.11.2
+* New functions in crypto command shell
+
 1.11.1
 * ESC key on menus
 

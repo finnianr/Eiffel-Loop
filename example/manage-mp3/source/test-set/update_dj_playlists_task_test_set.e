@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-08-18 14:58:54 GMT (Friday 18th August 2023)"
+	revision: "9"
 
 class
 	UPDATE_DJ_PLAYLISTS_TASK_TEST_SET
@@ -41,7 +41,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Checksum: NATURAL = 2392585940
+	Checksum: NATURAL = 2524514439
 
 	Task_config: STRING = "[
 		update_dj_playlists:

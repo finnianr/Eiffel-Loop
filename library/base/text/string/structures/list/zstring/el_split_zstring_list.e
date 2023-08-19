@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-07 10:51:12 GMT (Monday 7th August 2023)"
-	revision: "22"
+	date: "2023-08-19 7:11:46 GMT (Saturday 19th August 2023)"
+	revision: "23"
 
 class
 	EL_SPLIT_ZSTRING_LIST
@@ -23,7 +23,7 @@ inherit
 		undefine
 			bit_count
 		redefine
-			append_z_code, proper_cased,
+			append_z_code, item_has, proper_cased,
 			separator_z_code, default_target, new_intervals, trim_string
 		end
 
@@ -36,6 +36,19 @@ inherit
 create
 	make, make_empty, make_by_string, make_adjusted, make_adjusted_by_string,
 	make_from_for, make_from, make_from_if
+
+
+feature -- Status query
+
+	item_has (uc: CHARACTER_32): BOOLEAN
+		local
+			i: INTEGER
+		do
+			i := (index - 1) * 2
+			if attached area as a then
+				Result := target_string.has_between (uc, a [i], a [i + 1])
+			end
+		end
 
 feature -- Element change
 

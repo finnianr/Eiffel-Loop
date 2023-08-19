@@ -16,7 +16,13 @@ publish-repository:
 	ise_contrib = "https://github.com/EiffelSoftware/EiffelStudio/blob/main/Src/contrib/"
 
 	ftp-site:
-		url = "ftp.eiffel-loop.com"; user_home = "/htdocs"
+		encrypted_url:
+			"HVQPk8fnB04fXvnHdSsvfGjfu0FMt2N1QWbjiSDK+a4QI2aB4XY3QEUC3tfn6wMhiVZrUz4rP59JmXjfdIbktQ=="
+		credential:
+			salt:
+				"QmOh7tMBAGEyOrOBgMU9BJoJJ1R/dr67"
+			digest:
+				"66i62a1zmjfTUvaSSFUFSL7teSuOejiJlAa+4lEmIj0="
 
 	templates:
 		main = "main-template.html.evol"; eiffel_source = "eiffel-source-code.html.evol"

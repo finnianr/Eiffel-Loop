@@ -6,14 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "8"
+	date: "2023-08-19 14:49:43 GMT (Saturday 19th August 2023)"
+	revision: "9"
 
 class
 	FTP_TEST_SET
 
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
+		undefine
+			new_lio
+		end
+
+	EL_CRC_32_TESTABLE
+
+	SHARED_DEV_ENVIRON
 
 create
 	make
@@ -24,28 +31,46 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["reuse_authenticator", agent test_reuse_authenticator]
+				["ftp_directory_exists", agent test_ftp_directory_exists],
+				["reuse_authenticator",	 agent test_reuse_authenticator]
 			>>)
 		end
 
 feature -- Tests
 
+	test_ftp_directory_exists
+		-- FILE_TEST_SET.test_ftp_directory_exists
+		local
+			config: EL_FTP_CONFIGURATION
+			ftp: EL_FTP_PROTOCOL; home_dir: DIR_PATH
+			url: FTP_URL; dir_path: EL_DIR_PATH
+		do
+--			create config.
+
+--			create ftp.make_write ([url.host, home_dir])
+			ftp.open
+			ftp.login
+			assert ("logged in", ftp.is_logged_in)
+			ftp.change_home_dir
+			dir_path := "test_location"
+			ftp.make_directory (dir_path)
+			assert ("directory exists", ftp.directory_exists (dir_path))
+			ftp.remove_directory (dir_path)
+			assert ("not directory exists", not ftp.directory_exists (dir_path))
+			ftp.close
+		end
+
 	test_reuse_authenticator
 		local
 			config: EL_FTP_CONFIGURATION; item: EL_FTP_UPLOAD_ITEM
-			ftp: EL_FTP_PROTOCOL; authenticator: detachable EL_FTP_AUTHENTICATOR
+			ftp: EL_FTP_PROTOCOL
 		do
-			create config.make ("ftp.eiffel-loop.com", "/htdocs")
+			create config.make_default
+			config.authenticate
 			across file_list as list loop
 				create ftp.make_write (config)
-				if attached authenticator as previous then
-					ftp.set_authenticator (previous)
-					ftp.login
-					ftp.make_directory (Test_set)
-				else
-					ftp.login
-					authenticator := ftp.authenticator
-				end
+				ftp.login
+				ftp.make_directory (Test_set)
 				lio.put_path_field ("Uploading", list.item)
 				lio.put_new_line
 				create item.make (list.item, Test_set)

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-01 16:53:14 GMT (Wednesday 1st March 2023)"
-	revision: "53"
+	date: "2023-08-19 9:33:40 GMT (Saturday 19th August 2023)"
+	revision: "54"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -362,29 +362,27 @@ feature -- Measurement
 	intersection_count (lower_A, upper_A: INTEGER): INTEGER
 		-- count of characters between `lower_A' and `upper_A'
 		local
-			done, searching: BOOLEAN; ir: EL_INTERVAL_ROUTINES; l_area: like area
-			i, lower_B, upper_B, overlap_status: INTEGER
+			overlapping: BOOLEAN; ir: EL_INTERVAL_ROUTINES; l_area: like area
+			i, lower_B, upper_B: INTEGER
 		do
-			l_area := area; searching := True
-			from i := 0 until done or else i = l_area.count loop
+			l_area := area; overlapping := True
+			from
+				i := index_of_overlapping (l_area, lower_A, upper_A)
+			until
+				not overlapping or else i = l_area.count
+			loop
 				lower_B := l_area [i].code; upper_B := l_area [i + 1].code
-				overlap_status := ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
-				if searching and then ir.is_overlapping (overlap_status) then
-					searching := False
-				end
-				if not searching then
-					inspect overlap_status
-						when B_contains_A then
-							Result := upper_A - lower_A + 1
-						when A_contains_B then
-							Result := Result + upper_B - lower_B + 1
-						when A_overlaps_B_left then
-							Result := Result + upper_A - lower_B + 1
-						when A_overlaps_B_right then
-							Result := Result + upper_B - lower_A + 1
-					else
-						done := True
-					end
+				inspect ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
+					when B_contains_A then
+						Result := upper_A - lower_A + 1
+					when A_contains_B then
+						Result := Result + upper_B - lower_B + 1
+					when A_overlaps_B_left then
+						Result := Result + upper_A - lower_B + 1
+					when A_overlaps_B_right then
+						Result := Result + upper_B - lower_A + 1
+				else
+					overlapping := False
 				end
 				i := i + upper_B - lower_B + 3
 			end
@@ -427,20 +425,57 @@ feature -- Status query
 			Result := index_of (uc, 1, default_pointer) > 0
 		end
 
+	has_between (uc: CHARACTER_32; lower_A, upper_A: INTEGER): BOOLEAN
+		local
+			overlapping: BOOLEAN; l_area: like area
+			i, j, lower_B, upper_B, l_count, offset, comparison_count, j_final: INTEGER
+			ir: EL_INTERVAL_ROUTINES
+		do
+			l_area := area; overlapping := True
+			from
+				i := index_of_overlapping (l_area, lower_A, upper_A)
+			until
+				not overlapping or Result or i = l_area.count
+			loop
+--				[lower_A, upper_A] is A interval
+				lower_B := l_area [i].code; upper_B := l_area [i + 1].code -- is B interval
+				l_count := upper_B - lower_B + 1
+
+				inspect ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
+					when A_overlaps_B_left then
+						comparison_count := upper_A - lower_B + 1
+						offset := 0
+
+					when A_overlaps_B_right then
+						comparison_count := upper_B - lower_A + 1
+						offset := lower_A - lower_B
+
+					when A_contains_B then
+						comparison_count := upper_B - lower_B + 1
+						offset := 0
+
+					when B_contains_A then
+						comparison_count := upper_A - lower_A + 1
+						offset := lower_A - lower_B
+				else
+					overlapping := False
+				end
+				if overlapping then
+					j := i + 2 + offset; j_final := j + comparison_count
+					from until Result or j = j_final loop
+						Result := l_area [j] = uc
+						j := j + 1
+					end
+				end
+				i := i + l_count + 2
+			end
+		end
+
 	intersects (lower_A, upper_A: INTEGER): BOOLEAN
 		-- `True' if some characters are between `lower_A' and `upper_A'
-		local
-			i, lower_B, upper_B, start_end_count, overlap_status: INTEGER
-			ir: EL_INTERVAL_ROUTINES; l_area: like area
 		do
-			l_area := area; start_end_count := upper_A - lower_A + 1
-			if l_area.count > 0 and then upper_A >= l_area [i].code then
-				from i := 0 until Result or else i = l_area.count loop
-					lower_B := l_area [i].code; upper_B := l_area [i + 1].code
-					overlap_status := ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
-					Result := ir.is_overlapping (overlap_status)
-					i := i + upper_B - lower_B + 3
-				end
+			if attached area as l_area then
+				Result := index_of_overlapping (l_area, lower_a, upper_a) /= l_area.count
 			end
 		end
 
@@ -453,54 +488,52 @@ feature -- Comparison
 
 	same_characters (other_area: like area; lower_A, upper_A, other_offset: INTEGER; case_insensitive: BOOLEAN): BOOLEAN
 		local
-			searching, done: BOOLEAN; l_area: like area
-			i, lower_B, upper_B, l_count, overlap_status, offset, comparison_count, other_block_index: INTEGER
+			i, lower_B, upper_B, l_count, offset, comparison_count, other_block_index: INTEGER
 			iter: EL_UNENCODED_CHARACTER_ITERATION; ir: EL_INTERVAL_ROUTINES
+			overlapping: BOOLEAN; l_area: like area
 		do
 			l_area := area
-			Result := True
-			from i := 0 until done or not Result or i = l_area.count loop
+			Result := True; overlapping := True
+			from
+				i := index_of_overlapping (l_area, lower_A, upper_A)
+			until
+				not overlapping or not Result or i = l_area.count
+			loop
 --				[lower_A, upper_A] is A interval
 				lower_B := l_area [i].code; upper_B := l_area [i + 1].code -- is B interval
 				l_count := upper_B - lower_B + 1
 
-				overlap_status := ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
-				if searching and then ir.is_overlapping (overlap_status) then
-					searching := False
+				inspect ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
+					when A_overlaps_B_left then
+						comparison_count := upper_A - lower_B + 1
+						offset := 0
+
+					when A_overlaps_B_right then
+						comparison_count := upper_B - lower_A + 1
+						offset := lower_A - lower_B
+
+					when A_contains_B then
+						comparison_count := upper_B - lower_B + 1
+						offset := 0
+
+					when B_contains_A then
+						comparison_count := upper_A - lower_A + 1
+						offset := lower_A - lower_B
+
+				else
+					overlapping := False
 				end
-				if not searching then
-					inspect overlap_status
-						when A_overlaps_B_left then
-							comparison_count := upper_A - lower_B + 1
-							offset := 0
-
-						when A_overlaps_B_right then
-							comparison_count := upper_B - lower_A + 1
-							offset := lower_A - lower_B
-
-						when A_contains_B then
-							comparison_count := upper_B - lower_B + 1
-							offset := 0
-
-						when B_contains_A then
-							comparison_count := upper_A - lower_A + 1
-							offset := lower_A - lower_B
-
+				if overlapping then
+					if case_insensitive then
+						Result := iter.same_caseless_characters (
+							$other_block_index, other_area, l_area,
+							lower_B + offset + other_offset, i + 2 + offset, comparison_count
+						)
 					else
-						done := True
-					end
-					if not done then
-						if case_insensitive then
-							Result := iter.same_caseless_characters (
-								$other_block_index, other_area, l_area,
-								lower_B + offset + other_offset, i + 2 + offset, comparison_count
-							)
-						else
-							Result := iter.same_characters (
-								$other_block_index, other_area, l_area,
-								lower_B + offset + other_offset, i + 2 + offset, comparison_count
-							)
-						end
+						Result := iter.same_characters (
+							$other_block_index, other_area, l_area,
+							lower_B + offset + other_offset, i + 2 + offset, comparison_count
+						)
 					end
 				end
 				i := i + l_count + 2
@@ -969,22 +1002,21 @@ feature -- Basic operations
 		local
 			i, j, k, lower_A, upper_A, lower_B, upper_B, overlap_status, j_upper: INTEGER
 			unicode: SPECIAL [CHARACTER_32]; ir: EL_INTERVAL_ROUTINES; l_area: like area
-			done, searching: BOOLEAN; uc: CHARACTER_32
+			done: BOOLEAN; uc: CHARACTER_32
 		do
 			if interval_list.count > 0 then
-				unicode := codec.unicode_table; l_area := area; searching := True
+				unicode := codec.unicode_table; l_area := area
 				interval_list.start
-
-				from i := 0 until done or else i = l_area.count loop
+				from
+					i := index_of_overlapping (l_area, lower_A, upper_A)
+				until
+					done or else i = l_area.count
+				loop
 					lower_B := l_area [i].code; upper_B := l_area [i + 1].code
 					lower_A := interval_list.item_lower; upper_A := interval_list.item_upper
 
-					overlap_status := ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
-					if searching and then ir.is_overlapping (overlap_status) then
-						searching := overlap_status /= B_contains_A
-					end
-					if not searching then
-						if overlap_status = B_contains_A then
+					inspect ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
+						when B_contains_A then
 							j_upper := i + 2 + upper_A - lower_B
 							from j := i + 2 + lower_A - lower_B until j > j_upper loop
 								uc := area [j]
@@ -998,9 +1030,8 @@ feature -- Basic operations
 							end
 							interval_list.forth
 							done := interval_list.after
-						else
-							done := True
-						end
+					else
+						done := True
 					end
 					i := i + upper_B - lower_B + 3
 				end
