@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-19 14:22:56 GMT (Saturday 19th August 2023)"
-	revision: "67"
+	date: "2023-08-21 8:05:58 GMT (Monday 21st August 2023)"
+	revision: "68"
 
 class
 	REPOSITORY_PUBLISHER
@@ -205,7 +205,7 @@ feature {NONE} -- Implementation
 		do
 			if attached {EL_FTP_FILE_SYNC_MEDIUM} medium as ftp then
 				if not ftp_configuration.is_authenticated then
-					ftp_configuration.authenticate
+					ftp_configuration.authenticate (Void)
 				end
 				ftp.login
 				is_logged_in := ftp.is_logged_in

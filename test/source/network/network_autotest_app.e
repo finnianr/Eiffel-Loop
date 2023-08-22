@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-19 14:41:44 GMT (Saturday 19th August 2023)"
-	revision: "29"
+	date: "2023-08-22 8:06:41 GMT (Tuesday 22nd August 2023)"
+	revision: "30"
 
 class
 	NETWORK_AUTOTEST_APP
@@ -34,14 +34,19 @@ create
 
 feature {NONE} -- Implementation
 
+	compile_network_ecf: TUPLE [SINGLE_TRANSACTION, FILE_PROTOCOL]
+		do
+			create Result
+		end
+
 	compile: TUPLE [
-		FTP_TEST_SET,
 		EL_COOKIE_STRING_8,
 		EL_NETWORK_DEVICE_IMP,
 		EL_WAYBACK_CLOSEST,
 		EL_FTP_FILE_SYNC_MEDIUM,
 		EL_FTP_WEBSITE,
-		EL_XML_NETWORK_MESSENGER
+		EL_XML_NETWORK_MESSENGER,
+		FTP_TEST_SET
 	]
 		do
 			create Result

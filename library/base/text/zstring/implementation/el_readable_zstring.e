@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-19 10:36:23 GMT (Saturday 19th August 2023)"
-	revision: "125"
+	date: "2023-08-21 8:07:23 GMT (Monday 21st August 2023)"
+	revision: "126"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -404,7 +404,7 @@ feature -- Status query
 			valid_start_index: valid_index (start_index)
 			valid_end_index: end_index >= start_index and end_index <= count
 		local
-			i: INTEGER; c_i, c: CHARACTER
+			i: INTEGER; c: CHARACTER
 		do
 			c := codec.encoded_character (uc)
 			if c = Substitute then

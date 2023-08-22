@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-18 13:52:06 GMT (Friday 18th August 2023)"
-	revision: "1"
+	date: "2023-08-22 11:38:35 GMT (Tuesday 22nd August 2023)"
+	revision: "2"
 
 class
 	EL_FTP_SERVER_REPLY_ENUM
@@ -32,6 +32,7 @@ feature {NONE} -- Initialization
 			about_to_open_data_connection := 150
 			action_not_taken := 550
 			closing_control_connection := 221
+			closing_data_connection := 226
 			file_action_ok := 250
 			file_status := 213
 			success := 200
@@ -45,6 +46,8 @@ feature -- Access
 	action_not_taken: NATURAL_16
 
 	closing_control_connection: NATURAL_16
+	
+	closing_data_connection: NATURAL_16
 
 	file_action_ok: NATURAL_16
 
@@ -65,6 +68,8 @@ feature {NONE} -- Constants
 					Requested action not taken. File unavailable (e.g., file not found, no access).
 				closing_control_connection:
 					Service closing control connection. Logged out if appropriate.
+				closing_data_connection:
+					Closing data connection. Requested file action successful (for example, file transfer or file abort). 
 				file_action_ok:
 					Requested file action okay, completed.
 				success:

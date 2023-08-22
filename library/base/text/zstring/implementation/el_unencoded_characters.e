@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-19 9:33:40 GMT (Saturday 19th August 2023)"
-	revision: "54"
+	date: "2023-08-21 8:07:23 GMT (Monday 21st August 2023)"
+	revision: "55"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -1000,7 +1000,7 @@ feature -- Basic operations
 		require
 			contains_all_intervals: contains_all_intervals (interval_list)
 		local
-			i, j, k, lower_A, upper_A, lower_B, upper_B, overlap_status, j_upper: INTEGER
+			i, j, k, lower_A, upper_A, lower_B, upper_B, j_upper: INTEGER
 			unicode: SPECIAL [CHARACTER_32]; ir: EL_INTERVAL_ROUTINES; l_area: like area
 			done: BOOLEAN; uc: CHARACTER_32
 		do

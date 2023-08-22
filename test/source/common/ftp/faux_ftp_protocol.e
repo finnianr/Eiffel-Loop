@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-08-21 8:05:37 GMT (Monday 21st August 2023)"
+	revision: "9"
 
 class
 	FAUX_FTP_PROTOCOL
@@ -18,7 +18,7 @@ inherit
 			close, delete_file, login, quit, upload, initialize,
 			is_open, open, file_exists, directory_exists,
 			get_current_directory, remove_directory, set_current_directory,
-			make_sub_directory, user_home_dir
+			make_directory_step, user_home_dir
 		end
 
 	EL_MODULE_OS
@@ -134,7 +134,7 @@ feature {NONE} -- Implementation
 			Result := current_directory
 		end
 
-	make_sub_directory (dir_path: DIR_PATH)
+	make_directory_step (dir_path: DIR_PATH)
 		do
 			OS.File_system.make_directory (current_directory #+ dir_path)
 			last_succeeded := (current_directory #+ dir_path).exists

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-18 13:02:43 GMT (Friday 18th August 2023)"
-	revision: "34"
+	date: "2023-08-22 8:42:38 GMT (Tuesday 22nd August 2023)"
+	revision: "35"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -191,6 +191,24 @@ feature -- Basic operations
 					end
 					i := i + 1
 				end
+			end
+		end
+
+	append_to_utf_8 (utf_8_out: STRING)
+		-- append path to string `str'
+		local
+			i: INTEGER; c: EL_UTF_CONVERTER
+		do
+			utf_8_out.grow (utf_8_out.count + count)
+			from i := 1 until i > part_count loop
+				if attached part_string (i) as general then
+					if attached {ZSTRING} general as zstr then
+						zstr.append_to_utf_8 (utf_8_out)
+					else
+						c.utf_32_string_into_utf_8_string_8 (general, utf_8_out)
+					end
+				end
+				i := i + 1
 			end
 		end
 

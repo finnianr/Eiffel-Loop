@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-19 14:39:07 GMT (Saturday 19th August 2023)"
-	revision: "17"
+	date: "2023-08-21 8:07:23 GMT (Monday 21st August 2023)"
+	revision: "18"
 
 class
 	EL_FTP_WEBSITE
 
 inherit
 	EL_FTP_PROTOCOL
+		rename
+			make as make_protocol
+		end
 
 	EL_MODULE_LIO
 
@@ -51,7 +54,7 @@ feature -- Status query
 
 	is_initialized: BOOLEAN
 		do
-			Result := config.url /~ Default_url
+			Result := config.url.host.count > 0
 		end
 
 end

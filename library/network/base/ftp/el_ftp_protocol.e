@@ -6,37 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-19 14:33:26 GMT (Saturday 19th August 2023)"
-	revision: "35"
+	date: "2023-08-22 12:22:39 GMT (Tuesday 22nd August 2023)"
+	revision: "36"
 
 class
 	EL_FTP_PROTOCOL
 
 inherit
-	FTP_PROTOCOL
-		rename
-			exception as exception_code,
-			make as make_ftp,
-			send as send_to_socket,
-			login as ftp_login,
-			last_reply as last_reply_utf_8
-		export
-			{EL_FTP_AUTHENTICATOR} send_username, send_password
+	EL_FTP_IMPLEMENTATION
 		redefine
-			close, open, initialize, reply_code_ok
+			close, open, initialize
 		end
-
-	EL_FILE_OPEN_ROUTINES
-		rename
-			Open as File_open,
-			Read as Read_from
-		end
-
-	EL_MODULE_EXCEPTION; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_LIO; EL_MODULE_USER_INPUT
-
-	EL_FTP_CONSTANTS; EL_STRING_8_CONSTANTS
 
 create
 	make_write, make_read
@@ -48,23 +28,27 @@ feature {NONE} -- Initialization
 			Precursor
 			create current_directory
 			set_binary_mode
+			create created_directory_set.make (10)
 			create reply_parser.make
 		end
 
-	make_read (a_config: EL_FTP_CONFIGURATION)
+	make (a_config: EL_FTP_CONFIGURATION; set_mode: PROCEDURE)
 		require
 			authenticated: a_config.is_authenticated
 		do
 			make_ftp (a_config.url)
-			set_read_mode
+			config := a_config
+			set_mode.apply
+		end
+
+	make_read (a_config: EL_FTP_CONFIGURATION)
+		do
+			make (a_config, agent set_read_mode)
 		end
 
 	make_write (a_config: EL_FTP_CONFIGURATION)
-		require
-			authenticated: a_config.is_authenticated
 		do
-			make_ftp (a_config.url)
-			set_write_mode
+			make (a_config, agent set_write_mode)
 		end
 
 feature -- Access
@@ -73,10 +57,36 @@ feature -- Access
 
 	current_directory: DIR_PATH
 
-	last_reply: ZSTRING
+	file_list (dir_path: DIR_PATH): EL_FILE_PATH_LIST
+		local
+			line_list: EL_SPLIT_IMMUTABLE_UTF_8_LIST
 		do
-			create Result.make_from_utf_8 (last_reply_utf_8)
-			Result.right_adjust
+			create Result.make_empty
+			initiate_file_listing (dir_path)
+
+			if transfer_initiated then
+				from until data_socket.is_closed loop
+					read
+					create line_list.make_shared_by_string (last_packet, Carriage_return_new_line)
+					if attached line_list as list then
+						Result.grow (Result.count + list.count)
+						from list.start until list.after loop
+							if list.utf_8_item_count = 0 then
+								data_socket.close
+							else
+								Result.extend (dir_path + list.item)
+							end
+							list.forth
+						end
+					end
+					receive_file_list_count
+				end
+			end
+			reset_file_listing
+		ensure
+			valid_count: Result.count = file_count
+			address_path_unchanged: old address.path ~ address.path
+			detached_data_socket: not attached data_socket
 		end
 
 	user_home_dir: DIR_PATH
@@ -88,15 +98,14 @@ feature -- Element change
 
 	set_current_directory (a_current_directory: DIR_PATH)
 		do
-			send (
-				Command.change_working_directory, absolute_unix_dir (a_current_directory),
-				<< Reply.success, Reply.file_action_ok >>
+			send_absolute (
+				Command.change_working_directory, a_current_directory, << Reply.success, Reply.file_action_ok >>
 			)
 			if last_succeeded then
 				if a_current_directory.is_absolute then
-					current_directory := a_current_directory
+					current_directory.copy (a_current_directory)
 				else
-					current_directory := current_directory #+ a_current_directory
+					current_directory.append_dir_path (a_current_directory)
 				end
 			end
 		ensure
@@ -112,26 +121,21 @@ feature -- Remote operations
 
 	delete_file (file_path: FILE_PATH)
 		do
-			send (Command.delete_file, file_path.to_unix, << Reply.file_action_ok >>)
+			send_path (Command.delete_file, file_path, << Reply.file_action_ok >>)
 		end
 
 	make_directory (dir_path: DIR_PATH)
-			-- Create directory relative to current directory
+		-- create directory relative to current directory
 		require
 			dir_path_is_relative: not dir_path.is_absolute
-		local
-			parent_dir: DIR_PATH; parent_exists: BOOLEAN
 		do
-			if not directory_exists (dir_path) then
-				parent_dir := dir_path.parent
-				parent_exists := directory_exists (parent_dir)
-				if not parent_exists then
-					make_directory (parent_dir)
-					parent_exists := last_succeeded
+			if dir_path.is_empty then
+				do_nothing
+			else
+				if attached dir_path.parent as parent and then not directory_exists (parent) then
+					make_directory (parent) -- recurse
 				end
-				if parent_exists then
-					make_sub_directory (dir_path)
-				end
+				make_directory_step (dir_path)
 			end
 		ensure
 			exists: directory_exists (dir_path)
@@ -139,10 +143,26 @@ feature -- Remote operations
 
 	remove_directory (dir_path: DIR_PATH)
 		do
-			send (Command.remove_directory, absolute_unix_dir (dir_path), << Reply.file_action_ok >>)
+			send_absolute (Command.remove_directory, dir_path, << Reply.file_action_ok >>)
+			if last_succeeded then
+				created_directory_set.prune (dir_path)
+			end
 		end
 
 feature -- Basic operations
+
+	read_file_count (dir_path: DIR_PATH)
+		do
+			initiate_file_listing (dir_path)
+			if transfer_initiated then
+				data_socket.close
+				receive_file_list_count
+			end
+			reset_file_listing
+		ensure
+			address_path_unchanged: old address.path ~ address.path
+			detached_data_socket: not attached data_socket
+		end
 
 	reset
 		do
@@ -164,38 +184,31 @@ feature -- Basic operations
 feature -- Status report
 
 	directory_exists (dir_path: DIR_PATH): BOOLEAN
-			-- Does remote directory exist
+		-- `True' if remote directory `dir_path' exists relative to `current_directory'
 		do
-			if dir_path.is_empty then
+			if dir_path.is_empty or else created_directory_set.has (dir_path) then
 				Result := True
 			else
-				send (Command.size, absolute_unix_dir (dir_path), << Reply.action_not_taken >>)
-				Result := last_succeeded and then last_reply_utf_8.has_substring (Not_regular_file)
+				send_absolute (Command.size, dir_path, << Reply.action_not_taken >>)
+				Result := last_succeeded and then last_reply_utf_8.has_substring (Error.not_regular_file)
 			end
 		end
 
 	file_exists (file_path: FILE_PATH): BOOLEAN
-			-- Does remote directory exist
+		-- `True' if remote `file_path' exists relative to `current_directory'
 		do
 			if file_path.is_empty then
 				Result := True
 			else
-				send (Command.size, absolute_unix_file_path (file_path), << Reply.file_status >>)
+				send_absolute (Command.size, file_path, << Reply.file_status >>)
 				Result := last_succeeded
 			end
-		end
-
-	has_error: BOOLEAN
-		do
-			Result := not last_succeeded
 		end
 
 	is_default_state: BOOLEAN
 		do
 			Result := config.url.host.is_empty
 		end
-
-	last_succeeded: BOOLEAN
 
 feature -- Status change
 
@@ -229,11 +242,11 @@ feature -- Status change
 							transfer_initiated := False
 							is_count_valid := False
 						else
-							lio.put_labeled_string ("ERROR", "cannot set transfer mode")
+							lio.put_labeled_string (Error.label, Error.cannot_set_transfer_mode)
 							lio.put_new_line
 						end
 					else
-						lio.put_labeled_string ("ERROR", Invalid_login_error)
+						lio.put_labeled_string (Error.label, Error.invalid_login)
 						lio.put_new_line
 					end
 				end
@@ -267,16 +280,6 @@ feature -- Status change
 			--
 		do
 			send (Command.quit, Void, << Reply.closing_control_connection >>)
-			if is_lio_enabled then
-				lio.put_new_line
-			end
-			if last_succeeded then
-				if is_lio_enabled then
-					lio.put_line ("QUIT OK")
-				end
-			else
-				lio.put_line ("QUIT command failed")
-			end
 		end
 
 	set_default_state
@@ -284,33 +287,7 @@ feature -- Status change
 			initialize
 		end
 
-feature {EL_FTP_AUTHENTICATOR} -- Implementation
-
-	absolute_unix_dir (dir_path: DIR_PATH): ZSTRING
-		do
-			if dir_path.is_absolute then
-				Result := dir_path.to_unix
-			else
-				Result := (current_directory #+ dir_path).to_unix
-			end
-		end
-
-	absolute_unix_file_path (file_path: FILE_PATH): ZSTRING
-		do
-			if file_path.is_absolute then
-				Result := file_path.to_unix
-			else
-				Result := (current_directory + file_path).to_unix
-			end
-		end
-
-	authenticate
-			-- Log in to server.
-		require
-			opened: is_open
-		do
-			is_logged_in := send_username and then send_password
-		end
+feature {NONE} -- Implementation
 
 	get_current_directory: DIR_PATH
 		do
@@ -321,113 +298,37 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 			Result := reply_parser.last_ftp_cmd_result
 		end
 
-	make_sub_directory (dir_path: DIR_PATH)
+	make_directory_step (dir_path: DIR_PATH)
 		require
 			parent_exists: directory_exists (dir_path.parent)
 		do
-			send (Command.make_directory, dir_path.to_unix, << Reply.PATHNAME_created >>)
+			send_path (Command.make_directory, dir_path, << Reply.PATHNAME_created >>)
+			if last_succeeded then
+				created_directory_set.put (dir_path)
+			end
 		end
 
-	reply_code_ok (a_reply: STRING; codes: ARRAY [INTEGER]): BOOLEAN
-		local
-			s: EL_STRING_8_ROUTINES
+	send_absolute (cmd: IMMUTABLE_STRING_8; a_path: EL_PATH; codes: ARRAY [NATURAL_16])
 		do
-			if attached s.substring_to (a_reply, ' ', default_pointer) as part then
-				Result := codes.has (part.to_integer)
+			if a_path.is_absolute then
+				send_path (cmd, a_path, codes)
+
+			elseif attached {FILE_PATH} a_path as file_path then
+				send_path (cmd, current_directory + file_path, codes)
+
+			elseif attached {DIR_PATH} a_path as dir_path then
+				send_path (cmd, current_directory #+ dir_path, codes)
 			end
 		end
 
-	send (cmd: STRING; a_path: detachable ZSTRING; codes: ARRAY [INTEGER])
-		require
-			valid_path: cmd [cmd.count] = '%S' implies attached a_path
-		local
-			utf_8_cmd: STRING; substitute_index, try_count: INTEGER
+	send_path (cmd: IMMUTABLE_STRING_8; a_path: EL_PATH; codes: ARRAY [NATURAL_16])
+		-- send command `cmd' with `path' argument and possible success `codes'
 		do
-			utf_8_cmd := Empty_string_8
-			substitute_index := cmd.index_of ('%S', 1)
-			if substitute_index > 0 then
-				if attached a_path as path then
-					utf_8_cmd := cmd.substring (1, substitute_index - 1) + path.to_utf_8 (False)
-				end
-			else
-				utf_8_cmd := cmd
-			end
-			if utf_8_cmd /= Empty_string_8 then
-				last_succeeded := False
-				from try_count := 1 until try_count > 3 or last_succeeded loop
-					send_to_socket (main_socket, utf_8_cmd)
-					last_reply_utf_8.adjust
-					last_reply_utf_8.to_lower
-					last_succeeded := reply_code_ok (last_reply_utf_8, codes)
-					try_count := try_count + 1
-				end
-			else
-				last_succeeded := False
+			across Reuseable.string_8 as reuse loop
+				send (cmd, unix_utf_8_path (reuse, a_path), codes)
 			end
 		end
 
-	transfer_file (source_path, destination_path: FILE_PATH)
-		do
-			address.path.share (destination_path.to_unix.to_utf_8 (True))
-			set_passive_mode
-			initiate_transfer
-			if transfer_initiated then
-				transfer_file_data (source_path)
-				transfer_initiated := False
-			else
-				lio.put_new_line
-				lio.put_labeled_string ("Socket error", data_socket.error)
-				lio.put_new_line
-				lio.put_labeled_string ("Description", Exception.last_exception.description)
-				lio.put_new_line
-				if User_input.approved_action_y_n ("Retry transfer") then
-					reset
-					transfer_file (source_path, destination_path)
-				end
-			end
-		ensure
-			data_socket_close: data_socket.is_closed
-		end
 
-	transfer_file_data (a_file_path: FILE_PATH)
-			--
-		local
-			packet: PACKET; bytes_read: INTEGER
-		do
-			create packet.make (Default_packet_size)
-			if attached open_raw (a_file_path, Read_from) as file then
-				from until file.after loop
-					file.read_to_managed_pointer (packet.data, 0, packet.count)
-					bytes_read := file.bytes_read
-					if bytes_read > 0 then
-						if bytes_read /= packet.count then
-							packet.data.resize (bytes_read)
-						end
-						data_socket.write (packet)
-					end
-				end
-				data_socket.close
-				is_packet_pending := false
-				file.close
-			end
-			receive (main_socket)
-			if error and then is_lio_enabled then
-				lio.put_new_line
-				lio.put_line ("ERROR")
-				lio.put_string_field ("Server replied", last_reply)
-				lio.put_new_line
-			end
-		end
-
-feature {NONE} -- Internal attributes
-
-	reply_parser: EL_FTP_REPLY_PARSER
-
-feature {NONE} -- Constants
-
-	Reply: EL_FTP_SERVER_REPLY_ENUM
-		once
-			create Result.make
-		end
 
 end
