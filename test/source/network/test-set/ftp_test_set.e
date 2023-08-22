@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-22 12:20:13 GMT (Tuesday 22nd August 2023)"
-	revision: "10"
+	date: "2023-08-22 18:36:05 GMT (Tuesday 22nd August 2023)"
+	revision: "11"
 
 class
 	FTP_TEST_SET
@@ -40,7 +40,8 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["ftp_directory_exists", agent test_ftp_directory_exists]
+				["ftp_directory_exists", agent test_ftp_directory_exists],
+				["ftp_upload",				 agent test_ftp_upload]
 			>>)
 		end
 
@@ -68,18 +69,16 @@ feature -- Tests
 				ftp.make_directory (dir_path)
 				assert ("directory exists", ftp.directory_exists (dir_path))
 
-				from until dir_path.is_empty loop
-					ftp.remove_directory (dir_path)
-					assert ("not directory exists", not ftp.directory_exists (dir_path))
-					dir_path := dir_path.parent
-				end
+				ftp.remove_until_empty (dir_path)
+				assert ("not directory exists", not ftp.directory_exists (dir_path.parent))
 
-				across ftp.file_list ("css") as list loop
-					lio.put_path_field ("css %S", list.item)
-					lio.put_new_line
+				if attached ftp.entry_list ("css") as list then
+					assert ("4 entries", list.count = 4)
+					assert_same_string (Void, list.first_path.base, "common.css")
+					assert_same_string (Void, list.last_path.base, "prism.css")
 				end
-				ftp.read_file_count ("css")
-				assert ("4 entries", ftp.file_count = 4)
+				ftp.read_entry_count ("css")
+				assert ("4 entries", ftp.last_entry_count = 4)
 
 				ftp.close
 			else
@@ -87,16 +86,47 @@ feature -- Tests
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	source_file_list: EL_FILE_PATH_LIST
+	test_ftp_upload
+		-- FTP_TEST_SET.test_ftp_upload
+		local
+			config: EL_FTP_CONFIGURATION ftp: EL_FTP_PROTOCOL; dir_path: EL_DIR_PATH
+			w_code_dir, classic_dir: EL_DIR_PATH; c_source: EL_FTP_UPLOAD_ITEM
 		do
-			Result := OS.file_list (Data_dir, "*.txt")
+			config := new_pyxis_config.ftp
+			if attached Args.value ("pp") as pp and then pp.count > 0 then
+				config.authenticate (pp)
+			else
+				config.authenticate (Void)
+			end
+			w_code_dir := "build/$ISE_PLATFORM/EIFGENs/classic/W_code"
+			w_code_dir.expand
+			classic_dir := w_code_dir.parent
+			if config.credential.is_valid then
+				create ftp.make_write (config)
+				ftp.open
+				ftp.login
+				across OS.file_list (w_code_dir, "*.c") as source loop
+					create c_source.make_relative (source.item, classic_dir)
+					c_source.display (lio, "Uploading")
+					ftp.upload (c_source)
+					if ftp.file_exists (source.item.relative_path (classic_dir)) then
+						do_nothing
+					end
+				end
+				ftp.close
+			end
 		end
+
+feature {NONE} -- Implementation
 
 	new_pyxis_config: EL_PYXIS_FTP_CONFIGURATION
 		do
 			create Result.make (Dev_environ.Eiffel_loop_dir + "doc-config/config.pyx")
+		end
+
+	source_file_list: EL_FILE_PATH_LIST
+		do
+			Result := OS.file_list (Data_dir, "*.txt")
 		end
 
 feature {NONE} -- Constants

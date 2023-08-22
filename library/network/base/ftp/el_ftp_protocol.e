@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-22 12:22:39 GMT (Tuesday 22nd August 2023)"
-	revision: "36"
+	date: "2023-08-22 18:40:31 GMT (Tuesday 22nd August 2023)"
+	revision: "37"
 
 class
 	EL_FTP_PROTOCOL
@@ -57,7 +57,8 @@ feature -- Access
 
 	current_directory: DIR_PATH
 
-	file_list (dir_path: DIR_PATH): EL_FILE_PATH_LIST
+	entry_list (dir_path: DIR_PATH): EL_FILE_PATH_LIST
+		-- list of file and directory entries in remote directory `dir_path'
 		local
 			line_list: EL_SPLIT_IMMUTABLE_UTF_8_LIST
 		do
@@ -79,12 +80,12 @@ feature -- Access
 							list.forth
 						end
 					end
-					receive_file_list_count
+					receive_entry_list_count
 				end
 			end
 			reset_file_listing
 		ensure
-			valid_count: Result.count = file_count
+			valid_count: Result.count = last_entry_count
 			address_path_unchanged: old address.path ~ address.path
 			detached_data_socket: not attached data_socket
 		end
@@ -129,7 +130,7 @@ feature -- Remote operations
 		require
 			dir_path_is_relative: not dir_path.is_absolute
 		do
-			if dir_path.is_empty then
+			if dir_path.is_empty or directory_exists (dir_path) then
 				do_nothing
 			else
 				if attached dir_path.parent as parent and then not directory_exists (parent) then
@@ -149,14 +150,30 @@ feature -- Remote operations
 			end
 		end
 
+	remove_until_empty (dir_path: DIR_PATH)
+		local
+			done: BOOLEAN; l_path: DIR_PATH
+		do
+			from l_path := dir_path.twin until done loop
+				read_entry_count (l_path)
+				if last_entry_count = 0 then
+					remove_directory (l_path)
+					l_path := l_path.parent
+					done := l_path.is_empty
+				else
+					done := True
+				end
+			end
+		end
+
 feature -- Basic operations
 
-	read_file_count (dir_path: DIR_PATH)
+	read_entry_count (dir_path: DIR_PATH)
 		do
 			initiate_file_listing (dir_path)
 			if transfer_initiated then
 				data_socket.close
-				receive_file_list_count
+				receive_entry_list_count
 			end
 			reset_file_listing
 		ensure
@@ -305,27 +322,6 @@ feature {NONE} -- Implementation
 			send_path (Command.make_directory, dir_path, << Reply.PATHNAME_created >>)
 			if last_succeeded then
 				created_directory_set.put (dir_path)
-			end
-		end
-
-	send_absolute (cmd: IMMUTABLE_STRING_8; a_path: EL_PATH; codes: ARRAY [NATURAL_16])
-		do
-			if a_path.is_absolute then
-				send_path (cmd, a_path, codes)
-
-			elseif attached {FILE_PATH} a_path as file_path then
-				send_path (cmd, current_directory + file_path, codes)
-
-			elseif attached {DIR_PATH} a_path as dir_path then
-				send_path (cmd, current_directory #+ dir_path, codes)
-			end
-		end
-
-	send_path (cmd: IMMUTABLE_STRING_8; a_path: EL_PATH; codes: ARRAY [NATURAL_16])
-		-- send command `cmd' with `path' argument and possible success `codes'
-		do
-			across Reuseable.string_8 as reuse loop
-				send (cmd, unix_utf_8_path (reuse, a_path), codes)
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-08-22 15:04:23 GMT (Tuesday 22nd August 2023)"
+	revision: "9"
 
 class
 	PUBLISH_DJ_EVENTS_TASK_TEST_TASK
@@ -39,7 +39,7 @@ feature {NONE} -- Constants
 			Result := work_area_data_dir #+ "www"
 		end
 
-	Checksum: NATURAL = 4130425499
+	Checksum: NATURAL = 2930151012
 
 	Task_config: STRING = "[
 		publish_dj_events:
@@ -48,9 +48,15 @@ feature {NONE} -- Constants
 			publish:
 				html_template = "playlist.html.evol"; html_index_template = "playlist-index.html.evol"
 				www_dir = "workarea/rhythmdb/www"; upload = False
+				ftp_site:
+					encrypted_url:
+						"HVQPk8fnB04fXvnHdSsvfGjfu0FMt2N1QWbjiSDK+a4QI2aB4XY3QEUC3tfn6wMhiVZrUz4rP59JmXjfdIbktQ=="
+					credential:
+						salt:
+							"QmOh7tMBAGEyOrOBgMU9BJoJJ1R/dr67"
+						digest:
+							"66i62a1zmjfTUvaSSFUFSL7teSuOejiJlAa+4lEmIj0="
 			
-				ftp_url = "eiffel-loop.com"
-				ftp_user_home = "/public/www"
 				ftp_destination_dir = "compadrito-tango-playlists"
 	]"
 end

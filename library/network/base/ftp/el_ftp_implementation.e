@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-22 12:21:14 GMT (Tuesday 22nd August 2023)"
-	revision: "10"
+	date: "2023-08-22 18:49:53 GMT (Tuesday 22nd August 2023)"
+	revision: "11"
 
 deferred class
 	EL_FTP_IMPLEMENTATION
@@ -34,9 +34,11 @@ inherit
 			Read as Read_from
 		end
 
-	EL_MODULE_EXCEPTION; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE_SYSTEM
+	EL_MODULE_EXCEPTION; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM
 
-	EL_MODULE_LIO; EL_MODULE_TUPLE; EL_MODULE_REUSEABLE; EL_MODULE_USER_INPUT
+	EL_MODULE_LIO; EL_MODULE_TUPLE; EL_MODULE_REUSEABLE; EL_MODULE_STRING_8
+
+	EL_MODULE_USER_INPUT
 
 	EL_STRING_8_CONSTANTS;
 
@@ -50,7 +52,16 @@ feature -- Access
 
 feature -- Measurement
 
-	file_count: INTEGER
+	file_size (file_path: FILE_PATH): INTEGER
+		do
+			send_path (Command.size, file_path, << Reply.file_status >>)
+			if last_succeeded then
+				Result := String_8.substring_to_reversed (last_reply_utf_8, ' ', default_pointer).to_integer
+			end
+		end
+
+	last_entry_count: INTEGER
+		-- directory entry count set by `read_entry_count' or
 
 feature -- Status query
 
@@ -70,8 +81,13 @@ feature {NONE} -- Implementation
 		end
 
 	display_error (cmd: IMMUTABLE_STRING_8; message: READABLE_STRING_GENERAL)
+		local
+			upper_command: ZSTRING
 		do
-			lio.put_labeled_string (cmd.as_upper + " error", message)
+			create upper_command.make_from_general (String_8.substring_to (cmd, '%S', default_pointer))
+			upper_command.to_upper
+			upper_command.right_adjust
+			lio.put_labeled_string (upper_command + " error", message)
 			lio.put_new_line
 		end
 
@@ -80,7 +96,7 @@ feature {NONE} -- Implementation
 			across Reuseable.string_8 as reuse loop
 				push_address_path (unix_utf_8_path (reuse, dir_path))
 				set_passive_mode
-				initiating_file_listing := True
+				initiating_listing := True
 				initiate_transfer
 				pop_address_path
 			end
@@ -97,7 +113,7 @@ feature {NONE} -- Implementation
 			address.path.share (new_path)
 		end
 
-	receive_file_list_count
+	receive_entry_list_count
 		-- Parse `last_reply_utf_8' from acknowledgement to NLST data transfer
 		-- Eg. "226 4 matches total%R%N"
 		local
@@ -116,7 +132,7 @@ feature {NONE} -- Implementation
 								error_code := Transmission_error
 							end
 						when 2 then
-							file_count := split_list.integer_item
+							last_entry_count := split_list.integer_item
 					else
 					end
 					list.forth
@@ -125,10 +141,8 @@ feature {NONE} -- Implementation
 		end
 
 	reply_code_ok (a_reply: STRING; codes: ARRAY [NATURAL_16]): BOOLEAN
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			if attached s.substring_to (a_reply, ' ', default_pointer) as part then
+			if attached String_8.substring_to (a_reply, ' ', default_pointer) as part then
 				Result := codes.has (part.to_natural_16)
 			end
 		end
@@ -136,7 +150,7 @@ feature {NONE} -- Implementation
 	reset_file_listing
 		do
 			transfer_initiated := False; is_packet_pending := False
-			initiating_file_listing := False
+			initiating_listing := False
 			data_socket := Void
 		end
 
@@ -195,9 +209,30 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	send_absolute (cmd: IMMUTABLE_STRING_8; a_path: EL_PATH; codes: ARRAY [NATURAL_16])
+		do
+			if a_path.is_absolute then
+				send_path (cmd, a_path, codes)
+
+			elseif attached {FILE_PATH} a_path as file_path then
+				send_path (cmd, current_directory + file_path, codes)
+
+			elseif attached {DIR_PATH} a_path as dir_path then
+				send_path (cmd, current_directory #+ dir_path, codes)
+			end
+		end
+
+	send_path (cmd: IMMUTABLE_STRING_8; a_path: EL_PATH; codes: ARRAY [NATURAL_16])
+		-- send command `cmd' with `path' argument and possible success `codes'
+		do
+			across Reuseable.string_8 as reuse loop
+				send (cmd, unix_utf_8_path (reuse, a_path), codes)
+			end
+		end
+
 	send_transfer_command: BOOLEAN
 		do
-			if initiating_file_listing then
+			if initiating_listing then
 				if passive_mode then
 					Result := send_passive_mode_command
 				else
@@ -215,31 +250,42 @@ feature {NONE} -- Implementation
 		end
 
 	transfer_file (source_path, destination_path: FILE_PATH)
+		local
+			done: BOOLEAN; retry_count: INTEGER
 		do
-			across Reuseable.string_8 as reuse loop
-				push_address_path (unix_utf_8_path (reuse, destination_path))
-				set_passive_mode
-				initiate_transfer
-				pop_address_path
-			end
-
-			if transfer_initiated then
-				transfer_file_data (source_path)
-				transfer_initiated := False
-			else
-				lio.put_new_line
-				lio.put_labeled_string (Error.socket_error, data_socket.error)
-				lio.put_new_line
-				lio.put_labeled_string ("Description", Exception.last_exception.description)
-				lio.put_new_line
-				if User_input.approved_action_y_n ("Retry transfer") then
-					reset
-					transfer_file (source_path, destination_path)
+			from until done loop
+				across Reuseable.string_8 as reuse loop
+					push_address_path (unix_utf_8_path (reuse, destination_path))
+					set_passive_mode
+					initiate_transfer
+					pop_address_path
+				end
+				if transfer_initiated then
+					transfer_file_data (source_path)
+					transfer_initiated := False
+				end
+				if has_error and then file_size (destination_path) /= File.byte_count (source_path) then
+					retry_count := retry_count + 1
+					if retry_count = 3 then
+						done := True
+					end
+				else
+					done := True
 				end
 			end
+--			else
+--				lio.put_labeled_string (Error.socket_error, data_socket.error)
+--				lio.put_new_line
+--				lio.put_labeled_string ("Description", Exception.last_exception.description)
+--				lio.put_new_line
+--				if User_input.approved_action_y_n ("Retry transfer") then
+--					reset
+--					transfer_file (source_path, destination_path)
+--				end
+--			end
 		ensure
 			address_path_unchanged: old address.path ~ address.path
-			data_socket_closed: data_socket.is_closed
+			unattached_data_socket: not attached data_socket
 		end
 
 	transfer_file_data (a_file_path: FILE_PATH)
@@ -248,10 +294,10 @@ feature {NONE} -- Implementation
 			packet: PACKET; bytes_read: INTEGER
 		do
 			create packet.make (Default_packet_size)
-			if attached open_raw (a_file_path, Read_from) as file then
-				from until file.after loop
-					file.read_to_managed_pointer (packet.data, 0, packet.count)
-					bytes_read := file.bytes_read
+			if attached open_raw (a_file_path, Read_from) as file_in then
+				from until file_in.after loop
+					file_in.read_to_managed_pointer (packet.data, 0, packet.count)
+					bytes_read := file_in.bytes_read
 					if bytes_read > 0 then
 						if bytes_read /= packet.count then
 							packet.data.resize (bytes_read)
@@ -260,26 +306,23 @@ feature {NONE} -- Implementation
 					end
 				end
 				data_socket.close
+				data_socket := Void
 				is_packet_pending := false
-				file.close
+				file_in.close
 			end
 			receive (main_socket)
 			if has_error and then is_lio_enabled then
-				lio.put_new_line
-				lio.put_line (Error.label)
-				lio.put_string_field ("Server replied", last_reply)
+				lio.put_labeled_string (Error.label + " server reply", last_reply)
 				lio.put_new_line
 			end
 		end
 
 	unix_utf_8_path (cursor: EL_BORROWED_STRING_8_CURSOR; a_path: EL_PATH): STRING
-		local
-			s: EL_STRING_8_ROUTINES
 		do
 			Result := cursor.item
 			a_path.append_to_utf_8 (Result)
 			if {PLATFORM}.is_windows then
-				s.replace_character (Result, '\', '/')
+				String_8.replace_character (Result, '\', '/')
 			end
 		end
 
@@ -297,7 +340,8 @@ feature {NONE} -- Internal attributes
 
 	created_directory_set: EL_HASH_SET [DIR_PATH]
 
-	initiating_file_listing: BOOLEAN
+	initiating_listing: BOOLEAN
+		-- `True' if initiating download of directory entry listing
 
 	reply_parser: EL_FTP_REPLY_PARSER
 

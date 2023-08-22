@@ -6,26 +6,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-19 8:45:52 GMT (Monday 19th December 2022)"
-	revision: "10"
+	date: "2023-08-22 18:06:38 GMT (Tuesday 22nd August 2023)"
+	revision: "11"
 
 class
 	EL_FTP_UPLOAD_ITEM
 
 inherit
-	ANY EL_MODULE_LIO
-
 	EL_MAKEABLE
 		rename
 			make as make_default
 		end
 
 create
-	make, make_default
+	make, make_relative, make_default
 
 feature {NONE} -- Initialization
 
-	make (a_source_path: like source_path; a_destination_dir: DIR_PATH)
+	make (a_source_path: FILE_PATH; a_destination_dir: DIR_PATH)
 		do
 			source_path := a_source_path; destination_dir := a_destination_dir
 		end
@@ -36,12 +34,19 @@ feature {NONE} -- Initialization
 			create source_path
 		end
 
+	make_relative (a_source_path: FILE_PATH; source_root: DIR_PATH)
+		require
+			is_parent: source_root.is_parent_of (a_source_path)
+		do
+			make (a_source_path, a_source_path.relative_path (source_root).parent)
+		end
+
 feature -- Basic operations
 
-	display (verb: READABLE_STRING_GENERAL)
+	display (log: EL_LOGGABLE; verb: READABLE_STRING_GENERAL)
 		do
-			lio.put_path_field (verb, source_path); lio.put_path_field (" to", destination_dir)
-			lio.put_new_line
+			log.put_labeled_string (To #$ [verb, destination_dir], source_path.to_string)
+			log.put_new_line
 		end
 
 feature -- Element change
@@ -58,13 +63,20 @@ feature -- Element change
 
 feature -- Access
 
+	destination_dir: DIR_PATH
+
 	destination_file_path: FILE_PATH
 		do
 			Result := destination_dir + source_path.base
 		end
 
-	destination_dir: DIR_PATH
-
 	source_path: FILE_PATH
+
+feature {NONE} -- Constants
+
+	To: ZSTRING
+		once
+			Result := "%S to %S"
+		end
 
 end

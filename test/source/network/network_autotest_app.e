@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-22 8:06:41 GMT (Tuesday 22nd August 2023)"
-	revision: "30"
+	date: "2023-08-22 17:41:29 GMT (Tuesday 22nd August 2023)"
+	revision: "31"
 
 class
 	NETWORK_AUTOTEST_APP
@@ -59,7 +59,7 @@ feature {NONE} -- Implementation
 			create Result.make
 		end
 
-	visible_types: TUPLE [SIMPLE_COMMAND_HANDLER]
+	visible_types: TUPLE [SIMPLE_COMMAND_HANDLER, EL_FTP_PROTOCOL]
 		do
 			create Result
 		end
