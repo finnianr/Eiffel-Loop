@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-22 18:40:31 GMT (Tuesday 22nd August 2023)"
-	revision: "37"
+	date: "2023-08-23 13:54:17 GMT (Wednesday 23rd August 2023)"
+	revision: "38"
 
 class
 	EL_FTP_PROTOCOL
@@ -15,7 +15,7 @@ class
 inherit
 	EL_FTP_IMPLEMENTATION
 		redefine
-			close, open, initialize
+			open, initialize
 		end
 
 create
@@ -90,10 +90,29 @@ feature -- Access
 			detached_data_socket: not attached data_socket
 		end
 
+	last_reply: ZSTRING
+		do
+			create Result.make_from_utf_8 (last_reply_utf_8)
+			Result.right_adjust
+		end
+
 	user_home_dir: DIR_PATH
 		do
 			Result := config.user_home_dir
 		end
+
+feature -- Measurement
+
+	file_size (file_path: FILE_PATH): INTEGER
+		do
+			send_path (Command.size, file_path, << Reply.file_status >>)
+			if last_succeeded then
+				Result := String_8.substring_to_reversed (last_reply_utf_8, ' ', default_pointer).to_integer
+			end
+		end
+
+	last_entry_count: INTEGER
+		-- directory entry count set by `read_entry_count' or
 
 feature -- Element change
 
@@ -198,7 +217,7 @@ feature -- Basic operations
 			transfer_file (item.source_path, item.destination_file_path)
 		end
 
-feature -- Status report
+feature -- Status query
 
 	directory_exists (dir_path: DIR_PATH): BOOLEAN
 		-- `True' if remote directory `dir_path' exists relative to `current_directory'
@@ -227,50 +246,52 @@ feature -- Status report
 			Result := config.url.host.is_empty
 		end
 
+	last_succeeded: BOOLEAN
+		do
+			Result := error_code = 0
+		end
+
 feature -- Status change
 
 	close
 			--
 		do
-			if transfer_initiated then
-				data_socket.close
-				transfer_initiated := False
-			end
 			if is_logged_in then
 				quit
 			end
-			Precursor
+			close_sockets
 		end
 
 	login
-		local
-			attempts: INTEGER
 		do
 			if not is_open then
 				open
 			end
-			from attempts := 1 until is_logged_in or attempts > Max_login_attempts loop
-				reset_error
-				if is_open then
-					authenticate
-					if is_logged_in then
-						if send_transfer_mode_command then
-							bytes_transferred := 0
-							transfer_initiated := False
-							is_count_valid := False
-						else
-							lio.put_labeled_string (Error.label, Error.cannot_set_transfer_mode)
-							lio.put_new_line
-						end
-					else
-						lio.put_labeled_string (Error.label, Error.invalid_login)
-						lio.put_new_line
-					end
-				end
-				attempts := attempts + 1
-			end
+			attempt (agent try_login, Max_login_attempts)
+
 			if not is_logged_in then
 				close
+			end
+		end
+
+	try_login (done: BOOLEAN_REF)
+		do
+			reset_error
+			if is_open then
+				authenticate
+				if is_logged_in then
+					done.set_item (True)
+
+					if send_transfer_mode_command then
+						bytes_transferred := 0
+						transfer_initiated := False
+						is_count_valid := False
+					else
+						display_error (Error.cannot_set_transfer_mode)
+					end
+				else
+					display_error (Error.invalid_login)
+				end
 			end
 		end
 
@@ -308,11 +329,13 @@ feature {NONE} -- Implementation
 
 	get_current_directory: DIR_PATH
 		do
-			send (Command.print_working_directory, Void, << >>)
-			Result := last_reply
-			reply_parser.set_source_text (last_reply)
-			reply_parser.parse
-			Result := reply_parser.last_ftp_cmd_result
+			send (Command.print_working_directory, Void, << Reply.PATHNAME_created >>)
+			-- 257 %"/htdocs%" is your current location%R%N
+			if last_succeeded then
+				Result := last_reply.cropped ('"', '"')
+			else
+				create Result
+			end
 		end
 
 	make_directory_step (dir_path: DIR_PATH)
@@ -325,6 +348,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-
+	set_last_entry_count (a_count: INTEGER)
+		do
+			last_entry_count := a_count
+		end
 
 end

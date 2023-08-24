@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 18:20:26 GMT (Monday 27th March 2023)"
-	revision: "9"
+	date: "2023-08-24 7:53:35 GMT (Thursday 24th August 2023)"
+	revision: "10"
 
 deferred class
 	STRING_BENCHMARK_COMPARISON
@@ -29,7 +29,7 @@ feature {NONE} -- Constants
 		local
 			names: HEXAGRAM_NAMES
 		once
-			Result := << names.i_th_combined (1),names.i_th_combined (2) >>
+			Result := << names.i_th_combined (1), names.i_th_combined (2) >>
 			across Result as list loop
 				list.item.keep_tail (3)
 			end

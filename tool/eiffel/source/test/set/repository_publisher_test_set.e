@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 10:19:53 GMT (Wednesday 16th August 2023)"
-	revision: "60"
+	date: "2023-08-24 7:39:00 GMT (Thursday 24th August 2023)"
+	revision: "61"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -33,6 +33,8 @@ inherit
 		redefine
 			on_prepare
 		end
+
+	EL_FILE_OPEN_ROUTINES
 
 	EL_FILE_SYNC_ROUTINES undefine default_create end
 
@@ -86,7 +88,28 @@ feature -- Tests
 				end
 			end
 			assert ("el_solitary.e found", found)
-			assert_same_digest (link_checker.invalid_names_output_path, "aORypbmPwaZ2N6btTvcFIw==")
+
+			lio.put_new_line
+			lio.put_line ("Invalid names list")
+			if attached open_lines (link_checker.invalid_names_output_path, Latin_1) as line_list
+				and then attached crc_generator as crc
+			then
+				across line_list as list loop
+					if attached list.item as line
+					 	and then (line.starts_with ("class") or line.has_substring ("Source"))
+					 	and then attached line.split_list (' ') as parts
+					 then
+						crc.add_string (line)
+						if parts.first.same_string ("--") then
+							lio.put_string (line)
+						else
+							lio.put_labeled_string (parts.first, parts.last)
+						end
+						lio.put_new_line
+					end
+				end
+				assert ("same list digest", crc.checksum = 2603158662)
+			end
 		end
 
 	test_publisher
@@ -114,7 +137,7 @@ feature -- Tests
 				cmd.execute
 				across cmd.path_list as path loop
 					relative_path := path.item.relative_path (publisher.output_dir)
-					crc_path := new_crc_sync_dir (publisher.output_dir, publisher.ftp_url) + relative_path
+					crc_path := new_crc_sync_dir (publisher.output_dir, publisher.ftp_host) + relative_path
 					crc_path.replace_extension (Crc_extension)
 					File_system.remove_file (crc_path)
 				end

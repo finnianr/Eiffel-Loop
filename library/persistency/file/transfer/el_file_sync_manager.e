@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-08 6:28:04 GMT (Monday 8th May 2023)"
-	revision: "14"
+	date: "2023-08-24 6:51:47 GMT (Thursday 24th August 2023)"
+	revision: "15"
 
 class
 	EL_FILE_SYNC_MANAGER
@@ -55,7 +55,6 @@ feature {NONE} -- Initialization
 			end
 
 			previous_set := new_previous_set
-			maximum_retry_count := Default_maximum_retry_count
 		end
 
 	make_empty (a_local_home_dir: DIR_PATH; a_destination_name, a_extension: READABLE_STRING_GENERAL)
@@ -64,7 +63,6 @@ feature {NONE} -- Initialization
 			create extension.make_from_general (a_extension)
 			create current_set.make (0)
 			previous_set := new_previous_set
-			maximum_retry_count := Default_maximum_retry_count
 		end
 
 feature -- Access
@@ -97,13 +95,6 @@ feature -- Status query
 					set.item.is_modified or else not previous_set.has (set.item)
 				end
 			end
-		end
-
-feature -- Element change
-
-	set_maximum_retry_count (a_maximum_retry_count: INTEGER)
-		do
-			maximum_retry_count := a_maximum_retry_count
 		end
 
 feature -- Basic operations
@@ -243,7 +234,4 @@ feature {NONE} -- Internal attributes
 
 	previous_set: EL_MEMBER_SET [EL_FILE_SYNC_ITEM]
 
-feature {NONE} -- Constants
-
-	Default_maximum_retry_count: INTEGER = 3
 end

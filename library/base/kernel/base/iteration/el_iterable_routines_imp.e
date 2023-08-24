@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 13:57:12 GMT (Sunday 1st January 2023)"
-	revision: "7"
+	date: "2023-08-23 10:34:56 GMT (Wednesday 23rd August 2023)"
+	revision: "8"
 
 class
 	EL_ITERABLE_ROUTINES_IMP [G]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 6:56:55 GMT (Thursday 17th August 2023)"
-	revision: "23"
+	date: "2023-08-24 8:12:22 GMT (Thursday 24th August 2023)"
+	revision: "24"
 
 class
 	EL_ZSTRING_LIST
@@ -18,7 +18,7 @@ inherit
 			append_code as append_z_code,
 			separator_code as separator_z_code
 		redefine
-			append_z_code, item_indent, proper_cased, tab_string, separator_z_code
+			append_z_code, item_indent, make_split, proper_cased, tab_string, separator_z_code
 		end
 
 	EL_SHARED_ZSTRING_CODEC
@@ -32,6 +32,18 @@ create
 
 convert
 	make_from_array ({ARRAY [ZSTRING]}), make_comma_split ({STRING, STRING_32, ZSTRING}), make_from_tuple ({TUPLE})
+
+feature {NONE} -- Initialization
+
+	make_split (a_string: READABLE_STRING_GENERAL; delimiter: CHARACTER_32)
+		do
+			if attached {ZSTRING} a_string as zstr and then attached zstr.split_list (delimiter) as list then
+				area_v2 := list.area_v2
+				compare_objects
+			else
+				Precursor (a_string, delimiter)
+			end
+		end
 
 feature -- Access
 

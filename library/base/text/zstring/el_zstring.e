@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 11:23:34 GMT (Wednesday 16th August 2023)"
-	revision: "86"
+	date: "2023-08-24 7:31:31 GMT (Thursday 24th August 2023)"
+	revision: "87"
 
 class
 	EL_ZSTRING
@@ -46,8 +46,8 @@ inherit
 				precede, put_unicode, quote,
 				translate,
 --				Transformation
-				expand_tabs, mirror, replace_character, replace_delimited_substring, replace_delimited_substring_general,
-				replace_substring, replace_substring_all, replace_substring_general,
+				crop, expand_tabs, mirror, replace_character, replace_delimited_substring,
+				replace_delimited_substring_general, replace_substring, replace_substring_all, replace_substring_general,
 				to_canonically_spaced, to_lower, to_proper_case, to_upper, translate_deleting_null_characters,
 				unescape,
 --				Removal
@@ -56,6 +56,8 @@ inherit
 				Encoding
 			{EL_SHARED_ZSTRING_CODEC} order_comparison
 			{EL_ZCODEC} Once_interval_list
+		redefine
+			new_list
 		select
 			String_searcher
 		end
@@ -458,6 +460,11 @@ feature {NONE} -- Implementation
 		do
 			Result := Once_escape_table
 			Result.wipe_out
+		end
+
+	new_list (a_count: INTEGER): EL_ZSTRING_LIST
+		do
+			create Result.make (a_count)
 		end
 
 	new_string (n: INTEGER): like Current

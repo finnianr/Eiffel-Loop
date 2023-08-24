@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-10 18:36:08 GMT (Thursday 10th August 2023)"
-	revision: "9"
+	date: "2023-08-24 6:47:50 GMT (Thursday 24th August 2023)"
+	revision: "10"
 
 class
 	REPOSITORY_TEST_SOURCE_LINK_EXPANDER
@@ -15,7 +15,7 @@ class
 inherit
 	REPOSITORY_SOURCE_LINK_EXPANDER
 		undefine
-			make_default, new_medium
+			authenticate_ftp, make_default, new_medium, ftp_host
 		redefine
 			ask_user
 		end

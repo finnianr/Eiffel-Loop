@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-22 18:36:05 GMT (Tuesday 22nd August 2023)"
-	revision: "11"
+	date: "2023-08-23 13:02:56 GMT (Wednesday 23rd August 2023)"
+	revision: "12"
 
 class
 	FTP_TEST_SET
@@ -49,6 +49,12 @@ feature -- Tests
 
 	test_ftp_directory_exists
 		-- FTP_TEST_SET.test_ftp_directory_exists
+		note
+			testing: "[
+				covers/{EL_FTP_PROTOCOL}.entry_list,
+				covers/{EL_FTP_PROTOCOL}.make_directory,
+				covers/{EL_FTP_PROTOCOL}.remove_until_empty
+			]"
 		local
 			config: EL_FTP_CONFIGURATION ftp: EL_FTP_PROTOCOL; dir_path: EL_DIR_PATH
 		do

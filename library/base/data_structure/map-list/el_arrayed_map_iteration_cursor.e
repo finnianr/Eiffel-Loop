@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 18:38:35 GMT (Monday 27th March 2023)"
-	revision: "1"
+	date: "2023-08-23 10:32:23 GMT (Wednesday 23rd August 2023)"
+	revision: "2"
 
 class
 	EL_ARRAYED_MAP_ITERATION_CURSOR [K, G]

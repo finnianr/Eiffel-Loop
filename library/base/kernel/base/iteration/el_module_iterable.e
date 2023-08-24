@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 13:57:12 GMT (Sunday 1st January 2023)"
-	revision: "6"
+	date: "2023-08-23 10:35:24 GMT (Wednesday 23rd August 2023)"
+	revision: "7"
 
 deferred class
 	EL_MODULE_ITERABLE

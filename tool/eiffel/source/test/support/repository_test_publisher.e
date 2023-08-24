@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-08-24 6:47:40 GMT (Thursday 24th August 2023)"
+	revision: "8"
 
 class
 	REPOSITORY_TEST_PUBLISHER
@@ -15,7 +15,7 @@ class
 inherit
 	REPOSITORY_PUBLISHER
 		redefine
-			execute, make_default, new_medium, ok_to_synchronize
+			authenticate_ftp, execute, make_default, new_medium, ok_to_synchronize, Ftp_host
 		end
 
 create
@@ -30,6 +30,8 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	Ftp_host: STRING = "ftp.eiffel-loop.com"
 
 	uploaded_path_list: ARRAYED_LIST [FILE_PATH]
 
@@ -49,6 +51,11 @@ feature -- Status query
 		end
 
 feature {NONE} -- Implementation
+
+	authenticate_ftp
+		do
+			do_nothing
+		end
 
 	new_medium: TEST_FILE_SYNC_MEDIUM
 		do

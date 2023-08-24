@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 10:00:40 GMT (Tuesday 15th August 2023)"
-	revision: "52"
+	date: "2023-08-24 7:30:24 GMT (Thursday 24th August 2023)"
+	revision: "53"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -230,10 +230,10 @@ feature -- To list
 			create Result.make_by_string (current_zstring, delimiter)
 		end
 
-	split_list (a_separator: CHARACTER_32): LIST [like Current]
+	split_list (a_separator: CHARACTER_32): like new_list
 			-- Split on `a_separator'.
 		local
-			l_list: ARRAYED_LIST [like Current]; part: like Current; iter: EL_UNENCODED_CHARACTER_ITERATION
+			part: like substring; iter: EL_UNENCODED_CHARACTER_ITERATION
 			separator: CHARACTER; call_index_of_8: BOOLEAN
 			i, j, l_count, result_count, block_index: INTEGER
 		do
@@ -246,7 +246,7 @@ feature -- To list
 				result_count := String_8.occurrences (Current, separator) + 1
 				call_index_of_8 := True
 			end
-			create l_list.make (result_count)
+			Result := new_list (result_count)
 			if l_count > 0 then
 				if call_index_of_8 then
 					from i := 1 until i > l_count loop
@@ -258,7 +258,7 @@ feature -- To list
 							j := l_count + 1
 						end
 						part := substring (i, j - 1)
-						l_list.extend (part)
+						Result.extend (part)
 						i := j + 1
 					end
 				elseif attached unencoded_area as area_32 then
@@ -268,7 +268,7 @@ feature -- To list
 							j := l_count + 1
 						end
 						part := substring (i, j - 1)
-						l_list.extend (part)
+						Result.extend (part)
 						i := j + 1
 					end
 				end
@@ -277,15 +277,14 @@ feature -- To list
 						last_character_is_a_separator: item (j) = a_separator
 					end
 						-- A separator was found at the end of the string
-					l_list.extend (new_string (0))
+					Result.extend (new_string (0))
 				end
 			else
 					-- Extend empty string, since Current is empty.
-				l_list.extend (new_string (0))
+				Result.extend (new_string (0))
 			end
-			Result := l_list
 			check
-				l_list.count = occurrences (a_separator) + 1
+				Result.count = occurrences (a_separator) + 1
 			end
 		end
 
@@ -378,6 +377,26 @@ feature -- Conversion
 		do
 			Result := twin
 			Result.to_canonically_spaced
+		end
+
+	cropped (left_delimiter, right_delimiter: CHARACTER_32): like Current
+		-- `substring' between `left_delimiter' and `right_left_delimiter' or
+		-- substring indices default to `1' and `count' for respective delimiters that are not found
+		local
+			left_index, right_index: INTEGER
+		do
+			if is_empty then
+				Result := new_string (0)
+			else
+				left_index := index_of (left_delimiter, 1) + 1
+				right_index := last_index_of (right_delimiter, count)
+				if right_index = 0 then
+					right_index := count
+				else
+					right_index := right_index - 1
+				end
+				Result := substring (left_index, right_index)
+			end
 		end
 
 	enclosed (left, right: CHARACTER_32): like Current
@@ -547,6 +566,11 @@ feature {NONE} -- Implementation
 					quotient := quotient // 10
 				end
 			end
+		end
+
+	new_list (a_count: INTEGER): EL_ARRAYED_LIST [like Current]
+		do
+			create Result.make (a_count)
 		end
 
 	tuple_as_string_count (tuple: TUPLE): INTEGER

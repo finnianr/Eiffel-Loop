@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 6:16:00 GMT (Thursday 17th August 2023)"
-	revision: "48"
+	date: "2023-08-23 13:52:25 GMT (Wednesday 23rd August 2023)"
+	revision: "49"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -24,6 +24,11 @@ inherit
 	EL_CHARACTER_32_CONSTANTS
 
 feature {EL_READABLE_ZSTRING} -- Basic operations
+
+	crop (left_delimiter, right_delimiter: CHARACTER_32)
+		do
+			current_readable.copy (current_readable.cropped (left_delimiter, right_delimiter))
+		end
 
 	enclose (left, right: CHARACTER_32)
 		do

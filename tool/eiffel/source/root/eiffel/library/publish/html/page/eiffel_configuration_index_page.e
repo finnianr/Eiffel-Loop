@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-08 8:42:29 GMT (Monday 8th May 2023)"
-	revision: "25"
+	date: "2023-08-24 6:38:23 GMT (Thursday 24th August 2023)"
+	revision: "26"
 
 class
 	EIFFEL_CONFIGURATION_INDEX_PAGE
@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 			make_page (repository)
 			sort_category := a_eiffel_config.new_sort_category
 			make_sync_item (
-				repository.output_dir, repository.ftp_url, output_path.relative_path (repository.output_dir), 0
+				repository.output_dir, repository.ftp_host, output_path.relative_path (repository.output_dir), 0
 			)
 		end
 

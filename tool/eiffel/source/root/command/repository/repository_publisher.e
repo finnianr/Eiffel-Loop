@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-21 8:05:58 GMT (Monday 21st August 2023)"
-	revision: "68"
+	date: "2023-08-24 6:47:14 GMT (Thursday 24th August 2023)"
+	revision: "69"
 
 class
 	REPOSITORY_PUBLISHER
@@ -74,9 +74,9 @@ feature -- Access
 	config_path: FILE_PATH
 		-- config file path
 
-	ftp_url: STRING
+	ftp_host: STRING
 		do
-			Result := ftp_configuration.url.location
+			Result := ftp_configuration.url.host
 		end
 
 	ecf_list: EIFFEL_CONFIGURATION_LIST [EIFFEL_CONFIGURATION_FILE]
@@ -146,7 +146,7 @@ feature -- Basic operations
 
 			lio.put_line ("Creating sync manager")
 			if current_set.is_empty then
-				create sync_manager.make_empty (output_dir, ftp_url, Html)
+				create sync_manager.make_empty (output_dir, ftp_host, Html)
 			else
 				create sync_manager.make (current_set)
 			end
@@ -189,6 +189,11 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
+	authenticate_ftp
+		do
+			ftp_configuration.authenticate (Void)
+		end
+
 	check_pecf_source (ecf_path: FILE_PATH)
 		-- check if pecf format source has been modified
 		local
@@ -204,9 +209,6 @@ feature {NONE} -- Implementation
 	login (medium: EL_FILE_SYNC_MEDIUM)
 		do
 			if attached {EL_FTP_FILE_SYNC_MEDIUM} medium as ftp then
-				if not ftp_configuration.is_authenticated then
-					ftp_configuration.authenticate (Void)
-				end
 				ftp.login
 				is_logged_in := ftp.is_logged_in
 			else
@@ -287,10 +289,10 @@ feature {NONE} -- Build from Pyxis
 
 	on_context_return (context: EL_EIF_OBJ_XPATH_CONTEXT)
 		local
-			ecf_path: FILE_PATH; ecf: ECF_INFO
-			root_node: EL_XML_DOC_CONTEXT
-			has_error: BOOLEAN
+			ecf_path: FILE_PATH; ecf: ECF_INFO; root_node: EL_XML_DOC_CONTEXT; has_error: BOOLEAN
 		do
+			authenticate_ftp
+
 			if attached {ECF_INFO} context as info then
 				ecf := info.normalized
 				ecf_path := root_dir + ecf.path

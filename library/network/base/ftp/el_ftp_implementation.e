@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-22 18:49:53 GMT (Tuesday 22nd August 2023)"
-	revision: "11"
+	date: "2023-08-23 13:29:42 GMT (Wednesday 23rd August 2023)"
+	revision: "12"
 
 deferred class
 	EL_FTP_IMPLEMENTATION
@@ -17,6 +17,7 @@ deferred class
 inherit
 	FTP_PROTOCOL
 		rename
+			close as close_sockets,
 			error as has_error,
 			exception as exception_code,
 			make as make_ftp,
@@ -25,8 +26,10 @@ inherit
 			last_reply as last_reply_utf_8,
 			reply_code_ok as integer_32_reply_code_ok
 		redefine
-			send_transfer_command
+			close_sockets, send_transfer_command
 		end
+
+	EL_ITERATION_ROUTINES
 
 	EL_FILE_OPEN_ROUTINES
 		rename
@@ -40,35 +43,7 @@ inherit
 
 	EL_MODULE_USER_INPUT
 
-	EL_STRING_8_CONSTANTS;
-
-feature -- Access
-
-	last_reply: ZSTRING
-		do
-			create Result.make_from_utf_8 (last_reply_utf_8)
-			Result.right_adjust
-		end
-
-feature -- Measurement
-
-	file_size (file_path: FILE_PATH): INTEGER
-		do
-			send_path (Command.size, file_path, << Reply.file_status >>)
-			if last_succeeded then
-				Result := String_8.substring_to_reversed (last_reply_utf_8, ' ', default_pointer).to_integer
-			end
-		end
-
-	last_entry_count: INTEGER
-		-- directory entry count set by `read_entry_count' or
-
-feature -- Status query
-
-	last_succeeded: BOOLEAN
-		do
-			Result := error_code = 0
-		end
+	EL_STRING_8_CONSTANTS
 
 feature {NONE} -- Implementation
 
@@ -80,15 +55,38 @@ feature {NONE} -- Implementation
 			is_logged_in := send_username and then send_password
 		end
 
-	display_error (cmd: IMMUTABLE_STRING_8; message: READABLE_STRING_GENERAL)
-		local
-			upper_command: ZSTRING
+	close_sockets
 		do
-			create upper_command.make_from_general (String_8.substring_to (cmd, '%S', default_pointer))
-			upper_command.to_upper
-			upper_command.right_adjust
-			lio.put_labeled_string (upper_command + " error", message)
-			lio.put_new_line
+			Precursor
+			initiating_listing := False
+		end
+
+	display_command_error (cmd: STRING; message: READABLE_STRING_GENERAL)
+		local
+			upper_command: STRING
+		do
+			if is_lio_enabled then
+				upper_command := String_8.substring_to (cmd, ' ', default_pointer)
+				upper_command.to_upper
+				lio.put_labeled_string (upper_command + " error", message)
+				lio.put_new_line
+			end
+		end
+
+	display_error (message: READABLE_STRING_GENERAL)
+		do
+			if is_lio_enabled then
+				lio.put_labeled_string (Error.label, message)
+				lio.put_new_line
+			end
+		end
+
+	display_reply_error
+		do
+			if is_lio_enabled then
+				lio.put_labeled_string (Error.label + " server reply", last_reply)
+				lio.put_new_line
+			end
 		end
 
 	initiate_file_listing (dir_path: DIR_PATH)
@@ -132,7 +130,7 @@ feature {NONE} -- Implementation
 								error_code := Transmission_error
 							end
 						when 2 then
-							last_entry_count := split_list.integer_item
+							set_last_entry_count (split_list.integer_item)
 					else
 					end
 					list.forth
@@ -158,7 +156,7 @@ feature {NONE} -- Implementation
 		require
 			valid_path: cmd [cmd.count] = '%S' implies attached utf_8_path
 		local
-			utf_8_cmd: STRING; substitute_index, retry_count: INTEGER; done: BOOLEAN
+			utf_8_cmd: STRING; substitute_index: INTEGER
 		do
 			substitute_index := cmd.index_of ('%S', 1)
 			across Reuseable.string_8 as reuse loop
@@ -169,42 +167,15 @@ feature {NONE} -- Implementation
 						utf_8_cmd.append (path)
 					else
 						utf_8_cmd := Empty_string_8
+						error_code := Wrong_command
 					end
 				else
 					utf_8_cmd := cmd
 				end
-				if utf_8_cmd = Empty_string_8 then
-					error_code := Wrong_command
-					if is_lio_enabled then
-						display_error (cmd, Error.missing_argument)
-					end
+				if error_code = Wrong_command then
+					display_command_error (cmd, Error.missing_argument)
 				else
-					from until done loop
-						reset_error
-						send_to_socket (main_socket, utf_8_cmd)
-						if last_succeeded then
-							last_reply_utf_8.adjust
-							last_reply_utf_8.to_lower
-							if reply_code_ok (last_reply_utf_8, codes) then
-								done := True
-							else
-								error_code := Wrong_command
-							end
-						end
-						if has_error then
-							retry_count := retry_count + 1
-							if retry_count = 3 then
-								done := True
-							end
-							if is_lio_enabled then
-								display_error (cmd, error_text (error_code))
-								if not done then
-									lio.put_integer_field ("Retry attempt", retry_count - 1)
-									lio.put_new_line
-								end
-							end
-						end
-					end
+					attempt (agent try_send (utf_8_cmd, codes, ?), 3)
 				end
 			end
 		end
@@ -250,29 +221,8 @@ feature {NONE} -- Implementation
 		end
 
 	transfer_file (source_path, destination_path: FILE_PATH)
-		local
-			done: BOOLEAN; retry_count: INTEGER
 		do
-			from until done loop
-				across Reuseable.string_8 as reuse loop
-					push_address_path (unix_utf_8_path (reuse, destination_path))
-					set_passive_mode
-					initiate_transfer
-					pop_address_path
-				end
-				if transfer_initiated then
-					transfer_file_data (source_path)
-					transfer_initiated := False
-				end
-				if has_error and then file_size (destination_path) /= File.byte_count (source_path) then
-					retry_count := retry_count + 1
-					if retry_count = 3 then
-						done := True
-					end
-				else
-					done := True
-				end
-			end
+			attempt (agent try_transfer_file (source_path, destination_path, ?), 3)
 --			else
 --				lio.put_labeled_string (Error.socket_error, data_socket.error)
 --				lio.put_new_line
@@ -283,9 +233,6 @@ feature {NONE} -- Implementation
 --					transfer_file (source_path, destination_path)
 --				end
 --			end
-		ensure
-			address_path_unchanged: old address.path ~ address.path
-			unattached_data_socket: not attached data_socket
 		end
 
 	transfer_file_data (a_file_path: FILE_PATH)
@@ -311,10 +258,53 @@ feature {NONE} -- Implementation
 				file_in.close
 			end
 			receive (main_socket)
-			if has_error and then is_lio_enabled then
-				lio.put_labeled_string (Error.label + " server reply", last_reply)
-				lio.put_new_line
+			if has_error then
+				display_reply_error
 			end
+		end
+
+	try_send (utf_8_command: STRING; codes: ARRAY [NATURAL_16]; done: BOOLEAN_REF)
+		do
+			reset_error
+			send_to_socket (main_socket, utf_8_command)
+			if last_succeeded then
+				last_reply_utf_8.adjust
+				last_reply_utf_8.to_lower
+				if reply_code_ok (last_reply_utf_8, codes) then
+					done.set_item (True)
+				else
+					error_code := Wrong_command
+				end
+			end
+			if has_error then
+				display_command_error (utf_8_command, error_text (error_code))
+			end
+		rescue
+			close_sockets
+			login
+			retry
+		end
+
+	try_transfer_file (source_path, destination_path: FILE_PATH; done: BOOLEAN_REF)
+		do
+			across Reuseable.string_8 as reuse loop
+				push_address_path (unix_utf_8_path (reuse, destination_path))
+				set_passive_mode
+				initiate_transfer
+				pop_address_path
+			end
+			if transfer_initiated then
+				transfer_file_data (source_path)
+				transfer_initiated := False
+			end
+			if has_error then
+				done.set_item (file_size (destination_path) = File.byte_count (source_path))
+			else
+				done.set_item (True)
+			end
+		ensure
+			address_path_unchanged: old address.path ~ address.path
+			unattached_data_socket: not attached data_socket
 		end
 
 	unix_utf_8_path (cursor: EL_BORROWED_STRING_8_CURSOR; a_path: EL_PATH): STRING
@@ -332,7 +322,27 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
+	file_size (file_path: FILE_PATH): INTEGER
+		deferred
+		end
+
+	last_reply: ZSTRING
+		deferred
+		end
+
+	last_succeeded: BOOLEAN
+		deferred
+		end
+
+	login
+		deferred
+		end
+
 	reset
+		deferred
+		end
+
+	set_last_entry_count (a_count: INTEGER)
 		deferred
 		end
 
