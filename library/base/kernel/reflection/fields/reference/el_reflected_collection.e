@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 11:11:04 GMT (Monday 14th August 2023)"
-	revision: "28"
+	date: "2023-08-25 10:00:35 GMT (Friday 25th August 2023)"
+	revision: "29"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -25,7 +25,7 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
-	EL_SHARED_CLASS_ID
+	EL_SHARED_CLASS_ID; EL_SHARED_NEW_INSTANCE_TABLE
 
 create
 	make
@@ -38,6 +38,15 @@ feature {NONE} -- Initialization
 		do
 			item_type_id := ({G}).type_id
 			Precursor (a_object, a_index, a_name)
+
+			if New_instance_table.has_key (item_type_id)
+				and then attached {FUNCTION [G]} New_instance_table.found_item as new_instance_function
+				and then new_instance_function.target.same_type (a_object)
+			then
+
+				new_item_function := new_instance_function
+			end
+
 			if Item_reader_writer_table.has_key (item_type_id)
 				and then attached {EL_READER_WRITER_INTERFACE [G]} Item_reader_writer_table.found_item as found_item
 			then
@@ -109,9 +118,19 @@ feature -- Basic operations
 		end
 
 	extend_with_new (a_object: EL_REFLECTIVE)
+		local
+			new_item: G
 		do
-			if attached collection (a_object) as container and then attached reader_writer as rw then
-				container.extend (rw.new_item)
+			if attached collection (a_object) as container then
+				if attached new_item_function as function then
+					function.set_target (a_object)
+					function.apply
+					new_item  := function.last_result
+
+				elseif attached reader_writer as rw  then
+					new_item := rw.new_item
+				end
+				container.extend (new_item)
 			end
 		end
 
@@ -259,6 +278,10 @@ feature {EL_REFLECTION_HANDLER} -- Internal attributes
 
 	reader_writer: detachable EL_READER_WRITER_INTERFACE [G]
 		-- item reader/writer
+
+	new_item_function: detachable FUNCTION [G]
+		-- functon that returns a new item from agent defined in `enclosing_object' type
+		-- (Example in class `FTP_BACKUP_COMMAND')
 
 feature {NONE} -- Constants
 

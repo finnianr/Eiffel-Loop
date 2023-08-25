@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-24 6:47:40 GMT (Thursday 24th August 2023)"
-	revision: "8"
+	date: "2023-08-24 8:26:26 GMT (Thursday 24th August 2023)"
+	revision: "9"
 
 class
 	REPOSITORY_TEST_PUBLISHER
@@ -15,7 +15,7 @@ class
 inherit
 	REPOSITORY_PUBLISHER
 		redefine
-			authenticate_ftp, execute, make_default, new_medium, ok_to_synchronize, Ftp_host
+			authenticate_ftp, execute, make_default, new_medium, Ftp_host
 		end
 
 create
@@ -41,13 +41,6 @@ feature -- Basic operations
 		do
 			uploaded_path_list.wipe_out
 			Precursor
-		end
-
-feature -- Status query
-
-	ok_to_synchronize: BOOLEAN
-		do
-			Result := True
 		end
 
 feature {NONE} -- Implementation

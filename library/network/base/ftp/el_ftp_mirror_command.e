@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-02 14:47:50 GMT (Wednesday 2nd August 2023)"
-	revision: "7"
+	date: "2023-08-25 12:51:31 GMT (Friday 25th August 2023)"
+	revision: "8"
 
 class
 	EL_FTP_MIRROR_COMMAND
@@ -15,7 +15,7 @@ class
 inherit
 	EL_MIRROR_COMMAND [TUPLE [host, user, passphrase, source_dir, target_dir: STRING]]
 		redefine
-			set_passphrase, set_source_dir, set_target_dir
+			make, set_source_dir, set_target_dir
 		end
 
 	EL_SHARED_ESCAPE_TABLE
@@ -23,12 +23,17 @@ inherit
 create
 	 make
 
-feature -- Element change
+feature {NONE} -- Initialization
 
-	set_passphrase (passphrase: ZSTRING)
+	make (config: EL_FTP_MIRROR_BACKUP)
 		do
-			put_string (var.passphrase, passphrase.escaped (Bash_escaper))
+			Precursor (config)
+			put_string (Var.host, config.host)
+			put_string (Var.user, config.user)
+			put_string (var.passphrase, config.passphrase.escaped (Bash_escaper))
 		end
+
+feature -- Element change
 
 	set_source_dir (source_dir: DIR_PATH)
 		do
@@ -40,13 +45,6 @@ feature -- Element change
 		do
 			-- Don't use `put_path' because target $TARGET_DIR is in quotes
 			put_string (var.target_dir, target_dir.to_string)
-		end
-
-feature {NONE} -- Implementation
-
-	var_index: TUPLE [host, user, passphrase, source_dir, target_dir: INTEGER]
-		do
-			Result := [1, 2, 3, 4, 5]
 		end
 
 feature {NONE} -- Constants

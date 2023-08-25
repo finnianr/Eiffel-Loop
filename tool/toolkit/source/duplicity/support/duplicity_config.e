@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 9:10:43 GMT (Saturday 31st December 2022)"
-	revision: "16"
+	date: "2023-08-25 17:32:45 GMT (Friday 25th August 2023)"
+	revision: "17"
 
 deferred class
 	DUPLICITY_CONFIG
@@ -116,18 +116,34 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
-				["@backup_dir",				agent do backup_dir := node.to_expanded_dir_path end],
-				["@change_text_enabled",	agent do change_text := node.adjusted_8 (False).as_lower ~ "true" end],
-				["@encryption_key",			agent do encryption_key := node end],
-				["@name",						agent do name := node end],
-				["@pre_backup_command",		agent do pre_backup_command := node end],
-				["@restore_dir",				agent do restore_dir := node.to_expanded_dir_path end],
-				["@target_dir",				agent do target_dir := node.to_expanded_dir_path end],
+				["@backup_dir",			 agent do backup_dir := node.to_expanded_dir_path end],
+				["@change_text_enabled", agent do change_text.set_state (node) end],
+				["@encryption_key",		 agent do encryption_key := node end],
+				["@name",					 agent do name := node end],
+				["@pre_backup_command",	 agent do pre_backup_command := node end],
+				["@restore_dir",			 agent do restore_dir := node.to_expanded_dir_path end],
+				["@target_dir",			 agent do target_dir := node.to_expanded_dir_path end],
 
-				["mirror",						agent do set_collection_context (mirror_list, create {EL_MIRROR_BACKUP}.make) end],
-				["exclude-any/text()",		agent append_exclude_any],
-				["exclude-files/text()",	agent append_exclude_files]
+				["exclude-any/text()",	 agent append_exclude_any],
+				["exclude-files/text()", agent append_exclude_files]
+
 			>>)
+			across << Protocol.ftp, Protocol.file, Protocol.ssh >> as type loop
+				Result [type.item + "-mirror"] := agent extend_mirror_list (type.item)
+			end
+		end
+
+	extend_mirror_list (a_protocol: STRING)
+		do
+			if a_protocol ~ Protocol.ftp then
+				set_collection_context (mirror_list, create {EL_FTP_MIRROR_BACKUP}.make)
+
+			elseif a_protocol ~ Protocol.ssh then
+				set_collection_context (mirror_list, create {EL_SSH_MIRROR_BACKUP}.make)
+
+			else
+				set_collection_context (mirror_list, create {EL_FILE_MIRROR_BACKUP}.make)
+			end
 		end
 
 feature {NONE} -- Constants

@@ -16,6 +16,7 @@ publish-repository:
 	ise_contrib = "https://github.com/EiffelSoftware/EiffelStudio/blob/main/Src/contrib/"
 
 	ftp-site:
+		# ftp://user:password@host/<home_dir>
 		encrypted_url:
 			"HVQPk8fnB04fXvnHdSsvfGjfu0FMt2N1QWbjiSDK+a4QI2aB4XY3QEUC3tfn6wMhiVZrUz4rP59JmXjfdIbktQ=="
 		credential:

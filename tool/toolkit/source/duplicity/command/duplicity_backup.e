@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-22 13:07:39 GMT (Thursday 22nd June 2023)"
-	revision: "26"
+	date: "2023-08-25 11:31:08 GMT (Friday 25th August 2023)"
+	revision: "27"
 
 class
 	DUPLICITY_BACKUP
@@ -66,7 +66,7 @@ feature -- Basic operations
 					if change_text.is_enabled then
 						write_change_comment
 					end
-					mirror_list.do_all (agent {EL_MIRROR_BACKUP}.set_passphrase)
+					mirror_list.do_all (agent {EL_MIRROR_BACKUP}.authenticate)
 
 					if pre_backup_command.count > 0 then
 						create cmd.make (pre_backup_command)
@@ -95,7 +95,7 @@ feature -- Basic operations
 					lio.put_new_line
 				end
 				across mirror_list as mirror loop
-					if mirror.item.is_file and then not mirror.item.is_mounted then
+					if mirror.item.is_mounted then
 						lio.put_labeled_string ("Not mounted", mirror.item.backup_dir)
 						lio.put_new_line
 					end

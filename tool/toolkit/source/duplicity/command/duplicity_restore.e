@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-12 12:23:58 GMT (Wednesday 12th April 2023)"
-	revision: "28"
+	date: "2023-08-25 9:44:28 GMT (Friday 25th August 2023)"
+	revision: "29"
 
 class
 	DUPLICITY_RESTORE
@@ -193,7 +193,7 @@ feature {NONE} -- Constants
 			Tuple.fill (Result, "mmm-[0]dd-yyyy, [0]hh24:[0]mi:[0]ss")
 		end
 
-	Var_passphrase: STRING_32
+	Var_passphrase: STRING
 		once
 			Result := "PASSPHRASE"
 		end

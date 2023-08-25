@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-24 6:47:14 GMT (Thursday 24th August 2023)"
-	revision: "69"
+	date: "2023-08-24 8:26:07 GMT (Thursday 24th August 2023)"
+	revision: "70"
 
 class
 	REPOSITORY_PUBLISHER
@@ -150,7 +150,7 @@ feature -- Basic operations
 			else
 				create sync_manager.make (current_set)
 			end
-			if sync_manager.has_changes and then ok_to_synchronize then
+			if sync_manager.has_changes then
 				if attached new_medium as medium then
 					login (medium)
 					if is_logged_in then
@@ -176,11 +176,6 @@ feature -- Status query
 	has_version_changed: BOOLEAN
 		do
 			Result := version /~ previous_version
-		end
-
-	ok_to_synchronize: BOOLEAN
-		do
-			Result := User_input.approved_action_y_n ("Synchronize with website?")
 		end
 
 	is_logged_in: BOOLEAN

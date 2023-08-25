@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-11 10:33:28 GMT (Thursday 11th May 2023)"
-	revision: "45"
+	date: "2023-08-25 6:38:53 GMT (Friday 25th August 2023)"
+	revision: "46"
 
 class
 	APPLICATION_ROOT
@@ -29,7 +29,6 @@ inherit
 		FILE_SYNC_APP,
 		FILE_TREE_TRANSFORM_SCRIPT_APP,
 		FTP_BACKUP_APP, -- uses ftp (depends eposix)
-		FTP_AUTOTEST_APP,
 		FILE_MANIFEST_APP,
 
 		CURRENCY_EXCHANGE_HISTORY_APP,

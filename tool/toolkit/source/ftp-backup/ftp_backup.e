@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-18 16:31:36 GMT (Tuesday 18th July 2023)"
-	revision: "15"
+	date: "2023-08-25 7:46:13 GMT (Friday 25th August 2023)"
+	revision: "16"
 
 class
 	FTP_BACKUP
@@ -54,6 +54,14 @@ feature -- Access
 	name: ZSTRING
 
 	target_dir: DIR_PATH
+
+feature -- Measurement
+
+	size_megabytes: REAL
+		-- size in megabytes
+		do
+			Result := (total_byte_count / 1000_000).truncated_to_real
+		end
 
 	total_byte_count: NATURAL
 

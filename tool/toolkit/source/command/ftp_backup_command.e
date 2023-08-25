@@ -1,13 +1,13 @@
 note
-	description: "Ftp backup command"
+	description: "FTP backup command"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 9:08:39 GMT (Saturday 31st December 2022)"
-	revision: "11"
+	date: "2023-08-25 9:24:47 GMT (Friday 25th August 2023)"
+	revision: "12"
 
 class
 	FTP_BACKUP_COMMAND
@@ -15,10 +15,9 @@ class
 inherit
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
 		rename
-			element_node_fields as Empty_set,
 			field_included as is_any_field
 		redefine
-			building_action_table, root_node_name
+			new_instance_functions, root_node_name
 		end
 
 	EL_APPLICATION_COMMAND
@@ -52,9 +51,7 @@ feature -- Pyxis configured
 
 	file_path: FILE_PATH
 
-	ftp_home_dir: DIR_PATH
-
-	ftp_url: STRING
+	ftp_site: EL_FTP_CONFIGURATION
 
 feature -- Access
 
@@ -66,30 +63,30 @@ feature -- Basic operations
 
 	execute
 		local
-			website: EL_FTP_WEBSITE; mega_bytes: REAL
+			website: EL_FTP_WEBSITE; sum_mega_bytes: REAL
 		do
 			archive_upload_list.wipe_out
 
 			across backup_list as backup loop
 				backup.item.create_archive (archive_upload_list)
 			end
-			mega_bytes := (backup_list.sum_natural (agent {FTP_BACKUP}.total_byte_count) / 1000_000).truncated_to_real
+			sum_mega_bytes := backup_list.sum_real (agent {FTP_BACKUP}.size_megabytes)
 
-			if not ftp_url.is_empty and not ftp_home_dir.is_empty then
+			lio.put_new_line
+			if sum_mega_bytes > Max_mega_bytes_to_send then
+				lio.put_string ("WARNING, total backup size ")
+				lio.put_real (sum_mega_bytes)
+				lio.put_string (" megabytes exceeds limit (")
+				lio.put_real (Max_mega_bytes_to_send)
+				lio.put_string (")")
 				lio.put_new_line
-				if mega_bytes > Max_mega_bytes_to_send then
-					lio.put_string ("WARNING, total backup size ")
-					lio.put_real (mega_bytes)
-					lio.put_string (" megabytes exceeds limit (")
-					lio.put_real (Max_mega_bytes_to_send)
-					lio.put_string (")")
-					lio.put_new_line
-				end
 			end
 
 			if ask_user_to_upload then
 				if User_input.approved_action_y_n ("Copy files offsite?") then
-					create website.make ([ftp_url, ftp_home_dir])
+					ftp_site.authenticate (Void)
+
+					create website.make (ftp_site)
 					website.login
 					if website.is_logged_in then
 						website.do_ftp_upload (archive_upload_list)
@@ -98,20 +95,23 @@ feature -- Basic operations
 			end
 		end
 
-feature {NONE} -- Build from XML
+feature {NONE} -- Implementation
 
-	building_action_table: EL_PROCEDURE_TABLE [STRING]
-			--
+	new_instance_functions: like Default_initial_values
+		-- array of functions returning a new value for result type
 		do
-			Result := Precursor +
-				["backup_list/item", agent do set_collection_context (backup_list, create {FTP_BACKUP}.make (Current)) end]
+			create Result.make_from_array (<<
+				agent: FTP_BACKUP do create Result.make (Current) end
+			>>)
 		end
 
-feature {NONE} -- Implementation: attributes
+feature {NONE} -- Internal attributes
 
 	ask_user_to_upload: BOOLEAN
 
 feature {NONE} -- Constants
+
+	Element_node_fields: STRING = "backup_list"
 
 	Max_mega_bytes_to_send: REAL = 20.0
 

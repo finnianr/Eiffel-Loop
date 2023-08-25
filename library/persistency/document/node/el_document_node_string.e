@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 19:44:45 GMT (Monday 14th August 2023)"
-	revision: "40"
+	date: "2023-08-25 9:39:47 GMT (Friday 25th August 2023)"
+	revision: "41"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -29,10 +29,11 @@ inherit
 					prepend, prepend_character,
 					-- Status query
 					has, has_substring, starts_with, raw_string, raw_string_8, raw_string_32,
-					is_boolean, is_double, is_integer, is_real, is_valid_as_string_8, is_raw_empty
+					is_boolean, is_double, is_integer, is_real, is_valid_as_string_8, is_raw_empty,
+					same_string_general
 		redefine
 			append_to_string, append_to_string_8, append_to_string_32,
-			as_string_32, to_string_32, as_string_8, to_string_8, to_string,
+			as_string_32, to_string_32, as_string_8, to_boolean, to_string_8, to_string,
 			unicode_count
 		end
 
@@ -205,6 +206,11 @@ feature -- Status query
 		end
 
 feature -- String conversion
+
+	to_boolean: BOOLEAN
+		do
+			Result := is_boolean and then count = 4
+		end
 
 	to_string: ZSTRING
 		do

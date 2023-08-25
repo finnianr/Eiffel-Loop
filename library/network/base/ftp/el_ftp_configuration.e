@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-22 5:29:44 GMT (Tuesday 22nd August 2023)"
-	revision: "13"
+	date: "2023-08-25 7:35:22 GMT (Friday 25th August 2023)"
+	revision: "14"
 
 class
 	EL_FTP_CONFIGURATION
@@ -21,6 +21,8 @@ inherit
 		end
 
 	EL_CHARACTER_8_CONSTANTS; EL_STRING_8_CONSTANTS
+
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 create
 	make, make_default
@@ -46,6 +48,18 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	credential: EL_BUILDABLE_AES_CREDENTIAL
+
+	checksum: NATURAL
+		require
+			not_authenticated: not is_authenticated
+		do
+			if attached encrypted_url as cipher and then attached crc_generator as crc then
+				crc.add_string (cipher)
+				crc.add_string (credential.digest_base_64)
+				crc.add_string (credential.salt_base_64)
+				Result := crc.checksum
+			end
+		end
 
 	url: FTP_URL
 

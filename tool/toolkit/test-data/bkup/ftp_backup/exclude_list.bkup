@@ -4,9 +4,6 @@ pyxis-doc:
 # Backup selected files
 
 backup_config:
-	ftp_url = "eiffel-loop.com"
-	ftp_home_dir = "/public/www"
-
 	backup_list:
 		item:
 			target_dir = "$EIFFEL_LOOP/test/data/XML"
@@ -16,4 +13,14 @@ backup_config:
 				item:
 					"XML/jobserve.xml"
 					"XML/Jobs-spreadsheet.fods"
+
+	ftp_site:
+		encrypted_url:
+			"HVQPk8fnB04fXvnHdSsvfGjfu0FMt2N1QWbjiSDK+a4QI2aB4XY3QEUC3tfn6wMhiVZrUz4rP59JmXjfdIbktQ=="
+		credential:
+			salt:
+				"QmOh7tMBAGEyOrOBgMU9BJoJJ1R/dr67"
+			digest:
+				"66i62a1zmjfTUvaSSFUFSL7teSuOejiJlAa+4lEmIj0="
+
 

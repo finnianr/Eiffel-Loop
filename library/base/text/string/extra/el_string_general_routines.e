@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-18 12:52:29 GMT (Friday 18th August 2023)"
-	revision: "1"
+	date: "2023-08-25 17:45:35 GMT (Friday 25th August 2023)"
+	revision: "2"
 
 deferred class
 	EL_STRING_GENERAL_ROUTINES
@@ -39,7 +39,7 @@ feature {NONE} -- Implementation
 	to_unicode_general (general: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
 		do
 			if attached {ZSTRING} general as zstr then
-				Result := zstr.to_unicode
+				Result := zstr.to_general
 			else
 				Result := general
 			end

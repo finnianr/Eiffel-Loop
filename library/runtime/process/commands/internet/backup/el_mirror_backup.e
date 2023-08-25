@@ -1,17 +1,15 @@
 note
-	description: "[
-		Backup mirroring for protocols **ftp**, **ssh** or **file** using Unix commands **rsync** and **lftp**
-	]"
+	description: "Backup mirroring configuration"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-30 17:29:51 GMT (Friday 30th December 2022)"
-	revision: "13"
+	date: "2023-08-25 18:08:25 GMT (Friday 25th August 2023)"
+	revision: "14"
 
-class
+deferred class
 	EL_MIRROR_BACKUP
 
 inherit
@@ -19,122 +17,58 @@ inherit
 		rename
 			field_included as is_any_field,
 			make_default as make,
-			element_node_fields as Empty_set,
 			xml_naming as eiffel_naming
 		end
 
 	EL_FALLIBLE undefine is_equal end
 
-	EL_PROTOCOL_CONSTANTS
-		rename
-			Protocol as Protocols
-		end
-
-	EL_MODULE_LIO; EL_MODULE_USER_INPUT
-
-create
-	make
+	EL_MODULE_LIO; EL_MODULE_NAMING; EL_MODULE_USER_INPUT
 
 feature -- Access
 
 	backup_dir: DIR_PATH
 
-	host_name: STRING
-
-	passphrase: ZSTRING
-		do
-			if Passphrase_table.has_key (host_name)  then
-				Result := Passphrase_table.found_item
-			else
-				create Result.make_empty
-			end
-		end
-
 	protocol: STRING
+		do
+			Result := Naming.class_as_snake_lower (Current, 1, 2)
+		end
 
 	to_string: ZSTRING
-		local
-			template, backup_path: ZSTRING
-		do
-			if protocol ~ Protocols.ssh or protocol ~ Protocols.ftp then
-				backup_path := backup_dir.to_unix
-				backup_path.prune_all_leading ('/')
-				template := "%S://%S@%S/%S"
-				Result := template #$ [protocol, user, host_name, backup_path]
-			else
-				template := "%S://%S"
-				Result := template #$ [protocol, backup_dir]
-			end
+		deferred
 		end
-
-	user: ZSTRING
 
 feature -- Status query
 
-	is_file: BOOLEAN
-		do
-			Result := protocol ~ Protocols.file
-		end
-
 	is_mounted: BOOLEAN
 		do
-			Result := is_file implies backup_dir.parent.exists
+			Result := True
 		end
 
 feature -- Basic operations
 
-	set_passphrase
-		local
-			prompt_template: ZSTRING
+	authenticate
 		do
-			if protocol ~ Protocols.ftp and then not Passphrase_table.has (host_name) then
-				prompt_template := "Enter %S ftp password"
-				Passphrase_table [host_name] := User_input.line (prompt_template #$ [host_name])
-				lio.put_new_line
-			end
 		end
 
 	transfer (backup_target_dir: DIR_PATH)
-		local
-			cmd: EL_MIRROR_COMMAND
 		do
-			if Command_table.has_key (protocol) then
-				cmd := Command_table.found_item
-				cmd.set_host (host_name)
-				cmd.set_user (user)
-				cmd.set_passphrase (passphrase)
+			if attached new_command (backup_target_dir) as cmd then
 				cmd.set_source_dir (backup_target_dir)
 
-				if attached {EL_FTP_MIRROR_COMMAND} cmd then
-					cmd.set_target_dir (backup_dir #+ backup_target_dir.base)
-				else
-					cmd.set_target_dir (backup_dir)
-				end
-				cmd.execute -- EXECUTE
+				cmd.execute
 
 				if cmd.has_error then
 					error_list.append (cmd.error_list)
 				else
 					reset
 				end
-			else
-				put_error_message ("Unknown protocol:" + protocol)
 			end
 		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	Passphrase_table: HASH_TABLE [ZSTRING, STRING]
-		once
-			create Result.make (3)
-		end
-
-	Command_table: HASH_TABLE [EL_MIRROR_COMMAND, STRING]
-		once
-			create Result.make (3)
-			Result [Protocols.file] := create {EL_RSYNC_COMMAND}.make
-			Result [Protocols.ftp] := create {EL_FTP_MIRROR_COMMAND}.make
-			Result [Protocols.ssh] := create {EL_RSYNC_SSH_COMMAND}.make
+	new_command (backup_target_dir: DIR_PATH): EL_MIRROR_COMMAND
+		deferred
 		end
 
 end
