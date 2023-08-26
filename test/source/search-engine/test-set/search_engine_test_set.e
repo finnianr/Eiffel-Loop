@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-18 16:56:27 GMT (Friday 18th August 2023)"
-	revision: "16"
+	date: "2023-08-26 18:03:50 GMT (Saturday 26th August 2023)"
+	revision: "17"
 
 class
 	SEARCH_ENGINE_TEST_SET
@@ -18,7 +18,7 @@ inherit
 			on_prepare
 		end
 
-	SHARED_HEXAGRAM_STRINGS
+	SHARED_HEXAGRAM_STRINGS; EL_SHARED_TEST_TEXT
 
 	EL_CHARACTER_32_CONSTANTS
 
@@ -31,6 +31,7 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
+				["word_token_table",					 agent test_word_token_table],
 				["persistent_chinese_word_table", agent test_persistent_chinese_word_table],
 				["persistent_english_word_table", agent test_persistent_english_word_table]
 			>>)
@@ -56,6 +57,19 @@ feature -- Tests
 			]"
 		do
 			test_persistent_word_table (English)
+		end
+
+	test_word_token_table
+		-- SEARCH_ENGINE_TEST_SET.test_word_token_table
+		local
+			table_1, table_2: EL_WORD_TOKEN_TABLE; paragraphs: ZSTRING
+			token_list_1, token_list_2: EL_WORD_TOKEN_LIST
+		do
+			create table_1.make (50); create table_2.make (50)
+			paragraphs := Text.Russian_and_english
+			token_list_1 := table_1.paragraph_list_tokens (paragraphs.split ('%N'))
+			token_list_2 := table_2.paragraph_list_tokens_2 (paragraphs.split ('%N'))
+			assert ("same tokens", token_list_1 ~ token_list_2)
 		end
 
 feature {NONE} -- Events

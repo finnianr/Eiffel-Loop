@@ -1,5 +1,8 @@
+1.11.4
+* Added encrypted url option
+
 1.11.3
-* Refactory Duplicity backup to use encrypted ftp url
+* Refactored Duplicity backup/restore to use encrypted ftp url
 
 1.11.2
 * New functions in crypto command shell

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 5:59:41 GMT (Thursday 17th August 2023)"
-	revision: "2"
+	date: "2023-08-26 10:38:21 GMT (Saturday 26th August 2023)"
+	revision: "3"
 
 expanded class
 	EL_USER_CRYPTO_OPERATIONS
@@ -23,7 +23,7 @@ inherit
 
 	EL_MODULE_TUPLE; EL_MODULE_USER_INPUT
 
-	STRING_HANDLER; EL_ZSTRING_CONSTANTS; EL_CHARACTER_32_CONSTANTS
+	STRING_HANDLER; EL_ZSTRING_CONSTANTS; EL_CHARACTER_8_CONSTANTS
 
 	EL_SHARED_PASSPHRASE_TEXTS
 
@@ -37,18 +37,6 @@ feature -- Basic operations
 	display_encrypted_file
 		do
 			do_with_encrypted_file (agent display_plain_text)
-		end
-
-	display_encrypted_text (eiffel_array_output: BOOLEAN)
-			--
-		do
-			if attached new_validated_credential as credential then
-				display_cipher_text (new_encrypter (credential), User_input.line ("Enter text"), eiffel_array_output)
-
-				if User_input.approved_action_y_n ("Show salt and digest") then
-					credential.display (lio)
-				end
-			end
 		end
 
 	encrypt_file_with_aes
@@ -71,6 +59,37 @@ feature -- Basic operations
 			end
 		end
 
+	encrypt_ftp_url
+		-- encrypt ftp url with 256-bit AES encryption and output Pyxis configuration
+		local
+			url: STRING; pyxis_text: ZSTRING
+		do
+			url := User_input.line ("Enter url")
+			if attached new_validated_credential as credential
+				and then attached credential.new_aes_encrypter (256) as encrypter
+			then
+				pyxis_text := Pyxis_ftp_config #$ [
+					encrypter.base_64_encrypted (url), credential.salt_base_64, credential.digest_base_64
+				]
+				across pyxis_text.split ('%N') as line loop
+					lio.put_line (line.item)
+				end
+				lio.put_new_line
+			end
+		end
+
+	encrypt_user_input_text (eiffel_array_output: BOOLEAN)
+			--
+		do
+			if attached new_validated_credential as credential then
+				display_cipher_text (new_encrypter (credential), User_input.line ("Enter text"), eiffel_array_output)
+
+				if User_input.approved_action_y_n ("Show salt and digest") then
+					credential.display (lio)
+				end
+			end
+		end
+
 	generate_pass_phrase_salt
 		do
 			new_validated_credential.display (lio)
@@ -78,10 +97,15 @@ feature -- Basic operations
 
 	validate (credential: EL_AES_CREDENTIAL)
 		local
-			done: BOOLEAN
+			done: BOOLEAN; prompt: READABLE_STRING_GENERAL
 		do
+			if attached Validation_prompt.item as p then
+				prompt := p
+			else
+				prompt := Text.enter_passphrase
+			end
 			from until done loop
-				credential.set_phrase (User_input.line (Text.enter_passphrase))
+				credential.set_phrase (User_input.line (prompt))
 				lio.put_new_line
 				if credential.is_salt_set then
 					if credential.is_valid then
@@ -94,6 +118,15 @@ feature -- Basic operations
 					done := True
 				end
 			end
+			Validation_prompt.put (Void)
+		end
+
+feature -- Element change
+
+	set_validation_prompt (prompt: READABLE_STRING_GENERAL)
+		-- disposable validation prompt used once during next call to `validate'
+		do
+			Validation_prompt.put (prompt)
 		end
 
 feature {NONE} -- Implementation
@@ -105,8 +138,11 @@ feature {NONE} -- Implementation
 		end
 
 	display_cipher_text (encrypter: like new_encrypter; a_text: ZSTRING; eiffel_array_output: BOOLEAN)
+		local
+			utf_text: STRING
 		do
-			a_text.replace_substring_all (Escaped_new_line, new_line * 1)
+			utf_text := a_text.to_utf_8 (True)
+			utf_text.replace_substring_all (Escaped_new_line, new_line * 1)
 
 			if eiffel_array_output then
 				lio.put_labeled_string ("Key array", encrypter.out)
@@ -116,7 +152,7 @@ feature {NONE} -- Implementation
 				)
 			end
 			lio.put_new_line
-			lio.put_labeled_string ("Cipher text", encrypter.base_64_encrypted (a_text.to_utf_8 (False)))
+			lio.put_labeled_string ("Cipher text", encrypter.base_64_encrypted (utf_text))
 			lio.put_new_line
 		end
 
@@ -202,20 +238,6 @@ feature {NONE} -- Factory
 			create Result.make_valid ("AES encryption bit count", "Must be one of: 128, 256", agent AES_types.has)
 		end
 
-	new_validated_credential: EL_AES_CREDENTIAL
-		do
-			create Result.make_default
-			validate (Result)
-		end
-
-	new_eiffel_source_name: FILE_PATH
-		do
-			Result := User_input.line ("Eiffel source name")
-			if not Result.has_extension (Extension.e) then
-				Result.add_extension (Extension.e)
-			end
-		end
-
 	new_drag_and_drop (
 		name: READABLE_STRING_GENERAL; valid_extension: detachable READABLE_STRING_GENERAL
 	): EL_USER_INPUT_VALUE [FILE_PATH]
@@ -239,10 +261,24 @@ feature {NONE} -- Factory
 			Result := new_drag_and_drop (template #$ [Extension.key_dat], Extension.key_dat)
 		end
 
+	new_eiffel_source_name: FILE_PATH
+		do
+			Result := User_input.line ("Eiffel source name")
+			if not Result.has_extension (Extension.e) then
+				Result.add_extension (Extension.e)
+			end
+		end
+
 	new_encrypter (pass_phrase: EL_AES_CREDENTIAL): EL_AES_ENCRYPTER
 		do
 			Result := pass_phrase.new_aes_encrypter (new_bit_count)
 			lio.put_new_line
+		end
+
+	new_validated_credential: EL_AES_CREDENTIAL
+		do
+			create Result.make_default
+			validate (Result)
 		end
 
 feature {NONE} -- Constants
@@ -252,10 +288,7 @@ feature {NONE} -- Constants
 			Result := << 128, 256 >>
 		end
 
-	Escaped_new_line: ZSTRING
-		once
-			Result := "%%N"
-		end
+	Escaped_new_line: STRING = "%%N"
 
 	Extension: TUPLE [aes, crt, dat, e, key, key_dat: IMMUTABLE_STRING_8]
 		once
@@ -263,4 +296,22 @@ feature {NONE} -- Constants
 			Tuple.fill_immutable (Result, "aes, crt, dat, e, key, key.dat")
 		end
 
+	Validation_prompt: CELL [READABLE_STRING_GENERAL]
+		-- disposable passphrase prompt used once only during next call to `validate'
+		once
+			create Result.put (Void)
+		end
+
+	Pyxis_ftp_config: ZSTRING
+		once
+			Result := "[
+				encrypted_url:
+					"#"
+				credential:
+					salt:
+						"#"
+					digest:
+						"#"
+			]"
+		end
 end

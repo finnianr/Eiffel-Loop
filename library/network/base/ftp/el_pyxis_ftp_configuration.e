@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-20 9:27:08 GMT (Sunday 20th August 2023)"
-	revision: "1"
+	date: "2023-08-26 17:45:36 GMT (Saturday 26th August 2023)"
+	revision: "2"
 
 class
 	EL_PYXIS_FTP_CONFIGURATION
@@ -92,7 +92,7 @@ feature {NONE} -- Implementation
 
 	find_encrypted_url (line: ZSTRING)
 		local
-			found: BOOLEAN; last_line: ZSTRING
+			last_line: ZSTRING
 		do
 			if line_number = 1 then
 				pyxis_lines.extend (line)

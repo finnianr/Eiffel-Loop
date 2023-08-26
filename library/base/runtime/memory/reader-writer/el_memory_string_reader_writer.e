@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-01 15:06:55 GMT (Wednesday 1st March 2023)"
-	revision: "10"
+	date: "2023-08-26 17:10:38 GMT (Saturday 26th August 2023)"
+	revision: "11"
 
 deferred class
 	EL_MEMORY_STRING_READER_WRITER
@@ -149,23 +149,21 @@ feature {NONE} -- Implementation
 			valid_string: str.is_empty and then char_count <= str.capacity
 		local
 			i, buffer_count, pos: INTEGER; area: SPECIAL [CHARACTER]; c: CHARACTER
-			unencoded_buffer: EL_UNENCODED_CHARACTERS_BUFFER; done: BOOLEAN
-			code: NATURAL
+			done: BOOLEAN; code: NATURAL
 		do
 			area := str.area
-			unencoded_buffer := str.empty_unencoded_buffer
-			if attached buffer as buf then
-				buffer_count := buf.count
+			if attached buffer as l_buffer and then attached str.empty_unencoded_buffer as unencoded_buffer then
+				buffer_count := l_buffer.count
 				pos := count
 
 				from i := 0 until done or else i = char_count loop
 					if pos + Character_8_bytes < buffer_count then
-						c := buf.read_character (pos)
+						c := l_buffer.read_character (pos)
 						pos := pos + Character_8_bytes
 						area [i] := c
 						if c = Substitute then
 							if pos + Natural_32_bytes < buffer_count then
-								code := buf.read_natural_32 (pos)
+								code := l_buffer.read_natural_32 (pos)
 								pos := pos + Natural_32_bytes
 								unencoded_buffer.extend (code.to_character_32, i + 1)
 							else
@@ -191,10 +189,10 @@ feature {NONE} -- Implementation
 			i, read_count, pos: INTEGER; area: SPECIAL [CHARACTER_32]; code: NATURAL
 			done: BOOLEAN
 		do
-			if attached buffer as buf then
+			if attached buffer as l_buffer then
 				area := str.area; pos := count
 				from i := 0 until done or else i = a_count loop
-					code := compressed_natural_32 (buf, pos, $read_count)
+					code := compressed_natural_32 (l_buffer, pos, $read_count)
 					if read_count.to_boolean then
 						area [i] := code.to_character_32
 						pos := pos + read_count

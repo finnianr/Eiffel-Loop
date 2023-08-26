@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-19 9:39:01 GMT (Saturday 19th August 2023)"
-	revision: "5"
+	date: "2023-08-26 18:16:01 GMT (Saturday 26th August 2023)"
+	revision: "6"
 
 expanded class
 	EL_UNENCODED_CHARACTER_ITERATION
@@ -121,8 +121,6 @@ feature -- Access
 	block_string (block_index: INTEGER; area: SPECIAL [CHARACTER_32]): IMMUTABLE_STRING_32
 		-- Shared sub string from `area' at block index pointed to by  `block_index_ptr',
 		-- Returns empty string if block index out of bounds of `area'
-		note
-			uses: "Can't think of a use for this yet, but potentially could speed up some loop"
 		require
 			at_least_one_block: area.count >= 3
 		local

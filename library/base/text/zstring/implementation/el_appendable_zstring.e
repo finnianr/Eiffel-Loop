@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-29 13:27:18 GMT (Thursday 29th June 2023)"
-	revision: "52"
+	date: "2023-08-26 16:54:30 GMT (Saturday 26th August 2023)"
+	revision: "53"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -155,12 +155,11 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 		-- append `str' replacing any occurrences of `old_substring' with `new_substring'
 		local
 			original_count, previous_index, end_index, new_count, size_difference: INTEGER
-			positions: ARRAYED_LIST [INTEGER]; buffer: like Unencoded_buffer
+			positions: ARRAYED_LIST [INTEGER]
 		do
 			original_count := old_substring.count
 			positions := str.internal_substring_index_list (old_substring)
-			if not positions.is_empty then
-				buffer := empty_unencoded_buffer
+			if positions.count > 0 and then attached empty_unencoded_buffer as buffer then
 				if has_mixed_encoding then
 					buffer.append (current_readable, 0)
 				end
@@ -293,12 +292,13 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
 	append_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
 		local
-			old_count: INTEGER; buffer: like Unencoded_buffer
+			old_count: INTEGER
 		do
 			old_count := count
 			String_8.append_substring (Current, s, start_index, end_index)
-			if s.has_unencoded_between_optimal (s.area, start_index, end_index) then
-				buffer := empty_unencoded_buffer
+			if s.has_unencoded_between_optimal (s.area, start_index, end_index)
+				and then attached empty_unencoded_buffer as buffer
+			then
 				buffer.append_substring (s, start_index, end_index, old_count)
 				if buffer.not_empty then
 					append_unencoded (buffer, 0)
@@ -588,20 +588,18 @@ feature {NONE} -- Implementation
 			valid_utf_type: utf_type = 8 or utf_type = 16
 			valid_utf_16_input: utf_type = 16 implies utf_encoded_string.count \\ 2 = 0
 		local
-			offset: INTEGER; buffer: like Unencoded_buffer
+			offset: INTEGER
 		do
 			if utf_type = 8 and then unicode_count = utf_encoded_string.count then
 				append_ascii (utf_encoded_string)
-			else
+
+			elseif attached empty_unencoded_buffer as buffer then
 				offset := count; accommodate (unicode_count)
-				buffer := empty_unencoded_buffer
 				codec.encode_utf (utf_encoded_string, area, utf_type, unicode_count, offset, buffer)
 				if buffer.not_empty then
 					append_unencoded (buffer, 0)
 				end
 			end
 		end
-
-
 
 end

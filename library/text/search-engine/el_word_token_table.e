@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-18 12:03:27 GMT (Friday 18th August 2023)"
-	revision: "16"
+	date: "2023-08-26 19:28:13 GMT (Saturday 26th August 2023)"
+	revision: "17"
 
 class
 	EL_WORD_TOKEN_TABLE
@@ -117,7 +117,7 @@ feature -- Conversion
 			across paragraph_list as paragraph loop
 				str := paragraph.item
 				if str.has_alpha_numeric then
-					if not Result.is_empty then
+					if Result.count > 0 then
 						Result.extend (New_line_token)
 					end
 					from i := 1 until i > str.count loop
@@ -129,6 +129,37 @@ feature -- Conversion
 						i := i + 1
 					end
 					extend_list (Result, word)
+				end
+			end
+			Result := Result.twin
+			on_new_token_list.notify
+		end
+
+	paragraph_list_tokens_2 (paragraph_list: ITERABLE [ZSTRING]): EL_WORD_TOKEN_LIST
+		local
+			i: INTEGER; word: ZSTRING
+		do
+			Result := Once_token_list; Result.wipe_out
+			create word.make (12)
+			if attached Once_interval_list as interval_list then
+				across paragraph_list as paragraph loop
+					if attached paragraph.item as str then
+						interval_list.wipe_out
+						str.fill_alpha_numeric_intervals (interval_list)
+						if interval_list.count > 0 then
+							if Result.count > 0 then
+								Result.extend (New_line_token)
+							end
+							if attached interval_list as list then
+								from list.start until list.after loop
+									word.wipe_out
+									word.append_substring (str, list.item_lower, list.item_upper)
+									extend_list (Result, word)
+									list.forth
+								end
+							end
+						end
+					end
 				end
 			end
 			Result := Result.twin
@@ -156,7 +187,7 @@ feature {EL_WORD_SEARCHABLE} -- Implementation
 
 	extend_list (list: EL_WORD_TOKEN_LIST; word: ZSTRING)
 		do
-			if not word.is_empty then
+			if word.count > 0 then
 				word.to_lower
 				put (word)
 				list.extend (last_token)
@@ -167,6 +198,11 @@ feature {EL_WORD_SEARCHABLE} -- Implementation
 feature {NONE} -- Constants
 
 	Once_token_list: EL_WORD_TOKEN_LIST
+		once
+			create Result.make_empty
+		end
+
+	Once_interval_list: EL_ARRAYED_INTERVAL_LIST
 		once
 			create Result.make_empty
 		end

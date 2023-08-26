@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-25 18:00:06 GMT (Friday 25th August 2023)"
-	revision: "1"
+	date: "2023-08-26 9:43:32 GMT (Saturday 26th August 2023)"
+	revision: "2"
 
 class
 	EL_FTP_MIRROR_BACKUP
@@ -25,16 +25,16 @@ create
 
 feature -- Access
 
+	credential: EL_AES_CREDENTIAL
+		do
+			Result := site.credential
+		end
+
 	domain: STRING
 
 	host: STRING
 		do
 			Result := site.url.host
-		end
-
-	user: ZSTRING
-		do
-			Result := site.url.username
 		end
 
 	passphrase: ZSTRING
@@ -46,6 +46,19 @@ feature -- Access
 			end
 		end
 
+	user: ZSTRING
+		do
+			Result := site.url.username
+		end
+
+feature -- Element change
+
+	set_passphrase (a_passphrase: ZSTRING)
+		do
+			site.authenticate (a_passphrase)
+			Url_table [url_key] := site.url
+		end
+
 feature -- Basic operations
 
 	authenticate
@@ -53,8 +66,10 @@ feature -- Basic operations
 			if Url_table.has_key (url_key) then
 				site.url.copy (Url_table.found_item)
 			else
-				lio.put_labeled_string ("ftp", domain)
-				lio.put_new_line
+				if is_lio_enabled then
+					lio.put_labeled_string ("ftp", domain)
+					lio.put_new_line
+				end
 				site.authenticate (Void)
 				Url_table [url_key] := site.url
 			end

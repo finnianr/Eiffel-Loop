@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-19 9:03:24 GMT (Saturday 19th August 2023)"
-	revision: "23"
+	date: "2023-08-26 16:48:17 GMT (Saturday 26th August 2023)"
+	revision: "24"
 
 deferred class
 	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
@@ -146,12 +146,9 @@ feature {NONE} -- Implementation
 		end
 
 	empty_buffer: EL_UNENCODED_CHARACTERS_BUFFER
---		require
---			not_in_use: not Buffer.in_use
 		do
 			Result := Buffer
 			Result.wipe_out
---			Result.set_in_use (True)
 		end
 
 	extend_bounds (a_area: like area; lower, upper: INTEGER)

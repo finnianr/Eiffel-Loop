@@ -44,6 +44,7 @@ See project cluster for details
 		<library name = "EL_fast_cgi" location = "$EIFFEL_LOOP/library/fast-cgi.ecf" readonly = "false"/>
 		<library name = "EL_logging" location = "$EIFFEL_LOOP/library/logging.ecf" readonly = "false"/>
 		<library name = "EL_os_command" location = "$EIFFEL_LOOP/library/os-command.ecf" readonly = "false"/>
+		<library name = "EL_search_engine" location = "$EIFFEL_LOOP/library/search-engine.ecf" readonly = "false"/>
 		<library name = "EL_testing" location = "$EIFFEL_LOOP/library/testing.ecf" readonly = "false"/>
 		<library name = "EL_text_formats" location = "$EIFFEL_LOOP/library/text-formats.ecf" readonly = "false"/>
 		<library name = "EL_vtd_xml" location = "$EIFFEL_LOOP/library/vtd-xml.ecf" readonly = "false"/>

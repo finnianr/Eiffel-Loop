@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-23 13:52:25 GMT (Wednesday 23rd August 2023)"
-	revision: "49"
+	date: "2023-08-26 17:04:59 GMT (Saturday 26th August 2023)"
+	revision: "50"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -51,13 +51,15 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			-- Reverse the order of characters.
 			-- "Hello" -> "olleH".
 		local
-			c_i: CHARACTER; i, l_count, block_index: INTEGER; l_area: like area
-			buffer: like Unencoded_buffer; iter: EL_UNENCODED_CHARACTER_ITERATION
+			c_i: CHARACTER; i, l_count, block_index: INTEGER
+			iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
 			l_count := count
 			if l_count > 1 then
-				if attached unencoded_area as area_32 and then area_32.count > 0 then
-					l_area := area; buffer := empty_unencoded_buffer
+				if attached unencoded_area as area_32 and then area_32.count > 0
+					and then attached empty_unencoded_buffer as buffer
+					and then attached area as l_area
+				then
 					from i := l_count - 1 until i < 0 loop
 						c_i := l_area.item (i)
 						if c_i = Substitute then
@@ -192,37 +194,37 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			each_old_has_new: old_characters.count = new_characters.count
 		local
 			i, j, index, l_count, block_index: INTEGER; old_z_code, new_z_code: NATURAL
-			l_new_unencoded: like Unencoded_buffer; old_expanded, new_expanded: STRING_32
-			l_area, new_characters_area: like area; area_32: like unencoded_area
+			old_expanded, new_expanded: STRING_32; l_area, new_characters_area: like area
 			iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
 			old_expanded := old_characters.shared_z_code_pattern (1); new_expanded := new_characters.shared_z_code_pattern (2)
 
 			l_area := area; new_characters_area := new_characters.area; l_count := count
-			l_new_unencoded := empty_unencoded_buffer; area_32 := unencoded_area
 
-			from until i = l_count loop
-				old_z_code := iter.i_th_z_code ($block_index, l_area, area_32, i)
-				index := old_expanded.index_of (old_z_code.to_character_32, 1)
-				if index > 0 then
-					new_z_code := new_expanded.code (index)
-				else
-					new_z_code := old_z_code
-				end
-				if delete_null implies new_z_code > 0 then
-					if new_z_code > 0xFF then
-						l_new_unencoded.extend_z_code (new_z_code, j + 1)
-						l_area.put (Substitute, j)
+			if attached empty_unencoded_buffer as l_new_unencoded and then attached unencoded_area as area_32 then
+				from until i = l_count loop
+					old_z_code := iter.i_th_z_code ($block_index, l_area, area_32, i)
+					index := old_expanded.index_of (old_z_code.to_character_32, 1)
+					if index > 0 then
+						new_z_code := new_expanded.code (index)
 					else
-						l_area.put (new_z_code.to_character_8, j)
+						new_z_code := old_z_code
 					end
-					j := j + 1
+					if delete_null implies new_z_code > 0 then
+						if new_z_code > 0xFF then
+							l_new_unencoded.extend_z_code (new_z_code, j + 1)
+							l_area.put (Substitute, j)
+						else
+							l_area.put (new_z_code.to_character_8, j)
+						end
+						j := j + 1
+					end
+					i := i + 1
 				end
-				i := i + 1
+				set_count (j)
+				l_area [j] := '%U'
+				set_unencoded_from_buffer (l_new_unencoded)
 			end
-			set_count (j)
-			l_area [j] := '%U'
-			set_unencoded_from_buffer (l_new_unencoded)
 		ensure
 			valid_unencoded: is_valid
 			unchanged_count: not delete_null implies count = old count
@@ -505,9 +507,10 @@ feature {NONE} -- Implementation
 
 	replace_substring_all_zstring (old_substring, new_substring: EL_READABLE_ZSTRING)
 		local
-			old_count, l_count, new_substring_count, old_substring_count, previous_index, end_index, size_difference: INTEGER
-			buffer: like empty_unencoded_buffer; substring_index_list: detachable LIST [INTEGER]
-			replaced_8, current_8, new_substring_8: EL_STRING_8; internal_replace_done: BOOLEAN
+			old_count, l_count, new_substring_count, old_substring_count: INTEGER
+			previous_index, end_index, size_difference: INTEGER; internal_replace_done: BOOLEAN
+			replaced_8, current_8, new_substring_8: EL_STRING_8
+			substring_index_list: detachable LIST [INTEGER]
 		do
 			if not old_substring.is_equal (new_substring) then
 				old_count := count; new_substring_count := new_substring.count; old_substring_count := old_substring.count
@@ -532,22 +535,23 @@ feature {NONE} -- Implementation
 							and then positions.count > 0
 						then
 							String_8.replace_substring_all (Current, old_substring, new_substring)
-							buffer := empty_unencoded_buffer
-							from positions.start until positions.after loop
-								end_index := positions.item - 1
-								if end_index >= previous_index then
-									buffer.append_substring (Current, previous_index, end_index, l_count)
-									l_count := l_count + end_index - previous_index + 1
+							if attached empty_unencoded_buffer as buffer then
+								from positions.start until positions.after loop
+									end_index := positions.item - 1
+									if end_index >= previous_index then
+										buffer.append_substring (Current, previous_index, end_index, l_count)
+										l_count := l_count + end_index - previous_index + 1
+									end
+									l_count := l_count + new_substring_count
+									previous_index := positions.item + old_substring_count
+									positions.forth
 								end
-								l_count := l_count + new_substring_count
-								previous_index := positions.item + old_substring_count
-								positions.forth
+								end_index := old_count
+								if previous_index <= end_index then
+									buffer.append_substring (Current, previous_index, end_index, l_count)
+								end
+								set_unencoded_from_buffer (buffer)
 							end
-							end_index := old_count
-							if previous_index <= end_index then
-								buffer.append_substring (Current, previous_index, end_index, l_count)
-							end
-							set_unencoded_from_buffer (buffer)
 						end
 
 					when Only_other then
@@ -560,18 +564,19 @@ feature {NONE} -- Implementation
 								and then positions.count > 0
 							then
 								String_8.replace_substring_all (Current, old_substring, new_substring)
-								buffer := empty_unencoded_buffer
-								from positions.start until positions.after loop
-									end_index := positions.item - 1
-									if end_index >= previous_index then
-										l_count := l_count + end_index - previous_index + 1
+								if attached empty_unencoded_buffer as buffer then
+									from positions.start until positions.after loop
+										end_index := positions.item - 1
+										if end_index >= previous_index then
+											l_count := l_count + end_index - previous_index + 1
+										end
+										buffer.append (new_substring, l_count)
+										l_count := l_count + new_substring_count
+										previous_index := positions.item + old_substring_count
+										positions.forth
 									end
-									buffer.append (new_substring, l_count)
-									l_count := l_count + new_substring_count
-									previous_index := positions.item + old_substring_count
-									positions.forth
+									set_unencoded_from_buffer (buffer)
 								end
-								set_unencoded_from_buffer (buffer)
 							end
 						else
 							-- Can use STRING_8 implemenation
@@ -580,9 +585,9 @@ feature {NONE} -- Implementation
 				else
 					substring_index_list := internal_substring_index_list (old_substring)
 				end
-				if attached substring_index_list as positions and then positions.count > 0 then
-					buffer := empty_unencoded_buffer
-
+				if attached substring_index_list as positions and then positions.count > 0
+					and then attached empty_unencoded_buffer as buffer
+				then
 					if not internal_replace_done then
 						current_8 := String_8.injected (Current, 1)
 						new_substring_8 := String_8.injected (new_substring, 2)

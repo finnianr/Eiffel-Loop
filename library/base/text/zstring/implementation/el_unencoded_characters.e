@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-21 8:07:23 GMT (Monday 21st August 2023)"
-	revision: "55"
+	date: "2023-08-26 16:50:20 GMT (Saturday 26th August 2023)"
+	revision: "56"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -474,7 +474,7 @@ feature -- Status query
 	intersects (lower_A, upper_A: INTEGER): BOOLEAN
 		-- `True' if some characters are between `lower_A' and `upper_A'
 		do
-			if attached area as l_area then
+			if upper_A >= lower_A and then attached area as l_area then
 				Result := index_of_overlapping (l_area, lower_a, upper_a) /= l_area.count
 			end
 		end
@@ -785,8 +785,7 @@ feature -- Removal
 		-- if `uc_new = 0' then remove `uc_old'
 		local
 			i, j, lower, upper, count, i_final, previous_i, delta: INTEGER
-			l_area: like area; found: BOOLEAN; l_buffer: like empty_buffer
-			l_code: CHARACTER_32
+			l_area: like area; found: BOOLEAN; l_code: CHARACTER_32
 		do
 			previous_i := (1).opposite
 			l_area := area; i_final := l_area.count
@@ -805,8 +804,7 @@ feature -- Removal
 					i := i + count + 2
 				end
 			end
-			if found then
-				l_buffer := empty_buffer
+			if found and then attached empty_buffer as l_buffer then
 				if previous_i >= 0 then
 					l_buffer.append_from_area (l_area, previous_i)
 				end
@@ -874,33 +872,36 @@ feature -- Removal
 	remove_indices (list: like index_list)
 		local
 			i, j, i_final, pruned_count, lower, upper: INTEGER
-			l_area: like area; l_buffer: like empty_buffer
+			l_area: like area
 		do
 			l_area := area; i_final := area.count
 			if not list.is_empty and then i_final > 0 then
-				l_buffer := empty_buffer
-				from i := 0; list.start until i = i_final loop
-					lower := l_area [i].code; upper := l_area [i + 1].code
-					from until list.after or else list.item >= lower loop
-						list.forth
-						pruned_count := pruned_count + 1
-					end
-					from j := lower until j > upper loop
-						if not list.after and then list.item = j then
-							pruned_count := pruned_count + 1
+				if attached empty_buffer as l_buffer then
+					from i := 0; list.start until i = i_final loop
+						lower := l_area [i].code; upper := l_area [i + 1].code
+						from until list.after or else list.item >= lower loop
 							list.forth
-						else
-							l_buffer.extend (l_area [i + 2 + j - lower], j - pruned_count)
+							pruned_count := pruned_count + 1
 						end
-						j := j + 1
+						from j := lower until j > upper loop
+							if not list.after and then list.item = j then
+								pruned_count := pruned_count + 1
+								list.forth
+							else
+								l_buffer.extend (l_area [i + 2 + j - lower], j - pruned_count)
+							end
+							j := j + 1
+						end
+						i := i + upper - lower + 3
 					end
-					i := i + upper - lower + 3
+					set_from_buffer (l_buffer)
 				end
-				set_from_buffer (l_buffer)
 			end
 		end
 
 	remove_substring (lower_A, upper_A: INTEGER)
+		require
+			interval_count_not_zero: upper_A >= lower_A
 		local
 			i, lower_B, upper_B, i_final, overlap_status, previous_i, previous_upper: INTEGER
 			count, removed_count, deleted_count, start_index, end_index: INTEGER

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-21 8:07:23 GMT (Monday 21st August 2023)"
-	revision: "126"
+	date: "2023-08-26 17:46:31 GMT (Saturday 26th August 2023)"
+	revision: "127"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -145,24 +145,23 @@ feature {NONE} -- Initialization
 	make_from_zcode_area (zcode_area: SPECIAL [NATURAL])
 		local
 			z_code_i: NATURAL; i, l_count: INTEGER
-			buffer: like Unencoded_buffer; l_area: like area
 		do
 			l_count := zcode_area.count
 			make (l_count)
-
-			buffer := empty_unencoded_buffer; l_area := area
-			from i := 0 until i = l_count loop
-				z_code_i := zcode_area [i]
-				if z_code_i > 0xFF then
-					l_area [i] := Substitute
-					buffer.extend_z_code (z_code_i, i + 1)
-				else
-					l_area [i] := z_code_i.to_character_8
+			if attached empty_unencoded_buffer as buffer and then attached area as l_area then
+				from i := 0 until i = l_count loop
+					z_code_i := zcode_area [i]
+					if z_code_i > 0xFF then
+						l_area [i] := Substitute
+						buffer.extend_z_code (z_code_i, i + 1)
+					else
+						l_area [i] := z_code_i.to_character_8
+					end
+					i := i + 1
 				end
-				i := i + 1
+				set_count (l_count)
+				set_unencoded_from_buffer (buffer)
 			end
-			set_count (l_count)
-			set_unencoded_from_buffer (buffer)
 		end
 
 feature {NONE} -- Initialization
@@ -561,8 +560,6 @@ feature -- Conversion
 	substring (start_index, end_index: INTEGER): like Current
 			-- Copy of substring containing all characters at indices
 			-- between `start_index' and `end_index'
-		local
-			buffer: like Unencoded_buffer
 		do
 			if (1 <= start_index) and (start_index <= end_index) and (end_index <= count) then
 				Result := new_string (end_index - start_index + 1)
@@ -571,8 +568,9 @@ feature -- Conversion
 			else
 				Result := new_string (0)
 			end
-			if has_unencoded_between_optimal (area, start_index, end_index) then
-				buffer := empty_unencoded_buffer
+			if has_unencoded_between_optimal (area, start_index, end_index)
+				and then attached empty_unencoded_buffer as buffer
+			then
 				buffer.append_substring (Current, start_index, end_index, 0)
 				Result.set_unencoded_from_buffer (buffer)
 			end

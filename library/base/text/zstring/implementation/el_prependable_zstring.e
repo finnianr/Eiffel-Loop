@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-21 12:48:56 GMT (Tuesday 21st February 2023)"
-	revision: "46"
+	date: "2023-08-26 16:51:44 GMT (Saturday 26th August 2023)"
+	revision: "47"
 
 deferred class
 	EL_PREPENDABLE_ZSTRING
@@ -93,14 +93,15 @@ feature {NONE} -- Prepending
 
 	prepend_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
 		local
-			offset: INTEGER; buffer: like Unencoded_buffer
+			offset: INTEGER
 		do
 			String_8.prepend_substring (Current, s, start_index, end_index)
 			inspect respective_encoding (s)
 				when Both_have_mixed_encoding then
 					offset := end_index - start_index + 1
-					if s.has_unencoded_between_optimal (s.area, start_index, end_index) then
-						buffer := empty_unencoded_buffer
+					if s.has_unencoded_between_optimal (s.area, start_index, end_index)
+						and then attached empty_unencoded_buffer as buffer
+					then
 						buffer.append_substring (s, start_index, end_index, 0)
 						if buffer.not_empty then
 							buffer.append (Current, offset)
@@ -115,9 +116,10 @@ feature {NONE} -- Prepending
 				when Only_current then
 					shift_unencoded (end_index - start_index + 1)
 				when Only_other then
-					buffer := empty_unencoded_buffer
-					buffer.append_substring (s, start_index, end_index, 0)
-					set_unencoded_from_buffer (buffer)
+					if attached empty_unencoded_buffer as buffer then
+						buffer.append_substring (s, start_index, end_index, 0)
+						set_unencoded_from_buffer (buffer)
+					end
 			else
 			end
 		ensure

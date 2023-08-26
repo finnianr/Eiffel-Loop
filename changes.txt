@@ -631,3 +631,6 @@ Optimized node scanning for on_content event
 Tue 15th Aug 2023, 18:51:10
 ARRAY lookup of enumeration name from value
 
+Fri 25th Aug 2023, 18:13:59
+Refactored Duplicity backup/restore to use encrypted ftp url
+

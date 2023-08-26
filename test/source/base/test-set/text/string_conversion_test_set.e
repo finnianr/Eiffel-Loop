@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 10:23:20 GMT (Tuesday 15th August 2023)"
-	revision: "23"
+	date: "2023-08-26 8:52:59 GMT (Saturday 26th August 2023)"
+	revision: "24"
 
 class
 	STRING_CONVERSION_TEST_SET
@@ -105,12 +105,15 @@ feature -- Tests
 	test_eiffel_string_escaped
 		-- STRING_CONVERSION_TEST_SET.test_eiffel_string_escaped
 		local
-			escaper: EL_STRING_ESCAPER [ZSTRING]; street: ZSTRING
+			escaper: EL_STRING_ESCAPER [ZSTRING]; street, street_escaped: ZSTRING
+			unescaper: EL_ZSTRING_UNESCAPER
 		do
 			create escaper.make (Escape_table.Eiffel)
+			create unescaper.make (Escape_table.Eiffel.inverted)
 
-			street := "line1%R%Nline2"
-			assert_same_string ("Eiffel escaped", street.escaped (escaper), "line1%%R%%Nline2")
+			street := "line1%R%Nline2"; street_escaped := "line1%%R%%Nline2"
+			assert_same_string ("Eiffel escaped", street.escaped (escaper), street_escaped)
+			assert_same_string ("Eiffel unescaped", street_escaped.unescaped (unescaper), street)
 		end
 
 

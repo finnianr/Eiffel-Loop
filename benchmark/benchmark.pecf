@@ -58,6 +58,7 @@ system:
 			EL_fast_cgi = "fast-cgi.ecf"
 			EL_logging = "logging.ecf"
 			EL_os_command = "os-command.ecf"
+			EL_search_engine = "search-engine.ecf"
 			EL_testing = "testing.ecf"
 			EL_text_formats = "text-formats.ecf"
 			EL_vtd_xml = "vtd-xml.ecf"

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-24 7:31:31 GMT (Thursday 24th August 2023)"
-	revision: "87"
+	date: "2023-08-26 17:15:37 GMT (Saturday 26th August 2023)"
+	revision: "88"
 
 class
 	EL_ZSTRING
@@ -261,25 +261,26 @@ feature -- Element change
 		require
 			valid_insertion_index: 1 <= i and i <= count + 1
 		local
-			buffer: like Unencoded_buffer; l_count, old_count: INTEGER
+			l_count, old_count: INTEGER
 		do
 			old_count := count
 			internal_insert_string (s, i)
 			inspect respective_encoding (s)
 				when Both_have_mixed_encoding then
-					buffer := empty_unencoded_buffer
-					l_count := i - 1
-					if l_count.to_boolean then
-						buffer.append_substring (Current, 1, i - 1, 0)
+					if attached empty_unencoded_buffer as buffer then
+						l_count := i - 1
+						if l_count.to_boolean then
+							buffer.append_substring (Current, 1, i - 1, 0)
+						end
+						if s.count.to_boolean then
+							buffer.append (s, l_count)
+							l_count := l_count + s.count
+						end
+						if i <= old_count then
+							buffer.append_substring (Current, i, old_count, l_count)
+						end
+						set_unencoded_from_buffer (buffer)
 					end
-					if s.count.to_boolean then
-						buffer.append (s, l_count)
-						l_count := l_count + s.count
-					end
-					if i <= old_count then
-						buffer.append_substring (Current, i, old_count, l_count)
-					end
-					set_unencoded_from_buffer (buffer)
 
 				when Only_current then
 					shift_unencoded_from (i, s.count)
@@ -347,31 +348,33 @@ feature -- Removal
 			-- Remove all occurrences of `c'.
 		local
 			i, j, i_final, block_index: INTEGER; c, c_i: CHARACTER_8; uc_i: CHARACTER_32
-			l_area: like area; c_is_substitute: BOOLEAN; l_buffer: like Unencoded_buffer
-			iter: EL_UNENCODED_CHARACTER_ITERATION; accumulator: like codec.empty_accumulator
+			l_area: like area; c_is_substitute: BOOLEAN; iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
 			l_area := area; i_final := count
 			c := encoded_character (uc); c_is_substitute := c = Substitute
 			if attached unencoded_area as uc_area and then uc_area.count > 0 then
-				l_buffer := empty_unencoded_buffer; accumulator := codec.empty_accumulator
-				from until i = i_final loop
-					c_i := l_area.item (i)
-					if c_i = Substitute then
-						uc_i := iter.item ($block_index, uc_area, i + 1)
-						if c_is_substitute implies uc_i /= uc then
+				if attached empty_unencoded_buffer as buffer
+					and then attached codec.empty_accumulator as accumulator
+				then
+					from until i = i_final loop
+						c_i := l_area.item (i)
+						if c_i = Substitute then
+							uc_i := iter.item ($block_index, uc_area, i + 1)
+							if c_is_substitute implies uc_i /= uc then
+								l_area [j] := c_i
+								buffer.append_if_full (accumulator, j, uc_i)
+								j := j + 1
+							end
+
+						elseif c /= c_i then
 							l_area [j] := c_i
-							l_buffer.append_if_full (accumulator, j, uc_i)
 							j := j + 1
 						end
-
-					elseif c /= c_i then
-						l_area [j] := c_i
-						j := j + 1
+						i := i + 1
 					end
-					i := i + 1
+					buffer.append_final (accumulator)
+					set_unencoded_from_buffer (buffer)
 				end
-				l_buffer.append_final (accumulator)
-				set_unencoded_from_buffer (l_buffer)
 
 			else
 				from until i = i_final loop

@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-19 10:44:50 GMT (Saturday 19th August 2023)"
-	revision: "99"
+	date: "2023-08-26 11:09:44 GMT (Saturday 26th August 2023)"
+	revision: "100"
 
 class
 	ZSTRING_TEST_SET
@@ -484,8 +484,16 @@ feature -- Removal tests
 
 	test_prune_leading
 		note
-			testing:	"covers/{ZSTRING}.prune_all_trailing"
+			testing:	"[
+				covers/{ZSTRING}.prune_all_leading,
+				covers/{EL_TRANSFORMABLE_ZSTRING}.keep_tail
+			]"
+		local
+			russian: ZSTRING
 		do
+			russian := Text.russian
+			russian.prune_all_leading ('%N') -- tests `keep_tail (count)'
+			
 			do_pruning_test ({STRING_TEST_FIELDS}.Prune_leading)
 		end
 
