@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-26 18:03:50 GMT (Saturday 26th August 2023)"
-	revision: "17"
+	date: "2023-08-27 8:32:30 GMT (Sunday 27th August 2023)"
+	revision: "18"
 
 class
 	SEARCH_ENGINE_TEST_SET
@@ -18,7 +18,7 @@ inherit
 			on_prepare
 		end
 
-	SHARED_HEXAGRAM_STRINGS; EL_SHARED_TEST_TEXT
+	SHARED_HEXAGRAM_STRINGS; EL_SHARED_TEST_TEXT; EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 	EL_CHARACTER_32_CONSTANTS
 
@@ -62,14 +62,16 @@ feature -- Tests
 	test_word_token_table
 		-- SEARCH_ENGINE_TEST_SET.test_word_token_table
 		local
-			table_1, table_2: EL_WORD_TOKEN_TABLE; paragraphs: ZSTRING
-			token_list_1, token_list_2: EL_WORD_TOKEN_LIST
+			table: EL_WORD_TOKEN_TABLE; paragraphs: ZSTRING
+			token_list: EL_WORD_TOKEN_LIST
 		do
-			create table_1.make (50); create table_2.make (50)
+			create table.make (50)
 			paragraphs := Text.Russian_and_english
-			token_list_1 := table_1.paragraph_list_tokens (paragraphs.split ('%N'))
-			token_list_2 := table_2.paragraph_list_tokens_2 (paragraphs.split ('%N'))
-			assert ("same tokens", token_list_1 ~ token_list_2)
+			token_list := table.paragraph_list_tokens (paragraphs.split ('%N'))
+			if attached crc_generator as crc then
+				crc.add_string_32 (token_list)
+				assert ("same checksum", crc.checksum = 2487222442)
+			end
 		end
 
 feature {NONE} -- Events

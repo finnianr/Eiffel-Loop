@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-30 16:01:48 GMT (Sunday 30th July 2023)"
-	revision: "7"
+	date: "2023-08-27 14:42:57 GMT (Sunday 27th August 2023)"
+	revision: "8"
 
 deferred class
 	EL_IMMUTABLE_STRING_MANAGER [C, GENERAL -> READABLE_STRING_GENERAL, S -> IMMUTABLE_STRING_GENERAL create make_empty end]
@@ -24,6 +24,11 @@ inherit
 	 		default_create
 	 	end
 
+	 STRING_HANDLER
+	 	undefine
+	 		default_create
+	 	end
+
 	 EL_STRING_BIT_COUNTABLE [S]
 
 feature {NONE} -- Initialization
@@ -33,6 +38,18 @@ feature {NONE} -- Initialization
 			create item.make_empty
 			make (item)
 			field_table := Shared_field_table
+		end
+
+feature -- Access
+
+	shared_substring (str: GENERAL; start_index, end_index: INTEGER): like new_substring
+		local
+			l_count: INTEGER
+		do
+			if attached cursor (str) as c and then attached {SPECIAL [C]} c.area as str_area then
+				l_count := end_index - start_index + 1
+				Result := new_substring (str_area, c.area_first_index + start_index - 1, l_count)
+			end
 		end
 
 feature -- Element change
@@ -111,11 +128,17 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	string_area (str: GENERAL): SPECIAL [C]
+feature {NONE} -- Deferred
+
+	cursor (str: GENERAL): EL_STRING_ITERATION_CURSOR
 		deferred
 		end
 
 	shared_field_table: SPECIAL [INTEGER]
+		deferred
+		end
+
+	string_area (str: GENERAL): SPECIAL [C]
 		deferred
 		end
 

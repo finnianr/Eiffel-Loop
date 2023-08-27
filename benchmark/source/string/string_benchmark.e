@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-30 12:27:27 GMT (Thursday 30th March 2023)"
-	revision: "24"
+	date: "2023-08-27 14:49:06 GMT (Sunday 27th August 2023)"
+	revision: "25"
 
 deferred class
 	STRING_BENCHMARK
@@ -48,7 +48,7 @@ feature -- Access
 
 	trial_duration_ms: INTEGER
 
-	performance_tests: EL_ARRAYED_LIST [TUPLE [routines, input_format: STRING; repetition_count: DOUBLE]]
+	performance_tests: EL_ARRAYED_LIST [TUPLE [routine_name, input_format: STRING; repetition_count: DOUBLE]]
 
 feature {NONE} -- Implementation
 
@@ -521,22 +521,22 @@ feature {NONE} -- Implementation
 			memory_tests.extend ([l_description, test.display_format, test.storage_bytes (output_string)])
 		end
 
-	do_performance_test (routines, a_format: STRING; procedure: PROCEDURE)
+	do_performance_test (routine_name, a_format: STRING; procedure: PROCEDURE)
 		local
-			count: DOUBLE
+			count: DOUBLE; s: EL_STRING_8_ROUTINES
 		do
-			if routines.has_substring (routine_filter) then
-				test := new_test_strings (routines, a_format)
+			if s.matches_wildcard (routine_name, routine_filter) then
+				test := new_test_strings (routine_name, a_format)
 
-				lio.put_labeled_string (generator, routines);
+				lio.put_labeled_string (generator, routine_name);
 				lio.put_labeled_substitution (" input", "%"%S%" x %S", [a_format, test.strings_count])
 				lio.put_new_line
 				count := application_count (procedure, trial_duration_ms).to_real_64
-				performance_tests.extend ([routines, test.display_format, count])
+				performance_tests.extend ([routine_name, test.display_format, count])
 			end
 		end
 
-	new_test_strings (routines, a_format: STRING): TEST_STRINGS [STRING_GENERAL]
+	new_test_strings (routine_name, a_format: STRING): TEST_STRINGS [STRING_GENERAL]
 		deferred
 		end
 

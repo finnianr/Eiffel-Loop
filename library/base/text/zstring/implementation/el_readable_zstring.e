@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-26 17:46:31 GMT (Saturday 26th August 2023)"
-	revision: "127"
+	date: "2023-08-27 12:01:12 GMT (Sunday 27th August 2023)"
+	revision: "128"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -307,6 +307,10 @@ feature -- Character status query
 			c := area [i - 1]
 			if c = Substitute then
 				Result := unencoded_item (i).is_alpha_numeric
+
+			elseif c <= Max_7_bit_character then
+				Result := c.is_alpha_numeric
+
 			else
 				Result := Codec.is_alphanumeric (c.natural_32_code)
 			end
@@ -321,6 +325,10 @@ feature -- Character status query
 			c_i := area [i - 1]
 			if c_i = Substitute then
 				Result := c32.is_digit (unencoded_item (i))
+
+			elseif c_i <= Max_7_bit_character then
+				Result := c_i.is_digit
+
 			else
 				Result := Codec.is_numeric (c_i.natural_32_code)
 			end
@@ -381,19 +389,25 @@ feature -- Status query
 	has_alpha_numeric: BOOLEAN
 		-- `True' if `str' has an alpha numeric character
 		local
-			c_i: CHARACTER; uc_i: CHARACTER_32; i, block_index, i_final: INTEGER
-			iter: EL_UNENCODED_CHARACTER_ITERATION;  area_32: like unencoded_area; l_area: like area
+			c_i: CHARACTER; i, block_index, i_final: INTEGER; iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
-			l_area := area; i_final := count; area_32 := unencoded_area
-			from i := 0 until Result or else i = i_final loop
-				c_i := l_area [i]
-				if c_i = Substitute then
-					uc_i := iter.item ($block_index, area_32, i + 1)
-					Result := uc_i.is_alpha_numeric
-				else
-					Result := Codec.is_alphanumeric (c_i.natural_32_code)
+			if attached unencoded_area as area_32 and then attached area as l_area
+				and then attached Codec as l_codec
+			then
+				i_final := count
+				from i := 0 until Result or else i = i_final loop
+					c_i := l_area [i]
+					if c_i = Substitute then
+						Result := iter.item ($block_index, area_32, i + 1).is_alpha_numeric
+
+					elseif c_i <= Max_7_bit_character then
+						Result := c_i.is_alpha_numeric
+
+					else
+						Result := l_codec.is_alphanumeric (c_i.natural_32_code)
+					end
+					i := i + 1
 				end
-				i := i + 1
 			end
 		end
 
@@ -448,36 +462,37 @@ feature -- Status query
 	is_canonically_spaced: BOOLEAN
 		-- `True' if the longest substring of whitespace consists of one space character
 		local
-			c_i: CHARACTER; uc_i: CHARACTER_32; i, l_count, space_count, block_index: INTEGER
+			c_i: CHARACTER; uc_i: CHARACTER_32; i, i_final, space_count, block_index: INTEGER
 			iter: EL_UNENCODED_CHARACTER_ITERATION; c32: EL_CHARACTER_32_ROUTINES
-			area_32: like unencoded_area; l_area: like area; is_space, is_space_state: BOOLEAN
+			is_space, is_space_state: BOOLEAN
 		do
-			l_area := area; l_count := count; area_32 := unencoded_area
-			Result := True
-			from i := 0 until not Result or else i = l_count loop
-				c_i := l_area [i]
-				if c_i = Substitute then
-					uc_i := iter.item ($block_index, area_32, i + 1)
-				-- `c32.is_space' is workaround for finalization bug
-					is_space := c32.is_space (uc_i)
-				else
-					is_space := c_i.is_space
-				end
-				if is_space then
-					space_count := space_count + 1
-					if c_i /= ' ' or else space_count = 2 then
-						Result := False
+			if attached area as l_area and then attached unencoded_area as area_32 then
+				Result := True; i_final := count
+				from i := 0 until not Result or else i = i_final loop
+					c_i := l_area [i]
+					if c_i = Substitute then
+						uc_i := iter.item ($block_index, area_32, i + 1)
+					-- `c32.is_space' is workaround for finalization bug
+						is_space := c32.is_space (uc_i)
+					else
+						is_space := c_i.is_space
 					end
-				end
-				if is_space_state then
-					if not is_space then
-						is_space_state := False
+					if is_space then
+						space_count := space_count + 1
+						if c_i /= ' ' or else space_count = 2 then
+							Result := False
+						end
 					end
-				elseif is_space then
-					is_space_state := True
-					space_count := 0
+					if is_space_state then
+						if not is_space then
+							is_space_state := False
+						end
+					elseif is_space then
+						is_space_state := True
+						space_count := 0
+					end
+					i := i + 1
 				end
-				i := i + 1
 			end
 		end
 

@@ -1,10 +1,13 @@
 note
 	description: "[
-		Compare old method of paragraph tokenization to new one using 
-		routine {[$source ZSTRING]}**.fill_alpha_numeric_intervals**
+		Compare original {[$source WORD_TOKEN_TABLE]}**.paragraph_list_tokens** implementation to
+		new one using routine {[$source ZSTRING]}**.fill_alpha_numeric_intervals**
 	]"
 	notes: "[
+		Passes over 2500 millisecs (in descending order)
 
+			fill_alpha_numeric_intervals :  962.0 times (100%)
+			str.zcode (i)                :  861.0 times (-10.5%)
 	]"
 
 	author: "Finnian Reilly"
@@ -12,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-26 18:48:29 GMT (Saturday 26th August 2023)"
-	revision: "16"
+	date: "2023-08-27 10:34:09 GMT (Sunday 27th August 2023)"
+	revision: "17"
 
 class
 	ZSTRING_TOKENIZATION_COMPARISON
@@ -58,12 +61,12 @@ feature {NONE} -- Operations
 			table: EL_WORD_TOKEN_TABLE; token_list: EL_WORD_TOKEN_LIST
 		do
 			create table.make (50)
-			token_list := table.paragraph_list_tokens_2 (paragraph_list)
+			token_list := table.paragraph_list_tokens (paragraph_list)
 		end
 
 	i_th_zcode (paragraph_list: EL_ZSTRING_LIST)
 		local
-			table: EL_WORD_TOKEN_TABLE; token_list: EL_WORD_TOKEN_LIST
+			table: WORD_TOKEN_TABLE; token_list: EL_WORD_TOKEN_LIST
 		do
 			create table.make (50)
 			token_list := table.paragraph_list_tokens (paragraph_list)

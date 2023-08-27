@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-07 9:37:23 GMT (Monday 7th August 2023)"
-	revision: "10"
+	date: "2023-08-27 14:33:08 GMT (Sunday 27th August 2023)"
+	revision: "11"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -146,7 +146,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Deferred
+feature {STRING_HANDLER} -- Deferred
 
 	area: SPECIAL [ANY]
 		deferred

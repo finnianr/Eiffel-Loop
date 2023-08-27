@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-27 6:13:59 GMT (Thursday 27th July 2023)"
-	revision: "3"
+	date: "2023-08-27 14:36:11 GMT (Sunday 27th August 2023)"
+	revision: "4"
 
 class
 	EL_IMMUTABLE_8_MANAGER
 
 inherit
 	EL_IMMUTABLE_STRING_MANAGER [CHARACTER_8, READABLE_STRING_8, IMMUTABLE_STRING_8]
+		rename
+			cursor as cursor_8
 		undefine
 			bit_count
 		end

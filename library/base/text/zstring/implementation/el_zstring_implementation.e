@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-23 13:48:49 GMT (Wednesday 23rd August 2023)"
-	revision: "70"
+	date: "2023-08-27 8:51:31 GMT (Sunday 27th August 2023)"
+	revision: "71"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -291,6 +291,10 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
 			c := a_area [i]
 			if c = Substitute then
 				Result := unencoded_item (i + 1).is_alpha
+
+			elseif c <= Max_7_bit_character then
+				Result := c.is_alpha
+
 			else
 				Result := Codec.is_alpha (c.natural_32_code)
 			end

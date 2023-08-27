@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-11 17:14:44 GMT (Friday 11th August 2023)"
-	revision: "17"
+	date: "2023-08-27 13:39:39 GMT (Sunday 27th August 2023)"
+	revision: "18"
 
 class
 	EL_ARRAYED_INTERVAL_LIST
@@ -154,6 +154,40 @@ feature -- Conversion
 
 feature -- Element change
 
+	extend_compact (compact_interval: NATURAL_64)
+		local
+			lower, upper: INTEGER
+		do
+			if compact_interval > 0 then
+				extend ((compact_interval |>> 32).to_integer_32, compact_interval.to_integer_32)
+			end
+		end
+
+	extend_next_upper (compact_interval: NATURAL_64; i: INTEGER): NATURAL_64
+		-- performance optimized form of `extend_upper' with the `last_interval' tracked
+		-- externally by a compact interval
+		
+		-- (Note: call `extend_compact' to finalize list after filling from an external loop)
+		note
+
+		local
+			lower, upper: INTEGER
+		do
+			if compact_interval = 0 then
+				lower := i; upper := i
+			else
+				lower := (compact_interval |>> 32).to_integer_32
+				upper := compact_interval.to_integer_32
+				if i = upper + 1 then
+					upper := i
+				else
+					extend (lower, upper)
+					lower := i; upper := i
+				end
+			end
+			Result := (lower.to_natural_64 |<< 32) | upper.to_natural_64
+		end
+
 	extend (a_lower, a_upper: INTEGER)
 		local
 			i: INTEGER; l_area: like area_v2
@@ -168,6 +202,8 @@ feature -- Element change
 		end
 
 	extend_upper (a_upper: INTEGER)
+		-- if `a_upper' = `last_upper + 1' then `last_upper' is incremented by one
+		-- else a new interval `a_upper .. a_upper' is added
 		do
 			if is_empty then
 				extend (a_upper, a_upper)

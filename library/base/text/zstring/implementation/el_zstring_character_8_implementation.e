@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "24"
+	date: "2023-08-27 13:58:19 GMT (Sunday 27th August 2023)"
+	revision: "25"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
@@ -151,7 +151,7 @@ feature -- Resizing
 			-- Rearrange string so that it can accommodate
 			-- at least `newsize' characters.
 		do
-			area := area.aliased_resized_area_with_default ('%/000/', newsize + 1)
+			area := area.aliased_resized_area_with_default ('%U', newsize + 1)
 		end
 
 	trim

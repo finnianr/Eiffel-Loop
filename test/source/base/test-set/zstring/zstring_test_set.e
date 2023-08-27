@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-26 11:09:44 GMT (Saturday 26th August 2023)"
-	revision: "100"
+	date: "2023-08-27 11:07:16 GMT (Sunday 27th August 2023)"
+	revision: "101"
 
 class
 	ZSTRING_TEST_SET
@@ -39,63 +39,64 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["as_expanded", agent test_as_expanded],
-				["mirror", agent test_mirror],
-				["split", agent test_split],
-				["substring_split", agent test_substring_split],
-				["to_general", agent test_to_general],
-				["to_string_32", agent test_to_string_32],
-				["append", agent test_append],
-				["append_encoded", agent test_append_encoded],
-				["append_string_general", agent test_append_string_general],
-				["append_substring", agent test_append_substring],
-				["append_substring_general", agent test_append_substring_general],
-				["append_to_string_32", agent test_append_to_string_32],
-				["append_unicode", agent test_append_unicode],
-				["append_utf_8", agent test_append_utf_8],
-				["prepend", agent test_prepend],
-				["prepend_substring", agent test_prepend_substring],
-				["adjustments", agent test_adjustments],
-				["prune_all", agent test_prune_all],
-				["prune_leading", agent test_prune_leading],
-				["prune_trailing", agent test_prune_trailing],
-				["remove_substring", agent test_remove_substring],
-				["case_changing", agent test_case_changing],
-				["enclose", agent test_enclose],
-				["fill_character", agent test_fill_character],
-				["insert_character", agent test_insert_character],
-				["insert_string", agent test_insert_string],
-				["joined", agent test_joined],
-				["put_unicode", agent test_put_unicode],
-				["replace_character", agent test_replace_character],
-				["replace_substring", agent test_replace_substring],
-				["replace_substring_all", agent test_replace_substring_all],
-				["to_utf_8", agent test_to_utf_8],
-				["translate", agent test_translate],
-				["ends_with", agent test_ends_with],
-				["for_all_split", agent test_for_all_split],
-				["has", agent test_has],
-				["has_between", agent test_has_between],
-				["is_canonically_spaced", agent test_is_canonically_spaced],
-				["order_comparison", agent test_order_comparison],
-				["same_characters", agent test_same_characters],
-				["same_caseless_characters", agent test_same_caseless_characters],
-				["sort", agent test_sort],
-				["starts_with", agent test_starts_with],
-				["there_exists_split", agent test_there_exists_split],
-				["remove", agent test_remove],
-				["remove_head", agent test_remove_head],
-				["remove_tail", agent test_remove_tail],
-				["index_of", agent test_index_of],
-				["last_index_of", agent test_last_index_of],
-				["new_cursor", agent test_new_cursor],
-				["occurrences", agent test_occurrences],
-				["substring_index", agent test_substring_index],
-				["substring_index_in_bounds", agent test_substring_index_in_bounds],
-				["unicode_index_of", agent test_unicode_index_of],
-				["substring", agent test_substring],
-				["substring_to", agent test_substring_to],
-				["substring_to_reversed", agent test_substring_to_reversed]
+				["as_expanded",						agent test_as_expanded],
+				["mirror",								agent test_mirror],
+				["split",								agent test_split],
+				["substring_split",					agent test_substring_split],
+				["to_general",							agent test_to_general],
+				["to_string_32",						agent test_to_string_32],
+				["append",								agent test_append],
+				["append_encoded",					agent test_append_encoded],
+				["append_string_general",			agent test_append_string_general],
+				["append_substring",					agent test_append_substring],
+				["append_substring_general",		agent test_append_substring_general],
+				["append_to_string_32",				agent test_append_to_string_32],
+				["append_unicode",					agent test_append_unicode],
+				["append_utf_8",						agent test_append_utf_8],
+				["prepend",								agent test_prepend],
+				["prepend_substring",				agent test_prepend_substring],
+				["adjustments",						agent test_adjustments],
+				["prune_all",							agent test_prune_all],
+				["prune_leading",						agent test_prune_leading],
+				["prune_trailing",					agent test_prune_trailing],
+				["remove_substring",					agent test_remove_substring],
+				["case_changing",						agent test_case_changing],
+				["enclose",								agent test_enclose],
+				["fill_character",					agent test_fill_character],
+				["insert_character",					agent test_insert_character],
+				["insert_string",						agent test_insert_string],
+				["joined",								agent test_joined],
+				["put_unicode",						agent test_put_unicode],
+				["replace_character",				agent test_replace_character],
+				["replace_substring",				agent test_replace_substring],
+				["replace_substring_all",			agent test_replace_substring_all],
+				["to_utf_8",							agent test_to_utf_8],
+				["translate",							agent test_translate],
+				["ends_with",							agent test_ends_with],
+				["fill_alpha_numeric_intervals",	agent test_fill_alpha_numeric_intervals],
+				["for_all_split",						agent test_for_all_split],
+				["has",									agent test_has],
+				["has_between",						agent test_has_between],
+				["is_canonically_spaced",			agent test_is_canonically_spaced],
+				["order_comparison",					agent test_order_comparison],
+				["same_caseless_characters",		agent test_same_caseless_characters],
+				["same_characters",					agent test_same_characters],
+				["sort",									agent test_sort],
+				["starts_with",						agent test_starts_with],
+				["there_exists_split",				agent test_there_exists_split],
+				["remove",								agent test_remove],
+				["remove_head",						agent test_remove_head],
+				["remove_tail",						agent test_remove_tail],
+				["index_of",							agent test_index_of],
+				["last_index_of",						agent test_last_index_of],
+				["new_cursor",							agent test_new_cursor],
+				["occurrences",						agent test_occurrences],
+				["substring_index",					agent test_substring_index],
+				["substring_index_in_bounds",		agent test_substring_index_in_bounds],
+				["unicode_index_of",					agent test_unicode_index_of],
+				["substring",							agent test_substring],
+				["substring_to",						agent test_substring_to],
+				["substring_to_reversed",			agent test_substring_to_reversed]
 			>>)
 		end
 
@@ -493,7 +494,7 @@ feature -- Removal tests
 		do
 			russian := Text.russian
 			russian.prune_all_leading ('%N') -- tests `keep_tail (count)'
-			
+
 			do_pruning_test ({STRING_TEST_FIELDS}.Prune_leading)
 		end
 
@@ -849,6 +850,33 @@ feature -- Status query tests
 						end
 						list.remove
 					end
+				end
+			end
+		end
+
+	test_fill_alpha_numeric_intervals
+		note
+			testing: "covers/{EL_SEARCHABLE_ZSTRING}.fill_alpha_numeric_intervals"
+		local
+			word_intervals, alpha_numeric_intervals: EL_SPLIT_INTERVALS
+			zstr: ZSTRING
+		do
+			create alpha_numeric_intervals.make_empty
+			across 1 |..| 2 as n loop
+				across Text.lines as list until list.cursor_index > 3 loop
+					list.item.prune_all (',')
+					if n.item = 2 then
+						list.item.prepend_character (' ')
+						list.item.append_character (' ')
+					end
+					create word_intervals.make (list.item, ' ')
+					if n.item = 2 then
+						word_intervals.remove_head (1)
+						word_intervals.remove_tail (1)
+					end
+					zstr := list.item
+					zstr.fill_alpha_numeric_intervals (alpha_numeric_intervals)
+					assert ("same intervals", word_intervals ~ alpha_numeric_intervals)
 				end
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-18 15:52:44 GMT (Saturday 18th February 2023)"
-	revision: "10"
+	date: "2023-08-27 14:17:34 GMT (Sunday 27th August 2023)"
+	revision: "11"
 
 class
 	PERFORMANCE_BENCHMARK_TABLE
@@ -33,7 +33,7 @@ feature {NONE} -- Implementation
 			test_32 := benchmark_32.performance_tests [index]
 			test_z := benchmark_z.performance_tests [index]
 
-			row.append (Html.table_data (test_z.routines))
+			row.append (Html.table_data (test_z.routine_name))
 			row.append (Html.table_data (XML.escaped (test_z.input_format)))
 
 			if relative_percentage (test_32.repetition_count, test_z.repetition_count) = 0 then

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-11 17:17:27 GMT (Friday 11th August 2023)"
-	revision: "3"
+	date: "2023-08-27 11:12:09 GMT (Sunday 27th August 2023)"
+	revision: "4"
 
 deferred class
 	EL_INTERVAL_LIST
@@ -169,7 +169,9 @@ feature -- Cursor interval query
 		require
 			valid_item: not off
 		do
-			Result := i_th_compact (index)
+			if valid_index (index) then
+				Result := i_th_compact (index)
+			end
 		end
 
 	item_count: INTEGER

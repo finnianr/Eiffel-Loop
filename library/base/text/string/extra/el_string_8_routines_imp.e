@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 15:58:27 GMT (Thursday 17th August 2023)"
-	revision: "13"
+	date: "2023-08-27 14:58:41 GMT (Sunday 27th August 2023)"
+	revision: "14"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -25,6 +25,8 @@ inherit
 		end
 
 	EL_STRING_8_BIT_COUNTABLE [READABLE_STRING_8]
+
+	EL_SHARED_IMMUTABLE_8_MANAGER
 
 	EL_SHARED_STRING_8_CURSOR
 		rename
@@ -100,6 +102,35 @@ feature -- Status query
 		do
 			c := str [i]
 			Result := c.is_alpha_numeric or else c = '_'
+		end
+
+	matches_wildcard (s, wildcard: READABLE_STRING_8): BOOLEAN
+		local
+			any_ending, any_start: BOOLEAN; start_index, end_index: INTEGER
+			search_string: IMMUTABLE_STRING_8
+		do
+			start_index := 1; end_index := wildcard.count
+			if ends_with_character (wildcard, '*')  then
+				end_index := end_index - 1
+				any_ending := True
+			end
+			if starts_with_character (wildcard, '*') then
+				start_index := start_index + 1
+				any_start := True
+			end
+			search_string := Immutable_8.shared_substring (wildcard, start_index, end_index)
+			
+			if any_ending and any_start then
+				Result := s.has_substring (search_string)
+
+			elseif any_ending then
+				Result := s.starts_with (search_string)
+
+			elseif any_start then
+				Result := s.ends_with (search_string)
+			else
+				Result := s.same_string (wildcard)
+			end
 		end
 
 	starts_with_character (s: READABLE_STRING_8; c: CHARACTER): BOOLEAN

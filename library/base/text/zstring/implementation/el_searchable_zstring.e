@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-26 19:34:42 GMT (Saturday 26th August 2023)"
-	revision: "37"
+	date: "2023-08-27 11:02:45 GMT (Sunday 27th August 2023)"
+	revision: "38"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -173,11 +173,12 @@ feature -- Basic operations
 		-- fill `interval_list' with substring intervals of contiguous alpha-numeric characters
 		local
 			c_i: CHARACTER; i, j, block_index, i_final, l_count: INTEGER
-			iter: EL_UNENCODED_CHARACTER_ITERATION
+			iter: EL_UNENCODED_CHARACTER_ITERATION; interval: NATURAL_64
 		do
 			if attached area as l_area and then attached unencoded_area as area_32
 				and then attached Codec as l_codec
 			then
+				interval_list.wipe_out
 				i_final := count
 				from i := 0 until i = i_final loop
 					c_i := l_area [i]
@@ -186,7 +187,7 @@ feature -- Basic operations
 						l_count := str_32.count
 						from j := 1 until j > l_count loop
 							if str_32 [j].is_alpha_numeric then
-								interval_list.extend_upper (i + j)
+								interval := interval_list.extend_next_upper (interval, i + j)
 							end
 							j := j + 1
 						end
@@ -194,46 +195,17 @@ feature -- Basic operations
 
 					elseif c_i <= Max_7_bit_character then
 						if c_i.is_alpha_numeric then
-							interval_list.extend_upper (i + 1)
+							interval := interval_list.extend_next_upper (interval, i + 1)
 						end
 						i := i + 1
 					else
 						if l_codec.is_alphanumeric (c_i.natural_32_code) then
-							interval_list.extend_upper (i + 1)
+							interval := interval_list.extend_next_upper (interval, i + 1)
 						end
 						i := i + 1
 					end
 				end
-			end
-		end
-
-	fill_alpha_numeric_map (boolean_array: SPECIAL [BOOLEAN])
-		-- fill `boolean_array' with alpha-numeric status of each character
-		require
-			empty_and_big_enough: boolean_array.count = 0 and then boolean_array.capacity >= count
-		local
-			c_i: CHARACTER; i, j, block_index, l_count: INTEGER
-			iter: EL_UNENCODED_CHARACTER_ITERATION
-		do
-			if attached area as l_area and then attached unencoded_area as area_32
-				and then attached Codec as l_codec
-			then
-				from i := 0 until i = l_area.count loop
-					c_i := l_area [i]
-					if c_i = Substitute and then attached iter.block_string (block_index, area_32) as str_32 then
-						block_index := iter.next_index (block_index, str_32)
-						l_count := str_32.count
-						from j := 1 until j > l_count loop
-							boolean_array.extend (str_32 [j].is_alpha_numeric)
-							j := j + 1
-						end
-						i := i + l_count
-
-					else
-						boolean_array.extend (l_codec.is_alphanumeric (c_i.natural_32_code))
-						i := i + 1
-					end
-				end
+				interval_list.extend_compact (interval)
 			end
 		end
 

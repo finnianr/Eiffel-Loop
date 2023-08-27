@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-26 19:28:13 GMT (Saturday 26th August 2023)"
-	revision: "17"
+	date: "2023-08-27 11:03:09 GMT (Sunday 27th August 2023)"
+	revision: "18"
 
 class
 	EL_WORD_TOKEN_TABLE
@@ -110,33 +110,6 @@ feature -- Conversion
 
 	paragraph_list_tokens (paragraph_list: ITERABLE [ZSTRING]): EL_WORD_TOKEN_LIST
 		local
-			i: INTEGER; word, str: ZSTRING
-		do
-			Result := Once_token_list; Result.wipe_out
-			create word.make (12)
-			across paragraph_list as paragraph loop
-				str := paragraph.item
-				if str.has_alpha_numeric then
-					if Result.count > 0 then
-						Result.extend (New_line_token)
-					end
-					from i := 1 until i > str.count loop
-						if str.is_alpha_numeric_item (i) then
-							word.append_z_code (str.z_code (i))
-						else
-							extend_list (Result, word)
-						end
-						i := i + 1
-					end
-					extend_list (Result, word)
-				end
-			end
-			Result := Result.twin
-			on_new_token_list.notify
-		end
-
-	paragraph_list_tokens_2 (paragraph_list: ITERABLE [ZSTRING]): EL_WORD_TOKEN_LIST
-		local
 			i: INTEGER; word: ZSTRING
 		do
 			Result := Once_token_list; Result.wipe_out
@@ -144,18 +117,19 @@ feature -- Conversion
 			if attached Once_interval_list as interval_list then
 				across paragraph_list as paragraph loop
 					if attached paragraph.item as str then
-						interval_list.wipe_out
 						str.fill_alpha_numeric_intervals (interval_list)
 						if interval_list.count > 0 then
 							if Result.count > 0 then
 								Result.extend (New_line_token)
 							end
-							if attached interval_list as list then
-								from list.start until list.after loop
+							if attached interval_list.area as a then
+								from i := 0 until i = a.count loop
 									word.wipe_out
-									word.append_substring (str, list.item_lower, list.item_upper)
-									extend_list (Result, word)
-									list.forth
+									word.append_substring (str, a [i], a [i + 1])
+									word.to_lower
+									put (word)
+									Result.extend (last_token)
+									i := i + 2
 								end
 							end
 						end
@@ -182,18 +156,6 @@ feature -- Status report
 
 	is_restored: BOOLEAN
 		-- `True' if state is successfully restored from previous application session
-
-feature {EL_WORD_SEARCHABLE} -- Implementation
-
-	extend_list (list: EL_WORD_TOKEN_LIST; word: ZSTRING)
-		do
-			if word.count > 0 then
-				word.to_lower
-				put (word)
-				list.extend (last_token)
-				word.wipe_out
-			end
-		end
 
 feature {NONE} -- Constants
 

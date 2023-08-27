@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2023-08-27 14:11:27 GMT (Sunday 27th August 2023)"
+	revision: "21"
 
 class
 	ZSTRING_BENCHMARK_APP
@@ -31,7 +31,7 @@ feature {NONE} -- Implementation
 				optional_argument ("output", "HTML output directory", No_checks),
 				optional_argument ("template", "HTML page Evolicity template", << file_must_exist >>),
 				optional_argument ("duration", "The duration of each in milliseconds", No_checks),
-				optional_argument ("filter", "Routine filter", No_checks)
+				optional_argument ("filter", "Routine filter with leading or trailing wildcards", No_checks)
 			>>
 		end
 

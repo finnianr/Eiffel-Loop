@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-26 16:54:30 GMT (Saturday 26th August 2023)"
-	revision: "53"
+	date: "2023-08-27 14:00:47 GMT (Sunday 27th August 2023)"
+	revision: "54"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -532,12 +532,17 @@ feature {NONE} -- Implementation
 	internal_append (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION)
 			-- Append characters of `s' at end.
 		local
-			new_count: INTEGER
+			new_count, s_count: INTEGER
 		do
-			new_count := count + s.count
-			resize (new_count)
-			area.copy_data (s.area, 0, count, s.count)
-			set_count (new_count)
+			s_count := s.count
+			if s_count > 0 then
+				new_count := count + s_count
+				if new_count > area.capacity then
+					resize (new_count + additional_space)
+				end
+				area.copy_data (s.area, 0, count, s.count)
+				set_count (new_count)
+			end
 		ensure
 			new_count: count = old count + old s.count
 			appended: elks_checking implies internal_string.same_string (old (internal_string + s.string))
