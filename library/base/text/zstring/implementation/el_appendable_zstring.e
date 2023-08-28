@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-27 14:00:47 GMT (Sunday 27th August 2023)"
-	revision: "54"
+	date: "2023-08-28 7:31:48 GMT (Monday 28th August 2023)"
+	revision: "55"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -154,42 +154,37 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 	append_replaced (str, old_substring, new_substring: EL_READABLE_ZSTRING)
 		-- append `str' replacing any occurrences of `old_substring' with `new_substring'
 		local
-			original_count, previous_index, end_index, new_count, size_difference: INTEGER
-			positions: ARRAYED_LIST [INTEGER]
+			i, start_index, end_index, size_difference: INTEGER
 		do
-			original_count := old_substring.count
-			positions := str.internal_substring_index_list (old_substring)
-			if positions.count > 0 and then attached empty_unencoded_buffer as buffer then
-				if has_mixed_encoding then
-					buffer.append (current_readable, 0)
-				end
-				size_difference := new_substring.count - original_count
-				new_count := count + str.count + (new_substring.count - original_count) * positions.count
-				grow (new_count)
-				previous_index := 1
-				from positions.start until positions.after loop
-					end_index := positions.item - 1
-					if end_index >= previous_index then
-						if str.has_mixed_encoding then
-							buffer.append_substring (str, previous_index, end_index, count)
+			size_difference := new_substring.count - old_substring.count
+
+			if attached Once_split_intervals as split_list then
+				split_list.fill_by_string (str, old_substring, 0)
+				if split_list.count > 0 and then attached empty_unencoded_buffer as buffer then
+					if has_mixed_encoding then
+						buffer.append (current_readable, 0)
+					end
+					grow (count + str.count + size_difference * (split_list.count - 1))
+					if attached split_list.area as a then
+						from until i = a.count loop
+							start_index := a [i]; end_index := a [i + 1]
+							if i > 0 then
+								if new_substring.has_mixed_encoding then
+									buffer.append (new_substring, count)
+								end
+								internal_append (new_substring, count)
+							end
+							if end_index >= start_index then
+								if str.has_mixed_encoding then
+									buffer.append_substring (str, start_index, end_index, count)
+								end
+								String_8.append_substring (Current, str, start_index, end_index)
+							end
+							i := i + 2
 						end
-						String_8.append_substring (Current, str, previous_index, end_index)
 					end
-					if new_substring.has_mixed_encoding then
-						buffer.append (new_substring, count)
-					end
-					internal_append (new_substring)
-					previous_index := positions.item + old_substring.count
-					positions.forth
+					set_unencoded_from_buffer (buffer)
 				end
-				end_index := str.count
-				if previous_index <= end_index then
-					if str.has_mixed_encoding then
-						buffer.append_substring (str, previous_index, end_index, count)
-					end
-					String_8.append_substring (Current, str, previous_index, end_index)
-				end
-				set_unencoded_from_buffer (buffer)
 			end
 		ensure
 			valid_unencoded: is_valid
@@ -207,7 +202,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 			old_count: INTEGER
 		do
 			old_count := count
-			internal_append (s)
+			internal_append (s, old_count)
 			if s.has_mixed_encoding then
 				append_unencoded (s, old_count)
 			end
@@ -529,18 +524,18 @@ feature {NONE} -- Implementation
 			set_count (new_count)
 		end
 
-	internal_append (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION)
+	internal_append (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; old_count: INTEGER)
 			-- Append characters of `s' at end.
 		local
 			new_count, s_count: INTEGER
 		do
 			s_count := s.count
 			if s_count > 0 then
-				new_count := count + s_count
-				if new_count > area.capacity then
-					resize (new_count + additional_space)
+				new_count := old_count + s_count
+				if new_count + 1 > area.capacity then
+					resize (new_count)
 				end
-				area.copy_data (s.area, 0, count, s.count)
+				area.copy_data (s.area, 0, old_count, s_count)
 				set_count (new_count)
 			end
 		ensure

@@ -38,8 +38,8 @@
 	</head>
 	<body>
 		<div id="content">
-		<h1>ZSTRING (ISO-8859-1) v STRING_32</h1>
-		<b>Date:</b> 27 Aug 2023
+		<h1>ZSTRING (ISO-8859-15) v STRING_32</h1>
+		<b>Date:</b> 28 Aug 2023
 		<h2>Benchmark Source Code</h2>
 		<h2>Input Test Data</h2>
 		<p>See <a href="#test_strings">table below</a></p>
@@ -51,7 +51,7 @@
 		</p>
 
 		<h2>Memory Consumption</h2>
-		<h3>Pure Latin-1 Encoding</h3>
+		<h3>Pure Latin-15 Encoding</h3>
 		<caption>Table 1 (In ascending order of relative STRING_32 performance)</caption>
 		<table>
 			<tr>
@@ -67,7 +67,7 @@
 				<td>First line only</td><td>&quot;$A $D&quot;</td><td>-55%</td><td>352 bytes</td>
 			</tr>
 		</table>
-		<h3>Mixed Latin-1 and Unicode Encoding</h3>
+		<h3>Mixed Latin-15 and Unicode Encoding</h3>
 		<caption>Table 2 (In ascending order of relative STRING_32 performance)</caption>
 		<table>
 			<tr>
@@ -99,7 +99,7 @@
 		<p>Each test iterates over 64 table rows and the number of executions in 500 ms is recorded<br/>
 		(The higher the number the better the performance)</p>
 
-		<h3>Pure Latin-1 Encoding</h3>
+		<h3>Pure Latin-15 Encoding</h3>
 		<caption>Table 3 (In ascending order of relative STRING_32 performance)</caption>
 		<table>
 			<tr>
@@ -109,16 +109,10 @@
 				<th>STRING_32</th>
 			</tr>
 			<tr>
-				<td>append_string_general</td><td>A,D</td><td>20</td><td>-75%</td>
-			</tr>
-			<tr>
-				<td>append_utf_8</td><td>A,D</td><td>42</td><td>-57%</td>
-			</tr>
-			<tr>
-				<td>append_string</td><td>D</td><td>24</td><td>+48%</td>
+				<td>append_string</td><td>D</td><td>11845</td><td>+39%</td>
 			</tr>
 		</table>
-		<h3>Mixed Latin-1 and Unicode Encoding</h3>
+		<h3>Mixed Latin-15 and Unicode Encoding</h3>
 		<caption>Table 4 (In ascending order of relative STRING_32 performance)</caption>
 		<table>
 			<tr>
@@ -128,13 +122,7 @@
 				<th>STRING_32</th>
 			</tr>
 			<tr>
-				<td>append_string_general</td><td>A,B,C,D</td><td>10</td><td>-50%</td>
-			</tr>
-			<tr>
-				<td>append_utf_8</td><td>&quot;$B $C&quot;</td><td>36</td><td>+18%</td>
-			</tr>
-			<tr>
-				<td>append_string</td><td>&quot;$B $C&quot;</td><td>24</td><td>+55%</td>
+				<td>append_string</td><td>&quot;$B $C&quot;</td><td>7088</td><td>+66%</td>
 			</tr>
 		</table>
 		<a name="test_strings"/>

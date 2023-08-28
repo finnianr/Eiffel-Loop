@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-27 8:51:31 GMT (Sunday 27th August 2023)"
-	revision: "71"
+	date: "2023-08-28 7:12:24 GMT (Monday 28th August 2023)"
+	revision: "72"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -469,6 +469,11 @@ feature {NONE} -- Constants
 		end
 
 	Once_interval_list: EL_ARRAYED_INTERVAL_LIST
+		once
+			create Result.make_empty
+		end
+
+	Once_split_intervals: EL_ZSTRING_SPLIT_INTERVALS
 		once
 			create Result.make_empty
 		end

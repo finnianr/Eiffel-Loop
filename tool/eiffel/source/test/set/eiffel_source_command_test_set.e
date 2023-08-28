@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-22 15:14:55 GMT (Monday 22nd May 2023)"
-	revision: "12"
+	date: "2023-08-28 7:34:04 GMT (Monday 28th August 2023)"
+	revision: "13"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
@@ -35,6 +35,7 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_codebase_statistics
+		-- EIFFEL_SOURCE_COMMAND_TEST_SET.test_codebase_statistics
 		local
 			command: CODEBASE_STATISTICS_COMMAND; assertion_template: ZSTRING
 			actual_results, expected_results: EL_ARRAYED_LIST [INTEGER]

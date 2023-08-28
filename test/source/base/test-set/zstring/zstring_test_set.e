@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-27 11:07:16 GMT (Sunday 27th August 2023)"
-	revision: "101"
+	date: "2023-08-28 6:53:43 GMT (Monday 28th August 2023)"
+	revision: "102"
 
 class
 	ZSTRING_TEST_SET
@@ -45,6 +45,7 @@ feature {NONE} -- Initialization
 				["substring_split",					agent test_substring_split],
 				["to_general",							agent test_to_general],
 				["to_string_32",						agent test_to_string_32],
+				["append_replaced",					agent test_append_replaced],
 				["append",								agent test_append],
 				["append_encoded",					agent test_append_encoded],
 				["append_string_general",			agent test_append_string_general],
@@ -267,9 +268,38 @@ feature -- Appending tests
 		 	end
 		end
 
+	test_append_replaced
+		note
+			testing: "covers/{EL_APPENDABLE_ZSTRING}.append_replaced"
+		local
+			zstr, line, entity: ZSTRING; str_32, line_32, entity_32: STRING_32
+			s: EL_STRING_32_ROUTINES
+		do
+			entity_32 := "&nbsp;"; entity := entity_32
+			create str_32.make_empty
+			create zstr.make_empty
+			across 1 |..| 2 as n loop
+				str_32.wipe_out; zstr.wipe_out
+				across Text.lines as list until list.cursor_index > 3 loop
+					if n.item = 2 then
+						line_32 := s.enclosed (list.item, ' ', ' ')
+					else
+						line_32 := list.item
+					end
+					line := line_32; str_32.append (line_32)
+					zstr.append_replaced (line, space * 1, entity)
+				end
+				str_32.replace_substring_all (space.as_string_32 (1), entity_32)
+				assert_same_string (Void, str_32, zstr)
+			end
+		end
+
 	test_append_string_general
 		note
-			testing: "covers/{ZSTRING}.append_string_general", "covers/{ZSTRING}.substring"
+			testing: "[
+				covers/{ZSTRING}.append_string_general,
+				covers/{ZSTRING}.substring
+			]"
 		local
 			test: STRING_TEST; substring_size, start_index, end_index: INTEGER
 		do
