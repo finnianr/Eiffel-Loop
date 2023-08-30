@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 21:34:33 GMT (Thursday 17th August 2023)"
-	revision: "31"
+	date: "2023-08-28 11:59:14 GMT (Monday 28th August 2023)"
+	revision: "32"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -29,7 +29,12 @@ feature -- Status query
 
 	is_pyxis_file (a_pyxis_file_path: FILE_PATH): BOOLEAN
 		do
-			Result := File.line_one (a_pyxis_file_path).starts_with ("pyxis-doc:")
+			Result := is_declaration (File.line_one (a_pyxis_file_path))
+		end
+
+	is_declaration (doc_line: STRING): BOOLEAN
+		do
+			Result := doc_line.starts_with (Pyxis_doc)
 		end
 
 feature -- Basic operations

@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 10:44:47 GMT (Wednesday 16th August 2023)"
-	revision: "21"
+	date: "2023-08-28 13:20:07 GMT (Monday 28th August 2023)"
+	revision: "22"
 
 deferred class
 	EL_PYXIS_TREE_COMPILER
@@ -39,7 +39,7 @@ inherit
 			make_default
 		end
 
-	EL_MODULE_PYXIS
+	EL_MODULE_PYXIS; EL_MODULE_USER_INPUT
 
 	EL_FILE_OPEN_ROUTINES
 
@@ -58,6 +58,10 @@ feature {NONE} -- Initialization
 			create source_tree_path
 		end
 
+feature -- Status query
+
+	is_updated: BOOLEAN
+
 feature -- Basic operations
 
 	execute
@@ -65,27 +69,22 @@ feature -- Basic operations
 		do
 			if source_changed then
 				compile_tree
+				is_updated := True
 			else
 				lio.put_line ("Source has not changed")
+				is_updated := False
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	compile_tree
-		deferred
-		end
+feature {NONE} -- Line states
 
 	find_root_element (line: ZSTRING; merged: like merged_lines)
-		local
-			l_line: ZSTRING
 		do
-			l_line := line.twin
-			l_line.right_adjust
-			if not l_line.is_empty
-				and then l_line [l_line.count] = ':'
-				and then l_line [1] /= '#'
-				and then not l_line.starts_with (Pyxis_doc)
+			line.right_adjust
+			if line.count > 0
+				and then line [line.count] = ':'
+				and then line [1] /= '#'
+				and then not Pyxis.is_declaration (line)
 			then
 				if file_count = 1 then
 					merged.extend (line)
@@ -96,49 +95,24 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	manifest_list: ARRAYED_LIST [EL_PATH]
-		local
-			line: ZSTRING; file_path: FILE_PATH; path: EL_PATH
-		do
-			if source_tree_path.exists then
-				create Result.make_from_array (<< source_tree_path >>)
-			else
-				create Result.make (0)
-			end
-			if manifest_path.exists then
-				across open_lines (manifest_path, Utf_8) as list loop
-					line := list.item
-					if not line.starts_with_character ('#') then
-						if line.ends_with_character ('/') then
-							line.remove_tail (1)
-							create {DIR_PATH} path.make (line)
-						else
-							file_path := line
-							if file_path.has_extension ("pyx") then
-								path := file_path
-							else
-								create {DIR_PATH} path.make (line)
-							end
-						end
-						path.expand
-						if path.exists then
-							Result.extend (path)
-							lio.put_path_field ("Found", path)
-						else
-							lio.put_path_field ("Cannot find", path)
-						end
-						lio.put_new_line
-					end
-				end
-			end
+feature {NONE} -- Deferred
+
+	compile_tree
+		deferred
 		end
+
+	output_modification_time: INTEGER
+		deferred
+		end
+
+feature {NONE} -- Implementation
 
 	merged_lines: EL_ZSTRING_LIST
 		local
-			path_list: like pyxis_file_path_list
+			path_list: like translations_path_list
 			count: INTEGER; markup: EL_MARKUP_ENCODING
 		do
-			path_list := pyxis_file_path_list
+			path_list := translations_path_list
 			across path_list as source_path loop
 				count := count + File.byte_count (source_path.item)
 			end
@@ -153,45 +127,49 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	output_modification_time: INTEGER
-		deferred
-		end
-
-	pyxis_file_path_list: ARRAYED_LIST [FILE_PATH]
-		do
-			create Result.make (0)
-			across manifest_list as path loop
-				if attached {FILE_PATH} path.item as file_path then
-					Result.extend (file_path)
-
-				elseif attached {DIR_PATH} path.item as dir_path then
-					Result.append (File_system.files_with_extension (dir_path, "pyx", True))
-				end
-			end
-		end
-
 	source_changed: BOOLEAN
 		local
 			modification_time: INTEGER
 		do
 			modification_time := output_modification_time
-			Result := across pyxis_file_path_list as file_path some
+			Result := across translations_path_list as file_path some
 				file_path.item.modification_time > modification_time
+			end
+		end
+
+	translations_path_list: EL_FILE_PATH_LIST
+		local
+			manifest: EL_PYXIS_FILE_MANIFEST
+		do
+			if source_tree_path.exists then
+				Result := File_system.files_with_extension (source_tree_path, Pyx_extension, True)
+
+			elseif manifest_path.exists then
+				create manifest.make (manifest_path, Pyx_extension)
+				from until not manifest.has_errors loop
+					lio.put_line ("FIX PATH ERRORS")
+					manifest.display_bad_paths (lio)
+					lio.put_new_line
+					if User_input.approved_action_y_n ("Retry") then
+						create manifest.make (manifest_path, Pyx_extension)
+					end
+				end
+				Result := manifest.file_list
+			else
+				create Result.make_with_count (0)
 			end
 		end
 
 feature {NONE} -- Internal attributes
 
+	file_count: INTEGER
+
 	manifest_path: FILE_PATH
 
 	source_tree_path: DIR_PATH
 
-	file_count: INTEGER
-
 feature {NONE} -- Constants
 
-	Pyxis_doc: ZSTRING
-		once
-			Result := "pyxis-doc"
-		end
+	Pyx_extension: STRING = "pyx"
+
 end

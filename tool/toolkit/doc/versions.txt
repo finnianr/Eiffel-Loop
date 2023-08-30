@@ -1,3 +1,6 @@
+1.11.5
+* ZSTRING optimizations
+
 1.11.4
 * Added encrypted url option
 

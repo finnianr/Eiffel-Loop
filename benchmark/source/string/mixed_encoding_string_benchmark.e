@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-18 15:51:52 GMT (Saturday 18th February 2023)"
-	revision: "12"
+	date: "2023-08-30 18:16:10 GMT (Wednesday 30th August 2023)"
+	revision: "13"
 
 deferred class
 	MIXED_ENCODING_STRING_BENCHMARK
@@ -22,54 +22,54 @@ feature -- Basic operations
 
 	do_performance_tests
 		do
-			do_performance_test ("append_string", "$B $C", agent test_append_string)
-			do_performance_test ("append_string_general", "A,B,C,D", agent test_append_string_general)
-			do_performance_test ("append_utf_8", "$B $C", agent test_append_utf_8)
+			do_test ("append_string", "A,B,C,A,B,C", agent test_append_prepend (True))
+			do_test ("append_string_general", "A,B,C,D", agent test_append_prepend_general (True))
+			do_test ("append_utf_8", "$B $C", agent test_append_utf_8)
 
-			do_performance_test ("as_string_32", "$A $B $C $D", agent test_as_string_32)
-			do_performance_test ("to_lower", "$A $B $C $D", agent test_to_lower)
-			do_performance_test ("to_upper", "$A $B $C $D", agent test_to_upper)
+			do_test ("as_string_32", "$A $B $C $D", agent test_as_string_32)
+			do_test ("to_lower", "$A $B $C $D", agent test_to_lower_upper (True))
+			do_test ("to_upper", "$A $B $C $D", agent test_to_lower_upper (False))
 
-			do_performance_test ("code (z_code)", "$A $B $C $D", agent test_code)
-			do_performance_test ("code (z_code)", "$B $C", agent test_code)
+			do_test ("code (z_code)", "$A $B $C $D", agent test_code)
+			do_test ("code (z_code)", "$B $C", agent test_code)
 
-			do_performance_test ("ends_with", "$A $B $C", agent test_ends_with)
-			do_performance_test ("ends_with_general", "$A $B $C", agent test_ends_with_general)
+			do_test ("ends_with", "$A $B $C", agent test_ends_with (False))
+			do_test ("ends_with_general", "$A $B $C", agent test_ends_with (True))
 
-			do_performance_test ("escaped (as XML)", "put_amp ($B $C)", agent test_xml_escape)
+			do_test ("escaped (as XML)", "put_amp ($B $C)", agent test_xml_escape)
 
-			do_performance_test ("index_of", "$B $C", agent test_index_of)
-			do_performance_test ("is_equal", "$A $B $C", agent test_is_equal)
-			do_performance_test ("is_less (sort)", "B", agent test_sort)
-			do_performance_test ("insert_string", "$B $C", agent test_insert_string)
-			do_performance_test ("item", "$A $B $C $D", agent test_item)
-			do_performance_test ("item", "$B $C", agent test_item)
+			do_test ("index_of", "$B $C", agent test_index_of)
+			do_test ("is_equal", "$A $B $C", agent test_is_equal)
+			do_test ("is_less (sort)", "B", agent test_sort)
+			do_test ("insert_string", "$B $C", agent test_insert_string)
+			do_test ("item", "$A $B $C $D", agent test_item)
+			do_test ("item", "$B $C", agent test_item)
 
-			do_performance_test ("last_index_of", "$B $C", agent test_last_index_of)
-			do_performance_test ("left_adjust", "padded (C)", agent test_left_adjust)
+			do_test ("last_index_of", "$B $C", agent test_last_index_of)
+			do_test ("left_adjust", "padded (C)", agent test_left_right_adjust (True))
 
-			do_performance_test ("prepend_string", "$B $C", agent test_prepend_string)
-			do_performance_test ("prepend_string_general", "A,B,C,D", agent test_prepend_string_general)
+			do_test ("prepend_string", "A,B,C,A,B,C", agent test_append_prepend (False))
+			do_test ("prepend_string_general", "A,B,C,D", agent test_append_prepend_general (False))
 
-			do_performance_test ("prune_all", "$B $C", agent test_prune_all)
+			do_test ("prune_all", "$B $C", agent test_prune_all)
 
-			do_performance_test ("remove_substring", "$A $B $C", agent test_remove_substring)
-			do_performance_test ("replace_character", "$B $C", agent test_replace_character)
-			do_performance_test ("replace_substring", "$A $B $C", agent test_replace_substring)
-			do_performance_test ("replace_substring_all", "$A $B $C", agent test_replace_substring_all)
-			do_performance_test ("right_adjust", "padded (C)", agent test_right_adjust)
+			do_test ("remove_substring", "$A $B $C", agent test_remove_substring)
+			do_test ("replace_character", "$B $C", agent test_replace_character)
+			do_test ("replace_substring", "$A $B $C", agent test_replace_substring)
+			do_test ("replace_substring_all", "$A $B $C", agent test_replace_substring_all)
+			do_test ("right_adjust", "padded (C)", agent test_left_right_adjust (False))
 
-			do_performance_test ("split, substring", "$A $B $C $D", agent test_split)
-			do_performance_test ("starts_with", "$B $C $A", agent test_starts_with)
-			do_performance_test ("starts_with_general", "$B $C $A", agent test_starts_with_general)
-			do_performance_test ("substring_index", "$A $B $C", agent test_substring_index)
-			do_performance_test ("substring_index", "$B $C $A", agent test_substring_index)
+			do_test ("split, substring", "$A $B $C $D", agent test_split)
+			do_test ("starts_with", "$B $C $A", agent test_starts_with (False))
+			do_test ("starts_with_general", "$B $C $A", agent test_starts_with (True))
+			do_test ("substring_index", "$A $B $C", agent test_substring_index)
+			do_test ("substring_index", "$B $C $A", agent test_substring_index)
 
-			do_performance_test ("to_utf_8", "$A $B $C $D", agent test_to_utf_8)
-			do_performance_test ("translate", "$B $C", agent test_translate)
+			do_test ("to_utf_8", "$A $B $C $D", agent test_to_utf_8)
+			do_test ("translate", "$B $C", agent test_translate)
 
 			escape_character := Pinyin_u
-			do_performance_test ("unescape (C lang string)", "escaped ($B $C)", agent test_unescape)
+			do_test ("unescape (C lang string)", "escaped ($B $C)", agent test_unescape)
 			escape_character := Back_slash
 		end
 

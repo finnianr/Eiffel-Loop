@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-26 16:50:20 GMT (Saturday 26th August 2023)"
-	revision: "56"
+	date: "2023-08-30 7:13:28 GMT (Wednesday 30th August 2023)"
+	revision: "57"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -252,11 +252,8 @@ feature -- Index query
 
 	last_upper: INTEGER
 			-- count when substrings are expanded to original source string
-		local
-			l_area: like area
 		do
-			l_area := area
-			if l_area.count >= 2 then
+			if attached area as l_area and then l_area.count >= 2 then
 				Result := l_area [last_index + 1].code
 			end
 		end
@@ -442,6 +439,14 @@ feature -- Status query
 				l_count := upper_B - lower_B + 1
 
 				inspect ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
+					when B_contains_A then
+						comparison_count := upper_A - lower_A + 1
+						offset := lower_A - lower_B
+
+					when A_contains_B then
+						comparison_count := upper_B - lower_B + 1
+						offset := 0
+
 					when A_overlaps_B_left then
 						comparison_count := upper_A - lower_B + 1
 						offset := 0
@@ -450,13 +455,6 @@ feature -- Status query
 						comparison_count := upper_B - lower_A + 1
 						offset := lower_A - lower_B
 
-					when A_contains_B then
-						comparison_count := upper_B - lower_B + 1
-						offset := 0
-
-					when B_contains_A then
-						comparison_count := upper_A - lower_A + 1
-						offset := lower_A - lower_B
 				else
 					overlapping := False
 				end
@@ -785,7 +783,7 @@ feature -- Removal
 		-- if `uc_new = 0' then remove `uc_old'
 		local
 			i, j, lower, upper, count, i_final, previous_i, delta: INTEGER
-			l_area: like area; found: BOOLEAN; l_code: CHARACTER_32
+			l_area: like area; found: BOOLEAN; l_code: CHARACTER_32; l_last_upper: INTEGER
 		do
 			previous_i := (1).opposite
 			l_area := area; i_final := l_area.count
@@ -808,23 +806,25 @@ feature -- Removal
 				if previous_i >= 0 then
 					l_buffer.append_from_area (l_area, previous_i)
 				end
-				from until i = i_final loop
+				from l_last_upper := l_buffer.last_upper until i = i_final loop
 					lower := l_area [i].code; upper := l_area [i + 1].code
 					from j := lower until j > upper loop
 						l_code := l_area [i + 2 + j - lower]
 						if l_code = uc_old then
 							if uc_new > '%U' then
-								l_buffer.extend (uc_new, j)
+								l_last_upper := l_buffer.extend (uc_new, l_last_upper, j)
 							elseif shift_remaining then
 								delta := delta + 1
 							end
 						else
-							l_buffer.extend (l_code, j - delta)
+							l_last_upper := l_buffer.extend (l_code, l_last_upper, j - delta)
 						end
 						j := j + 1
 					end
 					i := i + upper - lower + 3
 				end
+				l_buffer.set_last_upper (l_last_upper)
+
 				set_from_buffer (l_buffer)
 			end
 		end
@@ -871,12 +871,13 @@ feature -- Removal
 
 	remove_indices (list: like index_list)
 		local
-			i, j, i_final, pruned_count, lower, upper: INTEGER
+			i, j, i_final, pruned_count, lower, upper, l_last_upper: INTEGER
 			l_area: like area
 		do
 			l_area := area; i_final := area.count
 			if not list.is_empty and then i_final > 0 then
 				if attached empty_buffer as l_buffer then
+					l_last_upper := l_buffer.last_upper
 					from i := 0; list.start until i = i_final loop
 						lower := l_area [i].code; upper := l_area [i + 1].code
 						from until list.after or else list.item >= lower loop
@@ -888,12 +889,13 @@ feature -- Removal
 								pruned_count := pruned_count + 1
 								list.forth
 							else
-								l_buffer.extend (l_area [i + 2 + j - lower], j - pruned_count)
+								l_last_upper := l_buffer.extend (l_area [i + 2 + j - lower], l_last_upper, j - pruned_count)
 							end
 							j := j + 1
 						end
 						i := i + upper - lower + 3
 					end
+					l_buffer.set_last_upper (l_last_upper)
 					set_from_buffer (l_buffer)
 				end
 			end

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-26 18:35:44 GMT (Saturday 26th August 2023)"
-	revision: "36"
+	date: "2023-08-29 16:03:03 GMT (Tuesday 29th August 2023)"
+	revision: "37"
 
 class
 	STRING_BENCHMARK_SHELL
@@ -28,6 +28,7 @@ feature -- Constants
 feature {NONE} -- Implementation
 
 	new_benchmarks: TUPLE [
+		APPEND_GENERAL_VS_APPEND,
 		APPEND_Z_CODE_VS_APPEND_CHARACTER,
 		ARRAYED_INTERVAL_LIST_COMPARISON,
 		ATTACH_TEST_VS_BOOLEAN_COMPARISON,

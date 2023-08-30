@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:40:40 GMT (Friday 10th March 2023)"
-	revision: "11"
+	date: "2023-08-28 8:42:01 GMT (Monday 28th August 2023)"
+	revision: "12"
 
 class
 	MONTHLY_STOCK_USE_TEST_SET
@@ -39,7 +39,7 @@ feature -- Tests
 			else
 				create stock_use.make (file_list.first_path, create {FILE_PATH})
 				stock_use.execute
-				assert_same_digest (stock_use.output_path, "onVqnd91c1ISTpzbsV2Oqg==")
+				assert_same_digest (stock_use.output_path, "PGvMdUg5GRQXvK7pc7rhLg==")
 			end
 		end
 

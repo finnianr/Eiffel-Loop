@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 10:17:10 GMT (Wednesday 16th August 2023)"
-	revision: "25"
+	date: "2023-08-30 9:36:11 GMT (Wednesday 30th August 2023)"
+	revision: "26"
 
 class
 	STRING_TEST
@@ -142,7 +142,7 @@ feature -- s_32 intervals
 			Result := new_intervals (' ')
 		end
 
-feature -- Test comparisons
+feature -- Test concatenation
 
 	append_string_general: BOOLEAN
 		do
@@ -172,22 +172,21 @@ feature -- Test comparisons
 			end
 		end
 
-	ends_with: BOOLEAN
-		local
-			b1, b2, b3: BOOLEAN
+	prepend_string_general: BOOLEAN
 		do
-			b1 := s_32.ends_with (s_32_substring)
-			if zs.ends_with (s_32_substring) then
-				b2 := zs.ends_with_character (s_32_substring [s_32_substring.count])
+			if attached s_8_substring as str_8 then
+				zs.prepend_string_general (str_8)
+			else
+				zs.prepend_string_general (s_32_substring)
 			end
-			b3 := zs.ends_with (zs_substring)
-			Result := b1 = b2
-			Result := Result and b1 = b3
-			if Result and then attached s_8_substring as s then
-				b3 := zs.ends_with_general (s)
-				Result := b1 = b3
+			if zs.count = s_32.count then
+				Result := zs.to_string_32 ~ s_32
+			else
+				Result := s_32.ends_with (zs.to_string_32)
 			end
 		end
+
+feature -- Test editing
 
 	occurrence_edit: BOOLEAN
 		local
@@ -214,23 +213,6 @@ feature -- Test comparisons
 			end
 		end
 
-	occurrence_intervals: BOOLEAN
-		local
-			intervals_s_32: EL_SEQUENTIAL_INTERVALS; s: EL_STRING_32_ROUTINES
-			intervals_list: ARRAYED_LIST [EL_OCCURRENCE_INTERVALS]
-		do
-			intervals_s_32 := s.occurrence_intervals (s_32, s_32_substring)
-
-			create intervals_list.make_from_array (<<
-				create {EL_OCCURRENCE_INTERVALS}.make_by_string (zs, zs_substring),
-				create {EL_OCCURRENCE_INTERVALS}.make_by_string (s_32, s_32_substring)
-			>>)
-			if attached s_8_substring as str_8 then
-				intervals_list.extend (create {EL_OCCURRENCE_INTERVALS}.make_by_string (zs, str_8))
-			end
-			Result := across intervals_list as list all list.item.same_as (intervals_s_32) end
-		end
-
 	replace_substring_all: BOOLEAN
 		do
 			s_32.replace_substring_all (s_32_old, s_32_new)
@@ -247,6 +229,8 @@ feature -- Test comparisons
 			end
 			Result := zs.same_string (s_32)
 		end
+
+feature -- Test comparisons
 
 	same_characters (index: INTEGER): BOOLEAN
 		local
@@ -269,6 +253,25 @@ feature -- Test comparisons
 		do
 			substring := zs.substring (start_index, end_index)
 			Result := substring.to_string_32 ~ s_32.substring (start_index, end_index)
+		end
+
+feature -- Test splitting
+
+	occurrence_intervals: BOOLEAN
+		local
+			intervals_s_32: EL_SEQUENTIAL_INTERVALS; s: EL_STRING_32_ROUTINES
+			intervals_list: ARRAYED_LIST [EL_OCCURRENCE_INTERVALS]
+		do
+			intervals_s_32 := s.occurrence_intervals (s_32, s_32_substring)
+
+			create intervals_list.make_from_array (<<
+				create {EL_OCCURRENCE_INTERVALS}.make_by_string (zs, zs_substring),
+				create {EL_OCCURRENCE_INTERVALS}.make_by_string (s_32, s_32_substring)
+			>>)
+			if attached s_8_substring as str_8 then
+				intervals_list.extend (create {EL_OCCURRENCE_INTERVALS}.make_by_string (zs, str_8))
+			end
+			Result := across intervals_list as list all list.item.same_as (intervals_s_32) end
 		end
 
 	split_intervals: BOOLEAN
@@ -309,22 +312,7 @@ feature -- Test comparisons
 			end
 		end
 
-	starts_with: BOOLEAN
-		local
-			b1, b2, b3: BOOLEAN
-		do
-			b1 := s_32.starts_with (s_32_substring)
-			if zs.starts_with (s_32_substring) then
-				b2 := s_32_substring.count > 0 implies zs.starts_with_character (s_32_substring [1])
-			end
-			b3 := zs.starts_with (zs_substring)
-			Result := b1 = b2
-			Result := Result and b1 = b3
-			if Result and then attached s_8_substring as str_8 then
-				b3 := zs.starts_with_general (str_8)
-				Result := b1 = b3
-			end
-		end
+feature -- Test search
 
 	substring_index (from_index: INTEGER): BOOLEAN
 		local
@@ -359,6 +347,8 @@ feature -- Test comparisons
 			end
 		end
 
+feature -- Conversion
+
 	to_general: BOOLEAN
 		do
 			if attached s_8 as str_8 then
@@ -373,6 +363,23 @@ feature -- Test comparisons
 
 feature -- Status query
 
+	ends_with: BOOLEAN
+		local
+			b1, b2, b3: BOOLEAN
+		do
+			b1 := s_32.ends_with (s_32_substring)
+			if zs.ends_with (s_32_substring) then
+				b2 := zs.ends_with_character (s_32_substring [s_32_substring.count])
+			end
+			b3 := zs.ends_with (zs_substring)
+			Result := b1 = b2
+			Result := Result and b1 = b3
+			if Result and then attached s_8_substring as s then
+				b3 := zs.ends_with_general (s)
+				Result := b1 = b3
+			end
+		end
+
 	is_same: BOOLEAN
 		do
 			Result := zs.same_string (s_32)
@@ -381,6 +388,23 @@ feature -- Status query
 	is_same_size: BOOLEAN
 		do
 			Result := zs.count = s_32.count
+		end
+
+	starts_with: BOOLEAN
+		local
+			b1, b2, b3: BOOLEAN
+		do
+			b1 := s_32.starts_with (s_32_substring)
+			if zs.starts_with (s_32_substring) then
+				b2 := s_32_substring.count > 0 implies zs.starts_with_character (s_32_substring [1])
+			end
+			b3 := zs.starts_with (zs_substring)
+			Result := b1 = b2
+			Result := Result and b1 = b3
+			if Result and then attached s_8_substring as str_8 then
+				b3 := zs.starts_with_general (str_8)
+				Result := b1 = b3
+			end
 		end
 
 	valid_index (i: INTEGER): BOOLEAN

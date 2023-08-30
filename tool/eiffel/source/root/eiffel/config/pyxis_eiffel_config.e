@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 10:26:53 GMT (Wednesday 16th August 2023)"
-	revision: "8"
+	date: "2023-08-28 13:27:36 GMT (Monday 28th August 2023)"
+	revision: "9"
 
 class
 	PYXIS_EIFFEL_CONFIG
@@ -77,6 +77,11 @@ feature -- Access
 	app_data_path: DIR_PATH
 		do
 			Result := application_path (Directory.App_data)
+		end
+
+	app_installation_path: DIR_PATH
+		do
+			Result := application_path (Directory.Application_installation)
 		end
 
 	ecf_pyxis_path: FILE_PATH

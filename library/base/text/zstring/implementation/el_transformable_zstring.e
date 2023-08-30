@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-26 17:04:59 GMT (Saturday 26th August 2023)"
-	revision: "50"
+	date: "2023-08-30 14:16:35 GMT (Wednesday 30th August 2023)"
+	revision: "51"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -51,7 +51,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			-- Reverse the order of characters.
 			-- "Hello" -> "olleH".
 		local
-			c_i: CHARACTER; i, l_count, block_index: INTEGER
+			c_i: CHARACTER; i, l_count, block_index, last_upper: INTEGER
 			iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
 			l_count := count
@@ -60,14 +60,16 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 					and then attached empty_unencoded_buffer as buffer
 					and then attached area as l_area
 				then
+					last_upper := buffer.last_upper
 					from i := l_count - 1 until i < 0 loop
 						c_i := l_area.item (i)
 						if c_i = Substitute then
-							buffer.extend (iter.item ($block_index, area_32, i + 1), l_count - i)
+							last_upper := buffer.extend (iter.item ($block_index, area_32, i + 1), last_upper, l_count - i)
 						end
 						i := i - 1
 					end
 					String_8.mirror (Current)
+					buffer.set_last_upper (last_upper)
 					set_unencoded_from_buffer (buffer)
 				else
 					String_8.mirror (Current)
@@ -193,7 +195,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 		require
 			each_old_has_new: old_characters.count = new_characters.count
 		local
-			i, j, index, l_count, block_index: INTEGER; old_z_code, new_z_code: NATURAL
+			i, j, index, l_count, block_index, last_upper: INTEGER; old_z_code, new_z_code: NATURAL
 			old_expanded, new_expanded: STRING_32; l_area, new_characters_area: like area
 			iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
@@ -202,6 +204,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			l_area := area; new_characters_area := new_characters.area; l_count := count
 
 			if attached empty_unencoded_buffer as l_new_unencoded and then attached unencoded_area as area_32 then
+				last_upper := l_new_unencoded.last_upper
 				from until i = l_count loop
 					old_z_code := iter.i_th_z_code ($block_index, l_area, area_32, i)
 					index := old_expanded.index_of (old_z_code.to_character_32, 1)
@@ -212,7 +215,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 					end
 					if delete_null implies new_z_code > 0 then
 						if new_z_code > 0xFF then
-							l_new_unencoded.extend_z_code (new_z_code, j + 1)
+							last_upper := l_new_unencoded.extend_z_code (new_z_code, last_upper, j + 1)
 							l_area.put (Substitute, j)
 						else
 							l_area.put (new_z_code.to_character_8, j)
@@ -223,6 +226,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 				end
 				set_count (j)
 				l_area [j] := '%U'
+				l_new_unencoded.set_last_upper (last_upper)
 				set_unencoded_from_buffer (l_new_unencoded)
 			end
 		ensure
@@ -682,11 +686,11 @@ feature {NONE} -- Implementation
 		local
 			i, l_count, sum_count_delta, block_index, block_index_new: INTEGER
 			previous_upper_plus_1, lower, upper, new_lower, new_upper: INTEGER
-			l_area: like area; index_area: SPECIAL [INTEGER]; accumulator, area_32: SPECIAL [CHARACTER_32]
+			l_area: like area; index_area: SPECIAL [INTEGER]; area_32: SPECIAL [CHARACTER_32]
 			buffer: like Unencoded_buffer; current_has_substitutes, new_has_substitutes: BOOLEAN
 		do
 			buffer := empty_unencoded_buffer; l_area := area; area_32 := unencoded_area
-			index_area := a_index_list.area; accumulator := codec.empty_accumulator
+			index_area := a_index_list.area;
 			current_has_substitutes := has_mixed_encoding
 			new_has_substitutes := new.has_mixed_encoding
 			previous_upper_plus_1 := 1
@@ -698,13 +702,13 @@ feature {NONE} -- Implementation
 				l_count := lower - previous_upper_plus_1
 				if current_has_substitutes and then l_count > 0 then
 					buffer.append_substituted (
-						l_area, area_32, accumulator, $block_index, previous_upper_plus_1 - 1, new_lower - l_count - 1, l_count
+						l_area, area_32, $block_index, previous_upper_plus_1 - 1, new_lower - l_count - 1, l_count
 					)
 				end
 				if new_has_substitutes then
 					block_index_new := 0
 					buffer.append_substituted (
-						new.area, new.unencoded_area, accumulator, $block_index_new, 0, new_lower - 1, new.count
+						new.area, new.unencoded_area, $block_index_new, 0, new_lower - 1, new.count
 					)
 				end
 				previous_upper_plus_1 := upper + 1
@@ -713,10 +717,9 @@ feature {NONE} -- Implementation
 			l_count := count - previous_upper_plus_1 + 1
 			if current_has_substitutes and then l_count > 0 then
 				buffer.append_substituted (
-					l_area, area_32, accumulator, $block_index, previous_upper_plus_1 - 1, new_upper, l_count
+					l_area, area_32, $block_index, previous_upper_plus_1 - 1, new_upper, l_count
 				)
 			end
-			buffer.append_final (accumulator)
 			set_unencoded_from_buffer (buffer)
 		end
 

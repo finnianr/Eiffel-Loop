@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-28 7:31:48 GMT (Monday 28th August 2023)"
-	revision: "55"
+	date: "2023-08-29 11:21:19 GMT (Tuesday 29th August 2023)"
+	revision: "56"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -532,8 +532,8 @@ feature {NONE} -- Implementation
 			s_count := s.count
 			if s_count > 0 then
 				new_count := old_count + s_count
-				if new_count + 1 > area.capacity then
-					resize (new_count)
+				if new_count > capacity then
+					resize (new_count + additional_space)
 				end
 				area.copy_data (s.area, 0, old_count, s_count)
 				set_count (new_count)

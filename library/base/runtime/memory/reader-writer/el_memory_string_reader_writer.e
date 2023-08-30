@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-26 17:10:38 GMT (Saturday 26th August 2023)"
-	revision: "11"
+	date: "2023-08-29 10:18:06 GMT (Tuesday 29th August 2023)"
+	revision: "12"
 
 deferred class
 	EL_MEMORY_STRING_READER_WRITER
@@ -149,12 +149,12 @@ feature {NONE} -- Implementation
 			valid_string: str.is_empty and then char_count <= str.capacity
 		local
 			i, buffer_count, pos: INTEGER; area: SPECIAL [CHARACTER]; c: CHARACTER
-			done: BOOLEAN; code: NATURAL
+			done: BOOLEAN; code: NATURAL; l_last_upper: INTEGER
 		do
 			area := str.area
 			if attached buffer as l_buffer and then attached str.empty_unencoded_buffer as unencoded_buffer then
-				buffer_count := l_buffer.count
-				pos := count
+				buffer_count := l_buffer.count; pos := count
+				l_last_upper := unencoded_buffer.last_upper
 
 				from i := 0 until done or else i = char_count loop
 					if pos + Character_8_bytes < buffer_count then
@@ -165,7 +165,7 @@ feature {NONE} -- Implementation
 							if pos + Natural_32_bytes < buffer_count then
 								code := l_buffer.read_natural_32 (pos)
 								pos := pos + Natural_32_bytes
-								unencoded_buffer.extend (code.to_character_32, i + 1)
+								l_last_upper := unencoded_buffer.extend (code.to_character_32, l_last_upper, i + 1)
 							else
 								done := True
 							end
@@ -177,6 +177,7 @@ feature {NONE} -- Implementation
 				end
 				area [i] := '%U'
 				str.set_count (i)
+				unencoded_buffer.set_last_upper (l_last_upper)
 				str.set_unencoded_from_buffer (unencoded_buffer)
 				count := pos
 			end

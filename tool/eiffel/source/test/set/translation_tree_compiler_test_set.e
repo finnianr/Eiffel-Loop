@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 12:14:34 GMT (Friday 10th March 2023)"
-	revision: "19"
+	date: "2023-08-28 13:02:36 GMT (Monday 28th August 2023)"
+	revision: "20"
 
 class
 	TRANSLATION_TREE_COMPILER_TEST_SET
@@ -47,6 +47,7 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_compile_tree
+		-- TRANSLATION_TREE_COMPILER_TEST_SET.test_compile_tree
 		note
 			testing: "covers/{PYXIS_TRANSLATION_TREE_COMPILER}.set_item_id"
 		local
@@ -104,12 +105,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	locale_texts_types: TUPLE [
-		EL_DAY_OF_WEEK_TEXTS,
-		EL_MONTH_TEXTS,
-		EL_PASSPHRASE_TEXTS,
-		EL_UNINSTALL_TEXTS
-	]
+	locale_texts_types: TUPLE [EL_DAY_OF_WEEK_TEXTS, EL_MONTH_TEXTS, EL_PASSPHRASE_TEXTS, EL_UNINSTALL_TEXTS]
 		do
 			create Result
 		end

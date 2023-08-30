@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-02 19:21:08 GMT (Thursday 2nd March 2023)"
-	revision: "27"
+	date: "2023-08-30 14:33:42 GMT (Wednesday 30th August 2023)"
+	revision: "28"
 
 class
 	EL_UNENCODED_CHARACTERS_BUFFER
@@ -37,13 +37,6 @@ feature -- Status query
 
 feature -- Element change
 
-	append_final (accumulator: like area)
-		do
-			if accumulator.count - 1 > 0 then
-				append_accumulated (accumulator)
-			end
-		end
-
 	append_from_area (a_area: like area; index: INTEGER)
 		local
 			lower, upper: INTEGER; l_area, current_area: like area
@@ -56,103 +49,112 @@ feature -- Element change
 			set_if_changed (current_area, l_area)
 		end
 
-	append_if_full (accumulator: like area; index: INTEGER; uc: CHARACTER_32)
-		-- append character `uc' to `accumulator' array, and append to `Current' buffer
-		-- only when  `accumulator' array is full.  (`index' is zero based for `SPECIAL' array)
-		-- The first character of `accumulator' is reserved for storing the most recent `index' value
-		do
-			if accumulator.count = 0 then
-				accumulator.extend ('%U')
-
-			elseif accumulator.capacity = accumulator.count or accumulator [0].code /= index then
-				append_accumulated (accumulator)
-				accumulator.wipe_out
-				accumulator.extend ('%U')
-			end
-			accumulator.extend (uc)
-			accumulator [0] := (index + 1).to_character_32
-		end
-
 	append_substituted (
-		a_area: SPECIAL [CHARACTER]; unencoded_area, accumulator: SPECIAL [CHARACTER_32]
-		block_index_ptr: POINTER; source_offset, destination_offset, a_count: INTEGER;
+		a_area: SPECIAL [CHARACTER]; unencoded_area: SPECIAL [CHARACTER_32]
+		block_index_ptr: POINTER; source_offset, destination_offset, a_count: INTEGER
 	)
 		-- append all unencoded characters in `a_area' in the range indicated by `source_offset'
 		-- and `a_count'. Requires external call to `append_final' to complete.
 		local
-			i, j: INTEGER; iter: EL_UNENCODED_CHARACTER_ITERATION
+			i, j, l_last_upper: INTEGER; iter: EL_UNENCODED_CHARACTER_ITERATION
+			uc: CHARACTER_32
 		do
+			l_last_upper := last_upper
 			from i := 0 until i = a_count loop
 				j := i + source_offset
 				if a_area [j] = Substitute then
-					append_if_full (accumulator, i + destination_offset, iter.item (block_index_ptr, unencoded_area, j + 1))
+					uc := iter.item (block_index_ptr, unencoded_area, j + 1)
+					l_last_upper := extend (uc, l_last_upper, i + destination_offset + 1)
 				end
 				i := i + 1
 			end
+			set_last_upper (l_last_upper)
 		end
 
 	append_substring (other: EL_UNENCODED_CHARACTERS; lower_A, upper_A, offset: INTEGER)
 		local
-			i, lower_B, upper_B, overlap_status: INTEGER
-			ir: EL_INTERVAL_ROUTINES; o_area: like area; done, searching: BOOLEAN
+			i, lower_B, upper_B, interval_offset, interval_lower, interval_upper: INTEGER
+			ir: EL_INTERVAL_ROUTINES; o_area: like area; overlapping: BOOLEAN
 		do
-			o_area := other.area; searching := True
-			from i := 0 until done or i = o_area.count loop
+			o_area := other.area; overlapping := True
+			from i := index_of_overlapping (o_area, lower_A, upper_A) until not overlapping or i = o_area.count loop
 				lower_B := o_area [i].code; upper_B := o_area [i + 1].code
-				overlap_status := ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
 
-				if searching and then ir.is_overlapping (overlap_status) then
-					searching := False
+				interval_offset := 0; interval_lower := 1
+
+				inspect ir.overlap_status (lower_A, upper_A, lower_B, upper_B)
+					when B_contains_A then
+						-- Append full interval
+						interval_offset := lower_A - lower_B
+						interval_upper := upper_A - lower_A + 1
+
+					when A_contains_B then
+						-- Append full interval
+						interval_lower := lower_B - lower_A + 1
+						interval_upper := upper_B - lower_A + 1
+
+					when A_overlaps_B_left then
+						-- Append left section
+						interval_lower := lower_B - lower_A + 1
+						interval_upper := upper_A - lower_A + 1
+
+					when A_overlaps_B_right then
+						-- Append right section
+						interval_offset := lower_A - lower_B
+						interval_upper := upper_B - lower_A + 1
+				else
+					overlapping := False
 				end
-				if not searching then
-					inspect overlap_status
-						when B_contains_A then
-							-- Append full interval
-							append_interval (o_area, i + 2 + (lower_A - lower_B), 1, upper_A - lower_A + 1, offset)
-						when A_contains_B then
-							-- Append full interval
-							append_interval (o_area, i + 2, lower_B - lower_A + 1, upper_B - lower_A + 1, offset)
-						when A_overlaps_B_left then
-							-- Append left section
-							append_interval (o_area, i + 2, lower_B - lower_A + 1, upper_A - lower_A + 1, offset)
-						when A_overlaps_b_right then
-							-- Append right section
-							append_interval (o_area, i + 2 + (lower_A - lower_B), 1, upper_B - lower_A + 1, offset)
-					else
-						done := True
-					end
+				if overlapping then
+					append_interval (o_area, i + 2 + interval_offset, interval_lower, interval_upper, offset)
 				end
 				i := i + upper_B - lower_B + 3
 			end
 		end
 
-	extend (uc: CHARACTER_32; index: INTEGER)
+	extend (uc: CHARACTER_32; a_last_upper, index: INTEGER): INTEGER
+		-- extend `area' with unencoded character `uc' at `index'
+		-- The result is `index' which should be assigned to the calling argument `a_last_upper'
+		-- After executing a loop `last_index' in `area' should be updated with a call to `set_last_upper'
 		local
-			area_count, l_last_upper: INTEGER; l_area, current_area: like area
+			size_increase, capacity: INTEGER; l_area: like area
 		do
-			l_area := area; current_area := l_area; area_count := l_area.count
-			if l_area.count > 0 then
-				l_last_upper := l_area [last_index + 1].code
+			if a_last_upper = 0 or else a_last_upper + 1 /= index then
+				size_increase := 3
 			else
-				l_last_upper := (1).opposite
+				size_increase := 1
 			end
-			if l_last_upper + 1 = index then
-				l_area := big_enough (l_area, 1)
-				l_area.put (index.to_character_32, last_index + 1)
-				l_area.extend (uc)
-			else
-				last_index := area_count
-				l_area := big_enough (l_area, 3)
+			l_area := area
+			capacity := l_area.capacity
+			l_area := big_enough (l_area, size_increase)
+			if l_area.capacity > capacity then
+				area := l_area
+			end
+			if size_increase = 3 then
+				if a_last_upper > 0 then
+					l_area.put (a_last_upper.to_character_32, last_index + 1)
+				end
+				Result := index
+				last_index := l_area.count
 				l_area.extend (index.to_character_32)
 				l_area.extend (index.to_character_32)
 				l_area.extend (uc)
+			else
+				l_area.extend (uc)
+				Result := a_last_upper + 1
 			end
-			set_if_changed (current_area, l_area)
 		end
 
-	extend_z_code (a_z_code: NATURAL; index: INTEGER)
+	extend_z_code (a_z_code: NATURAL; a_last_upper, index: INTEGER): INTEGER
 		do
-			extend (z_code_to_unicode (a_z_code).to_character_32, index)
+			Result := extend (z_code_to_unicode (a_z_code).to_character_32, a_last_upper, index)
+		end
+
+	set_last_upper (a_last_upper: INTEGER)
+		do
+			if a_last_upper > 0 then
+				area [last_index + 1] := a_last_upper.to_character_32
+			end
 		end
 
 feature -- Removal
@@ -164,31 +166,6 @@ feature -- Removal
 		end
 
 feature {NONE} -- Implementation
-
-	append_accumulated (accumulator: like area)
-		local
-			lower, upper, index: INTEGER; l_area, current_area: like area
-		do
-			index := accumulator [0].code
-			l_area := area; current_area := l_area
-			if last_index.to_boolean and then last_index = index - accumulator.count + 1 then
-				-- reaches here when `accumulator' is full and is about to be emptied
-				l_area := big_enough (l_area, accumulator.count - 1)
-				l_area.copy_data (accumulator, 1, l_area.count, accumulator.count - 1)
-				l_area [last_upper_index] := index.to_character_32
-			else
-				lower := index - accumulator.count + 2
-				upper := index
-				l_area := big_enough (l_area, accumulator.count + 1)
-				l_area.extend (lower.to_character_32); l_area.extend (upper.to_character_32)
-				last_upper_index := l_area.count - 1
-				l_area.copy_data (accumulator, 1, l_area.count, accumulator.count - 1)
-			end
-			last_index := index
-			set_if_changed (current_area, l_area)
-		ensure
-			is_valid: is_valid
-		end
 
 	append_interval (a_area: like area; source_index, a_lower, a_upper, offset: INTEGER)
 		-- append interval from `a_lower' to `a_upper' shifted by `offset' to the right (left if negative)

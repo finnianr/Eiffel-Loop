@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-27 13:32:48 GMT (Sunday 27th August 2023)"
-	revision: "54"
+	date: "2023-08-29 10:18:06 GMT (Tuesday 29th August 2023)"
+	revision: "55"
 
 deferred class
 	EL_ZCODEC
@@ -379,7 +379,7 @@ feature -- Encoding operations
 			valid_utf_16_input: utf_type = 16 implies utf_in.count \\ 2 = 0
 			valid_offset_and_count: valid_offset_and_count (unicode_count, encoded_out, out_offset)
 		local
-			i, j, byte_count, end_index: INTEGER; leading_byte, unicode, code_1: NATURAL
+			i, j, byte_count, end_index, last_upper: INTEGER; leading_byte, unicode, code_1: NATURAL
 			uc: CHARACTER_32; c: CHARACTER; area: SPECIAL [CHARACTER]
 			l_unicodes: like unicode_table; is_utf_8_in: BOOLEAN
 			utf_8: EL_UTF_8_CONVERTER; utf_16_le: EL_UTF_16_LE_CONVERTER
@@ -387,6 +387,7 @@ feature -- Encoding operations
 			l_unicodes := unicode_table; is_utf_8_in := utf_type = 8
 			if attached cursor_8 (utf_in) as cursor then
 				area := cursor.area; end_index := cursor.area_last_index
+				last_upper := unencoded_characters.last_upper
 				from i := cursor.area_first_index; j := out_offset until i > end_index loop
 					if is_utf_8_in then
 						leading_byte := area [i].natural_32_code
@@ -404,7 +405,7 @@ feature -- Encoding operations
 						c := latin_character (uc)
 						if c = '%U' then
 							encoded_out [j] := Substitute
-							unencoded_characters.extend (uc, j + 1)
+							last_upper := unencoded_characters.extend (uc, last_upper, j + 1)
 						else
 							encoded_out [j] := c
 						end
@@ -412,6 +413,7 @@ feature -- Encoding operations
 					i := i + byte_count
 					j := j + 1
 				end
+				unencoded_characters.set_last_upper (last_upper)
 			end
 		end
 

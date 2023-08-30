@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-27 11:02:45 GMT (Sunday 27th August 2023)"
-	revision: "38"
+	date: "2023-08-30 11:41:44 GMT (Wednesday 30th August 2023)"
+	revision: "39"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -424,7 +424,6 @@ feature {NONE} -- Implementation
 					Result := String_8.substring_index (Current, other, start_index)
 
 				when Both_have_mixed_encoding then
---					Result := mixed_encoding_substring_index (other, start_index, count)
 					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
 					Result := String_searcher.substring_index (current_readable, other.shared_z_code_pattern (1), start_index, count)
 

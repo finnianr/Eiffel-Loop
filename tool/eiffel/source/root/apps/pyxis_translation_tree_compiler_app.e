@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 17:03:22 GMT (Saturday 29th April 2023)"
-	revision: "20"
+	date: "2023-08-28 13:11:11 GMT (Monday 28th August 2023)"
+	revision: "21"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER_APP
@@ -25,6 +25,8 @@ inherit
 		redefine
 			Option_name, visible_types
 		end
+
+	EL_ZSTRING_CONSTANTS
 
 create
 	make
@@ -42,7 +44,7 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make ("", "", "resources/locales")
+			Result := agent {like command}.make (Empty_string, Empty_string, "resources/locales")
 		end
 
 	visible_types: TUPLE [PYXIS_TRANSLATION_TREE_COMPILER]

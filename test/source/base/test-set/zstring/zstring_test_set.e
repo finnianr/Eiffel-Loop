@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-28 6:53:43 GMT (Monday 28th August 2023)"
-	revision: "102"
+	date: "2023-08-30 11:31:21 GMT (Wednesday 30th August 2023)"
+	revision: "103"
 
 class
 	ZSTRING_TEST_SET
@@ -45,9 +45,9 @@ feature {NONE} -- Initialization
 				["substring_split",					agent test_substring_split],
 				["to_general",							agent test_to_general],
 				["to_string_32",						agent test_to_string_32],
-				["append_replaced",					agent test_append_replaced],
 				["append",								agent test_append],
 				["append_encoded",					agent test_append_encoded],
+				["append_replaced",					agent test_append_replaced],
 				["append_string_general",			agent test_append_string_general],
 				["append_substring",					agent test_append_substring],
 				["append_substring_general",		agent test_append_substring_general],
@@ -55,6 +55,7 @@ feature {NONE} -- Initialization
 				["append_unicode",					agent test_append_unicode],
 				["append_utf_8",						agent test_append_utf_8],
 				["prepend",								agent test_prepend],
+				["prepend_string_general",			agent test_prepend_string_general],
 				["prepend_substring",				agent test_prepend_substring],
 				["adjustments",						agent test_adjustments],
 				["prune_all",							agent test_prune_all],
@@ -455,6 +456,40 @@ feature -- Prepending tests
 			test_concatenation ({STRING_TEST_FIELDS}.Prepend)
 		end
 
+	test_prepend_string_general
+		note
+			testing: "[
+				covers/{ZSTRING}.append_string_general,
+				covers/{ZSTRING}.substring
+			]"
+		local
+			test: STRING_TEST; substring_size, start_index, end_index: INTEGER
+		do
+			across << False, True >> as boolean loop
+				if boolean.item then
+					create test
+				else
+					create {IMMUTABLE_STRING_TEST} test
+				end
+
+				across << 3, 5, 7 >> as n loop
+					substring_size := n.item
+					across Text.lines as line loop
+						test.set (line.item)
+						test.zs.wipe_out
+						start_index := test.s_32.count
+						from end_index := test.s_32.count until start_index = 1 loop
+							start_index := (end_index - substring_size + 1).max (1)
+							test.set_substrings (start_index, end_index)
+							assert ("prepend_string_general OK", test.prepend_string_general)
+							end_index := end_index - substring_size
+						end
+						assert ("same size strings", test.is_same_size)
+					end
+				end
+			end
+		end
+
 	test_prepend_substring
 		local
 			test: STRING_TEST; line: ZSTRING
@@ -632,7 +667,10 @@ feature -- Element change tests
 
 	test_insert_string
 		note
-			testing:	"covers/{ZSTRING}.insert_string", "covers/{ZSTRING}.remove_substring"
+			testing:	"[
+				covers/{ZSTRING}.insert_string, 
+				covers/{ZSTRING}.remove_substring
+			]"
 		local
 			test: STRING_TEST; insert: ZSTRING; word_list: EL_SPLIT_ZSTRING_LIST
 		do

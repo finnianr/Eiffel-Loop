@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-27 14:49:06 GMT (Sunday 27th August 2023)"
-	revision: "25"
+	date: "2023-08-30 18:27:43 GMT (Wednesday 30th August 2023)"
+	revision: "26"
 
 deferred class
 	STRING_BENCHMARK
@@ -62,91 +62,107 @@ feature {NONE} -- Implementation
 
 	do_performance_tests
 		do
-			do_performance_test ("append_string", "D", agent test_append_string)
-			do_performance_test ("append_string_general", "A,D", agent test_append_string_general)
-			do_performance_test ("append_utf_8", "A,D", agent test_append_utf_8)
+			do_test ("append_string", "A,D", agent test_append_prepend (True))
+			do_test ("append_string_general", "A,D", agent test_append_prepend_general (True))
+			do_test ("append_utf_8", "A,D", agent test_append_utf_8)
 
-			do_performance_test ("as_string_8", "$A $D", agent test_as_string_8)
-			do_performance_test ("as_string_32", "$A $D", agent test_as_string_32)
-			do_performance_test ("to_lower", "$A $D", agent test_to_lower)
-			do_performance_test ("to_upper", "$A $D", agent test_to_upper)
+			do_test ("as_string_8", "$A $D", agent test_as_string_8)
+			do_test ("as_string_32", "$A $D", agent test_as_string_32)
+			do_test ("to_lower", "$A $D", agent test_to_lower_upper (True))
+			do_test ("to_upper", "$A $D", agent test_to_lower_upper (False))
 
-			do_performance_test ("code (z_code)", "$A $D", agent test_code)
+			do_test ("code (z_code)", "$A $D", agent test_code)
 
-			do_performance_test ("ends_with", "D", agent test_ends_with)
-			do_performance_test ("ends_with_general", "D", agent test_ends_with_general)
+			do_test ("ends_with", "D", agent test_ends_with (False))
+			do_test ("ends_with_general", "D", agent test_ends_with (True))
 
-			do_performance_test ("escaped (as XML)", "put_amp (D)", agent test_xml_escape)
+			do_test ("escaped (as XML)", "put_amp (D)", agent test_xml_escape)
 
-			do_performance_test ("index_of", "D", agent test_index_of)
-			do_performance_test ("insert_string", "D", agent test_insert_string)
-			do_performance_test ("is_less (sort)", "D", agent test_sort)
-			do_performance_test ("is_equal", "D", agent test_is_equal)
-			do_performance_test ("item", "$A $D", agent test_item)
+			do_test ("index_of", "D", agent test_index_of)
+			do_test ("insert_string", "D", agent test_insert_string)
+			do_test ("is_less (sort)", "D", agent test_sort)
+			do_test ("is_equal", "D", agent test_is_equal)
+			do_test ("item", "$A $D", agent test_item)
 
-			do_performance_test ("last_index_of", "D", agent test_last_index_of)
-			do_performance_test ("left_adjust", "padded (A)", agent test_left_adjust)
+			do_test ("last_index_of", "D", agent test_last_index_of)
+			do_test ("left_adjust", "padded (A)", agent test_left_right_adjust (True))
 
-			do_performance_test ("prepend_string", "D", agent test_prepend_string)
-			do_performance_test ("prepend_string_general", "A,D", agent test_prepend_string_general)
+			do_test ("prepend_string", "A,D", agent test_append_prepend (False))
+			do_test ("prepend_string_general", "A,D", agent test_append_prepend_general (False))
 
-			do_performance_test ("prune_all", "$A $D", agent test_prune_all)
+			do_test ("prune_all", "$A $D", agent test_prune_all)
 
-			do_performance_test ("remove_substring", "D", agent test_remove_substring)
-			do_performance_test ("replace_character", "$D", agent test_replace_character)
-			do_performance_test ("replace_substring", "D", agent test_replace_substring)
-			do_performance_test ("replace_substring_all", "D", agent test_replace_substring_all)
-			do_performance_test ("right_adjust", "padded (A)", agent test_right_adjust)
+			do_test ("remove_substring", "D", agent test_remove_substring)
+			do_test ("replace_character", "$D", agent test_replace_character)
+			do_test ("replace_substring", "D", agent test_replace_substring)
+			do_test ("replace_substring_all", "D", agent test_replace_substring_all)
+			do_test ("right_adjust", "padded (A)", agent test_left_right_adjust (False))
 
-			do_performance_test ("split, substring", "$A $D", agent test_split)
-			do_performance_test ("starts_with", "D", agent test_starts_with)
-			do_performance_test ("starts_with_general", "D", agent test_starts_with_general)
-			do_performance_test ("substring_index", "$A $D", agent test_substring_index)
+			do_test ("split, substring", "$A $D", agent test_split)
+			do_test ("starts_with", "D", agent test_starts_with (False))
+			do_test ("starts_with_general", "D", agent test_starts_with (True))
+			do_test ("substring_index", "$A $D", agent test_substring_index)
 
-			do_performance_test ("to_utf_8", "$A $D", agent test_to_utf_8)
+			do_test ("to_utf_8", "$A $D", agent test_to_utf_8)
 
-			do_performance_test ("translate", "D", agent test_translate)
+			do_test ("translate", "D", agent test_translate)
 
-			do_performance_test ("unescape (C lang string)", "escaped (D)", agent test_unescape)
+			do_test ("unescape (C lang string)", "escaped (D)", agent test_unescape)
 		end
 
 feature {NONE} -- Concatenation
 
-	test_append_string
-		require
-			valid_substring_list: test.substring_list.count = test.strings_count
+	test_append_prepend (appending: BOOLEAN)
+		local
+			str: like test.new_string
 		do
-			concat_string (True)
+			str := test.new_string (100)
+			if attached test.routine as routine then
+				across test.array_list as array loop
+					routine.wipe_out (str)
+					across test.format_columns as n loop
+						if appending then
+							routine.append (str, array.item [n.item])
+						else
+							routine.prepend (str, array.item [n.item])
+						end
+					end
+				end
+			end
 		end
 
-	test_append_string_general
+	test_append_prepend_general (appending: BOOLEAN)
 		require
 			valid_string_list: test.string_list.is_empty
+		local
+			str: like test.new_string
 		do
-			concat_string_general (True)
+			str := test.new_string (100)
+			if attached test.routine as routine then
+				across Hexagram.string_arrays as array loop
+					routine.wipe_out (str)
+					across test.format_columns as n loop
+						if appending then
+							routine.append_general (str, array.item [n.item])
+						else
+							routine.prepend_general (str, array.item [n.item])
+						end
+					end
+				end
+			end
 		end
 
 	test_append_utf_8
 		require
 			valid_utf_8_string_list: test.utf_8_string_list.count = test.strings_count
+		local
+			str: like test.new_string
 		do
+			str := test.new_string (0)
 			across test.utf_8_string_list as utf_8 loop
-				test.append_utf_8 (test.new_string (0), utf_8.item)
+				test.routine.wipe_out (str)
+				test.routine.append_utf_8 (str, utf_8.item)
 			end
-		end
-
-	test_prepend_string
-		require
-			valid_substring_list: test.substring_list.count = test.strings_count
-		do
-			concat_string (False)
-		end
-
-	test_prepend_string_general
-		require
-			valid_string_list: test.string_list.is_empty
-		do
-			concat_string_general (True)
 		end
 
 feature {NONE} -- Mutation tests
@@ -160,16 +176,20 @@ feature {NONE} -- Mutation tests
 			across test.string_list as string loop
 				i := string.cursor_index
 				if attached string.item.twin as str then
-					test.insert_string (str, test.substring_list [i].last_word, str.count // 2)
+					test.routine.insert_string (str, test.substring_list [i].last_word, str.count // 2)
 				end
 			end
 		end
 
-	test_left_adjust
+	test_left_right_adjust (left: BOOLEAN)
 		do
 			across test.string_list as string loop
 				if attached string.item.twin as str then
-					str.left_adjust
+					if left then
+						str.left_adjust
+					else
+						str.right_adjust
+					end
 				end
 			end
 		end
@@ -178,20 +198,25 @@ feature {NONE} -- Mutation tests
 		require
 			valid_character_pair_list: test.character_pair_list.count = test.strings_count
 		do
-			across test.string_list as str loop
-				test.prune_all (str.item, test.character_pair_list [str.cursor_index].last_character)
-				test.prune_all (str.item, ' ')
+			across test.string_list as list loop
+				if attached list.item.twin as str then
+					test.routine.prune_all (str, test.character_pair_list [list.cursor_index].last_character)
+					test.routine.prune_all (str, ' ')
+				end
 			end
 		end
 
 	test_replace_character
 		require
 			valid_set_list: not test.character_set_list.is_empty
+		local
+			str: like test.new_string
 		do
-			across test.string_list as str loop
-				if attached test.character_set_list [str.cursor_index] as character_set then
+			across test.string_list as list loop
+				str := list.item.twin
+				if attached test.character_set_list [list.cursor_index] as character_set then
 					across character_set as set loop
-						test.replace_character (str.item, set.item, ' ')
+						test.routine.replace_character (str, set.item, ' ')
 					end
 				end
 			end
@@ -203,7 +228,7 @@ feature {NONE} -- Mutation tests
 		do
 			across test.string_list as string loop
 				str := string.item.twin
-				test.remove_substring (str, str.count // 3, str.count * 2 // 3)
+				test.routine.remove_substring (str, str.count // 3, str.count * 2 // 3)
 			end
 		end
 
@@ -217,7 +242,9 @@ feature {NONE} -- Mutation tests
 				str := string.item.twin
 				start_index := str.count // 2 - 1
 				end_index:= str.count // 2 + 1
-				test.replace_substring (str, test.substring_list [string.cursor_index].last_word, start_index, end_index)
+				test.routine.replace_substring (
+					str, test.substring_list [string.cursor_index].last_word, start_index, end_index
+				)
 			end
 		end
 
@@ -225,31 +252,23 @@ feature {NONE} -- Mutation tests
 		require
 			valid_substring_list: test.substring_list.count = test.strings_count
 		do
-			across test.string_list as string loop
-				if attached test.substring_list [string.cursor_index] as substring then
-					test.replace_substring_all (string.item.twin, substring.middle_word, substring.last_word)
+			across test.string_list as list loop
+				if attached test.substring_list [list.cursor_index] as substring then
+					test.routine.replace_substring_all (list.item.twin, substring.middle_word, substring.last_word)
 				end
 			end
 		end
 
-	test_right_adjust
+	test_to_lower_upper (as_lower: BOOLEAN)
 		do
-			across test.string_list as str loop
-				str.item.right_adjust
-			end
-		end
-
-	test_to_lower
-		do
-			across test.string_list as string loop
-				test.to_lower (string.item)
-			end
-		end
-
-	test_to_upper
-		do
-			across test.string_list as string loop
-				test.to_upper (string.item)
+			across test.string_list as list loop
+				if attached list.item.twin as str then
+					if as_lower then
+						test.routine.to_lower (str)
+					else
+						test.routine.to_upper (str)
+					end
+				end
 			end
 		end
 
@@ -260,11 +279,11 @@ feature {NONE} -- Mutation tests
 		local
 			old_characters, new_characters: like test.new_string
 		do
-			across test.string_list as string loop
-				old_characters := test.substitution_list [string.cursor_index].old_characters
-				new_characters := test.substitution_list [string.cursor_index].new_characters
-				if attached string.item.twin as str then
-					test.translate (str, old_characters, new_characters)
+			across test.string_list as list loop
+				old_characters := test.substitution_list [list.cursor_index].old_characters
+				new_characters := test.substitution_list [list.cursor_index].new_characters
+				if attached list.item.twin as str then
+					test.routine.translate (str, old_characters, new_characters)
 				end
 			end
 		end
@@ -273,15 +292,19 @@ feature {NONE} -- Query tests
 
 	test_as_string_8
 		do
-			across test.string_list as string loop
-				call (string.item.as_string_8)
+			across test.string_list as list loop
+				if attached list.item.as_string_8 as str_8 then
+					do_nothing
+				end
 			end
 		end
 
 	test_as_string_32
 		do
-			across test.string_list as string loop
-				call (string.item.as_string_32)
+			across test.string_list as list loop
+				if attached list.item.as_string_32 then
+					do_nothing
+				end
 			end
 		end
 
@@ -289,36 +312,33 @@ feature {NONE} -- Query tests
 		local
 			i: INTEGER; str: like test.new_string
 		do
-			across test.string_list as string loop
-				str := string.item
+			across test.string_list as list loop
+				str := list.item
 				from i := 1 until i > str.count loop
-					call (str.code (i))
+					if str.code (i) = 0 then
+						do_nothing
+					end
 					i := i + 1
 				end
 			end
 		end
 
-	test_ends_with
+	test_ends_with (general: BOOLEAN)
 		require
 			valid_substring_list: test.tail_words_list.count = test.strings_count
 		do
-			across test.string_list as string loop
-				if attached test.tail_words_list [string.cursor_index] as tail_words then
-					if string.item.ends_with (tail_words.last_two) then
-						do_nothing
-					end
-				end
-			end
-		end
-
-	test_ends_with_general
-		require
-			valid_substring_list: test.tail_words_list.count = test.strings_count
-		do
-			across test.string_list as string loop
-				if attached test.tail_words_list [string.cursor_index] as tail_words then
-					if string.item.ends_with (tail_words.last_two_32) then
-						do_nothing
+			if attached test.routine as routine then
+				across test.string_list as list loop
+					if attached test.tail_words_list [list.cursor_index] as tail_words then
+						if general then
+							if routine.ends_with_general (list.item, tail_words.last_two_32) then
+								do_nothing
+							end
+						else
+							if routine.ends_with (list.item, tail_words.last_two) then
+								do_nothing
+							end
+						end
 					end
 				end
 			end
@@ -332,7 +352,9 @@ feature {NONE} -- Query tests
 		do
 			across test.string_list as str loop
 				uc := test.character_pair_list [str.cursor_index].last_character
-				call (str.item.index_of (uc, 1))
+				if str.item.index_of (uc, 1) = 0 then
+					do_nothing
+				end
 			end
 		end
 
@@ -340,8 +362,8 @@ feature {NONE} -- Query tests
 		local
 			i: INTEGER; str: like test.new_string
 		do
-			across test.string_list as string loop
-				str := string.item
+			across test.string_list as list loop
+				str := list.item
 				from i := 1 until i > str.count loop
 					call (str [i])
 					i := i + 1
@@ -366,9 +388,9 @@ feature {NONE} -- Query tests
 		local
 			str: like test.new_string; uc: CHARACTER_32
 		do
-			across test.string_list as string loop
-				str := string.item
-				uc := test.character_pair_list [string.cursor_index].first_character
+			across test.string_list as list loop
+				str := list.item
+				uc := test.character_pair_list [list.cursor_index].first_character
 				call (str.last_index_of (uc, str.count))
 			end
 		end
@@ -378,8 +400,8 @@ feature {NONE} -- Query tests
 			sortable: EL_SORTABLE_ARRAYED_LIST [STRING_GENERAL]
 		do
 			create sortable.make (test.string_list.count)
-			across test.string_list as string loop
-				sortable.extend (string.item)
+			across test.string_list as list loop
+				sortable.extend (list.item)
 			end
 			sortable.ascending_sort
 		end
@@ -388,33 +410,26 @@ feature {NONE} -- Query tests
 		local
 			first: STRING_GENERAL
 		do
-			across test.string_list as string loop
-				first := string.item
+			across test.string_list as list loop
+				first := list.item
 				call (first.split (' '))
 			end
 		end
 
-	test_starts_with
+	test_starts_with (general: BOOLEAN)
 		require
 			valid_substring_list: test.head_words_list.count = test.strings_count
 		do
-			across test.string_list as string loop
-				if attached test.head_words_list [string.cursor_index] as head_words then
-					if string.item.starts_with (head_words.first_two) then
-						do_nothing
-					end
-				end
-			end
-		end
-
-	test_starts_with_general
-		require
-			valid_substring_list: test.head_words_list.count = test.strings_count
-		do
-			across test.string_list as string loop
-				if attached test.head_words_list [string.cursor_index] as head_words then
-					if string.item.starts_with (head_words.first_two_32) then
-						do_nothing
+			across test.string_list as list loop
+				if attached test.head_words_list [list.cursor_index] as head_words then
+					if general then
+						if list.item.starts_with (head_words.first_two_32) then
+							do_nothing
+						end
+					else
+						if list.item.starts_with (head_words.first_two) then
+							do_nothing
+						end
 					end
 				end
 			end
@@ -424,10 +439,10 @@ feature {NONE} -- Query tests
 		require
 			valid_substring_list: test.search_string_list.count = test.strings_count
 		do
-			across test.string_list as string loop
-				if attached test.search_string_list [string.cursor_index] as string_list then
-					across string_list as list loop
-						call (string.item.substring_index (list.item, 1))
+			across test.string_list as list loop
+				if attached test.search_string_list [list.cursor_index] as search_list then
+					across search_list as search loop
+						call (list.item.substring_index (search.item, 1))
 					end
 				end
 			end
@@ -435,8 +450,8 @@ feature {NONE} -- Query tests
 
 	test_to_utf_8
 		do
-			across test.string_list as string loop
-				call (test.to_utf_8 (string.item))
+			across test.string_list as list loop
+				call (test.routine.to_utf_8 (list.item))
 			end
 		end
 
@@ -444,15 +459,17 @@ feature {NONE} -- Query tests
 		local
 			str: READABLE_STRING_GENERAL
 		do
-			across test.string_list as string loop
-				str := test.unescaped (string.item)
+			across test.string_list as list loop
+				str := test.unescaped (list.item)
 			end
 		end
 
 	test_xml_escape
 		do
-			across test.string_list as string loop
-				call (test.xml_escaped (string.item.twin))
+			across test.string_list as list loop
+				if attached test.routine.xml_escaped (list.item.twin) as str then
+					do_nothing
+				end
 			end
 		end
 
@@ -460,44 +477,6 @@ feature {NONE} -- Implementation
 
 	call (object: ANY)
 		do
-		end
-
-	concat_string_general (append: BOOLEAN)
-		require
-			valid_string_list: test.string_list.is_empty
-		local
-			str: like test.new_string
-		do
-			str := test.new_string (100)
-			across Hexagram.string_arrays as array loop
-				test.wipe_out (str)
-				across test.format_columns as column loop
-					if append then
-						str.append (array.item [column.item])
-					else
-						str.prepend (array.item [column.item])
-					end
-				end
-			end
-		end
-
-	concat_string (append: BOOLEAN)
-		require
-			valid_substring_list: test.substring_list.count = test.strings_count
-		local
-			str: like test.new_string
-		do
-			str := test.new_string (100)
-			across test.string_list as string loop
-				test.wipe_out (str)
-				if append then
-					str.append (string.item)
-					str.append (test.substring_list [string.cursor_index].first_word)
-				else
-					str.prepend (string.item)
-					str.prepend (test.substring_list [string.cursor_index].first_word)
-				end
-			end
 		end
 
 	do_memory_test (a_format: STRING; rows: INTEGER)
@@ -511,7 +490,7 @@ feature {NONE} -- Implementation
 			end
 			lio.put_labeled_string (generator, l_description); lio.put_labeled_string (" input", a_format)
 			lio.put_new_line
-			test := new_test_strings ("append_string", a_format)
+			test := new_test_strings ("remove_substring", a_format)
 			output_string := test.string_list.first.twin
 			from i := 2 until i > rows loop
 				output_string.append_code (32)
@@ -521,11 +500,11 @@ feature {NONE} -- Implementation
 			memory_tests.extend ([l_description, test.display_format, test.storage_bytes (output_string)])
 		end
 
-	do_performance_test (routine_name, a_format: STRING; procedure: PROCEDURE)
+	do_test (routine_name, a_format: STRING; procedure: PROCEDURE)
 		local
 			count: DOUBLE; s: EL_STRING_8_ROUTINES
 		do
-			if s.matches_wildcard (routine_name, routine_filter) then
+			if routine_filter.count > 0 implies s.matches_wildcard (routine_name, routine_filter) then
 				test := new_test_strings (routine_name, a_format)
 
 				lio.put_labeled_string (generator, routine_name);
@@ -536,7 +515,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_test_strings (routine_name, a_format: STRING): TEST_STRINGS [STRING_GENERAL]
+	new_test_strings (routine_name, a_format: STRING): TEST_STRINGS [STRING_GENERAL, STRING_ROUTINES [STRING_GENERAL]]
 		deferred
 		end
 

@@ -1,7 +1,15 @@
 note
 	description: "Unencoded character list generation"
 	notes: "[
+		**29 Aug 2023**
+		
 		Passes over 500 millisecs (in descending order)
+
+			{EL_EXTENDABLE_UNENCODED_CHARACTERS}.extend :  61134.0 times (100%)
+			{EL_SUBSTRING_32_LIST}.put_unicode          :  26462.0 times (-56.7%)
+			{EL_SUBSTRING_32_BUFFER}.put_unicode        :  18540.0 times (-69.7%)
+
+		Prior to adding **a_last_upper** argument to **extend**
 
 			{EL_EXTENDABLE_UNENCODED_CHARACTERS}.extend :  34646.0 times (100%)
 			{EL_SUBSTRING_32_LIST}.put_unicode          :  26534.0 times (-23.4%)
@@ -13,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-14 17:28:23 GMT (Tuesday 14th March 2023)"
-	revision: "9"
+	date: "2023-08-29 10:37:29 GMT (Tuesday 29th August 2023)"
+	revision: "10"
 
 class
 	UNENCODED_CHARACTER_LIST_GENERATION
@@ -47,8 +55,8 @@ feature -- Basic operations
 	execute
 		do
 			compare ("compare_character_extend", <<
-				["{EL_SUBSTRING_32_BUFFER}.put_unicode", agent buffer_put_unicode],
-				["{EL_SUBSTRING_32_LIST}.put_unicode", agent list_put_unicode],
+				["{EL_SUBSTRING_32_BUFFER}.put_unicode",			agent buffer_put_unicode],
+				["{EL_SUBSTRING_32_LIST}.put_unicode",				agent list_put_unicode],
 				["{EL_EXTENDABLE_UNENCODED_CHARACTERS}.extend",	agent extendable_extend]
 			>>)
 		end
@@ -74,7 +82,7 @@ feature {NONE} -- String append variations
 
 	extendable_extend
 		local
-			i: INTEGER; str: STRING_32; uc: CHARACTER_32
+			i, last_upper: INTEGER; str: STRING_32; uc: CHARACTER_32
 			unencoded: like extendable; characters: EL_UNENCODED_CHARACTERS
 		do
 			str := String; unencoded := extendable
@@ -82,10 +90,11 @@ feature {NONE} -- String append variations
 			from i := 1  until i > str.count loop
 				uc := str [i]
 				if uc.code > 0xFF then
-					unencoded.extend (uc, i)
+					last_upper := unencoded.extend (uc, last_upper, i)
 				end
 				i := i + 1
 			end
+			unencoded.set_last_upper (last_upper)
 			create characters.make_from_other (unencoded)
 		end
 
@@ -110,9 +119,9 @@ feature {NONE} -- Internal attributes
 
 	extendable: EL_UNENCODED_CHARACTERS_BUFFER
 
-	substring_list: EL_SUBSTRING_32_LIST
-
 	substring_buffer: EL_SUBSTRING_32_BUFFER
+
+	substring_list: EL_SUBSTRING_32_LIST
 
 feature {NONE} -- Constants
 

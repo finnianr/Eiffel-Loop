@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 9:23:53 GMT (Tuesday 15th August 2023)"
-	revision: "6"
+	date: "2023-08-28 13:29:53 GMT (Monday 28th August 2023)"
+	revision: "7"
 
 class
 	PROJECT_MANAGER_SHELL
@@ -15,7 +15,11 @@ class
 inherit
 	PROJECT_MANAGER_IMPLEMENTATION
 
-	EL_LOGGABLE_CONSTANTS; FEATURE_CONSTANTS
+	EL_MODULE_COMMAND
+
+	EL_LOGGABLE_CONSTANTS; EL_ZSTRING_CONSTANTS
+
+	FEATURE_CONSTANTS
 
 create
 	make
@@ -53,6 +57,9 @@ feature {NONE} -- Factory
 				["Rename classes in source",		agent rename_source_classes],
 				["Search classes in source",		agent regular_expression_search]
 			>>)
+			if Default_localization_manifest.exists then
+				Result ["Update " + Locale_resources_dir.to_string_8] := agent update_locale_resources
+			end
 		end
 
 feature {NONE} -- Commands
@@ -115,6 +122,22 @@ feature {NONE} -- Commands
 			shell.run_command_loop
 		end
 
+	update_locale_resources
+		local
+			compiler: PYXIS_TRANSLATION_TREE_COMPILER
+		do
+			create compiler.make (Default_localization_manifest, Empty_string, Locale_resources_dir)
+			compiler.execute
+			if compiler.is_updated
+				and then attached Command.new_copy_tree (Locale_resources_dir, config.app_installation_path) as install
+			then
+				lio.put_line ("Installing updated localization files")
+				install.sudo.enable
+				install.execute
+			end
+			lio.put_new_line
+		end
+
 feature {NONE} -- Implementation
 
 	open_directory (path: DIR_PATH)
@@ -129,6 +152,16 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Default_localization_manifest: FILE_PATH
+		once
+			Result := "localization/manifest.pyx"
+		end
+
+	Locale_resources_dir: ZSTRING
+		once
+			Result := "resources/locales"
+		end
 
 	Grep_results_path: FILE_PATH
 		-- Find /home/finnian/Desktop/Eiffel Apps/grep_results.e

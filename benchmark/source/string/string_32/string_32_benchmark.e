@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-18 16:03:23 GMT (Saturday 18th February 2023)"
-	revision: "19"
+	date: "2023-08-30 17:16:03 GMT (Wednesday 30th August 2023)"
+	revision: "20"
 
 class
 	STRING_32_BENCHMARK
@@ -20,9 +20,9 @@ create
 
 feature {NONE} -- Factory
 
-	new_test_strings (routines, a_format: STRING): TEST_STRING_32
+	new_test_strings (routine_name, a_format: STRING): TEST_STRING_32
 		do
-			create Result.make (routines, a_format, escape_character)
+			create Result.make (routine_name, a_format, escape_character)
 		end
 
 end

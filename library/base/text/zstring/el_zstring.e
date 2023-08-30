@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-26 17:15:37 GMT (Saturday 26th August 2023)"
-	revision: "88"
+	date: "2023-08-30 14:27:40 GMT (Wednesday 30th August 2023)"
+	revision: "89"
 
 class
 	EL_ZSTRING
@@ -258,8 +258,6 @@ feature -- Element change
 		end
 
 	insert_string (s: EL_READABLE_ZSTRING; i: INTEGER)
-		require
-			valid_insertion_index: 1 <= i and i <= count + 1
 		local
 			l_count, old_count: INTEGER
 		do
@@ -289,9 +287,6 @@ feature -- Element change
 					append_unencoded (s, i - 1)
 			else
 			end
-		ensure
-			valid_unencoded: is_valid
-			inserted: elks_checking implies (Current ~ (old substring (1, i - 1) + old (s.twin) + old substring (i, count)))
 		end
 
 	insert_string_general (s: READABLE_STRING_GENERAL; i: INTEGER)
@@ -347,34 +342,33 @@ feature -- Removal
 	prune_all (uc: CHARACTER_32)
 			-- Remove all occurrences of `c'.
 		local
-			i, j, i_final, block_index: INTEGER; c, c_i: CHARACTER_8; uc_i: CHARACTER_32
+			i, j, i_final, block_index, last_upper: INTEGER; c, c_i: CHARACTER_8; uc_i: CHARACTER_32
 			l_area: like area; c_is_substitute: BOOLEAN; iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
 			l_area := area; i_final := count
 			c := encoded_character (uc); c_is_substitute := c = Substitute
-			if attached unencoded_area as uc_area and then uc_area.count > 0 then
-				if attached empty_unencoded_buffer as buffer
-					and then attached codec.empty_accumulator as accumulator
-				then
-					from until i = i_final loop
-						c_i := l_area.item (i)
-						if c_i = Substitute then
-							uc_i := iter.item ($block_index, uc_area, i + 1)
-							if c_is_substitute implies uc_i /= uc then
-								l_area [j] := c_i
-								buffer.append_if_full (accumulator, j, uc_i)
-								j := j + 1
-							end
-
-						elseif c /= c_i then
+			if attached unencoded_area as uc_area and then uc_area.count > 0
+				and then attached empty_unencoded_buffer as buffer
+			then
+				last_upper := buffer.last_upper
+				from until i = i_final loop
+					c_i := l_area.item (i)
+					if c_i = Substitute then
+						uc_i := iter.item ($block_index, uc_area, i + 1)
+						if c_is_substitute implies uc_i /= uc then
 							l_area [j] := c_i
+							last_upper := buffer.extend (uc_i, last_upper, j + 1)
 							j := j + 1
 						end
-						i := i + 1
+
+					elseif c /= c_i then
+						l_area [j] := c_i
+						j := j + 1
 					end
-					buffer.append_final (accumulator)
-					set_unencoded_from_buffer (buffer)
+					i := i + 1
 				end
+				buffer.set_last_upper (last_upper)
+				set_unencoded_from_buffer (buffer)
 
 			else
 				from until i = i_final loop

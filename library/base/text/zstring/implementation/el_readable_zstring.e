@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-27 12:01:12 GMT (Sunday 27th August 2023)"
-	revision: "128"
+	date: "2023-08-29 10:17:03 GMT (Tuesday 29th August 2023)"
+	revision: "129"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -144,22 +144,24 @@ feature {NONE} -- Initialization
 
 	make_from_zcode_area (zcode_area: SPECIAL [NATURAL])
 		local
-			z_code_i: NATURAL; i, l_count: INTEGER
+			z_code_i: NATURAL; i, l_count, last_upper: INTEGER
 		do
 			l_count := zcode_area.count
 			make (l_count)
 			if attached empty_unencoded_buffer as buffer and then attached area as l_area then
+				last_upper := buffer.last_upper
 				from i := 0 until i = l_count loop
 					z_code_i := zcode_area [i]
 					if z_code_i > 0xFF then
 						l_area [i] := Substitute
-						buffer.extend_z_code (z_code_i, i + 1)
+						last_upper := buffer.extend_z_code (z_code_i, last_upper, i + 1)
 					else
 						l_area [i] := z_code_i.to_character_8
 					end
 					i := i + 1
 				end
 				set_count (l_count)
+				buffer.set_last_upper (last_upper)
 				set_unencoded_from_buffer (buffer)
 			end
 		end
