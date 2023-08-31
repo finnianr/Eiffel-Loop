@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-28 7:34:04 GMT (Monday 28th August 2023)"
-	revision: "13"
+	date: "2023-08-31 9:31:44 GMT (Thursday 31st August 2023)"
+	revision: "14"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
@@ -46,7 +46,11 @@ feature -- Tests
 			create actual_results.make_from_array (<< command.class_count, command.word_count, command.byte_count >>)
 			assertion_template := "%S classes %S words. Total size %S bytes"
 
-			assert (assertion_template #$ expected_results.to_tuple, expected_results ~ actual_results)
+			if expected_results /~ actual_results then
+				lio.put_labeled_string ("Actual results", assertion_template #$ actual_results.to_tuple)
+				lio.put_new_line
+				assert (assertion_template #$ expected_results.to_tuple, False)
+			end
 		end
 
 	test_find_and_replace

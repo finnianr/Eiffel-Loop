@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-30 7:13:28 GMT (Wednesday 30th August 2023)"
-	revision: "57"
+	date: "2023-08-31 7:51:46 GMT (Thursday 31st August 2023)"
+	revision: "58"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -240,14 +240,15 @@ feature -- Index query
 	last_index: INTEGER
 			-- index into `area' of last interval
 		local
-			i, count: INTEGER; l_area: like area
+			i, count: INTEGER
 		do
-			l_area := area
-			from  until i = l_area.count loop
-				count := l_area [i + 1].code - l_area [i].code + 1
-				i := i + count + 2
+			if attached area as l_area then
+				from  until i = l_area.count loop
+					count := l_area [i + 1].code - l_area [i].code + 1
+					i := i + count + 2
+				end
+				Result := i - count - 2
 			end
-			Result := i - count - 2
 		end
 
 	last_upper: INTEGER
@@ -552,39 +553,43 @@ feature -- Element change
 
 	append (other: EL_UNENCODED_CHARACTERS; offset: INTEGER)
 		local
-			i, lower, upper, i_final: INTEGER; l_area, current_area, o_area: like area
+			i, capacity, lower, upper: INTEGER; l_area: like area
 		do
-			l_area := area; current_area := l_area; o_area := other.area
-			if l_area.count > 0 and o_area.count > 0 then
-				i := last_index
-				upper := l_area [i + 1].code
-				if upper + 1 = other.first_lower + offset then
-					-- merge intervals
-					l_area := big_enough (l_area, o_area.count - 2)
-					l_area.copy_data (o_area, 2, l_area.count, o_area.count - 2)
-					upper := other.first_upper + offset
-					put_upper (l_area, i, upper)
-					i := i + upper - l_area [i].code + 3
-				else
-					i := l_area.count
-					l_area := big_enough (l_area, o_area.count)
-					l_area.copy_data (o_area, 0, l_area.count, o_area.count)
-				end
+			l_area := area
+			if attached other.area as o_area then
+				if l_area.count > 0 and o_area.count > 0 then
+					i := last_index; capacity := l_area.capacity
+					upper := l_area [i + 1].code
+					if upper + 1 = other.first_lower + offset then
+						-- merge intervals
+						l_area := big_enough (l_area, o_area.count - 2)
+						l_area.copy_data (o_area, 2, l_area.count, o_area.count - 2)
+						upper := other.first_upper + offset
+						l_area [i + 1] := upper.to_character_32
+						i := i + upper - l_area [i].code + 3
+					else
+						i := l_area.count
+						l_area := big_enough (l_area, o_area.count)
+						l_area.copy_data (o_area, 0, l_area.count, o_area.count)
+					end
+					if l_area.capacity > capacity then
+						area := l_area
+					end
 
-			elseif o_area.count > 0 then
-				l_area := o_area.twin
-			end
-			if offset.abs.to_boolean and then l_area.count > 0 then
-				-- Shift offset places to right
-				i_final := l_area.count
-				from until i = i_final loop
-					lower := l_area [i].code; upper := l_area [i + 1].code
-					put_lower (l_area, i, lower + offset)
-					put_upper (l_area, i, upper + offset)
-					i := i + upper - lower + 3
+				elseif o_area.count > 0 then
+					l_area := o_area.twin
+					area := l_area
+				end
+				if offset.abs.to_boolean and then l_area.count > 0 then
+					-- Shift offset places to right
+					from until i = l_area.count loop
+						lower := l_area [i].code + offset; upper := l_area [i + 1].code + offset
+						l_area [i] := lower.to_character_32
+						l_area [i + 1] := upper.to_character_32
+						i := i + upper - lower + 3
+					end
 				end
 			end
-			set_if_changed (current_area, l_area)
 		ensure
 			valid_count: character_count = old character_count + other.character_count
 		end
@@ -738,31 +743,34 @@ feature -- Element change
 			shift_from (1, offset)
 		end
 
-	shift_from (index, offset: INTEGER)
+	shift_from (a_index, offset: INTEGER)
 		-- shift intervals right by `offset' characters starting from `index'.
 		-- Split if interval has `index' and `index' > `lower'
 		-- `offset < 0' shifts to the left.
 		local
-			i, lower, upper, count, i_final: INTEGER; l_area, current_area: like area
+			i, index, lower, upper, count, capacity: INTEGER; l_area: like area
 		do
 			if offset /= 0 then
-				l_area := area; current_area := l_area; i_final := l_area.count
-				from i := 0 until i = i_final loop
-					lower := l_area [i].code; upper := l_area [i + 1].code
+				l_area := area; capacity := l_area.capacity
+				index := a_index + offset
+				from i := 0 until i = l_area.count loop
+					lower := l_area [i].code + offset; upper := l_area [i + 1].code + offset
 					count := upper - lower + 1
 					if index <= lower then
-						put_lower (l_area, i, lower + offset)
-						put_upper (l_area, i, upper + offset)
+						l_area [i] := lower.to_character_32
+						l_area [i + 1] := upper.to_character_32
+
 					elseif lower < index and then index <= upper then
 						-- Split the interval in two
-						put_upper (l_area, i, index - 1)
-						l_area := extended_enough (l_area, i + 2 + index - lower, index + offset, upper + offset, '%U')
-						i_final := i_final + 2
+						l_area [i + 1] := (a_index - 1).to_character_32
+						l_area := extended_enough (l_area, i + 2 + index - lower, index, upper, '%U')
 						i := i + 2
 					end
 					i := i + count + 2
 				end
-				set_if_changed (current_area, l_area)
+				if l_area.capacity > capacity  then
+					area := l_area
+				end
 			end
 		end
 

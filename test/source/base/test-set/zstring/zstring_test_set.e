@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-30 11:31:21 GMT (Wednesday 30th August 2023)"
-	revision: "103"
+	date: "2023-08-31 7:39:19 GMT (Thursday 31st August 2023)"
+	revision: "104"
 
 class
 	ZSTRING_TEST_SET
@@ -66,7 +66,7 @@ feature {NONE} -- Initialization
 				["enclose",								agent test_enclose],
 				["fill_character",					agent test_fill_character],
 				["insert_character",					agent test_insert_character],
-				["insert_string",						agent test_insert_string],
+				["insert_remove",						agent test_insert_remove],
 				["joined",								agent test_joined],
 				["put_unicode",						agent test_put_unicode],
 				["replace_character",				agent test_replace_character],
@@ -665,24 +665,31 @@ feature -- Element change tests
 			end
 		end
 
-	test_insert_string
+	test_insert_remove
 		note
 			testing:	"[
 				covers/{ZSTRING}.insert_string, 
-				covers/{ZSTRING}.remove_substring
+				covers/{ZSTRING}.remove_substring,
+				covers/{EL_UNENCODED_CHARACTERS}.shift_from
 			]"
 		local
-			test: STRING_TEST; insert: ZSTRING; word_list: EL_SPLIT_ZSTRING_LIST
+			test: STRING_TEST; G_clef: ZSTRING; word_list: EL_SPLIT_ZSTRING_LIST
+			start_index, mid_index, end_index: INTEGER
 		do
 			create test
+			G_clef := Text.G_clef
 			across Text.lines as line loop
 				test.set (line.item)
 				create word_list.make_by_string (test.s_32, " ")
 				from word_list.start until word_list.after loop
-					insert := word_list.item
-					test.zs.remove_substring (word_list.item_lower, word_list.item_upper)
-					test.zs.insert_string (insert, word_list.item_lower)
-					assert ("insert_string OK", test.is_same)
+					start_index := word_list.item_lower; end_index := word_list.item_upper
+					mid_index := start_index + word_list.item_count // 2
+					if start_index <= mid_index and mid_index <= end_index then
+						across << G_clef, space * 2 >> as insert loop
+						-- insert into middle of word
+							assert ("insert_remove OK", test.insert_remove (insert.item, mid_index))
+						end
+					end
 					word_list.forth
 				end
 			end

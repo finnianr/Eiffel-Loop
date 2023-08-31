@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-30 9:36:11 GMT (Wednesday 30th August 2023)"
-	revision: "26"
+	date: "2023-08-31 7:40:54 GMT (Thursday 31st August 2023)"
+	revision: "27"
 
 class
 	STRING_TEST
@@ -210,6 +210,21 @@ feature -- Test editing
 				create editor_8.make (str_8, ' ')
 				editor_8.apply (agent double_substring_8)
 				Result := double_spaced_8 ~ str_8
+			end
+		end
+
+	insert_remove (insert: ZSTRING; index: INTEGER): BOOLEAN
+		local
+			end_index, old_count: INTEGER
+		do
+			old_count := zs.count
+			zs.insert_string (insert, index)
+			s_32.insert_string (insert.to_string_32, index)
+			if zs.same_string (s_32) then
+				end_index := index + insert.count - 1
+				zs.remove_substring (index, end_index)
+				s_32.remove_substring (index, end_index)
+				Result := old_count = zs.count and then zs.same_string (s_32)
 			end
 		end
 

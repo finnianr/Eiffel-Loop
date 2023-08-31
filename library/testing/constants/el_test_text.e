@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-19 10:08:46 GMT (Saturday 19th August 2023)"
-	revision: "28"
+	date: "2023-08-31 7:16:48 GMT (Thursday 31st August 2023)"
+	revision: "29"
 
 class
 	EL_TEST_TEXT
@@ -206,7 +206,7 @@ feature -- Constants
 	Substituted_words: ARRAY [TUPLE]
 		once
 			Result := <<
-				[{STRING_32} "и", {STRING_32} "съесть",{STRING_32} "лезть"],
+				[{STRING_32} "и", {STRING_32} "съесть", {STRING_32} "лезть"],
 				["eat", "fish", "catching"],
 				["Dún", 'ú'],
 				[1, 1],

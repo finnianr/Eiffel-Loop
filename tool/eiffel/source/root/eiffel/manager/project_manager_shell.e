@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-28 13:29:53 GMT (Monday 28th August 2023)"
-	revision: "7"
+	date: "2023-08-31 9:46:57 GMT (Thursday 31st August 2023)"
+	revision: "8"
 
 class
 	PROJECT_MANAGER_SHELL
@@ -54,6 +54,7 @@ feature {NONE} -- Factory
 				["Open configuration directory",	agent open_directory (config.app_configuration_path)],
 				["Open data directory",				agent open_directory (config.app_data_path)],
 				["Open project directory",			agent open_directory (Directory.current_working)],
+				["Remove EIFGENs directory",		agent remove_eifgens],
 				["Rename classes in source",		agent rename_source_classes],
 				["Search classes in source",		agent regular_expression_search]
 			>>)
@@ -112,6 +113,18 @@ feature {NONE} -- Commands
 			shell.manifest.read_source_trees
 			shell.execute
 			Command.launch_gedit (Grep_results)
+		end
+
+	remove_eifgens
+		local
+			eifgens_dir: DIR_PATH
+		do
+			eifgens_dir := "build/$ISE_PLATFORM/EIFGENs"
+			eifgens_dir.expand
+			if User_input.approved_action_y_n ("Are you sure ?") then
+				OS.delete_tree (eifgens_dir)
+				lio.put_line ("Removed")
+			end
 		end
 
 	rename_source_classes
