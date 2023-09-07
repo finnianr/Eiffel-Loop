@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-09-07 12:13:51 GMT (Thursday 7th September 2023)"
+	revision: "9"
 
 class
 	JOBSERVE_SEARCHER
@@ -78,13 +78,13 @@ feature -- Basic operations
 	execute
 		local
 			jobs_result_set: JOBS_RESULT_SET; xpath: STRING
-			root_node: EL_XML_DOC_CONTEXT
+			xdoc: EL_XML_DOC_CONTEXT
 		do
-			create root_node.make_from_file (xml_path)
+			create xdoc.make_from_file (xml_path)
 			xpath := Xpath_template #$ [query_filter]
 			lio.put_string_field ("XPATH", xpath)
 			lio.put_new_line
-			create jobs_result_set.make (root_node, xpath)
+			create jobs_result_set.make (xdoc, xpath)
 			across jobs_result_set as job loop
 				lio.put_labeled_string ("Position", job.item.position)
 				lio.put_new_line

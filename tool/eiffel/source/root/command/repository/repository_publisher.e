@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-24 8:26:07 GMT (Thursday 24th August 2023)"
-	revision: "70"
+	date: "2023-09-07 12:14:59 GMT (Thursday 7th September 2023)"
+	revision: "71"
 
 class
 	REPOSITORY_PUBLISHER
@@ -284,7 +284,7 @@ feature {NONE} -- Build from Pyxis
 
 	on_context_return (context: EL_EIF_OBJ_XPATH_CONTEXT)
 		local
-			ecf_path: FILE_PATH; ecf: ECF_INFO; root_node: EL_XML_DOC_CONTEXT; has_error: BOOLEAN
+			ecf_path: FILE_PATH; ecf: ECF_INFO; xdoc: EL_XML_DOC_CONTEXT; has_error: BOOLEAN
 		do
 			authenticate_ftp
 
@@ -293,23 +293,23 @@ feature {NONE} -- Build from Pyxis
 				ecf_path := root_dir + ecf.path
 				if ecf_path.exists then
 					check_pecf_source (ecf_path)
-					create root_node.make_from_file (ecf_path)
-					if root_node.parse_failed and then attached root_node.last_exception as last then
+					create xdoc.make_from_file (ecf_path)
+					if xdoc.parse_failed and then attached xdoc.last_exception as last then
 						lio.put_path_field ("Failed to parse", ecf_path)
 						lio.put_new_line
 						last.put_error (lio)
 						has_error := True
 
-					elseif ecf.cluster_count (root_node) = 0 then
+					elseif ecf.cluster_count (xdoc) = 0 then
 						lio.put_path_field ("Configuration %S", ecf_path)
 						lio.put_new_line
 						lio.put_labeled_string ("Zero nodes found for xpath", ecf.cluster_xpath)
 						has_error := True
 
-					elseif root_node.is_xpath (Xpath_all_classes) then
-						ecf_list.extend (create {EIFFEL_LIBRARY_CONFIGURATION_FILE}.make (Current, ecf, root_node))
+					elseif xdoc.is_xpath (Xpath_all_classes) then
+						ecf_list.extend (create {EIFFEL_LIBRARY_CONFIGURATION_FILE}.make (Current, ecf, xdoc))
 					else
-						ecf_list.extend (create {EIFFEL_CONFIGURATION_FILE}.make (Current, ecf, root_node))
+						ecf_list.extend (create {EIFFEL_CONFIGURATION_FILE}.make (Current, ecf, xdoc))
 					end
 				else
 					lio.put_path_field ("Cannot find %S", ecf_path)

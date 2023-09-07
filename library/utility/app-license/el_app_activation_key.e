@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2023-09-07 12:18:46 GMT (Thursday 7th September 2023)"
+	revision: "12"
 
 class
 	EL_APP_ACTIVATION_KEY
@@ -34,12 +34,12 @@ feature {NONE} -- Initialization
 	make_from_file (file_path: FILE_PATH)
 			--
 		local
-			root_node: EL_XML_DOC_CONTEXT
+			xdoc: EL_XML_DOC_CONTEXT
 		do
 			Precursor (file_path)
-			create root_node.make_from_file (file_path)
-			name := root_node.query ("/application/registered-name")
-			value := root_node.query ("/application/activation-key")
+			create xdoc.make_from_file (file_path)
+			name := xdoc.query ("/application/registered-name")
+			value := xdoc.query ("/application/activation-key")
 		end
 
 	make (a_name, a_value: STRING)

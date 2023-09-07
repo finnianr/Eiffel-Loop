@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 17:12:05 GMT (Saturday 29th April 2023)"
-	revision: "31"
+	date: "2023-09-07 12:13:32 GMT (Thursday 7th September 2023)"
+	revision: "32"
 
 class
 	OPEN_OFFICE_TEST_SET
@@ -61,11 +61,11 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	print_spreadsheet (root_node: EL_XML_DOC_CONTEXT; name: ZSTRING)
+	print_spreadsheet (xdoc: EL_XML_DOC_CONTEXT; name: ZSTRING)
 		local
 			spread_sheet: EL_SPREAD_SHEET
 		do
-			create spread_sheet.make_with_root_node (root_node, name, "")
+			create spread_sheet.make_with_xdoc (xdoc, name, "")
 			across spread_sheet as table loop
 				across table.item as row loop
 					lio.put_field_list (100, <<

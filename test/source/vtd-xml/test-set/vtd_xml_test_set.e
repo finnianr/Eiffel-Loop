@@ -16,34 +16,26 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 10:26:33 GMT (Tuesday 15th August 2023)"
-	revision: "33"
+	date: "2023-09-07 8:19:51 GMT (Thursday 7th September 2023)"
+	revision: "34"
 
 class
 	VTD_XML_TEST_SET
 
 inherit
-	EIFFEL_LOOP_TEST_SET
+	EL_DIRECTORY_CONTEXT_TEST_SET
 		undefine
 			new_lio
-		redefine
-			on_prepare
 		end
 
 	EL_CRC_32_TESTABLE
 
 	EL_MODULE_OS
 
+	SHARED_DEV_ENVIRON
+
 create
 	make
-
-feature {NONE} -- Initialization
-
-	on_prepare
-		do
-			Precursor {EIFFEL_LOOP_TEST_SET}
-			create root_node
-		end
 
 feature {NONE} -- Initialization
 
@@ -51,10 +43,11 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["bioinfo_xpath_query", agent test_bioinfo_xpath_query],
-				["cd_catalog_xpath_query", agent test_cd_catalog_xpath_query],
-				["query_processing_instruction", agent test_query_processing_instruction],
-				["svg_xpath_query", agent test_svg_xpath_query]
+				["bioinfo_xpath_query",				agent test_bioinfo_xpath_query],
+				["cd_catalog_xpath_query",			agent test_cd_catalog_xpath_query],
+				["query_processing_instruction",	agent test_query_processing_instruction],
+				["root_attribute_selection",		agent test_root_attribute_selection],
+				["svg_xpath_query",					agent test_svg_xpath_query]
 			>>)
 		end
 
@@ -66,35 +59,34 @@ feature -- Tests
 				"covers/{EL_XPATH_NODE_CONTEXT}.context_list",
 				"covers/{EL_XPATH_NODE_CONTEXT}.find_node",
 				"covers/{EL_XPATH_NODE_CONTEXT}.query"
+		local
+			xpath: STRING
 		do
-			create root_node.make_from_file (Dev_environ.EL_test_data_dir + "vtd-xml/bioinfo.xml")
-			assert ("encoding is latin-1", root_node.encoding_name ~ "ISO-8859-1")
-			across bioinfo_results_1 as xpath loop
-				assert_same_string_8_list (xpath.key, xpath.item, bioinfo_query_1 (xpath.key))
-			end
-			across bioinfo_results_2 as xpath loop
-				assert_same_string_8_list (xpath.key, xpath.item, bioinfo_query_2 (xpath.key))
-			end
-			across bioinfo_results_3 as xpath loop
-				assert_same_string_8_list (xpath.key, xpath.item, bioinfo_query_3 (xpath.key))
-			end
-			across bioinfo_results_4 as xpath loop
-				assert ("same count for " + xpath.key, xpath.item = bioinfo_query_4 (xpath.key))
-			end
-			across bioinfo_results_5 as xpath loop
-				assert_same_string_8_list (xpath.key, xpath.item, bioinfo_query_5 (xpath.key))
+			if attached new_xdoc ("vtd-xml/bioinfo.xml") as xdoc then
+				assert ("encoding is latin-1", xdoc.encoding_name ~ "ISO-8859-1")
+
+				assert_same_query_results (xdoc, bioinfo_results_1, agent bioinfo_query_1)
+				assert_same_query_results (xdoc, bioinfo_results_2, agent bioinfo_query_2)
+				assert_same_query_results (xdoc, bioinfo_results_3, agent bioinfo_query_3)
+				assert_same_query_results (xdoc, bioinfo_results_4, agent bioinfo_query_4)
+
+				across bioinfo_result_counts as table loop
+					xpath := table.key
+					assert ("same count for " + xpath, table.item = xdoc.context_list (xpath).count)
+				end
 			end
 		end
 
 	test_cd_catalog_xpath_query
 		local
-			name: STRING
+			name, xpath: STRING
 		do
-			create root_node.make_from_file ("vtd-xml/CD-catalog.xml")
-
-			assert ("encoding is UTF-8", root_node.encoding_name ~ "UTF-8")
-			across cd_catalog_results as xpath loop
-				assert_same_string_list (xpath.key, xpath.item, cd_catalog_query (xpath.key))
+			if attached new_xdoc ("vtd-xml/CD-catalog.xml") as xdoc then
+				assert ("encoding is UTF-8", xdoc.encoding_name ~ "UTF-8")
+				across cd_catalog_results as table loop
+					xpath := table.key
+					assert_same_string_list (xpath, table.item, cd_catalog_query (xdoc, xpath))
+				end
 			end
 		end
 
@@ -104,25 +96,40 @@ feature -- Tests
 			assert_processing_instruction ("vtd-xml/request-matrix-sum.xml", "sum")
 		end
 
+	test_root_attribute_selection
+		local
+			en, lang_xpath: STRING; en_32: STRING_32; en_z: ZSTRING
+		do
+			en := "en"; en_32 := en; en_z := en_32
+			if attached new_xdoc ("XML/creatable/download-page.xhtml") as xdoc then
+				lang_xpath := "/html/@lang"
+			-- Testing auto-convert
+				assert ("lang = en", en.is_equal (xdoc.query (lang_xpath)))
+				assert ("lang = en_32", en_32.is_equal (xdoc.query (lang_xpath)))
+				assert ("lang = en_z", en_z.is_equal (xdoc.query (lang_xpath)))
+			end
+		end
+
 	test_svg_xpath_query
 		local
-			name: STRING
+			name, xpath: STRING
 		do
-			create root_node.make_from_file ("vtd-xml/aircraft_power_price.svg")
+			if attached new_xdoc ("vtd-xml/aircraft_power_price.svg") as xdoc then
+				assert ("encoding is latin-1", xdoc.encoding_name ~ "ISO-8859-1")
 
-			assert ("encoding is latin-1", root_node.encoding_name ~ "ISO-8859-1")
+				across svg_query_results as table loop
+					xpath := table.key
+					assert ("same result for " + xpath, table.item ~ svg_query (xdoc, xpath).to_array)
+				end
 
-			across svg_query_results as xpath loop
-				assert ("same result for " + xpath.key, xpath.item ~ svg_query (xpath.key).to_array)
+				assert ("same result", svg_sum_query (xdoc, "//svg/g/line/@x1") = 4522)
+				assert ("same result", svg_sum_query (xdoc, "//svg/g/line/@y1") = 13134)
 			end
-
-			assert ("same result", svg_sum_query ("//svg/g/line/@x1") = 4522)
-			assert ("same result", svg_sum_query ("//svg/g/line/@y1") = 13134)
 		end
 
 feature {NONE} -- CD-catalog.xml
 
-	cd_catalog_query (criteria: STRING): EL_ZSTRING_LIST
+	cd_catalog_query (xdoc: EL_XML_DOC_CONTEXT; criteria: STRING): EL_ZSTRING_LIST
 		local
 			xpath: STRING; template: ZSTRING; md5: like Md5_128
 		do
@@ -132,7 +139,7 @@ feature {NONE} -- CD-catalog.xml
 
 			md5 := Md5_128
 
-			across root_node.context_list (xpath) as cd loop
+			across xdoc.context_list (xpath) as cd loop
 				Result.extend (Template_string_value #$ ["ALBUM", cd.node.query ("TITLE").as_string])
 				Result.extend (Template_string_value #$ ["ARTIST", cd.node.query ("ARTIST").as_string])
 				Result.extend (Template_string_value #$ ["PRICE", cd.node.query ("PRICE").as_string])
@@ -144,39 +151,96 @@ feature {NONE} -- CD-catalog.xml
 			end
 		end
 
+	cd_catalog_results: HASH_TABLE [ZSTRING, STRING]
+		do
+			create Result.make (2)
+			Result ["count (CONTENTS/TRACK[contains (lower-case (text()),'blues')]) > 0"] := {STRING_32} "[
+				ALBUM: "Still got the blues"
+				ARTIST: "Gary More"
+				PRICE: "€10.20"
+				TRACK DIGEST: "jV2z+F82vcYTRFYx3ykb9A=="
+				ALBUM: "Hide your heart"
+				ARTIST: "Bonnie Tyler"
+				PRICE: "€9.90"
+				TRACK DIGEST: "cfLSfV7bzozXrE7dfwVCRg=="
+			]"
+			Result ["ARTIST [text() = 'Bob Dylan']"] := {STRING_32} "[
+				ALBUM: "Empire Burlesque"
+				ARTIST: "Bob Dylan"
+				PRICE: "€10.90"
+				TRACK DIGEST: "kM+gGMDNqjhFjs+jpFGL6g=="
+				]"
+			Result ["number (substring (PRICE, 2)) < 10"] := {STRING_32} "[
+				ALBUM: "Michael Raucheisen Vol. 12"
+				ARTIST: "Michael Raucheisen"
+				PRICE: "€7.98"
+				TRACK DIGEST: "mkavx41kNphVG29xjEE30g=="
+				ALBUM: "Hide your heart"
+				ARTIST: "Bonnie Tyler"
+				PRICE: "€9.90"
+				TRACK DIGEST: "cfLSfV7bzozXrE7dfwVCRg=="
+				ALBUM: "Greatest Hits"
+				ARTIST: "Dolly Parton"
+				PRICE: "€9.90"
+				TRACK DIGEST: "d9llgJuZn6O7D2adU5lblA=="
+			]"
+			Result ["number (substring (PRICE, 2)) > 10"] := {STRING_32} "[
+				ALBUM: "Empire Burlesque"
+				ARTIST: "Bob Dylan"
+				PRICE: "€10.90"
+				TRACK DIGEST: "kM+gGMDNqjhFjs+jpFGL6g=="
+				ALBUM: "Still got the blues"
+				ARTIST: "Gary More"
+				PRICE: "€10.20"
+				TRACK DIGEST: "jV2z+F82vcYTRFYx3ykb9A=="
+			]"
+		end
+
 feature {NONE} -- aircraft_power_price.svg
 
-	svg_query (xpath: STRING): ARRAYED_LIST [INTEGER]
+	svg_query (xdoc: EL_XML_DOC_CONTEXT; xpath: STRING): ARRAYED_LIST [INTEGER]
 		-- distance double coords
 		local
 			p1, p2: SVG_POINT
 		do
 			create Result.make (20)
-			across root_node.context_list (xpath) as line loop
+			across xdoc.context_list (xpath) as line loop
 				create p1.make (line.node, 1)
 				create p2.make (line.node, 2)
 				Result.extend (p1.distance (p2).rounded)
 			end
 		end
 
-	svg_sum_query (xpath: STRING): INTEGER
+	svg_query_results: HASH_TABLE [ARRAY [INTEGER], STRING]
+		local
+			xpath: STRING
+		do
+			create Result.make (2)
+			xpath := "//svg/g[starts-with (@style, 'stroke:blue')]/line"
+			Result [xpath] := << 6, 4, 6, 4, 6, 4 >>
+
+			xpath := "//svg/g[starts-with (@style, 'stroke:black')]/line"
+			Result [xpath] := << 100, 100, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 >>
+		end
+
+	svg_sum_query (xdoc: EL_XML_DOC_CONTEXT; xpath: STRING): INTEGER
 			--
 		local
 			sum: ZSTRING
 		do
 			sum := "sum (%S)"
-			Result := root_node.query (sum #$ [xpath]).as_double.rounded
+			Result := xdoc.query (sum #$ [xpath]).as_double.rounded
 		end
 
 feature {NONE} -- bioinfo.xml
 
-	bioinfo_query_1 (xpath: STRING): EL_STRING_8_LIST
+	bioinfo_query_1 (xdoc: EL_XML_DOC_CONTEXT; xpath: STRING): EL_STRING_8_LIST
 		-- Demonstrates nested queries
 		local
 			value: STRING
 		do
 			create Result.make (20)
-			across root_node.context_list (xpath) as context loop
+			across xdoc.context_list (xpath) as context loop
 				value := context.node
 				Result.extend (Template_string_value #$ [context.node.name, value])
 				across context.node.context_list ("following-sibling::value") as following loop
@@ -186,86 +250,46 @@ feature {NONE} -- bioinfo.xml
 			end
 		end
 
-	bioinfo_query_2 (xpath: STRING): EL_STRING_8_LIST
+	bioinfo_query_2 (xdoc: EL_XML_DOC_CONTEXT; xpath: STRING): EL_STRING_8_LIST
 		-- list all url values
 		local
 			value: ZSTRING
 		do
 			create Result.make (20)
-			across root_node.context_list (xpath) as label loop
+			across xdoc.context_list (xpath) as label loop
 				Result.extend (label.node)
 			end
 		end
 
-	bioinfo_query_3 (xpath: STRING): EL_STRING_8_LIST
+	bioinfo_query_3 (xdoc: EL_XML_DOC_CONTEXT; xpath: STRING): EL_STRING_8_LIST
 		-- list all integer values
 		local
 			result_lines: EL_STRING_8_LIST; id: STRING
 		do
 			create Result.make (20)
-			across root_node.context_list (xpath) as value loop
+			across xdoc.context_list (xpath) as value loop
 				id := value.node.query ("parent::node()/id")
 				Result.extend (Template_integer_value #$ [id, value.node.as_integer])
 			end
 		end
 
-	bioinfo_query_4 (xpath: STRING): INTEGER
-		-- element count
-		do
-			Result := root_node.context_list (xpath).count
-		end
-
-	bioinfo_query_5 (xpath: STRING): EL_STRING_8_LIST
+	bioinfo_query_4 (xdoc: EL_XML_DOC_CONTEXT; xpath: STRING): EL_STRING_8_LIST
 		-- element count
 		local
 			id: STRING
 		do
 			create Result.make (2)
-			Result.extend (root_node.query (xpath))
+			Result.extend (xdoc.query (xpath))
 		end
 
-feature {NONE} -- Implementation
-
-	assert_processing_instruction (file_path: FILE_PATH; instruction: STRING)
-			--
+	bioinfo_result_counts: HASH_TABLE [INTEGER, STRING]
 		do
-			create root_node.make_from_file (file_path)
-			assert ("Encoding latin-1", root_node.encoding_name ~ "ISO-8859-1")
-
-			if attached root_node.processing_instruction ("call") as pi_call then
-				assert ("expected instruction", pi_call ~ instruction)
-			else
-				failed ("instruction found")
-			end
+			create Result.make (4)
+			Result ["//*"] := 756
+			Result ["//package"] := 1
+			Result ["//command"] := 6
+			Result ["//value[@type='title']"] := 13
 		end
-
-	assert_same_string_8_list (xpath, expected: STRING; actual: EL_STRING_8_LIST)
-		local
-			expected_lines: EL_STRING_8_LIST
-		do
-			create expected_lines.make_with_lines (expected)
-			assert ("same lines for " + xpath, expected_lines ~ actual)
-		end
-
-	assert_same_string_list (xpath: STRING; expected: ZSTRING; actual: EL_ZSTRING_LIST)
-		local
-			expected_lines: EL_ZSTRING_LIST
-		do
-			create expected_lines.make_with_lines (expected)
-			assert ("same lines for " + xpath, expected_lines ~ actual)
-		end
-
-	encoding
-		do
-			lio.put_string_field ("Encoding", root_node.encoding_name)
-			lio.put_new_line
-		end
-
-feature {NONE} -- Internal attributes
-
-	root_node: EL_XML_DOC_CONTEXT
-
-feature {NONE} -- Query results
 
 	bioinfo_results_1: HASH_TABLE [STRING, STRING]
 		do
@@ -346,16 +370,7 @@ feature {NONE} -- Query results
 			]"
 		end
 
-	bioinfo_results_4: HASH_TABLE [INTEGER, STRING]
-		do
-			create Result.make (4)
-			Result ["//*"] := 756
-			Result ["//package"] := 1
-			Result ["//command"] := 6
-			Result ["//value[@type='title']"] := 13
-		end
-
-	bioinfo_results_5: HASH_TABLE [STRING, STRING]
+	bioinfo_results_4: HASH_TABLE [STRING, STRING]
 		local
 			xpath: STRING
 		do
@@ -367,64 +382,75 @@ feature {NONE} -- Query results
 			Result [xpath] := "http://iubio.bio.indiana.edu/grid/runner/"
 		end
 
-	cd_catalog_results: HASH_TABLE [ZSTRING, STRING]
+feature {NONE} -- Implementation
+
+	assert_processing_instruction (xml_path, instruction: STRING)
+			--
 		do
-			create Result.make (2)
-			Result ["count (CONTENTS/TRACK[contains (lower-case (text()),'blues')]) > 0"] := {STRING_32} "[
-				ALBUM: "Still got the blues"
-				ARTIST: "Gary More"
-				PRICE: "€10.20"
-				TRACK DIGEST: "jV2z+F82vcYTRFYx3ykb9A=="
-				ALBUM: "Hide your heart"
-				ARTIST: "Bonnie Tyler"
-				PRICE: "€9.90"
-				TRACK DIGEST: "cfLSfV7bzozXrE7dfwVCRg=="
-			]"
-			Result ["ARTIST [text() = 'Bob Dylan']"] := {STRING_32} "[
-				ALBUM: "Empire Burlesque"
-				ARTIST: "Bob Dylan"
-				PRICE: "€10.90"
-				TRACK DIGEST: "kM+gGMDNqjhFjs+jpFGL6g=="
-				]"
-			Result ["number (substring (PRICE, 2)) < 10"] := {STRING_32} "[
-				ALBUM: "Michael Raucheisen Vol. 12"
-				ARTIST: "Michael Raucheisen"
-				PRICE: "€7.98"
-				TRACK DIGEST: "mkavx41kNphVG29xjEE30g=="
-				ALBUM: "Hide your heart"
-				ARTIST: "Bonnie Tyler"
-				PRICE: "€9.90"
-				TRACK DIGEST: "cfLSfV7bzozXrE7dfwVCRg=="
-				ALBUM: "Greatest Hits"
-				ARTIST: "Dolly Parton"
-				PRICE: "€9.90"
-				TRACK DIGEST: "d9llgJuZn6O7D2adU5lblA=="
-			]"
-			Result ["number (substring (PRICE, 2)) > 10"] := {STRING_32} "[
-				ALBUM: "Empire Burlesque"
-				ARTIST: "Bob Dylan"
-				PRICE: "€10.90"
-				TRACK DIGEST: "kM+gGMDNqjhFjs+jpFGL6g=="
-				ALBUM: "Still got the blues"
-				ARTIST: "Gary More"
-				PRICE: "€10.20"
-				TRACK DIGEST: "jV2z+F82vcYTRFYx3ykb9A=="
-			]"
+			if attached new_xdoc (xml_path) as xdoc then
+				assert ("Encoding latin-1", xdoc.encoding_name ~ "ISO-8859-1")
+
+				if attached xdoc.processing_instruction ("call") as pi_call then
+					assert ("expected instruction", pi_call ~ instruction)
+				else
+					failed ("instruction found")
+				end
+			end
 		end
 
-	svg_query_results: HASH_TABLE [ARRAY [INTEGER], STRING]
+	assert_same_query_results (
+		xdoc: EL_XML_DOC_CONTEXT; result_table: HASH_TABLE [STRING, STRING]
+		query: FUNCTION [EL_XML_DOC_CONTEXT, STRING, EL_STRING_8_LIST]
+	)
 		local
 			xpath: STRING
 		do
-			create Result.make (2)
-			xpath := "//svg/g[starts-with (@style, 'stroke:blue')]/line"
-			Result [xpath] := << 6, 4, 6, 4, 6, 4 >>
+			across result_table as table loop
+				xpath := table.key
+				assert_same_string_8_list (xpath, table.item, query (xdoc, xpath))
+			end
+		end
 
-			xpath := "//svg/g[starts-with (@style, 'stroke:black')]/line"
-			Result [xpath] := << 100, 100, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 >>
+	assert_same_string_8_list (xpath, expected: STRING; actual: EL_STRING_8_LIST)
+		local
+			expected_lines: EL_STRING_8_LIST
+		do
+			create expected_lines.make_with_lines (expected)
+			assert ("same lines for " + xpath, expected_lines ~ actual)
+		end
+
+	assert_same_string_list (xpath: STRING; expected: ZSTRING; actual: EL_ZSTRING_LIST)
+		local
+			expected_lines: EL_ZSTRING_LIST
+		do
+			create expected_lines.make_with_lines (expected)
+			assert ("same lines for " + xpath, expected_lines ~ actual)
+		end
+
+	new_xdoc (path: STRING): EL_XML_DOC_CONTEXT
+		do
+			create Result.make_from_file (path)
+		end
+
+	working_dir: DIR_PATH
+		do
+			Result := Dev_environ.EL_test_data_dir
 		end
 
 feature {NONE} -- Constants
+
+	Template_bioninfo_query_type: ZSTRING
+		once
+			Result := "[
+				@type: "#" #
+			]"
+		end
+	Template_integer_value: ZSTRING
+		once
+			Result := "[
+				#: #
+			]"
+		end
 
 	Template_string_value: ZSTRING
 		once
@@ -433,17 +459,4 @@ feature {NONE} -- Constants
 			]"
 		end
 
-	Template_integer_value: ZSTRING
-		once
-			Result := "[
-				#: #
-			]"
-		end
-
-	Template_bioninfo_query_type: ZSTRING
-		once
-			Result := "[
-				@type: "#" #
-			]"
-		end
 end

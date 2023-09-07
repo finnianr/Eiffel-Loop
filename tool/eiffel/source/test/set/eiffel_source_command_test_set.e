@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-31 9:31:44 GMT (Thursday 31st August 2023)"
-	revision: "14"
+	date: "2023-09-03 16:47:18 GMT (Sunday 3rd September 2023)"
+	revision: "15"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
@@ -24,15 +24,24 @@ create
 feature {NONE} -- Initialization
 
 	make
+		-- initialize `test_table'
 		do
 			make_named (<<
-				["codebase_statistics", agent test_codebase_statistics],
-				["find_and_replace", agent test_find_and_replace],
-				["space_cleaner", agent test_space_cleaner]
+				["codebase_statistics",	agent test_codebase_statistics],
+				["class_word_reader",	agent test_class_word_reader],
+				["find_and_replace",		agent test_find_and_replace],
+				["space_cleaner",			agent test_space_cleaner]
 			>>)
 		end
 
 feature -- Tests
+
+	test_class_word_reader
+		local
+			reader: CLASS_WORD_READER
+		do
+			create reader.make (Data_dir + "utf-8/el_text_item_translations_table.e")
+		end
 
 	test_codebase_statistics
 		-- EIFFEL_SOURCE_COMMAND_TEST_SET.test_codebase_statistics
@@ -40,7 +49,7 @@ feature -- Tests
 			command: CODEBASE_STATISTICS_COMMAND; assertion_template: ZSTRING
 			actual_results, expected_results: EL_ARRAYED_LIST [INTEGER]
 		do
-			create command.make (Manifest_path, create {EL_DIR_PATH_ENVIRON_VARIABLE})
+			create command.make (Manifest_path)
 			command.execute
 			create expected_results.make_from_array (<< 32, 10426, 99491 >>)
 			create actual_results.make_from_array (<< command.class_count, command.word_count, command.byte_count >>)
@@ -93,8 +102,8 @@ feature {NONE} -- Constants
 	Cleaned_file_table: EL_HASH_TABLE [STRING, STRING]
 		once
 			create Result.make (<<
-				["ev_pixmap_imp_drawable", "BGfhfW0ucYUTtNmjtmbBPQ=="],
-				["el_x11_extensions_api", "K1NL9HUytsKAAorC63jBiA=="]
+				["ev_pixmap_imp_drawable",	"BGfhfW0ucYUTtNmjtmbBPQ=="],
+				["el_x11_extensions_api",	"K1NL9HUytsKAAorC63jBiA=="]
 			>>)
 		end
 

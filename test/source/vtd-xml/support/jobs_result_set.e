@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-09-07 12:14:13 GMT (Thursday 7th September 2023)"
+	revision: "9"
 
 class
 	JOBS_RESULT_SET
@@ -30,14 +30,14 @@ create
 
 feature {NONE} -- Initialization
 
-	make (document_root_node: EL_XML_DOC_CONTEXT; a_xpath_query: STRING)
+	make (xdoc: EL_XML_DOC_CONTEXT; a_xpath_query: STRING)
 			--
 		do
 			make_set (20)
 			compare_objects
 			make_default
 			xpath_query := a_xpath_query
-			across document_root_node.context_list (xpath_query) as job loop
+			across xdoc.context_list (xpath_query) as job loop
 				extend (create {JOB_INFO}.make (job.node))
 			end
 		end

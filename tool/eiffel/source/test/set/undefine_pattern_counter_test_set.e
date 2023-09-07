@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 12:14:20 GMT (Friday 10th March 2023)"
-	revision: "22"
+	date: "2023-09-03 12:12:16 GMT (Sunday 3rd September 2023)"
+	revision: "23"
 
 class
 	UNDEFINE_PATTERN_COUNTER_TEST_SET
@@ -45,7 +45,7 @@ feature -- Tests
 		local
 			command: UNDEFINE_PATTERN_COUNTER_COMMAND; expected_count: INTEGER
 		do
-			create command.make (Manifest_path, create {EL_DIR_PATH_ENVIRON_VARIABLE})
+			create command.make (Manifest_path)
 			command.execute
 			if attached command.greater_than_0_list as list then
 				assert ("3 in list", list.count = 3)

@@ -15,8 +15,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 5:20:38 GMT (Thursday 17th August 2023)"
-	revision: "27"
+	date: "2023-09-07 12:16:46 GMT (Thursday 7th September 2023)"
+	revision: "28"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -153,14 +153,14 @@ feature -- Tests
 				path := list.item
 				assert ("in directory set", dir_set.has (path.parent.base))
 				assert ("in file set", file_set.has (path.base_name))
-				assert_valid_h2_file (new_root_node (path), path)
+				assert_valid_h2_file (new_xdoc (path), path)
 			end
 		end
 
 	test_xhtml_doc_exporter
 		local
 			command: TB_MULTI_LANG_ACCOUNT_XHTML_DOC_EXPORTER
-			count: INTEGER; xhtml_path: FILE_PATH; xdoc: like new_root_node
+			count: INTEGER; xhtml_path: FILE_PATH; xdoc: like new_xdoc
 		do
 			write_config ("pop.myching.software", Empty_string_8, new_folder_lines ("1.About"))
 			create command.make_from_file (config_path)
@@ -182,7 +182,7 @@ feature -- Tests
 		local
 			command: TB_MULTI_LANG_ACCOUNT_XHTML_BODY_EXPORTER
 			body_path: FILE_PATH; modification_table: EL_HASH_TABLE [INTEGER, FILE_PATH]
-			name: ZSTRING; count: INTEGER; xdoc: like new_root_node
+			name: ZSTRING; count: INTEGER; xdoc: like new_xdoc
 		do
 			create modification_table.make_size (50)
 			write_config ("pop.myching.co", Empty_string_8, new_folder_lines ("Purchase, manual, Product Tour, Screenshots"))
@@ -195,7 +195,7 @@ feature -- Tests
 				modification_table.put (body_path.modification_time, body_path)
 				assert (body_path.base + " exists", body_path.exists)
 				name := body_path.base_name
-				xdoc := new_root_node (body_path)
+				xdoc := new_xdoc (body_path)
 
 				assert_valid_h2_file (xdoc, body_path)
 				if name.has_substring ({STRING_32} "Ÿœ€") then

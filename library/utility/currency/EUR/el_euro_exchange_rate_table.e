@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 19:48:59 GMT (Monday 14th August 2023)"
-	revision: "17"
+	date: "2023-09-07 12:19:07 GMT (Thursday 7th September 2023)"
+	revision: "18"
 
 class
 	EL_EURO_EXCHANGE_RATE_TABLE
@@ -49,7 +49,7 @@ feature {NONE} -- Implementation
 	fill
 		local
 			web: EL_HTTP_CONNECTION; file_path: FILE_PATH; xml, code_name: STRING
-			root_node: EL_XML_DOC_CONTEXT; xml_file: PLAIN_TEXT_FILE
+			xdoc: EL_XML_DOC_CONTEXT; xml_file: PLAIN_TEXT_FILE
 			cached: like cached_dates
 		do
 			File_system.make_directory (Rates_dir)
@@ -78,8 +78,8 @@ feature {NONE} -- Implementation
 				xml := read_xml (rates_file_path (cached.first))
 			end
 			if xml.has_substring (Closing_tag) then
-				create root_node.make_from_string (xml)
-				across root_node.context_list ("//Cube[boolean(@currency)]") as rate loop
+				create xdoc.make_from_string (xml)
+				across xdoc.context_list ("//Cube[boolean(@currency)]") as rate loop
 					code_name := rate.node [Name_currency]
 					if Currency_enum.has_name (code_name) then
 						extend (rate.node [Name_rate], Currency_enum.found_value)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2023-09-07 9:18:36 GMT (Thursday 7th September 2023)"
+	revision: "14"
 
 class
 	MEDIA_ITEM_DEVICE_SYNC_TABLE
@@ -41,13 +41,13 @@ feature {NONE} -- Initialization
 			Precursor
 		end
 
-	make_from_root_node (root_node: EL_XML_DOC_CONTEXT)
+	make_from_xdoc (xdoc: EL_XML_DOC_CONTEXT)
 			--
 		local
 			node_list: EL_XPATH_NODE_CONTEXT_LIST; id: STRING
 			s: EL_STRING_8_ROUTINES
 		do
-			node_list := root_node.context_list ("//item")
+			node_list := xdoc.context_list ("//item")
 			accommodate (node_list.count)
 			across node_list as l_item loop
 				id := l_item.node [Attribute_id]

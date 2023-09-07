@@ -1,13 +1,25 @@
 note
 	description: "Top level [$source EL_XPATH_NODE_CONTEXT] object representing an XML document"
+	notes: "[
+		7 Sept 2023
+
+		Attempt to prevent garbage collector from moving or collecting `xml_area: SPECIAL [CHARACTER]' using call
+		
+			adopted_xml_area := eif_adopt (xml_area)
+
+		was causing intermittent failure for this call in My Ching.
+		
+			query ("/journal-list/@selected").as_string_8
+		
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-15 12:17:29 GMT (Saturday 15th July 2023)"
-	revision: "24"
+	date: "2023-09-07 16:19:20 GMT (Thursday 7th September 2023)"
+	revision: "25"
 
 class
 	EL_XML_DOC_CONTEXT
@@ -15,21 +27,18 @@ class
 inherit
 	EL_XPATH_NODE_CONTEXT
 		rename
+			make as make_context,
 			Token as Token_enum
 		export
 			{ANY} Html
 		undefine
 			namespace_table
-		redefine
-			default_create, dispose
 		end
 
 	EL_LAZY_ATTRIBUTE
 		rename
 			item as namespace_table,
 			new_item as new_namespace_table
-		undefine
-			default_create
 		end
 
 	READABLE_INDEXABLE [INTEGER]
@@ -38,8 +47,6 @@ inherit
 			lower as token_index_lower,
 			upper as token_index_upper,
 			valid_index as valid_token_index
-		undefine
-			default_create
 		redefine
 			new_cursor
 		end
@@ -47,68 +54,81 @@ inherit
 	EL_ENCODEABLE_AS_TEXT
 		rename
 			make as make_encodeable
-		undefine
-			default_create
+		redefine
+			make_default
 		end
 
+	EL_CHARACTER_8_CONSTANTS
+
 create
-	default_create, make_from_file, make_from_string, make_from_fragment, make_from_xhtml
+	make_from_file, make_from_string, make_from_fragment, make_from_xhtml
 
 convert
 	make_from_file ({FILE_PATH})
 
 feature {NONE} -- Initialization
 
-	default_create
-		do
-			make_from_string (XML.Default_doc.to_xml)
-		end
-
-	make_from_file (a_file_path: FILE_PATH)
-			--
-		do
-			make_from_string (File.plain_text (a_file_path))
-			file_path.share (a_file_path)
-		end
-
-	make_from_fragment (xml_fragment: READABLE_STRING_8; a_encoding: STRING)
-		local
-			header: STRING
-		do
-			header := XML.header (1.0, a_encoding)
-			header.append_character ('%N')
-			make_from_string (header + xml_fragment)
-		end
-
-	make_from_string (a_xml: READABLE_STRING_8)
+	make (a_xml_data: EL_C_STRING_8)
 			--
 		local
-			p_root_context: POINTER; l_encoding_name: STRING
+			p_root_context: POINTER; type: STRING
 		do
 			make_default
-			create file_path
 
 			if parse_failed then
-				set_xml_area (XML.Default_doc.to_xml)
+				xml_data := Default_xml_data
 				if attached {EL_VTD_EXCEPTION} Exception.last_exception as last then
 					last_exception := last
 				end
-				p_root_context := Parser.new_root_context (Current, False)
+				is_namespace_aware := False
 			else
-				set_xml_area (a_xml)
-				p_root_context := Parser.new_root_context (Current, XML.is_namespace_aware (a_xml))
+				xml_data := a_xml_data
 			end
+			p_root_context := Parser.new_root_context (xml_data, is_namespace_aware)
 
 			if is_attached (p_root_context) then
-				make (p_root_context, Current)
-				create l_encoding_name.make_from_c (c_node_context_encoding_type (p_root_context))
-				l_encoding_name.append_character ('-')
-				l_encoding_name.append_integer (c_node_context_encoding (p_root_context))
-				set_encoding_from_name (l_encoding_name)
+				make_context (p_root_context, Current)
+				create type.make_from_c (c_node_context_encoding_type (p_root_context))
+				set_encoding_from_name (hyphen.joined (type, c_node_context_encoding (p_root_context).out))
 			end
 		rescue
 			parse_failed := True
 			retry
+		end
+
+	make_default
+		do
+			Precursor
+			xml_data := Default_xml_data
+			create file_path
+		end
+
+	make_from_file (a_file_path: FILE_PATH)
+			--
+		local
+			xml_file: PLAIN_TEXT_FILE; file_data: EL_C_STRING_8
+			count: INTEGER
+		do
+			make_default
+			is_namespace_aware := XML.is_namespace_aware_file (a_file_path)
+			create xml_file.make_open_read (a_file_path)
+			count := xml_file.count
+			create file_data.make (count)
+			xml_file.read_to_managed_pointer (file_data, 0, count)
+			xml_file.close
+			make (file_data)
+			file_path.share (a_file_path)
+		end
+
+	make_from_fragment (xml_fragment: READABLE_STRING_8; a_encoding: STRING)
+		do
+			make_from_string (new_line.joined (XML.header (1.0, a_encoding), xml_fragment))
+		end
+
+	make_from_string (a_xml: READABLE_STRING_8)
+		do
+			is_namespace_aware := XML.is_namespace_aware (a_xml)
+			make (create {EL_C_STRING_8}.make_from_string (a_xml))
 		end
 
 	make_from_xhtml (xhtml: READABLE_STRING_8)
@@ -166,12 +186,12 @@ feature -- Access
 
 	document_pointer: MANAGED_POINTER
 		do
-			create Result.share_from_pointer (xml_area.base_address + xml_offset, xml_count)
+			create Result.share_from_pointer (xml_data.base_address, xml_data.count)
 		end
 
-	document_xml: IMMUTABLE_STRING_8
+	document_xml: STRING_8
 		do
-			Result := Immutable_8.new_substring (xml_area, xml_offset, xml_count)
+			Result := xml_data.as_string_8
 		end
 
 	file_path: FILE_PATH
@@ -235,6 +255,8 @@ feature -- Measurement
 
 feature -- Status query
 
+	is_namespace_aware: BOOLEAN
+
 	namespaces_defined: BOOLEAN
 			-- Are any namespaces defined in document
 		do
@@ -249,14 +271,6 @@ feature -- Status query
 		end
 
 feature {EL_DOCUMENT_TOKEN_ITERATOR} -- Implementation
-
-	dispose
-		do
-			Precursor
-			if is_attached (adopted_xml_area) then
-				eif_wean (adopted_xml_area)
-			end
-		end
 
 	new_namespace_table: HASH_TABLE [STRING, STRING]
 		local
@@ -289,19 +303,6 @@ feature {EL_DOCUMENT_TOKEN_ITERATOR} -- Implementation
 			end
 		end
 
-	set_xml_area (a_xml: READABLE_STRING_8)
-		do
-			if is_attached (adopted_xml_area) then
-				eif_wean (adopted_xml_area) -- allow `xml_area' to be collected by GC
-			end
-			if attached cursor_8 (a_xml) as c then
-				xml_area := c.area; xml_offset := c.area_first_index
-				xml_count := a_xml.count
-			end
---			Prevent garbage collector from moving or collecting `xml_area'
-			adopted_xml_area := eif_adopt (xml_area)
-		end
-
 	wide_string_at_index (index: INTEGER): EL_C_WIDE_CHARACTER_STRING
 			--
 		require
@@ -312,17 +313,16 @@ feature {EL_DOCUMENT_TOKEN_ITERATOR} -- Implementation
 
 feature {EL_OWNED_C_OBJECT} -- Internal attributes
 
-	adopted_xml_area: POINTER
-
-	xml_area: SPECIAL [CHARACTER]
-
-	xml_count: INTEGER
-
-	xml_offset: INTEGER
+	xml_data: EL_C_STRING_8
 
 feature {NONE} -- Constants
 
 	Default_name: STRING = "default"
+
+	Default_xml_data: EL_C_STRING_8
+		once
+			Result := XML.Default_doc.to_xml
+		end
 
 	Parser: EL_VTD_XML_PARSER
 			--

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-01 16:23:07 GMT (Tuesday 1st August 2023)"
-	revision: "15"
+	date: "2023-09-06 11:06:48 GMT (Wednesday 6th September 2023)"
+	revision: "16"
 
 deferred class
 	EL_C_STRING
@@ -36,32 +36,6 @@ inherit
 	EL_BIT_COUNTABLE
 
 	EL_SHARED_IMMUTABLE_32_MANAGER
-
-feature -- Initialization
-
-	set_owned_from_c, make_owned (c_ptr: POINTER)
-			--
-		do
-			make_with_ownership (c_ptr, True)
-		end
-
-	set_owned_from_c_of_size, make_owned_of_size (c_ptr: POINTER; size: INTEGER)
-			--
-		do
-			make_with_size_and_ownership (c_ptr, size, True)
-		end
-
-	set_shared_from_c, make_shared (c_ptr: POINTER)
-			-- make shared
-		do
-			make_with_ownership (c_ptr, False)
-		end
-
-	set_shared_from_c_of_size, make_shared_of_size (c_ptr: POINTER; size: INTEGER)
-			-- make shared
-		do
-			make_with_size_and_ownership (c_ptr, size, False)
-		end
 
 feature {NONE} -- Initialization
 
@@ -100,6 +74,28 @@ feature {NONE} -- Initialization
 			put_item (0, i)
 		end
 
+	make_owned (c_ptr: POINTER)
+			--
+		do
+			make_with_ownership (c_ptr, True)
+		end
+
+	make_owned_of_size (c_ptr: POINTER; size: INTEGER)
+			--
+		do
+			make_with_size_and_ownership (c_ptr, size, True)
+		end
+
+	make_shared (c_ptr: POINTER)
+		do
+			make_with_ownership (c_ptr, False)
+		end
+
+	make_shared_of_size (c_ptr: POINTER; size: INTEGER)
+		do
+			make_with_size_and_ownership (c_ptr, size, False)
+		end
+
 	make_with_ownership (c_ptr: POINTER; owned: BOOLEAN)
 			--
 		local
@@ -118,9 +114,6 @@ feature {NONE} -- Initialization
 	make_with_size_and_ownership (c_ptr: POINTER; size: INTEGER; owned: BOOLEAN)
 			--
 		do
-			if is_attached (base_address) then
-				dispose
-			end
 			count := size; capacity := size + 1
 			if owned then
 				own_from_pointer (c_ptr, capacity * width)
@@ -198,6 +191,34 @@ feature -- Element change
 			count := new_count
 		end
 
+	set_owned_from_c (c_ptr: POINTER)
+			--
+		do
+			wipe_out
+			make_with_ownership (c_ptr, True)
+		end
+
+	set_owned_from_c_of_size (c_ptr: POINTER; size: INTEGER)
+			--
+		do
+			wipe_out
+			make_with_size_and_ownership (c_ptr, size, True)
+		end
+
+	set_shared_from_c (c_ptr: POINTER)
+			-- make shared
+		do
+			wipe_out
+			make_with_ownership (c_ptr, False)
+		end
+
+	set_shared_from_c_of_size (c_ptr: POINTER; size: INTEGER)
+			-- make shared
+		do
+			wipe_out
+			make_with_size_and_ownership (c_ptr, size, False)
+		end
+
 feature -- Set external strings
 
 	fill_string (string: STRING_GENERAL)
@@ -217,7 +238,9 @@ feature -- Removal
 	wipe_out
 			--
 		do
-			dispose
+			if is_attached (base_address) then
+				dispose
+			end
 			count := 0
 			byte_count := 0
 			is_shared := true

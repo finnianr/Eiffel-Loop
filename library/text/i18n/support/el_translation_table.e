@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-18 12:49:06 GMT (Friday 18th August 2023)"
-	revision: "27"
+	date: "2023-09-07 9:21:24 GMT (Thursday 7th September 2023)"
+	revision: "28"
 
 class
 	EL_TRANSLATION_TABLE
@@ -29,7 +29,7 @@ inherit
 	EL_MODULE_LIO
 
 create
-	make, make_from_root_node, make_from_pyxis_source, make_from_pyxis, make_from_list
+	make, make_from_xdoc, make_from_pyxis_source, make_from_pyxis, make_from_list
 
 feature {NONE} -- Initialization
 
@@ -70,19 +70,19 @@ feature {NONE} -- Initialization
 			build_from_string (pyxis_source)
 		end
 
-	make_from_root_node (a_language: STRING; root_node: EL_XML_DOC_CONTEXT)
+	make_from_xdoc (a_language: STRING; xdoc: EL_XML_DOC_CONTEXT)
 			-- build from xml
 		require
-			document_has_translation: document_has_translation (a_language, root_node)
+			document_has_translation: document_has_translation (a_language, xdoc)
 		local
 			translations: EL_XPATH_NODE_CONTEXT_LIST
 		do
 			if is_lio_enabled then
-				lio.put_labeled_string ("make_from_root_node",  a_language)
+				lio.put_labeled_string ("make_from_xdoc",  a_language)
 				lio.put_new_line
 			end
 			make (a_language)
-			translations := root_node.context_list (Xpath_translations.substituted_tuple ([language]).to_unicode)
+			translations := xdoc.context_list (Xpath_translations.substituted_tuple ([language]).to_unicode)
 			accommodate (translations.count)
 			across translations as translation loop
 				put (translation.node.as_full_string, translation.node @ Xpath_parent_id)
@@ -120,9 +120,9 @@ feature -- Basic operations
 
 feature -- Contract Support
 
-	document_has_translation (a_language: STRING; root_node: EL_XML_DOC_CONTEXT): BOOLEAN
+	document_has_translation (a_language: STRING; xdoc: EL_XML_DOC_CONTEXT): BOOLEAN
 		do
-			Result := root_node.is_xpath (Xpath_language_available.substituted_tuple ([a_language]).to_unicode)
+			Result := xdoc.is_xpath (Xpath_language_available.substituted_tuple ([a_language]).to_unicode)
 		end
 
 feature {NONE} -- Implementation

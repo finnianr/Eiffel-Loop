@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-30 14:16:35 GMT (Wednesday 30th August 2023)"
-	revision: "51"
+	date: "2023-08-31 13:08:05 GMT (Thursday 31st August 2023)"
+	revision: "52"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -363,16 +363,16 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 
 	replace_substring_all (old_substring, new_substring: READABLE_STRING_GENERAL)
 		local
-			l_old, new: ZSTRING
+			old_, new: ZSTRING
 		do
 			if old_substring.count > 0 then
-				l_old := adapted_argument (old_substring, 1)
+				old_ := adapted_argument (old_substring, 1)
 				new := adapted_argument (new_substring, 2)
-				if l_old /~ new then
+				if old_ /~ new then
 					if respective_encoding (new) = Neither then
-						String_8.replace_substring_all (Current, l_old, new)
+						String_8.replace_substring_all (Current, old_, new)
 					else
-						replace_area_substrings (l_old, new)
+						replace_area_substrings (old_, new)
 					end
 				end
 			end
@@ -386,8 +386,8 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 feature {EL_READABLE_ZSTRING} -- Removal
 
 	keep_head (n: INTEGER)
-			-- Remove all characters except for the first `n';
-			-- do nothing if `n' >= `count'.
+		-- Remove all characters except for the first `n';
+		-- do nothing if `n' >= `count'.
 		local
 			l_count: INTEGER
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-27 15:23:42 GMT (Monday 27th February 2023)"
-	revision: "20"
+	date: "2023-09-07 12:13:22 GMT (Thursday 7th September 2023)"
+	revision: "21"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
@@ -142,7 +142,7 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_root_node (body_path: FILE_PATH): EL_XML_DOC_CONTEXT
+	new_xdoc (body_path: FILE_PATH): EL_XML_DOC_CONTEXT
 		local
 			XML: XML_ROUTINES
 		do

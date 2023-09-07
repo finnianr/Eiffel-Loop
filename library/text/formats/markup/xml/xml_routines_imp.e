@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-02 14:10:01 GMT (Wednesday 2nd August 2023)"
-	revision: "26"
+	date: "2023-09-07 16:29:58 GMT (Thursday 7th September 2023)"
+	revision: "27"
 
 class
 	XML_ROUTINES_IMP
@@ -99,7 +99,7 @@ feature -- Access
 				if a_xml [i] = '/' then
 					i := i + 1
 				end
-				from until i > a_xml.count or else not is_identifier (a_xml [i]) loop
+				from until i > a_xml.count or else not is_identifier (a_xml [i].to_character_8) loop
 					Result.append_character (a_xml [i].to_character_8)
 					i := i + 1
 				end
@@ -116,26 +116,49 @@ feature -- Document status
 		end
 
 	is_namespace_aware (a_xml: READABLE_STRING_8): BOOLEAN
+		-- `True' if xmlns name exists in document root element
 		local
 			tag_splitter: EL_SPLIT_ON_CHARACTER_8 [READABLE_STRING_8]
-			end_index, index_xml_ns: INTEGER
+			done: BOOLEAN
 		do
-			create tag_splitter.make (a_xml, '<')
-			-- look for xmlns name in document root element
-			across tag_splitter as split until end_index.to_boolean loop
-				if attached split.item as section
-					and then section.count > 0 and then section [1].is_alpha
-				then
-					end_index := section.index_of ('>', 1) - 1
-					index_xml_ns := section.substring_index (XMLNS, 1)
-					if index_xml_ns > 0 and then section.valid_index (index_xml_ns + XMLNS.count) then
-						inspect section [index_xml_ns + XMLNS.count]
-							when ' ', '=', ':' then
-								Result := True
-						else
+			create tag_splitter.make (a_xml, '%N')
+			across tag_splitter as split until done or Result loop
+				if attached split.item as line then
+					if has_xmlns_attribute (line) then
+						Result := True
+
+					elseif has_element_ending (line) then
+						done := True
+					end
+				end
+			end
+		end
+
+	is_namespace_aware_file (path: FILE_PATH): BOOLEAN
+		-- `True' if xmlns name exists in document root element
+		require
+			path_exists: path.exists
+		local
+			file: PLAIN_TEXT_FILE; done: BOOLEAN
+		do
+			create file.make_with_name (path)
+			if file.exists then
+				from file.open_read until Result or done loop
+					file.read_line
+					if file.end_of_file then
+						done := True
+
+					elseif attached file.last_string as line then
+						if has_xmlns_attribute (line) then
+							Result := True
+
+						elseif has_element_ending (line) then
+							done := True
+
 						end
 					end
 				end
+				file.close
 			end
 		end
 
@@ -190,12 +213,45 @@ feature {NONE} -- Implementation
 			Result := char.natural_32_code
 		end
 
-	is_identifier (uc: CHARACTER_32): BOOLEAN
+	is_identifier (c: CHARACTER): BOOLEAN
 		do
-			inspect uc
+			inspect c
 				when 'a' .. 'z', 'A' .. 'Z', '0' .. '9', '_', '-' then
 					Result := True
 			else
 			end
 		end
+
+	has_element_ending (str: READABLE_STRING_8): BOOLEAN
+		-- `True' if `str' has right angle bracket and is not a comment
+		-- or processing instruction
+		local
+			rbracket_index: INTEGER; c: CHARACTER
+		do
+			rbracket_index := str.index_of ('>', 1)
+			if rbracket_index > 1 then
+				c := str [rbracket_index - 1]
+				if is_identifier (c) or else c.is_space then
+					Result := True
+
+				elseif c = '/' or c = '"' then
+					Result := True
+				end
+			end
+		end
+
+	has_xmlns_attribute (str: READABLE_STRING_8): BOOLEAN
+		local
+			index_xml_ns: INTEGER
+		do
+			index_xml_ns := str.substring_index (XMLNS, 1)
+			if index_xml_ns > 0 and then str.valid_index (index_xml_ns + XMLNS.count) then
+				inspect str [index_xml_ns + XMLNS.count]
+					when ' ', '=', ':' then
+						Result := True
+				else
+				end
+			end
+		end
+
 end

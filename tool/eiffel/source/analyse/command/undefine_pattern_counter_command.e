@@ -23,16 +23,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-21 18:43:49 GMT (Tuesday 21st March 2023)"
-	revision: "22"
+	date: "2023-09-03 12:11:32 GMT (Sunday 3rd September 2023)"
+	revision: "23"
 
 class
 	UNDEFINE_PATTERN_COUNTER_COMMAND
 
 inherit
 	SOURCE_MANIFEST_COMMAND
-		rename
-			make as make_command
 		redefine
 			make_default, execute
 		end
@@ -46,13 +44,6 @@ create
 	make, make_default, default_create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
-
-	make (source_manifest_path: FILE_PATH; environ_variable: EL_DIR_PATH_ENVIRON_VARIABLE)
-		do
-			make_default
-			environ_variable.apply
-			make_command (source_manifest_path)
-		end
 
 	make_default
 		do

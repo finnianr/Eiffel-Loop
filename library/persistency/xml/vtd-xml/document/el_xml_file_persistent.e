@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-09-07 9:13:22 GMT (Thursday 7th September 2023)"
+	revision: "13"
 
 deferred class
 	EL_XML_FILE_PERSISTENT
@@ -33,25 +33,25 @@ feature {NONE} -- Initialization
 	make_from_file (a_file_path: FILE_PATH)
 			--
 		local
-			root_node: EL_XML_DOC_CONTEXT
+			xdoc: EL_XML_DOC_CONTEXT
 		do
 			Precursor {EVOLICITY_SERIALIZEABLE_AS_XML} (a_file_path)
-			create root_node.make_from_file (a_file_path)
-			set_encoding_from_name (root_node.encoding_name)
-			make_from_root_node (root_node)
+			create xdoc.make_from_file (a_file_path)
+			set_encoding_from_name (xdoc.encoding_name)
+			make_from_xdoc (xdoc)
 		end
 
 	make_from_other (other: like Current)
 		local
-			root_node: EL_XML_DOC_CONTEXT
+			xdoc: EL_XML_DOC_CONTEXT
 		do
 			make_from_template_and_output (other.template_path.twin, other.output_path.twin)
-			create root_node.make_from_string (other.to_xml)
-			set_encoding_from_name (root_node.encoding_name)
-			make_from_root_node (root_node)
+			create xdoc.make_from_string (other.to_xml)
+			set_encoding_from_name (xdoc.encoding_name)
+			make_from_xdoc (xdoc)
 		end
 
-	make_from_root_node (root_node: EL_XML_DOC_CONTEXT)
+	make_from_xdoc (xdoc: EL_XML_DOC_CONTEXT)
 		deferred
 		end
 

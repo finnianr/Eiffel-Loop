@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2023-09-07 14:53:51 GMT (Thursday 7th September 2023)"
+	revision: "15"
 
 class
 	EL_XML_HTTP_CONNECTION
@@ -35,19 +35,19 @@ feature {NONE} -- Initialization
 	make_with_default (a_default_document: like default_document)
 		do
 			make_http
-			create root_node
+			create xdoc.make_from_string (a_default_document.to_xml)
 			default_document := a_default_document
 		end
 
 feature -- Access
 
-	root_node: EL_XML_DOC_CONTEXT
+	xdoc: EL_XML_DOC_CONTEXT
 
 feature -- Status query
 
 	is_default_xml: BOOLEAN
 		do
-			Result := attached root_node.find_node ("/default")
+			Result := attached xdoc.find_node ("/default")
 		end
 
 feature {NONE} -- Event handling
@@ -72,7 +72,7 @@ feature {NONE} -- Implementation
 				else
 					on_xml_read
 				end
-				create root_node.make_from_string (last_string)
+				create xdoc.make_from_string (last_string)
 			end
 		end
 

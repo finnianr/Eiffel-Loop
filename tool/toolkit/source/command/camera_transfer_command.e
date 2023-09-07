@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-22 19:35:59 GMT (Saturday 22nd July 2023)"
-	revision: "9"
+	date: "2023-09-07 12:15:32 GMT (Thursday 7th September 2023)"
+	revision: "10"
 
 class
 	CAMERA_TRANSFER_COMMAND

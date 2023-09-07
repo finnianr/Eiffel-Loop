@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-14 10:46:10 GMT (Friday 14th July 2023)"
-	revision: "11"
+	date: "2023-09-07 15:33:55 GMT (Thursday 7th September 2023)"
+	revision: "12"
 
 class
 	EL_VTD_XML_PARSER
@@ -36,18 +36,10 @@ feature {NONE} -- Initialization
 
 feature {EL_XML_DOC_CONTEXT} -- Access
 
-	root_context_pointer (xml: EL_C_STRING_8; is_namespace_aware: BOOLEAN): POINTER
+	new_root_context (xml: EL_C_STRING_8; is_namespace_aware: BOOLEAN): POINTER
 			--
 		do
 			c_evx_set_document (self_ptr, xml.base_address, xml.count)
-			c_parse (self_ptr, is_namespace_aware)
-			Result := c_evx_root_node_context (self_ptr)
-		end
-
-	new_root_context (doc: EL_XML_DOC_CONTEXT; is_namespace_aware: BOOLEAN): POINTER
-			--
-		do
-			c_evx_set_document (self_ptr, doc.xml_area.base_address + doc.xml_offset, doc.xml_count)
 			c_parse (self_ptr, is_namespace_aware)
 			Result := c_evx_root_node_context (self_ptr)
 		end

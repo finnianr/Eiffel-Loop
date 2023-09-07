@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 9:50:07 GMT (Monday 9th January 2023)"
-	revision: "19"
+	date: "2023-09-07 12:16:31 GMT (Thursday 7th September 2023)"
+	revision: "20"
 
 class
 	EL_SPREAD_SHEET
@@ -42,7 +42,7 @@ inherit
 	EL_MODULE_LIO
 
 create
-	make, make_with_root_node
+	make, make_with_xdoc
 
 feature {NONE} -- Initaliazation
 
@@ -51,13 +51,13 @@ feature {NONE} -- Initaliazation
 		require
 			valid_file_type: is_valid_file_type (file_path)
 		local
-			root_node: EL_XML_DOC_CONTEXT
+			xdoc: EL_XML_DOC_CONTEXT
 		do
-			create root_node.make_from_file (file_path)
-			make_with_root_node (root_node, file_path.base_name, Empty_list)
+			create xdoc.make_from_file (file_path)
+			make_with_xdoc (xdoc, file_path.base_name, Empty_list)
 		end
 
-	make_with_root_node (root_node: EL_XML_DOC_CONTEXT; a_name: ZSTRING; table_names: EL_ZSTRING_LIST)
+	make_with_xdoc (xdoc: EL_XML_DOC_CONTEXT; a_name: ZSTRING; table_names: EL_ZSTRING_LIST)
 		-- make with selected table names
 		local
 			xpath, cell_range_address, l_name: ZSTRING
@@ -71,9 +71,9 @@ feature {NONE} -- Initaliazation
 				lio.put_labeled_substitution (generator, "make (%"%S%")", [a_name])
 				lio.put_new_line
 			end
-			root_node.set_namespace_key ("office")
+			xdoc.set_namespace_key ("office")
 
-			if attached root_node.find_node ("/office:document") as document_ctx then
+			if attached xdoc.find_node ("/office:document") as document_ctx then
 				document_ctx.set_namespace_key ("office")
 				office_version := document_ctx @ "@office:version"
 				mimetype := document_ctx @ "@office:mimetype"

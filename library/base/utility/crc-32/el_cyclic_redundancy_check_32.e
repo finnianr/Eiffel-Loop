@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-07 9:01:52 GMT (Sunday 7th May 2023)"
-	revision: "30"
+	date: "2023-09-07 12:48:57 GMT (Thursday 7th September 2023)"
+	revision: "31"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -133,6 +133,11 @@ feature -- Add basic types
 			--
 		do
 			add_to_checksum ($c, 1, Character_8_bytes)
+		end
+
+	add_character_data (area: SPECIAL [CHARACTER])
+		do
+			add_to_checksum (area.base_address, area.count, Character_8_bytes * area.count)
 		end
 
 	add_data (block: MANAGED_POINTER)

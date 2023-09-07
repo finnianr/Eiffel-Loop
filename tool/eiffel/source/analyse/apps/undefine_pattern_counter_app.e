@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-11 10:09:10 GMT (Saturday 11th March 2023)"
-	revision: "14"
+	date: "2023-09-03 12:12:05 GMT (Sunday 3rd September 2023)"
+	revision: "15"
 
 class
 	UNDEFINE_PATTERN_COUNTER_APP
@@ -18,21 +18,14 @@ obsolete
 inherit
 	SOURCE_MANIFEST_APPLICATION [UNDEFINE_PATTERN_COUNTER_COMMAND]
 		redefine
-			argument_list, option_name
+			option_name
 		end
 
 feature {NONE} -- Implementation
 
-	argument_list: EL_ARRAYED_LIST [EL_COMMAND_ARGUMENT]
-		do
-			Result := <<
-				optional_argument ("define", "Define an environment variable: name=<value>", No_checks)
-			>>
-		end
-
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make (create {EL_FILE_PATH}, create {EL_DIR_PATH_ENVIRON_VARIABLE})
+			Result := agent {like command}.make (create {EL_FILE_PATH})
 		end
 
 feature {NONE} -- Constants

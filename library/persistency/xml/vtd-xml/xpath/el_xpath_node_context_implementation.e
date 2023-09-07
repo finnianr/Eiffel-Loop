@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-14 12:01:43 GMT (Friday 14th July 2023)"
-	revision: "4"
+	date: "2023-09-07 16:13:56 GMT (Thursday 7th September 2023)"
+	revision: "5"
 
 deferred class
 	EL_XPATH_NODE_CONTEXT_IMPLEMENTATION
@@ -25,8 +25,6 @@ inherit
 			{NONE} all
 			{EL_VTD_XML_ATTRIBUTE_API} exception_callbacks_c_struct
 		end
-
-	EL_CALLBACK_C_API
 
 	EL_STRING_8_CONSTANTS
 

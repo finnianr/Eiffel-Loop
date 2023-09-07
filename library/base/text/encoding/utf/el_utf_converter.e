@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-09 10:04:24 GMT (Thursday 9th March 2023)"
-	revision: "15"
+	date: "2023-09-03 16:56:19 GMT (Sunday 3rd September 2023)"
+	revision: "16"
 
 expanded class
 	EL_UTF_CONVERTER
@@ -151,13 +151,9 @@ feature {NONE} -- Implementation
 
 	bomless_text (bom, text: STRING_8): READABLE_STRING_8
 		-- file `text' without the UTF-8 byte-order-mark
-		local
-			bom_count, remainder_count: INTEGER
 		do
-			bom_count := bom.count
-			remainder_count := text.count - bom_count
-			if remainder_count > 0 then
-				Result := Immutable_8.new_substring (text.area, bom_count, remainder_count)
+			if bom.count > 0 then
+				Result := Immutable_8.shared_substring (text, bom.count + 1, text.count)
 			else
 				Result := text
 			end

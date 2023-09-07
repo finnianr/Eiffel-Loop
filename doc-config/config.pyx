@@ -7,7 +7,6 @@ pyxis-doc:
 #		ecf:
 #			ignore = "test_common;other"
 
-
 publish-repository:
 	name = "Eiffel-Loop"; root_dir = "$EIFFEL/library/Eiffel-Loop"; output_dir = "eiffel-loop.com"
 	web_address = "http://www.eiffel-loop.com"; github_url = "https://github.com/finnianr/eiffel-loop"

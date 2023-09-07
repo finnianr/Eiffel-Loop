@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-01 16:27:18 GMT (Tuesday 1st August 2023)"
-	revision: "9"
+	date: "2023-09-07 13:41:18 GMT (Thursday 7th September 2023)"
+	revision: "10"
 
 class
 	EL_C_STRING_8
@@ -27,22 +27,27 @@ inherit
 
 	EL_SHARED_IMMUTABLE_8_MANAGER
 
+	EL_SHARED_STRING_8_CURSOR
+
 create
 	default_create, make_owned, make_shared, make_owned_of_size, make_shared_of_size,
 	make, make_from_string_general, make_from_string
 
 convert
-	make_from_string ({STRING}), as_string_8: {STRING}
+	make_from_string ({STRING_8, IMMUTABLE_STRING_8}), as_string_8: {STRING}
 
 feature {NONE} -- Initialization
 
-	make_from_string (string: STRING)
+	make_from_string (string: READABLE_STRING_8)
 			--
 		do
 			count := string.count
 			capacity := count + 1
 			make_buffer (capacity)
-			base_address.memory_copy (string.area.base_address, capacity)
+			if attached cursor_8 (string) as c8 then
+				put_special_character_8 (c8.area, c8.area_first_index, 0, count)
+				put_natural_8 (0, count)
+			end
 		end
 
 feature -- Access

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 9:13:10 GMT (Monday 21st November 2022)"
-	revision: "11"
+	date: "2023-09-07 12:17:51 GMT (Thursday 7th September 2023)"
+	revision: "12"
 
 class
 	EL_XML_ELEMENT_LIST_EDITIONS [STORABLE_TYPE -> EL_STORABLE_XML_ELEMENT create make_default end]
@@ -78,7 +78,7 @@ feature -- Basic operations
 	apply
 			-- Apply list-editions to target list
 		local
-			root_node: EL_XML_DOC_CONTEXT
+			xdoc: EL_XML_DOC_CONTEXT
 			edition_node_list: EL_XPATH_NODE_CONTEXT_LIST
 			edition_node: EL_XPATH_NODE_CONTEXT
 			template: EL_STRING_8_TEMPLATE
@@ -87,9 +87,9 @@ feature -- Basic operations
 				create template.make (XML_template)
 				template.set_variable ("EDITIONS_LIST", editions_text)
 
-				create root_node.make_from_string (template.substituted)
+				create xdoc.make_from_string (template.substituted)
 
-				edition_node_list := root_node.context_list ("/list-editions/*")
+				edition_node_list := xdoc.context_list ("/list-editions/*")
 				from edition_node_list.start until edition_node_list.after loop
 					edition_node := edition_node_list.context
 

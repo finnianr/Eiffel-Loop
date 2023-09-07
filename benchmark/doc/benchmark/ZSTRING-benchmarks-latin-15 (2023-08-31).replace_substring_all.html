@@ -38,7 +38,7 @@
 	</head>
 	<body>
 		<div id="content">
-		<h1>ZSTRING (ISO-8859-1) v STRING_32</h1>
+		<h1>ZSTRING (ISO-8859-15) v STRING_32</h1>
 		<b>Date:</b> 31 Aug 2023
 		<h2>Benchmark Source Code</h2>
 		<h2>Input Test Data</h2>
@@ -51,7 +51,7 @@
 		</p>
 
 		<h2>Memory Consumption</h2>
-		<h3>Pure Latin-1 Encoding</h3>
+		<h3>Pure Latin-15 Encoding</h3>
 		<caption>Table 1 (In ascending order of relative STRING_32 performance)</caption>
 		<table>
 			<tr>
@@ -67,7 +67,7 @@
 				<td>First line only</td><td>&quot;$A $D&quot;</td><td>-55%</td><td>352 bytes</td>
 			</tr>
 		</table>
-		<h3>Mixed Latin-1 and Unicode Encoding</h3>
+		<h3>Mixed Latin-15 and Unicode Encoding</h3>
 		<caption>Table 2 (In ascending order of relative STRING_32 performance)</caption>
 		<table>
 			<tr>
@@ -96,10 +96,10 @@
 			</tr>
 		</table>
 		<h2>Runtime Performance</h2>
-		<p>Each test iterates over 64 table rows and the number of executions in 100 ms is recorded<br/>
+		<p>Each test iterates over 64 table rows and the number of executions in 500 ms is recorded<br/>
 		(The higher the number the better the performance)</p>
 
-		<h3>Pure Latin-1 Encoding</h3>
+		<h3>Pure Latin-15 Encoding</h3>
 		<caption>Table 3 (In ascending order of relative STRING_32 performance)</caption>
 		<table>
 			<tr>
@@ -109,106 +109,10 @@
 				<th>STRING_32</th>
 			</tr>
 			<tr>
-				<td>replace_character</td><td>&quot;$D&quot;</td><td>240</td><td>-85%</td>
-			</tr>
-			<tr>
-				<td>to_utf_8</td><td>&quot;$A $D&quot;</td><td>2528</td><td>-85%</td>
-			</tr>
-			<tr>
-				<td>append_string_general</td><td>A,D</td><td>1030</td><td>-84%</td>
-			</tr>
-			<tr>
-				<td>append_utf_8</td><td>A,D</td><td>2364</td><td>-73%</td>
-			</tr>
-			<tr>
-				<td>as_string_8</td><td>&quot;$A $D&quot;</td><td>2483</td><td>-72%</td>
-			</tr>
-			<tr>
-				<td>prepend_string_general</td><td>A,D</td><td>1020</td><td>-65%</td>
-			</tr>
-			<tr>
-				<td>to_upper</td><td>&quot;$A $D&quot;</td><td>1847</td><td>-61%</td>
-			</tr>
-			<tr>
-				<td>to_lower</td><td>&quot;$A $D&quot;</td><td>1868</td><td>-60%</td>
-			</tr>
-			<tr>
-				<td>translate</td><td>D</td><td>258</td><td>-55%</td>
-			</tr>
-			<tr>
-				<td>starts_with</td><td>D</td><td>3702</td><td>-51%</td>
-			</tr>
-			<tr>
-				<td>last_index_of</td><td>D</td><td>6958</td><td>-6%</td>
-			</tr>
-			<tr>
-				<td>escaped (as XML)</td><td>put_amp (D)</td><td>64</td><td>-3%</td>
-			</tr>
-			<tr>
-				<td>item</td><td>&quot;$A $D&quot;</td><td>263</td><td>264</td>
-			</tr>
-			<tr>
-				<td>code (z_code)</td><td>&quot;$A $D&quot;</td><td>794</td><td>+3%</td>
-			</tr>
-			<tr>
-				<td>insert_string</td><td>D</td><td>1882</td><td>+5%</td>
-			</tr>
-			<tr>
-				<td>index_of</td><td>D</td><td>8927</td><td>+7%</td>
-			</tr>
-			<tr>
-				<td>is_less (sort)</td><td>D</td><td>828</td><td>+10%</td>
-			</tr>
-			<tr>
-				<td>split, substring</td><td>&quot;$A $D&quot;</td><td>262</td><td>+11%</td>
-			</tr>
-			<tr>
-				<td>starts_with_general</td><td>D</td><td>1593</td><td>+11%</td>
-			</tr>
-			<tr>
-				<td>ends_with_general</td><td>D</td><td>1592</td><td>+13%</td>
-			</tr>
-			<tr>
-				<td>ends_with</td><td>D</td><td>4196</td><td>+14%</td>
-			</tr>
-			<tr>
-				<td>prepend_string</td><td>A,D</td><td>2061</td><td>+15%</td>
-			</tr>
-			<tr>
-				<td>prune_all</td><td>&quot;$A $D&quot;</td><td>1940</td><td>+15%</td>
-			</tr>
-			<tr>
-				<td>substring_index</td><td>&quot;$A $D&quot;</td><td>282</td><td>+17%</td>
-			</tr>
-			<tr>
-				<td>replace_substring_all</td><td>D</td><td>725</td><td>+18%</td>
-			</tr>
-			<tr>
-				<td>is_equal</td><td>D</td><td>2842</td><td>+21%</td>
-			</tr>
-			<tr>
-				<td>replace_substring</td><td>D</td><td>1687</td><td>+25%</td>
-			</tr>
-			<tr>
-				<td>append_string</td><td>A,D</td><td>2060</td><td>+27%</td>
-			</tr>
-			<tr>
-				<td>remove_substring</td><td>D</td><td>2360</td><td>+30%</td>
-			</tr>
-			<tr>
-				<td>unescape (C lang string)</td><td>escaped (D)</td><td>375</td><td>+42%</td>
-			</tr>
-			<tr>
-				<td>left_adjust</td><td>padded (A)</td><td>3075</td><td>+45%</td>
-			</tr>
-			<tr>
-				<td>right_adjust</td><td>padded (A)</td><td>2985</td><td>+47%</td>
-			</tr>
-			<tr>
-				<td>as_string_32</td><td>&quot;$A $D&quot;</td><td>2998</td><td>+83%</td>
+				<td>replace_substring_all</td><td>D</td><td>1337</td><td>+70%</td>
 			</tr>
 		</table>
-		<h3>Mixed Latin-1 and Unicode Encoding</h3>
+		<h3>Mixed Latin-15 and Unicode Encoding</h3>
 		<caption>Table 4 (In ascending order of relative STRING_32 performance)</caption>
 		<table>
 			<tr>
@@ -218,109 +122,7 @@
 				<th>STRING_32</th>
 			</tr>
 			<tr>
-				<td>append_string_general</td><td>A,B,C,D</td><td>397</td><td>-60%</td>
-			</tr>
-			<tr>
-				<td>to_upper</td><td>&quot;$A $B $C $D&quot;</td><td>1187</td><td>-44%</td>
-			</tr>
-			<tr>
-				<td>to_lower</td><td>&quot;$A $B $C $D&quot;</td><td>1170</td><td>-42%</td>
-			</tr>
-			<tr>
-				<td>to_utf_8</td><td>&quot;$A $B $C $D&quot;</td><td>513</td><td>-37%</td>
-			</tr>
-			<tr>
-				<td>escaped (as XML)</td><td>put_amp (&quot;$B $C&quot;)</td><td>184</td><td>-6%</td>
-			</tr>
-			<tr>
-				<td>last_index_of</td><td>&quot;$B $C&quot;</td><td>7810</td><td>-4%</td>
-			</tr>
-			<tr>
-				<td>item</td><td>&quot;$A $B $C $D&quot;</td><td>235</td><td>+3%</td>
-			</tr>
-			<tr>
-				<td>code (z_code)</td><td>&quot;$A $B $C $D&quot;</td><td>704</td><td>+5%</td>
-			</tr>
-			<tr>
-				<td>item</td><td>&quot;$B $C&quot;</td><td>2357</td><td>+13%</td>
-			</tr>
-			<tr>
-				<td>is_less (sort)</td><td>B</td><td>760</td><td>+14%</td>
-			</tr>
-			<tr>
-				<td>replace_character</td><td>&quot;$B $C&quot;</td><td>457</td><td>+14%</td>
-			</tr>
-			<tr>
-				<td>prepend_string_general</td><td>A,B,C,D</td><td>247</td><td>+22%</td>
-			</tr>
-			<tr>
-				<td>translate</td><td>&quot;$B $C&quot;</td><td>621</td><td>+24%</td>
-			</tr>
-			<tr>
-				<td>split, substring</td><td>&quot;$A $B $C $D&quot;</td><td>187</td><td>+25%</td>
-			</tr>
-			<tr>
-				<td>substring_index</td><td>&quot;$B $C $A&quot;</td><td>369</td><td>+27%</td>
-			</tr>
-			<tr>
-				<td>substring_index</td><td>&quot;$A $B $C&quot;</td><td>369</td><td>+31%</td>
-			</tr>
-			<tr>
-				<td>index_of</td><td>&quot;$B $C&quot;</td><td>7022</td><td>+33%</td>
-			</tr>
-			<tr>
-				<td>code (z_code)</td><td>&quot;$B $C&quot;</td><td>4630</td><td>+37%</td>
-			</tr>
-			<tr>
-				<td>starts_with</td><td>&quot;$B $C $A&quot;</td><td>2402</td><td>+41%</td>
-			</tr>
-			<tr>
-				<td>left_adjust</td><td>padded (C)</td><td>2690</td><td>+48%</td>
-			</tr>
-			<tr>
-				<td>ends_with</td><td>&quot;$A $B $C&quot;</td><td>2408</td><td>+54%</td>
-			</tr>
-			<tr>
-				<td>right_adjust</td><td>padded (C)</td><td>2505</td><td>+54%</td>
-			</tr>
-			<tr>
-				<td>append_string</td><td>A,B,C,A,B,C</td><td>697</td><td>+56%</td>
-			</tr>
-			<tr>
-				<td>append_utf_8</td><td>&quot;$B $C&quot;</td><td>1145</td><td>+56%</td>
-			</tr>
-			<tr>
-				<td>unescape (C lang string)</td><td>escaped (&quot;$B $C&quot;)</td><td>1192</td><td>+57%</td>
-			</tr>
-			<tr>
-				<td>remove_substring</td><td>&quot;$A $B $C&quot;</td><td>1820</td><td>+58%</td>
-			</tr>
-			<tr>
-				<td>is_equal</td><td>&quot;$A $B $C&quot;</td><td>2316</td><td>+62%</td>
-			</tr>
-			<tr>
-				<td>ends_with_general</td><td>&quot;$A $B $C&quot;</td><td>1129</td><td>+70%</td>
-			</tr>
-			<tr>
-				<td>prune_all</td><td>&quot;$B $C&quot;</td><td>1036</td><td>+70%</td>
-			</tr>
-			<tr>
-				<td>insert_string</td><td>&quot;$B $C&quot;</td><td>631</td><td>+73%</td>
-			</tr>
-			<tr>
-				<td>starts_with_general</td><td>&quot;$B $C $A&quot;</td><td>1117</td><td>+73%</td>
-			</tr>
-			<tr>
-				<td>prepend_string</td><td>A,B,C,A,B,C</td><td>341</td><td>+74%</td>
-			</tr>
-			<tr>
-				<td>replace_substring_all</td><td>&quot;$A $B $C&quot;</td><td>391</td><td>+74%</td>
-			</tr>
-			<tr>
-				<td>replace_substring</td><td>&quot;$A $B $C&quot;</td><td>606</td><td>+83%</td>
-			</tr>
-			<tr>
-				<td>as_string_32</td><td>&quot;$A $B $C $D&quot;</td><td>2773</td><td>+84%</td>
+				<td>replace_substring_all</td><td>&quot;$A $B $C&quot;</td><td>1183</td><td>+83%</td>
 			</tr>
 		</table>
 		<a name="test_strings"/>

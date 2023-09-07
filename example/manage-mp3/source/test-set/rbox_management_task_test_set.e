@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 15:36:13 GMT (Tuesday 15th August 2023)"
-	revision: "21"
+	date: "2023-09-07 12:13:05 GMT (Thursday 7th September 2023)"
+	revision: "22"
 
 deferred class
 	RBOX_MANAGEMENT_TASK_TEST_SET [T -> RBOX_MANAGEMENT_TASK create make end]
@@ -106,15 +106,15 @@ feature {NONE} -- Implementation
 
 	print_playlist_xml
 		local
-			root_node: EL_XML_DOC_CONTEXT; xpath: STRING; text: ZSTRING
+			xdoc: EL_XML_DOC_CONTEXT; xpath: STRING; text: ZSTRING
 		do
 			log.enter ("print_playlist_xml")
-			create root_node.make_from_file (Database.playlists_xml_path)
+			create xdoc.make_from_file (Database.playlists_xml_path)
 			xpath := "count (/rhythmdb-playlists/playlist/location)"
-			log.put_integer_field (xpath, root_node.query (xpath))
+			log.put_integer_field (xpath, xdoc.query (xpath))
 			log.put_new_line_x2
 
-			across root_node.context_list ("/rhythmdb-playlists/playlist") as playlist loop
+			across xdoc.context_list ("/rhythmdb-playlists/playlist") as playlist loop
 				across << Tag.name, Tag.type >> as name loop
 					if name.cursor_index > 1 then
 						log.put_string ("; ")
@@ -137,16 +137,16 @@ feature {NONE} -- Implementation
 
 	print_rhythmdb_xml
 		local
-			root_node: EL_XML_DOC_CONTEXT; name, xpath: STRING
+			xdoc: EL_XML_DOC_CONTEXT; name, xpath: STRING
 			character_count: INTEGER_REF
 		do
 			log.enter ("print_rhythmdb_xml")
 			create character_count
-			create root_node.make_from_file (Database.xml_database_path)
+			create xdoc.make_from_file (Database.xml_database_path)
 			xpath := "count (/rhythmdb/entry)"
-			log.put_integer_field (xpath, root_node.query (xpath).as_integer)
+			log.put_integer_field (xpath, xdoc.query (xpath).as_integer)
 			log.put_new_line_x2
-			across root_node.context_list ("/rhythmdb/entry") as entry loop
+			across xdoc.context_list ("/rhythmdb/entry") as entry loop
 				Encoded_location.share (entry.node.query (Tag.location).as_string_8)
 				log.put_line (Encoded_location.decoded)
 				log.put_labeled_string (entry.node [Attribute_type].as_string, (entry.node @ Tag.media_type).as_string)
