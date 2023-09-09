@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-07 16:29:58 GMT (Thursday 7th September 2023)"
-	revision: "27"
+	date: "2023-09-09 14:19:20 GMT (Saturday 9th September 2023)"
+	revision: "28"
 
 class
 	XML_ROUTINES_IMP
@@ -231,11 +231,11 @@ feature {NONE} -- Implementation
 			rbracket_index := str.index_of ('>', 1)
 			if rbracket_index > 1 then
 				c := str [rbracket_index - 1]
-				if is_identifier (c) or else c.is_space then
-					Result := True
-
-				elseif c = '/' or c = '"' then
-					Result := True
+				inspect c
+					when 'a' .. 'z', 'A' .. 'Z', '0' .. '9', '/', '"' then
+						Result := True
+				else
+					Result := c.is_space
 				end
 			end
 		end

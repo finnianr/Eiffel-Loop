@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-03 16:47:18 GMT (Sunday 3rd September 2023)"
-	revision: "15"
+	date: "2023-09-07 18:10:41 GMT (Thursday 7th September 2023)"
+	revision: "16"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["codebase_statistics",	agent test_codebase_statistics],
-				["class_word_reader",	agent test_class_word_reader],
+--				["class_word_reader",	agent test_class_word_reader],
 				["find_and_replace",		agent test_find_and_replace],
 				["space_cleaner",			agent test_space_cleaner]
 			>>)

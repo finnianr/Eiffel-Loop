@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 12:13:54 GMT (Friday 10th March 2023)"
-	revision: "40"
+	date: "2023-09-09 12:59:11 GMT (Saturday 9th September 2023)"
+	revision: "41"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -98,6 +98,7 @@ feature -- Tests
 		end
 
 	test_eiffel2java_pecf
+		-- PYXIS_ECF_PARSER_TEST_SET.eiffel2java_pecf
 		note
 			testing: "covers/{WRITEABLE_LIBRARIES_ECF_LINES}.set_from_line",
 						"covers/{LIBRARIES_ECF_LINES}.set_from_line",

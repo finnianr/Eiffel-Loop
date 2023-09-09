@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-06 13:23:42 GMT (Wednesday 6th September 2023)"
-	revision: "1"
+	date: "2023-09-07 18:10:08 GMT (Thursday 7th September 2023)"
+	revision: "2"
 
 class
 	CLASS_WORD_READER
@@ -26,7 +26,6 @@ feature {NONE} -- Initialization
 	make (source_path: FILE_PATH)
 		local
 			i, first_index, last_index: INTEGER; area: SPECIAL [CHARACTER]
-			c: CHARACTER
 		do
 			if attached File.plain_text_bomless (source_path) as source
 				and then attached cursor_8 (source) as c8
@@ -58,8 +57,6 @@ feature {NONE} -- Implementation
 		end
 
 	is_string_manifest (area: SPECIAL [CHARACTER]; i, last_index: INTEGER): BOOLEAN
-		note
-			EIS: "name=Unnamed", "protocol=URI", "src=http://www.yourwebsite.com"
 		local
 			c: CHARACTER
 		do
