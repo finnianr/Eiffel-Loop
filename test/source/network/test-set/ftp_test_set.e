@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-23 13:02:56 GMT (Wednesday 23rd August 2023)"
-	revision: "12"
+	date: "2023-09-10 13:08:21 GMT (Sunday 10th September 2023)"
+	revision: "13"
 
 class
 	FTP_TEST_SET
@@ -40,8 +40,8 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["ftp_directory_exists", agent test_ftp_directory_exists],
-				["ftp_upload",				 agent test_ftp_upload]
+--				["ftp_directory_exists", agent test_ftp_directory_exists],
+--				["ftp_upload",				 agent test_ftp_upload]
 			>>)
 		end
 

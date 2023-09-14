@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 10:26:15 GMT (Tuesday 15th August 2023)"
-	revision: "30"
+	date: "2023-09-10 15:21:47 GMT (Sunday 10th September 2023)"
+	revision: "31"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -83,19 +83,21 @@ feature -- Test
 
 	test_back_reference_match
 		note
-			testing: "covers/{TP_BACK_REFERENCE_MATCH}.match_count",
-				"covers/{TP_REFERENCE_MATCH}.match_count",
-				"covers/{TP_P2_WHILE_NOT_P1_MATCH}.match_count",
-				"covers/{TP_ANY_WHILE_NOT_P_MATCH}.match_count"
+			testing: "[
+				covers/{TP_BACK_REFERENCE_MATCH}.match_count,
+				covers/{TP_REFERENCE_MATCH}.match_count,
+				covers/{TP_P2_WHILE_NOT_P1_MATCH}.match_count,
+				covers/{TP_ANY_WHILE_NOT_P_MATCH}.match_count
+			]"
 		local
-			output: ZSTRING; pattern: like all_of; XML: XML_ROUTINES
+			output: ZSTRING; pattern: like all_of
 			xml_text_element: like xml_text_element_list.item
 		do
 			create output.make_empty
 			across xml_text_element_list as list loop
 				xml_text_element := list.item
 				across << Empty_string_8, Name_susan >> as name loop
-					set_source_text (XML.value_element ("name", name.item, Void))
+					set_source_text (Xml_element #$ [name.item])
 					output.wipe_out
 					pattern := xml_text_element (agent output.append_substring_general (source_text, ?, ?))
 					pattern.parse (source_text)
@@ -722,4 +724,10 @@ feature {NONE} -- Constants
 		once
 			Result := agent (start_index, end_index: INTEGER) do  end
 		end
+
+	XML_element: ZSTRING
+		once
+			Result := "<name>%S</name>"
+		end
+
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-06 13:05:32 GMT (Friday 6th January 2023)"
-	revision: "1"
+	date: "2023-09-11 10:55:44 GMT (Monday 11th September 2023)"
+	revision: "2"
 
 class
 	EL_SERVICE_SCREEN_LIST
@@ -45,7 +45,7 @@ feature -- Basic operations
 				if name.is_empty then
 					option_name := list.item.command_args.substring_to (' ', default_pointer)
 					option_name.prune_all_leading ('-')
-					name.append_string_general (Naming.class_description (option_name, Empty_string_8))
+					name.append_string_general (Naming.class_description (option_name, Naming.No_words))
 				end
 				-- substitute $EMAIL
 				across << list.item.bash_script, list.item.command_args >> as text loop

@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 14:53:49 GMT (Tuesday 15th August 2023)"
-	revision: "53"
+	date: "2023-09-11 15:01:17 GMT (Monday 11th September 2023)"
+	revision: "55"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -149,16 +149,23 @@ feature -- Access
 
 	name (a_value: N): IMMUTABLE_STRING_8
 		-- exported name
+		local
+			i: INTEGER
 		do
 			if attached {like new_name_value_array} name_by_value as array then
-				Result := array [as_integer (a_value)]
+				i := as_integer (a_value)
+				if array.valid_index (i) then
+					Result := array [i]
+				else
+					Result := Default_name
+				end
 
 			elseif attached {like new_name_value_table} name_by_value as table
 				and then table.has_key (as_hashable (a_value))
 			then
 				Result := table.found_item
 			else
-				create Result.make_empty
+				Result := Default_name
 			end
 		end
 

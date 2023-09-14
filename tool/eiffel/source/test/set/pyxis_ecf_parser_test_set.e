@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-09 12:59:11 GMT (Saturday 9th September 2023)"
-	revision: "41"
+	date: "2023-09-09 14:31:11 GMT (Saturday 9th September 2023)"
+	revision: "42"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -105,7 +105,8 @@ feature -- Tests
 						"covers/{RENAMING_MAP_ECF_LINES}.set_from_line",
 						"covers/{CLUSTER_TREE_ECF_LINES}.set_from_line",
 						"covers/{PLATFORM_FILE_RULE_ECF_LINES}.set_from_line",
-						"covers/{SYSTEM_ECF_LINES}.set_from_line"
+						"covers/{SYSTEM_ECF_LINES}.set_from_line",
+						"covers/{XML_ROUTINES_IMP}.is_namespace_aware_file"
 		local
 			ecf_xdoc: EL_XML_DOC_CONTEXT; file_rule_count, windows_count: INTEGER
 			schema_location, platform_value, exclude_value, library_target: STRING

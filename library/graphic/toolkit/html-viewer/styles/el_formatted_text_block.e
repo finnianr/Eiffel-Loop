@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 14:55:01 GMT (Thursday 17th August 2023)"
-	revision: "10"
+	date: "2023-09-11 14:02:34 GMT (Monday 11th September 2023)"
+	revision: "11"
 
 class
 	EL_FORMATTED_TEXT_BLOCK
@@ -27,8 +27,6 @@ inherit
 		export
 			{NONE} all
 			{ANY} first_text, start, after, forth, item_text, item_format
-		redefine
-			is_empty
 		end
 
 	EL_MODULE_COLOR; EL_MODULE_VISION_2
@@ -131,7 +129,7 @@ feature -- Element change
 
 feature -- Status query
 
-	is_empty: BOOLEAN
+	is_text_empty: BOOLEAN
 		do
 			Result := character_count = 0
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 9:50:06 GMT (Tuesday 15th August 2023)"
-	revision: "30"
+	date: "2023-09-10 13:03:23 GMT (Sunday 10th September 2023)"
+	revision: "31"
 
 class
 	EIFFEL_TEST_SET
@@ -48,7 +48,13 @@ feature -- Tests
 			end
 			create c_1.make_empty (64)
 			c_1_size := Eiffel.physical_size (c_1) - 64
-			assert ("special overhead is 32 bytes", c_1_size - c_1.capacity = 32)
+			if c_1_size = 32 then
+				do_nothing
+			else
+				lio.put_integer_field ("c_1_size", c_1_size)
+				lio.put_new_line
+				failed ("special overhead is 32 bytes")
+			end
 		end
 
 	test_natural_constant

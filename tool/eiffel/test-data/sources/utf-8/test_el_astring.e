@@ -101,8 +101,7 @@ feature -- Test routines
 			s.left_adjust
 			s.right_adjust
 			assert ("Same as before", s ~ Trademark)
-			s.prepend_character ('%T')
-			s.append_character ('%T')
+			s.prepend_character ('%%'); s.append_character ('%%')
 			s.left_adjust
 			s.right_adjust
 			assert ("Same as before", s ~ Trademark)

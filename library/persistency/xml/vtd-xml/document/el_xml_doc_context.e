@@ -7,10 +7,9 @@ note
 		
 			adopted_xml_area := eif_adopt (xml_area)
 
-		was causing intermittent failure for this call in My Ching.
+		but was causing intermittent failure for this call in My Ching (returning empty).
 		
 			query ("/journal-list/@selected").as_string_8
-		
 	]"
 
 	author: "Finnian Reilly"
@@ -18,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-07 16:19:20 GMT (Thursday 7th September 2023)"
-	revision: "25"
+	date: "2023-09-09 17:07:45 GMT (Saturday 9th September 2023)"
+	revision: "26"
 
 class
 	EL_XML_DOC_CONTEXT
