@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 10:38:34 GMT (Wednesday 16th August 2023)"
-	revision: "11"
+	date: "2023-09-15 7:48:01 GMT (Friday 15th September 2023)"
+	revision: "12"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -26,8 +26,6 @@ inherit
 			item as interval_item,
 			item_for_iteration as interval_item_for_iteration,
 			make as make_size
-		export
-			{NONE} found_interval, interval_item, interval_item_for_iteration
 		redefine
 			new_cursor
 		end

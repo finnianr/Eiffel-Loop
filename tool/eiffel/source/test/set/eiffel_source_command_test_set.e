@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-14 17:05:30 GMT (Thursday 14th September 2023)"
-	revision: "18"
+	date: "2023-09-15 15:12:31 GMT (Friday 15th September 2023)"
+	revision: "19"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
@@ -29,7 +29,8 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["class_word_reader",	agent test_class_word_reader],
+				["class_reader",			agent test_class_reader],
+				["class_analyzer",		agent test_class_analyzer],
 				["codebase_statistics",	agent test_codebase_statistics],
 				["find_and_replace",		agent test_find_and_replace],
 				["space_cleaner",			agent test_space_cleaner]
@@ -38,26 +39,45 @@ feature {NONE} -- Initialization
 
 feature -- Tests
 
-	test_class_word_reader
+	test_class_analyzer
+		note
+			testing: "[
+				covers/{EIFFEL_SOURCE_ANALYZER}.make
+			]"
+		local
+			analyzer: EIFFEL_SOURCE_ANALYZER
+		do
+			create analyzer.make (Data_dir + "latin-1/parse/thunderbird_mail_to_html_body_converter.e")
+			assert ("249 identifiers", analyzer.identifier_count = 249)
+			assert ("81 keywords", analyzer.keyword_count = 81)
+		end
+
+	test_class_reader
 		note
 			testing: "[
 				covers/{EIFFEL_SOURCE_READER}.make
 			]"
 		local
-			analyzer: TEST_SOURCE_READER; hexadecimal_count, integer_count: INTEGER
+			reader: TEST_SOURCE_READER; hexadecimal_count, integer_count: INTEGER
 			number: STRING; char_string: ZSTRING
 		do
---			create analyzer.make (Data_dir + "utf-8/test_el_astring.e")
-			create analyzer.make (Data_dir + "utf-8/el_iso_8859_10_codec.e")
-			assert ("101 comments", analyzer.comment_list.count = 101)
-			assert_same_string ("Access comment", analyzer.comment_list.first, "-- Access")
+			create reader.make (Data_dir + "utf-8/test_el_astring.e")
+			assert_same_string ("parsed percent character '%%'", reader.quoted_character_list [2], "%%%%")
 
-			if attached analyzer.numeric_constant_list as numeric_list then
+			create reader.make (Data_dir + "latin-1/os-command/file-system/EL_FIND_OS_COMMAND.e")
+			assert ("7 items", reader.operator_list.count = 7)
+			assert_same_string ("5th is and", reader.operator_list [5], "and")
+
+			create reader.make (Data_dir + "utf-8/el_iso_8859_10_codec.e")
+			assert ("101 comments", reader.comment_list.count = 101)
+			assert_same_string ("Access comment", reader.comment_list.first, "-- Access")
+
+			if attached reader.numeric_constant_list as numeric_list then
 				assert ("161 numeric constants", numeric_list.count = 161)
 				assert_same_string ("first number", numeric_list.first, "10")
 				assert_same_string ("last number", numeric_list.last, "0xFF")
 
-				across analyzer.numeric_constant_list as list loop
+				across reader.numeric_constant_list as list loop
 					number := list.item
 					if number.is_natural then
 						integer_count := integer_count + 1
@@ -69,17 +89,17 @@ feature -- Tests
 			end
 			assert ("total numbers is 161", integer_count + hexadecimal_count = 161)
 
-			if attached analyzer.keyword_list as keyword_list then
+			if attached reader.keyword_list as keyword_list then
 				assert ("total keywords is 169", keyword_list.count = 169)
 				assert_same_string ("first keyword", keyword_list.first, "note")
 				assert_same_string ("last keyword", keyword_list.last, "end")
 			end
-			if attached analyzer.identifier_list as identifier_list then
+			if attached reader.identifier_list as identifier_list then
 				assert ("total identifiers is 59", identifier_list.count = 59)
 				assert_same_string ("first identifier", identifier_list.first, "description")
 				assert_same_string ("last identifier", identifier_list.last, "single_byte_unicode_chars")
 			end
-			if attached analyzer.quoted_character_list as quoted_character_list then
+			if attached reader.quoted_character_list as quoted_character_list then
 				assert ("total quoted characters is 95", quoted_character_list.count = 95)
 				across << quoted_character_list.first, quoted_character_list.last >> as str loop
 					create char_string.make_from_utf_8 (str.item)
@@ -140,6 +160,8 @@ feature -- Tests
 			end
 			assert ("24 replacements", replace_count = 24)
 			assert_valid_encodings
+			check attached command as cmd then
+			end
 		end
 
 	test_space_cleaner

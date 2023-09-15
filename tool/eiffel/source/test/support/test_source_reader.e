@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-14 11:51:40 GMT (Thursday 14th September 2023)"
-	revision: "1"
+	date: "2023-09-15 8:48:36 GMT (Friday 15th September 2023)"
+	revision: "2"
 
 class
 	TEST_SOURCE_READER
@@ -28,6 +28,7 @@ feature {NONE} -- Initialization
 			create keyword_list.make (0)
 			create manifest_string_list.make (0)
 			create numeric_constant_list.make (0)
+			create operator_list.make (0)
 			create quoted_character_list.make (0)
 			create quoted_string_list.make (0)
 			create identifier_list.make (0)
@@ -36,6 +37,7 @@ feature {NONE} -- Initialization
 				keyword_list,
 				manifest_string_list,
 				numeric_constant_list,
+				operator_list,
 				quoted_character_list,
 				quoted_string_list,
 				identifier_list,
@@ -48,25 +50,40 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	manifest_string_list: ARRAYED_LIST [IMMUTABLE_STRING_8]
-
-	numeric_constant_list: ARRAYED_LIST [IMMUTABLE_STRING_8]
-
-	quoted_character_list: ARRAYED_LIST [IMMUTABLE_STRING_8]
-
-	quoted_string_list: ARRAYED_LIST [IMMUTABLE_STRING_8]
+	comment_list: ARRAYED_LIST [IMMUTABLE_STRING_8]
 
 	identifier_list: ARRAYED_LIST [IMMUTABLE_STRING_8]
 
 	keyword_list: ARRAYED_LIST [IMMUTABLE_STRING_8]
 
-	comment_list: ARRAYED_LIST [IMMUTABLE_STRING_8]
+	manifest_string_list: ARRAYED_LIST [IMMUTABLE_STRING_8]
+
+	numeric_constant_list: ARRAYED_LIST [IMMUTABLE_STRING_8]
+
+	operator_list: ARRAYED_LIST [IMMUTABLE_STRING_8]
+
+	quoted_character_list: ARRAYED_LIST [IMMUTABLE_STRING_8]
+
+	quoted_string_list: ARRAYED_LIST [IMMUTABLE_STRING_8]
 
 feature {NONE} -- Events
 
 	on_comment (area: SPECIAL [CHARACTER]; i, count: INTEGER)
 		do
 			comment_list.extend (Immutable_8.new_substring (area, i, count))
+		end
+
+	on_identifier (area: SPECIAL [CHARACTER]; i, count: INTEGER)
+		do
+			identifier_list.extend (Immutable_8.new_substring (area, i, count))
+		end
+
+	on_keyword (area: SPECIAL [CHARACTER]; i, count: INTEGER; type: INTEGER_64)
+		do
+			keyword_list.extend (Immutable_8.new_substring (area, i, count))
+			if type = Type_operator then
+				operator_list.extend (keyword_list.last)
+			end
 		end
 
 	on_manifest_string (area: SPECIAL [CHARACTER]; i, count: INTEGER)
@@ -87,17 +104,6 @@ feature {NONE} -- Events
 	on_quoted_string (area: SPECIAL [CHARACTER]; i, count: INTEGER)
 		do
 			quoted_string_list.extend (Immutable_8.new_substring (area, i + 1, count - 2))
-		end
-
-	on_word (area: SPECIAL [CHARACTER]; i, count: INTEGER)
-		do
-			if attached Immutable_8.new_substring (area, i, count) as word then
-				if is_keyword (area, i, count) then
-					keyword_list.extend (word)
-				else
-					identifier_list.extend (word)
-				end
-			end
 		end
 
 end

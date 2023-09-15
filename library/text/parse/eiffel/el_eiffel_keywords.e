@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-14 11:53:43 GMT (Thursday 14th September 2023)"
-	revision: "8"
+	date: "2023-09-15 7:41:46 GMT (Friday 15th September 2023)"
+	revision: "9"
 
 deferred class
 	EL_EIFFEL_KEYWORDS
@@ -30,74 +30,6 @@ feature {NONE} -- Keywords
 			)
 		ensure
 			end_ok: Result.end_.same_string_general ("end")
-		end
-
-	Keyword_type_table: EL_IMMUTABLE_STRING_8_TABLE
-		-- lookup
-		once
-			create Result.make_by_assignment ("[
-				across := kw
-				agent := kw
-				alias := kw
-				all := kw
-				and := operator
-				as := kw
-				assign := kw
-				attached := kw
-				attribute := kw
-				check := kw
-				class := kw
-				convert := kw
-				create := kw
-				current := reference
-				debug := kw
-				deferred := kw
-				detachable := kw
-				do := kw
-				else := kw
-				elseif := kw
-				end := kw
-				ensure := kw
-				expanded := kw
-				export := kw
-				external := kw
-				false := constant
-				feature := kw
-				from := kw
-				frozen := kw
-				if := kw
-				implies := kw
-				inherit := kw
-				inspect := kw
-				invariant := kw
-				like := kw
-				local := kw
-				loop := kw
-				not := operator
-				note := kw
-				obsolete := kw
-				old := operator
-				once := kw
-				only := kw
-				or := operator
-				precursor := kw
-				redefine := kw
-				rename := kw
-				require := kw
-				rescue := kw
-				result := reference
-				retry := kw
-				select := kw
-				separate := kw
-				then := kw
-				true := constant
-				undefine := kw
-				until := kw
-				variant := kw
-				void := constant
-				when := kw
-				xor := operator
-			]")
 		end
 
 feature {NONE} -- Keyword lists

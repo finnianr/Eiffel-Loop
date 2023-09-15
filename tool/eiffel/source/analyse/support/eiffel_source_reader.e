@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-14 16:30:12 GMT (Thursday 14th September 2023)"
-	revision: "4"
+	date: "2023-09-15 14:25:31 GMT (Friday 15th September 2023)"
+	revision: "5"
 
 deferred class
 	EIFFEL_SOURCE_READER
@@ -19,13 +19,18 @@ inherit
 
 	EL_SHARED_STRING_8_CURSOR; EL_SHARED_IMMUTABLE_8_MANAGER
 
-	EL_EIFFEL_KEYWORDS
+	EL_EIFFEL_IMMUTABLE_KEYWORDS
 
 feature {NONE} -- Initialization
+
+	initialize
+		do
+		end
 
 	make (source_path: FILE_PATH)
 		local
 			i, first_index, last_index, count: INTEGER; area: SPECIAL [CHARACTER]
+			type: INTEGER_64
 		do
 			initialize
 			if attached File.plain_text_bomless (source_path) as source
@@ -54,7 +59,12 @@ feature {NONE} -- Initialization
 
 						when 'A' .. 'Z', 'a' .. 'z' then
 							count := word_skip_count (area, i, last_index)
-							on_word (area, i, count)
+							type := keyword_type (area, i, count)
+							if type > 0 then
+								on_keyword (area, i, count, type)
+							else
+								on_identifier (area, i, count)
+							end
 
 						when '0' .. '9' then
 							if is_hexadecimal_or_binary (area, i, last_index) then
@@ -72,13 +82,17 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	initialize
-		do
-		end
-
 feature {NONE} -- Events
 
 	on_comment (area: SPECIAL [CHARACTER]; i, count: INTEGER)
+		deferred
+		end
+
+	on_identifier (area: SPECIAL [CHARACTER]; i, count: INTEGER)
+		deferred
+		end
+
+	on_keyword (area: SPECIAL [CHARACTER]; i, count: INTEGER; type: INTEGER_64)
 		deferred
 		end
 
@@ -95,10 +109,6 @@ feature {NONE} -- Events
 		end
 
 	on_quoted_string (area: SPECIAL [CHARACTER]; i, count: INTEGER)
-		deferred
-		end
-
-	on_word (area: SPECIAL [CHARACTER]; i, count: INTEGER)
 		deferred
 		end
 
@@ -140,8 +150,6 @@ feature {NONE} -- Implementation
 		end
 
 	is_hexadecimal_or_binary (area: SPECIAL [CHARACTER]; i, last_index: INTEGER): BOOLEAN
-		local
-			second: CHARACTER; changed: BOOLEAN
 		do
 			if i + 2 <= last_index then
 				inspect area [i + 1]
@@ -156,25 +164,6 @@ feature {NONE} -- Implementation
 					else
 					end
 				end
-			end
-		end
-
-	is_keyword (area: SPECIAL [CHARACTER]; i, count: INTEGER): BOOLEAN
-		local
-			first: CHARACTER; changed: BOOLEAN
-		do
-			first := area [i]
-			if first.is_upper then
-				area [i] := first.as_lower
-				changed := True
-			end
-			if attached Keyword_type_table as table then
-			-- Important to ensure `Keyword_type_table' has been created before call to `set_item'
-				Immutable_8.set_item (area, i, count)
-				Result := table.has_immutable (Immutable_8.item)
-			end
-			if changed then
-				area [i] := first
 			end
 		end
 
@@ -194,6 +183,38 @@ feature {NONE} -- Implementation
 					end
 					j := j + 1
 				end
+			end
+		end
+
+	keyword_type (area: SPECIAL [CHARACTER]; i, count: INTEGER): INTEGER_64
+		local
+			first: CHARACTER; changed: BOOLEAN
+		do
+			first := area [i]
+			if first.is_upper then
+				area [i] := first.as_lower
+				changed := True
+			end
+			if attached Keyword_type_table as table then
+			-- Important to ensure `Keyword_type_table' has been created before call to `set_item'
+				Immutable_8.set_item (area, i, count)
+				if table.has_immutable_key (Immutable_8.item) then
+					Result := table.found_interval
+				end
+			end
+			if changed then
+				area [i] := first
+			end
+		end
+
+	matches_end_or_ensure (area: SPECIAL [CHARACTER]; i, count: INTEGER): BOOLEAN
+		do
+			inspect count
+				when 3 then -- end
+					Result := area [i] = 'e' and then area [i + 2] = 'd'
+				when 6 then -- ensure
+					Result := area [i] = 'e' and then area [i + 5] = 'e'
+			else
 			end
 		end
 

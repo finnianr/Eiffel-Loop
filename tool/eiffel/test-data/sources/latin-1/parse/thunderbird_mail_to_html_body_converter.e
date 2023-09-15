@@ -69,6 +69,12 @@ feature -- Basic operations
 						order_lines.extend (subject_order.found_item)
 					end
 				end
+				debug ("convert_mails")
+					across order_lines as line loop
+						lio.put_index_labeled_string (line, Void, line.item)
+						lio.put_new_line
+					end
+				end
 				order_file_path := output_dir + "order.txt"
 				new_order_file_path := order_file_path.with_new_extension ("new.txt")
 				create order_file.make_open_write (new_order_file_path)
