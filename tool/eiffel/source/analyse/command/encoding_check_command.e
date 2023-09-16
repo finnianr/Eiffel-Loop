@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-09 10:21:11 GMT (Thursday 9th March 2023)"
-	revision: "19"
+	date: "2023-09-16 11:46:21 GMT (Saturday 16th September 2023)"
+	revision: "20"
 
 class
 	ENCODING_CHECK_COMMAND
@@ -15,7 +15,7 @@ class
 inherit
 	SOURCE_MANIFEST_COMMAND
 		redefine
-			make, execute
+			execute, make_default, read_manifest_files
 		end
 
 	EL_FILE_OPEN_ROUTINES
@@ -29,10 +29,10 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (manifest_path: FILE_PATH)
+	make_default
 		do
-			Precursor (manifest_path)
-			create file_encoding_table.make (manifest.file_count)
+			Precursor
+			create file_encoding_table.make (0)
 		end
 
 feature -- Constants
@@ -84,6 +84,12 @@ feature {NONE} -- Implementation
 					file_encoding_table.extend (source_path, once "INVALID UTF-8")
 				end
 			end
+		end
+
+	read_manifest_files
+		do
+			Precursor
+			file_encoding_table.accommodate (manifest.file_count)
 		end
 
 feature {NONE} -- Internal attributes

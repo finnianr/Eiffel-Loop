@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-03 12:04:19 GMT (Sunday 3rd September 2023)"
-	revision: "21"
+	date: "2023-09-16 8:39:23 GMT (Saturday 16th September 2023)"
+	revision: "22"
 
 class
 	CODEBASE_STATISTICS_COMMAND
@@ -101,7 +101,7 @@ feature {NONE} -- Constants
 
 	Double: FORMAT_DOUBLE
 		once
-			create Result.make (6, 1)
+			create Result.make (6, 2)
 			Result.no_justify
 		end
 

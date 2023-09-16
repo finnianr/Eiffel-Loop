@@ -19,6 +19,7 @@ manifest:
 	# separate GNU license with Gerrit Leder
 	import:
 		"example/protein-folding/source-manifest.pyx"
+		"sources-library.pyx"
 
 	# testing and benchmarks
 	location:
@@ -31,17 +32,4 @@ manifest:
 	location:
 		"tool/eiffel/source"
 		"tool/toolkit/source"
-
-	# libraries
-	location:
-		"library/base"
-		"library/graphic"
-		"library/language_interface"
-		"library/multimedia"
-		"library/network"
-		"library/persistency"
-		"library/runtime"
-		"library/testing"
-		"library/text"
-		"library/utility"
 

@@ -1,3 +1,6 @@
+1.5.0
+* New app ROUTINE_STATISTICS_APP
+
 1.4.6
 * Fixed bad implementation of EL_XML_DOC_CONTEXT caused by eif_wean
 

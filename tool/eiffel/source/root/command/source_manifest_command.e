@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 7:37:35 GMT (Thursday 17th August 2023)"
-	revision: "21"
+	date: "2023-09-16 12:08:25 GMT (Saturday 16th September 2023)"
+	revision: "22"
 
 deferred class
 	SOURCE_MANIFEST_COMMAND
@@ -32,16 +32,26 @@ inherit
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (manifest_path_or_directory: FILE_PATH)
+	make (a_manifest_path_or_directory: FILE_PATH)
 		local
 			l_manifest: SOURCE_MANIFEST
 		do
-			if File_system.is_directory (manifest_path_or_directory) then
-				create l_manifest.make_from_directory (manifest_path_or_directory.to_string)
+			if File_system.is_directory (a_manifest_path_or_directory) then
+				create l_manifest.make_from_directory (a_manifest_path_or_directory.to_string)
+				is_directory := True
 			else
-				create l_manifest.make_from_file (manifest_path_or_directory)
+				create l_manifest.make_from_file (a_manifest_path_or_directory)
 			end
 			make_from_manifest (l_manifest)
+
+			manifest_path_or_directory.copy (a_manifest_path_or_directory)
+		end
+
+	make_default
+		do
+			Precursor
+			create manifest.make_default
+			create manifest_path_or_directory
 		end
 
 	make_from_manifest (a_manifest: SOURCE_MANIFEST)
@@ -50,10 +60,14 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			manifest := a_manifest
 		end
 
-	make_default
+feature -- Status query
+
+	is_directory: BOOLEAN
+		-- `True' if sources files specified by directory path rather than manifest
+
+	source_trees_read: BOOLEAN
 		do
-			Precursor
-			create manifest.make_default
+			Result := manifest.source_trees_read
 		end
 
 feature -- Basic operations
@@ -81,7 +95,7 @@ feature -- Basic operations
 
 	execute
 		do
-			manifest.read_source_trees
+			read_manifest_files
 
 			across manifest.source_tree_list as location loop
 				if location.item.dir_path.exists then
@@ -106,9 +120,22 @@ feature {NONE} -- Implementation
 			Result := manifest.file_list
 		end
 
-feature -- Access
+	read_manifest_files
+		do
+			if is_directory then
+				lio.put_labeled_string ("Reading directory", manifest_path_or_directory.to_string)
+			else
+				lio.put_labeled_string ("Reading manifest", manifest_path_or_directory.base_name)
+			end
+			lio.put_new_line
+			manifest.read_source_trees
+		end
+
+feature {NONE} -- Internal attributes
 
 	manifest: SOURCE_MANIFEST
+
+	manifest_path_or_directory: FILE_PATH
 
 feature {NONE} -- Constants
 

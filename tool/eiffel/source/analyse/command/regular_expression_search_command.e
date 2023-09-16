@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 7:38:01 GMT (Thursday 17th August 2023)"
-	revision: "22"
+	date: "2023-09-16 12:05:52 GMT (Saturday 16th September 2023)"
+	revision: "23"
 
 class
 	REGULAR_EXPRESSION_SEARCH_COMMAND
@@ -18,6 +18,8 @@ inherit
 		rename
 			make as make_command,
 			do_with_file as do_nothing_with
+		export
+			{ANY} read_manifest_files
 		redefine
 			execute, make_default
 		end
@@ -35,9 +37,9 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (manifest_path_or_directory, output_path: FILE_PATH)
+	make (a_manifest_path_or_directory, output_path: FILE_PATH)
 		do
-			make_command (manifest_path_or_directory)
+			make_command (a_manifest_path_or_directory)
 			if not output_path.is_empty then
 				create output_file.make_with_path (output_path)
 			end
@@ -60,6 +62,8 @@ feature -- Constants
 feature -- Basic operations
 
 	execute
+		require else
+			source_trees_read: source_trees_read
 		local
 			user_quit, not_opened_result_file: BOOLEAN; count: INTEGER
 			previous_options, grep_options: ZSTRING

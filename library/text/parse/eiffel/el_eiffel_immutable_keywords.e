@@ -22,6 +22,7 @@ feature {NONE} -- Constants
 		local
 			interval_table: HASH_TABLE [INTEGER_64, IMMUTABLE_STRING_8]
 		once
+		-- deferred is not categorized as a routine because it contains no code
 			create Result.make_by_assignment ("[
 				across := block
 				agent := kw
@@ -38,13 +39,13 @@ feature {NONE} -- Constants
 				create := kw
 				current := reference
 				debug := debug
-				deferred := routine
+				deferred := kw
 				detachable := kw
 				do := routine
 				else := kw
 				elseif := kw
-				end := kw
-				ensure := contract
+				end := end_block
+				ensure := end_block
 				expanded := kw
 				export := inheritance
 				external := routine
@@ -123,6 +124,17 @@ feature {NONE} -- Keyword types
 		ensure
 			same_type:
 				Keyword_type_table.has_key_8 ("check") implies Keyword_type_table.found_interval = Result
+		end
+
+	Type_end_block: INTEGER_64
+		-- indicates end of block of statements
+		once
+			if Keyword_type_table.has_key_8 ("end") then
+				Result := Keyword_type_table.found_interval
+			end
+		ensure
+			same_type:
+				Keyword_type_table.has_key_8 ("ensure") implies Keyword_type_table.found_interval = Result
 		end
 
 	Type_note: INTEGER_64

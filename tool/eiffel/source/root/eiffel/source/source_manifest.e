@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-25 8:39:22 GMT (Sunday 25th June 2023)"
-	revision: "30"
+	date: "2023-09-16 12:00:39 GMT (Saturday 16th September 2023)"
+	revision: "31"
 
 class
 	SOURCE_MANIFEST
@@ -58,11 +58,6 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	file_count: INTEGER
-		require
-			source_trees_read: source_trees_read
-		do
-			Result := source_tree_list.sum_integer (agent {SOURCE_TREE}.file_count)
-		end
 
 	file_list: EL_FILE_PATH_LIST
 		require
@@ -98,6 +93,9 @@ feature -- Access
 feature -- Status query
 
 	source_trees_read: BOOLEAN
+		do
+			Result := file_count > 0
+		end
 
 feature -- Basic operations
 
@@ -106,7 +104,7 @@ feature -- Basic operations
 			across source_tree_list as list loop
 				list.item.read_file_list
 			end
-			source_trees_read := True
+			file_count := source_tree_list.sum_integer (agent {SOURCE_TREE}.file_count)
 		end
 
 feature {NONE} -- Build from Pyxis

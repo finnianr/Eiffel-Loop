@@ -1,13 +1,16 @@
 note
-	description: "Abstraction to read Eiffel source file and detect keywords, identifiers and quoted text"
+	description: "[
+		Abstraction to read Eiffel source file and detect keywords, identifiers, quoted text,
+		numbers and comments
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-15 14:25:31 GMT (Friday 15th September 2023)"
-	revision: "5"
+	date: "2023-09-16 8:12:23 GMT (Saturday 16th September 2023)"
+	revision: "6"
 
 deferred class
 	EIFFEL_SOURCE_READER
@@ -28,59 +31,20 @@ feature {NONE} -- Initialization
 		end
 
 	make (source_path: FILE_PATH)
-		local
-			i, first_index, last_index, count: INTEGER; area: SPECIAL [CHARACTER]
-			type: INTEGER_64
 		do
 			initialize
 			if attached File.plain_text_bomless (source_path) as source
 				and then attached cursor_8 (source) as c8
 			then
-				area := c8.area; first_index := c8.area_first_index
-				last_index := c8.area_last_index
-				from i := first_index until i > last_index loop
-					inspect area [i]
-						when '-' then
-							if is_comment (area, i, last_index) then
-								count := comment_skip_count (area, i, last_index)
-								on_comment (area, i, count)
-							end
-						when '"' then
-							if is_open_string_manifest (area, i, last_index) then
-								count := string_manifest_skip_count (area, i, last_index)
-								on_manifest_string (area, i, count)
-							else
-								count := quoted_text_skip_count (area, '"', i, last_index)
-								on_quoted_string (area, i, count)
-							end
-						when '%'' then
-							count := quoted_text_skip_count (area, '%'', i, last_index)
-							on_quoted_character (area, i, count)
-
-						when 'A' .. 'Z', 'a' .. 'z' then
-							count := word_skip_count (area, i, last_index)
-							type := keyword_type (area, i, count)
-							if type > 0 then
-								on_keyword (area, i, count, type)
-							else
-								on_identifier (area, i, count)
-							end
-
-						when '0' .. '9' then
-							if is_hexadecimal_or_binary (area, i, last_index) then
-								count := hexadecimal_or_binary_skip_count (area, i, last_index)
-							else
-								count := number_skip_count (area, i, last_index)
-							end
-							on_numeric_constant (area, i, count)
-
-					else
-						count := 1
-					end
-					i := i + count
-				end
+				byte_count := source.count
+				analyze (c8.area, c8.area_first_index, c8.area_last_index)
 			end
 		end
+
+feature -- Measurement
+
+	byte_count: INTEGER
+		-- source byte count excluding any BOM
 
 feature {NONE} -- Events
 
@@ -112,37 +76,7 @@ feature {NONE} -- Events
 		deferred
 		end
 
-feature {NONE} -- Implementation
-
-	comment_skip_count (area: SPECIAL [CHARACTER]; i, last_index: INTEGER): INTEGER
-		local
-			done: BOOLEAN; j: INTEGER
-		do
-			from j := i + 2 until j > last_index or done loop
-				inspect area [j]
-					when '%R', '%N' then
-						done := True
-				else
-					j := j + 1
-				end
-			end
-			Result := j - i
-		end
-
-	hexadecimal_or_binary_skip_count (area: SPECIAL [CHARACTER]; i, last_index: INTEGER): INTEGER
-		local
-			done: BOOLEAN; j: INTEGER
-		do
-			from j := i + 1 until j > last_index or done loop
-				inspect area [j]
-					when '0' .. '9', 'A' .. 'F', 'a' .. 'f', 'x', 'X' then
-						j := j + 1
-				else
-					done := True
-				end
-			end
-			Result := j - i
-		end
+feature {NONE} -- Section query
 
 	is_comment (area: SPECIAL [CHARACTER]; i, last_index: INTEGER): BOOLEAN
 		do
@@ -186,6 +120,85 @@ feature {NONE} -- Implementation
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	analyze (area: SPECIAL [CHARACTER]; first_index, last_index: INTEGER)
+		local
+			i, count: INTEGER; type: INTEGER_64
+		do
+			from i := first_index until i > last_index loop
+				inspect area [i]
+					when '-' then
+						if is_comment (area, i, last_index) then
+							count := comment_skip_count (area, i, last_index)
+							on_comment (area, i, count)
+						end
+					when '"' then
+						if is_open_string_manifest (area, i, last_index) then
+							count := string_manifest_skip_count (area, i, last_index)
+							on_manifest_string (area, i, count)
+						else
+							count := quoted_text_skip_count (area, '"', i, last_index)
+							on_quoted_string (area, i, count)
+						end
+					when '%'' then
+						count := quoted_text_skip_count (area, '%'', i, last_index)
+						on_quoted_character (area, i, count)
+
+					when 'A' .. 'Z', 'a' .. 'z' then
+						count := word_skip_count (area, i, last_index)
+						type := keyword_type (area, i, count)
+						if type > 0 then
+							on_keyword (area, i, count, type)
+						else
+							on_identifier (area, i, count)
+						end
+
+					when '0' .. '9' then
+						if is_hexadecimal_or_binary (area, i, last_index) then
+							count := hexadecimal_or_binary_skip_count (area, i, last_index)
+						else
+							count := number_skip_count (area, i, last_index)
+						end
+						on_numeric_constant (area, i, count)
+
+				else
+					count := 1
+				end
+				i := i + count
+			end
+		end
+
+	comment_skip_count (area: SPECIAL [CHARACTER]; i, last_index: INTEGER): INTEGER
+		local
+			done: BOOLEAN; j: INTEGER
+		do
+			from j := i + 2 until j > last_index or done loop
+				inspect area [j]
+					when '%R', '%N' then
+						done := True
+				else
+					j := j + 1
+				end
+			end
+			Result := j - i
+		end
+
+	hexadecimal_or_binary_skip_count (area: SPECIAL [CHARACTER]; i, last_index: INTEGER): INTEGER
+		local
+			done: BOOLEAN; j: INTEGER
+		do
+			from j := i + 1 until j > last_index or done loop
+				inspect area [j]
+					when '0' .. '9', 'A' .. 'F', 'a' .. 'f', 'x', 'X' then
+						j := j + 1
+				else
+					done := True
+				end
+			end
+			Result := j - i
+		end
+
 	keyword_type (area: SPECIAL [CHARACTER]; i, count: INTEGER): INTEGER_64
 		local
 			first: CHARACTER; changed: BOOLEAN
@@ -204,17 +217,6 @@ feature {NONE} -- Implementation
 			end
 			if changed then
 				area [i] := first
-			end
-		end
-
-	matches_end_or_ensure (area: SPECIAL [CHARACTER]; i, count: INTEGER): BOOLEAN
-		do
-			inspect count
-				when 3 then -- end
-					Result := area [i] = 'e' and then area [i + 2] = 'd'
-				when 6 then -- ensure
-					Result := area [i] = 'e' and then area [i + 5] = 'e'
-			else
 			end
 		end
 
@@ -244,7 +246,7 @@ feature {NONE} -- Implementation
 							j := j + 1
 						end
 
-				-- Floating point
+				-- Floating point exponent
 					when 'e', 'E' then
 						j := j + 1
 				else

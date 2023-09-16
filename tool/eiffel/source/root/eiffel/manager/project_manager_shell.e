@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-31 9:46:57 GMT (Thursday 31st August 2023)"
-	revision: "8"
+	date: "2023-09-16 11:52:43 GMT (Saturday 16th September 2023)"
+	revision: "9"
 
 class
 	PROJECT_MANAGER_SHELL
@@ -110,7 +110,7 @@ feature {NONE} -- Commands
 			shell: REGULAR_EXPRESSION_SEARCH_COMMAND
 		do
 			create shell.make (Directory.current_working + "source", Grep_results_path)
-			shell.manifest.read_source_trees
+			shell.read_manifest_files
 			shell.execute
 			Command.launch_gedit (Grep_results)
 		end

@@ -1,15 +1,23 @@
 note
 	description: "[
-		Analyze Eiffel source file for number of identifiers, keywords, quoted strings, quoted characters
+		Counts the number of occurrences of identifiers and Eiffel keywords that occur
+		within the body of a routine, i.e. between the **do** (or **once**) keyword and the corresponding
+		**end** (or **ensure**) at the end of the routine.
+		
+		But it ignores any identifiers and keywords within code blocks defined by the **check** or
+		**debug** keyword. Naturally comments, and anything in quoted text is ignored.
+		
+		In addition it also records the total source byte count (excluding any BOM).
 	]"
+	tests: "{[$source EIFFEL_SOURCE_COMMAND_TEST_SET]}.class_analyzer"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-15 15:09:12 GMT (Friday 15th September 2023)"
-	revision: "2"
+	date: "2023-09-16 12:16:44 GMT (Saturday 16th September 2023)"
+	revision: "3"
 
 class
 	EIFFEL_SOURCE_ANALYZER
@@ -25,6 +33,8 @@ feature -- Measurement
 	identifier_count: INTEGER
 
 	keyword_count: INTEGER
+
+	routine_count: INTEGER
 
 feature -- Contract Support
 
@@ -58,7 +68,7 @@ feature {NONE} -- Events
 			word := Immutable_8.new_substring (area, i, count)
 
 			if debug_indent.to_boolean then
-				if matches_end_or_ensure (area, i, count) then
+				if type = Type_end_block then
 					debug_indent := debug_indent - 1
 
 				elseif type = Type_block then
@@ -66,7 +76,7 @@ feature {NONE} -- Events
 				end
 
 			elseif block_indent.to_boolean then
-				if matches_end_or_ensure (area, i, count) then
+				if type = Type_end_block then
 					block_indent := block_indent - 1
 
 				elseif type = Type_debug then
@@ -81,6 +91,7 @@ feature {NONE} -- Events
 
 			elseif type = Type_routine then
 				block_indent := block_indent + 1
+				routine_count := routine_count + 1
 
 			end
 		end

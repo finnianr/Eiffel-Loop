@@ -222,6 +222,13 @@ feature -- Duplication
 
 feature -- Element change
 
+	accommodate (n: INTEGER)
+		-- Reallocate table with enough space for `n' items;
+		-- keep all current items.
+		do
+			resize (n.max (count))
+		end
+
 	put (key: H)
 		-- In either case, set `found_item' to the item
 		-- now associated with `key' (previous item if

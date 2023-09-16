@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-09 10:04:02 GMT (Monday 9th January 2023)"
-	revision: "27"
+	date: "2023-09-16 11:49:23 GMT (Saturday 16th September 2023)"
+	revision: "28"
 
 class
 	LIBRARY_MIGRATION_COMMAND
@@ -20,7 +20,7 @@ inherit
 		rename
 			make as make_command
 		redefine
-			execute
+			execute, read_manifest_files
 		end
 
 	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_OS; EL_MODULE_USER_INPUT
@@ -39,9 +39,9 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			home_dir := a_home_dir; destination_dir := a_home_dir.parent #+ (a_home_dir.base + suffix)
 			make_command (manifest_path)
-			create class_list.make (manifest.file_count)
-			create library_set.make (manifest.file_count)
-			create class_path_table.make (manifest.file_count)
+			create class_list.make (0)
+			create library_set.make (0)
+			create class_path_table.make (0)
 		end
 
 feature -- Constants
@@ -157,6 +157,14 @@ feature {NONE} -- Implementation
 		do
 			if attached User_input.line ("Press <Enter> to copy file " + s.joined_with (name_array, " and ")) then
 			end
+		end
+
+	read_manifest_files
+		do
+			Precursor
+			class_list.grow (manifest.file_count)
+			library_set.accommodate (manifest.file_count)
+			class_path_table.accommodate (manifest.file_count)
 		end
 
 feature {NONE} -- Internal attributes
