@@ -13,6 +13,8 @@ deferred class
 	EL_ENCODING_BASE
 
 inherit
+	ANY
+	
 	EL_ENCODING_CONSTANTS
 		rename
 			Other as Other_class,

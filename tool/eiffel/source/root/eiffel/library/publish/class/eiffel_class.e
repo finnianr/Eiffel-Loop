@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-24 6:38:23 GMT (Thursday 24th August 2023)"
-	revision: "48"
+	date: "2023-09-17 15:51:54 GMT (Sunday 17th September 2023)"
+	revision: "49"
 
 class
 	EIFFEL_CLASS
@@ -36,7 +36,7 @@ inherit
 
 	COMPARABLE undefine copy end
 
-	CLASS_STATISTICS_I undefine is_equal, copy end
+	EL_THREAD_ACCESS [CODEBASE_METRICS] undefine is_equal, copy end
 
 	EL_EIFFEL_KEYWORDS
 
@@ -44,7 +44,7 @@ inherit
 
 	PUBLISHER_CONSTANTS; EL_ZSTRING_CONSTANTS; EL_CHARACTER_32_CONSTANTS
 
-	SHARED_CLASS_PATH_TABLE; SHARED_ISE_CLASS_TABLE
+	SHARED_CLASS_PATH_TABLE; SHARED_ISE_CLASS_TABLE; SHARED_CODEBASE_METRICS
 
 create
 	make
@@ -54,7 +54,7 @@ feature {NONE} -- Initialization
 	make (a_source_path: like source_path; a_library_ecf: like library_ecf; a_repository: like repository)
 			--
 		local
-			stats: CLASS_STATISTICS
+			source_text: STRING; utf: EL_UTF_CONVERTER
 		do
 			relative_source_path := a_source_path.relative_path (a_repository.root_dir)
 			make_from_template_and_output (
@@ -62,15 +62,20 @@ feature {NONE} -- Initialization
 			)
 			library_ecf := a_library_ecf; repository := a_repository; source_path := a_source_path
 			name := source_path.base_name.as_upper
-			code_text := new_code_text (File.plain_text (source_path))
+			source_text := File.plain_text (source_path)
+			code_text := new_code_text (source_text)
 			make_sync_item (
 				repository.output_dir, repository.ftp_host, html_output_path.relative_path (repository.output_dir), 0
 			)
 			create notes.make (relative_source_path.parent, a_repository.note_fields)
 
-			if is_modified or else word_count = 0 then
-				create stats.make_from_source (code_text, File.byte_count (source_path))
-				word_count := stats.word_count; file_size := stats.file_size
+			if attached restricted_access (Codebase_metrics) as metrics then
+				if utf.is_utf_8_file (source_text) then
+					metrics.add_source (source_text, Utf_8)
+				else
+					metrics.add_source (source_text, Latin_1)
+				end
+				end_restriction
 			end
 		end
 
@@ -284,11 +289,10 @@ feature {NONE} -- Factory
 
 	new_code_text (raw_source: STRING): ZSTRING
 		local
-			c: EL_UTF_CONVERTER
+			utf: EL_UTF_CONVERTER
 		do
-			if raw_source.starts_with (c.Utf_8_bom_to_string_8) then
-				raw_source.remove_head (c.Utf_8_bom_to_string_8.count)
-				create Result.make_from_utf_8 (raw_source)
+			if utf.is_utf_8_file (raw_source) then
+				create Result.make_from_utf_8 (utf.bomless_utf_8 (raw_source))
 			else
 				Result := raw_source
 			end
@@ -316,9 +320,6 @@ feature {NONE} -- Evolicity fields
 				["has_further_information",agent: BOOLEAN_REF do Result := has_further_information.to_reference end],
 				["has_fields",					agent: BOOLEAN_REF do Result := notes.has_fields.to_reference end],
 				["is_library", 				agent: BOOLEAN_REF do Result := is_library.to_reference end],
-
-				["word_count", 				agent: INTEGER_REF do Result := word_count end ],
-				["file_size", 					agent: INTEGER_REF do Result := file_size end ],
 
 				["notes_text", 				agent notes_text],
 				["class_text", 				agent class_text],

@@ -125,7 +125,7 @@ feature -- File content
 		do
 			Result := raw_plain_text (file_path)
 			if {PLATFORM}.is_unix and then has_windows_line_break (Result) then
-				Result.replace_substring_all ("%R%N", "%N")
+				Result.prune_all ('%R')
 			end
 		end
 

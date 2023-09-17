@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-15 8:48:36 GMT (Friday 15th September 2023)"
-	revision: "2"
+	date: "2023-09-17 14:23:17 GMT (Sunday 17th September 2023)"
+	revision: "3"
 
 class
 	TEST_SOURCE_READER
@@ -19,7 +19,7 @@ inherit
 		end
 
 create
-	make
+	make_from_file
 
 feature {NONE} -- Initialization
 

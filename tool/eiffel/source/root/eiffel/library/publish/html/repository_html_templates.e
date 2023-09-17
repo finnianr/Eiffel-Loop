@@ -1,13 +1,13 @@
 note
-	description: "Repository html templates"
+	description: "Repository HTML templates"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 10:47:34 GMT (Saturday 29th April 2023)"
-	revision: "9"
+	date: "2023-09-17 13:37:33 GMT (Sunday 17th September 2023)"
+	revision: "10"
 
 class
 	REPOSITORY_HTML_TEMPLATES

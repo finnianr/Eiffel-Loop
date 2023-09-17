@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-24 6:38:23 GMT (Thursday 24th August 2023)"
-	revision: "20"
+	date: "2023-09-17 15:56:10 GMT (Sunday 17th September 2023)"
+	revision: "21"
 
 class
 	REPOSITORY_SITEMAP_PAGE
@@ -23,28 +23,17 @@ inherit
 
 	EL_MODULE_TUPLE
 
+	SHARED_CODEBASE_METRICS
+
 create
 	make
 
 feature {NONE} -- Initialization
 
 	make (a_repository: like repository; a_ecf_pages: like ecf_pages)
-		local
-			class_set: EL_HASH_TABLE [EIFFEL_CLASS, FILE_PATH]
 		do
 			make_page (a_repository)
 			ecf_pages := a_repository.ecf_list.sorted_index_page_list
-			create class_set.make_equal (2000)
-			across repository.ecf_list as ecf loop
-				across ecf.item.directory_list as dir loop
-					across dir.item.class_list as l_class loop
-						if not class_set.has (l_class.item.source_path) then
-							stats_cmd.add_class_stats (l_class.item)
-							class_set.extend (l_class.item, l_class.item.source_path)
-						end
-					end
-				end
-			end
 			make_sync_item (
 				repository.output_dir, repository.ftp_host, output_path.relative_path (repository.output_dir), 0
 			)
@@ -53,7 +42,11 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			ecf_pages := Default_ecf_pages
-			create stats_cmd.make_default
+			create metrics.make
+			Codebase_metrics.lock
+			metrics := Codebase_metrics.item
+			Codebase_metrics.unlock
+			
 			Precursor
 		end
 
@@ -76,7 +69,7 @@ feature {NONE} -- Evolicity fields
 		do
 			Result := Precursor +
 				["category_list",	agent: like category_list do Result := category_list end] +
-				["stats", 			agent: like stats_cmd do Result := stats_cmd end]
+				["metrics", 		agent: like metrics do Result := metrics end]
 		end
 
 feature {NONE} -- Implementation
@@ -118,7 +111,7 @@ feature {NONE} -- Initialization
 
 	ecf_pages: LIST [EIFFEL_CONFIGURATION_INDEX_PAGE]
 
-	stats_cmd: CODEBASE_STATISTICS_COMMAND
+	metrics: CODEBASE_METRICS
 
 feature -- Constants
 

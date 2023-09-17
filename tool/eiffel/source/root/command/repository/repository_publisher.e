@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-07 12:14:59 GMT (Thursday 7th September 2023)"
-	revision: "71"
+	date: "2023-09-17 15:19:57 GMT (Sunday 17th September 2023)"
+	revision: "72"
 
 class
 	REPOSITORY_PUBLISHER
@@ -308,6 +308,7 @@ feature {NONE} -- Build from Pyxis
 
 					elseif xdoc.is_xpath (Xpath_all_classes) then
 						ecf_list.extend (create {EIFFEL_LIBRARY_CONFIGURATION_FILE}.make (Current, ecf, xdoc))
+						
 					else
 						ecf_list.extend (create {EIFFEL_CONFIGURATION_FILE}.make (Current, ecf, xdoc))
 					end

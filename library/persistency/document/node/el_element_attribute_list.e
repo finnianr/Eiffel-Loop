@@ -36,6 +36,8 @@ inherit
 		export
 			{NONE} all
 			{EL_DOCUMENT_CLIENT} set_encoding_from_other
+		undefine
+			copy, is_equal
 		end
 
 	EL_DOCUMENT_CLIENT

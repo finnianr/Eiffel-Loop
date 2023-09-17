@@ -9,14 +9,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-16 8:12:23 GMT (Saturday 16th September 2023)"
-	revision: "6"
+	date: "2023-09-17 14:29:18 GMT (Sunday 17th September 2023)"
+	revision: "7"
 
 deferred class
 	EIFFEL_SOURCE_READER
 
 inherit
 	ANY
+
+	EL_ENCODING_BASE
+		rename
+			make as make_encoding,
+			type as encoding_type
+		end
 
 	EL_MODULE_FILE
 
@@ -30,21 +36,38 @@ feature {NONE} -- Initialization
 		do
 		end
 
-	make (source_path: FILE_PATH)
+	make_from_file (source_path: FILE_PATH)
+		local
+			utf: EL_UTF_CONVERTER
 		do
+			if attached File.raw_plain_text (source_path) as source then
+				if utf.is_utf_8_file (source) then
+					make (source, Utf_8)
+				else
+					make (source, Latin_1)
+				end
+			end
+		end
+
+	make (source: READABLE_STRING_8; a_encoding: NATURAL)
+		local
+			bom_offset: INTEGER
+		do
+			make_encoding (a_encoding)
 			initialize
-			if attached File.plain_text_bomless (source_path) as source
-				and then attached cursor_8 (source) as c8
-			then
+			if attached cursor_8 (source) as c8 then
 				byte_count := source.count
-				analyze (c8.area, c8.area_first_index, c8.area_last_index)
+				if a_encoding = Utf_8 then
+					bom_offset := 3
+				end
+				analyze (c8.area, c8.area_first_index + bom_offset, c8.area_last_index)
 			end
 		end
 
 feature -- Measurement
 
 	byte_count: INTEGER
-		-- source byte count excluding any BOM
+		-- source file byte count
 
 feature {NONE} -- Events
 

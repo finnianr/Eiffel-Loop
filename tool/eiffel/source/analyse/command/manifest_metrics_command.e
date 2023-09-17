@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-17 10:09:04 GMT (Sunday 17th September 2023)"
-	revision: "2"
+	date: "2023-09-17 15:11:12 GMT (Sunday 17th September 2023)"
+	revision: "3"
 
 class
 	MANIFEST_METRICS_COMMAND
@@ -46,7 +46,7 @@ feature -- Basic operations
 
 	do_with_file (source_path: FILE_PATH)
 		do
-			metrics.add (source_path)
+			metrics.add_file (source_path)
 		end
 
 	execute

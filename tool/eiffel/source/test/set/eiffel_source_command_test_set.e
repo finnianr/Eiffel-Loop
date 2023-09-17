@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-16 8:46:50 GMT (Saturday 16th September 2023)"
-	revision: "20"
+	date: "2023-09-17 14:24:45 GMT (Sunday 17th September 2023)"
+	revision: "21"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
@@ -47,7 +47,7 @@ feature -- Tests
 		local
 			analyzer: EIFFEL_SOURCE_ANALYZER
 		do
-			create analyzer.make (Data_dir + "latin-1/parse/thunderbird_mail_to_html_body_converter.e")
+			create analyzer.make_from_file (Data_dir + "latin-1/parse/thunderbird_mail_to_html_body_converter.e")
 			assert ("249 identifiers", analyzer.identifier_count = 249)
 			assert ("81 keywords", analyzer.keyword_count = 81)
 		end
@@ -61,14 +61,14 @@ feature -- Tests
 			reader: TEST_SOURCE_READER; hexadecimal_count, integer_count: INTEGER
 			number: STRING; char_string: ZSTRING
 		do
-			create reader.make (Data_dir + "utf-8/test_el_astring.e")
+			create reader.make_from_file (Data_dir + "utf-8/test_el_astring.e")
 			assert_same_string ("parsed percent character '%%'", reader.quoted_character_list [2], "%%%%")
 
-			create reader.make (Data_dir + "latin-1/os-command/file-system/EL_FIND_OS_COMMAND.e")
+			create reader.make_from_file (Data_dir + "latin-1/os-command/file-system/EL_FIND_OS_COMMAND.e")
 			assert ("7 items", reader.operator_list.count = 7)
 			assert_same_string ("5th is and", reader.operator_list [5], "and")
 
-			create reader.make (Data_dir + "utf-8/el_iso_8859_10_codec.e")
+			create reader.make_from_file (Data_dir + "utf-8/el_iso_8859_10_codec.e")
 			assert ("101 comments", reader.comment_list.count = 101)
 			assert_same_string ("Access comment", reader.comment_list.first, "-- Access")
 

@@ -13,8 +13,6 @@ class
 	EL_ENCODEABLE_AS_TEXT
 
 inherit
-	ANY
-
 	EL_ENCODING_BASE
 		rename
 			id as encoding_id,

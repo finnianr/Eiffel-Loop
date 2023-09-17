@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-17 10:06:19 GMT (Sunday 17th September 2023)"
-	revision: "4"
+	date: "2023-09-17 14:21:04 GMT (Sunday 17th September 2023)"
+	revision: "5"
 
 class
 	EIFFEL_SOURCE_ANALYZER
@@ -26,7 +26,7 @@ inherit
 	EIFFEL_SOURCE_READER
 
 create
-	make
+	make_from_file
 
 feature -- Measurement
 
