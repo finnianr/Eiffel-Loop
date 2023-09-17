@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-16 7:37:57 GMT (Saturday 16th September 2023)"
-	revision: "54"
+	date: "2023-09-17 10:09:46 GMT (Sunday 17th September 2023)"
+	revision: "55"
 
 class
 	APPLICATION_ROOT
@@ -24,7 +24,7 @@ inherit
 		CHECK_LOCALE_STRINGS_APP,
 		CLASS_DESCENDANTS_APP,
 		CODEBASE_STATISTICS_APP,
-		ROUTINE_STATISTICS_APP,
+		CODE_METRICS_APP,
 		ENCODING_CHECK_APP,
 		REGULAR_EXPRESSION_SEARCH_APP,
 		REPOSITORY_NOTE_LINK_CHECKER_APP,

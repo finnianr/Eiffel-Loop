@@ -48,7 +48,7 @@ feature {NONE} -- Constants
 				ensure := end_block
 				expanded := kw
 				export := inheritance
-				external := routine
+				external := external
 				false := constant
 				feature := note
 				from := block
@@ -137,6 +137,14 @@ feature {NONE} -- Keyword types
 				Keyword_type_table.has_key_8 ("ensure") implies Keyword_type_table.found_interval = Result
 		end
 
+	Type_external: INTEGER_64
+		-- external routine
+		once
+			if Keyword_type_table.has_key_8 ("external") then
+				Result := Keyword_type_table.found_interval
+			end
+		end
+
 	Type_note: INTEGER_64
 		-- some kind of purely informational note
 		once
@@ -170,10 +178,7 @@ feature {NONE} -- Keyword types
 				Result := Keyword_type_table.found_interval
 			end
 		ensure
-			same_type:
-				across ("deferred,external,once").split (',') as word all
-					Keyword_type_table.has_key_8 (word.item) implies Keyword_type_table.found_interval = Result
-				end
+			same_type: Keyword_type_table.has_key_8 ("once") implies Keyword_type_table.found_interval = Result
 		end
 
 end

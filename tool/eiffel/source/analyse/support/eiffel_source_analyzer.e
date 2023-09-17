@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-16 12:16:44 GMT (Saturday 16th September 2023)"
-	revision: "3"
+	date: "2023-09-17 10:06:19 GMT (Sunday 17th September 2023)"
+	revision: "4"
 
 class
 	EIFFEL_SOURCE_ANALYZER
@@ -31,6 +31,8 @@ create
 feature -- Measurement
 
 	identifier_count: INTEGER
+
+	external_routine_count: INTEGER
 
 	keyword_count: INTEGER
 
@@ -62,11 +64,7 @@ feature {NONE} -- Events
 	on_keyword (area: SPECIAL [CHARACTER]; i, count: INTEGER; type: INTEGER_64)
 		require else
 			block_indent_0_at_routine_start: block_indent_0_at_routine_start (type)
-		local
-			word: IMMUTABLE_STRING_8
 		do
-			word := Immutable_8.new_substring (area, i, count)
-
 			if debug_indent.to_boolean then
 				if type = Type_end_block then
 					debug_indent := debug_indent - 1
@@ -93,6 +91,8 @@ feature {NONE} -- Events
 				block_indent := block_indent + 1
 				routine_count := routine_count + 1
 
+			elseif type = Type_external then
+				external_routine_count := external_routine_count + 1
 			end
 		end
 
