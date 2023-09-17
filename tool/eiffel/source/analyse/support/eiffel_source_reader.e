@@ -1,7 +1,7 @@
 note
 	description: "[
 		Abstraction to read Eiffel source file and detect keywords, identifiers, quoted text,
-		numbers and comments
+		numbers and comments.
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-17 14:29:18 GMT (Sunday 17th September 2023)"
-	revision: "7"
+	date: "2023-09-17 18:28:48 GMT (Sunday 17th September 2023)"
+	revision: "8"
 
 deferred class
 	EIFFEL_SOURCE_READER

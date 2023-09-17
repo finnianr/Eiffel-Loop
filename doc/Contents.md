@@ -1711,7 +1711,7 @@ Command switch: `-check_locale_strings`
 
 Command switch: `-descendants`
 
-[CODEBASE_STATISTICS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/codebase_statistics_app.html) counts classes, code words and combined source file size for Eiffel source trees specified in manifest
+[CODEBASE_STATISTICS_APP]($source) counts classes, code words and combined source file size for Eiffel source trees specified in manifest
 
 Command switch: `-codebase_stats`
 

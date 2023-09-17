@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-17 15:56:10 GMT (Sunday 17th September 2023)"
-	revision: "21"
+	date: "2023-09-17 17:21:31 GMT (Sunday 17th September 2023)"
+	revision: "22"
 
 class
 	REPOSITORY_SITEMAP_PAGE
@@ -20,6 +20,8 @@ inherit
 		redefine
 			make_default, getter_function_table, sink_content
 		end
+
+	EL_THREAD_ACCESS [CODEBASE_METRICS]
 
 	EL_MODULE_TUPLE
 
@@ -43,10 +45,10 @@ feature {NONE} -- Initialization
 		do
 			ecf_pages := Default_ecf_pages
 			create metrics.make
-			Codebase_metrics.lock
-			metrics := Codebase_metrics.item
-			Codebase_metrics.unlock
-			
+			if attached restricted_access (Codebase_metrics) as l_metrics then
+				metrics.copy (l_metrics)
+				end_restriction
+			end
 			Precursor
 		end
 

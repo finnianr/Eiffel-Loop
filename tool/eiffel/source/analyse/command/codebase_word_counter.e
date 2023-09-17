@@ -1,5 +1,6 @@
 note
 	description: "Count classes, code words and combined source file size for Eiffel source trees"
+	notes: "This class has been superceded by [$source MANIFEST_METRICS_COMMAND]"
 	tests: "[$source EIFFEL_SOURCE_COMMAND_TEST_SET]"
 
 	author: "Finnian Reilly"
@@ -7,11 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-16 8:39:23 GMT (Saturday 16th September 2023)"
-	revision: "22"
+	date: "2023-09-17 17:30:43 GMT (Sunday 17th September 2023)"
+	revision: "23"
 
 class
-	CODEBASE_STATISTICS_COMMAND
+	CODEBASE_WORD_COUNTER
+
+obsolete
+	"Use MANIFEST_METRICS_COMMAND instead"
 
 inherit
 	SOURCE_MANIFEST_COMMAND
@@ -75,10 +79,10 @@ feature -- Basic operations
 
 	do_with_file (source_path: FILE_PATH)
 		do
-			add_class_stats (create {CLASS_STATISTICS}.make_from_file (source_path))
+			add_class_stats (create {EIFFEL_CODE_WORD_COUNTER}.make_from_file (source_path))
 		end
 
-	add_class_stats (a_class: CLASS_STATISTICS_I)
+	add_class_stats (a_class: EIFFEL_CODE_WORD_COUNTER)
 		do
 			class_count := class_count + 1
 			word_count := word_count + a_class.word_count

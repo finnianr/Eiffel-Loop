@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-17 15:51:54 GMT (Sunday 17th September 2023)"
-	revision: "49"
+	date: "2023-09-17 17:32:21 GMT (Sunday 17th September 2023)"
+	revision: "50"
 
 class
 	EIFFEL_CLASS
@@ -259,6 +259,17 @@ feature {NONE} -- Implementation
 			Result := notes.other_field_titles
 		end
 
+	new_code_text (raw_source: STRING): ZSTRING
+		local
+			utf: EL_UTF_CONVERTER
+		do
+			if utf.is_utf_8_file (raw_source) then
+				create Result.make_from_utf_8 (utf.bomless_utf_8 (raw_source))
+			else
+				Result := raw_source
+			end
+		end
+
 	relative_ecf_html_path: ZSTRING
 		do
 			Result := library_ecf.html_index_path.relative_dot_path (relative_source_path)
@@ -282,19 +293,6 @@ feature {NONE} -- Implementation
 			elseif ISE_class_table.has_class (l_name) then
 				crc.add_string (ISE_class_table.found_item)
 
-			end
-		end
-
-feature {NONE} -- Factory
-
-	new_code_text (raw_source: STRING): ZSTRING
-		local
-			utf: EL_UTF_CONVERTER
-		do
-			if utf.is_utf_8_file (raw_source) then
-				create Result.make_from_utf_8 (utf.bomless_utf_8 (raw_source))
-			else
-				Result := raw_source
 			end
 		end
 

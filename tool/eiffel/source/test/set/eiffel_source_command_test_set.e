@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-17 14:24:45 GMT (Sunday 17th September 2023)"
-	revision: "21"
+	date: "2023-09-17 17:54:31 GMT (Sunday 17th September 2023)"
+	revision: "22"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 			make_named (<<
 				["class_reader",			agent test_class_reader],
 				["class_analyzer",		agent test_class_analyzer],
-				["codebase_statistics",	agent test_codebase_statistics],
+				["code_word_counter",	agent test_code_word_counter],
 				["find_and_replace",		agent test_find_and_replace],
 				["space_cleaner",			agent test_space_cleaner]
 			>>)
@@ -119,10 +119,10 @@ feature -- Tests
 			end
 		end
 
-	test_codebase_statistics
-		-- EIFFEL_SOURCE_COMMAND_TEST_SET.test_codebase_statistics
+	test_code_word_counter
+		-- EIFFEL_SOURCE_COMMAND_TEST_SET.test_code_word_counter
 		local
-			command: CODEBASE_STATISTICS_COMMAND; assertion_template: ZSTRING
+			command: CODEBASE_WORD_COUNTER; assertion_template: ZSTRING
 			actual_results, expected_results: EL_ARRAYED_LIST [INTEGER]
 		do
 			create command.make (Manifest_path)

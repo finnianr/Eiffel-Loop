@@ -1,3 +1,6 @@
+1.5.2
+* Added code metrics to publisher
+
 1.5.1
 * Added external routine count to CODE_METRICS_APP
 

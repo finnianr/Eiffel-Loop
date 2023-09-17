@@ -2,12 +2,23 @@
 <p>
 	This website documents <i>Eiffel-Loop</i>, a collection of software libraries, example programs and tools for the Eiffel programming language. From the <a href="#projects"><b>projects index</b></a> below, you can read the documentation and browse the source code for each <i>Eiffel-Loop</i> project. Class indexing notes are formatted with bold, italics, code blocks etc.
 </p>
-<p><b>Statistics</b></p>
+<h3>Code Metrics</h3>
 <p>
-	<i>Eiffel-Loop</i> has <b>$stats.class_count</b> classes containing <b>$stats.word_count</b> words* of code. Total size: <b>$stats.mega_bytes mb</b>.
+	<i>Eiffel-Loop</i> has <b>$metrics.class_count</b> classes totaling <b>$metrics.mega_bytes</b> mega-bytes.
+	Total number of routines: <b>$metrics.routine_count</b>
 </p>
 <p>
-	<small>* Code words include keywords, identifier words and quoted strings, but exclude comments and indexing notes.</small>
+	Total external routines: <b>$metrics.external_routine_count</b><br/>
+	Total keyword occurrence count *: <b>$metrics.keyword_count</b><br/>
+	Total identifier occurrence count *: <b>$metrics.identifier_count</b><br/>
+	Total identifier + keyword count: <b>$metrics.keyword_plus_identifier_count</b><br/>
+	Average keyword + identifier count per routine: <b>$metrics.average_keyword_plus_identifier_count</b><br/>
+	Percentile ratios of keywords to identifiers: <b>$metrics.keyword_to_indentifier_ratio</b>
+</p>
+<p>
+	<b>*</b><small> Only keywords and identifiers between <b>do/once</b> and <b>end/ensure</b> are counted. 
+			Blocks of code defined by <b>check</b> or <b>debug</b> keywords are not included.
+	</small>
 </p>
 <p><b>On Github</b></p>
 <p>

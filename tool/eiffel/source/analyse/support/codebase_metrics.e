@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-17 15:17:49 GMT (Sunday 17th September 2023)"
-	revision: "2"
+	date: "2023-09-17 18:20:13 GMT (Sunday 17th September 2023)"
+	revision: "3"
 
 class
 	CODEBASE_METRICS
@@ -130,7 +130,7 @@ feature {NONE} -- Implementation
 				["identifier_count",								agent: INTEGER_REF do Result := identifier_count.to_reference end],
 				["keyword_plus_identifier_count",			agent get_keyword_plus_identifier_count],
 				["average_keyword_plus_identifier_count",	agent get_average_keyword_plus_identifier_count],
-			-- Strings
+			-- String values
 				["keyword_to_indentifier_ratio",				agent keyword_to_indentifier_ratio],
 				["mega_bytes",										agent mega_bytes_string]
 			>>)
@@ -140,7 +140,7 @@ feature {NONE} -- Implementation
 		local
 			template: ZSTRING
 		do
-			template := "%S%%:%S%%"
+			template := "%S%% : %S%%"
 			Result := template #$ [percentile (keyword_count), percentile (identifier_count)]
 		end
 

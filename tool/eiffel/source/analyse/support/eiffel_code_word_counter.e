@@ -10,15 +10,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-09-17 17:24:37 GMT (Sunday 17th September 2023)"
+	revision: "13"
 
 class
-	CLASS_STATISTICS
+	EIFFEL_CODE_WORD_COUNTER
 
 inherit
-	CLASS_STATISTICS_I
-
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
 			make as make_machine
@@ -52,6 +50,12 @@ feature {NONE} -- Initialization
 			index := source.substring_index (New_line, 1)
 			do_with_split (agent count_words, source.split ('%N'), False)
 		end
+
+feature -- Access
+
+	file_size: INTEGER
+
+	word_count: INTEGER
 
 feature {NONE} -- Line state handlers
 
