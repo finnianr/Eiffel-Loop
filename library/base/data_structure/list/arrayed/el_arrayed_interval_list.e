@@ -155,8 +155,6 @@ feature -- Conversion
 feature -- Element change
 
 	extend_compact (compact_interval: NATURAL_64)
-		local
-			lower, upper: INTEGER
 		do
 			if compact_interval > 0 then
 				extend ((compact_interval |>> 32).to_integer_32, compact_interval.to_integer_32)
@@ -166,7 +164,7 @@ feature -- Element change
 	extend_next_upper (compact_interval: NATURAL_64; i: INTEGER): NATURAL_64
 		-- performance optimized form of `extend_upper' with the `last_interval' tracked
 		-- externally by a compact interval
-		
+
 		-- (Note: call `extend_compact' to finalize list after filling from an external loop)
 		note
 

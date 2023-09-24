@@ -54,6 +54,15 @@ inherit
 			make_empty
 		end
 
+	EL_SORTABLE_STRING_LIST [S]
+		rename
+			item as i_th alias "[]",
+			lower as lower_index,
+			upper as count
+		undefine
+			copy, is_equal, new_cursor
+		end
+
 	EL_INTERVAL_LIST
 		rename
 			count_sum as character_count

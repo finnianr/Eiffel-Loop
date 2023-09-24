@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-03 12:57:49 GMT (Friday 3rd February 2023)"
-	revision: "69"
+	date: "2023-09-23 7:27:23 GMT (Saturday 23rd September 2023)"
+	revision: "70"
 
 class
 	APPLICATION_ROOT
@@ -82,6 +82,9 @@ inherit
 
 	--	Test public-key-encryption.ecf
 		PUBLIC_KEY_ENCRYPTION_AUTOTEST_APP,
+
+	-- Test wel-regedit-x.ecf
+		REGEDIT_AUTOTEST_APP,
 
 	-- Test search-engine.ecf
 		SEARCH_ENGINE_AUTOTEST_APP,

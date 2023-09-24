@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 10:22:33 GMT (Tuesday 15th August 2023)"
-	revision: "53"
+	date: "2023-09-24 8:01:47 GMT (Sunday 24th September 2023)"
+	revision: "54"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -150,7 +150,7 @@ feature -- Tests
 			sub_list: EL_ZSTRING_LIST
 		do
 			string_32_list := Text.symbol_32_list
-			create compact_list.make (string_32_list)
+			create compact_list.make_general (string_32_list)
 			assert ("same count", string_32_list.count = compact_list.count)
 
 			if attached compact_list.query_if (agent is_control) as short_list then
@@ -173,7 +173,7 @@ feature -- Tests
 				end
 				if n.item = 1 then
 					compact_list.sort (True)
-					string_32_list.sort_indirectly (True)
+					string_32_list.sort (True)
 				end
 			end
 			across compact_list as list loop

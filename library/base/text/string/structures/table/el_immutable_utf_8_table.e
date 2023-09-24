@@ -27,7 +27,9 @@ class
 inherit
 	EL_IMMUTABLE_STRING_8_TABLE
 		rename
-			make as make_table,
+			make as make_utf_8,
+			make_by_indented as make_by_indented_utf_8,
+			make_by_assignment as make_by_assignment_utf_8,
 			found_item as found_utf_8_item
 		redefine
 			new_cursor
@@ -38,11 +40,22 @@ inherit
 	EL_SHARED_STRING_8_CURSOR
 
 create
-	make, make_empty
+	make, make_by_assignment, make_by_indented, make_empty
 
 feature {NONE} -- Initialization
 
-	make (table_manifest: READABLE_STRING_GENERAL)
+	make (csv_manifest: READABLE_STRING_GENERAL)
+		-- make with comma separated list with values on odd indices and keys on even indices
+		do
+			make_utf_8 (as_utf_8 (csv_manifest))
+		end
+
+	make_by_assignment (assignment_manifest: READABLE_STRING_GENERAL)
+		do
+			make_by_assignment_utf_8 (as_utf_8 (assignment_manifest))
+		end
+
+	make_by_indented (table_manifest: READABLE_STRING_GENERAL)
 		-- make from manifest formatted as:
 		-- 	key_1:
 		--			line 1..
@@ -51,16 +64,8 @@ feature {NONE} -- Initialization
 		--			line 1..
 		--			line 2..
 		-- 	..
-		local
-			c: EL_UTF_8_CONVERTER
 		do
-			if attached {READABLE_STRING_8} table_manifest as str_8
-				and then cursor_8 (str_8).all_ascii
-			then
-				make_by_indented (str_8)
-			else
-				make_by_indented (c.utf_32_string_to_string_8 (table_manifest))
-			end
+			make_by_indented_utf_8 (as_utf_8 (table_manifest))
 		end
 
 feature -- Access
@@ -77,6 +82,21 @@ feature -- Access
 		end
 
 feature {EL_IMMUTABLE_UTF_8_TABLE_CURSOR} -- Implementation
+
+	as_utf_8 (manifest_string: READABLE_STRING_GENERAL): STRING
+		local
+			c: EL_UTF_8_CONVERTER
+		do
+			if attached {READABLE_STRING_8} manifest_string as str_8 and then cursor_8 (str_8).all_ascii then
+				Result := str_8
+
+			elseif attached {ZSTRING} manifest_string as zstr then
+				Result := zstr.to_utf_8 (True)
+			else
+
+				Result := c.utf_32_string_to_string_8 (manifest_string)
+			end
+		end
 
 	new_item (interval: INTEGER_64): ZSTRING
 		local

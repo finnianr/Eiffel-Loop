@@ -50,7 +50,6 @@ feature {NONE} -- Implementation
 	reset
 		do
 			Precursor
-			file_count := 0
-			size := 0
+			file_count := 0; size := 0
 		end
 end

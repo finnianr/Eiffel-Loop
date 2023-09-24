@@ -16,12 +16,11 @@ inherit
 	EL_SPLIT_IMMUTABLE_STRING_8_LIST
 		rename
 			make as make_split,
-			string_strict_cmp as utf_8_strict_comparison,
 			character_count as utf_8_character_count,
 			i_th_count as i_th_utf_8_count,
 			item_count as utf_8_item_count
 		redefine
-			less_than, same_i_th_character, utf_8_strict_comparison
+			less_than, item_index_of
 		end
 
 	EL_UTF_8_CONVERTER
@@ -33,7 +32,7 @@ inherit
 
 	EL_MODULE_ITERABLE
 
-	EL_SHARED_UTF_8_SEQUENCE; EL_SHARED_STRING_8_CURSOR
+	EL_SHARED_STRING_8_CURSOR; EL_SHARED_UTF_8_SEQUENCE
 
 create
 	make_by_string, make_adjusted, make_adjusted_by_string,
@@ -90,39 +89,41 @@ feature -- Measurement
 			end
 		end
 
+feature -- Measurement
+
+	item_index_of (uc: CHARACTER_32): INTEGER
+		-- index of `uc' relative to `item_start_index - 1'
+		-- 0 if `uc' does not occurr within item bounds
+		do
+			if attached cursor_8 (target_string) as c8 then
+				Result := Utf_8_sequence.character_index_of (uc, c8.area, item_lower - 1, item_upper - 1)
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	less_than (i, j: INTEGER): BOOLEAN
 		local
 			left_index, right_index, left_count, right_count: INTEGER
 		do
-			if attached area as a then
-				left_index := a [i]
-				left_count := target_substring_count (left_index, a [i + 1])
-
-				right_index := a [j]
-				right_count := target_substring_count (right_index, a [j + 1])
-			end
-			if right_count = left_count then
-				Result := utf_8_strict_comparison (right_index, left_index, right_count) > 0
-			else
-				if left_count < right_count then
-					Result := utf_8_strict_comparison (right_index, left_index, left_count) >= 0
-				else
-					Result := utf_8_strict_comparison (right_index, left_index, right_count) > 0
-				end
-			end
-		end
-
-	same_i_th_character (a_target: like target_string; i: INTEGER; uc: CHARACTER_32): BOOLEAN
-		do
-			if uc.natural_32_code > 0x7F and then attached Utf_8_sequence as utf_8
-				and then attached cursor_8 (a_target) as c8
+			if attached Utf_8_sequence as utf_8 and then attached cursor_8 (target_string) as c8
+				and then attached area as a
 			then
-				utf_8.set (uc)
-				Result := utf_8.same_sequence (c8.area, i - 1)
-			else
-				Result := a_target [i] = uc
+				left_index := a [i] - 1
+				left_count := array_unicode_count (c8.area, left_index, a [i + 1] - 1)
+
+				right_index := a [j] - 1
+				right_count := array_unicode_count (c8.area, right_index, a [j + 1] - 1)
+
+				if right_count = left_count then
+					Result := utf_8.strict_comparison (c8.area, c8.area, right_index, left_index, right_count) > 0
+				else
+					if left_count < right_count then
+						Result := utf_8.strict_comparison (c8.area, c8.area, right_index, left_index, left_count) >= 0
+					else
+						Result := utf_8.strict_comparison (c8.area, c8.area, right_index, left_index, right_count) > 0
+					end
+				end
 			end
 		end
 
@@ -131,42 +132,4 @@ feature {NONE} -- Implementation
 			Result := unicode_count (shared_target_substring (start_index, end_index))
 		end
 
-	utf_8_strict_comparison (left_index, right_index, n: INTEGER): INTEGER
-		local
-			i, j, i_delta, j_delta, k: INTEGER; i_code, j_code: NATURAL
-			l_area: SPECIAL [CHARACTER]
-		do
-			if attached Utf_8_sequence as utf_8 and then attached cursor_8 (target_string) as c8 then
-				l_area := c8.area
-				from
-					i := left_index - 1; j := right_index - 1; k := 1
-				until
-					k > n
-				loop
-					i_code := l_area [i].natural_32_code
-					if i_code > 0x7F then
-						utf_8.fill (l_area, i)
-						i_code := utf_8.to_unicode
-						i_delta := utf_8.count
-					else
-						i_delta := 1
-					end
-					j_code := l_area [j].natural_32_code
-					if j_code > 0x7F then
-						utf_8.fill (l_area, j)
-						j_code := utf_8.to_unicode
-						j_delta := utf_8.count
-					else
-						j_delta := 1
-					end
-					if i_code = j_code then
-						i := i + i_delta; j := j + j_delta
-					else
-						Result := (i_code - j_code).to_integer_32
-						k := n
-					end
-					k := k + 1
-				end
-			end
-		end
 end

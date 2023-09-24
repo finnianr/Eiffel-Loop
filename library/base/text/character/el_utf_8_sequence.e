@@ -89,6 +89,39 @@ feature -- Status query
 			end
 		end
 
+	strict_comparison (u_area, v_area: SPECIAL [CHARACTER]; u_index, v_index, n: INTEGER): INTEGER
+		local
+			i, j, i_delta, j_delta, k: INTEGER; i_code, j_code: NATURAL
+		do
+			from
+				i := u_index; j := v_index; k := 1
+			until
+				k > n
+			loop
+				i_code := u_area [i].natural_32_code
+				if i_code > 0x7F then
+					fill (u_area, i)
+					i_code := to_unicode; i_delta := count
+				else
+					i_delta := 1
+				end
+				j_code := u_area [j].natural_32_code
+				if j_code > 0x7F then
+					fill (v_area, j)
+					j_code := to_unicode; j_delta := count
+				else
+					j_delta := 1
+				end
+				if i_code = j_code then
+					i := i + i_delta; j := j + j_delta
+				else
+					Result := (i_code - j_code).to_integer_32
+					k := n
+				end
+				k := k + 1
+			end
+		end
+
 feature -- Element change
 
 	fill (a_area: SPECIAL [CHARACTER]; offset: INTEGER)
@@ -140,6 +173,31 @@ feature -- Element change
 		end
 
 feature -- Measurement
+
+	character_index_of (uc: CHARACTER_32; utf_8_area: SPECIAL [CHARACTER]; start_index, end_index: INTEGER): INTEGER
+		-- index of `uc' relative to `start_index - 1'
+		-- 0 if `uc' does not occurr within item bounds
+		require
+			valid_start_index: utf_8_area.valid_index (start_index)
+			valid_end_index: utf_8_area.valid_index (end_index)
+		local
+			i, i_delta, j: INTEGER; i_code, uc_code: NATURAL
+		do
+			uc_code := uc.natural_32_code
+			from i := start_index; j := 1 until i > end_index or Result > 0 loop
+				i_code := utf_8_area [i].natural_32_code
+				if i_code > 0x7F then
+					fill (utf_8_area, i)
+					i_code := to_unicode; i_delta := count
+				else
+					i_delta := 1
+				end
+				if uc_code = i_code then
+					Result := j
+				end
+				i := i + i_delta; j := j + 1
+			end
+		end
 
 	substring_byte_count (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): INTEGER
 		require

@@ -47,6 +47,6 @@ system:
 
 		# Source code
 		cluster_tree:
-			win_registry= "persistency/win-registry"
+			win_registry = "persistency/win-registry"
 
 

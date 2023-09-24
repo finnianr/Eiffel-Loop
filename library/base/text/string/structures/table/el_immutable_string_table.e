@@ -40,6 +40,7 @@ feature {NONE} -- Initialization
 		end
 
 	make (a_manifest: GENERAL)
+		-- make with comma separated list with values on odd indices and keys on even indices
 		require
 			valid_manifest: valid_comma_separated (a_manifest)
 		local

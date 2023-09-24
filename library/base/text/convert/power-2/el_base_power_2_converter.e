@@ -36,6 +36,11 @@ feature -- Substring conversion
 			Result := substring_to_natural_64 (str, start_index, end_index).to_integer_64
 		end
 
+	substring_to_natural_8 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): NATURAL_8
+		do
+			Result := substring_to_natural_64 (str, start_index, end_index).to_natural_8
+		end
+
 	substring_to_natural_16 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): NATURAL_16
 		do
 			Result := substring_to_natural_64 (str, start_index, end_index).to_natural_16
@@ -105,6 +110,12 @@ feature -- Conversion
 			--
 		do
 			Result := substring_to_integer_64 (str, 1, str.count)
+		end
+
+	to_natural_8 (str: READABLE_STRING_GENERAL): NATURAL_8
+			--
+		do
+			Result := substring_to_natural_8 (str, 1, str.count)
 		end
 
 	to_natural_16 (str: READABLE_STRING_GENERAL): NATURAL_16

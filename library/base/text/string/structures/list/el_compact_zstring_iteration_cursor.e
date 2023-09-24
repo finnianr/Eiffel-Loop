@@ -36,7 +36,12 @@ feature -- Access
 			create Result.make_from_utf_8 (utf_8_list [index])
 		end
 
+	item_utf_8: IMMUTABLE_STRING_8
+		do
+			Result := utf_8_list [index]
+		end
+
 feature {NONE} -- Internal attributes
 
-	utf_8_list: EL_SPLIT_IMMUTABLE_UTF_8_LIST
+	utf_8_list: EL_SORTABLE_STRING_LIST [IMMUTABLE_STRING_8]
 end

@@ -46,7 +46,7 @@ feature {EL_DIRECTORY_INFO_COMMAND_I} -- Implementation
 					if summary_parts.count >= 3 then
 						file_count := summary_parts.first_item.to_integer
 						-- second last word
-						if attached summary_parts.circular_i_th_copy (-2) as size_string then
+						if attached summary_parts.circular_i_th (-2) as size_string then
 							size_string.prune_all (',')
 							size := size_string.to_integer
 						end
@@ -54,7 +54,6 @@ feature {EL_DIRECTORY_INFO_COMMAND_I} -- Implementation
 				end
 			end
 		end
-
 
 feature {NONE} -- Constants
 

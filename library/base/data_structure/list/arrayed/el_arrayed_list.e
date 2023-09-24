@@ -291,7 +291,7 @@ feature -- Reorder items
 
 	ascending_sort
 		do
-			sort (False)
+			sort (True)
 		end
 
 	order_by (sort_value: FUNCTION [G, COMPARABLE]; in_ascending_order: BOOLEAN)

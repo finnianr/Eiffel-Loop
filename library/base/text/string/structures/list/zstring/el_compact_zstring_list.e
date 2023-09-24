@@ -34,23 +34,28 @@ inherit
 	EL_SHARED_ZSTRING_CODEC
 
 create
-	make_empty, make
+	make, make_empty, make_general
 
 feature {NONE} -- Initialization
 
-	make (general_list: ITERABLE [READABLE_STRING_GENERAL])
+	make (a_utf_8_list: like utf_8_list)
+		do
+			utf_8_list := a_utf_8_list
+			make_empty
+		end
+
+	make_general (general_list: ITERABLE [READABLE_STRING_GENERAL])
 		require
 			no_commas: across general_list as list all not list.item.has (',') end
 		do
-			create utf_8_list.make (general_list)
-			make_empty
+			make (create {EL_SPLIT_IMMUTABLE_UTF_8_LIST}.make (general_list))
 		end
 
 	make_empty
 		do
 			Precursor
 			if not attached utf_8_list then
-				create utf_8_list.make_empty
+				create {EL_IMMUTABLE_UTF_8_LIST} utf_8_list.make_empty
 			end
 			object_comparison := True
 		end
@@ -65,7 +70,7 @@ feature -- Measurement
 
 	item_index_of (uc: CHARACTER_32): INTEGER
 		-- index of `uc' relative to `item_start_index - 1'
-		-- 0 if `uc' does not occurr within item bounds
+		-- 0 if `uc' does not occur within item bounds
 		do
 			utf_8_list.go_i_th (index)
 			Result := utf_8_list.item_index_of (uc)
@@ -78,9 +83,19 @@ feature -- Access
 			create Result.make_from_utf_8 (utf_8_list [index])
 		end
 
+	item_utf_8: IMMUTABLE_STRING_8
+		do
+			Result :=  utf_8_list [index]
+		end
+
 	i_th alias "[]", at alias "@" (i: INTEGER): like item assign put_i_th
 		do
 			create Result.make_from_utf_8 (utf_8_list [i])
+		end
+
+	i_th_utf_8 (i: INTEGER): IMMUTABLE_STRING_8
+		do
+			Result :=  utf_8_list [i]
 		end
 
 	new_cursor: EL_COMPACT_ZSTRING_ITERATION_CURSOR
@@ -104,5 +119,5 @@ feature {NONE} -- Implementation
 
 feature {EL_COMPACT_ZSTRING_ITERATION_CURSOR} -- Internal attributes
 
-	utf_8_list: EL_SPLIT_IMMUTABLE_UTF_8_LIST
+	utf_8_list:	EL_SORTABLE_STRING_LIST [IMMUTABLE_STRING_8]
 end

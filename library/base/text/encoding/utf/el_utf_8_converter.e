@@ -74,15 +74,19 @@ feature -- Measurement
 		end
 
 	frozen unicode_count (s: READABLE_STRING_8): INTEGER
-		local
-			i, end_index: INTEGER; area: SPECIAL [CHARACTER]
 		do
 			if attached cursor_8 (s) as c then
-				area := c.area; end_index := c.area_last_index
-				from i := c.area_first_index until i > end_index loop
-					Result := Result + 1
-					i := i + sequence_count (area [i].natural_32_code)
-				end
+				Result := array_unicode_count (c.area, c.area_first_index, c.area_last_index)
+			end
+		end
+
+	frozen array_unicode_count (area: SPECIAL [CHARACTER]; first_index, last_index: INTEGER): INTEGER
+		local
+			i: INTEGER
+		do
+			from i := first_index until i > last_index loop
+				Result := Result + 1
+				i := i + sequence_count (area [i].natural_32_code)
 			end
 		end
 

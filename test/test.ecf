@@ -97,6 +97,11 @@
 				<platform value = "windows"/>
 			</condition>
 		</library>
+		<library name = "EL_wel_regedit_x" location = "$EIFFEL_LOOP/library/wel-regedit-x.ecf" readonly = "false">
+			<condition>
+				<platform value = "windows"/>
+			</condition>
+		</library>
 		<!--FEATURE_CONSTANTS-->
 		<cluster name = "feature_names" location = "$EIFFEL_LOOP/tool/eiffel/source/edit/editor/constants"/>
 		<cluster name = "root" location = "source/root" recursive = "true">
@@ -294,6 +299,16 @@ pyxis-scan.ecf
 
 Test application class: [$source PYXIS_SCAN_AUTOTEST_APP]
 			</description>
+		</cluster>
+		<cluster name = "regedit" location = "source/regedit" recursive = "true">
+			<description>
+wel-regedit-x.ecf
+
+See class [$source REGEDIT_AUTOTEST_APP]
+			</description>
+			<condition>
+				<platform value = "windows"/>
+			</condition>
 		</cluster>
 		<cluster name = "search_engine" location = "source/search-engine" recursive = "true">
 			<description>

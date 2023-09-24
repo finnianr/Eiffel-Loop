@@ -3,16 +3,40 @@
 	This website documents <i>Eiffel-Loop</i>, a collection of software libraries, example programs and tools for the Eiffel programming language. From the <a href="#projects"><b>projects index</b></a> below, you can read the documentation and browse the source code for each <i>Eiffel-Loop</i> project. Class indexing notes are formatted with bold, italics, code blocks etc.
 </p>
 <h3>Code Metrics</h3>
+<table>
+	<tr>
+		<td><i>Eiffel-Loop</i> has <b>$metrics.class_count</b> classes totaling <b>$metrics.mega_bytes</b> mega-bytes.</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td>
+		<th id="number">Total</th>
+	</tr>
+	<tr>
+		<td>Number of routines</td>
+		<th id="number">$metrics.routine_count</th>
+	</tr>
+	<tr>
+		<td>External C/C++ routines</td>
+		<th id="number">$metrics.external_routine_count</th>
+	</tr>
+	<tr>
+		<td>Keyword count *</td>
+		<th id="number">metrics.keyword_count</th>
+	</tr>
+	<tr>
+		<td>Identifier count *</td>
+		<th id="number">$metrics.identifier_count</th>
+	</tr>
+	<tr>
+		<td>Identifier + keyword count</td>
+		<th id="number">$metrics.keyword_plus_identifier_count</th>
+	</tr>
+</table>
+
 <p>
-	<i>Eiffel-Loop</i> has <b>$metrics.class_count</b> classes totaling <b>$metrics.mega_bytes</b> mega-bytes.
-	Total number of routines: <b>$metrics.routine_count</b>
-</p>
-<p>
-	Total external routines: <b>$metrics.external_routine_count</b><br/>
-	Total keyword occurrence count *: <b>$metrics.keyword_count</b><br/>
-	Total identifier occurrence count *: <b>$metrics.identifier_count</b><br/>
-	Total identifier + keyword count: <b>$metrics.keyword_plus_identifier_count</b><br/>
-	Average keyword + identifier count per routine: <b>$metrics.average_keyword_plus_identifier_count</b><br/>
+	Average keyword + identifier count per routine: <b>$metrics.average_keyword_plus_identifier_count</b>
+<br/>
 	Percentile ratios of keywords to identifiers: <b>$metrics.keyword_to_indentifier_ratio</b>
 </p>
 <p>

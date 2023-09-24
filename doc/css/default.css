@@ -71,6 +71,17 @@ div#footer a:first-child {
 div#footer p {
 	text-align: center;
 }
+table {
+	margin-left: 28px;
+}
+table tr td, th {
+	border-bottom: 1px solid;
+	padding: 5px;
+}
+table tr th#number {
+	text-align: right;
+	padding-left: 5px;
+}
 
 blockquote, p, h1, h2, h3, h4 {
 	margin-left: 20px;

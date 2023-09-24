@@ -15,6 +15,8 @@ class
 	EL_WEL_SYSTEM_FONTS
 
 inherit
+	EL_FONT_REGISTRY_ROUTINES
+
 	WEL_HWND_CONSTANTS
 		export
 	 		{NONE} all
@@ -25,9 +27,9 @@ inherit
 	 		{NONE} all
 	 	end
 
-	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM; EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM
 
-	EL_MODULE_WIN_REGISTRY; EL_MODULE_REG_KEY; EL_MODULE_WINDOWS_VERSION
+	EL_MODULE_WINDOWS_VERSION
 
 create
 	default_create
@@ -68,42 +70,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature -- Constants
-
-	Valid_font_types: ARRAY [STRING]
-		once
-			Result := << "fon", "fnt", "ttf", "ttc", "fot", "otf", "mmm", "pfb", "pfm" >>
-			Result.compare_objects
-		end
-
-	Substitute_fonts: HASH_TABLE [ZSTRING, STRING_32]
-		local
-			name: STRING_32
-		once
-			create Result.make_equal (30)
-			across Win_registry.string_list (HKLM_font_substitutes) as list loop
-				name := list.item.name.substring_to (',', default_pointer)
-				Result [name] := list.item.value.substring_to (',', default_pointer)
-			end
-		end
-
 feature {NONE} -- Constants
 
 	System_fonts_dir: DIR_PATH
 		once
 			Result := Execution.variable_dir_path ("SystemRoot") #+ "Fonts"
 		end
-
-	HKLM_fonts: DIR_PATH
-		once
-			Result := Reg_key.Windows_nt.current_version ("Fonts")
-		end
-
-	HKLM_font_substitutes: DIR_PATH
-		once
-			Result := Reg_key.Windows_nt.current_version ("FontSubstitutes")
-		end
-
-	True_type_suffix: STRING = " (TrueType)"
 
 end

@@ -43,7 +43,7 @@ feature {NONE} -- Constants
 
 	Description_table: EL_IMMUTABLE_UTF_8_TABLE
 		once
-			create Result.make ("[
+			create Result.make_by_indented ("[
 				argument_type_mismatch:
 					Argument type in processing instruction call and routine tuple do not match
 				invalid_type:

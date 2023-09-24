@@ -69,7 +69,7 @@ feature -- Access
 		end
 
 	key_names (key_path: DIR_PATH): EL_REGISTRY_KEYS_ITERABLE
-			-- list of keys under key_path
+		-- list of keys under key_path
 		do
 			create Result.make (key_path)
 		end

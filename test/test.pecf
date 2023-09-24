@@ -121,6 +121,11 @@ system:
 			condition:
 				platform = windows
 
+		writeable_libraries:
+			EL_wel_regedit_x = "$EIFFEL_LOOP/library/wel-regedit-x.ecf"
+			condition:
+				platform = windows
+
 		# FEATURE_CONSTANTS
 		cluster:
 			name = feature_names; location = "$EIFFEL_LOOP/tool/eiffel/source/edit/editor/constants"
@@ -332,6 +337,16 @@ system:
 					
 					Test application class: [$source PYXIS_SCAN_AUTOTEST_APP]
 				"""
+		cluster_tree:
+			regedit = "source/regedit"
+			description:
+				"""
+					wel-regedit-x.ecf
+					
+					See class [$source REGEDIT_AUTOTEST_APP]
+				"""
+			condition:
+				platform = windows
 		cluster_tree:
 			search_engine = "source/search-engine"
 			description:

@@ -21,6 +21,11 @@ inherit
 			as_unicode, write_encoded, write_encoded_character, is_numeric, append_general_to_utf_8
 		end
 
+	EL_SHARED_UTF_8_STRING
+		rename
+			UTF_8_string as UTF_8_buffer
+		end
+
 create
 	make
 
@@ -101,7 +106,7 @@ feature -- Conversion
 			--
 		do
 		end
-		
+
 	to_lower_offset (code: NATURAL): INTEGER
 		do
 			Result := code.to_character_32.as_lower.code - code.to_integer_32
@@ -138,13 +143,6 @@ feature -- Character query
 
 	unicode_case_change_substitute (code: NATURAL): CHARACTER_32
 		do
-		end
-
-feature -- Constants
-
-	Utf_8_buffer: EL_UTF_8_STRING
-		once
-			create Result.make (100)
 		end
 
 end

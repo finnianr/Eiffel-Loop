@@ -14,10 +14,13 @@ class
 
 inherit
 	EL_ARRAYED_LIST [G]
-		rename
-			sort as sort_indirectly
 		redefine
-			reverse_sort, ascending_sort
+			sort
+		end
+
+	PART_COMPARATOR [G]
+		undefine
+			copy, is_equal
 		end
 
 create
@@ -40,19 +43,23 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	reverse_sort
-		-- sort in descending order
+	sort (in_ascending_order: BOOLEAN)
+		local
+			quick: QUICK_SORTER [G]
 		do
-			ascending_sort; reverse_order
+			create quick.make (Current)
+			if in_ascending_order then
+				quick.sort (Current)
+			else
+				quick.reverse_sort (Current)
+			end
 		end
 
-	ascending_sort
-		-- sort in ascending order
-		local
-			array: SORTABLE_ARRAY [like item]
+feature {NONE} -- Implementation
+
+	less_than (u, v: G): BOOLEAN
 		do
-			create array.make_from_array (to_array)
-			array.sort
+			Result := u.is_less (v)
 		end
 
 end

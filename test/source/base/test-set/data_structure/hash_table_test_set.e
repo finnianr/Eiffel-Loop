@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 10:15:59 GMT (Tuesday 15th August 2023)"
-	revision: "23"
+	date: "2023-09-24 8:32:32 GMT (Sunday 24th September 2023)"
+	revision: "24"
 
 class
 	HASH_TABLE_TEST_SET
@@ -173,7 +173,7 @@ feature -- Test
 			table_utf_8: EL_IMMUTABLE_UTF_8_TABLE; value: ZSTRING
 			zstring_table: EL_ZSTRING_TABLE; currency_table: EL_IMMUTABLE_STRING_32_TABLE
 		do
-			create table_utf_8.make (Table_manifest)
+			create table_utf_8.make_by_indented (Table_manifest)
 			create zstring_table.make (Table_manifest)
 			across zstring_table as table loop
 				if table_utf_8.has_key_general (table.key) then

@@ -30,6 +30,8 @@ inherit
 			{ANY} is_valid_stretch
 		end
 
+	EL_SHARED_UTF_8_STRING
+
 create
 	make, default_create
 
@@ -40,14 +42,15 @@ feature {NONE} -- Initialization
 
 	make (a_font: EV_FONT)
 		local
-			utf8_family_name: STRING; c_name: ANY; s: EL_STRING_32_ROUTINES
+			c_name: ANY
 		do
 			make_from_pointer (Pango.new_font_description)
 
-			utf8_family_name := s.to_utf_8 (a_font.name, False)
-			c_name := utf8_family_name.to_c
-
-			Pango.set_font_family (item, $c_name)
+			if attached UTF_8_string as name then
+				name.set_from_general (a_font.name)
+				c_name := name.to_c
+				Pango.set_font_family (item, $c_name)
+			end
 			Pango.set_font_style (item, pango_style (a_font.shape))
 			Pango.set_font_weight (item, pango_weight (a_font.weight))
 			set_stretch (Stretch_normal)

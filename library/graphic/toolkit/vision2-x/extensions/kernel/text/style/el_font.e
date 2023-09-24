@@ -27,22 +27,22 @@ create
 
 feature {NONE} -- Initialization
 
-	make_bold (a_family: STRING; a_height_cms: REAL)
+	make_bold (a_family: READABLE_STRING_GENERAL; a_height_cms: REAL)
 		do
 			make_regular (a_family, a_height_cms)
 			set_weight (Weight_bold)
 		end
 
-	make_regular (a_family: STRING; a_height_cms: REAL)
+	make_regular (a_family: READABLE_STRING_GENERAL; a_height_cms: REAL)
 		do
 			default_create
 			if not a_family.is_empty then
-				preferred_families.extend (a_family)
+				preferred_families.extend (a_family.to_string_32)
 			end
 			set_height_cms (a_height_cms)
 		end
 
-	make_thin (a_family: STRING; a_height_cms: REAL)
+	make_thin (a_family: READABLE_STRING_GENERAL; a_height_cms: REAL)
 		do
 			make_regular (a_family, a_height_cms)
 			set_weight (Weight_thin)

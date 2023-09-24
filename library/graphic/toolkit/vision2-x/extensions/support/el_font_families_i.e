@@ -1,5 +1,7 @@
 note
-	description: "Compact list of fonts available on system"
+	description: "[
+		Compact table of fonts available on system with query by property specified in [$source EL_FONT_PROPERTY]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
@@ -20,16 +22,14 @@ inherit
 			initialize
 		end
 
-	EL_LAZY_ATTRIBUTE
-		rename
-			item as monospace_list,
-			new_item as new_monospace_list,
-			actual_item as actual_monospace_list
+	EL_MODULE_TEXT; EL_MODULE_REUSEABLE
+
+	EL_FONT_PROPERTY
+		export
+			{NONE} all
 		undefine
 			copy, default_create
 		end
-
-	EL_MODULE_TEXT
 
 feature {NONE} -- Initialization
 
@@ -37,30 +37,55 @@ feature {NONE} -- Initialization
 		local
 		do
 			Precursor
-			create general_list.make (new_font_families)
-			general_list.sort (True)
+			font_property_table := new_font_property_table
 		end
 
 feature -- Access
 
-	general_list: EL_COMPACT_ZSTRING_LIST
-		-- alphabetically sorted list of font families
+	new_query_list (
+		width_bitmap, type_bitmap: NATURAL_8; excluded_char_sets: detachable ARRAY [INTEGER]
+	): EL_COMPACT_ZSTRING_LIST
+		-- fonts that have width properties if `width_bitmap' > 0
+		-- and fonts that have type properties if `type_bitmap' > 0
+		local
+			utf_8_list: EL_IMMUTABLE_UTF_8_LIST; hexadecimal: EL_HEXADECIMAL_CONVERTER
+			bitmap: NATURAL_8; included: BOOLEAN; char_set, char_set_then_bitmap: INTEGER
+		do
+			create utf_8_list.make (font_property_table.count)
+			across font_property_table as table loop
+				char_set_then_bitmap := hexadecimal.to_integer (table.utf_8_item)
+
+				char_set := char_set_then_bitmap |>> 8; bitmap := char_set_then_bitmap.to_natural_8
+				if width_bitmap.to_boolean then
+					included := ((bitmap & Font_mask_width) & width_bitmap).to_boolean
+				end
+				if type_bitmap.to_boolean then
+					included := included and ((bitmap & Font_mask_type) & type_bitmap).to_boolean
+				end
+				if attached excluded_char_sets as char_sets then
+					included := included and not char_sets.has (char_set)
+				end
+				if included then
+					utf_8_list.extend (table.key)
+				end
+			end
+			utf_8_list.trim
+			create Result.make (utf_8_list)
+		end
 
 feature {NONE} -- Implementation
 
-	new_monospace_list: like general_list
-		do
-			create Result.make (general_list.query_if (agent is_monospace))
-		end
-
-	is_monospace (family: ZSTRING): BOOLEAN
-		do
-			Result := Text.is_monospace (family)
-		end
-
-	new_font_families: LIST [STRING_32]
+	new_font_property_table: EL_IMMUTABLE_UTF_8_TABLE
+		-- table of hexadecimal font property bitmaps from class `EL_FONT_PROPERTY'
 		deferred
 		ensure
 			not_empty: Result.count > 0
 		end
+
+feature {NONE} -- Internal attributes
+
+	font_property_table: EL_IMMUTABLE_UTF_8_TABLE
+		-- table of hexadecimal font property bitmaps from class `EL_FONT_PROPERTY' (digits 0 - 1)
+		-- plus {EV_FONT}.char_set for Windows (digits 2 - 3)
+
 end

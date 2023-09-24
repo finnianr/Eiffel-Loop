@@ -61,7 +61,7 @@ feature {NONE} -- Constants
 
 	Description_table: EL_IMMUTABLE_UTF_8_TABLE
 		once
-			create Result.make ("[
+			create Result.make_by_indented ("[
 				about_to_open_data_connection:
 					File status okay; about to open data connection.
 				action_not_taken:

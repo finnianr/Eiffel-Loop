@@ -41,7 +41,8 @@ feature {NONE} -- Initialization
 		do
 			text_field_font := (create {EV_TEXT_FIELD}).font
 			create internal_font
-			letter := ["i", "w"]
+			internal_font.preferred_families.extend (Default_family)
+			internal_font.preferred_families.start
 		end
 
 feature -- Font
@@ -103,6 +104,13 @@ feature -- Contract support
 			Result := a ~ b and then a.name ~ b.name
 		end
 
+	preferred_family_set: BOOLEAN
+		do
+			if attached internal_font.preferred_families as families then
+				Result := families.count = 1 and not families.off
+			end
+		end
+
 feature -- Measurement
 
 	string_width (string: READABLE_STRING_GENERAL; a_font: EV_FONT): INTEGER
@@ -134,10 +142,16 @@ feature {EL_FONT_FAMILIES_I} -- Implementation
 
 	is_monospace (font_family: READABLE_STRING_GENERAL): BOOLEAN
 		do
+			Result := not is_proportional (font_family)
+		end
+
+	is_proportional (font_family: READABLE_STRING_GENERAL): BOOLEAN
+		require
+			preferred_family_set: preferred_family_set
+		do
 			if attached internal_font as l_font then
-				l_font.preferred_families.wipe_out
-				l_font.preferred_families.extend (font_family.to_string_32)
-				Result := l_font.string_width (letter.narrow) = l_font.string_width (letter.wide)
+				l_font.preferred_families.replace (font_family.to_string_32)
+				Result := l_font.is_proportional
 			end
 		end
 
@@ -153,8 +167,9 @@ feature {EL_FONT_FAMILIES_I} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	internal_font: EV_FONT
+	internal_font: EL_FONT
 
-	letter: TUPLE [narrow, wide: STRING]
+feature {NONE} -- Constants
 
+	Default_family: STRING = "Serif"
 end
