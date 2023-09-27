@@ -34,6 +34,8 @@ inherit
 			make_from_pointer as make
 		end
 
+	EL_NETWORK_ADAPTER_C_API
+
 	EL_SHARED_C_WIDE_CHARACTER_STRING
 
 	EL_SHARED_NETWORK_DEVICE_TYPE
@@ -97,53 +99,6 @@ feature {NONE} -- Implementation
 	type: NATURAL_8
 		do
 			Result := c_get_adapter_type (self_ptr).to_natural_8
-		end
-
-feature {NONE} -- C Externals
-
-	c_get_adapter_description (adapter_ptr: POINTER): POINTER
-		require
-			is_ptr_adapter_attached: is_attached (adapter_ptr)
-		external
-			"C (EIF_POINTER): EIF_POINTER | <network-adapter.h>"
-		alias
-			"get_adapter_description"
-		end
-
-	c_get_adapter_name (adapter_ptr: POINTER): POINTER
-		require
-			is_ptr_adapter_attached: is_attached (adapter_ptr)
-		external
-			"C (EIF_POINTER): EIF_POINTER | <network-adapter.h>"
-		alias
-			"get_adapter_name"
-		end
-
-	c_get_adapter_physical_address (adapter_ptr: POINTER): POINTER
-		require
-			is_ptr_adapter_attached: is_attached (adapter_ptr)
-		external
-			"C (EIF_POINTER): EIF_POINTER | <network-adapter.h>"
-		alias
-			"get_adapter_physical_address"
-		end
-
-	c_get_adapter_physical_address_size (adapter_ptr: POINTER): INTEGER
-		require
-			is_ptr_adapter_attached: is_attached (adapter_ptr)
-		external
-			"C (EIF_POINTER): EIF_INTEGER | <network-adapter.h>"
-		alias
-			"get_adapter_physical_address_size"
-		end
-
-	c_get_adapter_type (adapter_ptr: POINTER): INTEGER
-		require
-			is_ptr_adapter_attached: is_attached (adapter_ptr)
-		external
-			"C (EIF_POINTER): EIF_INTEGER | <network-adapter.h>"
-		alias
-			"get_adapter_type"
 		end
 
 end

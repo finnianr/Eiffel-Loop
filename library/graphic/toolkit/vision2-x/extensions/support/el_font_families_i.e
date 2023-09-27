@@ -15,29 +15,9 @@ deferred class
 	EL_FONT_FAMILIES_I
 
 inherit
-	EV_ENVIRONMENT
-		export
-			{NONE} all
-		redefine
-			initialize
-		end
-
-	EL_MODULE_TEXT; EL_MODULE_REUSEABLE
-
 	EL_FONT_PROPERTY
 		export
 			{NONE} all
-		undefine
-			copy, default_create
-		end
-
-feature {NONE} -- Initialization
-
-	initialize
-		local
-		do
-			Precursor
-			font_property_table := new_font_property_table
 		end
 
 feature -- Access
@@ -51,8 +31,8 @@ feature -- Access
 			utf_8_list: EL_IMMUTABLE_UTF_8_LIST; hexadecimal: EL_HEXADECIMAL_CONVERTER
 			bitmap: NATURAL_8; included: BOOLEAN; char_set, char_set_then_bitmap: INTEGER
 		do
-			create utf_8_list.make (font_property_table.count)
-			across font_property_table as table loop
+			create utf_8_list.make (property_table.count)
+			across property_table as table loop
 				char_set_then_bitmap := hexadecimal.to_integer (table.utf_8_item)
 
 				char_set := char_set_then_bitmap |>> 8; bitmap := char_set_then_bitmap.to_natural_8
@@ -73,9 +53,16 @@ feature -- Access
 			create Result.make (utf_8_list)
 		end
 
+feature -- Status query
+
+	has (name: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := property_table.has_general (name)
+		end
+
 feature {NONE} -- Implementation
 
-	new_font_property_table: EL_IMMUTABLE_UTF_8_TABLE
+	new_property_table: EL_IMMUTABLE_UTF_8_TABLE
 		-- table of hexadecimal font property bitmaps from class `EL_FONT_PROPERTY'
 		deferred
 		ensure
@@ -84,7 +71,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	font_property_table: EL_IMMUTABLE_UTF_8_TABLE
+	property_table: EL_IMMUTABLE_UTF_8_TABLE
 		-- table of hexadecimal font property bitmaps from class `EL_FONT_PROPERTY' (digits 0 - 1)
 		-- plus {EV_FONT}.char_set for Windows (digits 2 - 3)
 

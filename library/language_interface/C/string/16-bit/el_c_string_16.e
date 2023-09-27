@@ -34,13 +34,6 @@ feature -- Access
 			Result := read_natural_16 ((index - 1) * width)
 		end
 
-	is_item_zero (address: POINTER): BOOLEAN
-			--
-		do
-			share_from_pointer (address, width)
-			Result := read_natural_16 (0) = 0
-		end
-
 feature -- Element change	
 
 	put_item (value: NATURAL_32; index: INTEGER)

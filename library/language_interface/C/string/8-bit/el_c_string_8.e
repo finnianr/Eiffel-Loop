@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-07 13:41:18 GMT (Thursday 7th September 2023)"
-	revision: "10"
+	date: "2023-08-01 16:27:18 GMT (Tuesday 1st August 2023)"
+	revision: "9"
 
 class
 	EL_C_STRING_8
@@ -25,9 +25,7 @@ inherit
 
 	EL_8_BIT_IMPLEMENTATION
 
-	EL_SHARED_IMMUTABLE_8_MANAGER
-
-	EL_SHARED_STRING_8_CURSOR
+	EL_SHARED_IMMUTABLE_8_MANAGER; EL_SHARED_STRING_8_CURSOR
 
 create
 	default_create, make_owned, make_shared, make_owned_of_size, make_shared_of_size,
@@ -70,13 +68,6 @@ feature -- Access
 			valid_index: index >= 1 and index <= count
 		do
 			Result := read_character (index - 1)
-		end
-
-	is_item_zero (address: POINTER): BOOLEAN
-			--
-		do
-			share_from_pointer (address, width)
-			Result := read_natural_8 (0) = 0
 		end
 
 feature -- Conversion

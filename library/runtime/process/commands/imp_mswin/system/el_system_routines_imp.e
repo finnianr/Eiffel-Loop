@@ -25,30 +25,25 @@ feature {NONE} -- Factory
 	new_CPU_model_name: STRING
 		--
 		local
-			i: INTEGER
+			i: INTEGER; info_string: EL_C_STRING_8
 		do
-			create Result.make (50)
-			from i := 2 until i > 4 loop
-				Result.append (new_cpu_id_info (Extended_function_CPUID_Information + i).string)
+			create info_string.make (Info_block_width * Model_part_count)
+		-- Eg. Intel Core(TM)| i7-3615QM| CPU @ 2.30GHz
+			from i := 0 until i = Model_part_count loop
+				cwin_cpu_id (info_string.base_address + i * Info_block_width, Extended_function_CPUID_Information + i)
 				i := i + 1
 			end
+			create Result.make_from_c (info_string.base_address)
 			Result.left_adjust
-		end
-
-feature {NONE} -- Implementation
-
-	new_cpu_id_info (info_type: INTEGER): C_STRING
-		local
-			buffer: MANAGED_POINTER
-		do
-			create buffer.make (16)
-			cwin_cpu_id (buffer.item, info_type)
-			create Result.make_by_pointer_and_count (buffer.item, buffer.count)
 		end
 
 feature {NONE} -- Constants
 
-	Extended_function_CPUID_Information: INTEGER = 0x80000000
+	Info_block_width: INTEGER = 16
+
+	Model_part_count: INTEGER = 3
+
+	Extended_function_CPUID_Information: INTEGER = 0x80000002
 
 feature {NONE} -- C Externals
 

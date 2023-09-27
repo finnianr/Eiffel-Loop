@@ -1,5 +1,5 @@
 note
-	description: "Shared c wide character string"
+	description: "Shared C wide character string"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
@@ -23,7 +23,7 @@ feature {NONE} -- Implementation
 				create Result
 			else
 				Result := Internal_wide_string
-				Result.set_owned_from_c (a_native_string)
+				Result.set_shared_from_c (a_native_string)
 			end
 		end
 

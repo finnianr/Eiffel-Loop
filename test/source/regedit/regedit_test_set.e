@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-24 14:17:45 GMT (Sunday 24th September 2023)"
-	revision: "1"
+	date: "2023-09-25 7:10:22 GMT (Monday 25th September 2023)"
+	revision: "2"
 
 class
 	REGEDIT_TEST_SET
@@ -34,7 +34,7 @@ feature -- Test
 		local
 			font: EL_FONT_REGISTRY_ROUTINES font_list: EL_ZSTRING_LIST
 		do
-			if attached font.true_type_font_set as font_set then
+			if attached font.new_true_type_font_set as font_set then
 				font_list := "MS Gothic, MS PGothic, MS UI Gothic" -- msgothic.ttc
 				assert ("TTC fonts present", across font_list as list all font_set.has (list.item) end)
 

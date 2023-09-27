@@ -35,6 +35,7 @@ system:
 		# Eiffel Loop
 		libraries:
 			EL_base = "base/base.ecf"
+			EL_c_api = "C-language-interface.ecf"
 			EL_doc_scan = "document-scan.ecf"
 			class_option:
 				class = EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT

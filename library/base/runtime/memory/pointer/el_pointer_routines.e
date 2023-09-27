@@ -27,17 +27,35 @@ feature -- Status query
 			Result := not a_pointer.is_default_pointer
 		end
 
+feature -- Measurement
+
+	string_length (c_str: POINTER; character_width: INTEGER): INTEGER
+		local
+			n_8: NATURAL_8; n_16: NATURAL_16; n_32: NATURAL_32
+			found: BOOLEAN; i: INTEGER
+		do
+			from until found loop
+				inspect character_width
+					when Natural_8_bytes then
+						($n_8).memory_copy (c_str + i, character_width)
+						found := n_8 = 0
+
+					when Natural_16_bytes then
+						($n_16).memory_copy (c_str + i, character_width)
+						found := n_16 = 0
+
+					when Natural_32_bytes then
+						($n_32).memory_copy (c_str + i, character_width)
+						found := n_32 = 0
+				else
+					found := True
+				end
+				i := i + character_width
+			end
+			Result := i // character_width - 1
+		end
+
 feature -- Write to memory
-
-	put_integer_32 (value: INTEGER; integer_ptr: POINTER)
-		do
-			integer_ptr.memory_copy ($value, Integer_32_bytes)
-		end
-
-	put_real_32 (value: REAL; real_ptr: POINTER)
-		do
-			real_ptr.memory_copy ($value, Real_32_bytes)
-		end
 
 	i_th_lower_upper (area: SPECIAL [INTEGER]; i: INTEGER; upper_ptr: POINTER): INTEGER
 		-- i'th lower index setting integer at `upper_ptr' memory location as a side-effect
@@ -56,6 +74,16 @@ feature -- Write to memory
 			else
 				Result := 1
 			end
+		end
+
+	put_integer_32 (value: INTEGER; integer_ptr: POINTER)
+		do
+			integer_ptr.memory_copy ($value, Integer_32_bytes)
+		end
+
+	put_real_32 (value: REAL; real_ptr: POINTER)
+		do
+			real_ptr.memory_copy ($value, Real_32_bytes)
 		end
 
 feature -- Read from memory

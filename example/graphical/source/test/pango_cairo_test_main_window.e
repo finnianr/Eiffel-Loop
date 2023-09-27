@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-24 17:36:43 GMT (Sunday 24th September 2023)"
-	revision: "26"
+	date: "2023-09-25 6:44:58 GMT (Monday 25th September 2023)"
+	revision: "27"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -50,6 +50,8 @@ inherit
 
 	EL_MODULE_VISION_2
 
+	EL_CHARACTER_8_CONSTANTS
+
 create
 	make
 
@@ -57,31 +59,30 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			size_drop_down: EL_DROP_DOWN_BOX [REAL]; font_list_drop_down: EL_FONT_FAMILY_DROP_DOWN_BOX
-			text_angle_drop_down: EL_DROP_DOWN_BOX [INTEGER]; excluded_char_sets: ARRAY [INTEGER]
-			cell: EV_CELL; l_pixmap: EL_PIXMAP
+			size_drop_down: EL_DROP_DOWN_BOX [REAL]; text_angle_drop_down: EL_DROP_DOWN_BOX [INTEGER]
+			cell: EV_CELL; l_pixmap: EL_PIXMAP; font_bitmap: NATURAL_8
 		do
 			Precursor
 			set_dimensions
 			set_title ("Test Window")
-			font_size := 0.5
-			create size_drop_down.make (font_size, Font_sizes, agent set_font_size)
-
+			font_bitmap := Font_monospace | Font_proportional
+			across Text.Font_families.new_query_list (font_bitmap, Font_true_type, excluded_char_sets) as family loop
+				lio.put_string (family.item); lio.put_string (Space * (25 - family.item.count))
+				if family.cursor_index \\ 4 = 0 then
+					lio.put_new_line
+				end
+			end
+			lio.put_new_line
 			if {PLATFORM}.is_windows then
-			-- SWGamekeys MT, Symbol, Webdings, Wingdings: cause Pango output error "not-rotated" "ugly-output"
-			-- {WEL_CHARACTER_SET_CONSTANTS} Symbol_charset: INTEGER = 2
-				excluded_char_sets := << 2 >> 
-				font_family := "Arial";
+				font_family := "Arial"
 			else
-				create excluded_char_sets.make_empty
-				font_family := "Serif";
+				font_family := "Serif"
 			end
 --			font_family := "Courier 10 Pitch"
 --			font_family := "Garuda"
---			create font_list_drop_down.make_system (font_family, agent set_font_family)
-			create font_list_drop_down.make_query (
-				font_family, agent set_font_family, Font_monospace | Font_proportional, Font_true_type, excluded_char_sets
-			)
+
+			font_size := 0.5
+			create size_drop_down.make (font_size, Font_sizes, agent set_font_size)
 
 			text_angle := 0
 			create text_angle_drop_down.make (text_angle, << 0, 90 >>, agent set_text_angle)
@@ -98,7 +99,7 @@ feature {NONE} -- Initialization
 				Vision_2.new_vertical_box (0.1, 0.1, <<
 					picture_box,
 					Vision_2.new_horizontal_box (0.2, 0.1, <<
-						Vision_2.new_label ("True type:"), font_list_drop_down,
+						Vision_2.new_label ("True type:"), new_font_list_drop_down,
 						Vision_2.new_label ("Size:"), size_drop_down,
 						Vision_2.new_label ("Angle:"), text_angle_drop_down,
 						Vision_2.new_button ("TEST", agent on_test)
@@ -214,6 +215,25 @@ feature {NONE} -- Implementation
 			 assertion.prepend ("not ")
 			end
 			lio.put_line (assertion)
+		end
+
+	excluded_char_sets: ARRAY [INTEGER]
+		do
+			if {PLATFORM}.is_windows then
+			-- SWGamekeys MT, Symbol, Webdings, Wingdings: cause Pango output error "not-rotated" "ugly-output"
+			-- {WEL_CHARACTER_SET_CONSTANTS} Symbol_charset: INTEGER = 2
+				Result := << 2 >>
+			else
+				create Result.make_empty
+			end
+		end
+
+	new_font_list_drop_down: EL_FONT_FAMILY_DROP_DOWN_BOX
+		do
+--			create Result.make_system (font_family, agent set_font_family)
+			create Result.make_query (
+				font_family, agent set_font_family, Font_monospace | Font_proportional, Font_true_type, excluded_char_sets
+			)
 		end
 
 	set_dimensions

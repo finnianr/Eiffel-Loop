@@ -14,8 +14,27 @@ class
 
 inherit
 	EL_FONT_FAMILIES_I
+		undefine
+			copy, default_create
+		end
 
-	EL_MODULE_FILE_SYSTEM
+	EV_ENVIRONMENT
+		export
+			{NONE} all
+		redefine
+			initialize
+		end
+
+	EL_MODULE_FILE_SYSTEM; EL_MODULE_REUSEABLE; EL_MODULE_TEXT
+
+
+feature {NONE} -- Initialization
+
+	initialize
+		do
+			Precursor
+			property_table := new_property_table
+		end
 
 feature {NONE} -- Implementation
 
@@ -29,7 +48,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_font_property_table: EL_IMMUTABLE_UTF_8_TABLE
+	new_property_table: EL_IMMUTABLE_UTF_8_TABLE
 		-- table of hexadecimal font property bitmaps from class `EL_FONT_PROPERTY'
 		local
 			bitmap: NATURAL_8; manifest, modified_name: ZSTRING; true_type_set: EL_HASH_SET [ZSTRING]

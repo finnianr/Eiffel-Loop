@@ -16,8 +16,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-07 8:19:51 GMT (Thursday 7th September 2023)"
-	revision: "34"
+	date: "2023-09-25 7:14:20 GMT (Monday 25th September 2023)"
+	revision: "35"
 
 class
 	VTD_XML_TEST_SET
@@ -54,6 +54,7 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_bioinfo_xpath_query
+		-- VTD_XML_TEST_SET.test_bioinfo_xpath_query
 		note
 			testing: "covers/{EL_XPATH_NODE_CONTEXT}.do_query",
 				"covers/{EL_XPATH_NODE_CONTEXT}.context_list",

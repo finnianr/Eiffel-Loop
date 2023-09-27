@@ -18,7 +18,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_C_API_ROUTINES
+	EL_NETWORK_ADAPTER_C_API
 		export
 			{NONE} all
 		undefine
@@ -39,82 +39,42 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			next_ptr: POINTER; read: BOOLEAN
+			next_ptr: POINTER; trial_buffer: MANAGED_POINTER; size: INTEGER
 		do
 			make_list (10)
-			across Address_buffer_sizes as size until read loop
-				adapter_buffer := new_adapter_buffer (size.item)
-				read := adapter_buffer /= Default_buffer
+			from size := Minimum_buffer_size until attached adapter_buffer or else size > Maximum_buffer_size loop
+				create trial_buffer.make (size)
+				if c_get_adapter_addresses (trial_buffer.item, $size) /= Error_buffer_overflow then
+					adapter_buffer := trial_buffer
+				end
+				size := size + 2000
 			end
-			if read then
-				from next_ptr := adapter_buffer.item until not is_attached (next_ptr) loop
+			if attached adapter_buffer as buffer then
+				from next_ptr := buffer.item until not is_attached (next_ptr) loop
 					extend (create {EL_NETWORK_DEVICE_IMP}.make (next_ptr))
 					last.set_type_enum_id
 					next_ptr := c_get_next_adapter (next_ptr)
 				end
 			else
 				Exception.raise_developer (
-					"Buffer allocation of %S insufficient for network adapter addresses",
-					[Address_buffer_sizes [Address_buffer_sizes.count]]
+					"Buffer allocation of %S insufficient for network adapter addresses", [size]
 				)
-			end
-		end
-
-feature {NONE} -- Factory
-
-	new_adapter_buffer (size: INTEGER): MANAGED_POINTER
-		do
-			create Result.make (size)
-			if c_get_adapter_addresses (Result.item, $size) = error_buffer_overflow then
-				Result := Default_buffer
 			end
 		end
 
 feature {NONE} -- Internal attributes
 
-	adapter_buffer: MANAGED_POINTER
-
-feature {NONE} -- C Externals
-
-	c_get_adapter_addresses (address_buffer, buffer_size: POINTER): INTEGER
-		require
-			is_address_buffer_attached: is_attached (address_buffer)
-			is_buffer_size_attached: is_attached (buffer_size)
-		external
-			"C (EIF_POINTER, EIF_POINTER): EIF_INTEGER | <network-adapter.h>"
-		alias
-			"get_adapter_addresses"
-		end
-
-	c_get_next_adapter (adapter_ptr: POINTER): POINTER
-		require
-			is_ptr_adapter_attached: is_attached (adapter_ptr)
-		external
-			"C (EIF_POINTER): EIF_POINTER | <network-adapter.h>"
-		alias
-			"get_next_adapter"
-		end
-
-feature {NONE} -- C constants
-
-	error_buffer_overflow: INTEGER
-			--
-		external
-			"C [macro <Iphlpapi.h>]"
-		alias
-			"ERROR_BUFFER_OVERFLOW"
-		end
+	adapter_buffer: detachable MANAGED_POINTER
 
 feature {NONE} -- Constants
 
-	Address_buffer_sizes: ARRAY [INTEGER]
+	Error_buffer_overflow: INTEGER
 		once
-			Result := << 15_000, 20_000, 25_000 >>
+			Result := c_error_buffer_overflow
 		end
 
-	Default_buffer: MANAGED_POINTER
-		once
-			create Result.share_from_pointer (default_pointer, 0)
-		end
+	Minimum_buffer_size: INTEGER = 12_000
+
+	Maximum_buffer_size: INTEGER = 36_000
 
 end

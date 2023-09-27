@@ -105,8 +105,7 @@ feature {NONE} -- Initialization
 	make_from_file (a_file_path: FILE_PATH)
 			--
 		local
-			xml_file: PLAIN_TEXT_FILE; file_data: EL_C_STRING_8
-			count: INTEGER
+			xml_file: RAW_FILE; file_data: EL_C_STRING_8; count: INTEGER
 		do
 			make_default
 			is_namespace_aware := XML.is_namespace_aware_file (a_file_path)
