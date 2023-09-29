@@ -8,12 +8,8 @@ note
 			C_library\network-adapter\source\network-adapter.h
 	]"
 	notes: "[
-		It may be possible to implement this using inline externals and only using these lines
-		in network-adapter.h.
-		
-			#include <winsock2.h>
-			#include <WS2tcpip.h>
-			#include <iphlpapi.h>
+		[https://microsoft.public.vc.language.narkive.com/fgY8cPym/c2065-undeclared-identifiers-using-iphlpapi-h This article]
+		explains why it is not possible to implement this using inline externals.
 	]"
 	author: ""
 	date: "$Date$"
@@ -29,8 +25,7 @@ feature {NONE} -- Adaptor list
 
 	c_get_adapter_addresses (address_buffer, buffer_size: POINTER): INTEGER
 		require
-			is_address_buffer_attached: is_attached (address_buffer)
-			is_buffer_size_attached: is_attached (buffer_size)
+			args_attached: is_attached (address_buffer) and is_attached (buffer_size)
 		external
 			"C (EIF_POINTER, EIF_POINTER): EIF_INTEGER | <network-adapter.h>"
 		alias

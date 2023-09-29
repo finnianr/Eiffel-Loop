@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-25 6:44:58 GMT (Monday 25th September 2023)"
-	revision: "27"
+	date: "2023-09-28 10:57:33 GMT (Thursday 28th September 2023)"
+	revision: "28"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -171,6 +171,7 @@ feature {NONE} -- Factory
 			Result.fill_rectangle (0, 0, l_pixmap.width, l_pixmap.height)
 			Result.draw_rounded_pixmap (0, 0, 35, Top_left | Top_right | Bottom_right | Bottom_left, l_pixmap)
 			Result.set_font (title_font)
+		-- Draw text with Pango-Cairo
 			if text_angle = 0 then
 				Result.draw_text_top_left (name_rect.x, name_rect.y, l_title)
 			else
@@ -230,10 +231,10 @@ feature {NONE} -- Implementation
 
 	new_font_list_drop_down: EL_FONT_FAMILY_DROP_DOWN_BOX
 		do
---			create Result.make_system (font_family, agent set_font_family)
-			create Result.make_query (
-				font_family, agent set_font_family, Font_monospace | Font_proportional, Font_true_type, excluded_char_sets
-			)
+			create Result.make_system (font_family, agent set_font_family)
+--			create Result.make_query (
+--				font_family, agent set_font_family, Font_monospace | Font_proportional, Font_true_type, excluded_char_sets
+--			)
 		end
 
 	set_dimensions

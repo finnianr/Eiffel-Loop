@@ -48,6 +48,7 @@ feature {NONE} -- Initialization
 
 			if attached UTF_8_string as name then
 				name.set_from_general (a_font.name)
+				name.prune_all_leading ('@') -- @SimSun -> SimSun
 				c_name := name.to_c
 				Pango.set_font_family (item, $c_name)
 			end

@@ -19,8 +19,6 @@ inherit
 		end
 
 	EL_NETWORK_ADAPTER_C_API
-		export
-			{NONE} all
 		undefine
 			copy, is_equal
 		end
@@ -40,6 +38,7 @@ feature {NONE} -- Initialization
 	make
 		local
 			next_ptr: POINTER; trial_buffer: MANAGED_POINTER; size: INTEGER
+			device: EL_NETWORK_DEVICE_IMP
 		do
 			make_list (10)
 			from size := Minimum_buffer_size until attached adapter_buffer or else size > Maximum_buffer_size loop
@@ -52,7 +51,6 @@ feature {NONE} -- Initialization
 			if attached adapter_buffer as buffer then
 				from next_ptr := buffer.item until not is_attached (next_ptr) loop
 					extend (create {EL_NETWORK_DEVICE_IMP}.make (next_ptr))
-					last.set_type_enum_id
 					next_ptr := c_get_next_adapter (next_ptr)
 				end
 			else
@@ -73,7 +71,8 @@ feature {NONE} -- Constants
 			Result := c_error_buffer_overflow
 		end
 
-	Minimum_buffer_size: INTEGER = 12_000
+	Minimum_buffer_size: INTEGER = 15_000
+		-- Recommended buffer size to start
 
 	Maximum_buffer_size: INTEGER = 36_000
 

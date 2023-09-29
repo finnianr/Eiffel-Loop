@@ -32,6 +32,8 @@ inherit
 	EL_C_OBJECT
 		rename
 			make_from_pointer as make
+		redefine
+			make
 		end
 
 	EL_NETWORK_ADAPTER_C_API
@@ -44,6 +46,15 @@ inherit
 
 create
 	make
+
+feature {NONE} -- Initialization
+
+	make (a_ptr: POINTER)
+			--
+		do
+			Precursor (a_ptr)
+			set_type_enum_id
+		end
 
 feature -- Access
 
