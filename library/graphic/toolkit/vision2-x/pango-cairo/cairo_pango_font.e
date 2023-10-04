@@ -30,10 +30,19 @@ inherit
 			{ANY} is_valid_stretch
 		end
 
+	EV_FONT_CONSTANTS
+		rename
+			Weight_bold as EV_weight_bold,
+			Weight_thin as EV_weight_thin
+		export
+			{NONE} all
+			{ANY} valid_shape, valid_weight
+		end
+
 	EL_SHARED_UTF_8_STRING
 
 create
-	make, default_create
+	make, make_family, make_default
 
 convert
 	make ({EV_FONT})
@@ -41,22 +50,22 @@ convert
 feature {NONE} -- Initialization
 
 	make (a_font: EV_FONT)
-		local
-			c_name: ANY
+		do
+			make_default
+			set_family (a_font.name); set_shape (a_font.shape); set_weight (a_font.weight)
+			set_stretch (Stretch_normal)
+			set_height_by_points (a_font.height_in_points)
+		end
+
+	make_default
 		do
 			make_from_pointer (Pango.new_font_description)
+		end
 
-			if attached UTF_8_string as name then
-				name.set_from_general (a_font.name)
-				name.prune_all_leading ('@') -- @SimSun -> SimSun
-				c_name := name.to_c
-				Pango.set_font_family (item, $c_name)
-			end
-			Pango.set_font_style (item, pango_style (a_font.shape))
-			Pango.set_font_weight (item, pango_weight (a_font.weight))
-			set_stretch (Stretch_normal)
-
-			set_height (a_font.height_in_points * Pango.pango_scale)
+	make_family (a_name: READABLE_STRING_GENERAL)
+		do
+			make_default
+			set_family (a_name)
 		end
 
 feature -- Access
@@ -81,16 +90,48 @@ feature -- Status change
 feature -- Element change
 
 	set_height (a_height: INTEGER)
+		-- set height in pango units
 		do
 			height := a_height
 			Pango.set_font_size (item, height)
 		end
 
+	set_family (a_name: READABLE_STRING_GENERAL)
+		local
+			c_name: ANY
+		do
+			if attached UTF_8_string as name then
+				name.set_from_general (a_name)
+				name.prune_all_leading ('@') -- @SimSun -> SimSun
+				c_name := name.to_c
+				Pango.set_font_family (item, $c_name)
+			end
+		end
+
+	set_height_by_points (height_in_points: INTEGER)
+		do
+			set_height (height_in_points * Pango.pango_scale)
+		end
+
+	set_shape (ev_shape: INTEGER)
+		require
+			valid_shape: valid_shape (ev_shape)
+		do
+			Pango.set_font_style (item, pango_style (ev_shape))
+		end
+
+	set_weight (ev_weight: INTEGER)
+		require
+			valid_weight: valid_weight (ev_weight)
+		do
+			Pango.set_font_weight (item, pango_weight (ev_weight))
+		end
+
 feature {NONE} -- Implementation
 
-	pango_weight (vision_2_weight: INTEGER): INTEGER
+	pango_weight (ev_weight: INTEGER): INTEGER
 		do
-			inspect vision_2_weight
+			inspect ev_weight
 				when {EV_FONT_CONSTANTS}.Weight_thin then
 					Result := Weight_thin
 
@@ -108,9 +149,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	pango_style (vision_2_shape: INTEGER): INTEGER
+	pango_style (ev_shape: INTEGER): INTEGER
 		do
-			if vision_2_shape = {EV_FONT_CONSTANTS}.Shape_italic then
+			if ev_shape = Shape_italic then
 				Result := Style_italic
 			else
 				Result := Style_normal

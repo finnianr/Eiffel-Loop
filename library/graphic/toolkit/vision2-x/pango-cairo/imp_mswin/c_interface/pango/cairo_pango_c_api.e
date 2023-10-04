@@ -19,6 +19,20 @@ inherit
 
 feature -- Access
 
+	frozen pango_context_load_font (function, context, description: POINTER): POINTER
+		-- PangoFont * pango_context_load_font (PangoContext *context, const PangoFontDescription *desc);
+		external
+			"C inline use <pango/pango.h>"
+		alias
+			"[
+				return (
+					FUNCTION_CAST(PangoFont *, (PangoFont *, PangoFontDescription *))$function
+				) (
+					(PangoContext *)$context, (const PangoFontDescription *)$description
+				)
+			]"
+		end
+		
 	frozen pango_layout_get_indent (function, layout: POINTER): INTEGER
 			-- int pango_layout_get_indent (PangoLayout *layout);
 		external
@@ -105,6 +119,22 @@ feature -- Factory
 		end
 
 feature -- Element change
+
+	frozen pango_context_set_font_description (function, context, font_description: POINTER)
+		-- void pango_context_set_font_description (PangoContext *context, const PangoFontDescription *desc);
+		require
+			function_attached: is_attached (function)
+		external
+			"C inline use <pango/pango.h>"
+		alias
+			"[
+				return (
+					FUNCTION_CAST(void, (PangoContext *, const PangoFontDescription *))$function
+				) (
+					(PangoContext *)$context, (const PangoFontDescription *)$font_description
+				)
+			]"
+		end
 
 	frozen pango_layout_set_text (function, layout: POINTER; a_text: POINTER; a_length: INTEGER_32)
 			-- void pango_layout_set_text (PangoLayout *layout, const char *text, int length);

@@ -31,6 +31,22 @@ feature -- Factory
 			"pango_cairo_create_layout"
 		end
 
+	frozen new_pango_context (context_ptr: POINTER): POINTER
+			-- PangoContext *pango_cairo_create_context (cairo_t *cr);
+		external
+			"C signature (cairo_t *): EIF_POINTER use <pango/pangocairo.h>"
+		alias
+			"pango_cairo_create_context"
+		end
+
+	frozen new_default_font_map: POINTER
+		-- PangoFontMap *pango_cairo_font_map_get_default (void);
+		external
+			"C signature (): EIF_POINTER use <pango/pangocairo.h>"
+		alias
+			"pango_cairo_font_map_get_default"
+		end
+
 feature -- Element change
 
 	frozen update (context_ptr, layout: POINTER)

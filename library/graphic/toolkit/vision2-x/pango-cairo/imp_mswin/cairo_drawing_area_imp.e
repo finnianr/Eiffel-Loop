@@ -33,8 +33,7 @@ inherit
 
 	EL_MODULE_GDI_BITMAP
 
-create
-	make
+create {CAIRO_DRAWING_AREA} make
 
 feature -- Conversion
 

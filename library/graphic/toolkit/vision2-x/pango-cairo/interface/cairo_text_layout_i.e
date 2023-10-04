@@ -15,11 +15,11 @@ deferred class
 inherit
 	CAIRO_OWNED_G_OBJECT
 
-	EL_MODULE_BUFFER_32
-
 	CAIRO_SHARED_PANGO_LAYOUT_API
 
 	CAIRO_SHARED_PANGO_API
+
+	EL_SHARED_UTF_8_STRING
 
 feature {NONE} -- Initialization
 
@@ -58,12 +58,14 @@ feature -- Element change
 
 	set_text (a_text: READABLE_STRING_GENERAL)
 		local
-			text_utf_8: STRING; l_text: STRING_32; s: EL_STRING_32_ROUTINES
+			c_text: ANY
 		do
-			l_text := buffer_32.copied_general (a_text)
-			text_utf_8 := s.to_utf_8 (l_text, False)
-			Pango.set_layout_text (self_ptr, text_utf_8.area.base_address, text_utf_8.count)
-			adjust_pango_font (font.string_width (l_text))
+			if attached UTF_8_string as text_utf_8 then
+				text_utf_8.set_from_general (a_text)
+				c_text := text_utf_8.to_c
+				Pango.set_layout_text (self_ptr, $c_text, text_utf_8.count)
+			end
+			adjust_pango_font (font.string_width (a_text))
 		end
 
 feature {NONE} -- Implementation

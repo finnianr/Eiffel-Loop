@@ -50,6 +50,14 @@ feature -- Access
 
 feature -- Factory
 
+	new_font (pango_context, font_description: POINTER): POINTER
+		-- PangoFont*
+		require
+			pango_context_attached: is_attached (pango_context)
+			font_description_attached: is_attached (font_description)
+		deferred
+		end
+
 	new_font_description: POINTER
 		deferred
 		end
@@ -59,6 +67,14 @@ feature -- Factory
 		end
 
 feature -- Element change
+
+	set_context_font_description (a_context, font_description: POINTER)
+		-- set Pango `a_context' with `font_description'
+		require
+			context_attached: is_attached (a_context)
+			font_description_attached: is_attached (font_description)
+		deferred
+		end
 
 	set_font_family (font_description: POINTER; a_family: POINTER)
 		require
@@ -102,9 +118,10 @@ feature -- Element change
 		deferred
 		end
 
-	set_layout_font_description (a_layout, a_font_desc: POINTER)
+	set_layout_font_description (a_layout, font_description: POINTER)
 		require
 			layout_attached: is_attached (a_layout)
+			font_description_attached: is_attached (font_description)
 		deferred
 		end
 

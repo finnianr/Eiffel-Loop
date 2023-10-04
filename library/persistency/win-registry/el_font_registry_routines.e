@@ -25,6 +25,7 @@ feature -- Access
 				name := list.name
 				if name.ends_with (True_type_suffix) then
 					name.remove_tail (True_type_suffix.count)
+					name.right_adjust
 					if name.has_substring (Ampersand_string) then
 						create name_split.make (name, Ampersand_string)
 						across name_split as split loop
@@ -67,7 +68,7 @@ feature {NONE} -- Implementation
 			across Qualifier_word_list as list until removed loop
 				word := list.item
 				if name.ends_with (word) and then name.count > word.count then
-					name.remove_tail (word.count + 1)
+					name.remove_tail (word.count); name.right_adjust
 					removed := True
 				end
 			end
@@ -102,7 +103,7 @@ feature {NONE} -- Constants
 
 	True_type_suffix: ZSTRING
 		once
-			Result := " (TrueType)"
+			Result := "(TrueType)"
 		end
 
 end

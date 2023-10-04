@@ -1,4 +1,4 @@
-note
+Note
 	description: "API function pointers for libpangocairo-1.0-0"
 
 	author: "Finnian Reilly"
@@ -20,7 +20,11 @@ create
 
 feature {EL_DYNAMIC_MODULE} -- Access
 
+	create_context: POINTER
+
 	create_layout: POINTER
+
+	font_map_get_default: POINTER
 
 	show_layout: POINTER
 

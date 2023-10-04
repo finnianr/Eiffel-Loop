@@ -36,6 +36,16 @@ inherit
 create
 	make
 
+feature -- Factory
+
+	frozen new_font (pango_context, font_description: POINTER): POINTER
+		-- PangoFont * pango_context_load_font (PangoContext *context, const PangoFontDescription *desc);
+		external
+			"C signature (PangoContext *, const PangoFontDescription *): EIF_POINTER use <pango/pango.h>"
+		alias
+			"pango_context_load_font"
+		end
+
 feature -- Access
 
 	frozen layout_indent (layout: POINTER): INTEGER
@@ -72,6 +82,14 @@ feature -- Access
 		end
 
 feature -- Element change
+
+	frozen set_context_font_description (context, font_description: POINTER)
+		-- void pango_context_set_font_description (PangoContext *context, const PangoFontDescription *desc);
+		external
+			"C signature (PangoContext *, PangoFontDescription *) use <pango/pango.h>"
+		alias
+			"pango_context_set_font_description"
+		end
 
 	frozen set_font_absolute_size (font_description: POINTER; size: DOUBLE)
 			-- void pango_font_description_set_absolute_size (PangoFontDescription *desc, double size);

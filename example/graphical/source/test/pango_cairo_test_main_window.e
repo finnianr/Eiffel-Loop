@@ -1,13 +1,18 @@
 note
 	description: "Pango cairo test main window"
+	notes: "[
+		[https://docs.gtk.org/Pango/ctor.Context.new.html pango_context_new]
+		
+			PangoContext* pango_context_new (void)
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-28 10:57:33 GMT (Thursday 28th September 2023)"
-	revision: "28"
+	date: "2023-10-04 12:48:45 GMT (Wednesday 4th October 2023)"
+	revision: "29"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -231,10 +236,30 @@ feature {NONE} -- Implementation
 
 	new_font_list_drop_down: EL_FONT_FAMILY_DROP_DOWN_BOX
 		do
-			create Result.make_system (font_family, agent set_font_family)
+--			create Result.make_system (font_family, agent set_font_family)
 --			create Result.make_query (
 --				font_family, agent set_font_family, Font_monospace | Font_proportional, Font_true_type, excluded_char_sets
 --			)
+--			create Result.make_query (
+--				font_family, agent set_font_family,
+--				Font_monospace | Font_proportional, Font_true_type | Font_non_true_type, excluded_char_sets
+--			)
+			create Result.make (font_family, new_pango_fonts, agent set_font_family)
+		end
+
+	new_pango_fonts: EL_ZSTRING_LIST
+		local
+			cairo: CAIRO_DRAWING_CONTEXT_IMP
+		do
+			if attached Text.Font_families.new_query_list (0, 0, Void) as family_list then
+				create cairo.make_default
+				create Result.make (family_list.count)
+				across family_list as list loop
+					if cairo.valid_font_family (list.item) then
+						Result.extend (list.item)
+					end
+				end
+			end
 		end
 
 	set_dimensions

@@ -38,6 +38,8 @@ feature -- Access
 				char_set := char_set_then_bitmap |>> 8; bitmap := char_set_then_bitmap.to_natural_8
 				if width_bitmap.to_boolean then
 					included := ((bitmap & Font_mask_width) & width_bitmap).to_boolean
+				else
+					included := True
 				end
 				if type_bitmap.to_boolean then
 					included := included and ((bitmap & Font_mask_type) & type_bitmap).to_boolean

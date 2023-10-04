@@ -20,6 +20,10 @@ create
 
 feature {EL_DYNAMIC_MODULE} -- Access
 
+	context_load_font: POINTER
+
+	context_set_font_description: POINTER
+
 	layout_get_indent: POINTER
 
 	layout_get_pixel_size: POINTER

@@ -19,8 +19,24 @@ inherit
 
 feature -- Factory
 
+	pango_cairo_create_context (fn_ptr, context_ptr: POINTER): POINTER
+		-- PangoContext *pango_cairo_create_context (cairo_t *cr);
+		require
+			fn_ptr_attached: is_attached (fn_ptr)
+		external
+			"C inline use <pango/pangocairo.h>"
+		alias
+			"[
+				return (
+					FUNCTION_CAST(PangoContext *, (cairo_t *))$fn_ptr
+				) (
+					(cairo_t *)$context_ptr
+				)
+			]"
+		end
+
 	pango_cairo_create_layout (fn_ptr, context_ptr: POINTER): POINTER
-			-- PangoLayout * pango_cairo_create_layout (cairo_t *cr);
+		-- PangoLayout * pango_cairo_create_layout (cairo_t *cr);
 		require
 			fn_ptr_attached: is_attached (fn_ptr)
 		external
@@ -35,10 +51,22 @@ feature -- Factory
 			]"
 		end
 
+	pango_cairo_font_map_get_default (fn_ptr: POINTER): POINTER
+		-- PangoFontMap *pango_cairo_font_map_get_default (void);
+		require
+			fn_ptr_attached: is_attached (fn_ptr)
+		external
+			"C inline use <pango/pangocairo.h>"
+		alias
+			"[
+				return (FUNCTION_CAST(PangoFontMap *, ())$fn_ptr) ()
+			]"
+		end
+
 feature -- Element change
 
 	pango_cairo_update_layout (fn_ptr, context_ptr, layout: POINTER)
-			-- void pango_cairo_update_layout (cairo_t *cr, PangoLayout *layout);
+		-- void pango_cairo_update_layout (cairo_t *cr, PangoLayout *layout);
 		require
 			fn_ptr_attached: is_attached (fn_ptr)
 		external
@@ -56,7 +84,7 @@ feature -- Element change
 feature -- Basic operations
 
 	pango_cairo_show_layout (fn_ptr, context_ptr, layout: POINTER)
-			-- void pango_cairo_show_layout (cairo_t *cr, PangoLayout *layout);
+		-- void pango_cairo_show_layout (cairo_t *cr, PangoLayout *layout);
 		require
 			fn_ptr_attached: is_attached (fn_ptr)
 		external

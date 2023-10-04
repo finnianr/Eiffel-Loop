@@ -20,7 +20,7 @@ inherit
 	EL_SHARED_IMAGE_UTILS_API
 
 create
-	make, make_with_svg_image
+	make, make_with_svg_image, make_default
 
 feature {NONE} -- Implementation
 

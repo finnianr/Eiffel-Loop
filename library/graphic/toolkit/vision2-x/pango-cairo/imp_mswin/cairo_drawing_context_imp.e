@@ -23,7 +23,7 @@ inherit
 	EL_MODULE_GDI_BITMAP
 
 create
-	make
+	make, make_default
 
 feature {NONE} -- Implementation
 

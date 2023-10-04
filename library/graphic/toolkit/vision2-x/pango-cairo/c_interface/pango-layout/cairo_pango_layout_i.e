@@ -23,6 +23,14 @@ feature -- Factory
 		deferred
 		end
 
+	new_default_font_map: POINTER
+		deferred
+		end
+
+	new_pango_context (context_ptr: POINTER): POINTER
+		deferred
+		end
+
 feature -- Basic operations
 
 	show (context_ptr, layout: POINTER)

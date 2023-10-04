@@ -17,7 +17,7 @@ inherit
 		rename
 			self_ptr as context
 		export
-			{EL_SVG_IMAGE, CAIRO_DRAWABLE_CONTEXT_I, CAIRO_TEXT_LAYOUT_I} context
+			{EL_OWNED_C_OBJECT} context
 		end
 
 	CAIRO_COMMAND_CONTEXT
@@ -76,7 +76,6 @@ feature -- Transformations
 			Cairo.rotate (context, angle)
 			rotation_angle := angle
 		end
-
 
 	rotate_quarter (n: INTEGER)
 		-- rotate `n * 90' degrees

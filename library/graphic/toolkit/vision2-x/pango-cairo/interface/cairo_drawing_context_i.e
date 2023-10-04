@@ -23,6 +23,12 @@ inherit
 			new_item as new_text_layout
 		end
 
+	EL_LAZY_ATTRIBUTE_2
+		rename
+			item as pango_context,
+			new_item as new_pango_context
+		end
+
 feature {NONE} -- Initialization
 
 	make (a_surface: CAIRO_SURFACE_I)
@@ -35,6 +41,11 @@ feature {NONE} -- Initialization
 			end
 		end
 
+	make_default
+		do
+			make (create {CAIRO_PIXEL_SURFACE_IMP}.make_with_size (1, 1))
+		end
+
 	make_with_svg_image (svg_image: EL_SVG_IMAGE; a_background_color: EL_COLOR)
 		do
 			make (create {CAIRO_SURFACE_IMP}.make_argb_32 (svg_image.width, svg_image.height))
@@ -43,6 +54,13 @@ feature {NONE} -- Initialization
 				fill_rectangle (0, 0, width, height)
 			end
 			svg_image.render (Current)
+		end
+
+feature -- Status query
+
+	valid_font_family (name: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := pango_context.valid_font_family (name)
 		end
 
 feature -- Properties
@@ -155,17 +173,24 @@ feature -- Text drawing
 			show_text (a_text)
 		end
 
+feature -- Factory
+
+	new_pango_context: CAIRO_PANGO_CONTEXT
+		do
+			create Result.make (Current)
+		end
+
+	new_text_layout: CAIRO_TEXT_LAYOUT_I
+		do
+			create {CAIRO_TEXT_LAYOUT_IMP} Result.make (Current)
+		end
+
 feature {NONE} -- Implementation
 
 	c_free (this: POINTER)
 			--
 		do
 			Cairo.destroy (this)
-		end
-
-	new_text_layout: CAIRO_TEXT_LAYOUT_I
-		do
-			create {CAIRO_TEXT_LAYOUT_IMP} Result.make (Current)
 		end
 
 	restore_color

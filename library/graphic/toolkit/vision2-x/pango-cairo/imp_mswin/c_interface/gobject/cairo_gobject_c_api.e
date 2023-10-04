@@ -1,5 +1,5 @@
 note
-	description: "Gobject c api"
+	description: "Gobject C api"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

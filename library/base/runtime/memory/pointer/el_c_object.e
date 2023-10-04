@@ -32,7 +32,7 @@ feature -- Status query
 			Result := is_attached (self_ptr)
 		end
 
-feature {EL_C_API_ROUTINES} -- Implementation
+feature {EL_C_API_ROUTINES} -- Internal attributes
 
 	self_ptr: POINTER
 

@@ -2,53 +2,7 @@ note
 	description: "[
 		Defines interface to dynamically load C API.
 	]"
-	instructions: "[
-		If all the API names have a common prefix, then set `name_prefix' to be this prefix.
-		For each API name define an attribute of type `POINTER' and named as `pointer_<api_name>'
-		where `api_name' is a C identifier with the common prefix ommitted. Using the library 'libcurl'
-		as an example,	the following API names would be set up as shown below.
-		
-		**C function names**
-			curl_easy_init
-			curl_easy_setopt
-			curl_easy_perform
-			curl_easy_cleanup
-
-		**CURL_API class**
-			class
-				CURL_API
-			inherit
-				EL_DYNAMIC_MODULE
-			create
-				make
-				
-			feature {NONE} -- API pointers
-
-				pointer_cleanup: POINTER
-
-				pointer_init: POINTER
-
-				pointer_perform: POINTER
-
-				pointer_setopt: POINTER
-
-			feature -- Constants
-
-				Module_name: STRING = "libcurl"
-
-				Name_prefix: STRING = "curl_easy_"
-			end
-
-		If the pointer names correspond exactly to the C identifer names, the pointers will be
-		initialized automatically in the creation procedure.
-
-		**Upper case names**
-
-		If any of the API names contains an uppercase character, then these names must be listed by
-		overriding the function `function_names_with_upper'. Make sure the common prefix defined by
-		`name_prefix' is ommitted.
-
-	]"
+	instructions: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
@@ -148,4 +102,53 @@ feature {NONE} -- Constants
 		once
 			create Result.make_empty
 		end
+
+note
+	instructions: "[
+		If all the API names have a common prefix, then set `name_prefix' to be this prefix.
+		For each API name define an attribute of type `POINTER' and named as `pointer_<api_name>'
+		where `api_name' is a C identifier with the common prefix ommitted. Using the library 'libcurl'
+		as an example,	the following API names would be set up as shown below.
+		
+		**C function names**
+			curl_easy_init
+			curl_easy_setopt
+			curl_easy_perform
+			curl_easy_cleanup
+
+		**CURL_API class**
+			class
+				CURL_API
+			inherit
+				EL_DYNAMIC_MODULE
+			create
+				make
+				
+			feature {NONE} -- API pointers
+
+				pointer_cleanup: POINTER
+
+				pointer_init: POINTER
+
+				pointer_perform: POINTER
+
+				pointer_setopt: POINTER
+
+			feature -- Constants
+
+				Module_name: STRING = "libcurl"
+
+				Name_prefix: STRING = "curl_easy_"
+			end
+
+		If the pointer names correspond exactly to the C identifer names, the pointers will be
+		initialized automatically in the creation procedure.
+
+		**Upper case names**
+
+		If any of the API names contains an uppercase character, then these names must be listed by
+		overriding the function `function_names_with_upper'. Make sure the common prefix defined by
+		`name_prefix' is ommitted.
+	]"
+
 end
