@@ -9,6 +9,8 @@ class
 
 feature -- Font width
 
+	Font_any: NATURAL_8 = 0
+
 	Font_mask_width: NATURAL_8 = 3
 
 	Font_monospace: NATURAL_8 = 1
@@ -18,7 +20,7 @@ feature -- Font width
 feature -- Font type
 
 	Font_mask_type: NATURAL_8 = 0xC
-	
+
 	Font_non_true_type: NATURAL_8 = 4
 
 	Font_true_type: NATURAL_8 = 8

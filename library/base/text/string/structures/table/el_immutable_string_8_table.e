@@ -31,7 +31,7 @@ inherit
 	EL_MODULE_STRING_8
 
 create
-	make, make_by_assignment, make_by_indented, make_empty
+	make, make_by_assignment, make_by_indented, make_empty, make_subset
 
 feature {NONE} -- Implementation
 

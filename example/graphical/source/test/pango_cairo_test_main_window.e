@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-04 12:48:45 GMT (Wednesday 4th October 2023)"
-	revision: "29"
+	date: "2023-10-04 15:52:44 GMT (Wednesday 4th October 2023)"
+	revision: "30"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -65,13 +65,12 @@ feature {NONE} -- Initialization
 	make
 		local
 			size_drop_down: EL_DROP_DOWN_BOX [REAL]; text_angle_drop_down: EL_DROP_DOWN_BOX [INTEGER]
-			cell: EV_CELL; l_pixmap: EL_PIXMAP; font_bitmap: NATURAL_8
+			cell: EV_CELL; l_pixmap: EL_PIXMAP
 		do
 			Precursor
 			set_dimensions
 			set_title ("Test Window")
-			font_bitmap := Font_monospace | Font_proportional
-			across Text.Font_families.new_query_list (font_bitmap, Font_true_type, excluded_char_sets) as family loop
+			across new_font_query as family loop
 				lio.put_string (family.item); lio.put_string (Space * (25 - family.item.count))
 				if family.cursor_index \\ 4 = 0 then
 					lio.put_new_line
@@ -234,6 +233,22 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	font_width_bitmap: NATURAL_8
+		do
+			Result := Font_monospace
+--			Result := Font_monospace | Font_proportional
+		end
+
+	font_type_bitmap: NATURAL_8
+		do
+			Result := Font_true_type | Font_non_true_type
+		end
+
+	new_font_query: EL_COMPACT_ZSTRING_LIST
+		do
+			Result := Text.Pango_font_families.new_query_list (font_width_bitmap, font_type_bitmap, excluded_char_sets)
+		end
+
 	new_font_list_drop_down: EL_FONT_FAMILY_DROP_DOWN_BOX
 		do
 --			create Result.make_system (font_family, agent set_font_family)
@@ -244,22 +259,7 @@ feature {NONE} -- Implementation
 --				font_family, agent set_font_family,
 --				Font_monospace | Font_proportional, Font_true_type | Font_non_true_type, excluded_char_sets
 --			)
-			create Result.make (font_family, new_pango_fonts, agent set_font_family)
-		end
-
-	new_pango_fonts: EL_ZSTRING_LIST
-		local
-			cairo: CAIRO_DRAWING_CONTEXT_IMP
-		do
-			if attached Text.Font_families.new_query_list (0, 0, Void) as family_list then
-				create cairo.make_default
-				create Result.make (family_list.count)
-				across family_list as list loop
-					if cairo.valid_font_family (list.item) then
-						Result.extend (list.item)
-					end
-				end
-			end
+			create Result.make (font_family, new_font_query, agent set_font_family)
 		end
 
 	set_dimensions

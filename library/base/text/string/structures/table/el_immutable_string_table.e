@@ -131,6 +131,18 @@ feature {NONE} -- Initialization
 			end
 		end
 
+	make_subset (other: like Current; excluded_set: EL_HASH_SET [IMMUTABLE])
+		do
+			manifest := other.manifest
+			make_equal (other.count - excluded_set.count)
+			from other.start until other.after loop
+				if not excluded_set.has (other.key_for_iteration) then
+					extend (other.interval_item_for_iteration, other.key_for_iteration)
+				end
+				other.forth
+			end
+		end
+
 feature -- Status query
 
 	has_key_x (a_key: READABLE_STRING_GENERAL): BOOLEAN
@@ -258,7 +270,7 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-feature {NONE} -- Internal attributes
+feature {EL_IMMUTABLE_STRING_TABLE} -- Internal attributes
 
 	manifest: IMMUTABLE
 

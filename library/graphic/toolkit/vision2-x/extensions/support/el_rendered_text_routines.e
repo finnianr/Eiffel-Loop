@@ -45,12 +45,21 @@ feature {NONE} -- Initialization
 			internal_font.preferred_families.start
 		end
 
-feature -- Font
+feature -- Family constants
 
 	Font_families: EL_FONT_FAMILIES_I
 		once
 			create {EL_FONT_FAMILIES_IMP} Result
 		end
+
+	Pango_font_families: EL_FONT_FAMILIES_I
+		-- fonts compatible with Cairo Pango font rendering API
+		-- (on Windows many fonts cause Pango console warning: "couldn't load font .. ugly output")
+		once
+			create {EL_PANGO_FONT_FAMILIES_IMP} Result
+		end
+
+feature -- Font
 
 	scale_font (font: EV_FONT; proportion: REAL)
 		do
