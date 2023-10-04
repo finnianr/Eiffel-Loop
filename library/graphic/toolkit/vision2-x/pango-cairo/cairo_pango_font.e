@@ -97,15 +97,27 @@ feature -- Element change
 		end
 
 	set_family (a_name: READABLE_STRING_GENERAL)
-		local
-			c_name: ANY
 		do
 			if attached UTF_8_string as name then
 				name.set_from_general (a_name)
-				name.prune_all_leading ('@') -- @SimSun -> SimSun
-				c_name := name.to_c
-				Pango.set_font_family (item, $c_name)
+				set_family_utf_8 (name)
 			end
+		end
+
+	set_family_utf_8 (name_utf_8: STRING)
+		require
+			is_utf_8_encoded: valid_encoding (name_utf_8)
+		local
+			c_name: ANY; utf_8: STRING; s: EL_STRING_8_ROUTINES
+		do
+			if s.starts_with_character (name_utf_8, '@') then
+			-- @SimSun -> SimSun
+				utf_8 := name_utf_8.substring (2, name_utf_8.count)
+			else
+				utf_8 := name_utf_8
+			end
+			c_name := utf_8.to_c
+			Pango.set_font_family (item, $c_name)
 		end
 
 	set_height_by_points (height_in_points: INTEGER)
@@ -157,6 +169,16 @@ feature {NONE} -- Implementation
 				Result := Style_normal
 			end
 		end
+
+feature -- Contract Support
+
+	valid_encoding (utf_8: READABLE_STRING_8): BOOLEAN
+		local
+			c: EL_UTF_8_CONVERTER
+		do
+			Result := c.is_valid_string_8 (utf_8)
+		end
+
 
 feature {NONE} -- Disposal
 

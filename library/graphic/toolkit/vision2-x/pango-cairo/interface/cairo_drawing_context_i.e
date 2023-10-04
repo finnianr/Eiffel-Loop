@@ -63,6 +63,11 @@ feature -- Status query
 			Result := pango_context.valid_font_family (name)
 		end
 
+	valid_font_family_utf_8 (name_utf_8: READABLE_STRING_8): BOOLEAN
+		do
+			Result := pango_context.valid_font_family_utf_8 (name_utf_8)
+		end
+
 feature -- Properties
 
 	color: EV_COLOR

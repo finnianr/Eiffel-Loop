@@ -28,10 +28,23 @@ feature {NONE} -- Initialization
 feature -- Status query
 
 	valid_font_family (name: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			internal_font.set_family (name)
+			Result := is_font_loadable
+		end
+
+	valid_font_family_utf_8 (name_utf_8: READABLE_STRING_8): BOOLEAN
+		do
+			internal_font.set_family_utf_8 (name_utf_8)
+			Result := is_font_loadable
+		end
+
+feature {NONE} -- Implementation
+
+	is_font_loadable: BOOLEAN
 		local
 			p_font: POINTER
 		do
-			internal_font.set_family (name)
 			p_font := Pango.new_font (self_ptr, internal_font.item)
 			if is_attached (p_font) then
 				Gobject.unref (p_font)

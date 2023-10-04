@@ -1,5 +1,5 @@
 note
-	description: "Access to routines of [$source EL_UTF_CONVERTER]"
+	description: "Access to routines of [$source EL_UTF_CONVERTER_IMP]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
@@ -14,10 +14,11 @@ deferred class
 
 inherit
 	EL_MODULE
-	
-feature {NONE} -- Implementation
 
-	utf_8: EL_UTF_CONVERTER
-		do
+feature {NONE} -- Constants
+
+	Utf_8: EL_UTF_CONVERTER_IMP
+		once
+			create Result
 		end
 end
