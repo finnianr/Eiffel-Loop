@@ -49,7 +49,7 @@ feature -- Measurement
 		do
 			if bitmap.to_boolean then
 				n := bitmap.to_natural_32
-				Result := bit_count - b.leading_zeros_count_32 (n) - b.trailing_zeros_count_32 (n)
+				Result := 32 - b.leading_zeros_count_32 (n) - b.trailing_zeros_count_32 (n)
 			end
 		end
 

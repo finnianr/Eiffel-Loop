@@ -1,9 +1,10 @@
 note
 	description: "Pango cairo test main window"
 	notes: "[
-		[https://docs.gtk.org/Pango/ctor.Context.new.html pango_context_new]
+		**Demonstrates**
 		
-			PangoContext* pango_context_new (void)
+		1. Replaceable widgets
+		2. Class [$source EL_BOOLEAN_ITEM_RADIO_BUTTON_GROUP]
 	]"
 
 	author: "Finnian Reilly"
@@ -11,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-04 15:52:44 GMT (Wednesday 4th October 2023)"
-	revision: "30"
+	date: "2023-10-05 9:32:57 GMT (Thursday 5th October 2023)"
+	revision: "31"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -28,6 +29,13 @@ inherit
 			item as pixmap,
 			new_item as new_pixmap,
 			replace_item as replace_pixmap
+		end
+
+	EL_REPLACEABLE_WIDGET_ITEM_2
+		rename
+			item as font_drop_down,
+			new_item as new_font_drop_down,
+			replace_item as replace_font_drop_down
 		end
 
 	EL_GEOMETRY_MATH
@@ -53,7 +61,7 @@ inherit
 
 	EL_MODULE_COLOR; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_SCREEN; EL_MODULE_TEXT
 
-	EL_MODULE_VISION_2
+	EL_MODULE_VISION_2; EL_MODULE_WIDGET
 
 	EL_CHARACTER_8_CONSTANTS
 
@@ -64,7 +72,6 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			size_drop_down: EL_DROP_DOWN_BOX [REAL]; text_angle_drop_down: EL_DROP_DOWN_BOX [INTEGER]
 			cell: EV_CELL; l_pixmap: EL_PIXMAP
 		do
 			Precursor
@@ -77,39 +84,22 @@ feature {NONE} -- Initialization
 				end
 			end
 			lio.put_new_line
-			if {PLATFORM}.is_windows then
-				font_family := "Arial"
-			else
-				font_family := "Serif"
-			end
---			font_family := "Courier 10 Pitch"
---			font_family := "Garuda"
-
-			font_size := 0.5
-			create size_drop_down.make (font_size, Font_sizes, agent set_font_size)
-
-			text_angle := 0
-			create text_angle_drop_down.make (text_angle, << 0, 90 >>, agent set_text_angle)
+			font_width_bitmap := Font_proportional; font_type_bitmap := Font_true_type
+			font_size := 0.5; text_angle := 0
+			font_family := default_font_family
 
 			create cell
 			create l_pixmap.make_from_other (Lenna_pixmap)
 			cell.set_minimum_size (l_pixmap.width, l_pixmap.height)
 
-			pixmap := new_pixmap
+			pixmap := new_pixmap; font_drop_down := new_font_drop_down
 			cell.put (pixmap)
-			picture_box := Vision_2.new_horizontal_box (0.3, 0.0, << cell >>)
-			picture_box.set_background_color (Color.White)
-			extend (
-				Vision_2.new_vertical_box (0.1, 0.1, <<
-					picture_box,
-					Vision_2.new_horizontal_box (0.2, 0.1, <<
-						Vision_2.new_label ("True type:"), new_font_list_drop_down,
-						Vision_2.new_label ("Size:"), size_drop_down,
-						Vision_2.new_label ("Angle:"), text_angle_drop_down,
-						Vision_2.new_button ("TEST", agent on_test)
-					>>)
-				>>)
-			)
+			if attached Vision_2 as v then
+				picture_box := v.new_horizontal_box (0.5, 0.0, << create {EL_EXPANDED_CELL}, cell,  create {EL_EXPANDED_CELL} >>)
+				picture_box.set_background_color (Color.White)
+				picture_box.propagate_background_color
+				extend (v.new_vertical_box (0.1, 0.1, << picture_box, new_style_options_box, new_font_box >>) )
+			end
 			Screen.set_position (Current, 100, 100)
 			Action.do_later (500, agent check_pixel_color)
 		end
@@ -183,6 +173,48 @@ feature {NONE} -- Factory
 			end
 		end
 
+	new_font_box: EL_HORIZONTAL_BOX
+			--
+		local
+			text_angle_drop_down: EL_DROP_DOWN_BOX [INTEGER]
+			size_drop_down: EL_DROP_DOWN_BOX [REAL]
+		do
+			create size_drop_down.make (font_size, Font_sizes, agent set_font_size)
+			create text_angle_drop_down.make (text_angle, << 0, 90 >>, agent set_text_angle)
+			if attached Vision_2 as v then
+				create Result.make_unexpanded (0.2, 0.3, <<
+					v.new_label_bold ("Fonts:"), font_drop_down,
+					v.new_label_bold ("Size:"), size_drop_down,
+					v.new_label_bold ("Angle:"), text_angle_drop_down,
+					v.new_button ("TEST", agent on_test)
+				>>)
+			end
+		end
+
+	new_font_drop_down: EL_FONT_FAMILY_DROP_DOWN_BOX
+		do
+			create Result.make (font_family, new_font_query, agent set_font_family)
+		end
+
+	new_font_query: EL_COMPACT_ZSTRING_LIST
+		do
+			Result := Text.Pango_font_families.new_query_list (font_width_bitmap, font_type_bitmap, excluded_char_sets)
+		end
+
+	new_style_options_box: EL_HORIZONTAL_BOX
+			--
+		local
+			width_group, type_group: EL_BOOLEAN_ITEM_RADIO_BUTTON_GROUP
+		do
+			create width_group.make (True, "Monospace", "Proportional", agent on_font_width)
+			create type_group.make (True, "no", "yes", agent on_font_type)
+			create Result.make_unexpanded (0.2, 0.2, <<
+				Vision_2.new_label_bold ("Font width:"), width_group.horizontal_box (0, 0),
+				create {EV_VERTICAL_SEPARATOR},
+				Vision_2.new_label_bold ("True type fonts:"), type_group.horizontal_box (0, 0)
+			>>)
+		end
+
 	new_pixmap: EL_PIXMAP
 		do
 			Result := new_drawing_area (Vision_2.new_font_regular (font_family, font_size)).to_pixmap
@@ -197,16 +229,41 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Event handling
 
+	on_font_width (is_proportional: BOOLEAN)
+		do
+			if is_proportional then
+				font_width_bitmap := Font_proportional
+			else
+				font_width_bitmap := Font_monospace
+			end
+			on_style_change
+		end
+
+	on_font_type (is_true_type: BOOLEAN)
+		do
+			if is_true_type then
+				font_type_bitmap := Font_true_type
+			else
+				font_type_bitmap := Font_non_true_type
+			end
+			on_style_change
+		end
+
 	on_test
 		local
-			dialog: UNTITLED_DIALOG
-			close_button: EV_BUTTON
+			dialog: UNTITLED_DIALOG; close_button: EV_BUTTON
 		do
 			create dialog
 			create close_button.make_with_text_and_action ("Close", agent dialog.destroy)
 			dialog.extend (close_button)
 			dialog.set_default_cancel_button (close_button)
 			dialog.show_modal_to_window (Current)
+		end
+
+	on_style_change
+		do
+			font_family := default_font_family
+			replace_font_drop_down; replace_pixmap
 		end
 
 feature {NONE} -- Implementation
@@ -222,6 +279,39 @@ feature {NONE} -- Implementation
 			lio.put_line (assertion)
 		end
 
+	default_font_family: STRING
+		do
+			if {PLATFORM}.is_windows then
+				if font_width_bitmap = Font_proportional then
+					if font_type_bitmap = Font_true_type then
+						Result := "Arial"
+					else
+						Result := "DejaVu Sans Light"
+					end
+				else
+					if font_type_bitmap = Font_true_type then
+						Result := "Courier New"
+					else
+						Result := "@SimHei"
+					end
+				end
+			else -- Linux GTK
+				if font_width_bitmap = Font_proportional then
+					if font_type_bitmap = Font_true_type then
+						Result := "Serif"
+					else
+						Result := "Bitstream Charter"
+					end
+				else
+					if font_type_bitmap = Font_true_type then
+						Result := "FreeMono"
+					else
+						Result := "Monospace"
+					end
+				end
+			end
+		end
+
 	excluded_char_sets: ARRAY [INTEGER]
 		do
 			if {PLATFORM}.is_windows then
@@ -233,35 +323,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	font_width_bitmap: NATURAL_8
-		do
-			Result := Font_monospace
---			Result := Font_monospace | Font_proportional
-		end
-
-	font_type_bitmap: NATURAL_8
-		do
-			Result := Font_true_type | Font_non_true_type
-		end
-
-	new_font_query: EL_COMPACT_ZSTRING_LIST
-		do
-			Result := Text.Pango_font_families.new_query_list (font_width_bitmap, font_type_bitmap, excluded_char_sets)
-		end
-
-	new_font_list_drop_down: EL_FONT_FAMILY_DROP_DOWN_BOX
-		do
---			create Result.make_system (font_family, agent set_font_family)
---			create Result.make_query (
---				font_family, agent set_font_family, Font_monospace | Font_proportional, Font_true_type, excluded_char_sets
---			)
---			create Result.make_query (
---				font_family, agent set_font_family,
---				Font_monospace | Font_proportional, Font_true_type | Font_non_true_type, excluded_char_sets
---			)
-			create Result.make (font_family, new_font_query, agent set_font_family)
-		end
-
 	set_dimensions
 		do
 		end
@@ -271,6 +332,10 @@ feature {NONE} -- Internal attributes
 	font_family: STRING
 
 	font_size: REAL
+
+	font_type_bitmap: NATURAL_8
+
+	font_width_bitmap: NATURAL_8
 
 	picture_box: EL_HORIZONTAL_BOX
 

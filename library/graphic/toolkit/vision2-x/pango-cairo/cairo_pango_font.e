@@ -108,16 +108,13 @@ feature -- Element change
 		require
 			is_utf_8_encoded: valid_encoding (name_utf_8)
 		local
-			c_name: ANY; utf_8: STRING; s: EL_STRING_8_ROUTINES
+			c_name: ANY; offset: INTEGER; s: EL_STRING_8_ROUTINES
 		do
 			if s.starts_with_character (name_utf_8, '@') then
-			-- @SimSun -> SimSun
-				utf_8 := name_utf_8.substring (2, name_utf_8.count)
-			else
-				utf_8 := name_utf_8
+				offset := 1 -- @SimSun -> SimSun
 			end
-			c_name := utf_8.to_c
-			Pango.set_font_family (item, $c_name)
+			c_name := name_utf_8.to_c
+			Pango.set_font_family (item, $c_name + offset)
 		end
 
 	set_height_by_points (height_in_points: INTEGER)

@@ -45,7 +45,7 @@ feature -- Measurement
 			b: EL_BIT_ROUTINES
 		do
 			if bitmap.to_boolean then
-				Result := bit_count - b.leading_zeros_count_64 (bitmap) - b.trailing_zeros_count_64 (bitmap)
+				Result := 64 - b.leading_zeros_count_64 (bitmap) - b.trailing_zeros_count_64 (bitmap)
 			end
 		end
 
