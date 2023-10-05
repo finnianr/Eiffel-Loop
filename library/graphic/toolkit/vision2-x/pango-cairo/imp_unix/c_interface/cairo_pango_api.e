@@ -56,14 +56,6 @@ feature -- Access
 			"pango_layout_get_indent"
 		end
 
-	frozen layout_text (layout: POINTER): POINTER
-			-- const char * pango_layout_get_text (PangoLayout *layout);
-		external
-			"C signature (PangoLayout *): EIF_POINTER use <pango/pango.h>"
-		alias
-			"pango_layout_get_text"
-		end
-
 	layout_pango_size (layout: POINTER): TUPLE [width, height: INTEGER]
 			-- size scaled by PANGO_SCALE
 		local
@@ -79,6 +71,22 @@ feature -- Access
 		do
 			pango_layout_get_pixel_size (layout, $width, $height)
 			Result := [width, height]
+		end
+
+	frozen layout_text (layout: POINTER): POINTER
+			-- const char * pango_layout_get_text (PangoLayout *layout);
+		external
+			"C signature (PangoLayout *): EIF_POINTER use <pango/pango.h>"
+		alias
+			"pango_layout_get_text"
+		end
+
+	frozen layout_unknown_glyphs_count (layout: POINTER): INTEGER
+			-- int pango_layout_get_unknown_glyphs_count (PangoLayout *layout);
+		external
+			"C signature (PangoLayout *): EIF_INTEGER use <pango/pango.h>"
+		alias
+			"pango_layout_get_unknown_glyphs_count"
 		end
 
 feature -- Element change

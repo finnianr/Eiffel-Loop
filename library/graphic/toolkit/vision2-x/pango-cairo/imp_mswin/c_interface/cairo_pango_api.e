@@ -45,6 +45,11 @@ feature -- Access
 			Result := [width, height]
 		end
 
+	layout_unknown_glyphs_count (layout: POINTER): INTEGER
+		do
+			pango_layout_get_unknown_glyphs_count (api.layout_get_unknown_glyphs_count, layout)
+		end
+
 	layout_text (layout: POINTER): POINTER
 		do
 			Result := pango_layout_get_text (api.layout_get_text, layout)

@@ -25,7 +25,7 @@ inherit
 			initialize
 		end
 
-	EL_MODULE_FILE_SYSTEM; EL_MODULE_REUSEABLE; EL_MODULE_TEXT
+	EL_MODULE_FILE_SYSTEM
 
 
 feature {NONE} -- Initialization
@@ -38,46 +38,29 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	new_font_families: EL_SORTABLE_ARRAYED_LIST [STRING_32]
+	family_char_set (family: STRING_32): INTEGER
 		do
-			if attached {EV_APPLICATION_IMP} implementation.application_i as app_imp then
-				create Result.make_from_array (app_imp.font_names_on_system.to_array)
-				Result.ascending_sort
-			else
-				create Result.make (0)
+			-- Windows only
+		end
+
+	is_true_type (true_type_set: EL_HASH_SET [ZSTRING]; family: STRING_32): BOOLEAN
+		do
+			across Reuseable.string as reuse loop
+				if attached reuse.copied_item (family) as name then
+					name.prune_all (' ')
+					Result := true_type_set.has (name)
+				end
 			end
 		end
 
-	new_property_table: EL_IMMUTABLE_UTF_8_TABLE
-		-- table of hexadecimal font property bitmaps from class `EL_FONT_PROPERTY'
-		local
-			bitmap: NATURAL_8; manifest, modified_name: ZSTRING; true_type_set: EL_HASH_SET [ZSTRING]
+	new_font_families_map: EL_ARRAYED_MAP_LIST [STRING_32, INTEGER]
+		-- map family to character set
 		do
-			true_type_set := new_true_type_set
-
-			across Reuseable.string as reuse loop
-				manifest := reuse.item
-				across new_font_families as family loop
-					if manifest.count > 0 then
-						manifest.append_character_8 (',')
-					end
-					if Text.is_proportional (family.item) then
-						bitmap := Font_proportional
-					else
-						bitmap := Font_monospace
-					end
-					modified_name := family.item
-					modified_name.prune_all (' ')
-					if true_type_set.has (modified_name) then
-						bitmap := bitmap | Font_true_type
-					else
-						bitmap := bitmap | Font_non_true_type
-					end
-					manifest.append_character_8 (bitmap.to_hex_character)
-					manifest.append_character_8 (',')
-					manifest.append_string_general (family.item)
-				end
-				create Result.make (manifest)
+			if attached {EV_APPLICATION_IMP} implementation.application_i as app_imp then
+				create Result.make_from_keys (app_imp.font_names_on_system, agent family_char_set)
+				Result.sort_by_key (True)
+			else
+				create Result.make (0)
 			end
 		end
 

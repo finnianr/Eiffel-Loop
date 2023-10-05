@@ -45,6 +45,8 @@ feature -- Measurement
 			Result := Pango.layout_size (self_ptr).width
 		end
 
+	unknown_glyphs_count: INTEGER
+
 feature -- Element change
 
 	set_font (a_font: like font)
@@ -64,8 +66,11 @@ feature -- Element change
 				text_utf_8.set_from_general (a_text)
 				c_text := text_utf_8.to_c
 				Pango.set_layout_text (self_ptr, $c_text, text_utf_8.count)
+				unknown_glyphs_count := Pango.layout_unknown_glyphs_count (self_ptr)
 			end
 			adjust_pango_font (font.string_width (a_text))
+		ensure
+			all_gylphs_renderable: unknown_glyphs_count = 0
 		end
 
 feature {NONE} -- Implementation

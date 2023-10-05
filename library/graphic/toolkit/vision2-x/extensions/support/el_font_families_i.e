@@ -20,6 +20,8 @@ inherit
 			{NONE} all
 		end
 
+	EL_MODULE_REUSEABLE; EL_MODULE_TEXT
+
 feature -- Access
 
 	new_query_list (
@@ -66,9 +68,52 @@ feature {NONE} -- Implementation
 
 	new_property_table: EL_IMMUTABLE_UTF_8_TABLE
 		-- table of hexadecimal font property bitmaps from class `EL_FONT_PROPERTY'
+		local
+			bitmap: NATURAL_8; manifest: ZSTRING; char_set_then_bitmap: INTEGER
+		do
+			if attached new_true_type_set as true_type_set then
+				across Reuseable.string as reuse loop
+					manifest := reuse.item
+					across new_font_families_map as family loop
+						if manifest.count > 0 then
+							manifest.append_character_8 (',')
+						end
+						if Text.is_proportional (family.key) then
+							bitmap := Font_proportional
+						else
+							bitmap := Font_monospace
+						end
+						if is_true_type (true_type_set, family.key) then
+							bitmap := bitmap | Font_true_type
+						else
+							bitmap := bitmap | Font_non_true_type
+						end
+						char_set_then_bitmap := family.value |<< 8 | bitmap.to_integer_32
+						if attached char_set_then_bitmap.to_hex_string as hex_string then
+							hex_string.prune_all_leading ('0')
+							manifest.append_string_general (hex_string)
+						end
+						manifest.append_character_8 (',')
+						manifest.append_string_general (family.key)
+					end
+					create Result.make (manifest)
+				end
+			end
+		end
+
+feature {NONE} -- Deferred
+
+	is_true_type (true_type_set: EL_HASH_SET [ZSTRING]; family: STRING_32): BOOLEAN
+		-- table of hexadecimal font property bitmaps from class `EL_FONT_PROPERTY'
 		deferred
-		ensure
-			not_empty: Result.count > 0
+		end
+
+	new_font_families_map: EL_ARRAYED_MAP_LIST [STRING_32, INTEGER]
+		deferred
+		end
+
+	new_true_type_set: EL_HASH_SET [ZSTRING]
+		deferred
 		end
 
 feature {NONE} -- Internal attributes

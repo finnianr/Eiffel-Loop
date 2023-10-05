@@ -42,6 +42,12 @@ feature -- Access
 		deferred
 		end
 
+	layout_unknown_glyphs_count (layout: POINTER): INTEGER
+		require
+			layout_attached: is_attached (layout)
+		deferred
+		end
+
 	layout_text (layout: POINTER): POINTER
 		require
 			layout_attached: is_attached (layout)

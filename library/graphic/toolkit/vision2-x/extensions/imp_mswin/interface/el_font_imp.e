@@ -26,7 +26,7 @@ inherit
 
 	EV_FONT_IMP
 		redefine
-			interface, height, set_height
+			interface, height, is_proportional, set_height, wel_font
 		end
 
 	EL_MODULE_LOG
@@ -47,6 +47,14 @@ feature -- Access
 		do
 			height_proportion := wel_font.height / (Screen.height * Pixels_to_points_factor)
 			Result := (Screen.height * height_proportion).rounded
+		end
+
+feature -- Status query
+
+	is_proportional: BOOLEAN
+			-- Can characters in the font have different sizes?
+		do
+			Result := wel_font.is_proportional
 		end
 
 feature -- Element change
@@ -76,6 +84,9 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	interface: detachable EL_FONT note option: stable attribute end;
+
+	wel_font: EL_WEL_FONT
+		-- Basic WEL font.
 
 feature {NONE} -- Constants
 

@@ -27,11 +27,27 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	new_property_table: EL_IMMUTABLE_UTF_8_TABLE
+	is_true_type (true_type_set: EL_HASH_SET [ZSTRING]; family: STRING_32): BOOLEAN
+		-- table of hexadecimal font property bitmaps from class `EL_FONT_PROPERTY'
+		do
+			across Reuseable.string as reuse loop
+				Result := true_type_set.has (reuse.copied_item (family))
+			end
+		end
+
+	new_font_families_map: EL_ARRAYED_MAP_LIST [STRING_32, INTEGER]
 		local
 			enumerator: EL_WEL_FONT_ENUMERATOR_IMP
 		do
 			create enumerator
-			Result := enumerator.new_property_table
+			Result := enumerator.new_font_families_map
 		end
+
+	new_true_type_set: EL_HASH_SET [ZSTRING]
+		local
+			font: EL_FONT_REGISTRY_ROUTINES
+		do
+			Result := font.new_true_type_font_set
+		end
+
 end

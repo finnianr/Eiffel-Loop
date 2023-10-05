@@ -32,7 +32,7 @@ feature -- Access
 				)
 			]"
 		end
-		
+
 	frozen pango_layout_get_indent (function, layout: POINTER): INTEGER
 			-- int pango_layout_get_indent (PangoLayout *layout);
 		external
@@ -59,6 +59,22 @@ feature -- Access
 					FUNCTION_CAST(void, (PangoLayout *, int *, int *))$function
 				) (
 					(PangoLayout *)$layout, (int *)$width_ptr, (int *)$height_ptr
+				)
+			]"
+		end
+
+	frozen pango_layout_get_unknown_glyphs_count (function, layout: POINTER)
+			-- int pango_layout_get_unknown_glyphs_count (PangoLayout *layout);
+		require
+			function_attached: is_attached (function)
+		external
+			"C inline use <pango/pango.h>"
+		alias
+			"[
+				return (
+					FUNCTION_CAST(int, (PangoLayout *))$function
+				) (
+					(PangoLayout *)$layout
 				)
 			]"
 		end

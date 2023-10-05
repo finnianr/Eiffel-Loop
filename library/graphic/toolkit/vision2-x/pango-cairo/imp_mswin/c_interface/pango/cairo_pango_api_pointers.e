@@ -40,6 +40,8 @@ feature {EL_DYNAMIC_MODULE} -- Access
 
 	font_description_set_absolute_size: POINTER
 
+	layout_get_unknown_glyphs_count: POINTER
+
 	layout_set_text: POINTER
 
 	layout_set_width: POINTER

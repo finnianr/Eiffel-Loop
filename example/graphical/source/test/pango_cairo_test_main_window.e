@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-05 9:32:57 GMT (Thursday 5th October 2023)"
-	revision: "31"
+	date: "2023-10-05 11:09:53 GMT (Thursday 5th October 2023)"
+	revision: "32"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -77,17 +77,9 @@ feature {NONE} -- Initialization
 			Precursor
 			set_dimensions
 			set_title ("Test Window")
-			across new_font_query as family loop
-				lio.put_string (family.item); lio.put_string (Space * (25 - family.item.count))
-				if family.cursor_index \\ 4 = 0 then
-					lio.put_new_line
-				end
-			end
-			lio.put_new_line
 			font_width_bitmap := Font_proportional; font_type_bitmap := Font_true_type
-			font_size := 0.5; text_angle := 0
+			font_size := Font_sizes [2]; text_angle := 0
 			font_family := default_font_family
-
 			create cell
 			create l_pixmap.make_from_other (Lenna_pixmap)
 			cell.set_minimum_size (l_pixmap.width, l_pixmap.height)
@@ -102,6 +94,7 @@ feature {NONE} -- Initialization
 			end
 			Screen.set_position (Current, 100, 100)
 			Action.do_later (500, agent check_pixel_color)
+			Action.do_once_on_idle (agent display_fonts)
 		end
 
 feature {NONE} -- Element change
@@ -264,6 +257,7 @@ feature {NONE} -- Event handling
 		do
 			font_family := default_font_family
 			replace_font_drop_down; replace_pixmap
+			Action.do_once_on_idle (agent display_fonts)
 		end
 
 feature {NONE} -- Implementation
@@ -277,6 +271,7 @@ feature {NONE} -- Implementation
 			 assertion.prepend ("not ")
 			end
 			lio.put_line (assertion)
+			lio.put_new_line
 		end
 
 	default_font_family: STRING
@@ -310,6 +305,19 @@ feature {NONE} -- Implementation
 					end
 				end
 			end
+		end
+
+	display_fonts
+		do
+			lio.put_labeled_string ("Selected family", font_family)
+			lio.put_new_line
+			across new_font_query as family loop
+				lio.put_string (family.item); lio.put_string (Space * (25 - family.item.count))
+				if family.cursor_index \\ 4 = 0 then
+					lio.put_new_line
+				end
+			end
+			lio.put_new_line_x2
 		end
 
 	excluded_char_sets: ARRAY [INTEGER]
