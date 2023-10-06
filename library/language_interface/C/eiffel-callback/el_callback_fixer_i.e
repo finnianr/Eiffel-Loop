@@ -20,7 +20,7 @@ deferred class
 	EL_CALLBACK_FIXER_I
 
 inherit
-	EL_CALLBACK_C_API
+	EL_C_API_ROUTINES
 
 	EL_MEMORY
 
@@ -40,7 +40,7 @@ feature {NONE} -- Implementation
 
 	set_item (target: EL_C_CALLABLE)
 		do
-			item := c_eif_freeze (target)
+			item := eif_freeze (target)
 			target.set_fixed_address (item)
 		end
 
@@ -48,7 +48,7 @@ feature -- Status change
 
 	release
 		do
-			c_eif_unfreeze (item); item := Default_pointer
+			eif_unfreeze (item); item := Default_pointer
 		end
 
 end

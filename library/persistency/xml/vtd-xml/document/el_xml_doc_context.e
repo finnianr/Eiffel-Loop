@@ -1,16 +1,5 @@
 note
 	description: "Top level [$source EL_XPATH_NODE_CONTEXT] object representing an XML document"
-	notes: "[
-		7 Sept 2023
-
-		Attempt to prevent garbage collector from moving or collecting `xml_area: SPECIAL [CHARACTER]' using call
-		
-			adopted_xml_area := eif_adopt (xml_area)
-
-		but was causing intermittent failure for this call in My Ching (returning empty).
-		
-			query ("/journal-list/@selected").as_string_8
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
@@ -67,7 +56,7 @@ convert
 
 feature {NONE} -- Initialization
 
-	make (a_xml_data: EL_C_STRING_8)
+	make (a_xml_data: EL_STRING_8_POINTER)
 			--
 		local
 			p_root_context: POINTER; type: STRING
@@ -75,15 +64,15 @@ feature {NONE} -- Initialization
 			make_default
 
 			if parse_failed then
-				xml_data := Default_xml_data
+				data := Default_xml_data
 				if attached {EL_VTD_EXCEPTION} Exception.last_exception as last then
 					last_exception := last
 				end
 				is_namespace_aware := False
 			else
-				xml_data := a_xml_data
+				data := a_xml_data
 			end
-			p_root_context := Parser.new_root_context (xml_data, is_namespace_aware)
+			p_root_context := Parser.new_root_context (data, is_namespace_aware)
 
 			if is_attached (p_root_context) then
 				make_context (p_root_context, Current)
@@ -98,23 +87,16 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			Precursor
-			xml_data := Default_xml_data
+			data := Default_xml_data
 			create file_path
 		end
 
 	make_from_file (a_file_path: FILE_PATH)
 			--
-		local
-			xml_file: RAW_FILE; file_data: EL_C_STRING_8; count: INTEGER
 		do
 			make_default
 			is_namespace_aware := XML.is_namespace_aware_file (a_file_path)
-			create xml_file.make_open_read (a_file_path)
-			count := xml_file.count
-			create file_data.make (count)
-			xml_file.read_to_managed_pointer (file_data, 0, count)
-			xml_file.close
-			make (file_data)
+			make (File.raw_plain_text (a_file_path))
 			file_path.share (a_file_path)
 		end
 
@@ -126,7 +108,7 @@ feature {NONE} -- Initialization
 	make_from_string (a_xml: READABLE_STRING_8)
 		do
 			is_namespace_aware := XML.is_namespace_aware (a_xml)
-			make (create {EL_C_STRING_8}.make_from_string (a_xml))
+			make (create {EL_STRING_8_POINTER}.make (a_xml))
 		end
 
 	make_from_xhtml (xhtml: READABLE_STRING_8)
@@ -142,9 +124,7 @@ feature -- Basic operations
 			l_file: PLAIN_TEXT_FILE
 		do
 			create l_file.make_open_write (a_file_path)
-			if attached document_pointer as pointer then
-				l_file.put_managed_pointer (pointer, 0, pointer.count)
-			end
+			l_file.put_managed_pointer (data, 0, data.count)
 			l_file.close
 		end
 
@@ -182,15 +162,8 @@ feature -- Token access
 
 feature -- Access
 
-	document_pointer: MANAGED_POINTER
-		do
-			create Result.share_from_pointer (xml_data.base_address, xml_data.count)
-		end
-
-	document_xml: STRING_8
-		do
-			Result := xml_data.as_string_8
-		end
+	data: EL_STRING_8_POINTER
+		-- XML character data
 
 	file_path: FILE_PATH
 
@@ -309,15 +282,11 @@ feature {EL_DOCUMENT_TOKEN_ITERATOR} -- Implementation
 			Result := wide_string (c_node_text_at_index (self_ptr, index - 1))
 		end
 
-feature {EL_OWNED_C_OBJECT} -- Internal attributes
-
-	xml_data: EL_C_STRING_8
-
 feature {NONE} -- Constants
 
 	Default_name: STRING = "default"
 
-	Default_xml_data: EL_C_STRING_8
+	Default_xml_data: EL_STRING_8_POINTER
 		once
 			Result := XML.Default_doc.to_xml
 		end

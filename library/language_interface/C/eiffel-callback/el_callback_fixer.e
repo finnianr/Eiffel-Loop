@@ -45,7 +45,7 @@ feature {NONE} -- Implementation
 			-- that does callbacks
 		do
 			if is_attached (item) then
-				c_eif_unfreeze (item)
+				eif_unfreeze (item)
 			end
 		end
 

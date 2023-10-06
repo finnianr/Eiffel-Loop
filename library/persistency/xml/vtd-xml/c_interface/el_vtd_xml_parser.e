@@ -36,10 +36,10 @@ feature {NONE} -- Initialization
 
 feature {EL_XML_DOC_CONTEXT} -- Access
 
-	new_root_context (xml: EL_C_STRING_8; is_namespace_aware: BOOLEAN): POINTER
+	new_root_context (xml: EL_STRING_8_POINTER; is_namespace_aware: BOOLEAN): POINTER
 			--
 		do
-			c_evx_set_document (self_ptr, xml.base_address, xml.count)
+			c_evx_set_document (self_ptr, xml.item, xml.count)
 			c_parse (self_ptr, is_namespace_aware)
 			Result := c_evx_root_node_context (self_ptr)
 		end

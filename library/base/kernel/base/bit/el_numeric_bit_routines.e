@@ -15,7 +15,7 @@ deferred class
 
 inherit
 	ANY
-	
+
 	EL_BIT_COUNTABLE
 
 feature -- Access
@@ -84,6 +84,7 @@ feature {NONE} -- Implemenation
 note
 	descendants: "[
 			EL_NUMERIC_BIT_ROUTINES*
+				[$source EL_NATURAL_8_BIT_ROUTINES]
 				[$source EL_NATURAL_32_BIT_ROUTINES]
 				[$source EL_INTEGER_BIT_ROUTINES]*
 					[$source EL_INTEGER_32_BIT_ROUTINES]
