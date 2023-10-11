@@ -1,5 +1,5 @@
 note
-	description: "Finalized executable tests for library [./library/text-formats.html text-formats.ecf]"
+	description: "Finalized executable tests for library [./library/file-processing.html file-processing.ecf]"
 	notes: "[
 		Command option: `-file_processing_autotest'
 		
@@ -7,6 +7,7 @@ note
 		
 			[$source FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET]
 			[$source FILE_SYNC_MANAGER_TEST_SET]
+			[$source MUTEX_FILE_TEST_SET]
 			[$source UUID_TEST_SET]
 	]"
 
@@ -15,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 17:40:55 GMT (Tuesday 6th December 2022)"
-	revision: "19"
+	date: "2023-10-11 14:39:06 GMT (Wednesday 11th October 2023)"
+	revision: "20"
 
 class
 	FILE_PROCESSING_AUTOTEST_APP
@@ -25,6 +26,7 @@ inherit
 	EL_AUTOTEST_APPLICATION [
 		FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET,
 		FILE_SYNC_MANAGER_TEST_SET,
+		MUTEX_FILE_TEST_SET,
 		UUID_TEST_SET
 	]
 

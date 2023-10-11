@@ -18,27 +18,17 @@ class
 inherit
 	FCGI_SERVLET_SERVICE
 		redefine
-			description, make_with_config, config
+			description, config
 		end
 
 create
 	make_port
 
-feature {EL_COMMAND_CLIENT} -- Initialization
-
-	make_with_config (a_config: like config)
-		do
-			Precursor (a_config)
-			if not a_config.Block_ip_path.exists then
-				a_config.block ("0.0.0.0")
-			end
-		end
-
 feature -- Access
 
 	Description: STRING = "[
 		Intercept hacking attempts, returning 404 file not found message as plaintext
-		and creating firewall rule blocking IP address
+		and creating iptables rule blocking IP address
 	]"
 
 	config: EL_HACKER_INTERCEPT_CONFIG

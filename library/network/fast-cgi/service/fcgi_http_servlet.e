@@ -1,5 +1,5 @@
 note
-	description: "Fcgi http servlet"
+	description: "Fast-CGI HTTP servlet"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

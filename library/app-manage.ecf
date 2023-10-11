@@ -29,11 +29,7 @@ See doc/app-manage.txt for details.
 		</library>
 		<!--Eiffel-Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
-		<library name = "EL_c_api" location = "C-language-interface.ecf">
-			<condition>
-				<platform value = "windows"/>
-			</condition>
-		</library>
+		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
 		<library name = "EL_doc_scan" location = "document-scan.ecf"/>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
 		<library name = "EL_file_process" location = "file-processing.ecf"/>

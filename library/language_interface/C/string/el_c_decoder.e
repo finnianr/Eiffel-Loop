@@ -58,6 +58,6 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	utf8_c_string: EL_C_UTF8_STRING_8
+	utf8_c_string: EL_C_UTF_STRING_8
 
 end

@@ -18,7 +18,7 @@ inherit
 			building_action_table, make_default
 		end
 
-	EL_MODULE_FILE; EL_MODULE_TUPLE
+	EL_MODULE_TUPLE
 
 create
 	make_default, make_from_file
@@ -32,42 +32,12 @@ feature {NONE} -- Initialization
 			create filter_table.make (5)
 		end
 
-feature -- Status report
+feature -- Access
 
-	is_hacker_probe (path_lower: ZSTRING): BOOLEAN
-		local
-			key: STRING
-		do
-			across filter_table as table until Result loop
-				key := table.key
-				if key = Predicate.starts_with then
-					Result := across table.item as string some path_lower.starts_with (string.item) end
+	filter_table: EL_URL_FILTER_TABLE
 
-				elseif key = Predicate.ends_with then
-					Result := across table.item as string some path_lower.ends_with (string.item) end
-
-				elseif key = Predicate.is_equal_ then
-					Result := across table.item as string some path_lower.is_equal (string.item) end
-
-				elseif key = Predicate.has_substring then
-					Result := across table.item as string some path_lower.has_substring (string.item) end
-				end
-			end
-		end
-
-feature -- Basic operations
-
-	block (ip_address: STRING)
-		do
-			File.write_text (Block_ip_path, ip_address)
-		end
-
-feature -- Constants
-
-	Block_ip_path: FILE_PATH
-		once
-			Result := server_socket_path.parent + "block-ip.txt"
-		end
+	block_life_span: INTEGER
+		-- max. number of days old for block rule to be preserved from last session
 
 feature {NONE} -- Build from XML
 
@@ -83,27 +53,16 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		local
-			l_xpath: STRING; predicate_list: EL_STRING_8_LIST
+			l_xpath: STRING
 		do
 			Result := Precursor
-			create predicate_list.make_from_tuple (Predicate)
-			across predicate_list as list loop
+			across filter_table.new_predicate_list as list loop
 				l_xpath := Xpath_match_list #$ [list.item]
 				Result [l_xpath] := agent append_filter (list.item)
 			end
 		end
 
 feature {NONE} -- Internal attributes
-
-	filter_table: EL_GROUP_TABLE [ZSTRING, STRING]
-
-feature {NONE} -- Constants
-
-	Predicate: TUPLE [starts_with, has_substring, ends_with, is_equal_: STRING]
-		once
-			create Result
-			Tuple.fill (Result, "starts_with, has_substring, ends_with, is_equal")
-		end
 
 	Xpath_match_list: ZSTRING
 		once

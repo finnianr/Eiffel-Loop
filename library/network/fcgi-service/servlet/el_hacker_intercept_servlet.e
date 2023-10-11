@@ -3,6 +3,22 @@
 		Intercept hacking attempts, returning 404 file not found message as plaintext
 		and creating firewall rule blocking IP address
 	]"
+	notes: "[
+		Example Bash script notified by **block** routine that adds IP table rule for ipV4 and ipV6
+			
+			txt_path=/var/local/<domain-name>/block-ip.txt
+
+			echo Listening for changes to: $txt_path
+
+			while inotifywait -q -e close_write $txt_path; do
+				ip=$(cat $txt_path)
+				echo Blocking IP address $ip
+				iptables -A INPUT -s $ip -j DROP
+				ip6tables -A INPUT -s $ip -j DROP
+			done
+
+		This script must be running as root
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
@@ -17,20 +33,31 @@ class
 
 inherit
 	FCGI_HTTP_SERVLET
-		redefine
-			service
+		rename
+			make as make_servlet
 		end
 
-	EL_MODULE_TUPLE
-
-	EL_MODULE_EXECUTION_ENVIRONMENT
-
-	EL_MODULE_IP_ADDRESS
+	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE; EL_MODULE_IP_ADDRESS
 
 	EL_SHARED_IP_ADDRESS_GEOLOCATION
 
 create
 	make
+
+feature {NONE} -- Initialization
+
+	make (a_service: EL_HACKER_INTERCEPT_SERVICE)
+		do
+			make_servlet (a_service)
+			create date.make_now
+
+			block_ip_path := a_service.config.server_socket_path.parent + "block-ip.txt"
+			if not block_ip_path.exists then
+				block (0)
+			end
+			filter_table := a_service.config.filter_table
+			create location_status_table.make (70, agent new_location_status)
+		end
 
 feature {NONE} -- Basic operations
 
@@ -44,15 +71,15 @@ feature {NONE} -- Basic operations
 			else
 				ip_number := request.remote_address_32
 			end
-			Location_status_table.set_new_item_target (Current)
-			location_status := Location_status_table.item (ip_number)
+			location_status := location_status_table.item (ip_number)
 			log.put_labeled_string (IP_address.to_string (ip_number), location_status.location)
 			if location_status.is_blocked then
 				log.put_line (" (blocked)")
 				location_status.is_blocked := False -- Try again to set firewall rule
-			elseif is_hacker_probe (request.relative_path_info.as_lower) then
+
+			elseif filter_table.is_hacker_probe (request.relative_path_info.as_lower) then
 				log.put_line (" (blocking)")
-				service.config.block (IP_address.to_string (ip_number))
+				block (ip_number)
 				Execution_environment.sleep (500) -- Wait half a second for firewall rule to apply
 				location_status.is_blocked := True
 			else
@@ -64,54 +91,29 @@ feature {NONE} -- Basic operations
 
 feature {NONE} -- Implementation
 
-	digit_count (path_lower: ZSTRING): INTEGER
-		local
-			i: INTEGER
+	block (ip_number: NATURAL)
 		do
-			from i := 1 until i > path_lower.count loop
-				if path_lower.is_numeric_item (i) then
-					Result := Result + 1
-				end
-				i := i + 1
-			end
+			File.write_text (block_ip_path, IP_address.to_string (ip_number))
 		end
 
-	is_hacker_probe (path_lower: ZSTRING): BOOLEAN
-		do
-			if digit_count (path_lower) > Maximum_digits and then not path_lower.ends_with (Dot_png) then
-				-- Block requests like: "GET /87543bde9176626b120898f9141058 HTTP/1.1"
-				-- but allow: "GET /images/favicon/196x196.png HTTP/1.1"
-				Result := True
-			else
-				Result := service.config.is_hacker_probe (path_lower)
-			end
-		end
-
-	new_location_status (ip: NATURAL): like Location_status_table.item
+	new_location_status (ip: NATURAL): like location_status_table.item
 		do
 			Result := [IP_location_table.item (ip), False]
 		end
 
 feature {NONE} -- Implementation: attributes
 
-	service: EL_HACKER_INTERCEPT_SERVICE
+	block_ip_path: FILE_PATH
+
+	filter_table: EL_URL_FILTER_TABLE
+
+	location_status_table: EL_CACHE_TABLE [TUPLE [location: ZSTRING; is_blocked: BOOLEAN], NATURAL]
+
+	date: DATE
 
 feature {NONE} -- Constants
 
-	Dot_png: ZSTRING
-		once
-			Result := ".png"
-		end
-
-	Location_status_table: EL_CACHE_TABLE [TUPLE [location: ZSTRING; is_blocked: BOOLEAN], NATURAL]
-		once
-			create Result.make (70, agent new_location_status)
-		end
-
 	Local_host_address: NATURAL = 0x7F_00_00_01
-
-	Maximum_digits: INTEGER = 3
-		-- maximum number of digits allowed in path
 
 feature {NONE} -- String constants
 

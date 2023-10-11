@@ -1,0 +1,91 @@
+note
+	description: "URL filters for hostile web-server traffic"
+	author: ""
+	date: "$Date$"
+	revision: "$Revision$"
+
+class
+	EL_URL_FILTER_TABLE
+
+inherit
+	EL_GROUP_TABLE [ZSTRING, STRING]
+
+	EL_MODULE_TUPLE
+
+create
+	make
+
+feature -- Status report
+
+	is_hacker_probe (path_lower: ZSTRING): BOOLEAN
+		do
+			if digit_count (path_lower) > Maximum_digits and then not path_lower.ends_with (Dot_png) then
+				-- Block requests like: "GET /87543bde9176626b120898f9141058 HTTP/1.1"
+				-- but allow: "GET /images/favicon/196x196.png HTTP/1.1"
+				Result := True
+			else
+				Result := matches (path_lower)
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	digit_count (path_lower: ZSTRING): INTEGER
+		local
+			i: INTEGER
+		do
+			from i := 1 until i > path_lower.count loop
+				if path_lower.is_numeric_item (i) then
+					Result := Result + 1
+				end
+				i := i + 1
+			end
+		end
+
+	matches (path_lower: ZSTRING): BOOLEAN
+		-- `True' if `path_lower' matches one of the string predicates defined by `Predicate'
+		local
+			key: STRING
+		do
+			from start until after or Result loop
+				key := key_for_iteration
+				if key = Predicate.starts_with then
+					Result := across item_for_iteration as string some path_lower.starts_with (string.item) end
+
+				elseif key = Predicate.ends_with then
+					Result := across item_for_iteration as string some path_lower.ends_with (string.item) end
+
+				elseif key = Predicate.is_equal_ then
+					Result := across item_for_iteration as string some path_lower.is_equal (string.item) end
+
+				elseif key = Predicate.has_substring then
+					Result := across item_for_iteration as string some path_lower.has_substring (string.item) end
+				end
+				forth
+			end
+		end
+
+feature -- Factory
+
+	new_predicate_list: EL_STRING_8_LIST
+		do
+			create Result.make_from_tuple (Predicate)
+		end
+
+feature {NONE} -- Constants
+
+	Dot_png: ZSTRING
+		once
+			Result := ".png"
+		end
+
+	Maximum_digits: INTEGER = 3
+		-- maximum number of digits allowed in path
+
+	Predicate: TUPLE [starts_with, has_substring, ends_with, is_equal_: STRING]
+		once
+			create Result
+			Tuple.fill (Result, "starts_with, has_substring, ends_with, is_equal")
+		end
+
+end

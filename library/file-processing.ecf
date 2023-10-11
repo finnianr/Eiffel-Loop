@@ -23,6 +23,7 @@ Class categories:
 		<library name = "uuid" location = "$ISE_LIBRARY/library/uuid/uuid.ecf"/>
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
+		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
 		<!--Source code-->
 		<cluster name = "file" location = "persistency/file" recursive = "true"/>
 	</target>

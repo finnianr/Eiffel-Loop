@@ -15,8 +15,6 @@ class
 inherit
 	EL_APPLICATION_MUTEX_I
 
-	EL_FILE_API
-
 	EL_MODULE_FILE_SYSTEM
 
 	EL_OS_IMPLEMENTATION
@@ -28,51 +26,39 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			create lock_info.make (c_flock_struct_size)
 			create locked_file_path
 		end
 
 feature -- Status change
 
 	try_lock (name: ZSTRING)
-		local
-			native_path: NATIVE_STRING
 		do
 			locked_file_path := "/tmp/" + name
 			locked_file_path.add_extension ("lock")
-			create native_path.make (locked_file_path)
 
-			locked_file_descriptor := c_create_write_only (native_path.managed_data.item)
-			if locked_file_descriptor /= -1 then
-				c_set_flock_type (lock_info.item, File_write_lock)
-				c_set_flock_whence (lock_info.item, Seek_set)
-				c_set_flock_start (lock_info.item, 0)
-				c_set_flock_length (lock_info.item, 1)
-
-				if c_aquire_lock (locked_file_descriptor, lock_info.item) /= -1 then
-					is_locked := True
-				end
+			create internal_mutex.make (locked_file_path)
+			if attached internal_mutex as mutex then
+				mutex.try_lock
+				is_locked := mutex.is_locked
 			end
 		end
 
 	unlock
-		local
-			status: INTEGER
 		do
-			c_set_flock_type (lock_info.item, File_unlock)
-			status := c_aquire_lock (locked_file_descriptor, lock_info.item)
-			is_locked := status = -1
-			if not is_locked then
-				status := c_close (locked_file_descriptor)
-				File_system.remove_file (locked_file_path)
+			if attached internal_mutex as mutex then
+				mutex.unlock
+				is_locked := mutex.is_locked
+				if not is_locked then
+					mutex.close
+					internal_mutex := Void
+					File_system.remove_file (locked_file_path)
+				end
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Internal attributes
 
-	lock_info: MANAGED_POINTER
-
-	locked_file_descriptor: INTEGER
+	internal_mutex: detachable EL_FILE_MUTEX
 
 	locked_file_path: FILE_PATH
 

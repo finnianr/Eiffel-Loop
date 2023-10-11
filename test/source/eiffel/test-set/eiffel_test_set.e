@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-10 13:03:23 GMT (Sunday 10th September 2023)"
-	revision: "31"
+	date: "2023-10-11 7:50:00 GMT (Wednesday 11th October 2023)"
+	revision: "32"
 
 class
 	EIFFEL_TEST_SET
@@ -15,7 +15,9 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_DIRECTORY; EL_MODULE_EIFFEL; EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_DIRECTORY; EL_MODULE_EIFFEL; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_EXCEPTION
+
+	EL_MODULE_UNIX_SIGNALS
 
 create
 	make
@@ -26,8 +28,8 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["natural_constant",	agent test_natural_constant],
-				["array_sizes",		agent test_array_sizes]
+				["array_sizes",		agent test_array_sizes],
+				["natural_constant",	agent test_natural_constant]
 			>>)
 		end
 

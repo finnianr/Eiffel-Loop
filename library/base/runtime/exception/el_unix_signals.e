@@ -34,6 +34,11 @@ feature -- Status query
 			Result := Termination.has (code)
 		end
 
+	is_user_defined_1 (code: INTEGER): BOOLEAN
+		do
+			Result := code = Sigusr1
+		end
+
 feature -- Constants
 
 	Termination: ARRAY [INTEGER]
