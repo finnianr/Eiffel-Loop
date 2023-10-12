@@ -44,24 +44,28 @@ feature {NONE} -- Implementation
 
 	matches (path_lower: ZSTRING): BOOLEAN
 		-- `True' if `path_lower' matches one of the string predicates defined by `Predicate'
-		local
-			key: STRING
 		do
 			from start until after or Result loop
-				key := key_for_iteration
-				if key = Predicate.starts_with then
-					Result := across item_for_iteration as string some path_lower.starts_with (string.item) end
-
-				elseif key = Predicate.ends_with then
-					Result := across item_for_iteration as string some path_lower.ends_with (string.item) end
-
-				elseif key = Predicate.is_equal_ then
-					Result := across item_for_iteration as string some path_lower.is_equal (string.item) end
-
-				elseif key = Predicate.has_substring then
-					Result := across item_for_iteration as string some path_lower.has_substring (string.item) end
+				Result := across item_for_iteration as string some
+					matches_predicate (path_lower, string.item, key_for_iteration)
 				end
 				forth
+			end
+		end
+
+	matches_predicate (path_lower, substring: ZSTRING; predicate_name: STRING): BOOLEAN
+		do
+			if predicate_name = Predicate.starts_with then
+				Result := path_lower.starts_with (substring)
+
+			elseif predicate_name = Predicate.ends_with then
+				Result := path_lower.ends_with (substring)
+
+			elseif predicate_name = Predicate.is_equal_ then
+				Result := path_lower.is_equal (substring)
+
+			elseif predicate_name = Predicate.has_substring then
+				Result := path_lower.has_substring (substring)
 			end
 		end
 

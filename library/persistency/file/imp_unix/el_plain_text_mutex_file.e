@@ -1,5 +1,9 @@
 note
 	description: "Shared file that can be locked for exclusive writing operation"
+	notes: "[
+		Tested with [$source MUTEX_FILE_TEST_SET] but revealed a problem that the file count
+		is not changing when you overwrite with new content. So something not working.
+	]"
 	author: ""
 	date: "$Date$"
 	revision: "$Revision$"

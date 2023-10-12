@@ -1,5 +1,5 @@
 note
-	description: "A special 1 byte created file that can be used as a mutex"
+	description: "A special 1 byte created file that can be used as a file mutex"
 	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
@@ -51,10 +51,22 @@ feature -- Status change
 			not_lockable: not is_lockable
 		end
 
+	try_locking_until (interval_ms: INTEGER)
+		-- try to lock repeatedly until `is_locked' with `interval_ms' millisecs wait between attempts
+		do
+			from until is_locked loop
+				try_lock
+				if not is_locked then
+					Execution_environment.sleep (interval_ms)
+				end
+			end
+		end
+
 	try_lock
 		require
 			is_lockable: is_lockable
 		do
+			lock.set_write_lock
 			is_locked := c_aquire_lock (descriptor, lock.self_ptr) /= -1
 		end
 

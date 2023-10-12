@@ -43,4 +43,6 @@ system:
 		# Source code
 		cluster_tree:
 			file = "persistency/file"
+			platform_list:
+				"imp_mswin; imp_unix"
 

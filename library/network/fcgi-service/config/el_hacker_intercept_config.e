@@ -56,6 +56,7 @@ feature {NONE} -- Build from XML
 			l_xpath: STRING
 		do
 			Result := Precursor
+			Result ["@block_life_span"] := agent do block_life_span := node end
 			across filter_table.new_predicate_list as list loop
 				l_xpath := Xpath_match_list #$ [list.item]
 				Result [l_xpath] := agent append_filter (list.item)

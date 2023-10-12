@@ -26,10 +26,9 @@ feature {NONE} -- Initialization
 	make (length: INTEGER)
 		do
 			make_default
-			c_set_flock_type (self_ptr, File_write_lock)
+
 			c_set_flock_whence (self_ptr, Seek_set)
 			c_set_flock_start (self_ptr, 0)
-
 			c_set_flock_length (self_ptr, length)
 		end
 
@@ -38,6 +37,11 @@ feature -- Status change
 	set_unlocked
 		do
 			c_set_flock_type (self_ptr, File_unlock)
+		end
+
+	set_write_lock
+		do
+			c_set_flock_type (self_ptr, File_write_lock)
 		end
 
 end

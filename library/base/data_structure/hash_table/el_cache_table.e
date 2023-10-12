@@ -17,8 +17,7 @@ inherit
 		rename
 			make as make_table,
 			make_equal as make_equal_table,
-			item as cached_item,
-			remove as remove_type
+			item as cached_item
 		end
 
 create
@@ -56,7 +55,7 @@ feature -- Element change
 		do
 			new_item := a_new_item
 		end
-	
+
 	set_new_item_target (target: ANY)
 		do
 			new_item.set_target (target)

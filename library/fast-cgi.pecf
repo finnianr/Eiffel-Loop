@@ -35,6 +35,7 @@ system:
 		libraries:
 			EL_base = "base/base.ecf"
 			EL_evolicity = "evolicity.ecf"
+			EL_file_process = "file-processing.ecf"
 			EL_logging = "logging.ecf"
 			EL_http_client = "http-client.ecf"
 			EL_net_base = "network.ecf"

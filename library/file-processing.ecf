@@ -25,6 +25,19 @@ Class categories:
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
 		<!--Source code-->
-		<cluster name = "file" location = "persistency/file" recursive = "true"/>
+		<cluster name = "file" location = "persistency/file" recursive = "true">
+			<file_rule>
+				<exclude>/imp_mswin$</exclude>
+				<condition>
+					<platform value = "unix"/>
+				</condition>
+			</file_rule>
+			<file_rule>
+				<exclude>/imp_unix$</exclude>
+				<condition>
+					<platform value = "windows"/>
+				</condition>
+			</file_rule>
+		</cluster>
 	</target>
 </system>

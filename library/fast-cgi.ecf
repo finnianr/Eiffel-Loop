@@ -21,6 +21,7 @@ for creating single and multi-threaded HTTP servlet services.
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
+		<library name = "EL_file_process" location = "file-processing.ecf"/>
 		<library name = "EL_logging" location = "logging.ecf"/>
 		<library name = "EL_http_client" location = "http-client.ecf"/>
 		<library name = "EL_net_base" location = "network.ecf"/>
