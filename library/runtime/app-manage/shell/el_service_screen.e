@@ -32,6 +32,8 @@ feature -- Configuration
 
 	bash_script: ZSTRING
 
+	bash_script_name: ZSTRING
+
 	command_args: ZSTRING
 
 	history_count: INTEGER
@@ -56,8 +58,12 @@ feature -- Access
 			is_script: is_script
 		do
 			if is_script then
-				Result := "run_service_" + name.as_lower + ".sh"
-				Result.replace_character (' ', '_')
+				if bash_script_name.count > 0 then
+					Result := bash_script_name
+				else
+					Result := "run_service_" + name.as_lower + ".sh"
+					Result.replace_character (' ', '_')
+				end
 			else
 				create Result.make_empty
 			end
@@ -74,7 +80,7 @@ feature -- Status query
 
 	is_script: BOOLEAN
 		do
-			Result := not bash_script.is_empty
+			Result := not (bash_script.is_empty or bash_script_name.is_empty)
 		end
 
 feature -- Basic operations

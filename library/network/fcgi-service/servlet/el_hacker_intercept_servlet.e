@@ -23,7 +23,7 @@ inherit
 
 	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE; EL_MODULE_IP_ADDRESS
 
-	EL_SHARED_IP_ADDRESS_GEOLOCATION
+	EL_SHARED_IP_ADDRESS_GEOLOCATION; EL_STRING_8_CONSTANTS
 
 create
 	make
@@ -35,7 +35,9 @@ feature {NONE} -- Initialization
 			make_servlet (a_service)
 			create date.make_now
 
-			create day_list.make (a_service.config.block_life_span + 1)
+			create day_list.make (a_service.config.ban_rule_duration + 1)
+			day_list.extend (date.ordered_compact_date)
+
 			block_ip_path := a_service.config.server_socket_path.parent + "block-ip.txt"
 			create mutex.make (block_ip_path.with_new_extension ("lock"))
 
@@ -53,11 +55,7 @@ feature {NONE} -- Basic operations
 			ip_number: NATURAL; location_status: like new_location_status
 		do
 			log.enter_no_header ("serve")
-			if request.remote_address_32 = Local_host_address then
-				ip_number := Test_ip_number
-			else
-				ip_number := request.remote_address_32
-			end
+			ip_number := request_remote_address_32
 			location_status := location_status_table.item (ip_number)
 			log.put_labeled_string (IP_address.to_string (ip_number), location_status.location)
 			if location_status.is_blocked then
@@ -87,6 +85,9 @@ feature {NONE} -- Implementation
 			across redeemed_ip_list as list loop
 				command_line_list.extend (IP_address.to_string (list.item) + once ":allow")
 			end
+		-- New line at end necessary to for Bash "while read line; do" loop to work
+			command_line_list.extend (Empty_string_8)
+
 			mutex.try_locking_until (50)
 			File.write_text (block_ip_path, command_line_list.joined_lines)
 			mutex.unlock
@@ -95,8 +96,15 @@ feature {NONE} -- Implementation
 	block (ip_number: NATURAL)
 		do
 			mutex.try_locking_until (50)
-			File.write_text (block_ip_path, IP_address.to_string (ip_number) + once ":block")
+		-- New line at end necessary to for Bash "while read line; do" loop to work
+			File.write_text (block_ip_path, IP_address.to_string (ip_number) + once ":block%N")
 			mutex.unlock
+		end
+
+	day_now: INTEGER
+		do
+			date.make_now
+			Result := date.ordered_compact_date
 		end
 
 	new_location_status (ip: NATURAL): like location_status_table.item
@@ -104,18 +112,27 @@ feature {NONE} -- Implementation
 			Result := [IP_location_table.item (ip), day_list.last, False]
 		end
 
+	request_remote_address_32: NATURAL
+		do
+			Result := request.remote_address_32
+		end
+
 	update_day_list
 		local
-			first_date: INTEGER; redeemed_ip_list: ARRAYED_LIST [NATURAL]
+			first_date, l_day_now: INTEGER; redeemed_ip_list: ARRAYED_LIST [NATURAL]
 		do
-			date.make_now
-			if date.ordered_compact_date > day_list.last then
-				day_list.extend (date.ordered_compact_date)
+			l_day_now := day_now
+			if l_day_now > day_list.last then
+				day_list.extend (l_day_now)
+				lio.put_integer_field ("extended, day_list.count", day_list.count)
+				lio.put_new_line
 			end
 			if day_list.full then
-			-- allow previously blocked ip address > config.block_life_span
+			-- allow previously blocked ip address > config.ban_rule_duration
 				first_date := day_list.first
 				day_list.remove_head (1)
+				lio.put_integer_field ("removed 1, day_list.count", day_list.count)
+				lio.put_new_line
 				create redeemed_ip_list.make (location_status_table.count // day_list.count)
 				across location_status_table as table loop
 					if table.item.compact_date = first_date then
@@ -123,6 +140,7 @@ feature {NONE} -- Implementation
 					end
 				end
 				redeemed_ip_list.do_all (agent location_status_table.remove)
+				allow (redeemed_ip_list)
 			end
 		end
 
@@ -139,22 +157,12 @@ feature {NONE} -- Implementation: attributes
 
 	date: DATE
 
-	day_list: EL_ARRAYED_LIST [INTEGER]
+	day_list: EL_ARRAYED_LIST [INTEGER];
 
-feature {NONE} -- Constants
-
-	Local_host_address: NATURAL = 0x7F_00_00_01
-
-feature {NONE} -- String constants
-
-	Test_ip_number: NATURAL
-		-- Poland, Łódź Voivodeship"
-		once
-			Result := IP_address.to_number ("91.196.50.33")
-		end
 note
 	notes: "[
-		Example Bash script notified by **block** routine that adds firewall rule for HTTP and HTTPS ports
+		Communicates with a Bash script like the following to add firewall rule for HTTP and HTTPS ports.
+		The script must be running as root.
 
 			dir_path=/var/local/myching.software
 			txt_path=$dir_path/block-ip.txt
@@ -170,6 +178,7 @@ note
 				while read line; do
 					ip=${line%%\:*}
 					if [[ "$ip" != "0.0.0.0" ]]
+					then
 						for port in 80 443; do
 							if [[ "${line#*\:}" == "block" ]]
 							then
@@ -181,10 +190,8 @@ note
 					fi
 				done <$txt_path
 
-				flock -u "$lock_fd"
+				flock --unlock "$lock_fd"
 			done
-
-		This script must be running as root
 	]"
 
 end

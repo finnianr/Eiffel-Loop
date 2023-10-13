@@ -28,16 +28,20 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		do
-			Precursor
 			create filter_table.make (5)
+			Precursor
 		end
 
 feature -- Access
 
+	ban_rule_duration: INTEGER
+		---max. number of days old for http deny rule to be applied before expiring
+
 	filter_table: EL_URL_FILTER_TABLE
 
-	block_life_span: INTEGER
-		-- max. number of days old for block rule to be preserved from last session
+feature -- Status query
+
+	test_mode: BOOLEAN
 
 feature {NONE} -- Build from XML
 
@@ -55,8 +59,10 @@ feature {NONE} -- Build from XML
 		local
 			l_xpath: STRING
 		do
-			Result := Precursor
-			Result ["@block_life_span"] := agent do block_life_span := node end
+			Result := Precursor +
+				["@ban_rule_duration", agent do ban_rule_duration := node end] +
+				["@test_mode", agent do test_mode := node end]
+
 			across filter_table.new_predicate_list as list loop
 				l_xpath := Xpath_match_list #$ [list.item]
 				Result [l_xpath] := agent append_filter (list.item)

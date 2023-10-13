@@ -37,7 +37,15 @@ feature {NONE} -- Implementation
 
 	initialize_servlets
 		do
-			servlet_table [Default_servlet_key] := create {EL_HACKER_INTERCEPT_SERVLET}.make (Current)
+			servlet_table [Default_servlet_key] := new_servlet
 		end
 
+	new_servlet: EL_HACKER_INTERCEPT_SERVLET
+		do
+			if config.test_mode then
+				create {EL_HACKER_INTERCEPT_TEST_SERVLET} Result.make (Current)
+			else
+				create Result.make (Current)
+			end
+		end
 end

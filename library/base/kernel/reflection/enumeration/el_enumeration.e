@@ -69,7 +69,8 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			l_value: N; index: INTEGER; map_list: EL_ARRAYED_MAP_LIST [N, IMMUTABLE_STRING_8]
+			map_list: EL_ARRAYED_MAP_LIST [N, IMMUTABLE_STRING_8]
+			l_value: N; index, array_count: INTEGER
 		do
 			Precursor
 			create map_list.make (field_table.count)
@@ -88,7 +89,9 @@ feature {NONE} -- Initialization
 					end
 				end
 			end
-			if lower_index = 1 and upper_index = field_table.count then
+			array_count := upper_index - lower_index + 1
+			if array_count = field_table.count then
+				map_list.sort_by_key (True)
 				name_by_value := map_list.value_list.to_array
 			else
 				if physical_array_size < physical_table_size then
