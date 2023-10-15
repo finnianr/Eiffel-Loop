@@ -49,23 +49,29 @@ feature -- Conversion
 		end
 
 	to_string (ip_number: NATURAL): STRING
+		do
+			create Result.make (15)
+			append_to_string (ip_number, Result)
+		ensure
+			reversible: ip_number = to_number (Result)
+		end
+
+feature -- Basic operations
+
+	append_to_string (ip_number: NATURAL; output: STRING)
+		-- append `ip_number' to `output' string as IP 4 format
 		local
-			mem: like Memory
-			i: INTEGER
+			mem: like Memory; i: INTEGER
 		do
 			mem := Memory
 			mem.put_natural_32 (ip_number, 0)
-
-			create Result.make (15)
 			from i := 1 until i > 4 loop
 				if i > 1 then
-					Result.append_character ('.')
+					output.append_character ('.')
 				end
-				Result.append_natural_8 (mem.read_natural_8 (i - 1))
+				output.append_natural_8 (mem.read_natural_8 (i - 1))
 				i := i + 1
 			end
-		ensure
-			reversible: ip_number = to_number (Result)
 		end
 
 feature -- Constants

@@ -48,4 +48,5 @@ feature {NONE} -- Implementation
 				create Result.make (Current)
 			end
 		end
+
 end

@@ -89,16 +89,16 @@ feature {NONE} -- Initialization
 					end
 				end
 			end
+			map_list.sort_by_key (True)
+
 			array_count := upper_index - lower_index + 1
-			if array_count = field_table.count then
-				map_list.sort_by_key (True)
+			if lower_index = 1 and upper_index = map_list.count then
 				name_by_value := map_list.value_list.to_array
+				
+			elseif array_count = map_list.count or else physical_array_size < physical_table_size then
+				name_by_value := new_name_value_array (map_list)
 			else
-				if physical_array_size < physical_table_size then
-					name_by_value := new_name_value_array (map_list)
-				else
-					name_by_value := new_name_value_table (map_list)
-				end
+				name_by_value := new_name_value_table (map_list)
 			end
 		ensure then
 			all_values_unique: all_values_unique
