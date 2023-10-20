@@ -49,6 +49,11 @@ feature -- Access
 
 feature -- Status query
 
+	has_item (str: S): BOOLEAN
+		do
+			Result := across Current as list some list.item_same_as (str) end
+		end
+
 	left_adjusted: BOOLEAN
 		do
 			Result := has_left_side (adjustments)
@@ -65,7 +70,7 @@ feature -- Element change
 		do
 			separator := a_separator
 		end
-	
+
 	set_target (a_target: like target)
 		do
 			target := a_target

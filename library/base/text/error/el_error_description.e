@@ -84,6 +84,10 @@ feature -- Basic operations
 
 	print_to (log: EL_LOGGABLE)
 		do
+			if id.count > 0 then
+				log.put_labeled_string ("ERROR", id)
+				log.put_new_line
+			end
 			across Current as list loop
 				log.put_line (list.item)
 			end

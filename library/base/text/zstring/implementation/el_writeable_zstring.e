@@ -42,7 +42,7 @@ feature -- Append to other
 		do
 			if other.is_string_8 and then attached {STRING_8} other as str_8 then
 				append_to_string_8 (str_8)
-				
+
 			elseif attached {EL_ZSTRING} other as str_z then
 				append_to (str_z)
 
@@ -69,11 +69,41 @@ feature -- Append to other
 
 	append_to_string_8 (other: STRING_8)
 		local
-			str_32: STRING_32; l_buffer: EL_STRING_32_BUFFER_ROUTINES
+			i, o_first_index, i_upper, block_index: INTEGER; already_latin_1: BOOLEAN
+			c_i: CHARACTER; uc_i: CHARACTER_32; iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
-			str_32 := l_buffer.empty
-			append_to_string_32 (str_32)
-			other.append_string_general (str_32)
+			other.grow (other.count + count)
+			o_first_index := other.count
+			i_upper := count - 1
+
+			already_latin_1 := Codec.same_as (Latin_1_codec)
+
+			if attached unicode_table as l_unicode_table and then attached unencoded_area as area_32
+				and then attached other.area as o_area and then attached area as l_area
+			then
+				from i := area_lower until i > i_upper loop
+					c_i := l_area [i]
+					if c_i = Substitute then
+						uc_i := iter.item ($block_index, area_32, i + 1)
+						if uc_i.code <= Max_8_bit_code then
+							o_area [o_first_index + i] := uc_i.to_character_8
+						else
+							o_area [o_first_index + i] := Substitute
+						end
+					elseif already_latin_1 or else c_i < Max_7_bit_character then
+						o_area [o_first_index + i] := c_i
+					else
+						uc_i := l_unicode_table [c_i.code]
+						if uc_i.code <= Max_8_bit_code then
+							o_area [o_first_index + i] := uc_i.to_character_8
+						else
+							o_area [o_first_index + i] := Substitute
+						end
+					end
+					i := i + 1
+				end
+			end
+			other.set_count (other.count + count)
 		end
 
 	append_to_utf_8 (utf_8_out: STRING_8)

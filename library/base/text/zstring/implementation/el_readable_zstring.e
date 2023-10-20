@@ -466,7 +466,7 @@ feature -- Status query
 		local
 			c_i: CHARACTER; uc_i: CHARACTER_32; i, i_final, space_count, block_index: INTEGER
 			iter: EL_UNENCODED_CHARACTER_ITERATION; c32: EL_CHARACTER_32_ROUTINES
-			is_space, is_space_state: BOOLEAN
+			is_space: BOOLEAN
 		do
 			if attached area as l_area and then attached unencoded_area as area_32 then
 				Result := True; i_final := count
@@ -481,17 +481,16 @@ feature -- Status query
 					end
 					if is_space then
 						space_count := space_count + 1
-						if c_i /= ' ' or else space_count = 2 then
-							Result := False
-						end
-					end
-					if is_space_state then
-						if not is_space then
-							is_space_state := False
-						end
-					elseif is_space then
-						is_space_state := True
+					else
 						space_count := 0
+					end
+					inspect space_count
+						when 0 then
+							do_nothing
+						when 1 then
+							Result := c_i = ' '
+					else
+						Result := False
 					end
 					i := i + 1
 				end

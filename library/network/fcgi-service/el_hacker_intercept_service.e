@@ -18,8 +18,10 @@ class
 inherit
 	FCGI_SERVLET_SERVICE
 		redefine
-			description, config
+			config, error_check, description
 		end
+
+	EL_MODULE_EXECUTABLE
 
 create
 	make_port
@@ -33,6 +35,28 @@ feature -- Access
 
 	config: EL_HACKER_INTERCEPT_CONFIG
 
+feature -- Basic operations
+
+	error_check (application: EL_FALLIBLE)
+		-- check for errors before execution
+		local
+			sendmail: EL_SENDMAIL_LOG; error: EL_ERROR_DESCRIPTION
+		do
+			create sendmail.make_default
+			if not sendmail.is_log_readable then
+				create error.make ("/var/log/mail.log")
+				error.set_lines ("[
+					Current user not part of 'adm' group.
+					Use command:
+					
+						sudo usermod -aG adm <username>
+					
+					Then re-login for command to take effect.
+				]")
+				application.put (error)
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	initialize_servlets
@@ -42,7 +66,7 @@ feature {NONE} -- Implementation
 
 	new_servlet: EL_HACKER_INTERCEPT_SERVLET
 		do
-			if config.test_mode then
+			if Executable.Is_work_bench then
 				create {EL_HACKER_INTERCEPT_TEST_SERVLET} Result.make (Current)
 			else
 				create Result.make (Current)

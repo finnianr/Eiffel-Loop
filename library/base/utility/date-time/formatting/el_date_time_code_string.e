@@ -18,7 +18,8 @@ inherit
 			create_string as new_string,
 			create_date as new_date,
 			create_date_time as new_date_time,
-			create_time_string as new_time_string
+			create_time_string as new_time_string,
+			create_time as new_time
 		export
 			{EL_DATE_TIME_PARSER} days, months, base_century
 		redefine

@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-31 7:39:19 GMT (Thursday 31st August 2023)"
-	revision: "104"
+	date: "2023-10-20 16:09:28 GMT (Friday 20th October 2023)"
+	revision: "105"
 
 class
 	ZSTRING_TEST_SET
@@ -72,6 +72,7 @@ feature {NONE} -- Initialization
 				["replace_character",				agent test_replace_character],
 				["replace_substring",				agent test_replace_substring],
 				["replace_substring_all",			agent test_replace_substring_all],
+				["to_canonically_spaced",			agent test_to_canonically_spaced],
 				["to_utf_8",							agent test_to_utf_8],
 				["translate",							agent test_translate],
 				["ends_with",							agent test_ends_with],
@@ -403,19 +404,37 @@ feature -- Appending tests
 		end
 
 	test_append_to_string_32
+		-- ZSTRING_TEST_SET.test_append_to_string_32
+		note
+			testing: "[
+				covers/{ZSTRING}.append_to_string_8,
+				covers/{ZSTRING}.append_to_string_32
+			]"
 		local
-			str_32: STRING_32; word: ZSTRING
+			str_32, word_32: STRING_32; word: ZSTRING
+			str_32_str_8, zstr_str_8: STRING_8
 		do
 			across Text.lines as line_32 loop
 				create str_32.make (0)
-				across line_32.item.split (' ') as word_32 loop
-					word := word_32.item
-					if word_32.cursor_index > 1 then
+				create str_32_str_8.make (0)
+				create zstr_str_8.make (0)
+
+				across line_32.item.split (' ') as list loop
+					word_32 := list.item
+					word := word_32
+					if list.cursor_index > 1 then
 						str_32.append_character (' ')
+						str_32_str_8.append_character (' ')
+						zstr_str_8.append_character (' ')
 					end
 					word.append_to_string_32 (str_32)
+					if word_32.is_valid_as_string_8 then
+						str_32_str_8.append_string_general (word_32)
+						word.append_to_string_8 (zstr_str_8)
+					end
 				end
 				assert ("same string", str_32 ~ line_32.item)
+				assert ("same appended STRING_8", str_32_str_8 ~ zstr_str_8)
 			end
 		end
 
@@ -845,9 +864,53 @@ feature -- Element change tests
 			end
 		end
 
+	test_to_canonically_spaced
+		note
+			testing:	"[
+				covers/{ZSTRING}.to_canonically_spaced, covers/{ZSTRING}.is_canonically_spaced
+			]"
+		local
+			canonical, line, not_canonical_line: ZSTRING
+			count: INTEGER
+		do
+		-- Basic test
+			canonical := "2023 Oct 8"
+			not_canonical_line := canonical.twin
+			not_canonical_line.insert_character (' ', canonical.count - 1)
+
+			if attached not_canonical_line as str then
+				if str.is_canonically_spaced then
+					failed ("is not canonically spaced")
+				else
+					str.to_canonically_spaced
+					assert_same_string (Void, canonical, str)
+				end
+			end
+
+		-- Rigorous test
+			across Text.lines as list loop
+				line := list.item
+				create not_canonical_line.make (line.count * 2)
+				count := 0
+				across line.split (' ') as split loop
+					if count > 0 then
+					-- insert bigger and bigger space strings
+						not_canonical_line.append (Space * count)
+					end
+					not_canonical_line.append (split.item)
+					count := count + 1
+				end
+				not_canonical_line.to_canonically_spaced
+				assert_same_string ("same as canonical", line, not_canonical_line)
+			end
+		end
+
 	test_to_utf_8
 		note
-			testing:	"covers/{ZSTRING}.to_utf_8", "covers/{ZSTRING}.make_from_utf_8"
+			testing:	"[
+				covers/{ZSTRING}.to_utf_8,
+				covers/{ZSTRING}.make_from_utf_8
+			]"
 		local
 			test: STRING_TEST
 			str_2: ZSTRING; str_utf_8: STRING

@@ -39,10 +39,6 @@ feature -- Access
 
 	filter_table: EL_URL_FILTER_TABLE
 
-feature -- Status query
-
-	test_mode: BOOLEAN
-
 feature {NONE} -- Build from XML
 
 	append_filter (a_predicate: STRING)
@@ -59,9 +55,7 @@ feature {NONE} -- Build from XML
 		local
 			l_xpath: STRING
 		do
-			Result := Precursor +
-				["@ban_rule_duration", agent do ban_rule_duration := node end] +
-				["@test_mode", agent do test_mode := node end]
+			Result := Precursor + ["@ban_rule_duration", agent do ban_rule_duration := node end]
 
 			across filter_table.new_predicate_list as list loop
 				l_xpath := Xpath_match_list #$ [list.item]

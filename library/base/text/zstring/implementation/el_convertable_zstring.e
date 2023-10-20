@@ -102,39 +102,40 @@ feature -- To Strings
 
 	to_unicode, to_general: READABLE_STRING_GENERAL
 		local
-			result_8: STRING; c_i: CHARACTER uc_i: CHARACTER_32; i, i_upper, block_index: INTEGER
-			l_unicode_table: like unicode_table; iter: EL_UNENCODED_CHARACTER_ITERATION
-			l_area, result_area: like area; area_32: like unencoded_area
+			result_8: STRING; c_i: CHARACTER; uc_i: CHARACTER_32; i, i_upper, block_index: INTEGER
 			encoding_to_latin_1_failed, already_latin_1: BOOLEAN
+			iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
-			l_area := area; area_32 := unencoded_area; l_unicode_table := unicode_table
 			already_latin_1 := Codec.same_as (Latin_1_codec)
 
 			create result_8.make (count)
 			result_8.set_count (count)
-			result_area := result_8.area
 
 			i_upper := area_upper
-			from i := area_lower until encoding_to_latin_1_failed or i > i_upper loop
-				c_i := l_area [i]
-				if c_i = Substitute then
-					uc_i := iter.item ($block_index, area_32, i + 1)
-					if uc_i.code <= Max_8_bit_code then
-						result_area [i] := uc_i.to_character_8
+			if attached unicode_table as l_unicode_table and then attached unencoded_area as area_32
+				and then attached result_8.area as result_area and then attached area as l_area
+			then
+				from i := area_lower until encoding_to_latin_1_failed or i > i_upper loop
+					c_i := l_area [i]
+					if c_i = Substitute then
+						uc_i := iter.item ($block_index, area_32, i + 1)
+						if uc_i.code <= Max_8_bit_code then
+							result_area [i] := uc_i.to_character_8
+						else
+							encoding_to_latin_1_failed := True
+						end
+					elseif already_latin_1 or else c_i < Max_7_bit_character then
+						result_area [i] := c_i
 					else
-						encoding_to_latin_1_failed := True
+						uc_i := l_unicode_table [c_i.code]
+						if uc_i.code <= Max_8_bit_code then
+							result_area [i] := uc_i.to_character_8
+						else
+							encoding_to_latin_1_failed := True
+						end
 					end
-				elseif already_latin_1 or else c_i < Max_7_bit_character then
-					result_area [i] := c_i
-				else
-					uc_i := l_unicode_table [c_i.code]
-					if uc_i.code <= Max_8_bit_code then
-						result_area [i] := uc_i.to_character_8
-					else
-						encoding_to_latin_1_failed := True
-					end
+					i := i + 1
 				end
-				i := i + 1
 			end
 			if encoding_to_latin_1_failed then
 				Result := to_string_32
@@ -217,12 +218,6 @@ feature -- To list
 		do
 			create Result.make (current_zstring, a_separator)
 		end
-
---	split_intervals (delimiter: READABLE_STRING_GENERAL): EL_ZSTRING_SPLIT_INTERVALS [ZSTRING]
---			-- substring intervals of `Current' split with `delimiter'
---		do
---			create Result.make_by_string (current_zstring, delimiter)
---		end
 
 	split_intervals (delimiter: READABLE_STRING_GENERAL): EL_ZSTRING_SPLIT_INTERVALS
 			-- substring intervals of `Current' split with `delimiter'

@@ -50,6 +50,9 @@ feature {NONE} -- Implementation
 
 	display_menu
 		do
+			lio.put_line ("Enable screen scrolling: CTRL+a ESC")
+			lio.put_line ("To disable: ESC")
+			lio.put_new_line
 			Precursor
 			lio.put_integer_field ("Active services", config.screen_list.active_count)
 			lio.put_new_line

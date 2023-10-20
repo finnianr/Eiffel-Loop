@@ -16,7 +16,6 @@ inherit
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
 		rename
 			field_included as is_any_field,
-			element_node_fields as Empty_set,
 			make_from_file as make
 		redefine
 			on_context_exit
@@ -37,5 +36,9 @@ feature {NONE} -- Event handler
 		do
 			screen_list.initialize (notification_email)
 		end
+
+feature {NONE} -- Constants
+
+	Element_node_fields: STRING = "screen_list"
 
 end

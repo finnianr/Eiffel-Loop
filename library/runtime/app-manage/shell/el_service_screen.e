@@ -33,6 +33,7 @@ feature -- Configuration
 	bash_script: ZSTRING
 
 	bash_script_name: ZSTRING
+		-- name of script with options arguments after .sh extension
 
 	command_args: ZSTRING
 
@@ -56,10 +57,20 @@ feature -- Access
 	script_name: ZSTRING
 		require
 			is_script: is_script
+		local
+			extension_index, index_after: INTEGER
 		do
 			if is_script then
 				if bash_script_name.count > 0 then
-					Result := bash_script_name
+					extension_index := bash_script_name.substring_index (Bash_dot_extension, 1)
+					index_after := extension_index + Bash_dot_extension.count
+				-- check for arguments after name
+					if index_after <= bash_script_name.count and then bash_script_name.is_space_item (index_after) then
+					-- name without the optional arguments after .sh
+						Result := bash_script_name.substring (1, index_after - 1)
+					else
+						Result := bash_script_name
+					end
 				else
 					Result := "run_service_" + name.as_lower + ".sh"
 					Result.replace_character (' ', '_')
@@ -80,7 +91,7 @@ feature -- Status query
 
 	is_script: BOOLEAN
 		do
-			Result := not (bash_script.is_empty or bash_script_name.is_empty)
+			Result := across << bash_script, bash_script_name >> as script some script.item.count > 0 end
 		end
 
 feature -- Basic operations
@@ -123,7 +134,11 @@ feature {NONE} -- Event handler
 			-- Called when the parser leaves the current context
 		do
 			if is_script then
-				command_args := script_name
+				if bash_script_name.count > 0 then
+					command_args := bash_script_name -- includes any argument after .sh
+				else
+					command_args := script_name
+				end
 			end
 			if sudo then
 				command_args.prepend_string_general ("sudo ")
@@ -132,6 +147,11 @@ feature {NONE} -- Event handler
 		end
 
 feature {NONE} -- Constants
+
+	Bash_dot_extension: ZSTRING
+		once
+			Result := ".sh"
+		end
 
 	Element_node_fields: STRING = "bash_script"
 

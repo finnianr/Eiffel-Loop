@@ -23,7 +23,7 @@ inherit
 			execute
 		end
 
-	EL_MODULE_DATE
+	EL_MODULE_DATE; EL_MODULE_IP_ADDRESS
 
 	EL_SHARED_IP_ADDRESS_GEOLOCATION
 
@@ -58,7 +58,7 @@ feature -- Basic operations
 			IP_location_table.set_log (Lio)
 			across human_entry_list as entry loop
 				if across config.page_list as page some entry.item.request_uri.starts_with (page.item) end then
-					call (IP_location_table.item (entry.item.ip_address))
+					call (IP_location_table.item (Ip_address.to_number (entry.item.ip_address)))
 				end
 			end
 			IP_location_table.set_log (Void)
@@ -129,7 +129,7 @@ feature {NONE} -- Implementation
 					if entry.item.request_uri.starts_with (page.item) then
 						found := True
 						if page_table.has_key (page.item) then
-							page_table.found_item.extend (entry.item.ip_address)
+							page_table.found_item.extend (Ip_address.to_number (entry.item.ip_address))
 						end
 					end
 				end

@@ -100,40 +100,51 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 	to_canonically_spaced
 		-- adjust so that `is_canonically_spaced' becomes true
 		local
-			c_i: CHARACTER; uc_i: CHARACTER_32; i, l_count, block_index: INTEGER; l_area: like area
-			is_space, is_space_state: BOOLEAN; z_code_array: ARRAYED_LIST [NATURAL]; l_z_code: NATURAL
-			c: EL_CHARACTER_32_ROUTINES; area_32: like unencoded_area
+			c_i: CHARACTER; uc_i: CHARACTER_32; i, j, l_count, block_index, space_count, last_upper: INTEGER
+			is_space, is_space_state: BOOLEAN; c: EL_CHARACTER_32_ROUTINES
 			iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
-			if not is_canonically_spaced then
-				l_area := area; l_count := count; area_32 := unencoded_area
-				create z_code_array.make (l_count)
-				from i := 0 until i = l_count loop
+			if not is_canonically_spaced
+				and then attached unencoded_area as area_32 and then attached area as l_area
+				and then attached empty_unencoded_buffer as buffer
+			then
+				last_upper := buffer.last_upper
+				l_count := count
+				from i := 0; j := 0 until i = l_count loop
 					c_i := l_area [i]
 					if c_i = Substitute then
 						uc_i := iter.item ($block_index, area_32, i + 1)
 						 -- `c.is_space' is workaround for finalization bug
 						is_space := c.is_space (uc_i)
-						l_z_code := unicode_to_z_code (uc_i.natural_32_code)
 					else
 						is_space := c_i.is_space
-						l_z_code := c_i.natural_32_code
 					end
-					if is_space_state then
-						if not is_space then
-							is_space_state := False
-							z_code_array.extend (l_z_code)
-						end
-					elseif is_space then
-						is_space_state := True
-						z_code_array.extend (32)
+					if is_space then
+						space_count := space_count + 1
 					else
-						z_code_array.extend (l_z_code)
+						space_count := 0
+					end
+					inspect space_count
+						when 0 then
+							l_area [j] := c_i
+							if c_i = Substitute then
+								last_upper := buffer.extend (uc_i, last_upper, j + 1)
+							end
+							j := j + 1
+
+						when 1 then
+							l_area [j] := ' '
+							j := j + 1
+					else
 					end
 					i := i + 1
 				end
-				make (z_code_array.count)
-				z_code_array.do_all (agent append_z_code)
+				set_count (j)
+				buffer.set_last_upper (last_upper)
+				set_unencoded_from_buffer (buffer)
+				if (i - j) > 20 then
+					trim
+				end
 			end
 		ensure
 			canonically_spaced: is_canonically_spaced

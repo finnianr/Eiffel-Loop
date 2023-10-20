@@ -1,0 +1,10 @@
+Oct  8 06:44:33 myching sm-mta[17392]: ruleset=check_relay, arg1=[77.90.185.59], arg2=77.90.185.59, relay=[77.90.185.59], reject=421 4.3.2 Connection rate limit exceeded.
+Oct  8 06:44:38 myching sm-mta[17393]: ruleset=check_relay, arg1=[80.94.95.181], arg2=80.94.95.181, relay=[80.94.95.181], reject=421 4.3.2 Connection rate limit exceeded.
+Oct  8 06:44:45 myching sm-mta[17394]: ruleset=check_relay, arg1=[77.90.185.59], arg2=77.90.185.59, relay=[77.90.185.59], reject=421 4.3.2 Connection rate limit exceeded.
+Oct  8 06:44:52 myching sm-mta[17395]: ruleset=check_relay, arg1=[80.94.95.181], arg2=80.94.95.181, relay=[80.94.95.181], reject=421 4.3.2 Connection rate limit exceeded.
+Oct  8 06:44:57 myching sm-mta[17397]: ruleset=check_relay, arg1=[77.90.185.59], arg2=77.90.185.59, relay=[77.90.185.59], reject=421 4.3.2 Connection rate limit exceeded.
+Oct  8 06:45:05 myching sm-mta[17398]: ruleset=check_relay, arg1=[80.94.95.181], arg2=80.94.95.181, relay=[80.94.95.181], reject=421 4.3.2 Connection rate limit exceeded.
+Oct  8 06:45:10 myching sm-mta[17400]: ruleset=check_relay, arg1=[77.90.185.59], arg2=77.90.185.59, relay=[77.90.185.59], reject=421 4.3.2 Connection rate limit exceeded.
+Oct  8 06:45:20 myching sm-mta[17401]: ruleset=check_relay, arg1=[80.94.95.181], arg2=80.94.95.181, relay=[80.94.95.181], reject=421 4.3.2 Connection rate limit exceeded.
+Oct  8 06:45:22 myching sm-mta[17402]: ruleset=check_relay, arg1=[77.90.185.59], arg2=77.90.185.59, relay=[77.90.185.59], reject=421 4.3.2 Connection rate limit exceeded.
+Oct  8 06:45:32 myching sm-mta[17403]: ruleset=check_relay, arg1=[80.94.95.181], arg2=80.94.95.181, relay=[80.94.95.181], reject=421 4.3.2 Connection rate limit exceeded.

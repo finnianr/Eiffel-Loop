@@ -162,15 +162,12 @@ feature -- Status query
 		end
 
 	inserted: BOOLEAN
-			-- Did last operation insert an item?
-		do
-			Result := (control = Inserted_constant)
-		end
+		-- Did last operation insert an item?
 
 	conflict: BOOLEAN
 			-- Did last operation insert an item?
 		do
-			Result := (control = Conflict_constant)
+			Result := not inserted
 		end
 
 feature -- Comparison
@@ -233,8 +230,12 @@ feature -- Element change
 		-- In either case, set `found_item' to the item
 		-- now associated with `key' (previous item if
 		-- there was one, `new' otherwise).
+		local
+			old_count: INTEGER
 		do
+			old_count := count
 			Precursor (key)
+			inserted := count = old_count + 1
 			if control = Conflict_constant then
 				found_item := content.item (position)
 			else

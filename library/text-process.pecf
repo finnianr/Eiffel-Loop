@@ -28,8 +28,11 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
-		library:
-			base = "$ISE_LIBRARY/library/base/base.ecf"
+		# ISE libraries
+		libraries:
+			location = "$ISE_LIBRARY/library"
+			base = "base/base.ecf"
+			ise_time = "time/time.ecf"
 
 		# Eiffel Loop
 		library:
