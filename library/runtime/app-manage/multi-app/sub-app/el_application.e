@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 6:12:00 GMT (Thursday 17th August 2023)"
-	revision: "74"
+	date: "2023-10-21 9:10:59 GMT (Saturday 21st October 2023)"
+	revision: "75"
 
 deferred class
 	EL_APPLICATION
@@ -303,7 +303,11 @@ feature {NONE} -- Implementation
 			lio.put_labeled_string ("Class", generator)
 			lio.put_labeled_string (" Option", option_name)
 			lio.put_new_line
-			lio.put_string_field ("Description", description)
+			if description.has ('%N') then
+				lio.put_labeled_lines ("Description", description.split ('%N'))
+			else
+				lio.put_string_field ("Description", description)
+			end
 			lio.put_new_line_X2
 		end
 

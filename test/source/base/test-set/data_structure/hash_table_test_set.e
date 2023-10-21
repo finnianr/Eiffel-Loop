@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-24 8:32:32 GMT (Sunday 24th September 2023)"
-	revision: "24"
+	date: "2023-10-21 8:57:07 GMT (Saturday 21st October 2023)"
+	revision: "25"
 
 class
 	HASH_TABLE_TEST_SET
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 			make_named (<<
 				["character_32_table",				 agent test_character_32_table],
 				["compressed_table",					 agent test_compressed_table],
-				["hash_set",							 agent test_hash_set],
+				["hash_table_insertion",			 agent test_hash_table_insertion],
 				["immutable_string_table",			 agent test_immutable_string_table],
 				["immutable_string_table_memory", agent test_immutable_string_table_memory],
 				["immutable_utf_8_table",			 agent test_immutable_utf_8_table],
@@ -87,15 +87,31 @@ feature -- Test
 			assert ("same value", geo_info ~ geo_info_table.found_item)
 		end
 
-	test_hash_set
-		-- HASH_TABLE_TEST_SET.test_hash_set
+	test_hash_table_insertion
+		-- HASH_TABLE_TEST_SET.test_hash_table_insertion
+		note
+			testing: "[
+				covers/{EL_HASH_TABLE}.put, covers/{EL_HASH_SET}.put
+			]"
 		local
-			set: EL_HASH_SET [CHARACTER]
+			table: EL_HASH_TABLE [CHARACTER, STRING]; set: EL_HASH_SET [CHARACTER]
 		do
-			if Executable.Is_work_bench then
-				create set.make (20)
+			create table.make_equal (20)
+			create set.make (20)
+
+			across 1 |..| 2 as n loop
+				table.put ('a', "a")
+				if n.item = 1 then
+					assert ("inserted", table.inserted)
+				else
+					assert ("conflict", table.conflict)
+				end
 				set.put ('a')
-				assert ("is stupid", not set.inserted)
+				if n.item = 1 then
+					assert ("inserted", set.inserted)
+				else
+					assert ("conflict", set.conflict)
+				end
 			end
 		end
 

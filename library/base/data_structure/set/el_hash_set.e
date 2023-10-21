@@ -38,8 +38,7 @@ inherit
 			remove as prune
 		export
 			{NONE} all
-			{ANY} has, valid_key, found, found_item, search, count, new_cursor,
-				 wipe_out, iteration_item
+			{ANY} has, valid_key, found, found_item, search, count, new_cursor, wipe_out, iteration_item
 		redefine
 			make, make_size, put, same_keys
 		end

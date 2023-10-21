@@ -98,7 +98,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 		end
 
 	to_canonically_spaced
-		-- adjust so that `is_canonically_spaced' becomes true
+		-- adjust string so that `is_canonically_spaced' becomes true
 		local
 			c_i: CHARACTER; uc_i: CHARACTER_32; i, j, l_count, block_index, space_count, last_upper: INTEGER
 			is_space, is_space_state: BOOLEAN; c: EL_CHARACTER_32_ROUTINES
@@ -142,8 +142,8 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 				set_count (j)
 				buffer.set_last_upper (last_upper)
 				set_unencoded_from_buffer (buffer)
-				if (i - j) > 20 then
-					trim
+				if l_count > 50 and then ((i - j) * 100.0 / l_count).rounded > 15 then
+					trim -- reallocate to new size
 				end
 			end
 		ensure

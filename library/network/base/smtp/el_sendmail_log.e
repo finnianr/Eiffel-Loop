@@ -3,15 +3,20 @@ note
 		Analyses sendmail log using grep command for hijacking attempts to use as mail relay
 	]"
 	notes: "[
-		Make current user member of group **adm**
+		Make current user member of administrator group **adm**
 		
 			sudo usermod -aG adm <username>
 			
 		Then re-login for command to take effect.
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2023-10-21 9:19:54 GMT (Saturday 21st October 2023)"
+	revision: "1"
 
 class
 	EL_SENDMAIL_LOG
@@ -101,6 +106,7 @@ feature -- Element change
 feature -- Contract Support
 
 	is_log_readable: BOOLEAN
+		-- `True' if current user is a member of 'adm' group
 		local
 			groups: EL_CAPTURED_OS_COMMAND
 		do

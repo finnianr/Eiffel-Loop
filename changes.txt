@@ -640,3 +640,6 @@ Removed eif_wean call from EL_XML_DOC_CONTEXT
 Sun 24th Sep 2023, 18:21:53
 EV_FONT_FAMILIES bitmap properties and char_set
 
+Fri 20th Oct 2023, 17:28:16
+Fixed canonically spaced routine and added mail.log monitoring
+

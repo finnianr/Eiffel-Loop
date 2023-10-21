@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 11:40:00 GMT (Wednesday 16th August 2023)"
-	revision: "24"
+	date: "2023-10-21 9:21:59 GMT (Saturday 21st October 2023)"
+	revision: "25"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -183,7 +183,7 @@ feature {NONE} -- Implementation
 	update_notes
 		local
 			rsync_cmd: EL_CAPTURED_OS_COMMAND; path, source_path: FILE_PATH
-			valid_arguments: BOOLEAN_REF
+			valid_arguments: BOOLEAN_REF; line: ZSTRING
 		do
 			change_count := 0
 
@@ -192,15 +192,16 @@ feature {NONE} -- Implementation
 			set_rsync_arguments (rsync_cmd, "--dry-run", valid_arguments)
 			if valid_arguments.item then
 				rsync_cmd.execute
-				across rsync_cmd.lines as line loop
-					if line.item.starts_with (config.source_dir.base) then
-						path := line.item
+				across rsync_cmd.lines as list loop
+					line := list.item
+					if line.starts_with (config.source_dir.base) then
+						path := line
 						if path.has_extension ("e") then
 							source_path := config.source_dir.parent + path
 							edit_notes (source_path)
 							change_count := change_count +1
 						end
-					elseif line.item.starts_with ("deleting ") then
+					elseif line.starts_with ("deleting ") then
 						change_count := change_count + 1
 					end
 				end
