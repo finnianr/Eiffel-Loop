@@ -234,11 +234,13 @@ feature -- Element change
 		do
 			old_count := count
 			Precursor (key)
-			inserted := count = old_count + 1
-			if control = Conflict_constant then
-				found_item := content.item (position)
-			else
+		-- This is a workaround for the fact that `control' is modified in post-condition of `Precursor'
+			if count = old_count + 1 then
 				found_item := key
+				inserted := True
+			else
+				found_item := content.item (position)
+				inserted := False
 			end
 		ensure then
 			item_if_found: found implies found_item = content.item (position)
@@ -255,22 +257,13 @@ feature -- Element change
 		require
 			valid_key (key)
 		do
-			internal_search (key)
-			if control = Found_constant then
-				control := Conflict_constant
-				found_item := content.item (position)
-			else
-				if soon_full then
-					add_space
-					internal_search (key)
-				end
+			put (key)
+			if inserted then
 				found_item := key.twin
 				content.put (found_item, position)
-				count := count + 1
-				control := Inserted_constant
 			end
 		ensure then
-			insertion_done: control = Inserted_constant implies item (key) ~ key and item (key) /= key
+			insertion_done: inserted implies item (key) ~ key and item (key) /= key
 			item_if_found: found_item = content.item (position)
 		end
 

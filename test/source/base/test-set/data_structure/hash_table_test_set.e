@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-21 8:57:07 GMT (Saturday 21st October 2023)"
-	revision: "25"
+	date: "2023-10-21 10:19:15 GMT (Saturday 21st October 2023)"
+	revision: "26"
 
 class
 	HASH_TABLE_TEST_SET
@@ -91,10 +91,11 @@ feature -- Test
 		-- HASH_TABLE_TEST_SET.test_hash_table_insertion
 		note
 			testing: "[
-				covers/{EL_HASH_TABLE}.put, covers/{EL_HASH_SET}.put
+				covers/{EL_HASH_TABLE}.put, covers/{EL_HASH_SET}.put, covers/{EL_HASH_SET}.put_copy
 			]"
 		local
-			table: EL_HASH_TABLE [CHARACTER, STRING]; set: EL_HASH_SET [CHARACTER]
+			table: EL_HASH_TABLE [CHARACTER, STRING]; set: EL_HASH_SET [STRING]
+			key: STRING
 		do
 			create table.make_equal (20)
 			create set.make (20)
@@ -106,13 +107,23 @@ feature -- Test
 				else
 					assert ("conflict", table.conflict)
 				end
-				set.put ('a')
+				set.put ("A")
 				if n.item = 1 then
 					assert ("inserted", set.inserted)
 				else
 					assert ("conflict", set.conflict)
 				end
 			end
+			key := "ABC"
+			set.put_copy (key)
+			if set.has_key (key) then
+				assert ("has copy", set.found_item ~ key and set.found_item /= key)
+			else
+				failed ("has_key")
+			end
+			set.put (key)
+			assert ("conflict", set.conflict)
+			assert ("has copy", set.found_item ~ key and set.found_item /= key)
 		end
 
 	test_immutable_string_table
