@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-29 10:17:03 GMT (Tuesday 29th August 2023)"
-	revision: "129"
+	date: "2023-10-21 13:04:26 GMT (Saturday 21st October 2023)"
+	revision: "130"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -462,7 +462,7 @@ feature -- Status query
 		end
 
 	is_canonically_spaced: BOOLEAN
-		-- `True' if the longest substring of whitespace consists of one space character
+		-- `True' if the longest substring of whitespace consists of one space character (ASCII 32)
 		local
 			c_i: CHARACTER; uc_i: CHARACTER_32; i, i_final, space_count, block_index: INTEGER
 			iter: EL_UNENCODED_CHARACTER_ITERATION; c32: EL_CHARACTER_32_ROUTINES

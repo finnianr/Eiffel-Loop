@@ -6,9 +6,14 @@ note
 		The character data is frozen in place and cannot be moved by garbage collector until such
 		times as the object is disposed.
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2023-10-06 17:52:13 GMT (Friday 6th October 2023)"
+	revision: "1"
 
 class
 	EL_STRING_8_POINTER

@@ -1,8 +1,13 @@
 note
 	description: "Font properties that can be combined into a [$source NATURAL_8] bitmap"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2023-10-04 15:51:08 GMT (Wednesday 4th October 2023)"
+	revision: "1"
 
 class
 	EL_FONT_PROPERTY

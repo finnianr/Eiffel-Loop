@@ -1,8 +1,13 @@
 note
 	description: "A special 1 byte created file that can be used as a file mutex"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2023-10-12 15:14:05 GMT (Thursday 12th October 2023)"
+	revision: "1"
 
 class
 	EL_FILE_MUTEX

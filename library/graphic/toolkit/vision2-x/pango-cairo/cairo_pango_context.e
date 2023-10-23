@@ -1,8 +1,13 @@
 note
 	description: "Pango context created by **pango_cairo_create_context** in `<pango/pangocairo.h>'"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2023-10-04 14:32:50 GMT (Wednesday 4th October 2023)"
+	revision: "1"
 
 class
 	CAIRO_PANGO_CONTEXT

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-27 12:21:36 GMT (Thursday 27th July 2023)"
-	revision: "23"
+	date: "2023-10-23 14:20:23 GMT (Monday 23rd October 2023)"
+	revision: "24"
 
 deferred class
 	EL_REFLECTED_EXPANDED_FIELD [G]
@@ -43,16 +43,22 @@ feature -- Access
 			Result := field_value (index)
 		end
 
-feature -- Status query
+feature -- Conversion
 
-	is_expanded: BOOLEAN
-		do
-			Result := True
+	to_natural_64 (a_object: EL_REFLECTIVE): NATURAL_64
+		deferred
 		end
+
+feature -- Status query
 
 	has_string_representation: BOOLEAN
 		do
 			Result := attached {EL_STRING_FIELD_REPRESENTATION [ANY, ANY]} representation
+		end
+
+	is_expanded: BOOLEAN
+		do
+			Result := True
 		end
 
 feature -- Comparison
@@ -60,6 +66,12 @@ feature -- Comparison
 	are_equal (a_current, other: EL_REFLECTIVE): BOOLEAN
 		do
 			Result := value (a_current) = value (other)
+		end
+
+feature -- Basic operations
+
+	set_from_natural_64 (a_object: EL_REFLECTIVE; a_value: NATURAL_64)
+		deferred
 		end
 
 feature {NONE} -- Implementation

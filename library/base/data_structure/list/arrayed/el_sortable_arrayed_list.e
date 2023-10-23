@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-30 12:20:32 GMT (Thursday 30th March 2023)"
-	revision: "14"
+	date: "2023-09-24 5:26:03 GMT (Sunday 24th September 2023)"
+	revision: "15"
 
 class
 	EL_SORTABLE_ARRAYED_LIST [G -> COMPARABLE]

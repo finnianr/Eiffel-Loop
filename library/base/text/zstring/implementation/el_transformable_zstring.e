@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-31 13:08:05 GMT (Thursday 31st August 2023)"
-	revision: "52"
+	date: "2023-10-21 13:06:57 GMT (Saturday 21st October 2023)"
+	revision: "53"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -151,7 +151,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 		end
 
 	to_lower
-			-- Convert to lower case.
+		-- Convert to lower case.
 		do
 			to_lower_area (area, 0, count - 1)
 			unencoded_to_lower

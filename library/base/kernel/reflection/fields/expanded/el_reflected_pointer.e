@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 10:13:01 GMT (Monday 12th December 2022)"
-	revision: "19"
+	date: "2023-10-23 14:24:14 GMT (Monday 23rd October 2023)"
+	revision: "20"
 
 class
 	EL_REFLECTED_POINTER
@@ -35,12 +35,38 @@ feature -- Access
 			Result := {PLATFORM}.pointer_bytes
 		end
 
+feature -- Conversion
+
+	to_natural_64 (a_object: EL_REFLECTIVE): NATURAL_64
+		do
+			if attached Pointer_buffer as buffer then
+				buffer.put_pointer (value (a_object), 0)
+				if buffer.count = 4 then
+					Result := buffer.read_natural_32 (0).to_natural_64
+				else
+					Result := buffer.read_natural_64 (0)
+				end
+			end
+		end
+
 feature -- Basic operations
 
 	set (a_object: EL_REFLECTIVE; a_value: POINTER)
 		do
 			enclosing_object := a_object
 			set_pointer_field (index, a_value)
+		end
+
+	set_from_natural_64 (a_object: EL_REFLECTIVE; a_value: NATURAL_64)
+		do
+			if attached Pointer_buffer as buffer then
+				if buffer.count = 4 then
+					buffer.put_natural_32 (a_value.to_natural_32, 0)
+				else
+					buffer.put_natural_64 (a_value, 0)
+				end
+				set (a_object, buffer.read_pointer (0))
+			end
 		end
 
 	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
@@ -93,4 +119,10 @@ feature {NONE} -- Implementation
 			Result := value (a_object).out
 		end
 
+feature {NONE} -- Constants
+
+	Pointer_buffer: MANAGED_POINTER
+		once
+			create Result.make ({PLATFORM}.pointer_bytes)
+		end
 end

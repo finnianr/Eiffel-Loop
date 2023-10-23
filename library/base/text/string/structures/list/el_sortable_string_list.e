@@ -1,8 +1,13 @@
 note
 	description: "Sortable list of strings conforming to READABLE_STRING_GENERAL"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2023-09-24 7:30:18 GMT (Sunday 24th September 2023)"
+	revision: "1"
 
 deferred class
 	EL_SORTABLE_STRING_LIST [S -> READABLE_STRING_GENERAL]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-19 19:57:16 GMT (Wednesday 19th July 2023)"
-	revision: "10"
+	date: "2023-10-20 12:10:51 GMT (Friday 20th October 2023)"
+	revision: "11"
 
 deferred class
 	EL_ITERABLE_SPLIT [S -> READABLE_STRING_GENERAL, G]

@@ -5,13 +5,14 @@
 		the number of days specified by {[$source EL_HACKER_INTERCEPT_CONFIG]}.ban_rule_duration.
 	]"
 	notes: "See end of class"
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:09:30 GMT (Tuesday 14th February 2023)"
-	revision: "15"
+	date: "2023-10-23 18:41:15 GMT (Monday 23rd October 2023)"
+	revision: "17"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -57,8 +58,7 @@ feature {NONE} -- Basic operations
 
 	serve
 		local
-			ip_number: NATURAL; firewall_status: like new_firewall_status
-			ip_4_address: STRING; ip_address_list: ARRAYED_LIST [NATURAL]
+			ip_number: NATURAL; ip_4_address: STRING; ip_address_list: ARRAYED_LIST [NATURAL]
 			put_block_rule: BOOLEAN
 		do
 			log.enter_no_header ("serve")
@@ -72,26 +72,29 @@ feature {NONE} -- Basic operations
 				ip_number := list.item
 				ip_4_address := IP_address.to_string (ip_number)
 				put_block_rule := False
-				firewall_status := firewall_status_table.item (ip_number)
-				if firewall_status.is_blocked then
+				Firewall_status.set_from_compact (firewall_status_table.item (ip_number))
+
+				if Firewall_status.is_blocked then
 					log.put_labeled_string (ip_4_address, "is blocked")
-					firewall_status.is_blocked := False -- Try again to set firewall rule
+					Firewall_status.set_blocked (False) -- Try again to set firewall rule
 
 				elseif list.is_last then
 					if filter_table.is_hacker_probe (request.relative_path_info.as_lower) then
-						firewall_status.ports := Service_port.http_all
+						Firewall_status.set_port (Service_port.http)
 						put_block_rule := True
 					end
 				else
 				--	is mail spammer
-					firewall_status.ports := Service_port.smtp_all
+					Firewall_status.set_port (Service_port.smtp)
 					put_block_rule := True
 				end
 				if put_block_rule then
 					log.put_labeled_string ("Blocking", ip_4_address)
-					firewall_status.ports.do_all (agent put_rule (Command.block, ip_number, ?))
-					firewall_status.is_blocked := True
+					Firewall_status.ports.do_all (agent put_rule (Command.block, ip_number, ?))
+					Firewall_status.set_blocked (True)
 				end
+				firewall_status_table.force (Firewall_status.compact_status, ip_number)
+				
 				log.put_new_line
 			end
 
@@ -145,9 +148,10 @@ feature {NONE} -- Implementation
 			Result := date.ordered_compact_date
 		end
 
-	new_firewall_status (ip: NATURAL): TUPLE [compact_date: INTEGER; ports: ARRAY [NATURAL_16]; is_blocked: BOOLEAN]
+	new_firewall_status (ip: NATURAL): NATURAL_64
 		do
-			Result := [day_list.last, Service_port.http_all, False]
+			Firewall_status.set (day_list.last, Service_port.http, False)
+			Result := Firewall_status.compact_status
 		end
 
 	new_redeemed_ip_list (first_date: INTEGER): EL_ARRAYED_MAP_LIST [NATURAL, ARRAY [NATURAL_16]]
@@ -155,8 +159,9 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (firewall_status_table.count // day_list.count)
 			across firewall_status_table as table loop
-				if table.item.compact_date = first_date then
-					Result.extend (table.key, table.item.ports)
+				Firewall_status.set_from_compact (table.item)
+				if Firewall_status.compact_date = first_date then
+					Result.extend (table.key, Firewall_status.ports)
 				end
 			end
 		end
@@ -210,7 +215,7 @@ feature {NONE} -- Implementation: attributes
 
 	filter_table: EL_URL_FILTER_TABLE
 
-	firewall_status_table: EL_CACHE_TABLE [like new_firewall_status, NATURAL]
+	firewall_status_table: EL_CACHE_TABLE [NATURAL_64, NATURAL]
 
 	mail_log: EL_SENDMAIL_LOG
 
@@ -225,6 +230,11 @@ feature {NONE} -- Constants
 		-- commands with new line character
 		once
 			Result := ["allow", "block"]
+		end
+
+	Firewall_status: EL_FIREWALL_STATUS
+		once
+			create Result
 		end
 
 note

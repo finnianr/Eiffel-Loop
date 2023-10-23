@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 14:07:18 GMT (Tuesday 15th August 2023)"
-	revision: "45"
+	date: "2023-10-23 15:24:24 GMT (Monday 23rd October 2023)"
+	revision: "46"
 
 class
 	REFLECTION_TEST_SET
@@ -42,6 +42,7 @@ feature {NONE} -- Initialization
 				["field_value_setter",									agent test_field_value_setter],
 				["field_value_table",									agent test_field_value_table],
 				["initialized_object_factory",						agent test_initialized_object_factory],
+				["natural_64_compactable_object",					agent test_natural_64_compactable_object],
 				["object_initialization_from_camel_case_table",	agent test_object_initialization_from_camel_case_table],
 				["object_initialization_from_table",				agent test_object_initialization_from_table],
 				["reflected_collection_factory",						agent test_reflected_collection_factory],
@@ -210,6 +211,22 @@ feature -- Tests
 					failed ("created " + list.item.name)
 				end
 			end
+		end
+
+	test_natural_64_compactable_object
+		-- REFLECTION_TEST_SET.test_natural_64_compactable_object
+		local
+			date: COMPACTABLE_DATE; date_2: DATE
+		do
+			create date.make (2005, 12, 30)
+			create date_2.make (2005, 12, 30)
+			assert ("same compact", date.compact_date.to_integer_32 = date_2.ordered_compact_date)
+
+			date_2.set_date (2023, 11, 2)
+			date.set_from_compact (date_2.ordered_compact_date.to_natural_64)
+			assert ("same year", date.year = date_2.year)
+			assert ("same month", date.month = date_2.month)
+			assert ("same day", date.day = date_2.day)
 		end
 
 	test_object_initialization_from_camel_case_table

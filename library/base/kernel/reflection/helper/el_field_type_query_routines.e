@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-20 7:38:26 GMT (Thursday 20th July 2023)"
-	revision: "3"
+	date: "2023-10-23 11:18:39 GMT (Monday 23rd October 2023)"
+	revision: "4"
 
 deferred class
 	EL_FIELD_TYPE_QUERY_ROUTINES
@@ -32,6 +32,11 @@ feature {NONE} -- Field tests
 	is_date_field (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		do
 			Result := field.conforms_to_date_time
+		end
+
+	is_expanded_field (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
+		do
+			Result := field.is_expanded
 		end
 
 	is_field_convertable_from_string (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN

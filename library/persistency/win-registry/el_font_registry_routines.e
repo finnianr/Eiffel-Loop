@@ -2,9 +2,14 @@ note
 	description: "[
 		Routines to access Windows font information in registry
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2023-10-03 10:15:21 GMT (Tuesday 3rd October 2023)"
+	revision: "1"
 
 expanded class
 	EL_FONT_REGISTRY_ROUTINES

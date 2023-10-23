@@ -4,9 +4,14 @@ note
 		Tested with [$source MUTEX_FILE_TEST_SET] but revealed a problem that the file count
 		is not changing when you overwrite with new content. So something not working.
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2023-10-12 14:32:34 GMT (Thursday 12th October 2023)"
+	revision: "1"
 
 class
 	EL_PLAIN_TEXT_MUTEX_FILE

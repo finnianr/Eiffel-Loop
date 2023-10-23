@@ -1,8 +1,13 @@
 note
 	description: "Extend version of [$source EV_WEL_FONT_ENUMERATOR_IMP]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2023-10-05 15:12:38 GMT (Thursday 5th October 2023)"
+	revision: "1"
 
 class
 	EL_WEL_FONT_ENUMERATOR_IMP

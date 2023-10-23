@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
-	revision: "20"
+	date: "2023-10-23 14:21:18 GMT (Monday 23rd October 2023)"
+	revision: "21"
 
 class
 	EL_REFLECTED_BOOLEAN
@@ -35,6 +35,15 @@ feature -- Access
 			Result := {PLATFORM}.boolean_bytes
 		end
 
+feature -- Conversion
+
+	to_natural_64 (a_object: EL_REFLECTIVE): NATURAL_64
+		do
+			if value (a_object) then
+				Result := 1
+			end
+		end
+
 feature -- Basic operations
 
 	set (a_object: EL_REFLECTIVE; a_value: BOOLEAN)
@@ -44,6 +53,11 @@ feature -- Basic operations
 		end
 
 	set_from_integer (a_object: EL_REFLECTIVE; a_value: INTEGER)
+		do
+			set (a_object, a_value.to_boolean)
+		end
+
+	set_from_natural_64 (a_object: EL_REFLECTIVE; a_value: NATURAL_64)
 		do
 			set (a_object, a_value.to_boolean)
 		end

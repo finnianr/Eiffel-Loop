@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
-	revision: "23"
+	date: "2023-10-23 14:26:54 GMT (Monday 23rd October 2023)"
+	revision: "24"
 
 class
 	EL_REFLECTED_INTEGER_32
@@ -36,6 +36,11 @@ feature -- Conversion
 			Result := {PLATFORM}.Integer_32_bytes
 		end
 
+	to_natural_64 (a_object: EL_REFLECTIVE): NATURAL_64
+		do
+			Result := value (a_object).to_natural_64
+		end
+
 feature -- Basic operations
 
 	reset (a_object: EL_REFLECTIVE)
@@ -57,6 +62,11 @@ feature -- Basic operations
 	set_from_integer (a_object: EL_REFLECTIVE; a_value: INTEGER)
 		do
 			set (a_object, a_value)
+		end
+
+	set_from_natural_64 (a_object: EL_REFLECTIVE; a_value: NATURAL_64)
+		do
+			set (a_object, a_value.to_integer_32)
 		end
 
 	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)

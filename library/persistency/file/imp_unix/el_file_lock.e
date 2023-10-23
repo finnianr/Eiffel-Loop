@@ -1,8 +1,13 @@
 note
 	description: "Unix file lock information"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2023-10-12 15:13:32 GMT (Thursday 12th October 2023)"
+	revision: "1"
 
 class
 	EL_FILE_LOCK

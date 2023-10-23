@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "6"
+	date: "2023-10-23 10:26:54 GMT (Monday 23rd October 2023)"
+	revision: "7"
 
 class
 	BIT_ROUTINE_TEST_SET
@@ -48,7 +48,7 @@ feature -- Tests
 		end
 
 	test_integer_32_bit_routines
-		-- GENERAL_TEST_SET.test_integer_32_bit_routines
+		-- BIT_ROUTINE_TEST_SET.test_integer_32_bit_routines
 		local
 			i32: EL_INTEGER_32_BIT_ROUTINES
 			i, value, initial_value, mask: INTEGER
@@ -90,7 +90,7 @@ feature -- Tests
 		end
 
 	test_integer_64_bit_routines
-		-- GENERAL_TEST_SET.test_integer_64_bit_routines
+		-- BIT_ROUTINE_TEST_SET.test_integer_64_bit_routines
 		local
 			i64: EL_INTEGER_64_BIT_ROUTINES; i: INTEGER
 			value, initial_value, mask, combined_value, expected_value: INTEGER_64
@@ -156,7 +156,7 @@ feature -- Tests
 		end
 
 	test_natural_32_bit_routines
-		-- GENERAL_TEST_SET.test_natural_32_bit_routines
+		-- BIT_ROUTINE_TEST_SET.test_natural_32_bit_routines
 		local
 			n32: EL_NATURAL_32_BIT_ROUTINES
 			i: INTEGER; value, initial_value, mask: NATURAL_32
@@ -198,13 +198,13 @@ feature -- Tests
 		end
 
 	test_natural_64_bit_routines
-		-- GENERAL_TEST_SET.test_natural_64_bit_routines
+		-- BIT_ROUTINE_TEST_SET.test_natural_64_bit_routines
 		local
 			n64: EL_NATURAL_64_BIT_ROUTINES
 			i: INTEGER; value, initial_value, mask, combined_value, expected_value: NATURAL_64
 			array: ARRAY [NATURAL_64]
 		do
---			count trailing zeros
+		--	count trailing zeros
 			assert ("one has 0", n64.shift_count (mask.one) = 0)
 			assert ("zero has 64", n64.shift_count (mask.one |<< 63) = 63)
 

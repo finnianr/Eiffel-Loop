@@ -11,9 +11,14 @@ note
 		[https://microsoft.public.vc.language.narkive.com/fgY8cPym/c2065-undeclared-identifiers-using-iphlpapi-h This article]
 		explains why it is not possible to implement this using inline externals.
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2023-09-28 9:44:42 GMT (Thursday 28th September 2023)"
+	revision: "1"
 
 class
 	EL_NETWORK_ADAPTER_C_API

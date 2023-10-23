@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-22 7:29:48 GMT (Saturday 22nd July 2023)"
-	revision: "3"
+	date: "2023-10-23 11:17:43 GMT (Monday 23rd October 2023)"
+	revision: "4"
 
 class
 	EL_FIELD_TYPE_PROPERTIES
@@ -97,6 +97,11 @@ feature -- Status query
 	is_convertable_from_string: BOOLEAN
 		do
 			Result := is_type_convertable_from_string (abstract_type, static_type)
+		end
+
+	is_expanded: BOOLEAN
+		do
+			Result := abstract_type /= Reference_type
 		end
 
 	is_pointer: BOOLEAN

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 11:48:16 GMT (Sunday 16th July 2023)"
-	revision: "0"
+	date: "2023-10-20 16:23:29 GMT (Friday 20th October 2023)"
+	revision: "1"
 
 class
 	EL_SERVICE_PORT_ENUM

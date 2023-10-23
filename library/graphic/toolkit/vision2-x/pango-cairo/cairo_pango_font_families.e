@@ -1,8 +1,13 @@
 note
 	description: "Pango Cairo font families"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2023-10-02 11:10:00 GMT (Monday 2nd October 2023)"
+	revision: "1"
 
 class
 	CAIRO_PANGO_FONT_FAMILIES
