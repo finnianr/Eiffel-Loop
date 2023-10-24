@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-24 8:32:05 GMT (Tuesday 24th October 2023)"
-	revision: "11"
+	date: "2023-10-24 16:33:57 GMT (Tuesday 24th October 2023)"
+	revision: "12"
 
 class
 	EL_HACKER_INTERCEPT_SERVICE
@@ -21,7 +21,7 @@ inherit
 			config, error_check, description, on_shutdown
 		end
 
-	EL_MODULE_EXECUTABLE
+	EL_MODULE_ARGS; EL_MODULE_EXECUTABLE
 
 create
 	make_port
@@ -77,7 +77,7 @@ feature {NONE} -- Implementation
 
 	new_servlet: EL_HACKER_INTERCEPT_SERVLET
 		do
-			if Executable.Is_work_bench then
+			if Executable.Is_work_bench or else Args.word_option_exists ("test_servlet") then
 				create {EL_HACKER_INTERCEPT_TEST_SERVLET} Result.make (Current)
 			else
 				create Result.make (Current)

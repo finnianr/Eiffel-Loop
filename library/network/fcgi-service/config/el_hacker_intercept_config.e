@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-16 12:02:09 GMT (Monday 16th October 2023)"
-	revision: "11"
+	date: "2023-10-24 16:09:49 GMT (Tuesday 24th October 2023)"
+	revision: "12"
 
 class
 	EL_HACKER_INTERCEPT_CONFIG
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	ban_rule_duration: INTEGER
-		---max. number of days old for http deny rule to be applied before expiring
+		-- max. number of days old for http deny rule to be applied before expiring
 
 	filter_table: EL_URL_FILTER_TABLE
 

@@ -11,8 +11,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-24 8:49:33 GMT (Tuesday 24th October 2023)"
-	revision: "18"
+	date: "2023-10-24 16:45:31 GMT (Tuesday 24th October 2023)"
+	revision: "19"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -23,7 +23,7 @@ inherit
 			make as make_servlet
 		end
 
-	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE; EL_MODULE_IP_ADDRESS; EL_MODULE_REUSEABLE
+	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE; EL_MODULE_IP_ADDRESS
 
 	EL_STRING_8_CONSTANTS
 
@@ -35,8 +35,6 @@ create
 feature {NONE} -- Initialization
 
 	make (a_service: EL_HACKER_INTERCEPT_SERVICE)
-		local
-			data: RAW_FILE; ip_number: NATURAL; entry_count: INTEGER
 		do
 			make_servlet (a_service)
 			create date.make_now
@@ -47,29 +45,14 @@ feature {NONE} -- Initialization
 			day_list.extend (date.ordered_compact_date)
 
 			block_ip_path := a_service.config.server_socket_path.parent + "block-ip.txt"
-			create mutex.make (block_ip_path.with_new_extension ("lock"))
+			create file_mutex.make (block_ip_path.with_new_extension ("lock"))
 
 			if not block_ip_path.exists then
 				File.write_text (block_ip_path, "block:0.0.0.0:80%N") -- ignored by script
 			end
 			filter_table := a_service.config.filter_table
 			if attached a_service.Firewall_status_data_path as path and then path.exists then
-				create data.make_open_read (path)
-				log.put_path_field ("Loading data %S", path)
-				log.put_new_line
-				data.read_integer
-				entry_count := data.last_integer
-				create firewall_status_table.make (entry_count)
-
-				across 1 |..| entry_count as n until data.end_of_file loop
-					data.read_natural_32; ip_number := data.last_natural
-
-					data.read_natural_64 -- compact status `EL_FIREWALL_STATUS'
-					firewall_status_table.extend (data.last_natural_64, ip_number)
-				end
-				data.close
-				log.put_integer_field ("Entries read", entry_count)
-				log.put_new_line
+				load_status_table (path)
 			else
 				create firewall_status_table.make (70)
 			end
@@ -78,7 +61,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	firewall_status_table: HASH_TABLE [NATURAL_64, NATURAL]
-		-- map IP number to compact for of EL_FIREWALL_STATUS
+		-- map IP number to compact form of `EL_FIREWALL_STATUS' data
 
 feature -- Basic operations
 
@@ -116,8 +99,12 @@ feature -- Basic operations
 		local
 			data: RAW_FILE
 		do
+			log.put_labeled_substitution ("Storing", "%S entries", [firewall_status_table.count])
+			log.put_new_line
+			
 			create data.make_open_write (path)
 			data.put_integer (firewall_status_table.count)
+
 			across firewall_status_table as table loop
 				data.put_natural_32 (table.key)
 				data.put_natural_64 (table.item)
@@ -172,7 +159,7 @@ feature {NONE} -- Implementation
 					status.set_blocked (True)
 				end
 			-- update table entry
-				firewall_status_table.force (status.compact_status, ip_number)
+				firewall_status_table [ip_number] := status.compact_status
 				log.put_new_line
 			end
 		end
@@ -181,6 +168,28 @@ feature {NONE} -- Implementation
 		do
 			date.make_now
 			Result := date.ordered_compact_date
+		end
+
+	load_status_table (path: FILE_PATH)
+		local
+			data: RAW_FILE; ip_number: NATURAL; entry_count: INTEGER
+		do
+			create data.make_open_read (path)
+			log.put_path_field ("Loading data %S", path.relative_path (Directory.App_data))
+			log.put_new_line
+			data.read_integer; entry_count := data.last_integer
+
+			create firewall_status_table.make (entry_count)
+
+			across 1 |..| entry_count as n until data.end_of_file loop
+				data.read_natural_32; ip_number := data.last_natural
+
+				data.read_natural_64 -- compact status `EL_FIREWALL_STATUS'
+				firewall_status_table.extend (data.last_natural_64, ip_number)
+			end
+			data.close
+			log.put_integer_field ("Entries read", entry_count)
+			log.put_new_line
 		end
 
 	new_redeemed_ip_list (first_date: INTEGER): EL_ARRAYED_MAP_LIST [NATURAL, ARRAY [NATURAL_16]]
@@ -234,14 +243,14 @@ feature {NONE} -- Implementation
 		end
 
 	update_firewall
-		-- update firewall rules using script at
+		-- update firewall rules using script at location `block_ip_path'
 		require
 			ends_with_new_line: rule_buffer.count > 0 implies rule_buffer [rule_buffer.count] = '%N'
 		do
 			if rule_buffer.count > 0 then
-				mutex.try_locking_until (50)
+				file_mutex.try_locking_until (50)
 				File.write_text (block_ip_path, rule_buffer)
-				mutex.unlock
+				file_mutex.unlock
 			end
 			rule_buffer.wipe_out
 		end
@@ -257,10 +266,10 @@ feature {NONE} -- Implementation: attributes
 
 	filter_table: EL_URL_FILTER_TABLE
 
-	mail_log: EL_SENDMAIL_LOG
+	file_mutex: EL_FILE_MUTEX
+		-- file_mutex for writing to `block_ip_path' so that script reading file must wait to process
 
-	mutex: EL_FILE_MUTEX
-		-- mutex for writing to `block_ip_path'
+	mail_log: EL_SENDMAIL_LOG
 
 	rule_buffer: STRING
 

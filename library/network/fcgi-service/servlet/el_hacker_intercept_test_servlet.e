@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-21 9:06:34 GMT (Saturday 21st October 2023)"
-	revision: "1"
+	date: "2023-10-24 16:44:22 GMT (Tuesday 24th October 2023)"
+	revision: "2"
 
 class
 	EL_HACKER_INTERCEPT_TEST_SERVLET
@@ -30,7 +30,7 @@ feature {NONE} -- Initialization
 			test_path: FILE_PATH
 		do
 			Precursor (a_service)
-			test_path := "$EIFFEL_LOOP/test/data/network/mail.log"
+			test_path := "$EIFFEL/library/Eiffel-Loop/test/data/network/mail.log"
 			test_path.expand
 			mail_log.log_path.share (test_path.to_string)
 		ensure then
