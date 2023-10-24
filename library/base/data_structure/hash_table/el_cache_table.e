@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-12 15:36:41 GMT (Thursday 12th October 2023)"
-	revision: "9"
+	date: "2023-10-24 7:53:19 GMT (Tuesday 24th October 2023)"
+	revision: "10"
 
 class
 	EL_CACHE_TABLE [G, K -> HASHABLE]
@@ -40,8 +40,8 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	item (key: K): like cached_item
-			-- Returns the cached value of `new_item (key)' if available, or else
-			-- the actual value
+		-- Returns the cached value of `new_item (key)' if available, or else
+		-- the actual value
 		do
 			if not has_key (key) then
 				put (new_item (key), key)
@@ -61,7 +61,7 @@ feature -- Element change
 			new_item.set_target (target)
 		end
 
-feature {NONE} -- Initialization
+feature {NONE} -- Internal attributes
 
 	new_item: FUNCTION [K, G]
 

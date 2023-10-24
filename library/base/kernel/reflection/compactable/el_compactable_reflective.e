@@ -1,7 +1,9 @@
 note
-	description: "Object that can be represented as a [$source NATURAL_64] number"
+	description: "[
+		Object whose expanded fields can be compactly represented as a single [$source NATURAL_64] number
+	]"
 	notes: "[
-		Using a compact date as an example the table manifest string must be formatted as follows:
+		Using a compact date as an example the table manifest string can be formatted as follows:
 
 			day:
 				1 .. 8
@@ -16,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-23 15:37:25 GMT (Monday 23rd October 2023)"
-	revision: "1"
+	date: "2023-10-23 18:47:09 GMT (Monday 23rd October 2023)"
+	revision: "2"
 
 deferred class
 	EL_COMPACTABLE_REFLECTIVE

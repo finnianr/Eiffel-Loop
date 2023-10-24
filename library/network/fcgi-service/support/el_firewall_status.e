@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-23 18:40:02 GMT (Monday 23rd October 2023)"
-	revision: "1"
+	date: "2023-10-24 8:03:06 GMT (Tuesday 24th October 2023)"
+	revision: "2"
 
 class
 	EL_FIREWALL_STATUS
@@ -27,8 +27,6 @@ feature -- Access
 
 	compact_date: INTEGER
 
-	is_blocked: BOOLEAN
-
 	port: NATURAL_16
 		-- port number
 
@@ -44,6 +42,10 @@ feature -- Access
 				create Result.make_empty
 			end
 		end
+
+feature -- Status query
+
+	is_blocked: BOOLEAN
 
 feature -- Element change
 

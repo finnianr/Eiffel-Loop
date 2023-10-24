@@ -11,8 +11,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-23 18:41:15 GMT (Monday 23rd October 2023)"
-	revision: "17"
+	date: "2023-10-24 8:49:33 GMT (Tuesday 24th October 2023)"
+	revision: "18"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -35,6 +35,8 @@ create
 feature {NONE} -- Initialization
 
 	make (a_service: EL_HACKER_INTERCEPT_SERVICE)
+		local
+			data: RAW_FILE; ip_number: NATURAL; entry_count: INTEGER
 		do
 			make_servlet (a_service)
 			create date.make_now
@@ -51,52 +53,49 @@ feature {NONE} -- Initialization
 				File.write_text (block_ip_path, "block:0.0.0.0:80%N") -- ignored by script
 			end
 			filter_table := a_service.config.filter_table
-			create firewall_status_table.make (70, agent new_firewall_status)
+			if attached a_service.Firewall_status_data_path as path and then path.exists then
+				create data.make_open_read (path)
+				log.put_path_field ("Loading data %S", path)
+				log.put_new_line
+				data.read_integer
+				entry_count := data.last_integer
+				create firewall_status_table.make (entry_count)
+
+				across 1 |..| entry_count as n until data.end_of_file loop
+					data.read_natural_32; ip_number := data.last_natural
+
+					data.read_natural_64 -- compact status `EL_FIREWALL_STATUS'
+					firewall_status_table.extend (data.last_natural_64, ip_number)
+				end
+				data.close
+				log.put_integer_field ("Entries read", entry_count)
+				log.put_new_line
+			else
+				create firewall_status_table.make (70)
+			end
 		end
 
-feature {NONE} -- Basic operations
+feature -- Access
+
+	firewall_status_table: HASH_TABLE [NATURAL_64, NATURAL]
+		-- map IP number to compact for of EL_FIREWALL_STATUS
+
+feature -- Basic operations
 
 	serve
 		local
-			ip_number: NATURAL; ip_4_address: STRING; ip_address_list: ARRAYED_LIST [NATURAL]
-			put_block_rule: BOOLEAN
+			ip_number: NATURAL
 		do
 			log.enter_no_header ("serve")
 
-		-- Combine (newest) mail spammer ip addresses with current http request remote host address
+		-- Combine (newest) mail spammer IP addresses with current http request remote host address
 			mail_log.update_relay_spammer_list
-			create ip_address_list.make_from_array (mail_log.new_relay_spammer_list.to_array)
-			ip_address_list.extend (request_remote_address_32)
-
-			across ip_address_list as list loop
-				ip_number := list.item
-				ip_4_address := IP_address.to_string (ip_number)
-				put_block_rule := False
-				Firewall_status.set_from_compact (firewall_status_table.item (ip_number))
-
-				if Firewall_status.is_blocked then
-					log.put_labeled_string (ip_4_address, "is blocked")
-					Firewall_status.set_blocked (False) -- Try again to set firewall rule
-
-				elseif list.is_last then
-					if filter_table.is_hacker_probe (request.relative_path_info.as_lower) then
-						Firewall_status.set_port (Service_port.http)
-						put_block_rule := True
-					end
-				else
-				--	is mail spammer
-					Firewall_status.set_port (Service_port.smtp)
-					put_block_rule := True
-				end
-				if put_block_rule then
-					log.put_labeled_string ("Blocking", ip_4_address)
-					Firewall_status.ports.do_all (agent put_rule (Command.block, ip_number, ?))
-					Firewall_status.set_blocked (True)
-				end
-				firewall_status_table.force (Firewall_status.compact_status, ip_number)
-				
-				log.put_new_line
+			across mail_log.new_relay_spammer_list.key_list as address loop
+				check_ip_address (address.item, Service_port.SMTP)
 			end
+
+			ip_number := request_remote_address_32
+			check_ip_address (ip_number, Service_port.HTTP)
 
 			response.send_error (Http_status.not_found, once "File not found", Doc_type_plain_latin_1)
 
@@ -111,6 +110,19 @@ feature {NONE} -- Basic operations
 			log.put_new_line
 
 			log.exit_no_trailer
+		end
+
+	store_status_table (path: FILE_PATH)
+		local
+			data: RAW_FILE
+		do
+			create data.make_open_write (path)
+			data.put_integer (firewall_status_table.count)
+			across firewall_status_table as table loop
+				data.put_natural_32 (table.key)
+				data.put_natural_64 (table.item)
+			end
+			data.close
 		end
 
 feature {NONE} -- Implementation
@@ -129,29 +141,46 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	update_firewall
-		-- update firewall rules using script at
-		require
-			ends_with_new_line: rule_buffer.count > 0 implies rule_buffer [rule_buffer.count] = '%N'
+	check_ip_address (ip_number: NATURAL; port: NATURAL_16)
+		local
+			ip_4_address: STRING; put_block_rule: BOOLEAN
 		do
-			if rule_buffer.count > 0 then
-				mutex.try_locking_until (50)
-				File.write_text (block_ip_path, rule_buffer)
-				mutex.unlock
+			if attached Firewall_status as status then
+				ip_4_address := IP_address.to_string (ip_number)
+
+				if firewall_status_table.has_key (ip_number) then
+					status.set_from_compact (firewall_status_table.found_item)
+					status.set_port (port)
+				else
+					status.set (day_list.last, port, False)
+					firewall_status_table.extend (status.compact_status, ip_number)
+				end
+				if port = Service_port.HTTP then
+					if status.is_blocked then
+						log.put_labeled_string (ip_4_address, "is blocked")
+						status.set_blocked (False) -- Try again to set firewall rule
+
+					elseif filter_table.is_hacker_probe (request.relative_path_info.as_lower) then
+						put_block_rule := True
+					end
+				else --	is mail spammer
+					put_block_rule := True
+				end
+				if put_block_rule then
+					log.put_labeled_string ("Blocking", ip_4_address)
+					status.ports.do_all (agent put_rule (Command.block, ip_number, ?))
+					status.set_blocked (True)
+				end
+			-- update table entry
+				firewall_status_table.force (status.compact_status, ip_number)
+				log.put_new_line
 			end
-			rule_buffer.wipe_out
 		end
 
 	day_now: INTEGER
 		do
 			date.make_now
 			Result := date.ordered_compact_date
-		end
-
-	new_firewall_status (ip: NATURAL): NATURAL_64
-		do
-			Firewall_status.set (day_list.last, Service_port.http, False)
-			Result := Firewall_status.compact_status
 		end
 
 	new_redeemed_ip_list (first_date: INTEGER): EL_ARRAYED_MAP_LIST [NATURAL, ARRAY [NATURAL_16]]
@@ -204,6 +233,19 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	update_firewall
+		-- update firewall rules using script at
+		require
+			ends_with_new_line: rule_buffer.count > 0 implies rule_buffer [rule_buffer.count] = '%N'
+		do
+			if rule_buffer.count > 0 then
+				mutex.try_locking_until (50)
+				File.write_text (block_ip_path, rule_buffer)
+				mutex.unlock
+			end
+			rule_buffer.wipe_out
+		end
+
 feature {NONE} -- Implementation: attributes
 
 	block_ip_path: FILE_PATH
@@ -214,8 +256,6 @@ feature {NONE} -- Implementation: attributes
 	day_list: EL_ARRAYED_LIST [INTEGER]
 
 	filter_table: EL_URL_FILTER_TABLE
-
-	firewall_status_table: EL_CACHE_TABLE [NATURAL_64, NATURAL]
 
 	mail_log: EL_SENDMAIL_LOG
 

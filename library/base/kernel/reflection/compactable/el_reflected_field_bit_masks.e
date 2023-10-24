@@ -11,6 +11,8 @@ note
 				9 .. 16
 			year:
 				17 .. 32
+				
+		The ranges represent the bits assigned to a particular field with the LSB numbered as 1.
 	]"
 
 	author: "Finnian Reilly"
@@ -18,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-23 15:35:49 GMT (Monday 23rd October 2023)"
-	revision: "1"
+	date: "2023-10-24 7:44:04 GMT (Tuesday 24th October 2023)"
+	revision: "2"
 
 class
 	EL_REFLECTED_FIELD_BIT_MASKS
@@ -70,11 +72,15 @@ feature -- Access
 
 	compact_value (object: EL_COMPACTABLE_REFLECTIVE): NATURAL_64
 		local
-			i: INTEGER
+			i: INTEGER; field_value: NATURAL_64
 		do
 			if attached field_array as field and then attached field_bitshift as bitshift then
 				from i := 0 until i = field.count loop
-					Result := Result | (field [i].to_natural_64 (object) |<< bitshift [i])
+					field_value := field [i].to_natural_64 (object)
+					check
+						mask_wide_enough: mask_wide_enough (i, field_value)
+					end
+					Result := Result | (field_value |<< bitshift [i])
 					i := i + 1
 				end
 			end
@@ -84,7 +90,7 @@ feature -- Basic operations
 
 	set_from_compact (object: EL_COMPACTABLE_REFLECTIVE; value: NATURAL_64)
 		local
-			i: INTEGER; shifted_value: NATURAL_64
+			i: INTEGER
 		do
 			if attached field_array as field and then attached field_bitshift as bitshift
 				and then attached field_mask as mask
@@ -97,6 +103,14 @@ feature -- Basic operations
 		end
 
 feature -- Contract Support
+
+	mask_wide_enough (i: INTEGER; field_value: NATURAL_64): BOOLEAN
+		local
+			max_value: NATURAL_64
+		do
+			max_value := field_mask [i] |>> field_bitshift [i]
+			Result := field_value <= max_value
+		end
 
 	valid_mask_table_keys (object: EL_COMPACTABLE_REFLECTIVE; mask_table_manifest: STRING): BOOLEAN
 		do
@@ -129,6 +143,8 @@ feature {NONE} -- Implementation
 				end
 			end
 			Result := lower |..| upper
+		ensure
+			valid_mask_bit_range: Result.lower > 0 and Result.count > 0
 		end
 
 	new_mask_table (mask_table_manifest: STRING): EL_IMMUTABLE_UTF_8_TABLE

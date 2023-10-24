@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-23 9:12:46 GMT (Monday 23rd October 2023)"
-	revision: "10"
+	date: "2023-10-24 8:32:05 GMT (Tuesday 24th October 2023)"
+	revision: "11"
 
 class
 	EL_HACKER_INTERCEPT_SERVICE
@@ -18,7 +18,7 @@ class
 inherit
 	FCGI_SERVLET_SERVICE
 		redefine
-			config, error_check, description
+			config, error_check, description, on_shutdown
 		end
 
 	EL_MODULE_EXECUTABLE
@@ -57,6 +57,17 @@ feature -- Basic operations
 			end
 		end
 
+feature {NONE} -- Event handling
+
+	on_shutdown
+		do
+			if servlet_table.has_key (Default_servlet_key)
+				and then attached {EL_HACKER_INTERCEPT_SERVLET} servlet_table.found_item as servlet
+			then
+				servlet.store_status_table (Firewall_status_data_path)
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	initialize_servlets
@@ -73,4 +84,10 @@ feature {NONE} -- Implementation
 			end
 		end
 
+feature {EL_HACKER_INTERCEPT_SERVLET} -- Constants
+
+	Firewall_status_data_path: FILE_PATH
+		once
+			Result := Directory.Sub_app_data + "firewall-blocks.dat"
+		end
 end
