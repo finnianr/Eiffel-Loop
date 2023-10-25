@@ -1,3 +1,6 @@
+1.5.3
+* Fixed password prompt on REPOSITORY_SOURCE_LINK_EXPANDER
+
 1.5.2
 * Added code metrics to publisher
 

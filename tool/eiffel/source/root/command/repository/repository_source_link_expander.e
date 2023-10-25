@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 5:20:38 GMT (Thursday 17th August 2023)"
-	revision: "28"
+	date: "2023-10-25 14:54:21 GMT (Wednesday 25th October 2023)"
+	revision: "29"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -24,7 +24,7 @@ inherit
 		rename
 			make as make_publisher
 		redefine
-			execute
+			authenticate_ftp, execute
 		end
 
 	EL_APPLICATION_COMMAND
@@ -101,6 +101,10 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	authenticate_ftp
+		do
+		end
 
 	put_source_link (file_out: EL_PLAIN_TEXT_FILE; html_path: FILE_PATH; link_text: ZSTRING)
 		do

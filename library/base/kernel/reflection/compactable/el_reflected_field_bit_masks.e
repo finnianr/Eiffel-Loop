@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-24 7:44:04 GMT (Tuesday 24th October 2023)"
-	revision: "2"
+	date: "2023-10-25 9:11:51 GMT (Wednesday 25th October 2023)"
+	revision: "3"
 
 class
 	EL_REFLECTED_FIELD_BIT_MASKS
@@ -144,7 +144,7 @@ feature {NONE} -- Implementation
 			end
 			Result := lower |..| upper
 		ensure
-			valid_mask_bit_range: Result.lower > 0 and Result.count > 0
+			valid_mask_bit_range: 1 <= Result.lower and Result.upper <= {PLATFORM}.Natural_64_bits
 		end
 
 	new_mask_table (mask_table_manifest: STRING): EL_IMMUTABLE_UTF_8_TABLE

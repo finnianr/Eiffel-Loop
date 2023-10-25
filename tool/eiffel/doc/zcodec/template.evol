@@ -177,11 +177,13 @@ feature {NONE} -- Implementation
 			Result [$character.item.hex_code] := '$character.item.unicode' -- $character.item.name
 		#end
 		end
+
+feature {NONE} -- Internal attributes
+
 #across $unicode_intervals as $interval loop
 	#if $interval.item.count > 1 then
-
 	latin_set_$interval.cursor_index: SPECIAL [CHARACTER]
+
 	#end
 #end
-
 end

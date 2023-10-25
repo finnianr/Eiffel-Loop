@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-23 15:29:38 GMT (Monday 23rd October 2023)"
-	revision: "1"
+	date: "2023-10-25 8:12:44 GMT (Wednesday 25th October 2023)"
+	revision: "2"
 
 class
 	COMPACTABLE_DATE
@@ -19,7 +19,7 @@ inherit
 		end
 
 create
-	make
+	make, make_by_compact
 
 feature {NONE} -- Initialization
 
