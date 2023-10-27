@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-15 7:43:22 GMT (Sunday 15th October 2023)"
-	revision: "9"
+	date: "2023-10-27 8:40:55 GMT (Friday 27th October 2023)"
+	revision: "10"
 
 class
 	EL_IP_ADDRESS_ROUTINES
@@ -23,15 +23,24 @@ inherit
 feature -- Contract Support
 
 	is_valid (address: STRING): BOOLEAN
+		local
+			part_list: EL_SPLIT_IMMUTABLE_STRING_8_LIST
 		do
-			if attached address.split ('.') as list and then list.count = 4 then
-				Result := across list as part all part.item.count <= 3 end
+			create part_list.make_shared_adjusted (address, '.', 0)
+			if attached part_list as list and then list.count = 4 then
+				Result := True
+				from list.start until list.after or not Result loop
+					Result := list.item_is_number
+					list.forth
+				end
 			end
 		end
 
 feature -- Conversion
 
 	to_number (address: STRING): NATURAL
+		require
+			valid_format: is_valid (address)
 		do
 			if address ~ Loop_back_one then
 				Result := Loop_back_address

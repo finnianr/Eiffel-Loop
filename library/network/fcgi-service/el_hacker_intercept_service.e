@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-24 16:33:57 GMT (Tuesday 24th October 2023)"
-	revision: "12"
+	date: "2023-10-27 11:27:29 GMT (Friday 27th October 2023)"
+	revision: "13"
 
 class
 	EL_HACKER_INTERCEPT_SERVICE
@@ -40,9 +40,9 @@ feature -- Basic operations
 	error_check (application: EL_FALLIBLE)
 		-- check for errors before execution
 		local
-			sendmail: EL_SENDMAIL_LOG; error: EL_ERROR_DESCRIPTION
+			sendmail: EL_TODAYS_SENDMAIL_LOG; error: EL_ERROR_DESCRIPTION
 		do
-			create sendmail.make_default
+			create sendmail.make
 			if not sendmail.is_log_readable then
 				create error.make (sendmail.Default_log_path)
 				error.set_lines ("[

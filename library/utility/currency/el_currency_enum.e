@@ -11,8 +11,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 11:32:53 GMT (Sunday 16th July 2023)"
-	revision: "16"
+	date: "2023-10-27 9:30:18 GMT (Friday 27th October 2023)"
+	revision: "17"
 
 class
 	EL_CURRENCY_ENUM

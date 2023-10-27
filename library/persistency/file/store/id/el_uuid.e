@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-20 11:17:35 GMT (Thursday 20th July 2023)"
-	revision: "24"
+	date: "2023-10-27 7:43:32 GMT (Friday 27th October 2023)"
+	revision: "25"
 
 class
 	EL_UUID
@@ -97,7 +97,7 @@ feature -- Access
 				else
 				end
 				from i := end_index until i < start_index loop
-					digit := n & Nibble_15_mask
+					digit := n & F_value_mask
 					Result.put (digit.to_hex_character, i)
 					n := n |>> 4
 					i := i - 1
@@ -126,6 +126,6 @@ feature -- Constants
 
 	Field_hash: NATURAL = 201719989
 
-	Nibble_15_mask: NATURAL_64 = 0xF
+	F_value_mask: NATURAL_64 = 0xF
 
 end

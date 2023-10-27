@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-24 7:04:08 GMT (Sunday 24th September 2023)"
-	revision: "32"
+	date: "2023-10-27 8:39:49 GMT (Friday 27th October 2023)"
+	revision: "33"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -223,6 +223,23 @@ feature -- Status query
 			end
 			if str.count <= end_index - start_index + 1 then
 				Result := target_string.substring_index_in_bounds (str, start_index, end_index).to_boolean
+			end
+		end
+
+	item_is_number: BOOLEAN
+		require
+			valid_item: not off
+		local
+			i, start_index, end_index: INTEGER
+		do
+			i := (index - 1) * 2
+			if attached area as a then
+				start_index := a [i]; end_index := a [i + 1]
+			end
+			Result := True
+			from i := start_index until i > end_index or not Result loop
+				Result := target_string [i].is_digit
+				i := i + 1
 			end
 		end
 

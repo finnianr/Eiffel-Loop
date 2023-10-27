@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-20 16:23:29 GMT (Friday 20th October 2023)"
-	revision: "1"
+	date: "2023-10-27 9:31:24 GMT (Friday 27th October 2023)"
+	revision: "2"
 
 class
 	EL_SERVICE_PORT_ENUM
@@ -18,7 +18,7 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_16
 		rename
-			foreign_naming as eiffel_naming
+			foreign_naming as Snake_case_upper
 		redefine
 			initialize_fields
 		end
@@ -139,4 +139,10 @@ feature -- UDP ports
 	UDP_server: NATURAL_16
 		-- Used by the DHCP server (Dynamic Host Configuration Protocol).
 
+feature {NONE} -- Constants
+
+	Snake_case_upper: EL_SNAKE_CASE_TRANSLATER
+		once
+			Result := {EL_CASE}.Upper
+		end
 end

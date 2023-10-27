@@ -11,8 +11,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-24 16:45:31 GMT (Tuesday 24th October 2023)"
-	revision: "19"
+	date: "2023-10-27 11:27:29 GMT (Friday 27th October 2023)"
+	revision: "20"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 			make_servlet (a_service)
 			create date.make_now
 			create rule_buffer.make (50)
-			create mail_log.make_default
+			create mail_log.make
 
 			create day_list.make (a_service.config.ban_rule_duration + 1)
 			day_list.extend (date.ordered_compact_date)
@@ -101,7 +101,7 @@ feature -- Basic operations
 		do
 			log.put_labeled_substitution ("Storing", "%S entries", [firewall_status_table.count])
 			log.put_new_line
-			
+
 			create data.make_open_write (path)
 			data.put_integer (firewall_status_table.count)
 
@@ -130,10 +130,9 @@ feature {NONE} -- Implementation
 
 	check_ip_address (ip_number: NATURAL; port: NATURAL_16)
 		local
-			ip_4_address: STRING; put_block_rule: BOOLEAN
+			put_block_rule: BOOLEAN
 		do
 			if attached Firewall_status as status then
-				ip_4_address := IP_address.to_string (ip_number)
 
 				if firewall_status_table.has_key (ip_number) then
 					status.set_from_compact (firewall_status_table.found_item)
@@ -144,17 +143,21 @@ feature {NONE} -- Implementation
 				end
 				if port = Service_port.HTTP then
 					if status.is_blocked then
-						log.put_labeled_string (ip_4_address, "is blocked")
+						log_status (ip_number, port, True)
 						status.set_blocked (False) -- Try again to set firewall rule
 
 					elseif filter_table.is_hacker_probe (request.relative_path_info.as_lower) then
 						put_block_rule := True
 					end
-				else --	is mail spammer
-					put_block_rule := True
+				else -- is mail spammer
+					if status.is_blocked then
+						log_status (ip_number, port, True)
+					else
+						put_block_rule := True
+					end
 				end
 				if put_block_rule then
-					log.put_labeled_string ("Blocking", ip_4_address)
+					log_status (ip_number, port, False)
 					status.ports.do_all (agent put_rule (Command.block, ip_number, ?))
 					status.set_blocked (True)
 				end
@@ -190,6 +193,18 @@ feature {NONE} -- Implementation
 			data.close
 			log.put_integer_field ("Entries read", entry_count)
 			log.put_new_line
+		end
+
+	log_status (ip_number: NATURAL; port: NATURAL_16; is_blocked: BOOLEAN)
+		local
+			ip_4_address: STRING
+		do
+			ip_4_address := IP_address.to_string (ip_number)
+			if is_blocked then
+				log.put_labeled_string ("Is blocked on port " + Service_port.name (port), ip_4_address)
+			else
+				log.put_labeled_string ("Blocking on port " + Service_port.name (port), ip_4_address)
+			end
 		end
 
 	new_redeemed_ip_list (first_date: INTEGER): EL_ARRAYED_MAP_LIST [NATURAL, ARRAY [NATURAL_16]]
@@ -269,7 +284,7 @@ feature {NONE} -- Implementation: attributes
 	file_mutex: EL_FILE_MUTEX
 		-- file_mutex for writing to `block_ip_path' so that script reading file must wait to process
 
-	mail_log: EL_SENDMAIL_LOG
+	mail_log: EL_TODAYS_SENDMAIL_LOG
 
 	rule_buffer: STRING
 
