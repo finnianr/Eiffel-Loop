@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-27 11:32:57 GMT (Friday 27th October 2023)"
-	revision: "9"
+	date: "2023-10-28 9:19:24 GMT (Saturday 28th October 2023)"
+	revision: "10"
 
 class
 	NETWORK_TEST_SET
@@ -50,10 +50,7 @@ feature -- Tests
 		-- NETWORK_TEST_SET.test_sendmail_log
 		local
 			log: TODAYS_SENDMAIL_LOG; spammer_ip_set: EL_HASH_SET [STRING]
-			today, date: EL_DATE; old_count: INTEGER
 		do
-			create today.make_now_utc
-
 			create spammer_ip_set.make_from_array (<<
 				"77.90.185.59", "80.94.95.181", "45.66.230.184", "87.120.84.6", "87.120.84.72"
 			>>)
@@ -64,21 +61,12 @@ feature -- Tests
 			if attached log.new_relay_spammer_list as list then
 				assert ("found 6 new", list.count = spammer_ip_set.count)
 				from list.start until list.after loop
-					if spammer_ip_set.has_key (Ip_address.to_string (list.item_key)) then
-
-						create date.make_by_ordered_compact_date (list.item_value)
-						assert ("same year", date.year = today.year)
-						assert ("same month", date.month = 10) -- Oct
-						assert ("same year", date.day = 8)
-					else
-						failed ("IP not present")
-					end
+					assert ("expected IP", spammer_ip_set.has (Ip_address.to_string (list.item)))
 					list.forth
 				end
 			end
-			old_count := log.new_relay_spammer_list.count
 			log.update_relay_spammer_list
-			assert ("nothing new", old_count = log.new_relay_spammer_list.count)
+			assert ("nothing new", log.new_relay_spammer_list.is_empty)
 
 			assert ("adm member", log.is_log_readable)
 		end

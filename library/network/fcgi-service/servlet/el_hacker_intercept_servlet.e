@@ -11,8 +11,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-27 11:27:29 GMT (Friday 27th October 2023)"
-	revision: "20"
+	date: "2023-10-28 9:51:20 GMT (Saturday 28th October 2023)"
+	revision: "21"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -53,6 +53,21 @@ feature {NONE} -- Initialization
 			filter_table := a_service.config.filter_table
 			if attached a_service.Firewall_status_data_path as path and then path.exists then
 				load_status_table (path)
+			-- Restore `day_list' state
+				if attached Firewall_status as status then
+					across firewall_status_table as table loop
+						status.set_from_compact (table.item)
+						if day_list.is_empty then
+							day_list.extend (status.compact_date)
+
+						elseif status.compact_date > day_list.last then
+							day_list.extend (status.compact_date)
+							if day_list.full then
+								day_list.remove_head (1)
+							end
+						end
+					end
+				end
 			else
 				create firewall_status_table.make (70)
 			end
@@ -73,7 +88,7 @@ feature -- Basic operations
 
 		-- Combine (newest) mail spammer IP addresses with current http request remote host address
 			mail_log.update_relay_spammer_list
-			across mail_log.new_relay_spammer_list.key_list as address loop
+			across mail_log.new_relay_spammer_list as address loop
 				check_ip_address (address.item, Service_port.SMTP)
 			end
 
