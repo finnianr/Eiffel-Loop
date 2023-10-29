@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-16 9:26:36 GMT (Monday 16th October 2023)"
-	revision: "11"
+	date: "2023-10-29 10:24:05 GMT (Sunday 29th October 2023)"
+	revision: "12"
 
 class
 	EL_SERVICE_SCREEN
@@ -32,7 +32,7 @@ feature -- Configuration
 
 	bash_script: ZSTRING
 
-	bash_script_name: ZSTRING
+	bash_command: ZSTRING
 		-- name of script with options arguments after .sh extension
 
 	command_args: ZSTRING
@@ -43,6 +43,9 @@ feature -- Configuration
 
 	sudo: BOOLEAN
 		-- `True' if command should be run as super user
+
+	is_service: BOOLEAN
+		-- `True' if script run a service (affects generated script name)
 
 feature -- Access
 
@@ -55,25 +58,31 @@ feature -- Access
 		end
 
 	script_name: ZSTRING
+		-- script name of `bash_command' if it has .sh extension
+		-- else a generated service name derived from `name'
 		require
 			is_script: is_script
 		local
-			extension_index, index_after: INTEGER
+			extension_index, index_after: INTEGER; dot_sh: ZSTRING
 		do
 			if is_script then
-				if bash_script_name.count > 0 then
-					extension_index := bash_script_name.substring_index (Bash_dot_extension, 1)
-					index_after := extension_index + Bash_dot_extension.count
+				if bash_command.count > 0 then
+					dot_sh := ".sh"
+					extension_index := bash_command.substring_index (dot_sh, 1)
+					index_after := extension_index + dot_sh.count
 				-- check for arguments after name
-					if index_after <= bash_script_name.count and then bash_script_name.is_space_item (index_after) then
+					if index_after <= bash_command.count and then bash_command.is_space_item (index_after) then
 					-- name without the optional arguments after .sh
-						Result := bash_script_name.substring (1, index_after - 1)
+						Result := bash_command.substring (1, index_after - 1)
 					else
-						Result := bash_script_name
+						Result := bash_command
 					end
 				else
-					Result := "run_service_" + name.as_lower + ".sh"
-					Result.replace_character (' ', '_')
+					Result := name.translated (" ", "_") + ".sh"
+					Result.to_lower
+					if is_service then
+						Result.prepend_string_general ("run_service_")
+					end
 				end
 			else
 				create Result.make_empty
@@ -91,7 +100,7 @@ feature -- Status query
 
 	is_script: BOOLEAN
 		do
-			Result := across << bash_script, bash_script_name >> as script some script.item.count > 0 end
+			Result := across << bash_script, bash_command >> as script some script.item.count > 0 end
 		end
 
 feature -- Basic operations
@@ -134,8 +143,8 @@ feature {NONE} -- Event handler
 			-- Called when the parser leaves the current context
 		do
 			if is_script then
-				if bash_script_name.count > 0 then
-					command_args := bash_script_name -- includes any argument after .sh
+				if bash_command.count > 0 then
+					command_args := bash_command -- includes any argument after .sh
 				else
 					command_args := script_name
 				end
@@ -148,12 +157,7 @@ feature {NONE} -- Event handler
 
 feature {NONE} -- Constants
 
-	Bash_dot_extension: ZSTRING
-		once
-			Result := ".sh"
-		end
-
-	Element_node_fields: STRING = "bash_script"
+	Element_node_fields: STRING = "bash_command, bash_script"
 
 	Name_template: ZSTRING
 		once

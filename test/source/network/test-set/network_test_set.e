@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-28 9:19:24 GMT (Saturday 28th October 2023)"
-	revision: "10"
+	date: "2023-10-29 15:57:11 GMT (Sunday 29th October 2023)"
+	revision: "11"
 
 class
 	NETWORK_TEST_SET
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 			make_named (<<
 				["enumerations",			  agent test_enumerations],
 				["ip_address_conversion", agent test_ip_address_conversion],
-				["sendmail_log",			  agent test_sendmail_log]
+				["log_entries",			  agent test_log_entries]
 			>>)
 		end
 
@@ -46,29 +46,43 @@ feature -- Tests
 			assert ("same string", IP_address.to_string (IP_address.Loop_back_address) ~ "127.0.0.1")
 		end
 
-	test_sendmail_log
-		-- NETWORK_TEST_SET.test_sendmail_log
+	test_log_entries
+		-- NETWORK_TEST_SET.test_log_entries
 		local
-			log: TODAYS_SENDMAIL_LOG; spammer_ip_set: EL_HASH_SET [STRING]
+			log: EL_TODAYS_LOG_ENTRIES; ip_set: EL_HASH_SET [STRING]
+			ip_list: EL_STRING_8_LIST; status: EL_ADDRESS_FIREWALL_STATUS
 		do
-			create spammer_ip_set.make_from_array (<<
-				"77.90.185.59", "80.94.95.181", "45.66.230.184", "87.120.84.6", "87.120.84.72"
-			>>)
-			create log.make
-			log.log_path.share ("data/network/mail.log")
+			create status.make
+			across <<
+				"77.90.185.59, 80.94.95.181, 45.66.230.184, 87.120.84.6, 87.120.84.72", -- mail.log
+				"177.54.130.127, 43.155.185.104, 37.32.22.47" -- auth.log
+			>> as csv loop
+				ip_list := csv.item
+				create ip_set.make_from (ip_list, True)
 
-			log.update_relay_spammer_list
-			if attached log.new_relay_spammer_list as list then
-				assert ("found 6 new", list.count = spammer_ip_set.count)
-				from list.start until list.after loop
-					assert ("expected IP", spammer_ip_set.has (Ip_address.to_string (list.item)))
-					list.forth
+				if csv.is_first then
+					create {TODAYS_SENDMAIL_LOG} log.make
+					log.log_path.share ("data/network/mail.log")
+				else
+					create {TODAYS_AUTHORIZATION_LOG} log.make
+					log.log_path.share ("data/network/auth.log")
 				end
-			end
-			log.update_relay_spammer_list
-			assert ("nothing new", log.new_relay_spammer_list.is_empty)
+				lio.put_labeled_string ("Scanning with " + log.generator, log.log_path)
+				lio.put_new_line
 
-			assert ("adm member", log.is_log_readable)
+				log.update_hacker_ip_list
+				if attached log.new_hacker_ip_list as list then
+					assert ("all new found", list.count = ip_set.count)
+					from list.start until list.after loop
+						assert ("expected IP", ip_set.has (Ip_address.to_string (list.item)))
+						list.forth
+					end
+				end
+				log.update_hacker_ip_list
+				assert ("nothing new", log.new_hacker_ip_list.is_empty)
+
+				assert ("adm member", log.is_log_readable)
+			end
 		end
 
 feature {NONE} -- Implementation
