@@ -11,8 +11,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-29 17:44:53 GMT (Sunday 29th October 2023)"
-	revision: "22"
+	date: "2023-10-30 15:18:19 GMT (Monday 30th October 2023)"
+	revision: "23"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -41,10 +41,7 @@ feature {NONE} -- Initialization
 			create date.make_now
 			create rule_buffer.make (50)
 
-			monitored_logs := <<
-				create {EL_TODAYS_AUTHORIZATION_LOG}.make,
-				create {EL_TODAYS_SENDMAIL_LOG}.make
-			>>
+			monitored_logs := new_monitored_logs
 
 			create day_list.make (a_service.config.ban_rule_duration + 1)
 			day_list.extend (date.ordered_compact_date)
@@ -97,16 +94,15 @@ feature -- Basic operations
 		do
 			log.enter_no_header ("serve")
 
-			check_logs
+			check_todays_logs
 
 			ip_number := request_remote_address_32
+
 			check_ip_address (ip_number, Service_port.HTTP)
 
 			response.send_error (Http_status.not_found, once "File not found", Doc_type_plain_latin_1)
 
-			update_day_list
-
-			update_firewall
+			update_day_list; update_firewall
 
 		-- While geo-location is being looked up for address, (which can take a second or two)
 		-- a firewall rule is being added in time for next intrusion from same address
@@ -130,6 +126,27 @@ feature -- Basic operations
 			status_list.store_as (path)
 		end
 
+feature {NONE} -- Factory
+
+	new_monitored_logs: ARRAY [EL_TODAYS_LOG_ENTRIES]
+		do
+			Result := <<
+				create {EL_TODAYS_AUTHORIZATION_LOG}.make,
+				create {EL_TODAYS_SENDMAIL_LOG}.make
+			>>
+		end
+
+	new_redeemed_ip_list (first_date: INTEGER): EL_ARRAYED_MAP_LIST [NATURAL, NATURAL_64]
+		-- map redeemed IP number to firewall status
+		do
+			create Result.make (firewall_status_table.count // day_list.count)
+			across firewall_status_table as table loop
+				if shared_status (table.item).compact_date = first_date then
+					Result.extend (table.key, table.item)
+				end
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	allow (redeemed_ip_list: like new_redeemed_ip_list)
@@ -139,7 +156,9 @@ feature {NONE} -- Implementation
 					if attached Ip_address.to_string (list.item_key) as ip_4_address then
 						lio.put_labeled_string ("Allowing", ip_4_address)
 						lio.put_new_line
-						list.item_value.do_all (agent put_rule (Command.allow, list.item_key, ?))
+						across shared_status (list.item_value).blocked_ports as port loop
+							put_rule (Command.allow, list.item_key, port.item)
+						end
 					end
 					list.forth
 				end
@@ -151,12 +170,11 @@ feature {NONE} -- Implementation
 			put_block_rule: BOOLEAN
 		do
 			if attached Firewall_status as status then
-
 				if firewall_status_table.has_key (ip_number) then
 					status.set_from_compact (firewall_status_table.found_item)
 				else
-					status.wipe_out
-					status.set_block (day_list.last, port)
+					status.reset
+					status.set_date (day_list.last)
 					firewall_status_table.extend (status.compact_status, ip_number)
 				end
 				if port = Service_port.HTTP then
@@ -176,28 +194,35 @@ feature {NONE} -- Implementation
 				end
 				if put_block_rule then
 					log_status (ip_number, port, False)
-					status.related_ports (port).do_all (agent put_rule (Command.block, ip_number, ?))
-					status.set_block (day_list.last, port)
+					Service_port.related (port).do_all (agent put_rule (Command.block, ip_number, ?))
+					status.block (port)
+				end
+				if status.count > 1 then
+					log_multi_status (ip_number, status)
 				end
 			-- update table entry
 				firewall_status_table [ip_number] := status.compact_status
-				log.put_new_line
 			end
 		end
 
-	check_logs
+	check_todays_logs
 		-- check mail.log and auth.log for hacker intrusions
+		local
+			port: NATURAL_16
 		do
 			across monitored_logs as list loop
-				list.item.update_hacker_ip_list
-				if attached list.item.generating_type as type then
-					across list.item.new_hacker_ip_list as address loop
-						if type ~ {EL_TODAYS_SENDMAIL_LOG} then
-							check_ip_address (address.item, Service_port.SMTP)
+				if attached {EL_TODAYS_SENDMAIL_LOG} list.item then
+					port := Service_port.SMTP
 
-						elseif type ~ {EL_TODAYS_AUTHORIZATION_LOG} then
-							check_ip_address (address.item, Service_port.SSH)
-						end
+				elseif attached {EL_TODAYS_AUTHORIZATION_LOG} list.item then
+					port := Service_port.SSH
+				else
+					port := 0
+				end
+				if port.to_boolean then
+					list.item.update_hacker_ip_list
+					across list.item.new_hacker_ip_list as address loop
+						check_ip_address (address.item, port)
 					end
 				end
 			end
@@ -207,17 +232,6 @@ feature {NONE} -- Implementation
 		do
 			date.make_now
 			Result := date.ordered_compact_date
-		end
-
-	load_status_table (path: FILE_PATH)
-		local
-			status_list: ECD_STORABLE_ARRAYED_LIST [EL_ADDRESS_FIREWALL_STATUS]
-		do
-			create status_list.make_from_file (path)
-			create firewall_status_table.make (status_list.count)
-			across status_list as list loop
-				firewall_status_table.extend (list.item.compact_status, list.item.ip4_number)
-			end
 		end
 
 	load_legacy_status_table (path: FILE_PATH)
@@ -240,8 +254,9 @@ feature {NONE} -- Implementation
 
 					data.read_natural_64 -- compact status `EL_LEGACY_FIREWALL_STATUS'
 					legacy_status.set_from_compact (data.last_natural_64)
-					status.wipe_out
-					status.set_block (legacy_status.compact_date, legacy_status.port)
+					status.reset
+					status.set_date (legacy_status.compact_date)
+					status.block (legacy_status.port)
 					if not legacy_status.is_blocked then
 						status.allow (legacy_status.port)
 					end
@@ -254,46 +269,70 @@ feature {NONE} -- Implementation
 			log.put_new_line
 		end
 
+	load_status_table (path: FILE_PATH)
+		local
+			status_list: ECD_STORABLE_ARRAYED_LIST [EL_ADDRESS_FIREWALL_STATUS]
+		do
+			create status_list.make_from_file (path)
+			create firewall_status_table.make (status_list.count)
+			across status_list as list loop
+				firewall_status_table.extend (list.item.compact_status, list.item.ip4_number)
+			end
+		end
+
 	log_status (ip_number: NATURAL; port: NATURAL_16; is_blocked: BOOLEAN)
 		local
-			ip_4_address: STRING
+			ip_4_address, name: STRING
 		do
 			ip_4_address := IP_address.to_string (ip_number)
+			name := Service_port.name (port)
 			if is_blocked then
-				log.put_labeled_string ("Is blocked on port " + Service_port.name (port), ip_4_address)
+				log.put_labeled_string ("Is blocked on port " + name, ip_4_address)
 			else
-				log.put_labeled_string ("Blocking on port " + Service_port.name (port), ip_4_address)
+				log.put_labeled_string ("Blocking on port " + name, ip_4_address)
 			end
+			log.put_new_line
 		end
 
-	new_redeemed_ip_list (first_date: INTEGER): EL_ARRAYED_MAP_LIST [NATURAL, ARRAY [NATURAL_16]]
-		-- map ip number to array of ports
+	log_multi_status (ip_number: NATURAL; status: like Firewall_status)
+		local
+			ip_4_address: STRING; name_list: EL_STRING_8_LIST
 		do
-			create Result.make (firewall_status_table.count // day_list.count)
-			across firewall_status_table as table loop
-				Firewall_status.set_from_compact (table.item)
-				if Firewall_status.compact_date = first_date then
-					Result.extend (table.key, Firewall_status.blocked_ports)
-				end
+			ip_4_address := IP_address.to_string (ip_number)
+			create name_list.make (3)
+			across status.blocked_ports as port loop
+				name_list.extend (Service_port.name (port.item))
 			end
+			log.put_labeled_substitution (
+				"Multi-port attack", "%S {%S}", [ip_4_address, name_list.joined_with_string (", ")]
+			)
+			log.put_new_line
 		end
 
-	put_rule (a_command: STRING; address: NATURAL_32; port: NATURAL_16)
+	put_rule (a_command: STRING; address: NATURAL_32; a_port: NATURAL_16)
 		do
 			if attached rule_buffer as buffer then
-				buffer.append (a_command)
-				buffer.append_character (':')
-				IP_address.append_to_string (address, buffer)
-				buffer.append_character (':')
-				buffer.append_natural_16 (port)
-			-- New line at end of all rules necessary for Bash "while read line; do" loop to work
-				buffer.append_character ('%N')
+				across Service_port.related (a_port) as port loop
+					buffer.append (a_command)
+					buffer.append_character (':')
+					IP_address.append_to_string (address, buffer)
+					buffer.append_character (':')
+					buffer.append_natural_16 (port.item)
+				-- New line at end of all rules necessary for Bash "while read line; do" loop to work
+					buffer.append_character ('%N')
+				end
 			end
 		end
 
 	request_remote_address_32: NATURAL
 		do
 			Result := request.remote_address_32
+		end
+
+	shared_status (compact_status: NATURAL_64): like Firewall_status
+		do
+			Result := Firewall_status
+			Result.set_from_compact (compact_status)
 		end
 
 	update_day_list
@@ -338,10 +377,10 @@ feature {NONE} -- Internal attributes
 
 	day_list: EL_ARRAYED_LIST [INTEGER]
 
-	filter_table: EL_URL_FILTER_TABLE
-
 	file_mutex: EL_FILE_MUTEX
 		-- file_mutex for writing to `block_ip_path' so that script reading file must wait to process
+
+	filter_table: EL_URL_FILTER_TABLE
 
 	monitored_logs: ARRAY [EL_TODAYS_LOG_ENTRIES]
 

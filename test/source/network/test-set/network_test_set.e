@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-29 15:57:11 GMT (Sunday 29th October 2023)"
-	revision: "11"
+	date: "2023-10-30 11:33:25 GMT (Monday 30th October 2023)"
+	revision: "12"
 
 class
 	NETWORK_TEST_SET
@@ -50,9 +50,8 @@ feature -- Tests
 		-- NETWORK_TEST_SET.test_log_entries
 		local
 			log: EL_TODAYS_LOG_ENTRIES; ip_set: EL_HASH_SET [STRING]
-			ip_list: EL_STRING_8_LIST; status: EL_ADDRESS_FIREWALL_STATUS
+			ip_list: EL_STRING_8_LIST
 		do
-			create status.make
 			across <<
 				"77.90.185.59, 80.94.95.181, 45.66.230.184, 87.120.84.6, 87.120.84.72", -- mail.log
 				"177.54.130.127, 43.155.185.104, 37.32.22.47" -- auth.log
@@ -61,10 +60,10 @@ feature -- Tests
 				create ip_set.make_from (ip_list, True)
 
 				if csv.is_first then
-					create {TODAYS_SENDMAIL_LOG} log.make
+					create {TEST_SENDMAIL_LOG} log.make
 					log.log_path.share ("data/network/mail.log")
 				else
-					create {TODAYS_AUTHORIZATION_LOG} log.make
+					create {TEST_AUTHORIZATION_LOG} log.make
 					log.log_path.share ("data/network/auth.log")
 				end
 				lio.put_labeled_string ("Scanning with " + log.generator, log.log_path)

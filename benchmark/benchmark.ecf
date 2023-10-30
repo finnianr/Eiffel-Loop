@@ -54,8 +54,9 @@ See project cluster for details
 				<assertions precondition = "true" postcondition = "true" check = "true"/>
 			</option>
 		</library>
-		<!--clusters in common with other project-->
+		<!--Testing-->
 		<cluster name = "test_common" location = "$EIFFEL_LOOP/test/source/common" recursive = "true"/>
+		<!--clusters in common with other project-->
 		<cluster name = "rhythmbox" location = "$EIFFEL_LOOP/example/manage-mp3/source/rhythmbox/constants/common"/>
 		<!--Source-->
 		<cluster name = "project" location = "source" recursive = "true">

@@ -68,11 +68,11 @@ system:
 			option:
 				assertions:
 					precondition = true; postcondition = true; check = true
-
-		# clusters in common with other project
+		# Testing
 		cluster_tree:
 			test_common = "$EIFFEL_LOOP/test/source/common"
 
+		# clusters in common with other project
 		cluster:
 			name = rhythmbox; location = "$EIFFEL_LOOP/example/manage-mp3/source/rhythmbox/constants/common"
 			

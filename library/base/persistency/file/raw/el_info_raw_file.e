@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-01 16:11:15 GMT (Saturday 1st July 2023)"
-	revision: "6"
+	date: "2023-10-30 10:57:00 GMT (Monday 30th October 2023)"
+	revision: "7"
 
 class
 	EL_INFO_RAW_FILE
@@ -24,7 +24,7 @@ inherit
 			{NONE} all
 			{ANY} access_date, count, delete, date, exists, rename_file, set_date, stamp,
 			is_symlink, is_access_executable, is_access_owner,
-			is_access_readable, is_access_writable, is_writable,
+			is_access_readable, is_access_writable, is_readable, is_writable,
 			is_block, is_creatable, is_fifo, is_socket, is_sticky, is_device, is_directory, is_setuid,
 			is_setgid, is_owner
 			{EL_FILE_ROUTINES_I} buffered_file_info

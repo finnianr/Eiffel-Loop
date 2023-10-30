@@ -1,19 +1,21 @@
 note
-	description: "[$source EL_TODAYS_AUTHORIZATION_LOG] with today fixed to Oct 22th for test purposes"
+	description: "[
+		Test [$source EL_TODAYS_SENDMAIL_LOG] using data from: `test/data/network/mail.log'
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-29 12:40:02 GMT (Sunday 29th October 2023)"
-	revision: "1"
+	date: "2023-10-30 11:35:58 GMT (Monday 30th October 2023)"
+	revision: "2"
 
 class
-	TODAYS_AUTHORIZATION_LOG
+	TEST_SENDMAIL_LOG
 
 inherit
-	EL_TODAYS_AUTHORIZATION_LOG
+	EL_TODAYS_SENDMAIL_LOG
 		redefine
 			is_new_day
 		end
@@ -24,10 +26,10 @@ create
 feature {NONE} -- Implementation
 
 	is_new_day: BOOLEAN
-		-- fixed to Oct 22th for test purposes
+		-- fixed to Oct 8th for test purposes
 		do
 			Result := Precursor
-			today.set_day (22)
+			today.set_day (8)
 			today.set_month (10)
 		end
 

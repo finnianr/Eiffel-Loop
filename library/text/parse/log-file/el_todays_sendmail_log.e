@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-29 12:05:50 GMT (Sunday 29th October 2023)"
-	revision: "4"
+	date: "2023-10-30 11:01:59 GMT (Monday 30th October 2023)"
+	revision: "5"
 
 class
 	EL_TODAYS_SENDMAIL_LOG
@@ -40,11 +40,11 @@ feature -- Constants
 
 feature {NONE} -- Implementation
 
-	new_ip_number (line: ZSTRING): NATURAL
+	new_ip_number (line: STRING): NATURAL
 		-- Extract IP address from log entry
 		-- Oct 26 14:45:16 myching sm-mta[30359]: 39QEjFLv030359: rejecting commands from [103.187.190.12]
 		local
-			start_index: INTEGER; address: STRING
+			start_index: INTEGER; address: STRING; s: EL_STRING_8_ROUTINES
 		do
 			start_index := line.substring_index (Message_start_marker, 1)
 			if start_index > 0 then
@@ -52,7 +52,7 @@ feature {NONE} -- Implementation
 				start_index := line.index_of ('[', start_index + Message_start_marker.count)
 				if start_index > 0 then
 					start_index := start_index + 1
-					address := line.substring_to (']', $start_index)
+					address := s.substring_to (line, ']', $start_index)
 					Result := IP_address.to_number (address)
 				end
 			end
@@ -60,12 +60,12 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Message_start_marker: ZSTRING
+	Message_start_marker: STRING
 		once
 			Result := "]: "
 		end
 
-	Warning_list: EL_ZSTRING_LIST
+	Warning_list: EL_STRING_8_LIST
 		once
 			Result := "Connection rate limit exceeded, Relaying denied"
 		end

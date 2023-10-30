@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-19 13:49:51 GMT (Thursday 19th October 2023)"
-	revision: "32"
+	date: "2023-10-30 10:18:18 GMT (Monday 30th October 2023)"
+	revision: "33"
 
 class
 	NETWORK_AUTOTEST_APP
@@ -43,10 +43,11 @@ feature {NONE} -- Implementation
 		EL_COOKIE_STRING_8,
 		EL_NETWORK_DEVICE_IMP,
 		EL_WAYBACK_CLOSEST,
+		EL_FIREWALL_STATUS,
 		EL_FTP_FILE_SYNC_MEDIUM,
 		EL_FTP_WEBSITE,
 		EL_XML_NETWORK_MESSENGER,
-		EL_WEB_LOG_PARSER_COMMAND, 
+		EL_WEB_LOG_PARSER_COMMAND,
 		FTP_TEST_SET
 	]
 		do

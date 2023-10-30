@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-17 15:07:49 GMT (Sunday 17th September 2023)"
-	revision: "16"
+	date: "2023-10-30 10:46:05 GMT (Monday 30th October 2023)"
+	revision: "17"
 
 deferred class
 	EL_FILE_ROUTINES_I
@@ -259,6 +259,10 @@ feature -- Status report
 	is_owner (a_path: FILE_PATH): BOOLEAN
 		do
 			Result := info (a_path, False).is_owner
+		end
+
+	is_readable (a_path: FILE_PATH): BOOLEAN
+		deferred
 		end
 
 	is_symlink (path: EL_PATH): BOOLEAN

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-27 9:31:24 GMT (Friday 27th October 2023)"
-	revision: "2"
+	date: "2023-10-30 8:58:07 GMT (Monday 30th October 2023)"
+	revision: "3"
 
 class
 	EL_SERVICE_PORT_ENUM
@@ -55,16 +55,27 @@ feature {NONE} -- Initialization
 			NTP := 123
 			UDP_server := 67
 			UDP_client := 68
-
-			http_all := << HTTP, HTTPS >>
-			SMTP_all := << SMTP, SMTPS >>
+			
+			create secure_table.make (<<
+				[HTTP, HTTPS], [IMAP, IMAPS], [POP3, POP3S], [SMTP, SMTPS]
+			>>)
 		end
 
 feature -- Access
 
-	HTTP_all: ARRAY [NATURAL_16]
+	related (port: NATURAL_16): ARRAY [NATURAL_16]
+		-- array of `port' + related secure version if it exists
+		do
+			if secure_table.has_key (port) then
+				Result := << port, secure_table.found_item >>
 
-	SMTP_all: ARRAY [NATURAL_16]
+			else
+				Result := << port >>
+			end
+		end
+
+	secure_table: EL_HASH_TABLE [NATURAL_16, NATURAL_16]
+		-- lookup secure version of port
 
 feature -- TCP ports
 

@@ -76,6 +76,10 @@ system:
 			EL_vtd_xml = "vtd-xml.ecf"
 			EL_xml_scan = "xml-scan.ecf"
 
+		# Testing
+		cluster:
+			Test_common = "$EIFFEL_LOOP/test/source/common/ftp"
+
 		cluster_tree:
 			root = "source/root"
 			description:
@@ -114,8 +118,4 @@ system:
 
 					Test sets for Eiffel utitlities
 				"""
-		cluster:
-			Test_common = "$EIFFEL_LOOP/test/source/common"
-			sub_clusters:
-				ftp = ftp; support = support
 

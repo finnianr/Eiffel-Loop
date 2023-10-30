@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-29 16:01:50 GMT (Sunday 29th October 2023)"
-	revision: "4"
+	date: "2023-10-30 10:23:20 GMT (Monday 30th October 2023)"
+	revision: "5"
 
 class
 	EL_LEGACY_FIREWALL_STATUS
@@ -34,14 +34,7 @@ feature -- Access
 	ports: ARRAY [NATURAL_16]
 		-- associated ports
 		do
-			if port = Service_port.HTTP then
-				Result := Service_port.HTTP_all
-
-			elseif port = Service_port.SMTP then
-				Result := Service_port.SMTP_all
-			else
-				create Result.make_empty
-			end
+			Result := Service_port.related (port)
 		end
 
 feature -- Status query

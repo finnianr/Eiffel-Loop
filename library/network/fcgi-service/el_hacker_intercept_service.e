@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-29 16:09:50 GMT (Sunday 29th October 2023)"
-	revision: "14"
+	date: "2023-10-30 15:25:22 GMT (Monday 30th October 2023)"
+	revision: "15"
 
 class
 	EL_HACKER_INTERCEPT_SERVICE
@@ -18,7 +18,7 @@ class
 inherit
 	FCGI_SERVLET_SERVICE
 		redefine
-			config, error_check, description, on_shutdown
+			config, error_check, description, on_shutdown, log_separator
 		end
 
 	EL_MODULE_ARGS; EL_MODULE_EXECUTABLE
@@ -43,16 +43,22 @@ feature -- Basic operations
 			sendmail: EL_TODAYS_SENDMAIL_LOG; error: EL_ERROR_DESCRIPTION
 		do
 			create sendmail.make
-			if not sendmail.is_log_readable then
+			if sendmail.is_log_readable then
+				do_nothing
+			else
 				create error.make (sendmail.Default_log_path)
-				error.set_lines ("[
-					Current user not part of 'adm' group.
-					Use command:
-					
-						sudo usermod -aG adm <username>
-					
-					Then re-login for command to take effect.
-				]")
+				if is_user_in_admin_group then
+					error.set_lines ("File not readable")
+				else
+					error.set_lines ("[
+						Current user not part of 'adm' group.
+						Use command:
+						
+							sudo usermod -aG adm <username>
+						
+						Then re-login for command to take effect.
+					]")
+				end
 				application.put (error)
 			end
 		end
@@ -75,10 +81,26 @@ feature {NONE} -- Implementation
 			servlet_table [Default_servlet_key] := new_servlet
 		end
 
+	is_user_in_admin_group: BOOLEAN
+		local
+			groups: EL_CAPTURED_OS_COMMAND
+		do
+			create groups.make ("groups")
+			groups.execute
+			if groups.lines.count > 0 then
+				Result := groups.lines.first.split (' ').has_item ("adm")
+			end
+		end
+
+	log_separator
+		do
+			lio.put_new_line
+		end
+
 	new_servlet: EL_HACKER_INTERCEPT_SERVLET
 		do
-			if Executable.Is_work_bench or else Args.word_option_exists ("test_servlet") then
-				create {EL_HACKER_INTERCEPT_TEST_SERVLET} Result.make (Current)
+			if Args.word_option_exists ("test_servlet") then
+				create {TEST_HACKER_INTERCEPT_SERVLET} Result.make (Current)
 			else
 				create Result.make (Current)
 			end

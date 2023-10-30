@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-01 16:04:00 GMT (Saturday 1st July 2023)"
-	revision: "16"
+	date: "2023-10-30 10:48:28 GMT (Monday 30th October 2023)"
+	revision: "17"
 
 class
 	EL_FILE_ROUTINES_IMP
@@ -44,6 +44,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	is_readable (file_path: FILE_PATH): BOOLEAN
+		do
+			if attached readable_info (file_path) as info then
+				Result := info.is_open_read
+				info.close
+			end
+		end
+
 	set_stamp (file_path: FILE_PATH; date_time: INTEGER)
 		-- Stamp file with `time' (for both access and modification).
 		do
@@ -70,6 +78,14 @@ feature {NONE} -- Implementation
 				info.set_unix_last_write_time (date_time)
 				info.close
 			end
+		end
+
+feature {NONE} -- Modified internal attributes
+
+	readable_info (file_path: FILE_PATH): EL_WIN_FILE_INFO
+		do
+			Result := win_file_info
+			Result.open_read (shared_native_path (file_path))
 		end
 
 	shared_native_path (file_path: FILE_PATH): MANAGED_POINTER

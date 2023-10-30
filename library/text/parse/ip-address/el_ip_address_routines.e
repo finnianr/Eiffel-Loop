@@ -1,13 +1,15 @@
 note
-	description: "Routines for converting IP addresses from [$source STRING_8] to [$source NATURAL_32] and vice-versa"
+	description: "[
+		Routines for converting IP.4 addresses from [$source STRING_8] to [$source NATURAL_32] and vice-versa
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-27 8:40:55 GMT (Friday 27th October 2023)"
-	revision: "10"
+	date: "2023-10-30 10:26:55 GMT (Monday 30th October 2023)"
+	revision: "11"
 
 class
 	EL_IP_ADDRESS_ROUTINES

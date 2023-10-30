@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "26"
+	date: "2023-10-30 15:31:50 GMT (Monday 30th October 2023)"
+	revision: "27"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -188,16 +188,18 @@ feature {NONE} -- States
 
 	processing_request (table: like servlet_table)
 			-- Redefined process request to have type of response and request object defined in servlet
+		local
+			path: ZSTRING
 		do
 			table.search (broker.relative_path_info)
 			if not table.found then
 				table.search (Default_servlet_key)
 			end
 			if table.found then
-				log_message (
-					once "Servicing path", Service_info_template #$ [broker.relative_path_info, table.found_item.servlet_info]
-				)
+				path := Service_info_template #$ [broker.relative_path_info, table.found_item.servlet_info]
+				log_message (once "Servicing path", path)
 				table.found_item.serve_request
+				log_separator
 			else
 				on_missing_servlet (create {FCGI_SERVLET_RESPONSE}.make (broker))
 			end
@@ -311,6 +313,12 @@ feature {NONE} -- Implementation
 			else
 				lio.put_line (message)
 			end
+		end
+
+	log_separator
+		-- log new-line or something after each request
+		do
+			do_nothing
 		end
 
 	new_config (file_path: FILE_PATH): like config
